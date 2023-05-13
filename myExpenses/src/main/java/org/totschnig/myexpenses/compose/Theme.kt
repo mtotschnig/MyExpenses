@@ -1,12 +1,12 @@
 package org.totschnig.myexpenses.compose
 
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ProvideTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import com.google.accompanist.themeadapter.material.MdcTheme
+import com.google.accompanist.themeadapter.material3.Mdc3Theme
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.util.getDateTimeFormatter
@@ -16,7 +16,7 @@ fun AppTheme(
     content: @Composable () -> Unit
 ) {
     val context = LocalContext.current
-    MdcTheme {
+    Mdc3Theme {
         val injector = context.injector
         CompositionLocalProvider(
             LocalCurrencyFormatter provides injector.currencyFormatter(),
@@ -29,7 +29,7 @@ fun AppTheme(
             LocalHomeCurrency provides injector.homeCurrencyProvider().homeCurrencyUnit,
             LocalTracker provides injector.tracker()
         ) {
-            ProvideTextStyle(value = MaterialTheme.typography.body2, content = content)
+            ProvideTextStyle(value = MaterialTheme.typography.bodyMedium, content = content)
         }
     }
 }

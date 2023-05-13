@@ -10,6 +10,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import org.totschnig.myexpenses.util.getDateTimeFormatter
@@ -39,8 +40,9 @@ class DateButton @JvmOverloads constructor(
             R.drawable.ic_chevron_end,
             0
         )
-        setPaddingRelative(0, paddingTop, 0, paddingBottom)
-        compoundDrawablePadding = UiUtils.dp2Px(-6F, resources)
+        val horizontalPadding = UiUtils.dp2Px(10F, resources)
+        setPaddingRelative(horizontalPadding, paddingTop, horizontalPadding, paddingBottom)
+        //compoundDrawablePadding = UiUtils.dp2Px(-6F, resources)
         //noinspection ClickableViewAccessibility
         setOnTouchListener { _, motionEvent ->
             if (motionEvent.actionMasked == MotionEvent.ACTION_DOWN) {

@@ -13,12 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
@@ -68,7 +65,7 @@ fun DebtCard(
             .animateContentSize()
             .clickable(onClick = { expanded.value = !expanded.value }),
         shape = RoundedCornerShape(8.dp),
-        backgroundColor = colorResource(id = R.color.cardBackground)
+        colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.cardBackground))
     ) {
         DebtRenderer(
             debt,
@@ -133,7 +130,7 @@ fun DebtRenderer(
                     }
                     Column(modifier = Modifier.weight(1F)) {
                         Text(
-                            style = MaterialTheme.typography.h6,
+                            style = MaterialTheme.typography.titleLarge,
                             text = debt.label,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis

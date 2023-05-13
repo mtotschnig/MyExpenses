@@ -9,7 +9,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -106,7 +106,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                     ) {
                         Text(
                             modifier = Modifier.weight(1f),
-                            style = MaterialTheme.typography.h6,
+                            style = MaterialTheme.typography.titleLarge,
                             text = data.accountName
                         )
                         OverFlowMenu(
@@ -245,7 +245,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                             }
                         ),
                         tint = if (linkState == SyncSource.LOCAL) Color.Green else
-                            LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
+                            LocalContentColor.current,
                         contentDescription = "Local"
                     )
                 } else {
@@ -290,7 +290,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                         modifier = cell(3),
                         painter = painterResource(id = if (linkState == SyncSource.LOCAL) R.drawable.ic_menu_delete else R.drawable.ic_menu_done),
                         tint = if (linkState == SyncSource.REMOTE) Color.Green else
-                            LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
+                            LocalContentColor.current,
                         contentDescription = "Remote"
                     )
                 } else {

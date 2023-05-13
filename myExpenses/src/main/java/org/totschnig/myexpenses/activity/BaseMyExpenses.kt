@@ -22,8 +22,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
@@ -678,7 +678,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 if (accountData.isNotEmpty()) {
                     HorizontalPager(
                         modifier = Modifier
-                            .background(MaterialTheme.colors.onSurface)
+                            .background(MaterialTheme.colorScheme.onSurface)
                             .testTag(TEST_TAG_PAGER)
                             .semantics {
                                 collectionInfo = CollectionInfo(1, accountData.size)
@@ -727,7 +727,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colors.background)
+                .background(MaterialTheme.colorScheme.background)
         ) {
             viewModel.filterPersistence.getValue(account.id)
                 .whereFilterAsFlow

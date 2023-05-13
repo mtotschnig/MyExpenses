@@ -1,7 +1,8 @@
 package org.totschnig.myexpenses.compose
 
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,7 +32,7 @@ fun Icon(icon: String, size: Dp = 24.dp) {
 fun Icon(iconInfo: IIconInfo, size: Dp = 24.dp) {
     when (iconInfo) {
         is ExtraIcon -> {
-            androidx.compose.material.Icon(
+            Icon(
                 modifier = Modifier.size(size * 1.25f),
                 painter = rememberDrawablePainter(drawable = iconInfo.asDrawable(LocalContext.current)),
                 contentDescription = stringResource(id = iconInfo.label)
