@@ -89,7 +89,7 @@ class TransactionListViewModel(
 
     private val amountCalculation: String
         get() = if (isHomeAggregate(loadingInfo.accountId))
-            getAmountHomeEquivalent(VIEW_EXTENDED, homeCurrencyProvider.homeCurrencyString)
+            getAmountHomeEquivalent(VIEW_COMMITTED, homeCurrencyProvider.homeCurrencyString)
         else KEY_AMOUNT
 
     private val selectionInfo: Pair<String, Array<String>>
@@ -135,26 +135,5 @@ class TransactionListViewModel(
             }
             selectionParts.joinToString(" AND ") to selectionArgs.toTypedArray()
         }
-
-    /*    fun onCreateLoader(id: Int, arg1: Bundle?): Loader<Cursor> {
-
-            when (id) {
-                TransactionListDialogFragment.TRANSACTION_CURSOR -> return CursorLoader(
-                    requireActivity(),
-                    mAccount.extendedUriForTransactionList(type != 0, true),
-                    mAccount.extendedProjectionForTransactionList,
-                    selection,
-                    selectionArgs,
-                    null
-                )
-
-                TransactionListDialogFragment.SUM_CURSOR -> return CursorLoader(
-                    requireActivity(),
-                    Transaction.EXTENDED_URI, arrayOf("sum($amountCalculation)"), selection,
-                    selectionArgs, null
-                )
-            }
-            throw IllegalArgumentException()
-        }*/
 }
 
