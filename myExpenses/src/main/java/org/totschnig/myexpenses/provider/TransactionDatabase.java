@@ -2226,7 +2226,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 139) {
         db.execSQL("ALTER TABLE debts add column equivalent_amount integer");
       }
-      if (oldVersion < 140) {
+      if (oldVersion < 141) {
         createOrRefreshViews(db);
       }
 
@@ -2305,8 +2305,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
     String viewExtended = buildViewDefinitionExtended(TABLE_TRANSACTIONS);
     String tagGroupBy = DbConstantsKt.tagGroupBy(TABLE_TRANSACTIONS);
-    db.execSQL("CREATE VIEW " + VIEW_COMMITTED + buildViewDefinition(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED  + tagGroupBy + ";");
-    db.execSQL("CREATE VIEW " + VIEW_UNCOMMITTED + buildViewDefinition(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + tagGroupBy + ";");
+    String viewDefinition = buildViewDefinition(TABLE_TRANSACTIONS);
+    db.execSQL("CREATE VIEW " + VIEW_COMMITTED + viewDefinition + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED  + tagGroupBy + ";");
+    db.execSQL("CREATE VIEW " + VIEW_UNCOMMITTED + viewDefinition + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + tagGroupBy + ";");
     db.execSQL("CREATE VIEW " + VIEW_ALL + viewExtended + tagGroupBy);
     db.execSQL("CREATE VIEW " + VIEW_EXTENDED + viewExtended + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED +
             tagGroupBy + ";");
