@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.asDateTimeFormatter
 import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.viewmodel.KEY_LOADING_INFO
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 import java.text.SimpleDateFormat
@@ -92,7 +93,6 @@ class TransactionListComposeDialogFragment: ComposeBaseDialogFragment() {
     }
 
     companion object {
-        private const val KEY_LOADING_INFO = "loadingInfo"
         private const val TABS = "\u0009\u0009\u0009\u0009"
 
         @JvmStatic

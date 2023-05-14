@@ -7,20 +7,17 @@ import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isHomeAggregate
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.uriBuilderForTransactionList
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 
-private const val KEY_LOADING_INFO = "loadingInfo"
+const val KEY_LOADING_INFO = "loadingInfo"
 
 class TransactionListViewModel(
     application: Application,
@@ -89,7 +86,7 @@ class TransactionListViewModel(
 
     private val amountCalculation: String
         get() = if (isHomeAggregate(loadingInfo.accountId))
-            getAmountHomeEquivalent(VIEW_EXTENDED, homeCurrencyProvider.homeCurrencyString)
+            getAmountHomeEquivalent(VIEW_COMMITTED, homeCurrencyProvider.homeCurrencyString)
         else KEY_AMOUNT
 
     private val selectionInfo: Pair<String, Array<String>>
@@ -135,26 +132,5 @@ class TransactionListViewModel(
             }
             selectionParts.joinToString(" AND ") to selectionArgs.toTypedArray()
         }
-
-    /*    fun onCreateLoader(id: Int, arg1: Bundle?): Loader<Cursor> {
-
-            when (id) {
-                TransactionListDialogFragment.TRANSACTION_CURSOR -> return CursorLoader(
-                    requireActivity(),
-                    mAccount.extendedUriForTransactionList(type != 0, true),
-                    mAccount.extendedProjectionForTransactionList,
-                    selection,
-                    selectionArgs,
-                    null
-                )
-
-                TransactionListDialogFragment.SUM_CURSOR -> return CursorLoader(
-                    requireActivity(),
-                    Transaction.EXTENDED_URI, arrayOf("sum($amountCalculation)"), selection,
-                    selectionArgs, null
-                )
-            }
-            throw IllegalArgumentException()
-        }*/
 }
 

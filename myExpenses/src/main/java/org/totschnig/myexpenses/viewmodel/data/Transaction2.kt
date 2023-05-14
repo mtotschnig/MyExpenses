@@ -99,17 +99,15 @@ data class Transaction2(
             grouping: Grouping,
             homeCurrency: String,
             extended: Boolean = true
-        ) = when {
-            !DataBaseAccount.isAggregate(accountId) -> projection(grouping, extended)
-
-            !DataBaseAccount.isHomeAggregate(accountId) -> projection(grouping, extended).let {
-                if (extended) it + additionalAggregateColumns else it
+        ) = buildList {
+            addAll(projection(grouping, extended))
+            if(DataBaseAccount.isAggregate(accountId) && extended) {
+                addAll(additionalAggregateColumns)
             }
-
-            else -> projection(grouping, extended) +
-                    additionalAggregateColumns +
-                    getAdditionGrandTotalColumns(homeCurrency)
-        }
+            if (DataBaseAccount.isHomeAggregate(accountId)) {
+                add(additionGrandTotalColumn(homeCurrency, extended))
+            }
+        }.toTypedArray()
 
         private fun projection(grouping: Grouping, extended: Boolean): Array<String> =
             listOf(
@@ -148,16 +146,15 @@ data class Transaction2(
                 ) else it
             }.toTypedArray()
 
-        private val additionalAggregateColumns = arrayOf(
+        private val additionalAggregateColumns = listOf(
             KEY_COLOR,
             KEY_ACCOUNT_LABEL,
             KEY_ACCOUNT_TYPE,
             "$IS_SAME_CURRENCY AS $KEY_IS_SAME_CURRENCY"
         )
 
-        private fun getAdditionGrandTotalColumns(homeCurrency: String): Array<String> = arrayOf(
-            "${getAmountHomeEquivalent(VIEW_EXTENDED, homeCurrency)} AS $KEY_EQUIVALENT_AMOUNT"
-        )
+        private fun additionGrandTotalColumn(homeCurrency: String, extended: Boolean) =
+            "${getAmountHomeEquivalent(if (extended) VIEW_EXTENDED else VIEW_COMMITTED, homeCurrency)} AS $KEY_EQUIVALENT_AMOUNT"
 
         fun fromCursor(
             context: Context,
