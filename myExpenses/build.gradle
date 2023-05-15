@@ -220,7 +220,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     api "com.google.android.material:material:$materialComponents"
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
-    api 'androidx.preference:preference-ktx:1.2.0'
+    api project(':preferences')
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
