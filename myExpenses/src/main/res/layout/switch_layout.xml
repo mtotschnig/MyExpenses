@@ -14,7 +14,7 @@
         android:layout_centerVertical="true"
         android:textOff="-"
         android:textOn="+"
-        android:theme="@style/AmountSwitch"
+        app:thumbTint="@color/type_switch_color"
         app:showText="true"
         app:switchTextAppearance="@style/SwitchTextAppearance"
         tools:ignore="HardcodedText"/>

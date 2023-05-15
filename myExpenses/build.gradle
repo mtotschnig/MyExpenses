@@ -203,7 +203,7 @@ dependencies {
     api "com.squareup.picasso:picasso:$picassoVersion"
     implementation 'com.github.mtotschnig:MPAndroidChart:6fcf34d9d4'
     implementation 'com.github.mtotschnig:Caldroid:e40729670a'
-    api('io.github.eltos:simpledialogfragments:3.6.4')
+    api('com.github.mtotschnig:SimpleDialogFragments:263f2f33a1')
 
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.3'
 
@@ -218,7 +218,9 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "androidx.recyclerview:recyclerview:$recyclerview"
     implementation 'androidx.cardview:cardview:1.0.0'
-    api "com.google.android.material:material:$materialComponents"
+
+    api 'com.github.mtotschnig:material-components-android:923e1aef8e'
+
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     api project(':preferences')
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

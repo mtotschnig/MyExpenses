@@ -112,15 +112,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AmountSwitch" parent="Widget.AppCompat.CompoundButton.Switch">
-        <!-- Active thumb color & Active track color(30% transparency) -->
-        <item name="colorControlActivated">@color/colorIncome</item>
-        <!-- Inactive thumb color -->
-        <item name="colorSwitchThumbNormal">@color/colorExpense</item>
-        <!-- Inactive track color(30% transparency) -->
-        <item name="android:colorForeground">@color/colorExpense</item>
-    </style>
-
     <style name="Configuration" parent="Theme.Material3.DayNight.Dialog.Alert">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorSecondary">@color/primaryLightColor</item>

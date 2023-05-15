@@ -53,6 +53,8 @@ import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ProcessLifecycleOwner;
 
+import com.google.android.material.color.DynamicColors;
+
 import org.acra.util.StreamReader;
 import org.totschnig.myexpenses.activity.OnboardingActivity;
 import org.totschnig.myexpenses.di.AppComponent;
@@ -180,6 +182,7 @@ public class MyApplication extends Application implements
     if (BuildConfig.DEBUG) {
       enableStrictMode();
     }
+    DynamicColors.applyToActivitiesIfAvailable(this);
     super.onCreate();
     checkAppReplacingState();
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);

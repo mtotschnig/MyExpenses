@@ -1521,11 +1521,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     when (item.itemId) {
                         R.id.COPY_TO_CLIPBOARD_COMMAND -> copyToClipBoard()
                         R.id.NEW_BALANCE_COMMAND -> if (selectedAccountId > 0) {
-                            AmountInputHostDialog.build().fields(
-                                AmountInput.plain(KEY_AMOUNT).label(R.string.new_balance)
-                                    .fractionDigits(currentAccount!!.currencyUnit.fractionDigits)
-                                    .withTypeSwitch(currentAccount!!.currentBalance > 0)
-                            ).show(this, DIALOG_TAG_NEW_BALANCE)
+                            AmountInputHostDialog.build().title(R.string.new_balance)
+                                .fields(
+                                    AmountInput.plain(KEY_AMOUNT)
+                                        .fractionDigits(currentAccount!!.currencyUnit.fractionDigits)
+                                        .withTypeSwitch(currentAccount!!.currentBalance > 0)
+                                ).show(this, DIALOG_TAG_NEW_BALANCE)
                         }
                     }
                     true
