@@ -117,17 +117,19 @@ fun HierarchicalMenu(
 
 @Composable
 private fun EntryContent(entry: IMenuEntry, offset: Dp = 0.dp) {
-    Spacer(modifier = Modifier.width(offset))
-    entry.icon?.also {
-        Icon(
-            modifier = Modifier
-                .padding(end = 5.dp)
-                .size(24.dp),
-            imageVector = it,
-            contentDescription = null
-        )
+    Row{
+        Spacer(modifier = Modifier.width(offset))
+        entry.icon?.also {
+            Icon(
+                modifier = Modifier
+                    .padding(end = 5.dp)
+                    .size(24.dp),
+                imageVector = it,
+                contentDescription = null
+            )
+        }
+        Text(text = stringResource(entry.label), modifier = Modifier.weight(1f))
     }
-    Text(text = stringResource(entry.label), modifier = Modifier/*.weight(1f)*/)
 }
 
 @Composable
