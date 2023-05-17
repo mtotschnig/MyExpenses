@@ -1,0 +1,4 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
+    <item android:alpha="0.3" android:color="@color/colorIncome" android:state_checked="true" />
+    <item android:alpha="0.3" android:color="@color/colorExpense" />
+</selector>

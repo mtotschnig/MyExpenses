@@ -31,7 +31,7 @@
         android:id="@+id/switchId"
         android:title=""
         app:showAsAction="always"
-        app:actionLayout="@layout/switch_layout"
+        app:actionLayout="@layout/type_switch"
         tools:ignore="AlwaysShowAction"/>
     <item
         android:id="@id/TOGGLE_CHART_COMMAND"
