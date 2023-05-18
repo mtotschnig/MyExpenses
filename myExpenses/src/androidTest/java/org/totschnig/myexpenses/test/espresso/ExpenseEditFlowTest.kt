@@ -19,13 +19,13 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
     @Before
     fun fixture() {
         val accountLabel1 = "Test label 1"
-        buildAccount(accountLabel1)
+        account1 = buildAccount(accountLabel1)
         val paymentMethod = PaymentMethod("TEST").apply {
             paymentType = PaymentMethod.EXPENSE
             addAccountType(AccountType.CASH)
         }
         Truth.assertThat(paymentMethod.save()).isNotNull()
-        testScenario = ActivityScenario.launchActivityForResult(intent)
+        testScenario = ActivityScenario.launchActivityForResult(intentForNewTransaction)
     }
 
     /**

@@ -41,5 +41,8 @@
     <string name="show_all">"Pokaži sve"</string>
     <string name="write_fail_reason_cannot_write">"Pogreška prilikom pisanja sadržaja"</string>
     <string name="not_exist_file_desc">"Datoteka ne postoji"</string>
+    <string name="today">"Danas"</string>
+    <string name="tomorrow">"Sutra"</string>
+    <string name="yesterday">"Jučer"</string>
 </resources>
 

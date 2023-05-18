@@ -40,5 +40,8 @@
     <string name="show_all">"Pokaż wszystkie"</string>
     <string name="write_fail_reason_cannot_write">"Błąd podczas zapisu treści"</string>
     <string name="not_exist_file_desc">"Plik nie istnieje"</string>
+    <string name="today">"Dzisiaj"</string>
+    <string name="tomorrow">"Jutro"</string>
+    <string name="yesterday">"Wczoraj"</string>
 </resources>
 

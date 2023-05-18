@@ -41,5 +41,8 @@
     <string name="show_all">"Показати все"</string>
     <string name="write_fail_reason_cannot_write">"Помилка записування вмісту"</string>
     <string name="not_exist_file_desc">"Файл не існує"</string>
+    <string name="today">"Сьогодні"</string>
+    <string name="tomorrow">"Завтра"</string>
+    <string name="yesterday">"Учора"</string>
 </resources>
 

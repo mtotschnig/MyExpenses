@@ -36,4 +36,7 @@
     <string name="show_all">"అన్నీ చూపు"</string>
     <string name="write_fail_reason_cannot_write">"కంటెంట్‌ను వ్రాయడంలో ఎర్రర్"</string>
     <string name="not_exist_file_desc">"ఫైల్ ఉనికిలో లేదు"</string>
+    <string name="today">"ఈ రోజు"</string>
+    <string name="tomorrow">"రేపు"</string>
+    <string name="yesterday">"నిన్న"</string>
 </resources>

@@ -123,10 +123,8 @@
     <string name="grouping_month">月</string>
     <string name="grouping_none">不分组</string>
     <string name="grouping_this_week">这星期</string>
-    <string name="grouping_today">今天</string>
     <string name="grouping_week">星期</string>
     <string name="grouping_year">年</string>
-    <string name="grouping_yesterday">昨日</string>
     <string name="help_button_rate">评分 或 发表评论</string>
     <string name="help_heading_credits">鸣谢</string>
     <string name="help_heading_license">许可</string>

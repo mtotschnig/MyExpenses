@@ -17,6 +17,8 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
+
 }
 
 def getPropertyIfDefined(property, defaultValue) {
@@ -88,7 +90,7 @@ android {
         type.resValue "string", 'sync_account_type', defaultConfig.applicationId + type.applicationIdSuffix + ".sync"
     }
 
-    flavorDimensions "textRecognition"
+    flavorDimensions = [ "textRecognition" ]
 
     productFlavors {
         intern {
@@ -257,7 +259,7 @@ dependencies {
     // Room components
     implementation "androidx.room:room-runtime:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
-    kapt "androidx.room:room-compiler:$roomVersion"
+    ksp "androidx.room:room-compiler:$roomVersion"
 
     implementation "com.github.requery:sqlite-android:$requery"
 
@@ -339,7 +341,7 @@ static def getDate() {
 //apply plugin: 'com.jakewharton.hugo'
 apply plugin: 'com.novoda.android-command'
 
-task copyFileForFixture(type: Files) {
+tasks.register('copyFileForFixture', Files) {
     script {
         push "tests/script/screenshot.jpg", "/sdcard/Android/data/org.totschnig.myexpenses.fortest/files/screenshot.jpg"
     }
@@ -348,7 +350,7 @@ task copyFileForFixture(type: Files) {
 //For Drive
 //apply plugin: 'com.google.gms.google-services'
 
-task echoPublishTag() {
+tasks.register('echoPublishTag') {
     doLast {
         def currentBranch = 'git branch --show-current'.execute().text.trim()
 

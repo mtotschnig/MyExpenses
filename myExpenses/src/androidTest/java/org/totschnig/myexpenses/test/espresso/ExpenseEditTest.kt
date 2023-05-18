@@ -25,7 +25,6 @@ import org.totschnig.myexpenses.testutils.Espresso.*
 import java.util.*
 
 class ExpenseEditTest : BaseExpenseEditTest() {
-    private lateinit var account1: Account
     private lateinit var account2: Account
     private lateinit var currency1: CurrencyUnit
     private lateinit var currency2: CurrencyUnit
@@ -46,7 +45,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
     @Test
     fun formForTransactionIsPrepared() {
-        launch(intent.apply {
+        launch(intentForNewTransaction.apply {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
         }).use {
             checkEffectiveVisible(
@@ -81,7 +80,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
     @Test
     fun formForTransferIsPrepared() {
-        launch(intent.apply {
+        launch(intentForNewTransaction.apply {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSFER)
         }).use {
             checkEffectiveVisible(
@@ -98,7 +97,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
     @Test
     fun formForSplitIsPrepared() {
-        launch(intent.apply {
+        launch(intentForNewTransaction.apply {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_SPLIT)
         }).use {
             checkEffectiveVisible(
@@ -114,7 +113,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
     @Test
     fun formForTemplateIsPrepared() {
-        launch(intent.apply {
+        launch(intentForNewTransaction.apply {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
             putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true)
         }).use {
@@ -138,27 +137,6 @@ class ExpenseEditTest : BaseExpenseEditTest() {
                 onView(withId(R.id.Account)).check(
                     matches(withSpinnerText(a.label))
                 )
-            }
-        }
-    }
-
-    @Test
-    fun currencyInExtraShouldPopulateSpinner() {
-        val allCurrencies = arrayOf(currency1, currency2)
-        for (c in allCurrencies) {
-            //we assume that Fixture has set up the default account with id 1
-            val i = intent.apply {
-                putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
-                putExtra(DatabaseConstants.KEY_CURRENCY, c.code)
-            }
-            launch(i).use {
-                it.onActivity { activity: TestExpenseEdit ->
-                    assertEquals(
-                        "Selected account has wrong currency",
-                        c.code,
-                        activity.currentAccount!!.currency.code
-                    )
-                }
             }
         }
     }

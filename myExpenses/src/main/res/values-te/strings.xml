@@ -496,10 +496,8 @@
     <string name="help_heading_license">లైసెన్స్</string>
     <string name="help_heading_credits">క్రెడిట్స్</string>
     <string name="help_button_rate">రేట్ లేదా సమీక్ష</string>
-    <string name="grouping_yesterday">నిన్న</string>
     <string name="grouping_year">సంవత్సరం</string>
     <string name="grouping_week">వారం</string>
-    <string name="grouping_today">ఈ రోజు</string>
     <string name="grouping_this_week">ఈ వారం</string>
     <string name="grouping_none">సమూహంగా లేదు</string>
     <string name="grouping_month">నెల</string>

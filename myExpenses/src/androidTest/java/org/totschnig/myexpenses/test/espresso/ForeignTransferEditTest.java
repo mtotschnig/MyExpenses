@@ -25,7 +25,7 @@ public class ForeignTransferEditTest extends BaseExpenseEditTest {
     CurrencyUnit currency1 = new CurrencyUnit(Currency.getInstance("USD"));
     CurrencyUnit currency2 = new CurrencyUnit(Currency.getInstance("EUR"));
     String accountLabel1 = "Test label 1";
-    Account account1 = buildAccount(accountLabel1, 0L, currency1.getCode());
+    account1 = buildAccount(accountLabel1, 0L, currency1.getCode());
     String accountLabel2 = "Test label 2";
     Account account2 = buildAccount(accountLabel2, 0L, currency1.getCode());
     transfer = Transfer.getNewInstance(account1.getId(), currency1, account2.getId());

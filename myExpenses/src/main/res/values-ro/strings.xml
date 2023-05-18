@@ -111,10 +111,8 @@
     <string name="grouping_month">Luna</string>
     <string name="grouping_none">Negrupate</string>
     <string name="grouping_this_week">Această săptămână</string>
-    <string name="grouping_today">Astăzi</string>
     <string name="grouping_week">Săptămână</string>
     <string name="grouping_year">An</string>
-    <string name="grouping_yesterday">Ieri</string>
     <string name="help_button_rate">Rata sau revizuirea</string>
     <string name="help_heading_credits">Generic</string>
     <string name="help_heading_license">Licenţă</string>

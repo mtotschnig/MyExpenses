@@ -72,10 +72,8 @@
     <string name="grouping_month">මාසය </string>
     <string name="grouping_none">කණ්ඩායම ඉවත් කර ඇත </string>
     <string name="grouping_this_week">මෙම සතියේ </string>
-    <string name="grouping_today">අද </string>
     <string name="grouping_week">සතිය </string>
     <string name="grouping_year">අවුරුද්ද </string>
-    <string name="grouping_yesterday">ඊයෙ </string>
     <string name="help_button_rate">තරාතිරම හෝ නැවත විචාරීම </string>
     <string name="help_heading_credits"/>
     <string name="help_heading_license">බලපත්‍රය </string>

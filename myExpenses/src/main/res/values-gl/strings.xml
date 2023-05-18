@@ -71,10 +71,8 @@
     <string name="grouping_month">Mes</string>
     <string name="grouping_none">Sen agrupar</string>
     <string name="grouping_this_week">Esta semana</string>
-    <string name="grouping_today">Hoxe</string>
     <string name="grouping_week">Semana</string>
     <string name="grouping_year">Ano</string>
-    <string name="grouping_yesterday">Onte</string>
     <string name="help_button_rate">Valorar ou comentar</string>
     <string name="help_heading_credits">Créditos</string>
     <string name="help_heading_license">Licenza</string>

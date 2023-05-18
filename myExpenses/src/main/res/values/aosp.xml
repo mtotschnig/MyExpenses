@@ -67,5 +67,9 @@
     <string name="write_fail_reason_cannot_write">Error writing content</string>
     <!-- modules/Bluetooth/android/app/res/ -->
     <string name="not_exist_file_desc">The file doesn\'t exist</string>
+    <!-- packages/apps/TV dvr_date_*  -->
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="yesterday">Yesterday</string>
 </resources>
 

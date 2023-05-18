@@ -126,10 +126,8 @@
     <string name="grouping_month">חודש</string>
     <string name="grouping_none">לא מקובצים</string>
     <string name="grouping_this_week">השבוע</string>
-    <string name="grouping_today">היום</string>
     <string name="grouping_week">שבוע</string>
     <string name="grouping_year">שנה</string>
-    <string name="grouping_yesterday">אתמול</string>
     <string name="help_button_rate">דרג או כתוב סקירה</string>
     <string name="help_heading_credits">נקודות זכות</string>
     <string name="help_heading_license">רשיון</string>

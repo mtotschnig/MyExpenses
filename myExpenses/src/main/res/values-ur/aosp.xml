@@ -36,4 +36,7 @@
     <string name="show_all">"سبھی دکھائیں"</string>
     <string name="write_fail_reason_cannot_write">"مواد لکھنے میں خرابی"</string>
     <string name="not_exist_file_desc">"فائل موجود نہیں ہے۔ "</string>
+    <string name="today">"ﺁﺝ"</string>
+    <string name="tomorrow">"آئندہ کل"</string>
+    <string name="yesterday">"گزشتہ کل"</string>
 </resources>

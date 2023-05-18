@@ -128,10 +128,8 @@
     <string name="grouping_month">شهر</string>
     <string name="grouping_none">منفردة</string>
     <string name="grouping_this_week">هذا الأسبوع</string>
-    <string name="grouping_today">اليوم</string>
     <string name="grouping_week">الأسبوع</string>
     <string name="grouping_year">السنة</string>
-    <string name="grouping_yesterday">أمس</string>
     <string name="help_button_rate">تقييم أو تعليق</string>
     <string name="help_heading_credits">النقاط</string>
     <string name="help_heading_license">الترخيص</string>

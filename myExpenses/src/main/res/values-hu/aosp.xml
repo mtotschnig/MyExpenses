@@ -40,5 +40,8 @@
     <string name="show_all">"Összes megjelenítése"</string>
     <string name="write_fail_reason_cannot_write">"Hiba történt a tartalomírás közben"</string>
     <string name="not_exist_file_desc">"A fájl nem létezik"</string>
+    <string name="today">"Ma"</string>
+    <string name="tomorrow">"Holnap"</string>
+    <string name="yesterday">"Tegnap"</string>
 </resources>
 

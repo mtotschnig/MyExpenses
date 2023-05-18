@@ -103,10 +103,8 @@
     <string name="grouping_last_week">پچھلا ہفتہ</string>
     <string name="grouping_month">مہینہ</string>
     <string name="grouping_none">غیر گروپ شدہ</string>
-    <string name="grouping_today">آج</string>
     <string name="grouping_week">ہفتہ</string>
     <string name="grouping_year">سال</string>
-    <string name="grouping_yesterday">کل</string>
     <string name="help_button_rate">درجہ بندی کریں یا جائزہ لیں</string>
     <string name="help_heading_credits">کریڈٹس</string>
     <string name="help_heading_license">لائسنس</string>

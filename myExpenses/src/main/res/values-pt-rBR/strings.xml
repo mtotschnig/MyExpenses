@@ -124,10 +124,8 @@
     <string name="grouping_month">Mês</string>
     <string name="grouping_none">Não agrupado</string>
     <string name="grouping_this_week">Esta semana</string>
-    <string name="grouping_today">Hoje</string>
     <string name="grouping_week">Semana</string>
     <string name="grouping_year">Ano</string>
-    <string name="grouping_yesterday">Ontem</string>
     <string name="help_button_rate">Avalie ou revise</string>
     <string name="help_heading_credits">Créditos</string>
     <string name="help_heading_license">Licença</string>

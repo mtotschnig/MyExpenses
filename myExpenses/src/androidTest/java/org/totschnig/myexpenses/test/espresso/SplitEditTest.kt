@@ -3,7 +3,10 @@ package org.totschnig.myexpenses.test.espresso
 import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
-import androidx.test.espresso.Espresso.*
+import androidx.test.espresso.Espresso.closeSoftKeyboard
+import androidx.test.espresso.Espresso.onData
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBackUnconditionally
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.scrollTo
@@ -11,7 +14,10 @@ import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.hasChildCount
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.adevinta.android.barista.interaction.BaristaScrollInteractions.scrollTo
 import com.adevinta.android.barista.internal.viewaction.NestedEnabledScrollToAction.nestedScrollToAction
 import org.assertj.core.api.Assertions.assertThat
@@ -22,7 +28,6 @@ import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
-import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.adapter.IdHolder
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.delegate.TransactionDelegate
@@ -39,10 +44,9 @@ import org.totschnig.myexpenses.testutils.withOperationType
 
 class SplitEditTest : BaseExpenseEditTest() {
     private val accountLabel1 = "Test label 1"
-    lateinit var account1: org.totschnig.myexpenses.model2.Account
 
     private val baseIntent: Intent
-        get() = Intent(targetContext, TestExpenseEdit::class.java).apply {
+        get() = intentForNewTransaction.apply {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_SPLIT)
         }
 

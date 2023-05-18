@@ -23,9 +23,8 @@ import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.withLimit
 import org.totschnig.myexpenses.util.joinArrays
 
-fun Repository.getCurrencyUnitForAccount(accountId: Long): CurrencyUnit? {
-    return getCurrencyForAccount(accountId)?.let { currencyContext[it] }
-}
+fun Repository.getCurrencyUnitForAccount(accountId: Long) =
+    getCurrencyForAccount(accountId)?.let { currencyContext[it] }
 
 fun Repository.getUuidForAccount(accountId: Long) = getStringValue(accountId, KEY_UUID)
 fun Repository.getCurrencyForAccount(accountId: Long) = getStringValue(accountId, KEY_CURRENCY)

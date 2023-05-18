@@ -74,10 +74,8 @@
     <string name="grouping_month">月</string>
     <string name="grouping_none">未被分類的</string>
     <string name="grouping_this_week">這星期</string>
-    <string name="grouping_today">今天</string>
     <string name="grouping_week">星期</string>
     <string name="grouping_year">年</string>
-    <string name="grouping_yesterday">昨日</string>
     <string name="help_button_rate">評分 或 發表評論</string>
     <string name="help_heading_credits">信用</string>
     <string name="help_heading_license">許可</string>

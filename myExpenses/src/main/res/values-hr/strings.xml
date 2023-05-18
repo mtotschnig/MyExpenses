@@ -96,10 +96,8 @@
     <string name="grouping_month">Mjesec</string>
     <string name="grouping_none">Negrupirano</string>
     <string name="grouping_this_week">Ovaj tjedan</string>
-    <string name="grouping_today">Danas</string>
     <string name="grouping_week">Tjedan</string>
     <string name="grouping_year">Godina</string>
-    <string name="grouping_yesterday">Jučer</string>
     <string name="help_button_rate">Ocijeni ili ostavi recenziju</string>
     <string name="help_heading_credits">Zasluge</string>
     <string name="help_heading_license">Licenca</string>

@@ -124,10 +124,8 @@
     <string name="grouping_month">Месец</string>
     <string name="grouping_none">Негрупирани</string>
     <string name="grouping_this_week">Тази седмица</string>
-    <string name="grouping_today">Днес</string>
     <string name="grouping_week">Седмица</string>
     <string name="grouping_year">Година</string>
-    <string name="grouping_yesterday">Вчера</string>
     <string name="help_button_rate">Дайте оценка или критика</string>
     <string name="help_heading_credits">Кредити</string>
     <string name="help_heading_license">Лиценз</string>

@@ -126,10 +126,8 @@
     <string name="grouping_month">Месяц</string>
     <string name="grouping_none">Без группировки</string>
     <string name="grouping_this_week">На этой неделе</string>
-    <string name="grouping_today">Сегодня</string>
     <string name="grouping_week">Неделя</string>
     <string name="grouping_year">Год</string>
-    <string name="grouping_yesterday">Вчера</string>
     <string name="help_button_rate">Оставить отзыв</string>
     <string name="help_heading_credits">Создатели</string>
     <string name="help_heading_license">Лицензия</string>

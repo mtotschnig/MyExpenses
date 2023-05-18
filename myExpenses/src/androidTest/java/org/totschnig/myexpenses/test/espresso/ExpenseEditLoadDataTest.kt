@@ -40,7 +40,6 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR
     )
     private lateinit var foreignCurrency: CurrencyUnit
-    private lateinit var account1: Account
     private lateinit var account2: Account
     private lateinit var transaction: Transaction
     private lateinit var transfer: Transfer
