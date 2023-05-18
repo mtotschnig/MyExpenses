@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.util
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.Typeface
 import android.util.TypedValue
 import android.view.View
 import android.view.View.OnFocusChangeListener
@@ -13,8 +14,9 @@ import android.widget.TextView
 
 fun linkInputsWithLabels(table: TableLayout) {
     val listener = OnFocusChangeListener { v: View, hasFocus: Boolean ->
-        (findParentWithTypeRecursively(v, TableRow::class.java)?.getChildAt(0) as? TextView)?.setTextColor(
-                if (hasFocus) readAccentColor(table.context) else readSecondaryTextColor(table.context))
+        (findParentWithTypeRecursively(v, TableRow::class.java)?.getChildAt(0) as? TextView)?.apply {
+            setTypeface(null, if (hasFocus) Typeface.BOLD else Typeface.NORMAL)
+        }
     }
     for (i in 0 until table.childCount) {
         (table.getChildAt(i) as? TableRow)?.let {
@@ -26,10 +28,6 @@ fun linkInputsWithLabels(table: TableLayout) {
 }
 
 fun readPrimaryTextColor(context: Context) = readThemeColor(context, android.R.attr.textColorPrimary)
-
-fun readSecondaryTextColor(context: Context) = readThemeColor(context, android.R.attr.textColorSecondary)
-
-fun readAccentColor(context: Context) = readThemeColor(context, androidx.appcompat.R.attr.colorAccent)
 
 fun readThemeColor(context: Context, attr: Int): Int {
     val typedValue = TypedValue()

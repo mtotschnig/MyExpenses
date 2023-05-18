@@ -44,11 +44,9 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:minHeight">50dp</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:paddingEnd">12dp</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="FormField">

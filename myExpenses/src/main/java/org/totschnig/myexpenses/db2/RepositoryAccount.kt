@@ -61,17 +61,6 @@ fun Repository.findAccountByUuidWithExtraColumn(uuid: String, extraColumn: Strin
     if (it.moveToFirst()) it.getLong(0) to it.getStringOrNull(1) else null
 }
 
-fun Repository.getLastUsedOpenAccount() =
-    contentResolver.query(
-        TransactionProvider.ACCOUNTS_URI.withLimit(1),
-        arrayOf(KEY_ROWID, KEY_CURRENCY),
-        "$KEY_SEALED = 0",
-        null,
-        "$KEY_LAST_USED DESC"
-    )?.use {
-        if (it.moveToFirst()) it.getLong(0) to currencyContext.get(it.getString(1)) else null
-    }
-
 fun Repository.loadAccount(accountId: Long): Account? {
     require(accountId > 0L)
     return contentResolver.query(

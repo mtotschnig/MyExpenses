@@ -123,8 +123,8 @@ class TransferDelegate(
         }
     }
 
-    override fun setAccount(currencyExtra: String?) {
-        super.setAccount(currencyExtra)
+    override fun setAccount() {
+        super.setAccount()
         val selectedPosition = setTransferAccountFilterMap()
         transferAccountSpinner.setSelection(selectedPosition)
         mTransferAccountId = transferAccountSpinner.selectedItemId

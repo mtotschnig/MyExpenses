@@ -37,6 +37,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.loader.app.LoaderManager
 import com.evernote.android.state.State
+import com.google.android.material.color.DynamicColors
+import com.google.android.material.color.DynamicColorsOptions
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.coroutines.flow.filterNotNull
@@ -87,6 +89,7 @@ import kotlin.Result
 import kotlin.collections.set
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
+
 /**
  * Activity for editing a transaction
  *
@@ -107,6 +110,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         get() = rootBinding.Amount
     override val exchangeRateEdit: ExchangeRateEdit
         get() = rootBinding.ERR.ExchangeRate
+
+    @JvmField
+    @State
+    var color = 0
 
     @JvmField
     @State
@@ -215,8 +222,21 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         floatingActionButton.show()
     }
 
+    fun updateContentColor(color: Int) {
+        this.color = color
+        tintSystemUi(color)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (color.takeIf { it != 0 } ?: intent.getIntExtra(KEY_COLOR, 0).takeIf { it != 0 })?.let {
+            DynamicColors.applyToActivityIfAvailable(
+                this,
+                DynamicColorsOptions.Builder()
+                    .setContentBasedSource(it)
+                    .build()
+            )
+        }
         maybeRepairRequerySchema()
         setHelpVariant(HelpVariant.transaction, false)
         rootBinding = OneExpenseBinding.inflate(LayoutInflater.from(this))
@@ -323,10 +343,13 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 }
                 parentId = intent.getLongExtra(KEY_PARENTID, 0)
                 var accountId = intent.getLongExtra(KEY_ACCOUNTID, 0)
+                val currencyUnit = intent.getStringExtra(KEY_CURRENCY)
+                    ?.let { currencyContext.get(it) }
                 if (isNewTemplate) {
                     viewModel.newTemplate(
                         operationType,
                         accountId,
+                        currencyUnit,
                         if (parentId != 0L) parentId else null
                     ).observe(this) {
                         if (it != null) {
@@ -350,6 +373,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                             }
                             viewModel.newTransaction(
                                 accountId,
+                                currencyUnit,
                                 if (parentId != 0L) parentId else null
                             ).observe(this) {
                                 populateWithNewInstance(it)
@@ -369,6 +393,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                             }
                             viewModel.newTransfer(
                                 accountId,
+                                currencyUnit,
                                 if (transferAccountId != 0L) transferAccountId else null,
                                 if (parentId != 0L) parentId else null
                             ).observe(this) {
@@ -380,7 +405,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                                 accountId =
                                     prefHandler.getLong(PrefKey.SPLIT_LAST_ACCOUNT_FROM_WIDGET, 0L)
                             }
-                            viewModel.newSplit(accountId).observe(this) {
+                            viewModel.newSplit(accountId, currencyUnit).observe(this) {
                                 if (it != null) {
                                     mRowId = it.id
                                 }
@@ -530,14 +555,14 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     }
 
     @VisibleForTesting
-    open fun setAccounts(accounts: List<Account>, currencyExtra: String?) {
+    open fun setAccounts(accounts: List<Account>) {
         if (accounts.isEmpty()) {
             abortWithMessage(getString(R.string.warning_no_account))
         } else if (accounts.size == 1 && operationType == TYPE_TRANSFER) {
             abortWithMessage(getString(R.string.dialog_command_disabled_insert_transfer))
         } else {
             if (::delegate.isInitialized) {
-                delegate.setAccounts(accounts, currencyExtra)
+                delegate.setAccounts(accounts)
                 loadDebts()
                 accountsLoaded = true
                 if (mIsResumed) setupListeners()
@@ -549,11 +574,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.accounts.collect {
-                    setAccounts(
-                        it,
-                        if (!fromSavedState && !accountsLoaded) intent.getStringExtra(KEY_CURRENCY)
-                        else null
-                    )
+                    setAccounts(it)
                     collectSplitParts()
                     if (operationType == Transactions.TYPE_SPLIT) {
                         viewModel.loadSplitParts(delegate.rowId, isTemplate)
@@ -706,7 +727,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             delegate.planButton.setDate(it)
         }
         if (accountsLoaded) {
-            delegate.setAccount(null)
+            delegate.setAccount()
         }
         setHelpVariant(delegate.helpVariant)
         setTitle()

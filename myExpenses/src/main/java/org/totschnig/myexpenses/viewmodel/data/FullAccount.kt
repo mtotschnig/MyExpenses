@@ -44,7 +44,8 @@ data class FullAccount(
     val uuid: String? = null,
     val criterion: Long?,
     val total: Long? = null,
-    val excludeFromTotals: Boolean = false
+    val excludeFromTotals: Boolean = false,
+    val lastUsed: Long = 0L
 ) : BaseAccount() {
 
     override val currency: String = currencyUnit.code
@@ -78,7 +79,8 @@ data class FullAccount(
             uuid = cursor.getStringOrNull(KEY_UUID),
             criterion = cursor.getLong(KEY_CRITERION).takeIf { it != 0L },
             total = if (cursor.getBoolean(KEY_HAS_FUTURE)) cursor.getLong(KEY_TOTAL) else null,
-            excludeFromTotals = cursor.getBoolean(KEY_EXCLUDE_FROM_TOTALS)
+            excludeFromTotals = cursor.getBoolean(KEY_EXCLUDE_FROM_TOTALS),
+            lastUsed = cursor.getLong(KEY_LAST_USED)
         )
     }
 }
