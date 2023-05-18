@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+group("androidx.preferences")
+
 android {
     namespace 'androidx.preference'
     compileSdk 33
