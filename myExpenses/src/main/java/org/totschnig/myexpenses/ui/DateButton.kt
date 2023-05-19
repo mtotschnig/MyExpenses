@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.MotionEvent
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.widget.TextViewCompat
 import com.evernote.android.state.State
 import com.google.android.material.datepicker.CalendarConstraints
@@ -20,6 +19,7 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.Calendar
 
 
@@ -31,7 +31,7 @@ class DateButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ButtonWithDialog<MaterialDatePicker<Long>>(context, attrs, defStyleAttr) {
 
-    private var lastTouchDownX: Float = 0F
+    private var lastTouchDownX: Float? = null
     private val marginTouchWidth = UiUtils.dp2Px(36F, resources)
 
     @State
@@ -49,7 +49,7 @@ class DateButton @JvmOverloads constructor(
         )
         TextViewCompat.setCompoundDrawableTintList(this,
             ColorStateList.valueOf(readThemeColor(getContext(), androidx.appcompat.R.attr.colorPrimary)))
-        val horizontalPadding = UiUtils.dp2Px(5F, resources)
+        val horizontalPadding = 0
         setPaddingRelative(horizontalPadding, paddingTop, horizontalPadding, paddingBottom)
         //noinspection ClickableViewAccessibility
         setOnTouchListener { _, motionEvent ->
@@ -60,17 +60,22 @@ class DateButton @JvmOverloads constructor(
         }
     }
 
+
     override fun onClick() {
-        when {
-            lastTouchDownX <= marginTouchWidth -> {
-                previousDay()
+        lastTouchDownX?.let {
+            when {
+                it <= marginTouchWidth -> {
+                    previousDay()
+                }
+                it >= width - marginTouchWidth -> {
+                    nextDay()
+                }
+                else -> {
+                    super.onClick()
+                }
             }
-            lastTouchDownX >= width - marginTouchWidth -> {
-                nextDay()
-            }
-            else -> {
-                super.onClick()
-            }
+        } ?: kotlin.run {
+            super.onClick()
         }
     }
 
@@ -127,6 +132,7 @@ class DateButton @JvmOverloads constructor(
 
     override fun update() {
         text = date.format(formatter)
+        contentDescription = date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG))
     }
 
     fun overrideText(text: CharSequence) {
