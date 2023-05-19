@@ -59,8 +59,26 @@
         <item name="android:layout_weight">2</item>
     </style>
 
+    <style name="FormField.Dialog.Scrollable">
+        <item name="android:layout_weight">2</item>
+        <item name="android:scrollbarFadeDuration">500</item>
+    </style>
+
     <style name="FormLabel.Condensed">
         <item name="android:minHeight">0dp</item>
+    </style>
+
+    <style name="Widget.Material3.Button.OutlinedButton.Dense">
+        <item name="android:minWidth">@dimen/accessibility_clickable_minimum</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Widget.Material3.Button.OutlinedButton.ToggleGroupVertical">
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="dialog_text" />
