@@ -1,8 +1,11 @@
 package org.totschnig.myexpenses.ui
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.MotionEvent
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.widget.TextViewCompat
 import com.evernote.android.state.State
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -12,6 +15,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import org.totschnig.myexpenses.util.getDateTimeFormatter
+import org.totschnig.myexpenses.util.readThemeColor
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -43,9 +47,10 @@ class DateButton @JvmOverloads constructor(
             R.drawable.ic_chevron_end,
             0
         )
-        val horizontalPadding = UiUtils.dp2Px(10F, resources)
+        TextViewCompat.setCompoundDrawableTintList(this,
+            ColorStateList.valueOf(readThemeColor(getContext(), androidx.appcompat.R.attr.colorPrimary)))
+        val horizontalPadding = UiUtils.dp2Px(5F, resources)
         setPaddingRelative(horizontalPadding, paddingTop, horizontalPadding, paddingBottom)
-        //compoundDrawablePadding = UiUtils.dp2Px(-6F, resources)
         //noinspection ClickableViewAccessibility
         setOnTouchListener { _, motionEvent ->
             if (motionEvent.actionMasked == MotionEvent.ACTION_DOWN) {
