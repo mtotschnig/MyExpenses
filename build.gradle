@@ -61,10 +61,10 @@ ext {
 }
 
 allprojects {
-    configurations.all {
+    configurations.configureEach {
         resolutionStrategy {
             dependencySubstitution {
-                substitute module('com.google.android.material:material') using module('com.github.mtotschnig:material-components-android:923e1aef8e')
+                substitute module('com.google.android.material:material') using module('com.github.mtotschnig:material-components-android:2965bbd7f4')
             }
         }
     }
