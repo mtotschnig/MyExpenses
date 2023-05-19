@@ -106,24 +106,32 @@ class DateButton @JvmOverloads constructor(
         .setSelection(
             ZonedDateTime.of(date.atStartOfDay(), ZoneId.of("UTC")).toEpochSecond() * 1000
         ).apply {
-            context.injector.prefHandler().requireString(PrefKey.GROUP_WEEK_STARTS, "-1")
-                .let { weekStartSetting ->
-                    try {
-                        weekStartSetting.toInt().takeIf { it in Calendar.SUNDAY..Calendar.SATURDAY }
-                    } catch (e: NumberFormatException) {
-                        null
-                    }?.let { firstDayOfWeek ->
-                        setCalendarConstraints(
-                            CalendarConstraints.Builder().setFirstDayOfWeek(firstDayOfWeek).build()
-                        )
+            with(context.injector.prefHandler()) {
+                requireString(PrefKey.GROUP_WEEK_STARTS, "-1")
+                    .let { weekStartSetting ->
+                        try {
+                            weekStartSetting.toInt()
+                                .takeIf { it in Calendar.SUNDAY..Calendar.SATURDAY }
+                        } catch (e: NumberFormatException) {
+                            null
+                        }?.let { firstDayOfWeek ->
+                            setCalendarConstraints(
+                                CalendarConstraints.Builder().setFirstDayOfWeek(firstDayOfWeek)
+                                    .build()
+                            )
+                        }
                     }
+                getInt(TimeButton.KEY_INPUT_MODE, -1).takeIf { it != -1 }?.let {
+                    setInputMode(it)
                 }
+            }
         }
         .build()
 
     override fun attachListener(dialogFragment: MaterialDatePicker<Long>) {
         dialogFragment.addOnPositiveButtonClickListener {
             setDateInternal(epochMillis2LocalDate(it, ZoneId.of("UTC")))
+            context.injector.prefHandler().putInt(TimeButton.KEY_INPUT_MODE, dialogFragment.inputMode)
         }
         dialogFragment.addOnDismissListener {
             dialogShown = false
@@ -138,5 +146,9 @@ class DateButton @JvmOverloads constructor(
     fun overrideText(text: CharSequence) {
         this.text = text
         setCompoundDrawables(null, null, null, null)
+    }
+
+    companion object {
+        const val KEY_INPUT_MODE = "datePickerInputMode"
     }
 }
