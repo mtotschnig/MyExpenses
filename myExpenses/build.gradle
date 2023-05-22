@@ -205,7 +205,7 @@ dependencies {
     api "com.squareup.picasso:picasso:$picassoVersion"
     implementation 'com.github.mtotschnig:MPAndroidChart:6fcf34d9d4'
     implementation 'com.github.mtotschnig:Caldroid:e40729670a'
-    api('com.github.mtotschnig:SimpleDialogFragments:263f2f33a1')
+    api('com.github.eltos:simpledialogfragments:2c82864000')
 
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.3'
 
