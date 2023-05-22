@@ -131,8 +131,8 @@
     </style>
 
     <style name="MaterialAlertDialog.Material3.App">
-        <item name="backgroundInsetTop">0dp</item>
-        <item name="backgroundInsetBottom">0dp</item>
+        <item name="backgroundInsetTop">@dimen/mtrl_alert_dialog_background_inset_vertical</item>
+        <item name="backgroundInsetBottom">@dimen/mtrl_alert_dialog_background_inset_vertical</item>
     </style>
 
     <style name="CaldroidCustomBase" parent="@style/CaldroidDefault" />

@@ -2,4 +2,5 @@
 <resources>
     <dimen name="margin_list_expandable">30dp</dimen>
     <dimen name="plan_calendar_state_margin">2dp</dimen>
+    <dimen name="mtrl_alert_dialog_background_inset_vertical">80dp</dimen>
 </resources>
