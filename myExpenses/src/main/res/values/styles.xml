@@ -127,9 +127,12 @@
     </style>
 
     <style name="MyAlertDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
-        <item name="colorPrimary">@color/colorPrimaryDialog</item>
-        <item name="colorAccent">@color/colorPrimaryDialog</item>
-        <item name="colorError">@color/colorErrorDialog</item>
+        <item name="alertDialogStyle">@style/MaterialAlertDialog.Material3.App</item>
+    </style>
+
+    <style name="MaterialAlertDialog.Material3.App">
+        <item name="backgroundInsetTop">0dp</item>
+        <item name="backgroundInsetBottom">0dp</item>
     </style>
 
     <style name="CaldroidCustomBase" parent="@style/CaldroidDefault" />
@@ -293,14 +296,6 @@
 
     <style name="ToolbarSubtitleTextAppearance" parent="TextAppearance.Material3.TitleMedium">
         <item name="android:textSize" tools:ignore="SpUsage">16dp</item>
-    </style>
-
-    <style name="SimpleDialog" parent="MyAlertDialogTheme">
-        <item name="textInputStyle">@style/SimpleDialogTextInputStyle</item>
-    </style>
-
-    <style name="SimpleDialogTextInputStyle" parent="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-        <item name="endIconMode">none</item>
     </style>
 
     <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">

@@ -27,7 +27,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textInputStyle">@style/MyTextInputLayout</item>
         <item name="alertDialogTheme">@style/MyAlertDialogTheme</item>
         <item name="materialAlertDialogTheme">@style/MyAlertDialogTheme</item>
-        <item name="simpleDialogTheme">@style/SimpleDialog</item>
     </style>
 
     <style name="MyTheme" parent="MyThemeBase">
@@ -60,7 +59,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="materialAlertDialogTheme">@style/MyAlertDialogTheme</item>
         <item name="searchViewStyle">@style/SearchViewStyle</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
-        <item name="simpleDialogTheme">@style/SimpleDialog</item>
         <item name="materialCalendarStyle">@style/Widget.Material3.MaterialCalendar</item>
         <item name="materialCalendarFullscreenTheme">@style/ThemeOverlay.Material3.MaterialCalendar.Fullscreen</item>
         <item name="materialCalendarTheme">@style/ThemeOverlay.Material3.MaterialCalendar</item>
@@ -87,7 +85,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="colorPrimaryDark">@color/toolbarBackground</item>
         <item name="md_color_button_text">?colorAccent</item>
         <item name="textInputStyle">@style/MyTextInputLayout</item>
-        <item name="simpleDialogTheme">@style/SimpleDialog</item>
     </style>
 
     <style name="Onboarding" parent="OnboardingBase">
