@@ -94,13 +94,13 @@
                         android:id="@+id/format"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        app:checkedButton="@+id/qif"
                         app:selectionRequired="true"
                         app:singleSelection="true">
 
                         <Button
                             android:id="@+id/qif"
                             style="@style/Widget.Material3.Button.OutlinedButton.Dense"
-                            android:checked="true"
                             android:text="QIF"
                             tools:ignore="HardcodedText" />
 
@@ -136,13 +136,13 @@
                         android:id="@+id/Delimiter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        app:checkedButton="@+id/delimiter_comma"
                         app:selectionRequired="true"
                         app:singleSelection="true">
 
                         <Button
                             android:id="@+id/delimiter_comma"
                             style="@style/Widget.Material3.Button.OutlinedButton.Dense"
-                            android:checked="true"
                             android:text=","
                             tools:ignore="HardcodedText" />
 
@@ -210,13 +210,13 @@
                     android:id="@+id/separator"
                     style="@style/FormField.Dialog"
                     android:gravity="center_horizontal"
+                    app:checkedButton="@+id/dot"
                     app:selectionRequired="true"
                     app:singleSelection="true">
 
                     <Button
                         android:id="@+id/dot"
                         style="@style/Widget.Material3.Button.OutlinedButton.Dense"
-                        android:checked="true"
                         android:text="."
                         tools:ignore="HardcodedText" />
 
