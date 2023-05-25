@@ -40,5 +40,6 @@
     <string name="show_all">"Tunjukkan semua"</string>
     <string name="write_fail_reason_cannot_write">"Ralat menulis kandungan"</string>
     <string name="not_exist_file_desc">"Fail tidak wujud"</string>
+    <string name="menu_export">"Eksport"</string>
 </resources>
 

@@ -40,5 +40,6 @@
     <string name="show_all">"Εμφάνιση όλων"</string>
     <string name="write_fail_reason_cannot_write">"Σφάλμα κατά την εγγραφή περιεχομένου"</string>
     <string name="not_exist_file_desc">"Το αρχείο δεν υπάρχει"</string>
+    <string name="menu_export">"Εξαγωγή"</string>
 </resources>
 

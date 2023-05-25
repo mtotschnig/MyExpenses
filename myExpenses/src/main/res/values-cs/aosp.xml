@@ -40,5 +40,6 @@
     <string name="show_all">"Zobrazit vše"</string>
     <string name="write_fail_reason_cannot_write">"Při zápisu obsahu došlo k chybě"</string>
     <string name="not_exist_file_desc">"Soubor neexistuje"</string>
+    <string name="menu_export">"Exportovat"</string>
 </resources>
 

@@ -40,5 +40,6 @@
     <string name="show_all">"Mostra tutto"</string>
     <string name="write_fail_reason_cannot_write">"Errore nella scrittura dei contenuti"</string>
     <string name="not_exist_file_desc">"Il file non esiste"</string>
+    <string name="menu_export">"Esporta"</string>
 </resources>
 

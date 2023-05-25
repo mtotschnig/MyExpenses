@@ -40,5 +40,6 @@
     <string name="show_all">"Összes megjelenítése"</string>
     <string name="write_fail_reason_cannot_write">"Hiba történt a tartalomírás közben"</string>
     <string name="not_exist_file_desc">"A fájl nem létezik"</string>
+    <string name="menu_export">"Exportálás"</string>
 </resources>
 

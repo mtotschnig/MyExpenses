@@ -41,5 +41,6 @@
     <string name="show_all">"Показати все"</string>
     <string name="write_fail_reason_cannot_write">"Помилка записування вмісту"</string>
     <string name="not_exist_file_desc">"Файл не існує"</string>
+    <string name="menu_export">"Експортувати"</string>
 </resources>
 

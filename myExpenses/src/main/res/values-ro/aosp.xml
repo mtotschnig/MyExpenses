@@ -41,5 +41,6 @@
     <string name="show_all">"Afișați-le pe toate"</string>
     <string name="write_fail_reason_cannot_write">"Eroare la scrierea conținutului"</string>
     <string name="not_exist_file_desc">"Fișierul nu există"</string>
+    <string name="menu_export">"Exportați"</string>
 </resources>
 

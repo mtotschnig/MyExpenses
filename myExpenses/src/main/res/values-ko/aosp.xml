@@ -41,5 +41,6 @@
     <string name="show_all">"모두 표시"</string>
     <string name="write_fail_reason_cannot_write">"콘텐츠 작성 중 오류"</string>
     <string name="not_exist_file_desc">"파일이 없습니다"</string>
+    <string name="menu_export">"내보내기"</string>
 </resources>
 

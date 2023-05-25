@@ -40,5 +40,6 @@
     <string name="show_all">"Tümünü göster"</string>
     <string name="write_fail_reason_cannot_write">"İçerik yazılırken hata oluştu"</string>
     <string name="not_exist_file_desc">"Dosya mevcut değil"</string>
+    <string name="menu_export">"Dışa aktar"</string>
 </resources>
 

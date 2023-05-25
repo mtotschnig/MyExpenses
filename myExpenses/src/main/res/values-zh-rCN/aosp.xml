@@ -40,5 +40,6 @@
     <string name="show_all">"显示全部选择"</string>
     <string name="write_fail_reason_cannot_write">"写入内容时出错"</string>
     <string name="not_exist_file_desc">"该文件不存在"</string>
+    <string name="menu_export">"导出"</string>
 </resources>
 

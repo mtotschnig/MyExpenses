@@ -41,5 +41,6 @@
     <string name="show_all">"הצג הכל"</string>
     <string name="write_fail_reason_cannot_write">"שגיאה בכתיבת תוכן"</string>
     <string name="not_exist_file_desc">"הקובץ לא קיים"</string>
+    <string name="menu_export">"ייצוא"</string>
 </resources>
 

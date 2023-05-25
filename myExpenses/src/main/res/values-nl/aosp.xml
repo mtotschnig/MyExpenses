@@ -36,4 +36,5 @@
     <string name="show_all">"Alles weergeven"</string>
     <string name="write_fail_reason_cannot_write">"Fout bij schrijven van content"</string>
     <string name="not_exist_file_desc">"Het bestand bestaat niet"</string>
+    <string name="menu_export">"Exporteren"</string>
 </resources>

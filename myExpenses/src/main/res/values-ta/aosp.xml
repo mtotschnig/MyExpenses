@@ -41,5 +41,6 @@
     <string name="show_all">"அனைத்தையும் காண்பி"</string>
     <string name="write_fail_reason_cannot_write">"உள்ளடக்கத்தை எழுதுவதில் பிழை"</string>
     <string name="not_exist_file_desc">"கோப்பு இல்லை"</string>
+    <string name="menu_export">"ஏற்று"</string>
 </resources>
 
