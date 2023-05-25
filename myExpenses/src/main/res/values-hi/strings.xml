@@ -337,4 +337,5 @@
     <string name="plan_calendar_name">{app_name} योजनाकार</string>
     <string name="planner_notification_channel_name">योजनाकार</string>
     <string name="planner_create_calendar_success">स्थानीय योजनाकार कैलेंडर सफलतापूर्वक बनाया गया</string>
+    <string name="pref_backup_summary">डेटाबेस और प्राथमिकता का बैकअप बनाएं।</string>
 </resources>
