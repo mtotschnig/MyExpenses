@@ -3,13 +3,11 @@ package org.totschnig.myexpenses.compose
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
@@ -91,7 +89,8 @@ fun DenseTextField(
         enabled = true,
         singleLine = true,
         keyboardOptions = keyboardOptions,
-        //cursorBrush = SolidColor(colors.cursorColor(isError).value)
+        cursorBrush = SolidColor(MaterialTheme.colorScheme.error),
+        textStyle = LocalTextStyle.current.copy(color = MaterialTheme.colorScheme.onSurface),
     ) {
         OutlinedTextFieldDefaults.DecorationBox(
             value = value,
@@ -101,7 +100,7 @@ fun DenseTextField(
             visualTransformation = VisualTransformation.None,
             interactionSource = interactionSource,
             isError = isError,
-            colors = OutlinedTextFieldDefaults.colors(),
+            colors = colors,
             contentPadding = TextFieldDefaults.contentPaddingWithoutLabel(
                 start = 8.dp,
                 end = 8.dp,
