@@ -54,8 +54,6 @@ fun IconSelector(
                 modifier = Modifier.width(100.dp),
                 selected = selectedTabIndex == 0,
                 onClick = { selectedTabIndex = 0 }) {
-                val onSurfaceColor = contentColorFor(MaterialTheme.colorScheme.onSurface)
-                val containerColor = MaterialTheme.colorScheme.surfaceVariant
                 TextField(
                     modifier = Modifier
                         .onFocusChanged {
@@ -66,14 +64,6 @@ fun IconSelector(
                     value = searchTerm,
                     onValueChange = { searchTerm = it },
                     placeholder = { Text("Search") },
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = containerColor,
-                        unfocusedContainerColor = containerColor,
-                        disabledContainerColor = containerColor,
-                        cursorColor = onSurfaceColor,
-                        focusedPlaceholderColor = onSurfaceColor,
-                        unfocusedPlaceholderColor = onSurfaceColor,
-                    ),
                     maxLines = 1
                 )
             }
