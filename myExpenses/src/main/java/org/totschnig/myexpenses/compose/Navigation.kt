@@ -21,7 +21,7 @@ sealed interface IMenuEntry {
     val icon: ImageVector?
 }
 
-sealed interface IActionMenuEntry: IMenuEntry {
+sealed interface IActionMenuEntry : IMenuEntry {
     val action: () -> Unit
     val command: String
 }
@@ -37,7 +37,7 @@ data class CheckableMenuEntry(
     override val command: String,
     val isChecked: Boolean,
     override val action: () -> Unit
-    ): IActionMenuEntry {
+) : IActionMenuEntry {
     override val icon: ImageVector
         get() = if (isChecked) Icons.Filled.CheckBox else Icons.Filled.CheckBoxOutlineBlank
 }
@@ -73,7 +73,7 @@ data class MenuEntry(
         fun toggle(command: String, isSealed: Boolean, action: () -> Unit) = MenuEntry(
             icon = if (isSealed) Icons.Filled.LockOpen else Icons.Filled.Lock,
             label = if (isSealed) R.string.menu_reopen else R.string.menu_close,
-            command = command + "_ " + if(isSealed) "_REOPEN" else "_CLOSE",
+            command = command + "_ " + if (isSealed) "_REOPEN" else "_CLOSE",
             action = action
         )
     }
@@ -116,20 +116,18 @@ fun HierarchicalMenu(
 }
 
 @Composable
-private fun EntryContent(entry: IMenuEntry, offset: Dp = 0.dp) {
-    Row{
-        Spacer(modifier = Modifier.width(offset))
-        entry.icon?.also {
-            Icon(
-                modifier = Modifier
-                    .padding(end = 5.dp)
-                    .size(24.dp),
-                imageVector = it,
-                contentDescription = null
-            )
-        }
-        Text(text = stringResource(entry.label), modifier = Modifier.weight(1f))
+private fun RowScope.EntryContent(entry: IMenuEntry, offset: Dp = 0.dp) {
+    Spacer(modifier = Modifier.width(offset))
+    entry.icon?.also {
+        Icon(
+            modifier = Modifier
+                .padding(end = 5.dp)
+                .size(24.dp),
+            imageVector = it,
+            contentDescription = null
+        )
     }
+    Text(text = stringResource(entry.label), modifier = Modifier.weight(1f))
 }
 
 @Composable
@@ -143,7 +141,11 @@ private fun EntryListRenderer(
         when (entry) {
             is IActionMenuEntry -> {
                 DropdownMenuItem(
-                    text = { EntryContent(entry, offset) },
+                    text = {
+                        Row {
+                            EntryContent(entry, offset)
+                        }
+                    },
                     onClick = {
                         expanded.value = false
                         tracker.trackCommand(entry.command)
@@ -151,21 +153,24 @@ private fun EntryListRenderer(
                     }
                 )
             }
+
             is SubMenuEntry -> {
                 var subMenuVisible by remember { mutableStateOf(false) }
                 DropdownMenuItem(
                     text = {
-                        EntryContent(entry, offset)
-                        Icon(
-                            imageVector = if (subMenuVisible) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
-                            contentDescription = stringResource(
-                                if (subMenuVisible) R.string.content_description_collapse
-                                else R.string.content_description_expand
-                            ),
-                            modifier = Modifier
-                                .size(24.dp)
-                                .padding(start = 5.dp)
-                        )
+                        Row {
+                            EntryContent(entry, offset)
+                            Icon(
+                                imageVector = if (subMenuVisible) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
+                                contentDescription = stringResource(
+                                    if (subMenuVisible) R.string.content_description_collapse
+                                    else R.string.content_description_expand
+                                ),
+                                modifier = Modifier
+                                    .size(24.dp)
+                                    .padding(start = 5.dp)
+                            )
+                        }
                     },
                     onClick = { subMenuVisible = !subMenuVisible }
                 )
@@ -183,19 +188,14 @@ private fun EntryListRenderer(
 
 @Preview
 @Composable
-fun EntryContent() {
-    Column {
-        DropdownMenuItem(onClick = {}, text = {
-            EntryContent(MenuEntry(icon = Icons.Filled.Edit, label = R.string.menu_edit, command = "") {})
-        })
-        DropdownMenuItem(onClick = {}, text = {
-            EntryContent(
-                MenuEntry(
-                    icon = myiconpack.ArrowsAlt,
-                    label = R.string.menu_move,
-                    command = ""
-                ) {})
-        })
+fun Entry() {
+    Row {
+        EntryContent(
+            MenuEntry(
+                icon = Icons.Filled.Edit,
+                label = R.string.menu_edit,
+                command = ""
+            ) {})
     }
 }
 
@@ -210,8 +210,16 @@ fun Overflow() {
                 SubMenuEntry(
                     label = R.string.menu_hide, subMenu = Menu(
                         entries = listOf(
-                            MenuEntry(icon = Icons.Filled.Edit, label = R.string.menu_edit, command = "") {},
-                            MenuEntry(icon = myiconpack.ArrowsAlt, label = R.string.menu_move, command = "") {}
+                            MenuEntry(
+                                icon = Icons.Filled.Edit,
+                                label = R.string.menu_edit,
+                                command = ""
+                            ) {},
+                            MenuEntry(
+                                icon = myiconpack.ArrowsAlt,
+                                label = R.string.menu_move,
+                                command = ""
+                            ) {}
                         )
                     )
                 )
