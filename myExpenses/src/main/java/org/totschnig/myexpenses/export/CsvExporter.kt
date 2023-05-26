@@ -177,7 +177,7 @@ class CsvExporter(
             append(delimiter)
             appendQ(methodLabel ?: "")
             append(delimiter)
-            appendQ(status?.symbol ?: "")
+            status?.symbol?.let { appendQ(it.toString()) }
             append(delimiter)
             appendQ(referenceNumber ?: "")
             append(delimiter)

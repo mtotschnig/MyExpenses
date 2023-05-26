@@ -658,7 +658,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             R.id.Account -> {
                 val account = mAccounts[position]
                 updateAccount(account)
-                host.recreate()
+                //host.recreate() //dynamic colors
             }
             R.id.OperationType -> {
                 val newType =

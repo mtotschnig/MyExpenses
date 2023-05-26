@@ -221,7 +221,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$recyclerview"
     implementation 'androidx.cardview:cardview:1.0.0'
 
-    api 'com.github.mtotschnig:material-components-android:2965bbd7f4'
+    api 'com.google.android.material:material'
 
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     api project(':preferences')

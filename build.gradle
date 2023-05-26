@@ -19,7 +19,7 @@ plugins {
 ext {
     versionCode = 618
     versionName = '3.5.6'
-    compileSdkVersion = 'android-UpsideDownCake'
+    compileSdkVersion = 33
     minSdkVersion = 21
     targetSdkVersion = 33
     espressoVersion = "3.5.1"
@@ -64,7 +64,7 @@ allprojects {
     configurations.configureEach {
         resolutionStrategy {
             dependencySubstitution {
-                substitute module('com.google.android.material:material') using module('com.github.mtotschnig:material-components-android:2965bbd7f4')
+                substitute module('com.google.android.material:material') using module('com.github.mtotschnig:material-components-android:release-1.9-patched-SNAPSHOT')
             }
         }
     }

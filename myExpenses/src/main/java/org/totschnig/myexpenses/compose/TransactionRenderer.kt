@@ -201,6 +201,7 @@ abstract class ItemRenderer(
     @Composable
     protected fun Transaction2.StatusToggle() {
         onToggleCrStatus?.let {
+            val color = colorResource(id = crStatus.color)
             Box(modifier = Modifier
                 .size(32.dp)
                 .conditional(
@@ -211,7 +212,7 @@ abstract class ItemRenderer(
                 }
                 .padding(8.dp)
                 .conditional(crStatus != CrStatus.VOID && accountType != AccountType.CASH) {
-                    background(color = Color(crStatus.color))
+                    background(color = color)
                 }
             )
         }
@@ -353,7 +354,9 @@ class NewTransactionRenderer(
                     transaction.tagList.forEach {
                         Text(
                             text = it,
-                            modifier = Modifier.tagBorder().padding(bottom = 2.dp),
+                            modifier = Modifier
+                                .tagBorder()
+                                .padding(bottom = 2.dp),
                             style = MaterialTheme.typography.bodySmall
                         )
                     }

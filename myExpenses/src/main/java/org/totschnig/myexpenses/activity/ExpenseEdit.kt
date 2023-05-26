@@ -37,8 +37,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.loader.app.LoaderManager
 import com.evernote.android.state.State
-import com.google.android.material.color.DynamicColors
-import com.google.android.material.color.DynamicColorsOptions
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.coroutines.flow.filterNotNull
@@ -224,19 +222,21 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     fun updateContentColor(color: Int) {
         this.color = color
-        tintSystemUi(color)
+        //tintSystemUi(color) //dynamic colors
+        tintSystemUiAndFab(color)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (color.takeIf { it != 0 } ?: intent.getIntExtra(KEY_COLOR, 0).takeIf { it != 0 })?.let {
+        //https://github.com/material-components/material-components-android/issues/3422
+/*        (color.takeIf { it != 0 } ?: intent.getIntExtra(KEY_COLOR, 0).takeIf { it != 0 })?.let {
             DynamicColors.applyToActivityIfAvailable(
                 this,
                 DynamicColorsOptions.Builder()
                     .setContentBasedSource(it)
                     .build()
             )
-        }
+        }*/
         maybeRepairRequerySchema()
         setHelpVariant(HelpVariant.transaction, false)
         rootBinding = OneExpenseBinding.inflate(LayoutInflater.from(this))

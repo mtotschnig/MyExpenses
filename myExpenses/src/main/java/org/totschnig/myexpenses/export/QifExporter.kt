@@ -41,7 +41,7 @@ class QifExporter(
         payee?.takeIf { it.isNotEmpty() }?.let {
             append("\nP").append(it)
         }
-        status?.symbol?.takeIf { it != "" }?.let {
+        status?.symbol?.let {
             append("\nC").append(it)
         }
         referenceNumber?.takeIf { it.isNotEmpty() }?.let {

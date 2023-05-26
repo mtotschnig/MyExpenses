@@ -21,9 +21,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.totschnig.myexpenses.R
@@ -54,7 +56,8 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import javax.inject.Inject
 
-class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(), DialogInterface.OnClickListener {
+class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
+    DialogInterface.OnClickListener {
     private var transactionData: List<Transaction>? = null
     private lateinit var viewModel: TransactionDetailViewModel
 
@@ -126,6 +129,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                     i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
                     ctx.startActivityForResult(i, EDIT_REQUEST)
                 }
+
                 AlertDialog.BUTTON_NEUTRAL -> {
                     transaction.pictureUri?.let {
                         imageViewIntentProvider.startViewIntent(ctx, it)
@@ -146,7 +150,11 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                 if (transaction.pictureUri != null) {
                     doShowPicture = true
                     try {
-                        if (!PictureDirHelper.doesPictureExist(requireContext(), transaction.pictureUri)) {
+                        if (!PictureDirHelper.doesPictureExist(
+                                requireContext(),
+                                transaction.pictureUri
+                            )
+                        ) {
                             showSnackBar(R.string.image_deleted)
                             doShowPicture = false
                         }
@@ -187,11 +195,13 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                             it.notifyDataSetChanged()
                         }
                     }
+
                     transaction.isTransfer -> {
                         title = R.string.transfer
                         binding.AccountLabel.setText(R.string.transfer_from_account)
                         binding.CategoryLabel.setText(R.string.transfer_to_account)
                     }
+
                     else -> {
                         title = if (isIncome) R.string.income else R.string.expense
                     }
@@ -277,7 +287,9 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                 if (transaction.accountType == AccountType.CASH) {
                     binding.StatusRow.visibility = View.GONE
                 } else {
-                    binding.Status.setBackgroundColor(transaction.crStatus.color)
+                    val roles = transaction.crStatus.toColorRoles(requireContext())
+                    binding.Status.setBackgroundColor(roles.accent)
+                    binding.Status.setTextColor(roles.onAccent)
                     binding.Status.setText(transaction.crStatus.toStringRes())
                 }
                 if (transaction.originTemplate == null) {
@@ -315,10 +327,11 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
             }
         }
 
-        private fun newInstance(id: Long): TransactionDetailFragment = TransactionDetailFragment().apply {
-            arguments = Bundle().apply {
-                putLong(DatabaseConstants.KEY_ROWID, id)
+        private fun newInstance(id: Long): TransactionDetailFragment =
+            TransactionDetailFragment().apply {
+                arguments = Bundle().apply {
+                    putLong(DatabaseConstants.KEY_ROWID, id)
+                }
             }
-        }
     }
 }
