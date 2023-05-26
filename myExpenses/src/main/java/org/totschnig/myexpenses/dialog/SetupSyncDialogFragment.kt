@@ -9,7 +9,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -92,118 +92,125 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
         val progress = remember {
             mutableStateOf(SetupProgress.NOT_STARTED)
         }
-        Column(
+
+        LazyColumn(
             modifier = Modifier
                 .padding(dialogPadding)
         ) {
-
-            LazyColumn(modifier = Modifier.weight(1f)) {
-                item {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            modifier = Modifier.weight(1f),
-                            style = MaterialTheme.typography.h6,
-                            text = data.accountName
-                        )
-                        OverFlowMenu(
-                            menu = Menu(
-                                listOf(
-                                    MenuEntry(
-                                        label = R.string.menu_help,
-                                        command = "HELP"
-                                    ) {
-                                        startActivity(
-                                            Intent(
-                                                requireContext(),
-                                                Help::class.java
-                                            ).apply {
-                                                putExtra(
-                                                    HelpDialogFragment.KEY_CONTEXT,
-                                                    "SetupSync"
-                                                )
-                                                putExtra(
-                                                    HelpDialogFragment.KEY_TITLE,
-                                                    "${getString(R.string.synchronization)} - ${
-                                                        getString(
-                                                            R.string.setup
-                                                        )
-                                                    }"
-                                                )
-                                            })
-                                    }
-                                )
+            item {
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        style = MaterialTheme.typography.titleLarge,
+                        text = data.accountName
+                    )
+                    OverFlowMenu(
+                        menu = Menu(
+                            listOf(
+                                MenuEntry(
+                                    label = R.string.menu_help,
+                                    command = "HELP"
+                                ) {
+                                    startActivity(
+                                        Intent(
+                                            requireContext(),
+                                            Help::class.java
+                                        ).apply {
+                                            putExtra(
+                                                HelpDialogFragment.KEY_CONTEXT,
+                                                "SetupSync"
+                                            )
+                                            putExtra(
+                                                HelpDialogFragment.KEY_TITLE,
+                                                "${getString(R.string.synchronization)} - ${
+                                                    getString(
+                                                        R.string.setup
+                                                    )
+                                                }"
+                                            )
+                                        })
+                                }
                             )
                         )
-                    }
-                    Row {
-                        Text(
-                            modifier = cell(0),
-                            text = stringResource(id = R.string.account) + " (UUID)",
-                            fontWeight = FontWeight.Bold
-                        )
-                        Text(modifier = cell(1), text = "Local", fontWeight = FontWeight.Bold)
-                        Spacer(modifier = cell(2))
-                        Text(modifier = cell(3), text = "Remote", fontWeight = FontWeight.Bold)
-                    }
-                    Divider()
+                    )
                 }
-                items(accountRows) {
-                    Account(item = it)
-                    Divider()
+                Row {
+                    Text(
+                        modifier = cell(0),
+                        text = stringResource(id = R.string.account) + " (UUID)",
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(modifier = cell(1), text = "Local", fontWeight = FontWeight.Bold)
+                    Spacer(modifier = cell(2))
+                    Text(modifier = cell(3), text = "Remote", fontWeight = FontWeight.Bold)
                 }
+                Divider()
+            }
+            items(accountRows) {
+                Account(item = it)
+                Divider()
             }
 
-            when (progress.value) {
-                SetupProgress.NOT_STARTED -> {
-                    ButtonRow {
-                        Button(onClick = { dismiss() }) {
-                            Text(stringResource(id = android.R.string.cancel))
-                        }
-                        if (viewModel.dialogState.values.any { it != null }) {
-                            Button(onClick = {
-                                progress.value = SetupProgress.RUNNING
-                                viewModel.setupSynchronization(
-                                    accountName = data.accountName,
-                                    localAccounts = data.localAccountsNotSynced.filter { account ->
-                                        viewModel.dialogState.any {
-                                            it.key == account.uuid && it.value == SyncSource.DEFAULT
+            item {
+                when (progress.value) {
+                    SetupProgress.NOT_STARTED -> {
+                        ButtonRow(modifier = Modifier.padding(top = 8.dp)) {
+                            Button(onClick = { dismiss() }) {
+                                Text(stringResource(id = android.R.string.cancel))
+                            }
+                            if (viewModel.dialogState.values.any { it != null }) {
+                                Button(onClick = {
+                                    progress.value = SetupProgress.RUNNING
+                                    viewModel.setupSynchronization(
+                                        accountName = data.accountName,
+                                        localAccounts = data.localAccountsNotSynced.filter { account ->
+                                            viewModel.dialogState.any {
+                                                it.key == account.uuid && it.value == SyncSource.DEFAULT
+                                            }
+                                        },
+                                        remoteAccounts = data.remoteAccounts.filter { account ->
+                                            viewModel.dialogState.any {
+                                                it.key == account.uuid() && it.value == SyncSource.DEFAULT
+                                            }
+                                        },
+                                        conflicts = viewModel.dialogState.entries.filter {
+                                            it.value == SyncSource.LOCAL || it.value == SyncSource.REMOTE
+                                        }.map { entry ->
+                                            Triple(
+                                                data.localAccountsNotSynced.first { it.uuid == entry.key },
+                                                data.remoteAccounts.first { it.uuid() == entry.key },
+                                                entry.value!!
+                                            )
                                         }
-                                    },
-                                    remoteAccounts = data.remoteAccounts.filter { account ->
-                                        viewModel.dialogState.any {
-                                            it.key == account.uuid() && it.value == SyncSource.DEFAULT
+                                    ).observe(this@SetupSyncDialogFragment) {
+                                        it.onSuccess {
+                                            progress.value = SetupProgress.COMPLETED
                                         }
-                                    },
-                                    conflicts = viewModel.dialogState.entries.filter {
-                                        it.value == SyncSource.LOCAL || it.value == SyncSource.REMOTE
-                                    }.map { entry ->
-                                        Triple(
-                                            data.localAccountsNotSynced.first { it.uuid == entry.key },
-                                            data.remoteAccounts.first { it.uuid() == entry.key },
-                                            entry.value!!
-                                        )
                                     }
-                                ).observe(this@SetupSyncDialogFragment) {
-                                    it.onSuccess {
-                                        progress.value = SetupProgress.COMPLETED
-                                    }
+                                }) {
+                                    Text(stringResource(id = R.string.menu_sync_link))
                                 }
-                            }) {
-                                Text(stringResource(id = R.string.menu_sync_link))
                             }
                         }
                     }
-                }
-                SetupProgress.RUNNING -> {
-                    CircularProgressIndicator()
-                }
-                SetupProgress.COMPLETED -> {
-                    Button(modifier = Modifier.align(Alignment.End), onClick = { dismiss() }) {
-                        Text(stringResource(id = android.R.string.ok))
+
+                    SetupProgress.RUNNING -> {
+                        CircularProgressIndicator(modifier = Modifier.padding(top = 8.dp))
+                    }
+
+                    SetupProgress.COMPLETED -> {
+                        Button(
+                            modifier = Modifier
+                                .padding(top = 8.dp)
+                                .fillMaxWidth()
+                                .wrapContentWidth(align = Alignment.End),
+                            onClick = { dismiss() }) {
+                            Text(stringResource(id = android.R.string.ok))
+                        }
                     }
                 }
             }
@@ -245,7 +252,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                             }
                         ),
                         tint = if (linkState == SyncSource.LOCAL) Color.Green else
-                            LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
+                            LocalContentColor.current,
                         contentDescription = "Local"
                     )
                 } else {
@@ -290,7 +297,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                         modifier = cell(3),
                         painter = painterResource(id = if (linkState == SyncSource.LOCAL) R.drawable.ic_menu_delete else R.drawable.ic_menu_done),
                         tint = if (linkState == SyncSource.REMOTE) Color.Green else
-                            LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
+                            LocalContentColor.current,
                         contentDescription = "Remote"
                     )
                 } else {

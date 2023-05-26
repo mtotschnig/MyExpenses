@@ -125,10 +125,8 @@
     <string name="grouping_month">Mes</string>
     <string name="grouping_none">Desagrupada</string>
     <string name="grouping_this_week">Esta semana</string>
-    <string name="grouping_today">Hoy</string>
     <string name="grouping_week">Semana</string>
     <string name="grouping_year">Año</string>
-    <string name="grouping_yesterday">Ayer</string>
     <string name="help_button_rate">Valorar o dar opinión</string>
     <string name="help_heading_credits">Créditos</string>
     <string name="help_heading_license">Licencia</string>

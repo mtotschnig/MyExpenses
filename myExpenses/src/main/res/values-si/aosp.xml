@@ -37,4 +37,7 @@
     <string name="write_fail_reason_cannot_write">"අන්තර්ගතය ලිවීමේදී දෝෂයකි"</string>
     <string name="not_exist_file_desc">"ගොනුව නොපවතී"</string>
     <string name="menu_export">"නිර්යාත කරන්න"</string>
+    <string name="today">"අද"</string>
+    <string name="tomorrow">"හෙට"</string>
+    <string name="yesterday">"ඊයේ"</string>
 </resources>

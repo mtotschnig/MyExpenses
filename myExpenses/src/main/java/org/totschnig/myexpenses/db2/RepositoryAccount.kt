@@ -23,9 +23,8 @@ import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.withLimit
 import org.totschnig.myexpenses.util.joinArrays
 
-fun Repository.getCurrencyUnitForAccount(accountId: Long): CurrencyUnit? {
-    return getCurrencyForAccount(accountId)?.let { currencyContext[it] }
-}
+fun Repository.getCurrencyUnitForAccount(accountId: Long) =
+    getCurrencyForAccount(accountId)?.let { currencyContext[it] }
 
 fun Repository.getUuidForAccount(accountId: Long) = getStringValue(accountId, KEY_UUID)
 fun Repository.getCurrencyForAccount(accountId: Long) = getStringValue(accountId, KEY_CURRENCY)
@@ -60,17 +59,6 @@ fun Repository.findAccountByUuidWithExtraColumn(uuid: String, extraColumn: Strin
 )?.use {
     if (it.moveToFirst()) it.getLong(0) to it.getStringOrNull(1) else null
 }
-
-fun Repository.getLastUsedOpenAccount() =
-    contentResolver.query(
-        TransactionProvider.ACCOUNTS_URI.withLimit(1),
-        arrayOf(KEY_ROWID, KEY_CURRENCY),
-        "$KEY_SEALED = 0",
-        null,
-        "$KEY_LAST_USED DESC"
-    )?.use {
-        if (it.moveToFirst()) it.getLong(0) to currencyContext.get(it.getString(1)) else null
-    }
 
 fun Repository.loadAccount(accountId: Long): Account? {
     require(accountId > 0L)

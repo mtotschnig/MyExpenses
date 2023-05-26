@@ -26,7 +26,8 @@
     android:switchMinWidth="0dp"
     android:textOff="&#8722;"
     android:textOn="+"
-    android:theme="@style/AmountSwitch"
+    app:thumbTint="@color/type_switch_thumb_color"
+    app:trackTint="@color/type_switch_track_color"
     app:showText="true"
     app:switchTextAppearance="@style/SwitchTextAppearance"
     tools:ignore="HardcodedText,UnusedAttribute" />

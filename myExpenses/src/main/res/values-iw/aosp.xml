@@ -42,5 +42,8 @@
     <string name="write_fail_reason_cannot_write">"שגיאה בכתיבת תוכן"</string>
     <string name="not_exist_file_desc">"הקובץ לא קיים"</string>
     <string name="menu_export">"ייצוא"</string>
+    <string name="today">"היום"</string>
+    <string name="tomorrow">"מחר"</string>
+    <string name="yesterday">"אתמול"</string>
 </resources>
 

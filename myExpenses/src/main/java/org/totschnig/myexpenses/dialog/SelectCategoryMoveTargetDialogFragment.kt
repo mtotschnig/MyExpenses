@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
@@ -38,7 +38,7 @@ class SelectCategoryMoveTargetDialogFragment : ComposeBaseDialogFragment() {
 
             Text(
                 modifier = Modifier.padding(top = dialogPadding, start = dialogPadding),
-                style = MaterialTheme.typography.h6,
+                style = MaterialTheme.typography.titleLarge,
                 text = stringResource(id = R.string.dialog_title_select_target)
             )
 

@@ -4,9 +4,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.Text
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,10 +20,7 @@ import org.totschnig.myexpenses.model.Money
 
 fun Modifier.amountBorder(color: Color) = this
     .border(
-        border = BorderStroke(
-            ButtonDefaults.OutlinedBorderSize,
-            color
-        ),
+        border = BorderStroke(1.dp, color),
         shape = RoundedCornerShape(16.dp),
     )
     .padding(8.dp)
@@ -47,6 +43,7 @@ fun AmountText(
         fontWeight = fontWeight,
         textAlign = textAlign,
         textDecoration = textDecoration,
+        color = color,
         text = prefix + LocalCurrencyFormatter.current.formatCurrency(money.amountMajor, money.currencyUnit) + postfix
     )
 }

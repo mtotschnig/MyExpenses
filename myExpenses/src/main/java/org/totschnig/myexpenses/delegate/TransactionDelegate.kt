@@ -658,6 +658,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             R.id.Account -> {
                 val account = mAccounts[position]
                 updateAccount(account)
+                //host.recreate() //dynamic colors
             }
             R.id.OperationType -> {
                 val newType =
@@ -903,7 +904,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         configureDateInput(account)
         configureStatusSpinner()
         viewBinding.Amount.setFractionDigits(account.currency.fractionDigits)
-        host.tintSystemUiAndFab(account.color)
+        host.updateContentColor(account.color)
     }
 
     private fun hasHomeCurrency(account: Account): Boolean {
@@ -927,14 +928,12 @@ abstract class TransactionDelegate<T : ITransaction>(
         }
     }
 
-    open fun setAccount(currencyExtra: String?) {
+    open fun setAccount() {
         //if the accountId we have been passed does not exist, we select the first entry
         var selected = 0
         for (item in mAccounts.indices) {
             val account = mAccounts[item]
-            if (account.currency.code == currencyExtra ||
-                currencyExtra == null && account.id == accountId
-            ) {
+            if (account.id == accountId) {
                 selected = item
                 break
             }
@@ -943,7 +942,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         updateAccount(mAccounts[selected])
     }
 
-    open fun setAccounts(data: List<Account>, currencyExtra: String?) {
+    open fun setAccounts(data: List<Account>) {
         mAccounts.clear()
         mAccounts.addAll(data)
         accountSpinner.adapter = IdAdapter(context, data).apply {
@@ -952,7 +951,7 @@ abstract class TransactionDelegate<T : ITransaction>(
 
         viewBinding.Amount.setTypeEnabled(true)
         configureType()
-        setAccount(currencyExtra)
+        setAccount()
     }
 
     private fun configureStatusSpinner() {

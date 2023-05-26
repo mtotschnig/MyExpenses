@@ -126,10 +126,8 @@
     <string name="grouping_month">Měsíc</string>
     <string name="grouping_none">Rozloženo</string>
     <string name="grouping_this_week">Tento týden</string>
-    <string name="grouping_today">Dnes</string>
     <string name="grouping_week">Týden</string>
     <string name="grouping_year">Rok</string>
-    <string name="grouping_yesterday">Včera</string>
     <string name="help_button_rate">Ohodnoťte nebo zrecenzujte</string>
     <string name="help_heading_credits">Na vývoji se podíleli</string>
     <string name="help_heading_license">Licence</string>

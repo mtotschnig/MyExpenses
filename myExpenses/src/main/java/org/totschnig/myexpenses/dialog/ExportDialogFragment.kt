@@ -17,12 +17,16 @@ package org.totschnig.myexpenses.dialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.text.*
+import android.text.Editable
+import android.text.InputFilter
+import android.text.Spanned
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.View
+import android.widget.Button
 import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.RadioButton
-import android.widget.RadioGroup
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
@@ -66,7 +70,6 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
     DialogInterface.OnClickListener,
     CompoundButton.OnCheckedChangeListener {
 
-    private var handleDeletedAction = EXPORT_HANDLE_DELETED_DO_NOTHING
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (requireActivity().application as MyApplication).appComponent.inject(this)
@@ -104,10 +107,11 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             warningText = getString(R.string.warning_reset_account_matched)
         }
 
-        binding.format.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
-            binding.DelimiterRow.visibility =
-                if (checkedId == R.id.csv) View.VISIBLE else View.GONE
-            configureDateTimeFormat()
+        binding.format.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (checkedId == R.id.csv) {
+                binding.DelimiterRow.isVisible = isChecked
+                configureDateTimeFormat()
+            }
         }
         val format = prefHandler.enumValueOrDefault(PrefKey.EXPORT_FORMAT, ExportFormat.QIF)
         binding.format.check(format.resId)
@@ -199,10 +203,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
         )
 
         val encoding = prefHandler.getString(PREF_KEY_EXPORT_ENCODING, "UTF-8")
-        binding.Encoding.setSelection(
-            listOf(*resources.getStringArray(R.array.pref_qif_export_file_encoding))
-                .indexOf(encoding)
-        )
+        binding.Encoding.check(if (encoding == "UTF_-8") R.id.utf8 else R.id.iso88591)
 
         val delimiter = prefHandler.getInt(KEY_DELIMITER, ','.code)
             .toChar()
@@ -218,29 +219,17 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
         )
             .toChar()
         binding.separator.check(if (separator == ',') R.id.comma else R.id.dot)
-        val radioClickListener = View.OnClickListener { v: View ->
-            val mappedAction =
-                if (v.id == R.id.create_helper) EXPORT_HANDLE_DELETED_CREATE_HELPER else EXPORT_HANDLE_DELETED_UPDATE_BALANCE
-            if (handleDeletedAction == mappedAction) {
-                handleDeletedAction = EXPORT_HANDLE_DELETED_DO_NOTHING
-                binding.handleDeleted.clearCheck()
-            } else {
-                handleDeletedAction = mappedAction
-            }
-        }
-        val updateBalanceRadioButton =
-            dialogView!!.findViewById<RadioButton>(R.id.update_balance)
-        val createHelperRadioButton = dialogView!!.findViewById<RadioButton>(R.id.create_helper)
-        updateBalanceRadioButton.setOnClickListener(radioClickListener)
-        createHelperRadioButton.setOnClickListener(radioClickListener)
+
         if (savedInstanceState == null) {
-            handleDeletedAction = prefHandler.getInt(
+            when (prefHandler.getInt(
                 KEY_EXPORT_HANDLE_DELETED, EXPORT_HANDLE_DELETED_CREATE_HELPER
-            )
-            if (handleDeletedAction == EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
-                updateBalanceRadioButton.isChecked = true
-            } else if (handleDeletedAction == EXPORT_HANDLE_DELETED_CREATE_HELPER) {
-                createHelperRadioButton.isChecked = true
+            )) {
+                EXPORT_HANDLE_DELETED_UPDATE_BALANCE -> {
+                    binding.handleDeleted.check(R.id.update_balance)
+                }
+                EXPORT_HANDLE_DELETED_CREATE_HELPER -> {
+                    binding.handleDeleted.check(R.id.create_helper)
+                }
             }
         }
         if (canReset) {
@@ -277,7 +266,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
 
     private val splitDateTime: Boolean
         get() = prefHandler.getBoolean(PrefKey.CSV_EXPORT_SPLIT_DATE_TIME, false) &&
-                binding.format.checkedRadioButtonId == R.id.csv
+                binding.format.checkedButtonId == R.id.csv
 
     private fun configureDateTimeFormat() {
         with(splitDateTime) {
@@ -315,12 +304,12 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             return
         }
         val accountInfo = requireArguments().getSerializable(KEY_DATA) as AccountInfo
-        val format = ExportFormat.values().find { it.resId == binding.format.checkedRadioButtonId }
+        val format = ExportFormat.values().find { it.resId == binding.format.checkedButtonId }
             ?: ExportFormat.QIF
         val dateFormat = binding.dateFormat.text.toString()
         val timeFormat = binding.timeFormat.text.toString()
-        val decimalSeparator = if (binding.separator.checkedRadioButtonId == R.id.dot) '.' else ','
-        val delimiter = when (binding.Delimiter.checkedRadioButtonId) {
+        val decimalSeparator = if (binding.separator.checkedButtonId == R.id.dot) '.' else ','
+        val delimiter = when (binding.Delimiter.checkedButtonId) {
             R.id.delimiter_tab -> {
                 '\t'
             }
@@ -331,7 +320,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
                 ','
             }
         }
-        val handleDeleted = when (binding.handleDeleted.checkedRadioButtonId) {
+        val handleDeleted = when (binding.handleDeleted.checkedButtonId) {
             R.id.update_balance -> {
                 EXPORT_HANDLE_DELETED_UPDATE_BALANCE
             }
@@ -342,7 +331,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
                 EXPORT_HANDLE_DELETED_DO_NOTHING
             }
         }
-        val encoding = binding.Encoding.selectedItem as String
+        val encoding = if (binding.Encoding.checkedButtonId == R.id.utf8) "UTF-8" else "ISO-8859-1"
         with(prefHandler) {
             putString(PrefKey.EXPORT_FORMAT, format.name)
             putString(PREF_KEY_EXPORT_DATE_FORMAT, dateFormat)
@@ -414,10 +403,6 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
     override fun onStart() {
         super.onStart()
         configure(binding.exportDelete.isChecked)
-        val checkedId = binding.handleDeleted.checkedRadioButtonId
-        if (checkedId == R.id.update_balance) handleDeletedAction =
-            EXPORT_HANDLE_DELETED_UPDATE_BALANCE else if (checkedId == R.id.create_helper) handleDeletedAction =
-            EXPORT_HANDLE_DELETED_CREATE_HELPER
     }
 
     data class AccountInfo(

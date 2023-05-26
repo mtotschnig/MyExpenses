@@ -41,5 +41,8 @@
     <string name="write_fail_reason_cannot_write">"写入内容时出错"</string>
     <string name="not_exist_file_desc">"该文件不存在"</string>
     <string name="menu_export">"导出"</string>
+    <string name="today">"今天"</string>
+    <string name="tomorrow">"明天"</string>
+    <string name="yesterday">"昨天"</string>
 </resources>
 

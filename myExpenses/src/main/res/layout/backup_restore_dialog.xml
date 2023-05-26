@@ -21,6 +21,7 @@
         android:paddingHorizontal="@dimen/padding_dialog_side">
 
         <TableLayout
+            android:id="@+id/FormTable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:shrinkColumns="*"

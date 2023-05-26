@@ -3,14 +3,9 @@ package org.totschnig.myexpenses.compose
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
@@ -67,7 +62,7 @@ fun AmountEdit(
                 if (input.isEmpty()) {
                     onValueChange(BigDecimal.ZERO)
                 } else {
-                    Utils.validateNumber(numberFormat, input)?.let { it -> onValueChange(it) }
+                    Utils.validateNumber(numberFormat, input)?.let { onValueChange(it) }
                 }
             }
         },
@@ -75,7 +70,7 @@ fun AmountEdit(
         isError = isError
     )
 }
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DenseTextField(
     value: String,
@@ -85,7 +80,7 @@ fun DenseTextField(
     isError: Boolean
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val colors = TextFieldDefaults.outlinedTextFieldColors()
+    val colors: TextFieldColors = OutlinedTextFieldDefaults.colors()
     BasicTextField(
         value = value,
         onValueChange = onValueChange,
@@ -94,19 +89,26 @@ fun DenseTextField(
         enabled = true,
         singleLine = true,
         keyboardOptions = keyboardOptions,
-        cursorBrush = SolidColor(colors.cursorColor(isError).value)
+        cursorBrush = SolidColor(MaterialTheme.colorScheme.error),
+        textStyle = LocalTextStyle.current.copy(color = MaterialTheme.colorScheme.onSurface),
     ) {
-        TextFieldDefaults.OutlinedTextFieldDecorationBox(
+        OutlinedTextFieldDefaults.DecorationBox(
             value = value,
-            visualTransformation = VisualTransformation.None,
             innerTextField = it,
-            singleLine = true,
             enabled = true,
+            singleLine = true,
+            visualTransformation = VisualTransformation.None,
             interactionSource = interactionSource,
-            contentPadding = TextFieldDefaults.textFieldWithoutLabelPadding(
-                start = 8.dp, end = 8.dp, bottom = 4.dp
+            isError = isError,
+            colors = colors,
+            contentPadding = TextFieldDefaults.contentPaddingWithoutLabel(
+                start = 8.dp,
+                end = 8.dp,
+                bottom = 4.dp,
             ),
-            isError = isError
+            container = {
+                OutlinedTextFieldDefaults.ContainerBox(true, isError, interactionSource, colors)
+            },
         )
     }
 }

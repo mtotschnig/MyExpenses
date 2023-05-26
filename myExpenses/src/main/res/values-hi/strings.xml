@@ -98,10 +98,8 @@
     <string name="grouping_month">माह</string>
     <string name="grouping_none">असमूहीकृत</string>
     <string name="grouping_this_week">इस सप्ताह</string>
-    <string name="grouping_today">आज</string>
     <string name="grouping_week">सप्ताह</string>
     <string name="grouping_year">वर्ष</string>
-    <string name="grouping_yesterday"> कल</string>
     <string name="help_button_rate">मूल्यांकन या समीक्षा करें</string>
     <string name="help_heading_credits">क्रेडिट</string>
     <string name="help_heading_license">लाइसेंस</string>

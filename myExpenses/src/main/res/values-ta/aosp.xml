@@ -42,5 +42,8 @@
     <string name="write_fail_reason_cannot_write">"உள்ளடக்கத்தை எழுதுவதில் பிழை"</string>
     <string name="not_exist_file_desc">"கோப்பு இல்லை"</string>
     <string name="menu_export">"ஏற்று"</string>
+    <string name="today">"இன்று"</string>
+    <string name="tomorrow">"நாளை"</string>
+    <string name="yesterday">"நேற்று"</string>
 </resources>
 

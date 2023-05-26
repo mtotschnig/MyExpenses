@@ -117,10 +117,8 @@
     <string name="grouping_month">Місяць</string>
     <string name="grouping_none">Не групувати</string>
     <string name="grouping_this_week">Цього тижня</string>
-    <string name="grouping_today">Сьогодні</string>
     <string name="grouping_week">Тиждень</string>
     <string name="grouping_year">Рік</string>
-    <string name="grouping_yesterday">Вчора</string>
     <string name="help_button_rate">Залишити відгук</string>
     <string name="help_heading_credits">Кредити</string>
     <string name="help_heading_license">Ліцензія</string>

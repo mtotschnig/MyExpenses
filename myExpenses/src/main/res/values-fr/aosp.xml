@@ -41,5 +41,8 @@
     <string name="write_fail_reason_cannot_write">"Erreur lors de l\'écriture du contenu"</string>
     <string name="not_exist_file_desc">"Le fichier n\'existe pas"</string>
     <string name="menu_export">"Exporter"</string>
+    <string name="today">"Aujourd\'hui"</string>
+    <string name="tomorrow">"Demain"</string>
+    <string name="yesterday">"Hier"</string>
 </resources>
 

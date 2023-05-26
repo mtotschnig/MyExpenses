@@ -122,10 +122,8 @@
     <string name="grouping_month">月</string>
     <string name="grouping_none">グループ化しない</string>
     <string name="grouping_this_week">今週</string>
-    <string name="grouping_today">今日</string>
     <string name="grouping_week">週</string>
     <string name="grouping_year">年</string>
-    <string name="grouping_yesterday">昨日</string>
     <string name="help_button_rate">評価またはレビュー</string>
     <string name="help_heading_credits">クレジット</string>
     <string name="help_heading_license">ライセンス</string>

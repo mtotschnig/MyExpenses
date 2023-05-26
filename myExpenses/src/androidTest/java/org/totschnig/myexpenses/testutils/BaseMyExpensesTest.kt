@@ -70,4 +70,14 @@ abstract class BaseMyExpensesTest : BaseComposeTest<TestMyExpenses>() {
         }
         IdlingRegistry.getInstance().unregister(countingResource)
     }
+
+    protected fun assertDataSize(size: Int) {
+        with(composeTestRule.onNodeWithTag(TEST_TAG_PAGER)) {
+            if (size > 0) {
+                assert(hasColumnCount(size))
+            } else {
+                assertDoesNotExist()
+            }
+        }
+    }
 }

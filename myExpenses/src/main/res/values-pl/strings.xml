@@ -120,10 +120,8 @@
     <string name="grouping_month">Miesiąc</string>
     <string name="grouping_none">Nie zgrupowane</string>
     <string name="grouping_this_week">Ten tydzień</string>
-    <string name="grouping_today">Dzisiaj</string>
     <string name="grouping_week">Tydzień</string>
     <string name="grouping_year">Rok</string>
-    <string name="grouping_yesterday">Wczoraj</string>
     <string name="help_button_rate">Oceń lub zrecenzuj</string>
     <string name="help_heading_credits">O programie</string>
     <string name="help_heading_license">Licencja</string>

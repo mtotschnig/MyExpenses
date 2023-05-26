@@ -24,9 +24,8 @@ import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible
 import java.util.*
 
 
-class OrientationChangeTest : BaseMyExpensesTest() {
+class OrientationChangeTest : BaseExpenseEditTest() {
     private val accountLabel1 = "Test label 1"
-    private lateinit var account1: Account
     private lateinit var currency1: CurrencyUnit
     private val accountLabel2 = "Test label 2"
     private lateinit var account2: Account
@@ -120,10 +119,7 @@ class OrientationChangeTest : BaseMyExpensesTest() {
 
     @Test
     fun shouldHandleNewInstanceAfterOrientationChange() {
-        testScenario = ActivityScenario.launch(
-            Intent(targetContext, ExpenseEdit::class.java).apply {
-                putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
-            })
+        testScenario = ActivityScenario.launch(intentForNewTransaction)
         rotate()
         onIdle()
         toolbarTitle().check(doesNotExist())

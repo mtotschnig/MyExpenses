@@ -17,6 +17,8 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
+
 }
 
 def getPropertyIfDefined(property, defaultValue) {
@@ -88,7 +90,7 @@ android {
         type.resValue "string", 'sync_account_type', defaultConfig.applicationId + type.applicationIdSuffix + ".sync"
     }
 
-    flavorDimensions "textRecognition"
+    flavorDimensions = [ "textRecognition" ]
 
     productFlavors {
         intern {
@@ -163,8 +165,7 @@ dependencies {
     def composeBom = platform('androidx.compose:compose-bom:2023.05.01')
     implementation composeBom
     implementation "androidx.compose.ui:ui"
-    implementation "androidx.compose.material:material"
-    implementation("androidx.compose.material3:material3:1.0.1")
+    implementation("androidx.compose.material3:material3")
     implementation "androidx.compose.ui:ui-tooling-preview"
     implementation 'androidx.activity:activity-compose:1.7.1'
     implementation "androidx.compose.runtime:runtime-livedata"
@@ -172,7 +173,7 @@ dependencies {
     implementation "androidx.compose.material:material-icons-extended"
     implementation "androidx.paging:paging-compose:1.0.0-alpha19"
     implementation "com.google.accompanist:accompanist-drawablepainter:$accompanist"
-    implementation "com.google.accompanist:accompanist-themeadapter-material:$accompanist"
+    implementation "com.google.accompanist:accompanist-themeadapter-material3:$accompanist"
     implementation('app.futured.donut:donut-compose:2.2.3')
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
@@ -204,7 +205,7 @@ dependencies {
     api "com.squareup.picasso:picasso:$picassoVersion"
     implementation 'com.github.mtotschnig:MPAndroidChart:6fcf34d9d4'
     implementation 'com.github.mtotschnig:Caldroid:e40729670a'
-    api('io.github.eltos:simpledialogfragments:3.6.4')
+    api('com.github.eltos:simpledialogfragments:2c82864000')
 
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.3'
 
@@ -219,9 +220,11 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "androidx.recyclerview:recyclerview:$recyclerview"
     implementation 'androidx.cardview:cardview:1.0.0'
-    api "com.google.android.material:material:$materialComponents"
+
+    api 'com.google.android.material:material'
+
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
-    api 'androidx.preference:preference-ktx:1.2.0'
+    api project(':preferences')
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
@@ -256,7 +259,7 @@ dependencies {
     // Room components
     implementation "androidx.room:room-runtime:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
-    kapt "androidx.room:room-compiler:$roomVersion"
+    ksp "androidx.room:room-compiler:$roomVersion"
 
     implementation "com.github.requery:sqlite-android:$requery"
 
@@ -338,7 +341,7 @@ static def getDate() {
 //apply plugin: 'com.jakewharton.hugo'
 apply plugin: 'com.novoda.android-command'
 
-task copyFileForFixture(type: Files) {
+tasks.register('copyFileForFixture', Files) {
     script {
         push "tests/script/screenshot.jpg", "/sdcard/Android/data/org.totschnig.myexpenses.fortest/files/screenshot.jpg"
     }
@@ -347,7 +350,7 @@ task copyFileForFixture(type: Files) {
 //For Drive
 //apply plugin: 'com.google.gms.google-services'
 
-task echoPublishTag() {
+tasks.register('echoPublishTag') {
     doLast {
         def currentBranch = 'git branch --show-current'.execute().text.trim()
 

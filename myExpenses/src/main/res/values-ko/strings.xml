@@ -105,10 +105,8 @@
     <string name="grouping_month">월</string>
     <string name="grouping_none">그룹에 속해있지 않음</string>
     <string name="grouping_this_week">이번주</string>
-    <string name="grouping_today">오늘</string>
     <string name="grouping_week">주</string>
     <string name="grouping_year">년</string>
-    <string name="grouping_yesterday">어제</string>
     <string name="help_button_rate">별점을 매기거나 평가하기</string>
     <string name="help_heading_credits">공로</string>
     <string name="help_heading_license">라이센스</string>

@@ -12,6 +12,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="0dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_weight="1">
 
     <LinearLayout
@@ -20,23 +21,26 @@
         android:orientation="vertical"
         android:paddingHorizontal="@dimen/padding_dialog_side">
 
-        <RadioGroup
+        <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/type"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:singleSelection="true"
+            app:checkedButton="@+id/expense"
+            app:selectionRequired="true"
             android:orientation="horizontal">
 
-            <RadioButton
+            <Button
                 android:id="@+id/expense"
-                android:layout_weight="1"
-                android:checked="true"
+                style="@style/Widget.Material3.Button.OutlinedButton.Dense"
                 android:text="@string/expense" />
 
-            <RadioButton
+            <Button
                 android:id="@+id/income"
-                android:layout_weight="1"
+                style="@style/Widget.Material3.Button.OutlinedButton.Dense"
                 android:text="@string/income" />
-        </RadioGroup>
+        </com.google.android.material.button.MaterialButtonToggleGroup>
 
         <TableLayout
             android:layout_width="match_parent"

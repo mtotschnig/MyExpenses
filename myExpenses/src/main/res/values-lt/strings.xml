@@ -66,10 +66,8 @@
     <string name="grouping_day">Diena</string>
     <string name="grouping_month">Mėnuo</string>
     <string name="grouping_this_week">Ši savaitė</string>
-    <string name="grouping_today">Šiandien</string>
     <string name="grouping_week">Savaitė</string>
     <string name="grouping_year">Metai</string>
-    <string name="grouping_yesterday">Vakar</string>
     <string name="help_heading_credits">Padėkos</string>
     <string name="help_heading_license">Licencija</string>
     <string name="help_heading_whats_new">Kas naujo</string>

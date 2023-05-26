@@ -15,14 +15,12 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
 
-    <style name="MyThemeBase" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorControlNormal">?colorOnSurface</item>
+    <style name="MyThemeBase" parent="Theme.Material3.DynamicColors.DayNight">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <item name="android:colorBackground">@color/myColorBackground</item>
         <item name="android:windowBackground">@color/myColorBackground</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorSecondary">@color/colorAccent</item>
         <item name="colorPrimaryDark">@color/toolbarBackground</item>
-        <item name="colorAccent">@color/colorAccent</item>
         <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
@@ -47,14 +45,10 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="colorOnSurface">@android:color/black</item>
     </style>
 
-    <style name="EditDialogBase" parent="Theme.MaterialComponents.DayNight.DialogWhenLarge">
-        <item name="colorControlNormal">?colorOnSurface</item>
+    <style name="EditDialogBase" parent="Theme.Material3.DayNight.DialogWhenLarge">
         <item name="android:colorBackground">@color/myColorBackground</item>
         <item name="android:windowBackground">@color/myColorBackground</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorSecondary">@color/primaryLightColor</item>
         <item name="colorPrimaryDark">@color/toolbarBackground</item>
-        <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -69,10 +63,10 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="searchViewStyle">@style/SearchViewStyle</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="simpleDialogTheme">@style/SimpleDialog</item>
-        <item name="materialCalendarStyle">@style/Widget.MaterialComponents.MaterialCalendar</item>
-        <item name="materialCalendarFullscreenTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar.Fullscreen</item>
-        <item name="materialCalendarTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar</item>
-        <item name="materialTimePickerTheme">@style/ThemeOverlay.MaterialComponents.TimePicker</item>
+        <item name="materialCalendarStyle">@style/Widget.Material3.MaterialCalendar</item>
+        <item name="materialCalendarFullscreenTheme">@style/ThemeOverlay.Material3.MaterialCalendar.Fullscreen</item>
+        <item name="materialCalendarTheme">@style/ThemeOverlay.Material3.MaterialCalendar</item>
+        <item name="materialTimePickerTheme">@style/ThemeOverlay.Material3.MaterialTimePicker</item>
     </style>
 
     <style name="EditDialog" parent="EditDialogBase">
@@ -92,10 +86,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     <style name="OnboardingBase" parent="@style/SuwThemeMaterial">
         <item name="android:colorBackground">@color/myColorBackground</item>
         <item name="android:windowBackground">@color/myColorBackground</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorSecondary">@color/colorAccent</item>
         <item name="colorPrimaryDark">@color/toolbarBackground</item>
-        <item name="colorAccent">@color/colorAccent</item>
         <item name="md_color_button_text">?colorAccent</item>
         <item name="textInputStyle">@style/MyTextInputLayout</item>
         <item name="simpleDialogTheme">@style/SimpleDialog</item>
@@ -105,26 +96,12 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:statusBarColor">@android:color/black</item>
     </style>
 
-    <style name="Calculator" parent="Theme.MaterialComponents.DayNight.Dialog">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="Calculator" parent="Theme.Material3.DayNight.Dialog">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AmountSwitch" parent="Widget.AppCompat.CompoundButton.Switch">
-        <!-- Active thumb color & Active track color(30% transparency) -->
-        <item name="colorControlActivated">@color/colorIncome</item>
-        <!-- Inactive thumb color -->
-        <item name="colorSwitchThumbNormal">@color/colorExpense</item>
-        <!-- Inactive track color(30% transparency) -->
-        <item name="android:colorForeground">@color/colorExpense</item>
-    </style>
-
-    <style name="Configuration" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorSecondary">@color/primaryLightColor</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="Configuration" parent="Theme.Material3.DayNight.Dialog.Alert">
         <item name="textInputStyle">@style/MyTextInputLayout</item>
     </style>
 

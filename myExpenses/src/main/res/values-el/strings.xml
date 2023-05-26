@@ -124,10 +124,8 @@
     <string name="grouping_month">Μήνας</string>
     <string name="grouping_none">Μη ομαδοποίημένο</string>
     <string name="grouping_this_week">Αυτήν την εβδομάδα</string>
-    <string name="grouping_today">Σήμερα</string>
     <string name="grouping_week">Εβδομάδα</string>
     <string name="grouping_year">Έτος</string>
-    <string name="grouping_yesterday">Χθες</string>
     <string name="help_button_rate">Ποσοστό ή αναθεώρηση</string>
     <string name="help_heading_credits">Πιστώσεις</string>
     <string name="help_heading_license">Άδεια</string>

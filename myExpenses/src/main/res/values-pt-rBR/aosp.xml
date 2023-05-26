@@ -41,5 +41,8 @@
     <string name="write_fail_reason_cannot_write">"Erro ao gravar o conteúdo"</string>
     <string name="not_exist_file_desc">"O arquivo não existe"</string>
     <string name="menu_export">"Exportar"</string>
+    <string name="today">"Hoje"</string>
+    <string name="tomorrow">"Amanhã"</string>
+    <string name="yesterday">"Ontem"</string>
 </resources>
 

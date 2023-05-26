@@ -1,10 +1,9 @@
 package org.totschnig.myexpenses.compose
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
@@ -16,7 +15,6 @@ import androidx.compose.ui.window.DialogProperties
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CategoryEdit(
     dialogState: CategoryViewModel.Show,
@@ -45,7 +43,7 @@ fun CategoryEdit(
     ) {
         Surface(
             shape = MaterialTheme.shapes.medium,
-            color = MaterialTheme.colors.background,
+            color = MaterialTheme.colorScheme.background,
         ) {
             Column(
                 modifier = Modifier
@@ -57,7 +55,7 @@ fun CategoryEdit(
                         if (dialogState.parent == null) stringResource(R.string.menu_create_main_cat)
                         else stringResource(R.string.menu_create_sub_cat) + " (${dialogState.parent.label})"
                     } else stringResource(R.string.menu_edit_cat),
-                    style = MaterialTheme.typography.subtitle1
+                    style = MaterialTheme.typography.titleMedium
                 )
                 OutlinedTextField(
                     modifier = Modifier.testTag(TEST_TAG_EDIT_TEXT),
@@ -67,8 +65,8 @@ fun CategoryEdit(
                     onValueChange = { shouldValidate = false; label = it })
                 Text(
                     text = isError ?: "",
-                    color = MaterialTheme.colors.error,
-                    style = MaterialTheme.typography.caption,
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier.padding(start = 16.dp, top = 0.dp)
                 )
 
@@ -124,7 +122,7 @@ fun CategoryEdit(
         ) {
             Surface(
                 shape = MaterialTheme.shapes.medium,
-                color = MaterialTheme.colors.background,
+                color = MaterialTheme.colorScheme.background,
             ) {
                 Column {
                     IconSelector(

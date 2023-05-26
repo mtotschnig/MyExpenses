@@ -22,8 +22,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
@@ -45,8 +45,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
-import com.theartofdev.edmodo.cropper.CropImage
-import com.theartofdev.edmodo.cropper.CropImageView
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.*
 import eltos.simpledialogfragment.input.SimpleInputDialog
@@ -73,6 +71,7 @@ import org.totschnig.myexpenses.model.Sort.Companion.fromCommandId
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isHomeAggregate
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
@@ -121,6 +120,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             } else {
                 viewModel.accountData.value?.getOrNull()?.firstOrNull()?.id
             }
+        }
+
+    private val accountForNewTransaction: FullAccount?
+        get() = currentAccount?.let { current ->
+            current.takeIf { !it.isAggregate } ?: viewModel.accountData.value?.getOrNull()
+                ?.filter { !it.isAggregate && (current.isHomeAggregate || it.currency == current.currency) }
+                ?.maxBy { it.lastUsed }
         }
 
     lateinit var pagerState: PagerState
@@ -678,7 +684,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 if (accountData.isNotEmpty()) {
                     HorizontalPager(
                         modifier = Modifier
-                            .background(MaterialTheme.colors.onSurface)
+                            .background(MaterialTheme.colorScheme.onSurface)
                             .testTag(TEST_TAG_PAGER)
                             .semantics {
                                 collectionInfo = CollectionInfo(1, accountData.size)
@@ -727,7 +733,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colors.background)
+                .background(MaterialTheme.colorScheme.background)
         ) {
             viewModel.filterPersistence.getValue(account.id)
                 .whereFilterAsFlow
@@ -941,12 +947,16 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             if (transaction.transferPeerParent != null) {
                 showSnackBar(R.string.warning_splitpartcategory_context)
             } else {
-                val i = Intent(this, ExpenseEdit::class.java)
-                i.putExtra(KEY_ROWID, transaction.id)
-                if (clone) {
-                    i.putExtra(ExpenseEdit.KEY_CLONE, true)
-                }
-                startActivityForResult(i, EDIT_REQUEST)
+                startActivityForResult(
+                    Intent(this, ExpenseEdit::class.java).apply {
+                        putExtra(KEY_ROWID, transaction.id)
+                        putExtra(KEY_COLOR, transaction.color)
+                        if (clone) {
+                            putExtra(ExpenseEdit.KEY_CLONE, true)
+                        }
+
+                    }, EDIT_REQUEST
+                )
             }
         }
     }
@@ -1126,17 +1136,17 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
      * Originally the form for transaction is rendered, user can change from spinner in toolbar
      */
     open fun createRowIntent(type: Int, isIncome: Boolean) =
-        Intent(this, ExpenseEdit::class.java).apply {
-            putExtra(Transactions.OPERATION_TYPE, type)
-            putExtra(ExpenseEdit.KEY_INCOME, isIncome)
-            val accountId = selectedAccountId
-            if (accountId >= 0) {
-                //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
-                putExtra(KEY_ACCOUNTID, accountId)
-            } else if (!isHomeAggregate(accountId)) {
-                //if we are called from an aggregate account, we also hand over the currency
-                putExtra(KEY_CURRENCY, currentAccount!!.currency)
-                putExtra(ExpenseEdit.KEY_AUTOFILL_MAY_SET_ACCOUNT, true)
+        accountForNewTransaction?.let {
+            Intent(this, ExpenseEdit::class.java).apply {
+                putExtra(Transactions.OPERATION_TYPE, type)
+                putExtra(ExpenseEdit.KEY_INCOME, isIncome)
+                putExtra(KEY_ACCOUNTID, it.id)
+                putExtra(KEY_CURRENCY, it.currency)
+                putExtra(KEY_COLOR, it._color)
+                val accountId = selectedAccountId
+                if (isAggregate(accountId)) {
+                    putExtra(ExpenseEdit.KEY_AUTOFILL_MAY_SET_ACCOUNT, true)
+                }
             }
         }
 
@@ -1149,7 +1159,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     fun createRowDo(type: Int, isIncome: Boolean) {
-        startEdit(createRowIntent(type, isIncome))
+        createRowIntent(type, isIncome)?.let { startEdit(it) }
     }
 
     private fun startEdit(intent: Intent) {
@@ -1159,12 +1169,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     private fun startEditFromOcrResult(result: OcrResultFlat?, scanUri: Uri) {
         recordUsage(ContribFeature.OCR)
-        startEdit(
-            createRowIntent(Transactions.TYPE_TRANSACTION, false).apply {
-                putExtra(KEY_OCR_RESULT, result)
-                putExtra(KEY_PICTURE_URI, scanUri)
-            }
-        )
+        createRowIntent(Transactions.TYPE_TRANSACTION, false)?.apply {
+            putExtra(KEY_OCR_RESULT, result)
+            putExtra(KEY_PICTURE_URI, scanUri)
+        }?.let {
+            startEdit(it)
+        }
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean =
@@ -1194,21 +1204,20 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
 
                 DIALOG_TAG_NEW_BALANCE -> {
-                    startEdit(
-                        createRowIntent(Transactions.TYPE_TRANSACTION, false).apply {
-                            putExtra(
-                                KEY_AMOUNT,
-                                (extras.getSerializable(KEY_AMOUNT) as BigDecimal) -
-                                        Money(
-                                            currentAccount!!.currencyUnit,
-                                            currentAccount!!.currentBalance
-                                        ).amountMajor
-                            )
-                        }
-                    )
+                    createRowIntent(Transactions.TYPE_TRANSACTION, false)?.apply {
+                        putExtra(
+                            KEY_AMOUNT,
+                            (extras.getSerializable(KEY_AMOUNT) as BigDecimal) -
+                                    Money(
+                                        currentAccount!!.currencyUnit,
+                                        currentAccount!!.currentBalance
+                                    ).amountMajor
+                        )
+                    }?.let {
+                        startEdit(it)
+                    }
                     true
                 }
-
                 else -> false
             }
         } else false
@@ -1521,11 +1530,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     when (item.itemId) {
                         R.id.COPY_TO_CLIPBOARD_COMMAND -> copyToClipBoard()
                         R.id.NEW_BALANCE_COMMAND -> if (selectedAccountId > 0) {
-                            AmountInputHostDialog.build().fields(
-                                AmountInput.plain(KEY_AMOUNT).label(R.string.new_balance)
-                                    .fractionDigits(currentAccount!!.currencyUnit.fractionDigits)
-                                    .withTypeSwitch(currentAccount!!.currentBalance > 0)
-                            ).show(this, DIALOG_TAG_NEW_BALANCE)
+                            AmountInputHostDialog.build().title(R.string.new_balance)
+                                .fields(
+                                    AmountInput.plain(KEY_AMOUNT)
+                                        .fractionDigits(currentAccount!!.currencyUnit.fractionDigits)
+                                        .withTypeSwitch(currentAccount!!.currentBalance > 0)
+                                ).show(this, DIALOG_TAG_NEW_BALANCE)
                         }
                     }
                     true

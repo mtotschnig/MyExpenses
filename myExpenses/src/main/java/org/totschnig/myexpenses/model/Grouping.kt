@@ -8,6 +8,12 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.chrono.IsoChronology
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
+import java.time.format.FormatStyle
+import java.time.temporal.ChronoUnit
 import java.util.*
 
 /**
@@ -29,7 +35,7 @@ enum class Grouping {
     /**
      * @param groupYear           the year of the group to display
      * @param groupSecond         the number of the group in the second dimension (day, week or month)
-     * @param dateInfo            a cursor where we can find information about the current date
+     * @param dateInfo            information about the current date
      * @return a human readable String representing the group as header or activity title
      */
     fun getDisplayTitle(
@@ -39,25 +45,20 @@ enum class Grouping {
         dateInfo: DateInfo
     ): String {
         val locale = ctx.resources.configuration.locale
-        val cal: Calendar
         return when (this) {
             NONE -> ctx.getString(R.string.menu_aggregates)
             DAY -> {
-                val thisDay = dateInfo.thisDay
-                val thisYear = dateInfo.thisYear
-                cal = Calendar.getInstance()
-                cal[Calendar.YEAR] = groupYear
-                cal[Calendar.DAY_OF_YEAR] = groupSecond
-                val title =
-                    DateFormat.getDateInstance(DateFormat.FULL, locale)
-                        .format(cal.time)
-                if (groupYear == thisYear) {
-                    if (groupSecond == thisDay) return ctx.getString(R.string.grouping_today) + " (" + title + ")" else if (groupSecond == thisDay - 1) return ctx.getString(
-                        R.string.grouping_yesterday
-                    ) + " (" + title + ")"
-                }
-                title
+                val today = LocalDate.ofYearDay(dateInfo.thisYear, dateInfo.thisDay)
+                val day = LocalDate.ofYearDay(groupYear, groupSecond)
+                val title = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).withLocale(locale).format(day)
+                when(ChronoUnit.DAYS.between(day, today)) {
+                    1L -> R.string.yesterday
+                    0L -> R.string.today
+                    -1L -> R.string.tomorrow
+                    else -> null
+                }?.let { ctx.getString(it) + " (" + title + ")" } ?: title
             }
+
             WEEK -> {
                 val thisWeek = dateInfo.thisWeek
                 val thisYearOfWeekStart = dateInfo.thisYearOfWeekStart
@@ -78,6 +79,7 @@ enum class Grouping {
                 } else "$groupYear, "
                 yearPrefix + ctx.getString(R.string.grouping_week) + " " + groupSecond + weekRange
             }
+
             MONTH -> {
                 getDisplayTitleForMonth(
                     groupYear,
@@ -86,6 +88,7 @@ enum class Grouping {
                     locale
                 )
             }
+
             YEAR -> groupYear.toString()
         }
     }

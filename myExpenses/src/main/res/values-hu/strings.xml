@@ -124,10 +124,8 @@
     <string name="grouping_month">Hónap</string>
     <string name="grouping_none">Nem csoportosított</string>
     <string name="grouping_this_week">Aktuális hét</string>
-    <string name="grouping_today">Ma</string>
     <string name="grouping_week">Hét</string>
     <string name="grouping_year">Év</string>
-    <string name="grouping_yesterday">Tegnap</string>
     <string name="help_button_rate">Értékelés vagy felülvizsgálat</string>
     <string name="help_heading_credits">Közreműködők</string>
     <string name="help_heading_license">Licensz</string>

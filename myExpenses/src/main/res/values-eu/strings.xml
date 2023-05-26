@@ -124,10 +124,8 @@
     <string name="grouping_month">Hilabetea</string>
     <string name="grouping_none">Taldekatu gabe</string>
     <string name="grouping_this_week">Aste hau</string>
-    <string name="grouping_today">Gaur</string>
     <string name="grouping_week">Astea</string>
     <string name="grouping_year">Urtea</string>
-    <string name="grouping_yesterday">Atzo</string>
     <string name="help_button_rate">Baloratu edo iruzkina egin</string>
     <string name="help_heading_credits">Kredituak</string>
     <string name="help_heading_license">Lizentzia</string>

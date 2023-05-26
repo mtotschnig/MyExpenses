@@ -122,47 +122,37 @@
                             android:id="@id/FILTER_CATEGORY_COMMAND"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/budget_filter_all_categories"
-                            android:theme="@style/Theme.MaterialComponents" />
+                            android:text="@string/budget_filter_all_categories" />
 
                         <org.totschnig.myexpenses.ui.filter.ScrollingChip
                             android:id="@id/FILTER_PAYEE_COMMAND"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/budget_filter_all_parties"
-                            android:theme="@style/Theme.MaterialComponents" />
+                            android:text="@string/budget_filter_all_parties" />
 
                         <org.totschnig.myexpenses.ui.filter.ScrollingChip
                             android:id="@id/FILTER_METHOD_COMMAND"
-                            style="@style/Widget.MaterialComponents.Chip.Action"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/budget_filter_all_methods"
-                            android:theme="@style/Theme.MaterialComponents" />
+                            android:text="@string/budget_filter_all_methods" />
 
                         <org.totschnig.myexpenses.ui.filter.ScrollingChip
                             android:id="@id/FILTER_STATUS_COMMAND"
-                            style="@style/Widget.MaterialComponents.Chip.Action"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/budget_filter_all_states"
-                            android:theme="@style/Theme.MaterialComponents" />
+                            android:text="@string/budget_filter_all_states" />
 
                         <org.totschnig.myexpenses.ui.filter.ScrollingChip
                             android:id="@id/FILTER_TAG_COMMAND"
-                            style="@style/Widget.MaterialComponents.Chip.Action"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/budget_filter_all_tags"
-                            android:theme="@style/Theme.MaterialComponents" />
+                            android:text="@string/budget_filter_all_tags" />
 
                         <org.totschnig.myexpenses.ui.filter.ScrollingChip
                             android:id="@id/FILTER_ACCOUNT_COMMAND"
-                            style="@style/Widget.MaterialComponents.Chip.Action"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/budget_filter_all_accounts"
-                            android:theme="@style/Theme.MaterialComponents"
                             android:visibility="gone" />
                     </com.google.android.material.chip.ChipGroup>
                 </TableRow>

@@ -42,5 +42,8 @@
     <string name="write_fail_reason_cannot_write">"Fejl ved skrivning af indhold"</string>
     <string name="not_exist_file_desc">"Filen findes ikke"</string>
     <string name="menu_export">"Eksportér"</string>
+    <string name="today">"I dag"</string>
+    <string name="tomorrow">"I morgen"</string>
+    <string name="yesterday">"I går"</string>
 </resources>
 

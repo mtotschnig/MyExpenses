@@ -119,10 +119,8 @@
     <string name="grouping_month">Tháng</string>
     <string name="grouping_none">Không gộp nhóm</string>
     <string name="grouping_this_week">Tuần này</string>
-    <string name="grouping_today">Hôm nay</string>
     <string name="grouping_week">Tuần</string>
     <string name="grouping_year">Năm</string>
-    <string name="grouping_yesterday">Hôm qua</string>
     <string name="help_button_rate">Xếp hạng hoặc xem đánh giá</string>
     <string name="help_heading_credits">Lời tri ân</string>
     <string name="help_heading_license">Giấy phép</string>

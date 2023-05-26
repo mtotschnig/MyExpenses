@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.ImportFileResultHandler
 import org.totschnig.myexpenses.util.ImportFileResultHandler.FileNameHostFragment
 import org.totschnig.myexpenses.util.checkNewAccountLimitation
+import org.totschnig.myexpenses.util.linkInputsWithLabels
 import org.totschnig.myexpenses.viewmodel.AccountImport
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.ImportViewModel
@@ -114,6 +115,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
             onItemSelectedListener = this@CsvImportParseFragment
         }
         fileNameBinding.btnBrowse.setOnClickListener(this)
+        linkInputsWithLabels(binding.Table)
         return binding.root
     }
 

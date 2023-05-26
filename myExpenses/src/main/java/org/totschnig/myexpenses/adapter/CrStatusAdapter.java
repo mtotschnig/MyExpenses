@@ -45,6 +45,6 @@ public class CrStatusAdapter extends ArrayAdapter<CrStatus> {
 
   private void setColor(int position, View row) {
     View color = row.findViewById(R.id.color1);
-    color.setBackgroundColor(getItem(position).color);
+    color.setBackgroundColor(getItem(position).toColorRoles(getContext()).getAccent());
   }
 }

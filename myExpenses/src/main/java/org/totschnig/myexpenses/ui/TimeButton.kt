@@ -1,20 +1,20 @@
 package org.totschnig.myexpenses.ui
 
-import android.app.TimePickerDialog
 import android.content.Context
-import android.content.DialogInterface
-import android.os.Bundle
-import android.text.format.DateFormat
+import android.text.format.DateFormat.is24HourFormat
 import android.util.AttributeSet
-import androidx.fragment.app.DialogFragment
 import com.evernote.android.state.State
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_CLOCK
+import com.google.android.material.timepicker.TimeFormat
+import org.totschnig.myexpenses.injector
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
 class TimeButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : ButtonWithDialog<TimeButton.PlatformTimePicker>(context, attrs, defStyleAttr) {
+) : ButtonWithDialog<MaterialTimePicker>(context, attrs, defStyleAttr) {
 
     @JvmField
     @State
@@ -27,18 +27,19 @@ class TimeButton @JvmOverloads constructor(
     private var timeFormatter: DateTimeFormatter =
         DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
 
-    override fun buildDialog() = PlatformTimePicker().apply {
-        arguments = Bundle().apply {
-            putSerializable(KEY_TIME, time)
+    override fun buildDialog() = MaterialTimePicker.Builder()
+        .setTimeFormat(if (is24HourFormat(context)) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H)
+        .apply {
+            context.injector.prefHandler().getInt(KEY_INPUT_MODE, -1).takeIf { it != -1 }?.let {
+                setInputMode(it)
+            }
         }
-    }
+        .setHour(time.hour)
+        .setMinute(time.minute)
+        .build()
 
     override fun update() {
         text = time.format(timeFormatter)
-    }
-
-    fun getTime(): LocalTime {
-        return time
     }
 
     fun setTime(time: LocalTime) {
@@ -49,56 +50,17 @@ class TimeButton @JvmOverloads constructor(
     override val fragmentTag: String
         get() = "date_button"
 
-    override fun attachListener(dialogFragment: PlatformTimePicker) {
-        dialogFragment.onTimeSetListener =
-            PlatformTimePicker.OnTimeSetListener { newTime: LocalTime ->
-                if (time != newTime) {
-                    setTime(newTime)
-                    host.onValueSet(this)
-                }
-            }
-        dialogFragment.onDismissListener = PlatformTimePicker.OnDismissListener {
+    override fun attachListener(dialogFragment: MaterialTimePicker) {
+        dialogFragment.addOnPositiveButtonClickListener {
+            context.injector.prefHandler().putInt(KEY_INPUT_MODE, dialogFragment.inputMode)
+            setTime(LocalTime.of(dialogFragment.hour, dialogFragment.minute))
+        }
+        dialogFragment.addOnDismissListener {
             dialogShown = false
         }
     }
 
-    class PlatformTimePicker : DialogFragment() {
-        fun interface OnTimeSetListener {
-            fun onTimeSet(time: LocalTime)
-        }
-
-        fun interface OnDismissListener {
-            fun onDismiss()
-        }
-
-        var onTimeSetListener: OnTimeSetListener? = null
-        var onDismissListener: OnDismissListener? = null
-
-        override fun onCreateDialog(savedInstanceState: Bundle?): TimePickerDialog {
-            val time = requireArguments().getSerializable(KEY_TIME) as LocalTime
-            return TimePickerDialog(
-                context, com.google.android.material.R.style.ThemeOverlay_MaterialComponents_Dialog,
-                { _, hourOfDay, minute ->
-                    onTimeSetListener?.onTimeSet(
-                        LocalTime.of(
-                            hourOfDay,
-                            minute
-                        )
-                    )
-                },
-                time.hour,
-                time.minute,
-                DateFormat.is24HourFormat(context)
-            )
-        }
-
-        override fun onDismiss(dialog: DialogInterface) {
-            super.onDismiss(dialog)
-            onDismissListener?.onDismiss()
-        }
-    }
-
     companion object {
-        const val KEY_TIME = "time"
+        const val KEY_INPUT_MODE = "timePickerInputMode"
     }
 }

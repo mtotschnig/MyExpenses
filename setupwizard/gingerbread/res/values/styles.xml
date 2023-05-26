@@ -19,7 +19,7 @@
 
     <!-- General styles -->
 
-    <style name="SuwThemeMaterial" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="SuwThemeMaterial" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:listPreferredItemHeight">@dimen/suw_items_preferred_height</item>
         <item name="android:listPreferredItemPaddingEnd" tools:ignore="NewApi">?attr/suwMarginSides</item>
         <item name="android:listPreferredItemPaddingStart" tools:ignore="NewApi">?attr/suwMarginSides</item>

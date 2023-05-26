@@ -229,11 +229,12 @@ class TagList : Fragment(), OnDialogResultListener {
                 setOnClickListener {
                     viewModel.toggleSelectedTagId(tag.id)
                 }
+                isCloseIconVisible = closeFunction != null
                 closeFunction?.let {
                     setOnCloseIconClickListener {
                         it(tag)
                     }
-                } ?: kotlin.run { isCloseIconVisible = false }
+                }
                 longClickFunction?.let {
                     setOnLongClickListener {
                         it(tag)

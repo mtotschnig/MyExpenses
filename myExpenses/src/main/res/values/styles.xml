@@ -44,11 +44,9 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:minHeight">50dp</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:paddingEnd">12dp</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="FormField">
@@ -61,8 +59,26 @@
         <item name="android:layout_weight">2</item>
     </style>
 
+    <style name="FormField.Dialog.Scrollable">
+        <item name="android:layout_weight">2</item>
+        <item name="android:scrollbarFadeDuration">500</item>
+    </style>
+
     <style name="FormLabel.Condensed">
         <item name="android:minHeight">0dp</item>
+    </style>
+
+    <style name="Widget.Material3.Button.OutlinedButton.Dense">
+        <item name="android:minWidth">@dimen/accessibility_clickable_minimum</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Widget.Material3.Button.OutlinedButton.ToggleGroupVertical">
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="dialog_text" />
@@ -83,7 +99,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="SmallButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="SmallButton" parent="Widget.Material3.Button.OutlinedButton">
         <item name="strokeColor">?colorPrimary</item>
         <item name="strokeWidth">2sp</item>
     </style>
@@ -110,10 +126,13 @@
         <item name="android:paddingStart">?android:attr/expandableListPreferredItemPaddingLeft</item>
     </style>
 
-    <style name="MyAlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="colorPrimary">@color/colorPrimaryDialog</item>
-        <item name="colorAccent">@color/colorPrimaryDialog</item>
-        <item name="colorError">@color/colorErrorDialog</item>
+    <style name="MyAlertDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="alertDialogStyle">@style/MaterialAlertDialog.Material3.App</item>
+    </style>
+
+    <style name="MaterialAlertDialog.Material3.App">
+        <item name="backgroundInsetTop">@dimen/mtrl_alert_dialog_background_inset_vertical</item>
+        <item name="backgroundInsetBottom">@dimen/mtrl_alert_dialog_background_inset_vertical</item>
     </style>
 
     <style name="CaldroidCustomBase" parent="@style/CaldroidDefault" />
@@ -137,11 +156,12 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="CalculatorButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="CalculatorButton" parent="Widget.Material3.Button.OutlinedButton">
         <item name="android:minHeight">@dimen/calculator_button_min</item>
         <item name="android:minWidth">@dimen/calculator_button_min</item>
         <item name="android:textSize">@dimen/calculator_button_text_size</item>
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">@dimen/calculator_button_layout_margin</item>
     </style>
@@ -225,7 +245,7 @@
         <item name="buttonBarNeutralButtonStyle">@style/NegativeButtonStyle</item>
     </style>
 
-    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+    <style name="NegativeButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
         <item name="android:textColor">@color/material_grey</item>
     </style>
 
@@ -239,7 +259,7 @@
         <item name="android:textSize">@dimen/textSizeLabel</item>
     </style>
 
-    <style name="MyTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
+    <style name="MyTextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox" />
 
     <style name="OnBoardingDisplayProperty">
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
@@ -264,17 +284,17 @@
         <item name="layout_constraintTop_toBottomOf">@id/Recurrence</item>
     </style>
 
-    <style name="AppTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+    <style name="AppTheme.Toolbar" parent="Widget.Material3.Toolbar">
         <item name="titleTextAppearance">@style/ToolbarTitleTextAppearance</item>
         <item name="subtitleTextAppearance">@style/ToolbarSubtitleTextAppearance</item>
         <item name="android:background">@color/toolbarBackground</item>
     </style>
 
-    <style name="ToolbarTitleTextAppearance" parent="TextAppearance.MaterialComponents.Headline6">
+    <style name="ToolbarTitleTextAppearance" parent="TextAppearance.Material3.HeadlineSmall">
         <item name="android:textSize" tools:ignore="SpUsage">20dp</item>
     </style>
 
-    <style name="ToolbarSubtitleTextAppearance" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="ToolbarSubtitleTextAppearance" parent="TextAppearance.Material3.TitleMedium">
         <item name="android:textSize" tools:ignore="SpUsage">16dp</item>
     </style>
 

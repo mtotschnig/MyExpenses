@@ -41,5 +41,8 @@
     <string name="write_fail_reason_cannot_write">"កំហុស​ក្នុង​ការ​សរសេរ​មាតិកា"</string>
     <string name="not_exist_file_desc">"គ្មាន​ឯកសារ។ "</string>
     <string name="menu_export">"នាំ​ចេញ"</string>
+    <string name="today">"ថ្ងៃនេះ"</string>
+    <string name="tomorrow">"ថ្ងៃស្អែក"</string>
+    <string name="yesterday">"ម្សិលមិញ"</string>
 </resources>
 

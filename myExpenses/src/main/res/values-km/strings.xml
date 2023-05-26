@@ -91,10 +91,8 @@
     <string name="grouping_month">ខែ</string>
     <string name="grouping_none">បំបែក​ក្រុម</string>
     <string name="grouping_this_week">សប្តាហ៍នេះ</string>
-    <string name="grouping_today">ថ្ងៃនេះ</string>
     <string name="grouping_week">សប្តាហ៍</string>
     <string name="grouping_year">ឆ្នាំ</string>
-    <string name="grouping_yesterday">ម្សិលម៉ិញ</string>
     <string name="help_button_rate">វាយ​តម្លៃ ឬ​មតិ</string>
     <string name="help_heading_credits">ក្រេឌីត</string>
     <string name="help_heading_license">អាជ្ញាបណ្ណ</string>

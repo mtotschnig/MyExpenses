@@ -42,5 +42,8 @@
     <string name="write_fail_reason_cannot_write">"コンテンツの書き込み中にエラーが発生しました"</string>
     <string name="not_exist_file_desc">"そのファイルは存在しません"</string>
     <string name="menu_export">"エクスポート"</string>
+    <string name="today">"今日"</string>
+    <string name="tomorrow">"明日"</string>
+    <string name="yesterday">"昨日"</string>
 </resources>
 

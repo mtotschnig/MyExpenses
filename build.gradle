@@ -11,6 +11,7 @@ plugins {
     id 'com.android.library' version "$agp_version" apply false
     id 'org.jetbrains.kotlin.android' version "$kotlin_version" apply false
     id 'com.android.dynamic-feature' version "$agp_version" apply false
+    id("com.google.devtools.ksp") version "1.8.21-1.0.11" apply false
     //drive
     //id 'com.google.gms.google-services' version '4.3.15' apply false
 }
@@ -59,3 +60,12 @@ ext {
     googleHttp = "1.43.1"
 }
 
+allprojects {
+    configurations.configureEach {
+        resolutionStrategy {
+            dependencySubstitution {
+                substitute module('com.google.android.material:material') using module('com.github.mtotschnig:material-components-android:release-1.9-patched-SNAPSHOT')
+            }
+        }
+    }
+}

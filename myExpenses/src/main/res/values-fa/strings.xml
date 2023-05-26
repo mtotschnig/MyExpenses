@@ -120,10 +120,8 @@
     <string name="grouping_month">ماه</string>
     <string name="grouping_none">گروه‌بندی نشده</string>
     <string name="grouping_this_week">این هفته</string>
-    <string name="grouping_today">امروز</string>
     <string name="grouping_week">هفته</string>
     <string name="grouping_year">سال</string>
-    <string name="grouping_yesterday">دیروز</string>
     <string name="help_button_rate">امتیاز یا نظر دادن</string>
     <string name="help_heading_credits">اعتبارها</string>
     <string name="help_heading_license">لایسنس</string>

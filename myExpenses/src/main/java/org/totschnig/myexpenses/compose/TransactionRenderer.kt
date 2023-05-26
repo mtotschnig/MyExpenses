@@ -12,13 +12,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Attachment
 import androidx.compose.material.icons.filled.CallSplit
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -204,6 +201,7 @@ abstract class ItemRenderer(
     @Composable
     protected fun Transaction2.StatusToggle() {
         onToggleCrStatus?.let {
+            val color = colorResource(id = crStatus.color)
             Box(modifier = Modifier
                 .size(32.dp)
                 .conditional(
@@ -214,7 +212,7 @@ abstract class ItemRenderer(
                 }
                 .padding(8.dp)
                 .conditional(crStatus != CrStatus.VOID && accountType != AccountType.CASH) {
-                    background(color = Color(crStatus.color))
+                    background(color = color)
                 }
             )
         }
@@ -225,7 +223,7 @@ abstract class ItemRenderer(
         if (withCategoryIcon) {
             Box(modifier = Modifier.size(30.sp), contentAlignment = Alignment.Center) {
                 when {
-                    isSplit -> androidx.compose.material.Icon(
+                    isSplit -> Icon(
                         imageVector = Icons.Filled.CallSplit,
                         contentDescription = stringResource(id = R.string.split_transaction),
                         modifier = Modifier.fillMaxSize()
@@ -274,7 +272,7 @@ abstract class ItemRenderer(
             placeholderVerticalAlign = PlaceholderVerticalAlign.TextCenter
         )
     ) {
-        androidx.compose.material.Icon(imageVector = icon, contentDescription = icon.name)
+        Icon(imageVector = icon, contentDescription = icon.name)
     }
 }
 
@@ -356,8 +354,10 @@ class NewTransactionRenderer(
                     transaction.tagList.forEach {
                         Text(
                             text = it,
-                            modifier = Modifier.tagBorder().padding(bottom = 2.dp),
-                            style = MaterialTheme.typography.caption
+                            modifier = Modifier
+                                .tagBorder()
+                                .padding(bottom = 2.dp),
+                            style = MaterialTheme.typography.bodySmall
                         )
                     }
                 }
@@ -367,11 +367,11 @@ class NewTransactionRenderer(
         Column(horizontalAlignment = Alignment.End) {
             ColoredAmountText(
                 money = transaction.equivalentAmount ?:  transaction.amount,
-                style = MaterialTheme.typography.body1,
+                style = MaterialTheme.typography.bodyLarge,
                 neutral = transaction.isTransferAggregate
             )
             dateTimeFormatter?.let {
-                Text(text = it.format(transaction.date), style = MaterialTheme.typography.caption)
+                Text(text = it.format(transaction.date), style = MaterialTheme.typography.bodySmall)
             }
         }
     }
@@ -389,8 +389,8 @@ enum class RenderType {
 fun Modifier.tagBorder() = composed {
     border(
         border = BorderStroke(
-            ButtonDefaults.OutlinedBorderSize,
-            MaterialTheme.colors.onSurface
+            1.dp,
+            MaterialTheme.colorScheme.onSurface
         ),
         shape = RoundedCornerShape(8.dp),
     )

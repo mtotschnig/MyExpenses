@@ -38,7 +38,7 @@
             android:visibility="gone" />
 
         <TableLayout
-            android:id="@+id/Table"
+            android:id="@+id/FormTable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:shrinkColumns="*"
@@ -88,39 +88,36 @@
                     android:gravity="center_vertical"
                     android:text="@string/pref_export_format_title" />
 
-                <RadioGroup
-                    android:id="@+id/format"
-                    style="@style/FormField.Dialog"
-                    android:orientation="horizontal">
+                <HorizontalScrollView style="@style/FormField.Dialog.Scrollable">
 
-                    <RadioButton
-                        android:id="@+id/qif"
-                        android:layout_width="0dp"
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/format"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:checked="true"
-                        android:text="QIF"
-                        tools:ignore="HardcodedText" />
+                        app:checkedButton="@+id/qif"
+                        app:selectionRequired="true"
+                        app:singleSelection="true">
 
-                    <RadioButton
-                        android:id="@+id/csv"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="CSV"
-                        tools:ignore="HardcodedText" />
+                        <Button
+                            android:id="@+id/qif"
+                            style="@style/Widget.Material3.Button.OutlinedButton.Dense"
+                            android:text="QIF"
+                            tools:ignore="HardcodedText" />
 
-                    <RadioButton
-                        android:id="@+id/json"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="JSON"
-                        tools:ignore="HardcodedText" />
-                </RadioGroup>
+                        <Button
+                            android:id="@+id/csv"
+                            style="@style/Widget.Material3.Button.OutlinedButton.Dense"
+                            android:text="CSV"
+                            tools:ignore="HardcodedText" />
+
+                        <Button
+                            android:id="@+id/json"
+                            style="@style/Widget.Material3.Button.OutlinedButton.Dense"
+                            android:text="JSON"
+                            tools:ignore="HardcodedText" />
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
+                </HorizontalScrollView>
+
             </TableRow>
 
             <TableRow
@@ -133,37 +130,35 @@
                     android:gravity="center_vertical"
                     android:text="@string/pref_csv_import_delimiter" />
 
-                <RadioGroup
-                    android:id="@+id/Delimiter"
-                    style="@style/FormField.Dialog"
-                    android:orientation="horizontal">
+                <HorizontalScrollView style="@style/FormField.Dialog.Scrollable">
 
-                    <RadioButton
-                        android:id="@+id/delimiter_comma"
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/Delimiter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:checked="true"
-                        android:text=","
-                        tools:ignore="HardcodedText" />
+                        app:checkedButton="@+id/delimiter_comma"
+                        app:selectionRequired="true"
+                        app:singleSelection="true">
 
-                    <RadioButton
-                        android:id="@+id/delimiter_semicolon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text=";"
-                        tools:ignore="HardcodedText" />
+                        <Button
+                            android:id="@+id/delimiter_comma"
+                            style="@style/Widget.Material3.Button.OutlinedButton.Dense"
+                            android:text=","
+                            tools:ignore="HardcodedText" />
 
-                    <RadioButton
-                        android:id="@+id/delimiter_tab"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="@string/csv_import_delimiter_tab"
-                        tools:ignore="HardcodedText" />
-                </RadioGroup>
+                        <Button
+                            android:id="@+id/delimiter_semicolon"
+                            style="@style/Widget.Material3.Button.OutlinedButton.Dense"
+                            android:text=";"
+                            tools:ignore="HardcodedText" />
+
+                        <Button
+                            android:id="@+id/delimiter_tab"
+                            style="@style/Widget.Material3.Button.OutlinedButton.Dense"
+                            android:text="@string/csv_import_delimiter_tab"
+                            tools:ignore="HardcodedText" />
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
+                </HorizontalScrollView>
             </TableRow>
 
             <TableRow android:gravity="center_vertical">
@@ -211,28 +206,26 @@
                     android:gravity="center_vertical"
                     android:text="@string/decimal_separator" />
 
-                <RadioGroup
+                <com.google.android.material.button.MaterialButtonToggleGroup
                     android:id="@+id/separator"
                     style="@style/FormField.Dialog"
-                    android:orientation="horizontal">
+                    android:gravity="center_horizontal"
+                    app:checkedButton="@+id/dot"
+                    app:selectionRequired="true"
+                    app:singleSelection="true">
 
-                    <RadioButton
+                    <Button
                         android:id="@+id/dot"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:checked="true"
+                        style="@style/Widget.Material3.Button.OutlinedButton.Dense"
                         android:text="."
                         tools:ignore="HardcodedText" />
 
-                    <RadioButton
+                    <Button
                         android:id="@+id/comma"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        style="@style/Widget.Material3.Button.OutlinedButton.Dense"
                         android:text=","
                         tools:ignore="HardcodedText" />
-                </RadioGroup>
+                </com.google.android.material.button.MaterialButtonToggleGroup>
             </TableRow>
 
             <TableRow android:gravity="center_vertical">
@@ -242,10 +235,28 @@
                     android:gravity="center_vertical"
                     android:text="@string/pref_qif_export_file_encoding_title" />
 
-                <Spinner
-                    android:id="@+id/Encoding"
-                    style="@style/FormField.Dialog"
-                    android:entries="@array/pref_qif_export_file_encoding" />
+                <HorizontalScrollView style="@style/FormField.Dialog.Scrollable">
+
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/Encoding"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:singleSelection="true">
+
+                        <Button
+                            android:id="@+id/utf8"
+                            style="@style/Widget.Material3.Button.OutlinedButton.Dense"
+                            android:text="UTF-8"
+                            tools:ignore="HardcodedText" />
+
+                        <Button
+                            android:id="@+id/iso88591"
+                            style="@style/Widget.Material3.Button.OutlinedButton.Dense"
+                            android:text="ISO-8859-1"
+                            tools:ignore="HardcodedText" />
+
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
+                </HorizontalScrollView>
             </TableRow>
         </TableLayout>
 
@@ -256,26 +267,30 @@
             android:checked="false"
             android:text="@string/dialog_export_delete" />
 
-        <RadioGroup
+        <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/handle_deleted"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
+            android:orientation="vertical"
             android:visibility="gone"
+            app:singleSelection="true"
             tools:visibility="visible">
 
-            <RadioButton
+            <Button
                 android:id="@+id/create_helper"
-                android:layout_width="wrap_content"
+                style="@style/Widget.Material3.Button.OutlinedButton.ToggleGroupVertical"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/export_handle_deleted_create_helper" />
 
-            <RadioButton
+            <Button
                 android:id="@+id/update_balance"
-                android:layout_width="wrap_content"
+                style="@style/Widget.Material3.Button.OutlinedButton.ToggleGroupVertical"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/export_handle_deleted_update_balance" />
-        </RadioGroup>
+        </com.google.android.material.button.MaterialButtonToggleGroup>
 
         <CheckBox
             android:id="@+id/export_not_yet_exported"

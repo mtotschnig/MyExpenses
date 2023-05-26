@@ -49,16 +49,6 @@ class MyExpensesTest : BaseMyExpensesTest() {
         Intents.release()
     }
 
-    private fun assertDataSize(size: Int) {
-        with(composeTestRule.onNodeWithTag(TEST_TAG_PAGER)) {
-            if (size > 0) {
-                assert(hasColumnCount(size))
-            } else {
-                assertDoesNotExist()
-            }
-        }
-    }
-
     @Test
     fun viewPagerIsSetup() {
         composeTestRule.onNodeWithText(getString(R.string.no_expenses)).assertIsDisplayed()

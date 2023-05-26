@@ -62,4 +62,10 @@
     <color name="toolbarBackground">#FFFFFF</color>
     <color name="activatedBackground">@color/material_grey_300</color>
     <color name="activatedBackgroundPlanner">@color/material_grey_400</color>
+
+    <color name="UNRECONCILED">#888888</color>
+    <color name="CLEARED">#0000FF</color>
+    <color name="VOID">#FF0000</color>
+    <color name="RECONCILED">#00FF00</color>
+
 </resources>

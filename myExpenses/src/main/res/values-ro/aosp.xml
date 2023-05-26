@@ -42,5 +42,8 @@
     <string name="write_fail_reason_cannot_write">"Eroare la scrierea conținutului"</string>
     <string name="not_exist_file_desc">"Fișierul nu există"</string>
     <string name="menu_export">"Exportați"</string>
+    <string name="today">"Astăzi"</string>
+    <string name="tomorrow">"Mâine"</string>
+    <string name="yesterday">"Ieri"</string>
 </resources>
 

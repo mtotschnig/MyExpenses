@@ -12,10 +12,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.widget.SwitchCompat
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -322,6 +322,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                     e1: MotionEvent, e2: MotionEvent,
                     velocityX: Float, velocityY: Float
                 ): Boolean {
+                    //if (e1 == null) return false
                     if (abs(e1.y - e2.y) > maxOffPath) return false
                     if (e1.x - e2.x > minDistance
                         && abs(velocityX) > thresholdVelocity
@@ -405,7 +406,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         accountInfo?.let {
             Divider(
                 modifier = Modifier.padding(top = 4.dp),
-                color = MaterialTheme.colors.onSurface,
+                color = MaterialTheme.colorScheme.onSurface,
                 thickness = 1.dp
             )
             Row(modifier = Modifier.padding(horizontal = dimensionResource(id = eltos.simpledialogfragment.R.dimen.activity_horizontal_margin))) {

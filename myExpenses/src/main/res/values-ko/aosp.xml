@@ -42,5 +42,8 @@
     <string name="write_fail_reason_cannot_write">"콘텐츠 작성 중 오류"</string>
     <string name="not_exist_file_desc">"파일이 없습니다"</string>
     <string name="menu_export">"내보내기"</string>
+    <string name="today">"오늘"</string>
+    <string name="tomorrow">"내일"</string>
+    <string name="yesterday">"어제"</string>
 </resources>
 

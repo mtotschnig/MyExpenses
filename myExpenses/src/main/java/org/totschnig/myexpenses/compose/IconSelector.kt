@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -54,7 +54,6 @@ fun IconSelector(
                 modifier = Modifier.width(100.dp),
                 selected = selectedTabIndex == 0,
                 onClick = { selectedTabIndex = 0 }) {
-                val onSurfaceColor = contentColorFor(MaterialTheme.colors.onSurface)
                 TextField(
                     modifier = Modifier
                         .onFocusChanged {
@@ -65,10 +64,6 @@ fun IconSelector(
                     value = searchTerm,
                     onValueChange = { searchTerm = it },
                     placeholder = { Text("Search") },
-                    colors = TextFieldDefaults.textFieldColors(
-                        placeholderColor = onSurfaceColor,
-                        cursorColor = onSurfaceColor
-                    ),
                     maxLines = 1
                 )
             }

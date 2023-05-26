@@ -94,10 +94,8 @@
     <string name="grouping_month">Mes</string>
     <string name="grouping_none">No agrupat</string>
     <string name="grouping_this_week">Aquesta setmana</string>
-    <string name="grouping_today">Avui</string>
     <string name="grouping_week">Setmana</string>
     <string name="grouping_year">Any</string>
-    <string name="grouping_yesterday">Ahir</string>
     <string name="help_button_rate">Doneu la vostra opinió</string>
     <string name="help_heading_credits">Crèdits</string>
     <string name="help_heading_license">Llicència</string>

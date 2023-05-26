@@ -10,9 +10,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -109,7 +109,7 @@ private fun Header(header: String, onHeaderClick: () -> Unit) {
                 vertical = 4.dp
             ),
         text = header,
-        style = MaterialTheme.typography.subtitle1,
+        style = MaterialTheme.typography.titleMedium,
         color = colorResource(id = R.color.material_grey)
     )
 }
@@ -297,7 +297,7 @@ fun AccountCard(
                         format.convAmount(account.sumTransfer, account.currencyUnit)
                     )
                 }
-                val borderColor = MaterialTheme.colors.onSurface
+                val borderColor = MaterialTheme.colorScheme.onSurface
                 SumRow(
                     R.string.current_balance,
                     format.convAmount(account.currentBalance, account.currencyUnit),
@@ -346,7 +346,10 @@ fun SumRow(label: Int, formattedAmount: String, modifier: Modifier = Modifier) {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(stringResource(label), Modifier.weight(1f).basicMarquee(iterations = 1), maxLines = 1)
+        Text(stringResource(label),
+            Modifier
+                .weight(1f)
+                .basicMarquee(iterations = 1), maxLines = 1)
         Text(formattedAmount, modifier)
     }
 }

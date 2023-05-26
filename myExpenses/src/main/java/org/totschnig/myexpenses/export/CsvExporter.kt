@@ -11,7 +11,6 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.util.StringBuilderWrapper
 import java.time.format.DateTimeFormatter
 
 /**
@@ -92,7 +91,7 @@ class CsvExporter(
             add(context.getString(R.string.picture))
             add(context.getString(R.string.tags))
         }
-        StringBuilderWrapper().apply {
+        StringBuilder().apply {
             if (withAccountColumn) {
                 appendQ(context.getString(R.string.account)).append(delimiter)
             }
@@ -108,27 +107,27 @@ class CsvExporter(
         }.toString()
     } else null
 
-    private fun TransactionDTO.handleLabel(stringBuilderWrapper: StringBuilderWrapper) {
-        with(stringBuilderWrapper) {
+    private fun TransactionDTO.handleLabel(stringBuilder: StringBuilder) {
+        with(stringBuilder) {
             if (splitCategoryLevels) {
                 val path = catId?.let { categoryPaths[catId] }
                 repeat(numberOfCategoryColumns) {
                     if (transferAccount != null) {
                         appendQ(if (it == 0) "[$transferAccount]" else "")
                     } else {
-                        appendQ(path?.getOrNull(it) ?: "")
+                        appendQ(path?.getOrNull(it))
                     }
                     append(delimiter)
                 }
             } else {
-                appendQ(fullLabel(categoryPaths) ?: "")
+                appendQ(fullLabel(categoryPaths))
                 append(delimiter)
             }
         }
     }
 
-    private fun TransactionDTO.handleAmount(stringBuilderWrapper: StringBuilderWrapper) {
-        with(stringBuilderWrapper) {
+    private fun TransactionDTO.handleAmount(stringBuilder: StringBuilder) {
+        with(stringBuilder) {
             if (splitAmount) {
                 val amountAbsCSV = nfFormat.format(amount.abs())
                 appendQ((if (amount.signum() == 1) amountAbsCSV else "0"))
@@ -141,8 +140,8 @@ class CsvExporter(
         }
     }
 
-    private fun TransactionDTO.handleDateTime(stringBuilderWrapper: StringBuilderWrapper) {
-        with(stringBuilderWrapper) {
+    private fun TransactionDTO.handleDateTime(stringBuilder: StringBuilder) {
+        with(stringBuilder) {
             appendQ(dateFormatter.format(date))
             append(delimiter)
             if (timeFormatter != null) {
@@ -152,16 +151,21 @@ class CsvExporter(
         }
     }
 
-    private fun TransactionDTO.handleTags(stringBuilderWrapper: StringBuilderWrapper) {
-        with(stringBuilderWrapper) {
-            appendQ(tagList?.joinToString(", ") { if (it.contains(',')) "'$it'" else it } ?: "")
-        }
+    private fun TransactionDTO.handleTags(stringBuilder: StringBuilder) {
+        stringBuilder.appendQ(tagList?.joinToString(", ") { if (it.contains(',')) "'$it'" else it })
     }
 
     override val useCategoryOfFirstPartForParent = false
 
+    private fun StringBuilder.appendQ(s: String?) : StringBuilder {
+        append('"')
+        s?.let { append(s.replace("\"", "\"\"")) }
+        append('"')
+        return this
+    }
+
     override fun TransactionDTO.marshall(categoryPaths: Map<Long, List<String>>) =
-        StringBuilderWrapper().apply {
+        StringBuilder().apply {
             if (withAccountColumn) {
                 appendQ(account.label).append(delimiter)
             }
@@ -169,19 +173,19 @@ class CsvExporter(
             appendQ(splitIndicator)
             append(delimiter)
             handleDateTime(this)
-            appendQ(payee ?: "")
+            appendQ(payee)
             append(delimiter)
             handleAmount(this)
             handleLabel(this)
-            appendQ(comment ?: "")
+            appendQ(comment)
             append(delimiter)
-            appendQ(methodLabel ?: "")
+            appendQ(methodLabel)
             append(delimiter)
-            appendQ(status?.symbol ?: "")
+            appendQ(status?.symbol?.toString())
             append(delimiter)
-            appendQ(referenceNumber ?: "")
+            appendQ(referenceNumber)
             append(delimiter)
-            appendQ(pictureFileName ?: "")
+            appendQ(pictureFileName)
             append(delimiter)
             handleTags(this)
             splits?.forEach {
@@ -192,11 +196,11 @@ class CsvExporter(
                 appendQ(SplitTransaction.CSV_PART_INDICATOR)
                 append(delimiter)
                 it.handleDateTime(this@apply)
-                appendQ(payee ?: "")
+                appendQ(payee)
                 append(delimiter)
                 it.handleAmount(this@apply)
                 it.handleLabel(this@apply)
-                appendQ(it.comment ?: "")
+                appendQ(it.comment)
                 append(delimiter)
                 appendQ("")
                 append(delimiter)
@@ -204,7 +208,7 @@ class CsvExporter(
                 append(delimiter)
                 appendQ("")
                 append(delimiter)
-                appendQ(it.pictureFileName ?: "")
+                appendQ(it.pictureFileName)
                 append(delimiter)
                 it.handleTags(this@apply)
             }

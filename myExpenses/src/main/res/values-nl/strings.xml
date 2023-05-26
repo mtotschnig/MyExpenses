@@ -83,10 +83,8 @@
     <string name="dialog_command_disabled_reset_account">Geen transacties om te exporteren.</string>
     <string name="dialog_command_disabled_distribution">Er zijn geen transacties toegewezen aan categorieën in dit account.</string>
     <string name="grouping_none">Niet gegroepeerd</string>
-    <string name="grouping_today">Vandaag</string>
     <string name="grouping_week">Week</string>
     <string name="grouping_year">Jaar</string>
-    <string name="grouping_yesterday">Gisteren</string>
     <string name="help_button_rate">Beoordelen</string>
     <string name="help_heading_credits">Tegoeden</string>
     <string name="grouping_this_week">Deze week</string>
