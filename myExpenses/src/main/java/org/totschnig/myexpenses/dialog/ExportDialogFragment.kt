@@ -17,16 +17,10 @@ package org.totschnig.myexpenses.dialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.text.Editable
-import android.text.InputFilter
-import android.text.Spanned
-import android.text.TextUtils
-import android.text.TextWatcher
+import android.text.*
 import android.view.View
-import android.widget.Button
 import android.widget.CompoundButton
 import android.widget.EditText
-import android.widget.RadioButton
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
@@ -67,8 +61,7 @@ import java.util.Date
 import java.util.Locale
 
 class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
-    DialogInterface.OnClickListener,
-    CompoundButton.OnCheckedChangeListener {
+    DialogInterface.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -233,7 +226,15 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             }
         }
         if (canReset) {
-            binding.exportDelete.setOnCheckedChangeListener(this)
+            binding.exportDelete.setOnCheckedChangeListener { _, isChecked ->
+                configure(isChecked)
+                if (isChecked) {
+                    binding.root.postScrollToBottom()
+                }
+                (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE).setText(
+                    if (isChecked) R.string.menu_reset else R.string.menu_export
+                )
+            }
         } else {
             binding.exportDelete.visibility = View.GONE
         }
@@ -260,7 +261,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
 
         builder.setTitle(if (allP) R.string.menu_reset_all else R.string.menu_reset)
             .setNegativeButton(android.R.string.cancel, null)
-            .setPositiveButton(android.R.string.ok, this)
+            .setPositiveButton(R.string.menu_export, this)
         return builder.create()
     }
 
@@ -369,13 +370,6 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             putString(KEY_FILE_NAME, binding.fileName.text.toString())
             putChar(KEY_DELIMITER, delimiter)
         })
-    }
-
-    override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
-        configure(isChecked)
-        if (isChecked) {
-            binding.root.postScrollToBottom()
-        }
     }
 
     /*
