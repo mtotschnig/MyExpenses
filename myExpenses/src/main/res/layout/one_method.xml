@@ -105,5 +105,5 @@
         </ScrollView>
     </LinearLayout>
 
-    <include layout="@layout/floating_action_button_save" />
+    <include layout="@layout/floating_action_button" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

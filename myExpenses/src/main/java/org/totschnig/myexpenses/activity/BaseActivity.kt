@@ -18,9 +18,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.annotation.CallSuper
-import androidx.annotation.IdRes
-import androidx.annotation.RequiresApi
+import androidx.annotation.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -117,13 +115,17 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     private val _floatingActionButton: FloatingActionButton?
         get() = findViewById(R.id.CREATE_COMMAND) as? FloatingActionButton
 
-    @JvmOverloads
-    protected fun configureFloatingActionButton(fabDescription: Int, icon: Int = 0) {
-        configureFloatingActionButton(getString(fabDescription))
-        if (icon != 0) {
-            floatingActionButton.setImageResource(icon)
+    fun configureFloatingActionButton() {
+        _floatingActionButton?.apply {
+            fabDescription?.let { contentDescription = getString(it) }
+            fabIcon?.let { setImageResource(it) }
         }
     }
+
+    @StringRes
+    open val fabDescription: Int? = null
+    @DrawableRes
+    open val fabIcon: Int? = null
 
     @JvmOverloads
     protected open fun setupToolbar(withHome: Boolean = true, homeAsUpIndicator: Int? = null) {
@@ -184,10 +186,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             EXTRA_START_FROM_WIDGET_DATA_ENTRY,
             getIntent().getBooleanExtra(EXTRA_START_FROM_WIDGET_DATA_ENTRY, false)
         )
-    }
-
-    protected fun configureFloatingActionButton(fabDescription: String?) {
-        floatingActionButton.contentDescription = fabDescription
     }
 
     private val downloadReceiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -407,6 +405,20 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 }
             }
         }
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        configureFloatingActionButton()
+        _floatingActionButton?.let {
+            it.setOnClickListener {
+                onFabClicked()
+            }
+        }
+    }
+
+    open fun onFabClicked() {
+
     }
 
     fun setLanguage(language: String) {

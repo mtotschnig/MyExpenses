@@ -58,35 +58,35 @@ class ManageTemplates : ProtectedFragmentActivity(), ConfirmationDialogListener,
                 CrashHandler.report(e)
             }
         }
-        configureFloatingActionButton(R.string.menu_create_template)
         mListFragment =
             supportFragmentManager.findFragmentById(R.id.templates_list) as TemplatesList
     }
 
-    override fun dispatchCommand(command: Int, tag: Any?): Boolean {
+    override val fabDescription = R.string.menu_create_template
+
+    override fun onFabClicked() {
+        startActivity(Intent(this, ExpenseEdit::class.java).apply {
+            putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
+            putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true)
+        })
+    }
+
+    override fun dispatchCommand(command: Int, tag: Any?) =
         if (super.dispatchCommand(command, tag)) {
-            return true
-        }
-        when (command) {
-            R.id.CREATE_COMMAND -> {
-                startActivity(Intent(this, ExpenseEdit::class.java).apply {
-                    putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
-                    putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true)
-                })
-                return true
-            }
+            true
+        } else when (command) {
             R.id.DELETE_COMMAND_DO -> {
                 finishActionMode()
                 mListFragment.dispatchDeleteDo((tag as LongArray?)!!)
-                return true
+                true
             }
+
             R.id.CANCEL_CALLBACK_COMMAND -> {
                 finishActionMode()
-                return true
+                true
             }
-            else -> return false
+            else -> false
         }
-    }
 
     override fun doHome() {
         if (isTaskRoot) {

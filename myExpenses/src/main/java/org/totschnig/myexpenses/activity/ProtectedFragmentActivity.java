@@ -188,10 +188,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     return super.onOptionsItemSelected(item);
   }
 
-  public void dispatchCommand(View v) {
-    dispatchCommand(v.getId(), v.getTag());
-  }
-
   @Override
   public void onPreExecute() {
   }

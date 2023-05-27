@@ -210,17 +210,6 @@ public class MyExpenses extends BaseMyExpenses implements
     if (command == R.id.BUDGET_COMMAND) {
       contribFeatureRequested(ContribFeature.BUDGET, null);
       return true;
-    } else if (command == R.id.CREATE_COMMAND) {
-      if (getAccountCount() == 0) {
-        showSnackBar(R.string.warning_no_account);
-      } else {
-        if (isScanMode()) {
-          contribFeatureRequested(ContribFeature.OCR, true);
-        } else {
-          createRowDo(TYPE_TRANSACTION, false);
-        }
-      }
-      return true;
     } else if (command == R.id.RESET_COMMAND) {
       doReset();
       return true;

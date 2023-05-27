@@ -11,15 +11,11 @@ class ManageBudgets : ProtectedFragmentActivity() {
         setContentView(R.layout.manage_budgets)
         setupToolbar(true)
         setTitle(R.string.menu_budget)
-        configureFloatingActionButton(R.string.menu_create_budget)
     }
 
-    override fun dispatchCommand(command: Int, tag: Any?): Boolean {
-        if (command == R.id.CREATE_COMMAND) {
-            val i = Intent(this, BudgetEdit::class.java)
-            startActivity(i)
-            return true
-        }
-        return super.dispatchCommand(command, tag)
+    override val fabDescription = R.string.menu_create_budget
+
+    override fun onFabClicked() {
+        startActivity(Intent(this, BudgetEdit::class.java))
     }
 }

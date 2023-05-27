@@ -740,6 +740,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         cached?.tags?.let {
             viewModel.updateTags(it, true)
         }
+        rootBinding.CREATEPARTCOMMAND.setOnClickListener {
+            createRow()
+        }
     }
 
     private val saveAndNewPrefKey: PrefKey
@@ -960,10 +963,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             return true
         }
         when (command) {
-            R.id.CREATE_PART_COMMAND -> {
-                createRow()
-                return true
-            }
             R.id.CREATE_TEMPLATE_COMMAND -> {
                 if (::delegate.isInitialized) {
                     createTemplate = !createTemplate

@@ -11,7 +11,6 @@ class ManageTags: ProtectedFragmentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tags)
         setupToolbar(true)
-        configureFloatingActionButton(R.string.content_description_tags_confirm, R.drawable.ic_menu_done)
         val action = intent.asAction
         setTitle(when(action) {
             Action.MANAGE -> R.string.tags
@@ -28,11 +27,11 @@ class ManageTags: ProtectedFragmentActivity() {
         }
     }
 
-    override fun dispatchCommand(command: Int, tag: Any?): Boolean {
-        if (command == R.id.CREATE_COMMAND) {
-            (supportFragmentManager.findFragmentById(R.id.tag_list) as TagList).confirm()
-        }
-        return super.dispatchCommand(command, tag)
+    override val fabDescription = R.string.content_description_tags_confirm
+    override val fabIcon = R.drawable.ic_menu_done
+
+    override fun onFabClicked() {
+        (supportFragmentManager.findFragmentById(R.id.tag_list) as TagList).confirm()
     }
 
     override fun doHome() {

@@ -122,6 +122,13 @@ open class ManageCategories : ProtectedFragmentActivity(),
             true
         } else super.onOptionsItemSelected(item)
 
+    override val fabDescription: Int?
+        get() {
+            val action = intent.asAction
+            return if (action == Action.SELECT_MAPPING || action == Action.MANAGE)
+                R.string.menu_create_main_cat else null
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val action = intent.asAction
         super.onCreate(savedInstanceState)
@@ -139,10 +146,8 @@ open class ManageCategories : ProtectedFragmentActivity(),
         }
         setHelpVariant(helpVariant, true)
         if (title != 0) supportActionBar!!.setTitle(title)
-        if (action == Action.SELECT_MAPPING || action == Action.MANAGE) {
-            configureFloatingActionButton(R.string.menu_create_main_cat)
-        } else {
-            findViewById<View>(R.id.CREATE_COMMAND).visibility = View.GONE
+        if (action == Action.SELECT_FILTER) {
+            floatingActionButton.visibility = View.GONE
         }
         sortDelegate = SortDelegate(
             defaultSortOrder = viewModel.defaultSort,
@@ -568,14 +573,14 @@ open class ManageCategories : ProtectedFragmentActivity(),
         }
     }
 
+    override fun onFabClicked() {
+        createCat(null)
+    }
+
     override fun dispatchCommand(command: Int, tag: Any?) =
         if (super.dispatchCommand(command, tag)) {
             true
         } else when (command) {
-            R.id.CREATE_COMMAND -> {
-                createCat(null)
-                true
-            }
             R.id.CANCEL_CALLBACK_COMMAND -> {
                 finishActionMode()
                 true

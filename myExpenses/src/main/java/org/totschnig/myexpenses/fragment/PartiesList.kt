@@ -369,7 +369,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
     private fun updateUiMergeMode() {
         with(manageParties) {
             mergeMenuItem?.isChecked = mergeMode
-            configureFabMergeMode(mergeMode)
+            configureFloatingActionButton()
             setFabEnabled(!mergeMode)
         }
     }

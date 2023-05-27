@@ -18,13 +18,7 @@ public class ManageCurrencies extends ProtectedFragmentActivity  {
   }
 
   @Override
-  public boolean dispatchCommand(int command, Object tag) {
-    if (super.dispatchCommand(command, tag)) {
-      return true;
-    }
-    if (command == R.id.CREATE_COMMAND) {
-      EditCurrencyDialog.newInstance(null).show(getSupportFragmentManager(), "NEW_CURRENCY");
-    }
-    return false;
+  public void onFabClicked() {
+    EditCurrencyDialog.newInstance(null).show(getSupportFragmentManager(), "NEW_CURRENCY");
   }
 }

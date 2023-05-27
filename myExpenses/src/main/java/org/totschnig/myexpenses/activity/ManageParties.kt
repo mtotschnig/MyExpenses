@@ -23,31 +23,40 @@ import org.totschnig.myexpenses.viewmodel.DebtViewModel
 class ManageParties : DebtActivity() {
     override val debtViewModel: DebtViewModel by viewModels()
     private lateinit var listFragment: PartiesList
-    fun configureFabMergeMode(mergeMode: Boolean) {
-        configureFloatingActionButton(
-            if (mergeMode) R.string.menu_merge else R.string.menu_create_party,
-            if (mergeMode) R.drawable.ic_menu_split_transaction else R.drawable.ic_menu_add_fab
-        )
-    }
 
     fun setFabEnabled(enabled: Boolean) {
         floatingActionButton.isEnabled = enabled
     }
+
+    val mergeMode: Boolean
+        get() = if (::listFragment.isInitialized) listFragment.mergeMode else false
+
+    override val fabDescription: Int
+        get() = when {
+            intent.asAction == Action.SELECT_FILTER -> R.string.select
+            mergeMode -> R.string.menu_merge
+            else -> R.string.menu_create_party
+        }
+
+    override val fabIcon: Int
+        get() = when {
+            intent.asAction == Action.SELECT_FILTER -> R.drawable.ic_menu_done
+            mergeMode -> R.drawable.ic_menu_split_transaction
+            else -> R.drawable.ic_menu_add_fab
+        }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.manage_parties)
         setupToolbar()
         var title = 0
-        val action = intent.asAction
-        when (action) {
+        when (intent.asAction) {
             Action.MANAGE -> {
                 setHelpVariant(HelpVariant.manage, true)
                 title = R.string.pref_manage_parties_title
             }
             Action.SELECT_FILTER -> {
                 setHelpVariant(HelpVariant.select_filter, true)
-                configureFloatingActionButton(R.string.select, R.drawable.ic_menu_done)
                 setFabEnabled(false)
                 title = R.string.search_payee
             }
@@ -57,20 +66,10 @@ class ManageParties : DebtActivity() {
             }
         }
         if (title != 0) supportActionBar!!.setTitle(title)
-        if (action == Action.SELECT_MAPPING || action == Action.MANAGE) {
-            configureFabMergeMode(false)
-        }
         listFragment = supportFragmentManager.findFragmentById(R.id.parties_list) as PartiesList
     }
 
-    override fun dispatchCommand(command: Int, tag: Any?): Boolean {
-        if (super.dispatchCommand(command, tag)) {
-            return true
-        }
-        if (command == R.id.CREATE_COMMAND) {
-            listFragment.dispatchFabClick()
-            return true
-        }
-        return false
+    override fun onFabClicked() {
+        listFragment.dispatchFabClick()
     }
 }
