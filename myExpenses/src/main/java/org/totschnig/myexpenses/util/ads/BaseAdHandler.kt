@@ -29,12 +29,10 @@ abstract class BaseAdHandler protected constructor(
         }
     }
 
-    open val shouldHideBanner = shouldHideAd
-
     override fun startBanner() {
         try {
             init()
-            if (shouldHideBanner) {
+            if (shouldHideAd) {
                 hide()
             } else {
                 startBannerInternal()
@@ -50,7 +48,7 @@ abstract class BaseAdHandler protected constructor(
 
     override fun maybeRequestNewInterstitial() {
         if (
-            prefHandler.getBoolean(PrefKey.DEBUG_ADS, false) || (
+            (prefHandler.getBoolean(PrefKey.DEBUG_ADS, false) || (
                     System.currentTimeMillis() - prefHandler.getLong(
                         PrefKey.INTERSTITIAL_LAST_SHOWN,
                         0
@@ -59,7 +57,7 @@ abstract class BaseAdHandler protected constructor(
                                 PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL,
                                 0
                             ) > INTERSTITIAL_MIN_INTERVAL
-                    )
+                    )) && !shouldHideAd
         ) {
             //last ad shown more than one hour and at least five expense entries ago,
             requestNewInterstitialDo()
@@ -83,9 +81,9 @@ abstract class BaseAdHandler protected constructor(
 
     abstract fun requestNewInterstitialDo()
 
-    private val shouldHideAd
-        get() = factory.isAdDisabled || factory.isRequestLocationInEeaOrUnknown &&
-                !prefHandler.isSet(PrefKey.PERSONALIZED_AD_CONSENT)
+    open val shouldHideAd
+        get() = factory.isAdDisabled || (factory.isRequestLocationInEeaOrUnknown &&
+                !prefHandler.isSet(PrefKey.PERSONALIZED_AD_CONSENT))
 
     protected open fun onInterstitialFailed() {
         if (parent != null) {
