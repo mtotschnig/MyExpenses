@@ -338,4 +338,9 @@
     <string name="planner_notification_channel_name">योजनाकार</string>
     <string name="planner_create_calendar_success">स्थानीय योजनाकार कैलेंडर सफलतापूर्वक बनाया गया</string>
     <string name="pref_backup_summary">डेटाबेस और प्राथमिकता का बैकअप बनाएं।</string>
+    <string name="pref_perform_protection_title">सुरक्षा</string>
+    <string name="pref_import_from_grisbi_summary">ग्रिस्बी एक्सएमएल फ़ाइल से श्रेणियां और पार्टियां आयात करें</string>
+    <string name="pref_news_title">समाचार</string>
+    <string name="pref_custom_currency_title">करेंसी को अनुकूलित करें</string>
+    <string name="pref_import_title">%s आयात</string>
 </resources>
