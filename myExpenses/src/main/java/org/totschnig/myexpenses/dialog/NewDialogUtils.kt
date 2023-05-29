@@ -6,12 +6,12 @@ import android.widget.ArrayAdapter
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Spinner
+import eltos.simpledialogfragment.color.SimpleColorDialog
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
-import org.totschnig.myexpenses.util.enumValueOrDefault
 
 fun Spinner.configureDateFormat(
     context: Context,
@@ -41,3 +41,9 @@ fun configureCalendarRestoreStrategy(view: View, prefHandler: PrefHandler): Radi
     }
     return restorePlanStrategy
 }
+
+fun buildColorDialog(color: Int): SimpleColorDialog = SimpleColorDialog.build()
+    .allowCustom(true)
+    .cancelable(false)
+    .neut()
+    .colorPreset(color)

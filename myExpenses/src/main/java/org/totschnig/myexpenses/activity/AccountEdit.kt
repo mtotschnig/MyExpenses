@@ -33,6 +33,8 @@ import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.databinding.OneAccountBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
+import org.totschnig.myexpenses.ui.bindListener
+import org.totschnig.myexpenses.dialog.buildColorDialog
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
@@ -160,6 +162,16 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
                 setDirty()
             }
         }
+        binding.colorInput.bindListener {
+            buildColorDialog(color).show(this, EDIT_COLOR_DIALOG)
+        }
+        binding.SyncUnlink.setOnClickListener {
+            DialogUtils.showSyncUnlinkConfirmationDialog(this, syncAccountName, uuid)
+        }
+        binding.SyncHelp.setOnClickListener {
+            showHelp(getString(R.string.form_synchronization_help_text_add))
+        }
+        binding.TagRow.bindListener()
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -420,10 +432,6 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         binding.Criterion.addTextChangedListener(this)
     }
 
-    fun syncUnlink(@Suppress("UNUSED_PARAMETER") view: View?) {
-        DialogUtils.showSyncUnlinkConfirmationDialog(this, syncAccountName, uuid)
-    }
-
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
         if (syncSpinner.selectedItemPosition > 0) {
             val syncAccountName = syncSpinner.selectedItem as String
@@ -452,10 +460,6 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         }
     }
 
-    fun syncHelp(@Suppress("UNUSED_PARAMETER") view: View?) {
-        showHelp(getString(R.string.form_synchronization_help_text_add))
-    }
-
     private fun showHelp(message: String) {
         MessageDialogFragment.newInstance(
             null,
@@ -469,15 +473,6 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             null
         )
             .show(supportFragmentManager, "SYNC_HELP")
-    }
-
-    fun editAccountColor(@Suppress("UNUSED_PARAMETER") view: View?) {
-        SimpleColorDialog.build()
-            .allowCustom(true)
-            .cancelable(false)
-            .neut()
-            .colorPreset(color)
-            .show(this, EDIT_COLOR_DIALOG)
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {

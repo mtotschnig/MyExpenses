@@ -109,7 +109,11 @@ class SplitDelegate(
             context, ". ",
             R.string.menu_create_split_part_category, R.string.menu_create_split_part_transfer
         )
-
+        viewBinding.unsplitLine.setOnClickListener {
+            unsplitAmountFormatted?.let {
+                host.copyToClipboard(it)
+            }
+        }
     }
 
     override fun buildMainTransaction(account: Account): ISplit =

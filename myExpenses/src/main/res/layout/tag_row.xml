@@ -19,13 +19,13 @@
             android:layout_weight="1" />
 
         <ImageView
+            android:id="@+id/TagSelection"
             style="?actionButtonStyle"
             app:srcCompat="@drawable/ic_menu_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:contentDescription="@string/tags_create_or_select"
-            android:focusable="true"
-            android:onClick="startTagSelection" />
+            android:focusable="true" />
     </LinearLayout>
 </TableRow>

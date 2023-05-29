@@ -18,6 +18,8 @@ import org.totschnig.myexpenses.activity.RESTORE_REQUEST
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.databinding.OnboardingWizzardDataBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
+import org.totschnig.myexpenses.ui.bindListener
+import org.totschnig.myexpenses.dialog.buildColorDialog
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
@@ -158,6 +160,11 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         if (viewModel.moreOptionsShown) {
             showMoreOptions()
         }
+
+        binding.colorInput.bindListener {
+            buildColorDialog(viewModel.accountColor)
+                .show(this, ProtectedFragmentActivity.EDIT_COLOR_DIALOG)
+        }
     }
 
     override val title: CharSequence
@@ -206,15 +213,6 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
             type = binding.AccountType.selectedItem as AccountType,
             color = viewModel.accountColor
         )
-    }
-
-    fun editAccountColor() {
-        SimpleColorDialog.build()
-            .allowCustom(true)
-            .cancelable(false)
-            .neut()
-            .colorPreset(viewModel.accountColor)
-            .show(this, ProtectedFragmentActivity.EDIT_COLOR_DIALOG)
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {

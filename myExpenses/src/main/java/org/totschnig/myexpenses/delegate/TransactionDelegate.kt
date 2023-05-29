@@ -610,6 +610,9 @@ abstract class TransactionDelegate<T : ITransaction>(
             methodRowBinding.MethodRow.visibility = View.GONE
         } else {
             methodRowBinding.MethodRow.visibility = View.VISIBLE
+            methodRowBinding.ClearMethod.root.setOnClickListener {
+                setMethodSelection(null)
+            }
             methodsAdapter.clear()
             methodsAdapter.addAll(paymentMethods)
             setMethodSelection()
@@ -1073,6 +1076,9 @@ abstract class TransactionDelegate<T : ITransaction>(
                 }
             }
             setVisibility(viewBinding.EditPlan, true)
+            viewBinding.EditPlan.setOnClickListener {
+                host.launchPlanView(false, plan.id)
+            }
             planId = plan.id
             host.observePlan(plan.id)
         }

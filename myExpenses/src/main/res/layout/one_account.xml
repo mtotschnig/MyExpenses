@@ -157,7 +157,6 @@
                             android:layout_gravity="center_vertical"
                             android:contentDescription="@string/menu_sync_unlink"
                             android:focusable="true"
-                            android:onClick="syncUnlink"
                             android:visibility="gone"
                             app:srcCompat="@drawable/ic_action_sync_unlink" />
 
@@ -169,7 +168,6 @@
                             android:layout_gravity="center_vertical"
                             android:contentDescription="@string/menu_help"
                             android:focusable="true"
-                            android:onClick="syncHelp"
                             app:srcCompat="@drawable/ic_menu_help" />
                     </LinearLayout>
                 </TableRow>

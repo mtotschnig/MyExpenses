@@ -143,11 +143,6 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         override fun getCount() = 3
     }
 
-    @Suppress("UNUSED_PARAMETER")
-    fun editAccountColor(view: View) {
-        dataFragment?.editAccountColor()
-    }
-
     override fun onNegative(args: Bundle) {
         if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE) == R.id.ENCRYPT_CANCEL_COMMAND) {
             prefHandler.putBoolean(PrefKey.ENCRYPT_DATABASE, false)

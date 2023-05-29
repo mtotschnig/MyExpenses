@@ -66,14 +66,21 @@ class CategoryDelegate(
         if (parentId != null) {
             hideRowsSpecificToMain()
         }
+
         setCategoryButton()
+
         addCurrencyToInput(
             viewBinding.EquivalentAmountLabel,
             viewBinding.EquivalentAmount,
             homeCurrency,
             R.string.menu_equivalent_amount
         )
+
         viewBinding.EquivalentAmount.setFractionDigits(homeCurrency.fractionDigits)
+
+        viewBinding.ClearCategory.setOnClickListener {
+            setCategory(null, null, null)
+        }
     }
 
     override fun buildMainTransaction(account: Account): ITransaction =

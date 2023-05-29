@@ -15,9 +15,9 @@
 package org.totschnig.myexpenses.activity
 
 import android.content.Intent
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import org.totschnig.myexpenses.databinding.TagRowBinding
 import org.totschnig.myexpenses.fragment.TagList.Companion.KEY_TAG_LIST
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
@@ -48,7 +48,7 @@ abstract class AmountActivity<T: TagHandlingViewModel> : EditActivity() {
 
     protected open fun configureType() {}
 
-    protected fun validateAmountInput(showToUser: Boolean): BigDecimal? {
+    protected fun validateAmountInput(showToUser: Boolean): BigDecimal {
         return validateAmountInput(amountInput, showToUser)
     }
 
@@ -57,25 +57,27 @@ abstract class AmountActivity<T: TagHandlingViewModel> : EditActivity() {
         amountInput.setTypeChangedListener { isChecked: Boolean -> onTypeChanged(isChecked) }
     }
 
-    fun startTagSelection(@Suppress("UNUSED_PARAMETER") view: View) {
-        val i = Intent(this, ManageTags::class.java).apply {
-            viewModel.tagsLiveData.value?.let { tagList ->
-                putExtra(KEY_SELECTED_IDS, tagList.map { it.id }.toLongArray())
+    fun TagRowBinding.bindListener() {
+        TagSelection.setOnClickListener {
+            val i = Intent(this@AmountActivity, ManageTags::class.java).apply {
+                viewModel.tagsLiveData.value?.let { tagList ->
+                    putExtra(KEY_SELECTED_IDS, tagList.map { it.id }.toLongArray())
+                }
             }
+            startActivityForResult(i, SELECT_TAGS_REQUEST)
         }
-        startActivityForResult(i, SELECT_TAGS_REQUEST)
     }
 
     @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intent)
-        intent?.getLongArrayExtra(TagBaseViewModel.KEY_DELETED_IDS)?.let {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        data?.getLongArrayExtra(TagBaseViewModel.KEY_DELETED_IDS)?.let {
             handleDeletedTagIds(it)
         }
         when (requestCode) {
-            SELECT_TAGS_REQUEST -> intent?.also {
+            SELECT_TAGS_REQUEST -> data?.also {
                 if (resultCode == RESULT_OK) {
-                    (intent.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST))?.let {
+                    (data.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST))?.let {
                         viewModel.updateTags(it, true)
                         setDirty()
                     }

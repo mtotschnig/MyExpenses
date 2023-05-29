@@ -437,6 +437,18 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 }
             }
         }
+        dateEditBinding.DateLink.setOnClickListener {
+            areDatesLinked = !areDatesLinked
+            prefHandler.putBoolean(PrefKey.DATES_ARE_LINKED, areDatesLinked)
+            updateDateLink()
+        }
+        rootBinding.AttachImage.setOnClickListener {
+            startMediaChooserDo()
+        }
+        rootBinding.PictureContainer.root.setOnClickListener {
+            showPicturePopupMenu(it)
+        }
+        rootBinding.TagRow.bindListener()
     }
 
     override fun onCreateContextMenu(
@@ -771,12 +783,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 delegate.configureLastDayButton()
             }
         }
-    }
-
-    fun toggleDateLink(@Suppress("UNUSED_PARAMETER") view: View) {
-        areDatesLinked = !areDatesLinked
-        prefHandler.putBoolean(PrefKey.DATES_ARE_LINKED, areDatesLinked)
-        updateDateLink()
     }
 
     private fun updateDateLink() {
@@ -1317,7 +1323,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         super.onPause()
     }
 
-    @SuppressLint("NewApi")
     fun showPicturePopupMenu(v: View) {
         val popup = PopupMenu(this, v)
         popup.setOnMenuItemClickListener { item: MenuItem ->
@@ -1339,10 +1344,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             }
             R.id.CHANGE_COMMAND -> startMediaChooserDo()
         }
-    }
-
-    fun startMediaChooser(@Suppress("UNUSED_PARAMETER") v: View?) {
-        startMediaChooserDo()
     }
 
     override fun contribFeatureRequested(feature: ContribFeature, tag: Serializable?) {
@@ -1394,14 +1395,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             it.contentDescription =
                 getString(if (createNew) R.string.menu_save_and_new_content_description else R.string.menu_save_help_text)
         }
-    }
-
-    fun clearMethodSelection(@Suppress("UNUSED_PARAMETER") view: View) {
-        delegate.setMethodSelection(null)
-    }
-
-    fun clearCategorySelection(@Suppress("UNUSED_PARAMETER") view: View) {
-        (delegate as? CategoryDelegate)?.setCategory(null, null, null)
     }
 
     fun showPlanMonthFragment(originTemplate: Template, color: Int) {
@@ -1507,16 +1500,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     fun loadActiveTags(id: Long) {
         if (withAutoFill) {
             viewModel.loadActiveTags(id)
-        }
-    }
-
-    fun editPlan(@Suppress("UNUSED_PARAMETER") view: View) {
-        delegate.planId?.let { launchPlanView(false, it) }
-    }
-
-    fun copyUnsplitAmount(@Suppress("UNUSED_PARAMETER") view: View) {
-        (delegate as? SplitDelegate)?.unsplitAmountFormatted?.let {
-            copyToClipboard(it)
         }
     }
 

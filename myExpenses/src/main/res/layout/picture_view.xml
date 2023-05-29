@@ -6,7 +6,6 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
-    android:onClick="showPicturePopupMenu"
     android:visibility="gone">
 
     <ImageView

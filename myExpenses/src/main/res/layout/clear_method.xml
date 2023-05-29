@@ -8,7 +8,6 @@
     android:layout_gravity="center"
     android:contentDescription="@string/content_description_clear_method"
     android:focusable="true"
-    android:onClick="clearMethodSelection"
     android:visibility="gone"
     app:srcCompat="@drawable/ic_menu_delete"
     tools:showIn="@layout/method_row" />

@@ -220,7 +220,6 @@
                                     android:id="@+id/unsplit_line"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:onClick="copyUnsplitAmount"
                                     android:orientation="horizontal"
                                     android:visibility="gone">
 
@@ -355,7 +354,6 @@
                                 android:layout_gravity="center"
                                 android:contentDescription="@string/content_description_clear_category"
                                 android:focusable="true"
-                                android:onClick="clearCategorySelection"
                                 android:visibility="gone"
                                 app:srcCompat="@drawable/ic_menu_delete" />
                         </LinearLayout>
@@ -399,7 +397,6 @@
                                 android:layout_gravity="center"
                                 android:contentDescription="@string/contrib_feature_attach_picture_label"
                                 android:focusable="true"
-                                android:onClick="startMediaChooser"
                                 app:srcCompat="@drawable/ic_menu_camera" />
 
                             <include
@@ -491,7 +488,6 @@
                                 android:layout_gravity="center_vertical"
                                 android:contentDescription="@string/content_description_edit_plan"
                                 android:focusable="true"
-                                android:onClick="editPlan"
                                 android:visibility="gone"
                                 app:layout_constraintBottom_toBottomOf="@id/PB"
                                 app:layout_constraintEnd_toEndOf="parent"

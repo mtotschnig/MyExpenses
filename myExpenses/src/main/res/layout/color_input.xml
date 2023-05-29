@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
+    android:id="@+id/colorInput"
     tools:showIn="@layout/one_account">
 
     <androidx.appcompat.widget.AppCompatButton
@@ -14,8 +15,7 @@
         android:layout_height="40dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        android:focusable="true"
-        android:onClick="editAccountColor" />
+        android:focusable="true" />
 
     <ImageView
         android:id="@+id/ColorEdit"
@@ -25,6 +25,5 @@
         android:layout_gravity="center_vertical"
         android:contentDescription="@string/menu_edit"
         android:focusable="true"
-        android:onClick="editAccountColor"
         app:srcCompat="@drawable/ic_menu_edit" />
 </LinearLayout>
