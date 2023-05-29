@@ -23,6 +23,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildTypes.all {
+        consumerProguardFiles "proguard-rules.pro"
+    }
 }
 
 dependencies {
