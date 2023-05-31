@@ -113,7 +113,8 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
     @Test
     fun formForTemplateIsPrepared() {
-        launch(intentForNewTransaction.apply {
+        //New Templates are created without account_id passed in via intent
+        launch(intent.apply {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
             putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true)
         }).use {

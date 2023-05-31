@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.db2.getCurrencyUnitForAccount
+import org.totschnig.myexpenses.db2.getLastUsedOpenAccount
 import org.totschnig.myexpenses.db2.loadActiveTagsForAccount
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.model.*
@@ -201,16 +202,14 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     fun newTemplate(
         operationType: Int,
-        accountId: Long,
-        currencyUnit: CurrencyUnit?,
         parentId: Long?
     ): LiveData<Template?> =
         liveData(context = coroutineContext()) {
-            emit(
-                (currencyUnit ?: repository.getCurrencyUnitForAccount(accountId))?.let {
-                    Template.getTypedNewInstance(operationType, accountId, it, true, parentId)
-                }
-            )
+            val account = repository.getLastUsedOpenAccount()?.let {
+                emit(
+                    Template.getTypedNewInstance(operationType, it.first, it.second, true, parentId)
+                )
+            }
         }
 
     fun newTransaction(
