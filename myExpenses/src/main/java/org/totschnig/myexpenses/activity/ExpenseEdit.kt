@@ -14,7 +14,6 @@
  */
 package org.totschnig.myexpenses.activity
 
-import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.content.ContentUris
 import android.content.Context
@@ -1158,10 +1157,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     }
 
     val amount: Money?
-        get() {
-            val a = currentAccount ?: return null
-            val amount = validateAmountInput(false)
-            return if (amount == null) Money(a.currency, 0L) else Money(a.currency, amount)
+        get() = currentAccount?.let {
+            Money(it.currency, validateAmountInput(showToUser = false, ifPresent = false)!!)
         }
 
     private fun unsetPicture() {

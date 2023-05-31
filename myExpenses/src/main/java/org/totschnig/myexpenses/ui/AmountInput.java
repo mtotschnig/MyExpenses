@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 import kotlin.Pair;
 
@@ -278,9 +279,10 @@ public class AmountInput extends ConstraintLayout {
 
   @NonNull
   public BigDecimal getTypedValue() {
-    return getTypedValue(false, false);
+    return Objects.requireNonNull(getTypedValue(false, false));
   }
 
+  @Nullable
   public BigDecimal getTypedValue(boolean ifPresent, boolean showToUser) {
     final BigDecimal bigDecimal = validate(showToUser);
     if (bigDecimal == null) {

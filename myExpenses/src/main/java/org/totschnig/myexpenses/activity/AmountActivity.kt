@@ -48,9 +48,8 @@ abstract class AmountActivity<T: TagHandlingViewModel> : EditActivity() {
 
     protected open fun configureType() {}
 
-    protected fun validateAmountInput(showToUser: Boolean): BigDecimal {
-        return validateAmountInput(amountInput, showToUser)
-    }
+    protected fun validateAmountInput(showToUser: Boolean, ifPresent: Boolean = true) =
+        validateAmountInput(amountInput, showToUser, ifPresent)
 
     open fun setupListeners() {
         amountInput.addTextChangedListener(this)

@@ -347,7 +347,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                 val account: AccountMinimal = selectedAccount()
                 val currencyUnit = currencyContext[account.currency]
                 val initialAmount = if (budgetId == 0L) {
-                    Money(currencyUnit, allocation).amountMinor
+                    Money(currencyUnit, allocation!!).amountMinor
                 } else null
 
                 val budget = Budget(

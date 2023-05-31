@@ -39,9 +39,8 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
     @JvmField
     @State
     var mNewInstance = true
-    protected fun validateAmountInput(input: AmountInput, showToUser: Boolean): BigDecimal {
-        return input.getTypedValue(true, showToUser)
-    }
+    protected fun validateAmountInput(input: AmountInput, showToUser: Boolean, ifPresent: Boolean = true) =
+        input.getTypedValue(ifPresent, showToUser)
 
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
