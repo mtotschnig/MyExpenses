@@ -86,7 +86,6 @@ import kotlin.Result
 import kotlin.collections.set
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
-
 /**
  * Activity for editing a transaction
  *
@@ -671,7 +670,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         if (!intent.hasExtra(KEY_CACHED_DATA)) {
             amountInput.type = intent.getBooleanExtra(KEY_INCOME, false)
         }
-        (intent.getSerializableExtra(KEY_AMOUNT) as? BigDecimal)?.let { amountInput.setAmount(it) }
+        (intent.getSerializableExtra(KEY_AMOUNT) as? BigDecimal)?.let {
+            amountInput.setAmount(it)
+            (delegate as? TransferDelegate)?.configureTransferDirection()
+        }
     }
 
     private fun populate(transaction: Transaction, withAutoFill: Boolean) {
