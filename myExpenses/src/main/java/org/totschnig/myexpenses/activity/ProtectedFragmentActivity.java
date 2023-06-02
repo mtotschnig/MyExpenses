@@ -58,6 +58,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.evernote.android.state.StateSaver;
+import com.google.android.material.color.MaterialColors;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -220,8 +221,9 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   public void tintSystemUiAndFab(int color) {
-    tintSystemUi(color);
-    setBackgroundTintList(getFloatingActionButton(), color);
+    int harmonized = MaterialColors.harmonizeWithPrimary(this, color);
+    tintSystemUi(harmonized);
+    setBackgroundTintList(getFloatingActionButton(), harmonized);
   }
 
   public void tintSystemUi(int color) {
