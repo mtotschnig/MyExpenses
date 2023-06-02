@@ -9,35 +9,6 @@ import com.github.mikephil.charting.utils.ColorTemplate
 import kotlin.math.roundToInt
 
 object ColorUtils {
-    /*
-  from https://www.google.com/design/spec/style/color.html#color-color-palette
-  maps the 500 color to the 700 color
-   */
-    private val colorPrimaryDarkMap: SparseIntArray = object : SparseIntArray() {
-        init {
-            append(-0xbbcca, -0x2cd0d1)
-            append(-0x16e19d, -0x3de7a5)
-            append(-0x63d850, -0x84e05e)
-            append(-0x98c549, -0xaed258)
-            append(-0xc0ae4b, -0xcfc061)
-            append(-0xde690d, -0xe6892e)
-            append(-0xfc560c, -0xfd772f)
-            append(-0xff432c, -0xff6859)
-            append(-0xff6978, -0xff8695)
-            append(-0xb350b0, -0xc771c4)
-            append(-0x743cb6, -0x9760c8)
-            append(-0x3223c7, -0x504bd5)
-            append(-0x14c5, -0x43fd3)
-            append(-0x3ef9, -0x6000)
-            append(-0x6800, -0xa8400)
-            append(-0xa8de, -0x19b5e7)
-            append(-0x86aab8, -0xa2bfc9)
-            append(-0x616162, -0x9e9e9f)
-            append(-0x9f8275, -0xbaa59c)
-            append(-0x8a8a8b, -0xbdbdbe) //aggregate theme light 600 800
-            append(-0x424243, -0x8a8a8b) //aggregate theme dark  400 600
-        }
-    }
     /**
      * from [com.github.mikephil.charting.utils.ColorTemplate]
      */
@@ -121,20 +92,6 @@ object ColorUtils {
         }
         result.add(Color.WHITE)
         return result
-    }
-
-    @JvmStatic
-    fun createBackgroundColorDrawable(color: Int): Drawable {
-        val mask = GradientDrawable()
-        mask.shape = GradientDrawable.OVAL
-        mask.setColor(color)
-        return mask
-    }
-
-    @JvmStatic
-    fun get700Tint(color: Int): Int {
-        val found = colorPrimaryDarkMap[color]
-        return if (found != 0) found else color
     }
 
     @JvmStatic

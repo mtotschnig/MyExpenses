@@ -4,6 +4,8 @@ import android.app.DownloadManager
 import android.app.KeyguardManager
 import android.app.NotificationManager
 import android.content.*
+import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
@@ -13,6 +15,7 @@ import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -30,6 +33,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.ConfigurationCompat
 import androidx.core.os.LocaleListCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -65,10 +69,12 @@ import org.totschnig.myexpenses.service.PlanExecutor.Companion.enqueueSelf
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.util.ColorUtils.isBrightColor
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.marketSelfUri
 import org.totschnig.myexpenses.util.licence.LicenceHandler
@@ -1098,6 +1104,32 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .start(this@BaseActivity)
         }
+    }
+
+    fun tintSystemUi(color: Int) {
+        if (shouldTintSystemUi()) {
+            with(window) {
+                clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+                addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                statusBarColor = color
+                navigationBarColor = color
+            }
+            with(WindowInsetsControllerCompat(window, window.decorView)) {
+                val isBright = isBrightColor(color)
+                isAppearanceLightNavigationBars = isBright
+                isAppearanceLightStatusBars = isBright
+            }
+        }
+    }
+
+    private fun shouldTintSystemUi() = try {
+        //on DialogWhenLargeTheme we do not want to tint if we are displayed on a large screen as dialog
+        packageManager.getActivityInfo(componentName, 0).themeResource != R.style.EditDialog ||
+                resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK <
+                Configuration.SCREENLAYOUT_SIZE_LARGE
+    } catch (e: PackageManager.NameNotFoundException) {
+        report(e)
+        false
     }
 
     companion object {

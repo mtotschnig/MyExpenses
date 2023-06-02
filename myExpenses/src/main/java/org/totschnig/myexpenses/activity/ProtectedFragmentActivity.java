@@ -36,19 +36,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
@@ -70,10 +67,8 @@ import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountInput;
-import org.totschnig.myexpenses.util.ColorUtils;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -224,37 +219,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     int harmonized = MaterialColors.harmonizeWithPrimary(this, color);
     tintSystemUi(harmonized);
     setBackgroundTintList(getFloatingActionButton(), harmonized);
-  }
-
-  public void tintSystemUi(int color) {
-    if (shouldTintSystemUi()) {
-      Window window = getWindow();
-      window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-      window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      int color700 = ColorUtils.get700Tint(color);
-      window.setStatusBarColor(color700);
-      window.setNavigationBarColor(color700);
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        window.getDecorView().setSystemUiVisibility(
-            ColorUtils.isBrightColor(color700) ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-          window.getDecorView().setSystemUiVisibility(
-              ColorUtils.isBrightColor(color700) ? View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR : 0);
-        }
-      }
-    }
-  }
-
-  public boolean shouldTintSystemUi() {
-    try {
-      //on DialogWhenLargeTheme we do not want to tint if we are displayed on a large screen as dialog
-      return getPackageManager().getActivityInfo(getComponentName(), 0).getThemeResource() != R.style.EditDialog ||
-          (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) <
-              Configuration.SCREENLAYOUT_SIZE_LARGE;
-    } catch (PackageManager.NameNotFoundException e) {
-      CrashHandler.report(e);
-      return false;
-    }
   }
 
   @Override
