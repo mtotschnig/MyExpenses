@@ -81,7 +81,7 @@ class AccountRemoteViewsFactory(
                 setViewVisibility(buttonId, View.GONE)
             } else {
                 setViewVisibility(buttonId, View.VISIBLE)
-                setImageViewVectorDrawable(context, buttonId, drawableResId)
+                setImageViewResource(buttonId, drawableResId)
                 setContentDescription(buttonId, context.getString(contentDescriptionResId))
                 val block: Intent.() -> Unit = {
                     putExtra(KEY_ROWID, account.id)

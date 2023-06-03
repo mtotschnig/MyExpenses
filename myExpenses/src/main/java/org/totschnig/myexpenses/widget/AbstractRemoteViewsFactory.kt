@@ -64,16 +64,6 @@ abstract class AbstractRemoteViewsFactory(
     abstract fun RemoteViews.populate(cursor: Cursor)
 }
 
-//http://stackoverflow.com/a/35633411/1199911
-fun RemoteViews.setImageViewVectorDrawable(context: Context, viewId: Int, resId: Int) {
-    setImageViewBitmap(
-        viewId, UiUtils.getTintedBitmapForTheme(
-            context, resId,
-            R.style.DarkBackground
-        )
-    )
-}
-
 fun RemoteViews.setBackgroundColorSave(res: Int, color: Int) {
     setInt(res, "setBackgroundColor", color)
 }

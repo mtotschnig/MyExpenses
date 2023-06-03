@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout"
+    android:background="?android:attr/colorBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/material_grey_700"
     android:gravity="start"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:theme="@style/Theme.Material3.DynamicColors.DayNight">
 
     <ImageView
         android:id="@+id/divider3"
@@ -31,14 +32,14 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="#ffffff"
+            android:textColor="?android:attr/textColorPrimary"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/note"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#ffffff" />
+            android:textColor="?android:attr/textColorPrimary" />
     </LinearLayout>
 
     <ImageView

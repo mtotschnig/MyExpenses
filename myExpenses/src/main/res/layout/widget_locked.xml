@@ -2,6 +2,7 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/text"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-</TextView>
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
+    android:textColor="?android:attr/textColorPrimary"
+    android:theme="@style/Theme.Material3.DynamicColors.DayNight" />

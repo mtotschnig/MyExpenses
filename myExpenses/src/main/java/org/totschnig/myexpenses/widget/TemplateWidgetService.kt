@@ -97,7 +97,7 @@ class TemplateRemoteViewsFactory(
             setViewVisibility(buttonId, View.GONE)
         } else {
             setViewVisibility(buttonId, View.VISIBLE)
-            setImageViewVectorDrawable(context, buttonId, drawableResId)
+            setImageViewResource(buttonId, drawableResId)
             setContentDescription(buttonId, context.getString(contentDescriptionResId))
             setOnClickFillInIntent(buttonId, Intent().apply {
                 putExtra(KEY_ROWID, templateId)
