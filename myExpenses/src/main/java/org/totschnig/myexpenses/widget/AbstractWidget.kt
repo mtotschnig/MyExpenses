@@ -13,13 +13,16 @@ import android.view.Surface.ROTATION_180
 import android.view.WindowManager
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
+import androidx.preference.PreferenceFragmentCompat
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.MyPreferenceActivity
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import javax.inject.Inject
+
 
 const val WIDGET_CLICK = "org.totschnig.myexpenses.WIDGET_CLICK"
 const val KEY_CLICK_ACTION = "clickAction"
@@ -64,12 +67,15 @@ abstract class AbstractWidget(
             WIDGET_LIST_DATA_CHANGED -> {
                 appWidgetIds?.let { instance.notifyAppWidgetViewDataChanged(it, R.id.list) }
             }
+
             WIDGET_CONTEXT_CHANGED -> {
                 appWidgetIds?.let { onUpdate(context, instance, it) }
             }
+
             WIDGET_CLICK -> {
                 handleWidgetClick(context, intent)
             }
+
             else -> {
                 super.onReceive(context, intent)
             }
@@ -94,36 +100,51 @@ abstract class AbstractWidget(
     fun clickBaseIntent(context: Context) = Intent(WIDGET_CLICK, null, context, javaClass)
 
     open fun updateWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
-        val widget = RemoteViews(context.packageName, R.layout.widget_list)
-        widget.setEmptyView(R.id.list, R.id.emptyView)
-        //noinspection InlinedApi
-        val clickPI = PendingIntent.getBroadcast(
-            context,
-            appWidgetId,
-            clickBaseIntent(context),
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
-        )
-        widget.setOnClickPendingIntent(R.id.emptyView, clickPI)
-        if (isProtected(context)) {
-            widget.setTextViewText(
-                R.id.emptyView, context.getString(R.string.warning_password_protected) + " " +
-                        context.getString(R.string.warning_widget_disabled)
-            )
+
+        appWidgetManager.updateAppWidget(appWidgetId, if (isProtected(context)) {
+            RemoteViews(context.packageName, R.layout.widget_locked).apply<RemoteViews> {
+                setOnClickPendingIntent(
+                    R.id.text,
+                    PendingIntent.getActivity(
+                        context,
+                        appWidgetId,
+                        Intent(context, MyPreferenceActivity::class.java).putExtra(
+                            PreferenceFragmentCompat.ARG_PREFERENCE_ROOT,
+                            context.getString(R.string.pref_screen_protection_key)
+                        ),
+                        PendingIntent.FLAG_IMMUTABLE
+                    )
+                )
+                setTextViewText(
+                    R.id.text, context.getString(R.string.warning_password_protected) + " " +
+                            context.getString(R.string.warning_widget_disabled)
+                )
+            }
         } else {
-            val svcIntent = Intent(context, clazz)
-            svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-            svcIntent.putExtra(KEY_WIDTH, availableWidth(context, appWidgetManager, appWidgetId))
-            // When intents are compared, the extras are ignored, so we need to embed the extras
-            // into the data so that the extras will not be ignored.
-            svcIntent.data = Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME))
-            widget.setRemoteAdapter(R.id.list, svcIntent)
-            widget.setTextViewText(
-                R.id.emptyView,
-                context.getString(emptyTextResourceId)
+            val clickPI = PendingIntent.getBroadcast(
+                context,
+                appWidgetId,
+                clickBaseIntent(context),
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
             )
-            widget.setPendingIntentTemplate(R.id.list, clickPI)
-        }
-        appWidgetManager.updateAppWidget(appWidgetId, widget)
+            RemoteViews(context.packageName, R.layout.widget_list).apply<RemoteViews> {
+                setEmptyView(R.id.list, R.id.emptyView)
+                setOnClickPendingIntent(R.id.emptyView, clickPI)
+
+                setRemoteAdapter(R.id.list, Intent(context, clazz).apply {
+                    putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+                    putExtra(KEY_WIDTH, availableWidth(context, appWidgetManager, appWidgetId))
+                    // When intents are compared, the extras are ignored, so we need to embed the extras
+                    // into the data so that the extras will not be ignored.
+                    data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
+                })
+                setTextViewText(
+                    R.id.emptyView,
+                    context.getString(emptyTextResourceId)
+                )
+                setPendingIntentTemplate(R.id.list, clickPI)
+            }
+        })
     }
 
     override fun onAppWidgetOptionsChanged(

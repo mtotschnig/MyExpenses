@@ -34,6 +34,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceFragmentCompat.ARG_PREFERENCE_ROOT
 import androidx.preference.PreferenceScreen
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -44,6 +45,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.SettingsBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.feature.Feature
+import org.totschnig.myexpenses.fragment.BaseSettingsFragment
 import org.totschnig.myexpenses.fragment.SettingsFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
@@ -75,7 +77,11 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
         setupToolbar()
         if (savedInstanceState == null) {
             val ft = supportFragmentManager.beginTransaction()
-            ft.replace(binding.fragmentContainer.id, SettingsFragment(), FRAGMENT_TAG)
+            ft.replace(
+                binding.fragmentContainer.id,
+                BaseSettingsFragment.newInstance(intent.getStringExtra(ARG_PREFERENCE_ROOT)),
+                FRAGMENT_TAG
+            )
             ft.commit()
         }
         initialPrefToShow =
@@ -356,10 +362,7 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
 
     private fun startPreferenceScreen(key: String) {
         val ft = supportFragmentManager.beginTransaction()
-        val fragment = SettingsFragment()
-        val args = Bundle()
-        args.putString(PreferenceFragmentCompat.ARG_PREFERENCE_ROOT, key)
-        fragment.arguments = args
+        val fragment = BaseSettingsFragment.newInstance(key)
         ft.replace(R.id.fragment_container, fragment, key)
         ft.addToBackStack(key)
         ft.commitAllowingStateLoss()

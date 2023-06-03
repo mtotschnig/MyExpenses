@@ -1396,5 +1396,13 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
         fun Context.compactItemRendererTitle() =
             "${getString(R.string.style)} : ${getString(R.string.compact)}"
+
+        fun newInstance(rootKey: String?) = SettingsFragment().apply {
+            rootKey?.let {
+                arguments = Bundle().apply {
+                    putString(ARG_PREFERENCE_ROOT, it)
+                }
+            }
+        }
     }
 }
