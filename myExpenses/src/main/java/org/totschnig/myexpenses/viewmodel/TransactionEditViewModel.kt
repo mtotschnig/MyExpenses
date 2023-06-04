@@ -13,6 +13,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.db2.getCurrencyUnitForAccount
 import org.totschnig.myexpenses.db2.getLastUsedOpenAccount
@@ -205,46 +206,41 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         parentId: Long?
     ): LiveData<Template?> =
         liveData(context = coroutineContext()) {
-            val account = repository.getLastUsedOpenAccount()?.let {
+            repository.getLastUsedOpenAccount()?.let {
                 emit(
                     Template.getTypedNewInstance(operationType, it.first, it.second, true, parentId)
                 )
             }
         }
 
-    fun newTransaction(
+    private suspend fun ensureLoadData(accountId: Long, currencyUnit: CurrencyUnit?) =
+        if (accountId > 0 && currencyUnit != null)
+            accountId to currencyUnit
+        else withContext(coroutineContext()) {
+            if (accountId > 0) accountId to repository.getCurrencyUnitForAccount(accountId)
+            else repository.getLastUsedOpenAccount()
+        }
+
+    suspend fun newTransaction(
         accountId: Long,
         currencyUnit: CurrencyUnit?,
         parentId: Long?
-    ): LiveData<Transaction?> =
-        liveData(context = coroutineContext()) {
-            emit(
-                (currencyUnit ?: repository.getCurrencyUnitForAccount(accountId))?.let {
-                    Transaction.getNewInstance(accountId, it, parentId)
-                }
-            )
-        }
+    ): Transaction? = ensureLoadData(accountId, currencyUnit)?.let {
+        Transaction.getNewInstance(it.first, it.second, parentId)
+    }
 
-    fun newTransfer(
+    suspend fun newTransfer(
         accountId: Long,
         currencyUnit: CurrencyUnit?,
         transferAccountId: Long?,
         parentId: Long?
-    ): LiveData<Transfer?> = liveData(context = coroutineContext()) {
-        emit(
-            (currencyUnit ?: repository.getCurrencyUnitForAccount(accountId))?.let {
-                Transfer.getNewInstance(accountId, it, transferAccountId, parentId)
-            }
-        )
+    ): Transfer? = ensureLoadData(accountId, currencyUnit)?.let {
+        Transfer.getNewInstance(it.first, it.second, transferAccountId, parentId)
     }
 
-    fun newSplit(accountId: Long, currencyUnit: CurrencyUnit?): LiveData<SplitTransaction?> =
-        liveData(context = coroutineContext()) {
-            emit(
-                (currencyUnit ?: repository.getCurrencyUnitForAccount(accountId))?.let {
-                    SplitTransaction.getNewInstance(accountId, it, true)
-                }
-            )
+    suspend fun newSplit(accountId: Long, currencyUnit: CurrencyUnit?): SplitTransaction? =
+        ensureLoadData(accountId, currencyUnit)?.let {
+            SplitTransaction.getNewInstance(it.first, it.second, true)
         }
 
     fun loadSplitParts(parentId: Long, parentIsTemplate: Boolean) {
