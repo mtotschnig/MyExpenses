@@ -10,9 +10,9 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:configure="org.totschnig.myexpenses.activity.AccountWidgetConfigure"
     android:initialLayout="@layout/widget_list"
-    android:minWidth="250dp"
-    android:minHeight="40dp"
-    android:minResizeWidth="40dp"
+    android:minWidth="@dimen/widget_default_width"
+    android:minHeight="@dimen/widget_default_height"
+    android:minResizeWidth="@dimen/widget_min_width"
     android:resizeMode="vertical|horizontal"
     android:updatePeriodMillis="0" />
 

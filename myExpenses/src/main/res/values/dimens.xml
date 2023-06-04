@@ -48,4 +48,7 @@
     <dimen name="plan_calendar_state_margin">0dp</dimen>
 
     <dimen name="mtrl_alert_dialog_background_inset_vertical">24dp</dimen>
+    <dimen name="widget_default_width">250dp</dimen>
+    <dimen name="widget_default_height">40dp</dimen>
+    <dimen name="widget_min_width">40dp</dimen>
 </resources>

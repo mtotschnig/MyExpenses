@@ -6,11 +6,9 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
-import android.view.Surface.ROTATION_0
-import android.view.Surface.ROTATION_180
-import android.view.WindowManager
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import androidx.appcompat.app.AppCompatDelegate
@@ -85,18 +83,16 @@ abstract class AbstractWidget(
 
     abstract fun handleWidgetClick(context: Context, intent: Intent)
 
-    @Suppress("DEPRECATION")
     fun availableWidth(
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int
-    ): Int =
-        appWidgetManager.getAppWidgetOptions(appWidgetId).getInt(
-            when ((context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation) {
-                ROTATION_0, ROTATION_180 -> /*ORIENTATION_PORTRAIT*/ AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH
-                else -> /*ORIENTATION_LANDSCAPE*/ AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH
-            }
-        )
+    ) = appWidgetManager.getAppWidgetOptions(appWidgetId).getInt(
+        when (context.resources.configuration.orientation) {
+            Configuration.ORIENTATION_LANDSCAPE -> AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH
+            else -> AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH
+        }
+    )
 
     fun clickBaseIntent(context: Context) = Intent(WIDGET_CLICK, null, context, javaClass)
 
