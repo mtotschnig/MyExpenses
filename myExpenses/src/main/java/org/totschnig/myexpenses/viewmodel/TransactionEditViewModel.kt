@@ -201,17 +201,14 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         }
     }
 
-    fun newTemplate(
+    suspend fun newTemplate(
         operationType: Int,
         parentId: Long?
-    ): LiveData<Template?> =
-        liveData(context = coroutineContext()) {
-            repository.getLastUsedOpenAccount()?.let {
-                emit(
-                    Template.getTypedNewInstance(operationType, it.first, it.second, true, parentId)
-                )
-            }
+    ): Template? = withContext(coroutineContext()) {
+        repository.getLastUsedOpenAccount()?.let {
+            Template.getTypedNewInstance(operationType, it.first, it.second, true, parentId)
         }
+    }
 
     private suspend fun ensureLoadData(accountId: Long, currencyUnit: CurrencyUnit?) =
         if (accountId > 0 && currencyUnit != null)

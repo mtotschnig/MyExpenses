@@ -344,25 +344,23 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 parentId = intent.getLongExtra(KEY_PARENTID, 0)
                 val currencyUnit = intent.getStringExtra(KEY_CURRENCY)
                     ?.let { currencyContext.get(it) }
-                if (isNewTemplate) {
-                    viewModel.newTemplate(
-                        operationType,
-                        if (parentId != 0L) parentId else null
-                    ).observe(this) {
-                        if (it != null) {
-                            mRowId = it.id
-                            it.defaultAction = prefHandler.enumValueOrDefault(
-                                PrefKey.TEMPLATE_CLICK_DEFAULT,
-                                Template.Action.SAVE
-                            )
-                        }
-                        populateWithNewInstance(it)
-                    }
-                    isTemplate = true
-                } else {
-                    lifecycleScope.launch {
-                        var accountId = intent.getLongExtra(KEY_ACCOUNTID, 0)
-                        populateWithNewInstance(
+
+                lifecycleScope.launch {
+                    populateWithNewInstance(
+                        if (isNewTemplate) {
+                            isTemplate = true
+                            viewModel.newTemplate(
+                                operationType,
+                                if (parentId != 0L) parentId else null
+                            )?.also {
+                                mRowId = it.id
+                                it.defaultAction = prefHandler.enumValueOrDefault(
+                                    PrefKey.TEMPLATE_CLICK_DEFAULT,
+                                    Template.Action.SAVE
+                                )
+                            }
+                        } else {
+                            var accountId = intent.getLongExtra(KEY_ACCOUNTID, 0)
                             when (operationType) {
                                 TYPE_TRANSACTION -> {
                                     if (accountId == 0L) {
@@ -413,8 +411,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
                                 else -> throw IllegalStateException()
                             }
-                        )
-                    }
+                        }
+                    )
                 }
             }
             if (mNewInstance) {

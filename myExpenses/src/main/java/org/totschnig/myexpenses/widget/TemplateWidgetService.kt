@@ -127,7 +127,7 @@ class TemplateRemoteViewsFactory(
         templateId: Long,
         position: Int
     ) {
-        if (width > 48 * position) {
+        if (width < 48 * position) {
             setViewVisibility(buttonId, View.GONE)
         } else {
             setViewVisibility(buttonId, View.VISIBLE)

@@ -9,6 +9,7 @@ import android.net.Uri
 import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
+import androidx.core.content.ContextCompat
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.fragment.AccountWidgetConfigurationFragment
 import org.totschnig.myexpenses.injector
@@ -118,7 +119,11 @@ class AccountRemoteViewsFactory(
         ) {
             with(remoteViews) {
                 val account = Account.fromCursor(cursor)
-                setBackgroundColorSave(R.id.divider3, account.color)
+                setBackgroundColorSave(
+                    R.id.divider3,
+                    if (account.isAggregate) ContextCompat.getColor(context, R.color.colorAggregate)
+                    else account.color
+                )
                 val currentBalance = Money(
                     currencyContext[account.currency],
                     cursor.getLong(cursor.getColumnIndexOrThrow(sumColumn))
