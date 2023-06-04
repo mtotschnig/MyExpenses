@@ -36,23 +36,17 @@
 
     <ImageView
         android:id="@+id/command1"
-        android:layout_width="48dp"
-        android:layout_height="match_parent"
-        android:padding="8dp"
+        style="@style/WidgetActionButton"
         tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/command2"
-        android:layout_width="48dp"
-        android:layout_height="match_parent"
-        android:padding="8dp"
+        style="@style/WidgetActionButton"
         tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/command3"
-        android:layout_width="48dp"
-        android:layout_height="match_parent"
-        android:padding="8dp"
+        style="@style/WidgetActionButton"
         tools:ignore="ContentDescription" />
 
 </merge>

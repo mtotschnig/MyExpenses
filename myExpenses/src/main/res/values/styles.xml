@@ -315,4 +315,11 @@
     </style>
 
     <style name="CrashDialogTheme" parent="@android:style/Theme.Material.Dialog" />
+
+    <style name="WidgetActionButton">
+        <item name="android:layout_width">@dimen/accessibility_clickable_minimum</item>
+        <item name="android:layout_height">@dimen/accessibility_clickable_minimum</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:padding">8dp</item>
+    </style>
 </resources>
