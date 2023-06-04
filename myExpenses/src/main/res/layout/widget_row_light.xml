@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="start"
     android:orientation="horizontal"
-    android:theme="@style/Theme.Material3.DynamicColors.DayNight">
+    android:theme="@style/Theme.Material3.Light">
 
     <include layout="@layout/widget_row_inner" />
 

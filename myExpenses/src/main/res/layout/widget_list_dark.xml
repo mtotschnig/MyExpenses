@@ -12,7 +12,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:attr/colorBackground"
-    android:theme="@style/Theme.Material3.DynamicColors.DayNight"
+    android:theme="@style/Theme.Material3.Dark"
     >
 
     <include layout="@layout/widget_list_inner" />

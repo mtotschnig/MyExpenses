@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteException
 import android.os.Binder
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
+import androidx.appcompat.app.AppCompatDelegate
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.UiUtils
@@ -55,13 +56,22 @@ abstract class AbstractRemoteViewsFactory(
     abstract fun buildCursor(): Cursor?
 
     override fun getViewAt(position: Int) =
-        RemoteViews(context.packageName, R.layout.widget_row).apply {
+        RemoteViews(context.packageName, rowLayout).apply {
             cursor?.takeIf { !it.isClosed && it.moveToPosition(position) }?.let {
                 populate(it)
             }
         }
 
     abstract fun RemoteViews.populate(cursor: Cursor)
+
+    companion object {
+        val rowLayout: Int
+            get() = when(AppCompatDelegate.getDefaultNightMode()) {
+                AppCompatDelegate.MODE_NIGHT_NO -> R.layout.widget_row_light
+                AppCompatDelegate.MODE_NIGHT_YES -> R.layout.widget_row_dark
+                else -> R.layout.widget_row
+            }
+    }
 }
 
 fun RemoteViews.setBackgroundColorSave(res: Int, color: Int) {

@@ -13,6 +13,7 @@ import android.view.Surface.ROTATION_180
 import android.view.WindowManager
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceFragmentCompat
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyPreferenceActivity
@@ -102,7 +103,7 @@ abstract class AbstractWidget(
     open fun updateWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
 
         appWidgetManager.updateAppWidget(appWidgetId, if (isProtected(context)) {
-            RemoteViews(context.packageName, R.layout.widget_locked).apply<RemoteViews> {
+            RemoteViews(context.packageName, R.layout.widget_locked).apply {
                 setOnClickPendingIntent(
                     R.id.text,
                     PendingIntent.getActivity(
@@ -127,7 +128,15 @@ abstract class AbstractWidget(
                 clickBaseIntent(context),
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
             )
-            RemoteViews(context.packageName, R.layout.widget_list).apply<RemoteViews> {
+
+            RemoteViews(
+                context.packageName,
+                when (AppCompatDelegate.getDefaultNightMode()) {
+                    AppCompatDelegate.MODE_NIGHT_NO -> R.layout.widget_list_light
+                    AppCompatDelegate.MODE_NIGHT_YES -> R.layout.widget_list_dark
+                    else -> R.layout.widget_list
+                }
+            ).apply {
                 setEmptyView(R.id.list, R.id.emptyView)
                 setOnClickPendingIntent(R.id.emptyView, clickPI)
 

@@ -413,6 +413,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
             getKey(PrefKey.UI_THEME_KEY) -> {
                 setNightMode(prefHandler, requireContext())
+                updateAllWidgets()
             }
             getKey(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET) -> {
                 //Log.d("DEBUG","shared preference changed: Account Widget");

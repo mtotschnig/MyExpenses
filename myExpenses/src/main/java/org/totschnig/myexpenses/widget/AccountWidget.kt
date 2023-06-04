@@ -77,7 +77,7 @@ class AccountWidget :
         }.mapCatching {
             it?.use { cursor ->
                 if (cursor.moveToFirst()) {
-                    RemoteViews(context.packageName, R.layout.widget_row).also { widget ->
+                    RemoteViews(context.packageName, AbstractRemoteViewsFactory.rowLayout).also { widget ->
                         AccountRemoteViewsFactory.populate(
                             context, currencyContext, widget, cursor,
                             AccountRemoteViewsFactory.sumColumn(context, appWidgetId),
