@@ -24,19 +24,20 @@ import org.totschnig.myexpenses.provider.withLimit
 import org.totschnig.myexpenses.util.joinArrays
 
 fun Repository.getCurrencyUnitForAccount(accountId: Long) =
-    getCurrencyForAccount(accountId)?.let { currencyContext[it] }
+    currencyContext[getCurrencyForAccount(accountId)]
 
 fun Repository.getUuidForAccount(accountId: Long) = getStringValue(accountId, KEY_UUID)
 fun Repository.getCurrencyForAccount(accountId: Long) = getStringValue(accountId, KEY_CURRENCY)
 fun Repository.getLabelForAccount(accountId: Long) = getStringValue(accountId, KEY_LABEL)
 
-private fun Repository.getStringValue(accountId: Long, column: String): String? {
+private fun Repository.getStringValue(accountId: Long, column: String): String {
     require(accountId > 0L)
     return contentResolver.query(
         ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId),
         arrayOf(column), null, null, null
-    )?.use {
-        if (it.moveToFirst()) it.getString(0) else null
+    )!!.use {
+        it.moveToFirst()
+        it.getString(0)
     }
 }
 
