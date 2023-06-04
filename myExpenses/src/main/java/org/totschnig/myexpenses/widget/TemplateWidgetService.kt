@@ -35,8 +35,8 @@ class TemplateWidgetService : RemoteViewsService() {
 }
 
 class TemplateRemoteViewsFactory(
-        val context: Context,
-        intent: Intent
+    val context: Context,
+    intent: Intent
 ) : AbstractRemoteViewsFactory(context, intent) {
     @Inject
     lateinit var prefHandler: PrefHandler
@@ -47,13 +47,19 @@ class TemplateRemoteViewsFactory(
 
     override fun buildCursor(): Cursor? {
         return context.contentResolver.query(
-                TransactionProvider.TEMPLATES_URI, null, String.format(Locale.ROOT, "%s is null AND %s is null AND %s = 0",
-                KEY_PLANID, KEY_PARENTID, KEY_SEALED),
-                null, preferredOrderByForTemplates(prefHandler, Sort.TITLE, prefHandler.collate))
+            TransactionProvider.TEMPLATES_URI, null, String.format(
+                Locale.ROOT, "%s is null AND %s is null AND %s = 0",
+                KEY_PLANID, KEY_PARENTID, KEY_SEALED
+            ),
+            null, preferredOrderByForTemplates(prefHandler, Sort.TITLE, prefHandler.collate)
+        )
     }
 
     override fun RemoteViews.populate(cursor: Cursor) {
-        setBackgroundColorSave(R.id.divider3, cursor.getInt(cursor.getColumnIndexOrThrow(KEY_COLOR)))
+        setBackgroundColorSave(
+            R.id.divider3,
+            cursor.getInt(cursor.getColumnIndexOrThrow(KEY_COLOR))
+        )
         val title = cursor.getString(KEY_TITLE)
         val currencyContext = context.injector.currencyContext()
         val currency = currencyContext.get(cursor.getString(KEY_CURRENCY))
@@ -62,18 +68,23 @@ class TemplateRemoteViewsFactory(
         val label = cursor.getString(KEY_LABEL)
         val comment = cursor.getString(KEY_COMMENT)
         val payee = cursor.getString(KEY_PAYEE_NAME)
-        setTextViewText(R.id.line1,
-                title + " : " + context.injector.currencyFormatter().formatMoney(amount))
+        setTextViewText(
+            R.id.line1,
+            title + " : " + context.injector.currencyFormatter().formatMoney(amount)
+        )
         val commentSeparator = " / "
-        val description = SpannableStringBuilder(if (isTransfer) Transfer.getIndicatorPrefixForLabel(amount.amountMinor) + label else label)
+        val description =
+            SpannableStringBuilder(if (isTransfer) Transfer.getIndicatorPrefixForLabel(amount.amountMinor) + label else label)
         if (!TextUtils.isEmpty(comment)) {
             if (description.isNotEmpty()) {
                 description.append(commentSeparator)
             }
             description.append(comment)
             val before = description.length
-            description.setSpan(StyleSpan(Typeface.ITALIC), before, description.length,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            description.setSpan(
+                StyleSpan(Typeface.ITALIC), before, description.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
         }
         if (!TextUtils.isEmpty(payee)) {
             if (description.isNotEmpty()) {
@@ -81,19 +92,42 @@ class TemplateRemoteViewsFactory(
             }
             description.append(payee)
             val before = description.length
-            description.setSpan(UnderlineSpan(), before, description.length,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            description.setSpan(
+                UnderlineSpan(), before, description.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
         }
         setTextViewText(R.id.note, description)
         setOnClickFillInIntent(R.id.object_info, Intent())
         val templateId = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID))
-        configureButton(R.id.command1, R.drawable.ic_action_apply_save, CLICK_ACTION_SAVE, R.string.menu_create_instance_save, templateId, 175)
-        configureButton(R.id.command2, R.drawable.ic_action_apply_edit, CLICK_ACTION_EDIT, R.string.menu_create_instance_edit, templateId, 223)
+        configureButton(
+            R.id.command1,
+            R.drawable.ic_action_apply_save,
+            CLICK_ACTION_SAVE,
+            R.string.menu_create_instance_save,
+            templateId,
+            1
+        )
+        configureButton(
+            R.id.command2,
+            R.drawable.ic_action_apply_edit,
+            CLICK_ACTION_EDIT,
+            R.string.menu_create_instance_edit,
+            templateId,
+            2
+        )
         setViewVisibility(R.id.command3, View.GONE)
     }
 
-    private fun RemoteViews.configureButton(buttonId: Int, drawableResId: Int, action: String, contentDescriptionResId: Int, templateId: Long, minimumWidth: Int) {
-        if (width < minimumWidth) {
+    private fun RemoteViews.configureButton(
+        buttonId: Int,
+        drawableResId: Int,
+        action: String,
+        contentDescriptionResId: Int,
+        templateId: Long,
+        position: Int
+    ) {
+        if (width > 48 * position) {
             setViewVisibility(buttonId, View.GONE)
         } else {
             setViewVisibility(buttonId, View.VISIBLE)

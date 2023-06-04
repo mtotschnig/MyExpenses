@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -30,6 +31,7 @@ const val WIDGET_CONTEXT_CHANGED = "org.totschnig.myexpenses.CONTEXT_CHANGED"
 const val EXTRA_START_FROM_WIDGET = "startFromWidget"
 const val EXTRA_START_FROM_WIDGET_DATA_ENTRY = "startFromWidgetDataEntry"
 const val KEY_WIDTH = "width"
+const val WIDGET_ROW_RESERVED_SPACE_FOR_INFO = 110
 
 fun onConfigurationChanged(context: Context) {
     updateWidgets(context, AccountWidget::class.java, WIDGET_CONTEXT_CHANGED)
@@ -91,8 +93,8 @@ abstract class AbstractWidget(
         when (context.resources.configuration.orientation) {
             Configuration.ORIENTATION_LANDSCAPE -> AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH
             else -> AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH
-        }
-    )
+        }, Int.MAX_VALUE
+    ) - (WIDGET_ROW_RESERVED_SPACE_FOR_INFO * context.resources.configuration.fontScale).toInt()
 
     fun clickBaseIntent(context: Context) = Intent(WIDGET_CLICK, null, context, javaClass)
 
@@ -138,7 +140,9 @@ abstract class AbstractWidget(
 
                 setRemoteAdapter(R.id.list, Intent(context, clazz).apply {
                     putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-                    putExtra(KEY_WIDTH, availableWidth(context, appWidgetManager, appWidgetId))
+                    val availableWidth = availableWidth(context, appWidgetManager, appWidgetId)
+                    Timber.i("availableWidth: %d", availableWidth)
+                    putExtra(KEY_WIDTH, availableWidth)
                     // When intents are compared, the extras are ignored, so we need to embed the extras
                     // into the data so that the extras will not be ignored.
                     data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))

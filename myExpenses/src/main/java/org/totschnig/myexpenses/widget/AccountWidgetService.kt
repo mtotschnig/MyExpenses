@@ -74,10 +74,10 @@ class AccountRemoteViewsFactory(
             contentDescriptionResId: Int,
             account: Account,
             availableWidth: Int,
-            minimumWidth: Int,
+            position: Int,
             clickInfo: Pair<Int, Intent>?
         ) {
-            if (account.isSealed || availableWidth < minimumWidth) {
+            if (account.isSealed || availableWidth < 48 * position) {
                 setViewVisibility(buttonId, View.GONE)
             } else {
                 setViewVisibility(buttonId, View.VISIBLE)
@@ -152,7 +152,7 @@ class AccountRemoteViewsFactory(
                     R.string.menu_create_transaction,
                     account,
                     availableWidth,
-                    175,
+                    1,
                     clickInfo
                 )
                 configureButton(
@@ -163,7 +163,7 @@ class AccountRemoteViewsFactory(
                     R.string.menu_create_transfer,
                     account,
                     availableWidth,
-                    223,
+                    2,
                     clickInfo
                 )
                 configureButton(
@@ -174,7 +174,7 @@ class AccountRemoteViewsFactory(
                     R.string.menu_create_split,
                     account,
                     availableWidth,
-                    271,
+                    3,
                     clickInfo
                 )
             }

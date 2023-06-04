@@ -19,7 +19,7 @@ abstract class AbstractRemoteViewsFactory(
 ) : RemoteViewsService.RemoteViewsFactory {
 
     protected var cursor: Cursor? = null
-    protected val width: Int = intent.getIntExtra(KEY_WIDTH, 0).takeIf { it > 0 } ?: Int.MAX_VALUE
+    protected val width: Int = intent.getIntExtra(KEY_WIDTH, Int.MAX_VALUE)
 
     override fun onCreate() {}
 
