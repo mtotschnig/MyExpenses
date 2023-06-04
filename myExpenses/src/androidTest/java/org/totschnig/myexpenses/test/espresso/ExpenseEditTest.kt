@@ -61,7 +61,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
     private fun checkAccountDependents() {
         onView(withId(R.id.AmountLabel)).check(
-            matches(withText("${getString(R.string.amount)} ($)"))
+            matches(withText("${getString(R.string.amount)} (${currency1.symbol})"))
         )
         onView(withId(R.id.DateTimeLabel)).check(
             matches(withText("${getString(R.string.date)} / ${getString(R.string.time)}"))
