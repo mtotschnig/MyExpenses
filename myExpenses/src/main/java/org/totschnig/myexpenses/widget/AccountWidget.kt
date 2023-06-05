@@ -79,10 +79,13 @@ class AccountWidget :
                 if (cursor.moveToFirst()) {
                     RemoteViews(context.packageName, AbstractRemoteViewsFactory.rowLayout).also { widget ->
                         AccountRemoteViewsFactory.populate(
-                            context, currencyContext, widget, cursor,
-                            AccountRemoteViewsFactory.sumColumn(context, appWidgetId),
-                            availableWidth(context, appWidgetManager, appWidgetId),
-                            Pair(appWidgetId, clickBaseIntent(context))
+                            context = context,
+                            currencyContext = currencyContext,
+                            remoteViews = widget,
+                            cursor = cursor,
+                            sumColumn = AccountRemoteViewsFactory.sumColumn(context, appWidgetId),
+                            availableWidth = availableWidth(context, appWidgetManager, appWidgetId),
+                            clickInfo = Pair(appWidgetId, clickBaseIntent(context))
                         )
                     }
                 } else {

@@ -2,6 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
+        android:background="#009688"
         android:id="@+id/divider3"
         android:layout_width="4dp"
         android:layout_height="match_parent"
@@ -24,6 +25,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
+            android:text="?widgetLine1"
             android:textColor="?android:attr/textColorPrimary"
             android:textStyle="bold" />
 
@@ -31,20 +33,24 @@
             android:id="@+id/note"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="?widgetNote"
             android:textColor="?android:attr/textColorPrimary" />
     </LinearLayout>
 
     <ImageView
         android:id="@+id/command1"
         style="@style/WidgetActionButton"
+        android:src="?attr/widgetCommand1"
         tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/command2"
         style="@style/WidgetActionButton"
+        android:src="?attr/widgetCommand2"
         tools:ignore="ContentDescription" />
 
     <ImageView
+        android:visibility="gone"
         android:id="@+id/command3"
         style="@style/WidgetActionButton"
         tools:ignore="ContentDescription" />

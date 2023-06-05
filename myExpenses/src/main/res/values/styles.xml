@@ -322,4 +322,43 @@
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:padding">8dp</item>
     </style>
+
+    <style name="AccountWidgetPreview" parent="Theme.Material3.DynamicColors.DayNight">
+        <item name="widgetLine1">@string/default_account_name</item>
+        <item name="widgetNote">1 000,00 $</item>
+        <item name="widgetCommand1">@drawable/ic_menu_add</item>
+        <item name="widgetCommand2">@drawable/ic_menu_forward</item>
+    </style>
+
+    <style name="TemplateWidgetPreview" parent="Theme.Material3.DynamicColors.DayNight">
+        <item name="widgetLine1">@string/testData_transaction2Comment</item>
+        <item name="widgetNote">@string/testData_account1Description</item>
+        <item name="widgetCommand1">@drawable/ic_action_apply_save</item>
+        <item name="widgetCommand2">@drawable/ic_action_apply_edit</item>
+    </style>
+
+    <style name="WidgetDayNight" parent="Theme.Material3.DynamicColors.DayNight">
+        <item name="widgetLine1" />
+        <item name="widgetNote" />
+        <item name="widgetCommand1" />
+        <item name="widgetCommand2" />
+        <item name="colorIncome">@color/colorIncome</item>
+        <item name="colorExpense">@color/colorExpense</item>
+    </style>
+    <style name="WidgetDark" parent="Theme.Material3.Dark">
+        <item name="widgetLine1" />
+        <item name="widgetNote" />
+        <item name="widgetCommand1" />
+        <item name="widgetCommand2" />
+        <item name="colorIncome">@color/colorIncomeLight</item>
+        <item name="colorExpense">@color/colorExpenseLight</item>
+    </style>
+    <style name="WidgetLight" parent="Theme.Material3.Light">
+        <item name="widgetLine1" />
+        <item name="widgetNote" />
+        <item name="widgetCommand1" />
+        <item name="widgetCommand2" />
+        <item name="colorIncome">@color/colorIncomeDark</item>
+        <item name="colorExpense">@color/colorExpenseDark</item>
+    </style>
 </resources>

@@ -124,15 +124,14 @@ class AccountRemoteViewsFactory(
                     if (account.isAggregate) ContextCompat.getColor(context, R.color.colorAggregate)
                     else account.color
                 )
-                val currentBalance = Money(
-                    currencyContext[account.currency],
-                    cursor.getLong(cursor.getColumnIndexOrThrow(sumColumn))
-                )
+                val sum = cursor.getLong(cursor.getColumnIndexOrThrow(sumColumn))
+                val currentBalance = Money(currencyContext[account.currency], sum)
                 setTextViewText(R.id.line1, account.getLabelForScreenTitle(context))
                 setTextViewText(
                     R.id.note,
                     context.injector.currencyFormatter().formatMoney(currentBalance)
                 )
+                setAmountColor(context, R.id.note, sum)
                 val block: Intent.() -> Unit = {
                     putExtra(KEY_ROWID, account.id)
                 }

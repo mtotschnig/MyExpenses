@@ -13,6 +13,7 @@
     android:minWidth="@dimen/widget_default_width"
     android:minHeight="@dimen/widget_default_height"
     android:minResizeWidth="@dimen/widget_min_width"
+    android:previewLayout="@layout/template_widget_preview"
     android:resizeMode="vertical|horizontal"
     android:updatePeriodMillis="0" />
 
