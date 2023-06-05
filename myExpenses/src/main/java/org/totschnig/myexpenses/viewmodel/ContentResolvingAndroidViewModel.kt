@@ -261,10 +261,13 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             ShortcutHelper.configureTransferShortcut(
                 getApplication(),
-                repository.countAccounts(null, null) > 1
+                isTransferEnabled
             )
         }
     }
+
+    val isTransferEnabled
+        get() = repository.countAccounts(null, null) > 1
 
     /**
      * @param rowId For split transactions, we check if any of their children is linked to a debt,

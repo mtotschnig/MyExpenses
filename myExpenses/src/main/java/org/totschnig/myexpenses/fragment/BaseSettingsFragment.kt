@@ -7,6 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
+import android.content.pm.ShortcutInfo
+import android.content.pm.ShortcutManager
 import android.graphics.Bitmap
 import android.icu.text.ListFormatter
 import android.net.Uri
@@ -35,6 +37,9 @@ import eltos.simpledialogfragment.form.Input
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import eltos.simpledialogfragment.list.CustomListDialog
 import eltos.simpledialogfragment.list.SimpleListDialog
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.MyApplication.DEFAULT_LANGUAGE
 import org.totschnig.myexpenses.R
@@ -43,6 +48,7 @@ import org.totschnig.myexpenses.activity.Help
 import org.totschnig.myexpenses.activity.MyPreferenceActivity
 import org.totschnig.myexpenses.activity.RESTORE_REQUEST
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TransactionType
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
@@ -874,11 +880,24 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     prefHandler.encryptDatabase
             }
             getKey(PrefKey.UI_HOME_SCREEN_SHORTCUTS) -> {
-                val shortcutSplitPref = requirePreference<Preference>(PrefKey.SHORTCUT_CREATE_SPLIT)
-                shortcutSplitPref.isEnabled = licenceHandler.isContribEnabled
-                shortcutSplitPref.summary = (getString(R.string.pref_shortcut_summary) + " " +
-                        ContribFeature.SPLIT_TRANSACTION.buildRequiresString(requireActivity()))
-
+                with(requirePreference<Preference>(PrefKey.SHORTCUT_CREATE_SPLIT)) {
+                    if (licenceHandler.isContribEnabled) {
+                        isEnabled = true
+                    } else {
+                        summary = ContribFeature.SPLIT_TRANSACTION.buildRequiresString(requireActivity())
+                    }
+                }
+                with(requirePreference<Preference>(PrefKey.SHORTCUT_CREATE_TRANSFER)) {
+                    lifecycleScope.launch {
+                        withContext(Dispatchers.IO) {
+                            if (viewModel.isTransferEnabled) {
+                                isEnabled = true
+                            } else {
+                                summary = context.getString(R.string.dialog_command_disabled_insert_transfer)
+                            }
+                        }
+                    }
+                }
             }
             getKey(PrefKey.PERFORM_PROTECTION_SCREEN) -> {
                 setProtectionDependentsState()
@@ -1076,9 +1095,29 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         )!!
     )
 
+    private fun addShortcut(nameId: Int, @TransactionType operationType: Int, bitmap: Bitmap) {
+        when {
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1 -> {
+                addShortcutLegacy(nameId, operationType, bitmap)
+            }
+            Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1 -> {
+                requireContext().getSystemService(ShortcutManager::class.java).requestPinShortcut(
+                    ShortcutInfo.Builder(requireContext(), when(operationType) {
+                        Transactions.TYPE_SPLIT -> ShortcutHelper.ID_SPLIT
+                        Transactions.TYPE_TRANSACTION -> ShortcutHelper.ID_TRANSACTION
+                        Transactions.TYPE_TRANSFER -> ShortcutHelper.ID_TRANSFER
+                        else -> throw IllegalStateException()
+                    }).build(),
+                    null
+                )
+            }
+        }
+    }
+
     // credits Financisto
     // src/ru/orangesoftware/financisto/activity/PreferencesActivity.java
-    private fun addShortcut(nameId: Int, operationType: Int, bitmap: Bitmap) {
+    @Suppress("DEPRECATION")
+    private fun addShortcutLegacy(nameId: Int, operationType: Int, bitmap: Bitmap) {
         val shortcutIntent =
             ShortcutHelper.createIntentForNewTransaction(requireContext(), operationType)
 
@@ -1086,7 +1125,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
             putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(nameId))
             putExtra(Intent.EXTRA_SHORTCUT_ICON, bitmap)
-            action = "com.android.launcher.action.INSTALL_SHORTCUT"
+            action =  "com.android.launcher.action.INSTALL_SHORTCUT"
         }
 
         if (Utils.isIntentReceiverAvailable(requireActivity(), intent)) {

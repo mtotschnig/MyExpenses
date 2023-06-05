@@ -3,6 +3,11 @@ package org.totschnig.myexpenses.contract;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import androidx.annotation.IntDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * This contract defines the data needed for communicating with My Expenses via Intents. Currently
  * only adding new transactions via {@link android.content.Intent#ACTION_INSERT} is supported.
@@ -26,6 +31,11 @@ public class TransactionsContract {
    * }</pre>
    */
   public static final class Transactions implements BaseColumns {
+
+    @IntDef({TYPE_TRANSACTION, TYPE_TRANSFER, TYPE_SPLIT})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface TransactionType {}
+
     public static final int TYPE_TRANSACTION = 0;
     public static final int TYPE_TRANSFER = 1;
     /**

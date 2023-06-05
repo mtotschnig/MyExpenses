@@ -320,8 +320,7 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
             return true
         }
         if (key == prefHandler.getKey(PrefKey.UI_HOME_SCREEN_SHORTCUTS)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                //TODO on O we will be able to pin the shortcuts
+            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N_MR1) {
                 showSnackBar(R.string.home_screen_shortcuts_nougate_info)
                 return true
             }

@@ -108,10 +108,12 @@
                 android:summary="@string/pref_shortcut_summary"
                 android:title="@string/menu_create_transaction" />
             <Preference
+                android:enabled="false"
                 android:key="@string/pref_shortcut_create_transfer_key"
                 android:summary="@string/pref_shortcut_summary"
                 android:title="@string/menu_create_transfer" />
             <Preference
+                android:enabled="false"
                 android:key="@string/pref_shortcut_create_split_key"
                 android:title="@string/menu_create_split" />
         </PreferenceScreen>
