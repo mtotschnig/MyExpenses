@@ -156,7 +156,7 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="CalculatorButton" parent="Widget.Material3.Button.OutlinedButton">
+    <style name="CalculatorButtonBase" parent="Widget.Material3.Button.OutlinedButton">
         <item name="android:minHeight">@dimen/calculator_button_min</item>
         <item name="android:minWidth">@dimen/calculator_button_min</item>
         <item name="android:textSize">@dimen/calculator_button_text_size</item>
@@ -164,6 +164,10 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">@dimen/calculator_button_layout_margin</item>
+    </style>
+
+    <style name="CalculatorButton" parent="CalculatorButtonBase">
+        <item name="android:padding">0dp</item>
     </style>
 
     <style name="CalculatorButton.Dot">

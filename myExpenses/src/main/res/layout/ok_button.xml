@@ -5,7 +5,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bOK"
-    style="@style/CalculatorButton"
+    style="@style/CalculatorButtonBase"
     android:layout_width="0dp"
     android:layout_weight="1"
     android:ellipsize="end"

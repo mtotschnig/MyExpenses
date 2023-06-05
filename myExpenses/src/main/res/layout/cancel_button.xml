@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/bCancel"
-    style="@style/CalculatorButton"
+    style="@style/CalculatorButtonBase"
     android:layout_width="0dp"
     android:layout_weight="1"
     app:autoSizeTextType="uniform"

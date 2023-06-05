@@ -7,6 +7,7 @@
 	Michael Totschnig - refactorings, fixes, UI improvements, accessibility
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/Calculator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,14 +23,17 @@
         android:layout_gravity="center">
 
         <Button
+            tools:text="7"
             android:id="@+id/b7"
             style="@style/CalculatorButton" />
 
         <Button
+            tools:text="8"
             android:id="@+id/b8"
             style="@style/CalculatorButton" />
 
         <Button
+            tools:text="9"
             android:id="@+id/b9"
             style="@style/CalculatorButton" />
 
@@ -48,14 +52,17 @@
         android:layout_gravity="center">
 
         <Button
+            tools:text="4"
             android:id="@+id/b4"
             style="@style/CalculatorButton" />
 
         <Button
+            tools:text="5"
             android:id="@+id/b5"
             style="@style/CalculatorButton" />
 
         <Button
+            tools:text="6"
             android:id="@+id/b6"
             style="@style/CalculatorButton" />
 
@@ -74,14 +81,17 @@
         android:layout_gravity="center">
 
         <Button
+            tools:text="1"
             android:id="@+id/b1"
             style="@style/CalculatorButton" />
 
         <Button
+            tools:text="2"
             android:id="@+id/b2"
             style="@style/CalculatorButton" />
 
         <Button
+            tools:text="3"
             android:id="@+id/b3"
             style="@style/CalculatorButton" />
 
