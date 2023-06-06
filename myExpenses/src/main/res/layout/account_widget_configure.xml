@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/budget_list"
+        android:id="@+id/widget_configuration"
         android:name="org.totschnig.myexpenses.fragment.AccountWidgetConfigurationFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

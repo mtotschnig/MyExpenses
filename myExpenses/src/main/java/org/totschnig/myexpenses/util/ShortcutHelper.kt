@@ -59,7 +59,7 @@ object ShortcutHelper {
             .setIntent(intent)
             .build()
         try {
-            ShortcutManagerCompat.addDynamicShortcuts(context, listOf(shortcut))
+            ShortcutManagerCompat.pushDynamicShortcut(context, shortcut)
         } catch (e: Exception) {
             Timber.e(e)
         }
@@ -82,7 +82,7 @@ object ShortcutHelper {
             .setIntent(intent)
             .build()
         try {
-            ShortcutManagerCompat.addDynamicShortcuts(context, listOf(shortcut))
+            ShortcutManagerCompat.pushDynamicShortcut(context, shortcut)
         } catch (e: Exception) {
             Timber.e(e)
         }
