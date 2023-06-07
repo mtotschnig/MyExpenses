@@ -251,6 +251,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                 )
                 return true
             }
+
             R.id.DEFAULT_ACTION_SAVE_COMMAND -> {
                 bulkUpdateDefaultAction(
                     itemIds,
@@ -259,6 +260,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                 )
                 return true
             }
+
             R.id.DELETE_COMMAND -> {
                 MessageDialogFragment.newInstance(
                     getString(R.string.dialog_title_warning_delete_template),  //TODO check if template
@@ -282,6 +284,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                     .show(requireActivity().supportFragmentManager, "DELETE_TEMPLATE")
                 return true
             }
+
             R.id.CREATE_INSTANCE_SAVE_COMMAND -> {
                 if (hasSplitAtPositions(positions)) {
                     requestSplitTransaction(itemIds)
@@ -291,6 +294,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                 finishActionMode()
                 return true
             }
+
             else -> return false
         }
     }
@@ -366,26 +370,29 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     }
 
     fun dispatchCreateInstanceEditDo(itemId: Long) {
-        val intent = Intent(requireActivity(), ExpenseEdit::class.java)
-        intent.putExtra(DatabaseConstants.KEY_TEMPLATEID, itemId)
-        intent.putExtra(DatabaseConstants.KEY_INSTANCEID, -1L)
-        startActivity(intent)
+        startActivity(Intent(requireActivity(), ExpenseEdit::class.java).apply {
+            action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE
+            putExtra(DatabaseConstants.KEY_TEMPLATEID, itemId)
+        })
     }
 
     private fun dispatchCreateInstanceEdit(templateId: Long, instanceId: Long, date: Long) {
-        val intent = Intent(requireActivity(), ExpenseEdit::class.java)
-        intent.putExtra(DatabaseConstants.KEY_TEMPLATEID, templateId)
-        intent.putExtra(DatabaseConstants.KEY_INSTANCEID, instanceId)
-        intent.putExtra(DatabaseConstants.KEY_DATE, date)
-        startActivity(intent)
+        startActivity(
+            Intent(requireActivity(), ExpenseEdit::class.java)
+                .putExtra(DatabaseConstants.KEY_TEMPLATEID, templateId)
+                .putExtra(DatabaseConstants.KEY_INSTANCEID, instanceId)
+                .putExtra(DatabaseConstants.KEY_DATE, date)
+        )
     }
 
     private fun dispatchEditInstance(transactionId: Long?) {
-        val intent = Intent(requireActivity(), ExpenseEdit::class.java)
-        intent.putExtra(DatabaseConstants.KEY_ROWID, transactionId)
-        startActivityForResult(intent, EDIT_REQUEST)
+        startActivityForResult(
+            Intent(requireActivity(), ExpenseEdit::class.java)
+                .putExtra(DatabaseConstants.KEY_ROWID, transactionId), EDIT_REQUEST
+        )
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == EDIT_REQUEST && resultCode == Activity.RESULT_OK) {
@@ -433,7 +440,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
             hasPlans = false
             if (isCalendarPermissionGranted && mTemplatesCursor != null && mTemplatesCursor!!.moveToFirst()) {
                 val needToExpand =
-                    if (expandedHandled) ManageTemplates.NOT_CALLED.toLong() else ctx.calledFromCalendarWithId
+                    if (expandedHandled) ManageTemplates.NOT_CALLED else ctx.calledFromCalendarWithId
                 var planMonthFragment: PlanMonthFragment? = null
                 while (!mTemplatesCursor!!.isAfterLast) {
                     val planId = mTemplatesCursor!!.getLong(columnIndexPlanId)
@@ -453,7 +460,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                     }
                     mTemplatesCursor!!.moveToNext()
                 }
-                if (needToExpand != ManageTemplates.NOT_CALLED.toLong()) {
+                if (needToExpand != ManageTemplates.NOT_CALLED) {
                     expandedHandled = true
                     if (planMonthFragment != null) {
                         planMonthFragment.show(childFragmentManager, CALDROID_DIALOG_FRAGMENT_TAG)
@@ -750,7 +757,9 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     private fun isForeignExchangeTransfer(position: Int): Boolean {
         if (mTemplatesCursor != null && mTemplatesCursor!!.moveToPosition(position)) {
             if (!mTemplatesCursor!!.isNull(columnIndexTransferAccount)) {
-                return mTemplatesCursor!!.getString(columnIndexCurrency) != repository.getCurrencyForAccount(mTemplatesCursor!!.getLong(columnIndexTransferAccount))
+                return mTemplatesCursor!!.getString(columnIndexCurrency) != repository.getCurrencyForAccount(
+                    mTemplatesCursor!!.getLong(columnIndexTransferAccount)
+                )
             }
         }
         return false
@@ -768,6 +777,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         } else false
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.templates, menu)
     }
@@ -850,23 +860,28 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                             )
                             true
                         }
+
                         R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND -> {
                             dispatchCreateInstanceSaveDo(planInstance)
                             true
 
                         }
+
                         R.id.EDIT_PLAN_INSTANCE_COMMAND -> {
                             dispatchEditInstance(planInstance.transactionId)
                             true
                         }
+
                         R.id.CANCEL_PLAN_INSTANCE_COMMAND -> {
                             dispatchCancelInstance(planInstance)
                             true
                         }
+
                         R.id.RESET_PLAN_INSTANCE_COMMAND -> {
                             dispatchResetInstance(planInstance)
                             true
                         }
+
                         else -> false
                     }
                 }

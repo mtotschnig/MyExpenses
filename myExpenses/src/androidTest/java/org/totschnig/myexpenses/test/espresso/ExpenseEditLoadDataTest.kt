@@ -306,8 +306,8 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     @Test
     fun shouldPopulateFromSplitTemplateAndLoadParts() {
         launchAndWait(intent.apply {
+            action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE
             putExtra(DatabaseConstants.KEY_TEMPLATEID, buildSplitTemplate())
-            putExtra(DatabaseConstants.KEY_INSTANCEID, -1L)
         }).use {
             it.onActivity { activity: ExpenseEdit ->
                 Assertions.assertThat(activity.isTemplate).isFalse()
@@ -390,8 +390,8 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         template.amount = Money(homeCurrency, 800L)
         template.save()
         launchAndWait(intent.apply {
+            action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE
             putExtra(DatabaseConstants.KEY_TEMPLATEID, template.id)
-            putExtra(DatabaseConstants.KEY_INSTANCEID, -1L)
         }).use {
             checkEffectiveVisible(
                 R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,

@@ -55,8 +55,8 @@ class TemplateWidget: AbstractWidget(TemplateWidgetService::class.java, PrefKey.
             }
             CLICK_ACTION_EDIT -> context.startActivity(Intent(context, ExpenseEdit::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE
                 putExtra(DatabaseConstants.KEY_TEMPLATEID, templateId)
-                putExtra(DatabaseConstants.KEY_INSTANCEID, -1L)
                 putExtra(EXTRA_START_FROM_WIDGET, true)
                 putExtra(EXTRA_START_FROM_WIDGET_DATA_ENTRY, true)
             })

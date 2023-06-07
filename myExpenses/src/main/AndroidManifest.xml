@@ -355,6 +355,9 @@
             android:name=".activity.DebtEdit"
             android:theme="@style/EditDialog" />
 
+        <activity android:name="org.totschnig.myexpenses.activity.TemplateSaver"
+            android:theme="@android:style/Theme.NoDisplay" />
+
         <service
             android:name=".sync.GenericAccountService"
             android:exported="false">

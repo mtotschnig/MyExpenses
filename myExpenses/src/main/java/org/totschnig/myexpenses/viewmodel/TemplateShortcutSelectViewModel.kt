@@ -12,6 +12,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.TransactionProvider
 
+data class TemplateInfo(val rowId: Long, val title: String)
+
 class TemplateShortcutSelectViewModel(application: Application) :
     ContentResolvingAndroidViewModel(application) {
     val templates =
@@ -20,6 +22,6 @@ class TemplateShortcutSelectViewModel(application: Application) :
             projection = arrayOf(KEY_ROWID, KEY_TITLE),
             selection = "$KEY_PARENTID IS null AND $KEY_PLANID IS null",
         )
-            .mapToList { it.getLong(0) to it.getString(1) }
+            .mapToList { TemplateInfo(it.getLong(0), it.getString(1)) }
     .stateIn(viewModelScope, SharingStarted.Lazily, null)
 }
