@@ -1269,8 +1269,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     }
 
                     else -> {
+                        CrashHandler.report(it)
                         (delegate as? CategoryDelegate)?.resetCategory()
-                        "Error while saving transaction"
+                        "Error while saving transaction: ${it.safeMessage}"
                     }
                 }
             )

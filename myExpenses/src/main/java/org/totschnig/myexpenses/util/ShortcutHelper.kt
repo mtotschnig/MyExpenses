@@ -11,8 +11,11 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity.Companion.getIntentFor
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.SimpleToastActivity
+import org.totschnig.myexpenses.activity.TemplateSaver
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.viewmodel.TemplateInfo
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET_DATA_ENTRY
 import timber.log.Timber
@@ -21,6 +24,7 @@ object ShortcutHelper {
     const val ID_TRANSACTION = "transaction"
     const val ID_TRANSFER = "transfer"
     const val ID_SPLIT = "split"
+    fun idTemplate(templateId: Long) = "template-$templateId"
 
     fun createIntentForNewSplit(context: Context) =
         createIntentForNewTransaction(context, Transactions.TYPE_SPLIT)
@@ -87,4 +91,25 @@ object ShortcutHelper {
             Timber.e(e)
         }
     }
+
+    fun buildTemplateShortcut(context: Context, templateInfo: TemplateInfo) =
+        ShortcutInfoCompat.Builder(context, idTemplate(templateInfo.rowId))
+            .setShortLabel(templateInfo.title)
+            .setIntent(if (true) Intent(context, TemplateSaver::class.java).apply {
+                action = Intent.ACTION_INSERT
+                putExtra(DatabaseConstants.KEY_TEMPLATEID, templateInfo.rowId)
+            } else Intent(context, ExpenseEdit::class.java).apply {
+                action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                putExtra(DatabaseConstants.KEY_TEMPLATEID, templateInfo.rowId)
+                putExtra(EXTRA_START_FROM_WIDGET, true)
+                putExtra(EXTRA_START_FROM_WIDGET_DATA_ENTRY, true)
+            })
+            .setIcon(
+                IconCompat.createWithResource(
+                    context,
+                    R.drawable.ic_menu_template_shortcut
+                )
+            )
+            .build()
 }

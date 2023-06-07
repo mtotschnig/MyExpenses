@@ -294,6 +294,7 @@
         </activity>
         <activity
             android:name=".activity.TemplateShortcutSelect"
+            android:icon="@drawable/ic_menu_template_shortcut"
             android:exported="true"
             android:label="Vorlage Verknüpfung"
             android:theme="@style/Configuration">
@@ -356,6 +357,7 @@
             android:theme="@style/EditDialog" />
 
         <activity android:name="org.totschnig.myexpenses.activity.TemplateSaver"
+            android:taskAffinity=""
             android:theme="@android:style/Theme.NoDisplay" />
 
         <service

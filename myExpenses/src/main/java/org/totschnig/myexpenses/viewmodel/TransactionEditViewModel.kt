@@ -5,7 +5,10 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
+import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.content.pm.ShortcutManagerCompat.FLAG_MATCH_PINNED
 import androidx.lifecycle.*
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
@@ -28,6 +31,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
 import org.totschnig.myexpenses.util.ImageOptimizer
 import org.totschnig.myexpenses.util.PictureDirHelper
+import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.asExtension
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.viewmodel.data.Account
@@ -119,10 +123,25 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     fun save(transaction: ITransaction): LiveData<Result<Long>> =
         liveData(context = coroutineContext()) {
             emit(kotlin.runCatching {
+                val existingTemplateMaybeUpdateShortcut =
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && transaction is Template && transaction.id != 0L
                 savePicture(transaction)
                 val result = transaction.save(true)?.let { ContentUris.parseId(it) }
                     ?: throw Throwable("Error while saving transaction")
+                if (existingTemplateMaybeUpdateShortcut) {
+                    if(
+                        ShortcutManagerCompat.getShortcuts(getApplication(), FLAG_MATCH_PINNED).any {
+                            it.id == ShortcutHelper.idTemplate(transaction.id)
+                        }
+                    ) {
+                        ShortcutManagerCompat.updateShortcuts(getApplication(),
+                            listOf(
+                                ShortcutHelper.buildTemplateShortcut(getApplication(), TemplateInfo(transaction.id, (transaction as Template).title)))
+                            )
+                    }
+                }
                 if (!transaction.saveTags(tagsLiveData.value)) throw Throwable("Error while saving tags")
+
                 result
             })
         }

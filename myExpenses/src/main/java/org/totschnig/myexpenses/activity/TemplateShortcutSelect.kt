@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.activity
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -18,16 +17,12 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
-import androidx.core.graphics.drawable.IconCompat
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.util.ShortcutHelper.buildTemplateShortcut
 import org.totschnig.myexpenses.viewmodel.TemplateInfo
 import org.totschnig.myexpenses.viewmodel.TemplateShortcutSelectViewModel
-import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
-import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET_DATA_ENTRY
 
 class TemplateShortcutSelect : AppCompatActivity() {
     private val viewModel: TemplateShortcutSelectViewModel by viewModels()
@@ -43,32 +38,12 @@ class TemplateShortcutSelect : AppCompatActivity() {
                         finish()
                     },
                     onSubmit = {
-                        val intent = if (true) Intent(this, TemplateSaver::class.java).apply {
-                            action = Intent.ACTION_INSERT
-                            putExtra(DatabaseConstants.KEY_TEMPLATEID, it.rowId)
-                        } else Intent(this, ExpenseEdit::class.java).apply {
-                            action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE
-                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            putExtra(DatabaseConstants.KEY_TEMPLATEID, it.rowId)
-                            putExtra(EXTRA_START_FROM_WIDGET, true)
-                            putExtra(EXTRA_START_FROM_WIDGET_DATA_ENTRY, true)
-                        }
-                        val id = "template-$it"
-
-                        val shortcut = ShortcutInfoCompat.Builder(this, id)
-                            .setShortLabel(it.title)
-                            .setIntent(intent)
-                            .setIcon(
-                                IconCompat.createWithResource(
-                                    this,
-                                    R.drawable.ic_action_apply_edit
-                                )
-                            )
-                            .build()
-
                         setResult(
                             RESULT_OK,
-                            ShortcutManagerCompat.createShortcutResultIntent(this, shortcut)
+                            ShortcutManagerCompat.createShortcutResultIntent(
+                                this,
+                                buildTemplateShortcut(this, it)
+                            )
                         )
                         finish()
                     }
