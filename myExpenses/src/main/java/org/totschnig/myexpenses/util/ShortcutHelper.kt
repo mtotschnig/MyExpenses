@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.activity.TemplateSaver
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.model.Template.Action
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.viewmodel.TemplateInfo
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
@@ -93,22 +94,25 @@ object ShortcutHelper {
         }
     }
 
+    fun buildTemplateIntent(context: Context, id: Long, templateAction: Action) =
+        if (templateAction == Action.SAVE)
+            Intent(context, TemplateSaver::class.java).apply {
+                action = Intent.ACTION_INSERT
+                putExtra(DatabaseConstants.KEY_TEMPLATEID, id)
+            } else
+            Intent(context, ExpenseEdit::class.java).apply {
+                action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                putExtra(DatabaseConstants.KEY_TEMPLATEID, id)
+                putExtra(EXTRA_START_FROM_WIDGET, true)
+                putExtra(EXTRA_START_FROM_WIDGET_DATA_ENTRY, true)
+            }
+
     fun buildTemplateShortcut(context: Context, templateInfo: TemplateInfo) =
         ShortcutInfoCompat.Builder(context, idTemplate(templateInfo.rowId))
             .setShortLabel(templateInfo.title)
-            .setIntent(
-                if (templateInfo.defaultAction == Template.Action.SAVE)
-                    Intent(context, TemplateSaver::class.java).apply {
-                        action = Intent.ACTION_INSERT
-                        putExtra(DatabaseConstants.KEY_TEMPLATEID, templateInfo.rowId)
-                    } else
-                    Intent(context, ExpenseEdit::class.java).apply {
-                        action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                        putExtra(DatabaseConstants.KEY_TEMPLATEID, templateInfo.rowId)
-                        putExtra(EXTRA_START_FROM_WIDGET, true)
-                        putExtra(EXTRA_START_FROM_WIDGET_DATA_ENTRY, true)
-                    })
+            .setLongLabel(templateInfo.title)
+            .setIntent(buildTemplateIntent(context, templateInfo.rowId, templateInfo.defaultAction))
             .setIcon(
                 IconCompat.createWithResource(
                     context,
