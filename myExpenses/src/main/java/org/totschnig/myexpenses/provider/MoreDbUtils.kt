@@ -362,6 +362,9 @@ fun Cursor.getBoolean(columnIndex: Int) = getInt(columnIndex) == 1
 inline fun <reified T : Enum<T>> Cursor.getEnum(column: String, default: T) =
     enumValueOrDefault(getString(column), default)
 
+inline fun <reified T : Enum<T>> Cursor.getEnum(columnIndex: Int, default: T) =
+    enumValueOrDefault(getString(columnIndex), default)
+
 /**
  * Splits the value of column by ASCII UnitSeparator char
  */

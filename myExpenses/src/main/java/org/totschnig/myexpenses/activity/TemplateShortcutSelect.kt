@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.pm.ShortcutManagerCompat
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
+import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.util.ShortcutHelper.buildTemplateShortcut
 import org.totschnig.myexpenses.viewmodel.TemplateInfo
 import org.totschnig.myexpenses.viewmodel.TemplateShortcutSelectViewModel
@@ -115,8 +116,8 @@ fun SelectionScreen(
 fun SelectionScreenPreview() {
     SelectionScreen(
         data = listOf(
-            TemplateInfo(1, "Template 1"),
-            TemplateInfo(2, "Template 2")
+            TemplateInfo(1, "Template 1", Template.Action.SAVE),
+            TemplateInfo(2, "Template 2", Template.Action.SAVE)
         )
     )
 }

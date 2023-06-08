@@ -129,15 +129,21 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 val result = transaction.save(true)?.let { ContentUris.parseId(it) }
                     ?: throw Throwable("Error while saving transaction")
                 if (existingTemplateMaybeUpdateShortcut) {
-                    if(
-                        ShortcutManagerCompat.getShortcuts(getApplication(), FLAG_MATCH_PINNED).any {
-                            it.id == ShortcutHelper.idTemplate(transaction.id)
-                        }
+                    if (
+                        ShortcutManagerCompat.getShortcuts(getApplication(), FLAG_MATCH_PINNED)
+                            .any {
+                                it.id == ShortcutHelper.idTemplate(transaction.id)
+                            }
                     ) {
-                        ShortcutManagerCompat.updateShortcuts(getApplication(),
+                        ShortcutManagerCompat.updateShortcuts(
+                            getApplication(),
                             listOf(
-                                ShortcutHelper.buildTemplateShortcut(getApplication(), TemplateInfo(transaction.id, (transaction as Template).title)))
+                                ShortcutHelper.buildTemplateShortcut(
+                                    getApplication(),
+                                    TemplateInfo.fromTemplate(transaction as Template)
+                                )
                             )
+                        )
                     }
                 }
                 if (!transaction.saveTags(tagsLiveData.value)) throw Throwable("Error while saving tags")

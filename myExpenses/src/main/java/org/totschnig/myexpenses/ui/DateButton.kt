@@ -87,8 +87,6 @@ class DateButton @JvmOverloads constructor(
         setDateInternal(date.plusDays(1))
     }
 
-    //TODO setFirstDayOfWeek https://github.com/material-components/material-components-android/issues/1949
-
     private fun setDateInternal(localDate: LocalDate) {
         setDate(localDate)
         host.onValueSet(this)
