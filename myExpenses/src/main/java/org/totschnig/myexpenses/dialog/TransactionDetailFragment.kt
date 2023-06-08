@@ -239,7 +239,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                 }
                 val dateMode = getDateMode(transaction.accountType, prefHandler)
                 val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
-                val timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)
+                val timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
                 if (dateMode == DateMode.BOOKING_VALUE) {
                     binding.DateLabel.setText(R.string.booking_date)
                     binding.Date2Row.visibility = View.VISIBLE
