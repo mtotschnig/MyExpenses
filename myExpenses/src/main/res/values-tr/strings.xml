@@ -1031,4 +1031,6 @@
     <string name="image_optimize_quality">Nitelik</string>
     <string name="optimize_image_file_size">Resim dosyası boyutunu iyileştir</string>
     <string name="add_shortcut">Kısayol ekle</string>
+    <string name="select_template">Şablon seç</string>
+    <string name="template_shortcut">Şablon kısayolu</string>
 </resources>
