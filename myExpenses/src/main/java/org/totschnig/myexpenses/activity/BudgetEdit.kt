@@ -153,7 +153,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                 }
             }
         }
-        mNewInstance = budgetId == 0L
+        newInstance = budgetId == 0L
         viewModel.databaseResult.observe(this) {
             if (it > -1) {
                 finish()
@@ -166,11 +166,11 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
             setSelection(Grouping.MONTH.ordinal)
         }
         accountSpinnerHelper = SpinnerHelper(binding.Accounts)
-        filterPersistence = FilterPersistence(prefHandler, prefNameForCriteria(budgetId), savedInstanceState, false, !mNewInstance)
+        filterPersistence = FilterPersistence(prefHandler, prefNameForCriteria(budgetId), savedInstanceState, false, !newInstance)
 
         filterPersistence.whereFilter.criteria.forEach(this::showFilterCriteria)
         configureFilterDependents()
-        setTitle(if (mNewInstance) R.string.menu_create_budget else R.string.menu_edit_budget)
+        setTitle(if (newInstance) R.string.menu_create_budget else R.string.menu_edit_budget)
         linkInputsWithLabels()
     }
 
@@ -263,7 +263,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     }
 
     private fun populateData(budget: Budget) {
-        check(!mNewInstance)
+        check(!newInstance)
         this.budget = budget
         binding.Title.setText(budget.title)
         binding.Description.setText(budget.description)

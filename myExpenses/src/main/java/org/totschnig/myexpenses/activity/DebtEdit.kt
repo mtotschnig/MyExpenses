@@ -103,7 +103,7 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host, ExchangeRateEdit.Host {
         }
         if (debtId != 0L) {
             binding.Amount.disableCurrencySelection()
-            mNewInstance = false
+            newInstance = false
         }
         binding.Amount.setTypeChangedListener {
             setTitle(it)

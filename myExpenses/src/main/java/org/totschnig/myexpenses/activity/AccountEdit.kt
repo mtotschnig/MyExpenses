@@ -132,7 +132,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         DialogUtils.configureTypeSpinner(spinner)
         accountTypeSpinner = SpinnerHelper(spinner)
         syncSpinner = SpinnerHelper(findViewById(R.id.Sync))
-        mNewInstance = rowId == 0L
+        newInstance = rowId == 0L
         setTitle(if (rowId != 0L) R.string.menu_edit_account else R.string.menu_create_account)
         if (savedInstanceState == null || !dataLoaded) {
             if (rowId != 0L) {
@@ -435,7 +435,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
         if (syncSpinner.selectedItemPosition > 0) {
             val syncAccountName = syncSpinner.selectedItem as String
-            if (!mNewInstance) {
+            if (!newInstance) {
                 showSnackBar(R.string.progress_dialog_checking_sync_backend)
                 uuid?.let { uuid ->
                     syncViewModel.syncCheck(uuid, syncAccountName)

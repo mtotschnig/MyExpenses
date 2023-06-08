@@ -206,7 +206,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         get() = intent.getBooleanExtra(KEY_CLONE, false)
 
     private val withAutoFill: Boolean
-        get() = mNewInstance && !isClone && !hasCreateFromTemplateAction
+        get() = newInstance && !isClone && !hasCreateFromTemplateAction
 
     private val hasCreateFromTemplateAction
         get() = intent.action == ACTION_CREATE_FROM_TEMPLATE || planInstanceId > 0L
@@ -278,7 +278,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             )
             setHelpVariant(delegate.helpVariant)
             setTitle()
-            refreshPlanData()
+            if (isTemplate) {
+                refreshPlanData(false)
+            }
             floatingActionButton.show()
         } else {
             areDatesLinked = prefHandler.getBoolean(PrefKey.DATES_ARE_LINKED, false)
@@ -304,7 +306,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     TRANSACTION
                 }
             }
-            mNewInstance =
+            newInstance =
                 mRowId == 0L || task == TRANSACTION_FROM_TEMPLATE || task == TEMPLATE_FROM_TRANSACTION
             withTypeSpinner = mRowId == 0L
             //were we called from a notification
@@ -418,7 +420,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     )
                 }
             }
-            if (mNewInstance) {
+            if (newInstance) {
                 if (operationType != TYPE_TRANSFER) {
                     discoveryHelper.discover(
                         this, amountInput.typeButton(), 1,
@@ -626,8 +628,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         super.onDestroy()
         pObserver?.let {
             try {
-                val cr = contentResolver
-                cr.unregisterContentObserver(it)
+                contentResolver.unregisterContentObserver(it)
             } catch (ise: IllegalStateException) { // Do Nothing.  Observer has already been unregistered.
             }
         }
@@ -691,7 +692,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             transaction.crStatus = CrStatus.UNRECONCILED
             transaction.status = STATUS_NONE
             transaction.uuid = Model.generateUuid()
-            mNewInstance = true
+            newInstance = true
         }
         //processing data from user switching operation type
         val cached = intent.getParcelableExtra(KEY_CACHED_DATA) as? CachedTransaction
@@ -753,7 +754,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         setTitle()
         shouldShowCreateTemplate = transaction.originTemplateId == null
         if (!isTemplate) {
-            createNew = mNewInstance && prefHandler.getBoolean(saveAndNewPrefKey, false)
+            createNew = newInstance && prefHandler.getBoolean(saveAndNewPrefKey, false)
             updateFab()
         }
         invalidateOptionsMenu()
@@ -772,7 +773,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         if (withTypeSpinner) {
             supportActionBar!!.setDisplayShowTitleEnabled(false)
         } else {
-            title = delegate.title(mNewInstance)
+            title = delegate.title(newInstance)
         }
     }
 
@@ -1156,14 +1157,14 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     private inner class PlanObserver : ContentObserver(Handler()) {
         override fun onChange(selfChange: Boolean) {
-            refreshPlanData()
+            refreshPlanData(true)
         }
     }
 
-    private fun refreshPlanData() {
+    private fun refreshPlanData(fromObserver: Boolean) {
         delegate.planId?.let { planId ->
             viewModel.plan(planId).observe(this) { plan ->
-                plan?.let { delegate.configurePlan(it) }
+                plan?.let { delegate.configurePlan(it, fromObserver) }
             }
         }
     }
@@ -1229,7 +1230,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             }
             if (createNew) {
                 delegate.prepareForNew()
-                mNewInstance = true
+                newInstance = true
                 clearDirty()
                 showSnackBar(
                     getString(R.string.save_transaction_and_new_success),

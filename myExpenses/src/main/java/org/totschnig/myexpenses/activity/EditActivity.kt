@@ -28,7 +28,6 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ButtonWithDialog
 import org.totschnig.myexpenses.util.linkInputsWithLabels
-import java.math.BigDecimal
 
 abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWithDialog.Host {
     protected var mIsSaving = false
@@ -36,9 +35,8 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
     @State
     var isDirty = false
 
-    @JvmField
     @State
-    var mNewInstance = true
+    var newInstance = true
     protected fun validateAmountInput(input: AmountInput, showToUser: Boolean, ifPresent: Boolean = true) =
         input.getTypedValue(ifPresent, showToUser)
 
@@ -66,7 +64,7 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
         val b = Bundle()
         b.putString(
             ConfirmationDialogFragment.KEY_MESSAGE,
-            if (mNewInstance) getString(R.string.discard) + "?" else getString(R.string.dialog_confirm_discard_changes)
+            if (newInstance) getString(R.string.discard) + "?" else getString(R.string.dialog_confirm_discard_changes)
         )
         b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, android.R.id.home)
         b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.response_yes)

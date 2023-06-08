@@ -78,7 +78,7 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
           : 0;
     int paymentType;
     if (rowId != 0) {
-      mNewInstance = false;
+      setNewInstance(false);
       mMethod = PaymentMethod.getInstanceFromDb(rowId);
 
       setTitle(R.string.menu_edit_method);

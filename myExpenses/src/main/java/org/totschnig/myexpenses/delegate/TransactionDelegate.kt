@@ -294,7 +294,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         viewBinding.Amount.visibility = View.VISIBLE
         //}
         //after setLocalDateTime, so that the plan info can override the date
-        configurePlan((transaction as? Template)?.plan)
+        configurePlan((transaction as? Template)?.plan, false)
         configureLastDayButton()
 
         viewBinding.Amount.addTextChangedListener(object : MyTextWatcher() {
@@ -980,12 +980,14 @@ abstract class TransactionDelegate<T : ITransaction>(
         planButton.overrideText(Plan.prettyTimeInfo(context, plan.rRule, plan.dtStart))
     }
 
-    fun configurePlan(plan: Plan?) {
+    fun configurePlan(plan: Plan?, fromObserver: Boolean) {
         plan?.let {
             updatePlanButton(it)
             if (viewBinding.Title.text.toString() == "") viewBinding.Title.setText(it.title)
-            recurrenceSpinner.spinner.visibility = View.GONE
-            configurePlanDependents(true)
+            if (!fromObserver) {
+                recurrenceSpinner.spinner.visibility = View.GONE
+                configurePlanDependents(true)
+            }
             host.observePlan(it.id)
         }
     }
