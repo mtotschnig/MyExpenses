@@ -1071,7 +1071,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                 visibility = View.VISIBLE
                 setOnClickListener {
                     currentAccount()?.let {
-                        (context as ExpenseEdit).showPlanMonthFragment(template, it.color)
+                        host.showPlanMonthFragment(template, it.color)
                     }
                 }
             }
