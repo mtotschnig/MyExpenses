@@ -30,7 +30,7 @@ class TemplateShortcutSelect : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        title = "Vorlage auswählen"
+        title = getString(R.string.select_template)
         setContent {
             AppTheme {
                 SelectionScreen(
@@ -104,7 +104,7 @@ fun SelectionScreen(
                     id = if (selectedItem == null)
                         android.R.string.cancel
                     else
-                        R.string.pref_shortcut_summary
+                        R.string.add_shortcut
                 )
             )
         }

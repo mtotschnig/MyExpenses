@@ -137,4 +137,5 @@
     <string name="menu_show_transactions">Rodyti operacijas</string>
     <string name="template">Šablonas</string>
     <string name="new_version">Nauja versija</string>
+    <string name="add_shortcut">Pridėti trumpinį</string>
 </resources>

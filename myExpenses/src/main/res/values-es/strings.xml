@@ -1043,4 +1043,5 @@
     <string name="file_format">Formato del archivo</string>
     <string name="image_optimize_quality">Calidad</string>
     <string name="image_optimize_quality_summary">Calidad 0 significa compresión al tamaño mínimo. 100 es la máxima compresión de calidad visible.</string>
+    <string name="add_shortcut">Añadir ataj</string>
 </resources>

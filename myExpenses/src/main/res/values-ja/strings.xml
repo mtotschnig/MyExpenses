@@ -862,4 +862,5 @@
     <string name="icons_for_categories">分類のアイコン</string>
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">カテゴリツリー</string>
     <string name="redesign">デザイン</string>
+    <string name="add_shortcut">ショートカットを追加</string>
 </resources>

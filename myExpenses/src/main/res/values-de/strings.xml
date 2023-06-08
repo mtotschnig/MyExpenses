@@ -1030,4 +1030,5 @@
     <string name="file_format">Dateiformat</string>
     <string name="image_optimize_quality">Qualität</string>
     <string name="image_optimize_quality_summary">Qualität von 0 bedeutet Komprimierung für die kleinste Größe. 100 bedeutet Komprimierung für maximale visuelle Qualität.</string>
+    <string name="add_shortcut">Verknüpfung hinzufügen</string>
 </resources>

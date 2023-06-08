@@ -253,4 +253,5 @@
     <string name="pref_acra_user_email_summary">Por favor, insire o teu enderezo electrónico se queres axudar na depuración de erros e permites que contactemos contigo.</string>
     <string name="new_version">Versión nova</string>
     <string name="account_type_cash_plural">Cash accounts</string>
+    <string name="add_shortcut">Engadir atallo</string>
 </resources>

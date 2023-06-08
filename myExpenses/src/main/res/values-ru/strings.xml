@@ -966,4 +966,5 @@
     <string name="setup_completed">Настройка завершена</string>
     <string name="whats_new_338">Произвольно глубокая иерархия категорий</string>
     <string name="icons_for_categories">Иконки для категорий</string>
+    <string name="add_shortcut">Добавить ярлык</string>
 </resources>

@@ -682,4 +682,5 @@
     <string name="whats_new_338">Kategoria hierarkia arbitrarioki sakona</string>
     <string name="dialog_title_purge_backups">Garbitu babeskopia zaharrak</string>
     <string name="menu_reconfigure">Birmoldatu</string>
+    <string name="add_shortcut">Gehitu sarbide zuzena</string>
 </resources>

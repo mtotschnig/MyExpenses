@@ -796,4 +796,5 @@
     <string name="warning_delete_budget">El pressupost \"%1$s\" s\'eliminarà.</string>
     <string name="onboarding_privacy_title">Les vostres dades són a les vostres mans</string>
     <string name="menu_reconfigure">Reconfigurar</string>
+    <string name="add_shortcut">Afegeix drecera</string>
 </resources>

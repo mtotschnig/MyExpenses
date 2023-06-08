@@ -333,4 +333,5 @@
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Kategoritre</string>
     <string name="decimal_separator">Desimaltegn</string>
     <string name="menu_edit_transfer">Rediger overføring</string>
+    <string name="add_shortcut">Legg til snarvei</string>
 </resources>

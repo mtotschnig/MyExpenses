@@ -476,4 +476,5 @@
     <string name="bug_fixes" tools:ignore="UnusedResources">Fejlrettelser</string>
     <string name="dialog_title_purge_backups">Rens gamle sikkerhedskopier</string>
     <string name="menu_reconfigure">Omkonfigurere</string>
+    <string name="add_shortcut">Tilføj genvej</string>
 </resources>

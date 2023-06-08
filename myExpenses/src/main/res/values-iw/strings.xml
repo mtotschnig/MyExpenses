@@ -1058,4 +1058,5 @@
     <string name="image_optimize_quality">איכות</string>
     <string name="image_optimize_quality_summary">איכות 0 זה למעשה דחיסה לגודל המזערי ביותר. 100 זאת דחיסה לאיכות החזותית הגבוהה ביותר.</string>
     <string name="maximum_size">גודל מרבי</string>
+    <string name="add_shortcut">הוספת קיצור דרך</string>
 </resources>

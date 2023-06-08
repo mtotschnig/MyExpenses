@@ -940,4 +940,5 @@
     <string name="icons_for_categories">Ícones para categorias</string>
     <string name="menu_parent_category_selection">Selecionar a categoria mãe no toque breve</string>
     <string name="menu_reconfigure">Reconfigurar</string>
+    <string name="add_shortcut">Adicionar atalho</string>
 </resources>

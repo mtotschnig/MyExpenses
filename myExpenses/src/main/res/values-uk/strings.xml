@@ -777,4 +777,5 @@
     <string name="title_scan_receipt_feature">Сканувати квитанцію</string>
     <string name="debt_managment">Управління боргом</string>
     <string name="ui_refinement">Уточнення інтерфейсу користувача</string>
+    <string name="add_shortcut">Додати скорочення</string>
 </resources>

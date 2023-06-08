@@ -54,4 +54,5 @@
     <string name="pref_acra_user_email">V správe o zlyhaní zahrnúť e-mail užívateľa</string>
     <string name="pref_acra_user_email_summary">Zadajte prosím Vašu e-mailovú adresu, ak ste ochotní pomôcť ladiť program a povoľujete nám Vás kontaktovať.</string>
     <string name="new_version">Nová verzia</string>
+    <string name="add_shortcut">Pridať skratku</string>
 </resources>

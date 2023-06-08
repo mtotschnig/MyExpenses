@@ -1008,4 +1008,5 @@
     <string name="select_all_list_too_large">O comando %s não está disponível porque a lista foi apenas parcialmente carregada. Por favor, use a funcionalidade Pesquisar para reduzir o tamanho da lista.</string>
     <string name="menu_reconfigure">Reconfigurar</string>
     <string name="encrypt_database">Criptografar o banco de dados</string>
+    <string name="add_shortcut">Adicionar atalho</string>
 </resources>

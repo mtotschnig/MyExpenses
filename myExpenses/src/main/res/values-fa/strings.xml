@@ -713,4 +713,5 @@
     <string name="warning_split_transactions">تراکنش‌های انتخاب شده به یک تراکنش چندبخشی گروه‌بندی خواهند شد. اطلاعات تاریخ آنها از دست خواهد رفت (میانگین آنها جایگزین می شود).</string>
     <string name="wifi_not_connected">دستگاه به Wi-Fi متصل نیست. همگام‌سازی به تعویق افتاد.</string>
     <string name="budget_exceeded_error_2">مقدار بودجه را افزایش دهید یا پول را از دسته‌های دیگر حذف کنید.</string>
+    <string name="add_shortcut">افزودن میان‌بر</string>
 </resources>

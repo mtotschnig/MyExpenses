@@ -296,7 +296,7 @@
             android:name=".activity.TemplateShortcutSelect"
             android:icon="@drawable/ic_menu_template_shortcut"
             android:exported="true"
-            android:label="Vorlage Verknüpfung"
+            android:label="@string/template_shortcut"
             android:theme="@style/Configuration">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT" />

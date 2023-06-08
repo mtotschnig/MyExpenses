@@ -906,4 +906,5 @@
     <string name="database_is_encrypted">Database is versleuteld.</string>
     <string name="menu_reconfigure">Herconfigureren</string>
     <string name="encrypt_database">Database versleutelen</string>
+    <string name="add_shortcut">Snelkoppeling toevoegen</string>
 </resources>

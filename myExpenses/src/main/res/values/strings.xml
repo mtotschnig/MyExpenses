@@ -1065,4 +1065,9 @@
     <string name="file_format">File Format</string>
     <string name="image_optimize_quality">Quality</string>
     <string name="image_optimize_quality_summary">Quality of 0 means compress for the smallest size. 100 means compress for maximum visual quality.</string>
+    <!-- Label in the launcher's widget selection for adding a shortcut for a single template  -->
+    <string name="template_shortcut">Template shortcut</string>
+    <!-- Title of the screen where user selects a template as target for a shortcut -->
+    <string name="select_template">Select template</string>
+    <string name="add_shortcut">Add Shortcut</string>
 </resources>
