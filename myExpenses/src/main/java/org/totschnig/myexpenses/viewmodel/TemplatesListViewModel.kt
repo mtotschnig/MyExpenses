@@ -54,15 +54,15 @@ class TemplatesListViewModel(application: Application) :
                 itemIds.filter { itemId ->
                     shortcuts.any { it.id == ShortcutHelper.idTemplate(itemId) }
                 }.forEach {
-                        context.getSystemService(ShortcutManager::class.java).updateShortcuts(
-                            listOf(
+                    context.getSystemService(ShortcutManager::class.java).updateShortcuts(
+                        listOf(
                             ShortcutInfo.Builder(context, ShortcutHelper.idTemplate(it))
                                 .setIntent(
                                     ShortcutHelper.buildTemplateIntent(context, it, action)
                                 )
                                 .build()
                         )
-                        )
+                    )
                 }
             }
             emit(result)
