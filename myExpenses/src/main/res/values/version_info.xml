@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string-array name="versions">
+        <item>623;3.5.8</item>
         <item>622;3.5.7</item>
         <item>618;3.5.6</item>
         <item>615;3.5.5</item>
@@ -173,5 +174,9 @@
     </string-array>
     <string-array name="whats_new_357">
         <item>Material 3</item>
+    </string-array>
+    <string-array name="whats_new_358">
+        <item>@string/whats_new_358</item>
+        <item>@string/template_shortcut</item>
     </string-array>
 </resources>

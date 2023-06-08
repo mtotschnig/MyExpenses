@@ -1070,4 +1070,5 @@
     <!-- Title of the screen where user selects a template as target for a shortcut -->
     <string name="select_template">Select template</string>
     <string name="add_shortcut">Add Shortcut</string>
+    <string name="whats_new_358">Widget follows theme configuration (light/dark).</string>
 </resources>
