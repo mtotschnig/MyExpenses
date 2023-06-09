@@ -1030,4 +1030,8 @@
     <string name="image_optimize_quality">Качество</string>
     <string name="maximum_size">Максимален размер</string>
     <string name="optimize_image_file_size">Оптимизиране размера на файла на изображение</string>
+    <string name="select_template">Избор на шаблон</string>
+    <string name="template_shortcut">Пряк път към шаблон</string>
+    <string name="whats_new_358">Уйджета следва настройката за тема (светла/тъмна).</string>
+    <string name="add_shortcut">Добави пряк път</string>
 </resources>
