@@ -17,7 +17,7 @@ plugins {
 }
 
 ext {
-    versionCode = 623
+    versionCode = 624
     versionName = '3.5.8'
     compileSdkVersion = 33
     minSdkVersion = 21
