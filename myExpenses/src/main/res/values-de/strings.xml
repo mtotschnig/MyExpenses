@@ -1031,4 +1031,7 @@
     <string name="image_optimize_quality">Qualität</string>
     <string name="image_optimize_quality_summary">Qualität von 0 bedeutet Komprimierung für die kleinste Größe. 100 bedeutet Komprimierung für maximale visuelle Qualität.</string>
     <string name="add_shortcut">Verknüpfung hinzufügen</string>
+    <string name="template_shortcut">Vorlagen-Verknüpfung</string>
+    <string name="whats_new_358">Das Widget folgt der Themenkonfiguration (hell/dunkel).</string>
+    <string name="select_template">Vorlage auswählen</string>
 </resources>
