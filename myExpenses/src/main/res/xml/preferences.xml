@@ -117,6 +117,14 @@
                 android:key="@string/pref_shortcut_create_split_key"
                 android:summary="@string/pref_shortcut_summary"
                 android:title="@string/menu_create_split" />
+            <Preference
+                my:isPreferenceVisible="@bool/is26"
+                android:summary="@string/select_template"
+                android:title="@string/template">
+                <intent
+                    android:targetClass="org.totschnig.myexpenses.activity.TemplateShortcutSelect"
+                    android:targetPackage="@string/application_id" />
+            </Preference>
         </PreferenceScreen>
 
         <PreferenceScreen

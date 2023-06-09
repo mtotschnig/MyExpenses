@@ -357,6 +357,7 @@
             android:theme="@style/EditDialog" />
 
         <activity android:name="org.totschnig.myexpenses.activity.TemplateSaver"
+            android:exported="true"
             android:taskAffinity=""
             android:theme="@android:style/Theme.NoDisplay" />
 

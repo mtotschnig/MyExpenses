@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -39,13 +40,18 @@ class TemplateShortcutSelect : AppCompatActivity() {
                         finish()
                     },
                     onSubmit = {
-                        setResult(
-                            RESULT_OK,
-                            ShortcutManagerCompat.createShortcutResultIntent(
-                                this,
-                                buildTemplateShortcut(this, it)
+                        val templateShortcut = buildTemplateShortcut(this, it)
+                        if (intent.action == Intent.ACTION_CREATE_SHORTCUT) {
+                            setResult(
+                                RESULT_OK,
+                                ShortcutManagerCompat.createShortcutResultIntent(
+                                    this,
+                                    templateShortcut
+                                )
                             )
-                        )
+                        } else {
+                            ShortcutManagerCompat.requestPinShortcut(this, templateShortcut, null)
+                        }
                         finish()
                     }
                 )
