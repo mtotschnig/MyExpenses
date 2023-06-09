@@ -1044,4 +1044,7 @@
     <string name="image_optimize_quality">Qualité</string>
     <string name="image_optimize_quality_summary">Une qualité de 0 signifie qu\'il faut compresser pour obtenir la taille la plus petite possible. 100 signifie qu\'il faut compresser pour obtenir une qualité visuelle maximale.</string>
     <string name="add_shortcut">Ajouter le raccourci</string>
+    <string name="template_shortcut">Raccourci Modèle</string>
+    <string name="select_template">Sélectionner un modèle</string>
+    <string name="whats_new_358">Le widget suit la configuration du thème (clair/sombre).</string>
 </resources>
