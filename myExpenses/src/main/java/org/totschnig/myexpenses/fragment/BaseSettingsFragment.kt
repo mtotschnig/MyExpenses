@@ -749,27 +749,21 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 matches(preference, PrefKey.SHORTCUT_CREATE_TRANSACTION) -> {
                     addShortcut(
                         R.string.transaction, Transactions.TYPE_TRANSACTION,
-                        getBitmapForShortcut(
-                            R.drawable.shortcut_create_transaction_icon_lollipop
-                        )
+                        R.drawable.shortcut_create_transaction_icon_lollipop
                     )
                     true
                 }
                 matches(preference, PrefKey.SHORTCUT_CREATE_TRANSFER) -> {
                     addShortcut(
                         R.string.transfer, Transactions.TYPE_TRANSFER,
-                        getBitmapForShortcut(
-                            R.drawable.shortcut_create_transfer_icon_lollipop
-                        )
+                        R.drawable.shortcut_create_transfer_icon_lollipop
                     )
                     true
                 }
                 matches(preference, PrefKey.SHORTCUT_CREATE_SPLIT) -> {
                     addShortcut(
                         R.string.split_transaction, Transactions.TYPE_SPLIT,
-                        getBitmapForShortcut(
-                            R.drawable.shortcut_create_split_icon_lollipop
-                        )
+                        R.drawable.shortcut_create_split_icon_lollipop
                     )
                     true
                 }
@@ -893,7 +887,9 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                             if (viewModel.isTransferEnabled) {
                                 isEnabled = true
                             } else {
-                                summary = context.getString(R.string.dialog_command_disabled_insert_transfer)
+                                withContext(Dispatchers.Main) {
+                                    summary = context.getString(R.string.dialog_command_disabled_insert_transfer)
+                                }
                             }
                         }
                     }
@@ -1095,10 +1091,10 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         )!!
     )
 
-    private fun addShortcut(nameId: Int, @TransactionType operationType: Int, bitmap: Bitmap) {
+    private fun addShortcut(nameId: Int, @TransactionType operationType: Int, @DrawableRes iconIdLegacy: Int) {
         when {
             Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1 -> {
-                addShortcutLegacy(nameId, operationType, bitmap)
+                addShortcutLegacy(nameId, operationType, getBitmapForShortcut(iconIdLegacy))
             }
             Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1 -> {
                 requireContext().getSystemService(ShortcutManager::class.java).requestPinShortcut(
