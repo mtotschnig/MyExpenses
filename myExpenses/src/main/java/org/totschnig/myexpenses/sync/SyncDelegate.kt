@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.sync.json.CategoryInfo
 import org.totschnig.myexpenses.sync.json.TransactionChange
@@ -37,7 +38,10 @@ class SyncDelegate(
     lateinit var account: Account
 
     @Throws(RemoteException::class, OperationApplicationException::class)
-    fun writeRemoteChangesToDb(provider: ContentProviderClient, remoteChanges: List<TransactionChange>) {
+    fun writeRemoteChangesToDb(
+        provider: ContentProviderClient,
+        remoteChanges: List<TransactionChange>
+    ) {
         if (remoteChanges.isEmpty()) {
             return
         }
@@ -51,7 +55,10 @@ class SyncDelegate(
     }
 
     @Throws(RemoteException::class, OperationApplicationException::class)
-    private fun writeRemoteChangesToDbPart(provider: ContentProviderClient, remoteChanges: List<TransactionChange>) {
+    private fun writeRemoteChangesToDbPart(
+        provider: ContentProviderClient,
+        remoteChanges: List<TransactionChange>
+    ) {
         val ops = ArrayList<ContentProviderOperation>()
         ops.add(TransactionProvider.pauseChangeTrigger())
         remoteChanges.forEach { change: TransactionChange -> collectOperations(change, ops, -1) }
@@ -88,12 +95,18 @@ class SyncDelegate(
         splitsPerUuid.keys.forEach { uuid: String ->
             if (!changeList.any { change: TransactionChange -> change.uuid() == uuid }) {
                 splitsPerUuid[uuid]?.let { list ->
-                    changeList.add(TransactionChange.builder().setType(TransactionChange.Type.updated).setTimeStamp(list[0].timeStamp()).setUuid(uuid).build())
+                    changeList.add(
+                        TransactionChange.builder().setType(TransactionChange.Type.updated)
+                            .setTimeStamp(list[0].timeStamp()).setUuid(uuid).build()
+                    )
                     splitsPerUuidFiltered[uuid] = filterDeleted(list, findDeletedUuids(list))
                 }
             }
         }
-        return changeList.map { change: TransactionChange -> if (splitsPerUuid.containsKey(change.uuid())) change.toBuilder().setSplitPartsAndValidate(splitsPerUuid[change.uuid()]!!).build() else change }
+        return changeList.map { change: TransactionChange ->
+            if (splitsPerUuid.containsKey(change.uuid())) change.toBuilder()
+                .setSplitPartsAndValidate(splitsPerUuid[change.uuid()]!!).build() else change
+        }
     }
 
     private fun TransactionChange.Builder.setSplitPartsAndValidate(value: List<TransactionChange>): TransactionChange.Builder {
@@ -105,7 +118,8 @@ class SyncDelegate(
     }
 
     fun mergeChangeSets(
-            first: List<TransactionChange>, second: List<TransactionChange>): Pair<List<TransactionChange>, List<TransactionChange>> {
+        first: List<TransactionChange>, second: List<TransactionChange>
+    ): Pair<List<TransactionChange>, List<TransactionChange>> {
 
         //filter out changes made obsolete by later delete
         val deletedUuids = findDeletedUuids(first + second)
@@ -116,17 +130,26 @@ class SyncDelegate(
         val updatesPerUuid = HashMap<String, MutableList<TransactionChange>>()
         val mergesPerUuid = HashMap<String, TransactionChange>()
         (firstResult + secondResult)
-                .filter { obj: TransactionChange -> obj.isCreateOrUpdate }
-                .forEach { change: TransactionChange -> ensureList(updatesPerUuid, change.uuid()).add(change) }
+            .filter { obj: TransactionChange -> obj.isCreateOrUpdate }
+            .forEach { change: TransactionChange ->
+                ensureList(updatesPerUuid, change.uuid()).add(
+                    change
+                )
+            }
         val uuidsRequiringMerge = updatesPerUuid.keys
-                .filter { uuid: String -> updatesPerUuid[uuid]!!.size > 1 }
-        uuidsRequiringMerge.forEach { uuid: String -> mergesPerUuid[uuid] = mergeUpdates(updatesPerUuid[uuid]!!) }
+            .filter { uuid: String -> updatesPerUuid[uuid]!!.size > 1 }
+        uuidsRequiringMerge.forEach { uuid: String ->
+            mergesPerUuid[uuid] = mergeUpdates(updatesPerUuid[uuid]!!)
+        }
         firstResult = replaceByMerged(firstResult, mergesPerUuid)
         secondResult = replaceByMerged(secondResult, mergesPerUuid)
         return Pair.create(firstResult, secondResult)
     }
 
-    private fun ensureList(map: HashMap<String, MutableList<TransactionChange>>, uuid: String): MutableList<TransactionChange> {
+    private fun ensureList(
+        map: HashMap<String, MutableList<TransactionChange>>,
+        uuid: String
+    ): MutableList<TransactionChange> {
         var changesForUuid = map[uuid]
         if (changesForUuid == null) {
             changesForUuid = ArrayList()
@@ -135,24 +158,35 @@ class SyncDelegate(
         return changesForUuid
     }
 
-    private fun replaceByMerged(input: List<TransactionChange>, mergedMap: HashMap<String, TransactionChange>): List<TransactionChange> {
+    private fun replaceByMerged(
+        input: List<TransactionChange>,
+        mergedMap: HashMap<String, TransactionChange>
+    ): List<TransactionChange> {
         return input.map { change ->
             change.takeIf { it.isCreateOrUpdate }?.let { mergedMap[change.uuid()] } ?: change
         }.distinct()
     }
 
     private fun mergeChanges(input: List<TransactionChange>): List<TransactionChange> =
-            input.groupBy(TransactionChange::uuid).map { entry -> mergeUpdates(entry.value) }
+        input.groupBy(TransactionChange::uuid).map { entry -> mergeUpdates(entry.value) }
 
     @VisibleForTesting
     fun mergeUpdates(changeList: List<TransactionChange>): TransactionChange {
         check(changeList.isNotEmpty()) { "nothing to merge" }
         return changeList
-                .sortedBy { obj: TransactionChange -> obj.timeStamp() }
-                .reduce { initial: TransactionChange, change: TransactionChange -> mergeUpdate(initial, change) }
+            .sortedBy { obj: TransactionChange -> obj.timeStamp() }
+            .reduce { initial: TransactionChange, change: TransactionChange ->
+                mergeUpdate(
+                    initial,
+                    change
+                )
+            }
     }
 
-    private fun mergeUpdate(initial: TransactionChange, change: TransactionChange): TransactionChange {
+    private fun mergeUpdate(
+        initial: TransactionChange,
+        change: TransactionChange
+    ): TransactionChange {
         check(change.isCreateOrUpdate && initial.isCreateOrUpdate) { "Can only merge creates and updates" }
         check(initial.uuid() == change.uuid()) { "Can only merge changes with same uuid" }
         val builder = initial.toBuilder()
@@ -205,9 +239,11 @@ class SyncDelegate(
     }
 
     @VisibleForTesting
-    fun collectOperations(change: TransactionChange,
-                          ops: ArrayList<ContentProviderOperation>,
-                          parentOffset: Int) {
+    fun collectOperations(
+        change: TransactionChange,
+        ops: ArrayList<ContentProviderOperation>,
+        parentOffset: Int
+    ) {
         val uri = Transaction.CALLER_IS_SYNC_ADAPTER_URI
         var skipped = false
         val offset = ops.size
@@ -221,80 +257,136 @@ class SyncDelegate(
                         //if we find a split part that already exists, we need to assume that it has already been synced
                         //by a previous sync of its transfer account, so all we do here is reparent it as child
                         //of the split transaction we currently ingest
-                        ops.add(ContentProviderOperation.newUpdate(uri)
+                        ops.add(
+                            ContentProviderOperation.newUpdate(uri)
                                 .withValues(toContentValues(change))
-                                .withSelection(DatabaseConstants.KEY_ROWID + " = ?", arrayOf(transactionId.toString()))
-                                .withValueBackReference(DatabaseConstants.KEY_PARENTID, parentOffset)
-                                .build())
-                        val tagOps: ArrayList<ContentProviderOperation> = saveTagLinks(tagIds, transactionId, null, true)
+                                .withSelection(
+                                    DatabaseConstants.KEY_ROWID + " = ?",
+                                    arrayOf(transactionId.toString())
+                                )
+                                .withValueBackReference(KEY_PARENTID, parentOffset)
+                                .build()
+                        )
+                        val tagOps: ArrayList<ContentProviderOperation> =
+                            saveTagLinks(tagIds, transactionId, null, true)
                         ops.addAll(tagOps)
                         tagOpsCount = tagOps.size
                     } else {
                         skipped = true
-                        SyncAdapter.log().i("Uuid found in changes already exists locally, likely a transfer implicitly created from its peer")
+                        SyncAdapter.log()
+                            .i("Uuid found in changes already exists locally, likely a transfer implicitly created from its peer")
                     }
                 } else {
                     ops.addAll(getContentProviderOperationsForCreate(change, offset, parentOffset))
-                    val tagOps: ArrayList<ContentProviderOperation> = saveTagLinks(tagIds, null, offset, true)
+                    val tagOps: ArrayList<ContentProviderOperation> =
+                        saveTagLinks(tagIds, null, offset, true)
                     ops.addAll(tagOps)
                     tagOpsCount = tagOps.size
                 }
             }
+
             TransactionChange.Type.updated -> {
                 val values: ContentValues = toContentValues(change)
                 val transactionId = resolver(account.id, change.uuid())
-                if (transactionId != -1L) {
-                    if (values.size() > 0) {
+                if (transactionId != -1L || parentOffset != -1) {
+                    if (values.size() > 0 || parentOffset != -1) {
                         val builder = ContentProviderOperation.newUpdate(uri)
-                            .withSelection(DatabaseConstants.KEY_ROWID + " = ?", arrayOf(transactionId.toString()))
-                        builder.withValues(values)
+                        if (transactionId != -1L) {
+                            builder.withSelection(
+                                DatabaseConstants.KEY_ROWID + " = ?",
+                                arrayOf(transactionId.toString())
+                            )
+                            //Make sure we set the parent, in case the change is caused by "Transform to split"
+                        } else {
+                            builder.withSelection(
+                                DatabaseConstants.KEY_UUID + " = ?",
+                                arrayOf(change.uuid())
+                            )
+                        }
+                        if (parentOffset != -1) {
+                            builder.withValueBackReference(KEY_PARENTID, parentOffset)
+                        }
+                        if (values.size() > 0) {
+                            builder.withValues(values)
+                        }
                         ops.add(builder.build())
                     }
-                    val tagOps: ArrayList<ContentProviderOperation> = saveTagLinks(tagIds, transactionId, null, true)
+                    val tagOps: ArrayList<ContentProviderOperation> =
+                        saveTagLinks(tagIds, transactionId, null, true)
                     ops.addAll(tagOps)
                     tagOpsCount = tagOps.size
                 }
             }
+
             TransactionChange.Type.deleted -> {
                 val transactionId = resolver(account.id, change.uuid())
                 if (transactionId != -1L) {
-                    ops.add(ContentProviderOperation.newDelete(ContentUris.withAppendedId(uri, transactionId))
-                            .withSelection(DatabaseConstants.KEY_UUID + " = ? AND " + DatabaseConstants.KEY_ACCOUNTID + " = ?", arrayOf(change.uuid(), account.id.toString()))
-                            .build())
+                    ops.add(
+                        ContentProviderOperation.newDelete(
+                            ContentUris.withAppendedId(
+                                uri,
+                                transactionId
+                            )
+                        )
+                            .withSelection(
+                                DatabaseConstants.KEY_UUID + " = ? AND " + DatabaseConstants.KEY_ACCOUNTID + " = ?",
+                                arrayOf(change.uuid(), account.id.toString())
+                            )
+                            .build()
+                    )
                 }
             }
+
             TransactionChange.Type.unsplit -> {
-                ops.add(ContentProviderOperation.newUpdate(uri.buildUpon()
-                        .appendPath(TransactionProvider.URI_SEGMENT_UNSPLIT).build())
+                ops.add(
+                    ContentProviderOperation.newUpdate(
+                        uri.buildUpon()
+                            .appendPath(TransactionProvider.URI_SEGMENT_UNSPLIT).build()
+                    )
                         .withValue(DatabaseConstants.KEY_UUID, change.uuid())
-                        .build())
+                        .build()
+                )
             }
+
             TransactionChange.Type.link -> {
-                ops.add(ContentProviderOperation.newUpdate(uri.buildUpon()
-                        .appendPath(TransactionProvider.URI_SEGMENT_LINK_TRANSFER)
-                        .appendPath(change.uuid()).build())
+                ops.add(
+                    ContentProviderOperation.newUpdate(
+                        uri.buildUpon()
+                            .appendPath(TransactionProvider.URI_SEGMENT_LINK_TRANSFER)
+                            .appendPath(change.uuid()).build()
+                    )
                         .withValue(DatabaseConstants.KEY_UUID, change.referenceNumber())
-                        .build())
+                        .build()
+                )
             }
+
             else -> {}
         }
         if (change.isCreateOrUpdate && !skipped) {
             change.splitParts()?.let { splitParts ->
                 val newParentOffset = ops.size - 1 - tagOpsCount
-                mergeChanges(filterDeleted(splitParts,
-                        findDeletedUuids(splitParts))).forEach { splitChange: TransactionChange ->
-                    if (change.uuid() != splitChange.parentUuid()) throw AssertionError()
+                mergeChanges(
+                    filterDeleted(
+                        splitParts,
+                        findDeletedUuids(splitParts)
+                    )
+                ).forEach { splitChange: TransactionChange ->
+                    require(change.uuid() == splitChange.parentUuid())
                     //back reference is only used when we insert a new split,
                     //for updating an existing split we search for its _id via its uuid
-                    collectOperations(splitChange, ops, if (change.isCreate) newParentOffset else -1)
+                    collectOperations(
+                        splitChange,
+                        ops,
+                        if (change.isCreate) newParentOffset else -1
+                    )
                 }
             }
         }
     }
 
     private fun findDeletedUuids(list: List<TransactionChange>): List<String> =
-            list.filter { obj: TransactionChange -> obj.isDelete }
-                    .map { obj: TransactionChange -> obj.uuid() }
+        list.filter { obj: TransactionChange -> obj.isDelete }
+            .map { obj: TransactionChange -> obj.uuid() }
 
     private fun toContentValues(change: TransactionChange): ContentValues {
         val values = ContentValues()
@@ -304,10 +396,12 @@ class SyncDelegate(
         change.amount()?.let { values.put(DatabaseConstants.KEY_AMOUNT, it) }
         change.extractCatId()?.let { values.put(DatabaseConstants.KEY_CATID, it) }
         change.payeeName()?.let { name ->
-            Payee.extractPayeeId(name, payeeToId).takeIf { it != -1L }?.let { values.put(DatabaseConstants.KEY_PAYEEID, it) }
+            Payee.extractPayeeId(name, payeeToId).takeIf { it != -1L }
+                ?.let { values.put(DatabaseConstants.KEY_PAYEEID, it) }
         }
         change.methodLabel()?.let { label ->
-            extractMethodId(label).takeIf { it != -1L }?.let { values.put(DatabaseConstants.KEY_METHODID, it) }
+            extractMethodId(label).takeIf { it != -1L }
+                ?.let { values.put(DatabaseConstants.KEY_METHODID, it) }
         }
         change.crStatus()?.let { values.put(DatabaseConstants.KEY_CR_STATUS, it) }
         change.referenceNumber()?.let { values.put(DatabaseConstants.KEY_REFERENCE_NUMBER, it) }
@@ -328,22 +422,28 @@ class SyncDelegate(
         return label()?.let {
             CategoryHelper.insert(repository, it, categoryToId, false)
             categoryToId[it] ?: throw IOException("Saving category $it failed")
-        } ?: categoryInfo()?.fold(null) { parentId: Long?,  categoryInfo: CategoryInfo -> repository.ensureCategory(categoryInfo, parentId).first }
+        } ?: categoryInfo()?.fold(null) { parentId: Long?, categoryInfo: CategoryInfo ->
+            repository.ensureCategory(
+                categoryInfo,
+                parentId
+            ).first
+        }
     }
 
     private fun extractMethodId(methodLabel: String): Long =
-            methodToId[methodLabel] ?: (PaymentMethod.find(methodLabel).takeIf { it != -1L }
-                    ?: PaymentMethod.maybeWrite(methodLabel, account.type)).also {
-                methodToId[methodLabel] = it
-            }
+        methodToId[methodLabel] ?: (PaymentMethod.find(methodLabel).takeIf { it != -1L }
+            ?: PaymentMethod.maybeWrite(methodLabel, account.type)).also {
+            methodToId[methodLabel] = it
+        }
 
     private fun findTransferAccount(uuid: String): Long? =
-            accountUuidToId[uuid] ?: repository.findAccountByUuid(uuid)?.also {
-                accountUuidToId[uuid] = it
-            }
+        accountUuidToId[uuid] ?: repository.findAccountByUuid(uuid)?.also {
+            accountUuidToId[uuid] = it
+        }
 
     private fun getContentProviderOperationsForCreate(
-            change: TransactionChange, offset: Int, parentOffset: Int): ArrayList<ContentProviderOperation> {
+        change: TransactionChange, offset: Int, parentOffset: Int
+    ): ArrayList<ContentProviderOperation> {
         check(change.isCreate)
         val amount = change.amount() ?: 0L
         val money = Money(currencyContext[account.currency], amount)
@@ -354,7 +454,12 @@ class SyncDelegate(
                 //if the account exists locally and the peer has already been synced
                 //we create a Transfer, the Transfer class will take care in buildSaveOperations
                 //of linking them together
-                findTransferAccount(transferAccount)?.takeIf { accountId -> resolver(accountId, change.uuid()) != -1L }?.let { Transfer(account.id, money, it) }
+                findTransferAccount(transferAccount)?.takeIf { accountId ->
+                    resolver(
+                        accountId,
+                        change.uuid()
+                    ) != -1L
+                }?.let { Transfer(account.id, money, it) }
             } ?: Transaction(account.id, money).apply {
                 if (change.transferAccount() == null) {
                     catId = change.extractCatId()
@@ -400,23 +505,30 @@ class SyncDelegate(
         return t.buildSaveOperations(offset, parentOffset, true, false)
     }
 
-    private fun filterDeleted(input: List<TransactionChange>, deletedUuids: List<String>): List<TransactionChange> {
-        return input.filter { change: TransactionChange -> change.isDelete || !deletedUuids.contains(change.uuid()) }
+    private fun filterDeleted(
+        input: List<TransactionChange>,
+        deletedUuids: List<String>
+    ): List<TransactionChange> {
+        return input.filter { change: TransactionChange ->
+            change.isDelete || !deletedUuids.contains(
+                change.uuid()
+            )
+        }
     }
 
     fun findMetadataChange(input: List<TransactionChange>) =
-            input.findLast { value: TransactionChange -> value.type() == TransactionChange.Type.metadata }
+        input.findLast { value: TransactionChange -> value.type() == TransactionChange.Type.metadata }
 
     fun removeMetadataChange(input: List<TransactionChange>) =
-            input.filter { value: TransactionChange -> value.type() != TransactionChange.Type.metadata }
+        input.filter { value: TransactionChange -> value.type() != TransactionChange.Type.metadata }
 
     fun concat(contentBuilders: List<CharSequence>) =
-            contentBuilders.foldIndexed(StringBuilder()) { index, sum, element ->
-                if (index > 0) {
-                    sum.append("\n")
-                }
-                sum.append(element)
+        contentBuilders.foldIndexed(StringBuilder()) { index, sum, element ->
+            if (index > 0) {
+                sum.append("\n")
             }
+            sum.append(element)
+        }
 
     fun requireFeatureForAccount(context: Context, name: String): Feature? {
         BackendService.forAccount(name).getOrNull()?.feature?.let {
