@@ -44,5 +44,6 @@
     <string name="today">"Heute"</string>
     <string name="tomorrow">"Morgen"</string>
     <string name="yesterday">"Gestern"</string>
+    <string name="confirm">"Bestätigen"</string>
 </resources>
 

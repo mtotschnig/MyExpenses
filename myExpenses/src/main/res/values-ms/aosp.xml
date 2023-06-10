@@ -44,5 +44,6 @@
     <string name="today">"Hari ini"</string>
     <string name="tomorrow">"Esok"</string>
     <string name="yesterday">"Semalam"</string>
+    <string name="confirm">"Sahkan"</string>
 </resources>
 

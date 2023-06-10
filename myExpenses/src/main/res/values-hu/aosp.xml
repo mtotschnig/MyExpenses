@@ -44,5 +44,6 @@
     <string name="today">"Ma"</string>
     <string name="tomorrow">"Holnap"</string>
     <string name="yesterday">"Tegnap"</string>
+    <string name="confirm">"Megerősítés"</string>
 </resources>
 

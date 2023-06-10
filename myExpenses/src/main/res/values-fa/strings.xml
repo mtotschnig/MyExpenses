@@ -483,7 +483,6 @@
     <string name="dialog_title_warning_delete_budget">حذف بودجه؟</string>
     <string name="warning_delete_budget">بودجه \" %1$s \" حذف خواهد شد.</string>
     <string name="menu_edit_budget">ویرایش بودجه</string>
-    <string name="content_description_tags_confirm">تایید</string>
     <string name="tags">برچسب</string>
     <!-- If this mode is active, the action button will open the camera for scanning a receipt  -->
     <string name="menu_scan_mode">حالت اسکن</string>

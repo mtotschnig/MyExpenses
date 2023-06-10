@@ -837,7 +837,6 @@
     <string name="pref_clone_with_current_date_summary_off">Cloned transactions keep original date</string>
     <string name="pref_protection_screenshot_information">By activating device protection, screenshot capture is disabled.</string>
     <string name="tags_create_or_select">Create or select tags</string>
-    <string name="content_description_tags_confirm">Confirm</string>
     <string name="tags">Tags</string>
     <string name="pref_manage_tags_summary">Add, edit, delete tags.</string>
     <string name="dialog_title_warning_delete_tag">Delete tag?</string>

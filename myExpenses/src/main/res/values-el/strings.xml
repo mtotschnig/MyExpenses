@@ -723,7 +723,6 @@
     <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
     <string name="checkbox_is_default">Προεπιλογή</string>
     <string name="tags_create_or_select">Δημιουργία ή επιλογή ετικετών</string>
-    <string name="content_description_tags_confirm">Επιβεβαιώστε</string>
     <string name="tags">Ετικέτες</string>
     <string name="pref_manage_tags_summary">Προσθήκη, επεξεργασία, διαγραφή ετικετών.</string>
     <string name="dialog_title_warning_delete_tag">Διαγραφή ετικέτας;</string>

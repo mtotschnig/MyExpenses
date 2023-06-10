@@ -40,4 +40,5 @@
     <string name="today">"Vandaag"</string>
     <string name="tomorrow">"Morgen"</string>
     <string name="yesterday">"Gisteren"</string>
+    <string name="confirm">"Bevestigen"</string>
 </resources>

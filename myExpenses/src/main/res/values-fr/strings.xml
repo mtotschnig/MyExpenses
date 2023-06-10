@@ -836,7 +836,6 @@
     <string name="pref_clone_with_current_date_summary_off">Les opérations clonées conservent la date d\'origine</string>
     <string name="pref_protection_screenshot_information">En activant la protection de l\'appareil, la capture d\'écran est désactivée.</string>
     <string name="tags_create_or_select">Créer ou sélectionner des étiquettes</string>
-    <string name="content_description_tags_confirm">Confirmer</string>
     <string name="tags">Étiquettes</string>
     <string name="pref_manage_tags_summary">Ajouter, modifier, supprimer des étiquettes.</string>
     <string name="dialog_title_warning_delete_tag">Supprimer l\'étiquette ?</string>

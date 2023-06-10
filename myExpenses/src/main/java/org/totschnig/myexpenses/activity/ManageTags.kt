@@ -27,7 +27,7 @@ class ManageTags: ProtectedFragmentActivity() {
         }
     }
 
-    override val fabDescription = R.string.content_description_tags_confirm
+    override val fabDescription = R.string.confirm
     override val fabIcon = R.drawable.ic_menu_done
 
     override fun onFabClicked() {

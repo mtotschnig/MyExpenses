@@ -44,5 +44,6 @@
     <string name="today">"Oggi"</string>
     <string name="tomorrow">"Domani"</string>
     <string name="yesterday">"Ieri"</string>
+    <string name="confirm">"Conferma"</string>
 </resources>
 

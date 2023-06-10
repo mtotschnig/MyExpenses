@@ -44,5 +44,6 @@
     <string name="today">"Dnes"</string>
     <string name="tomorrow">"Zítra"</string>
     <string name="yesterday">"Včera"</string>
+    <string name="confirm">"Potvrdit"</string>
 </resources>
 

@@ -844,7 +844,6 @@
     <string name="pref_clone_with_current_date_summary_off">Klonované transakce si zachovávají původní datum</string>
     <string name="pref_protection_screenshot_information">Aktivováním ochrany zařízení bude vypnuto pořízování snímků obrazovky.</string>
     <string name="tags_create_or_select">Vytvořte nebo vyberte štítky</string>
-    <string name="content_description_tags_confirm">Potvrdit</string>
     <string name="tags">Štítky</string>
     <string name="pref_manage_tags_summary">Přidávejte, upravujte a odstraňujte štítky.</string>
     <string name="dialog_title_warning_delete_tag">Chcete štítek odstranit?</string>

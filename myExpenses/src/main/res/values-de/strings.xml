@@ -828,7 +828,6 @@
     <string name="pref_clone_with_current_date_summary_off">Geklonte Buchungen behalten das ursprüngliche Datum</string>
     <string name="pref_protection_screenshot_information">Durch Aktivieren des Geräteschutzes wird die Screenshot-Aufnahme deaktiviert.</string>
     <string name="tags_create_or_select">Schlagwörter erstellen oder auswählen</string>
-    <string name="content_description_tags_confirm">Bestätigen</string>
     <string name="tags">Schlagwörter</string>
     <string name="pref_manage_tags_summary">Schlagwörter hinzufügen, bearbeiten, löschen.</string>
     <string name="dialog_title_warning_delete_tag">Schlagwort löschen?</string>

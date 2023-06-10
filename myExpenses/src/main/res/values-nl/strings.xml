@@ -601,7 +601,6 @@
     <string name="no_budgets">Bepaal uw eerste budget door op de knop + te tikken.</string>
     <string name="menu_remap">Opnieuw toewijzen</string>
     <string name="pref_clone_with_current_date_summary_on">Gekloonde transacties hebben de huidige datum</string>
-    <string name="content_description_tags_confirm">Bevestigen</string>
     <string name="dialog_multi_tag_append">Voeg nieuwe tags toe aan bestaande tags</string>
     <string name="pref_category_title_features">Functies</string>
     <string name="pref_criterion_future_current">Huidige tijd</string>

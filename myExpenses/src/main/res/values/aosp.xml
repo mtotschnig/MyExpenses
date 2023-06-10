@@ -25,6 +25,7 @@
     <!-- name = experimental_category_title -->
     <string name="experimental">Experimental</string>
     <string name="learn_more">Learn more</string>
+    <string name="confirm">Confirm</string>
     <!--https://android.googlesource.com/platform/packages/apps/UnifiedEmail  prefDialogTitle_removal_action -->
     <string name="default_action">"Default action"</string>
     <!-- packages/apps/Dialer/java/com/android/contacts/common /res/values/strings.xml -->

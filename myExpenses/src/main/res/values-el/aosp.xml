@@ -44,5 +44,6 @@
     <string name="today">"Σήμερα"</string>
     <string name="tomorrow">"Αύριο"</string>
     <string name="yesterday">"Χθες"</string>
+    <string name="confirm">"Επιβεβαίωση"</string>
 </resources>
 

@@ -44,5 +44,6 @@
     <string name="today">"Bugün"</string>
     <string name="tomorrow">"Yarın"</string>
     <string name="yesterday">"Dün"</string>
+    <string name="confirm">"Onayla"</string>
 </resources>
 

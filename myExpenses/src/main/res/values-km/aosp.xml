@@ -44,5 +44,6 @@
     <string name="today">"ថ្ងៃនេះ"</string>
     <string name="tomorrow">"ថ្ងៃស្អែក"</string>
     <string name="yesterday">"ម្សិលមិញ"</string>
+    <string name="confirm">"បញ្ជាក់"</string>
 </resources>
 

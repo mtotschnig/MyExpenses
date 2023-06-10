@@ -846,7 +846,6 @@
     <string name="pref_clone_with_current_date_summary_off">עסקאות משובצות שומרות על התאריך המקורי</string>
     <string name="pref_protection_screenshot_information">על ידי הפעלת הגנת מכשירים, לכידת המסך מושבתת.</string>
     <string name="tags_create_or_select">צור או בחר תג</string>
-    <string name="content_description_tags_confirm">אשר</string>
     <string name="tags">תגים</string>
     <string name="pref_manage_tags_summary">הוספה, עריכה, מחיקה של תגים.</string>
     <string name="dialog_title_warning_delete_tag">למחוק תג\?</string>

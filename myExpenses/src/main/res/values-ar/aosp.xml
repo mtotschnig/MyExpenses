@@ -44,5 +44,6 @@
     <string name="today">"اليوم"</string>
     <string name="tomorrow">"غدًا"</string>
     <string name="yesterday">"أمس"</string>
+    <string name="confirm">"تأكيد"</string>
 </resources>
 

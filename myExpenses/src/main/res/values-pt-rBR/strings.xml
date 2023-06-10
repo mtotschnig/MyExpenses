@@ -828,7 +828,6 @@
     <string name="pref_clone_with_current_date_summary_off">As transações clonadas mantêm a data original</string>
     <string name="pref_protection_screenshot_information">Ao ativar a proteção do aparelho, a captura do ecrã é desativada.</string>
     <string name="tags_create_or_select">Criar ou selecionar etiquetas</string>
-    <string name="content_description_tags_confirm">Confirmar</string>
     <string name="tags">Etiquetas</string>
     <string name="pref_manage_tags_summary">Adicione, edite, apague etiquetas.</string>
     <string name="dialog_title_warning_delete_tag">Apagar a etiqueta\?</string>

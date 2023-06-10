@@ -44,5 +44,6 @@
     <string name="today">"Hôm nay"</string>
     <string name="tomorrow">"Ngày mai"</string>
     <string name="yesterday">"Hôm qua"</string>
+    <string name="confirm">"Xác nhận"</string>
 </resources>
 

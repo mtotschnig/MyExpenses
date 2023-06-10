@@ -45,4 +45,5 @@
     <string name="today">"Днес"</string>
     <string name="tomorrow">"Утре"</string>
     <string name="yesterday">"Вчера"</string>
+    <string name="confirm">"Потвърждаване"</string>
 </resources>

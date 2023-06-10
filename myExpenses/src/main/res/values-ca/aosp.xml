@@ -44,4 +44,5 @@
     <string name="today">"Avui"</string>
     <string name="tomorrow">"Demà"</string>
     <string name="yesterday">"Ahir"</string>
+    <string name="confirm">"Confirma"</string>
 </resources>
