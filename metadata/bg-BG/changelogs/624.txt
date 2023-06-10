@@ -1,0 +1,6 @@
+• Material 3
+• Уйджета следва настройката за тема (светла/тъмна).
+• Пряк път към шаблон
+
+https://github.com/mtotschnig/MyExpenses/projects/99#column-19471892
+https://github.com/mtotschnig/MyExpenses/projects/100#column-19502798

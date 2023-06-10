@@ -1,0 +1,5 @@
+• Widget follows theme configuration (light/dark).
+• Template shortcut
+
+https://github.com/mtotschnig/MyExpenses/projects/99#column-19471892
+https://github.com/mtotschnig/MyExpenses/projects/100#column-19502798

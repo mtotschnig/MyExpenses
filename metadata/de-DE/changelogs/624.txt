@@ -1,0 +1,6 @@
+• Material 3
+• Das Widget folgt der Themenkonfiguration (hell/dunkel).
+• Vorlagen-Verknüpfung
+
+https://github.com/mtotschnig/MyExpenses/projects/99#column-19471892
+https://github.com/mtotschnig/MyExpenses/projects/100#column-19502798
