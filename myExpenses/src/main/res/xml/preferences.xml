@@ -101,6 +101,7 @@
             my:useSimpleSummaryProvider="true" />
 
         <PreferenceScreen
+            my:isPreferenceVisible="@bool/pin_shortcut_support"
             android:key="@string/pref_ui_home_screen_shortcuts_key"
             android:title="@string/pref_ui_home_screen_shortcuts">
             <Preference

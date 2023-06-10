@@ -587,7 +587,6 @@
     <string name="upgrade_now">Aktualizuj</string>
     <string name="pref_backup_cloud_title">Przechowuj na serwerze synchronizacji</string>
     <string name="pref_backup_cloud_summary">Oprócz przechowywania lokalnego na urządzeniu, plik kopii zapasowej można skopiować do zdalnego serwera.</string>
-    <string name="home_screen_shortcuts_nougate_info">Skróty można dodać, naciskając długo ikonę aplikacji na ekranie głównym.</string>
     <string name="currency_symbol">Symbol waluty</string>
     <string name="number_of_fraction_digits">Liczba cyfr ułamkowych</string>
     <string name="warning_auto_backup_deactivated">Automatyczne tworzenie kopii zapasowej zostało dezaktywowane. Możesz go ponownie włączyć z poziomu ustawień po rozwiązaniu problemu (np. wybierając inny folder dla kopii zapasowych).</string>

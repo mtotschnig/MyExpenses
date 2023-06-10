@@ -564,7 +564,6 @@
     <string name="all_extended_key_features">Tất cả tính năng trong bản Mở rộng</string>
     <string name="pref_backup_cloud_title">Lưu trữ trên backend đồng bộ</string>
     <string name="pref_backup_cloud_summary">Cùng với bộ nhớ lưu trữ trên máy, tập tin sao lưu cũng có thể được sao chép tới một backend từ xa.</string>
-    <string name="home_screen_shortcuts_nougate_info">Lối tắt có thể được thêm bằng cách nhấn giữ biểu tượng ứng dụng trên Màn hình chính.</string>
     <string name="currency_symbol">Ký hiệu tiền tệ</string>
     <string name="number_of_fraction_digits">Số chữ số thập phân</string>
     <string name="warning_auto_backup_deactivated">Chức năng tự động sao lưu đã bị vô hiệu hoá. Bạn có thể bật lại nó từ màn hình cài đặt sau khi xử lý xong vấn đề (như là chọn một thư mục khác để sao lưu).</string>

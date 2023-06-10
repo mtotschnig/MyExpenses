@@ -578,7 +578,6 @@
     <string name="pref_backup_cloud_title">存儲在同步後端</string>
     <string name="pref_backup_cloud_summary">除了儲存在本機裝置中之外，備份檔案還可以複製到遠程後端或雲端儲存空間。</string>
     <string name="auto_backup_cloud_success">備份檔案%1$s已成功儲存在後端%2$s上。</string>
-    <string name="home_screen_shortcuts_nougate_info">在主螢幕上長按程式圖標，會出現可新增交易的快速鍵。</string>
     <string name="currency_symbol">貨幣符號</string>
     <string name="number_of_fraction_digits">小數位數</string>
     <string name="warning_auto_backup_deactivated">自動備份功能已經停用。當您解決問題後，您可以從\"程式設定\"裡再次啟用它。(解決方法如：選擇一個不同的檔案夾來備份。) </string>

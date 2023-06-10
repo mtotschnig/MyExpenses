@@ -581,7 +581,6 @@
     <string name="pref_backup_cloud_title">Зберігати на сервері синхронізації</string>
     <string name="pref_backup_cloud_summary">На додаток до локального збереження на пристрої, файл резервної копії може бути скопійований на віддалений сервер.</string>
     <string name="auto_backup_cloud_success">Файл резервної копії %1$s було успішно збережено на сервері %2$s.</string>
-    <string name="home_screen_shortcuts_nougate_info">Ярлики можна додати шляхом довгого натискання іконки програми на Головному Екрані.</string>
     <string name="currency_symbol">Символ валюти</string>
     <string name="number_of_fraction_digits">Кількість знаків після коми</string>
     <string name="warning_auto_backup_deactivated">Автоматичне резервне копіювання було вимкнено. Ви можете знову ввімкнути його з налаштувань після вирішення проблеми (наприклад, вибравши іншу теку для резервного копіювання).</string>

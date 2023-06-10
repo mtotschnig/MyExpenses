@@ -584,7 +584,6 @@
     <string name="pref_backup_cloud_title">Запазване в отдалечено хранилище</string>
     <string name="pref_backup_cloud_summary">Освен локално - в това устройство, архивният файл може да бъде запазен и в отдалечено хранилище.</string>
     <string name="auto_backup_cloud_success">Файлът архив %1$s е съхранен успешно в хранилище %2$s.</string>
-    <string name="home_screen_shortcuts_nougate_info">Може да се добавят шорткъти чрез продължително натискане върху иконата на приложението на начален екран.</string>
     <string name="currency_symbol">Знак за валута</string>
     <string name="number_of_fraction_digits">Брой дробни символи (цифри след десетичния знак)</string>
     <string name="warning_auto_backup_deactivated">Автоматичното архивиране е деактивирано. Може да го включите отново от Настройки след разрешаване на проблема (напр. изберете друга папка за записване на архивите).</string>

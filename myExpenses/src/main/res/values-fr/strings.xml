@@ -591,7 +591,6 @@
     <string name="pref_backup_cloud_title">Sauvegarde avec la fonction de synchronisation</string>
     <string name="pref_backup_cloud_summary">Outre le stockage local sur le périphérique, le fichier de sauvegarde peut être copié sur un serveur distant.</string>
     <string name="auto_backup_cloud_success">Le fichier de sauvegarde %1$s a été enregistré avec succès sur le backend %2$s.</string>
-    <string name="home_screen_shortcuts_nougate_info">Les raccourcis peuvent être ajoutés en appuyant longuement sur l\'icône de l\'application sur l\'écran d\'accueil.</string>
     <string name="currency_symbol">Symbole de devise</string>
     <string name="number_of_fraction_digits">Nombre de décimales</string>
     <string name="warning_auto_backup_deactivated">La sauvegarde automatique a été désactivée. Vous pouvez l\'activer à nouveau à partir des paramètres après avoir résolu le problème (par exemple, sélectionner un autre dossier pour les sauvegardes).</string>

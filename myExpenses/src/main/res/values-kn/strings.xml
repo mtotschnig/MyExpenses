@@ -582,7 +582,6 @@
     <string name="pref_backup_cloud_title">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್‌ನಲ್ಲಿ ಸಂಗ್ರಹಿಸಿ</string>
     <string name="pref_backup_cloud_summary">ಸಾಧನದಲ್ಲಿನ ಸ್ಥಳೀಯ ಸಂಗ್ರಹಣೆಯ ಜೊತೆಗೆ, ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅನ್ನು ದೂರಸ್ಥ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ನಕಲಿಸಬಹುದು.</string>
     <string name="auto_backup_cloud_success">ಬ್ಯಾಕಪ್ ಫೈಲ್ %1$s ಅನ್ನು ಬ್ಯಾಕೆಂಡ್ %2$s ನಲ್ಲಿ ಯಶಸ್ವಿಯಾಗಿ ಸಂಗ್ರಹಿಸಲಾಗಿದೆ.</string>
-    <string name="home_screen_shortcuts_nougate_info">ಹೋಮ್ ಸ್ಕ್ರೀನ್‌ನಲ್ಲಿ ಅಪ್ಲಿಕೇಶನ್ ಐಕಾನ್ ಅನ್ನು ದೀರ್ಘ-ಟ್ಯಾಪ್ ಮಾಡುವ ಮೂಲಕ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಸೇರಿಸಬಹುದು.</string>
     <string name="currency_symbol">ಕರೆನ್ಸಿ ಚಿಹ್ನೆ</string>
     <string name="number_of_fraction_digits">ಭಿನ್ನರಾಶಿ ಅಂಕೆಗಳ ಸಂಖ್ಯೆ</string>
     <string name="warning_auto_backup_deactivated">ಸ್ವಯಂ-ಬ್ಯಾಕಪ್ ಅನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ. ಸಮಸ್ಯೆಯನ್ನು ಪರಿಹರಿಸಿದ ನಂತರ ನೀವು ಅದನ್ನು ಸೆಟ್ಟಿಂಗ್‌ಗಳಿಂದ ಮತ್ತೆ ಆನ್ ಮಾಡಬಹುದು (ಉದಾ. ಬ್ಯಾಕಪ್‌ಗಳಿಗಾಗಿ ಬೇರೆ ಫೋಲ್ಡರ್ ಆಯ್ಕೆ ಮಾಡುವುದು).</string>

@@ -154,7 +154,6 @@
     <string name="warning_auto_backup_deactivated">ఆటో-బ్యాకప్ క్రియారహితం చేయబడింది. సమస్యను పరిష్కరించిన తర్వాత మీరు దీన్ని సెట్టింగ్‌ల నుండి మళ్లీ ప్రారంభించవచ్చు (ఉదా. బ్యాకప్‌ల కోసం వేరే ఫోల్డర్‌ను ఎంచుకోవడం).</string>
     <string name="number_of_fraction_digits">భిన్న అంకెలు సంఖ్య</string>
     <string name="currency_symbol">కరెన్సీ చిహ్నం</string>
-    <string name="home_screen_shortcuts_nougate_info">హోమ్ స్క్రీన్‌లో అనువర్తన చిహ్నాన్ని దీర్ఘ-నొక్కడం ద్వారా సత్వరమార్గాలను జోడించవచ్చు.</string>
     <string name="auto_backup_cloud_success">%1$s బ్యాకప్ ఫైల్ విజయవంతంగా బ్యాకెండ్ %2$s లో నిల్వ చేయబడింది.</string>
     <string name="pref_backup_cloud_summary">పరికరంలో స్థానిక నిల్వతో పాటు, బ్యాకప్ ఫైల్‌ను రిమోట్ బ్యాకెండ్‌కు కాపీ చేయవచ్చు.</string>
     <string name="pref_backup_cloud_title">సింక్రొనైజేషన్ బ్యాకెండ్‌లో నిల్వ చేయండి</string>

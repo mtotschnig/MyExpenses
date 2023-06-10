@@ -591,7 +591,6 @@
     <string name="pref_backup_cloud_title">Guardar con el servicio de sincronización</string>
     <string name="pref_backup_cloud_summary">Además del almacenamiento local del dispositivo, la copia de seguridad puede copiarse a un servicio remoto.</string>
     <string name="auto_backup_cloud_success">El respaldo del archivo %1$s ha sido guardado correctamente en %2$s.</string>
-    <string name="home_screen_shortcuts_nougate_info">Se pueden añadir accesos directos con una pulsación larga en el icono de la aplicación desde la Pantalla Inicio.</string>
     <string name="currency_symbol">Símbolo de moneda</string>
     <string name="number_of_fraction_digits">Número de dígitos de fracción</string>
     <string name="warning_auto_backup_deactivated">La copia de seguridad automática ha sido desactivada. Puede volver a activarla desde configuración, una vez el problema haya sido resuelto (por ejemplo, seleccionando una carpeta diferente para las copias de seguridad).</string>

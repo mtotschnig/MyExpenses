@@ -611,7 +611,6 @@
     <string name="pref_backup_cloud_title">تخزين في خلفية المزامنة</string>
     <string name="pref_backup_cloud_summary">بالإضافة إلى التخزين المحلي على الجهاز، يمكن نسخ ملف النسخ الاحتياطي إلى خلفية بعيدة.</string>
     <string name="auto_backup_cloud_success">تم تخزين ملف النسخ الاحتياطي %1$s بنجاح على الواجهة الخلفية %2$s.</string>
-    <string name="home_screen_shortcuts_nougate_info">يمكن إضافة إختصار عن طريق الضغط الطويل على الايقونة في الشاشة الرئيسية.</string>
     <string name="currency_symbol">رمز العملة</string>
     <string name="number_of_fraction_digits">عدد الكسور</string>
     <string name="warning_auto_backup_deactivated">تم إلغاء تنشيط النسخ الاحتياطي التلقائي. يمكنك تشغيله مرة أخرى من الإعدادات بعد حل المشكلة (على سبيل المثال، اختيار مجلد مختلف للنسخ الاحتياطية).</string>

@@ -308,8 +308,7 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
         preferenceFragmentCompat: PreferenceFragmentCompat,
         preferenceScreen: PreferenceScreen
     ): Boolean {
-        val key = preferenceScreen.key
-        if (key == prefHandler.getKey(PrefKey.PERFORM_PROTECTION_SCREEN) &&
+        if (preferenceScreen.key == prefHandler.getKey(PrefKey.PERFORM_PROTECTION_SCREEN) &&
             (application as MyApplication).isProtected
         ) {
             confirmCredentials(
@@ -317,15 +316,9 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
                 { startPerformProtectionScreen() },
                 false
             )
-            return true
+        } else {
+            startPreferenceScreen(preferenceScreen.key)
         }
-        if (key == prefHandler.getKey(PrefKey.UI_HOME_SCREEN_SHORTCUTS)) {
-            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N_MR1) {
-                showSnackBar(R.string.home_screen_shortcuts_nougate_info)
-                return true
-            }
-        }
-        startPreferenceScreen(key)
         return true
     }
 

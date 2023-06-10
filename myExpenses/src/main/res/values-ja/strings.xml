@@ -574,7 +574,6 @@
     <string name="pref_backup_cloud_title">同期バックエンドに保存</string>
     <string name="pref_backup_cloud_summary">デバイスのローカルストレージに加えて、バックアップファイルをリモートバックエンドにコピーすることができます。</string>
     <string name="auto_backup_cloud_success">バックアップファイル %1$s はバックエンド %2$s に保存されました。</string>
-    <string name="home_screen_shortcuts_nougate_info">ショートカットは、ホーム画面のアプリアイコンを長押しして追加することができます。</string>
     <string name="currency_symbol">通貨記号</string>
     <string name="number_of_fraction_digits">小数の桁数</string>
     <string name="warning_auto_backup_deactivated">自動バックアップが無効になっています。 問題を解決した後に、設定から再度オンにすることができます (バックアップ用に別のフォルダを選択するなど)。</string>

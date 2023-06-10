@@ -664,7 +664,6 @@
     <string name="link_account_failure_3">تناقض را می توان به صورت دستی از منوی زمینه ورودی حل کرد.</string>
     <string name="onboarding_restore_from_cloud_backup">پشتیبان گیری</string>
     <string name="link_account_failure_2">یک حساب با uuid مشابه از قبل در سرور وجود دارد.</string>
-    <string name="home_screen_shortcuts_nougate_info">میانبرها را می توان با ضربه طولانی روی نماد برنامه در صفحه اصلی اضافه کرد.</string>
     <string name="number_of_fraction_digits">تعداد ارقام کسری</string>
     <string name="warning_auto_backup_deactivated">پشتیبان گیری خودکار غیرفعال شده است. پس از حل مشکل (به عنوان مثال انتخاب پوشه دیگری برای پشتیبان گیری) می توانید آن را دوباره از تنظیمات روشن کنید.</string>
     <string name="pref_backup_cloud_title">ذخیره در همگام سازی سرور</string>

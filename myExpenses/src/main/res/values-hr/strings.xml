@@ -532,7 +532,6 @@
     <string name="warning_auto_backup_deactivated">Automatsko spremanje sigurnosnih kopija je deaktivirano. Može se ponovo uključiti u postavkama nakon rješavanja problema (npr. biranjem jedne druge mape za sigurnosne kopije).</string>
     <string name="number_of_fraction_digits">Broj decimalnih mjesta</string>
     <string name="currency_symbol">Oznaka valute</string>
-    <string name="home_screen_shortcuts_nougate_info">Prečaci se mogu dodati dugim dodirom na ikonu programa na početnom ekranu.</string>
     <string name="auto_backup_cloud_success">Datoteka sigurnosne kopije %1$s uspješno je spremljena na pozadinskom sustavu %2$s.</string>
     <string name="pref_backup_cloud_summary">Pored mogućnosti lokalnog spremanja na uređaju, datoteka sigurnosne kopije može se kopirati u udaljeni pozadinski sustav.</string>
     <string name="pref_backup_cloud_title">Spremi na pozadinski sustav sinkronizacije</string>

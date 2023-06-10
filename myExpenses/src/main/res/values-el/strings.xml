@@ -569,7 +569,6 @@
     <string name="all_extended_key_features">Όλες οι δυνατότητες του Εκτεταμένου Κλειδιού</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Αναβάθμιση</string>
-    <string name="home_screen_shortcuts_nougate_info">Συντομεύσεις μπορούν να προστεθούν πατώντας παρατεταμένα το εικονίδιο της εφαρμογής στην Αρχική οθόνη.</string>
     <string name="currency_symbol">Σύμβολο Νομίσματος</string>
     <string name="number_of_fraction_digits">Αριθμός κλασματικών ψηφίων</string>
     <string name="warning_auto_backup_deactivated">Η αυτόματη δημιουργία αντιγράφων ασφαλείας έχει απενεργοποιηθεί. Μπορείτε να το ενεργοποιήσετε ξανά από τις ρυθμίσεις μετά την επίλυση του προβλήματος (π.χ. επιλέγοντας διαφορετικό φάκελο για αντίγραφα ασφαλείας).</string>

@@ -584,7 +584,6 @@
     <string name="pref_backup_cloud_title">Auf Synchronisierung-Backend speichern</string>
     <string name="pref_backup_cloud_summary">Zusätzlich zur lokalen Speicherung auf dem Gerät kann die Sicherungsdatei auf ein entferntes Backend kopiert werden.</string>
     <string name="auto_backup_cloud_success">Die Sicherungsdatei %1$s wurde erfolgreich im Backend %2$s gespeichert.</string>
-    <string name="home_screen_shortcuts_nougate_info">Verknüfpungen können durch langes Antippen des App-Icons auf dem Start-Bildschirm hinzugefügt werden.</string>
     <string name="currency_symbol">Währungssymbol</string>
     <string name="number_of_fraction_digits">Nachkommastellen</string>
     <string name="warning_auto_backup_deactivated">Die automatische Sicherung wurde deaktiviert. Sie können sie in den Einstellungen wieder einschalten, nachdem Sie das Problem gelöst haben (z. B. Auswählen eines anderen Ordners für Sicherungen).</string>
