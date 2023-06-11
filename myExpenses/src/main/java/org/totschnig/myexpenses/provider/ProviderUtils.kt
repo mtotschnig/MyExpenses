@@ -71,8 +71,8 @@ object ProviderUtils {
                 }
 
                 extras.getString(Transactions.METHOD_LABEL)?.takeIf { it.isNotEmpty() }?.let {
-                    repository.findPaymentMethod(methodLabel)
-                }?.takeIf { it > -1 }?.let {
+                    repository.findPaymentMethod(it)
+                }?.let {
                     this.methodId = it
                 }
 

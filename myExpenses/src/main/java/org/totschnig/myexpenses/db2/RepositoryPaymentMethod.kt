@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model2.PaymentMethod
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTTYPES_METHODS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.METHODS_URI
@@ -16,7 +17,7 @@ import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getEnumOrNull
 
-fun fullProjection(context: Context) = basePaymentMethodProjection(context) + mappingColumns
+fun fullProjection(context: Context) = basePaymentMethodProjection(context) + mappingColumns + KEY_ROWID
 
 fun basePaymentMethodProjection(context: Context) = arrayOf(
     localizedLabelSqlColumn(

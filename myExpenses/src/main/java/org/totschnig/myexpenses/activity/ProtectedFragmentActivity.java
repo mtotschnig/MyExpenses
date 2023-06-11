@@ -219,6 +219,10 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     setBackgroundTintList(getFloatingActionButton(), harmonized);
   }
 
+  public void onPostExecute(int taskId, @Nullable Object o) {
+    removeAsyncTaskFragment(shouldKeepProgress(taskId));
+  }
+
   /**
    * starts the given task, only if no task is currently executed,
    * informs user through snackbar in that case
