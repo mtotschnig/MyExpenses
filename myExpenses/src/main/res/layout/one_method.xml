@@ -64,11 +64,11 @@
                     <TextView
                         android:id="@+id/TypeLabel"
                         style="@style/FormLabel"
-                        android:labelFor="@+id/TaType"
+                        android:labelFor="@+id/Type"
                         android:text="@string/type" />
 
                     <Spinner
-                        android:id="@+id/TaType"
+                        android:id="@+id/Type"
                         style="@style/FormField"
                         android:layout_height="wrap_content"
                         android:entries="@array/method_types" />

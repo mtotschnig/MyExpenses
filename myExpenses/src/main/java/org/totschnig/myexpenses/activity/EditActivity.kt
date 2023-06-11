@@ -14,7 +14,6 @@
  */
 package org.totschnig.myexpenses.activity
 
-import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -30,7 +29,7 @@ import org.totschnig.myexpenses.ui.ButtonWithDialog
 import org.totschnig.myexpenses.util.linkInputsWithLabels
 
 abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWithDialog.Host {
-    protected var mIsSaving = false
+    protected var isSaving = false
 
     @State
     var isDirty = false
@@ -81,19 +80,13 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
     }
 
     protected open fun doSave(andNew: Boolean) {
-        if (!mIsSaving) {
+        if (!isSaving) {
             saveState()
         }
     }
 
     protected open fun saveState() {
-        mIsSaving = true
-        startDbWriteTask()
-    }
-
-    override fun onPostExecute(result: Uri?) {
-        mIsSaving = false
-        super.onPostExecute(result)
+        isSaving = true
     }
 
     @Deprecated("Deprecated in Java")

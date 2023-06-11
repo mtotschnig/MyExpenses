@@ -6,9 +6,7 @@ import android.os.RemoteException
 import androidx.annotation.VisibleForTesting
 import androidx.core.util.Pair
 import org.apache.commons.collections4.ListUtils
-import org.totschnig.myexpenses.db2.CategoryHelper
-import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.db2.findAccountByUuid
+import org.totschnig.myexpenses.db2.*
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.*
@@ -431,8 +429,8 @@ class SyncDelegate(
     }
 
     private fun extractMethodId(methodLabel: String): Long =
-        methodToId[methodLabel] ?: (PaymentMethod.find(methodLabel).takeIf { it != -1L }
-            ?: PaymentMethod.maybeWrite(methodLabel, account.type)).also {
+        methodToId[methodLabel] ?: (repository.findPaymentMethod(methodLabel).takeIf { it != -1L }
+            ?: repository.writePaymentMethod(methodLabel, account.type)).also {
             methodToId[methodLabel] = it
         }
 

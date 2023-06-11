@@ -6,19 +6,14 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
 import android.provider.CalendarContract;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.ui.ContextHelper;
-import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.Serializable;
 
@@ -60,16 +55,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     switch (mTaskId) {
       case TaskExecutionFragment.TASK_INSTANTIATE_PLAN:
         return Plan.getInstanceFromDb((Long) ids[0]);
-      case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS:
-        try {
-          for (long id : (Long[]) ids) {
-            PaymentMethod.delete(id);
-          }
-        } catch (SQLiteConstraintException e) {
-          CrashHandler.reportWithDbSchema(e);
-          return Result.FAILURE;
-        }
-        return Result.SUCCESS;
       case TaskExecutionFragment.TASK_SWAP_SORT_KEY:
         cr.update(
             TransactionProvider.ACCOUNTS_URI

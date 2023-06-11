@@ -1059,7 +1059,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     override fun saveState() {
         if (::delegate.isInitialized) {
             delegate.syncStateAndValidate(true)?.let { transaction ->
-                mIsSaving = true
+                isSaving = true
                 if (planInstanceId > 0L) {
                     transaction.originPlanInstanceId = planInstanceId
                 }
@@ -1277,7 +1277,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 }
             )
         }
-        mIsSaving = false
+        isSaving = false
     }
 
     fun launchPlanView(forResult: Boolean, planId: Long) {

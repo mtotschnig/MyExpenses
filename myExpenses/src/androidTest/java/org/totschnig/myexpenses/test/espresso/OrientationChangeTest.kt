@@ -22,6 +22,7 @@ import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.adapter.IdHolder
+import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -77,7 +78,7 @@ class OrientationChangeTest : BaseExpenseEditTest() {
     fun shouldKeepMethodAfterOrientationChange() {
         val transaction = Transaction.getNewInstance(account1.id, currency1)
         transaction.amount = Money(currency1, -500L)
-        transaction.methodId = PaymentMethod.find(PreDefinedPaymentMethod.DIRECTDEBIT.name)
+        transaction.methodId = repository.findPaymentMethod(PreDefinedPaymentMethod.DIRECTDEBIT.name)
         transaction.save()
         val i = Intent(targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)

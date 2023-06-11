@@ -267,8 +267,8 @@ abstract class ItemRenderer(
 
     private fun inlineIcon(icon: ImageVector) = InlineTextContent(
         Placeholder(
-            width = 12.sp,
-            height = 12.sp,
+            width = 18.sp,
+            height = 18.sp,
             placeholderVerticalAlign = PlaceholderVerticalAlign.TextCenter
         )
     ) {

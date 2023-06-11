@@ -2,7 +2,7 @@ package org.totschnig.myexpenses.dialog.select
 
 import android.net.Uri
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.PaymentMethod
+import org.totschnig.myexpenses.db2.localizedLabelSqlColumn
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
@@ -18,7 +18,7 @@ class SelectMethodsAllDialogFragment : SelectFilterDialog<MethodCriterion>(true)
     override val uri: Uri = TransactionProvider.METHODS_URI
 
     override val column: String
-        get() = PaymentMethod.localizedLabelSqlColumn(context, KEY_LABEL)
+        get() = localizedLabelSqlColumn(requireContext(), KEY_LABEL)
 
     override val dialogTitle: Int = R.string.search_method
 

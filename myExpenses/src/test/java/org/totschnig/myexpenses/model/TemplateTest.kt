@@ -23,6 +23,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.viewmodel.data.Category
 
@@ -124,7 +125,7 @@ class TemplateTest: BaseTestWithRepository() {
         catId = this@TemplateTest.categoryId
         payeeId = this@TemplateTest.payeeId
         comment = "Some comment"
-        PaymentMethod.find(PreDefinedPaymentMethod.CHEQUE.name).let {
+        repository.findPaymentMethod(PreDefinedPaymentMethod.CHEQUE.name).let {
             assertThat(it).isGreaterThan(-1)
             methodId = it
         }

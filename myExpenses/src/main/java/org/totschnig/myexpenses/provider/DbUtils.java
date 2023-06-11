@@ -32,7 +32,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.service.AutoBackupWorker;
 import org.totschnig.myexpenses.service.PlanExecutor;
@@ -54,7 +53,6 @@ public class DbUtils {
     try {
       AutoBackupWorker.Companion.cancel(app);
       PlanExecutor.Companion.cancel(app);
-      PaymentMethod.clear();
 
       if (backupFile.exists()) {
         ContentResolver resolver = app.getContentResolver();

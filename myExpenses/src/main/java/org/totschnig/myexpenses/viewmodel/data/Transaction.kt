@@ -4,23 +4,17 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
+import org.totschnig.myexpenses.db2.localizedLabelSqlColumn
 import org.totschnig.myexpenses.model.*
-import org.totschnig.myexpenses.model.PaymentMethod
 import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.DEBT_LABEL_EXPRESSION
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.KEY_DEBT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.FULL_LABEL
-import org.totschnig.myexpenses.provider.checkSealedWithAlias
-import org.totschnig.myexpenses.provider.getDouble
-import org.totschnig.myexpenses.provider.getInt
-import org.totschnig.myexpenses.provider.getLong
-import org.totschnig.myexpenses.provider.getLongOrNull
-import org.totschnig.myexpenses.provider.getString
-import org.totschnig.myexpenses.provider.splitStringList
-import org.totschnig.myexpenses.provider.getStringOrNull
-import org.totschnig.myexpenses.provider.requireLong
-import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.util.AppDirHelper
+import org.totschnig.myexpenses.util.calculateRealExchangeRate
+import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import java.io.File
 import java.math.BigDecimal
 import java.time.ZonedDateTime
@@ -81,7 +75,7 @@ data class Transaction(
             KEY_REFERENCE_NUMBER,
             KEY_CURRENCY,
             KEY_PICTURE_URI,
-            PaymentMethod.localizedLabelSqlColumn(
+            localizedLabelSqlColumn(
                 context,
                 KEY_METHOD_LABEL
             ) + " AS " + KEY_METHOD_LABEL,

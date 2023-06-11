@@ -10,8 +10,10 @@ import com.google.common.truth.Truth
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.createPaymentMethod
 import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.PaymentMethod
+import org.totschnig.myexpenses.model2.PAYMENT_METHOD_EXPENSE
+import org.totschnig.myexpenses.model2.PaymentMethod
 import org.totschnig.myexpenses.testutils.Espresso
 
 class ExpenseEditFlowTest : BaseExpenseEditTest() {
@@ -20,11 +22,10 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
     fun fixture() {
         val accountLabel1 = "Test label 1"
         account1 = buildAccount(accountLabel1)
-        val paymentMethod = PaymentMethod("TEST").apply {
-            paymentType = PaymentMethod.EXPENSE
-            addAccountType(AccountType.CASH)
-        }
-        Truth.assertThat(paymentMethod.save()).isNotNull()
+        repository.createPaymentMethod(
+            targetContext,
+            PaymentMethod(0, "TEST", PAYMENT_METHOD_EXPENSE, true, null, listOf(AccountType.CASH))
+        )
         testScenario = ActivityScenario.launchActivityForResult(intentForNewTransaction)
     }
 

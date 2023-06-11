@@ -29,6 +29,7 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ManageMethods;
 import org.totschnig.myexpenses.activity.MethodEdit;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -133,13 +134,9 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
           }
         }
       }
-      ProtectedFragmentActivity activity = (ProtectedFragmentActivity) requireActivity();
+      ManageMethods activity = (ManageMethods) requireActivity();
       if (!idList.isEmpty()) {
-        activity.startTaskExecution(
-            TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS,
-            idList.toArray(new Long[0]),
-            null,
-            R.string.progress_dialog_deleting);
+        activity.deleteMethods(idList);
       }
       if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0) {
         String message = "";

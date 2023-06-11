@@ -39,7 +39,6 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Menu;
@@ -60,7 +59,6 @@ import com.google.android.material.color.MaterialColors;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
-import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyUnit;
@@ -76,7 +74,7 @@ import java.math.BigDecimal;
 import javax.inject.Inject;
 public abstract class ProtectedFragmentActivity extends BaseActivity
     implements OnSharedPreferenceChangeListener,
-    TaskExecutionFragment.TaskCallbacks, DbWriteFragment.TaskCallbacks,
+    TaskExecutionFragment.TaskCallbacks,
     ProgressDialogFragment.ProgressDialogListener {
 
   public static final String SAVE_TAG = "SAVE_TASK";
@@ -221,34 +219,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     setBackgroundTintList(getFloatingActionButton(), harmonized);
   }
 
-  @Override
-  public void onPostExecute(int taskId, @Nullable Object o) {
-    removeAsyncTaskFragment(shouldKeepProgress(taskId));
-    switch (taskId) {
-      case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS: {
-        Result result = (Result) o;
-        if (!result.isSuccess()) {
-          showDeleteFailureFeedback(null, null);
-        }
-        break;
-      }
-    }
-  }
-
-  @Override
-  public Model getObject() {
-    return null;
-  }
-
-  @Override
-  public void onPostExecute(@Nullable Uri result) {
-    FragmentManager m = getSupportFragmentManager();
-    FragmentTransaction t = m.beginTransaction();
-    t.remove(m.findFragmentByTag(SAVE_TAG));
-    t.remove(m.findFragmentByTag(PROGRESS_TAG));
-    t.commitAllowingStateLoss();
-  }
-
   /**
    * starts the given task, only if no task is currently executed,
    * informs user through snackbar in that case
@@ -325,15 +295,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     t.commitAllowingStateLoss();
     //we might want to call a new task immediately after executing the last one
     m.executePendingTransactions();
-  }
-
-  @Deprecated
-  public void startDbWriteTask() {
-    getSupportFragmentManager().beginTransaction()
-        .add(DbWriteFragment.newInstance(), SAVE_TAG)
-        .add(ProgressDialogFragment.newInstance(getString(R.string.saving)),
-            PROGRESS_TAG)
-        .commitAllowingStateLoss();
   }
 
   public void recordUsage(ContribFeature f) {

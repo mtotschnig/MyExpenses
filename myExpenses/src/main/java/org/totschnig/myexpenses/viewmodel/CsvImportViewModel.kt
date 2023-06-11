@@ -15,17 +15,10 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.AutoFillInfo
 import org.totschnig.myexpenses.db2.CategoryHelper
 import org.totschnig.myexpenses.db2.findAnyOpenByLabel
+import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.export.qif.QifUtils
-import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.PaymentMethod
-import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
-import org.totschnig.myexpenses.model.SplitTransaction
-import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.Transfer
-import org.totschnig.myexpenses.model.extractTagIds
-import org.totschnig.myexpenses.model.saveTagLinks
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.TransactionProvider
 import java.io.InputStreamReader
@@ -165,7 +158,7 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
                             break
                         }
                     }
-                    val methodId = PaymentMethod.find(method)
+                    val methodId = repository.findPaymentMethod(method)
                     if (methodId != -1L) {
                         t.methodId = methodId
                     }

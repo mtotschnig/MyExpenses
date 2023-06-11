@@ -6,7 +6,6 @@ import org.apache.commons.lang3.NotImplementedException
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.*
 import org.totschnig.myexpenses.model.Money.Companion.buildWithMicros
-import org.totschnig.myexpenses.model.PaymentMethod
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
 
@@ -65,17 +64,18 @@ object ProviderUtils {
                         }
                     }
                 }
+
                 val comment = extras.getString(Transactions.COMMENT)
                 if (!TextUtils.isEmpty(comment)) {
                     this.comment = comment
                 }
-                val methodLabel = extras.getString(Transactions.METHOD_LABEL)
-                if (!TextUtils.isEmpty(methodLabel)) {
-                    val methodId = PaymentMethod.find(methodLabel)
-                    if (methodId > -1) {
-                        this.methodId = methodId
-                    }
+
+                extras.getString(Transactions.METHOD_LABEL)?.takeIf { it.isNotEmpty() }?.let {
+                    repository.findPaymentMethod(methodLabel)
+                }?.takeIf { it > -1 }?.let {
+                    this.methodId = it
                 }
+
                 val referenceNumber = extras.getString(Transactions.REFERENCE_NUMBER)
                 if (!TextUtils.isEmpty(referenceNumber)) {
                     this.referenceNumber = referenceNumber

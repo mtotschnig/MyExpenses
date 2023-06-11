@@ -19,7 +19,7 @@ import androidx.sqlite.db.SupportSQLiteQueryBuilder
 import androidx.sqlite.db.SupportSQLiteStatement
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.PaymentMethod
+import org.totschnig.myexpenses.db2.localizedLabelSqlColumn
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.enumValueOrNull
 import timber.log.Timber
 import java.io.File
 
@@ -127,7 +128,7 @@ fun tableForPaymentMethodQuery(projection: Array<String>?) =
 fun mapPaymentMethodProjection(projection: Array<String>, ctx: Context): Array<String> {
     return projection.map { column ->
         when (column) {
-            KEY_LABEL -> "${PaymentMethod.localizedLabelSqlColumn(ctx, column)} AS $column"
+            KEY_LABEL -> "${localizedLabelSqlColumn(ctx, column)} AS $column"
             KEY_TYPE -> "$TABLE_METHODS.$column"
             KEY_ACCOUNT_TPYE_LIST -> "group_concat($TABLE_ACCOUNTTYES_METHODS.$KEY_TYPE) AS $column"
             else -> column
@@ -364,6 +365,9 @@ inline fun <reified T : Enum<T>> Cursor.getEnum(column: String, default: T) =
 
 inline fun <reified T : Enum<T>> Cursor.getEnum(columnIndex: Int, default: T) =
     enumValueOrDefault(getString(columnIndex), default)
+
+inline fun <reified T : Enum<T>> Cursor.getEnumOrNull(columnIndex: Int) =
+    enumValueOrNull<T>(getString(columnIndex))
 
 /**
  * Splits the value of column by ASCII UnitSeparator char

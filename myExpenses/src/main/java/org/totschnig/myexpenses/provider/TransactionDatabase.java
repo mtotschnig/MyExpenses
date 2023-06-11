@@ -17,6 +17,9 @@ package org.totschnig.myexpenses.provider;
 
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE;
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_NONE;
+import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_EXPENSE;
+import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_INCOME;
+import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_NEUTRAL;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
@@ -49,7 +52,6 @@ import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
-import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod;
 import org.totschnig.myexpenses.model.Template;
@@ -241,9 +243,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_IS_NUMBERED + " boolean default 0, "
           + KEY_TYPE + " integer " +
           "check (" + KEY_TYPE + " in ("
-          + PaymentMethod.EXPENSE + ","
-          + PaymentMethod.NEUTRAL + ","
-          + PaymentMethod.INCOME + ")) default 0);";
+          + PAYMENT_METHOD_EXPENSE + ","
+          + PAYMENT_METHOD_NEUTRAL + ","
+          + PAYMENT_METHOD_INCOME + ")) default 0);";
 
   private static final String ACCOUNTTYE_METHOD_CREATE =
       "CREATE TABLE " + TABLE_ACCOUNTTYES_METHODS + " ("

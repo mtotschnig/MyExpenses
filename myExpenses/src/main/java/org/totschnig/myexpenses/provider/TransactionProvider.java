@@ -57,10 +57,10 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper;
 import androidx.sqlite.db.SupportSQLiteQueryBuilder;
 
 import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.db2.RepositoryPaymentMethodKt;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
-import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -560,16 +560,16 @@ public class TransactionProvider extends BaseTransactionProvider {
         groupBy = groupByForPaymentMethodQuery(projection);
         having = havingForPaymentMethodQuery(projection);
         if (projection == null) {
-          projection = PaymentMethod.PROJECTION(getWrappedContext());
+          projection = RepositoryPaymentMethodKt.fullProjection(getWrappedContext());
         } else {
           projection = mapPaymentMethodProjection(projection, getWrappedContext());
         }
         if (sortOrder == null) {
-          sortOrder = PaymentMethod.localizedLabelSqlColumn(getWrappedContext(), KEY_LABEL) + " COLLATE " + getCollate();
+          sortOrder = RepositoryPaymentMethodKt.localizedLabelSqlColumn(getWrappedContext(), KEY_LABEL) + " COLLATE " + getCollate();
         }
         break;
       case MAPPED_METHODS:
-        String localizedLabel = PaymentMethod.localizedLabelSqlColumn(getWrappedContext(), KEY_LABEL);
+        String localizedLabel = RepositoryPaymentMethodKt.localizedLabelSqlColumn(getWrappedContext(), KEY_LABEL);
         qb = SupportSQLiteQueryBuilder.builder(TABLE_METHODS + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_METHODID + " = " + TABLE_METHODS + "." + KEY_ROWID + ")");
         projection = new String[]{"DISTINCT " + TABLE_METHODS + "." + KEY_ROWID, localizedLabel + " AS " + KEY_LABEL};
         if (sortOrder == null) {
@@ -579,26 +579,23 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHOD_ID:
         qb = SupportSQLiteQueryBuilder.builder(TABLE_METHODS);
         if (projection == null)
-          projection = PaymentMethod.PROJECTION(getWrappedContext());
+          projection =  RepositoryPaymentMethodKt.basePaymentMethodProjection(getWrappedContext());
         additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
       case METHODS_FILTERED:
-        localizedLabel = PaymentMethod.localizedLabelSqlColumn(getWrappedContext(), KEY_LABEL);
+        localizedLabel = RepositoryPaymentMethodKt.localizedLabelSqlColumn(getWrappedContext(), KEY_LABEL);
         qb = SupportSQLiteQueryBuilder.builder(TABLE_METHODS + " JOIN " + TABLE_ACCOUNTTYES_METHODS + " ON (" + KEY_ROWID + " = " + KEY_METHODID + ")");
         projection = new String[]{KEY_ROWID, localizedLabel + " AS " + KEY_LABEL, KEY_IS_NUMBERED};
         String paymentType = uri.getPathSegments().get(2);
         String typeSelect;
         switch (paymentType) {
-          case "1": {
+          case "1" -> {
             typeSelect = "> -1";
-            break;
           }
-          case "-1": {
+          case "-1" -> {
             typeSelect = "< 1";
-            break;
           }
-          default:
-            typeSelect = "= 0";
+          default -> typeSelect = "= 0";
         }
         selection = String.format("%s.%s %s", TABLE_METHODS, KEY_TYPE, typeSelect);
         String[] accountTypes = uri.getQueryParameter(QUERY_PARAMETER_ACCOUNTY_TYPE_LIST).split(";");

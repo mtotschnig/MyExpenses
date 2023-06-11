@@ -16,11 +16,19 @@ package org.totschnig.myexpenses.activity
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.viewmodel.MethodViewModel
+import java.util.ArrayList
 
 class ManageMethods : ProtectedFragmentActivity() {
+
+    private val viewModel by viewModels<MethodViewModel>()
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        injector.inject(viewModel)
         setContentView(R.layout.manage_methods)
         setupToolbar()
         setTitle(R.string.pref_manage_methods_title)
@@ -30,5 +38,9 @@ class ManageMethods : ProtectedFragmentActivity() {
 
     override fun onFabClicked() {
         startActivity(Intent(this, MethodEdit::class.java))
+    }
+
+    fun deleteMethods(methodsIs: List<Long>) {
+        viewModel.deleteMethods(methodsIs)
     }
 }

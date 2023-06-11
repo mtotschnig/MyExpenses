@@ -10,6 +10,7 @@ import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.createAccount
+import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
 import java.util.*
@@ -128,7 +129,7 @@ class ProviderUtilsTest: BaseTestWithRepository() {
         val method = "CHEQUE"
         extras.putString(Transactions.METHOD_LABEL, method)
         val transaction = buildFromExtras(extras)
-        assertEquals(PaymentMethod.find(method), transaction.methodId)
+        assertEquals(repository.findPaymentMethod(method), transaction.methodId)
     }
 
     @Test

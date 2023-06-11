@@ -19,7 +19,7 @@ class TransactionDetailViewModel(application: Application) :
     @SuppressLint("Recycle")
     fun transaction(transactionId: Long): LiveData<List<TData>> = liveData(context = coroutineContext()) {
         contentResolver.query(Transaction.EXTENDED_URI,
-            projection(getApplication(), homeCurrencyProvider.homeCurrencyString),
+            projection(localizedContext, homeCurrencyProvider.homeCurrencyString),
             "$KEY_ROWID = ? OR $KEY_PARENTID = ?",
             Array(2) { transactionId.toString() },
             "$KEY_PARENTID IS NULL DESC")?.useAndMap {

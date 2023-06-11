@@ -1,17 +1,5 @@
 package org.totschnig.myexpenses.test.provider;
 
-import android.content.ContentUris;
-import android.database.Cursor;
-
-import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.PaymentMethod;
-import org.totschnig.myexpenses.model.PreDefinedPaymentMethod;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
-import org.totschnig.myexpenses.provider.TransactionInfo;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.testutils.BaseDbTest;
-
 import static org.totschnig.myexpenses.provider.DatabaseConstants.CAT_AS_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
@@ -19,6 +7,18 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
+
+import android.content.ContentUris;
+import android.database.Cursor;
+
+import org.totschnig.myexpenses.db2.RepositoryPaymentMethodKt;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.PreDefinedPaymentMethod;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
+import org.totschnig.myexpenses.provider.TransactionInfo;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.testutils.BaseDbTest;
 
 import java.util.Date;
 
@@ -60,8 +60,8 @@ public class AutoFillTest extends BaseDbTest {
     String PAYEE_NAME = "N.N";
     payeeId =  MoreDbUtilsKt.insert(mDb, DatabaseConstants.TABLE_PAYEES, new PayeeInfo(PAYEE_NAME).getContentValues());
     catId =  MoreDbUtilsKt.insert(mDb, DatabaseConstants.TABLE_CATEGORIES,  new CategoryInfo("Main", null).getContentValues());
-    methodChequeId = PaymentMethod.find(PreDefinedPaymentMethod.CHEQUE.name());
-    methodCreditCardId = PaymentMethod.find(PreDefinedPaymentMethod.CREDITCARD.name());
+    methodChequeId = RepositoryPaymentMethodKt.findPaymentMethod(getRepository(), PreDefinedPaymentMethod.CHEQUE.name());
+    methodCreditCardId = RepositoryPaymentMethodKt.findPaymentMethod(getRepository(), PreDefinedPaymentMethod.CREDITCARD.name());
 
     String PAYEE_NAME1 = "y.y";
     payeeId1 =  MoreDbUtilsKt.insert(mDb, DatabaseConstants.TABLE_PAYEES, new PayeeInfo(PAYEE_NAME1).getContentValues());

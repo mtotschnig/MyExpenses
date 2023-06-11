@@ -32,6 +32,7 @@ import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.markAsExported
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Transaction
@@ -78,6 +79,9 @@ class ExportTest: BaseTestWithRepository() {
     private lateinit var outFile: File
     private val uuidList: MutableList<String> = mutableListOf()
 
+    private val cheque: Long
+        get() = repository.findPaymentMethod(PreDefinedPaymentMethod.CHEQUE.name)!!
+
     @Before
     fun setUp() {
         outFile = File(context.cacheDir, FILE_NAME)
@@ -103,7 +107,7 @@ class ExportTest: BaseTestWithRepository() {
         val cat4Id = writeCategory("Sub3", cat1Id)
         val op = Transaction.getNewInstance(account1.id, CurrencyUnit.DebugInstance) ?: throw IllegalStateException()
         op.amount = Money(CurrencyUnit.DebugInstance, expense1)
-        op.methodId = PaymentMethod.find("CHEQUE")
+        op.methodId = cheque
         op.crStatus = CrStatus.CLEARED
         op.referenceNumber = "1"
         op.date = baseSinceEpoch
@@ -182,7 +186,7 @@ class ExportTest: BaseTestWithRepository() {
     private fun insertData2(account: Account) {
         with(Transaction.getNewInstance(account.id, CurrencyUnit.DebugInstance) ?: throw IllegalStateException()) {
             amount = Money(CurrencyUnit.DebugInstance, expense3)
-            methodId = PaymentMethod.find("CHEQUE")
+            methodId = cheque
             comment = "Expense inserted after first export"
             referenceNumber = "3"
             date = baseSinceEpoch
@@ -220,7 +224,7 @@ class ExportTest: BaseTestWithRepository() {
             throw IllegalStateException()
         }
         op.amount = Money(CurrencyUnit.DebugInstance, expense1)
-        op.methodId = PaymentMethod.find("CHEQUE")
+        op.methodId = cheque
         op.crStatus = CrStatus.CLEARED
         op.referenceNumber = "1"
         op.date = baseSinceEpoch
@@ -230,7 +234,7 @@ class ExportTest: BaseTestWithRepository() {
             throw IllegalStateException()
         }
         op.amount = Money(CurrencyUnit.DebugInstance, expense1)
-        op.methodId = PaymentMethod.find("CHEQUE")
+        op.methodId = cheque
         op.crStatus = CrStatus.CLEARED
         op.referenceNumber = "1"
         op.date = baseSinceEpoch

@@ -125,13 +125,13 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             inject(syncViewModel)
         }
         val extras = intent.extras
-        currencySpinner = SpinnerHelper(findViewById(R.id.Currency))
+        currencySpinner = SpinnerHelper(binding.Currency)
         currencyAdapter = CurrencyAdapter(this, android.R.layout.simple_spinner_item)
         currencySpinner.adapter = currencyAdapter
-        val spinner = findViewById<Spinner>(R.id.AccountType)
+        val spinner = binding.AccountType
         DialogUtils.configureTypeSpinner(spinner)
         accountTypeSpinner = SpinnerHelper(spinner)
-        syncSpinner = SpinnerHelper(findViewById(R.id.Sync))
+        syncSpinner = SpinnerHelper(binding.Sync)
         newInstance = rowId == 0L
         setTitle(if (rowId != 0L) R.string.menu_edit_account else R.string.menu_create_account)
         if (savedInstanceState == null || !dataLoaded) {
@@ -209,8 +209,9 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         binding.CriterionLabel.setText(criterionLabel)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intent)
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             PREFERENCES_REQUEST -> if (resultCode == RESULT_FIRST_USER) {
                 finish()
@@ -286,6 +287,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
      * (a valid float according to the format from the locale)
      */
     override fun saveState() {
+        super.saveState()
         if (!dataLoaded) return
         val label = binding.Label.text.toString()
         if (label == "") {
@@ -327,6 +329,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
                 currencyContext.ensureFractionDigitsAreCached(currencyUnit)
                 finish()
             }
+            isSaving = false
         }
     }
 

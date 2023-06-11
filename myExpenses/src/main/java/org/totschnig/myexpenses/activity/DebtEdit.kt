@@ -146,6 +146,7 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host, ExchangeRateEdit.Host {
             return
         }
         binding.Amount.selectedCurrency?.let {
+            isSaving = true
             val amount = binding.Amount.typedValue
             val equivalentAmount = if (it.code == homeCurrency.code) null else {
                 Money(
