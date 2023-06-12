@@ -7,24 +7,17 @@ import androidx.core.database.getStringOrNull
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
-import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.buildTransactionRowSelect
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.provider.getBoolean
-import org.totschnig.myexpenses.provider.getEnum
-import org.totschnig.myexpenses.provider.getLong
-import org.totschnig.myexpenses.provider.getString
-import org.totschnig.myexpenses.provider.withLimit
 import org.totschnig.myexpenses.util.joinArrays
 
 fun Repository.getCurrencyUnitForAccount(accountId: Long) =
-    currencyContext[getCurrencyForAccount(accountId)!!]
+    getCurrencyForAccount(accountId)?.let { currencyContext[it] }
 
 fun Repository.getUuidForAccount(accountId: Long) = getStringValue(accountId, KEY_UUID)
 fun Repository.getCurrencyForAccount(accountId: Long) = getStringValue(accountId, KEY_CURRENCY)
@@ -36,8 +29,7 @@ private fun Repository.getStringValue(accountId: Long, column: String): String? 
         ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId),
         arrayOf(column), null, null, null
     )!!.use {
-        it.moveToFirst()
-        it.getStringOrNull(0)
+        if (it.moveToFirst()) it.getStringOrNull(0) else null
     }
 }
 

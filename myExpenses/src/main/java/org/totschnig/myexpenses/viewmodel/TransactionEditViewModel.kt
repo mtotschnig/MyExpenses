@@ -235,13 +235,17 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         }
     }
 
-    private suspend fun ensureLoadData(accountId: Long, currencyUnit: CurrencyUnit?) =
-        if (accountId > 0 && currencyUnit != null)
+    private suspend fun ensureLoadData(accountId: Long, currencyUnit: CurrencyUnit?): Pair<Long, CurrencyUnit>? {
+        return if (accountId > 0 && currencyUnit != null)
             accountId to currencyUnit
         else withContext(coroutineContext()) {
-            if (accountId > 0) accountId to repository.getCurrencyUnitForAccount(accountId)
-            else repository.getLastUsedOpenAccount()
+            (if (accountId > 0) {
+                repository.getCurrencyUnitForAccount(accountId)?.let {
+                    accountId to it
+                }
+            } else null) ?: repository.getLastUsedOpenAccount()
         }
+    }
 
     suspend fun newTransaction(
         accountId: Long,
