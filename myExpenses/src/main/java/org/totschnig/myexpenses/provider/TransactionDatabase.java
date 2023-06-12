@@ -230,7 +230,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_USAGES + " integer default 0, "
           + KEY_LAST_USED + " datetime, "
           + KEY_COLOR + " integer, "
-          + KEY_ICON + " string, "
+          + KEY_ICON + " string, " //TODO migrate to text
           + KEY_UUID + " text, "
           + "UNIQUE (" + KEY_LABEL + "," + KEY_PARENTID + "));";
 
@@ -247,7 +247,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + PAYMENT_METHOD_EXPENSE + ","
           + PAYMENT_METHOD_NEUTRAL + ","
           + PAYMENT_METHOD_INCOME + ")) default 0, "
-          + KEY_ICON + " string);";
+          + KEY_ICON + " text);";
 
   private static final String ACCOUNTTYE_METHOD_CREATE =
       "CREATE TABLE " + TABLE_ACCOUNTTYES_METHODS + " ("
@@ -2232,6 +2232,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         db.execSQL("ALTER TABLE debts add column equivalent_amount integer");
       }
       if (oldVersion < 141) {
+        createOrRefreshViews(db);
+      }
+      if (oldVersion < 142) {
+        db.execSQL("ALTER TABLE paymentmethods add column icon text");
         createOrRefreshViews(db);
       }
 
