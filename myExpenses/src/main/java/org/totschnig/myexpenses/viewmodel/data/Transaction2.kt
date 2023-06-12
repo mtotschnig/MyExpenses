@@ -51,6 +51,7 @@ data class Transaction2(
     val accountId: Long,
     val methodId: Long? = null,
     val methodLabel: String? = null,
+    val methodIcon: String? = null,
     val crStatus: CrStatus = CrStatus.UNRECONCILED,
     val referenceNumber: String? = null,
     val pictureUri: Uri? = null,
@@ -85,10 +86,9 @@ data class Transaction2(
     /**
      * pair of localized label and icon
      */
-    fun getMethodInfo(context: Context): Pair<String, ImageVector?>? = methodLabel?.let {
-        enumValueOrNull<PreDefinedPaymentMethod>(it)?.let { predefined ->
-            predefined.getLocalizedLabel(context) to predefined.icon
-        } ?: (methodLabel to null)
+    fun getMethodInfo(context: Context): Pair<String, String?>? = methodLabel?.let {
+        (enumValueOrNull<PreDefinedPaymentMethod>(it)?.getLocalizedLabel(context)
+            ?: methodLabel) to methodIcon
     }
 
 
@@ -101,7 +101,7 @@ data class Transaction2(
             extended: Boolean = true
         ) = buildList {
             addAll(projection(grouping, extended))
-            if(DataBaseAccount.isAggregate(accountId) && extended) {
+            if (DataBaseAccount.isAggregate(accountId) && extended) {
                 addAll(additionalAggregateColumns)
             }
             if (DataBaseAccount.isHomeAggregate(accountId)) {
@@ -124,6 +124,7 @@ data class Transaction2(
                 KEY_ACCOUNTID,
                 KEY_METHODID,
                 KEY_METHOD_LABEL,
+                KEY_METHOD_ICON,
                 KEY_CR_STATUS,
                 KEY_REFERENCE_NUMBER,
                 KEY_PICTURE_URI,
@@ -154,7 +155,12 @@ data class Transaction2(
         )
 
         private fun additionGrandTotalColumn(homeCurrency: String, extended: Boolean) =
-            "${getAmountHomeEquivalent(if (extended) VIEW_EXTENDED else VIEW_COMMITTED, homeCurrency)} AS $KEY_EQUIVALENT_AMOUNT"
+            "${
+                getAmountHomeEquivalent(
+                    if (extended) VIEW_EXTENDED else VIEW_COMMITTED,
+                    homeCurrency
+                )
+            } AS $KEY_EQUIVALENT_AMOUNT"
 
         fun fromCursor(
             context: Context,
@@ -186,6 +192,7 @@ data class Transaction2(
                 catId = cursor.getLongOrNull(KEY_CATID),
                 payee = cursor.getStringOrNull(KEY_PAYEE_NAME),
                 methodLabel = cursor.getStringOrNull(KEY_METHOD_LABEL),
+                methodIcon = cursor.getStringOrNull(KEY_METHOD_ICON),
                 label = cursor.getStringOrNull(KEY_LABEL),
                 transferPeer = transferPeer,
                 transferAccount = cursor.getLongOrNull(KEY_TRANSFER_ACCOUNT),

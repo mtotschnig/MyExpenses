@@ -201,6 +201,7 @@ public class DatabaseConstants {
   public static final String KEY_STATUS = "status";
   public static final String KEY_PAYEE_NAME = "name";
   public static final String KEY_METHOD_LABEL = "method_label";
+  public static final String KEY_METHOD_ICON = "method_icon";
   public static final String KEY_PAYEE_NAME_NORMALIZED = "name_normalized";
   public static final String KEY_TRANSACTIONID = "transaction_id";
   public static final String KEY_GROUPING = "grouping";

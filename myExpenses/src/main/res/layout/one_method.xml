@@ -101,6 +101,39 @@
                         android:layout_height="wrap_content"
                         app:columnCount="@integer/account_type_grid_columns" />
                 </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/IconLabel"
+                        style="@style/FormLabel"
+                        android:text="@string/icon" />
+
+                    <LinearLayout
+                        style="@style/FormField"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/Icon"
+                            style="@style/SmallButton"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="@string/select" />
+
+                        <ImageView
+                            android:id="@+id/ClearIcon"
+                            style="?actionButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/content_description_remove_icon"
+                            android:focusable="true"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/ic_menu_delete" />
+                    </LinearLayout>
+                </TableRow>
             </TableLayout>
         </ScrollView>
     </LinearLayout>

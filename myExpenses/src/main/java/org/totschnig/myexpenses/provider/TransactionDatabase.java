@@ -131,7 +131,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     }
     stringBuilder.append(" SELECT ").append(tableName).append(".*, ").append(TABLE_PAYEES)
         .append(".").append(KEY_PAYEE_NAME).append(", ")
-        .append(TABLE_METHODS).append(".").append(KEY_LABEL).append(" AS ").append(KEY_METHOD_LABEL);
+        .append(TABLE_METHODS).append(".").append(KEY_LABEL).append(" AS ").append(KEY_METHOD_LABEL).append(", ")
+        .append(TABLE_METHODS).append(".").append(KEY_ICON).append(" AS ").append(KEY_METHOD_ICON);
 
     if (!tableName.equals(TABLE_CHANGES)) {
       stringBuilder.append(", ")
@@ -245,7 +246,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           "check (" + KEY_TYPE + " in ("
           + PAYMENT_METHOD_EXPENSE + ","
           + PAYMENT_METHOD_NEUTRAL + ","
-          + PAYMENT_METHOD_INCOME + ")) default 0);";
+          + PAYMENT_METHOD_INCOME + ")) default 0, "
+          + KEY_ICON + " string);";
 
   private static final String ACCOUNTTYE_METHOD_CREATE =
       "CREATE TABLE " + TABLE_ACCOUNTTYES_METHODS + " ("
@@ -837,6 +839,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       initialValues.put(KEY_LABEL, pm.name());
       initialValues.put(KEY_TYPE, pm.getPaymentType());
       initialValues.put(KEY_IS_NUMBERED, pm.isNumbered());
+      initialValues.put(KEY_ICON, pm.getIcon());
       _id = db.insert(TABLE_METHODS, CONFLICT_NONE, initialValues);
       initialValues = new ContentValues();
       initialValues.put(KEY_METHODID, _id);

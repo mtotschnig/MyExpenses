@@ -2,18 +2,12 @@ package org.totschnig.myexpenses.compose
 
 import android.content.Context
 import android.net.Uri
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Attachment
 import androidx.compose.material.icons.filled.CallSplit
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -25,7 +19,6 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
@@ -44,16 +37,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+
+val inlineIconPlaceholder = 13.sp
+val inlineIconSize = 12.sp
 
 abstract class ItemRenderer(
     private val withCategoryIcon: Boolean,
@@ -92,16 +84,16 @@ abstract class ItemRenderer(
     fun Transaction2.buildSecondaryInfo(
         context: Context,
         withTags: Boolean
-    ): Pair<AnnotatedString, List<ImageVector>> {
-        val attachmentIcon = if (pictureUri != null) Icons.Filled.Attachment else null
+    ): Pair<AnnotatedString, List<String>> {
+        val attachmentIcon = if (pictureUri != null) "paperclip" else null
         val methodInfo = getMethodInfo(context)
         val methodIcon = methodInfo?.second
         return buildAnnotatedString {
             methodIcon?.let {
-                appendInlineContent(it.name, methodInfo.first)
+                appendInlineContent(it, methodInfo.first)
             }
             referenceNumber?.takeIf { it.isNotEmpty() }?.let {
-                append("($it) ")
+                append(" ($it) ")
             }
             comment?.takeIf { it.isNotEmpty() }?.let {
                 withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
@@ -127,7 +119,7 @@ abstract class ItemRenderer(
             attachmentIcon?.let {
                 append(" ")
                 appendInlineContent(
-                    it.name,
+                    it,
                     context.getString(R.string.content_description_attachment)
                 )
             }
@@ -256,23 +248,23 @@ abstract class ItemRenderer(
     fun TextWithInlineContent(
         modifier: Modifier = Modifier,
         text: AnnotatedString,
-        icons: List<ImageVector>
+        icons: List<String>
     ) {
         Text(modifier = modifier, text = text, inlineContent = buildMap {
             icons.forEach {
-                put(it.name, inlineIcon(it))
+                put(it, inlineIcon(it))
             }
         })
     }
 
-    private fun inlineIcon(icon: ImageVector) = InlineTextContent(
+    private fun inlineIcon(icon: String) = InlineTextContent(
         Placeholder(
-            width = 18.sp,
-            height = 18.sp,
+            width = inlineIconPlaceholder,
+            height = inlineIconPlaceholder,
             placeholderVerticalAlign = PlaceholderVerticalAlign.TextCenter
         )
     ) {
-        Icon(imageVector = icon, contentDescription = icon.name)
+        Icon(icon, size = inlineIconSize)
     }
 }
 

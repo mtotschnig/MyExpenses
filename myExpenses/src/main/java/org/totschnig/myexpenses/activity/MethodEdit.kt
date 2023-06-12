@@ -22,11 +22,14 @@ import android.widget.CompoundButton
 import androidx.activity.viewModels
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.AppCompatCheckBox
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.evernote.android.state.State
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.OneMethodBinding
+import org.totschnig.myexpenses.dialog.IconSelectorDialogFragment
+import org.totschnig.myexpenses.dialog.OnIconSelectedListener
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
@@ -34,8 +37,9 @@ import org.totschnig.myexpenses.model2.PaymentMethod
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.viewmodel.MethodViewModel
+import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 
-class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener {
+class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener, OnIconSelectedListener {
     lateinit var binding: OneMethodBinding
     private lateinit var typeSpinner: SpinnerHelper
 
@@ -46,6 +50,10 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener {
 
     @State
     var preDefined: PreDefinedPaymentMethod? = null
+
+    @JvmField
+    @State
+    var icon: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,11 +68,21 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener {
             setUpAccountTypeGrid { false }
         }
         setTitle(if (rowId == 0L) R.string.menu_create_method else R.string.menu_edit_method)
+        binding.Icon.setOnClickListener {
+            IconSelectorDialogFragment()
+                .show(supportFragmentManager, "ICON_SELECTION")
+        }
+        binding.ClearIcon.setOnClickListener {
+            icon = null
+            setDirty()
+            configureIcon()
+        }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         setupListeners()
+        configureIcon()
     }
 
     private fun populateFields() {
@@ -77,8 +95,10 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener {
                     typeSpinner.setSelection(type + 1)
                     setUpAccountTypeGrid { isValidForAccountType(it) }
                     preDefined = preDefinedPaymentMethod
+                    this@MethodEdit.icon = icon
                 }
                 setupListeners()
+                configureIcon()
             }
         } else {
             setUpAccountTypeGrid { false }
@@ -123,6 +143,7 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener {
                     PaymentMethod(
                         id = rowId,
                         label = binding.Label.text.toString(),
+                        icon = icon,
                         type = typeSpinner.selectedItemPosition - 1,
                         isNumbered = binding.IsNumbered.isChecked,
                         accountTypes = AccountType.values().filter {
@@ -155,5 +176,23 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener {
 
     override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
         setDirty()
+    }
+
+    private fun configureIcon() {
+        binding.Icon.setCompoundDrawablesRelativeWithIntrinsicBounds(
+            icon?.let {
+                IIconInfo.resolveIcon(it)?.asDrawable(
+                    this, androidx.appcompat.R.attr.colorPrimary
+                )
+            },
+            null, null, null
+        )
+        binding.ClearIcon.isVisible = icon != null
+    }
+
+    override fun onIconSelected(icon: String) {
+        setDirty()
+        this.icon = icon
+        configureIcon()
     }
 }

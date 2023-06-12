@@ -737,6 +737,8 @@
     <string name="content_description_clear_method">Clear method</string>
     <!-- Description for button that allows to clear the selected category -->
     <string name="content_description_clear_category">Clear category</string>
+    <!-- Description for button that allows to remove icon from a payment method -->
+    <string name="content_description_remove_icon">Remove icon</string>
     <string name="currency_code">Code</string>
     <string name="dialog_title_new_currency">New currency</string>
     <string name="currency_code_already_definded">Currency code is already defined.</string>

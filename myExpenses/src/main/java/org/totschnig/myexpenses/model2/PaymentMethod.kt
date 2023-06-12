@@ -17,6 +17,7 @@ const val PAYMENT_METHOD_INCOME = 1
 data class PaymentMethod(
     val id: Long = 0L,
     val label: String,
+    val icon: String? = null,
     @PaymentMethodType val type: Int = PAYMENT_METHOD_NEUTRAL,
     val isNumbered: Boolean = false,
     val preDefinedPaymentMethod: PreDefinedPaymentMethod? = null,

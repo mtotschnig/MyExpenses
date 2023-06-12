@@ -4,10 +4,12 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.database.DatabaseUtils
+import androidx.core.database.getStringOrNull
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model2.PaymentMethod
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
@@ -24,9 +26,10 @@ fun basePaymentMethodProjection(context: Context) = arrayOf(
         context,
         DatabaseConstants.KEY_LABEL
     ) + " AS " + DatabaseConstants.KEY_LABEL, //0
-    KEY_TYPE, //1
-    DatabaseConstants.KEY_IS_NUMBERED, //2
-    preDefinedName + " AS " + DatabaseConstants.KEY_PREDEFINED_METHOD_NAME, //3
+    KEY_ICON, //1
+    KEY_TYPE, //2
+    DatabaseConstants.KEY_IS_NUMBERED, //3
+    preDefinedName + " AS " + DatabaseConstants.KEY_PREDEFINED_METHOD_NAME, //4
 )
 
 val mappingColumns = arrayOf(
@@ -77,9 +80,10 @@ fun Repository.loadPaymentMethod(context: Context, id: Long): PaymentMethod {
         PaymentMethod(
             id,
             it.getString(0),
-            it.getInt(1),
-            it.getBoolean(2),
-            it.getEnumOrNull<PreDefinedPaymentMethod>(3),
+            it.getStringOrNull(1),
+            it.getInt(2),
+            it.getBoolean(3),
+            it.getEnumOrNull<PreDefinedPaymentMethod>(4),
             accountTypes
         )
 
@@ -89,6 +93,11 @@ fun Repository.loadPaymentMethod(context: Context, id: Long): PaymentMethod {
 private fun PaymentMethod.toContentValues(context: Context?) = ContentValues().apply {
     require(preDefinedPaymentMethod == null || context != null)
     put(KEY_TYPE, type)
+    icon?.also {
+        put(KEY_ICON, it)
+    } ?: run {
+        putNull(KEY_ICON)
+    }
     put(DatabaseConstants.KEY_IS_NUMBERED, isNumbered)
     if (preDefinedPaymentMethod == null || preDefinedPaymentMethod.getLocalizedLabel(context!!) != label) {
         put(DatabaseConstants.KEY_LABEL, label)

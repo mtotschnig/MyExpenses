@@ -1,25 +1,23 @@
 package org.totschnig.myexpenses.compose
 
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import org.totschnig.myexpenses.viewmodel.data.ExtraIcon
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 import org.totschnig.myexpenses.viewmodel.data.IconInfo
 
 @Composable
-fun Icon(icon: String, size: Dp = 24.dp) {
+fun Icon(icon: String, size: TextUnit = 24.sp) {
     val iconInfo = IIconInfo.resolveIcon(icon)
     if (iconInfo == null) {
         Text(color = Color.Red, text = icon)
@@ -29,7 +27,7 @@ fun Icon(icon: String, size: Dp = 24.dp) {
 }
 
 @Composable
-fun Icon(iconInfo: IIconInfo, size: Dp = 24.dp) {
+fun Icon(iconInfo: IIconInfo, size: TextUnit = 24.sp) {
     when (iconInfo) {
         is ExtraIcon -> {
             Icon(
@@ -39,16 +37,16 @@ fun Icon(iconInfo: IIconInfo, size: Dp = 24.dp) {
             )
         }
         is IconInfo -> {
-            CharIcon(char = iconInfo.unicode, fontFamily = iconInfo.fontFamily)
+            CharIcon(char = iconInfo.unicode, fontFamily = iconInfo.fontFamily, size = size)
         }
     }
 }
 @Composable
-fun CharIcon(char: Char, fontFamily: FontFamily? = null, size: Dp = 24.dp) {
+fun CharIcon(char: Char, fontFamily: FontFamily? = null, size: TextUnit = 24.sp) {
     Text(
         text = char.toString(),
         fontFamily = fontFamily,
-        fontSize = with(LocalDensity.current) { size.toSp() }
+        fontSize = size
     )
 }
 
