@@ -1261,7 +1261,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 true
             }
             matches(preference, PrefKey.RESTORE) -> {
-                startActivityForResult(preference.intent, RESTORE_REQUEST)
+                startActivityForResult(preference.intent!!, RESTORE_REQUEST)
                 true
             }
             matches(preference, PrefKey.APP_DIR) -> {
