@@ -1045,4 +1045,6 @@
     <string name="template_shortcut">Raccourci Modèle</string>
     <string name="select_template">Sélectionner un modèle</string>
     <string name="whats_new_358">Le widget suit la configuration du thème (clair/sombre).</string>
+    <string name="content_description_remove_icon">Supprimer l\'icône</string>
+    <string name="whats_new_359">Les icônes des modes de paiement peuvent être personnalisées.</string>
 </resources>
