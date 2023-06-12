@@ -713,7 +713,7 @@
     <string name="budget_exceeded_error_2">مقدار بودجه را افزایش دهید یا پول را از دسته‌های دیگر حذف کنید.</string>
     <string name="add_shortcut">افزودن میان‌بر</string>
     <string name="licence_validation_error_device_limit_exceeded">محدودیت دستگاه بیشتر از حد مجاز است. لطفاً مجوز را از یکی از دستگاه‌های دیگر حذف کنید.</string>
-    <string name="licence_removal_information">اگر دیگر نیازی به ویژگی های پریمیوم در این دستگاه ندارید، می توانید کلید مجوز را حذف کنید. در این صورت کلید را برای فعال سازی در یک دستگاه دیگر ازاد می کند. کلید را می توان تا ٪d دستگاه فعال کرد.</string>
+    <string name="licence_removal_information">اگر دیگر نیازی به ویژگی های پریمیوم در این دستگاه ندارید، می توانید کلید مجوز را حذف کنید. در این صورت کلید را برای فعال سازی در یک دستگاه دیگر ازاد می کند. کلید را می توان تا %d دستگاه فعال کرد.</string>
     <string name="progress_validating_licence">اعتبار لایسنس (مجوز)</string>
     <string name="licence_validation_error_expired">لایسنس (مجوز) منقضی شده است</string>
     <string name="licence_key">کلید لایسنس (مجوز)</string>
