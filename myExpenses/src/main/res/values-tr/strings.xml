@@ -771,7 +771,7 @@
     <string name="warning_no_account">Yeni muamele oluşturabilmek için en az bir hesabın görüntülenebilir ve açık olması gerekir.</string>
     <string name="content_description_dates_are_linked">Muamele tarihi ve değer tarihi birlikte güncellenir</string>
     <string name="content_description_dates_are_not_linked">Muamele tarihi ve değer tarihi birlikte güncellenmez</string>
-    <string name="icon">İkon</string>
+    <string name="icon">Simge</string>
     <string name="pref_debug_title">Hata ayıklama</string>
     <string name="roadmap_vote">Gelecek işlevler Oylaması</string>
     <string name="warning_account_for_transaction_is_closed">Seçili muamelelerden en az biri düzenlenemez:</string>
@@ -994,7 +994,7 @@
     <string name="pref_csv_export_split_amount_summary">Gelir ve giderler için ayrı sütunlar kullanın</string>
     <string name="pref_csv_export_split_categories_summary">Kategori hiyerarşisinin her seviyesi için ayrı sütunlar kullanın</string>
     <string name="pref_csv_export_split_date_time_summary">Tarih ve saat için ayrı sütunlar kullanın</string>
-    <string name="icons_for_categories">Kategoriler için ikonlar</string>
+    <string name="icons_for_categories">Kategoriler için simgeler</string>
     <string name="required">Gerekli</string>
     <string name="rollover_edit_invalid">Bir kategoriye atanan devreden ile alt kategorilere atanan devredenlerin toplamı kalanı geçemez.</string>
     <string name="dialog_confirm_rollover_delete">Bu dönem için tüm devreden tutarları silinecektir.</string>
@@ -1031,4 +1031,7 @@
     <string name="add_shortcut">Kısayol ekle</string>
     <string name="select_template">Şablon seç</string>
     <string name="template_shortcut">Şablon kısayolu</string>
+    <string name="content_description_remove_icon">Simgeyi kaldır</string>
+    <string name="whats_new_358">Widget, tema yapılandırmasını (açık/koyu) takip eder.</string>
+    <string name="whats_new_359">Ödeme yöntemleri için simgeler özelleştirilebilir.</string>
 </resources>
