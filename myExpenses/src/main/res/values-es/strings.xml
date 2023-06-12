@@ -1045,4 +1045,6 @@
     <string name="template_shortcut">Acceso directo a la plantilla</string>
     <string name="whats_new_358">El widget sigue la configuración del tema (claro/oscuro).</string>
     <string name="select_template">Seleccionar una plantilla</string>
+    <string name="content_description_remove_icon">Eliminar el icono</string>
+    <string name="whats_new_359">Los iconos de los métodos de pago pueden personalizarse.</string>
 </resources>
