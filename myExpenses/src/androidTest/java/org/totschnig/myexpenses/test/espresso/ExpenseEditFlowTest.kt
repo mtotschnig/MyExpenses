@@ -6,7 +6,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
-import com.google.common.truth.Truth
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
@@ -24,7 +23,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         account1 = buildAccount(accountLabel1)
         repository.createPaymentMethod(
             targetContext,
-            PaymentMethod(0, "TEST", PAYMENT_METHOD_EXPENSE, true, null, listOf(AccountType.CASH))
+            PaymentMethod(0, "TEST", null, PAYMENT_METHOD_EXPENSE, true, null, listOf(AccountType.CASH))
         )
         testScenario = ActivityScenario.launchActivityForResult(intentForNewTransaction)
     }
