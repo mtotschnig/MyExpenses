@@ -315,7 +315,7 @@
     </style>
 
     <style name="SnackBarTheme">
-        <item name="colorAccent">@color/colorAccentSnackbar</item>
+        <item name="colorAccent">?colorPrimaryInverse</item>
     </style>
 
     <style name="CrashDialogTheme" parent="@android:style/Theme.Material.Dialog" />

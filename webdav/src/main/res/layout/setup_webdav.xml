@@ -126,11 +126,10 @@
             android:visibility="gone" />
 
         <Button
+            style="@style/Widget.Material3.Button.TextButton"
             android:id="@+id/bOK"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@android:string/ok"
-            android:textColor="@color/colorPrimary" />
+            android:text="@android:string/ok" />
     </LinearLayout>
 </LinearLayout>
