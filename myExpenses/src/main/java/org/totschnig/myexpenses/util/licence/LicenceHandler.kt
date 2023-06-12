@@ -111,8 +111,10 @@ open class LicenceHandler(
 
     fun update() {
         CoroutineScope(Dispatchers.IO).launch {
-            Template.updateNewPlanEnabled()
-            updateNewAccountEnabled()
+            try {
+                Template.updateNewPlanEnabled()
+                updateNewAccountEnabled()
+            } catch (_: Exception) {}
             GenericAccountService.updateAccountsIsSyncable(
                 context,
                 this@LicenceHandler,
