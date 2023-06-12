@@ -1032,4 +1032,6 @@
     <string name="template_shortcut">Vorlagen-Verknüpfung</string>
     <string name="whats_new_358">Das Widget folgt der Themenkonfiguration (hell/dunkel).</string>
     <string name="select_template">Vorlage auswählen</string>
+    <string name="content_description_remove_icon">Symbol entfernen</string>
+    <string name="whats_new_359">Symbole für Zahlungsmethoden können angepasst werden.</string>
 </resources>
