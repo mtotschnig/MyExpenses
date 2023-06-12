@@ -291,6 +291,9 @@ public class TransactionProvider extends BaseTransactionProvider {
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, false)) {
           projection = Companion.shortenComment(projection);
         }
+        if (sortOrder == null) {
+          sortOrder = KEY_DATE + " DESC";
+        }
         if (forCatId != null) {
           String sql = DbConstantsKt.transactionListAsCTE(forCatId) + " " + SupportSQLiteQueryBuilder.builder(VIEW_COMMITTED).columns(projection)
                   .selection(computeWhere(selection, KEY_CATID + " IN (SELECT " + KEY_ROWID + " FROM Tree )"), selectionArgs).groupBy(groupBy)
@@ -301,9 +304,6 @@ public class TransactionProvider extends BaseTransactionProvider {
         qb = SupportSQLiteQueryBuilder.builder((extended ? VIEW_EXTENDED : VIEW_COMMITTED));
         if (uri.getQueryParameter(QUERY_PARAMETER_DISTINCT) != null) {
           qb.distinct();
-        }
-        if (sortOrder == null) {
-          sortOrder = KEY_DATE + " DESC";
         }
         String mergeTransfers = uri.getQueryParameter(QUERY_PARAMETER_MERGE_TRANSFERS);
         if (mergeTransfers != null) {
