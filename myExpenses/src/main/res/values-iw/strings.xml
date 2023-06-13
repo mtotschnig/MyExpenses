@@ -1060,4 +1060,6 @@
     <string name="template_shortcut">קיצור דרך לתבנית</string>
     <string name="select_template">בחירת תבנית</string>
     <string name="whats_new_358">וידג׳ט עוקב אחר עיצוב המערכת (בהיר/כהה).</string>
+    <string name="content_description_remove_icon">הסרת סמל</string>
+    <string name="whats_new_359">אפשר לתאם סמלים לשיטות תשלום.</string>
 </resources>
