@@ -1032,4 +1032,6 @@
     <string name="template_shortcut">Пряк път към шаблон</string>
     <string name="whats_new_358">Уйджета следва настройката за тема (светла/тъмна).</string>
     <string name="add_shortcut">Добави пряк път</string>
+    <string name="content_description_remove_icon">Премахни иконата</string>
+    <string name="whats_new_359">Иконите на методите за плащане може да бъдат персонализирани.</string>
 </resources>
