@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
     <!-- Main category -->
     <string name="Main_1">其他的收入</string>
@@ -133,7 +133,7 @@
     <!-- Subcategory under "Professional expenses" -->
     <string name="Sub_14_1">不退还</string>
     <!-- Subcategory under "Professional expenses" -->
-    <string name="Sub_14_2">退款</string>
+    <string name="Sub_14_2">可退款</string>
     <!-- Main category -->
     <string name="Main_15">税</string>
     <!-- Subcategory under "Taxes" -->
