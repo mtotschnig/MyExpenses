@@ -77,8 +77,6 @@ class TransactionListViewModel(
                 Transaction2.fromCursor(
                     getApplication(),
                     it,
-                    currencyContext,
-                    homeCurrencyProvider.homeCurrencyUnit,
                     currency
                 )
             }

@@ -47,7 +47,6 @@ data class HeaderRow(
     val previousBalance: Money,
     val delta: Money,
     val interimBalance: Money,
-    val mappedCategories: Boolean,
     val weekStart: Int,
     val weekEnd: Int
 ) {
@@ -62,7 +61,6 @@ data class HeaderRow(
             expenseSum: Long,
             transferSum: Long,
             previousBalance: Long,
-            mappedCategories: Boolean,
             weekStart: Int,
             weekEnd: Int
         ): HeaderRow {
@@ -76,7 +74,6 @@ data class HeaderRow(
                 Money(currency, previousBalance),
                 Money(currency, delta),
                 Money(currency, previousBalance + delta),
-                mappedCategories,
                 weekStart,
                 weekEnd
             )
@@ -90,7 +87,6 @@ data class HeaderRow(
             expenseSum = cursor.getLong(KEY_SUM_EXPENSES),
             transferSum = cursor.getLong(KEY_SUM_TRANSFERS),
             previousBalance = previousBalance,
-            mappedCategories = cursor.getLong(KEY_MAPPED_CATEGORIES) > 0,
             weekStart = cursor.getIntIfExistsOr0(KEY_WEEK_START),
             weekEnd = cursor.getIntIfExistsOr0(KEY_WEEK_END)
         )

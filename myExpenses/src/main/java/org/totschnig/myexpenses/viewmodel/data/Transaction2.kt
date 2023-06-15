@@ -5,27 +5,10 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable
-import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.parcelize.Parcelize
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
-import org.totschnig.myexpenses.provider.DataBaseAccount
+import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.FULL_LABEL
-import org.totschnig.myexpenses.provider.getInt
-import org.totschnig.myexpenses.provider.getIntIfExists
-import org.totschnig.myexpenses.provider.getLong
-import org.totschnig.myexpenses.provider.getLongIfExists
-import org.totschnig.myexpenses.provider.getLongOrNull
-import org.totschnig.myexpenses.provider.getString
-import org.totschnig.myexpenses.provider.getStringIfExists
-import org.totschnig.myexpenses.provider.splitStringList
-import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.enumValueOrNull
@@ -41,7 +24,6 @@ data class Transaction2(
     val _valueDate: Long = _date,
     val amount: Money,
     val parentId: Long? = null,
-    val equivalentAmount: Money? = null,
     val comment: String? = null,
     val catId: Long? = null,
     val label: String? = null,
@@ -100,21 +82,21 @@ data class Transaction2(
             homeCurrency: String,
             extended: Boolean = true
         ) = buildList {
-            addAll(projection(grouping, extended))
+            addAll(projection(grouping, extended, DataBaseAccount.isHomeAggregate(accountId), homeCurrency))
             if (DataBaseAccount.isAggregate(accountId) && extended) {
                 addAll(additionalAggregateColumns)
             }
-            if (DataBaseAccount.isHomeAggregate(accountId)) {
-                add(additionGrandTotalColumn(homeCurrency, extended))
-            }
         }.toTypedArray()
 
-        private fun projection(grouping: Grouping, extended: Boolean): Array<String> =
+        private fun projection(grouping: Grouping, extended: Boolean, isHomeAggregate: Boolean, homeCurrency: String): Array<String> =
             listOf(
                 KEY_ROWID,
                 KEY_DATE,
                 KEY_VALUE_DATE,
-                KEY_AMOUNT,
+                (if (isHomeAggregate) getAmountHomeEquivalent(
+                    if (extended) VIEW_EXTENDED else VIEW_COMMITTED,
+                    homeCurrency
+                ) else KEY_AMOUNT)  + " AS $KEY_DISPLAY_AMOUNT",
                 KEY_COMMENT,
                 KEY_CATID,
                 FULL_LABEL,
@@ -154,37 +136,18 @@ data class Transaction2(
             "$IS_SAME_CURRENCY AS $KEY_IS_SAME_CURRENCY"
         )
 
-        private fun additionGrandTotalColumn(homeCurrency: String, extended: Boolean) =
-            "${
-                getAmountHomeEquivalent(
-                    if (extended) VIEW_EXTENDED else VIEW_COMMITTED,
-                    homeCurrency
-                )
-            } AS $KEY_EQUIVALENT_AMOUNT"
-
         fun fromCursor(
             context: Context,
             cursor: Cursor,
-            currencyContext: CurrencyContext,
-            homeCurrency: CurrencyUnit?,
-            accountCurrency: CurrencyUnit? = null
+            accountCurrency: CurrencyUnit
         ): Transaction2 {
-            val currencyUnit = cursor.getStringIfExists(KEY_CURRENCY)
-                ?.let { currencyContext.get(it) }
-                ?: accountCurrency
-                ?: throw IllegalArgumentException("Currency must be provided either in cursor or parameter")
-            val amountRaw = cursor.getLong(KEY_AMOUNT)
-            val money = Money(currencyUnit, amountRaw)
+            val amountRaw = cursor.getLong(KEY_DISPLAY_AMOUNT)
+            val money = Money(accountCurrency, amountRaw)
             val transferPeer = cursor.getLongOrNull(KEY_TRANSFER_PEER)
 
             return Transaction2(
                 id = cursor.getLongOrNull(KEY_ROWID) ?: 0,
                 amount = money,
-                equivalentAmount = if (transferPeer == null) {
-                    cursor.getLongIfExists(KEY_EQUIVALENT_AMOUNT)?.let {
-                        homeCurrency?.let { it1 -> Money(it1, it) }
-                    }
-                } else null,
                 parentId = cursor.getLongOrNull(KEY_PARENTID),
                 _date = cursor.getLong(KEY_DATE),
                 _valueDate = cursor.getLong(KEY_VALUE_DATE),

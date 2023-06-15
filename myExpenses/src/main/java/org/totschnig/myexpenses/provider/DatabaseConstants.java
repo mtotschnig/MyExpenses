@@ -154,10 +154,11 @@ public class DatabaseConstants {
     PROJECTION_EXTENDED_AGGREGATE[extendedLength + 1] = KEY_ACCOUNTID;
 
     int aggregateLength = PROJECTION_EXTENDED_AGGREGATE.length;
-    PROJECTION_EXTENDED_HOME = new String[aggregateLength + 2];
+    PROJECTION_EXTENDED_HOME = new String[aggregateLength + 1];
     System.arraycopy(PROJECTION_EXTENDED_AGGREGATE, 0, PROJECTION_EXTENDED_HOME, 0, aggregateLength);
     PROJECTION_EXTENDED_HOME[aggregateLength] = KEY_CURRENCY;
-    PROJECTION_EXTENDED_HOME[aggregateLength + 1] = DatabaseConstants.getAmountHomeEquivalent(DatabaseConstants.VIEW_EXTENDED, homeCurrency) + " AS " + KEY_EQUIVALENT_AMOUNT;
+    //magic number we override amount column
+    PROJECTION_EXTENDED_HOME[3] = DatabaseConstants.getAmountHomeEquivalent(DatabaseConstants.VIEW_EXTENDED, homeCurrency) + " AS " + KEY_AMOUNT;
   }
 
 
@@ -177,6 +178,12 @@ public class DatabaseConstants {
   public static final String KEY_DATE = "date";
   public static final String KEY_VALUE_DATE = "value_date";
   public static final String KEY_AMOUNT = "amount";
+  /**
+   * alias that we need in order to have a common column name both for
+   * 1) home aggregate,
+   * 2) all other accounts
+   */
+  public static final String KEY_DISPLAY_AMOUNT = "display_amount";
   public static final String KEY_COMMENT = "comment";
   public static final String KEY_ROWID = "_id";
   public static final String KEY_CATID = "cat_id";
@@ -445,10 +452,6 @@ public class DatabaseConstants {
       KEY_CR_STATUS + " != '" + CrStatus.VOID.name() + "'";
   public static final String WHERE_TRANSACTION =
       WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID + " AND " + KEY_TRANSFER_PEER + " is null";
-  public static final String WHERE_INCOME = KEY_AMOUNT + ">0 AND " + WHERE_TRANSACTION;
-  public static final String WHERE_EXPENSE = KEY_AMOUNT + "<0 AND " + WHERE_TRANSACTION;
-  public static final String WHERE_IN = KEY_AMOUNT + ">0 AND " + WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID;
-  public static final String WHERE_OUT = KEY_AMOUNT + "<0 AND " + WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID;
   public static final String WHERE_TRANSFER =
       WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID + " AND " + KEY_TRANSFER_PEER + " is not null";
 
@@ -563,8 +566,8 @@ public class DatabaseConstants {
 
 
   public static String getAmountHomeEquivalent(String forTable, String homeCurrency) {
-    return "coalesce(" + calcEquivalentAmountForSplitParts(forTable) + "," +
-        getExchangeRate(forTable, KEY_ACCOUNTID, homeCurrency) + " * " + KEY_AMOUNT + ")";
+    return "cast(coalesce(" + calcEquivalentAmountForSplitParts(forTable) + "," +
+        getExchangeRate(forTable, KEY_ACCOUNTID, homeCurrency) + " * " + KEY_AMOUNT + ") as integer)";
   }
 
   private static String calcEquivalentAmountForSplitParts(String forTable) {
@@ -582,23 +585,7 @@ public class DatabaseConstants {
         " AND " + KEY_CURRENCY_SELF + "=" + forTable + "." + KEY_CURRENCY + " AND " + KEY_CURRENCY_OTHER + "='" + homeCurrency + "'), 1)";
   }
 
-  private static String getAmountCalculation(String homeCurrency) {
+  static String getAmountCalculation(String homeCurrency) {
     return homeCurrency != null ? getAmountHomeEquivalent(VIEW_WITH_ACCOUNT, homeCurrency) : KEY_AMOUNT;
-  }
-
-  static String getInAggregate(String forHome, String aggregateFunction) {
-    return aggregateFunction + "(CASE WHEN " + WHERE_IN + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_INCOME;
-  }
-
-  static String getIncomeAggregate(String forHome, String aggregateFunction) {
-    return aggregateFunction + "(CASE WHEN " + WHERE_INCOME + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_INCOME;
-  }
-
-  static String getOutAggregate(String forHome, String aggregateFunction) {
-    return aggregateFunction + "(CASE WHEN " + WHERE_OUT + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_EXPENSES;
-  }
-
-  static String getExpenseAggregate(String forHome, String aggregateFunction) {
-    return aggregateFunction + "(CASE WHEN " + WHERE_EXPENSE + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_EXPENSES;
   }
 }

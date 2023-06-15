@@ -377,6 +377,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         String forHome = accountSelector == null ? getHomeCurrency() : null;
 
+
         Grouping group;
         try {
           group = Grouping.valueOf(uri.getPathSegments().get(2));
@@ -387,42 +388,29 @@ public class TransactionProvider extends BaseTransactionProvider {
         // the start value is only needed for WEEK and DAY
         boolean withJulianStart = uri.getBooleanQueryParameter(QUERY_PARAMETER_WITH_JULIAN_START, false) && (group == Grouping.WEEK || group == Grouping.DAY);
         boolean includeTransfers = uri.getBooleanQueryParameter(QUERY_PARAMETER_INCLUDE_TRANSFERS, false);
-        String yearExpression;
-        switch (group) {
-          case WEEK:
-            yearExpression = getYearOfWeekStart();
-            break;
-          case MONTH:
-            yearExpression = getYearOfMonthStart();
-            break;
-          default:
-            yearExpression = YEAR;
-        }
+        String yearExpression = switch (group) {
+          case WEEK -> getYearOfWeekStart();
+          case MONTH -> getYearOfMonthStart();
+          default -> YEAR;
+        };
         groupBy = KEY_YEAR + "," + KEY_SECOND_GROUP;
         String secondDef = "";
 
         switch (group) {
-          case NONE:
+          case NONE -> {
             yearExpression = "1";
             secondDef = "1";
-            break;
-          case DAY:
-            secondDef = DAY;
-            break;
-          case WEEK:
-            secondDef = getWeek();
-            break;
-          case MONTH:
-            secondDef = getMonth();
-            break;
-          case YEAR:
+          }
+          case DAY -> secondDef = DAY;
+          case WEEK -> secondDef = getWeek();
+          case MONTH -> secondDef = getMonth();
+          case YEAR -> {
             secondDef = "0";
             groupBy = KEY_YEAR;
-            break;
+          }
         }
-        qb = SupportSQLiteQueryBuilder.builder(VIEW_WITH_ACCOUNT);
         int projectionSize;
-        projectionSize = 5;
+        projectionSize = 4;
         if (withJulianStart) {
           projectionSize += 1;
         }
@@ -436,14 +424,15 @@ public class TransactionProvider extends BaseTransactionProvider {
         int index = 0;
         projection[index++] = yearExpression + " AS " + KEY_YEAR;
         projection[index++] = secondDef + " AS " + KEY_SECOND_GROUP;
-        projection[index++] = includeTransfers ? getInAggregate(forHome, aggregateFunction) : getIncomeAggregate(forHome, aggregateFunction);
-        projection[index++] = includeTransfers ? getOutAggregate(forHome, aggregateFunction) : getExpenseAggregate(forHome, aggregateFunction);
+        projection[index++] = aggregateFunction + "(CASE WHEN " + KEY_DISPLAY_AMOUNT + " > 0 THEN " + KEY_DISPLAY_AMOUNT + " ELSE 0 END) AS " + KEY_SUM_INCOME;
+        projection[index++] = aggregateFunction + "(CASE WHEN " + KEY_DISPLAY_AMOUNT + " < 0 THEN " + KEY_DISPLAY_AMOUNT + " ELSE 0 END) AS " + KEY_SUM_EXPENSES;
         if (!includeTransfers) {
           //for the Grand total account transfer calculation is neither possible (adding amounts in
           //different currencies) nor necessary (should result in 0)
-          projection[index++] = (forHome != null ? "0" : getTransferSum(aggregateFunction)) + " AS " + KEY_SUM_TRANSFERS;
+          projection[index++] = (forHome != null ? "0" : aggregateFunction + "(" + KEY_TRANSFER_AMOUNT + ")") + " AS " + KEY_SUM_TRANSFERS;
         }
-        projection[index++] = MAPPED_CATEGORIES;
+        //previously we started distribution from group header and needed to know if there were mapped categories
+        //projection[index++] = MAPPED_CATEGORIES;
         if (withJulianStart) {
           projection[index++] = (group == Grouping.WEEK ? getWeekStartJulian() : DAY_START_JULIAN)
               + " AS " + KEY_GROUP_START;
@@ -452,21 +441,26 @@ public class TransactionProvider extends BaseTransactionProvider {
           projection[index++] = getWeekStart() + " AS " + KEY_WEEK_START;
           projection[index] = getWeekEnd() + " AS " + KEY_WEEK_END;
         }
-        selection = accountSelectionQuery
-            + (selection != null ? " AND " + selection : "");
         if (accountSelector != null) {
           selectionArgs = joinArrays(
               new String[]{accountSelector},
               selectionArgs);
         }
-        break;
+        String sql = DbConstantsKt.buildTransactionGroupCte(accountSelectionQuery, forHome, includeTransfers) + " " +
+                SupportSQLiteQueryBuilder
+                        .builder("cte")
+                        .columns(projection)
+                        .selection(selection, selectionArgs)
+                        .groupBy(groupBy)
+                        .create()
+                        .getSql();
+        return measureAndLogQuery(db, uri, sql, selection, selectionArgs);
       }
       case CATEGORIES: {
         String mappedObjects = uri.getQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS);
         if (mappedObjects != null) {
           String sql = categoryTreeWithMappedObjects(selection, projection, mappedObjects.equals("2"));
-          c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
-          return c;
+          return measureAndLogQuery(db, uri, sql, selection, selectionArgs);
         }
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_HIERARCHICAL, false)) {
           final boolean withBudget = projection != null && Arrays.asList(projection).contains(KEY_BUDGET);

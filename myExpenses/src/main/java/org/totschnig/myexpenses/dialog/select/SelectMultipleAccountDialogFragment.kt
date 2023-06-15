@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.dialog.select
 import android.net.Uri
 import android.os.Bundle
 import org.jetbrains.annotations.NotNull
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
@@ -13,6 +14,9 @@ class SelectMultipleAccountDialogFragment : SelectFilterDialog<AccountCriterion>
     override fun makeCriteria(label: String, vararg ids: Long) = AccountCriterion(label, *ids)
     override val uri: Uri = TransactionProvider.ACCOUNTS_BASE_URI
     override val column: String = KEY_LABEL
+
+    override val dialogTitle: Int
+        get() = R.string.search_account
     override val selection: String?
         get() = if (arguments == null) null else "$KEY_CURRENCY = ?"
     override val selectionArgs: Array<String>?

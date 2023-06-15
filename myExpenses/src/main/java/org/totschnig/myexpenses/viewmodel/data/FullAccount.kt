@@ -99,7 +99,7 @@ data class PageAccount(
     override val currency: String = currencyUnit.code
     fun groupingQuery(whereFilter: WhereFilter): Triple<Uri, String?, Array<String>?> {
         val filter = whereFilter.takeIf { !it.isEmpty }
-        val selection = filter?.getSelectionForParts(VIEW_WITH_ACCOUNT)
+        val selection = filter?.getSelectionForParts(CTE_TRANSACTION_GROUPS)
         val args = filter?.getSelectionArgs(true)
         return Triple(
             Transaction.CONTENT_URI.buildUpon().appendPath(TransactionProvider.URI_SEGMENT_GROUPS)

@@ -123,8 +123,7 @@ open class TransactionPagingSource(
                         Transaction2.fromCursor(
                             context,
                             it,
-                            currencyContext,
-                            if (account.isHomeAggregate) homeCurrencyProvider.homeCurrencyUnit else null
+                            account.currencyUnit
                         )
                     }.toList()
                 }

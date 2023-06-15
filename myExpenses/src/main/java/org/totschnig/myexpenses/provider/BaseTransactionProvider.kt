@@ -845,12 +845,12 @@ abstract class BaseTransactionProvider : ContentProvider() {
         "$uri - $selection - $sql - (${selectionArgs?.joinToString()})"
     }
 
-    private fun <T : Any> measure(block: () -> T, lazyMessage: () -> String): T = if (shouldLog) {
+    private fun measure(block: () -> Cursor, lazyMessage: () -> String): Cursor = if (shouldLog) {
         val startTime = Instant.now()
         val result = block()
         val endTime = Instant.now()
         val duration = Duration.between(startTime, endTime)
-        log("${lazyMessage()}\n$duration")
+        log("${lazyMessage()}\n$duration - ${result.count}")
         result
     } else block()
 

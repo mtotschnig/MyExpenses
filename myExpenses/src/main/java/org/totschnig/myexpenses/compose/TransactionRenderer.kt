@@ -303,7 +303,7 @@ class CompactTransactionRenderer(
             text = description,
             icons = secondaryInfo.second
         )
-        ColoredAmountText(money = transaction.equivalentAmount ?:  transaction.amount, neutral = transaction.isTransferAggregate)
+        ColoredAmountText(money = transaction.amount, neutral = transaction.isTransferAggregate)
     }
 
     override fun Modifier.height() = this.height(IntrinsicSize.Min)
@@ -358,7 +358,7 @@ class NewTransactionRenderer(
         }
         Column(horizontalAlignment = Alignment.End) {
             ColoredAmountText(
-                money = transaction.equivalentAmount ?:  transaction.amount,
+                money = transaction.amount,
                 style = MaterialTheme.typography.bodyLarge,
                 neutral = transaction.isTransferAggregate
             )

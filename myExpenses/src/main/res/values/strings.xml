@@ -542,6 +542,7 @@
     <string name="content_description_calculator_delete_button">Delete last digit</string>
     <string name="paypal_callback_info">Your transaction has been completed, and a receipt for your purchase has been emailed to you. You may log into your account at www.paypal.com to view details of this transaction.</string>
     <string name="search_transfer">Search for transfer</string>
+    <string name="search_account">Search for account</string>
     <!-- Sort plans (recurring transactions) by the next instance  -->
     <string name="pref_sort_order_next_instance">Next instance</string>
     <string name="crash_dialog_title">{app_name} has crashed</string>
