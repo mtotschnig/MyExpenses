@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.view.View
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.test.core.app.ActivityScenario
@@ -80,7 +81,7 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
      * Click on a menu item, that might be visible or hidden in overflow menu
      */
     @JvmOverloads
-    protected fun clickMenuItem(menuItemId: Int, isCab: Boolean = false) {
+    protected fun clickMenuItem(@IdRes menuItemId: Int, isCab: Boolean = false) {
         try {
             val viewInteraction = onView(ViewMatchers.withId(menuItemId))
             var searchInPlatformPopup = false

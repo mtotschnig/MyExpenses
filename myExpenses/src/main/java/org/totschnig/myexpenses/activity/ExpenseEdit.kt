@@ -934,6 +934,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     private fun loadTemplate(id: Long) {
         cleanup {
             val restartIntent = Intent(this, ExpenseEdit::class.java).apply {
+                action = ACTION_CREATE_FROM_TEMPLATE
                 putExtra(KEY_TEMPLATEID, id)
                 putExtra(KEY_INSTANCEID, -1L)
             }
