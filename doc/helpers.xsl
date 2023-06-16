@@ -379,6 +379,22 @@
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='template_shortcut']" />
             </xsl:when>
+            <xsl:when test="$version = '3.5.8'">
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='whats_new_359']" />
+                <xsl:value-of select="$separator" />
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='grand_total']" />
+                <xsl:text>:&#032;</xsl:text>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='menu_search']" />
+                <xsl:text>:&#032;</xsl:text>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='menu_equivalent_amount']" />
+            </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
     </xsl:template>

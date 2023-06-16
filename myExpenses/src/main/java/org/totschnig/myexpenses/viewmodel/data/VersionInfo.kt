@@ -107,6 +107,10 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
             "354" -> arrayOf(
                 "${t(R.string.pref_exchange_rate_provider_title)}: https://coinapi.io",
             )
+            "359" -> arrayOf(
+                t(R.string.whats_new_359),
+                "${t(R.string.grand_total)}: ${t(R.string.menu_search)}: ${t(R.string.menu_equivalent_amount)}"
+            )
             else -> {
                 val resId = res.getIdentifier(
                     "whats_new_$nameCondensed",
