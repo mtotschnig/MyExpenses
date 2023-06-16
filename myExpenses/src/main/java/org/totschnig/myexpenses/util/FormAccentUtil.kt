@@ -15,6 +15,7 @@ import android.widget.TextView
 fun linkInputsWithLabels(table: TableLayout) {
     val listener = OnFocusChangeListener { v: View, hasFocus: Boolean ->
         (findParentWithTypeRecursively(v, TableRow::class.java)?.getChildAt(0) as? TextView)?.apply {
+            setTextColor(if (hasFocus) readPrimaryColor(table.context) else readPrimaryTextColor(table.context))
             setTypeface(null, if (hasFocus) Typeface.BOLD else Typeface.NORMAL)
         }
     }
@@ -28,6 +29,8 @@ fun linkInputsWithLabels(table: TableLayout) {
 }
 
 fun readPrimaryTextColor(context: Context) = readThemeColor(context, android.R.attr.textColorPrimary)
+
+fun readPrimaryColor(context: Context) = readThemeColor(context, androidx.appcompat.R.attr.colorPrimary)
 
 fun readThemeColor(context: Context, attr: Int): Int {
     val typedValue = TypedValue()
