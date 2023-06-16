@@ -4,16 +4,22 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.createPaymentMethod
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model2.PAYMENT_METHOD_EXPENSE
 import org.totschnig.myexpenses.model2.PaymentMethod
 import org.totschnig.myexpenses.testutils.Espresso
+import org.totschnig.myexpenses.testutils.toolbarTitle
 
 class ExpenseEditFlowTest : BaseExpenseEditTest() {
 
@@ -25,6 +31,11 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
             targetContext,
             PaymentMethod(0, "TEST", null, PAYMENT_METHOD_EXPENSE, true, null, listOf(AccountType.CASH))
         )
+        Template.getTypedNewInstance(Transactions.TYPE_TRANSACTION, account1.id, homeCurrency, false, null)!!.apply {
+            amount = Money(homeCurrency, 500L)
+            title = "Template"
+            save()
+        }
         testScenario = ActivityScenario.launchActivityForResult(intentForNewTransaction)
     }
 
@@ -42,13 +53,13 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
             )
         ).perform(ViewActions.typeText(10.toString()))
         onView(Espresso.withIdAndParent(R.id.TaType, R.id.Amount))
-            .perform(ViewActions.click())
+            .perform(click())
         closeSoftKeyboard()
         onView(ViewMatchers.withId(R.id.Category))
-            .perform(ViewActions.click())
+            .perform(click())
         androidx.test.espresso.Espresso.pressBack()
         onView(ViewMatchers.withId(R.id.CREATE_COMMAND))
-            .perform(ViewActions.click())
+            .perform(click())
         assertFinishing()
     }
 
@@ -66,10 +77,23 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
                 R.id.Calculator,
                 R.id.Amount
             )
-        ).perform(ViewActions.click())
+        ).perform(click())
         onView(ViewMatchers.withId(R.id.bOK))
-            .perform(ViewActions.click())
+            .perform(click())
         onView(Espresso.withIdAndParent(R.id.TaType, R.id.Amount))
             .check(ViewAssertions.matches(ViewMatchers.isNotChecked()))
+    }
+
+    @Test
+    fun templateMenuShouldLoadTemplateForNewTransaction() {
+        clickMenuItem(R.id.MANAGE_TEMPLATES_COMMAND)
+        onView(withText("Template")).perform(click())
+        toolbarTitle().check(ViewAssertions.matches(withText(R.string.menu_create_transaction)))
+        onView(
+            Espresso.withIdAndParent(
+                R.id.AmountEditText,
+                R.id.Amount
+            )
+        ).check(ViewAssertions.matches(withText("5")))
     }
 }
