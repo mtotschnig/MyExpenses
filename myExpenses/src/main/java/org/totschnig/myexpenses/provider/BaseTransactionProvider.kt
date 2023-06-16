@@ -894,4 +894,78 @@ abstract class BaseTransactionProvider : ContentProvider() {
             )
         )
     }
+
+    fun buildTransactionGroupSql(uri: Uri, selection: String?, selectionArgs: Array<String>?): String {
+
+        val (accountSelector, accountQuery) = uri.getQueryParameter(KEY_ACCOUNTID)?.let {
+            it to "$KEY_ACCOUNTID = ?"
+        } ?: uri.getQueryParameter(KEY_CURRENCY).let {
+            it to ((if (it != null) "$KEY_CURRENCY = ? AND " else "") + "$KEY_EXCLUDE_FROM_TOTALS = 0")
+        }
+
+        val forHome: String? = if (accountSelector == null) homeCurrency else null
+
+        val group = enumValueOrDefault(uri.pathSegments[2], Grouping.NONE)
+
+        // the start value is only needed for WEEK and DAY
+        val withJulianStart = uri.getBooleanQueryParameter(
+            TransactionProvider.QUERY_PARAMETER_WITH_JULIAN_START,
+            false
+        ) && (group == Grouping.WEEK || group == Grouping.DAY)
+        val includeTransfers: Boolean =
+            uri.getBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_INCLUDE_TRANSFERS, false)
+
+        val yearExpression = when (group) {
+            Grouping.NONE -> "1"
+            Grouping.WEEK -> getYearOfWeekStart()
+            Grouping.MONTH -> getYearOfMonthStart()
+            else -> YEAR
+        }
+        val groupBy = if (group == Grouping.YEAR) KEY_YEAR else "$KEY_YEAR,$KEY_SECOND_GROUP"
+        val secondDef = when (group) {
+            Grouping.NONE -> "1"
+            Grouping.DAY -> DAY
+            Grouping.WEEK -> getWeek()
+            Grouping.MONTH -> getMonth()
+            Grouping.YEAR -> "0"
+            }
+
+        val projection = buildList {
+            add("$yearExpression AS $KEY_YEAR")
+            add("$secondDef AS $KEY_SECOND_GROUP")
+            add("$aggregateFunction(CASE WHEN $KEY_DISPLAY_AMOUNT > 0 THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_INCOME")
+            add("$aggregateFunction(CASE WHEN $KEY_DISPLAY_AMOUNT < 0 THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_EXPENSES")
+            if (!includeTransfers) {
+                //for the Grand total account transfer calculation is neither possible (adding amounts in
+                //different currencies) nor necessary (should result in 0)
+                add("${if (forHome != null) "0" else "$aggregateFunction($KEY_TRANSFER_AMOUNT)"} AS $KEY_SUM_TRANSFERS")
+            }
+            //previously we started distribution from group header and needed to know if there were mapped categories
+            //maybe we add this functionality back later
+            //MAPPED_CATEGORIES;
+            if (withJulianStart) {
+                add(
+                    (if (group === Grouping.WEEK) getWeekStartJulian() else DAY_START_JULIAN)
+                            + " AS " + KEY_GROUP_START
+                )
+            }
+            if (group === Grouping.WEEK) {
+                add("${getWeekStart()} AS $KEY_WEEK_START")
+                add("${getWeekEnd()} AS $KEY_WEEK_END")
+            }
+        }.toTypedArray()
+
+        val finalArgs = buildList {
+            accountSelector?.let { add(it) }
+            selectionArgs?.let { addAll(it)}
+        }.toTypedArray()
+
+        return buildTransactionGroupCte(accountQuery, forHome, includeTransfers) + " " +
+                SupportSQLiteQueryBuilder.builder(CTE_TRANSACTION_GROUPS)
+                    .columns(projection)
+                    .selection(selection, finalArgs)
+                    .groupBy(groupBy)
+                    .create()
+                    .sql
+    }
 }
