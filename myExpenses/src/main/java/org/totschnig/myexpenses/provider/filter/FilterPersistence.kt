@@ -96,7 +96,7 @@ class FilterPersistence(
     fun removeFilter(id: Int): Boolean = whereFilter[id]?.let {
         _whereFilter.value = whereFilter.remove(id)
         if (immediatePersist) {
-            prefHandler.remove(prefNameForCriteria(it.column))
+            prefHandler.remove(prefNameForCriteria(it))
         }
         true
     } ?: false
@@ -113,19 +113,17 @@ class FilterPersistence(
     }
 
     private fun persist(criterion: Criterion<*>) {
-        prefHandler.putString(prefNameForCriteria(criterion.column), criterion.toString())
+        prefHandler.putString(prefNameForCriteria(criterion), criterion.toString())
     }
+
+    private fun prefNameForCriteria(criterion: Criterion<*>) = prefNameForCriteria(criterion.key)
 
     private fun prefNameForCriteria(columnName: String) = keyTemplate.format(columnName)
 
     fun clear() {
         if (immediatePersist) {
             whereFilter.criteria.forEach { criteria ->
-                prefHandler.remove(
-                    prefNameForCriteria(
-                        criteria.column
-                    )
-                )
+                prefHandler.remove(prefNameForCriteria(criteria))
             }
         }
         _whereFilter.value = WhereFilter.empty()

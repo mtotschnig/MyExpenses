@@ -389,13 +389,50 @@ private fun transactionsJoin(
     }
     append(", $TAG_LIST_EXPRESSION")
     append(", $KEY_CURRENCY")
-    append(""" FROM $tableName
+    append(
+        """ FROM $tableName
         | LEFT JOIN $TABLE_PAYEES ON $KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID
         | LEFT JOIN $TABLE_METHODS ON $KEY_METHODID = $TABLE_METHODS.$KEY_ROWID
         | LEFT JOIN $TABLE_ACCOUNTS ON $KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID
-        | LEFT JOIN Tree ON $KEY_CATID = TREE.$KEY_ROWID""".trimMargin())
+        | LEFT JOIN Tree ON $KEY_CATID = TREE.$KEY_ROWID""".trimMargin()
+    )
     if (withPlanInstance) {
         append(" LEFT JOIN $TABLE_PLAN_INSTANCE_STATUS ON $tableName.$KEY_ROWID = $TABLE_PLAN_INSTANCE_STATUS.$KEY_TRANSACTIONID")
     }
     append(tagJoin(tableName))
 }
+
+const val CTE_TRANSACTION_GROUPS = "cte_transaction_groups"
+fun buildTransactionGroupCte(selection: String, forHome: String?, includeTransfers: Boolean) =
+    buildString {
+        append("WITH $CTE_TRANSACTION_GROUPS AS (SELECT ")
+        append(KEY_ROWID)
+        append(",")
+        append(KEY_PARENTID)
+        append(",")
+        append(KEY_DATE)
+        append(",")
+        append(KEY_COMMENT)
+        append(",")
+        append(KEY_CR_STATUS)
+        append(",")
+        append(KEY_ACCOUNTID)
+        append(",")
+        append(KEY_TRANSFER_ACCOUNT)
+        append(",")
+        append(KEY_CATID)
+        append(",")
+        append(KEY_PAYEEID)
+        append(",")
+        append(KEY_TRANSFER_PEER)
+        append(", cast(CASE WHEN ")
+        append((if (includeTransfers) "$WHERE_NOT_SPLIT AND $WHERE_NOT_VOID" else WHERE_TRANSACTION))
+        append(" THEN ")
+        append(getAmountCalculation(forHome))
+        append(" ELSE 0 END as integer) AS $KEY_DISPLAY_AMOUNT")
+        if (!includeTransfers && forHome == null) {
+            append(", CASE WHEN $WHERE_TRANSFER THEN $KEY_AMOUNT ELSE 0 END AS $KEY_TRANSFER_AMOUNT")
+        }
+        append(" FROM $VIEW_WITH_ACCOUNT")
+        append(" WHERE $selection)")
+    }

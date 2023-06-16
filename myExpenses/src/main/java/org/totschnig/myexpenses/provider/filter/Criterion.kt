@@ -31,6 +31,9 @@ abstract class Criterion<T: Any> : Parcelable {
     abstract val id: Int
     abstract val column: String
 
+    open val key: String
+        get() = column
+
 
     val isNull: Boolean
         get() = operation == Operation.ISNULL

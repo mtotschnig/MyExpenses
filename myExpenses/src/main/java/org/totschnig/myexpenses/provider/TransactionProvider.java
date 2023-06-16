@@ -18,7 +18,95 @@ package org.totschnig.myexpenses.provider;
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE;
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.IS_SAME_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_OTHER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_SELF;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENT_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS_TAGS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTTYES_METHODS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_EXCHANGE_RATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGET_ALLOCATIONS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EVENT_CACHE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SETTINGS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_STALE_URIS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SYNC_STATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TAGS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES_TAGS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_ALL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_EXTENDED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_DEPENDENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_DEPENDENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_PEER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_TRANSACTION;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetAllocation;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetSelect;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect;
@@ -59,7 +147,6 @@ import androidx.sqlite.db.SupportSQLiteQueryBuilder;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.db2.RepositoryPaymentMethodKt;
 import org.totschnig.myexpenses.model.CrStatus;
-import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.Template;
@@ -209,7 +296,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   private static final String QUERY_PARAMETER_SYNC_BEGIN = "syncBegin";
   private static final String QUERY_PARAMETER_SYNC_END = "syncEnd";
   public static final String QUERY_PARAMETER_WITH_JULIAN_START = "withJulianStart";
-  public static final String QUERY_PARAMETER_SECTIONS = "sections";
   public static final String QUERY_PARAMETER_GROUPED_BY_TYPE = "groupedByType";
   public static final String QUERY_PARAMETER_AGGREGATE_TYPES = "aggregateTypes";
   public static final String QUERY_PARAMETER_WITH_COUNT = "count";
@@ -364,109 +450,13 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       }
       case TRANSACTIONS_GROUPS: {
-        String accountSelectionQuery = "";
-        accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
-        if (accountSelector == null) {
-          accountSelector = uri.getQueryParameter(KEY_CURRENCY);
-          if (accountSelector != null) {
-            accountSelectionQuery = KEY_CURRENCY + " = ? AND ";
-          }
-          accountSelectionQuery += KEY_EXCLUDE_FROM_TOTALS + " = 0";
-        } else {
-          accountSelectionQuery = KEY_ACCOUNTID + " = ?";
-        }
-        String forHome = accountSelector == null ? getHomeCurrency() : null;
-
-        Grouping group;
-        try {
-          group = Grouping.valueOf(uri.getPathSegments().get(2));
-        } catch (IllegalArgumentException e) {
-          group = Grouping.NONE;
-        }
-
-        // the start value is only needed for WEEK and DAY
-        boolean withJulianStart = uri.getBooleanQueryParameter(QUERY_PARAMETER_WITH_JULIAN_START, false) && (group == Grouping.WEEK || group == Grouping.DAY);
-        boolean includeTransfers = uri.getBooleanQueryParameter(QUERY_PARAMETER_INCLUDE_TRANSFERS, false);
-        String yearExpression;
-        switch (group) {
-          case WEEK:
-            yearExpression = getYearOfWeekStart();
-            break;
-          case MONTH:
-            yearExpression = getYearOfMonthStart();
-            break;
-          default:
-            yearExpression = YEAR;
-        }
-        groupBy = KEY_YEAR + "," + KEY_SECOND_GROUP;
-        String secondDef = "";
-
-        switch (group) {
-          case NONE:
-            yearExpression = "1";
-            secondDef = "1";
-            break;
-          case DAY:
-            secondDef = DAY;
-            break;
-          case WEEK:
-            secondDef = getWeek();
-            break;
-          case MONTH:
-            secondDef = getMonth();
-            break;
-          case YEAR:
-            secondDef = "0";
-            groupBy = KEY_YEAR;
-            break;
-        }
-        qb = SupportSQLiteQueryBuilder.builder(VIEW_WITH_ACCOUNT);
-        int projectionSize;
-        projectionSize = 5;
-        if (withJulianStart) {
-          projectionSize += 1;
-        }
-        if (!includeTransfers) {
-          projectionSize += 1;
-        }
-        if (group == Grouping.WEEK) {
-          projectionSize += 2;
-        }
-        projection = new String[projectionSize];
-        int index = 0;
-        projection[index++] = yearExpression + " AS " + KEY_YEAR;
-        projection[index++] = secondDef + " AS " + KEY_SECOND_GROUP;
-        projection[index++] = includeTransfers ? getInAggregate(forHome, aggregateFunction) : getIncomeAggregate(forHome, aggregateFunction);
-        projection[index++] = includeTransfers ? getOutAggregate(forHome, aggregateFunction) : getExpenseAggregate(forHome, aggregateFunction);
-        if (!includeTransfers) {
-          //for the Grand total account transfer calculation is neither possible (adding amounts in
-          //different currencies) nor necessary (should result in 0)
-          projection[index++] = (forHome != null ? "0" : getTransferSum(aggregateFunction)) + " AS " + KEY_SUM_TRANSFERS;
-        }
-        projection[index++] = MAPPED_CATEGORIES;
-        if (withJulianStart) {
-          projection[index++] = (group == Grouping.WEEK ? getWeekStartJulian() : DAY_START_JULIAN)
-              + " AS " + KEY_GROUP_START;
-        }
-        if (group == Grouping.WEEK) {
-          projection[index++] = getWeekStart() + " AS " + KEY_WEEK_START;
-          projection[index] = getWeekEnd() + " AS " + KEY_WEEK_END;
-        }
-        selection = accountSelectionQuery
-            + (selection != null ? " AND " + selection : "");
-        if (accountSelector != null) {
-          selectionArgs = joinArrays(
-              new String[]{accountSelector},
-              selectionArgs);
-        }
-        break;
+        return measureAndLogQuery(db, uri, buildTransactionGroupSql(uri, selection, selectionArgs), selection, selectionArgs);
       }
       case CATEGORIES: {
         String mappedObjects = uri.getQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS);
         if (mappedObjects != null) {
           String sql = categoryTreeWithMappedObjects(selection, projection, mappedObjects.equals("2"));
-          c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
-          return c;
+          return measureAndLogQuery(db, uri, sql, selection, selectionArgs);
         }
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_HIERARCHICAL, false)) {
           final boolean withBudget = projection != null && Arrays.asList(projection).contains(KEY_BUDGET);
@@ -589,12 +579,8 @@ public class TransactionProvider extends BaseTransactionProvider {
         String paymentType = uri.getPathSegments().get(2);
         String typeSelect;
         switch (paymentType) {
-          case "1" -> {
-            typeSelect = "> -1";
-          }
-          case "-1" -> {
-            typeSelect = "< 1";
-          }
+          case "1" -> typeSelect = "> -1";
+          case "-1" -> typeSelect = "< 1";
           default -> typeSelect = "= 0";
         }
         selection = String.format("%s.%s %s", TABLE_METHODS, KEY_TYPE, typeSelect);
@@ -838,42 +824,41 @@ public class TransactionProvider extends BaseTransactionProvider {
     int uriMatch = URI_MATCHER.match(uri);
     maybeSetDirty(uriMatch);
     switch (uriMatch) {
-      case TRANSACTIONS:
-      case UNCOMMITTED:
+      case TRANSACTIONS, UNCOMMITTED -> {
         id = MoreDbUtilsKt.insert(db, TABLE_TRANSACTIONS, values);
         newUri = TRANSACTIONS_URI + "/" + id;
-        break;
-      case ACCOUNTS:
+      }
+      case ACCOUNTS -> {
         Preconditions.checkArgument(!values.containsKey(KEY_GROUPING));
         id = MoreDbUtilsKt.insert(db, TABLE_ACCOUNTS, values);
         newUri = ACCOUNTS_URI + "/" + id;
-        break;
-      case METHODS:
+      }
+      case METHODS -> {
         id = MoreDbUtilsKt.insert(db, TABLE_METHODS, values);
         newUri = METHODS_URI + "/" + id;
-        break;
-      case ACCOUNTTYPES_METHODS:
+      }
+      case ACCOUNTTYPES_METHODS -> {
         id = MoreDbUtilsKt.insert(db, TABLE_ACCOUNTTYES_METHODS, values);
         //we are not interested in accessing individual entries in this table, but have to return a uri
         newUri = ACCOUNTTYPES_METHODS_URI + "/" + id;
-        break;
-      case TEMPLATES:
+      }
+      case TEMPLATES -> {
         id = MoreDbUtilsKt.insert(db, TABLE_TEMPLATES, values);
         newUri = TEMPLATES_URI + "/" + id;
-        break;
-      case CATEGORIES:
+      }
+      case CATEGORIES -> {
         Long parentId = values.getAsLong(KEY_PARENTID);
         if (parentId == null && !values.containsKey(KEY_COLOR)) {
           values.put(KEY_COLOR, suggestNewCategoryColor(db));
         }
         id = MoreDbUtilsKt.insert(db, TABLE_CATEGORIES, values);
         newUri = CATEGORIES_URI + "/" + id;
-        break;
-      case PAYEES:
+      }
+      case PAYEES -> {
         id = MoreDbUtilsKt.insert(db, TABLE_PAYEES, values);
         newUri = PAYEES_URI + "/" + id;
-        break;
-      case PLANINSTANCE_TRANSACTION_STATUS: {
+      }
+      case PLANINSTANCE_TRANSACTION_STATUS -> {
         long templateId = values.getAsLong(KEY_TEMPLATEID);
         long instancId = values.getAsLong(KEY_INSTANCEID);
         db.insert(TABLE_PLAN_INSTANCE_STATUS, CONFLICT_REPLACE, values);
@@ -881,36 +866,34 @@ public class TransactionProvider extends BaseTransactionProvider {
         notifyChange(changeUri, false);
         return changeUri;
       }
-      case EVENT_CACHE:
+      case EVENT_CACHE -> {
         id = MoreDbUtilsKt.insert(db, TABLE_EVENT_CACHE, values);
         newUri = EVENT_CACHE_URI + "/" + id;
-        break;
-      case STALE_IMAGES:
+      }
+      case STALE_IMAGES -> {
         id = MoreDbUtilsKt.insert(db, TABLE_STALE_URIS, values);
         newUri = STALE_IMAGES_URI + "/" + id;
-        break;
-      case ACCOUNT_EXCHANGE_RATE:
+      }
+      case ACCOUNT_EXCHANGE_RATE -> {
         values.put(KEY_ACCOUNTID, uri.getPathSegments().get(1));
         values.put(KEY_CURRENCY_SELF, uri.getPathSegments().get(2));
         values.put(KEY_CURRENCY_OTHER, uri.getPathSegments().get(3));
         id = db.insert(TABLE_ACCOUNT_EXCHANGE_RATES, CONFLICT_REPLACE, values);
         newUri = uri.toString();
-        break;
-      case DUAL: {
+      }
+      case DUAL -> {
         if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_SYNC_BEGIN))) {
           id = pauseChangeTrigger(db);
           newUri = TABLE_SYNC_STATE + "/" + id;
         } else {
           throw unknownUri(uri);
         }
-        break;
       }
-      case SETTINGS: {
+      case SETTINGS -> {
         id = db.insert(TABLE_SETTINGS, CONFLICT_REPLACE, values);
         newUri = SETTINGS_URI + "/" + id;
-        break;
       }
-      case BUDGETS: {
+      case BUDGETS -> {
         long budget = values.getAsLong(KEY_BUDGET);
         values.remove(KEY_BUDGET);
         id = MoreDbUtilsKt.insert(db, TABLE_BUDGETS, values);
@@ -920,47 +903,42 @@ public class TransactionProvider extends BaseTransactionProvider {
         budgetInitialAmount.put(KEY_CATID, 0);
         MoreDbUtilsKt.insert(db, TABLE_BUDGET_ALLOCATIONS, budgetInitialAmount);
         newUri = BUDGETS_URI + "/" + id;
-        break;
       }
-      case CURRENCIES: {
+      case CURRENCIES -> {
         try {
           id = MoreDbUtilsKt.insert(db, TABLE_CURRENCIES, values);
         } catch (SQLiteConstraintException e) {
           return null;
         }
         newUri = CURRENCIES_URI + "/" + id;
-        break;
       }
-      case TAGS: {
-        id =MoreDbUtilsKt.insert(db, TABLE_TAGS, values);
+      case TAGS -> {
+        id = MoreDbUtilsKt.insert(db, TABLE_TAGS, values);
         newUri = TAGS_URI + "/" + id;
-        break;
       }
-      case TRANSACTIONS_TAGS: {
+      case TRANSACTIONS_TAGS -> {
         db.insert(TABLE_TRANSACTIONS_TAGS, CONFLICT_IGNORE, values);
         //the table does not have primary ids, we return the base uri
         notifyChange(uri, callerIsNotSyncAdapter(uri));
         return TRANSACTIONS_TAGS_URI;
       }
-      case TEMPLATES_TAGS: {
+      case TEMPLATES_TAGS -> {
         db.insert(TABLE_TEMPLATES_TAGS, CONFLICT_IGNORE, values);
         //the table does not have primary ids, we return the base uri
         notifyChange(uri, false);
         return TEMPLATES_TAGS_URI;
       }
-      case ACCOUNTS_TAGS: {
+      case ACCOUNTS_TAGS -> {
         db.insert(TABLE_ACCOUNTS_TAGS, CONFLICT_IGNORE, values);
         //the table does not have primary ids, we return the base uri
         notifyChange(uri, false);
         return ACCOUNTS_TAGS_URI;
       }
-      case DEBTS: {
+      case DEBTS -> {
         id = MoreDbUtilsKt.insert(db, TABLE_DEBTS, values);
         newUri = DEBTS_URI + "/" + id;
-        break;
       }
-      default:
-        throw unknownUri(uri);
+      default -> throw unknownUri(uri);
     }
     notifyChange(uri, uriMatch == TRANSACTIONS && callerIsNotSyncAdapter(uri));
     //the accounts cursor contains aggregates about transactions
@@ -990,11 +968,8 @@ public class TransactionProvider extends BaseTransactionProvider {
     int uriMatch = URI_MATCHER.match(uri);
     maybeSetDirty(uriMatch);
     switch (uriMatch) {
-      case TRANSACTIONS:
-      case UNCOMMITTED:
-        count = db.delete(TABLE_TRANSACTIONS, where, whereArgs);
-        break;
-      case TRANSACTION_ID:
+      case TRANSACTIONS, UNCOMMITTED -> count = db.delete(TABLE_TRANSACTIONS, where, whereArgs);
+      case TRANSACTION_ID -> {
         //maybe TODO ?: where and whereArgs are ignored
         segment = uri.getPathSegments().get(1);
         //when we are deleting a transfer whose peer is part of a split, we cannot delete the peer,
@@ -1006,9 +981,9 @@ public class TransactionProvider extends BaseTransactionProvider {
           args.putNull(KEY_TRANSFER_ACCOUNT);
           args.putNull(KEY_TRANSFER_PEER);
           MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS,
-              args,
-              KEY_TRANSFER_PEER + " = ? AND " + KEY_PARENTID + " IS NOT null",
-              new String[]{segment});
+                  args,
+                  KEY_TRANSFER_PEER + " = ? AND " + KEY_PARENTID + " IS NOT null",
+                  new String[]{segment});
           //we delete the transaction, its children and its transfer peer, and transfer peers of its children
           if (uri.getQueryParameter(QUERY_PARAMETER_MARK_VOID) == null) {
             //we delete the parent separately, so that the changes trigger can correctly record the parent uuid
@@ -1023,119 +998,86 @@ public class TransactionProvider extends BaseTransactionProvider {
         } finally {
           db.endTransaction();
         }
-        break;
-      case TEMPLATES:
-        count = db.delete(TABLE_TEMPLATES, where, whereArgs);
-        break;
-      case TEMPLATE_ID:
-        count = db.delete(TABLE_TEMPLATES,
-            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
-        break;
-      case ACCOUNTTYPES_METHODS:
-        count = db.delete(TABLE_ACCOUNTTYES_METHODS, where, whereArgs);
-        break;
-      case ACCOUNTS:
-        count = db.delete(TABLE_ACCOUNTS, where, whereArgs);
-        break;
-      case ACCOUNT_ID:
-        count = db.delete(TABLE_ACCOUNTS,
-            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
-        //update aggregate cursor
-        //getContext().getContentResolver().notifyChange(AGGREGATES_URI, null);
-        break;
-      case CATEGORIES:
-        count = db.delete(TABLE_CATEGORIES, KEY_ROWID + " != " + SPLIT_CATID + prefixAnd(where),
-            whereArgs);
-        break;
-      case CATEGORY_ID:
+      }
+      case TEMPLATES -> count = db.delete(TABLE_TEMPLATES, where, whereArgs);
+      case TEMPLATE_ID -> count = db.delete(TABLE_TEMPLATES,
+              KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+      case ACCOUNTTYPES_METHODS -> count = db.delete(TABLE_ACCOUNTTYES_METHODS, where, whereArgs);
+      case ACCOUNTS -> count = db.delete(TABLE_ACCOUNTS, where, whereArgs);
+      case ACCOUNT_ID -> count = db.delete(TABLE_ACCOUNTS,
+              KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+
+      //update aggregate cursor
+      //getContext().getContentResolver().notifyChange(AGGREGATES_URI, null);
+      case CATEGORIES ->
+              count = db.delete(TABLE_CATEGORIES, KEY_ROWID + " != " + SPLIT_CATID + prefixAnd(where),
+                      whereArgs);
+      case CATEGORY_ID -> {
         String lastPathSegment = uri.getLastPathSegment();
-        if (Long.parseLong(lastPathSegment) == SPLIT_CATID) throw new IllegalArgumentException("split category can not be deleted");
+        if (Long.parseLong(lastPathSegment) == SPLIT_CATID)
+          throw new IllegalArgumentException("split category can not be deleted");
         count = db.delete(TABLE_CATEGORIES,
-            KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
-        break;
-      case PAYEE_ID:
-        count = db.delete(TABLE_PAYEES,
-            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
-        break;
-      case METHOD_ID:
-        count = db.delete(TABLE_METHODS,
-            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
-        break;
-      case PLANINSTANCE_TRANSACTION_STATUS:
-        count = db.delete(TABLE_PLAN_INSTANCE_STATUS, where, whereArgs);
-        break;
-      case PLANINSTANCE_STATUS_SINGLE:
+                KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
+      }
+      case PAYEE_ID -> count = db.delete(TABLE_PAYEES,
+              KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+      case METHOD_ID -> count = db.delete(TABLE_METHODS,
+              KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+      case PLANINSTANCE_TRANSACTION_STATUS ->
+              count = db.delete(TABLE_PLAN_INSTANCE_STATUS, where, whereArgs);
+      case PLANINSTANCE_STATUS_SINGLE -> {
         count = db.delete(TABLE_PLAN_INSTANCE_STATUS,
-            String.format(Locale.ROOT, "%s = ? AND %s = ?", KEY_TEMPLATEID, KEY_INSTANCEID),
-            new String[]{uri.getPathSegments().get(1), uri.getPathSegments().get(2)});
+                String.format(Locale.ROOT, "%s = ? AND %s = ?", KEY_TEMPLATEID, KEY_INSTANCEID),
+                new String[]{uri.getPathSegments().get(1), uri.getPathSegments().get(2)});
         notifyChange(uri, false);
         return count;
-      case EVENT_CACHE:
-        count = db.delete(TABLE_EVENT_CACHE, where, whereArgs);
-        break;
-      case STALE_IMAGES_ID:
+      }
+      case EVENT_CACHE -> count = db.delete(TABLE_EVENT_CACHE, where, whereArgs);
+      case STALE_IMAGES_ID -> {
         segment = uri.getPathSegments().get(1);
         count = db.delete(TABLE_STALE_URIS, "rowid=" + segment, null);
-        break;
-      case STALE_IMAGES:
-        count = db.delete(TABLE_STALE_URIS, where, whereArgs);
-        break;
-      case CHANGES:
-        count = db.delete(TABLE_CHANGES, where, whereArgs);
-        break;
-      case SETTINGS:
-        count = db.delete(TABLE_SETTINGS, where, whereArgs);
-        break;
-      case BUDGET_ID:
-        count = db.delete(TABLE_BUDGETS, KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
-        break;
-      case PAYEES:
-        count = db.delete(TABLE_PAYEES, where, whereArgs);
-        break;
-      case TAG_ID:
-        count = db.delete(TABLE_TAGS,
-            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
-        break;
-      case DUAL: {
+      }
+      case STALE_IMAGES -> count = db.delete(TABLE_STALE_URIS, where, whereArgs);
+      case CHANGES -> count = db.delete(TABLE_CHANGES, where, whereArgs);
+      case SETTINGS -> count = db.delete(TABLE_SETTINGS, where, whereArgs);
+      case BUDGET_ID ->
+              count = db.delete(TABLE_BUDGETS, KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+      case PAYEES -> count = db.delete(TABLE_PAYEES, where, whereArgs);
+      case TAG_ID -> count = db.delete(TABLE_TAGS,
+              KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+      case DUAL -> {
         if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_SYNC_END))) {
           count = resumeChangeTrigger(db);
         } else {
           throw unknownUri(uri);
         }
-        break;
       }
-      case CURRENCIES_CODE: {
+      case CURRENCIES_CODE -> {
         String currency = uri.getLastPathSegment();
         if (Utils.isKnownCurrency(currency)) {
           throw new IllegalArgumentException("Can only delete custom currencies");
         }
         try {
           count = db.delete(TABLE_CURRENCIES, String.format("%s = '%s'%s", KEY_CODE,
-              currency, prefixAnd(where)), whereArgs);
+                  currency, prefixAnd(where)), whereArgs);
         } catch (SQLiteConstraintException e) {
           return 0;
         }
-        break;
       }
-      case TRANSACTIONS_TAGS: {
+      case TRANSACTIONS_TAGS -> {
         count = db.delete(TABLE_TRANSACTIONS_TAGS, where, whereArgs);
-        break;
       }
-      case TEMPLATES_TAGS: {
+      case TEMPLATES_TAGS -> {
         count = db.delete(TABLE_TEMPLATES_TAGS, where, whereArgs);
-        break;
       }
-      case ACCOUNTS_TAGS: {
+      case ACCOUNTS_TAGS -> {
         count = db.delete(TABLE_ACCOUNTS_TAGS, where, whereArgs);
-        break;
       }
-      case DEBT_ID: {
+      case DEBT_ID -> {
         count = db.delete(TABLE_DEBTS,
-            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
-        break;
+                KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
       }
-      default:
-        throw unknownUri(uri);
+      default -> throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || (uriMatch == TRANSACTION_ID && callerIsNotInBulkOperation(uri))) {
       notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdapter(uri));
@@ -1539,16 +1481,14 @@ public class TransactionProvider extends BaseTransactionProvider {
   @Override
   public Bundle call(@NonNull String method, @Nullable String arg, @Nullable Bundle extras) {
     switch (method) {
-      case METHOD_BULK_START: {
+      case METHOD_BULK_START -> {
         setBulkInProgress(true);
-        break;
       }
-      case METHOD_BULK_END: {
+      case METHOD_BULK_END -> {
         setBulkInProgress(false);
         notifyBulk();
-        break;
       }
-      case METHOD_SORT_ACCOUNTS: {
+      case METHOD_SORT_ACCOUNTS -> {
         final SupportSQLiteDatabase db = getHelper().getWritableDatabase();
         if (extras != null) {
           long[] sortedIds = extras.getLongArray(KEY_SORT_KEY);
@@ -1561,16 +1501,14 @@ public class TransactionProvider extends BaseTransactionProvider {
             notifyChange(ACCOUNTS_URI, false);
           }
         }
-        break;
       }
-      case METHOD_SETUP_CATEGORIES: {
+      case METHOD_SETUP_CATEGORIES -> {
         Bundle result = new Bundle(1);
         result.putSerializable(KEY_RESULT, MoreDbUtilsKt.setupDefaultCategories(getHelper().getWritableDatabase(), getWrappedContext().getResources()));
         notifyChange(CATEGORIES_URI, false);
         return result;
       }
-
-      case METHOD_RESET_EQUIVALENT_AMOUNTS: {
+      case METHOD_RESET_EQUIVALENT_AMOUNTS -> {
         final SupportSQLiteDatabase db = getHelper().getWritableDatabase();
         Bundle result = new Bundle(1);
         MoreDbUtilsKt.safeUpdateWithSealed(db, () -> {
@@ -1580,7 +1518,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         });
         return result;
       }
-      case METHOD_CHECK_CORRUPTED_DATA_987: {
+      case METHOD_CHECK_CORRUPTED_DATA_987 -> {
         return checkCorruptedData987();
       }
     }

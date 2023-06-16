@@ -40,7 +40,10 @@ class AmountCriterion(
     override val id = R.id.FILTER_AMOUNT_COMMAND
 
     @IgnoredOnParcel
-    override val column = DatabaseConstants.KEY_AMOUNT
+    override val column = DatabaseConstants.KEY_DISPLAY_AMOUNT
+
+    override val key: String
+        get() = DatabaseConstants.KEY_AMOUNT
 
     override fun prettyPrint(context: Context): String {
         val currencyFormatter = context.injector.currencyFormatter()

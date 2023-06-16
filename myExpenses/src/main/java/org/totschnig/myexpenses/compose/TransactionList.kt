@@ -438,7 +438,7 @@ fun RowRTL() {
 fun Header() {
     val amount = Money(CurrencyUnit.DebugInstance, 1234)
     val headerRow = HeaderRow(
-        2022, 11, amount, amount, amount, amount, amount, amount, false, 0, 0
+        2022, 11, amount, amount, amount, amount, amount, amount, 0, 0
     )
     HeaderRenderer(
         account = PageAccount(
