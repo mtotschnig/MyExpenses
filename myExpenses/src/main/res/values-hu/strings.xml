@@ -940,4 +940,5 @@
     <string name="dialog_title_purge_backups">Régi biztonsági mentések törlése</string>
     <string name="menu_reconfigure">Újrakonfigurálás</string>
     <string name="add_shortcut">Indító hozzáadása</string>
+    <string name="whats_new_359">A fizetési módok ikonjai testre szabhatók.</string>
 </resources>
