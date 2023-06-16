@@ -981,4 +981,5 @@
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">الفئات</string>
     <string name="menu_reconfigure">إعادة التكوين</string>
     <string name="add_shortcut">أضف اختصارا</string>
+    <string name="whats_new_359">يمكن تخصيص أيقونات طرق الدفع.</string>
 </resources>
