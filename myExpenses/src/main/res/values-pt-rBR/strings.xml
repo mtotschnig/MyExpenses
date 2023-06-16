@@ -1007,4 +1007,5 @@
     <string name="menu_reconfigure">Reconfigurar</string>
     <string name="encrypt_database">Criptografar o banco de dados</string>
     <string name="add_shortcut">Adicionar atalho</string>
+    <string name="whats_new_359">Os ícones dos métodos de pagamento podem ser personalizados.</string>
 </resources>

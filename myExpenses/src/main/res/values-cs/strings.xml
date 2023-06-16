@@ -959,4 +959,5 @@
     <string name="dialog_title_purge_backups">Vyčištění starých záloh</string>
     <string name="menu_reconfigure">Překonfigurovat</string>
     <string name="add_shortcut">Přidat zkratku</string>
+    <string name="whats_new_359">Ikony platebních metod lze přizpůsobit.</string>
 </resources>
