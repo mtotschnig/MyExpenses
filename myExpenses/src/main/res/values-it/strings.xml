@@ -841,7 +841,7 @@
     <string name="dialog_multi_tag_clear">Tutti i tag saranno rimossi dalle transazioni selezionate.</string>
     <plurals name="warning_delete_tag">
         <item quantity="one">Il tag %1$s è associato a una transazione. Vuoi eliminarlo\?</item>
-        <item quantity="many"></item>
+        <item quantity="many"/>
         <item quantity="other">I tag %1$s sono assegnati a %2$d transazioni. Vuoi eliminarli\?</item>
     </plurals>
     <string name="dialog_multi_tag_append">Aggiungi nuovi tag ai tag esistenti</string>
@@ -1034,4 +1034,5 @@
     <string name="image_optimize_quality">Qualità</string>
     <string name="image_optimize_quality_summary">Qualità 0 significa comprimere per ottenere le dimensioni più piccole. 100 significa comprimere per ottenere la massima qualità visiva.</string>
     <string name="add_shortcut">Aggiungi collegamento</string>
+    <string name="content_description_remove_icon">Rimuovi l\'icona</string>
 </resources>

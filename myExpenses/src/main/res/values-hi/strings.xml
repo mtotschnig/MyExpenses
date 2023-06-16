@@ -343,4 +343,9 @@
     <string name="pref_news_title">समाचार</string>
     <string name="pref_custom_currency_title">करेंसी को अनुकूलित करें</string>
     <string name="pref_import_title">%s आयात</string>
+    <string name="pref_more_info_dialog_title">लाइसेंस और क्रेडिट</string>
+    <string name="pref_import_from_grisbi_title">ग्रिस्बी से आयात करें</string>
+    <string name="pref_manage_parties_summary" tools:ignore="UnusedResources">पार्टियों को जोड़ें, संपादित करें, हटाएं (भुगतानकर्ता और भुगतानकर्ता)।</string>
+    <string name="pref_manage_categories_summary">श्रेणियां जोड़ें, संपादित करें, हटाएं।</string>
+    <string name="pref_planning_calendar_create_local">नया स्थानीय नियोजन कैलेंडर बनाएँ</string>
 </resources>
