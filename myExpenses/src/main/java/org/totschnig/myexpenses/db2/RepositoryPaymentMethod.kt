@@ -38,7 +38,7 @@ val mappingColumns = arrayOf(
 
 )
 
-private val preDefinedName = StringBuilder().apply {
+val preDefinedName = StringBuilder().apply {
     append("CASE " + DatabaseConstants.KEY_LABEL)
     for (method in PreDefinedPaymentMethod.values()) {
         append(" WHEN '").append(method.name).append("' THEN '").append(method.name)

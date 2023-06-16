@@ -22,17 +22,18 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.FutureCriterion
+import org.totschnig.myexpenses.db2.preDefinedName
 import org.totschnig.myexpenses.fragment.BaseSettingsFragment.Companion.compactItemRendererTitle
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enableAutoFill
+import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.DateCriterion
-import org.totschnig.myexpenses.provider.useAndMap
 import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.ui.DiscoveryHelper
@@ -116,6 +117,7 @@ class UpgradeHandlerViewModel(application: Application) :
                                     )
                                 )
                             }
+
                             "cr" -> edit.putString(
                                 key,
                                 CrStatus.values()[Integer.parseInt(`val`)].name
@@ -152,7 +154,9 @@ class UpgradeHandlerViewModel(application: Application) :
                 getApplication<MyApplication>().invalidateHomeCurrency(homeCurrency)
             }
 
-            if (fromVersion < 354 && GenericAccountService.getAccounts(getApplication()).isNotEmpty()) {
+            if (fromVersion < 354 && GenericAccountService.getAccounts(getApplication())
+                    .isNotEmpty()
+            ) {
                 upgradeInfoList.add(getString(R.string.upgrade_information_cloud_sync_storage_format))
             }
 
@@ -297,10 +301,12 @@ class UpgradeHandlerViewModel(application: Application) :
                                 "$KEY_ACCOUNTID = ? AND $KEY_GROUPING = ?" to
                                         arrayOf(accountIdAsString, grouping)
                             }
+
                             accountId == HOME_AGGREGATE_ID -> {
                                 "$KEY_CURRENCY = ? AND $KEY_GROUPING = ?" to
                                         arrayOf(AGGREGATE_HOME_CURRENCY_CODE, grouping)
                             }
+
                             else -> {
                                 "$KEY_CURRENCY = (SELECT $KEY_CODE FROM $TABLE_CURRENCIES WHERE -$KEY_ROWID = ?) AND $KEY_GROUPING = ?" to
                                         arrayOf(accountIdAsString, grouping)
@@ -418,7 +424,8 @@ class UpgradeHandlerViewModel(application: Application) :
             if (fromVersion < 583 && prefHandler.requireString(
                     PrefKey.PLANNER_CALENDAR_ID,
                     MyApplication.INVALID_CALENDAR_ID
-                ) != MyApplication.INVALID_CALENDAR_ID) {
+                ) != MyApplication.INVALID_CALENDAR_ID
+            ) {
                 PlanExecutor.enqueueSelf(getApplication(), prefHandler, true)
             }
             if (fromVersion < 586) {
@@ -429,7 +436,7 @@ class UpgradeHandlerViewModel(application: Application) :
                 prefHandler.getString(PrefKey.UI_LANGUAGE)
                     .takeIf { it != MyApplication.DEFAULT_LANGUAGE }
                     ?.let {
-                        withContext(Dispatchers.Main)  {
+                        withContext(Dispatchers.Main) {
                             AppCompatDelegate.setApplicationLocales(
                                 LocaleListCompat.forLanguageTags(it)
                             )
@@ -445,6 +452,26 @@ class UpgradeHandlerViewModel(application: Application) :
             if (fromVersion < 617) {
                 //For existing installations, we keep JPEG, new installations will use WEBP
                 prefHandler.putString(PrefKey.OPTIMIZE_PICTURE_FORMAT, "JPEG")
+            }
+            if (fromVersion < 627) {
+                contentResolver.query(
+                    METHODS_URI,
+                    arrayOf(KEY_ROWID, preDefinedName),
+                    null, null, null
+                )?.use {
+                    it.asSequence.forEach { cursor ->
+                        cursor.getEnumOrNull<PreDefinedPaymentMethod>(1)?.let {
+                            Timber.i("Upgrading ${cursor.getLong(0)} ${it.icon}")
+                            contentResolver.update(
+                                ContentUris.withAppendedId(METHODS_URI, cursor.getLong(0)),
+                                ContentValues(1).apply {
+                                    put(KEY_ICON, it.icon)
+                                },
+                                null, null
+                            )
+                        }
+                    }
+                }
             }
 
             if (upgradeInfoList.isNotEmpty()) {
