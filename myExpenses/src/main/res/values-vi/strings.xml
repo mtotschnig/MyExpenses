@@ -731,4 +731,5 @@
     <string name="whats_new_338">Hệ thống phân cấp thể loại sâu tùy ý</string>
     <string name="bug_fixes" tools:ignore="UnusedResources">Sửa lỗi</string>
     <string name="dialog_title_purge_backups">Thanh lọc các bản sao lưu cũ</string>
+    <string name="whats_new_359">Các biểu tượng cho phương thức thanh toán có thể được tùy chỉnh.</string>
 </resources>
