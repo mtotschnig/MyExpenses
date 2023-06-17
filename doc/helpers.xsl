@@ -379,7 +379,7 @@
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='template_shortcut']" />
             </xsl:when>
-            <xsl:when test="$version = '3.5.8'">
+            <xsl:when test="$version = '3.5.9'">
                 <xsl:if test="$itemize">
                     <xsl-text>•&#032;</xsl-text>
                 </xsl:if>
