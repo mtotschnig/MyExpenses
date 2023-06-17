@@ -895,7 +895,12 @@ abstract class BaseTransactionProvider : ContentProvider() {
         )
     }
 
-    fun buildTransactionGroupSql(uri: Uri, selection: String?, selectionArgs: Array<String>?): String {
+    fun transactionGroupsQuery(
+        db: SupportSQLiteDatabase,
+        uri: Uri,
+        selection: String?,
+        selectionArgs: Array<String>?
+    ): Cursor {
 
         val (accountSelector, accountQuery) = uri.getQueryParameter(KEY_ACCOUNTID)?.let {
             it to "$KEY_ACCOUNTID = ?"
@@ -960,12 +965,13 @@ abstract class BaseTransactionProvider : ContentProvider() {
             selectionArgs?.let { addAll(it)}
         }.toTypedArray()
 
-        return buildTransactionGroupCte(accountQuery, forHome, includeTransfers) + " " +
+        val sql = buildTransactionGroupCte(accountQuery, forHome, includeTransfers) + " " +
                 SupportSQLiteQueryBuilder.builder(CTE_TRANSACTION_GROUPS)
                     .columns(projection)
                     .selection(selection, finalArgs)
                     .groupBy(groupBy)
                     .create()
                     .sql
+        return db.measureAndLogQuery(uri, sql, selection, finalArgs)
     }
 }

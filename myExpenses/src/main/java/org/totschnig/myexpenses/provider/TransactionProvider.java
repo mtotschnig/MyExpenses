@@ -450,7 +450,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       }
       case TRANSACTIONS_GROUPS: {
-        return measureAndLogQuery(db, uri, buildTransactionGroupSql(uri, selection, selectionArgs), selection, selectionArgs);
+        return transactionGroupsQuery(db, uri, selection, selectionArgs);
       }
       case CATEGORIES: {
         String mappedObjects = uri.getQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS);
