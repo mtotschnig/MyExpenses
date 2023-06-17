@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.util.readThemeColor
+import timber.log.Timber
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -38,7 +39,7 @@ class DateButton @JvmOverloads constructor(
     @JvmField
     var date: LocalDate = LocalDate.now()
 
-    private val formatter: DateTimeFormatter = getDateTimeFormatter(context)
+    private val formatter: DateTimeFormatter = getDateTimeFormatter(context, shortYear = true)
 
     init {
         this.setCompoundDrawablesRelativeWithIntrinsicBounds(
@@ -47,6 +48,7 @@ class DateButton @JvmOverloads constructor(
             R.drawable.ic_chevron_end,
             0
         )
+        compoundDrawablePadding = 0
         TextViewCompat.setCompoundDrawableTintList(this,
             ColorStateList.valueOf(readThemeColor(getContext(), androidx.appcompat.R.attr.colorPrimary)))
         val horizontalPadding = 0

@@ -37,8 +37,12 @@ fun localDate2Epoch(localDate: LocalDate) =
 fun localDateTime2EpochMillis(localDateTime: LocalDateTime) =
     localDateTime2Epoch(localDateTime) * 1000
 
-fun getDateTimeFormatter(context: Context): DateTimeFormatter =
-    (Utils.getDateFormatSafe(context) as? SimpleDateFormat)?.let {
+fun getDateTimeFormatter(context: Context, shortYear: Boolean = false): DateTimeFormatter = ((
+        if (shortYear)
+            Utils.ensureDateFormatWithShortYear(context)
+        else
+            Utils.getDateFormatSafe(context)
+        )  as? SimpleDateFormat)?.let {
         try {
             DateTimeFormatter.ofPattern(it.toPattern())
         } catch (e: Exception) {
@@ -57,6 +61,7 @@ fun validateDateFormat(context: Context, dateFormat: String) = when {
     Regex("[^\\p{P}Mdy]").containsMatchIn(dateFormat) -> context.getString(R.string.date_format_unsupported_character)
     !(dateFormat.contains("d") && dateFormat.contains("M") && dateFormat.contains("y")) ->
         context.getString(R.string.date_format_specifier_missing)
+
     else -> try {
         DateTimeFormatter.ofPattern(SimpleDateFormat(dateFormat).toPattern())
         null
