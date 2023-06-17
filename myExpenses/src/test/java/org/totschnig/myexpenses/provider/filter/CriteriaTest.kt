@@ -27,6 +27,8 @@ class CriteriaTest {
         val roundTrip = AccountCriterion.fromStringExtra(AccountCriterion("Bank", 1L).toString())
         Truth.assertThat(roundTrip!!.label).isEqualTo("Bank")
         Truth.assertThat(roundTrip.values).asList().containsExactly( 1L)
+        Truth.assertThat(roundTrip.selection).isEqualTo("account_id IN (?) OR transfer_account IN (?)")
+        Truth.assertThat(roundTrip.selectionArgs).asList().containsExactly("1","1")
     }
 
     @Test
@@ -34,6 +36,8 @@ class CriteriaTest {
         val roundTrip = TransferCriterion.fromStringExtra(TransferCriterion("Bank", 1L).toString())
         Truth.assertThat(roundTrip!!.label).isEqualTo("Bank")
         Truth.assertThat(roundTrip.values).asList().containsExactly( 1L)
+        Truth.assertThat(roundTrip.selection).isEqualTo("transfer_peer IS NOT NULL AND (transfer_account IN (?) OR account_id IN (?))")
+        Truth.assertThat(roundTrip.selectionArgs).asList().containsExactly("1","1")
     }
 
     @Test

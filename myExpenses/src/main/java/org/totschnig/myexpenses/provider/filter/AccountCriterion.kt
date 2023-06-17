@@ -36,7 +36,7 @@ class AccountCriterion(
 
     override val selection: String
         get()  {
-            val selection = operation.getOp(selectionArgs.size)
+            val selection = operation.getOp(values.size)
             return "$column $selection OR ${DatabaseConstants.KEY_TRANSFER_ACCOUNT} $selection"
         }
 
