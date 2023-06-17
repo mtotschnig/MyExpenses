@@ -837,4 +837,5 @@
     <string name="select_payee">Виберіть платника/отримувача</string>
     <string name="account_deleted">Рахунок видалено</string>
     <string name="upgrade_now">Оновлення</string>
+    <string name="account_widget_configuration_sum">Тип відображуваної суми</string>
 </resources>
