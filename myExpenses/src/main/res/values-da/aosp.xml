@@ -46,5 +46,6 @@
     <string name="tomorrow">"I morgen"</string>
     <string name="yesterday">"I går"</string>
     <string name="confirm">"Bekræft"</string>
+    <string name="menu_search">"Søg"</string>
 </resources>
 

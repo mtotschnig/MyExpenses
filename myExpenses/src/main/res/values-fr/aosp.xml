@@ -45,5 +45,6 @@
     <string name="tomorrow">"Demain"</string>
     <string name="yesterday">"Hier"</string>
     <string name="confirm">"Confirmer"</string>
+    <string name="menu_search">"Recherche"</string>
 </resources>
 

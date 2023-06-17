@@ -45,4 +45,5 @@
     <string name="tomorrow">"Demà"</string>
     <string name="yesterday">"Ahir"</string>
     <string name="confirm">"Confirma"</string>
+    <string name="menu_search">"Cerca"</string>
 </resources>

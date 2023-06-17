@@ -45,5 +45,6 @@
     <string name="tomorrow">"Ngày mai"</string>
     <string name="yesterday">"Hôm qua"</string>
     <string name="confirm">"Xác nhận"</string>
+    <string name="menu_search">"Tìm kiếm"</string>
 </resources>
 

@@ -45,5 +45,6 @@
     <string name="tomorrow">"غدًا"</string>
     <string name="yesterday">"أمس"</string>
     <string name="confirm">"تأكيد"</string>
+    <string name="menu_search">"بحث"</string>
 </resources>
 

@@ -46,5 +46,6 @@
     <string name="tomorrow">"מחר"</string>
     <string name="yesterday">"אתמול"</string>
     <string name="confirm">"אישור"</string>
+    <string name="menu_search">"חיפוש"</string>
 </resources>
 

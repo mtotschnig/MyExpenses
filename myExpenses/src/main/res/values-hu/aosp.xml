@@ -45,5 +45,6 @@
     <string name="tomorrow">"Holnap"</string>
     <string name="yesterday">"Tegnap"</string>
     <string name="confirm">"Megerősítés"</string>
+    <string name="menu_search">"Keresés"</string>
 </resources>
 

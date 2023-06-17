@@ -41,4 +41,5 @@
     <string name="tomorrow">"Morgen"</string>
     <string name="yesterday">"Gisteren"</string>
     <string name="confirm">"Bevestigen"</string>
+    <string name="menu_search">"Zoeken"</string>
 </resources>

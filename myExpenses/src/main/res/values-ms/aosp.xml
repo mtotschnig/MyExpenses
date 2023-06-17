@@ -45,5 +45,6 @@
     <string name="tomorrow">"Esok"</string>
     <string name="yesterday">"Semalam"</string>
     <string name="confirm">"Sahkan"</string>
+    <string name="menu_search">"Carian"</string>
 </resources>
 

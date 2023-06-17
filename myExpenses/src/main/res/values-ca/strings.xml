@@ -385,7 +385,6 @@
     <string name="menu_exclude_from_totals">Excloure dels totals</string>
     <string name="menu_open">Obre</string>
     <string name="menu_print">Imprimeix</string>
-    <string name="menu_search">Cerca</string>
     <string name="button_label_share_file">Comparteix</string>
     <string name="menu_split_transaction">Divideix</string>
     <string name="no_app_handling_pdf_available">No hi ha cap aplicació que gestioni fitxers PDF disponible.</string>

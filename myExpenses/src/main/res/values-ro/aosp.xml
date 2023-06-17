@@ -46,5 +46,6 @@
     <string name="tomorrow">"Mâine"</string>
     <string name="yesterday">"Ieri"</string>
     <string name="confirm">"Confirmați"</string>
+    <string name="menu_search">"Căutați"</string>
 </resources>
 

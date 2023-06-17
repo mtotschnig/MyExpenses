@@ -201,7 +201,6 @@
     <string name="menu_help">Help</string>
     <string name="menu_save">Opslaan</string>
     <string name="menu_save_and_new">Opslaan en nieuw</string>
-    <string name="menu_search">Zoeken</string>
     <string name="pref_sort_order_usages">Telling van gebruik</string>
     <string name="pref_manage_categories_title">Categorieën</string>
     <string name="pref_restore_title">Herstellen</string>

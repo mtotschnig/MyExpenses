@@ -46,5 +46,6 @@
     <string name="tomorrow">"Sutra"</string>
     <string name="yesterday">"Jučer"</string>
     <string name="confirm">"Potvrdi"</string>
+    <string name="menu_search">"Pretraži"</string>
 </resources>
 

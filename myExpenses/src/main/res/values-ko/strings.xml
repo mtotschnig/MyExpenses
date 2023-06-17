@@ -176,7 +176,6 @@
     <string name="menu_reset_plan_instance">초기화</string>
     <string name="menu_save">저장</string>
     <string name="menu_save_and_new">저장하고 새로 만들기</string>
-    <string name="menu_search">찾기</string>
     <string name="menu_settings">설정</string>
     <string name="menu_share">친구에게 알려주기</string>
     <string name="menu_split_transaction">분할 거래로 바꾸기</string>

@@ -45,5 +45,6 @@
     <string name="tomorrow">"Zítra"</string>
     <string name="yesterday">"Včera"</string>
     <string name="confirm">"Potvrdit"</string>
+    <string name="menu_search">"Vyhledávání"</string>
 </resources>
 

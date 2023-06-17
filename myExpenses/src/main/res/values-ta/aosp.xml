@@ -46,5 +46,6 @@
     <string name="tomorrow">"நாளை"</string>
     <string name="yesterday">"நேற்று"</string>
     <string name="confirm">"உறுதிசெய்க"</string>
+    <string name="menu_search">"தேடு"</string>
 </resources>
 
