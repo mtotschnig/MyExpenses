@@ -838,4 +838,11 @@
     <string name="account_deleted">Рахунок видалено</string>
     <string name="upgrade_now">Оновлення</string>
     <string name="account_widget_configuration_sum">Тип відображуваної суми</string>
+    <string name="auto_fill_focus">Зверніть увагу на одержувача</string>
+    <string name="warning_plan_instance_delete">Транзакцію, створену на вибрану дату, буде видалено.</string>
+    <string name="menu_merge">Обʼєднати</string>
+    <string name="account_widget_configuration_sum_total">Включіть майбутні транзакції</string>
+    <string name="merge_parties_select">Виберіть назву об\'єднаної партії:</string>
+    <string name="active_tags">Активні теги</string>
+    <string name="backup_save_to_sync_backend">Зберегти до %s</string>
 </resources>

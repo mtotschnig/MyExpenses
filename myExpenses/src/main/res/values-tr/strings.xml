@@ -1033,4 +1033,5 @@
     <string name="content_description_remove_icon">Simgeyi kaldır</string>
     <string name="whats_new_358">Widget, tema yapılandırmasını (açık/koyu) takip eder.</string>
     <string name="whats_new_359">Ödeme yöntemleri için simgeler özelleştirilebilir.</string>
+    <string name="search_account">Hesap ara</string>
 </resources>

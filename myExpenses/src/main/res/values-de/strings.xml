@@ -1033,4 +1033,5 @@
     <string name="select_template">Vorlage auswählen</string>
     <string name="content_description_remove_icon">Symbol entfernen</string>
     <string name="whats_new_359">Symbole für Zahlungsmethoden können angepasst werden.</string>
+    <string name="search_account">Suche nach Konto</string>
 </resources>
