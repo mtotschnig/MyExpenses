@@ -7,17 +7,24 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 
-class TemplateSaver: Activity() {
+class TemplateSaver : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Transaction.getInstanceFromTemplateWithTags(intent.getLongExtra(KEY_TEMPLATEID, 0))?.let {
-            if (it.first.save(true) != null && it.first.saveTags(it.second)) {
-                Toast.makeText(this,
-                    resources.getQuantityString(R.plurals.save_transaction_from_template_success, 1, 1),
-                    Toast.LENGTH_LONG).show()
-                finish()
-            }
-        }
+        val instance =
+            Transaction.getInstanceFromTemplateWithTags(intent.getLongExtra(KEY_TEMPLATEID, 0))
+        Toast.makeText(
+            this,
+            if (instance == null) getString(R.string.save_transaction_template_deleted) else
+                if (instance.first.save(true) != null && instance.first.saveTags(instance.second)) {
+                    resources.getQuantityString(
+                        R.plurals.save_transaction_from_template_success,
+                        1,
+                        1
+                    )
+                } else "Error while saving",
+            Toast.LENGTH_LONG
+        ).show()
+        finish()
     }
 }
