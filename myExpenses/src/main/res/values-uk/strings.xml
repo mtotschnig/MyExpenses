@@ -774,7 +774,7 @@
     <string name="pref_news_title">Новини</string>
     <string name="title_scan_receipt_feature">Сканувати квитанцію</string>
     <string name="debt_managment">Управління боргом</string>
-    <string name="ui_refinement">Уточнення інтерфейсу користувача</string>
+    <string name="ui_refinement">Доопрацювання користувацького інтерфейсу</string>
     <string name="add_shortcut">Додати скорочення</string>
     <string name="content_description_download_exchange_rate">Завантажити курс обміну валют</string>
     <string name="no_accounts">Немає рахунків.</string>
@@ -845,4 +845,18 @@
     <string name="merge_parties_select">Виберіть назву об\'єднаної партії:</string>
     <string name="active_tags">Активні теги</string>
     <string name="backup_save_to_sync_backend">Зберегти до %s</string>
+    <string name="debt">Борг</string>
+    <string name="sync_backend_is_not_encrypted">Віддалена серверна частина не зашифрована.</string>
+    <string name="debt_owes_me">%s винен мені</string>
+    <string name="menu_reopen">Перевідкрити</string>
+    <string name="menu_new_debt">Новий борг</string>
+    <string name="debt_I_owe">Я винен %s</string>
+    <string name="dialog_title_delete_debt">Видалити борг\?</string>
+    <string name="debts">Борги</string>
+    <string name="content_description_closed">Зачинено</string>
+    <string name="translated_by">Переклали</string>
+    <string name="menu_hide">Приховати</string>
+    <string name="menu_hidden_accounts">Приховані облікові записи</string>
+    <string name="content_description_remove_icon">Видалити піктограму</string>
+    <string name="button_label_show">Показати</string>
 </resources>
