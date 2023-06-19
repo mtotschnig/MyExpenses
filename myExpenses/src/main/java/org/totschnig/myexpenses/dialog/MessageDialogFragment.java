@@ -159,20 +159,12 @@ public class MessageDialogFragment extends BaseDialogFragment implements OnClick
       return;
     }
     Bundle bundle = requireArguments();
-    Button clicked;
-    switch (which) {
-      case BUTTON_POSITIVE:
-        clicked = (Button) bundle.getSerializable(KEY_POSITIVE);
-        break;
-      case BUTTON_NEUTRAL:
-        clicked = (Button) bundle.getSerializable(KEY_NEUTRAL);
-        break;
-      case BUTTON_NEGATIVE:
-        clicked = (Button) bundle.getSerializable(KEY_NEGATIVE);
-        break;
-      default:
-        throw new IllegalStateException("unknown button " + which);
-    }
+    Button clicked = (Button) bundle.getSerializable(switch (which) {
+      case BUTTON_POSITIVE -> KEY_POSITIVE;
+      case BUTTON_NEUTRAL -> KEY_NEUTRAL;
+      case BUTTON_NEGATIVE -> KEY_NEGATIVE;
+      default -> throw new IllegalStateException("unknown button " + which);
+    });
     if (clicked == null || clicked.command == R.id.NO_COMMAND) {
       onCancel(dialog);
     } else {

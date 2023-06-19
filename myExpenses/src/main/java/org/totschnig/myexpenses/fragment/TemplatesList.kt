@@ -54,6 +54,7 @@ import org.totschnig.myexpenses.model.Sort.Companion.preferredOrderByForTemplate
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
@@ -70,9 +71,10 @@ import java.io.Serializable
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-const val KEY_INSTANCES = "instances"
+const val KEY_INSTANCE = "instance"
 const val DIALOG_TAG_CONFIRM_CANCEL = "confirm_cancel"
 const val DIALOG_TAG_CONFIRM_RESET = "confirm_reset"
+const val DIALOG_TAG_CONFIRM_DELETE = "confirm_delete"
 
 class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Cursor?>,
     SimpleDialog.OnDialogResultListener {
@@ -385,7 +387,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         )
     }
 
-    private fun dispatchEditInstance(transactionId: Long?) {
+    fun dispatchEditInstance(transactionId: Long?) {
         startActivityForResult(
             Intent(requireActivity(), ExpenseEdit::class.java)
                 .putExtra(DatabaseConstants.KEY_ROWID, transactionId), EDIT_REQUEST
@@ -542,13 +544,19 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     }
 
     private fun confirmDeleteTransactionsForPlanInstances(
-        planInstances: Array<out PlanInstanceInfo>, dialogTag: String, title: Int
+        planInstance: PlanInstanceInfo, dialogTag: String, title: Int
+    ) {
+        confirmDeleteTransactionsWithBundle(dialogTag, title) {
+            putParcelable(KEY_INSTANCE, planInstance)
+        }
+    }
+
+    private fun confirmDeleteTransactionsWithBundle(
+        dialogTag: String, title: Int, extras: Bundle.() -> Unit
     ) {
         SimpleDialog.build()
             .title(title)
-            .extra(Bundle().apply {
-                putParcelableArray(KEY_INSTANCES, planInstances)
-            })
+            .extra(Bundle().apply { this.extras() })
             .msg(
                 concatResStrings(
                     requireContext(),
@@ -562,31 +570,34 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
             .show(this, dialogTag)
     }
 
-    private fun dispatchCancelInstance(vararg planInstances: PlanInstanceInfo) {
-        val countInstantiated =
-            planInstances.count { planInstanceInfo -> planInstanceInfo.transactionId?.takeIf { it != 0L } != null }
-        if (countInstantiated > 0) {
+
+    private fun dispatchCancelInstance(planInstance: PlanInstanceInfo) {
+        if (planInstance.transactionId.let { it != null && it != 0L }) {
             confirmDeleteTransactionsForPlanInstances(
-                planInstances,
+                planInstance,
                 DIALOG_TAG_CONFIRM_CANCEL,
                 R.string.menu_cancel_plan_instance
             )
         } else {
-            viewModel.cancel(planInstances)
+            viewModel.cancel(planInstance)
         }
     }
 
-    private fun dispatchResetInstance(vararg planInstances: PlanInstanceInfo) {
-        val countInstantiated =
-            planInstances.count { planInstanceInfo -> planInstanceInfo.transactionId?.takeIf { it != 0L } != null }
-        if (countInstantiated > 0) {
+    private fun dispatchResetInstance(planInstance: PlanInstanceInfo) {
+        if (planInstance.transactionId.let { it != null && it != 0L }) {
             confirmDeleteTransactionsForPlanInstances(
-                planInstances,
+                planInstance,
                 DIALOG_TAG_CONFIRM_RESET,
                 R.string.menu_reset_plan_instance
             )
         } else {
-            viewModel.reset(planInstances)
+            viewModel.reset(planInstance)
+        }
+    }
+
+    fun dispatchDeleteInstance(transactionId: Long) {
+        confirmDeleteTransactionsWithBundle(DIALOG_TAG_CONFIRM_DELETE, R.string.menu_delete) {
+            putLong(KEY_TRANSACTIONID, transactionId)
         }
     }
 
@@ -815,16 +826,14 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         const val PLANNER_FRAGMENT_TAG = "PLANNER_FRAGMENT"
     }
 
-    @Suppress("UNCHECKED_CAST")
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
         if (which == SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE) {
             when (dialogTag) {
-                DIALOG_TAG_CONFIRM_RESET -> viewModel.reset(extras.getParcelableArray(KEY_INSTANCES) as Array<PlanInstanceInfo>)
-                DIALOG_TAG_CONFIRM_CANCEL -> viewModel.cancel(
-                    extras.getParcelableArray(
-                        KEY_INSTANCES
-                    ) as Array<PlanInstanceInfo>
+                DIALOG_TAG_CONFIRM_DELETE -> viewModel.deleteTransactions(
+                    longArrayOf(extras.getLong(KEY_TRANSACTIONID))
                 )
+                DIALOG_TAG_CONFIRM_RESET -> viewModel.reset(extras.getParcelable(KEY_INSTANCE)!!)
+                DIALOG_TAG_CONFIRM_CANCEL -> viewModel.cancel(extras.getParcelable(KEY_INSTANCE)!!)
             }
         }
         return true

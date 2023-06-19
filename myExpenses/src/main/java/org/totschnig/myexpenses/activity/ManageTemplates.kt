@@ -77,12 +77,20 @@ class ManageTemplates : ProtectedFragmentActivity(), ConfirmationDialogListener,
         } else when (command) {
             R.id.DELETE_COMMAND_DO -> {
                 finishActionMode()
-                mListFragment.dispatchDeleteDo((tag as LongArray?)!!)
+                mListFragment.dispatchDeleteDo((tag as LongArray))
                 true
             }
 
             R.id.CANCEL_CALLBACK_COMMAND -> {
                 finishActionMode()
+                true
+            }
+            R.id.EDIT_PLAN_INSTANCE_COMMAND -> {
+                mListFragment.dispatchEditInstance(tag as Long)
+                true
+            }
+            R.id.DELETE_PLAN_INSTANCE_COMMAND -> {
+                mListFragment.dispatchDeleteInstance(tag as Long)
                 true
             }
             else -> false

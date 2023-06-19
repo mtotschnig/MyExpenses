@@ -500,7 +500,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                             onDeleteResult(it)
                         }
                 } else {
-                    viewModel.deleteTransactions(longArrayOf(info.id), false)
+                    viewModel.deleteTransactions(longArrayOf(info.id))
                 }
                 true
             }

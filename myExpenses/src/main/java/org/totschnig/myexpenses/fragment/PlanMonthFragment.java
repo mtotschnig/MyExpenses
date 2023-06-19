@@ -38,6 +38,7 @@ import com.roomorama.caldroid.CellView;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -216,13 +217,13 @@ public class PlanMonthFragment extends CaldroidFragment
       return;
     }
     switch (loader.getId()) {
-      case INSTANCES_CURSOR:
+      case INSTANCES_CURSOR -> {
         Calendar calendar = Calendar.getInstance();
         data.moveToFirst();
         clearSelectedDates();
         while (!data.isAfterLast()) {
           long timeInMillis = data.getLong(
-              data.getColumnIndexOrThrow(CalendarContract.Instances.BEGIN));
+                  data.getColumnIndexOrThrow(CalendarContract.Instances.BEGIN));
           calendar.setTimeInMillis(timeInMillis);
           DateTime dateTime = CalendarHelper.convertDateToDateTime(calendar.getTime());
           selectedDates.add(dateTime);
@@ -230,17 +231,18 @@ public class PlanMonthFragment extends CaldroidFragment
           data.moveToNext();
         }
         refreshView();
-        break;
-      case INSTANCE_STATUS_CURSOR:
+      }
+      case INSTANCE_STATUS_CURSOR -> {
         data.moveToFirst();
         instance2TransactionMap.clear();
         while (!data.isAfterLast()) {
           instance2TransactionMap.put(
-              data.getLong(data.getColumnIndexOrThrow(KEY_INSTANCEID)),
-              data.getLong(data.getColumnIndexOrThrow(KEY_TRANSACTIONID)));
+                  data.getLong(data.getColumnIndexOrThrow(KEY_INSTANCEID)),
+                  data.getLong(data.getColumnIndexOrThrow(KEY_TRANSACTIONID)));
           data.moveToNext();
         }
         refreshView();
+      }
     }
   }
 
@@ -281,41 +283,53 @@ public class PlanMonthFragment extends CaldroidFragment
         frameLayout = convertView;
       }
 
-      CellView cell = (CellView) frameLayout.findViewById(R.id.cell);
-      ImageView state = (ImageView) frameLayout.findViewById(R.id.state);
+      CellView cell = frameLayout.findViewById(R.id.cell);
+      ImageView state = frameLayout.findViewById(R.id.state);
 
       customizeTextView(position, cell);
 
       DateTime dateTime = this.datetimeList.get(position);
-
+      long calculateId = CalendarProviderProxy.calculateId(dateTime);
+      PlanInstanceState planInstanceState = getState(calculateId);
+      boolean brightColor = ColorUtils.isBrightColor(requireArguments().getInt(DatabaseConstants.KEY_COLOR));
+      int themeResId = brightColor ? R.style.LightBackground : R.style.DarkBackground;
+      Long transactionId = instance2TransactionMap.get(calculateId);
       if (selectedDates.contains(dateTime)) {
         state.setVisibility(View.VISIBLE);
-        PlanInstanceState planInstanceState = getState(CalendarProviderProxy.calculateId(dateTime));
-        boolean brightColor = ColorUtils.isBrightColor(requireArguments().getInt(DatabaseConstants.KEY_COLOR));
-        int themeResId = brightColor ? R.style.LightBackground : R.style.DarkBackground;
+
         switch (planInstanceState) {
-          case OPEN:
+          case OPEN -> {
             state.setImageBitmap(UiUtils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_open, themeResId));
             frameLayout.setContentDescription(getString(R.string.plan_instance_state_open));
-            break;
-          case APPLIED:
+          }
+          case APPLIED -> {
             state.setImageBitmap(UiUtils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_applied, themeResId));
             frameLayout.setContentDescription(getString(R.string.plan_instance_state_applied));
-            break;
-          case CANCELLED:
+          }
+          case CANCELLED -> {
             state.setImageBitmap(UiUtils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_cancelled, themeResId));
             frameLayout.setContentDescription(getString(R.string.plan_instance_state_cancelled));
-            break;
+          }
         }
 
         cell.setTextColor(ResourcesCompat.getColor(getResources(),
             brightColor ? com.caldroid.R.color.cell_text_color : com.caldroid.R.color.cell_text_color_dark, null));
         if (!readOnly) {
           final TemplatesList templatesList = (TemplatesList) requireParentFragment();
-          final long instanceId = getPlanInstanceForPosition(position);
           templatesList.configureOnClickPopup(frameLayout,
-              new PlanInstanceInfo(getTemplateId(), instanceId, getDateForPosition(position), instance2TransactionMap.get(instanceId), planInstanceState), null, null);
+              new PlanInstanceInfo(getTemplateId(), calculateId, getDateForPosition(position), transactionId, planInstanceState), null, null);
         }
+      } else if (planInstanceState == PlanInstanceState.APPLIED) {
+        state.setVisibility(View.VISIBLE);
+        state.setImageResource(R.drawable.ic_warning);
+        frameLayout.setOnClickListener(v -> {
+          MessageDialogFragment.newInstance(null,
+                  "A transaction is linked to the plan for this date, but no instance exists in the calendar",
+                  new MessageDialogFragment.Button(R.string.menu_edit, R.id.EDIT_PLAN_INSTANCE_COMMAND, transactionId),
+                  null,
+                  new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_PLAN_INSTANCE_COMMAND, transactionId)
+          ).show(requireActivity().getSupportFragmentManager(), "TRANSACTION_ERROR_INFO");
+        });
       } else {
         state.setVisibility(View.GONE);
         frameLayout.setOnClickListener(null);

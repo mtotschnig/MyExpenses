@@ -85,36 +85,32 @@ class TemplatesListViewModel(application: Application) :
             }.sumBy { if (it == true) 1 else 0 })
         }
 
-    fun reset(instances: Array<out PlanInstanceInfo>) {
+    fun reset(instance: PlanInstanceInfo) {
         viewModelScope.launch(coroutineContext()) {
-            instances.forEach { instance ->
-                instance.transactionId?.let {
-                    repository.deleteTransaction(it)
-                }
-                contentResolver.delete(
-                    TransactionProvider.PLAN_INSTANCE_SINGLE_URI(
-                        instance.templateId,
-                        instance.instanceId!!
-                    ), null, null
-                )
+            instance.transactionId?.let {
+                repository.deleteTransaction(it)
             }
+            contentResolver.delete(
+                TransactionProvider.PLAN_INSTANCE_SINGLE_URI(
+                    instance.templateId,
+                    instance.instanceId!!
+                ), null, null
+            )
         }
     }
 
-    fun cancel(instances: Array<out PlanInstanceInfo>) {
+    fun cancel(instance: PlanInstanceInfo) {
         viewModelScope.launch(coroutineContext()) {
-            instances.forEach { instance ->
-                instance.transactionId?.let {
-                    repository.deleteTransaction(it)
-                }
-                contentResolver.insert(
-                    TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-                    ContentValues(3).apply {
-                        putNull(KEY_TRANSACTIONID)
-                        put(KEY_TEMPLATEID, instance.templateId)
-                        put(KEY_INSTANCEID, instance.instanceId!!)
-                    })
+            instance.transactionId?.let {
+                repository.deleteTransaction(it)
             }
+            contentResolver.insert(
+                TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+                ContentValues(3).apply {
+                    putNull(KEY_TRANSACTIONID)
+                    put(KEY_TEMPLATEID, instance.templateId)
+                    put(KEY_INSTANCEID, instance.instanceId!!)
+                })
         }
     }
 }

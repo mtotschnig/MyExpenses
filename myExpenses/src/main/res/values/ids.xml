@@ -56,6 +56,7 @@
     <item name="CREATE_PLAN_INSTANCE_SAVE_COMMAND" type="id" />
     <item name="CANCEL_PLAN_INSTANCE_COMMAND" type="id" />
     <item name="RESET_PLAN_INSTANCE_COMMAND" type="id" />
+    <item name="DELETE_PLAN_INSTANCE_COMMAND" type="id" />
     <item name="DELETE_ACCOUNT_COMMAND_DO" type="id" />
     <item name="SELECT_COMMAND" type="id" />
     <item name="SHARE_COMMAND" type="id" />
