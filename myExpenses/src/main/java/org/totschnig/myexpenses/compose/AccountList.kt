@@ -274,6 +274,16 @@ fun AccountCard(
 
         val visibleState = remember { MutableTransitionState(!isCollapsed) }
         visibleState.targetState = !isCollapsed
+        val borderColor = MaterialTheme.colorScheme.onSurface
+        fun Modifier.drawSumLine() = drawBehind {
+            val strokeWidth = 2 * density
+            drawLine(
+                borderColor,
+                Offset(0f, 0f),
+                Offset(size.width, 0f),
+                strokeWidth
+            )
+        }
         AnimatedVisibility(visibleState) {
             Column(modifier = Modifier.padding(end = 16.dp)) {
 
@@ -297,20 +307,23 @@ fun AccountCard(
                         format.convAmount(account.sumTransfer, account.currencyUnit)
                     )
                 }
-                val borderColor = MaterialTheme.colorScheme.onSurface
+
+                account.total?.let {
+                    SumRow(
+                        R.string.menu_aggregates,
+                        format.convAmount(it, account.currencyUnit),
+                        Modifier.drawSumLine()
+                    )
+                }
+
                 SumRow(
                     R.string.current_balance,
                     format.convAmount(account.currentBalance, account.currencyUnit),
-                    Modifier.drawBehind {
-                        val strokeWidth = 2 * density
-                        drawLine(
-                            borderColor,
-                            Offset(0f, 0f),
-                            Offset(size.width, 0f),
-                            strokeWidth
-                        )
+                    Modifier.conditional(account.total == null) {
+                        drawSumLine()
                     }
                 )
+
                 account.criterion?.let {
                     SumRow(
                         if (it > 0) R.string.saving_goal else R.string.credit_limit,
@@ -318,12 +331,6 @@ fun AccountCard(
                     )
                 }
 
-                account.total?.let {
-                    SumRow(
-                        R.string.menu_aggregates,
-                        format.convAmount(it, account.currencyUnit)
-                    )
-                }
                 if (!(account.isAggregate || account.type == AccountType.CASH)) {
                     SumRow(
                         R.string.total_cleared,
