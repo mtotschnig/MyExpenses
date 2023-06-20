@@ -339,7 +339,7 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
                                 templateId,
                                 it.second,
                                 dateTime2TimeStampMap[it.first],
-                                null,
+                                transactionId,
                                 PlanInstanceState.OPEN
                             )
                         }

@@ -189,7 +189,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
         }
 
 
-    fun deleteTransactions(ids: LongArray, markAsVoid: Boolean = false) {
+    open fun deleteTransactions(ids: LongArray, markAsVoid: Boolean = false) {
         viewModelScope.launch(context = coroutineContext()) {
             var success = 0
             var failure = 0

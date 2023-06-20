@@ -1391,6 +1391,10 @@ public class TransactionProvider extends BaseTransactionProvider {
             KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         break;
       }
+      case PLANINSTANCE_TRANSACTION_STATUS: {
+        count = MoreDbUtilsKt.update(db, TABLE_PLAN_INSTANCE_STATUS, values, where, whereArgs);
+        break;
+      }
       default:
         throw unknownUri(uri);
     }

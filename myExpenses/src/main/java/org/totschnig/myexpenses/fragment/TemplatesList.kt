@@ -902,4 +902,8 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
             }
         }
     }
+
+    fun dispatchRelinkInstance(planInstanceInfo: PlanInstanceInfo, adjustDate: Boolean) {
+        viewModel.relink(planInstanceInfo, adjustDate)
+    }
 }

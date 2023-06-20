@@ -18,15 +18,11 @@ import java.time.LocalDate
 
 class OrphanedTransactionDialog : ComposeBaseDialogFragment() {
 
-    val transactionId: Long
-        get() = requireArguments().getLong(KEY_TRANSACTIONID)
-
-    val relinkCandidate: PlanInstanceInfo?
-        get() = requireArguments().getParcelable(KEY_RELINK_TARGET)
-
     @OptIn(ExperimentalLayoutApi::class)
     @Composable
     override fun BuildContent() {
+        val transactionId = requireArguments().getLong(KEY_TRANSACTIONID)
+        val relinkCandidate = requireArguments().getParcelable<PlanInstanceInfo?>(KEY_RELINK_TARGET)
         val host = requireActivity() as ManageTemplates
         Column(
             modifier = Modifier.padding(
@@ -35,7 +31,10 @@ class OrphanedTransactionDialog : ComposeBaseDialogFragment() {
                 end = dialogPadding
             )
         ) {
-            Text("A transaction is linked to the plan for this date, but no instance exists in the calendar")
+            Text("A transaction is linked to the plan for this date, but no event instance exists at this date")
+            if (relinkCandidate != null) {
+                Text("The transaction can be relinked with the event instance on ${epoch2LocalDate(relinkCandidate.date!! / 1000)}. Optionally the date stored with the transaction can also be aligned with the instance date.")
+            }
             FlowRow {
                 TextButton(onClick = {
                     host.dispatchEditInstance(transactionId)
@@ -50,8 +49,17 @@ class OrphanedTransactionDialog : ComposeBaseDialogFragment() {
                     Text(getString(R.string.menu_delete))
                 }
                 relinkCandidate?.let {
-                    TextButton(onClick = {}) {
-                        Text("Relink ${epoch2LocalDate(it.date!! / 1000)}")
+                    TextButton(onClick = {
+                        host.dispatchRelinkInstance(relinkCandidate, false)
+                        dismiss()
+                    }) {
+                        Text("Relink, but keep date")
+                    }
+                    TextButton(onClick = {
+                        host.dispatchRelinkInstance(relinkCandidate, true)
+                        dismiss()
+                    }) {
+                        Text("Relink and update date")
                     }
                 }
             }
