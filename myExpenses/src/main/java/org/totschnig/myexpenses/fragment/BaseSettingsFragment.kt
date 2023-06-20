@@ -155,6 +155,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 onScreen(PrefKey.PERFORM_SHARE) -> {
                     preferenceActivity.startActionView("https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Data#what-are-the-different-share-options")
                 }
+
                 onScreen(PrefKey.UI_WEB) -> {
                     startActivity(Intent(requireContext(), Help::class.java).apply {
                         putExtra(HelpDialogFragment.KEY_CONTEXT, "WebUI")
@@ -388,25 +389,33 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             getKey(PrefKey.CRASHREPORT_USEREMAIL) -> {
                 crashHandler.setUserEmail(sharedPreferences.getString(key, null))
             }
+
             getKey(PrefKey.CRASHREPORT_ENABLED) -> {
                 crashHandler.setEnabled(sharedPreferences.getBoolean(key, false))
                 preferenceActivity.showSnackBar(R.string.app_restart_required)
             }
+
             getKey(PrefKey.EXCHANGE_RATE_PROVIDER) -> {
-                configureExchangeRatesPreference(ExchangeRateSource.preferredSource(
-                    sharedPreferences.getString(key, null)
-                ))
+                configureExchangeRatesPreference(
+                    ExchangeRateSource.preferredSource(
+                        sharedPreferences.getString(key, null)
+                    )
+                )
             }
+
             getKey(PrefKey.CUSTOM_DECIMAL_FORMAT) -> {
                 currencyFormatter.invalidateAll(requireContext().contentResolver)
             }
+
             getKey(PrefKey.GROUP_MONTH_STARTS), getKey(PrefKey.GROUP_WEEK_STARTS) -> {
                 preferenceActivity.initLocaleContext()
             }
+
             getKey(PrefKey.UI_FONTSIZE) -> {
                 updateAllWidgets()
                 preferenceActivity.recreate()
             }
+
             getKey(PrefKey.PROTECTION_LEGACY), getKey(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN) -> {
                 if (sharedPreferences.getBoolean(key, false)) {
                     preferenceActivity.showSnackBar(R.string.pref_protection_screenshot_information)
@@ -417,18 +426,22 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 setProtectionDependentsState()
                 updateAllWidgets()
             }
+
             getKey(PrefKey.UI_THEME_KEY) -> {
                 setNightMode(prefHandler, requireContext())
                 updateAllWidgets()
             }
+
             getKey(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET) -> {
                 //Log.d("DEBUG","shared preference changed: Account Widget");
                 updateWidgetsForClass(AccountWidget::class.java)
             }
+
             getKey(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET) -> {
                 //Log.d("DEBUG","shared preference changed: Template Widget");
                 updateWidgetsForClass(TemplateWidget::class.java)
             }
+
             getKey(PrefKey.AUTO_BACKUP) -> {
                 if ((sharedPreferences.getBoolean(
                         key,
@@ -442,32 +455,42 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
                 AutoBackupWorker.enqueueOrCancel(preferenceActivity, prefHandler)
             }
+
             getKey(PrefKey.AUTO_BACKUP_TIME) -> {
                 AutoBackupWorker.enqueueOrCancel(preferenceActivity, prefHandler)
             }
+
             getKey(PrefKey.SYNC_FREQUCENCY) -> {
                 for (account in GenericAccountService.getAccounts(preferenceActivity)) {
                     GenericAccountService.addPeriodicSync(account, prefHandler)
                 }
             }
+
             getKey(PrefKey.TRACKING) -> {
                 tracker.setEnabled(sharedPreferences.getBoolean(key, false))
             }
+
             getKey(PrefKey.PLANNER_EXECUTION_TIME) -> {
                 preferenceActivity.enqueuePlanner(false)
             }
+
             getKey(PrefKey.TESSERACT_LANGUAGE) -> {
                 preferenceActivity.checkTessDataDownload()
             }
+
             getKey(PrefKey.OCR_ENGINE) -> {
                 if (!featureManager.isFeatureInstalled(Feature.OCR, preferenceActivity)) {
                     featureManager.requestFeature(Feature.OCR, preferenceActivity)
                 }
                 configureOcrEnginePrefs()
             }
+
             getKey(PrefKey.OPTIMIZE_PICTURE_FORMAT) -> {
                 requirePreference<Preference>(PrefKey.OPTIMIZE_PICTURE_QUALITY).isEnabled =
-                    prefHandler.enumValueOrDefault(key, Bitmap.CompressFormat.WEBP) != Bitmap.CompressFormat.PNG
+                    prefHandler.enumValueOrDefault(
+                        key,
+                        Bitmap.CompressFormat.WEBP
+                    ) != Bitmap.CompressFormat.PNG
             }
         }
     }
@@ -493,6 +516,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
                 return false
             }
+
             matches(pref, PrefKey.SHARE_TARGET) -> {
                 val target = value as String
                 val uri: URI?
@@ -527,6 +551,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     }
                 }
             }
+
             matches(pref, PrefKey.OCR_DATE_FORMATS) -> {
                 if (!isEmpty(value as String)) {
                     try {
@@ -539,6 +564,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     }
                 }
             }
+
             matches(pref, PrefKey.OCR_TIME_FORMATS) -> {
                 if (!isEmpty(value as String)) {
                     try {
@@ -551,6 +577,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     }
                 }
             }
+
             matches(pref, PrefKey.PROTECTION_DEVICE_LOCK_SCREEN) -> {
                 if (value as Boolean) {
                     if (!(requireContext().getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager).isKeyguardSecure) {
@@ -563,6 +590,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
                 return true
             }
+
             matches(pref, PrefKey.UI_WEB) -> {
                 return if (value as Boolean) {
                     if (!isConnectedWifi(requireContext())) {
@@ -753,6 +781,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     )
                     true
                 }
+
                 matches(preference, PrefKey.SHORTCUT_CREATE_TRANSFER) -> {
                     addShortcut(
                         R.string.transfer, Transactions.TYPE_TRANSFER,
@@ -760,6 +789,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     )
                     true
                 }
+
                 matches(preference, PrefKey.SHORTCUT_CREATE_SPLIT) -> {
                     addShortcut(
                         R.string.split_transaction, Transactions.TYPE_SPLIT,
@@ -767,6 +797,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     )
                     true
                 }
+
                 else -> false
             }
         }
@@ -873,28 +904,34 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 requirePreference<Preference>(PrefKey.ENCRYPT_DATABASE_INFO).isVisible =
                     prefHandler.encryptDatabase
             }
+
             getKey(PrefKey.UI_HOME_SCREEN_SHORTCUTS) -> {
                 with(requirePreference<Preference>(PrefKey.SHORTCUT_CREATE_SPLIT)) {
                     if (licenceHandler.isContribEnabled) {
                         isEnabled = true
                     } else {
-                        summary = ContribFeature.SPLIT_TRANSACTION.buildRequiresString(requireActivity())
+                        summary =
+                            ContribFeature.SPLIT_TRANSACTION.buildRequiresString(requireActivity())
                     }
                 }
                 with(requirePreference<Preference>(PrefKey.SHORTCUT_CREATE_TRANSFER)) {
                     lifecycleScope.launch {
                         withContext(Dispatchers.IO) {
-                            if (viewModel.isTransferEnabled) {
-                                isEnabled = true
-                            } else {
-                                withContext(Dispatchers.Main) {
-                                    summary = context.getString(R.string.dialog_command_disabled_insert_transfer)
+                            val transferEnabled = viewModel.isTransferEnabled
+                            withContext(Dispatchers.Main) {
+                                if (transferEnabled) {
+                                    isEnabled = true
+                                } else {
+
+                                    summary =
+                                        context.getString(R.string.dialog_command_disabled_insert_transfer)
                                 }
                             }
                         }
                     }
                 }
             }
+
             getKey(PrefKey.PERFORM_PROTECTION_SCREEN) -> {
                 setProtectionDependentsState()
                 val preferenceLegacy = requirePreference<Preference>(PrefKey.PROTECTION_LEGACY)
@@ -911,6 +948,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 preferenceCategory.addPreference(preferenceSecurityQuestion)
                 preferenceDeviceLock.onPreferenceChangeListener = this
             }
+
             getKey(PrefKey.PERFORM_SHARE) -> {
                 with(requirePreference<Preference>(PrefKey.SHARE_TARGET)) {
                     summary = getString(R.string.pref_share_target_summary) + " " +
@@ -920,6 +958,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     onPreferenceChangeListener = this@BaseSettingsFragment
                 }
             }
+
             getKey(PrefKey.GROUPING_START_SCREEN) -> {
                 var startPref = requirePreference<ListPreference>(PrefKey.GROUP_WEEK_STARTS)
                 val locale = preferenceActivity.getLocale()
@@ -950,12 +989,14 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 startPref.entries = daysEntries
                 startPref.entryValues = daysValues
             }
+
             getKey(PrefKey.CRASHREPORT_SCREEN) -> {
                 requirePreference<Preference>(PrefKey.ACRA_INFO).summary = Utils.getTextWithAppName(
                     context,
                     R.string.crash_reports_user_info
                 )
             }
+
             getKey(PrefKey.OCR) -> {
                 val locale = Locale.getDefault()
                 if ("" == prefHandler.getString(PrefKey.OCR_TOTAL_INDICATORS, "")) {
@@ -1000,6 +1041,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     preferenceActivity.ocrViewModel.shouldShowEngineSelection()
                 configureOcrEnginePrefs()
             }
+
             getKey(PrefKey.SYNC) -> {
                 requirePreference<Preference>(PrefKey.MANAGE_SYNC_BACKENDS).summary = (getString(
                     R.string.pref_manage_sync_backends_summary,
@@ -1011,9 +1053,11 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 requirePreference<Preference>(PrefKey.SYNC_WIFI_ONLY).onPreferenceChangeListener =
                     storeInDatabaseChangeListener
             }
+
             getKey(PrefKey.FEATURE_UNINSTALL) -> {
                 configureUninstallPrefs()
             }
+
             getKey(PrefKey.EXCHANGE_RATES) -> {
                 with(requirePreference<ListPreference>(PrefKey.EXCHANGE_RATE_PROVIDER)) {
                     entries = ExchangeRateSource.values.map { it.host }.toTypedArray()
@@ -1025,6 +1069,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
                 configureExchangeRatesPreference(ExchangeRateSource.preferredSource(prefHandler))
             }
+
             getKey(PrefKey.DEBUG_SCREEN) -> {
                 requirePreference<Preference>(PrefKey.CRASHLYTICS_USER_ID).let {
                     if (DistributionHelper.isGithub ||
@@ -1045,9 +1090,11 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     }
                 }
             }
+
             getKey(PrefKey.CSV_EXPORT) -> {
                 preferenceScreen.title = getString(R.string.export_to_format, "CSV")
             }
+
             getKey(PrefKey.UI_TRANSACTION_LIST) -> {
                 requirePreference<TwoStatePreference>(PrefKey.UI_ITEM_RENDERER_LEGACY).let {
                     it.title = requireContext().compactItemRendererTitle()
@@ -1059,6 +1106,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     preferenceDataStore.handleToggle(requirePreference(PrefKey.UI_ITEM_RENDERER_CATEGORY_ICON))
                 }
             }
+
             getKey(PrefKey.AUTO_BACKUP) -> {
                 requirePreference<Preference>(PrefKey.AUTO_BACKUP_UNENCRYPTED_INFO).isVisible =
                     prefHandler.encryptDatabase
@@ -1091,19 +1139,26 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         )!!
     )
 
-    private fun addShortcut(nameId: Int, @TransactionType operationType: Int, @DrawableRes iconIdLegacy: Int) {
+    private fun addShortcut(
+        nameId: Int,
+        @TransactionType operationType: Int,
+        @DrawableRes iconIdLegacy: Int
+    ) {
         when {
             Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1 -> {
                 addShortcutLegacy(nameId, operationType, getBitmapForShortcut(iconIdLegacy))
             }
+
             Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1 -> {
                 requireContext().getSystemService(ShortcutManager::class.java).requestPinShortcut(
-                    ShortcutInfo.Builder(requireContext(), when(operationType) {
-                        Transactions.TYPE_SPLIT -> ShortcutHelper.ID_SPLIT
-                        Transactions.TYPE_TRANSACTION -> ShortcutHelper.ID_TRANSACTION
-                        Transactions.TYPE_TRANSFER -> ShortcutHelper.ID_TRANSFER
-                        else -> throw IllegalStateException()
-                    }).build(),
+                    ShortcutInfo.Builder(
+                        requireContext(), when (operationType) {
+                            Transactions.TYPE_SPLIT -> ShortcutHelper.ID_SPLIT
+                            Transactions.TYPE_TRANSACTION -> ShortcutHelper.ID_TRANSACTION
+                            Transactions.TYPE_TRANSFER -> ShortcutHelper.ID_TRANSFER
+                            else -> throw IllegalStateException()
+                        }
+                    ).build(),
                     null
                 )
             }
@@ -1121,7 +1176,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
             putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(nameId))
             putExtra(Intent.EXTRA_SHORTCUT_ICON, bitmap)
-            action =  "com.android.launcher.action.INSTALL_SHORTCUT"
+            action = "com.android.launcher.action.INSTALL_SHORTCUT"
         }
 
         if (Utils.isIntentReceiverAvailable(requireActivity(), intent)) {
@@ -1236,10 +1291,12 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
                 true
             }
+
             matches(preference, PrefKey.SEND_FEEDBACK) -> {
                 preferenceActivity.dispatchCommand(R.id.FEEDBACK_COMMAND, null)
                 true
             }
+
             matches(preference, PrefKey.DEBUG_LOG_SHARE) -> {
                 viewModel.logData().observe(this) {
                     SimpleListDialog.build().choiceMode(CustomListDialog.MULTI_CHOICE)
@@ -1251,19 +1308,23 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
                 true
             }
+
             matches(preference, PrefKey.RATE) -> {
                 prefHandler.putLong(PrefKey.NEXT_REMINDER_RATE, -1)
                 preferenceActivity.dispatchCommand(R.id.RATE_COMMAND, null)
                 true
             }
+
             matches(preference, PrefKey.MORE_INFO_DIALOG) -> {
                 preferenceActivity.showDialog(R.id.MORE_INFO_DIALOG)
                 true
             }
+
             matches(preference, PrefKey.RESTORE) -> {
                 startActivityForResult(preference.intent!!, RESTORE_REQUEST)
                 true
             }
+
             matches(preference, PrefKey.APP_DIR) -> {
                 // TODO migrate to ActivityResultContracts.OpenDocumentTree
                 //noinspection InlinedApi
@@ -1284,6 +1345,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
                 true
             }
+
             handleContrib(PrefKey.IMPORT_CSV, ContribFeature.CSV_IMPORT, preference) -> true
             matches(preference, PrefKey.NEW_LICENCE) -> {
                 if (licenceHandler.hasValidKey()) {
@@ -1316,10 +1378,12 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
                 true
             }
+
             matches(preference, PrefKey.PERSONALIZED_AD_CONSENT) -> {
                 preferenceActivity.checkGdprConsent(true)
                 true
             }
+
             matches(preference, PrefKey.DEBUG_REPAIR_987) -> {
                 viewModel.prettyPrintCorruptedData(currencyFormatter).observe(this) { message ->
                     MessageDialogFragment.newInstance(
@@ -1333,12 +1397,14 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
                 true
             }
+
             matches(preference, PrefKey.EXCHANGE_RATES_CLEAR_CACHE) -> {
                 viewModel.clearExchangeRateCache().observe(this) {
                     preferenceActivity.showSnackBar("${getString(R.string.clear_cache)} ($it)")
                 }
                 true
             }
+
             else -> false
         }
     }
@@ -1368,6 +1434,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     preferenceActivity.validateLicence()
                 }
             }
+
             DIALOG_MANAGE_LICENCE -> {
                 when (which) {
                     OnDialogResultListener.BUTTON_POSITIVE -> preferenceActivity.validateLicence()
@@ -1394,6 +1461,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     }
                 }
             }
+
             DIALOG_SHARE_LOGS -> {
                 if (which == OnDialogResultListener.BUTTON_POSITIVE) {
                     val logDir = File(requireContext().getExternalFilesDir(null), "logs")
