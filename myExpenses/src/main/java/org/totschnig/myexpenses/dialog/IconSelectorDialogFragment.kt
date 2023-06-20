@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.AbstractComposeView
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.window.DialogWindowProvider
 import androidx.fragment.app.DialogFragment
+import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.IconSelector
 
 interface OnIconSelectedListener {
@@ -25,10 +26,12 @@ class IconSelectorDialogFragment : DialogFragment() {
             it.consumeWindowInsets = false
             it.layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             it.setContent {
-                IconSelector(onIconSelected = {
-                    (activity as? OnIconSelectedListener)?.onIconSelected(it.key)
-                    dismiss()
-                })
+                AppTheme {
+                    IconSelector(onIconSelected = {
+                        (activity as? OnIconSelectedListener)?.onIconSelected(it.key)
+                        dismiss()
+                    })
+                }
             }
         }
     }

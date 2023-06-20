@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.compose
 
 import android.content.Context
+import android.content.res.Configuration.UI_MODE_NIGHT_NO
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +24,7 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.themeadapter.material3.Mdc3Theme
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.viewmodel.data.FontAwesomeIcons
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
@@ -104,19 +107,24 @@ fun IconSelector(
     }
 }
 
-@Preview
+@Preview(uiMode = UI_MODE_NIGHT_NO)
+@Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun Preview() {
-    IconSelector(
-        labelForCategory = { _, _ ->
-            "Accessibility"
-        },
-        iconsForCategory = { _, _ ->
-            FontAwesomeIcons
-        },
-        iconsForSearch = { _, _ ->
-            emptyMap()
-        },
-        onIconSelected = {}
-    )
+    Mdc3Theme {
+        Surface {
+            IconSelector(
+                labelForCategory = { _, _ ->
+                    "Accessibility"
+                },
+                iconsForCategory = { _, _ ->
+                    FontAwesomeIcons
+                },
+                iconsForSearch = { _, _ ->
+                    emptyMap()
+                },
+                onIconSelected = {}
+            )
+        }
+    }
 }
