@@ -85,16 +85,16 @@ class ManageTemplates : ProtectedFragmentActivity(), ConfirmationDialogListener,
                 finishActionMode()
                 true
             }
-            R.id.EDIT_PLAN_INSTANCE_COMMAND -> {
-                mListFragment.dispatchEditInstance(tag as Long)
-                true
-            }
-            R.id.DELETE_PLAN_INSTANCE_COMMAND -> {
-                mListFragment.dispatchDeleteInstance(tag as Long)
-                true
-            }
             else -> false
         }
+
+    fun dispatchEditInstance(transactionId: Long) {
+        mListFragment.dispatchEditInstance(transactionId)
+    }
+
+    fun dispatchDeleteInstance(transactionId: Long) {
+        mListFragment.dispatchDeleteInstance(transactionId)
+    }
 
     override fun doHome() {
         if (isTaskRoot) {
