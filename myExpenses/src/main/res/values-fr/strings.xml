@@ -1050,4 +1050,6 @@
     <string name="orphaned_transaction_info">Une opération est liée à l\'échéancier pour cette date, mais aucune instance n\'existe à cette date.</string>
     <string name="orphaned_transaction_relink">L\'opération peut être reliée à l\'événement au %s.</string>
     <string name="orphaned_transaction_align_date">La date stockée avec l\'opération peut également être alignée sur la date de l\'instance.</string>
+    <string name="button_relink_keep_date">Relier, mais conserver la date</string>
+    <string name="button_relink_update_date">Relier et mettre à jour la date</string>
 </resources>
