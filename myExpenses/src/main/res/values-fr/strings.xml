@@ -1047,4 +1047,7 @@
     <string name="content_description_remove_icon">Supprimer l\'icône</string>
     <string name="whats_new_359">Les icônes des modes de paiement peuvent être personnalisées.</string>
     <string name="search_account">Recherche de compte</string>
+    <string name="orphaned_transaction_info">Une opération est liée à l\'échéancier pour cette date, mais aucune instance n\'existe à cette date.</string>
+    <string name="orphaned_transaction_relink">L\'opération peut être reliée à l\'événement au %s.</string>
+    <string name="orphaned_transaction_align_date">La date stockée avec l\'opération peut également être alignée sur la date de l\'instance.</string>
 </resources>
