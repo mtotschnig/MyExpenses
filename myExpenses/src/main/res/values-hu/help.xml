@@ -1,18 +1,19 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="help_menu_commands">Menü parancsok</string>
-  <string name="help_MyExpenses_title">Tranzakciós lista</string>
-  <string name="help_ManageCategories_select_mapping_info">A kategóriák kezelésén kívül, a Beállítások képernyőn (hozzáadás, szerkesztés, törlés) - ezen a képernyőn lehet hozzárendelni az adott tranzakciót a kiválasztott kategóriához. Az összerendeléshez csak rá kell koppintani a kiválasztott kategóriára.</string>
-  <string name="help_ManageCategories_manage_info">Ezen a képernyőn lehet létrehozni, szerkeszteni vagy törölni kategóriákat. Alapértelmezetten a legsűrűbben használt kategória áll legelöl, másodlagos rendezési szempont az ábécé-sorrend. Így a legtöbbet használt kategória lesz a leggyorsabban elérhető.</string>
-  <string name="menu_ManageCategories_distribution_grouping_help_text">A csoportosítás típusának beállítása és a megoszlás megjelenítése napi, heti, havi, vagy éves bontásban.</string>
-  <string name="menu_back_help_text">Az előző csoportosításhoz lépés.</string>
-  <string name="menu_forward_help_text">A következő csoportosításhoz lépés.</string>
-  <string name="help_ExpenseEdit_transaction_title">A tranzakciók űrlapja</string>
-  <string name="help_ExpenseEdit_transfer_title">Átutalások űrlapja</string>
-  <string name="help_ExpenseEdit_split_title">Megosztások űrlapja</string>
-  <string name="help_ExpenseEdit_splitPartCategory_title">A megosztások kategóriához rendelésének űrlapja</string>
-  <string name="help_ExpenseEdit_splitPartTransfer_title">Megosztások átutalásának űrlapja</string>
-  <string name="menu_save_help_text">Adatok mentése és az űrlap bezárása.</string>
-  <string name="help_AccountEdit_title">Számlák űrlapja</string>
-  <string name="help_MethodEdit_title">Fizetési módok űrlapja</string>
+    <string name="help_menu_commands">Menü parancsok</string>
+    <string name="help_MyExpenses_title">Tranzakciós lista</string>
+    <string name="help_ManageCategories_select_mapping_info">A kategóriák kezelésén kívül, a Beállítások képernyőn (hozzáadás, szerkesztés, törlés) - ezen a képernyőn lehet hozzárendelni az adott tranzakciót a kiválasztott kategóriához. Az összerendeléshez csak rá kell koppintani a kiválasztott kategóriára.</string>
+    <string name="help_ManageCategories_manage_info">Ezen a képernyőn lehet létrehozni, szerkeszteni vagy törölni kategóriákat. Alapértelmezetten a legsűrűbben használt kategória áll legelöl, másodlagos rendezési szempont az ábécé-sorrend. Így a legtöbbet használt kategória lesz a leggyorsabban elérhető.</string>
+    <string name="menu_ManageCategories_distribution_grouping_help_text">A csoportosítás típusának beállítása és a megoszlás megjelenítése napi, heti, havi, vagy éves bontásban.</string>
+    <string name="menu_back_help_text">Az előző csoportosításhoz lépés.</string>
+    <string name="menu_forward_help_text">A következő csoportosításhoz lépés.</string>
+    <string name="help_ExpenseEdit_transaction_title">A tranzakciók űrlapja</string>
+    <string name="help_ExpenseEdit_transfer_title">Átutalások űrlapja</string>
+    <string name="help_ExpenseEdit_split_title">Megosztások űrlapja</string>
+    <string name="help_ExpenseEdit_splitPartCategory_title">A megosztások kategóriához rendelésének űrlapja</string>
+    <string name="help_ExpenseEdit_splitPartTransfer_title">Megosztások átutalásának űrlapja</string>
+    <string name="menu_save_help_text">Adatok mentése és az űrlap bezárása.</string>
+    <string name="help_AccountEdit_title">Számlák űrlapja</string>
+    <string name="help_MethodEdit_title">Fizetési módok űrlapja</string>
+    <string name="help_ManageTemplates_plans_title">Terv naptár nézet</string>
 </resources>
