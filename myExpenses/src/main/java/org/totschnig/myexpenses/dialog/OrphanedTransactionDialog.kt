@@ -48,7 +48,7 @@ class OrphanedTransactionDialog : ComposeBaseDialogFragment() {
                     host.dispatchEditInstance(transactionId)
                     dismiss()
                 }) {
-                    Text(getString(R.string.menu_edit))
+                    Text(getString(R.string.menu_edit_plan_instance))
                 }
                 TextButton(onClick = {
                     host.dispatchDeleteInstance(transactionId)
