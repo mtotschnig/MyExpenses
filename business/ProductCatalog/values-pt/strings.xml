@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="splittemplate_title">Modelo de divisão</string>
+    <string name="categorytree_title">Árvore de categorias</string>
+    <string name="splittemplate_description">Quantidade ilimitada de modelos e planos para transações divididas</string>
+    <string name="history_title">Diagrama histórico</string>
+    <string name="history_description">Entenda como a sua situação financeira evolui ao longo do tempo</string>
+    <string name="budget_title">Orçamento</string>
+    <string name="budget_description">Defina quanto pretende gastar em orçamentos anuais, mensais ou semanais</string>
+    <string name="ocr_title">Digitalizar recibo</string>
+    <string name="ocr_description">Extraia automaticamente a quantia, a data e o beneficiário</string>
+    <string name="webui_title">Interface web do utilizador</string>
+    <string name="webui_description">Use o navegador do seu desktop para a entrada de dados</string>
+    <string name="categorytree_description">Hierarquia de categorias arbitrariamente profunda</string>
+    <string name="accountsunlimited_title">Quantidade ilimitadq de contas</string>
+    <string name="adfree_title">Sem anúncios</string>
+    <string name="accountsunlimited_description">Desbloquear a capacidade de criar mais que cinco contas.</string>
+    <string name="adfree_description">Sem anúncios.</string>
+    <string name="csvimport_title">Importação CSV</string>
+    <string name="csvimport_description">Importação de CSV sofisticada e personalizável (aplicações de planilha)</string>
+    <string name="distribution_title">Gráfico de pizza</string>
+    <string name="distribution_description">Visualize a distribuição estatística de transações por categoria em diferentes períodos (anos, meses, semanas, dias)</string>
+    <string name="plansunlimited_title">Quantidade ilimitada de planos</string>
+    <string name="plansunlimited_description">Desbloqueie a capacidade de criar mais que três planos para transações recorrentes.</string>
+    <string name="print_title">Imprimir</string>
+    <string name="print_description">Imprima a lista de transações num ficheiro PDF</string>
+    <string name="splittransaction_title">Transação dividida</string>
+    <string name="splittransaction_description">Uma transação única pode ser dividida em várias partes (categorias e transferências).</string>
+    <string name="synchronization_title">Sincronização na nuvem</string>
+    <string name="synchronization_description">Os dados podem ser sincronizados entre vários aparelhos.</string>
+    <string name="professional_benefit_1">Desbloqueia todos os recursos premium</string>
+    <string name="professional_benefit_2">Suporte por e-mail</string>
+    <string name="professional_benefit_3">Direito de voto no roteiro de desenvolvimento</string>
+</resources>

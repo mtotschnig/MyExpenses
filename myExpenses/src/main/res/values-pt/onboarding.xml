@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="testData_account3Description">Banco da América</string>
+    <string name="testData_transaction4Payee">Café do Brasil</string>
+    <string name="testData_account1Label">Minha carteira</string>
+    <string name="testData_account1Description">Despesas diárias</string>
+    <string name="testData_account2Label">final de semana em Paris</string>
+    <string name="testData_account3Label">Conta em banco</string>
+    <string name="testData_transaction2Comment">Frutas &amp; Vegetais</string>
+    <string name="testData_templatePayee">Fulano de tal</string>
+    <string name="testData_tag_project">Projeto sem título</string>
+</resources>

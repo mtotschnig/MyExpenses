@@ -130,7 +130,7 @@
     <string name="grouping_year">שנה</string>
     <string name="help_button_rate">דרג או כתוב סקירה</string>
     <string name="help_heading_credits">נקודות זכות</string>
-    <string name="help_heading_license">רשיון</string>
+    <string name="help_heading_license">רישיון</string>
     <string name="help_heading_whats_new">מה חדש</string>
     <string name="import_select_transactions">עסקאות</string>
     <string name="income">הכנסה</string>
@@ -518,7 +518,7 @@
     <string name="pref_auto_backup_time_title">זמן גיבוי אוטומטי</string>
     <string name="calendar_permission_required"><i>{app_name}</i> צרכה רשות לגשת ליומן שלך, על מנת ליצור תוכניות עבור עסקאות עתידיות חוזרות.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">זכה בגישה</string>
-    <string name="switch_on_text">מופעל</string>
+    <string name="switch_on_text">פעיל</string>
     <string name="switch_off_text">מופסק</string>
     <string name="menu_move">העבר</string>
     <string name="dialog_title_select_target">בחר מטרה</string>
@@ -897,9 +897,9 @@
     <string name="scan_result_no_date">לא נמצא תאריך</string>
     <string name="scan_result_no_payee">לא נמצא מקבל תשלום</string>
     <string name="button_download">הורד</string>
-    <string name="pref_feature_uninstall_title">בקש הסרה של תכונות ושפות</string>
+    <string name="pref_feature_uninstall_title">בקשת הסרה של יכולות ושפות</string>
     <string name="pref_feature_uninstall_summary">חנות Play מנסה בסופו של דבר להסיר את המודולים האלה ברקע.</string>
-    <string name="pref_feature_uninstall_languages_title">שפה</string>
+    <string name="pref_feature_uninstall_languages_title">שפות</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">אנא בחר חבילת רישיון.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
@@ -1061,4 +1061,5 @@
     <string name="whats_new_358">וידג׳ט עוקב אחר עיצוב המערכת (בהיר/כהה).</string>
     <string name="content_description_remove_icon">הסרת סמל</string>
     <string name="whats_new_359">אפשר לתאם סמלים לשיטות תשלום.</string>
+    <string name="search_account">חיפוש חשבון</string>
 </resources>

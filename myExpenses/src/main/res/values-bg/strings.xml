@@ -133,7 +133,7 @@
     <string name="import_select_transactions">Транзакции</string>
     <string name="income">Приход</string>
     <string name="invalid_number_format">Не е рапознат десетичния разделител. Моля, използвайте %1$s</string>
-    <string name="label">Име</string>
+    <string name="label">Етикет</string>
     <string name="licence_validation_failure">Не може да се валидира лицензен ключ.</string>
     <string name="licence_validation_success">Успешно валидиран ключ: </string>
     <string name="licence_validation_premium">Допълнителните функции са отключени.</string>
@@ -281,7 +281,7 @@
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
     <string name="pref_enter_licence_summary">Ако сте получили ключ, получавате достъп до допълнителните функции.</string>
     <string name="pref_enter_licence_title">Въведете ключ</string>
-    <string name="pref_export_format_title">Формат на датата</string>
+    <string name="pref_export_format_title">Формат на данните</string>
     <string name="pref_import_from_grisbi_summary">Внасяне на категории и страни от Grisbi XML файл</string>
     <string name="pref_import_from_grisbi_title">Внасяне от Grisbi</string>
     <!-- %s is replaced with QIF or CSV -->
@@ -1033,4 +1033,5 @@
     <string name="add_shortcut">Добави пряк път</string>
     <string name="content_description_remove_icon">Премахни иконата</string>
     <string name="whats_new_359">Иконите на методите за плащане може да бъдат персонализирани.</string>
+    <string name="search_account">Търсене на сметка</string>
 </resources>

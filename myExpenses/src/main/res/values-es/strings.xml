@@ -373,7 +373,7 @@
     <!-- platform is replaced with Android or Blackberry -->
     <string name="tell_a_friend_message">Probar {app_name}, gestor de finanzas personales para {platform}, desde {website}</string>
     <string name="thank_you">¡Gracias por su apoyo!</string>
-    <string name="time">Hora</string>
+    <string name="time">Tiempo</string>
     <string name="title">Título</string>
     <string name="total_cleared">Total despejado</string>
     <string name="total_reconciled">Total reconciliado</string>
@@ -1046,4 +1046,5 @@
     <string name="select_template">Seleccionar una plantilla</string>
     <string name="content_description_remove_icon">Eliminar el icono</string>
     <string name="whats_new_359">Los iconos de los métodos de pago pueden personalizarse.</string>
+    <string name="search_account">Buscar por cuenta</string>
 </resources>
