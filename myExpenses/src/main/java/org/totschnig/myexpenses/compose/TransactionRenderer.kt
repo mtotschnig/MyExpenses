@@ -93,7 +93,7 @@ abstract class ItemRenderer(
                 appendInlineContent(it, methodInfo.first)
             }
             referenceNumber?.takeIf { it.isNotEmpty() }?.let {
-                append(" ($it) ")
+                append(" $it ")
             }
             comment?.takeIf { it.isNotEmpty() }?.let {
                 withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
