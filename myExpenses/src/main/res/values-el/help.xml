@@ -1,10 +1,11 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="help_menu_commands">Εντολές μενού</string>
-  <string name="help_contextual_actions">Εξαρτώμενες ενέργειες</string>
-  <string name="help_form_fields">Πεδία</string>
-  <string name="cab_delete_help_text">Διαγραφή επιλεγμένων</string>
-  <string name="cab_edit_help_text">Επεξεργασία επιλεγμένου αντικειμένου</string>
-  <string name="help_MyExpenses_title">Λίστα συναλλαγών</string>
-  <string name="help_MyExpenses_info">Αυτή η οθόνη εμφανίζει όλες τις συναλλαγές για τον τρέχοντα λογαριασμό. Χρησιμοποιήστε το αναδυώμενο κουμπί ενεργειών για να ανοίξετε την φόρμα δημιουργίας νέας συναλλαγής</string>
+    <string name="help_menu_commands">Εντολές μενού</string>
+    <string name="help_contextual_actions">Εξαρτώμενες ενέργειες</string>
+    <string name="help_form_fields">Πεδία</string>
+    <string name="cab_delete_help_text">Διαγραφή επιλεγμένων</string>
+    <string name="cab_edit_help_text">Επεξεργασία επιλεγμένου αντικειμένου</string>
+    <string name="help_MyExpenses_title">Λίστα συναλλαγών</string>
+    <string name="help_MyExpenses_info">Αυτή η οθόνη εμφανίζει όλες τις συναλλαγές για τον τρέχοντα λογαριασμό. Χρησιμοποιήστε το αναδυώμενο κουμπί ενεργειών για να ανοίξετε την φόρμα δημιουργίας νέας συναλλαγής</string>
+    <string name="help_ManageTemplates_plans_title">Προβολή ημερολογίου σχεδίου</string>
 </resources>
