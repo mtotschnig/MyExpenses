@@ -1034,4 +1034,7 @@
     <string name="content_description_remove_icon">Symbol entfernen</string>
     <string name="whats_new_359">Symbole für Zahlungsmethoden können angepasst werden.</string>
     <string name="search_account">Suche nach Konto</string>
+    <string name="orphaned_transaction_relink">Die Buchung kann mit der Ereignisinstanz am %s neu verknüpft werden.</string>
+    <string name="orphaned_transaction_info">Für dieses Datum ist eine Buchung mit dem Plan verknüpft, aber es gibt keine Ereignisinstanz zu diesem Datum.</string>
+    <string name="orphaned_transaction_align_date">Optional kann das mit der Buchung gespeicherte Datum auch dem Datum der Instanz angeglichen werden.</string>
 </resources>
