@@ -72,4 +72,5 @@
     <string name="menu_create_account_help_text">Creaza un cont nou. Versiunea gratuită este limitată la cinci conturi.</string>
     <string name="cab_ManageCategories_select_help_text">Mapează categoria selectată la tranzacţie şi a revine la formularul de tranzacţie.</string>
     <string name="help_WebUI_info_2">În prezent, interfața de utilizator web nu acceptă transferuri sau tranzacții divizate.</string>
+    <string name="help_ManageTemplates_plans_title">Vizualizarea calendarului planului</string>
 </resources>
