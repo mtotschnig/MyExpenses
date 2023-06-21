@@ -1076,4 +1076,6 @@
     <!-- %s is replaced by the date of the event instance this transaction can be relinked with. -->
     <string name="orphaned_transaction_relink">The transaction can be relinked with the event instance on %s.</string>
     <string name="orphaned_transaction_align_date">Optionally the date stored with the transaction can also be aligned with the instance date.</string>
+    <string name="button_relink_keep_date">Relink, but keep date</string>
+    <string name="button_relink_update_date">Relink and update date</string>
 </resources>

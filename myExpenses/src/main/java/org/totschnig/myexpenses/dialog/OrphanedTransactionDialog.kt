@@ -61,13 +61,13 @@ class OrphanedTransactionDialog : ComposeBaseDialogFragment() {
                         host.dispatchRelinkInstance(relinkCandidate, false)
                         dismiss()
                     }) {
-                        Text("Relink, but keep date")
+                        Text(stringResource(id = R.string.button_relink_keep_date))
                     }
                     TextButton(onClick = {
                         host.dispatchRelinkInstance(relinkCandidate, true)
                         dismiss()
                     }) {
-                        Text("Relink and update date")
+                        Text(stringResource(id = R.string.button_relink_update_date))
                     }
                 }
             }
