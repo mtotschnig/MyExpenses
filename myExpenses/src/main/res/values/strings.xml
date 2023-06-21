@@ -1072,4 +1072,8 @@
     <string name="add_shortcut">Add Shortcut</string>
     <string name="whats_new_358">Widget follows theme configuration (light/dark).</string>
     <string name="whats_new_359">Icons for payment methods can be customized.</string>
+    <string name="orphaned_transaction_info">A transaction is linked to the plan for this date, but no event instance exists at this date.</string>
+    <!-- %s is replaced by the date of the event instance this transaction can be relinked with. -->
+    <string name="orphaned_transaction_relink">The transaction can be relinked with the event instance on %s.</string>
+    <string name="orphaned_transaction_align_date">Optionally the date stored with the transaction can also be aligned with the instance date.</string>
 </resources>

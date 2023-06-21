@@ -9,12 +9,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageTemplates
+import org.totschnig.myexpenses.compose.LocalDateFormatter
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
-import java.time.LocalDate
 
 class OrphanedTransactionDialog : ComposeBaseDialogFragment() {
 
@@ -31,9 +32,16 @@ class OrphanedTransactionDialog : ComposeBaseDialogFragment() {
                 end = dialogPadding
             )
         ) {
-            Text("A transaction is linked to the plan for this date, but no event instance exists at this date")
+            Text(stringResource(R.string.orphaned_transaction_info))
             if (relinkCandidate != null) {
-                Text("The transaction can be relinked with the event instance on ${epoch2LocalDate(relinkCandidate.date!! / 1000)}. Optionally the date stored with the transaction can also be aligned with the instance date.")
+                Text(
+                    stringResource(
+                        id = R.string.orphaned_transaction_relink,
+                        LocalDateFormatter.current.format(
+                            epoch2LocalDate(relinkCandidate.date!! / 1000)
+                        )
+                    ) + " " + stringResource(R.string.orphaned_transaction_align_date)
+                )
             }
             FlowRow {
                 TextButton(onClick = {

@@ -324,12 +324,6 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
                 state.visibility = View.VISIBLE
                 state.setImageResource(R.drawable.ic_warning)
                 frameLayout.setOnClickListener {
-/*          MessageDialogFragment.newInstance(null,
-                  "A transaction is linked to the plan for this date, but no instance exists in the calendar",
-                  new MessageDialogFragment.Button(R.string.menu_edit, R.id.EDIT_PLAN_INSTANCE_COMMAND, transactionId),
-                  null,
-                  new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_PLAN_INSTANCE_COMMAND, transactionId)
-          ).show(requireActivity().getSupportFragmentManager(), "TRANSACTION_ERROR_INFO");*/
                     val relinkCandidate = selectedDates.map {
                         it to CalendarProviderProxy.calculateId(it)
                     }
@@ -343,9 +337,8 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
                                 PlanInstanceState.OPEN
                             )
                         }
-                    Timber.i("relinkCandidate: %s", relinkCandidate)
                     OrphanedTransactionDialog.newInstance(transactionId!!, relinkCandidate)
-                        .show(requireActivity().supportFragmentManager, "TRANSACTION_ERROR_INFO")
+                        .show(requireActivity().supportFragmentManager, "ORPHANED_TRANSACTIONS")
                 }
             } else {
                 state.visibility = View.GONE
