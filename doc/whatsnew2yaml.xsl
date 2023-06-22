@@ -8,7 +8,7 @@
     <xsl:param name="version" />
     <xsl:param name="versionDate"  />
     <xsl:param name="languages" select="$all-languages" />
-    <xsl:param name="appendDot" select="false()" />
+    <xsl:param name="appendDot" select="false" />
 
     <xsl:template match="/" name="main">
         <xsl:value-of select="str:padding(2, '&#032;')" />
@@ -72,7 +72,7 @@
                     <xsl:otherwise>
                         <xsl:for-each select="document($strings)/resources/string[starts-with(@name,my:changeLogResourceName($version))]">
                             <xsl:apply-templates mode="unescape" select='.' />
-                            <xsl:if test="$appendDot">
+                            <xsl:if test="$appendDot = 'true'">
                                 <xsl:text>.</xsl:text>
                             </xsl:if>
                             <xsl:if test="position() != last()">

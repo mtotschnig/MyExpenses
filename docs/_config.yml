@@ -132,6 +132,273 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.6.0
+    - "2023-06-23"
+    -
+      ar: |
+        عرض تقويم الخطة: صقل واجهة المستخدم
+      bg: |
+        Изглед на план-календар: Подобрения в потребителския интерфейс
+      ca: |
+        Vista de calendari: Refinament de la interfície d'usuari
+      cs: |
+        Zobrazení kalendáře plánu: Zdokonalení uživatelského rozhraní
+      de: |
+        Plan Kalenderansicht: Verfeinerung der Benutzeroberfläche
+      el: |
+        Προβολή ημερολογίου σχεδίου: Βελτίωση του περιβάλλοντος εργασίας χρήστη
+      es: |
+        Vista en calendario: Interfaz de usuario mejorada
+      eu: |
+        Egutegi ikuspegia: Erabiltzaile-interfazea hobetzea
+      fr: |
+        Calendrier: Raffinement de l'interface utilisateur
+      hr: |
+        Prikaz kalendara planova: Poboljšanje korisničkog sučelja
+      hu: |
+        Terv naptár nézet: A felhasználói felület finomítása
+      it: |
+        Calendario: Miglioramento dell'interfaccia utente
+      iw: |
+        תצוגת תוכנית בלוח שנה: חידוד ממשק המשתמש
+      ja: |
+        計画カレンダー表示: ユーザーインターフェースの洗練
+      kn: |
+        ಕ್ಯಾಲೆಂಡರ್ ವೀಕ್ಷಣೆಯನ್ನು ಯೋಜಿಸಿ: ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್ನ ಪರಿಷ್ಕರಣೆ
+      ms: |
+        Paparan plan kalendar: Penghalusan antaramuka pengguna
+      nl: |
+        Plan kalenderweergave: Verfijning van de gebruikersinterface
+      pl: |
+        Widok planu kalendarza: Dopracowanie interfejsu użytkownika
+      pt: |
+        Visualização do calendário de planos: Melhorias na interface do usuário
+      ro: |
+        Vizualizarea calendarului planului: Perfecționarea interfeței cu utilizatorul
+      ru: |
+        Календарь планов: Усовершенствование пользовательского интерфейса
+      te: |
+        క్యాలెండర్ వీక్షణను ప్లాన్ చేయండి: వినియోగదారు ఇంటర్ఫేస్ యొక్క శుద్ధీకరణ
+      tr: |
+        Planlama takvim görünümü: Kullanıcı arayüzü iyileştirildi
+      vi: |
+        Kế hoạch xem lịch: Cải tiến giao diện người dùng
+      zh: |
+        计划日历视图: 用户界面的改进
+      en: |
+        Plan calendar view: Refinement of the user interface
+  -
+    - 3.5.9
+    - "2023-06-18"
+    -
+      ar: |
+        يمكن تخصيص أيقونات طرق الدفع. المجموع الكلي: بحث: المبلغ المعادل
+      bg: |
+        Иконите на методите за плащане може да бъдат персонализирани. Общо: Търсене: Еквивалентна сума
+      cs: |
+        Ikony platebních metod lze přizpůsobit. Celkový součet: Vyhledávání: Ekvivalentní částka
+      de: |
+        Symbole für Zahlungsmethoden können angepasst werden. Gesamtsumme: Suche: Gleichwertiger Betrag
+      el: |
+        Τα εικονίδια για τις μεθόδους πληρωμής μπορούν να προσαρμοστούν. Γενικό σύνολο: Αναζήτηση: Ισοδύναμο ποσό
+      es: |
+        Los iconos de los métodos de pago pueden personalizarse. Total general: Búsqueda: Cantidad equivalente
+      fr: |
+        Les icônes des modes de paiement peuvent être personnalisées. Somme finale: Recherche: Montant équivalent
+      hu: |
+        A fizetési módok ikonjai testre szabhatók. Végösszeg: Keresés: Egyenértékű összeg
+      it: |
+        Le icone dei metodi di pagamento possono essere personalizzate. somma totale: Ricerca: Importo equivalente
+      iw: |
+        אפשר לתאם סמלים לשיטות תשלום. סכום סופי: חיפוש: סכום שווה ערך
+      pl: |
+        Dostosowywane są metody płatności. Suma całkowita: Wyszukiwanie: Kwota równoważna
+      pt: |
+        Os ícones dos métodos de pagamento podem ser personalizados. Total geral: Pesquisar: Quantia equivalente
+      tr: |
+        Ödeme yöntemleri için simgeler özelleştirilebilir. Genel toplam: Ara: Eşdeğer meblağ
+      vi: |
+        Các biểu tượng cho phương thức thanh toán có thể được tùy chỉnh. Tất cả: Tìm kiếm: Khoản tương đương
+      en: |
+        Icons for payment methods can be customized. Grand total: Search: Equivalent amount
+  -
+    - 3.5.8
+    - "2023-06-09"
+    -
+      bg: |
+        Уйджета следва настройката за тема (светла/тъмна). Пряк път към шаблон
+      de: |
+        Das Widget folgt der Themenkonfiguration (hell/dunkel). Vorlagen-Verknüpfung
+      es: |
+        El widget sigue la configuración del tema (claro/oscuro). Acceso directo a la plantilla
+      fr: |
+        Le widget suit la configuration du thème (clair/sombre). Raccourci Modèle
+      iw: |
+        וידג׳ט עוקב אחר עיצוב המערכת (בהיר/כהה). קיצור דרך לתבנית
+      tr: |
+        Widget, tema yapılandırmasını (açık/koyu) takip eder. Şablon kısayolu
+      en: |
+        Widget follows theme configuration (light/dark). Template shortcut
+  -
+    - 3.5.7
+    - "2023-06-02"
+    -
+      - en: Material 3
+  -
+    - 3.5.6
+    - "2023-05-12"
+    -
+      bg: |
+        Оптимизиране размера на файла на изображение
+      de: |
+        Optimieren der Bilddateigröße
+      es: |
+        Optimización del tamaño del archivo de la imagen
+      fr: |
+        Optimiser la taille du fichier image
+      it: |
+        Ottimizzare le dimensioni del file immagine
+      iw: |
+        מיטוב גודל קובץ התמונה
+      tr: |
+        Resim dosyası boyutunu iyileştir
+      en: |
+        Optimize image file size
+  -
+    - 3.5.5
+    - "2023-05-02"
+    -
+      bg: |
+        Името на архивния файл вече може да се конфигурира.
+      de: |
+        Der Name der Sicherungsdatei ist jetzt konfigurierbar.
+      es: |
+        Ahora se puede configurar el nombre del archivo de la copia de seguridad.
+      fr: |
+        Le nom du fichier de sauvegarde est désormais configurable.
+      it: |
+        Il nome del file di backup è ora configurabile.
+      iw: |
+        שם קובץ הגיבוי נתון לשינוי מעתה.
+      tr: |
+        Yedekleme dosyası adı artık yapılandırılabilir.
+      en: |
+        Backup file name is now configurable.
+  -
+    - 3.5.4
+    - "2023-04-18"
+    -
+      ar: |
+        مزود سعر الصرف: https://coinapi.io
+      bg: |
+        Доставчик на валутни курсове: https://coinapi.io
+      ca: |
+        Proveïdor de tipus de canvi: https://coinapi.io
+      cs: |
+        Poskytovatel směnného kurzu: https://coinapi.io
+      de: |
+        Anbieter für Wechselkurse: https://coinapi.io
+      es: |
+        Proveedor de tipo de cambio: https://coinapi.io
+      fr: |
+        Fournisseur de taux de change: https://coinapi.io
+      hr: |
+        Usluga za preuzimanje tečajeva: https://coinapi.io
+      hu: |
+        Árfolyamszolgáltató: https://coinapi.io
+      it: |
+        Fornitore dei Tassi di Cambio: https://coinapi.io
+      iw: |
+        בחר לספק להוריד שערי חליפין: https://coinapi.io
+      ja: |
+        為替レートプロバイダー: https://coinapi.io
+      kn: |
+        ವಿನಿಮಯ ದರ ಒದಗಿಸುವವರು: https://coinapi.io
+      ms: |
+        Penyedia Kadar Pertukaran: https://coinapi.io
+      nl: |
+        Wisselkoers aanbieder: https://coinapi.io
+      pt: |
+        Provedor de taxa de câmbio: https://coinapi.io
+      ru: |
+        Поставщик курсов валют: https://coinapi.io
+      ta: |
+        மாற்று விகித வழங்குநர்: https://coinapi.io
+      te: |
+        మార్పిడి రేటు ప్రొవైడర్: https://coinapi.io
+      tr: |
+        Döviz Kuru Sağlayıcısı: https://coinapi.io
+      zh: |
+        汇率提供者: https://coinapi.io
+      zh-TW: |
+        匯率提供者: https://coinapi.io
+      en: |
+        Exchange Rate Provider: https://coinapi.io
+  -
+    - 3.5.3
+    - "2023-03-25"
+    -
+      ar: |
+        إدارة الديون: صقل واجهة المستخدم
+      bg: |
+        Управление на задължения: Подобрения в потребителския интерфейс
+      ca: |
+        Gestió del deute: Refinament de la interfície d'usuari
+      cs: |
+        Správa dluhů: Zdokonalení uživatelského rozhraní
+      de: |
+        Schuldenverwaltung: Verfeinerung der Benutzeroberfläche
+      el: |
+        Διαχείριση χρέους: Βελτίωση του περιβάλλοντος εργασίας χρήστη
+      es: |
+        Gestión de la deuda: Interfaz de usuario mejorada
+      eu: |
+        Zorraren kudeaketa: Erabiltzaile-interfazea hobetzea
+      fr: |
+        Gestion des dettes: Raffinement de l'interface utilisateur
+      hr: |
+        Upravljanje dugovima: Poboljšanje korisničkog sučelja
+      hu: |
+        Adósságkezelés: A felhasználói felület finomítása
+      it: |
+        Gestione dei debiti: Miglioramento dell'interfaccia utente
+      iw: |
+        ניהול חובות: חידוד ממשק המשתמש
+      ja: |
+        債務管理: ユーザーインターフェースの洗練
+      kn: |
+        ಸಾಲ ನಿರ್ವಹಣೆ: ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್ನ ಪರಿಷ್ಕರಣೆ
+      ko: |
+        부채 관리: 사용자 인터페이스 개선
+      ms: |
+        Pengurusan hutang: Penghalusan antaramuka pengguna
+      nl: |
+        Schuld beheer: Verfijning van de gebruikersinterface
+      pl: |
+        Zarządzanie długiem: Dopracowanie interfejsu użytkownika
+      pt: |
+        Gestão de dívidas: Melhorias na interface do usuário
+      ro: |
+        Gestionarea datoriilor: Perfecționarea interfeței cu utilizatorul
+      ru: |
+        Управление долгом: Усовершенствование пользовательского интерфейса
+      si: |
+        ණය කළමනාකරණය: පරිශීලක අතුරුමුහුණත පිරිපහදු කිරීම
+      ta: |
+        கடன் மேலாண்மை: பயனர் இடைமுகத்தை மெருகேற்றுதல்
+      te: |
+        రుణ నిర్వహణ: వినియోగదారు ఇంటర్ఫేస్ యొక్క శుద్ధీకరణ
+      tr: |
+        Borç yönetimi: Kullanıcı arayüzü iyileştirildi
+      vi: |
+        Quản lý nợ: Cải tiến giao diện người dùng
+      zh: |
+        债务管理: 用户界面的改进
+      zh-TW: |
+        债务管理: 完善用户界面
+      en: |
+        Debt management: Refinement of the user interface
+  -
     - 3.5.2
     - "2023-03-07"
     -

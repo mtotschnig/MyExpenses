@@ -390,7 +390,7 @@
                     select="document($strings)/resources/string[@name='grand_total']" />
                 <xsl:text>:&#032;</xsl:text>
                 <xsl:apply-templates mode="unescape"
-                    select="document($strings)/resources/string[@name='menu_search']" />
+                    select="document($aosp)/resources/string[@name='menu_search']" />
                 <xsl:text>:&#032;</xsl:text>
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='menu_equivalent_amount']" />
