@@ -425,6 +425,8 @@ fun buildTransactionGroupCte(selection: String, forHome: String?, includeTransfe
         append(KEY_PAYEEID)
         append(",")
         append(KEY_TRANSFER_PEER)
+        append(",")
+        append(KEY_METHODID)
         append(", cast(CASE WHEN ")
         append((if (includeTransfers) "$WHERE_NOT_SPLIT AND $WHERE_NOT_VOID" else WHERE_TRANSACTION))
         append(" THEN ")

@@ -7,19 +7,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
@@ -65,7 +53,7 @@ data class Transaction(
             val dateTime = epoch2ZonedDateTime(date)
             val payee = cursor.getString(KEY_PAYEE_NAME)
             val comment = cursor.getString(KEY_COMMENT)
-            val amount = cursor.getLong(KEY_AMOUNT)
+            val amount = cursor.getLong(KEY_DISPLAY_AMOUNT)
             val money = Money(currencyUnit, amount)
             val number = cursor.getString(KEY_REFERENCE_NUMBER)
             val category = cursor.getLongOrNull(KEY_CATID)

@@ -13,10 +13,11 @@ import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.fragment.PartiesList
 import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 
 class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
-    private lateinit var account: org.totschnig.myexpenses.model2.Account
+    private lateinit var account: Account
     private var payee1 = "John Doe"
     private var payee2 = "Hinz Finz"
 

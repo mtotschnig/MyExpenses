@@ -105,7 +105,7 @@ public class DatabaseConstants {
             KEY_ROWID,
             KEY_DATE,
             KEY_VALUE_DATE,
-            KEY_AMOUNT,
+            KEY_AMOUNT + " AS $KEY_DISPLAY_AMOUNT",
             KEY_COMMENT,
             KEY_CATID,
             FULL_LABEL,
@@ -158,7 +158,7 @@ public class DatabaseConstants {
     System.arraycopy(PROJECTION_EXTENDED_AGGREGATE, 0, PROJECTION_EXTENDED_HOME, 0, aggregateLength);
     PROJECTION_EXTENDED_HOME[aggregateLength] = KEY_CURRENCY;
     //magic number we override amount column
-    PROJECTION_EXTENDED_HOME[3] = DatabaseConstants.getAmountHomeEquivalent(DatabaseConstants.VIEW_EXTENDED, homeCurrency) + " AS " + KEY_AMOUNT;
+    PROJECTION_EXTENDED_HOME[3] = DatabaseConstants.getAmountHomeEquivalent(DatabaseConstants.VIEW_EXTENDED, homeCurrency) + " AS " + KEY_DISPLAY_AMOUNT;
   }
 
 

@@ -9,6 +9,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DISPLAY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH;
@@ -26,6 +27,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_WEEK_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.CTE_TRANSACTION_GROUPS;
 import static org.totschnig.myexpenses.util.ArrayUtilsKt.joinArrays;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.convAmount;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
@@ -165,7 +167,7 @@ public class PdfPrinter {
     Timber.d("Metadata %d", (System.currentTimeMillis() - start));
     addHeader(document, helper, context);
     Timber.d("Header %d", (System.currentTimeMillis() - start));
-    addTransactionList(document, transactionCursor, helper, filter, context);
+    addTransactionList(document, transactionCursor, helper, context);
     Timber.d("List %d", (System.currentTimeMillis() - start));
     transactionCursor.close();
     document.close();
@@ -197,12 +199,12 @@ public class PdfPrinter {
     document.add(empty);
   }
 
-  private void addTransactionList(Document document, Cursor transactionCursor, PdfHelper helper, WhereFilter filter, Context context)
+  private void addTransactionList(Document document, Cursor transactionCursor, PdfHelper helper, Context context)
       throws DocumentException, IOException {
     String selection;
     String[] selectionArgs;
     if (!filter.isEmpty()) {
-      selection = filter.getSelectionForParts(DatabaseConstants.VIEW_WITH_ACCOUNT);//GROUP query uses view with account
+      selection = filter.getSelectionForParts(CTE_TRANSACTION_GROUPS);
       selectionArgs = filter.getSelectionArgs(true);
     } else {
       selection = null;
@@ -220,7 +222,7 @@ public class PdfPrinter {
     int columnIndexMonth = transactionCursor.getColumnIndex(KEY_MONTH);
     int columnIndexWeek = transactionCursor.getColumnIndex(KEY_WEEK);
     int columnIndexDay = transactionCursor.getColumnIndex(KEY_DAY);
-    int columnIndexAmount = transactionCursor.getColumnIndex(KEY_AMOUNT);
+    int columnIndexAmount = transactionCursor.getColumnIndex(KEY_DISPLAY_AMOUNT);
     int columnIndexLabel = transactionCursor.getColumnIndex(KEY_LABEL);
     int columnIndexComment = transactionCursor.getColumnIndex(KEY_COMMENT);
     int columnIndexReferenceNumber = transactionCursor.getColumnIndex(KEY_REFERENCE_NUMBER);
@@ -417,7 +419,7 @@ public class PdfPrinter {
               splitText = Category.NO_CATEGORY_ASSIGNED_LABEL;
             }
             splitText += " " + convAmount(currencyFormatter, splits.getLong(
-                splits.getColumnIndexOrThrow(KEY_AMOUNT)), currencyUnit());
+                splits.getColumnIndexOrThrow(KEY_DISPLAY_AMOUNT)), currencyUnit());
             String splitComment = DbUtils.getString(splits, KEY_COMMENT);
             if (splitComment != null && splitComment.length() > 0) {
               splitText += " (" + splitComment + ")";
