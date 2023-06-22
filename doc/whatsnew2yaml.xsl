@@ -31,6 +31,19 @@
             </xsl:call-template>
         </xsl:for-each>
         <xsl:value-of select="$newline" />
+        <xsl:value-of select="str:padding(4, '&#032;')" />
+        <xsl:text>-</xsl:text>
+        <xsl:value-of select="$newline" />
+        <xsl:value-of select="str:padding(6, '&#032;')" />
+        <xsl:variable name="versionInfo"
+            select="'../myExpenses/src/main/res/values/version_info.xml'" />
+        <xsl:text>github: </xsl:text>
+        <xsl:value-of select="document($versionInfo)/resources/string[@name=concat('project_board_',replace($version,'\.',''))]"/>
+        <xsl:value-of select="$newline" />
+        <xsl:value-of select="str:padding(6, '&#032;')" />
+        <xsl:text>mastodon: </xsl:text>
+        <xsl:value-of select="document($versionInfo)/resources/string[@name=concat('version_more_info_',replace($version,'\.',''))]"/>
+        <xsl:value-of select="$newline" />
     </xsl:template>
 
     <xsl:template name="extract">

@@ -187,6 +187,9 @@ versions:
         计划日历视图: 用户界面的改进
       en: |
         Plan calendar view: Refinement of the user interface
+    -
+      github: 102#column-19526743
+      mastodon: 110583439643088054
   -
     - 3.5.9
     - "2023-06-18"
@@ -221,6 +224,9 @@ versions:
         Các biểu tượng cho phương thức thanh toán có thể được tùy chỉnh. Tất cả: Tìm kiếm: Khoản tương đương
       en: |
         Icons for payment methods can be customized. Grand total: Search: Equivalent amount
+    -
+      github: 101#column-19509349
+      mastodon: 110532415552229346
   -
     - 3.5.8
     - "2023-06-09"
@@ -239,11 +245,17 @@ versions:
         Widget, tema yapılandırmasını (açık/koyu) takip eder. Şablon kısayolu
       en: |
         Widget follows theme configuration (light/dark). Template shortcut
+    -
+      github: 100#column-19502798
+      mastodon: 110514465884566921
   -
     - 3.5.7
     - "2023-06-02"
     -
       - en: Material 3
+    -
+      github: 99#column-19471892
+      mastodon: 110462014961707092
   -
     - 3.5.6
     - "2023-05-12"
@@ -264,6 +276,9 @@ versions:
         Resim dosyası boyutunu iyileştir
       en: |
         Optimize image file size
+    -
+      github: 97#column-19460078
+      mastodon: 110350674321637548
   -
     - 3.5.5
     - "2023-05-02"
@@ -284,6 +299,9 @@ versions:
         Yedekleme dosyası adı artık yapılandırılabilir.
       en: |
         Backup file name is now configurable.
+    -
+      github: 96#column-19437845
+      mastodon: 110278881493299193
   -
     - 3.5.4
     - "2023-04-18"
@@ -334,6 +352,9 @@ versions:
         匯率提供者: https://coinapi.io
       en: |
         Exchange Rate Provider: https://coinapi.io
+    -
+      github: 95#column-19428426
+      mastodon: 110215889500909292
   -
     - 3.5.3
     - "2023-03-25"
@@ -398,6 +419,9 @@ versions:
         债务管理: 完善用户界面
       en: |
         Debt management: Refinement of the user interface
+    -
+      github: 92#column-19394983
+      mastodon: 110056714935372644
   -
     - 3.5.2
     - "2023-03-07"
