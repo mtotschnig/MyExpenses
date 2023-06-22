@@ -105,7 +105,7 @@ public class DatabaseConstants {
             KEY_ROWID,
             KEY_DATE,
             KEY_VALUE_DATE,
-            KEY_AMOUNT + " AS $KEY_DISPLAY_AMOUNT",
+            KEY_AMOUNT + " AS " + KEY_DISPLAY_AMOUNT,
             KEY_COMMENT,
             KEY_CATID,
             FULL_LABEL,

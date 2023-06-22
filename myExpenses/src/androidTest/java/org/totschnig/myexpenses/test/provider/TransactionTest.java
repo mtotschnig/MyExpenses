@@ -319,7 +319,7 @@ public class TransactionTest extends BaseDbTest {
     // Since no projection was used, get the column indexes of the returned columns
     int dateIndex = cursor.getColumnIndex(DatabaseConstants.KEY_DATE);
     int commentIndex = cursor.getColumnIndex(DatabaseConstants.KEY_COMMENT);
-    int amountIndex = cursor.getColumnIndex(DatabaseConstants.KEY_AMOUNT);
+    int amountIndex = cursor.getColumnIndex(DatabaseConstants.KEY_DISPLAY_AMOUNT);
     int payeeIndex = cursor.getColumnIndex(DatabaseConstants.KEY_PAYEE_NAME);
 
     // Tests each column in the returned cursor against the data that was inserted, comparing
