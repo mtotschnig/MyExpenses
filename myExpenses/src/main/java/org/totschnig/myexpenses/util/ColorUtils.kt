@@ -94,14 +94,12 @@ object ColorUtils {
         return result
     }
 
-    @JvmStatic
     fun isBrightColor(color: Int): Boolean {
         return if (android.R.color.transparent == color) true else ColorUtils.calculateLuminance(
             color
         ) > 0.5
     }
 
-    @JvmStatic
     fun getComplementColor(colorInt: Int): Int {
         val contrastColor = getBestForeground(colorInt)
         return ColorUtils.blendARGB(colorInt, contrastColor, 0.5f)

@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.compose
 
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,36 +18,43 @@ import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 import org.totschnig.myexpenses.viewmodel.data.IconInfo
 
 @Composable
-fun Icon(icon: String, size: TextUnit = 24.sp) {
+fun Icon(icon: String, size: TextUnit = 24.sp, color: Color? = null) {
     val iconInfo = IIconInfo.resolveIcon(icon)
     if (iconInfo == null) {
         Text(color = Color.Red, text = icon)
     } else {
-        Icon(iconInfo, size)
+        Icon(iconInfo, size, color)
     }
 }
 
 @Composable
-fun Icon(iconInfo: IIconInfo, size: TextUnit = 24.sp) {
+fun Icon(iconInfo: IIconInfo, size: TextUnit = 24.sp, color: Color? = null) {
     when (iconInfo) {
         is ExtraIcon -> {
             Icon(
                 modifier = Modifier.size(size * 1.25f),
                 painter = rememberDrawablePainter(drawable = iconInfo.asDrawable(LocalContext.current)),
-                contentDescription = stringResource(id = iconInfo.label)
+                contentDescription = stringResource(id = iconInfo.label),
+                tint = color ?: LocalContentColor.current
             )
         }
         is IconInfo -> {
-            CharIcon(char = iconInfo.unicode, fontFamily = iconInfo.fontFamily, size = size)
+            CharIcon(iconInfo.unicode, iconInfo.fontFamily, size, color)
         }
     }
 }
 @Composable
-fun CharIcon(char: Char, fontFamily: FontFamily? = null, size: TextUnit = 24.sp) {
+fun CharIcon(
+    char: Char,
+    fontFamily: FontFamily? = null,
+    size: TextUnit = 24.sp,
+    color: Color? = null
+) {
     Text(
         text = char.toString(),
         fontFamily = fontFamily,
-        fontSize = size
+        fontSize = size,
+        color = color ?: Color.Unspecified
     )
 }
 
