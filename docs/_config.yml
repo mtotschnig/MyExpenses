@@ -252,7 +252,7 @@ versions:
     - 3.5.7
     - "2023-06-02"
     -
-      - en: Material 3
+      en: Material 3
     -
       github: 99#column-19471892
       mastodon: 110462014961707092
