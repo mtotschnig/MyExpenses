@@ -10,6 +10,7 @@ import android.view.Menu
 import android.widget.CompoundButton
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SwitchCompat
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -402,14 +403,21 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         accountInfo: DistributionAccountInfo?,
         sums: Pair<Long, Long>
     ) {
-        val accountFormatter = LocalCurrencyFormatter.current
         accountInfo?.let {
+            val showTotal = viewModel.showTotal.collectAsState(initial = false)
+            val accountFormatter = LocalCurrencyFormatter.current
             Divider(
                 modifier = Modifier.padding(top = 4.dp),
                 color = MaterialTheme.colorScheme.onSurface,
                 thickness = 1.dp
             )
-            Row(modifier = Modifier.padding(horizontal = dimensionResource(id = eltos.simpledialogfragment.R.dimen.activity_horizontal_margin))) {
+            Row(modifier = Modifier
+                .padding(horizontal = dimensionResource(id = eltos.simpledialogfragment.R.dimen.activity_horizontal_margin))
+                .clickable {
+                    lifecycleScope.launch {
+                        viewModel.persistShowTotal(!showTotal.value)
+                    }
+                }) {
                 CompositionLocalProvider(
                     LocalTextStyle provides TextStyle(
                         fontWeight = FontWeight.Bold,
@@ -417,16 +425,26 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                     )
                 ) {
                     Text("∑ :")
-                    Text(
-                        modifier = Modifier.weight(1f),
-                        text = "+" + accountFormatter.convAmount(sums.first, it.currency),
-                        textAlign = TextAlign.End
-                    )
-                    Text(
-                        modifier = Modifier.weight(1f),
-                        text = "-" + accountFormatter.convAmount(sums.second, it.currency),
-                        textAlign = TextAlign.End
-                    )
+                    if (showTotal.value) {
+                        Text(
+                            modifier = Modifier.weight(1f),
+                            text = "+ " + accountFormatter.convAmount(sums.first, it.currency)
+                                    + " - " + accountFormatter.convAmount(sums.second, it.currency)
+                                    + " = " + accountFormatter.convAmount(sums.first - sums.second, it.currency),
+                            textAlign = TextAlign.Center
+                        )
+                    } else {
+                        Text(
+                            modifier = Modifier.weight(1f),
+                            text = "+" + accountFormatter.convAmount(sums.first, it.currency),
+                            textAlign = TextAlign.End
+                        )
+                        Text(
+                            modifier = Modifier.weight(1f),
+                            text = "-" + accountFormatter.convAmount(sums.second, it.currency),
+                            textAlign = TextAlign.End
+                        )
+                    }
                 }
             }
             Divider(color = Color(it.color), thickness = 4.dp)

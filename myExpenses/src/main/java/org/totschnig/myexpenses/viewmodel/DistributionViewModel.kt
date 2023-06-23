@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.ContentUris
 import android.content.Context
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.SavedStateHandle
@@ -18,6 +19,20 @@ import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 
 class DistributionViewModel(application: Application, savedStateHandle: SavedStateHandle):
     DistributionViewModelBase<DistributionAccountInfo>(application, savedStateHandle) {
+
+    private val showTotalPrefKey = booleanPreferencesKey("distributionShowTotal")
+
+    val showTotal
+        get() = dataStore.data.map { preferences ->
+            preferences[showTotalPrefKey] ?: false
+        }
+
+    suspend fun persistShowTotal(showAll: Boolean) {
+        dataStore.edit { preference ->
+            preference[showTotalPrefKey] = showAll
+        }
+    }
+
     private fun getGroupingPrefKey(accountId: Long) = stringPreferencesKey("distributionGrouping_$accountId")
     fun initWithAccount(accountId: Long, defaultGrouping: Grouping) {
         val isAggregate = accountId < 0
