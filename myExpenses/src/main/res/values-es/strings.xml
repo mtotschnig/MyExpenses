@@ -1050,4 +1050,6 @@
     <string name="orphaned_transaction_align_date">Opcionalmente, la fecha almacenada con la transacción también puede alinearse con la fecha de la instancia.</string>
     <string name="orphaned_transaction_info">Una transacción está vinculada al plan para esta fecha, pero no existe ninguna instancia de este evento en esta fecha.</string>
     <string name="orphaned_transaction_relink">La transacción se puede volver a vincular con la instancia del evento en %s.</string>
+    <string name="button_relink_keep_date">Volver a vincular, manteniendo la fecha</string>
+    <string name="button_relink_update_date">Volver a vincular y actualizar la fecha</string>
 </resources>
