@@ -1,15 +1,14 @@
 package org.totschnig.myexpenses.test.screenshots
 
 import android.Manifest
-import android.content.Intent
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.compose.ui.test.assertTextContains
-import androidx.compose.ui.test.onChildren
-import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.*
 import androidx.core.os.LocaleListCompat
 import androidx.recyclerview.widget.RecyclerView
-import androidx.test.core.app.ActivityScenario
-import androidx.test.espresso.Espresso.*
+import androidx.test.espresso.Espresso.closeSoftKeyboard
+import androidx.test.espresso.Espresso.onIdle
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
@@ -17,21 +16,18 @@ import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.contrib.DrawerActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.GrantPermissionRule
 import androidx.test.uiautomator.UiDevice
 import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.instanceOf
-import org.junit.After
-import org.junit.AfterClass
-import org.junit.BeforeClass
-import org.junit.ClassRule
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.TestMyExpenses
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.MockLicenceHandler
@@ -40,6 +36,7 @@ import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.cleanstatusbar.CleanStatusBar
 import tools.fastlane.screengrab.locale.LocaleTestRule
 import tools.fastlane.screengrab.locale.LocaleUtil
+
 
 /**
  * This test is meant to be run with FastLane Screengrab, but also works on its own.
@@ -57,8 +54,9 @@ class TestMain : BaseMyExpensesTest() {
 
     @Test
     fun mkScreenShots() {
-        loadFixture(BuildConfig.TEST_SCENARIO == 2)
-        scenario()
+        val scenario = InstrumentationRegistry.getArguments().getString("scenario", "1")
+        loadFixture(scenario == "2")
+        scenario(scenario)
         AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())
     }
 
@@ -70,10 +68,9 @@ class TestMain : BaseMyExpensesTest() {
         }
     }
 
-    private fun scenario() {
-        Thread.sleep(500)
-        when (BuildConfig.TEST_SCENARIO) {
-            1 -> {
+    private fun scenario(scenario: String) {
+        when (scenario) {
+            "1" -> {
                 drawerAction(DrawerActions.open())
                 takeScreenshot("summarize")
                 drawerAction(DrawerActions.close())
@@ -133,21 +130,17 @@ class TestMain : BaseMyExpensesTest() {
                 Thread.sleep(5000)
                 takeScreenshot("sync")
             }
-            2 -> {
+            "2" -> {
                 //tablet screenshots
                 takeScreenshot("main")
                 clickMenuItem(R.id.DISTRIBUTION_COMMAND)
                 takeScreenshot("distribution")
                 pressBack()
-                onView(
-                    org.totschnig.myexpenses.testutils.Matchers.first(
-                        withText(
-                            containsString(testContext.getString(org.totschnig.myexpenses.test.R.string.testData_transaction1SubCat))
-                        )
-                    )
-                ).perform(click())
-                onView(withId(android.R.id.button1))
-                    .perform(click())
+                listNode.onChildren()
+                    .filter(hasText(testContext.getString(org.totschnig.myexpenses.test.R.string.testData_transaction1SubCat), substring = true))
+                    .onFirst()
+                    .performClick()
+                composeTestRule.onNodeWithText(getString(R.string.menu_edit)).performClick()
                 pressBack() //close keyboard
                 onView(withId(R.id.PictureContainer))
                     .perform(click())
@@ -167,8 +160,7 @@ class TestMain : BaseMyExpensesTest() {
         prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, app.fixture.account1.id)
         prefHandler.putInt(PrefKey.CURRENT_VERSION, versionNumber)
         prefHandler.putInt(PrefKey.FIRST_INSTALL_VERSION, versionNumber)
-        val startIntent = Intent(app, TestMyExpenses::class.java)
-        testScenario = ActivityScenario.launch(startIntent)
+        launch()
     }
 
     private fun takeScreenshot(fileName: String) {

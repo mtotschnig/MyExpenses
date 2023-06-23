@@ -68,6 +68,9 @@ abstract class TransactionDelegate<T : ITransaction>(
     @Inject
     lateinit var homeCurrencyProvider: HomeCurrencyProvider
 
+    @Inject
+    lateinit var picasso: Picasso
+
     val homeCurrency by lazy {
         homeCurrencyProvider.homeCurrencyUnit
     }
@@ -1019,7 +1022,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     private fun configurePicture() {
         if (pictureUri != null) {
             viewBinding.PictureContainer.root.visibility = View.VISIBLE
-            Picasso.get().load(pictureUri).fit().into(viewBinding.PictureContainer.picture)
+            picasso.load(pictureUri).fit().into(viewBinding.PictureContainer.picture)
             viewBinding.AttachImage.visibility = View.GONE
         } else {
             viewBinding.AttachImage.visibility = View.VISIBLE

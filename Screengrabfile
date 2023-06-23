@@ -51,3 +51,5 @@ use_adb_root(true)
 clear_previous_screenshots(false)
 
 use_timestamp_suffix(false)
+
+launch_arguments(["scenario 2"])

@@ -1,5 +1,3 @@
-import com.novoda.gradle.command.Files
-
 buildscript {
     repositories {
 //        mavenLocal()
@@ -8,7 +6,6 @@ buildscript {
     }
     dependencies {
 //        classpath 'com.jakewharton.hugo:hugo-plugin:1.2.2-SNAPSHOT'
-        classpath 'com.novoda:gradle-android-command-plugin:2.0.1'
     }
 }
 
@@ -339,13 +336,6 @@ static def getDate() {
 }
 
 //apply plugin: 'com.jakewharton.hugo'
-apply plugin: 'com.novoda.android-command'
-
-tasks.register('copyFileForFixture', Files) {
-    script {
-        push "tests/script/screenshot.jpg", "/sdcard/Android/data/org.totschnig.myexpenses.fortest/files/screenshot.jpg"
-    }
-}
 
 //For Drive
 //apply plugin: 'com.google.gms.google-services'

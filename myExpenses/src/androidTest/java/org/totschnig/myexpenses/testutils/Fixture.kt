@@ -144,12 +144,7 @@ class Fixture(inst: Instrumentation) {
                 .date(offset - 300000)
             if (withPicture) {
                 builder.pictureUri(
-                    Uri.fromFile(
-                        File(
-                            appContext.getExternalFilesDir(null),
-                            "screenshot.jpg"
-                        )
-                    )
+                    Uri.parse("file:///android_asset/screenshot.jpg")
                 )
             }
             builder.persist()
