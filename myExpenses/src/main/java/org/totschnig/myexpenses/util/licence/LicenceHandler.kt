@@ -28,7 +28,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrNull
 import timber.log.Timber
 import java.time.Clock
-import java.time.Instant
 import java.time.LocalTime
 import java.time.ZoneId
 import java.util.*
@@ -46,7 +45,7 @@ open class LicenceHandler(
     private var hasOurLicence = false
     private val isSandbox = BuildConfig.DEBUG
     var licenceStatus: LicenceStatus? = null
-        protected set(value) {
+        internal set(value) {
             crashHandler.putCustomData("Licence", value?.name ?: "null")
             field = value
         }
