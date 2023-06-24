@@ -1,26 +1,20 @@
 package org.totschnig.myexpenses
 
 import kotlinx.coroutines.Dispatchers
-import org.totschnig.myexpenses.di.AppComponent
-import org.totschnig.myexpenses.di.AppModule
-import org.totschnig.myexpenses.di.CoroutineModule
-import org.totschnig.myexpenses.di.CrashHandlerModule
-import org.totschnig.myexpenses.di.DaggerAppComponent
-import org.totschnig.myexpenses.di.NoOpTracker
-import org.totschnig.myexpenses.di.UiModule
+import org.totschnig.myexpenses.di.*
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.testutils.MockLicenceModule
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
-import java.util.*
+import java.time.Clock
 
 //Used by Robolectric
 class TestMyApplication : MyApplication() {
     override fun buildAppComponent(): AppComponent {
         return DaggerAppComponent.builder()
-            .licenceModule(MockLicenceModule(clock))
+            .licenceModule(MockLicenceModule(Clock.systemUTC()))
             .applicationContext(this)
             .uiModule(object : UiModule() {
                 override fun provideDiscoveryHelper(prefHandler: PrefHandler) =
