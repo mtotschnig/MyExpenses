@@ -1,0 +1,6 @@
+• Les icônes des modes de paiement peuvent être personnalisées.
+• Somme finale: Recherche: Montant équivalent
+• Calendrier: Raffinement de l'interface utilisateur
+
+https://github.com/mtotschnig/MyExpenses/projects/101#column-19509349
+https://github.com/mtotschnig/MyExpenses/projects/102#column-19526743

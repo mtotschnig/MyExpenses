@@ -1,0 +1,6 @@
+• אפשר לתאם סמלים לשיטות תשלום.
+• סכום סופי: חיפוש: סכום שווה ערך
+• תצוגת תוכנית בלוח שנה: חידוד ממשק המשתמש
+
+https://github.com/mtotschnig/MyExpenses/projects/101#column-19509349
+https://github.com/mtotschnig/MyExpenses/projects/102#column-19526743

@@ -1,0 +1,6 @@
+• Symbole für Zahlungsmethoden können angepasst werden.
+• Gesamtsumme: Suche: Gleichwertiger Betrag
+• Plan Kalenderansicht: Verfeinerung der Benutzeroberfläche
+
+https://github.com/mtotschnig/MyExpenses/projects/101#column-19509349
+https://github.com/mtotschnig/MyExpenses/projects/102#column-19526743

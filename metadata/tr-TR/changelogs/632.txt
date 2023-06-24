@@ -1,0 +1,6 @@
+• Ödeme yöntemleri için simgeler özelleştirilebilir.
+• Genel toplam: Ara: Eşdeğer meblağ
+• Planlama takvim görünümü: Kullanıcı arayüzü iyileştirildi
+
+https://github.com/mtotschnig/MyExpenses/projects/101#column-19509349
+https://github.com/mtotschnig/MyExpenses/projects/102#column-19526743
