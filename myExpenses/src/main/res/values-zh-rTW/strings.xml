@@ -78,8 +78,6 @@
     <string name="dialog_contrib_reminder_remove_limitation">升級版本後可以移除此限制與使用更多的功能<i>{app_name}</i></string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i>提供開放原始碼</string>
     <string name="dialog_contrib_text_2">請用升級來贊助<i>{app_name}</i>，還可以解鎖得到以下更多的功能:</string>
-    <string name="dialog_contrib_usage_count">免費使用次數剩</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">依據您目前許可證(%2$s)的權限，您還可以使用此功能%1$d次</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">依據您目前許可證(%2$s)的權限，您可以使用此功能%1$d天。</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">依據您目前許可證(%2$s)的權限，您可以建立%1$d個帳戶。</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">依據您目前的版本(%2$s)的權限，您可以建立%1$d個收支計畫。</string>

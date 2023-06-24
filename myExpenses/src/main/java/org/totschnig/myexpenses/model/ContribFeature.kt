@@ -14,22 +14,18 @@
  */
 package org.totschnig.myexpenses.model
 
-import android.annotation.SuppressLint
 import android.content.Context
 import androidx.core.text.HtmlCompat
-import org.totschnig.myexpenses.BuildConfig
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.licence.LicenceHandler
+import org.totschnig.myexpenses.util.licence.LicenceHandler.Companion.TRIAL_DURATION_DAYS
 import org.totschnig.myexpenses.util.licence.LicenceStatus
-import java.util.*
-
-private const val TRIAL_DURATION_DAYS = 60
+import java.util.Date
 
 enum class ContribFeature constructor(
-    private val trialMode: TrialMode = TrialMode.NUMBER_OF_TIMES,
+    val trialMode: TrialMode = TrialMode.DURATION,
     val licenceStatus: LicenceStatus = LicenceStatus.CONTRIB
 ) {
     ACCOUNTS_UNLIMITED(TrialMode.NONE) {
@@ -56,11 +52,8 @@ enum class ContribFeature constructor(
     DISTRIBUTION,
     PRINT,
     AD_FREE(TrialMode.NONE),
-    CSV_IMPORT(
-        TrialMode.NUMBER_OF_TIMES,
-        LicenceStatus.EXTENDED
-    ),
-    SYNCHRONIZATION(TrialMode.DURATION, LicenceStatus.EXTENDED),
+    CSV_IMPORT(licenceStatus = LicenceStatus.EXTENDED),
+    SYNCHRONIZATION(licenceStatus = LicenceStatus.EXTENDED),
     SPLIT_TEMPLATE(
         TrialMode.NONE,
         LicenceStatus.PROFESSIONAL
@@ -78,83 +71,25 @@ enum class ContribFeature constructor(
         TrialMode.NONE,
         LicenceStatus.PROFESSIONAL
     ),
-    HISTORY(TrialMode.NUMBER_OF_TIMES, LicenceStatus.PROFESSIONAL),
-    BUDGET(
-        TrialMode.DURATION,
-        LicenceStatus.PROFESSIONAL
-    ),
-    OCR(TrialMode.DURATION, LicenceStatus.PROFESSIONAL),
-    WEB_UI(
-        TrialMode.DURATION,
-        LicenceStatus.PROFESSIONAL
-    ),
+    HISTORY(licenceStatus = LicenceStatus.PROFESSIONAL),
+    BUDGET(licenceStatus = LicenceStatus.PROFESSIONAL),
+    OCR(licenceStatus = LicenceStatus.PROFESSIONAL),
+    WEB_UI(licenceStatus = LicenceStatus.PROFESSIONAL),
     CATEGORY_TREE(TrialMode.UNLIMITED, LicenceStatus.PROFESSIONAL);
 
-    private enum class TrialMode {
-        NONE, NUMBER_OF_TIMES, DURATION, UNLIMITED
+    enum class TrialMode {
+        NONE, DURATION, UNLIMITED
     }
 
     override fun toString(): String {
         return name.lowercase()
     }
 
-    private fun getUsages(prefHandler: PrefHandler): Int {
-        return prefHandler.getInt(prefKey, 0)
-    }
+    val prefKey: String
+        get() = "FEATURE_${name}_FIRST_USAGE"
 
-    /**
-     * @return number of remaining usages (> 0, if usage still possible, <= 0 if not)
-     */
-    fun recordUsage(prefHandler: PrefHandler, licenceHandler: LicenceHandler): Int {
-        if (!licenceHandler.hasAccessTo(this)) {
-            if (trialMode == TrialMode.NUMBER_OF_TIMES) {
-                val usages = getUsages(prefHandler) + 1
-                prefHandler.putInt(prefKey, usages)
-                return USAGES_LIMIT - usages
-            } else if (trialMode == TrialMode.DURATION) {
-                val now = System.currentTimeMillis()
-                if (getStartOfTrial(0L, prefHandler) == 0L) {
-                    prefHandler.putLong(prefKey, now)
-                }
-                if (getEndOfTrial(now, prefHandler) < now) {
-                    return 0
-                }
-            }
-        }
-        return USAGES_LIMIT
-    }
-
-    private fun getStartOfTrial(defaultValue: Long, prefHandler: PrefHandler): Long {
-        return prefHandler.getLong(prefKey, defaultValue)
-    }
-
-    private fun getEndOfTrial(defaultValue: Long, prefHandler: PrefHandler): Long {
-        val trialDurationMillis = TRIAL_DURATION_DAYS * 24 * 60 * 60 * 1000L
-        return getStartOfTrial(defaultValue, prefHandler) + trialDurationMillis
-    }
-
-    private val prefKey: String
-        get() {
-            val format =
-                if (trialMode == TrialMode.DURATION) "FEATURE_%s_FIRST_USAGE" else "FEATURE_USAGES_%s"
-            return String.format(Locale.ROOT, format, name)
-        }
-
-    fun usagesLeft(prefHandler: PrefHandler): Int {
-        return when (trialMode) {
-            TrialMode.NUMBER_OF_TIMES -> USAGES_LIMIT - getUsages(prefHandler)
-            TrialMode.DURATION -> {
-                val now = System.currentTimeMillis()
-                if (getEndOfTrial(now, prefHandler) < now) 0 else 1
-            }
-            TrialMode.UNLIMITED -> Int.MAX_VALUE
-            else -> 0
-        }
-    }
-
-    fun buildRequiresString(ctx: Context): String {
-        return ctx.getString(R.string.contrib_key_requires, ctx.getString(licenceStatus.resId))
-    }
+    fun buildRequiresString(ctx: Context) =
+        ctx.getString(R.string.contrib_key_requires, ctx.getString(licenceStatus.resId))
 
     val labelResId
         get() = when (this) {
@@ -194,18 +129,10 @@ enum class ContribFeature constructor(
         )
     }
 
-    @SuppressLint("DefaultLocale")
-    fun buildUsagesLeftString(ctx: Context, prefHandler: PrefHandler): CharSequence? {
-        return if (trialMode == TrialMode.NUMBER_OF_TIMES) {
-            val usagesLeft = usagesLeft(prefHandler)
-            ctx.getText(R.string.dialog_contrib_usage_count).toString() + " : " + String.format(
-                "%d/%d",
-                usagesLeft,
-                USAGES_LIMIT
-            )
-        } else if (trialMode == TrialMode.DURATION) {
+    fun buildUsagesLeftString(ctx: Context, licenceHandler: LicenceHandler): CharSequence? {
+        return if (trialMode == TrialMode.DURATION) {
             val now = System.currentTimeMillis()
-            val endOfTrial = getEndOfTrial(now, prefHandler)
+            val endOfTrial = licenceHandler.getEndOfTrial(this)
             if (endOfTrial < now) {
                 getLimitReachedWarning(ctx)
             } else {
@@ -221,26 +148,23 @@ enum class ContribFeature constructor(
     open fun buildUsageLimitString(context: Context): String {
         val currentLicence = getCurrentLicence(context)
         return when (trialMode) {
-            TrialMode.NUMBER_OF_TIMES -> context.getString(
-                R.string.dialog_contrib_usage_limit,
-                USAGES_LIMIT,
-                currentLicence
-            )
             TrialMode.DURATION -> context.getString(
                 R.string.dialog_contrib_usage_limit_synchronization,
                 TRIAL_DURATION_DAYS,
                 currentLicence
             )
+
             TrialMode.UNLIMITED -> context.getString(
                 R.string.dialog_contrib_usage_limit_with_dialog,
                 currentLicence
             )
+
             else -> ""
         }
     }
 
     protected fun getCurrentLicence(context: Context): String {
-        val licenceStatus = MyApplication.getInstance().licenceHandler.licenceStatus
+        val licenceStatus = context.injector.licenceHandler().licenceStatus
         return context.getString(licenceStatus?.resId ?: R.string.licence_status_free)
     }
 
@@ -264,10 +188,5 @@ enum class ContribFeature constructor(
         const val FREE_PLANS = 3
         const val FREE_ACCOUNTS = 5
         const val FREE_SPLIT_TEMPLATES = 1
-
-        /**
-         * how many times contrib features can be used for free
-         */
-        val USAGES_LIMIT = if (BuildConfig.DEBUG) Int.MAX_VALUE else 10
     }
 }

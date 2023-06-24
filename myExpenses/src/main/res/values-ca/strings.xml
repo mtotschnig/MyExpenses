@@ -371,7 +371,6 @@
         <item quantity="other">Eliminar %1$d comptes\?</item>
     </plurals>
     <string name="dialog_command_disabled_insert_transfer">Les transaccions requereixen un segon compte.</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Pots utilitzar-la fins %1$d vegades amb la teva llicència actual (%2$s).</string>
     <string name="dialog_contrib_usage_limit_split_templates">L\'estat actual de la vostra llicència (%1$s) permet crear 1 plantilla dividida.</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Amb la vostra llicència actual (%1$s), aquest diàleg es mostrarà a cada ús.</string>
     <string name="dialog_remind_rate_1_suggest_improvement">Siusplau, preneu-vos un segon per enviar-nos suggeriments de millora.</string>
@@ -408,7 +407,6 @@
     <string name="dialog_contrib_no">Provar</string>
     <string name="dialog_contrib_reminder_remove_limitation">Elimina aquesta limitació i tingues accés a més funcions millorant <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_2">Siusplau contribuïu millorant <i>{app_name}</i> i obtingueu accés sense límits a les següents funcions:</string>
-    <string name="dialog_contrib_usage_count">Usos gratuïts que resten</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Pots utilitzar-la %1$d dies amb la teva llicència actual (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">L\'estat de la vostra llicència (%2$s) us permet crear %1$d comptes.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">L\'estat de la vostra llicència (%2$s) us permet crear %1$d terminis.</string>

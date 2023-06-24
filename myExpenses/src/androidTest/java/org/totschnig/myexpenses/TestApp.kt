@@ -10,10 +10,36 @@ import org.totschnig.myexpenses.testutils.*
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProviderImpl
-import java.util.*
+import java.time.Clock
+import java.time.Instant
+import java.time.ZoneId
+import java.time.temporal.TemporalAmount
+import java.util.Currency
+
 
 class TestApp : MyApplication() {
     lateinit var fixture: Fixture
+
+    var currentTime: Instant = Instant.EPOCH
+    private val clock: Clock = object: Clock() {
+        override fun getZone(): ZoneId {
+            return ZoneId.systemDefault()
+        }
+
+        override fun withZone(zone: ZoneId?): Clock {
+            return this
+        }
+
+        override fun instant(): Instant {
+            return currentTime
+        }
+
+    }
+
+    fun advanceClock(byAmount: TemporalAmount) {
+        currentTime += byAmount
+    }
+
     override fun onCreate() {
         super.onCreate()
         fixture = Fixture(InstrumentationRegistry.getInstrumentation())
@@ -31,7 +57,7 @@ class TestApp : MyApplication() {
             override fun provideDiscoveryHelper(prefHandler: PrefHandler) =
                 IDiscoveryHelper.NO_OP
         })
-        .licenceModule(MockLicenceModule())
+        .licenceModule(MockLicenceModule(clock))
         .applicationContext(this)
         .appmodule(object : AppModule() {
             override fun provideHomeCurrencyProvider(

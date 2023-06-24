@@ -641,8 +641,6 @@
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Tvoje trenutačno stanje licence (%2$s) dozvoljava stvaranje %1$d plana.</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Tvoje trenutačno stanje licence (%2$s) dozvoljava stvaranje %1$d računa.</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Možeš ga koristiti %1$d dana s tvojim trenutačnim stanjem licence (%2$s).</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Možeš ga koristiti %1$d puta s tvojim trenutačnim stanjem licence (%2$s).</string>
-    <string name="dialog_contrib_usage_count">Preostao broj besplatnih korištenja</string>
     <string name="dialog_contrib_reminder_remove_limitation">Ukloni ovo ograničenje i pristupi dodatnim funkcijama nadogradnjom programa <i>{app_name}</i>.</string>
     <string name="dialog_contrib_no">Probaj</string>
     <string name="dialog_command_disabled_insert_transfer">Transakcije prijenosa trebaju drugi račun.</string>

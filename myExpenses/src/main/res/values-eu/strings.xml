@@ -78,8 +78,6 @@
     <string name="dialog_contrib_reminder_remove_limitation">Kendu muga hau eta eskuratu eginbide gehiago <i>{app_name}</i> bertsio-berrituz.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> doan eta libre eskaintzen da.</string>
     <string name="dialog_contrib_text_2">Mesedez lagundu <i>{app_name}</i> bertsio-berrituz eta lortu murriztu gabeko sarbidea ondorengo eginbideetara:</string>
-    <string name="dialog_contrib_usage_count">Gelditzen diren doako erabilerak</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">%1$d alditaraino erabil dezakezu zure uneko lizentziarekin (%2$s).</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">%1$d egunez erabil dezakezu zure uneko lizentziaren egoerarekin (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Zure uneko lizentziak (%2$s) %1$d kontu sortzen uzten dizu.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Zure uneko lizentziaren egoerak (%2$s) %1$d plan sortzen uzten dizu.</string>

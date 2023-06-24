@@ -120,9 +120,8 @@ class ContribInfoDialogActivity : IapActivity() {
         val featureStringFromExtra = intent.getStringExtra(KEY_FEATURE)
         if (featureStringFromExtra != null) {
             val feature = ContribFeature.valueOf(featureStringFromExtra)
-            val usagesLeft = feature.usagesLeft(prefHandler)
             val shouldCallFeature =
-                licenceHandler.hasAccessTo(feature) || !canceled && usagesLeft > 0
+                licenceHandler.hasAccessTo(feature) || !canceled && licenceHandler.usagesLeft(feature)
             if (callerIsContribIface()) {
                 val i = Intent()
                 i.putExtra(KEY_FEATURE, featureStringFromExtra)

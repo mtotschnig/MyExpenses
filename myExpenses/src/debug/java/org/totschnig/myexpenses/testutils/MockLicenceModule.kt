@@ -9,8 +9,9 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
+import java.time.Clock
 
-class MockLicenceModule : LicenceModule() {
+class MockLicenceModule(private val clock: Clock) : LicenceModule() {
     override fun provideDeviceId(application: MyApplication) = "DUMMY"
 
     override fun provideObfuscator(deviceId: String, application: MyApplication) =
@@ -31,5 +32,5 @@ class MockLicenceModule : LicenceModule() {
         prefHandler: PrefHandler,
         repository: Repository,
         currencyFormatter: CurrencyFormatter
-    ): LicenceHandler = MockLicenceHandler(application, preferenceObfuscator, crashHandler, prefHandler, repository, currencyFormatter)
+    ): LicenceHandler = MockLicenceHandler(application, preferenceObfuscator, crashHandler, prefHandler, repository, currencyFormatter, clock)
 }

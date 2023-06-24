@@ -80,8 +80,6 @@
     <string name="dialog_contrib_reminder_remove_limitation">Remove this limitation and access more features by upgrading <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> is offered open source.</string>
     <string name="dialog_contrib_text_2">Please contribute by upgrading <i>{app_name}</i> and gain unrestricted access to the following features:</string>
-    <string name="dialog_contrib_usage_count">Free usages left</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">You can use it up to %1$d times with your current licence status (%2$s).</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">You can use it for %1$d days with your current licence status (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Your current licence status (%2$s) allows you to create %1$d accounts.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Your current licence status (%2$s) allows you to create %1$d plans.</string>

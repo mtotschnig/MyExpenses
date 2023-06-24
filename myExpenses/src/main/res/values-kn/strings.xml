@@ -78,8 +78,6 @@
     <string name="dialog_contrib_reminder_remove_limitation"><i>{app_name}</i> ಅನ್ನು ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡುವ ಮೂಲಕ ಈ ಮಿತಿಯನ್ನು ತೆಗೆದುಹಾಕಿ ಮತ್ತು ಹೆಚ್ಚಿನ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಪ್ರವೇಶಿಸಿ.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> ಅನ್ನು ಮುಕ್ತ ಮೂಲವಾಗಿ ನೀಡಲಾಗುತ್ತದೆ.</string>
     <string name="dialog_contrib_text_2">ದಯವಿಟ್ಟು <i>{app_name} ಅನ್ನು</i> ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡುವ ಮೂಲಕ ಕೊಡುಗೆ ನೀಡಿ ಮತ್ತು ಈ ಕೆಳಗಿನ ವೈಶಿಷ್ಟ್ಯಗಳಿಗೆ ಅನಿಯಂತ್ರಿತ ಪ್ರವೇಶವನ್ನು ಪಡೆಯಿರಿ:</string>
-    <string name="dialog_contrib_usage_count">ಉಚಿತ ಬಳಕೆಗಳು ಉಳಿದಿವೆ</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿಯೊಂದಿಗೆ (%2$s) ನೀವು ಇದನ್ನು %1$d ಬಾರಿ ಬಳಸಬಹುದು.</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿಯೊಂದಿಗೆ (%2$s) ನೀವು ಇದನ್ನು %1$d ದಿನಗಳವರೆಗೆ ಬಳಸಬಹುದು.</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿ (%2$s) %1$d ಖಾತೆಗಳನ್ನು ರಚಿಸಲು ನಿಮಗೆ ಅನುಮತಿಸುತ್ತದೆ.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿ (%2$s) %1$d ಯೋಜನೆಗಳನ್ನು ರಚಿಸಲು ನಿಮಗೆ ಅನುಮತಿಸುತ್ತದೆ.</string>

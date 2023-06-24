@@ -1,15 +1,11 @@
 package org.totschnig.myexpenses
 
-import androidx.sqlite.db.SupportSQLiteOpenHelper
-import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.AppModule
 import org.totschnig.myexpenses.di.CoroutineModule
 import org.totschnig.myexpenses.di.CrashHandlerModule
 import org.totschnig.myexpenses.di.DaggerAppComponent
-import org.totschnig.myexpenses.di.DataModule
 import org.totschnig.myexpenses.di.NoOpTracker
 import org.totschnig.myexpenses.di.UiModule
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -24,7 +20,7 @@ import java.util.*
 class TestMyApplication : MyApplication() {
     override fun buildAppComponent(): AppComponent {
         return DaggerAppComponent.builder()
-            .licenceModule(MockLicenceModule())
+            .licenceModule(MockLicenceModule(clock))
             .applicationContext(this)
             .uiModule(object : UiModule() {
                 override fun provideDiscoveryHelper(prefHandler: PrefHandler) =

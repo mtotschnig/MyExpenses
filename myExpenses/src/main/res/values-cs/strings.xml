@@ -78,8 +78,6 @@
     <string name="dialog_contrib_reminder_remove_limitation">Užívejte více funkcí a bez omezení. Stačí provést upgrade <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> je nabízena jako open source software.</string>
     <string name="dialog_contrib_text_2">Proveďte upgrade aplikace <i>{app_name}</i> a získejte neomezený přístup k následujícím funkcím:</string>
-    <string name="dialog_contrib_usage_count">Zbývající použití zdarma</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">S vaším aktuálním licenčním statusem (%2$s) to můžete využít až %1$dkrát.</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Můžete ho používat po %1$d dní s vaším licenčním stavem (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Váš aktuální status licence (%2$s) vám umožňuje vytvořit %1$d účtů.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Váš aktuální stav licence (%2$s) vám umožňuje vytvářet plány %1$d.</string>

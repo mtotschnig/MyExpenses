@@ -78,8 +78,6 @@
     <string name="dialog_contrib_reminder_remove_limitation">A(z) <i>{app_name}</i> alkalmazás előfizetésének bővítésével megszüntetheti ezt a korlátozást, és több funkciót használhat.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> nyitott forráskódú.</string>
     <string name="dialog_contrib_text_2">Kérjük támogasson a(z) <i>{app_name}</i> bővítésével, és korlátlanul használhatja a következő funkciókat:</string>
-    <string name="dialog_contrib_usage_count">Ingyenes használat maradt</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">A licenc jelenlegi állapotával (%2$s) akár %1$d alkalommal lehet használni.</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">%1$d napig használhatja a jelenlegi licencével (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Az ön jelenlegi licencállapota (%2$s) lehetővé teszi %1$d fiók létrehozását.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">A jelenlegi licencállapot (%2$s) lehetővé teszi %1$d terv létrehozását.</string>

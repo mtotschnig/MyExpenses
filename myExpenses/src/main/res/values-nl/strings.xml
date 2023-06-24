@@ -108,8 +108,6 @@
     <string name="dialog_contrib_no">Probeer</string>
     <string name="dialog_contrib_reminder_remove_limitation">Verwijder deze beperking en krijg toegang tot meer functies door <i>{app_name}</i> te upgraden.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> wordt open source aangeboden.</string>
-    <string name="dialog_contrib_usage_count">Gratis gebruik nog over</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">U kunt het maximaal %1$d keer gebruiken met uw huidige licentiestatus (%2$s).</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">U kunt het %1$d dagen gebruiken met uw huidige licentiestatus (%2$s).</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Met uw huidige licentiestatus (%2$s) kunt u %1$d plannen maken.</string>
     <string name="dialog_contrib_usage_limit_split_templates">Met uw huidige licentiestatus (%1$s) kunt u 1 gesplitst sjabloon maken.</string>

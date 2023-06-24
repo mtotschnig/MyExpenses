@@ -76,8 +76,6 @@
     <string name="dialog_contrib_reminder_remove_limitation">Усуньте це обмеження та отримайте доступ до додаткових функцій, модернізувавши <i>{app_name}</i> до преміум-версії.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> надається з відкритим програмним кодом.</string>
     <string name="dialog_contrib_text_2">Будь ласка, підтримайте проект, модернізувавши <i>{app_name}</i>, та отримайте необмежений доступ до таких функцій:</string>
-    <string name="dialog_contrib_usage_count">Залишилось безкоштовних використань</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Ви можете використовувати це до %1$d разів із вашим поточним статусом ліцензії (%2$s).</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Ви можете використовувати це протягом %1$d днів із вашим поточним статусом ліцензії (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Ваш поточний статус ліцензії (%2$s) дозволяє створювати %1$d рахунки.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Ваш поточний статус ліцензії (%2$s) дозволяє створювати %1$d плани.</string>

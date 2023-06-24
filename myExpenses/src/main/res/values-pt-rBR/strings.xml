@@ -78,8 +78,6 @@
     <string name="dialog_contrib_reminder_remove_limitation">Remova essa limitação e acesso mais recursos atualizando o <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> é oferecido com o código aberto.</string>
     <string name="dialog_contrib_text_2">Por favor, contribua atualizando o <i>{app_name}</i> e ganhe acesso irrestrito aos seguintes recursos:</string>
-    <string name="dialog_contrib_usage_count">Usos livres restantes</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Pode usar isso mais %1$d vezes no estado atual da sua licença (%2$s).</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Pode usar isso por mais %1$d dias no estado atual da sua licença (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">O estado atual da sua licença (%2$s) permite que crie %1$d contas.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">O estado atual da sua licença (%2$s) permite que crie %1$d planos.</string>

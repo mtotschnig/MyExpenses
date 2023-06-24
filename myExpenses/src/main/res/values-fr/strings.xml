@@ -78,8 +78,6 @@
     <string name="dialog_contrib_reminder_remove_limitation">Enlevez cette limitation et accédez à plus de fonctions en passant <i>{app_name}</i> au niveau supérieur.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> vous est offert open source.</string>
     <string name="dialog_contrib_text_2">S\'il vous plaît, contribuez par la mise à niveau de &lt;i&gt;{app_name}&lt;/i&gt; et vous aurez accès sans restriction aux caractéristiques suivantes :</string>
-    <string name="dialog_contrib_usage_count">Utilisations gratuites restantes</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Vous pouvez l\'utiliser jusqu\'à %1$d fois avec le statut de votre licence actuelle (%2$s).</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Vous pouvez l\'utiliser encore %1$d jours avec la licence actuelle (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Votre statut de licence actuelle (%2$s) vous permet de créer %1$d comptes.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Votre statut de licence actuelle (%2$s) vous permet de créer %1$d échéances.</string>

@@ -78,8 +78,6 @@
     <string name="dialog_contrib_reminder_remove_limitation">Bu sınırlamayı kaldırıp daha fazla işleve erişmek için <i>{app_name}</i>\'ı yükseltin.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> açık kaynak olarak sunulmuştur.</string>
     <string name="dialog_contrib_text_2">Lütfen <i>{app_name}</i>\'ı yükselterek katkıda bulunun ve aşağıdaki işlevlere sınırsız erişim elde edin:</string>
-    <string name="dialog_contrib_usage_count">Kalan ücretsiz kullanım</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Güncel lisans durumunuz (%2$s) ile bunu %1$d defa kullanabilirsiniz.</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Güncel lisans durumunuz (%2$s) ile bunu %1$d gün kullanabilirsiniz.</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Güncel lisans durumunuz (%2$s) %1$d hesap oluşturmanıza izin vermektedir.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Güncel lisans durumunuz (%2$s) %1$d planlama oluşturmanıza izin vermektedir.</string>

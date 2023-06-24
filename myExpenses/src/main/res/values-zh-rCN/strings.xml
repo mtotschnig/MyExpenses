@@ -78,8 +78,6 @@
     <string name="dialog_contrib_reminder_remove_limitation">移除这个限制并访问更多功能，方法是升级 <i>{app_name}</i>。</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i>提供开放源代码。</string>
     <string name="dialog_contrib_text_2">请透过升级来赞助<i>{app_name}</i>，还可以解锁得到以下更多的功能:</string>
-    <string name="dialog_contrib_usage_count">免费使用次数剩</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">你当前的许可证状态 (%2$s) 允许你最多使用 %1$d 次。</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">您目前许可证 (%2$s)，允许你使用该功能 %1$d 天。</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">依据您目前许可证(%2$s)的权限，您可以建立%1$d个账户。</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">依据您目前的版本(%2$s)的权限，您可以创建%1$d个收支计划。</string>

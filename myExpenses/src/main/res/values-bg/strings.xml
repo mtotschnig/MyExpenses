@@ -78,8 +78,6 @@
     <string name="dialog_contrib_reminder_remove_limitation">Премахнете ограниченията и получете повече възможности чрез надстройка на <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> се предлага с отворен код.</string>
     <string name="dialog_contrib_text_2">Моля, допринесете за развитието на <i>{app_name}</i> като надстроите и получете неограничен достъп до следните възможности:</string>
-    <string name="dialog_contrib_usage_count">Оставащи безплатни употреби</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">При сегашния лиценз (%2$s) може да използвате общо %1$d пъти.</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">При сегашния лиценз (%2$s) може да използвате  общо %1$d дни.</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">При сегашния лиценз (%2$s) може да създадете до %1$d сметки.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">При сегашния лиценз (%2$s) може да създадете до %1$d плана.</string>

@@ -78,8 +78,6 @@
     <string name="dialog_contrib_reminder_remove_limitation">הסר הגבלה זו וגישה לתכונות נוספות על-ידי שדרוג<i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1">קוד פתוח מוצע <i>{app_name}</i> .</string>
     <string name="dialog_contrib_text_2">אנא תרמו על ידי שדרוג <i>{app_name}</i> ולקבל גישה בלתי מוגבלת לתכונות הבאות:</string>
-    <string name="dialog_contrib_usage_count">נותרו שימושים בחינם</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">אתה יכול להשתמש בזה עד %1$dפעמים במצב הנוכחי של רשיונך (%2$s).</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">אתה יכול להשתמש בזה ל- %1$dימים במצב הנוכחי של רשיונך (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">מצב הרישיון הנוכחי שלך (%2$s) מאפשר לך ליצור %1$d חשבונות.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">המצב הנוכחי של רשיונך (%2$s)מאפש רך ליצור%1$dתוכניות.</string>

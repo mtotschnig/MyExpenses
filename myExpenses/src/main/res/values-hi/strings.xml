@@ -65,8 +65,6 @@
     <string name="dialog_command_disabled_reset_account">निर्यात करने के लिए कोई लेन-देन नहीं।</string>
     <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
     <string name="dialog_contrib_premium_feature">%1$s एक प्रीमियम सुविधा है (%2$s)</string>
-    <string name="dialog_contrib_usage_count">नि: शुल्क उपयोग शेष</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">आप इसे अपने वर्तमान लाइसेंस स्थिति (%2$s) के साथ %1$d बार तक का उपयोग कर सकते हैं</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">आप अपने वर्तमान लाइसेंस स्थिति (%2$s) के साथ %1$d दिनों के लिए इसका उपयोग कर सकते हैं।</string>
     <string name="dialog_export_delete">निर्यात किए गए लेन-देन हटाएं</string>
     <string name="dialog_export_not_yet_exported">केवल वही लेन-देन निर्यात करे जो अभी तक निर्यात नहीं किए गए है</string>

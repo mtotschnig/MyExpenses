@@ -78,8 +78,6 @@
     <string name="dialog_contrib_reminder_remove_limitation">Entfernen Sie diese Einschränkung und erhalten Sie Zugriff auf mehr Funktionen, indem Sie <i>{app_name}</i> upgraden.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> wird Ihnen mit offenem Quellcode angeboten.</string>
     <string name="dialog_contrib_text_2">Bitte leisten Sie einen Beitrag durch ein Upgrade von <i>{app_name}</i> und erhalten Sie uneingeschränkten Zugriff auf die folgenden Funktionen:</string>
-    <string name="dialog_contrib_usage_count">Verbleibende Gratis Nutzungen</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie es %1$d mal verwenden.</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie es %1$d Tage lang verwenden.</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie %1$d Konten anlegen.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie %1$d Pläne anlegen.</string>

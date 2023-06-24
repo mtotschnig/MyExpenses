@@ -78,8 +78,6 @@
     <string name="dialog_contrib_reminder_remove_limitation">قم بإزالة هذا القيد والوصول إلى المزيد من الميزات عن طريق ترقية <i> {app_name}</i>.</string>
     <string name="dialog_contrib_text_1">إن <i>{app_name}</i> مفتوح المصدر.</string>
     <string name="dialog_contrib_text_2">يرجى المساهمة بترقية <i>{app_name}</i> والحصول على وصول غير مقيد إلى الميزات التالية:</string>
-    <string name="dialog_contrib_usage_count">الاستخدامات المجانية المتبقية</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">يمكنك استخدامه حتى %1$d مرة مع حالة الترخيص الحالية (%2$s).</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">يمكنك استخدامه لمدة %1$d يوماً بحالة ترخيصك الحالية (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">تسمح لك حالة الترخيص الحالية (%2$s) بإنشاء %1$d حسابات.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">تسمح لك حالة الترخيص الحالية (%2$s) بإنشاء %1$d من الخطط.</string>

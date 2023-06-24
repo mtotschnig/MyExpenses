@@ -34,7 +34,7 @@ ext {
     androidxArchVersion = '2.2.0'
     fragmentVersion = "1.6.0"
     coroutines = '1.6.4'
-    mockitoVersion = '4.9.0'
+    mockitoVersion = '5.4.0'
     retrofitVersion = "2.10.0-SNAPSHOT"
     ktxVersion = "1.10.0"
     appcompatVersion = "1.6.1"

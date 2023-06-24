@@ -78,8 +78,6 @@
     <string name="dialog_contrib_reminder_remove_limitation"><i>{app_name}</i> ஐ மேம்படுத்துவதன் மூலம் இந்த வரம்பை நீக்கி கூடுதல் அம்சங்களை பெறலாம்.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> திறந்த மூல செயலியாக வழங்கப்படுகிறது.</string>
     <string name="dialog_contrib_text_2"><i>{app_name}</i> ஐ மேம்படுத்துவதன் மூலம் (தயவுசெய்து) பங்களித்து பின்வரும் அம்சங்களுக்கு வரம்பற்ற அணுகலைப் பெறவும்:</string>
-    <string name="dialog_contrib_usage_count">மீதமுள்ள இலவச பயன்பாடுகள்</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">உங்களது தற்போதைய உரிம நிலை (%2$s) உடன் நீங்கள் %1$d முறை வரை அதைப் பயன்படுத்தலாம்.</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">உங்கள் தற்போதைய உரிம நிலை (%2$s) உடன்  நீங்கள் %1$d நாட்களுக்கு அதைப் பயன்படுத்தலாம்.</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">உங்கள் தற்போதைய உரிம நிலை (%2$s) %1$d கணக்குகளை உருவாக்க உங்களை அனுமதிக்கிறது.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">உங்கள் தற்போதைய உரிம நிலை (%2$s) உங்களை %1$d திட்டங்களை உருவாக்க உங்களை அனுமதிக்கிறது.</string>

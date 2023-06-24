@@ -78,8 +78,6 @@
     <string name="dialog_contrib_reminder_remove_limitation">Buang sekatan ini dan capai lagi banyak fitur dengan menatar <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> merupakan sumber terbuka.</string>
     <string name="dialog_contrib_text_2">Berilah sumbangan dalam bentuk derma dengan menatar <i>{app_name}</i> dan peroleh capaian tanpa had fitur-fitur berikut:</string>
-    <string name="dialog_contrib_usage_count">Penggunaan percuma berbaki</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Anda boleh guna sehingga %1$d kali dengan status lesen semasa anda (%2$s).</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Anda boleh guna sehingga %1$d hari dengan status lesen semasa anda (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Status lesen semasa anda (%2$s) membolehkan anda cipta sehingga %1$d akaun.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Status lesen semasa anda (%2$s) membolehkan anda cipta sehingga %1$d plan.</string>

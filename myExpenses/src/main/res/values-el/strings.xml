@@ -78,8 +78,6 @@
     <string name="dialog_contrib_reminder_remove_limitation">Αφαιρέστε αυτόν τον περιορισμό και αποκτήστε πρόσβαση σε περισσότερες δυνατότητες αναβαθμίζοντας το <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> είναι ανοικτού κώδικα.</string>
     <string name="dialog_contrib_text_2">Παρακαλώ συνεισφέρετε αναβαθμίζοντας το <i>{app_name}</i> και αποκτήσετε απεριόριστη πρόσβαση στις παρακάτω δυνατότητες:</string>
-    <string name="dialog_contrib_usage_count">Εναπομείνουσες ελεύθερες χρήσεις</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Μπορείτε να το χρησιμοποιήσετε μέχρι %1$d φορές με την τωρινή σας άδεια (%2$s).</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Μπορείτε να το χρησιμοποιήσετε για %1$d ημέρες με την τωρινή σας άδεια (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Η άδεια που κατέχετε (%2$s) σας επιτρέπει να δημιουργήσετε %1$d λογαριασμούς.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Η άδεια που κατέχετε (%2$s) σας επιτρέπει να δημιουργήσετε %1$d πλάνα.</string>

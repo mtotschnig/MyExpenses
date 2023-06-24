@@ -8,6 +8,7 @@ import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.licence.LicenceStatus
+import java.time.Clock
 
 class MockLicenceHandler(
     context: MyApplication,
@@ -15,8 +16,9 @@ class MockLicenceHandler(
     crashHandler: CrashHandler,
     prefHandler: PrefHandler,
     repository: Repository,
-    currencyFormatter: CurrencyFormatter
-) : LicenceHandler(context, licenseStatusPrefs, crashHandler, prefHandler, repository, currencyFormatter) {
+    currencyFormatter: CurrencyFormatter,
+    clock: Clock
+) : LicenceHandler(context, licenseStatusPrefs, crashHandler, prefHandler, repository, currencyFormatter, clock) {
     fun setLockState(locked: Boolean) {
         this.licenceStatus = if (locked) null else LicenceStatus.PROFESSIONAL
         update()

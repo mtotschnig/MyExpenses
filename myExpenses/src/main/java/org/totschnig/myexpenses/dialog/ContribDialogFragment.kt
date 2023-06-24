@@ -104,7 +104,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
             val featureDescription = feature.buildFullInfoString(ctx)
             val linefeed: CharSequence = HtmlCompat.fromHtml("<br>", FROM_HTML_MODE_LEGACY)
             val removePhrase = feature.buildRemoveLimitation(requireContext(), true)
-            feature.buildUsagesLeftString(ctx, prefHandler)?.let {
+            feature.buildUsagesLeftString(ctx, licenceHandler)?.let {
                 binding.usagesLeft.text = it
                 binding.usagesLeft.isVisible = true
             }

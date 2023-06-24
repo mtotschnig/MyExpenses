@@ -27,6 +27,8 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrNull
 import timber.log.Timber
+import java.time.Clock
+import java.time.Instant
 import java.time.LocalTime
 import java.time.ZoneId
 import java.util.*
@@ -38,7 +40,8 @@ open class LicenceHandler(
     private val crashHandler: CrashHandler,
     protected val prefHandler: PrefHandler,
     private val repository: Repository,
-    private val currencyFormatter: CurrencyFormatter
+    private val currencyFormatter: CurrencyFormatter,
+    private val clock: Clock = Clock.systemUTC()
 ) {
     private var hasOurLicence = false
     private val isSandbox = BuildConfig.DEBUG
@@ -87,7 +90,7 @@ open class LicenceHandler(
      * @return user either has access through licence or through trial
      */
     fun hasTrialAccessTo(feature: ContribFeature): Boolean {
-        return hasAccessTo(feature) || feature.usagesLeft(prefHandler) > 0
+        return hasAccessTo(feature) || usagesLeft(feature)
     }
 
     fun hasAccessTo(feature: ContribFeature): Boolean {
@@ -195,7 +198,7 @@ open class LicenceHandler(
 
     open fun getExtendOrSwitchMessage(aPackage: ProfessionalPackage): String {
         val extendedDate = DateUtils.addMonths(
-            Date(validUntilMillis.coerceAtLeast(System.currentTimeMillis())),
+            Date(validUntilMillis.coerceAtLeast(clock.millis())),
             aPackage.getDuration(false)
         )
         return context.getString(
@@ -398,6 +401,33 @@ open class LicenceHandler(
         prefHandler.putBoolean(PrefKey.NEW_ACCOUNT_ENABLED, newAccountEnabled)
     }
 
+    fun recordUsage(feature: ContribFeature) {
+        if (!hasAccessTo(feature) &&
+            feature.trialMode == ContribFeature.TrialMode.DURATION && !prefHandler.isSet(feature.prefKey)
+        ) {
+            prefHandler.putLong(feature.prefKey, clock.millis())
+        }
+    }
+
+
+    fun usagesLeft(feature: ContribFeature) = when (feature.trialMode) {
+        ContribFeature.TrialMode.DURATION -> {
+            val now = clock.millis()
+            getEndOfTrial(feature) > now
+        }
+
+        ContribFeature.TrialMode.UNLIMITED -> true
+        else -> false
+    }
+
+    private fun getStartOfTrial(feature: ContribFeature): Long {
+        return prefHandler.getLong(feature.prefKey, clock.millis())
+    }
+
+    fun getEndOfTrial(feature: ContribFeature): Long {
+        val trialDurationMillis = TimeUnit.DAYS.toMillis(TRIAL_DURATION_DAYS)
+        return getStartOfTrial(feature) + trialDurationMillis
+    }
 
     companion object {
         protected const val LICENSE_STATUS_KEY = "licence_status"
@@ -405,6 +435,7 @@ open class LicenceHandler(
         private const val LICENSE_VALID_SINCE_KEY = "licence_valid_since"
         private const val LICENSE_VALID_UNTIL_KEY = "licence_valid_until"
         const val TAG = "LicenceHandler"
+        const val TRIAL_DURATION_DAYS = 60L
         fun log(): Timber.Tree {
             return Timber.tag(TAG)
         }

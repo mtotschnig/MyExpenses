@@ -78,8 +78,6 @@
     <string name="dialog_contrib_reminder_remove_limitation">رفع این محدودیت و دسترسی به ویژگی‌های بیشتر از طریق ارتقاء <i>{app_name}</i></string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> به صورت متن‌باز ارائه شده است.</string>
     <string name="dialog_contrib_text_2">لطفاً با ارتقاء <i>{app_name}</i> به برنامه کمک کنید و به ویژگی‌های زیر دسترسی نامحدود پیدا کنید:</string>
-    <string name="dialog_contrib_usage_count">فضای خالی باقی‌مانده</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">شما با لایسنس فعلی خود می‌تواند %1$d بار دیگر از این استفاده کنید (%2$s).</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">شما با لایسنس فعلی می‌توانید %1$d روز دیگر از این استفاده کنید (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">شما با لایسنس فعلی (%2$s) می‌توانید %1$d حساب ایجاد کنید.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">شما با لایسنس فعلی (%2$s) می‌توانید %1$d برنامه ایجاد کنید.</string>

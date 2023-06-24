@@ -302,7 +302,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   public void recordUsage(ContribFeature f) {
-    f.recordUsage(prefHandler, licenceHandler);
+    licenceHandler.recordUsage(f);
   }
 
   @Override
