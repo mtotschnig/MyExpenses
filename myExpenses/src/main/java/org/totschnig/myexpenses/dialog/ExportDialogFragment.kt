@@ -29,6 +29,8 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.databinding.ExportDialogBinding
+import org.totschnig.myexpenses.export.AbstractExporter.Companion.ENCODING_LATIN_1
+import org.totschnig.myexpenses.export.AbstractExporter.Companion.ENCODING_UTF_8
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
@@ -195,8 +197,8 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             }
         )
 
-        val encoding = prefHandler.getString(PREF_KEY_EXPORT_ENCODING, "UTF-8")
-        binding.Encoding.check(if (encoding == "UTF_-8") R.id.utf8 else R.id.iso88591)
+        val encoding = prefHandler.getString(PREF_KEY_EXPORT_ENCODING, ENCODING_UTF_8)
+        binding.Encoding.check(if (encoding == ENCODING_UTF_8) R.id.utf8 else R.id.iso88591)
 
         val delimiter = prefHandler.getInt(KEY_DELIMITER, ','.code)
             .toChar()
@@ -332,7 +334,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
                 EXPORT_HANDLE_DELETED_DO_NOTHING
             }
         }
-        val encoding = if (binding.Encoding.checkedButtonId == R.id.utf8) "UTF-8" else "ISO-8859-1"
+        val encoding = if (binding.Encoding.checkedButtonId == R.id.utf8) ENCODING_UTF_8 else ENCODING_LATIN_1
         with(prefHandler) {
             putString(PrefKey.EXPORT_FORMAT, format.name)
             putString(PREF_KEY_EXPORT_DATE_FORMAT, dateFormat)

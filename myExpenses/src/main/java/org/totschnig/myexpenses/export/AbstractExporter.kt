@@ -218,4 +218,9 @@ abstract class AbstractExporter
     open fun recordDelimiter(isLastLine: Boolean): String? = "\n"
 
     open fun footer(): String? = null
+
+    companion object {
+        const val ENCODING_UTF_8 = "UTF-8"
+        const val ENCODING_LATIN_1 = "ISO-8859-1"
+    }
 }
