@@ -1,0 +1,6 @@
+• Icons for payment methods can be customized.
+• Grand total: Search: Equivalent amount
+• Plan calendar view: Refinement of the user interface
+
+https://github.com/mtotschnig/MyExpenses/projects/102#column-19526743
+https://github.com/mtotschnig/MyExpenses/projects/101#column-19509349

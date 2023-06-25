@@ -1,0 +1,6 @@
+• Los iconos de los métodos de pago pueden personalizarse.
+• Total general: Búsqueda: Cantidad equivalente
+• Vista en calendario: Interfaz de usuario mejorada
+
+https://github.com/mtotschnig/MyExpenses/projects/101#column-19509349
+https://github.com/mtotschnig/MyExpenses/projects/102#column-19526743

@@ -1,0 +1,6 @@
+• A fizetési módok ikonjai testre szabhatók.
+• Végösszeg: Keresés: Egyenértékű összeg
+• Terv naptár nézet: A felhasználói felület finomítása
+
+https://github.com/mtotschnig/MyExpenses/projects/101#column-19509349
+https://github.com/mtotschnig/MyExpenses/projects/102#column-19526743

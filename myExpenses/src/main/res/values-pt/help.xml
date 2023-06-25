@@ -197,4 +197,9 @@
     <string name="help_Budget_amount_click_1">A alteração de um montante nunca afetará os períodos passados. A menos que se decida defini-lo apenas para o período atual, afetará os períodos futuros.</string>
     <string name="menu_BudgetActivity_rollover_help_text">Se o orçamento ficar aquém ou além do previsto, é possível transferir a diferença para o período seguinte, de modo a aumentar ou diminuir o montante que pode ser afetado. Existem três opções:</string>
     <string name="menu_BudgetActivity_rollover_total">Apenas o restante do orçamento total é transferido, de modo que apenas o orçamento total do período seguinte seja aumentado ou diminuído.</string>
+    <string name="cab_MyExpenses_select_help_text">A seleção múltipla pode ser iniciada através de selecionar este comando ou de tocar longo numa entrada da lista.</string>
+    <string name="menu_show_all_help_text">As dívidas que foram fechadas ou pagas (o seu saldo é 0) só serão apresentadas se esta opção estiver selecionada.</string>
+    <string name="help_WebUI_info_3">É possível definir uma palavra-passe para proteger o acesso. No diálogo apresentado pelo navegador Web, apenas a palavra-passe é necessária, o nome de utilizador é ignorado.</string>
+    <string name="help_DebtOverview_info">Clique numa entrada para expandir/recolher.</string>
+    <string name="debt_help_overflow">Para cada dívida, utilize o menu no canto superior direito para a editar, fechar, eliminar ou partilhar. As dívidas em moeda estrangeira podem, opcionalmente, ser listadas com montantes equivalentes na moeda nacional.</string>
 </resources>

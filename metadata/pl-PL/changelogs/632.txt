@@ -1,0 +1,6 @@
+• Dostosowywane są metody płatności.
+• Suma całkowita: Wyszukiwanie: Kwota równoważna
+• Widok planu kalendarza: Dopracowanie interfejsu użytkownika
+
+https://github.com/mtotschnig/MyExpenses/projects/101#column-19509349
+https://github.com/mtotschnig/MyExpenses/projects/102#column-19526743

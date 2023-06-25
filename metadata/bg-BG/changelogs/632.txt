@@ -1,0 +1,6 @@
+• Иконите на методите за плащане може да бъдат персонализирани.
+• Общо: Търсене: Еквивалентна сума
+• Изглед на план-календар: Подобрения в потребителския интерфейс
+
+https://github.com/mtotschnig/MyExpenses/projects/101#column-19509349
+https://github.com/mtotschnig/MyExpenses/projects/102#column-19526743
