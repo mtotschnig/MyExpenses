@@ -30,7 +30,10 @@
   <string name="help_ManageTemplates_plans_title">Egutegi ikuspegia</string>
   <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Txantiloiak transakzioetatik erator daitezke beraien laster-menuaren bidez, hemen txantiloi berriak sor ditzakezu hutsetik (transakzioetarako edo transferentzietarako) ekintza botoi mugikorrean klik eginez. Txantiloi batean klik eginez, horretarako instantzia bat sortzen da.<br><img src=\"ic_event\">Plan bat egutegiaren antolatzailean berarentzako gertaera bat (behin edo errepikakorra) sortu duzun txantiloi bat da. Plan batean klik egiteak egutegi ikuspegia irekiko du, zeinak plan baten iraganeko eta hurrengo instantziak bistaratuko dituen.]]></string>
   <string name="help_ManageTemplates_plans_intro">Nabarmendutako data bakoitzak planeko instantzia bat adierazten du.</string>
-  <string name="help_ManageTemplates_plans_info"><![CDATA[Instantzia baten egoera ondorengo ikonoekin adierazita dago:<br><img src=\"ic_stat_open\">Instantzia oraindik ez da aplikatua izan.<br><img src=\"ic_stat_applied\">Instantzia aplikatua izan da.<br><img src=\"ic_stat_cancelled\"> Instantzia utzia izan da, adib. saltatua izateko markatu baduzu. Ez da transakziorik sortuko instantzia honetarako.]]></string>
+  <string name="help_ManageTemplates_plans_info_header">Instantzia baten egoera ondorengo ikonoekin adierazita dago:</string>
+  <string name="help_ManageTemplates_plans_info_open">Instantzia oraindik ez da aplikatua izan.</string>
+  <string name="help_ManageTemplates_plans_info_applied">Instantzia aplikatua izan da.</string>
+  <string name="help_ManageTemplates_plans_info_cancelled">Instantzia utzia izan da, adib. saltatua izateko markatu baduzu. Ez da transakziorik sortuko instantzia honetarako.</string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Aukeratutako txantiloien instantziak sortu eta gorde berehala. </string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Aukeratutako txantiloiaren instantzia bat sortu eta sartu edizio formularioan gorde aurretik aldatzeko.</string>
   <string name="cab_ManageTemplates_delete_help_text">Ezabatu aukeratutako txantiloiak eta hauei lotutako planak.</string>

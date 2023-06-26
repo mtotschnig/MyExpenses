@@ -37,7 +37,10 @@
     <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\"> بينما يمكن اشتقاق القوالب من المعاملات من خلال قائمة السياق الخاصة بها ، هنا يمكنك إنشاء قوالب جديدة من البداية (للمعاملات أو التحويلات) بالنقر فوق زر الإجراء العائم. يؤدي النقر فوق قالب إلى إنشاء مثيل له.<br><img src=\"ic_event\"> الخطة هي قالب قمت بإنشاء حدث له (لمرة واحدة أو متكرر) في تقويم المخطط. سيؤدي النقر فوق إحدى الخطط إلى فتح طريقة عرض التقويم ، والتي تعرض الحالات السابقة والقادمة للخطة.]]></string>
     <string name="help_ManageTemplates_planner_intro">يؤدي النقر لفترة طويلة على مثيل مفتوح إلى بدء التحديد المتعدد. يتيح النقر على بداية النطاق الزمني أو نهايته توسيع النطاق إلى الماضي أو المستقبل.</string>
     <string name="help_ManageTemplates_plans_intro">يمثل كل تاريخ مميز مثيلاً للخطة.</string>
-    <string name="help_ManageTemplates_plans_info"><![CDATA[يشار إلى حالة المثيل بالرموز التالية:<br><img src=\"ic_stat_open\"> لم يتم تطبيق المثيل بعد.<br><img src=\"ic_stat_applied\"> تم تطبيق المثيل.<br><img src=\"ic_stat_cancelled\"> تم إلغاء المثيل ، أي أنك قمت بطرحه ليتم تخطيه. لن يتم إنشاء أي معاملة لهذه الحالة.]]></string>
+    <string name="help_ManageTemplates_plans_info_header">يشار إلى حالة المثيل بالرموز التالية:</string>
+    <string name="help_ManageTemplates_plans_info_open">لم يتم تطبيق المثيل بعد.</string>
+    <string name="help_ManageTemplates_plans_info_applied">تم تطبيق المثيل.</string>
+    <string name="help_ManageTemplates_plans_info_cancelled">تم إلغاء المثيل ، أي أنك قمت بطرحه ليتم تخطيه. لن يتم إنشاء أي معاملة لهذه الحالة.</string>
     <string name="cab_ManageTemplates_templates_create_instance_save_help_text">إنشاء القوالب المحددة وحفظها على الفور.</string>
     <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">قم بإنشاء النموذج المحدد وأدخل نموذج التحرير الخاص به حيث يمكنك تعديله قبل الحفظ.</string>
     <string name="cab_ManageTemplates_delete_help_text">احذف القوالب المحددة وأي خطط مرتبطة بها.</string>

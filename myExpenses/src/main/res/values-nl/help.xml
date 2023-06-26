@@ -43,7 +43,10 @@
     <string name="help_ManageParties_select_mapping_info">Selecteer een partij door erop te tikken.</string>
     <string name="menu_merge_help_text">Als dezelfde partij meerdere keren in de lijst voorkomt met verschillende spellingsvarianten, kunt u ze samenvoegen. U wordt gevraagd om te selecteren welke variant u wilt behouden.</string>
     <string name="help_ManageTemplates_plans_intro">Elke gemarkeerde datum vertegenwoordigt een instantie van het plan.</string>
-    <string name="help_ManageTemplates_plans_info">De status van een instantie wordt aangegeven door de volgende pictogrammen:&lt;br&gt;&lt;img src=ic_stat_open&gt; De instantie is nog niet toegepast.&lt;br&gt;&lt;img src=ic_stat_applied&gt; De instantie is toegepast.&lt;br&gt;&lt;img src =ic_stat_cancelled&gt; De instantie is geannuleerd, d.w.z. u hebt gemarkeerd dat deze moet worden overgeslagen. Er wordt geen transactie gemaakt voor deze instantie.</string>
+    <string name="help_ManageTemplates_plans_info_header">De status van een instantie wordt aangegeven door de volgende pictogrammen:</string>
+    <string name="help_ManageTemplates_plans_info_open">De instantie is nog niet toegepast.</string>
+    <string name="help_ManageTemplates_plans_info_applied">De instantie is toegepast.</string>
+    <string name="help_ManageTemplates_plans_info_cancelled">De instantie is geannuleerd, d.w.z. u hebt gemarkeerd dat deze moet worden overgeslagen. Er wordt geen transactie gemaakt voor deze instantie.</string>
     <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Instantieer de geselecteerde sjabloon en voer het bewerkingsformulier in, waar u het kunt wijzigen voordat u het opslaat.</string>
     <string name="menu_ManageTemplates_templates_sort_help_text">De sjabloonlijst kan worden gesorteerd op titel (alfabetisch), op hoeveelheid, op gebruiksfrequentie of op de laatste keer dat er een transactie van is gemaakt.</string>
     <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Instantiseer de geselecteerde sjablonen en sla ze onmiddellijk op.</string>

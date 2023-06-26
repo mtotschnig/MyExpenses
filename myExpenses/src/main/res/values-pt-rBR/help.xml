@@ -39,7 +39,10 @@
     <string name="help_ManageTemplates_templates_info"><![CDATA[<img src="ic_menu_template">Embora os modelos possam ser derivados de transações por meio de seu menu de contexto, aqui você pode criar novos modelos do zero (para transações ou transferências) clicando no botão de ação flutuante. Clicar em um modelo criará uma instância para ele.<br><img src="ic_event"> Um plano é um modelo para o qual você criou um evento (único ou recorrente) no calendário de planejamento. Clicar em um plano abre uma visualização do calendário, que exibe as instâncias anteriores e futuras de um plano.]]></string>
     <string name="help_ManageTemplates_planner_intro">Um toque longo em uma instância aberta inicia a seleção múltipla. Tocar no início ou no final do intervalo de datas permite estender o intervalo para o passado ou o futuro.</string>
     <string name="help_ManageTemplates_plans_intro">Cada data destacada representa uma instância do plano.</string>
-    <string name="help_ManageTemplates_plans_info"><![CDATA[O estado de uma instância é indicado pelos seguintes ícones:<br><img src=\"ic_stat_open\"> A instância ainda não foi gerada.<br><img src=\"ic_stat_applied\"> A instância foi gerada.<br><img src=\"ic_stat_cancelled\"> A instância foi cancelada, ou seja, você marcou-a para ser ignorada. Nenhuma transação será criada para esta instância.]]></string>
+    <string name="help_ManageTemplates_plans_info_header">O estado de uma instância é indicado pelos seguintes ícones:</string>
+    <string name="help_ManageTemplates_plans_info_open">A instância ainda não foi gerada.</string>
+    <string name="help_ManageTemplates_plans_info_applied">A instância foi gerada.</string>
+    <string name="help_ManageTemplates_plans_info_cancelled">A instância foi cancelada, ou seja, você marcou-a para ser ignorada. Nenhuma transação será criada para esta instância.</string>
     <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Instancia os modelos selecionados e os salva imediatamente.</string>
     <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Instancia o modelo selecionado e entra em sua tela de edição, onde você pode modificá-lo antes de salvar.</string>
     <string name="cab_ManageTemplates_delete_help_text">Exclui os modelos selecionados e todos os planos associados.</string>

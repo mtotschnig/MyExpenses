@@ -102,14 +102,13 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
         //prepare HEADER
         val message = feature?.let { feature ->
             val featureDescription = feature.buildFullInfoString(ctx)
-            val linefeed: CharSequence = HtmlCompat.fromHtml("<br>", FROM_HTML_MODE_LEGACY)
             val removePhrase = feature.buildRemoveLimitation(requireContext(), true)
             feature.buildUsagesLeftString(ctx, licenceHandler)?.let {
                 binding.usagesLeft.text = it
                 binding.usagesLeft.isVisible = true
             }
 
-            TextUtils.concat(featureDescription, linefeed, removePhrase)
+            TextUtils.concat(featureDescription, "\n", removePhrase)
         } ?: Utils.getTextWithAppName(context, R.string.dialog_contrib_text_2).let {
             if (isGithub)
                 TextUtils.concat(Utils.getTextWithAppName(context, R.string.dialog_contrib_text_1), " ", it)

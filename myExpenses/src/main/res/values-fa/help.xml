@@ -70,7 +70,10 @@
     <string name="help_ManageParties_floating_action_button">از دکمه شناور برای افزودن ورودی جدید استفاده کنید.</string>
     <string name="menu_merge_help_text">اگر یک فرد چندین بار در لیست با تغییرات املایی متفاوت ظاهر شود، می توانید آنها را با هم ادغام کنید. از شما خواسته می شود که کدام نوع را انتخاب کنید.</string>
     <string name="help_ManageTemplates_planner_intro">ضربه زدن طولانی بر روی یک نمونه باز، انتخاب چندگانه را آغاز می کند. ضربه زدن روی شروع یا پایان محدوده تاریخ به شما امکان می دهد محدوده را به گذشته یا آینده گسترش دهید.</string>
-    <string name="help_ManageTemplates_plans_info">وضعیت یک نمونه با نمادهای زیر نشان داده می شود:&lt;br&gt;&lt;img src=ic_stat_open&gt; نمونه هنوز اعمال نشده است.&lt;br&gt;&lt;img src=ic_stat_applied&gt; نمونه اعمال شده است.&lt;br&gt;&lt;img src =ic_stat_cancelled&gt; نمونه لغو شده است، یعنی شما آن را علامت گذاری کرده اید تا رد شود. هیچ معامله ای برای این مثال ایجاد نخواهد شد.</string>
+    <string name="help_ManageTemplates_plans_info_header">وضعیت یک نمونه با نمادهای زیر نشان داده می شود:</string>
+    <string name="help_ManageTemplates_plans_info_open">نمونه هنوز اعمال نشده است.</string>
+    <string name="help_ManageTemplates_plans_info_applied">نمونه اعمال شده است.</string>
+    <string name="help_ManageTemplates_plans_info_cancelled">نمونه لغو شده است، یعنی شما آن را علامت گذاری کرده اید تا رد شود. هیچ معامله ای برای این مثال ایجاد نخواهد شد.</string>
     <string name="menu_ManageCategories_sort_help_text">فهرست دسته ها را می توان بر اساس عنوان (الفبایی)، تعداد دفعات استفاده، یا آخرین باری که تراکنش به آن نگاشت شده است مرتب کرد.</string>
     <string name="help_ExpenseEdit_templateSplit_title">فرم برای تقسیم الگوها</string>
     <string name="help_ExpenseEdit_templateCategory_info">از این فرم برای وارد کردن یک الگوی جدید یا ویرایش یک الگوی موجود استفاده کنید. از منوی کشویی در نوار عمل برای جابه‌جایی بین قالب‌های تراکنش، انتقال و تقسیم استفاده کنید.</string>

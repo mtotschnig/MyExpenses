@@ -154,7 +154,7 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
                     screenInfo = if (!TextUtils.isEmpty(screenInfo)) {
                         TextUtils.concat(
                             screenInfo,
-                            HtmlCompat.fromHtml("<br>", FROM_HTML_MODE_LEGACY),
+                            "\n",
                             variantInfo
                         )
                     } else {

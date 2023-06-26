@@ -31,7 +31,10 @@
     <string name="help_ManageTemplates_planner_title">ಮುಂಬರುವ ಮರುಕಳಿಸುವಿಕೆಗಳು</string>
     <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\"> ಟೆಂಪ್ಲೆಟ್ಗಳನ್ನು ಅವುಗಳ ಸಂದರ್ಭ ಮೆನು ಮೂಲಕ ವಹಿವಾಟಿನಿಂದ ಪಡೆಯಬಹುದಾದರೂ, ಇಲ್ಲಿ ನೀವು ಫ್ಲೋಟಿಂಗ್ ಆಕ್ಷನ್ ಬಟನ್ ಕ್ಲಿಕ್ ಮಾಡುವ ಮೂಲಕ ಮೊದಲಿನಿಂದ (ವ್ಯವಹಾರ ಅಥವಾ ವರ್ಗಾವಣೆಗಾಗಿ) ಹೊಸ ಟೆಂಪ್ಲೆಟ್ಗಳನ್ನು ರಚಿಸಬಹುದು. ಟೆಂಪ್ಲೇಟ್ ಅನ್ನು ಕ್ಲಿಕ್ ಮಾಡುವುದರಿಂದ, ಅದಕ್ಕಾಗಿ ಒಂದು ಉದಾಹರಣೆಯನ್ನು ರಚಿಸುತ್ತದೆ. <br><img src=\"ic_event\"> ಯೋಜನೆ ಎಂಬುದು ಟೆಂಪ್ಲೇಟ್ ಆಗಿದ್ದು, ಇದಕ್ಕಾಗಿ ನೀವು ಪ್ಲಾನರ್ ಕ್ಯಾಲೆಂಡರ್‌ನಲ್ಲಿ ಈವೆಂಟ್ ಅನ್ನು (ಒಂದು ಬಾರಿ ಅಥವಾ ಮರುಕಳಿಸುವ) ರಚಿಸಿದ್ದೀರಿ. ಯೋಜನೆಯ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡುವುದರಿಂದ, ಕ್ಯಾಲೆಂಡರ್ ವೀಕ್ಷಣೆಯನ್ನು ತೆರೆಯುತ್ತದೆ, ಇದು ಯೋಜನೆಯ ಹಿಂದಿನ ಮತ್ತು ಮುಂಬರುವ ನಿದರ್ಶನಗಳನ್ನು ಪ್ರದರ್ಶಿಸುತ್ತದೆ.]]></string>
     <string name="help_ManageTemplates_plans_intro">ಪ್ರತಿ ಹೈಲೈಟ್ ಮಾಡಿದ ದಿನಾಂಕವು ಯೋಜನೆಯ ಉದಾಹರಣೆಯನ್ನು ಪ್ರತಿನಿಧಿಸುತ್ತದೆ.</string>
-    <string name="help_ManageTemplates_plans_info"><![CDATA[ಒಂದು ಉದಾಹರಣೆಯ ಸ್ಥಿತಿಯನ್ನು ಈ ಕೆಳಗಿನ ಐಕಾನ್‌ಗಳಿಂದ ಸೂಚಿಸಲಾಗುತ್ತದೆ:<br><img src=\"ic_stat_open\"> ಉದಾಹರಣೆಯನ್ನು ಇನ್ನೂ ಅನ್ವಯಿಸಲಾಗಿಲ್ಲ. <br><img src=\"ic_stat_applied\"> ಉದಾಹರಣೆಯನ್ನು ಅನ್ವಯಿಸಲಾಗಿದೆ. <br><img src=\"ic_stat_cancelled\"> ನಿದರ್ಶನವನ್ನು ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ, ಅಂದರೆ ನೀವು ಅದನ್ನು ಬಿಟ್ಟುಬಿಡಬೇಕೆಂದು ಫ್ಲ್ಯಾಗ್ ಮಾಡಿದ್ದೀರಿ. ಈ ಉದಾಹರಣೆಗಾಗಿ ಯಾವುದೇ ವಹಿವಾಟನ್ನು ರಚಿಸಲಾಗುವುದಿಲ್ಲ.]]></string>
+    <string name="help_ManageTemplates_plans_info_header">ಒಂದು ಉದಾಹರಣೆಯ ಸ್ಥಿತಿಯನ್ನು ಈ ಕೆಳಗಿನ ಐಕಾನ್‌ಗಳಿಂದ ಸೂಚಿಸಲಾಗುತ್ತದೆ:</string>
+    <string name="help_ManageTemplates_plans_info_open">ಉದಾಹರಣೆಯನ್ನು ಇನ್ನೂ ಅನ್ವಯಿಸಲಾಗಿಲ್ಲ.</string>
+    <string name="help_ManageTemplates_plans_info_applied">ಉದಾಹರಣೆಯನ್ನು ಅನ್ವಯಿಸಲಾಗಿದೆ.</string>
+    <string name="help_ManageTemplates_plans_info_cancelled">ನಿದರ್ಶನವನ್ನು ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ, ಅಂದರೆ ನೀವು ಅದನ್ನು ಬಿಟ್ಟುಬಿಡಬೇಕೆಂದು ಫ್ಲ್ಯಾಗ್ ಮಾಡಿದ್ದೀರಿ. ಈ ಉದಾಹರಣೆಗಾಗಿ ಯಾವುದೇ ವಹಿವಾಟನ್ನು ರಚಿಸಲಾಗುವುದಿಲ್ಲ.</string>
     <string name="cab_ManageTemplates_templates_create_instance_save_help_text">ಆಯ್ದ ಟೆಂಪ್ಲೆಟ್ಗಳನ್ನು ತ್ವರಿತಗೊಳಿಸಿ ಮತ್ತು ತಕ್ಷಣ ಅವುಗಳನ್ನು ಉಳಿಸಿ.</string>
     <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">ಆಯ್ದ ಟೆಂಪ್ಲೆಟ್ ಅನ್ನು ಸ್ಥಾಪಿಸಿ ಮತ್ತು ಅದರ ಸಂಪಾದನೆ ಫಾರ್ಮ್ ಅನ್ನು ನಮೂದಿಸಿ ಅಲ್ಲಿ ನೀವು ಉಳಿಸುವ ಮೊದಲು ಅದನ್ನು ಮಾರ್ಪಡಿಸಬಹುದು.</string>
     <string name="cab_ManageTemplates_delete_help_text">ಆಯ್ದ ಟೆಂಪ್ಲೆಟ್ ಮತ್ತು ಯಾವುದೇ ಸಂಬಂಧಿತ ಯೋಜನೆಗಳನ್ನು ಅಳಿಸಿ.</string>

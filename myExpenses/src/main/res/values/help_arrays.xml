@@ -425,6 +425,11 @@
         <item>help_ManageTemplates_plans_info</item>
     </string-array>
 
+    <string-array name="help_ExpenseEdit_plans_info">
+        <item>help_ManageTemplates_plans_intro</item>
+        <item>help_ManageTemplates_plans_info</item>
+    </string-array>
+
     <string-array name="help_ManageTemplates_plans_info">
         <item>help_ManageTemplates_plans_intro</item>
         <item>help_ManageTemplates_plans_info</item>

@@ -31,7 +31,10 @@
     <string name="help_ManageTemplates_planner_title">Предстоящие повторения</string>
     <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\"> В то время как шаблоны могут быть получены из трансакций через их контекстное меню, здесь вы можете создавать новые шаблоны с нуля (для трансакций или переводов), нажав floating action button. Нажмите на шаблон чтобы создасть для него инстанс. <br><img src=\"ic_event\"> План - это шаблон, для которого вы создали событие (одноразовое или повторяющееся) в календаре планировщика. При нажатии на план откроется представление календаря, в котором отображаются прошлые и будущие инстансы плана.]]></string>
     <string name="help_ManageTemplates_plans_intro">Каждая выделенная дата представляет собой инстанс плана.</string>
-    <string name="help_ManageTemplates_plans_info"><![CDATA[Состояние инстанса обозначается следующими значками::<br><img src=\"ic_stat_open\"> Инстанс еще не был применен. <br><img src=\"ic_stat_applied\"> Инстанс был применен. <br><img src=\"ic_stat_cancelled\"> Инстанс был отменен, т.е. вы отметили его, чтобы пропустить. Для этого инстанса трансакция не будет создана.]]></string>
+    <string name="help_ManageTemplates_plans_info_header">Состояние инстанса обозначается следующими значками:</string>
+    <string name="help_ManageTemplates_plans_info_open">Инстанс еще не был применен.</string>
+    <string name="help_ManageTemplates_plans_info_applied">Инстанс был применен.</string>
+    <string name="help_ManageTemplates_plans_info_cancelled">Инстанс был отменен, т.е. вы отметили его, чтобы пропустить. Для этого инстанса трансакция не будет создана.</string>
     <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Подтвердить выбранные шаблоны и немедленно их сохранить.</string>
     <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Подтвердить выбранный шаблон и войти в форму редактирования, где вы можете изменить его перед сохранением.</string>
     <string name="cab_ManageTemplates_delete_help_text">Удалить выбранные шаблоны и любые связанные планы.</string>

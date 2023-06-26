@@ -102,7 +102,6 @@
     <string name="menu_budget_help_text">对当前显示的账户，按日、周、月或年进行预算管理。</string>
     <string name="menu_sort_direction_help_text">交易可按升序(旧交易在先)或降序（新交易在先）排列。</string>
     <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">如果就已选定的事件实例创建交易，则该等交易将被删除，如果该等交易已标注为已取消，则该标记将被删除。</string>
-    <string name="help_ManageTemplates_plans_info">Instance的状态通过以下图标标示：&lt;br&gt;&lt;img src=ic_stat_open&gt; Instance尚未应用。&lt;br&gt;&lt;img src=ic_stat_applied&gt; Instance已经应用。&lt;br&gt;&lt;img src=ic_stat_cancelled&gt; Instance已经取消，即您已将其标记为跳过。该Instance不在创建交易。</string>
     <string name="help_ManageTemplates_plans_intro">每个高亮日期代表计划的一个实例。</string>
     <string name="help_ManageTemplates_planner_intro">长按open instance可进行多选。点按开始日期或结束日期可以将时间范围向后或向前延展。</string>
     <string name="menu_balance_help_text">通过此项命令可打开对话框，显示上一次已对账的余额和已清算的余额。您可以将后者与您的银行接单进行比较，然后将所有已清算的交易标记为已对账。您也可以选择删除已对账的交易。</string>

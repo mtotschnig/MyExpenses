@@ -17,6 +17,13 @@ import org.totschnig.myexpenses.util.distrib.DistributionHelper
 class HelpDialogHelper(val context: Context) : ImageGetter {
     val resources: Resources = context.resources
 
+    @Throws(Resources.NotFoundException::class)
+    fun getStringArray(@ArrayRes id: Int): Array<String> = resources.getStringArray(id)
+
+    @Throws(Resources.NotFoundException::class)
+    fun getString(@StringRes id: Int, vararg formatArgs: Any?): String =
+        resources.getString(id, formatArgs)
+
     fun resolveTitle(
         item: String,
         prefix: String
@@ -33,60 +40,59 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
             .append(" ")
             .bold { append(getString(resId)) }
             .append(": ")
-        return if (resString == "menu_BudgetActivity_rollover_help_text") {
-            TextUtils.concat(*buildList {
-                add(getString(R.string.menu_BudgetActivity_rollover_help_text))
-                add(toTitle(R.string.menu_aggregates))
-                add(getString(R.string.menu_BudgetActivity_rollover_total))
-                add(toTitle(R.string.pref_manage_categories_title))
-                add(getString(R.string.menu_BudgetActivity_rollover_categories))
-                add(toTitle(R.string.menu_edit))
-                add(getString(R.string.menu_BudgetActivity_rollover_edit))
-            }.toTypedArray())
-        } else {
-            val resIdString = resString.replace('.', '_')
-            val arrayId = resolveArray(resIdString)
-            if (arrayId == 0) {
-                val stringId = resolveString(resIdString)
-                if (stringId == 0) {
-                    null
-                } else {
-                    HtmlCompat.fromHtml(
-                        getString(stringId),
-                        HtmlCompat.FROM_HTML_MODE_LEGACY, this, null
-                    )
-                }
-            } else {
-                val linefeed: CharSequence = HtmlCompat.fromHtml(
-                    "<br>",
-                    HtmlCompat.FROM_HTML_MODE_LEGACY
-                )
-
-                val components = resources.getStringArray(arrayId)
-                    .filter { component -> !shouldSkip(component) }
-                    .map { component -> handle(component) }
+        return when (resString) {
+            "menu_BudgetActivity_rollover_help_text" -> {
                 TextUtils.concat(*buildList {
-                    for (i in components.indices) {
-                        this.add(
-                            HtmlCompat.fromHtml(
-                                components[i],
-                                HtmlCompat.FROM_HTML_MODE_LEGACY,
-                                this@HelpDialogHelper,
-                                null
-                            )
-                        )
-                        if (i < components.size - 1) {
-                            this.add(if (separateComponentsByLineFeeds) linefeed else " ")
-                        }
-                    }
+                    add(getString(R.string.menu_BudgetActivity_rollover_help_text))
+                    add(toTitle(R.string.menu_aggregates))
+                    add(getString(R.string.menu_BudgetActivity_rollover_total))
+                    add(toTitle(R.string.pref_manage_categories_title))
+                    add(getString(R.string.menu_BudgetActivity_rollover_categories))
+                    add(toTitle(R.string.menu_edit))
+                    add(getString(R.string.menu_BudgetActivity_rollover_edit))
                 }.toTypedArray())
+            }
+            else -> {
+                val resIdString = resString.replace('.', '_')
+                val arrayId = resolveArray(resIdString)
+                if (arrayId == 0) {
+                    val stringId = resolveString(resIdString)
+                    if (stringId == 0) {
+                        null
+                    } else {
+                        HtmlCompat.fromHtml(
+                            getString(stringId),
+                            HtmlCompat.FROM_HTML_MODE_LEGACY, this, null
+                        )
+                    }
+                } else {
+
+                    val components = resources.getStringArray(arrayId)
+                        .filter { component -> !shouldSkip(component) }
+                        .map { component -> handle(component) }
+                    TextUtils.concat(*buildList {
+                        for (i in components.indices) {
+                            this.add(
+                                HtmlCompat.fromHtml(
+                                    components[i],
+                                    HtmlCompat.FROM_HTML_MODE_LEGACY,
+                                    this@HelpDialogHelper,
+                                    null
+                                )
+                            )
+                            if (i < components.size - 1) {
+                                this.add(if (separateComponentsByLineFeeds) "\n" else " ")
+                            }
+                        }
+                    }.toTypedArray())
+                }
             }
         }
     }
 
     private fun handle(component: String) = if (component.startsWith("popup")) {
         getStringOrThrowIf0(component + "_intro") + " " +
-                resources.getStringArray(
+                getStringArray(
                     resolveArray(
                         component + "_items"
                     )
@@ -114,8 +120,17 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
      */
     @Throws(Resources.NotFoundException::class)
     fun getStringOrThrowIf0(resIdString: String) = when (resIdString) {
+        "help_ManageTemplates_plans_info" -> arrayOf<CharSequence>(
+            getString(R.string.help_ManageTemplates_plans_info_header),
+            "<br><img src=\"ic_stat_open\"> ",
+            getString(R.string.help_ManageTemplates_plans_info_open),
+            "<br><img src=\"ic_stat_applied\"> ",
+            getString(R.string.help_ManageTemplates_plans_info_applied),
+            "<br><img src=\"ic_stat_cancelled\"> ",
+            getString(R.string.help_ManageTemplates_plans_info_cancelled)
+        ).joinToString("")
         "menu_categories_export" -> {
-            resources.getString(R.string.export_to_format, "QIF")
+            getString(R.string.export_to_format, "QIF")
         }
         else -> {
             getStringOrNull(resIdString) ?: throw Resources.NotFoundException(resIdString)
@@ -125,8 +140,6 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
     fun getStringOrNull(resIdString: String) = resolveString(resIdString)
         .takeIf { it != 0 }
         ?.let { getString(it) }
-
-    private fun getString(resId: Int) = resources.getString(resId)
 
     @ArrayRes
     fun resolveArray(resIdString: String) = resolve(resIdString, "array")

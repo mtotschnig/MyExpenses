@@ -16,7 +16,6 @@
     <string name="help_NavigationDrawer_title">@string/navigation_drawer_accounts_title</string>
     <string name="help_ManageSyncBackends_title">@string/pref_manage_sync_backends_title</string>
     <string name="help_ExpenseEdit_plans_title">@string/help_ManageTemplates_plans_title</string>
-    <string name="help_ExpenseEdit_plans_info">@string/help_ManageTemplates_plans_info</string>
     <string name="help_ExpenseEdit_templateTransfer_info">@string/help_ExpenseEdit_templateCategory_info</string>
     <string name="help_ExpenseEdit_templateSplit_info">@string/help_ExpenseEdit_templateCategory_info</string>
     <string name="help_HistoryActivity_title">@string/menu_history</string>
