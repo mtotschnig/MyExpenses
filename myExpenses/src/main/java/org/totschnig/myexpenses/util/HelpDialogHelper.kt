@@ -127,7 +127,9 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
             "<br><img src=\"ic_stat_applied\"> ",
             getString(R.string.help_ManageTemplates_plans_info_applied),
             "<br><img src=\"ic_stat_cancelled\"> ",
-            getString(R.string.help_ManageTemplates_plans_info_cancelled)
+            getString(R.string.help_ManageTemplates_plans_info_cancelled),
+            "<br><img src=\"ic_warning\"> ",
+            getString(R.string.orphaned_transaction_info)
         ).joinToString("")
         "menu_categories_export" -> {
             getString(R.string.export_to_format, "QIF")
