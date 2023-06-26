@@ -323,22 +323,24 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
             } else if (planInstanceState === PlanInstanceState.APPLIED) {
                 state.visibility = View.VISIBLE
                 state.setImageResource(R.drawable.ic_warning)
-                frameLayout.setOnClickListener {
-                    val relinkCandidate = selectedDates.map {
-                        it to CalendarProviderProxy.calculateId(it)
-                    }
-                        .filter { getState(it.second) == PlanInstanceState.OPEN }
-                        .minByOrNull { abs(it.first.day - dateTime.day) }?.let {
-                            PlanInstanceInfo(
-                                templateId,
-                                it.second,
-                                dateTime2TimeStampMap[it.first],
-                                transactionId,
-                                PlanInstanceState.OPEN
-                            )
+                if (!readOnly) {
+                    frameLayout.setOnClickListener {
+                        val relinkCandidate = selectedDates.map {
+                            it to CalendarProviderProxy.calculateId(it)
                         }
-                    OrphanedTransactionDialog.newInstance(transactionId!!, relinkCandidate)
-                        .show(requireActivity().supportFragmentManager, "ORPHANED_TRANSACTIONS")
+                            .filter { getState(it.second) == PlanInstanceState.OPEN }
+                            .minByOrNull { abs(it.first.day - dateTime.day) }?.let {
+                                PlanInstanceInfo(
+                                    templateId,
+                                    it.second,
+                                    dateTime2TimeStampMap[it.first],
+                                    transactionId,
+                                    PlanInstanceState.OPEN
+                                )
+                            }
+                        OrphanedTransactionDialog.newInstance(transactionId!!, relinkCandidate)
+                            .show(requireActivity().supportFragmentManager, "ORPHANED_TRANSACTIONS")
+                    }
                 }
             } else {
                 state.visibility = View.GONE
