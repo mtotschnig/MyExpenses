@@ -189,4 +189,8 @@
         <item>@string/whats_new_358</item>
         <item>@string/template_shortcut</item>
     </string-array>
+    <string-array name="whats_new_3601">
+        <item>@string/bug_fixes</item>
+        <item>Distribution Screen: In addition to sum of expenses and sum of income, show sum of both.</item>
+    </string-array>
 </resources>
