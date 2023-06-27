@@ -46,5 +46,11 @@
     <string name="yesterday">"Ontem"</string>
     <string name="confirm">"Confirmar"</string>
     <string name="menu_search">"Pesquisar"</string>
+    <string name="files_label">"Arquivos"</string>
+    <plurals name="delete_files_confirmation_message">
+      <item quantity="one">Excluir %1$d arquivo?</item>
+      <item quantity="other">Excluir %1$d arquivos?</item>
+    </plurals>
+
 </resources>
 

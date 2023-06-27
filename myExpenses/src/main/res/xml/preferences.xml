@@ -321,7 +321,7 @@
             android:persistent="false"
             android:positiveButtonText="@string/button_label_share_file"
             android:negativeButtonText="@string/menu_delete"
-            android:title="Files" />
+            android:title="@string/files_label" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_category_title_features">

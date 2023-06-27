@@ -42,4 +42,9 @@
     <string name="yesterday">"گزشتہ کل"</string>
     <string name="confirm">"تصدیق کریں"</string>
     <string name="menu_search">"تلاش کریں"</string>
+    <string name="files_label">"فائلیں"</string>
+    <plurals name="delete_files_confirmation_message">
+        <item quantity="other">%1$d فائلیں حذف کریں؟</item>
+        <item quantity="one">%1$d فائل حذف کریں؟</item>
+    </plurals>
 </resources>

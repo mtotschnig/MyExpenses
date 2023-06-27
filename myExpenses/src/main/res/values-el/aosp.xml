@@ -46,5 +46,10 @@
     <string name="yesterday">"Χθες"</string>
     <string name="confirm">"Επιβεβαίωση"</string>
     <string name="menu_search">"Αναζήτηση"</string>
+    <string name="files_label">"Αρχεία"</string>
+    <plurals name="delete_files_confirmation_message">
+      <item quantity="other">Να διαγραφούν %1$d αρχεία;</item>
+      <item quantity="one">Να διαγραφεί %1$d αρχείο;</item>
+    </plurals>
 </resources>
 

@@ -47,5 +47,11 @@
     <string name="yesterday">"Jučer"</string>
     <string name="confirm">"Potvrdi"</string>
     <string name="menu_search">"Pretraži"</string>
+    <string name="files_label">"Datoteke"</string>
+    <plurals name="delete_files_confirmation_message">
+      <item quantity="one">Želite li izbrisati %1$d datoteku?</item>
+      <item quantity="few">Želite li izbrisati %1$d datoteke?</item>
+      <item quantity="other">Želite li izbrisati %1$d datoteka?</item>
+    </plurals>
 </resources>
 

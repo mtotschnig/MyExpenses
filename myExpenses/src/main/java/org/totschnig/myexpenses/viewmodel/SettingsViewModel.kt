@@ -39,6 +39,9 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
     private val _appDirInfo: MutableLiveData<Result<AppDirInfo>> = MutableLiveData()
     val appDirInfo: LiveData<Result<AppDirInfo>> = _appDirInfo
 
+    private val _appData: MutableLiveData<List<Pair<String, Long>>> = MutableLiveData()
+    val appData: LiveData<List<Pair<String, Long>>> = _appData
+
     val hasStaleImages: Flow<Boolean>
         get() = contentResolver.observeQuery(
             TransactionProvider.STALE_IMAGES_URI,
@@ -57,13 +60,17 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
         }
     }
 
-    fun appData() = liveData(context = coroutineContext()) {
-        AppDirHelper.getAppDir(getApplication())?.let { dir ->
-            emit(dir.listFiles()
-                .filter { it.length() > 0 && !it.isDirectory }
-                .sortedByDescending { it.lastModified() }
-                .filter { it.name != null }
-            )
+    fun loadAppData() {
+        viewModelScope.launch(coroutineContext()) {
+            AppDirHelper.getAppDir(getApplication())?.let { dir ->
+                _appData.postValue(
+                    dir.listFiles()
+                        .filter { it.length() > 0 && !it.isDirectory }
+                        .sortedByDescending { it.lastModified() }
+                        .filter { it.name != null }
+                        .map { it.name!! to it.length() }
+                )
+            }
         }
     }
 
@@ -172,5 +179,6 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
                 1
             })
         }
+        loadAppData()
     }
 }

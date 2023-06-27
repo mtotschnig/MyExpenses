@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
 -->
@@ -46,5 +45,9 @@
     <string name="yesterday">"昨天"</string>
     <string name="confirm">"确认"</string>
     <string name="menu_search">"搜索"</string>
+    <string name="files_label">"文件"</string>
+    <plurals name="delete_files_confirmation_message">
+        <item quantity="other">要删除 %1$d 个文件吗？</item>
+    </plurals>
 </resources>
 

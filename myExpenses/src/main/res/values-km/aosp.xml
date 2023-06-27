@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
 -->
@@ -29,7 +28,7 @@
     <string name="add_widget">"បន្ថែម​ធាតុ​ក្រាហ្វិក​។"</string>
     <string name="calendar">"ប្រតិទិន"</string>
     <string name="permissions_label">"ការអនុញ្ញាត"</string>
-     <string name="time_format">"ទម្រង់​ម៉ោង"</string>
+    <string name="time_format">"ទម្រង់​ម៉ោង"</string>
     <string name="setup">"ការរៀបចំ"</string>
     <string name="clear_cache">"សម្អាត​ឃ្លាំងបម្រុង"</string>
     <string name="customize">"ប្តូរតាមបំណង"</string>
@@ -46,5 +45,9 @@
     <string name="yesterday">"ម្សិលមិញ"</string>
     <string name="confirm">"បញ្ជាក់"</string>
     <string name="menu_search">"ស្វែងរក"</string>
+    <string name="files_label">"ឯកសារ"</string>
+    <plurals name="delete_files_confirmation_message">
+        <item quantity="other">លុបឯកសារ %1$d ឬ?</item>
+    </plurals>
 </resources>
 

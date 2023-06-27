@@ -46,4 +46,10 @@
     <string name="yesterday">"Ahir"</string>
     <string name="confirm">"Confirma"</string>
     <string name="menu_search">"Cerca"</string>
+    <string name="files_label">"Fitxers"</string>
+    <plurals name="delete_files_confirmation_message">
+      <item quantity="other">Vols suprimir %1$d fitxers?</item>
+      <item quantity="one">Vols suprimir %1$d fitxer?</item>
+    </plurals>
+
 </resources>

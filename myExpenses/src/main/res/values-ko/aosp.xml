@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
      android-source/packages/apps/UnifiedEmail/res/values/strings.xmlls
@@ -47,5 +46,10 @@
     <string name="yesterday">"어제"</string>
     <string name="confirm">"확인"</string>
     <string name="menu_search">"검색"</string>
+    <string name="files_label">"파일"</string>
+    <plurals name="delete_files_confirmation_message">
+        <item quantity="other">파일 %1$d개를 삭제하시겠습니까?</item>
+    </plurals>
+
 </resources>
 

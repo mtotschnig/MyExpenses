@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
 -->
@@ -25,7 +24,7 @@
     <string name="details">"Butiran"</string>
     <string name="response_yes">"Ya"</string>
     <string name="response_no">"Tidak"</string>
-     <string name="experimental">"Percubaan"</string>
+    <string name="experimental">"Percubaan"</string>
     <string name="add_widget">"Tambah widget"</string>
     <string name="calendar">"Kalendar"</string>
     <string name="permissions_label">"Kebenaran"</string>
@@ -46,5 +45,10 @@
     <string name="yesterday">"Semalam"</string>
     <string name="confirm">"Sahkan"</string>
     <string name="menu_search">"Carian"</string>
+    <string name="files_label">"Fail"</string>
+    <plurals name="delete_files_confirmation_message">
+        <item quantity="other">Padamkan %1$d fail?</item>
+    </plurals>
+
 </resources>
 

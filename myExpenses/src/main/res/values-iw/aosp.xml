@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
      android-source/packages/apps/UnifiedEmail/res/values/strings.xml
@@ -47,5 +46,12 @@
     <string name="yesterday">"אתמול"</string>
     <string name="confirm">"אישור"</string>
     <string name="menu_search">"חיפוש"</string>
+    <string name="files_label">"קבצים"</string>
+    <plurals name="delete_files_confirmation_message">
+        <item quantity="one">האם למחוק %1$d קבצים?</item>
+        <item quantity="two">האם למחוק %1$d קבצים?</item>
+        <item quantity="other">האם למחוק %1$d קבצים?</item>
+    </plurals>
+
 </resources>
 

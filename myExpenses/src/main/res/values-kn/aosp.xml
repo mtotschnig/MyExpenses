@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
      android-source/packages/apps/UnifiedEmail/res/values/strings.xml
@@ -47,5 +46,12 @@
     <string name="yesterday">"ನಿನ್ನೆ"</string>
     <string name="confirm">"ಖಚಿತಪಡಿಸಿ"</string>
     <string name="menu_search">"ಹುಡುಕಿ"</string>
+    <!-- This is not translated in AOSP, so copied from Google Translate-->
+    <string name="files_label">ಕಡತಗಳನ್ನು</string>
+    <plurals name="delete_files_confirmation_message">
+        <item quantity="one"> %1$d ಫೈಲ್‌ಗಳನ್ನು ಅಳಿಸುವುದೇ?</item>
+        <item quantity="other"> %1$d ಫೈಲ್‌ಗಳನ್ನು ಅಳಿಸುವುದೇ?</item>
+    </plurals>
+
 </resources>
 

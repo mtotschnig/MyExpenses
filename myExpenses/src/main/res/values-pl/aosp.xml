@@ -46,5 +46,12 @@
     <string name="yesterday">"Wczoraj"</string>
     <string name="confirm">"Potwierdź"</string>
     <string name="menu_search">"Wyszukiwanie"</string>
+    <string name="files_label">"Pliki"</string>
+    <plurals name="delete_files_confirmation_message">
+      <item quantity="few">Usunąć %1$d pliki?</item>
+      <item quantity="many">Usunąć %1$d plików?</item>
+      <item quantity="other">Usunąć %1$d pliku?</item>
+      <item quantity="one">Usunąć %1$d plik?</item>
+    </plurals>
 </resources>
 

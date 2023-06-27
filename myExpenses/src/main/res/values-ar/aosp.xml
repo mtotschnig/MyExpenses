@@ -46,5 +46,15 @@
     <string name="yesterday">"أمس"</string>
     <string name="confirm">"تأكيد"</string>
     <string name="menu_search">"بحث"</string>
+    <string name="files_label">"الملفات"</string>
+    <plurals name="delete_files_confirmation_message">
+        <item quantity="zero">هل تريد حذف %1$d ملف؟</item>
+        <item quantity="two">هل تريد حذف ملفين (%1$d)؟</item>
+        <item quantity="few">هل تريد حذف %1$d ملفات؟</item>
+        <item quantity="many">هل تريد حذف %1$d ملفًا؟</item>
+        <item quantity="other">هل تريد حذف %1$d ملف؟</item>
+        <item quantity="one">هل تريد حذف %1$d ملف؟</item>
+    </plurals>
+
 </resources>
 

@@ -269,6 +269,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     override fun onResume() {
         super.onResume()
         settings.registerOnSharedPreferenceChangeListener(this)
+        viewModel.loadAppData()
     }
 
     override fun onPause() {
@@ -899,13 +900,14 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 requirePreference<Preference>(PrefKey.ENCRYPT_DATABASE_INFO).isVisible =
                     prefHandler.encryptDatabase
 
-                viewModel.appData().observe(this) {
+                viewModel.appData.observe(this) {
                     with(requirePreference<MultiSelectListPreference>(PrefKey.MANAGE_APP_DIR_FILES)) {
                         if (it.isEmpty()) {
                             isVisible = false
                         } else {
-                            entries = it.map { "${it.name} (${Formatter.formatFileSize(requireContext(), it.length())})" }.toTypedArray()
-                            entryValues = it.map { it.name }.toTypedArray()
+                            isVisible = true
+                            entries = it.map { "${it.first} (${Formatter.formatFileSize(requireContext(), it.second)})" }.toTypedArray()
+                            entryValues = it.map { it.first }.toTypedArray()
                         }
                     }
                 }
@@ -1337,6 +1339,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                             0 -> {
                                 prefHandler.putString(PrefKey.APP_DIR, null)
                                 loadAppDirSummary()
+                                viewModel.loadAppData()
                                 true
                             }
                             1 -> {

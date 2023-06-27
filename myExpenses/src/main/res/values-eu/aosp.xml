@@ -47,5 +47,11 @@
     <string name="yesterday">"Atzo"</string>
     <string name="confirm">"Berretsi"</string>
     <string name="menu_search">"Bilaketa"</string>
+    <string name="files_label">"Fitxategiak"</string>
+    <plurals name="delete_files_confirmation_message">
+      <item quantity="other">%1$d fitxategi ezabatu nahi dituzu?</item>
+      <item quantity="one">%1$d fitxategi ezabatu nahi duzu?</item>
+    </plurals>
+
 </resources>
 

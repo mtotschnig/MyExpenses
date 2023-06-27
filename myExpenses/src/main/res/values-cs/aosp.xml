@@ -46,5 +46,13 @@
     <string name="yesterday">"Včera"</string>
     <string name="confirm">"Potvrdit"</string>
     <string name="menu_search">"Vyhledávání"</string>
+    <string name="files_label">"Soubory"</string>
+    <plurals name="delete_files_confirmation_message">
+        <item quantity="few">Smazat %1$d soubory?</item>
+        <item quantity="many">Smazat %1$d souboru?</item>
+        <item quantity="other">Smazat %1$d souborů?</item>
+        <item quantity="one">Smazat %1$d soubor?</item>
+    </plurals>
+
 </resources>
 
