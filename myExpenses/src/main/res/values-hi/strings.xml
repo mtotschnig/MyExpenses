@@ -86,7 +86,6 @@
     <string name="expense">खर्चा</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure"> \"%1$s\" फ़ाइल पर निर्यात असफल: %2$s</string>
-    <string name="external_storage_unavailable">बाह्य संचयन (एसडी कार्ड) उपलब्ध नहीं है</string>
     <string name="feedback">प्रतिक्रिया</string>
     <string name="ftp_uri_malformed">विकृत यूआरआई %1$s</string>
     <string name="grisbi_import_categories_loading">%1$s से श्रेणियां लोड हो रही है</string>

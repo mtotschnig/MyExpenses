@@ -29,9 +29,6 @@ fun doBackup(
     withSync: String?
 ): Result<Pair<DocumentFile, List<DocumentFile>>> {
     val password = prefHandler.getString(PrefKey.EXPORT_PASSWORD, null)
-    if (!AppDirHelper.isExternalStorageAvailable) {
-        return Result.failure(context, R.string.external_storage_unavailable)
-    }
     val appDir = AppDirHelper.getAppDir(context)
         ?: return Result.failure(context, R.string.io_error_appdir_null)
     if (!AppDirHelper.isWritableDirectory(appDir)) {

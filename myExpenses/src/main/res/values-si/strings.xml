@@ -62,7 +62,6 @@
     <string name="export_sdcard_failure"> \"%1$s\"ට  වියදම් අපනයන අසමත් විය: %2$s</string>
     <!-- 1$s is replaced with path to file -->
     <string name="export_sdcard_success">\"%1$s\" ලිපි ගොනුවට වියදම් අපනයන කරන ලදී </string>
-    <string name="external_storage_unavailable">පිටත ගබඩාව නොතිබේ (එස් ඩි කාඩ් පත)</string>
     <string name="feedback">ප්‍රතිචාරය </string>
     <string name="ftp_uri_malformed">වැරදුනු යු ආර් අයි %1$s</string>
     <string name="grisbi_import_categories_loading">%1$s න්  වර්ග පැටවීම </string>

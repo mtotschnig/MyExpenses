@@ -111,7 +111,6 @@
     <string name="export_sdcard_failure">輸出到檔案\"%1$s\"失敗: %2$s</string>
     <!-- 1$s is replaced with path to file -->
     <string name="export_sdcard_success">數據資料已經成功輸出成檔案\"%1$s\"</string>
-    <string name="external_storage_unavailable">外部儲存空間(SD卡)無法使用</string>
     <string name="feedback">回饋意見</string>
     <string name="ftp_uri_malformed">異常URI %1$s</string>
     <string name="grisbi_import_categories_loading">從%1$s載入類別項目中…</string>

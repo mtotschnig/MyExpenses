@@ -62,7 +62,6 @@
     <string name="expense">Gasto</string>
     <!-- 1$s is replaced with path to file -->
     <string name="export_sdcard_success">Datos exportados satisfactoriamente ao ficheiro \"%1$s!</string>
-    <string name="external_storage_unavailable">O almacenamento externo da tarxeta SD non está dispoñible</string>
     <string name="feedback">Comentarios (feedback)</string>
     <string name="ftp_uri_malformed">URI %1$s non válido</string>
     <string name="grisbi_import_categories_loading">A cargar categorías desde %1$s</string>

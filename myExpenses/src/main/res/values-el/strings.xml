@@ -112,7 +112,6 @@
     <string name="export_sdcard_failure">Εξαγωγή εξόδων σε sdcard απέτυχε %1$s: %2$s</string>
     <!-- 1$s is replaced with path to file -->
     <string name="export_sdcard_success">Έξοδα που εξάγονται σε αρχείο %1$s</string>
-    <string name="external_storage_unavailable">Εξωτερική αποθήκευση (sdcard) δεν είναι διαθέσιμη</string>
     <string name="feedback">Ανατροφοδότηση</string>
     <string name="ftp_uri_malformed">Ακατάλληλη URI %1$s</string>
     <string name="grisbi_import_categories_loading">Φόρτωση κατηγορίες από %1$s</string>

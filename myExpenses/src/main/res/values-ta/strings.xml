@@ -112,7 +112,6 @@
     <string name="export_sdcard_failure">\"%1$s\" கோப்புக்கு ஏற்றுமதி செய்யதல் தோல்வியுற்றது: %2$s</string>
     <!-- 1$s is replaced with path to file -->
     <string name="export_sdcard_success">தரவு \"%1$s\" கோப்பிற்கு வெற்றிகரமாக ஏற்றுமதி செய்யப்பட்டது</string>
-    <string name="external_storage_unavailable">புற சேமிப்பகம் (sdcard) கிடைக்கவில்லை</string>
     <string name="feedback">பின்னூட்டம்</string>
     <string name="ftp_uri_malformed">வடிவக்கேடுள்ள URI %1$s</string>
     <string name="grisbi_import_categories_loading">%1$s இலிருந்து வகைகளை ஏற்றுகிறது</string>

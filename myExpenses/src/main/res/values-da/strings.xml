@@ -88,7 +88,6 @@
     <string name="export_sdcard_failure">Fejl ved eksport til filen \"%1$s\": %2$s</string>
     <!-- 1$s is replaced with path to file -->
     <string name="export_sdcard_success">Data blev eksporteret til filen \"%1$s\"</string>
-    <string name="external_storage_unavailable">Ekstern storage (sdcard) ikke tilgængelige</string>
     <string name="feedback">Feedback</string>
     <string name="ftp_uri_malformed">Ugyldig URI %1$s</string>
     <string name="grisbi_import_categories_loading">Kategorier indlæses fra %1$s</string>

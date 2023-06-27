@@ -16,10 +16,9 @@
  -->
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="pref_root_screen_key">pref_root</string>
-    <string name="pref_category_export_key">category_export</string>
+    <string name="pref_category_export_backup_key">category_export_backup</string>
     <string name="pref_category_ui_key">category_ui</string>
     <string name="pref_category_contrib_key">category_contrib</string>
-    <string name="pref_category_backup_key">category_backup</string>
     <string name="pref_category_manage_key">category_manage</string>
     <string name="pref_sort_order_key">sort_order</string>
     <string name="pref_categories_sort_by_usages_key">categories_sort_by_usages</string>
@@ -274,4 +273,5 @@
     <string name="pref_optimize_picture_max_size_key">optimize_picture_max_size</string>
     <string name="pref_optimize_picture_format_key">optimize_picture_format</string>
     <string name="pref_optimize_picture_quality_key">optimize_picture_quality</string>
+    <string name="pref_export_manage_files_key">export_manage_files</string>
 </resources>

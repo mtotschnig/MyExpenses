@@ -81,7 +81,6 @@
     <string name="export_sdcard_failure">នាំយកទិន្នន័យ​ចំណាយចេញ​ទៅ sdcard អត់បាន %1$s: %2$s</string>
     <!-- 1$s is replaced with path to file -->
     <string name="export_sdcard_success">ទិន្នន័យ​ចំណាយបានបញ្ចូលទៅឯកសារ %1$s</string>
-    <string name="external_storage_unavailable">ការផ្ទុកខាងក្រៅ (sdកាត) មិនអាចទៅរួច</string>
     <string name="feedback">ផ្តល់មតិ</string>
     <string name="ftp_uri_malformed">URI មិនត្រឹមត្រូវ %1$s</string>
     <string name="grisbi_import_categories_loading">ផ្ទុកចំណាត់ថ្នាក់ពី %1$s</string>

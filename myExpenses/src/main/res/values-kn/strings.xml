@@ -112,7 +112,6 @@
     <string name="export_sdcard_failure">\"%1$s\" ಫೈಲ್ಗೆ ರಫ್ತು ವಿಫಲವಾಗಿದೆ: %2$s</string>
     <!-- 1$s is replaced with path to file -->
     <string name="export_sdcard_success">\"%1$s\" ಫೈಲ್ ಮಾಡಲು ಡೇಟಾವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ರಫ್ತು ಮಾಡಲಾಗಿದೆ</string>
-    <string name="external_storage_unavailable">ಬಾಹ್ಯ ಸಂಗ್ರಹಣೆ (sdcard) ಲಭ್ಯವಿಲ್ಲ</string>
     <string name="feedback">ಪ್ರತಿಕ್ರಿಯೆ</string>
     <string name="ftp_uri_malformed">ದೋಷಪೂರಿತ URI %1$s</string>
     <string name="grisbi_import_categories_loading">%1$s ನಿಂದ ವಿಭಾಗಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ</string>

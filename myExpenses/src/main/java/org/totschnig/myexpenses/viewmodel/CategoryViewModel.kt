@@ -357,7 +357,7 @@ open class CategoryViewModel(
                     ).mapCatching {
                         it.uri to it.displayName
                     }
-                } else failure(R.string.external_storage_unavailable)
+                } else failure(R.string.io_error_appdir_null)
             }
         }
     }

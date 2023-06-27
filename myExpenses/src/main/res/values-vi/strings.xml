@@ -107,7 +107,6 @@
     <string name="export_sdcard_failure">Xảy ra lỗi khi xuất dữ liệu chi tiêu vào tập tin %1$s: %2$s</string>
     <!-- 1$s is replaced with path to file -->
     <string name="export_sdcard_success">Dữ liệu về chi tiêu đã được xuất ra tập tin %1$s</string>
-    <string name="external_storage_unavailable">Bộ nhớ ngoài (thẻ nhớ) không sẵn có</string>
     <string name="feedback">Phản hồi</string>
     <string name="ftp_uri_malformed">URI lỗi %1$s</string>
     <string name="grisbi_import_categories_loading">Đang tải phân loại từ %1$s</string>

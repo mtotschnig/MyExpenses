@@ -20,12 +20,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Pair
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -43,9 +38,11 @@ import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.SettingsBinding
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.fragment.BaseSettingsFragment
+import org.totschnig.myexpenses.fragment.BaseSettingsFragment.Companion.KEY_CHECKED_FILES
 import org.totschnig.myexpenses.fragment.SettingsFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
@@ -340,16 +337,27 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
         if (super.dispatchCommand(command, tag)) {
             return true
         }
-        if (command == R.id.REMOVE_LICENCE_COMMAND) {
-            showSnackBarIndefinite(R.string.progress_removing_licence)
-            licenceValidationViewModel.removeLicence()
-            return true
+        return when (command) {
+            R.id.REMOVE_LICENCE_COMMAND -> {
+                showSnackBarIndefinite(R.string.progress_removing_licence)
+                licenceValidationViewModel.removeLicence()
+                true
+            }
+
+            R.id.CHANGE_COMMAND -> {
+                fragment.updateHomeCurrency(tag as String)
+                true
+            }
+
+            else -> false
         }
-        if (command == R.id.CHANGE_COMMAND) {
-            fragment.updateHomeCurrency(tag as String)
-            return true
+    }
+
+    override fun onPositive(args: Bundle, checked: Boolean) {
+        super.onPositive(args, checked)
+        if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.DELETE_FILES_COMMAND) {
+            fragment.deleteAppFiles(args.getStringArray(KEY_CHECKED_FILES)!!)
         }
-        return false
     }
 
     private fun startPreferenceScreen(key: String) {

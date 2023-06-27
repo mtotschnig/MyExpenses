@@ -112,7 +112,6 @@
     <string name="export_sdcard_failure">Fehler beim Export nach „%1$s“: %2$s</string>
     <!-- 1$s is replaced with path to file -->
     <string name="export_sdcard_success">Daten in Datei „%1$s“ exportiert</string>
-    <string name="external_storage_unavailable">Externer Speicher (SD Karte) ist nicht verfügbar</string>
     <string name="feedback">Rückmeldung</string>
     <string name="ftp_uri_malformed">Ungültige URI %1$s</string>
     <string name="grisbi_import_categories_loading">Kategorien werden von %1$s geladen</string>
