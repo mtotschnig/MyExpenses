@@ -53,16 +53,13 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
         return super.onCreateDialog(savedInstanceState)
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.import_dialog
-    }
+    override val layoutId = R.layout.import_dialog
 
-    override fun getLayoutTitle(): String {
-        return getString(
+    override val layoutTitle: String
+        get() = getString(
             R.string.pref_import_title,
             format.name
         )
-    }
 
     private val format: ExportFormat
         get() = ExportFormat.QIF

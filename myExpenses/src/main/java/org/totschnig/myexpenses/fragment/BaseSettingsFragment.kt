@@ -29,7 +29,6 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.*
@@ -54,6 +53,7 @@ import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.*
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference.OnValidationErrorListener
@@ -98,7 +98,7 @@ import javax.inject.Inject
 
 abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationErrorListener,
     OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener, OnDialogResultListener,
-    MultiSelectListPreferenceDialogFragmentWithNeutralAction.OnClickListener {
+    MultiSelectListPreferenceDialogFragment2.OnClickListener {
 
     @Inject
     lateinit var featureManager: FeatureManager
@@ -196,7 +196,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        with((requireActivity().application as MyApplication).appComponent) {
+        with(requireActivity().injector) {
             inject(currencyViewModel)
             inject(viewModel)
             super.onCreate(savedInstanceState)
@@ -1521,7 +1521,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
     //MultiSelectListPreferenceDialogFragmentWithNeutralAction
     override fun onClick(preference: String, values: Set<String>, which: Int) {
-        if (preference == prefHandler.getKey(PrefKey.MANAGE_APP_DIR_FILES)) {
+        if (values.isNotEmpty() && preference == prefHandler.getKey(PrefKey.MANAGE_APP_DIR_FILES)) {
             if (which == DialogInterface.BUTTON_NEGATIVE) {
                 ConfirmationDialogFragment.newInstance(Bundle().apply {
                     putStringArray(KEY_CHECKED_FILES, values.toTypedArray())

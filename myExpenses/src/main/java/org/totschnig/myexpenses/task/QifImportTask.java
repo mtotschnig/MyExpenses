@@ -293,7 +293,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
         Account dbAccount = account.toAccount(currencyUnit);
         if (TextUtils.isEmpty(dbAccount.getLabel())) {
           String displayName = DialogUtils.getDisplayName(fileUri);
-          if (FileUtils.getExtension(displayName).equalsIgnoreCase(".qif")) {
+          if (FileUtils.getExtension(displayName).equalsIgnoreCase("qif")) {
             displayName = displayName.substring(0, displayName.lastIndexOf('.'));
           }
           displayName = displayName.replace('-', ' ').replace('_', ' ');

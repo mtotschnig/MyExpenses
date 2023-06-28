@@ -98,7 +98,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             }
         }
         if (accountInfo.isFiltered) {
-            dialogView!!.findViewById<View>(R.id.with_filter).visibility = View.VISIBLE
+            dialogView.findViewById<View>(R.id.with_filter).visibility = View.VISIBLE
             warningText = getString(R.string.warning_reset_account_matched)
         }
 
@@ -257,7 +257,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             binding.mergeAccounts.isChecked = mergeAccounts
         }
 
-        dialogView!!.findViewById<View>(R.id.date_format_help).configurePopupAnchor(
+        dialogView.findViewById<View>(R.id.date_format_help).configurePopupAnchor(
             infoText = buildDateFormatHelpText()
         )
 

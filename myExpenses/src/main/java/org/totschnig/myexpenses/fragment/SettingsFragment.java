@@ -38,7 +38,7 @@ import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentC
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
 import org.totschnig.myexpenses.preference.LegacyPasswordPreferenceDialogFragmentCompat;
-import androidx.preference.MultiSelectListPreferenceDialogFragmentWithNeutralAction;
+import androidx.preference.MultiSelectListPreferenceDialogFragment2;
 import org.totschnig.myexpenses.preference.SecurityQuestionDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.SimplePasswordDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.SimplePasswordPreference;
@@ -127,7 +127,7 @@ public class SettingsFragment extends BaseSettingsFragment {
     } else if (preference instanceof SimplePasswordPreference) {
       fragment = SimplePasswordDialogFragmentCompat.newInstance(key);
     } else if (matches(preference, MANAGE_APP_DIR_FILES)) {
-      fragment = MultiSelectListPreferenceDialogFragmentWithNeutralAction.Companion.newInstance(key);
+      fragment = MultiSelectListPreferenceDialogFragment2.Companion.newInstance(key);
     }
     if (fragment != null) {
       fragment.setTargetFragment(this, 0);
