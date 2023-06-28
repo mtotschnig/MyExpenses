@@ -56,6 +56,7 @@ import org.totschnig.myexpenses.util.distrib.DistributionHelper;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -134,9 +135,9 @@ public class DialogUtils {
 
   /**
    * @return display name for document stored at mUri.
-   * Returns null if accessing mUri raises {@link SecurityException}
    */
   @SuppressLint("NewApi")
+  @NonNull
   public static String getDisplayName(Uri uri) {
 
     if (!"file".equalsIgnoreCase(uri.getScheme())) {

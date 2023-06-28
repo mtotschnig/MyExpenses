@@ -108,7 +108,6 @@
     <string name="export_sdcard_failure">Eksport wydatków na kartę pamięci nie powiodło się %1$s: %2$s</string>
     <!-- 1$s is replaced with path to file -->
     <string name="export_sdcard_success">Wydatki zostały wyeksportowane do pliku %1$s</string>
-    <string name="external_storage_unavailable">Zewnętrzny nośnik (karta pamięci) nie jest dostępna</string>
     <string name="feedback">Opinie</string>
     <string name="ftp_uri_malformed">Nieprawidłowo sformułowany URI %1$s</string>
     <string name="grisbi_import_categories_loading">Wczytywanie kategorii z %1$s</string>

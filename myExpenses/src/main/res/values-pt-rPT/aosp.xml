@@ -12,4 +12,9 @@
     <string name="experimental">"Experimental"</string>
     <string name="learn_more">"Saber mais"</string>
     <string name="not_exist_file_desc">"O ficheiro não existe"</string>
+    <string name="files_label">"Ficheiros"</string>
+    <plurals name="delete_files_confirmation_message">
+      <item quantity="other">Eliminar %1$d ficheiros?</item>
+      <item quantity="one">Eliminar %1$d ficheiro?</item>
+    </plurals>
 </resources>

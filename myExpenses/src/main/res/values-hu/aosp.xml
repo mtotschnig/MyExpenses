@@ -46,5 +46,10 @@
     <string name="yesterday">"Tegnap"</string>
     <string name="confirm">"Megerősítés"</string>
     <string name="menu_search">"Keresés"</string>
+    <string name="files_label">"Fájlok"</string>
+    <plurals name="delete_files_confirmation_message">
+      <item quantity="other">Töröl %1$d fájlt?</item>
+      <item quantity="one">Töröl %1$d fájlt?</item>
+    </plurals>
 </resources>
 

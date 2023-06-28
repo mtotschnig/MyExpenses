@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
      android-source/packages/apps/UnifiedEmail/res/values/strings.xml
@@ -47,5 +46,11 @@
     <string name="yesterday">"நேற்று"</string>
     <string name="confirm">"உறுதிசெய்க"</string>
     <string name="menu_search">"தேடு"</string>
+    <string name="files_label">"Files"</string>
+    <plurals name="delete_files_confirmation_message">
+        <item quantity="other">%1$d ஃபைல்களை நீக்கவா?</item>
+        <item quantity="one">%1$d ஃபைலை நீக்கவா?</item>
+    </plurals>
+
 </resources>
 

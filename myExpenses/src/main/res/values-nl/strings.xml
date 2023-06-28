@@ -127,7 +127,6 @@
     <string name="dialog_title_warning_delete_transaction">Transactie verwijderen\?</string>
     <string name="dialog_title_warning_delete_party">Verwijder tegenpartij\?</string>
     <string name="export_sdcard_success">Gegevens succesvol geëxporteerd naar bestand \"%1$s\"</string>
-    <string name="external_storage_unavailable">Externe opslag (sdcard) niet beschikbaar</string>
     <string name="feedback">Feedback</string>
     <string name="ftp_uri_malformed">Misvormde URI %1$s</string>
     <string name="grisbi_import_categories_loading">Categorieën laden van %1$s</string>

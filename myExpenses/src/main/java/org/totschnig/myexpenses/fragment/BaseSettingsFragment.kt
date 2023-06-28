@@ -4,6 +4,7 @@ import android.app.KeyguardManager
 import android.appwidget.AppWidgetProvider
 import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
@@ -17,6 +18,7 @@ import android.os.Bundle
 import android.provider.DocumentsContract
 import android.text.TextUtils.isEmpty
 import android.text.TextUtils.join
+import android.text.format.Formatter
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -43,18 +45,15 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.MyApplication.DEFAULT_LANGUAGE
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.ContribInfoDialogActivity
-import org.totschnig.myexpenses.activity.Help
-import org.totschnig.myexpenses.activity.MyPreferenceActivity
-import org.totschnig.myexpenses.activity.RESTORE_REQUEST
+import org.totschnig.myexpenses.activity.*
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TransactionType
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
-import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.*
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference.OnValidationErrorListener
@@ -64,6 +63,7 @@ import org.totschnig.myexpenses.service.AutoBackupWorker
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.util.AppDirHelper.ensureContentUri
 import org.totschnig.myexpenses.util.AppDirHelper.getContentUriForFile
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
@@ -97,7 +97,8 @@ import java.util.*
 import javax.inject.Inject
 
 abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationErrorListener,
-    OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener, OnDialogResultListener {
+    OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener, OnDialogResultListener,
+    MultiSelectListPreferenceDialogFragment2.OnClickListener {
 
     @Inject
     lateinit var featureManager: FeatureManager
@@ -144,11 +145,13 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             true
         }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.help, menu)
         menu.findItem(R.id.HELP_COMMAND).setShowAsAction(SHOW_AS_ACTION_ALWAYS)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.HELP_COMMAND) {
             when {
@@ -193,7 +196,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        with((requireActivity().application as MyApplication).appComponent) {
+        with(requireActivity().injector) {
             inject(currencyViewModel)
             inject(viewModel)
             super.onCreate(savedInstanceState)
@@ -206,18 +209,10 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 pref.summary = if (appDirInfo.isWriteable) {
                     appDirInfo.displayName
                 } else {
-                    getString(R.string.app_dir_not_accessible, appDirInfo.uri)
+                    getString(R.string.app_dir_not_accessible, appDirInfo.documentFile.uri)
                 }
             }.onFailure {
-                pref.setSummary(
-                    when (it) {
-                        is ExternalStorageNotAvailableException -> R.string.external_storage_unavailable
-                        else -> {
-                            pref.isEnabled = false
-                            R.string.io_error_appdir_null
-                        }
-                    }
-                )
+                pref.setSummary(R.string.io_error_appdir_null)
             }
         }
         if (onScreen(PrefKey.UI_WEB)) {
@@ -274,6 +269,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     override fun onResume() {
         super.onResume()
         settings.registerOnSharedPreferenceChangeListener(this)
+        viewModel.loadAppData()
     }
 
     override fun onPause() {
@@ -821,8 +817,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     this
                 requirePreference<Preference>(PrefKey.UI_WEB).onPreferenceChangeListener = this
 
-                requirePreference<Preference>(PrefKey.RESTORE).title =
-                    getString(R.string.pref_restore_title) + " (ZIP)"
+                requirePreference<PreferenceCategory>(PrefKey.CATEGORY_BACKUP_EXPORT).title =
+                    getString(R.string.pref_category_title_export) + " / " + getString(R.string.menu_backup)
 
                 requirePreference<Preference>(PrefKey.CSV_EXPORT).title =
                     getString(R.string.export_to_format, "CSV")
@@ -903,6 +899,18 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
                 requirePreference<Preference>(PrefKey.ENCRYPT_DATABASE_INFO).isVisible =
                     prefHandler.encryptDatabase
+
+                viewModel.appData.observe(this) {
+                    with(requirePreference<MultiSelectListPreference>(PrefKey.MANAGE_APP_DIR_FILES)) {
+                        if (it.isEmpty()) {
+                            isVisible = false
+                        } else {
+                            isVisible = true
+                            entries = it.map { "${it.first} (${Formatter.formatFileSize(requireContext(), it.second)})" }.toTypedArray()
+                            entryValues = it.map { it.first }.toTypedArray()
+                        }
+                    }
+                }
             }
 
             getKey(PrefKey.UI_HOME_SCREEN_SHORTCUTS) -> {
@@ -1261,10 +1269,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 if (licenceHandler.isUpgradeable) {
                     val i = ContribInfoDialogActivity.getIntentFor(preferenceActivity, null)
                     if (DistributionHelper.isGithub) {
-                        startActivityForResult(
-                            i,
-                            CONTRIB_PURCHASE_REQUEST
-                        )
+                        startActivityForResult(i, CONTRIB_PURCHASE_REQUEST)
                     } else {
                         startActivity(i)
                     }
@@ -1326,23 +1331,28 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
 
             matches(preference, PrefKey.APP_DIR) -> {
-                // TODO migrate to ActivityResultContracts.OpenDocumentTree
-                //noinspection InlinedApi
-                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
-                    viewModel.appDirInfo.value?.getOrNull()?.uri?.let {
-                        putExtra(DocumentsContract.EXTRA_INITIAL_URI, it)
-                    }
-                }
-                try {
-                    pickFolderRequestStart = System.currentTimeMillis()
-                    startActivityForResult(
-                        intent,
-                        PICK_FOLDER_REQUEST
+                val appDirInfo = viewModel.appDirInfo.value?.getOrNull()
+                if (appDirInfo?.isDefault == false) {
+                    (preference as PopupMenuPreference).showPopupMenu(
+                        {
+                            when(it.itemId) {
+                            0 -> {
+                                prefHandler.putString(PrefKey.APP_DIR, null)
+                                loadAppDirSummary()
+                                viewModel.loadAppData()
+                                true
+                            }
+                            1 -> {
+                                pickAppDir(appDirInfo)
+                                true
+                            }
+                                else -> false
+                            }
+                        }, getString(R.string.checkbox_is_default), getString(R.string.select)
                     )
-                } catch (e: ActivityNotFoundException) {
-                    reportException(e)
+                } else {
+                    pickAppDir(appDirInfo)
                 }
-
                 true
             }
 
@@ -1406,6 +1416,26 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
 
             else -> false
+        }
+    }
+
+    private fun pickAppDir(appDirInfo: SettingsViewModel.AppDirInfo?) {
+        // TODO migrate to ActivityResultContracts.OpenDocumentTree
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
+            appDirInfo?.documentFile?.uri?.let {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    putExtra(DocumentsContract.EXTRA_INITIAL_URI, it)
+                }
+            }
+        }
+        try {
+            pickFolderRequestStart = System.currentTimeMillis()
+            startActivityForResult(
+                intent,
+                PICK_FOLDER_REQUEST
+            )
+        } catch (e: ActivityNotFoundException) {
+            reportException(e)
         }
     }
 
@@ -1489,6 +1519,54 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         return true
     }
 
+    //MultiSelectListPreferenceDialogFragmentWithNeutralAction
+    override fun onClick(preference: String, values: Set<String>, which: Int) {
+        if (values.isNotEmpty() && preference == prefHandler.getKey(PrefKey.MANAGE_APP_DIR_FILES)) {
+            if (which == DialogInterface.BUTTON_NEGATIVE) {
+                ConfirmationDialogFragment.newInstance(Bundle().apply {
+                    putStringArray(KEY_CHECKED_FILES, values.toTypedArray())
+                    putString(
+                        ConfirmationDialogFragment.KEY_MESSAGE,
+                        resources.getQuantityString(R.plurals.delete_files_confirmation_message, values.size, values.size)
+                    )
+                    putInt(
+                        ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                        R.id.DELETE_FILES_COMMAND
+                    )
+                    putInt(
+                        ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                        R.string.menu_delete
+                    )
+                })
+                    .show(parentFragmentManager, "CONFIRM_DELETE")
+            } else if (which == DialogInterface.BUTTON_POSITIVE) {
+                val appDir = viewModel.appDirInfo.value?.getOrThrow()!!
+                startActivity(Intent(Intent.ACTION_SEND_MULTIPLE).apply {
+                    type = "text/plain"
+                    val arrayList = ArrayList(
+                        values.mapNotNull { file ->
+                            appDir.documentFile.findFile(file)?.uri?.let {
+                                ensureContentUri(it, requireContext())
+                            }
+                        })
+                    Timber.d("ATTACHMENTS" + arrayList.joinToString())
+                    putParcelableArrayListExtra(
+                        Intent.EXTRA_STREAM,
+                        arrayList
+                    )
+                    flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                })
+            }
+        }
+
+    }
+
+    fun deleteAppFiles(files: Array<String>) {
+        viewModel.deleteAppFiles(files).observe(this) {
+            preferenceActivity.showSnackBar(resources.getQuantityString(R.plurals.delete_success, it, it))
+        }
+    }
+
     companion object {
         const val DIALOG_VALIDATE_LICENCE = "validateLicence"
         const val DIALOG_MANAGE_LICENCE = "manageLicence"
@@ -1497,6 +1575,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         const val KEY_KEY = "key"
         const val PICK_FOLDER_REQUEST = 2
         private const val CONTRIB_PURCHASE_REQUEST = 3
+        const val KEY_CHECKED_FILES = "checkedFiles"
 
         fun Context.compactItemRendererTitle() =
             "${getString(R.string.style)} : ${getString(R.string.compact)}"

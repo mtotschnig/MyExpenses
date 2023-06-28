@@ -1255,7 +1255,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }.onFailure {
             showSnackBar(
                 when (it) {
-                    is ExternalStorageNotAvailableException -> getString(R.string.external_storage_unavailable)
+                    is ExternalStorageNotAvailableException -> "External storage (sdcard) not available"
                     is UnknownPictureSaveException -> {
                         val customData = buildMap {
                             put("pictureUri", it.pictureUri.toString())

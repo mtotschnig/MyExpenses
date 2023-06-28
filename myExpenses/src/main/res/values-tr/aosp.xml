@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
 -->
@@ -46,5 +45,10 @@
     <string name="yesterday">"Dün"</string>
     <string name="confirm">"Onayla"</string>
     <string name="menu_search">"Ara"</string>
+    <string name="files_label">"Dosyalar"</string>
+    <plurals name="delete_files_confirmation_message">
+        <item quantity="other">%1$d dosya silinsin mi?</item>
+        <item quantity="one">%1$d dosya silinsin mi?</item>
+    </plurals>
 </resources>
 

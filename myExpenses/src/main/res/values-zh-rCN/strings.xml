@@ -111,7 +111,6 @@
     <string name="export_sdcard_failure">开支导出到文件 %1$s 失败: %2$s</string>
     <!-- 1$s is replaced with path to file -->
     <string name="export_sdcard_success">导出开支到文件 %1$s</string>
-    <string name="external_storage_unavailable">外部存储 (SD卡) 无法使用</string>
     <string name="feedback">意见反馈</string>
     <string name="ftp_uri_malformed">异常URI %1$s</string>
     <string name="grisbi_import_categories_loading">正在从%1$s加载类别中</string>

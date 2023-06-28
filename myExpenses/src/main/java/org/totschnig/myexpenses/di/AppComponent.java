@@ -62,6 +62,7 @@ import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.BackupViewModel;
+import org.totschnig.myexpenses.viewmodel.BaseViewModel;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2;
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel;
@@ -210,6 +211,8 @@ public interface AppComponent {
 
   void inject(BudgetViewModel budgetViewModel);
 
+  void inject(BaseViewModel baseViewModel);
+
   void inject(ContentResolvingAndroidViewModel contentResolvingAndroidViewModel);
 
   void inject(CurrencyViewModel contentResolvingAndroidViewModel);
@@ -255,8 +258,6 @@ public interface AppComponent {
   void inject(FeatureViewModel featureViewModel);
 
   void inject(CsvImportDataFragment csvImportDataFragment);
-
-  void inject(BackupViewModel backupViewModel);
 
   void inject(DebtViewModel debtViewModel);
 

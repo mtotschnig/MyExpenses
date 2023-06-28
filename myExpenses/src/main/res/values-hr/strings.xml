@@ -86,7 +86,6 @@
     <string name="export_sdcard_failure">Izvoz u datoteku „%1$s” nije uspio: %2$s</string>
     <!-- 1$s is replaced with path to file -->
     <string name="export_sdcard_success">Troškovi izvezeni u datoteku „%1$s”</string>
-    <string name="external_storage_unavailable">Eksterna memorija (sd kartica) nije dostupna</string>
     <string name="feedback">Povratne informacije</string>
     <string name="ftp_uri_malformed">Neispravan URI %1$s</string>
     <string name="grisbi_import_categories_loading">Učitavanje kategorija iz %1$s</string>

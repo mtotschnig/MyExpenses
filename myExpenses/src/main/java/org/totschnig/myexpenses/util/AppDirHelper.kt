@@ -23,7 +23,7 @@ object AppDirHelper {
      * returns [android.content.ContextWrapper.getExternalFilesDir] with argument null
      */
     @JvmStatic
-    fun getAppDir(context: Context): DocumentFile? {
+    fun getAppDir(context: Context, withDefault: Boolean = true): DocumentFile? {
         val prefString = context.injector.prefHandler().getString(PrefKey.APP_DIR, null)
         if (prefString != null) {
             val pref = Uri.parse(prefString)
@@ -36,14 +36,17 @@ object AppDirHelper {
                 return DocumentFile.fromTreeUri(context, pref)
             }
         }
-        val externalFilesDir = context.getExternalFilesDirs(null).filterNotNull().firstOrNull()
-        return if (externalFilesDir != null) {
-            DocumentFile.fromFile(externalFilesDir)
-        } else {
-            CrashHandler.report(Exception("no not-null value found in getExternalFilesDirs"))
-            null
-        }
+        return if (withDefault) getDefaultAppDir(context).also {
+            if (it == null) {
+                CrashHandler.report(Exception("no not-null value found in getExternalFilesDirs"))
+            }
+        } else null
     }
+
+    fun getDefaultAppDir(context: Context) = context.getExternalFilesDirs(null)
+        .filterNotNull()
+        .firstOrNull()
+        ?.let { DocumentFile.fromFile(it) }
 
     @JvmStatic
     fun cacheDir(context: Context): File = context.cacheDir
@@ -119,22 +122,12 @@ object AppDirHelper {
     }
 
     /**
-     * Helper Method to Test if external Storage is Available from
-     * http://www.ibm.com/developerworks/xml/library/x-androidstorage/index.html
-     */
-    val isExternalStorageAvailable: Boolean
-        get() = Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()
-
-    /**
      * Chechs is application directory is writable. Should only be called from background
      * @param context activity or application
      * @return either positive Result or negative Result with problem description
      */
     @JvmStatic
     fun checkAppDir(context: Context): Result<DocumentFile> {
-        if (!isExternalStorageAvailable) {
-            return Result.failure(context, R.string.external_storage_unavailable)
-        }
         val appDir = getAppDir(context)
             ?: return Result.failure(context, R.string.io_error_appdir_null)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

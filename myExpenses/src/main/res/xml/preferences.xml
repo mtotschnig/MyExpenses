@@ -237,9 +237,8 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="@string/pref_category_export_key"
-        android:title="@string/pref_category_title_export">
-        <Preference
+        android:key="@string/pref_category_export_backup_key">
+        <org.totschnig.myexpenses.preference.PopupMenuPreference
             android:key="@string/pref_app_dir_key"
             android:title="@string/pref_app_dir_title" />
         <PreferenceScreen
@@ -251,11 +250,6 @@
                 android:summary="@string/pref_share_target_summary"
                 android:title="@string/pref_share_target_title" />
         </PreferenceScreen>
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="@string/pref_category_backup_key"
-        android:title="@string/menu_backup">
         <Preference
             android:key="@string/pref_backup_key"
             android:summary="@string/pref_backup_summary"
@@ -315,12 +309,19 @@
 
         <Preference
             android:key="@string/pref_restore_key"
+            android:title="@string/pref_restore_title"
             android:summary="@string/pref_restore_summary">
             <intent
                 android:action="RESTORE"
                 android:targetClass="org.totschnig.myexpenses.activity.BackupRestoreActivity"
                 android:targetPackage="@string/application_id" />
         </Preference>
+        <MultiSelectListPreference
+            android:key="@string/pref_export_manage_files_key"
+            android:persistent="false"
+            android:positiveButtonText="@string/button_label_share_file"
+            android:negativeButtonText="@string/menu_delete"
+            android:title="@string/files_label" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_category_title_features">

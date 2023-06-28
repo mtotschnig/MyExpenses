@@ -111,7 +111,6 @@
     <string name="export_sdcard_failure">Eksport perbelanjaan ke \"%1$s\" mengalami kegagalan: %2$s</string>
     <!-- 1$s is replaced with path to file -->
     <string name="export_sdcard_success">Perbelanjaan dieksport ke fail \"%1$s\"</string>
-    <string name="external_storage_unavailable">Storan luaran (kad sd) tidak tersedia</string>
     <string name="feedback">Maklumbalas</string>
     <string name="ftp_uri_malformed">URI %1$s cacat</string>
     <string name="grisbi_import_categories_loading">Memuatkan kategori dari %1$s</string>

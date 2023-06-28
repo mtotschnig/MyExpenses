@@ -42,7 +42,6 @@
                 android:layout_width="0dip"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
                 android:importantForAutofill="no"
                 tools:targetApi="o">
 
@@ -56,6 +55,17 @@
                 android:layout_gravity="center_vertical"
                 app:srcCompat="@drawable/ic_folder"
                 android:contentDescription="@string/select"
+                tools:ignore="MissingPrefix"/>
+
+            <ImageView
+                style="?actionButtonStyle"
+                android:id="@+id/btn_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                app:srcCompat="@drawable/ic_list"
+                android:contentDescription="@string/select"
+                android:visibility="gone"
                 tools:ignore="MissingPrefix"/>
         </LinearLayout>
     </TableRow>

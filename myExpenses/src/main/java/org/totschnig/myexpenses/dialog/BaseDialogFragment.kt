@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.dialog
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,8 +21,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 abstract class BaseDialogFragment : DialogFragment() {
-    @JvmField
-    protected var dialogView: View? = null
+    protected lateinit var dialogView: View
     protected lateinit var materialLayoutInflater: LayoutInflater
 
     private var snackBar: Snackbar? = null
@@ -34,6 +34,7 @@ abstract class BaseDialogFragment : DialogFragment() {
         (requireActivity().application as MyApplication).appComponent.inject(this)
     }
 
+    @SuppressLint("UseGetLayoutInflater")
     open fun initBuilder(): AlertDialog.Builder =
         MaterialAlertDialogBuilder(requireContext()).also {
             materialLayoutInflater = LayoutInflater.from(it.context)
@@ -45,8 +46,8 @@ abstract class BaseDialogFragment : DialogFragment() {
         }
 
     protected fun initBuilderWithView(inflate: (LayoutInflater) -> View) = initBuilder().also { builder ->
-        dialogView = inflate(materialLayoutInflater).also {
-            it.findViewById<TableLayout>(R.id.FormTable)?.let {
+        dialogView = inflate(materialLayoutInflater).also { view ->
+            view.findViewById<TableLayout>(R.id.FormTable)?.let {
                 linkInputsWithLabels(it)
             }
         }
@@ -95,7 +96,7 @@ abstract class BaseDialogFragment : DialogFragment() {
     }
 
     protected val snackBarContainer
-        get() = dialogView ?: dialog!!.window!!.decorView
+        get() = dialogView
 
     protected fun dismissSnackBar() {
         snackBar?.dismiss()

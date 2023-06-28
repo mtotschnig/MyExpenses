@@ -114,7 +114,6 @@
     <string name="export_sdcard_failure">Экспорт расходов в \"%1$s\" не удался: %2$s</string>
     <!-- 1$s is replaced with path to file -->
     <string name="export_sdcard_success">Расходы экспортированы в файл \"%1$s\"</string>
-    <string name="external_storage_unavailable">Внешнее хранилище (sdcard) не доступно</string>
     <string name="feedback">Отзыв</string>
     <string name="ftp_uri_malformed">Неверно сформирован URI %1$s</string>
     <string name="grisbi_import_categories_loading">Загрузка категорий из %1$s</string>

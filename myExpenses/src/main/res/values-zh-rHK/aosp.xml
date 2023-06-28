@@ -46,5 +46,9 @@
     <string name="yesterday">"昨天"</string>
     <string name="confirm">"確認"</string>
     <string name="menu_search">"搜尋"</string>
+    <string name="files_label">"檔案"</string>
+    <plurals name="delete_files_confirmation_message">
+      <item quantity="other">要刪除 %1$d 個檔案嗎？</item>
+    </plurals>
 </resources>
 

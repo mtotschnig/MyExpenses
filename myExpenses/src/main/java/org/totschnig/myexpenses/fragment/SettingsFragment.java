@@ -6,6 +6,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.APP_DIR;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_CLOUD;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_FILL_SWITCH;
+import static org.totschnig.myexpenses.preference.PrefKey.MANAGE_APP_DIR_FILES;
 import static org.totschnig.myexpenses.preference.PrefKey.OPTIMIZE_PICTURE;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_SHARE;
@@ -37,6 +38,7 @@ import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentC
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
 import org.totschnig.myexpenses.preference.LegacyPasswordPreferenceDialogFragmentCompat;
+import androidx.preference.MultiSelectListPreferenceDialogFragment2;
 import org.totschnig.myexpenses.preference.SecurityQuestionDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.SimplePasswordDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.SimplePasswordPreference;
@@ -124,6 +126,8 @@ public class SettingsFragment extends BaseSettingsFragment {
       }
     } else if (preference instanceof SimplePasswordPreference) {
       fragment = SimplePasswordDialogFragmentCompat.newInstance(key);
+    } else if (matches(preference, MANAGE_APP_DIR_FILES)) {
+      fragment = MultiSelectListPreferenceDialogFragment2.Companion.newInstance(key);
     }
     if (fragment != null) {
       fragment.setTargetFragment(this, 0);

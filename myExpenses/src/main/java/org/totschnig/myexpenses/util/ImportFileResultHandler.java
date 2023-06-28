@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.util;
 
 import android.content.Context;
 import android.net.Uri;
+import android.provider.DocumentsContract;
 import android.widget.EditText;
 
 import org.totschnig.myexpenses.R;
@@ -27,20 +28,11 @@ public class ImportFileResultHandler {
       String displayName = DialogUtils.getDisplayName(uri);
       fileNameEditText.setText(displayName);
       if (PermissionHelper.canReadUri(uri, context)) {
-        if (displayName == null) {
-          //SecurityException raised during getDisplayName
-          errorMsg = "Error while retrieving document";
-          CrashHandler.report(new Exception(errorMsg));
-          handleError(errorMsg, fileNameEditText);
-        } else {
-          String type = context.getContentResolver().getType(uri);
-          if (type != null) {
-            String[] typeParts = type.split("/");
-            if (typeParts.length == 0 ||
-                !hostFragment.checkTypeParts(typeParts, FileUtils.getExtension(displayName))) {
-              errorMsg = context.getString(R.string.import_source_select_error, hostFragment.getTypeName());
-              handleError(errorMsg, fileNameEditText);
-            }
+        String type = context.getContentResolver().getType(uri);
+        if (type != null) {
+          if (!hostFragment.checkTypeParts(type, FileUtils.getExtension(displayName))) {
+            errorMsg = context.getString(R.string.import_source_select_error, hostFragment.getTypeName());
+            handleError(errorMsg, fileNameEditText);
           }
         }
       } else {
@@ -54,14 +46,17 @@ public class ImportFileResultHandler {
     throw new Throwable(errorMsg);
   }
 
-  public static boolean checkTypePartsDefault(String[] typeParts) {
-    return typeParts[0].equals("*") ||
+  public static boolean checkTypePartsDefault(String mimeType) {
+    String[] typeParts = mimeType.split("/");
+    return typeParts.length > 0 && (
+            typeParts[0].equals("*") ||
         typeParts[0].equals("text") ||
-        typeParts[0].equals("application");
+        typeParts[0].equals("application")
+    );
   }
 
   public static void maybePersistUri(FileNameHostFragment hostFragment, PrefHandler prefHandler) {
-    if (!FileUtils.isDocumentUri(hostFragment.getContext(), hostFragment.getUri())) {
+    if (!DocumentsContract.isDocumentUri(hostFragment.getContext(), hostFragment.getUri())) {
       prefHandler.putString(hostFragment.getPrefKey(), hostFragment.getUri().toString());
     }
   }
@@ -73,10 +68,8 @@ public class ImportFileResultHandler {
         Uri restoredUri = Uri.parse(restoredUriString);
         if (PermissionHelper.canReadUri(restoredUri, hostFragment.getContext())) {
           String displayName = DialogUtils.getDisplayName(restoredUri);
-          if (displayName != null) {
-            hostFragment.setUri(restoredUri);
-            hostFragment.getFilenameEditText().setText(displayName);
-          }
+          hostFragment.setUri(restoredUri);
+          hostFragment.getFilenameEditText().setText(displayName);
         }
       }
     }
@@ -92,7 +85,7 @@ public class ImportFileResultHandler {
 
     EditText getFilenameEditText();
 
-    boolean checkTypeParts(String[] typeParts, String extension);
+    boolean checkTypeParts(String mimeType, String extension);
 
     String getTypeName();
 

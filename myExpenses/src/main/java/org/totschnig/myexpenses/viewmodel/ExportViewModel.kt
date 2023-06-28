@@ -113,7 +113,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                     var account: Account?
                     val appDir = AppDirHelper.getAppDir(application)
                     if (appDir == null) {
-                        publishProgress(localizedContext.getString(R.string.external_storage_unavailable))
+                        publishProgress(localizedContext.getString(R.string.io_error_appdir_null))
 
                     } else {
                         val oneFile = accountIds.size == 1 || mergeP

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
      android-source/packages/apps/UnifiedEmail/res/values/strings.xml
@@ -47,5 +46,12 @@
     <string name="yesterday">"Учора"</string>
     <string name="confirm">"Підтвердити"</string>
     <string name="menu_search">"Пошук"</string>
+    <string name="files_label">"Файли"</string>
+    <plurals name="delete_files_confirmation_message">
+        <item quantity="one">Видалити %1$d файл?</item>
+        <item quantity="few">Видалити %1$d файли?</item>
+        <item quantity="many">Видалити %1$d файлів?</item>
+        <item quantity="other">Видалити %1$d файлу?</item>
+    </plurals>
 </resources>
 

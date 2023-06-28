@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import android.net.Uri
+import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
@@ -12,7 +12,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils
@@ -35,10 +34,13 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
     @Inject
     lateinit var exchangeRateRepository: ExchangeRateRepository
 
-    data class AppDirInfo(val uri: Uri, val displayName: String, val isWriteable: Boolean)
+    data class AppDirInfo(val documentFile: DocumentFile, val displayName: String, val isWriteable: Boolean, val isDefault: Boolean)
 
     private val _appDirInfo: MutableLiveData<Result<AppDirInfo>> = MutableLiveData()
     val appDirInfo: LiveData<Result<AppDirInfo>> = _appDirInfo
+
+    private val _appData: MutableLiveData<List<Pair<String, Long>>> = MutableLiveData()
+    val appData: LiveData<List<Pair<String, Long>>> = _appData
 
     val hasStaleImages: Flow<Boolean>
         get() = contentResolver.observeQuery(
@@ -55,6 +57,20 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
                 ?.let {
                     emit(it.toTypedArray())
                 }
+        }
+    }
+
+    fun loadAppData() {
+        viewModelScope.launch(coroutineContext()) {
+            AppDirHelper.getAppDir(getApplication())?.let { dir ->
+                _appData.postValue(
+                    dir.listFiles()
+                        .filter { it.length() > 0 && !it.isDirectory }
+                        .sortedByDescending { it.lastModified() }
+                        .filter { it.name != null }
+                        .map { it.name!! to it.length() }
+                )
+            }
         }
     }
 
@@ -94,22 +110,25 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
 
     fun loadAppDirInfo() {
         viewModelScope.launch(context = coroutineContext()) {
-            if (AppDirHelper.isExternalStorageAvailable) {
-                AppDirHelper.getAppDir(getApplication())?.let { documentFile ->
-                    _appDirInfo.postValue(
-                        Result.success(
-                            AppDirInfo(
-                                documentFile.uri,
-                                documentFile.displayName,
-                                AppDirHelper.isWritableDirectory(documentFile)
-                            )
+            val appDir = AppDirHelper.getAppDir(getApplication(), false)?.let {
+                it to false
+            } ?: AppDirHelper.getDefaultAppDir(getApplication())?.let {
+                it to true
+            }
+
+            appDir?.let { (documentFile, isDefault) ->
+                _appDirInfo.postValue(
+                    Result.success(
+                        AppDirInfo(
+                            documentFile,
+                            documentFile.displayName,
+                            AppDirHelper.isWritableDirectory(documentFile),
+                            isDefault
                         )
                     )
-                } ?: run {
-                    _appDirInfo.postValue(Result.failure(IOException()))
-                }
-            } else {
-                _appDirInfo.postValue(Result.failure(ExternalStorageNotAvailableException()))
+                )
+            } ?: run {
+                _appDirInfo.postValue(Result.failure(IOException()))
             }
         }
     }
@@ -151,5 +170,15 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
 
     fun clearExchangeRateCache() = liveData(context = coroutineContext()) {
         emit(exchangeRateRepository.deleteAll())
+    }
+
+    fun deleteAppFiles(files: Array<String>) = liveData(context = coroutineContext()) {
+        with(appDirInfo.value?.getOrThrow()!!.documentFile) {
+            emit(files.sumBy {
+                findFile(it)?.delete()
+                1
+            })
+        }
+        loadAppData()
     }
 }

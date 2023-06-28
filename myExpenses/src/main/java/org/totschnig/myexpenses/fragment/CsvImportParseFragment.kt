@@ -184,9 +184,8 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
         DialogUtils.openBrowse(mUri, this)
     }
 
-    override fun checkTypeParts(typeParts: Array<String>, extension: String): Boolean {
-        return ImportFileResultHandler.checkTypePartsDefault(typeParts)
-    }
+    override fun checkTypeParts(mimeType: String, extension: String) =
+        ImportFileResultHandler.checkTypePartsDefault(mimeType)
 
     override fun getTypeName(): String {
         return "CSV"

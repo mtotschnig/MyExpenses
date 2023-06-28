@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
 -->
@@ -46,5 +45,11 @@
     <string name="yesterday">"Gestern"</string>
     <string name="confirm">"Bestätigen"</string>
     <string name="menu_search">"Suche"</string>
+    <string name="files_label">"Dateien"</string>
+    <plurals name="delete_files_confirmation_message">
+        <item quantity="other">%1$d Dateien löschen?</item>
+        <item quantity="one">%1$d Datei löschen?</item>
+    </plurals>
+
 </resources>
 

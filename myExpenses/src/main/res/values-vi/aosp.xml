@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
 -->
@@ -46,5 +45,9 @@
     <string name="yesterday">"Hôm qua"</string>
     <string name="confirm">"Xác nhận"</string>
     <string name="menu_search">"Tìm kiếm"</string>
+    <string name="files_label">"Tệp"</string>
+    <plurals name="delete_files_confirmation_message">
+        <item quantity="other">Xóa %1$d tệp?</item>
+    </plurals>
 </resources>
 

@@ -42,4 +42,9 @@
     <string name="yesterday">"ඊයේ"</string>
     <string name="confirm">"තහවුරු කරන්න"</string>
     <string name="menu_search">"සෙවීම"</string>
+    <string name="files_label">"ගොනු"</string>
+    <plurals name="delete_files_confirmation_message">
+        <item quantity="one">ගොනු %1$dක් මකන්නද?</item>
+        <item quantity="other">ගොනු %1$d ක් මකන්නද?</item>
+    </plurals>
 </resources>
