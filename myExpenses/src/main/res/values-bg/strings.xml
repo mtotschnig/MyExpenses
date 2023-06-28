@@ -310,7 +310,7 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Изисква се парола.</string>
     <string name="pref_qif_export_file_encoding_title">Кодиране на знаците</string>
     <string name="pref_restore_summary">Изберете архивен файл за възстановяване на база данни и предпочитания.</string>
-    <string name="pref_restore_title">Възстановяване</string>
+    <string name="pref_restore_title">Възстанови</string>
     <string name="pref_security_question_summary">Позволява Ви да отключите приложението, ако сте забравили паролата си.</string>
     <string name="pref_security_question_title">Въпрос за сигурност</string>
     <string name="pref_send_feedback_title">Изпрати обратна връзка</string>
@@ -1032,4 +1032,9 @@
     <string name="content_description_remove_icon">Премахни иконата</string>
     <string name="whats_new_359">Иконите на методите за плащане може да бъдат персонализирани.</string>
     <string name="search_account">Търсене на сметка</string>
+    <string name="orphaned_transaction_info">В плана за тази дата има свързана транзакция, обаче липсва инстанция за същата дата.</string>
+    <string name="orphaned_transaction_relink">Транзакцията може да бъде свързана с инстанцията от %s.</string>
+    <string name="orphaned_transaction_align_date">При желание може да запазите за дата на транзакцията датата на инстанцията.</string>
+    <string name="button_relink_update_date">Свържи и обнови датата</string>
+    <string name="button_relink_keep_date">Свържи, но запази датата</string>
 </resources>
