@@ -149,7 +149,7 @@ abstract class ImportSourceDialogFragment : BaseDialogFragment(),
         get() = mUri != null && canReadUri(mUri!!, requireContext())
 
     protected fun setButtonState() {
-        (dialog as AlertDialog?)!!.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = isReady
+        (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = isReady
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

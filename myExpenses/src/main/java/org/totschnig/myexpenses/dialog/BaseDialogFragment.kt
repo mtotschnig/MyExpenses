@@ -46,8 +46,8 @@ abstract class BaseDialogFragment : DialogFragment() {
         }
 
     protected fun initBuilderWithView(inflate: (LayoutInflater) -> View) = initBuilder().also { builder ->
-        dialogView = inflate(materialLayoutInflater).also {
-            it.findViewById<TableLayout>(R.id.FormTable)?.let {
+        dialogView = inflate(materialLayoutInflater).also { view ->
+            view.findViewById<TableLayout>(R.id.FormTable)?.let {
                 linkInputsWithLabels(it)
             }
         }

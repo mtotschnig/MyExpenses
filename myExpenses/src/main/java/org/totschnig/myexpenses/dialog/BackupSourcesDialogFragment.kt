@@ -13,7 +13,6 @@ import androidx.core.view.isVisible
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BackupRestoreActivity
 import org.totschnig.myexpenses.dialog.DialogUtils.CalendarRestoreStrategyChangedListener
-import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.util.ImportFileResultHandler
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 
@@ -68,13 +67,9 @@ class BackupSourcesDialogFragment() : ImportSourceDialogFragment(),
     override val layoutTitle: String
         get() = getString(R.string.pref_restore_title)
 
-    override fun getTypeName(): String {
-        return "Zip"
-    }
+    override fun getTypeName() = "Zip"
 
-    override fun getPrefKey(): String {
-        return "backup_restore_file_uri"
-    }
+    override fun getPrefKey() = "backup_restore_file_uri"
 
     override fun checkTypeParts(mimeType: String, extension: String): Boolean {
         val typeParts = mimeType.split("/")
@@ -97,7 +92,7 @@ class BackupSourcesDialogFragment() : ImportSourceDialogFragment(),
             return
         }
         if (id == AlertDialog.BUTTON_POSITIVE) {
-            (activity as BackupRestoreActivity?)!!.onSourceSelected(
+            (activity as BackupRestoreActivity).onSourceSelected(
                 mUri!!,
                 restorePlanStrategy.checkedRadioButtonId,
                 prefHandler.encryptDatabase && encrypt.isChecked
@@ -119,9 +114,11 @@ class BackupSourcesDialogFragment() : ImportSourceDialogFragment(),
     }
 
     override fun onCalendarPermissionDenied() {
-        restorePlanStrategy.setOnCheckedChangeListener(null)
-        restorePlanStrategy.clearCheck()
-        restorePlanStrategy.setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChangeListener)
+        with(restorePlanStrategy) {
+            setOnCheckedChangeListener(null)
+            clearCheck()
+            setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChangeListener)
+        }
         setButtonState()
     }
 
