@@ -1,0 +1,4 @@
+• Bug fixes
+• Distribution Screen: In addition to sum of expenses and sum of income, show sum of both.
+
+https://github.com/mtotschnig/MyExpenses/projects/103#column-19539159
