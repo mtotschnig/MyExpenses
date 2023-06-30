@@ -25,7 +25,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="windowActionModeOverlay">true</item>
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background</item>
-        <item name="md_color_button_text">?colorAccent</item>
         <item name="textInputStyle">@style/MyTextInputLayout</item>
         <item name="alertDialogTheme">@style/MyAlertDialogTheme</item>
         <item name="materialAlertDialogTheme">@style/MyAlertDialogTheme</item>
@@ -55,7 +54,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
         <item name="android:windowCloseOnTouchOutside">false</item>
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background</item>
-        <item name="md_color_button_text">?colorAccent</item>
         <item name="textInputStyle">@style/MyTextInputLayout</item>
         <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
         <item name="alertDialogTheme">@style/MyAlertDialogTheme</item>
@@ -87,7 +85,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:colorBackground">@color/myColorBackground</item>
         <item name="android:windowBackground">@color/myColorBackground</item>
         <item name="colorPrimaryDark">@color/toolbarBackground</item>
-        <item name="md_color_button_text">?colorAccent</item>
         <item name="textInputStyle">@style/MyTextInputLayout</item>
         <item name="simpleDialogTheme">@style/SimpleDialog</item>
     </style>
