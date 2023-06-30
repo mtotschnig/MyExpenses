@@ -2205,16 +2205,16 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 131) {
         upgradeTo131(db);
       }
-      if (oldVersion < 132) {
+/*      if (oldVersion < 132) {
         createOrRefreshViews(db);
-      }
+      }*/
       if (oldVersion < 133) {
         upgradeTo133(db);
       }
-      if(oldVersion < 134) {
+/*      if (oldVersion < 134) {
         createOrRefreshViews(db);
-      }
-      if(oldVersion < 135) {
+      }*/
+      if (oldVersion < 135) {
         db.execSQL("ALTER TABLE categories add column uuid text");
         db.execSQL("CREATE UNIQUE INDEX categories_uuid ON categories(uuid)");
         MoreDbUtilsKt.insertUuidsForDefaultCategories(db, MyApplication.getInstance().getResources());
