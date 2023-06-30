@@ -240,8 +240,6 @@ dependencies {
     //https://github.com/romandanylyk/PageIndicatorView/issues/141
     implementation 'com.github.romandanylyk:PageIndicatorView:b1bad589b5'
 
-    implementation 'com.afollestad.material-dialogs:core:3.3.0'
-
     implementation "androidx.sqlite:sqlite-ktx:$androidxSqlite"
 
     // dynamic feature module compilation fails with

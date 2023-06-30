@@ -10,7 +10,6 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.core.content.res.ResourcesCompat
-import com.afollestad.materialdialogs.utils.MDUtil.getStringArray
 import com.kazy.fontdrawable.FontDrawable
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.util.UiUtils
@@ -38,7 +37,7 @@ sealed interface IIconInfo {
 
         fun resolveIconsForCategory(context: Context, category: String) =
             buildMap {
-                context.getStringArray(
+                context.resources.getStringArray(
                     context.resources.getIdentifier(
                         "category_${category}_icons",
                         "array",
@@ -54,7 +53,7 @@ sealed interface IIconInfo {
                 context.resources.getIdentifier(
                     "extra_${category}_icons", "array", context.packageName
                 ).takeIf { it != 0 }?.let { resId ->
-                    context.getStringArray(resId).forEach {
+                    context.resources.getStringArray(resId).forEach {
                         put(
                             it,
                             ExtraIcons[it]
