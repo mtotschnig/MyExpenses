@@ -603,6 +603,15 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
             }
         }
+        if (resources.getInteger(R.integer.window_size_class) == 1) {
+            toolbar.setNavigationIcon(R.drawable.ic_menu)
+            binding.accountPanel.root.isVisible = prefHandler.getBoolean(PrefKey.ACCOUNT_PANEL_VISIBLE, false)
+            toolbar.setNavigationOnClickListener {
+                val newState = !binding.accountPanel.root.isVisible
+                prefHandler.putBoolean(PrefKey.ACCOUNT_PANEL_VISIBLE, newState)
+                binding.accountPanel.root.isVisible = newState
+            }
+        }
         binding.drawer?.let { drawer ->
             drawerToggle = object : ActionBarDrawerToggle(
                 this, drawer,

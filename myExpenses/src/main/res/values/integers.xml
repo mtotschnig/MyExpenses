@@ -2,4 +2,5 @@
 <resources>
     <integer name="amount_layout_direction">3</integer><!-- default locale, overriden only by iw -->
     <integer name="create_fab_initial_visibility">1</integer><!-- invisible, visible on Large -->
+    <integer name="window_size_class">0</integer>
 </resources>

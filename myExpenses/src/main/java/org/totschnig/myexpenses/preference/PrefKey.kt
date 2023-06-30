@@ -182,6 +182,7 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     OPTIMIZE_PICTURE_FORMAT(R.string.pref_optimize_picture_format_key),
     OPTIMIZE_PICTURE_QUALITY(R.string.pref_optimize_picture_quality_key),
     MANAGE_APP_DIR_FILES(R.string.pref_export_manage_files_key),
+    ACCOUNT_PANEL_VISIBLE("account_panel_visible"),
     ;
 
     @Deprecated("")
