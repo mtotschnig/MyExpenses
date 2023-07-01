@@ -842,7 +842,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                     if (host.createTemplate) {
                         setInitialPlan(
                             Triple(
-                                viewBinding.Title.text.toString(),
+                                viewBinding.Title.text.toString().takeIf { !it.isEmpty() },
                                 selectedRecurrence, dateEditBinding.DateButton.date
                             )
                         )

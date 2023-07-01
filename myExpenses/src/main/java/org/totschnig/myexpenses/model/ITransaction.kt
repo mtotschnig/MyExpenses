@@ -35,7 +35,7 @@ interface ITransaction: IModel {
 
     fun setDate(zonedDateTime: ZonedDateTime)
     fun setValueDate(zonedDateTime: ZonedDateTime)
-    fun setInitialPlan(initialPlan: Triple<String, Recurrence, LocalDate>)
+    fun setInitialPlan(initialPlan: Triple<String?, Recurrence, LocalDate>)
     fun save(withCommit: Boolean): Uri?
 
     fun saveTags(tags: List<Tag>?): Boolean

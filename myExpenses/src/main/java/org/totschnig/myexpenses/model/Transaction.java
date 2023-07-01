@@ -134,7 +134,7 @@ public class Transaction extends Model implements ITransaction {
 
   transient private Triple<String, ? extends Plan.Recurrence, LocalDate> initialPlan;
 
-  public void setInitialPlan(@NonNull Triple<String, ? extends Plan.Recurrence, LocalDate> initialPlan) {
+  public void setInitialPlan(@Nullable Triple<String, ? extends Plan.Recurrence, LocalDate> initialPlan) {
     this.initialPlan = initialPlan;
   }
 
@@ -686,11 +686,15 @@ public class Transaction extends Model implements ITransaction {
       return null;
     }
     if (initialPlan != null) {
-      String title = initialPlan.getFirst() == null ? (isEmpty(getPayee()) ?
-          (isSplit() || isEmpty(getLabel()) ?
-              (isEmpty(getComment()) ?
-                  MyApplication.getInstance().getString(R.string.menu_create_template) : //TODO proper context
-                  getComment()) : getLabel()) : getPayee()) : initialPlan.getFirst();
+      //TODO proper context
+      String title = initialPlan.getFirst() != null ? initialPlan.getFirst() :
+              (!isEmpty(getPayee()) ? getPayee() :
+                      (!isSplit() && !isEmpty(getLabel()) ? getLabel() :
+                              (!isEmpty(getComment()) ? getComment() :
+                                      MyApplication.getInstance().getString(R.string.menu_create_template)
+                              )
+                      )
+              );
       Template originTemplate = new Template(this, title);
       String description = originTemplate.compileDescription(MyApplication.getInstance()); //TODO proper context
       originTemplate.setPlanExecutionAutomatic(true);
