@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string-array name="versions">
-        <item>633;3.6.0.1</item>
+        <item>634;3.6.1</item>
         <item>632;3.6.0</item>
         <item>629;3.5.9</item>
         <item>624;3.5.8</item>
@@ -158,7 +158,7 @@
     <string name="project_board_358">100#column-19502798</string>
     <string name="project_board_359">101#column-19509349</string>
     <string name="project_board_360">102#column-19526743</string>
-    <string name="project_board_3601">103#column-19539159</string>
+    <string name="project_board_361">104#column-19552364</string>
 
     <string-array name="whats_new_314">
         <item>@string/title_scan_receipt_feature</item>
@@ -189,8 +189,8 @@
         <item>@string/whats_new_358</item>
         <item>@string/template_shortcut</item>
     </string-array>
-    <string-array name="whats_new_3601">
-        <item>@string/bug_fixes</item>
-        <item>Distribution Screen: In addition to sum of expenses and sum of income, show sum of both.</item>
+    <string-array name="whats_new_361">
+        <item>@string/whats_new_361_1</item>
+        <item>@string/whats_new_361_2</item>
     </string-array>
 </resources>
