@@ -2242,7 +2242,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
       if (oldVersion < 143) {
         db.execSQL("ALTER TABLE accounts add column sort_by text default 'date'");
-        db.execSQL("ALTER TABLE currencies add column sort_by text default 'date'");
+        db.execSQL("ALTER TABLE currency add column sort_by text default 'date'");
       }
 
       TransactionProvider.resumeChangeTrigger(db);
