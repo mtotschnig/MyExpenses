@@ -718,7 +718,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             transaction.pictureUri = cached.pictureUri
             setDirty()
         } else {
-            intent.getLongExtra(KEY_DATE, 0).takeIf { it != 0L }?.let { it / 1000 }?.let {
+            intent.getLongExtra(KEY_DATE, 0).takeIf { it != 0L }?.let {
                 transaction.date = it
                 transaction.valueDate = it
             }

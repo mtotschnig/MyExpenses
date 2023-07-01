@@ -1,5 +1,9 @@
 package org.totschnig.myexpenses.service;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
+
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -8,6 +12,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
+
+import androidx.annotation.Nullable;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -18,24 +24,13 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.viewmodel.data.Tag;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
-
-import androidx.annotation.Nullable;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 
 //TODO migrate to WorkManager
 public class PlanNotificationClickHandler extends IntentService {
   public PlanNotificationClickHandler() {
     super("PlanNotificationClickHandler");
-  }
-
-  @Override
-  public void onCreate() {
-    super.onCreate();
   }
 
   @Override
@@ -60,7 +55,7 @@ public class PlanNotificationClickHandler extends IntentService {
           message = getString(R.string.save_transaction_template_deleted);
         } else {
           Transaction t = pair.getFirst();
-          t.setDate(new Date(extras.getLong(DatabaseConstants.KEY_DATE)));
+          t.setDate(extras.getLong(DatabaseConstants.KEY_DATE, Instant.now().getEpochSecond()));
           t.setOriginPlanInstanceId(instanceId);
           if (t.save(true) != null && t.saveTags(pair.getSecond())) {
             message = getResources().getQuantityString(

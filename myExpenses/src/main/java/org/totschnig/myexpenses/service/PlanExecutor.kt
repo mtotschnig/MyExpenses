@@ -202,6 +202,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                     //TODO if we have multiple Event instances for one plan, we should maybe cache the template objects
                     val template = Template.getInstanceForPlanIfInstanceIsOpen(planId, instanceId)
                     if (!(template == null || template.isSealed)) {
+                        val dateSeconds = date / 1000
                         if (template.planExecutionAdvance >= diff) {
                             val accountLabel = repository.getLabelForAccount(template.accountId)
                             if (accountLabel != null) {
@@ -226,7 +227,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                         template
                                     )
                                     t.originPlanInstanceId = instanceId
-                                    t.setDate(Date(date))
+                                    t.date = dateSeconds
                                     if (t.save(true) != null && t.saveTags(second)) {
                                         val displayIntent: Intent =
                                             Intent(applicationContext, MyExpenses::class.java)
@@ -296,7 +297,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                             "noon"
                                         )
                                     if (useDateFromPlan) {
-                                        editIntent.putExtra(DatabaseConstants.KEY_DATE, date)
+                                        editIntent.putExtra(DatabaseConstants.KEY_DATE, dateSeconds)
                                     }
                                     resultIntent = PendingIntent.getActivity(
                                         applicationContext,
@@ -324,7 +325,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                         )
                                         .putExtra(DatabaseConstants.KEY_INSTANCEID, instanceId)
                                     if (useDateFromPlan) {
-                                        applyIntent.putExtra(DatabaseConstants.KEY_DATE, date)
+                                        applyIntent.putExtra(DatabaseConstants.KEY_DATE, dateSeconds)
                                     }
                                     builder.addAction(
                                         R.drawable.ic_menu_save,
