@@ -117,9 +117,12 @@ public class SettingsTest extends BaseUiTest<MyPreferenceActivity> {
   @Test
   public void restore() {
     onView(getRootMatcher())
-        .perform(RecyclerViewActions.actionOnItem(hasDescendant(
-            withText(getString(R.string.pref_restore_title) + " (ZIP)")),
-            click()));
+        .perform(
+                RecyclerViewActions.actionOnItem(
+                        hasDescendant(withText(R.string.pref_restore_title)),
+                        click()
+                )
+        );
     intended(hasComponent(BackupRestoreActivity.class.getName()));
     onView(withText(R.string.pref_restore_title)).check(matches(isDisplayed()));
   }
