@@ -52,6 +52,6 @@
         <item quantity="one"> %1$d ಫೈಲ್‌ಗಳನ್ನು ಅಳಿಸುವುದೇ?</item>
         <item quantity="other"> %1$d ಫೈಲ್‌ಗಳನ್ನು ಅಳಿಸುವುದೇ?</item>
     </plurals>
-
+    <string name="display_options_sort_list_by">"ಈ ಪ್ರಕಾರ ವಿಂಗಡಿಸಿ"</string>
 </resources>
 

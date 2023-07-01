@@ -215,7 +215,6 @@
     <string name="content_description_calculator">కాలిక్యులేటర్</string>
     <string name="pref_sort_order_custom">కస్టమ్</string>
     <string name="pref_sort_order_last_used">చివరగా ఉపయోగించిన</string>
-    <string name="menu_sort">ఆమరిక</string>
     <string name="date_format_minute">నిమిషం</string>
     <string name="date_format_hour">గంట</string>
     <string name="exchange_rate">మార్పిడి రేటు</string>

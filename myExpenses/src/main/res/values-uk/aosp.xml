@@ -53,5 +53,6 @@
         <item quantity="many">Видалити %1$d файлів?</item>
         <item quantity="other">Видалити %1$d файлу?</item>
     </plurals>
+    <string name="display_options_sort_list_by">"Параметри сортування"</string>
 </resources>
 

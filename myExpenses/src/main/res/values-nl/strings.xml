@@ -585,7 +585,6 @@
     <string name="between_and">tussen %1$s en %2$s</string>
     <string name="menu_view_picture">Bekijk foto</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d records zijn verwijderd.</string>
-    <string name="menu_sort">Sorteren op</string>
     <string name="synchronization_none">Geen synchronisatie</string>
     <string name="dialog_confirm_sync_remove_backend">Externe backend %s wordt verwijderd. Dit heeft geen invloed op gegevens die lokaal of op afstand zijn opgeslagen, maar de synchronisatiestatus gaat verloren.</string>
     <string name="onboarding_get_started">Aan de slag</string>

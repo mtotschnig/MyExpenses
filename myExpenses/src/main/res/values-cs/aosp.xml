@@ -53,6 +53,6 @@
         <item quantity="other">Smazat %1$d souborů?</item>
         <item quantity="one">Smazat %1$d soubor?</item>
     </plurals>
-
+    <string name="display_options_sort_list_by">"Řadit podle"</string>
 </resources>
 

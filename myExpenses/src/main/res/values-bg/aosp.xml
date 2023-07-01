@@ -52,5 +52,5 @@
         <item quantity="other">Искате ли да изтриете %1$d файла?</item>
         <item quantity="one">Искате ли да изтриете %1$d файл?</item>
     </plurals>
-
+    <string name="display_options_sort_list_by">"Сортиране по"</string>
 </resources>

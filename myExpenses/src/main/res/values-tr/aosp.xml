@@ -50,5 +50,6 @@
         <item quantity="other">%1$d dosya silinsin mi?</item>
         <item quantity="one">%1$d dosya silinsin mi?</item>
     </plurals>
+    <string name="display_options_sort_list_by">"Sıralama ölçütü"</string>
 </resources>
 

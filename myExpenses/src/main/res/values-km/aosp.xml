@@ -49,5 +49,6 @@
     <plurals name="delete_files_confirmation_message">
         <item quantity="other">លុបឯកសារ %1$d ឬ?</item>
     </plurals>
+    <string name="display_options_sort_list_by">"តម្រៀបតាម"</string>
 </resources>
 

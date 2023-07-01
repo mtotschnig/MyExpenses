@@ -390,7 +390,6 @@
     <string name="exchange_rate">نرخ تبدیل</string>
     <string name="date_format_hour">ساعت</string>
     <string name="date_format_minute">دقیقه</string>
-    <string name="menu_sort">مرتب‌سازی بر اساس</string>
     <string name="pref_sort_order_last_used">آخرین استفاده</string>
     <string name="pref_sort_order_custom">سفارشی</string>
     <string name="content_description_calculator">ماشین‌حساب</string>

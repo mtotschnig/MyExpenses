@@ -51,5 +51,6 @@
         <item quantity="other">¿Eliminar %1$d archivos?</item>
         <item quantity="one">¿Eliminar %1$d archivo?</item>
     </plurals>
+    <string name="display_options_sort_list_by">"Ordenar por"</string>
 </resources>
 

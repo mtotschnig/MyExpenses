@@ -47,4 +47,5 @@
         <item quantity="other">%1$d فائلیں حذف کریں؟</item>
         <item quantity="one">%1$d فائل حذف کریں؟</item>
     </plurals>
+    <string name="display_options_sort_list_by">"ترتیب دیں بہ لحاظ"</string>
 </resources>

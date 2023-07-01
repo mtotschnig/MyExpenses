@@ -49,5 +49,6 @@
     <plurals name="delete_files_confirmation_message">
         <item quantity="other">Xóa %1$d tệp?</item>
     </plurals>
+    <string name="display_options_sort_list_by">"Sắp xếp theo"</string>
 </resources>
 

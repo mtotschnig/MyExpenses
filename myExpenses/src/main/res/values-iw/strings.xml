@@ -527,7 +527,6 @@
     <string name="exchange_rate">שער חליפין</string>
     <string name="date_format_hour">שעה</string>
     <string name="date_format_minute">דקה</string>
-    <string name="menu_sort">מיין לפי</string>
     <string name="pref_sort_order_last_used">נעשה בו שימוש לאחרונה</string>
     <string name="pref_sort_order_custom">מותאם אישית</string>
     <string name="content_description_calculator">מחשבון</string>

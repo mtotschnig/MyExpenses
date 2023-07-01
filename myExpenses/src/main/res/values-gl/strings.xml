@@ -236,7 +236,6 @@
     <string name="preferences_month_start_date_title">O mes comeza o</string>
     <string name="date_format_hour">Hora</string>
     <string name="date_format_minute">Minuto</string>
-    <string name="menu_sort">Ordenar por</string>
     <string name="pref_sort_order_custom">Personalizar</string>
     <string name="content_description_calculator">Calculadora</string>
     <!-- describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list. -->

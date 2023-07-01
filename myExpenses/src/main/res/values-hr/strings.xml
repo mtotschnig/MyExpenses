@@ -586,7 +586,6 @@
     <string name="plan_instance_state_open">otvoreno</string>
     <string name="pref_sort_order_custom">Prilagođeno</string>
     <string name="pref_sort_order_last_used">Zadnje korišteno</string>
-    <string name="menu_sort">Razvrstaj po</string>
     <string name="date_format_minute">Minuta</string>
     <string name="date_format_hour">Sat</string>
     <string name="exchange_rate">Tečaj</string>

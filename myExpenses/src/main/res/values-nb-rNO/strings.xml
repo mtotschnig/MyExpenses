@@ -92,7 +92,6 @@
     <string name="content_description_calculator">Kalkulator</string>
     <string name="pref_sort_order_custom">Egendefinert</string>
     <string name="pref_sort_order_last_used">Sist brukt</string>
-    <string name="menu_sort">Sorter etter</string>
     <string name="date_format_minute">Minutt</string>
     <string name="date_format_hour">Time</string>
     <string name="exchange_rate">Vekslingskurs</string>

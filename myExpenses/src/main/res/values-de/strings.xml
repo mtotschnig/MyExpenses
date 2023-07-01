@@ -513,7 +513,6 @@
     <string name="exchange_rate">Wechselkurs</string>
     <string name="date_format_hour">Stunde</string>
     <string name="date_format_minute">Minute</string>
-    <string name="menu_sort">Sortieren nach</string>
     <string name="pref_sort_order_last_used">Zuletzt verwendet</string>
     <string name="pref_sort_order_custom">Benutzerdefiniert</string>
     <string name="content_description_calculator">Taschenrechner</string>

@@ -244,7 +244,7 @@ public class MyExpenses extends BaseMyExpenses implements
       MenuDialog.build()
           .menu(this, R.menu.accounts_sort)
           .choiceIdPreset(accountSort.getCommandId())
-          .title(R.string.menu_sort)
+          .title(R.string.display_options_sort_list_by)
           .show(this, DIALOG_TAG_SORTING);
       return true;
     } else if (command == R.id.ROADMAP_COMMAND) {

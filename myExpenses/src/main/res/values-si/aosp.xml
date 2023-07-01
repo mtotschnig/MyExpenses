@@ -47,4 +47,5 @@
         <item quantity="one">ගොනු %1$dක් මකන්නද?</item>
         <item quantity="other">ගොනු %1$d ක් මකන්නද?</item>
     </plurals>
+    <string name="display_options_sort_list_by">"මේ අනුව අනුපිළිවෙලට සකසන්න"</string>
 </resources>

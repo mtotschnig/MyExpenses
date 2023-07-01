@@ -440,7 +440,6 @@
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d registres no es poden importar.</string>
     <string name="pref_grouping_periods">Períodes d\'agrupació</string>
     <string name="date_format_minute">Minut</string>
-    <string name="menu_sort">Ordena per</string>
     <string name="plan_instance_state_open">obert</string>
     <string name="content_description_calculator_delete_button">Elimina últim digit</string>
     <string name="content_description_calculator_clear_button">Restableix tot</string>

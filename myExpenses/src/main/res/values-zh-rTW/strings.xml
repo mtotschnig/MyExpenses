@@ -507,7 +507,6 @@
     <string name="exchange_rate">匯率</string>
     <string name="date_format_hour">小時</string>
     <string name="date_format_minute">分鐘</string>
-    <string name="menu_sort">排序依據</string>
     <string name="pref_sort_order_last_used">最後使用的</string>
     <string name="pref_sort_order_custom">自訂</string>
     <string name="content_description_calculator">計算機</string>

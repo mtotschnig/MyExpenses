@@ -527,7 +527,6 @@
     <string name="exchange_rate">Směnný kurz</string>
     <string name="date_format_hour">Hodina</string>
     <string name="date_format_minute">Minuta</string>
-    <string name="menu_sort">Třídit podle</string>
     <string name="pref_sort_order_last_used">Naposledy použito</string>
     <string name="pref_sort_order_custom">Vlastní</string>
     <string name="content_description_calculator">Kalkulačka</string>

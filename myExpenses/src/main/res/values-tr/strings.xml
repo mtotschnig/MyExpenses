@@ -513,7 +513,6 @@
     <string name="exchange_rate">Döviz kuru</string>
     <string name="date_format_hour">Saat</string>
     <string name="date_format_minute">Dakika</string>
-    <string name="menu_sort">Şuna göre sırala</string>
     <string name="pref_sort_order_last_used">Son kullanıldığı</string>
     <string name="pref_sort_order_custom">Özel</string>
     <string name="content_description_calculator">Hesap makinesi</string>

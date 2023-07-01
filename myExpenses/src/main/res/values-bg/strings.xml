@@ -513,7 +513,6 @@
     <string name="exchange_rate">Обменен курс</string>
     <string name="date_format_hour">Час</string>
     <string name="date_format_minute">Минути</string>
-    <string name="menu_sort">Подреди по</string>
     <string name="pref_sort_order_last_used">Последно използван</string>
     <string name="pref_sort_order_custom">Ръчно</string>
     <string name="content_description_calculator">Калкулатор</string>

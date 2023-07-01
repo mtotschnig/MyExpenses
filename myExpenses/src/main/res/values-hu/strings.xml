@@ -513,7 +513,6 @@
     <string name="exchange_rate">Árfolyam</string>
     <string name="date_format_hour">Óra</string>
     <string name="date_format_minute">Perc</string>
-    <string name="menu_sort">Rendezési szempont</string>
     <string name="pref_sort_order_last_used">Utoljára használva</string>
     <string name="pref_sort_order_custom">Egyéni</string>
     <string name="content_description_calculator">Számológép</string>

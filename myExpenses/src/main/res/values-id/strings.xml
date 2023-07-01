@@ -89,7 +89,6 @@
     <string name="content_description_calculator">Kalkulator</string>
     <string name="pref_sort_order_custom">Kustom</string>
     <string name="pref_sort_order_last_used">Terakhir digunakan</string>
-    <string name="menu_sort">Urut berdasarkan</string>
     <string name="date_format_minute">Menit</string>
     <string name="date_format_hour">Jam</string>
     <string name="content_description_calculator_delete_button">Hapus digit terakhir</string>

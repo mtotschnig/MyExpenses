@@ -540,7 +540,6 @@
     <string name="exchange_rate">معدل الصرف</string>
     <string name="date_format_hour">ساعة</string>
     <string name="date_format_minute">دقيقة</string>
-    <string name="menu_sort">رتب بواسطة</string>
     <string name="pref_sort_order_last_used">آخر استخدام</string>
     <string name="pref_sort_order_custom">تخصيص</string>
     <string name="content_description_calculator">الحاسبة</string>

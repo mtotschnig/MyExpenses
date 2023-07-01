@@ -509,7 +509,6 @@
     <string name="exchange_rate">Ισοτιμία</string>
     <string name="date_format_hour">Ώρα</string>
     <string name="date_format_minute">Λεπτό</string>
-    <string name="menu_sort">Ταξινόμηση κατά</string>
     <string name="pref_sort_order_last_used">Τελευταία χρήση</string>
     <string name="pref_sort_order_custom">Προσαρμοσμένο</string>
     <string name="content_description_calculator">Αριθμομηχανή</string>

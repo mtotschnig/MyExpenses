@@ -52,6 +52,6 @@
         <item quantity="other">Ștergi %1$d de fișiere?</item>
         <item quantity="one">Ștergi %1$d fișier?</item>
     </plurals>
-
+    <string name="display_options_sort_list_by">"Sortați după"</string>
 </resources>
 

@@ -19,7 +19,7 @@
     </item>
     <item
         android:id="@id/SORT_COMMAND"
-        android:title="@string/menu_sort"
+        android:title="@string/display_options_sort_list_by"
         android:icon="@drawable/ic_menu_sort"
         app:showAsAction="ifRoom">
         <menu>

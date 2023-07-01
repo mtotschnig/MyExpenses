@@ -50,5 +50,6 @@
         <item quantity="other">Eliminare %1$d file?</item>
         <item quantity="one">Eliminare %1$d file?</item>
     </plurals>
+    <string name="display_options_sort_list_by">"Ordina per"</string>
 </resources>
 

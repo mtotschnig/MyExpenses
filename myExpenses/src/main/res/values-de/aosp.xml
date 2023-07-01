@@ -50,6 +50,6 @@
         <item quantity="other">%1$d Dateien löschen?</item>
         <item quantity="one">%1$d Datei löschen?</item>
     </plurals>
-
+    <string name="display_options_sort_list_by">"Sortieren nach"</string>
 </resources>
 

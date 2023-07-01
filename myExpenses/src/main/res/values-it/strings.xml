@@ -515,7 +515,6 @@
     <string name="exchange_rate">Tasso di cambio</string>
     <string name="date_format_hour">Ora</string>
     <string name="date_format_minute">Minuto</string>
-    <string name="menu_sort">Ordina per</string>
     <string name="pref_sort_order_last_used">Usato l\'ultima volta</string>
     <string name="pref_sort_order_custom">Su ordinazione</string>
     <string name="content_description_calculator">Calcolatrice</string>

@@ -520,7 +520,6 @@
     <string name="exchange_rate">Taux de change</string>
     <string name="date_format_hour">Heure</string>
     <string name="date_format_minute">Minute</string>
-    <string name="menu_sort">Trier par</string>
     <string name="pref_sort_order_last_used">Dernier utilisé</string>
     <string name="pref_sort_order_custom">Personnalisé</string>
     <string name="content_description_calculator">Calculatrice</string>

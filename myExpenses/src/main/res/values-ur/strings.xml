@@ -662,7 +662,6 @@
     <string name="exchange_rate">زر مبادلہ کی شرح</string>
     <string name="date_format_hour">گھنٹہ</string>
     <string name="date_format_minute">منٹ</string>
-    <string name="menu_sort">ترتیب دیں</string>
     <string name="pref_sort_order_last_used">آخری بار استعمال کیا گیا</string>
     <string name="pref_sort_order_custom">اپنی مرضی کے مطابق</string>
     <string name="menu_move">اقدام</string>

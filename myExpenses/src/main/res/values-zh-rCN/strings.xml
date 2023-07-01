@@ -506,7 +506,6 @@
     <string name="exchange_rate">汇率</string>
     <string name="date_format_hour">小时</string>
     <string name="date_format_minute">分钟</string>
-    <string name="menu_sort">排序依据</string>
     <string name="pref_sort_order_last_used">最后使用的</string>
     <string name="pref_sort_order_custom">自定义</string>
     <string name="content_description_calculator">计算器</string>
