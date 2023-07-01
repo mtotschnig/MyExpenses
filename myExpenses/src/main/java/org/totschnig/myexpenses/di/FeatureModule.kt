@@ -5,6 +5,7 @@ import dagger.Provides
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.feature.OcrFeature
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import timber.log.Timber
 import javax.inject.Singleton
@@ -35,7 +36,9 @@ open class FeatureModule {
                 .getConstructor(PrefHandler::class.java)
                 .newInstance(prefHandler) as FeatureManager
     } catch (e: Exception) {
-        Timber.e(e)
+        if (DistributionHelper.distribution != DistributionHelper.Distribution.GITHUB) {
+            Timber.e(e)
+        }
         object : FeatureManager() {}
     }
 }

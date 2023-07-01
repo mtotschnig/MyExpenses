@@ -223,6 +223,7 @@
     <string name="menu_color" tools:ignore="UnusedResources">@string/color</string>
     <string name="menu_status_handle" tools:ignore="UnusedResources">@string/status</string>
     <string name="menu_rollover" tools:ignore="UnusedResources">@string/budget_table_header_rollover</string>
+    <string name="menu_sort">@string/display_options_sort_list_by</string>
     <string name="roadmap_intro">We have launched a new iteration of the Roadmap Vote. Please help us define priorities for the upcoming year.</string>
     <string name="roadmap_intro_update">You need to update your vote in order to have it counted.</string>
     <string name="roadmap_loading">Loading issues …</string>
