@@ -36,6 +36,7 @@ data class FullAccount(
     val sumExpense: Long,
     val sumTransfer: Long = 0L,
     override val grouping: Grouping = Grouping.NONE,
+    val sortBy: String = KEY_DATE,
     val sortDirection: SortDirection = SortDirection.DESC,
     val syncAccountName: String? = null,
     val reconciledTotal: Long = 0L,
@@ -52,36 +53,42 @@ data class FullAccount(
 
     val toPageAccount: PageAccount
         get() = PageAccount(
-            id, type, sortDirection, grouping, currencyUnit, sealed, openingBalance, _color
+            id, type, sortBy, sortDirection, grouping, currencyUnit, sealed, openingBalance, _color
         )
 
     companion object {
 
-        fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext) = FullAccount(
-            id = cursor.getLong(KEY_ROWID),
-            label = cursor.getString(KEY_LABEL),
-            description = cursor.getStringOrNull(KEY_DESCRIPTION),
-            currencyUnit = currencyContext.get(cursor.getString(KEY_CURRENCY)),
-            _color = cursor.getInt(KEY_COLOR),
-            type = enumValueOrNull<AccountType>(cursor.getStringOrNull(KEY_TYPE)),
-            sealed = cursor.getInt(KEY_SEALED) == 1,
-            openingBalance = cursor.getLong(KEY_OPENING_BALANCE),
-            currentBalance = cursor.getLong(KEY_CURRENT_BALANCE),
-            sumIncome = cursor.getLong(KEY_SUM_INCOME),
-            sumExpense = cursor.getLong(KEY_SUM_EXPENSES),
-            sumTransfer = cursor.getLong(KEY_SUM_TRANSFERS),
-            grouping = cursor.getEnum(KEY_GROUPING, Grouping.NONE),
-            sortDirection = cursor.getEnum(KEY_SORT_DIRECTION, SortDirection.DESC),
-            syncAccountName = cursor.getStringOrNull(KEY_SYNC_ACCOUNT_NAME),
-            reconciledTotal = cursor.getLong(KEY_RECONCILED_TOTAL),
-            clearedTotal = cursor.getLong(KEY_CLEARED_TOTAL),
-            hasCleared = cursor.getInt(KEY_HAS_CLEARED) > 0,
-            uuid = cursor.getStringOrNull(KEY_UUID),
-            criterion = cursor.getLong(KEY_CRITERION).takeIf { it != 0L },
-            total = if (cursor.getBoolean(KEY_HAS_FUTURE)) cursor.getLong(KEY_TOTAL) else null,
-            excludeFromTotals = cursor.getBoolean(KEY_EXCLUDE_FROM_TOTALS),
-            lastUsed = cursor.getLong(KEY_LAST_USED)
-        )
+        fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext): FullAccount {
+            val sortBy = cursor.getString(KEY_SORT_BY)
+                .takeIf { it == KEY_DATE || it == KEY_AMOUNT }
+                ?: KEY_DATE
+            return FullAccount(
+                id = cursor.getLong(KEY_ROWID),
+                label = cursor.getString(KEY_LABEL),
+                description = cursor.getStringOrNull(KEY_DESCRIPTION),
+                currencyUnit = currencyContext.get(cursor.getString(KEY_CURRENCY)),
+                _color = cursor.getInt(KEY_COLOR),
+                type = enumValueOrNull<AccountType>(cursor.getStringOrNull(KEY_TYPE)),
+                sealed = cursor.getInt(KEY_SEALED) == 1,
+                openingBalance = cursor.getLong(KEY_OPENING_BALANCE),
+                currentBalance = cursor.getLong(KEY_CURRENT_BALANCE),
+                sumIncome = cursor.getLong(KEY_SUM_INCOME),
+                sumExpense = cursor.getLong(KEY_SUM_EXPENSES),
+                sumTransfer = cursor.getLong(KEY_SUM_TRANSFERS),
+                grouping = if (sortBy == KEY_DATE) cursor.getEnum(KEY_GROUPING, Grouping.NONE) else Grouping.NONE,
+                sortBy = sortBy,
+                sortDirection = cursor.getEnum(KEY_SORT_DIRECTION, SortDirection.DESC),
+                syncAccountName = cursor.getStringOrNull(KEY_SYNC_ACCOUNT_NAME),
+                reconciledTotal = cursor.getLong(KEY_RECONCILED_TOTAL),
+                clearedTotal = cursor.getLong(KEY_CLEARED_TOTAL),
+                hasCleared = cursor.getInt(KEY_HAS_CLEARED) > 0,
+                uuid = cursor.getStringOrNull(KEY_UUID),
+                criterion = cursor.getLong(KEY_CRITERION).takeIf { it != 0L },
+                total = if (cursor.getBoolean(KEY_HAS_FUTURE)) cursor.getLong(KEY_TOTAL) else null,
+                excludeFromTotals = cursor.getBoolean(KEY_EXCLUDE_FROM_TOTALS),
+                lastUsed = cursor.getLong(KEY_LAST_USED)
+            )
+        }
     }
 }
 
@@ -89,6 +96,7 @@ data class FullAccount(
 data class PageAccount(
     override val id: Long,
     val type: AccountType?,
+    val sortBy: String,
     val sortDirection: SortDirection,
     override val grouping: Grouping,
     val currencyUnit: CurrencyUnit,

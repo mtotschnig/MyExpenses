@@ -41,8 +41,8 @@ import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.*
-import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGREGATE
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_BY_AGGREGATE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_DIRECTION_AGGREGATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
@@ -320,27 +320,27 @@ open class MyExpensesViewModel(
         }
     }
 
-    fun persistSortDirection(accountId: Long, sortDirection: SortDirection) {
+    fun persistSortDirection(accountId: Long, sort: Pair<String, SortDirection>) {
         viewModelScope.launch(context = coroutineContext()) {
             if (accountId == DataBaseAccount.HOME_AGGREGATE_ID) {
-                persistSortDirectionHomeAggregate(sortDirection)
+                persistSortDirectionHomeAggregate(sort)
                 triggerAccountListRefresh()
             } else {
                 contentResolver.update(
-                    ContentUris.withAppendedId(SORT_DIRECTION_URI, accountId)
+                    ContentUris.withAppendedId(SORT_URI, accountId)
                         .buildUpon()
-                        .appendPath(sortDirection.name).build(),
+                        .appendPath(sort.first)
+                        .appendPath(sort.second.name)
+                        .build(),
                     null, null, null
                 )
             }
         }
     }
 
-    private fun persistSortDirectionHomeAggregate(sortDirection: SortDirection) {
-        prefHandler.putString(
-            SORT_DIRECTION_AGGREGATE + AGGREGATE_HOME_CURRENCY_CODE,
-            sortDirection.name
-        )
+    private fun persistSortDirectionHomeAggregate(sort: Pair<String, SortDirection>) {
+        prefHandler.putString(SORT_BY_AGGREGATE,sort.first)
+        prefHandler.putString(SORT_DIRECTION_AGGREGATE,sort.second.name)
         triggerAccountListRefresh()
     }
 

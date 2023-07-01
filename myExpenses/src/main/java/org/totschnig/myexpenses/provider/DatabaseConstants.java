@@ -279,6 +279,7 @@ public class DatabaseConstants {
   public static final String KEY_KEY = "key";
   public static final String KEY_VALUE = "value";
   public static final String KEY_SORT_DIRECTION = "sort_direction";
+  public static final String KEY_SORT_BY = "sort_by";
   public static final String KEY_CURRENCY_SELF = "currency_self";
   public static final String KEY_CURRENCY_OTHER= "currency_other";
   public static final String KEY_EXCHANGE_RATE = "exchange_rate";

@@ -7,6 +7,7 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import java.io.Serializable
@@ -24,6 +25,8 @@ data class Account(
     val excludeFromTotals: Boolean = false,
     val uuid: String? = null,
     val isSealed: Boolean = false,
+    val sortBy: String = KEY_DATE,
+    val sortDirection: SortDirection = SortDirection.DESC,
     /**
      * describes rate of this accounts minor unit to homeCurrency minor unit
      */
@@ -56,14 +59,18 @@ data class Account(
             KEY_EXCLUDE_FROM_TOTALS,
             KEY_SYNC_ACCOUNT_NAME,
             KEY_UUID,
+            KEY_SORT_BY,
             KEY_SORT_DIRECTION,
             KEY_EXCHANGE_RATE,
             KEY_CRITERION,
             KEY_SEALED
         )
 
-        fun fromCursor(cursor: Cursor) =
-            Account(
+        fun fromCursor(cursor: Cursor): Account {
+            val sortBy = cursor.getString(KEY_SORT_BY)
+                .takeIf { it == KEY_DATE || it == KEY_AMOUNT }
+                ?: KEY_DATE
+            return Account(
                 id = cursor.getLong(KEY_ROWID),
                 label = cursor.getString(KEY_LABEL),
                 description = cursor.getString(KEY_DESCRIPTION),
@@ -77,8 +84,11 @@ data class Account(
                 uuid = cursor.getString(KEY_UUID),
                 isSealed = cursor.getBoolean(KEY_SEALED),
                 exchangeRate = cursor.getDoubleIfExists(KEY_EXCHANGE_RATE) ?: 1.0,
-                grouping = cursor.getEnum(KEY_GROUPING, Grouping.NONE)
+                grouping = if (sortBy == KEY_DATE) cursor.getEnum(KEY_GROUPING, Grouping.NONE) else Grouping.NONE,
+                sortBy = sortBy,
+                sortDirection = cursor.getEnum(KEY_SORT_DIRECTION, SortDirection.DESC),
             )
+        }
 
     }
 }

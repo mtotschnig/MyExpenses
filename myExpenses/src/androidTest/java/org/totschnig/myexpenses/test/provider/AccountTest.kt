@@ -11,12 +11,10 @@ import org.junit.Test
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.SortDirection
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.TransactionProvider.SORT_DIRECTION_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.SORT_URI
 import org.totschnig.myexpenses.testutils.CursorSubject.Companion.assertThat
 
 class AccountTest {
@@ -80,8 +78,8 @@ class AccountTest {
     fun testQueriesOnAccountUri() {
         val testProjection = arrayOf(
             KEY_LABEL,
-            DatabaseConstants.KEY_DESCRIPTION,
-            DatabaseConstants.KEY_CURRENCY
+            KEY_DESCRIPTION,
+            KEY_CURRENCY
         )
         val commentSelection = "$KEY_LABEL = ?"
         val selectionColumns =
@@ -159,7 +157,7 @@ class AccountTest {
         val query = "Account 0"
         val args = arrayOf(query)
         val projection = arrayOf(
-            DatabaseConstants.KEY_ROWID,
+            KEY_ROWID,
             KEY_LABEL
         )
         insertData()
@@ -222,10 +220,10 @@ class AccountTest {
             null,
             null
         )!!.use {
-            val descriptionIndex = it.getColumnIndex(DatabaseConstants.KEY_DESCRIPTION)
+            val descriptionIndex = it.getColumnIndex(KEY_DESCRIPTION)
             val labelIndex = it.getColumnIndex(KEY_LABEL)
-            val balanceIndex = it.getColumnIndex(DatabaseConstants.KEY_OPENING_BALANCE)
-            val currencyIndex = it.getColumnIndex(DatabaseConstants.KEY_CURRENCY)
+            val balanceIndex = it.getColumnIndex(KEY_OPENING_BALANCE)
+            val currencyIndex = it.getColumnIndex(KEY_CURRENCY)
             with(assertThat(it)) {
                 hasCount(1)
                 moveToFirst()
@@ -236,7 +234,7 @@ class AccountTest {
             }
         }
         val values = account.contentValues
-        values.put(DatabaseConstants.KEY_ROWID, accountId)
+        values.put(KEY_ROWID, accountId)
         assertThrows(Exception::class.java) {
             resolver.insert(TransactionProvider.ACCOUNTS_URI, values)
         }
@@ -302,8 +300,8 @@ class AccountTest {
     @Test
     fun testGrouping() {
         val projection = arrayOf(
-            DatabaseConstants.KEY_ROWID,
-            DatabaseConstants.KEY_GROUPING
+            KEY_ROWID,
+            KEY_GROUPING
         )
         insertData()
         val id = resolver.query(
@@ -331,7 +329,7 @@ class AccountTest {
         )
         resolver.query(
             uri,
-            arrayOf(DbUtils.fqcn(DatabaseConstants.TABLE_ACCOUNTS, DatabaseConstants.KEY_GROUPING)),
+            arrayOf(DbUtils.fqcn(TABLE_ACCOUNTS, KEY_GROUPING)),
             null,
             null,
             null
@@ -346,8 +344,9 @@ class AccountTest {
     @Test
     fun testSortDirection() {
         val projection = arrayOf(
-            DatabaseConstants.KEY_ROWID,
-            DatabaseConstants.KEY_SORT_DIRECTION
+            KEY_ROWID,
+            KEY_SORT_BY,
+            KEY_SORT_DIRECTION
         )
         insertData()
         val id = resolver.query(
@@ -360,7 +359,8 @@ class AccountTest {
             with(assertThat(it)) {
                 hasCount(testAccounts.size)
                 moveToFirst()
-                hasString(1, SortDirection.DESC.name)
+                hasString(1, KEY_DATE)
+                hasString(2, SortDirection.DESC.name)
             }
             it.getLong(0)
         }
@@ -369,20 +369,23 @@ class AccountTest {
             ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, id)
 
         resolver.update(
-            ContentUris.withAppendedId(SORT_DIRECTION_URI, id)
-                .buildUpon().appendPath(SortDirection.ASC.name)
+            ContentUris.withAppendedId(SORT_URI, id)
+                .buildUpon()
+                .appendPath(KEY_AMOUNT)
+                .appendPath(SortDirection.ASC.name)
                 .build(),
             null, null, null
         )
         resolver.query(
-            accountIdUri, arrayOf(DatabaseConstants.KEY_SORT_DIRECTION),
+            accountIdUri, arrayOf(KEY_SORT_BY, KEY_SORT_DIRECTION),
             null,
             null,
             null
         )!!.use {
             with(assertThat(it)) {
                 moveToFirst()
-                hasString(0, SortDirection.ASC.name)
+                hasString(0, KEY_AMOUNT)
+                hasString(1, SortDirection.ASC.name)
             }
         }
     }
@@ -398,7 +401,7 @@ class AccountTest {
         resolver.query(
             TransactionProvider.ACCOUNTS_FULL_URI,
             null,
-            "${DatabaseConstants.KEY_ROWID} = ?",
+            "$KEY_ROWID = ?",
             arrayOf(id.toString()),
             null
         )!!.use {

@@ -54,6 +54,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_BY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
@@ -237,11 +238,11 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final Uri ACCOUNT_EXCHANGE_RATE_URI =
       Uri.parse("content://" + AUTHORITY + "/account_exchangerates");
 
-  public static final String URI_SEGMENT_SORT_DIRECTION = "sortDirection";
+  public static final String URI_SEGMENT_SORT = "sortBy";
   public static final String URI_SEGMENT_GROUPING = "accountGrouping";
 
-  public static final Uri SORT_DIRECTION_URI =
-          Uri.parse("content://" + AUTHORITY + "/" + URI_SEGMENT_SORT_DIRECTION);
+  public static final Uri SORT_URI =
+          Uri.parse("content://" + AUTHORITY + "/" + URI_SEGMENT_SORT);
   public static final Uri ACCOUNT_GROUPINGS_URI =
       Uri.parse("content://" + AUTHORITY + "/" + URI_SEGMENT_GROUPING);
 
@@ -1317,8 +1318,8 @@ public class TransactionProvider extends BaseTransactionProvider {
         count = handleAccountProperty(db, uri, KEY_GROUPING);
         break;
       }
-      case ACCOUNT_ID_SORT_DIRECTION: {
-        count = handleAccountProperty(db, uri, KEY_SORT_DIRECTION);
+      case ACCOUNT_ID_SORT: {
+        count = handleAccountProperty(db, uri, KEY_SORT_BY, KEY_SORT_DIRECTION);
         break;
       }
       case UNSPLIT: {
@@ -1411,7 +1412,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         uriMatch != TEMPLATES_INCREASE_USAGE) {
       notifyChange(uri, false);
     }
-    if (uriMatch == ACCOUNT_ID_GROUPING || uriMatch == ACCOUNT_ID_SORT_DIRECTION) {
+    if (uriMatch == ACCOUNT_ID_GROUPING || uriMatch == ACCOUNT_ID_SORT) {
       notifyChange(ACCOUNTS_URI, false);
     }
     if (uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TEMPLATES_INCREASE_USAGE) {
@@ -1549,7 +1550,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "accountsbase", ACCOUNTS_BASE);
     URI_MATCHER.addURI(AUTHORITY, "accounts/#", ACCOUNT_ID);
     URI_MATCHER.addURI(AUTHORITY, URI_SEGMENT_GROUPING + "/*/*", ACCOUNT_ID_GROUPING);
-    URI_MATCHER.addURI(AUTHORITY, URI_SEGMENT_SORT_DIRECTION + "/*/*", ACCOUNT_ID_SORT_DIRECTION);
+    URI_MATCHER.addURI(AUTHORITY, URI_SEGMENT_SORT + "/*/*/*", ACCOUNT_ID_SORT);
     URI_MATCHER.addURI(AUTHORITY, "payees", PAYEES);
     URI_MATCHER.addURI(AUTHORITY, "payees/#", PAYEE_ID);
     URI_MATCHER.addURI(AUTHORITY, "methods", METHODS);

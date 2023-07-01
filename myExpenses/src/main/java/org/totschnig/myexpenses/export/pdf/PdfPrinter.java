@@ -140,10 +140,16 @@ public class PdfPrinter {
         fileName,
         "application/pdf", "pdf");
     Document document = new Document();
+    String sortBy;
+    if (KEY_AMOUNT.equals(account.getSortBy())) {
+      sortBy = "abs(" + KEY_AMOUNT + ")";
+    } else {
+      sortBy = account.getSortBy();
+    }
     transactionCursor = context.getContentResolver().query(
         account.extendedUriForTransactionList(false, false),
         account.getExtendedProjectionForTransactionList(),
-        selection + " AND " + KEY_PARENTID + " is null", selectionArgs, KEY_DATE + " ASC");
+        selection + " AND " + KEY_PARENTID + " is null", selectionArgs, sortBy + " " + account.getSortDirection());
     //first we check if there are any exportable transactions
     //String selection = KEY_ACCOUNTID + " = " + getId() + " AND " + KEY_PARENTID + " is null";
     if (transactionCursor.getCount() == 0) {

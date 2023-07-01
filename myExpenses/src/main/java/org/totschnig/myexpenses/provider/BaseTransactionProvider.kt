@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGREGATE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_BY_AGGREGATE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_DIRECTION_AGGREGATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
@@ -258,7 +259,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val SETTINGS = 43
         protected const val TEMPLATES_UNCOMMITTED = 44
         protected const val ACCOUNT_ID_GROUPING = 45
-        protected const val ACCOUNT_ID_SORT_DIRECTION = 46
+        protected const val ACCOUNT_ID_SORT = 46
         protected const val AUTOFILL = 47
         protected const val ACCOUNT_EXCHANGE_RATE = 48
         protected const val UNSPLIT = 49
@@ -303,6 +304,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         KEY_EXCLUDE_FROM_TOTALS,
         KEY_SYNC_ACCOUNT_NAME,
         KEY_UUID,
+        KEY_SORT_BY,
         KEY_SORT_DIRECTION,
         KEY_CRITERION,
         KEY_SEALED,
@@ -401,6 +403,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "0 AS $KEY_EXCLUDE_FROM_TOTALS",
                         "null AS $KEY_SYNC_ACCOUNT_NAME",
                         "null AS $KEY_UUID",
+                        "$TABLE_CURRENCIES.$KEY_SORT_BY",
                         "$TABLE_CURRENCIES.$KEY_SORT_DIRECTION",
                         "0 AS $KEY_CRITERION",
                         "0 AS $KEY_SEALED",
@@ -436,6 +439,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 )
 
                 val grouping = prefHandler.getString(GROUPING_AGGREGATE, "NONE")
+                val sortBy =
+                    prefHandler.getString(SORT_BY_AGGREGATE, "DESC")
                 val sortDirection =
                     prefHandler.getString(SORT_DIRECTION_AGGREGATE, "DESC")
                 val rowIdColumn = "$HOME_AGGREGATE_ID AS $KEY_ROWID"
@@ -465,6 +470,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "0 AS $KEY_EXCLUDE_FROM_TOTALS",
                         "null AS $KEY_SYNC_ACCOUNT_NAME",
                         "null AS $KEY_UUID",
+                        "'$sortBy' AS $KEY_SORT_BY",
                         "'$sortDirection' AS $KEY_SORT_DIRECTION",
                         "0 AS $KEY_CRITERION",
                         "0 AS $KEY_SEALED",
@@ -877,13 +883,15 @@ abstract class BaseTransactionProvider : ContentProvider() {
     fun handleAccountProperty(
         db: SupportSQLiteDatabase,
         uri: Uri,
-        key: String
+        vararg keys: String
     ): Int {
         val subject = uri.pathSegments[1]
         val id: Long? = subject.toLongOrNull()
         val isAggregate = id == null || id < 0
-        val contentValues = ContentValues(1).apply {
-            put(key, uri.pathSegments[2])
+        val contentValues = ContentValues(keys.size).apply {
+            keys.forEachIndexed { index, key ->
+                put(key, uri.pathSegments[2 + index])
+            }
         }
         return db.update(
             if (isAggregate) TABLE_CURRENCIES else TABLE_ACCOUNTS,

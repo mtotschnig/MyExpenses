@@ -398,7 +398,7 @@ class UpgradeHandlerViewModel(application: Application) :
                         if (currencyIdAsString != AGGREGATE_HOME_CURRENCY_CODE && currencyIdAsString.isNotBlank()) {
                             (value as? String)?.let {
                                 contentResolver.update(
-                                    SORT_DIRECTION_URI.buildUpon()
+                                    SORT_URI.buildUpon()
                                         .appendEncodedPath(currencyIdAsString)
                                         .appendPath(value).build(),
                                     null, null, null

@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.sync.json;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import com.google.gson.TypeAdapter;
 
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Grouping;
+import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.model2.Account;
 import org.totschnig.myexpenses.preference.PrefKey;
 
@@ -88,6 +91,8 @@ public abstract class  AccountMetaData implements Parcelable {
             false,
             uuid(),
             false,
+            KEY_DATE,
+            SortDirection.DESC,
             exchangeRate,
             Grouping.NONE
     );

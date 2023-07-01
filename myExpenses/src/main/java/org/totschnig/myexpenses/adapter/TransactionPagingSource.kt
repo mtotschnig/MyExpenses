@@ -17,6 +17,7 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
@@ -105,13 +106,17 @@ open class TransactionPagingSource(
             }
         }
         val startTime = if (BuildConfig.DEBUG) Instant.now() else null
+        val sortBy = when(account.sortBy) {
+            KEY_AMOUNT -> "abs($KEY_AMOUNT)"
+            else -> account.sortBy
+        }
         val data = withContext(Dispatchers.IO) {
             contentResolver.query(
                 uri.withLimit(params.loadSize, position),
                 projection,
                 "$selection AND ${DatabaseConstants.KEY_PARENTID} is null",
                 selectionArgs,
-                "${DatabaseConstants.KEY_DATE} ${account.sortDirection}", null
+                "$sortBy ${account.sortDirection}", null
             )?.use { cursor ->
                 if (BuildConfig.DEBUG) {
                     val endTime = Instant.now()

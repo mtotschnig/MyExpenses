@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.localDateTime2Epoch
 import org.totschnig.myexpenses.viewmodel.data.*
@@ -444,6 +445,7 @@ fun Header() {
         account = PageAccount(
             1,
             AccountType.CASH,
+            DatabaseConstants.KEY_DATE,
             SortDirection.DESC,
             Grouping.NONE,
             CurrencyUnit.DebugInstance,

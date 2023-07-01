@@ -13,9 +13,9 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<menu xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <item
         android:id="@id/SEARCH_COMMAND"
         android:checkable="true"
@@ -104,19 +104,17 @@
         android:title="@string/menu_balance"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@id/SORT_DIRECTION_COMMAND"
+        android:id="@id/SORT_MENU"
         android:icon="@drawable/ic_menu_sort"
         android:orderInCategory="20"
-        android:title="@string/menu_sort_direction"
+        android:title="@string/display_options_sort_list_by"
         app:showAsAction="ifRoom">
-        <menu>
+        <menu tools:ignore="MenuTitle">
             <group android:checkableBehavior="single">
-                <item
-                    android:id="@id/SORT_DIRECTION_ASCENDING_COMMAND"
-                    android:title="@string/sort_direction_ascending" />
-                <item
-                    android:id="@id/SORT_DIRECTION_DESCENDING_COMMAND"
-                    android:title="@string/sort_direction_descending" />
+                <item android:id="@id/SORT_BY_DATE_DESCENDING_COMMAND" />
+                <item android:id="@id/SORT_BY_DATE_ASCENDING_COMMAND" />
+                <item android:id="@id/SORT_BY_AMOUNT_DESCENDING_COMMAND" />
+                <item android:id="@id/SORT_BY_AMOUNT_ASCENDING_COMMAND" />
             </group>
         </menu>
     </item>
@@ -129,8 +127,8 @@
     <item
         android:id="@+id/MANAGE_ACCOUNTS_COMMAND"
         android:orderInCategory="40"
-        app:showAsAction="never"
-        android:title="">
+        android:title=""
+        app:showAsAction="never">
         <menu>
             <item
                 android:id="@id/EDIT_ACCOUNT_COMMAND"
@@ -146,8 +144,8 @@
                 tools:ignore="MenuTitle" />
             <item
                 android:id="@id/EXCLUDE_FROM_TOTALS_COMMAND"
-                android:title="@string/menu_exclude_from_totals"
-                android:checkable="true" />
+                android:checkable="true"
+                android:title="@string/menu_exclude_from_totals" />
         </menu>
     </item>
 

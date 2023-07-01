@@ -60,6 +60,7 @@ abstract class DataBaseAccount {
 
         const val GROUPING_AGGREGATE = "AGGREGATE_GROUPING____"
         const val SORT_DIRECTION_AGGREGATE = "AGGREGATE_SORT_DIRECTION____"
+        const val SORT_BY_AGGREGATE = "AGGREGATE_SORT_BY____"
 
         fun isHomeAggregate(id: Long) = id == HOME_AGGREGATE_ID
 

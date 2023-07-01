@@ -361,7 +361,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     protected open fun handleSortDirection(item: MenuItem) =
-        Utils.getSortDirectionFromMenuItemId(item.itemId)?.let { newSortDirection ->
+        getSortDirectionFromMenuItemId(item.itemId)?.let { newSortDirection ->
             if (!item.isChecked) {
                 viewModel.persistSortDirection(selectedAccountId, newSortDirection)
             }
@@ -605,7 +605,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
         if (resources.getInteger(R.integer.window_size_class) == 1) {
             toolbar.setNavigationIcon(R.drawable.ic_menu)
-            binding.accountPanel.root.isVisible = prefHandler.getBoolean(PrefKey.ACCOUNT_PANEL_VISIBLE, false)
+            binding.accountPanel.root.isVisible =
+                prefHandler.getBoolean(PrefKey.ACCOUNT_PANEL_VISIBLE, false)
             toolbar.setNavigationOnClickListener {
                 val newState = !binding.accountPanel.root.isVisible
                 prefHandler.putBoolean(PrefKey.ACCOUNT_PANEL_VISIBLE, newState)
@@ -1226,6 +1227,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     }
                     true
                 }
+
                 else -> false
             }
         } else false
@@ -1456,12 +1458,18 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             }
             with(currentAccount!!) {
                 val reconciliationAvailable = type != AccountType.CASH && !sealed
-                menu.findItem(R.id.GROUPING_COMMAND)?.subMenu?.let {
-                    Utils.configureGroupingMenu(it, grouping)
+                val groupingMenu = menu.findItem(R.id.GROUPING_COMMAND)
+                val groupingEnabled = sortBy == KEY_DATE
+                groupingMenu.setEnabledAndVisible(groupingEnabled)
+
+                if (groupingEnabled) {
+                    groupingMenu?.subMenu?.let {
+                        Utils.configureGroupingMenu(it, grouping)
+                    }
                 }
 
-                menu.findItem(R.id.SORT_DIRECTION_COMMAND)?.subMenu?.let {
-                    Utils.configureSortDirectionMenu(it, sortDirection)
+                menu.findItem(R.id.SORT_MENU)?.subMenu?.let {
+                    configureSortDirectionMenu(this@BaseMyExpenses, it, sortBy, sortDirection)
                 }
 
                 menu.findItem(R.id.BALANCE_COMMAND)
@@ -1504,7 +1512,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 R.id.RESET_COMMAND,
                 R.id.SYNC_COMMAND,
                 R.id.BALANCE_COMMAND,
-                R.id.SORT_DIRECTION_COMMAND,
+                R.id.SORT_MENU,
                 R.id.PRINT_COMMAND,
                 R.id.GROUPING_COMMAND,
                 R.id.SHOW_STATUS_HANDLE_COMMAND,

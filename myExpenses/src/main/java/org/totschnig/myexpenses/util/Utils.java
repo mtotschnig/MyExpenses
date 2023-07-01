@@ -456,35 +456,13 @@ public class Utils {
   }
 
   public static void configureGroupingMenu(SubMenu groupingMenu, Grouping currentGrouping) {
-    MenuItem activeItem;
-    switch (currentGrouping) {
-      case DAY:
-        activeItem = groupingMenu.findItem(R.id.GROUPING_DAY_COMMAND);
-        break;
-      case WEEK:
-        activeItem = groupingMenu.findItem(R.id.GROUPING_WEEK_COMMAND);
-        break;
-      case MONTH:
-        activeItem = groupingMenu.findItem(R.id.GROUPING_MONTH_COMMAND);
-        break;
-      case YEAR:
-        activeItem = groupingMenu.findItem(R.id.GROUPING_YEAR_COMMAND);
-        break;
-      default:
-        activeItem = groupingMenu.findItem(R.id.GROUPING_NONE_COMMAND);
-        break;
-    }
-    activeItem.setChecked(true);
-  }
-
-  public static void configureSortDirectionMenu(SubMenu subMenu, SortDirection currentSortDirection) {
-    MenuItem activeItem;
-    if (currentSortDirection == SortDirection.ASC) {
-      activeItem = subMenu.findItem(R.id.SORT_DIRECTION_ASCENDING_COMMAND);
-    } else {
-      activeItem = subMenu.findItem(R.id.SORT_DIRECTION_DESCENDING_COMMAND);
-    }
-    activeItem.setChecked(true);
+    (switch (currentGrouping) {
+          case DAY -> groupingMenu.findItem(R.id.GROUPING_DAY_COMMAND);
+          case WEEK -> groupingMenu.findItem(R.id.GROUPING_WEEK_COMMAND);
+          case MONTH -> groupingMenu.findItem(R.id.GROUPING_MONTH_COMMAND);
+          case YEAR -> groupingMenu.findItem(R.id.GROUPING_YEAR_COMMAND);
+          default -> groupingMenu.findItem(R.id.GROUPING_NONE_COMMAND);
+        }).setChecked(true);
   }
 
   @Nullable
@@ -499,16 +477,6 @@ public class Utils {
       return Grouping.MONTH;
     } else if (id == R.id.GROUPING_YEAR_COMMAND) {
       return Grouping.YEAR;
-    }
-    return null;
-  }
-
-  @Nullable
-  public static SortDirection getSortDirectionFromMenuItemId(int id) {
-    if (id == R.id.SORT_DIRECTION_DESCENDING_COMMAND) {
-      return SortDirection.DESC;
-    } else if (id == R.id.SORT_DIRECTION_ASCENDING_COMMAND) {
-      return SortDirection.ASC;
     }
     return null;
   }
