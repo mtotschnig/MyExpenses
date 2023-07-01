@@ -71,7 +71,7 @@ object DistributionHelper {
     ) {
         PLAY(hasDynamicFeatureDelivery = true),
         AMAZON(marketPrefix = "amzn://apps/android?p="),
-        GITHUB,
+        GITHUB(supportsTrackingAndCrashReporting = false),
         HUAWEI;
 
         val marketSelfUri: String
