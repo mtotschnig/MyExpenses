@@ -1035,4 +1035,6 @@
     <string name="orphaned_transaction_align_date">Optional kann das mit der Buchung gespeicherte Datum auch dem Datum der Instanz angeglichen werden.</string>
     <string name="button_relink_keep_date">Neu verknüpfen, aber Datum beibehalten</string>
     <string name="button_relink_update_date">Erneut Verknüpfen und Datum aktualisieren</string>
+    <string name="whats_new_361_1">Die Buchungsliste kann nach Betrag sortiert werden.</string>
+    <string name="whats_new_361_2">Dateien im Anwendungsordner (Backups und Export-Dateien) können geteilt oder gelöscht werden.</string>
 </resources>
