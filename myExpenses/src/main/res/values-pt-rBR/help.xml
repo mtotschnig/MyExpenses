@@ -184,15 +184,15 @@
     <string name="cab_ManageCategories_select_help_text">Mapeia a categoria selecionada para a transação e retorna para o formulário de transação.</string>
     <string name="help_ManageCategories_manage_context">Toque em uma entrada para exibir seu menu de contexto. Um toque longo inicia a seleção múltipla.</string>
     <string name="help_ManageCategories_select_filter_info">Clique em um item para iniciar a seleção múltipla.</string>
-    <string name="help_ManageCategories_expand_collapse">Toque no ícone &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt; para expandir ou contrair uma categoria.</string>
+    <string name="help_ManageCategories_expand_collapse">Toque no ícone &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt; para expandir ou recolher uma categoria.</string>
     <string name="cab_ManageCategories_create_sub_cat_help_text">Abre o diálogo para a criação de uma nova subcategoria abaixo da categoria selecionada. Subcategorias podem ser aninhadas com profundidade arbitrária.</string>
     <string name="cab_ManageCategories_move_help_text">Qualquer categoria (juntamente com suas subcategorias) pode ser movida para uma nova categoria mãe. Subcategorias podem ser transformadas em categorias principais.</string>
     <string name="help_Budget_spent_click">Ao clicar nos montantes gastos, são listadas todas as transações relevantes para o orçamento atual e a categoria correspondente.</string>
-    <string name="menu_parent_category_selection_help_text">Com esta opção você personaliza o toque em uma categoria que tem subcategorias: se estiver marcada, um toque curto selecionará a categoria; se não estiver marcada, um toque curto irá expandir/contrair a categoria. Neste último caso, a seleção estará disponível a partir do menu de contexto.</string>
+    <string name="menu_parent_category_selection_help_text">Com esta opção você personaliza o toque em uma categoria que tem subcategorias: se estiver marcada, um toque curto selecionará a categoria; se não estiver marcada, um toque curto irá expandir/recolher a categoria. Neste último caso, a seleção estará disponível a partir do menu de contexto.</string>
     <string name="form_split_parts_heading_help_text_1">Use o ícone + para digitar quantas partes da divisão forem necessárias.</string>
     <string name="form_split_parts_heading_help_text_2">O campo do montante será automaticamente atualizado com a soma das partes, a menos que você digite manualmente um montante, nesse caso será exibida a diferença entre a soma das partes e o montante (não dividido).</string>
     <string name="menu_BudgetActivity_rollover_edit">Está opção permite que você e configure precisamente a vigência, por exemplo você pode definir uma vigência parcial apenas para algumas categorias ou subcategorias, e a adoção dessa parte no orçamento total.</string>
-    <string name="help_WebUI_info_3">Você pode definir uma senha para proteger o acesso. Na campo de texto da interface web, apenas a senha é necessário, o usuário é ignorado</string>
+    <string name="help_WebUI_info_3">Você pode definir uma senha para proteger o acesso. Na campo de texto da interface web, apenas a senha é necessário, o usuário é ignorado.</string>
     <string name="help_WebUI_info_4">Quando exibe trasacoes de uma conta selecionada, a interface web usa os mesmos filtros criados no app de Android.</string>
     <string name="menu_BudgetActivity_rollover_categories">Os lembrete de cada categoria estao em vigor, e as alocações do próximo período serão afetadas.</string>
     <string name="help_ManageSyncBackends_saf">Esta opção permite selecionar uma pasta através da tela de seleção de arquivos do Android. Isso é particularmente útil caso você tenha instalado um aplicativo de armazenamento em nuvem que suporte a seleção de uma pasta para armazenamento de conteúdo, como, por exemplo, o NextCloud.</string>
@@ -202,4 +202,7 @@
     <string name="help_WebUI_info_1">Abre a URL exibida na legenda de um navegador web no seu computador desktop.</string>
     <string name="help_WebUI_info_2">Atualmente a interface web do usuário não suporta transferências ou transações divididas.</string>
     <string name="cab_MyExpenses_select_help_text">A seleção múltipla pode ser iniciada selecionando este comando ou dando um toque longo em uma entrada da lista.</string>
+    <string name="debt_help_overflow">Para cada dívida, utilize o menu no canto superior direito para editá-la, fechá-la, excluí-la ou compartilhá-la. As dívidas em moeda estrangeira podem, opcionalmente, ser listadas com valores equivalentes na moeda nacional.</string>
+    <string name="help_DebtOverview_info">Clique em uma entrada para expandir/recolher.</string>
+    <string name="menu_show_all_help_text">As dívidas que foram fechadas ou pagas (com saldo igual a 0) serão exibidas somente se esta opção estiver selecionada.</string>
 </resources>
