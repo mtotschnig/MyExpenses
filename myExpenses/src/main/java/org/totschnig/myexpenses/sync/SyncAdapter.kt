@@ -546,11 +546,7 @@ class SyncAdapter @JvmOverloads constructor(
                         ), null
                     )
                 } catch (e: Exception) {
-                    if (e is IOException) {
-                        log().w(e)
-                    } else {
-                        report(e)
-                    }
+                    report(e)
                     if (!handleAuthException(e, account)) {
                         notifyUser(
                             context.getString(R.string.pref_auto_backup_title),
