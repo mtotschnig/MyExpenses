@@ -1003,4 +1003,9 @@
     <string name="encrypt_database">Criptografar o banco de dados</string>
     <string name="add_shortcut">Adicionar atalho</string>
     <string name="whats_new_359">Os ícones dos métodos de pagamento podem ser personalizados.</string>
+    <string name="search_account">Pesquisar por conta</string>
+    <string name="encrypt_database_info">O banco de dados será criptografado com uma senha que não poderá ser extraída deste dispositivo. Consequentemente, ela não será incluída no backup efetuado pelo serviço de backup do seu aparelho.</string>
+    <string name="github_sponsors">Chaves de licença também são fornecidas &lt;a href=%s&gt;patrocinadores do Github&lt;/a&gt;.</string>
+    <string name="content_description_remove_icon">Remover o ícone</string>
+    <string name="database_is_encrypted">O banco de dados está criptografado.</string>
 </resources>
