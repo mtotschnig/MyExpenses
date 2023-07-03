@@ -1158,17 +1158,22 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
             //on Build.VERSION_CODES.N_MR1 we do not provide the feature
             Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1 -> {
-                requireContext().getSystemService(ShortcutManager::class.java).requestPinShortcut(
-                    ShortcutInfo.Builder(
-                        requireContext(), when (operationType) {
-                            Transactions.TYPE_SPLIT -> ShortcutHelper.ID_SPLIT
-                            Transactions.TYPE_TRANSACTION -> ShortcutHelper.ID_TRANSACTION
-                            Transactions.TYPE_TRANSFER -> ShortcutHelper.ID_TRANSFER
-                            else -> throw IllegalStateException()
-                        }
-                    ).build(),
-                    null
-                )
+                try {
+                    requireContext().getSystemService(ShortcutManager::class.java).requestPinShortcut(
+                        ShortcutInfo.Builder(
+                            requireContext(), when (operationType) {
+                                Transactions.TYPE_SPLIT -> ShortcutHelper.ID_SPLIT
+                                Transactions.TYPE_TRANSACTION -> ShortcutHelper.ID_TRANSACTION
+                                Transactions.TYPE_TRANSFER -> ShortcutHelper.ID_TRANSFER
+                                else -> throw IllegalStateException()
+                            }
+                        ).build(),
+                        null
+                    )
+                } catch (e: IllegalArgumentException) {
+                    Timber.w("requestPinShortcut failed for %d", operationType)
+                    CrashHandler.report(e)
+                }
             }
         }
     }
