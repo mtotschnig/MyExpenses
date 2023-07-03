@@ -1035,4 +1035,6 @@
     <string name="orphaned_transaction_align_date">При желание може да запазите за дата на транзакцията датата на инстанцията.</string>
     <string name="button_relink_update_date">Свържи и обнови датата</string>
     <string name="button_relink_keep_date">Свържи, но запази датата</string>
+    <string name="whats_new_361_1">Списъкът транзакции може да се сортира по сума.</string>
+    <string name="whats_new_361_2">Файловете в папката на приложението (архиви и екпортирани данни) може да бъдат споделяни или изтривани.</string>
 </resources>
