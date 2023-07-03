@@ -108,10 +108,11 @@ object ShortcutHelper {
                 putExtra(EXTRA_START_FROM_WIDGET_DATA_ENTRY, true)
             }
 
-    fun buildTemplateShortcut(context: Context, templateInfo: TemplateInfo) =
-        ShortcutInfoCompat.Builder(context, idTemplate(templateInfo.rowId))
-            .setShortLabel(templateInfo.title)
-            .setLongLabel(templateInfo.title)
+    fun buildTemplateShortcut(context: Context, templateInfo: TemplateInfo): ShortcutInfoCompat {
+        val title = templateInfo.title.takeIf { it.isNotEmpty() } ?: context.getString(R.string.template)
+        return ShortcutInfoCompat.Builder(context, idTemplate(templateInfo.rowId))
+            .setShortLabel(title)
+            .setLongLabel(title)
             .setIntent(buildTemplateIntent(context, templateInfo.rowId, templateInfo.defaultAction))
             .setIcon(
                 IconCompat.createWithResource(
@@ -120,4 +121,5 @@ object ShortcutHelper {
                 )
             )
             .build()
+    }
 }
