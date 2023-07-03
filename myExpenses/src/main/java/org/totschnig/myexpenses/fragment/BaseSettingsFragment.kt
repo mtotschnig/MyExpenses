@@ -1156,7 +1156,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1 -> {
                 addShortcutLegacy(nameId, operationType, getBitmapForShortcut(iconIdLegacy))
             }
-
+            //on Build.VERSION_CODES.N_MR1 we do not provide the feature
             Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1 -> {
                 requireContext().getSystemService(ShortcutManager::class.java).requestPinShortcut(
                     ShortcutInfo.Builder(
