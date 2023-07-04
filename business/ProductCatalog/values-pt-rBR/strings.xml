@@ -18,7 +18,7 @@
     <string name="categorytree_description">Hierarquia de categorias arbitrariamente profunda</string>
     <string name="categorytree_title">Árvore de categorias</string>
     <string name="adfree_title">Sem anúncios</string>
-    <string name="csvimport_title">Importação CSV</string>
+    <string name="csvimport_title">Importação de CSV</string>
     <string name="adfree_description">Sem anúncios.</string>
     <string name="distribution_title">Gráfico de pizza</string>
     <string name="plansunlimited_description">Desbloqueie a capacidade de criar mais de três planos para transações recorrentes.</string>

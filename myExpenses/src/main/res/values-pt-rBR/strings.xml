@@ -1003,4 +1003,27 @@
     <string name="encrypt_database">Criptografar o banco de dados</string>
     <string name="add_shortcut">Adicionar atalho</string>
     <string name="whats_new_359">Os ícones dos métodos de pagamento podem ser personalizados.</string>
+    <string name="search_account">Pesquisar por conta</string>
+    <string name="encrypt_database_info">O banco de dados será criptografado com uma senha que não poderá ser extraída deste dispositivo. Consequentemente, ela não será incluída no backup efetuado pelo serviço de backup do seu aparelho.</string>
+    <string name="github_sponsors">Chaves de licença também são fornecidas &lt;a href=%s&gt;patrocinadores do Github&lt;/a&gt;.</string>
+    <string name="content_description_remove_icon">Remover o ícone</string>
+    <string name="database_is_encrypted">O banco de dados está criptografado.</string>
+    <string name="notifications_channel_required">Por favor, habilite o canal %s.</string>
+    <string name="debt_borrow_additional">Eu pego %s emprestado.</string>
+    <string name="debt_paid_off_other">A dívida de %s está paga.</string>
+    <string name="debt_balance_they_owe">Agora %1$s deve %2$s</string>
+    <string name="debt_installment_pay">Eu pago uma parcela de %s.</string>
+    <string name="debt_installment_receive">Eu recebo uma parcela de %s.</string>
+    <string name="debt_paid_off_self">Minha dívida está paga.</string>
+    <string name="debt_balance_i_owe">Agora eu devo %s.</string>
+    <string name="debt_lend_additional">Eu empresto %s.</string>
+    <string name="pref_backup_file_prefix_title">Prefixo do arquivo</string>
+    <string name="notifications_permission_required_planner"><i>{app_name}</i> necessita da sua permissão para enviar notificações, quando futuras transações forem publicadas.</string>
+    <string name="notifications_permission_required_webui">Ao conceder a permissão para enviar notificações, você pode controlar o status do servidor web.</string>
+    <string name="notifications_permission_required_sync">Ao conceder a permissão para enviar notificações, você pode monitorar o andamento das operações de sincronização.</string>
+    <string name="whats_new_355">O nome do arquivo de backup agora é configurável.</string>
+    <string name="image_optimize_quality">Qualidade</string>
+    <string name="optimize_image_file_size">Otimizar o tamanho do arquivo de imagem</string>
+    <string name="maximum_size">Tamanho máximo</string>
+    <string name="file_format">Formato do arquivo</string>
 </resources>

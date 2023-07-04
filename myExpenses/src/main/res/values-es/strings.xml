@@ -1048,4 +1048,6 @@
     <string name="orphaned_transaction_relink">La transacción se puede volver a vincular con la instancia del evento en %s.</string>
     <string name="button_relink_keep_date">Volver a vincular, manteniendo la fecha</string>
     <string name="button_relink_update_date">Volver a vincular y actualizar la fecha</string>
+    <string name="whats_new_361_2">Los archivos de la carpeta de la aplicación (copias de seguridad y exportaciones) se pueden compartir o eliminar.</string>
+    <string name="whats_new_361_1">La lista de transacciones puede ordenarse por importe.</string>
 </resources>
