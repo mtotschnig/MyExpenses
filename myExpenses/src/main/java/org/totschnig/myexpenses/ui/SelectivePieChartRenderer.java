@@ -287,4 +287,11 @@ public class SelectivePieChartRenderer extends PieChartRenderer {
     MPPointF.recycleInstance(center);
     c.restore();
   }
+
+  @Override
+  public void drawExtras(Canvas c) {
+    if (mDrawBitmap != null) {
+      super.drawExtras(c);
+    }
+  }
 }
