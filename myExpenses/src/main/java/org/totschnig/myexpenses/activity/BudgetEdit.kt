@@ -336,7 +336,10 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         setDirty()
     }
 
+    override val fabActionName = "SAVE_BUDGET"
+
     override fun onFabClicked() {
+        super.onFabClicked()
         val grouping = typeSpinnerHelper.selectedItem as Grouping
         val duration = if (grouping == Grouping.NONE) binding.DurationFrom.getDate() to binding.DurationTo.getDate() else null
         if (duration != null && duration.second < duration.first) {

@@ -76,6 +76,7 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
     override val fabDescription = R.string.menu_save_help_text
 
     override fun onFabClicked() {
+        super.onFabClicked()
         doSave(false)
     }
 

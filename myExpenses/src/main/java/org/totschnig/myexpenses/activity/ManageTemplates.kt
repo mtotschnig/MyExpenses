@@ -65,7 +65,10 @@ class ManageTemplates : ProtectedFragmentActivity(), ConfirmationDialogListener,
 
     override val fabDescription = R.string.menu_create_template
 
+    override val fabActionName = "CREATE_TEMPLATE"
+
     override fun onFabClicked() {
+        super.onFabClicked()
         startActivity(Intent(this, ExpenseEdit::class.java).apply {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
             putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true)

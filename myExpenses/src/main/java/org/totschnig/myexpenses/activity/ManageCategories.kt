@@ -573,7 +573,10 @@ open class ManageCategories : ProtectedFragmentActivity(),
         }
     }
 
+    override val fabActionName = "CREATE_CATEGORY"
+
     override fun onFabClicked() {
+        super.onFabClicked()
         createCat(null)
     }
 

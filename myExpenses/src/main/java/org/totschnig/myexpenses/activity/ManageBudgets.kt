@@ -15,7 +15,10 @@ class ManageBudgets : ProtectedFragmentActivity() {
 
     override val fabDescription = R.string.menu_create_budget
 
+    override val fabActionName = "CREATE_BUDGET"
+
     override fun onFabClicked() {
+        super.onFabClicked()
         startActivity(Intent(this, BudgetEdit::class.java))
     }
 }

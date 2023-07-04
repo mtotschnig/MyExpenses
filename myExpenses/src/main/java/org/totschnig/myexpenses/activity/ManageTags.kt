@@ -30,7 +30,10 @@ class ManageTags: ProtectedFragmentActivity() {
     override val fabDescription = R.string.confirm
     override val fabIcon = R.drawable.ic_menu_done
 
+    override val fabActionName = "TAG_CONFIRM"
+
     override fun onFabClicked() {
+        super.onFabClicked()
         (supportFragmentManager.findFragmentById(R.id.tag_list) as TagList).confirm()
     }
 

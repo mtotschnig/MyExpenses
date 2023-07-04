@@ -36,7 +36,10 @@ class ManageMethods : ProtectedFragmentActivity() {
 
     override val fabDescription = R.string.menu_create_method
 
+    override val fabActionName = "CREATE_METHOD"
+
     override fun onFabClicked() {
+        super.onFabClicked()
         startActivity(Intent(this, MethodEdit::class.java))
     }
 

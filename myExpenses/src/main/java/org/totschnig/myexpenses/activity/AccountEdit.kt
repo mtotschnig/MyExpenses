@@ -387,6 +387,8 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         return super.onPrepareOptionsMenu(menu)
     }
 
+    override val fabActionName = "SAVE_ACCOUNT"
+
     override fun dispatchCommand(command: Int, tag: Any?): Boolean {
         if (super.dispatchCommand(command, tag)) {
             return true

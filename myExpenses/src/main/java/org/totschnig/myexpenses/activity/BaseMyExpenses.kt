@@ -108,6 +108,8 @@ const val DIALOG_TAG_NEW_BALANCE = "NEW_BALANCE"
 @OptIn(ExperimentalFoundationApi::class)
 abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListener, ContribIFace {
 
+    override val fabActionName = "CREATE_TRANSACTION"
+
     private val accountData: List<FullAccount>
         get() = viewModel.accountData.value?.getOrNull() ?: emptyList()
 
@@ -1411,6 +1413,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             val popup = PopupMenu(this, fab)
             val popupMenu = popup.menu
             popup.setOnMenuItemClickListener { item ->
+                trackCommand(item.itemId)
                 createRow(
                     when (item.itemId) {
                         R.string.split_transaction -> Transactions.TYPE_SPLIT
@@ -1562,6 +1565,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     override fun onFabClicked() {
+        super.onFabClicked()
         if (accountCount == 0) {
             showSnackBar(R.string.warning_no_account)
         } else {

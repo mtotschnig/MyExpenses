@@ -223,6 +223,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         floatingActionButton.show()
     }
 
+    override val fabActionName = "SAVE_TRANSACTION"
+
     fun updateContentColor(color: Int) {
         this.color = color
         //tintSystemUi(color) //dynamic colors

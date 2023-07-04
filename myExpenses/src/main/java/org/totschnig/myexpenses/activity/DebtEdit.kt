@@ -42,6 +42,8 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host, ExchangeRateEdit.Host {
         outState.putString(KEY_CURRENCY, binding.Amount.selectedCurrency?.code)
     }
 
+    override val fabActionName = "SAVE_DEBT"
+
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         setTitle(binding.Amount.type)

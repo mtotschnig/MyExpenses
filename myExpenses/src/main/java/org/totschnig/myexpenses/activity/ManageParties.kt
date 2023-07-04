@@ -69,7 +69,10 @@ class ManageParties : DebtActivity() {
         listFragment = supportFragmentManager.findFragmentById(R.id.parties_list) as PartiesList
     }
 
+    override val fabActionName = "CREATE_PARTY"
+
     override fun onFabClicked() {
+        super.onFabClicked()
         listFragment.dispatchFabClick()
     }
 }

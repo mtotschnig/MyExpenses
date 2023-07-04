@@ -104,6 +104,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     lateinit var toolbar: Toolbar
 
+    open val fabActionName: String? = null
+
     override fun setFocusAfterRestoreInstanceState(focusView: Pair<Int, Int>?) {
         _focusAfterRestoreInstanceState = focusView
     }
@@ -423,8 +425,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
+    @CallSuper
     open fun onFabClicked() {
-
+        fabActionName?.let { trackCommand(it) }
     }
 
     fun setLanguage(language: String) {

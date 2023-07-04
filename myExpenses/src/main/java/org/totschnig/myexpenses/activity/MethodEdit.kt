@@ -85,6 +85,8 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener, OnIco
         configureIcon()
     }
 
+    override val fabActionName = "SAVE_METHOD"
+
     private fun populateFields() {
         if (rowId != 0L) {
             newInstance = false
