@@ -57,9 +57,7 @@ abstract class SelectFromTableDialogFragment(private val withNullItem: Boolean) 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (requireActivity().application as MyApplication).appComponent.inject(dataViewModel)
-        if (savedInstanceState == null) {
-            dataViewModel.loadData(uri, column, selection, selectionArgs, withNullItem)
-        }
+        dataViewModel.loadData(uri, column, selection, selectionArgs, withNullItem)
     }
 
     override fun initBuilder(): AlertDialog.Builder = super.initBuilder().apply {
