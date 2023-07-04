@@ -1,0 +1,4 @@
+• La liste des opérations peut être triée par montant.
+• Les fichiers dans le dossier d'application (sauvegardes et exportations) peuvent être partagés ou supprimés.
+
+https://github.com/mtotschnig/MyExpenses/projects/104#column-19552364

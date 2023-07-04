@@ -1,0 +1,4 @@
+• Los archivos de la carpeta de la aplicación (copias de seguridad y exportaciones) se pueden compartir o eliminar.
+• La lista de transacciones puede ordenarse por importe.
+
+https://github.com/mtotschnig/MyExpenses/projects/104#column-19552364

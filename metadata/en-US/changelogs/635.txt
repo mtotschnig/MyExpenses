@@ -1,0 +1,4 @@
+• Transaction list can be sorted by amount.
+• Files in application folder (backups and exports) can be shared or deleted.
+
+https://github.com/mtotschnig/MyExpenses/projects/104#column-19552364

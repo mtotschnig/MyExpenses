@@ -1,0 +1,4 @@
+• Die Buchungsliste kann nach Betrag sortiert werden.
+• Dateien im Anwendungsordner (Backups und Export-Dateien) können geteilt oder gelöscht werden.
+
+https://github.com/mtotschnig/MyExpenses/projects/104#column-19552364
