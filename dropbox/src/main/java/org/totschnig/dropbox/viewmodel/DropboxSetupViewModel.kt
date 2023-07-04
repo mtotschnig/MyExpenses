@@ -11,6 +11,7 @@ import org.totschnig.dropbox.BuildConfig
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.AbstractSetupViewModel
+import timber.log.Timber
 import java.io.IOException
 import java.util.*
 
@@ -47,9 +48,8 @@ class DropboxSetupViewModel(application: Application) :
             try {
                 client.files().createFolderV2("/$label")
             } catch (e: Exception) {
-                throw IOException("Unable to create folder with label $label", e).also {
-                    CrashHandler.report(it)
-                }
+                Timber.w("Unable to create folder with label %s", label)
+                throw e
             }.metadata.let { Pair(it.id, it.name) }
         } ?: throw Exception("Dropbox client not set up")
     }

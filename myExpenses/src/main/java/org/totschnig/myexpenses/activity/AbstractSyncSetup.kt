@@ -48,10 +48,13 @@ abstract class AbstractSyncSetup<T : AbstractSetupViewModel> : ProtectedFragment
         viewModel.error.observe(this) { exception ->
             if (!handleException(exception)) {
                 CrashHandler.report(exception)
-                showSnackBar(exception.safeMessage)
-                finish()
+                showMessage(exception.safeMessage)
             }
         }
+    }
+
+    override fun onMessageDialogDismissOrCancel() {
+        abort()
     }
 
     abstract fun handleException(exception: Exception): Boolean

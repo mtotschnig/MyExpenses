@@ -31,7 +31,7 @@ abstract class AbstractSetupViewModel(val backendService: BackendService, applic
     fun createFolder(label: String) {
         viewModelScope.launch {
             try {
-                folderCreateResult.postValue(createFolderBackground(label))
+                folderCreateResult.postValue(createFolderBackground(label.trim()))
             } catch (e: Exception) {
                 error.postValue(e)
             }
