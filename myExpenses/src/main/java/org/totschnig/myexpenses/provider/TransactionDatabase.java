@@ -2244,6 +2244,11 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         db.execSQL("ALTER TABLE accounts add column sort_by text default 'date'");
         db.execSQL("ALTER TABLE currency add column sort_by text default 'date'");
       }
+      if (oldVersion < 144) {
+        //due to bug #1235, we got transactions with dates as milliseconds
+        db.execSQL("UPDATE transactions set date = date / 1000 WHERE date > 10000000000");
+        db.execSQL("UPDATE transactions set value_date = value_date / 1000 WHERE value_date > 10000000000");
+      }
 
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {

@@ -865,7 +865,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                         R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND -> {
                             dispatchCreateInstanceEdit(
                                 planInstance.templateId, planInstance.instanceId!!,
-                                planInstance.date!!
+                                planInstance.date!! / 1000
                             )
                             true
                         }
