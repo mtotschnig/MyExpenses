@@ -96,7 +96,10 @@ abstract class BaseDialogFragment : DialogFragment() {
     }
 
     protected val snackBarContainer
-        get() = dialogView
+        get() = if (::dialogView.isInitialized) dialogView else {
+            CrashHandler.report(Exception("lateinit property dialogView has not been initialized"))
+            dialog!!.window!!.decorView
+        }
 
     protected fun dismissSnackBar() {
         snackBar?.dismiss()

@@ -1,8 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext {
-        compose_compiler_version = '1.4.7'
-        kotlin_version = '1.8.21'
+        compose_compiler_version = '1.4.8'
+        kotlin_version = '1.8.22'
         agp_version = '8.0.2'
     }
 }
@@ -17,8 +17,8 @@ plugins {
 }
 
 ext {
-    versionCode = 635
-    versionName = '3.6.1'
+    versionCode = 636
+    versionName = '3.6.1.1'
     compileSdkVersion = 33
     minSdkVersion = 21
     targetSdkVersion = 33

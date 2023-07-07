@@ -5,6 +5,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -45,51 +46,55 @@ enum class Grouping {
         dateInfo: DateInfo
     ): String {
         val locale = ctx.resources.configuration.locale
-        return when (this) {
-            NONE -> ctx.getString(R.string.menu_aggregates)
-            DAY -> {
-                val today = LocalDate.ofYearDay(dateInfo.thisYear, dateInfo.thisDay)
-                val day = LocalDate.ofYearDay(groupYear, groupSecond)
-                val title = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).withLocale(locale).format(day)
-                when(ChronoUnit.DAYS.between(day, today)) {
-                    1L -> R.string.yesterday
-                    0L -> R.string.today
-                    -1L -> R.string.tomorrow
-                    else -> null
-                }?.let { ctx.getString(it) + " (" + title + ")" } ?: title
-            }
+        return try {
+            when (this) {
+                NONE -> ctx.getString(R.string.menu_aggregates)
+                DAY -> {
+                    val today = LocalDate.ofYearDay(dateInfo.thisYear, dateInfo.thisDay)
+                    val day = LocalDate.ofYearDay(groupYear, groupSecond)
+                    val title = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).withLocale(locale).format(day)
+                    when(ChronoUnit.DAYS.between(day, today)) {
+                        1L -> R.string.yesterday
+                        0L -> R.string.today
+                        -1L -> R.string.tomorrow
+                        else -> null
+                    }?.let { ctx.getString(it) + " (" + title + ")" } ?: title
+                }
 
-            WEEK -> {
-                val thisWeek = dateInfo.thisWeek
-                val thisYearOfWeekStart = dateInfo.thisYearOfWeekStart
-                val dateFormat = Utils.localizedYearLessDateFormat(ctx)
-                val weekRange = (" (" + Utils.convDateTime(
-                    dateInfo.weekStart.toLong(),
-                    dateFormat
-                )
-                        + " - " + Utils.convDateTime(
-                    dateInfo.weekEnd.toLong(),
-                    dateFormat
-                ) + " )")
-                val yearPrefix = if (groupYear == thisYearOfWeekStart) {
-                    if (groupSecond == thisWeek) return ctx.getString(R.string.grouping_this_week) + weekRange else if (groupSecond == thisWeek - 1) return ctx.getString(
-                        R.string.grouping_last_week
-                    ) + weekRange
-                    ""
-                } else "$groupYear, "
-                yearPrefix + ctx.getString(R.string.grouping_week) + " " + groupSecond + weekRange
-            }
+                WEEK -> {
+                    val thisWeek = dateInfo.thisWeek
+                    val thisYearOfWeekStart = dateInfo.thisYearOfWeekStart
+                    val dateFormat = Utils.localizedYearLessDateFormat(ctx)
+                    val weekRange = (" (" + Utils.convDateTime(
+                        dateInfo.weekStart.toLong(),
+                        dateFormat
+                    )
+                            + " - " + Utils.convDateTime(
+                        dateInfo.weekEnd.toLong(),
+                        dateFormat
+                    ) + " )")
+                    val yearPrefix = if (groupYear == thisYearOfWeekStart) {
+                        if (groupSecond == thisWeek) return ctx.getString(R.string.grouping_this_week) + weekRange else if (groupSecond == thisWeek - 1) return ctx.getString(
+                            R.string.grouping_last_week
+                        ) + weekRange
+                        ""
+                    } else "$groupYear, "
+                    yearPrefix + ctx.getString(R.string.grouping_week) + " " + groupSecond + weekRange
+                }
 
-            MONTH -> {
-                getDisplayTitleForMonth(
-                    groupYear,
-                    groupSecond,
-                    DateFormat.LONG,
-                    locale
-                )
-            }
+                MONTH -> {
+                    getDisplayTitleForMonth(
+                        groupYear,
+                        groupSecond,
+                        DateFormat.LONG,
+                        locale
+                    )
+                }
 
-            YEAR -> groupYear.toString()
+                YEAR -> groupYear.toString()
+            }
+        } catch (e: Exception) {
+            "Error while generating title: ${e.safeMessage}"
         }
     }
 
