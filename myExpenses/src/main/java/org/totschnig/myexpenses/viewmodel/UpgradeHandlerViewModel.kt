@@ -399,6 +399,7 @@ class UpgradeHandlerViewModel(application: Application) :
                             (value as? String)?.let {
                                 contentResolver.update(
                                     SORT_URI.buildUpon()
+                                        .appendPath("date")
                                         .appendEncodedPath(currencyIdAsString)
                                         .appendPath(value).build(),
                                     null, null, null
