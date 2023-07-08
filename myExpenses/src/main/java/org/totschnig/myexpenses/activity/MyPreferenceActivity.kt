@@ -73,13 +73,11 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
         setContentView(binding.root)
         setupToolbar()
         if (savedInstanceState == null) {
-            val ft = supportFragmentManager.beginTransaction()
-            ft.replace(
+            supportFragmentManager.beginTransaction().replace(
                 binding.fragmentContainer.id,
                 BaseSettingsFragment.newInstance(intent.getStringExtra(ARG_PREFERENCE_ROOT)),
                 FRAGMENT_TAG
-            )
-            ft.commit()
+            ).commit()
         }
         initialPrefToShow =
             if (savedInstanceState == null) intent.getStringExtra(KEY_OPEN_PREF_KEY) else null

@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.dialog.select.SelectFromTableDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
 import org.totschnig.myexpenses.feature.FeatureManager;
 import org.totschnig.myexpenses.feature.OcrFeature;
+import org.totschnig.myexpenses.fragment.BasePreferenceFragment;
 import org.totschnig.myexpenses.fragment.BaseSettingsFragment;
 import org.totschnig.myexpenses.fragment.BudgetList;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
@@ -242,6 +243,8 @@ public interface AppComponent {
   void inject(PlannerFragment.PlanInstanceViewHolder planInstanceViewHolder);
 
   void inject(BaseSettingsFragment baseSettingsFragment);
+
+  void inject(BasePreferenceFragment basePreferenceFragment);
 
   void inject(ExtendProLicenceDialogFragment extendProLicenceDialogFragment);
 

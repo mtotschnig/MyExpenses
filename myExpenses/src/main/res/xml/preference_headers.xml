@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<!--suppress AndroidElementNotAllowed -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="@string/pref_root_screen_key">
+
+    <Preference
+        android:key="@string/pref_category_manage_key"
+        android:fragment="org.totschnig.myexpenses.fragment.PreferenceDataFragment"
+        android:title="@string/pref_category_title_manage" />
+
+    <Preference
+        android:key="@string/pref_category_ui_key"
+        android:title="@string/pref_category_title_ui" />
+
+    <Preference android:title="@string/pref_category_title_import" />
+
+    <Preference android:key="@string/pref_category_export_backup_key" />
+
+    <Preference android:title="@string/pref_category_title_features" />
+
+    <Preference
+        android:key="@string/pref_category_contrib_key"
+        android:title="@string/menu_contrib" />
+
+    <Preference android:title="@string/pref_category_title_security" />
+
+    <Preference android:title="@string/pref_category_title_more_information" />
+
+    <Preference android:title="@string/feedback" />
+
+    <Preference
+        android:key="@string/pref_category_privacy_key"
+        android:title="@string/pref_category_title_privacy" />
+
+    <Preference
+        android:key="@string/pref_category_advanced_key"
+        android:title="@string/pref_category_title_advanced" />
+</PreferenceScreen>

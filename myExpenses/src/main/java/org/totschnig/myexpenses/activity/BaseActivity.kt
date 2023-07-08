@@ -631,7 +631,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
             R.id.SETTINGS_COMMAND -> {
                 startActivityForResult(
-                    Intent(this, MyPreferenceActivity::class.java).apply {
+                    Intent(this, PreferenceActivity::class.java).apply {
                         addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         if (tag != null) {
                             putExtra(MyPreferenceActivity.KEY_OPEN_PREF_KEY, tag as String?)
