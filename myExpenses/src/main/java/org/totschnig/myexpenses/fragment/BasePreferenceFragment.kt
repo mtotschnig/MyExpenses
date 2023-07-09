@@ -22,7 +22,7 @@ abstract class BasePreferenceFragment: PreferenceFragmentCompat() {
         super.onCreate(savedInstanceState)
     }
 
-    private fun <T : Preference> findPreference(prefKey: PrefKey): T? =
+    fun <T : Preference> findPreference(prefKey: PrefKey): T? =
         findPreference(prefHandler.getKey(prefKey))
 
     fun <T : Preference> requirePreference(prefKey: PrefKey): T {

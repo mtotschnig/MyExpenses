@@ -342,11 +342,6 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
                 true
             }
 
-            R.id.CHANGE_COMMAND -> {
-                fragment.updateHomeCurrency(tag as String)
-                true
-            }
-
             else -> false
         }
     }

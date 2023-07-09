@@ -407,11 +407,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 preferenceActivity.initLocaleContext()
             }
 
-            getKey(PrefKey.UI_FONTSIZE) -> {
-                updateAllWidgets()
-                preferenceActivity.recreate()
-            }
-
             getKey(PrefKey.PROTECTION_LEGACY), getKey(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN) -> {
                 if (sharedPreferences.getBoolean(key, false)) {
                     preferenceActivity.showSnackBar(R.string.pref_protection_screenshot_information)
@@ -493,25 +488,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
     override fun onPreferenceChange(pref: Preference, value: Any): Boolean {
         when {
-            matches(pref, PrefKey.HOME_CURRENCY) -> {
-                if (value != prefHandler.getString(PrefKey.HOME_CURRENCY, null)) {
-                    MessageDialogFragment.newInstance(
-                        getString(R.string.dialog_title_information),
-                        concatResStrings(
-                            requireContext(),
-                            " ",
-                            R.string.home_currency_change_warning,
-                            R.string.continue_confirmation
-                        ),
-                        MessageDialogFragment.Button(
-                            android.R.string.ok, R.id.CHANGE_COMMAND,
-                            value as String
-                        ),
-                        null, MessageDialogFragment.noButton()
-                    ).show(parentFragmentManager, "CONFIRM")
-                }
-                return false
-            }
 
             matches(pref, PrefKey.SHARE_TARGET) -> {
                 val target = value as String
@@ -709,29 +685,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         contribPurchasePref.title = contribPurchaseTitle
     }
 
-    fun updateHomeCurrency(currencyCode: String) {
-        findPreference<ListPreference>(PrefKey.HOME_CURRENCY)?.let {
-            it.value = currencyCode
-        } ?: run {
-            prefHandler.putString(PrefKey.HOME_CURRENCY, currencyCode)
-        }
-        requireApplication().invalidateHomeCurrency(currencyCode)
-        preferenceActivity.showSnackBarIndefinite(R.string.saving)
-        viewModel.resetEquivalentAmounts().observe(this) { integer ->
-            preferenceActivity.dismissSnackBar()
-            if (integer != null) {
-                preferenceActivity.showSnackBar(
-                    String.format(
-                        preferenceActivity.getLocale(),
-                        "%s (%d)", getString(R.string.reset_equivalent_amounts_success), integer
-                    )
-                )
-            } else {
-                preferenceActivity.showSnackBar("Equivalent amount reset failed")
-            }
-        }
-    }
-
     private fun trackPreferenceClick(preference: Preference) {
         val bundle = Bundle()
         bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, preference.key)
@@ -813,8 +766,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         when (rootKey) {
 
             null -> { //ROOT screen
-                requirePreference<Preference>(PrefKey.HOME_CURRENCY).onPreferenceChangeListener =
-                    this
                 requirePreference<Preference>(PrefKey.UI_WEB).onPreferenceChangeListener = this
 
                 requirePreference<PreferenceCategory>(PrefKey.CATEGORY_BACKUP_EXPORT).title =
@@ -864,16 +815,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
                 if (privacyCategory.preferenceCount == 0) {
                     preferenceScreen.removePreference(privacyCategory)
-                }
-
-                lifecycleScope.launchWhenStarted {
-                    currencyViewModel.currencies.collect { currencies ->
-                        with(requirePreference<ListPreference>(PrefKey.HOME_CURRENCY)) {
-                            entries = currencies.map(Currency::toString).toTypedArray()
-                            entryValues = currencies.map { it.code }.toTypedArray()
-                            isEnabled = true
-                        }
-                    }
                 }
 
                 val translatorsArrayResId = getTranslatorsArrayResId()

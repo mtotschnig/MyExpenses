@@ -24,6 +24,7 @@
 
     <Preference
         android:key="@string/pref_category_ui_key"
+        android:fragment="org.totschnig.myexpenses.fragment.PreferenceUiFragment"
         android:title="@string/pref_category_title_ui" />
 
     <Preference android:title="@string/pref_category_title_import" />
