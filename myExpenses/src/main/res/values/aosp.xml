@@ -82,6 +82,7 @@
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
     <string name="yesterday">Yesterday</string>
-
+    <!-- AndroidSDK/platforms/android-34/data/res serviceClassData -->
+    <string name="data">Data</string>
 </resources>
 

@@ -50,5 +50,6 @@
         <item quantity="other">លុបឯកសារ %1$d ឬ?</item>
     </plurals>
     <string name="display_options_sort_list_by">"តម្រៀបតាម"</string>
+    <string name="data">"ទិន្នន័យ"</string>
 </resources>
 

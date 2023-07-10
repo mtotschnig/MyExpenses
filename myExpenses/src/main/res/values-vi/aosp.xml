@@ -50,5 +50,6 @@
         <item quantity="other">Xóa %1$d tệp?</item>
     </plurals>
     <string name="display_options_sort_list_by">"Sắp xếp theo"</string>
+    <string name="data">"Dữ liệu"</string>
 </resources>
 

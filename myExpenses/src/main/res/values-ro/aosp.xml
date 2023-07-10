@@ -53,5 +53,6 @@
         <item quantity="one">Ștergi %1$d fișier?</item>
     </plurals>
     <string name="display_options_sort_list_by">"Sortați după"</string>
+    <string name="data">"Date"</string>
 </resources>
 

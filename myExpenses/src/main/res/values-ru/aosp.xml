@@ -54,5 +54,6 @@
       <item quantity="other">Удалить %1$d файла?</item>
     </plurals>
     <string name="display_options_sort_list_by">"Сортировка"</string>
+    <string name="data">"Данные"</string>
 </resources>
 

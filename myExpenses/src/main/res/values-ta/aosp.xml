@@ -52,5 +52,6 @@
         <item quantity="one">%1$d ஃபைலை நீக்கவா?</item>
     </plurals>
     <string name="display_options_sort_list_by">"இதன்படி வரிசைப்படுத்து:"</string>
+    <string name="data">"தரவு"</string>
 </resources>
 

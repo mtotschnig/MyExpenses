@@ -52,5 +52,6 @@
       <item quantity="other">Excluir %1$d arquivos?</item>
     </plurals>
     <string name="display_options_sort_list_by">"Classificar por"</string>
+    <string name="data">"Dados"</string>
 </resources>
 

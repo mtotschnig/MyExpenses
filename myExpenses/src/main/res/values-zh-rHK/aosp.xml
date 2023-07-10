@@ -51,5 +51,6 @@
       <item quantity="other">要刪除 %1$d 個檔案嗎？</item>
     </plurals>
     <string name="display_options_sort_list_by">"排序方式"</string>
+    <string name="data">"數據"</string>
 </resources>
 

@@ -20,7 +20,7 @@
     <Preference
         android:key="@string/pref_category_manage_key"
         android:fragment="org.totschnig.myexpenses.fragment.PreferenceDataFragment"
-        android:title="@string/pref_category_title_manage" />
+        android:title="@string/data" />
 
     <Preference
         android:key="@string/pref_category_ui_key"

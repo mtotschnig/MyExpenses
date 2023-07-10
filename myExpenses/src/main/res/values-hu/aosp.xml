@@ -52,5 +52,6 @@
       <item quantity="one">Töröl %1$d fájlt?</item>
     </plurals>
     <string name="display_options_sort_list_by">"Rendezés"</string>
+    <string name="data">"Adatok"</string>
 </resources>
 

@@ -48,4 +48,5 @@
       <item quantity="one">%1$d bestand verwijderen?</item>
     </plurals>
     <string name="display_options_sort_list_by">"Sorteren op"</string>
+    <string name="data">"Gegevens"</string>
 </resources>

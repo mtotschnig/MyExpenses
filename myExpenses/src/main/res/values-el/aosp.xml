@@ -52,5 +52,6 @@
       <item quantity="one">Να διαγραφεί %1$d αρχείο;</item>
     </plurals>
     <string name="display_options_sort_list_by">"Ταξινόμηση κατά"</string>
+    <string name="data">"Δεδομένα"</string>
 </resources>
 

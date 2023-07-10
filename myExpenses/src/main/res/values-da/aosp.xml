@@ -52,5 +52,6 @@
         <item quantity="other">Vil du slette %1$d filer?</item>
     </plurals>
     <string name="display_options_sort_list_by">"Sortér efter"</string>
+    <string name="data">"Data"</string>
 </resources>
 

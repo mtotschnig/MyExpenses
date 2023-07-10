@@ -54,5 +54,6 @@
       <item quantity="one">Usunąć %1$d plik?</item>
     </plurals>
     <string name="display_options_sort_list_by">"Sortuj według"</string>
+    <string name="data">"Dane"</string>
 </resources>
 

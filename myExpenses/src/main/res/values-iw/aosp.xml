@@ -53,5 +53,6 @@
         <item quantity="other">האם למחוק %1$d קבצים?</item>
     </plurals>
     <string name="display_options_sort_list_by">"מיין לפי"</string>
+    <string name="data">נתונים</string>
 </resources>
 
