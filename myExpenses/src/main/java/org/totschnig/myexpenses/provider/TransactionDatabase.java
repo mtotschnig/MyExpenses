@@ -2065,7 +2065,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
             "(account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, value_date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id)" +
             "SELECT account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, value_date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id FROM changes_old");
         db.execSQL("DROP TABLE changes_old");
-        db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
+        //db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
         //createOrRefreshTransactionTriggers(db);
         //createOrRefreshAccountTriggers(db);
         //createOrRefreshAccountMetadataTrigger(db);
@@ -2153,7 +2153,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
             "(account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, value_date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id)" +
             "SELECT account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, value_date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id FROM changes_old");
         db.execSQL("DROP TABLE changes_old");
-        db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
+        //db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
         createOrRefreshTransactionTriggers(db);
         createOrRefreshAccountTriggers(db);
         createOrRefreshAccountMetadataTrigger(db);
