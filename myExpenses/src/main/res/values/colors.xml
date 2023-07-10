@@ -62,5 +62,6 @@
     <color name="CLEARED">#0000FF</color>
     <color name="VOID">#FF0000</color>
     <color name="RECONCILED">#00FF00</color>
+    <color name="settings_two_pane_background_color">#FFDBD9DD</color>
 
 </resources>

@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.activity
 import android.appwidget.AppWidgetProvider
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.Menu
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import org.totschnig.myexpenses.R
@@ -36,17 +37,24 @@ class PreferenceActivity : ProtectedFragmentActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu) = false
+
+    val twoPanePreference: TwoPanePreference
+        get() = binding.fragmentContainer.getFragment() as TwoPanePreference
+
     @Suppress("UNCHECKED_CAST")
-    private fun <F : Fragment?> getFragment(): F? =
-        (binding.fragmentContainer.getFragment() as TwoPanePreference)
-            .childFragmentManager
+    private fun <F : Fragment?> getFragment(): F? = twoPanePreference.childFragmentManager
             .findFragmentById(androidx.preference.R.id.preferences_detail) as? F
 
-    override fun dispatchCommand(command: Int, tag: Any?): Boolean {
-        if (super.dispatchCommand(command, tag)) {
-            return true
+    override fun doHome() {
+        if(!twoPanePreference.slidingPaneLayout.closePane()) {
+            super.doHome()
         }
-        return when (command) {
+    }
+
+    override fun dispatchCommand(command: Int, tag: Any?) =
+        if (super.dispatchCommand(command, tag)) true
+        else when (command) {
 
             R.id.CHANGE_COMMAND -> {
                 val currencyCode = tag as String
@@ -78,7 +86,6 @@ class PreferenceActivity : ProtectedFragmentActivity() {
 
             else -> false
         }
-    }
     private fun getKey(prefKey: PrefKey) = prefHandler.getKey(prefKey)
 
     private fun updateAllWidgets() {
