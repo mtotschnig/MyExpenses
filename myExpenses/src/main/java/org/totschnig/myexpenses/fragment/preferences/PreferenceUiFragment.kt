@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.fragment
+package org.totschnig.myexpenses.fragment.preferences
 
 import android.content.Intent
 import android.content.pm.ShortcutInfo
@@ -115,6 +115,7 @@ class PreferenceUiFragment: BasePreferenceFragment() {
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         return when {
+            super.onPreferenceTreeClick(preference) -> true
             matches(preference, PrefKey.SHORTCUT_CREATE_TRANSACTION) -> {
                 addShortcut(
                     R.string.transaction, TransactionsContract.Transactions.TYPE_TRANSACTION,
@@ -138,7 +139,7 @@ class PreferenceUiFragment: BasePreferenceFragment() {
                 )
                 true
             }
-            else -> super.onPreferenceTreeClick(preference)
+            else -> false
         }
     }
 

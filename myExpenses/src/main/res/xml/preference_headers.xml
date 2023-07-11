@@ -18,16 +18,19 @@
     android:key="@string/pref_root_screen_key">
 
     <Preference
-        android:key="@string/pref_category_manage_key"
-        android:fragment="org.totschnig.myexpenses.fragment.PreferenceDataFragment"
+        android:key="data"
+        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferenceDataFragment"
         android:title="@string/data" />
 
     <Preference
-        android:key="@string/pref_category_ui_key"
-        android:fragment="org.totschnig.myexpenses.fragment.PreferenceUiFragment"
+        android:key="ui"
+        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferenceUiFragment"
         android:title="@string/pref_category_title_ui" />
 
-    <Preference android:title="@string/pref_category_title_import" />
+    <Preference
+        android:key="import"
+        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesImportFragment"
+        android:title="@string/pref_category_title_import" />
 
     <Preference android:key="@string/pref_category_export_backup_key" />
 

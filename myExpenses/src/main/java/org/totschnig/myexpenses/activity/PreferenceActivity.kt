@@ -1,15 +1,18 @@
 package org.totschnig.myexpenses.activity
 
 import android.appwidget.AppWidgetProvider
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import androidx.activity.viewModels
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.SettingsBinding
-import org.totschnig.myexpenses.fragment.PreferenceDataFragment
+import org.totschnig.myexpenses.feature.Feature
+import org.totschnig.myexpenses.fragment.preferences.PreferenceDataFragment
 import org.totschnig.myexpenses.fragment.TwoPanePreference
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.setNightMode
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
@@ -17,8 +20,9 @@ import org.totschnig.myexpenses.widget.AccountWidget
 import org.totschnig.myexpenses.widget.TemplateWidget
 import org.totschnig.myexpenses.widget.WIDGET_CONTEXT_CHANGED
 import org.totschnig.myexpenses.widget.updateWidgets
+import java.io.Serializable
 
-class PreferenceActivity : ProtectedFragmentActivity() {
+class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
     lateinit var binding: SettingsBinding
     private val viewModel: SettingsViewModel by viewModels()
 
@@ -107,5 +111,19 @@ class PreferenceActivity : ProtectedFragmentActivity() {
                 recreate()
             }
         }
+    }
+
+    override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
+        if (feature === ContribFeature.CSV_IMPORT) {
+            val i = Intent(this, CsvImportActivity::class.java)
+            startActivity(i)
+        }
+/*        if (feature === ContribFeature.WEB_UI) {
+            if (featureViewModel.isFeatureAvailable(this, Feature.WEBUI)) {
+                activateWebUi()
+            } else {
+                featureViewModel.requestFeature(this, Feature.WEBUI)
+            }
+        }*/
     }
 }

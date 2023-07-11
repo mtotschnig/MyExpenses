@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.fragment
+package org.totschnig.myexpenses.fragment.preferences
 
 import android.os.Bundle
 import androidx.fragment.app.viewModels

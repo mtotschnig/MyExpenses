@@ -9,8 +9,8 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceHeaderFragmentCompat
 import androidx.preference.R
 import androidx.slidingpanelayout.widget.SlidingPaneLayout
-import com.evernote.android.state.State
-import com.evernote.android.state.StateSaver
+import org.totschnig.myexpenses.fragment.preferences.BasePreferenceFragment
+import org.totschnig.myexpenses.fragment.preferences.MainPreferenceFragment
 
 class TwoPanePreference : PreferenceHeaderFragmentCompat() {
 
@@ -23,7 +23,7 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
         if (headerFragment.isSlideable) {
             super.onPreferenceStartFragment(caller, pref)
             requireActivity().title = pref.title
-        } else if (!(caller is MainPreferenceFragment) || headerFragment.highlightedKey != pref.key) {
+        } else if (caller !is MainPreferenceFragment || headerFragment.highlightedKey != pref.key) {
             super.onPreferenceStartFragment(caller, pref)
         }
         if (caller is MainPreferenceFragment) {

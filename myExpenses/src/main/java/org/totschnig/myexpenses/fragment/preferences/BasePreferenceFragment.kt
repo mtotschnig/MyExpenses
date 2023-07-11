@@ -1,8 +1,7 @@
-package org.totschnig.myexpenses.fragment
+package org.totschnig.myexpenses.fragment.preferences
 
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
@@ -10,6 +9,7 @@ import androidx.preference.PreferenceGroup
 import org.totschnig.myexpenses.activity.PreferenceActivity
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PreferenceDataStore
@@ -74,5 +74,15 @@ abstract class BasePreferenceFragment: PreferenceFragmentCompat() {
             preference.isIconSpaceReserved = false
         }
     }
+
+    fun handleContrib(prefKey: PrefKey, feature: ContribFeature, preference: Preference) =
+        if (matches(preference, prefKey)) {
+            if (licenceHandler.hasAccessTo(feature)) {
+                preferenceActivity.contribFeatureCalled(feature, null)
+            } else {
+                preferenceActivity.showContribDialog(feature, null)
+            }
+            true
+        } else false
 
 }

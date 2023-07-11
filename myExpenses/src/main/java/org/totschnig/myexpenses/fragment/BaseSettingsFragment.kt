@@ -751,13 +751,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
                 loadAppDirSummary()
 
-                val qifPref = requirePreference<Preference>(PrefKey.IMPORT_QIF)
-                qifPref.summary = getString(R.string.pref_import_summary, "QIF")
-                qifPref.title = getString(R.string.pref_import_title, "QIF")
-                val csvPref = requirePreference<Preference>(PrefKey.IMPORT_CSV)
-                csvPref.summary = getString(R.string.pref_import_summary, "CSV")
-                csvPref.title = getString(R.string.pref_import_title, "CSV")
-
                 lifecycleScope.launchWhenStarted {
                     viewModel.hasStaleImages.collect { result ->
                         requirePreference<Preference>(PrefKey.MANAGE_STALE_IMAGES).isVisible =
@@ -1232,7 +1225,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 true
             }
 
-            handleContrib(PrefKey.IMPORT_CSV, ContribFeature.CSV_IMPORT, preference) -> true
             matches(preference, PrefKey.NEW_LICENCE) -> {
                 if (licenceHandler.hasValidKey()) {
                     SimpleDialog.build()
