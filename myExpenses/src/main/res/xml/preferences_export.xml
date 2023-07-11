@@ -18,74 +18,42 @@
     xmlns:my="http://schemas.android.com/apk/res-auto"
     android:key="@string/pref_root_screen_key">
 
-    <org.totschnig.myexpenses.preference.PopupMenuPreference
-        android:key="@string/pref_app_dir_key"
-        android:title="@string/pref_app_dir_title" />
-    <PreferenceScreen
-        android:key="@string/pref_perform_share_key"
-        android:title="@string/pref_perform_share_title">
-        <org.totschnig.myexpenses.preference.LongSummaryEditTextPreference
-            android:inputType="textUri"
-            android:key="@string/pref_share_target_key"
-            android:summary="@string/pref_share_target_summary"
-            android:title="@string/pref_share_target_title" />
-    </PreferenceScreen>
-    <Preference
-        android:key="@string/pref_backup_key"
-        android:summary="@string/pref_backup_summary"
-        android:title="@string/menu_backup">
-        <intent
-            android:action="BACKUP"
-            android:targetClass="org.totschnig.myexpenses.activity.BackupRestoreActivity"
-            android:targetPackage="@string/application_id" />
-    </Preference>
+    <MultiSelectListPreference
+        android:key="@string/pref_export_manage_files_key"
+        android:negativeButtonText="@string/menu_delete"
+        android:persistent="false"
+        android:positiveButtonText="@string/button_label_share_file"
+        android:title="@string/files_label"
+        my:isPreferenceVisible="false" />
 
-    <EditTextPreference
-        android:defaultValue="myexpenses-backup"
-        android:key="@string/pref_backup_file_prefix_key"
-        android:title="@string/pref_backup_file_prefix_title"
-        my:useSimpleSummaryProvider="true" />
+    <PreferenceCategory
+        android:title="@string/menu_backup"
+        my:initialExpandedChildrenCount="1">
 
-    <org.totschnig.myexpenses.preference.AccountPreference
-        android:key="@string/pref_auto_backup_cloud_key"
-        android:summary="@string/pref_backup_cloud_summary"
-        android:title="@string/pref_backup_cloud_title" />
-
-    <PreferenceScreen
-        android:key="@string/pref_auto_backup_key"
-        android:title="@string/pref_auto_backup_title">
         <Preference
-            android:key="@string/pref_auto_backup_info_key"
-            android:selectable="false"
-            android:summary="@string/pref_auto_backup_summary" />
-        <org.totschnig.myexpenses.preference.TimePreference
-            android:dependency="@string/pref_auto_backup_key"
-            android:key="@string/pref_auto_backup_time_key"
-            android:title="@string/pref_auto_backup_time_title" />
-        <Preference
-            android:key="@string/pref_auto_backup_unencrypted_info_key"
-            android:selectable="false"
-            android:summary="@string/warning_unencrypted_backup"
-            my:isPreferenceVisible="false" />
-    </PreferenceScreen>
+            android:key="@string/pref_backup_key"
+            android:title="@string/pref_backup_summary">
+            <intent
+                android:action="BACKUP"
+                android:targetClass="org.totschnig.myexpenses.activity.BackupRestoreActivity"
+                android:targetPackage="@string/application_id" />
+        </Preference>
 
-    <PreferenceScreen
-        android:key="@string/pref_purge_backup_key"
-        android:title="@string/dialog_title_purge_backups">
-        <SeekBarPreference
-            android:defaultValue="5"
-            android:key="@string/pref_purge_backup_keep_key"
-            android:max="100"
-            android:summary="@string/pref_purge_backup_keep_title"
-            my:min="1"
-            my:showSeekBarValue="true"
-            my:updatesContinuously="true" />
-        <SwitchPreferenceCompat
-            android:defaultValue="true"
-            android:key="@string/pref_purge_backup_require_confirmation_key"
-            android:summary="@string/pref_purge_backup_require_confirmation_summary" />
-    </PreferenceScreen>
+        <org.totschnig.myexpenses.preference.PopupMenuPreference
+            android:key="@string/pref_app_dir_key"
+            android:title="@string/pref_app_dir_title" />
 
+        <EditTextPreference
+            android:defaultValue="myexpenses-backup"
+            android:key="@string/pref_backup_file_prefix_key"
+            android:title="@string/pref_backup_file_prefix_title"
+            my:useSimpleSummaryProvider="true" />
+
+        <org.totschnig.myexpenses.preference.AccountPreference
+            android:key="@string/pref_auto_backup_cloud_key"
+            android:summary="@string/pref_backup_cloud_summary"
+            android:title="@string/pref_backup_cloud_title" />
+    </PreferenceCategory>
 
     <Preference
         android:key="@string/pref_restore_key"
@@ -96,10 +64,55 @@
             android:targetClass="org.totschnig.myexpenses.activity.BackupRestoreActivity"
             android:targetPackage="@string/application_id" />
     </Preference>
-    <MultiSelectListPreference
-        android:key="@string/pref_export_manage_files_key"
-        android:negativeButtonText="@string/menu_delete"
-        android:persistent="false"
-        android:positiveButtonText="@string/button_label_share_file"
-        android:title="@string/files_label" />
+
+    <Preference
+        android:key="@string/pref_auto_backup_unencrypted_info_key"
+        android:selectable="false"
+        android:summary="@string/warning_unencrypted_backup"
+        my:isPreferenceVisible="false" />
+
+    <PreferenceCategory android:title="@string/pref_auto_backup_title">
+        <SwitchPreferenceCompat
+            android:key="@string/pref_auto_backup_key"
+            android:title="@string/pref_auto_backup_summary" />
+        <org.totschnig.myexpenses.preference.TimePreference
+            android:dependency="@string/pref_auto_backup_key"
+            android:key="@string/pref_auto_backup_time_key"
+            android:title="@string/pref_auto_backup_time_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory my:initialExpandedChildrenCount="1">
+
+        <SwitchPreferenceCompat
+            android:key="@string/pref_purge_backup_key"
+            android:title="@string/dialog_title_purge_backups" />
+
+        <SeekBarPreference
+            android:defaultValue="5"
+            android:key="@string/pref_purge_backup_keep_key"
+            android:max="100"
+            android:title="@string/pref_purge_backup_keep_title"
+            my:min="1"
+            my:showSeekBarValue="true"
+            my:updatesContinuously="true" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/pref_purge_backup_require_confirmation_key"
+            android:title="@string/pref_purge_backup_require_confirmation_summary" />
+    </PreferenceCategory>
+
+    <PreferenceCategory>
+
+        <SwitchPreferenceCompat
+            android:key="@string/pref_perform_share_key"
+            android:title="@string/pref_perform_share_title" />
+
+        <org.totschnig.myexpenses.preference.LongSummaryEditTextPreference
+            android:dependency="@string/pref_perform_share_key"
+            android:inputType="textUri"
+            android:key="@string/pref_share_target_key"
+            android:summary="@string/pref_share_target_summary"
+            android:title="@string/pref_share_target_title" />
+    </PreferenceCategory>
 </PreferenceScreen> 

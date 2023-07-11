@@ -8,12 +8,15 @@ import android.view.Menu
 import androidx.activity.viewModels
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.SettingsBinding
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.feature.Feature
+import org.totschnig.myexpenses.fragment.BaseSettingsFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferenceDataFragment
 import org.totschnig.myexpenses.fragment.TwoPanePreference
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.service.AutoBackupWorker
 import org.totschnig.myexpenses.util.setNightMode
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
 import org.totschnig.myexpenses.widget.AccountWidget
@@ -88,6 +91,7 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
 
             else -> false
         }
+
     private fun getKey(prefKey: PrefKey) = prefHandler.getKey(prefKey)
 
     private fun updateAllWidgets() {
@@ -99,17 +103,49 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
         updateWidgets(this, provider, WIDGET_CONTEXT_CHANGED)
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
-        when(key) {
+        when (key) {
             getKey(PrefKey.UI_THEME_KEY) -> {
                 setNightMode(prefHandler, this)
                 updateAllWidgets()
             }
+
             getKey(PrefKey.UI_FONTSIZE) -> {
                 updateAllWidgets()
                 recreate()
             }
+
+            getKey(PrefKey.AUTO_BACKUP) -> {
+                if ((sharedPreferences.getBoolean(key, false) &&
+                            ((prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false) ||
+                                    prefHandler.getBoolean(
+                                        PrefKey.PROTECTION_DEVICE_LOCK_SCREEN,
+                                        false
+                                    ))
+                                    )
+                            )
+                ) {
+                    showUnencryptedBackupWarning()
+                }
+                AutoBackupWorker.enqueueOrCancel(this, prefHandler)
+            }
+        }
+    }
+
+    private fun showUnencryptedBackupWarning() {
+        if (prefHandler.getString(PrefKey.EXPORT_PASSWORD, null) == null) showMessage(
+            unencryptedBackupWarning
+        )
+    }
+
+    override fun onPositive(args: Bundle, checked: Boolean) {
+        super.onPositive(args, checked)
+        if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.DELETE_FILES_COMMAND) {
+            viewModel.deleteAppFiles(args.getStringArray(BaseSettingsFragment.KEY_CHECKED_FILES)!!)
+                .observe(this) {
+                    showSnackBar(resources.getQuantityString(R.plurals.delete_success, it, it))
+                }
         }
     }
 
@@ -118,12 +154,12 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             val i = Intent(this, CsvImportActivity::class.java)
             startActivity(i)
         }
-/*        if (feature === ContribFeature.WEB_UI) {
-            if (featureViewModel.isFeatureAvailable(this, Feature.WEBUI)) {
-                activateWebUi()
-            } else {
-                featureViewModel.requestFeature(this, Feature.WEBUI)
-            }
-        }*/
+        /*        if (feature === ContribFeature.WEB_UI) {
+                    if (featureViewModel.isFeatureAvailable(this, Feature.WEBUI)) {
+                        activateWebUi()
+                    } else {
+                        featureViewModel.requestFeature(this, Feature.WEBUI)
+                    }
+                }*/
     }
 }

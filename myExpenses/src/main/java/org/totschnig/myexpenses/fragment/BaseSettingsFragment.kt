@@ -97,8 +97,7 @@ import java.util.*
 import javax.inject.Inject
 
 abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationErrorListener,
-    OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener, OnDialogResultListener,
-    MultiSelectListPreferenceDialogFragment2.OnClickListener {
+    OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener, OnDialogResultListener {
 
     @Inject
     lateinit var featureManager: FeatureManager
@@ -235,7 +234,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     override fun onResume() {
         super.onResume()
         settings.registerOnSharedPreferenceChangeListener(this)
-        viewModel.loadAppData()
     }
 
     override fun onPause() {
@@ -364,11 +362,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     }
                 }
                 setProtectionDependentsState()
-                updateAllWidgets()
-            }
-
-            getKey(PrefKey.UI_THEME_KEY) -> {
-                setNightMode(prefHandler, requireContext())
                 updateAllWidgets()
             }
 
@@ -586,10 +579,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         }: ${prefHandler.getString(PrefKey.NEW_LICENCE, "")}"
     }
 
-    fun loadSyncAccountData() {
-        requirePreference<AccountPreference>(PrefKey.AUTO_BACKUP_CLOUD).setData(requireContext())
-    }
-
     fun configureContribPrefs() {
         if (!onScreen(PrefKey.ROOT_SCREEN)) {
             return
@@ -699,7 +688,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 else -> false
             }
         }
-    var pickFolderRequestStart: Long = 0
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
@@ -777,18 +765,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
                 requirePreference<Preference>(PrefKey.ENCRYPT_DATABASE_INFO).isVisible =
                     prefHandler.encryptDatabase
-
-                viewModel.appData.observe(this) {
-                    with(requirePreference<MultiSelectListPreference>(PrefKey.MANAGE_APP_DIR_FILES)) {
-                        if (it.isEmpty()) {
-                            isVisible = false
-                        } else {
-                            isVisible = true
-                            entries = it.map { "${it.first} (${Formatter.formatFileSize(requireContext(), it.second)})" }.toTypedArray()
-                            entryValues = it.map { it.first }.toTypedArray()
-                        }
-                    }
-                }
             }
 
             getKey(PrefKey.UI_HOME_SCREEN_SHORTCUTS) -> {
@@ -961,11 +937,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     preferenceDataStore.handleToggle(requirePreference(PrefKey.UI_ITEM_RENDERER_CATEGORY_ICON))
                 }
             }
-
-            getKey(PrefKey.AUTO_BACKUP) -> {
-                requirePreference<Preference>(PrefKey.AUTO_BACKUP_UNENCRYPTED_INFO).isVisible =
-                    prefHandler.encryptDatabase
-            }
         }
     }
 
@@ -980,10 +951,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         arrayOf(ExchangeRateSource.OpenExchangeRates, ExchangeRateSource.CoinApi).forEach {
             requirePreference<Preference>(it.prefKey).isVisible = provider == it
         }
-    }
-
-    fun loadAppDirSummary() {
-        viewModel.loadAppDirInfo()
     }
 
     private fun getBitmapForShortcut(@DrawableRes iconId: Int) = UiUtils.drawableToBitmap(
@@ -1107,11 +1074,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         for (i in 0 until preferenceScreen.preferenceCount) {
             preferenceScreen.getPreference(i).isEnabled = enabled
         }
-    }
-
-    fun reportException(e: Exception) {
-        preferenceActivity.showSnackBar(e.safeMessage)
-        CrashHandler.report(e)
     }
 
     override fun onPreferenceClick(preference: Preference): Boolean {
@@ -1322,54 +1284,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
         }
         return true
-    }
-
-    //MultiSelectListPreferenceDialogFragmentWithNeutralAction
-    override fun onClick(preference: String, values: Set<String>, which: Int) {
-        if (values.isNotEmpty() && preference == prefHandler.getKey(PrefKey.MANAGE_APP_DIR_FILES)) {
-            if (which == DialogInterface.BUTTON_NEGATIVE) {
-                ConfirmationDialogFragment.newInstance(Bundle().apply {
-                    putStringArray(KEY_CHECKED_FILES, values.toTypedArray())
-                    putString(
-                        ConfirmationDialogFragment.KEY_MESSAGE,
-                        resources.getQuantityString(R.plurals.delete_files_confirmation_message, values.size, values.size)
-                    )
-                    putInt(
-                        ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                        R.id.DELETE_FILES_COMMAND
-                    )
-                    putInt(
-                        ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
-                        R.string.menu_delete
-                    )
-                })
-                    .show(parentFragmentManager, "CONFIRM_DELETE")
-            } else if (which == DialogInterface.BUTTON_POSITIVE) {
-                val appDir = viewModel.appDirInfo.value?.getOrThrow()!!
-                startActivity(Intent(Intent.ACTION_SEND_MULTIPLE).apply {
-                    type = "text/plain"
-                    val arrayList = ArrayList(
-                        values.mapNotNull { file ->
-                            appDir.documentFile.findFile(file)?.uri?.let {
-                                ensureContentUri(it, requireContext())
-                            }
-                        })
-                    Timber.d("ATTACHMENTS" + arrayList.joinToString())
-                    putParcelableArrayListExtra(
-                        Intent.EXTRA_STREAM,
-                        arrayList
-                    )
-                    flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                })
-            }
-        }
-
-    }
-
-    fun deleteAppFiles(files: Array<String>) {
-        viewModel.deleteAppFiles(files).observe(this) {
-            preferenceActivity.showSnackBar(resources.getQuantityString(R.plurals.delete_success, it, it))
-        }
     }
 
     companion object {

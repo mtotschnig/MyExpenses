@@ -33,7 +33,7 @@ class MainPreferenceFragment : BasePreferenceFragment() {
         }
 
     @State
-    var highlightedKey: String = "category_manage"
+    lateinit var highlightedKey: String
 
     fun onLoadPreference(key: String) {
         val oldPosition = adapter.getPreferenceAdapterPosition(highlightedKey)
@@ -60,6 +60,7 @@ class MainPreferenceFragment : BasePreferenceFragment() {
         requirePreference<Preference>(PrefKey.CATEGORY_BACKUP_EXPORT).title =
             getString(R.string.pref_category_title_export) + " / " + getString(R.string.menu_backup)
         unsetIconSpaceReservedRecursive(preferenceScreen)
+        highlightedKey = preferenceScreen.getPreference(0).key
     }
 
     override fun onCreateAdapter(preferenceScreen: PreferenceScreen) =

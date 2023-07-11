@@ -1,24 +1,24 @@
 package org.totschnig.myexpenses.fragment.preferences
 
-import android.app.Activity
-import android.content.ActivityNotFoundException
+import android.content.DialogInterface
 import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.DocumentsContract
+import android.text.format.Formatter
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.preference.MultiSelectListPreference
+import androidx.preference.MultiSelectListPreferenceDialogFragment2
 import androidx.preference.Preference
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.fragment.BaseSettingsFragment
+import org.totschnig.myexpenses.preference.AccountPreference
 import org.totschnig.myexpenses.preference.PopupMenuPreference
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.safeMessage
+import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
+import timber.log.Timber
 
-class PreferencesExportFragment: BasePreferenceFragment() {
-
+class PreferencesExportFragment: BasePreferenceFragment(), MultiSelectListPreferenceDialogFragment2.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,10 +36,80 @@ class PreferencesExportFragment: BasePreferenceFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        loadSyncAccountData()
+        viewModel.loadAppData()
+    }
+
+    private fun loadSyncAccountData() {
+        requirePreference<AccountPreference>(PrefKey.AUTO_BACKUP_CLOUD).setData(requireContext())
+    }
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences_export, rootKey)
         unsetIconSpaceReservedRecursive(preferenceScreen)
         loadAppDirSummary()
+
+        requirePreference<Preference>(PrefKey.AUTO_BACKUP_CLOUD).onPreferenceChangeListener =
+            storeInDatabaseChangeListener
+
+        with(requirePreference<Preference>(PrefKey.AUTO_BACKUP_UNENCRYPTED_INFO)) {
+            isVisible = prefHandler.encryptDatabase
+            summary = preferenceActivity.unencryptedBackupWarning
+        }
+        viewModel.appData.observe(this) {
+            with(requirePreference<MultiSelectListPreference>(PrefKey.MANAGE_APP_DIR_FILES)) {
+                if (it.isEmpty()) {
+                    isVisible = false
+                } else {
+                    isVisible = true
+                    entries = it.map { "${it.first} (${Formatter.formatFileSize(requireContext(), it.second)})" }.toTypedArray()
+                    entryValues = it.map { it.first }.toTypedArray()
+                }
+            }
+        }
+    }
+
+    //MultiSelectListPreferenceDialogFragmentWithNeutralAction
+    override fun onClick(preference: String, values: Set<String>, which: Int) {
+        if (values.isNotEmpty() && preference == prefHandler.getKey(PrefKey.MANAGE_APP_DIR_FILES)) {
+            if (which == DialogInterface.BUTTON_NEGATIVE) {
+                ConfirmationDialogFragment.newInstance(Bundle().apply {
+                    putStringArray(BaseSettingsFragment.KEY_CHECKED_FILES, values.toTypedArray())
+                    putString(
+                        ConfirmationDialogFragment.KEY_MESSAGE,
+                        resources.getQuantityString(R.plurals.delete_files_confirmation_message, values.size, values.size)
+                    )
+                    putInt(
+                        ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                        R.id.DELETE_FILES_COMMAND
+                    )
+                    putInt(
+                        ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                        R.string.menu_delete
+                    )
+                })
+                    .show(parentFragmentManager, "CONFIRM_DELETE")
+            } else if (which == DialogInterface.BUTTON_POSITIVE) {
+                val appDir = viewModel.appDirInfo.value?.getOrThrow()!!
+                startActivity(Intent(Intent.ACTION_SEND_MULTIPLE).apply {
+                    type = "text/plain"
+                    val arrayList = ArrayList(
+                        values.mapNotNull { file ->
+                            appDir.documentFile.findFile(file)?.uri?.let {
+                                AppDirHelper.ensureContentUri(it, requireContext())
+                            }
+                        })
+                    Timber.d("ATTACHMENTS" + arrayList.joinToString())
+                    putParcelableArrayListExtra(
+                        Intent.EXTRA_STREAM,
+                        arrayList
+                    )
+                    flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                })
+            }
+        }
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
@@ -90,10 +160,5 @@ class PreferencesExportFragment: BasePreferenceFragment() {
 
     private fun loadAppDirSummary() {
         viewModel.loadAppDirInfo()
-    }
-
-    private fun reportException(e: Exception) {
-        preferenceActivity.showSnackBar(e.safeMessage)
-        CrashHandler.report(e)
     }
 }

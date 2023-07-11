@@ -204,20 +204,6 @@ class PreferenceUiFragment: BasePreferenceFragment() {
         )!!
     )
 
-    override fun onDisplayPreferenceDialog(preference: Preference) {
-        if (preference is FontSizeDialogPreference) {
-            FontSizeDialogFragmentCompat.newInstance(preference.key).also {
-                it.setTargetFragment(this, 0)
-                it.show(
-                        parentFragmentManager,
-                        "android.support.v7.preference.PreferenceFragment.DIALOG"
-                    )
-            }
-        } else {
-            super.onDisplayPreferenceDialog(preference)
-        }
-    }
-
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         //we configure language picker here, so that we can override the outdated value
