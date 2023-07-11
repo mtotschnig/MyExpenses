@@ -23,10 +23,12 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
         if (headerFragment.isSlideable) {
             super.onPreferenceStartFragment(caller, pref)
             requireActivity().title = pref.title
-        } else if (headerFragment.highlightedKey != pref.key) {
+        } else if (!(caller is MainPreferenceFragment) || headerFragment.highlightedKey != pref.key) {
             super.onPreferenceStartFragment(caller, pref)
         }
-        headerFragment.onLoadPreference(pref.key)
+        if (caller is MainPreferenceFragment) {
+            headerFragment.onLoadPreference(pref.key)
+        }
         return true
     }
 
@@ -51,8 +53,21 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
         slidingPaneLayout.doOnLayout {
             headerFragment.isSlideable = slidingPaneLayout.isSlideable
             if (slidingPaneLayout.isSlideable && slidingPaneLayout.isOpen) {
-                requireActivity().title = getDetailFragment<BasePreferenceFragment>()?.preferenceScreen?.title
+                ensureTitle()
             }
         }
     }
+
+    private fun ensureTitle() {
+        requireActivity().title = getDetailFragment<BasePreferenceFragment>()?.preferenceScreen?.title
+    }
+
+    fun doHome(): Boolean =
+        if (slidingPaneLayout.isSlideable) {
+            if (childFragmentManager.backStackEntryCount > 0) {
+                childFragmentManager.popBackStackImmediate()
+                ensureTitle()
+                true
+            } else slidingPaneLayout.closePane()
+        } else false
 }

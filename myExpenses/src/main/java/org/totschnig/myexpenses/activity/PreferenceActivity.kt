@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import androidx.activity.viewModels
-import androidx.fragment.app.Fragment
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.SettingsBinding
 import org.totschnig.myexpenses.fragment.PreferenceDataFragment
@@ -44,13 +43,11 @@ class PreferenceActivity : ProtectedFragmentActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu) = false
 
-    val twoPanePreference: TwoPanePreference
-        get() = binding.fragmentContainer.getFragment() as TwoPanePreference
+    private val twoPanePreference: TwoPanePreference
+        get() = binding.fragmentContainer.getFragment()
 
     override fun doHome() {
-        if(!twoPanePreference.slidingPaneLayout.closePane()) {
-            super.doHome()
-        }
+        if (!twoPanePreference.doHome()) super.doHome()
     }
 
     override fun dispatchCommand(command: Int, tag: Any?) =
