@@ -1,22 +1,207 @@
 package org.totschnig.myexpenses.fragment
 
+import android.content.Intent
+import android.content.pm.ShortcutInfo
+import android.content.pm.ShortcutManager
+import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.preference.ListPreference
 import androidx.preference.Preference
+import androidx.preference.TwoStatePreference
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.contract.TransactionsContract
+import org.totschnig.myexpenses.fragment.BaseSettingsFragment.Companion.compactItemRendererTitle
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.util.ShortcutHelper
+import org.totschnig.myexpenses.util.UiUtils
+import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import timber.log.Timber
+import java.text.DateFormatSymbols
+import java.util.Calendar
 import java.util.Locale
 
 class PreferenceUiFragment: BasePreferenceFragment() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences_ui, rootKey)
         unsetIconSpaceReservedRecursive(preferenceScreen)
+
+        requirePreference<TwoStatePreference>(PrefKey.UI_ITEM_RENDERER_LEGACY).let {
+            it.title = requireContext().compactItemRendererTitle()
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    preferenceDataStore.handleToggle(it)
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                preferenceDataStore.handleToggle(requirePreference(PrefKey.UI_ITEM_RENDERER_CATEGORY_ICON))
+            }
+        }
+
+        with(requirePreference<Preference>(PrefKey.SHORTCUT_CREATE_SPLIT)) {
+            if (licenceHandler.isContribEnabled) {
+                isEnabled = true
+            } else {
+                summary =
+                    ContribFeature.SPLIT_TRANSACTION.buildRequiresString(requireActivity())
+            }
+        }
+
+        with(requirePreference<Preference>(PrefKey.SHORTCUT_CREATE_TRANSFER)) {
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO) {
+                    val transferEnabled = viewModel.isTransferEnabled
+                    withContext(Dispatchers.Main) {
+                        if (transferEnabled) {
+                            isEnabled = true
+                        } else {
+
+                            summary =
+                                context.getString(R.string.dialog_command_disabled_insert_transfer)
+                        }
+                    }
+                }
+            }
+        }
+
+        with(requirePreference<ListPreference>(PrefKey.GROUP_WEEK_STARTS)) {
+            val locale = preferenceActivity.getLocale()
+            val dfs = DateFormatSymbols(locale)
+            val entries = arrayOfNulls<String>(7)
+            System.arraycopy(dfs.weekdays, 1, entries, 0, 7)
+            this.entries = entries
+            entryValues = arrayOf(
+                (Calendar.SUNDAY).toString(),
+                (Calendar.MONDAY).toString(),
+                (Calendar.TUESDAY).toString(),
+                (Calendar.WEDNESDAY).toString(),
+                (Calendar.THURSDAY).toString(),
+                (Calendar.FRIDAY).toString(),
+                (Calendar.SATURDAY).toString()
+            )
+            if (!prefHandler.isSet(PrefKey.GROUP_WEEK_STARTS)) {
+                value = (Utils.getFirstDayOfWeek(locale)).toString()
+            }
+        }
+
+        with(requirePreference<ListPreference>(PrefKey.GROUP_MONTH_STARTS)) {
+            val daysEntries = arrayOfNulls<String>(31)
+            val daysValues = arrayOfNulls<String>(31)
+            for (i in 1..31) {
+                daysEntries[i - 1] = Utils.toLocalizedString(i)
+                daysValues[i - 1] = (i).toString()
+            }
+            entries = daysEntries
+            entryValues = daysValues
+        }
     }
+
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+        return when {
+            matches(preference, PrefKey.SHORTCUT_CREATE_TRANSACTION) -> {
+                addShortcut(
+                    R.string.transaction, TransactionsContract.Transactions.TYPE_TRANSACTION,
+                    R.drawable.shortcut_create_transaction_icon_lollipop
+                )
+                true
+            }
+
+            matches(preference, PrefKey.SHORTCUT_CREATE_TRANSFER) -> {
+                addShortcut(
+                    R.string.transfer, TransactionsContract.Transactions.TYPE_TRANSFER,
+                    R.drawable.shortcut_create_transfer_icon_lollipop
+                )
+                true
+            }
+
+            matches(preference, PrefKey.SHORTCUT_CREATE_SPLIT) -> {
+                addShortcut(
+                    R.string.split_transaction, TransactionsContract.Transactions.TYPE_SPLIT,
+                    R.drawable.shortcut_create_split_icon_lollipop
+                )
+                true
+            }
+            else -> super.onPreferenceTreeClick(preference)
+        }
+    }
+
+    private fun addShortcut(
+        nameId: Int,
+        @TransactionsContract.Transactions.TransactionType operationType: Int,
+        @DrawableRes iconIdLegacy: Int
+    ) {
+        when {
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1 -> {
+                addShortcutLegacy(nameId, operationType, getBitmapForShortcut(iconIdLegacy))
+            }
+            //on Build.VERSION_CODES.N_MR1 we do not provide the feature
+            Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1 -> {
+                try {
+                    requireContext().getSystemService(ShortcutManager::class.java).requestPinShortcut(
+                        ShortcutInfo.Builder(
+                            requireContext(), when (operationType) {
+                                TransactionsContract.Transactions.TYPE_SPLIT -> ShortcutHelper.ID_SPLIT
+                                TransactionsContract.Transactions.TYPE_TRANSACTION -> ShortcutHelper.ID_TRANSACTION
+                                TransactionsContract.Transactions.TYPE_TRANSFER -> ShortcutHelper.ID_TRANSFER
+                                else -> throw IllegalStateException()
+                            }
+                        ).build(),
+                        null
+                    )
+                } catch (e: IllegalArgumentException) {
+                    Timber.w("requestPinShortcut failed for %d", operationType)
+                    CrashHandler.report(e)
+                }
+            }
+        }
+    }
+
+    // credits Financisto
+    // src/ru/orangesoftware/financisto/activity/PreferencesActivity.java
+    @Suppress("DEPRECATION")
+    private fun addShortcutLegacy(nameId: Int, operationType: Int, bitmap: Bitmap) {
+        val shortcutIntent =
+            ShortcutHelper.createIntentForNewTransaction(requireContext(), operationType)
+
+        val intent = Intent().apply {
+            putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
+            putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(nameId))
+            putExtra(Intent.EXTRA_SHORTCUT_ICON, bitmap)
+            action = "com.android.launcher.action.INSTALL_SHORTCUT"
+        }
+
+        if (Utils.isIntentReceiverAvailable(requireActivity(), intent)) {
+            requireActivity().sendBroadcast(intent)
+            preferenceActivity.showSnackBar(getString(R.string.pref_shortcut_added))
+        } else {
+            preferenceActivity.showSnackBar(getString(R.string.pref_shortcut_not_added))
+        }
+    }
+
+    private fun getBitmapForShortcut(@DrawableRes iconId: Int) = UiUtils.drawableToBitmap(
+        ResourcesCompat.getDrawable(
+            resources,
+            iconId,
+            null
+        )!!
+    )
 
     override fun onDisplayPreferenceDialog(preference: Preference) {
         if (preference is FontSizeDialogPreference) {

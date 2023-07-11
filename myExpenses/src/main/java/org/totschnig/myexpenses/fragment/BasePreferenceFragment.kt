@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.fragment
 
 import android.os.Bundle
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
@@ -10,6 +12,10 @@ import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.PreferenceDataStore
+import org.totschnig.myexpenses.util.licence.LicenceHandler
+import org.totschnig.myexpenses.util.tracking.Tracker
+import org.totschnig.myexpenses.viewmodel.SettingsViewModel
 import javax.inject.Inject
 
 abstract class BasePreferenceFragment: PreferenceFragmentCompat() {
@@ -20,7 +26,15 @@ abstract class BasePreferenceFragment: PreferenceFragmentCompat() {
     @Inject
     lateinit var prefHandler: PrefHandler
 
+    @Inject
+    lateinit var preferenceDataStore: PreferenceDataStore
+
+    @Inject
+    lateinit var licenceHandler: LicenceHandler
+
     val preferenceActivity get() = requireActivity() as PreferenceActivity
+
+    val viewModel: SettingsViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         with(requireActivity().injector) {
@@ -35,6 +49,20 @@ abstract class BasePreferenceFragment: PreferenceFragmentCompat() {
     fun <T : Preference> requirePreference(prefKey: PrefKey): T {
         return findPreference(prefKey)
             ?: throw IllegalStateException("Preference not found")
+    }
+
+    fun matches(preference: Preference, vararg prefKey: PrefKey) =
+        prefKey.any { prefHandler.getKey(it) == preference.key }
+
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+        trackPreferenceClick(preference)
+        return super.onPreferenceTreeClick(preference)
+    }
+
+    private fun trackPreferenceClick(preference: Preference) {
+        val bundle = Bundle()
+        bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, preference.key)
+        preferenceActivity.logEvent(Tracker.EVENT_PREFERENCE_CLICK, bundle)
     }
 
     fun unsetIconSpaceReservedRecursive(preferenceGroup: PreferenceGroup) {

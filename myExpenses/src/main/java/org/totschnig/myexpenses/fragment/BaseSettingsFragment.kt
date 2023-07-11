@@ -869,37 +869,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
             }
 
-            getKey(PrefKey.GROUPING_START_SCREEN) -> {
-                var startPref = requirePreference<ListPreference>(PrefKey.GROUP_WEEK_STARTS)
-                val locale = preferenceActivity.getLocale()
-                val dfs = DateFormatSymbols(locale)
-                val entries = arrayOfNulls<String>(7)
-                System.arraycopy(dfs.weekdays, 1, entries, 0, 7)
-                startPref.entries = entries
-                startPref.entryValues = arrayOf(
-                    (Calendar.SUNDAY).toString(),
-                    (Calendar.MONDAY).toString(),
-                    (Calendar.TUESDAY).toString(),
-                    (Calendar.WEDNESDAY).toString(),
-                    (Calendar.THURSDAY).toString(),
-                    (Calendar.FRIDAY).toString(),
-                    (Calendar.SATURDAY).toString()
-                )
-                if (!prefHandler.isSet(PrefKey.GROUP_WEEK_STARTS)) {
-                    startPref.value = (Utils.getFirstDayOfWeek(locale)).toString()
-                }
-
-                startPref = requirePreference(PrefKey.GROUP_MONTH_STARTS)
-                val daysEntries = arrayOfNulls<String>(31)
-                val daysValues = arrayOfNulls<String>(31)
-                for (i in 1..31) {
-                    daysEntries[i - 1] = Utils.toLocalizedString(i)
-                    daysValues[i - 1] = (i).toString()
-                }
-                startPref.entries = daysEntries
-                startPref.entryValues = daysValues
-            }
-
             getKey(PrefKey.CRASHREPORT_SCREEN) -> {
                 requirePreference<Preference>(PrefKey.ACRA_INFO).summary = Utils.getTextWithAppName(
                     context,

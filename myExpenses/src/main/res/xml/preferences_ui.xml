@@ -46,7 +46,7 @@
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="@string/pref_auto_fill_key"
-            android:summary="@string/pref_auto_fill_summary" />
+            android:title="@string/pref_auto_fill_summary" />
         <SwitchPreferenceCompat
             android:dependency="@string/pref_auto_fill_key"
             android:defaultValue="true"
@@ -106,13 +106,13 @@
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="@string/pref_scroll_to_current_date_key"
-            android:summary="@string/pref_scroll_to_current_date_summary" />
+            android:title="@string/pref_scroll_to_current_date_summary" />
 
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="@string/pref_group_header_show_details_key"
             android:persistent="false"
-            android:summary="@string/pref_group_header_show_details_summary" />
+            android:title="@string/pref_group_header_show_details_summary" />
 
     </PreferenceCategory>
 
