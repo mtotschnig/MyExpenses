@@ -5,6 +5,8 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
+import org.totschnig.myexpenses.activity.PreferenceActivity
+import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
@@ -13,7 +15,12 @@ import javax.inject.Inject
 abstract class BasePreferenceFragment: PreferenceFragmentCompat() {
 
     @Inject
+    lateinit var featureManager: FeatureManager
+
+    @Inject
     lateinit var prefHandler: PrefHandler
+
+    val preferenceActivity get() = requireActivity() as PreferenceActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         with(requireActivity().injector) {

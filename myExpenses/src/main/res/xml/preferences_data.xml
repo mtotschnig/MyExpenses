@@ -16,6 +16,7 @@
 <!--suppress AndroidElementNotAllowed -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:my="http://schemas.android.com/apk/res-auto"
+    android:title="@string/data"
     android:key="@string/pref_root_screen_key">
 
         <Preference

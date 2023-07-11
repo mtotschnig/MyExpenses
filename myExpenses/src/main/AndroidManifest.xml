@@ -222,7 +222,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:label="@string/menu_settings"
             android:name=".activity.PreferenceActivity"
             android:exported="false">
         </activity>

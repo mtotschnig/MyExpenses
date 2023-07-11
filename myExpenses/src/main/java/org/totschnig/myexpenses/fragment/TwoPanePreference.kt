@@ -14,28 +14,12 @@ import com.evernote.android.state.StateSaver
 
 class TwoPanePreference : PreferenceHeaderFragmentCompat() {
 
-    @State
-    var currentDetailTitle: CharSequence? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        savedInstanceState?.let {
-            StateSaver.restoreInstanceState(this, it)
-        }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        StateSaver.saveInstanceState(this, outState)
-    }
-
     override fun onCreatePreferenceHeader() = MainPreferenceFragment()
 
     override fun onPreferenceStartFragment(
         caller: PreferenceFragmentCompat,
         pref: Preference
     ): Boolean {
-        currentDetailTitle = pref.title
         if (headerFragment.isSlideable) {
             super.onPreferenceStartFragment(caller, pref)
             requireActivity().title = pref.title
@@ -48,6 +32,10 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
 
     private val headerFragment: MainPreferenceFragment
         get() = childFragmentManager.findFragmentById(R.id.preferences_header) as MainPreferenceFragment
+
+    @Suppress("UNCHECKED_CAST")
+    fun <F : Fragment?> getDetailFragment(): F? = childFragmentManager
+        .findFragmentById(R.id.preferences_detail) as? F
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -63,7 +51,7 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
         slidingPaneLayout.doOnLayout {
             headerFragment.isSlideable = slidingPaneLayout.isSlideable
             if (slidingPaneLayout.isSlideable && slidingPaneLayout.isOpen) {
-                requireActivity().title = currentDetailTitle
+                requireActivity().title = getDetailFragment<BasePreferenceFragment>()?.preferenceScreen?.title
             }
         }
     }

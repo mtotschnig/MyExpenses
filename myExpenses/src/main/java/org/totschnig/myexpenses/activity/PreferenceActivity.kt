@@ -29,6 +29,7 @@ class PreferenceActivity : ProtectedFragmentActivity() {
         binding = SettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupToolbar()
+        title = getString(R.string.menu_settings)
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
@@ -37,14 +38,14 @@ class PreferenceActivity : ProtectedFragmentActivity() {
         }
     }
 
+    override fun setTitle(title: CharSequence?) {
+        supportActionBar!!.title = title
+    }
+
     override fun onCreateOptionsMenu(menu: Menu) = false
 
     val twoPanePreference: TwoPanePreference
         get() = binding.fragmentContainer.getFragment() as TwoPanePreference
-
-    @Suppress("UNCHECKED_CAST")
-    private fun <F : Fragment?> getFragment(): F? = twoPanePreference.childFragmentManager
-            .findFragmentById(androidx.preference.R.id.preferences_detail) as? F
 
     override fun doHome() {
         if(!twoPanePreference.slidingPaneLayout.closePane()) {
@@ -58,7 +59,7 @@ class PreferenceActivity : ProtectedFragmentActivity() {
 
             R.id.CHANGE_COMMAND -> {
                 val currencyCode = tag as String
-                val dataFragment = getFragment<PreferenceDataFragment>()
+                val dataFragment: PreferenceDataFragment? = twoPanePreference.getDetailFragment()
                 if (dataFragment != null) {
                     dataFragment.updateHomeCurrency(currencyCode)
                 } else {
