@@ -15,22 +15,22 @@
  -->
 <!--suppress AndroidElementNotAllowed -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="@string/pref_category_title_import"
-    android:key="@string/pref_root_screen_key">
+    android:key="@string/pref_root_screen_key"
+    android:title="@string/pref_category_title_import">
 
-        <Preference android:key="@string/pref_import_csv_key" />
-        <Preference android:key="@string/pref_import_qif_key">
-            <intent
-                android:targetClass="org.totschnig.myexpenses.activity.QifImport"
-                android:targetPackage="@string/application_id" />
-        </Preference>
-        <Preference
-            android:key="import_from_grisbi"
-            android:summary="@string/pref_import_from_grisbi_summary"
-            android:title="@string/pref_import_from_grisbi_title">
+    <Preference android:key="@string/pref_import_csv_key" />
+    <Preference android:key="@string/pref_import_qif_key">
+        <intent
+            android:targetClass="org.totschnig.myexpenses.activity.QifImport"
+            android:targetPackage="@string/application_id" />
+    </Preference>
+    <Preference
+        android:key="import_from_grisbi"
+        android:summary="@string/pref_import_from_grisbi_summary"
+        android:title="@string/pref_import_from_grisbi_title">
 
-            <intent
-                android:targetClass="org.totschnig.myexpenses.activity.GrisbiImport"
-                android:targetPackage="@string/application_id" />
-        </Preference>
+        <intent
+            android:targetClass="org.totschnig.myexpenses.activity.GrisbiImport"
+            android:targetPackage="@string/application_id" />
+    </Preference>
 </PreferenceScreen>

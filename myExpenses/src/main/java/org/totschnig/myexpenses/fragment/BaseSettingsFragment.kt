@@ -181,18 +181,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             inject(this@BaseSettingsFragment)
         }
 
-        viewModel.appDirInfo.observe(this) { result ->
-            val pref = requirePreference<Preference>(PrefKey.APP_DIR)
-            result.onSuccess { appDirInfo ->
-                pref.summary = if (appDirInfo.isWriteable) {
-                    appDirInfo.displayName
-                } else {
-                    getString(R.string.app_dir_not_accessible, appDirInfo.documentFile.uri)
-                }
-            }.onFailure {
-                pref.setSummary(R.string.io_error_appdir_null)
-            }
-        }
         if (onScreen(PrefKey.UI_WEB)) {
             webUiViewModel.getServiceState().observe(this) { result ->
                 preferenceActivity.supportActionBar?.let { actionBar ->
@@ -729,9 +717,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             null -> { //ROOT screen
                 requirePreference<Preference>(PrefKey.UI_WEB).onPreferenceChangeListener = this
 
-                requirePreference<PreferenceCategory>(PrefKey.CATEGORY_BACKUP_EXPORT).title =
-                    getString(R.string.pref_category_title_export) + " / " + getString(R.string.menu_backup)
-
                 requirePreference<Preference>(PrefKey.CSV_EXPORT).title =
                     getString(R.string.export_to_format, "CSV")
 
@@ -748,8 +733,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 lifecycleScope.launchWhenStarted {
                     preferenceDataStore.handleList(requirePreference(PrefKey.CRITERION_FUTURE))
                 }
-
-                loadAppDirSummary()
 
                 lifecycleScope.launchWhenStarted {
                     viewModel.hasStaleImages.collect { result ->
@@ -1199,32 +1182,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 true
             }
 
-            matches(preference, PrefKey.APP_DIR) -> {
-                val appDirInfo = viewModel.appDirInfo.value?.getOrNull()
-                if (appDirInfo?.isDefault == false) {
-                    (preference as PopupMenuPreference).showPopupMenu(
-                        {
-                            when(it.itemId) {
-                            0 -> {
-                                prefHandler.putString(PrefKey.APP_DIR, null)
-                                loadAppDirSummary()
-                                viewModel.loadAppData()
-                                true
-                            }
-                            1 -> {
-                                pickAppDir(appDirInfo)
-                                true
-                            }
-                                else -> false
-                            }
-                        }, getString(R.string.checkbox_is_default), getString(R.string.select)
-                    )
-                } else {
-                    pickAppDir(appDirInfo)
-                }
-                true
-            }
-
             matches(preference, PrefKey.NEW_LICENCE) -> {
                 if (licenceHandler.hasValidKey()) {
                     SimpleDialog.build()
@@ -1284,26 +1241,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
 
             else -> false
-        }
-    }
-
-    private fun pickAppDir(appDirInfo: SettingsViewModel.AppDirInfo?) {
-        // TODO migrate to ActivityResultContracts.OpenDocumentTree
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
-            appDirInfo?.documentFile?.uri?.let {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    putExtra(DocumentsContract.EXTRA_INITIAL_URI, it)
-                }
-            }
-        }
-        try {
-            pickFolderRequestStart = System.currentTimeMillis()
-            startActivityForResult(
-                intent,
-                PICK_FOLDER_REQUEST
-            )
-        } catch (e: ActivityNotFoundException) {
-            reportException(e)
         }
     }
 
@@ -1441,7 +1378,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         const val DIALOG_SHARE_LOGS = "shareLogs"
         const val KEY_EMAIL = "email"
         const val KEY_KEY = "key"
-        const val PICK_FOLDER_REQUEST = 2
         private const val CONTRIB_PURCHASE_REQUEST = 3
         const val KEY_CHECKED_FILES = "checkedFiles"
 

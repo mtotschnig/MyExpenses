@@ -144,21 +144,6 @@ public class SettingsFragment extends BaseSettingsFragment {
     if (requestCode == RESTORE_REQUEST && resultCode == RESULT_RESTORE_OK) {
       requireActivity().setResult(resultCode);
       requireActivity().finish();
-    } else if (requestCode == PICK_FOLDER_REQUEST) {
-      if (resultCode == Activity.RESULT_OK) {
-        Uri dir = intent.getData();
-        requireActivity().getContentResolver().takePersistableUriPermission(dir,
-            Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        prefHandler.putString(APP_DIR, dir.toString());
-        loadAppDirSummary();
-      } else {
-        //we try to determine if we get here due to abnormal failure (observed on Xiaomi) of request, or if user canceled
-        long pickFolderRequestDuration = System.currentTimeMillis() - getPickFolderRequestStart();
-        if (pickFolderRequestDuration < 250) {
-          reportException(new IllegalStateException(String.format(Locale.ROOT, "PICK_FOLDER_REQUEST returned after %d millis with request code %d",
-              pickFolderRequestDuration, requestCode)));
-        }
-      }
     }
   }
 

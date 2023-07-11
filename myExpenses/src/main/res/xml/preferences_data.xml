@@ -16,47 +16,47 @@
 <!--suppress AndroidElementNotAllowed -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:my="http://schemas.android.com/apk/res-auto"
-    android:title="@string/data"
-    android:key="@string/pref_root_screen_key">
+    android:key="@string/pref_root_screen_key"
+    android:title="@string/data">
 
-        <Preference
-            android:key="manage_categories"
-            android:summary="@string/pref_manage_categories_summary"
-            android:title="@string/pref_manage_categories_title">
-            <intent
-                android:action="MANAGE"
-                android:targetClass="org.totschnig.myexpenses.activity.ManageCategories"
-                android:targetPackage="@string/application_id" />
-        </Preference>
-        <Preference
-            android:key="manage_methods"
-            android:summary="@string/pref_manage_methods_summary"
-            android:title="@string/pref_manage_methods_title">
-            <intent
-                android:targetClass="org.totschnig.myexpenses.activity.ManageMethods"
-                android:targetPackage="@string/application_id" />
-        </Preference>
-        <Preference
-            android:key="@string/pref_manage_stale_images_key"
-            android:summary="@string/pref_manage_stale_images_summary"
-            android:title="@string/pref_manage_stale_images_title"
-            my:isPreferenceVisible="false">
-            <intent
-                android:targetClass="org.totschnig.myexpenses.activity.ManageStaleImages"
-                android:targetPackage="@string/application_id" />
-        </Preference>
-        <ListPreference
-            android:enabled="false"
-            android:key="@string/pref_home_currency_key"
-            android:title="@string/pref_home_currency_title"
-            my:useSimpleSummaryProvider="true" />
-        <Preference
-            android:key="manage_tags"
-            android:summary="@string/pref_manage_tags_summary"
-            android:title="@string/tags">
-            <intent
-                android:action="MANAGE"
-                android:targetClass="org.totschnig.myexpenses.activity.ManageTags"
-                android:targetPackage="@string/application_id" />
-        </Preference>
+    <Preference
+        android:key="manage_categories"
+        android:summary="@string/pref_manage_categories_summary"
+        android:title="@string/pref_manage_categories_title">
+        <intent
+            android:action="MANAGE"
+            android:targetClass="org.totschnig.myexpenses.activity.ManageCategories"
+            android:targetPackage="@string/application_id" />
+    </Preference>
+    <Preference
+        android:key="manage_methods"
+        android:summary="@string/pref_manage_methods_summary"
+        android:title="@string/pref_manage_methods_title">
+        <intent
+            android:targetClass="org.totschnig.myexpenses.activity.ManageMethods"
+            android:targetPackage="@string/application_id" />
+    </Preference>
+    <Preference
+        android:key="@string/pref_manage_stale_images_key"
+        android:summary="@string/pref_manage_stale_images_summary"
+        android:title="@string/pref_manage_stale_images_title"
+        my:isPreferenceVisible="false">
+        <intent
+            android:targetClass="org.totschnig.myexpenses.activity.ManageStaleImages"
+            android:targetPackage="@string/application_id" />
+    </Preference>
+    <ListPreference
+        android:enabled="false"
+        android:key="@string/pref_home_currency_key"
+        android:title="@string/pref_home_currency_title"
+        my:useSimpleSummaryProvider="true" />
+    <Preference
+        android:key="manage_tags"
+        android:summary="@string/pref_manage_tags_summary"
+        android:title="@string/tags">
+        <intent
+            android:action="MANAGE"
+            android:targetClass="org.totschnig.myexpenses.activity.ManageTags"
+            android:targetPackage="@string/application_id" />
+    </Preference>
 </PreferenceScreen> 

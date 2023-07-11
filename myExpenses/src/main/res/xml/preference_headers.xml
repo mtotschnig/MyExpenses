@@ -32,7 +32,8 @@
         android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesImportFragment"
         android:title="@string/pref_category_title_import" />
 
-    <Preference android:key="@string/pref_category_export_backup_key" />
+    <Preference android:key="@string/pref_category_export_backup_key"
+        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesExportFragment" />
 
     <Preference android:title="@string/pref_category_title_features" />
 
