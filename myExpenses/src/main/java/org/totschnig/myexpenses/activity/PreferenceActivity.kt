@@ -143,15 +143,25 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
                     )
             }
             getKey(PrefKey.OCR_ENGINE) -> {
-                if (!featureManager.isFeatureInstalled(Feature.OCR, this)) {
-                    featureManager.requestFeature(Feature.OCR, this)
-                }
+                checkOcrFeature()
                 twoPanePreference.getDetailFragment<PreferencesOcrFragment>()
                     ?.configureOcrEnginePrefs()
             }
             getKey(PrefKey.TESSERACT_LANGUAGE) -> {
                 checkTessDataDownload()
             }
+            getKey(PrefKey.MLKIT_SCRIPT) -> {
+                checkOcrFeature()
+            }
+        }
+    }
+
+    /**
+     * checks and requests OCR + engine + (script for mlkit)
+     */
+    private fun checkOcrFeature() {
+        if (!featureManager.isFeatureInstalled(Feature.OCR, this)) {
+            featureManager.requestFeature(Feature.OCR, this)
         }
     }
 
