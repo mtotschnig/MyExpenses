@@ -113,34 +113,32 @@ class PreferenceUiFragment: BasePreferenceFragment() {
         }
     }
 
-    override fun onPreferenceTreeClick(preference: Preference): Boolean {
-        return when {
-            super.onPreferenceTreeClick(preference) -> true
-            matches(preference, PrefKey.SHORTCUT_CREATE_TRANSACTION) -> {
-                addShortcut(
-                    R.string.transaction, TransactionsContract.Transactions.TYPE_TRANSACTION,
-                    R.drawable.shortcut_create_transaction_icon_lollipop
-                )
-                true
-            }
-
-            matches(preference, PrefKey.SHORTCUT_CREATE_TRANSFER) -> {
-                addShortcut(
-                    R.string.transfer, TransactionsContract.Transactions.TYPE_TRANSFER,
-                    R.drawable.shortcut_create_transfer_icon_lollipop
-                )
-                true
-            }
-
-            matches(preference, PrefKey.SHORTCUT_CREATE_SPLIT) -> {
-                addShortcut(
-                    R.string.split_transaction, TransactionsContract.Transactions.TYPE_SPLIT,
-                    R.drawable.shortcut_create_split_icon_lollipop
-                )
-                true
-            }
-            else -> false
+    override fun onPreferenceTreeClick(preference: Preference) = when {
+        super.onPreferenceTreeClick(preference) -> true
+        matches(preference, PrefKey.SHORTCUT_CREATE_TRANSACTION) -> {
+            addShortcut(
+                R.string.transaction, TransactionsContract.Transactions.TYPE_TRANSACTION,
+                R.drawable.shortcut_create_transaction_icon_lollipop
+            )
+            true
         }
+
+        matches(preference, PrefKey.SHORTCUT_CREATE_TRANSFER) -> {
+            addShortcut(
+                R.string.transfer, TransactionsContract.Transactions.TYPE_TRANSFER,
+                R.drawable.shortcut_create_transfer_icon_lollipop
+            )
+            true
+        }
+
+        matches(preference, PrefKey.SHORTCUT_CREATE_SPLIT) -> {
+            addShortcut(
+                R.string.split_transaction, TransactionsContract.Transactions.TYPE_SPLIT,
+                R.drawable.shortcut_create_split_icon_lollipop
+            )
+            true
+        }
+        else -> false
     }
 
     private fun addShortcut(

@@ -13,9 +13,11 @@ import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.fragment.BaseSettingsFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferenceDataFragment
 import org.totschnig.myexpenses.fragment.TwoPanePreference
+import org.totschnig.myexpenses.fragment.preferences.PreferencesExchangeRateFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.service.AutoBackupWorker
 import org.totschnig.myexpenses.util.setNightMode
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
@@ -129,6 +131,15 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
                     showUnencryptedBackupWarning()
                 }
                 AutoBackupWorker.enqueueOrCancel(this, prefHandler)
+            }
+
+            getKey(PrefKey.EXCHANGE_RATE_PROVIDER) -> {
+                twoPanePreference.getDetailFragment<PreferencesExchangeRateFragment>()
+                    ?.configureExchangeRatesPreference(
+                        ExchangeRateSource.preferredSource(
+                            sharedPreferences.getString(key, null)
+                        )
+                    )
             }
         }
     }

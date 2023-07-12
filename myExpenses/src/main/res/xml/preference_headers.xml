@@ -38,6 +38,7 @@
 
     <PreferenceCategory android:title="@string/pref_category_title_features">
         <Preference
+            android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesExchangeRateFragment"
             android:key="@string/pref_exchange_rates_key"
             android:title="@string/pref_category_exchange_rates"/>
         <Preference

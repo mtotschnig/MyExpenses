@@ -338,14 +338,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 preferenceActivity.showSnackBar(R.string.app_restart_required)
             }
 
-            getKey(PrefKey.EXCHANGE_RATE_PROVIDER) -> {
-                configureExchangeRatesPreference(
-                    ExchangeRateSource.preferredSource(
-                        sharedPreferences.getString(key, null)
-                    )
-                )
-            }
-
             getKey(PrefKey.CUSTOM_DECIMAL_FORMAT) -> {
                 currencyFormatter.invalidateAll(requireContext().contentResolver)
             }
@@ -889,18 +881,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 configureUninstallPrefs()
             }
 
-            getKey(PrefKey.EXCHANGE_RATES) -> {
-                with(requirePreference<ListPreference>(PrefKey.EXCHANGE_RATE_PROVIDER)) {
-                    entries = ExchangeRateSource.values.map { it.host }.toTypedArray()
-                    entryValues = ExchangeRateSource.values.map { it.id }.toTypedArray()
-                }
-                arrayOf(ExchangeRateSource.OpenExchangeRates, ExchangeRateSource.CoinApi).forEach {
-                    requirePreference<Preference>(it.prefKey).summary =
-                        getString(R.string.pref_exchange_rates_api_key_summary, it.host)
-                }
-                configureExchangeRatesPreference(ExchangeRateSource.preferredSource(prefHandler))
-            }
-
             getKey(PrefKey.DEBUG_SCREEN) -> {
                 requirePreference<Preference>(PrefKey.CRASHLYTICS_USER_ID).let {
                     if (DistributionHelper.isGithub ||
@@ -945,12 +925,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         val language = locale.language.lowercase(Locale.US)
         val country = locale.country.lowercase(Locale.US)
         return preferenceActivity.getTranslatorsArrayResId(language, country)
-    }
-
-    private fun configureExchangeRatesPreference(provider: ExchangeRateSource) {
-        arrayOf(ExchangeRateSource.OpenExchangeRates, ExchangeRateSource.CoinApi).forEach {
-            requirePreference<Preference>(it.prefKey).isVisible = provider == it
-        }
     }
 
     private fun getBitmapForShortcut(@DrawableRes iconId: Int) = UiUtils.drawableToBitmap(
@@ -1191,13 +1165,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                         null
                     )
                         .show(parentFragmentManager, "INSPECT")
-                }
-                true
-            }
-
-            matches(preference, PrefKey.EXCHANGE_RATES_CLEAR_CACHE) -> {
-                viewModel.clearExchangeRateCache().observe(this) {
-                    preferenceActivity.showSnackBar("${getString(R.string.clear_cache)} ($it)")
                 }
                 true
             }

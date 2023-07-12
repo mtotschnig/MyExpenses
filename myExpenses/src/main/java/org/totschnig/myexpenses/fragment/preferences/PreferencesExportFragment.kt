@@ -18,7 +18,8 @@ import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
 import timber.log.Timber
 
-class PreferencesExportFragment: BasePreferenceFragment(), MultiSelectListPreferenceDialogFragment2.OnClickListener {
+class PreferencesExportFragment: BasePreferenceFragment(),
+    MultiSelectListPreferenceDialogFragment2.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,36 +113,34 @@ class PreferencesExportFragment: BasePreferenceFragment(), MultiSelectListPrefer
         }
     }
 
-    override fun onPreferenceTreeClick(preference: Preference): Boolean {
-        return when {
-            super.onPreferenceTreeClick(preference) -> true
-            matches(preference, PrefKey.APP_DIR) -> {
-                val appDirInfo = viewModel.appDirInfo.value?.getOrNull()
-                if (appDirInfo?.isDefault == false) {
-                    (preference as PopupMenuPreference).showPopupMenu(
-                        {
-                            when(it.itemId) {
-                                0 -> {
-                                    prefHandler.putString(PrefKey.APP_DIR, null)
-                                    loadAppDirSummary()
-                                    viewModel.loadAppData()
-                                    true
-                                }
-                                1 -> {
-                                    pickAppDir(appDirInfo)
-                                    true
-                                }
-                                else -> false
+    override fun onPreferenceTreeClick(preference: Preference) = when {
+        super.onPreferenceTreeClick(preference) -> true
+        matches(preference, PrefKey.APP_DIR) -> {
+            val appDirInfo = viewModel.appDirInfo.value?.getOrNull()
+            if (appDirInfo?.isDefault == false) {
+                (preference as PopupMenuPreference).showPopupMenu(
+                    {
+                        when(it.itemId) {
+                            0 -> {
+                                prefHandler.putString(PrefKey.APP_DIR, null)
+                                loadAppDirSummary()
+                                viewModel.loadAppData()
+                                true
                             }
-                        }, getString(R.string.checkbox_is_default), getString(R.string.select)
-                    )
-                } else {
-                    pickAppDir(appDirInfo)
-                }
-                true
+                            1 -> {
+                                pickAppDir(appDirInfo)
+                                true
+                            }
+                            else -> false
+                        }
+                    }, getString(R.string.checkbox_is_default), getString(R.string.select)
+                )
+            } else {
+                pickAppDir(appDirInfo)
             }
-            else -> false
+            true
         }
+        else -> false
     }
 
     private val pickFolder = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) {
