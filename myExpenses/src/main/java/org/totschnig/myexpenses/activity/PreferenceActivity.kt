@@ -149,12 +149,15 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
                 twoPanePreference.getDetailFragment<PreferencesOcrFragment>()
                     ?.configureOcrEnginePrefs()
             }
+            getKey(PrefKey.TESSERACT_LANGUAGE) -> {
+                checkTessDataDownload()
+            }
         }
     }
 
     override fun onFeatureAvailable(feature: Feature) {
         super.onFeatureAvailable(feature)
-        if (feature == Feature.OCR) {
+        if (feature in listOf(Feature.OCR, Feature.MLKIT, Feature.TESSERACT)) {
             twoPanePreference.getDetailFragment<PreferencesOcrFragment>()?.configureOcrEnginePrefs()
         }
     }

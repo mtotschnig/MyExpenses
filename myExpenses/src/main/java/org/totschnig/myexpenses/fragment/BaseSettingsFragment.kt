@@ -2,9 +2,7 @@ package org.totschnig.myexpenses.fragment
 
 import android.app.KeyguardManager
 import android.appwidget.AppWidgetProvider
-import android.content.ActivityNotFoundException
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
@@ -15,10 +13,8 @@ import android.icu.text.ListFormatter
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.DocumentsContract
 import android.text.TextUtils.isEmpty
 import android.text.TextUtils.join
-import android.text.format.Formatter
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -26,7 +22,6 @@ import android.view.MenuItem.SHOW_AS_ACTION_ALWAYS
 import android.widget.CompoundButton
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
@@ -43,7 +38,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.MyApplication.DEFAULT_LANGUAGE
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.*
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
@@ -58,12 +52,10 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.*
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference.OnValidationErrorListener
 import org.totschnig.myexpenses.preference.PreferenceDataStore
-import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.service.AutoBackupWorker
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.*
-import org.totschnig.myexpenses.util.AppDirHelper.ensureContentUri
 import org.totschnig.myexpenses.util.AppDirHelper.getContentUriForFile
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
@@ -78,7 +70,6 @@ import org.totschnig.myexpenses.viewmodel.SettingsViewModel
 import org.totschnig.myexpenses.viewmodel.ShareViewModel
 import org.totschnig.myexpenses.viewmodel.ShareViewModel.Companion.parseUri
 import org.totschnig.myexpenses.viewmodel.WebUiViewModel
-import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.widget.AccountWidget
 import org.totschnig.myexpenses.widget.TemplateWidget
 import org.totschnig.myexpenses.widget.WIDGET_CONTEXT_CHANGED
@@ -86,13 +77,6 @@ import org.totschnig.myexpenses.widget.updateWidgets
 import timber.log.Timber
 import java.io.File
 import java.net.URI
-import java.text.DateFormatSymbols
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.chrono.IsoChronology
-import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeFormatterBuilder
-import java.time.format.FormatStyle
 import java.util.*
 import javax.inject.Inject
 
@@ -389,10 +373,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
             getKey(PrefKey.PLANNER_EXECUTION_TIME) -> {
                 preferenceActivity.enqueuePlanner(false)
-            }
-
-            getKey(PrefKey.TESSERACT_LANGUAGE) -> {
-                preferenceActivity.checkTessDataDownload()
             }
 
             getKey(PrefKey.OPTIMIZE_PICTURE_FORMAT) -> {

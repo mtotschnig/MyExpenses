@@ -41,25 +41,6 @@ class OcrViewModel(application: Application) : AndroidViewModel(application) {
         ocrFeature.handleData(intent, fragmentManager)
     }
 
-    fun getScanFiles(action: (file: Pair<Uri, Uri>) -> Unit) {
-        viewModelScope.launch {
-            action(withContext(Dispatchers.IO) {
-                Pair(
-                    PictureDirHelper.getOutputMediaUri(
-                        temp = true,
-                        application = getApplication(),
-                        fileName = "SCAN"
-                    ),
-                    PictureDirHelper.getOutputMediaUri(
-                        temp = true,
-                        application = getApplication(),
-                        fileName = "SCAN_CROPPED"
-                    )
-                )
-            })
-        }
-    }
-
     fun offerTessDataDownload(baseActivity: BaseActivity) {
         ocrFeature.offerInstall(baseActivity)
     }
