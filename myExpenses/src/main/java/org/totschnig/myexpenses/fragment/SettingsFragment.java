@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.fragment;
 import static org.totschnig.myexpenses.activity.ConstantsKt.RESTORE_REQUEST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESULT_RESTORE_OK;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
-import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_CLOUD;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_FILL_SWITCH;
 import static org.totschnig.myexpenses.preference.PrefKey.OPTIMIZE_PICTURE;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION_SCREEN;
@@ -23,7 +22,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.DialogFragment;
-import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceScreen;
 

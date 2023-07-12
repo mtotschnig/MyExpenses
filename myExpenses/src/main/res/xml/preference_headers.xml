@@ -50,6 +50,7 @@
             android:key="@string/pref_sync_key"
             android:title="@string/synchronization"/>
         <Preference
+            android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesWebUiFragment"
             android:key="@string/pref_web_ui_key"
             android:title="@string/title_webui"/>
         <Preference android:key="@string/pref_csv_export_key"/>

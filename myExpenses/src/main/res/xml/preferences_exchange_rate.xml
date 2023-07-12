@@ -16,8 +16,8 @@
 <!--suppress AndroidElementNotAllowed -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:my="http://schemas.android.com/apk/res-auto"
-    android:key="@string/pref_root_screen_key"
     android:title="@string/pref_category_exchange_rates">
+    <org.totschnig.myexpenses.preference.HeaderPreference />
     <ListPreference
         android:defaultValue="EXCHANGE_RATE_HOST"
         android:key="@string/pref_exchange_rate_provider_key"

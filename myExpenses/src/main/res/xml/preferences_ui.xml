@@ -16,9 +16,8 @@
 <!--suppress AndroidElementNotAllowed -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:my="http://schemas.android.com/apk/res-auto"
-    android:title="@string/pref_category_title_ui"
-    android:key="@string/pref_root_screen_key">
-
+    android:title="@string/pref_category_title_ui">
+    <org.totschnig.myexpenses.preference.HeaderPreference />
     <ListPreference
         android:defaultValue="@string/pref_ui_theme_default"
         android:entries="@array/pref_ui_theme_entries"

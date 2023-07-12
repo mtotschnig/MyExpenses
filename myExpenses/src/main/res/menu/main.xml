@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -38,18 +37,15 @@
         android:id="@id/SHARE_COMMAND"
         android:orderInCategory="40"
         android:title="@string/menu_share"
-        app:showAsAction="never">
-    </item>
+        app:showAsAction="never" />
     <item
         android:id="@id/SETTINGS_COMMAND"
         android:orderInCategory="40"
-        app:showAsAction="never"
-        android:title="@string/menu_settings">
-    </item>
+        android:title="@string/menu_settings"
+        app:showAsAction="never" />
     <item
         android:id="@id/BACKUP_COMMAND"
         android:orderInCategory="40"
-        app:showAsAction="never"
-        android:title="@string/menu_backup">
-    </item>
+        android:title="@string/menu_backup"
+        app:showAsAction="never" />
 </menu>

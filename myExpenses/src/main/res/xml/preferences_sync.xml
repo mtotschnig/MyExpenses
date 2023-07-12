@@ -2,8 +2,8 @@
 <!--suppress AndroidElementNotAllowed -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:my="http://schemas.android.com/apk/res-auto"
-    android:key="@string/pref_sync_key"
     android:title="@string/synchronization">
+    <org.totschnig.myexpenses.preference.HeaderPreference />
     <Preference
         android:key="@string/pref_manage_sync_backends_key"
         android:title="@string/pref_manage_sync_backends_title">

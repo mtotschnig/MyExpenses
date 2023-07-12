@@ -15,9 +15,8 @@
  -->
 <!--suppress AndroidElementNotAllowed -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:my="http://schemas.android.com/apk/res-auto"
-    android:key="@string/pref_root_screen_key">
-
+    xmlns:my="http://schemas.android.com/apk/res-auto">
+    <org.totschnig.myexpenses.preference.HeaderPreference />
     <MultiSelectListPreference
         android:key="@string/pref_export_manage_files_key"
         android:negativeButtonText="@string/menu_delete"

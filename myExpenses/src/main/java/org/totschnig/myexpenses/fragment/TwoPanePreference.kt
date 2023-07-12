@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.doOnLayout
-import androidx.fragment.app.Fragment
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceHeaderFragmentCompat
@@ -36,7 +35,7 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
         get() = childFragmentManager.findFragmentById(R.id.preferences_header) as MainPreferenceFragment
 
     @Suppress("UNCHECKED_CAST")
-    fun <F : Fragment?> getDetailFragment(): F? = childFragmentManager
+    fun <F : BasePreferenceFragment?> getDetailFragment(): F? = childFragmentManager
         .findFragmentById(R.id.preferences_detail) as? F
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,7 +58,10 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
     }
 
     private fun ensureTitle() {
-        requireActivity().title = getDetailFragment<BasePreferenceFragment>()?.preferenceScreen?.title
+        getDetailFragment<BasePreferenceFragment>()?.let {
+            requireActivity().title = it.preferenceScreen?.title
+            it.headerPreference?.isVisible = false
+        }
     }
 
     fun doHome(): Boolean =

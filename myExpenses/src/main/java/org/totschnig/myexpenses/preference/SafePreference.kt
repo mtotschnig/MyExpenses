@@ -9,7 +9,7 @@ import androidx.preference.Preference
 import org.totschnig.myexpenses.util.safeMessage
 import java.lang.Exception
 
-class SafePreference constructor(
+class SafePreference(
     context: Context,
     attrs: AttributeSet
 ) : Preference(context, attrs) {

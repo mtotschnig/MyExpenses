@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--suppress AndroidElementNotAllowed -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:my="http://schemas.android.com/apk/res-auto"
-    android:key="@string/pref_root_screen_key">
+    xmlns:my="http://schemas.android.com/apk/res-auto" android:title="@string/title_scan_receipt_feature">
+    <org.totschnig.myexpenses.preference.HeaderPreference />
     <EditTextPreference
         android:key="@string/pref_ocr_total_indicators_key"
         android:summary="@string/pref_ocr_total_indicators_summary"

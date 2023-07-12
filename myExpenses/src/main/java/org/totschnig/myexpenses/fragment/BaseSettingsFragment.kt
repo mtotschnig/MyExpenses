@@ -108,7 +108,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     @Inject
     lateinit var tracker: Tracker
 
-    private val webUiViewModel: WebUiViewModel by viewModels()
     private val currencyViewModel: CurrencyViewModel by viewModels()
     private val viewModel: SettingsViewModel by viewModels()
 
@@ -162,55 +161,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             inject(this@BaseSettingsFragment)
         }
 
-        if (onScreen(PrefKey.UI_WEB)) {
-            webUiViewModel.getServiceState().observe(this) { result ->
-                preferenceActivity.supportActionBar?.let { actionBar ->
-                    (actionBar.customView as? SwitchCompat)?.let { switch ->
-                        result.onSuccess { serverAddress ->
-                            actionBar.subtitle = serverAddress
-                            if (switch.isChecked && serverAddress == null) {
-                                switch.isChecked = false
-                            }
-                        }.onFailure {
-                            if (switch.isChecked) switch.isChecked = false
-                            preferenceActivity.showSnackBar(it.safeMessage)
-                        }
-                    }
-                }
-            }
-        }
         setHasOptionsMenu(onScreen(PrefKey.PERFORM_SHARE, PrefKey.UI_WEB))
-    }
-
-    override fun onStart() {
-        super.onStart()
-        if (onScreen(PrefKey.UI_WEB) && featureManager.isFeatureInstalled(
-                Feature.WEBUI,
-                requireContext()
-            )
-        ) {
-            bindToWebUiService()
-        }
-    }
-
-    fun bindToWebUiService() {
-        webUiViewModel.bind(requireContext())
-    }
-
-    fun activateWebUi() {
-        prefHandler.putBoolean(PrefKey.UI_WEB, true)
-        (preferenceActivity.supportActionBar?.customView as? SwitchCompat)?.let {
-            it.setOnCheckedChangeListener(null)
-            it.isChecked = true
-            it.setOnCheckedChangeListener(masterSwitchChangeLister)
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if (featureManager.isFeatureInstalled(Feature.WEBUI, requireContext())) {
-            webUiViewModel.unbind(requireContext())
-        }
     }
 
     override fun onResume() {
@@ -278,16 +229,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     fun requireApplication(): MyApplication {
         return (requireActivity().application as MyApplication)
     }
-
-    private fun handleContrib(prefKey: PrefKey, feature: ContribFeature, preference: Preference) =
-        if (matches(preference, prefKey)) {
-            if (licenceHandler.hasAccessTo(feature)) {
-                preferenceActivity.contribFeatureCalled(feature, null)
-            } else {
-                preferenceActivity.showContribDialog(feature, null)
-            }
-            true
-        } else false
 
     private fun onScreen(vararg prefKey: PrefKey) = matches(preferenceScreen, *prefKey)
 
@@ -426,27 +367,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     }
                 }
                 return true
-            }
-
-            matches(pref, PrefKey.UI_WEB) -> {
-                return if (value as Boolean) {
-                    if (!isConnectedWifi(requireContext())) {
-                        preferenceActivity.showSnackBar(getString(R.string.no_network) + " (WIFI)")
-                        return false
-                    }
-                    if (licenceHandler.hasAccessTo(ContribFeature.WEB_UI) && preferenceActivity.featureViewModel.isFeatureAvailable(
-                            preferenceActivity,
-                            Feature.WEBUI
-                        )
-                    ) {
-                        true
-                    } else {
-                        preferenceActivity.contribFeatureRequested(ContribFeature.WEB_UI, null)
-                        false
-                    }
-                } else {
-                    true
-                }
             }
         }
         return true
@@ -626,7 +546,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         when (rootKey) {
 
             null -> { //ROOT screen
-                requirePreference<Preference>(PrefKey.UI_WEB).onPreferenceChangeListener = this
 
                 requirePreference<Preference>(PrefKey.CSV_EXPORT).title =
                     getString(R.string.export_to_format, "CSV")

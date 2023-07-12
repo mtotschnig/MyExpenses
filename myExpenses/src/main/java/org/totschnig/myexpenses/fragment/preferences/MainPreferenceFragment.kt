@@ -59,8 +59,7 @@ class MainPreferenceFragment : BasePreferenceFragment() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
-        requirePreference<Preference>(PrefKey.CATEGORY_BACKUP_EXPORT).title =
-            getString(R.string.pref_category_title_export) + " / " + getString(R.string.menu_backup)
+        requirePreference<Preference>(PrefKey.CATEGORY_BACKUP_EXPORT).title = exportBackupTitle
         highlightedKey = preferenceScreen.getPreference(0).key
     }
 

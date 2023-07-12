@@ -61,7 +61,7 @@ import java.util.*
  *
  * @author Michael Totschnig
  */
-class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
+class MyPreferenceActivity : ProtectedFragmentActivity(),
     PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
     lateinit var binding: SettingsBinding
 
@@ -239,52 +239,10 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
         licenceValidationViewModel.validateLicence()
     }
 
-    override fun onFeatureAvailable(feature: Feature) {
-        super.onFeatureAvailable(feature)
-        if (feature == Feature.WEBUI) {
-            fragment.bindToWebUiService()
-            activateWebUi()
-        }
-    }
-
-    private fun activateWebUi() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-            !NotificationManagerCompat.from(this).areNotificationsEnabled()
-        ) {
-            requestNotificationPermission(PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI)
-        } else {
-            fragment.activateWebUi()
-        }
-    }
-
-    override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
-        if (feature === ContribFeature.CSV_IMPORT) {
-            val i = Intent(this, CsvImportActivity::class.java)
-            startActivity(i)
-        }
-        if (feature === ContribFeature.WEB_UI) {
-            if (featureViewModel.isFeatureAvailable(this, Feature.WEBUI)) {
-                activateWebUi()
-            } else {
-                featureViewModel.requestFeature(this, Feature.WEBUI)
-            }
-        }
-    }
-
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
         super.onPermissionsGranted(requestCode, perms)
         if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
             initialPrefToShow = prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID)
-        }
-        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI) {
-            fragment.activateWebUi()
-        }
-    }
-
-    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
-        super.onPermissionsDenied(requestCode, perms)
-        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI) {
-            fragment.activateWebUi()
         }
     }
 

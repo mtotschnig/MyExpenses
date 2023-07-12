@@ -15,10 +15,8 @@
  -->
 <!--suppress AndroidElementNotAllowed -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:my="http://schemas.android.com/apk/res-auto"
-    android:key="@string/pref_root_screen_key"
-    android:title="@string/data">
-
+    xmlns:my="http://schemas.android.com/apk/res-auto" android:title="@string/data">
+    <org.totschnig.myexpenses.preference.HeaderPreference />
     <Preference
         android:key="manage_categories"
         android:summary="@string/pref_manage_categories_summary"

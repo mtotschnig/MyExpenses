@@ -3,9 +3,11 @@ package org.totschnig.myexpenses.activity
 import android.appwidget.AppWidgetProvider
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import androidx.activity.viewModels
+import androidx.core.app.NotificationManagerCompat
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.SettingsBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
@@ -15,12 +17,14 @@ import org.totschnig.myexpenses.fragment.preferences.PreferenceDataFragment
 import org.totschnig.myexpenses.fragment.TwoPanePreference
 import org.totschnig.myexpenses.fragment.preferences.PreferencesExchangeRateFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferencesOcrFragment
+import org.totschnig.myexpenses.fragment.preferences.PreferencesWebUiFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.service.AutoBackupWorker
 import org.totschnig.myexpenses.sync.GenericAccountService
+import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.setNightMode
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
 import org.totschnig.myexpenses.widget.AccountWidget
@@ -54,7 +58,7 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
 
     override fun onCreateOptionsMenu(menu: Menu) = false
 
-    private val twoPanePreference: TwoPanePreference
+    val twoPanePreference: TwoPanePreference
         get() = binding.fragmentContainer.getFragment()
 
     override fun doHome() {
@@ -143,17 +147,21 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
                         )
                     )
             }
+
             getKey(PrefKey.OCR_ENGINE) -> {
                 checkOcrFeature()
                 twoPanePreference.getDetailFragment<PreferencesOcrFragment>()
                     ?.configureOcrEnginePrefs()
             }
+
             getKey(PrefKey.TESSERACT_LANGUAGE) -> {
                 checkTessDataDownload()
             }
+
             getKey(PrefKey.MLKIT_SCRIPT) -> {
                 checkOcrFeature()
             }
+
             getKey(PrefKey.SYNC_FREQUCENCY) -> {
                 for (account in GenericAccountService.getAccounts(this)) {
                     GenericAccountService.addPeriodicSync(account, prefHandler)
@@ -176,6 +184,10 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
         if (feature in listOf(Feature.OCR, Feature.MLKIT, Feature.TESSERACT)) {
             twoPanePreference.getDetailFragment<PreferencesOcrFragment>()?.configureOcrEnginePrefs()
         }
+        if (feature == Feature.WEBUI) {
+            twoPanePreference.getDetailFragment<PreferencesWebUiFragment>()?.bindToWebUiService()
+            activateWebUi()
+        }
     }
 
     private fun showUnencryptedBackupWarning() {
@@ -194,17 +206,40 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
         }
     }
 
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+        super.onPermissionsGranted(requestCode, perms)
+        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI) {
+            activateWebUi()
+        }
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+        super.onPermissionsDenied(requestCode, perms)
+        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI) {
+            activateWebUi()
+        }
+    }
+
+    fun activateWebUi() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            !NotificationManagerCompat.from(this).areNotificationsEnabled()
+        ) {
+            requestNotificationPermission(PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI)
+        } else {
+            prefHandler.putBoolean(PrefKey.UI_WEB, true)
+        }
+    }
+
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
         if (feature === ContribFeature.CSV_IMPORT) {
-            val i = Intent(this, CsvImportActivity::class.java)
-            startActivity(i)
+            startActivity(Intent(this, CsvImportActivity::class.java))
         }
-        /*        if (feature === ContribFeature.WEB_UI) {
-                    if (featureViewModel.isFeatureAvailable(this, Feature.WEBUI)) {
-                        activateWebUi()
-                    } else {
-                        featureViewModel.requestFeature(this, Feature.WEBUI)
-                    }
-                }*/
+        if (feature === ContribFeature.WEB_UI) {
+            if (featureViewModel.isFeatureAvailable(this, Feature.WEBUI)) {
+                activateWebUi()
+            } else {
+                featureViewModel.requestFeature(this, Feature.WEBUI)
+            }
+        }
     }
 }

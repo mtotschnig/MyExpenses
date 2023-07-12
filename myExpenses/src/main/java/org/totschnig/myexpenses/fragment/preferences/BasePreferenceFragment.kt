@@ -38,7 +38,16 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(preferencesResId, rootKey)
         unsetIconSpaceReservedRecursive(preferenceScreen)
+        headerPreference?.title = preferenceScreen.title
     }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        headerPreference?.isVisible = !preferenceActivity.twoPanePreference.slidingPaneLayout.isSlideable
+    }
+
+    val headerPreference: HeaderPreference?
+        get() = preferenceScreen.getPreference(0) as? HeaderPreference
 
     val preferenceActivity get() = requireActivity() as PreferenceActivity
 
@@ -73,6 +82,7 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
         val fragment = when {
             preference is TimePreference -> TimePreferenceDialogFragmentCompat.newInstance(key)
             preference is FontSizeDialogPreference -> FontSizeDialogFragmentCompat.newInstance(key)
+            preference is SimplePasswordPreference -> SimplePasswordDialogFragmentCompat.newInstance(key)
             matches(preference, PrefKey.MANAGE_APP_DIR_FILES) ->
                 MultiSelectListPreferenceDialogFragment2.newInstance(key)
             else -> null
@@ -131,4 +141,6 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
             true
         } else false
 
+    val exportBackupTitle: String
+        get() = getString(R.string.pref_category_title_export) + " / " + getString(R.string.menu_backup)
 }
