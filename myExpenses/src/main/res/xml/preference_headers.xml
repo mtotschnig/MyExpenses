@@ -15,6 +15,7 @@
  -->
 <!--suppress AndroidElementNotAllowed -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:my="http://schemas.android.com/apk/res-auto"
     android:key="@string/pref_root_screen_key">
 
     <Preference
@@ -35,9 +36,26 @@
     <Preference android:key="@string/pref_category_export_backup_key"
         android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesExportFragment" />
 
-    <Preference android:title="@string/pref_category_title_features" />
-
+    <PreferenceCategory android:title="@string/pref_category_title_features">
+        <Preference
+            android:key="@string/pref_exchange_rates_key"
+            android:title="@string/pref_category_exchange_rates"/>
+        <Preference
+            android:key="@string/pref_ocr_key"
+            android:title="@string/title_scan_receipt_feature"/>
+        <Preference
+            android:key="@string/pref_sync_key"
+            android:title="@string/synchronization"/>
+        <Preference
+            android:key="@string/pref_web_ui_key"
+            android:title="@string/title_webui"/>
+        <Preference android:key="@string/pref_csv_export_key"/>
+        <Preference
+            android:key="@string/pref_optimize_picture_key"
+            android:title="@string/optimize_image_file_size"/>
+    </PreferenceCategory>
     <Preference
+        my:allowDividerAbove="true"
         android:key="@string/pref_category_contrib_key"
         android:title="@string/menu_contrib" />
 
