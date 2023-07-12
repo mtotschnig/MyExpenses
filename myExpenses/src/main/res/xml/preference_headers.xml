@@ -42,6 +42,7 @@
             android:key="@string/pref_exchange_rates_key"
             android:title="@string/pref_category_exchange_rates"/>
         <Preference
+            android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesOcrFragment"
             android:key="@string/pref_ocr_key"
             android:title="@string/title_scan_receipt_feature"/>
         <Preference

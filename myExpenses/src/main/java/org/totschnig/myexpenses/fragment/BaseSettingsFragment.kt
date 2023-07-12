@@ -293,14 +293,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             ?: throw IllegalStateException("Preference not found")
     }
 
-    fun configureOcrEnginePrefs() {
-        val tesseract = findPreference<ListPreference>(PrefKey.TESSERACT_LANGUAGE)
-        val mlkit = findPreference<ListPreference>(PrefKey.MLKIT_SCRIPT)
-        if (tesseract != null && mlkit != null) {
-            preferenceActivity.ocrViewModel.configureOcrEnginePrefs(tesseract, mlkit)
-        }
-    }
-
     fun requireApplication(): MyApplication {
         return (requireActivity().application as MyApplication)
     }
@@ -403,13 +395,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 preferenceActivity.checkTessDataDownload()
             }
 
-            getKey(PrefKey.OCR_ENGINE) -> {
-                if (!featureManager.isFeatureInstalled(Feature.OCR, preferenceActivity)) {
-                    featureManager.requestFeature(Feature.OCR, preferenceActivity)
-                }
-                configureOcrEnginePrefs()
-            }
-
             getKey(PrefKey.OPTIMIZE_PICTURE_FORMAT) -> {
                 requirePreference<Preference>(PrefKey.OPTIMIZE_PICTURE_QUALITY).isEnabled =
                     prefHandler.enumValueOrDefault(
@@ -454,32 +439,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                         if (!Utils.isIntentAvailable(requireActivity(), intent)) {
                             preferenceActivity.showDialog(R.id.FTP_DIALOG)
                         }
-                    }
-                }
-            }
-
-            matches(pref, PrefKey.OCR_DATE_FORMATS) -> {
-                if (!isEmpty(value as String)) {
-                    try {
-                        for (line in value.lines()) {
-                            LocalDate.now().format(DateTimeFormatter.ofPattern(line))
-                        }
-                    } catch (e: java.lang.Exception) {
-                        preferenceActivity.showSnackBar(R.string.date_format_illegal)
-                        return false
-                    }
-                }
-            }
-
-            matches(pref, PrefKey.OCR_TIME_FORMATS) -> {
-                if (!isEmpty(value as String)) {
-                    try {
-                        for (line in value.lines()) {
-                            LocalTime.now().format(DateTimeFormatter.ofPattern(line))
-                        }
-                    } catch (e: java.lang.Exception) {
-                        preferenceActivity.showSnackBar(R.string.date_format_illegal)
-                        return false
                     }
                 }
             }
@@ -818,51 +777,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     context,
                     R.string.crash_reports_user_info
                 )
-            }
-
-            getKey(PrefKey.OCR) -> {
-                val locale = Locale.getDefault()
-                if ("" == prefHandler.getString(PrefKey.OCR_TOTAL_INDICATORS, "")) {
-                    requirePreference<EditTextPreference>(PrefKey.OCR_TOTAL_INDICATORS).text =
-                        getString(R.string.pref_ocr_total_indicators_default)
-                }
-                val ocrDatePref = requirePreference<EditTextPreference>(PrefKey.OCR_DATE_FORMATS)
-                ocrDatePref.onPreferenceChangeListener = this
-                if ("" == prefHandler.getString(PrefKey.OCR_DATE_FORMATS, "")) {
-                    val shortFormat = DateTimeFormatterBuilder.getLocalizedDateTimePattern(
-                        FormatStyle.SHORT,
-                        null,
-                        IsoChronology.INSTANCE,
-                        locale
-                    )
-                    val mediumFormat = DateTimeFormatterBuilder.getLocalizedDateTimePattern(
-                        FormatStyle.MEDIUM,
-                        null,
-                        IsoChronology.INSTANCE,
-                        locale
-                    )
-                    ocrDatePref.text = shortFormat + "\n" + mediumFormat
-                }
-                val ocrTimePref = requirePreference<EditTextPreference>(PrefKey.OCR_TIME_FORMATS)
-                ocrTimePref.onPreferenceChangeListener = this
-                if ("" == prefHandler.getString(PrefKey.OCR_TIME_FORMATS, "")) {
-                    val shortFormat = DateTimeFormatterBuilder.getLocalizedDateTimePattern(
-                        null,
-                        FormatStyle.SHORT,
-                        IsoChronology.INSTANCE,
-                        locale
-                    )
-                    val mediumFormat = DateTimeFormatterBuilder.getLocalizedDateTimePattern(
-                        null,
-                        FormatStyle.MEDIUM,
-                        IsoChronology.INSTANCE,
-                        locale
-                    )
-                    ocrTimePref.text = shortFormat + "\n" + mediumFormat
-                }
-                this.requirePreference<ListPreference>(PrefKey.OCR_ENGINE).isVisible =
-                    preferenceActivity.ocrViewModel.shouldShowEngineSelection()
-                configureOcrEnginePrefs()
             }
 
             getKey(PrefKey.SYNC) -> {

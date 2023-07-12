@@ -245,9 +245,6 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace,
             fragment.bindToWebUiService()
             activateWebUi()
         }
-        if (feature == Feature.OCR) {
-            fragment.configureOcrEnginePrefs()
-        }
     }
 
     private fun activateWebUi() {

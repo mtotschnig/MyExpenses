@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.fragment.BaseSettingsFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferenceDataFragment
 import org.totschnig.myexpenses.fragment.TwoPanePreference
 import org.totschnig.myexpenses.fragment.preferences.PreferencesExchangeRateFragment
+import org.totschnig.myexpenses.fragment.preferences.PreferencesOcrFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
@@ -141,6 +142,20 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
                         )
                     )
             }
+            getKey(PrefKey.OCR_ENGINE) -> {
+                if (!featureManager.isFeatureInstalled(Feature.OCR, this)) {
+                    featureManager.requestFeature(Feature.OCR, this)
+                }
+                twoPanePreference.getDetailFragment<PreferencesOcrFragment>()
+                    ?.configureOcrEnginePrefs()
+            }
+        }
+    }
+
+    override fun onFeatureAvailable(feature: Feature) {
+        super.onFeatureAvailable(feature)
+        if (feature == Feature.OCR) {
+            twoPanePreference.getDetailFragment<PreferencesOcrFragment>()?.configureOcrEnginePrefs()
         }
     }
 
