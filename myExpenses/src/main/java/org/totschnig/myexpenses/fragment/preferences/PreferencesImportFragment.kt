@@ -7,9 +7,11 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 
 class PreferencesImportFragment: BasePreferenceFragment() {
+
+    override val preferencesResId = R.xml.preferences_import
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preferences_import, rootKey)
-        unsetIconSpaceReservedRecursive(preferenceScreen)
+        super.onCreatePreferences(savedInstanceState, rootKey)
 
         with(requirePreference<Preference>(PrefKey.IMPORT_QIF)) {
             summary = getString(R.string.pref_import_summary, "QIF")

@@ -47,9 +47,11 @@ class PreferencesExportFragment: BasePreferenceFragment(),
         requirePreference<AccountPreference>(PrefKey.AUTO_BACKUP_CLOUD).setData(requireContext())
     }
 
+    override val preferencesResId = R.xml.preferences_export
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preferences_export, rootKey)
-        unsetIconSpaceReservedRecursive(preferenceScreen)
+        super.onCreatePreferences(savedInstanceState, rootKey)
+
         loadAppDirSummary()
 
         requirePreference<Preference>(PrefKey.AUTO_BACKUP_CLOUD).onPreferenceChangeListener =

@@ -9,9 +9,10 @@ import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 
 class PreferencesExchangeRateFragment : BasePreferenceFragment() {
 
+    override val preferencesResId = R.xml.preferences_exchange_rate
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preferences_exchange_rate, rootKey)
-        unsetIconSpaceReservedRecursive(preferenceScreen)
+        super.onCreatePreferences(savedInstanceState, rootKey)
         with(requirePreference<ListPreference>(PrefKey.EXCHANGE_RATE_PROVIDER)) {
             entries = ExchangeRateSource.values.map { it.host }.toTypedArray()
             entryValues = ExchangeRateSource.values.map { it.id }.toTypedArray()

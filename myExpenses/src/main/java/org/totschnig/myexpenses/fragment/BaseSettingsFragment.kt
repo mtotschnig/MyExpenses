@@ -53,8 +53,6 @@ import org.totschnig.myexpenses.preference.*
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference.OnValidationErrorListener
 import org.totschnig.myexpenses.preference.PreferenceDataStore
 import org.totschnig.myexpenses.service.AutoBackupWorker
-import org.totschnig.myexpenses.sync.BackendService
-import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.AppDirHelper.getContentUriForFile
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
@@ -359,12 +357,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
             getKey(PrefKey.AUTO_BACKUP_TIME) -> {
                 AutoBackupWorker.enqueueOrCancel(preferenceActivity, prefHandler)
-            }
-
-            getKey(PrefKey.SYNC_FREQUCENCY) -> {
-                for (account in GenericAccountService.getAccounts(preferenceActivity)) {
-                    GenericAccountService.addPeriodicSync(account, prefHandler)
-                }
             }
 
             getKey(PrefKey.TRACKING) -> {
@@ -757,18 +749,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     context,
                     R.string.crash_reports_user_info
                 )
-            }
-
-            getKey(PrefKey.SYNC) -> {
-                requirePreference<Preference>(PrefKey.MANAGE_SYNC_BACKENDS).summary = (getString(
-                    R.string.pref_manage_sync_backends_summary,
-                    BackendService.allAvailable(requireContext()).joinToString { it.label }
-                ) +
-                        " " + ContribFeature.SYNCHRONIZATION.buildRequiresString(requireActivity()))
-                requirePreference<Preference>(PrefKey.SYNC_NOTIFICATION).onPreferenceChangeListener =
-                    storeInDatabaseChangeListener
-                requirePreference<Preference>(PrefKey.SYNC_WIFI_ONLY).onPreferenceChangeListener =
-                    storeInDatabaseChangeListener
             }
 
             getKey(PrefKey.FEATURE_UNINSTALL) -> {

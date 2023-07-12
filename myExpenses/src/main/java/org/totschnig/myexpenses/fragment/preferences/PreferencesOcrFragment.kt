@@ -17,9 +17,10 @@ import java.util.Locale
 
 class PreferencesOcrFragment : BasePreferenceFragment() {
 
+    override val preferencesResId = R.xml.preferences_ocr
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preferences_ocr, rootKey)
-        unsetIconSpaceReservedRecursive(preferenceScreen)
+        super.onCreatePreferences(savedInstanceState, rootKey)
 
         val locale = Locale.getDefault()
         if ("" == prefHandler.getString(PrefKey.OCR_TOTAL_INDICATORS, "")) {

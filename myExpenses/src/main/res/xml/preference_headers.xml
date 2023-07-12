@@ -46,6 +46,7 @@
             android:key="@string/pref_ocr_key"
             android:title="@string/title_scan_receipt_feature"/>
         <Preference
+            android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesSyncFragment"
             android:key="@string/pref_sync_key"
             android:title="@string/synchronization"/>
         <Preference

@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.service.AutoBackupWorker
+import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.setNightMode
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
 import org.totschnig.myexpenses.widget.AccountWidget
@@ -152,6 +153,11 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             }
             getKey(PrefKey.MLKIT_SCRIPT) -> {
                 checkOcrFeature()
+            }
+            getKey(PrefKey.SYNC_FREQUCENCY) -> {
+                for (account in GenericAccountService.getAccounts(this)) {
+                    GenericAccountService.addPeriodicSync(account, prefHandler)
+                }
             }
         }
     }

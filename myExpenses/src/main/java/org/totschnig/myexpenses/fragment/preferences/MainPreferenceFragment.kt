@@ -55,11 +55,12 @@ class MainPreferenceFragment : BasePreferenceFragment() {
         StateSaver.saveInstanceState(this, outState)
     }
 
+    override val preferencesResId = R.xml.preference_headers
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preference_headers, rootKey)
+        super.onCreatePreferences(savedInstanceState, rootKey)
         requirePreference<Preference>(PrefKey.CATEGORY_BACKUP_EXPORT).title =
             getString(R.string.pref_category_title_export) + " / " + getString(R.string.menu_backup)
-        unsetIconSpaceReservedRecursive(preferenceScreen)
         highlightedKey = preferenceScreen.getPreference(0).key
     }
 

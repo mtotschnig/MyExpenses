@@ -20,9 +20,10 @@ class PreferenceDataFragment: BasePreferenceFragment() {
 
     private val currencyViewModel: CurrencyViewModel by viewModels()
 
+    override val preferencesResId = R.xml.preferences_data
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preferences_data, rootKey)
-        unsetIconSpaceReservedRecursive(preferenceScreen)
+        super.onCreatePreferences(savedInstanceState, rootKey)
 
         requirePreference<Preference>(PrefKey.HOME_CURRENCY).onPreferenceChangeListener  =
             OnPreferenceChangeListener { _, newValue ->

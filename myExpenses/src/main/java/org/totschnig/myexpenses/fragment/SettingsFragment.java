@@ -111,11 +111,6 @@ public class SettingsFragment extends BaseSettingsFragment {
       }
     } else if (matches(preference, SECURITY_QUESTION)) {
       fragment = SecurityQuestionDialogFragmentCompat.newInstance(key);
-    } else if (matches(preference, AUTO_BACKUP_CLOUD)) {
-      if (((ListPreference) preference).getEntries().length == 1) {
-        getPreferenceActivity().showSnackBar(R.string.no_sync_backends);
-        return;
-      }
     } else if (preference instanceof SimplePasswordPreference) {
       fragment = SimplePasswordDialogFragmentCompat.newInstance(key);
     }

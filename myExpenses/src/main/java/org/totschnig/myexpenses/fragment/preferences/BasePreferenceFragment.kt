@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.fragment.preferences
 
 import android.os.Bundle
+import androidx.annotation.CallSuper
+import androidx.annotation.XmlRes
 import androidx.fragment.app.activityViewModels
 import androidx.preference.*
 import org.totschnig.myexpenses.R
@@ -29,6 +31,15 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
     @Inject
     lateinit var licenceHandler: LicenceHandler
 
+    @get:XmlRes
+    abstract val preferencesResId: Int
+
+    @CallSuper
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        setPreferencesFromResource(preferencesResId, rootKey)
+        unsetIconSpaceReservedRecursive(preferenceScreen)
+    }
+
     val preferenceActivity get() = requireActivity() as PreferenceActivity
 
     val viewModel: SettingsViewModel by activityViewModels()
@@ -53,6 +64,12 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
 
     override fun onDisplayPreferenceDialog(preference: Preference) {
         val key = preference.key
+        if (matches(preference, PrefKey.AUTO_BACKUP_CLOUD)) {
+            if ((preference as ListPreference).entries.size == 1) {
+                preferenceActivity.showSnackBar(R.string.no_sync_backends)
+                return
+            }
+        }
         val fragment = when {
             preference is TimePreference -> TimePreferenceDialogFragmentCompat.newInstance(key)
             preference is FontSizeDialogPreference -> FontSizeDialogFragmentCompat.newInstance(key)

@@ -36,9 +36,11 @@ import java.util.Calendar
 import java.util.Locale
 
 class PreferenceUiFragment: BasePreferenceFragment() {
+
+    override val preferencesResId = R.xml.preferences_ui
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preferences_ui, rootKey)
-        unsetIconSpaceReservedRecursive(preferenceScreen)
+        super.onCreatePreferences(savedInstanceState, rootKey)
 
         requirePreference<TwoStatePreference>(PrefKey.UI_ITEM_RENDERER_LEGACY).let {
             it.title = requireContext().compactItemRendererTitle()
