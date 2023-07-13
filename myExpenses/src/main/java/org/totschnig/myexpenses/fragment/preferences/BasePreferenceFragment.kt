@@ -37,7 +37,6 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
     @CallSuper
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(preferencesResId, rootKey)
-        unsetIconSpaceReservedRecursive(preferenceScreen)
         headerPreference?.title = preferenceScreen.title
     }
 
@@ -119,16 +118,6 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
         val bundle = Bundle()
         bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, preference.key)
         preferenceActivity.logEvent(Tracker.EVENT_PREFERENCE_CLICK, bundle)
-    }
-
-    fun unsetIconSpaceReservedRecursive(preferenceGroup: PreferenceGroup) {
-        for (i in 0 until preferenceGroup.preferenceCount) {
-            val preference = preferenceGroup.getPreference(i)
-            if (preference is PreferenceCategory) {
-                unsetIconSpaceReservedRecursive(preference)
-            }
-            preference.isIconSpaceReserved = false
-        }
     }
 
     fun handleContrib(prefKey: PrefKey, feature: ContribFeature, preference: Preference) =
