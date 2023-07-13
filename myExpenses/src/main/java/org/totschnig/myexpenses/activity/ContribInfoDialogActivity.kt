@@ -102,11 +102,13 @@ class ContribInfoDialogActivity : IapActivity() {
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     data = Uri.parse(licenceHandler.getPaypalUri(aPackage))
                 })
+                finish()
             } catch (e: ActivityNotFoundException) {
                 complain("No activity found for opening Paypal")
             }
         } else if (paymentOption == R.string.donate_button_invoice) {
             sendInvoiceRequest(aPackage)
+            finish()
         }
     }
 
