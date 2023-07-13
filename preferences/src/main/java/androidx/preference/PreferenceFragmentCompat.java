@@ -138,15 +138,22 @@ public abstract class PreferenceFragmentCompat extends Fragment implements
         }
     };
 
+    public int overrideTheme() {
+        return 0;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final TypedValue tv = new TypedValue();
-        requireContext().getTheme().resolveAttribute(R.attr.preferenceTheme, tv, true);
-        int theme = tv.resourceId;
+        int theme = overrideTheme();
         if (theme == 0) {
-            // Fallback to default theme.
-            theme = R.style.PreferenceThemeOverlay;
+            requireContext().getTheme().resolveAttribute(R.attr.preferenceTheme, tv, true);
+            theme = tv.resourceId;
+            if (theme == 0) {
+                // Fallback to default theme.
+                theme = R.style.PreferenceThemeOverlay;
+            }
         }
         requireContext().getTheme().applyStyle(theme, false);
 
