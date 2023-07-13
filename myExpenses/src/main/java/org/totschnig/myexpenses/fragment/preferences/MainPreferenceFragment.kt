@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.fragment.preferences
 
+import android.content.Context
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import androidx.core.content.res.ResourcesCompat
 import androidx.preference.*
 import com.evernote.android.state.State
@@ -40,6 +42,9 @@ class MainPreferenceFragment : BasePreferenceFragment() {
         adapter.notifyItemChanged(newPosition)
     }
 
+    override fun getContext() =
+        ContextThemeWrapper(super.getContext(), R.style.MyTheme_PreferenceHeader)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         savedInstanceState?.let {
@@ -58,18 +63,6 @@ class MainPreferenceFragment : BasePreferenceFragment() {
         super.onCreatePreferences(savedInstanceState, rootKey)
         requirePreference<Preference>(PrefKey.CATEGORY_BACKUP_EXPORT).title = exportBackupTitle
         highlightedKey = preferenceScreen.getPreference(0).key
-        configureRecursive(preferenceScreen) { it.isSingleLineTitle = true }
-    }
-
-    private fun configureRecursive(preferenceGroup: PreferenceGroup, action: (Preference) -> Unit) {
-        for (i in 0 until preferenceGroup.preferenceCount) {
-            val preference = preferenceGroup.getPreference(i)
-            if (preference is PreferenceCategory) {
-                configureRecursive(preference, action)
-            } else {
-                action(preference)
-            }
-        }
     }
 
     override fun onCreateAdapter(preferenceScreen: PreferenceScreen) =

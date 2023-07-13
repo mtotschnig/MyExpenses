@@ -36,6 +36,10 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
+    <style name="MyTheme.PreferenceHeader">
+        <item name="preferenceTheme">@style/MyPreferenceHeaderTheme</item>
+    </style>
+
     <style name="DarkBackground">
         <item name="colorOnSurface">@android:color/white</item>
     </style>

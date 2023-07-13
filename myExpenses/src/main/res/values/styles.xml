@@ -365,4 +365,11 @@
         <item name="colorIncome">@color/colorIncomeDark</item>
         <item name="colorExpense">@color/colorExpenseDark</item>
     </style>
+
+    <style name="MyPreferenceHeaderTheme" parent="PreferenceThemeOverlay">
+        <item name="preferenceStyle">@style/Preference.Material.SingleLineTitle</item>
+    </style>
+    <style name="Preference.Material.SingleLineTitle">
+        <item name="singleLineTitle">true</item>
+    </style>
 </resources>
