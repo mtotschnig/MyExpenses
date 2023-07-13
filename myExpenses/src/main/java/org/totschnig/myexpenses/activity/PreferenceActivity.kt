@@ -8,16 +8,19 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.activity.viewModels
 import androidx.core.app.NotificationManagerCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.SettingsBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.fragment.BaseSettingsFragment
-import org.totschnig.myexpenses.fragment.preferences.PreferenceDataFragment
 import org.totschnig.myexpenses.fragment.TwoPanePreference
-import org.totschnig.myexpenses.fragment.preferences.PreferencesExchangeRateFragment
-import org.totschnig.myexpenses.fragment.preferences.PreferencesOcrFragment
-import org.totschnig.myexpenses.fragment.preferences.PreferencesWebUiFragment
+import org.totschnig.myexpenses.fragment.preferences.*
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
@@ -26,6 +29,7 @@ import org.totschnig.myexpenses.service.AutoBackupWorker
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.setNightMode
+import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
 import org.totschnig.myexpenses.widget.AccountWidget
 import org.totschnig.myexpenses.widget.TemplateWidget
@@ -37,9 +41,41 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
     lateinit var binding: SettingsBinding
     private val viewModel: SettingsViewModel by viewModels()
 
+    private val licenceValidationViewModel: LicenceValidationViewModel by viewModels()
+
+    private val dismissCallback = object : Snackbar.Callback() {
+        override fun onDismissed(
+            transientBottomBar: Snackbar,
+            event: Int
+        ) {
+            if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION)
+                licenceValidationViewModel.messageShown()
+        }
+    }
+
+    private fun observeLicenceApiResult() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                licenceValidationViewModel.result.collect { result ->
+                    result?.let {
+                        twoPanePreference.getDetailFragment<PreferencesContribFragment>()
+                            ?.configureContribPrefs()
+                        showDismissibleSnackBar(it, dismissCallback)
+                    }
+                }
+            }
+        }
+    }
+
+    fun validateLicence() {
+        showSnackBarIndefinite(R.string.progress_validating_licence)
+        licenceValidationViewModel.validateLicence()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injector.inject(viewModel)
+        injector.inject(licenceValidationViewModel)
         binding = SettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupToolbar()
@@ -50,6 +86,7 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
                 .replace(binding.fragmentContainer.id, TwoPanePreference())
                 .commit()
         }
+        observeLicenceApiResult()
     }
 
     override fun setTitle(title: CharSequence?) {
@@ -96,7 +133,11 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
                 }
                 true
             }
-
+            R.id.REMOVE_LICENCE_COMMAND -> {
+                showSnackBarIndefinite(R.string.progress_removing_licence)
+                licenceValidationViewModel.removeLicence()
+                true
+            }
             else -> false
         }
 

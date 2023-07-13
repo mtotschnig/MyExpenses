@@ -74,7 +74,6 @@ public class SettingsFragment extends BaseSettingsFragment {
           prefHandler.getBoolean(PROTECTION_LEGACY, false) ? R.string.pref_protection_password_title :
               prefHandler.getBoolean(PROTECTION_DEVICE_LOCK_SCREEN, false) ? R.string.pref_protection_device_lock_screen_title :
                   R.string.switch_off_text));
-      configureContribPrefs();
     }
   }
 

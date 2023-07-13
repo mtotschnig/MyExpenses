@@ -19,49 +19,52 @@
     android:key="@string/pref_root_screen_key">
 
     <Preference
-        android:key="data"
         android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferenceDataFragment"
+        android:key="data"
         android:title="@string/data" />
 
     <Preference
-        android:key="ui"
         android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferenceUiFragment"
+        android:key="ui"
         android:title="@string/pref_category_title_ui" />
 
     <Preference
-        android:key="import"
         android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesImportFragment"
+        android:key="import"
         android:title="@string/pref_category_title_import" />
 
-    <Preference android:key="@string/pref_category_export_backup_key"
-        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesExportFragment" />
+    <Preference
+        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesExportFragment"
+        android:key="@string/pref_category_export_backup_key" />
 
     <PreferenceCategory android:title="@string/pref_category_title_features">
         <Preference
             android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesExchangeRateFragment"
             android:key="exchange_rates"
-            android:title="@string/pref_category_exchange_rates"/>
+            android:title="@string/pref_category_exchange_rates" />
         <Preference
             android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesOcrFragment"
             android:key="ocr"
-            android:title="@string/title_scan_receipt_feature"/>
+            android:title="@string/title_scan_receipt_feature" />
         <Preference
             android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesSyncFragment"
             android:key="sync"
-            android:title="@string/synchronization"/>
+            android:title="@string/synchronization" />
         <Preference
             android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesWebUiFragment"
             android:key="web_ui"
-            android:title="@string/title_webui"/>
+            android:title="@string/title_webui" />
         <Preference
             android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesAttachPictureFragment"
             android:key="attach_picture"
-            android:title="@string/contrib_feature_attach_picture_label"/>
+            android:title="@string/contrib_feature_attach_picture_label" />
     </PreferenceCategory>
+
     <Preference
-        my:allowDividerAbove="true"
-        android:key="@string/pref_category_contrib_key"
-        android:title="@string/menu_contrib" />
+        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesContribFragment"
+        android:key="contrib"
+        android:title="@string/menu_contrib"
+        my:allowDividerAbove="true" />
 
     <Preference android:title="@string/pref_category_title_security" />
 

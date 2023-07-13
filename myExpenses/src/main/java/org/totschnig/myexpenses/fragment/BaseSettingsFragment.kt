@@ -13,12 +13,7 @@ import android.icu.text.ListFormatter
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.text.TextUtils.isEmpty
 import android.text.TextUtils.join
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.MenuItem.SHOW_AS_ACTION_ALWAYS
 import android.widget.CompoundButton
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.ActionBar
@@ -28,10 +23,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.*
 import androidx.preference.Preference.OnPreferenceChangeListener
-import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
-import eltos.simpledialogfragment.form.Input
-import eltos.simpledialogfragment.form.SimpleFormDialog
 import eltos.simpledialogfragment.list.CustomListDialog
 import eltos.simpledialogfragment.list.SimpleListDialog
 import kotlinx.coroutines.Dispatchers
@@ -42,8 +34,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.*
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TransactionType
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
-import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
@@ -55,12 +45,10 @@ import org.totschnig.myexpenses.preference.PreferenceDataStore
 import org.totschnig.myexpenses.service.AutoBackupWorker
 import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.AppDirHelper.getContentUriForFile
-import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.licence.LicenceHandler
-import org.totschnig.myexpenses.util.licence.Package
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
@@ -379,59 +367,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             requirePreference<Preference>(PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET).isEnabled =
                 isProtected
         }
-    }
-
-    private fun getKeyInfo(): String {
-        return "${
-            prefHandler.getString(
-                PrefKey.LICENCE_EMAIL,
-                ""
-            )
-        }: ${prefHandler.getString(PrefKey.NEW_LICENCE, "")}"
-    }
-
-    fun configureContribPrefs() {
-        if (!onScreen(PrefKey.ROOT_SCREEN)) {
-            return
-        }
-        val contribPurchasePref = requirePreference<Preference>(PrefKey.CONTRIB_PURCHASE)
-        val licenceKeyPref = findPreference<Preference>(PrefKey.NEW_LICENCE)
-        if (licenceHandler.needsKeyEntry) {
-            licenceKeyPref?.let {
-                if (licenceHandler.hasValidKey()) {
-                    it.title = getKeyInfo()
-                    it.summary = concatResStrings(
-                        requireActivity(), " / ",
-                        R.string.button_validate, R.string.menu_remove
-                    )
-                } else {
-                    it.setTitle(R.string.pref_enter_licence_title)
-                    it.setSummary(R.string.pref_enter_licence_summary)
-                }
-            }
-        } else {
-            licenceKeyPref?.isVisible = false
-        }
-        val contribPurchaseTitle: String = licenceHandler.prettyPrintStatus(requireContext())
-            ?: (getString(R.string.pref_contrib_purchase_title) + (if (licenceHandler.doesUseIAP)
-                " (${getString(R.string.pref_contrib_purchase_title_in_app)})" else ""))
-        var contribPurchaseSummary: String
-        val licenceStatus = licenceHandler.licenceStatus
-        if (licenceStatus == null && licenceHandler.addOnFeatures.isEmpty()) {
-            contribPurchaseSummary = getString(R.string.pref_contrib_purchase_summary)
-        } else {
-            contribPurchaseSummary = if (licenceStatus?.isUpgradeable != false) {
-                getString(R.string.pref_contrib_purchase_title_upgrade)
-            } else {
-                licenceHandler.getProLicenceAction(requireContext())
-            }
-            if (!isEmpty(contribPurchaseSummary)) {
-                contribPurchaseSummary += "\n"
-            }
-            contribPurchaseSummary += getString(R.string.thank_you)
-        }
-        contribPurchasePref.summary = contribPurchaseSummary
-        contribPurchasePref.title = contribPurchaseTitle
     }
 
     private fun trackPreferenceClick(preference: Preference) {
@@ -811,37 +746,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     override fun onPreferenceClick(preference: Preference): Boolean {
         trackPreferenceClick(preference)
         return when {
-            matches(preference, PrefKey.CONTRIB_PURCHASE) -> {
-                if (licenceHandler.isUpgradeable) {
-                    val i = ContribInfoDialogActivity.getIntentFor(preferenceActivity, null)
-                    if (DistributionHelper.isGithub) {
-                        startActivityForResult(i, CONTRIB_PURCHASE_REQUEST)
-                    } else {
-                        startActivity(i)
-                    }
-                } else {
-                    val proPackagesForExtendOrSwitch = licenceHandler.proPackagesForExtendOrSwitch
-                    if (proPackagesForExtendOrSwitch != null) {
-                        if (proPackagesForExtendOrSwitch.size > 1) {
-                            (preference as PopupMenuPreference).showPopupMenu(
-                                { item ->
-                                    contribBuyDo(
-                                        proPackagesForExtendOrSwitch[item.itemId],
-                                        false
-                                    )
-                                    true
-                                },
-                                *proPackagesForExtendOrSwitch.map(licenceHandler::getExtendOrSwitchMessage)
-                                    .toTypedArray()
-                            )
-                        } else {
-                            //Currently we assume that if we have only one item, we switch
-                            contribBuyDo(proPackagesForExtendOrSwitch[0], true)
-                        }
-                    }
-                }
-                true
-            }
 
             matches(preference, PrefKey.SEND_FEEDBACK) -> {
                 preferenceActivity.dispatchCommand(R.id.FEEDBACK_COMMAND, null)
@@ -876,38 +780,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 true
             }
 
-            matches(preference, PrefKey.NEW_LICENCE) -> {
-                if (licenceHandler.hasValidKey()) {
-                    SimpleDialog.build()
-                        .title(R.string.licence_key)
-                        .msg(getKeyInfo())
-                        .pos(R.string.button_validate)
-                        .neg(R.string.menu_remove)
-                        .show(
-                            this,
-                            DIALOG_MANAGE_LICENCE
-                        )
-                } else {
-                    val licenceKey = prefHandler.getString(PrefKey.NEW_LICENCE, "")
-                    val licenceEmail = prefHandler.getString(PrefKey.LICENCE_EMAIL, "")
-                    SimpleFormDialog.build()
-                        .title(R.string.pref_enter_licence_title)
-                        .fields(
-                            Input.email(KEY_EMAIL)
-                                .required().text(licenceEmail),
-                            Input.plain(KEY_KEY)
-                                .required().hint(R.string.licence_key).text(licenceKey)
-                        )
-                        .pos(R.string.button_validate)
-                        .neut()
-                        .show(
-                            this,
-                            DIALOG_VALIDATE_LICENCE
-                        )
-                }
-                true
-            }
-
             matches(preference, PrefKey.PERSONALIZED_AD_CONSENT) -> {
                 preferenceActivity.checkGdprConsent(true)
                 true
@@ -931,58 +803,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         }
     }
 
-    private fun contribBuyDo(selectedPackage: Package, shouldReplaceExisting: Boolean) {
-        startActivity(
-            ContribInfoDialogActivity.getIntentFor(
-                context,
-                selectedPackage,
-                shouldReplaceExisting
-            )
-        )
-    }
-
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
         when (dialogTag) {
-            DIALOG_VALIDATE_LICENCE -> {
-                if (which == OnDialogResultListener.BUTTON_POSITIVE) {
-                    prefHandler.putString(
-                        PrefKey.NEW_LICENCE,
-                        extras.getString(KEY_KEY)!!.trim()
-                    )
-                    prefHandler.putString(
-                        PrefKey.LICENCE_EMAIL,
-                        extras.getString(KEY_EMAIL)!!.trim()
-                    )
-                    preferenceActivity.validateLicence()
-                }
-            }
-
-            DIALOG_MANAGE_LICENCE -> {
-                when (which) {
-                    OnDialogResultListener.BUTTON_POSITIVE -> preferenceActivity.validateLicence()
-                    OnDialogResultListener.BUTTON_NEGATIVE -> {
-                        ConfirmationDialogFragment.newInstance(Bundle().apply {
-                            putInt(
-                                ConfirmationDialogFragment.KEY_TITLE,
-                                R.string.dialog_title_information
-                            )
-                            putString(
-                                ConfirmationDialogFragment.KEY_MESSAGE,
-                                getString(R.string.licence_removal_information, 5)
-                            )
-                            putInt(
-                                ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
-                                R.string.menu_remove
-                            )
-                            putInt(
-                                ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                                R.id.REMOVE_LICENCE_COMMAND
-                            )
-                        })
-                            .show(parentFragmentManager, "REMOVE_LICENCE")
-                    }
-                }
-            }
 
             DIALOG_SHARE_LOGS -> {
                 if (which == OnDialogResultListener.BUTTON_POSITIVE) {
@@ -1012,12 +834,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     }
 
     companion object {
-        const val DIALOG_VALIDATE_LICENCE = "validateLicence"
-        const val DIALOG_MANAGE_LICENCE = "manageLicence"
         const val DIALOG_SHARE_LOGS = "shareLogs"
-        const val KEY_EMAIL = "email"
-        const val KEY_KEY = "key"
-        private const val CONTRIB_PURCHASE_REQUEST = 3
         const val KEY_CHECKED_FILES = "checkedFiles"
 
         fun Context.compactItemRendererTitle() =

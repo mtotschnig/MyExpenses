@@ -42,8 +42,9 @@ class MainPreferenceFragment : BasePreferenceFragment() {
         adapter.notifyItemChanged(newPosition)
     }
 
-    override fun getContext() =
-        ContextThemeWrapper(super.getContext(), R.style.MyTheme_PreferenceHeader)
+    override fun overrideTheme(): Int {
+        return R.style.MyPreferenceHeaderTheme
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

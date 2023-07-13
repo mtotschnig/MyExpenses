@@ -16,44 +16,29 @@ package org.totschnig.myexpenses.activity
 
 import android.app.Dialog
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Pair
 import android.view.*
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.activity.viewModels
-import androidx.core.app.NotificationManagerCompat
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceFragmentCompat.ARG_PREFERENCE_ROOT
 import androidx.preference.PreferenceScreen
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.SettingsBinding
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.DialogUtils
-import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.fragment.BaseSettingsFragment
-import org.totschnig.myexpenses.fragment.BaseSettingsFragment.Companion.KEY_CHECKED_FILES
 import org.totschnig.myexpenses.fragment.SettingsFragment
-import org.totschnig.myexpenses.injector
-import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo
-import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel
-import java.io.Serializable
 import java.util.*
 
 /**
@@ -65,7 +50,6 @@ class MyPreferenceActivity : ProtectedFragmentActivity(),
     PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
     lateinit var binding: SettingsBinding
 
-    private val licenceValidationViewModel: LicenceValidationViewModel by viewModels()
     private var initialPrefToShow: String? = null
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,8 +66,6 @@ class MyPreferenceActivity : ProtectedFragmentActivity(),
         initialPrefToShow =
             if (savedInstanceState == null) intent.getStringExtra(KEY_OPEN_PREF_KEY) else null
 
-        injector.inject(licenceValidationViewModel)
-        observeLicenceApiResult()
     }
 
     private val fragment: SettingsFragment
@@ -91,33 +73,6 @@ class MyPreferenceActivity : ProtectedFragmentActivity(),
 
     override fun inflateHelpMenu(menu: Menu?) {
         //currently no help menu
-    }
-
-    private fun observeLicenceApiResult() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                licenceValidationViewModel.result.collect { result ->
-                    result?.let {
-                        fragment.setProtectionDependentsState()
-                        fragment.configureContribPrefs()
-                        showDismissibleSnackBar(
-                            it,
-                            dismissCallback
-                        )
-                    }
-                }
-            }
-        }
-    }
-
-    private val dismissCallback = object : Snackbar.Callback() {
-        override fun onDismissed(
-            transientBottomBar: Snackbar,
-            event: Int
-        ) {
-            if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION)
-                licenceValidationViewModel.messageShown()
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -232,11 +187,6 @@ class MyPreferenceActivity : ProtectedFragmentActivity(),
         return result
     }
 
-    fun validateLicence() {
-        showSnackBarIndefinite(R.string.progress_validating_licence)
-        licenceValidationViewModel.validateLicence()
-    }
-
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
         super.onPermissionsGranted(requestCode, perms)
         if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
@@ -282,21 +232,6 @@ class MyPreferenceActivity : ProtectedFragmentActivity(),
 
     private fun startPerformProtectionScreen() {
         startPreferenceScreen(prefHandler.getKey(PrefKey.PERFORM_PROTECTION_SCREEN))
-    }
-
-    override fun dispatchCommand(command: Int, tag: Any?): Boolean {
-        if (super.dispatchCommand(command, tag)) {
-            return true
-        }
-        return when (command) {
-            R.id.REMOVE_LICENCE_COMMAND -> {
-                showSnackBarIndefinite(R.string.progress_removing_licence)
-                licenceValidationViewModel.removeLicence()
-                true
-            }
-
-            else -> false
-        }
     }
 
     private fun startPreferenceScreen(key: String) {
