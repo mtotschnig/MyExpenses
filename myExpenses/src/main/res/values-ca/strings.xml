@@ -390,7 +390,6 @@
     <string name="image_capture_not_installed">No hi ha cap aplicació per fotografiar disponible.</string>
     <string name="pref_app_dir_title">Carpeta per còpia de seguretat i exportar</string>
     <string name="pref_auto_fill_summary">Omplir amb dades de l\'última transacció del mateix beneficiari/pagador</string>
-    <string name="pref_category_title_advanced">Avançat</string>
     <string name="pref_contrib_purchase_title_upgrade">Millorar clau</string>
     <string name="pref_contrib_purchase_title_in_app">Pagaments dins l\'aplicació</string>
     <string name="pref_custom_currency_title">Personalitzar divises</string>

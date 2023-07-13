@@ -257,7 +257,6 @@
     <string name="pref_auto_fill_summary">为同一收款人/付款人填写上一次交易的资料</string>
     <string name="pref_backup_summary">创建数据库与首选项的备份</string>
     <string name="pref_sort_order_usages">使用次数</string>
-    <string name="pref_category_title_advanced">高级设置</string>
     <string name="pref_category_title_export">导出</string>
     <string name="pref_category_title_import">导入</string>
     <string name="pref_category_title_manage">管理</string>

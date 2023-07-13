@@ -48,6 +48,7 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     APP_DIR(R.string.pref_app_dir_key),
     CATEGORY_PRIVACY(R.string.pref_category_privacy_key),
     CATEGORY_BACKUP_EXPORT(R.string.pref_category_export_backup_key),
+    CATEGORY_PROTECTION(R.string.pref_category_protection_key),
     ACCOUNT_GROUPING(R.string.pref_account_grouping_key),
     PLANNER_CALENDAR_PATH("planner_calendar_path"),
     CURRENT_VERSION("currentversion"),

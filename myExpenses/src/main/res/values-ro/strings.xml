@@ -245,7 +245,6 @@
     <string name="pref_app_dir_title">Folder pentru backup-uri si exporturi</string>
     <string name="pref_backup_summary">Creaţi un backup al bazei de date si preferinţelor.</string>
     <string name="pref_sort_order_usages">Numarul utilizarilor</string>
-    <string name="pref_category_title_advanced">Avansat</string>
     <string name="pref_category_title_export">Export</string>
     <string name="pref_category_title_import">Import</string>
     <string name="pref_category_title_manage">Gestionează</string>

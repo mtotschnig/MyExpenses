@@ -260,7 +260,6 @@
     <string name="pref_auto_fill_summary">Daten von der letzten Buchung für denselben Empfänger/Zahler ausfüllen</string>
     <string name="pref_backup_summary">Erzeugt eine Datensicherung der Datenbank und der Einstellungen.</string>
     <string name="pref_sort_order_usages">Häufigkeit der Benutzung</string>
-    <string name="pref_category_title_advanced">Erweitert</string>
     <string name="pref_category_title_export">Export</string>
     <string name="pref_category_title_import">Import</string>
     <string name="pref_category_title_manage">Verwalten</string>

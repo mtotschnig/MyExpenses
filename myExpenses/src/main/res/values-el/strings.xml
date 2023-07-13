@@ -260,7 +260,6 @@
     <string name="pref_auto_fill_summary">Συμπληρώστε τα δεδομένα από την τελευταία συναλλαγή για τον ίδιο δικαιούχο/πληρωτή</string>
     <string name="pref_backup_summary">Δημιουργήστε ένα αντίγραφο ασφαλείας της βάσης δεδομένων και προτιμήσεις για την sdcard.</string>
     <string name="pref_sort_order_usages">Άθροισμα χρήσεων</string>
-    <string name="pref_category_title_advanced">Προχωρημένα</string>
     <string name="pref_category_title_export">Εξαγωγή</string>
     <string name="pref_category_title_import">Εισαγωγή</string>
     <string name="pref_category_title_manage">Διαχείριση</string>

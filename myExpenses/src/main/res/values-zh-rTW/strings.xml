@@ -257,7 +257,6 @@
     <string name="pref_auto_fill_summary">若交易對象是同一個 收款人/付款人 時，系統將自動填入上次交易的數據。</string>
     <string name="pref_backup_summary">建立資料庫與偏好設定的備份檔</string>
     <string name="pref_sort_order_usages">使用次數</string>
-    <string name="pref_category_title_advanced">進階設定</string>
     <string name="pref_category_title_export">匯出</string>
     <string name="pref_category_title_import">匯入</string>
     <string name="pref_category_title_manage">管理設定</string>

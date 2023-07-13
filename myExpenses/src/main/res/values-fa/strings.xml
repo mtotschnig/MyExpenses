@@ -232,7 +232,6 @@
     <string name="pref_app_dir_title">پوشه برای بک‌آپ‌ها و خروجی‌ها</string>
     <string name="pref_auto_fill_summary">اطلاعات مربوط به آخرین تراکنش را برای همان گیرنده / پرداخت کننده وجه پر کنید</string>
     <string name="pref_backup_summary">ساخت بک‌آپ از پایگاه داده و ترجیحات</string>
-    <string name="pref_category_title_advanced">پیشرفته</string>
     <string name="pref_category_title_export">خروجی</string>
     <string name="pref_category_title_import">درون‌ریزی</string>
     <string name="pref_category_title_manage">مدیریت</string>

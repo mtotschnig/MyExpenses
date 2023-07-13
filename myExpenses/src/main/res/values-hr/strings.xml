@@ -227,7 +227,6 @@
     <string name="pm_type_neutral">Neutralno</string>
     <string name="pref_app_dir_title">Mapa za sigurnosne kopije i izvoze</string>
     <string name="pref_backup_summary">Izradi sigurnosnu kopiju baze podataka i osobnih postavaka.</string>
-    <string name="pref_category_title_advanced">Napredno</string>
     <string name="pref_category_title_export">Izvezi</string>
     <string name="pref_category_title_import">Uvezi</string>
     <string name="pref_category_title_manage">Upravljaj</string>

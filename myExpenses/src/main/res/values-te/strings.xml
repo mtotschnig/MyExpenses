@@ -446,7 +446,6 @@
     <string name="pref_category_title_manage">నిర్వహించడానికి</string>
     <string name="pref_category_title_import">దిగుమతి</string>
     <string name="pref_category_title_export">ఎగుమతి</string>
-    <string name="pref_category_title_advanced">ఆధునిక</string>
     <string name="pref_sort_order_usages">ఉపయోగాల సంఖ్య</string>
     <string name="pref_auto_fill_summary">అదే చెల్లింపుదారు / చెల్లించేవారుకోసం చివరి లావాదేవీ నుండి డేటాను పూరించండి</string>
     <string name="pref_backup_summary">డేటాబేస్ మరియు ప్రాధాన్యతల బ్యాకప్‌ను సృష్టించండి.</string>

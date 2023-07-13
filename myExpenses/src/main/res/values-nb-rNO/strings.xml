@@ -205,7 +205,6 @@
     <string name="pref_category_title_manage">Håndter</string>
     <string name="pref_category_title_import">Importer</string>
     <string name="pref_category_title_export">Eksporter</string>
-    <string name="pref_category_title_advanced">Avansert</string>
     <string name="pref_app_dir_title">Mappe for sikkerhetskopier og eksport</string>
     <string name="pm_type_neutral">Nøytral</string>
     <string name="pm_type_debit">Debet</string>
