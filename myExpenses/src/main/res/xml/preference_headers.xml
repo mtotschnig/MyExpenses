@@ -53,7 +53,6 @@
             android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesWebUiFragment"
             android:key="@string/pref_web_ui_key"
             android:title="@string/title_webui"/>
-        <Preference android:key="@string/pref_csv_export_key"/>
         <Preference
             android:key="@string/pref_optimize_picture_key"
             android:title="@string/optimize_image_file_size"/>

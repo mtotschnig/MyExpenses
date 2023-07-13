@@ -547,9 +547,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
             null -> { //ROOT screen
 
-                requirePreference<Preference>(PrefKey.CSV_EXPORT).title =
-                    getString(R.string.export_to_format, "CSV")
-
                 requirePreference<LocalizedFormatEditTextPreference>(PrefKey.CUSTOM_DECIMAL_FORMAT).onValidationErrorListener =
                     this
 

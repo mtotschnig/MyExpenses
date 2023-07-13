@@ -49,10 +49,11 @@ class PreferencesExportFragment: BasePreferenceFragment(),
 
     override val preferencesResId = R.xml.preferences_export
 
-
     override fun setPreferencesFromResource(preferencesResId: Int, key: String?) {
         super.setPreferencesFromResource(preferencesResId, key)
         preferenceScreen.title = exportBackupTitle
+        requirePreference<Preference>(PrefKey.CSV_EXPORT).title =
+            getString(R.string.export_to_format, "CSV")
     }
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)

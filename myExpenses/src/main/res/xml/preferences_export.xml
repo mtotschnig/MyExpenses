@@ -80,7 +80,8 @@
             android:title="@string/pref_auto_backup_time_title" />
     </PreferenceCategory>
 
-    <PreferenceCategory my:initialExpandedChildrenCount="1">
+    <PreferenceCategory my:initialExpandedChildrenCount="1"
+        android:layout="@layout/preference_category_empty">
 
         <SwitchPreferenceCompat
             android:key="@string/pref_purge_backup_key"
@@ -101,7 +102,8 @@
             android:title="@string/pref_purge_backup_require_confirmation_summary" />
     </PreferenceCategory>
 
-    <PreferenceCategory>
+    <PreferenceCategory
+        android:layout="@layout/preference_category_empty">
 
         <SwitchPreferenceCompat
             android:key="@string/pref_perform_share_key"
@@ -113,5 +115,19 @@
             android:key="@string/pref_share_target_key"
             android:summary="@string/pref_share_target_summary"
             android:title="@string/pref_share_target_title" />
+    </PreferenceCategory>
+    <PreferenceCategory android:key="@string/pref_csv_export_key">
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_csv_export_split_categories_key"
+            android:title="@string/pref_csv_export_split_categories_summary" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/pref_csv_export_split_amount_key"
+            android:title="@string/pref_csv_export_split_amount_summary" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_csv_export_split_date_time_key"
+            android:title="@string/pref_csv_export_split_date_time_summary" />
     </PreferenceCategory>
 </PreferenceScreen> 
