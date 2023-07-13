@@ -685,10 +685,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 true
             }
 
-            R.id.HELP_COMMAND -> {
-                doHelp(tag as String?)
-                true
-            }
+            R.id.HELP_COMMAND -> doHelp(tag as String?)
 
             android.R.id.home -> {
                 doHome()
@@ -910,11 +907,12 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         showDismissibleSnackBar(deleteFailureMessage(message), callback)
     }
 
-    protected open fun doHelp(variant: String?) {
+    protected open fun doHelp(variant: String?) : Boolean {
         startActivity(Intent(this, Help::class.java).apply {
             putExtra(HelpDialogFragment.KEY_CONTEXT, helpContext)
             putExtra(HelpDialogFragment.KEY_VARIANT, variant ?: helpVariant)
         })
+        return true
     }
 
     protected open val helpContext: String

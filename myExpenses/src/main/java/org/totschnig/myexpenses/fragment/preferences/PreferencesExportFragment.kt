@@ -148,6 +148,10 @@ class PreferencesExportFragment: BasePreferenceFragment(),
             }
             true
         }
+        matches(preference, PrefKey.HELP) -> {
+            preferenceActivity.startActionView(preference.summary.toString())
+            true
+        }
         else -> false
     }
 

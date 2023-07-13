@@ -59,7 +59,6 @@ import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
-import org.totschnig.myexpenses.util.io.isConnectedWifi
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.licence.Package
 import org.totschnig.myexpenses.util.tracking.Tracker
@@ -67,7 +66,6 @@ import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
 import org.totschnig.myexpenses.viewmodel.ShareViewModel
 import org.totschnig.myexpenses.viewmodel.ShareViewModel.Companion.parseUri
-import org.totschnig.myexpenses.viewmodel.WebUiViewModel
 import org.totschnig.myexpenses.widget.AccountWidget
 import org.totschnig.myexpenses.widget.TemplateWidget
 import org.totschnig.myexpenses.widget.WIDGET_CONTEXT_CHANGED
@@ -125,34 +123,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             true
         }
 
-    @Deprecated("Deprecated in Java")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.help, menu)
-        menu.findItem(R.id.HELP_COMMAND).setShowAsAction(SHOW_AS_ACTION_ALWAYS)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.HELP_COMMAND) {
-            when {
-                onScreen(PrefKey.PERFORM_SHARE) -> {
-                    preferenceActivity.startActionView("https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Data#what-are-the-different-share-options")
-                }
-
-                onScreen(PrefKey.UI_WEB) -> {
-                    startActivity(Intent(requireContext(), Help::class.java).apply {
-                        putExtra(HelpDialogFragment.KEY_CONTEXT, "WebUI")
-                        putExtra(
-                            HelpDialogFragment.KEY_TITLE,
-                            getString(R.string.title_webui)
-                        )
-                    })
-                }
-            }
-        }
-        return true
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         with(requireActivity().injector) {
             inject(currencyViewModel)
@@ -160,8 +130,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             super.onCreate(savedInstanceState)
             inject(this@BaseSettingsFragment)
         }
-
-        setHasOptionsMenu(onScreen(PrefKey.PERFORM_SHARE, PrefKey.UI_WEB))
     }
 
     override fun onResume() {

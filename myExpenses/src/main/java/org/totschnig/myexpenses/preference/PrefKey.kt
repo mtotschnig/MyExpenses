@@ -15,6 +15,7 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     SORT_ORDER_ACCOUNTS("sort_order_accounts"),
     SORT_ORDER_BUDGET_CATEGORIES("sort_order_budget_categories"),
     PERFORM_SHARE(R.string.pref_perform_share_key),
+    HELP(R.string.pref_help_key),
     SHARE_TARGET(R.string.pref_share_target_key),
     UI_THEME_KEY(R.string.pref_ui_theme_key),
     UI_FONTSIZE(R.string.pref_ui_fontsize_key),

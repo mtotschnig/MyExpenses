@@ -115,6 +115,11 @@
             android:key="@string/pref_share_target_key"
             android:summary="@string/pref_share_target_summary"
             android:title="@string/pref_share_target_title" />
+        <Preference
+            android:key="@string/pref_help_key"
+            android:title="@string/menu_help"
+            android:summary="https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Data#what-are-the-different-share-options"
+            />
     </PreferenceCategory>
     <PreferenceCategory android:key="@string/pref_csv_export_key">
         <SwitchPreferenceCompat

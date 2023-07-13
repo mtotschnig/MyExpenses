@@ -120,8 +120,6 @@ class MyPreferenceActivity : ProtectedFragmentActivity(),
         }
     }
 
-    override fun doHelp(variant: String?) {}
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home && supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()

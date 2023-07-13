@@ -11,4 +11,8 @@
         <SwitchPreferenceCompat
             android:key="@string/pref_web_ui_https_key"
             android:title="https" />
+    <Preference
+        android:key="@string/pref_help_key"
+        android:title="@string/menu_help"
+        />
 </PreferenceScreen>
