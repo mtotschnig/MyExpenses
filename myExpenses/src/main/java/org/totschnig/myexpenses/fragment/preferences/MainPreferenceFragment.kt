@@ -2,10 +2,7 @@ package org.totschnig.myexpenses.fragment.preferences
 
 import android.os.Bundle
 import androidx.core.content.res.ResourcesCompat
-import androidx.preference.Preference
-import androidx.preference.PreferenceGroupAdapter
-import androidx.preference.PreferenceScreen
-import androidx.preference.PreferenceViewHolder
+import androidx.preference.*
 import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
 import org.totschnig.myexpenses.R
@@ -61,6 +58,18 @@ class MainPreferenceFragment : BasePreferenceFragment() {
         super.onCreatePreferences(savedInstanceState, rootKey)
         requirePreference<Preference>(PrefKey.CATEGORY_BACKUP_EXPORT).title = exportBackupTitle
         highlightedKey = preferenceScreen.getPreference(0).key
+        configureRecursive(preferenceScreen) { it.isSingleLineTitle = true }
+    }
+
+    private fun configureRecursive(preferenceGroup: PreferenceGroup, action: (Preference) -> Unit) {
+        for (i in 0 until preferenceGroup.preferenceCount) {
+            val preference = preferenceGroup.getPreference(i)
+            if (preference is PreferenceCategory) {
+                configureRecursive(preference, action)
+            } else {
+                action(preference)
+            }
+        }
     }
 
     override fun onCreateAdapter(preferenceScreen: PreferenceScreen) =

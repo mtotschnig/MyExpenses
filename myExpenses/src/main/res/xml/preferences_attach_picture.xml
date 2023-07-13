@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--suppress AndroidElementNotAllowed -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:my="http://schemas.android.com/apk/res-auto" android:title="@string/contrib_feature_attach_picture_label">
+    <org.totschnig.myexpenses.preference.HeaderPreference />
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        android:key="@string/pref_optimize_picture_key"
+        android:title="@string/optimize_image_file_size" />
+    <org.totschnig.myexpenses.preference.EditNumberPreference
+        android:defaultValue="1000"
+        android:dependency="@string/pref_optimize_picture_key"
+        android:key="@string/pref_optimize_picture_max_size_key"
+        android:title="@string/maximum_size"
+        my:min="500"
+        my:useSimpleSummaryProvider="true" />
+    <ListPreference
+        android:defaultValue="WEBP"
+        android:dependency="@string/pref_optimize_picture_key"
+        android:entries="@array/pref_attach_picture_format_entries"
+        android:entryValues="@array/pref_attach_picture_format_entries"
+        android:key="@string/pref_optimize_picture_format_key"
+        android:title="@string/file_format"
+        my:useSimpleSummaryProvider="true" />
+    <SeekBarPreference
+        android:defaultValue="80"
+        android:dependency="@string/pref_optimize_picture_key"
+        android:key="@string/pref_optimize_picture_quality_key"
+        android:max="100"
+        android:summary="@string/image_optimize_quality_summary"
+        android:title="@string/image_optimize_quality"
+        my:min="0"
+        my:showSeekBarValue="true"
+        my:updatesContinuously="true" />
+</PreferenceScreen>

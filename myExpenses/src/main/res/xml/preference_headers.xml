@@ -39,23 +39,24 @@
     <PreferenceCategory android:title="@string/pref_category_title_features">
         <Preference
             android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesExchangeRateFragment"
-            android:key="@string/pref_exchange_rates_key"
+            android:key="exchange_rates"
             android:title="@string/pref_category_exchange_rates"/>
         <Preference
             android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesOcrFragment"
-            android:key="@string/pref_ocr_key"
+            android:key="ocr"
             android:title="@string/title_scan_receipt_feature"/>
         <Preference
             android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesSyncFragment"
-            android:key="@string/pref_sync_key"
+            android:key="sync"
             android:title="@string/synchronization"/>
         <Preference
             android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesWebUiFragment"
-            android:key="@string/pref_web_ui_key"
+            android:key="web_ui"
             android:title="@string/title_webui"/>
         <Preference
-            android:key="@string/pref_optimize_picture_key"
-            android:title="@string/optimize_image_file_size"/>
+            android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesAttachPictureFragment"
+            android:key="attach_picture"
+            android:title="@string/contrib_feature_attach_picture_label"/>
     </PreferenceCategory>
     <Preference
         my:allowDividerAbove="true"
