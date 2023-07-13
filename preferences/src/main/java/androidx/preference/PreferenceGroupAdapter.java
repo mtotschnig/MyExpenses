@@ -289,6 +289,7 @@ public class PreferenceGroupAdapter extends RecyclerView.Adapter<PreferenceViewH
         final ExpandButton preference = new ExpandButton(
                 group.getContext(),
                 collapsedPreferences,
+                group.expandButtonTitle,
                 group.getId()
         );
         preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

@@ -70,6 +70,8 @@ public abstract class PreferenceGroup extends Preference {
     private int mInitialExpandedChildrenCount = Integer.MAX_VALUE;
     private OnExpandButtonClickListener mOnExpandButtonClickListener = null;
 
+    CharSequence expandButtonTitle = null;
+
     private final Runnable mClearRecycleCacheRunnable = new Runnable() {
         @Override
         public void run() {
@@ -96,6 +98,12 @@ public abstract class PreferenceGroup extends Preference {
             setInitialExpandedChildrenCount(TypedArrayUtils.getInt(
                     a, R.styleable.PreferenceGroup_initialExpandedChildrenCount,
                     R.styleable.PreferenceGroup_initialExpandedChildrenCount, Integer.MAX_VALUE));
+            if (a.hasValue(R.styleable.PreferenceGroup_expandButtonTitle)) {
+                expandButtonTitle = TypedArrayUtils.getText(a, R.styleable.PreferenceGroup_expandButtonTitle,
+                        R.styleable.PreferenceGroup_expandButtonTitle);
+            } else {
+                expandButtonTitle = context.getString(R.string.expand_button_title);
+            }
         }
         a.recycle();
     }

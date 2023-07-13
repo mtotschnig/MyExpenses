@@ -94,6 +94,7 @@
              The group should have a key defined if an expandable preference is present to correctly
              persist state. -->
         <attr name="initialExpandedChildrenCount" format="integer" />
+        <attr name="expandButtonTitle" format="string" />
     </declare-styleable>
 
     <!-- Base attributes available to Preference. -->
