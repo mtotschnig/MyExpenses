@@ -9,6 +9,7 @@ import androidx.preference.MultiSelectListPreference
 import androidx.preference.MultiSelectListPreferenceDialogFragment2
 import androidx.preference.Preference
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESULT_RESTORE_OK
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.fragment.BaseSettingsFragment
 import org.totschnig.myexpenses.preference.AccountPreference
@@ -152,7 +153,18 @@ class PreferencesExportFragment: BasePreferenceFragment(),
             preferenceActivity.startActionView(preference.summary.toString())
             true
         }
+        matches(preference, PrefKey.RESTORE) -> {
+            restore.launch(preference.intent)
+            true
+        }
         else -> false
+    }
+
+    private val restore = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == RESULT_RESTORE_OK) {
+            requireActivity().setResult(RESULT_RESTORE_OK)
+            requireActivity().finish()
+        }
     }
 
     private val pickFolder = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) {

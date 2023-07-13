@@ -119,14 +119,4 @@ public class SettingsFragment extends BaseSettingsFragment {
       super.onDisplayPreferenceDialog(preference);
     }
   }
-
-  @Override
-  public void onActivityResult(int requestCode, int resultCode,
-                               Intent intent) {
-    if (requestCode == RESTORE_REQUEST && resultCode == RESULT_RESTORE_OK) {
-      requireActivity().setResult(resultCode);
-      requireActivity().finish();
-    }
-  }
-
 }
