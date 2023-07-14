@@ -217,17 +217,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 preferenceActivity.initLocaleContext()
             }
 
-            getKey(PrefKey.PROTECTION_LEGACY), getKey(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN) -> {
-                if (sharedPreferences.getBoolean(key, false)) {
-                    preferenceActivity.showSnackBar(R.string.pref_protection_screenshot_information)
-                    if (prefHandler.getBoolean(PrefKey.AUTO_BACKUP, false)) {
-                        preferenceActivity.showUnencryptedBackupWarning()
-                    }
-                }
-                setProtectionDependentsState()
-                updateAllWidgets()
-            }
-
             getKey(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET) -> {
                 //Log.d("DEBUG","shared preference changed: Account Widget");
                 updateWidgetsForClass(AccountWidget::class.java)
@@ -311,37 +300,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     }
                 }
             }
-
-            matches(pref, PrefKey.PROTECTION_DEVICE_LOCK_SCREEN) -> {
-                if (value as Boolean) {
-                    if (!(requireContext().getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager).isKeyguardSecure) {
-                        preferenceActivity.showDeviceLockScreenWarning()
-                        return false
-                    } else if (prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false)) {
-                        showOnlyOneProtectionWarning(true)
-                        return false
-                    }
-                }
-                return true
-            }
         }
         return true
-    }
-
-    protected fun showOnlyOneProtectionWarning(legacyProtectionByPasswordIsActive: Boolean) {
-        val lockScreen = getString(R.string.pref_protection_device_lock_screen_title)
-        val passWord = getString(R.string.pref_protection_password_title)
-        val formatArgs: Array<String> = if (legacyProtectionByPasswordIsActive) arrayOf(
-            lockScreen,
-            passWord
-        ) else arrayOf(passWord, lockScreen)
-        //noinspection StringFormatMatches
-        preferenceActivity.showSnackBar(
-            getString(
-                R.string.pref_warning_only_one_protection,
-                *formatArgs
-            )
-        )
     }
 
     private fun updateAllWidgets() {
@@ -351,22 +311,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
     private fun updateWidgetsForClass(provider: Class<out AppWidgetProvider>) {
         updateWidgets(preferenceActivity, provider, WIDGET_CONTEXT_CHANGED)
-    }
-
-    fun setProtectionDependentsState() {
-        if (onScreen(PrefKey.ROOT_SCREEN, PrefKey.PERFORM_PROTECTION_SCREEN)) {
-            val isLegacy = prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false)
-            val isProtected =
-                isLegacy || prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)
-            requirePreference<Preference>(PrefKey.SECURITY_QUESTION).isEnabled = isLegacy
-            requirePreference<Preference>(PrefKey.PROTECTION_DELAY_SECONDS).isEnabled = isProtected
-            requirePreference<Preference>(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET).isEnabled =
-                isProtected
-            requirePreference<Preference>(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET).isEnabled =
-                isProtected
-            requirePreference<Preference>(PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET).isEnabled =
-                isProtected
-        }
     }
 
     private fun trackPreferenceClick(preference: Preference) {
@@ -471,19 +415,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     }
                 }
 
-                val privacyCategory =
-                    requirePreference<PreferenceCategory>(PrefKey.CATEGORY_PRIVACY)
-                if (!DistributionHelper.distribution.supportsTrackingAndCrashReporting) {
-                    privacyCategory.removePreference(requirePreference(PrefKey.TRACKING))
-                    privacyCategory.removePreference(requirePreference(PrefKey.CRASHREPORT_SCREEN))
-                }
-                if (adHandlerFactory.isAdDisabled || !adHandlerFactory.isRequestLocationInEeaOrUnknown) {
-                    privacyCategory.removePreference(requirePreference(PrefKey.PERSONALIZED_AD_CONSENT))
-                }
-                if (privacyCategory.preferenceCount == 0) {
-                    preferenceScreen.removePreference(privacyCategory)
-                }
-
                 val translatorsArrayResId = getTranslatorsArrayResId()
                 if (translatorsArrayResId != 0) {
                     val translatorsArray = resources.getStringArray(translatorsArrayResId)
@@ -536,23 +467,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
             }
 
-            getKey(PrefKey.PERFORM_PROTECTION_SCREEN) -> {
-                setProtectionDependentsState()
-                val preferenceLegacy = requirePreference<Preference>(PrefKey.PROTECTION_LEGACY)
-                val preferenceSecurityQuestion =
-                    requirePreference<Preference>(PrefKey.SECURITY_QUESTION)
-                val preferenceDeviceLock =
-                    requirePreference<Preference>(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN)
-                val preferenceCategory = PreferenceCategory(requireContext())
-                preferenceCategory.setTitle(R.string.feature_deprecated)
-                preferenceScreen.addPreference(preferenceCategory)
-                preferenceScreen.removePreference(preferenceLegacy)
-                preferenceScreen.removePreference(preferenceSecurityQuestion)
-                preferenceCategory.addPreference(preferenceLegacy)
-                preferenceCategory.addPreference(preferenceSecurityQuestion)
-                preferenceDeviceLock.onPreferenceChangeListener = this
-            }
-
             getKey(PrefKey.PERFORM_SHARE) -> {
                 with(requirePreference<Preference>(PrefKey.SHARE_TARGET)) {
                     summary = getString(R.string.pref_share_target_summary) + " " +
@@ -561,13 +475,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                             ) { it.name.lowercase() }
                     onPreferenceChangeListener = this@BaseSettingsFragment
                 }
-            }
-
-            getKey(PrefKey.CRASHREPORT_SCREEN) -> {
-                requirePreference<Preference>(PrefKey.ACRA_INFO).summary = Utils.getTextWithAppName(
-                    context,
-                    R.string.crash_reports_user_info
-                )
             }
 
             getKey(PrefKey.FEATURE_UNINSTALL) -> {

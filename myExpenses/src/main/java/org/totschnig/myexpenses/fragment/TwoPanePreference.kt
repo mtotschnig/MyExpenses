@@ -1,34 +1,51 @@
 package org.totschnig.myexpenses.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.doOnLayout
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceHeaderFragmentCompat
-import androidx.preference.R
+import androidx.preference.*
 import androidx.slidingpanelayout.widget.SlidingPaneLayout
+import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.activity.CONFIRM_DEVICE_CREDENTIALS_MANAGE_PROTECTION_SETTINGS_REQUEST
+import org.totschnig.myexpenses.activity.PreferenceActivity
 import org.totschnig.myexpenses.fragment.preferences.BasePreferenceFragment
 import org.totschnig.myexpenses.fragment.preferences.MainPreferenceFragment
+import org.totschnig.myexpenses.preference.PrefKey
 
 class TwoPanePreference : PreferenceHeaderFragmentCompat() {
 
     override fun onCreatePreferenceHeader() = MainPreferenceFragment()
 
+    @SuppressLint("MissingSuperCall")
     override fun onPreferenceStartFragment(
         caller: PreferenceFragmentCompat,
         pref: Preference
     ): Boolean {
-        if (headerFragment.isSlideable) {
-            super.onPreferenceStartFragment(caller, pref)
+        val started = if (headerFragment.isSlideable) {
             requireActivity().title = pref.title
+            startFragment(caller, pref)
         } else if (caller !is MainPreferenceFragment || headerFragment.highlightedKey != pref.key) {
-            super.onPreferenceStartFragment(caller, pref)
-        }
-        if (caller is MainPreferenceFragment) {
-            headerFragment.onLoadPreference(pref.key)
+            startFragment(caller, pref)
+        } else false
+        if (started && caller is MainPreferenceFragment) {
+            caller.onLoadPreference(pref.key)
         }
         return true
+    }
+
+    private fun startFragment(
+        caller: PreferenceFragmentCompat,
+        pref: Preference
+    )  = if ((requireActivity() as PreferenceActivity).protectionCheck(pref)) {
+        super.onPreferenceStartFragment(caller, pref)
+        true
+    } else false
+
+    fun startPerformProtection() {
+        val pref = headerFragment.requirePreference<Preference>(PrefKey.CATEGORY_PROTECTION)
+        super.onPreferenceStartFragment(headerFragment, pref)
+        headerFragment.onLoadPreference(pref.key)
     }
 
     private val headerFragment: MainPreferenceFragment

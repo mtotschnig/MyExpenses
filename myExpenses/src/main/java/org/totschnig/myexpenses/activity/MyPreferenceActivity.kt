@@ -46,8 +46,7 @@ import java.util.*
  *
  * @author Michael Totschnig
  */
-class MyPreferenceActivity : ProtectedFragmentActivity(),
-    PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
+class MyPreferenceActivity : ProtectedFragmentActivity() {
     lateinit var binding: SettingsBinding
 
     private var initialPrefToShow: String? = null
@@ -200,38 +199,6 @@ class MyPreferenceActivity : ProtectedFragmentActivity(),
             fragment.showPreference(initialPrefToShow)
             initialPrefToShow = null
         }
-    }
-
-    override fun onPreferenceStartScreen(
-        preferenceFragmentCompat: PreferenceFragmentCompat,
-        preferenceScreen: PreferenceScreen
-    ): Boolean {
-        if (preferenceScreen.key == prefHandler.getKey(PrefKey.PERFORM_PROTECTION_SCREEN) &&
-            (application as MyApplication).isProtected
-        ) {
-            confirmCredentials(
-                CONFIRM_DEVICE_CREDENTIALS_MANAGE_PROTECTION_SETTINGS_REQUEST,
-                { startPerformProtectionScreen() },
-                false
-            )
-        } else {
-            startPreferenceScreen(preferenceScreen.key)
-        }
-        return true
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == CONFIRM_DEVICE_CREDENTIALS_MANAGE_PROTECTION_SETTINGS_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                startPerformProtectionScreen()
-            }
-        }
-    }
-
-    private fun startPerformProtectionScreen() {
-        startPreferenceScreen(prefHandler.getKey(PrefKey.PERFORM_PROTECTION_SCREEN))
     }
 
     private fun startPreferenceScreen(key: String) {

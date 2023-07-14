@@ -12,8 +12,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.preference.Preference
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.SettingsBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
@@ -208,6 +210,18 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
                     GenericAccountService.addPeriodicSync(account, prefHandler)
                 }
             }
+
+            getKey(PrefKey.PROTECTION_LEGACY), getKey(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN) -> {
+                if (sharedPreferences.getBoolean(key, false)) {
+                    showSnackBar(R.string.pref_protection_screenshot_information)
+                    if (prefHandler.getBoolean(PrefKey.AUTO_BACKUP, false)) {
+                        showUnencryptedBackupWarning()
+                    }
+                }
+                twoPanePreference.getDetailFragment<PreferencesProtectionFragment>()
+                    ?.setProtectionDependentsState()
+                updateAllWidgets()
+            }
         }
     }
 
@@ -283,4 +297,26 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             }
         }
     }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CONFIRM_DEVICE_CREDENTIALS_MANAGE_PROTECTION_SETTINGS_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                twoPanePreference.startPerformProtection()
+            }
+        }
+    }
+
+    fun protectionCheck(pref: Preference) =
+        if (pref.key == prefHandler.getKey(PrefKey.CATEGORY_PROTECTION) &&
+            (application as MyApplication).isProtected
+        ) {
+            confirmCredentials(
+                CONFIRM_DEVICE_CREDENTIALS_MANAGE_PROTECTION_SETTINGS_REQUEST,
+                { twoPanePreference.startPerformProtection() },
+                false
+            )
+            false
+        } else true
 }

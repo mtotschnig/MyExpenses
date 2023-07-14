@@ -1,9 +1,14 @@
 package org.totschnig.myexpenses.fragment.preferences
 
+import android.app.KeyguardManager
+import android.content.Context
 import android.os.Bundle
 import androidx.preference.Preference
+import androidx.preference.PreferenceCategory
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.distrib.DistributionHelper
 
 class PreferencesProtectionFragment : BasePreferenceFragment() {
 
@@ -12,11 +17,54 @@ class PreferencesProtectionFragment : BasePreferenceFragment() {
     override fun setPreferencesFromResource(preferencesResId: Int, key: String?) {
         super.setPreferencesFromResource(preferencesResId, key)
         preferenceScreen.title = protectionTitle
-        requirePreference<Preference>(PrefKey.PROTECTION_LEGACY).title =
-            getString(R.string.pref_protection_password_title) + " (" + getString(R.string.feature_deprecated)  + ")"
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
+        setProtectionDependentsState()
+        requirePreference<Preference>(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN).onPreferenceChangeListener =
+            Preference.OnPreferenceChangeListener { _, newValue ->
+                if (newValue as Boolean) {
+                    if (!(requireContext().getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager).isKeyguardSecure) {
+                        preferenceActivity.showDeviceLockScreenWarning()
+                        false
+                    } else if (prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false)) {
+                        showOnlyOneProtectionWarning(true)
+                        false
+                    } else true
+                } else true
+            }
+        requirePreference<Preference>(PrefKey.CRASHREPORT_ENABLED).summary =
+            Utils.getTextWithAppName(
+                context,
+                R.string.crash_reports_user_info
+            )
+        with(requirePreference<PreferenceCategory>(PrefKey.CATEGORY_PRIVACY)) {
+            if (!DistributionHelper.distribution.supportsTrackingAndCrashReporting) {
+                removePreference(requirePreference(PrefKey.TRACKING))
+                removePreference(requirePreference(PrefKey.CRASHREPORT_ENABLED))
+                removePreference(requirePreference(PrefKey.CRASHREPORT_USEREMAIL))
+            }
+            if (adHandlerFactory.isAdDisabled || !adHandlerFactory.isRequestLocationInEeaOrUnknown) {
+                removePreference(requirePreference(PrefKey.PERSONALIZED_AD_CONSENT))
+            }
+            if (preferenceCount == 0) {
+                preferenceScreen.removePreference(this)
+            }
+        }
+    }
+
+    fun setProtectionDependentsState() {
+        val isLegacy = prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false)
+        val isProtected =
+            isLegacy || prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)
+        requirePreference<Preference>(PrefKey.SECURITY_QUESTION).isEnabled = isLegacy
+        requirePreference<Preference>(PrefKey.PROTECTION_DELAY_SECONDS).isEnabled = isProtected
+        requirePreference<Preference>(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET).isEnabled =
+            isProtected
+        requirePreference<Preference>(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET).isEnabled =
+            isProtected
+        requirePreference<Preference>(PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET).isEnabled =
+            isProtected
     }
 }

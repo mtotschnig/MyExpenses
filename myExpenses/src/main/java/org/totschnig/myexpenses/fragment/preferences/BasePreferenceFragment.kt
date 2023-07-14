@@ -4,14 +4,17 @@ import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.annotation.XmlRes
 import androidx.fragment.app.activityViewModels
-import androidx.preference.*
+import androidx.preference.ListPreference
+import androidx.preference.MultiSelectListPreferenceDialogFragment2
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.PreferenceActivity
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.*
-import org.totschnig.myexpenses.preference.PreferenceDataStore
+import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
@@ -30,6 +33,9 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
 
     @Inject
     lateinit var licenceHandler: LicenceHandler
+
+    @Inject
+    lateinit var adHandlerFactory: AdHandlerFactory
 
     @get:XmlRes
     abstract val preferencesResId: Int
@@ -84,6 +90,15 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
             preference is SimplePasswordPreference -> SimplePasswordDialogFragmentCompat.newInstance(key)
             matches(preference, PrefKey.MANAGE_APP_DIR_FILES) ->
                 MultiSelectListPreferenceDialogFragment2.newInstance(key)
+            matches(preference, PrefKey.PROTECTION_LEGACY) -> {
+                if (prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)) {
+                    showOnlyOneProtectionWarning(false)
+                    return
+                } else {
+                    LegacyPasswordPreferenceDialogFragmentCompat.newInstance(key)
+                }
+            }
+            matches(preference, PrefKey.SECURITY_QUESTION) -> SecurityQuestionDialogFragmentCompat.newInstance(key)
             else -> null
         }
 
@@ -96,6 +111,22 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
         } else {
             super.onDisplayPreferenceDialog(preference)
         }
+    }
+
+    protected fun showOnlyOneProtectionWarning(legacyProtectionByPasswordIsActive: Boolean) {
+        val lockScreen = getString(R.string.pref_protection_device_lock_screen_title)
+        val passWord = getString(R.string.pref_protection_password_title)
+        val formatArgs: Array<String> = if (legacyProtectionByPasswordIsActive) arrayOf(
+            lockScreen,
+            passWord
+        ) else arrayOf(passWord, lockScreen)
+        //noinspection StringFormatMatches
+        preferenceActivity.showSnackBar(
+            getString(
+                R.string.pref_warning_only_one_protection,
+                *formatArgs
+            )
+        )
     }
 
     fun <T : Preference> findPreference(prefKey: PrefKey): T? =
