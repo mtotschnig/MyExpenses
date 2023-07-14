@@ -71,7 +71,10 @@
         android:key="@string/pref_category_protection_key"
         android:title="@string/pref_category_title_security" />
 
-    <Preference android:title="@string/pref_category_title_more_information" />
+    <Preference
+        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesMoreInfoFragment"
+        android:key="more_info"
+        android:title="@string/pref_category_title_more_information" />
 
     <Preference android:title="@string/feedback" />
 
