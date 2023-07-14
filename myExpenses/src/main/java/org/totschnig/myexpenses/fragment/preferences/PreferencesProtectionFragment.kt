@@ -67,4 +67,14 @@ class PreferencesProtectionFragment : BasePreferenceFragment() {
         requirePreference<Preference>(PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET).isEnabled =
             isProtected
     }
+
+    override fun onPreferenceTreeClick(preference: Preference) = when {
+        super.onPreferenceTreeClick(preference) -> true
+        matches(preference, PrefKey.PERSONALIZED_AD_CONSENT) -> {
+            preferenceActivity.checkGdprConsent(true)
+            true
+        }
+
+        else -> false
+    }
 }

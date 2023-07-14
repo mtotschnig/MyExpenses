@@ -652,11 +652,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 true
             }
 
-            matches(preference, PrefKey.PERSONALIZED_AD_CONSENT) -> {
-                preferenceActivity.checkGdprConsent(true)
-                true
-            }
-
             matches(preference, PrefKey.DEBUG_REPAIR_987) -> {
                 viewModel.prettyPrintCorruptedData(currencyFormatter).observe(this) { message ->
                     MessageDialogFragment.newInstance(
