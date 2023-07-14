@@ -135,11 +135,13 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
                 }
                 true
             }
+
             R.id.REMOVE_LICENCE_COMMAND -> {
                 showSnackBarIndefinite(R.string.progress_removing_licence)
                 licenceValidationViewModel.removeLicence()
                 true
             }
+
             else -> false
         }
 
@@ -168,18 +170,31 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             }
 
             getKey(PrefKey.AUTO_BACKUP) -> {
-                if ((sharedPreferences.getBoolean(key, false) &&
-                            ((prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false) ||
-                                    prefHandler.getBoolean(
-                                        PrefKey.PROTECTION_DEVICE_LOCK_SCREEN,
-                                        false
-                                    ))
-                                    )
+                if (sharedPreferences.getBoolean(key, false) &&
+                    (prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false) ||
+                            prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)
                             )
                 ) {
                     showUnencryptedBackupWarning()
                 }
                 AutoBackupWorker.enqueueOrCancel(this, prefHandler)
+            }
+
+            getKey(PrefKey.AUTO_BACKUP_TIME) -> {
+                AutoBackupWorker.enqueueOrCancel(this, prefHandler)
+            }
+
+            getKey(PrefKey.TRACKING) -> {
+                tracker.setEnabled(sharedPreferences.getBoolean(key, false))
+            }
+
+            getKey(PrefKey.CRASHREPORT_USEREMAIL) -> {
+                crashHandler.setUserEmail(sharedPreferences.getString(key, null))
+            }
+
+            getKey(PrefKey.CRASHREPORT_ENABLED) -> {
+                crashHandler.setEnabled(sharedPreferences.getBoolean(key, false))
+                showSnackBar(R.string.app_restart_required)
             }
 
             getKey(PrefKey.EXCHANGE_RATE_PROVIDER) -> {

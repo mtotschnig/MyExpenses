@@ -200,14 +200,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         key: String
     ) {
         when (key) {
-            getKey(PrefKey.CRASHREPORT_USEREMAIL) -> {
-                crashHandler.setUserEmail(sharedPreferences.getString(key, null))
-            }
-
-            getKey(PrefKey.CRASHREPORT_ENABLED) -> {
-                crashHandler.setEnabled(sharedPreferences.getBoolean(key, false))
-                preferenceActivity.showSnackBar(R.string.app_restart_required)
-            }
 
             getKey(PrefKey.CUSTOM_DECIMAL_FORMAT) -> {
                 currencyFormatter.invalidateAll(requireContext().contentResolver)
@@ -225,28 +217,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             getKey(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET) -> {
                 //Log.d("DEBUG","shared preference changed: Template Widget");
                 updateWidgetsForClass(TemplateWidget::class.java)
-            }
-
-            getKey(PrefKey.AUTO_BACKUP) -> {
-                if ((sharedPreferences.getBoolean(
-                        key,
-                        false
-                    ) && ((prefHandler.getBoolean(
-                        PrefKey.PROTECTION_LEGACY,
-                        false
-                    ) || prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false))))
-                ) {
-                    preferenceActivity.showUnencryptedBackupWarning()
-                }
-                AutoBackupWorker.enqueueOrCancel(preferenceActivity, prefHandler)
-            }
-
-            getKey(PrefKey.AUTO_BACKUP_TIME) -> {
-                AutoBackupWorker.enqueueOrCancel(preferenceActivity, prefHandler)
-            }
-
-            getKey(PrefKey.TRACKING) -> {
-                tracker.setEnabled(sharedPreferences.getBoolean(key, false))
             }
 
             getKey(PrefKey.PLANNER_EXECUTION_TIME) -> {
