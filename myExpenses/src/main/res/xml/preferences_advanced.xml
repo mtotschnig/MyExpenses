@@ -37,14 +37,6 @@
             android:title="@string/pref_planner_manual_time_title"
             my:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
-    <ListPreference
-        android:defaultValue="EndOfDay"
-        android:entries="@array/pref_criterion_future_entries"
-        android:entryValues="@array/pref_criterion_future_values"
-        android:key="@string/pref_criterion_future_key"
-        android:persistent="false"
-        android:title="@string/pref_criterion_futur_title"
-        my:useSimpleSummaryProvider="true" />
     <PreferenceCategory
         android:key="@string/pref_webdav_key"
         android:title="WebDAV">

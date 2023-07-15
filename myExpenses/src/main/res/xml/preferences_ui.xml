@@ -40,48 +40,48 @@
         my:useSimpleSummaryProvider="true" />
 
     <PreferenceCategory
-        my:initialExpandedChildrenCount="1"
-        android:title="@string/autofill">
+        android:title="@string/autofill"
+        my:initialExpandedChildrenCount="1">
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="@string/pref_auto_fill_key"
             android:title="@string/pref_auto_fill_summary" />
         <SwitchPreferenceCompat
-            android:dependency="@string/pref_auto_fill_key"
             android:defaultValue="true"
+            android:dependency="@string/pref_auto_fill_key"
             android:key="@string/pref_auto_fill_amount_key"
             android:title="@string/amount" />
         <SwitchPreferenceCompat
-            android:dependency="@string/pref_auto_fill_key"
             android:defaultValue="true"
+            android:dependency="@string/pref_auto_fill_key"
             android:key="@string/pref_auto_fill_category_key"
             android:title="@string/category" />
         <SwitchPreferenceCompat
-            android:dependency="@string/pref_auto_fill_key"
             android:defaultValue="true"
+            android:dependency="@string/pref_auto_fill_key"
             android:key="@string/pref_auto_fill_comment_key"
             android:title="@string/comment" />
         <ListPreference
-            android:dependency="@string/pref_auto_fill_key"
             android:defaultValue="aggregate"
+            android:dependency="@string/pref_auto_fill_key"
             android:entries="@array/pref_auto_fill_account_entries"
             android:entryValues="@array/pref_auto_fill_account_values"
             android:key="@string/pref_auto_fill_account_key"
             android:title="@string/account"
             my:useSimpleSummaryProvider="true" />
         <SwitchPreferenceCompat
-            android:dependency="@string/pref_auto_fill_key"
             android:defaultValue="true"
+            android:dependency="@string/pref_auto_fill_key"
             android:key="@string/pref_auto_fill_method_key"
             android:title="@string/method" />
         <SwitchPreferenceCompat
-            android:dependency="@string/pref_auto_fill_key"
             android:defaultValue="true"
+            android:dependency="@string/pref_auto_fill_key"
             android:key="@string/pref_auto_fill_debt_key"
             android:title="@string/debt" />
         <SwitchPreferenceCompat
-            android:dependency="@string/pref_auto_fill_key"
             android:defaultValue="true"
+            android:dependency="@string/pref_auto_fill_key"
             android:key="@string/pref_auto_fill_focus_key"
             android:title="@string/auto_fill_focus"
             my:singleLineTitle="false" />
@@ -89,7 +89,8 @@
 
     <PreferenceCategory
         android:key="@string/pref_ui_transaction_list_key"
-        android:title="@string/help_MyExpenses_title">
+        android:title="@string/help_MyExpenses_title"
+        my:initialExpandedChildrenCount="2">
 
         <SwitchPreferenceCompat
             android:defaultValue="false"
@@ -113,12 +114,21 @@
             android:persistent="false"
             android:title="@string/pref_group_header_show_details_summary" />
 
+        <ListPreference
+            android:defaultValue="EndOfDay"
+            android:entries="@array/pref_criterion_future_entries"
+            android:entryValues="@array/pref_criterion_future_values"
+            android:key="@string/pref_criterion_future_key"
+            android:persistent="false"
+            android:title="@string/pref_criterion_futur_title"
+            my:useSimpleSummaryProvider="true" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
-        my:initialExpandedChildrenCount="1"
         android:key="@string/pref_ui_home_screen_shortcuts_key"
         android:title="@string/pref_ui_home_screen_shortcuts"
+        my:initialExpandedChildrenCount="1"
         my:isPreferenceVisible="@bool/pin_shortcut_support">
 
         <Preference

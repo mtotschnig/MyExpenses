@@ -57,6 +57,18 @@ class PreferenceUiFragment: BasePreferenceFragment() {
             }
         }
 
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                preferenceDataStore.handleToggle(requirePreference(PrefKey.GROUP_HEADER))
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                preferenceDataStore.handleList(requirePreference(PrefKey.CRITERION_FUTURE))
+            }
+        }
+
         with(requirePreference<Preference>(PrefKey.SHORTCUT_CREATE_SPLIT)) {
             if (licenceHandler.isContribEnabled) {
                 isEnabled = true

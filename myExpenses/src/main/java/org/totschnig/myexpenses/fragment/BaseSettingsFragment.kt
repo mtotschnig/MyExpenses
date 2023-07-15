@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.fragment
 
-import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -36,8 +35,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
-import org.totschnig.myexpenses.widget.WIDGET_CONTEXT_CHANGED
-import org.totschnig.myexpenses.widget.updateWidgets
 import timber.log.Timber
 import java.io.File
 import java.util.*
@@ -96,98 +93,12 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), Preference.OnP
         return prefHandler.getKey(prefKey)
     }
 
-    private fun updateWidgetsForClass(provider: Class<out AppWidgetProvider>) {
-        updateWidgets(preferenceActivity, provider, WIDGET_CONTEXT_CHANGED)
-    }
-
-    private fun trackPreferenceClick(preference: Preference) {
-        val bundle = Bundle()
-        bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, preference.key)
-        preferenceActivity.logEvent(Tracker.EVENT_PREFERENCE_CLICK, bundle)
-    }
-
-    /**
-     * sets listener and allows multi-line title for every preference in group, recursively
-     */
-    private fun configureRecursive(
-        preferenceGroup: PreferenceGroup,
-        listener: Preference.OnPreferenceClickListener
-    ) {
-        for (i in 0 until preferenceGroup.preferenceCount) {
-            val preference = preferenceGroup.getPreference(i)
-            if (preference is PreferenceCategory) {
-                configureRecursive(preference, listener)
-            } else {
-                preference.onPreferenceClickListener = listener
-                preference.isSingleLineTitle = false
-            }
-        }
-    }
-
-    private fun unsetIconSpaceReservedRecursive(preferenceGroup: PreferenceGroup) {
-        for (i in 0 until preferenceGroup.preferenceCount) {
-            val preference = preferenceGroup.getPreference(i)
-            if (preference is PreferenceCategory) {
-                unsetIconSpaceReservedRecursive(preference)
-            }
-            preference.isIconSpaceReserved = false
-        }
-    }
-
-    private val homeScreenShortcutPrefClickHandler =
-        Preference.OnPreferenceClickListener { preference: Preference ->
-            trackPreferenceClick(preference)
-            when {
-                matches(preference, PrefKey.SHORTCUT_CREATE_TRANSACTION) -> {
-                    addShortcut(
-                        R.string.transaction, Transactions.TYPE_TRANSACTION,
-                        R.drawable.shortcut_create_transaction_icon_lollipop
-                    )
-                    true
-                }
-
-                matches(preference, PrefKey.SHORTCUT_CREATE_TRANSFER) -> {
-                    addShortcut(
-                        R.string.transfer, Transactions.TYPE_TRANSFER,
-                        R.drawable.shortcut_create_transfer_icon_lollipop
-                    )
-                    true
-                }
-
-                matches(preference, PrefKey.SHORTCUT_CREATE_SPLIT) -> {
-                    addShortcut(
-                        R.string.split_transaction, Transactions.TYPE_SPLIT,
-                        R.drawable.shortcut_create_split_icon_lollipop
-                    )
-                    true
-                }
-
-                else -> false
-            }
-        }
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
-
-        configureRecursive(
-            preferenceScreen, if (getKey(PrefKey.UI_HOME_SCREEN_SHORTCUTS) == rootKey)
-                homeScreenShortcutPrefClickHandler
-            else
-                this
-        )
-        unsetIconSpaceReservedRecursive(preferenceScreen)
 
         when (rootKey) {
 
             null -> { //ROOT screen
-
-                lifecycleScope.launchWhenStarted {
-                    preferenceDataStore.handleToggle(requirePreference(PrefKey.GROUP_HEADER))
-                }
-
-                lifecycleScope.launchWhenStarted {
-                    preferenceDataStore.handleList(requirePreference(PrefKey.CRITERION_FUTURE))
-                }
 
                 lifecycleScope.launchWhenStarted {
                     viewModel.hasStaleImages.collect { result ->
@@ -319,14 +230,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), Preference.OnP
         )
     }
 
-    private fun updateDependents(enabled: Boolean) {
-        for (i in 0 until preferenceScreen.preferenceCount) {
-            preferenceScreen.getPreference(i).isEnabled = enabled
-        }
-    }
-
     override fun onPreferenceClick(preference: Preference): Boolean {
-        trackPreferenceClick(preference)
         return when {
 
             matches(preference, PrefKey.DEBUG_LOG_SHARE) -> {
