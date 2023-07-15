@@ -85,105 +85,10 @@ class MyPreferenceActivity : ProtectedFragmentActivity() {
     @Deprecated("Deprecated in Java")
     override fun onCreateDialog(id: Int): Dialog? = when (id) {
         R.id.FTP_DIALOG -> DialogUtils.sendWithFTPDialog(this)
-        R.id.MORE_INFO_DIALOG -> {
-            val builder = MaterialAlertDialogBuilder(this)
-            val view = LayoutInflater.from(builder.context).inflate(R.layout.more_info, null)
-            (view.findViewById<View>(R.id.aboutVersionCode) as TextView).text =
-                getVersionInfo(this)
-            val projectContainer = view.findViewById<TextView>(R.id.project_container)
-            projectContainer.text = Utils.makeBulletList(
-                this,
-                Utils.getProjectDependencies(this)
-                    .map { project: Map<String, String> ->
-                        val name = project["name"]
-                        "${if (project.containsKey("extra_info")) "$name (${project["extra_info"]})" else name}, from ${project["url"]}, licenced under ${project["licence"]}"
-                    }.toList(), R.drawable.ic_menu_forward
-            )
-            val additionalContainer = view.findViewById<TextView>(R.id.additional_container)
-            val lines: List<CharSequence> = listOf(
-                *resources.getStringArray(R.array.additional_credits),
-                "${getString(R.string.translated_by)}: ${buildTranslationCredits()}"
-            )
-            additionalContainer.text =
-                Utils.makeBulletList(this, lines, R.drawable.ic_menu_forward)
-            val iconContainer = view.findViewById<LinearLayout>(R.id.additional_icons_container)
-            val iconLines =
-                listOf<CharSequence>(*resources.getStringArray(R.array.additional_icon_credits))
-            val ar = resources.obtainTypedArray(R.array.additional_icon_credits_keys)
-            val len = ar.length()
-            val height = UiUtils.dp2Px(32f, resources)
-            val drawablePadding = UiUtils.dp2Px(8f, resources)
-            var i = 0
-            while (i < len) {
-                val textView = TextView(this)
-                textView.gravity = Gravity.CENTER_VERTICAL
-                val layoutParams =
-                    LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
-                textView.layoutParams = layoutParams
-                textView.compoundDrawablePadding = drawablePadding
-                textView.text = iconLines[i]
-                textView.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                    ar.getResourceId(i, 0),
-                    0,
-                    0,
-                    0
-                )
-                iconContainer.addView(textView)
-                i++
-            }
-            ar.recycle()
-            //noinspection SetTextI18n
-            view.findViewById<TextView>(R.id.copyRight).text =
-                "© 2011 - ${BuildConfig.BUILD_DATE.year} Michael Totschnig"
-            builder.setTitle(R.string.pref_more_info_dialog_title)
-                .setView(view)
-                .setPositiveButton(android.R.string.ok, null)
-                .create()
-        }
         else -> {
             CrashHandler.report(IllegalStateException("onCreateDialog called with $id"))
             super.onCreateDialog(id)
         }
-    }
-
-    private fun buildTranslationCredits() =
-        resources.getStringArray(R.array.pref_ui_language_values)
-            .map { lang ->
-                val parts = lang.split("-".toRegex()).toTypedArray()
-                Pair.create(
-                    lang,
-                    getTranslatorsArrayResId(
-                        parts[0],
-                        if (parts.size == 2) parts[1].lowercase(Locale.ROOT) else null
-                    )
-                )
-            }
-            .filter { pair -> pair.second != 0 }
-            .map { pair -> Pair.create(pair.first, resources.getStringArray(pair.second)) }
-            .flatMap { pair -> pair.second.map { name -> Pair.create(name, pair.first) } }
-            .groupBy({ it.first }, { it.second })
-            .toSortedMap()
-            .map { entry -> "${entry.key} (${entry.value.joinToString(", ")})" }
-            .joinToString(", ")
-
-    fun getTranslatorsArrayResId(language: String, country: String?): Int {
-        var result = 0
-        val prefix = "translators_"
-        if (!TextUtils.isEmpty(language)) {
-            if (!TextUtils.isEmpty(country)) {
-                result = resources.getIdentifier(
-                    prefix + language + "_" + country,
-                    "array", packageName
-                )
-            }
-            if (result == 0) {
-                result = resources.getIdentifier(
-                    prefix + language,
-                    "array", packageName
-                )
-            }
-        }
-        return result
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {

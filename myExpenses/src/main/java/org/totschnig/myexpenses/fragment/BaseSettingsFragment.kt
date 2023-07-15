@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.fragment
 
-import android.app.KeyguardManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
@@ -9,11 +8,9 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.graphics.Bitmap
-import android.icu.text.ListFormatter
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.text.TextUtils.join
 import android.widget.CompoundButton
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.ActionBar
@@ -42,7 +39,6 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.*
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference.OnValidationErrorListener
 import org.totschnig.myexpenses.preference.PreferenceDataStore
-import org.totschnig.myexpenses.service.AutoBackupWorker
 import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.AppDirHelper.getContentUriForFile
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
@@ -274,11 +270,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         return true
     }
 
-    private fun updateAllWidgets() {
-        updateWidgetsForClass(AccountWidget::class.java)
-        updateWidgetsForClass(TemplateWidget::class.java)
-    }
-
     private fun updateWidgetsForClass(provider: Class<out AppWidgetProvider>) {
         updateWidgets(preferenceActivity, provider, WIDGET_CONTEXT_CHANGED)
     }
@@ -385,18 +376,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     }
                 }
 
-                val translatorsArrayResId = getTranslatorsArrayResId()
-                if (translatorsArrayResId != 0) {
-                    val translatorsArray = resources.getStringArray(translatorsArrayResId)
-                    val translators = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                        ListFormatter.getInstance().format(*translatorsArray) else join(
-                        ", ",
-                        translatorsArray
-                    )
-                    requirePreference<Preference>(PrefKey.TRANSLATION).summary =
-                        "${getString(R.string.translated_by)}: $translators"
-                }
-
                 if (!featureManager.allowsUninstall()) {
                     requirePreference<Preference>(PrefKey.FEATURE_UNINSTALL).isVisible = false
                 }
@@ -488,13 +467,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 }
             }
         }
-    }
-
-    private fun getTranslatorsArrayResId(): Int {
-        val locale = Locale.getDefault()
-        val language = locale.language.lowercase(Locale.US)
-        val country = locale.country.lowercase(Locale.US)
-        return preferenceActivity.getTranslatorsArrayResId(language, country)
     }
 
     private fun getBitmapForShortcut(@DrawableRes iconId: Int) = UiUtils.drawableToBitmap(
@@ -644,11 +616,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             matches(preference, PrefKey.RATE) -> {
                 prefHandler.putLong(PrefKey.NEXT_REMINDER_RATE, -1)
                 preferenceActivity.dispatchCommand(R.id.RATE_COMMAND, null)
-                true
-            }
-
-            matches(preference, PrefKey.MORE_INFO_DIALOG) -> {
-                preferenceActivity.showDialog(R.id.MORE_INFO_DIALOG)
                 true
             }
 

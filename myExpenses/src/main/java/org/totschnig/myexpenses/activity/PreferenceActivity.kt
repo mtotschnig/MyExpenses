@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.Menu
 import androidx.activity.viewModels
 import androidx.core.app.NotificationManagerCompat
@@ -334,4 +335,24 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             )
             false
         } else true
+
+    fun getTranslatorsArrayResId(language: String, country: String?): Int {
+        var result = 0
+        val prefix = "translators_"
+        if (!TextUtils.isEmpty(language)) {
+            if (!TextUtils.isEmpty(country)) {
+                result = resources.getIdentifier(
+                    prefix + language + "_" + country,
+                    "array", packageName
+                )
+            }
+            if (result == 0) {
+                result = resources.getIdentifier(
+                    prefix + language,
+                    "array", packageName
+                )
+            }
+        }
+        return result
+    }
 }
