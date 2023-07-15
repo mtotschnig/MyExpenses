@@ -6,8 +6,6 @@ import android.view.View
 import androidx.core.view.doOnLayout
 import androidx.preference.*
 import androidx.slidingpanelayout.widget.SlidingPaneLayout
-import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.activity.CONFIRM_DEVICE_CREDENTIALS_MANAGE_PROTECTION_SETTINGS_REQUEST
 import org.totschnig.myexpenses.activity.PreferenceActivity
 import org.totschnig.myexpenses.fragment.preferences.BasePreferenceFragment
 import org.totschnig.myexpenses.fragment.preferences.MainPreferenceFragment
@@ -16,6 +14,11 @@ import org.totschnig.myexpenses.preference.PrefKey
 class TwoPanePreference : PreferenceHeaderFragmentCompat() {
 
     override fun onCreatePreferenceHeader() = MainPreferenceFragment()
+
+    override fun selectInitialDetailPreference(headerFragment: PreferenceFragmentCompat) =
+        arguments?.getString(KEY_INITIAL_SCREEN)?.let {
+            headerFragment.preferenceScreen.findPreference<Preference>(it)
+        } ?: super.selectInitialDetailPreference(headerFragment)
 
     @SuppressLint("MissingSuperCall")
     override fun onPreferenceStartFragment(
@@ -89,4 +92,15 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
                 true
             } else slidingPaneLayout.closePane()
         } else false
+
+    companion object {
+        const val KEY_INITIAL_SCREEN = "initialScreen"
+        fun newInstance(initialScreen: String?) = TwoPanePreference().apply {
+            initialScreen?.let {
+                arguments = Bundle().apply {
+                    putString(KEY_INITIAL_SCREEN, it)
+                }
+            }
+        }
+    }
 }

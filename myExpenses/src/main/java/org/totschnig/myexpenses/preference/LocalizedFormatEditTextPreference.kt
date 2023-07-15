@@ -14,7 +14,7 @@ abstract class LocalizedFormatEditTextPreference constructor(context: Context, a
         EditTextPreference(context, attrs) {
     var onValidationErrorListener: OnValidationErrorListener? = null
 
-    interface OnValidationErrorListener: OnPreferenceChangeListener {
+    interface OnValidationErrorListener {
         fun onValidationError(message: String)
     }
 

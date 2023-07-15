@@ -82,6 +82,7 @@
         android:title="@string/feedback" />
 
     <Preference
-        android:key="@string/pref_category_advanced_key"
+        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesAdvancedFragment"
+        android:key="advanced"
         android:title="@string/expand_button_title" />
 </PreferenceScreen>

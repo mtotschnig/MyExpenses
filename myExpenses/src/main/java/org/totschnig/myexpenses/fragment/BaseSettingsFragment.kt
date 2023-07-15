@@ -11,10 +11,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.widget.CompoundButton
 import androidx.annotation.DrawableRes
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -31,27 +28,19 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.*
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TransactionType
-import org.totschnig.myexpenses.dialog.MessageDialogFragment
-import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
-import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.*
-import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference.OnValidationErrorListener
 import org.totschnig.myexpenses.preference.PreferenceDataStore
 import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.AppDirHelper.getContentUriForFile
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.tracking.Tracker
-import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
 import org.totschnig.myexpenses.viewmodel.ShareViewModel
 import org.totschnig.myexpenses.viewmodel.ShareViewModel.Companion.parseUri
-import org.totschnig.myexpenses.widget.AccountWidget
-import org.totschnig.myexpenses.widget.TemplateWidget
 import org.totschnig.myexpenses.widget.WIDGET_CONTEXT_CHANGED
 import org.totschnig.myexpenses.widget.updateWidgets
 import timber.log.Timber
@@ -60,7 +49,7 @@ import java.net.URI
 import java.util.*
 import javax.inject.Inject
 
-abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationErrorListener,
+abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnPreferenceChangeListener,
     OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener, OnDialogResultListener {
 
     @Inject
@@ -90,85 +79,10 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     @Inject
     lateinit var tracker: Tracker
 
-    private val currencyViewModel: CurrencyViewModel by viewModels()
     private val viewModel: SettingsViewModel by viewModels()
 
-    private var masterSwitchChangeLister: CompoundButton.OnCheckedChangeListener? = null
-
-    //TODO: these settings need to be authoritatively stored in Database, instead of just mirrored
-    private val storeInDatabaseChangeListener =
-        OnPreferenceChangeListener { preference, newValue ->
-            preferenceActivity.showSnackBarIndefinite(R.string.saving)
-            viewModel.storeSetting(preference.key, newValue.toString())
-                .observe(this@BaseSettingsFragment) { result ->
-                    preferenceActivity.dismissSnackBar()
-                    if ((!result)) preferenceActivity.showSnackBar("ERROR")
-                }
-            true
-        }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        with(requireActivity().injector) {
-            inject(currencyViewModel)
-            inject(viewModel)
-            super.onCreate(savedInstanceState)
-            inject(this@BaseSettingsFragment)
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        settings.registerOnSharedPreferenceChangeListener(this)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        settings.unregisterOnSharedPreferenceChangeListener(this)
-    }
-
-    override fun onValidationError(message: String) {
-        preferenceActivity.showSnackBar(message)
-    }
 
     val preferenceActivity get() = requireActivity() as MyPreferenceActivity
-
-    private fun configureUninstallPrefs() {
-        configureMultiSelectListPref(
-            PrefKey.FEATURE_UNINSTALL_FEATURES,
-            featureManager.installedFeatures(requireContext(), prefHandler),
-            featureManager::uninstallFeatures
-        ) { module ->
-            Feature.fromModuleName(module)?.let { getString(it.labelResId) } ?: module
-        }
-        configureMultiSelectListPref(
-            PrefKey.FEATURE_UNINSTALL_LANGUAGES,
-            featureManager.installedLanguages(),
-            featureManager::uninstallLanguages
-        ) { language ->
-            Locale(language).let { it.getDisplayName(it) }
-        }
-    }
-
-    private fun configureMultiSelectListPref(
-        prefKey: PrefKey,
-        entries: Set<String>,
-        action: (Set<String>) -> Unit,
-        prettyPrint: (String) -> String
-    ) {
-        (requirePreference(prefKey) as? MultiSelectListPreference)?.apply {
-            if (entries.isEmpty()) {
-                isEnabled = false
-            } else {
-                setOnPreferenceChangeListener { _, newValue ->
-                    @Suppress("UNCHECKED_CAST")
-                    (newValue as? Set<String>)?.let { action(it) }
-                    false
-                }
-                setEntries(entries.map(prettyPrint).toTypedArray())
-                entryValues = entries.toTypedArray()
-            }
-        }
-    }
 
     private fun <T : Preference> findPreference(prefKey: PrefKey): T? =
         findPreference(prefHandler.getKey(prefKey))
@@ -182,8 +96,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         return (requireActivity().application as MyApplication)
     }
 
-    private fun onScreen(vararg prefKey: PrefKey) = matches(preferenceScreen, *prefKey)
-
     fun matches(preference: Preference, vararg prefKey: PrefKey) =
         prefKey.any { prefHandler.getKey(it) == preference.key }
 
@@ -196,28 +108,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         key: String
     ) {
         when (key) {
-
-            getKey(PrefKey.CUSTOM_DECIMAL_FORMAT) -> {
-                currencyFormatter.invalidateAll(requireContext().contentResolver)
-            }
-
-            getKey(PrefKey.GROUP_MONTH_STARTS), getKey(PrefKey.GROUP_WEEK_STARTS) -> {
-                preferenceActivity.initLocaleContext()
-            }
-
-            getKey(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET) -> {
-                //Log.d("DEBUG","shared preference changed: Account Widget");
-                updateWidgetsForClass(AccountWidget::class.java)
-            }
-
-            getKey(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET) -> {
-                //Log.d("DEBUG","shared preference changed: Template Widget");
-                updateWidgetsForClass(TemplateWidget::class.java)
-            }
-
-            getKey(PrefKey.PLANNER_EXECUTION_TIME) -> {
-                preferenceActivity.enqueuePlanner(false)
-            }
 
             getKey(PrefKey.OPTIMIZE_PICTURE_FORMAT) -> {
                 requirePreference<Preference>(PrefKey.OPTIMIZE_PICTURE_QUALITY).isEnabled =
@@ -355,12 +245,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
             null -> { //ROOT screen
 
-                requirePreference<LocalizedFormatEditTextPreference>(PrefKey.CUSTOM_DECIMAL_FORMAT).onValidationErrorListener =
-                    this
-
-                requirePreference<LocalizedFormatEditTextPreference>(PrefKey.CUSTOM_DATE_FORMAT).onValidationErrorListener =
-                    this
-
                 lifecycleScope.launchWhenStarted {
                     preferenceDataStore.handleToggle(requirePreference(PrefKey.GROUP_HEADER))
                 }
@@ -375,12 +259,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                             result
                     }
                 }
-
-                if (!featureManager.allowsUninstall()) {
-                    requirePreference<Preference>(PrefKey.FEATURE_UNINSTALL).isVisible = false
-                }
-                requirePreference<Preference>(PrefKey.AUTO_BACKUP_CLOUD).onPreferenceChangeListener =
-                    storeInDatabaseChangeListener
 
                 requirePreference<Preference>(PrefKey.ENCRYPT_DATABASE_INFO).isVisible =
                     prefHandler.encryptDatabase
@@ -420,31 +298,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                                 separator = ", ", prefix = "(", postfix = ")"
                             ) { it.name.lowercase() }
                     onPreferenceChangeListener = this@BaseSettingsFragment
-                }
-            }
-
-            getKey(PrefKey.FEATURE_UNINSTALL) -> {
-                configureUninstallPrefs()
-            }
-
-            getKey(PrefKey.DEBUG_SCREEN) -> {
-                requirePreference<Preference>(PrefKey.CRASHLYTICS_USER_ID).let {
-                    if (DistributionHelper.isGithub ||
-                        !prefHandler.getBoolean(PrefKey.CRASHREPORT_ENABLED, false)
-                    ) {
-                        preferenceScreen.removePreference(it)
-                    } else {
-                        it.summary =
-                            prefHandler.getString(PrefKey.CRASHLYTICS_USER_ID, null).toString()
-                    }
-                }
-                viewModel.dataCorrupted().observe(this) {
-                    if (it > 0) {
-                        with(requirePreference<Preference>(PrefKey.DEBUG_REPAIR_987)) {
-                            isVisible = true
-                            title = "Inspect Corrupted Data ($it)"
-                        }
-                    }
                 }
             }
 
@@ -527,49 +380,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         }
     }
 
-    /**
-     * Configures the current screen with a Master Switch, if it has the given key
-     * if we are on the root screen, the preference summary for the given key is updated with the
-     * current value (On/Off)
-     *
-     * @param prefKey PrefKey of screen
-     * @return true if we have handle the given key as a subScreen
-     */
-    fun handleScreenWithMasterSwitch(prefKey: PrefKey, disableDependents: Boolean): Boolean {
-        if (onScreen(prefKey)) {
-            preferenceActivity.supportActionBar?.let { actionBar ->
-                val status = prefHandler.getBoolean(prefKey, false)
-                val actionBarSwitch = requireActivity().layoutInflater.inflate(
-                    R.layout.pref_master_switch, null
-                ) as SwitchCompat
-                actionBar.setDisplayOptions(
-                    ActionBar.DISPLAY_SHOW_CUSTOM,
-                    ActionBar.DISPLAY_SHOW_CUSTOM
-                )
-                actionBar.customView = actionBarSwitch
-                actionBarSwitch.isChecked = status
-                masterSwitchChangeLister = CompoundButton.OnCheckedChangeListener { _, isChecked ->
-                    if (onPreferenceChange(preferenceScreen, isChecked)) {
-                        prefHandler.putBoolean(prefKey, isChecked)
-                        if (disableDependents) {
-                            updateDependents(isChecked)
-                        }
-                    } else {
-                        actionBarSwitch.isChecked = !isChecked
-                    }
-                }
-                actionBarSwitch.setOnCheckedChangeListener(masterSwitchChangeLister)
-                if (disableDependents) {
-                    updateDependents(status)
-                }
-            }
-            return true
-        } else if (onScreen(PrefKey.ROOT_SCREEN)) {
-            setOnOffSummary(prefKey)
-        }
-        return false
-    }
-
     private fun setOnOffSummary(prefKey: PrefKey) {
         setOnOffSummary(prefKey, prefHandler.getBoolean(prefKey, false))
     }
@@ -601,20 +411,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                         .neg()
                         .pos(android.R.string.ok)
                         .show(this, DIALOG_SHARE_LOGS)
-                }
-                true
-            }
-
-            matches(preference, PrefKey.DEBUG_REPAIR_987) -> {
-                viewModel.prettyPrintCorruptedData(currencyFormatter).observe(this) { message ->
-                    MessageDialogFragment.newInstance(
-                        "Inspect Corrupted Data",
-                        message,
-                        MessageDialogFragment.okButton(),
-                        null,
-                        null
-                    )
-                        .show(parentFragmentManager, "INSPECT")
                 }
                 true
             }

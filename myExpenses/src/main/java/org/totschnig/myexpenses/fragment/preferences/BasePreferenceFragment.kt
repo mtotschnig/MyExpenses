@@ -14,6 +14,8 @@ import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.*
+import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.tracking.Tracker
@@ -36,6 +38,9 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
 
     @Inject
     lateinit var adHandlerFactory: AdHandlerFactory
+
+    @Inject
+    lateinit var currencyFormatter: CurrencyFormatter
 
     @get:XmlRes
     abstract val preferencesResId: Int
@@ -96,6 +101,14 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
                     return
                 } else {
                     LegacyPasswordPreferenceDialogFragmentCompat.newInstance(key)
+                }
+            }
+            matches(preference, PrefKey.PLANNER_CALENDAR_ID) -> {
+                if (PermissionGroup.CALENDAR.hasPermission(requireContext())) {
+                    CalendarListPreferenceDialogFragmentCompat.newInstance(key)
+                } else {
+                    preferenceActivity.requestCalendarPermission()
+                    return
                 }
             }
             matches(preference, PrefKey.SECURITY_QUESTION) -> SecurityQuestionDialogFragmentCompat.newInstance(key)
@@ -160,6 +173,10 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
             }
             true
         } else false
+
+    open fun showPreference(prefKey: String) {
+        findPreference<Preference>(prefKey)?.let { onDisplayPreferenceDialog(it) }
+    }
 
     val exportBackupTitle: String
         get() = getString(R.string.pref_category_title_export) + " / " + getString(R.string.menu_backup)

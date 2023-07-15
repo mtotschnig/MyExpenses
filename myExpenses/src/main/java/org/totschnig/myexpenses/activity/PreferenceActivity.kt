@@ -9,11 +9,11 @@ import android.text.TextUtils
 import android.view.Menu
 import androidx.activity.viewModels
 import androidx.core.app.NotificationManagerCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.fragment.BaseSettingsFragment
 import org.totschnig.myexpenses.fragment.TwoPanePreference
+import org.totschnig.myexpenses.fragment.TwoPanePreference.Companion.KEY_INITIAL_SCREEN
 import org.totschnig.myexpenses.fragment.preferences.*
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
@@ -56,6 +57,8 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
         }
     }
 
+    private var initialPrefToShow: String? = null
+
     private fun observeLicenceApiResult() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -86,7 +89,10 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
-                .replace(binding.fragmentContainer.id, TwoPanePreference())
+                .replace(
+                    binding.fragmentContainer.id,
+                    TwoPanePreference.newInstance(intent.getStringExtra(KEY_INITIAL_SCREEN))
+                )
                 .commit()
         }
         observeLicenceApiResult()
@@ -238,6 +244,25 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
                     ?.setProtectionDependentsState()
                 updateAllWidgets()
             }
+
+            getKey(PrefKey.CUSTOM_DECIMAL_FORMAT) -> {
+                currencyFormatter.invalidateAll(contentResolver)
+            }
+
+            getKey(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET) -> {
+                updateWidgetsForClass(AccountWidget::class.java)
+            }
+            getKey(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET) -> {
+                updateWidgetsForClass(TemplateWidget::class.java)
+            }
+
+            getKey(PrefKey.PLANNER_EXECUTION_TIME) -> {
+                enqueuePlanner(false)
+            }
+            getKey(PrefKey.OPTIMIZE_PICTURE_FORMAT) -> {
+                twoPanePreference.getDetailFragment<PreferencesAttachPictureFragment>()
+                    ?.configureQualityPreference()
+            }
         }
     }
 
@@ -282,12 +307,23 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
         if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI) {
             activateWebUi()
         }
+        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
+            initialPrefToShow = prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID)
+        }
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
         super.onPermissionsDenied(requestCode, perms)
         if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI) {
             activateWebUi()
+        }
+    }
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        initialPrefToShow?.let {
+            twoPanePreference.getDetailFragment<BasePreferenceFragment>()?.showPreference(it)
+            initialPrefToShow = null
         }
     }
 

@@ -91,35 +91,6 @@ class MyPreferenceActivity : ProtectedFragmentActivity() {
         }
     }
 
-    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
-        super.onPermissionsGranted(requestCode, perms)
-        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
-            initialPrefToShow = prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID)
-        }
-    }
-
-    override fun onResumeFragments() {
-        super.onResumeFragments()
-        if (initialPrefToShow != null) {
-            fragment.showPreference(initialPrefToShow)
-            initialPrefToShow = null
-        }
-    }
-
-    private fun startPreferenceScreen(key: String) {
-        val ft = supportFragmentManager.beginTransaction()
-        val fragment = BaseSettingsFragment.newInstance(key)
-        ft.replace(R.id.fragment_container, fragment, key)
-        ft.addToBackStack(key)
-        ft.commitAllowingStateLoss()
-    }
-
-    fun showUnencryptedBackupWarning() {
-        if (prefHandler.getString(PrefKey.EXPORT_PASSWORD, null) == null) showMessage(
-            unencryptedBackupWarning
-        )
-    }
-
     companion object {
         const val KEY_OPEN_PREF_KEY = "openPrefKey"
         const val FRAGMENT_TAG = "Settings"
