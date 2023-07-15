@@ -382,9 +382,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 requirePreference<Preference>(PrefKey.AUTO_BACKUP_CLOUD).onPreferenceChangeListener =
                     storeInDatabaseChangeListener
 
-                requirePreference<Preference>(PrefKey.NEWS).title =
-                    "${getString(R.string.pref_news_title)} (Mastodon)"
-
                 requirePreference<Preference>(PrefKey.ENCRYPT_DATABASE_INFO).isVisible =
                     prefHandler.encryptDatabase
             }
@@ -596,11 +593,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         trackPreferenceClick(preference)
         return when {
 
-            matches(preference, PrefKey.SEND_FEEDBACK) -> {
-                preferenceActivity.dispatchCommand(R.id.FEEDBACK_COMMAND, null)
-                true
-            }
-
             matches(preference, PrefKey.DEBUG_LOG_SHARE) -> {
                 viewModel.logData().observe(this) {
                     SimpleListDialog.build().choiceMode(CustomListDialog.MULTI_CHOICE)
@@ -610,12 +602,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                         .pos(android.R.string.ok)
                         .show(this, DIALOG_SHARE_LOGS)
                 }
-                true
-            }
-
-            matches(preference, PrefKey.RATE) -> {
-                prefHandler.putLong(PrefKey.NEXT_REMINDER_RATE, -1)
-                preferenceActivity.dispatchCommand(R.id.RATE_COMMAND, null)
                 true
             }
 

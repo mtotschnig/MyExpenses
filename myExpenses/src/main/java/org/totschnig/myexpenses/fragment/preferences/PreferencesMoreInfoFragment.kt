@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.preference.Preference
+import androidx.preference.PreferenceCategory
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.MoreInfoDialogFragment
 import org.totschnig.myexpenses.preference.PrefKey
@@ -16,7 +17,9 @@ class PreferencesMoreInfoFragment : BasePreferenceFragment() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
+
         val translatorsArrayResId = getTranslatorsArrayResId()
+        val translationPreference = requirePreference<Preference>(PrefKey.TRANSLATION)
         if (translatorsArrayResId != 0) {
             val translatorsArray = resources.getStringArray(translatorsArrayResId)
             val translators = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -24,9 +27,15 @@ class PreferencesMoreInfoFragment : BasePreferenceFragment() {
                 ", ",
                 translatorsArray
             )
-            requirePreference<Preference>(PrefKey.TRANSLATION).summary =
+            translationPreference.summary =
                 "${getString(R.string.translated_by)}: $translators"
+
+        } else {
+            requirePreference<PreferenceCategory>(PrefKey.CATEGORY_TRANSLATION)
+                .removePreference(translationPreference)
         }
+        requirePreference<Preference>(PrefKey.NEWS).title =
+            "${getString(R.string.pref_news_title)} (Mastodon)"
     }
 
     override fun onPreferenceTreeClick(preference: Preference) = when {

@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--suppress AndroidElementNotAllowed -->
+<?xml version="1.0" encoding="utf-8"?>
+<!--suppress AndroidElementNotAllowed -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/pref_category_title_more_information">
     <org.totschnig.myexpenses.preference.HeaderPreference />
@@ -13,8 +14,7 @@
     </org.totschnig.myexpenses.preference.SafePreference>
 
     <org.totschnig.myexpenses.preference.SafePreference
-        android:key="@string/pref_news_key"
-        android:title="@string/pref_news_title">
+        android:key="@string/pref_news_key">
         <intent
             android:action="android.intent.action.VIEW"
             android:data="https://mastodon.social/@myexpenses" />
@@ -24,7 +24,12 @@
         android:key="@string/pref_more_info_dialog_key"
         android:title="@string/pref_more_info_dialog_title" />
 
-    <PreferenceCategory android:title="@string/pref_translation_title">
+    <PreferenceCategory
+        android:key="@string/pref_category_translation_key"
+        android:title="@string/pref_translation_title">
+
+        <Preference
+            android:key="@string/pref_translation_key" />
 
         <Preference
             android:selectable="false"

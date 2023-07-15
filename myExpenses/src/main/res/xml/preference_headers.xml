@@ -76,7 +76,10 @@
         android:key="more_info"
         android:title="@string/pref_category_title_more_information" />
 
-    <Preference android:title="@string/feedback" />
+    <Preference
+        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesFeedbackFragment"
+        android:key="feedback"
+        android:title="@string/feedback" />
 
     <Preference
         android:key="@string/pref_category_advanced_key"

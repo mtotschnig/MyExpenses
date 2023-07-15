@@ -119,6 +119,7 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     PERSONALIZED_AD_CONSENT(R.string.pref_ad_consent_key),
     SCROLL_TO_CURRENT_DATE(R.string.pref_scroll_to_current_date_key),
     EXPORT_PASSWORD(R.string.pref_security_export_password_key),
+    CATEGORY_TRANSLATION(R.string.pref_category_translation_key),
     TRANSLATION(R.string.pref_translation_key),
     SYNC_CHANGES_IMMEDIATELY(R.string.pref_sync_changes_immediately_key),
     EXCHANGE_RATE_PROVIDER(R.string.pref_exchange_rate_provider_key),
