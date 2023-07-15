@@ -4,11 +4,9 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.DrawableRes
@@ -16,7 +14,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.*
-import androidx.preference.Preference.OnPreferenceChangeListener
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.list.CustomListDialog
 import eltos.simpledialogfragment.list.SimpleListDialog
@@ -39,18 +36,14 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
-import org.totschnig.myexpenses.viewmodel.ShareViewModel
-import org.totschnig.myexpenses.viewmodel.ShareViewModel.Companion.parseUri
 import org.totschnig.myexpenses.widget.WIDGET_CONTEXT_CHANGED
 import org.totschnig.myexpenses.widget.updateWidgets
 import timber.log.Timber
 import java.io.File
-import java.net.URI
 import java.util.*
 import javax.inject.Inject
 
-abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnPreferenceChangeListener,
-    OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener, OnDialogResultListener {
+abstract class BaseSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener, OnDialogResultListener {
 
     @Inject
     lateinit var featureManager: FeatureManager
@@ -101,63 +94,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnPreferenceCh
 
     fun getKey(prefKey: PrefKey): String {
         return prefHandler.getKey(prefKey)
-    }
-
-    override fun onSharedPreferenceChanged(
-        sharedPreferences: SharedPreferences,
-        key: String
-    ) {
-        when (key) {
-
-            getKey(PrefKey.OPTIMIZE_PICTURE_FORMAT) -> {
-                requirePreference<Preference>(PrefKey.OPTIMIZE_PICTURE_QUALITY).isEnabled =
-                    prefHandler.enumValueOrDefault(
-                        key,
-                        Bitmap.CompressFormat.WEBP
-                    ) != Bitmap.CompressFormat.PNG
-            }
-        }
-    }
-
-    override fun onPreferenceChange(pref: Preference, value: Any): Boolean {
-        when {
-
-            matches(pref, PrefKey.SHARE_TARGET) -> {
-                val target = value as String
-                val uri: URI?
-                if (target != "") {
-                    uri = parseUri(target)
-                    if (uri == null) {
-                        preferenceActivity.showSnackBar(
-                            getString(
-                                R.string.ftp_uri_malformed,
-                                target
-                            )
-                        )
-                        return false
-                    }
-                    val scheme = uri.scheme
-                    if (enumValueOrNull<ShareViewModel.Scheme>(scheme.uppercase()) == null) {
-                        preferenceActivity.showSnackBar(
-                            getString(
-                                R.string.share_scheme_not_supported,
-                                scheme
-                            )
-                        )
-                        return false
-                    }
-                    val intent: Intent
-                    if (scheme == "ftp") {
-                        intent = Intent(Intent.ACTION_SENDTO)
-                        intent.data = Uri.parse(target)
-                        if (!Utils.isIntentAvailable(requireActivity(), intent)) {
-                            preferenceActivity.showDialog(R.id.FTP_DIALOG)
-                        }
-                    }
-                }
-            }
-        }
-        return true
     }
 
     private fun updateWidgetsForClass(provider: Class<out AppWidgetProvider>) {
@@ -288,16 +224,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnPreferenceCh
                             }
                         }
                     }
-                }
-            }
-
-            getKey(PrefKey.PERFORM_SHARE) -> {
-                with(requirePreference<Preference>(PrefKey.SHARE_TARGET)) {
-                    summary = getString(R.string.pref_share_target_summary) + " " +
-                            ShareViewModel.Scheme.values().joinToString(
-                                separator = ", ", prefix = "(", postfix = ")"
-                            ) { it.name.lowercase() }
-                    onPreferenceChangeListener = this@BaseSettingsFragment
                 }
             }
 

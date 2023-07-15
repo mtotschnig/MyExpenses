@@ -14,32 +14,12 @@
  */
 package org.totschnig.myexpenses.activity
 
-import android.app.Dialog
-import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
-import android.util.Pair
-import android.view.*
-import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.preference.PreferenceFragmentCompat
+import android.view.Menu
+import android.view.MenuItem
 import androidx.preference.PreferenceFragmentCompat.ARG_PREFERENCE_ROOT
-import androidx.preference.PreferenceScreen
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import org.totschnig.myexpenses.BuildConfig
-import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.SettingsBinding
-import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.fragment.BaseSettingsFragment
-import org.totschnig.myexpenses.fragment.SettingsFragment
-import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.util.PermissionHelper
-import org.totschnig.myexpenses.util.UiUtils
-import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo
-import java.util.*
 
 /**
  * Present references screen defined in Layout file
@@ -67,9 +47,6 @@ class MyPreferenceActivity : ProtectedFragmentActivity() {
 
     }
 
-    private val fragment: SettingsFragment
-        get() = binding.fragmentContainer.getFragment()
-
     override fun inflateHelpMenu(menu: Menu?) {
         //currently no help menu
     }
@@ -80,15 +57,6 @@ class MyPreferenceActivity : ProtectedFragmentActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onCreateDialog(id: Int): Dialog? = when (id) {
-        R.id.FTP_DIALOG -> DialogUtils.sendWithFTPDialog(this)
-        else -> {
-            CrashHandler.report(IllegalStateException("onCreateDialog called with $id"))
-            super.onCreateDialog(id)
-        }
     }
 
     companion object {

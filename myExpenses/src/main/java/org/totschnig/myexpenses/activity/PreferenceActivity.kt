@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.activity
 
+import android.app.Dialog
 import android.appwidget.AppWidgetProvider
 import android.content.Intent
 import android.content.SharedPreferences
@@ -20,6 +21,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.SettingsBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
+import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.fragment.BaseSettingsFragment
 import org.totschnig.myexpenses.fragment.TwoPanePreference
@@ -32,6 +34,7 @@ import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.service.AutoBackupWorker
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.PermissionHelper
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.setNightMode
 import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
@@ -390,5 +393,14 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             }
         }
         return result
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onCreateDialog(id: Int): Dialog? = when (id) {
+        R.id.FTP_DIALOG -> DialogUtils.sendWithFTPDialog(this)
+        else -> {
+            CrashHandler.report(IllegalStateException("onCreateDialog called with $id"))
+            super.onCreateDialog(id)
+        }
     }
 }
