@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.fragment.preferences
 
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
@@ -21,10 +22,7 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract
-import org.totschnig.myexpenses.fragment.BaseSettingsFragment.Companion.compactItemRendererTitle
 import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat
-import org.totschnig.myexpenses.preference.FontSizeDialogPreference
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.UiUtils
@@ -35,7 +33,7 @@ import java.text.DateFormatSymbols
 import java.util.Calendar
 import java.util.Locale
 
-class PreferenceUiFragment: BasePreferenceFragment() {
+class PreferenceUiFragment : BasePreferenceFragment() {
 
     override val preferencesResId = R.xml.preferences_ui
 
@@ -86,7 +84,6 @@ class PreferenceUiFragment: BasePreferenceFragment() {
                         if (transferEnabled) {
                             isEnabled = true
                         } else {
-
                             summary =
                                 context.getString(R.string.dialog_command_disabled_insert_transfer)
                         }
@@ -152,6 +149,7 @@ class PreferenceUiFragment: BasePreferenceFragment() {
             )
             true
         }
+
         else -> false
     }
 
@@ -167,17 +165,18 @@ class PreferenceUiFragment: BasePreferenceFragment() {
             //on Build.VERSION_CODES.N_MR1 we do not provide the feature
             Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1 -> {
                 try {
-                    requireContext().getSystemService(ShortcutManager::class.java).requestPinShortcut(
-                        ShortcutInfo.Builder(
-                            requireContext(), when (operationType) {
-                                TransactionsContract.Transactions.TYPE_SPLIT -> ShortcutHelper.ID_SPLIT
-                                TransactionsContract.Transactions.TYPE_TRANSACTION -> ShortcutHelper.ID_TRANSACTION
-                                TransactionsContract.Transactions.TYPE_TRANSFER -> ShortcutHelper.ID_TRANSFER
-                                else -> throw IllegalStateException()
-                            }
-                        ).build(),
-                        null
-                    )
+                    requireContext().getSystemService(ShortcutManager::class.java)
+                        .requestPinShortcut(
+                            ShortcutInfo.Builder(
+                                requireContext(), when (operationType) {
+                                    TransactionsContract.Transactions.TYPE_SPLIT -> ShortcutHelper.ID_SPLIT
+                                    TransactionsContract.Transactions.TYPE_TRANSACTION -> ShortcutHelper.ID_TRANSACTION
+                                    TransactionsContract.Transactions.TYPE_TRANSFER -> ShortcutHelper.ID_TRANSFER
+                                    else -> throw IllegalStateException()
+                                }
+                            ).build(),
+                            null
+                        )
                 } catch (e: IllegalArgumentException) {
                     Timber.w("requestPinShortcut failed for %d", operationType)
                     CrashHandler.report(e)
@@ -223,7 +222,8 @@ class PreferenceUiFragment: BasePreferenceFragment() {
         //due to user changing app language in Android 13 system settings
         findPreference<ListPreference>(PrefKey.UI_LANGUAGE)?.apply {
             entries = getLocaleArray()
-            value = AppCompatDelegate.getApplicationLocales()[0]?.language ?: MyApplication.DEFAULT_LANGUAGE
+            value = AppCompatDelegate.getApplicationLocales()[0]?.language
+                ?: MyApplication.DEFAULT_LANGUAGE
             onPreferenceChangeListener =
                 Preference.OnPreferenceChangeListener { _, newValue ->
                     val newLocale = newValue as String
@@ -255,4 +255,9 @@ class PreferenceUiFragment: BasePreferenceFragment() {
                 Locale(localeParts[0])
             locale.getDisplayName(locale)
         }
+
+    companion object {
+        fun Context.compactItemRendererTitle() =
+            "${getString(R.string.style)} : ${getString(R.string.compact)}"
+    }
 }

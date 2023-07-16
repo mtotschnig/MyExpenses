@@ -1,19 +1,27 @@
 package org.totschnig.myexpenses.fragment.preferences
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
+import eltos.simpledialogfragment.SimpleDialog
+import eltos.simpledialogfragment.list.CustomListDialog
+import eltos.simpledialogfragment.list.SimpleListDialog
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
+import timber.log.Timber
+import java.io.File
 import java.util.Locale
 
 class PreferencesAdvancedFragment : BasePreferenceFragment(),
-    LocalizedFormatEditTextPreference.OnValidationErrorListener {
+    LocalizedFormatEditTextPreference.OnValidationErrorListener,
+    SimpleDialog.OnDialogResultListener {
     override val preferencesResId = R.xml.preferences_advanced
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -67,6 +75,17 @@ class PreferencesAdvancedFragment : BasePreferenceFragment(),
             }
             true
         }
+        matches(preference, PrefKey.DEBUG_LOG_SHARE) -> {
+            viewModel.logData().observe(this) {
+                SimpleListDialog.build().choiceMode(CustomListDialog.MULTI_CHOICE)
+                    .title(R.string.pref_debug_logging_share_summary)
+                    .items(it)
+                    .neg()
+                    .pos(android.R.string.ok)
+                    .show(this, DIALOG_SHARE_LOGS)
+            }
+            true
+        }
         else -> false
     }
 
@@ -110,5 +129,39 @@ class PreferencesAdvancedFragment : BasePreferenceFragment(),
 
     override fun onValidationError(message: String) {
         preferenceActivity.showSnackBar(message)
+    }
+
+    override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
+        when (dialogTag) {
+
+            DIALOG_SHARE_LOGS -> {
+                if (which == SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE) {
+                    val logDir = File(requireContext().getExternalFilesDir(null), "logs")
+                    startActivity(Intent(Intent.ACTION_SEND_MULTIPLE).apply {
+                        putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.support_email)))
+                        putExtra(Intent.EXTRA_SUBJECT, "[${getString(R.string.app_name)}]: Logs")
+                        type = "text/plain"
+                        val arrayList = ArrayList(
+                            extras.getStringArrayList(SimpleListDialog.SELECTED_LABELS)!!.map {
+                                AppDirHelper.getContentUriForFile(
+                                    requireContext(),
+                                    File(logDir, it)
+                                )
+                            })
+                        Timber.d("ATTACHMENTS" + arrayList.joinToString())
+                        putParcelableArrayListExtra(
+                            Intent.EXTRA_STREAM,
+                            arrayList
+                        )
+                        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    })
+                }
+            }
+        }
+        return true
+    }
+
+    companion object {
+        const val DIALOG_SHARE_LOGS = "shareLogs"
     }
 }

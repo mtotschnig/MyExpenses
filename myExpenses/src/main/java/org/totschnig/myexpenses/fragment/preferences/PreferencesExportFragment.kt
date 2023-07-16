@@ -12,7 +12,6 @@ import androidx.preference.Preference
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESULT_RESTORE_OK
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
-import org.totschnig.myexpenses.fragment.BaseSettingsFragment
 import org.totschnig.myexpenses.preference.AccountPreference
 import org.totschnig.myexpenses.preference.PopupMenuPreference
 import org.totschnig.myexpenses.preference.PrefKey
@@ -134,7 +133,7 @@ class PreferencesExportFragment: BasePreferenceFragment(),
         if (values.isNotEmpty() && preference == prefHandler.getKey(PrefKey.MANAGE_APP_DIR_FILES)) {
             if (which == DialogInterface.BUTTON_NEGATIVE) {
                 ConfirmationDialogFragment.newInstance(Bundle().apply {
-                    putStringArray(BaseSettingsFragment.KEY_CHECKED_FILES, values.toTypedArray())
+                    putStringArray(KEY_CHECKED_FILES, values.toTypedArray())
                     putString(
                         ConfirmationDialogFragment.KEY_MESSAGE,
                         resources.getQuantityString(R.plurals.delete_files_confirmation_message, values.size, values.size)
@@ -231,5 +230,9 @@ class PreferencesExportFragment: BasePreferenceFragment(),
 
     private fun loadAppDirSummary() {
         viewModel.loadAppDirInfo()
+    }
+
+    companion object {
+        const val KEY_CHECKED_FILES = "checkedFiles"
     }
 }

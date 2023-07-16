@@ -22,6 +22,7 @@ class PreferencesProtectionFragment : BasePreferenceFragment() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
         setProtectionDependentsState()
+
         requirePreference<Preference>(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN).onPreferenceChangeListener =
             Preference.OnPreferenceChangeListener { _, newValue ->
                 if (newValue as Boolean) {
@@ -34,11 +35,13 @@ class PreferencesProtectionFragment : BasePreferenceFragment() {
                     } else true
                 } else true
             }
+
         requirePreference<Preference>(PrefKey.CRASHREPORT_ENABLED).summary =
             Utils.getTextWithAppName(
                 context,
                 R.string.crash_reports_user_info
             )
+
         with(requirePreference<PreferenceCategory>(PrefKey.CATEGORY_PRIVACY)) {
             if (!DistributionHelper.distribution.supportsTrackingAndCrashReporting) {
                 removePreference(requirePreference(PrefKey.TRACKING))
@@ -52,6 +55,9 @@ class PreferencesProtectionFragment : BasePreferenceFragment() {
                 preferenceScreen.removePreference(this)
             }
         }
+
+        requirePreference<Preference>(PrefKey.ENCRYPT_DATABASE_INFO).isVisible =
+            prefHandler.encryptDatabase
     }
 
     fun setProtectionDependentsState() {

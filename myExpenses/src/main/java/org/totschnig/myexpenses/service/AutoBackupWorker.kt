@@ -4,13 +4,9 @@ import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.Operation
-import androidx.work.WorkManager
-import androidx.work.WorkerParameters
+import androidx.work.*
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.MyPreferenceActivity
+import org.totschnig.myexpenses.activity.PreferenceActivity
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.TimePreference
@@ -125,7 +121,9 @@ class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) : B
             prefHandler.putBoolean(PrefKey.AUTO_BACKUP, false)
             val content =
                 "${it.message} ${wrappedContext.getString(R.string.warning_auto_backup_deactivated)}"
-            val preferenceIntent = Intent(applicationContext, MyPreferenceActivity::class.java)
+            val preferenceIntent = PreferenceActivity.getIntent(
+                applicationContext, prefHandler.getKey(PrefKey.CATEGORY_BACKUP_EXPORT)
+            )
             val builder = buildMessage(content)
                 .setContentIntent(
                     PendingIntent.getActivity(

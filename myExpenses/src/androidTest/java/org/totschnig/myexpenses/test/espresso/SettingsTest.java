@@ -32,17 +32,17 @@ import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ManageCurrencies;
 import org.totschnig.myexpenses.activity.ManageMethods;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
-import org.totschnig.myexpenses.activity.MyPreferenceActivity;
+import org.totschnig.myexpenses.activity.PreferenceActivity;
 import org.totschnig.myexpenses.activity.QifImport;
 import org.totschnig.myexpenses.activity.RoadmapVoteActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 
-public class SettingsTest extends BaseUiTest<MyPreferenceActivity> {
+public class SettingsTest extends BaseUiTest<PreferenceActivity> {
 
   @Rule
-  public ActivityScenarioRule<MyPreferenceActivity> scenarioRule =
-      new ActivityScenarioRule<>(MyPreferenceActivity.class);
+  public ActivityScenarioRule<PreferenceActivity> scenarioRule =
+      new ActivityScenarioRule<>(PreferenceActivity.class);
 
   @Before
   public void initIntents() {

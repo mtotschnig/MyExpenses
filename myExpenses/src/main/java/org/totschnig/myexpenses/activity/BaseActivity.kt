@@ -20,6 +20,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.*
 import androidx.appcompat.app.AlertDialog
@@ -630,14 +631,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             }
 
             R.id.SETTINGS_COMMAND -> {
-                startActivityForResult(
-                    Intent(this, PreferenceActivity::class.java).apply {
-                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        if (tag != null) {
-                            putExtra(MyPreferenceActivity.KEY_OPEN_PREF_KEY, tag as String?)
-                        }
-                    }, PREFERENCES_REQUEST
-                )
+                withRestoreOk.launch(PreferenceActivity.getIntent(this))
                 true
             }
 
@@ -1132,6 +1126,23 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         report(e)
         false
     }
+
+    val withRestoreOk = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == ProtectedFragmentActivity.RESULT_RESTORE_OK) {
+            restartAfterRestore()
+        }
+    }
+
+    protected open fun restartAfterRestore() {
+        (application as MyApplication).invalidateHomeCurrency(homeCurrencyProvider.homeCurrencyString)
+        if (!isFinishing) {
+            finishAffinity()
+            startActivity(Intent(this, MyExpenses::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            })
+        }
+    }
+
 
     companion object {
         const val ASYNC_TAG = "ASYNC_TASK"

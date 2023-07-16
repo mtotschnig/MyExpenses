@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.activity
 
 import android.app.Dialog
 import android.appwidget.AppWidgetProvider
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
@@ -14,7 +15,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
@@ -23,10 +23,10 @@ import org.totschnig.myexpenses.databinding.SettingsBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.feature.Feature
-import org.totschnig.myexpenses.fragment.BaseSettingsFragment
 import org.totschnig.myexpenses.fragment.TwoPanePreference
 import org.totschnig.myexpenses.fragment.TwoPanePreference.Companion.KEY_INITIAL_SCREEN
 import org.totschnig.myexpenses.fragment.preferences.*
+import org.totschnig.myexpenses.fragment.preferences.PreferencesExportFragment.Companion.KEY_CHECKED_FILES
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
@@ -255,6 +255,7 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             getKey(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET) -> {
                 updateWidgetsForClass(AccountWidget::class.java)
             }
+
             getKey(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET) -> {
                 updateWidgetsForClass(TemplateWidget::class.java)
             }
@@ -262,6 +263,7 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             getKey(PrefKey.PLANNER_EXECUTION_TIME) -> {
                 enqueuePlanner(false)
             }
+
             getKey(PrefKey.OPTIMIZE_PICTURE_FORMAT) -> {
                 twoPanePreference.getDetailFragment<PreferencesAttachPictureFragment>()
                     ?.configureQualityPreference()
@@ -298,7 +300,7 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
     override fun onPositive(args: Bundle, checked: Boolean) {
         super.onPositive(args, checked)
         if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.DELETE_FILES_COMMAND) {
-            viewModel.deleteAppFiles(args.getStringArray(BaseSettingsFragment.KEY_CHECKED_FILES)!!)
+            viewModel.deleteAppFiles(args.getStringArray(KEY_CHECKED_FILES)!!)
                 .observe(this) {
                     showSnackBar(resources.getQuantityString(R.plurals.delete_success, it, it))
                 }
@@ -402,5 +404,12 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             CrashHandler.report(IllegalStateException("onCreateDialog called with $id"))
             super.onCreateDialog(id)
         }
+    }
+
+    companion object {
+        fun getIntent(context: Context, initialScreen: String? = null) =
+            Intent(context, PreferenceActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                .putExtra(KEY_INITIAL_SCREEN, initialScreen)
     }
 }

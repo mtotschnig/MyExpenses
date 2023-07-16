@@ -31,8 +31,6 @@ import org.totschnig.myexpenses.dialog.select.SelectFromTableDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
 import org.totschnig.myexpenses.feature.FeatureManager;
 import org.totschnig.myexpenses.feature.OcrFeature;
-import org.totschnig.myexpenses.fragment.preferences.BasePreferenceFragment;
-import org.totschnig.myexpenses.fragment.BaseSettingsFragment;
 import org.totschnig.myexpenses.fragment.BudgetList;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.fragment.CsvImportParseFragment;
@@ -43,10 +41,10 @@ import org.totschnig.myexpenses.fragment.OnboardingDataFragment;
 import org.totschnig.myexpenses.fragment.OnboardingUiFragment;
 import org.totschnig.myexpenses.fragment.PartiesList;
 import org.totschnig.myexpenses.fragment.PlannerFragment;
-import org.totschnig.myexpenses.fragment.SettingsFragment;
 import org.totschnig.myexpenses.fragment.StaleImagesList;
 import org.totschnig.myexpenses.fragment.SyncBackendList;
 import org.totschnig.myexpenses.fragment.TemplatesList;
+import org.totschnig.myexpenses.fragment.preferences.BasePreferenceFragment;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.BaseTransactionProvider;
@@ -183,8 +181,6 @@ public interface AppComponent {
 
   void inject(BaseAdHandler adHandler);
 
-  void inject(SettingsFragment settingsFragment);
-
   void inject(ContribDialogFragment contribDialogFragment);
 
   void inject(RoadmapViewModel roadmapViewModel);
@@ -240,8 +236,6 @@ public interface AppComponent {
   void inject(OnboardingUiFragment onboardingUiFragment);
 
   void inject(PlannerFragment.PlanInstanceViewHolder planInstanceViewHolder);
-
-  void inject(BaseSettingsFragment baseSettingsFragment);
 
   void inject(BasePreferenceFragment basePreferenceFragment);
 

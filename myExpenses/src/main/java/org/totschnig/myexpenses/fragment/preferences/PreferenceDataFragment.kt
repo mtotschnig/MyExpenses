@@ -57,6 +57,15 @@ class PreferenceDataFragment: BasePreferenceFragment() {
                 }
             }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.hasStaleImages.collect { result ->
+                    requirePreference<Preference>(PrefKey.MANAGE_STALE_IMAGES).isVisible =
+                        result
+                }
+            }
+        }
     }
 
     fun updateHomeCurrency(currencyCode: String) {

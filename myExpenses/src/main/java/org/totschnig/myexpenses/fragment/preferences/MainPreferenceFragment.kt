@@ -17,7 +17,11 @@ class MainPreferenceFragment : BasePreferenceFragment() {
     var isSlideable: Boolean = true
         set(value) {
             field = value
-            val preferenceAdapterPosition = adapter.getPreferenceAdapterPosition(highlightedKey)
+            val preferenceAdapterPosition = highlightedKey?.let {
+                adapter.getPreferenceAdapterPosition(
+                    it
+                )
+            }
             if (!value) {
                 view?.setBackgroundColor(
                     ResourcesCompat.getColor(
@@ -27,18 +31,22 @@ class MainPreferenceFragment : BasePreferenceFragment() {
                     )
                 )
 
-                adapter.notifyItemChanged(preferenceAdapterPosition)
+                if (preferenceAdapterPosition != null) {
+                    adapter.notifyItemChanged(preferenceAdapterPosition)
+                }
             }
         }
 
     @State
-    lateinit var highlightedKey: String
+    var highlightedKey: String? = null
 
     fun onLoadPreference(key: String) {
-        val oldPosition = adapter.getPreferenceAdapterPosition(highlightedKey)
+        val oldPosition = highlightedKey?.let { adapter.getPreferenceAdapterPosition(it) }
         val newPosition = adapter.getPreferenceAdapterPosition(key)
         highlightedKey = key
-        adapter.notifyItemChanged(oldPosition)
+        if (oldPosition != null) {
+            adapter.notifyItemChanged(oldPosition)
+        }
         adapter.notifyItemChanged(newPosition)
     }
 
@@ -64,7 +72,6 @@ class MainPreferenceFragment : BasePreferenceFragment() {
         super.onCreatePreferences(savedInstanceState, rootKey)
         requirePreference<Preference>(PrefKey.CATEGORY_BACKUP_EXPORT).title = exportBackupTitle
         requirePreference<Preference>(PrefKey.CATEGORY_PROTECTION).title = protectionTitle
-        highlightedKey = preferenceScreen.getPreference(0).key
     }
 
     override fun onCreateAdapter(preferenceScreen: PreferenceScreen) =

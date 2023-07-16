@@ -12,11 +12,8 @@ import android.os.Bundle
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.preference.PreferenceFragmentCompat
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.MyPreferenceActivity
 import org.totschnig.myexpenses.activity.PreferenceActivity
-import org.totschnig.myexpenses.fragment.TwoPanePreference
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.myApplication
@@ -109,9 +106,8 @@ abstract class AbstractWidget(
                     PendingIntent.getActivity(
                         context,
                         appWidgetId,
-                        Intent(context, PreferenceActivity::class.java).putExtra(
-                            TwoPanePreference.KEY_INITIAL_SCREEN,
-                            prefHandler.getKey(PrefKey.CATEGORY_PROTECTION)
+                        PreferenceActivity.getIntent(
+                            context, prefHandler.getKey(PrefKey.CATEGORY_PROTECTION)
                         ),
                         PendingIntent.FLAG_IMMUTABLE
                     )

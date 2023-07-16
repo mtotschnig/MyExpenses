@@ -15,9 +15,14 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
 
     override fun onCreatePreferenceHeader() = MainPreferenceFragment()
 
+    private val initialScreen: String?
+        get() = arguments?.getString(KEY_INITIAL_SCREEN)
+
     override fun selectInitialDetailPreference(headerFragment: PreferenceFragmentCompat) =
-        arguments?.getString(KEY_INITIAL_SCREEN)?.let {
-            headerFragment.preferenceScreen.findPreference<Preference>(it)
+        initialScreen?.let { initial ->
+            headerFragment.preferenceScreen.findPreference<Preference>(initial)?.also { preference ->
+                (headerFragment as MainPreferenceFragment).highlightedKey = preference.key
+            }
         } ?: super.selectInitialDetailPreference(headerFragment)
 
     @SuppressLint("MissingSuperCall")
@@ -71,8 +76,14 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
 
         slidingPaneLayout.doOnLayout {
             headerFragment.isSlideable = slidingPaneLayout.isSlideable
-            if (slidingPaneLayout.isSlideable && slidingPaneLayout.isOpen) {
-                ensureTitle()
+            if (slidingPaneLayout.isSlideable) {
+                if (slidingPaneLayout.isOpen) {
+                    ensureTitle()
+                } else {
+                    if (initialScreen != null) {
+                        slidingPaneLayout.openPane()
+                    }
+                }
             }
         }
     }

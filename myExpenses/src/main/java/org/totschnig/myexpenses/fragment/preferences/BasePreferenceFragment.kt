@@ -79,6 +79,7 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
             inject(this@BasePreferenceFragment)
         }
         super.onCreate(savedInstanceState)
+        prefHandler.preparePreferenceFragment(this)
     }
 
     override fun onDisplayPreferenceDialog(preference: Preference) {

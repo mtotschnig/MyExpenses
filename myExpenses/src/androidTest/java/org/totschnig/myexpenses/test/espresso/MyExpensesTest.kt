@@ -21,12 +21,8 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.AccountEdit
-import org.totschnig.myexpenses.activity.ExpenseEdit
-import org.totschnig.myexpenses.activity.ManageTemplates
-import org.totschnig.myexpenses.activity.MyPreferenceActivity
+import org.totschnig.myexpenses.activity.*
 import org.totschnig.myexpenses.compose.TEST_TAG_ACCOUNTS
-import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Account
@@ -88,7 +84,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
             .perform(ViewActions.click())
         Intents.intended(
             IntentMatchers.hasComponent(
-                MyPreferenceActivity::class.java.name
+                PreferenceActivity::class.java.name
             )
         )
     }

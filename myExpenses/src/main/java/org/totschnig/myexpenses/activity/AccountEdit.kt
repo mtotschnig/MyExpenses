@@ -22,6 +22,7 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.evernote.android.state.State
@@ -207,18 +208,6 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             else -> R.string.goal_or_limit
         }
         binding.CriterionLabel.setText(criterionLabel)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            PREFERENCES_REQUEST -> if (resultCode == RESULT_FIRST_USER) {
-                finish()
-            } else {
-                configureSyncBackendAdapter(true)
-            }
-        }
     }
 
     private fun configureSyncBackendAdapter(fromSavedState: Boolean) {
@@ -413,15 +402,26 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
                 return true
             }
             R.id.SYNC_SETTINGS_COMMAND -> {
-                val i = Intent(this, ManageSyncBackends::class.java).apply {
-                    putExtra(KEY_UUID, uuid)
-                }
-                startActivityForResult(i, PREFERENCES_REQUEST)
+                syncSettings.launch(
+                    Intent(this, ManageSyncBackends::class.java).apply {
+                        putExtra(KEY_UUID, uuid)
+                    }
+                )
                 return true
             }
             else -> return false
         }
     }
+
+    private val syncSettings = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == RESULT_FIRST_USER) {
+            finish()
+        } else {
+            configureSyncBackendAdapter(true)
+        }
+    }
+
+
 
     override fun setupListeners() {
         super.setupListeners()
