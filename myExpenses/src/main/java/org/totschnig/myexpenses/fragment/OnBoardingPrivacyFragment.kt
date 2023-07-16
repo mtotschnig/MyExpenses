@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.fragment
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -10,6 +11,7 @@ import org.totschnig.myexpenses.databinding.OnboardingWizzardPrivacyBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.TimePreference
+import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.distribution
@@ -17,7 +19,7 @@ import org.totschnig.myexpenses.util.tracking.Tracker
 import java.time.LocalTime
 import javax.inject.Inject
 
-class OnBoardingPrivacyFragment: OnboardingFragment() {
+class OnBoardingPrivacyFragment : OnboardingFragment() {
     private var _binding: OnboardingWizzardPrivacyBinding? = null
     private val binding get() = _binding!!
 
@@ -29,7 +31,7 @@ class OnBoardingPrivacyFragment: OnboardingFragment() {
 
     override val layoutResId = R.layout.onboarding_wizzard_privacy
     override fun bindView(view: View) {
-       _binding = OnboardingWizzardPrivacyBinding.bind(view)
+        _binding = OnboardingWizzardPrivacyBinding.bind(view)
     }
 
     override val title: CharSequence
@@ -47,12 +49,22 @@ class OnBoardingPrivacyFragment: OnboardingFragment() {
                 if (newValue) {
                     hostActivity.requireSqlCrypt()
                     ConfirmationDialogFragment.newInstance(Bundle().apply {
-                        putString(ConfirmationDialogFragment.KEY_MESSAGE,
-                        getString(R.string.encrypt_database_info)
-                            )
-                        putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE, R.id.ENCRYPT_CANCEL_COMMAND)
-                        putInt(ConfirmationDialogFragment.KEY_COMMAND_NEUTRAL, R.id.ENCRYPT_LEARN_MORE_COMMAND)
-                        putInt(ConfirmationDialogFragment.KEY_NEUTRAL_BUTTON_LABEL, R.string.learn_more)
+                        putString(
+                            ConfirmationDialogFragment.KEY_MESSAGE,
+                            getString(R.string.encrypt_database_info)
+                        )
+                        putInt(
+                            ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
+                            R.id.ENCRYPT_CANCEL_COMMAND
+                        )
+                        putInt(
+                            ConfirmationDialogFragment.KEY_COMMAND_NEUTRAL,
+                            R.id.ENCRYPT_LEARN_MORE_COMMAND
+                        )
+                        putInt(
+                            ConfirmationDialogFragment.KEY_NEUTRAL_BUTTON_LABEL,
+                            R.string.learn_more
+                        )
                     }).show(parentFragmentManager, "ENCRYPT")
                 }
                 true
@@ -76,8 +88,17 @@ class OnBoardingPrivacyFragment: OnboardingFragment() {
             binding.tracking.isVisible = false
             binding.trackingLabel.isVisible = false
         }
-        val defaultAutoBackupTime = LocalTime.of(TimePreference.DEFAULT_VALUE / 100, TimePreference.DEFAULT_VALUE % 100)
-        binding.autoBackup.text = getString(R.string.pref_auto_backup_summary) + " ($defaultAutoBackupTime)"
+        val defaultAutoBackupTime =
+            LocalTime.of(TimePreference.DEFAULT_VALUE / 100, TimePreference.DEFAULT_VALUE % 100)
+        binding.autoBackup.text =
+            getString(R.string.pref_auto_backup_summary) + " ($defaultAutoBackupTime)"
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            binding.autoBackup.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    hostActivity.requestNotificationPermission(PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_AUTO_BACKUP)
+                }
+            }
+        }
         nextButton.isVisible = true
     }
 

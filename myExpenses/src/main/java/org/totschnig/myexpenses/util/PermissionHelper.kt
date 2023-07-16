@@ -16,13 +16,17 @@ import java.io.File
 
 
 object PermissionHelper {
-    @IntDef(PERMISSIONS_REQUEST_WRITE_CALENDAR, PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI, PERMISSIONS_REQUEST_NOTIFICATIONS_SYNC, PERMISSIONS_REQUEST_NOTIFICATIONS_PLANNER)
+    @IntDef(PERMISSIONS_REQUEST_WRITE_CALENDAR, PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI,
+        PERMISSIONS_REQUEST_NOTIFICATIONS_SYNC, PERMISSIONS_REQUEST_NOTIFICATIONS_PLANNER,
+        PERMISSIONS_REQUEST_NOTIFICATIONS_AUTO_BACKUP
+    )
     annotation class PermissionRequestCode
 
     const val PERMISSIONS_REQUEST_WRITE_CALENDAR = 1
     const val PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI = 2
     const val PERMISSIONS_REQUEST_NOTIFICATIONS_SYNC = 3
     const val PERMISSIONS_REQUEST_NOTIFICATIONS_PLANNER = 4
+    const val PERMISSIONS_REQUEST_NOTIFICATIONS_AUTO_BACKUP = 5
 
     @JvmStatic
     fun hasCalendarPermission(context: Context) = PermissionGroup.CALENDAR.hasPermission(context)
@@ -44,7 +48,7 @@ object PermissionHelper {
     }
 
     @TargetApi(Build.VERSION_CODES.TIRAMISU)
-    fun getRationale(context: Context, @PermissionRequestCode requestCode: Int, vararg group: PermissionGroup) =
+    fun getRationale(context: Context, @PermissionRequestCode requestCode: Int, vararg group: PermissionGroup): String =
         when (requestCode) {
             PERMISSIONS_REQUEST_WRITE_CALENDAR -> {
                 group.joinToString(" ") {
@@ -57,7 +61,8 @@ object PermissionHelper {
             }
             PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI -> context.getString(R.string.notifications_permission_required_webui)
             PERMISSIONS_REQUEST_NOTIFICATIONS_SYNC -> context.getString(R.string.notifications_permission_required_sync)
-            PERMISSIONS_REQUEST_NOTIFICATIONS_PLANNER -> context.getString(R.string.notifications_permission_required_planner)
+            PERMISSIONS_REQUEST_NOTIFICATIONS_PLANNER -> Utils.getTextWithAppName(context, R.string.notifications_permission_required_planner).toString()
+            PERMISSIONS_REQUEST_NOTIFICATIONS_AUTO_BACKUP -> context.getString(R.string.notifications_permission_required_auto_backup)
             else -> throw IllegalArgumentException()
         }
 

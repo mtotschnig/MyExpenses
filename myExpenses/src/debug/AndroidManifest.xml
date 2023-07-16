@@ -37,6 +37,9 @@
             <intent-filter>
                 <action android:name="TRIGGER_PLANNER"/>
             </intent-filter>
+            <intent-filter>
+                <action android:name="TRIGGER_BACKUP"/>
+            </intent-filter>
         </receiver>
 
         <activity
