@@ -52,5 +52,6 @@
     </plurals>
     <string name="display_options_sort_list_by">"並べ替え順序"</string>
     <string name="data">"データ"</string>
+    <string name="start">"開始"</string>
 </resources>
 

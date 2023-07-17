@@ -53,5 +53,6 @@
     </plurals>
     <string name="display_options_sort_list_by">"Trier par"</string>
     <string name="data">"Données"</string>
+    <string name="start">"Démarrer"</string>
 </resources>
 

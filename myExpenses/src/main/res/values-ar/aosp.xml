@@ -57,5 +57,6 @@
     </plurals>
     <string name="display_options_sort_list_by">"الترتيب حسب"</string>
     <string name="data">"البيانات"</string>
+    <string name="start">"بدء"</string>
 </resources>
 

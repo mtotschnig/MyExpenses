@@ -55,5 +55,6 @@
     </plurals>
     <string name="display_options_sort_list_by">"Sortuj według"</string>
     <string name="data">"Dane"</string>
+    <string name="start">"Start"</string>
 </resources>
 

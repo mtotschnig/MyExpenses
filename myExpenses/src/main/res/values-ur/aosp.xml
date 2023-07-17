@@ -49,4 +49,5 @@
     </plurals>
     <string name="display_options_sort_list_by">"ترتیب دیں بہ لحاظ"</string>
     <string name="data">"ڈیٹا"</string>
+    <string name="start">"شروع کریں"</string>
 </resources>

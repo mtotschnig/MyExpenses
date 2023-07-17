@@ -52,5 +52,6 @@
     </plurals>
     <string name="display_options_sort_list_by">"排序方式"</string>
     <string name="data">"數據"</string>
+     <string name="start">"開始"</string>
 </resources>
 
