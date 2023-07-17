@@ -162,17 +162,6 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         }
     }
 
-    @TargetApi(TIRAMISU)
-    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            super.onPermissionsDenied(requestCode, perms)
-        } else if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_AUTO_BACKUP ) {
-           showSnackBar(PermissionHelper.getRationale(
-               this, requestCode, PermissionHelper.PermissionGroup.NOTIFICATION
-           ))
-        } else super.onPermissionsDenied(requestCode, perms)
-    }
-
     override val snackBarContainerId: Int
         get() {
             return binding.viewPager.id

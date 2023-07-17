@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.compose.FutureCriterion
 import org.totschnig.myexpenses.db2.preDefinedName
 import org.totschnig.myexpenses.fragment.preferences.PreferenceUiFragment.Companion.compactItemRendererTitle
@@ -67,7 +68,7 @@ class UpgradeHandlerViewModel(application: Application) :
     private val _upgradeInfo: MutableStateFlow<UpgradeInfo?> = MutableStateFlow(null)
     val upgradeInfo: StateFlow<UpgradeInfo?> = _upgradeInfo
 
-    fun upgrade(fromVersion: Int, @Suppress("UNUSED_PARAMETER") toVersion: Int) {
+    fun upgrade(activity: BaseActivity, fromVersion: Int, @Suppress("UNUSED_PARAMETER") toVersion: Int) {
         viewModelScope.launch(context = coroutineContext()) {
 
             if (fromVersion < 19) {
@@ -471,6 +472,13 @@ class UpgradeHandlerViewModel(application: Application) :
                                 null, null
                             )
                         }
+                    }
+                }
+            }
+            if (fromVersion < 637) {
+                if (prefHandler.getBoolean(PrefKey.AUTO_BACKUP, false)) {
+                    withContext(Dispatchers.Main) {
+                        activity.checkNotificationPermissionForAutoBackup()
                     }
                 }
             }

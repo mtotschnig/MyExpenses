@@ -1875,7 +1875,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             if (prevVersion == -1) {
                 return
             }
-            upgradeHandlerViewModel.upgrade(prevVersion, currentVersion)
+            upgradeHandlerViewModel.upgrade(this, prevVersion, currentVersion)
             prefHandler.putInt(PrefKey.CURRENT_VERSION, currentVersion)
 
             showVersionDialog(prevVersion)

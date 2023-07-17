@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.activity
 
+import android.annotation.TargetApi
 import android.app.DownloadManager
 import android.app.KeyguardManager
 import android.app.NotificationManager
@@ -133,6 +134,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     @StringRes
     open val fabDescription: Int? = null
+
     @DrawableRes
     open val fabIcon: Int? = null
 
@@ -594,6 +596,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
                     !PermissionGroup.NOTIFICATION.hasPermission(this)
                 ) {
+                    disableFab()
                     requestPermission(
                         PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_PLANNER,
                         PermissionGroup.NOTIFICATION
@@ -901,7 +904,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         showDismissibleSnackBar(deleteFailureMessage(message), callback)
     }
 
-    protected open fun doHelp(variant: String?) : Boolean {
+    protected open fun doHelp(variant: String?): Boolean {
         startActivity(Intent(this, Help::class.java).apply {
             putExtra(HelpDialogFragment.KEY_CONTEXT, helpContext)
             putExtra(HelpDialogFragment.KEY_VARIANT, variant ?: helpVariant)
@@ -962,6 +965,25 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         )
     }
 
+    fun checkNotificationPermissionForAutoBackup() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            !PermissionGroup.NOTIFICATION.hasPermission(this)
+        ) {
+            requestNotificationPermission(PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_AUTO_BACKUP)
+        } else if (!areNotificationsEnabled(NotificationBuilderWrapper.CHANNEL_ID_AUTO_BACKUP)) {
+            showSnackBar(
+                TextUtils.concat(
+                    getString(R.string.notifications_permission_required_auto_backup),
+                    " ",
+                    getString(
+                        R.string.notifications_channel_required,
+                        getString(R.string.pref_auto_backup_title)
+                    )
+                )
+            )
+        }
+    }
+
     fun checkPermissionsForPlaner() {
 
         val missingPermissions = buildList {
@@ -972,6 +994,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }.filter { !it.hasPermission(this) }
 
         if (missingPermissions.contains(PermissionGroup.CALENDAR)) {
+            disableFab()
             requestPermission(
                 PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR,
                 *missingPermissions.toTypedArray()
@@ -1025,16 +1048,20 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         } else false
 
     fun requestCalendarPermission() {
+        disableFab()
         requestPermission(
             PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR,
             PermissionGroup.CALENDAR
         )
     }
 
-    open fun requestPermission(requestCode: Int, vararg permissionGroup: PermissionGroup) {
+    private fun disableFab() {
         _floatingActionButton?.let {
             it.isEnabled = false
         }
+    }
+
+    open fun requestPermission(requestCode: Int, vararg permissionGroup: PermissionGroup) {
         EasyPermissions.requestPermissions(
             host = this,
             rationale = PermissionHelper.getRationale(this, requestCode, *permissionGroup),
@@ -1043,6 +1070,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         )
     }
 
+    @TargetApi(Build.VERSION_CODES.TIRAMISU)
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             SettingsDialog.Builder(this)
@@ -1054,6 +1082,12 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                     )
                 )
                 .build().show()
+        } else if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_AUTO_BACKUP) {
+            showSnackBar(
+                PermissionHelper.getRationale(
+                    this, requestCode, PermissionHelper.PermissionGroup.NOTIFICATION
+                )
+            )
         }
     }
 
@@ -1127,11 +1161,12 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         false
     }
 
-    val withRestoreOk = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == ProtectedFragmentActivity.RESULT_RESTORE_OK) {
-            restartAfterRestore()
+    val withRestoreOk =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == ProtectedFragmentActivity.RESULT_RESTORE_OK) {
+                restartAfterRestore()
+            }
         }
-    }
 
     protected open fun restartAfterRestore() {
         (application as MyApplication).invalidateHomeCurrency(homeCurrencyProvider.homeCurrencyString)

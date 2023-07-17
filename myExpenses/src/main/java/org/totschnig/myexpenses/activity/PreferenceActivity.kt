@@ -180,12 +180,16 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             }
 
             getKey(PrefKey.AUTO_BACKUP) -> {
-                if (sharedPreferences.getBoolean(key, false) &&
+                val autoBackup = sharedPreferences.getBoolean(key, false)
+                if (autoBackup &&
                     (prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false) ||
                             prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)
                             )
                 ) {
                     showUnencryptedBackupWarning()
+                }
+                if (autoBackup) {
+                    checkNotificationPermissionForAutoBackup()
                 }
                 AutoBackupWorker.enqueueOrCancel(this, prefHandler)
             }
