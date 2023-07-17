@@ -45,7 +45,6 @@ import java.util.List;
  * Used by Settings.
  *
  */
-@RestrictTo(LIBRARY_GROUP_PREFIX)
 public class PreferenceGroupAdapter extends RecyclerView.Adapter<PreferenceViewHolder>
         implements Preference.OnPreferenceChangeInternalListener,
         PreferenceGroup.PreferencePositionCallback {
