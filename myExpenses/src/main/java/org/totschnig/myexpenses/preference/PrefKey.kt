@@ -4,10 +4,9 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 
 // the following keys are stored as string resources, so that
-// they can be referenced from preferences.xml, and thus we
+// they can be referenced from preferences xml, and thus we
 // can guarantee the referential integrity
 enum class PrefKey(internal val resId: Int, internal val _key: String?) {
-    ROOT_SCREEN(R.string.pref_root_screen_key),
     CATEGORIES_SORT_BY_USAGES_LEGACY(R.string.pref_categories_sort_by_usages_key),
     SORT_ORDER_LEGACY(R.string.pref_sort_order_key),
     SORT_ORDER_TEMPLATES("sort_order_templates"),

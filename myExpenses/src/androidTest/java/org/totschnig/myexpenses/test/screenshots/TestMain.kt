@@ -14,9 +14,7 @@ import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.contrib.DrawerActions
-import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
-import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
@@ -24,11 +22,11 @@ import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.GrantPermissionRule
 import androidx.test.uiautomator.UiDevice
 import org.hamcrest.Matchers.containsString
-import org.hamcrest.Matchers.instanceOf
 import org.junit.*
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.test.espresso.SettingsTest
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.MockLicenceHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.versionNumber
@@ -110,20 +108,10 @@ class TestMain : BaseMyExpensesTest() {
                 pressBack()
                 pressBack()
                 clickMenuItem(R.id.SETTINGS_COMMAND)
-                onView(instanceOf(RecyclerView::class.java))
-                    .perform(
-                        actionOnItem<RecyclerView.ViewHolder>(
-                            hasDescendant(withText(R.string.synchronization)),
-                            click()
-                        )
-                    )
-                onView(instanceOf(RecyclerView::class.java))
-                    .perform(
-                        actionOnItem<RecyclerView.ViewHolder>(
-                            hasDescendant(withText(R.string.pref_manage_sync_backends_title)),
-                            click()
-                        )
-                    )
+                SettingsTest.navigateTo(
+                    R.string.synchronization,
+                    R.string.pref_manage_sync_backends_title
+                )
                 onView(withText(containsString("Drive"))).perform(click())
                 onView(withText(containsString("Dropbox"))).perform(click())
                 onView(withText(containsString("WebDAV"))).perform(scrollTo(), click())

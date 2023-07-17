@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.childAtPosition
 import java.time.ZonedDateTime
 
 class RemapAccountTest : BaseMyExpensesTest() {
@@ -87,24 +88,5 @@ class RemapAccountTest : BaseMyExpensesTest() {
         val peer = getTransactionFromDb(transfer.transferPeer!!)
         Truth.assertThat(peer.accountId).isEqualTo(account2.id)
         Truth.assertThat(peer.transferAccountId).isEqualTo(account3.id)
-    }
-
-    //Espresso recorder
-    private fun childAtPosition(
-        parentMatcher: Matcher<View>, position: Int
-    ): Matcher<View> {
-
-        return object : TypeSafeMatcher<View>() {
-            override fun describeTo(description: Description) {
-                description.appendText("Child at position $position in parent ")
-                parentMatcher.describeTo(description)
-            }
-
-            public override fun matchesSafely(view: View): Boolean {
-                val parent = view.parent
-                return parent is ViewGroup && parentMatcher.matches(parent)
-                        && view == parent.getChildAt(position)
-            }
-        }
     }
 }

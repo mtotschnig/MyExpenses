@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.testutils
 
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
@@ -10,6 +12,7 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Description
 import org.hamcrest.Matcher
+import org.hamcrest.TypeSafeMatcher
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.IdHolder
 import org.totschnig.myexpenses.delegate.TransactionDelegate.OperationType
@@ -61,3 +64,22 @@ fun withOperationType(type: Int): Matcher<Any> =
     }
 
 fun toolbarTitle(): ViewInteraction = onView(allOf(instanceOf(TextView::class.java), withParent(ViewMatchers.withId(R.id.toolbar))))
+
+//Espresso recorder
+fun childAtPosition(
+    parentMatcher: Matcher<View>, position: Int
+): Matcher<View> {
+
+    return object : TypeSafeMatcher<View>() {
+        override fun describeTo(description: Description) {
+            description.appendText("Child at position $position in parent ")
+            parentMatcher.describeTo(description)
+        }
+
+        public override fun matchesSafely(view: View): Boolean {
+            val parent = view.parent
+            return parent is ViewGroup && parentMatcher.matches(parent)
+                    && view == parent.getChildAt(position)
+        }
+    }
+}

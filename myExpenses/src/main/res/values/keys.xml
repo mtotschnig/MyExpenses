@@ -15,7 +15,6 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="pref_root_screen_key">pref_root</string>
     <string name="pref_category_export_backup_key">category_export_backup</string>
     <string name="pref_category_protection_key">category_protection</string>
     <string name="pref_category_ui_key">category_ui</string>

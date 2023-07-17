@@ -15,8 +15,7 @@
  -->
 <!--suppress AndroidElementNotAllowed -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:my="http://schemas.android.com/apk/res-auto"
-    android:key="@string/pref_root_screen_key">
+    xmlns:my="http://schemas.android.com/apk/res-auto">
 
     <Preference
         android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferenceDataFragment"
