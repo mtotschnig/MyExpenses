@@ -529,8 +529,8 @@ public class Preference implements Comparable<Preference> {
         final TextView titleView = (TextView) holder.findViewById(android.R.id.title);
         if (titleView != null) {
             final CharSequence title = getTitle();
+            titleView.setText(title);
             if (!TextUtils.isEmpty(title)) {
-                titleView.setText(title);
                 titleView.setVisibility(View.VISIBLE);
                 if (mHasSingleLineTitleAttr) {
                     titleView.setSingleLine(mSingleLineTitle);
