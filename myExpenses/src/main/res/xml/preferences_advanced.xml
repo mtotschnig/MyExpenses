@@ -6,7 +6,6 @@
     <org.totschnig.myexpenses.preference.HeaderPreference />
 
     <Preference
-        android:key="@string/pref_custom_currency_key"
         android:title="@string/pref_custom_currency_title">
         <intent
             android:targetClass="org.totschnig.myexpenses.activity.ManageCurrencies"

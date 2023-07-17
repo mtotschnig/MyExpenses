@@ -88,7 +88,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="@string/pref_ui_transaction_list_key"
         android:title="@string/help_MyExpenses_title"
         my:initialExpandedChildrenCount="2">
 
@@ -126,7 +125,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="@string/pref_ui_home_screen_shortcuts_key"
         android:title="@string/pref_ui_home_screen_shortcuts"
         my:initialExpandedChildrenCount="1"
         my:isPreferenceVisible="@bool/pin_shortcut_support">

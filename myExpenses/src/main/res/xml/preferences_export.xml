@@ -30,7 +30,6 @@
         my:initialExpandedChildrenCount="1">
 
         <Preference
-            android:key="@string/pref_backup_key"
             android:title="@string/pref_backup_summary">
             <intent
                 android:action="BACKUP"
