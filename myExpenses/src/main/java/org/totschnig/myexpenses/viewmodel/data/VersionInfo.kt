@@ -114,6 +114,9 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
             "360" -> arrayOf(
                 "${t(R.string.help_ManageTemplates_plans_title)}: ${t(R.string.ui_refinement)}"
             )
+            "362" -> arrayOf(
+                "${t(R.string.menu_settings)}: ${t(R.string.ui_refinement)}"
+            )
             else -> {
                 val resId = res.getIdentifier(
                     "whats_new_$nameCondensed",
