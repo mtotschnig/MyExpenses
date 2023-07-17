@@ -45,6 +45,7 @@
     <string name="menu_export">Export</string>
     <string name="display_options_sort_list_by">Sort by</string>
     <!--  packages/apps/DeskClock/res/values/strings.xml name="timer_stop" -->
+    <string name="start">Start</string>
     <string name="stop">Stop</string>
     <!-- name="clock_style" -->
     <string name="style">Style</string>
@@ -82,6 +83,7 @@
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
     <string name="yesterday">Yesterday</string>
-
+    <!-- AndroidSDK/platforms/android-34/data/res serviceClassData -->
+    <string name="data">Data</string>
 </resources>
 

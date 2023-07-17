@@ -251,7 +251,6 @@
     <string name="pref_auto_fill_summary">Điền dữ liệu từ giao dịch trước đó cho cùng người nhận/trả</string>
     <string name="pref_backup_summary">Tạo một phần sao lưu đối với cơ sở dữ liệu và tùy biến trên thẻ nhớ.</string>
     <string name="pref_sort_order_usages">Số lần sử dụng</string>
-    <string name="pref_category_title_advanced">Nâng cao</string>
     <string name="pref_category_title_export">Xuất dữ liệu</string>
     <string name="pref_category_title_import">Nhập dữ liệu</string>
     <string name="pref_category_title_manage">Quản lý</string>

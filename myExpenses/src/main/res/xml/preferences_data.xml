@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<!--suppress AndroidElementNotAllowed -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:my="http://schemas.android.com/apk/res-auto" android:title="@string/data">
+    <org.totschnig.myexpenses.preference.HeaderPreference />
+    <Preference
+        android:key="manage_categories"
+        android:summary="@string/pref_manage_categories_summary"
+        android:title="@string/pref_manage_categories_title">
+        <intent
+            android:action="MANAGE"
+            android:targetClass="org.totschnig.myexpenses.activity.ManageCategories"
+            android:targetPackage="@string/application_id" />
+    </Preference>
+    <Preference
+        android:key="manage_methods"
+        android:summary="@string/pref_manage_methods_summary"
+        android:title="@string/pref_manage_methods_title">
+        <intent
+            android:targetClass="org.totschnig.myexpenses.activity.ManageMethods"
+            android:targetPackage="@string/application_id" />
+    </Preference>
+    <Preference
+        android:key="@string/pref_manage_stale_images_key"
+        android:summary="@string/pref_manage_stale_images_summary"
+        android:title="@string/pref_manage_stale_images_title"
+        my:isPreferenceVisible="false">
+        <intent
+            android:targetClass="org.totschnig.myexpenses.activity.ManageStaleImages"
+            android:targetPackage="@string/application_id" />
+    </Preference>
+    <ListPreference
+        android:enabled="false"
+        android:key="@string/pref_home_currency_key"
+        android:title="@string/pref_home_currency_title"
+        my:useSimpleSummaryProvider="true" />
+    <Preference
+        android:key="manage_tags"
+        android:summary="@string/pref_manage_tags_summary"
+        android:title="@string/tags">
+        <intent
+            android:action="MANAGE"
+            android:targetClass="org.totschnig.myexpenses.activity.ManageTags"
+            android:targetPackage="@string/application_id" />
+    </Preference>
+</PreferenceScreen> 

@@ -14,11 +14,9 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BackupRestoreActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
-import org.totschnig.myexpenses.activity.RESTORE_REQUEST
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.databinding.OnboardingWizzardDataBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
-import org.totschnig.myexpenses.ui.bindListener
 import org.totschnig.myexpenses.dialog.buildColorDialog
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -27,6 +25,7 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
+import org.totschnig.myexpenses.ui.bindListener
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
@@ -103,9 +102,11 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
     private fun onRestoreMenuItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.SetupFromLocal -> {
-                val intent = Intent(activity, BackupRestoreActivity::class.java)
-                intent.action = BackupRestoreActivity.ACTION_RESTORE
-                hostActivity.startActivityForResult(intent, RESTORE_REQUEST)
+                hostActivity.withRestoreOk.launch(
+                    Intent(activity, BackupRestoreActivity::class.java).apply {
+                        action = BackupRestoreActivity.ACTION_RESTORE
+                    }
+                )
             }
             Menu.NONE -> {
                 hostActivity.fetchAccountData(item.title.toString())

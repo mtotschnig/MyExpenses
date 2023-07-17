@@ -255,7 +255,6 @@
     <string name="pref_auto_fill_summary">同じ受取人/支払人の最終取引のデータを記入する</string>
     <string name="pref_backup_summary">データベースとプリファレンスのバックアップを作成します。</string>
     <string name="pref_sort_order_usages">使用件数</string>
-    <string name="pref_category_title_advanced">高度な設定</string>
     <string name="pref_category_title_export">エクスポート</string>
     <string name="pref_category_title_import">インポート</string>
     <string name="pref_category_title_manage">管理</string>

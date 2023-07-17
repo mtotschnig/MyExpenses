@@ -51,5 +51,6 @@
         <item quantity="one">%1$d Datei löschen?</item>
     </plurals>
     <string name="display_options_sort_list_by">"Sortieren nach"</string>
+    <string name="data">"Daten"</string>
 </resources>
 

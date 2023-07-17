@@ -229,7 +229,6 @@
     <string name="pm_type_neutral">Neutral</string>
     <string name="pref_app_dir_title">Mappen til sikkerhedskopier og eksport</string>
     <string name="pref_backup_summary">Opret en sikkerhedskopi af databasen og indstillingerne.</string>
-    <string name="pref_category_title_advanced">Avanceret</string>
     <string name="pref_category_title_export">Eksporter</string>
     <string name="pref_category_title_import">Importer</string>
     <string name="pref_category_title_manage">Administrer</string>

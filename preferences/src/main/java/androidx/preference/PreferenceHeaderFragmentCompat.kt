@@ -241,27 +241,28 @@ abstract class PreferenceHeaderFragmentCompat :
      *
      * @return Fragment The first fragment that found in the list of preference headers.
      */
-    open fun onCreateInitialDetailFragment(): Fragment? {
-        val headerFragment = childFragmentManager.findFragmentById(R.id.preferences_header)
-            as PreferenceFragmentCompat
+    open fun onCreateInitialDetailFragment() = selectInitialDetailPreference(
+        childFragmentManager.findFragmentById(R.id.preferences_header)
+                as PreferenceFragmentCompat
+    )?.let {
+        childFragmentManager.fragmentFactory.instantiate(
+            requireContext().classLoader,
+            it.fragment!!
+        ).apply {
+            arguments = it.extras
+        }
+    }
+
+    //contract: the selected Preference must have a Fragment defined
+    open fun selectInitialDetailPreference(headerFragment: PreferenceFragmentCompat): Preference? {
         if (headerFragment.preferenceScreen.preferenceCount <= 0) {
             return null
         }
         for (index in 0 until headerFragment.preferenceScreen.preferenceCount) {
             val header = headerFragment.preferenceScreen.getPreference(index)
-            if (header.fragment == null) {
-                continue
+            if (header.fragment != null) {
+                return header
             }
-            val fragment = header.fragment?.let {
-                childFragmentManager.fragmentFactory.instantiate(
-                    requireContext().classLoader,
-                    it
-                )
-            }
-            fragment?.apply {
-                arguments = header.extras
-            }
-            return fragment
         }
         return null
     }

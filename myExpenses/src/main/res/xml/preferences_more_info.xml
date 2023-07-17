@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--suppress AndroidElementNotAllowed -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/pref_category_title_more_information">
+    <org.totschnig.myexpenses.preference.HeaderPreference />
+
+    <org.totschnig.myexpenses.preference.SafePreference
+        android:key="visit_website"
+        android:summary="@string/pref_visit_website_summary"
+        android:title="@string/pref_visit_website_title">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="@string/website" />
+    </org.totschnig.myexpenses.preference.SafePreference>
+
+    <org.totschnig.myexpenses.preference.SafePreference
+        android:key="@string/pref_news_key">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://mastodon.social/@myexpenses" />
+    </org.totschnig.myexpenses.preference.SafePreference>
+
+    <Preference
+        android:key="@string/pref_more_info_dialog_key"
+        android:title="@string/pref_more_info_dialog_title" />
+
+    <PreferenceCategory
+        android:key="@string/pref_category_translation_key"
+        android:title="@string/pref_translation_title">
+
+        <Preference
+            android:key="@string/pref_translation_key" />
+
+        <Preference
+            android:selectable="false"
+            android:summary="Please help us keep the translation for your language up to date. You can either suggest improvements for missing or incorrect translations, or join the translation project as a regular contributor." />
+
+        <Preference
+            android:key="translation_suggest_improvement"
+            android:title="Suggest improvement">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="mailto:translations@myexpenses.mobi">
+                <extra
+                    android:name="android.intent.extra.SUBJECT"
+                    android:value="My Expenses Translation - Suggestion for Improvement" />
+                <extra
+                    android:name="android.intent.extra.TEXT"
+                    android:value="Please provide a detailed description, ideally including a screenshot:" />
+            </intent>
+        </Preference>
+
+        <org.totschnig.myexpenses.preference.SafePreference android:title="Join My Exepenses @ Weblate">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://hosted.weblate.org/engage/my-expenses/" />
+        </org.totschnig.myexpenses.preference.SafePreference>
+    </PreferenceCategory>
+</PreferenceScreen>

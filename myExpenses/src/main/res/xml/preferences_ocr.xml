@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--suppress AndroidElementNotAllowed -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:my="http://schemas.android.com/apk/res-auto" android:title="@string/title_scan_receipt_feature">
+    <org.totschnig.myexpenses.preference.HeaderPreference />
+    <EditTextPreference
+        android:key="@string/pref_ocr_total_indicators_key"
+        android:summary="@string/pref_ocr_total_indicators_summary"
+        android:title="@string/pref_ocr_total_indicators_title" />
+    <EditTextPreference
+        android:key="@string/pref_ocr_date_formats_key"
+        android:summary="@string/pref_custom_decimal_format_summary"
+        android:title="@string/pref_ocr_date_formats_title" />
+    <EditTextPreference
+        android:key="@string/pref_ocr_time_formats_key"
+        android:summary="@string/pref_custom_decimal_format_summary"
+        android:title="@string/pref_ocr_time_formats_title" />
+    <ListPreference
+        android:entries="@array/ocr_engine_entries"
+        android:entryValues="@array/ocr_engine_values"
+        android:key="@string/pref_ocr_engine_key"
+        android:title="@string/pref_ocr_engine_title"
+        my:useSimpleSummaryProvider="true" />
+    <ListPreference
+        android:entryValues="@array/pref_tesseract_language_values"
+        android:key="@string/pref_tesseract_language_key"
+        android:title="@string/pref_tesseract_language_title"
+        my:isPreferenceVisible="false"
+        my:useSimpleSummaryProvider="true" />
+    <ListPreference
+        android:entryValues="@array/pref_mlkit_script_values"
+        android:key="@string/pref_mlkit_script_key"
+        android:title="@string/pref_mlkit_script_title"
+        my:isPreferenceVisible="false"
+        my:useSimpleSummaryProvider="true" />
+</PreferenceScreen>

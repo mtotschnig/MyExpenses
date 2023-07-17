@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--suppress AndroidElementNotAllowed -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:my="http://schemas.android.com/apk/res-auto"
+    android:title="@string/expand_button_title">
+    <org.totschnig.myexpenses.preference.HeaderPreference />
+
+    <Preference
+        android:title="@string/pref_custom_currency_title">
+        <intent
+            android:targetClass="org.totschnig.myexpenses.activity.ManageCurrencies"
+            android:targetPackage="@string/application_id" />
+    </Preference>
+
+    <org.totschnig.myexpenses.preference.NumberFormatPreference
+        android:key="@string/pref_custom_decimal_format_key"
+        android:summary="@string/pref_custom_decimal_format_summary"
+        android:title="@string/pref_custom_decimal_format_title" />
+
+    <org.totschnig.myexpenses.preference.DateFormatPreference
+        android:key="@string/pref_custom_date_format_key"
+        android:summary="@string/pref_custom_decimal_format_summary"
+        android:title="@string/date_format" />
+
+    <PreferenceCategory
+        android:key="@string/pref_planner_advanced_key"
+        android:title="@string/planner_notification_channel_name">
+
+        <ListPreference
+            android:key="@string/pref_planner_calendar_id_key"
+            android:summary="@string/pref_planning_calendar_summary"
+            android:title="@string/calendar" />
+
+        <org.totschnig.myexpenses.preference.TimePreference
+            android:key="@string/pref_plan_executor_time_key"
+            android:title="@string/pref_plan_executor_time_title" />
+
+        <ListPreference
+            android:defaultValue="noon"
+            android:entries="@array/pref_planner_manual_time_entries"
+            android:entryValues="@array/pref_planner_manual_time_values"
+            android:key="@string/pref_planner_manual_time_key"
+            android:title="@string/pref_planner_manual_time_title"
+            my:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="@string/pref_webdav_key"
+        android:title="WebDAV">
+
+        <SeekBarPreference
+            android:defaultValue="10"
+            android:key="@string/pref_webdav_timeout_key"
+            android:max="60"
+            android:title="@string/pref_webdav_timeout_title"
+            my:min="5"
+            my:showSeekBarValue="true"
+            my:updatesContinuously="true" />
+
+        <SwitchPreferenceCompat
+            android:key="@string/pref_webdav_allow_unverified_host_key"
+            android:summary="Allow communication with https even when certificate is issued to different host. WARNING: this is insecure, only use on private network and at your own risk. This setting is taken into account when you setup a WebDAV backend. Changing it does not affect existing backends." />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="@string/pref_debug_key"
+        android:title="@string/pref_debug_title">
+
+        <SwitchPreferenceCompat
+            android:key="@string/pref_debug_logging_key"
+            android:title="@string/pref_debug_logging_summary" />
+
+        <Preference
+            android:dependency="@string/pref_debug_logging_key"
+            android:key="@string/pref_debug_logging_share_key"
+            android:title="@string/pref_debug_logging_share_summary" />
+
+        <Preference
+            android:key="@string/pref_crashlytics_user_id_key"
+            android:selectable="false"
+            android:title="Crashlytics User Id"
+            my:enableCopying="true" />
+
+        <SwitchPreferenceCompat
+            android:key="@string/pref_debug_show_ads_key"
+            android:title="Ads"
+            my:isPreferenceVisible="@bool/pref_debug_show_ads_visible" />
+
+        <SwitchPreferenceCompat
+            android:key="@string/pref_db_safe_mode_key"
+            android:title="Database Safe Mode (prevents integer overflow)" />
+
+        <Preference
+            android:key="@string/pref_debug_repair_987_key"
+            android:title="https://github.com/mtotschnig/MyExpenses/issues/987"
+            my:isPreferenceVisible="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="@string/pref_feature_uninstall_key"
+        android:summary="@string/pref_feature_uninstall_summary"
+        android:title="@string/pref_feature_uninstall_title">
+
+        <MultiSelectListPreference
+            android:key="@string/pref_feature_uninstall_features_key"
+            android:persistent="false"
+            android:positiveButtonText="@string/menu_remove"
+            android:title="@string/pref_category_title_features" />
+
+        <MultiSelectListPreference
+            android:key="@string/pref_feature_uninstall_languages_key"
+            android:persistent="false"
+            android:positiveButtonText="@string/menu_remove"
+            android:title="@string/pref_feature_uninstall_languages_title" />
+    </PreferenceCategory>
+</PreferenceScreen>

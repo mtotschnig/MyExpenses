@@ -260,7 +260,6 @@
     <string name="pref_auto_fill_summary">அதே பணம் பெறுபவர்/செலுத்துபவர் எனும் பட்சத்தில் கடந்த பரிவர்த்தனையிலிருந்து தரவை நிரப்பு</string>
     <string name="pref_backup_summary">தரவுதளம் மற்றும் விருப்பத்தேர்வுகளின் காப்புப்பிரதி உருவாக்குதல்.</string>
     <string name="pref_sort_order_usages">பயன்பாடுகளின் எண்ணிக்கை</string>
-    <string name="pref_category_title_advanced">மேம்பட்ட அமைப்புகள்</string>
     <string name="pref_category_title_export">ஏற்றுமதி</string>
     <string name="pref_category_title_import">இறக்குமதி</string>
     <string name="pref_category_title_manage">நிர்வகி</string>

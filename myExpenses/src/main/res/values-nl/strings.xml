@@ -338,7 +338,6 @@
     <string name="plan_calendar_name">{app_name} planner</string>
     <string name="planner_notification_channel_name">Planner</string>
     <string name="pm_cheque">Cheque</string>
-    <string name="pref_category_title_advanced">Geavanceerd</string>
     <string name="pref_category_title_export">Exporteren</string>
     <string name="pref_category_title_manage">Beheren</string>
     <string name="pref_category_title_more_information">Meer informatie</string>

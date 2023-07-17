@@ -226,7 +226,6 @@
     <string name="pref_auto_fill_summary">ایک ہی وصول کنندہ / ادا کنندہ کے لئے آخری لین دین کا ڈیٹا پُر کریں</string>
     <string name="pref_backup_summary">ڈیٹا بیس اور ترجیحات کا بیک اپ بنائیں.</string>
     <string name="pref_sort_order_usages">استعمال کی تعداد</string>
-    <string name="pref_category_title_advanced">اعلی درجے کی</string>
     <string name="pref_category_title_export">برآمد کریں</string>
     <string name="pref_category_title_import">درآمد کریں</string>
     <string name="pref_category_title_manage">انتظام کریں</string>

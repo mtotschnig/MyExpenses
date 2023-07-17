@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?><!--suppress AndroidElementNotAllowed -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:my="http://schemas.android.com/apk/res-auto">
+    <org.totschnig.myexpenses.preference.HeaderPreference />
+    <PreferenceCategory
+        android:title="@string/pref_perform_protection_title"
+        my:allowDividerAbove="false"
+        my:expandButtonTitle="@string/feature_deprecated"
+        my:initialExpandedChildrenCount="2">
+        <SwitchPreferenceCompat
+            android:key="@string/pref_protection_device_lock_screen_key"
+            android:title="@string/pref_protection_device_lock_screen_title" />
+        <SeekBarPreference
+            android:defaultValue="15"
+            android:key="@string/pref_protection_delay_seconds_key"
+            android:max="300"
+            android:summary="@string/pref_protection_delay_seconds_summary"
+            android:title="@string/pref_protection_delay_seconds_title"
+            my:min="1"
+            my:showSeekBarValue="true"
+            my:updatesContinuously="true" />
+        <org.totschnig.myexpenses.preference.LegacyPasswordPreference
+            android:key="@string/pref_protection_password_key"
+            android:title="@string/pref_protection_password_title" />
+        <EditTextPreference
+            android:dialogLayout="@layout/security_question"
+            android:key="@string/pref_security_question_key"
+            android:summary="@string/pref_security_question_summary"
+            android:title="@string/pref_security_question_title" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Widgets"
+        my:initialExpandedChildrenCount="0">
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_protection_enable_account_widget_key"
+            android:summaryOff="@string/pref_checkbox_disabled"
+            android:summaryOn="@string/pref_checkbox_enabled"
+            android:title="@string/widget_title_accounts" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_protection_enable_template_widget_key"
+            android:summaryOff="@string/pref_checkbox_disabled"
+            android:summaryOn="@string/pref_checkbox_enabled"
+            android:title="@string/widget_title_templates" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_protection_enable_data_entry_from_widget_key"
+            android:summaryOff="@string/pref_protection_enable_data_entry_from_widget_summary_off"
+            android:summaryOn="@string/pref_protection_enable_data_entry_from_widget_summary_on"
+            android:title="@string/pref_protection_enable_data_entry_from_widget_title" />
+    </PreferenceCategory>
+    <org.totschnig.myexpenses.preference.SimplePasswordPreference
+        android:key="@string/pref_security_export_password_key"
+        android:summary="@string/pref_security_export_passphrase_summary"
+        android:title="@string/pref_security_export_passphrase_title"
+        my:allowDividerAbove="true" />
+    <Preference
+        android:key="@string/pref_encrypt_database_info_key"
+        android:selectable="false"
+        android:summary="@string/database_is_encrypted"
+        my:isPreferenceVisible="false" />
+    <PreferenceCategory
+        android:key="@string/pref_category_privacy_key"
+        android:title="@string/pref_category_title_privacy">
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/pref_tracking_key"
+            android:summary="@string/pref_tracking_summary"
+            android:title="@string/pref_tracking_title" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/pref_crashreport_enabled_key"
+            android:title="@string/pref_enable_acra" />
+        <EditTextPreference
+            android:dependency="@string/pref_crashreport_enabled_key"
+            android:inputType="textUri"
+            android:key="@string/pref_crashreport_useremail_key"
+            android:summary="@string/pref_acra_user_email_summary"
+            android:title="@string/pref_acra_user_email"
+            my:useSimpleSummaryProvider="true" />
+        <Preference
+            android:key="@string/pref_ad_consent_key"
+            android:title="@string/pref_ad_consent_title" />
+    </PreferenceCategory>
+</PreferenceScreen>

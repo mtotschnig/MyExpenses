@@ -259,7 +259,6 @@
     <string name="pref_auto_fill_summary">ಅದೇ ಪಾವತಿದಾರ / ಪಾವತಿಸುವವರಿಗೆ ಕೊನೆಯ ವಹಿವಾಟಿನಿಂದ ಡೇಟಾವನ್ನು ಭರ್ತಿ ಮಾಡಿ</string>
     <string name="pref_backup_summary">ಡೇಟಾಬೇಸ್ ಮತ್ತು ಆದ್ಯತೆಗಳ ಬ್ಯಾಕಪ್ ರಚಿಸಿ.</string>
     <string name="pref_sort_order_usages">ಬಳಕೆಗಳ ಎಣಿಕೆ</string>
-    <string name="pref_category_title_advanced">ಸುಧಾರಿತ</string>
     <string name="pref_category_title_export">ರಫ್ತು ಮಾಡಿ</string>
     <string name="pref_category_title_import">ಆಮದು</string>
     <string name="pref_category_title_manage">ನಿರ್ವಹಿಸು</string>

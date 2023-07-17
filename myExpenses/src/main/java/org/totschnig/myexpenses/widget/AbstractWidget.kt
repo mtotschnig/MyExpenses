@@ -12,9 +12,8 @@ import android.os.Bundle
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.preference.PreferenceFragmentCompat
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.MyPreferenceActivity
+import org.totschnig.myexpenses.activity.PreferenceActivity
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.myApplication
@@ -107,9 +106,8 @@ abstract class AbstractWidget(
                     PendingIntent.getActivity(
                         context,
                         appWidgetId,
-                        Intent(context, MyPreferenceActivity::class.java).putExtra(
-                            PreferenceFragmentCompat.ARG_PREFERENCE_ROOT,
-                            context.getString(R.string.pref_screen_protection_key)
+                        PreferenceActivity.getIntent(
+                            context, prefHandler.getKey(PrefKey.CATEGORY_PROTECTION)
                         ),
                         PendingIntent.FLAG_IMMUTABLE
                     )

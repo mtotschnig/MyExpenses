@@ -19,4 +19,5 @@
     <color name="toolbarBackground">@color/material_grey_850</color>
     <color name="activatedBackground">@color/material_grey_700</color>
     <color name="activatedBackgroundPlanner">@color/material_grey_600</color>
+    <color name="settings_two_pane_background_color">@android:color/transparent</color>
 </resources>

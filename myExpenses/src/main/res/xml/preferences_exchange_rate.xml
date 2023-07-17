@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<!--suppress AndroidElementNotAllowed -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:my="http://schemas.android.com/apk/res-auto"
+    android:title="@string/pref_category_exchange_rates">
+    <org.totschnig.myexpenses.preference.HeaderPreference />
+    <ListPreference
+        android:defaultValue="EXCHANGE_RATE_HOST"
+        android:key="@string/pref_exchange_rate_provider_key"
+        android:summary="@string/pref_exchange_rate_provider_summary"
+        android:title="@string/pref_exchange_rate_provider_title" />
+    <EditTextPreference
+        android:key="@string/pref_openexchangerates_app_id_key"
+        android:title="OpenExchangeRates App ID"
+        my:isPreferenceVisible="false" />
+    <EditTextPreference
+        android:key="@string/pref_coin_api_api_key_key"
+        android:title="CoinApi API Key"
+        my:isPreferenceVisible="false" />
+    <Preference
+        android:key="@string/pref_exchange_rates_clear_cache_key"
+        android:title="@string/clear_cache" />
+</PreferenceScreen>

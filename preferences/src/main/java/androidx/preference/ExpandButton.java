@@ -32,9 +32,9 @@ import java.util.List;
 final class ExpandButton extends Preference {
     private long mId;
 
-    ExpandButton(@NonNull Context context, List<Preference> collapsedPreferences, long parentId) {
+    ExpandButton(@NonNull Context context, List<Preference> collapsedPreferences, CharSequence title, long parentId) {
         super(context);
-        initLayout();
+        initLayout(title);
         setSummary(collapsedPreferences);
         // Since IDs are unique, using the parentId as a reference ensures that this expand
         // button will have a unique ID and hence transitions will be correctly animated by
@@ -42,10 +42,10 @@ final class ExpandButton extends Preference {
         mId = parentId + 1000000;
     }
 
-    private void initLayout() {
+    private void initLayout(CharSequence title) {
         setLayoutResource(R.layout.expand_button);
         setIcon(R.drawable.ic_arrow_down_24dp);
-        setTitle(R.string.expand_button_title);
+        setTitle(title);
         // Sets a high order so that the expand button will be placed at the bottom of the group
         setOrder(999);
     }

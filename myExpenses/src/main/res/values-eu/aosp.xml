@@ -53,5 +53,6 @@
       <item quantity="one">%1$d fitxategi ezabatu nahi duzu?</item>
     </plurals>
     <string name="display_options_sort_list_by">"Ordenatzeko irizpidea"</string>
+    <string name="data">"Datuak"</string>
 </resources>
 

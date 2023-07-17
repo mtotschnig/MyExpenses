@@ -17,8 +17,6 @@ package org.totschnig.myexpenses.activity;
 
 import static org.totschnig.myexpenses.activity.ConstantsKt.CALCULATOR_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.CONTRIB_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.PREFERENCES_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.RESTORE_REQUEST;
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
 import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DATE_FORMAT;
 import static org.totschnig.myexpenses.preference.PrefKey.DB_SAFE_MODE;
@@ -62,7 +60,6 @@ import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyUnit;
-import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountInput;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
@@ -318,9 +315,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
         ((ContribIFace) this).contribFeatureNotCalled(contribFeature);
       }
     }
-    if ((requestCode == PREFERENCES_REQUEST || requestCode == RESTORE_REQUEST) && resultCode == RESULT_RESTORE_OK) {
-      restartAfterRestore();
-    }
     if (resultCode == RESULT_OK && requestCode == CALCULATOR_REQUEST && intent != null) {
       View target = findViewById(intent.getIntExtra(CalculatorInput.EXTRA_KEY_INPUT_ID, 0));
       if (target instanceof AmountInput) {
@@ -328,16 +322,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
       } else {
         showSnackBar("CALCULATOR_REQUEST launched with incorrect EXTRA_KEY_INPUT_ID");
       }
-    }
-  }
-
-  protected void restartAfterRestore() {
-    ((MyApplication) getApplication()).invalidateHomeCurrency(homeCurrencyProvider.getHomeCurrencyString());
-    if (!isFinishing()) {
-      Intent i = new Intent(this, MyExpenses.class);
-      i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-      finishAffinity();
-      startActivity(i);
     }
   }
 

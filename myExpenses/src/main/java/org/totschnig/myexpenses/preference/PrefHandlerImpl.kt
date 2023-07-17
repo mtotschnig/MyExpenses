@@ -103,11 +103,25 @@ open class PrefHandlerImpl(
     }
 
     override fun setDefaultValues(context: Context) {
-        PreferenceManager.setDefaultValues(context, R.xml.preferences, false)
-        //boolean preferences handled via master switches do not support setting default value from xml
-        if(!isSet(PrefKey.OPTIMIZE_PICTURE)) {
-            putBoolean(PrefKey.OPTIMIZE_PICTURE, true)
-        }
+        setDefaultValues(context, R.xml.preferences_advanced)
+        setDefaultValues(context, R.xml.preferences_attach_picture)
+        setDefaultValues(context, R.xml.preferences_contrib)
+        setDefaultValues(context, R.xml.preferences_data)
+        setDefaultValues(context, R.xml.preferences_exchange_rate)
+        setDefaultValues(context, R.xml.preferences_export)
+        setDefaultValues(context, R.xml.preferences_feedback)
+        setDefaultValues(context, R.xml.preferences_export)
+        setDefaultValues(context, R.xml.preferences_import)
+        setDefaultValues(context, R.xml.preferences_more_info)
+        setDefaultValues(context, R.xml.preferences_ocr)
+        setDefaultValues(context, R.xml.preferences_protection)
+        setDefaultValues(context, R.xml.preferences_sync)
+        setDefaultValues(context, R.xml.preferences_ui)
+        setDefaultValues(context, R.xml.preferences_web_ui)
+    }
+
+    open fun setDefaultValues(context: Context, resId: Int) {
+        PreferenceManager.setDefaultValues(context, resId, false)
     }
 
     override fun preparePreferenceFragment(preferenceFragmentCompat: PreferenceFragmentCompat) {

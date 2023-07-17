@@ -258,7 +258,6 @@
     <string name="pref_app_dir_title">Babeskopia eta esportazioetarako karpeta</string>
     <string name="pref_backup_summary">Sortu datu-base eta hobespenen babeskopia bat.</string>
     <string name="pref_sort_order_usages">Erabilera kontaketa</string>
-    <string name="pref_category_title_advanced">Aurreratua</string>
     <string name="pref_category_title_export">Esportatu</string>
     <string name="pref_category_title_import">Inportatu</string>
     <string name="pref_category_title_manage">Kudeatu</string>

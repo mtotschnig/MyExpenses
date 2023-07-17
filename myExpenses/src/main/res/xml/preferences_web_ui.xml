@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--suppress AndroidElementNotAllowed -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:title="@string/title_webui">
+    <org.totschnig.myexpenses.preference.HeaderPreference />
+    <Preference
+        android:key="@string/pref_web_ui_key"
+        android:title="@string/start"/>
+        <org.totschnig.myexpenses.preference.SimplePasswordPreference
+            android:key="@string/pref_web_ui_password_key"
+            android:title="@string/hint_password" />
+        <SwitchPreferenceCompat
+            android:key="@string/pref_web_ui_https_key"
+            android:title="https" />
+    <Preference
+        android:key="@string/pref_help_key"
+        android:title="@string/menu_help"
+        />
+</PreferenceScreen>

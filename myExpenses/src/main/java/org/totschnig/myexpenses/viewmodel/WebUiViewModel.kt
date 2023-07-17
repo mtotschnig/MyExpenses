@@ -58,10 +58,6 @@ class WebUiViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-    }
-
     companion object {
         val serviceIntent: Intent?
             get() = try {

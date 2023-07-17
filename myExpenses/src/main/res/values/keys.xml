@@ -15,24 +15,18 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="pref_root_screen_key">pref_root</string>
     <string name="pref_category_export_backup_key">category_export_backup</string>
-    <string name="pref_category_ui_key">category_ui</string>
-    <string name="pref_category_contrib_key">category_contrib</string>
-    <string name="pref_category_manage_key">category_manage</string>
+    <string name="pref_category_protection_key">category_protection</string>
     <string name="pref_sort_order_key">sort_order</string>
     <string name="pref_categories_sort_by_usages_key">categories_sort_by_usages</string>
     <!-- legacy -->
-    <string name="pref_custom_currency_key">custom_currency</string>
     <string name="pref_perform_share_key">perform_share</string>
     <string name="pref_share_target_key">share_target</string>
     <string name="pref_ui_theme_key">pref_ui_theme</string>
     <string name="pref_ui_item_renderer_legacy_key">ui_item_renderer_legacy</string>
     <string name="pref_ui_item_renderer_category_icon_key">ui_item_renderer_category_icon</string>
     <string name="pref_ui_fontsize_key">pref_ui_fontsize</string>
-    <string name="pref_backup_key">backup</string>
     <string name="pref_auto_backup_key">auto_backup</string>
-    <string name="pref_auto_backup_info_key">auto_backup_info</string>
     <string name="pref_auto_backup_time_key">auto_backup_time</string>
     <string name="pref_auto_backup_cloud_key">auto_backup_cloud</string>
     <string name="pref_restore_key">restore</string>
@@ -68,7 +62,6 @@
     <string name="pref_import_csv_header_to_field_map_key">import_csv_header_to_field_map</string>
     <string name="pref_custom_decimal_format_key">custom_decimal_format</string>
     <string name="pref_custom_date_format_key">custom_date_format</string>
-    <string name="pref_ui_home_screen_shortcuts_key">ui_home_screen_shortcuts</string>
     <string name="pref_grouping_start_key">grouping_start</string>
     <string name="pref_group_week_starts_key">group_week_start</string>
     <string name="pref_group_month_starts_key">group_month_start</string>
@@ -102,6 +95,7 @@
     <string name="pref_date_screen_key">date_screen</string>
     <string name="pref_ad_consent_key">ad_consent</string>
     <string name="pref_sync_wifi_only_key">sync_wifi_only</string>
+    <string name="pref_category_translation_key">category_translation</string>
     <string name="pref_translation_key">translation</string>
     <string name="pref_scroll_to_current_date_key">scroll_to_current_date</string>
     <string name="pref_security_export_password_key">security_export_password</string>
@@ -275,4 +269,5 @@
     <string name="pref_optimize_picture_format_key">optimize_picture_format</string>
     <string name="pref_optimize_picture_quality_key">optimize_picture_quality</string>
     <string name="pref_export_manage_files_key">export_manage_files</string>
+    <string name="pref_help_key">help</string>
 </resources>

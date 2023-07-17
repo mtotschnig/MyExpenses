@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<!--suppress AndroidElementNotAllowed -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:my="http://schemas.android.com/apk/res-auto"
+    android:title="@string/pref_category_title_ui">
+    <org.totschnig.myexpenses.preference.HeaderPreference />
+    <ListPreference
+        android:defaultValue="@string/pref_ui_theme_default"
+        android:entries="@array/pref_ui_theme_entries"
+        android:entryValues="@array/pref_ui_theme_values"
+        android:key="@string/pref_ui_theme_key"
+        android:title="@string/pref_ui_theme_title"
+        my:useSimpleSummaryProvider="true" />
+
+    <org.totschnig.myexpenses.preference.FontSizeDialogPreference
+        android:defaultValue="0"
+        android:key="@string/pref_ui_fontsize_key"
+        android:title="@string/pref_ui_fontsize_title" />
+
+    <ListPreference
+        android:defaultValue="default"
+        android:entryValues="@array/pref_ui_language_values"
+        android:key="@string/pref_ui_language_key"
+        android:persistent="false"
+        android:title="@string/pref_ui_language_title"
+        my:useSimpleSummaryProvider="true" />
+
+    <PreferenceCategory
+        android:title="@string/autofill"
+        my:initialExpandedChildrenCount="1">
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_auto_fill_key"
+            android:title="@string/pref_auto_fill_summary" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:dependency="@string/pref_auto_fill_key"
+            android:key="@string/pref_auto_fill_amount_key"
+            android:title="@string/amount" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:dependency="@string/pref_auto_fill_key"
+            android:key="@string/pref_auto_fill_category_key"
+            android:title="@string/category" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:dependency="@string/pref_auto_fill_key"
+            android:key="@string/pref_auto_fill_comment_key"
+            android:title="@string/comment" />
+        <ListPreference
+            android:defaultValue="aggregate"
+            android:dependency="@string/pref_auto_fill_key"
+            android:entries="@array/pref_auto_fill_account_entries"
+            android:entryValues="@array/pref_auto_fill_account_values"
+            android:key="@string/pref_auto_fill_account_key"
+            android:title="@string/account"
+            my:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:dependency="@string/pref_auto_fill_key"
+            android:key="@string/pref_auto_fill_method_key"
+            android:title="@string/method" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:dependency="@string/pref_auto_fill_key"
+            android:key="@string/pref_auto_fill_debt_key"
+            android:title="@string/debt" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:dependency="@string/pref_auto_fill_key"
+            android:key="@string/pref_auto_fill_focus_key"
+            android:title="@string/auto_fill_focus"
+            my:singleLineTitle="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/help_MyExpenses_title"
+        my:initialExpandedChildrenCount="2">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_ui_item_renderer_legacy_key"
+            android:persistent="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/pref_ui_item_renderer_category_icon_key"
+            android:persistent="false"
+            android:title="@string/icons_for_categories" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_scroll_to_current_date_key"
+            android:title="@string/pref_scroll_to_current_date_summary" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/pref_group_header_show_details_key"
+            android:persistent="false"
+            android:title="@string/pref_group_header_show_details_summary" />
+
+        <ListPreference
+            android:defaultValue="EndOfDay"
+            android:entries="@array/pref_criterion_future_entries"
+            android:entryValues="@array/pref_criterion_future_values"
+            android:key="@string/pref_criterion_future_key"
+            android:persistent="false"
+            android:title="@string/pref_criterion_futur_title"
+            my:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_ui_home_screen_shortcuts"
+        my:initialExpandedChildrenCount="1"
+        my:isPreferenceVisible="@bool/pin_shortcut_support">
+
+        <Preference
+            android:key="@string/pref_shortcut_create_transaction_key"
+            android:summary="@string/pref_shortcut_summary"
+            android:title="@string/menu_create_transaction" />
+
+        <Preference
+            android:enabled="false"
+            android:key="@string/pref_shortcut_create_transfer_key"
+            android:summary="@string/pref_shortcut_summary"
+            android:title="@string/menu_create_transfer" />
+
+        <Preference
+            android:enabled="false"
+            android:key="@string/pref_shortcut_create_split_key"
+            android:summary="@string/pref_shortcut_summary"
+            android:title="@string/menu_create_split" />
+
+        <Preference
+            android:summary="@string/select_template"
+            android:title="@string/template"
+            my:isPreferenceVisible="@bool/is26">
+            <intent
+                android:targetClass="org.totschnig.myexpenses.activity.TemplateShortcutSelect"
+                android:targetPackage="@string/application_id" />
+        </Preference>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="@string/pref_grouping_start_key"
+        android:title="@string/pref_grouping_periods">
+
+        <ListPreference
+            android:key="@string/pref_group_week_starts_key"
+            android:title="@string/preferences_week_start_day_title"
+            my:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:defaultValue="1"
+            android:key="@string/pref_group_month_starts_key"
+            android:title="@string/preferences_month_start_date_title"
+            my:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="@string/pref_date_screen_key"
+        android:title="@string/date">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/pref_transaction_time_key"
+            android:summary="@string/pref_transaction_time_summary" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_value_date_key"
+            android:summary="@string/pref_value_date_summary" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/pref_clone_with_current_date_key"
+            android:summaryOff="@string/pref_clone_with_current_date_summary_off"
+            android:summaryOn="@string/pref_clone_with_current_date_summary_on"
+            android:title="@string/pref_clone_with_current_date_title" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen> 

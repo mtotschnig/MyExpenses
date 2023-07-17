@@ -52,4 +52,5 @@
       <item quantity="one">Vols suprimir %1$d fitxer?</item>
     </plurals>
     <string name="display_options_sort_list_by">"Ordena per"</string>
+    <string name="data">"Dades"</string>
 </resources>

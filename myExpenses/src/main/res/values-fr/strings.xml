@@ -263,7 +263,6 @@
     <string name="pref_auto_fill_summary">Remplissage des données de la dernière opération pour le même tiers</string>
     <string name="pref_backup_summary">Créé une sauvegarde de la base de données et des préférences.</string>
     <string name="pref_sort_order_usages">Fréquence d\'utilisation</string>
-    <string name="pref_category_title_advanced">Avancé</string>
     <string name="pref_category_title_export">Export</string>
     <string name="pref_category_title_import">Import</string>
     <string name="pref_category_title_manage">Gestion</string>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--suppress AndroidElementNotAllowed -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:my="http://schemas.android.com/apk/res-auto"
+    android:title="@string/synchronization">
+    <org.totschnig.myexpenses.preference.HeaderPreference />
+    <Preference
+        android:key="@string/pref_manage_sync_backends_key"
+        android:title="@string/pref_manage_sync_backends_title">
+
+        <intent
+            android:targetClass="org.totschnig.myexpenses.activity.ManageSyncBackends"
+            android:targetPackage="@string/application_id" />
+    </Preference>
+    <SeekBarPreference
+        my:min="1"
+        my:showSeekBarValue="true"
+        my:updatesContinuously="true"
+        android:defaultValue="12"
+        android:key="@string/pref_sync_frequency_key"
+        android:max="99"
+        android:summary="@string/pref_sync_frequency_summary"
+        android:title="@string/pref_sync_frequency_title" />
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        android:key="@string/pref_sync_notification_key"
+        android:title="@string/pref_sync_notification_summary" />
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:key="@string/pref_sync_wifi_only_key"
+        android:title="@string/pref_sync_wifi_only_summary" />
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        android:key="@string/pref_sync_changes_immediately_key"
+        android:title="@string/pref_sync_changes_immediately_summary" />
+</PreferenceScreen>

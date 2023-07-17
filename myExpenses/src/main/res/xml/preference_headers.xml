@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<!--suppress AndroidElementNotAllowed -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:my="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferenceDataFragment"
+        android:key="data"
+        android:title="@string/data" />
+
+    <Preference
+        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferenceUiFragment"
+        android:key="ui"
+        android:title="@string/pref_category_title_ui" />
+
+    <Preference
+        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesImportFragment"
+        android:key="import"
+        android:title="@string/pref_category_title_import" />
+
+    <Preference
+        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesExportFragment"
+        android:key="@string/pref_category_export_backup_key" />
+
+    <PreferenceCategory android:title="@string/pref_category_title_features">
+        <Preference
+            android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesExchangeRateFragment"
+            android:key="exchange_rates"
+            android:title="@string/pref_category_exchange_rates" />
+        <Preference
+            android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesOcrFragment"
+            android:key="ocr"
+            android:title="@string/title_scan_receipt_feature" />
+        <Preference
+            android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesSyncFragment"
+            android:key="sync"
+            android:title="@string/synchronization" />
+        <Preference
+            android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesWebUiFragment"
+            android:key="web_ui"
+            android:title="@string/title_webui" />
+        <Preference
+            android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesAttachPictureFragment"
+            android:key="attach_picture"
+            android:title="@string/contrib_feature_attach_picture_label" />
+    </PreferenceCategory>
+
+    <Preference
+        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesContribFragment"
+        android:key="contrib"
+        android:title="@string/menu_contrib"
+        my:allowDividerAbove="true" />
+
+    <Preference
+        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesProtectionFragment"
+        android:key="@string/pref_category_protection_key"
+        android:title="@string/pref_category_title_security" />
+
+    <Preference
+        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesMoreInfoFragment"
+        android:key="more_info"
+        android:title="@string/pref_category_title_more_information" />
+
+    <Preference
+        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesFeedbackFragment"
+        android:key="feedback"
+        android:title="@string/feedback" />
+
+    <Preference
+        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesAdvancedFragment"
+        android:key="advanced"
+        android:title="@string/expand_button_title" />
+</PreferenceScreen>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<!--suppress AndroidElementNotAllowed -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:my="http://schemas.android.com/apk/res-auto">
+    <org.totschnig.myexpenses.preference.HeaderPreference />
+    <MultiSelectListPreference
+        android:key="@string/pref_export_manage_files_key"
+        android:negativeButtonText="@string/menu_delete"
+        android:persistent="false"
+        android:positiveButtonText="@string/button_label_share_file"
+        android:title="@string/files_label"
+        my:isPreferenceVisible="false" />
+
+    <PreferenceCategory
+        android:title="@string/menu_backup"
+        my:initialExpandedChildrenCount="1">
+
+        <Preference
+            android:title="@string/pref_backup_summary">
+            <intent
+                android:action="BACKUP"
+                android:targetClass="org.totschnig.myexpenses.activity.BackupRestoreActivity"
+                android:targetPackage="@string/application_id" />
+        </Preference>
+
+        <org.totschnig.myexpenses.preference.PopupMenuPreference
+            android:key="@string/pref_app_dir_key"
+            android:title="@string/pref_app_dir_title" />
+
+        <EditTextPreference
+            android:defaultValue="myexpenses-backup"
+            android:key="@string/pref_backup_file_prefix_key"
+            android:title="@string/pref_backup_file_prefix_title"
+            my:useSimpleSummaryProvider="true" />
+
+        <org.totschnig.myexpenses.preference.AccountPreference
+            android:key="@string/pref_auto_backup_cloud_key"
+            android:summary="@string/pref_backup_cloud_summary"
+            android:title="@string/pref_backup_cloud_title" />
+    </PreferenceCategory>
+
+    <Preference
+        android:key="@string/pref_restore_key"
+        android:summary="@string/pref_restore_summary"
+        android:title="@string/pref_restore_title">
+        <intent
+            android:action="RESTORE"
+            android:targetClass="org.totschnig.myexpenses.activity.BackupRestoreActivity"
+            android:targetPackage="@string/application_id" />
+    </Preference>
+
+    <Preference
+        android:key="@string/pref_auto_backup_unencrypted_info_key"
+        android:selectable="false"
+        android:summary="@string/warning_unencrypted_backup"
+        my:isPreferenceVisible="false" />
+
+    <PreferenceCategory android:title="@string/pref_auto_backup_title">
+        <SwitchPreferenceCompat
+            android:key="@string/pref_auto_backup_key"
+            android:title="@string/pref_auto_backup_summary" />
+        <org.totschnig.myexpenses.preference.TimePreference
+            android:dependency="@string/pref_auto_backup_key"
+            android:key="@string/pref_auto_backup_time_key"
+            android:title="@string/pref_auto_backup_time_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory my:initialExpandedChildrenCount="1"
+        android:layout="@layout/preference_category_empty">
+
+        <SwitchPreferenceCompat
+            android:key="@string/pref_purge_backup_key"
+            android:title="@string/dialog_title_purge_backups" />
+
+        <SeekBarPreference
+            android:defaultValue="5"
+            android:key="@string/pref_purge_backup_keep_key"
+            android:max="100"
+            android:title="@string/pref_purge_backup_keep_title"
+            my:min="1"
+            my:showSeekBarValue="true"
+            my:updatesContinuously="true" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/pref_purge_backup_require_confirmation_key"
+            android:title="@string/pref_purge_backup_require_confirmation_summary" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_empty">
+
+        <SwitchPreferenceCompat
+            android:key="@string/pref_perform_share_key"
+            android:title="@string/pref_perform_share_title" />
+
+        <org.totschnig.myexpenses.preference.LongSummaryEditTextPreference
+            android:dependency="@string/pref_perform_share_key"
+            android:inputType="textUri"
+            android:key="@string/pref_share_target_key"
+            android:title="@string/pref_share_target_title" />
+        <Preference
+            android:key="@string/pref_help_key"
+            android:title="@string/menu_help"
+            android:summary="https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Data#what-are-the-different-share-options"
+            />
+    </PreferenceCategory>
+    <PreferenceCategory android:key="@string/pref_csv_export_key">
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_csv_export_split_categories_key"
+            android:title="@string/pref_csv_export_split_categories_summary" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/pref_csv_export_split_amount_key"
+            android:title="@string/pref_csv_export_split_amount_summary" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_csv_export_split_date_time_key"
+            android:title="@string/pref_csv_export_split_date_time_summary" />
+    </PreferenceCategory>
+</PreferenceScreen> 

@@ -52,5 +52,6 @@
       <item quantity="other">Supprimer %1$d fichiers ?</item>
     </plurals>
     <string name="display_options_sort_list_by">"Trier par"</string>
+    <string name="data">"Données"</string>
 </resources>
 

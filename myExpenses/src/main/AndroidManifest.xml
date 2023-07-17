@@ -215,11 +215,8 @@
             android:theme="@style/Translucent" />
         <activity android:name=".activity.CsvImportActivity" />
         <activity
-            android:name=".activity.MyPreferenceActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
+            android:name=".activity.PreferenceActivity"
+            android:exported="false">
         </activity>
         <activity
             android:name=".activity.Help"

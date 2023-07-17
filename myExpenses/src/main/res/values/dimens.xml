@@ -49,4 +49,6 @@
     <dimen name="widget_default_width">250dp</dimen>
     <dimen name="widget_default_height">40dp</dimen>
     <dimen name="widget_min_width">40dp</dimen>
+
+    <dimen name="preferences_header_width">300dp</dimen>
 </resources>

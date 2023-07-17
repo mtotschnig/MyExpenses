@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--suppress AndroidElementNotAllowed -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:title="@string/feedback">
+
+    <org.totschnig.myexpenses.preference.HeaderPreference />
+
+    <Preference
+        android:key="@string/pref_rate_key"
+        android:title="@string/help_button_rate" />
+
+    <Preference
+        android:key="@string/pref_send_feedback_key"
+        android:summary="@string/support_email"
+        android:title="@string/pref_send_feedback_title" />
+
+    <Preference
+        android:key="roadmap_vote"
+        android:title="@string/roadmap_vote">
+        <intent
+            android:targetClass="org.totschnig.myexpenses.activity.RoadmapVoteActivity"
+            android:targetPackage="@string/application_id" />
+    </Preference>
+</PreferenceScreen>

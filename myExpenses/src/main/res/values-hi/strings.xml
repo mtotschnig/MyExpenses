@@ -196,7 +196,6 @@
     <string name="pm_type_debit">डेबिट</string>
     <string name="pm_type_neutral">तटस्थ</string>
     <string name="pref_sort_order_usages">उपयोग की गणना</string>
-    <string name="pref_category_title_advanced">उन्नत</string>
     <string name="pref_category_title_export">निर्यात</string>
     <string name="pref_category_title_import">आयात</string>
     <string name="pref_category_title_manage">प्रबंधित</string>
