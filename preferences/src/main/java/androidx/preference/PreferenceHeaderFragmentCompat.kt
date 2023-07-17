@@ -267,7 +267,6 @@ abstract class PreferenceHeaderFragmentCompat :
         return null
     }
 
-
     /**
      * Swaps out the fragment that associated with preference header. If associated fragment is
      * unspecified, open the preference with the given intent instead.
