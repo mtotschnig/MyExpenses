@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.fragment.preferences
 
 import android.os.Bundle
+import androidx.annotation.Keep
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +17,7 @@ import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.data.Currency
 
+@Keep
 class PreferenceDataFragment: BasePreferenceFragment() {
 
     private val currencyViewModel: CurrencyViewModel by viewModels()

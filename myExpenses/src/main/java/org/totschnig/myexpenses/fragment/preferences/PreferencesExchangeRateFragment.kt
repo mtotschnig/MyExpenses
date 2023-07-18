@@ -1,12 +1,15 @@
 package org.totschnig.myexpenses.fragment.preferences
 
+import android.content.SharedPreferences
 import android.os.Bundle
+import androidx.annotation.Keep
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 
+@Keep
 class PreferencesExchangeRateFragment : BasePreferenceFragment() {
 
     override val preferencesResId = R.xml.preferences_exchange_rate
@@ -24,7 +27,7 @@ class PreferencesExchangeRateFragment : BasePreferenceFragment() {
         configureExchangeRatesPreference(ExchangeRateSource.preferredSource(prefHandler))
     }
 
-    fun configureExchangeRatesPreference(provider: ExchangeRateSource) {
+    private fun configureExchangeRatesPreference(provider: ExchangeRateSource) {
         arrayOf(ExchangeRateSource.OpenExchangeRates, ExchangeRateSource.CoinApi).forEach {
             requirePreference<Preference>(it.prefKey).isVisible = provider == it
         }
@@ -40,5 +43,17 @@ class PreferencesExchangeRateFragment : BasePreferenceFragment() {
         }
 
         else -> false
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
+        when (key) {
+            getKey(PrefKey.EXCHANGE_RATE_PROVIDER) -> {
+                configureExchangeRatesPreference(
+                    ExchangeRateSource.preferredSource(
+                        sharedPreferences.getString(key, null)
+                    )
+                )
+            }
+        }
     }
 }

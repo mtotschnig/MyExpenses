@@ -1,9 +1,11 @@
 package org.totschnig.myexpenses.fragment.preferences
 
+import androidx.annotation.Keep
 import androidx.preference.Preference
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefKey
 
+@Keep
 class PreferencesFeedbackFragment : BasePreferenceFragment() {
     override val preferencesResId = R.xml.preferences_feedback
 

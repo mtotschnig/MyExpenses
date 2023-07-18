@@ -1,7 +1,9 @@
 package org.totschnig.myexpenses.fragment.preferences
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.TextUtils
+import androidx.annotation.Keep
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference.OnPreferenceChangeListener
@@ -15,6 +17,7 @@ import java.time.format.DateTimeFormatterBuilder
 import java.time.format.FormatStyle
 import java.util.Locale
 
+@Keep
 class PreferencesOcrFragment : BasePreferenceFragment() {
 
     override val preferencesResId = R.xml.preferences_ocr
@@ -99,6 +102,12 @@ class PreferencesOcrFragment : BasePreferenceFragment() {
         val mlkit = findPreference<ListPreference>(PrefKey.MLKIT_SCRIPT)
         if (tesseract != null && mlkit != null) {
             preferenceActivity.ocrViewModel.configureOcrEnginePrefs(tesseract, mlkit)
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
+        when(key) {
+            getKey(PrefKey.OCR_ENGINE) -> configureOcrEnginePrefs()
         }
     }
 }

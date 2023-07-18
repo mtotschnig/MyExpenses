@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.fragment.preferences
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.annotation.XmlRes
@@ -22,13 +23,17 @@ import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
 import javax.inject.Inject
 
-abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
+abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Inject
     lateinit var featureManager: FeatureManager
 
     @Inject
     lateinit var prefHandler: PrefHandler
+
+    @Inject
+    lateinit var settings: SharedPreferences
 
     @Inject
     lateinit var preferenceDataStore: PreferenceDataStore
@@ -81,6 +86,19 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
         super.onCreate(savedInstanceState)
         prefHandler.preparePreferenceFragment(this)
     }
+
+    override fun onResume() {
+        super.onResume()
+        settings.registerOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        settings.unregisterOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {}
+
 
     override fun onDisplayPreferenceDialog(preference: Preference) {
         val key = preference.key
@@ -144,7 +162,7 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
     }
 
     fun <T : Preference> findPreference(prefKey: PrefKey): T? =
-        findPreference(prefHandler.getKey(prefKey))
+        findPreference(getKey(prefKey))
 
     fun <T : Preference> requirePreference(prefKey: PrefKey): T {
         return findPreference(prefKey)
@@ -152,7 +170,9 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat() {
     }
 
     fun matches(preference: Preference, vararg prefKey: PrefKey) =
-        prefKey.any { prefHandler.getKey(it) == preference.key }
+        prefKey.any { getKey(it) == preference.key }
+
+    fun getKey(prefKey: PrefKey) = prefHandler.getKey(prefKey)
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         trackPreferenceClick(preference)

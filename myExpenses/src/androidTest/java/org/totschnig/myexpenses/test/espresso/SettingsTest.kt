@@ -123,6 +123,11 @@ class SettingsTest : BaseUiTest<PreferenceActivity>() {
         intended(ManageCurrencies::class)
     }
 
+    @Test
+    fun exchangeRates() {
+        navigateTo(R.string.pref_category_exchange_rates, R.string.pref_exchange_rate_provider_title)
+    }
+
     companion object {
         fun navigateTo(headerTextId: Int, detailTextId: Int) {
             navigateTo(withText(headerTextId), withText(detailTextId))

@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.fragment.preferences
 
 import android.os.Bundle
+import androidx.annotation.Keep
 import androidx.preference.Preference
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.form.Input
@@ -13,6 +14,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.licence.Package
 
+@Keep
 class PreferencesContribFragment : BasePreferenceFragment(), SimpleDialog.OnDialogResultListener {
 
     override fun onResume() {

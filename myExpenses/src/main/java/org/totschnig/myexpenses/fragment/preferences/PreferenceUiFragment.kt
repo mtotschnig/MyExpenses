@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.DrawableRes
+import androidx.annotation.Keep
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Lifecycle
@@ -33,6 +34,7 @@ import java.text.DateFormatSymbols
 import java.util.Calendar
 import java.util.Locale
 
+@Keep
 class PreferenceUiFragment : BasePreferenceFragment() {
 
     override val preferencesResId = R.xml.preferences_ui

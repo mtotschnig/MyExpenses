@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.fragment.preferences
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.annotation.Keep
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
@@ -19,6 +20,7 @@ import timber.log.Timber
 import java.io.File
 import java.util.Locale
 
+@Keep
 class PreferencesAdvancedFragment : BasePreferenceFragment(),
     LocalizedFormatEditTextPreference.OnValidationErrorListener,
     SimpleDialog.OnDialogResultListener {

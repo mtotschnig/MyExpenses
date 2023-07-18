@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.fragment.preferences
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.annotation.Keep
 import androidx.fragment.app.viewModels
 import androidx.preference.Preference
 import org.totschnig.myexpenses.R
@@ -14,6 +15,7 @@ import org.totschnig.myexpenses.util.io.isConnectedWifi
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.WebUiViewModel
 
+@Keep
 class PreferencesWebUiFragment : BasePreferenceFragment() {
 
     override val preferencesResId = R.xml.preferences_web_ui

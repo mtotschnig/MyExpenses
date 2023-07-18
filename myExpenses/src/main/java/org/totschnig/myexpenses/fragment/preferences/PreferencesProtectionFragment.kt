@@ -2,7 +2,9 @@ package org.totschnig.myexpenses.fragment.preferences
 
 import android.app.KeyguardManager
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
+import androidx.annotation.Keep
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import org.totschnig.myexpenses.R
@@ -10,6 +12,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 
+@Keep
 class PreferencesProtectionFragment : BasePreferenceFragment() {
 
     override val preferencesResId = R.xml.preferences_protection
@@ -60,7 +63,7 @@ class PreferencesProtectionFragment : BasePreferenceFragment() {
             prefHandler.encryptDatabase
     }
 
-    fun setProtectionDependentsState() {
+    private fun setProtectionDependentsState() {
         val isLegacy = prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false)
         val isProtected =
             isLegacy || prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)
@@ -82,5 +85,12 @@ class PreferencesProtectionFragment : BasePreferenceFragment() {
         }
 
         else -> false
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
+        when(key) {
+            getKey(PrefKey.PROTECTION_LEGACY), getKey(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN) ->
+                setProtectionDependentsState()
+        }
     }
 }

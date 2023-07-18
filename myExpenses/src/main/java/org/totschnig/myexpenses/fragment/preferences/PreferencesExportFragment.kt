@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.format.Formatter
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.Keep
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.MultiSelectListPreferenceDialogFragment2
 import androidx.preference.Preference
@@ -22,6 +23,7 @@ import org.totschnig.myexpenses.viewmodel.SettingsViewModel
 import org.totschnig.myexpenses.viewmodel.ShareViewModel
 import timber.log.Timber
 
+@Keep
 class PreferencesExportFragment: BasePreferenceFragment(),
     MultiSelectListPreferenceDialogFragment2.OnClickListener {
 

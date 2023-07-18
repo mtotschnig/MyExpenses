@@ -194,51 +194,29 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
                 AutoBackupWorker.enqueueOrCancel(this, prefHandler)
             }
 
-            getKey(PrefKey.AUTO_BACKUP_TIME) -> {
-                AutoBackupWorker.enqueueOrCancel(this, prefHandler)
-            }
+            getKey(PrefKey.AUTO_BACKUP_TIME) -> AutoBackupWorker.enqueueOrCancel(this, prefHandler)
 
-            getKey(PrefKey.TRACKING) -> {
+            getKey(PrefKey.TRACKING) ->
                 tracker.setEnabled(sharedPreferences.getBoolean(key, false))
-            }
 
-            getKey(PrefKey.CRASHREPORT_USEREMAIL) -> {
+            getKey(PrefKey.CRASHREPORT_USEREMAIL) ->
                 crashHandler.setUserEmail(sharedPreferences.getString(key, null))
-            }
 
             getKey(PrefKey.CRASHREPORT_ENABLED) -> {
                 crashHandler.setEnabled(sharedPreferences.getBoolean(key, false))
                 showSnackBar(R.string.app_restart_required)
             }
 
-            getKey(PrefKey.EXCHANGE_RATE_PROVIDER) -> {
-                twoPanePreference.getDetailFragment<PreferencesExchangeRateFragment>()
-                    ?.configureExchangeRatesPreference(
-                        ExchangeRateSource.preferredSource(
-                            sharedPreferences.getString(key, null)
-                        )
-                    )
-            }
+            getKey(PrefKey.OCR_ENGINE) -> checkOcrFeature()
 
-            getKey(PrefKey.OCR_ENGINE) -> {
-                checkOcrFeature()
-                twoPanePreference.getDetailFragment<PreferencesOcrFragment>()
-                    ?.configureOcrEnginePrefs()
-            }
+            getKey(PrefKey.TESSERACT_LANGUAGE) -> checkTessDataDownload()
 
-            getKey(PrefKey.TESSERACT_LANGUAGE) -> {
-                checkTessDataDownload()
-            }
+            getKey(PrefKey.MLKIT_SCRIPT) -> checkOcrFeature()
 
-            getKey(PrefKey.MLKIT_SCRIPT) -> {
-                checkOcrFeature()
-            }
-
-            getKey(PrefKey.SYNC_FREQUCENCY) -> {
+            getKey(PrefKey.SYNC_FREQUCENCY) ->
                 for (account in GenericAccountService.getAccounts(this)) {
                     GenericAccountService.addPeriodicSync(account, prefHandler)
                 }
-            }
 
             getKey(PrefKey.PROTECTION_LEGACY), getKey(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN) -> {
                 if (sharedPreferences.getBoolean(key, false)) {
@@ -247,8 +225,6 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
                         showUnencryptedBackupWarning()
                     }
                 }
-                twoPanePreference.getDetailFragment<PreferencesProtectionFragment>()
-                    ?.setProtectionDependentsState()
                 updateAllWidgets()
             }
 
@@ -266,11 +242,6 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
 
             getKey(PrefKey.PLANNER_EXECUTION_TIME) -> {
                 enqueuePlanner(false)
-            }
-
-            getKey(PrefKey.OPTIMIZE_PICTURE_FORMAT) -> {
-                twoPanePreference.getDetailFragment<PreferencesAttachPictureFragment>()
-                    ?.configureQualityPreference()
             }
         }
     }

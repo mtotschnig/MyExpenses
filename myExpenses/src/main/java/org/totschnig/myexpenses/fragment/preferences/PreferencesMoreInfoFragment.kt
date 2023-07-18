@@ -4,6 +4,7 @@ import android.icu.text.ListFormatter
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
+import androidx.annotation.Keep
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import org.totschnig.myexpenses.R
@@ -11,6 +12,7 @@ import org.totschnig.myexpenses.dialog.MoreInfoDialogFragment
 import org.totschnig.myexpenses.preference.PrefKey
 import java.util.Locale
 
+@Keep
 class PreferencesMoreInfoFragment : BasePreferenceFragment() {
 
     override val preferencesResId = R.xml.preferences_more_info

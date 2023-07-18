@@ -1,12 +1,14 @@
 package org.totschnig.myexpenses.fragment.preferences
 
 import android.os.Bundle
+import androidx.annotation.Keep
 import androidx.preference.Preference
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.sync.BackendService
 
+@Keep
 class PreferencesSyncFragment : BasePreferenceFragment() {
 
     override val preferencesResId = R.xml.preferences_sync
