@@ -1049,4 +1049,5 @@
     <string name="button_relink_update_date">Volver a vincular y actualizar la fecha</string>
     <string name="whats_new_361_2">Los archivos de la carpeta de la aplicación (copias de seguridad y exportaciones) se pueden compartir o eliminar.</string>
     <string name="whats_new_361_1">La lista de transacciones puede ordenarse por importe.</string>
+    <string name="notifications_permission_required_auto_backup">Al conceder el permiso para enviar notificaciones, se te informará sobre las copias de seguridad automáticas.</string>
 </resources>
