@@ -1036,4 +1036,5 @@
     <string name="button_relink_keep_date">Свържи, но запази датата</string>
     <string name="whats_new_361_1">Списъкът транзакции може да се сортира по сума.</string>
     <string name="whats_new_361_2">Файловете в папката на приложението (архиви и екпортирани данни) може да бъдат споделяни или изтривани.</string>
+    <string name="notifications_permission_required_auto_backup">Като предоставите разрешение за изпращане на известия, ще бъдете информирани за автоматичното архивиране.</string>
 </resources>
