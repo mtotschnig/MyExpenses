@@ -58,8 +58,7 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
     private val headerFragment: MainPreferenceFragment
         get() = childFragmentManager.findFragmentById(R.id.preferences_header) as MainPreferenceFragment
 
-    @Suppress("UNCHECKED_CAST")
-    fun <F : BasePreferenceFragment?> getDetailFragment(): F? = childFragmentManager
+    inline fun <reified F: BasePreferenceFragment?> getDetailFragment(): F? = childFragmentManager
         .findFragmentById(R.id.preferences_detail) as? F
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
