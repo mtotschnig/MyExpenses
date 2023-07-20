@@ -1049,4 +1049,5 @@
     <string name="button_relink_update_date">Relier et mettre à jour la date</string>
     <string name="whats_new_361_1">La liste des opérations peut être triée par montant.</string>
     <string name="whats_new_361_2">Les fichiers dans le dossier d\'application (sauvegardes et exportations) peuvent être partagés ou supprimés.</string>
+    <string name="notifications_permission_required_auto_backup">En accordant l’autorisation d’envoyer des notifications, vous serez informé des sauvegardes automatiques.</string>
 </resources>

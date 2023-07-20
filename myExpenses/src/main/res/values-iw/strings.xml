@@ -1064,4 +1064,5 @@
     <string name="orphaned_transaction_relink">ניתן לקשר מחדש את העסקה עם האירוע ב־%s.</string>
     <string name="whats_new_361_1">אפשר לסדר את רשימת העסקאות לפי סכום.</string>
     <string name="whats_new_361_2">אפשר לשתף או למחוק את הקבצים בתיקיית היישום (גיבויים וייצוא).</string>
+    <string name="notifications_permission_required_auto_backup">הענקת ההרשאה לשליחת התראות תאפשר משלוח התראות על גיבויים אוטומטיים.</string>
 </resources>
