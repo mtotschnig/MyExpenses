@@ -1539,12 +1539,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     Menu.NONE,
                     R.string.copy_text
                 )
-                popupMenu.add(
-                    Menu.NONE,
-                    R.id.NEW_BALANCE_COMMAND,
-                    Menu.NONE,
-                    getString(R.string.new_balance)
-                )
+                if (currentAccount?.isAggregate == false) {
+                    popupMenu.add(
+                        Menu.NONE,
+                        R.id.NEW_BALANCE_COMMAND,
+                        Menu.NONE,
+                        getString(R.string.new_balance)
+                    )
+                }
                 popup.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
                         R.id.COPY_TO_CLIPBOARD_COMMAND -> copyToClipBoard()
