@@ -9,6 +9,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
 import com.github.mikephil.charting.renderer.PieChartRenderer;
 import com.github.mikephil.charting.utils.ColorTemplate;
@@ -292,6 +293,13 @@ public class SelectivePieChartRenderer extends PieChartRenderer {
   public void drawExtras(Canvas c) {
     if (mDrawBitmap != null) {
       super.drawExtras(c);
+    }
+  }
+
+  @Override
+  public void drawHighlighted(Canvas c, Highlight[] indices) {
+    if (mBitmapCanvas != null) {
+      super.drawHighlighted(c, indices);
     }
   }
 }
