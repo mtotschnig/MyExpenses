@@ -454,6 +454,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                     }
 
                 restoreSyncState().takeIf { it.isNotEmpty() }?.let { publishProgress(it) }
+                updateTransferShortcut()
                 _result.update { Result.success(Unit) }
             } else {
                 failureResult(R.string.restore_db_failure)
