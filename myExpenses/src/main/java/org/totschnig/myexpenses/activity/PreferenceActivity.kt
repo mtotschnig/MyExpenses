@@ -82,9 +82,9 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         injector.inject(viewModel)
         injector.inject(licenceValidationViewModel)
+        super.onCreate(savedInstanceState)
         binding = SettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupToolbar()
