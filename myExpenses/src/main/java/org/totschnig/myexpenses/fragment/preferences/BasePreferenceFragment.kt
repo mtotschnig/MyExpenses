@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.annotation.XmlRes
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.preference.ListPreference
 import androidx.preference.MultiSelectListPreferenceDialogFragment2
 import androidx.preference.Preference
@@ -66,7 +67,7 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
 
     val preferenceActivity get() = requireActivity() as PreferenceActivity
 
-    val viewModel: SettingsViewModel by activityViewModels()
+    val viewModel: SettingsViewModel by viewModels()
 
     val storeInDatabaseChangeListener =
         Preference.OnPreferenceChangeListener { preference, newValue ->
@@ -82,6 +83,7 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
     override fun onCreate(savedInstanceState: Bundle?) {
         with(requireActivity().injector) {
             inject(this@BasePreferenceFragment)
+            inject(viewModel)
         }
         super.onCreate(savedInstanceState)
         prefHandler.preparePreferenceFragment(this)

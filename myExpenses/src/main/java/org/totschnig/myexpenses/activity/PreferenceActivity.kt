@@ -30,7 +30,6 @@ import org.totschnig.myexpenses.fragment.preferences.PreferencesExportFragment.C
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.service.AutoBackupWorker
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.PermissionHelper
@@ -46,7 +45,9 @@ import java.io.Serializable
 
 class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
     lateinit var binding: SettingsBinding
-    private val viewModel: SettingsViewModel by viewModels()
+    val viewModel: SettingsViewModel?
+        get() = twoPanePreference.getDetailFragment<BasePreferenceFragment>()
+            ?.viewModel
 
     private val licenceValidationViewModel: LicenceValidationViewModel by viewModels()
 
@@ -82,7 +83,6 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        injector.inject(viewModel)
         injector.inject(licenceValidationViewModel)
         super.onCreate(savedInstanceState)
         binding = SettingsBinding.inflate(layoutInflater)
@@ -128,7 +128,7 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
                 }
                 requireApplication().invalidateHomeCurrency(currencyCode)
                 showSnackBarIndefinite(R.string.saving)
-                viewModel.resetEquivalentAmounts().observe(this) { integer ->
+                viewModel?.resetEquivalentAmounts()?.observe(this) { integer ->
                     dismissSnackBar()
                     if (integer != null) {
                         showSnackBar(
@@ -275,8 +275,9 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
     override fun onPositive(args: Bundle, checked: Boolean) {
         super.onPositive(args, checked)
         if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.DELETE_FILES_COMMAND) {
-            viewModel.deleteAppFiles(args.getStringArray(KEY_CHECKED_FILES)!!)
-                .observe(this) {
+            viewModel
+                ?.deleteAppFiles(args.getStringArray(KEY_CHECKED_FILES)!!)
+                ?.observe(this) {
                     showSnackBar(resources.getQuantityString(R.plurals.delete_success, it, it))
                 }
         }
