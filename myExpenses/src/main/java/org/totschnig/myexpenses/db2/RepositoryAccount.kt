@@ -9,6 +9,7 @@ import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.*
@@ -100,7 +101,9 @@ fun Repository.loadAggregateAccount(accountId: Long): Account? {
             currency = it.getString(KEY_CURRENCY),
             openingBalance = it.getLong(KEY_OPENING_BALANCE),
             grouping = it.getEnum(KEY_GROUPING, Grouping.NONE),
-            isSealed = it.getBoolean(KEY_SEALED)
+            isSealed = it.getBoolean(KEY_SEALED),
+            sortBy = it.getString(KEY_SORT_BY),
+            sortDirection = it.getEnum(KEY_SORT_DIRECTION, SortDirection.DESC)
         ) else null
     }
 }

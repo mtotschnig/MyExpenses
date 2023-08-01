@@ -175,17 +175,28 @@ abstract class BaseTransactionProvider : ContentProvider() {
             KEY_SEALED,
             KEY_EQUIVALENT_AMOUNT,
             if (withSum) "coalesce((select sum(${debtSumExpression}) from $VIEW_EXTENDED where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_SUM" else null,
-            if (withSum) "coalesce((select sum(${getAmountHomeEquivalent(VIEW_EXTENDED, homeCurrency)}) from $VIEW_EXTENDED where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_EQUIVALENT_SUM" else null
+            if (withSum) "coalesce((select sum(${
+                getAmountHomeEquivalent(
+                    VIEW_EXTENDED,
+                    homeCurrency
+                )
+            }) from $VIEW_EXTENDED where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause),0) AS $KEY_EQUIVALENT_SUM" else null
         ).toTypedArray()
     }
 
     private val debtSumExpression
-        get() = "case when $TABLE_DEBTS.$KEY_CURRENCY == '$homeCurrency' THEN ${getAmountHomeEquivalent(VIEW_EXTENDED, homeCurrency)} ELSE $KEY_AMOUNT END"
+        get() = "case when $TABLE_DEBTS.$KEY_CURRENCY == '$homeCurrency' THEN ${
+            getAmountHomeEquivalent(
+                VIEW_EXTENDED,
+                homeCurrency
+            )
+        } ELSE $KEY_AMOUNT END"
 
     companion object {
         val CATEGORY_TREE_URI: Uri
             get() = TransactionProvider.CATEGORIES_URI.buildUpon()
-                .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL).build()
+                .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL)
+                .build()
         const val CURRENCIES_USAGES_TABLE_EXPRESSION =
             "$TABLE_CURRENCIES LEFT JOIN (SELECT coalesce($KEY_ORIGINAL_CURRENCY, $KEY_CURRENCY) AS currency_coalesced, count(*) AS $KEY_USAGES FROM $VIEW_EXTENDED GROUP BY currency_coalesced) on currency_coalesced = $KEY_CODE"
 
@@ -439,12 +450,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 )
 
                 val grouping = prefHandler.getString(GROUPING_AGGREGATE, "NONE")
-                val sortBy =
-                    prefHandler.getString(SORT_BY_AGGREGATE, "DESC")
-                val sortDirection =
-                    prefHandler.getString(SORT_DIRECTION_AGGREGATE, "DESC")
+                val sortBy = prefHandler.getString(SORT_BY_AGGREGATE, KEY_DATE)
+                val sortDirection = prefHandler.getString(SORT_DIRECTION_AGGREGATE, "DESC")
                 val rowIdColumn = "$HOME_AGGREGATE_ID AS $KEY_ROWID"
-                val labelColumn = "'${wrappedContext.getString(R.string.grand_total)}' AS $KEY_LABEL"
+                val labelColumn =
+                    "'${wrappedContext.getString(R.string.grand_total)}' AS $KEY_LABEL"
                 val currencyColumn = "'$AGGREGATE_HOME_CURRENCY_CODE' AS $KEY_CURRENCY"
                 val aggregateColumn = "2 AS $KEY_IS_AGGREGATE"
                 val homeProjection = if (minimal) {
@@ -718,15 +728,26 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     fun aggregateHomeProjection(columns: Array<String>?) =
-        (columns ?: arrayOf(KEY_LABEL, KEY_OPENING_BALANCE, KEY_CURRENCY, KEY_GROUPING, KEY_SEALED)).map {
-            when(it) {
+        (columns ?: arrayOf(
+            KEY_LABEL,
+            KEY_OPENING_BALANCE,
+            KEY_CURRENCY,
+            KEY_GROUPING,
+            KEY_SEALED,
+            KEY_SORT_BY,
+            KEY_SORT_DIRECTION
+        )).map {
+            when (it) {
                 KEY_LABEL -> "'${wrappedContext.getString(R.string.grand_total)}'"
                 KEY_OPENING_BALANCE -> "$aggregateFunction($KEY_OPENING_BALANCE * " +
                         getExchangeRate(TABLE_ACCOUNTS, KEY_ROWID, homeCurrency) +
                         ")"
+
                 KEY_CURRENCY -> "'$AGGREGATE_HOME_CURRENCY_CODE'"
                 KEY_GROUPING -> "'${prefHandler.getString(GROUPING_AGGREGATE, "NONE")}'"
                 KEY_SEALED -> "max($KEY_SEALED)"
+                KEY_SORT_BY -> "'${prefHandler.getString(SORT_BY_AGGREGATE, KEY_DATE)}'"
+                KEY_SORT_DIRECTION -> "'${prefHandler.getString(SORT_DIRECTION_AGGREGATE, "DESC")}'"
                 else -> throw java.lang.IllegalArgumentException("unknown column $it")
             } + " AS $it"
         }.toTypedArray()
@@ -734,13 +755,23 @@ abstract class BaseTransactionProvider : ContentProvider() {
     fun aggregateProjection(columns: Array<String>?): Array<String> {
         val accountSelect =
             "from $TABLE_ACCOUNTS where $KEY_CURRENCY = $KEY_CODE AND $KEY_EXCLUDE_FROM_TOTALS = 0"
-        return (columns ?: arrayOf(KEY_LABEL, KEY_OPENING_BALANCE, KEY_CURRENCY, KEY_GROUPING, KEY_SEALED)).map {
-            when(it) {
+        return (columns ?: arrayOf(
+            KEY_LABEL,
+            KEY_OPENING_BALANCE,
+            KEY_CURRENCY,
+            KEY_GROUPING,
+            KEY_SEALED,
+            KEY_SORT_BY,
+            KEY_SORT_DIRECTION
+        )).map {
+            when (it) {
                 KEY_LABEL -> KEY_CODE
                 KEY_OPENING_BALANCE -> "(select $aggregateFunction($KEY_OPENING_BALANCE) $accountSelect)"
                 KEY_CURRENCY -> KEY_CODE
                 KEY_GROUPING -> "$TABLE_CURRENCIES.$KEY_GROUPING"
                 KEY_SEALED -> "(select max($KEY_SEALED) from $TABLE_ACCOUNTS where $KEY_CURRENCY = $KEY_CODE)"
+                KEY_SORT_BY, KEY_SORT_DIRECTION -> it
+
                 else -> throw java.lang.IllegalArgumentException("unknown column $it")
             } + " AS $it"
         }.toTypedArray()
@@ -875,6 +906,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> cursor.apply {
             setExtras(extras)
         }
+
         else -> object : CursorWrapper(cursor) {
             override fun getExtras() = extras
         }
@@ -926,7 +958,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
             false
         ) && (group == Grouping.WEEK || group == Grouping.DAY)
         val includeTransfers: Boolean =
-            uri.getBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_INCLUDE_TRANSFERS, false)
+            uri.getBooleanQueryParameter(
+                TransactionProvider.QUERY_PARAMETER_INCLUDE_TRANSFERS,
+                false
+            )
 
         val yearExpression = when (group) {
             Grouping.NONE -> "1"
@@ -941,7 +976,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             Grouping.WEEK -> getWeek()
             Grouping.MONTH -> getMonth()
             Grouping.YEAR -> "0"
-            }
+        }
 
         val projection = buildList {
             add("$yearExpression AS $KEY_YEAR")
@@ -970,7 +1005,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
         val finalArgs = buildList {
             accountSelector?.let { add(it) }
-            selectionArgs?.let { addAll(it)}
+            selectionArgs?.let { addAll(it) }
         }.toTypedArray()
 
         val sql = buildTransactionGroupCte(accountQuery, forHome, includeTransfers) + " " +
