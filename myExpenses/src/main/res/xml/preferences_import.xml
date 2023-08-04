@@ -32,4 +32,11 @@
             android:targetClass="org.totschnig.myexpenses.activity.GrisbiImport"
             android:targetPackage="@string/application_id" />
     </Preference>
+    <Preference
+        android:title="Banking (FinTS - German banks only)">
+
+        <intent
+            android:targetClass="org.totschnig.myexpenses.activity.Banking"
+            android:targetPackage="@string/application_id" />
+    </Preference>
 </PreferenceScreen>
