@@ -107,7 +107,7 @@ abstract class AbstractWidget(
                         context,
                         appWidgetId,
                         PreferenceActivity.getIntent(
-                            context, prefHandler.getKey(PrefKey.CATEGORY_PROTECTION)
+                            context, prefHandler.getKey(PrefKey.CATEGORY_SECURITY)
                         ),
                         PendingIntent.FLAG_IMMUTABLE
                     )

@@ -50,7 +50,7 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
     } else false
 
     fun startPerformProtection() {
-        val pref = headerFragment.requirePreference<Preference>(PrefKey.CATEGORY_PROTECTION)
+        val pref = headerFragment.requirePreference<Preference>(PrefKey.CATEGORY_SECURITY)
         super.onPreferenceStartFragment(headerFragment, pref)
         headerFragment.onLoadPreference(pref.key)
     }

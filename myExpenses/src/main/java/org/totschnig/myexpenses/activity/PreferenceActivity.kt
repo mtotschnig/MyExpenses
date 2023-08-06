@@ -342,7 +342,7 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
     }
 
     fun protectionCheck(pref: Preference) =
-        if (pref.key == prefHandler.getKey(PrefKey.CATEGORY_PROTECTION) &&
+        if (pref.key == prefHandler.getKey(PrefKey.CATEGORY_SECURITY) &&
             (application as MyApplication).isProtected
         ) {
             confirmCredentials(

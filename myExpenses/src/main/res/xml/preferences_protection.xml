@@ -3,6 +3,7 @@
     xmlns:my="http://schemas.android.com/apk/res-auto">
     <org.totschnig.myexpenses.preference.HeaderPreference />
     <PreferenceCategory
+        android:key="category_protection"
         android:title="@string/pref_perform_protection_title"
         my:allowDividerAbove="false"
         my:expandButtonTitle="@string/feature_deprecated"
@@ -29,6 +30,7 @@
             android:title="@string/pref_security_question_title" />
     </PreferenceCategory>
     <PreferenceCategory
+        android:key="category_widgets"
         android:title="Widgets"
         my:initialExpandedChildrenCount="0">
         <SwitchPreferenceCompat

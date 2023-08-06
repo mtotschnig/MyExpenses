@@ -1,8 +1,6 @@
 package org.totschnig.myexpenses.fragment.preferences
 
-import android.content.Context
 import android.os.Bundle
-import android.view.ContextThemeWrapper
 import androidx.core.content.res.ResourcesCompat
 import androidx.preference.*
 import com.evernote.android.state.State
@@ -71,7 +69,7 @@ class MainPreferenceFragment : BasePreferenceFragment() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
         requirePreference<Preference>(PrefKey.CATEGORY_BACKUP_EXPORT).title = exportBackupTitle
-        requirePreference<Preference>(PrefKey.CATEGORY_PROTECTION).title = protectionTitle
+        requirePreference<Preference>(PrefKey.CATEGORY_SECURITY).title = protectionTitle
     }
 
     override fun onCreateAdapter(preferenceScreen: PreferenceScreen) =

@@ -40,6 +40,7 @@
         my:useSimpleSummaryProvider="true" />
 
     <PreferenceCategory
+        android:key="category_auto_fill"
         android:title="@string/autofill"
         my:initialExpandedChildrenCount="1">
         <SwitchPreferenceCompat
@@ -88,6 +89,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="category_transaction_list"
         android:title="@string/help_MyExpenses_title"
         my:initialExpandedChildrenCount="2">
 
@@ -125,6 +127,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="category_home_screen_shortcuts"
         android:title="@string/pref_ui_home_screen_shortcuts"
         my:initialExpandedChildrenCount="1"
         my:isPreferenceVisible="@bool/pin_shortcut_support">

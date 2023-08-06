@@ -26,6 +26,7 @@
         my:isPreferenceVisible="false" />
 
     <PreferenceCategory
+        android:key="category_backup"
         android:title="@string/menu_backup"
         my:initialExpandedChildrenCount="1">
 
@@ -80,6 +81,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory my:initialExpandedChildrenCount="1"
+        android:key="category_purge"
         android:layout="@layout/preference_category_empty">
 
         <SwitchPreferenceCompat
