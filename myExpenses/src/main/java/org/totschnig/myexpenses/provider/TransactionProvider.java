@@ -76,6 +76,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTTYES_METHODS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_EXCHANGE_RATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BANKS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGET_ALLOCATIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
@@ -259,6 +260,8 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final Uri ACCOUNTS_TAGS_URI = Uri.parse("content://" + AUTHORITY + "/accounts/tags");
 
   public static final Uri DEBTS_URI = Uri.parse("content://" + AUTHORITY + "/debts");
+
+  public static final Uri BANKS_URI = Uri.parse("content://" + AUTHORITY + "/banks");
 
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
@@ -791,6 +794,10 @@ public class TransactionProvider extends BaseTransactionProvider {
         additionalWhere.append(TABLE_DEBTS + "." + KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
       }
+      case BANKS: {
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_BANKS);
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -937,6 +944,10 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case DEBTS -> {
         id = MoreDbUtilsKt.insert(db, TABLE_DEBTS, values);
+        newUri = DEBTS_URI + "/" + id;
+      }
+      case BANKS -> {
+        id = MoreDbUtilsKt.insert(db, TABLE_BANKS, values);
         newUri = DEBTS_URI + "/" + id;
       }
       default -> throw unknownUri(uri);
@@ -1597,6 +1608,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "debts/#", DEBT_ID);
     URI_MATCHER.addURI(AUTHORITY, "budgets/allocations/", BUDGET_ALLOCATIONS);
     URI_MATCHER.addURI(AUTHORITY, "budgets/" + URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS + "/*/*", ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS);
+    URI_MATCHER.addURI(AUTHORITY, "banks", BANKS);
   }
 
   /**

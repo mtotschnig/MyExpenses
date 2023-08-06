@@ -291,6 +291,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val DEBT_ID = 64
         protected const val BUDGET_ALLOCATIONS = 65
         protected const val ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS = 66
+        protected const val BANKS = 67
     }
 
     val homeCurrency: String
