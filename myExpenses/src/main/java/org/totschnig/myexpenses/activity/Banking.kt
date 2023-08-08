@@ -19,6 +19,8 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
@@ -30,6 +32,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -42,11 +45,15 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import org.kapott.hbci.structures.Konto
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
+import org.totschnig.myexpenses.compose.rememberMutableStateMapOf
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.viewmodel.BankingViewModel
 import org.totschnig.myexpenses.viewmodel.data.BankingCredentials
 
@@ -65,7 +72,12 @@ class Banking : ProtectedFragmentActivity() {
                 val data = viewModel.banks.collectAsState()
                 var dialogShown by rememberSaveable { mutableStateOf(false) }
                 val tanRequested = viewModel.tanRequested.observeAsState()
-                val addBankState = viewModel.addBankState.collectAsState()
+                val addBankState = viewModel.workState.collectAsState()
+                LaunchedEffect(addBankState.value) {
+                    if (addBankState.value == BankingViewModel.WorkState.Done) {
+                        dialogShown = false
+                    }
+                }
 
                 Scaffold(
                     topBar = {
@@ -118,6 +130,7 @@ class Banking : ProtectedFragmentActivity() {
                 }
                 if (dialogShown) {
                     var bankingCredentials by rememberSaveable { mutableStateOf(BankingCredentials.EMPTY) }
+                    val selectedAccounts = rememberMutableStateMapOf<Int, Boolean>()
                     AlertDialog(
                         //https://issuetracker.google.com/issues/221643630
                         properties = DialogProperties(
@@ -136,18 +149,31 @@ class Banking : ProtectedFragmentActivity() {
                         },
                         title = {
                             Text(
-                                text = if (addBankState.value is BankingViewModel.AddBankState.AccountsLoaded) "Select accounts" else "Add new bank",
+                                text = if (addBankState.value is BankingViewModel.WorkState.AccountsLoaded) "Select accounts" else "Add new bank",
                                 style = MaterialTheme.typography.titleMedium
                             )
                         },
                         confirmButton = {
                             Button(
                                 onClick = {
-                                    viewModel.addBank(bankingCredentials)
+                                    if (addBankState.value is BankingViewModel.WorkState.AccountsLoaded) {
+                                        viewModel.importAccounts(
+                                            bankingCredentials,
+                                            (addBankState.value as BankingViewModel.WorkState.AccountsLoaded).konten.filterIndexed { index, _ ->
+                                                selectedAccounts[index] == true
+                                            }
+                                        )
+                                    } else {
+                                        viewModel.addBank(bankingCredentials)
+                                    }
                                 },
-                                enabled = addBankState.value != BankingViewModel.AddBankState.Loading && bankingCredentials.isComplete
+                                enabled = when(addBankState.value) {
+                                    is BankingViewModel.WorkState.AccountsLoaded -> selectedAccounts.size > 0
+                                    is BankingViewModel.WorkState.Loading -> false
+                                    else -> bankingCredentials.isComplete
+                                }
                             ) {
-                                Text("Load accounts")
+                                Text(if (addBankState.value is BankingViewModel.WorkState.AccountsLoaded) "Import" else "Load accounts")
                             }
                         },
                         dismissButton = {
@@ -161,45 +187,49 @@ class Banking : ProtectedFragmentActivity() {
                             }
                         },
                         text = {
-                            Column {
-                                if (addBankState.value is BankingViewModel.AddBankState.AccountsLoaded) {
-                                    (addBankState.value as BankingViewModel.AddBankState.AccountsLoaded).konten.forEach {
-                                        Text(it.toString())
-                                    }
-                                } else {
-                                    OutlinedTextField(
-                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                        value = bankingCredentials.bankLeitZahl,
-                                        onValueChange = {
-                                            bankingCredentials = bankingCredentials.copy(bankLeitZahl = it)
-                                        },
-                                        label = { Text(text = "Bankleitzahl") },
-                                    )
-                                    OutlinedTextField(
-                                        value = bankingCredentials.user,
-                                        onValueChange = {
-                                            bankingCredentials = bankingCredentials.copy(user = it)
-                                        },
-                                        label = { Text(text = "Anmeldename") },
-                                    )
-                                    OutlinedTextField(
-                                        visualTransformation = PasswordVisualTransformation(),
-                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                                        value = bankingCredentials.password ?: "",
-                                        onValueChange = {
-                                            bankingCredentials = bankingCredentials.copy(password = it)
-                                        },
-                                        label = { Text(text = "Passwort") },
-                                    )
-
-                                    if (addBankState.value is BankingViewModel.AddBankState.Error) {
-                                        Text(
-                                            color = MaterialTheme.colorScheme.error,
-                                            text = (addBankState.value as BankingViewModel.AddBankState.Error).messsage
+                            if (addBankState.value is BankingViewModel.WorkState.Loading) {
+                                Loading((addBankState.value as BankingViewModel.WorkState.Loading).messsage)
+                            } else {
+                                Column {
+                                    if (addBankState.value is BankingViewModel.WorkState.AccountsLoaded) {
+                                        (addBankState.value as BankingViewModel.WorkState.AccountsLoaded).konten.forEachIndexed { index, account ->
+                                            AccountRow(account, selectedAccounts[index] == true) {
+                                                selectedAccounts[index] = it
+                                            }
+                                        }
+                                    } else {
+                                        OutlinedTextField(
+                                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                            value = bankingCredentials.bankLeitZahl,
+                                            onValueChange = {
+                                                bankingCredentials = bankingCredentials.copy(bankLeitZahl = it)
+                                            },
+                                            label = { Text(text = "Bankleitzahl") },
                                         )
-                                    } else if (addBankState.value == BankingViewModel.AddBankState.Loading) Text(
-                                        "Loading ..."
-                                    )
+                                        OutlinedTextField(
+                                            value = bankingCredentials.user,
+                                            onValueChange = {
+                                                bankingCredentials = bankingCredentials.copy(user = it)
+                                            },
+                                            label = { Text(text = "Anmeldename") },
+                                        )
+                                        OutlinedTextField(
+                                            visualTransformation = PasswordVisualTransformation(),
+                                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                                            value = bankingCredentials.password ?: "",
+                                            onValueChange = {
+                                                bankingCredentials = bankingCredentials.copy(password = it)
+                                            },
+                                            label = { Text(text = "Passwort") },
+                                        )
+
+                                        if (addBankState.value is BankingViewModel.WorkState.Error) {
+                                            Text(
+                                                color = MaterialTheme.colorScheme.error,
+                                                text = (addBankState.value as BankingViewModel.WorkState.Error).messsage
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -235,9 +265,7 @@ class Banking : ProtectedFragmentActivity() {
 }
 
 @Composable
-fun BankRow(
-    bank: org.totschnig.myexpenses.model2.Bank
-) {
+fun BankRow(bank: Bank) {
     Row(
         modifier = Modifier.clickable { },
         verticalAlignment = Alignment.CenterVertically,
@@ -249,5 +277,29 @@ fun BankRow(
             Text(bank.blz + " / " + bank.bic)
             Text(bank.userId)
         }
+    }
+}
+
+@Composable
+fun AccountRow(
+    account: Konto,
+    selected: Boolean,
+    onSelectionChange: (Boolean) -> Unit
+) {
+    Row {
+        Checkbox(checked = selected, onCheckedChange = onSelectionChange)
+        Column {
+            Text(account.name + (account.name2?.let { " $it" } ?: ""))
+            Text(account.iban)
+        }
+    }
+}
+
+@Preview
+@Composable
+fun Loading(text: String = "Loading") {
+    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+        CircularProgressIndicator()
+        Text("$text ...")
     }
 }

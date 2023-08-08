@@ -80,7 +80,7 @@ END
 """
 
 const val BANK_CREATE = """
-CREATE TABLE $TABLE_BANKS ($KEY_BLZ text not null, $KEY_BIC text not null, $KEY_BANK_NAME text not null, $KEY_USER_ID test not null)    
+CREATE TABLE $TABLE_BANKS ($KEY_BLZ text not null, $KEY_BIC text not null, $KEY_BANK_NAME text not null, $KEY_USER_ID text not null, unique($KEY_BLZ, $KEY_USER_ID))   
 """
 
 
