@@ -18,13 +18,15 @@ import org.kapott.hbci.manager.HBCIUtils
 import org.kapott.hbci.manager.HBCIVersion
 import org.kapott.hbci.passport.AbstractHBCIPassport
 import org.kapott.hbci.passport.HBCIPassport
+import org.kapott.hbci.structures.Konto
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.addBank
 import org.totschnig.myexpenses.db2.loadBanks
+import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.safeMessage
-import org.totschnig.myexpenses.viewmodel.data.Bank
+import org.totschnig.myexpenses.viewmodel.data.BankingCredentials
 import timber.log.Timber
 import java.io.File
 import java.util.Date
@@ -47,6 +49,8 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
         data class Error(val messsage: String): AddBankState()
 
+        data class AccountsLoaded(val konten: List<Konto>): AddBankState()
+
         object Done: AddBankState()
     }
 
@@ -63,23 +67,15 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         _addBankState.value = AddBankState.Error(msg)
     }
 
-    fun addBankMock(bank: Bank) {
+/*    fun addBankMock(bank: Bank) {
         viewModelScope.launch(context = coroutineContext()) {
-/*            MockFinTS.init(MyHBCICallback(bank))
+            MockFinTS.init(MyHBCICallback(bank))
             val message = MockFinTS.getTan(null)
-            Timber.tag("FinTS").i(message)*/
-
-            val info = HBCIUtils.getBankInfo(bank.bankLeitZahl)
-            if (info == null) {
-                _addBankState.value = AddBankState.Error("${bank.bankLeitZahl} not found in the list of banks that support FinTS")
-            } else {
-                repository.addBank(org.totschnig.myexpenses.model2.Bank(info.blz, info.bic, info.name, bank.user))
-                _addBankState.value = AddBankState.Done
-            }
+            Timber.tag("FinTS").i(message)
         }
-    }
+    }*/
 
-    fun addBank(bank: Bank) {
+    fun addBank(bankingCredentials: BankingCredentials) {
         _addBankState.value = AddBankState.Loading
         viewModelScope.launch(context = coroutineContext()) {
             System.setProperty(
@@ -93,16 +89,16 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                 }
             }
 
-            HBCIUtils.init(props, MyHBCICallback(bank))
+            HBCIUtils.init(props, MyHBCICallback(bankingCredentials))
 
-            val info = HBCIUtils.getBankInfo(bank.bankLeitZahl)
+            val info = HBCIUtils.getBankInfo(bankingCredentials.blz)
 
             if (info == null) {
-                error("${bank.bankLeitZahl} not found in the list of banks that support FinTS")
+                error("${bankingCredentials.blz} not found in the list of banks that support FinTS")
                 return@launch
             }
 
-            val passportFile = File(getApplication<MyApplication>().filesDir, "testpassport.dat")
+            val passportFile = File(getApplication<MyApplication>().filesDir, "testpassport_${info.blz}_${bankingCredentials.user}.dat")
 
             HBCIUtils.setParam("client.passport.default", "PinTan")
 
@@ -115,27 +111,31 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                 filterType = "Base64"
             }
 
-            try {
-                val handle = try {
-                    HBCIHandler(HBCIVersion.HBCI_300.id, passport)
-                } catch (e: Exception) {
-                    error(Utils.getCause(e).safeMessage)
-                    return@launch
+            val handle = try {
+                HBCIHandler(HBCIVersion.HBCI_300.id, passport)
+            } catch (e: Exception) {
+                if (BuildConfig.DEBUG) {
+                    Timber.e(e)
                 }
-
-                try {
-                    val konten = passport.accounts
-                    if (konten == null || konten.isEmpty()) {
-                        error("Keine Konten ermittelbar")
-                        return@launch
-                    }
-                    log("Anzahl Konten: " + konten.size)
-                    _addBankState.value = AddBankState.Done
-                } finally {
-                    handle.close()
+                passport.close()
+                passportFile.delete()
+                HBCIUtils.doneThread()
+                error(Utils.getCause(e).safeMessage)
+                return@launch
+            }
+            repository.addBank(Bank(info.blz, info.bic, info.name, bankingCredentials.user))
+            try {
+                val konten = passport.accounts
+                if (konten == null || konten.isEmpty()) {
+                    error("Keine Konten ermittelbar")
+                    return@launch
+                } else {
+                    _addBankState.value = AddBankState.AccountsLoaded(konten.asList())
                 }
             } finally {
-                passport?.close()
+                handle.close()
+                passport.close()
+                HBCIUtils.doneThread()
             }
         }
     }
@@ -144,7 +144,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         _addBankState.value = AddBankState.Initial
     }
 
-    inner class MyHBCICallback(private val bank: Bank) : AbstractHBCICallback() {
+    inner class MyHBCICallback(private val bankingCredentials: BankingCredentials) : AbstractHBCICallback() {
         override fun log(msg: String, level: Int, date: Date, trace: StackTraceElement) {
             Timber.tag("FinTS").d(msg)
         }
@@ -159,13 +159,13 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             Timber.tag("FinTS").i("callback:%d",reason)
             when (reason) {
                 NEED_PASSPHRASE_LOAD, NEED_PASSPHRASE_SAVE -> {
-                    retData.replace(0, retData.length, bank.password!!)
+                    retData.replace(0, retData.length, bankingCredentials.password!!)
                 }
 
-                NEED_PT_PIN -> retData.replace(0, retData.length, bank.password!!)
-                NEED_BLZ -> retData.replace(0, retData.length, bank.bankLeitZahl)
-                NEED_USERID -> retData.replace(0, retData.length, bank.user)
-                NEED_CUSTOMERID -> retData.replace(0, retData.length, bank.user)
+                NEED_PT_PIN -> retData.replace(0, retData.length, bankingCredentials.password!!)
+                NEED_BLZ -> retData.replace(0, retData.length, bankingCredentials.bankLeitZahl)
+                NEED_USERID -> retData.replace(0, retData.length, bankingCredentials.user)
+                NEED_CUSTOMERID -> retData.replace(0, retData.length, bankingCredentials.user)
                 NEED_PT_PHOTOTAN ->
                     try {
                         TODO()
@@ -216,10 +216,11 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         }
     }
 
-    val banks: StateFlow<List<org.totschnig.myexpenses.model2.Bank>>
-        get() = repository.loadBanks().stateIn(
-                viewModelScope,
-                SharingStarted.Lazily,
-                emptyList()
-            )
+    val banks: StateFlow<List<Bank>> by lazy {
+        repository.loadBanks().stateIn(
+            viewModelScope,
+            SharingStarted.Lazily,
+            emptyList()
+        )
+    }
 }

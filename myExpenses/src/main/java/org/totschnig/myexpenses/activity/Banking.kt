@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material.icons.filled.Add
@@ -39,12 +40,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.viewmodel.BankingViewModel
-import org.totschnig.myexpenses.viewmodel.data.Bank
+import org.totschnig.myexpenses.viewmodel.data.BankingCredentials
 
 class Banking : ProtectedFragmentActivity() {
 
@@ -56,161 +60,175 @@ class Banking : ProtectedFragmentActivity() {
         super.onCreate(savedInstanceState)
         injector.inject(viewModel)
         setContent {
-            val data = viewModel.banks.collectAsState()
-            var dialogShown by rememberSaveable { mutableStateOf(false) }
-            val tanRequested = viewModel.tanRequested.observeAsState()
-            val addBankState = viewModel.addBankState.collectAsState()
+            AppTheme {
 
-            Scaffold(
-                topBar = {
-                    TopAppBar(
-                        title = { Text("Banking") },
-                        navigationIcon = {
-                            IconButton(onClick = { finish() }) {
-                                Icon(
-                                    imageVector = Icons.Filled.ArrowBack,
-                                    contentDescription = stringResource(id = androidx.appcompat.R.string.abc_action_bar_up_description)
-                                )
+                val data = viewModel.banks.collectAsState()
+                var dialogShown by rememberSaveable { mutableStateOf(false) }
+                val tanRequested = viewModel.tanRequested.observeAsState()
+                val addBankState = viewModel.addBankState.collectAsState()
+
+                Scaffold(
+                    topBar = {
+                        TopAppBar(
+                            title = { Text("Banking") },
+                            navigationIcon = {
+                                IconButton(onClick = { finish() }) {
+                                    Icon(
+                                        imageVector = Icons.Filled.ArrowBack,
+                                        contentDescription = stringResource(id = androidx.appcompat.R.string.abc_action_bar_up_description)
+                                    )
+                                }
                             }
-                        }
-                    )
-                },
-                floatingActionButtonPosition = FabPosition.End,
-                floatingActionButton = {
-                    FloatingActionButton(
-                        onClick = {
-                            dialogShown = true
-                        }
-                    ) {
-                        Icon(imageVector = Icons.Filled.Add, contentDescription = "Add new bank")
-                    }
-                },
-            ) {
-                Box(
-                    modifier = Modifier
-                        .padding(it)
-                        .fillMaxSize()
-                ) {
-                    if (data.value.isEmpty()) {
-                        Text(
-                            text = "No bank added yet.",
-                            modifier = Modifier.align(Alignment.Center)
                         )
-                    } else {
-                        LazyColumn(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_main_screen))) {
-                            data.value.forEach {
-                                item {
-                                    BankRow(it)
+                    },
+                    floatingActionButtonPosition = FabPosition.End,
+                    floatingActionButton = {
+                        FloatingActionButton(
+                            onClick = {
+                                dialogShown = true
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Add,
+                                contentDescription = "Add new bank"
+                            )
+                        }
+                    },
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .padding(it)
+                            .fillMaxSize()
+                    ) {
+                        if (data.value.isEmpty()) {
+                            Text(
+                                text = "No bank added yet.",
+                                modifier = Modifier.align(Alignment.Center)
+                            )
+                        } else {
+                            LazyColumn(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_main_screen))) {
+                                data.value.forEach {
+                                    item {
+                                        BankRow(it)
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
-            if (dialogShown) {
-                var bank by rememberSaveable { mutableStateOf(Bank.EMPTY) }
-                AlertDialog(
-                    //https://issuetracker.google.com/issues/221643630
+                if (dialogShown) {
+                    var bankingCredentials by rememberSaveable { mutableStateOf(BankingCredentials.EMPTY) }
+                    AlertDialog(
+                        //https://issuetracker.google.com/issues/221643630
+                        properties = DialogProperties(
+                            dismissOnClickOutside = false,
+                            usePlatformDefaultWidth = false
+                        ),
+                        onDismissRequest = {
+                            dialogShown = false
+                            viewModel.resetAddBankState()
+                        },
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Filled.AccountBalance,
+                                contentDescription = null
+                            )
+                        },
+                        title = {
+                            Text(
+                                text = if (addBankState.value is BankingViewModel.AddBankState.AccountsLoaded) "Select accounts" else "Add new bank",
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                        },
+                        confirmButton = {
+                            Button(
+                                onClick = {
+                                    viewModel.addBank(bankingCredentials)
+                                },
+                                enabled = addBankState.value != BankingViewModel.AddBankState.Loading && bankingCredentials.isComplete
+                            ) {
+                                Text("Load accounts")
+                            }
+                        },
+                        dismissButton = {
+                            Button(
+                                onClick = {
+                                    dialogShown = false
+                                    viewModel.resetAddBankState()
 
-                    properties = DialogProperties(
-                        dismissOnClickOutside = false,
-                        usePlatformDefaultWidth = false
-                    ),
-                    onDismissRequest = {
-                        dialogShown = false
-                        viewModel.resetAddBankState()
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Filled.AccountBalance,
-                            contentDescription = null
-                        )
-                    },
-                    title = {
-                        Text(
-                            text = "Add new bank",
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                    },
-                    confirmButton = {
-                        Button(
-                            onClick = {
-                                viewModel.addBank(bank)
-                            },
-                            enabled = addBankState.value != BankingViewModel.AddBankState.Loading && bank.isComplete
-                        ) {
-                            Text("Load accounts")
+                                }) {
+                                Text(stringResource(id = android.R.string.cancel))
+                            }
+                        },
+                        text = {
+                            Column {
+                                if (addBankState.value is BankingViewModel.AddBankState.AccountsLoaded) {
+                                    (addBankState.value as BankingViewModel.AddBankState.AccountsLoaded).konten.forEach {
+                                        Text(it.toString())
+                                    }
+                                } else {
+                                    OutlinedTextField(
+                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                        value = bankingCredentials.bankLeitZahl,
+                                        onValueChange = {
+                                            bankingCredentials = bankingCredentials.copy(bankLeitZahl = it)
+                                        },
+                                        label = { Text(text = "Bankleitzahl") },
+                                    )
+                                    OutlinedTextField(
+                                        value = bankingCredentials.user,
+                                        onValueChange = {
+                                            bankingCredentials = bankingCredentials.copy(user = it)
+                                        },
+                                        label = { Text(text = "Anmeldename") },
+                                    )
+                                    OutlinedTextField(
+                                        visualTransformation = PasswordVisualTransformation(),
+                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                                        value = bankingCredentials.password ?: "",
+                                        onValueChange = {
+                                            bankingCredentials = bankingCredentials.copy(password = it)
+                                        },
+                                        label = { Text(text = "Passwort") },
+                                    )
+
+                                    if (addBankState.value is BankingViewModel.AddBankState.Error) {
+                                        Text(
+                                            color = MaterialTheme.colorScheme.error,
+                                            text = (addBankState.value as BankingViewModel.AddBankState.Error).messsage
+                                        )
+                                    } else if (addBankState.value == BankingViewModel.AddBankState.Loading) Text(
+                                        "Loading ..."
+                                    )
+                                }
+                            }
                         }
-                    },
-                    dismissButton = {
-                        Button(
-                            onClick = {
-                                dialogShown = false
-                                viewModel.resetAddBankState()
-
+                    )
+                }
+                if (tanRequested.value == true) {
+                    var tan by rememberSaveable { mutableStateOf("") }
+                    AlertDialog(
+                        onDismissRequest = {
+                            viewModel.submitTan(null)
+                        },
+                        confirmButton = {
+                            Button(onClick = {
+                                viewModel.submitTan(tan)
                             }) {
-                            Text(stringResource(id = android.R.string.cancel))
-                        }
-                    },
-                    text = {
-                        Column {
+                                Text("Send")
+                            }
+                        },
+                        text = {
                             OutlinedTextField(
-                                value = bank.bankLeitZahl,
+                                value = tan,
                                 onValueChange = {
-                                    bank = bank.copy(bankLeitZahl = it)
+                                    tan = it
                                 },
-                                label = { Text(text = "Bankleitzahl") },
-                            )
-                            OutlinedTextField(
-                                value = bank.user,
-                                onValueChange = {
-                                    bank = bank.copy(user = it)
-                                },
-                                label = { Text(text = "Anmeldename") },
-                            )
-                            OutlinedTextField(
-                                value = bank.password ?: "",
-                                onValueChange = {
-                                    bank = bank.copy(password = it)
-                                },
-                                label = { Text(text = "Passwort") },
-                            )
-
-                            if (addBankState.value is BankingViewModel.AddBankState.Error) {
-                                Text(
-                                    color = MaterialTheme.colorScheme.error,
-                                    text = (addBankState.value as BankingViewModel.AddBankState.Error).messsage
-                                )
-                            } else if (addBankState.value == BankingViewModel.AddBankState.Loading) Text(
-                                "Loading ..."
+                                label = { Text(text = "TAN") },
                             )
                         }
-                    }
-                )
-            }
-            if (tanRequested.value == true) {
-                var tan by rememberSaveable { mutableStateOf("") }
-                AlertDialog(
-                    onDismissRequest = {
-                        viewModel.submitTan(null)
-                    },
-                    confirmButton = {
-                        Button(onClick = {
-                            viewModel.submitTan(tan)
-                        }) {
-                            Text("Send")
-                        }
-                    },
-                    text = {
-                        OutlinedTextField(
-                            value = tan,
-                            onValueChange = {
-                                tan = it
-                            },
-                            label = { Text(text = "TAN") },
-                        )
-                    }
-                )
+                    )
+                }
             }
         }
     }
