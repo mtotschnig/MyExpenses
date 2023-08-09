@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.db2
 
+import android.content.ContentUris
 import android.content.ContentValues
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
@@ -18,19 +19,21 @@ fun Repository.loadBanks(): Flow<List<Bank>> {
         null, null, null, null
     ).mapToList {
         Bank(
-            it.getString(KEY_BLZ),
-            it.getString(KEY_BIC),
-            it.getString(KEY_BANK_NAME),
-            it.getString(KEY_USER_ID)
+            blz= it.getString(KEY_BLZ),
+            bic = it.getString(KEY_BIC),
+            bankName = it.getString(KEY_BANK_NAME),
+            userId = it.getString(KEY_USER_ID)
         )
     }
 }
 
-fun Repository.addBank(bank: Bank) {
-    contentResolver.insert(TransactionProvider.BANKS_URI, ContentValues().apply {
-        put(KEY_BLZ, bank.blz)
-        put(KEY_BIC, bank.bic)
-        put(KEY_BANK_NAME, bank.bankName)
-        put(KEY_USER_ID, bank.userId)
-    })
+fun Repository.createBank(bank: Bank): Bank {
+    val id = ContentUris.parseId(
+        contentResolver.insert(TransactionProvider.BANKS_URI, ContentValues().apply {
+            put(KEY_BLZ, bank.blz)
+            put(KEY_BIC, bank.bic)
+            put(KEY_BANK_NAME, bank.bankName)
+            put(KEY_USER_ID, bank.userId)
+        })!!)
+    return bank.copy(id = id)
 }

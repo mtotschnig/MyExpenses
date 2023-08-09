@@ -367,6 +367,10 @@ public class DatabaseConstants {
 
   public static final String KEY_USER_ID = "user_id";
 
+  public static final String KEY_BANK_ID = "bank_id";
+
+  public static final String KEY_IBAN = "iban";
+
   /**
    * No special status
    */

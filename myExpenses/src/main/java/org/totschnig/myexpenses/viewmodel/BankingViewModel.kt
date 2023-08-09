@@ -26,8 +26,11 @@ import org.kapott.hbci.status.HBCIExecStatus
 import org.kapott.hbci.structures.Konto
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.db2.addBank
+import org.totschnig.myexpenses.db2.createBank
+import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.db2.loadBanks
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.safeMessage
@@ -65,11 +68,11 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
     sealed class WorkState {
         object Initial : WorkState()
-        data class Loading(val messsage: String) : WorkState()
+        data class Loading(val message: String) : WorkState()
 
-        data class Error(val messsage: String) : WorkState()
+        data class Error(val message: String) : WorkState()
 
-        data class AccountsLoaded(val konten: List<Konto>) : WorkState()
+        data class AccountsLoaded(val bank : Bank, val accounts: List<Konto>) : WorkState()
 
         object Done : WorkState()
     }
@@ -159,19 +162,30 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         }
 
         doHBCI(bankingCredentials) { info, passport, _ ->
-            repository.addBank(Bank(info.blz, info.bic, info.name, bankingCredentials.user))
-            val konten = passport.accounts
-            if (konten == null || konten.isEmpty()) {
+            val bank = repository.createBank(Bank(blz= info.blz, bic = info.bic, bankName = info.name, userId = bankingCredentials.user))
+            val accounts = passport.accounts
+            if (accounts == null || accounts.isEmpty()) {
                 error("Keine Konten ermittelbar")
             } else {
-                _workState.value = WorkState.AccountsLoaded(konten.asList())
+                _workState.value = WorkState.AccountsLoaded(bank, accounts.asList())
             }
         }
     }
 
-    fun importAccounts(bankingCredentials: BankingCredentials, accounts: List<Konto>) {
+    fun Konto.toAccount(bank: Bank) = Account(
+        label = bank.bankName,
+        iban = iban,
+        currency = curr,
+        type = AccountType.BANK,
+        bankId = bank.id
+    )
+
+    fun importAccounts(bankingCredentials: BankingCredentials, bank: Bank, accounts: List<Konto>) {
+        val k = accounts[0]
+        val dbAccount = repository.createAccount(k.toAccount(bank))
+        log("created account in db with id ${dbAccount.id}")
         doHBCI(bankingCredentials) { _, _, handle ->
-            val k = accounts[0]
+
             _workState.value = WorkState.Loading("Importing account ${k.iban}")
             val saldoJob: HBCIJob = handle.newJob("SaldoReq")
             saldoJob.setParam("my", k)

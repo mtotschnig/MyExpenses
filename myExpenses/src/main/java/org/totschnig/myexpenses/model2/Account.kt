@@ -31,7 +31,9 @@ data class Account(
      * describes rate of this accounts minor unit to homeCurrency minor unit
      */
     val exchangeRate: Double = 1.0,
-    override val grouping: Grouping = Grouping.NONE
+    override val grouping: Grouping = Grouping.NONE,
+    val bankId: Long? = null,
+    val iban: String? = null
 ): DataBaseAccount(), Serializable {
 
     fun createIn(repository: Repository) = repository.createAccount(this)
@@ -63,7 +65,9 @@ data class Account(
             KEY_SORT_DIRECTION,
             KEY_EXCHANGE_RATE,
             KEY_CRITERION,
-            KEY_SEALED
+            KEY_SEALED,
+            KEY_BANK_ID,
+            KEY_IBAN
         )
 
         fun fromCursor(cursor: Cursor): Account {
@@ -87,6 +91,8 @@ data class Account(
                 grouping = if (sortBy == KEY_DATE) cursor.getEnum(KEY_GROUPING, Grouping.NONE) else Grouping.NONE,
                 sortBy = sortBy,
                 sortDirection = cursor.getEnum(KEY_SORT_DIRECTION, SortDirection.DESC),
+                bankId = cursor.getLongOrNull(KEY_BANK_ID),
+                iban = cursor.getStringOrNull(KEY_IBAN)
             )
         }
 

@@ -200,7 +200,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_SORT_DIRECTION + " text not null check (" + KEY_SORT_DIRECTION + " in ('ASC','DESC')) default 'DESC',"
           + KEY_CRITERION + " integer,"
           + KEY_HIDDEN + " boolean default 0,"
-          + KEY_SEALED + " boolean default 0);";
+          + KEY_SEALED + " boolean default 0,"
+          + KEY_BANK_ID + " integer references " + TABLE_BANKS + "(" + KEY_ROWID + ") ON DELETE SET NULL,"
+          + KEY_IBAN + " text );";
 
   private static final String SYNC_STATE_CREATE =
       "CREATE TABLE " + TABLE_SYNC_STATE + " ("

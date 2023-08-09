@@ -94,7 +94,9 @@ public abstract class  AccountMetaData implements Parcelable {
             KEY_DATE,
             SortDirection.DESC,
             exchangeRate,
-            Grouping.NONE
+            Grouping.NONE,
+            null,
+            null //TODO: add IBAN
     );
   }
 

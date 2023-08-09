@@ -157,9 +157,11 @@ class Banking : ProtectedFragmentActivity() {
                             Button(
                                 onClick = {
                                     if (addBankState.value is BankingViewModel.WorkState.AccountsLoaded) {
+                                        val state = addBankState.value as BankingViewModel.WorkState.AccountsLoaded
                                         viewModel.importAccounts(
                                             bankingCredentials,
-                                            (addBankState.value as BankingViewModel.WorkState.AccountsLoaded).konten.filterIndexed { index, _ ->
+                                            state.bank,
+                                            state.accounts.filterIndexed { index, _ ->
                                                 selectedAccounts[index] == true
                                             }
                                         )
@@ -188,11 +190,11 @@ class Banking : ProtectedFragmentActivity() {
                         },
                         text = {
                             if (addBankState.value is BankingViewModel.WorkState.Loading) {
-                                Loading((addBankState.value as BankingViewModel.WorkState.Loading).messsage)
+                                Loading((addBankState.value as BankingViewModel.WorkState.Loading).message)
                             } else {
                                 Column {
                                     if (addBankState.value is BankingViewModel.WorkState.AccountsLoaded) {
-                                        (addBankState.value as BankingViewModel.WorkState.AccountsLoaded).konten.forEachIndexed { index, account ->
+                                        (addBankState.value as BankingViewModel.WorkState.AccountsLoaded).accounts.forEachIndexed { index, account ->
                                             AccountRow(account, selectedAccounts[index] == true) {
                                                 selectedAccounts[index] = it
                                             }
@@ -226,7 +228,7 @@ class Banking : ProtectedFragmentActivity() {
                                         if (addBankState.value is BankingViewModel.WorkState.Error) {
                                             Text(
                                                 color = MaterialTheme.colorScheme.error,
-                                                text = (addBankState.value as BankingViewModel.WorkState.Error).messsage
+                                                text = (addBankState.value as BankingViewModel.WorkState.Error).message
                                             )
                                         }
                                     }
