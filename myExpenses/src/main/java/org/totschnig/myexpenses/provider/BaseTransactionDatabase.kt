@@ -9,7 +9,32 @@ import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BIC
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BLZ
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USER_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BANKS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import timber.log.Timber
 
 const val DATABASE_VERSION = 144
@@ -81,6 +106,10 @@ END
 
 const val BANK_CREATE = """
 CREATE TABLE $TABLE_BANKS ($KEY_ROWID integer primary key autoincrement, $KEY_BLZ text not null, $KEY_BIC text not null, $KEY_BANK_NAME text not null, $KEY_USER_ID text not null, unique($KEY_BLZ, $KEY_USER_ID))   
+"""
+
+const val PAYEE_CREATE = """
+CREATE TABLE $TABLE_PAYEES ($KEY_ROWID integer primary key autoincrement, $KEY_PAYEE_NAME text not null, $KEY_IBAN text, $KEY_BIC text, $KEY_PAYEE_NAME_NORMALIZED text, unique($KEY_PAYEE_NAME, $KEY_IBAN));
 """
 
 

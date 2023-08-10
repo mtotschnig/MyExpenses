@@ -22,6 +22,7 @@ import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_INC
 import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_NEUTRAL;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.BANK_CREATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_CREATE;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.TAG_LIST_EXPRESSION;
@@ -296,17 +297,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           Events.RRULE + " TEXT," +
           Events.CUSTOM_APP_PACKAGE + " TEXT," +
           Events.CUSTOM_APP_URI + " TEXT);";
-
-
-  /**
-   * stores payees and payers
-   * this table is used for populating the autocompleting text field,
-   */
-  private static final String PAYEE_CREATE =
-      "CREATE TABLE " + TABLE_PAYEES
-          + " (" + KEY_ROWID + " integer primary key autoincrement, " +
-          KEY_PAYEE_NAME + " text UNIQUE not null," +
-          KEY_PAYEE_NAME_NORMALIZED + " text);";
 
   private static final String DEBT_CREATE =
       "CREATE TABLE " + TABLE_DEBTS

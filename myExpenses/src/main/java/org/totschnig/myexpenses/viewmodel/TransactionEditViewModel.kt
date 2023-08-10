@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.db2.getLastUsedOpenAccount
 import org.totschnig.myexpenses.db2.loadActiveTagsForAccount
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.*

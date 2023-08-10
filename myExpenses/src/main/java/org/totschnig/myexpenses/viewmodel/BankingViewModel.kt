@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.kapott.hbci.GV.HBCIJob
 import org.kapott.hbci.GV_Result.GVRKUms
-import org.kapott.hbci.GV_Result.GVRSaldoReq
 import org.kapott.hbci.callback.AbstractHBCICallback
 import org.kapott.hbci.exceptions.HBCI_Exception
 import org.kapott.hbci.manager.BankInfo
@@ -37,6 +36,8 @@ import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.data.BankingCredentials
 import timber.log.Timber
 import java.io.File
+import java.time.LocalDate
+import java.time.ZoneId
 import java.util.Date
 import java.util.Properties
 
@@ -187,13 +188,12 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         doHBCI(bankingCredentials) { _, _, handle ->
 
             _workState.value = WorkState.Loading("Importing account ${k.iban}")
-            val saldoJob: HBCIJob = handle.newJob("SaldoReq")
-            saldoJob.setParam("my", k)
-
-            saldoJob.addToQueue()
 
             val umsatzJob: HBCIJob = handle.newJob("KUmsAll")
             umsatzJob.setParam("my", k)
+            umsatzJob.setParam("startdate",
+                Date.from(LocalDate.now().minusDays(10).atStartOfDay(ZoneId.systemDefault()).toInstant())
+            )
 
             umsatzJob.addToQueue()
 
@@ -204,15 +204,6 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                 return@doHBCI
             }
 
-            val saldoResult = saldoJob.jobResult as GVRSaldoReq
-            if (!saldoResult.isOK) {
-                error(saldoResult.toString())
-                return@doHBCI
-            }
-
-            val s = saldoResult.entries[0].ready.value
-            log("Saldo: $s")
-
             val result = umsatzJob.jobResult as GVRKUms
 
             if (!result.isOK) {
@@ -222,20 +213,9 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
             val buchungen = result.flatData
             for (buchung in buchungen) {
-                val sb = StringBuilder()
-                sb.append(buchung.valuta)
-                val v = buchung.value
-                if (v != null) {
-                    sb.append(": ")
-                    sb.append(v)
-                }
-                val zweck = buchung.usage
-                if (zweck != null && zweck.size > 0) {
-                    sb.append(" - ")
-                    sb.append(zweck[0])
-                }
-
-                log(sb.toString())
+                log(buchung.toString())
+                val eur = currencyContext.get("EUR")
+                buchung.toTransaction(dbAccount.id, eur, repository).save()
             }
             _workState.value = WorkState.Done
         }
