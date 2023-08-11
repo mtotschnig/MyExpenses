@@ -136,15 +136,14 @@ public class VerwendungszweckUtil
    */
   public static String getTag(Transfer t, Tag tag)
   {
-    if (tag == null)
+    if (t == null || tag == null)
       return null;
-    Map<Tag,String> result = parse(t);
 
     // Sonderrolle SVWZ.
     // Bei den alten Buchungen gab es die Tags ja noch gar nicht.
     // Heisst: Wenn SVWZ angefordert wurde, der Auftrag aber gar keine
     // Tags enthaelt, wird der komplette originale Verwendungszweck zurueckgeliefert
-    if (result.size() == 0)
+    if (t.getTags().size() == 0)
     {
       if (tag == Tag.SVWZ)
         return toString(t);
@@ -157,7 +156,7 @@ public class VerwendungszweckUtil
     // "EREF+1234 MREF+1234 SVWZ+"
     // Sprich: Das Tag ist zwar da, aber leer. Macht die "S-Bahn Berlin GmbH".
     // In dem Fall liefern wir ebenfalls den kompletten Text
-    String value = result.get(tag);
+    String value = t.getTags().get(tag);
     if (tag == Tag.SVWZ && StringUtils.trimToNull(value) == null)
       return toString(t);
     
@@ -316,7 +315,8 @@ public class VerwendungszweckUtil
     List<String> l = clean(true,lines);
     String zweck = l.size() > 0 ? l.remove(0) : null;
     String zweck2 = l.size() > 0 ? l.remove(0) : null;
-    return new Transfer(zweck, zweck2, l.toArray(new String[0]));
+    String[] weitereVerwendungszwecke = l.toArray(new String[0]);
+    return new Transfer(zweck, zweck2, weitereVerwendungszwecke, parse(toArray(zweck, zweck2, weitereVerwendungszwecke)));
   }
   
   /**
@@ -390,11 +390,19 @@ public class VerwendungszweckUtil
    */
   public static String[] toArray(Transfer t)
   {
+    return toArray(t.getZweck(), t.getZweck2(), t.getWeitereVerwendungszwecke());
+  }
+
+  /**
+   * Liefert eine bereinigte Liste der Verwendungszweck-Zeilen des Auftrages.
+   * @return bereinigte Liste der Verwendungszweck-Zeilen des Auftrages.
+   */
+  public static String[] toArray(String zweck, String zweck2, String[] weitereVerwendungsZwecke)
+  {
     List<String> lines = new ArrayList<>();
-    lines.add(t.getZweck());
-    lines.add(t.getZweck2());
-    String[] wvz = t.getWeitereVerwendungszwecke();
-    Collections.addAll(lines, wvz);
+    lines.add(zweck);
+    lines.add(zweck2);
+    Collections.addAll(lines, weitereVerwendungsZwecke);
 
     String[] list = lines.toArray(new String[0]);
     List<String> result = clean(false,list);

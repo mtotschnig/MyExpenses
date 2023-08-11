@@ -19,7 +19,12 @@ import org.totschnig.myexpenses.model2.Party
 const val HBCI_TRANSFER_NAME_MAXLENGTH = 70
 const val HBCI_TRANSFER_USAGE_DB_MAXLENGTH = 35
 
-data class Transfer(val zweck: String?, val zweck2: String?, val weitereVerwendungszwecke: Array<String>)
+data class Transfer(
+    val zweck: String?,
+    val zweck2: String?,
+    val weitereVerwendungszwecke: Array<String>,
+    val tags: Map<VerwendungszweckUtil.Tag, String>
+)
 
 fun UmsLine.toTransaction(accountId: Long, currencyUnit: CurrencyUnit, repository: Repository): Transaction {
 
@@ -32,11 +37,6 @@ fun UmsLine.toTransaction(accountId: Long, currencyUnit: CurrencyUnit, repositor
         if (lines.isEmpty()) lines = VerwendungszweckUtil.parse(additional)
         lines = VerwendungszweckUtil.rewrap(HBCI_TRANSFER_USAGE_DB_MAXLENGTH, *lines)
         val transfer = VerwendungszweckUtil.apply(lines)
-        it.comment = arrayOf(
-            transfer.zweck,
-            transfer.zweck2,
-            *transfer.weitereVerwendungszwecke
-        ).joinToString("\n")
         (VerwendungszweckUtil.getTag(transfer, VerwendungszweckUtil.Tag.ABWA)?.let {
             Party(name = it)
         } ?: other.takeIf { !(other.name.isNullOrBlank() && other.name2.isNullOrBlank()) }?.let {
@@ -44,12 +44,14 @@ fun UmsLine.toTransaction(accountId: Long, currencyUnit: CurrencyUnit, repositor
         })?.let { party ->
             it.payeeId = repository.requireParty(party)
         }
-        it.comment = VerwendungszweckUtil.getTag(transfer, VerwendungszweckUtil.Tag.SVWZ)
-            ?: arrayOf(
-                transfer.zweck,
-                transfer.zweck2,
-                *transfer.weitereVerwendungszwecke
-            ).joinToString("\n")
+        if (transfer != null) {
+            it.comment = VerwendungszweckUtil.getTag(transfer, VerwendungszweckUtil.Tag.SVWZ)
+                ?: arrayOf(
+                    transfer.zweck,
+                    transfer.zweck2,
+                    *transfer.weitereVerwendungszwecke
+                ).joinToString("\n")
+        }
 
         /*
         // Wir checken mal, ob wir eine EndToEnd-ID haben. Falls ja, tragen wir die gleich

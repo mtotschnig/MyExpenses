@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -8,6 +9,7 @@ import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -23,6 +25,7 @@ import org.kapott.hbci.passport.AbstractHBCIPassport
 import org.kapott.hbci.passport.HBCIPassport
 import org.kapott.hbci.status.HBCIExecStatus
 import org.kapott.hbci.structures.Konto
+import org.kapott.hbci.structures.Value
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.createBank
@@ -73,7 +76,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
         data class Error(val message: String) : WorkState()
 
-        data class AccountsLoaded(val bank : Bank, val accounts: List<Konto>) : WorkState()
+        data class AccountsLoaded(val bank: Bank, val accounts: List<Konto>) : WorkState()
 
         object Done : WorkState()
     }
@@ -119,38 +122,37 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             filterType = "Base64"
         }
 
+    @WorkerThread
     private fun doHBCI(
         bankingCredentials: BankingCredentials,
         work: (BankInfo, HBCIPassport, HBCIHandler) -> Unit
     ) {
-        viewModelScope.launch(context = coroutineContext()) {
 
-            val info = initHBCI(bankingCredentials) ?: return@launch
+        val info = initHBCI(bankingCredentials) ?: return
 
-            val passportFile = buildPassportFile(info, bankingCredentials.user)
+        val passportFile = buildPassportFile(info, bankingCredentials.user)
 
-            val passport = buildPassport(info, passportFile)
+        val passport = buildPassport(info, passportFile)
 
-            val handle = try {
-                HBCIHandler(HBCIVersion.HBCI_300.id, passport)
+        val handle = try {
+            HBCIHandler(HBCIVersion.HBCI_300.id, passport)
 
-            } catch (e: Exception) {
-                if (BuildConfig.DEBUG) {
-                    Timber.e(e)
-                }
-                passport.close()
-                passportFile.delete()
-                HBCIUtils.doneThread()
-                error(Utils.getCause(e).safeMessage)
-                return@launch
+        } catch (e: Exception) {
+            if (BuildConfig.DEBUG) {
+                Timber.e(e)
             }
-            try {
-                work(info, passport, handle)
-            } finally {
-                handle.close()
-                passport.close()
-                HBCIUtils.doneThread()
-            }
+            passport.close()
+            passportFile.delete()
+            HBCIUtils.doneThread()
+            error(Utils.getCause(e).safeMessage)
+            return
+        }
+        try {
+            work(info, passport, handle)
+        } finally {
+            handle.close()
+            passport.close()
+            HBCIUtils.doneThread()
         }
     }
 
@@ -161,63 +163,82 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             error("Bank has already been added")
             return
         }
-
-        doHBCI(bankingCredentials) { info, passport, _ ->
-            val bank = repository.createBank(Bank(blz= info.blz, bic = info.bic, bankName = info.name, userId = bankingCredentials.user))
-            val accounts = passport.accounts
-            if (accounts == null || accounts.isEmpty()) {
-                error("Keine Konten ermittelbar")
-            } else {
-                _workState.value = WorkState.AccountsLoaded(bank, accounts.asList())
+        viewModelScope.launch(context = coroutineContext()) {
+            doHBCI(bankingCredentials) { info, passport, _ ->
+                val bank = repository.createBank(
+                    Bank(
+                        blz = info.blz,
+                        bic = info.bic,
+                        bankName = info.name,
+                        userId = bankingCredentials.user
+                    )
+                )
+                val accounts = passport.accounts
+                if (accounts == null || accounts.isEmpty()) {
+                    error("Keine Konten ermittelbar")
+                } else {
+                    _workState.value = WorkState.AccountsLoaded(bank, accounts.asList())
+                }
             }
         }
     }
 
-    fun Konto.toAccount(bank: Bank) = Account(
+    fun Konto.toAccount(bank: Bank, openingBalance: Long) = Account(
         label = bank.bankName,
         iban = iban,
         currency = curr,
         type = AccountType.BANK,
-        bankId = bank.id
+        bankId = bank.id,
+        openingBalance = openingBalance
     )
 
     fun importAccounts(bankingCredentials: BankingCredentials, bank: Bank, accounts: List<Konto>) {
-        val k = accounts[0]
-        val dbAccount = repository.createAccount(k.toAccount(bank))
-        log("created account in db with id ${dbAccount.id}")
-        doHBCI(bankingCredentials) { _, _, handle ->
+        val eur = currencyContext.get("EUR")
+        viewModelScope.launch(context = coroutineContext()) {
+            accounts.forEach {
 
-            _workState.value = WorkState.Loading("Importing account ${k.iban}")
+                doHBCI(bankingCredentials) { _, _, handle ->
 
-            val umsatzJob: HBCIJob = handle.newJob("KUmsAll")
-            umsatzJob.setParam("my", k)
-            umsatzJob.setParam("startdate",
-                Date.from(LocalDate.now().minusDays(10).atStartOfDay(ZoneId.systemDefault()).toInstant())
-            )
+                    _workState.value = WorkState.Loading("Importing account ${it.iban}")
 
-            umsatzJob.addToQueue()
+                    val umsatzJob: HBCIJob = handle.newJob("KUmsAll")
+                    log("jobRestrictions : " + umsatzJob.jobRestrictions.toString())
+                    umsatzJob.setParam("my", it)
+                    umsatzJob.setParam(
+                        "startdate",
+                        Date.from(
+                            LocalDate.now().minusDays(10).atStartOfDay(ZoneId.systemDefault())
+                                .toInstant()
+                        )
+                    )
 
-            val status: HBCIExecStatus = handle.execute()
+                    umsatzJob.addToQueue()
 
-            if (!status.isOK) {
-                error(status.toString())
-                return@doHBCI
+                    val status: HBCIExecStatus = handle.execute()
+
+                    if (!status.isOK) {
+                        error(status.toString())
+                        return@doHBCI
+                    }
+
+                    val result = umsatzJob.jobResult as GVRKUms
+
+                    if (!result.isOK) {
+                        error(result.toString())
+                        return@doHBCI
+                    }
+
+                    val dbAccount = repository.createAccount(
+                        it.toAccount(bank, result.dataPerDay.first().start.value.longValue)
+                    )
+                    log("created account in db with id ${dbAccount.id}")
+                    for (umsLine in result.flatData) {
+                        log(umsLine.toString())
+                        umsLine.toTransaction(dbAccount.id, eur, repository).save()
+                    }
+                    _workState.value = WorkState.Done
+                }
             }
-
-            val result = umsatzJob.jobResult as GVRKUms
-
-            if (!result.isOK) {
-                error(result.toString())
-                return@doHBCI
-            }
-
-            val buchungen = result.flatData
-            for (buchung in buchungen) {
-                log(buchung.toString())
-                val eur = currencyContext.get("EUR")
-                buchung.toTransaction(dbAccount.id, eur, repository).save()
-            }
-            _workState.value = WorkState.Done
         }
     }
 
