@@ -795,6 +795,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       }
       case BANKS: {
+        projection = Companion.getBANK_PROJECTION();
         qb = SupportSQLiteQueryBuilder.builder(TABLE_BANKS);
         break;
       }
@@ -961,6 +962,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       notifyChange(UNCOMMITTED_URI, false);
     } else if (uriMatch == ACCOUNTS) {
       notifyAccountChange();
+      notifyChange(BANKS_URI, false);
     } else if (uriMatch == TEMPLATES) {
       notifyChange(TEMPLATES_UNCOMMITTED_URI, false);
     } else if (uriMatch == DEBTS) {
@@ -1087,6 +1089,10 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case DEBT_ID -> {
         count = db.delete(TABLE_DEBTS,
+                KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+      }
+      case BANK_ID -> {
+        count = db.delete(TABLE_BANKS,
                 KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
       }
       default -> throw unknownUri(uri);
@@ -1609,6 +1615,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "budgets/allocations/", BUDGET_ALLOCATIONS);
     URI_MATCHER.addURI(AUTHORITY, "budgets/" + URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS + "/*/*", ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS);
     URI_MATCHER.addURI(AUTHORITY, "banks", BANKS);
+    URI_MATCHER.addURI(AUTHORITY, "banks/#", BANK_ID);
   }
 
   /**

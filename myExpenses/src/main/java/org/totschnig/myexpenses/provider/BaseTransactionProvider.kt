@@ -207,6 +207,12 @@ abstract class BaseTransactionProvider : ContentProvider() {
             "exists (SELECT 1 FROM $TABLE_TEMPLATES WHERE $KEY_PAYEEID=$TABLE_PAYEES.$KEY_ROWID) AS $KEY_MAPPED_TEMPLATES",
             "(SELECT COUNT(*) FROM $TABLE_DEBTS WHERE $KEY_PAYEEID=$TABLE_PAYEES.$KEY_ROWID) AS $KEY_MAPPED_DEBTS"
         )
+
+        val BANK_PROJECTION = arrayOf(
+            KEY_ROWID, KEY_BLZ, KEY_BIC, KEY_BANK_NAME, KEY_USER_ID,
+            "(SELECT count(*) FROM $TABLE_ACCOUNTS WHERE $KEY_BANK_ID = $TABLE_BANKS.$KEY_ROWID) AS $KEY_COUNT"
+        )
+
         const val DEBT_PAYEE_JOIN =
             "$TABLE_DEBTS LEFT JOIN $TABLE_PAYEES ON ($KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID)"
 
@@ -292,6 +298,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val BUDGET_ALLOCATIONS = 65
         protected const val ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS = 66
         protected const val BANKS = 67
+        protected const val BANK_ID = 68
     }
 
     val homeCurrency: String

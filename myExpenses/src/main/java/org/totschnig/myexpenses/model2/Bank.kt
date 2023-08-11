@@ -5,5 +5,13 @@ data class Bank(
     val blz: String,
     val bic: String,
     val bankName: String,
-    val userId: String
-)
+    val userId: String,
+    /**
+     * holds the number of accounts linked to this bank
+     */
+    val count: Int = 0
+) {
+    override fun toString(): String {
+        return "$bankName ($userId)"
+    }
+}

@@ -37,6 +37,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -51,7 +52,11 @@ import androidx.compose.ui.window.DialogProperties
 import org.kapott.hbci.structures.Konto
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
+import org.totschnig.myexpenses.compose.HierarchicalMenu
+import org.totschnig.myexpenses.compose.Menu
+import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.rememberMutableStateMapOf
+import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.viewmodel.BankingViewModel
@@ -106,10 +111,10 @@ class Banking : ProtectedFragmentActivity() {
                             )
                         }
                     },
-                ) {
+                ) { paddingValues ->
                     Box(
                         modifier = Modifier
-                            .padding(it)
+                            .padding(paddingValues)
                             .fillMaxSize()
                     ) {
                         if (data.value.isEmpty()) {
@@ -121,7 +126,16 @@ class Banking : ProtectedFragmentActivity() {
                             LazyColumn(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_main_screen))) {
                                 data.value.forEach {
                                     item {
-                                        BankRow(it)
+                                        BankRow(
+                                            bank = it,
+                                            onDelete = {
+                                                if (it.count > 0) {
+                                                    confirmBankDelete(it)
+                                                } else {
+                                                    viewModel.deleteBank(it.id)
+                                                }
+                                            }
+                                        )
                                     }
                                 }
                             }
@@ -157,7 +171,8 @@ class Banking : ProtectedFragmentActivity() {
                             Button(
                                 onClick = {
                                     if (addBankState.value is BankingViewModel.WorkState.AccountsLoaded) {
-                                        val state = addBankState.value as BankingViewModel.WorkState.AccountsLoaded
+                                        val state =
+                                            addBankState.value as BankingViewModel.WorkState.AccountsLoaded
                                         viewModel.importAccounts(
                                             bankingCredentials,
                                             state.bank,
@@ -169,7 +184,7 @@ class Banking : ProtectedFragmentActivity() {
                                         viewModel.addBank(bankingCredentials)
                                     }
                                 },
-                                enabled = when(addBankState.value) {
+                                enabled = when (addBankState.value) {
                                     is BankingViewModel.WorkState.AccountsLoaded -> selectedAccounts.size > 0
                                     is BankingViewModel.WorkState.Loading -> false
                                     else -> bankingCredentials.isComplete
@@ -204,14 +219,16 @@ class Banking : ProtectedFragmentActivity() {
                                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                             value = bankingCredentials.bankLeitZahl,
                                             onValueChange = {
-                                                bankingCredentials = bankingCredentials.copy(bankLeitZahl = it)
+                                                bankingCredentials =
+                                                    bankingCredentials.copy(bankLeitZahl = it)
                                             },
                                             label = { Text(text = "Bankleitzahl") },
                                         )
                                         OutlinedTextField(
                                             value = bankingCredentials.user,
                                             onValueChange = {
-                                                bankingCredentials = bankingCredentials.copy(user = it)
+                                                bankingCredentials =
+                                                    bankingCredentials.copy(user = it)
                                             },
                                             label = { Text(text = "Anmeldename") },
                                         )
@@ -220,9 +237,11 @@ class Banking : ProtectedFragmentActivity() {
                                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                                             value = bankingCredentials.password ?: "",
                                             onValueChange = {
-                                                bankingCredentials = bankingCredentials.copy(password = it)
+                                                bankingCredentials =
+                                                    bankingCredentials.copy(password = it)
                                             },
-                                            label = { Text(text = "Passwort") },
+                                            label = { Text(text = "PIN") },
+                                            supportingText = { Text(text = "Der PIN wird nur beim erstmaligen Laden der Daten verwendet, und nicht auf dem Gerät gespeichert. Bei jeder weiteren Verbindung mit der Bank wird er erneut abgefragt.") }
                                         )
 
                                         if (addBankState.value is BankingViewModel.WorkState.Error) {
@@ -264,12 +283,43 @@ class Banking : ProtectedFragmentActivity() {
             }
         }
     }
+
+    override fun dispatchCommand(command: Int, tag: Any?) =
+        if (super.dispatchCommand(command, tag)) true else when (command) {
+            R.id.DELETE_BANK_COMMAND_DO -> {
+                viewModel.deleteBank(tag as Long)
+                true
+            }
+
+            else -> false
+        }
+
+    private fun confirmBankDelete(bank: Bank) {
+        MessageDialogFragment.newInstance(
+            "Delete bank?",
+            "${bank.count} accounts are linked to $bank. By deleting it, you will no longer be able to download data for them." + " " + getString(
+                R.string.continue_confirmation
+            ),
+            MessageDialogFragment.Button(
+                R.string.menu_delete,
+                R.id.DELETE_BANK_COMMAND_DO,
+                bank.id
+            ),
+            null,
+            MessageDialogFragment.noButton(), 0
+        )
+            .show(supportFragmentManager, "DELETE_ACCOUNT")
+    }
 }
 
 @Composable
-fun BankRow(bank: Bank) {
+fun BankRow(
+    bank: Bank,
+    onDelete: (Bank) -> Unit,
+) {
+    val showMenu = remember { mutableStateOf(false) }
     Row(
-        modifier = Modifier.clickable { },
+        modifier = Modifier.clickable { showMenu.value = true },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
@@ -280,6 +330,12 @@ fun BankRow(bank: Bank) {
             Text(bank.userId)
         }
     }
+    val menu = Menu(
+        buildList {
+            add(MenuEntry.delete("DELETE_BANK") { onDelete(bank) })
+        }
+    )
+    HierarchicalMenu(showMenu, menu)
 }
 
 @Composable
@@ -300,7 +356,10 @@ fun AccountRow(
 @Preview
 @Composable
 fun Loading(text: String = "Loading") {
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
         CircularProgressIndicator()
         Text("$text ...")
     }

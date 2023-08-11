@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.createBank
 import org.totschnig.myexpenses.db2.createAccount
+import org.totschnig.myexpenses.db2.deleteBank
 import org.totschnig.myexpenses.db2.loadBanks
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model2.Account
@@ -236,14 +237,18 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                         log(umsLine.toString())
                         umsLine.toTransaction(dbAccount.id, eur, repository).save()
                     }
-                    _workState.value = WorkState.Done
                 }
             }
+            _workState.value = WorkState.Done
         }
     }
 
     fun resetAddBankState() {
         _workState.value = WorkState.Initial
+    }
+
+    fun deleteBank(id: Long) {
+        repository.deleteBank(id)
     }
 
 
