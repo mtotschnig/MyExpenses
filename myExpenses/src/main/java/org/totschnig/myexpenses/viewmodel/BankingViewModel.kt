@@ -9,7 +9,6 @@ import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -25,7 +24,6 @@ import org.kapott.hbci.passport.AbstractHBCIPassport
 import org.kapott.hbci.passport.HBCIPassport
 import org.kapott.hbci.status.HBCIExecStatus
 import org.kapott.hbci.structures.Konto
-import org.kapott.hbci.structures.Value
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.createBank
@@ -194,7 +192,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
     )
 
     fun importAccounts(bankingCredentials: BankingCredentials, bank: Bank, accounts: List<Konto>) {
-        val eur = currencyContext.get("EUR")
+        val converter = HbciConverter(repository, currencyContext.get("EUR"))
         viewModelScope.launch(context = coroutineContext()) {
             accounts.forEach {
 
@@ -235,7 +233,9 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     log("created account in db with id ${dbAccount.id}")
                     for (umsLine in result.flatData) {
                         log(umsLine.toString())
-                        umsLine.toTransaction(dbAccount.id, eur, repository).save()
+                        with(converter) {
+                            umsLine.toTransaction(dbAccount.id).save()
+                        }
                     }
                 }
             }

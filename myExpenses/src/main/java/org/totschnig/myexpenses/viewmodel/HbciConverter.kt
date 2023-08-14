@@ -4,7 +4,10 @@ import org.apache.commons.lang3.StringUtils
 import org.kapott.hbci.GV_Result.GVRKUms.UmsLine
 import org.kapott.hbci.structures.Konto
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.requireParty
+import org.totschnig.myexpenses.db2.writePaymentMethod
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
@@ -18,6 +21,7 @@ import org.totschnig.myexpenses.model2.Party
 
 const val HBCI_TRANSFER_NAME_MAXLENGTH = 70
 const val HBCI_TRANSFER_USAGE_DB_MAXLENGTH = 35
+val TEXT_REPLACEMENTS_UMSATZ = arrayOf(arrayOf("\n", "\r"), arrayOf("", ""))
 
 data class Transfer(
     val zweck: String?,
@@ -26,34 +30,41 @@ data class Transfer(
     val tags: Map<VerwendungszweckUtil.Tag, String>
 )
 
-fun UmsLine.toTransaction(accountId: Long, currencyUnit: CurrencyUnit, repository: Repository): Transaction {
+class HbciConverter(val repository: Repository, val eur: CurrencyUnit) {
+    private val methodToId: MutableMap<String, Long> = HashMap()
 
-    return Transaction(accountId, Money(currencyUnit, value.longValue)).also {
-        it.crStatus = CrStatus.RECONCILED
-        it.setDate(bdate)
-        it.setValueDate(valuta)
-        // Verwendungszweck
-        var lines = usage.toTypedArray() as Array<String?>
-        if (lines.isEmpty()) lines = VerwendungszweckUtil.parse(additional)
-        lines = VerwendungszweckUtil.rewrap(HBCI_TRANSFER_USAGE_DB_MAXLENGTH, *lines)
-        val transfer = VerwendungszweckUtil.apply(lines)
-        (VerwendungszweckUtil.getTag(transfer, VerwendungszweckUtil.Tag.ABWA)?.let {
-            Party(name = it)
-        } ?: other.takeIf { !(other.name.isNullOrBlank() && other.name2.isNullOrBlank()) }?.let {
-            HBCIKonto2Party(other)
-        })?.let { party ->
-            it.payeeId = repository.requireParty(party)
-        }
-        if (transfer != null) {
-            it.comment = VerwendungszweckUtil.getTag(transfer, VerwendungszweckUtil.Tag.SVWZ)
-                ?: arrayOf(
-                    transfer.zweck,
-                    transfer.zweck2,
-                    *transfer.weitereVerwendungszwecke
-                ).joinToString("\n")
-        }
+    fun UmsLine.toTransaction(accountId: Long): Transaction {
 
-        /*
+        return Transaction(accountId, Money(eur, value.longValue)).also { transaction ->
+            transaction.crStatus = CrStatus.RECONCILED
+            transaction.setDate(bdate)
+            transaction.setValueDate(valuta)
+
+            var lines = usage.toTypedArray() as Array<String?>
+            if (lines.isEmpty()) lines = VerwendungszweckUtil.parse(additional)
+            lines = VerwendungszweckUtil.rewrap(HBCI_TRANSFER_USAGE_DB_MAXLENGTH, *lines)
+            val transfer = VerwendungszweckUtil.apply(lines)
+
+            (VerwendungszweckUtil.getTag(transfer, VerwendungszweckUtil.Tag.ABWA)?.let {
+                Party(name = it)
+            } ?: other.takeIf { !(other.name.isNullOrBlank() && other.name2.isNullOrBlank()) }
+                ?.let {
+                    HBCIKonto2Party(other)
+                })?.let { party ->
+                transaction.payeeId = repository.requireParty(party)
+            }
+
+            if (transfer != null) {
+                transaction.comment = VerwendungszweckUtil.getTag(transfer, VerwendungszweckUtil.Tag.SVWZ)
+                    ?: arrayOf(
+                        transfer.zweck,
+                        transfer.zweck2,
+                        *transfer.weitereVerwendungszwecke
+                    ).joinToString("\n")
+            }
+
+            transaction.methodId = clean(text)?.let { extractMethodId(it) }
+            /*
         // Wir checken mal, ob wir eine EndToEnd-ID haben. Falls ja, tragen wir die gleich
         // in das dedizierte Feld ein. Aber nur, wenn wir noch keine haben
         var eref: String = umsatz.getEndToEndId()
@@ -68,7 +79,7 @@ fun UmsLine.toTransaction(accountId: Long, currencyUnit: CurrencyUnit, repositor
         }
 */
 
-        /*        // Wir checken mal, ob wir eine Mandatsreferenz haben. Falls ja, tragen wir die gleich
+            /*        // Wir checken mal, ob wir eine Mandatsreferenz haben. Falls ja, tragen wir die gleich
         // in das dedizierte Feld ein. Aber nur, wenn wir noch keine haben
         var mid: String = umsatz.getMandateId()
         if (mid == null || mid.length == 0) {
@@ -80,9 +91,9 @@ fun UmsLine.toTransaction(accountId: Long, currencyUnit: CurrencyUnit, repositor
             )
             if (mid != null && mid.length > 0 && mid.length <= 100) umsatz.setMandateId(mid)
         }*/
-    }
+        }
 
-/*    umsatz.setArt(de.willuhn.jameica.hbci.server.Converter.clean(u.text))
+        /*    umsatz.setArt(de.willuhn.jameica.hbci.server.Converter.clean(u.text))
     umsatz.setCustomerRef(de.willuhn.jameica.hbci.server.Converter.clean(u.customerref))
     umsatz.setPrimanota(de.willuhn.jameica.hbci.server.Converter.clean(u.primanota))
     umsatz.setTransactionId(u.id)
@@ -90,7 +101,7 @@ fun UmsLine.toTransaction(accountId: Long, currencyUnit: CurrencyUnit, repositor
     umsatz.setEndToEndId(u.endToEndId)
     umsatz.setMandateId(u.mandateId)*/
 
-/*    //BUGZILLA 67 http://www.willuhn.de/bugzilla/show_bug.cgi?id=67
+        /*    //BUGZILLA 67 http://www.willuhn.de/bugzilla/show_bug.cgi?id=67
     val s = u.saldo
     if (s != null) {
         val v = s.value
@@ -103,7 +114,7 @@ fun UmsLine.toTransaction(accountId: Long, currencyUnit: CurrencyUnit, repositor
         }
     }*/
 
-/*    // Wir uebernehmen den GV-Code nur, wenn was sinnvolles drin steht.
+        /*    // Wir uebernehmen den GV-Code nur, wenn was sinnvolles drin steht.
     // "999" steht hierbei fuer unstrukturiert aka unbekannt.
     //
     if (u.gvcode != null && u.gvcode != "999" && u.gvcode.length <= HBCIProperties.HBCI_GVCODE_MAXLENGTH) umsatz.setGvCode(
@@ -210,19 +221,33 @@ fun UmsLine.toTransaction(accountId: Long, currencyUnit: CurrencyUnit, repositor
             }
         }
     }*/
-}
+    }
 
-fun HBCIKonto2Party(konto: Konto): Party {
+    private fun clean(s: String) = replace(s, TEXT_REPLACEMENTS_UMSATZ)
 
-    var name: String = StringUtils.trimToEmpty(konto.name)
-    val name2: String = StringUtils.trimToEmpty(konto.name2)
-    if (name2.isNotEmpty()) name += " $name2"
-    if (name.length > HBCI_TRANSFER_NAME_MAXLENGTH) name =
-        StringUtils.trimToEmpty(
-            name.substring(
-                0,
-                HBCI_TRANSFER_NAME_MAXLENGTH
+    fun replace(text: String?, replacements: Array<Array<String>>) =
+        if (text.isNullOrEmpty()) text else
+            StringUtils.replaceEach(text, replacements[0], replacements[1])
+
+
+    fun HBCIKonto2Party(konto: Konto): Party {
+
+        var name: String = StringUtils.trimToEmpty(konto.name)
+        val name2: String = StringUtils.trimToEmpty(konto.name2)
+        if (name2.isNotEmpty()) name += " $name2"
+        if (name.length > HBCI_TRANSFER_NAME_MAXLENGTH) name =
+            StringUtils.trimToEmpty(
+                name.substring(
+                    0,
+                    HBCI_TRANSFER_NAME_MAXLENGTH
+                )
             )
-        )
-    return Party.create(name, konto.iban, konto.bic)
+        return Party.create(name, konto.iban, konto.bic)
+    }
+
+    private fun extractMethodId(methodLabel: String): Long =
+        methodToId[methodLabel] ?: (repository.findPaymentMethod(methodLabel).takeIf { it != -1L }
+            ?: repository.writePaymentMethod(methodLabel, AccountType.BANK)).also {
+            methodToId[methodLabel] = it
+        }
 }
