@@ -284,7 +284,7 @@ dependencies {
 
     implementation 'androidx.work:work-runtime-ktx:2.8.1'
 
-    implementation fileTree(dir: "libs", include: ["hbci4j-core-4.0.1-SNAPSHOT.jar"])
+    implementation 'com.github.hbci4j:hbci4java:0f7626d0ce'
     implementation 'xerces:xercesImpl:2.12.0'
 
     androidTestImplementation composeBom
