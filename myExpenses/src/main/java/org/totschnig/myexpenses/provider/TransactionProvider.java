@@ -76,6 +76,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTTYES_METHODS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_EXCHANGE_RATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BANKS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGET_ALLOCATIONS;
@@ -262,6 +263,10 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final Uri DEBTS_URI = Uri.parse("content://" + AUTHORITY + "/debts");
 
   public static final Uri BANKS_URI = Uri.parse("content://" + AUTHORITY + "/banks");
+
+  public static final Uri TRANSACTIONS_ATTRIBUTES_URI = Uri.parse("content://" + AUTHORITY + "/transactions/attributes");
+
+  public static final Uri ATTRIBUTES_URI = Uri.parse("content://" + AUTHORITY + "/attributes");
 
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
@@ -951,6 +956,15 @@ public class TransactionProvider extends BaseTransactionProvider {
         id = MoreDbUtilsKt.insert(db, TABLE_BANKS, values);
         newUri = DEBTS_URI + "/" + id;
       }
+      case ATTRIBUTES -> {
+        db.insert(TABLE_ATTRIBUTES, CONFLICT_IGNORE, values);
+        return ATTRIBUTES_URI;
+      }
+      case TRANSACTION_ATTRIBUTES ->  {
+        insertTransactionAttribute(db, values);
+        return TRANSACTIONS_ATTRIBUTES_URI;
+
+      }
       default -> throw unknownUri(uri);
     }
     notifyChange(uri, uriMatch == TRANSACTIONS && callerIsNotSyncAdapter(uri));
@@ -1616,6 +1630,8 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "budgets/" + URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS + "/*/*", ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS);
     URI_MATCHER.addURI(AUTHORITY, "banks", BANKS);
     URI_MATCHER.addURI(AUTHORITY, "banks/#", BANK_ID);
+    URI_MATCHER.addURI(AUTHORITY, "attributes", ATTRIBUTES);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/attributes", TRANSACTION_ATTRIBUTES);
   }
 
   /**

@@ -71,6 +71,7 @@ class Banking : ProtectedFragmentActivity() {
 
         super.onCreate(savedInstanceState)
         injector.inject(viewModel)
+        viewModel.initAttributes()
         setContent {
             AppTheme {
 

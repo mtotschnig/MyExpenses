@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.content.ContentUris
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -26,10 +27,13 @@ import org.kapott.hbci.status.HBCIExecStatus
 import org.kapott.hbci.structures.Konto
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.db2.createBank
+import org.totschnig.myexpenses.db2.Attribute
+import org.totschnig.myexpenses.db2.configureAttributes
 import org.totschnig.myexpenses.db2.createAccount
+import org.totschnig.myexpenses.db2.createBank
 import org.totschnig.myexpenses.db2.deleteBank
 import org.totschnig.myexpenses.db2.loadBanks
+import org.totschnig.myexpenses.db2.saveAttributes
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.model2.Bank
@@ -42,6 +46,20 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date
 import java.util.Properties
+
+/**
+ * see [VerwendungszweckUtil.Tag]
+ */
+enum class FinTsAttribute: Attribute {
+    EREF,
+    KREF,
+    MREF,
+    CRED,
+    DBET,
+    SALDO;
+
+    override val context: String = "FinTS"
+}
 
 class BankingViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
@@ -91,6 +109,12 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
     private fun error(msg: String) {
         _workState.value = WorkState.Error(msg)
+    }
+
+    fun initAttributes() {
+        viewModelScope.launch(context = coroutineContext()) {
+            repository.configureAttributes(FinTsAttribute.values().asList())
+        }
     }
 
     private fun initHBCI(bankingCredentials: BankingCredentials): BankInfo? {
@@ -206,7 +230,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     umsatzJob.setParam(
                         "startdate",
                         Date.from(
-                            LocalDate.now().minusDays(10).atStartOfDay(ZoneId.systemDefault())
+                            LocalDate.now().minusDays(15).atStartOfDay(ZoneId.systemDefault())
                                 .toInstant()
                         )
                     )
@@ -234,7 +258,9 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     for (umsLine in result.flatData) {
                         log(umsLine.toString())
                         with(converter) {
-                            umsLine.toTransaction(dbAccount.id).save()
+                            val (transaction, attributes: Map<out Attribute, String>) = umsLine.toTransaction(dbAccount.id)
+                            val id = ContentUris.parseId(transaction.save()!!)
+                            repository.saveAttributes(id, attributes)
                         }
                     }
                 }

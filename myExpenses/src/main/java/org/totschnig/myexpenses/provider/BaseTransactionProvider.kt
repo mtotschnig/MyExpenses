@@ -227,6 +227,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
         const val DEBT_LABEL_EXPRESSION =
             "(SELECT $KEY_LABEL FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID) AS $KEY_DEBT_LABEL"
+
         const val TAG = "TransactionProvider"
 
         fun defaultBudgetAllocationUri(accountId: Long, grouping: Grouping): Uri =
@@ -299,6 +300,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS = 66
         protected const val BANKS = 67
         protected const val BANK_ID = 68
+        protected const val ATTRIBUTES = 69
+        protected const val TRANSACTION_ATTRIBUTES = 70
     }
 
     val homeCurrency: String
@@ -1024,5 +1027,16 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     .create()
                     .sql
         return db.measureAndLogQuery(uri, sql, selection, finalArgs)
+    }
+
+    fun insertTransactionAttribute(db: SupportSQLiteDatabase, values: ContentValues) {
+        db.execSQL("INSERT or REPLACE INTO $TABLE_TRANSACTION_ATTRIBUTES SELECT DISTINCT ?, _id, ? from $TABLE_ATTRIBUTES where $KEY_ATTRIBUTE_NAME = ? AND $KEY_CONTEXT = ?;",
+            arrayOf(
+                values.getAsLong(KEY_TRANSACTIONID),
+                values.getAsString(KEY_VALUE),
+                values.getAsString(KEY_ATTRIBUTE_NAME),
+                values.getAsString(KEY_CONTEXT)
+            )
+        )
     }
 }

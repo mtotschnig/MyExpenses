@@ -21,8 +21,10 @@ import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_EXP
 import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_INCOME;
 import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_NEUTRAL;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.BANK_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_CREATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTION_ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.TAG_LIST_EXPRESSION;
@@ -740,6 +742,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(STALE_URI_TRIGGER_CREATE);
     db.execSQL(CHANGES_CREATE);
     db.execSQL(BANK_CREATE);
+    db.execSQL(ATTRIBUTES_CREATE);
+    db.execSQL(TRANSACTION_ATTRIBUTES_CREATE);
 
     //Index
     db.execSQL("CREATE INDEX transactions_cat_id_index on " + TABLE_TRANSACTIONS + "(" + KEY_CATID + ")");

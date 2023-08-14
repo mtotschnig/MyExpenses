@@ -371,6 +371,12 @@ public class DatabaseConstants {
 
   public static final String KEY_IBAN = "iban";
 
+  public static final String KEY_ATTRIBUTE_NAME = "attribute_name";
+
+  public static final String KEY_CONTEXT = "context";
+
+  public static final String KEY_ATTRIBUTE_ID = "attribute_id";
+
   /**
    * No special status
    */
@@ -430,6 +436,10 @@ public class DatabaseConstants {
   public static final String TABLE_DEBTS = "debts";
 
   public static final String TABLE_BANKS = "banks";
+
+  public static final String TABLE_ATTRIBUTES = "attributes";
+
+  public static final String TABLE_TRANSACTION_ATTRIBUTES = "transaction_attributes";
 
   public static final String CAT_AS_LABEL = DbConstantsKt.fullCatCase(null) + " AS " + KEY_LABEL;
 

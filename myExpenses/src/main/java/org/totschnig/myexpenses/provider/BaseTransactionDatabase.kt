@@ -11,10 +11,13 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BIC
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BLZ
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CONTEXT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
@@ -26,15 +29,19 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USER_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BANKS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTRIBUTES
 import timber.log.Timber
 
 const val DATABASE_VERSION = 144
@@ -110,6 +117,24 @@ CREATE TABLE $TABLE_BANKS ($KEY_ROWID integer primary key autoincrement, $KEY_BL
 
 const val PAYEE_CREATE = """
 CREATE TABLE $TABLE_PAYEES ($KEY_ROWID integer primary key autoincrement, $KEY_PAYEE_NAME text not null, $KEY_IBAN text, $KEY_BIC text, $KEY_PAYEE_NAME_NORMALIZED text, unique($KEY_PAYEE_NAME, $KEY_IBAN));
+"""
+
+const val ATTRIBUTES_CREATE = """
+CREATE TABLE $TABLE_ATTRIBUTES (
+    $KEY_ROWID integer primary key autoincrement,
+    $KEY_ATTRIBUTE_NAME text not null,
+    $KEY_CONTEXT text not null,
+    unique ($KEY_ATTRIBUTE_NAME, $KEY_CONTEXT)
+);
+"""
+
+const val TRANSACTION_ATTRIBUTES_CREATE = """
+CREATE TABLE $TABLE_TRANSACTION_ATTRIBUTES (
+    $KEY_TRANSACTIONID integer references $TABLE_TRANSACTIONS($KEY_ROWID) ON DELETE CASCADE,
+    $KEY_ATTRIBUTE_ID integer references $TABLE_ATTRIBUTES($KEY_ROWID) ON DELETE CASCADE,
+    $KEY_VALUE text not null,
+    primary key ($KEY_TRANSACTIONID, $KEY_ATTRIBUTE_ID)
+);
 """
 
 
