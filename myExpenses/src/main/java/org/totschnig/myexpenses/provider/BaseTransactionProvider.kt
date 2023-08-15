@@ -216,6 +216,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
         const val DEBT_PAYEE_JOIN =
             "$TABLE_DEBTS LEFT JOIN $TABLE_PAYEES ON ($KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID)"
 
+        const val TRANSACTION_ATTRIBUTES_JOIN =
+        "$TABLE_TRANSACTION_ATTRIBUTES LEFT JOIN $TABLE_ATTRIBUTES ON ($KEY_ATTRIBUTE_ID = $TABLE_ATTRIBUTES.$KEY_ROWID)"
+
         fun shortenComment(projectionIn: Array<String>): Array<String> = projectionIn.map {
             if (it == KEY_COMMENT)
                 "case when instr($KEY_COMMENT, X'0A') > 0 THEN substr($KEY_COMMENT, 1, instr($KEY_COMMENT, X'0A')-1) else $KEY_COMMENT end AS $KEY_COMMENT"

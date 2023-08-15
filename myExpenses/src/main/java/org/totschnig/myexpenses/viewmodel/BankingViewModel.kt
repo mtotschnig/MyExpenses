@@ -58,7 +58,14 @@ enum class FinTsAttribute: Attribute {
     DBET,
     SALDO;
 
-    override val context: String = "FinTS"
+    companion object {
+        const val CONTEXT = "FinTS"
+    }
+
+    override val context: String
+        get() = CONTEXT
+
+
 }
 
 class BankingViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {

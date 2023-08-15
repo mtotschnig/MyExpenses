@@ -96,6 +96,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATE
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTRIBUTES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
@@ -802,6 +803,10 @@ public class TransactionProvider extends BaseTransactionProvider {
       case BANKS: {
         projection = Companion.getBANK_PROJECTION();
         qb = SupportSQLiteQueryBuilder.builder(TABLE_BANKS);
+        break;
+      }
+      case TRANSACTION_ATTRIBUTES: {
+        qb = SupportSQLiteQueryBuilder.builder(TRANSACTION_ATTRIBUTES_JOIN);
         break;
       }
       default:

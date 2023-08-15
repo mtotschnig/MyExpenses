@@ -238,8 +238,5 @@
                 android:layout_height="match_parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
         </LinearLayout>
-
-
-
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

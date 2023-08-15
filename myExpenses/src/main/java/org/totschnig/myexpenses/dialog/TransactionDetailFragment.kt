@@ -21,11 +21,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.totschnig.myexpenses.R
@@ -33,6 +31,9 @@ import org.totschnig.myexpenses.activity.EDIT_REQUEST
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ImageViewIntentProvider
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
+import org.totschnig.myexpenses.databinding.AttributeBinding
+import org.totschnig.myexpenses.databinding.AttributeGroupHeaderBinding
+import org.totschnig.myexpenses.databinding.AttributeGroupTableBinding
 import org.totschnig.myexpenses.databinding.TransactionDetailBinding
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountType
@@ -82,6 +83,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
         val builder = initBuilder {
             TransactionDetailBinding.inflate(it)
         }
+
         viewModel = ViewModelProvider(this)[TransactionDetailViewModel::class.java]
         requireActivity().injector.inject(viewModel)
         val rowId = requireArguments().getLong(DatabaseConstants.KEY_ROWID)
@@ -93,6 +95,29 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                 binding.TagRow.visibility = View.GONE
             }
         }
+
+        viewModel.attributes(rowId).observe(this) { groups ->
+            groups.forEach { entry ->
+                binding.OneExpense.addView(
+                    AttributeGroupHeaderBinding.inflate(layoutInflater).root.also {
+                        it.text = entry.key
+                    }, binding.OneExpense.childCount - 1
+                )
+                val attributeTable = AttributeGroupTableBinding.inflate(layoutInflater).root.also {
+                    binding.OneExpense.addView(it, binding.OneExpense.childCount - 1 )
+                }
+                entry.value.forEach {
+                    attributeTable.addView(
+                        with(AttributeBinding.inflate(layoutInflater)) {
+                            Name.text = it.first.name
+                            Value.text = it.second
+                            root
+                        }
+                    )
+                }
+            }
+        }
+
         val alertDialog =
             builder.setTitle(R.string.loading) //.setIcon(android.R.color.transparent)
                 .setNegativeButton(android.R.string.ok, this)
