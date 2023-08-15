@@ -11,12 +11,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Checklist
+import androidx.compose.material.icons.filled.Link
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
@@ -43,6 +49,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -60,6 +67,7 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.viewmodel.BankingViewModel
 import org.totschnig.myexpenses.viewmodel.data.BankingCredentials
+import org.totschnig.myexpenses.viewmodel.dbNumber
 
 class Banking : ProtectedFragmentActivity() {
 
@@ -75,7 +83,7 @@ class Banking : ProtectedFragmentActivity() {
             AppTheme {
 
                 val data = viewModel.banks.collectAsState()
-                var dialogShown by rememberSaveable { mutableStateOf(false) }
+                var dialogShown: BankingCredentials? by rememberSaveable { mutableStateOf(null) }
                 val tanRequested = viewModel.tanRequested.observeAsState()
                 val workState = viewModel.workState.collectAsState()
                 val errorState = viewModel.errorState.collectAsState()
@@ -98,7 +106,7 @@ class Banking : ProtectedFragmentActivity() {
                     floatingActionButton = {
                         FloatingActionButton(
                             onClick = {
-                                dialogShown = true
+                                dialogShown = BankingCredentials.EMPTY
                             }
                         ) {
                             Icon(
@@ -130,6 +138,13 @@ class Banking : ProtectedFragmentActivity() {
                                                 } else {
                                                     viewModel.deleteBank(it.id)
                                                 }
+                                            },
+                                            onShow = {
+                                                dialogShown = BankingCredentials(
+                                                    bankLeitZahl = it.blz,
+                                                    user = it.userId,
+                                                    bank = it.id to it.bankName
+                                                )
                                             }
                                         )
                                     }
@@ -138,8 +153,7 @@ class Banking : ProtectedFragmentActivity() {
                         }
                     }
                 }
-                if (dialogShown) {
-                    var bankingCredentials by rememberSaveable { mutableStateOf(BankingCredentials.EMPTY) }
+                dialogShown?.let { bankingCredentials ->
                     val selectedAccounts = rememberMutableStateMapOf<Int, Boolean>()
                     AlertDialog(
                         //https://issuetracker.google.com/issues/221643630
@@ -148,8 +162,8 @@ class Banking : ProtectedFragmentActivity() {
                             usePlatformDefaultWidth = false
                         ),
                         onDismissRequest = {
-                            dialogShown = false
-                            viewModel.resetAddBankState()
+                            dialogShown = null
+                            viewModel.reset()
                         },
                         icon = {
                             Icon(
@@ -157,11 +171,20 @@ class Banking : ProtectedFragmentActivity() {
                                 contentDescription = null
                             )
                         },
-                        title = {
-                            Text(
-                                text = if (workState.value is BankingViewModel.WorkState.AccountsLoaded) "Select accounts" else "Add new bank",
-                                style = MaterialTheme.typography.titleMedium
-                            )
+                        title = when (workState.value) {
+                            is BankingViewModel.WorkState.Done, is BankingViewModel.WorkState.Loading -> null
+                            else -> {
+                                {
+                                    Text(
+                                        text = when (workState.value) {
+                                            is BankingViewModel.WorkState.AccountsLoaded -> "Select accounts"
+                                            BankingViewModel.WorkState.Initial -> if (bankingCredentials.isNew) "Add new bank" else "Enter PIN"
+                                            else -> ""
+                                        },
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
+                                }
+                            }
                         },
                         confirmButton = {
                             Button(
@@ -175,20 +198,22 @@ class Banking : ProtectedFragmentActivity() {
                                                 state.bank,
                                                 state.accounts.filterIndexed { index, _ ->
                                                     selectedAccounts[index] == true
-                                                }
+                                                }.map { it.first }
                                             )
                                         }
+
                                         is BankingViewModel.WorkState.Done -> {
                                             viewModel.reset()
-                                            dialogShown = false
+                                            dialogShown = null
                                         }
+
                                         else -> {
                                             viewModel.addBank(bankingCredentials)
                                         }
                                     }
                                 },
                                 enabled = when (workState.value) {
-                                    is BankingViewModel.WorkState.AccountsLoaded -> selectedAccounts.size > 0
+                                    is BankingViewModel.WorkState.AccountsLoaded -> selectedAccounts.any { it.value }
                                     is BankingViewModel.WorkState.Loading -> false
                                     else -> bankingCredentials.isComplete
                                 }
@@ -196,7 +221,7 @@ class Banking : ProtectedFragmentActivity() {
                                 Text(
                                     when (workState.value) {
                                         is BankingViewModel.WorkState.AccountsLoaded -> "Import"
-                                        is BankingViewModel.WorkState.Done  -> "Close"
+                                        is BankingViewModel.WorkState.Done -> "Close"
                                         else -> "Load accounts"
                                     }
                                 )
@@ -206,8 +231,8 @@ class Banking : ProtectedFragmentActivity() {
                             {
                                 Button(
                                     onClick = {
-                                        dialogShown = false
-                                        viewModel.resetAddBankState()
+                                        dialogShown = null
+                                        viewModel.reset()
 
                                     }) {
                                     Text(stringResource(id = android.R.string.cancel))
@@ -215,7 +240,7 @@ class Banking : ProtectedFragmentActivity() {
                             }
                         },
                         text = {
-                            Column {
+                            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                                 when (workState.value) {
                                     is BankingViewModel.WorkState.Loading -> {
                                         Loading((workState.value as BankingViewModel.WorkState.Loading).message)
@@ -223,7 +248,10 @@ class Banking : ProtectedFragmentActivity() {
 
                                     is BankingViewModel.WorkState.AccountsLoaded -> {
                                         (workState.value as BankingViewModel.WorkState.AccountsLoaded).accounts.forEachIndexed { index, account ->
-                                            AccountRow(account, selectedAccounts[index] == true) {
+                                            AccountRow(
+                                                account.first,
+                                                if (account.second) null else selectedAccounts[index] == true
+                                            ) {
                                                 selectedAccounts[index] = it
                                             }
                                         }
@@ -231,32 +259,44 @@ class Banking : ProtectedFragmentActivity() {
 
                                     is BankingViewModel.WorkState.Initial -> {
                                         OutlinedTextField(
-                                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                            enabled = bankingCredentials.isNew,
+                                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Next),
                                             value = bankingCredentials.bankLeitZahl,
                                             onValueChange = {
-                                                bankingCredentials =
+                                                dialogShown =
                                                     bankingCredentials.copy(bankLeitZahl = it)
                                             },
                                             label = { Text(text = "Bankleitzahl") },
+                                            singleLine = true
                                         )
                                         OutlinedTextField(
+                                            enabled = bankingCredentials.isNew,
+                                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                                             value = bankingCredentials.user,
                                             onValueChange = {
-                                                bankingCredentials =
-                                                    bankingCredentials.copy(user = it)
+                                                dialogShown = bankingCredentials.copy(user = it)
                                             },
                                             label = { Text(text = "Anmeldename") },
+                                            singleLine = true
                                         )
                                         OutlinedTextField(
                                             visualTransformation = PasswordVisualTransformation(),
-                                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                                            keyboardOptions = KeyboardOptions(
+                                                keyboardType = KeyboardType.Password,
+                                                imeAction = ImeAction.Done
+                                            ),
+                                            keyboardActions = if (bankingCredentials.isComplete) KeyboardActions(
+                                                onDone = {
+                                                    viewModel.addBank(bankingCredentials)
+                                                }
+                                            ) else KeyboardActions.Default,
                                             value = bankingCredentials.password ?: "",
                                             onValueChange = {
-                                                bankingCredentials =
-                                                    bankingCredentials.copy(password = it)
+                                                dialogShown = bankingCredentials.copy(password = it)
                                             },
                                             label = { Text(text = "PIN") },
-                                            supportingText = { Text(text = "Der PIN wird nur beim erstmaligen Laden der Daten verwendet, und nicht auf dem Gerät gespeichert. Bei jeder weiteren Verbindung mit der Bank wird er erneut abgefragt.") }
+                                            singleLine = true,
+                                            supportingText = { Text(text = "Der PIN wird nicht auf dem Gerät gespeichert und bei jeder weiteren Verbindung mit der Bank erneut abgefragt.") }
                                         )
                                     }
 
@@ -334,6 +374,7 @@ class Banking : ProtectedFragmentActivity() {
 fun BankRow(
     bank: Bank,
     onDelete: (Bank) -> Unit,
+    onShow: (Bank) -> Unit
 ) {
     val showMenu = remember { mutableStateOf(false) }
     Row(
@@ -351,6 +392,7 @@ fun BankRow(
     val menu = Menu(
         buildList {
             add(MenuEntry.delete("DELETE_BANK") { onDelete(bank) })
+            add(MenuEntry(command = "LIST_ACCOUNTS", label = R.string.accounts, icon = Icons.Filled.Checklist) { onShow(bank) })
         }
     )
     HierarchicalMenu(showMenu, menu)
@@ -359,14 +401,22 @@ fun BankRow(
 @Composable
 fun AccountRow(
     account: Konto,
-    selected: Boolean,
+    selected: Boolean?,
     onSelectionChange: (Boolean) -> Unit
 ) {
     Row {
-        Checkbox(checked = selected, onCheckedChange = onSelectionChange)
+        if (selected == null) {
+            Icon(
+                modifier = Modifier.width(48.dp),
+                imageVector = Icons.Filled.Link,
+                contentDescription = "Account is already imported"
+            )
+        } else {
+            Checkbox(checked = selected, onCheckedChange = onSelectionChange)
+        }
         Column {
-            Text(account.name + (account.name2?.let { " $it" } ?: ""))
-            Text(account.iban)
+            Text("${account.type} ${account.name}${account.name2?.let { " $it" } ?: ""}")
+            Text(account.dbNumber)
         }
     }
 }

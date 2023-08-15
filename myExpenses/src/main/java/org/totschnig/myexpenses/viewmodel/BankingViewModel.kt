@@ -32,10 +32,9 @@ import org.totschnig.myexpenses.db2.configureAttributes
 import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.db2.createBank
 import org.totschnig.myexpenses.db2.deleteBank
+import org.totschnig.myexpenses.db2.importedAccounts
 import org.totschnig.myexpenses.db2.loadBanks
 import org.totschnig.myexpenses.db2.saveAttributes
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.safeMessage
@@ -50,7 +49,7 @@ import java.util.Properties
 /**
  * see [VerwendungszweckUtil.Tag]
  */
-enum class FinTsAttribute: Attribute {
+enum class FinTsAttribute : Attribute {
     EREF,
     KREF,
     MREF,
@@ -102,7 +101,16 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         object Initial : WorkState()
         data class Loading(val message: String) : WorkState()
 
-        data class AccountsLoaded(val bank: Bank, val accounts: List<Konto>) : WorkState()
+        data class AccountsLoaded(
+            /*
+                rowId in Database to bank name
+             */
+            val bank: Pair<Long, String>,
+            /*
+                Konto to Boolean that indicates if the account has already been imported
+             */
+            val accounts: List<Pair<Konto, Boolean>>
+        ) : WorkState()
 
         data class Done(val message: String) : WorkState()
     }
@@ -188,44 +196,56 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         }
     }
 
+    fun listAccounts(bank: Bank) {
+        clearError()
+        _workState.value = WorkState.Loading("Loading information")
+
+    }
+
     fun addBank(bankingCredentials: BankingCredentials) {
         clearError()
         _workState.value = WorkState.Loading("Loading information")
 
-        if (banks.value.any { it.blz == bankingCredentials.blz && it.userId == bankingCredentials.user }) {
+        if (bankingCredentials.isNew && banks.value.any { it.blz == bankingCredentials.blz && it.userId == bankingCredentials.user }) {
+            _workState.value = WorkState.Initial
             error("Bank has already been added")
             return
         }
         viewModelScope.launch(context = coroutineContext()) {
             doHBCI(bankingCredentials) { info, passport, _ ->
-                val bank = repository.createBank(
-                    Bank(
-                        blz = info.blz,
-                        bic = info.bic,
-                        bankName = info.name,
-                        userId = bankingCredentials.user
-                    )
-                )
+                val bank = if (bankingCredentials.isNew) {
+                    with(
+                        repository.createBank(
+                            Bank(
+                                blz = info.blz,
+                                bic = info.bic,
+                                bankName = info.name,
+                                userId = bankingCredentials.user
+                            )
+                        )
+                    ) { id to bankName }
+                } else bankingCredentials.bank!!
+
+                val importedAccounts = bankingCredentials.bank?.let {
+                    repository.importedAccounts(it.first)
+                }
+
                 val accounts = passport.accounts
-                if (accounts == null || accounts.isEmpty()) {
+                    ?.map { it to (importedAccounts?.contains(it.dbNumber) == true) }
+                if (accounts.isNullOrEmpty()) {
                     error("Keine Konten ermittelbar")
                 } else {
-                    _workState.value = WorkState.AccountsLoaded(bank, accounts.asList())
+                    _workState.value = WorkState.AccountsLoaded(bank, accounts)
                 }
             }
         }
     }
 
-    fun Konto.toAccount(bank: Bank, openingBalance: Long) = Account(
-        label = bank.bankName,
-        iban = iban,
-        currency = curr,
-        type = AccountType.BANK,
-        bankId = bank.id,
-        openingBalance = openingBalance
-    )
-
-    fun importAccounts(bankingCredentials: BankingCredentials, bank: Bank, accounts: List<Konto>) {
+    fun importAccounts(
+        bankingCredentials: BankingCredentials,
+        bank: Pair<Long, String>,
+        accounts: List<Konto>
+    ) {
         clearError()
         val converter = HbciConverter(repository, currencyContext.get("EUR"))
         var successCount = 0
@@ -270,7 +290,9 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     for (umsLine in result.flatData) {
                         log(umsLine.toString())
                         with(converter) {
-                            val (transaction, attributes: Map<out Attribute, String>) = umsLine.toTransaction(dbAccount.id)
+                            val (transaction, attributes: Map<out Attribute, String>) = umsLine.toTransaction(
+                                dbAccount.id
+                            )
                             val id = ContentUris.parseId(transaction.save()!!)
                             repository.saveAttributes(id, attributes)
                         }
@@ -282,10 +304,6 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         }
     }
 
-    fun resetAddBankState() {
-        _workState.value = WorkState.Initial
-    }
-
     fun deleteBank(id: Long) {
         repository.deleteBank(id)
     }
@@ -295,7 +313,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         clearError()
     }
 
-    fun clearError() {
+    private fun clearError() {
         _errorState.value = null
     }
 

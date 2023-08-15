@@ -33,7 +33,7 @@ data class Account(
     val exchangeRate: Double = 1.0,
     override val grouping: Grouping = Grouping.NONE,
     val bankId: Long? = null,
-    val iban: String? = null
+    val accountNumber: String? = null
 ): DataBaseAccount(), Serializable {
 
     fun createIn(repository: Repository) = repository.createAccount(this)
@@ -67,7 +67,7 @@ data class Account(
             KEY_CRITERION,
             KEY_SEALED,
             KEY_BANK_ID,
-            KEY_IBAN
+            KEY_ACCOUNT_NUMBER
         )
 
         fun fromCursor(cursor: Cursor): Account {
@@ -92,7 +92,7 @@ data class Account(
                 sortBy = sortBy,
                 sortDirection = cursor.getEnum(KEY_SORT_DIRECTION, SortDirection.DESC),
                 bankId = cursor.getLongOrNull(KEY_BANK_ID),
-                iban = cursor.getStringOrNull(KEY_IBAN)
+                accountNumber = cursor.getStringOrNull(KEY_ACCOUNT_NUMBER)
             )
         }
 

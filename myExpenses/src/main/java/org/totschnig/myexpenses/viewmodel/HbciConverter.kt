@@ -81,7 +81,7 @@ class HbciConverter(val repository: Repository, val eur: CurrencyUnit) {
     }
 
     private fun extractAttribute(
-        transfer: Transfer,
+        transfer: Transfer?,
         mutableMap: MutableMap<FinTsAttribute, String>,
         tag: Tag,
         attribute: FinTsAttribute
