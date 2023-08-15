@@ -91,8 +91,8 @@ data class Account(
                 grouping = if (sortBy == KEY_DATE) cursor.getEnum(KEY_GROUPING, Grouping.NONE) else Grouping.NONE,
                 sortBy = sortBy,
                 sortDirection = cursor.getEnum(KEY_SORT_DIRECTION, SortDirection.DESC),
-                bankId = cursor.getLongOrNull(KEY_BANK_ID),
-                accountNumber = cursor.getStringOrNull(KEY_ACCOUNT_NUMBER)
+                bankId = cursor.getLongIfExists(KEY_BANK_ID),
+                accountNumber = cursor.getStringIfExists(KEY_ACCOUNT_NUMBER)
             )
         }
 
