@@ -204,4 +204,9 @@
         <url>https://github.com/google/accompanist</url>
         <licence>Apache License, Version 2.0</licence>
     </project>
+    <project>
+        <name>Email Intent Builder</name>
+        <url>https://github.com/cketti/EmailIntentBuilder</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
 </credits>

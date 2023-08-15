@@ -284,6 +284,8 @@ dependencies {
 
     implementation 'androidx.work:work-runtime-ktx:2.8.1'
 
+    implementation 'de.cketti.mailto:email-intent-builder:2.0.0'
+
     androidTestImplementation composeBom
     androidTestImplementation 'tools.fastlane:screengrab:2.1.1'
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"

@@ -48,6 +48,7 @@ import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
+import de.cketti.mailto.EmailIntentBuilder
 import eltos.simpledialogfragment.form.AmountInputHostDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -224,24 +225,14 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     fun sendEmail(
         recipient: String,
         subject: String,
-        body: String,
-        forResultRequestCode: Int? = null
+        body: String
     ) {
-        startActivity(
-            Intent.createChooser(
-                Intent(Intent.ACTION_SEND).apply {
-                    putExtra(Intent.EXTRA_EMAIL, arrayOf(recipient))
-                    putExtra(Intent.EXTRA_SUBJECT, subject)
-                    putExtra(Intent.EXTRA_TEXT, body)
-                    selector = Intent(Intent.ACTION_SENDTO).setData(Uri.parse("mailto:$recipient"))
-                },
-                null
-            ),
-            R.string.no_app_handling_email_available,
-            forResultRequestCode
-        )
+        EmailIntentBuilder.from(this)
+            .to(recipient)
+            .subject(subject)
+            .body(body)
+            .start()
     }
-
 
     fun startActivity(intent: Intent, notAvailableMessage: Int, forResultRequestCode: Int? = null) {
         try {
@@ -666,8 +657,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                         CONFIGURATION:${ConfigurationHelper.configToJson(resources.configuration)}
                         $licenceInfo
 
-                    """.trimIndent(),
-                    forResultRequestCode = null
+                    """.trimIndent()
                 )
                 true
             }
