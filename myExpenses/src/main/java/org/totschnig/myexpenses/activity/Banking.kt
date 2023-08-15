@@ -32,7 +32,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -78,12 +77,8 @@ class Banking : ProtectedFragmentActivity() {
                 val data = viewModel.banks.collectAsState()
                 var dialogShown by rememberSaveable { mutableStateOf(false) }
                 val tanRequested = viewModel.tanRequested.observeAsState()
-                val addBankState = viewModel.workState.collectAsState()
-                LaunchedEffect(addBankState.value) {
-                    if (addBankState.value == BankingViewModel.WorkState.Done) {
-                        dialogShown = false
-                    }
-                }
+                val workState = viewModel.workState.collectAsState()
+                val errorState = viewModel.errorState.collectAsState()
 
                 Scaffold(
                     topBar = {
@@ -164,58 +159,77 @@ class Banking : ProtectedFragmentActivity() {
                         },
                         title = {
                             Text(
-                                text = if (addBankState.value is BankingViewModel.WorkState.AccountsLoaded) "Select accounts" else "Add new bank",
+                                text = if (workState.value is BankingViewModel.WorkState.AccountsLoaded) "Select accounts" else "Add new bank",
                                 style = MaterialTheme.typography.titleMedium
                             )
                         },
                         confirmButton = {
                             Button(
                                 onClick = {
-                                    if (addBankState.value is BankingViewModel.WorkState.AccountsLoaded) {
-                                        val state =
-                                            addBankState.value as BankingViewModel.WorkState.AccountsLoaded
-                                        viewModel.importAccounts(
-                                            bankingCredentials,
-                                            state.bank,
-                                            state.accounts.filterIndexed { index, _ ->
-                                                selectedAccounts[index] == true
-                                            }
-                                        )
-                                    } else {
-                                        viewModel.addBank(bankingCredentials)
+                                    when (workState.value) {
+                                        is BankingViewModel.WorkState.AccountsLoaded -> {
+                                            val state =
+                                                workState.value as BankingViewModel.WorkState.AccountsLoaded
+                                            viewModel.importAccounts(
+                                                bankingCredentials,
+                                                state.bank,
+                                                state.accounts.filterIndexed { index, _ ->
+                                                    selectedAccounts[index] == true
+                                                }
+                                            )
+                                        }
+                                        is BankingViewModel.WorkState.Done -> {
+                                            viewModel.reset()
+                                            dialogShown = false
+                                        }
+                                        else -> {
+                                            viewModel.addBank(bankingCredentials)
+                                        }
                                     }
                                 },
-                                enabled = when (addBankState.value) {
+                                enabled = when (workState.value) {
                                     is BankingViewModel.WorkState.AccountsLoaded -> selectedAccounts.size > 0
                                     is BankingViewModel.WorkState.Loading -> false
                                     else -> bankingCredentials.isComplete
                                 }
                             ) {
-                                Text(if (addBankState.value is BankingViewModel.WorkState.AccountsLoaded) "Import" else "Load accounts")
+                                Text(
+                                    when (workState.value) {
+                                        is BankingViewModel.WorkState.AccountsLoaded -> "Import"
+                                        is BankingViewModel.WorkState.Done  -> "Close"
+                                        else -> "Load accounts"
+                                    }
+                                )
                             }
                         },
-                        dismissButton = {
-                            Button(
-                                onClick = {
-                                    dialogShown = false
-                                    viewModel.resetAddBankState()
+                        dismissButton = if (workState.value is BankingViewModel.WorkState.Done) null else {
+                            {
+                                Button(
+                                    onClick = {
+                                        dialogShown = false
+                                        viewModel.resetAddBankState()
 
-                                }) {
-                                Text(stringResource(id = android.R.string.cancel))
+                                    }) {
+                                    Text(stringResource(id = android.R.string.cancel))
+                                }
                             }
                         },
                         text = {
-                            if (addBankState.value is BankingViewModel.WorkState.Loading) {
-                                Loading((addBankState.value as BankingViewModel.WorkState.Loading).message)
-                            } else {
-                                Column {
-                                    if (addBankState.value is BankingViewModel.WorkState.AccountsLoaded) {
-                                        (addBankState.value as BankingViewModel.WorkState.AccountsLoaded).accounts.forEachIndexed { index, account ->
+                            Column {
+                                when (workState.value) {
+                                    is BankingViewModel.WorkState.Loading -> {
+                                        Loading((workState.value as BankingViewModel.WorkState.Loading).message)
+                                    }
+
+                                    is BankingViewModel.WorkState.AccountsLoaded -> {
+                                        (workState.value as BankingViewModel.WorkState.AccountsLoaded).accounts.forEachIndexed { index, account ->
                                             AccountRow(account, selectedAccounts[index] == true) {
                                                 selectedAccounts[index] = it
                                             }
                                         }
-                                    } else {
+                                    }
+
+                                    is BankingViewModel.WorkState.Initial -> {
                                         OutlinedTextField(
                                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                             value = bankingCredentials.bankLeitZahl,
@@ -244,14 +258,17 @@ class Banking : ProtectedFragmentActivity() {
                                             label = { Text(text = "PIN") },
                                             supportingText = { Text(text = "Der PIN wird nur beim erstmaligen Laden der Daten verwendet, und nicht auf dem Gerät gespeichert. Bei jeder weiteren Verbindung mit der Bank wird er erneut abgefragt.") }
                                         )
-
-                                        if (addBankState.value is BankingViewModel.WorkState.Error) {
-                                            Text(
-                                                color = MaterialTheme.colorScheme.error,
-                                                text = (addBankState.value as BankingViewModel.WorkState.Error).message
-                                            )
-                                        }
                                     }
+
+                                    is BankingViewModel.WorkState.Done -> {
+                                        Text((workState.value as BankingViewModel.WorkState.Done).message)
+                                    }
+                                }
+                                errorState.value?.let {
+                                    Text(
+                                        color = MaterialTheme.colorScheme.error,
+                                        text = it
+                                    )
                                 }
                             }
                         }

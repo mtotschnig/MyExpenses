@@ -94,15 +94,17 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         MutableStateFlow(WorkState.Initial)
     val workState: StateFlow<WorkState> = _workState
 
+    private val _errorState: MutableStateFlow<String?> =
+        MutableStateFlow(null)
+    val errorState: StateFlow<String?> = _errorState
+
     sealed class WorkState {
         object Initial : WorkState()
         data class Loading(val message: String) : WorkState()
 
-        data class Error(val message: String) : WorkState()
-
         data class AccountsLoaded(val bank: Bank, val accounts: List<Konto>) : WorkState()
 
-        object Done : WorkState()
+        data class Done(val message: String) : WorkState()
     }
 
     fun submitTan(tan: String?) {
@@ -115,7 +117,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
     }
 
     private fun error(msg: String) {
-        _workState.value = WorkState.Error(msg)
+        _errorState.value = msg
     }
 
     fun initAttributes() {
@@ -187,6 +189,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
     }
 
     fun addBank(bankingCredentials: BankingCredentials) {
+        clearError()
         _workState.value = WorkState.Loading("Loading information")
 
         if (banks.value.any { it.blz == bankingCredentials.blz && it.userId == bankingCredentials.user }) {
@@ -223,7 +226,9 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
     )
 
     fun importAccounts(bankingCredentials: BankingCredentials, bank: Bank, accounts: List<Konto>) {
+        clearError()
         val converter = HbciConverter(repository, currencyContext.get("EUR"))
+        var successCount = 0
         viewModelScope.launch(context = coroutineContext()) {
             accounts.forEach {
 
@@ -270,9 +275,10 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                             repository.saveAttributes(id, attributes)
                         }
                     }
+                    successCount++
                 }
             }
-            _workState.value = WorkState.Done
+            _workState.value = WorkState.Done("$successCount accounts successfully imported.")
         }
     }
 
@@ -282,6 +288,15 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
     fun deleteBank(id: Long) {
         repository.deleteBank(id)
+    }
+
+    fun reset() {
+        _workState.value = WorkState.Initial
+        clearError()
+    }
+
+    fun clearError() {
+        _errorState.value = null
     }
 
 
