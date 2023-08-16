@@ -5,15 +5,22 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -34,11 +41,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -49,9 +60,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
@@ -155,6 +168,8 @@ class Banking : ProtectedFragmentActivity() {
                 }
                 dialogShown?.let { bankingCredentials ->
                     val selectedAccounts = rememberMutableStateMapOf<Int, Boolean>()
+                    var nrDays: Long? by remember { mutableStateOf(null) }
+                    val importMaxDuration = remember { derivedStateOf { nrDays == null } }
                     AlertDialog(
                         //https://issuetracker.google.com/issues/221643630
                         properties = DialogProperties(
@@ -198,7 +213,8 @@ class Banking : ProtectedFragmentActivity() {
                                                 state.bank,
                                                 state.accounts.filterIndexed { index, _ ->
                                                     selectedAccounts[index] == true
-                                                }.map { it.first }
+                                                }.map { it.first },
+                                                nrDays
                                             )
                                         }
 
@@ -255,6 +271,72 @@ class Banking : ProtectedFragmentActivity() {
                                                 selectedAccounts[index] = it
                                             }
                                         }
+                                        Column(Modifier.selectableGroup()) {
+                                            Row(
+                                                Modifier
+                                                    .fillMaxWidth()
+                                                    .selectable(
+                                                        selected = importMaxDuration.value,
+                                                        onClick = { nrDays = null },
+                                                        role = Role.RadioButton
+                                                    ),
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                RadioButton(
+                                                    modifier = Modifier.minimumInteractiveComponentSize(),
+                                                    selected = importMaxDuration.value,
+                                                    onClick = null
+                                                )
+                                                Text(
+                                                    text = "Import maximum available transaction history",
+                                                    style = MaterialTheme.typography.bodyMedium
+                                                )
+                                            }
+                                            Row(
+                                                Modifier
+                                                    .fillMaxWidth()
+                                                    .selectable(
+                                                        selected = !importMaxDuration.value,
+                                                        onClick = { nrDays = 365 },
+                                                        role = Role.RadioButton
+                                                    ),
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                RadioButton(
+                                                    modifier = Modifier.minimumInteractiveComponentSize(),
+                                                    selected = !importMaxDuration.value,
+                                                    onClick = null
+                                                )
+                                                Text(
+                                                    text = "Import only last ",
+                                                    style = MaterialTheme.typography.bodyMedium
+                                                )
+                                                val interactionSource = remember { MutableInteractionSource() }
+                                                BasicTextField(
+                                                    value = nrDays?.toString() ?: "",
+                                                    onValueChange = { nrDays = try { it.toLong() } catch (e: NumberFormatException) { 0 } },
+                                                    interactionSource = interactionSource,
+                                                    enabled = !importMaxDuration.value,
+                                                    singleLine = true,
+                                                    modifier = Modifier
+                                                        .width(IntrinsicSize.Min)
+                                                        .widthIn(min = 24.dp)
+                                                ) {
+                                                    OutlinedTextFieldDefaults.DecorationBox(
+                                                        value = nrDays?.toString() ?: "",
+                                                        innerTextField = it,
+                                                        enabled = !importMaxDuration.value,
+                                                        singleLine = true,
+                                                        visualTransformation = VisualTransformation.None,
+                                                        interactionSource = interactionSource
+                                                    )
+                                                }
+                                                Text(
+                                                    text = " days",
+                                                    style = MaterialTheme.typography.bodyMedium
+                                                )
+                                            }
+                                        }
                                     }
 
                                     is BankingViewModel.WorkState.Initial -> {
@@ -264,7 +346,7 @@ class Banking : ProtectedFragmentActivity() {
                                             value = bankingCredentials.bankLeitZahl,
                                             onValueChange = {
                                                 dialogShown =
-                                                    bankingCredentials.copy(bankLeitZahl = it)
+                                                    bankingCredentials.copy(bankLeitZahl = it.trim())
                                             },
                                             label = { Text(text = "Bankleitzahl") },
                                             singleLine = true
@@ -274,7 +356,7 @@ class Banking : ProtectedFragmentActivity() {
                                             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                                             value = bankingCredentials.user,
                                             onValueChange = {
-                                                dialogShown = bankingCredentials.copy(user = it)
+                                                dialogShown = bankingCredentials.copy(user = it.trim())
                                             },
                                             label = { Text(text = "Anmeldename") },
                                             singleLine = true
@@ -292,7 +374,7 @@ class Banking : ProtectedFragmentActivity() {
                                             ) else KeyboardActions.Default,
                                             value = bankingCredentials.password ?: "",
                                             onValueChange = {
-                                                dialogShown = bankingCredentials.copy(password = it)
+                                                dialogShown = bankingCredentials.copy(password = it.trim())
                                             },
                                             label = { Text(text = "PIN") },
                                             singleLine = true,

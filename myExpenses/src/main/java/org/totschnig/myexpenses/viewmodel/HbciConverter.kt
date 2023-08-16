@@ -47,14 +47,10 @@ class HbciConverter(val repository: Repository, val eur: CurrencyUnit) {
         lines = VerwendungszweckUtil.rewrap(HBCI_TRANSFER_USAGE_DB_MAXLENGTH, *lines)
         val transfer = VerwendungszweckUtil.apply(lines)
 
-        (getTag(transfer, Tag.ABWA)?.let {
-            Party(name = it)
-        } ?: other.takeIf { !(other.name.isNullOrBlank() && other.name2.isNullOrBlank()) }
-            ?.let {
-                other.toParty()
-            })?.let { party ->
-            transaction.payeeId = repository.requireParty(party)
-        }
+
+        val party = getTag(transfer, Tag.ABWA)?.let { Party(name = it) }
+            ?: other?.takeIf { !(it.name.isNullOrBlank() && it.name2.isNullOrBlank()) }?.toParty()
+        party?.let { transaction.payeeId = repository.requireParty(party) }
 
         if (transfer != null) {
             transaction.comment =
