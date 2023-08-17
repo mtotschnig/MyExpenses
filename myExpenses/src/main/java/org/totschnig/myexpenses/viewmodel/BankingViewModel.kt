@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.viewmodel
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.ContentUris
 import android.content.ContentValues
@@ -39,8 +40,21 @@ import org.totschnig.myexpenses.db2.loadBank
 import org.totschnig.myexpenses.db2.loadBanks
 import org.totschnig.myexpenses.db2.saveAttributes
 import org.totschnig.myexpenses.db2.updateAccount
+import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Bank
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_SYNCED_WITH_BANK
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTRIBUTES
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
+import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.useAndMap
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.data.BankingCredentials
@@ -51,16 +65,19 @@ import java.time.ZoneId
 import java.util.Date
 import java.util.Properties
 
+
 /**
  * see [VerwendungszweckUtil.Tag]
  */
-enum class FinTsAttribute : Attribute {
+enum class FinTsAttribute(override val userVisible: Boolean = true) : Attribute {
     EREF,
     KREF,
     MREF,
     CRED,
     DBET,
-    SALDO;
+    SALDO,
+    CHECKSUM(false)
+    ;
 
     companion object {
         const val CONTEXT = "FinTS"
@@ -106,12 +123,16 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         get() = HbciConverter(repository, currencyContext.get("EUR"))
 
     sealed class WorkState {
+
         object Initial : WorkState()
+
         data class Loading(val message: String) : WorkState()
+
+        data class BankLoaded(val bank: Bank): WorkState()
 
         data class AccountsLoaded(
             /*
-                rowId in Database to bank name
+                pair of rowId in Database and bank name
              */
             val bank: Pair<Long, String>,
             /*
@@ -120,7 +141,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             val accounts: List<Pair<Konto, Boolean>>
         ) : WorkState()
 
-        data class Done(val message: String) : WorkState()
+        data class Done(val message: String = "") : WorkState()
     }
 
     fun submitTan(tan: String?) {
@@ -140,6 +161,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         error(Utils.getCause(exception).safeMessage)
     }
 
+    //TODO this will be moved into featureManager
     fun initAttributes() {
         viewModelScope.launch(context = coroutineContext()) {
             repository.configureAttributes(FinTsAttribute.values().asList())
@@ -186,7 +208,16 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
         val passportFile = buildPassportFile(info, bankingCredentials.user)
 
-        val passport = buildPassport(info, passportFile)
+        val passport = try {
+            buildPassport(info, passportFile)
+        } catch (e: Exception) {
+            if (BuildConfig.DEBUG) {
+                Timber.e(e)
+            }
+            HBCIUtils.doneThread()
+            onError(Exception("Wrong PIN"))
+            return
+        }
 
         val handle = try {
             HBCIHandler(HBCIVersion.HBCI_300.id, passport)
@@ -207,6 +238,12 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             handle.close()
             passport.close()
             HBCIUtils.doneThread()
+        }
+    }
+
+    fun loadBank(bankId: Long) {
+        viewModelScope.launch(context = coroutineContext()) {
+            _workState.value = WorkState.BankLoaded(repository.loadBank(bankId))
         }
     }
 
@@ -257,13 +294,11 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
     }
 
     fun syncAccount(
-        bankId: Long,
-        accountId: Long,
-        pin: String
+        credentials: BankingCredentials,
+        accountId: Long
     ) {
         viewModelScope.launch(context = coroutineContext()) {
-            val bank = repository.loadBank(bankId)
-            val credentials = BankingCredentials(bank.blz, bank.userId, pin)
+            _workState.value = WorkState.Loading("Loading account information")
             val account = repository.loadAccount(accountId)!!
             doHBCI(
                 credentials,
@@ -272,7 +307,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     _workState.value = WorkState.Loading("Syncing account")
 
                     val umsatzJob: HBCIJob = handle.newJob("KUmsAll")
-                    umsatzJob.setParam("my.blz", bank.blz)
+                    umsatzJob.setParam("my.blz", credentials.blz)
                     umsatzJob.setParam("my.number", account.accountNumber)
                     umsatzJob.setStartParam(account.lastSyncedWithBank!!)
                     umsatzJob.addToQueue()
@@ -281,6 +316,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
                     if (!status.isOK) {
                         error(status.toString())
+                        _workState.value = WorkState.Done()
                         return@doHBCI
                     }
 
@@ -288,16 +324,24 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
                     if (!result.isOK) {
                         error(result.toString())
+                        _workState.value = WorkState.Done()
                         return@doHBCI
                     }
 
+                    var importCount = 0
                     for (umsLine in result.flatData) {
                         log(umsLine.toString())
                         with(converter) {
                             val (transaction, attributes: Map<out Attribute, String>) =
                                 umsLine.toTransaction(accountId)
-                            val id = ContentUris.parseId(transaction.save()!!)
-                            repository.saveAttributes(id, attributes)
+                            if (isDuplicate(transaction, attributes[FinTsAttribute.CHECKSUM]!!)) {
+                                Timber.d("Found duplicatee for $umsLine")
+                            } else {
+                                val id = ContentUris.parseId(transaction.save()!!)
+                                repository.saveAttributes(id, attributes)
+
+                                importCount++
+                            }
                         }
                     }
                     repository.updateAccount(
@@ -308,16 +352,29 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                                 LocalDate.now().toString()
                             )
                         })
+                    _workState.value = WorkState.Done(if (importCount > 0) "$importCount transactions imported" else "No new transactions")
                 },
                 onError = {
                     error(it)
-                    _workState.value = WorkState.Done("")
+                    _workState.value = WorkState.Done()
                 }
             )
         }
     }
 
-    fun HBCIJob.setStartParam(localDate: LocalDate) {
+    @SuppressLint("Recycle")
+    private fun isDuplicate(transaction: Transaction, checkSum: String): Boolean {
+        return contentResolver.query(
+            TransactionProvider.TRANSACTIONS_URI,
+            arrayOf(KEY_AMOUNT, KEY_DATE),
+        "(select $KEY_VALUE from $TABLE_TRANSACTION_ATTRIBUTES left join $TABLE_ATTRIBUTES on $KEY_ATTRIBUTE_ID = $TABLE_ATTRIBUTES.$KEY_ROWID WHERE $KEY_ATTRIBUTE_NAME = ? and $KEY_TRANSACTIONID = $VIEW_COMMITTED.$KEY_ROWID) = ? ",
+            arrayOf(FinTsAttribute.CHECKSUM.name, checkSum),null
+        )?.useAndMap {
+            it.getLong(0) == transaction.amount.amountMinor && it.getLong(1) == transaction.date
+        }?.any { it } == true
+    }
+
+    private fun HBCIJob.setStartParam(localDate: LocalDate) {
         setParam(
             "startdate",
             Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
@@ -382,7 +439,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     },
                     onError = {
                         error(it)
-                        _workState.value = WorkState.Done("")
+                        _workState.value = WorkState.Done()
                     }
                 )
             }

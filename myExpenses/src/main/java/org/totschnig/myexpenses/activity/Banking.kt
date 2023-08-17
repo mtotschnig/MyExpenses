@@ -21,8 +21,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBalance
@@ -48,6 +46,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -61,9 +60,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -71,9 +67,11 @@ import androidx.compose.ui.window.DialogProperties
 import org.kapott.hbci.structures.Konto
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
+import org.totschnig.myexpenses.compose.BankingCredentials
 import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
+import org.totschnig.myexpenses.compose.TanDialog
 import org.totschnig.myexpenses.compose.rememberMutableStateMapOf
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.injector
@@ -97,7 +95,7 @@ class Banking : ProtectedFragmentActivity() {
             AppTheme {
 
                 val data = viewModel.banks.collectAsState()
-                var dialogShown: BankingCredentials? by rememberSaveable { mutableStateOf(null) }
+                val dialogShown: MutableState<BankingCredentials?> = rememberSaveable { mutableStateOf(null) }
                 val tanRequested = viewModel.tanRequested.observeAsState()
                 val workState = viewModel.workState.collectAsState()
                 val errorState = viewModel.errorState.collectAsState()
@@ -120,7 +118,7 @@ class Banking : ProtectedFragmentActivity() {
                     floatingActionButton = {
                         FloatingActionButton(
                             onClick = {
-                                dialogShown = BankingCredentials.EMPTY
+                                dialogShown.value = BankingCredentials.EMPTY
                             }
                         ) {
                             Icon(
@@ -154,7 +152,7 @@ class Banking : ProtectedFragmentActivity() {
                                                 }
                                             },
                                             onShow = {
-                                                dialogShown = BankingCredentials(
+                                                dialogShown.value = BankingCredentials(
                                                     bankLeitZahl = it.blz,
                                                     user = it.userId,
                                                     bank = it.id to it.bankName
@@ -167,7 +165,7 @@ class Banking : ProtectedFragmentActivity() {
                         }
                     }
                 }
-                dialogShown?.let { bankingCredentials ->
+                dialogShown.value?.let { bankingCredentials ->
                     val selectedAccounts = rememberMutableStateMapOf<Int, Boolean>()
                     var nrDays: Long? by remember { mutableStateOf(null) }
                     val importMaxDuration = remember { derivedStateOf { nrDays == null } }
@@ -178,7 +176,7 @@ class Banking : ProtectedFragmentActivity() {
                             usePlatformDefaultWidth = false
                         ),
                         onDismissRequest = {
-                            dialogShown = null
+                            dialogShown.value = null
                             viewModel.reset()
                         },
                         icon = {
@@ -221,7 +219,7 @@ class Banking : ProtectedFragmentActivity() {
 
                                         is BankingViewModel.WorkState.Done -> {
                                             viewModel.reset()
-                                            dialogShown = null
+                                            dialogShown.value = null
                                         }
 
                                         else -> {
@@ -248,7 +246,7 @@ class Banking : ProtectedFragmentActivity() {
                             {
                                 Button(
                                     onClick = {
-                                        dialogShown = null
+                                        dialogShown.value = null
                                         viewModel.reset()
 
                                     }) {
@@ -341,51 +339,16 @@ class Banking : ProtectedFragmentActivity() {
                                     }
 
                                     is BankingViewModel.WorkState.Initial -> {
-                                        OutlinedTextField(
-                                            enabled = bankingCredentials.isNew,
-                                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Next),
-                                            value = bankingCredentials.bankLeitZahl,
-                                            onValueChange = {
-                                                dialogShown =
-                                                    bankingCredentials.copy(bankLeitZahl = it.trim())
-                                            },
-                                            label = { Text(text = "Bankleitzahl") },
-                                            singleLine = true
-                                        )
-                                        OutlinedTextField(
-                                            enabled = bankingCredentials.isNew,
-                                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                                            value = bankingCredentials.user,
-                                            onValueChange = {
-                                                dialogShown = bankingCredentials.copy(user = it.trim())
-                                            },
-                                            label = { Text(text = "Anmeldename") },
-                                            singleLine = true
-                                        )
-                                        OutlinedTextField(
-                                            visualTransformation = PasswordVisualTransformation(),
-                                            keyboardOptions = KeyboardOptions(
-                                                keyboardType = KeyboardType.Password,
-                                                imeAction = ImeAction.Done
-                                            ),
-                                            keyboardActions = if (bankingCredentials.isComplete) KeyboardActions(
-                                                onDone = {
-                                                    viewModel.addBank(bankingCredentials)
-                                                }
-                                            ) else KeyboardActions.Default,
-                                            value = bankingCredentials.password ?: "",
-                                            onValueChange = {
-                                                dialogShown = bankingCredentials.copy(password = it.trim())
-                                            },
-                                            label = { Text(text = "PIN") },
-                                            singleLine = true,
-                                            supportingText = { Text(text = "Der PIN wird nicht auf dem Gerät gespeichert und bei jeder weiteren Verbindung mit der Bank erneut abgefragt.") }
+                                        BankingCredentials(
+                                            bankingCredentials = dialogShown,
+                                            onDone = viewModel::addBank
                                         )
                                     }
 
                                     is BankingViewModel.WorkState.Done -> {
                                         Text((workState.value as BankingViewModel.WorkState.Done).message)
                                     }
+                                    else -> {}
                                 }
                                 errorState.value?.let {
                                     Text(
@@ -398,28 +361,7 @@ class Banking : ProtectedFragmentActivity() {
                     )
                 }
                 if (tanRequested.value == true) {
-                    var tan by rememberSaveable { mutableStateOf("") }
-                    AlertDialog(
-                        onDismissRequest = {
-                            viewModel.submitTan(null)
-                        },
-                        confirmButton = {
-                            Button(onClick = {
-                                viewModel.submitTan(tan)
-                            }) {
-                                Text("Send")
-                            }
-                        },
-                        text = {
-                            OutlinedTextField(
-                                value = tan,
-                                onValueChange = {
-                                    tan = it
-                                },
-                                label = { Text(text = "TAN") },
-                            )
-                        }
-                    )
+                    TanDialog(submitTan = viewModel::submitTan)
                 }
             }
         }

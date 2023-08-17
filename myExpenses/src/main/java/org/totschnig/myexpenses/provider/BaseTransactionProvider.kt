@@ -1035,8 +1035,15 @@ abstract class BaseTransactionProvider : ContentProvider() {
         return db.measureAndLogQuery(uri, sql, selection, finalArgs)
     }
 
+    fun insertAttribute(db: SupportSQLiteDatabase, values: ContentValues) {
+        val name = values.getAsString(KEY_ATTRIBUTE_NAME)
+        val context = values.getAsString(KEY_CONTEXT)
+        db.execSQL("INSERT INTO $TABLE_ATTRIBUTES ($KEY_ATTRIBUTE_NAME, $KEY_CONTEXT)  SELECT ?,? WHERE NOT EXISTS (SELECT 1 FROM $TABLE_ATTRIBUTES WHERE $KEY_ATTRIBUTE_NAME=? AND $KEY_CONTEXT = ? )",
+            arrayOf(name, context, name, context))
+    }
+
     fun insertTransactionAttribute(db: SupportSQLiteDatabase, values: ContentValues) {
-        db.execSQL("INSERT or REPLACE INTO $TABLE_TRANSACTION_ATTRIBUTES SELECT DISTINCT ?, _id, ? from $TABLE_ATTRIBUTES where $KEY_ATTRIBUTE_NAME = ? AND $KEY_CONTEXT = ?;",
+        db.execSQL("INSERT or REPLACE INTO $TABLE_TRANSACTION_ATTRIBUTES SELECT DISTINCT ?, _id, ? FROM $TABLE_ATTRIBUTES WHERE $KEY_ATTRIBUTE_NAME = ? AND $KEY_CONTEXT = ?;",
             arrayOf(
                 values.getAsLong(KEY_TRANSACTIONID),
                 values.getAsString(KEY_VALUE),

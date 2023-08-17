@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.viewmodel.VerwendungszweckUtil.Tag
 import org.totschnig.myexpenses.viewmodel.VerwendungszweckUtil.getTag
+import java.util.zip.CRC32
 
 
 /**
@@ -32,6 +33,13 @@ data class Transfer(
     val weitereVerwendungszwecke: Array<String>,
     val tags: Map<Tag, String>
 )
+
+fun UmsLine.checkSum(): Long {
+    val s = "$bdate${value.longValue}$text${usage.joinToString("")}$other$primanota"
+    val crc = CRC32()
+    crc.update(s.toByteArray())
+    return crc.value
+}
 
 class HbciConverter(val repository: Repository, val eur: CurrencyUnit) {
     private val methodToId: MutableMap<String, Long> = HashMap()
@@ -71,6 +79,7 @@ class HbciConverter(val repository: Repository, val eur: CurrencyUnit) {
             extractAttribute(transfer, this, Tag.CRED, FinTsAttribute.CRED)
             extractAttribute(transfer, this, Tag.DBET, FinTsAttribute.DBET)
             put(FinTsAttribute.SALDO, saldo.value.bigDecimalValue.toString())
+            put(FinTsAttribute.CHECKSUM, checkSum().toString())
         }
 
         return transaction to attributes

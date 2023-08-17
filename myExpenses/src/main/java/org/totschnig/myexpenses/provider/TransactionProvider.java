@@ -962,7 +962,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         newUri = DEBTS_URI + "/" + id;
       }
       case ATTRIBUTES -> {
-        db.insert(TABLE_ATTRIBUTES, CONFLICT_IGNORE, values);
+        insertAttribute(db, values);
         return ATTRIBUTES_URI;
       }
       case TRANSACTION_ATTRIBUTES ->  {

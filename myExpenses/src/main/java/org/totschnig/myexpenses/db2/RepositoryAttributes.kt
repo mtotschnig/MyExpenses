@@ -2,7 +2,9 @@ package org.totschnig.myexpenses.db2
 
 import android.annotation.SuppressLint
 import android.content.ContentProviderOperation
+import android.content.ContentValues
 import android.database.Cursor
+import android.os.Bundle
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CONTEXT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
@@ -17,6 +19,7 @@ import java.lang.IllegalStateException
 interface Attribute {
     val name: String
     val context: String
+    val userVisible: Boolean
 
     companion object {
         fun from(cursor: Cursor): Pair<Attribute, String> =

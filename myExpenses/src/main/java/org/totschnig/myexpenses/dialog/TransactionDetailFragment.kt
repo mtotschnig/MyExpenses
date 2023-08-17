@@ -106,7 +106,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                 val attributeTable = AttributeGroupTableBinding.inflate(layoutInflater).root.also {
                     binding.OneExpense.addView(it, binding.OneExpense.childCount - 1 )
                 }
-                entry.value.forEach {
+                entry.value.filter { it.first.userVisible }.forEach {
                     attributeTable.addView(
                         with(AttributeBinding.inflate(layoutInflater)) {
                             Name.text = it.first.name

@@ -65,6 +65,7 @@ import org.totschnig.myexpenses.databinding.ActivityMainBinding
 import org.totschnig.myexpenses.dialog.*
 import org.totschnig.myexpenses.feature.*
 import org.totschnig.myexpenses.feature.Payee
+import org.totschnig.myexpenses.fragment.BankingSyncFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Sort.Companion.fromCommandId
@@ -1396,7 +1397,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 requestSync(accountName = it.syncAccountName!!, uuid = it.uuid)
             }
             R.id.FINTS_SYNC_COMMAND -> currentAccount?.takeIf { it.bankId != null }?.let {
-                bankingViewModel.syncAccount(it.bankId!!, it.id, "TODO")
+                BankingSyncFragment.newInstance(it.bankId!!, it.id).show(supportFragmentManager, "BANKING_SYNC")
             }
 
             R.id.EDIT_ACCOUNT_COMMAND -> currentAccount?.let { editAccount(it.id) }
