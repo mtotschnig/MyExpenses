@@ -92,6 +92,11 @@
         android:title="@string/menu_sync_now"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@id/FINTS_SYNC_COMMAND"
+        android:orderInCategory="18"
+        android:title="Umsätze abrufen"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@id/SHOW_STATUS_HANDLE_COMMAND"
         android:checkable="true"
         android:orderInCategory="19"

@@ -206,6 +206,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_SEALED + " boolean default 0,"
           + KEY_BANK_ID + " integer references " + TABLE_BANKS + "(" + KEY_ROWID + ") ON DELETE SET NULL,"
           + KEY_ACCOUNT_NUMBER + " text,"
+          + KEY_LAST_SYNCED_WITH_BANK + " date,"
           + "unique(" + KEY_BANK_ID + "," + KEY_ACCOUNT_NUMBER + ") );";
 
   private static final String SYNC_STATE_CREATE =

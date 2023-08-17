@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.content.ContentUris
+import android.content.ContentValues
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -33,9 +34,13 @@ import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.db2.createBank
 import org.totschnig.myexpenses.db2.deleteBank
 import org.totschnig.myexpenses.db2.importedAccounts
+import org.totschnig.myexpenses.db2.loadAccount
+import org.totschnig.myexpenses.db2.loadBank
 import org.totschnig.myexpenses.db2.loadBanks
 import org.totschnig.myexpenses.db2.saveAttributes
+import org.totschnig.myexpenses.db2.updateAccount
 import org.totschnig.myexpenses.model2.Bank
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_SYNCED_WITH_BANK
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.data.BankingCredentials
@@ -96,6 +101,9 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
     private val _errorState: MutableStateFlow<String?> =
         MutableStateFlow(null)
     val errorState: StateFlow<String?> = _errorState
+
+    val converter: HbciConverter
+        get() = HbciConverter(repository, currencyContext.get("EUR"))
 
     sealed class WorkState {
         object Initial : WorkState()
@@ -248,14 +256,81 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         }
     }
 
+    fun syncAccount(
+        bankId: Long,
+        accountId: Long,
+        pin: String
+    ) {
+        viewModelScope.launch(context = coroutineContext()) {
+            val bank = repository.loadBank(bankId)
+            val credentials = BankingCredentials(bank.blz, bank.userId, pin)
+            val account = repository.loadAccount(accountId)!!
+            doHBCI(
+                credentials,
+                work = { _, _, handle ->
+
+                    _workState.value = WorkState.Loading("Syncing account")
+
+                    val umsatzJob: HBCIJob = handle.newJob("KUmsAll")
+                    umsatzJob.setParam("my.blz", bank.blz)
+                    umsatzJob.setParam("my.number", account.accountNumber)
+                    umsatzJob.setStartParam(account.lastSyncedWithBank!!)
+                    umsatzJob.addToQueue()
+
+                    val status: HBCIExecStatus = handle.execute()
+
+                    if (!status.isOK) {
+                        error(status.toString())
+                        return@doHBCI
+                    }
+
+                    val result = umsatzJob.jobResult as GVRKUms
+
+                    if (!result.isOK) {
+                        error(result.toString())
+                        return@doHBCI
+                    }
+
+                    for (umsLine in result.flatData) {
+                        log(umsLine.toString())
+                        with(converter) {
+                            val (transaction, attributes: Map<out Attribute, String>) =
+                                umsLine.toTransaction(accountId)
+                            val id = ContentUris.parseId(transaction.save()!!)
+                            repository.saveAttributes(id, attributes)
+                        }
+                    }
+                    repository.updateAccount(
+                        accountId,
+                        ContentValues().apply {
+                            put(
+                                KEY_LAST_SYNCED_WITH_BANK,
+                                LocalDate.now().toString()
+                            )
+                        })
+                },
+                onError = {
+                    error(it)
+                    _workState.value = WorkState.Done("")
+                }
+            )
+        }
+    }
+
+    fun HBCIJob.setStartParam(localDate: LocalDate) {
+        setParam(
+            "startdate",
+            Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
+        )
+    }
+
     fun importAccounts(
         bankingCredentials: BankingCredentials,
         bank: Pair<Long, String>,
         accounts: List<Konto>,
-        nrOfDays: Long?
+        startDate: LocalDate?
     ) {
         clearError()
-        val converter = HbciConverter(repository, currencyContext.get("EUR"))
         var successCount = 0
         viewModelScope.launch(context = coroutineContext()) {
             accounts.forEach {
@@ -269,15 +344,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                         val umsatzJob: HBCIJob = handle.newJob("KUmsAll")
                         log("jobRestrictions : " + umsatzJob.jobRestrictions.toString())
                         umsatzJob.setParam("my", it)
-                        nrOfDays?.let {
-                            umsatzJob.setParam(
-                                "startdate",
-                                Date.from(
-                                    LocalDate.now().minusDays(nrOfDays).atStartOfDay(ZoneId.systemDefault())
-                                        .toInstant()
-                                )
-                            )
-                        }
+                        startDate?.let { umsatzJob.setStartParam(startDate) }
 
                         umsatzJob.addToQueue()
 
@@ -296,8 +363,9 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                         }
 
                         val dbAccount = repository.createAccount(
-                            it.toAccount(bank, result.dataPerDay.first().start.value.longValue)
+                            it.toAccount(bank, result.dataPerDay.firstOrNull()?.start?.value?.longValue ?: 0L)
                         )
+
                         log("created account in db with id ${dbAccount.id}")
                         for (umsLine in result.flatData) {
                             log(umsLine.toString())
@@ -309,6 +377,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                                 repository.saveAttributes(id, attributes)
                             }
                         }
+                        repository.updateAccount(dbAccount.id, ContentValues().apply { put(KEY_LAST_SYNCED_WITH_BANK, LocalDate.now().toString()) })
                         successCount++
                     },
                     onError = {

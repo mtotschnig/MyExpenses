@@ -159,6 +159,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     lateinit var viewModel: MyExpensesViewModel
     private val upgradeHandlerViewModel: UpgradeHandlerViewModel by viewModels()
     private val exportViewModel: ExportViewModel by viewModels()
+    private val bankingViewModel: BankingViewModel by viewModels()
 
     lateinit var binding: ActivityMainBinding
 
@@ -402,6 +403,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             inject(viewModel)
             inject(upgradeHandlerViewModel)
             inject(exportViewModel)
+            inject(bankingViewModel)
         }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -1393,6 +1395,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             R.id.SYNC_COMMAND -> currentAccount?.takeIf { it.syncAccountName != null }?.let {
                 requestSync(accountName = it.syncAccountName!!, uuid = it.uuid)
             }
+            R.id.FINTS_SYNC_COMMAND -> currentAccount?.takeIf { it.bankId != null }?.let {
+                bankingViewModel.syncAccount(it.bankId!!, it.id, "TODO")
+            }
 
             R.id.EDIT_ACCOUNT_COMMAND -> currentAccount?.let { editAccount(it.id) }
             R.id.DELETE_ACCOUNT_COMMAND -> currentAccount?.let { confirmAccountDelete(it) }
@@ -1488,6 +1493,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
 
                 menu.findItem(R.id.SYNC_COMMAND)?.setEnabledAndVisible(syncAccountName != null)
+                menu.findItem(R.id.FINTS_SYNC_COMMAND)?.setEnabledAndVisible(bankId != null)
 
                 menu.findItem(R.id.MANAGE_ACCOUNTS_COMMAND)?.let { item ->
                     item.setEnabledAndVisible(!isAggregate)

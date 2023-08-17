@@ -81,6 +81,7 @@ import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.viewmodel.BankingViewModel
 import org.totschnig.myexpenses.viewmodel.data.BankingCredentials
 import org.totschnig.myexpenses.viewmodel.dbNumber
+import java.time.LocalDate
 
 class Banking : ProtectedFragmentActivity() {
 
@@ -214,7 +215,7 @@ class Banking : ProtectedFragmentActivity() {
                                                 state.accounts.filterIndexed { index, _ ->
                                                     selectedAccounts[index] == true
                                                 }.map { it.first },
-                                                nrDays
+                                                nrDays?.let { LocalDate.now().minusDays(it) }
                                             )
                                         }
 

@@ -371,6 +371,8 @@ public class DatabaseConstants {
   public static final String KEY_CONTEXT = "context";
   public static final String KEY_ATTRIBUTE_ID = "attribute_id";
 
+  public static final String KEY_LAST_SYNCED_WITH_BANK = "last_synced_with_bank";
+
   /**
    * No special status
    */

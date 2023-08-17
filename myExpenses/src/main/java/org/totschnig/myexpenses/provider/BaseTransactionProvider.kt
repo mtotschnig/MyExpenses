@@ -345,7 +345,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
         KEY_HAS_FUTURE,
         KEY_HAS_CLEARED,
         AccountType.sqlOrderExpression(),
-        KEY_LAST_USED
+        KEY_LAST_USED,
+        KEY_BANK_ID
     )
 
     val aggregateFunction: String
@@ -444,7 +445,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "max($KEY_HAS_FUTURE) AS $KEY_HAS_FUTURE",
                         "0 AS $KEY_HAS_CLEARED",
                         "0 AS $KEY_SORT_KEY_TYPE",
-                        "0 AS $KEY_LAST_USED"
+                        "0 AS $KEY_LAST_USED",
+                        "null AS $KEY_BANK_ID"
                     )
                 }
                 subQueries.add(
@@ -510,7 +512,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "max($KEY_HAS_FUTURE) AS $KEY_HAS_FUTURE",
                         "0 AS $KEY_HAS_CLEARED",
                         "0 AS $KEY_SORT_KEY_TYPE",
-                        "0 AS $KEY_LAST_USED"
+                        "0 AS $KEY_LAST_USED",
+                        "null AS $KEY_BANK_ID"
                     )
                 }
                 subQueries.add(

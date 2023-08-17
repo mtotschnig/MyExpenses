@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import java.io.Serializable
+import java.time.LocalDate
 
 data class Account(
     override val id: Long = 0L,
@@ -33,7 +34,9 @@ data class Account(
     val exchangeRate: Double = 1.0,
     override val grouping: Grouping = Grouping.NONE,
     val bankId: Long? = null,
-    val accountNumber: String? = null
+    val accountNumber: String? = null,
+    val lastSyncedWithBank: LocalDate? = null
+
 ): DataBaseAccount(), Serializable {
 
     fun createIn(repository: Repository) = repository.createAccount(this)
@@ -67,7 +70,8 @@ data class Account(
             KEY_CRITERION,
             KEY_SEALED,
             KEY_BANK_ID,
-            KEY_ACCOUNT_NUMBER
+            KEY_ACCOUNT_NUMBER,
+            KEY_LAST_SYNCED_WITH_BANK
         )
 
         fun fromCursor(cursor: Cursor): Account {
@@ -92,7 +96,8 @@ data class Account(
                 sortBy = sortBy,
                 sortDirection = cursor.getEnum(KEY_SORT_DIRECTION, SortDirection.DESC),
                 bankId = cursor.getLongIfExists(KEY_BANK_ID),
-                accountNumber = cursor.getStringIfExists(KEY_ACCOUNT_NUMBER)
+                accountNumber = cursor.getStringIfExists(KEY_ACCOUNT_NUMBER),
+                lastSyncedWithBank =  cursor.getStringIfExists(KEY_LAST_SYNCED_WITH_BANK)?.let { LocalDate.parse(it) }
             )
         }
 
