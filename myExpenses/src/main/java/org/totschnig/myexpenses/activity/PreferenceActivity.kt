@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.setNightMode
+import org.totschnig.myexpenses.viewmodel.BankingViewModel
 import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
 import org.totschnig.myexpenses.widget.AccountWidget
@@ -48,6 +49,8 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
     val viewModel: SettingsViewModel?
         get() = twoPanePreference.getDetailFragment<BasePreferenceFragment>()
             ?.viewModel
+
+    private val bankingViewModel: BankingViewModel by viewModels()
 
     private val licenceValidationViewModel: LicenceValidationViewModel by viewModels()
 
@@ -319,15 +322,27 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
-        if (feature === ContribFeature.CSV_IMPORT) {
-            startActivity(Intent(this, CsvImportActivity::class.java))
-        }
-        if (feature === ContribFeature.WEB_UI) {
-            if (featureViewModel.isFeatureAvailable(this, Feature.WEBUI)) {
-                activateWebUi()
-            } else {
-                featureViewModel.requestFeature(this, Feature.WEBUI)
+        when (feature) {
+            ContribFeature.CSV_IMPORT -> {
+                startActivity(Intent(this, CsvImportActivity::class.java))
             }
+
+            ContribFeature.WEB_UI -> {
+                if (featureViewModel.isFeatureAvailable(this, Feature.WEBUI)) {
+                    activateWebUi()
+                } else {
+                    featureViewModel.requestFeature(this, Feature.WEBUI)
+                }
+            }
+            ContribFeature.BANKING -> {
+                if (featureViewModel.isFeatureAvailable(this, Feature.FINTS)) {
+                    bankingViewModel.startBankingList(this)
+                } else {
+                    featureViewModel.requestFeature(this, Feature.FINTS)
+                }
+            }
+
+            else -> {}
         }
     }
 

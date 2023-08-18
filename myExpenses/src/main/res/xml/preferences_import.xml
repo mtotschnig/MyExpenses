@@ -33,10 +33,6 @@
             android:targetPackage="@string/application_id" />
     </Preference>
     <Preference
-        android:title="Banking (FinTS - German banks only)">
-
-        <intent
-            android:targetClass="org.totschnig.myexpenses.activity.Banking"
-            android:targetPackage="@string/application_id" />
-    </Preference>
+        android:key="@string/pref_banking_fints_key"
+        android:title="Banking (FinTS - German banks only)" />
 </PreferenceScreen>

@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.os.Build
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
+import org.totschnig.myexpenses.db2.FinTsAttribute
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -443,6 +444,15 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
                 execSQL(CATEGORY_LABEL_LEGACY_TRIGGER_INSERT)
                 execSQL(CATEGORY_LABEL_LEGACY_TRIGGER_UPDATE)
             }
+        }
+    }
+
+    fun insertFinTSAttributes(db: SupportSQLiteDatabase) {
+        FinTsAttribute.values().forEach {
+            db.insert(TABLE_ATTRIBUTES, ContentValues().apply {
+                put(KEY_ATTRIBUTE_NAME, it.name)
+                put(KEY_CONTEXT, it.context)
+            })
         }
     }
 }

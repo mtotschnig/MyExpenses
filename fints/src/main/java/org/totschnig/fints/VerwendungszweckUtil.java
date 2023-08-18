@@ -8,7 +8,7 @@
  *
  **********************************************************************/
 
-package org.totschnig.myexpenses.viewmodel;
+package org.totschnig.fints;
 
 import org.apache.commons.lang3.StringUtils;
 

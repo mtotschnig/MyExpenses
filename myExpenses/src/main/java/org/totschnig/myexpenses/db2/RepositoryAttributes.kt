@@ -2,18 +2,14 @@ package org.totschnig.myexpenses.db2
 
 import android.annotation.SuppressLint
 import android.content.ContentProviderOperation
-import android.content.ContentValues
 import android.database.Cursor
-import android.os.Bundle
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CONTEXT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.useAndMap
-import org.totschnig.myexpenses.viewmodel.FinTsAttribute
 import java.lang.IllegalStateException
 
 interface Attribute {
@@ -30,17 +26,25 @@ interface Attribute {
     }
 }
 
-fun Repository.configureAttributes(attributes: List<Attribute>) {
-    val ops = ArrayList<ContentProviderOperation>()
-    attributes.forEach {
-        ops.add(
-            ContentProviderOperation.newInsert(TransactionProvider.ATTRIBUTES_URI)
-                .withValue(KEY_ATTRIBUTE_NAME, it.name)
-                .withValue(KEY_CONTEXT, it.context)
-                .build()
-        )
+/**
+ * see VerwendungszweckUtil.Tag
+ */
+enum class FinTsAttribute(override val userVisible: Boolean = true) : Attribute {
+    EREF,
+    KREF,
+    MREF,
+    CRED,
+    DBET,
+    SALDO,
+    CHECKSUM(false)
+    ;
+
+    companion object {
+        const val CONTEXT = "FinTS"
     }
-    contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
+
+    override val context: String
+        get() = CONTEXT
 }
 
 fun Repository.saveAttributes(transactionId: Long, attributes: Map<out Attribute, String>) {

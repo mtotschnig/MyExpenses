@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.viewmodel
+package org.totschnig.fints
 
 import org.apache.commons.lang3.StringUtils
 import org.kapott.hbci.GV_Result.GVRKUms.UmsLine
@@ -14,8 +14,9 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Party
-import org.totschnig.myexpenses.viewmodel.VerwendungszweckUtil.Tag
-import org.totschnig.myexpenses.viewmodel.VerwendungszweckUtil.getTag
+import org.totschnig.fints.VerwendungszweckUtil.Tag
+import org.totschnig.fints.VerwendungszweckUtil.getTag
+import org.totschnig.myexpenses.db2.FinTsAttribute
 import java.util.zip.CRC32
 
 
@@ -41,7 +42,7 @@ fun UmsLine.checkSum(): Long {
     return crc.value
 }
 
-class HbciConverter(val repository: Repository, val eur: CurrencyUnit) {
+class HbciConverter(val repository: Repository, private val eur: CurrencyUnit) {
     private val methodToId: MutableMap<String, Long> = HashMap()
 
     fun UmsLine.toTransaction(accountId: Long): Pair<Transaction, Map<out Attribute, String>> {
@@ -108,7 +109,7 @@ class HbciConverter(val repository: Repository, val eur: CurrencyUnit) {
     }
 
 
-    fun replace(text: String?, replacements: Array<Array<String>>) =
+    private fun replace(text: String?, replacements: Array<Array<String>>) =
         if (text.isNullOrEmpty()) text else
             StringUtils.replaceEach(text, replacements[0], replacements[1])
 

@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.viewmodel
+package org.totschnig.fints
 
 import org.kapott.hbci.structures.Konto
 import org.totschnig.myexpenses.model.AccountType

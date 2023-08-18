@@ -358,8 +358,6 @@
             android:taskAffinity=""
             android:theme="@android:style/Theme.NoDisplay" />
 
-        <activity android:name="org.totschnig.myexpenses.activity.Banking" />
-
         <service
             android:name=".sync.GenericAccountService"
             android:exported="false">

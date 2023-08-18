@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.dialog.TransactionListComposeDialogFragment;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectFromTableDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
+import org.totschnig.myexpenses.feature.BankingFeature;
 import org.totschnig.myexpenses.feature.FeatureManager;
 import org.totschnig.myexpenses.feature.OcrFeature;
 import org.totschnig.myexpenses.fragment.BudgetList;
@@ -154,6 +155,9 @@ public interface AppComponent {
 
   @Nullable
   OcrFeature ocrFeature();
+
+  @Nullable
+  BankingFeature bankingFeature();
 
   OkHttpClient.Builder okHttpClientBuilder();
 

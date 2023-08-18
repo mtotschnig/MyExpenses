@@ -745,6 +745,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(CHANGES_CREATE);
     db.execSQL(BANK_CREATE);
     db.execSQL(ATTRIBUTES_CREATE);
+    insertFinTSAttributes(db);
     db.execSQL(TRANSACTION_ATTRIBUTES_CREATE);
 
     //Index
@@ -788,7 +789,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
     createOrRefreshCategoryHierarchyTrigger(db);
 
-    //Views
     createOrRefreshViews(db);
     //insertTestData(db, 50, 50);
     super.onCreate(db);

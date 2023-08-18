@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.activity
+package org.totschnig.fints
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -38,7 +38,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -76,21 +75,19 @@ import org.totschnig.myexpenses.compose.rememberMutableStateMapOf
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model2.Bank
-import org.totschnig.myexpenses.viewmodel.BankingViewModel
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.viewmodel.data.BankingCredentials
-import org.totschnig.myexpenses.viewmodel.dbNumber
 import java.time.LocalDate
 
 class Banking : ProtectedFragmentActivity() {
 
-    val viewModel: BankingViewModel by viewModels()
+    private val viewModel: BankingViewModel by viewModels()
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         injector.inject(viewModel)
-        viewModel.initAttributes()
         setContent {
             AppTheme {
 

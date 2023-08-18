@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.fragment
+package org.totschnig.fints
 
 import android.os.Bundle
 import androidx.compose.foundation.layout.Box
@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.viewModels
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.Loading
 import org.totschnig.myexpenses.compose.BankingCredentials
 import org.totschnig.myexpenses.compose.ButtonRow
 import org.totschnig.myexpenses.compose.TanDialog
@@ -25,7 +24,6 @@ import org.totschnig.myexpenses.dialog.ComposeBaseDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_ID
-import org.totschnig.myexpenses.viewmodel.BankingViewModel
 import org.totschnig.myexpenses.viewmodel.data.BankingCredentials
 
 class BankingSyncFragment : ComposeBaseDialogFragment() {
@@ -88,7 +86,9 @@ class BankingSyncFragment : ComposeBaseDialogFragment() {
                         }
                     }
 
-                    is BankingViewModel.WorkState.Loading -> Loading((workState.value as BankingViewModel.WorkState.Loading).message)
+                    is BankingViewModel.WorkState.Loading -> Loading(
+                        (workState.value as BankingViewModel.WorkState.Loading).message
+                    )
                     else -> {}
                 }
             }

@@ -33,6 +33,7 @@ sealed class Feature(@StringRes val labelResId: Int, val moduleName: String) {
                 "drive" -> DRIVE
                 "dropbox" -> DROPBOX
                 "webdav" -> WEBDAV
+                "fints" -> FINTS
                 else -> null
             }
 
@@ -50,6 +51,7 @@ sealed class Feature(@StringRes val labelResId: Int, val moduleName: String) {
                 DRIVE,
                 DROPBOX,
                 WEBDAV,
+                FINTS,
             )
         }
 
@@ -100,12 +102,12 @@ sealed class Feature(@StringRes val labelResId: Int, val moduleName: String) {
     object DRIVE : SyncBackend(R.string.title_drive, "drive")
     object DROPBOX : SyncBackend(R.string.title_dropbox, "dropbox")
     object WEBDAV : SyncBackend(R.string.title_webdav, "webdav")
-
     object SQLCRYPT: Feature(R.string.title_sqlcrypt, "sqlcrypt") {
         override fun canUninstall(context: Context, prefHandler: PrefHandler): Boolean {
             return !prefHandler.encryptDatabase
         }
     }
+    object FINTS: Feature(R.string.title_fints, "fints")
 }
 
 enum class Script {

@@ -15,7 +15,7 @@ import java.time.LocalDate
 
 data class Account(
     override val id: Long = 0L,
-    val label: String  = "",
+    val label: String = "",
     val description: String = "",
     val openingBalance: Long = 0L,
     override val currency: String,
@@ -35,9 +35,9 @@ data class Account(
     override val grouping: Grouping = Grouping.NONE,
     val bankId: Long? = null,
     val accountNumber: String? = null,
-    val lastSyncedWithBank: LocalDate? = null
+    val lastSyncedWithBank: String? = null
 
-): DataBaseAccount(), Serializable {
+) : DataBaseAccount(), Serializable {
 
     fun createIn(repository: Repository) = repository.createAccount(this)
 
@@ -87,19 +87,21 @@ data class Account(
                 type = cursor.getEnum(KEY_TYPE, AccountType.CASH),
                 color = cursor.getInt(KEY_COLOR),
                 criterion = cursor.getLong(KEY_CRITERION),
-                syncAccountName= cursor.getStringOrNull(KEY_SYNC_ACCOUNT_NAME),
+                syncAccountName = cursor.getStringOrNull(KEY_SYNC_ACCOUNT_NAME),
                 excludeFromTotals = cursor.getBoolean(KEY_EXCLUDE_FROM_TOTALS),
                 uuid = cursor.getString(KEY_UUID),
                 isSealed = cursor.getBoolean(KEY_SEALED),
                 exchangeRate = cursor.getDoubleIfExists(KEY_EXCHANGE_RATE) ?: 1.0,
-                grouping = if (sortBy == KEY_DATE) cursor.getEnum(KEY_GROUPING, Grouping.NONE) else Grouping.NONE,
+                grouping = if (sortBy == KEY_DATE) cursor.getEnum(
+                    KEY_GROUPING,
+                    Grouping.NONE
+                ) else Grouping.NONE,
                 sortBy = sortBy,
                 sortDirection = cursor.getEnum(KEY_SORT_DIRECTION, SortDirection.DESC),
                 bankId = cursor.getLongIfExists(KEY_BANK_ID),
                 accountNumber = cursor.getStringIfExists(KEY_ACCOUNT_NUMBER),
-                lastSyncedWithBank =  cursor.getStringIfExists(KEY_LAST_SYNCED_WITH_BANK)?.let { LocalDate.parse(it) }
+                lastSyncedWithBank = cursor.getStringIfExists(KEY_LAST_SYNCED_WITH_BANK)
             )
         }
-
     }
 }
