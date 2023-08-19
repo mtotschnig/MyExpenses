@@ -17,6 +17,7 @@ import org.totschnig.myexpenses.model2.Party
 import org.totschnig.fints.VerwendungszweckUtil.Tag
 import org.totschnig.fints.VerwendungszweckUtil.getTag
 import org.totschnig.myexpenses.db2.FinTsAttribute
+import org.totschnig.myexpenses.model.CurrencyContext
 import java.util.zip.CRC32
 
 
@@ -45,8 +46,11 @@ fun UmsLine.checkSum(): Long {
 class HbciConverter(val repository: Repository, private val eur: CurrencyUnit) {
     private val methodToId: MutableMap<String, Long> = HashMap()
 
-    fun UmsLine.toTransaction(accountId: Long): Pair<Transaction, Map<out Attribute, String>> {
+    fun UmsLine.toTransaction(accountId: Long, currencyContext: CurrencyContext): Pair<Transaction, Map<out Attribute, String>> {
         val transaction = Transaction(accountId, Money(eur, value.longValue))
+        orig_value?.let {
+            transaction.originalAmount = Money(currencyContext[it.curr], it.longValue)
+        }
         transaction.crStatus = CrStatus.RECONCILED
         transaction.setDate(bdate)
         transaction.setValueDate(valuta)
@@ -71,7 +75,7 @@ class HbciConverter(val repository: Repository, private val eur: CurrencyUnit) {
                     ).joinToString("\n")
         }
 
-        transaction.methodId = clean(text)?.let { extractMethodId(it) }
+        transaction.methodId = text?.let { clean(it) }?.let { extractMethodId(it) }
 
         val attributes = buildMap {
             extractAttribute(transfer, this, Tag.EREF, FinTsAttribute.EREF)

@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase
 import android.os.Build
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
+import org.totschnig.myexpenses.db2.Attribute
+import org.totschnig.myexpenses.db2.BankingAttribute
 import org.totschnig.myexpenses.db2.FinTsAttribute
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.Model
@@ -448,12 +450,8 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
     }
 
     fun insertFinTSAttributes(db: SupportSQLiteDatabase) {
-        FinTsAttribute.values().forEach {
-            db.insert(TABLE_ATTRIBUTES, ContentValues().apply {
-                put(KEY_ATTRIBUTE_NAME, it.name)
-                put(KEY_CONTEXT, it.context)
-            })
-        }
+        Attribute.initDatabase(db, FinTsAttribute::class.java)
+        Attribute.initDatabase(db, BankingAttribute::class.java)
     }
 }
 

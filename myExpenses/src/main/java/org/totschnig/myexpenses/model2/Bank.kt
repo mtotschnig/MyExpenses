@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.model2
 
 import android.database.Cursor
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BIC
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BLZ
@@ -11,6 +13,7 @@ import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
 
+@Parcelize
 data class Bank(
     val id: Long = 0L,
     val blz: String,
@@ -21,7 +24,7 @@ data class Bank(
      * holds the number of accounts linked to this bank
      */
     val count: Int = 0
-) {
+): Parcelable {
     override fun toString(): String {
         return "$bankName ($userId)"
     }

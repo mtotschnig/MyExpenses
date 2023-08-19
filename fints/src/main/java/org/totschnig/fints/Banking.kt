@@ -66,11 +66,9 @@ import androidx.compose.ui.window.DialogProperties
 import org.kapott.hbci.structures.Konto
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
-import org.totschnig.myexpenses.compose.BankingCredentials
 import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
-import org.totschnig.myexpenses.compose.TanDialog
 import org.totschnig.myexpenses.compose.rememberMutableStateMapOf
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.injector
@@ -149,11 +147,7 @@ class Banking : ProtectedFragmentActivity() {
                                                 }
                                             },
                                             onShow = {
-                                                dialogShown.value = BankingCredentials(
-                                                    bankLeitZahl = it.blz,
-                                                    user = it.userId,
-                                                    bank = it.id to it.bankName
-                                                )
+                                                dialogShown.value = BankingCredentials.fromBank(it)
                                             }
                                         )
                                     }
@@ -357,9 +351,7 @@ class Banking : ProtectedFragmentActivity() {
                         }
                     )
                 }
-                if (tanRequested.value == true) {
-                    TanDialog(submitTan = viewModel::submitTan)
-                }
+                TanDialog(tanRequest = tanRequested.value, submitTan = viewModel::submitTan)
             }
         }
     }

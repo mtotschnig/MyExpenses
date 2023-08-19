@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.ContentUris
 import android.content.ContentValues
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,6 +25,8 @@ import org.kapott.hbci.manager.BankInfo
 import org.kapott.hbci.manager.HBCIHandler
 import org.kapott.hbci.manager.HBCIUtils
 import org.kapott.hbci.manager.HBCIVersion
+import org.kapott.hbci.manager.MatrixCode
+import org.kapott.hbci.manager.QRCode
 import org.kapott.hbci.passport.AbstractHBCIPassport
 import org.kapott.hbci.passport.HBCIPassport
 import org.kapott.hbci.status.HBCIExecStatus
@@ -55,6 +59,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.useAndMap
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel
 import org.totschnig.myexpenses.viewmodel.data.BankingCredentials
@@ -64,6 +69,8 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date
 import java.util.Properties
+
+data class TanRequest(val bitmap: Bitmap?)
 
 class BankingViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
@@ -83,9 +90,9 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
     private val tanFuture: CompletableDeferred<String?> = CompletableDeferred()
 
-    private val _tanRequested = MutableLiveData(false)
+    private val _tanRequested = MutableLiveData<TanRequest?>(null)
 
-    val tanRequested: LiveData<Boolean> = _tanRequested
+    val tanRequested: LiveData<TanRequest?> = _tanRequested
 
     private val _workState: MutableStateFlow<WorkState> =
         MutableStateFlow(WorkState.Initial)
@@ -107,10 +114,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         data class BankLoaded(val bank: Bank): WorkState()
 
         data class AccountsLoaded(
-            /*
-                pair of rowId in Database and bank name
-             */
-            val bank: Pair<Long, String>,
+            val bank: Bank,
             /*
                 Konto to Boolean that indicates if the account has already been imported
              */
@@ -122,7 +126,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
     fun submitTan(tan: String?) {
         tanFuture.complete(tan)
-        _tanRequested.postValue(false)
+        _tanRequested.postValue(null)
     }
 
     private fun log(msg: String) {
@@ -180,9 +184,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         val passport = try {
             buildPassport(info, passportFile)
         } catch (e: Exception) {
-            if (BuildConfig.DEBUG) {
-                Timber.e(e)
-            }
+            Timber.e(e)
             HBCIUtils.doneThread()
             onError(Exception("Wrong PIN"))
             return
@@ -203,6 +205,9 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         }
         try {
             work(info, passport, handle)
+        } catch (e: Exception) {
+            Timber.e(e)
+            onError(e)
         } finally {
             handle.close()
             passport.close()
@@ -229,21 +234,18 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             doHBCI(
                 bankingCredentials,
                 work = { info, passport, _ ->
-                    val bank = if (bankingCredentials.isNew) {
-                        with(
-                            repository.createBank(
-                                Bank(
-                                    blz = info.blz,
-                                    bic = info.bic,
-                                    bankName = info.name,
-                                    userId = bankingCredentials.user
-                                )
+                    val bank = if (bankingCredentials.isNew)
+                        repository.createBank(
+                            Bank(
+                                blz = info.blz,
+                                bic = info.bic,
+                                bankName = info.name,
+                                userId = bankingCredentials.user
                             )
-                        ) { id to bankName }
-                    } else bankingCredentials.bank!!
+                        ) else bankingCredentials.bank!!
 
                     val importedAccounts = bankingCredentials.bank?.let {
-                        repository.importedAccounts(it.first)
+                        repository.importedAccounts(it.id)
                     }
 
                     val accounts = passport.accounts
@@ -277,7 +279,9 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
                     val umsatzJob: HBCIJob = handle.newJob("KUmsAll")
                     umsatzJob.setParam("my.blz", credentials.blz)
-                    umsatzJob.setParam("my.number", account.accountNumber)
+                    val parts = account.accountNumber!!.split('/')
+                    umsatzJob.setParam("my.number", parts[0])
+                    parts.getOrNull(1)?.let {  umsatzJob.setParam("my.subnumber", it) }
                     umsatzJob.setStartParam(LocalDate.parse(account.lastSyncedWithBank!!))
                     umsatzJob.addToQueue()
 
@@ -302,7 +306,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                         log(umsLine.toString())
                         with(converter) {
                             val (transaction, attributes: Map<out Attribute, String>) =
-                                umsLine.toTransaction(accountId)
+                                umsLine.toTransaction(accountId, currencyContext)
                             if (isDuplicate(transaction, attributes[FinTsAttribute.CHECKSUM]!!)) {
                                 Timber.d("Found duplicatee for $umsLine")
                             } else {
@@ -353,7 +357,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
     fun importAccounts(
         bankingCredentials: BankingCredentials,
-        bank: Pair<Long, String>,
+        bank: Bank,
         accounts: List<Konto>,
         startDate: LocalDate?
     ) {
@@ -378,8 +382,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                         val status: HBCIExecStatus = handle.execute()
 
                         if (!status.isOK) {
-                            error(status.toString())
-                            return@doHBCI
+                            CrashHandler.report(Exception("Status was not ok"))
                         }
 
                         val result = umsatzJob.jobResult as GVRKUms
@@ -398,7 +401,8 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                             log(umsLine.toString())
                             with(converter) {
                                 val (transaction, attributes: Map<out Attribute, String>) = umsLine.toTransaction(
-                                    dbAccount.id
+                                    dbAccount.id,
+                                    currencyContext
                                 )
                                 val id = ContentUris.parseId(transaction.save()!!)
                                 repository.saveAttributes(id, attributes)
@@ -456,14 +460,34 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                 NEED_CUSTOMERID -> retData.replace(0, retData.length, bankingCredentials.user)
                 NEED_PT_PHOTOTAN ->
                     try {
-                        TODO()
+                        val code = MatrixCode(retData.toString());
+
+                        val type = code.mimetype
+
+                        val bitmap = BitmapFactory.decodeByteArray(code.image, 0, code.image.size)
+
+                        _tanRequested.postValue(TanRequest(bitmap))
+
                     } catch (e: Exception) {
                         throw HBCI_Exception(e)
                     }
 
                 NEED_PT_QRTAN ->
                     try {
-                        TODO()
+                        val code = QRCode(retData.toString(),msg)
+
+                       val type = code.mimetype
+
+                        // Der Stream enthaelt jetzt die Binaer-Daten des Bildes
+                        val bitmap = BitmapFactory.decodeByteArray(code.image, 0, code.image.size)
+
+                        _tanRequested.postValue(TanRequest(bitmap))
+
+                        // .... Hier Dialog mit der Grafik anzeigen und User-Eingabe der TAN
+                        // Die Variable "msg" aus der Methoden-Signatur enthaelt uebrigens
+                        // den bankspezifischen Text mit den Instruktionen fuer den User.
+                        // Der Text aus "msg" sollte daher im Dialog dem User angezeigt
+                        // werden.
                     } catch (e: Exception) {
                         throw HBCI_Exception(e)
                     }
@@ -489,7 +513,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     if (flicker.isNotEmpty()) {
                         TODO()
                     } else {
-                        _tanRequested.postValue(true)
+                        _tanRequested.postValue(TanRequest(null))
                         retData.replace(0, retData.length, runBlocking {
                             val result =
                                 tanFuture.await() ?: throw HBCI_Exception("TAN entry cancelled")

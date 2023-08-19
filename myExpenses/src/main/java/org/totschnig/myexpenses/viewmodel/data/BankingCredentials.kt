@@ -2,16 +2,21 @@ package org.totschnig.myexpenses.viewmodel.data
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import org.totschnig.myexpenses.model2.Bank
 
 @Parcelize
 data class BankingCredentials(
     val bankLeitZahl: String,
     val user: String,
     val password: String? = null,
-    val bank: Pair<Long, String>? = null
+    val bank: Bank? = null
 ) : Parcelable {
     companion object  {
         val EMPTY = BankingCredentials("", "", null)
+
+        fun fromBank(bank: Bank) = with(bank) {
+            BankingCredentials(blz, userId, bank = this)
+        }
     }
     val isComplete: Boolean
         get() = bankLeitZahl.isNotEmpty() && user.isNotEmpty() && !password.isNullOrEmpty()

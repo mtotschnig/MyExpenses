@@ -2,15 +2,20 @@ package org.totschnig.myexpenses.db2
 
 import android.annotation.SuppressLint
 import android.content.ContentProviderOperation
+import android.content.ContentValues
 import android.database.Cursor
+import androidx.sqlite.db.SupportSQLiteDatabase
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CONTEXT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.provider.useAndMap
 import java.lang.IllegalStateException
+import java.util.EnumSet
 
 interface Attribute {
     val name: String
@@ -19,10 +24,22 @@ interface Attribute {
 
     companion object {
         fun from(cursor: Cursor): Pair<Attribute, String> =
-            when(val context = cursor.getString(KEY_CONTEXT)) {
+            when (val context = cursor.getString(KEY_CONTEXT)) {
                 FinTsAttribute.CONTEXT -> FinTsAttribute.valueOf(cursor.getString(KEY_ATTRIBUTE_NAME))
                 else -> throw IllegalStateException("Unknown context $context")
             } to cursor.getString(KEY_VALUE)
+
+        fun <E> initDatabase(
+            db: SupportSQLiteDatabase,
+            attributeClass: Class<E>
+        ) where E : Enum<E>, E : Attribute {
+            EnumSet.allOf(attributeClass).forEach {
+                db.insert(DatabaseConstants.TABLE_ATTRIBUTES, ContentValues().apply {
+                    put(KEY_ATTRIBUTE_NAME, it.name)
+                    put(KEY_CONTEXT, it.context)
+                })
+            }
+        }
     }
 }
 
@@ -47,6 +64,19 @@ enum class FinTsAttribute(override val userVisible: Boolean = true) : Attribute 
         get() = CONTEXT
 }
 
+enum class BankingAttribute : Attribute {
+    IBAN, NUMBER, SUBNUMBER;
+
+    companion object {
+        const val CONTEXT = "Banking"
+    }
+
+    override val userVisible = true
+    override val context: String
+        get() = CONTEXT
+
+}
+
 fun Repository.saveAttributes(transactionId: Long, attributes: Map<out Attribute, String>) {
     val ops = ArrayList<ContentProviderOperation>()
     attributes.forEach {
@@ -64,7 +94,8 @@ fun Repository.saveAttributes(transactionId: Long, attributes: Map<out Attribute
 
 @SuppressLint("Recycle")
 fun Repository.loadAttributes(transactionId: Long): List<Pair<Attribute, String>> {
-    return contentResolver.query(TransactionProvider.TRANSACTIONS_ATTRIBUTES_URI, null,
+    return contentResolver.query(
+        TransactionProvider.TRANSACTIONS_ATTRIBUTES_URI, null,
         "$KEY_TRANSACTIONID = ?", arrayOf(transactionId.toString()), null
     )?.useAndMap { Attribute.from(it) } ?: emptyList()
 }

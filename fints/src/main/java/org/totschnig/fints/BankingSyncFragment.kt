@@ -17,9 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.viewModels
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.compose.BankingCredentials
 import org.totschnig.myexpenses.compose.ButtonRow
-import org.totschnig.myexpenses.compose.TanDialog
 import org.totschnig.myexpenses.dialog.ComposeBaseDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -49,9 +47,7 @@ class BankingSyncFragment : ComposeBaseDialogFragment() {
                     is BankingViewModel.WorkState.BankLoaded -> {
                         val state: MutableState<BankingCredentials?> = remember {
                             mutableStateOf(
-                                with((workState.value as BankingViewModel.WorkState.BankLoaded).bank) {
-                                    BankingCredentials(blz, userId, bank = id to bankName)
-                                }
+                                BankingCredentials.fromBank((workState.value as BankingViewModel.WorkState.BankLoaded).bank)
                             )
                         }
                         BankingCredentials(bankingCredentials = state, onDone = {})
@@ -89,12 +85,11 @@ class BankingSyncFragment : ComposeBaseDialogFragment() {
                     is BankingViewModel.WorkState.Loading -> Loading(
                         (workState.value as BankingViewModel.WorkState.Loading).message
                     )
+
                     else -> {}
                 }
             }
-            if (tanRequested.value == true) {
-                TanDialog(submitTan = viewModel::submitTan)
-            }
+            TanDialog(tanRequest = tanRequested.value, submitTan = viewModel::submitTan)
         }
     }
 

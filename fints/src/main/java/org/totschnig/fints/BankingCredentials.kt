@@ -1,5 +1,6 @@
-package org.totschnig.myexpenses.compose
+package org.totschnig.fints
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -13,10 +14,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import org.totschnig.myexpenses.viewmodel.BankingViewModel
 import org.totschnig.myexpenses.viewmodel.data.BankingCredentials
 
 @Composable
@@ -25,9 +26,7 @@ fun BankingCredentials(
     onDone: (BankingCredentials) -> Unit
 ) {
     bankingCredentials.value?.let { credentials ->
-        credentials.bank?.let {
-            Text(it.second)
-        } ?: run {
+        credentials.bank?.let { Text(it.bankName) } ?: run {
             OutlinedTextField(
                 enabled = credentials.isNew,
                 keyboardOptions = KeyboardOptions(
@@ -76,31 +75,37 @@ fun BankingCredentials(
 
 @Composable
 fun TanDialog(
-    tanRequest: BankingViewModel.TanRequest,
-    submitTan: (String?) -> Unit) {
-    var tan by rememberSaveable { mutableStateOf("") }
-    AlertDialog(
-        onDismissRequest = {
-            submitTan(null)
-        },
-        confirmButton = {
-            Button(onClick = {
-                submitTan(tan)
-            }) {
-                Text("Send")
+    tanRequest: TanRequest?,
+    submitTan: (String?) -> Unit
+) {
+    tanRequest?.let {
+        var tan by rememberSaveable { mutableStateOf("") }
+        AlertDialog(
+            onDismissRequest = {
+                submitTan(null)
+            },
+            confirmButton = {
+                Button(onClick = {
+                    submitTan(tan)
+                }) {
+                    Text("Send")
+                }
+            },
+            text = {
+                Column {
+                    tanRequest.bitmap?.let {
+                        Image(bitmap = it.asImageBitmap(), contentDescription = "PhotoTAN")
+                    }
+                    OutlinedTextField(
+                        value = tan,
+                        onValueChange = {
+                            tan = it
+                        },
+                        label = { Text(text = "TAN") },
+                    )
+                }
             }
-        },
-        text = {
-            Column {
-                Image(painter)
-                OutlinedTextField(
-                    value = tan,
-                    onValueChange = {
-                        tan = it
-                    },
-                    label = { Text(text = "TAN") },
-                )
-            }
-        }
-    )
+        )
+    }
+
 }
