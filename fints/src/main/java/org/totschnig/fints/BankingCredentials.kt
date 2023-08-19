@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.compose
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
@@ -15,6 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import org.totschnig.myexpenses.viewmodel.BankingViewModel
 import org.totschnig.myexpenses.viewmodel.data.BankingCredentials
 
 @Composable
@@ -73,7 +75,9 @@ fun BankingCredentials(
 }
 
 @Composable
-fun TanDialog(submitTan: (String?) -> Unit) {
+fun TanDialog(
+    tanRequest: BankingViewModel.TanRequest,
+    submitTan: (String?) -> Unit) {
     var tan by rememberSaveable { mutableStateOf("") }
     AlertDialog(
         onDismissRequest = {
@@ -87,13 +91,16 @@ fun TanDialog(submitTan: (String?) -> Unit) {
             }
         },
         text = {
-            OutlinedTextField(
-                value = tan,
-                onValueChange = {
-                    tan = it
-                },
-                label = { Text(text = "TAN") },
-            )
+            Column {
+                Image(painter)
+                OutlinedTextField(
+                    value = tan,
+                    onValueChange = {
+                        tan = it
+                    },
+                    label = { Text(text = "TAN") },
+                )
+            }
         }
     )
 }
