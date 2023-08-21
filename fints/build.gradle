@@ -10,6 +10,7 @@ android {
         minSdk project.minSdkVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.txt")
+        resourceConfigurations = ['en', 'de']
     }
     compileOptions {
         coreLibraryDesugaringEnabled true

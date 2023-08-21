@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_new_bank">Bank hinzufügen</string>
+    <string name="select_accounts">Konten auswählen</string>
+    <string name="enter_pin">PIN eingegeben</string>
+    <string name="bankleitzahl">Bankleitzahl</string>
+    <string name="login_name">Anmeldename</string>
+    <string name="pin_info">Der PIN wird nicht auf dem Gerät gespeichert und bei jeder weiteren Verbindung mit der Bank erneut abgefragt.</string>
+    <string name="btn_load_accounts">Konten laden</string>
+</resources>

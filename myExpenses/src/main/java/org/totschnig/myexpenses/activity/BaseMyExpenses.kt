@@ -546,7 +546,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 toggleExcludeFromTotals(it)
                             },
                             expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping.value}"),
-                            expansionHandlerAccounts = viewModel.expansionHandler("collapsedAccounts")
+                            expansionHandlerAccounts = viewModel.expansionHandler("collapsedAccounts"),
+                            bankIcon = bankingViewModel.bankIconRenderer
                         )
                     }?.onFailure {
                         val (message, forceQuit) = when (it) {

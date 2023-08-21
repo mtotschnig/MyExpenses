@@ -8,6 +8,7 @@ import org.totschnig.myexpenses.model2.Bank
 
 fun Konto.toAccount(bank: Bank, openingBalance: Long) = Account(
     label = bank.bankName,
+    description = type,
     currency = curr,
     type = AccountType.BANK,
     bankId = bank.id,

@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.kapott.hbci.GV.HBCIJob
-import org.kapott.hbci.GV.HBCIJobImpl
 import org.kapott.hbci.GV_Result.GVRKUms
 import org.kapott.hbci.callback.AbstractHBCICallback
 import org.kapott.hbci.exceptions.HBCI_Exception
@@ -69,7 +68,6 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date
 import java.util.Properties
-import kotlin.math.acos
 
 data class TanRequest(val bitmap: Bitmap?)
 

@@ -350,7 +350,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
         KEY_HAS_CLEARED,
         AccountType.sqlOrderExpression(),
         KEY_LAST_USED,
-        KEY_BANK_ID
+        KEY_BANK_ID,
+        "(SELECT $KEY_BLZ FROM $TABLE_BANKS WHERE $KEY_ROWID = $KEY_BANK_ID) AS $KEY_BLZ"
     )
 
     val aggregateFunction: String
@@ -450,7 +451,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "0 AS $KEY_HAS_CLEARED",
                         "0 AS $KEY_SORT_KEY_TYPE",
                         "0 AS $KEY_LAST_USED",
-                        "null AS $KEY_BANK_ID"
+                        "null AS $KEY_BANK_ID",
+                        "null AS $KEY_BLZ"
                     )
                 }
                 subQueries.add(
@@ -517,7 +519,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "0 AS $KEY_HAS_CLEARED",
                         "0 AS $KEY_SORT_KEY_TYPE",
                         "0 AS $KEY_LAST_USED",
-                        "null AS $KEY_BANK_ID"
+                        "null AS $KEY_BANK_ID",
+                        "null AS $KEY_BLZ"
                     )
                 }
                 subQueries.add(

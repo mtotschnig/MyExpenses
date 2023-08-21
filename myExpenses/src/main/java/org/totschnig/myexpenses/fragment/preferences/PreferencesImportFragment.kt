@@ -6,6 +6,7 @@ import androidx.preference.Preference
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
+import java.util.Locale
 
 @Keep
 class PreferencesImportFragment: BasePreferenceFragment() {
@@ -23,6 +24,10 @@ class PreferencesImportFragment: BasePreferenceFragment() {
         with(requirePreference<Preference>(PrefKey.IMPORT_CSV)) {
             summary = getString(R.string.pref_import_summary, "CSV")
             title = getString(R.string.pref_import_title, "CSV")
+        }
+
+        with(requirePreference<Preference>(PrefKey.BANKING_FINTS)) {
+           summary = Locale.GERMANY.displayCountry
         }
     }
 

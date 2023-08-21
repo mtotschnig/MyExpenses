@@ -54,7 +54,8 @@ fun AccountList(
     onToggleSealed: (FullAccount) -> Unit,
     onToggleExcludeFromTotals: (FullAccount) -> Unit,
     expansionHandlerGroups: ExpansionHandler,
-    expansionHandlerAccounts: ExpansionHandler
+    expansionHandlerAccounts: ExpansionHandler,
+    bankIcon: (@Composable (String) -> Unit)?
 ) {
     val context = LocalContext.current
     val collapsedGroupIds = expansionHandlerGroups.collapsedIds.collectAsState(initial = null).value
@@ -88,7 +89,8 @@ fun AccountList(
                             onHide = onHide,
                             onToggleSealed = onToggleSealed,
                             onToggleExcludeFromTotals = onToggleExcludeFromTotals,
-                            toggleExpansion = { expansionHandlerAccounts.toggle(account.id.toString()) }
+                            toggleExpansion = { expansionHandlerAccounts.toggle(account.id.toString()) },
+                            bankIcon = bankIcon
                         )
                     }
                 }
@@ -162,7 +164,8 @@ fun AccountCard(
     onHide: (Long) -> Unit = {},
     onToggleSealed: (FullAccount) -> Unit = {},
     onToggleExcludeFromTotals: (FullAccount) -> Unit = {},
-    toggleExpansion: () -> Unit = { }
+    toggleExpansion: () -> Unit = { },
+    bankIcon: @Composable() ((String) -> Unit)? = null
 ) {
     val format = LocalCurrencyFormatter.current
     val showMenu = remember { mutableStateOf(false) }
@@ -190,11 +193,14 @@ fun AccountCard(
                 .size(dimensionResource(id = R.dimen.account_color_diameter_compose))
             val color = Color(account.color(LocalContext.current.resources))
             if (account.criterion == null) {
-                ColorCircle(modifier, color) {
-                    if (account.isAggregate) {
-                        Text(fontSize = 18.sp, text = "Σ", color = Color.White)
+                if (account.blz == null || bankIcon == null) {
+                    ColorCircle(modifier, color) {
+                        if (account.isAggregate) {
+                            Text(fontSize = 18.sp, text = "Σ", color = Color.White)
+                        }
                     }
-                }
+                } else bankIcon.invoke(account.blz)
+
             } else {
                 DonutInABox(
                     modifier = modifier,

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_new_bank">Add new bank</string>
+    <string name="select_accounts">Select accounts</string>
+    <string name="enter_pin">Enter PIN</string>
+    <string name="bankleitzahl">Bank number</string>
+    <string name="login_name">Login name</string>
+    Der PIN wird nicht auf dem Gerät gespeichert und bei jeder weiteren Verbindung mit der Bank erneut abgefragt.
+    <string name="pin_info">The PIN is not stored on the device and is requested again for each subsequent connection to the bank.</string>
+    <string name="btn_load_accounts">Load accounts</string>
+</resources>

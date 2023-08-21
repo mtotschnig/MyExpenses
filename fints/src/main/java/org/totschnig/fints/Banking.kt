@@ -57,6 +57,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.VisualTransformation
@@ -65,6 +66,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import org.kapott.hbci.structures.Konto
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.Menu
@@ -73,9 +75,9 @@ import org.totschnig.myexpenses.compose.rememberMutableStateMapOf
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model2.Bank
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.viewmodel.data.BankingCredentials
 import java.time.LocalDate
+import org.totschnig.fints.R as RF
 
 class Banking : ProtectedFragmentActivity() {
 
@@ -90,7 +92,8 @@ class Banking : ProtectedFragmentActivity() {
             AppTheme {
 
                 val data = viewModel.banks.collectAsState()
-                val dialogShown: MutableState<BankingCredentials?> = rememberSaveable { mutableStateOf(null) }
+                val dialogShown: MutableState<BankingCredentials?> =
+                    rememberSaveable { mutableStateOf(null) }
                 val tanRequested = viewModel.tanRequested.observeAsState()
                 val workState = viewModel.workState.collectAsState()
                 val errorState = viewModel.errorState.collectAsState()
@@ -118,7 +121,7 @@ class Banking : ProtectedFragmentActivity() {
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.Add,
-                                contentDescription = "Add new bank"
+                                contentDescription = stringResource(id = RF.string.add_new_bank)
                             )
                         }
                     },
@@ -177,18 +180,15 @@ class Banking : ProtectedFragmentActivity() {
                             )
                         },
                         title = when (workState.value) {
-                            is BankingViewModel.WorkState.Done, is BankingViewModel.WorkState.Loading -> null
-                            else -> {
-                                {
-                                    Text(
-                                        text = when (workState.value) {
-                                            is BankingViewModel.WorkState.AccountsLoaded -> "Select accounts"
-                                            BankingViewModel.WorkState.Initial -> if (bankingCredentials.isNew) "Add new bank" else "Enter PIN"
-                                            else -> ""
-                                        },
-                                        style = MaterialTheme.typography.titleMedium
-                                    )
-                                }
+                            is BankingViewModel.WorkState.AccountsLoaded -> RF.string.select_accounts
+                            BankingViewModel.WorkState.Initial -> if (bankingCredentials.isNew) RF.string.add_new_bank else RF.string.enter_pin
+                            else -> null
+                        }?.let {
+                            {
+                                Text(
+                                    text = stringResource(id = it),
+                                    style = MaterialTheme.typography.titleMedium
+                                )
                             }
                         },
                         confirmButton = {
@@ -225,11 +225,13 @@ class Banking : ProtectedFragmentActivity() {
                                 }
                             ) {
                                 Text(
-                                    when (workState.value) {
-                                        is BankingViewModel.WorkState.AccountsLoaded -> "Import"
-                                        is BankingViewModel.WorkState.Done -> "Close"
-                                        else -> "Load accounts"
-                                    }
+                                    stringResource(
+                                        when (workState.value) {
+                                            is BankingViewModel.WorkState.AccountsLoaded -> R.string.menu_import
+                                            is BankingViewModel.WorkState.Done -> R.string.menu_close
+                                            else -> RF.string.btn_load_accounts
+                                        }
+                                    )
                                 )
                             }
                         },
@@ -301,10 +303,17 @@ class Banking : ProtectedFragmentActivity() {
                                                     text = "Import only last ",
                                                     style = MaterialTheme.typography.bodyMedium
                                                 )
-                                                val interactionSource = remember { MutableInteractionSource() }
+                                                val interactionSource =
+                                                    remember { MutableInteractionSource() }
                                                 BasicTextField(
                                                     value = nrDays?.toString() ?: "",
-                                                    onValueChange = { nrDays = try { it.toLong() } catch (e: NumberFormatException) { 0 } },
+                                                    onValueChange = {
+                                                        nrDays = try {
+                                                            it.toLong()
+                                                        } catch (e: NumberFormatException) {
+                                                            0
+                                                        }
+                                                    },
                                                     interactionSource = interactionSource,
                                                     enabled = !importMaxDuration.value,
                                                     singleLine = true,
@@ -339,6 +348,7 @@ class Banking : ProtectedFragmentActivity() {
                                     is BankingViewModel.WorkState.Done -> {
                                         Text((workState.value as BankingViewModel.WorkState.Done).message)
                                     }
+
                                     else -> {}
                                 }
                                 errorState.value?.let {
@@ -385,6 +395,24 @@ class Banking : ProtectedFragmentActivity() {
 }
 
 @Composable
+fun BankIconImpl(blz: String) {
+    getIcon(blz)?.let {
+        Image(painter = painterResource(id = it), contentDescription = null)
+    } ?: run {
+        Image(imageVector = Icons.Filled.AccountBalance, contentDescription = null)
+    }
+}
+
+fun getIcon(blz: String) = when {
+    blz == "12030000" -> RF.drawable.dkb
+    blz == "43060967" -> RF.drawable.gls
+    blz.startsWith("200411") -> RF.drawable.comdirect
+    blz[3] == '5' -> RF.drawable.sparkasse
+    blz[3] == '9' -> RF.drawable.volksbank
+    else -> null
+}
+
+@Composable
 fun BankRow(
     bank: Bank,
     onDelete: (Bank) -> Unit,
@@ -396,7 +424,7 @@ fun BankRow(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
-        Image(imageVector = Icons.Filled.AccountBalance, contentDescription = null)
+        BankIconImpl(blz = bank.blz)
         Column {
             Text(bank.bankName)
             Text(bank.blz + " / " + bank.bic)
@@ -406,7 +434,12 @@ fun BankRow(
     val menu = Menu(
         buildList {
             add(MenuEntry.delete("DELETE_BANK") { onDelete(bank) })
-            add(MenuEntry(command = "LIST_ACCOUNTS", label = R.string.accounts, icon = Icons.Filled.Checklist) { onShow(bank) })
+            add(
+                MenuEntry(
+                    command = "LIST_ACCOUNTS",
+                    label = R.string.accounts,
+                    icon = Icons.Filled.Checklist
+                ) { onShow(bank) })
         }
     )
     HierarchicalMenu(showMenu, menu)

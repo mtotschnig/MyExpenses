@@ -15,6 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -37,7 +38,7 @@ fun BankingCredentials(
                 onValueChange = {
                     bankingCredentials.value = credentials.copy(bankLeitZahl = it.trim())
                 },
-                label = { Text(text = "Bankleitzahl") },
+                label = { Text(text = stringResource(id = R.string.bankleitzahl)) },
                 singleLine = true
             )
         }
@@ -48,7 +49,7 @@ fun BankingCredentials(
             onValueChange = {
                 bankingCredentials.value = credentials.copy(user = it.trim())
             },
-            label = { Text(text = "Anmeldename") },
+            label = { Text(text = stringResource(id = R.string.login_name)) },
             singleLine = true
         )
         OutlinedTextField(
@@ -68,7 +69,7 @@ fun BankingCredentials(
             },
             label = { Text(text = "PIN") },
             singleLine = true,
-            supportingText = { Text(text = "Der PIN wird nicht auf dem Gerät gespeichert und bei jeder weiteren Verbindung mit der Bank erneut abgefragt.") }
+            supportingText = { Text(text = stringResource(id = R.string.pin_info)) }
         )
     }
 }

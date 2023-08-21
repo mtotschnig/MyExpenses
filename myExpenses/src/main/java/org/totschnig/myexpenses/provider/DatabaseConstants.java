@@ -365,7 +365,6 @@ public class DatabaseConstants {
   public static final String KEY_BANK_NAME = "name";
   public static final String KEY_USER_ID = "user_id";
   public static final String KEY_BANK_ID = "bank_id";
-  public static final String KEY_ACCOUNT_NUMBER = "account_number";
   public static final String KEY_IBAN = "iban";
   public static final String KEY_ATTRIBUTE_NAME = "attribute_name";
   public static final String KEY_CONTEXT = "context";
