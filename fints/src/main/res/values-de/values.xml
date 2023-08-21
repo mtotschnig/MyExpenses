@@ -7,4 +7,13 @@
     <string name="login_name">Anmeldename</string>
     <string name="pin_info">Der PIN wird nicht auf dem Gerät gespeichert und bei jeder weiteren Verbindung mit der Bank erneut abgefragt.</string>
     <string name="btn_load_accounts">Konten laden</string>
+    <string name="no_bank_added_yet">Noch wurde kein Bankzugang hinzugefügt.</string>
+    <string name="import_maximum">Maximal verfügbaren Buchungsverlauf importieren</string>
+    <string name="import_only_n">Nur die letzten | Tage importieren</string>
+    <string name="dialog_title_delete_bank">>Bankzugang entfernen?</string>
+    <plurals name="warning_delete_bank_1">
+        <item quantity="one">Ein Konto ist mit %2$s verknüpft.</item>
+        <item quantity="other">%1$d Konten sind mit %2$s verknüpft.</item>
+    </plurals>
+    <string name="wwrning_delete_bank_2">Sie können dann den Buchungsverlauf nicht mehr aktualisieren.</string>
 </resources>

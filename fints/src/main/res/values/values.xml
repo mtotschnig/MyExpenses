@@ -8,4 +8,14 @@
     Der PIN wird nicht auf dem Gerät gespeichert und bei jeder weiteren Verbindung mit der Bank erneut abgefragt.
     <string name="pin_info">The PIN is not stored on the device and is requested again for each subsequent connection to the bank.</string>
     <string name="btn_load_accounts">Load accounts</string>
+    <string name="no_bank_added_yet">No bank added yet.</string>
+    <string name="import_maximum">Import maximum available transaction history</string>
+    <!-- | is replaced with text input -->
+    <string name="import_only_n">Import only last | days</string>
+    <string name="dialog_title_delete_bank">Remove bank?</string>
+    <plurals name="warning_delete_bank_1">
+        <item quantity="one">One account is linked to %2$s.</item>
+        <item quantity="other">%1$d accounts are linked to %2$s.</item>
+    </plurals>
+    <string name="wwrning_delete_bank_2">You will no longer be able to download current transaction data.</string>
 </resources>

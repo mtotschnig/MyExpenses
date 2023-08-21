@@ -77,7 +77,7 @@ fun DenseTextField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     keyboardOptions: KeyboardOptions,
-    isError: Boolean
+    isError: Boolean = false
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val colors: TextFieldColors = OutlinedTextFieldDefaults.colors()

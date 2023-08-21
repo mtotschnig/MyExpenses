@@ -1,11 +1,11 @@
 package org.totschnig.fints
 
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,7 +20,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBalance
@@ -38,7 +38,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -60,14 +59,16 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import org.kapott.hbci.structures.Konto
+import org.totschnig.fints.BankingViewModel.WorkState.*
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.compose.AppTheme
+import org.totschnig.myexpenses.compose.DenseTextField
 import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
@@ -133,7 +134,7 @@ class Banking : ProtectedFragmentActivity() {
                     ) {
                         if (data.value.isEmpty()) {
                             Text(
-                                text = "No bank added yet.",
+                                text = stringResource(org.totschnig.fints.R.string.no_bank_added_yet),
                                 modifier = Modifier.align(Alignment.Center)
                             )
                         } else {
@@ -180,8 +181,8 @@ class Banking : ProtectedFragmentActivity() {
                             )
                         },
                         title = when (workState.value) {
-                            is BankingViewModel.WorkState.AccountsLoaded -> RF.string.select_accounts
-                            BankingViewModel.WorkState.Initial -> if (bankingCredentials.isNew) RF.string.add_new_bank else RF.string.enter_pin
+                            is AccountsLoaded -> RF.string.select_accounts
+                            Initial -> if (bankingCredentials.isNew) RF.string.add_new_bank else RF.string.enter_pin
                             else -> null
                         }?.let {
                             {
@@ -195,9 +196,9 @@ class Banking : ProtectedFragmentActivity() {
                             Button(
                                 onClick = {
                                     when (workState.value) {
-                                        is BankingViewModel.WorkState.AccountsLoaded -> {
+                                        is AccountsLoaded -> {
                                             val state =
-                                                workState.value as BankingViewModel.WorkState.AccountsLoaded
+                                                workState.value as AccountsLoaded
                                             viewModel.importAccounts(
                                                 bankingCredentials,
                                                 state.bank,
@@ -208,7 +209,7 @@ class Banking : ProtectedFragmentActivity() {
                                             )
                                         }
 
-                                        is BankingViewModel.WorkState.Done -> {
+                                        is Done -> {
                                             viewModel.reset()
                                             dialogShown.value = null
                                         }
@@ -219,23 +220,23 @@ class Banking : ProtectedFragmentActivity() {
                                     }
                                 },
                                 enabled = when (workState.value) {
-                                    is BankingViewModel.WorkState.AccountsLoaded -> selectedAccounts.any { it.value }
-                                    is BankingViewModel.WorkState.Loading -> false
+                                    is AccountsLoaded -> selectedAccounts.any { it.value }
+                                    is Loading -> false
                                     else -> bankingCredentials.isComplete
                                 }
                             ) {
                                 Text(
                                     stringResource(
                                         when (workState.value) {
-                                            is BankingViewModel.WorkState.AccountsLoaded -> R.string.menu_import
-                                            is BankingViewModel.WorkState.Done -> R.string.menu_close
+                                            is AccountsLoaded -> R.string.menu_import
+                                            is Done -> R.string.menu_close
                                             else -> RF.string.btn_load_accounts
                                         }
                                     )
                                 )
                             }
                         },
-                        dismissButton = if (workState.value is BankingViewModel.WorkState.Done) null else {
+                        dismissButton = if (workState.value is Done) null else {
                             {
                                 Button(
                                     onClick = {
@@ -250,12 +251,14 @@ class Banking : ProtectedFragmentActivity() {
                         text = {
                             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                                 when (workState.value) {
-                                    is BankingViewModel.WorkState.Loading -> {
-                                        Loading((workState.value as BankingViewModel.WorkState.Loading).message)
+                                    is Loading -> {
+                                        Loading((workState.value as Loading).message)
                                     }
 
-                                    is BankingViewModel.WorkState.AccountsLoaded -> {
-                                        (workState.value as BankingViewModel.WorkState.AccountsLoaded).accounts.forEachIndexed { index, account ->
+                                    is AccountsLoaded -> {
+                                        val accounts =
+                                            (workState.value as AccountsLoaded).accounts
+                                        accounts.forEachIndexed { index, account ->
                                             AccountRow(
                                                 account.first,
                                                 if (account.second) null else selectedAccounts[index] == true
@@ -263,90 +266,85 @@ class Banking : ProtectedFragmentActivity() {
                                                 selectedAccounts[index] = it
                                             }
                                         }
-                                        Column(Modifier.selectableGroup()) {
-                                            Row(
-                                                Modifier
-                                                    .fillMaxWidth()
-                                                    .selectable(
-                                                        selected = importMaxDuration.value,
-                                                        onClick = { nrDays = null },
-                                                        role = Role.RadioButton
-                                                    ),
-                                                verticalAlignment = Alignment.CenterVertically
-                                            ) {
-                                                RadioButton(
-                                                    modifier = Modifier.minimumInteractiveComponentSize(),
-                                                    selected = importMaxDuration.value,
-                                                    onClick = null
-                                                )
-                                                Text(
-                                                    text = "Import maximum available transaction history",
-                                                    style = MaterialTheme.typography.bodyMedium
-                                                )
-                                            }
-                                            Row(
-                                                Modifier
-                                                    .fillMaxWidth()
-                                                    .selectable(
-                                                        selected = !importMaxDuration.value,
-                                                        onClick = { nrDays = 365 },
-                                                        role = Role.RadioButton
-                                                    ),
-                                                verticalAlignment = Alignment.CenterVertically
-                                            ) {
-                                                RadioButton(
-                                                    modifier = Modifier.minimumInteractiveComponentSize(),
-                                                    selected = !importMaxDuration.value,
-                                                    onClick = null
-                                                )
-                                                Text(
-                                                    text = "Import only last ",
-                                                    style = MaterialTheme.typography.bodyMedium
-                                                )
-                                                val interactionSource =
-                                                    remember { MutableInteractionSource() }
-                                                BasicTextField(
-                                                    value = nrDays?.toString() ?: "",
-                                                    onValueChange = {
-                                                        nrDays = try {
-                                                            it.toLong()
-                                                        } catch (e: NumberFormatException) {
-                                                            0
-                                                        }
-                                                    },
-                                                    interactionSource = interactionSource,
-                                                    enabled = !importMaxDuration.value,
-                                                    singleLine = true,
-                                                    modifier = Modifier
-                                                        .width(IntrinsicSize.Min)
-                                                        .widthIn(min = 24.dp)
+                                        if (!accounts.all { it.second }) {
+                                            Column(Modifier.selectableGroup()) {
+                                                Row(
+                                                    Modifier
+                                                        .fillMaxWidth()
+                                                        .selectable(
+                                                            selected = importMaxDuration.value,
+                                                            onClick = { nrDays = null },
+                                                            role = Role.RadioButton
+                                                        ),
+                                                    verticalAlignment = Alignment.CenterVertically
                                                 ) {
-                                                    OutlinedTextFieldDefaults.DecorationBox(
-                                                        value = nrDays?.toString() ?: "",
-                                                        innerTextField = it,
-                                                        enabled = !importMaxDuration.value,
-                                                        singleLine = true,
-                                                        visualTransformation = VisualTransformation.None,
-                                                        interactionSource = interactionSource
+                                                    RadioButton(
+                                                        modifier = Modifier.minimumInteractiveComponentSize(),
+                                                        selected = importMaxDuration.value,
+                                                        onClick = null
+                                                    )
+                                                    Text(
+                                                        text = getString(org.totschnig.fints.R.string.import_maximum),
+                                                        style = MaterialTheme.typography.bodyMedium
                                                     )
                                                 }
-                                                Text(
-                                                    text = " days",
-                                                    style = MaterialTheme.typography.bodyMedium
-                                                )
+                                                Row(
+                                                    Modifier
+                                                        .fillMaxWidth()
+                                                        .selectable(
+                                                            selected = !importMaxDuration.value,
+                                                            onClick = { nrDays = 365 },
+                                                            role = Role.RadioButton
+                                                        ),
+                                                    verticalAlignment = Alignment.CenterVertically
+                                                ) {
+                                                    RadioButton(
+                                                        modifier = Modifier.minimumInteractiveComponentSize(),
+                                                        selected = !importMaxDuration.value,
+                                                        onClick = null
+                                                    )
+                                                    val parts =
+                                                        stringResource(id = RF.string.import_only_n).split(
+                                                            '|'
+                                                        )
+                                                    Text(
+                                                        text = parts[0],
+                                                        style = MaterialTheme.typography.bodyMedium
+                                                    )
+                                                    DenseTextField(
+                                                        value = nrDays?.toString() ?: "",
+                                                        onValueChange = {
+                                                            nrDays = try {
+                                                                it.toLong()
+                                                            } catch (e: NumberFormatException) {
+                                                                0
+                                                            }
+                                                        },
+                                                        modifier = Modifier
+                                                            .width(IntrinsicSize.Min)
+                                                            .widthIn(min = 24.dp),
+                                                        keyboardOptions = KeyboardOptions(
+                                                            keyboardType = KeyboardType.Number
+                                                        )
+                                                    )
+                                                    Text(
+                                                        text = parts[1],
+                                                        style = MaterialTheme.typography.bodyMedium
+                                                    )
+                                                }
                                             }
                                         }
                                     }
 
-                                    is BankingViewModel.WorkState.Initial -> {
+                                    is Initial -> {
                                         BankingCredentials(
                                             bankingCredentials = dialogShown,
                                             onDone = viewModel::addBank
                                         )
                                     }
 
-                                    is BankingViewModel.WorkState.Done -> {
-                                        Text((workState.value as BankingViewModel.WorkState.Done).message)
+                                    is Done -> {
+                                        Text((workState.value as Done).message)
                                     }
 
                                     else -> {}
@@ -378,9 +376,18 @@ class Banking : ProtectedFragmentActivity() {
 
     private fun confirmBankDelete(bank: Bank) {
         MessageDialogFragment.newInstance(
-            "Delete bank?",
-            "${bank.count} accounts are linked to $bank. By deleting it, you will no longer be able to download data for them." + " " + getString(
-                R.string.continue_confirmation
+            getString(RF.string.dialog_title_delete_bank),
+            TextUtils.concat(
+                resources.getQuantityString(
+                    RF.plurals.warning_delete_bank_1,
+                    bank.count,
+                    bank.count,
+                    bank
+                ),
+                " ",
+                getString(RF.string.wwrning_delete_bank_2),
+                " ",
+                getString(R.string.continue_confirmation)
             ),
             MessageDialogFragment.Button(
                 R.string.menu_delete,
