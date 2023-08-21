@@ -371,8 +371,6 @@ public class DatabaseConstants {
   public static final String KEY_CONTEXT = "context";
   public static final String KEY_ATTRIBUTE_ID = "attribute_id";
 
-  public static final String KEY_LAST_SYNCED_WITH_BANK = "last_synced_with_bank";
-
   /**
    * No special status
    */
@@ -436,6 +434,8 @@ public class DatabaseConstants {
   public static final String TABLE_ATTRIBUTES = "attributes";
 
   public static final String TABLE_TRANSACTION_ATTRIBUTES = "transaction_attributes";
+
+  public static final String TABLE_ACCOUNT_ATTRIBUTES = "account_attributes";
 
   public static final String CAT_AS_LABEL = DbConstantsKt.fullCatCase(null) + " AS " + KEY_LABEL;
 

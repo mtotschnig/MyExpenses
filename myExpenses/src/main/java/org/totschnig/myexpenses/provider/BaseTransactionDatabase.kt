@@ -38,6 +38,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USER_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BANKS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
@@ -137,6 +139,15 @@ CREATE TABLE $TABLE_TRANSACTION_ATTRIBUTES (
     $KEY_ATTRIBUTE_ID integer references $TABLE_ATTRIBUTES($KEY_ROWID) ON DELETE CASCADE,
     $KEY_VALUE text not null,
     primary key ($KEY_TRANSACTIONID, $KEY_ATTRIBUTE_ID)
+);
+"""
+
+const val ACCOUNT_ATTRIBUTES_CREATE = """
+CREATE TABLE $TABLE_ACCOUNT_ATTRIBUTES (
+    $KEY_ACCOUNTID integer references $TABLE_ACCOUNTS($KEY_ROWID) ON DELETE CASCADE,
+    $KEY_ATTRIBUTE_ID integer references $TABLE_ATTRIBUTES($KEY_ROWID) ON DELETE CASCADE,
+    $KEY_VALUE text not null,
+    primary key ($KEY_ACCOUNTID, $KEY_ATTRIBUTE_ID)
 );
 """
 

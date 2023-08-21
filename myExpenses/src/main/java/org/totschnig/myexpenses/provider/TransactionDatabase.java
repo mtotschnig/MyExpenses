@@ -20,6 +20,7 @@ import static android.database.sqlite.SQLiteDatabase.CONFLICT_NONE;
 import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_EXPENSE;
 import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_INCOME;
 import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_NEUTRAL;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.BANK_CREATE;
@@ -204,10 +205,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_CRITERION + " integer,"
           + KEY_HIDDEN + " boolean default 0,"
           + KEY_SEALED + " boolean default 0,"
-          + KEY_BANK_ID + " integer references " + TABLE_BANKS + "(" + KEY_ROWID + ") ON DELETE SET NULL,"
-          + KEY_ACCOUNT_NUMBER + " text,"
-          + KEY_LAST_SYNCED_WITH_BANK + " date,"
-          + "unique(" + KEY_BANK_ID + "," + KEY_ACCOUNT_NUMBER + ") );";
+          + KEY_BANK_ID + " integer references " + TABLE_BANKS + "(" + KEY_ROWID + ") ON DELETE SET NULL);";
 
   private static final String SYNC_STATE_CREATE =
       "CREATE TABLE " + TABLE_SYNC_STATE + " ("
@@ -747,6 +745,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(ATTRIBUTES_CREATE);
     insertFinTSAttributes(db);
     db.execSQL(TRANSACTION_ATTRIBUTES_CREATE);
+    db.execSQL(ACCOUNT_ATTRIBUTES_CREATE);
 
     //Index
     db.execSQL("CREATE INDEX transactions_cat_id_index on " + TABLE_TRANSACTIONS + "(" + KEY_CATID + ")");

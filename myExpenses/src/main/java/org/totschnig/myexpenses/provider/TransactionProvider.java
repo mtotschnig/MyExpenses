@@ -267,6 +267,8 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   public static final Uri TRANSACTIONS_ATTRIBUTES_URI = Uri.parse("content://" + AUTHORITY + "/transactions/attributes");
 
+  public static final Uri ACCOUNTS_ATTRIBUTES_URI = Uri.parse("content://" + AUTHORITY + "/accounts/attributes");
+
   public static final Uri ATTRIBUTES_URI = Uri.parse("content://" + AUTHORITY + "/attributes");
 
   public static final String URI_SEGMENT_MOVE = "move";
@@ -809,6 +811,10 @@ public class TransactionProvider extends BaseTransactionProvider {
         qb = SupportSQLiteQueryBuilder.builder(TRANSACTION_ATTRIBUTES_JOIN);
         break;
       }
+      case ACCOUNT_ATTRIBUTES: {
+        qb = SupportSQLiteQueryBuilder.builder(ACCOUNT_ATTRIBUTES_JOIN);
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -969,7 +975,10 @@ public class TransactionProvider extends BaseTransactionProvider {
       case TRANSACTION_ATTRIBUTES ->  {
         insertTransactionAttribute(db, values);
         return TRANSACTIONS_ATTRIBUTES_URI;
-
+      }
+      case ACCOUNT_ATTRIBUTES ->  {
+        insertAccountAttribute(db, values);
+        return ACCOUNTS_ATTRIBUTES_URI;
       }
       default -> throw unknownUri(uri);
     }
@@ -1638,6 +1647,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "banks/#", BANK_ID);
     URI_MATCHER.addURI(AUTHORITY, "attributes", ATTRIBUTES);
     URI_MATCHER.addURI(AUTHORITY, "transactions/attributes", TRANSACTION_ATTRIBUTES);
+    URI_MATCHER.addURI(AUTHORITY, "accounts/attributes", ACCOUNT_ATTRIBUTES);
   }
 
   /**

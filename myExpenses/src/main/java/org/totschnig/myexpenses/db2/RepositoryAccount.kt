@@ -140,7 +140,6 @@ fun Account.toContentValues() = ContentValues().apply {
     }
     put(KEY_EXCLUDE_FROM_TOTALS, excludeFromTotals)
     put(KEY_BANK_ID, bankId)
-    put(KEY_ACCOUNT_NUMBER, accountNumber)
 }
 
 fun Repository.createAccount(account: Account): Account {

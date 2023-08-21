@@ -219,6 +219,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
         const val TRANSACTION_ATTRIBUTES_JOIN =
         "$TABLE_TRANSACTION_ATTRIBUTES LEFT JOIN $TABLE_ATTRIBUTES ON ($KEY_ATTRIBUTE_ID = $TABLE_ATTRIBUTES.$KEY_ROWID)"
 
+        const val ACCOUNT_ATTRIBUTES_JOIN =
+            "$TABLE_ACCOUNT_ATTRIBUTES LEFT JOIN $TABLE_ATTRIBUTES ON ($KEY_ATTRIBUTE_ID = $TABLE_ATTRIBUTES.$KEY_ROWID)"
+
         fun shortenComment(projectionIn: Array<String>): Array<String> = projectionIn.map {
             if (it == KEY_COMMENT)
                 "case when instr($KEY_COMMENT, X'0A') > 0 THEN substr($KEY_COMMENT, 1, instr($KEY_COMMENT, X'0A')-1) else $KEY_COMMENT end AS $KEY_COMMENT"
@@ -305,6 +308,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val BANK_ID = 68
         protected const val ATTRIBUTES = 69
         protected const val TRANSACTION_ATTRIBUTES = 70
+        protected const val ACCOUNT_ATTRIBUTES = 71
     }
 
     val homeCurrency: String
@@ -1046,6 +1050,17 @@ abstract class BaseTransactionProvider : ContentProvider() {
         db.execSQL("INSERT or REPLACE INTO $TABLE_TRANSACTION_ATTRIBUTES SELECT DISTINCT ?, _id, ? FROM $TABLE_ATTRIBUTES WHERE $KEY_ATTRIBUTE_NAME = ? AND $KEY_CONTEXT = ?;",
             arrayOf(
                 values.getAsLong(KEY_TRANSACTIONID),
+                values.getAsString(KEY_VALUE),
+                values.getAsString(KEY_ATTRIBUTE_NAME),
+                values.getAsString(KEY_CONTEXT)
+            )
+        )
+    }
+
+    fun insertAccountAttribute(db: SupportSQLiteDatabase, values: ContentValues) {
+        db.execSQL("INSERT or REPLACE INTO $TABLE_ACCOUNT_ATTRIBUTES SELECT DISTINCT ?, _id, ? FROM $TABLE_ATTRIBUTES WHERE $KEY_ATTRIBUTE_NAME = ? AND $KEY_CONTEXT = ?;",
+            arrayOf(
+                values.getAsLong(KEY_ACCOUNTID),
                 values.getAsString(KEY_VALUE),
                 values.getAsString(KEY_ATTRIBUTE_NAME),
                 values.getAsString(KEY_CONTEXT)
