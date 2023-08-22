@@ -32,11 +32,11 @@ import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
-fun <T> ChipGroup.addChipsBulk(chips: Iterable<T>, closeFunction: ((T) -> Unit)? = null) {
+fun <T> ChipGroup.addChipsBulk(chips: Iterable<T>, closeFunction: ((T) -> Unit)? = null, prettyPrint: (T) -> CharSequence = { it.toString() }) {
     removeAllViews()
     for (chip in chips) {
         addView(ScrollingChip(context).also { scrollingChip ->
-            scrollingChip.text = chip.toString()
+            scrollingChip.text = prettyPrint(chip)
             closeFunction?.let {
                 scrollingChip.isCloseIconVisible = true
                 scrollingChip.setOnCloseIconClickListener {

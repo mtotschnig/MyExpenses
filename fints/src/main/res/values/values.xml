@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_new_bank">Add new bank</string>
+    <string name="select_accounts">Select accounts</string>
+    <string name="enter_pin">Enter PIN</string>
+    <string name="bankleitzahl">Bank number</string>
+    <string name="login_name">Login name</string>
+    Der PIN wird nicht auf dem Gerät gespeichert und bei jeder weiteren Verbindung mit der Bank erneut abgefragt.
+    <string name="pin_info">The PIN is not stored on the device and is requested again for each subsequent connection to the bank.</string>
+    <string name="btn_load_accounts">Load accounts</string>
+    <string name="no_bank_added_yet">No bank added yet.</string>
+    <string name="import_maximum">Import maximum available transaction history</string>
+    <!-- | is replaced with text input -->
+    <string name="import_only_n">Import only last | days</string>
+    <string name="dialog_title_delete_bank">Remove bank?</string>
+    <plurals name="warning_delete_bank_1">
+        <item quantity="one">One account is linked to %2$s.</item>
+        <item quantity="other">%1$d accounts are linked to %2$s.</item>
+    </plurals>
+    <string name="wwrning_delete_bank_2">You will no longer be able to download current transaction data.</string>
+    <string name="progress_importing_account">Importing account %s</string>
+    <plurals name="accounts_imported">
+        <item quantity="one">One account successfully imported.</item>
+        <item quantity="other">%1$s accounts successfully imported.</item>
+    </plurals>
+    <plurals name="transactions_imported">
+        <item quantity="one">One transaction imported.</item>
+        <item quantity="other">%1$s transactions imported.</item>
+    </plurals>
+    <string name="transactions_imported_none">No new transactions</string>
+    <string name="wrong_pin">Wrong PIN</string>
+    <string name="blz_not_found">%s not found in the list of banks that support FinTS.</string>
+    <string name="bank_already_added">Bank has already been added.</string>
+    <string name="menu_sync_account">Update transactions</string>
+    <string name="eref_label">End-to-end reference</string>
+    <string name="kref_label">Customer Reference</string>
+    <string name="mref_label">Mandate reference</string>
+    <string name="cred_label">Creditor identifier</string>
+    <string name="dbet_label">Debtor identifier</string>
+    <string name="saldo">Balance</string>
+</resources>

@@ -14,6 +14,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
@@ -85,7 +86,7 @@ class PartyListViewModel(
     }
 
     private fun updatePartyFilters(old: Set<Long>, new: Long) {
-        contentResolver.query(ACCOUNTS_MINIMAL_URI, null, null, null, null)
+        contentResolver.query(ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES, null, null, null, null)
             ?.use { cursor ->
                 updateFilterHelper(old, new, cursor, MyExpensesViewModel::prefNameForCriteria)
             }

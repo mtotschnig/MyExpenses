@@ -5,14 +5,51 @@ import android.database.sqlite.SQLiteDatabase
 import android.os.Build
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
+import org.totschnig.myexpenses.db2.Attribute
+import org.totschnig.myexpenses.db2.BankingAttribute
+import org.totschnig.myexpenses.db2.FinTsAttribute
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BIC
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BLZ
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CONTEXT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USER_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_ATTRIBUTES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BANKS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTRIBUTES
 import timber.log.Timber
 
-const val DATABASE_VERSION = 144
+const val DATABASE_VERSION = 145
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -77,6 +114,41 @@ CREATE TRIGGER category_label_unique_update
     BEGIN
     SELECT RAISE (FAIL, 'main category exists');
 END
+"""
+
+const val BANK_CREATE = """
+CREATE TABLE $TABLE_BANKS ($KEY_ROWID integer primary key autoincrement, $KEY_BLZ text not null, $KEY_BIC text not null, $KEY_BANK_NAME text not null, $KEY_USER_ID text not null, unique($KEY_BLZ, $KEY_USER_ID))
+"""
+
+const val PAYEE_CREATE = """
+CREATE TABLE $TABLE_PAYEES ($KEY_ROWID integer primary key autoincrement, $KEY_PAYEE_NAME text not null, $KEY_IBAN text, $KEY_BIC text, $KEY_PAYEE_NAME_NORMALIZED text, unique($KEY_PAYEE_NAME, $KEY_IBAN));
+"""
+
+const val ATTRIBUTES_CREATE = """
+CREATE TABLE $TABLE_ATTRIBUTES (
+    $KEY_ROWID integer primary key autoincrement,
+    $KEY_ATTRIBUTE_NAME text not null,
+    $KEY_CONTEXT text not null,
+    unique ($KEY_ATTRIBUTE_NAME, $KEY_CONTEXT)
+);
+"""
+
+const val TRANSACTION_ATTRIBUTES_CREATE = """
+CREATE TABLE $TABLE_TRANSACTION_ATTRIBUTES (
+    $KEY_TRANSACTIONID integer references $TABLE_TRANSACTIONS($KEY_ROWID) ON DELETE CASCADE,
+    $KEY_ATTRIBUTE_ID integer references $TABLE_ATTRIBUTES($KEY_ROWID) ON DELETE CASCADE,
+    $KEY_VALUE text not null,
+    primary key ($KEY_TRANSACTIONID, $KEY_ATTRIBUTE_ID)
+);
+"""
+
+const val ACCOUNT_ATTRIBUTES_CREATE = """
+CREATE TABLE $TABLE_ACCOUNT_ATTRIBUTES (
+    $KEY_ACCOUNTID integer references $TABLE_ACCOUNTS($KEY_ROWID) ON DELETE CASCADE,
+    $KEY_ATTRIBUTE_ID integer references $TABLE_ATTRIBUTES($KEY_ROWID) ON DELETE CASCADE,
+    $KEY_VALUE text not null,
+    primary key ($KEY_ACCOUNTID, $KEY_ATTRIBUTE_ID)
+);
 """
 
 
@@ -293,6 +365,32 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
         }
     }
 
+    fun upgradeTo145(db: SupportSQLiteDatabase) {
+        with(db) {
+            execSQL("CREATE TABLE banks (_id integer primary key autoincrement, blz text not null, bic text not null, name text not null, user_id text not null, unique(blz, user_id))")
+            execSQL("ALTER TABLE accounts add column bank_id integer references banks(_id) ON DELETE SET NULL")
+            execSQL("ALTER TABLE payee RENAME to payee_old")
+            execSQL(
+                "CREATE TABLE payee (_id integer primary key autoincrement, name text not null, iban text, bic text, name_normalized text, unique(name, iban))"
+            )
+            execSQL("INSERT INTO payee (_id, name, name_normalized) SELECT _id, name, name_normalized FROM payee_old")
+            execSQL("DROP TABLE payee_old")
+            execSQL("CREATE TABLE attributes (_id integer primary key autoincrement,attribute_name text not null,context text not null, unique (attribute_name, context))")
+            Attribute.initDatabaseInternal(db, FinTsAttribute::class.java,
+                "attributes", "attribute_name", "context"
+            )
+            Attribute.initDatabaseInternal(db, BankingAttribute::class.java,
+                "attributes", "attribute_name", "context"
+            )
+            execSQL(
+                "CREATE TABLE transaction_attributes (transaction_id integer references transactions(_id) ON DELETE CASCADE,attribute_id integer references attributes(_id) ON DELETE CASCADE,value text not null,primary key (transaction_id, attribute_id))"
+            )
+            execSQL(
+                "CREATE TABLE account_attributes (account_id integer references accounts(_id) ON DELETE CASCADE,attribute_id integer references attributes(_id) ON DELETE CASCADE,value text not null,primary key (account_id, attribute_id))"
+            )
+        }
+    }
+
     override fun onCreate(db: SupportSQLiteDatabase) {
         prefHandler.putInt(PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION, DATABASE_VERSION)
     }
@@ -386,6 +484,11 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
                 execSQL(CATEGORY_LABEL_LEGACY_TRIGGER_UPDATE)
             }
         }
+    }
+
+    fun insertFinTSAttributes(db: SupportSQLiteDatabase) {
+        Attribute.initDatabase(db, FinTsAttribute::class.java)
+        Attribute.initDatabase(db, BankingAttribute::class.java)
     }
 }
 

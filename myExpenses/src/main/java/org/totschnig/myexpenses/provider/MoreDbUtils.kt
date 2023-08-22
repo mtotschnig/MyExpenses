@@ -318,7 +318,7 @@ fun insertUuidsForDefaultCategories(database: SupportSQLiteDatabase, resources: 
 
 fun <T> Cursor.useAndMap(mapper: (Cursor) -> T) =
     use {
-        generateSequence { takeIf { it.moveToNext() } }.map(mapper).toList()
+        it.asSequence.map(mapper).toList()
     }
 
 /**

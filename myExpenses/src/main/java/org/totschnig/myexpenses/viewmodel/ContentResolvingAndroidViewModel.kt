@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.*
+import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -145,20 +146,21 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
         )
     }
 
-    fun accountsMinimal(withHidden: Boolean = true) = contentResolver.observeQuery(
-        ACCOUNTS_MINIMAL_URI, null,
-        if (withHidden) null else "$KEY_HIDDEN = 0",
+    fun accountsMinimal(query: String? = null, withAggregates: Boolean = true): Flow<List<AccountMinimal>> = contentResolver.observeQuery(
+        if (withAggregates) ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES else ACCOUNTS_MINIMAL_URI, null,
+        query,
         null, null, false
     )
         .mapToList { cursor ->
-            val id = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID))
+            val id = cursor.getLong(KEY_ROWID)
             AccountMinimal(
                 id,
                 if (id == HOME_AGGREGATE_ID)
                     getString(R.string.grand_total)
                 else
-                    cursor.getString(cursor.getColumnIndexOrThrow(KEY_LABEL)),
-                cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY))
+                    cursor.getString(KEY_LABEL),
+                cursor.getString(KEY_CURRENCY),
+                if (id < 0) null else AccountType.valueOf(cursor.getString(KEY_TYPE))
             )
         }
 

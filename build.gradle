@@ -58,6 +58,7 @@ ext {
     androidxSqlite = "2.3.1"
     barista = "4.3.0"
     googleHttp = "1.43.1"
+    composeBom = "androidx.compose:compose-bom:2023.05.01"
 }
 
 allprojects {

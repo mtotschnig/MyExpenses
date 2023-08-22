@@ -122,7 +122,7 @@ sealed class AddOnPackage(
             get() = listOf(
                 SplitTemplate, History, Budget, Ocr, WebUi, CategoryTree,
                 AccountsUnlimited, PlansUnlimited, SplitTransaction, Distribution, Print, AdFree,
-                CsvImport, Synchronization
+                CsvImport, Synchronization, Banking
             )
     }
 
@@ -192,4 +192,8 @@ sealed class AddOnPackage(
     @Parcelize
     @Keep
     object Synchronization : AddOnPackage(ContribFeature.SYNCHRONIZATION)
+
+    @Parcelize
+    @Keep
+    object Banking : AddOnPackage(ContribFeature.BANKING)
 }

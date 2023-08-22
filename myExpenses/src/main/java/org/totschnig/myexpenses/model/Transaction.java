@@ -649,6 +649,11 @@ public class Transaction extends Model implements ITransaction {
     this.valueDate = unixEpoch;
   }
 
+  @Deprecated
+  public void setValueDate(Date date) {
+    setValueDate(date.getTime() / 1000);
+  }
+
 
   public long getValueDate() {
     return valueDate;

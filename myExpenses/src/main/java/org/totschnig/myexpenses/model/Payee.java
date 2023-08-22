@@ -34,6 +34,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
+@Deprecated
 public class Payee extends Model {
   public static final String SELECTION = String.format(Locale.ROOT, "(%1$s LIKE ? OR %1$s GLOB ?)", KEY_PAYEE_NAME_NORMALIZED);
   public static String[] SELECTION_ARGS(String search) {

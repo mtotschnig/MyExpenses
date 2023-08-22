@@ -354,6 +354,23 @@ public class DatabaseConstants {
   public static final String KEY_EQUIVALENT_SUM = "equivalentSum";
 
   /**
+   * Bankleitzahl
+   */
+  public static final String KEY_BLZ = "blz";
+
+  /**
+   * Business Identifier Code
+   */
+  public static final String KEY_BIC = "bic";
+  public static final String KEY_BANK_NAME = "name";
+  public static final String KEY_USER_ID = "user_id";
+  public static final String KEY_BANK_ID = "bank_id";
+  public static final String KEY_IBAN = "iban";
+  public static final String KEY_ATTRIBUTE_NAME = "attribute_name";
+  public static final String KEY_CONTEXT = "context";
+  public static final String KEY_ATTRIBUTE_ID = "attribute_id";
+
+  /**
    * No special status
    */
   public static final int STATUS_NONE = 0;
@@ -410,6 +427,14 @@ public class DatabaseConstants {
   public static final String TABLE_BUDGET_ALLOCATIONS = "budget_allocations";
 
   public static final String TABLE_DEBTS = "debts";
+
+  public static final String TABLE_BANKS = "banks";
+
+  public static final String TABLE_ATTRIBUTES = "attributes";
+
+  public static final String TABLE_TRANSACTION_ATTRIBUTES = "transaction_attributes";
+
+  public static final String TABLE_ACCOUNT_ATTRIBUTES = "account_attributes";
 
   public static final String CAT_AS_LABEL = DbConstantsKt.fullCatCase(null) + " AS " + KEY_LABEL;
 

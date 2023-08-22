@@ -20,7 +20,12 @@ import static android.database.sqlite.SQLiteDatabase.CONFLICT_NONE;
 import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_EXPENSE;
 import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_INCOME;
 import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_NEUTRAL;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ATTRIBUTES_CREATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.BANK_CREATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_CREATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTION_ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.TAG_LIST_EXPRESSION;
@@ -199,7 +204,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_SORT_DIRECTION + " text not null check (" + KEY_SORT_DIRECTION + " in ('ASC','DESC')) default 'DESC',"
           + KEY_CRITERION + " integer,"
           + KEY_HIDDEN + " boolean default 0,"
-          + KEY_SEALED + " boolean default 0);";
+          + KEY_SEALED + " boolean default 0,"
+          + KEY_BANK_ID + " integer references " + TABLE_BANKS + "(" + KEY_ROWID + ") ON DELETE SET NULL);";
 
   private static final String SYNC_STATE_CREATE =
       "CREATE TABLE " + TABLE_SYNC_STATE + " ("
@@ -293,17 +299,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           Events.RRULE + " TEXT," +
           Events.CUSTOM_APP_PACKAGE + " TEXT," +
           Events.CUSTOM_APP_URI + " TEXT);";
-
-
-  /**
-   * stores payees and payers
-   * this table is used for populating the autocompleting text field,
-   */
-  private static final String PAYEE_CREATE =
-      "CREATE TABLE " + TABLE_PAYEES
-          + " (" + KEY_ROWID + " integer primary key autoincrement, " +
-          KEY_PAYEE_NAME + " text UNIQUE not null," +
-          KEY_PAYEE_NAME_NORMALIZED + " text);";
 
   private static final String DEBT_CREATE =
       "CREATE TABLE " + TABLE_DEBTS
@@ -746,6 +741,11 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(STALE_URIS_CREATE);
     db.execSQL(STALE_URI_TRIGGER_CREATE);
     db.execSQL(CHANGES_CREATE);
+    db.execSQL(BANK_CREATE);
+    db.execSQL(ATTRIBUTES_CREATE);
+    insertFinTSAttributes(db);
+    db.execSQL(TRANSACTION_ATTRIBUTES_CREATE);
+    db.execSQL(ACCOUNT_ATTRIBUTES_CREATE);
 
     //Index
     db.execSQL("CREATE INDEX transactions_cat_id_index on " + TABLE_TRANSACTIONS + "(" + KEY_CATID + ")");
@@ -788,7 +788,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
     createOrRefreshCategoryHierarchyTrigger(db);
 
-    //Views
     createOrRefreshViews(db);
     //insertTestData(db, 50, 50);
     super.onCreate(db);
@@ -2248,6 +2247,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         //due to bug #1235, we got transactions with dates as milliseconds
         db.execSQL("UPDATE transactions set date = date / 1000 WHERE date > 10000000000");
         db.execSQL("UPDATE transactions set value_date = value_date / 1000 WHERE value_date > 10000000000");
+      }
+      if (oldVersion < 145) {
+        upgradeTo145(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);

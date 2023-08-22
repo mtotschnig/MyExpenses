@@ -44,6 +44,7 @@ import org.totschnig.myexpenses.feature.START_ACTION
 import org.totschnig.myexpenses.feature.STOP_ACTION
 import org.totschnig.myexpenses.feature.ServerStateObserver
 import org.totschnig.myexpenses.feature.WebUiBinder
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -56,6 +57,7 @@ import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_WEB_UI
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.getWifiIpAddress
+import org.totschnig.myexpenses.util.licence.LicenceHandler
 import java.io.IOException
 import java.lang.ref.WeakReference
 import java.net.ServerSocket
@@ -76,6 +78,9 @@ class WebInputService : LifecycleService(), IWebInputService {
 
     @Inject
     lateinit var prefHandler: PrefHandler
+
+    @Inject
+    lateinit var licenceHandler: LicenceHandler
 
     @Inject
     lateinit var currencyContext: CurrencyContext
@@ -146,6 +151,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                 }
             }
             START_ACTION, RESTART_ACTION -> {
+                licenceHandler.recordUsage(ContribFeature.WEB_UI)
                 if (server != null) {
                     if (intent.action == START_ACTION) return START_STICKY
                     stopServer()

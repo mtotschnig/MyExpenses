@@ -15,6 +15,7 @@
  -->
 <!--suppress AndroidElementNotAllowed -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:my="http://schemas.android.com/apk/res-auto"
     android:title="@string/pref_category_title_import">
     <org.totschnig.myexpenses.preference.HeaderPreference />
     <Preference android:key="@string/pref_import_csv_key" />

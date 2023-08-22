@@ -14,7 +14,7 @@ import java.io.Serializable
 
 data class Account(
     override val id: Long = 0L,
-    val label: String  = "",
+    val label: String = "",
     val description: String = "",
     val openingBalance: Long = 0L,
     override val currency: String,
@@ -31,8 +31,9 @@ data class Account(
      * describes rate of this accounts minor unit to homeCurrency minor unit
      */
     val exchangeRate: Double = 1.0,
-    override val grouping: Grouping = Grouping.NONE
-): DataBaseAccount(), Serializable {
+    override val grouping: Grouping = Grouping.NONE,
+    val bankId: Long? = null
+) : DataBaseAccount(), Serializable {
 
     fun createIn(repository: Repository) = repository.createAccount(this)
 
@@ -63,7 +64,8 @@ data class Account(
             KEY_SORT_DIRECTION,
             KEY_EXCHANGE_RATE,
             KEY_CRITERION,
-            KEY_SEALED
+            KEY_SEALED,
+            KEY_BANK_ID
         )
 
         fun fromCursor(cursor: Cursor): Account {
@@ -79,16 +81,19 @@ data class Account(
                 type = cursor.getEnum(KEY_TYPE, AccountType.CASH),
                 color = cursor.getInt(KEY_COLOR),
                 criterion = cursor.getLong(KEY_CRITERION),
-                syncAccountName= cursor.getStringOrNull(KEY_SYNC_ACCOUNT_NAME),
+                syncAccountName = cursor.getStringOrNull(KEY_SYNC_ACCOUNT_NAME),
                 excludeFromTotals = cursor.getBoolean(KEY_EXCLUDE_FROM_TOTALS),
                 uuid = cursor.getString(KEY_UUID),
                 isSealed = cursor.getBoolean(KEY_SEALED),
                 exchangeRate = cursor.getDoubleIfExists(KEY_EXCHANGE_RATE) ?: 1.0,
-                grouping = if (sortBy == KEY_DATE) cursor.getEnum(KEY_GROUPING, Grouping.NONE) else Grouping.NONE,
+                grouping = if (sortBy == KEY_DATE) cursor.getEnum(
+                    KEY_GROUPING,
+                    Grouping.NONE
+                ) else Grouping.NONE,
                 sortBy = sortBy,
                 sortDirection = cursor.getEnum(KEY_SORT_DIRECTION, SortDirection.DESC),
+                bankId = cursor.getLongIfExists(KEY_BANK_ID)
             )
         }
-
     }
 }

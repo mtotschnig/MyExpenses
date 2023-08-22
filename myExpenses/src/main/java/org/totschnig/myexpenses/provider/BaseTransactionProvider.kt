@@ -197,6 +197,13 @@ abstract class BaseTransactionProvider : ContentProvider() {
             get() = TransactionProvider.CATEGORIES_URI.buildUpon()
                 .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL)
                 .build()
+
+        val ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES: Uri
+            get() = TransactionProvider.ACCOUNTS_MINIMAL_URI
+                .buildUpon()
+                .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES)
+                .build()
+
         const val CURRENCIES_USAGES_TABLE_EXPRESSION =
             "$TABLE_CURRENCIES LEFT JOIN (SELECT coalesce($KEY_ORIGINAL_CURRENCY, $KEY_CURRENCY) AS currency_coalesced, count(*) AS $KEY_USAGES FROM $VIEW_EXTENDED GROUP BY currency_coalesced) on currency_coalesced = $KEY_CODE"
 
@@ -207,8 +214,20 @@ abstract class BaseTransactionProvider : ContentProvider() {
             "exists (SELECT 1 FROM $TABLE_TEMPLATES WHERE $KEY_PAYEEID=$TABLE_PAYEES.$KEY_ROWID) AS $KEY_MAPPED_TEMPLATES",
             "(SELECT COUNT(*) FROM $TABLE_DEBTS WHERE $KEY_PAYEEID=$TABLE_PAYEES.$KEY_ROWID) AS $KEY_MAPPED_DEBTS"
         )
+
+        val BANK_PROJECTION = arrayOf(
+            KEY_ROWID, KEY_BLZ, KEY_BIC, KEY_BANK_NAME, KEY_USER_ID,
+            "(SELECT count(*) FROM $TABLE_ACCOUNTS WHERE $KEY_BANK_ID = $TABLE_BANKS.$KEY_ROWID) AS $KEY_COUNT"
+        )
+
         const val DEBT_PAYEE_JOIN =
             "$TABLE_DEBTS LEFT JOIN $TABLE_PAYEES ON ($KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID)"
+
+        const val TRANSACTION_ATTRIBUTES_JOIN =
+        "$TABLE_TRANSACTION_ATTRIBUTES LEFT JOIN $TABLE_ATTRIBUTES ON ($KEY_ATTRIBUTE_ID = $TABLE_ATTRIBUTES.$KEY_ROWID)"
+
+        const val ACCOUNT_ATTRIBUTES_JOIN =
+            "$TABLE_ACCOUNT_ATTRIBUTES LEFT JOIN $TABLE_ATTRIBUTES ON ($KEY_ATTRIBUTE_ID = $TABLE_ATTRIBUTES.$KEY_ROWID)"
 
         fun shortenComment(projectionIn: Array<String>): Array<String> = projectionIn.map {
             if (it == KEY_COMMENT)
@@ -221,6 +240,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
         const val DEBT_LABEL_EXPRESSION =
             "(SELECT $KEY_LABEL FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID) AS $KEY_DEBT_LABEL"
+
         const val TAG = "TransactionProvider"
 
         fun defaultBudgetAllocationUri(accountId: Long, grouping: Grouping): Uri =
@@ -291,6 +311,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val DEBT_ID = 64
         protected const val BUDGET_ALLOCATIONS = 65
         protected const val ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS = 66
+        protected const val BANKS = 67
+        protected const val BANK_ID = 68
+        protected const val ATTRIBUTES = 69
+        protected const val TRANSACTION_ATTRIBUTES = 70
+        protected const val ACCOUNT_ATTRIBUTES = 71
     }
 
     val homeCurrency: String
@@ -331,7 +356,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
         KEY_HAS_FUTURE,
         KEY_HAS_CLEARED,
         AccountType.sqlOrderExpression(),
-        KEY_LAST_USED
+        KEY_LAST_USED,
+        KEY_BANK_ID,
+        "(SELECT $KEY_BLZ FROM $TABLE_BANKS WHERE $KEY_ROWID = $KEY_BANK_ID) AS $KEY_BLZ"
     )
 
     val aggregateFunction: String
@@ -380,6 +407,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                             KEY_ROWID,
                             KEY_LABEL,
                             KEY_CURRENCY,
+                            KEY_TYPE,
                             "0 AS $KEY_IS_AGGREGATE"
                         ) else fullAccountProjection
                     )
@@ -398,6 +426,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     rowIdColumn,
                     labelColumn,
                     KEY_CURRENCY,
+                    "'AGGREGATE' AS $KEY_TYPE",
                     aggregateColumn
                 ) else {
                     val openingBalanceSum = "$aggregateFunction($KEY_OPENING_BALANCE)"
@@ -430,7 +459,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "max($KEY_HAS_FUTURE) AS $KEY_HAS_FUTURE",
                         "0 AS $KEY_HAS_CLEARED",
                         "0 AS $KEY_SORT_KEY_TYPE",
-                        "0 AS $KEY_LAST_USED"
+                        "0 AS $KEY_LAST_USED",
+                        "null AS $KEY_BANK_ID",
+                        "null AS $KEY_BLZ"
                     )
                 }
                 subQueries.add(
@@ -462,6 +493,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         rowIdColumn,
                         labelColumn,
                         currencyColumn,
+                        "'AGGREGATE' AS $KEY_TYPE",
                         aggregateColumn
                     )
                 } else {
@@ -496,7 +528,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         "max($KEY_HAS_FUTURE) AS $KEY_HAS_FUTURE",
                         "0 AS $KEY_HAS_CLEARED",
                         "0 AS $KEY_SORT_KEY_TYPE",
-                        "0 AS $KEY_LAST_USED"
+                        "0 AS $KEY_LAST_USED",
+                        "null AS $KEY_BANK_ID",
+                        "null AS $KEY_BLZ"
                     )
                 }
                 subQueries.add(
@@ -1016,5 +1050,31 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     .create()
                     .sql
         return db.measureAndLogQuery(uri, sql, selection, finalArgs)
+    }
+
+    fun insertAttribute(db: SupportSQLiteDatabase, values: ContentValues) {
+        val name = values.getAsString(KEY_ATTRIBUTE_NAME)
+        val context = values.getAsString(KEY_CONTEXT)
+        db.execSQL("INSERT INTO $TABLE_ATTRIBUTES ($KEY_ATTRIBUTE_NAME, $KEY_CONTEXT)  SELECT ?,? WHERE NOT EXISTS (SELECT 1 FROM $TABLE_ATTRIBUTES WHERE $KEY_ATTRIBUTE_NAME=? AND $KEY_CONTEXT = ? )",
+            arrayOf(name, context, name, context))
+    }
+
+    fun insertTransactionAttribute(db: SupportSQLiteDatabase, values: ContentValues) {
+        insertObjectAttribute(db, values, TABLE_TRANSACTION_ATTRIBUTES, KEY_TRANSACTIONID)
+    }
+
+    fun insertAccountAttribute(db: SupportSQLiteDatabase, values: ContentValues) {
+        insertObjectAttribute(db, values, TABLE_ACCOUNT_ATTRIBUTES, KEY_ACCOUNTID)
+    }
+
+    private fun insertObjectAttribute(db: SupportSQLiteDatabase, values: ContentValues, table: String, linkColumn: String) {
+        db.execSQL("INSERT or REPLACE INTO $table SELECT DISTINCT ?, _id, ? FROM $TABLE_ATTRIBUTES WHERE $KEY_ATTRIBUTE_NAME = ? AND $KEY_CONTEXT = ?;",
+            arrayOf(
+                values.getAsLong(linkColumn),
+                values.getAsString(KEY_VALUE),
+                values.getAsString(KEY_ATTRIBUTE_NAME),
+                values.getAsString(KEY_CONTEXT)
+            )
+        )
     }
 }

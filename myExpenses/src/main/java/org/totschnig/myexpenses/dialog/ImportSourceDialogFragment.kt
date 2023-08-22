@@ -59,7 +59,7 @@ abstract class ImportSourceDialogFragment : BaseDialogFragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        with(requireActivity().injector) {
+        with(injector) {
             inject(viewModel)
         }
     }

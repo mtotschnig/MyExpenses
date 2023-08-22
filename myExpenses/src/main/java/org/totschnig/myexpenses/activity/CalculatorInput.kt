@@ -20,7 +20,7 @@ import java.math.MathContext
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.ParseException
-import java.util.*
+import java.util.Stack
 
 //TODO move to DialogFragment in order to have material styled ok and cancel buttons
 /*
@@ -101,7 +101,6 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         onButtonClick(v.id)
     }
-
     private fun setDisplay(s: String?) {
         if (!s.isNullOrEmpty()) {
             result = s.replace(",".toRegex(), ".")

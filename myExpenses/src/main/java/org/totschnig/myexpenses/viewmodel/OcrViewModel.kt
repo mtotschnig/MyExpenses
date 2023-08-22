@@ -19,8 +19,6 @@ import org.totschnig.myexpenses.util.PictureDirHelper
 import javax.inject.Inject
 
 class OcrViewModel(application: Application) : AndroidViewModel(application) {
-    @Inject
-    lateinit var prefHandler: PrefHandler
 
     private val ocrFeature: OcrFeature
         get() = getApplication<MyApplication>().appComponent.ocrFeature() ?: object : OcrFeature {}

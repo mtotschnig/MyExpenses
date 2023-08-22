@@ -46,7 +46,7 @@ class DebtDetailsDialogFragment : ComposeBaseDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        with(requireActivity().injector) {
+        with(injector) {
             inject(this@DebtDetailsDialogFragment)
         }
         viewModel = ViewModelProvider(requireActivity())[DebtViewModel::class.java]

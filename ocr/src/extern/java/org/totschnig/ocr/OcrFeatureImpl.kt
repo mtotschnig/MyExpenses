@@ -11,7 +11,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.R
 
 @Keep
-class OcrFeatureImpl(val prefHandler: PrefHandler): OcrFeature() {
+class OcrFeatureImpl(@Suppress("unused") val prefHandler: PrefHandler): OcrFeature() {
     override fun isAvailable(context: Context) = Utils.isIntentAvailable(context, org.totschnig.myexpenses.feature.OcrFeature.intent())
 
     override fun offerInstall(baseActivity: BaseActivity) {

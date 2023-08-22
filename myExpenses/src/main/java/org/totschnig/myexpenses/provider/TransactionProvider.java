@@ -76,6 +76,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTTYES_METHODS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_EXCHANGE_RATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BANKS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGET_ALLOCATIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
@@ -94,6 +96,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATE
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTRIBUTES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
@@ -182,6 +185,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   //returns accounts with aggregate accounts, limited to id and label
   public static final Uri ACCOUNTS_MINIMAL_URI =
       Uri.parse("content://" + AUTHORITY + "/accountsMinimal");
+
   public static final Uri TRANSACTIONS_URI =
       Uri.parse("content://" + AUTHORITY + "/transactions");
   public static final Uri UNCOMMITTED_URI =
@@ -259,6 +263,14 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final Uri ACCOUNTS_TAGS_URI = Uri.parse("content://" + AUTHORITY + "/accounts/tags");
 
   public static final Uri DEBTS_URI = Uri.parse("content://" + AUTHORITY + "/debts");
+
+  public static final Uri BANKS_URI = Uri.parse("content://" + AUTHORITY + "/banks");
+
+  public static final Uri TRANSACTIONS_ATTRIBUTES_URI = Uri.parse("content://" + AUTHORITY + "/transactions/attributes");
+
+  public static final Uri ACCOUNTS_ATTRIBUTES_URI = Uri.parse("content://" + AUTHORITY + "/accounts/attributes");
+
+  public static final Uri ATTRIBUTES_URI = Uri.parse("content://" + AUTHORITY + "/attributes");
 
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
@@ -492,7 +504,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case ACCOUNTS_MINIMAL:
         final boolean minimal = uriMatch == ACCOUNTS_MINIMAL;
         final boolean withSums = Objects.equals(uri.getQueryParameter(QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS), "1");
-        final String mergeAggregate = minimal ? "1" : uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES);
+        final String mergeAggregate = uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES);
         if (sortOrder == null) {
           sortOrder = minimal ? KEY_LABEL : Sort.Companion.preferredOrderByForAccounts(PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.LABEL, getCollate());
         }
@@ -791,6 +803,19 @@ public class TransactionProvider extends BaseTransactionProvider {
         additionalWhere.append(TABLE_DEBTS + "." + KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
       }
+      case BANKS: {
+        projection = Companion.getBANK_PROJECTION();
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_BANKS);
+        break;
+      }
+      case TRANSACTION_ATTRIBUTES: {
+        qb = SupportSQLiteQueryBuilder.builder(TRANSACTION_ATTRIBUTES_JOIN);
+        break;
+      }
+      case ACCOUNT_ATTRIBUTES: {
+        qb = SupportSQLiteQueryBuilder.builder(ACCOUNT_ATTRIBUTES_JOIN);
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -939,6 +964,23 @@ public class TransactionProvider extends BaseTransactionProvider {
         id = MoreDbUtilsKt.insert(db, TABLE_DEBTS, values);
         newUri = DEBTS_URI + "/" + id;
       }
+      case BANKS -> {
+        id = MoreDbUtilsKt.insert(db, TABLE_BANKS, values);
+        newUri = DEBTS_URI + "/" + id;
+      }
+      // Currently not needed, until we implement Custom attributes
+/*      case ATTRIBUTES -> {
+        insertAttribute(db, values);
+        return ATTRIBUTES_URI;
+      }*/
+      case TRANSACTION_ATTRIBUTES ->  {
+        insertTransactionAttribute(db, values);
+        return TRANSACTIONS_ATTRIBUTES_URI;
+      }
+      case ACCOUNT_ATTRIBUTES ->  {
+        insertAccountAttribute(db, values);
+        return ACCOUNTS_ATTRIBUTES_URI;
+      }
       default -> throw unknownUri(uri);
     }
     notifyChange(uri, uriMatch == TRANSACTIONS && callerIsNotSyncAdapter(uri));
@@ -950,6 +992,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       notifyChange(UNCOMMITTED_URI, false);
     } else if (uriMatch == ACCOUNTS) {
       notifyAccountChange();
+      notifyChange(BANKS_URI, false);
     } else if (uriMatch == TEMPLATES) {
       notifyChange(TEMPLATES_UNCOMMITTED_URI, false);
     } else if (uriMatch == DEBTS) {
@@ -1076,6 +1119,10 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case DEBT_ID -> {
         count = db.delete(TABLE_DEBTS,
+                KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+      }
+      case BANK_ID -> {
+        count = db.delete(TABLE_BANKS,
                 KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
       }
       default -> throw unknownUri(uri);
@@ -1597,6 +1644,11 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "debts/#", DEBT_ID);
     URI_MATCHER.addURI(AUTHORITY, "budgets/allocations/", BUDGET_ALLOCATIONS);
     URI_MATCHER.addURI(AUTHORITY, "budgets/" + URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS + "/*/*", ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS);
+    URI_MATCHER.addURI(AUTHORITY, "banks", BANKS);
+    URI_MATCHER.addURI(AUTHORITY, "banks/#", BANK_ID);
+    URI_MATCHER.addURI(AUTHORITY, "attributes", ATTRIBUTES);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/attributes", TRANSACTION_ATTRIBUTES);
+    URI_MATCHER.addURI(AUTHORITY, "accounts/attributes", ACCOUNT_ATTRIBUTES);
   }
 
   /**

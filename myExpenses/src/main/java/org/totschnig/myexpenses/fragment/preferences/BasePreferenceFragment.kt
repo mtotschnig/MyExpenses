@@ -81,7 +81,7 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        with(requireActivity().injector) {
+        with(injector) {
             inject(this@BasePreferenceFragment)
             inject(viewModel)
         }

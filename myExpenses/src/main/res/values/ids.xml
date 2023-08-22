@@ -119,6 +119,7 @@
     <item name="FILTER_ACCOUNT_COMMAND" type="id" />
     <item name="SORT_NEXT_INSTANCE_COMMAND" type="id" />
     <item name="SYNC_COMMAND" type="id" />
+    <item name="FINTS_SYNC_COMMAND" type="id" />
     <item name="SYNC_SETTINGS_COMMAND" type="id" />
     <item name="SYNC_DOWNLOAD_COMMAND" type="id" />
     <item name="SYNC_LINK_COMMAND" type="id" />
@@ -213,4 +214,5 @@
     <item name="SYNC_COMMAND_IMPORT_CATEGORIES" type="id" />
     <item name="NOTIFICATION_SETTINGS_COMMAND" type="id" />
     <item name="DELETE_FILES_COMMAND" type="id" />
+    <item name="DELETE_BANK_COMMAND_DO" type="id" />
 </resources>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_new_bank">Bank hinzufügen</string>
+    <string name="select_accounts">Konten auswählen</string>
+    <string name="enter_pin">PIN eingegeben</string>
+    <string name="bankleitzahl">Bankleitzahl</string>
+    <string name="login_name">Anmeldename</string>
+    <string name="pin_info">Der PIN wird nicht auf dem Gerät gespeichert und bei jeder weiteren Verbindung mit der Bank erneut abgefragt.</string>
+    <string name="btn_load_accounts">Konten laden</string>
+    <string name="no_bank_added_yet">Noch wurde kein Bankzugang hinzugefügt.</string>
+    <string name="import_maximum">Maximal verfügbaren Buchungsverlauf importieren</string>
+    <string name="import_only_n">Nur die letzten | Tage importieren</string>
+    <string name="dialog_title_delete_bank">Bankzugang entfernen?</string>
+    <plurals name="warning_delete_bank_1">
+        <item quantity="one">Ein Konto ist mit %2$s verknüpft.</item>
+        <item quantity="other">%1$d Konten sind mit %2$s verknüpft.</item>
+    </plurals>
+    <string name="wwrning_delete_bank_2">Sie können dann den Buchungsverlauf nicht mehr aktualisieren.</string>
+    <string name="progress_importing_account">Konto %s wird geladen</string>
+    <plurals name="accounts_imported">
+        <item quantity="one">Ein Konto wurde erfolgreich importiert.</item>
+        <item quantity="other">%1$s Konten wurden erfolgreich importiert.</item>
+    </plurals>
+    <plurals name="transactions_imported">
+        <item quantity="one">Eine Buchung wurde importiert.</item>
+        <item quantity="other">%1$s Buchungen wurden importiert.</item>
+    </plurals>
+    <string name="transactions_imported_none">Keine neuen Buchungen</string>
+    <string name="wrong_pin">Falscher PIN</string>
+    <string name="blz_not_found">%s wurde in der Liste der Banken, die FinTS unterstützen, nicht gefunden.</string>
+    <string name="bank_already_added">Bank wurde bereits hinzugefügt.</string>
+    <string name="menu_sync_account">Umsätze abrufen</string>
+    <string name="eref_label">Ende-zu-Ende Referenz</string>
+    <string name="kref_label">Customer Reference</string>
+    <string name="mref_label">Mandatsreferenz</string>
+    <string name="cred_label">Gläubiger-Identifikationsnummer</string>
+    <string name="dbet_label">Debitor-Identifikationsnummer</string>
+    <string name="saldo">Saldo</string>
+</resources>

@@ -33,8 +33,8 @@ fun basePaymentMethodProjection(context: Context) = arrayOf(
 )
 
 val mappingColumns = arrayOf(
-    "(select count(*) from " + DatabaseConstants.TABLE_TRANSACTIONS + " WHERE " + KEY_METHODID + "=" + DatabaseConstants.TABLE_METHODS + "." + DatabaseConstants.KEY_ROWID + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
-    "(select count(*) from " + DatabaseConstants.TABLE_TEMPLATES + " WHERE " + KEY_METHODID + "=" + DatabaseConstants.TABLE_METHODS + "." + DatabaseConstants.KEY_ROWID + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
+    "(select count(*) from " + DatabaseConstants.TABLE_TRANSACTIONS + " WHERE " + KEY_METHODID + "=" + DatabaseConstants.TABLE_METHODS + "." + KEY_ROWID + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
+    "(select count(*) from " + DatabaseConstants.TABLE_TEMPLATES + " WHERE " + KEY_METHODID + "=" + DatabaseConstants.TABLE_METHODS + "." + KEY_ROWID + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
 
 )
 
@@ -140,7 +140,7 @@ private fun Repository.setMethodAccountTypes(id: Long, accountTypes: List<Accoun
 
 fun Repository.findPaymentMethod(label: String) = contentResolver.query(
     METHODS_URI,
-    arrayOf(DatabaseConstants.KEY_ROWID),
+    arrayOf(KEY_ROWID),
     DatabaseConstants.KEY_LABEL + " = ?",
     arrayOf(label),
     null

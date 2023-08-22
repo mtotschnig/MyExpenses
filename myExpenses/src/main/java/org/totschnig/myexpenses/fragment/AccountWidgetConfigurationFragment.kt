@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.AccountWidgetConfigure
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.viewmodel.AccountWidgetConfigurationViewModel
 
 @Suppress("unused")
@@ -33,7 +34,7 @@ class AccountWidgetConfigurationFragment : PreferenceFragmentCompat() {
         with(viewLifecycleOwner) {
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.accountsMinimal(withHidden = false).collect { list ->
+                    viewModel.accountsMinimal("${DatabaseConstants.KEY_HIDDEN} = 0").collect { list ->
                         with(accountPreference) {
                             entries =
                                 (list.map { it.label } + getString(R.string.budget_filter_all_accounts)).toTypedArray()

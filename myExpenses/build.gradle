@@ -26,7 +26,7 @@ def getPropertyIfDefined(property, defaultValue) {
 }
 
 android {
-    compileSdkVersion project.compileSdkVersion
+    compileSdk project.compileSdkVersion
     useLibrary 'android.test.runner'
     useLibrary 'android.test.mock'
     useLibrary 'android.test.base'
@@ -130,7 +130,7 @@ android {
     //It does not seem possible to define dynamicFeatures dependent on variant
     //If you want to build intern variant, you need to include mlkit (+ at least one of ':mlkit_latn', ':mlkit_han', ':mlkit_deva', ':mlkit_jpan', ':mlkit_kore') and/or tesseract module
     //drive for Sync with Google Drive
-    dynamicFeatures = [':ocr', ':webui', ':dropbox', ':webdav', ':sqlcrypt']
+    dynamicFeatures = [':ocr', ':webui', ':dropbox', ':webdav', ':sqlcrypt', ':fints']
 
     composeOptions {
         kotlinCompilerExtensionVersion compose_compiler_version
@@ -159,7 +159,7 @@ dependencies {
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugarVersion"
     implementation project(':transactionscontract')
     implementation 'com.squareup.phrase:phrase:1.2.0'
-    def composeBom = platform('androidx.compose:compose-bom:2023.05.01')
+    def composeBom = platform("$composeBom")
     implementation composeBom
     implementation "androidx.compose.ui:ui"
     implementation("androidx.compose.material3:material3")

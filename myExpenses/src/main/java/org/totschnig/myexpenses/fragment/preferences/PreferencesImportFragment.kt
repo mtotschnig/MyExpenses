@@ -6,6 +6,7 @@ import androidx.preference.Preference
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
+import java.util.Locale
 
 @Keep
 class PreferencesImportFragment: BasePreferenceFragment() {
@@ -29,6 +30,7 @@ class PreferencesImportFragment: BasePreferenceFragment() {
     override fun onPreferenceTreeClick(preference: Preference) = when {
         super.onPreferenceTreeClick(preference) -> true
         handleContrib(PrefKey.IMPORT_CSV, ContribFeature.CSV_IMPORT, preference) -> true
+        handleContrib(PrefKey.BANKING_FINTS, ContribFeature.BANKING, preference) -> true
         else -> false
     }
 }
