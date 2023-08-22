@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.ContextMenu
 import android.view.ContextMenu.ContextMenuInfo
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.View
 import android.widget.Button
@@ -40,22 +41,39 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
         binding = CalculatorBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        arrayOf(binding.b0, binding.b1, binding.b2, binding.b3, binding.b4, binding.b5,
-                binding.b6, binding.b7, binding.b8, binding.b9).forEachIndexed { index, button ->
+        arrayOf(
+            binding.b0, binding.b1, binding.b2, binding.b3, binding.b4, binding.b5,
+            binding.b6, binding.b7, binding.b8, binding.b9
+        ).forEachIndexed { index, button ->
             button.setOnClickListener(this)
             button.text = Utils.toLocalizedString(index)
         }
-        arrayOf(binding.bAdd, binding.bSubtract, binding.bDivide, binding.bMultiply,
-                binding.bPercent, binding.bPlusMinus, binding.bDot, binding.bResult, binding.bClear, binding.bDelete).forEach {
-                    it.setOnClickListener(this)
+        arrayOf(
+            binding.bAdd,
+            binding.bSubtract,
+            binding.bDivide,
+            binding.bMultiply,
+            binding.bPercent,
+            binding.bPlusMinus,
+            binding.bDot,
+            binding.bResult,
+            binding.bClear,
+            binding.bDelete
+        ).forEach {
+            it.setOnClickListener(this)
         }
         binding.bDot.text = Utils.getDefaultDecimalSeparator().toString()
         binding.resultPane.root.setOnLongClickListener {
-            ContextCompat.getSystemService(this, ClipboardManager::class.java)?.primaryClip?.getItemAt(0)?.text?.let { pasteText ->
+            ContextCompat.getSystemService(
+                this,
+                ClipboardManager::class.java
+            )?.primaryClip?.getItemAt(0)?.text?.let { pasteText ->
                 try {
                     val df = NumberFormat.getInstance() as DecimalFormat
                     df.isParseBigDecimal = true
-                    val parsedNumber = df.parseObject(pasteText.toString().replace("[^\\d,.٫-]".toRegex(), "")) as BigDecimal
+                    val parsedNumber = df.parseObject(
+                        pasteText.toString().replace("[^\\d,.٫-]".toRegex(), "")
+                    ) as BigDecimal
                     val popup = PopupMenu(this@CalculatorInput, binding.resultPane.root)
                     popup.setOnMenuItemClickListener {
                         setDisplay(parsedNumber.toPlainString())
@@ -92,6 +110,25 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
         }
     }
 
+    override fun onKeyUp(keyCode: Int, event: KeyEvent) = when {
+        when (event.unicodeChar.toChar()) {
+            in '0'..'9' -> addChar(event.unicodeChar.toChar())
+            ',', '.' -> addChar('.')
+            '+' -> doOpChar(R.id.bAdd)
+            '-' -> doOpChar(R.id.bSubtract)
+            '*' -> doOpChar(R.id.bMultiply)
+            '/' -> doOpChar(R.id.bDivide)
+            '=' -> doEqualsChar()
+            '%' -> doPercentChar()
+            else -> null
+        } != null -> true
+        keyCode == KeyEvent.KEYCODE_DEL -> {
+            doBackspace()
+            true
+        }
+        else -> super.onKeyUp(keyCode, event)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu) = false //no help at the moment
 
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenuInfo) {
@@ -101,6 +138,7 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         onButtonClick(v.id)
     }
+
     private fun setDisplay(s: String?) {
         if (!s.isNullOrEmpty()) {
             result = s.replace(",".toRegex(), ".")
@@ -115,9 +153,11 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
                 Character.isDigit(c) -> {
                     out.append(Utils.toLocalizedString(Character.getNumericValue(c)))
                 }
+
                 c == '.' -> {
                     out.append(Utils.getDefaultDecimalSeparator())
                 }
+
                 else -> {
                     out.append(c)
                 }
@@ -131,9 +171,11 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
             R.id.bClear -> {
                 resetAll()
             }
+
             R.id.bDelete -> {
                 doBackspace()
             }
+
             else -> {
                 doButton(id)
             }
@@ -161,36 +203,22 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
     }
 
     private fun doButton(id: Int) {
-        if (id == R.id.b0) {
-            addChar('0')
-        } else if (id == R.id.b1) {
-            addChar('1')
-        } else if (id == R.id.b2) {
-            addChar('2')
-        } else if (id == R.id.b3) {
-            addChar('3')
-        } else if (id == R.id.b4) {
-            addChar('4')
-        } else if (id == R.id.b5) {
-            addChar('5')
-        } else if (id == R.id.b6) {
-            addChar('6')
-        } else if (id == R.id.b7) {
-            addChar('7')
-        } else if (id == R.id.b8) {
-            addChar('8')
-        } else if (id == R.id.b9) {
-            addChar('9')
-        } else if (id == R.id.bDot) {
-            addChar('.')
-        } else if (id == R.id.bAdd || id == R.id.bSubtract || id == R.id.bMultiply || id == R.id.bDivide) {
-            doOpChar(id)
-        } else if (id == R.id.bPercent) {
-            doPercentChar()
-        } else if (id == R.id.bResult) {
-            doEqualsChar()
-        } else if (id == R.id.bPlusMinus) {
-            setDisplay(BigDecimal(result).negate().toPlainString())
+        when (id) {
+            R.id.b0 -> addChar('0')
+            R.id.b1 -> addChar('1')
+            R.id.b2 -> addChar('2')
+            R.id.b3 -> addChar('3')
+            R.id.b4 -> addChar('4')
+            R.id.b5 -> addChar('5')
+            R.id.b6 -> addChar('6')
+            R.id.b7 -> addChar('7')
+            R.id.b8 -> addChar('8')
+            R.id.b9 -> addChar('9')
+            R.id.bDot -> addChar('.')
+            R.id.bAdd, R.id.bSubtract, R.id.bMultiply, R.id.bDivide -> doOpChar(id)
+            R.id.bPercent -> doPercentChar()
+            R.id.bResult -> doEqualsChar()
+            R.id.bPlusMinus -> setDisplay(BigDecimal(result).negate().toPlainString())
         }
     }
 
@@ -229,15 +257,19 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
                 R.id.bAdd -> {
                     getString(R.string.calculator_operator_plus)
                 }
+
                 R.id.bSubtract -> {
                     getString(R.string.calculator_operator_minus)
                 }
+
                 R.id.bMultiply -> {
                     getString(R.string.calculator_operator_multiply)
                 }
+
                 R.id.bDivide -> {
                     getString(R.string.calculator_operator_divide)
                 }
+
                 else -> ""
             }
         }
@@ -271,8 +303,10 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
 
     private fun doPercentChar() {
         if (stack.isEmpty()) return
-        setDisplay(BigDecimal(result).divide(HUNDRED).multiply(BigDecimal(stack.peek()))
-                .toPlainString())
+        setDisplay(
+            BigDecimal(result).divide(HUNDRED).multiply(BigDecimal(stack.peek()))
+                .toPlainString()
+        )
         tvOp!!.text = ""
     }
 
