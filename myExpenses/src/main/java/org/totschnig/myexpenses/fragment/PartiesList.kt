@@ -114,6 +114,10 @@ class PartiesList : Fragment(), OnDialogResultListener {
             }
         }
 
+        override fun onViewDetachedFromWindow(holder: ViewHolder) {
+            holder.binding.checkBox.setOnCheckedChangeListener(null)
+        }
+
         override fun onCurrentListChanged(
             previousList: MutableList<Party>,
             currentList: MutableList<Party>
