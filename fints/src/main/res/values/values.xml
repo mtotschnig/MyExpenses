@@ -31,4 +31,5 @@
     <string name="wrong_pin">Wrong PIN</string>
     <string name="blz_not_found">%s not found in the list of banks that support FinTS.</string>
     <string name="bank_already_added">Bank has already been added.</string>
+    <string name="menu_sync_account">Update transactions</string>
 </resources>

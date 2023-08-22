@@ -29,4 +29,5 @@
     <string name="wrong_pin">Falscher PIN</string>
     <string name="blz_not_found">%s wurde in der Liste der Banken, die FinTS unterstützen, nicht gefunden.</string>
     <string name="bank_already_added">Bank wurde bereits hinzugefügt.</string>
+    <string name="menu_sync_account">Umsätze abrufen</string>
 </resources>

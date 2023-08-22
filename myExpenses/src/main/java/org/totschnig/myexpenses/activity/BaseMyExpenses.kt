@@ -1483,22 +1483,24 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 menu.findItem(R.id.BALANCE_COMMAND)
                     ?.setEnabledAndVisible(reconciliationAvailable && !isAggregate)
 
-                menu.findItem(R.id.SHOW_STATUS_HANDLE_COMMAND)?.let {
-                    it.setEnabledAndVisible(reconciliationAvailable)
+                menu.findItem(R.id.SHOW_STATUS_HANDLE_COMMAND)?.apply {
+                    setEnabledAndVisible(reconciliationAvailable)
                     if (reconciliationAvailable) {
                         lifecycleScope.launch {
-                            it.isChecked = viewModel.showStatusHandle().first()
+                            isChecked = viewModel.showStatusHandle().first()
                         }
                     }
                 }
 
                 menu.findItem(R.id.SYNC_COMMAND)?.setEnabledAndVisible(syncAccountName != null)
-                menu.findItem(R.id.FINTS_SYNC_COMMAND)?.setEnabledAndVisible(bankId != null)
+                menu.findItem(R.id.FINTS_SYNC_COMMAND)?.apply {
+                    setEnabledAndVisible(bankId != null)
+                    title = bankingViewModel.syncMenuTitle(this@BaseMyExpenses)
+                }
 
-                menu.findItem(R.id.MANAGE_ACCOUNTS_COMMAND)?.let { item ->
-                    item.setEnabledAndVisible(!isAggregate)
+                menu.findItem(R.id.MANAGE_ACCOUNTS_COMMAND)?.apply {
+                    setEnabledAndVisible(!isAggregate)
                     if (!isAggregate) {
-                        with(item) {
                             title = label
                             subMenu?.findItem(R.id.TOGGLE_SEALED_COMMAND)?.setTitle(
                                 if (sealed) R.string.menu_reopen else R.string.menu_close
@@ -1507,7 +1509,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 ?.setEnabledAndVisible(!sealed)
                             subMenu?.findItem(R.id.EXCLUDE_FROM_TOTALS_COMMAND)
                                 ?.setChecked(excludeFromTotals)
-                        }
                     }
                 }
             }

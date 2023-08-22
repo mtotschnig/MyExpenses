@@ -24,4 +24,6 @@ class BankingFeatureImpl: BankingFeature {
 
     override val bankIconRenderer: @Composable() ((String) -> Unit) = { BankIconImpl(blz = it) }
 
+    override fun syncMenuTitle(context: Context) = context.getString(R.string.menu_sync_account) + " (FinTS)"
+
 }

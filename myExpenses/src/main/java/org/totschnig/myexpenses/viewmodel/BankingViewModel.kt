@@ -22,4 +22,6 @@ class BankingViewModel(application: Application) : AndroidViewModel(application)
 
     val bankIconRenderer: (@Composable (String) -> Unit)?
         get() = bankingFeature.bankIconRenderer
+
+    fun syncMenuTitle(context: Context) = bankingFeature.syncMenuTitle(context)
 }
