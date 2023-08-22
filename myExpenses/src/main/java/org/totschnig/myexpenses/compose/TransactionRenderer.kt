@@ -94,6 +94,8 @@ abstract class ItemRenderer(
             }
             referenceNumber?.takeIf { it.isNotEmpty() }?.let {
                 append(" $it ")
+            } ?: run {
+                append(" ")
             }
             comment?.takeIf { it.isNotEmpty() }?.let {
                 withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
@@ -417,6 +419,7 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
             _date = System.currentTimeMillis() / 1000,
             amount = Money(CurrencyUnit.DebugInstance, 7000),
             methodLabel = "CHEQUE",
+            methodIcon = "credit-card",
             referenceNumber = "1",
             accountId = -1,
             catId = 1,
