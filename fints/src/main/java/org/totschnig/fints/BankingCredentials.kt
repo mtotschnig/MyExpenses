@@ -94,8 +94,9 @@ fun TanDialog(
             },
             text = {
                 Column {
+                    Text(tanRequest.message)
                     tanRequest.bitmap?.let {
-                        Image(bitmap = it.asImageBitmap(), contentDescription = "PhotoTAN")
+                        Image(bitmap = it.asImageBitmap(), contentDescription = null)
                     }
                     OutlinedTextField(
                         value = tan,

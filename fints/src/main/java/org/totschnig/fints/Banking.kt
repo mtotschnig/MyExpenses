@@ -477,12 +477,12 @@ fun AccountRow(
 
 @Preview
 @Composable
-fun Loading(text: String = "Loading") {
+fun Loading(text: String? = "Loading") {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         CircularProgressIndicator()
-        Text("$text ...")
+        Text(text ?: stringResource(id = R.string.loading))
     }
 }

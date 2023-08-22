@@ -27,7 +27,7 @@ class PreferencesImportFragment: BasePreferenceFragment() {
         }
 
         with(requirePreference<Preference>(PrefKey.BANKING_FINTS)) {
-           summary = Locale.GERMANY.displayCountry
+           summary = "FinTS (${Locale.GERMANY.displayCountry})"
         }
     }
 

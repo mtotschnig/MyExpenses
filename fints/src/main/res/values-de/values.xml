@@ -16,4 +16,17 @@
         <item quantity="other">%1$d Konten sind mit %2$s verknüpft.</item>
     </plurals>
     <string name="wwrning_delete_bank_2">Sie können dann den Buchungsverlauf nicht mehr aktualisieren.</string>
+    <string name="progress_importing_account">Konto %s wird geladen</string>
+    <plurals name="accounts_imported">
+        <item quantity="one">Ein Konto wurde erfolgreich importiert.</item>
+        <item quantity="other">%1$s Konten wurden erfolgreich importiert.</item>
+    </plurals>
+    <plurals name="transactions_imported">
+        <item quantity="one">Eine Buchung wurde importiert.</item>
+        <item quantity="other">%1$s Buchungen wurden importiert.</item>
+    </plurals>
+    <string name="transactions_imported_none">Keine neuen Buchungen</string>
+    <string name="wrong_pin">Falscher PIN</string>
+    <string name="blz_not_found">%s wurde in der Liste der Banken, die FinTS unterstützen, nicht gefunden.</string>
+    <string name="bank_already_added">Bank wurde bereits hinzugefügt.</string>
 </resources>

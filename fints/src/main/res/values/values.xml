@@ -18,4 +18,17 @@
         <item quantity="other">%1$d accounts are linked to %2$s.</item>
     </plurals>
     <string name="wwrning_delete_bank_2">You will no longer be able to download current transaction data.</string>
+    <string name="progress_importing_account">Importing account %s</string>
+    <plurals name="accounts_imported">
+        <item quantity="one">One account successfully imported.</item>
+        <item quantity="other">%1$s accounts successfully imported.</item>
+    </plurals>
+    <plurals name="transactions_imported">
+        <item quantity="one">One transaction imported.</item>
+        <item quantity="other">%1$s transactions imported.</item>
+    </plurals>
+    <string name="transactions_imported_none">No new transactions</string>
+    <string name="wrong_pin">Wrong PIN</string>
+    <string name="blz_not_found">%s not found in the list of banks that support FinTS.</string>
+    <string name="bank_already_added">Bank has already been added.</string>
 </resources>

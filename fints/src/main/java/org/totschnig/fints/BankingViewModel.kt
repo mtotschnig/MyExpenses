@@ -30,6 +30,7 @@ import org.kapott.hbci.passport.AbstractHBCIPassport
 import org.kapott.hbci.passport.HBCIPassport
 import org.kapott.hbci.status.HBCIExecStatus
 import org.kapott.hbci.structures.Konto
+import org.totschnig.fints.R
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.Attribute
 import org.totschnig.myexpenses.db2.BankingAttribute
@@ -64,12 +65,14 @@ import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel
 import org.totschnig.myexpenses.viewmodel.data.BankingCredentials
 import timber.log.Timber
 import java.io.File
+import java.io.StreamCorruptedException
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date
 import java.util.Properties
+import org.totschnig.fints.R as RF
 
-data class TanRequest(val bitmap: Bitmap?)
+data class TanRequest(val message: String, val bitmap: Bitmap?)
 
 class BankingViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
@@ -108,7 +111,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
         object Initial : WorkState()
 
-        data class Loading(val message: String) : WorkState()
+        data class Loading(val message: String? = null) : WorkState()
 
         data class BankLoaded(val bank: Bank) : WorkState()
 
@@ -149,7 +152,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
         if (info == null) {
             HBCIUtils.doneThread()
-            error("${bankingCredentials.blz} not found in the list of banks that support FinTS")
+            error(getString(R.string.blz_not_found, bankingCredentials.blz))
             _workState.value = WorkState.Initial
         }
         return info
@@ -183,9 +186,11 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         val passport = try {
             buildPassport(info, passportFile)
         } catch (e: Exception) {
-            Timber.e(e)
+            val exception = if (Utils.getCause(e) is StreamCorruptedException) {
+                Exception(getString(R.string.wrong_pin))
+            } else e
             HBCIUtils.doneThread()
-            onError(Exception("Wrong PIN"))
+            onError(exception)
             return
         }
 
@@ -222,11 +227,11 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
     fun addBank(bankingCredentials: BankingCredentials) {
         clearError()
-        _workState.value = WorkState.Loading("Loading information")
+        _workState.value = WorkState.Loading()
 
         if (bankingCredentials.isNew && banks.value.any { it.blz == bankingCredentials.blz && it.userId == bankingCredentials.user }) {
             _workState.value = WorkState.Initial
-            error("Bank has already been added")
+            error(getString(R.string.bank_already_added))
             return
         }
         viewModelScope.launch(context = coroutineContext()) {
@@ -272,7 +277,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         accountId: Long
     ) {
         viewModelScope.launch(context = coroutineContext()) {
-            _workState.value = WorkState.Loading("Loading account information")
+            _workState.value = WorkState.Loading()
             val accountInformation = repository.accountInformation(accountId)
             if (accountInformation == null) {
                 CrashHandler.report(Exception("Error while retrieving Information for account"))
@@ -289,7 +294,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                 credentials,
                 work = { _, _, handle ->
 
-                    _workState.value = WorkState.Loading("Syncing account")
+                    _workState.value = WorkState.Loading()
 
                     val umsatzJob: HBCIJob = handle.newJob("KUmsAll")
                     umsatzJob.setParam("my",
@@ -340,7 +345,12 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     }
                     setAccountLastSynced(accountId)
                     _workState.value =
-                        WorkState.Done(if (importCount > 0) "$importCount transactions imported" else "No new transactions")
+                        WorkState.Done(
+                            if (importCount > 0)
+                                getQuantityString(R.plurals.transactions_imported, importCount, importCount)
+                            else
+                                getString(R.string.transactions_imported_none)
+                        )
                 },
                 onError = {
                     error(it)
@@ -392,7 +402,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     bankingCredentials,
                     work = { _, _, handle ->
 
-                        _workState.value = WorkState.Loading("Importing account ${it.iban}")
+                        _workState.value = WorkState.Loading(getString(RF.string.progress_importing_account, it.iban))
 
                         val umsatzJob: HBCIJob = handle.newJob("KUmsAll")
                         log("jobRestrictions : " + umsatzJob.jobRestrictions.toString())
@@ -442,7 +452,9 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     }
                 )
             }
-            _workState.value = WorkState.Done("$successCount accounts successfully imported.")
+            _workState.value = WorkState.Done(
+                getQuantityString(R.plurals.accounts_imported, successCount, successCount)
+            )
         }
     }
 
@@ -489,7 +501,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
                         val bitmap = BitmapFactory.decodeByteArray(code.image, 0, code.image.size)
 
-                        _tanRequested.postValue(TanRequest(bitmap))
+                        _tanRequested.postValue(TanRequest(msg, bitmap))
 
                     } catch (e: Exception) {
                         throw HBCI_Exception(e)
@@ -501,7 +513,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
                         val bitmap = BitmapFactory.decodeByteArray(code.image, 0, code.image.size)
 
-                        _tanRequested.postValue(TanRequest(bitmap))
+                        _tanRequested.postValue(TanRequest(code.message, bitmap))
 
                     } catch (e: Exception) {
                         throw HBCI_Exception(e)
@@ -528,7 +540,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     if (flicker.isNotEmpty()) {
                         TODO()
                     } else {
-                        _tanRequested.postValue(TanRequest(null))
+                        _tanRequested.postValue(TanRequest(msg,null))
                         retData.replace(0, retData.length, runBlocking {
                             val result =
                                 tanFuture.await() ?: throw HBCI_Exception("TAN entry cancelled")
