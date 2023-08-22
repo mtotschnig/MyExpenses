@@ -44,11 +44,14 @@ import org.totschnig.myexpenses.db2.loadBank
 import org.totschnig.myexpenses.db2.loadBanks
 import org.totschnig.myexpenses.db2.saveAccountAttributes
 import org.totschnig.myexpenses.db2.saveTransactionAttributes
+import org.totschnig.myexpenses.db2.updateAccount
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Bank
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
@@ -391,22 +394,23 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         bankingCredentials: BankingCredentials,
         bank: Bank,
         accounts: List<Konto>,
-        startDate: LocalDate?
+        startDate: LocalDate?,
+        targetAccount: Long?
     ) {
         clearError()
         var successCount = 0
         viewModelScope.launch(context = coroutineContext()) {
-            accounts.forEach {
+            accounts.forEach { konto ->
 
                 doHBCI(
                     bankingCredentials,
                     work = { _, _, handle ->
 
-                        _workState.value = WorkState.Loading(getString(RF.string.progress_importing_account, it.iban))
+                        _workState.value = WorkState.Loading(getString(RF.string.progress_importing_account, konto.iban))
 
                         val umsatzJob: HBCIJob = handle.newJob("KUmsAll")
                         log("jobRestrictions : " + umsatzJob.jobRestrictions.toString())
-                        umsatzJob.setParam("my", it)
+                        umsatzJob.setParam("my", konto)
                         startDate?.let { umsatzJob.setStartParam(startDate) }
 
                         umsatzJob.addToQueue()
@@ -423,27 +427,33 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                             error(result.toString())
                             return@doHBCI
                         }
-                        val (account, accountAttributes) = it.toAccount(
-                            bank,
-                            result.dataPerDay.firstOrNull()?.start?.value?.longValue ?: 0L
-                        )
 
-                        val dbAccount = repository.createAccount(account)
-                        repository.saveAccountAttributes(dbAccount.id, accountAttributes)
+                        val accountId = targetAccount.takeIf { accounts.size == 1 && it != 0L }?.also {
+                            repository.updateAccount(it) {
+                                put(KEY_BANK_ID, bank.id)
+                            }
+                        } ?:
+                            repository.createAccount(
+                                konto.toAccount(
+                                    bank,
+                                    result.dataPerDay.firstOrNull()?.start?.value?.longValue ?: 0L
+                                )
+                            ).id
 
-                        log("created account in db with id ${dbAccount.id}")
+                        repository.saveAccountAttributes(accountId, konto.asAttributes)
+
                         for (umsLine in result.flatData) {
                             log(umsLine.toString())
                             with(converter) {
                                 val (transaction, transactionAttributes: Map<out Attribute, String>) = umsLine.toTransaction(
-                                    dbAccount.id,
+                                    accountId,
                                     currencyContext
                                 )
                                 val id = ContentUris.parseId(transaction.save()!!)
                                 repository.saveTransactionAttributes(id, transactionAttributes)
                             }
                         }
-                        setAccountLastSynced(dbAccount.id)
+                        setAccountLastSynced(accountId)
                         successCount++
                     },
                     onError = {
@@ -570,4 +580,12 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             emptyList()
         )
     }
+
+    val accounts by lazy {
+        accountsMinimal(
+            query = "${DatabaseConstants.KEY_TYPE} = 'BANK' AND ${DatabaseConstants.KEY_BANK_ID} IS NULL",
+            withAggregates = false
+        )
+    }
+
 }

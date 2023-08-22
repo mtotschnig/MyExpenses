@@ -55,9 +55,10 @@ abstract class AbstractSyncBackendViewModel(application: Application) :
                         SyncAdapter.KEY_LAST_SYNCED_REMOTE(account.first),
                         null
                     )
-                    repository.updateAccount(account.first, ContentValues().apply {
+
+                    repository.updateAccount(account.first) {
                         putNull(KEY_SYNC_ACCOUNT_NAME)
-                    })
+                    }
                 }
             } != null) ResultUnit else Result.failure(Exception("ERROR")))
     }

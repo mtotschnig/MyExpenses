@@ -20,8 +20,8 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.CsvImportActivity
 import org.totschnig.myexpenses.activity.IMPORT_FILENAME_REQUEST_CODE
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
-import org.totschnig.myexpenses.adapter.IdAdapter
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
+import org.totschnig.myexpenses.adapter.IdAdapter
 import org.totschnig.myexpenses.databinding.FilenameBinding
 import org.totschnig.myexpenses.databinding.ImportCsvParseBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
@@ -35,9 +35,9 @@ import org.totschnig.myexpenses.util.ImportFileResultHandler
 import org.totschnig.myexpenses.util.ImportFileResultHandler.FileNameHostFragment
 import org.totschnig.myexpenses.util.checkNewAccountLimitation
 import org.totschnig.myexpenses.util.linkInputsWithLabels
-import org.totschnig.myexpenses.viewmodel.AccountImport
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.ImportViewModel
+import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 import javax.inject.Inject
@@ -74,8 +74,8 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
     }
 
     @Suppress("UNCHECKED_CAST")
-    private val accountsAdapter: IdAdapter<AccountImport>
-        get() = binding.AccountTable.Account.adapter as IdAdapter<AccountImport>
+    private val accountsAdapter: IdAdapter<AccountMinimal>
+        get() = binding.AccountTable.Account.adapter as IdAdapter<AccountMinimal>
     private val currencyAdapter: CurrencyAdapter
         get() = binding.AccountTable.Currency.adapter as CurrencyAdapter
 
@@ -93,7 +93,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
         DialogUtils.configureEncoding(binding.EncodingTable.Encoding, activity, prefHandler, PREF_KEY_IMPORT_CSV_ENCODING)
         DialogUtils.configureDelimiter(binding.Delimiter, activity, prefHandler, PREF_KEY_IMPORT_CSV_DELIMITER)
         with(binding.AccountTable.Account) {
-            adapter = IdAdapter<AccountImport>(requireContext())
+            adapter = IdAdapter<AccountMinimal>(requireContext())
             onItemSelectedListener = this@CsvImportParseFragment
         }
         DialogUtils.configureCurrencySpinner(binding.AccountTable.Currency, this)
@@ -254,7 +254,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
                 }
                 with(binding.AccountTable.AccountType) {
                     setSelection(
-                        (if (selected.id == 0L && type != null) type!! else selected.type).ordinal
+                        (if (selected.id == 0L && type != null) type else selected.type)!!.ordinal
                     )
                     isEnabled = position == 0
                 }

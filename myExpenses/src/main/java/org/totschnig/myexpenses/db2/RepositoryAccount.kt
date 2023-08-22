@@ -46,7 +46,6 @@ fun Repository.getLastUsedOpenAccount() =
     }
 
 
-
 fun Repository.findAccountByUuid(uuid: String) = contentResolver.query(
     TransactionProvider.ACCOUNTS_URI,
     arrayOf(KEY_ROWID),
@@ -57,15 +56,16 @@ fun Repository.findAccountByUuid(uuid: String) = contentResolver.query(
     if (it.moveToFirst()) it.getLong(0) else null
 }
 
-fun Repository.findAccountByUuidWithExtraColumn(uuid: String, extraColumn: String) = contentResolver.query(
-    TransactionProvider.ACCOUNTS_URI,
-    arrayOf(KEY_ROWID, extraColumn),
-    "$KEY_UUID = ?",
-    arrayOf(uuid),
-    null
-)?.use {
-    if (it.moveToFirst()) it.getLong(0) to it.getStringOrNull(1) else null
-}
+fun Repository.findAccountByUuidWithExtraColumn(uuid: String, extraColumn: String) =
+    contentResolver.query(
+        TransactionProvider.ACCOUNTS_URI,
+        arrayOf(KEY_ROWID, extraColumn),
+        "$KEY_UUID = ?",
+        arrayOf(uuid),
+        null
+    )?.use {
+        if (it.moveToFirst()) it.getLong(0) to it.getStringOrNull(1) else null
+    }
 
 fun Repository.loadAccount(accountId: Long): Account? {
     require(accountId > 0L)
@@ -162,6 +162,11 @@ fun Repository.updateAccount(accountId: Long, data: ContentValues) {
         data, null, null
     )
 }
+
+fun Repository.updateAccount(accountId: Long, builder: ContentValues.() -> Unit) {
+    updateAccount(accountId, ContentValues().also { it.builder() })
+}
+
 fun Repository.storeExchangeRate(
     accountId: Long,
     exchangeRate: Double,

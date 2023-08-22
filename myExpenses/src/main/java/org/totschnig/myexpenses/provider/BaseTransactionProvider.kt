@@ -197,6 +197,13 @@ abstract class BaseTransactionProvider : ContentProvider() {
             get() = TransactionProvider.CATEGORIES_URI.buildUpon()
                 .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL)
                 .build()
+
+        val ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES: Uri
+            get() = TransactionProvider.ACCOUNTS_MINIMAL_URI
+                .buildUpon()
+                .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES)
+                .build()
+
         const val CURRENCIES_USAGES_TABLE_EXPRESSION =
             "$TABLE_CURRENCIES LEFT JOIN (SELECT coalesce($KEY_ORIGINAL_CURRENCY, $KEY_CURRENCY) AS currency_coalesced, count(*) AS $KEY_USAGES FROM $VIEW_EXTENDED GROUP BY currency_coalesced) on currency_coalesced = $KEY_CODE"
 
@@ -400,6 +407,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                             KEY_ROWID,
                             KEY_LABEL,
                             KEY_CURRENCY,
+                            KEY_TYPE,
                             "0 AS $KEY_IS_AGGREGATE"
                         ) else fullAccountProjection
                     )
@@ -418,6 +426,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     rowIdColumn,
                     labelColumn,
                     KEY_CURRENCY,
+                    "'AGGREGATE' AS $KEY_TYPE",
                     aggregateColumn
                 ) else {
                     val openingBalanceSum = "$aggregateFunction($KEY_OPENING_BALANCE)"
@@ -484,6 +493,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         rowIdColumn,
                         labelColumn,
                         currencyColumn,
+                        "'AGGREGATE' AS $KEY_TYPE",
                         aggregateColumn
                     )
                 } else {

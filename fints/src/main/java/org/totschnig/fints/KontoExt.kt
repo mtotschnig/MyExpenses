@@ -13,11 +13,14 @@ fun Konto.toAccount(bank: Bank, openingBalance: Long) = Account(
     type = AccountType.BANK,
     bankId = bank.id,
     openingBalance = openingBalance
-) to buildMap {
-    number?.let { put(BankingAttribute.NUMBER, it) }
-    subnumber?.let { put(BankingAttribute.SUBNUMBER, it) }
-    iban?.let { put(BankingAttribute.IBAN, it) }
-}
+)
+
+val Konto.asAttributes
+    get() = buildMap {
+        number?.let { put(BankingAttribute.NUMBER, it) }
+        subnumber?.let { put(BankingAttribute.SUBNUMBER, it) }
+        iban?.let { put(BankingAttribute.IBAN, it) }
+    }
 
 
 val Konto.dbNumber: String

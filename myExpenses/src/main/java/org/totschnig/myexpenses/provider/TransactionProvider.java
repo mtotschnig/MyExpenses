@@ -185,6 +185,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   //returns accounts with aggregate accounts, limited to id and label
   public static final Uri ACCOUNTS_MINIMAL_URI =
       Uri.parse("content://" + AUTHORITY + "/accountsMinimal");
+
   public static final Uri TRANSACTIONS_URI =
       Uri.parse("content://" + AUTHORITY + "/transactions");
   public static final Uri UNCOMMITTED_URI =
@@ -503,7 +504,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case ACCOUNTS_MINIMAL:
         final boolean minimal = uriMatch == ACCOUNTS_MINIMAL;
         final boolean withSums = Objects.equals(uri.getQueryParameter(QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS), "1");
-        final String mergeAggregate = minimal ? "1" : uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES);
+        final String mergeAggregate = uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES);
         if (sortOrder == null) {
           sortOrder = minimal ? KEY_LABEL : Sort.Companion.preferredOrderByForAccounts(PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.LABEL, getCollate());
         }

@@ -10,7 +10,7 @@
     <string name="no_bank_added_yet">Noch wurde kein Bankzugang hinzugefügt.</string>
     <string name="import_maximum">Maximal verfügbaren Buchungsverlauf importieren</string>
     <string name="import_only_n">Nur die letzten | Tage importieren</string>
-    <string name="dialog_title_delete_bank">>Bankzugang entfernen?</string>
+    <string name="dialog_title_delete_bank">Bankzugang entfernen?</string>
     <plurals name="warning_delete_bank_1">
         <item quantity="one">Ein Konto ist mit %2$s verknüpft.</item>
         <item quantity="other">%1$d Konten sind mit %2$s verknüpft.</item>
