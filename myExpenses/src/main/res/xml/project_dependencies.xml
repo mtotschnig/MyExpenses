@@ -209,4 +209,9 @@
         <url>https://github.com/cketti/EmailIntentBuilder</url>
         <licence>Apache License, Version 2.0</licence>
     </project>
+    <project>
+        <name>HBCI4Java</name>
+        <url>https://github.com/hbci4j/hbci4java</url>
+        <licence>GNU Lesser General Public License v2.1</licence>
+    </project>
 </credits>
