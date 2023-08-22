@@ -2248,6 +2248,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         db.execSQL("UPDATE transactions set date = date / 1000 WHERE date > 10000000000");
         db.execSQL("UPDATE transactions set value_date = value_date / 1000 WHERE value_date > 10000000000");
       }
+      if (oldVersion < 145) {
+        upgradeTo145(db);
+      }
 
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {

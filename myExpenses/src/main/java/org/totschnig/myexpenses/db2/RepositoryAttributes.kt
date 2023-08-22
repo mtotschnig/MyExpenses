@@ -6,19 +6,18 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
 import androidx.sqlite.db.SupportSQLiteDatabase
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CONTEXT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_ATTRIBUTES_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_ATTRIBUTES_URI
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.provider.useAndMap
-import java.lang.IllegalStateException
 import java.util.EnumSet
 
 interface Attribute {
@@ -40,10 +39,20 @@ interface Attribute {
             db: SupportSQLiteDatabase,
             attributeClass: Class<E>
         ) where E : Enum<E>, E : Attribute {
+            initDatabaseInternal(db, attributeClass, TABLE_ATTRIBUTES, KEY_ATTRIBUTE_NAME, KEY_CONTEXT)
+        }
+
+        fun <E> initDatabaseInternal(
+            db: SupportSQLiteDatabase,
+            attributeClass: Class<E>,
+            table: String,
+            keyName: String,
+            keyContext: String
+        ) where E : Enum<E>, E : Attribute {
             EnumSet.allOf(attributeClass).forEach {
-                db.insert(DatabaseConstants.TABLE_ATTRIBUTES, ContentValues().apply {
-                    put(KEY_ATTRIBUTE_NAME, it.name)
-                    put(KEY_CONTEXT, it.context)
+                db.insert(table, ContentValues().apply {
+                    put(keyName, it.name)
+                    put(keyContext, it.context)
                 })
             }
         }

@@ -49,7 +49,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTRIBUTES
 import timber.log.Timber
 
-const val DATABASE_VERSION = 144
+const val DATABASE_VERSION = 145
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -117,7 +117,7 @@ END
 """
 
 const val BANK_CREATE = """
-CREATE TABLE $TABLE_BANKS ($KEY_ROWID integer primary key autoincrement, $KEY_BLZ text not null, $KEY_BIC text not null, $KEY_BANK_NAME text not null, $KEY_USER_ID text not null, unique($KEY_BLZ, $KEY_USER_ID))   
+CREATE TABLE $TABLE_BANKS ($KEY_ROWID integer primary key autoincrement, $KEY_BLZ text not null, $KEY_BIC text not null, $KEY_BANK_NAME text not null, $KEY_USER_ID text not null, unique($KEY_BLZ, $KEY_USER_ID))
 """
 
 const val PAYEE_CREATE = """
@@ -362,6 +362,32 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
                     arrayOf(it.getLong(0).toString())
                 )
             }
+        }
+    }
+
+    fun upgradeTo145(db: SupportSQLiteDatabase) {
+        with(db) {
+            execSQL("CREATE TABLE banks (_id integer primary key autoincrement, blz text not null, bic text not null, name text not null, user_id text not null, unique(blz, user_id))")
+            execSQL("ALTER TABLE accounts add column bank_id integer references banks(_id) ON DELETE SET NULL")
+            execSQL("ALTER TABLE payee RENAME to payee_old")
+            execSQL(
+                "CREATE TABLE payee (_id integer primary key autoincrement, name text not null, iban text, bic text, name_normalized text, unique(name, iban))"
+            )
+            execSQL("INSERT INTO payee (_id, name, name_normalized) SELECT _id, name, name_normalized FROM payee_old")
+            execSQL("DROP TABLE payee_old")
+            execSQL("CREATE TABLE attributes (_id integer primary key autoincrement,attribute_name text not null,context text not null, unique (attribute_name, context))")
+            Attribute.initDatabaseInternal(db, FinTsAttribute::class.java,
+                "attributes", "attribute_name", "context"
+            )
+            Attribute.initDatabaseInternal(db, BankingAttribute::class.java,
+                "attributes", "attribute_name", "context"
+            )
+            execSQL(
+                "CREATE TABLE transaction_attributes (transaction_id integer references transactions(_id) ON DELETE CASCADE,attribute_id integer references attributes(_id) ON DELETE CASCADE,value text not null,primary key (transaction_id, attribute_id))"
+            )
+            execSQL(
+                "CREATE TABLE account_attributes (account_id integer references accounts(_id) ON DELETE CASCADE,attribute_id integer references attributes(_id) ON DELETE CASCADE,value text not null,primary key (account_id, attribute_id))"
+            )
         }
     }
 
