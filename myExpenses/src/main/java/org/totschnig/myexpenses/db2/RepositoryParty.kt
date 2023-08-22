@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.db2
 
 import android.content.ContentUris
 import android.content.ContentValues
-import org.totschnig.myexpenses.model.Payee
 import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BIC
@@ -33,7 +32,7 @@ fun Repository.requireParty(party: Party) = findParty(party) ?: createParty(part
  * @return id or null if not found
  */
 fun Repository.findParty(party: Party) = contentResolver.query(
-    Payee.CONTENT_URI,
+    TransactionProvider.PAYEES_URI,
     arrayOf(DatabaseConstants.KEY_ROWID),
     KEY_PAYEE_NAME + " = ? AND " + KEY_IBAN + if (party.iban == null) " IS NULL" else " = ?",
     if (party.iban == null) arrayOf(party.name) else arrayOf(party.name, party.iban),

@@ -8,7 +8,9 @@ import androidx.preference.*
 import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
+import java.util.Locale
 
 class MainPreferenceFragment : BasePreferenceFragment() {
 
@@ -72,6 +74,7 @@ class MainPreferenceFragment : BasePreferenceFragment() {
         super.onCreatePreferences(savedInstanceState, rootKey)
         requirePreference<Preference>(PrefKey.CATEGORY_BACKUP_EXPORT).title = exportBackupTitle
         requirePreference<Preference>(PrefKey.CATEGORY_PROTECTION).title = protectionTitle
+        requirePreference<Preference>(PrefKey.BANKING_FINTS).summary = "FinTS (${Locale.GERMANY.displayCountry})"
     }
 
     override fun onCreateAdapter(preferenceScreen: PreferenceScreen) =
@@ -88,4 +91,10 @@ class MainPreferenceFragment : BasePreferenceFragment() {
         }.also {
             adapter = it
         }
+
+    override fun onPreferenceTreeClick(preference: Preference)= when {
+        super.onPreferenceTreeClick(preference) -> true
+        handleContrib(PrefKey.BANKING_FINTS, ContribFeature.BANKING, preference) -> true
+        else -> false
+    }
 }

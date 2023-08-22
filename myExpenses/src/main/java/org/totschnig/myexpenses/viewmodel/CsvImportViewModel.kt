@@ -19,7 +19,6 @@ import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.export.qif.QifUtils
 import org.totschnig.myexpenses.model.*
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.TransactionProvider
 import java.io.InputStreamReader

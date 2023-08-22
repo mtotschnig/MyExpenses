@@ -33,8 +33,4 @@
             android:targetClass="org.totschnig.myexpenses.activity.GrisbiImport"
             android:targetPackage="@string/application_id" />
     </Preference>
-    <Preference
-        my:isPreferenceVisible="@bool/is26"
-        android:key="@string/pref_banking_fints_key"
-        android:title="Banking" />
 </PreferenceScreen>

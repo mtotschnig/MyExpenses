@@ -19,7 +19,7 @@ fun <T> rememberMutableStateListOf(vararg elements: T) = rememberSaveable(
 }
 
 // Currently not needed, but might be in the future
-@Composable
+/*@Composable
 fun <K, V> rememberMutableStateMapOf(vararg pairs: Pair<K, V>)  =
     rememberSaveable(
         saver = listSaver(
@@ -29,6 +29,7 @@ fun <K, V> rememberMutableStateMapOf(vararg pairs: Pair<K, V>)  =
     ) {
         pairs.toList().toMutableStateMap()
     }
+*/
 
 fun <T> MutableState<List<T>>.toggle(element: T) = if (value.contains(element)) {
     value = value - element

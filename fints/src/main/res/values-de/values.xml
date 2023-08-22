@@ -30,4 +30,10 @@
     <string name="blz_not_found">%s wurde in der Liste der Banken, die FinTS unterstützen, nicht gefunden.</string>
     <string name="bank_already_added">Bank wurde bereits hinzugefügt.</string>
     <string name="menu_sync_account">Umsätze abrufen</string>
+    <string name="eref_label">Ende-zu-Ende Referenz</string>
+    <string name="kref_label">Customer Reference</string>
+    <string name="mref_label">Mandatsreferenz</string>
+    <string name="cred_label">Gläubiger-Identifikationsnummer</string>
+    <string name="dbet_label">Debitor-Identifikationsnummer</string>
+    <string name="saldo">Saldo</string>
 </resources>

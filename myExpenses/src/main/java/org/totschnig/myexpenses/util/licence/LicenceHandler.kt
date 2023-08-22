@@ -337,13 +337,13 @@ open class LicenceHandler(
         var result = licenceStatus?.let { context.getString(it.resId) }
         addOnFeatures.takeIf { it.isNotEmpty() }
             ?.joinToString { context.getString(it.labelResId) }?.let {
-            if (result == null) {
-                result = ""
-            } else {
-                result += " "
+                if (result == null) {
+                    result = ""
+                } else {
+                    result += " "
+                }
+                result += "(+ $it)"
             }
-            result += "(+ $it)"
-        }
         if (licenceStatus == LicenceStatus.PROFESSIONAL) {
             getProLicenceStatus(context)?.let {
                 result += String.format(" (%s)", it)
@@ -396,13 +396,17 @@ open class LicenceHandler(
 
     fun updateNewAccountEnabled() {
         val newAccountEnabled =
-            hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED) || repository.countAccounts(null, null) < ContribFeature.FREE_ACCOUNTS
+            hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED) || repository.countAccounts(
+                null,
+                null
+            ) < ContribFeature.FREE_ACCOUNTS
         prefHandler.putBoolean(PrefKey.NEW_ACCOUNT_ENABLED, newAccountEnabled)
     }
 
     fun recordUsage(feature: ContribFeature) {
         if (!hasAccessTo(feature) &&
-            feature.trialMode == ContribFeature.TrialMode.DURATION && !prefHandler.isSet(feature.prefKey)
+            feature.trialMode == ContribFeature.TrialMode.DURATION &&
+            !prefHandler.isSet(feature.prefKey)
         ) {
             prefHandler.putLong(feature.prefKey, clock.millis())
         }

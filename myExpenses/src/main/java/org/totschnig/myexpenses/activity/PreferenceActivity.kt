@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.SettingsBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.DialogUtils
+import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.fragment.TwoPanePreference
 import org.totschnig.myexpenses.fragment.TwoPanePreference.Companion.KEY_INITIAL_SCREEN
@@ -35,7 +36,6 @@ import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.setNightMode
-import org.totschnig.myexpenses.viewmodel.BankingViewModel
 import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
 import org.totschnig.myexpenses.widget.AccountWidget
@@ -50,7 +50,8 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
         get() = twoPanePreference.getDetailFragment<BasePreferenceFragment>()
             ?.viewModel
 
-    private val bankingViewModel: BankingViewModel by viewModels()
+    private val bankingFeature: BankingFeature
+        get() = requireApplication().appComponent.bankingFeature() ?: object : BankingFeature {}
 
     private val licenceValidationViewModel: LicenceValidationViewModel by viewModels()
 
@@ -336,7 +337,7 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             }
             ContribFeature.BANKING -> {
                 if (featureViewModel.isFeatureAvailable(this, Feature.FINTS)) {
-                    bankingViewModel.startBankingList(this)
+                    bankingFeature.startBankingList(this)
                 } else {
                     featureViewModel.requestFeature(this, Feature.FINTS)
                 }

@@ -1060,20 +1060,17 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     fun insertTransactionAttribute(db: SupportSQLiteDatabase, values: ContentValues) {
-        db.execSQL("INSERT or REPLACE INTO $TABLE_TRANSACTION_ATTRIBUTES SELECT DISTINCT ?, _id, ? FROM $TABLE_ATTRIBUTES WHERE $KEY_ATTRIBUTE_NAME = ? AND $KEY_CONTEXT = ?;",
-            arrayOf(
-                values.getAsLong(KEY_TRANSACTIONID),
-                values.getAsString(KEY_VALUE),
-                values.getAsString(KEY_ATTRIBUTE_NAME),
-                values.getAsString(KEY_CONTEXT)
-            )
-        )
+        insertObjectAttribute(db, values, TABLE_TRANSACTION_ATTRIBUTES, KEY_TRANSACTIONID)
     }
 
     fun insertAccountAttribute(db: SupportSQLiteDatabase, values: ContentValues) {
-        db.execSQL("INSERT or REPLACE INTO $TABLE_ACCOUNT_ATTRIBUTES SELECT DISTINCT ?, _id, ? FROM $TABLE_ATTRIBUTES WHERE $KEY_ATTRIBUTE_NAME = ? AND $KEY_CONTEXT = ?;",
+        insertObjectAttribute(db, values, TABLE_ACCOUNT_ATTRIBUTES, KEY_ACCOUNTID)
+    }
+
+    private fun insertObjectAttribute(db: SupportSQLiteDatabase, values: ContentValues, table: String, linkColumn: String) {
+        db.execSQL("INSERT or REPLACE INTO $table SELECT DISTINCT ?, _id, ? FROM $TABLE_ATTRIBUTES WHERE $KEY_ATTRIBUTE_NAME = ? AND $KEY_CONTEXT = ?;",
             arrayOf(
-                values.getAsLong(KEY_ACCOUNTID),
+                values.getAsLong(linkColumn),
                 values.getAsString(KEY_VALUE),
                 values.getAsString(KEY_ATTRIBUTE_NAME),
                 values.getAsString(KEY_CONTEXT)

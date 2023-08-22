@@ -35,6 +35,8 @@ import org.totschnig.myexpenses.databinding.AttributeBinding
 import org.totschnig.myexpenses.databinding.AttributeGroupHeaderBinding
 import org.totschnig.myexpenses.databinding.AttributeGroupTableBinding
 import org.totschnig.myexpenses.databinding.TransactionDetailBinding
+import org.totschnig.myexpenses.db2.FinTsAttribute
+import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
@@ -74,9 +76,12 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
     @Inject
     lateinit var homeCurrencyProvider: HomeCurrencyProvider
 
+    private val bankingFeature: BankingFeature
+        get() = injector.bankingFeature() ?: object : BankingFeature {}
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requireActivity().injector.inject(this)
+        injector.inject(this)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -85,7 +90,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
         }
 
         viewModel = ViewModelProvider(this)[TransactionDetailViewModel::class.java]
-        requireActivity().injector.inject(viewModel)
+        injector.inject(viewModel)
         val rowId = requireArguments().getLong(DatabaseConstants.KEY_ROWID)
         viewModel.transaction(rowId).observe(this) { o -> fillData(o) }
         viewModel.tags(rowId).observe(this) { tags ->
@@ -109,7 +114,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                 entry.value.filter { it.first.userVisible }.forEach {
                     attributeTable.addView(
                         with(AttributeBinding.inflate(layoutInflater)) {
-                            Name.text = it.first.name
+                            Name.text = (it.first as? FinTsAttribute)?.let { bankingFeature.resolveAttributeLabel(requireContext(), it) } ?: it.first.name
                             Value.text = it.second
                             root
                         }

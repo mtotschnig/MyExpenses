@@ -80,7 +80,6 @@ import org.totschnig.myexpenses.compose.rememberMutableStateListOf
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model2.Bank
-import org.totschnig.myexpenses.viewmodel.data.BankingCredentials
 import java.time.LocalDate
 import org.totschnig.fints.R as RF
 

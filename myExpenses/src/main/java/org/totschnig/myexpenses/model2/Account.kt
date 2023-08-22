@@ -11,7 +11,6 @@ import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import java.io.Serializable
-import java.time.LocalDate
 
 data class Account(
     override val id: Long = 0L,

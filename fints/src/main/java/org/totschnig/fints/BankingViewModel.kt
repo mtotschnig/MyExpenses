@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.db2.loadBanks
 import org.totschnig.myexpenses.db2.saveAccountAttributes
 import org.totschnig.myexpenses.db2.saveTransactionAttributes
 import org.totschnig.myexpenses.db2.updateAccount
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -65,7 +66,6 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel
-import org.totschnig.myexpenses.viewmodel.data.BankingCredentials
 import timber.log.Timber
 import java.io.File
 import java.io.StreamCorruptedException
@@ -462,6 +462,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     }
                 )
             }
+            licenceHandler.recordUsage(ContribFeature.BANKING)
             _workState.value = WorkState.Done(
                 getQuantityString(R.plurals.accounts_imported, successCount, successCount)
             )

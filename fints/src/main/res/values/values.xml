@@ -32,4 +32,10 @@
     <string name="blz_not_found">%s not found in the list of banks that support FinTS.</string>
     <string name="bank_already_added">Bank has already been added.</string>
     <string name="menu_sync_account">Update transactions</string>
+    <string name="eref_label">End-to-end reference</string>
+    <string name="kref_label">Customer Reference</string>
+    <string name="mref_label">Mandate reference</string>
+    <string name="cred_label">Creditor identifier</string>
+    <string name="dbet_label">Debtor identifier</string>
+    <string name="saldo">Balance</string>
 </resources>

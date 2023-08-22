@@ -6,5 +6,6 @@
         style="@style/FormLabel.Condensed" />
 
     <TextView
-        android:id="@+id/Value" />
+        android:id="@+id/Value"
+        style="@style/FormField.Dialog" />
 </TableRow>

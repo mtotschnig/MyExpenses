@@ -39,7 +39,7 @@ class TransactionListComposeDialogFragment: ComposeBaseDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        with(requireActivity().injector) {
+        with(injector) {
             inject(this@TransactionListComposeDialogFragment)
             inject(viewModel)
         }

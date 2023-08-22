@@ -1,5 +1,8 @@
-apply plugin: "com.android.dynamic-feature"
-apply plugin: 'kotlin-android'
+plugins {
+    id 'com.android.dynamic-feature'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
+}
 
 android {
     namespace "org.totschnig.fints"

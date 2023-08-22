@@ -25,10 +25,6 @@ class PreferencesImportFragment: BasePreferenceFragment() {
             summary = getString(R.string.pref_import_summary, "CSV")
             title = getString(R.string.pref_import_title, "CSV")
         }
-
-        with(requirePreference<Preference>(PrefKey.BANKING_FINTS)) {
-           summary = "FinTS (${Locale.GERMANY.displayCountry})"
-        }
     }
 
     override fun onPreferenceTreeClick(preference: Preference) = when {

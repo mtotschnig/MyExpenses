@@ -80,7 +80,7 @@ fun Repository.importedAccounts(bankId: Long): List<AccountInformation> =
     contentResolver.query(
         TransactionProvider.ACCOUNTS_ATTRIBUTES_URI,
         arrayOf(KEY_ACCOUNTID, KEY_CONTEXT, KEY_ATTRIBUTE_NAME, KEY_VALUE),
-        "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_BANK_ID = ?)",
+        "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_BANK_ID = ?) AND $KEY_CONTEXT = '${BankingAttribute.CONTEXT}'",
         arrayOf(bankId.toString()),
         KEY_ACCOUNTID
     )?.use { cursor ->
@@ -93,7 +93,7 @@ fun Repository.importedAccounts(bankId: Long): List<AccountInformation> =
 fun Repository.accountInformation(accountId: Long): AccountInformation? = contentResolver.query(
     TransactionProvider.ACCOUNTS_ATTRIBUTES_URI,
     arrayOf(KEY_CONTEXT, KEY_ATTRIBUTE_NAME, KEY_VALUE),
-    "$KEY_ACCOUNTID = ?",
+    "$KEY_ACCOUNTID = ? AND $KEY_CONTEXT = '${BankingAttribute.CONTEXT}'",
     arrayOf(accountId.toString()),
     null
 )?.useAndMap { cursor -> Attribute.from(cursor) }?.let {

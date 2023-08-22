@@ -1,113 +1,32 @@
 package org.totschnig.fints
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import org.totschnig.myexpenses.viewmodel.data.BankingCredentials
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import org.totschnig.myexpenses.model2.Bank
 
-@Composable
-fun BankingCredentials(
-    bankingCredentials: MutableState<BankingCredentials?>,
-    onDone: (BankingCredentials) -> Unit
-) {
-    bankingCredentials.value?.let { credentials ->
-        credentials.bank?.let { Text(it.bankName) } ?: run {
-            OutlinedTextField(
-                enabled = credentials.isNew,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                value = credentials.bankLeitZahl,
-                onValueChange = {
-                    bankingCredentials.value = credentials.copy(bankLeitZahl = it.trim())
-                },
-                label = { Text(text = stringResource(id = R.string.bankleitzahl)) },
-                singleLine = true
-            )
+@Parcelize
+data class BankingCredentials(
+    val bankLeitZahl: String,
+    val user: String,
+    val password: String? = null,
+    val bank: Bank? = null
+) : Parcelable {
+    companion object  {
+        val EMPTY = BankingCredentials("", "", null)
+
+        fun fromBank(bank: Bank) = with(bank) {
+            BankingCredentials(blz, userId, bank = this)
         }
-        OutlinedTextField(
-            enabled = credentials.isNew,
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-            value = credentials.user,
-            onValueChange = {
-                bankingCredentials.value = credentials.copy(user = it.trim())
-            },
-            label = { Text(text = stringResource(id = R.string.login_name)) },
-            singleLine = true
-        )
-        OutlinedTextField(
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Done
-            ),
-            keyboardActions = if (credentials.isComplete) KeyboardActions(
-                onDone = {
-                    onDone(credentials)
-                }
-            ) else KeyboardActions.Default,
-            value = credentials.password ?: "",
-            onValueChange = {
-                bankingCredentials.value = credentials.copy(password = it.trim())
-            },
-            label = { Text(text = "PIN") },
-            singleLine = true,
-            supportingText = { Text(text = stringResource(id = R.string.pin_info)) }
-        )
     }
-}
+    val isComplete: Boolean
+        get() = bankLeitZahl.isNotEmpty() && user.isNotEmpty() && !password.isNullOrEmpty()
 
-@Composable
-fun TanDialog(
-    tanRequest: TanRequest?,
-    submitTan: (String?) -> Unit
-) {
-    tanRequest?.let {
-        var tan by rememberSaveable { mutableStateOf("") }
-        AlertDialog(
-            onDismissRequest = {
-                submitTan(null)
-            },
-            confirmButton = {
-                Button(onClick = {
-                    submitTan(tan)
-                }) {
-                    Text("Send")
-                }
-            },
-            text = {
-                Column {
-                    Text(tanRequest.message)
-                    tanRequest.bitmap?.let {
-                        Image(bitmap = it.asImageBitmap(), contentDescription = null)
-                    }
-                    OutlinedTextField(
-                        value = tan,
-                        onValueChange = {
-                            tan = it
-                        },
-                        label = { Text(text = "TAN") },
-                    )
-                }
-            }
-        )
-    }
+    val isNew: Boolean
+        get() = bank == null
 
+    /**
+     * [bankLeitZahl] with whitespace removed
+     */
+    val blz: String
+        get() = bankLeitZahl.filter { !it.isWhitespace() }
 }

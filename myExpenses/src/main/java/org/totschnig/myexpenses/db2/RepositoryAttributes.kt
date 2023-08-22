@@ -110,7 +110,7 @@ private fun Repository.saveAttributes(uri: Uri, linkColumn: String, rowId: Long,
 @SuppressLint("Recycle")
 fun Repository.loadAttributes(transactionId: Long): List<Pair<Attribute, String>> {
     return contentResolver.query(
-        TransactionProvider.TRANSACTIONS_ATTRIBUTES_URI, null,
+        TRANSACTIONS_ATTRIBUTES_URI, null,
         "$KEY_TRANSACTIONID = ?", arrayOf(transactionId.toString()), null
     )?.useAndMap { Attribute.from(it) } ?: emptyList()
 }

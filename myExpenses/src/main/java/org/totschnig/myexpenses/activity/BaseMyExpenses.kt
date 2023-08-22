@@ -53,6 +53,7 @@ import eltos.simpledialogfragment.list.MenuDialog
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
 import org.totschnig.myexpenses.activity.FilterHandler.Companion.FILTER_COMMENT_DIALOG
@@ -159,7 +160,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     lateinit var viewModel: MyExpensesViewModel
     private val upgradeHandlerViewModel: UpgradeHandlerViewModel by viewModels()
     private val exportViewModel: ExportViewModel by viewModels()
-    private val bankingViewModel: BankingViewModel by viewModels()
+
+    private val bankingFeature: BankingFeature
+        get() = requireApplication().appComponent.bankingFeature() ?: object : BankingFeature {}
 
     lateinit var binding: ActivityMainBinding
 
@@ -547,7 +550,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             },
                             expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping.value}"),
                             expansionHandlerAccounts = viewModel.expansionHandler("collapsedAccounts"),
-                            bankIcon = bankingViewModel.bankIconRenderer
+                            bankIcon = bankingFeature.bankIconRenderer
                         )
                     }?.onFailure {
                         val (message, forceQuit) = when (it) {
@@ -1395,8 +1398,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             R.id.SYNC_COMMAND -> currentAccount?.takeIf { it.syncAccountName != null }?.let {
                 requestSync(accountName = it.syncAccountName!!, uuid = it.uuid)
             }
+
             R.id.FINTS_SYNC_COMMAND -> currentAccount?.takeIf { it.bankId != null }?.let {
-                bankingViewModel.startSyncFragment(it.bankId!!, it.id, supportFragmentManager)
+                bankingFeature.startSyncFragment(it.bankId!!, it.id, supportFragmentManager)
             }
 
             R.id.EDIT_ACCOUNT_COMMAND -> currentAccount?.let { editAccount(it.id) }
@@ -1495,20 +1499,20 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 menu.findItem(R.id.SYNC_COMMAND)?.setEnabledAndVisible(syncAccountName != null)
                 menu.findItem(R.id.FINTS_SYNC_COMMAND)?.apply {
                     setEnabledAndVisible(bankId != null)
-                    title = bankingViewModel.syncMenuTitle(this@BaseMyExpenses)
+                    title = bankingFeature.syncMenuTitle(this@BaseMyExpenses)
                 }
 
                 menu.findItem(R.id.MANAGE_ACCOUNTS_COMMAND)?.apply {
                     setEnabledAndVisible(!isAggregate)
                     if (!isAggregate) {
-                            title = label
-                            subMenu?.findItem(R.id.TOGGLE_SEALED_COMMAND)?.setTitle(
-                                if (sealed) R.string.menu_reopen else R.string.menu_close
-                            )
-                            subMenu?.findItem(R.id.EDIT_ACCOUNT_COMMAND)
-                                ?.setEnabledAndVisible(!sealed)
-                            subMenu?.findItem(R.id.EXCLUDE_FROM_TOTALS_COMMAND)
-                                ?.setChecked(excludeFromTotals)
+                        title = label
+                        subMenu?.findItem(R.id.TOGGLE_SEALED_COMMAND)?.setTitle(
+                            if (sealed) R.string.menu_reopen else R.string.menu_close
+                        )
+                        subMenu?.findItem(R.id.EDIT_ACCOUNT_COMMAND)
+                            ?.setEnabledAndVisible(!sealed)
+                        subMenu?.findItem(R.id.EXCLUDE_FROM_TOTALS_COMMAND)?.isChecked =
+                            excludeFromTotals
                     }
                 }
             }
