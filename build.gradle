@@ -1,9 +1,9 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext {
-        compose_compiler_version = '1.4.8'
-        kotlin_version = '1.8.22'
-        agp_version = '8.1.0'
+        compose_compiler_version = '1.5.1'
+        kotlin_version = '1.9.0'
+        agp_version = '8.1.1'
     }
 }
 plugins {
@@ -19,7 +19,7 @@ plugins {
 ext {
     versionCode = 639
     versionName = '3.6.2'
-    compileSdkVersion = 33
+    compileSdkVersion = 34
     minSdkVersion = 21
     targetSdkVersion = 33
     espressoVersion = "3.5.1"
@@ -58,7 +58,7 @@ ext {
     androidxSqlite = "2.3.1"
     barista = "4.3.0"
     googleHttp = "1.43.1"
-    composeBom = "androidx.compose:compose-bom:2023.05.01"
+    composeBom = "androidx.compose:compose-bom:2023.08.00"
 }
 
 allprojects {

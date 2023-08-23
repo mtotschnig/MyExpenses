@@ -187,10 +187,8 @@ class Banking : ProtectedFragmentActivity() {
                     }
 
                     AlertDialog(
-                        //https://issuetracker.google.com/issues/221643630
                         properties = DialogProperties(
-                            dismissOnClickOutside = false,
-                            usePlatformDefaultWidth = false
+                            dismissOnClickOutside = false
                         ),
                         onDismissRequest = {
                             dialogShown.value = null
@@ -272,7 +270,7 @@ class Banking : ProtectedFragmentActivity() {
                             }
                         },
                         text = {
-                            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                            Column(modifier = Modifier.width(IntrinsicSize.Min).verticalScroll(rememberScrollState())) {
                                 when (workState.value) {
                                     is Loading -> {
                                         Loading((workState.value as Loading).message)

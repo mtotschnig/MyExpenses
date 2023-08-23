@@ -107,7 +107,7 @@ object ImageOptimizer {
 
     private fun compressAndSaveImage(
         bitmap: Bitmap,
-        compressFormat: Bitmap.CompressFormat?,
+        compressFormat: Bitmap.CompressFormat,
         quality: Int,
         outputStream: OutputStream
     ) = try {

@@ -6,7 +6,7 @@
     <string name="bankleitzahl">Bank number</string>
     <string name="login_name">Login name</string>
     Der PIN wird nicht auf dem Gerät gespeichert und bei jeder weiteren Verbindung mit der Bank erneut abgefragt.
-    <string name="pin_info">The PIN is not stored on the device and is requested again for each subsequent connection to the bank.</string>
+    <string name="pin_info">The PIN is not stored on the device and is requested again for each connection to the bank.</string>
     <string name="btn_load_accounts">Load accounts</string>
     <string name="no_bank_added_yet">No bank added yet.</string>
     <string name="import_maximum">Import maximum available transaction history</string>

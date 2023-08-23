@@ -117,8 +117,7 @@ fun CategoryEdit(
     }
     if (showIconSelection) {
         Dialog(
-            onDismissRequest = { },
-            properties = DialogProperties(usePlatformDefaultWidth = true)
+            onDismissRequest = { }
         ) {
             Surface(
                 shape = MaterialTheme.shapes.medium,

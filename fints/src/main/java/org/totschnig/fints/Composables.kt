@@ -67,9 +67,11 @@ fun BankingCredentials(
                 bankingCredentials.value = credentials.copy(password = it.trim())
             },
             label = { Text(text = "PIN") },
-            singleLine = true,
-            supportingText = { Text(text = stringResource(id = R.string.pin_info)) }
+            singleLine = true
         )
+        // Not using supportingText parameter of OutlinedTextField, because of
+        // https://issuetracker.google.com/issues/270523016
+        Text(text = stringResource(id = R.string.pin_info))
     }
 }
 
@@ -108,5 +110,4 @@ fun TanDialog(
             }
         )
     }
-
 }

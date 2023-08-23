@@ -320,10 +320,10 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         mDetector = GestureDetector(this,
             object : SimpleOnGestureListener() {
                 override fun onFling(
-                    e1: MotionEvent, e2: MotionEvent,
+                    e1: MotionEvent?, e2: MotionEvent,
                     velocityX: Float, velocityY: Float
                 ): Boolean {
-                    //if (e1 == null) return false
+                    if (e1 == null) return false
                     if (abs(e1.y - e2.y) > maxOffPath) return false
                     if (e1.x - e2.x > minDistance
                         && abs(velocityX) > thresholdVelocity
