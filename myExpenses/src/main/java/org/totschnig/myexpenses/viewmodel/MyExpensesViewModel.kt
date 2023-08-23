@@ -132,7 +132,6 @@ open class MyExpensesViewModel(
         mutableStateOf(0L)
     }
 
-
     @OptIn(SavedStateHandleSaveableApi::class)
     val selectionState: MutableState<List<SelectionInfo>> =
         savedStateHandle.saveable("selectionState") { mutableStateOf(emptyList()) }

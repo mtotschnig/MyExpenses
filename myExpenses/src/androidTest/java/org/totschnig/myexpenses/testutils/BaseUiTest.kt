@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler

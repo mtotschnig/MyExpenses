@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.findCategory
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.myApplication

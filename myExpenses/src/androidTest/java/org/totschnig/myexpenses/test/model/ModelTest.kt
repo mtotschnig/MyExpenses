@@ -1,13 +1,9 @@
 package org.totschnig.myexpenses.test.model
 
 import android.content.ContentUris
-import org.mockito.Mockito
-import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model.Model
-import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.testutils.BaseProviderTest
-import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.viewmodel.data.Category
 
 abstract class ModelTest : BaseProviderTest() {
