@@ -10,6 +10,7 @@ import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.createAccount
+import org.totschnig.myexpenses.db2.findCategory
 import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account

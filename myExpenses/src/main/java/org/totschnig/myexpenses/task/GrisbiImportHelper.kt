@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.task
 
 import android.content.ContentUris
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.findCategory
+import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.util.CategoryTree
 import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber

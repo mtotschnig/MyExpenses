@@ -31,6 +31,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.deleteCategory
+import org.totschnig.myexpenses.db2.ensureCategoryTree
+import org.totschnig.myexpenses.db2.moveCategory
+import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.export.CategoryExporter
 import org.totschnig.myexpenses.export.createFileFailure
 import org.totschnig.myexpenses.model.ExportFormat

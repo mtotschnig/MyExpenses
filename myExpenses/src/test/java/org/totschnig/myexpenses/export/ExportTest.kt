@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.markAsExported
+import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account

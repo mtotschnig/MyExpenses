@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.getTransactionSum
+import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.viewmodel.data.Category
 
 @RunWith(RobolectricTestRunner::class)

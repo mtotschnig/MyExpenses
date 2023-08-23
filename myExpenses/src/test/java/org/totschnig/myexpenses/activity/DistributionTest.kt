@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money

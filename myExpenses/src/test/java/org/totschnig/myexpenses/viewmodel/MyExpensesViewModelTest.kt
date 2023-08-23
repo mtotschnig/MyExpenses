@@ -11,6 +11,7 @@ import org.junit.runner.RunWith
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.loadAccount
+import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
