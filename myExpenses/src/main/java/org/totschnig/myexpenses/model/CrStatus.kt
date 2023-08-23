@@ -37,6 +37,7 @@ enum class CrStatus(@ColorRes val color: Int, val symbol: Char?) {
             when(qifName?.uppercase(Locale.getDefault())) {
                 "*", "C" -> CLEARED
                 "X", "R" -> RECONCILED
+                "V" -> VOID
                 else -> UNRECONCILED
             }
     }
