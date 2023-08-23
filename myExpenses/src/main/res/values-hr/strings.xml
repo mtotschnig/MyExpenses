@@ -716,7 +716,7 @@
     </plurals>
     <string name="dialog_multi_tag_clear">Sve oznake će se ukloniti iz odabranih transakcija.</string>
     <string name="dialog_multi_tag">Sve odabrane transakcije će se označiti s %s.</string>
-    <string name="menu_tag">Oznaka</string>
+    <string name="menu_tag">Označi</string>
     <string name="menu_edit_tag">Uredi oznaku</string>
     <string name="dialog_title_warning_delete_tag">Izbrisati oznaku\?</string>
     <string name="pref_manage_tags_summary">Dodaj, uredi ili izbriši oznake.</string>
@@ -942,7 +942,7 @@
     <string name="debt_installment_pay">Plaćam ratu od %s.</string>
     <string name="debt_lend_additional">Posuđujem %s.</string>
     <string name="debt_borrow_additional">Uzajmljujem %s.</string>
-    <string name="debt_paid_off_other">%s je otplatio/la dug.</string>
+    <string name="debt_paid_off_other">Dug od %s je otplaćen.</string>
     <string name="github_sponsors">Licencni ključevi se također daju &lt;a href=%s&gt;Github sponzorima&lt;/a&gt;.</string>
     <string name="notifications_permission_required_webui">Davanjem dozvole za slanje obavijesti možeš kontrolirati stanje web poslužitelja.</string>
     <string name="notifications_permission_required_sync">Davanjem dozvole za slanje obavijesti možeš pratiti napredak sinkronizacije.</string>
@@ -952,4 +952,16 @@
     <string name="debt_paid_off_self">Moj dug je otplaćen.</string>
     <string name="debt_installment_receive">Primam ratu od %s.</string>
     <string name="notifications_permission_required_planner"><i>{app_name}</i> treba dozvolu za slanje obavijesti kad se objave buduće transakcije.</string>
+    <string name="search_account">Traži račun</string>
+    <string name="select_template">Odaberi predložak</string>
+    <string name="add_shortcut">Dodaj prečac</string>
+    <string name="whats_new_359">Ikone za načine plaćanja se mogu prilagoditi.</string>
+    <string name="whats_new_355">Ime datoteke sigurnosne kopije se sada može konfigurirati.</string>
+    <string name="optimize_image_file_size">Optimiraj veličinu slikovne datoteke</string>
+    <string name="template_shortcut">Prečac predloška</string>
+    <string name="pref_backup_file_prefix_title">Prefiks datoteke</string>
+    <string name="content_description_remove_icon">Ukloni ikonu</string>
+    <string name="file_format">Datotečni format</string>
+    <string name="image_optimize_quality">Kvaliteta</string>
+    <string name="maximum_size">Maksimalna veličina</string>
 </resources>

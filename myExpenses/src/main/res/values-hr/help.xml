@@ -6,7 +6,7 @@
     <string name="cab_edit_help_text">Uredi označenu stavku.</string>
     <string name="help_MyExpenses_title">Popis transakcija</string>
     <string name="menu_status_handle_help_text">Stanje transakcije je određeno obojenim pravokutnikom: sivim za neusklađenu, plavim za odobrenu, zelenim za usklađenu. Pritiskanjem pravokutnika mijenja se njena boja, odnosno stanje transakcije.</string>
-    <string name="menu_grouping_help_text">Transakcije se mogu grupirati po danu, tjednu, mjesecu ili godini. Zbroj prihoda, troškova i plaćanja se izračunava i prikazuje za svaku grupu. Pritiskom na zaglavlje određene grupe sakrit će se sve njene transakcije, te će se prikazati samo zaglavlje. Ponovnim pritiskom na zaglavlje prikazuju se sve transakcije u grupi.</string>
+    <string name="menu_grouping_help_text">Transakcije se mogu grupirati po danu, tjednu, mjesecu ili godini. Zbroj prihoda, troškova i prijenosa izračunava se i prikazuje za svaku grupu. Pritiskom na zaglavlje određene grupe sakrit će se sve njene transakcije, te će se prikazati samo zaglavlje. Ponovnim pritiskom na zaglavlje prikazuju se sve transakcije u grupi.</string>
     <string name="menu_distribution_help_text">Prikaži distribuciju troškova po kategoriji. Dugim pritiskom na zaglavlje grupe prikazuje se distribucija za određeno razdoblje.</string>
     <string name="menu_manage_plans_help_text">Otvara popis predložaka i planova gdje možeš primjeniti, urediti ili izbrisati te odrediti planove za buduće i periodične transakcije. </string>
     <string name="help_form_fields">Polja obrasca</string>
