@@ -46,8 +46,8 @@ import kotlin.math.roundToInt
 fun AccountList(
     accountData: List<FullAccount>,
     grouping: AccountGrouping,
-    currentPage: Int,
-    onSelected: (Int) -> Unit,
+    selectedAccount: Long,
+    onSelected: (Long) -> Unit,
     onEdit: (Long) -> Unit,
     onDelete: (FullAccount) -> Unit,
     onHide: (Long) -> Unit,
@@ -82,8 +82,8 @@ fun AccountList(
                         AccountCard(
                             account = account,
                             isCollapsed = collapsedAccountIds.contains(account.id.toString()),
-                            isSelected = index == currentPage,
-                            onSelected = { onSelected(index) },
+                            isSelected = account.id == selectedAccount,
+                            onSelected = { onSelected(account.id) },
                             onEdit = onEdit,
                             onDelete = onDelete,
                             onHide = onHide,

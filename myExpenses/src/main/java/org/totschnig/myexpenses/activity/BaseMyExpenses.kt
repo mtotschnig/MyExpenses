@@ -21,7 +21,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.LocalTextStyle
@@ -113,17 +113,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private val accountData: List<FullAccount>
         get() = viewModel.accountData.value?.getOrNull() ?: emptyList()
 
-    private val currentPage = mutableStateOf(0)
-
     var selectedAccountId: Long
-        get() = currentAccount?.id ?: 0
-        set(value) {
-            deferredAccountId = if (value != 0L) {
-                value
-            } else {
-                viewModel.accountData.value?.getOrNull()?.firstOrNull()?.id
-            }
-        }
+        get() = viewModel.selectedAccountId
+        set(value) { viewModel.selectedAccountId = value }
 
     private val accountForNewTransaction: FullAccount?
         get() = currentAccount?.let { current ->
@@ -132,13 +124,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 ?.maxBy { it.lastUsed }
         }
 
-    private var deferredAccountId: Long? = null
-
     val currentFilter: FilterPersistence
         get() = viewModel.filterPersistence.getValue(selectedAccountId)
 
     val currentAccount: FullAccount?
-        get() = accountData.getOrNull(currentPage.value)
+        get() = accountData.find { it.id == selectedAccountId }
+
+    val currentPage: Int
+        get() = accountData.indexOfFirst { it.id == selectedAccountId }
 
     @Inject
     lateinit var discoveryHelper: IDiscoveryHelper
@@ -522,9 +515,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         AccountList(
                             accountData = data,
                             grouping = accountGrouping.value,
-                            currentPage = currentPage.value,
+                            selectedAccount = selectedAccountId,
                             onSelected = {
-                                currentPage.value = it
+                                selectedAccountId = it
                                 closeDrawer()
                             },
                             onEdit = {
@@ -637,26 +630,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt(KEY_CURRENT_PAGE, currentPage.value)
-    }
-
     private fun editAccount(accountId: Long) {
         startActivityForResult(Intent(this, AccountEdit::class.java).apply {
             putExtra(KEY_ROWID, accountId)
         }, EDIT_ACCOUNT_REQUEST)
 
-    }
-
-    private fun deferredLoad() {
-        deferredAccountId?.let {
-            viewModel.accountData.value!!.getOrThrow().indexOfFirst { it.id == deferredAccountId }
-                .takeIf { it != -1 }.let {
-                    currentPage.value = it ?: 0
-                }
-            deferredAccountId = null
-        }
     }
 
     @OptIn(ExperimentalFoundationApi::class)
@@ -686,24 +664,21 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 }
                             }
                         }
-                        deferredLoad()
                         setCurrentAccount()
                     } else {
                         setTitle(R.string.app_name)
                         toolbar.subtitle = null
                     }
                 }
+                val pagerState = remember { PagerState(initialPage = accountData.indexOfFirst { it.id == selectedAccountId }) }
                 if (accountData.isNotEmpty()) {
-                    val pagerState = rememberPagerState(initialPage = 0) {
-                        accountData.count()
-                    }
-                    LaunchedEffect(currentPage.value) {
-                        if (pagerState.currentPage != currentPage.value) {
-                            pagerState.scrollToPage(currentPage.value)
+                    LaunchedEffect(viewModel.selectedAccountId) {
+                        if (pagerState.currentPage != currentPage) {
+                            pagerState.scrollToPage(currentPage)
                         }
                     }
                     LaunchedEffect(pagerState.currentPage) {
-                        currentPage.value = pagerState.currentPage
+                        viewModel.selectedAccountId = accountData[pagerState.currentPage].id
                     }
                     HorizontalPager(
                         modifier = Modifier
@@ -714,6 +689,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             },
                         verticalAlignment = Alignment.Top,
                         state = pagerState,
+                        pageCount = accountData.count(),
                         pageSpacing = 10.dp,
                         key = { accountData[it].id }
                     ) {
@@ -2072,6 +2048,5 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         const val MANAGE_HIDDEN_FRAGMENT_TAG = "MANAGE_HIDDEN"
         const val DIALOG_TAG_GROUPING = "GROUPING"
         const val DIALOG_TAG_SORTING = "SORTING"
-        const val KEY_CURRENT_PAGE = "CURRENT_PAGE"
     }
 }

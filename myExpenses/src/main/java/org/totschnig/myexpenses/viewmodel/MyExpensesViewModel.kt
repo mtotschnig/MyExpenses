@@ -59,7 +59,7 @@ import java.util.*
 
 open class MyExpensesViewModel(
     application: Application,
-    savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle
 ) : ContentResolvingAndroidViewModel(application) {
 
     private val hiddenAccountsInternal: MutableStateFlow<Int> = MutableStateFlow(0)
@@ -126,6 +126,12 @@ open class MyExpensesViewModel(
         val isTransfer: Boolean
             get() = transferAccount != null
     }
+
+    @OptIn(SavedStateHandleSaveableApi::class)
+    var selectedAccountId by savedStateHandle.saveable {
+        mutableStateOf(0L)
+    }
+
 
     @OptIn(SavedStateHandleSaveableApi::class)
     val selectionState: MutableState<List<SelectionInfo>> =
@@ -644,6 +650,7 @@ open class MyExpensesViewModel(
     }
 
     companion object {
+        const val KEY_CURRENT_PAGE = "CURRENT_PAGE"
         fun prefNameForCriteria(accountId: Long) = "filter_%s_${accountId}"
     }
 }
