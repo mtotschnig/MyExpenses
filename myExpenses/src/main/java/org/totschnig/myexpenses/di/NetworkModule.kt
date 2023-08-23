@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.di
 
+import android.content.Context
 import android.net.TrafficStats
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -52,8 +53,11 @@ open class NetworkModule {
 
     companion object {
         @JvmStatic
+        @Singleton
         @Provides
-        fun providePicasso(): Picasso = Picasso.get()
+        fun providePicasso(context: Context): Picasso = Picasso.Builder(context).build().also {
+            Picasso.setSingletonInstance(it)
+        }
 
         @JvmStatic
         @Provides
