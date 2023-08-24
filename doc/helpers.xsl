@@ -415,6 +415,14 @@
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='ui_refinement']" />
             </xsl:when>
+            <xsl:when test="$version = '3.6.3'">
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
+                <xsl:text>Multibanking&#032;(</xsl:text>
+                <xsl:value-of select="my:displayNameForCountry('de', $lang)" />
+                <xsl:text>)</xsl:text>
+            </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
     </xsl:template>

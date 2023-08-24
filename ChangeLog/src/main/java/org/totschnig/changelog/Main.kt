@@ -14,6 +14,7 @@ import net.sf.saxon.s9api.XsltCompiler
 import net.sf.saxon.s9api.XsltExecutable
 import net.sf.saxon.s9api.XsltTransformer
 import java.io.File
+import java.lang.UnsupportedOperationException
 import java.util.*
 import javax.xml.transform.stream.StreamSource
 import kotlin.system.exitProcess
@@ -43,6 +44,34 @@ class Main {
                 val targetLanguage = (arguments[0].itemAt(0) as XdmAtomicValue).stringValue
                 val displayLanguage = (arguments[1].itemAt(0) as XdmAtomicValue).stringValue
                 return XdmAtomicValue(Locale(targetLanguage).getDisplayLanguage(Locale(displayLanguage)))
+            }
+        }
+
+        private var displayNameForCountry: ExtensionFunction = object : ExtensionFunction {
+            override fun getName() =
+                QName("http://myexpenses.mobi/", "displayNameForCountry")
+
+            override fun getResultType() = SequenceType.makeSequenceType(
+                ItemType.STRING, OccurrenceIndicator.ONE
+            )
+
+            override fun getArgumentTypes() = arrayOf(
+                SequenceType.makeSequenceType(
+                    ItemType.STRING, OccurrenceIndicator.ONE
+                ),
+                SequenceType.makeSequenceType(
+                    ItemType.STRING, OccurrenceIndicator.ONE
+                )
+            )
+
+            @Throws(SaxonApiException::class)
+            override fun call(arguments: Array<XdmValue>): XdmValue {
+                val targetCountry = (arguments[0].itemAt(0) as XdmAtomicValue).stringValue
+                val displayLanguage = (arguments[1].itemAt(0) as XdmAtomicValue).stringValue
+                return XdmAtomicValue(when(targetCountry) {
+                    "de" -> Locale.GERMANY
+                    else -> throw UnsupportedOperationException()
+                }.getDisplayCountry(Locale(displayLanguage)))
             }
         }
 
@@ -132,6 +161,7 @@ class Main {
             processor.registerExtensionFunction(displayNameForLanguage)
             processor.registerExtensionFunction(fileExists)
             processor.registerExtensionFunction(displayNameForScript)
+            processor.registerExtensionFunction(displayNameForCountry)
             val out: Serializer = outFile?.let { processor.newSerializer(File(it)) } ?: processor.newSerializer(System.out)
             val compiler: XsltCompiler = processor.newXsltCompiler()
             val stylesheet: XsltExecutable =
