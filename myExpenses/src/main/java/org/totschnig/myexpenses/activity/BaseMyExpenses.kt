@@ -670,7 +670,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         toolbar.subtitle = null
                     }
                 }
-                val pagerState = remember { PagerState(initialPage = accountData.indexOfFirst { it.id == selectedAccountId }) }
+                val pagerState = remember { PagerState(initialPage = currentPage) }
                 if (accountData.isNotEmpty()) {
                     LaunchedEffect(viewModel.selectedAccountId) {
                         if (pagerState.currentPage != currentPage) {
