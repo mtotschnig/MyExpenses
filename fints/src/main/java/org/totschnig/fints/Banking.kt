@@ -187,8 +187,10 @@ class Banking : ProtectedFragmentActivity() {
                     }
 
                     AlertDialog(
+                        //https://issuetracker.google.com/issues/221643630
                         properties = DialogProperties(
-                            dismissOnClickOutside = false
+                            dismissOnClickOutside = false,
+                            usePlatformDefaultWidth = false
                         ),
                         onDismissRequest = {
                             dialogShown.value = null

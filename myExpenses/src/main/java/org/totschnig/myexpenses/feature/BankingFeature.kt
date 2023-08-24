@@ -6,6 +6,9 @@ import androidx.fragment.app.FragmentManager
 import org.totschnig.myexpenses.db2.FinTsAttribute
 
 interface BankingFeature {
+    companion object {
+        const val TAG = "Banking"
+    }
     fun startBankingList(context: Context) {}
 
     fun startSyncFragment(bankId: Long, accountId: Long, fragmentManager: FragmentManager) {}

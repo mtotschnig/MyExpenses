@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.db2.loadBanks
 import org.totschnig.myexpenses.db2.saveAccountAttributes
 import org.totschnig.myexpenses.db2.saveTransactionAttributes
 import org.totschnig.myexpenses.db2.updateAccount
+import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Bank
@@ -135,7 +136,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
     }
 
     private fun log(msg: String) {
-        Timber.tag("FinTS").i(msg)
+        Timber.tag(BankingFeature.TAG).i(msg)
     }
 
     private fun error(msg: String) {
@@ -317,15 +318,15 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     val status: HBCIExecStatus = handle.execute()
 
                     if (!status.isOK) {
-                        error(status.toString())
-                        _workState.value = WorkState.Done()
-                        return@doHBCI
+                        status.toString()
+                        CrashHandler.report(Exception("Status was not ok"))
                     }
 
                     val result = umsatzJob.jobResult as GVRKUms
 
                     if (!result.isOK) {
                         error(result.toString())
+                        log(result.toString())
                         _workState.value = WorkState.Done()
                         return@doHBCI
                     }
@@ -425,6 +426,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
                         if (!result.isOK) {
                             error(result.toString())
+                            log(result.toString())
                             return@doHBCI
                         }
 
@@ -486,7 +488,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
     inner class MyHBCICallback(private val bankingCredentials: BankingCredentials) :
         AbstractHBCICallback() {
         override fun log(msg: String, level: Int, date: Date, trace: StackTraceElement) {
-            Timber.tag("FinTS").d(msg)
+            log(msg)
         }
 
         override fun callback(

@@ -59,6 +59,7 @@ import org.acra.util.StreamReader;
 import org.totschnig.myexpenses.activity.OnboardingActivity;
 import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.di.DaggerAppComponent;
+import org.totschnig.myexpenses.feature.BankingFeature;
 import org.totschnig.myexpenses.feature.FeatureManager;
 import org.totschnig.myexpenses.feature.OcrFeature;
 import org.totschnig.myexpenses.model.CurrencyContext;
@@ -259,6 +260,7 @@ public class MyApplication extends Application implements
         Timber.plant(new TagFilterFileLoggingTree(this, LicenceHandler.TAG));
         Timber.plant(new TagFilterFileLoggingTree(this, BaseTransactionProvider.TAG));
         Timber.plant(new TagFilterFileLoggingTree(this, OcrFeature.TAG));
+        Timber.plant(new TagFilterFileLoggingTree(this, BankingFeature.TAG));
       } catch (Exception e) {
         CrashHandler.report(e);
       }

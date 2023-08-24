@@ -12,22 +12,41 @@ import androidx.core.database.getLongOrNull
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
-import io.ktor.http.*
-import io.ktor.serialization.gson.*
-import io.ktor.server.application.*
-import io.ktor.server.auth.*
-import io.ktor.server.cio.*
-import io.ktor.server.engine.*
-import io.ktor.server.netty.*
-import io.ktor.server.plugins.contentnegotiation.*
-import io.ktor.server.plugins.statuspages.*
-import io.ktor.server.request.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpStatusCode
+import io.ktor.serialization.gson.gson
+import io.ktor.server.application.call
+import io.ktor.server.application.install
+import io.ktor.server.auth.Authentication
+import io.ktor.server.auth.UserIdPrincipal
+import io.ktor.server.auth.authenticate
+import io.ktor.server.auth.basic
+import io.ktor.server.cio.CIO
+import io.ktor.server.engine.ApplicationEngine
+import io.ktor.server.engine.applicationEngineEnvironment
+import io.ktor.server.engine.connector
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.engine.sslConnector
+import io.ktor.server.netty.Netty
+import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.server.plugins.statuspages.StatusPages
+import io.ktor.server.request.receive
+import io.ktor.server.response.respond
+import io.ktor.server.response.respondBytes
+import io.ktor.server.response.respondText
+import io.ktor.server.routing.Route
+import io.ktor.server.routing.delete
+import io.ktor.server.routing.get
+import io.ktor.server.routing.post
+import io.ktor.server.routing.put
+import io.ktor.server.routing.routing
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.apache.commons.text.StringSubstitutor
-import org.apache.commons.text.StringSubstitutor.*
+import org.apache.commons.text.StringSubstitutor.DEFAULT_ESCAPE
+import org.apache.commons.text.StringSubstitutor.DEFAULT_PREFIX
+import org.apache.commons.text.StringSubstitutor.DEFAULT_SUFFIX
 import org.apache.commons.text.lookup.StringLookup
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.totschnig.myexpenses.MyApplication
@@ -49,7 +68,16 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TPYE_LIST
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LEVEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.useAndMap
@@ -91,7 +119,9 @@ class WebInputService : LifecycleService(), IWebInputService {
 
     private var port: Int = 0
 
-    private var useHttps: Boolean = false
+    private val useHttps: Boolean by lazy {
+        prefHandler.getBoolean(PrefKey.WEBUI_HTTPS, false)
+    }
 
     class LocalBinder(private val webInputService: WeakReference<WebInputService>) : WebUiBinder() {
         override fun getService() = webInputService.get()
@@ -145,18 +175,19 @@ class WebInputService : LifecycleService(), IWebInputService {
             STOP_CLICK_ACTION -> {
                 prefHandler.putBoolean(PrefKey.UI_WEB, false)
             }
+
             STOP_ACTION -> {
                 if (stopServer()) {
                     serverStateObserver?.onStopped()
                 }
             }
+
             START_ACTION, RESTART_ACTION -> {
                 licenceHandler.recordUsage(ContribFeature.WEB_UI)
                 if (server != null) {
                     if (intent.action == START_ACTION) return START_STICKY
                     stopServer()
                 }
-                useHttps = prefHandler.getBoolean(PrefKey.WEBUI_HTTPS, false)
                 if (try {
                         (9000..9050).first { isAvailable(it) }
                     } catch (e: NoSuchElementException) {
@@ -164,152 +195,158 @@ class WebInputService : LifecycleService(), IWebInputService {
                         0
                     }.let { port = it; it != 0 }
                 ) {
-                    val environment = applicationEngineEnvironment {
-                        if (useHttps) {
-                            val keystore = generateCertificate(keyAlias = "myKey")
-                            sslConnector(
-                                keyStore = keystore,
-                                keyAlias = "myKey",
-                                keyStorePassword = { charArrayOf() },
-                                privateKeyPassword = { charArrayOf() }) {
-                                port = this@WebInputService.port
-                            }
-                        } else {
-                            connector {
-                                port = this@WebInputService.port
-                            }
-                        }
-                        watchPaths = emptyList()
-                        module {
-                            install(ContentNegotiation) {
-                                gson {
-                                    registerTypeAdapter(
-                                        LocalDate::class.java,
-                                        LocalDateAdapter
-                                    )
-                                    registerTypeAdapter(
-                                        LocalTime::class.java,
-                                        LocalTimeAdapter
-                                    )
+                    try {
+                        val environment = applicationEngineEnvironment {
+                            if (useHttps) {
+                                val keystore = generateCertificate(keyAlias = "myKey")
+                                sslConnector(
+                                    keyStore = keystore,
+                                    keyAlias = "myKey",
+                                    keyStorePassword = { charArrayOf() },
+                                    privateKeyPassword = { charArrayOf() }) {
+                                    port = this@WebInputService.port
+                                }
+                            } else {
+                                connector {
+                                    port = this@WebInputService.port
                                 }
                             }
-                            val passWord = prefHandler.getString(PrefKey.WEBUI_PASSWORD, "")
-                                .takeIf { !it.isNullOrBlank() }
-                            passWord?.let {
-                                install(Authentication) {
-                                    basic("auth-basic") {
-                                        realm = getString(R.string.app_name)
-                                        validate { credentials ->
-                                            if (credentials.password == it) {
-                                                UserIdPrincipal(credentials.name)
-                                            } else {
-                                                null
+                            watchPaths = emptyList()
+                            module {
+                                install(ContentNegotiation) {
+                                    gson {
+                                        registerTypeAdapter(
+                                            LocalDate::class.java,
+                                            LocalDateAdapter
+                                        )
+                                        registerTypeAdapter(
+                                            LocalTime::class.java,
+                                            LocalTimeAdapter
+                                        )
+                                    }
+                                }
+                                val passWord = prefHandler.getString(PrefKey.WEBUI_PASSWORD, "")
+                                    .takeIf { !it.isNullOrBlank() }
+                                passWord?.let {
+                                    install(Authentication) {
+                                        basic("auth-basic") {
+                                            realm = getString(R.string.app_name)
+                                            validate { credentials ->
+                                                if (credentials.password == it) {
+                                                    UserIdPrincipal(credentials.name)
+                                                } else {
+                                                    null
+                                                }
                                             }
                                         }
                                     }
                                 }
-                            }
 
-                            install(StatusPages) {
-                                exception<Throwable> { call, cause ->
-                                    call.respond(
-                                        HttpStatusCode.InternalServerError,
-                                        "Internal Server Error"
-                                    )
-                                    CrashHandler.report(cause)
-                                    throw cause
+                                install(StatusPages) {
+                                    exception<Throwable> { call, cause ->
+                                        call.respond(
+                                            HttpStatusCode.InternalServerError,
+                                            "Internal Server Error"
+                                        )
+                                        CrashHandler.report(cause)
+                                        throw cause
+                                    }
                                 }
-                            }
 
-                            routing {
+                                routing {
 
-                                get("/styles.css") {
-                                    call.respondText(
-                                        readTextFromAssets("styles.css"),
-                                        ContentType.Text.CSS
-                                    )
-                                }
-                                get("/favicon.ico") {
-                                    call.respondBytes(
-                                        readBytesFromAssets("favicon.ico"),
-                                        ContentType.Image.XIcon
-                                    )
-                                }
-                                get("messages.js") {
-                                    call.respondText(
-                                        """
-                                    let messages = {
-                                    ${i18nJson("app_name")},
-                                    ${i18nJson("title_webui")},
-                                    ${i18nJson("account")},
-                                    ${i18nJson("amount")},
-                                    ${i18nJson("date")},
-                                    ${i18nJson("time")},
-                                    ${i18nJson("booking_date")},
-                                    ${i18nJson("value_date")},
-                                    ${i18nJson("payer_or_payee")},
-                                    ${i18nJson("category")},
-                                    ${i18nJson("tags")},
-                                    ${i18nJson("comment")},
-                                    ${i18nJson("method")},
-                                    ${i18nJson("menu_save")},
-                                    ${i18nJson("menu_create_transaction")},
-                                    ${i18nJson("menu_edit_transaction")},
-                                    ${i18nJson("reference_number")},
-                                    ${i18nJson("menu_edit")},
-                                    ${i18nJson("dialog_confirm_discard_changes")},
-                                    ${i18nJson("menu_clone_transaction")},
-                                    ${i18nJson("menu_delete")},
-                                    ${i18nJson("no_expenses")},
-                                    ${i18nJson("webui_warning_move_transaction")},
-                                    ${i18nJson("validate_error_not_empty")},
-                                    ${i18nJsonPlurals("warning_delete_transaction")}
-                                    };
-                                """.trimIndent(), ContentType.Text.JavaScript
-                                    )
-                                }
-                                if (passWord == null) {
-                                    serve()
-                                } else {
-                                    authenticate("auth-basic") {
+                                    get("/styles.css") {
+                                        call.respondText(
+                                            readTextFromAssets("styles.css"),
+                                            ContentType.Text.CSS
+                                        )
+                                    }
+                                    get("/favicon.ico") {
+                                        call.respondBytes(
+                                            readBytesFromAssets("favicon.ico"),
+                                            ContentType.Image.XIcon
+                                        )
+                                    }
+                                    get("messages.js") {
+                                        call.respondText(
+                                            """
+                                        let messages = {
+                                        ${i18nJson("app_name")},
+                                        ${i18nJson("title_webui")},
+                                        ${i18nJson("account")},
+                                        ${i18nJson("amount")},
+                                        ${i18nJson("date")},
+                                        ${i18nJson("time")},
+                                        ${i18nJson("booking_date")},
+                                        ${i18nJson("value_date")},
+                                        ${i18nJson("payer_or_payee")},
+                                        ${i18nJson("category")},
+                                        ${i18nJson("tags")},
+                                        ${i18nJson("comment")},
+                                        ${i18nJson("method")},
+                                        ${i18nJson("menu_save")},
+                                        ${i18nJson("menu_create_transaction")},
+                                        ${i18nJson("menu_edit_transaction")},
+                                        ${i18nJson("reference_number")},
+                                        ${i18nJson("menu_edit")},
+                                        ${i18nJson("dialog_confirm_discard_changes")},
+                                        ${i18nJson("menu_clone_transaction")},
+                                        ${i18nJson("menu_delete")},
+                                        ${i18nJson("no_expenses")},
+                                        ${i18nJson("webui_warning_move_transaction")},
+                                        ${i18nJson("validate_error_not_empty")},
+                                        ${i18nJsonPlurals("warning_delete_transaction")}
+                                        };
+                                    """.trimIndent(), ContentType.Text.JavaScript
+                                        )
+                                    }
+                                    if (passWord == null) {
                                         serve()
+                                    } else {
+                                        authenticate("auth-basic") {
+                                            serve()
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
 
-                    server = embeddedServer(if (useHttps) Netty else CIO, environment).also {
-                        lifecycleScope.launch(Dispatchers.Default) {
-                            it.start(wait = false)
+                        server = embeddedServer(if (useHttps) Netty else CIO, environment).also {
+                            lifecycleScope.launch(Dispatchers.Default) {
+                                it.start(wait = false)
+                            }
                         }
-                    }
 
-                    val stopIntent = Intent(this, WebInputService::class.java).apply {
-                        action = STOP_CLICK_ACTION
-                    }
-                    val notification: Notification =
-                        NotificationBuilderWrapper.defaultBigTextStyleBuilder(
-                            this,
-                            getString(R.string.title_webui),
-                            address
-                        )
-                            .addAction(
-                                0,
-                                0,
-                                getString(R.string.stop),
-                                //noinspection InlinedApi
-                                PendingIntent.getService(
-                                    this,
-                                    0,
-                                    stopIntent,
-                                    FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
-                                )
+                        val stopIntent = Intent(this, WebInputService::class.java).apply {
+                            action = STOP_CLICK_ACTION
+                        }
+                        val notification: Notification =
+                            NotificationBuilderWrapper.defaultBigTextStyleBuilder(
+                                this,
+                                getString(R.string.title_webui),
+                                address
                             )
-                            .build()
+                                .addAction(
+                                    0,
+                                    0,
+                                    getString(R.string.stop),
+                                    //noinspection InlinedApi
+                                    PendingIntent.getService(
+                                        this,
+                                        0,
+                                        stopIntent,
+                                        FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
+                                    )
+                                )
+                                .build()
 
-                    startForeground(NOTIFICATION_WEB_UI, notification)
-                    serverStateObserver?.postAddress(address)
+                        startForeground(NOTIFICATION_WEB_UI, notification)
+                        serverStateObserver?.postAddress(address)
+                    } catch (e: Throwable) {
+                        CrashHandler.report(e)
+                        serverStateObserver?.postException(e)
+                        prefHandler.putBoolean(PrefKey.UI_WEB, false)
+                    }
                 }
             }
         }
@@ -408,10 +445,12 @@ class WebInputService : LifecycleService(), IWebInputService {
                         PrefKey.TRANSACTION_WITH_VALUE_DATE,
                         false
                     ).toString()
+
                     "withTime" -> prefHandler.getBoolean(
                         PrefKey.TRANSACTION_WITH_TIME,
                         false
                     ).toString()
+
                     else -> throw IllegalStateException("Unknown substitution key $key")
                 }
             }
