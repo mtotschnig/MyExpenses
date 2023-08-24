@@ -123,7 +123,7 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
 
     @Override
     public void onItemSelected() {
-      itemView.setBackgroundColor(Color.LTGRAY);
+      itemView.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.activatedBackground));
     }
 
     @Override
