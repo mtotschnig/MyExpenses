@@ -202,7 +202,7 @@ class ContribInfoDialogActivity : IapActivity() {
             }
 
         fun getIntentFor(
-            context: Context?,
+            context: Context,
             aPackage: Package,
             shouldReplaceExisting: Boolean
         ) = Intent(context, ContribInfoDialogActivity::class.java).apply {

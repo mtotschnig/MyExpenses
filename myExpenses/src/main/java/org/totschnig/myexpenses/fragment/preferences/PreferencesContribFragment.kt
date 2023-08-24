@@ -87,13 +87,15 @@ class PreferencesContribFragment : BasePreferenceFragment(), SimpleDialog.OnDial
     }
 
     private fun contribBuyDo(selectedPackage: Package, shouldReplaceExisting: Boolean) {
-        startActivity(
+        context?.let {
             ContribInfoDialogActivity.getIntentFor(
-                context,
+                it,
                 selectedPackage,
                 shouldReplaceExisting
             )
-        )
+        }?.let {
+            startActivity(it)
+        }
     }
 
 
