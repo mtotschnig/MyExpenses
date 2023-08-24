@@ -261,12 +261,16 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
 
     override fun onFeatureAvailable(feature: Feature) {
         super.onFeatureAvailable(feature)
-        if (feature in listOf(Feature.OCR, Feature.MLKIT, Feature.TESSERACT)) {
-            twoPanePreference.getDetailFragment<PreferencesOcrFragment>()?.configureOcrEnginePrefs()
-        }
-        if (feature == Feature.WEBUI) {
-            twoPanePreference.getDetailFragment<PreferencesWebUiFragment>()?.bindToWebUiService()
-            activateWebUi()
+        when (feature) {
+            Feature.OCR, Feature.MLKIT, Feature.TESSERACT -> {
+                twoPanePreference.getDetailFragment<PreferencesOcrFragment>()?.configureOcrEnginePrefs()
+            }
+            Feature.WEBUI -> {
+                twoPanePreference.getDetailFragment<PreferencesWebUiFragment>()?.bindToWebUiService()
+                activateWebUi()
+            }
+            Feature.FINTS -> startBanking()
+            else -> {}
         }
     }
 
@@ -337,7 +341,7 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             }
             ContribFeature.BANKING -> {
                 if (featureViewModel.isFeatureAvailable(this, Feature.FINTS)) {
-                    bankingFeature.startBankingList(this)
+                    startBanking()
                 } else {
                     featureViewModel.requestFeature(this, Feature.FINTS)
                 }
@@ -345,6 +349,10 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
 
             else -> {}
         }
+    }
+
+    private fun startBanking() {
+        bankingFeature.startBankingList(this)
     }
 
     @Deprecated("Deprecated in Java")
