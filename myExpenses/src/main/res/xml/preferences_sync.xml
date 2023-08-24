@@ -24,13 +24,13 @@
     <SwitchPreferenceCompat
         android:defaultValue="true"
         android:key="@string/pref_sync_notification_key"
-        android:title="@string/pref_sync_notification_summary" />
+        android:summary="@string/pref_sync_notification_summary" />
     <SwitchPreferenceCompat
         android:defaultValue="false"
         android:key="@string/pref_sync_wifi_only_key"
-        android:title="@string/pref_sync_wifi_only_summary" />
+        android:summary="@string/pref_sync_wifi_only_summary" />
     <SwitchPreferenceCompat
         android:defaultValue="true"
         android:key="@string/pref_sync_changes_immediately_key"
-        android:title="@string/pref_sync_changes_immediately_summary" />
+        android:summary="@string/pref_sync_changes_immediately_summary" />
 </PreferenceScreen>

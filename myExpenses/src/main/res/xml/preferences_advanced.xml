@@ -67,7 +67,7 @@
 
         <SwitchPreferenceCompat
             android:key="@string/pref_debug_logging_key"
-            android:title="@string/pref_debug_logging_summary" />
+            android:summary="@string/pref_debug_logging_summary" />
 
         <Preference
             android:dependency="@string/pref_debug_logging_key"
@@ -87,7 +87,7 @@
 
         <SwitchPreferenceCompat
             android:key="@string/pref_db_safe_mode_key"
-            android:title="Database Safe Mode (prevents integer overflow)" />
+            android:summary="Database Safe Mode (prevents integer overflow)" />
 
         <Preference
             android:key="@string/pref_debug_repair_987_key"

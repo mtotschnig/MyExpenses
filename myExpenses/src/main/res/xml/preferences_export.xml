@@ -31,7 +31,7 @@
         my:initialExpandedChildrenCount="1">
 
         <Preference
-            android:title="@string/pref_backup_summary">
+            android:summary="@string/pref_backup_summary">
             <intent
                 android:action="BACKUP"
                 android:targetClass="org.totschnig.myexpenses.activity.BackupRestoreActivity"
@@ -73,7 +73,7 @@
     <PreferenceCategory android:title="@string/pref_auto_backup_title">
         <SwitchPreferenceCompat
             android:key="@string/pref_auto_backup_key"
-            android:title="@string/pref_auto_backup_summary" />
+            android:summary="@string/pref_auto_backup_summary" />
         <org.totschnig.myexpenses.preference.TimePreference
             android:dependency="@string/pref_auto_backup_key"
             android:key="@string/pref_auto_backup_time_key"
@@ -92,7 +92,7 @@
             android:defaultValue="5"
             android:key="@string/pref_purge_backup_keep_key"
             android:max="100"
-            android:title="@string/pref_purge_backup_keep_title"
+            android:summary="@string/pref_purge_backup_keep_title"
             my:min="1"
             my:showSeekBarValue="true"
             my:updatesContinuously="true" />
@@ -100,7 +100,7 @@
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="@string/pref_purge_backup_require_confirmation_key"
-            android:title="@string/pref_purge_backup_require_confirmation_summary" />
+            android:summary="@string/pref_purge_backup_require_confirmation_summary" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -108,7 +108,7 @@
 
         <SwitchPreferenceCompat
             android:key="@string/pref_perform_share_key"
-            android:title="@string/pref_perform_share_title" />
+            android:summary="@string/pref_perform_share_title" />
 
         <org.totschnig.myexpenses.preference.LongSummaryEditTextPreference
             android:dependency="@string/pref_perform_share_key"
@@ -125,14 +125,14 @@
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="@string/pref_csv_export_split_categories_key"
-            android:title="@string/pref_csv_export_split_categories_summary" />
+            android:summary="@string/pref_csv_export_split_categories_summary" />
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="@string/pref_csv_export_split_amount_key"
-            android:title="@string/pref_csv_export_split_amount_summary" />
+            android:summary="@string/pref_csv_export_split_amount_summary" />
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="@string/pref_csv_export_split_date_time_key"
-            android:title="@string/pref_csv_export_split_date_time_summary" />
+            android:summary="@string/pref_csv_export_split_date_time_summary" />
     </PreferenceCategory>
 </PreferenceScreen> 
