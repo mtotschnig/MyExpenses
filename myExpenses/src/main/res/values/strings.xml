@@ -1076,5 +1076,4 @@
     <string name="button_relink_update_date">Relink and update date</string>
     <string name="whats_new_361_1">Transaction list can be sorted by amount.</string>
     <string name="whats_new_361_2">Files in application folder (backups and exports) can be shared or deleted.</string>
-    <string name="title_fints">FinTS</string>
 </resources>
