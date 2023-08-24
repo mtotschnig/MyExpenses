@@ -39,7 +39,7 @@ class DebtDetailsDialogFragment : ComposeBaseDialogFragment() {
                     onDelete = { count -> debtActivity.deleteDebt(debt, count) },
                     onToggle = { debtActivity.toggleDebt(debt) },
                     onShare = { exportFormat -> debtActivity.shareDebt(debt, exportFormat, snackBarContainer) },
-                    onTransactionClick = { showDetails(debt.id) }
+                    onTransactionClick = { showDetails(it) }
                 )
             }
     }
