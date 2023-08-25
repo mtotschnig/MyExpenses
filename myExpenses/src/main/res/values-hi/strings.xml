@@ -343,4 +343,34 @@
     <string name="pref_manage_parties_summary" tools:ignore="UnusedResources">पार्टियों को जोड़ें, संपादित करें, हटाएं (भुगतानकर्ता और भुगतानकर्ता)।</string>
     <string name="pref_manage_categories_summary">श्रेणियां जोड़ें, संपादित करें, हटाएं।</string>
     <string name="pref_planning_calendar_create_local">नया स्थानीय नियोजन कैलेंडर बनाएँ</string>
+    <string name="save_transaction_error">टेम्पलेट से नया लेनदेन सहेजा नहीं जा सका।</string>
+    <string name="save_transaction_template_deleted">टेम्प्लेट हटा दिया गया है</string>
+    <string name="pref_protection_delay_seconds_summary">ऐप को पासवर्ड से लॉक करने से पहले निष्क्रिय सेकंड।</string>
+    <string name="progress_dialog_deleting">वस्तुओं को हटाना</string>
+    <string name="restore_db_failure">डेटाबेस पुनर्स्थापना विफल रही।</string>
+    <string name="restore_preferences_failure">प्राथमिकताएँ पुनर्स्थापना विफल रही</string>
+    <string name="qif_parse_failure_found_multiple_accounts">QIF फ़ाइल में एकाधिक खाते मिले।</string>
+    <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">उन्हें मौजूदा खाते में मर्ज नहीं किया जा सकता।</string>
+    <string name="restore_backup_file_not_found">संग्रह \"%2$s\" में कोई फ़ाइल %1$s नहीं मिली</string>
+    <string name="restore_preferences_success">प्राथमिकताएँ बैकअप से पुनर्स्थापित कर दी गई हैं।</string>
+    <string name="select_payee">दाता/आदाता का चयन करें</string>
+    <string name="pref_restore_summary">डेटाबेस और प्राथमिकताओं को पुनर्स्थापित करने के लिए बैकअप का चयन करें।</string>
+    <string name="pref_visit_website_summary">चेंजलॉग और अक्सर पूछे जाने वाले प्रश्न</string>
+    <string name="pref_ui_home_screen_shortcuts">होम स्क्रीन शॉर्टकट</string>
+    <string name="pref_protection_enable_data_entry_from_widget_title">विजेट और शॉर्टकट से डेटा प्रविष्टि</string>
+    <plurals name="save_transaction_from_template_success">
+        <item quantity="one">नया लेनदेन टेम्पलेट से सफलतापूर्वक सहेजा गया।</item>
+        <item quantity="other">%1$d नए लेन-देन टेम्प्लेट से सफलतापूर्वक सहेजे गए।</item>
+    </plurals>
+    <string name="pref_planning_calendar_summary">उस कैलेंडर का चयन करें जहां भविष्य और आवर्ती लेनदेन की योजनाएं संग्रहीत हैं</string>
+    <string name="pref_protection_delay_seconds_title">सुरक्षा तक विलंब</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_on">बिना पासवर्ड के अनुमति है।</string>
+    <string name="pref_security_question_summary">यदि आप अपना पासवर्ड भूल गए हैं तो आपको ऐप को अनलॉक करने की अनुमति देता है।</string>
+    <string name="pref_share_target_title">यूआरएल अपलोड करें</string>
+    <string name="pref_shortcut_added">होम स्क्रीन पर शॉर्टकट जोड़ा गया है</string>
+    <string name="pref_shortcut_not_added">कोई होम स्क्रीन उपलब्ध नहीं है जो शॉर्टकट स्वीकार करती हो।</string>
+    <string name="pref_ui_theme_dark">अँधेरा</string>
+    <string name="pref_ui_theme_light">रोशनी</string>
+    <string name="restore_db_success">डेटाबेस को बैकअप से पुनर्स्थापित कर दिया गया है।</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d योजनाएँ बैकअप से पुनर्स्थापित कर दी गई हैं</string>
 </resources>
