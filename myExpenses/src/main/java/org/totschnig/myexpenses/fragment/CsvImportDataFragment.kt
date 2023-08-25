@@ -132,7 +132,10 @@ class CsvImportDataFragment : Fragment() {
         binding.myRecyclerView.setHasFixedSize(true)
 
         if (savedInstanceState != null) {
-            setData(savedInstanceState.getSerializable(KEY_DATA_SET) as? ArrayList<CSVRecord>)
+            setData(
+                savedInstanceState.getSerializable(KEY_DATA_SET) as? ArrayList<CSVRecord>,
+                savedInstanceState.getIntArray(KEY_MAPPING)
+            )
             selectedRows = savedInstanceState.getParcelable(KEY_SELECTED_ROWS)!!
             headerLine = savedInstanceState.getInt(KEY_HEADER_LINE_POSITION)
         }
@@ -144,8 +147,8 @@ class CsvImportDataFragment : Fragment() {
         _binding = null
     }
 
-    fun setData(data: List<CSVRecord>?) {
-        if (data == null || data.isEmpty()) return
+    fun setData(data: List<CSVRecord>?, mapping: IntArray? = null) {
+        if (data.isNullOrEmpty()) return
         dataSet = ArrayList(data)
         nrOfColumns = dataSet.map { it.size() }.maxOrNull()!!
         selectedRows = SparseBooleanArrayParcelable()
@@ -181,6 +184,7 @@ class CsvImportDataFragment : Fragment() {
                 cell.adapter = mFieldAdapter
                 ViewCompat.setPaddingRelative(cell, 0, 0, spinnerRightPadding, 0)
                 addView(cell, cellParams)
+                mapping?.get(i)?.let { cell.setSelection(it) }
             }
         }
     }
@@ -228,7 +232,7 @@ class CsvImportDataFragment : Fragment() {
                     headerLine = -1
                 }
             } else {
-                if (position == firstSelectedRow()) {
+                if (headerLine == -1 && position == firstSelectedRow()) {
                     ConfirmationDialogFragment.newInstance(Bundle().apply {
                         putInt(ConfirmationDialogFragment.KEY_TITLE,
                                 R.string.dialog_title_information)
@@ -296,12 +300,15 @@ class CsvImportDataFragment : Fragment() {
         outState.putSerializable(KEY_DATA_SET, dataSet)
         outState.putParcelable(KEY_SELECTED_ROWS, selectedRows)
         outState.putInt(KEY_HEADER_LINE_POSITION, headerLine)
+        outState.putIntArray(KEY_MAPPING, (0 until nrOfColumns).map { (binding.headerLine.getChildAt(it + 1) as Spinner).selectedItemPosition }.toIntArray())
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.csv_import, menu)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.IMPORT_COMMAND) {
             val columnToFieldMap = IntArray(nrOfColumns)
@@ -375,6 +382,7 @@ class CsvImportDataFragment : Fragment() {
         const val KEY_DATA_SET = "DATA_SET"
         const val KEY_SELECTED_ROWS = "SELECTED_ROWS"
         const val KEY_HEADER_LINE_POSITION = "HEADER_LINE_POSITION"
+        const val KEY_MAPPING = "MAPPING"
         fun newInstance(): CsvImportDataFragment {
             return CsvImportDataFragment()
         }
