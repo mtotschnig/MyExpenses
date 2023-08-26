@@ -678,7 +678,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         }
                     }
                     LaunchedEffect(pagerState.currentPage) {
-                        viewModel.selectedAccountId = accountData[pagerState.currentPage].id
+                        selectedAccountId = accountData[pagerState.currentPage].id
                     }
                     HorizontalPager(
                         modifier = Modifier
