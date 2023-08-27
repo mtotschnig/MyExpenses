@@ -4,30 +4,26 @@ import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
-import android.database.sqlite.SQLiteConstraintException
 import android.net.Uri
-import androidx.annotation.VisibleForTesting
-import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
-import androidx.core.database.getStringOrNull
-import arrow.core.Tuple4
-import arrow.core.Tuple5
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Payee
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.TransactionProvider.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.TransactionProvider.AUTOFILL_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.DEBTS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.PAYEES_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CALLER_IS_IN_BULK
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_MARK_VOID
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
-import org.totschnig.myexpenses.provider.getLong
-import org.totschnig.myexpenses.provider.getString
-import org.totschnig.myexpenses.sync.json.CategoryExport
-import org.totschnig.myexpenses.sync.json.ICategoryInfo
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.Debt
-import java.io.IOException
-import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -49,7 +45,7 @@ open class Repository @Inject constructor(
         Pair(it, if (autoFill) autoFill(it) else null)
     } ?: Pair(createPayee(payeeName)!!, null)
 
-    private fun autoFill(payeeId: Long): AutoFillInfo? {
+    fun autoFill(payeeId: Long): AutoFillInfo? {
         return contentResolver.query(
             ContentUris.withAppendedId(AUTOFILL_URI, payeeId),
             arrayOf(KEY_CATID), null, null, null
@@ -118,4 +114,5 @@ open class Repository @Inject constructor(
     }
 }
 
-data class AutoFillInfo(val categoryId: Long)
+@JvmInline
+value class AutoFillInfo(val categoryId: Long)

@@ -16,7 +16,10 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Party
 import org.totschnig.fints.VerwendungszweckUtil.Tag
 import org.totschnig.fints.VerwendungszweckUtil.getTag
+import org.totschnig.myexpenses.db2.AutoFillInfo
 import org.totschnig.myexpenses.db2.FinTsAttribute
+import org.totschnig.myexpenses.db2.createParty
+import org.totschnig.myexpenses.db2.findParty
 import org.totschnig.myexpenses.model.CurrencyContext
 import java.util.zip.CRC32
 
@@ -45,8 +48,12 @@ fun UmsLine.checkSum(): Long {
 
 class HbciConverter(val repository: Repository, private val eur: CurrencyUnit) {
     private val methodToId: MutableMap<String, Long> = HashMap()
+    private val payeeCache: MutableMap<Party, Pair<Long, AutoFillInfo>> = HashMap()
 
-    fun UmsLine.toTransaction(accountId: Long, currencyContext: CurrencyContext): Pair<Transaction, Map<out Attribute, String>> {
+    fun UmsLine.toTransaction(
+        accountId: Long,
+        currencyContext: CurrencyContext
+    ): Pair<Transaction, Map<out Attribute, String>> {
         val transaction = Transaction(accountId, Money(eur, value.longValue))
         orig_value?.let {
             transaction.originalAmount = Money(currencyContext[it.curr], it.longValue)
@@ -61,9 +68,20 @@ class HbciConverter(val repository: Repository, private val eur: CurrencyUnit) {
         val transfer = VerwendungszweckUtil.apply(lines)
 
 
-        val party = getTag(transfer, Tag.ABWA)?.let { Party(name = it) }
-            ?: other?.takeIf { !(it.name.isNullOrBlank() && it.name2.isNullOrBlank()) }?.toParty()
-        party?.let { transaction.payeeId = repository.requireParty(party) }
+        (getTag(transfer, Tag.ABWA)?.let { Party(name = it) }
+            ?: other?.takeIf { !(it.name.isNullOrBlank() && it.name2.isNullOrBlank()) }
+                ?.toParty())?.let { party ->
+            val payeeInfo = payeeCache[party] ?: run {
+                val payeeId = repository.findParty(party)
+                payeeId?.let { it to repository.autoFill(it) }
+                    ?: (repository.createParty(party).id to null)
+            }
+            transaction.payeeId = payeeInfo.first
+            payeeInfo.second?.categoryId?.let {
+                transaction.catId = it
+            }
+            transaction.payeeId = repository.requireParty(party)
+        }
 
         if (transfer != null) {
             transaction.comment =

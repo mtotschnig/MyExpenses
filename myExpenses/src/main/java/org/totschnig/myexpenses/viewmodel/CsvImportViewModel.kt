@@ -42,7 +42,7 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
     fun importData(data: List<CSVRecord>, columnToFieldMap: IntArray, dateFormat: QifDateFormat, autoFill: Boolean, accountCreator: () -> Account): LiveData<Result<Pair<Pair<Int, String>, Int>>> = liveData(context = coroutineContext()) {
         var totalImported = 0
         var totalFailed = 0
-        val payeeCache: MutableMap<String, Pair<Long, AutoFillInfo>> = HashMap()
+        val payeeCache: MutableMap<String, Pair<Long, AutoFillInfo?>> = HashMap()
         val categoryToId: MutableMap<String, Long> = HashMap()
         val account: Account = accountCreator()
         val columnIndexAmount: Int = columnToFieldMap.indexOf(R.string.amount)
@@ -138,7 +138,9 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
                 val payee: String = saveGetFromRecord(record, columnIndexPayee)
                 if (payee != "") {
                     val payeeInfo = payeeCache[payee] ?: run {
-                        repository.findOrWritePayeeInfo(payee, autoFill && t.catId == null)
+                        repository.findOrWritePayeeInfo(payee, autoFill && t.catId == null).also {
+                            payeeCache[payee] = it
+                        }
                     }
                     t.payeeId = payeeInfo.first
                     payeeInfo.second?.categoryId?.let {
