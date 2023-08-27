@@ -28,7 +28,7 @@ open class FeatureModule {
     @Provides
     fun provideOcrFeature(prefHandler: PrefHandler): OcrFeature? = ocrFeature ?:
         try {
-            (Class.forName("org.totschnig.fints.OcrFeatureImpl").getConstructor(PrefHandler::class.java)
+            (Class.forName("org.totschnig.ocr.OcrFeatureImpl").getConstructor(PrefHandler::class.java)
                 .newInstance(prefHandler) as OcrFeature).also {
                 ocrFeature = it
             }
