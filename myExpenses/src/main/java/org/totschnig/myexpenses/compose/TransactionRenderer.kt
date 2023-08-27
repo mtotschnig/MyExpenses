@@ -91,11 +91,10 @@ abstract class ItemRenderer(
         return buildAnnotatedString {
             methodIcon?.let {
                 appendInlineContent(it, methodInfo.first)
+                append(" ")
             }
             referenceNumber?.takeIf { it.isNotEmpty() }?.let {
-                append(" $it ")
-            } ?: run {
-                append(" ")
+                append("$it ")
             }
             comment?.takeIf { it.isNotEmpty() }?.let {
                 withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
