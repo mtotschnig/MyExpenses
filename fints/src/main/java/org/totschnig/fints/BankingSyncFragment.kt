@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.dialog.ComposeBaseDialogFragment2
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_ID
+import org.totschnig.fints.R as RF
 
 class BankingSyncFragment : ComposeBaseDialogFragment2() {
     private val viewModel: BankingViewModel by viewModels()
@@ -60,7 +61,7 @@ class BankingSyncFragment : ComposeBaseDialogFragment2() {
                                     requireArguments().getLong(KEY_ACCOUNTID)
                                 )
                             }) {
-                                Text("Load")
+                                Text(stringResource(RF.string.load))
                             }
                         }
                     }

@@ -36,4 +36,5 @@
     <string name="cred_label">Gläubiger-Identifikationsnummer</string>
     <string name="dbet_label">Debitor-Identifikationsnummer</string>
     <string name="saldo">Saldo</string>
+    <string name="load">Laden</string>
 </resources>
