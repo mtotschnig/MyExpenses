@@ -241,7 +241,8 @@ public class VerwendungszweckUtil
           if (next == -1)
           {
             // Kein weiteres Tag mehr da. Gehoert alles zum Tag.
-            result.put(tag,StringUtils.trimToEmpty(line.substring(start + tagLen)));
+            String substring = line.substring(start + tagLen);
+            result.put(tag,StringUtils.trimToEmpty(tag == Tag.SVWZ ? substring : substring.replace("\n","")));
             break;
           }
           else
