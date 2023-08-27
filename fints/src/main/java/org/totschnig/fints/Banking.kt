@@ -32,10 +32,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -44,7 +41,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
@@ -76,7 +72,8 @@ import org.totschnig.myexpenses.compose.DenseTextField
 import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
-import org.totschnig.myexpenses.compose.rememberMutableStateListOf
+import org.totschnig.myexpenses.compose.UiText
+import org.totschnig.myexpenses.compose.rememberMutableStateMapOf
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model2.Bank
@@ -164,7 +161,7 @@ class Banking : ProtectedFragmentActivity() {
                     }
                 }
                 dialogShown.value?.let { bankingCredentials ->
-                    val selectedAccounts = rememberMutableStateListOf<Int>()
+                    val selectedAccounts = rememberMutableStateMapOf<Int, Long>()
                     var nrDays: Long? by remember { mutableStateOf(null) }
                     val importMaxDuration = remember { derivedStateOf { nrDays == null } }
 
@@ -178,12 +175,6 @@ class Banking : ProtectedFragmentActivity() {
                                 }
                             }
                         }
-                    }
-                    val targetSelectionEnabled = remember {
-                        derivedStateOf { selectedAccounts.size < 2 }
-                    }
-                    var selectedTargetOption by rememberSaveable(targetSelectionEnabled.value) {
-                        mutableStateOf(targetOptions.value[0])
                     }
 
                     AlertDialog(
@@ -224,11 +215,10 @@ class Banking : ProtectedFragmentActivity() {
                                             viewModel.importAccounts(
                                                 bankingCredentials,
                                                 state.bank,
-                                                state.accounts.filterIndexed { index, _ ->
-                                                    selectedAccounts.contains(index)
-                                                }.map { it.first },
-                                                nrDays?.let { LocalDate.now().minusDays(it) },
-                                                selectedTargetOption.first
+                                                state.accounts.mapIndexedNotNull { index, pair ->
+                                                    selectedAccounts[index]?.let { pair.first to it }
+                                                },
+                                                nrDays?.let { LocalDate.now().minusDays(it) }
                                             )
                                         }
 
@@ -272,7 +262,10 @@ class Banking : ProtectedFragmentActivity() {
                             }
                         },
                         text = {
-                            Column(modifier = Modifier.width(IntrinsicSize.Min).verticalScroll(rememberScrollState())) {
+                            Column(
+                                modifier = Modifier
+                                    .verticalScroll(rememberScrollState())
+                            ) {
                                 when (workState.value) {
                                     is Loading -> {
                                         Loading((workState.value as Loading).message)
@@ -284,11 +277,12 @@ class Banking : ProtectedFragmentActivity() {
                                         accounts.forEachIndexed { index, account ->
                                             AccountRow(
                                                 account.first,
-                                                if (account.second) null else selectedAccounts.contains(
-                                                    index
-                                                )
-                                            ) {
-                                                if (it) selectedAccounts.add(index) else selectedAccounts.remove(
+                                                !account.second,
+                                                targetOptions.value.find { it.first == selectedAccounts[index] }?.second,
+                                                targetOptions.value.filterNot { selectedAccounts.values.contains(it.first)  }
+                                            ) { selected, accountId ->
+                                                if (selected) selectedAccounts[index] =
+                                                    accountId else selectedAccounts.remove(
                                                     index
                                                 )
                                             }
@@ -320,7 +314,9 @@ class Banking : ProtectedFragmentActivity() {
                                                         .fillMaxWidth()
                                                         .selectable(
                                                             selected = !importMaxDuration.value,
-                                                            onClick = { if (nrDays == null) nrDays = 365 },
+                                                            onClick = {
+                                                                if (nrDays == null) nrDays = 365
+                                                            },
                                                             role = Role.RadioButton
                                                         ),
                                                     verticalAlignment = Alignment.CenterVertically
@@ -355,48 +351,9 @@ class Banking : ProtectedFragmentActivity() {
                                                         )
                                                     )
                                                     Text(
-                                                        text = parts[1],
+                                                        text = parts.getOrElse(1) { "" },
                                                         style = MaterialTheme.typography.bodyMedium
                                                     )
-                                                }
-                                            }
-
-                                            var expanded by rememberSaveable { mutableStateOf(false) }
-
-                                            ExposedDropdownMenuBox(
-                                                expanded = expanded,
-                                                onExpandedChange = {
-                                                    if (targetSelectionEnabled.value) expanded = !expanded
-                                                },
-                                            ) {
-                                                TextField(
-                                                    enabled = targetSelectionEnabled.value,
-                                                    modifier = Modifier.menuAnchor(),
-                                                    readOnly = true,
-                                                    value = selectedTargetOption.second,
-                                                    onValueChange = {},
-                                                    label = { Text(stringResource(id = R.string.account)) },
-                                                    trailingIcon = {
-                                                        if (targetSelectionEnabled.value) ExposedDropdownMenuDefaults.TrailingIcon(
-                                                            expanded = expanded
-                                                        )
-                                                    },
-                                                    colors = ExposedDropdownMenuDefaults.textFieldColors(),
-                                                )
-                                                ExposedDropdownMenu(
-                                                    expanded = expanded,
-                                                    onDismissRequest = { expanded = false },
-                                                ) {
-                                                    targetOptions.value.forEach {
-                                                        DropdownMenuItem(
-                                                            text = { Text(it.second) },
-                                                            onClick = {
-                                                                selectedTargetOption = it
-                                                                expanded = false
-                                                            },
-                                                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
-                                                        )
-                                                    }
                                                 }
                                             }
                                         }
@@ -521,22 +478,40 @@ fun BankRow(
 @Composable
 fun AccountRow(
     account: Konto,
-    selected: Boolean?,
-    onSelectionChange: (Boolean) -> Unit
+    selectable: Boolean,
+    selected: String?,
+    targetOptions: List<Pair<Long, String>>,
+    onSelectionChange: (Boolean, Long) -> Unit
 ) {
     Row {
-        if (selected == null) {
+        if (selectable) {
+            val showMenu = remember { mutableStateOf(false) }
+            Checkbox(checked = selected != null, onCheckedChange = {
+                if (it) {
+                    showMenu.value = true
+                }
+                onSelectionChange.invoke(it, 0)
+            })
+            if (showMenu.value)
+                HierarchicalMenu(
+                    expanded = showMenu, title = stringResource(id = RF.string.import_into),
+                    menu = Menu(targetOptions.map {
+                        MenuEntry(label = UiText.StringValue(it.second)) {
+                            onSelectionChange.invoke(true, it.first)
+                        }
+                    })
+                )
+        } else {
             Icon(
                 modifier = Modifier.width(48.dp),
                 imageVector = Icons.Filled.Link,
                 contentDescription = "Account is already imported"
             )
-        } else {
-            Checkbox(checked = selected, onCheckedChange = onSelectionChange)
         }
         Column {
-            Text("${account.type} ${account.name}${account.name2?.let { " $it" } ?: ""}")
+            Text(text = "${account.type} ${account.name}${account.name2?.let { " $it" } ?: ""}")
             Text(account.dbNumber)
+            selected?.let { Text(stringResource(id = RF.string.import_into) + " " + it ) }
         }
     }
 }

@@ -46,6 +46,7 @@ import org.totschnig.myexpenses.db2.saveAccountAttributes
 import org.totschnig.myexpenses.db2.saveTransactionAttributes
 import org.totschnig.myexpenses.db2.updateAccount
 import org.totschnig.myexpenses.feature.BankingFeature
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Bank
@@ -113,7 +114,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
     sealed class WorkState {
 
-        object Initial : WorkState()
+        data object Initial : WorkState()
 
         data class Loading(val message: String? = null) : WorkState()
 
@@ -394,14 +395,13 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
     fun importAccounts(
         bankingCredentials: BankingCredentials,
         bank: Bank,
-        accounts: List<Konto>,
-        startDate: LocalDate?,
-        targetAccount: Long?
+        accounts: List<Pair<Konto, Long>>,
+        startDate: LocalDate?
     ) {
         clearError()
         var successCount = 0
         viewModelScope.launch(context = coroutineContext()) {
-            accounts.forEach { konto ->
+            accounts.forEach { (konto, targetAccount) ->
 
                 doHBCI(
                     bankingCredentials,
@@ -430,7 +430,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                             return@doHBCI
                         }
 
-                        val accountId = targetAccount.takeIf { accounts.size == 1 && it != 0L }?.also {
+                        val accountId = targetAccount.takeIf { it != 0L }?.also {
                             repository.updateAccount(it) {
                                 put(KEY_BANK_ID, bank.id)
                             }
@@ -586,7 +586,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
     val accounts by lazy {
         accountsMinimal(
-            query = "${DatabaseConstants.KEY_TYPE} = 'BANK' AND ${DatabaseConstants.KEY_BANK_ID} IS NULL",
+            query = "${DatabaseConstants.KEY_TYPE} != '${AccountType.CASH.name}' AND $KEY_BANK_ID IS NULL",
             withAggregates = false
         )
     }

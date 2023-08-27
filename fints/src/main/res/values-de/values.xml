@@ -37,4 +37,5 @@
     <string name="dbet_label">Debitor-Identifikationsnummer</string>
     <string name="saldo">Saldo</string>
     <string name="load">Laden</string>
+    <string name="import_into">Importieren nach</string>
 </resources>

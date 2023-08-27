@@ -39,4 +39,5 @@
     <string name="dbet_label">Debtor identifier</string>
     <string name="saldo">Balance</string>
     <string name="load">Load</string>
+    <string name="import_into">Import into</string>
 </resources>

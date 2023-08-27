@@ -17,37 +17,45 @@ import org.totschnig.myexpenses.R
 data class Menu(val entries: List<IMenuEntry>)
 
 sealed interface IMenuEntry {
-    val label: Int
+    val label: UiText
     val icon: ImageVector?
 }
 
 sealed interface IActionMenuEntry : IMenuEntry {
     val action: () -> Unit
-    val command: String
+    val command: String?
 }
 
 data class SubMenuEntry(
     override val icon: ImageVector? = null,
-    override val label: Int,
+    override val label: UiText,
     val subMenu: Menu
-) : IMenuEntry
+) : IMenuEntry {
+    constructor(icon: ImageVector? = null, label: Int, subMenu: Menu) :
+            this(icon, UiText.StringResource(label), subMenu)
+}
 
 data class CheckableMenuEntry(
-    override val label: Int,
-    override val command: String,
+    override val label: UiText,
+    override val command: String? = null,
     val isChecked: Boolean,
     override val action: () -> Unit
 ) : IActionMenuEntry {
+    constructor(label: Int, command: String, isChecked: Boolean,  action: () -> Unit) :
+            this(UiText.StringResource(label), command, isChecked, action)
+
     override val icon: ImageVector
         get() = if (isChecked) Icons.Filled.CheckBox else Icons.Filled.CheckBoxOutlineBlank
 }
 
 data class MenuEntry(
     override val icon: ImageVector? = null,
-    override val label: Int,
-    override val command: String,
+    override val label: UiText,
+    override val command: String? = null,
     override val action: () -> Unit
 ) : IActionMenuEntry {
+    constructor(icon: ImageVector? = null, label: Int, command: String, action: () -> Unit) :
+            this(icon, UiText.StringResource(label), command, action)
     companion object {
         fun delete(command: String, action: () -> Unit) = MenuEntry(
             icon = Icons.Filled.Delete,
@@ -104,13 +112,17 @@ fun OverFlowMenu(
 @Composable
 fun HierarchicalMenu(
     expanded: MutableState<Boolean>,
-    menu: Menu
+    menu: Menu,
+    title: String? = null
 ) {
     DropdownMenu(
         modifier = Modifier.testTag(TEST_TAG_CONTEXT_MENU),
         expanded = expanded.value,
         onDismissRequest = { expanded.value = false }
     ) {
+        title?.let {
+            Text(text = it, style = MaterialTheme.typography.labelMedium, modifier = Modifier.padding(start = 12.dp))
+        }
         EntryListRenderer(expanded, menu)
     }
 }
@@ -127,7 +139,7 @@ private fun RowScope.EntryContent(entry: IMenuEntry, offset: Dp = 0.dp) {
             contentDescription = null
         )
     }
-    Text(text = stringResource(entry.label), modifier = Modifier.weight(1f))
+    Text(text = entry.label.asString(), modifier = Modifier.weight(1f))
 }
 
 @Composable
@@ -148,7 +160,7 @@ private fun EntryListRenderer(
                     },
                     onClick = {
                         expanded.value = false
-                        tracker.trackCommand(entry.command)
+                        entry.command?.let { tracker.trackCommand(it) }
                         entry.action()
                     }
                 )
@@ -202,7 +214,7 @@ fun Entry() {
 @Preview
 @Composable
 fun Overflow() {
-    fun emptyEntry(label: Int) = MenuEntry(label = label, command = "") {}
+    fun emptyEntry(label: Int) = MenuEntry(label = UiText.StringResource(label), command = "") {}
     OverFlowMenu(
         menu = Menu(
             entries = listOf(
