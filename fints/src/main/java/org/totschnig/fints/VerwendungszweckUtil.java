@@ -241,7 +241,7 @@ public class VerwendungszweckUtil
           if (next == -1)
           {
             // Kein weiteres Tag mehr da. Gehoert alles zum Tag.
-            result.put(tag,StringUtils.trimToEmpty(line.substring(start + tagLen).replace("\n","")));
+            result.put(tag,StringUtils.trimToEmpty(line.substring(start + tagLen)));
             break;
           }
           else

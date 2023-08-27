@@ -279,7 +279,7 @@ class Banking : ProtectedFragmentActivity() {
                                                 account.first,
                                                 !account.second,
                                                 targetOptions.value.find { it.first == selectedAccounts[index] }?.second,
-                                                targetOptions.value.filterNot { selectedAccounts.values.contains(it.first)  }
+                                                targetOptions.value.filterNot { it.first != 0L && selectedAccounts.values.contains(it.first)  }
                                             ) { selected, accountId ->
                                                 if (selected) selectedAccounts[index] =
                                                     accountId else selectedAccounts.remove(

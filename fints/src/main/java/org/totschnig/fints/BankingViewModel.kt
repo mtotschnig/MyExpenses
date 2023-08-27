@@ -339,7 +339,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                             val (transaction, attributes: Map<out Attribute, String>) =
                                 umsLine.toTransaction(accountId, currencyContext)
                             if (isDuplicate(transaction, attributes[FinTsAttribute.CHECKSUM]!!)) {
-                                Timber.d("Found duplicatee for $umsLine")
+                                Timber.d("Found duplicate for $umsLine")
                             } else {
                                 val id = ContentUris.parseId(transaction.save()!!)
                                 repository.saveTransactionAttributes(id, attributes)
