@@ -11,7 +11,7 @@ plugins {
     id 'com.android.library' version "$agp_version" apply false
     id 'org.jetbrains.kotlin.android' version "$kotlin_version" apply false
     id 'com.android.dynamic-feature' version "$agp_version" apply false
-    id("com.google.devtools.ksp") version "$kotlin_version-1.0.11" apply false
+    id("com.google.devtools.ksp") version "$kotlin_version-1.0.13" apply false
     //drive
     //id 'com.google.gms.google-services' version '4.3.15' apply false
 }
@@ -32,14 +32,14 @@ ext {
     roomVersion = "2.5.2"
     archLifecycleVersion = '2.6.1'
     androidxArchVersion = '2.2.0'
-    fragmentVersion = "1.6.0"
+    fragmentVersion = "1.6.1"
     coroutines = '1.6.4'
     mockitoVersion = '5.4.0'
     retrofitVersion = "2.10.0-SNAPSHOT"
     ktxVersion = "1.10.0"
     appcompatVersion = "1.6.1"
     picassoVersion = "2.8"
-    recyclerview = "1.3.0"
+    recyclerview = "1.3.1"
     materialComponents = "1.9.0"
     junitVersion = "4.13.2"
     timberVersion = "5.0.1"
