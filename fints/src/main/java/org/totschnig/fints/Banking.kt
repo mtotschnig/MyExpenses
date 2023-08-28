@@ -2,6 +2,7 @@ package org.totschnig.fints
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.widget.TextView
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.Image
@@ -55,6 +56,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -62,6 +64,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.DialogProperties
 import org.kapott.hbci.structures.Konto
 import org.totschnig.fints.BankingViewModel.WorkState.*
@@ -272,6 +275,12 @@ class Banking : ProtectedFragmentActivity() {
                                     }
 
                                     is AccountsLoaded -> {
+                                        val help  = LocalContext.current.getText(RF.string.select_accounts_help)
+                                        AndroidView(
+                                            modifier = Modifier.padding(bottom = 8.dp),
+                                            factory = { context -> TextView(context) },
+                                            update = { it.text = help }
+                                        )
                                         val accounts =
                                             (workState.value as AccountsLoaded).accounts
                                         accounts.forEachIndexed { index, account ->
@@ -487,7 +496,7 @@ fun AccountRow(
         if (selectable) {
             val showMenu = remember { mutableStateOf(false) }
             Checkbox(checked = selected != null, onCheckedChange = {
-                if (it) {
+                if (targetOptions.size > 1 && it) {
                     showMenu.value = true
                 }
                 onSelectionChange.invoke(it, 0)

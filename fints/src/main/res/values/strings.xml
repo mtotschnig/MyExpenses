@@ -2,11 +2,11 @@
 <resources>
     <string name="add_new_bank">Add new bank</string>
     <string name="select_accounts">Select accounts</string>
-    <string name="enter_pin">Enter PIN</string>
+    <string name="enter_pin">Enter Password</string>
     <string name="bankleitzahl">Bank number</string>
     <string name="login_name">Login name</string>
     Der PIN wird nicht auf dem Gerät gespeichert und bei jeder weiteren Verbindung mit der Bank erneut abgefragt.
-    <string name="pin_info">The PIN is not stored on the device and is requested again for each connection to the bank.</string>
+    <string name="pin_info">The Password is not stored on the device and is requested again for each connection to the bank.</string>
     <string name="btn_load_accounts">Load accounts</string>
     <string name="no_bank_added_yet">No bank added yet.</string>
     <string name="import_maximum">Import maximum available transaction history</string>
@@ -28,7 +28,7 @@
         <item quantity="other">%1$s transactions imported.</item>
     </plurals>
     <string name="transactions_imported_none">No new transactions</string>
-    <string name="wrong_pin">Wrong PIN</string>
+    <string name="wrong_pin">Wrong Password</string>
     <string name="blz_not_found">%s not found in the list of banks that support FinTS.</string>
     <string name="bank_already_added">Bank has already been added.</string>
     <string name="menu_sync_account">Update transactions</string>
@@ -40,4 +40,5 @@
     <string name="saldo">Balance</string>
     <string name="load">Load</string>
     <string name="import_into">Import into</string>
+    <string name="select_accounts_help">Select the bank accounts that you want to manage with <i>My Expenses</i>. You can either import them into a new account or select any existing account (with exception of cash accounts) as target. In the latter case, you will need to adjust the account\'s opening balance manually. Please be aware, that not all banks provide access to all accounts by the procedure that <i>My Expenses</i> understands (For example, for Sparkassen, credit cards are not supported). From the main screen, when an account linked to your bank is displayed, select <i>Load transactions</i> from the menu in order to update.</string>
 </resources>
