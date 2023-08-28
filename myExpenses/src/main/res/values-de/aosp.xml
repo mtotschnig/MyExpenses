@@ -53,5 +53,6 @@
     <string name="display_options_sort_list_by">"Sortieren nach"</string>
     <string name="data">"Daten"</string>
     <string name="start">"Starten"</string>
+    <string name="nickname">"Alias"</string>
 </resources>
 

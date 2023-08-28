@@ -54,5 +54,6 @@
     <string name="display_options_sort_list_by">"Classificar por"</string>
     <string name="data">"Dados"</string>
     <string name="start">"Iniciar"</string>
+    <string name="nickname">"Apelido"</string>
 </resources>
 

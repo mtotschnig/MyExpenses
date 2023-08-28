@@ -55,5 +55,6 @@
     <string name="display_options_sort_list_by">"Ordenatzeko irizpidea"</string>
     <string name="data">"Datuak"</string>
     <string name="start">"Hasi"</string>
+    <string name="nickname">"Goitizena"</string>
 </resources>
 

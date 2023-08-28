@@ -23,6 +23,7 @@ import android.text.TextUtils
 import android.view.*
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -37,9 +38,9 @@ import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE
 import eltos.simpledialogfragment.form.Hint
+import eltos.simpledialogfragment.form.Input
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import eltos.simpledialogfragment.form.Spinner
-import eltos.simpledialogfragment.input.SimpleInputDialog
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.*
 import org.totschnig.myexpenses.activity.Action
@@ -84,11 +85,24 @@ class PartiesList : Fragment(), OnDialogResultListener {
         fun bind(party: Party, isChecked: Boolean) {
             binding.Payee.text = party.name
             with(binding.checkBox) {
-                visibility = if (hasSelectMultiple()) View.VISIBLE else View.GONE
+                isVisible = hasSelectMultiple()
                 this.isChecked = isChecked
-                setOnCheckedChangeListener { _, isChecked -> itemCallback.onCheckedChanged(isChecked, party) }
+                setOnCheckedChangeListener { _, isChecked ->
+                    itemCallback.onCheckedChanged(
+                        isChecked,
+                        party
+                    )
+                }
             }
             binding.Debt.visibility = if (party.hasOpenDebts()) View.VISIBLE else View.GONE
+            with(binding.BankDetails) {
+                val hasBankDetails = party.iban != null || party.bic != null
+                isVisible = hasBankDetails
+                if (hasBankDetails) {
+                    //noinspection SetTextI18n
+                    text = "${party.bic} : ${party.iban}"
+                }
+            }
             binding.root.setOnClickListener { itemCallback.onItemClick(binding, party) }
         }
 
@@ -172,20 +186,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
 
                 setOnMenuItemClickListener { item ->
                     when (item.itemId) {
-                        EDIT_COMMAND -> {
-                            SimpleInputDialog.build()
-                                .title(R.string.menu_edit_party)
-                                .cancelable(false)
-                                .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-                                .hint(R.string.full_name)
-                                .text(party.name)
-                                .pos(R.string.menu_save)
-                                .neut()
-                                .extra(Bundle().apply {
-                                    putLong(KEY_ROWID, party.id)
-                                })
-                                .show(this@PartiesList, DIALOG_EDIT_PARTY)
-                        }
+                        EDIT_COMMAND -> showEditDialog(party)
                         DELETE_COMMAND -> {
                             if (party.mappedTransactions || party.mappedTemplates) {
                                 var message = ""
@@ -221,17 +222,18 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                 doDelete(party.id)
                             }
                         }
-                        SELECT_COMMAND -> {
-                            doSingleSelection(party)
-                        }
+
+                        SELECT_COMMAND -> doSingleSelection(party)
                         DEBT_SUB_MENU -> { /*submenu*/
                         }
+
                         NEW_DEBT_COMMAND -> {
                             startActivity(Intent(context, DebtEdit::class.java).apply {
                                 putExtra(KEY_PAYEEID, party.id)
                                 putExtra(KEY_PAYEE_NAME, party.name)
                             })
                         }
+
                         else -> {
                             index2IdMap[item.itemId]?.also {
                                 DebtDetailsDialogFragment.newInstance(it).show(
@@ -363,10 +365,12 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 resetAdapter()
                 true
             }
+
             R.id.DEBT_COMMAND -> {
                 startActivity(Intent(context, DebtOverview::class.java))
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
 
@@ -439,15 +443,9 @@ class PartiesList : Fragment(), OnDialogResultListener {
                             }
                             adapter.submitList(
                                 if (action == Action.SELECT_FILTER)
-                                    listOf(
-                                            Party(
-                                                NULL_ITEM_ID,
-                                                getString(R.string.unmapped),
-                                                mappedTransactions = false,
-                                                mappedTemplates = false,
-                                                mappedDebts = false
-                                            )
-                                    ).plus(parties)
+                                    listOf(Party(NULL_ITEM_ID, getString(R.string.unmapped))).plus(
+                                        parties
+                                    )
                                 else
                                     parties
                             )
@@ -464,7 +462,6 @@ class PartiesList : Fragment(), OnDialogResultListener {
 
     companion object {
         const val DIALOG_DEBT_DETAILS = "DEBT_DETAILS"
-        const val DIALOG_NEW_PARTY = "dialogNewParty"
         const val DIALOG_EDIT_PARTY = "dialogEditParty"
         const val DIALOG_MERGE_PARTY = "dialogMergeParty"
         const val DIALOG_DELETE_PARTY = "dialogDeleteParty"
@@ -490,13 +487,14 @@ class PartiesList : Fragment(), OnDialogResultListener {
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
         if (which == BUTTON_POSITIVE) {
             when (dialogTag) {
-                DIALOG_NEW_PARTY, DIALOG_EDIT_PARTY -> {
-                    val name = extras.getString(SimpleInputDialog.TEXT)!!
+                DIALOG_EDIT_PARTY -> {
+                    val name = extras.getString(KEY_PAYEE_NAME)!!
                     viewModel.saveParty(
                         extras.getLong(KEY_ROWID),
-                        name
+                        name,
+                        extras.getString(KEY_SHORT_NAME)
                     ).observe(this) {
-                        if (it == null)
+                        if (!it)
                             manageParties.showSnackBar(
                                 getString(
                                     R.string.already_defined,
@@ -506,6 +504,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                     }
                     return true
                 }
+
                 DIALOG_MERGE_PARTY -> {
                     mergeMode = false
                     updateUiMergeMode()
@@ -518,6 +517,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                     resetAdapter()
                     return true
                 }
+
                 DIALOG_DELETE_PARTY -> {
                     doDelete(extras.getLong(KEY_ROWID))
                 }
@@ -536,7 +536,10 @@ class PartiesList : Fragment(), OnDialogResultListener {
             } else {
                 requireActivity().apply {
                     setResult(Activity.RESULT_FIRST_USER, Intent().apply {
-                        putExtra(KEY_ACCOUNTID, requireActivity().intent.getLongExtra(KEY_ACCOUNTID, 0))
+                        putExtra(
+                            KEY_ACCOUNTID,
+                            requireActivity().intent.getLongExtra(KEY_ACCOUNTID, 0)
+                        )
                         putExtra(KEY_ROWID, itemIds.toLongArray())
                         putExtra(KEY_LABEL, labels.joinToString(separator = ","))
                     })
@@ -553,14 +556,28 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 .autofocus(false)
                 .show(this, DIALOG_MERGE_PARTY)
         } else {
-            SimpleInputDialog.build()
-                .title(R.string.menu_create_party)
-                .cancelable(false)
-                .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-                .hint(R.string.full_name)
-                .pos(R.string.dialog_button_add)
-                .neut()
-                .show(this, DIALOG_NEW_PARTY)
+            showEditDialog(null)
         }
+    }
+
+    private fun showEditDialog(party: Party?) {
+        SimpleFormDialog.build()
+            .fields(
+                Input.name(KEY_PAYEE_NAME)
+                    .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+                    .required()
+                    .hint(R.string.full_name).text(party?.name),
+                Input.name(KEY_SHORT_NAME)
+                    .hint(R.string.nickname).text(party?.shortName)
+                    .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+            )
+            .title(if (party == null) R.string.menu_create_party else R.string.menu_edit_party)
+            .cancelable(false)
+            .pos(if (party == null) R.string.dialog_button_add else R.string.menu_save)
+            .neut()
+            .extra(Bundle().apply {
+                putLong(KEY_ROWID, party?.id ?: 0L)
+            })
+            .show(this, DIALOG_EDIT_PARTY)
     }
 }

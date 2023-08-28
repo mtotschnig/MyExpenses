@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
 -->
@@ -48,10 +47,11 @@
     <string name="menu_search">"搜尋"</string>
     <string name="files_label">"檔案"</string>
     <plurals name="delete_files_confirmation_message">
-      <item quantity="other">要刪除 %1$d 個檔案嗎？</item>
+        <item quantity="other">要刪除 %1$d 個檔案嗎？</item>
     </plurals>
     <string name="display_options_sort_list_by">"排序方式"</string>
     <string name="data">"數據"</string>
-     <string name="start">"開始"</string>
+    <string name="start">"開始"</string>
+    <string name="nickname">"暱稱"</string>
 </resources>
 

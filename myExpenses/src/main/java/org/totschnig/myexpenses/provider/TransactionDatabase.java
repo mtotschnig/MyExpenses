@@ -25,6 +25,7 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUN
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.BANK_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_CREATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_UNIQUE_INDEX;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTION_ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
@@ -134,8 +135,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     if (!tableName.equals(TABLE_CHANGES)) {
       stringBuilder.append(DbConstantsKt.getCategoryTreeForView());
     }
-    stringBuilder.append(" SELECT ").append(tableName).append(".*, ").append(TABLE_PAYEES)
-        .append(".").append(KEY_PAYEE_NAME).append(", ")
+    stringBuilder.append(" SELECT ").append(tableName).append(".*, coalesce(").append(TABLE_PAYEES)
+        .append(".").append(KEY_SHORT_NAME).append(",").append(TABLE_PAYEES)
+            .append(".").append(KEY_PAYEE_NAME) .append(") AS ").append(KEY_PAYEE_NAME).append(", ")
         .append(TABLE_METHODS).append(".").append(KEY_LABEL).append(" AS ").append(KEY_METHOD_LABEL).append(", ")
         .append(TABLE_METHODS).append(".").append(KEY_ICON).append(" AS ").append(KEY_METHOD_ICON);
 
@@ -718,6 +720,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(DATABASE_CREATE);
     db.execSQL(TRANSACTIONS_UUID_INDEX_CREATE);
     db.execSQL(PAYEE_CREATE);
+    db.execSQL(PAYEE_UNIQUE_INDEX);
     db.execSQL(PAYMENT_METHODS_CREATE);
     db.execSQL(TEMPLATE_CREATE);
     db.execSQL(PLAN_INSTANCE_STATUS_CREATE);
@@ -2237,7 +2240,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }*/
       if (oldVersion < 142) {
         db.execSQL("ALTER TABLE paymentmethods add column icon text");
-        createOrRefreshViews(db);
+        //createOrRefreshViews(db);
       }
       if (oldVersion < 143) {
         db.execSQL("ALTER TABLE accounts add column sort_by text default 'date'");
@@ -2250,6 +2253,11 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
       if (oldVersion < 145) {
         upgradeTo145(db);
+      }
+      if (oldVersion < 146) {
+        db.execSQL("ALTER TABLE payee add column short_name text");
+        db.execSQL(PAYEE_UNIQUE_INDEX);
+        createOrRefreshViews(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);

@@ -54,5 +54,6 @@
     <string name="display_options_sort_list_by">"Ταξινόμηση κατά"</string>
     <string name="data">"Δεδομένα"</string>
     <string name="start">"Έναρξη"</string>
+    <string name="nickname">"Ψευδώνυμο"</string>
 </resources>
 

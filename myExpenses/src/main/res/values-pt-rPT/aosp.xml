@@ -18,4 +18,5 @@
       <item quantity="one">Eliminar %1$d ficheiro?</item>
     </plurals>
     <string name="display_options_sort_list_by">"Ordenar por"</string>
+     <string name="nickname">"Alcunha"</string>
 </resources>

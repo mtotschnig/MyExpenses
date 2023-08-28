@@ -56,5 +56,6 @@
     <string name="display_options_sort_list_by">"Сортировка"</string>
     <string name="data">"Данные"</string>
     <string name="start">"Старт"</string>
+    <string name="nickname">"Псевдоним"</string>
 </resources>
 

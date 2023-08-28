@@ -55,5 +55,6 @@
     <string name="display_options_sort_list_by">"מיין לפי"</string>
     <string name="data">נתונים</string>
     <string name="start">"התחל"</string>
+    <string name="nickname">"כינוי"</string>
 </resources>
 

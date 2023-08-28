@@ -7,6 +7,7 @@ import android.content.ContentProviderOperation.newUpdate
 import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
+import android.database.sqlite.SQLiteConstraintException
 import androidx.lifecycle.*
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
@@ -14,6 +15,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.db2.createParty
+import org.totschnig.myexpenses.db2.saveParty
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
@@ -43,20 +46,20 @@ class PartyListViewModel(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val parties = savedStateHandle.getLiveData(KEY_FILTER, "")
-            .asFlow()
-            .distinctUntilChanged()
-            .flatMapLatest {
-                val (selection, selectionArgs) = joinQueryAndAccountFilter(
-                    filter,
-                    savedStateHandle.get<Long>(KEY_ACCOUNTID),
-                    KEY_PAYEE_NAME_NORMALIZED, KEY_PAYEEID, TABLE_PAYEES
-                )
-                contentResolver.observeQuery(
-                    PAYEES_URI, null,
-                    selection, selectionArgs, null, true
-                ).mapToList { Party.fromCursor(it) }
+        .asFlow()
+        .distinctUntilChanged()
+        .flatMapLatest {
+            val (selection, selectionArgs) = joinQueryAndAccountFilter(
+                filter,
+                savedStateHandle.get<Long>(KEY_ACCOUNTID),
+                KEY_PAYEE_NAME_NORMALIZED, KEY_PAYEEID, TABLE_PAYEES
+            )
+            contentResolver.observeQuery(
+                PAYEES_URI, null,
+                selection, selectionArgs, null, true
+            ).mapToList { Party.fromCursor(it) }
 
-            }
+        }
 
     fun loadDebts(): LiveData<Unit> = liveData(context = coroutineContext()) {
         contentResolver.observeQuery(DEBTS_URI, notifyForDescendants = true)
@@ -216,7 +219,16 @@ class PartyListViewModel(
         }
     }
 
-    fun saveParty(id: Long, name: String) = liveData(context = coroutineContext()) {
-        emit(repository.saveParty(id, name))
-    }
+    fun saveParty(id: Long, name: String, shortName: String?): LiveData<Boolean> =
+        liveData(context = coroutineContext()) {
+            val party = org.totschnig.myexpenses.model2.Party(id, name, shortName)
+            emit(
+                try {
+                    if (id == 0L) repository.createParty(party) else repository.saveParty(party)
+                    true
+                } catch (e: SQLiteConstraintException) {
+                    false
+                }
+            )
+        }
 }

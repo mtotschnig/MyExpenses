@@ -58,5 +58,6 @@
     <string name="display_options_sort_list_by">"الترتيب حسب"</string>
     <string name="data">"البيانات"</string>
     <string name="start">"بدء"</string>
+    <string name="nickname">"اللقب"</string>
 </resources>
 

@@ -53,5 +53,6 @@
     <string name="display_options_sort_list_by">"Ordina per"</string>
     <string name="data">"Dati"</string>
     <string name="start">"Avvia"</string>
+     <string name="nickname">"Nickname"</string>
 </resources>
 

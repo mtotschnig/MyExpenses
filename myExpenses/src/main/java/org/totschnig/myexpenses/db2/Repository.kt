@@ -93,8 +93,6 @@ open class Repository @Inject constructor(
         }
     }
 
-    fun saveParty(id: Long, name: String) = Payee(id, name).save()
-
     fun deleteTransaction(id: Long, markAsVoid: Boolean = false, inBulk: Boolean = false) =
         contentResolver.delete(
             ContentUris.withAppendedId(TRANSACTIONS_URI, id).buildUpon().apply {

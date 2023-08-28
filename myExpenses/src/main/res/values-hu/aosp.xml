@@ -54,5 +54,6 @@
     <string name="display_options_sort_list_by">"Rendezés"</string>
     <string name="data">"Adatok"</string>
     <string name="start">"Kezdés"</string>
+    <string name="nickname">"Becenév"</string>
 </resources>
 

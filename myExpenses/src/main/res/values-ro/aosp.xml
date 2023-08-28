@@ -55,5 +55,6 @@
     <string name="display_options_sort_list_by">"Sortați după"</string>
     <string name="data">"Date"</string>
     <string name="start">"Start"</string>
+    <string name="nickname">"Pseudonim"</string>
 </resources>
 

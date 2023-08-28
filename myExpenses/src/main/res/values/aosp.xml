@@ -85,5 +85,7 @@
     <string name="yesterday">Yesterday</string>
     <!-- AndroidSDK/platforms/android-34/data/res serviceClassData -->
     <string name="data">Data</string>
+    <!-- packages/apps/EmergencyInfo user_nickname -->
+    <string name="nickname">Nickname</string>
 </resources>
 

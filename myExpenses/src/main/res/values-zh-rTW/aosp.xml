@@ -52,5 +52,6 @@
     <string name="display_options_sort_list_by">"排序依據"</string>
     <string name="data">"資料"</string>
     <string name="start">"開始"</string>
+    <string name="nickname">"暱稱"</string>
 </resources>
 

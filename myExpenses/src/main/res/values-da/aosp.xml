@@ -54,5 +54,6 @@
     <string name="display_options_sort_list_by">"Sortér efter"</string>
     <string name="data">"Data"</string>
     <string name="start">"Start"</string>
+    <string name="nickname">"Kaldenavn"</string>
 </resources>
 

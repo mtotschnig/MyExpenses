@@ -54,5 +54,6 @@
     <string name="display_options_sort_list_by">"Ordenar por"</string>
     <string name="data">"Datos"</string>
     <string name="start">"Iniciar"</string>
+    <string name="nickname">"Apodo"</string>
 </resources>
 

@@ -56,5 +56,6 @@
     <string name="display_options_sort_list_by">"Параметри сортування"</string>
     <string name="data">"Дані"</string>
     <string name="start">"Почати"</string>
+    <string name="nickname">"Псевдонім"</string>
 </resources>
 

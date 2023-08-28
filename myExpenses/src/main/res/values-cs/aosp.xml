@@ -56,5 +56,6 @@
     <string name="display_options_sort_list_by">"Řadit podle"</string>
     <string name="data">"Data"</string>
     <string name="start">"Spustit"</string>
+    <string name="nickname">"Přezdívka"</string>
 </resources>
 

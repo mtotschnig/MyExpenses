@@ -10,15 +10,22 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.Utils
 
-fun Repository.createParty(party: Party): Party {
-    val initialValues = ContentValues().apply {
-        put(KEY_PAYEE_NAME, party.name)
-        put(DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED, Utils.normalize(party.name))
-        put(KEY_IBAN, party.iban)
-        put(KEY_BIC, party.bic)
-    }
-    val id = ContentUris.parseId(contentResolver.insert(TransactionProvider.PAYEES_URI, initialValues)!!)
-    return party.copy(id = id)
+fun Repository.createParty(party: Party) = party.copy(
+    id = ContentUris.parseId(
+        contentResolver.insert(
+            TransactionProvider.PAYEES_URI,
+            party.asContentValues
+        )!!
+    )
+)
+
+fun Repository.saveParty(party: Party) {
+    contentResolver.update(
+        ContentUris.withAppendedId(TransactionProvider.PAYEES_URI, party.id),
+        party.asContentValues,
+        null,
+        null
+    )
 }
 
 /**

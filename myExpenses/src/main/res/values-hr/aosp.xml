@@ -56,5 +56,6 @@
     <string name="display_options_sort_list_by">"Poredano po"</string>
     <string name="data">"Podaci"</string>
     <string name="start">"Početak"</string>
+    <string name="nickname">"Nadimak"</string>
 </resources>
 

@@ -53,5 +53,6 @@
     <string name="display_options_sort_list_by">"정렬 기준"</string>
     <string name="data">"데이터"</string>
     <string name="start">"시작"</string>
+    <string name="nickname">"닉네임"</string>
 </resources>
 
