@@ -23,9 +23,11 @@ import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.*
 import org.totschnig.myexpenses.compose.TEST_TAG_ACCOUNTS
+import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowMenu
@@ -38,11 +40,13 @@ class MyExpensesTest : BaseMyExpensesTest() {
         account =  buildAccount("Test account 1")
         launch(account.id)
         Intents.init()
+        prefHandler.putBoolean(PrefKey.ACCOUNT_PANEL_VISIBLE, true)
     }
 
     @After
     override fun tearDown() {
         Intents.release()
+        repository.deleteAccount(account.id)
     }
 
     @Test
