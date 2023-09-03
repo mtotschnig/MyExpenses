@@ -214,4 +214,9 @@
         <url>https://github.com/hbci4j/hbci4java</url>
         <licence>GNU Lesser General Public License v2.1</licence>
     </project>
+    <project>
+        <name>Hibiscus</name>
+        <url>https://github.com/willuhn/hibiscus</url>
+        <licence>GNU General Public License v2</licence>
+    </project>
 </credits>

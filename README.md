@@ -31,22 +31,53 @@ Features
 
 Credits
 =====
-*My Expenses* relies on many open source libraries :
+*My Expenses* relies on many Open Source libraries and has borrowed code from other Open Source projects :
 
-- <a href="http://itextpdf.com/">Itext</a>
-- <a href="https://github.com/PhilJay/MPAndroidChart">MPAndroidChart</a>
-- <a href="https://github.com/MrBIMC/MaterialSeekBarPreference">MaterialSeekBarPreference</a>
-- <a href="http://square.github.io/picasso/">Picasso</a>
-- <a href="https://github.com/roomorama/Caldroid">Caldroid</a>
-- <a href="https://github.com/frankiesardo/icepick">Icepick</a>
-- Apache Commons <a href="https://commons.apache.org/proper/commons-lang/">Lang</a> and <a href="https://commons.apache.org/proper/commons-csv/">CSV</a>
-- <a href="https://github.com/google/guava">Guava</a>
-- <a href="https://gitlab.com/bitfireAT/dav4android">dav4android</a>
+- [Financisto](https://launchpad.net/financisto) (CalculatorInput, QifParser, WhereFilter)
+- [iText](http://itextpdf.com)
+- [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
+- [SimpleDialogFragments](https://github.com/eltos/SimpleDialogFragments)
+- [Grisbi](http://www.grisbi.org) (category definitions)
+- [Android Open Source Project](https://source.android.com/) (SetupWizardLib, EventRecurrenceFormatter, Licencing Verification)
+- [MaterialSeekBarPreference](https://github.com/MrBIMC/MaterialSeekBarPreference)
+- [Picasso](http://square.github.io/picasso/)
+- [Caldroid](https://github.com/roomorama/Caldroid)
+- [Android-State](https://github.com/evernote/android-state/)
+- [dav4android](https://gitlab.com/bitfireAT/dav4android)
+- [Apache commons](https://commons.apache.org/) (Lang, CSV and Collections)
+- [Guava](https://github.com/google/guava) (Int, IntMath, Files)
+- [CarReport](https://bitbucket.org/frigus02/car-report/) (WebDAV setup)
+- [Acra](http://acra.ch/)
+- [Phrase](https://github.com/square/phrase)
+- [Dagger](https://google.github.io/dagger/)
+- [Gson](https://github.com/google/gson)
+- [AutoValue](https://github.com/google/auto/tree/master/value)
+- [AutoValue: Gson Extension](https://github.com/rharter/auto-value-gson)
+- [AutoValue: Cursor Extension](https://github.com/gabrielittner/auto-value-cursor)
+- [AutoValue: Parcel Extension](https://github.com/rharter/auto-value-parcel)
+- [OkHttp](http://square.github.io/okhttp/)
+- [Timber](https://github.com/JakeWharton/timber)
+- [SLF4J](https://www.slf4j.org/)
+- [logback-android](http://tony19.github.io/logback-android/index.html)
+- [Retrofit2](http://square.github.io/retrofit/)
+- [CircleProgress](https://github.com/lzyzsd/CircleProgress/)
+- [Donut](https://github.com/futuredapp/donut)
+- [Copper](https://github.com/cashapp/copper)
+- [andOTP](https://github.com/andOTP/andOTP) (EncryptionHelper)
+- [Font-Awesome](https://github.com/FortAwesome/Font-Awesome) (Category Icons)
+- [TapTargetView](https://github.com/KeepSafe/TapTargetView)
+- [PageIndicatorView](https://github.com/romandanylyk/PageIndicatorView)
+- [FlexboxLayout](https://github.com/google/flexbox-layout)
+- [Android Image Cropper](https://github.com/ArthurHub/Android-Image-Cropper)
+- [Ktor](https://ktor.io/)
+- [FontDrawable](https://github.com/k4zy/FontDrawable/)
+- [Accompanist](https://github.com/google/accompanist) (drawablepainter, pager, flowlayout with patch from Sven Obser (https://github.com/brudaswen/accompanist/commit/582feb405276ce406260ad50634fd6b76ba19904))
+- [Email Intent Builder](https://github.com/cketti/EmailIntentBuilder)
+- [HBCI4Java](https://github.com/hbci4j/hbci4java)
+- [Hibiscus](https://github.com/willuhn/hibiscus)
 
 and on the contribution of many users that helped make My Expenses available in 34 different 
 <a href="http://www.myexpenses.mobi/en/#translate">languages</a>.
-
-Various components (CalculatorInput, QifParser, HomeScreenWidgets, WhereFilter) have been inspired by [Financisto](https://launchpad.net/financisto). WebDAV setup inspired by [Car report](https://bitbucket.org/frigus02/car-report/).
 
 Code has also been contributed by:
 
