@@ -134,6 +134,169 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.6.3
+    - "2023-09-01"
+    -
+      ar: |
+        Multibanking (ألمانيا)
+      bg: |
+        Multibanking (Германия)
+      ca: |
+        Multibanking (Alemanya)
+      cs: |
+        Multibanking (Německo)
+      da: |
+        Multibanking (Tyskland)
+      de: |
+        Multibanking (Deutschland)
+      el: |
+        Multibanking (Γερμανία)
+      es: |
+        Multibanking (Alemania)
+      eu: |
+        Multibanking (Alemania)
+      fr: |
+        Multibanking (Allemagne)
+      hr: |
+        Multibanking (Njemačka)
+      hu: |
+        Multibanking (Németország)
+      it: |
+        Multibanking (Germania)
+      iw: |
+        Multibanking (גרמניה)
+      ja: |
+        Multibanking (ドイツ)
+      kn: |
+        Multibanking (ಜರ್ಮನಿ)
+      ko: |
+        Multibanking (독일)
+      km: |
+        Multibanking (អាល្លឺម៉ង់)
+      ms: |
+        Multibanking (Jerman)
+      nl: |
+        Multibanking (Duitsland)
+      pl: |
+        Multibanking (Niemcy)
+      pt: |
+        Multibanking (Alemanha)
+      ro: |
+        Multibanking (Germania)
+      ru: |
+        Multibanking (Германия)
+      si: |
+        Multibanking (ජර්මනිය)
+      ta: |
+        Multibanking (ஜெர்மனி)
+      te: |
+        Multibanking (జర్మనీ)
+      tr: |
+        Multibanking (Almanya)
+      vi: |
+        Multibanking (Đức)
+      zh: |
+        Multibanking (德国)
+      zh-TW: |
+        Multibanking (Germany)
+      en: |
+        Multibanking (Germany)
+    -
+      github: 107#column-19585199
+      mastodon: 110949567643752857
+  -
+    - 3.6.2
+    - "2023-07-19"
+    -
+      ar: |
+        الاعدادات: صقل واجهة المستخدم
+      bg: |
+        Настройки: Подобрения в потребителския интерфейс
+      ca: |
+        Preferències: Refinament de la interfície d'usuari
+      cs: |
+        Nastavení: Zdokonalení uživatelského rozhraní
+      da: |
+        Indstillinger: Forbedring af brugergrænsefladen
+      de: |
+        Einstellungen: Verfeinerung der Benutzeroberfläche
+      el: |
+        Ρυθμίσεις: Βελτίωση του περιβάλλοντος εργασίας χρήστη
+      es: |
+        Configuraciones: Interfaz de usuario mejorada
+      eu: |
+        Ezarpenak: Erabiltzaile-interfazea hobetzea
+      fr: |
+        Paramètres: Raffinement de l'interface utilisateur
+      hr: |
+        Postavke: Poboljšanje korisničkog sučelja
+      hu: |
+        Beállítások: A felhasználói felület finomítása
+      it: |
+        Impostazioni: Miglioramento dell'interfaccia utente
+      iw: |
+        הגדרות: חידוד ממשק המשתמש
+      ja: |
+        設定: ユーザーインターフェースの洗練
+      kn: |
+        ಸೆಟ್ಟಿಂಗ್ಸ್: ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್ನ ಪರಿಷ್ಕರಣೆ
+      ko: |
+        설정: 사용자 인터페이스 개선
+      km: |
+        ការកំណត់: ការ កែ ច្នៃ ចំណុច ប្រទាក់ អ្នក ប្រើ
+      ms: |
+        Tetapan: Penghalusan antaramuka pengguna
+      nl: |
+        Instellingen: Verfijning van de gebruikersinterface
+      pl: |
+        Ustawienia: Dopracowanie interfejsu użytkownika
+      pt: |
+        Configurações: Melhorias na interface do usuário
+      ro: |
+        Setări: Perfecționarea interfeței cu utilizatorul
+      ru: |
+        Настройки: Усовершенствование пользовательского интерфейса
+      si: |
+        කට්ටල අංග : පරිශීලක අතුරුමුහුණත පිරිපහදු කිරීම
+      ta: |
+        அமைப்புகள்: பயனர் இடைமுகத்தை மெருகேற்றுதல்
+      te: |
+        సెట్టింగులు: వినియోగదారు ఇంటర్ఫేస్ యొక్క శుద్ధీకరణ
+      tr: |
+        Ayarlar: Kullanıcı arayüzü iyileştirildi
+      vi: |
+        Thiết lập: Cải tiến giao diện người dùng
+      zh: |
+        设置: 用户界面的改进
+      zh-TW: |
+        程式設定: 完善用户界面
+      en: |
+        Settings: Refinement of the user interface
+    -
+      github: 106#column-19571945
+      mastodon: 110734461075802938
+  -
+    - 3.6.1
+    - "2023-07-03"
+    -
+      bg: |
+        Списъкът транзакции може да се сортира по сума. Файловете в папката на приложението (архиви и екпортирани данни) може да бъдат споделяни или изтривани.
+      de: |
+        Die Buchungsliste kann nach Betrag sortiert werden. Dateien im Anwendungsordner (Backups und Export-Dateien) können geteilt oder gelöscht werden.
+      es: |
+        Los archivos de la carpeta de la aplicación (copias de seguridad y exportaciones) se pueden compartir o eliminar. La lista de transacciones puede ordenarse por importe.
+      fr: |
+        La liste des opérations peut être triée par montant. Les fichiers dans le dossier d'application (sauvegardes et exportations) peuvent être partagés ou supprimés.
+      hr: |
+        Popis transakcija se može razvrstati po iznosu. Datoteke u mapi aplikacije (sigurnosne kopije i izvozi) se mogu dijeliti ili izbrisati.
+      iw: |
+        אפשר לסדר את רשימת העסקאות לפי סכום. אפשר לשתף או למחוק את הקבצים בתיקיית היישום (גיבויים וייצוא).
+      en: |
+        Transaction list can be sorted by amount. Files in application folder (backups and exports) can be shared or deleted.
+    -
+      github: 104#column-19552364
+      mastodon: 110643070915366207
+  -
     - 3.6.0
     - "2023-06-23"
     -
