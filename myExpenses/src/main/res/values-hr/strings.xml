@@ -964,4 +964,14 @@
     <string name="file_format">Datotečni format</string>
     <string name="image_optimize_quality">Kvaliteta</string>
     <string name="maximum_size">Maksimalna veličina</string>
+    <string name="orphaned_transaction_align_date">S transakcijom spremljeni datum se opcionalno može uskladiti i s datumom instance.</string>
+    <string name="whats_new_361_1">Popis transakcija se može razvrstati po iznosu.</string>
+    <string name="whats_new_361_2">Datoteke u mapi aplikacije (sigurnosne kopije i izvozi) se mogu dijeliti ili izbrisati.</string>
+    <string name="orphaned_transaction_info">Transakcija je povezana s planom za ovaj datum, ali na ovaj datum ne postoji nijedna instanca događaja.</string>
+    <string name="notifications_permission_required_auto_backup">Davanjem dozvole za slanje obavijesti dobivat ćeš obavijesti o automatskom spremanju sigurnosnih kopija.</string>
+    <string name="whats_new_358">Widget koristi konfiguraciju teme (svijetla/tamna).</string>
+    <string name="orphaned_transaction_relink">Transakcija se može ponovo povezati s instancom događaja na %s.</string>
+    <string name="button_relink_keep_date">Poveži ponovo, ali zadrži datum</string>
+    <string name="button_relink_update_date">Poveži ponovo i aktualiziraj datum</string>
+    <string name="image_optimize_quality_summary">Kvaliteta 0 znači komprimiranje za najmanju veličinu. 100 znači komprimiranje za maksimalnu vizualnu kvalitetu.</string>
 </resources>
