@@ -512,6 +512,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         LaunchedEffect(Unit) {
                             toolbar.isVisible = true
                         }
+                        LaunchedEffect(data) {
+                            if (data.none { it.id == selectedAccountId }) {
+                                selectedAccountId = data.firstOrNull()?.id ?: 0L
+                            }
+                        }
                         AccountList(
                             accountData = data,
                             grouping = accountGrouping.value,
@@ -1325,10 +1330,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 accountIds.size
                             )
                         )
-                        if (accountIds.any { it == selectedAccountId }) {
-                            selectedAccountId = 0
-                        }
-
                     }.onFailure {
                         if (it is AccountSealedException) {
                             showSnackBar(R.string.object_sealed_debt)
