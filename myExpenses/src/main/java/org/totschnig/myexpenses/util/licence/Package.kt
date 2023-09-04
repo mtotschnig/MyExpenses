@@ -36,15 +36,15 @@ sealed class Package(val defaultPrice: Long) : Parcelable {
 
     @Parcelize
     @Keep
-    object Contrib : Package(880)
+    data object Contrib : Package(880)
 
     @Parcelize
     @Keep
-    object Upgrade : Package(300)
+    data object Upgrade : Package(300)
 
     @Parcelize
     @Keep
-    object Extended : Package(1100)
+    data object Extended : Package(1100)
 }
 
 @Suppress("ClassName")
@@ -52,23 +52,23 @@ sealed class Package(val defaultPrice: Long) : Parcelable {
 sealed class ProfessionalPackage(defaultPrice: Long, val duration: Int) : Package(defaultPrice) {
     @Parcelize
     @Keep
-    object Professional_1 : ProfessionalPackage(100, 1)
+    data object Professional_1 : ProfessionalPackage(100, 1)
 
     @Parcelize
     @Keep
-    object Professional_6 : ProfessionalPackage(500, 6)
+    data object Professional_6 : ProfessionalPackage(500, 6)
 
     @Parcelize
     @Keep
-    object Professional_12 : ProfessionalPackage(800, 12)
+    data object Professional_12 : ProfessionalPackage(800, 12)
 
     @Parcelize
     @Keep
-    object Professional_24 : ProfessionalPackage(1500, 24)
+    data object Professional_24 : ProfessionalPackage(1500, 24)
 
     @Parcelize
     @Keep
-    object Amazon : ProfessionalPackage(900, 0)
+    data object Amazon : ProfessionalPackage(900, 0)
 
     fun getDuration(withExtra: Boolean): Int {
         val base = duration
@@ -127,6 +127,7 @@ sealed class AddOnPackage(
     }
 
     override val optionName = "AddOn"
+    @Suppress("unused")
     val sku: String
         get() = this::class.simpleName!!.lowercase(Locale.ROOT)
 
@@ -139,61 +140,61 @@ sealed class AddOnPackage(
 
     @Parcelize
     @Keep
-    object SplitTemplate : AddOnPackage(ContribFeature.SPLIT_TEMPLATE)
+    data object SplitTemplate : AddOnPackage(ContribFeature.SPLIT_TEMPLATE)
 
     @Parcelize
     @Keep
-    object History : AddOnPackage(ContribFeature.HISTORY)
+    data object History : AddOnPackage(ContribFeature.HISTORY)
 
     @Parcelize
     @Keep
-    object Budget : AddOnPackage(ContribFeature.BUDGET)
+    data object Budget : AddOnPackage(ContribFeature.BUDGET)
 
     @Parcelize
     @Keep
-    object Ocr : AddOnPackage(ContribFeature.OCR)
+    data object Ocr : AddOnPackage(ContribFeature.OCR)
 
     @Parcelize
     @Keep
-    object WebUi : AddOnPackage(ContribFeature.WEB_UI)
+    data object WebUi : AddOnPackage(ContribFeature.WEB_UI)
 
     @Parcelize
     @Keep
-    object CategoryTree : AddOnPackage(ContribFeature.CATEGORY_TREE)
+    data object CategoryTree : AddOnPackage(ContribFeature.CATEGORY_TREE)
 
     @Parcelize
     @Keep
-    object AccountsUnlimited : AddOnPackage(ContribFeature.ACCOUNTS_UNLIMITED)
+    data object AccountsUnlimited : AddOnPackage(ContribFeature.ACCOUNTS_UNLIMITED)
 
     @Parcelize
     @Keep
-    object PlansUnlimited : AddOnPackage(ContribFeature.PLANS_UNLIMITED)
+    data object PlansUnlimited : AddOnPackage(ContribFeature.PLANS_UNLIMITED)
 
     @Parcelize
     @Keep
-    object SplitTransaction : AddOnPackage(ContribFeature.SPLIT_TRANSACTION)
+    data object SplitTransaction : AddOnPackage(ContribFeature.SPLIT_TRANSACTION)
 
     @Parcelize
     @Keep
-    object Distribution : AddOnPackage(ContribFeature.DISTRIBUTION)
+    data object Distribution : AddOnPackage(ContribFeature.DISTRIBUTION)
 
     @Parcelize
     @Keep
-    object Print : AddOnPackage(ContribFeature.PRINT)
+    data object Print : AddOnPackage(ContribFeature.PRINT)
 
     @Parcelize
     @Keep
-    object AdFree : AddOnPackage(ContribFeature.AD_FREE)
+    data object AdFree : AddOnPackage(ContribFeature.AD_FREE)
 
     @Parcelize
     @Keep
-    object CsvImport : AddOnPackage(ContribFeature.CSV_IMPORT)
+    data object CsvImport : AddOnPackage(ContribFeature.CSV_IMPORT)
 
     @Parcelize
     @Keep
-    object Synchronization : AddOnPackage(ContribFeature.SYNCHRONIZATION)
+    data object Synchronization : AddOnPackage(ContribFeature.SYNCHRONIZATION)
 
     @Parcelize
     @Keep
-    object Banking : AddOnPackage(ContribFeature.BANKING)
+    data object Banking : AddOnPackage(ContribFeature.BANKING)
 }
