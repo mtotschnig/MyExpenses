@@ -59,7 +59,7 @@ object QifUtils {
      * @throws IllegalArgumentException if input cannot be parsed
      * @return Returns parsed date as Calendar
      */
-    fun parseDateInternal(sDateTime: String, format: QifDateFormat): Calendar {
+    private fun parseDateInternal(sDateTime: String, format: QifDateFormat): Calendar {
         val cal = Calendar.getInstance()
         var month = cal[Calendar.MONTH] + 1
         var day = cal[Calendar.DAY_OF_MONTH]
@@ -68,18 +68,22 @@ object QifUtils {
         val minute = 0
         val second = 0
         val dateChunks = DATE_DELIMITER_PATTERN.split(sDateTime)
-        if (format == QifDateFormat.US) {
-            month = parseInt(dateChunks, 0)
-            day = parseInt(dateChunks, 1)
-            year = parseInt(dateChunks, 2)
-        } else if (format == QifDateFormat.EU) {
-            day = parseInt(dateChunks, 0)
-            month = parseInt(dateChunks, 1)
-            year = parseInt(dateChunks, 2)
-        } else if (format == QifDateFormat.YMD) {
-            year = parseInt(dateChunks, 0)
-            month = parseInt(dateChunks, 1)
-            day = parseInt(dateChunks, 2)
+        when (format) {
+            QifDateFormat.US -> {
+                month = parseInt(dateChunks, 0)
+                day = parseInt(dateChunks, 1)
+                year = parseInt(dateChunks, 2)
+            }
+            QifDateFormat.EU -> {
+                day = parseInt(dateChunks, 0)
+                month = parseInt(dateChunks, 1)
+                year = parseInt(dateChunks, 2)
+            }
+            QifDateFormat.YMD -> {
+                year = parseInt(dateChunks, 0)
+                month = parseInt(dateChunks, 1)
+                day = parseInt(dateChunks, 2)
+            }
         }
         if (year < 100) {
             year += if (year < 29) {
@@ -93,23 +97,19 @@ object QifUtils {
         return cal
     }
 
-    private fun parseInt(array: Array<String>, position: Int, defaultValue: Int): Int {
-        return try {
-            parseInt(array, position)
-        } catch (e: IllegalArgumentException) {
-            defaultValue
-        }
+    private fun parseInt(array: Array<String>, position: Int, defaultValue: Int) = try {
+        parseInt(array, position)
+    } catch (e: IllegalArgumentException) {
+        defaultValue
     }
 
     @Throws(IllegalArgumentException::class)
-    private fun parseInt(array: Array<String>, position: Int): Int {
-        return try {
-            array[position].trim { it <= ' ' }.toInt()
-        } catch (e: NumberFormatException) {
-            throw IllegalArgumentException(e)
-        } catch (e: IndexOutOfBoundsException) {
-            throw IllegalArgumentException(e)
-        }
+    private fun parseInt(array: Array<String>, position: Int) = try {
+        array[position].trim { it <= ' ' }.toInt()
+    } catch (e: NumberFormatException) {
+        throw IllegalArgumentException(e)
+    } catch (e: IndexOutOfBoundsException) {
+        throw IllegalArgumentException(e)
     }
 
     /**
@@ -204,16 +204,13 @@ object QifUtils {
             if (fromTransaction.isTransfer && fromTransaction.amount.signum() == -1) {
                 var found = false
                 if (fromTransaction.toAccount != fromAccount.memo) {
-                    val toAccount: QifAccount? = accountTitleToAccount
-                        .get(fromTransaction.toAccount)
-                    if (toAccount != null) {
-                        val iterator = toAccount.transactions
-                            .iterator()
+                    accountTitleToAccount[fromTransaction.toAccount]?.let {
+                        val iterator = it.transactions.iterator()
                         while (iterator.hasNext()) {
                             val toTransaction = iterator.next()
                             if (twoSidesOfTheSameTransfer(
                                     fromAccount, fromTransaction,
-                                    toAccount, toTransaction
+                                    it, toTransaction
                                 )
                             ) {
                                 iterator.remove()
@@ -240,7 +237,7 @@ object QifUtils {
         fromTransaction.toAccount = null
     }
 
-    private fun prependMemo(prefix: String, fromTransaction: QifTransaction): String? {
+    private fun prependMemo(prefix: String, fromTransaction: QifTransaction): String {
         return if (TextUtils.isEmpty(fromTransaction.memo)) {
             prefix
         } else {

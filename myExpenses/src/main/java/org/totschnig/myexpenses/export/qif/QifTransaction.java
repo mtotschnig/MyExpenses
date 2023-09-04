@@ -131,25 +131,6 @@ public class QifTransaction {
     splits.add(split);
   }
 
-  // public static QifTransaction fromTransaction(Transaction transaction,
-  // Map<Long, Category> categoriesMap, Map<Long, Account> accountsMap) {
-  // QifTransaction qifTransaction = new QifTransaction();
-  // qifTransaction.amount = transaction.amount.getAmountMinor();
-  // qifTransaction.memo = transaction.comment;
-  // if (transaction.transfer_account != null) {
-  // Account toAccount = accountsMap.get(transaction.transfer_account);
-  // qifTransaction.toAccount = toAccount.label;
-  // //TODO: test if from and to accounts have different currencies
-  // }
-  // Category category = categoriesMap.get(transaction.catId);
-  // if (category != null) {
-  // QifCategory qifCategory = QifCategory.fromCategory(category);
-  // qifTransaction.category = qifCategory.name;
-  // }
-  // qifTransaction.isSplit = transaction.parentId != null;
-  // return qifTransaction;
-  // }
-
   public Transaction toTransaction(Account a, CurrencyUnit currencyUnit) {
     Transaction t;
     Money m = new Money(currencyUnit, amount);

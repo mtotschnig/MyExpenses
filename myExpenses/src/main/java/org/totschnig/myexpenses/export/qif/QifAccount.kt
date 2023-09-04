@@ -47,14 +47,4 @@ class QifAccount {
             }
         }
     }
-
-    companion object {
-        fun fromAccount(account: Account): QifAccount {
-            val qifAccount = QifAccount()
-            qifAccount.type = account.type.toQifName()
-            qifAccount.memo = account.label
-            qifAccount.desc = account.description
-            return qifAccount
-        }
-    }
 }
