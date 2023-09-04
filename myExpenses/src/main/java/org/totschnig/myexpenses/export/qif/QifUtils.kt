@@ -186,4 +186,66 @@ object QifUtils {
         return (toTransaction.isTransfer
                 && toTransaction.toAccount == fromAccount.memo && fromTransaction.toAccount == toAccount.memo && fromTransaction.date == toTransaction.date && fromTransaction.amount == toTransaction.amount.negate())
     }
+
+    fun reduceTransfers(accounts: List<QifAccount>,
+                                accountTitleToAccount: Map<String, QifAccount>) {
+        for (fromAccount in accounts) {
+            val transactions: List<QifTransaction> = fromAccount.transactions
+            reduceTransfers(fromAccount, transactions, accountTitleToAccount)
+        }
+    }
+
+    private fun reduceTransfers(
+        fromAccount: QifAccount,
+        transactions: List<QifTransaction>,
+        accountTitleToAccount: Map<String, QifAccount>
+    ) {
+        for (fromTransaction in transactions) {
+            if (fromTransaction.isTransfer && fromTransaction.amount.signum() == -1) {
+                var found = false
+                if (fromTransaction.toAccount != fromAccount.memo) {
+                    val toAccount: QifAccount? = accountTitleToAccount
+                        .get(fromTransaction.toAccount)
+                    if (toAccount != null) {
+                        val iterator = toAccount.transactions
+                            .iterator()
+                        while (iterator.hasNext()) {
+                            val toTransaction = iterator.next()
+                            if (twoSidesOfTheSameTransfer(
+                                    fromAccount, fromTransaction,
+                                    toAccount, toTransaction
+                                )
+                            ) {
+                                iterator.remove()
+                                found = true
+                                break
+                            }
+                        }
+                    }
+                }
+                if (!found) {
+                    convertIntoRegularTransaction(fromTransaction)
+                }
+            }
+            if (fromTransaction.splits != null) {
+                reduceTransfers(fromAccount, fromTransaction.splits, accountTitleToAccount)
+            }
+        }
+    }
+
+    fun convertIntoRegularTransaction(fromTransaction: QifTransaction) {
+        fromTransaction.memo = prependMemo(
+            "Transfer: " + fromTransaction.toAccount, fromTransaction
+        )
+        fromTransaction.toAccount = null
+    }
+
+    private fun prependMemo(prefix: String, fromTransaction: QifTransaction): String? {
+        return if (TextUtils.isEmpty(fromTransaction.memo)) {
+            prefix
+        } else {
+            prefix + " | " + fromTransaction.memo
+        }
+    }
+
 }

@@ -309,7 +309,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
 
   private void insertTransactions(List<QifAccount> accounts, Context context) {
     long t0 = System.currentTimeMillis();
-    reduceTransfers(accounts);
+    QifUtils.INSTANCE.reduceTransfers(accounts, accountTitleToAccount);
     long t1 = System.currentTimeMillis();
     Timber.i("QIF Import: Reducing transfers done in %d s", TimeUnit.MILLISECONDS.toSeconds(t1 - t0));
     convertUnknownTransfers(accounts);
@@ -337,45 +337,6 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     }
   }
 
-  private void reduceTransfers(List<QifAccount> accounts) {
-    for (QifAccount fromAccount : accounts) {
-      List<QifTransaction> transactions = fromAccount.transactions;
-      reduceTransfers(fromAccount, transactions);
-    }
-  }
-
-  private void reduceTransfers(QifAccount fromAccount,
-                               List<QifTransaction> transactions) {
-    for (QifTransaction fromTransaction : transactions) {
-      if (fromTransaction.isTransfer() && fromTransaction.amount.signum() == -1) {
-        boolean found = false;
-        if (!fromTransaction.toAccount.equals(fromAccount.memo)) {
-          QifAccount toAccount = accountTitleToAccount
-              .get(fromTransaction.toAccount);
-          if (toAccount != null) {
-            Iterator<QifTransaction> iterator = toAccount.transactions
-                .iterator();
-            while (iterator.hasNext()) {
-              QifTransaction toTransaction = iterator.next();
-              if (QifUtils.twoSidesOfTheSameTransfer(fromAccount, fromTransaction,
-                  toAccount, toTransaction)) {
-                iterator.remove();
-                found = true;
-                break;
-              }
-            }
-          }
-        }
-        if (!found) {
-          convertIntoRegularTransaction(fromTransaction);
-        }
-      }
-      if (fromTransaction.splits != null) {
-        reduceTransfers(fromAccount, fromTransaction.splits);
-      }
-    }
-  }
-
   private void convertUnknownTransfers(List<QifAccount> accounts) {
     for (QifAccount fromAccount : accounts) {
       List<QifTransaction> transactions = fromAccount.transactions;
@@ -387,7 +348,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
                                        List<QifTransaction> transactions) {
     for (QifTransaction transaction : transactions) {
       if (transaction.isTransfer() && transaction.amount.signum() >= 0) {
-        convertIntoRegularTransaction(transaction);
+        QifUtils.INSTANCE.convertIntoRegularTransaction(transaction);
       }
       if (transaction.splits != null) {
         convertUnknownTransfers(fromAccount, transaction.splits);
@@ -401,12 +362,6 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     } else {
       return prefix + " | " + fromTransaction.memo;
     }
-  }
-
-  private void convertIntoRegularTransaction(QifTransaction fromTransaction) {
-    fromTransaction.memo = prependMemo(
-        "Transfer: " + fromTransaction.toAccount, fromTransaction);
-    fromTransaction.toAccount = null;
   }
 
   private int insertTransactions(Account account, List<QifTransaction> transactions) {

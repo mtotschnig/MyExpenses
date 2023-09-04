@@ -24,6 +24,7 @@ import static org.totschnig.myexpenses.export.qif.QifUtils.parseMoney;
 import static org.totschnig.myexpenses.export.qif.QifUtils.trimFirstChar;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 /**
  * Created by IntelliJ IDEA. User: Denis Solonenko Date: 2/8/11 12:52 AM
@@ -119,7 +120,8 @@ public class QifTransaction {
     }
   }
 
-  private void addSplit(QifTransaction split) {
+  @VisibleForTesting
+  void addSplit(QifTransaction split) {
     if (split == null) {
       return;
     }
@@ -168,6 +170,6 @@ public class QifTransaction {
   }
 
   public boolean isTransfer() {
-    return toAccount != null;
+    return !isSplit() && toAccount != null;
   }
 }
