@@ -10,6 +10,8 @@ package org.totschnig.myexpenses.export.qif
 
 import org.totschnig.myexpenses.export.CategoryInfo
 import org.totschnig.myexpenses.export.CategoryInfo.Companion.readFrom
+import org.totschnig.myexpenses.io.ImportAccount
+import org.totschnig.myexpenses.io.ImportTransaction
 import org.totschnig.myexpenses.model.CurrencyUnit
 import java.io.IOException
 
@@ -23,15 +25,11 @@ class QifParser(
     private val dateFormat: QifDateFormat,
     private val currency: CurrencyUnit
 ) {
-    @JvmField
-    val accounts: MutableList<QifAccount> = ArrayList()
-    @JvmField
-    val categories: MutableSet<CategoryInfo> = HashSet()
-    private val categoriesFromTransactions: MutableSet<CategoryInfo> = HashSet()
-    @JvmField
-    val payees: MutableSet<String> = HashSet()
-    @JvmField
-    val classes: MutableSet<String> = HashSet()
+    val accounts: MutableList<ImportAccount> = mutableListOf()
+    val categories: MutableSet<CategoryInfo> = mutableSetOf()
+    private val categoriesFromTransactions: MutableSet<CategoryInfo> = mutableSetOf()
+    val payees: MutableSet<String> = mutableSetOf()
+    val classes: MutableSet<String> = mutableSetOf()
     @Throws(IOException::class)
     fun parse() {
         var peek: String?
@@ -53,8 +51,7 @@ class QifParser(
                                 r.readLine()
                                 break@outer
                             }
-                            val a = parseAccount()
-                            accounts.add(a)
+                            accounts.add(parseAccount().build())
                         }
                     }
                 }
@@ -65,7 +62,7 @@ class QifParser(
                 r.readLine()
                 parseCategories()
             } else if (peek!!.startsWith("!Type") && !peek!!.startsWith("!Type:Class")) {
-                parseTransactions(QifAccount())
+                parseTransactions(ImportAccount.Builder())
             } else {
                 r.readLine()
             }
@@ -83,49 +80,44 @@ class QifParser(
     }
 
     @Throws(IOException::class)
-    private fun parseTransactions(account: QifAccount) {
-        accounts.add(account)
+    private fun parseTransactions(account: ImportAccount.Builder) {
         val peek = r.peekLine()
         if (peek != null && peek.startsWith("!Type:")) {
             applyAccountType(account, peek)
             r.readLine()
             do {
-                val t = QifTransaction()
-                t.readFrom(r, dateFormat, currency)
+                val t = ImportTransaction.readFrom(r, dateFormat, currency)
                 if (t.isOpeningBalance) {
-                    account.openingBalance = t.amount
-                    if (!t.toAccount.isNullOrEmpty()) account.memo = t.toAccount
+                    account.openingBalance(t.amount)
+                    if (!t.toAccount.isNullOrEmpty()) account.memo(t.toAccount)
                 } else {
                     addPayeeFromTransaction(t)
                     addCategoryFromTransaction(t)
-                    account.transactions.add(t)
+                    account.addTransaction(t)
                 }
             } while (shouldReadOn())
         }
+        accounts.add(account.build())
     }
 
     @Throws(IOException::class)
-    private fun parseAccount(): QifAccount {
-        val account = QifAccount()
-        account.readFrom(r)
-        return account
-    }
+    private fun parseAccount() = ImportAccount.readFrom(r)
 
-    private fun applyAccountType(account: QifAccount, peek: String) {
-        if (account.type.isEmpty()) {
-            account.type = peek.substring(6)
+    private fun applyAccountType(account: ImportAccount.Builder, peek: String) {
+        if (account.type.isNullOrEmpty()) {
+            account.type(peek.substring(6))
         }
     }
 
-    private fun addPayeeFromTransaction(t: QifTransaction) {
+    private fun addPayeeFromTransaction(t: ImportTransaction) {
         t.payee?.takeIf { it.isNotEmpty() }?.let {
             payees.add(it)
         }
     }
 
-    private fun addCategoryFromTransaction(t: QifTransaction) {
+    private fun addCategoryFromTransaction(t: ImportTransaction) {
         if (t.isSplit) {
-            for (split in t.splits) {
+            for (split in t.splits!!) {
                 addCategoryFromTransaction(split)
             }
         } else {

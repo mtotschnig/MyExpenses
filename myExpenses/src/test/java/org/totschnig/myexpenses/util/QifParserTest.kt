@@ -581,17 +581,17 @@ class QifParserTest {
         val t = a.transactions[0]
         Truth.assertThat(t.amount.toFloat()).isEqualTo(-2600.66f)
         Assert.assertEquals(DateTime.date(2011, 7, 12).atMidnight().asDate(), t.date)
-        Assert.assertEquals(3, t.splits.size.toLong())
-        var s = t.splits[0]
+        Assert.assertEquals(3, t.splits!!.size.toLong())
+        var s = t.splits!![0]
         Assert.assertEquals("A:A1", s.category)
         Truth.assertThat(s.amount.toFloat()).isEqualTo(-1100.56f)
         Assert.assertEquals(DateTime.date(2011, 7, 12).atMidnight().asDate(), s.date)
         Assert.assertEquals("Note on first split", s.memo)
-        s = t.splits[1]
+        s = t.splits!![1]
         Assert.assertEquals("A:A2", s.category)
         Truth.assertThat(s.amount.toFloat()).isEqualTo(-1000.00f)
         Assert.assertEquals(DateTime.date(2011, 7, 12).atMidnight().asDate(), s.date)
-        s = t.splits[2]
+        s = t.splits!![2]
         Assert.assertEquals("<NO_CATEGORY>", s.category)
         Truth.assertThat(s.amount.toFloat()).isEqualTo(500.10f)
         Assert.assertEquals(DateTime.date(2011, 7, 12).atMidnight().asDate(), s.date)
@@ -650,12 +650,12 @@ class QifParserTest {
         Assert.assertEquals(1, a.transactions.size.toLong())
         var t = a.transactions[0]
         Truth.assertThat(t.amount.toFloat()).isEqualTo(-2100.00f)
-        Assert.assertEquals(2, t.splits.size.toLong())
-        var s = t.splits[0]
+        Assert.assertEquals(2, t.splits!!.size.toLong())
+        var s = t.splits!![0]
         Assert.assertEquals("A:A1", s.category)
         Truth.assertThat(s.amount.toFloat()).isEqualTo(-1100.00f)
         Assert.assertEquals("Note on first split", s.memo)
-        s = t.splits[1]
+        s = t.splits!![1]
         Assert.assertTrue(s.isTransfer)
         Assert.assertEquals("My Bank Account", s.toAccount)
         Truth.assertThat(s.amount.toFloat()).isEqualTo(-1000.00f)
