@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.viewmodel.AccountConfiguration
 import org.totschnig.myexpenses.viewmodel.CsvImportViewModel
 import java.io.FileNotFoundException
 import javax.inject.Inject
@@ -176,19 +177,9 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
                 dataSet,
                 columnToFieldMap,
                 dateFormat,
-                parseFragment.autoFillCategories
-            ) {
-                if (accountId == 0L) {
-                    Account(
-                        label = getString(R.string.pref_import_title, "CSV"),
-                        currency = currency,
-                        openingBalance = 0,
-                        type = accountType
-                    ).createIn(repository)
-                } else {
-                    repository.loadAccount(accountId)!!
-                }
-            }.observe(this) { result ->
+                parseFragment.autoFillCategories,
+                AccountConfiguration(accountId, currency, accountType)
+            ).observe(this) { result ->
                 hideProgress()
                 result.onSuccess {
                     if (!mUsageRecorded) {

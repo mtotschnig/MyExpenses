@@ -9,7 +9,7 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 
-open class ImportViewModel(application: Application, val savedStateHandle: SavedStateHandle) :
+open class ImportConfigurationViewModel(application: Application, val savedStateHandle: SavedStateHandle) :
     ContentResolvingAndroidViewModel(application) {
 
     var accountId: Long

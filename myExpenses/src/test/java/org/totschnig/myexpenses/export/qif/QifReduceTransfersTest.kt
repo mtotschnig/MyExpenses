@@ -28,11 +28,7 @@ class QifReduceTransfersTest {
                     .date(now)
                     .amount(BigDecimal(5)).build()
             ))
-        val map = mapOf (
-            "Konto 1" to fromAccount,
-            "Konto 2" to toAccount
-        )
-        val reduced = QifUtils.reduceTransfers(listOf(fromAccount, toAccount), map)
+        val reduced = QifUtils.reduceTransfers(listOf(fromAccount, toAccount))
         Truth.assertThat(reduced[0].transactions.size).isEqualTo(0)
         Truth.assertThat(reduced[1].transactions.size).isEqualTo(1)
     }
@@ -59,11 +55,7 @@ class QifReduceTransfersTest {
                     .date(now)
                     .amount(BigDecimal(5)).build()
             ))
-        val map = mapOf (
-            "Konto 1" to fromAccount,
-            "Konto 2" to toAccount
-        )
-        val reduced = QifUtils.reduceTransfers(listOf(fromAccount, toAccount), map)
+        val reduced = QifUtils.reduceTransfers(listOf(fromAccount, toAccount))
         Truth.assertThat(reduced[0].transactions.size).isEqualTo(1)
         Truth.assertThat(reduced[1].transactions.size).isEqualTo(0)
     }

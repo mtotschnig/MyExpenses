@@ -11,7 +11,6 @@ package org.totschnig.myexpenses.export.qif
 import org.totschnig.myexpenses.io.ImportAccount
 import org.totschnig.myexpenses.io.ImportTransaction
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.math.BigDecimal
 import java.text.NumberFormat
@@ -182,22 +181,18 @@ object QifUtils {
     @JvmStatic
     fun twoSidesOfTheSameTransfer(
         fromAccount: ImportAccount,
-        fromTransaction: ImportTransaction, toAccount: ImportAccount,
+        fromTransaction: ImportTransaction,
+        toAccount: ImportAccount,
         toTransaction: ImportTransaction
-    ): Boolean {
-        return (toTransaction.isTransfer
-                && toTransaction.toAccount == fromAccount.memo && fromTransaction.toAccount == toAccount.memo && fromTransaction.date == toTransaction.date && fromTransaction.amount == toTransaction.amount.negate())
-    }
-
-    fun reduceTransfersLegacy(
-        accounts: List<ImportAccount>,
-        accountTitleToAccount: Map<String, Pair<ImportAccount, Account>>
-    ) = reduceTransfers(accounts, accountTitleToAccount.entries.associate { it.key to it.value.first })
+    ) = toTransaction.isTransfer &&
+            toTransaction.toAccount == fromAccount.memo &&
+            fromTransaction.toAccount == toAccount.memo &&
+            fromTransaction.date == toTransaction.date &&
+            fromTransaction.amount == toTransaction.amount.negate()
 
     fun reduceTransfers(
-        accounts: List<ImportAccount>,
-        accountTitleToAccount: Map<String, ImportAccount>
-    ) = accounts.map { it.copy(transactions = reduceTransfers(it, it.transactions, accountTitleToAccount)) }
+        accounts: List<ImportAccount>
+    ) = accounts.map { it.copy(transactions = reduceTransfers(it, it.transactions, accounts)) }
 
     /**
      * We remove one side of the transfer (either the one that is not part of a split or the one
@@ -206,13 +201,13 @@ object QifUtils {
     private fun reduceTransfers(
         fromAccount: ImportAccount,
         transactions: List<ImportTransaction>,
-        accountTitleToAccount: Map<String, ImportAccount>
+        allAccounts: List<ImportAccount>
     ): List<ImportTransaction> {
         return transactions.mapNotNull { fromTransaction ->
             if (fromTransaction.isTransfer) {
                 var shouldReduce = false
                 if (fromTransaction.toAccount != fromAccount.memo) {
-                    accountTitleToAccount[fromTransaction.toAccount]?.let { toAccount ->
+                    allAccounts.find { it.memo == fromTransaction.toAccount }?.let { toAccount ->
                         shouldReduce = toAccount.transactions.any { toTransaction ->
                             (fromTransaction.amount.signum() == -1 && twoSidesOfTheSameTransfer(fromAccount, fromTransaction, toAccount, toTransaction)) ||
                                     toTransaction.splits?.any { split ->

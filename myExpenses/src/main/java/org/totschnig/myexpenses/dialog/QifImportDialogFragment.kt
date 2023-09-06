@@ -19,7 +19,7 @@ import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.checkNewAccountLimitation
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
-import org.totschnig.myexpenses.viewmodel.ImportViewModel
+import org.totschnig.myexpenses.viewmodel.ImportConfigurationViewModel
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
@@ -36,7 +36,7 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
         get() = currencySpinner.adapter as CurrencyAdapter
     private var currency: String? = null
     private val currencyViewModel: CurrencyViewModel by viewModels()
-    private val viewModel: ImportViewModel by viewModels()
+    private val viewModel: ImportConfigurationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

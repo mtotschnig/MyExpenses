@@ -1,12 +1,5 @@
 package org.totschnig.myexpenses.io
 
-import okhttp3.internal.toImmutableList
-import org.totschnig.myexpenses.export.qif.QifBufferedReader
-import org.totschnig.myexpenses.export.qif.QifDateFormat
-import org.totschnig.myexpenses.export.qif.QifUtils.isTransferCategory
-import org.totschnig.myexpenses.export.qif.QifUtils.parseDate
-import org.totschnig.myexpenses.export.qif.QifUtils.parseMoney
-import org.totschnig.myexpenses.export.qif.QifUtils.trimFirstChar
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus.Companion.fromQifName
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -40,45 +33,29 @@ data class ImportAccount(
             private set
         var memo: String? = null
             private set
-        var desc: String? = null
-            private set
-        var openingBalance: BigDecimal? = null
-            private set
-        private var transactions: MutableList<ImportTransaction> = mutableListOf()
+        private var desc: String? = null
+        private var openingBalance: BigDecimal? = null
+        private var transactions: MutableList<ImportTransaction.Builder> = mutableListOf()
 
         fun type(type: String) = apply { this.type = type }
         fun memo(memo: String) = apply { this.memo = memo }
         fun desc(desc: String) = apply { this.desc = desc }
         fun openingBalance(openingBalance: BigDecimal) = apply { this.openingBalance = openingBalance }
-        fun addTransaction(transaction: ImportTransaction) = apply { transactions.add(transaction) }
-        fun build() = ImportAccount(type ?: "", memo ?: "", desc ?: "", openingBalance ?: BigDecimal.ZERO, transactions.toImmutableList())
+        fun addTransaction(transaction: ImportTransaction.Builder) = apply { transactions.add(transaction) }
+        fun build() = ImportAccount(
+            type = type ?: "",
+            memo = memo ?: "",
+            desc = desc ?: "",
+            openingBalance = openingBalance ?: BigDecimal.ZERO,
+            transactions = transactions.map { it.build() }
+        )
     }
 
-    companion object {
-        fun readFrom(r: QifBufferedReader): Builder {
-            val builder = Builder()
-            var line : String?
-            do {
-                line = r.readLine() ?: break
-                if (line.startsWith("^")) {
-                    break
-                }
-                if (line.startsWith("N")) {
-                    builder.memo(trimFirstChar(line))
-                } else if (line.startsWith("T")) {
-                    builder.type(trimFirstChar(line))
-                } else if (line.startsWith("D")) {
-                    builder.desc(trimFirstChar(line))
-                }
-
-            } while (true)
-            return builder
-        }
-    }
 }
 
 data class ImportTransaction constructor(
-    val date: Date?,
+    val date: Date,
+    val valueDAte: Date?,
     val amount: BigDecimal,
     val payee: String?,
     val memo: String?,
@@ -87,21 +64,26 @@ data class ImportTransaction constructor(
     val toAccount: String?,
     val status: String?,
     val number: String?,
+    val method: String?,
     val splits: List<ImportTransaction>?
 ) {
     class Builder {
         private lateinit var date: Date
-        private lateinit var amount: BigDecimal
-        private var payee: String? = null
+        private var valueDate: Date? = null
+        lateinit var amount: BigDecimal
+        var payee: String? = null
         private var memo: String? = null
-        private var category: String? = null
-        private var categoryClass: String? = null
-        private var toAccount: String? = null
+        var category: String? = null
+        var categoryClass: String? = null
+        var toAccount: String? = null
         private var status: String? = null
         private var number: String? = null
-        private var splits: MutableList<ImportTransaction> = mutableListOf()
+        private var method: String? = null
+        var splits: MutableList<ImportTransaction.Builder> = mutableListOf()
 
         fun date(date: Date) = apply { this.date = date }
+
+        fun valueDate(valueDate: Date) = apply { this.valueDate = valueDate }
         fun amount(amount: BigDecimal) = apply { this.amount = amount }
         fun payee(payee: String) = apply { this.payee = payee }
         fun memo(memo: String) = apply { this.memo = memo }
@@ -110,9 +92,15 @@ data class ImportTransaction constructor(
         fun toAccount(toAccount: String) = apply { this.toAccount = toAccount }
         fun status(status: String) = apply { this.status = status }
         fun number(number: String) = apply { this.number = number }
-        fun addSplit(split: Builder) = apply { splits.add(split.date(date).build()) }
-        fun build() = ImportTransaction(
+
+        fun method(method: String) = apply { this.method = method }
+        fun addSplit(split: Builder) = apply { splits.add(split.date(date)) }
+
+        val isOpeningBalance get() = payee == "Opening Balance"
+
+        fun build(): ImportTransaction = ImportTransaction(
             date,
+            valueDate,
             amount,
             payee,
             memo,
@@ -121,71 +109,12 @@ data class ImportTransaction constructor(
             toAccount,
             status,
             number,
-            if (splits.isEmpty()) null else splits.toImmutableList()
+            method,
+            if (splits.isEmpty()) null else splits.map { split -> split.build() }
         )
-
     }
 
     val isSplit get() = splits != null
-
-    val isOpeningBalance get() = payee == "Opening Balance"
-
-    companion object {
-        fun readFrom(r: QifBufferedReader, dateFormat: QifDateFormat, currency: CurrencyUnit): ImportTransaction {
-            val builder = Builder()
-            var split: Builder? = null
-            val splits = mutableListOf<Builder>()
-            var line : String?
-            do {
-                line = r.readLine() ?: break
-                if (line.startsWith("^")) {
-                    break
-                }
-                if (line.startsWith("D")) {
-                    builder.date(parseDate(trimFirstChar(line), dateFormat))
-                } else if (line.startsWith("T")) {
-                    builder.amount(parseMoney(trimFirstChar(line), currency))
-                } else if (line.startsWith("P")) {
-                    builder.payee(trimFirstChar(line))
-                } else if (line.startsWith("M")) {
-                    builder.memo(trimFirstChar(line))
-                } else if (line.startsWith("C")) {
-                    builder.status(trimFirstChar(line))
-                } else if (line.startsWith("N")) {
-                    builder.number(trimFirstChar(line))
-                } else if (line.startsWith("L")) {
-                    parseCategory(builder, line)
-                } else if (line.startsWith("S")) {
-                    split?.let { splits.add(it) }
-                    split = Builder()
-                    parseCategory(split, line)
-                } else if (line.startsWith("$")) {
-                    split?.amount(parseMoney(trimFirstChar(line), currency))
-                } else if (line.startsWith("E")) {
-                    split?.memo(trimFirstChar(line))
-                }
-            } while (true)
-            split?.let { splits.add(it) }
-            splits.forEach {
-                builder.addSplit(it)
-            }
-            return builder.build()
-        }
-
-        private fun parseCategory(builder: Builder, line: String) {
-            var category = trimFirstChar(line)
-            val i = category.indexOf('/')
-            if (i != -1) {
-                builder.categoryClass(category.substring(i + 1))
-                category = category.substring(0, i)
-            }
-            if (isTransferCategory(category)) {
-                builder.toAccount(category.substring(1, category.length - 1))
-            } else {
-                builder.category(category)
-            }
-        }
-    }
 
     fun toTransaction(a: Account, currencyUnit: CurrencyUnit?): Transaction {
         val t: Transaction
@@ -197,9 +126,7 @@ data class ImportTransaction constructor(
         } else {
             Transaction(a.id, m)
         }
-        if (date != null) {
-            t.setDate(date)
-        }
+        t.setDate(date)
         t.comment = memo
         t.crStatus = fromQifName(status)
         t.referenceNumber = number

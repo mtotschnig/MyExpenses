@@ -16,6 +16,7 @@
 
 package org.totschnig.myexpenses.task;
 
+import static org.totschnig.myexpenses.model.ContribFeature.FREE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 
 import android.content.ContentResolver;
@@ -75,7 +76,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
   private int totalCategories = 0;
   private final Map<String, Long> payeeToId = new HashMap<>();
   private final Map<String, Long> categoryToId = new HashMap<>();
-  private final Map<String, Pair<ImportAccount, Account>> accountTitleToAccount = new HashMap<>();
+  private final Map<String, Account> accountTitleToAccount = new HashMap<>();
   Uri fileUri;
   /**
    * should we handle parties/categories?
@@ -228,7 +229,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
           return;
         }
         Account dbAccount = RepositoryAccountKt.loadAccount(repository, accountId);
-        accountTitleToAccount.put(parser.getAccounts().get(0).getMemo(), new Pair<>(parser.getAccounts().get(0), dbAccount));
+        accountTitleToAccount.put(parser.getAccounts().get(0).getMemo(), dbAccount);
         if (dbAccount == null) {
           CrashHandler.report(new Exception("Exception during QIF import. Did not get instance from DB for id "
               + accountId));
@@ -270,7 +271,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     for (ImportAccount account : accounts) {
       LicenceHandler licenceHandler = ((MyApplication) taskExecutionFragment.requireContext().getApplicationContext()).getAppComponent().licenceHandler();
       if (!licenceHandler.hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED)
-          && nrOfAccounts + importCount > 5) {
+          && nrOfAccounts + importCount > FREE_ACCOUNTS) {
         publishProgress(
             context.getString(R.string.qif_parse_failure_found_multiple_accounts) + " " +
                 ContribFeature.ACCOUNTS_UNLIMITED.buildUsageLimitString(context) +
@@ -295,16 +296,17 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
           displayName = displayName.replace('-', ' ').replace('_', ' ');
           dbAccount = dbAccount.withLabel(displayName);
         }
+        dbAccount = RepositoryAccountKt.createAccount(repository, dbAccount);
         importCount++;
       }
-      accountTitleToAccount.put(account.getMemo(), new Pair<>(account, dbAccount));
+      accountTitleToAccount.put(account.getMemo(), dbAccount);
     }
     return importCount;
   }
 
   private void insertTransactions(List<ImportAccount> accounts, Context context) {
     long t0 = System.currentTimeMillis();
-    List<ImportAccount> reducedList = QifUtils.INSTANCE.reduceTransfersLegacy(accounts, accountTitleToAccount);
+    List<ImportAccount> reducedList = QifUtils.INSTANCE.reduceTransfers(accounts);
     long t1 = System.currentTimeMillis();
     Timber.i("QIF Import: Reducing transfers done in %d s", TimeUnit.MILLISECONDS.toSeconds(t1 - t0));
     List<ImportAccount> finalList = QifUtils.INSTANCE.convertUnknownTransfersLegacy(reducedList);
@@ -314,7 +316,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     for (int i = 0; i < count; i++) {
       long t3 = System.currentTimeMillis();
       ImportAccount account = finalList.get(i);
-      Account a = Objects.requireNonNull(accountTitleToAccount.get(account.getMemo())).getSecond();
+      Account a = accountTitleToAccount.get(account.getMemo());
       int countTransactions = 0;
       if (a != null) {
         countTransactions = insertTransactions(a, account.getTransactions());
@@ -367,8 +369,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
   }
 
   private Account findAccount(String account) {
-    Pair<ImportAccount, Account> a = accountTitleToAccount.get(account);
-    return a != null ? a.getSecond() : null;
+    return accountTitleToAccount.get(account);
   }
 
   public Long findPayee(String payee) {
