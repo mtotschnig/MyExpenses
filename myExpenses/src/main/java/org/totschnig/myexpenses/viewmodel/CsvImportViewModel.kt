@@ -46,6 +46,13 @@ class CsvImportViewModel(application: Application) : ImportDataViewModel(applica
         accountConfiguration: AccountConfiguration
     ): LiveData<Result<Pair<Pair<Int, String>, Int>>> = liveData(context = coroutineContext()) {
 
+        contentResolver.call(
+            TransactionProvider.DUAL_URI,
+            TransactionProvider.METHOD_BULK_START,
+            null,
+            null
+        )
+
         val currencyUnit = currencyContext.get(accountConfiguration.currency)
         val parser = CSVParser(localizedContext, data, columnToFieldMap, dateFormat, currencyUnit)
         parser.parse()
@@ -64,8 +71,10 @@ class CsvImportViewModel(application: Application) : ImportDataViewModel(applica
             else repository.loadAccount(accountConfiguration.id)!!
         }
 
+        insertPayees(parser.payees)
+        insertCategories(parser.categories)
 
-        insertTransactions(accounts)
+        insertTransactions(accounts, currencyUnit)
 
 
         /*            columnToFieldMap.indexOf(R.string.tags).takeIf { it != -1 }?.let { it ->

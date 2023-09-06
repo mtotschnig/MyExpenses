@@ -56,9 +56,9 @@ open class Repository @Inject constructor(
         }
     }
 
-    internal fun findOrWritePayee(name: String) = findPayee(name) ?: createPayee(name)
+    internal fun findOrWritePayee(name: String): Long? = findPayee(name) ?: createPayee(name)
 
-    private fun findPayee(name: String) = contentResolver.query(
+    fun findPayee(name: String) = contentResolver.query(
         PAYEES_URI,
         arrayOf(KEY_ROWID),
         "$KEY_PAYEE_NAME = ?",
@@ -67,7 +67,7 @@ open class Repository @Inject constructor(
         if (it.moveToFirst()) it.getLong(0) else null
     }
 
-    private fun createPayee(name: String) =
+    fun createPayee(name: String) =
         contentResolver.insert(PAYEES_URI, ContentValues().apply {
             put(KEY_PAYEE_NAME, name.trim())
             put(KEY_PAYEE_NAME_NORMALIZED, Utils.normalize(name))
