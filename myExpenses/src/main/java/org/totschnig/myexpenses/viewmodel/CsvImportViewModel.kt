@@ -44,7 +44,7 @@ class CsvImportViewModel(application: Application) : ImportDataViewModel(applica
         dateFormat: QifDateFormat,
         autoFill: Boolean,
         accountConfiguration: AccountConfiguration
-    ): LiveData<Result<Pair<Pair<Int, String>, Int>>> = liveData(context = coroutineContext()) {
+    ): LiveData<Result<List<ImportResult>>> = liveData(context = coroutineContext()) {
 
         contentResolver.call(
             TransactionProvider.DUAL_URI,
@@ -93,7 +93,7 @@ class CsvImportViewModel(application: Application) : ImportDataViewModel(applica
             null,
             null
         )
-
+        emit(Result.success(listOf(ImportResult("label", 100, 0))))
     }
 
     override val defaultAccountName: String
