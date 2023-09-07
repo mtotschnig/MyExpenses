@@ -10,7 +10,6 @@ import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.db2.findAnyOpenByLabel
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.export.CategoryInfo
-import org.totschnig.myexpenses.export.qif.QifUtils.convertUnknownTransfersLegacy
 import org.totschnig.myexpenses.export.qif.QifUtils.reduceTransfers
 import org.totschnig.myexpenses.io.ImportAccount
 import org.totschnig.myexpenses.io.ImportTransaction
@@ -74,10 +73,9 @@ abstract class ImportDataViewModel(application: Application) :
         currencyUnit: CurrencyUnit
     ) {
         val reducedList = reduceTransfers(accounts)
-        val finalList = convertUnknownTransfersLegacy(reducedList)
-        val count = finalList.size
+        val count = reducedList.size
         for (i in 0 until count) {
-            val (_, memo, _, _, transactions) = finalList[i]
+            val (_, memo, _, _, transactions) = reducedList[i]
             val a = accountTitleToAccount[memo]
             var countTransactions = 0
             if (a != null) {

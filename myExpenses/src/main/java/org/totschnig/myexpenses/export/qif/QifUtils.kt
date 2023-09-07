@@ -190,13 +190,19 @@ object QifUtils {
             fromTransaction.date == toTransaction.date &&
             fromTransaction.amount == toTransaction.amount.negate()
 
+    /**
+     * first we transform all transfers without counterpart into normal transactions
+     * second we remove one part of the transfer
+     */
     fun reduceTransfers(
         accounts: List<ImportAccount>
-    ) = accounts.map { it.copy(transactions = reduceTransfers(it, it.transactions, accounts)) }
+    ) = accounts
+        .map { it.copy(transactions = transformUnknownTransfers(it, it.transactions, accounts)) }
+        .map { it.copy(transactions = reduceTransfers(it, it.transactions, accounts)) }
 
     /**
      * We remove one side of the transfer (either the one that is not part of a split or the one
-     * with negative signum
+     * that is an expense.
      */
     private fun reduceTransfers(
         fromAccount: ImportAccount,
@@ -216,28 +222,37 @@ object QifUtils {
                         }
                     }
                 }
-                if (!shouldReduce) {
-                    convertIntoRegularTransaction(fromTransaction)
-                } else null
-            } else fromTransaction
+                if (shouldReduce) return@mapNotNull null
+            }
+            fromTransaction
         }
     }
 
-    fun convertUnknownTransfersLegacy(accounts: List<ImportAccount>): List<ImportAccount> =
-        accounts.map { it.copy(transactions = convertUnknownTransfers(it.transactions)) }
-
-    fun convertUnknownTransfers(transactions: List<ImportTransaction>): List<ImportTransaction> =
-        transactions.map {
-            if (it.isTransfer && it.amount.signum() >= 0) {
-                convertIntoRegularTransaction(it)
+    private fun transformUnknownTransfers(
+        fromAccount: ImportAccount,
+        transactions: List<ImportTransaction>,
+        allAccounts: List<ImportAccount>
+    ): List<ImportTransaction> = transactions.map { fromTransaction ->
+        (if (fromTransaction.isTransfer) {
+            var shouldTransform = true
+            if (fromTransaction.toAccount != fromAccount.memo) {
+                allAccounts.find { it.memo == fromTransaction.toAccount }?.let { toAccount ->
+                    val hasCounterPart = toAccount.transactions.any { toTransaction ->
+                        twoSidesOfTheSameTransfer(fromAccount, fromTransaction, toAccount, toTransaction) ||
+                                toTransaction.splits?.any { split ->
+                                    twoSidesOfTheSameTransfer(fromAccount, fromTransaction, toAccount, split)
+                                } == true
+                    }
+                    shouldTransform = !hasCounterPart
+                }
             }
-            else if (it.splits != null) {
-                it.copy(splits = convertUnknownTransfers(it.splits))
+            if (shouldTransform) convertIntoRegularTransaction(fromTransaction) else fromTransaction
+        } else fromTransaction).copy(splits = fromTransaction.splits?.let {
+            transformUnknownTransfers(fromAccount, it, allAccounts)
+        })
+    }
 
-            } else it
-        }
-
-    fun convertIntoRegularTransaction(fromTransaction: ImportTransaction) = fromTransaction.copy(
+    private fun convertIntoRegularTransaction(fromTransaction: ImportTransaction) = fromTransaction.copy(
             memo = prependMemo("Transfer: " + fromTransaction.toAccount, fromTransaction),
             toAccount = null
         )

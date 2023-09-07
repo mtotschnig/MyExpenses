@@ -308,14 +308,10 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     long t0 = System.currentTimeMillis();
     List<ImportAccount> reducedList = QifUtils.INSTANCE.reduceTransfers(accounts);
     long t1 = System.currentTimeMillis();
-    Timber.i("QIF Import: Reducing transfers done in %d s", TimeUnit.MILLISECONDS.toSeconds(t1 - t0));
-    List<ImportAccount> finalList = QifUtils.INSTANCE.convertUnknownTransfersLegacy(reducedList);
-    long t2 = System.currentTimeMillis();
-    Timber.i("QIF Import: Converting transfers done in %d s", TimeUnit.MILLISECONDS.toSeconds(t2 - t1));
-    int count = finalList.size();
+    int count = reducedList.size();
     for (int i = 0; i < count; i++) {
       long t3 = System.currentTimeMillis();
-      ImportAccount account = finalList.get(i);
+      ImportAccount account = reducedList.get(i);
       Account a = accountTitleToAccount.get(account.getMemo());
       int countTransactions = 0;
       if (a != null) {
