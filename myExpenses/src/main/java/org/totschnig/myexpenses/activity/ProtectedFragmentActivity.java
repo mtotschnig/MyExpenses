@@ -263,21 +263,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     return result;
   }
 
-  public void startTaskExecution(int taskId, @NonNull Bundle extras, int progressMessage) {
-    FragmentManager m = getSupportFragmentManager();
-    if (hasPendingTask()) {
-      return;
-    }
-    //noinspection AndroidLintCommitTransaction
-    FragmentTransaction ft = m.beginTransaction()
-        .add(TaskExecutionFragment.newInstanceWithBundle(extras, taskId),
-            ASYNC_TAG);
-    if (progressMessage != 0) {
-      ft.add(ProgressDialogFragment.newInstance(getString(progressMessage)), PROGRESS_TAG);
-    }
-    ft.commit();
-  }
-
   private void removeAsyncTaskFragment(boolean keepProgress) {
     FragmentManager m = getSupportFragmentManager();
     FragmentTransaction t = m.beginTransaction();

@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.widget.AdapterView
+import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.evernote.android.state.State
 import org.apache.commons.csv.CSVRecord
@@ -46,12 +47,11 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
         mSectionsPagerAdapter.notifyDataSetChanged()
     }
 
-    private lateinit var csvImportViewModel: CsvImportViewModel
+    private val csvImportViewModel: CsvImportViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.title = getString(R.string.pref_import_title, "CSV")
-        csvImportViewModel = ViewModelProvider(this)[CsvImportViewModel::class.java]
         with(injector) {
             inject(csvImportViewModel)
             inject(this@CsvImportActivity)
@@ -119,8 +119,8 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
         }
     }
 
-    private fun showProgress(total: Int = 0, progress: Int = 0) {
-        showProgressSnackBar(getString(R.string.pref_import_title, "CSV"), total, progress)
+    private fun showProgress() {
+        showProgressSnackBar(getString(R.string.pref_import_title, "CSV"))
         idle = false
         invalidateOptionsMenu()
     }
@@ -165,18 +165,15 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
     }
 
     fun importData(dataSet: List<CSVRecord>, columnToFieldMap: IntArray, discardedRows: Int) {
-        val totalToImport = dataSet.size
         accountId.takeIf { it != AdapterView.INVALID_ROW_ID }?.also { accountId ->
-            showProgress(total = totalToImport)
-            csvImportViewModel.progress.observe(this) {
-                showProgress(total = totalToImport, progress = it)
-            }
+            showProgress()
             csvImportViewModel.importData(
                 dataSet,
                 columnToFieldMap,
                 dateFormat,
                 parseFragment.autoFillCategories,
-                AccountConfiguration(accountId, currency, accountType)
+                AccountConfiguration(accountId, currency, accountType),
+                parseFragment.uri!!
             ).observe(this) { result ->
                 hideProgress()
                 result.onSuccess { resultList ->

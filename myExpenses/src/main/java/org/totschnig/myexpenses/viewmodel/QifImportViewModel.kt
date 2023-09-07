@@ -2,20 +2,119 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.net.Uri
-import org.totschnig.myexpenses.dialog.DialogUtils
-import org.totschnig.myexpenses.util.io.FileUtils
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
+import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.loadAccount
+import org.totschnig.myexpenses.export.qif.QifBufferedReader
+import org.totschnig.myexpenses.export.qif.QifDateFormat
+import org.totschnig.myexpenses.export.qif.QifParser
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.provider.TransactionProvider
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 class QifImportViewModel(application: Application) : ImportDataViewModel(application) {
 
-    val fileUri: Uri
-        get() = TODO()
+    fun importData(
+        uri: Uri,
+        qifDateFormat: QifDateFormat,
+        accountId: Long,
+        currencyUnit: CurrencyUnit,
+        withTransactions: Boolean,
+        withCategories: Boolean,
+        withParties: Boolean,
+        encoding: String?
+    ): LiveData<Result<Unit>> = liveData(context = coroutineContext()) {
 
-    override val defaultAccountName: String
-        get()  {
-            var displayName = DialogUtils.getDisplayName(fileUri)
-            if (FileUtils.getExtension(displayName).equals("qif", ignoreCase = true)) {
-                displayName = displayName.substring(0, displayName.lastIndexOf('.'))
+        emit(runCatching {
+            QifBufferedReader(
+                BufferedReader(
+                    InputStreamReader(
+                        contentResolver.openInputStream(uri),
+                        encoding
+                    )
+                )
+            ).use {
+                val parser = QifParser(it, qifDateFormat, currencyUnit)
+                parser.parse()
+                publishProgress(getString(
+                            R.string.qif_parse_result,
+                            parser.accounts.size.toString(),
+                            parser.categories.size.toString(),
+                            parser.payees.size.toString()
+                        )
+                )
+                contentResolver.call(
+                    TransactionProvider.DUAL_URI,
+                    TransactionProvider.METHOD_BULK_START,
+                    null,
+                    null
+                )
+                doImport(parser, withParties, withCategories, withTransactions, accountId, currencyUnit, uri)
+                contentResolver.call(
+                    TransactionProvider.DUAL_URI,
+                    TransactionProvider.METHOD_BULK_END,
+                    null,
+                    null
+                )
+                Unit
             }
-            return displayName.replace('-', ' ').replace('_', ' ')
+        })
+    }
+
+    private suspend fun doImport(
+        parser: QifParser,
+        withParties: Boolean,
+        withCategories: Boolean,
+        withTransactions: Boolean,
+        accountId: Long,
+        currencyUnit: CurrencyUnit,
+        uri: Uri
+    ) {
+        if (withParties) {
+            val totalParties = insertPayees(parser.payees)
+            publishProgress(
+                if (totalParties == 0) getString(R.string.import_parties_none) else getString(
+                    R.string.import_parties_success,
+                    totalParties.toString()
+                )
+            )
         }
+        if (withCategories) {
+            val totalCategories = insertCategories(parser.categories)
+            publishProgress(
+                if (totalCategories == 0) getString(R.string.import_categories_none) else getString(
+                    R.string.import_categories_success,
+                    totalCategories
+                )
+            )
+        }
+        if (withTransactions) {
+            if (accountId == 0L) {
+                val importedAccounts = insertAccounts(parser.accounts, currencyUnit, uri)
+                publishProgress(
+                    if (importedAccounts == 0) getString(R.string.import_accounts_none) else getString(
+                        R.string.import_accounts_success,
+                        importedAccounts.toString()
+                    )
+                )
+            } else {
+                if (parser.accounts.size > 1) {
+                    publishProgress(
+                        getString(R.string.qif_parse_failure_found_multiple_accounts)
+                                + " "
+                                + getString(R.string.qif_parse_failure_found_multiple_accounts_cannot_merge)
+                    )
+                    return
+                }
+                if (parser.accounts.isEmpty()) {
+                    return
+                }
+                accountTitleToAccount[parser.accounts[0].memo] = repository.loadAccount(accountId)
+                    ?: throw Exception("Exception during QIF import. Did not get instance from DB for id $accountId")
+            }
+            insertTransactions(parser.accounts, currencyUnit, false)
+        }
+    }
 }

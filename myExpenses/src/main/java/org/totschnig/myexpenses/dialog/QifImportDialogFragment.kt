@@ -83,7 +83,7 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
             prefHandler.putString(PREF_KEY_IMPORT_ENCODING, encoding)
             prefHandler.putString(PREF_KEY_IMPORT_DATE_FORMAT, format.name)
             (activity as QifImport?)!!.onSourceSelected(
-                mUri,
+                mUri!!,
                 format,
                 accountSpinner.selectedItemId,
                 (currencySpinner.selectedItem as Currency).code,
@@ -163,8 +163,6 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
         const val PREF_KEY_IMPORT_ENCODING = "import_qif_encoding"
 
         @JvmStatic
-        fun newInstance(): QifImportDialogFragment {
-            return QifImportDialogFragment()
-        }
+        fun newInstance() = QifImportDialogFragment()
     }
 }

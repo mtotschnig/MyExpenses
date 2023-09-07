@@ -55,7 +55,6 @@ public class TaskExecutionFragment<T> extends Fragment {
 
   public static final int TASK_INSTANTIATE_PLAN = 15;
   public static final int TASK_GRISBI_IMPORT = 19;
-  public static final int TASK_QIF_IMPORT = 20;
   public static final int TASK_PRINT = 25;
   public static final int TASK_UPDATE_SORT_KEY = 27;
   public static final int TASK_SWAP_SORT_KEY = 39;
@@ -113,25 +112,6 @@ public class TaskExecutionFragment<T> extends Fragment {
     return f;
   }
 
-  public static TaskExecutionFragment newInstanceQifImport(
-      Uri mUri, QifDateFormat qifDateFormat, long accountId, CurrencyUnit currency,
-      boolean withTransactions, boolean withCategories, boolean withParties,
-      String encoding) {
-    TaskExecutionFragment f = new TaskExecutionFragment();
-    Bundle bundle = new Bundle();
-    bundle.putInt(KEY_TASKID, TASK_QIF_IMPORT);
-    bundle.putParcelable(KEY_FILE_PATH, mUri);
-    bundle.putSerializable(KEY_DATE_FORMAT, qifDateFormat);
-    bundle.putLong(DatabaseConstants.KEY_ACCOUNTID, accountId);
-    bundle.putSerializable(DatabaseConstants.KEY_CURRENCY, currency);
-    bundle.putBoolean(KEY_WITH_TRANSACTIONS, withTransactions);
-    bundle.putBoolean(KEY_WITH_PARTIES, withParties);
-    bundle.putBoolean(KEY_WITH_CATEGORIES, withCategories);
-    bundle.putString(KEY_ENCODING, encoding);
-    f.setArguments(bundle);
-    return f;
-  }
-
   public static TaskExecutionFragment newInstanceWithBundle(@NonNull Bundle b, int taskId) {
     TaskExecutionFragment f = new TaskExecutionFragment<>();
     b.putInt(KEY_TASKID, taskId);
@@ -180,9 +160,6 @@ public class TaskExecutionFragment<T> extends Fragment {
     switch (taskId) {
       case TASK_GRISBI_IMPORT:
         new GrisbiImportTask(this, args).execute();
-        break;
-      case TASK_QIF_IMPORT:
-        new QifImportTask(this, args).execute();
         break;
       case TASK_PRINT:
         new PrintTask(this, args).execute();

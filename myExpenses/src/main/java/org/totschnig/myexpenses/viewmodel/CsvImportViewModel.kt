@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVRecord
@@ -20,8 +19,6 @@ import java.io.InputStreamReader
 data class AccountConfiguration(val id: Long, val currency: String, val type: AccountType)
 
 class CsvImportViewModel(application: Application) : ImportDataViewModel(application) {
-    private val _progress: MutableLiveData<Int> = MutableLiveData()
-    val progress: LiveData<Int> = _progress
 
     fun parseFile(uri: Uri, delimiter: Char, encoding: String): LiveData<Result<List<CSVRecord>>> =
         liveData(context = coroutineContext()) {
@@ -44,7 +41,8 @@ class CsvImportViewModel(application: Application) : ImportDataViewModel(applica
         columnToFieldMap: IntArray,
         dateFormat: QifDateFormat,
         autoFill: Boolean,
-        accountConfiguration: AccountConfiguration
+        accountConfiguration: AccountConfiguration,
+        uri: Uri
     ): LiveData<Result<List<ImportResult>>> = liveData(context = coroutineContext()) {
 
         contentResolver.call(
@@ -59,8 +57,8 @@ class CsvImportViewModel(application: Application) : ImportDataViewModel(applica
         parser.parse()
         val accounts = parser.accounts
 
-        if (accountConfiguration.id == -1L) {
-            insertAccounts(accounts, currencyUnit)
+        if (columnToFieldMap.indexOf(R.string.account) > -1) {
+            insertAccounts(accounts, currencyUnit, uri)
         } else {
             accountTitleToAccount[accounts[0].memo] = if (accountConfiguration.id == 0L)
                 Account(
@@ -86,7 +84,4 @@ class CsvImportViewModel(application: Application) : ImportDataViewModel(applica
         )
         emit(Result.success(listOf(ImportResult("label", count))))
     }
-
-    override val defaultAccountName: String
-        get() = TODO("Not yet implemented")
 }

@@ -2,7 +2,10 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.content.ContentUris
+import android.net.Uri
 import android.text.TextUtils
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.AutoFillInfo
@@ -12,6 +15,7 @@ import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.db2.findAnyOpenByLabel
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
+import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.export.CategoryInfo
 import org.totschnig.myexpenses.export.qif.QifUtils.reduceTransfers
 import org.totschnig.myexpenses.io.ImportAccount
@@ -19,9 +23,9 @@ import org.totschnig.myexpenses.io.ImportTransaction
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.saveTagLinks
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.util.io.FileUtils
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 data class ImportResult(val label: String, val successCount: Int)
@@ -35,10 +39,22 @@ val tagToId: MutableMap<String, Long> = mutableMapOf()
 
 abstract class ImportDataViewModel(application: Application) :
     ContentResolvingAndroidViewModel(application) {
+    private val publishProgressInternal: MutableSharedFlow<String?> = MutableSharedFlow()
+    val publishProgress: SharedFlow<String?> = publishProgressInternal
 
-    abstract val defaultAccountName: String
+    suspend fun publishProgress(string: String) {
+        publishProgressInternal.emit(string)
+    }
 
-    fun insertAccounts(accounts: List<ImportAccount>, currencyUnit: CurrencyUnit): Int {
+    private fun getDefaultAccountName(uri: Uri): String {
+        var displayName = DialogUtils.getDisplayName(uri)
+        if (FileUtils.getExtension(displayName).equals("qif", ignoreCase = true)) {
+            displayName = displayName.substring(0, displayName.lastIndexOf('.'))
+        }
+        return displayName.replace('-', ' ').replace('_', ' ')
+    }
+
+    fun insertAccounts(accounts: List<ImportAccount>, currencyUnit: CurrencyUnit, uri: Uri): Int {
         val nrOfAccounts = repository.countAccounts(null, null)
         var importCount = 0
         for (account: ImportAccount in accounts) {
@@ -66,7 +82,7 @@ abstract class ImportDataViewModel(application: Application) :
                 account.toAccount(currencyUnit).let {
                     importCount++
                     repository.createAccount(
-                        if (it.label.isEmpty()) it.copy(label = defaultAccountName) else it
+                        if (it.label.isEmpty()) it.copy(label = getDefaultAccountName(uri)) else it
                     )
                 }
             }
@@ -75,13 +91,23 @@ abstract class ImportDataViewModel(application: Application) :
         return importCount
     }
 
-    fun insertTransactions(
+    suspend fun insertTransactions(
         accounts: List<ImportAccount>,
         currencyUnit: CurrencyUnit,
         autofill: Boolean
     ) = reduceTransfers(accounts).sumOf { (_, memo, _, _, transactions) ->
         accountTitleToAccount[memo]?.let {
             insertTransactions(it, currencyUnit, transactions, autofill)
+            publishProgress(
+                if (transactions.isEmpty()) getString(
+                    R.string.import_transactions_none,
+                    it.label
+                ) else getString(
+                    R.string.import_transactions_success,
+                    transactions.size,
+                    it.label
+                )
+            )
             transactions.size
         } ?: 0
     }
