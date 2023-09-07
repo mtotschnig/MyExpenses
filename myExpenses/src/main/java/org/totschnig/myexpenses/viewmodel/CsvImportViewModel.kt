@@ -8,6 +8,7 @@ import androidx.lifecycle.liveData
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVRecord
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.extractTagIds
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.io.CSVParser
@@ -72,20 +73,10 @@ class CsvImportViewModel(application: Application) : ImportDataViewModel(applica
         }
 
         insertPayees(parser.payees)
+        repository.extractTagIds(parser.tags, tagToId)
         insertCategories(parser.categories)
 
-        insertTransactions(accounts, currencyUnit)
-
-
-        /*            columnToFieldMap.indexOf(R.string.tags).takeIf { it != -1 }?.let { it ->
-                saveGetFromRecord(record, it).takeIf { it != "" }?.let { tagList ->
-                    val tokenizer = StringTokenizer(tagList)
-                    tokenizer.quoteMatcher = StringMatcherFactory.INSTANCE.quoteMatcher()
-                    tokenizer.delimiterMatcher = StringMatcherFactory.INSTANCE.commaMatcher()
-                    ops.addAll(saveTagLinks(extractTagIds(tokenizer.tokenList, java.util.HashMap()), null, 0, false))
-                }
-            }*/
-
+        val count = insertTransactions(accounts, currencyUnit, autoFill)
 
         contentResolver.call(
             TransactionProvider.DUAL_URI,
@@ -93,7 +84,7 @@ class CsvImportViewModel(application: Application) : ImportDataViewModel(applica
             null,
             null
         )
-        emit(Result.success(listOf(ImportResult("label", 100, 0))))
+        emit(Result.success(listOf(ImportResult("label", count))))
     }
 
     override val defaultAccountName: String

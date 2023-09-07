@@ -484,7 +484,6 @@
     <string name="csv_import_preview">Előnézet</string>
     <string name="menu_parse">Elemzés</string>
     <string name="csv_import_field_mapped_more_than_once">%s többször van hozzárendelve.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d feljegyzést nem lehetett importálni.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d feljegyzés el lett vetve.</string>
     <string name="csv_import_subcategory_requires_category">Ha alkategóriát feleltet meg, akkor a kategóriát is meg kell feleltetnie.</string>
     <string name="cvs_import_set_first_line_as_header">Legyen az első sor fejlécként kezelve?</string>

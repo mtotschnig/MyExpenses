@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.io
 
 import android.content.Context
 import org.apache.commons.csv.CSVRecord
+import org.apache.commons.text.StringTokenizer
+import org.apache.commons.text.matcher.StringMatcherFactory
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.export.CategoryInfo
 import org.totschnig.myexpenses.export.qif.QifDateFormat
@@ -26,6 +28,7 @@ class CSVParser(
 
     val categories: MutableSet<CategoryInfo> = mutableSetOf()
     val payees: MutableSet<String> = mutableSetOf()
+    val tags: MutableSet<String> = mutableSetOf()
 
     private fun requireAccount(label: String) =
         accountBuilders.find { it.memo == label } ?: ImportAccount.Builder().memo(label).also {
@@ -144,6 +147,17 @@ class CSVParser(
             }
             if (columnIndexNumber != -1) {
                 transaction.number(saveGetFromRecord(record, columnIndexNumber))
+            }
+            columnToFieldMap.indexOf(R.string.tags).takeIf { it != -1 }?.let { it ->
+                saveGetFromRecord(record, it).takeIf { it.isNotEmpty() }?.let { tagList ->
+                    val tokenizer = StringTokenizer(tagList)
+                    tokenizer.quoteMatcher = StringMatcherFactory.INSTANCE.quoteMatcher()
+                    tokenizer.delimiterMatcher = StringMatcherFactory.INSTANCE.commaMatcher()
+                    with(tokenizer.tokenList.filterNotNull()) {
+                        transaction.addTags(this)
+                        tags.addAll(this)
+                    }
+                }
             }
             if (isSplitParent) {
                 splitParent = transaction

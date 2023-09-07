@@ -488,7 +488,6 @@
     <string name="csv_import_preview">Podgląd</string>
     <string name="menu_parse">Analia</string>
     <string name="csv_import_field_mapped_more_than_once">%s jest mapowany więcej niż jeden raz. </string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d rekordy nie mogły zostać zaimportowane.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%drekordy zostały odrzucone. </string>
     <string name="csv_import_subcategory_requires_category">Jeśli zmapujesz podkategorię, musisz także odwzorować kategorię.</string>
     <string name="cvs_import_set_first_line_as_header">Czy pierwszy wiersz powinien być traktowany jako linia nagłówka?</string>

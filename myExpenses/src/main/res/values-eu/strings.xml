@@ -479,7 +479,6 @@
     <string name="csv_import_preview">Aurreikusi</string>
     <string name="menu_parse">Prozesatu</string>
     <string name="csv_import_field_mapped_more_than_once">%s behin baino gehiagotan mapeatu da.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d sarrera ezin izan dira inportatu.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d sarrera baztertu dira.</string>
     <string name="csv_import_subcategory_requires_category">Azpikategoria mapeatzen baduzu kategoria ere mapeatu behar duzu.</string>
     <string name="cvs_import_set_first_line_as_header">Lehen lerroa izenburutzat hartu?</string>

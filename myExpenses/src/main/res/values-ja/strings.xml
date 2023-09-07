@@ -474,7 +474,6 @@
     <string name="csv_import_preview">プレビュー</string>
     <string name="menu_parse">解析</string>
     <string name="csv_import_field_mapped_more_than_once">%s は複数に配置されます。</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d レコードインポートできませんでした。</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d レコード破棄されました。</string>
     <string name="csv_import_subcategory_requires_category">副分類を配置する場合は、分類も配置する必要があります。</string>
     <string name="cvs_import_set_first_line_as_header">最初の行をヘッダー行として扱いますか?</string>

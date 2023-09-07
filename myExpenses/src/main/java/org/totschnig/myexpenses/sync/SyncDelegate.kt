@@ -246,7 +246,7 @@ class SyncDelegate(
         var skipped = false
         val offset = ops.size
         var tagOpsCount = 0
-        val tagIds = change.tags()?.let { extractTagIds(it, tagToId) }
+        val tagIds = change.tags()?.let { repository.extractTagIds(it, tagToId) }
         when (change.type()) {
             TransactionChange.Type.created -> {
                 val transactionId = resolver(account.id, change.uuid())

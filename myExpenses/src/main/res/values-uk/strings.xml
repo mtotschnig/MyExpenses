@@ -483,7 +483,6 @@
     <string name="csv_import_preview">Попередній перегляд</string>
     <string name="menu_parse">Розпізнати</string>
     <string name="csv_import_field_mapped_more_than_once">%s було зв\'язано більше як одного разу.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">Не вдалось імпортувати %d записів.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d записів було відхилено.</string>
     <string name="csv_import_subcategory_requires_category">Якщо Ви зв\'яжете підкатегорію, необхідно також зв\'язати і категорію.</string>
     <string name="cvs_import_set_first_line_as_header">Чи слід розглядати перший рядок як заголовок?</string>

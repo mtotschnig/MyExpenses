@@ -608,7 +608,6 @@
     <string name="cvs_import_set_first_line_as_header">Da li prvi redak koristiti kao redak zaglavlja\?</string>
     <string name="csv_import_subcategory_requires_category">Ako povežeš podkategoriju, moraš povezati i kategoriju.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d zapisi su odbačeni.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d zapisi se nisu mogli uvesti.</string>
     <string name="csv_import_field_mapped_more_than_once">%s je povezano više od jednom.</string>
     <string name="menu_parse">Obradi</string>
     <string name="csv_import_preview">Pregled</string>

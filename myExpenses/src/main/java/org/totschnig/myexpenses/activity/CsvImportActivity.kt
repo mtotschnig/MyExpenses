@@ -188,12 +188,9 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
                     if (discardedRows > 0) {
                         msg.append(" ${getString(R.string.csv_import_records_discarded, discardedRows)}")
                     }
-                    resultList.forEach {
-                        msg.append("${getString(R.string.import_transactions_success, it.success, it.label)}.")
-                        if (it.failure > 0) {
-                            msg.append(" ${getString(R.string.csv_import_records_failed, it.failure)}")
-                        }
-                    }
+                    msg.append(resultList.joinToString(" ") {
+                        "${getString(R.string.import_transactions_success, it.successCount, it.label)}."
+                    })
 
                     showMessage(
                         msg,

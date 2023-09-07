@@ -498,7 +498,6 @@
     <string name="csv_import_preview">תצוגה מקדימה</string>
     <string name="menu_parse">ביטוי</string>
     <string name="csv_import_field_mapped_more_than_once">%s משוייך יחותר מפעם אחת.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d רשומות לא ניתנות ליבוא..</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d רשומות נמחקו.</string>
     <string name="csv_import_subcategory_requires_category">אם אתה ממפה קטגוריית משנה, עליך גם למפות את הקטגוריה.</string>
     <string name="cvs_import_set_first_line_as_header">האם יש להתייחס לקו הראשון כאל שורת כותרת?</string>

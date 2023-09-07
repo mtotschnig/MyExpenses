@@ -496,7 +496,6 @@
     <string name="csv_import_preview">Предпросмотр</string>
     <string name="menu_parse">Анализировать</string>
     <string name="csv_import_field_mapped_more_than_once">%s отображается более одного раза.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d не могут быть импортированы.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">Записи %d были отброшены.</string>
     <string name="csv_import_subcategory_requires_category">Если вы отображаете подкатегорию, вы также должны отобразить категорию.</string>
     <string name="cvs_import_set_first_line_as_header">Воспринимать первую строку как заглавную?</string>

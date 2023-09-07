@@ -472,7 +472,6 @@
     <string name="csv_import_preview">Pratonton</string>
     <string name="menu_parse">Hurai</string>
     <string name="csv_import_field_mapped_more_than_once">%s telah dipetakan lebih dari sekali.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d rekod tidak dapat diimport.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d rekod telah disingkirkan.</string>
     <string name="csv_import_subcategory_requires_category">Jika anda petakan subkategori, anda juga petakan kategori.</string>
     <string name="cvs_import_set_first_line_as_header">Patutkah baris pertama dianggap sebagai tajuk?</string>

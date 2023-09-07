@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.io
 
+import okhttp3.internal.toImmutableList
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus.Companion.fromQifName
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -65,6 +66,7 @@ data class ImportTransaction constructor(
     val status: String?,
     val number: String?,
     val method: String?,
+    val tags : List<String>?,
     val splits: List<ImportTransaction>?
 ) {
     class Builder {
@@ -79,7 +81,8 @@ data class ImportTransaction constructor(
         private var status: String? = null
         private var number: String? = null
         private var method: String? = null
-        var splits: MutableList<ImportTransaction.Builder> = mutableListOf()
+        var tags: MutableList<String> = mutableListOf()
+        var splits: MutableList<Builder> = mutableListOf()
 
         fun date(date: Date) = apply { this.date = date }
 
@@ -96,6 +99,8 @@ data class ImportTransaction constructor(
         fun method(method: String) = apply { this.method = method }
         fun addSplit(split: Builder) = apply { splits.add(split.date(date)) }
 
+        fun addTags(tagCollection: Collection<String>) = apply { tags.addAll(tagCollection) }
+
         val isOpeningBalance get() = payee == "Opening Balance"
 
         fun build(): ImportTransaction = ImportTransaction(
@@ -110,6 +115,7 @@ data class ImportTransaction constructor(
             status,
             number,
             method,
+            if (tags.isEmpty()) null else tags.toImmutableList(),
             if (splits.isEmpty()) null else splits.map { split -> split.build() }
         )
     }

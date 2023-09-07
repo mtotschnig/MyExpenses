@@ -443,7 +443,6 @@
     <string name="menu_distribution_aggreate">Verzamel uitgaven en inkomsten</string>
     <string name="folder_name">Mapnaam</string>
     <string name="menu_undelete_transaction">Verwijderen ongedaan maken</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d-records konden niet worden geïmporteerd.</string>
     <string name="cvs_import_set_first_line_as_header">Moet de eerste regel worden behandeld als een kopregel\?</string>
     <string name="pref_auto_backup_time_title">Tijd voor automatische back-up</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Verleen toegang</string>

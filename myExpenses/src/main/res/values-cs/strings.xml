@@ -498,7 +498,6 @@
     <string name="csv_import_preview">Náhled</string>
     <string name="menu_parse">Spojit</string>
     <string name="csv_import_field_mapped_more_than_once">Položka %s je namapována více než jednou.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d záznamů se nezdařilo importovat.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d záznamů bylo zahozeno.</string>
     <string name="csv_import_subcategory_requires_category">Pokud mapujete podkategorii, musíte také mapovat kategorii.</string>
     <string name="cvs_import_set_first_line_as_header">Měl by první řádek fungovat jako řádek nadpisu?</string>

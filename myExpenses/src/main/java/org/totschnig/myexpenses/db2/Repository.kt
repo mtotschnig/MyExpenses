@@ -41,9 +41,10 @@ open class Repository @Inject constructor(
     val contentResolver: ContentResolver = context.contentResolver
 
     //Payee
-    fun findOrWritePayeeInfo(payeeName: String, autoFill: Boolean) = findPayee(payeeName)?.let {
-        Pair(it, if (autoFill) autoFill(it) else null)
-    } ?: Pair(createPayee(payeeName)!!, null)
+    fun findOrWritePayeeInfo(payeeName: String, autoFill: Boolean): Pair<Long, AutoFillInfo?> =
+        findPayee(payeeName)?.let {
+            it to if (autoFill) autoFill(it) else null
+        } ?: (createPayee(payeeName)!! to null)
 
     fun autoFill(payeeId: Long): AutoFillInfo? {
         return contentResolver.query(

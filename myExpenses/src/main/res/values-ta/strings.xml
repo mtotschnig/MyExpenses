@@ -484,7 +484,6 @@
     <string name="csv_import_preview">முன்னோட்டம்</string>
     <string name="menu_parse">பாகுபடுத்து</string>
     <string name="csv_import_field_mapped_more_than_once">%s ஒன்றுக்கு மேலாக தொடற்பு படுத்தப்பட்டுள்ளது.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d பதிவுகளை இறக்குமதி செய்ய முடியவில்லை.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d பதிவுகள்  நீக்கப்பட்டது.</string>
     <string name="csv_import_subcategory_requires_category">நீங்கள் துணை வகையைத் தொடற்பு படுத்தினால், அதன் வகையையும் தொடற்பு படுத்த வேண்டும்.</string>
     <string name="cvs_import_set_first_line_as_header">முதல் வரி ஒரு தலைப்பு வரியாக கருதப்பட வேண்டுமா?</string>

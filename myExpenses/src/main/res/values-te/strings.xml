@@ -241,7 +241,6 @@
     <string name="cvs_import_set_first_line_as_header">మొదటి పంక్తిని హెడర్ లైన్‌గా పరిగణించాలా\?</string>
     <string name="csv_import_subcategory_requires_category">మీరు ఉపవర్గాన్ని మ్యాప్ చేస్తే, మీరు కూడా వర్గాన్ని మ్యాప్ చేయాలి.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d రికార్డులు విస్మరించబడ్డాయి.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d రికార్డులు దిగుమతి కాలేదు.</string>
     <string name="csv_import_field_mapped_more_than_once">%s ఒకటి కంటే ఎక్కువసార్లు మ్యాప్ చేయబడింది.</string>
     <string name="menu_parse">పార్స్</string>
     <string name="csv_import_preview">పరిదృశ్యం</string>

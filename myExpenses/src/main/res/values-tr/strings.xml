@@ -484,7 +484,6 @@
     <string name="csv_import_preview">Önizle</string>
     <string name="menu_parse">Çözümle</string>
     <string name="csv_import_field_mapped_more_than_once">%s bir kereden fazla haritalanmıştır.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d kayıt içe aktarılamadı.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d kayıt atılmıştır.</string>
     <string name="csv_import_subcategory_requires_category">Alt kategoriyi haritalarsanız, kategoriyi de haritalamanız gerekir.</string>
     <string name="cvs_import_set_first_line_as_header">İlk satır başlık satırı olarak kabul edilmeli mi?</string>

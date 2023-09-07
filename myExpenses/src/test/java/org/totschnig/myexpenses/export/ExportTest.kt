@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.markAsExported
 import org.totschnig.myexpenses.db2.saveCategory
+import org.totschnig.myexpenses.db2.writeTag
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
@@ -98,8 +99,8 @@ class ExportTest: BaseTestWithRepository() {
         ContentUris.parseId(repository.saveCategory(Category(label = label, parentId = parentId))!!)
 
     private fun insertData1(): Account {
-        val tag1Id = writeTag("Tag One")
-        val tag2Id = writeTag("Tags, Tags, Tags")
+        val tag1Id = repository.writeTag("Tag One")
+        val tag2Id = repository.writeTag("Tags, Tags, Tags")
         val account1 = buildAccount1()
         val account2 = buildAccount2()
         val cat1Id = writeCategory("Main")

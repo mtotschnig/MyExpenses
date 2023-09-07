@@ -436,7 +436,6 @@
     <string name="account_deleted">Compte eliminat</string>
     <string name="menu_distribution_show_pie_char">Mostra gràfic de sectors</string>
     <string name="mark_void_instead_of_delete">No eliminis la transacció, marca-la com a invàlida.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d registres no es poden importar.</string>
     <string name="pref_grouping_periods">Períodes d\'agrupació</string>
     <string name="date_format_minute">Minut</string>
     <string name="plan_instance_state_open">obert</string>

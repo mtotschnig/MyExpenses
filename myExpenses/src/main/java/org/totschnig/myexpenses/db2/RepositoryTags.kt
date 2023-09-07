@@ -1,8 +1,15 @@
 package org.totschnig.myexpenses.db2
 
 import android.content.ContentProviderOperation
+import android.content.ContentUris
+import android.content.ContentValues
 import android.net.Uri
-import org.totschnig.myexpenses.provider.*
+import androidx.annotation.VisibleForTesting
+import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.useAndMap
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.io.IOException
 
@@ -52,3 +59,35 @@ private fun Repository.saveTags(linkUri: Uri, column: String, tags: List<Tag>?, 
        throw IOException("Saving tags failed")
    }
 }
+
+fun Repository.extractTagIds(tags: Collection<String?>, tagToId: MutableMap<String, Long>) =
+    tags.filterNotNull().map { tag ->
+        tagToId[tag] ?: extractTagId(tag).also { tagToId[tag] = it }
+    }
+
+private fun Repository.extractTagId(label: String) = find(label).takeIf { it > -1 } ?: writeTag(label)
+
+/**
+ * Looks for a tag with label
+ *
+ * @param label
+ * @return id or -1 if not found
+ */
+private fun Repository.find(label: String): Long {
+    val selection = "${DatabaseConstants.KEY_LABEL} = ?"
+    val selectionArgs = arrayOf(label.trim())
+    contentResolver.query(TransactionProvider.TAGS_URI, arrayOf(DatabaseConstants.KEY_ROWID), selection, selectionArgs, null)?.use {
+        if (it.moveToFirst())
+            return it.getLong(0)
+    }
+    return -1
+}
+
+@VisibleForTesting
+fun Repository.writeTag(label: String) =
+    contentResolver.insert(
+        TransactionProvider.TAGS_URI,
+        ContentValues().apply { put(DatabaseConstants.KEY_LABEL, label.trim()) }
+    )?.let {
+        ContentUris.parseId(it)
+    } ?: -1

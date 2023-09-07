@@ -486,7 +486,6 @@
     <string name="csv_import_preview">Anteprima</string>
     <string name="menu_parse">Analisi</string>
     <string name="csv_import_field_mapped_more_than_once">%s è associata più di una volta.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d registri non possono essere importati.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d registri sono stati eliminati.</string>
     <string name="csv_import_subcategory_requires_category">Se si associa una sottocategoria, è inoltre necessario associare la categoria.</string>
     <string name="cvs_import_set_first_line_as_header">La prima riga dovrebbe essere trattata come una riga di intestazione?</string>

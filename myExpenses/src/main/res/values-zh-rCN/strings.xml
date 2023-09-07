@@ -477,7 +477,6 @@
     <string name="csv_import_preview">预览</string>
     <string name="menu_parse">分析</string>
     <string name="csv_import_field_mapped_more_than_once">%s已映射多次。</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">无法导入 %d 个记录。</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d 笔记录被放弃。</string>
     <string name="csv_import_subcategory_requires_category">如果您映射子类别，则还必须映射主类别。</string>
     <string name="cvs_import_set_first_line_as_header">是否应把第一行当作标题行？</string>

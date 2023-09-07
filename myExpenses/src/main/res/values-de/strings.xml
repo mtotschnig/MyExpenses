@@ -484,7 +484,6 @@
     <string name="csv_import_preview">Vorschau</string>
     <string name="menu_parse">Analysieren</string>
     <string name="csv_import_field_mapped_more_than_once">%s wird mehr als einmal zugeordnet.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d Einträge konnten nicht importiert werden.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d Einträge wurden verworfen.</string>
     <string name="csv_import_subcategory_requires_category">Wenn Sie Unterkategorie zuordnen, müssen Sie auch die Kategorie zuordnen.</string>
     <string name="cvs_import_set_first_line_as_header">Soll die erste Zeile als Kopfzeile behandelt werden?</string>

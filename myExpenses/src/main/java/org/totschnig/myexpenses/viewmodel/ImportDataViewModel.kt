@@ -1,14 +1,17 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.content.ContentUris
 import android.text.TextUtils
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.AutoFillInfo
 import org.totschnig.myexpenses.db2.CategoryHelper
 import org.totschnig.myexpenses.db2.countAccounts
 import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.db2.findAnyOpenByLabel
 import org.totschnig.myexpenses.db2.loadAccount
+import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.export.CategoryInfo
 import org.totschnig.myexpenses.export.qif.QifUtils.reduceTransfers
 import org.totschnig.myexpenses.io.ImportAccount
@@ -16,15 +19,19 @@ import org.totschnig.myexpenses.io.ImportTransaction
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.saveTagLinks
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.viewmodel.data.Tag
 
-data class ImportResult(val label: String, val success: Int, val failure: Int)
+data class ImportResult(val label: String, val successCount: Int)
 
 val accountTitleToAccount: MutableMap<String, Account> = mutableMapOf()
 
 private val payeeToId: MutableMap<String, Long> = mutableMapOf()
+private val autoFillCache: MutableMap<Long, AutoFillInfo> = mutableMapOf()
 private val categoryToId: MutableMap<String, Long> = mutableMapOf()
+val tagToId: MutableMap<String, Long> = mutableMapOf()
 
 abstract class ImportDataViewModel(application: Application) :
     ContentResolvingAndroidViewModel(application) {
@@ -70,36 +77,21 @@ abstract class ImportDataViewModel(application: Application) :
 
     fun insertTransactions(
         accounts: List<ImportAccount>,
-        currencyUnit: CurrencyUnit
-    ) {
-        val reducedList = reduceTransfers(accounts)
-        val count = reducedList.size
-        for (i in 0 until count) {
-            val (_, memo, _, _, transactions) = reducedList[i]
-            val a = accountTitleToAccount[memo]
-            var countTransactions = 0
-            if (a != null) {
-                countTransactions = insertTransactions(a, currencyUnit, transactions)
-                /*                publishProgress(
-                                    if (countTransactions == 0) context.getString(
-                                        R.string.import_transactions_none,
-                                        a.label
-                                    ) else context.getString(
-                                        R.string.import_transactions_success,
-                                        countTransactions,
-                                        a.label
-                                    )
-                                )*/
-            }
-        }
+        currencyUnit: CurrencyUnit,
+        autofill: Boolean
+    ) = reduceTransfers(accounts).sumOf { (_, memo, _, _, transactions) ->
+        accountTitleToAccount[memo]?.let {
+            insertTransactions(it, currencyUnit, transactions, autofill)
+            transactions.size
+        } ?: 0
     }
 
     fun insertPayees(payees: Set<String>): Int {
         var count = 0
         for (payee in payees) {
-            repository.findPayee(payee) ?: repository.createPayee(payee).also {
+            (repository.findPayee(payee) ?: repository.createPayee(payee).also {
                 if (it != null) count++
-            }?.let {
+            })?.let {
                 payeeToId[payee] = it
             }
         }
@@ -110,12 +102,12 @@ abstract class ImportDataViewModel(application: Application) :
         CategoryHelper.insert(repository, it.name, categoryToId, true)
     }
 
-    fun insertTransactions(
+    private fun insertTransactions(
         account: Account,
         currencyUnit: CurrencyUnit,
-        transactions: List<ImportTransaction>
-    ): Int {
-        var count = 0
+        transactions: List<ImportTransaction>,
+        autofill: Boolean
+    ) {
         for (transaction in transactions) {
             val t = transaction.toTransaction(account, currencyUnit)
             t.payeeId = payeeToId[transaction.payee]
@@ -127,16 +119,23 @@ abstract class ImportDataViewModel(application: Application) :
                     s.parentId = t.id
                     s.status = DatabaseConstants.STATUS_UNCOMMITTED
                     findToAccount(split, s)
-                    findCategory(split, s)
+                    findCategory(split, s, autofill)
                     s.save()
                 }
             } else {
-                findCategory(transaction, t)
+                findCategory(transaction, t, autofill)
             }
-            t.save(true)
-            count++
+            t.save(true)?.let {
+                transaction.tags?.let { list ->
+                    repository.saveTagsForTransaction(
+                        list.mapNotNull { tag ->
+                            tagToId[tag]?.let { id -> Tag(id, tag) }
+                        },
+                        ContentUris.parseId(it)
+                    )
+                }
+            }
         }
-        return count
     }
 
     private fun findToAccount(transaction: ImportTransaction, t: Transaction) {
@@ -147,7 +146,12 @@ abstract class ImportDataViewModel(application: Application) :
         }
     }
 
-    private fun findCategory(transaction: ImportTransaction, t: Transaction) {
-        t.catId = categoryToId[transaction.category]
+    private fun findCategory(transaction: ImportTransaction, t: Transaction, autofill: Boolean) {
+        t.catId = categoryToId[transaction.category] ?: if (autofill) {
+            t.payeeId?.let {
+                (autoFillCache[it] ?: repository.autoFill(it)
+                    ?.apply { autoFillCache[it] = this })?.categoryId
+            }
+        } else null
     }
 }
