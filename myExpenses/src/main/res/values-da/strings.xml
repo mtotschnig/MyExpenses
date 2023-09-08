@@ -296,7 +296,7 @@
     <string name="progress_dialog_deleting">Objekter slettes</string>
     <string name="progress_dialog_printing">Generating %s</string>
     <string name="qif_parse_result">Fundet: %1$s regnskaber; %2$s kategorier og %3$s parter</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Der findes flere konti i QIF filen.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Der findes flere konti i %s filen.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Matcher ikke eksisterende konto.</string>
     <string name="reference_number">Referencenummer</string>
     <string name="restore_db_failure">Gendannelse af databasen mislykkedes.</string>

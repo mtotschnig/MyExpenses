@@ -311,7 +311,7 @@
     <string name="progress_dialog_deleting">Excluindo objetos</string>
     <string name="progress_dialog_printing">Gerando %s</string>
     <string name="qif_parse_result">Analisada: %1$s contas, %2$s categorias e %3$s parceiros</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Foram encontradas várias contas no ficheiro QIF.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Foram encontradas várias contas no ficheiro %s.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Não é possível mesclá-las na conta atual.</string>
     <string name="reference_number">Número de referência</string>
     <string name="restore_db_failure">Não foi possível restaurar o banco de dados.</string>

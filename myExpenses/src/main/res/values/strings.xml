@@ -338,7 +338,8 @@
     <!-- %s is replaced with format (PDF, HTML) -->
     <string name="progress_dialog_printing">Generating %s</string>
     <string name="qif_parse_result">Parsed: %1$s accounts; %2$s categories and %3$s parties</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Multiple accounts found in QIF file.</string>
+    <!-- %s is replaced with format (CSV, QIF) -->
+    <string name="qif_parse_failure_found_multiple_accounts">Multiple accounts found in %s file.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Cannot merge them into existing account.</string>
     <string name="reference_number">Reference Number</string>
     <string name="restore_db_failure">Database restore failed.</string>

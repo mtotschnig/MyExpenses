@@ -321,7 +321,7 @@
     <string name="progress_dialog_deleting">Đang xóa mục</string>
     <string name="progress_dialog_printing">Đang tạo tập tin %s</string>
     <string name="qif_parse_result">Đã phân tích : %1$s tài khoản; %2$s danh mục và %3$s bên giao dịch</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Phát hiện nhiều tài khoản trong tập tin QIF.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Phát hiện nhiều tài khoản trong tập tin %s.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Không thể ghép chúng vào tài khoản hiện có.</string>
     <string name="reference_number">Số tham chiếu</string>
     <string name="restore_db_failure">Xảy ra lỗi khi khôi phục cơ sở dữ liệu</string>

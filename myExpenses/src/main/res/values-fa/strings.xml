@@ -535,8 +535,8 @@
     <string name="pref_more_info_dialog_title">مجوز و اعتبار</string>
     <string name="pref_planning_calendar_summary">تقویمی را انتخاب کنید که در آن برنامه‌ها برای تراکنش‌های آتی و تکراری ذخیره می‌شوند</string>
     <string name="pref_qif_export_file_encoding_title">کدبندی نویسه</string>
-    <string name="pref_share_target_summary">اگر می‌خواهید بین برنامه‌های مناسب (ایمیل، دراپباکس، گوگل داکس، ...) یکی را انتخاب کنید، یا URL را در یکی از طرح‌های پشتیبانی‌شده ارائه کنید، خالی بگذارید</string>
-    <string name="qif_parse_failure_found_multiple_accounts">چندین حساب در فایل QIF یافت شد.</string>
+    <string name="pref_share_target_summary">اگر می‌خواهید بین برنامه‌های مناسب (ایمیل، دراپباکس، گوگل داکس، …) یکی را انتخاب کنید، یا URL را در یکی از طرح‌های پشتیبانی‌شده ارائه کنید، خالی بگذارید</string>
+    <string name="qif_parse_failure_found_multiple_accounts">چندین حساب در فایل %s یافت شد.</string>
     <string name="restore_backup_file_not_found">هیچ فایل %1$s در بایگانی \"%2$s\" یافت نشد</string>
     <string name="save_transaction_error">ذخیره تراکنش های جدید از الگو ممکن نیست.</string>
     <plurals name="not_deletable_mapped_transactions">

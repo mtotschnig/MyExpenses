@@ -330,7 +330,7 @@
     <string name="progress_dialog_deleting">Изтриване на обекти</string>
     <string name="progress_dialog_printing">Генериране на %s</string>
     <string name="qif_parse_result">Анализирани: %1$s сметки; %2$s категории и %3$s страни</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Открити са множество сметки в QIF файла.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Открити са множество сметки в %s файла.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Не могат да бъдат обединени в съществуваща сметка.</string>
     <string name="reference_number">Референтен номер</string>
     <string name="restore_db_failure">Неуспешно възстановяване на база данни.</string>

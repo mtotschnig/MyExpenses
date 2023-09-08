@@ -58,7 +58,9 @@ class QifImport : ProtectedFragmentActivity() {
         currency: String?,
         withTransactions: Boolean,
         withCategories: Boolean,
-        withParties: Boolean, encoding: String?
+        withParties: Boolean,
+        encoding: String?,
+        autoFillCategories: Boolean
     ) {
         supportFragmentManager.beginTransaction()
             .add(
@@ -71,7 +73,7 @@ class QifImport : ProtectedFragmentActivity() {
             )
             .commitNow()
         importViewModel.importData(mUri, qifDateFormat, accountId, currencyContext[currency!!], withTransactions,
-            withCategories, withParties, encoding).observe(this) {
+            withCategories, withParties, encoding, autoFillCategories).observe(this) {
                 it.onFailure {
                     progressDialogFragment?.appendToMessage(it.safeMessage)
                 }

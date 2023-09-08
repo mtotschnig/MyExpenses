@@ -175,7 +175,7 @@
     <string name="pref_perform_share_title">Deel exports en back-ups</string>
     <string name="pref_planning_calendar_summary">Selecteer de kalender waar plannen voor toekomstige en terugkerende transacties worden opgeslagen</string>
     <string name="pref_security_question_summary">Hiermee kunt u de app ontgrendelen als u uw wachtwoord bent vergeten.</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Meerdere accounts gevonden in QIF-bestand.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Meerdere accounts gevonden in %s-bestand.</string>
     <string name="pref_ui_language_default">Systeemstandaard</string>
     <string name="pref_ui_theme_title">Thema</string>
     <plurals name="save_transaction_from_template_success">

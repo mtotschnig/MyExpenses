@@ -16,6 +16,8 @@ import java.io.InputStreamReader
 
 class QifImportViewModel(application: Application) : ImportDataViewModel(application) {
 
+    override val format= "QIF"
+
     fun importData(
         uri: Uri,
         qifDateFormat: QifDateFormat,
@@ -24,7 +26,8 @@ class QifImportViewModel(application: Application) : ImportDataViewModel(applica
         withTransactions: Boolean,
         withCategories: Boolean,
         withParties: Boolean,
-        encoding: String?
+        encoding: String?,
+        autoFillCategories: Boolean
     ): LiveData<Result<Unit>> = liveData(context = coroutineContext()) {
 
         emit(runCatching {
@@ -51,7 +54,7 @@ class QifImportViewModel(application: Application) : ImportDataViewModel(applica
                     null,
                     null
                 )
-                doImport(parser, withParties, withCategories, withTransactions, accountId, currencyUnit, uri)
+                doImport(parser, withParties, withCategories, withTransactions, accountId, currencyUnit, uri, autoFillCategories)
                 contentResolver.call(
                     TransactionProvider.DUAL_URI,
                     TransactionProvider.METHOD_BULK_END,
@@ -70,7 +73,8 @@ class QifImportViewModel(application: Application) : ImportDataViewModel(applica
         withTransactions: Boolean,
         accountId: Long,
         currencyUnit: CurrencyUnit,
-        uri: Uri
+        uri: Uri,
+        autoFillCategories: Boolean
     ) {
         if (withParties) {
             val totalParties = insertPayees(parser.payees)
@@ -102,7 +106,7 @@ class QifImportViewModel(application: Application) : ImportDataViewModel(applica
             } else {
                 if (parser.accounts.size > 1) {
                     publishProgress(
-                        getString(R.string.qif_parse_failure_found_multiple_accounts)
+                        getString(R.string.qif_parse_failure_found_multiple_accounts, format)
                                 + " "
                                 + getString(R.string.qif_parse_failure_found_multiple_accounts_cannot_merge)
                     )
@@ -114,7 +118,7 @@ class QifImportViewModel(application: Application) : ImportDataViewModel(applica
                 accountTitleToAccount[parser.accounts[0].memo] = repository.loadAccount(accountId)
                     ?: throw Exception("Exception during QIF import. Did not get instance from DB for id $accountId")
             }
-            insertTransactions(parser.accounts, currencyUnit, false)
+            insertTransactions(parser.accounts, currencyUnit, autoFillCategories)
         }
     }
 }

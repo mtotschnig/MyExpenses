@@ -330,7 +330,7 @@
     <string name="progress_dialog_deleting">Usuwanie obiektów</string>
     <string name="progress_dialog_printing">Generowanie pliku %s</string>
     <string name="qif_parse_result">Zanalizowano: %1$s kont; %2$s kategorii oraz %3$s partii</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Znaleziono wiele kont w pliku QIF.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Znaleziono wiele kont w pliku %s.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nie można importu do istniejącego konta.</string>
     <string name="reference_number">Numer Odniesienia</string>
     <string name="restore_db_failure">Przywracanie bazy danych nie powiodło się.</string>

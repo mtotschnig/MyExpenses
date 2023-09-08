@@ -39,6 +39,7 @@ val tagToId: MutableMap<String, Long> = mutableMapOf()
 
 abstract class ImportDataViewModel(application: Application) :
     ContentResolvingAndroidViewModel(application) {
+    abstract val format: String
     private val publishProgressInternal: MutableSharedFlow<String?> = MutableSharedFlow()
     val publishProgress: SharedFlow<String?> = publishProgressInternal
 
@@ -74,7 +75,7 @@ abstract class ImportDataViewModel(application: Application) :
                         nrOfAccounts + importCount > ContribFeature.FREE_ACCOUNTS
                     ) {
                         throw Exception(
-                            localizedContext.getString(R.string.qif_parse_failure_found_multiple_accounts) + " " +
+                            localizedContext.getString(R.string.qif_parse_failure_found_multiple_accounts, format) + " " +
                                     ContribFeature.ACCOUNTS_UNLIMITED.buildUsageLimitString(
                                         localizedContext
                                     ) +
@@ -178,8 +179,8 @@ abstract class ImportDataViewModel(application: Application) :
     private fun findCategory(transaction: ImportTransaction, t: Transaction, autofill: Boolean) {
         t.catId = categoryToId[transaction.category] ?: if (autofill) {
             t.payeeId?.let {
-                (autoFillCache[it] ?: repository.autoFill(it)
-                    ?.apply { autoFillCache[it] = this })?.categoryId
+                (autoFillCache[it] ?:
+                repository.autoFill(it)?.apply { autoFillCache[it] = this })?.categoryId
             }
         } else null
     }

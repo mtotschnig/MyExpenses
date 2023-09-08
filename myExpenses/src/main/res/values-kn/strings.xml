@@ -329,7 +329,7 @@
     <string name="progress_dialog_deleting">ವಸ್ತುಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತಿದೆ</string>
     <string name="progress_dialog_printing">%s ರಚಿಸಲಾಗುತ್ತಿದೆ</string>
     <string name="qif_parse_result">ಪಾರ್ಸ್ ಮಾಡಲಾಗಿದೆ: %1$s ಖಾತೆಗಳು; %2$s ವಿಭಾಗಗಳು ಮತ್ತು %3$s ಪಕ್ಷಗಳು</string>
-    <string name="qif_parse_failure_found_multiple_accounts">QIF ಫೈಲ್‌ನಲ್ಲಿ ಬಹು ಖಾತೆಗಳು ಕಂಡುಬರುತ್ತವೆ.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">%s ಫೈಲ್‌ನಲ್ಲಿ ಬಹು ಖಾತೆಗಳು ಕಂಡುಬರುತ್ತವೆ.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">ಅವುಗಳನ್ನು ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಖಾತೆಗೆ ವಿಲೀನಗೊಳಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.</string>
     <string name="reference_number">ರೆಫ಼ರೆನ್ಸ್ ಸಂಖ್ಯೆ</string>
     <string name="restore_db_failure">ಡೇಟಾಬೇಸ್ ಮರುಸ್ಥಾಪನೆ ವಿಫಲವಾಗಿದೆ.</string>

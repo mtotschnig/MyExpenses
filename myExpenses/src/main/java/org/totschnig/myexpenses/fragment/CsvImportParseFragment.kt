@@ -279,7 +279,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
         get() = binding.AccountTable.AccountType.selectedItem as AccountType
 
     val autoFillCategories: Boolean
-        get() = binding.autofillCategories.isChecked
+        get() = binding.AutoFillTable.autofillCategories.isChecked
 
     companion object {
         const val PREF_KEY_IMPORT_CSV_DATE_FORMAT = "import_csv_date_format"

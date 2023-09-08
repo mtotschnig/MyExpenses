@@ -293,7 +293,7 @@
     <string name="progress_dialog_deleting">Brisanje predmeta</string>
     <string name="progress_dialog_printing">Generiranje %s-a</string>
     <string name="qif_parse_result">Obrađeno: %1$s računa; %2$s kategorije i %3$s stranke</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Pronađeno je više računa u QIF datoteci.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Pronađeno je više računa u %s datoteci.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Ne mogu se sjediniti u postojeći račun.</string>
     <string name="reference_number">Referentni broj</string>
     <string name="restore_db_failure">Obnavljanje baze podataka nije uspjelo.</string>

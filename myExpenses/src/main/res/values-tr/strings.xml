@@ -330,7 +330,7 @@
     <string name="progress_dialog_deleting">Nesneler siliniyor</string>
     <string name="progress_dialog_printing">%s oluşturuluyor</string>
     <string name="qif_parse_result">Ayrıştırıldı:  %1$s hesap,  %2$s kategori ve %3$s kişi</string>
-    <string name="qif_parse_failure_found_multiple_accounts">QIF dosyasında birden çok hesap bulundu.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">%s dosyasında birden çok hesap bulundu.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Bunlar mevcut bir hesapla birleştirilemez.</string>
     <string name="reference_number">Referans sayısı</string>
     <string name="restore_db_failure">Veri tabanı geri yüklemesi başarısız oldu.</string>

@@ -5,8 +5,11 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import android.widget.CheckBox
 import android.widget.Spinner
+import android.widget.TableRow
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import org.totschnig.myexpenses.MyApplication
@@ -29,6 +32,8 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
     private lateinit var dateFormatSpinner: Spinner
     private lateinit var currencySpinner: Spinner
     private lateinit var encodingSpinner: Spinner
+    private lateinit var autoFillRow: TableRow
+    private lateinit var autoFillCategories: CheckBox
     @Suppress("UNCHECKED_CAST")
     private val accountsAdapter: IdAdapter<AccountMinimal>
         get() = accountSpinner.adapter as IdAdapter<AccountMinimal>
@@ -90,7 +95,8 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
                 mImportTransactions.isChecked,
                 mImportCategories.isChecked,
                 mImportParties.isChecked,
-                encoding
+                encoding,
+                autoFillCategories.isChecked
             )
         } else {
             super.onClick(dialog, id)
@@ -99,6 +105,8 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
 
     override fun setupDialogView(view: View) {
         super.setupDialogView(view)
+        autoFillRow = view.findViewById(R.id.AutoFillRow)
+        autoFillCategories = view.findViewById(R.id.autofill_categories)
         accountSpinner = view.findViewById(R.id.Account)
         accountSpinner.adapter = IdAdapter<AccountMinimal>(requireContext())
         accountSpinner.onItemSelectedListener = this
@@ -127,8 +135,10 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
                 accountSpinner.setSelection(accountsAdapter.getPosition(viewModel.accountId))
             }
         }
-        view.findViewById<View>(R.id.AccountType).visibility =
-            View.GONE //QIF data should specify type
+        view.findViewById<View>(R.id.AccountType).isVisible = false
+        mImportTransactions.setOnCheckedChangeListener { _, isChecked ->
+            autoFillRow.isVisible = isChecked
+        }
     }
 
     override fun onItemSelected(

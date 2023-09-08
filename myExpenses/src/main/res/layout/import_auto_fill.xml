@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/AutoFillRow"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center_vertical"
+    tools:showIn="@layout/import_csv_parse">
+
+    <TextView
+        style="@style/FormLabel"
+        android:text="@string/autofill" />
+
+    <LinearLayout
+        style="@style/FormField"
+        android:orientation="vertical">
+
+        <CheckBox
+            android:id="@+id/autofill_categories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/pref_manage_categories_title" />
+    </LinearLayout>
+</TableRow>

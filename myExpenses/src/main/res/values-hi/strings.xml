@@ -349,7 +349,7 @@
     <string name="progress_dialog_deleting">वस्तुओं को हटाना</string>
     <string name="restore_db_failure">डेटाबेस पुनर्स्थापना विफल रही।</string>
     <string name="restore_preferences_failure">प्राथमिकताएँ पुनर्स्थापना विफल रही</string>
-    <string name="qif_parse_failure_found_multiple_accounts">QIF फ़ाइल में एकाधिक खाते मिले।</string>
+    <string name="qif_parse_failure_found_multiple_accounts">%s फ़ाइल में एकाधिक खाते मिले।</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">उन्हें मौजूदा खाते में मर्ज नहीं किया जा सकता।</string>
     <string name="restore_backup_file_not_found">संग्रह \"%2$s\" में कोई फ़ाइल %1$s नहीं मिली</string>
     <string name="restore_preferences_success">प्राथमिकताएँ बैकअप से पुनर्स्थापित कर दी गई हैं।</string>

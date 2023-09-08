@@ -20,6 +20,8 @@ data class AccountConfiguration(val id: Long, val currency: String, val type: Ac
 
 class CsvImportViewModel(application: Application) : ImportDataViewModel(application) {
 
+    override val format= "CSV"
+
     fun parseFile(uri: Uri, delimiter: Char, encoding: String): LiveData<Result<List<CSVRecord>>> =
         liveData(context = coroutineContext()) {
             try {

@@ -5,6 +5,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
+import androidx.annotation.NonNull;
+
 import org.totschnig.myexpenses.R;
 
 public abstract class TextSourceDialogFragment extends
@@ -17,15 +19,15 @@ public abstract class TextSourceDialogFragment extends
     super();
   }
   @Override
-  protected void setupDialogView(View view) {
+  protected void setupDialogView(@NonNull View view) {
     super.setupDialogView(view);
   
-    mImportCategories = (CheckBox) view.findViewById(R.id.import_select_categories);
+    mImportCategories = view.findViewById(R.id.import_select_categories);
     if (mImportCategories != null) {
       mImportCategories.setOnCheckedChangeListener(this);
-      mImportParties = (CheckBox) view.findViewById(R.id.import_select_parties);
+      mImportParties = view.findViewById(R.id.import_select_parties);
       mImportParties.setOnCheckedChangeListener(this);
-      mImportTransactions = (CheckBox) view.findViewById(R.id.import_select_transactions);
+      mImportTransactions = view.findViewById(R.id.import_select_transactions);
       mImportTransactions.setOnCheckedChangeListener(this);
     }
   }

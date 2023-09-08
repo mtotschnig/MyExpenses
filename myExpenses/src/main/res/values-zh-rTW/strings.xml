@@ -327,7 +327,7 @@
     <string name="progress_dialog_deleting">刪除物件中…</string>
     <string name="progress_dialog_printing">生成%s檔案中</string>
     <string name="qif_parse_result">已解析：%1$s個帳戶； %2$s類別項目和%3$s交易對象</string>
-    <string name="qif_parse_failure_found_multiple_accounts">在QIF檔案中找到多個帳戶。</string>
+    <string name="qif_parse_failure_found_multiple_accounts">在%s檔案中找到多個帳戶。</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">無法將它們合併到現有帳戶中。</string>
     <string name="reference_number">參考編號</string>
     <string name="restore_db_failure">資料庫還原失敗。</string>

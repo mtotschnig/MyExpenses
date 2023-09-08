@@ -354,7 +354,7 @@
     <string name="all_contrib_key_features">Totes les funcions de Clau Contrib</string>
     <string name="pref_ui_home_screen_shortcuts">Dreceres a la pantalla d\'inici</string>
     <string name="progress_dialog_printing">Generant %s</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Múltiples comptes trobats a l\'arxiu QIF.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Múltiples comptes trobats a l\'arxiu %s.</string>
     <string name="contrib_feature_roadmap_voting_label">Votació correcta a <b> fulla de ruta per al desenvolupament </b></string>
     <string name="contrib_feature_history_label">Gràfica històrica</string>
     <string name="licence_status_free">Gratuït</string>

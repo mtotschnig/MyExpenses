@@ -333,7 +333,7 @@
     <string name="progress_dialog_deleting">Les objets sont effacés</string>
     <string name="progress_dialog_printing">Génération du %s</string>
     <string name="qif_parse_result">Analysé : %1$s comptes, %2$s catégories et %3$s tiers</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Plusieurs comptes trouvés dans le fichier QIF.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Plusieurs comptes trouvés dans le fichier %s.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Impossible de fusionner avec le compte existant.</string>
     <string name="reference_number">Numéro de référence</string>
     <string name="restore_db_failure">La restauration de la base de données a échoué.</string>
