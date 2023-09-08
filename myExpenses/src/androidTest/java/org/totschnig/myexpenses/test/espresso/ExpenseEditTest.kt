@@ -170,10 +170,10 @@ class ExpenseEditTest : BaseExpenseEditTest() {
     @Test
     fun shouldSaveTemplateWithAmount() {
         val template =
-            Template.getTypedNewInstance(Transactions.TYPE_TRANSFER, account1.id, currency1, false, null)
+            Template.getTypedNewInstance(contentResolver, Transactions.TYPE_TRANSFER, account1.id, currency1, false, null)
         template!!.setTransferAccountId(account2.id)
         template.title = "Test template"
-        template.save()
+        template.save(contentResolver)
         launch(intent.apply {
             putExtra(DatabaseConstants.KEY_TEMPLATEID, template.id)
         }).use {
@@ -181,7 +181,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             onView(withIdAndParent(R.id.AmountEditText, R.id.Amount))
                 .perform(scrollTo(), click(), ViewActions.typeText(amount.toString()))
             onView(withId(R.id.CREATE_COMMAND)).perform(click())
-            val restored = Template.getInstanceFromDb(template.id)
+            val restored = Template.getInstanceFromDb(contentResolver, template.id)
             assertEquals(Transactions.TYPE_TRANSFER, restored!!.operationType())
             assertEquals((-amount * 100).toLong(), restored.amount.amountMinor)
         }

@@ -10,7 +10,6 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.db2.Repository;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
-import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.CategoryTree;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -100,7 +99,7 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
   /**
    * made public to allow passing task to
    * {@link GrisbiImportHelper#importCats(CategoryTree, GrisbiImportTask)} and
-   * {@link Utils#importParties(ArrayList, GrisbiImportTask)}
+   * {@link Utils#importParties(Repository, ArrayList, GrisbiImportTask)}
    * 
    * @param i
    */
@@ -172,7 +171,7 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
       phaseChangedP = true;
       setMax(partiesList.size());
       publishProgress(0);
-      totalImportedParty = Utils.importParties(partiesList, this);
+      totalImportedParty = Utils.importParties(repository, partiesList, this);
     } else {
       totalImportedParty = -1;
     }

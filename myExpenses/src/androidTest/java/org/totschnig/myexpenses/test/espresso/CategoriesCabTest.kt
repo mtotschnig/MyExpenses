@@ -36,9 +36,6 @@ import java.util.*
 
 class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
 
-    private val contentResolver
-        get() = targetContext.contentResolver
-
     private lateinit var account: org.totschnig.myexpenses.model2.Account
     private var categoryId: Long = 0
     private val origListSize = 2
@@ -63,16 +60,16 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
         with(Transaction.getNewInstance(account.id, homeCurrency)) {
             amount = Money(homeCurrency, -1200L)
             catId = categoryId
-            save()
+            save(contentResolver)
         }
     }
 
     private fun fixtureWithMappedTemplate() {
         baseFixture()
-        with(Template(account.id, homeCurrency, Transactions.TYPE_TRANSACTION, null)) {
+        with(Template(contentResolver, account.id, homeCurrency, Transactions.TYPE_TRANSACTION, null)) {
             amount = Money(CurrencyUnit(Currency.getInstance("USD")), -1200L)
             catId = categoryId
-            save()
+            save(contentResolver)
         }
     }
 

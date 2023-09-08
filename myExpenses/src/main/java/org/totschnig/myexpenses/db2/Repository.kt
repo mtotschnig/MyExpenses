@@ -4,16 +4,18 @@ import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.net.Uri
 import androidx.core.database.getLongOrNull
 import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.Payee
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.AUTOFILL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.DEBTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.PAYEES_URI
@@ -41,9 +43,6 @@ open class Repository @Inject constructor(
     val contentResolver: ContentResolver = context.contentResolver
 
     //Payee
-    fun findOrWritePayeeInfo(payeeName: String, autoFill: Boolean) = findPayee(payeeName)?.let {
-        Pair(it, if (autoFill) autoFill(it) else null)
-    } ?: Pair(createPayee(payeeName)!!, null)
 
     fun autoFill(payeeId: Long): AutoFillInfo? {
         return contentResolver.query(
@@ -55,23 +54,6 @@ open class Repository @Inject constructor(
             }
         }
     }
-
-    internal fun findOrWritePayee(name: String) = findPayee(name) ?: createPayee(name)
-
-    private fun findPayee(name: String) = contentResolver.query(
-        PAYEES_URI,
-        arrayOf(KEY_ROWID),
-        "$KEY_PAYEE_NAME = ?",
-        arrayOf(name.trim()), null
-    )?.use {
-        if (it.moveToFirst()) it.getLong(0) else null
-    }
-
-    private fun createPayee(name: String) =
-        contentResolver.insert(PAYEES_URI, ContentValues().apply {
-            put(KEY_PAYEE_NAME, name.trim())
-            put(KEY_PAYEE_NAME_NORMALIZED, Utils.normalize(name))
-        })?.let { ContentUris.parseId(it) }
 
     //Transaction
     fun getUuidForTransaction(transactionId: Long) =
@@ -110,6 +92,19 @@ open class Repository @Inject constructor(
                 it.getInt(0)
             } ?: 0
     }
+
+    fun countTransactionsPerAccount(accountId: Long) =
+        count(TRANSACTIONS_URI, "$KEY_ACCOUNTID = ?", arrayOf(accountId.toString()))
+
+    /**
+     * @return the number of transactions that have been created since creation of the db based on sqllite sequence
+     */
+    open fun getSequenceCount() = contentResolver.query(
+        TransactionProvider.SQLITE_SEQUENCE_TRANSACTIONS_URI,
+        null, null, null, null
+    )?.use {
+        if (it.moveToFirst()) it.getLong(0) else null
+    } ?: 0L
 }
 
 @JvmInline

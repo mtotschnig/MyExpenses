@@ -21,7 +21,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import timber.log.Timber
-import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -60,12 +59,13 @@ class Fixture(inst: Instrumentation) {
         "WebDAV - https://my.private.cloud/webdav/MyExpenses"
     }
 
-    fun cleanup() {
-        Plan.delete(planId)
+    fun cleanup(contentResolver: ContentResolver) {
+        Plan.delete(contentResolver, planId)
     }
 
     fun setup(withPicture: Boolean, repository: Repository, defaultCurrency: CurrencyUnit) {
         this.repository = repository
+        val contentResolver = repository.contentResolver
         val foreignCurrency =
             appContext.appComponent.currencyContext()[if (defaultCurrency.code == "EUR") "GBP" else "EUR"]
         account1 = Account(
@@ -75,7 +75,7 @@ class Fixture(inst: Instrumentation) {
             description = appContext.getString(R.string.testData_account1Description),
             syncAccountName = syncAccount1
         ).createIn(repository)
-        appContext.contentResolver.update(
+        contentResolver.update(
             ContentUris.withAppendedId(TransactionProvider.ACCOUNT_GROUPINGS_URI, account1.id)
                 .buildUpon()
                 .appendPath(Grouping.WEEK.name).build(),
@@ -222,7 +222,7 @@ class Fixture(inst: Instrumentation) {
             val transfer = Transfer.getNewInstance(account1.id, defaultCurrency, account3.id)
             transfer.setAmount(Money(defaultCurrency, 25000L))
             transfer.setDate(Date(offset))
-            transfer.save()
+            transfer.save(contentResolver)
             offset -= 400000000
         }
 
@@ -234,13 +234,13 @@ class Fixture(inst: Instrumentation) {
             .persist()
 
         //Transaction 8: Split
-        val split: Transaction = SplitTransaction.getNewInstance(account1.id, defaultCurrency, true)
+        val split: Transaction = SplitTransaction.getNewInstance(contentResolver, account1.id, defaultCurrency, true)
         split.amount = Money(defaultCurrency, -8967L)
         split.status  = DatabaseConstants.STATUS_NONE
-        split.save(true)
+        split.save(contentResolver, true)
         val label = appContext.getString(R.string.testData_tag_project)
         val tagList = listOf(Tag(saveTag(label), label, 0))
-        split.saveTags(tagList)
+        split.saveTags(contentResolver, tagList)
         TransactionBuilder()
             .accountId(account1.id).parentId(split.id)
             .amount(defaultCurrency, -4523L)
@@ -265,6 +265,7 @@ class Fixture(inst: Instrumentation) {
             e.printStackTrace()
         }
         val template = Template.getTypedNewInstance(
+            contentResolver,
             Transactions.TYPE_TRANSACTION,
             account3.id, defaultCurrency,
             false,
@@ -289,10 +290,10 @@ class Fixture(inst: Instrumentation) {
                 template.title,
                 template.compileDescription(appContext)
             )
-                .save()!!
+                .save(contentResolver)!!
         )
         template.planId = planId
-        template.save()
+        template.save(contentResolver)
             ?: throw RuntimeException("Could not save template")
         val budget = Budget(
             0L,
@@ -349,7 +350,7 @@ class Fixture(inst: Instrumentation) {
         return ThreadLocalRandom.current().nextLong(n)
     }
 
-    private class TransactionBuilder {
+    private inner class TransactionBuilder {
         private var accountId: Long = 0
         private var parentId: Long? = null
         private var amount: Money? = null
@@ -418,7 +419,7 @@ class Fixture(inst: Instrumentation) {
             transaction.payee = payee
             transaction.comment = comment
             transaction.parentId = parentId
-            transaction.save()
+            transaction.save(repository.contentResolver)
             return transaction
         }
     }

@@ -330,7 +330,7 @@
     <string name="progress_dialog_deleting">Objekte werden gelöscht</string>
     <string name="progress_dialog_printing">Generierung von %s</string>
     <string name="qif_parse_result">Gefunden: %1$s Konten, %2$s Kategorien und %3$s parteien</string>
-    <string name="qif_parse_failure_found_multiple_accounts">In der QIF Datei wurden mehrere Konten gefunden.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">In der %s Datei wurden mehrere Konten gefunden.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Diese konten nicht mit einem bestehendes Konto zusammengefügt werden.</string>
     <string name="reference_number">Referenznummer</string>
     <string name="restore_db_failure">Fehler bei der Wiederherstellung der Datenbank.</string>
@@ -484,7 +484,6 @@
     <string name="csv_import_preview">Vorschau</string>
     <string name="menu_parse">Analysieren</string>
     <string name="csv_import_field_mapped_more_than_once">%s wird mehr als einmal zugeordnet.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d Einträge konnten nicht importiert werden.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d Einträge wurden verworfen.</string>
     <string name="csv_import_subcategory_requires_category">Wenn Sie Unterkategorie zuordnen, müssen Sie auch die Kategorie zuordnen.</string>
     <string name="cvs_import_set_first_line_as_header">Soll die erste Zeile als Kopfzeile behandelt werden?</string>

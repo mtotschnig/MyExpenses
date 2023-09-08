@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.activity
 
+import android.content.ContentResolver
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.typeText
@@ -7,12 +8,13 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.adevinta.android.barista.interaction.BaristaMenuClickInteractions.clickMenu
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.Payee
+import org.totschnig.myexpenses.db2.requireParty
 
 @RunWith(AndroidJUnit4::class)
 class ManagePartiesTest {
@@ -20,10 +22,13 @@ class ManagePartiesTest {
     private var payee1 = "John Doe"
     private var payee2 = "Hinz Finz"
 
+    private val contentResolver: ContentResolver
+        get() = InstrumentationRegistry.getInstrumentation().targetContext.contentResolver
+
     @Before
     fun fixture() {
-        Payee.maybeWrite(payee1)
-        Payee.maybeWrite(payee2)
+        contentResolver.requireParty(payee1)
+        contentResolver.requireParty(payee2)
         activityScenario = ActivityScenario.launch(ManageParties::class.java)
     }
 

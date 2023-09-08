@@ -123,7 +123,7 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
             contentResolver.observeQuery( builder.build(), null,
                 CalendarContract.Events.CALENDAR_ID + " = " + plannerCalendarId,
                 null, CalendarContract.Instances.BEGIN + " ASC", false)
-                .mapToList(mapper = PlanInstance.Companion::fromEventCursor)
+                .mapToList { PlanInstance.fromEventCursor(it, contentResolver, currencyContext) }
                 .collect {
                     val start = SpannableString(first.startDate().format(formatter))
                     val end = SpannableString(last.endDate().format(formatter))
@@ -188,6 +188,7 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
                 selectedInstances.forEach { planInstance ->
                     val instanceId = planInstance.instanceId
                     val pair = Transaction.getInstanceFromTemplateIfOpen(
+                        contentResolver,
                         planInstance.templateId,
                         instanceId
                     )
@@ -197,8 +198,8 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
                         it.valueDate = date
                         it.originPlanInstanceId = instanceId
                         it.status = DatabaseConstants.STATUS_NONE
-                        if (it.save(true) != null) {
-                            it.saveTags(pair.second)
+                        if (it.save(contentResolver, true) != null) {
+                            it.saveTags(contentResolver, pair.second)
                         }
                     }
                 }

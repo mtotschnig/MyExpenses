@@ -61,7 +61,7 @@ class OrientationChangeTest : BaseExpenseEditTest() {
     fun shouldKeepAccountAfterOrientationChange() {
         val transaction = Transaction.getNewInstance(account1.id, currency1)
         transaction.amount = Money(currency1, 500L)
-        transaction.save()
+        transaction.save(contentResolver)
         val i = Intent(targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
         testScenario = ActivityScenario.launch(i)
@@ -79,7 +79,7 @@ class OrientationChangeTest : BaseExpenseEditTest() {
         val transaction = Transaction.getNewInstance(account1.id, currency1)
         transaction.amount = Money(currency1, -500L)
         transaction.methodId = repository.findPaymentMethod(PreDefinedPaymentMethod.DIRECTDEBIT.name)
-        transaction.save()
+        transaction.save(contentResolver)
         val i = Intent(targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
         testScenario = ActivityScenario.launch(i)
@@ -106,7 +106,7 @@ class OrientationChangeTest : BaseExpenseEditTest() {
         val transaction = Transaction.getNewInstance(account1.id, currency1)
         transaction.amount = Money(currency1, -500L)
         transaction.crStatus = CrStatus.UNRECONCILED
-        transaction.save()
+        transaction.save(contentResolver)
         val i = Intent(targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
         testScenario = ActivityScenario.launch(i)
@@ -143,7 +143,7 @@ class OrientationChangeTest : BaseExpenseEditTest() {
         val id = with(Transaction.getNewInstance(account1.id, currency1)) {
             amount = Money(currency1, -500L)
             crStatus = CrStatus.UNRECONCILED
-            save()
+            save(contentResolver)
             id
         }
         testScenario = ActivityScenario.launch(

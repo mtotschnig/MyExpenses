@@ -10,10 +10,4 @@ abstract class ModelTest : BaseProviderTest() {
 
     fun writeCategory(label: String, parentId: Long?) =
         ContentUris.parseId(repository.saveCategory(Category(label = label, parentId = parentId))!!)
-
-    @Throws(Exception::class)
-    override fun setUp() {
-        super.setUp()
-        Model.setContentResolver(mockContentResolver)
-    }
 }

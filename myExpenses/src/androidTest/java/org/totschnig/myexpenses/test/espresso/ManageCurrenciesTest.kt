@@ -54,7 +54,7 @@ class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
         val accountId = repository.createAccount(account).id
         val op = Transaction.getNewInstance(accountId, currencyUnit)
         op.amount = Money(currencyUnit, -1200L)
-        op.save()
+        op.save(contentResolver)
         val before = getTotalAccountBalance(accountId)
         assertThat(before).isEqualTo(3800)
         val currency = create(CURRENCY_CODE, targetContext)

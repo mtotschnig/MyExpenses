@@ -37,7 +37,6 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.IconMarginSpan;
 import android.util.Xml;
-import android.view.MenuItem;
 import android.view.SubMenu;
 
 import androidx.annotation.NonNull;
@@ -50,11 +49,11 @@ import com.squareup.phrase.Phrase;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.db2.Repository;
+import org.totschnig.myexpenses.db2.RepositoryPartyKt;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
-import org.totschnig.myexpenses.model.Payee;
-import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
@@ -377,11 +376,13 @@ public class Utils {
     return handler.getResult();
   }
 
-  public static int importParties(ArrayList<String> partiesList,
+  public static int importParties(Repository repository, ArrayList<String> partiesList,
                                   GrisbiImportTask task) {
     int total = 0;
-    for (int i = 0; i < partiesList.size(); i++) {
-      if (Payee.maybeWrite(partiesList.get(i)) != -1) {
+    for (int i = 0, partiesListSize = partiesList.size(); i < partiesListSize; i++) {
+      String party = partiesList.get(i);
+      if (RepositoryPartyKt.findParty(repository, party) == null) {
+        RepositoryPartyKt.createParty(repository, party);
         total++;
       }
       if (task != null && i % 10 == 0) {

@@ -175,7 +175,7 @@
     <string name="pref_perform_share_title">Deel exports en back-ups</string>
     <string name="pref_planning_calendar_summary">Selecteer de kalender waar plannen voor toekomstige en terugkerende transacties worden opgeslagen</string>
     <string name="pref_security_question_summary">Hiermee kunt u de app ontgrendelen als u uw wachtwoord bent vergeten.</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Meerdere accounts gevonden in QIF-bestand.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Meerdere accounts gevonden in %s-bestand.</string>
     <string name="pref_ui_language_default">Systeemstandaard</string>
     <string name="pref_ui_theme_title">Thema</string>
     <plurals name="save_transaction_from_template_success">
@@ -443,7 +443,6 @@
     <string name="menu_distribution_aggreate">Verzamel uitgaven en inkomsten</string>
     <string name="folder_name">Mapnaam</string>
     <string name="menu_undelete_transaction">Verwijderen ongedaan maken</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d-records konden niet worden geïmporteerd.</string>
     <string name="cvs_import_set_first_line_as_header">Moet de eerste regel worden behandeld als een kopregel\?</string>
     <string name="pref_auto_backup_time_title">Tijd voor automatische back-up</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Verleen toegang</string>

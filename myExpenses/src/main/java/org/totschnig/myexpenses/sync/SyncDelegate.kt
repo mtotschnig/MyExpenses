@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -24,7 +25,7 @@ class SyncDelegate(
     val featureManager: FeatureManager,
     val repository: Repository,
     val homeCurrency: CurrencyUnit,
-    val resolver: (accountId: Long, transactionUUid: String) -> Long = Transaction::findByAccountAndUuid
+    val resolver: (accountId: Long, transactionUUid: String) -> Long = repository.contentResolver::findByAccountAndUuid
 ) {
 
     private val categoryToId: MutableMap<String, Long> = HashMap()
@@ -246,7 +247,7 @@ class SyncDelegate(
         var skipped = false
         val offset = ops.size
         var tagOpsCount = 0
-        val tagIds = change.tags()?.let { extractTagIds(it, tagToId) }
+        val tagIds = change.tags()?.let { repository.extractTagIds(it, tagToId) }
         when (change.type()) {
             TransactionChange.Type.created -> {
                 val transactionId = resolver(account.id, change.uuid())
@@ -394,12 +395,10 @@ class SyncDelegate(
         change.amount()?.let { values.put(DatabaseConstants.KEY_AMOUNT, it) }
         change.extractCatId()?.let { values.put(DatabaseConstants.KEY_CATID, it) }
         change.payeeName()?.let { name ->
-            Payee.extractPayeeId(name, payeeToId).takeIf { it != -1L }
-                ?.let { values.put(DatabaseConstants.KEY_PAYEEID, it) }
+            values.put(DatabaseConstants.KEY_PAYEEID, extractParty(name))
         }
         change.methodLabel()?.let { label ->
-            extractMethodId(label).takeIf { it != -1L }
-                ?.let { values.put(DatabaseConstants.KEY_METHODID, it) }
+            values.put(DatabaseConstants.KEY_METHODID, extractMethodId(label))
         }
         change.crStatus()?.let { values.put(DatabaseConstants.KEY_CR_STATUS, it) }
         change.referenceNumber()?.let { values.put(DatabaseConstants.KEY_REFERENCE_NUMBER, it) }
@@ -428,7 +427,12 @@ class SyncDelegate(
         }
     }
 
-    private fun extractMethodId(methodLabel: String): Long =
+    private fun extractParty(party: String): Long =
+        payeeToId[party] ?: repository.requireParty(party).also {
+            payeeToId[party] = it
+        }
+
+    fun extractMethodId(methodLabel: String): Long =
         methodToId[methodLabel] ?: (repository.findPaymentMethod(methodLabel).takeIf { it != -1L }
             ?: repository.writePaymentMethod(methodLabel, account.type)).also {
             methodToId[methodLabel] = it
@@ -469,10 +473,10 @@ class SyncDelegate(
         change.date()?.let { t.date = it }
         t.valueDate = change.valueDate() ?: t.date
         change.payeeName()?.let { name ->
-            Payee.extractPayeeId(name, payeeToId).takeIf { it != -1L }?.let { t.payeeId = it }
+            t.payeeId = extractParty(name)
         }
         change.methodLabel()?.let { label ->
-            extractMethodId(label).takeIf { it != -1L }?.let { t.methodId = it }
+            t.methodId = extractMethodId(label)
         }
         change.crStatus()?.let { t.crStatus = CrStatus.valueOf(it) }
         t.referenceNumber = change.referenceNumber()
@@ -500,7 +504,7 @@ class SyncDelegate(
                 }
             }
         }
-        return t.buildSaveOperations(offset, parentOffset, true, false)
+        return t.buildSaveOperations(repository.contentResolver, offset, parentOffset, true, false)
     }
 
     private fun filterDeleted(

@@ -21,10 +21,10 @@ class SelectedSumTest : BaseMyExpensesTest() {
         val account =  buildAccount("Test account 1")
         val op0 = Transaction.getNewInstance(account.id, homeCurrency)
         op0.amount = Money(CurrencyUnit.DebugInstance, -1200L)
-        op0.save()
+        op0.save(contentResolver)
         val times = 5
         for (i in 0 until times) {
-            op0.saveAsNew()
+            op0.saveAsNew(contentResolver)
         }
         launch(account.id)
     }

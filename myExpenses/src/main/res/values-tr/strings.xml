@@ -330,7 +330,7 @@
     <string name="progress_dialog_deleting">Nesneler siliniyor</string>
     <string name="progress_dialog_printing">%s oluşturuluyor</string>
     <string name="qif_parse_result">Ayrıştırıldı:  %1$s hesap,  %2$s kategori ve %3$s kişi</string>
-    <string name="qif_parse_failure_found_multiple_accounts">QIF dosyasında birden çok hesap bulundu.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">%s dosyasında birden çok hesap bulundu.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Bunlar mevcut bir hesapla birleştirilemez.</string>
     <string name="reference_number">Referans sayısı</string>
     <string name="restore_db_failure">Veri tabanı geri yüklemesi başarısız oldu.</string>
@@ -484,7 +484,6 @@
     <string name="csv_import_preview">Önizle</string>
     <string name="menu_parse">Çözümle</string>
     <string name="csv_import_field_mapped_more_than_once">%s bir kereden fazla haritalanmıştır.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d kayıt içe aktarılamadı.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d kayıt atılmıştır.</string>
     <string name="csv_import_subcategory_requires_category">Alt kategoriyi haritalarsanız, kategoriyi de haritalamanız gerekir.</string>
     <string name="cvs_import_set_first_line_as_header">İlk satır başlık satırı olarak kabul edilmeli mi?</string>

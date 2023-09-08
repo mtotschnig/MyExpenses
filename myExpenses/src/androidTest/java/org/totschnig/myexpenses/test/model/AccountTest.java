@@ -52,19 +52,19 @@ public class AccountTest extends ModelTest {
     op = Transaction.getNewInstance(account1.getId(), currencyUnit);
     op.setAmount(new Money(currencyUnit, -expense1));
     op.setCrStatus(CrStatus.CLEARED);
-    op.save();
+    op.save(getContentResolver());
     op.setAmount(new Money(currencyUnit, -expense2));
-    op.saveAsNew();
+    op.saveAsNew(getContentResolver());
     op.setAmount(new Money(currencyUnit, income1));
-    op.saveAsNew();
+    op.saveAsNew(getContentResolver());
     op.setAmount(new Money(currencyUnit, income2));
     op.setCatId(catId);
-    op.saveAsNew();
+    op.saveAsNew(getContentResolver());
     Transfer op1 = Transfer.getNewInstance(account1.getId(), currencyUnit, account2.getId());
     op1.setAmount(new Money(currencyUnit, transferP));
-    op1.save();
+    op1.save(getContentResolver());
     op1.setAmount(new Money(currencyUnit, -transferN));
-    op1.saveAsNew();
+    op1.saveAsNew(getContentResolver());
   }
 
   /**

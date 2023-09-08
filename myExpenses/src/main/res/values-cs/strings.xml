@@ -336,7 +336,7 @@
     <string name="progress_dialog_deleting">Odstraňování objektů</string>
     <string name="progress_dialog_printing">Vytváření souboru %s</string>
     <string name="qif_parse_result">Zanalyzováno: %1$s účty, %2$s kategorie a %3$s strany</string>
-    <string name="qif_parse_failure_found_multiple_accounts">V souboru QIF bylo nalezeno několik účtů.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">V souboru %s bylo nalezeno několik účtů.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nelze sloučit do stávajícího účtu.</string>
     <string name="reference_number">Referenční číslo</string>
     <string name="restore_db_failure">Obnovení databáze se nezdařilo.</string>
@@ -498,7 +498,6 @@
     <string name="csv_import_preview">Náhled</string>
     <string name="menu_parse">Spojit</string>
     <string name="csv_import_field_mapped_more_than_once">Položka %s je namapována více než jednou.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d záznamů se nezdařilo importovat.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d záznamů bylo zahozeno.</string>
     <string name="csv_import_subcategory_requires_category">Pokud mapujete podkategorii, musíte také mapovat kategorii.</string>
     <string name="cvs_import_set_first_line_as_header">Měl by první řádek fungovat jako řádek nadpisu?</string>

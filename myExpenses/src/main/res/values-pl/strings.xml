@@ -330,7 +330,7 @@
     <string name="progress_dialog_deleting">Usuwanie obiektów</string>
     <string name="progress_dialog_printing">Generowanie pliku %s</string>
     <string name="qif_parse_result">Zanalizowano: %1$s kont; %2$s kategorii oraz %3$s partii</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Znaleziono wiele kont w pliku QIF.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Znaleziono wiele kont w pliku %s.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nie można importu do istniejącego konta.</string>
     <string name="reference_number">Numer Odniesienia</string>
     <string name="restore_db_failure">Przywracanie bazy danych nie powiodło się.</string>
@@ -488,7 +488,6 @@
     <string name="csv_import_preview">Podgląd</string>
     <string name="menu_parse">Analia</string>
     <string name="csv_import_field_mapped_more_than_once">%s jest mapowany więcej niż jeden raz. </string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d rekordy nie mogły zostać zaimportowane.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%drekordy zostały odrzucone. </string>
     <string name="csv_import_subcategory_requires_category">Jeśli zmapujesz podkategorię, musisz także odwzorować kategorię.</string>
     <string name="cvs_import_set_first_line_as_header">Czy pierwszy wiersz powinien być traktowany jako linia nagłówka?</string>

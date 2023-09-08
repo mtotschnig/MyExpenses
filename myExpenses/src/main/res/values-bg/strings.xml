@@ -330,7 +330,7 @@
     <string name="progress_dialog_deleting">Изтриване на обекти</string>
     <string name="progress_dialog_printing">Генериране на %s</string>
     <string name="qif_parse_result">Анализирани: %1$s сметки; %2$s категории и %3$s страни</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Открити са множество сметки в QIF файла.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Открити са множество сметки в %s файла.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Не могат да бъдат обединени в съществуваща сметка.</string>
     <string name="reference_number">Референтен номер</string>
     <string name="restore_db_failure">Неуспешно възстановяване на база данни.</string>
@@ -484,7 +484,6 @@
     <string name="csv_import_preview">Предварителен оглед</string>
     <string name="menu_parse">Анализирай</string>
     <string name="csv_import_field_mapped_more_than_once">%s е свързан повече от веднъж.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">Не могат да бъдат внесени %d записа.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">Отхвърлени са %d записа.</string>
     <string name="csv_import_subcategory_requires_category">Ако свържете подкатегория, ще трябва да свържете и главната категория.</string>
     <string name="cvs_import_set_first_line_as_header">Да се приеме ли първия ред като заглавен?</string>

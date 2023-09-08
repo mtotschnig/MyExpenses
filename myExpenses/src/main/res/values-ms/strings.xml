@@ -325,7 +325,7 @@
     <string name="progress_dialog_deleting">Memadam objek</string>
     <string name="progress_dialog_printing">Menjana %s</string>
     <string name="qif_parse_result">Dihurai: %1$s akaun; %2$s kategori dan %3$s pihak</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Akaun berbilang ditemui dalam fail QIF.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Akaun berbilang ditemui dalam fail %s.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Tidak dapat gabung ia ke dalam akaun sedia ada.</string>
     <string name="reference_number">Nombor Rujukan</string>
     <string name="restore_db_failure">Pemulihan pangkalan data gagal.</string>
@@ -472,7 +472,6 @@
     <string name="csv_import_preview">Pratonton</string>
     <string name="menu_parse">Hurai</string>
     <string name="csv_import_field_mapped_more_than_once">%s telah dipetakan lebih dari sekali.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d rekod tidak dapat diimport.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d rekod telah disingkirkan.</string>
     <string name="csv_import_subcategory_requires_category">Jika anda petakan subkategori, anda juga petakan kategori.</string>
     <string name="cvs_import_set_first_line_as_header">Patutkah baris pertama dianggap sebagai tajuk?</string>

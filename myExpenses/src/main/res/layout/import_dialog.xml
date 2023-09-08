@@ -35,6 +35,9 @@
         <include layout="@layout/import_account" />
 
         <include layout="@layout/import_select_types" />
+
+        <include layout="@layout/import_auto_fill" />
+
     </TableLayout>
 
 </ScrollView>

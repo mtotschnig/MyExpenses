@@ -330,7 +330,7 @@
     <string name="progress_dialog_deleting">பொருட்கள் நீக்கப்படுகிறது</string>
     <string name="progress_dialog_printing">%s உருவாக்கப்படுகிறது</string>
     <string name="qif_parse_result">பாகுபடுத்தப்பட்டவை: %1$s கணக்குகள்; %2$s வகைகள் மற்றும் %3$s தரப்புகள்</string>
-    <string name="qif_parse_failure_found_multiple_accounts">QIF கோப்பில் பல கணக்குகள் கண்டுபிடிக்கப்பட்டன.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">%s கோப்பில் பல கணக்குகள் கண்டுபிடிக்கப்பட்டன.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">ஏற்கனவே உள்ள கணக்குடன் அவற்றை ஒன்றிணைக்க முடியாது.</string>
     <string name="reference_number">குறிப்பு எண்</string>
     <string name="restore_db_failure">தரவுத்தள மீட்டமைப்பு தோல்வியடைந்தது.</string>
@@ -484,7 +484,6 @@
     <string name="csv_import_preview">முன்னோட்டம்</string>
     <string name="menu_parse">பாகுபடுத்து</string>
     <string name="csv_import_field_mapped_more_than_once">%s ஒன்றுக்கு மேலாக தொடற்பு படுத்தப்பட்டுள்ளது.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d பதிவுகளை இறக்குமதி செய்ய முடியவில்லை.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d பதிவுகள்  நீக்கப்பட்டது.</string>
     <string name="csv_import_subcategory_requires_category">நீங்கள் துணை வகையைத் தொடற்பு படுத்தினால், அதன் வகையையும் தொடற்பு படுத்த வேண்டும்.</string>
     <string name="cvs_import_set_first_line_as_header">முதல் வரி ஒரு தலைப்பு வரியாக கருதப்பட வேண்டுமா?</string>

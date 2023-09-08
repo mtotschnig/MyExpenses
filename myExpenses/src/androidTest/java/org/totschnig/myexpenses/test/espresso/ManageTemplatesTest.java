@@ -49,25 +49,25 @@ public class ManageTemplatesTest extends BaseUiTest<ManageTemplates> {
 
   public void createInstances(Template.Action defaultAction) {
     CurrencyUnit currencyUnit = getHomeCurrency();
-    Template template = new Template(account1.getId(), currencyUnit, TYPE_TRANSACTION, null);
+    Template template = new Template(getContentResolver(), account1.getId(), currencyUnit, TYPE_TRANSACTION, null);
     template.setAmount(new Money(currencyUnit, -1200L));
     template.setDefaultAction(defaultAction);
     template.setTitle("Espresso Transaction Template " + defaultAction.name());
-    template.save();
-    template = Template.getTypedNewInstance(TYPE_TRANSFER, account1.getId(), currencyUnit, false, null);
+    template.save(getContentResolver());
+    template = Template.getTypedNewInstance(getContentResolver(), TYPE_TRANSFER, account1.getId(), currencyUnit, false, null);
     template.setAmount(new Money(currencyUnit, -1200L));
     template.setTransferAccountId(account2.getId());
     template.setTitle("Espresso Transfer Template " + defaultAction.name());
     template.setDefaultAction(defaultAction);
-    template.save();
-    template = Template.getTypedNewInstance(TYPE_SPLIT, account1.getId(), currencyUnit, false, null);
+    template.save(getContentResolver());
+    template = Template.getTypedNewInstance(getContentResolver(), TYPE_SPLIT, account1.getId(), currencyUnit, false, null);
     template.setAmount(new Money(currencyUnit, -1200L));
     template.setTitle("Espresso Split Template " + defaultAction.name());
     template.setDefaultAction(defaultAction);
-    template.save(true);
-    Template part = Template.getTypedNewInstance(TYPE_SPLIT, account1.getId(), currencyUnit, false, template.getId());
-    part.save();
-    assertThat(Transaction.countPerAccount(account1.getId())).isEqualTo(0);
+    template.save(getContentResolver(), true);
+    Template part = Template.getTypedNewInstance(getContentResolver(), TYPE_SPLIT, account1.getId(), currencyUnit, false, template.getId());
+    part.save(getContentResolver());
+    assertThat(getRepository().countTransactionsPerAccount(account1.getId())).isEqualTo(0);
   }
 
   @After
@@ -80,7 +80,7 @@ public class ManageTemplatesTest extends BaseUiTest<ManageTemplates> {
   }
 
   private void verifySaveAction() {
-    assertThat(Transaction. count(Transaction.CONTENT_URI, KEY_ACCOUNTID + " = ? AND " + KEY_PARENTID + " IS NULL",
+    assertThat(getRepository().count(Transaction.CONTENT_URI, KEY_ACCOUNTID + " = ? AND " + KEY_PARENTID + " IS NULL",
         new String[]{String.valueOf(account1.getId())})).isEqualTo(1);
   }
 
@@ -121,8 +121,8 @@ public class ManageTemplatesTest extends BaseUiTest<ManageTemplates> {
     onData(CursorMatchers.withRowString(DatabaseConstants.KEY_TITLE, title))
         .perform(click());
     switch (action) {
-      case "SAVE": verifySaveAction(); break;
-      case "EDIT": verifyEditAction(); break;
+      case "SAVE" -> verifySaveAction();
+      case "EDIT" -> verifyEditAction();
     }
   }
 

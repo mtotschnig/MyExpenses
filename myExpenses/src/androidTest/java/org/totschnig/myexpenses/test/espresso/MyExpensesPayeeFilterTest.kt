@@ -28,10 +28,10 @@ class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
         val op = Transaction.getNewInstance(account.id, homeCurrency)
         op.amount = Money(currency, -1200L)
         op.payee = payee1
-        op.save()
+        op.save(contentResolver)
         op.payee = payee2
         op.date = op.date - 10000
-        op.saveAsNew()
+        op.saveAsNew(contentResolver)
         launch(account.id)
     }
 

@@ -329,7 +329,7 @@
     <string name="progress_dialog_deleting">ವಸ್ತುಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತಿದೆ</string>
     <string name="progress_dialog_printing">%s ರಚಿಸಲಾಗುತ್ತಿದೆ</string>
     <string name="qif_parse_result">ಪಾರ್ಸ್ ಮಾಡಲಾಗಿದೆ: %1$s ಖಾತೆಗಳು; %2$s ವಿಭಾಗಗಳು ಮತ್ತು %3$s ಪಕ್ಷಗಳು</string>
-    <string name="qif_parse_failure_found_multiple_accounts">QIF ಫೈಲ್‌ನಲ್ಲಿ ಬಹು ಖಾತೆಗಳು ಕಂಡುಬರುತ್ತವೆ.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">%s ಫೈಲ್‌ನಲ್ಲಿ ಬಹು ಖಾತೆಗಳು ಕಂಡುಬರುತ್ತವೆ.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">ಅವುಗಳನ್ನು ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಖಾತೆಗೆ ವಿಲೀನಗೊಳಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.</string>
     <string name="reference_number">ರೆಫ಼ರೆನ್ಸ್ ಸಂಖ್ಯೆ</string>
     <string name="restore_db_failure">ಡೇಟಾಬೇಸ್ ಮರುಸ್ಥಾಪನೆ ವಿಫಲವಾಗಿದೆ.</string>
@@ -482,7 +482,6 @@
     <string name="csv_import_preview">ಮುನ್ನೋಟ</string>
     <string name="menu_parse">ಪಾರ್ಸ್</string>
     <string name="csv_import_field_mapped_more_than_once">%s ಅನ್ನು ಒಂದಕ್ಕಿಂತ ಹೆಚ್ಚು ಬಾರಿ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d ದಾಖಲೆಗಳನ್ನು ಆಮದು ಮಾಡಲಾಗಲಿಲ್ಲ.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d ದಾಖಲೆಗಳನ್ನು ತ್ಯಜಿಸಲಾಗಿದೆ.</string>
     <string name="csv_import_subcategory_requires_category">ನೀವು ಉಪವರ್ಗವನ್ನು ನಕ್ಷೆ ಮಾಡಿದರೆ, ನೀವು ವರ್ಗವನ್ನು ಸಹ ನಕ್ಷೆ ಮಾಡಬೇಕು.</string>
     <string name="cvs_import_set_first_line_as_header">ಮೊದಲ ಸಾಲನ್ನು ಹೆಡರ್ ಲೈನ್ ಎಂದು ಪರಿಗಣಿಸಬೇಕೇ?</string>

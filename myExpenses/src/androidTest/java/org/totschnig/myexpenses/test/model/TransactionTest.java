@@ -21,6 +21,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMI
 import android.database.Cursor;
 import android.net.Uri;
 
+import org.totschnig.myexpenses.db2.RepositoryTransactionKt;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
@@ -52,26 +53,26 @@ public class TransactionTest extends ModelTest {
   public void testTransaction() {
     CurrencyUnit currencyUnit = getHomeCurrency();
     String payee = "N.N";
-    long start = Transaction.getSequenceCount();
+    long start = getRepository().getSequenceCount();
     Transaction op1 = Transaction.getNewInstance(mAccount1.getId(), getHomeCurrency());
     op1.setAmount(new Money(currencyUnit, 100L));
     op1.setComment("test transaction");
     op1.setPictureUri(PictureDirHelper.getOutputMediaUri(false, getApp()));//we need an uri that is considered "home"
     op1.setPayee(payee);
-    op1.save();
+    op1.save(getRepository().getContentResolver());
     assertTrue(op1.getId() > 0);
-    assertEquals(start + 1, Transaction.getSequenceCount().longValue());
+    assertEquals(start + 1, getRepository().getSequenceCount());
     //save creates a payee as side effect
     assertEquals(1, countPayee(payee));
     Transaction restored = getTransactionFromDb(op1.getId());
     assertEquals(op1, restored);
 
     Long id = op1.getId();
-    Transaction.delete(id, false);
+    Transaction.delete(getContentResolver(), id, false);
     //Transaction sequence should report on the number of transactions that have been created
-    assertEquals(start + 1, Transaction.getSequenceCount().longValue());
+    assertEquals(start + 1, getRepository().getSequenceCount());
     assertNull("Transaction deleted, but can still be retrieved", getTransactionFromDb(id));
-    op1.saveAsNew();
+    op1.saveAsNew(getContentResolver());
     assertNotSame(op1.getId(), id);
     //the payee is still the same, so there should still be only one
     assertEquals(1, countPayee(payee));
@@ -84,7 +85,7 @@ public class TransactionTest extends ModelTest {
     op.setAmount(new Money(currencyUnit, 100));
     op.setComment("test transfer");
     op.setPictureUri(PictureDirHelper.getOutputMediaUri(false, getApp()));
-    op.save();
+    op.save(getContentResolver());
     assertTrue(op.getId() > 0);
     Transaction restored = getTransactionFromDb(op.getId());
     assertEquals(op, restored);
@@ -92,7 +93,7 @@ public class TransactionTest extends ModelTest {
     assertEquals(peer.getId(), op.getTransferPeer().longValue());
     assertEquals(op.getId(), peer.getTransferPeer().longValue());
     assertEquals(op.getTransferAccountId().longValue(), peer.getAccountId());
-    Transaction.delete(op.getId(), false);
+    Transaction.delete(getContentResolver(), op.getId(), false);
     assertNull("Transaction deleted, but can still be retrieved", getTransactionFromDb(op.getId()));
     assertNull("Transfer delete should delete peer, but peer can still be retrieved", getTransactionFromDb(peer.getId()));
   }
@@ -103,10 +104,10 @@ public class TransactionTest extends ModelTest {
     assertNotNull(op);
     op.setAmount(new Money(currencyUnit, 100));
     op.setComment("test transfer");
-    assertNotNull(op.save());
+    assertNotNull(op.save(getContentResolver()));
     op.setAccountId(mAccount2.getId());
     op.setTransferAccountId(mAccount3.getId());
-    assertNotNull(op.save());
+    assertNotNull(op.save(getContentResolver()));
     Transaction restored = getTransactionFromDb(op.getId());
     assertNotNull(restored);
     assertEquals(restored.getAccountId(), mAccount2.getId());
@@ -121,7 +122,7 @@ public class TransactionTest extends ModelTest {
 
   public void testSplitWithTransfer() {
     CurrencyUnit currencyUnit = getHomeCurrency();
-    SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1.getId(), currencyUnit);
+    SplitTransaction op1 = SplitTransaction.getNewInstance(getContentResolver(), mAccount1.getId(), currencyUnit);
     op1.setAmount(new Money(currencyUnit, 100L));
     op1.setComment("test split with transfer");
     assertTrue(op1.getId() > 0);
@@ -129,12 +130,12 @@ public class TransactionTest extends ModelTest {
     split1.setAmount(new Money(currencyUnit, 50L));
     assertEquals(split1.getParentId().longValue(), op1.getId());
     split1.setStatus(STATUS_UNCOMMITTED);
-    split1.save();
+    split1.save(getContentResolver());
     op1.setStatus(STATUS_NONE);
-    op1.save(true);
+    op1.save(getContentResolver(), true);
     assertTrue(split1.getId() > 0);
     Transfer splitRestored = (Transfer) getTransactionFromDb(split1.getId());
-    assertTrue(Transaction.hasParent(split1.getId()));
+    assertTrue(RepositoryTransactionKt.hasParent(getRepository(), split1.getId()));
     assertNotNull(splitRestored);
     assertEquals(splitRestored.getParentId().longValue(), op1.getId());
   }
@@ -144,7 +145,7 @@ public class TransactionTest extends ModelTest {
    */
   public void testSplit() {
     CurrencyUnit currencyUnit = getHomeCurrency();
-    SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1.getId(), currencyUnit);
+    SplitTransaction op1 = SplitTransaction.getNewInstance(getContentResolver(), mAccount1.getId(), currencyUnit);
     op1.setAmount(new Money(currencyUnit, 100L));
     op1.setComment("test transaction");
     op1.setPictureUri(PictureDirHelper.getOutputMediaUri(false, getApp()));
@@ -154,27 +155,27 @@ public class TransactionTest extends ModelTest {
     split1.setAmount(new Money(currencyUnit, 50L));
     assertEquals(split1.getParentId().longValue(), op1.getId());
     split1.setStatus(STATUS_UNCOMMITTED);
-    split1.save();
+    split1.save(getContentResolver());
     assertTrue(split1.getId() > 0);
     Transaction split2 = Transaction.getNewInstance(mAccount1.getId(), currencyUnit, op1.getId());
     split2.setAmount(new Money(currencyUnit, 50L));
     assertEquals(split2.getParentId().longValue(), op1.getId());
     split2.setStatus(STATUS_UNCOMMITTED);
-    split2.save();
+    split2.save(getContentResolver());
     assertTrue(split2.getId() > 0);
     op1.setStatus(STATUS_NONE);
-    op1.save(true);
+    op1.save(getContentResolver(), true);
     //we expect the parent to make sure that parts have the same date
     Transaction restored = getTransactionFromDb(op1.getId());
     assertEquals(op1, restored);
     Transaction split1Restored = getTransactionFromDb(split1.getId());
     assertEquals(restored.getDate(), split1Restored.getDate());
-    assertTrue(Transaction.hasParent(split1.getId()));
+    assertTrue(RepositoryTransactionKt.hasParent(getRepository(), split1.getId()));
     Transaction split2Restored = getTransactionFromDb(split2.getId());
     assertEquals(restored.getDate(), split2Restored.getDate());
-    assertTrue(Transaction.hasParent(split2.getId()));
+    assertTrue(RepositoryTransactionKt.hasParent(getRepository(), split2.getId()));
     restored.setCrStatus(CrStatus.CLEARED);
-    restored.save();
+    restored.save(getContentResolver());
     //splits should not be touched by simply saving the parent
     assertNotNull("Split parts deleted after saving parent", getTransactionFromDb(split1.getId()));
     assertNotNull("Split parts deleted after saving parent", getTransactionFromDb(split2.getId()));
@@ -182,13 +183,13 @@ public class TransactionTest extends ModelTest {
 
   public void testDeleteSplitWithPartTransfer() {
     CurrencyUnit currencyUnit = getHomeCurrency();
-    SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1.getId(), currencyUnit, false);
+    SplitTransaction op1 = SplitTransaction.getNewInstance(getContentResolver(), mAccount1.getId(), currencyUnit, false);
     Money money = new Money(currencyUnit, 100L);
     op1.setAmount(money);
-    op1.save();
+    op1.save(getContentResolver());
     Transaction split1 = new Transfer(mAccount1.getId(), money, mAccount2.getId(), op1.getId());
-    split1.save();
-    Transaction.delete(op1.getId(), false);
+    split1.save(getContentResolver());
+    Transaction.delete(getContentResolver(), op1.getId(), false);
     assertNull("Transaction deleted, but can still be retrieved", getTransactionFromDb(op1.getId()));
   }
 
@@ -201,29 +202,29 @@ public class TransactionTest extends ModelTest {
     Transaction op1 = Transaction.getNewInstance(mAccount1.getId(), currencyUnit);
     op1.setAmount(new Money(currencyUnit, 100L));
     op1.setCatId(catId1);
-    op1.save();
+    op1.save(getContentResolver());
     //saving a new transaction increases usage
     assertEquals(getCatUsage(catId1), 1);
     assertEquals(getCatUsage(catId2), 0);
     //updating a transaction without touching catId does not increase usage
     op1.setComment("Now with comment");
-    op1.save();
+    op1.save(getContentResolver());
     assertEquals(getCatUsage(catId1), 1);
     assertEquals(getCatUsage(catId2), 0);
     //updating category in transaction, does increase usage of new catId
     op1.setCatId(catId2);
-    op1.save();
+    op1.save(getContentResolver());
     assertEquals(getCatUsage(catId1), 1);
     assertEquals(getCatUsage(catId2), 1);
     //new transaction without cat, does not increase usage
     Transaction op2 = Transaction.getNewInstance(mAccount1.getId(), currencyUnit);
     op2.setAmount(new Money(currencyUnit, 100L));
-    op2.save();
+    op2.save(getContentResolver());
     assertEquals(getCatUsage(catId1), 1);
     assertEquals(getCatUsage(catId2), 1);
     //setting catId now does increase usage
     op2.setCatId(catId1);
-    op2.save();
+    op2.save(getContentResolver());
     assertEquals(getCatUsage(catId1), 2);
     assertEquals(getCatUsage(catId2), 1);
   }
@@ -234,30 +235,30 @@ public class TransactionTest extends ModelTest {
     assertEquals(0, getAccountUsage(mAccount2.getId()));
     Transaction op1 = Transaction.getNewInstance(mAccount1.getId(), currencyUnit);
     op1.setAmount(new Money(currencyUnit, 100L));
-    op1.save();
+    op1.save(getContentResolver());
     assertEquals(1, getAccountUsage(mAccount1.getId()));
     //transfer
     Transfer op2 = Transfer.getNewInstance(mAccount1.getId(), currencyUnit, mAccount2.getId());
     op2.setAmount(new Money(currencyUnit, 100L));
-    op2.save();
+    op2.save(getContentResolver());
     assertEquals(2, getAccountUsage(mAccount1.getId()));
     assertEquals(1, getAccountUsage(mAccount2.getId()));
     op1.setAccountId(mAccount2.getId());
-    op1.save();
+    op1.save(getContentResolver());
     assertEquals(2, getAccountUsage(mAccount2.getId()));
     //split
-    SplitTransaction op3 = SplitTransaction.getNewInstance(mAccount1.getId(), currencyUnit, false);
+    SplitTransaction op3 = SplitTransaction.getNewInstance(getContentResolver(), mAccount1.getId(), currencyUnit, false);
     op3.setAmount(new Money(currencyUnit, 100L));
-    op3.save();
+    op3.save(getContentResolver());
     Transaction split1 = Transaction.getNewInstance(mAccount1.getId(), currencyUnit, op3.getId());
     split1.setAmount(new Money(currencyUnit, 50L));
     split1.setStatus(STATUS_UNCOMMITTED);
-    split1.save();
+    split1.save(getContentResolver());
     Transaction split2 = Transaction.getNewInstance(mAccount1.getId(), currencyUnit, op3.getId());
     split2.setAmount(new Money(currencyUnit, 50L));
     split2.setStatus(STATUS_UNCOMMITTED);
-    split2.save();
-    op3.save();
+    split2.save(getContentResolver());
+    op3.save(getContentResolver());
     assertEquals(3, getAccountUsage(mAccount1.getId()));
   }
 

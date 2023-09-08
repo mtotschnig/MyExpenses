@@ -325,7 +325,7 @@
     <string name="progress_dialog_deleting">オブジェクトを削除中</string>
     <string name="progress_dialog_printing">%s を生成中</string>
     <string name="qif_parse_result">解析しました: %1$s 勘定; %2$s 分類 および %3$s 取引先</string>
-    <string name="qif_parse_failure_found_multiple_accounts">QIF ファイルに複数の勘定が見つかりました。</string>
+    <string name="qif_parse_failure_found_multiple_accounts">%s ファイルに複数の勘定が見つかりました。</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">既存の勘定にそれをマージすることはできません。</string>
     <string name="reference_number">参照番号</string>
     <string name="restore_db_failure">データベースの復元に失敗しました。</string>
@@ -474,7 +474,6 @@
     <string name="csv_import_preview">プレビュー</string>
     <string name="menu_parse">解析</string>
     <string name="csv_import_field_mapped_more_than_once">%s は複数に配置されます。</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d レコードインポートできませんでした。</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d レコード破棄されました。</string>
     <string name="csv_import_subcategory_requires_category">副分類を配置する場合は、分類も配置する必要があります。</string>
     <string name="cvs_import_set_first_line_as_header">最初の行をヘッダー行として扱いますか?</string>

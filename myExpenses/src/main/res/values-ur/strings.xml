@@ -275,7 +275,7 @@
     <string name="pref_ui_language_default">سسٹم ڈیفالٹ</string>
     <string name="pref_ui_language_title">زبان</string>
     <string name="pref_ui_theme_dark">اندھیرا</string>
-    <string name="qif_parse_failure_found_multiple_accounts">QIF فائل میں متعدد اکاؤنٹس ملے.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">%s فائل میں متعدد اکاؤنٹس ملے.</string>
     <string name="pref_ui_theme_light">روشنی</string>
     <string name="pref_ui_theme_title">تھیم</string>
     <string name="restore_db_failure">ڈیٹا بیس کی بحالی ناکام ہو گئی.</string>
@@ -866,7 +866,6 @@
     <string name="icons_for_categories">زمرہ جات کے لیے شبیہیں</string>
     <string name="io_error_unable_to_create_file">فولڈر %2$s میں فائل %1$s بنانے سے قاصر</string>
     <string name="csv_import_subcategory_requires_category">اگر آپ ذیلی زمرہ کا نقشہ بناتے ہیں، تو آپ کو زمرہ کا نقشہ بھی بنانا ہوگا.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d ریکارڈز درآمد نہیں کیے جا سکے.</string>
     <string name="pref_custom_decimal_format_summary">اگر آپ اپنے مقامی کے لیے پہلے سے طے شدہ فارمیٹ سے مطمئن نہیں ہیں، تو اسے اپنی ضروریات کے مطابق ڈھال لیں۔ ڈیفالٹ فارمیٹ کو بحال کرنے کے لیے خالی چھوڑ دیں.</string>
     <string name="pref_auto_backup_summary">روزانہ مخصوص وقت پر ڈیٹا بیس کا بیک اپ لیں (صرف اس صورت میں جب ڈیٹا تبدیل ہوا ہو).</string>
     <string name="calendar_permission_required"><i>{app_name}</i> کو آپ کے کیلنڈر تک رسائی حاصل کرنے کے لیے اجازت درکار ہے، تاکہ مستقبل اور اعادی لین دین کے لیے منصوبے بنائے جائیں.</string>

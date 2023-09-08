@@ -53,21 +53,21 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
         Transaction.getNewInstance(account1.id, CurrencyUnit.DebugInstance).apply {
             amount = Money(CurrencyUnit.DebugInstance, -expense1)
             crStatus = CrStatus.CLEARED
-            save()
+            save(contentResolver)
             amount = Money(CurrencyUnit.DebugInstance, -expense2)
-            saveAsNew()
+            saveAsNew(contentResolver)
             amount = Money(CurrencyUnit.DebugInstance, income1)
-            saveAsNew()
+            saveAsNew(contentResolver)
             amount = Money(CurrencyUnit.DebugInstance, income2)
             this.catId = categoryId
-            saveAsNew()
+            saveAsNew(contentResolver)
         }
 
         Transfer.getNewInstance(account1.id, CurrencyUnit.DebugInstance, account2.id).apply {
             setAmount(Money(CurrencyUnit.DebugInstance, transferP))
-            save()
+            save(contentResolver)
             setAmount(Money(CurrencyUnit.DebugInstance, -transferN))
-            saveAsNew()
+            saveAsNew(contentResolver)
         }
     }
 

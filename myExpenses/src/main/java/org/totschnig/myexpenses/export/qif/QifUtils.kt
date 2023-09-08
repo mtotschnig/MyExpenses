@@ -8,7 +8,8 @@
 //adapted to My Expenses by Michael Totschnig
 package org.totschnig.myexpenses.export.qif
 
-import android.text.TextUtils
+import org.totschnig.myexpenses.io.ImportAccount
+import org.totschnig.myexpenses.io.ImportTransaction
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.math.BigDecimal
@@ -179,69 +180,88 @@ object QifUtils {
 
     @JvmStatic
     fun twoSidesOfTheSameTransfer(
-        fromAccount: QifAccount,
-        fromTransaction: QifTransaction, toAccount: QifAccount,
-        toTransaction: QifTransaction
-    ): Boolean {
-        return (toTransaction.isTransfer
-                && toTransaction.toAccount == fromAccount.memo && fromTransaction.toAccount == toAccount.memo && fromTransaction.date == toTransaction.date && fromTransaction.amount == toTransaction.amount.negate())
-    }
+        fromAccount: ImportAccount,
+        fromTransaction: ImportTransaction,
+        toAccount: ImportAccount,
+        toTransaction: ImportTransaction
+    ) = toTransaction.isTransfer &&
+            toTransaction.toAccount == fromAccount.memo &&
+            fromTransaction.toAccount == toAccount.memo &&
+            fromTransaction.date == toTransaction.date &&
+            fromTransaction.amount == toTransaction.amount.negate()
 
-    fun reduceTransfers(accounts: List<QifAccount>,
-                                accountTitleToAccount: Map<String, QifAccount>) {
-        for (fromAccount in accounts) {
-            val transactions: List<QifTransaction> = fromAccount.transactions
-            reduceTransfers(fromAccount, transactions, accountTitleToAccount)
-        }
-    }
+    /**
+     * first we transform all transfers without counterpart into normal transactions
+     * second we remove one part of the transfer
+     */
+    fun reduceTransfers(
+        accounts: List<ImportAccount>
+    ) = accounts
+        .map { it.copy(transactions = transformUnknownTransfers(it, it.transactions, accounts)) }
+        .map { it.copy(transactions = reduceTransfers(it, it.transactions, accounts)) }
 
+    /**
+     * We remove one side of the transfer (either the one that is not part of a split or the one
+     * that is an expense.
+     */
     private fun reduceTransfers(
-        fromAccount: QifAccount,
-        transactions: List<QifTransaction>,
-        accountTitleToAccount: Map<String, QifAccount>
-    ) {
-        for (fromTransaction in transactions) {
-            if (fromTransaction.isTransfer && fromTransaction.amount.signum() == -1) {
-                var found = false
+        fromAccount: ImportAccount,
+        transactions: List<ImportTransaction>,
+        allAccounts: List<ImportAccount>
+    ): List<ImportTransaction> {
+        return transactions.mapNotNull { fromTransaction ->
+            if (fromTransaction.isTransfer) {
+                var shouldReduce = false
                 if (fromTransaction.toAccount != fromAccount.memo) {
-                    accountTitleToAccount[fromTransaction.toAccount]?.let {
-                        val iterator = it.transactions.iterator()
-                        while (iterator.hasNext()) {
-                            val toTransaction = iterator.next()
-                            if (twoSidesOfTheSameTransfer(
-                                    fromAccount, fromTransaction,
-                                    it, toTransaction
-                                )
-                            ) {
-                                iterator.remove()
-                                found = true
-                                break
-                            }
+                    allAccounts.find { it.memo == fromTransaction.toAccount }?.let { toAccount ->
+                        shouldReduce = toAccount.transactions.any { toTransaction ->
+                            (fromTransaction.amount.signum() == -1 && twoSidesOfTheSameTransfer(fromAccount, fromTransaction, toAccount, toTransaction)) ||
+                                    toTransaction.splits?.any { split ->
+                                        twoSidesOfTheSameTransfer(fromAccount, fromTransaction, toAccount, split)
+                                    } == true
                         }
                     }
                 }
-                if (!found) {
-                    convertIntoRegularTransaction(fromTransaction)
-                }
+                if (shouldReduce) return@mapNotNull null
             }
-            if (fromTransaction.splits != null) {
-                reduceTransfers(fromAccount, fromTransaction.splits, accountTitleToAccount)
-            }
+            fromTransaction
         }
     }
 
-    fun convertIntoRegularTransaction(fromTransaction: QifTransaction) {
-        fromTransaction.memo = prependMemo(
-            "Transfer: " + fromTransaction.toAccount, fromTransaction
-        )
-        fromTransaction.toAccount = null
+    private fun transformUnknownTransfers(
+        fromAccount: ImportAccount,
+        transactions: List<ImportTransaction>,
+        allAccounts: List<ImportAccount>
+    ): List<ImportTransaction> = transactions.map { fromTransaction ->
+        (if (fromTransaction.isTransfer) {
+            var shouldTransform = true
+            if (fromTransaction.toAccount != fromAccount.memo) {
+                allAccounts.find { it.memo == fromTransaction.toAccount }?.let { toAccount ->
+                    val hasCounterPart = toAccount.transactions.any { toTransaction ->
+                        twoSidesOfTheSameTransfer(fromAccount, fromTransaction, toAccount, toTransaction) ||
+                                toTransaction.splits?.any { split ->
+                                    twoSidesOfTheSameTransfer(fromAccount, fromTransaction, toAccount, split)
+                                } == true
+                    }
+                    shouldTransform = !hasCounterPart
+                }
+            }
+            if (shouldTransform) convertIntoRegularTransaction(fromTransaction) else fromTransaction
+        } else fromTransaction).copy(splits = fromTransaction.splits?.let {
+            transformUnknownTransfers(fromAccount, it, allAccounts)
+        })
     }
 
-    private fun prependMemo(prefix: String, fromTransaction: QifTransaction): String {
-        return if (TextUtils.isEmpty(fromTransaction.memo)) {
-            prefix
-        } else {
+    private fun convertIntoRegularTransaction(fromTransaction: ImportTransaction) = fromTransaction.copy(
+            memo = prependMemo("Transfer: " + fromTransaction.toAccount, fromTransaction),
+            toAccount = null
+        )
+
+    private fun prependMemo(prefix: String, fromTransaction: ImportTransaction): String {
+        return if (fromTransaction.memo.isNullOrEmpty()) {
             prefix + " | " + fromTransaction.memo
+        } else {
+            prefix
         }
     }
 

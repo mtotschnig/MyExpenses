@@ -333,7 +333,7 @@
     <string name="progress_dialog_deleting">Les objets sont effacés</string>
     <string name="progress_dialog_printing">Génération du %s</string>
     <string name="qif_parse_result">Analysé : %1$s comptes, %2$s catégories et %3$s tiers</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Plusieurs comptes trouvés dans le fichier QIF.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Plusieurs comptes trouvés dans le fichier %s.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Impossible de fusionner avec le compte existant.</string>
     <string name="reference_number">Numéro de référence</string>
     <string name="restore_db_failure">La restauration de la base de données a échoué.</string>
@@ -491,7 +491,6 @@
     <string name="csv_import_preview">Prévisualisation</string>
     <string name="menu_parse">Analyse</string>
     <string name="csv_import_field_mapped_more_than_once">%s est attribué plus d\'une fois.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d enregistrements n\'ont pas pu être importés.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d enregistrements ont été rejetés.</string>
     <string name="csv_import_subcategory_requires_category">Si vous attribuez une sous-catégorie, vous devez également attribuez une catégorie.</string>
     <string name="cvs_import_set_first_line_as_header">La première ligne devrait-elle être traitée comme une ligne d\'en-tête ?</string>

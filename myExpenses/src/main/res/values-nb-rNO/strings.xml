@@ -168,7 +168,7 @@
     <string name="select">Velg</string>
     <string name="save_transaction_and_new_success">Lagret</string>
     <string name="reference_number">Referansenummer</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Fant flere kontoer i QIF-filen.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Fant flere kontoer i %s-filen.</string>
     <string name="progress_dialog_printing">Genererer %s</string>
     <string name="progress_dialog_deleting">Sletter objekter …</string>
     <string name="pref_visit_website_title">Besøk nettsiden</string>

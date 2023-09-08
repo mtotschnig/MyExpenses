@@ -1,7 +1,5 @@
 package org.totschnig.myexpenses.test.espresso
 
-import android.view.View
-import android.view.ViewGroup
 import androidx.compose.ui.test.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
@@ -10,10 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth
 import org.hamcrest.CoreMatchers.allOf
-import org.hamcrest.Description
-import org.hamcrest.Matcher
 import org.hamcrest.Matchers
-import org.hamcrest.TypeSafeMatcher
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
@@ -41,10 +36,10 @@ class RemapAccountTest : BaseMyExpensesTest() {
         account3 = buildAccount("K3")
         Transaction(account1.id, createMoney()).also {
             it.setDate(ZonedDateTime.now().minusDays(4))
-            it.save()
+            it.save(contentResolver)
         }
         transfer = Transfer(account1.id, createMoney(), account2.id).also {
-            it.save()
+            it.save(contentResolver)
         }
         launch(account1.id)
     }

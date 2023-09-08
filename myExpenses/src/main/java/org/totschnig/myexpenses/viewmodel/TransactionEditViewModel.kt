@@ -86,7 +86,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
 
     fun plan(planId: Long): LiveData<Plan?> = liveData(context = coroutineContext()) {
-        emit(Plan.getInstanceFromDb(planId))
+        emit(Plan.getInstanceFromDb(contentResolver, planId))
     }
 
     fun loadMethods(isIncome: Boolean, type: AccountType) {
@@ -126,8 +126,9 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 val existingTemplateMaybeUpdateShortcut =
                     Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && transaction is Template && transaction.id != 0L
                 savePicture(transaction)
-                val result = transaction.save(true)?.let { ContentUris.parseId(it) }
-                    ?: throw Throwable("Error while saving transaction")
+                val result =
+                    transaction.save(contentResolver, true)?.let { ContentUris.parseId(it) }
+                        ?: throw Throwable("Error while saving transaction")
                 if (existingTemplateMaybeUpdateShortcut) {
                     if (
                         ShortcutManagerCompat.getShortcuts(getApplication(), FLAG_MATCH_PINNED)
@@ -146,7 +147,11 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                         )
                     }
                 }
-                if (!transaction.saveTags(tagsLiveData.value)) throw Throwable("Error while saving tags")
+                if (!transaction.saveTags(
+                        contentResolver,
+                        tagsLiveData.value
+                    )
+                ) throw Throwable("Error while saving tags")
 
                 result
             })
@@ -208,9 +213,8 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     fun cleanupSplit(id: Long, isTemplate: Boolean): LiveData<Unit> =
         liveData(context = coroutineContext()) {
             emit(
-                if (isTemplate) Template.cleanupCanceledEdit(id) else SplitTransaction.cleanupCanceledEdit(
-                    id
-                )
+                if (isTemplate) Template.cleanupCanceledEdit(contentResolver, id) else
+                    SplitTransaction.cleanupCanceledEdit(contentResolver, id)
             )
         }
 
@@ -231,11 +235,21 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         parentId: Long?
     ): Template? = withContext(coroutineContext()) {
         repository.getLastUsedOpenAccount()?.let {
-            Template.getTypedNewInstance(operationType, it.first, it.second, true, parentId)
+            Template.getTypedNewInstance(
+                contentResolver,
+                operationType,
+                it.first,
+                it.second,
+                true,
+                parentId
+            )
         }
     }
 
-    private suspend fun ensureLoadData(accountId: Long, currencyUnit: CurrencyUnit?): Pair<Long, CurrencyUnit>? {
+    private suspend fun ensureLoadData(
+        accountId: Long,
+        currencyUnit: CurrencyUnit?
+    ): Pair<Long, CurrencyUnit>? {
         return if (accountId > 0 && currencyUnit != null)
             accountId to currencyUnit
         else withContext(coroutineContext()) {
@@ -266,7 +280,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     suspend fun newSplit(accountId: Long, currencyUnit: CurrencyUnit?): SplitTransaction? =
         ensureLoadData(accountId, currencyUnit)?.let {
-            SplitTransaction.getNewInstance(it.first, it.second, true)
+            SplitTransaction.getNewInstance(contentResolver, it.first, it.second, true)
         }
 
     fun loadSplitParts(parentId: Long, parentIsTemplate: Boolean) {
@@ -334,12 +348,16 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         extras: Bundle?
     ): LiveData<Transaction?> = liveData(context = coroutineContext()) {
         when (task) {
-            InstantiationTask.TEMPLATE -> Template.getInstanceFromDbWithTags(transactionId)
-            InstantiationTask.TRANSACTION_FROM_TEMPLATE -> Transaction.getInstanceFromTemplateWithTags(
+            InstantiationTask.TEMPLATE -> Template.getInstanceFromDbWithTags(
+                contentResolver,
                 transactionId
             )
 
+            InstantiationTask.TRANSACTION_FROM_TEMPLATE ->
+                Transaction.getInstanceFromTemplateWithTags(contentResolver, transactionId)
+
             InstantiationTask.TRANSACTION -> Transaction.getInstanceFromDbWithTags(
+                contentResolver,
                 transactionId,
                 homeCurrencyProvider.homeCurrencyUnit
             )
@@ -353,14 +371,15 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
             InstantiationTask.TEMPLATE_FROM_TRANSACTION -> with(
                 Transaction.getInstanceFromDb(
-                    transactionId, homeCurrencyProvider.homeCurrencyUnit
+                    contentResolver, transactionId, homeCurrencyProvider.homeCurrencyUnit
                 )
             ) {
-                Pair(Template(this, payee ?: label), this.loadTags())
+                Pair(Template(contentResolver, this, payee ?: label), this.loadTags(contentResolver))
             }
         }?.also { pair ->
             if (forEdit) {
                 pair.first.prepareForEdit(
+                    contentResolver,
                     clone,
                     clone && prefHandler.getBoolean(PrefKey.CLONE_WITH_CURRENT_DATE, true)
                 )

@@ -241,7 +241,6 @@
     <string name="cvs_import_set_first_line_as_header">మొదటి పంక్తిని హెడర్ లైన్‌గా పరిగణించాలా\?</string>
     <string name="csv_import_subcategory_requires_category">మీరు ఉపవర్గాన్ని మ్యాప్ చేస్తే, మీరు కూడా వర్గాన్ని మ్యాప్ చేయాలి.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d రికార్డులు విస్మరించబడ్డాయి.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d రికార్డులు దిగుమతి కాలేదు.</string>
     <string name="csv_import_field_mapped_more_than_once">%s ఒకటి కంటే ఎక్కువసార్లు మ్యాప్ చేయబడింది.</string>
     <string name="menu_parse">పార్స్</string>
     <string name="csv_import_preview">పరిదృశ్యం</string>
@@ -382,7 +381,7 @@
     <string name="restore_db_failure">డేటాబేస్ పునరుద్ధరణ విఫలమైంది.</string>
     <string name="reference_number">సూచన సంఖ్య</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">వాటిని ఇప్పటికే ఉన్న ఖాతాలో విలీనం చేయలేరు.</string>
-    <string name="qif_parse_failure_found_multiple_accounts">QIF ఫైల్‌లో బహుళ ఖాతాలు కనుగొనబడ్డాయి.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">%s ఫైల్‌లో బహుళ ఖాతాలు కనుగొనబడ్డాయి.</string>
     <string name="qif_parse_result">అన్వయించబడింది: %1$s ఖాతాలు; %2$s వర్గాలు మరియు %3$s పార్టీలు</string>
     <string name="progress_dialog_printing">%s ను ఉత్పత్తి చేస్తోంది</string>
     <string name="progress_dialog_deleting">వస్తువులను తొలగిస్తోంది</string>

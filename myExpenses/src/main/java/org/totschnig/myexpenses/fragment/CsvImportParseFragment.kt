@@ -36,7 +36,7 @@ import org.totschnig.myexpenses.util.ImportFileResultHandler.FileNameHostFragmen
 import org.totschnig.myexpenses.util.checkNewAccountLimitation
 import org.totschnig.myexpenses.util.linkInputsWithLabels
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
-import org.totschnig.myexpenses.viewmodel.ImportViewModel
+import org.totschnig.myexpenses.viewmodel.ImportConfigurationViewModel
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
@@ -52,7 +52,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
         get() = _fileNameBinding!!
     private var mUri: Uri? = null
     private val currencyViewModel: CurrencyViewModel by viewModels()
-    private val viewModel: ImportViewModel by viewModels()
+    private val viewModel: ImportConfigurationViewModel by viewModels()
 
     @Inject
     lateinit var prefHandler: PrefHandler
@@ -279,7 +279,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
         get() = binding.AccountTable.AccountType.selectedItem as AccountType
 
     val autoFillCategories: Boolean
-        get() = binding.autofillCategories.isChecked
+        get() = binding.AutoFillTable.autofillCategories.isChecked
 
     companion object {
         const val PREF_KEY_IMPORT_CSV_DATE_FORMAT = "import_csv_date_format"

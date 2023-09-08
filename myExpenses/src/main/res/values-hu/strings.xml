@@ -330,7 +330,7 @@
     <string name="progress_dialog_deleting">Objektumok törlése</string>
     <string name="progress_dialog_printing">%s létrehozása</string>
     <string name="qif_parse_result">Elemezve: %1$s fiók; %2$s kategória és %3$s fél</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Több fiók található a QIF fájlban.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Több fiók található a %s fájlban.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nem lehet egyesíteni őket egy meglévő fiókban.</string>
     <string name="reference_number">Referencia szám</string>
     <string name="restore_db_failure">Az adatbázis visszaállítása sikertelen.</string>
@@ -484,7 +484,6 @@
     <string name="csv_import_preview">Előnézet</string>
     <string name="menu_parse">Elemzés</string>
     <string name="csv_import_field_mapped_more_than_once">%s többször van hozzárendelve.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d feljegyzést nem lehetett importálni.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d feljegyzés el lett vetve.</string>
     <string name="csv_import_subcategory_requires_category">Ha alkategóriát feleltet meg, akkor a kategóriát is meg kell feleltetnie.</string>
     <string name="cvs_import_set_first_line_as_header">Legyen az első sor fejlécként kezelve?</string>

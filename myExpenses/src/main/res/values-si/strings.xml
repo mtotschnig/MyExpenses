@@ -252,7 +252,7 @@
     <string name="pref_visit_website_title">වෙබ් අඩවිය සදහා පිවිසෙන්න </string>
     <string name="progress_dialog_deleting">අවයව මකාදැමීම </string>
     <string name="qif_parse_result">ව්‍යාකරණ විග්‍රහ කිරීම: ගිණුම් %1$s; ප්‍රබේධ  %2$s සහ  පක්ෂ %3$s</string>
-    <string name="qif_parse_failure_found_multiple_accounts">QIF ලිපිගොනුවෙන් බහු ගිණුම් සමු විය </string>
+    <string name="qif_parse_failure_found_multiple_accounts">%s ලිපිගොනුවෙන් බහු ගිණුම් සමු විය </string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">දැනට පවතින ගිණුමට එකතු කල නොහැකිය </string>
     <string name="reference_number">යොමු අංකය </string>
     <string name="restore_db_failure">දත්ත ගබඩාව නැවත පිහිටුවීම අසාර්කයි </string>

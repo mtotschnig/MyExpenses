@@ -328,7 +328,7 @@
     <string name="progress_dialog_deleting">Objektuak ezabatzen</string>
     <string name="progress_dialog_printing">%sa sortzen</string>
     <string name="qif_parse_result">Aztertuta: %1$s kontu; %2$s kategoria eta %3$s onuradun/ordaintzaile</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Hainbat kontu aurkitu dira QIF fitxategian.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Hainbat kontu aurkitu dira %s fitxategian.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Ezin dira uneko kontuan bateratu</string>
     <string name="reference_number">Erreferentzia zenbakia</string>
     <string name="restore_db_failure">Huts egin du datu-basea berreskuratzean.</string>
@@ -479,7 +479,6 @@
     <string name="csv_import_preview">Aurreikusi</string>
     <string name="menu_parse">Prozesatu</string>
     <string name="csv_import_field_mapped_more_than_once">%s behin baino gehiagotan mapeatu da.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d sarrera ezin izan dira inportatu.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d sarrera baztertu dira.</string>
     <string name="csv_import_subcategory_requires_category">Azpikategoria mapeatzen baduzu kategoria ere mapeatu behar duzu.</string>
     <string name="cvs_import_set_first_line_as_header">Lehen lerroa izenburutzat hartu?</string>

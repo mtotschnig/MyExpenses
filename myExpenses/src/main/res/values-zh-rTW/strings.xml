@@ -327,7 +327,7 @@
     <string name="progress_dialog_deleting">刪除物件中…</string>
     <string name="progress_dialog_printing">生成%s檔案中</string>
     <string name="qif_parse_result">已解析：%1$s個帳戶； %2$s類別項目和%3$s交易對象</string>
-    <string name="qif_parse_failure_found_multiple_accounts">在QIF檔案中找到多個帳戶。</string>
+    <string name="qif_parse_failure_found_multiple_accounts">在%s檔案中找到多個帳戶。</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">無法將它們合併到現有帳戶中。</string>
     <string name="reference_number">參考編號</string>
     <string name="restore_db_failure">資料庫還原失敗。</string>
@@ -478,7 +478,6 @@
     <string name="csv_import_preview">預覽</string>
     <string name="menu_parse">解析</string>
     <string name="csv_import_field_mapped_more_than_once">%s已對應多次。</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d個紀錄無法被匯入。</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d個紀錄被捨棄了。</string>
     <string name="csv_import_subcategory_requires_category">如果您要對應子類別，則還必須對應主類別。</string>
     <string name="cvs_import_set_first_line_as_header">是否將第一行當作標題行？</string>

@@ -59,7 +59,7 @@ import java.util.*
 
 open class MyExpensesViewModel(
     application: Application,
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ContentResolvingAndroidViewModel(application) {
 
     private val hiddenAccountsInternal: MutableStateFlow<Int> = MutableStateFlow(0)
@@ -457,7 +457,7 @@ open class MyExpensesViewModel(
         liveData(context = coroutineContext()) {
             emit(itemIds.count {
                 try {
-                    Transaction.undelete(it) > 0
+                    Transaction.undelete(contentResolver, it) > 0
                 } catch (e: SQLiteConstraintException) {
                     CrashHandler.reportWithDbSchema(e)
                     false
@@ -474,9 +474,9 @@ open class MyExpensesViewModel(
             var successCount = 0
             var failureCount = 0
             for (id in transactionIds) {
-                val transaction = Transaction.getInstanceFromDb(id, homeCurrencyProvider.homeCurrencyUnit)
-                transaction.prepareForEdit(true, false)
-                val ops = transaction.buildSaveOperations(true)
+                val transaction = Transaction.getInstanceFromDb(contentResolver, id, homeCurrencyProvider.homeCurrencyUnit)
+                transaction.prepareForEdit(contentResolver, true, false)
+                val ops = transaction.buildSaveOperations(contentResolver,true)
                 val newUpdate =
                     ContentProviderOperation.newUpdate(TRANSACTIONS_URI).withValue(column, rowId)
                 if (transaction.isSplit) {
@@ -588,7 +588,7 @@ open class MyExpensesViewModel(
                 val date = cursor.getLong(KEY_DATE)
                 val crStatus =
                     enumValueOrDefault(cursor.getString(KEY_CR_STATUS), CrStatus.UNRECONCILED)
-                SplitTransaction.getNewInstance(accountId, currencyUnit, false).also {
+                SplitTransaction.getNewInstance(contentResolver, accountId, currencyUnit, false).also {
                     it.amount = amount
                     it.date = date
                     it.payeeId = payeeId
@@ -596,7 +596,7 @@ open class MyExpensesViewModel(
                 }
             }
         }?.let { parent ->
-            val operations = parent.buildSaveOperations(false)
+            val operations = parent.buildSaveOperations(contentResolver, false)
             operations.add(
                 ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
                     .withValues(ContentValues().apply {
@@ -649,7 +649,6 @@ open class MyExpensesViewModel(
     }
 
     companion object {
-        const val KEY_CURRENT_PAGE = "CURRENT_PAGE"
         fun prefNameForCriteria(accountId: Long) = "filter_%s_${accountId}"
     }
 }

@@ -68,20 +68,23 @@ import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.RemoteException;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.db2.RepositoryPartyKt;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -373,7 +376,7 @@ public class Transaction extends Model implements ITransaction {
    * @param homeCurrency May be null in case of split part
    * @return instance of {@link Transaction} or {@link Transfer} or null if not found
    */
-  public static Transaction getInstanceFromDb(long id, @Nullable CurrencyUnit homeCurrency) {
+  public static Transaction getInstanceFromDb(ContentResolver contentResolver, long id, @Nullable CurrencyUnit homeCurrency) {
     Transaction t;
     final CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
     String[] projection = new String[]{KEY_ROWID, KEY_DATE, KEY_VALUE_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
@@ -382,7 +385,7 @@ public class Transaction extends Model implements ITransaction {
         KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT(VIEW_ALL), KEY_TEMPLATEID, KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY,
         KEY_EQUIVALENT_AMOUNT, CATEGORY_ICON, checkSealedWithAlias(VIEW_ALL, TABLE_TRANSACTIONS)};
 
-    Cursor c = cr().query(
+    Cursor c = contentResolver.query(
         EXTENDED_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection, null, null, null);
     if (c == null) {
       return null;
@@ -469,52 +472,51 @@ public class Transaction extends Model implements ITransaction {
    * @param homeCurrency may be null in case of split part
    */
   @Nullable
-  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromDbWithTags(long id, @Nullable CurrencyUnit homeCurrency) {
-    Transaction t = getInstanceFromDb(id, homeCurrency);
-    return t == null ? null : new kotlin.Pair<>(t, t.loadTags());
+  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromDbWithTags(ContentResolver contentResolver, long id, @Nullable CurrencyUnit homeCurrency) {
+    Transaction t = getInstanceFromDb(contentResolver, id, homeCurrency);
+    return t == null ? null : new kotlin.Pair<>(t, t.loadTags(contentResolver));
   }
 
   @Nullable
-  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromTemplateWithTags(long id) {
-    Template te = Template.getInstanceFromDb(id);
-    return te == null ? null : getInstanceFromTemplateWithTags(te);
+  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromTemplateWithTags(ContentResolver contentResolver, long id) {
+    Template te = Template.getInstanceFromDb(contentResolver, id);
+    return te == null ? null : getInstanceFromTemplateWithTags(contentResolver, te);
   }
 
-  public static Transaction getInstanceFromTemplate(long id) {
-    Template te = Template.getInstanceFromDb(id);
-    return te == null ? null : getInstanceFromTemplate(te);
+  public static Transaction getInstanceFromTemplate(ContentResolver contentResolver, long id) {
+    Template te = Template.getInstanceFromDb(contentResolver, id);
+    return te == null ? null : getInstanceFromTemplate(contentResolver, te);
   }
 
   @Nullable
-  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromTemplateIfOpen(long id, long instanceId) {
-    Template te = Template.getInstanceFromDbIfInstanceIsOpen(id, instanceId);
-    return te == null ? null : getInstanceFromTemplateWithTags(te);
+  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromTemplateIfOpen(ContentResolver contentResolver, long id, long instanceId) {
+    Template te = Template.getInstanceFromDbIfInstanceIsOpen(contentResolver, id, instanceId);
+    return te == null ? null : getInstanceFromTemplateWithTags(contentResolver, te);
   }
 
-  public static Transaction getInstanceFromTemplate(Template te) {
+  public static Transaction getInstanceFromTemplate(ContentResolver contentResolver, Template te) {
     Transaction tr;
     switch (te.operationType()) {
-      case TYPE_TRANSACTION:
+      case TYPE_TRANSACTION -> {
         tr = new Transaction(te.getAccountId(), te.getAmount());
         tr.setMethodId(te.getMethodId());
         tr.setMethodLabel(te.getMethodLabel());
         tr.setCatId(te.getCatId());
         tr.setDebtId(te.getDebtId());
-        break;
-      case TYPE_TRANSFER:
+      }
+      case TYPE_TRANSFER -> {
         tr = new Transfer(te.getAccountId(), te.getAmount());
         tr.setTransferAccountId(te.getTransferAccountId());
-        break;
-      case TYPE_SPLIT:
+      }
+      case TYPE_SPLIT -> {
         tr = new SplitTransaction(te.getAccountId(), te.getAmount());
         tr.setStatus(STATUS_UNCOMMITTED);
         tr.setMethodId(te.getMethodId());
         tr.setMethodLabel(te.getMethodLabel());
         tr.setDebtId(te.getDebtId());
-        break;
-      default:
-        throw new IllegalStateException(
-            String.format(Locale.ROOT, "Unknown type %d", te.operationType()));
+      }
+      default -> throw new IllegalStateException(
+              String.format(Locale.ROOT, "Unknown type %d", te.operationType()));
     }
     tr.setComment(te.getComment());
     tr.setPayee(te.getPayee());
@@ -523,26 +525,29 @@ public class Transaction extends Model implements ITransaction {
     tr.originTemplateId = te.getId();
     final String idString = String.valueOf(te.getId());
     if (tr instanceof SplitTransaction) {
-      tr.save();
-      Cursor c = cr().query(Template.CONTENT_URI, new String[]{KEY_ROWID},
+      tr.save(contentResolver);
+      Cursor c = contentResolver.query(Template.CONTENT_URI, new String[]{KEY_ROWID},
           KEY_PARENTID + " = ?", new String[]{idString}, null);
       if (c != null) {
         c.moveToFirst();
         while (!c.isAfterLast()) {
-          Pair<Transaction, List<Tag>> part = Transaction.getInstanceFromTemplateWithTags(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
+          Pair<Transaction, List<Tag>> part = Transaction.getInstanceFromTemplateWithTags(
+                  contentResolver,
+                  c.getLong(c.getColumnIndexOrThrow(KEY_ROWID))
+          );
           if (part != null) {
             Transaction t = part.getFirst();
             t.status = STATUS_UNCOMMITTED;
             t.setParentId(tr.getId());
-            t.saveAsNew();
-            t.saveTags(part.getSecond());
+            t.saveAsNew(contentResolver);
+            t.saveTags(contentResolver, part.getSecond());
           }
           c.moveToNext();
         }
         c.close();
       }
     }
-    cr().update(
+    contentResolver.update(
         TransactionProvider.TEMPLATES_URI
             .buildUpon()
             .appendPath(idString)
@@ -552,18 +557,18 @@ public class Transaction extends Model implements ITransaction {
     return tr;
   }
 
-  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromTemplateWithTags(Template te) {
-    return new kotlin.Pair<>(getInstanceFromTemplate(te), te.loadTags());
+  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromTemplateWithTags(ContentResolver contentResolver, Template te) {
+    return new kotlin.Pair<>(getInstanceFromTemplate(contentResolver, te), te.loadTags(contentResolver));
   }
 
   @Nullable
-  public List<Tag> loadTags() {
-    return ModelWithLinkedTagsKt.loadTags(linkedTagsUri(), linkColumn(), getId(), Model.cr());
+  public List<Tag> loadTags(ContentResolver contentResolver) {
+    return ModelWithLinkedTagsKt.loadTags(linkedTagsUri(), linkColumn(), getId(), contentResolver);
   }
 
   @Override
-  public boolean saveTags(@Nullable List<Tag> tags) {
-    return ModelWithLinkedTagsKt.saveTags(linkedTagsUri(), linkColumn(), tags, getId(), Model.cr());
+  public boolean saveTags(@NotNull ContentResolver contentResolver, @org.jetbrains.annotations.Nullable List<Tag> tags) {
+    return ModelWithLinkedTagsKt.saveTags(linkedTagsUri(), linkColumn(), tags, getId(), contentResolver);
   }
 
   /**
@@ -579,18 +584,18 @@ public class Transaction extends Model implements ITransaction {
   }
 
   @Deprecated
-  public static void delete(long id, boolean markAsVoid) {
+  public static void delete(ContentResolver contentResolver, long id, boolean markAsVoid) {
     Uri.Builder builder = ContentUris.appendId(CONTENT_URI.buildUpon(), id);
     if (markAsVoid) {
       builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MARK_VOID, "1");
     }
-    cr().delete(builder.build(), null, null);
+    contentResolver.delete(builder.build(), null, null);
   }
 
-  public static int undelete(long id) {
+  public static int undelete(ContentResolver contentResolver, long id) {
     Uri uri = ContentUris.appendId(CONTENT_URI.buildUpon(), id)
         .appendPath(TransactionProvider.URI_SEGMENT_UNDELETE).build();
-    return cr().update(uri, null, null, null);
+    return contentResolver.update(uri, null, null, null);
   }
 
   public Transaction() {
@@ -671,15 +676,15 @@ public class Transaction extends Model implements ITransaction {
   }
 
   @Override
-  public Uri save() {
-    return save(false);
+  public Uri save(ContentResolver contentResolver) {
+    return save(contentResolver, false);
   }
 
-  public Uri save(boolean withCommit) {
+  public Uri save(ContentResolver contentResolver, boolean withCommit) {
     Uri uri;
     try {
-      ContentProviderResult[] result = cr().applyBatch(TransactionProvider.AUTHORITY,
-          buildSaveOperations(withCommit));
+      ContentProviderResult[] result = contentResolver.applyBatch(TransactionProvider.AUTHORITY,
+          buildSaveOperations(contentResolver, withCommit));
       if (getId() == 0) {
         //we need to find a uri, otherwise we would crash. Need to handle?
         uri = result[0].uri;
@@ -700,7 +705,7 @@ public class Transaction extends Model implements ITransaction {
                               )
                       )
               );
-      Template originTemplate = new Template(this, title);
+      Template originTemplate = new Template(contentResolver, this, title);
       String description = originTemplate.compileDescription(MyApplication.getInstance()); //TODO proper context
       originTemplate.setPlanExecutionAutomatic(true);
       Long withLinkedTransaction = null;
@@ -708,7 +713,7 @@ public class Transaction extends Model implements ITransaction {
         originTemplate.setPlan(new Plan(initialPlan.getThird(), initialPlan.getSecond(), title, description));
         withLinkedTransaction = getId();
       }
-      originTemplate.save(withLinkedTransaction);
+      originTemplate.save(contentResolver, withLinkedTransaction);
       originTemplateId = originTemplate.getId();
       originPlanId = originTemplate.planId;
     }
@@ -758,9 +763,10 @@ public class Transaction extends Model implements ITransaction {
   /**
    * all Split Parts are cloned and we work with the uncommitted clones
    *
-   * @param clone if true an uncommited clone of the instance is prepared
+   * @param contentResolver
+   * @param clone           if true an uncommited clone of the instance is prepared
    */
-  public void prepareForEdit(boolean clone, boolean withCurrentDate) {
+  public void prepareForEdit(ContentResolver contentResolver, boolean clone, boolean withCurrentDate) {
     if (withCurrentDate) {
       final ZonedDateTime now = ZonedDateTime.now();
       setDate(now);
@@ -771,23 +777,23 @@ public class Transaction extends Model implements ITransaction {
       Long oldId = getId();
       if (clone) {
         status = STATUS_UNCOMMITTED;
-        saveAsNew();
+        saveAsNew(contentResolver);
       }
       String idStr = String.valueOf(oldId);
       //we only create uncommited clones if none exist yet
-      Cursor c = cr().query(getContentUri(), new String[]{KEY_ROWID},
+      Cursor c = contentResolver.query(getContentUri(), new String[]{KEY_ROWID},
           KEY_PARENTID + " = ? AND NOT EXISTS (SELECT 1 from " + getUncommittedView()
               + " WHERE " + KEY_PARENTID + " = ?)", new String[]{idStr, idStr}, null);
       if (c != null) {
         c.moveToFirst();
         while (!c.isAfterLast()) {
-          Pair<Transaction, List<Tag>> part = getSplitPart(c.getLong(0));
+          Pair<Transaction, List<Tag>> part = getSplitPart(contentResolver, c.getLong(0));
           if (part != null) {
             Transaction t = part.getFirst();
             t.status = STATUS_UNCOMMITTED;
             t.setParentId(getId());
-            t.saveAsNew();
-            t.saveTags(part.getSecond());
+            t.saveAsNew(contentResolver);
+            t.saveTags(contentResolver, part.getSecond());
           }
           c.moveToNext();
         }
@@ -799,8 +805,8 @@ public class Transaction extends Model implements ITransaction {
     }
   }
 
-  protected Pair<Transaction, List<Tag>> getSplitPart(long partId) {
-    return Transaction.getInstanceFromDbWithTags(partId, null);
+  protected Pair<Transaction, List<Tag>> getSplitPart(ContentResolver contentResolver, long partId) {
+    return Transaction.getInstanceFromDbWithTags(contentResolver, partId, null);
   }
 
   public Uri getContentUri() {
@@ -811,14 +817,14 @@ public class Transaction extends Model implements ITransaction {
     return VIEW_UNCOMMITTED;
   }
 
-  public ArrayList<ContentProviderOperation> buildSaveOperations(boolean withCommit) {
-    return buildSaveOperations(0, -1, false, withCommit);
+  public ArrayList<ContentProviderOperation> buildSaveOperations(ContentResolver contentResolver, boolean withCommit) {
+    return buildSaveOperations(contentResolver, 0, -1, false, withCommit);
   }
 
   /**
    * Constructs the {@link ArrayList} of {@link ContentProviderOperation}s necessary for saving
    * the transaction
-   * as a side effect calls {@link Payee#require(String)}
+   * as a side effect creates payee in database
    *
    * @param offset              Number of operations that are already added to the batch, needed for calculating back references
    * @param parentOffset        if not -1, it indicates at which position in the batch the parent of a new split transaction is situated.
@@ -827,10 +833,12 @@ public class Transaction extends Model implements ITransaction {
    * @param withCommit          change state from uncommitted to committed
    * @return the URI of the transaction. Upon creation it is returned from the content provider
    */
-  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset, boolean callerIsSyncAdapter, boolean withCommit) {
+  public ArrayList<ContentProviderOperation> buildSaveOperations(
+          ContentResolver contentResolver,
+          int offset, int parentOffset, boolean callerIsSyncAdapter, boolean withCommit) {
     Uri uri = getUriForSave(callerIsSyncAdapter);
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
-    ContentValues initialValues = buildInitialValues();
+    ContentValues initialValues = buildInitialValues(contentResolver);
     if (getId() == 0) {
       ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(uri).withValues(initialValues);
       if (parentOffset != -1) {
@@ -872,14 +880,16 @@ public class Transaction extends Model implements ITransaction {
     }
   }
 
-  public ContentValues buildInitialValues() {
+  public ContentValues buildInitialValues(ContentResolver contentResolver) {
     ContentValues initialValues = new ContentValues();
 
     Long payeeStore;
     if (getPayeeId() != null) {
       payeeStore = getPayeeId();
+    } else if (!TextUtils.isEmpty(getPayee())) {
+      payeeStore = RepositoryPartyKt.requireParty(contentResolver, getPayee());
     } else {
-      payeeStore = Payee.require(getPayee());
+      payeeStore = null;
     }
     initialValues.put(KEY_COMMENT, getComment());
     initialValues.put(KEY_REFERENCE_NUMBER, getReferenceNumber());
@@ -907,92 +917,10 @@ public class Transaction extends Model implements ITransaction {
     return initialValues;
   }
 
-  public Uri saveAsNew() {
+  public Uri saveAsNew(ContentResolver contentResolver) {
     setId(0L);
     setUuid(null);
-    return save();
-  }
-
-  public static int count(Uri uri, String selection, String[] selectionArgs) {
-    Cursor cursor = cr().query(uri, new String[]{"count(*)"},
-        selection, selectionArgs, null);
-    if (cursor.getCount() == 0) {
-      cursor.close();
-      return 0;
-    } else {
-      cursor.moveToFirst();
-      int result = cursor.getInt(0);
-      cursor.close();
-      return result;
-    }
-  }
-
-  public static int countAll(Uri uri) {
-    return count(uri, null, null);
-  }
-
-  public static int countPerCategory(Uri uri, long catId) {
-    return count(uri, KEY_CATID + " = ?", new String[]{String.valueOf(catId)});
-  }
-
-  public static int countPerMethod(Uri uri, long methodId) {
-    return count(uri, KEY_METHODID + " = ?", new String[]{String.valueOf(methodId)});
-  }
-
-  public static int countPerAccount(Uri uri, long accountId) {
-    return count(uri, KEY_ACCOUNTID + " = ?", new String[]{String.valueOf(accountId)});
-  }
-
-  private static int countPerAccountAndUuid(Uri uri, long accountId, String uuid) {
-    return count(uri, KEY_ACCOUNTID + " = ? AND " + KEY_UUID + " = ?", new String[]{String.valueOf(accountId), uuid});
-  }
-
-  public static int countPerCategory(long catId) {
-    return countPerCategory(CONTENT_URI, catId);
-  }
-
-  public static int countPerMethod(long methodId) {
-    return countPerMethod(CONTENT_URI, methodId);
-  }
-
-  @VisibleForTesting
-  public static int countPerAccount(long accountId) {
-    return countPerAccount(CONTENT_URI, accountId);
-  }
-
-  public static int countPerUuid(String uuid) {
-    return countPerUuid(CONTENT_URI, uuid);
-  }
-
-  public static int countPerAccountAndUuid(long accountId, String uuid) {
-    return countPerAccountAndUuid(CONTENT_URI, accountId, uuid);
-  }
-
-  private static int countPerUuid(Uri contentUri, String uuid) {
-    return count(contentUri, KEY_UUID + " = ?", new String[]{uuid});
-  }
-
-  public static int countAll() {
-    return countAll(CONTENT_URI);
-  }
-
-  /**
-   * @return the number of transactions that have been created since creation of the db based on sqllite sequence
-   */
-  public static Long getSequenceCount() {
-    Cursor mCursor = cr().query(TransactionProvider.SQLITE_SEQUENCE_TRANSACTIONS_URI,
-        null, null, null, null);
-    if (mCursor == null) {
-      return 0L;
-    }
-    if (mCursor.getCount() == 0) {
-      mCursor.close();
-      return 0L;
-    }
-    mCursor.moveToFirst();
-    Long result = mCursor.getLong(0);
-    mCursor.close();
-    return result;
+    return save(contentResolver);
   }
 
   public String compileDescription(MyApplication ctx) {
@@ -1135,36 +1063,7 @@ public class Transaction extends Model implements ITransaction {
     return KEY_TRANSACTIONID;
   }
 
-  public static long findByAccountAndUuid(long accountId, String uuid) {
-    String selection = KEY_UUID + " = ? AND " + KEY_ACCOUNTID + " = ?";
-    String[] selectionArgs = new String[]{uuid, String.valueOf(accountId)};
-    return findBySelection(selection, selectionArgs, KEY_ROWID);
-  }
-
-  public static boolean hasParent(Long id) {
-    String selection = KEY_ROWID + " = ?";
-    String[] selectionArgs = new String[]{String.valueOf(id)};
-    return findBySelection(selection, selectionArgs, KEY_PARENTID) != 0;
-  }
-
-  private static long findBySelection(String selection, String[] selectionArgs, String column) {
-    Cursor cursor = cr().query(CONTENT_URI,
-        new String[]{column}, selection, selectionArgs, null);
-    if (cursor == null) {
-      return -1;
-    }
-    if (cursor.getCount() == 0) {
-      cursor.close();
-      return -1;
-    } else {
-      cursor.moveToFirst();
-      long result = cursor.getLong(0);
-      cursor.close();
-      return result;
-    }
-  }
-
-  static void cleanupCanceledEdit(Long id, Uri contentUri, String partOrPeerSelect) {
+  static void cleanupCanceledEdit(ContentResolver contentResolver, Long id, Uri contentUri, String partOrPeerSelect) {
     String idStr = String.valueOf(id);
     String statusUncommitted = String.valueOf(STATUS_UNCOMMITTED);
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
@@ -1176,7 +1075,7 @@ public class Transaction extends Model implements ITransaction {
         .withSelection(KEY_STATUS + " = ? AND " + KEY_ROWID + " = ?", new String[]{statusUncommitted, idStr})
         .build());
     try {
-      cr().applyBatch(TransactionProvider.AUTHORITY, ops);
+      contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops);
     } catch (OperationApplicationException | RemoteException e) {
       CrashHandler.report(e);
     }

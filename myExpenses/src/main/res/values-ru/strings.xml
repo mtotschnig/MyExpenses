@@ -335,7 +335,7 @@
     <string name="progress_dialog_deleting">Удалить объекты</string>
     <string name="progress_dialog_printing">Создание %s</string>
     <string name="qif_parse_result">Проанализированно: %1$s счетов; %2$s категорий и %3$s участников</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Найдено несколько счетов в QIF-файле.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Найдено несколько счетов в %s-файле.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Не удается объединить в существующий счёт.</string>
     <string name="reference_number">Номер ссылки</string>
     <string name="restore_db_failure">Восстановление БД не удалось.</string>
@@ -496,7 +496,6 @@
     <string name="csv_import_preview">Предпросмотр</string>
     <string name="menu_parse">Анализировать</string>
     <string name="csv_import_field_mapped_more_than_once">%s отображается более одного раза.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d не могут быть импортированы.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">Записи %d были отброшены.</string>
     <string name="csv_import_subcategory_requires_category">Если вы отображаете подкатегорию, вы также должны отобразить категорию.</string>
     <string name="cvs_import_set_first_line_as_header">Воспринимать первую строку как заглавную?</string>

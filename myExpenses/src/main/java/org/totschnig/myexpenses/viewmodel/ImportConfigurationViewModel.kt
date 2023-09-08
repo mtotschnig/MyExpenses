@@ -9,7 +9,7 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 
-open class ImportViewModel(application: Application, val savedStateHandle: SavedStateHandle) :
+open class ImportConfigurationViewModel(application: Application, val savedStateHandle: SavedStateHandle) :
     ContentResolvingAndroidViewModel(application) {
 
     var accountId: Long
@@ -23,7 +23,7 @@ open class ImportViewModel(application: Application, val savedStateHandle: Saved
             buildList {
                 add(
                     AccountMinimal(
-                        0, getString(R.string.menu_create_account),
+                        0, getString(R.string.menu_create_account) + " / " + getString(R.string.read_from_data),
                         homeCurrencyProvider.homeCurrencyString,
                         AccountType.CASH
                     )

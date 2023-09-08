@@ -535,8 +535,8 @@
     <string name="pref_more_info_dialog_title">مجوز و اعتبار</string>
     <string name="pref_planning_calendar_summary">تقویمی را انتخاب کنید که در آن برنامه‌ها برای تراکنش‌های آتی و تکراری ذخیره می‌شوند</string>
     <string name="pref_qif_export_file_encoding_title">کدبندی نویسه</string>
-    <string name="pref_share_target_summary">اگر می‌خواهید بین برنامه‌های مناسب (ایمیل، دراپباکس، گوگل داکس، ...) یکی را انتخاب کنید، یا URL را در یکی از طرح‌های پشتیبانی‌شده ارائه کنید، خالی بگذارید</string>
-    <string name="qif_parse_failure_found_multiple_accounts">چندین حساب در فایل QIF یافت شد.</string>
+    <string name="pref_share_target_summary">اگر می‌خواهید بین برنامه‌های مناسب (ایمیل، دراپباکس، گوگل داکس، …) یکی را انتخاب کنید، یا URL را در یکی از طرح‌های پشتیبانی‌شده ارائه کنید، خالی بگذارید</string>
+    <string name="qif_parse_failure_found_multiple_accounts">چندین حساب در فایل %s یافت شد.</string>
     <string name="restore_backup_file_not_found">هیچ فایل %1$s در بایگانی \"%2$s\" یافت نشد</string>
     <string name="save_transaction_error">ذخیره تراکنش های جدید از الگو ممکن نیست.</string>
     <plurals name="not_deletable_mapped_transactions">
@@ -564,7 +564,6 @@
     <string name="pref_manage_stale_images_title">تصاویر قدیمی</string>
     <string name="export_handle_deleted_update_balance">به روز رسانی موجودی افتتاحیه</string>
     <string name="csv_import_field_mapped_more_than_once">%s بیش از یک بار نگاشته شده است.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">"رکوردهای %d  نمی‌توانند وارد شوند."</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">"رکوردهای %d  اعمال نشدند."</string>
     <string name="transform_subcategory_to_main">تبدیل به دسته بندی اصلی</string>
     <string name="pref_sort_order_next_instance">نمونه بعدی</string>

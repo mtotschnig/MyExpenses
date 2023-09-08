@@ -18,17 +18,13 @@ package org.totschnig.myexpenses.model;
 import android.content.ContentResolver;
 import android.net.Uri;
 
-import org.totschnig.myexpenses.MyApplication;
+import androidx.annotation.Nullable;
 
 import java.util.UUID;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
 
 public abstract class Model implements IModel {
   private long id = 0L;
   private String uuid;
-  private static ContentResolver cr;
 
   @Override
   public long getId() {
@@ -50,16 +46,6 @@ public abstract class Model implements IModel {
     this.uuid = uuid;
   }
 
-  @Deprecated
-  public static ContentResolver cr() {
-    return cr != null ? cr : MyApplication.getInstance().getContentResolver();
-  }
-
-  @VisibleForTesting
-  public static void setContentResolver(ContentResolver crIn) {
-    cr = crIn;
-  }
-
   public static String generateUuid() {
     return UUID.randomUUID().toString();
   }
@@ -72,5 +58,5 @@ public abstract class Model implements IModel {
   }
 
   @Nullable
-  public abstract Uri save();
+  public abstract Uri save(ContentResolver contentResolver);
 }

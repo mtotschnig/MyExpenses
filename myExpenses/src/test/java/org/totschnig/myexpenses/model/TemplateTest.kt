@@ -14,6 +14,7 @@
 */
 package org.totschnig.myexpenses.model
 
+import android.content.ContentResolver
 import android.content.ContentUris
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
@@ -25,14 +26,16 @@ import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.getTransactionSum
+import org.totschnig.myexpenses.db2.requireParty
 import org.totschnig.myexpenses.db2.saveCategory
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.viewmodel.data.Category
 
 @RunWith(RobolectricTestRunner::class)
 class TemplateTest: BaseTestWithRepository() {
 
-    private lateinit var mAccount1: org.totschnig.myexpenses.model2.Account
-    private lateinit var mAccount2: org.totschnig.myexpenses.model2.Account
+    private lateinit var mAccount1: Account
+    private lateinit var mAccount2: Account
     private var categoryId: Long = 0
     private var payeeId: Long = 0
 
@@ -41,20 +44,20 @@ class TemplateTest: BaseTestWithRepository() {
 
     @Before
     fun setUp() {
-        mAccount1 = org.totschnig.myexpenses.model2.Account(
+        mAccount1 = Account(
             label = "TestAccount 1",
             currency = CurrencyUnit.DebugInstance.code,
             openingBalance = 100,
             description = "Main account"
         ).createIn(repository)
-        mAccount2 = org.totschnig.myexpenses.model2.Account(
+        mAccount2 = Account(
             label = "TestAccount 2",
             currency = CurrencyUnit.DebugInstance.code,
             openingBalance = 100,
             description = "Secondary account"
         ).createIn(repository)
         categoryId = writeCategory("TestCategory", null)
-        payeeId = Payee.maybeWrite("N.N")
+        payeeId = repository.requireParty("N.N")
     }
 
     @Test
@@ -64,30 +67,30 @@ class TemplateTest: BaseTestWithRepository() {
         val op1 = Transaction.getNewInstance(mAccount1.id, CurrencyUnit.DebugInstance)!!
         op1.amount = Money(CurrencyUnit.DebugInstance, amount)
         op1.comment = "test transaction"
-        op1.save()
+        op1.save(contentResolver)
         assertThat(repository.getTransactionSum(mAccount1.id)).isEqualTo(start + amount)
-        val t = Template(op1, "Template")
-        t.save()
-        val op2: Transaction = Transaction.getInstanceFromTemplate(t.id)
-        op2.save()
+        val t = Template(contentResolver, op1, "Template")
+        t.save(contentResolver)
+        val op2: Transaction = Transaction.getInstanceFromTemplate(contentResolver, t.id)
+        op2.save(contentResolver)
         assertThat(repository.getTransactionSum(mAccount1.id)).isEqualTo(start + 2 * amount)
-        val restored: Template? = Template.getInstanceFromDb(t.id)
+        val restored: Template? = Template.getInstanceFromDb(contentResolver, t.id)
         assertThat(restored).isEqualTo(t)
-        Template.delete(t.id, false)
-        assertWithMessage("Template deleted, but can still be retrieved").that(Template.getInstanceFromDb(t.id)).isNull()
+        Template.delete(contentResolver, t.id, false)
+        assertWithMessage("Template deleted, but can still be retrieved").that(Template.getInstanceFromDb(contentResolver, t.id)).isNull()
     }
 
     @Test
     fun testTemplate() {
         val template = buildTemplate()
-        val restored = Template.getInstanceFromDb(template.id)
+        val restored = Template.getInstanceFromDb(contentResolver, template.id)
         assertThat(restored).isEqualTo(template)
     }
 
     @Test
     fun testTransactionFromTemplate() {
         val template = buildTemplate()
-        val transaction = Transaction.getInstanceFromTemplate(template)
+        val transaction = Transaction.getInstanceFromTemplate(contentResolver, template)
         assertThat(transaction.catId).isEqualTo(template.catId)
         assertThat(transaction.accountId).isEqualTo(template.accountId)
         assertThat(transaction.payeeId).isEqualTo(template.payeeId)
@@ -111,25 +114,26 @@ class TemplateTest: BaseTestWithRepository() {
     }
 
     private fun newInstanceTestHelper(type: Int) {
-        val t: Template = Template.getTypedNewInstance(type, mAccount1.id, CurrencyUnit.DebugInstance, false, null)!!.apply {
+        val t: Template = Template.getTypedNewInstance(contentResolver, type, mAccount1.id, CurrencyUnit.DebugInstance, false, null)!!.apply {
             title = "Template"
             if (type == Transactions.TYPE_TRANSFER) {
                 setTransferAccountId(mAccount2.id)
             }
-            save()
+            save(contentResolver)
         }
         assertThat(t.operationType()).isEqualTo(type)
-        assertThat(Template.getInstanceFromDb(t.id)).isEqualTo(t)
+        assertThat(Template.getInstanceFromDb(contentResolver, t.id)).isEqualTo(t)
     }
 
-    private fun buildTemplate() = Template(mAccount1.id, CurrencyUnit.DebugInstance, Transactions.TYPE_TRANSACTION, null).apply {
+    private fun buildTemplate() = Template(contentResolver, mAccount1.id, CurrencyUnit.DebugInstance, Transactions.TYPE_TRANSACTION, null).apply {
         catId = this@TemplateTest.categoryId
+        payee = "N.N"
         payeeId = this@TemplateTest.payeeId
         comment = "Some comment"
         repository.findPaymentMethod(PreDefinedPaymentMethod.CHEQUE.name).let {
             assertThat(it).isGreaterThan(-1)
             methodId = it
         }
-        save()
+        save(contentResolver)
     }
 }

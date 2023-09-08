@@ -15,7 +15,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import org.mockito.Mockito
 import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Transaction
@@ -46,12 +45,15 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(Transaction
             Mockito.mock(PrefHandler::class.java)
         )
 
+    val contentResolver: ContentResolver = repository.contentResolver
+
     @JvmOverloads
     fun buildAccount(label: String, openingBalance: Long = 0L, syncAccountName: String? = null) =
         Account(label = label, currency = homeCurrency.code, openingBalance = openingBalance, syncAccountName = syncAccountName).createIn(repository)
 
-    fun getTransactionFromDb(id: Long): Transaction? = Transaction.getInstanceFromDb(id, homeCurrency)
+    fun getTransactionFromDb(id: Long): Transaction? = Transaction.getInstanceFromDb(repository.contentResolver, id, homeCurrency)
 
+    @Deprecated("Deprecated in Java")
     @Throws(Exception::class)
     override fun setUp() {
         transactionProvider = TransactionProvider::class.java.newInstance()
@@ -68,9 +70,6 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(Transaction
         transactionProvider.attachInfo(IsolatedContext(resolver, context), providerInfo)
         resolver.addProvider(TransactionProvider.AUTHORITY, transactionProvider)
     }
-
-    @Throws(Exception::class)
-    override fun tearDown() {}
 
     override fun getMockContentResolver() = resolver
 

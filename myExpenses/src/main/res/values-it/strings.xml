@@ -332,7 +332,7 @@
     <string name="progress_dialog_deleting">Cancellazione di oggetti</string>
     <string name="progress_dialog_printing">Creazione di %s</string>
     <string name="qif_parse_result">Esito dell\'analisi: %1$s conti. %2$s categorie e %3$s beneficiari</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Più conti sono stati trovati nel file QIF.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Più conti sono stati trovati nel file %s.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Non è possibile unirli nel conto esistente.</string>
     <string name="reference_number">Numero di riferimento</string>
     <string name="restore_db_failure">Ripristino del database non riuscito.</string>
@@ -486,7 +486,6 @@
     <string name="csv_import_preview">Anteprima</string>
     <string name="menu_parse">Analisi</string>
     <string name="csv_import_field_mapped_more_than_once">%s è associata più di una volta.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d registri non possono essere importati.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d registri sono stati eliminati.</string>
     <string name="csv_import_subcategory_requires_category">Se si associa una sottocategoria, è inoltre necessario associare la categoria.</string>
     <string name="cvs_import_set_first_line_as_header">La prima riga dovrebbe essere trattata come una riga di intestazione?</string>

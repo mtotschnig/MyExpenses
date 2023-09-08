@@ -41,8 +41,11 @@ class TemplateWidget: AbstractWidget(TemplateWidgetService::class.java, PrefKey.
                             Toast.LENGTH_LONG).show()
                 } else {
                         doAsync {
-                            Transaction.getInstanceFromTemplateWithTags(templateId)?.let {
-                            if (it.first.save(true) != null && it.first.saveTags(it.second)) {
+                            Transaction.getInstanceFromTemplateWithTags(context.contentResolver, templateId)?.let {
+                            if (it.first.save(context.contentResolver, true) != null && it.first.saveTags(
+                                    context.contentResolver,
+                                    it.second
+                                )) {
                                 withContext(Dispatchers.Main) {
                                     Toast.makeText(context.forToast(),
                                         context.resources.getQuantityString(R.plurals.save_transaction_from_template_success, 1, 1),

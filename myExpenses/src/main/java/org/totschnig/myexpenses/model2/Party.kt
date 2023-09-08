@@ -18,7 +18,7 @@ data class Party(
 
     val asContentValues
         get() = ContentValues().apply {
-            put(KEY_PAYEE_NAME, name)
+            put(KEY_PAYEE_NAME, name.trim())
             put(KEY_PAYEE_NAME_NORMALIZED, Utils.normalize(name))
             put(KEY_SHORT_NAME, shortName)
             put(KEY_IBAN, iban)
@@ -26,7 +26,12 @@ data class Party(
         }
 
     companion object {
-        fun create(name: String, iban: String?, bic: String?) =
-            Party(name = name.trim(), iban = iban, bic = bic)
+        const val SELECTION = "($KEY_PAYEE_NAME_NORMALIZED\$s LIKE ? OR $KEY_PAYEE_NAME_NORMALIZED\$s GLOB ?)"
+        fun selectionArgs(search: String): Array<String> = arrayOf(
+            "$search%",
+            "*[ (.;,]$search*"
+        )
+        fun create(name: String, shortName: String? = null, id: Long = 0, iban: String? = null, bic: String? = null) =
+            Party(id = id, name = name.trim(), shortName = shortName?.trim(),  iban = iban, bic = bic)
     }
 }

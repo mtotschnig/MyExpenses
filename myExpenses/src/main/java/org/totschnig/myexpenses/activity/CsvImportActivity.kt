@@ -4,12 +4,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.widget.AdapterView
+import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.evernote.android.state.State
 import org.apache.commons.csv.CSVRecord
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
@@ -19,8 +19,8 @@ import org.totschnig.myexpenses.fragment.CsvImportParseFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.viewmodel.AccountConfiguration
 import org.totschnig.myexpenses.viewmodel.CsvImportViewModel
 import java.io.FileNotFoundException
 import javax.inject.Inject
@@ -47,12 +47,11 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
         mSectionsPagerAdapter.notifyDataSetChanged()
     }
 
-    private lateinit var csvImportViewModel: CsvImportViewModel
+    private val csvImportViewModel: CsvImportViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.title = getString(R.string.pref_import_title, "CSV")
-        csvImportViewModel = ViewModelProvider(this)[CsvImportViewModel::class.java]
         with(injector) {
             inject(csvImportViewModel)
             inject(this@CsvImportActivity)
@@ -120,8 +119,8 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
         }
     }
 
-    private fun showProgress(total: Int = 0, progress: Int = 0) {
-        showProgressSnackBar(getString(R.string.pref_import_title, "CSV"), total, progress)
+    private fun showProgress() {
+        showProgressSnackBar(getString(R.string.pref_import_title, "CSV"))
         idle = false
         invalidateOptionsMenu()
     }
@@ -166,46 +165,30 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
     }
 
     fun importData(dataSet: List<CSVRecord>, columnToFieldMap: IntArray, discardedRows: Int) {
-        val totalToImport = dataSet.size
         accountId.takeIf { it != AdapterView.INVALID_ROW_ID }?.also { accountId ->
-            showProgress(total = totalToImport)
-            csvImportViewModel.progress.observe(this) {
-                showProgress(total = totalToImport, progress = it)
-            }
+            showProgress()
             csvImportViewModel.importData(
                 dataSet,
                 columnToFieldMap,
                 dateFormat,
-                parseFragment.autoFillCategories
-            ) {
-                if (accountId == 0L) {
-                    Account(
-                        label = getString(R.string.pref_import_title, "CSV"),
-                        currency = currency,
-                        openingBalance = 0,
-                        type = accountType
-                    ).createIn(repository)
-                } else {
-                    repository.loadAccount(accountId)!!
-                }
-            }.observe(this) { result ->
+                parseFragment.autoFillCategories,
+                AccountConfiguration(accountId, currency, accountType),
+                parseFragment.uri!!
+            ).observe(this) { result ->
                 hideProgress()
-                result.onSuccess {
+                result.onSuccess { resultList ->
                     if (!mUsageRecorded) {
                         recordUsage(ContribFeature.CSV_IMPORT)
                         mUsageRecorded = true
                     }
-                    val success = it.first
-                    val failure: Int = it.second
-                    val count: Int = success.first
-                    val label = success.second
-                    var msg = "${getString(R.string.import_transactions_success, count, label)}."
-                    if (failure > 0) {
-                        msg += " ${getString(R.string.csv_import_records_failed, failure)}"
-                    }
+                    val msg = StringBuilder()
                     if (discardedRows > 0) {
-                        msg += " ${getString(R.string.csv_import_records_discarded, discardedRows)}"
+                        msg.append(" ${getString(R.string.csv_import_records_discarded, discardedRows)}")
                     }
+                    msg.append(resultList.joinToString(" ") {
+                        "${getString(R.string.import_transactions_success, it.successCount, it.label)}."
+                    })
+
                     showMessage(
                         msg,
                         neutral = MessageDialogFragment.nullButton(R.string.button_label_continue),

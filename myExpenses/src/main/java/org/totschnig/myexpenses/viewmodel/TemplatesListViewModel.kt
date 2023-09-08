@@ -14,8 +14,13 @@ import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEFAULT_ACTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.PLAN_INSTANCE_STATUS_URI
 import org.totschnig.myexpenses.util.ShortcutHelper
@@ -38,12 +43,9 @@ class TemplatesListViewModel(application: Application) :
             val result = contentResolver.update(
                 TransactionProvider.TEMPLATES_URI,
                 ContentValues().apply {
-                    put(
-                        DatabaseConstants.KEY_DEFAULT_ACTION,
-                        action.name
-                    )
+                    put(KEY_DEFAULT_ACTION, action.name)
                 },
-                "${DatabaseConstants.KEY_ROWID} IN (${itemIds.joinToString()})", null
+                "$KEY_ROWID IN (${itemIds.joinToString()})", null
             ) == itemIds.size
             val context = getApplication<MyApplication>()
             val shortcuts = ShortcutManagerCompat.getShortcuts(
@@ -71,7 +73,7 @@ class TemplatesListViewModel(application: Application) :
     fun newFromTemplate(plans: Array<out PlanInstanceInfo>) =
         liveData(context = coroutineContext()) {
             emit(plans.map { plan ->
-                Transaction.getInstanceFromTemplateWithTags(plan.templateId)?.let {
+                Transaction.getInstanceFromTemplateWithTags(contentResolver, plan.templateId)?.let {
                     val (t, tagList) = it
                     if (plan.date != null) {
                         val date = plan.date / 1000
@@ -79,8 +81,8 @@ class TemplatesListViewModel(application: Application) :
                         t.valueDate = date
                         t.originPlanInstanceId = plan.instanceId
                     }
-                    t.status = DatabaseConstants.STATUS_NONE
-                    t.save(true) != null && t.saveTags(tagList)
+                    t.status = STATUS_NONE
+                    t.save(contentResolver, true) != null && t.saveTags(contentResolver, tagList)
                 }
             }.sumBy { if (it == true) 1 else 0 })
         }

@@ -342,7 +342,7 @@
     <string name="progress_dialog_deleting">جارِ حذف الكائنات</string>
     <string name="progress_dialog_printing">انشاء ملف %s</string>
     <string name="qif_parse_result">تم إيجاد: %1$s حسابات; %2$s تصنيفات و %3$s أطراف</string>
-    <string name="qif_parse_failure_found_multiple_accounts">تم العثور على أكثر من حساب في ملف QIF.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">تم العثور على أكثر من حساب في ملف %s.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">لا يمكن دمجهم لحساب موجود. </string>
     <string name="reference_number">رقم المرجع</string>
     <string name="restore_db_failure">فشلت عملية استعادة قاعدة البيانات.</string>
@@ -511,7 +511,6 @@
     <string name="csv_import_preview">معاينة</string>
     <string name="menu_parse">تحليل</string>
     <string name="csv_import_field_mapped_more_than_once">تم تعيين %s أكثر من مرة.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d غير قادر على استيراد التسجيلات.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d التسجيلات تم تجاهلها.</string>
     <string name="csv_import_subcategory_requires_category">إذا قمت بتعيين فئة فرعية، يجب عليك أيضاً تعيين الفئة.</string>
     <string name="cvs_import_set_first_line_as_header">هل يتوجب التعامل مع السطر الأول كرأس للجدول؟</string>

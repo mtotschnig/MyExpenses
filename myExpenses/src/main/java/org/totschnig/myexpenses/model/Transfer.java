@@ -32,10 +32,12 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.net.Uri;
 
+import org.totschnig.myexpenses.db2.RepositoryTransactionKt;
 import org.totschnig.myexpenses.util.Preconditions;
 
 import java.util.ArrayList;
@@ -116,7 +118,9 @@ public class Transfer extends Transaction implements ITransfer {
   }
 
   @Override
-  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset, boolean callerIsSyncAdapter, boolean withCommit) {
+  public ArrayList<ContentProviderOperation> buildSaveOperations(
+          ContentResolver contentResolver,
+          int offset, int parentOffset, boolean callerIsSyncAdapter, boolean withCommit) {
     Uri uri = getUriForSave(callerIsSyncAdapter);
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     long amount = this.getAmount().getAmountMinor();
@@ -141,7 +145,7 @@ public class Transfer extends Transaction implements ITransfer {
       if (parentOffset != -1) {
         builder.withValueBackReference(KEY_PARENTID, parentOffset);
       }
-      long transferPeer = Transaction.findByAccountAndUuid(getTransferAccountId(), getUuid());
+      long transferPeer = RepositoryTransactionKt.findByAccountAndUuid(contentResolver, getTransferAccountId(), getUuid());
       if (transferPeer > -1) {
         initialValues.put(KEY_TRANSFER_PEER, transferPeer);
       }

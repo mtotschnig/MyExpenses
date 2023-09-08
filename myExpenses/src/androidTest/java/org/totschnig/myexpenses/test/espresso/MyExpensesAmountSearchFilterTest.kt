@@ -24,10 +24,10 @@ class MyExpensesAmountSearchFilterTest : BaseMyExpensesTest() {
         val account = buildAccount("Test account 1")
         val op = Transaction.getNewInstance(account.id, homeCurrency)
         op.amount =  Money(currency, amount1)
-        op.save()
+        op.save(contentResolver)
         op.amount = Money(currency, amount2)
         op.date = op.date - 10000
-        op.saveAsNew()
+        op.saveAsNew(contentResolver)
         launch(account.id)
     }
 

@@ -354,7 +354,7 @@
     <string name="all_contrib_key_features">Totes les funcions de Clau Contrib</string>
     <string name="pref_ui_home_screen_shortcuts">Dreceres a la pantalla d\'inici</string>
     <string name="progress_dialog_printing">Generant %s</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Múltiples comptes trobats a l\'arxiu QIF.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Múltiples comptes trobats a l\'arxiu %s.</string>
     <string name="contrib_feature_roadmap_voting_label">Votació correcta a <b> fulla de ruta per al desenvolupament </b></string>
     <string name="contrib_feature_history_label">Gràfica històrica</string>
     <string name="licence_status_free">Gratuït</string>
@@ -436,7 +436,6 @@
     <string name="account_deleted">Compte eliminat</string>
     <string name="menu_distribution_show_pie_char">Mostra gràfic de sectors</string>
     <string name="mark_void_instead_of_delete">No eliminis la transacció, marca-la com a invàlida.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d registres no es poden importar.</string>
     <string name="pref_grouping_periods">Períodes d\'agrupació</string>
     <string name="date_format_minute">Minut</string>
     <string name="plan_instance_state_open">obert</string>

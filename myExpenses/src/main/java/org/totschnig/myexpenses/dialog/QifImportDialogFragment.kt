@@ -5,8 +5,11 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import android.widget.CheckBox
 import android.widget.Spinner
+import android.widget.TableRow
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import org.totschnig.myexpenses.MyApplication
@@ -19,7 +22,7 @@ import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.checkNewAccountLimitation
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
-import org.totschnig.myexpenses.viewmodel.ImportViewModel
+import org.totschnig.myexpenses.viewmodel.ImportConfigurationViewModel
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
@@ -29,6 +32,8 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
     private lateinit var dateFormatSpinner: Spinner
     private lateinit var currencySpinner: Spinner
     private lateinit var encodingSpinner: Spinner
+    private lateinit var autoFillRow: TableRow
+    private lateinit var autoFillCategories: CheckBox
     @Suppress("UNCHECKED_CAST")
     private val accountsAdapter: IdAdapter<AccountMinimal>
         get() = accountSpinner.adapter as IdAdapter<AccountMinimal>
@@ -36,7 +41,7 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
         get() = currencySpinner.adapter as CurrencyAdapter
     private var currency: String? = null
     private val currencyViewModel: CurrencyViewModel by viewModels()
-    private val viewModel: ImportViewModel by viewModels()
+    private val viewModel: ImportConfigurationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,14 +88,15 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
             prefHandler.putString(PREF_KEY_IMPORT_ENCODING, encoding)
             prefHandler.putString(PREF_KEY_IMPORT_DATE_FORMAT, format.name)
             (activity as QifImport?)!!.onSourceSelected(
-                mUri,
+                mUri!!,
                 format,
                 accountSpinner.selectedItemId,
                 (currencySpinner.selectedItem as Currency).code,
                 mImportTransactions.isChecked,
                 mImportCategories.isChecked,
                 mImportParties.isChecked,
-                encoding
+                encoding,
+                autoFillCategories.isChecked
             )
         } else {
             super.onClick(dialog, id)
@@ -99,6 +105,8 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
 
     override fun setupDialogView(view: View) {
         super.setupDialogView(view)
+        autoFillRow = view.findViewById(R.id.AutoFillRow)
+        autoFillCategories = view.findViewById(R.id.autofill_categories)
         accountSpinner = view.findViewById(R.id.Account)
         accountSpinner.adapter = IdAdapter<AccountMinimal>(requireContext())
         accountSpinner.onItemSelectedListener = this
@@ -127,8 +135,10 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
                 accountSpinner.setSelection(accountsAdapter.getPosition(viewModel.accountId))
             }
         }
-        view.findViewById<View>(R.id.AccountType).visibility =
-            View.GONE //QIF data should specify type
+        view.findViewById<View>(R.id.AccountType).isVisible = false
+        mImportTransactions.setOnCheckedChangeListener { _, isChecked ->
+            autoFillRow.isVisible = isChecked
+        }
     }
 
     override fun onItemSelected(
@@ -163,8 +173,6 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
         const val PREF_KEY_IMPORT_ENCODING = "import_qif_encoding"
 
         @JvmStatic
-        fun newInstance(): QifImportDialogFragment {
-            return QifImportDialogFragment()
-        }
+        fun newInstance() = QifImportDialogFragment()
     }
 }

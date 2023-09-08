@@ -50,7 +50,7 @@ class DistributionTest : BaseUiTest<DistributionActivity>() {
             with(Transaction.getNewInstance(account.id, homeCurrency)) {
                 amount = Money(CurrencyUnit(Currency.getInstance("USD")), -1200L)
                 catId = categoryId
-                save()
+                save(contentResolver)
             }
         }
     }

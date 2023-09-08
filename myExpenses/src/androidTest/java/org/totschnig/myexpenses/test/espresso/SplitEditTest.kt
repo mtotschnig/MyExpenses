@@ -95,11 +95,11 @@ class SplitEditTest : BaseExpenseEditTest() {
     fun canceledSplitCleanup() {
         testScenario = ActivityScenario.launchActivityForResult(baseIntent)
         val uncommittedUri = TransactionProvider.UNCOMMITTED_URI
-        assertThat(Transaction.count(uncommittedUri, DatabaseConstants.KEY_STATUS + "= ?", arrayOf(DatabaseConstants.STATUS_UNCOMMITTED.toString()))).isEqualTo(1)
+        assertThat(repository.count(uncommittedUri, DatabaseConstants.KEY_STATUS + "= ?", arrayOf(DatabaseConstants.STATUS_UNCOMMITTED.toString()))).isEqualTo(1)
         closeSoftKeyboard()
         pressBackUnconditionally()
         assertCanceled()
-        assertThat(Transaction.count(uncommittedUri, DatabaseConstants.KEY_STATUS + "= ?", arrayOf(DatabaseConstants.STATUS_UNCOMMITTED.toString()))).isEqualTo(0)
+        assertThat(repository.count(uncommittedUri, DatabaseConstants.KEY_STATUS + "= ?", arrayOf(DatabaseConstants.STATUS_UNCOMMITTED.toString()))).isEqualTo(0)
     }
 
     @Test
@@ -140,15 +140,15 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     private fun prepareSplit(): Long {
         val currencyUnit = homeCurrency
-        return with(SplitTransaction.getNewInstance(account1.id, currencyUnit)) {
+        return with(SplitTransaction.getNewInstance(contentResolver, account1.id, currencyUnit)) {
             amount = Money(currencyUnit, 10000)
             status = DatabaseConstants.STATUS_NONE
-            save(true)
+            save(contentResolver, true)
             val part = Transaction.getNewInstance(account1.id, currencyUnit, id)
             part.amount = Money(currencyUnit, 5000)
-            part.save()
+            part.save(contentResolver)
             part.amount = Money(currencyUnit, 5000)
-            part.saveAsNew()
+            part.saveAsNew(contentResolver)
             id
         }
     }
@@ -157,10 +157,10 @@ class SplitEditTest : BaseExpenseEditTest() {
     fun canceledTemplateSplitCleanup() {
         testScenario = ActivityScenario.launch(baseIntent.apply { putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true) })
         val uncommittedUri = TransactionProvider.TEMPLATES_UNCOMMITTED_URI
-        assertThat(Transaction.count(uncommittedUri, DatabaseConstants.KEY_STATUS + "= ?", arrayOf(DatabaseConstants.STATUS_UNCOMMITTED.toString()))).isEqualTo(1)
+        assertThat(repository.count(uncommittedUri, DatabaseConstants.KEY_STATUS + "= ?", arrayOf(DatabaseConstants.STATUS_UNCOMMITTED.toString()))).isEqualTo(1)
         closeSoftKeyboard()
         pressBackUnconditionally()
-        assertThat(Transaction.count(uncommittedUri, DatabaseConstants.KEY_STATUS + "= ?", arrayOf(DatabaseConstants.STATUS_UNCOMMITTED.toString()))).isEqualTo(0)
+        assertThat(repository.count(uncommittedUri, DatabaseConstants.KEY_STATUS + "= ?", arrayOf(DatabaseConstants.STATUS_UNCOMMITTED.toString()))).isEqualTo(0)
     }
 
     @Test

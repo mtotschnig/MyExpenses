@@ -1527,7 +1527,11 @@ public class TransactionDatabase extends BaseTransactionDatabase {
             Cursor c = MoreDbUtilsKt.query(db,"templates", new String[]{"_id", "plan_id"}, "plan_id IS NOT null", null, null, null, null, null);
             if (c.moveToFirst()) {
               while (!c.isAfterLast()) {
-                Plan.updateCustomAppUri(c.getLong(1), Template.buildCustomAppUri(c.getLong(0)));
+                Plan.updateCustomAppUri(
+                        MyApplication.getInstance().getContentResolver(),
+                        c.getLong(1),
+                        Template.buildCustomAppUri(c.getLong(0))
+                );
                 c.moveToNext();
               }
             }

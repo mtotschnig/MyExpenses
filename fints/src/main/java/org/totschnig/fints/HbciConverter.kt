@@ -3,24 +3,23 @@ package org.totschnig.fints
 import org.apache.commons.lang3.StringUtils
 import org.kapott.hbci.GV_Result.GVRKUms.UmsLine
 import org.kapott.hbci.structures.Konto
+import org.totschnig.fints.VerwendungszweckUtil.Tag
+import org.totschnig.fints.VerwendungszweckUtil.getTag
 import org.totschnig.myexpenses.db2.Attribute
+import org.totschnig.myexpenses.db2.AutoFillInfo
+import org.totschnig.myexpenses.db2.FinTsAttribute
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.createParty
+import org.totschnig.myexpenses.db2.findParty
 import org.totschnig.myexpenses.db2.findPaymentMethod
-import org.totschnig.myexpenses.db2.requireParty
 import org.totschnig.myexpenses.db2.writePaymentMethod
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Party
-import org.totschnig.fints.VerwendungszweckUtil.Tag
-import org.totschnig.fints.VerwendungszweckUtil.getTag
-import org.totschnig.myexpenses.db2.AutoFillInfo
-import org.totschnig.myexpenses.db2.FinTsAttribute
-import org.totschnig.myexpenses.db2.createParty
-import org.totschnig.myexpenses.db2.findParty
-import org.totschnig.myexpenses.model.CurrencyContext
 import java.util.zip.CRC32
 
 
@@ -68,7 +67,7 @@ class HbciConverter(val repository: Repository, private val eur: CurrencyUnit) {
         val transfer = VerwendungszweckUtil.apply(lines)
 
 
-        (getTag(transfer, Tag.ABWA)?.let { Party(name = it) }
+        (getTag(transfer, Tag.ABWA)?.let { Party.create(name = it) }
             ?: other?.takeIf { !(it.name.isNullOrBlank() && it.name2.isNullOrBlank()) }
                 ?.toParty())?.let { party ->
             val payeeInfo = payeeCache[party] ?: run {
@@ -80,7 +79,6 @@ class HbciConverter(val repository: Repository, private val eur: CurrencyUnit) {
             payeeInfo.second?.categoryId?.let {
                 transaction.catId = it
             }
-            transaction.payeeId = repository.requireParty(party)
         }
 
         if (transfer != null) {
@@ -148,7 +146,7 @@ class HbciConverter(val repository: Repository, private val eur: CurrencyUnit) {
                     HBCI_TRANSFER_NAME_MAXLENGTH
                 )
             )
-        return Party.create(name, iban, bic)
+        return Party.create(name= name, iban = iban, bic = bic)
     }
 
     private fun extractMethodId(methodLabel: String): Long =

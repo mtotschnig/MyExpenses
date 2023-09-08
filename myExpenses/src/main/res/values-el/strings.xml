@@ -328,7 +328,7 @@
     <string name="progress_dialog_deleting">Διαγραφή αντικειμένων</string>
     <string name="progress_dialog_printing">Δημιουργία %s</string>
     <string name="qif_parse_result">Εγγράφηκαν: %1$s λογαριασμοί· %2$s κατηγορίες και %3$s μέρη</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Πολλαπλοί λογαριασμοί βρέθηκαν στο αρχείο QIF.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Πολλαπλοί λογαριασμοί βρέθηκαν στο αρχείο %s.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Δεν είναι δυνατή η συγχώνευσή τους σε υπάρχοντα λογαριασμό.</string>
     <string name="reference_number">Αριθμός αναφοράς</string>
     <string name="restore_db_failure">Απέτυχε η επαναφορά της βάσης δεδομένων.</string>
@@ -480,7 +480,6 @@
     <string name="csv_import_preview">Προεπισκόπηση</string>
     <string name="menu_parse">Ανάλυση</string>
     <string name="csv_import_field_mapped_more_than_once">%s έχει αντιστοιχιστεί πάνω από μία φορά.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d εγγραφές δεν μπορούν να εισαχθούν.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d εγγραφές απορρίφθηκαν.</string>
     <string name="csv_import_subcategory_requires_category">Εάν αντιστοιχίσετε την υποκατηγορία, πρέπει επίσης να αντιστοιχίσετε την κατηγορία.</string>
     <string name="cvs_import_set_first_line_as_header">Θα έπρεπε η πρώτη γραμμή να αντιμετωπίζεται ως επικεφαλίδα;</string>

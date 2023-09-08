@@ -296,7 +296,7 @@
     <string name="progress_dialog_deleting">Objekter slettes</string>
     <string name="progress_dialog_printing">Generating %s</string>
     <string name="qif_parse_result">Fundet: %1$s regnskaber; %2$s kategorier og %3$s parter</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Der findes flere konti i QIF filen.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Der findes flere konti i %s filen.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Matcher ikke eksisterende konto.</string>
     <string name="reference_number">Referencenummer</string>
     <string name="restore_db_failure">Gendannelse af databasen mislykkedes.</string>
@@ -435,7 +435,6 @@
     <string name="csv_import_preview">Preview</string>
     <string name="menu_parse">Analyser</string>
     <string name="csv_import_field_mapped_more_than_once">%s er tilknyttet til flere.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d dataposter kunne ikke importeres</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d dataposter ignoreret</string>
     <string name="csv_import_subcategory_requires_category">Hvis du tilknytter en underkategori skal du også  tilknytte kategorien.</string>
     <string name="cvs_import_set_first_line_as_header">Skal den første linje bruges som kolonneoverskrift?</string>

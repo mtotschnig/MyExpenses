@@ -303,7 +303,7 @@
     <string name="progress_dialog_deleting">항목 삭제하는 중</string>
     <string name="progress_dialog_printing">%s 파일 만드는 중</string>
     <string name="qif_parse_result">분석됨: %1$s 계좌; %2$s 카테고리와 %3$s 구성원</string>
-    <string name="qif_parse_failure_found_multiple_accounts">QIF 파일에서 여러개의 계좌가 발견되었습니다.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">%s 파일에서 여러개의 계좌가 발견되었습니다.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">기존 계좌에 합칠 수 없습니다.</string>
     <string name="reference_number">참조 번호</string>
     <string name="restore_db_failure">데이터베이스 복원을 실패했습니다.</string>
@@ -439,7 +439,6 @@
     <string name="csv_import_preview">미리보기</string>
     <string name="menu_parse">분석</string>
     <string name="csv_import_field_mapped_more_than_once">%s 항목은 한번 이상 배치되었습니다.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d 기록을 가져올 수 없습니다.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d 기록이 버려졌습니다.</string>
     <string name="csv_import_subcategory_requires_category">만약 하위 카테고리를 배치했다면 카테고리도 배치해야 합니다.</string>
     <string name="cvs_import_set_first_line_as_header">첫번째 줄을 헤더 줄로 간주할까요?</string>

@@ -336,7 +336,7 @@
     <string name="progress_dialog_deleting">מחיקת אובייקטים</string>
     <string name="progress_dialog_printing">מיצר קובץ %s</string>
     <string name="qif_parse_result">מנותח:%1$sחשבונות; %2$s קטגוריות %3$sוחלקים</string>
-    <string name="qif_parse_failure_found_multiple_accounts">נמצאו מספר חשבונות בקובץ QIF.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">נמצאו מספר חשבונות בקובץ %s.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">לא ניתן למזג אותם בחשבון קיים.</string>
     <string name="reference_number">מספר סימוכין</string>
     <string name="restore_db_failure">שחזור בסיס הנתונים נכשל.</string>
@@ -498,7 +498,6 @@
     <string name="csv_import_preview">תצוגה מקדימה</string>
     <string name="menu_parse">ביטוי</string>
     <string name="csv_import_field_mapped_more_than_once">%s משוייך יחותר מפעם אחת.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d רשומות לא ניתנות ליבוא..</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d רשומות נמחקו.</string>
     <string name="csv_import_subcategory_requires_category">אם אתה ממפה קטגוריית משנה, עליך גם למפות את הקטגוריה.</string>
     <string name="cvs_import_set_first_line_as_header">האם יש להתייחס לקו הראשון כאל שורת כותרת?</string>

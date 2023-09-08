@@ -496,7 +496,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         }
     }
 
-    fun setMethodSelection(methodId: Long?) {
+    private fun setMethodSelection(methodId: Long?) {
         this.methodId = methodId
         setMethodSelection()
     }
@@ -608,7 +608,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     fun setMethods(paymentMethods: List<PaymentMethod>?) {
-        if (paymentMethods == null || paymentMethods.isEmpty()) {
+        if (paymentMethods.isNullOrEmpty()) {
             methodId = null
             methodRowBinding.MethodRow.visibility = View.GONE
         } else {
@@ -766,7 +766,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     protected fun buildTemplate(account: Account) =
-        Template.getTypedNewInstance(operationType, account.id, account.currency, false, parentId)!!
+        Template.getTypedNewInstance(context.contentResolver, operationType, account.id, account.currency, false, parentId)!!
 
     abstract fun buildTransaction(
         forSave: Boolean,
@@ -842,7 +842,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                     if (host.createTemplate) {
                         setInitialPlan(
                             Triple(
-                                viewBinding.Title.text.toString().takeIf { !it.isEmpty() },
+                                viewBinding.Title.text.toString().takeIf { it.isNotEmpty() },
                                 selectedRecurrence, dateEditBinding.DateButton.date
                             )
                         )

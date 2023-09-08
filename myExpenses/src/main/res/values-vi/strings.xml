@@ -321,7 +321,7 @@
     <string name="progress_dialog_deleting">Đang xóa mục</string>
     <string name="progress_dialog_printing">Đang tạo tập tin %s</string>
     <string name="qif_parse_result">Đã phân tích : %1$s tài khoản; %2$s danh mục và %3$s bên giao dịch</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Phát hiện nhiều tài khoản trong tập tin QIF.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Phát hiện nhiều tài khoản trong tập tin %s.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Không thể ghép chúng vào tài khoản hiện có.</string>
     <string name="reference_number">Số tham chiếu</string>
     <string name="restore_db_failure">Xảy ra lỗi khi khôi phục cơ sở dữ liệu</string>
@@ -467,7 +467,6 @@
     <string name="csv_import_preview">xem trước</string>
     <string name="menu_parse">Phân tích</string>
     <string name="csv_import_field_mapped_more_than_once">%s được ánh xạ nhiều hơn một lần.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d bản ghi không thể nhập được.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d bản ghi bị huỷ bỏ.</string>
     <string name="csv_import_subcategory_requires_category">Nếu bạn ánh xạ các danh mục con, bạn cũng phải ánh xạ các danh mục.</string>
     <string name="cvs_import_set_first_line_as_header">Có nên coi dòng đầu như dòng đầu trang cố định (header) ?</string>

@@ -333,7 +333,7 @@
     <string name="progress_dialog_deleting">Eliminar objetivos</string>
     <string name="progress_dialog_printing">Generar %s</string>
     <string name="qif_parse_result">Analizado: %1$s cuentas, %2$s categorías y %3$s grupos</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Se han encontrado varias cuenta en el archivo QIF.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Se han encontrado varias cuenta en el archivo %s.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">No se ha podido combinar con la cuenta existente.</string>
     <string name="reference_number">Número de referencia</string>
     <string name="restore_db_failure">La restauración de la base de datos ha fallado.</string>
@@ -491,7 +491,6 @@
     <string name="csv_import_preview">Vista previa</string>
     <string name="menu_parse">Análisis</string>
     <string name="csv_import_field_mapped_more_than_once">%s ha sido asignada más de una vez.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d registros no pudieron ser importados.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d registros fueron descartados.</string>
     <string name="csv_import_subcategory_requires_category">Si asigna una subcategoría, también deberá asignar una categoría.</string>
     <string name="cvs_import_set_first_line_as_header">¿Debería tratase la primera línea como línea de cabecera?</string>

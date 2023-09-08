@@ -338,7 +338,8 @@
     <!-- %s is replaced with format (PDF, HTML) -->
     <string name="progress_dialog_printing">Generating %s</string>
     <string name="qif_parse_result">Parsed: %1$s accounts; %2$s categories and %3$s parties</string>
-    <string name="qif_parse_failure_found_multiple_accounts">Multiple accounts found in QIF file.</string>
+    <!-- %s is replaced with format (CSV, QIF) -->
+    <string name="qif_parse_failure_found_multiple_accounts">Multiple accounts found in %s file.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Cannot merge them into existing account.</string>
     <string name="reference_number">Reference Number</string>
     <string name="restore_db_failure">Database restore failed.</string>
@@ -493,7 +494,6 @@
     <string name="csv_import_preview">Preview</string>
     <string name="menu_parse">Parse</string>
     <string name="csv_import_field_mapped_more_than_once">%s is mapped more than once.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d records could not be imported.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d records were discarded.</string>
     <string name="csv_import_subcategory_requires_category">If you map subcategory, you must also map category.</string>
     <string name="cvs_import_set_first_line_as_header">Should the first line be treated as a header line?</string>
@@ -1076,4 +1076,6 @@
     <string name="button_relink_update_date">Relink and update date</string>
     <string name="whats_new_361_1">Transaction list can be sorted by amount.</string>
     <string name="whats_new_361_2">Files in application folder (backups and exports) can be shared or deleted.</string>
+    <!-- This is an option in the configuration of CSV and QIF imports which means that the account label(s) found in the data will be used to locate account(s) into which transactions are imported  -->
+    <string name="read_from_data">Read from data</string>
 </resources>
