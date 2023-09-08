@@ -135,9 +135,10 @@ class CSVParser(
                 )
             }
             if (columnIndexPayee != -1) {
-                val payee = saveGetFromRecord(record, columnIndexPayee)
-                payees.add(payee)
-                transaction.payee(payee)
+                saveGetFromRecord(record, columnIndexPayee).takeIf { it.isNotEmpty() }?.let {
+                    payees.add(it)
+                    transaction.payee(it)
+                }
             }
             if (columnIndexNotes != -1) {
                 transaction.memo(saveGetFromRecord(record, columnIndexNotes))

@@ -172,7 +172,7 @@ data class Transaction(
                 ),
                 referenceNumber = cursor.getStringOrNull(KEY_REFERENCE_NUMBER),
                 originTemplate = cursor.getLongOrNull(KEY_TEMPLATEID)?.let {
-                    Template.getInstanceFromDb(it)
+                    Template.getInstanceFromDb(context.contentResolver, it)
                 },
                 isSealed = cursor.getInt(KEY_SEALED) > 0,
                 accountLabel = cursor.getString(KEY_ACCOUNT_LABEL),

@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.db2
 
 import android.content.ContentProviderOperation
+import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
 import org.totschnig.myexpenses.model.CrStatus
@@ -37,7 +38,7 @@ private fun Repository.toContentValues(transaction: Transaction) = with(transact
         } ?: localDate2Epoch(date))
         put(DatabaseConstants.KEY_VALUE_DATE, localDate2Epoch(valueDate))
         payee.takeIf { it.isNotEmpty() }
-            ?.let { put(DatabaseConstants.KEY_PAYEEID, findOrWritePayee(it)) }
+            ?.let { put(DatabaseConstants.KEY_PAYEEID, requireParty(it)) }
         put(DatabaseConstants.KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
         category?.takeIf { it > 0 }?.let { put(DatabaseConstants.KEY_CATID, it) }
         method.takeIf { it > 0 }?.let { put(DatabaseConstants.KEY_METHODID, it) }
@@ -157,3 +158,26 @@ fun Repository.getTransactionSum(accountId: Long, filter: WhereFilter? = null): 
         it.getLong(0)
     }
 }
+
+fun ContentResolver.findByAccountAndUuid(accountId: Long, uuid: String) = findBySelection(
+    DatabaseConstants.KEY_UUID + " = ? AND " + DatabaseConstants.KEY_ACCOUNTID + " = ?",
+    arrayOf(uuid, accountId.toString()),
+    DatabaseConstants.KEY_ROWID
+)
+
+fun Repository.hasParent(id: Long) = contentResolver.findBySelection(
+    DatabaseConstants.KEY_ROWID + " = ?",
+    arrayOf(id.toString()),
+    DatabaseConstants.KEY_PARENTID
+) != 0L
+
+private fun ContentResolver.findBySelection(selection: String, selectionArgs: Array<String>, column: String) =
+    query(
+        org.totschnig.myexpenses.model.Transaction.CONTENT_URI,
+        arrayOf(column),
+        selection,
+        selectionArgs,
+        null
+    )?.use {
+        if (it.moveToFirst()) it.getLong(0) else null
+    } ?: -1

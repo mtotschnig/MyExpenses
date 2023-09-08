@@ -6,6 +6,7 @@ import org.junit.Test
 import org.mockito.kotlin.mock
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.export.qif.QifDateFormat
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.DateTime
 import java.io.ByteArrayInputStream
@@ -106,7 +107,7 @@ class CsvParserTest {
             columnToFieldMap,
             dateFormat,
             CurrencyUnit.DebugInstance,
-            accountConfiguration.type
+            AccountType.BANK
         )
         p.parse()
         return p.accounts

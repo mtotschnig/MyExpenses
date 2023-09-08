@@ -27,9 +27,9 @@ class AccountTest: BaseTestWithRepository() {
         val currencyUnit = CurrencyUnit.DebugInstance
         val account = repository.createAccount(Account(label= "Account 1", currency = currencyUnit.code, openingBalance = 100L))
         val transaction = Transaction(account.id, Money(currencyUnit, 100L))
-        transaction.save()
+        transaction.save(contentResolver)
         closeAccount(account.id)
-        Transaction.delete(transaction.id, false)
+        Transaction.delete(contentResolver, transaction.id, false)
     }
 
     @Test
@@ -38,7 +38,7 @@ class AccountTest: BaseTestWithRepository() {
         val account1 = repository.createAccount(Account(label= "Account 1", currency = currencyUnit.code, openingBalance = 100L))
         val account2 = repository.createAccount(Account(label= "Account 2", currency = currencyUnit.code, openingBalance = 100L))
         val transfer = Transfer(account1.id, Money(currencyUnit, 100L), account2.id)
-        transfer.save()
+        transfer.save(contentResolver)
         closeAccount(account2.id)
         repository.deleteAccount(account1.id)
     }

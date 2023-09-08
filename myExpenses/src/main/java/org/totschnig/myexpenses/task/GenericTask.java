@@ -54,7 +54,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     ContentValues values;
     switch (mTaskId) {
       case TaskExecutionFragment.TASK_INSTANTIATE_PLAN:
-        return Plan.getInstanceFromDb((Long) ids[0]);
+        return Plan.getInstanceFromDb(cr, (Long) ids[0]);
       case TaskExecutionFragment.TASK_SWAP_SORT_KEY:
         cr.update(
             TransactionProvider.ACCOUNTS_URI

@@ -26,6 +26,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACT
 import static org.totschnig.myexpenses.provider.TransactionProvider.UNCOMMITTED_URI;
 
 import android.content.ContentProviderOperation;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.net.Uri;
 
@@ -63,23 +64,23 @@ public class SplitTransaction extends Transaction implements ISplit {
     return getStatus() == STATUS_UNCOMMITTED ? UNCOMMITTED_URI : super.getUriForSave(callerIsSyncAdapter);
   }
 
-  public static SplitTransaction getNewInstance(long accountId, CurrencyUnit currencyUnit)  {
-    return getNewInstance(accountId, currencyUnit, true);
+  public static SplitTransaction getNewInstance(ContentResolver contentResolver, long accountId, CurrencyUnit currencyUnit)  {
+    return getNewInstance(contentResolver, accountId, currencyUnit, true);
   }
 
-  public static SplitTransaction getNewInstance(long accountId, CurrencyUnit currencyUnit, boolean forEdit)  {
+  public static SplitTransaction getNewInstance(ContentResolver contentResolver, long accountId, CurrencyUnit currencyUnit, boolean forEdit)  {
     SplitTransaction t = new SplitTransaction(accountId, new Money(currencyUnit, 0L));
     if (forEdit) {
       t.setStatus(STATUS_UNCOMMITTED);
       //TODO: Strict mode
-      t.save();
+      t.save(contentResolver);
     }
     return t;
   }
 
   @Override
-  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset, boolean callerIsSyncAdapter, boolean withCommit) {
-    ArrayList<ContentProviderOperation> ops = super.buildSaveOperations(offset, parentOffset, callerIsSyncAdapter, withCommit);
+  public ArrayList<ContentProviderOperation> buildSaveOperations(ContentResolver contentResolver, int offset, int parentOffset, boolean callerIsSyncAdapter, boolean withCommit) {
+    ArrayList<ContentProviderOperation> ops = super.buildSaveOperations(contentResolver, offset, parentOffset, callerIsSyncAdapter, withCommit);
     Uri uri = getUriForSave(callerIsSyncAdapter);
     if (getId() != 0) {
       String idStr = String.valueOf(getId());
@@ -111,7 +112,7 @@ public class SplitTransaction extends Transaction implements ISplit {
     return TYPE_SPLIT;
   }
 
-  public static void cleanupCanceledEdit(Long id) {
-    cleanupCanceledEdit(id, UNCOMMITTED_URI, PART_OR_PEER_SELECT);
+  public static void cleanupCanceledEdit(ContentResolver contentResolver, Long id) {
+    cleanupCanceledEdit(contentResolver, id, UNCOMMITTED_URI, PART_OR_PEER_SELECT);
   }
 }

@@ -67,7 +67,7 @@ public class ManageTemplatesTest extends BaseUiTest<ManageTemplates> {
     template.save(true);
     Template part = Template.getTypedNewInstance(TYPE_SPLIT, account1.getId(), currencyUnit, false, template.getId());
     part.save();
-    assertThat(Transaction.countPerAccount(account1.getId())).isEqualTo(0);
+    assertThat(getRepository().countTransactionsPerAccount(account1.getId())).isEqualTo(0);
   }
 
   @After
@@ -80,7 +80,7 @@ public class ManageTemplatesTest extends BaseUiTest<ManageTemplates> {
   }
 
   private void verifySaveAction() {
-    assertThat(Transaction. count(Transaction.CONTENT_URI, KEY_ACCOUNTID + " = ? AND " + KEY_PARENTID + " IS NULL",
+    assertThat(getRepository().count(Transaction.CONTENT_URI, KEY_ACCOUNTID + " = ? AND " + KEY_PARENTID + " IS NULL",
         new String[]{String.valueOf(account1.getId())})).isEqualTo(1);
   }
 

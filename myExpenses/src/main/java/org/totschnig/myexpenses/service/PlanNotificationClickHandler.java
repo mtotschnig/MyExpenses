@@ -7,6 +7,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIO
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -37,6 +38,7 @@ public class PlanNotificationClickHandler extends IntentService {
   protected void onHandleIntent(@Nullable Intent intent) {
     String message;
     if (intent == null) return;
+    ContentResolver contentResolver = getContentResolver();
     final Bundle extras = intent.getExtras();
     final String action = intent.getAction();
     if (extras == null || action == null) return;
@@ -49,31 +51,31 @@ public class PlanNotificationClickHandler extends IntentService {
     long templateId = extras.getLong(DatabaseConstants.KEY_TEMPLATEID);
     Long instanceId = extras.getLong(DatabaseConstants.KEY_INSTANCEID);
     switch (action) {
-      case PlanExecutor.ACTION_APPLY:
-        kotlin.Pair<Transaction, List<Tag>> pair = Transaction.getInstanceFromTemplateWithTags(templateId);
+      case PlanExecutor.ACTION_APPLY -> {
+        kotlin.Pair<Transaction, List<Tag>> pair = Transaction.getInstanceFromTemplateWithTags(contentResolver, templateId);
         if (pair == null) {
           message = getString(R.string.save_transaction_template_deleted);
         } else {
           Transaction t = pair.getFirst();
           t.setDate(extras.getLong(DatabaseConstants.KEY_DATE, Instant.now().getEpochSecond()));
           t.setOriginPlanInstanceId(instanceId);
-          if (t.save(true) != null && t.saveTags(pair.getSecond())) {
+          if (t.save(contentResolver, true) != null && t.saveTags(contentResolver, pair.getSecond())) {
             message = getResources().getQuantityString(
-                R.plurals.save_transaction_from_template_success, 1, 1);
+                    R.plurals.save_transaction_from_template_success, 1, 1);
             Intent displayIntent = new Intent(this, MyExpenses.class)
-                .putExtra(DatabaseConstants.KEY_ROWID, t.getAccountId())
-                .putExtra(DatabaseConstants.KEY_TRANSACTIONID, t.getId());
+                    .putExtra(DatabaseConstants.KEY_ROWID, t.getAccountId())
+                    .putExtra(DatabaseConstants.KEY_TRANSACTIONID, t.getId());
             //noinspection InlinedApi
             PendingIntent resultIntent = PendingIntent.getActivity(this, notificationId, displayIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
             builder.setContentIntent(resultIntent);
             builder.setAutoCancel(true);
           } else {
             message = getString(R.string.save_transaction_error);
           }
         }
-        break;
-      case PlanExecutor.ACTION_CANCEL:
+      }
+      case PlanExecutor.ACTION_CANCEL -> {
         ContentValues values = new ContentValues();
         values.putNull(KEY_TRANSACTIONID);
         values.put(KEY_TEMPLATEID, templateId);
@@ -84,9 +86,10 @@ public class PlanNotificationClickHandler extends IntentService {
         } catch (SQLiteConstraintException e) {
           message = getString(R.string.save_transaction_template_deleted);
         }
-        break;
-      default:
+      }
+      default -> {
         return;
+      }
     }
     builder.setContentText(message);
     final NotificationManager systemService = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

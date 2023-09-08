@@ -52,6 +52,7 @@ import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.OperationApplicationException;
@@ -63,6 +64,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.db2.Repository;
+import org.totschnig.myexpenses.db2.RepositoryPartyKt;
 import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -168,7 +171,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
    *              populates the template
    * @param title identifies the template in the template list
    */
-  public Template(Transaction t, String title) {
+  public Template(ContentResolver contentResolver, Transaction t, String title) {
     super();
     setTitle(title);
     if (t instanceof Transfer) {
@@ -185,19 +188,19 @@ public class Template extends Transaction implements ITransfer, ISplit {
     setMethodLabel(t.getMethodLabel());
     setPayee(t.getPayee());
     if (isSplit()) {
-      persistForEdit();
-      Cursor c = cr().query(Transaction.CONTENT_URI, new String[]{KEY_ROWID},
+      persistForEdit(contentResolver);
+      Cursor c = contentResolver.query(Transaction.CONTENT_URI, new String[]{KEY_ROWID},
           KEY_PARENTID + " = ?", new String[]{String.valueOf(t.getId())}, null);
       if (c != null) {
         c.moveToFirst();
         while (!c.isAfterLast()) {
-          Pair<Transaction, List<Tag>> splitPart = t.getSplitPart(c.getLong(0));
+          Pair<Transaction, List<Tag>> splitPart = t.getSplitPart(contentResolver, c.getLong(0));
           if (splitPart != null) {
-            Template part = new Template(splitPart.getFirst(), title);
+            Template part = new Template(contentResolver, splitPart.getFirst(), title);
             part.setStatus(STATUS_UNCOMMITTED);
             part.setParentId(getId());
-            part.save();
-            part.saveTags(splitPart.getSecond());
+            part.save(contentResolver);
+            part.saveTags(contentResolver, splitPart.getSecond());
           }
           c.moveToNext();
         }
@@ -351,48 +354,41 @@ public class Template extends Transaction implements ITransfer, ISplit {
     setDebtId(DbUtils.getLongOrNull(c, KEY_DEBT_ID));
   }
 
-  public Template(long id, CurrencyUnit currencyUnit, int operationType, Long parentId) {
+  public Template(ContentResolver contentResolver, long id, CurrencyUnit currencyUnit, int operationType, Long parentId) {
     super();
     setTitle("");
     switch (operationType) {
-      case TYPE_TRANSACTION:
-        template = Transaction.getNewInstance(id, currencyUnit);
-        break;
-      case TYPE_TRANSFER:
-        template = Transfer.getNewInstance(id, currencyUnit, 0L, null);
-        break;
-      case TYPE_SPLIT:
-        template = SplitTransaction.getNewInstance(id, currencyUnit, false);
-        break;
-      default:
-        throw new UnsupportedOperationException(
-            String.format(Locale.ROOT, "Unknown type %d", operationType));
+      case TYPE_TRANSACTION -> template = Transaction.getNewInstance(id, currencyUnit);
+      case TYPE_TRANSFER -> template = Transfer.getNewInstance(id, currencyUnit, 0L, null);
+      case TYPE_SPLIT -> template = SplitTransaction.getNewInstance(contentResolver, id, currencyUnit, false);
+      default -> throw new UnsupportedOperationException(
+              String.format(Locale.ROOT, "Unknown type %d", operationType));
     }
     setParentId(parentId);
   }
 
   @Nullable
-  public static Template getTypedNewInstance(int operationType, long accountId, @NonNull CurrencyUnit currencyUnit,  boolean forEdit, Long parentId) {
-    Template t = new Template(accountId, currencyUnit, operationType, parentId);
+  public static Template getTypedNewInstance(ContentResolver contentResolver, int operationType, long accountId, @NonNull CurrencyUnit currencyUnit,  boolean forEdit, Long parentId) {
+    Template t = new Template(contentResolver, accountId, currencyUnit, operationType, parentId);
     if (forEdit && t.isSplit()) {
-      if (!t.persistForEdit()) {
+      if (!t.persistForEdit(contentResolver)) {
         return null;
       }
     }
     return t;
   }
 
-  private boolean persistForEdit() {
+  private boolean persistForEdit(ContentResolver contentResolver) {
     setStatus(STATUS_UNCOMMITTED);
-    return save() != null;
+    return save(contentResolver) != null;
   }
 
   /**
    * @return a template that is linked to the calendar event with id planId, but only if the instance instanceId
    * has not yet been dealt with
    */
-  public static Template getInstanceForPlanIfInstanceIsOpen(long planId, long instanceId) {
-    Cursor c = cr().query(
+  public static Template getInstanceForPlanIfInstanceIsOpen(ContentResolver contentResolver, long planId, long instanceId) {
+    Cursor c = contentResolver.query(
         CONTENT_URI,
         null,
         KEY_PLANID + "= ? AND NOT exists(SELECT 1 from " + TABLE_PLAN_INSTANCE_STATUS
@@ -413,9 +409,9 @@ public class Template extends Transaction implements ITransfer, ISplit {
   }
 
   @Nullable
-  public static PlanInstance getPlanInstance(long planId, long date) {
+  public static PlanInstance getPlanInstance(ContentResolver contentResolver, CurrencyContext currencyContext, long planId, long date) {
     PlanInstance planInstance = null;
-    try (Cursor c = cr().query(
+    try (Cursor c = contentResolver.query(
         CONTENT_URI.buildUpon().appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_INSTANCE, String.valueOf(CalendarProviderProxy.calculateId(date))).build(),
         null, KEY_PLANID + "= ?",
         new String[]{String.valueOf(planId)},
@@ -424,7 +420,6 @@ public class Template extends Transaction implements ITransfer, ISplit {
         final Long instanceId = getLongOrNull(c, KEY_INSTANCEID);
         final Long transactionId = getLongOrNull(c, KEY_TRANSACTIONID);
         final long templateId = c.getLong(c.getColumnIndexOrThrow(KEY_ROWID));
-        final CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
         CurrencyUnit currency = currencyContext.get(c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY)));
         Money amount = new Money(currency, c.getLong(c.getColumnIndexOrThrow(KEY_AMOUNT)));
         planInstance = new PlanInstance(templateId, instanceId, transactionId, c.getString(c.getColumnIndexOrThrow(KEY_TITLE)), date, c.getInt(c.getColumnIndexOrThrow(KEY_COLOR)), amount,
@@ -435,14 +430,14 @@ public class Template extends Transaction implements ITransfer, ISplit {
   }
 
   @Nullable
-  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromDbWithTags(long id) {
-    Template t = getInstanceFromDb(id);
-    return t == null ? null : new kotlin.Pair<>(t, t.loadTags());
+  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromDbWithTags(ContentResolver contentResolver, long id) {
+    Template t = getInstanceFromDb(contentResolver, id);
+    return t == null ? null : new kotlin.Pair<>(t, t.loadTags(contentResolver));
   }
 
   @Nullable
-  public static Template getInstanceFromDb(long id) {
-    Cursor c = cr().query(
+  public static Template getInstanceFromDb(ContentResolver contentResolver, long id) {
+    Cursor c = contentResolver.query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), null, null, null, null);
     if (c == null) {
       return null;
@@ -455,13 +450,13 @@ public class Template extends Transaction implements ITransfer, ISplit {
     Template t = new Template(c);
     c.close();
     if (t.planId != null) {
-      t.plan = Plan.getInstanceFromDb(t.planId);
+      t.plan = Plan.getInstanceFromDb(contentResolver, t.planId);
     }
     return t;
   }
 
-  public static Template getInstanceFromDbIfInstanceIsOpen(long id, long instanceId) {
-    Cursor c = cr().query(
+  public static Template getInstanceFromDbIfInstanceIsOpen(ContentResolver contentResolver, long id, long instanceId) {
+    Cursor c = contentResolver.query(
         CONTENT_URI,
         null,
         KEY_ROWID + "= ? AND NOT exists(SELECT 1 from " + TABLE_PLAN_INSTANCE_STATUS
@@ -482,8 +477,8 @@ public class Template extends Transaction implements ITransfer, ISplit {
   }
 
   @Override
-  public Uri save(boolean withCommit) {
-    return save(null);
+  public Uri save(ContentResolver contentResolver, boolean withCommit) {
+    return save(contentResolver, null);
   }
 
   /**
@@ -491,19 +486,26 @@ public class Template extends Transaction implements ITransfer, ISplit {
    *
    * @return the Uri of the template. Upon creation it is returned from the content provider, null if inserting fails on constraints
    */
-  public Uri save(Long withLinkedTransaction) {
+  public Uri save(ContentResolver contentResolver, Long withLinkedTransaction) {
     boolean runPlanner = false;
     if (plan != null) {
        if (plan.getId() == 0) {
          runPlanner = true;
        }
-      Uri planUri = plan.save();
+      Uri planUri = plan.save(contentResolver);
       if (planUri != null) {
         planId = ContentUris.parseId(planUri);
       }
     }
     Uri uri;
-    Long payee_id = Payee.require(getPayee());
+    Long payeeStore;
+    if (getPayeeId() != null) {
+      payeeStore = getPayeeId();
+    } else if (!android.text.TextUtils.isEmpty(getPayee())) {
+      payeeStore = RepositoryPartyKt.requireParty(contentResolver, getPayee());
+    } else {
+      payeeStore = null;
+    }
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, getComment());
     initialValues.put(KEY_AMOUNT, getAmount().getAmountMinor());
@@ -512,7 +514,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     } else {
       initialValues.put(KEY_CATID, getCatId());
     }
-    initialValues.put(KEY_PAYEEID, payee_id);
+    initialValues.put(KEY_PAYEEID, payeeStore);
     initialValues.put(KEY_METHODID, getMethodId());
     initialValues.put(KEY_TITLE, getTitle());
     initialValues.put(KEY_PLANID, planId);
@@ -535,14 +537,14 @@ public class Template extends Transaction implements ITransfer, ISplit {
               .withValue(KEY_TRANSACTIONID, withLinkedTransaction)
               .build());
         }
-        ContentProviderResult[] result = cr().applyBatch(TransactionProvider.AUTHORITY, ops);
+        ContentProviderResult[] result = contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops);
         uri = result[0].uri;
       } catch (RemoteException | OperationApplicationException e) {
         return null;
       }
       setId(ContentUris.parseId(uri));
       if (plan != null) {
-        plan.updateCustomAppUri(buildCustomAppUri(getId()));
+        plan.updateCustomAppUri(contentResolver, buildCustomAppUri(getId()));
       }
     } else {
       String idStr = String.valueOf(getId());
@@ -561,7 +563,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
                       new String[] {idStr, String.valueOf(getAccountId())})
               .withExpectedCount(0) .build());
       try {
-        cr().applyBatch(TransactionProvider.AUTHORITY, ops);
+        contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops);
       } catch (RemoteException | OperationApplicationException e) {
         return null;
       }
@@ -574,37 +576,25 @@ public class Template extends Transaction implements ITransfer, ISplit {
     return uri;
   }
 
-  public static void delete(long id, boolean deletePlan) {
-    Template t = getInstanceFromDb(id);
+  public static void delete(ContentResolver contentResolver, long id, boolean deletePlan) {
+    Template t = getInstanceFromDb(contentResolver, id);
     if (t == null) {
       return;
     }
     if (t.planId != null) {
       if (deletePlan) {
-        Plan.delete(t.planId);
+        Plan.delete(contentResolver, t.planId);
       }
-      cr().delete(
+      contentResolver.delete(
           TransactionProvider.PLAN_INSTANCE_STATUS_URI,
           KEY_TEMPLATEID + " = ?",
           new String[]{String.valueOf(id)});
     }
-    cr().delete(
+    contentResolver.delete(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
         null,
         null);
     updateNewPlanEnabled();
-  }
-
-  public static int countPerMethod(long methodId) {
-    return countPerMethod(CONTENT_URI, methodId);
-  }
-
-  public static int countPerAccount(long accountId) {
-    return countPerAccount(CONTENT_URI, accountId);
-  }
-
-  public static int countAll() {
-    return countAll(CONTENT_URI);
   }
 
   public static String buildCustomAppUri(long id) {
@@ -662,16 +652,17 @@ public class Template extends Transaction implements ITransfer, ISplit {
     final AppComponent appComponent = MyApplication.getInstance().getAppComponent();
     LicenceHandler licenceHandler = appComponent.licenceHandler();
     PrefHandler prefHandler = appComponent.prefHandler();
+    Repository repository = appComponent.repository();
     boolean newPlanEnabled = true, newSplitTemplateEnabled = true;
     if (!licenceHandler.hasAccessTo(ContribFeature.PLANS_UNLIMITED)) {
-      if (count(Template.CONTENT_URI, KEY_PLANID + " is not null", null) >= ContribFeature.FREE_PLANS) {
+      if (repository.count(Template.CONTENT_URI, KEY_PLANID + " is not null", null) >= ContribFeature.FREE_PLANS) {
         newPlanEnabled = false;
       }
     }
     prefHandler.putBoolean(PrefKey.NEW_PLAN_ENABLED, newPlanEnabled);
 
     if (!licenceHandler.hasAccessTo(ContribFeature.SPLIT_TEMPLATE)) {
-      if (count(Template.CONTENT_URI, KEY_CATID + " = " + DatabaseConstants.SPLIT_CATID, null) >= ContribFeature.FREE_SPLIT_TEMPLATES) {
+      if (repository.count(Template.CONTENT_URI, KEY_CATID + " = " + DatabaseConstants.SPLIT_CATID, null) >= ContribFeature.FREE_SPLIT_TEMPLATES) {
         newSplitTemplateEnabled = false;
       }
     }
@@ -740,8 +731,8 @@ public class Template extends Transaction implements ITransfer, ISplit {
   }
 
   @Override
-  protected Pair<Transaction, List<Tag>> getSplitPart(long partId) {
-    return Template.getInstanceFromDbWithTags(partId);
+  protected Pair<Transaction, List<Tag>> getSplitPart(ContentResolver contentResolver, long partId) {
+    return Template.getInstanceFromDbWithTags(contentResolver, partId);
   }
 
   @Nullable
@@ -755,8 +746,8 @@ public class Template extends Transaction implements ITransfer, ISplit {
     throw new IllegalStateException("Transfer templates have no transferPeer");
   }
 
-  public static void cleanupCanceledEdit(Long id) {
-    cleanupCanceledEdit(id, CONTENT_URI, PART_SELECT);
+  public static void cleanupCanceledEdit(ContentResolver contentResolver, Long id) {
+    cleanupCanceledEdit(contentResolver, id, CONTENT_URI, PART_SELECT);
   }
 
   public Action getDefaultAction() {

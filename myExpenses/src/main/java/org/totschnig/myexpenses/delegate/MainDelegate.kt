@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_PREFKEY
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_TITLE
 import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PrefKey.AUTO_FILL_HINT_SHOWN
 import org.totschnig.myexpenses.preference.shouldStartAutoFill
@@ -171,13 +172,10 @@ abstract class MainDelegate<T : ITransaction>(
         )
         viewBinding.Payee.setAdapter(payeeAdapter)
         payeeAdapter.filterQueryProvider = FilterQueryProvider { constraint: CharSequence? ->
-            var selection: String? = null
-            var selectArgs = arrayOfNulls<String>(0)
-            if (constraint != null) {
-                selection = Payee.SELECTION
-                selectArgs =
-                    Payee.SELECTION_ARGS(Utils.escapeSqlLikeExpression(Utils.normalize(constraint.toString())))
-            }
+            val (selection, selectArgs) = if (constraint != null)
+                Party.SELECTION to Party.selectionArgs(
+                    Utils.escapeSqlLikeExpression(Utils.normalize(constraint.toString()))
+                ) else null to null
             context.contentResolver.query(
                 TransactionProvider.PAYEES_URI,
                 arrayOf(KEY_ROWID, KEY_PAYEE_NAME),
@@ -246,7 +244,7 @@ abstract class MainDelegate<T : ITransaction>(
         updateUiWithDebt(debts.find { it.id == debtId })
     }
 
-    fun updateUiWithDebt(debt: Debt?) {
+    private fun updateUiWithDebt(debt: Debt?) {
         if (debt == null) {
             if (viewBinding.DebtCheckBox.isChecked) {
                 viewBinding.DebtCheckBox.isChecked = false

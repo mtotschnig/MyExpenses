@@ -12,7 +12,9 @@ import org.totschnig.myexpenses.db2.AutoFillInfo
 import org.totschnig.myexpenses.db2.CategoryHelper
 import org.totschnig.myexpenses.db2.countAccounts
 import org.totschnig.myexpenses.db2.createAccount
+import org.totschnig.myexpenses.db2.createParty
 import org.totschnig.myexpenses.db2.findAnyOpenByLabel
+import org.totschnig.myexpenses.db2.findParty
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.dialog.DialogUtils
@@ -24,6 +26,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.io.FileUtils
 import org.totschnig.myexpenses.viewmodel.data.Tag
@@ -75,7 +78,10 @@ abstract class ImportDataViewModel(application: Application) :
                         nrOfAccounts + importCount > ContribFeature.FREE_ACCOUNTS
                     ) {
                         throw Exception(
-                            localizedContext.getString(R.string.qif_parse_failure_found_multiple_accounts, format) + " " +
+                            localizedContext.getString(
+                                R.string.qif_parse_failure_found_multiple_accounts,
+                                format
+                            ) + " " +
                                     ContribFeature.ACCOUNTS_UNLIMITED.buildUsageLimitString(
                                         localizedContext
                                     ) +
@@ -119,11 +125,9 @@ abstract class ImportDataViewModel(application: Application) :
     fun insertPayees(payees: Set<String>): Int {
         var count = 0
         for (payee in payees) {
-            (repository.findPayee(payee) ?: repository.createPayee(payee).also {
-                if (it != null) count++
-            })?.let {
-                payeeToId[payee] = it
-            }
+            payeeToId[payee] =
+                repository.findParty(payee) ?: repository.createParty(Party(name = payee))
+                    .also { count++ }.id
         }
         return count
     }
@@ -143,19 +147,19 @@ abstract class ImportDataViewModel(application: Application) :
             t.payeeId = payeeToId[transaction.payee]
             findToAccount(transaction, t)
             if (transaction.splits != null) {
-                t.save()
+                t.save(contentResolver)
                 for (split in transaction.splits) {
                     val s = split.toTransaction(account, currencyUnit)
                     s.parentId = t.id
                     s.status = DatabaseConstants.STATUS_UNCOMMITTED
                     findToAccount(split, s)
                     findCategory(split, s, autofill)
-                    s.save()
+                    s.save(contentResolver)
                 }
             } else {
                 findCategory(transaction, t, autofill)
             }
-            t.save(true)?.let {
+            t.save(contentResolver, true)?.let {
                 transaction.tags?.let { list ->
                     repository.saveTagsForTransaction(
                         list.mapNotNull { tag ->
@@ -179,8 +183,8 @@ abstract class ImportDataViewModel(application: Application) :
     private fun findCategory(transaction: ImportTransaction, t: Transaction, autofill: Boolean) {
         t.catId = categoryToId[transaction.category] ?: if (autofill) {
             t.payeeId?.let {
-                (autoFillCache[it] ?:
-                repository.autoFill(it)?.apply { autoFillCache[it] = this })?.categoryId
+                (autoFillCache[it] ?: repository.autoFill(it)
+                    ?.apply { autoFillCache[it] = this })?.categoryId
             }
         } else null
     }

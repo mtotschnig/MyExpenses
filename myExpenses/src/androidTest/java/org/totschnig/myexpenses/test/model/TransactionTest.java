@@ -21,6 +21,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMI
 import android.database.Cursor;
 import android.net.Uri;
 
+import org.totschnig.myexpenses.db2.RepositoryTransactionKt;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
@@ -52,15 +53,15 @@ public class TransactionTest extends ModelTest {
   public void testTransaction() {
     CurrencyUnit currencyUnit = getHomeCurrency();
     String payee = "N.N";
-    long start = Transaction.getSequenceCount();
+    long start = getRepository().getSequenceCount();
     Transaction op1 = Transaction.getNewInstance(mAccount1.getId(), getHomeCurrency());
     op1.setAmount(new Money(currencyUnit, 100L));
     op1.setComment("test transaction");
     op1.setPictureUri(PictureDirHelper.getOutputMediaUri(false, getApp()));//we need an uri that is considered "home"
     op1.setPayee(payee);
-    op1.save();
+    op1.save(getRepository().getContentResolver());
     assertTrue(op1.getId() > 0);
-    assertEquals(start + 1, Transaction.getSequenceCount().longValue());
+    assertEquals(start + 1, getRepository().getSequenceCount());
     //save creates a payee as side effect
     assertEquals(1, countPayee(payee));
     Transaction restored = getTransactionFromDb(op1.getId());
@@ -69,7 +70,7 @@ public class TransactionTest extends ModelTest {
     Long id = op1.getId();
     Transaction.delete(id, false);
     //Transaction sequence should report on the number of transactions that have been created
-    assertEquals(start + 1, Transaction.getSequenceCount().longValue());
+    assertEquals(start + 1, getRepository().getSequenceCount());
     assertNull("Transaction deleted, but can still be retrieved", getTransactionFromDb(id));
     op1.saveAsNew();
     assertNotSame(op1.getId(), id);
@@ -134,7 +135,7 @@ public class TransactionTest extends ModelTest {
     op1.save(true);
     assertTrue(split1.getId() > 0);
     Transfer splitRestored = (Transfer) getTransactionFromDb(split1.getId());
-    assertTrue(Transaction.hasParent(split1.getId()));
+    assertTrue(RepositoryTransactionKt.hasParent(getRepository(), split1.getId()));
     assertNotNull(splitRestored);
     assertEquals(splitRestored.getParentId().longValue(), op1.getId());
   }
@@ -169,10 +170,10 @@ public class TransactionTest extends ModelTest {
     assertEquals(op1, restored);
     Transaction split1Restored = getTransactionFromDb(split1.getId());
     assertEquals(restored.getDate(), split1Restored.getDate());
-    assertTrue(Transaction.hasParent(split1.getId()));
+    assertTrue(RepositoryTransactionKt.hasParent(getRepository(), split1.getId()));
     Transaction split2Restored = getTransactionFromDb(split2.getId());
     assertEquals(restored.getDate(), split2Restored.getDate());
-    assertTrue(Transaction.hasParent(split2.getId()));
+    assertTrue(RepositoryTransactionKt.hasParent(getRepository(), split2.getId()));
     restored.setCrStatus(CrStatus.CLEARED);
     restored.save();
     //splits should not be touched by simply saving the parent

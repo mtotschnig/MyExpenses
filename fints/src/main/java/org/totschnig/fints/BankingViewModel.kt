@@ -341,7 +341,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                             if (isDuplicate(transaction, attributes[FinTsAttribute.CHECKSUM]!!)) {
                                 Timber.d("Found duplicate for $umsLine")
                             } else {
-                                val id = ContentUris.parseId(transaction.save()!!)
+                                val id = ContentUris.parseId(transaction.save(contentResolver)!!)
                                 repository.saveTransactionAttributes(id, attributes)
 
                                 importCount++
@@ -451,7 +451,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                                     accountId,
                                     currencyContext
                                 )
-                                val id = ContentUris.parseId(transaction.save()!!)
+                                val id = ContentUris.parseId(transaction.save(contentResolver)!!)
                                 repository.saveTransactionAttributes(id, transactionAttributes)
                             }
                         }

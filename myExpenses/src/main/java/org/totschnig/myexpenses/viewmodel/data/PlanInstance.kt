@@ -1,12 +1,15 @@
 package org.totschnig.myexpenses.viewmodel.data
 
+import android.content.ContentResolver
 import android.database.Cursor
 import android.os.Parcelable
 import android.provider.CalendarContract
 import kotlinx.parcelize.Parcelize
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
+import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import java.time.LocalDate
 import java.time.ZoneId
@@ -32,9 +35,16 @@ data class PlanInstance(val templateId: Long, val transactionId: Long?, val titl
         get() = CalendarProviderProxy.calculateId(date)
 
     companion object {
-        fun fromEventCursor(cursor: Cursor) = Template.getPlanInstance(
-                cursor.getLong(cursor.getColumnIndexOrThrow(CalendarContract.Instances.EVENT_ID)),
-                cursor.getLong(cursor.getColumnIndexOrThrow(CalendarContract.Instances.BEGIN)))
+        fun fromEventCursor(
+            cursor: Cursor,
+            contentResolver: ContentResolver,
+            currencyContext: CurrencyContext
+        ) = Template.getPlanInstance(
+                contentResolver,
+                currencyContext,
+                cursor.getLong(CalendarContract.Instances.EVENT_ID),
+                cursor.getLong(CalendarContract.Instances.BEGIN)
+        )
     }
 }
 

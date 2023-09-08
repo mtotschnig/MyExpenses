@@ -94,7 +94,7 @@ class UpgradeHandlerViewModel(application: Application) :
                 //  DbUtils.fixDateValues(getContentResolver());
                 //we do not want to show both reminder dialogs too quickly one after the other for upgrading users
                 //if they are already above both thresholds, so we set some delay
-                prefHandler.putLong("nextReminderContrib", Transaction.getSequenceCount() + 23)
+                prefHandler.putLong("nextReminderContrib", repository.getSequenceCount() + 23)
             }
             if (fromVersion < 163) {
                 prefHandler.remove("qif_export_file_encoding")
@@ -219,7 +219,8 @@ class UpgradeHandlerViewModel(application: Application) :
                     )?.useAndMap { Template(it) }?.forEach {
                         Plan.updateDescription(
                             it.planId,
-                            it.compileDescription(getApplication())
+                            it.compileDescription(getApplication()),
+                            contentResolver
                         )
                     }
                 } catch (e: SecurityException) {

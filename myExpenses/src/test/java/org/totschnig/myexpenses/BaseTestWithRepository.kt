@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses
 
+import android.content.ContentResolver
 import androidx.test.core.app.ApplicationProvider
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
@@ -22,4 +23,7 @@ open class BaseTestWithRepository {
         Mockito.mock(CurrencyFormatter::class.java),
         Mockito.mock(PrefHandler::class.java)
     )
+
+    val contentResolver: ContentResolver = repository.contentResolver
+
 }

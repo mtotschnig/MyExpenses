@@ -59,7 +59,7 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
   public void testTransaction() {
     CurrencyUnit currencyUnit = getHomeCurrency();
     String payee = "N.N";
-    long start = Transaction.getSequenceCount().longValue();
+    long start = getRepository().getSequenceCount();
     Transaction op1 = Transaction.getNewInstance(mAccount1.getId(), currencyUnit);
     op1.setAmount(new Money(currencyUnit, 100L));
     op1.setComment("test transaction");
@@ -67,7 +67,7 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     op1.setPayee(payee);
     op1.save();
     assertTrue(op1.getId() > 0);
-    assertEquals(start  + 1, Transaction.getSequenceCount().longValue());
+    assertEquals(start  + 1, getRepository().getSequenceCount());
     //save creates a payee as side effect
     assertEquals(1, countPayee(payee));
     Transaction restored = getTransactionFromDb(op1.getId());
@@ -76,7 +76,7 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     Long id = op1.getId();
     Transaction.delete(id, false);
     //Transaction sequence should report on the number of transactions that have been created
-    assertEquals(start  + 1, Transaction.getSequenceCount().longValue());
+    assertEquals(start  + 1,  getRepository().getSequenceCount());
     assertNull("Transaction deleted, but can still be retrieved", getTransactionFromDb(id));
     op1.saveAsNew();
     assertNotSame(op1.getId(), id);

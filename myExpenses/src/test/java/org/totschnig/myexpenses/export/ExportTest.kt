@@ -14,6 +14,7 @@
  */
 package org.totschnig.myexpenses.export
 
+import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
@@ -31,7 +32,6 @@ import org.mockito.kotlin.any
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.markAsExported
 import org.totschnig.myexpenses.db2.saveCategory
@@ -39,10 +39,8 @@ import org.totschnig.myexpenses.db2.writeTag
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.io.BufferedReader
 import java.io.File
@@ -113,7 +111,7 @@ class ExportTest: BaseTestWithRepository() {
         op.crStatus = CrStatus.CLEARED
         op.referenceNumber = "1"
         op.date = baseSinceEpoch
-        op.save()
+        op.save(contentResolver)
         uuidList.add(op.uuid!!)
         context.contentResolver.applyBatch(
             TransactionProvider.AUTHORITY,
@@ -125,7 +123,7 @@ class ExportTest: BaseTestWithRepository() {
         op.crStatus = CrStatus.UNRECONCILED
         op.referenceNumber = "2"
         op.date = baseSinceEpoch + 1
-        op.saveAsNew()
+        op.saveAsNew(contentResolver)
         uuidList.add(op.uuid!!)
         op.amount = Money(CurrencyUnit.DebugInstance, income1)
         op.catId = cat2Id
@@ -133,7 +131,7 @@ class ExportTest: BaseTestWithRepository() {
         op.methodId = null
         op.referenceNumber = null
         op.date = baseSinceEpoch + 2
-        op.saveAsNew()
+        op.saveAsNew(contentResolver)
         uuidList.add(op.uuid!!)
         val contentValues = ContentValues(1)
         contentValues.put(DatabaseConstants.KEY_PICTURE_URI, "file://sdcard/picture.png")
@@ -146,21 +144,21 @@ class ExportTest: BaseTestWithRepository() {
         op.amount = Money(CurrencyUnit.DebugInstance, income2)
         op.comment = "Note for myself with \"quote\""
         op.date = baseSinceEpoch + 3
-        op.saveAsNew()
+        op.saveAsNew(contentResolver)
         uuidList.add(op.uuid!!)
         val transfer = Transfer.getNewInstance(account1.id, CurrencyUnit.DebugInstance, account2.id)
             ?: throw IllegalStateException()
         transfer.setAmount(Money(CurrencyUnit.DebugInstance, transferP))
         transfer.crStatus = CrStatus.RECONCILED
         transfer.date = baseSinceEpoch + 4
-        transfer.save()
+        transfer.save(contentResolver)
         uuidList.add(transfer.uuid!!)
         transfer.crStatus = CrStatus.UNRECONCILED
         transfer.setAmount(Money(CurrencyUnit.DebugInstance, -transferN))
         transfer.date = baseSinceEpoch + 5
-        transfer.saveAsNew()
+        transfer.saveAsNew(contentResolver)
         uuidList.add(transfer.uuid!!)
-        val split = SplitTransaction.getNewInstance(account1.id, CurrencyUnit.DebugInstance) ?: throw IllegalStateException()
+        val split = SplitTransaction.getNewInstance(contentResolver, account1.id, CurrencyUnit.DebugInstance) ?: throw IllegalStateException()
         split.amount = Money(CurrencyUnit.DebugInstance, split1)
         split.date = baseSinceEpoch + 6
         split.payee = "N.N."
@@ -169,18 +167,18 @@ class ExportTest: BaseTestWithRepository() {
         part.amount = Money(CurrencyUnit.DebugInstance, part1)
         part.catId = cat3Id
         part.status = DatabaseConstants.STATUS_UNCOMMITTED
-        part.save()
+        part.save(contentResolver)
         uuidList.add(part.uuid!!)
         part.amount = Money(CurrencyUnit.DebugInstance, part2)
         part.catId = cat4Id
-        part.saveAsNew()
+        part.saveAsNew(contentResolver)
         uuidList.add(part.uuid!!)
         context.contentResolver.applyBatch(
             TransactionProvider.AUTHORITY,
             saveTagLinks(listOf(tag1Id, tag2Id), part.id, null, true)
         )
         split.status = DatabaseConstants.STATUS_NONE
-        split.save(true)
+        split.save(contentResolver, true)
         uuidList.add(split.uuid!!)
         return account1
     }
@@ -192,14 +190,14 @@ class ExportTest: BaseTestWithRepository() {
             comment = "Expense inserted after first export"
             referenceNumber = "3"
             date = baseSinceEpoch
-            save()
+            save(contentResolver)
             amount = Money(CurrencyUnit.DebugInstance, income3)
             comment = "Income inserted after first export"
             payee = "N.N."
             methodId = null
             referenceNumber = null
             date = baseSinceEpoch + 1
-            saveAsNew()
+            saveAsNew(contentResolver)
         }
     }
 
@@ -230,7 +228,7 @@ class ExportTest: BaseTestWithRepository() {
         op.crStatus = CrStatus.CLEARED
         op.referenceNumber = "1"
         op.date = baseSinceEpoch
-        op.save()
+        op.save(contentResolver)
         op = Transaction.getNewInstance(account2.id, CurrencyUnit.DebugInstance)
         if (op == null) {
             throw IllegalStateException()
@@ -240,7 +238,7 @@ class ExportTest: BaseTestWithRepository() {
         op.crStatus = CrStatus.CLEARED
         op.referenceNumber = "1"
         op.date = baseSinceEpoch
-        op.save()
+        op.save(contentResolver)
         return account1 to account2
     }
 
@@ -254,17 +252,17 @@ class ExportTest: BaseTestWithRepository() {
             amount = Money(CurrencyUnit.DebugInstance, income1)
             date = baseSinceEpoch
             catId = cat1Id
-            save()
+            save(contentResolver)
             catId = cat2Id
             date = baseSinceEpoch + 1
-            saveAsNew()
+            saveAsNew(contentResolver)
             catId = cat3Id
             date = baseSinceEpoch + 2
-            saveAsNew()
+            saveAsNew(contentResolver)
             catId = null
             date = baseSinceEpoch + 3
             amount = Money(CurrencyUnit.DebugInstance, expense1)
-            saveAsNew()
+            saveAsNew(contentResolver)
         }
         with(
             Transfer.getNewInstance(account.id, CurrencyUnit.DebugInstance, transferAccount.id)
@@ -272,7 +270,7 @@ class ExportTest: BaseTestWithRepository() {
         ) {
             setAmount(Money(CurrencyUnit.DebugInstance, transferP))
             date = baseSinceEpoch + 4
-            save()
+            save(contentResolver)
         }
         return account
     }
@@ -459,7 +457,7 @@ class ExportTest: BaseTestWithRepository() {
         op.amount = Money(CurrencyUnit.DebugInstance, income2)
         op.catId = writeCategory("With/and:Sub", writeCategory("With/and:Main"))
         op.date = baseSinceEpoch
-        op.save()
+        op.save(contentResolver)
 
         try {
             expect.that(

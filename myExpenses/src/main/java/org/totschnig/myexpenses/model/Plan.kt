@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.model
 
+import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
@@ -12,7 +13,6 @@ import com.android.calendar.EventRecurrenceFormatter
 import com.android.calendarcommon2.EventRecurrence
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -114,7 +114,7 @@ class Plan private constructor(
      *
      * @return the id of the created object
      */
-    override fun save(): Uri? {
+    override fun save(contentResolver: ContentResolver): Uri? {
         val uri: Uri
         val values = ContentValues()
         values.put(CalendarContract.Events.TITLE, title)
@@ -140,27 +140,27 @@ class Plan private constructor(
             } else {
                 values.put(CalendarContract.Events.DURATION, "P0S")
             }
-            uri = cr().insert(CalendarContract.Events.CONTENT_URI, values)!!
+            uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI, values)!!
             id = ContentUris.parseId(uri)
         } else {
             uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, id)
-            if (cr().update(uri, values, null, null) == 0) return null
+            if (contentResolver.update(uri, values, null, null) == 0) return null
         }
         return uri
     }
 
-    fun updateCustomAppUri(customAppUri: String?) {
+    fun updateCustomAppUri(contentResolver: ContentResolver, customAppUri: String?) {
         check(id != 0L) { "Can not set custom app uri on unsaved plan" }
-        updateCustomAppUri(id, customAppUri)
+        updateCustomAppUri(contentResolver, id, customAppUri)
     }
 
     class CalendarIntegrationNotAvailableException : IllegalStateException()
     companion object {
         @JvmStatic
-        fun getInstanceFromDb(planId: Long): Plan? {
+        fun getInstanceFromDb(contentResolver: ContentResolver, planId: Long): Plan? {
             var plan: Plan? = null
             if (PermissionGroup.CALENDAR.hasPermission(MyApplication.getInstance())) {
-                val c = cr().query(
+                val c = contentResolver.query(
                     ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, planId),
                     arrayOf(
                         CalendarContract.Events._ID,
@@ -197,18 +197,18 @@ class Plan private constructor(
         }
 
         @JvmStatic
-        fun delete(id: Long) {
+        fun delete(contentResolver: ContentResolver, id: Long) {
             val calendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1")
             val eventUri =
                 CalendarContract.Events.CONTENT_URI.buildUpon().appendPath(id.toString())
                     .build()
-            cr().query(
+            contentResolver.query(
                 eventUri, arrayOf("1 as ignore"),
                 CalendarContract.Events.CALENDAR_ID + " = ?", arrayOf(calendarId),
                 null
             )?.use {
                 if (it.count > 0) {
-                    cr().delete(
+                    contentResolver.delete(
                         eventUri,
                         null,
                         null
@@ -242,7 +242,7 @@ class Plan private constructor(
         }
 
         @JvmStatic
-        fun updateCustomAppUri(id: Long?, customAppUri: String?) {
+        fun updateCustomAppUri(contentResolver: ContentResolver, id: Long?, customAppUri: String?) {
             try {
                 val values = ContentValues()
                 values.put(CalendarContract.Events.CUSTOM_APP_URI, customAppUri)
@@ -250,7 +250,7 @@ class Plan private constructor(
                     CalendarContract.Events.CUSTOM_APP_PACKAGE,
                     MyApplication.getInstance().packageName
                 )
-                cr().update(
+                contentResolver.update(
                     ContentUris.withAppendedId(
                         CalendarContract.Events.CONTENT_URI,
                         id!!
@@ -261,10 +261,10 @@ class Plan private constructor(
             }
         }
 
-        fun updateDescription(id: Long?, description: String?) {
+        fun updateDescription(id: Long?, description: String?, contentResolver: ContentResolver) {
             val values = ContentValues()
             values.put(CalendarContract.Events.DESCRIPTION, description)
-            cr().update(
+            contentResolver.update(
                 ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, id!!),
                 values,
                 null,

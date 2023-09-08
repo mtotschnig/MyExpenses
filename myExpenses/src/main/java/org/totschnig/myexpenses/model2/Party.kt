@@ -26,6 +26,11 @@ data class Party(
         }
 
     companion object {
+        const val SELECTION = "($KEY_PAYEE_NAME_NORMALIZED\$s LIKE ? OR $KEY_PAYEE_NAME_NORMALIZED\$s GLOB ?)"
+        fun selectionArgs(search: String): Array<String> = arrayOf(
+            "$search%",
+            "*[ (.;,]$search*"
+        )
         fun create(name: String, iban: String?, bic: String?) =
             Party(name = name.trim(), iban = iban, bic = bic)
     }
