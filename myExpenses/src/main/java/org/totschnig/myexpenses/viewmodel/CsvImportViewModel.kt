@@ -45,43 +45,52 @@ class CsvImportViewModel(application: Application) : ImportDataViewModel(applica
         uri: Uri
     ): LiveData<Result<List<ImportResult>>> = liveData(context = coroutineContext()) {
 
-        contentResolver.call(
-            TransactionProvider.DUAL_URI,
-            TransactionProvider.METHOD_BULK_START,
-            null,
-            null
-        )
+        emit(runCatching {
+            val currencyUnit = currencyContext.get(accountConfiguration.currency)
+            val parser = CSVParser(
+                localizedContext,
+                data,
+                columnToFieldMap,
+                dateFormat,
+                currencyUnit,
+                accountConfiguration.type
+            )
+            parser.parse()
+            val accounts = parser.accounts
 
-        val currencyUnit = currencyContext.get(accountConfiguration.currency)
-        val parser = CSVParser(localizedContext, data, columnToFieldMap, dateFormat, currencyUnit)
-        parser.parse()
-        val accounts = parser.accounts
+            contentResolver.call(
+                TransactionProvider.DUAL_URI,
+                TransactionProvider.METHOD_BULK_START,
+                null,
+                null
+            )
 
-        if (columnToFieldMap.indexOf(R.string.account) > -1) {
-            insertAccounts(accounts, currencyUnit, uri)
-        } else {
-            accountTitleToAccount[accounts[0].memo] = if (accountConfiguration.id == 0L)
-                Account(
-                    label = getString(R.string.pref_import_title, "CSV"),
-                    currency = accountConfiguration.currency,
-                    openingBalance = 0,
-                    type = accountConfiguration.type
-                ).createIn(repository)
-            else repository.loadAccount(accountConfiguration.id)!!
-        }
+            if (columnToFieldMap.indexOf(R.string.account) > -1) {
+                insertAccounts(accounts, currencyUnit, uri)
+            } else {
+                accountTitleToAccount[accounts[0].memo] = if (accountConfiguration.id == 0L)
+                    Account(
+                        label = getString(R.string.pref_import_title, "CSV"),
+                        currency = accountConfiguration.currency,
+                        openingBalance = 0,
+                        type = accountConfiguration.type
+                    ).createIn(repository)
+                else repository.loadAccount(accountConfiguration.id)!!
+            }
 
-        insertPayees(parser.payees)
-        repository.extractTagIds(parser.tags, tagToId)
-        insertCategories(parser.categories)
+            insertPayees(parser.payees)
+            repository.extractTagIds(parser.tags, tagToId)
+            insertCategories(parser.categories)
 
-        val count = insertTransactions(accounts, currencyUnit, autoFill)
+            val count = insertTransactions(accounts, currencyUnit, autoFill)
 
-        contentResolver.call(
-            TransactionProvider.DUAL_URI,
-            TransactionProvider.METHOD_BULK_END,
-            null,
-            null
-        )
-        emit(Result.success(listOf(ImportResult("label", count))))
+            contentResolver.call(
+                TransactionProvider.DUAL_URI,
+                TransactionProvider.METHOD_BULK_END,
+                null,
+                null
+            )
+            count.filterNotNull()
+        })
     }
 }

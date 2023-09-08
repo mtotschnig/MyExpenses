@@ -8,6 +8,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.export.CategoryInfo
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.export.qif.QifUtils
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.SplitTransaction
 import java.math.BigDecimal
@@ -17,7 +18,8 @@ class CSVParser(
     private val data: List<CSVRecord>,
     private val columnToFieldMap: IntArray,
     private val dateFormat: QifDateFormat,
-    private val currency: CurrencyUnit
+    private val currency: CurrencyUnit,
+    private val type: AccountType
 ) {
 
     private val accountBuilders: MutableSet<ImportAccount.Builder> = mutableSetOf()
@@ -31,9 +33,10 @@ class CSVParser(
     val tags: MutableSet<String> = mutableSetOf()
 
     private fun requireAccount(label: String) =
-        accountBuilders.find { it.memo == label } ?: ImportAccount.Builder().memo(label).also {
-            accountBuilders.add(it)
-        }
+        accountBuilders.find { it.memo == label } ?: ImportAccount.Builder().memo(label).type(type)
+            .also {
+                accountBuilders.add(it)
+            }
 
     private fun saveGetFromRecord(record: CSVRecord, index: Int) =
         if (record.size() > index) record[index].trim() else ""

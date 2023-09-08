@@ -100,7 +100,14 @@ class CsvParserTest {
             StandardCharsets.UTF_8
         )
         val records = CSVFormat.DEFAULT.parse(reader).records
-        val p = CSVParser(mock(), records, columnToFieldMap, dateFormat, CurrencyUnit.DebugInstance)
+        val p = CSVParser(
+            mock(),
+            records,
+            columnToFieldMap,
+            dateFormat,
+            CurrencyUnit.DebugInstance,
+            accountConfiguration.type
+        )
         p.parse()
         return p.accounts
     }

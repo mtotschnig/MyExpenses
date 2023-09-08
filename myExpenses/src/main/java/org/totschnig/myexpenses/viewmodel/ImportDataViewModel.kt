@@ -56,21 +56,10 @@ abstract class ImportDataViewModel(application: Application) :
 
     fun insertAccounts(accounts: List<ImportAccount>, currencyUnit: CurrencyUnit, uri: Uri): Int {
         val nrOfAccounts = repository.countAccounts(null, null)
+        val hasUnlimitedAccounts = getApplication<MyApplication>().appComponent.licenceHandler()
+            .hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED)
         var importCount = 0
         for (account: ImportAccount in accounts) {
-            val licenceHandler = getApplication<MyApplication>().appComponent.licenceHandler()
-            if (!licenceHandler.hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED)
-                && nrOfAccounts + importCount > ContribFeature.FREE_ACCOUNTS
-            ) {
-                throw Exception(
-                    localizedContext.getString(R.string.qif_parse_failure_found_multiple_accounts) + " " +
-                            ContribFeature.ACCOUNTS_UNLIMITED.buildUsageLimitString(localizedContext) +
-                            ContribFeature.ACCOUNTS_UNLIMITED.buildRemoveLimitation(
-                                localizedContext,
-                                false
-                            )
-                )
-            }
             val dbAccountId =
                 if (TextUtils.isEmpty(account.memo)) null else repository.findAnyOpenByLabel(account.memo)
             val dbAccount = if (dbAccountId != null) {
@@ -81,6 +70,20 @@ abstract class ImportDataViewModel(application: Application) :
             } else {
                 account.toAccount(currencyUnit).let {
                     importCount++
+                    if (!hasUnlimitedAccounts &&
+                        nrOfAccounts + importCount > ContribFeature.FREE_ACCOUNTS
+                    ) {
+                        throw Exception(
+                            localizedContext.getString(R.string.qif_parse_failure_found_multiple_accounts) + " " +
+                                    ContribFeature.ACCOUNTS_UNLIMITED.buildUsageLimitString(
+                                        localizedContext
+                                    ) +
+                                    ContribFeature.ACCOUNTS_UNLIMITED.buildRemoveLimitation(
+                                        localizedContext,
+                                        false
+                                    )
+                        )
+                    }
                     repository.createAccount(
                         if (it.label.isEmpty()) it.copy(label = getDefaultAccountName(uri)) else it
                     )
@@ -95,7 +98,7 @@ abstract class ImportDataViewModel(application: Application) :
         accounts: List<ImportAccount>,
         currencyUnit: CurrencyUnit,
         autofill: Boolean
-    ) = reduceTransfers(accounts).sumOf { (_, memo, _, _, transactions) ->
+    ) = reduceTransfers(accounts).map { (_, memo, _, _, transactions) ->
         accountTitleToAccount[memo]?.let {
             insertTransactions(it, currencyUnit, transactions, autofill)
             publishProgress(
@@ -108,8 +111,8 @@ abstract class ImportDataViewModel(application: Application) :
                     it.label
                 )
             )
-            transactions.size
-        } ?: 0
+            ImportResult(it.label, transactions.size)
+        }
     }
 
     fun insertPayees(payees: Set<String>): Int {

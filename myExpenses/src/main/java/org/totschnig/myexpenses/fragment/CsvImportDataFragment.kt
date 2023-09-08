@@ -51,6 +51,7 @@ class CsvImportDataFragment : Fragment() {
     private var nrOfColumns: Int = 0
     private val allFields: List<Pair<Int, String?>> = listOf(
             R.string.discard to null,
+            R.string.account to "ACCOUNT",
             R.string.amount to "AMOUNT",
             R.string.expense to "EXPENSE",
             R.string.income to "INCOME",
@@ -92,6 +93,7 @@ class CsvImportDataFragment : Fragment() {
             when (it.first) {
                 R.string.date -> !withValueDate
                 R.string.booking_date, R.string.value_date -> withValueDate
+                R.string.account -> (requireActivity() as CsvImportActivity).accountId== 0L
                 else -> true
             }
         }
@@ -383,8 +385,6 @@ class CsvImportDataFragment : Fragment() {
         const val KEY_SELECTED_ROWS = "SELECTED_ROWS"
         const val KEY_HEADER_LINE_POSITION = "HEADER_LINE_POSITION"
         const val KEY_MAPPING = "MAPPING"
-        fun newInstance(): CsvImportDataFragment {
-            return CsvImportDataFragment()
-        }
+        fun newInstance() = CsvImportDataFragment()
     }
 }

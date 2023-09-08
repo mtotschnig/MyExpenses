@@ -193,7 +193,7 @@ class QifParser(
     }
 
     private fun applyAccountType(account: Builder, peek: String) {
-        if (account.type.isNullOrEmpty()) {
+        if (account.type == null) {
             account.type(peek.substring(6))
         }
     }

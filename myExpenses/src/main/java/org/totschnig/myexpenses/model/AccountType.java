@@ -13,51 +13,33 @@ public enum AccountType {
   public static final String JOIN;
 
   public int toStringResPlural() {
-    switch (this) {
-      case CASH:
-        return R.string.account_type_cash_plural;
-      case BANK:
-        return R.string.account_type_bank_plural;
-      case CCARD:
-        return R.string.account_type_ccard_plural;
-      case ASSET:
-        return R.string.account_type_asset_plural;
-      case LIABILITY:
-        return R.string.account_type_liability_plural;
-      default:
-        return 0;
-    }
+    return switch (this) {
+      case CASH -> R.string.account_type_cash_plural;
+      case BANK -> R.string.account_type_bank_plural;
+      case CCARD -> R.string.account_type_ccard_plural;
+      case ASSET -> R.string.account_type_asset_plural;
+      case LIABILITY -> R.string.account_type_liability_plural;
+    };
   }
 
   public String toQifName() {
-    switch (this) {
-      case CASH:
-        return "Cash";
-      case BANK:
-        return "Bank";
-      case CCARD:
-        return "CCard";
-      case ASSET:
-        return "Oth A";
-      case LIABILITY:
-        return "Oth L";
-    }
-    return "";
+    return switch (this) {
+      case CASH -> "Cash";
+      case BANK -> "Bank";
+      case CCARD -> "CCard";
+      case ASSET -> "Oth A";
+      case LIABILITY -> "Oth L";
+    };
   }
 
   public static AccountType fromQifName(String qifName) {
-    switch (qifName) {
-      case "Oth L":
-        return LIABILITY;
-      case "Oth A":
-        return ASSET;
-      case "CCard":
-        return CCARD;
-      case "Cash":
-        return CASH;
-      default:
-        return BANK;
-    }
+    return switch (qifName) {
+      case "Oth L" -> LIABILITY;
+      case "Oth A" -> ASSET;
+      case "CCard" -> CCARD;
+      case "Cash" -> CASH;
+      default -> BANK;
+    };
   }
 
   public static String sqlOrderExpression() {
@@ -70,19 +52,13 @@ public enum AccountType {
   }
 
   private String getSortOrder() {
-    switch (this) {
-      case CASH:
-        return "0";
-      case BANK:
-        return "1";
-      case CCARD:
-        return "2";
-      case ASSET:
-        return "3";
-      case LIABILITY:
-        return "4";
-    }
-    return "-1";
+    return switch (this) {
+      case CASH -> "0";
+      case BANK -> "1";
+      case CCARD -> "2";
+      case ASSET -> "3";
+      case LIABILITY -> "4";
+    };
   }
 
   static {
@@ -91,18 +67,12 @@ public enum AccountType {
 
   @StringRes
   public int toStringRes() {
-    switch (this) {
-      case CASH:
-        return R.string.account_type_cash;
-      case BANK:
-        return R.string.account_type_bank;
-      case CCARD:
-        return R.string.account_type_ccard;
-      case ASSET:
-        return R.string.account_type_asset;
-      case LIABILITY:
-        return R.string.account_type_liability;
-    }
-    return 0;
+    return switch (this) {
+      case CASH -> R.string.account_type_cash;
+      case BANK -> R.string.account_type_bank;
+      case CCARD -> R.string.account_type_ccard;
+      case ASSET -> R.string.account_type_asset;
+      case LIABILITY -> R.string.account_type_liability;
+    };
   }
 }
