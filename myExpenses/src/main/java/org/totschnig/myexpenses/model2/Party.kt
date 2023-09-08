@@ -18,7 +18,7 @@ data class Party(
 
     val asContentValues
         get() = ContentValues().apply {
-            put(KEY_PAYEE_NAME, name)
+            put(KEY_PAYEE_NAME, name.trim())
             put(KEY_PAYEE_NAME_NORMALIZED, Utils.normalize(name))
             put(KEY_SHORT_NAME, shortName)
             put(KEY_IBAN, iban)
@@ -31,7 +31,7 @@ data class Party(
             "$search%",
             "*[ (.;,]$search*"
         )
-        fun create(name: String, iban: String?, bic: String?) =
-            Party(name = name.trim(), iban = iban, bic = bic)
+        fun create(name: String, shortName: String? = null, id: Long = 0, iban: String? = null, bic: String? = null) =
+            Party(id = id, name = name.trim(), shortName = shortName?.trim(),  iban = iban, bic = bic)
     }
 }

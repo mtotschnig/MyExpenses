@@ -52,11 +52,11 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         account2 = buildAccount("Test account 2")
         transaction = Transaction.getNewInstance(account1.id, homeCurrency).apply {
             amount = Money(homeCurrency, 500L)
-            save()
+            save(contentResolver)
         }
         transfer = Transfer.getNewInstance(account1.id, homeCurrency, account2.id).apply {
             setAmount(Money(homeCurrency, -600L))
-            save()
+            save(contentResolver)
         }
     }
 
@@ -107,7 +107,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 foreignCurrency, 200L
             )
         )
-        foreignTransfer.save()
+        foreignTransfer.save(contentResolver)
         load(foreignTransfer.id).use {
             onView(
                 withIdAndParent(
@@ -273,9 +273,9 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldPopulateWithSplitTransactionAndPrepareForm() {
-        val splitTransaction: Transaction = SplitTransaction.getNewInstance(account1.id, homeCurrency)
+        val splitTransaction: Transaction = SplitTransaction.getNewInstance(contentResolver, account1.id, homeCurrency)
         splitTransaction.status = DatabaseConstants.STATUS_NONE
-        splitTransaction.save(true)
+        splitTransaction.save(contentResolver, true)
         load(splitTransaction.id).use {
             checkEffectiveGone(R.id.OperationType)
             toolbarTitle().check(matches(withText(R.string.menu_edit_split)))
@@ -322,22 +322,24 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     private fun buildSplitTemplate(): Long {
         val template =
-            Template.getTypedNewInstance(Transactions.TYPE_SPLIT, account1.id, homeCurrency, false, null)
-        template!!.save(true)
+            Template.getTypedNewInstance(contentResolver, Transactions.TYPE_SPLIT, account1.id, homeCurrency, false, null)
+        template!!.save(contentResolver, true)
         val part = Template.getTypedNewInstance(
+            contentResolver,
             Transactions.TYPE_SPLIT,
             account1.id,
             homeCurrency,
             false,
             template.id
         )
-        part!!.save()
+        part!!.save(contentResolver)
         return template.id
     }
 
     @Test
     fun shouldPopulateWithPlanAndPrepareForm() {
         val plan = Template.getTypedNewInstance(
+            contentResolver,
             Transactions.TYPE_TRANSACTION,
             account1.id,
             homeCurrency,
@@ -352,7 +354,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             "Daily",
             plan.compileDescription(app)
         )
-        plan.save()
+        plan.save(contentResolver)
         launchAndWait(intent.apply {
             putExtra(DatabaseConstants.KEY_TEMPLATEID, plan.id)
         }).use {
@@ -374,12 +376,13 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 .check(matches(withText("Daily plan")))
 
         }
-        Plan.delete(plan.planId)
+        Plan.delete(contentResolver, plan.planId)
     }
 
     @Test
     fun shouldInstantiateFromTemplateAndPrepareForm() {
         val template = Template.getTypedNewInstance(
+            contentResolver,
             Transactions.TYPE_TRANSACTION,
             account1.id,
             homeCurrency,
@@ -388,7 +391,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         )
         template!!.title = "Nothing but a plan"
         template.amount = Money(homeCurrency, 800L)
-        template.save()
+        template.save(contentResolver)
         launchAndWait(intent.apply {
             action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE
             putExtra(DatabaseConstants.KEY_TEMPLATEID, template.id)
@@ -449,7 +452,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         val sealedAccount = buildAccount("Sealed account")
         val sealed = Transaction.getNewInstance(sealedAccount.id, homeCurrency)
         sealed.amount = Money(homeCurrency, 500L)
-        sealed.save()
+        sealed.save(contentResolver)
         val values = ContentValues(1)
         values.put(DatabaseConstants.KEY_SEALED, true)
         app.contentResolver.update(

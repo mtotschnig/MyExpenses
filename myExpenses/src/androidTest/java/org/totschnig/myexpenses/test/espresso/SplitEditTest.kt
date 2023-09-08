@@ -140,15 +140,15 @@ class SplitEditTest : BaseExpenseEditTest() {
 
     private fun prepareSplit(): Long {
         val currencyUnit = homeCurrency
-        return with(SplitTransaction.getNewInstance(account1.id, currencyUnit)) {
+        return with(SplitTransaction.getNewInstance(contentResolver, account1.id, currencyUnit)) {
             amount = Money(currencyUnit, 10000)
             status = DatabaseConstants.STATUS_NONE
-            save(true)
+            save(contentResolver, true)
             val part = Transaction.getNewInstance(account1.id, currencyUnit, id)
             part.amount = Money(currencyUnit, 5000)
-            part.save()
+            part.save(contentResolver)
             part.amount = Money(currencyUnit, 5000)
-            part.saveAsNew()
+            part.saveAsNew(contentResolver)
             id
         }
     }

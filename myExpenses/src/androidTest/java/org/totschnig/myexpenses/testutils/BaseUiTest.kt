@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.testutils
 
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.content.pm.ActivityInfo
@@ -65,7 +66,7 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
             currency = currency
         ).createIn(repository)
 
-    fun getTransactionFromDb(id: Long): Transaction = Transaction.getInstanceFromDb(id, homeCurrency)
+    fun getTransactionFromDb(id: Long): Transaction = Transaction.getInstanceFromDb(contentResolver, id, homeCurrency)
 
     @Before
     fun setUp() {
@@ -162,6 +163,8 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
             Mockito.mock(CurrencyFormatter::class.java),
             Mockito.mock(PrefHandler::class.java)
         )
+
+    val contentResolver: ContentResolver = repository.contentResolver
 
     @Throws(TimeoutException::class)
     protected fun waitForSnackbarDismissed() {

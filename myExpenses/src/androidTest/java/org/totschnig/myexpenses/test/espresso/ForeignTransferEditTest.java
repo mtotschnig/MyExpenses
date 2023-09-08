@@ -30,7 +30,7 @@ public class ForeignTransferEditTest extends BaseExpenseEditTest {
     Account account2 = buildAccount(accountLabel2, 0L, currency1.getCode());
     transfer = Transfer.getNewInstance(account1.getId(), currency1, account2.getId());
     transfer.setAmountAndTransferAmount(new Money(currency1, -2000L), new Money(currency2, -3000L));
-    transfer.save();
+    transfer.save(getContentResolver());
   }
 
   @Test

@@ -38,13 +38,13 @@ class PartyTest : BaseTestWithRepository() {
 
     @Test
     fun requireExistingPayee() {
-        val id = repository.requireParty("N.N")
+        val id = repository.requireParty("N.N.")
         assertThat(id).isEqualTo(party.id)
     }
 
     @Test
     fun requireExistingPayeeWithSpace() {
-        val id = repository.requireParty(" N.N ")
+        val id = repository.requireParty(" N.N. ")
         assertThat(id).isEqualTo(party.id)
     }
 }

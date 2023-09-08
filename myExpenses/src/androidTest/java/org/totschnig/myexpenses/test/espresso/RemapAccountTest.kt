@@ -36,10 +36,10 @@ class RemapAccountTest : BaseMyExpensesTest() {
         account3 = buildAccount("K3")
         Transaction(account1.id, createMoney()).also {
             it.setDate(ZonedDateTime.now().minusDays(4))
-            it.save()
+            it.save(contentResolver)
         }
         transfer = Transfer(account1.id, createMoney(), account2.id).also {
-            it.save()
+            it.save(contentResolver)
         }
         launch(account1.id)
     }

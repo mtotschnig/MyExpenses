@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.export.CategoryInfo
 import org.totschnig.myexpenses.export.qif.QifBufferedReader
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.export.qif.QifParser
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit.Companion.DebugInstance
 import java.io.BufferedReader
 import java.io.ByteArrayInputStream
@@ -44,7 +45,7 @@ class QifParserTest {
         )
         Assert.assertEquals(1, p.accounts.size.toLong())
         Assert.assertEquals("My Cash Account", p.accounts[0].memo)
-        Assert.assertEquals("Cash", p.accounts[0].type)
+        Assert.assertEquals(AccountType.CASH, p.accounts[0].type)
     }
 
     @Test
@@ -64,9 +65,9 @@ class QifParserTest {
         )
         Assert.assertEquals(2, p.accounts.size.toLong())
         Assert.assertEquals("My Cash Account", p.accounts[0].memo)
-        Assert.assertEquals("Cash", p.accounts[0].type)
+        Assert.assertEquals(AccountType.CASH, p.accounts[0].type)
         Assert.assertEquals("My Bank Account", p.accounts[1].memo)
-        Assert.assertEquals("Bank", p.accounts[1].type)
+        Assert.assertEquals(AccountType.BANK, p.accounts[1].type)
     }
 
     @Test
@@ -88,10 +89,10 @@ class QifParserTest {
         )
         Assert.assertEquals(2, p.accounts.size.toLong())
         Assert.assertEquals("Bankkonto", p.accounts[0].memo)
-        Assert.assertEquals("Bank", p.accounts[0].type)
+        Assert.assertEquals(AccountType.BANK, p.accounts[0].type)
         Assert.assertEquals("Kontonr. 111111111", p.accounts[0].desc)
         Assert.assertEquals("Geldtasche", p.accounts[1].memo)
-        Assert.assertEquals("Cash", p.accounts[1].type)
+        Assert.assertEquals(AccountType.CASH, p.accounts[1].type)
     }
 
     @Test
@@ -170,7 +171,7 @@ class QifParserTest {
         Assert.assertEquals(1, p.accounts.size.toLong())
         val a = p.accounts[0]
         Assert.assertEquals("My Cash Account", a.memo)
-        Assert.assertEquals("Cash", a.type)
+        Assert.assertEquals(AccountType.CASH, a.type)
         Assert.assertEquals(2, a.transactions.size.toLong())
         var t = a.transactions[0]
         Assert.assertEquals(DateTime.date(2011, 2, 8).atMidnight().asDate(), t.date)
@@ -297,7 +298,7 @@ class QifParserTest {
         Assert.assertEquals(1, p.accounts.size.toLong())
         val a = p.accounts[0]
         Assert.assertEquals("My Cash Account", a.memo)
-        Assert.assertEquals("Cash", a.type)
+        Assert.assertEquals(AccountType.CASH, a.type)
         Assert.assertEquals(2, a.transactions.size.toLong())
         var t = a.transactions[0]
         Assert.assertEquals(DateTime.date(2011, 2, 8).atMidnight().asDate(), t.date)
@@ -346,7 +347,7 @@ class QifParserTest {
         Assert.assertEquals(2, p.accounts.size.toLong())
         var a = p.accounts[0]
         Assert.assertEquals("My Cash Account", a.memo)
-        Assert.assertEquals("Cash", a.type)
+        Assert.assertEquals(AccountType.CASH, a.type)
         Assert.assertEquals(3, a.transactions.size.toLong())
         var t = a.transactions[0]
         Assert.assertEquals(DateTime.date(2011, 2, 8).atMidnight().asDate(), t.date)
@@ -359,7 +360,7 @@ class QifParserTest {
         Truth.assertThat(t.amount.toFloat()).isEqualTo(-67.80f)
         a = p.accounts[1]
         Assert.assertEquals("My Bank Account", a.memo)
-        Assert.assertEquals("Bank", a.type)
+        Assert.assertEquals(AccountType.BANK, a.type)
         t = a.transactions[0]
         Assert.assertEquals(DateTime.date(2011, 2, 8).atMidnight().asDate(), t.date)
         Truth.assertThat(t.amount.toFloat()).isEqualTo(-20.00f)
@@ -493,7 +494,7 @@ class QifParserTest {
         Assert.assertEquals(2, p.accounts.size.toLong())
         var a = p.accounts[0]
         Assert.assertEquals("My Cash Account", a.memo)
-        Assert.assertEquals("Cash", a.type)
+        Assert.assertEquals(AccountType.CASH, a.type)
         Assert.assertEquals(1, a.transactions.size.toLong())
         var t = a.transactions[0]
         Assert.assertEquals(DateTime.date(2011, 2, 8).atMidnight().asDate(), t.date)
@@ -502,7 +503,7 @@ class QifParserTest {
         Assert.assertNull(t.category)
         a = p.accounts[1]
         Assert.assertEquals("My Bank Account", a.memo)
-        Assert.assertEquals("Bank", a.type)
+        Assert.assertEquals(AccountType.BANK, a.type)
         Assert.assertEquals(1, a.transactions.size.toLong())
         t = a.transactions[0]
         Assert.assertEquals(DateTime.date(2011, 2, 8).atMidnight().asDate(), t.date)
@@ -646,7 +647,7 @@ class QifParserTest {
         Assert.assertEquals(2, p.accounts.size.toLong())
         var a = p.accounts[0]
         Assert.assertEquals("My Cash Account", a.memo)
-        Assert.assertEquals("Cash", a.type)
+        Assert.assertEquals(AccountType.CASH, a.type)
         Assert.assertEquals(1, a.transactions.size.toLong())
         var t = a.transactions[0]
         Truth.assertThat(t.amount.toFloat()).isEqualTo(-2100.00f)
@@ -661,7 +662,7 @@ class QifParserTest {
         Truth.assertThat(s.amount.toFloat()).isEqualTo(-1000.00f)
         a = p.accounts[1]
         Assert.assertEquals("My Bank Account", a.memo)
-        Assert.assertEquals("Bank", a.type)
+        Assert.assertEquals(AccountType.BANK, a.type)
         Assert.assertEquals(1, a.transactions.size.toLong())
         t = a.transactions[0]
         Assert.assertTrue(t.isTransfer)

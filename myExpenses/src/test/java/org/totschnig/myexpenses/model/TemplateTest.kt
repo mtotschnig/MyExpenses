@@ -127,6 +127,7 @@ class TemplateTest: BaseTestWithRepository() {
 
     private fun buildTemplate() = Template(contentResolver, mAccount1.id, CurrencyUnit.DebugInstance, Transactions.TYPE_TRANSACTION, null).apply {
         catId = this@TemplateTest.categoryId
+        payee = "N.N"
         payeeId = this@TemplateTest.payeeId
         comment = "Some comment"
         repository.findPaymentMethod(PreDefinedPaymentMethod.CHEQUE.name).let {

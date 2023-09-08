@@ -31,10 +31,10 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
             targetContext,
             PaymentMethod(0, "TEST", null, PAYMENT_METHOD_EXPENSE, true, null, listOf(AccountType.CASH))
         )
-        Template.getTypedNewInstance(Transactions.TYPE_TRANSACTION, account1.id, homeCurrency, false, null)!!.apply {
+        Template.getTypedNewInstance(contentResolver, Transactions.TYPE_TRANSACTION, account1.id, homeCurrency, false, null)!!.apply {
             amount = Money(homeCurrency, 500L)
             title = "Template"
-            save()
+            save(contentResolver)
         }
         testScenario = ActivityScenario.launchActivityForResult(intentForNewTransaction)
     }

@@ -39,13 +39,13 @@ class MyExpensesCategorySearchFilterTest : BaseMyExpensesTest() {
         val op = Transaction.getNewInstance(account.id, homeCurrency)
         op.amount = Money(currency, -1200L)
         op.catId = categoryId1
-        id1Main = ContentUris.parseId(op.save()!!)
+        id1Main = ContentUris.parseId(op.save(contentResolver)!!)
         op.catId = categoryId2
         op.date = op.date - 10000
-        id2Main = ContentUris.parseId(op.saveAsNew())
+        id2Main = ContentUris.parseId(op.saveAsNew(contentResolver))
         op.catId = categoryId1Sub
         op.date = op.date - 10000
-        id1Sub = ContentUris.parseId(op.saveAsNew())
+        id1Sub = ContentUris.parseId(op.saveAsNew(contentResolver))
         launch(account.id)
         allLabelsAreDisplayed()
         Espresso.onView(ViewMatchers.withId(R.id.SEARCH_COMMAND)).perform(ViewActions.click())

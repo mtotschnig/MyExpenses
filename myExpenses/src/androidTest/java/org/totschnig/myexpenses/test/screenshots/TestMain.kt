@@ -47,7 +47,7 @@ class TestMain : BaseMyExpensesTest() {
 
     @After
     fun cleanUp() {
-        app.fixture.cleanup()
+        app.fixture.cleanup(contentResolver)
     }
 
     @Test

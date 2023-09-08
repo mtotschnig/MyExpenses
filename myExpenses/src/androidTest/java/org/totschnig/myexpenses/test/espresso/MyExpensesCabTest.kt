@@ -27,11 +27,11 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         account = buildAccount("Test account 1")
         val op0 = Transaction.getNewInstance(account.id, homeCurrency)
         op0.amount = Money(homeCurrency, -100L)
-        op0.save()
+        op0.save(contentResolver)
         for (i in 2 until 7) {
             op0.amount = Money(homeCurrency, -100L * i)
             op0.date = op0.date - 10000
-            op0.saveAsNew()
+            op0.saveAsNew(contentResolver)
         }
         launch(account.id)
     }

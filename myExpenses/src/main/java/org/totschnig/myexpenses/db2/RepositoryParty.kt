@@ -9,7 +9,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.TransactionProvider
 
 fun Repository.createParty(party: Party) = contentResolver.createParty(party)
-fun Repository.createParty(party: String) = contentResolver.createParty(Party(name = party))
+fun Repository.createParty(party: String) = contentResolver.createParty(Party.create(name = party))
 
 fun Repository.saveParty(party: Party) {
     contentResolver.update(
@@ -32,7 +32,7 @@ fun Repository.requireParty(name: String) = contentResolver.requireParty(name)
 
 // legacy methods with ContentResolver receivier
 fun ContentResolver.requireParty(name: String): Long {
-    return findParty(name) ?: createParty(Party(name = name)).id
+    return findParty(name) ?: createParty(Party.create(name = name)).id
 }
 
 fun ContentResolver.createParty(party: Party) = party.copy(
@@ -48,6 +48,6 @@ fun ContentResolver.findParty(party: String, iban: String? = null) = query(
     TransactionProvider.PAYEES_URI,
     arrayOf(DatabaseConstants.KEY_ROWID),
     KEY_PAYEE_NAME + " = ? AND " + KEY_IBAN + if (iban == null) " IS NULL" else " = ?",
-    if (iban == null) arrayOf(party) else arrayOf(party, iban),
+    if (iban == null) arrayOf(party.trim()) else arrayOf(party, iban),
     null
 )?.use { if (it.moveToFirst()) it.getLong(0) else null }

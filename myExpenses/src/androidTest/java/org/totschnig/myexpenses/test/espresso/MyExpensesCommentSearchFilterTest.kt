@@ -19,10 +19,10 @@ class MyExpensesCommentSearchFilterTest : BaseMyExpensesTest() {
         val op = Transaction.getNewInstance(account.id, homeCurrency)
         op.amount = Money(currency, 1000L)
         op.comment = comment1
-        op.save()
+        op.save(contentResolver)
         op.comment =  comment2
         op.date = op.date - 10000
-        op.saveAsNew()
+        op.saveAsNew(contentResolver)
         launch(account.id)
     }
 

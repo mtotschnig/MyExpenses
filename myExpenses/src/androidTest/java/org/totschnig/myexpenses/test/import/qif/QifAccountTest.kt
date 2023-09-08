@@ -12,7 +12,7 @@ class QifAccountTest {
     @Test
     fun shouldPreserveDataUponConversion() {
         val qifAccount = ImportAccount(
-            type = "Bank",
+            type = AccountType.BANK,
             memo = "People's Bank",
             desc = "Savings",
             openingBalance = BigDecimal("-1234456.78")

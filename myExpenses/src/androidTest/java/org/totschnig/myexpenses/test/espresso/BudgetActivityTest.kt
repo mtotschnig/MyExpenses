@@ -45,7 +45,7 @@ class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
         val op0 = Transaction.getNewInstance(account.id, homeCurrency)
         op0.amount = Money(homeCurrency, -12300L)
         op0.catId = mainCat1
-        op0.save()
+        op0.save(contentResolver)
 
         val budgetId = createBudget(account)
 

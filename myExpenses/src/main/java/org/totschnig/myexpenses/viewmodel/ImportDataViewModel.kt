@@ -126,7 +126,7 @@ abstract class ImportDataViewModel(application: Application) :
         var count = 0
         for (payee in payees) {
             payeeToId[payee] =
-                repository.findParty(payee) ?: repository.createParty(Party(name = payee))
+                repository.findParty(payee) ?: repository.createParty(payee)
                     .also { count++ }.id
         }
         return count
