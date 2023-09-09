@@ -2,15 +2,19 @@ package org.totschnig.myexpenses.viewmodel.data
 
 import android.database.Cursor
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BIC
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_DESCENDANTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_DEBTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TEMPLATES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIONS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
+import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 
@@ -22,7 +26,9 @@ data class Party(
     val iban: String? = null,
     val mappedTransactions: Boolean = false,
     val mappedTemplates: Boolean = false,
-    val mappedDebts: Boolean = false
+    val mappedDebts: Boolean = false,
+    val duplicates: List<Party> = emptyList(),
+    val isDuplicate: Boolean = false
 ) {
     override fun toString() = name
 
@@ -30,12 +36,15 @@ data class Party(
         fun fromCursor(cursor: Cursor) = Party(
             cursor.getLong(KEY_ROWID),
             cursor.getString(KEY_PAYEE_NAME),
-            cursor.getStringOrNull(KEY_SHORT_NAME),
+            isDuplicate = cursor.getLongOrNull(KEY_PARENTID) != null
+/*            cursor.getStringOrNull(KEY_SHORT_NAME),
             cursor.getStringOrNull(KEY_BIC),
             cursor.getStringOrNull(KEY_IBAN),
-            cursor.getInt(KEY_MAPPED_TRANSACTIONS) > 0,
-            cursor.getInt(KEY_MAPPED_TEMPLATES) > 0,
-            cursor.getInt(KEY_MAPPED_DEBTS) > 0
+            cursor.getBoolean(KEY_MAPPED_TRANSACTIONS),
+            cursor.getBoolean(KEY_MAPPED_TEMPLATES),
+            cursor.getBoolean(KEY_MAPPED_DEBTS),
+            cursor.getBoolean(KEY_HAS_DESCENDANTS)*/
+
         )
     }
 }

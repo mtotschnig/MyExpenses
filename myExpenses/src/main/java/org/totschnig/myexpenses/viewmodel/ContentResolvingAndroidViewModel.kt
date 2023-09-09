@@ -368,13 +368,13 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
                 accountId
             )
 
-        val selection = StringBuilder().apply {
+        val selection = buildString {
             filterSelection?.let { append(it) }
             accountSelection?.let {
                 if (isNotEmpty()) append(" AND ")
                 append(it)
             }
-        }.takeIf { it.isNotEmpty() }?.toString()
+        }.takeIf { it.isNotEmpty() }
         return selection to joinArrays(filterSelectionArgs, accountSelectionArgs)
     }
 

@@ -117,6 +117,7 @@ import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithBudget;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithMappedObjects;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.checkForSealedAccount;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.getPayeeWithDuplicatesCTE;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionMappedObjectQuery;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.computeWhere;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.groupByForPaymentMethodQuery;
@@ -544,6 +545,12 @@ public class TransactionProvider extends BaseTransactionProvider {
         additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
       case PAYEES:
+        if (uri.getBooleanQueryParameter(QUERY_PARAMETER_HIERARCHICAL, false)) {
+          String sql = getPayeeWithDuplicatesCTE(getCollate());
+          c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
+          c.setNotificationUri(getContext().getContentResolver(), uri);
+          return c;
+        }
         qb = SupportSQLiteQueryBuilder.builder(TABLE_PAYEES);
         if (sortOrder == null) {
           sortOrder = KEY_PAYEE_NAME + " COLLATE " + getCollate();

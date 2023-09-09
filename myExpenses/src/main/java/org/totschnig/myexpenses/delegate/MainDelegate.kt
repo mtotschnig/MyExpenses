@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PrefKey.AUTO_FILL_HINT_SHOWN
 import org.totschnig.myexpenses.preference.shouldStartAutoFill
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -173,13 +174,13 @@ abstract class MainDelegate<T : ITransaction>(
         viewBinding.Payee.setAdapter(payeeAdapter)
         payeeAdapter.filterQueryProvider = FilterQueryProvider { constraint: CharSequence? ->
             val (selection, selectArgs) = if (constraint != null)
-                Party.SELECTION to Party.selectionArgs(
+                " AND ${Party.SELECTION}" to Party.selectionArgs(
                     Utils.escapeSqlLikeExpression(Utils.normalize(constraint.toString()))
                 ) else null to null
             context.contentResolver.query(
                 TransactionProvider.PAYEES_URI,
                 arrayOf(KEY_ROWID, KEY_PAYEE_NAME),
-                selection,
+                "$KEY_PARENTID IS NULL $selection",
                 selectArgs,
                 null
             )

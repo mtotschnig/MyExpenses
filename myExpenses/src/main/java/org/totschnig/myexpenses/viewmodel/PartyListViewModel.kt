@@ -9,25 +9,41 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import androidx.lifecycle.*
+import app.cash.copper.Query
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.transform
+import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.db2.createParty
 import org.totschnig.myexpenses.db2.saveParty
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
+import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
+import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.replace
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import org.totschnig.myexpenses.viewmodel.data.Party
 import timber.log.Timber
 import java.util.*
+
+const val KEY_EXPANDED_ITEM = "expandedItem"
 
 class PartyListViewModel(
     application: Application,
@@ -42,23 +58,70 @@ class PartyListViewModel(
             savedStateHandle[KEY_FILTER] = value
         }
 
+    fun setExpandedItem(id: Long) {
+        savedStateHandle[KEY_EXPANDED_ITEM] = id
+    }
+
     fun getDebts(partyId: Long): List<Debt>? = if (::debts.isInitialized) debts[partyId] else null
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val parties = savedStateHandle.getLiveData(KEY_FILTER, "")
+    val parties: Flow<List<Party>> = savedStateHandle.getLiveData(KEY_FILTER, "")
         .asFlow()
         .distinctUntilChanged()
         .flatMapLatest {
             val (selection, selectionArgs) = joinQueryAndAccountFilter(
-                filter,
+                it,
                 savedStateHandle.get<Long>(KEY_ACCOUNTID),
                 KEY_PAYEE_NAME_NORMALIZED, KEY_PAYEEID, TABLE_PAYEES
             )
             contentResolver.observeQuery(
-                PAYEES_URI, null,
-                selection, selectionArgs, null, true
-            ).mapToList { Party.fromCursor(it) }
-
+                PAYEES_URI.buildUpon()
+                    .appendBooleanQueryParameter(QUERY_PARAMETER_HIERARCHICAL)
+                    .build(), null,
+                buildString {
+                    append(KEY_PARENTID).append(" IS NULL")
+                    if (!selection.isNullOrEmpty()) append(" AND ").append(selection)
+                },
+                selectionArgs, null, true
+            ).transform { query ->
+                val list = withContext(Dispatchers.IO) {
+                    query.run()?.use { cursor ->
+                        val items = mutableListOf<Party>()
+                        val duplicates = mutableListOf<Party>()
+                        var currentItem: Party? = null
+                        while (cursor.moveToNext()) {
+                            val element = Party.fromCursor(cursor)
+                            if (cursor.getLongOrNull(KEY_PARENTID) == null) {
+                                if (currentItem != null) {
+                                    items.add(currentItem.copy(
+                                        duplicates = buildList { addAll(duplicates) }
+                                    ))
+                                    duplicates.clear()
+                                }
+                                currentItem = element
+                            } else {
+                                duplicates.add(element)
+                            }
+                        }
+                        if (currentItem != null) {
+                            items.add(currentItem.copy(duplicates = buildList { addAll(duplicates) }))
+                        }
+                        items
+                    }
+                }
+                if (list != null) {
+                    emit(list)
+                }
+            }
+        }.zip(
+            savedStateHandle.getLiveData<Long?>(KEY_EXPANDED_ITEM, null).asFlow()
+        ) { parties, expandedItem ->
+            if (expandedItem == null) parties else parties.flatMap {
+                buildList {
+                    add(it)
+                    if (it.id == expandedItem) addAll(it.duplicates)
+                }
+            }
         }
 
     fun loadDebts(): LiveData<Unit> = liveData(context = coroutineContext()) {
@@ -221,7 +284,11 @@ class PartyListViewModel(
 
     fun saveParty(id: Long, name: String, shortName: String?): LiveData<Boolean> =
         liveData(context = coroutineContext()) {
-            val party = org.totschnig.myexpenses.model2.Party.create(id = id, name = name, shortName = shortName)
+            val party = org.totschnig.myexpenses.model2.Party.create(
+                id = id,
+                name = name,
+                shortName = shortName
+            )
             emit(
                 try {
                     if (id == 0L) repository.createParty(party) else repository.saveParty(party)

@@ -26,7 +26,7 @@ data class Party(
         }
 
     companion object {
-        const val SELECTION = "($KEY_PAYEE_NAME_NORMALIZED\$s LIKE ? OR $KEY_PAYEE_NAME_NORMALIZED\$s GLOB ?)"
+        const val SELECTION = "($KEY_PAYEE_NAME_NORMALIZED LIKE ? OR $KEY_PAYEE_NAME_NORMALIZED GLOB ?)"
         fun selectionArgs(search: String): Array<String> = arrayOf(
             "$search%",
             "*[ (.;,]$search*"

@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         tools:visibility="visible"
-        android:visibility="gone" />
+        android:visibility="invisible" />
 
     <TextView
         app:layout_constraintTop_toTopOf="parent"
@@ -59,4 +59,5 @@
 
         tools:visibility="visible"
         app:srcCompat="@drawable/balance_scale" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

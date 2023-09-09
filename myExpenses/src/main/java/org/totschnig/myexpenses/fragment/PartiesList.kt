@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.fragment
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
 import android.text.TextUtils
@@ -84,8 +85,9 @@ class PartiesList : Fragment(), OnDialogResultListener {
 
         fun bind(party: Party, isChecked: Boolean) {
             binding.Payee.text = party.name
+            if (party.isDuplicate) { binding.Payee.setTextColor(Color.GRAY) }
             with(binding.checkBox) {
-                isVisible = hasSelectMultiple()
+                visibility = if (hasSelectMultiple()) View.VISIBLE else View.INVISIBLE
                 this.isChecked = isChecked
                 setOnCheckedChangeListener { _, isChecked ->
                     itemCallback.onCheckedChanged(
@@ -162,6 +164,10 @@ class PartiesList : Fragment(), OnDialogResultListener {
                     .setIcon(R.drawable.ic_menu_edit)
                 menu.add(Menu.NONE, DELETE_COMMAND, Menu.NONE, R.string.menu_delete)
                     .setIcon(R.drawable.ic_menu_delete)
+                if (party.duplicates.isNotEmpty()) {
+                    menu.add(Menu.NONE, SHOW_DUPLICATES_COMMAND, Menu.NONE, "Duplicates")
+                        .setIcon(R.drawable.ic_group)
+                }
                 if (action == Action.MANAGE) {
                     val debts = viewModel.getDebts(party.id)
                     val subMenu = if ((debts?.size ?: 0) > 0)
@@ -232,6 +238,10 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                 putExtra(KEY_PAYEEID, party.id)
                                 putExtra(KEY_PAYEE_NAME, party.name)
                             })
+                        }
+                        SHOW_DUPLICATES_COMMAND -> {
+                            viewModel.setExpandedItem(party.id)
+                            resetAdapter()
                         }
 
                         else -> {
@@ -311,7 +321,6 @@ class PartiesList : Fragment(), OnDialogResultListener {
     @State
     @JvmField
     var mergeMode: Boolean = false
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -471,6 +480,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
         const val DELETE_COMMAND = -3
         const val NEW_DEBT_COMMAND = -4
         const val DEBT_SUB_MENU = -5
+        const val SHOW_DUPLICATES_COMMAND = -6
         const val STATE_CHECK_STATES = "checkStates"
 
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Party>() {
