@@ -37,10 +37,10 @@ class MyExpensesTest : BaseMyExpensesTest() {
     lateinit var account: Account
     @Before
     fun fixture() {
+        prefHandler.putBoolean(PrefKey.ACCOUNT_PANEL_VISIBLE, true)
         account =  buildAccount("Test account 1")
         launch(account.id)
         Intents.init()
-        prefHandler.putBoolean(PrefKey.ACCOUNT_PANEL_VISIBLE, true)
     }
 
     @After
