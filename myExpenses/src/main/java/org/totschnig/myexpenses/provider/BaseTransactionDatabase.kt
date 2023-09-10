@@ -122,7 +122,15 @@ CREATE TABLE $TABLE_BANKS ($KEY_ROWID integer primary key autoincrement, $KEY_BL
 """
 
 const val PAYEE_CREATE = """
-CREATE TABLE $TABLE_PAYEES ($KEY_ROWID integer primary key autoincrement, $KEY_PAYEE_NAME text not null, $KEY_SHORT_NAME text, $KEY_IBAN text, $KEY_BIC text, $KEY_PAYEE_NAME_NORMALIZED text, $KEY_PARENTID integer references $TABLE_PAYEES($KEY_ROWID), unique($KEY_PAYEE_NAME, $KEY_IBAN));
+CREATE TABLE $TABLE_PAYEES (
+    $KEY_ROWID integer primary key autoincrement,
+    $KEY_PAYEE_NAME text not null,
+    $KEY_SHORT_NAME text,
+    $KEY_IBAN text,
+    $KEY_BIC text,
+    $KEY_PAYEE_NAME_NORMALIZED text,
+    $KEY_PARENTID integer references $TABLE_PAYEES($KEY_ROWID) ON DELETE CASCADE,
+    unique($KEY_PAYEE_NAME, $KEY_IBAN));
 """
 //the unique index on ($KEY_PAYEE_NAME, $KEY_IBAN) does not prevent duplicate names when iban is null
 const val PAYEE_UNIQUE_INDEX = """

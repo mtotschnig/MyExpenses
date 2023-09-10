@@ -2,9 +2,11 @@ package org.totschnig.myexpenses.db2
 
 import android.content.ContentResolver
 import android.content.ContentUris
+import android.content.ContentValues
 import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.TransactionProvider
 
@@ -51,3 +53,11 @@ fun ContentResolver.findParty(party: String, iban: String? = null) = query(
     if (iban == null) arrayOf(party.trim()) else arrayOf(party, iban),
     null
 )?.use { if (it.moveToFirst()) it.getLong(0) else null }
+
+fun Repository.unsetParentId(partyId: Long) {
+    contentResolver.update(
+        ContentUris.withAppendedId(TransactionProvider.PAYEES_URI, partyId),
+        ContentValues(1).apply { putNull(KEY_PARENTID) },
+        null, null
+    )
+}

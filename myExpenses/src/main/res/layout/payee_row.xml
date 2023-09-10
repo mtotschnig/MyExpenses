@@ -26,6 +26,7 @@
         app:layout_constraintBottom_toTopOf="@id/BankDetails"
         app:layout_constraintStart_toEndOf="@id/checkBox"
         app:layout_constraintEnd_toStartOf="@id/Debt"
+        android:drawablePadding="2dp"
         android:id="@+id/Payee"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

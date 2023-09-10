@@ -18,11 +18,11 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.transform
-import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.db2.createParty
 import org.totschnig.myexpenses.db2.saveParty
+import org.totschnig.myexpenses.db2.unsetParentId
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
@@ -295,4 +295,8 @@ class PartyListViewModel(
                 }
             )
         }
+
+    fun removeDuplicateFromGroup(id: Long) {
+        repository.unsetParentId(id)
+    }
 }
