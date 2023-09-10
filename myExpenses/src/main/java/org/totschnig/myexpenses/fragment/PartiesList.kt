@@ -24,6 +24,7 @@ import android.text.TextUtils
 import android.view.*
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.isEmpty
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -84,8 +85,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(party: Party, isChecked: Boolean) {
-            binding.Payee.text = party.name
-            if (party.isDuplicate) { binding.Payee.setTextColor(Color.GRAY) }
+            binding.Payee.text = if (party.isDuplicate) " ➔ ${party.name}" else party.name
             with(binding.checkBox) {
                 visibility = if (hasSelectMultiple()) View.VISIBLE else View.INVISIBLE
                 this.isChecked = isChecked
@@ -165,8 +165,10 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 menu.add(Menu.NONE, DELETE_COMMAND, Menu.NONE, R.string.menu_delete)
                     .setIcon(R.drawable.ic_menu_delete)
                 if (party.duplicates.isNotEmpty()) {
-                    menu.add(Menu.NONE, SHOW_DUPLICATES_COMMAND, Menu.NONE, "Duplicates")
-                        .setIcon(R.drawable.ic_group)
+                    with(menu.add(Menu.NONE, SHOW_DUPLICATES_COMMAND, Menu.NONE, "Show Duplicates")) {
+                        isCheckable = true
+                        isChecked = viewModel.expandedItem == party.id
+                    }
                 }
                 if (action == Action.MANAGE) {
                     val debts = viewModel.getDebts(party.id)
@@ -240,7 +242,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                             })
                         }
                         SHOW_DUPLICATES_COMMAND -> {
-                            viewModel.setExpandedItem(party.id)
+                            viewModel.expandedItem = if (viewModel.expandedItem == party.id) null else party.id
                             resetAdapter()
                         }
 

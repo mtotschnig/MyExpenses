@@ -9,20 +9,14 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import androidx.lifecycle.*
-import app.cash.copper.Query
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
@@ -53,16 +47,19 @@ class PartyListViewModel(
     private lateinit var debts: Map<Long, List<Debt>>
 
     var filter: String?
-        get() = savedStateHandle.get<String>(KEY_FILTER)
+        get() = savedStateHandle[KEY_FILTER]
         set(value) {
             savedStateHandle[KEY_FILTER] = value
         }
 
-    fun setExpandedItem(id: Long) {
-        savedStateHandle[KEY_EXPANDED_ITEM] = id
-    }
+    var expandedItem: Long?
+        get() = savedStateHandle[KEY_EXPANDED_ITEM]
+        set(value) {
+            savedStateHandle[KEY_EXPANDED_ITEM] = value
+        }
 
     fun getDebts(partyId: Long): List<Debt>? = if (::debts.isInitialized) debts[partyId] else null
+
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val parties: Flow<List<Party>> = savedStateHandle.getLiveData(KEY_FILTER, "")
@@ -113,7 +110,7 @@ class PartyListViewModel(
                     emit(list)
                 }
             }
-        }.zip(
+        }.combine(
             savedStateHandle.getLiveData<Long?>(KEY_EXPANDED_ITEM, null).asFlow()
         ) { parties, expandedItem ->
             if (expandedItem == null) parties else parties.flatMap {
