@@ -1,19 +1,17 @@
 package org.totschnig.myexpenses.test.provider
 
 import android.content.ContentValues
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
 import org.totschnig.myexpenses.util.Utils
 
-data class PayeeInfo(val name: String) {
+
+data class PayeeInfo @JvmOverloads constructor(val name: String, val parentId: Long? = null) {
     val contentValues: ContentValues
-        get() {
-            val contentValues = ContentValues(2)
-            contentValues.put(DatabaseConstants.KEY_PAYEE_NAME, name)
-            contentValues.put(
-                DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED, Utils.normalize(
-                    name
-                )
-            )
-            return contentValues
+        get() = ContentValues(2).apply {
+            put(KEY_PAYEE_NAME, name)
+            put(KEY_PAYEE_NAME_NORMALIZED, Utils.normalize(name))
+            put(KEY_PARENTID, parentId)
         }
 }

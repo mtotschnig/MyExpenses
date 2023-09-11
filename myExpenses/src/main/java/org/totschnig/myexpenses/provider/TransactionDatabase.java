@@ -24,6 +24,7 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUN
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.BANK_CREATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PARTY_HIERARCHY_TRIGGER;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_UNIQUE_INDEX;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTION_ATTRIBUTES_CREATE;
@@ -790,6 +791,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE);
 
     createOrRefreshCategoryHierarchyTrigger(db);
+
+    db.execSQL(PARTY_HIERARCHY_TRIGGER);
 
     createOrRefreshViews(db);
     //insertTestData(db, 50, 50);
