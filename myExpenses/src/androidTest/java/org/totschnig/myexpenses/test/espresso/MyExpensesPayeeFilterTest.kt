@@ -11,18 +11,23 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.createParty
+import org.totschnig.myexpenses.db2.setParentId
 import org.totschnig.myexpenses.fragment.PartiesList
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 
 class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
     private lateinit var account: Account
     private var payee1 = "John Doe"
     private var payee2 = "Hinz Finz"
+    private var duplicate = "Finz Hinz"
 
     @Before
     fun fixture() {
+        val p2 = repository.createParty(Party(name = payee2))
         val currency = CurrencyUnit.DebugInstance
         account =  buildAccount("Test account 1")
         val op = Transaction.getNewInstance(account.id, homeCurrency)
@@ -32,27 +37,55 @@ class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
         op.payee = payee2
         op.date = op.date - 10000
         op.saveAsNew(contentResolver)
+        val d = repository.createParty(Party(name = duplicate))
+        repository.setParentId(d.id, p2.id)
+        op.payee = duplicate
+        op.date = op.date - 10000
+        op.saveAsNew(contentResolver)
         launch(account.id)
     }
 
     @Test
     fun payeeFilterShouldHideTransaction() {
+        checkOriginalState()
+        filterOn(payee1)
+        assertListSize(1)
+        payeeIsDisplayed(payee1,0)
+        filterOff(payee1)
+        checkOriginalState()
+    }
+
+    @Test
+    fun payeeFilterShouldShowDuplicate() {
+        checkOriginalState()
+        filterOn(payee2)
         assertListSize(2)
+        payeeIsDisplayed(payee2,0)
+        payeeIsDisplayed(duplicate, 1)
+        filterOff(payee2)
+        checkOriginalState()
+    }
+
+
+    private fun checkOriginalState() {
+        assertListSize(3)
         payeeIsDisplayed(payee1, 0)
         payeeIsDisplayed(payee2, 1)
+        payeeIsDisplayed(duplicate, 2)
+    }
+
+    private fun filterOn(payee: String) {
         onView(withId(R.id.SEARCH_COMMAND)).perform(click())
         onView(withText(R.string.payer_or_payee)).perform(click())
         onView(withId(R.id.list))
             .perform(RecyclerViewActions.actionOnItem<PartiesList.ViewHolder>(
-                hasDescendant(withText(payee1)), clickOnViewChild(R.id.checkBox)))
+                hasDescendant(withText(payee)), clickOnViewChild(R.id.checkBox)))
         onView(withId(R.id.CREATE_COMMAND)).perform(click())
-        assertListSize(1)
-        payeeIsDisplayed(payee1,0)
-        //switch off filter
+    }
+
+    private fun filterOff(payee: String) {
         onView(withId(R.id.SEARCH_COMMAND)).perform(click())
-        onView(withText(payee1)).inRoot(RootMatchers.isPlatformPopup()).perform(click())
-        assertListSize(2)
-        payeeIsDisplayed(payee2, 1)
+        onView(withText(payee)).inRoot(RootMatchers.isPlatformPopup()).perform(click())
     }
 
     private fun clickOnViewChild(viewId: Int) = object : ViewAction {
