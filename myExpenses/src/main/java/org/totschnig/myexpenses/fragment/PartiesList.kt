@@ -395,6 +395,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
         when (item.itemId) {
             R.id.MERGE_COMMAND -> {
                 mergeMode = !mergeMode
+                viewModel.expandedItem = null
                 updateUiMergeMode()
                 resetAdapter()
                 true
