@@ -45,7 +45,8 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(Transaction
             Mockito.mock(PrefHandler::class.java)
         )
 
-    val contentResolver: ContentResolver = repository.contentResolver
+    val contentResolver: ContentResolver
+        get() = repository.contentResolver
 
     @JvmOverloads
     fun buildAccount(label: String, openingBalance: Long = 0L, syncAccountName: String? = null) =
@@ -69,6 +70,11 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(Transaction
         providerInfo.authority = TransactionProvider.AUTHORITY
         transactionProvider.attachInfo(IsolatedContext(resolver, context), providerInfo)
         resolver.addProvider(TransactionProvider.AUTHORITY, transactionProvider)
+    }
+
+    @Throws(Exception::class)
+    override fun tearDown() {
+        //we need to skip super.tearDown(), since we do not call super.setUp
     }
 
     override fun getMockContentResolver() = resolver
