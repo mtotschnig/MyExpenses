@@ -177,17 +177,19 @@ abstract class MainDelegate<T : ITransaction>(
         )
         viewBinding.Payee.setAdapter(payeeAdapter)
         payeeAdapter.filterQueryProvider = FilterQueryProvider { constraint: CharSequence? ->
-            val (selection, selectArgs) = if (constraint != null)
-                " AND ${Party.SELECTION}" to Party.selectionArgs(
-                    Utils.escapeSqlLikeExpression(Utils.normalize(constraint.toString()))
-                ) else null to null
-            context.contentResolver.query(
-                TransactionProvider.PAYEES_URI,
-                arrayOf(KEY_ROWID, KEY_PAYEE_NAME),
-                "$KEY_PARENTID IS NULL $selection",
-                selectArgs,
-                null
-            )
+            if (constraint != null) {
+                val (selection, selectArgs) =
+                    " AND ${Party.SELECTION}" to Party.selectionArgs(
+                        Utils.escapeSqlLikeExpression(Utils.normalize(constraint.toString()))
+                    )
+                context.contentResolver.query(
+                    TransactionProvider.PAYEES_URI,
+                    arrayOf(KEY_ROWID, KEY_PAYEE_NAME),
+                    "$KEY_PARENTID IS NULL $selection",
+                    selectArgs,
+                    null
+                )
+            } else null
         }
         payeeAdapter.stringConversionColumn = 1
         viewBinding.Payee.onItemClickListener =
