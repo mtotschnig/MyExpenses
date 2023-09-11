@@ -76,7 +76,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTTYES_METHODS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_EXCHANGE_RATES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BANKS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGET_ALLOCATIONS;
@@ -96,7 +95,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATE
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTRIBUTES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
@@ -546,7 +544,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       case PAYEES:
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_HIERARCHICAL, false)) {
-          String sql = getPayeeWithDuplicatesCTE(getCollate());
+          String sql = getPayeeWithDuplicatesCTE(selection, getCollate());
           c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
           c.setNotificationUri(getContext().getContentResolver(), uri);
           return c;
@@ -556,7 +554,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           sortOrder = KEY_PAYEE_NAME + " COLLATE " + getCollate();
         }
         if (projection == null)
-          projection = Companion.getPAYEE_PROJECTION();
+          projection = Companion.payeeProjection(TABLE_PAYEES);
         break;
       case MAPPED_TRANSFER_ACCOUNTS:
         qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_TRANSFER_ACCOUNT + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + ")");

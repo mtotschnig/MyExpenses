@@ -202,11 +202,11 @@ JOIN Tree ON Tree.$KEY_ROWID = subtree.$KEY_PARENTID
 """.trimIndent()
 }
 
-fun getPayeeWithDuplicatesCTE(collate: String) = """
-    WITH cte AS (SELECT $KEY_PAYEE_NAME, $KEY_ROWID, $KEY_PARENTID, 1 AS $KEY_LEVEL FROM $TABLE_PAYEES 
-    WHERE $KEY_PARENTID IS NULL
+fun getPayeeWithDuplicatesCTE(selection: String?, collate: String) = """
+    WITH cte AS (SELECT ${BaseTransactionProvider.payeeProjection(TABLE_PAYEES).joinToString(",")}, 1 AS $KEY_LEVEL FROM $TABLE_PAYEES 
+    WHERE $KEY_PARENTID IS NULL ${selection?.let { " AND $it" } ?: ""}
     UNION ALL
-    SELECT dups.$KEY_PAYEE_NAME,dups.$KEY_ROWID,dups.$KEY_PARENTID, $KEY_LEVEL+1 from $TABLE_PAYEES dups
+    SELECT ${BaseTransactionProvider.payeeProjection("dups").joinToString(",")}, $KEY_LEVEL+1 from $TABLE_PAYEES dups
     JOIN cte ON cte.$KEY_ROWID = dups.$KEY_PARENTID ORDER BY $KEY_LEVEL DESC, $KEY_PAYEE_NAME COLLATE $collate) SELECT * FROM cte
 """.trimIndent()
 

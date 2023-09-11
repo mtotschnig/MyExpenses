@@ -207,15 +207,16 @@ abstract class BaseTransactionProvider : ContentProvider() {
         const val CURRENCIES_USAGES_TABLE_EXPRESSION =
             "$TABLE_CURRENCIES LEFT JOIN (SELECT coalesce($KEY_ORIGINAL_CURRENCY, $KEY_CURRENCY) AS currency_coalesced, count(*) AS $KEY_USAGES FROM $VIEW_EXTENDED GROUP BY currency_coalesced) on currency_coalesced = $KEY_CODE"
 
-        val PAYEE_PROJECTION = arrayOf(
-            KEY_ROWID,
-            KEY_PAYEE_NAME,
-            KEY_SHORT_NAME,
-            KEY_BIC,
-            KEY_IBAN,
-            "exists (SELECT 1 FROM $TABLE_TRANSACTIONS WHERE $KEY_PAYEEID=$TABLE_PAYEES.$KEY_ROWID) AS $KEY_MAPPED_TRANSACTIONS",
-            "exists (SELECT 1 FROM $TABLE_TEMPLATES WHERE $KEY_PAYEEID=$TABLE_PAYEES.$KEY_ROWID) AS $KEY_MAPPED_TEMPLATES",
-            "exists (SELECT 1 FROM $TABLE_DEBTS WHERE $KEY_PAYEEID=$TABLE_PAYEES.$KEY_ROWID) AS $KEY_MAPPED_DEBTS"
+        fun payeeProjection(tableName: String) = arrayOf(
+            "$tableName.$KEY_ROWID",
+            "$tableName.$KEY_PAYEE_NAME",
+            "$tableName.$KEY_SHORT_NAME",
+            "$tableName.$KEY_BIC",
+            "$tableName.$KEY_IBAN",
+            "$tableName.$KEY_PARENTID",
+            "exists (SELECT 1 FROM $TABLE_TRANSACTIONS WHERE $KEY_PAYEEID=$tableName.$KEY_ROWID) AS $KEY_MAPPED_TRANSACTIONS",
+            "exists (SELECT 1 FROM $TABLE_TEMPLATES WHERE $KEY_PAYEEID=$tableName.$KEY_ROWID) AS $KEY_MAPPED_TEMPLATES",
+            "exists (SELECT 1 FROM $TABLE_DEBTS WHERE $KEY_PAYEEID=$tableName.$KEY_ROWID) AS $KEY_MAPPED_DEBTS"
         )
 
         val BANK_PROJECTION = arrayOf(

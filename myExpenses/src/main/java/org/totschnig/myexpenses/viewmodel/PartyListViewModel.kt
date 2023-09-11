@@ -82,10 +82,7 @@ class PartyListViewModel(
                 PAYEES_URI.buildUpon()
                     .appendBooleanQueryParameter(QUERY_PARAMETER_HIERARCHICAL)
                     .build(), null,
-                buildString {
-                    append(KEY_PARENTID).append(" IS NULL")
-                    if (!selection.isNullOrEmpty()) append(" AND ").append(selection)
-                },
+                selection,
                 selectionArgs, null, true
             ).transform { query ->
                 val list = withContext(Dispatchers.IO) {
