@@ -8,9 +8,9 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.formatMoney
-import java.util.*
+import java.util.Locale
 
 @Keep
 sealed class Package(val defaultPrice: Long) : Parcelable {
@@ -21,7 +21,7 @@ sealed class Package(val defaultPrice: Long) : Parcelable {
 
     fun getFormattedPrice(
         context: Context,
-        currencyFormatter: CurrencyFormatter,
+        currencyFormatter: ICurrencyFormatter,
         currencyUnit: CurrencyUnit,
         withExtra: Boolean
     ): String {
@@ -31,7 +31,7 @@ sealed class Package(val defaultPrice: Long) : Parcelable {
 
     open fun getFormattedPrice(context: Context, formatted: String, withExtra: Boolean) = formatted
 
-    fun getFormattedPriceRaw(currencyUnit: CurrencyUnit, currencyFormatter: CurrencyFormatter) =
+    fun getFormattedPriceRaw(currencyUnit: CurrencyUnit, currencyFormatter: ICurrencyFormatter) =
         currencyFormatter.formatMoney(Money(currencyUnit, defaultPrice))
 
     @Parcelize

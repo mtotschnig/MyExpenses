@@ -2263,6 +2263,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         db.execSQL(PAYEE_UNIQUE_INDEX);
         createOrRefreshViews(db);
       }
+      if (oldVersion < 147) {
+        db.execSQL("update payee set short_name = null where short_name = ''");
+      }
 
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {

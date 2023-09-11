@@ -27,7 +27,7 @@ import org.totschnig.myexpenses.databinding.BudgetsBinding
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
-import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.addChipsBulk
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
@@ -42,7 +42,7 @@ class BudgetList : Fragment() {
     private var budgetAmounts: MutableMap<Long, Pair<Long, Long>?> = mutableMapOf()
 
     @Inject
-    lateinit var currencyFormatter: CurrencyFormatter
+    lateinit var currencyFormatter: ICurrencyFormatter
 
     @Inject
     lateinit var prefHandler: PrefHandler

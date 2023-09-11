@@ -75,7 +75,7 @@ import org.totschnig.myexpenses.service.AutoBackupWorker;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.ui.ContextHelper;
-import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.ICurrencyFormatter;
 import org.totschnig.myexpenses.util.MoreUiUtilsKt;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.Utils;
@@ -114,7 +114,7 @@ public class MyApplication extends Application implements
   CurrencyContext currencyContext;
 
   @Inject
-  CurrencyFormatter currencyFormatter;
+  ICurrencyFormatter currencyFormatter;
 
   public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
   public static final String PLANNER_ACCOUNT_NAME = "Local Calendar";
@@ -785,7 +785,7 @@ public class MyApplication extends Application implements
 
   public void invalidateHomeCurrency(String newValue) {
     currencyContext.invalidateHomeCurrency();
-    currencyFormatter.invalidate(AGGREGATE_HOME_CURRENCY_CODE, getContentResolver());
+    currencyFormatter.invalidate(getContentResolver(), AGGREGATE_HOME_CURRENCY_CODE);
     DatabaseConstants.buildProjection(this, newValue);
     getContentResolver().notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false);
   }

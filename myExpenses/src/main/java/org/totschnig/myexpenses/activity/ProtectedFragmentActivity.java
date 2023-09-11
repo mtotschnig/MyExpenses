@@ -62,7 +62,7 @@ import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountInput;
-import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.ICurrencyFormatter;
 import org.totschnig.myexpenses.util.Result;
 
 import java.io.Serializable;
@@ -84,7 +84,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   protected CurrencyContext currencyContext;
 
   @Inject
-  protected CurrencyFormatter currencyFormatter;
+  protected ICurrencyFormatter currencyFormatter;
 
   @Inject
   protected SharedPreferences settings;
@@ -323,7 +323,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     return currencyContext;
   }
 
-  public CurrencyFormatter getCurrencyFormatter() {
+  public ICurrencyFormatter getCurrencyFormatter() {
     return currencyFormatter;
   }
 

@@ -43,7 +43,7 @@ import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.UiUtils.DateMode
 import org.totschnig.myexpenses.util.addChipsBulk
@@ -68,7 +68,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
     lateinit var imageViewIntentProvider: ImageViewIntentProvider
 
     @Inject
-    lateinit var currencyFormatter: CurrencyFormatter
+    lateinit var currencyFormatter: ICurrencyFormatter
 
     @Inject
     lateinit var picasso: Picasso

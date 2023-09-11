@@ -37,11 +37,8 @@ import com.evernote.android.state.StateSaver
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE
-import eltos.simpledialogfragment.form.Check
-import eltos.simpledialogfragment.form.Hint
 import eltos.simpledialogfragment.form.Input
 import eltos.simpledialogfragment.form.SimpleFormDialog
-import eltos.simpledialogfragment.form.Spinner
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.*
 import org.totschnig.myexpenses.activity.Action
@@ -53,16 +50,19 @@ import org.totschnig.myexpenses.databinding.PartiesListBinding
 import org.totschnig.myexpenses.databinding.PayeeRowBinding
 import org.totschnig.myexpenses.dialog.DebtDetailsDialogFragment
 import org.totschnig.myexpenses.dialog.MergePartiesDialogFragment
+import org.totschnig.myexpenses.dialog.MergePartiesDialogFragment.Companion.KEY_POSITION
+import org.totschnig.myexpenses.dialog.MergePartiesDialogFragment.Companion.KEY_STRATEGY
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
-import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.configureSearch
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.prepareSearch
+import org.totschnig.myexpenses.viewmodel.MergeStrategy
 import org.totschnig.myexpenses.viewmodel.PartyListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Party
 import javax.inject.Inject
@@ -71,7 +71,7 @@ import kotlin.math.sign
 class PartiesList : Fragment(), OnDialogResultListener {
 
     @Inject
-    lateinit var currencyFormatter: CurrencyFormatter
+    lateinit var currencyFormatter: ICurrencyFormatter
 
     @Inject
     lateinit var currencyContext: CurrencyContext
@@ -341,14 +341,15 @@ class PartiesList : Fragment(), OnDialogResultListener {
             inject(this@PartiesList)
             inject(viewModel)
         }
-        childFragmentManager.setFragmentResultListener(DIALOG_MERGE_PARTY, this) { key, bundle ->
-            val result = bundle.getString("bundleKey")
+        childFragmentManager.setFragmentResultListener(DIALOG_MERGE_PARTY, this) { _, bundle ->
             mergeMode = false
             updateUiMergeMode()
             val selectedItemIds = adapter.getSelected().map { it.id }
+            val idToKeep = selectedItemIds[bundle.getInt(KEY_POSITION)]
             viewModel.mergeParties(
-                selectedItemIds.toLongArray(),
-                selectedItemIds[extras.getInt(KEY_POSITION)]
+                selectedItemIds.subtract(setOf(idToKeep)),
+                selectedItemIds[bundle.getInt(KEY_POSITION)],
+                bundle.getSerializable(KEY_STRATEGY) as MergeStrategy
             )
             adapter.clearSelection()
             resetAdapter()
@@ -499,7 +500,6 @@ class PartiesList : Fragment(), OnDialogResultListener {
         const val DIALOG_EDIT_PARTY = "dialogEditParty"
         const val DIALOG_MERGE_PARTY = "dialogMergeParty"
         const val DIALOG_DELETE_PARTY = "dialogDeleteParty"
-        const val KEY_POSITION = "position"
         const val SELECT_COMMAND = -1
         const val EDIT_COMMAND = -2
         const val DELETE_COMMAND = -3

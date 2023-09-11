@@ -8,6 +8,7 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
+import androidx.annotation.StringRes
 import androidx.lifecycle.*
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.createParty
 import org.totschnig.myexpenses.db2.saveParty
 import org.totschnig.myexpenses.db2.unsetParentId
@@ -38,6 +40,11 @@ import timber.log.Timber
 import java.util.*
 
 const val KEY_EXPANDED_ITEM = "expandedItem"
+
+enum class MergeStrategy(@StringRes val description: Int) {
+    DELETE(R.string.merge_parties_strategy_delete),
+    GROUP(R.string.merge_parties_strategy_group)
+}
 
 class PartyListViewModel(
     application: Application,
@@ -217,64 +224,83 @@ class PartyListViewModel(
         }
     }
 
-    fun mergeParties(itemIds: LongArray, keepId: Long) {
+    fun mergeParties(
+        duplicateIds: Set<Long>,
+        keepId: Long,
+        mergeStrategy: MergeStrategy
+    ) {
         viewModelScope.launch(context = coroutineContext()) {
-            check(itemIds.contains(keepId))
+            check(!duplicateIds.contains(keepId))
 
-            val contentValues = ContentValues(1).apply {
-                put(KEY_PAYEEID, keepId)
+            val operations = ArrayList<ContentProviderOperation>().apply {
+                when (mergeStrategy) {
+                    MergeStrategy.DELETE -> {
+                        val inOp = "IN (${duplicateIds.joinToString()})"
+                        val contentValues = ContentValues(1).apply {
+                            put(KEY_PAYEEID, keepId)
+                        }
+
+                        val where = "$KEY_PAYEEID $inOp"
+                        add(
+                            newUpdate(ACCOUNTS_URI).withValue(KEY_SEALED, -1)
+                                .withSelection("$KEY_SEALED = 1", null).build()
+                        )
+                        add(
+                            newUpdate(DEBTS_URI).withValue(KEY_SEALED, -1)
+                                .withSelection("$KEY_SEALED = 1", null).build()
+                        )
+                        add(
+                            newUpdate(DEBTS_URI).withValues(contentValues)
+                                .withSelection(where, null).build()
+                        )
+                        add(
+                            newUpdate(TRANSACTIONS_URI).withValues(contentValues)
+                                .withSelection(where, null).build()
+                        )
+                        add(
+                            newUpdate(TEMPLATES_URI).withValues(contentValues)
+                                .withSelection(where, null).build()
+                        )
+                        add(
+                            newUpdate(CHANGES_URI).withValues(contentValues)
+                                .withSelection(where, null).build()
+                        )
+                        add(
+                            newDelete(PAYEES_URI).withSelection(
+                                "$KEY_ROWID $inOp",
+                                null
+                            ).build()
+                        )
+                        add(
+                            newUpdate(ACCOUNTS_URI).withValue(KEY_SEALED, 1)
+                                .withSelection("$KEY_SEALED = -1", null).build()
+                        )
+                        add(
+                            newUpdate(DEBTS_URI).withValue(KEY_SEALED, 1)
+                                .withSelection("$KEY_SEALED = -1", null).build()
+                        )
+                    }
+
+                    MergeStrategy.GROUP -> {
+                        duplicateIds.forEach {
+                            add(
+                                newUpdate(ContentUris.withAppendedId(PAYEES_URI, it))
+                                    .withValues(ContentValues(1).apply {
+                                        put(KEY_PARENTID, keepId)
+                                    })
+                                    .build()
+                            )
+                        }
+                    }
+                }
             }
-            itemIds.subtract(setOf(keepId)).let {
-                val inOp = "IN (${it.joinToString()})"
-                val where = "$KEY_PAYEEID $inOp"
-                val operations = ArrayList<ContentProviderOperation>().apply {
-                    add(
-                        newUpdate(ACCOUNTS_URI).withValue(KEY_SEALED, -1)
-                            .withSelection("$KEY_SEALED = 1", null).build()
-                    )
-                    add(
-                        newUpdate(DEBTS_URI).withValue(KEY_SEALED, -1)
-                            .withSelection("$KEY_SEALED = 1", null).build()
-                    )
-                    add(
-                        newUpdate(DEBTS_URI).withValues(contentValues)
-                            .withSelection(where, null).build()
-                    )
-                    add(
-                        newUpdate(TRANSACTIONS_URI).withValues(contentValues)
-                            .withSelection(where, null).build()
-                    )
-                    add(
-                        newUpdate(TEMPLATES_URI).withValues(contentValues)
-                            .withSelection(where, null).build()
-                    )
-                    add(
-                        newUpdate(CHANGES_URI).withValues(contentValues)
-                            .withSelection(where, null).build()
-                    )
-                    add(
-                        newDelete(PAYEES_URI).withSelection(
-                            "$KEY_ROWID $inOp",
-                            null
-                        ).build()
-                    )
-                    add(
-                        newUpdate(ACCOUNTS_URI).withValue(KEY_SEALED, 1)
-                            .withSelection("$KEY_SEALED = -1", null).build()
-                    )
-                    add(
-                        newUpdate(DEBTS_URI).withValue(KEY_SEALED, 1)
-                            .withSelection("$KEY_SEALED = -1", null).build()
-                    )
-                }
-                val size =
-                    contentResolver.applyBatch(AUTHORITY, operations).size
-                if (size == operations.size) {
-                    updatePartyFilters(it, keepId)
-                    updatePartyBudgets(it, keepId)
-                } else {
-                    CrashHandler.report(Exception("Unexpected result while merging Parties, result size is : $size"))
-                }
+            val size =
+                contentResolver.applyBatch(AUTHORITY, operations).size
+            if (size == operations.size) {
+                updatePartyFilters(duplicateIds, keepId)
+                updatePartyBudgets(duplicateIds, keepId)
+            } else {
+                CrashHandler.report(Exception("Unexpected result while merging Parties, result size is : $size"))
             }
         }
     }

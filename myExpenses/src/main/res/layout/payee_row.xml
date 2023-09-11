@@ -43,6 +43,7 @@
         android:layout_width="0dp"
         tools:text="Bank Details"
         android:visibility="gone"
+        tools:visibility="visible"
         android:layout_height="wrap_content" />
 
     <ImageView

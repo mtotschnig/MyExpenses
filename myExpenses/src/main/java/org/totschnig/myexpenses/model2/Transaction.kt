@@ -7,12 +7,25 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DISPLAY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.splitStringList
-import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
@@ -31,7 +44,7 @@ data class Transaction(
     val time: LocalTime?,
     val dateFormatted: String,
     val valueDate: LocalDate,
-    val payee: String,
+    val party: Party?,
     val category: Long?,
     val tags: List<Long>,
     val comment: String,
@@ -46,12 +59,13 @@ data class Transaction(
             cursor: Cursor,
             account: Long,
             currencyUnit: CurrencyUnit,
-            currencyFormatter: CurrencyFormatter,
+            currencyFormatter: ICurrencyFormatter,
             dateFormat: DateFormat
         ): Transaction {
             val date = cursor.getLong(KEY_DATE)
             val dateTime = epoch2ZonedDateTime(date)
-            val payee = cursor.getString(KEY_PAYEE_NAME)
+            val partyId = cursor.getLongOrNull(KEY_PAYEEID)
+            val party = cursor.getString(KEY_PAYEE_NAME)
             val comment = cursor.getString(KEY_COMMENT)
             val amount = cursor.getLong(KEY_DISPLAY_AMOUNT)
             val money = Money(currencyUnit, amount)
@@ -67,7 +81,7 @@ data class Transaction(
                 time = dateTime.toLocalTime(),
                 dateFormatted = Utils.convDateTime(date, dateFormat),
                 valueDate = epoch2LocalDate(cursor.getLong(KEY_VALUE_DATE)),
-                payee = payee,
+                party = partyId?.let { Party(it, party) },
                 category = category,
                 tags = emptyList(),
                 comment = comment,
@@ -87,7 +101,7 @@ data class Transaction(
                         comment.takeIf { it.isNotEmpty() }?.let {
                             add("<span class ='italic'>$it</span>")
                         }
-                        payee.takeIf { it.isNotEmpty() }?.let {
+                        party.takeIf { it.isNotEmpty() }?.let {
                             add("<span class='underline'>$it</span>")
                         }
                         cursor.splitStringList(KEY_TAGLIST).takeIf { it.isNotEmpty() }?.let {

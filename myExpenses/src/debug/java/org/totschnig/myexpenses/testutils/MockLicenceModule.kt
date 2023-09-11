@@ -1,12 +1,12 @@
 package org.totschnig.myexpenses.testutils
 
-import org.totschnig.myexpenses.di.LicenceModule
-import org.totschnig.myexpenses.MyApplication
 import com.google.android.vending.licensing.Obfuscator
 import com.google.android.vending.licensing.PreferenceObfuscator
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.di.LicenceModule
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import java.time.Clock
@@ -31,6 +31,6 @@ class MockLicenceModule(private val clock: Clock) : LicenceModule() {
         application: MyApplication,
         prefHandler: PrefHandler,
         repository: Repository,
-        currencyFormatter: CurrencyFormatter
+        currencyFormatter: ICurrencyFormatter
     ): LicenceHandler = MockLicenceHandler(application, preferenceObfuscator, crashHandler, prefHandler, repository, currencyFormatter, clock)
 }

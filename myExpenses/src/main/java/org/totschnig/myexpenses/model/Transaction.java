@@ -89,7 +89,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.AppDirHelper;
-import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.ICurrencyFormatter;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.viewmodel.data.Tag;
 
@@ -666,7 +666,7 @@ public class Transaction extends Model implements ITransaction {
 
   /**
    * updates the payee string to a new value
-   * it will me mapped to an existing or new row in payee table during save
+   * it will be mapped to an existing or new row in payee table during save
    */
   public void setPayee(String payee) {
     if (!this.payee.equals(payee)) {
@@ -924,7 +924,7 @@ public class Transaction extends Model implements ITransaction {
   }
 
   public String compileDescription(MyApplication ctx) {
-    CurrencyFormatter currencyFormatter = ctx.getAppComponent().currencyFormatter();
+    ICurrencyFormatter currencyFormatter = ctx.getAppComponent().currencyFormatter();
     StringBuilder sb = new StringBuilder();
     sb.append(ctx.getString(R.string.amount));
     sb.append(" : ");

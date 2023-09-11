@@ -54,7 +54,7 @@ import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.service.SyncNotificationDismissHandler;
 import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
-import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.ICurrencyFormatter;
 import org.totschnig.myexpenses.util.ads.BaseAdHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
@@ -138,7 +138,7 @@ public interface AppComponent {
 
   CurrencyContext currencyContext();
 
-  CurrencyFormatter currencyFormatter();
+  ICurrencyFormatter currencyFormatter();
 
   ExchangeRateService exchangeRateService();
 

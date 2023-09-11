@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.dialog
 import android.os.Bundle
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,7 +15,6 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -24,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,15 +35,17 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.ButtonRow
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.fragment.PartiesList.Companion.DIALOG_MERGE_PARTY
+import org.totschnig.myexpenses.viewmodel.MergeStrategy
 
 class MergePartiesDialogFragment : ComposeBaseDialogFragment() {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun BuildContent() {
-        val options = requireArguments().getStringArray(KEY_OPTIONS)!!
+        val options = requireArguments().getStringArray(KEY_PARTY_LIST)!!
         var expanded by remember { mutableStateOf(false) }
-        var selectedOptionText by remember { mutableStateOf(options[0]) }
+        var selectedPartyIndex by rememberSaveable { mutableStateOf(0) }
+        var selectedMergeStrategy by rememberSaveable { mutableStateOf(MergeStrategy.DELETE) }
         val shape = if (expanded) RoundedCornerShape(8.dp).copy(
             bottomEnd = CornerSize(0.dp),
             bottomStart = CornerSize(0.dp)
@@ -58,9 +59,11 @@ class MergePartiesDialogFragment : ComposeBaseDialogFragment() {
                 expanded = expanded,
                 onExpandedChange = { expanded = !expanded }) {
                 TextField(
-                    modifier = Modifier.menuAnchor().fillMaxWidth(),
+                    modifier = Modifier
+                        .menuAnchor()
+                        .fillMaxWidth(),
                     readOnly = true,
-                    value = selectedOptionText,
+                    value = options[selectedPartyIndex],
                     onValueChange = {},
                     label = {
                         Text(
@@ -80,11 +83,11 @@ class MergePartiesDialogFragment : ComposeBaseDialogFragment() {
                     expanded = expanded,
                     onDismissRequest = { expanded = false },
                 ) {
-                    options.forEach { selectionOption ->
+                    options.forEachIndexed { index, s ->
                         DropdownMenuItem(
-                            text = { Text(selectionOption) },
+                            text = { Text(s) },
                             onClick = {
-                                selectedOptionText = selectionOption
+                                selectedPartyIndex = index
                                 expanded = false
                             },
                             contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
@@ -93,27 +96,26 @@ class MergePartiesDialogFragment : ComposeBaseDialogFragment() {
                 }
             }
             Column(Modifier.selectableGroup()) {
-                val radioOptions = listOf("Duplicates are deleted.", "Duplicates are grouped as dependents.")
-                val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
-                radioOptions.forEach { text ->
+                MergeStrategy.entries.forEach { strategy ->
+                    val isSelected = strategy == selectedMergeStrategy
                     Row(
                         Modifier
                             .fillMaxWidth()
                             .height(56.dp)
                             .selectable(
-                                selected = (text == selectedOption),
-                                onClick = { onOptionSelected(text) },
+                                selected = isSelected,
+                                onClick = { selectedMergeStrategy = strategy },
                                 role = Role.RadioButton
                             )
                             .padding(horizontal = 16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         RadioButton(
-                            selected = (text == selectedOption),
+                            selected = isSelected,
                             onClick = null // null recommended for accessibility with screenreaders
                         )
                         Text(
-                            text = text,
+                            text = stringResource(id = strategy.description),
                             modifier = Modifier.padding(start = 16.dp)
                         )
                     }
@@ -121,7 +123,14 @@ class MergePartiesDialogFragment : ComposeBaseDialogFragment() {
             }
             ButtonRow {
                 Button(onClick = {
-                    setFragmentResult("requestKey", bundleOf("bundleKey" to result))
+                    setFragmentResult(
+                        DIALOG_MERGE_PARTY,
+                        bundleOf(
+                            KEY_POSITION to selectedPartyIndex,
+                            KEY_STRATEGY to selectedMergeStrategy
+                        )
+                    )
+                    dismiss()
                 }) {
                     Text(stringResource(id = android.R.string.ok))
                 }
@@ -130,10 +139,12 @@ class MergePartiesDialogFragment : ComposeBaseDialogFragment() {
     }
 
     companion object {
-        const val KEY_OPTIONS = "options"
+        const val KEY_PARTY_LIST = "partyList"
+        const val KEY_POSITION = "position"
+        const val KEY_STRATEGY = "strategy"
         fun newInstance(options: Array<String>) = MergePartiesDialogFragment().apply {
             arguments = Bundle().apply {
-                putStringArray(KEY_OPTIONS, options)
+                putStringArray(KEY_PARTY_LIST, options)
             }
         }
     }

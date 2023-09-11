@@ -4,13 +4,12 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
-import androidx.core.view.isVisible
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.BudgetSummaryBinding
 import org.totschnig.myexpenses.databinding.BudgetTotalTableBinding
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.util.ColorUtils.getComplementColor
-import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.getBackgroundForAvailable
@@ -23,7 +22,7 @@ class BudgetSummary @JvmOverloads constructor(
     private val binding = BudgetSummaryBinding.inflate(LayoutInflater.from(context), this)
     private val tableBinding = BudgetTotalTableBinding.bind(binding.root)
 
-    fun bind(budget: Budget, spent: Long, allocated: Long, currencyFormatter: CurrencyFormatter) {
+    fun bind(budget: Budget, spent: Long, allocated: Long, currencyFormatter: ICurrencyFormatter) {
         binding.budgetProgressTotal.finishedStrokeColor = budget.color
         binding.budgetProgressTotal.unfinishedStrokeColor = getComplementColor(budget.color)
         tableBinding.totalBudget.text = currencyFormatter.formatMoney(Money(budget.currency, allocated))

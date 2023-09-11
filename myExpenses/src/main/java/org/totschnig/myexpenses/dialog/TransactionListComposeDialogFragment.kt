@@ -19,7 +19,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.compose.CompactTransactionRenderer
 import org.totschnig.myexpenses.injector
-import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.asDateTimeFormatter
 import org.totschnig.myexpenses.util.convAmount
@@ -32,7 +32,7 @@ import javax.inject.Inject
 class TransactionListComposeDialogFragment: ComposeBaseDialogFragment() {
 
     @Inject
-    lateinit var currencyFormatter: CurrencyFormatter
+    lateinit var currencyFormatter: ICurrencyFormatter
 
     val viewModel by viewModels<TransactionListViewModel>()
 

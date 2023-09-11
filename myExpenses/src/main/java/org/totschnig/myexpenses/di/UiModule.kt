@@ -11,6 +11,8 @@ import org.totschnig.myexpenses.dialog.RemindRateDialogFragment
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
+import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.distrib.ReviewManager
 import org.totschnig.myexpenses.util.licence.LicenceHandler
@@ -51,5 +53,12 @@ open class UiModule {
             }
         }
     }
+
+    @Provides
+    @Singleton
+    fun providesCurrencyFormatter(
+        application: MyApplication,
+        prefHandler: PrefHandler
+    ): ICurrencyFormatter = CurrencyFormatter(prefHandler, application)
 
 }

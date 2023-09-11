@@ -27,8 +27,8 @@ data class Party(
     val mappedTransactions: Boolean = false,
     val mappedTemplates: Boolean = false,
     val mappedDebts: Boolean = false,
+    val isDuplicate: Boolean = false,
     val duplicates: List<Party> = emptyList(),
-    val isDuplicate: Boolean = false
 ) {
     override fun toString() = name
 
@@ -36,15 +36,13 @@ data class Party(
         fun fromCursor(cursor: Cursor) = Party(
             cursor.getLong(KEY_ROWID),
             cursor.getString(KEY_PAYEE_NAME),
-            isDuplicate = cursor.getLongOrNull(KEY_PARENTID) != null
-/*            cursor.getStringOrNull(KEY_SHORT_NAME),
+            cursor.getStringOrNull(KEY_SHORT_NAME),
             cursor.getStringOrNull(KEY_BIC),
             cursor.getStringOrNull(KEY_IBAN),
             cursor.getBoolean(KEY_MAPPED_TRANSACTIONS),
             cursor.getBoolean(KEY_MAPPED_TEMPLATES),
             cursor.getBoolean(KEY_MAPPED_DEBTS),
-            cursor.getBoolean(KEY_HAS_DESCENDANTS)*/
-
+            cursor.getLongOrNull(KEY_PARENTID) != null
         )
     }
 }

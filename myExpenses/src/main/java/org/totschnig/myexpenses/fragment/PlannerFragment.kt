@@ -26,12 +26,16 @@ import org.totschnig.myexpenses.dialog.DialogViewBinding
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.PlannerViewModel
-import org.totschnig.myexpenses.viewmodel.data.*
+import org.totschnig.myexpenses.viewmodel.data.EventObserver
+import org.totschnig.myexpenses.viewmodel.data.PlanInstance
+import org.totschnig.myexpenses.viewmodel.data.PlanInstanceSet
+import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState
+import org.totschnig.myexpenses.viewmodel.data.PlanInstanceUpdate
 import timber.log.Timber
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -220,7 +224,7 @@ class PlannerFragment : DialogViewBinding<PlannerFragmentBinding>() {
     inner class PlanInstanceViewHolder(private val itemBinding: PlanInstanceBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
         @Inject
-        lateinit var currencyFormatter: CurrencyFormatter
+        lateinit var currencyFormatter: ICurrencyFormatter
         private val formatter: DateTimeFormatter = getDateTimeFormatter(itemBinding.root.context)
 
         init {

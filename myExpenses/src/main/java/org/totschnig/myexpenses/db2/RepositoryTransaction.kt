@@ -37,8 +37,12 @@ private fun Repository.toContentValues(transaction: Transaction) = with(transact
             localDateTime2Epoch(LocalDateTime.of(date, time))
         } ?: localDate2Epoch(date))
         put(DatabaseConstants.KEY_VALUE_DATE, localDate2Epoch(valueDate))
-        payee.takeIf { it.isNotEmpty() }
-            ?.let { put(DatabaseConstants.KEY_PAYEEID, requireParty(it)) }
+        party?.let {
+            put(
+                DatabaseConstants.KEY_PAYEEID,
+                it.id.takeIf { id -> id != 0L } ?: requireParty(it.name)
+            )
+        }
         put(DatabaseConstants.KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
         category?.takeIf { it > 0 }?.let { put(DatabaseConstants.KEY_CATID, it) }
         method.takeIf { it > 0 }?.let { put(DatabaseConstants.KEY_METHODID, it) }

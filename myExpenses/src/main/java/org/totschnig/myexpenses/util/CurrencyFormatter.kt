@@ -16,6 +16,7 @@ import javax.inject.Singleton
 
 interface ICurrencyFormatter {
     fun formatCurrency(amount: BigDecimal, currency: CurrencyUnit): String
+    fun invalidate(contentResolver: ContentResolver, currency: String? = null) {}
 }
 
 object DebugCurrencyFormatter: ICurrencyFormatter {
@@ -42,19 +43,18 @@ fun ICurrencyFormatter.convAmount(amount: Long, currency: CurrencyUnit): String 
     return formatMoney(Money(currency, amount))
 }
 
-@Singleton
-open class CurrencyFormatter @Inject constructor(
+open class CurrencyFormatter(
     private val prefHandler: PrefHandler,
     private val application: MyApplication
 ): ICurrencyFormatter {
     private val numberFormats: MutableMap<String, NumberFormat> = HashMap()
-    fun invalidate(currency: String, contentResolver: ContentResolver) {
-        numberFormats.remove(currency)
-        notifyUris(contentResolver)
-    }
 
-    fun invalidateAll(contentResolver: ContentResolver) {
-        numberFormats.clear()
+    override fun invalidate(contentResolver: ContentResolver, currency: String?) {
+        if (currency == null) {
+            numberFormats.clear()
+        } else {
+            numberFormats.remove(currency)
+        }
         notifyUris(contentResolver)
     }
 

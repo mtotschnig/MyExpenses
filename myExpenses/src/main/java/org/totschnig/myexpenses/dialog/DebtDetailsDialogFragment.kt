@@ -11,7 +11,7 @@ import org.totschnig.myexpenses.compose.DebtRenderer
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 import javax.inject.Inject
 
@@ -23,7 +23,7 @@ class DebtDetailsDialogFragment : ComposeBaseDialogFragment() {
     lateinit var currencyContext: CurrencyContext
 
     @Inject
-    lateinit var currencyFormatter: CurrencyFormatter
+    lateinit var currencyFormatter: ICurrencyFormatter
 
     val debt by lazy { viewModel.loadDebt(requireArguments().getLong(DatabaseConstants.KEY_DEBT_ID)) }
 

@@ -1,21 +1,21 @@
 package org.totschnig.myexpenses.viewmodel;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+
 import android.app.Application;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.net.Uri;
 
-import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.CurrencyFormatter;
-
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.ICurrencyFormatter;
+
+import javax.inject.Inject;
 
 public class EditCurrencyViewModel extends CurrencyViewModel {
 
@@ -25,7 +25,7 @@ public class EditCurrencyViewModel extends CurrencyViewModel {
   private static final int TOKEN_DELETE_CURRENCY = 4;
 
   @Inject
-  protected CurrencyFormatter currencyFormatter;
+  protected ICurrencyFormatter currencyFormatter;
 
   private final DatabaseHandler asyncDatabaseHandler;
   private int updateOperationsCount = 0;
@@ -65,7 +65,7 @@ public class EditCurrencyViewModel extends CurrencyViewModel {
         updateComplete.postValue(updatedAccountsCount);
       }
     };
-    currencyFormatter.invalidate(currency, getApplication().getContentResolver());
+    currencyFormatter.invalidate(getApplication().getContentResolver(), currency);
     currencyContext.storeCustomSymbol(currency, symbol);
     if (withUpdate) {
       updateOperationsCount++;
@@ -107,9 +107,7 @@ public class EditCurrencyViewModel extends CurrencyViewModel {
 
 
   public void deleteCurrency(String currency) {
-    asyncDatabaseHandler.startDelete(TOKEN_DELETE_CURRENCY, (DatabaseHandler.DeleteListener) (token, result) -> {
-      deleteComplete.postValue(result == 1);
-    }, buildItemUri(currency), null, null);
+    asyncDatabaseHandler.startDelete(TOKEN_DELETE_CURRENCY, (DatabaseHandler.DeleteListener) (token, result) -> deleteComplete.postValue(result == 1), buildItemUri(currency), null, null);
   }
 
   protected Uri buildItemUri(String currency) {

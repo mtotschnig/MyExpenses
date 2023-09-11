@@ -24,6 +24,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.adevinta.android.barista.internal.matcher.HelperMatchers.menuIdMatcher
 import org.assertj.core.api.Assertions
 import org.junit.Before
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -35,6 +36,7 @@ import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.DebugCurrencyFormatter
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.util.*
@@ -156,11 +158,17 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
         return result!!
     }
 
+    private val currencyContext: CurrencyContext = Mockito.mock(CurrencyContext::class.java).also { currencyContext ->
+        Mockito.`when`(currencyContext.get(ArgumentMatchers.anyString())).thenAnswer {
+            CurrencyUnit(Currency.getInstance(it.getArgument(0) as String))
+        }
+    }
+
     protected val repository: Repository
         get() = Repository(
             ApplicationProvider.getApplicationContext<MyApplication>(),
-            Mockito.mock(CurrencyContext::class.java),
-            Mockito.mock(CurrencyFormatter::class.java),
+            currencyContext,
+            DebugCurrencyFormatter,
             Mockito.mock(PrefHandler::class.java)
         )
 

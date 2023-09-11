@@ -21,7 +21,7 @@ import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.sync.GenericAccountService
-import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -30,7 +30,9 @@ import timber.log.Timber
 import java.time.Clock
 import java.time.LocalTime
 import java.time.ZoneId
-import java.util.*
+import java.util.Date
+import java.util.Locale
+import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 open class LicenceHandler(
@@ -39,7 +41,7 @@ open class LicenceHandler(
     private val crashHandler: CrashHandler,
     protected val prefHandler: PrefHandler,
     private val repository: Repository,
-    private val currencyFormatter: CurrencyFormatter,
+    private val currencyFormatter: ICurrencyFormatter,
     private val clock: Clock = Clock.systemUTC()
 ) {
     private var hasOurLicence = false

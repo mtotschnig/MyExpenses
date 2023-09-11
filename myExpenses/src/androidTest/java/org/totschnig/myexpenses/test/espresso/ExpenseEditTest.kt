@@ -153,8 +153,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             val amount = 2
             clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, false) //toggle save and new on
             for (j in 0 until times) {
-                onView(withIdAndParent(R.id.AmountEditText, R.id.Amount))
-                    .perform(ViewActions.typeText(amount.toString()))
+                setAmount(amount)
                 onView(withId(R.id.CREATE_COMMAND)).perform(click())
                 onView(withText(success)).check(matches(isDisplayed()))
             }
@@ -178,8 +177,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             putExtra(DatabaseConstants.KEY_TEMPLATEID, template.id)
         }).use {
             val amount = 2
-            onView(withIdAndParent(R.id.AmountEditText, R.id.Amount))
-                .perform(scrollTo(), click(), ViewActions.typeText(amount.toString()))
+            setAmount(amount)
             onView(withId(R.id.CREATE_COMMAND)).perform(click())
             val restored = Template.getInstanceFromDb(contentResolver, template.id)
             assertEquals(Transactions.TYPE_TRANSFER, restored!!.operationType())

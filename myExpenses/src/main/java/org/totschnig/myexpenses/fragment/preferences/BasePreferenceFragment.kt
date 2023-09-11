@@ -4,7 +4,6 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.annotation.XmlRes
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.preference.ListPreference
 import androidx.preference.MultiSelectListPreferenceDialogFragment2
@@ -15,8 +14,20 @@ import org.totschnig.myexpenses.activity.PreferenceActivity
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.preference.*
-import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat
+import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat
+import org.totschnig.myexpenses.preference.FontSizeDialogPreference
+import org.totschnig.myexpenses.preference.HeaderPreference
+import org.totschnig.myexpenses.preference.LegacyPasswordPreferenceDialogFragmentCompat
+import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.PreferenceDataStore
+import org.totschnig.myexpenses.preference.SecurityQuestionDialogFragmentCompat
+import org.totschnig.myexpenses.preference.SimplePasswordDialogFragmentCompat
+import org.totschnig.myexpenses.preference.SimplePasswordPreference
+import org.totschnig.myexpenses.preference.TimePreference
+import org.totschnig.myexpenses.preference.TimePreferenceDialogFragmentCompat
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.licence.LicenceHandler
@@ -46,7 +57,7 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
     lateinit var adHandlerFactory: AdHandlerFactory
 
     @Inject
-    lateinit var currencyFormatter: CurrencyFormatter
+    lateinit var currencyFormatter: ICurrencyFormatter
 
     @get:XmlRes
     abstract val preferencesResId: Int

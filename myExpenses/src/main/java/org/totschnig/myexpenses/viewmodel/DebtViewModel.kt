@@ -29,7 +29,7 @@ import javax.inject.Inject
 open class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
     @Inject
-    lateinit var currencyFormatter: CurrencyFormatter
+    lateinit var currencyFormatter: ICurrencyFormatter
 
     fun saveDebt(debt: Debt): LiveData<Unit> = liveData(context = coroutineContext()) {
         emit(repository.saveDebt(debt))

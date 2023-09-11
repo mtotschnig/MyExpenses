@@ -1078,4 +1078,6 @@
     <string name="whats_new_361_2">Files in application folder (backups and exports) can be shared or deleted.</string>
     <!-- This is an option in the configuration of CSV and QIF imports which means that the account label(s) found in the data will be used to locate account(s) into which transactions are imported  -->
     <string name="read_from_data">Read from data</string>
+    <string name="merge_parties_strategy_delete">Duplicates are deleted.</string>
+    <string name="merge_parties_strategy_group">Duplicates are grouped as dependents.</string>
 </resources>

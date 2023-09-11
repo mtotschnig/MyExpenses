@@ -26,8 +26,12 @@ import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.fragment.TwoPanePreference
 import org.totschnig.myexpenses.fragment.TwoPanePreference.Companion.KEY_INITIAL_SCREEN
-import org.totschnig.myexpenses.fragment.preferences.*
+import org.totschnig.myexpenses.fragment.preferences.BasePreferenceFragment
+import org.totschnig.myexpenses.fragment.preferences.PreferenceDataFragment
+import org.totschnig.myexpenses.fragment.preferences.PreferencesContribFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferencesExportFragment.Companion.KEY_CHECKED_FILES
+import org.totschnig.myexpenses.fragment.preferences.PreferencesOcrFragment
+import org.totschnig.myexpenses.fragment.preferences.PreferencesWebUiFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
@@ -233,7 +237,7 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             }
 
             getKey(PrefKey.CUSTOM_DECIMAL_FORMAT) -> {
-                currencyFormatter.invalidateAll(contentResolver)
+                currencyFormatter.invalidate(contentResolver)
             }
 
             getKey(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET) -> {

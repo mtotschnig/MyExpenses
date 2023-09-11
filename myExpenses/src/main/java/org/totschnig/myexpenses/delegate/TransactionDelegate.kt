@@ -60,7 +60,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     lateinit var prefHandler: PrefHandler
 
     @Inject
-    lateinit var currencyFormatter: CurrencyFormatter
+    lateinit var currencyFormatter: ICurrencyFormatter
 
     @Inject
     lateinit var currencyContext: CurrencyContext

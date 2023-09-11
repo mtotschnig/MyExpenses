@@ -17,7 +17,7 @@ import org.totschnig.myexpenses.databinding.SplitPartRowBinding
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
-import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
@@ -25,7 +25,7 @@ import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 class SplitPartRVAdapter(
     context: Context,
     var currencyUnit: CurrencyUnit,
-    val currencyFormatter: CurrencyFormatter,
+    val currencyFormatter: ICurrencyFormatter,
     private inline val onItemClicked: ((View, ITransaction) -> Unit)? = null
 ) :
     ListAdapter<SplitPartRVAdapter.ITransaction, SplitPartRVAdapter.ViewHolder>(DIFF_CALLBACK) {

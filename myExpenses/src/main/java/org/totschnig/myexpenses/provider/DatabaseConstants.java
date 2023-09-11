@@ -109,6 +109,7 @@ public class DatabaseConstants {
             KEY_COMMENT,
             KEY_CATID,
             FULL_LABEL,
+            KEY_PAYEEID,
             KEY_PAYEE_NAME,
             KEY_TRANSFER_PEER,
             KEY_TRANSFER_ACCOUNT,
