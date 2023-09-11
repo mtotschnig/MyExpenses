@@ -331,7 +331,6 @@ class PartiesList : Fragment(), OnDialogResultListener {
     private val binding get() = _binding!!
 
     @State
-    @JvmField
     var mergeMode: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {

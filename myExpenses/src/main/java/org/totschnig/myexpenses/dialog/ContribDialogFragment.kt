@@ -71,7 +71,6 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
     private val singleButton
         get() = binding.singleFeatureContainer.packageButton
 
-    @JvmField
     @State
     var selectedPackage: Package? = null
 

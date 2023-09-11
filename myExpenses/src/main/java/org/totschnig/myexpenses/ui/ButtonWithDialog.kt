@@ -20,7 +20,6 @@ abstract class ButtonWithDialog<T: DialogFragment> @JvmOverloads constructor(
     abstract val fragmentTag: String
 
     @State
-    @JvmField
     var dialogShown = false
 
     private fun showDialog() {

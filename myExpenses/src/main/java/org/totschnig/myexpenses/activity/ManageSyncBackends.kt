@@ -55,7 +55,6 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
         }
     }
 
-    @JvmField
     @State
     var incomingAccountDeleted = false
     public override fun onCreate(savedInstanceState: Bundle?) {

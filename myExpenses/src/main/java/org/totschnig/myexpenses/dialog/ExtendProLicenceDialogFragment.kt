@@ -23,7 +23,6 @@ class ExtendProLicenceDialogFragment : DialogFragment(), DialogInterface.OnClick
     @Inject
     lateinit var licenceHandler: LicenceHandler
 
-    @JvmField
     @State
     var selectedIndex = -1
 

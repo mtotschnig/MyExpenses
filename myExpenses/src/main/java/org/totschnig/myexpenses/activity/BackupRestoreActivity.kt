@@ -47,7 +47,6 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
     OnDialogResultListener {
     private val backupViewModel: BackupViewModel by viewModels()
 
-    @JvmField
     @State
     var taskResult = RESULT_OK
     public override fun onCreate(savedInstanceState: Bundle?) {

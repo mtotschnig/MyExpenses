@@ -21,7 +21,6 @@ const val ACTION_RE_AUTHENTICATE = "RE_AUTHENTICATE"
 class DropboxSetup : AbstractSyncSetup<DropboxSetupViewModel>() {
     private var oauthStartPending: Boolean = false
 
-    @JvmField
     @State
     var credentialSerialized: String = ""
 

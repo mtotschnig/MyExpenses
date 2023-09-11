@@ -51,7 +51,6 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener, OnIco
     @State
     var preDefined: PreDefinedPaymentMethod? = null
 
-    @JvmField
     @State
     var icon: String? = null
 

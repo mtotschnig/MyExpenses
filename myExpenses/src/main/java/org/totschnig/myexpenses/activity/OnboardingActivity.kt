@@ -35,7 +35,6 @@ class OnboardingActivity : SyncBackendSetupActivity() {
     private lateinit var binding: OnboardingBinding
     private lateinit var pagerAdapter: MyPagerAdapter
 
-    @JvmField
     @State
     var accountName: String? = null
 

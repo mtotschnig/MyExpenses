@@ -57,11 +57,9 @@ class PlannerFragment : DialogViewBinding<PlannerFragmentBinding>() {
     private val viewModel: PlannerViewModel by viewModels()
 
     @State
-    @JvmField
     var instanceUriToUpdate: Uri? = null
 
     @State
-    @JvmField
     var selectedInstances: PlanInstanceSet = PlanInstanceSet()
 
     private lateinit var backgroundColor: ColorStateList

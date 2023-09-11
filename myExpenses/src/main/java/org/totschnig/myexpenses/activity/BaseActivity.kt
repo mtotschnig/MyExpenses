@@ -253,7 +253,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     @State
-    @JvmField
     var downloadPending: String? = null
 
     @Inject

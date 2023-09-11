@@ -66,7 +66,6 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
     @Inject
     lateinit var homeCurrencyProvider: HomeCurrencyProvider
 
-    @JvmField
     @State
     var resolutionPendingForGroup = -1
 

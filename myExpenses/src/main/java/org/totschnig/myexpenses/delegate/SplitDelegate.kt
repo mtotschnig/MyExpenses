@@ -43,7 +43,6 @@ class SplitDelegate(
     lateinit var adapter: SplitPartRVAdapter
     private var transactionSum: Long = 0
 
-    @JvmField
     @State
     var userSetAmount: Boolean = false
     var automaticAmountUpdate: Boolean = false

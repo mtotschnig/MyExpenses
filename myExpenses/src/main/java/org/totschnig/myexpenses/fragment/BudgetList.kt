@@ -48,7 +48,6 @@ class BudgetList : Fragment() {
     lateinit var prefHandler: PrefHandler
 
     @State
-    @JvmField
     var lastClickedPosition: Int? = null
 
     override fun onCreateView(

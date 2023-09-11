@@ -109,11 +109,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     override val exchangeRateEdit: ExchangeRateEdit
         get() = rootBinding.ERR.ExchangeRate
 
-    @JvmField
     @State
     var color = 0
 
-    @JvmField
     @State
     var parentId = 0L
 
@@ -123,32 +121,25 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     /**
      * transaction, transfer or split
      */
-    @JvmField
     @State
     var operationType = 0
     private lateinit var mManager: LoaderManager
 
-    @JvmField
     @State
     var createNew = false
 
-    @JvmField
     @State
     var createTemplate = false
 
-    @JvmField
     @State
     var isTemplate = false
 
-    @JvmField
     @State
     var shouldShowCreateTemplate = false
 
-    @JvmField
     @State
     var areDatesLinked = false
 
-    @JvmField
     @State
     var withTypeSpinner = false
 
@@ -192,8 +183,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     private val parentHasDebt: Boolean
         get() = intent.getBooleanExtra(KEY_PARENT_HAS_DEBT, false)
 
-    val parentPayeeId: Long
-        get() = intent.getLongExtra(KEY_PAYEEID, 0)
+    val parentPayeeId: Long?
+        get() = intent.getLongExtra(KEY_PAYEEID, 0).takeIf { it != 0L }
 
     @Suppress("UNCHECKED_CAST")
     val parentOriginalAmountExchangeRate: Pair<BigDecimal, Currency>?

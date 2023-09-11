@@ -185,10 +185,7 @@ open class CategoryViewModel(
                         cursor,
                         null,
                         1
-                    ),
-                    isMatching = true,
-                    color = null,
-                    icon = null
+                    )
                 ).pruneNonMatching(keepCriteria)
             }
         }

@@ -31,15 +31,12 @@ class CategoryDelegate(
 
     override val operationType = TYPE_TRANSACTION
 
-    @JvmField
     @State
     var label: String? = null
 
-    @JvmField
     @State
     var categoryIcon: String? = null
 
-    @JvmField
     @State
     var catId: Long? = null
 

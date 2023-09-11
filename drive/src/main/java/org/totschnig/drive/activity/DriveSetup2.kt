@@ -19,7 +19,6 @@ import java.util.*
 
 class DriveSetup2 : AbstractSyncSetup<DriveSetupViewModel>() {
 
-    @JvmField
     @State
     var accountName: String? = null
 

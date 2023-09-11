@@ -51,7 +51,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     private lateinit var typeSpinnerHelper: SpinnerHelper
     private lateinit var accountSpinnerHelper: SpinnerHelper
     private lateinit var filterPersistence: FilterPersistence
-    @JvmField
+
     @State
     var accountId: Long = 0
 

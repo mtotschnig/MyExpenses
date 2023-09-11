@@ -80,30 +80,24 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
     private lateinit var syncViewModel: SyncBackendViewModel
 
     @State
-    @JvmField
     var dataLoaded: Boolean = false
 
     @State
-    @JvmField
     var syncAccountName: String? = null
 
     @State
-    @JvmField
     var _currencyUnit: CurrencyUnit? = null
 
     val currencyUnit: CurrencyUnit
         get() = if (dataLoaded) _currencyUnit!! else throw IllegalStateException()
 
     @State
-    @JvmField
     var color: Int = 0
 
     @State
-    @JvmField
     var excludeFromTotals = false
 
     @State
-    @JvmField
     var uuid: String? = null
 
     val rowId: Long

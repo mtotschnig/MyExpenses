@@ -34,7 +34,6 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
     protected val viewModel: SyncViewModel by viewModels()
     private var isResumed = false
 
-    @JvmField
     @State
     var selectedFactoryId = 0
 

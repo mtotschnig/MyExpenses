@@ -102,11 +102,9 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     /**
      * if we are called from the calendar app, we only need to handle display of plan once
      */
-    @JvmField
     @State
     var expandedHandled = false
 
-    @JvmField
     @State
     var repairTriggered = false
 

@@ -27,15 +27,12 @@ import javax.inject.Inject
 
 
 class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
-    @JvmField
     @State
     var dataReady = false
 
-    @JvmField
     @State
     var mUsageRecorded = false
 
-    @JvmField
     @State
     var idle = true
 

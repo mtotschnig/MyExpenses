@@ -47,13 +47,11 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
     private var readOnly = false
     var stateListDrawable: StateListDrawable? = null
 
-    @JvmField
     @State
     var instance2TransactionMap = HashMap<Long, Long>()
 
     //caldroid fragment operates on Dates set to Midnight. We want to store the exact timestamp in order
     //create the transactions with the exact date provided by the calendar
-    @JvmField
     @State
     var dateTime2TimeStampMap = HashMap<DateTime, Long>()
     override fun onCreate(savedInstanceState: Bundle?) {

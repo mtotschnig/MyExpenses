@@ -23,11 +23,9 @@ abstract class AbstractSyncSetup<T : AbstractSetupViewModel> : ProtectedFragment
     SimpleDialog.OnDialogResultListener {
     lateinit var viewModel: T
 
-    @JvmField
     @State
     var idList: ArrayList<String> = ArrayList()
 
-    @JvmField
     @State
     var loadFinished: Boolean = false
 

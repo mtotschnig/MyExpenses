@@ -43,11 +43,9 @@ class TransferDelegate(
     private val lastExchangeRateRelevantInputs = intArrayOf(INPUT_EXCHANGE_RATE, INPUT_AMOUNT)
     private lateinit var transferAccountsAdapter: IdAdapter<Account>
 
-    @JvmField
     @State
     var mTransferAccountId: Long? = null
 
-    @JvmField
     @State
     var transferPeer: Long? = null
 
