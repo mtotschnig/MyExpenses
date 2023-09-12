@@ -1080,4 +1080,6 @@
     <string name="read_from_data">Read from data</string>
     <string name="merge_parties_strategy_delete">Duplicates are deleted.</string>
     <string name="merge_parties_strategy_group">Duplicates are grouped as dependents.</string>
+    <string name="show_duplicates">Show Duplicates</string>
+    <string name="remove_from_group">Remove from group</string>
 </resources>

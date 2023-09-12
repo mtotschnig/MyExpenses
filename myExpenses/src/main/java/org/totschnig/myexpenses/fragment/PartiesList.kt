@@ -168,13 +168,15 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 menu.add(Menu.NONE, DELETE_COMMAND, Menu.NONE, R.string.menu_delete)
                     .setIcon(R.drawable.ic_menu_delete)
                 if (party.duplicates.isNotEmpty()) {
-                    with(menu.add(Menu.NONE, SHOW_DUPLICATES_COMMAND, Menu.NONE, "Show Duplicates")) {
+                    with(menu.add(Menu.NONE, SHOW_DUPLICATES_COMMAND, Menu.NONE,
+                        getString(R.string.show_duplicates))) {
                         isCheckable = true
                         isChecked = viewModel.expandedItem == party.id
                     }
                 }
                 if (party.isDuplicate) {
-                    menu.add(Menu.NONE, REMOVE_FROM_GROUP_COMMAND, Menu.NONE, "Remove from group")
+                    menu.add(Menu.NONE, REMOVE_FROM_GROUP_COMMAND, Menu.NONE,
+                        getString(R.string.remove_from_group))
                         .setIcon(R.drawable.ic_group_remove)
                 }
                 if (action == Action.MANAGE) {

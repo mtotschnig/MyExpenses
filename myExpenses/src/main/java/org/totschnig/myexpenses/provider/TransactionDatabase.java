@@ -2267,7 +2267,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         createOrRefreshViews(db);
       }
       if (oldVersion < 147) {
+        db.execSQL("ALTER TABLE payee add column parent_id integer references payee(_id) ON DELETE CASCADE");
         db.execSQL("update payee set short_name = null where short_name = ''");
+        db.execSQL(PARTY_HIERARCHY_TRIGGER);
       }
 
       TransactionProvider.resumeChangeTrigger(db);
