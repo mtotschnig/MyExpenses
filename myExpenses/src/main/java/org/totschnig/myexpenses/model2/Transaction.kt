@@ -44,7 +44,7 @@ data class Transaction(
     val time: LocalTime?,
     val dateFormatted: String,
     val valueDate: LocalDate,
-    val party: Party?,
+    val party: Long,
     val category: Long?,
     val tags: List<Long>,
     val comment: String,
@@ -64,8 +64,6 @@ data class Transaction(
         ): Transaction {
             val date = cursor.getLong(KEY_DATE)
             val dateTime = epoch2ZonedDateTime(date)
-            val partyId = cursor.getLongOrNull(KEY_PAYEEID)
-            val party = cursor.getString(KEY_PAYEE_NAME)
             val comment = cursor.getString(KEY_COMMENT)
             val amount = cursor.getLong(KEY_DISPLAY_AMOUNT)
             val money = Money(currencyUnit, amount)
@@ -81,7 +79,7 @@ data class Transaction(
                 time = dateTime.toLocalTime(),
                 dateFormatted = Utils.convDateTime(date, dateFormat),
                 valueDate = epoch2LocalDate(cursor.getLong(KEY_VALUE_DATE)),
-                party = partyId?.let { Party(it, party) },
+                party = cursor.getLong(KEY_PAYEEID),
                 category = category,
                 tags = emptyList(),
                 comment = comment,
@@ -101,7 +99,7 @@ data class Transaction(
                         comment.takeIf { it.isNotEmpty() }?.let {
                             add("<span class ='italic'>$it</span>")
                         }
-                        party.takeIf { it.isNotEmpty() }?.let {
+                        cursor.getString(KEY_PAYEE_NAME).takeIf { it.isNotEmpty() }?.let {
                             add("<span class='underline'>$it</span>")
                         }
                         cursor.splitStringList(KEY_TAGLIST).takeIf { it.isNotEmpty() }?.let {

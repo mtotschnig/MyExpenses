@@ -390,7 +390,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                 "payees" to contentResolver.query(
                     TransactionProvider.PAYEES_URI,
                     arrayOf(KEY_ROWID, KEY_PAYEE_NAME),
-                    null, null, null
+                    "$KEY_PARENTID IS  NULL", null, null
                 )?.useAndMap {
                     mapOf(
                         "id" to it.getLong(0),

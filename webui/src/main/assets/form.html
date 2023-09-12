@@ -107,15 +107,14 @@
 
                     <div class="flex flex-col mb-4">
                         <label class="mb-2 uppercase font-bold text-lg"
-                               for="payee" x-text="messages.payer_or_payee"></label>
-                        <input class="border py-2 px-3" list="payees" name="payee"
-                               id="payee"
-                               x-model="payee">
-                        <datalist id="payees">
-                            <template x-for="item in data.payees" :key="item.id">
-                                <option x-text="item.name"></option>
+                               for="party" x-text="messages.payer_or_payee"></label>
+                        <select class="h-8" name="method" id="party" x-model="party">
+                            <option value="0"></option>
+                            <template x-for="item in data.payees"
+                                      :key="item.id">
+                                <option :value="item.id" x-text="item.name"></option>
                             </template>
-                        </datalist>
+                        </select>
                     </div>
 
                     <div class="flex flex-col mb-4" x-show="data.categories.length > 0">

@@ -59,6 +59,6 @@ class ExpenseEditPayeeTest: BaseExpenseEditTest() {
         setAmount(101)
         onView(ViewMatchers.withId(R.id.CREATE_COMMAND)).perform(click())
         onIdle()
-        assertThat(repository.loadTransactions(account1.id).first().party!!.id).isEqualTo(party.id)
+        assertThat(repository.loadTransactions(account1.id).first().party).isEqualTo(party.id)
     }
 }

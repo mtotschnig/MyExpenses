@@ -17,7 +17,7 @@ document.addEventListener('alpine:init', () => {
         date: dateFormatted,
         valueDate: dateFormatted,
         time: formatTime(date),
-        payee: '',
+        party: 0,
         account: 0,
         comment: '',
         categoryTreeDepth: categoryTreeDepth,
@@ -33,7 +33,7 @@ document.addEventListener('alpine:init', () => {
         async loadTransaction(transaction) {
             this.signum = transaction.amount > 0 ? true : false;
             this.amount = Math.abs(transaction.amount);
-            this.payee = transaction.payee;
+            this.party = transaction.party;
             this.comment = transaction.comment;
             this.number = transaction.number;
             this.date = transaction.date;
@@ -59,7 +59,7 @@ document.addEventListener('alpine:init', () => {
                 date: this.date,
                 time: this.currentDateMode == dateMode.dateTime ? this.time : null,
                 valueDate: this.valueDate,
-                payee: this.payee,
+                party: this.party,
                 category: this.terminalNodeFromPath(this.categoryPath),
                 tags: this.selectedTags,
                 comment: this.comment,
@@ -107,7 +107,7 @@ document.addEventListener('alpine:init', () => {
                 this.date = dateFormatted;
                 this.valueDate = dateFormatted;
                 this.time = formatTime(now);
-                this.payee = '';
+                this.party = 0;
                 this.comment = '';
                 this.resetCategory();
                 this.selectedTags = [];
