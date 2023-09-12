@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import org.totschnig.myexpenses.R as RB
 
 @Composable
 fun BankingCredentials(
@@ -66,7 +67,7 @@ fun BankingCredentials(
             onValueChange = {
                 bankingCredentials.value = credentials.copy(password = it.trim())
             },
-            label = { Text(text = "PIN") },
+            label = { Text(text = stringResource(id = RB.string.hint_password)) },
             singleLine = true
         )
         // Not using supportingText parameter of OutlinedTextField, because of
