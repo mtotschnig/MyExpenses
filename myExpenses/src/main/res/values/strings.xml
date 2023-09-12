@@ -1082,4 +1082,6 @@
     <string name="merge_parties_strategy_group">Duplicates are grouped as dependents.</string>
     <string name="show_duplicates">Show Duplicates</string>
     <string name="remove_from_group">Remove from group</string>
+    <string name="whats_new_364_1">Import into multiple accounts from one CSV file</string>
+    <string name="whats_new_364_2">New strategy for managing duplicate payer/payee information</string>
 </resources>
