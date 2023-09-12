@@ -170,7 +170,7 @@ class AccountTest {
         )!!.use {
             with(assertThat(it)) {
                 hasCount(testAccounts.size)
-                moveToFirst()
+                movesToFirst()
             }
             it.getLong(0)
         }
@@ -184,7 +184,7 @@ class AccountTest {
         )!!.use {
             with(assertThat(it)) {
                 hasCount(1)
-                moveToFirst()
+                movesToFirst()
                 hasString(0, query)
             }
         }
@@ -226,7 +226,7 @@ class AccountTest {
             val currencyIndex = it.getColumnIndex(KEY_CURRENCY)
             with(assertThat(it)) {
                 hasCount(1)
-                moveToFirst()
+                movesToFirst()
                 hasString(labelIndex, account.label)
                 hasString(descriptionIndex, account.description)
                 hasLong(balanceIndex, account.openingBalance)
@@ -313,7 +313,7 @@ class AccountTest {
         )!!.use {
             with(assertThat(it)) {
                 hasCount(testAccounts.size)
-                moveToFirst()
+                movesToFirst()
                 hasString(1, Grouping.NONE.name)
             }
             it.getLong(0)
@@ -335,7 +335,7 @@ class AccountTest {
             null
         )!!.use {
             with(assertThat(it)) {
-                moveToFirst()
+                movesToFirst()
                 hasString(0, Grouping.YEAR.name)
             }
         }
@@ -358,7 +358,7 @@ class AccountTest {
         )!!.use {
             with(assertThat(it)) {
                 hasCount(testAccounts.size)
-                moveToFirst()
+                movesToFirst()
                 hasString(1, KEY_DATE)
                 hasString(2, SortDirection.DESC.name)
             }
@@ -383,7 +383,7 @@ class AccountTest {
             null
         )!!.use {
             with(assertThat(it)) {
-                moveToFirst()
+                movesToFirst()
                 hasString(0, KEY_AMOUNT)
                 hasString(1, SortDirection.ASC.name)
             }
@@ -408,7 +408,7 @@ class AccountTest {
             //TODO insert transactions and test calculated sum
             with(assertThat(it)) {
                 hasCount(1)
-                moveToFirst()
+                movesToFirst()
                 hasLong(it.getColumnIndex(KEY_SUM_EXPENSES), 0)
             }
         }

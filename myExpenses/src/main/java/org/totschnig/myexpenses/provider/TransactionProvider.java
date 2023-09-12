@@ -725,8 +725,10 @@ public class TransactionProvider extends BaseTransactionProvider {
       case AUTOFILL:
         qb = SupportSQLiteQueryBuilder.builder(VIEW_EXTENDED);
         selection = KEY_ROWID + "= (SELECT max(" + KEY_ROWID + ") FROM " + TABLE_TRANSACTIONS
-            + " WHERE " + WHERE_NOT_SPLIT + " AND " + KEY_PAYEEID + " = ?)";
-        selectionArgs = new String[]{uri.getPathSegments().get(1)};
+            + " WHERE " + WHERE_NOT_SPLIT + " AND " + KEY_PAYEEID + " IN (?, (SELECT " + KEY_PARENTID  +" FROM " + TABLE_PAYEES +
+                " WHERE " + KEY_ROWID + " = ?)))";
+        String id = uri.getPathSegments().get(1);
+        selectionArgs = new String[]{id,id};
         break;
       case ACCOUNT_EXCHANGE_RATE:
         qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNT_EXCHANGE_RATES);

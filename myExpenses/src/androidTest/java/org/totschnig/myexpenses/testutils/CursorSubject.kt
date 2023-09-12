@@ -6,7 +6,6 @@ import com.google.common.truth.IntegerSubject
 import com.google.common.truth.Subject
 import com.google.common.truth.Subject.Factory
 import com.google.common.truth.Truth
-import org.totschnig.myexpenses.provider.getString
 
 class CursorSubject private constructor(
     failureMetadata: FailureMetadata,
@@ -20,7 +19,7 @@ class CursorSubject private constructor(
         columnCount().isEqualTo(expected)
     }
 
-    fun moveToFirst() {
+    fun movesToFirst() {
         check("moveToFirst").that(actual.moveToFirst()).isTrue()
     }
 
