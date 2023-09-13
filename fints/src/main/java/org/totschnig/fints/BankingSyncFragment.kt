@@ -45,7 +45,7 @@ class BankingSyncFragment : ComposeBaseDialogFragment2() {
             Column {
                 when (workState.value) {
                     is BankingViewModel.WorkState.BankLoaded -> {
-                        val state: MutableState<BankingCredentials?> = remember {
+                        val state: MutableState<BankingCredentials> = remember {
                             mutableStateOf(
                                 BankingCredentials.fromBank((workState.value as BankingViewModel.WorkState.BankLoaded).bank)
                             )
@@ -55,9 +55,9 @@ class BankingSyncFragment : ComposeBaseDialogFragment2() {
                             Button(onClick = { dismiss() }) {
                                 Text(stringResource(id = android.R.string.cancel))
                             }
-                            Button(enabled = state.value?.isComplete == true, onClick = {
+                            Button(enabled = state.value.isComplete, onClick = {
                                 viewModel.syncAccount(
-                                    state.value!!,
+                                    state.value,
                                     requireArguments().getLong(KEY_ACCOUNTID)
                                 )
                             }) {
@@ -68,12 +68,7 @@ class BankingSyncFragment : ComposeBaseDialogFragment2() {
 
 
                     is BankingViewModel.WorkState.Done -> {
-                        errorState.value?.let {
-                            Text(
-                                color = MaterialTheme.colorScheme.error,
-                                text = it
-                            )
-                        }
+                        Error(errorMessage = errorState.value)
                         Text((workState.value as BankingViewModel.WorkState.Done).message)
                         ButtonRow {
                             Button(onClick = { dismiss() }) {

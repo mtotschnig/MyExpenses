@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -153,14 +154,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         HBCIUtils.setParam("client.passport.default", "PinTan")
         HBCIUtils.setParam("client.passport.PinTan.init", "1")
 
-        val info = HBCIUtils.getBankInfo(bankingCredentials.blz)
-
-        if (info == null) {
-            HBCIUtils.doneThread()
-            error(getString(R.string.blz_not_found, bankingCredentials.blz))
-            _workState.value = WorkState.Initial
-        }
-        return info
+        return HBCIUtils.getBankInfo(bankingCredentials.blz)
     }
 
     private fun buildPassportFile(info: BankInfo, user: String) =
@@ -178,13 +172,17 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         }
 
     @WorkerThread
-    private fun doHBCI(
+    private suspend fun doHBCI(
         bankingCredentials: BankingCredentials,
-        work: (BankInfo, HBCIPassport, HBCIHandler) -> Unit,
+        work: suspend (BankInfo, HBCIPassport, HBCIHandler) -> Unit,
         onError: (Exception) -> Unit
     ) {
 
-        val info = initHBCI(bankingCredentials) ?: return
+        val info = initHBCI(bankingCredentials) ?: run {
+            HBCIUtils.doneThread()
+            onError(Exception(getString(R.string.blz_not_found, bankingCredentials.blz)))
+            return
+        }
 
         val passportFile = buildPassportFile(info, bankingCredentials.user)
 
@@ -232,13 +230,12 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
     fun addBank(bankingCredentials: BankingCredentials) {
         clearError()
-        _workState.value = WorkState.Loading()
 
         if (bankingCredentials.isNew && banks.value.any { it.blz == bankingCredentials.blz && it.userId == bankingCredentials.user }) {
-            _workState.value = WorkState.Initial
             error(getString(R.string.bank_already_added))
             return
         }
+        _workState.value = WorkState.Loading()
         viewModelScope.launch(context = coroutineContext()) {
             doHBCI(
                 bankingCredentials,
@@ -287,11 +284,13 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             if (accountInformation == null) {
                 CrashHandler.report(Exception("Error while retrieving Information for account"))
                 error("Error while retrieving Information for account")
+                _workState.value = WorkState.Done()
                 return@launch
             }
             if (accountInformation.lastSynced == null) {
                 CrashHandler.report(Exception("Error while retrieving Information for account (lastSynced)"))
                 error("Error while retrieving Information for account (lastSynced")
+                _workState.value = WorkState.Done()
                 return@launch
             }
 
@@ -425,6 +424,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                         val result = umsatzJob.jobResult as GVRKUms
 
                         if (!result.isOK) {
+                            _workState.value = WorkState.Done()
                             error(result.toString())
                             log(result.toString())
                             return@doHBCI
