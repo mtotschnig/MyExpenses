@@ -608,7 +608,7 @@
     <string name="sync_state_restored">Sync state was restored for %d accounts.</string>
     <string name="sync_state_could_not_be_restored">Sync state could not be restored for %d accounts.</string>
     <string name="onboarding_ui_title">{app_name} adapts to your preference</string>
-    <string name="onboarding_data_title">Let us set up your first account</string>
+    <string name="onboarding_data_title">Let\'s set up your first account</string>
     <string name="onboarding_get_started">Get started</string>
     <string name="onboarding_more_options">More Options</string>
     <string name="onboarding_restore_from_cloud">Restore from cloud synchronization</string>
