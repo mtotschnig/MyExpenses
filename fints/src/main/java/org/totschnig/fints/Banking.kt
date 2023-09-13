@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.widget.TextView
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -39,6 +40,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -279,21 +281,13 @@ class Banking : ProtectedFragmentActivity() {
                                 .verticalScroll(rememberScrollState())
                         ) {
                             Error(errorMessage = errorState.value)
-                            val help = SpannableStringBuilder().apply {
-                                append(LocalContext.current.getText(RF.string.select_accounts_help_1))
-                                append(" ")
+                            Help(buildList {
+                                add(RF.string.select_accounts_help_1)
                                 if (!calledFromOnboarding) {
-                                    append(LocalContext.current.getText(RF.string.select_accounts_help_2))
-                                    append(" ")
+                                    add(RF.string.select_accounts_help_2)
                                 }
-                                append(LocalContext.current.getText(RF.string.select_accounts_help_3))
-                            }
-
-                            AndroidView(
-                                modifier = Modifier.padding(bottom = 8.dp),
-                                factory = { context -> TextView(context) },
-                                update = { it.text = help }
-                            )
+                                add(RF.string.select_accounts_help_3)
+                            })
 
                             accounts.forEachIndexed { index, account ->
                                 AccountRow(
@@ -421,6 +415,12 @@ class Banking : ProtectedFragmentActivity() {
                                 .verticalScroll(rememberScrollState())
                         ) {
                             Error(errorMessage = errorState.value)
+                            Help(buildList {
+                                add(RF.string.fints_intro_1)
+                                if (calledFromOnboarding) {
+                                    add(RF.string.fints_intro_2)
+                                }
+                            })
                             BankingCredentials(
                                 bankingCredentials = bankingCredentials,
                                 onDone = viewModel::addBank
@@ -513,6 +513,18 @@ class Banking : ProtectedFragmentActivity() {
             MessageDialogFragment.noButton(), 0
         )
             .show(supportFragmentManager, "DELETE_ACCOUNT")
+    }
+
+    @Composable
+    fun Help(@StringRes resIds: List<Int>) {
+        val help = resIds.joinTo(SpannableStringBuilder(), " ") {
+            getText(it)
+        }
+        AndroidView(
+            modifier = Modifier.width(OutlinedTextFieldDefaults.MinWidth).padding(bottom = 8.dp),
+            factory = { context -> TextView(context) },
+            update = { it.text = help }
+        )
     }
 }
 
