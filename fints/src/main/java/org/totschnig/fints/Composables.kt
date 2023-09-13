@@ -154,7 +154,7 @@ private fun getIcon(blz: String) = when {
 fun Loading(text: String? = "Loading") {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         CircularProgressIndicator()
         Text(text ?: stringResource(id = org.totschnig.myexpenses.R.string.loading))

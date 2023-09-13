@@ -54,9 +54,6 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
         get() = twoPanePreference.getDetailFragment<BasePreferenceFragment>()
             ?.viewModel
 
-    private val bankingFeature: BankingFeature
-        get() = requireApplication().appComponent.bankingFeature() ?: object : BankingFeature {}
-
     private val licenceValidationViewModel: LicenceValidationViewModel by viewModels()
 
     private val dismissCallback = object : Snackbar.Callback() {
@@ -273,7 +270,6 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
                 twoPanePreference.getDetailFragment<PreferencesWebUiFragment>()?.bindToWebUiService()
                 activateWebUi()
             }
-            Feature.FINTS -> startBanking()
             else -> {}
         }
     }
@@ -343,20 +339,8 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
                     featureViewModel.requestFeature(this, Feature.WEBUI)
                 }
             }
-            ContribFeature.BANKING -> {
-                if (featureViewModel.isFeatureAvailable(this, Feature.FINTS)) {
-                    startBanking()
-                } else {
-                    featureViewModel.requestFeature(this, Feature.FINTS)
-                }
-            }
-
-            else -> {}
+            else -> super.contribFeatureCalled(feature, tag)
         }
-    }
-
-    private fun startBanking() {
-        bankingFeature.startBankingList(this)
     }
 
     @Deprecated("Deprecated in Java")

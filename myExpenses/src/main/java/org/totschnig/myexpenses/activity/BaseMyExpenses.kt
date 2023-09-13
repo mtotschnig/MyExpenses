@@ -154,9 +154,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private val upgradeHandlerViewModel: UpgradeHandlerViewModel by viewModels()
     private val exportViewModel: ExportViewModel by viewModels()
 
-    private val bankingFeature: BankingFeature
-        get() = requireApplication().appComponent.bankingFeature() ?: object : BankingFeature {}
-
     lateinit var binding: ActivityMainBinding
 
     val accountCount

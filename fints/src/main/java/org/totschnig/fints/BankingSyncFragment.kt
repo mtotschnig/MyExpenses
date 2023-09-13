@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -69,7 +68,9 @@ class BankingSyncFragment : ComposeBaseDialogFragment2() {
 
                     is BankingViewModel.WorkState.Done -> {
                         Error(errorMessage = errorState.value)
-                        Text((workState.value as BankingViewModel.WorkState.Done).message)
+                        (workState.value as? BankingViewModel.WorkState.Success)?.message?.let {
+                            Text(it)
+                        }
                         ButtonRow {
                             Button(onClick = { dismiss() }) {
                                 Text(stringResource(id = R.string.menu_close))

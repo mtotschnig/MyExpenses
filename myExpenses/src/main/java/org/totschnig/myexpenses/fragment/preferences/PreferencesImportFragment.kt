@@ -30,7 +30,6 @@ class PreferencesImportFragment: BasePreferenceFragment() {
     override fun onPreferenceTreeClick(preference: Preference) = when {
         super.onPreferenceTreeClick(preference) -> true
         handleContrib(PrefKey.IMPORT_CSV, ContribFeature.CSV_IMPORT, preference) -> true
-        handleContrib(PrefKey.BANKING_FINTS, ContribFeature.BANKING, preference) -> true
         else -> false
     }
 }

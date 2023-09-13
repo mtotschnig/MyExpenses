@@ -200,11 +200,7 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
 
     fun handleContrib(prefKey: PrefKey, feature: ContribFeature, preference: Preference) =
         if (matches(preference, prefKey)) {
-            if (licenceHandler.hasAccessTo(feature)) {
-                preferenceActivity.contribFeatureCalled(feature, null)
-            } else {
-                preferenceActivity.showContribDialog(feature, null)
-            }
+            preferenceActivity.contribFeatureRequested(feature, null)
             true
         } else false
 

@@ -1,21 +1,18 @@
 package org.totschnig.myexpenses.activity
 
-import android.annotation.TargetApi
+import android.app.Activity
 import android.content.Intent
-import android.os.Build
-import android.os.Build.VERSION_CODES.TIRAMISU
 import android.os.Bundle
 import android.view.Menu
-import android.view.View
-import androidx.annotation.RequiresApi
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import com.evernote.android.state.State
-import com.vmadalin.easypermissions.EasyPermissions
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.OnboardingBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.RestoreFromCloudDialogFragment
+import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.fragment.OnBoardingPrivacyFragment
 import org.totschnig.myexpenses.fragment.OnboardingDataFragment
 import org.totschnig.myexpenses.fragment.OnboardingUiFragment
@@ -23,7 +20,6 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter
-import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.versionNumber
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_BACKUP_FROM_SYNC
@@ -34,6 +30,13 @@ import org.totschnig.myexpenses.viewmodel.SyncViewModel.SyncAccountData
 class OnboardingActivity : SyncBackendSetupActivity() {
     private lateinit var binding: OnboardingBinding
     private lateinit var pagerAdapter: MyPagerAdapter
+
+    private val startBanking =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                start()
+            }
+        }
 
     @State
     var accountName: String? = null
@@ -159,6 +162,10 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_NEUTRAL) == R.id.ENCRYPT_LEARN_MORE_COMMAND) {
             startActionView("https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Data#how-does-database-encryption-work")
         }
+    }
+
+    override fun startBanking() {
+        startBanking.launch(Intent(this, bankingFeature.bankingActivityClass))
     }
 
     override val snackBarContainerId: Int

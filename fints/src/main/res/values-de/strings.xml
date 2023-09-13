@@ -38,5 +38,7 @@
     <string name="saldo">Saldo</string>
     <string name="load">Laden</string>
     <string name="import_into">Importieren nach</string>
-    <string name="select_accounts_help">Wählen Sie die Konten aus, die Sie mit <i>Meine Ausgaben</i> verwalten möchten. Sie können diese entweder in ein neues Konto importieren, oder ein bestehendes Konto (mit der Ausnahme von Bargeldkonten) als Ziel auswählen. In letzterem Fall, müssen Sie den Eröffnungssaldo manuell anpassen. Nicht alle Banken erlauben den Zugriff auf alle Konten über eine Schnittstelle, die <i>Meine Ausgaben</i> versteht (Zum Beispiel funktionieren bei den Sparkassen Kreditkarten nicht). Am Startbildschirm, wenn ein mit der Bank verknüpftes Konto dargestellt wird, wählen Sie zur Aktualisierung im Menü <i>Umsätze abrufen</i>.</string>
+    <string name="select_accounts_help_1">Wählen Sie die Konten aus, die Sie mit <i>Meine Ausgaben</i> verwalten möchten.</string>
+    <string name="select_accounts_help_2">Sie können diese entweder in ein neues Konto importieren, oder ein bestehendes Konto (mit der Ausnahme von Bargeldkonten) als Ziel auswählen. In letzterem Fall, müssen Sie den Eröffnungssaldo manuell anpassen.</string>
+    <string name="select_accounts_help_3">Nicht alle Banken erlauben den Zugriff auf alle Konten über eine Schnittstelle, die <i>Meine Ausgaben</i> versteht (Zum Beispiel funktionieren bei den Sparkassen Kreditkarten nicht). Am Startbildschirm, wenn ein mit der Bank verknüpftes Konto dargestellt wird, wählen Sie zur Aktualisierung im Menü <i>Umsätze abrufen</i>.</string>
 </resources>

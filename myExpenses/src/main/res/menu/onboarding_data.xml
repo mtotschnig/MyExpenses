@@ -17,4 +17,5 @@
                 android:id="@+id/SetupFromLocal"/>
         </menu>
     </item>
+    <item android:id="@+id/Banking" android:title="Banking" app:showAsAction="always"/>
 </menu>

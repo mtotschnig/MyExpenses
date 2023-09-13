@@ -59,6 +59,7 @@ import org.totschnig.myexpenses.activity.ContribInfoDialogActivity.Companion.get
 import org.totschnig.myexpenses.dialog.*
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.dialog.DialogUtils.PasswordDialogUnlockedCallback
+import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.injector
@@ -96,7 +97,7 @@ import javax.inject.Inject
 import kotlin.math.sign
 
 abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener,
-    ConfirmationDialogListener, EasyPermissions.PermissionCallbacks, AmountInput.Host {
+    ConfirmationDialogListener, EasyPermissions.PermissionCallbacks, AmountInput.Host, ContribIFace {
     private var snackBar: Snackbar? = null
     private var pwDialog: AlertDialog? = null
 
@@ -245,6 +246,17 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
+    override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
+        if (feature == ContribFeature.BANKING)  {
+            if (featureViewModel.isFeatureAvailable(this, Feature.FINTS)) {
+                startBanking()
+            } else {
+                featureViewModel.requestFeature(this, Feature.FINTS)
+            }
+        }
+
+    }
+
     private fun onDownloadComplete() {
         downloadPending?.let {
             showSnackBar(getString(R.string.download_completed, it))
@@ -301,6 +313,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     @CallSuper
     open fun onFeatureAvailable(feature: Feature) {
         featureManager.initActivity(this)
+        if (feature == Feature.FINTS)  startBanking()
     }
 
     open fun maybeRepairRequerySchema() {
@@ -1156,6 +1169,13 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 restartAfterRestore()
             }
         }
+    protected val calledFromOnboarding: Boolean
+        get() = callingActivity?.let {
+            Utils.getSimpleClassNameFromComponentName(it)
+        } == OnboardingActivity::class.java.simpleName
+    val bankingFeature: BankingFeature
+        get() = requireApplication().appComponent.bankingFeature() ?: object :
+            BankingFeature {}
 
     protected open fun restartAfterRestore() {
         (application as MyApplication).invalidateHomeCurrency(homeCurrencyProvider.homeCurrencyString)
@@ -1165,6 +1185,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             })
         }
+    }
+
+    open fun startBanking() {
+        startActivity(Intent(this, bankingFeature.bankingActivityClass))
     }
 
 

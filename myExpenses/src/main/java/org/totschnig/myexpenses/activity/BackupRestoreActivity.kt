@@ -247,11 +247,6 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
     val calledExternally: Boolean
         get() = Intent.ACTION_VIEW == intent.action
 
-    private val calledFromOnboarding: Boolean
-        get() = callingActivity?.let {
-            Utils.getSimpleClassNameFromComponentName(it)
-        } == OnboardingActivity::class.java.simpleName
-
     fun onSourceSelected(
         mUri: Uri,
         restorePlanStrategy: Int,

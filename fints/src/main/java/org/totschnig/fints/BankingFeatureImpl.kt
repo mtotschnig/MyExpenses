@@ -1,7 +1,7 @@
 package org.totschnig.fints
 
+import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import androidx.annotation.Keep
 import androidx.compose.runtime.Composable
 import androidx.fragment.app.FragmentManager
@@ -10,9 +10,9 @@ import org.totschnig.myexpenses.feature.BankingFeature
 
 @Keep
 class BankingFeatureImpl: BankingFeature {
-    override fun startBankingList(context: Context) {
-        context.startActivity(Intent(context, Banking::class.java))
-    }
+
+    override val bankingActivityClass: Class<out Activity>
+        get() = Banking::class.java
 
     override fun startSyncFragment(
         bankId: Long,

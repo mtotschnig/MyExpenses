@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.databinding.OnboardingWizzardDataBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.buildColorDialog
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Account
@@ -54,8 +55,8 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
             inject(currencyViewModel)
             inject(viewModel)
         }
-        viewModel.accountSave.observe(this) {
-            it.onSuccess {
+        viewModel.accountSave.observe(this) { result ->
+            result.onSuccess {
                 hostActivity.start()
             }.onFailure {
                 CrashHandler.report(it)
@@ -110,6 +111,9 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
             }
             Menu.NONE -> {
                 hostActivity.fetchAccountData(item.title.toString())
+            }
+            R.id.Banking -> {
+                hostActivity.contribFeatureCalled(ContribFeature.BANKING, null)
             }
             !in arrayOf(R.id.SetupMain, R.id.SetupFromRemote) -> {
                 hostActivity.startSetup(item.itemId)

@@ -10,7 +10,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -129,7 +128,11 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             val accounts: List<Pair<Konto, Boolean>>
         ) : WorkState()
 
-        data class Done(val message: String = "") : WorkState()
+        abstract class Done() : WorkState()
+
+        class Abort: Done()
+
+        class Success(val message: String = ""): Done()
     }
 
     fun submitTan(tan: String?) {
@@ -284,13 +287,13 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             if (accountInformation == null) {
                 CrashHandler.report(Exception("Error while retrieving Information for account"))
                 error("Error while retrieving Information for account")
-                _workState.value = WorkState.Done()
+                _workState.value = WorkState.Abort()
                 return@launch
             }
             if (accountInformation.lastSynced == null) {
                 CrashHandler.report(Exception("Error while retrieving Information for account (lastSynced)"))
                 error("Error while retrieving Information for account (lastSynced")
-                _workState.value = WorkState.Done()
+                _workState.value = WorkState.Abort()
                 return@launch
             }
 
@@ -327,7 +330,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     if (!result.isOK) {
                         error(result.toString())
                         log(result.toString())
-                        _workState.value = WorkState.Done()
+                        _workState.value = WorkState.Abort()
                         return@doHBCI
                     }
 
@@ -349,7 +352,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     }
                     setAccountLastSynced(accountId)
                     _workState.value =
-                        WorkState.Done(
+                        WorkState.Success(
                             if (importCount > 0)
                                 getQuantityString(R.plurals.transactions_imported, importCount, importCount)
                             else
@@ -358,7 +361,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                 },
                 onError = {
                     error(it)
-                    _workState.value = WorkState.Done()
+                    _workState.value = WorkState.Abort()
                 }
             )
         }
@@ -424,7 +427,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                         val result = umsatzJob.jobResult as GVRKUms
 
                         if (!result.isOK) {
-                            _workState.value = WorkState.Done()
+                            _workState.value = WorkState.Abort()
                             error(result.toString())
                             log(result.toString())
                             return@doHBCI
@@ -460,12 +463,12 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     },
                     onError = {
                         error(it)
-                        _workState.value = WorkState.Done()
+                        _workState.value = WorkState.Abort()
                     }
                 )
             }
             licenceHandler.recordUsage(ContribFeature.BANKING)
-            _workState.value = WorkState.Done(
+            _workState.value = WorkState.Success(
                 getQuantityString(R.plurals.accounts_imported, successCount, successCount)
             )
         }
