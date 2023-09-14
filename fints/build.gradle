@@ -37,16 +37,16 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation "androidx.compose.ui:ui-tooling-preview"
     debugImplementation "androidx.compose.ui:ui-tooling"
-    implementation 'androidx.activity:activity-compose:1.7.2'
+    implementation "androidx.activity:activity-compose:$activityCompose"
     implementation "androidx.compose.material:material-icons-extended"
     implementation "androidx.compose.runtime:runtime-livedata"
 
-    implementation 'com.github.hbci4j:hbci4java:0f7626d0ce'
+    implementation  'com.github.hbci4j:hbci4j-core:3.1.71'
     implementation 'xerces:xercesImpl:2.12.0'
     implementation "org.apache.commons:commons-lang3:$commonsLang"
 
 
-    implementation "androidx.core:core-ktx:1.10.1"
+    implementation "androidx.core:core-ktx:$ktxVersion"
     testImplementation "junit:junit:4.13.2"
     androidTestImplementation "androidx.test.ext:junit:1.1.5"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
