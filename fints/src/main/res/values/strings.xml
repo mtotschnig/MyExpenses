@@ -43,6 +43,6 @@
     <string name="select_accounts_help_1">Select the bank accounts that you want to manage with <i>My Expenses</i>.</string>
     <string name="select_accounts_help_2">You can either import them into a new account or select any existing account (with exception of cash accounts) as target. In the latter case, you will need to adjust the account\'s opening balance manually.</string>
     <string name="select_accounts_help_3">Please be aware, that not all banks provide access to all accounts by the procedure that <i>My Expenses</i> understands (For example, for Sparkassen, credit cards are not supported). From the main screen, when an account linked to your bank is displayed, select <i>Load transactions</i> from the menu in order to update.</string>
-    <string name="fints_intro_1"><i>My Expenses</i> allows you to load account information (transaction history) from your bank. It does not support payment initiation.</string>
+    <string name="fints_intro_1"><i>My Expenses</i> allows you to load account information (transaction history) from your bank in German, if it supports FinTS. It does not support payment initiation.</string>
     <string name="fints_intro_2">From the Settings screen, additional bank connections can be configured.</string>
 </resources>
