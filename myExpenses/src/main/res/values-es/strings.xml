@@ -1054,4 +1054,6 @@
     <string name="read_from_data">Lectura de los datos</string>
     <string name="merge_parties_strategy_group">Los duplicados se agrupan como dependientes.</string>
     <string name="show_duplicates">Mostrar los duplicados</string>
+    <string name="whats_new_364_2">Nueva estrategia de gestión de la información duplicada sobre pagadores / beneficiarios</string>
+    <string name="whats_new_364_1">Importar a varias cuentas desde un archivo CSV</string>
 </resources>
