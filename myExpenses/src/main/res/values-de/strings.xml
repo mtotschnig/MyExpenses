@@ -1036,4 +1036,9 @@
     <string name="whats_new_361_1">Die Buchungsliste kann nach Betrag sortiert werden.</string>
     <string name="whats_new_361_2">Dateien im Anwendungsordner (Backups und Export-Dateien) können geteilt oder gelöscht werden.</string>
     <string name="notifications_permission_required_auto_backup">Wenn Sie die Berechtigung zum Senden von Benachrichtigungen erteilen, werden Sie über automatische Backups informiert.</string>
+    <string name="remove_from_group">Von der Gruppe entfernen</string>
+    <string name="merge_parties_strategy_delete">Duplikate werden gelöscht.</string>
+    <string name="read_from_data">Auslesen aus den Daten</string>
+    <string name="merge_parties_strategy_group">Duplikate werden in einer Gruppe zusammengefasst.</string>
+    <string name="show_duplicates">Duplikate anzeigen</string>
 </resources>
