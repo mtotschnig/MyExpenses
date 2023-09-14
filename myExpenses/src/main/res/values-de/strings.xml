@@ -1041,4 +1041,6 @@
     <string name="read_from_data">Auslesen aus den Daten</string>
     <string name="merge_parties_strategy_group">Duplikate werden in einer Gruppe zusammengefasst.</string>
     <string name="show_duplicates">Duplikate anzeigen</string>
+    <string name="whats_new_364_2">Neue Strategie für die Verwaltung von duplizierten Zahlern/Empfängern</string>
+    <string name="whats_new_364_1">Import in mehrere Konten aus einer CSV-Datei</string>
 </resources>
