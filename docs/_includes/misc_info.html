@@ -247,6 +247,7 @@
 <div class="block" id="versionlist" style="display:none">
     <h2>{{page.sections.versionlist}}</h2>
     <dl class="versionlist">
+    {% capture versionlang %}{{ page.lang | slice: 0,2 }}{% endcapture %}
         {% for version in site.versions %}
         <dt><span class="versioncode">{{version[0]}}</span><span class="versiondate">{{version[1]}}</span></dt>
         <dd>
@@ -254,7 +255,7 @@
                 <a href="https://github.com/mtotschnig/MyExpenses/projects/{{version[3]['github']}}"><img class="versionlinks" src="https://github.com/favicon.ico"></a>
                 {% if version[3]['mastodon'] %}<a href="https://mastodon.social/@myexpenses/{{version[3]['mastodon']}}"><img class="versionlinks" src="https://mastodon.social/favicon.ico"></a>{% endif %}
         {% endif %}
-        {% if version[2][page.lang] %}{{version[2][page.lang]}}{% else %}{{version[2]['en']}}{% endif %}
+        {% if version[2][versionlang] %}{{version[2][versionlang]}}{% else %}{{version[2]['en']}}{% endif %}
         </dd>
         {% endfor %}
     </dl>
