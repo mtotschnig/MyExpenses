@@ -1049,4 +1049,9 @@
     <string name="whats_new_361_2">Los archivos de la carpeta de la aplicación (copias de seguridad y exportaciones) se pueden compartir o eliminar.</string>
     <string name="whats_new_361_1">La lista de transacciones puede ordenarse por importe.</string>
     <string name="notifications_permission_required_auto_backup">Al conceder el permiso para enviar notificaciones, se te informará sobre las copias de seguridad automáticas.</string>
+    <string name="remove_from_group">Retirar del grupo</string>
+    <string name="merge_parties_strategy_delete">Se eliminan los duplicados.</string>
+    <string name="read_from_data">Lectura de los datos</string>
+    <string name="merge_parties_strategy_group">Los duplicados se agrupan como dependientes.</string>
+    <string name="show_duplicates">Mostrar los duplicados</string>
 </resources>
