@@ -1036,4 +1036,9 @@
     <string name="whats_new_361_1">Списъкът транзакции може да се сортира по сума.</string>
     <string name="whats_new_361_2">Файловете в папката на приложението (архиви и екпортирани данни) може да бъдат споделяни или изтривани.</string>
     <string name="notifications_permission_required_auto_backup">Като предоставите разрешение за изпращане на известия, ще бъдете информирани за автоматичното архивиране.</string>
+    <string name="remove_from_group">Премахни от група</string>
+    <string name="merge_parties_strategy_delete">Дублиранията се изтриват.</string>
+    <string name="read_from_data">Прочети от данните</string>
+    <string name="merge_parties_strategy_group">Дублиранията се групират като зависими.</string>
+    <string name="show_duplicates">Покажи дублирания</string>
 </resources>
