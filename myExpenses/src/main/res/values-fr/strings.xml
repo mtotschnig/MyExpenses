@@ -1054,4 +1054,6 @@
     <string name="read_from_data">Lire à partir de données</string>
     <string name="merge_parties_strategy_group">Les doubles sont regroupés comme dépendants.</string>
     <string name="show_duplicates">Montrer les doubles</string>
+    <string name="whats_new_364_2">Nouvelle stratégie pour la gestion des tiers doublons</string>
+    <string name="whats_new_364_1">Importer vers plusieurs comptes à partir d\'un fichier CSV</string>
 </resources>
