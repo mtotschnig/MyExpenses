@@ -55,7 +55,7 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
         headerFragment.onLoadPreference(pref.key)
     }
 
-    private val headerFragment: MainPreferenceFragment
+    val headerFragment: MainPreferenceFragment
         get() = childFragmentManager.findFragmentById(R.id.preferences_header) as MainPreferenceFragment
 
     inline fun <reified F: BasePreferenceFragment?> getDetailFragment(): F? = childFragmentManager

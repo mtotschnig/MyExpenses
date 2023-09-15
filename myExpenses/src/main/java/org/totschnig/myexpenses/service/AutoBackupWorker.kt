@@ -122,7 +122,7 @@ class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) : B
             val content =
                 "${it.message} ${wrappedContext.getString(R.string.warning_auto_backup_deactivated)}"
             val preferenceIntent = PreferenceActivity.getIntent(
-                applicationContext, prefHandler.getKey(PrefKey.CATEGORY_BACKUP_EXPORT)
+                applicationContext, prefHandler.getKey(PrefKey.CATEGORY_BACKUP_RESTORE)
             )
             val builder = buildMessage(content)
                 .setContentIntent(

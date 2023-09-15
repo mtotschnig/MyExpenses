@@ -14,9 +14,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <!--suppress AndroidElementNotAllowed -->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:my="http://schemas.android.com/apk/res-auto"
-    android:title="@string/pref_category_title_import">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <org.totschnig.myexpenses.preference.HeaderPreference />
     <Preference android:key="@string/pref_import_csv_key" />
     <Preference android:key="@string/pref_import_qif_key">
@@ -33,4 +31,18 @@
             android:targetClass="org.totschnig.myexpenses.activity.GrisbiImport"
             android:targetPackage="@string/application_id" />
     </Preference>
+    <PreferenceCategory android:key="@string/pref_csv_export_key">
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_csv_export_split_categories_key"
+            android:summary="@string/pref_csv_export_split_categories_summary" />
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/pref_csv_export_split_amount_key"
+            android:summary="@string/pref_csv_export_split_amount_summary" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_csv_export_split_date_time_key"
+            android:summary="@string/pref_csv_export_split_date_time_summary" />
+    </PreferenceCategory>
 </PreferenceScreen>

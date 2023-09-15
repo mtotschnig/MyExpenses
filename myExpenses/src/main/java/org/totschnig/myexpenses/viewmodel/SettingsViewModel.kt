@@ -69,7 +69,7 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
             AppDirHelper.getAppDir(getApplication())?.let { dir ->
                 _appData.postValue(
                     dir.listFiles()
-                        .filter { it.length() > 0 && !it.isDirectory }
+                        .filter { (it.length() > 0) && !it.isDirectory }
                         .sortedByDescending { it.lastModified() }
                         .filter { it.name != null }
                         .map { it.name!! to it.length() }
