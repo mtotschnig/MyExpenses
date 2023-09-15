@@ -72,7 +72,7 @@
                         style="@style/FormField"
                         android:layout_height="wrap_content"
                         android:importantForAutofill="no"
-                        android:inputType="textCapWords"
+                        android:inputType="textCapSentences"
                         android:maxLines="1"
                         tools:targetApi="o" />
                 </TableRow>
