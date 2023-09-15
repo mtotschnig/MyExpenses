@@ -200,7 +200,7 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
 
     fun handleContrib(prefKey: PrefKey, feature: ContribFeature, preference: Preference) =
         if (matches(preference, prefKey)) {
-            preferenceActivity.contribFeatureRequested(feature, null)
+            preferenceActivity.contribFeatureRequested(feature)
             true
         } else false
 

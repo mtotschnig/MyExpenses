@@ -333,7 +333,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             }
         } else if (parentId == R.id.Sync) {
             if (position > 0) {
-                contribFeatureRequested(ContribFeature.SYNCHRONIZATION, null)
+                contribFeatureRequested(ContribFeature.SYNCHRONIZATION)
             } else {
                 syncAccountName = null
             }
