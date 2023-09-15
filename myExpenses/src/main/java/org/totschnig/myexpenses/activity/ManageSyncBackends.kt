@@ -64,7 +64,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
         setTitle(R.string.pref_manage_sync_backends_title)
         if (savedInstanceState == null) {
             if (!licenceHandler.hasTrialAccessTo(ContribFeature.SYNCHRONIZATION)) {
-                contribFeatureRequested(ContribFeature.SYNCHRONIZATION, null)
+                contribFeatureRequested(ContribFeature.SYNCHRONIZATION)
             }
         }
     }
@@ -236,7 +236,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
                     }
                 }
             } else {
-                contribFeatureRequested(ContribFeature.ACCOUNTS_UNLIMITED, null)
+                contribFeatureRequested(ContribFeature.ACCOUNTS_UNLIMITED)
             }
             return true
         }

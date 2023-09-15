@@ -71,7 +71,7 @@ class PreferencesWebUiFragment : BasePreferenceFragment() {
                 ) {
                     preferenceActivity.activateWebUi()
                 } else {
-                    preferenceActivity.contribFeatureRequested(ContribFeature.WEB_UI, null)
+                    preferenceActivity.contribFeatureRequested(ContribFeature.WEB_UI)
                 }
             }
             true

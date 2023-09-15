@@ -942,10 +942,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     fun gdprNoConsent() {
         adHandlerFactory.clearConsent()
-        contribFeatureRequested(ContribFeature.AD_FREE, null)
+        contribFeatureRequested(ContribFeature.AD_FREE)
     }
 
-    open fun contribFeatureRequested(feature: ContribFeature, tag: Serializable?) {
+    open fun contribFeatureRequested(feature: ContribFeature, tag: Serializable? = null) {
         if (licenceHandler.hasAccessTo(feature)) {
             (this as ContribIFace).contribFeatureCalled(feature, tag)
         } else {

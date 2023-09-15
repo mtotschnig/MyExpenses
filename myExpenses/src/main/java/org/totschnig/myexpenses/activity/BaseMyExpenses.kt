@@ -23,10 +23,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Attachment
+import androidx.compose.material.icons.filled.CallSplit
+import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.Loupe
+import androidx.compose.material.icons.filled.RestoreFromTrash
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
@@ -46,7 +55,11 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
-import eltos.simpledialogfragment.form.*
+import eltos.simpledialogfragment.form.AmountInput
+import eltos.simpledialogfragment.form.AmountInputHostDialog
+import eltos.simpledialogfragment.form.Hint
+import eltos.simpledialogfragment.form.SimpleFormDialog
+import eltos.simpledialogfragment.form.Spinner
 import eltos.simpledialogfragment.input.SimpleInputDialog
 import eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID
 import eltos.simpledialogfragment.list.MenuDialog
@@ -62,45 +75,95 @@ import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.select
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.databinding.ActivityMainBinding
-import org.totschnig.myexpenses.dialog.*
-import org.totschnig.myexpenses.feature.*
+import org.totschnig.myexpenses.dialog.BalanceDialogFragment
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
+import org.totschnig.myexpenses.dialog.ExportDialogFragment
+import org.totschnig.myexpenses.dialog.MessageDialogFragment
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment
+import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
+import org.totschnig.myexpenses.feature.Feature
+import org.totschnig.myexpenses.feature.OcrHost
+import org.totschnig.myexpenses.feature.OcrResult
+import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.feature.Payee
 import org.totschnig.myexpenses.injector
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.AccountGrouping
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.ExportFormat
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Sort.Companion.fromCommandId
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
-import org.totschnig.myexpenses.provider.filter.*
+import org.totschnig.myexpenses.provider.filter.CommentCriterion
+import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.filter.KEY_FILTER
+import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.requestSync
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
-import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.AppDirHelper.ensureContentUri
+import org.totschnig.myexpenses.util.ContribUtils
+import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
+import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.asDateTimeFormatter
+import org.totschnig.myexpenses.util.configureSortDirectionMenu
+import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.util.dateTimeFormatter
+import org.totschnig.myexpenses.util.dateTimeFormatterLegacy
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.distrib.ReviewManager
-import org.totschnig.myexpenses.viewmodel.*
+import org.totschnig.myexpenses.util.formatMoney
+import org.totschnig.myexpenses.util.getSortDirectionFromMenuItemId
+import org.totschnig.myexpenses.util.safeMessage
+import org.totschnig.myexpenses.util.setEnabledAndVisible
+import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteComplete
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteProgress
+import org.totschnig.myexpenses.viewmodel.ExportViewModel
+import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
+import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
+import org.totschnig.myexpenses.viewmodel.SumInfo
+import org.totschnig.myexpenses.viewmodel.SumInfoLoaded
+import org.totschnig.myexpenses.viewmodel.SumInfoUnknown
+import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
-import java.io.File
 import java.io.Serializable
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalTime
-import java.util.*
+import java.util.AbstractMap
+import java.util.Locale
 import javax.inject.Inject
-import kotlin.Result
 import kotlin.math.sign
 
 const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
@@ -376,7 +439,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         val oldMode = prefHandler.getBoolean(PrefKey.OCR, false)
         val newMode = !oldMode
         if (newMode) {
-            contribFeatureRequested(ContribFeature.OCR, false)
+            contribFeatureRequested(ContribFeature.OCR)
         } else {
             prefHandler.putBoolean(PrefKey.OCR, false)
             updateFab()
@@ -1153,7 +1216,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     private fun createRow(type: Int, isIncome: Boolean) {
         if (type == Transactions.TYPE_SPLIT) {
-            contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION, null)
+            contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION)
         } else {
             createRowDo(type, isIncome)
         }
@@ -1264,7 +1327,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
             R.id.HISTORY_COMMAND -> {
                 if ((sumInfo as? SumInfoLoaded)?.hasItems == true) {
-                    contribFeatureRequested(ContribFeature.HISTORY, null)
+                    contribFeatureRequested(ContribFeature.HISTORY)
                 } else {
                     showSnackBar(R.string.no_expenses)
                 }
@@ -1272,7 +1335,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
             R.id.DISTRIBUTION_COMMAND -> {
                 if ((sumInfo as? SumInfoLoaded)?.mappedCategories == true) {
-                    contribFeatureRequested(ContribFeature.DISTRIBUTION, null)
+                    contribFeatureRequested(ContribFeature.DISTRIBUTION)
                 } else {
                     showSnackBar(R.string.dialog_command_disabled_distribution)
                 }
@@ -1341,7 +1404,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             R.id.PRINT_COMMAND -> {
                 if ((sumInfo as? SumInfoLoaded)?.hasItems == true) {
                     AppDirHelper.checkAppDir(this).onSuccess {
-                        contribFeatureRequested(ContribFeature.PRINT, null)
+                        contribFeatureRequested(ContribFeature.PRINT)
                     }.onFailure {
                         showDismissibleSnackBar(it.safeMessage)
                     }
@@ -1381,7 +1444,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             }
 
             R.id.FINTS_SYNC_COMMAND -> currentAccount?.takeIf { it.bankId != null }?.let {
-                bankingFeature.startSyncFragment(it.bankId!!, it.id, supportFragmentManager)
+                contribFeatureRequested(ContribFeature.BANKING, it.bankId to it.id)
             }
 
             R.id.EDIT_ACCOUNT_COMMAND -> currentAccount?.let { editAccount(it.id) }
@@ -1737,6 +1800,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     } else {
                         featureViewModel.requestFeature(this, Feature.OCR)
                     }
+                }
+                ContribFeature.BANKING -> {
+                    val (bankId, accountId) = tag as Pair<Long, Long>
+                    bankingFeature.startSyncFragment(bankId, accountId, supportFragmentManager)
                 }
 
                 else -> {}

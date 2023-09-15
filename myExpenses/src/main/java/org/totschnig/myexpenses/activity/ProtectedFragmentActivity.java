@@ -297,7 +297,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
         ((ContribIFace) this).contribFeatureCalled(contribFeature,
             intent.getSerializableExtra(ContribInfoDialogActivity.KEY_TAG));
       } else if (resultCode == RESULT_CANCELED) {
-        ((ContribIFace) this).contribFeatureNotCalled(contribFeature);
+        this.contribFeatureNotCalled(contribFeature);
       }
     }
     if (resultCode == RESULT_OK && requestCode == CALCULATOR_REQUEST && intent != null) {

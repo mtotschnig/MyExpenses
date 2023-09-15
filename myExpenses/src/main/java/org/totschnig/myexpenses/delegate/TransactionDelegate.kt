@@ -664,10 +664,10 @@ abstract class TransactionDelegate<T : ITransaction>(
                             if (prefHandler.getBoolean(PrefKey.NEW_SPLIT_TEMPLATE_ENABLED, true)) {
                                 host.restartWithType(newType)
                             } else {
-                                host.contribFeatureRequested(ContribFeature.SPLIT_TEMPLATE, null)
+                                host.contribFeatureRequested(ContribFeature.SPLIT_TEMPLATE)
                             }
                         } else {
-                            host.contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION, null)
+                            host.contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION)
                         }
                     } else {
                         host.restartWithType(newType)
