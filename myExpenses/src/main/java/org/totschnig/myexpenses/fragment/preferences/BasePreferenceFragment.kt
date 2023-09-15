@@ -208,8 +208,11 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
         findPreference<Preference>(prefKey)?.let { onDisplayPreferenceDialog(it) }
     }
 
-    val exportBackupTitle: String
-        get() = getString(R.string.pref_category_title_export) + " / " + getString(R.string.menu_backup)
+    val ioTitle: String
+        get() = getString(R.string.pref_category_title_import) + " / " + getString(R.string.pref_category_title_export)
+
+    val backupRestoreTitle: String
+        get() = getString(R.string.menu_backup) + " / " + getString(R.string.pref_restore_title)
 
     val protectionTitle: String
         get() = getString(R.string.pref_category_title_security) + " / " + getString(R.string.pref_category_title_privacy)

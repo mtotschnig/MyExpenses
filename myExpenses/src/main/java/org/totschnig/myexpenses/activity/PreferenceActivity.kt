@@ -22,14 +22,13 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.SettingsBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.DialogUtils
-import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.fragment.TwoPanePreference
 import org.totschnig.myexpenses.fragment.TwoPanePreference.Companion.KEY_INITIAL_SCREEN
 import org.totschnig.myexpenses.fragment.preferences.BasePreferenceFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferenceDataFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferencesContribFragment
-import org.totschnig.myexpenses.fragment.preferences.PreferencesExportFragment.Companion.KEY_CHECKED_FILES
+import org.totschnig.myexpenses.fragment.preferences.PreferencesBackupRestoreFragment.Companion.KEY_CHECKED_FILES
 import org.totschnig.myexpenses.fragment.preferences.PreferencesOcrFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferencesWebUiFragment
 import org.totschnig.myexpenses.injector
@@ -283,9 +282,9 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
     override fun onPositive(args: Bundle, checked: Boolean) {
         super.onPositive(args, checked)
         if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.DELETE_FILES_COMMAND) {
-            viewModel
-                ?.deleteAppFiles(args.getStringArray(KEY_CHECKED_FILES)!!)
-                ?.observe(this) {
+            twoPanePreference.headerFragment.viewModel
+                .deleteAppFiles(args.getStringArray(KEY_CHECKED_FILES)!!)
+                .observe(this) {
                     showSnackBar(resources.getQuantityString(R.plurals.delete_success, it, it))
                 }
         }

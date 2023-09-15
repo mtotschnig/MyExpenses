@@ -28,13 +28,20 @@
         android:title="@string/pref_category_title_ui" />
 
     <Preference
-        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesImportFragment"
-        android:key="import"
-        android:title="@string/pref_category_title_import" />
+        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesIOFragment"
+        android:key="@string/pref_category_io_key" />
 
     <Preference
-        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesExportFragment"
-        android:key="@string/pref_category_export_backup_key" />
+        android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesBackupRestoreFragment"
+        android:key="@string/pref_category_backup_restore_key" />
+
+    <MultiSelectListPreference
+        android:key="@string/pref_export_manage_files_key"
+        android:negativeButtonText="@string/menu_delete"
+        android:persistent="false"
+        android:positiveButtonText="@string/button_label_share_file"
+        android:title="@string/files_label"
+        my:isPreferenceVisible="false" />
 
     <PreferenceCategory android:title="@string/pref_category_title_features">
         <Preference

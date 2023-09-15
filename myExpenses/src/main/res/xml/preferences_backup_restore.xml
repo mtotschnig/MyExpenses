@@ -17,17 +17,11 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:my="http://schemas.android.com/apk/res-auto">
     <org.totschnig.myexpenses.preference.HeaderPreference />
-    <MultiSelectListPreference
-        android:key="@string/pref_export_manage_files_key"
-        android:negativeButtonText="@string/menu_delete"
-        android:persistent="false"
-        android:positiveButtonText="@string/button_label_share_file"
-        android:title="@string/files_label"
-        my:isPreferenceVisible="false" />
 
     <PreferenceCategory
         android:key="category_backup"
         android:title="@string/menu_backup"
+        my:allowDividerAbove="false"
         my:initialExpandedChildrenCount="1">
 
         <Preference
@@ -101,38 +95,5 @@
             android:defaultValue="true"
             android:key="@string/pref_purge_backup_require_confirmation_key"
             android:summary="@string/pref_purge_backup_require_confirmation_summary" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_empty">
-
-        <SwitchPreferenceCompat
-            android:key="@string/pref_perform_share_key"
-            android:summary="@string/pref_perform_share_title" />
-
-        <org.totschnig.myexpenses.preference.LongSummaryEditTextPreference
-            android:dependency="@string/pref_perform_share_key"
-            android:inputType="textUri"
-            android:key="@string/pref_share_target_key"
-            android:title="@string/pref_share_target_title" />
-        <Preference
-            android:key="@string/pref_help_key"
-            android:title="@string/menu_help"
-            android:summary="https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Data#what-are-the-different-share-options"
-            />
-    </PreferenceCategory>
-    <PreferenceCategory android:key="@string/pref_csv_export_key">
-        <SwitchPreferenceCompat
-            android:defaultValue="false"
-            android:key="@string/pref_csv_export_split_categories_key"
-            android:summary="@string/pref_csv_export_split_categories_summary" />
-        <SwitchPreferenceCompat
-            android:defaultValue="true"
-            android:key="@string/pref_csv_export_split_amount_key"
-            android:summary="@string/pref_csv_export_split_amount_summary" />
-        <SwitchPreferenceCompat
-            android:defaultValue="false"
-            android:key="@string/pref_csv_export_split_date_time_key"
-            android:summary="@string/pref_csv_export_split_date_time_summary" />
     </PreferenceCategory>
 </PreferenceScreen> 

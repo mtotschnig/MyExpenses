@@ -6,15 +6,20 @@ import androidx.preference.Preference
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
-import java.util.Locale
 
 @Keep
-class PreferencesImportFragment: BasePreferenceFragment() {
+class PreferencesIOFragment: BasePreferenceFragment() {
 
-    override val preferencesResId = R.xml.preferences_import
+    override val preferencesResId = R.xml.preferences_io
+
+    override fun setPreferencesFromResource(preferencesResId: Int, key: String?) {
+        super.setPreferencesFromResource(preferencesResId, key)
+        preferenceScreen.title = ioTitle
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
+        addPreferencesFromResource(R.xml.preferences_include_share)
 
         with(requirePreference<Preference>(PrefKey.IMPORT_QIF)) {
             summary = getString(R.string.pref_import_summary, "QIF")
@@ -25,6 +30,8 @@ class PreferencesImportFragment: BasePreferenceFragment() {
             summary = getString(R.string.pref_import_summary, "CSV")
             title = getString(R.string.pref_import_title, "CSV")
         }
+        requirePreference<Preference>(PrefKey.CSV_EXPORT).title =
+            getString(R.string.export_to_format, "CSV")
     }
 
     override fun onPreferenceTreeClick(preference: Preference) = when {
