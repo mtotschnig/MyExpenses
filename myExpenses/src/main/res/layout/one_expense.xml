@@ -306,22 +306,24 @@
                         <LinearLayout
                             style="@style/FormField"
                             android:orientation="horizontal">
-                        <CheckBox
-                            android:id="@+id/DebtCheckBox"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_horizontal" />
-                        <ImageView
-                            android:visibility="gone"
-                            android:id="@+id/DebtSummaryPopup"
-                            style="?actionButtonStyle"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_gravity="center"
-                            android:scaleType="centerCrop"
-                            app:srcCompat="@drawable/ic_menu_help"
-                            tools:ignore="ContentDescription" />
+
+                            <CheckBox
+                                android:id="@+id/DebtCheckBox"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_weight="1" />
+
+                            <ImageView
+                                android:id="@+id/DebtSummaryPopup"
+                                style="?actionButtonStyle"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center"
+                                android:scaleType="centerCrop"
+                                android:visibility="gone"
+                                app:srcCompat="@drawable/ic_menu_help"
+                                tools:ignore="ContentDescription" />
                         </LinearLayout>
                     </TableRow>
 
@@ -389,20 +391,35 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical" />
 
-                            <ImageView
-                                android:id="@+id/AttachImage"
-                                style="?actionButtonStyle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:contentDescription="@string/contrib_feature_attach_picture_label"
-                                android:focusable="true"
-                                app:srcCompat="@drawable/ic_menu_camera" />
-
-                            <include
-                                android:id="@+id/PictureContainer"
-                                layout="@layout/picture_view" />
                         </LinearLayout>
+                    </TableRow>
+
+                    <TableRow android:id="@+id/AttachmentsRow">
+
+                        <TextView
+                            style="@style/FormLabel"
+                            android:text="Receipts" />
+
+                        <com.google.android.flexbox.FlexboxLayout
+                            android:id="@+id/AttachmentGroup"
+                            style="@style/FormField"
+                            android:animateLayoutChanges="true"
+                            android:layout_height="wrap_content"
+                            app:dividerDrawable="@drawable/divider"
+                            app:flexWrap="wrap"
+                            app:justifyContent="flex_start"
+                            app:showDivider="middle">
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/newAttachment"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:background="?android:attr/selectableItemBackground"
+                                android:scaleType="center"
+                                app:srcCompat="@drawable/ic_menu_add"
+                                app:strokeColor="#FF888888"
+                                app:strokeWidth="4dp" />
+                        </com.google.android.flexbox.FlexboxLayout>
                     </TableRow>
 
                     <include layout="@layout/method_row" />

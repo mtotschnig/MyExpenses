@@ -265,6 +265,7 @@ public class DatabaseConstants {
   public static final String KEY_PREDEFINED_METHOD_NAME = "predefined";
   public static final String KEY_UUID = "uuid";
   public static final String KEY_PICTURE_URI = "picture_id";//historical reasons
+  public static final String KEY_URI = "uri";
   public static final String KEY_SYNC_ACCOUNT_NAME = "sync_account_name";
   public static final String KEY_TRANSFER_AMOUNT = "transfer_amount";
   public static final String KEY_LABEL_NORMALIZED = "label_normalized";
@@ -433,6 +434,8 @@ public class DatabaseConstants {
   public static final String TABLE_BANKS = "banks";
 
   public static final String TABLE_ATTRIBUTES = "attributes";
+
+  public static final String TABLE_ATTACHMENTS = "attachments";
 
   public static final String TABLE_TRANSACTION_ATTRIBUTES = "transaction_attributes";
 

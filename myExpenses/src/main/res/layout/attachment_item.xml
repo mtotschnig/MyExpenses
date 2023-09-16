@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.imageview.ShapeableImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:strokeColor="#FF888888"
+    app:strokeWidth="4dp"
+    android:layout_width="48dp"
+    android:scaleType="centerCrop"
+    android:layout_height="48dp" />

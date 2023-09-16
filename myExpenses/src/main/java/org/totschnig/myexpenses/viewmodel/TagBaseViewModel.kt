@@ -8,7 +8,7 @@ open class TagBaseViewModel(application: Application,
 ) : ContentResolvingAndroidViewModel(application) {
 
     fun addDeletedTagId(tagId: Long) {
-        savedStateHandle[KEY_DELETED_IDS] = longArrayOf(*deletedTagIds, tagId)
+       deletedTagIds = longArrayOf(*deletedTagIds, tagId)
     }
 
     var deletedTagIds: LongArray

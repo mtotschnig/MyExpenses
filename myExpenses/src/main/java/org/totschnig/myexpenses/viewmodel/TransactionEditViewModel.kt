@@ -5,6 +5,7 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.core.content.pm.ShortcutManagerCompat
@@ -125,7 +126,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             emit(kotlin.runCatching {
                 val existingTemplateMaybeUpdateShortcut =
                     Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && transaction is Template && transaction.id != 0L
-                savePicture(transaction)
+                //savePicture(transaction)
                 val result =
                     transaction.save(contentResolver, true)?.let { ContentUris.parseId(it) }
                         ?: throw Throwable("Error while saving transaction")
@@ -444,6 +445,24 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     fun autoFillDone() {
         _autoFillData.tryEmit(null)
     }
+
+    val attachmentUris: LiveData<Array<Uri>> = savedStateHandle.getLiveData("attachmentUris")
+
+    fun addAttachmentUri(uri: Uri) {
+        _attachmentUris = _attachmentUris.toMutableSet().apply {
+            add(uri)
+        }
+    }
+
+    fun removeAttachmentUri(uri: Uri) {
+        _attachmentUris = _attachmentUris.toMutableSet().apply {
+            remove(uri)
+        }
+    }
+
+    private var _attachmentUris: Set<Uri>
+        get() = savedStateHandle.get<Array<Uri>>("attachmentUris")?.toSet() ?: emptySet()
+        set(value) { savedStateHandle["attachmentUris"] = value.toTypedArray() }
 
     data class AutoFillData(
         val catId: Long?,

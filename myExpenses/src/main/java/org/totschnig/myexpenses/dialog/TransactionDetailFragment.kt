@@ -179,7 +179,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                 var doShowPicture = false
                 if (transaction.pictureUri != null) {
                     doShowPicture = true
-                    try {
+/*                    try {
                         if (!PictureDirHelper.doesPictureExist(
                                 requireContext(),
                                 transaction.pictureUri
@@ -196,7 +196,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                             null
                         )
                         doShowPicture = false
-                    }
+                    }*/
                 }
                 dlg.getButton(AlertDialog.BUTTON_POSITIVE)?.let {
                     if (transaction.crStatus == CrStatus.VOID || transaction.isSealed) {

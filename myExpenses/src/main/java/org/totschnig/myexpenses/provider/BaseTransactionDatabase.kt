@@ -30,17 +30,20 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USER_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_ATTRIBUTES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTACHMENTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BANKS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
@@ -169,6 +172,13 @@ CREATE TABLE $TABLE_ACCOUNT_ATTRIBUTES (
     $KEY_ATTRIBUTE_ID integer references $TABLE_ATTRIBUTES($KEY_ROWID) ON DELETE CASCADE,
     $KEY_VALUE text not null,
     primary key ($KEY_ACCOUNTID, $KEY_ATTRIBUTE_ID)
+);
+"""
+
+const val ATTACHMENTS_CREATE = """
+CREATE TABLE $TABLE_ATTACHMENTS (
+    $KEY_TRANSACTIONID integer references $TABLE_TRANSACTIONS($KEY_ROWID) ON DELETE SET NULL,
+    $KEY_URI
 );
 """
 

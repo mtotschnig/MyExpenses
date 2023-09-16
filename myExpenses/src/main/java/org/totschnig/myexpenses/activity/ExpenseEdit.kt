@@ -21,14 +21,21 @@ import android.content.Intent
 import android.database.ContentObserver
 import android.net.Uri
 import android.os.Bundle
+import android.os.CancellationSignal
 import android.os.Handler
 import android.os.Parcelable
 import android.provider.CalendarContract
+import android.util.Size
 import android.view.*
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.MenuRes
 import androidx.annotation.VisibleForTesting
+import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
+import androidx.appcompat.widget.PopupMenu.OnMenuItemClickListener
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -38,8 +45,10 @@ import androidx.loader.app.LoaderManager
 import com.evernote.android.state.State
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -48,6 +57,7 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
+import org.totschnig.myexpenses.databinding.AttachmentItemBinding
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
@@ -440,13 +450,64 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             prefHandler.putBoolean(PrefKey.DATES_ARE_LINKED, areDatesLinked)
             updateDateLink()
         }
-        rootBinding.AttachImage.setOnClickListener {
-            startMediaChooserDo()
-        }
-        rootBinding.PictureContainer.root.setOnClickListener {
-            showPicturePopupMenu(it)
-        }
         rootBinding.TagRow.bindListener()
+        rootBinding.newAttachment.setOnClickListener {
+            showPicturePopupMenu(it, R.menu.create_attachment_options) { item ->
+                when (item.itemId) {
+                    R.id.PHOTO_COMMAND -> startMediaChooserDo()
+                    R.id.ATTACH_COMMAND -> pickAttachment.launch(arrayOf("*/*"))
+                }
+                true
+            }
+        }
+    }
+
+    private val pickAttachment: ActivityResultLauncher<Array<String>> = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri != null) {
+            //contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            viewModel.addAttachmentUri(uri)
+        }
+    }
+
+    private fun showAttachments(uris: Array<Uri>) {
+        rootBinding.AttachmentGroup.removeViews(0, rootBinding.AttachmentGroup.childCount - 1)
+        val size = UiUtils.dp2Px(48f, resources)
+        val cancellationSignal = CancellationSignal()
+        uris.forEach { uri ->
+            AttachmentItemBinding.inflate(layoutInflater, rootBinding.AttachmentGroup, false).root.apply {
+                rootBinding.AttachmentGroup.addView(this, rootBinding.AttachmentGroup.childCount - 1)
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO) {
+                        contentResolver.getType(uri)?.also {
+                            if (it.startsWith("image")) {
+                                val thumbnail = contentResolver.loadThumbnail(
+                                    uri,
+                                    Size(size, size),
+                                    cancellationSignal
+                                )
+                                withContext(Dispatchers.Main) { setImageBitmap(thumbnail) }
+                            } else {
+                                val icon = contentResolver.getTypeInfo(it).icon
+                                withContext(Dispatchers.Main) { setImageIcon(icon) }
+                            }
+                        }
+                    }
+                }
+
+                setOnClickListener {
+                    showPicturePopupMenu(it, R.menu.picture) { item ->
+                        when (item.itemId) {
+                            R.id.VIEW_COMMAND ->
+                                startActivity(Intent(Intent.ACTION_VIEW, uri).apply {
+                                    flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                })
+                            R.id.DELETE_COMMAND -> viewModel.removeAttachmentUri(uri)
+                        }
+                        true
+                    }
+                }
+            }
+        }
     }
 
     override fun onCreateContextMenu(
@@ -510,6 +571,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         loadCurrencies()
         observeMoveResult()
         observeAutoFillData()
+        viewModel.attachmentUris.observe(this) {
+            showAttachments(it)
+        }
     }
 
     private fun collectSplitParts() {
@@ -668,7 +732,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             }
         }
         intent.getParcelableExtra<Uri>(KEY_PICTURE_URI)?.let {
-            delegate.setPicture(it)
+            //delegate.setPicture(it)
         }
         if (!intent.hasExtra(KEY_CACHED_DATA)) {
             amountInput.type = intent.getBooleanExtra(KEY_INCOME, false)
@@ -1106,7 +1170,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
                 val result = CropImage.getActivityResult(intent)
                 if (resultCode == RESULT_OK) {
-                    setPicture(result.uri)
+                    viewModel.addAttachmentUri(result.uri)
                     viewModel.cleanupOrigFile(result)
                 } else {
                     processImageCaptureError(resultCode, result)
@@ -1174,14 +1238,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         get() = currentAccount?.let {
             Money(it.currency, validateAmountInput(showToUser = false, ifPresent = false)!!)
         }
-
-    private fun unsetPicture() {
-        setPicture(null)
-    }
-
-    private fun setPicture(pictureUri: Uri?) {
-        delegate.setPicture(pictureUri)
-    }
 
     fun isValidType(type: Int): Boolean {
         return type == TYPE_SPLIT || type == TYPE_TRANSACTION || type == TYPE_TRANSFER
@@ -1336,27 +1392,17 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         super.onPause()
     }
 
-    fun showPicturePopupMenu(v: View) {
-        val popup = PopupMenu(this, v)
-        popup.setOnMenuItemClickListener { item: MenuItem ->
-            handlePicturePopupMenuClick(item.itemId)
-            true
-        }
-        popup.inflate(R.menu.picture_popup)
-        popup.show()
-    }
-
-    private fun handlePicturePopupMenuClick(command: Int) {
-        when (command) {
-            R.id.DELETE_COMMAND -> unsetPicture()
-            R.id.VIEW_COMMAND -> delegate.pictureUri?.let {
-                imageViewIntentProvider.startViewIntent(
-                    this,
-                    it
-                )
-            }
-
-            R.id.CHANGE_COMMAND -> startMediaChooserDo()
+    private fun showPicturePopupMenu(
+        v: View,
+        @MenuRes menuRes: Int,
+        listener: OnMenuItemClickListener
+    ) {
+        with(PopupMenu(this, v)) {
+            setOnMenuItemClickListener(listener)
+            inflate(menuRes)
+            //noinspection RestrictedApi
+            (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
+            show()
         }
     }
 

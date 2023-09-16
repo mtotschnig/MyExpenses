@@ -217,7 +217,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             parentId = transaction.parentId
             accountId = transaction.accountId
             methodId = transaction.methodId
-            setPicture(transaction.pictureUri)
+            //setPicture(transaction.pictureUri)
             planId = (transaction as? Template)?.plan?.id
             _crStatus = transaction.crStatus
             originTemplateId = transaction.originTemplateId
@@ -245,7 +245,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                     planButton.onClick()
                 }
             }
-            viewBinding.AttachImage.visibility = View.GONE
+            viewBinding.AttachmentsRow.visibility = View.GONE
         }
         if (!isSplitPart) {
             //we set adapter even if spinner is not immediately visible, since it might become visible
@@ -998,22 +998,6 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     private fun disableAccountSpinner() {
         accountSpinner.isEnabled = false
-    }
-
-    fun setPicture(pictureUri: Uri?) {
-        this.pictureUri = pictureUri
-        configurePicture()
-    }
-
-    private fun configurePicture() {
-        if (pictureUri != null) {
-            viewBinding.PictureContainer.root.visibility = View.VISIBLE
-            picasso.load(pictureUri).fit().into(viewBinding.PictureContainer.picture)
-            viewBinding.AttachImage.visibility = View.GONE
-        } else {
-            viewBinding.AttachImage.visibility = View.VISIBLE
-            viewBinding.PictureContainer.root.visibility = View.GONE
-        }
     }
 
     open fun resetRecurrence() {
