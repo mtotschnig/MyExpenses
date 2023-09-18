@@ -276,7 +276,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                 setLocalDateTime(transaction)
             }
         } else {
-            configurePicture()
+            //configurePicture()
 
             populateStatusSpinner()
         }

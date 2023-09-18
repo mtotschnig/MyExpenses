@@ -20,6 +20,7 @@ import android.content.Context
 import android.content.Intent
 import android.database.ContentObserver
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.CancellationSignal
 import android.os.Handler
@@ -455,7 +456,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             showPicturePopupMenu(it, R.menu.create_attachment_options) { item ->
                 when (item.itemId) {
                     R.id.PHOTO_COMMAND -> startMediaChooserDo()
-                    R.id.ATTACH_COMMAND -> pickAttachment.launch(arrayOf("*/*"))
+                    R.id.ATTACH_COMMAND -> pickAttachment.launch(arrayOf("image/*", "application/pdf"))
                 }
                 true
             }
@@ -480,15 +481,23 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     withContext(Dispatchers.IO) {
                         contentResolver.getType(uri)?.also {
                             if (it.startsWith("image")) {
-                                val thumbnail = contentResolver.loadThumbnail(
-                                    uri,
-                                    Size(size, size),
-                                    cancellationSignal
-                                )
-                                withContext(Dispatchers.Main) { setImageBitmap(thumbnail) }
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                    val thumbnail = contentResolver.loadThumbnail(
+                                        uri,
+                                        Size(size, size),
+                                        cancellationSignal
+                                    )
+                                    withContext(Dispatchers.Main) { setImageBitmap(thumbnail) }
+                                } else {
+                                    setImageResource(R.drawable.ic_menu_camera)
+                                }
                             } else {
-                                val icon = contentResolver.getTypeInfo(it).icon
-                                withContext(Dispatchers.Main) { setImageIcon(icon) }
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                    val icon = contentResolver.getTypeInfo(it).icon
+                                    withContext(Dispatchers.Main) { setImageIcon(icon) }
+                                } else {
+                                    setImageResource(R.drawable.ic_menu_chart)
+                                }
                             }
                         }
                     }
