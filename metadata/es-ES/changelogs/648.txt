@@ -1,0 +1,4 @@
+• Nueva estrategia de gestión de la información duplicada sobre pagadores / beneficiarios
+• Importar a varias cuentas desde un archivo CSV
+
+https://github.com/mtotschnig/MyExpenses/projects/108#column-19611865

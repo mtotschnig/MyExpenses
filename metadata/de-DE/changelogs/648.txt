@@ -1,0 +1,4 @@
+• Neue Strategie für die Verwaltung von duplizierten Zahlern/Empfängern
+• Import in mehrere Konten aus einer CSV-Datei
+
+https://github.com/mtotschnig/MyExpenses/projects/108#column-19611865
