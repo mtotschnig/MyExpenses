@@ -4,11 +4,14 @@ import android.app.Application
 import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.webkit.MimeTypeMap
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.content.pm.ShortcutManagerCompat.FLAG_MATCH_PINNED
+import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -32,8 +35,10 @@ import org.totschnig.myexpenses.db2.getLastUsedOpenAccount
 import org.totschnig.myexpenses.db2.loadActiveTagsForAccount
 import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.saveAttachments
+import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.KEY_DEBT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.CATEGORY_ICON
@@ -70,9 +75,15 @@ import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.provider.splitStringList
+import org.totschnig.myexpenses.util.ImageOptimizer
+import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.ShortcutHelper
+import org.totschnig.myexpenses.util.asExtension
+import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
+import timber.log.Timber
+import java.io.IOException
 import kotlin.math.pow
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
@@ -185,63 +196,89 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                         tagsLiveData.value
                     )
                 ) throw Throwable("Error while saving tags")
-                repository.saveAttachments(transaction.id, attachmentUris.value?.toList() ?: emptyList())
+                repository.saveAttachments(
+                    transaction.id,
+                    attachmentUris.value?.map(::prepareUriForSave) ?: emptyList()
+                )
                 result
             })
         }
 
-/*    private fun savePicture(transaction: ITransaction) {
-        transaction.pictureUri?.let {
-            val pictureUriBase: String = PictureDirHelper.getPictureUriBase(false, getApplication())
-            if (it.toString().startsWith(pictureUriBase)) {
-                Timber.d("got Uri in our home space, nothing todo")
+    private val shouldCopyExternalUris = true
+
+
+    fun prepareUriForSave(uri: Uri): Uri {
+        val pictureUriBase: String = PictureDirHelper.getPictureUriBase(false, getApplication())
+        return if (uri.toString().startsWith(pictureUriBase)) {
+            Timber.d("nothing todo: Internal")
+            uri
+        } else {
+
+            val pictureUriTemp = PictureDirHelper.getPictureUriBase(true, getApplication())
+            val isInTempFolder = uri.toString().startsWith(pictureUriTemp)
+            val isExternal = !isInTempFolder
+
+            if (isExternal && !shouldCopyExternalUris) {
+                Timber.d("nothing todo: External")
+                uri
             } else {
-                val pictureUriTemp = PictureDirHelper.getPictureUriBase(true, getApplication())
-                val isInTempFolder = it.toString().startsWith(pictureUriTemp)
-                val format = prefHandler.enumValueOrDefault(
-                    PrefKey.OPTIMIZE_PICTURE_FORMAT,
-                    Bitmap.CompressFormat.WEBP
-                )
-                val homeUri = PictureDirHelper.getOutputMediaUri(
-                    false,
-                    getApplication(),
-                    extension = format.asExtension
-                )
-                try {
-                    if (prefHandler.getBoolean(PrefKey.OPTIMIZE_PICTURE, true)) {
+
+                val type = contentResolver.getType(uri)
+
+                val result = if (type!!.startsWith("image") && prefHandler.getBoolean(PrefKey.OPTIMIZE_PICTURE, true)) {
+                    val format = prefHandler.enumValueOrDefault(
+                        PrefKey.OPTIMIZE_PICTURE_FORMAT,
+                        Bitmap.CompressFormat.WEBP
+                    )
+
+                    val homeUri = PictureDirHelper.getOutputMediaUri(
+                        false,
+                        getApplication(),
+                        extension = format.asExtension
+                    )
+                    try {
+
                         val maxSize = prefHandler.getInt(PrefKey.OPTIMIZE_PICTURE_MAX_SIZE, 1000)
                         val quality = prefHandler.getInt(PrefKey.OPTIMIZE_PICTURE_QUALITY, 80)
                             .coerceAtLeast(0).coerceAtMost(100)
                         ImageOptimizer.optimize(
                             contentResolver,
-                            it,
+                            uri,
                             homeUri,
                             format,
                             maxSize,
                             maxSize,
                             quality
                         )
-                    } else {
-
-                        if (isInTempFolder && homeUri.scheme == "file") {
-                            if (!File(it.path!!).renameTo(File(homeUri.path!!))) {
-                                //fallback
-                                FileCopyUtils.copy(contentResolver, it, homeUri)
-                            }
-                        } else {
-                            FileCopyUtils.copy(contentResolver, it, homeUri)
-                        }
+                    } catch (e: IOException) {
+                        throw UnknownPictureSaveException(uri, homeUri, e)
                     }
-                } catch (e: IOException) {
-                    throw UnknownPictureSaveException(it, homeUri, e)
+                    homeUri
+                } else {
+                    val fileName = DocumentFile.fromSingleUri(getApplication(), uri)!!.name
+                    val homeUri = if (fileName != null) PictureDirHelper.getOutputMediaUri(
+                        false,
+                        getApplication(),
+                        fileName = fileName,
+                        extension = null
+                    ) else {
+                        val extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(type)
+                        if (extension != null) PictureDirHelper.getOutputMediaUri(
+                            false,
+                            getApplication(),
+                            extension = extension
+                        ) else throw IllegalStateException("Unable to calculate either fileName or extension")
+                    }
+                    FileCopyUtils.copy(contentResolver, uri, homeUri)
+                    homeUri
                 }
                 if (isInTempFolder) {
-                    contentResolver.delete(it, null, null)
+                    contentResolver.delete(uri, null, null)
                 }
-                transaction.pictureUri = homeUri
+                result
             }
         }
-    }*/
+    }
 
     fun cleanupSplit(id: Long, isTemplate: Boolean): LiveData<Unit> =
         liveData(context = coroutineContext()) {
@@ -407,7 +444,10 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     contentResolver, transactionId, homeCurrencyProvider.homeCurrencyUnit
                 )
             ) {
-                Pair(Template(contentResolver, this, payee ?: label), this.loadTags(contentResolver))
+                Pair(
+                    Template(contentResolver, this, payee ?: label),
+                    this.loadTags(contentResolver)
+                )
             }
         }?.also { pair ->
             if (forEdit) {
@@ -483,11 +523,12 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         _autoFillData.tryEmit(null)
     }
 
-    private val _attachmentUris: MutableLiveData<ArrayList<Uri>> = savedStateHandle.getLiveData<ArrayList<Uri>>("attachmentUris")
+    private val _attachmentUris: MutableLiveData<ArrayList<Uri>> =
+        savedStateHandle.getLiveData<ArrayList<Uri>>("attachmentUris")
     val attachmentUris: LiveData<out List<Uri>> = _attachmentUris
 
     fun addAttachmentUri(uri: Uri) {
-        _attachmentUris.value  = attachmentUris.value?.let {
+        _attachmentUris.value = attachmentUris.value?.let {
             ArrayList(it.toMutableSet().apply { add(uri) })
         } ?: ArrayList<Uri>().apply { add(uri) }
     }

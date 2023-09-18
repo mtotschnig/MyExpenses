@@ -45,7 +45,7 @@ object PictureDirHelper {
         temp: Boolean,
         application: MyApplication,
         checkUnique: Boolean,
-        extension: String = "jpg"
+        extension: String? = "jpg"
     ) = getOutputMediaFile(
         fileName = fileName,
         mediaStorageDir = (
@@ -60,7 +60,7 @@ object PictureDirHelper {
         fileName: String,
         mediaStorageDir: File,
         checkUnique: Boolean,
-        extension: String
+        extension: String?
     ): File {
         var postfix = 0
         var result: File
@@ -82,7 +82,7 @@ object PictureDirHelper {
         application: MyApplication,
         prefix: String = "",
         fileName: String = prefix + defaultFileName,
-        extension: String = "jpg"
+        extension: String? = "jpg"
     ): Uri {
         val outputMediaFile = getOutputMediaFile(fileName, temp, application, true, extension)
         return try {
@@ -101,12 +101,12 @@ object PictureDirHelper {
                 0, getOutputMediaUri(temp, application).toString().lastIndexOf('/')
             )
 
-    private fun getOutputMediaFileName(base: String, postfix: Int, extension: String) =
+    private fun getOutputMediaFileName(base: String, postfix: Int, extension: String?) =
         "$base${
             if (postfix > 0) {
                 "_$postfix"
             } else ""
-        }.$extension"
+        }${extension?.let { ".$it" } ?: "" }"
 
     @JvmStatic
     fun getPictureDir(context: Context, secure: Boolean): File? {

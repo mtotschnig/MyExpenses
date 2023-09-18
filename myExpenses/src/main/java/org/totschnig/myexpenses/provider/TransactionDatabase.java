@@ -739,7 +739,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     insertCurrencies(db);
     db.execSQL(EVENT_CACHE_CREATE);
     db.execSQL(STALE_URIS_CREATE);
-    db.execSQL(STALE_URI_TRIGGER_CREATE);
+    //db.execSQL(STALE_URI_TRIGGER_CREATE);
     db.execSQL(CHANGES_CREATE);
     db.execSQL(BANK_CREATE);
     db.execSQL(ATTRIBUTES_CREATE);
