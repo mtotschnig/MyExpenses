@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.delegate
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -150,9 +149,6 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     @State
     var methodId: Long? = null
-
-    @State
-    var pictureUri: Uri? = null
 
     @State
     var _crStatus: CrStatus? = CrStatus.UNRECONCILED
@@ -809,7 +805,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                         )
                     }
                     this.defaultAction =
-                        Template.Action.values()[viewBinding.DefaultAction.selectedItemPosition]
+                        Template.Action.entries[viewBinding.DefaultAction.selectedItemPosition]
                     if (this.amount.amountMinor == 0L && forSave) {
                         if (plan == null && this.defaultAction == Template.Action.SAVE) {
                             host.showSnackBar(context.getString(R.string.template_default_action_without_amount_hint))
@@ -836,7 +832,6 @@ abstract class TransactionDelegate<T : ITransaction>(
                 }
             }
             crStatus = (statusSpinner.selectedItem as CrStatus)
-            this.pictureUri = this@TransactionDelegate.pictureUri
         }
     }
 

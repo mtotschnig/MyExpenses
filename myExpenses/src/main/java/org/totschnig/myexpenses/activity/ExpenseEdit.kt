@@ -741,7 +741,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             }
         }
         intent.getParcelableExtra<Uri>(KEY_PICTURE_URI)?.let {
-            //delegate.setPicture(it)
+            viewModel.addAttachmentUri(it)
         }
         if (!intent.hasExtra(KEY_CACHED_DATA)) {
             amountInput.type = intent.getBooleanExtra(KEY_INCOME, false)
@@ -781,7 +781,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             transaction.amount = cached.amount
             transaction.originalAmount = cached.originalAmount
             transaction.equivalentAmount = cached.equivalentAmount
-            transaction.pictureUri = cached.pictureUri
             setDirty()
         } else {
             intent.getLongExtra(KEY_DATE, 0).takeIf { it != 0L }?.let {
@@ -1510,7 +1509,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         val amount: Money,
         val originalAmount: Money?,
         val equivalentAmount: Money?,
-        val pictureUri: Uri?,
         val recurrence: Recurrence?,
         val tags: List<Tag>?
     ) : Parcelable
@@ -1544,7 +1542,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             amount,
             originalAmount,
             equivalentAmount,
-            pictureUri,
             withRecurrence,
             viewModel.tagsLiveData.value
         )

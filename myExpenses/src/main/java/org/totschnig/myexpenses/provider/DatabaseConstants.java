@@ -117,7 +117,6 @@ public class DatabaseConstants {
             localizedLabelSqlColumn(context, KEY_METHOD_LABEL) + " AS " + KEY_METHOD_LABEL,
             KEY_CR_STATUS,
             KEY_REFERENCE_NUMBER,
-            KEY_PICTURE_URI,
             YEAR_OF_WEEK_START + " AS " + KEY_YEAR_OF_WEEK_START,
             YEAR_OF_MONTH_START + " AS " + KEY_YEAR_OF_MONTH_START,
             YEAR + " AS " + KEY_YEAR,

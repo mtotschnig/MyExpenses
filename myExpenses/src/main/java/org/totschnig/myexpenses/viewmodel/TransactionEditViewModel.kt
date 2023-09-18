@@ -158,7 +158,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             })
         }
 
-    private fun savePicture(transaction: ITransaction) {
+/*    private fun savePicture(transaction: ITransaction) {
         transaction.pictureUri?.let {
             val pictureUriBase: String = PictureDirHelper.getPictureUriBase(false, getApplication())
             if (it.toString().startsWith(pictureUriBase)) {
@@ -209,7 +209,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 transaction.pictureUri = homeUri
             }
         }
-    }
+    }*/
 
     fun cleanupSplit(id: Long, isTemplate: Boolean): LiveData<Unit> =
         liveData(context = coroutineContext()) {

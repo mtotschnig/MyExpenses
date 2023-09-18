@@ -39,7 +39,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_C
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
@@ -367,9 +366,6 @@ public class Transaction extends Model implements ITransaction {
   @NonNull
   private CrStatus crStatus = CrStatus.UNRECONCILED;
 
-  @Nullable
-  transient protected Uri pictureUri;
-
   /**
    * factory method for retrieving an instance from the db with the given id
    *
@@ -382,7 +378,7 @@ public class Transaction extends Model implements ITransaction {
     String[] projection = new String[]{KEY_ROWID, KEY_DATE, KEY_VALUE_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
         FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT, TRANSFER_CURRENCY, KEY_DEBT_ID,
         KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_CURRENCY,
-        KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT(VIEW_ALL), KEY_TEMPLATEID, KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY,
+        KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT(VIEW_ALL), KEY_TEMPLATEID, KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY,
         KEY_EQUIVALENT_AMOUNT, CATEGORY_ICON, checkSealedWithAlias(VIEW_ALL, TABLE_TRANSACTIONS)};
 
     Cursor c = contentResolver.query(
@@ -445,18 +441,6 @@ public class Transaction extends Model implements ITransaction {
       if (equivalentAmount != null) {
         t.setEquivalentAmount(new Money(homeCurrency, equivalentAmount));
       }
-    }
-
-    int pictureUriColumnIndex = c.getColumnIndexOrThrow(KEY_PICTURE_URI);
-    if (!c.isNull(pictureUriColumnIndex)) {
-      Uri parsedUri = Uri.parse(c.getString(pictureUriColumnIndex));
-      if ("file".equals(parsedUri.getScheme())) { // Upgrade from legacy uris
-        try {
-          parsedUri = AppDirHelper.getContentUriForFile(MyApplication.getInstance(), new File(parsedUri.getPath()));
-        } catch (IllegalArgumentException ignored) {
-        }
-      }
-      t.setPictureUri(parsedUri);
     }
 
     t.status = c.getInt(c.getColumnIndexOrThrow(KEY_STATUS));
@@ -908,7 +892,6 @@ public class Transaction extends Model implements ITransaction {
     initialValues.put(KEY_ORIGINAL_CURRENCY, originalAmount == null ? null : originalAmount.getCurrencyUnit().getCode());
     initialValues.put(KEY_EQUIVALENT_AMOUNT, equivalentAmount == null ? null : equivalentAmount.getAmountMinor());
 
-    initialValues.put(KEY_PICTURE_URI, pictureUri != null ? pictureUri.toString() : null);
     if (getId() == 0) {
       initialValues.put(KEY_PARENTID, getParentId());
       initialValues.put(KEY_STATUS, status);
@@ -1014,11 +997,6 @@ public class Transaction extends Model implements ITransaction {
         return false;
     } else if (!getPayee().equals(other.getPayee()))
       return false;
-    if (pictureUri == null) {
-      if (other.pictureUri != null)
-        return false;
-    } else if (!pictureUri.equals(other.pictureUri))
-      return false;
     return true;
   }
 
@@ -1041,16 +1019,7 @@ public class Transaction extends Model implements ITransaction {
     result = 31 * result + (this.originPlanInstanceId != null ? this.originPlanInstanceId.hashCode() : 0);
     result = 31 * result + this.status;
     result = 31 * result + this.crStatus.hashCode();
-    result = 31 * result + (this.pictureUri != null ? this.pictureUri.hashCode() : 0);
     return result;
-  }
-
-  public Uri getPictureUri() {
-    return pictureUri;
-  }
-
-  public void setPictureUri(Uri pictureUriIn) {
-    this.pictureUri = pictureUriIn;
   }
 
   @NonNull

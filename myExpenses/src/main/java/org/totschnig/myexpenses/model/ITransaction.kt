@@ -25,7 +25,6 @@ interface ITransaction: IModel {
     var amount: Money
     var accountId: Long
     var parentId: Long?
-    var pictureUri: Uri?
     var originPlanInstanceId: Long?
     var originPlanId: Long?
     var payeeId: Long?

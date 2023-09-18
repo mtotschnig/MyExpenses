@@ -2,18 +2,73 @@ package org.totschnig.myexpenses.viewmodel.data
 
 import android.content.Context
 import android.database.Cursor
-import android.net.Uri
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable
 import kotlinx.parcelize.Parcelize
-import org.totschnig.myexpenses.model.*
-import org.totschnig.myexpenses.provider.*
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.util.AppDirHelper
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
+import org.totschnig.myexpenses.provider.DataBaseAccount
+import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
+import org.totschnig.myexpenses.provider.DatabaseConstants.IS_SAME_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DISPLAY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_PARENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
+import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
+import org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_PEER_PARENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
+import org.totschnig.myexpenses.provider.DatabaseConstants.YEAR
+import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountHomeEquivalent
+import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
+import org.totschnig.myexpenses.provider.DatabaseConstants.getWeek
+import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
+import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
+import org.totschnig.myexpenses.provider.FULL_LABEL
+import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getIntIfExists
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getLongIfExists
+import org.totschnig.myexpenses.provider.getLongOrNull
+import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringIfExists
+import org.totschnig.myexpenses.provider.getStringOrNull
+import org.totschnig.myexpenses.provider.splitStringList
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.enumValueOrNull
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
-import java.io.File
 import java.time.ZonedDateTime
 
 @Parcelize
@@ -36,7 +91,6 @@ data class Transaction2(
     val methodIcon: String? = null,
     val crStatus: CrStatus = CrStatus.UNRECONCILED,
     val referenceNumber: String? = null,
-    val pictureUri: Uri? = null,
     val color: Int? = null,
     val transferPeerParent: Long? = null,
     val status: Int = STATUS_NONE,
@@ -109,7 +163,6 @@ data class Transaction2(
                 KEY_METHOD_ICON,
                 KEY_CR_STATUS,
                 KEY_REFERENCE_NUMBER,
-                KEY_PICTURE_URI,
                 KEY_STATUS,
                 KEY_TAGLIST,
                 KEY_PARENTID,
@@ -137,7 +190,6 @@ data class Transaction2(
         )
 
         fun fromCursor(
-            context: Context,
             cursor: Cursor,
             accountCurrency: CurrencyUnit
         ): Transaction2 {
@@ -161,19 +213,6 @@ data class Transaction2(
                 transferAccount = cursor.getLongOrNull(KEY_TRANSFER_ACCOUNT),
                 accountId = cursor.getLong(KEY_ACCOUNTID),
                 methodId = cursor.getLongOrNull(KEY_METHODID),
-                pictureUri = cursor.getStringOrNull(KEY_PICTURE_URI)
-                    ?.let { uri ->
-                        var parsedUri = Uri.parse(uri)
-                        if ("file" == parsedUri.scheme) { // Upgrade from legacy uris
-                            parsedUri.path?.let {
-                                try {
-                                    parsedUri = AppDirHelper.getContentUriForFile(context, File(it))
-                                } catch (ignored: IllegalArgumentException) {
-                                }
-                            }
-                        }
-                        parsedUri
-                    },
                 crStatus = enumValueOrDefault(
                     cursor.getString(KEY_CR_STATUS),
                     CrStatus.UNRECONCILED

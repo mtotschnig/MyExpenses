@@ -2,20 +2,68 @@ package org.totschnig.myexpenses.viewmodel.data
 
 import android.content.Context
 import android.database.Cursor
-import android.net.Uri
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.db2.localizedLabelSqlColumn
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.DEBT_LABEL_EXPRESSION
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.KEY_DEBT_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.util.AppDirHelper
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_PARENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_PEER_PARENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
+import org.totschnig.myexpenses.provider.DatabaseConstants.getExchangeRate
+import org.totschnig.myexpenses.provider.FULL_LABEL
+import org.totschnig.myexpenses.provider.checkSealedWithAlias
+import org.totschnig.myexpenses.provider.getDouble
+import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getLongOrNull
+import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringOrNull
+import org.totschnig.myexpenses.provider.requireLong
+import org.totschnig.myexpenses.provider.splitStringList
 import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
-import java.io.File
 import java.math.BigDecimal
 import java.time.ZonedDateTime
 
@@ -37,7 +85,6 @@ data class Transaction(
     val hasTransferPeerParent: Boolean,
     val originalAmount: Money?,
     val equivalentAmount: Money?,
-    val pictureUri: Uri?,
     val crStatus: CrStatus,
     val referenceNumber: String?,
     val originTemplate: Template?,
@@ -74,7 +121,6 @@ data class Transaction(
             KEY_CR_STATUS,
             KEY_REFERENCE_NUMBER,
             KEY_CURRENCY,
-            KEY_PICTURE_URI,
             localizedLabelSqlColumn(
                 context,
                 KEY_METHOD_LABEL
@@ -153,19 +199,6 @@ data class Transaction(
                             )
                         )
                     ),
-                pictureUri = cursor.getStringOrNull(KEY_PICTURE_URI)
-                    ?.let { uri ->
-                        var parsedUri = Uri.parse(uri)
-                        if ("file" == parsedUri.scheme) { // Upgrade from legacy uris
-                            parsedUri.path?.let {
-                                try {
-                                    parsedUri = AppDirHelper.getContentUriForFile(context, File(it))
-                                } catch (ignored: IllegalArgumentException) {
-                                }
-                            }
-                        }
-                        parsedUri
-                    },
                 crStatus = enumValueOrDefault(
                     cursor.getStringOrNull(KEY_CR_STATUS),
                     CrStatus.UNRECONCILED

@@ -104,7 +104,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_STATUS + " integer default 0, "
           + KEY_CR_STATUS + " text not null check (" + KEY_CR_STATUS + " in (" + CrStatus.JOIN + ")) default '" + CrStatus.RECONCILED.name() + "',"
           + KEY_REFERENCE_NUMBER + " text, "
-          + KEY_PICTURE_URI + " text, "
           + KEY_UUID + " text, "
           + KEY_ORIGINAL_AMOUNT + " integer, "
           + KEY_ORIGINAL_CURRENCY + " text, "
@@ -402,8 +401,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE SET NULL,"
           + KEY_METHODID + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + ") ON DELETE SET NULL,"
           + KEY_CR_STATUS + " text check (" + KEY_CR_STATUS + " in (" + CrStatus.JOIN + ")),"
-          + KEY_REFERENCE_NUMBER + " text, "
-          + KEY_PICTURE_URI + " text);";
+          + KEY_REFERENCE_NUMBER + " text);";
 
   private static final String BUDGETS_CREATE =
       "CREATE TABLE " + TABLE_BUDGETS + " ( "
@@ -451,8 +449,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       + KEY_TRANSFER_ACCOUNT + ", "
       + KEY_METHODID + ","
       + KEY_CR_STATUS + ", "
-      + KEY_REFERENCE_NUMBER + ", "
-      + KEY_PICTURE_URI + ") VALUES ('" + TransactionChange.Type.created + "', "
+      + KEY_REFERENCE_NUMBER + ") VALUES ('" + TransactionChange.Type.created + "', "
       + String.format(Locale.US, SELECT_SEQUENCE_NUMBER_TEMPLATE, "new") + ", "
       + "new." + KEY_UUID + ", "
       + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "new") + ", "
@@ -469,8 +466,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       + "new." + KEY_TRANSFER_ACCOUNT + ", "
       + "new." + KEY_METHODID + ", "
       + "new." + KEY_CR_STATUS + ", "
-      + "new." + KEY_REFERENCE_NUMBER + ", "
-      + "new." + KEY_PICTURE_URI + "); END;";
+      + "new." + KEY_REFERENCE_NUMBER + "); END;";
 
   private static final String DELETE_TRIGGER_ACTION = " BEGIN INSERT INTO " + TABLE_CHANGES + "("
       + KEY_TYPE + ","
@@ -559,8 +555,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_TRANSFER_ACCOUNT + ", "
           + KEY_METHODID + ", "
           + KEY_CR_STATUS + ", "
-          + KEY_REFERENCE_NUMBER + ", "
-          + KEY_PICTURE_URI + ") VALUES ('" + TransactionChange.Type.updated + "', "
+          + KEY_REFERENCE_NUMBER + ") VALUES ('" + TransactionChange.Type.updated + "', "
           + String.format(Locale.US, SELECT_SEQUENCE_NUMBER_TEMPLATE, "old") + ", "
           + "new." + KEY_UUID + ", "
           + "new." + KEY_ACCOUNTID + ", "
@@ -577,8 +572,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + buildChangeTriggerDefinitionForColumn(KEY_TRANSFER_ACCOUNT) + ", "
           + buildChangeTriggerDefinitionForColumn(KEY_METHODID) + ", "
           + buildChangeTriggerDefinitionForColumn(KEY_CR_STATUS) + ", "
-          + buildChangeTriggerDefinitionForColumn(KEY_REFERENCE_NUMBER) + ", "
-          + buildChangeTriggerDefinitionForColumn(KEY_PICTURE_URI) + "); END;";
+          + buildChangeTriggerDefinitionForColumn(KEY_REFERENCE_NUMBER) + "); END;";
 
   private static final String INCREASE_CATEGORY_USAGE_ACTION = " BEGIN UPDATE " + TABLE_CATEGORIES + " SET " + KEY_USAGES + " = " +
       KEY_USAGES + " + 1, " + KEY_LAST_USED + " = strftime('%s', 'now')  WHERE " + KEY_ROWID +

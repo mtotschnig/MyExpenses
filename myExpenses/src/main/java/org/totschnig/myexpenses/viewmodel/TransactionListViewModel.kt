@@ -75,7 +75,6 @@ class TransactionListViewModel(
                 selectionArgs
             ).mapToList {
                 Transaction2.fromCursor(
-                    getApplication(),
                     it,
                     currency
                 )

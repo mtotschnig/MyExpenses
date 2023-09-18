@@ -854,18 +854,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                         label = R.string.details,
                                         command = "DETAILS"
                                     ) { showDetails(transaction.id) })
-                                    transaction.pictureUri?.let { uri ->
-                                        add(MenuEntry(
-                                            icon = Icons.Filled.Attachment,
-                                            label = R.string.menu_view_picture,
-                                            command = "VIEW_PICTURE"
-                                        ) {
-                                            imageViewIntentProvider.startViewIntent(
-                                                this@BaseMyExpenses,
-                                                uri
-                                            )
-                                        })
-                                    }
                                     if (modificationAllowed) {
                                         add(MenuEntry(
                                             icon = Icons.Filled.ContentCopy,

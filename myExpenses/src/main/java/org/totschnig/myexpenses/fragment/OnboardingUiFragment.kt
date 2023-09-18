@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.fragment
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.View.OnFocusChangeListener
@@ -148,8 +147,7 @@ class OnboardingUiFragment : OnboardingFragment() {
                 month = 0,
                 day = 0,
                 week = 0,
-                tagList = listOf(stringResource(id = R.string.testData_tag_project)),
-                pictureUri = Uri.EMPTY
+                tagList = listOf(stringResource(id = R.string.testData_tag_project))
             )
             AppTheme {
                 Column {

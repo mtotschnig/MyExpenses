@@ -19,12 +19,10 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.EDIT_REQUEST
@@ -44,10 +42,8 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.ICurrencyFormatter
-import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.UiUtils.DateMode
 import org.totschnig.myexpenses.util.addChipsBulk
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.getDateMode
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel
@@ -159,13 +155,6 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                     i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
                     ctx.startActivityForResult(i, EDIT_REQUEST)
                 }
-
-                AlertDialog.BUTTON_NEUTRAL -> {
-                    transaction.pictureUri?.let {
-                        imageViewIntentProvider.startViewIntent(ctx, it)
-                    }
-                    return
-                }
             }
         }
     }
@@ -176,37 +165,12 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
             if (list.isNotEmpty()) {
                 val transaction = list[0]
                 binding.progress.visibility = View.GONE
-                var doShowPicture = false
-                if (transaction.pictureUri != null) {
-                    doShowPicture = true
-/*                    try {
-                        if (!PictureDirHelper.doesPictureExist(
-                                requireContext(),
-                                transaction.pictureUri
-                            )
-                        ) {
-                            showSnackBar(R.string.image_deleted)
-                            doShowPicture = false
-                        }
-                    } catch (e: IllegalArgumentException) {
-                        CrashHandler.report(e)
-                        showSnackBar(
-                            "Unable to handle image: " + e.message,
-                            Snackbar.LENGTH_LONG,
-                            null
-                        )
-                        doShowPicture = false
-                    }*/
-                }
                 dlg.getButton(AlertDialog.BUTTON_POSITIVE)?.let {
                     if (transaction.crStatus == CrStatus.VOID || transaction.isSealed) {
                         it.visibility = View.GONE
                     } else {
                         it.isEnabled = true
                     }
-                }
-                dlg.getButton(AlertDialog.BUTTON_NEUTRAL)?.let {
-                    it.visibility = if (doShowPicture) View.VISIBLE else View.GONE
                 }
                 binding.Table.visibility = View.VISIBLE
                 val title: Int
@@ -330,13 +294,6 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                     } ?: getString(R.string.plan_event_deleted)
                 }
                 dlg.setTitle(title)
-                if (doShowPicture) {
-                    dlg.window?.findViewById<ImageView>(android.R.id.icon)?.let { image ->
-                        image.visibility = View.VISIBLE
-                        image.scaleType = ImageView.ScaleType.CENTER_CROP
-                        picasso.load(transaction.pictureUri).fit().into(image)
-                    }
-                }
             } else {
                 binding.error.visibility = View.VISIBLE
                 binding.error.setText(R.string.transaction_deleted)

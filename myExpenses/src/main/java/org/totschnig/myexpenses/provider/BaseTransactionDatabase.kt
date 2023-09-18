@@ -30,7 +30,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME

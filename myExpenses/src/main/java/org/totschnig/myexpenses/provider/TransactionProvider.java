@@ -1327,8 +1327,7 @@ public class TransactionProvider extends BaseTransactionProvider {
                     + KEY_TRANSFER_ACCOUNT + ", "
                     + KEY_METHODID + ","
                     + KEY_CR_STATUS + ", "
-                    + KEY_REFERENCE_NUMBER + ", "
-                    + KEY_PICTURE_URI
+                    + KEY_REFERENCE_NUMBER
                     + ") SELECT "
                     + "'" + TransactionChange.Type.created.name() + "', "
                     + " 1, "
@@ -1348,8 +1347,7 @@ public class TransactionProvider extends BaseTransactionProvider {
                     + KEY_TRANSFER_ACCOUNT + ", "
                     + KEY_METHODID + ","
                     + KEY_CR_STATUS + ", "
-                    + KEY_REFERENCE_NUMBER + ", "
-                    + KEY_PICTURE_URI
+                    + KEY_REFERENCE_NUMBER
                     + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?",
                 accountIdBindArgs);
             ContentValues currentSyncIncrease = new ContentValues(1);

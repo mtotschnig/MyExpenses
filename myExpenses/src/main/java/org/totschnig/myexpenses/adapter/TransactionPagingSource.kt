@@ -126,7 +126,6 @@ open class TransactionPagingSource(
                 withContext(Dispatchers.Main) {
                     cursor.asSequence.map {
                         Transaction2.fromCursor(
-                            context,
                             it,
                             account.currencyUnit
                         )

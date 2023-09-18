@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.compose
 
 import android.content.Context
-import android.net.Uri
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -85,7 +84,7 @@ abstract class ItemRenderer(
         context: Context,
         withTags: Boolean
     ): Pair<AnnotatedString, List<String>> {
-        val attachmentIcon = if (pictureUri != null) "paperclip" else null
+        //TODO val attachmentIcon = if (pictureUri != null) "paperclip" else null
         val methodInfo = getMethodInfo(context)
         val methodIcon = methodInfo?.second
         return buildAnnotatedString {
@@ -117,14 +116,14 @@ abstract class ItemRenderer(
                     append(it.joinToString())
                 }
             }
-            attachmentIcon?.let {
+/*            attachmentIcon?.let {
                 append(" ")
                 appendInlineContent(
                     it,
                     context.getString(R.string.content_description_attachment)
                 )
-            }
-        } to listOfNotNull(methodIcon, attachmentIcon)
+            }*/
+        } to listOfNotNull(methodIcon)
     }
 
     @Composable
@@ -429,8 +428,7 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
             month = 1,
             day = 1,
             week = 1,
-            tagList = listOf("Hund", "Katz"),
-            pictureUri = Uri.EMPTY
+            tagList = listOf("Hund", "Katz")
         ),
         Transaction2(
             id = -1,
