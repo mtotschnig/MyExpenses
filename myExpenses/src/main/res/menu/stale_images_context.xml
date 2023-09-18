@@ -31,6 +31,6 @@
         android:id="@id/VIEW_COMMAND"
         android:icon="@android:drawable/ic_menu_view"
         android:orderInCategory="10"
-        android:title="@string/menu_view_picture"
+        android:title="@string/menu_open"
         app:showAsAction="ifRoom" />
 </menu>
