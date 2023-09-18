@@ -320,6 +320,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val ATTRIBUTES = 69
         protected const val TRANSACTION_ATTRIBUTES = 70
         protected const val ACCOUNT_ATTRIBUTES = 71
+        protected const val TRANSACTION_ATTACHMENTS = 72
     }
 
     val homeCurrency: String

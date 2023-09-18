@@ -4,42 +4,75 @@ import android.app.Application
 import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.content.pm.ShortcutManagerCompat.FLAG_MATCH_PINNED
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.db2.getCurrencyUnitForAccount
 import org.totschnig.myexpenses.db2.getLastUsedOpenAccount
 import org.totschnig.myexpenses.db2.loadActiveTagsForAccount
-import org.totschnig.myexpenses.exception.UnknownPictureSaveException
+import org.totschnig.myexpenses.db2.loadAttachments
+import org.totschnig.myexpenses.db2.saveAttachments
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.preference.enumValueOrDefault
-import org.totschnig.myexpenses.provider.*
+import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.KEY_DEBT_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.CATEGORY_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.CAT_AS_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
+import org.totschnig.myexpenses.provider.FULL_LABEL
+import org.totschnig.myexpenses.provider.ProviderUtils
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
-import org.totschnig.myexpenses.util.ImageOptimizer
-import org.totschnig.myexpenses.util.PictureDirHelper
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getLongIfExists
+import org.totschnig.myexpenses.provider.getLongOrNull
+import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringIfExists
+import org.totschnig.myexpenses.provider.getStringOrNull
+import org.totschnig.myexpenses.provider.splitStringList
 import org.totschnig.myexpenses.util.ShortcutHelper
-import org.totschnig.myexpenses.util.asExtension
-import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
-import timber.log.Timber
-import java.io.File
-import java.io.IOException
 import kotlin.math.pow
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
@@ -126,7 +159,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             emit(kotlin.runCatching {
                 val existingTemplateMaybeUpdateShortcut =
                     Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && transaction is Template && transaction.id != 0L
-                //savePicture(transaction)
                 val result =
                     transaction.save(contentResolver, true)?.let { ContentUris.parseId(it) }
                         ?: throw Throwable("Error while saving transaction")
@@ -153,7 +185,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                         tagsLiveData.value
                     )
                 ) throw Throwable("Error while saving tags")
-
+                repository.saveAttachments(transaction.id, attachmentUris.value?.toList() ?: emptyList())
                 result
             })
         }
@@ -387,6 +419,11 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             }
             emit(pair.first)
             pair.second?.takeIf { it.size > 0 }?.let { updateTags(it, false) }
+            if (task == InstantiationTask.TRANSACTION) {
+                val uris = repository.loadAttachments(transactionId)
+                _attachmentUris.postValue(uris)
+
+            }
         } ?: run {
             emit(null)
         }
@@ -446,23 +483,20 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         _autoFillData.tryEmit(null)
     }
 
-    val attachmentUris: LiveData<Array<Uri>> = savedStateHandle.getLiveData("attachmentUris")
+    private val _attachmentUris: MutableLiveData<ArrayList<Uri>> = savedStateHandle.getLiveData<ArrayList<Uri>>("attachmentUris")
+    val attachmentUris: LiveData<out List<Uri>> = _attachmentUris
 
     fun addAttachmentUri(uri: Uri) {
-        _attachmentUris = _attachmentUris.toMutableSet().apply {
-            add(uri)
-        }
+        _attachmentUris.value  = attachmentUris.value?.let {
+            ArrayList(it.toMutableSet().apply { add(uri) })
+        } ?: ArrayList<Uri>().apply { add(uri) }
     }
 
     fun removeAttachmentUri(uri: Uri) {
-        _attachmentUris = _attachmentUris.toMutableSet().apply {
-            remove(uri)
+        _attachmentUris.value?.let {
+            _attachmentUris.value = it.apply { remove(uri) }
         }
     }
-
-    private var _attachmentUris: Set<Uri>
-        get() = savedStateHandle.get<Array<Uri>>("attachmentUris")?.toSet() ?: emptySet()
-        set(value) { savedStateHandle["attachmentUris"] = value.toTypedArray() }
 
     data class AutoFillData(
         val catId: Long?,

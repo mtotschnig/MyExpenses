@@ -76,6 +76,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTTYES_METHODS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_EXCHANGE_RATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTACHMENTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BANKS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGET_ALLOCATIONS;
@@ -270,6 +271,8 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final Uri ACCOUNTS_ATTRIBUTES_URI = Uri.parse("content://" + AUTHORITY + "/accounts/attributes");
 
   public static final Uri ATTRIBUTES_URI = Uri.parse("content://" + AUTHORITY + "/attributes");
+
+  public static final Uri ATTACHMENTS_URI = Uri.parse("content://" + AUTHORITY + "/transactions/attachments");
 
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
@@ -823,6 +826,10 @@ public class TransactionProvider extends BaseTransactionProvider {
         qb = SupportSQLiteQueryBuilder.builder(ACCOUNT_ATTRIBUTES_JOIN);
         break;
       }
+      case TRANSACTION_ATTACHMENTS: {
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_ATTACHMENTS);
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -988,6 +995,10 @@ public class TransactionProvider extends BaseTransactionProvider {
         insertAccountAttribute(db, values);
         return ACCOUNTS_ATTRIBUTES_URI;
       }
+      case TRANSACTION_ATTACHMENTS -> {
+        MoreDbUtilsKt.insert(db, TABLE_ATTACHMENTS, values);
+        return uri;
+      }
       default -> throw unknownUri(uri);
     }
     notifyChange(uri, uriMatch == TRANSACTIONS && callerIsNotSyncAdapter(uri));
@@ -1131,6 +1142,9 @@ public class TransactionProvider extends BaseTransactionProvider {
       case BANK_ID -> {
         count = db.delete(TABLE_BANKS,
                 KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+      }
+      case TRANSACTION_ATTACHMENTS -> {
+        count = db.delete(TABLE_ATTACHMENTS, where, whereArgs);
       }
       default -> throw unknownUri(uri);
     }
@@ -1654,6 +1668,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "attributes", ATTRIBUTES);
     URI_MATCHER.addURI(AUTHORITY, "transactions/attributes", TRANSACTION_ATTRIBUTES);
     URI_MATCHER.addURI(AUTHORITY, "accounts/attributes", ACCOUNT_ATTRIBUTES);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/attachments", TRANSACTION_ATTACHMENTS);
   }
 
   /**

@@ -22,6 +22,7 @@ import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_INC
 import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_NEUTRAL;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ATTACHMENTS_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.BANK_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PARTY_HIERARCHY_TRIGGER;
@@ -713,6 +714,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
   @Override
   public void onCreate(SupportSQLiteDatabase db) {
     db.execSQL(DATABASE_CREATE);
+    db.execSQL(ATTACHMENTS_CREATE);
     db.execSQL(TRANSACTIONS_UUID_INDEX_CREATE);
     db.execSQL(PAYEE_CREATE);
     db.execSQL(PAYEE_UNIQUE_INDEX);

@@ -24,7 +24,7 @@ import org.totschnig.myexpenses.util.licence.LicenceHandler.Companion.TRIAL_DURA
 import org.totschnig.myexpenses.util.licence.LicenceStatus
 import java.util.Date
 
-enum class ContribFeature constructor(
+enum class ContribFeature(
     val trialMode: TrialMode = TrialMode.DURATION,
     val licenceStatus: LicenceStatus = LicenceStatus.CONTRIB
 ) {

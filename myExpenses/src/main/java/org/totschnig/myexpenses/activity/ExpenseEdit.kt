@@ -470,7 +470,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
-    private fun showAttachments(uris: Array<Uri>) {
+    private fun showAttachments(uris: List<Uri>) {
         rootBinding.AttachmentGroup.removeViews(0, rootBinding.AttachmentGroup.childCount - 1)
         val size = UiUtils.dp2Px(48f, resources)
         val cancellationSignal = CancellationSignal()
