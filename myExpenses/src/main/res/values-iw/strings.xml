@@ -612,7 +612,7 @@
     <string name="sync_state_restored">מצב הסינכרון שוחזר עבור %d חשבונות.</string>
     <string name="sync_state_could_not_be_restored">לא ניתן לשחזר את מצב הסנכרון עבור %d חשבונות.</string>
     <string name="onboarding_ui_title">האפליקציה \"{app_name}\" מותאמות להעדפותיך</string>
-    <string name="onboarding_data_title">תן לנו להגדיר את החשבון הראשון שלך</string>
+    <string name="onboarding_data_title">הבה נגדיר את החשבון הראשון שלך</string>
     <string name="onboarding_get_started">להתחיל</string>
     <string name="onboarding_more_options">אפשרויות נוספות</string>
     <string name="onboarding_restore_from_cloud">שחזר מסנכרון ענן</string>
@@ -1064,4 +1064,11 @@
     <string name="whats_new_361_1">אפשר לסדר את רשימת העסקאות לפי סכום.</string>
     <string name="whats_new_361_2">אפשר לשתף או למחוק את הקבצים בתיקיית היישום (גיבויים וייצוא).</string>
     <string name="notifications_permission_required_auto_backup">הענקת ההרשאה לשליחת התראות תאפשר משלוח התראות על גיבויים אוטומטיים.</string>
+    <string name="whats_new_364_2">אסטרטגיה חדשה לניהול פרטי משלם/מוטב כפולים</string>
+    <string name="remove_from_group">הסרה מקבוצה</string>
+    <string name="merge_parties_strategy_delete">כפילויות נמחקות.</string>
+    <string name="whats_new_364_1">ייבוא למגוון חשבונות מקובץ CSV יחיד</string>
+    <string name="read_from_data">קריאה מנתונים</string>
+    <string name="merge_parties_strategy_group">כפילויות מקובצות כתלויות.</string>
+    <string name="show_duplicates">הצגת כפילויות</string>
 </resources>

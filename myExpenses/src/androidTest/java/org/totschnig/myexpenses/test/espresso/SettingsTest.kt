@@ -69,29 +69,33 @@ class SettingsTest : BaseUiTest<PreferenceActivity>() {
 
     @Test
     fun importGrisbi() {
-        navigateTo(R.string.menu_import, R.string.pref_import_from_grisbi_title)
+        navigateTo(withText(ioTitle), withText(R.string.pref_import_from_grisbi_title))
         intended(GrisbiImport::class)
     }
 
     @Test
     fun importQif() {
-        navigateTo(withText(R.string.menu_import), withText(getString(R.string.pref_import_title, "QIF")))
+        navigateTo(withText(ioTitle), withText(getString(R.string.pref_import_title, "QIF")))
         intended(QifImport::class)
     }
 
     @Test
     fun importCsv() {
-        navigateTo(withText(R.string.menu_import), withText(getString(R.string.pref_import_title, "CSV")))
+        navigateTo(withText(ioTitle), withText(getString(R.string.pref_import_title, "CSV")))
         handleContribDialog(ContribFeature.CSV_IMPORT)
         intended(CsvImportActivity::class)
     }
 
-    private val exportBackupTitle: String
-        get() = getString(R.string.pref_category_title_export) + " / " + getString(R.string.menu_backup)
+    private val backupRestoreTitle: String
+        get() = getString(R.string.menu_backup) + " / " + getString(R.string.pref_restore_title)
+
+
+    private val ioTitle: String
+        get() = getString(R.string.pref_category_title_import) + " / " + getString(R.string.pref_category_title_export)
 
     @Test
     fun backup() {
-        navigateTo(withText(exportBackupTitle), withText(R.string.pref_backup_summary))
+        navigateTo(withText(backupRestoreTitle), withText(R.string.pref_backup_summary))
         intended(BackupRestoreActivity::class)
         onView(withText(R.string.menu_backup))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
@@ -99,7 +103,7 @@ class SettingsTest : BaseUiTest<PreferenceActivity>() {
 
     @Test
     fun restore() {
-        navigateTo(withText(exportBackupTitle), withText(R.string.pref_restore_title))
+        navigateTo(withText(backupRestoreTitle), withText(R.string.pref_restore_title))
         intended(BackupRestoreActivity::class)
         onView(withText(R.string.pref_restore_title))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))

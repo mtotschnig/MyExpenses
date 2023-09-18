@@ -605,7 +605,7 @@
     <string name="sync_state_restored">L\'état de synchronisation a été restauré pour %d comptes.</string>
     <string name="sync_state_could_not_be_restored">L\'état de synchronisation n\'a pas pu être restauré pour %d comptes.</string>
     <string name="onboarding_ui_title">{app_name} s\'adapte à vos préférences</string>
-    <string name="onboarding_data_title">Laissez-nous configurer votre premier compte</string>
+    <string name="onboarding_data_title">Allons configurer votre premier compte</string>
     <string name="onboarding_get_started">Commencer</string>
     <string name="onboarding_more_options">Plus d\'options</string>
     <string name="onboarding_restore_from_cloud">Restaurer à partir de la synchronisation distante</string>

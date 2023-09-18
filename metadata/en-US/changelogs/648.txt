@@ -1,0 +1,4 @@
+• Import into multiple accounts from one CSV file
+• New strategy for managing duplicate payer/payee information
+
+https://github.com/mtotschnig/MyExpenses/projects/108#column-19611865

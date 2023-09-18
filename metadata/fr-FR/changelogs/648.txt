@@ -1,0 +1,4 @@
+• Nouvelle stratégie pour la gestion des tiers doublons
+• Importer vers plusieurs comptes à partir d'un fichier CSV
+
+https://github.com/mtotschnig/MyExpenses/projects/108#column-19611865
