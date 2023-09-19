@@ -198,6 +198,11 @@ public class MyApplication extends Application implements
     }
     licenceHandler.init();
     NotificationBuilderWrapper.createChannels(this);
+    if (BuildConfig.DEBUG) {
+      getContentResolver().getPersistedUriPermissions().forEach( uriPermission -> {
+        Timber.d("persisted permissions: %s", uriPermission);
+      });
+    }
   }
 
   @Override
