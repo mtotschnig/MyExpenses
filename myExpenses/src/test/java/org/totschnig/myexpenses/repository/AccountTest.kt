@@ -29,7 +29,7 @@ class AccountTest: BaseTestWithRepository() {
         val transaction = Transaction(account.id, Money(currencyUnit, 100L))
         transaction.save(contentResolver)
         closeAccount(account.id)
-        Transaction.delete(contentResolver, transaction.id, false)
+        repository.deleteTransaction(transaction.id)
     }
 
     @Test

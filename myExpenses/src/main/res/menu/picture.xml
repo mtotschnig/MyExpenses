@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/VIEW_COMMAND" android:title="@string/menu_open" android:icon="@drawable/ic_view" />
-    <item android:id="@+id/DELETE_COMMAND" android:title="@string/menu_delete" android:icon="@drawable/ic_menu_delete"/>
+    <item android:id="@+id/DELETE_COMMAND" android:title="@string/menu_remove" android:icon="@drawable/ic_menu_delete"/>
 </menu>

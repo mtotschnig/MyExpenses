@@ -465,7 +465,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     private val pickAttachment: ActivityResultLauncher<Array<String>> = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
         if (uri != null) {
-            //contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            setDirty()
             viewModel.addAttachmentUri(uri)
         }
     }
@@ -510,7 +510,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                                 startActivity(Intent(Intent.ACTION_VIEW, uri).apply {
                                     flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
                                 })
-                            R.id.DELETE_COMMAND -> viewModel.removeAttachmentUri(uri)
+                            R.id.DELETE_COMMAND -> {
+                                setDirty()
+                                viewModel.removeAttachmentUri(uri)
+                            }
                         }
                         true
                     }
@@ -1179,6 +1182,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 val result = CropImage.getActivityResult(intent)
                 if (resultCode == RESULT_OK) {
                     viewModel.addAttachmentUri(result.uri)
+                    setDirty()
                     viewModel.cleanupOrigFile(result)
                 } else {
                     processImageCaptureError(resultCode, result)

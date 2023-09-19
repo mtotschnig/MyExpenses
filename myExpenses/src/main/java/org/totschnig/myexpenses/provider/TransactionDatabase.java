@@ -340,15 +340,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       "CREATE TABLE " + TABLE_STALE_URIS
           + " ( " + KEY_PICTURE_URI + " text);";
 
-  private static final String STALE_URI_TRIGGER_CREATE =
-      "CREATE TRIGGER cache_stale_uri " +
-          "AFTER DELETE ON " + TABLE_TRANSACTIONS + " " +
-          "WHEN old." + KEY_PICTURE_URI + " NOT NULL " +
-          "AND NOT EXISTS " +
-          "(SELECT 1 FROM " + TABLE_TRANSACTIONS + " " +
-          "WHERE " + KEY_PICTURE_URI + " = old." + KEY_PICTURE_URI + ") " +
-          "BEGIN INSERT INTO " + TABLE_STALE_URIS + " VALUES (old." + KEY_PICTURE_URI + "); END";
-
   private static final String ACCOUNTS_TRIGGER_CREATE =
       "CREATE TRIGGER sort_key_default " +
           "AFTER INSERT ON " + TABLE_ACCOUNTS + " " +
@@ -739,7 +730,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     insertCurrencies(db);
     db.execSQL(EVENT_CACHE_CREATE);
     db.execSQL(STALE_URIS_CREATE);
-    //db.execSQL(STALE_URI_TRIGGER_CREATE);
     db.execSQL(CHANGES_CREATE);
     db.execSQL(BANK_CREATE);
     db.execSQL(ATTRIBUTES_CREATE);

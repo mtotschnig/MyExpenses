@@ -68,8 +68,11 @@ open class Repository @Inject constructor(
         }
     }
 
-    fun deleteTransaction(id: Long, markAsVoid: Boolean = false, inBulk: Boolean = false) =
-        contentResolver.delete(
+    fun deleteTransaction(id: Long, markAsVoid: Boolean = false, inBulk: Boolean = false): Boolean {
+        loadAttachments(id).forEach {
+            onAttachmentDelete(it)
+        }
+        return contentResolver.delete(
             ContentUris.withAppendedId(TRANSACTIONS_URI, id).buildUpon().apply {
                 if (markAsVoid) appendBooleanQueryParameter(QUERY_PARAMETER_MARK_VOID)
                 if (inBulk) appendBooleanQueryParameter(QUERY_PARAMETER_CALLER_IS_IN_BULK)
@@ -77,6 +80,7 @@ open class Repository @Inject constructor(
             null,
             null
         ) > 0
+    }
 
     fun count(uri: Uri, selection: String? = null, selectionArgs: Array<String>? = null): Int {
         return contentResolver.query(uri, arrayOf("count(*)"), selection, selectionArgs, null, null)

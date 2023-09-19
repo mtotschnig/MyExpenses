@@ -68,7 +68,7 @@ public class TransactionTest extends ModelTest {
     assertEquals(op1, restored);
 
     Long id = op1.getId();
-    Transaction.delete(getContentResolver(), id, false);
+    getRepository().deleteTransaction(id, false, false);
     //Transaction sequence should report on the number of transactions that have been created
     assertEquals(start + 1, getRepository().getSequenceCount());
     assertNull("Transaction deleted, but can still be retrieved", getTransactionFromDb(id));
@@ -93,7 +93,7 @@ public class TransactionTest extends ModelTest {
     assertEquals(peer.getId(), op.getTransferPeer().longValue());
     assertEquals(op.getId(), peer.getTransferPeer().longValue());
     assertEquals(op.getTransferAccountId().longValue(), peer.getAccountId());
-    Transaction.delete(getContentResolver(), op.getId(), false);
+    getRepository().deleteTransaction(id, false, false);
     assertNull("Transaction deleted, but can still be retrieved", getTransactionFromDb(op.getId()));
     assertNull("Transfer delete should delete peer, but peer can still be retrieved", getTransactionFromDb(peer.getId()));
   }
@@ -189,7 +189,7 @@ public class TransactionTest extends ModelTest {
     op1.save(getContentResolver());
     Transaction split1 = new Transfer(mAccount1.getId(), money, mAccount2.getId(), op1.getId());
     split1.save(getContentResolver());
-    Transaction.delete(getContentResolver(), op1.getId(), false);
+    getRepository().deleteTransaction(id, false, false);
     assertNull("Transaction deleted, but can still be retrieved", getTransactionFromDb(op1.getId()));
   }
 

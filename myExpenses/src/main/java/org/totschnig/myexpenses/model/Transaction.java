@@ -567,15 +567,6 @@ public class Transaction extends Model implements ITransaction {
     return new Transaction(accountId, new Money(currencyUnit, 0L), parentId);
   }
 
-  @Deprecated
-  public static void delete(ContentResolver contentResolver, long id, boolean markAsVoid) {
-    Uri.Builder builder = ContentUris.appendId(CONTENT_URI.buildUpon(), id);
-    if (markAsVoid) {
-      builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MARK_VOID, "1");
-    }
-    contentResolver.delete(builder.build(), null, null);
-  }
-
   public static int undelete(ContentResolver contentResolver, long id) {
     Uri uri = ContentUris.appendId(CONTENT_URI.buildUpon(), id)
         .appendPath(TransactionProvider.URI_SEGMENT_UNDELETE).build();

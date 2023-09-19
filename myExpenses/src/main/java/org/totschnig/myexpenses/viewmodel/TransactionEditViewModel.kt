@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.ContentUris
 import android.content.ContentValues
+import android.content.Intent
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
@@ -16,6 +17,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.liveData
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
@@ -34,6 +36,7 @@ import org.totschnig.myexpenses.db2.getCurrencyUnitForAccount
 import org.totschnig.myexpenses.db2.getLastUsedOpenAccount
 import org.totschnig.myexpenses.db2.loadActiveTagsForAccount
 import org.totschnig.myexpenses.db2.loadAttachments
+import org.totschnig.myexpenses.db2.onAttachmentDelete
 import org.totschnig.myexpenses.db2.saveAttachments
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.model.*
@@ -196,6 +199,11 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                         tagsLiveData.value
                     )
                 ) throw Throwable("Error while saving tags")
+                deletedUris.distinct().filterNot {
+                    it.toString().startsWith( PictureDirHelper.getPictureUriBase(true, getApplication()))
+                }.forEach {
+                    repository.onAttachmentDelete(it)
+                }
                 repository.saveAttachments(
                     transaction.id,
                     attachmentUris.value?.map(::prepareUriForSave) ?: emptyList()
@@ -207,7 +215,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     private val shouldCopyExternalUris = true
 
 
-    fun prepareUriForSave(uri: Uri): Uri {
+    private fun prepareUriForSave(uri: Uri): Uri {
         val pictureUriBase: String = PictureDirHelper.getPictureUriBase(false, getApplication())
         return if (uri.toString().startsWith(pictureUriBase)) {
             Timber.d("nothing todo: Internal")
@@ -219,7 +227,8 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             val isExternal = !isInTempFolder
 
             if (isExternal && !shouldCopyExternalUris) {
-                Timber.d("nothing todo: External")
+                Timber.d("External, takePersistableUriPermission")
+                contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 uri
             } else {
 
@@ -523,20 +532,29 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         _autoFillData.tryEmit(null)
     }
 
+    private val deletedUris: ArrayList<Uri>
+        get() = savedStateHandle["deletedUris"] ?: ArrayList()
+
+    private fun addDeletedUri(uri: Uri) {
+        savedStateHandle["deletedUris"] = deletedUris + uri
+    }
+
+
     private val _attachmentUris: MutableLiveData<ArrayList<Uri>> =
-        savedStateHandle.getLiveData<ArrayList<Uri>>("attachmentUris")
-    val attachmentUris: LiveData<out List<Uri>> = _attachmentUris
+        savedStateHandle.getLiveData("attachmentUris")
+    val attachmentUris: LiveData<out List<Uri>> = _attachmentUris.map { it.distinct() }
 
     fun addAttachmentUri(uri: Uri) {
-        _attachmentUris.value = attachmentUris.value?.let {
-            ArrayList(it.toMutableSet().apply { add(uri) })
-        } ?: ArrayList<Uri>().apply { add(uri) }
+        _attachmentUris.value = (_attachmentUris.value ?: ArrayList()).apply {
+            add(uri)
+        }
     }
 
     fun removeAttachmentUri(uri: Uri) {
         _attachmentUris.value?.let {
             _attachmentUris.value = it.apply { remove(uri) }
         }
+        addDeletedUri(uri)
     }
 
     data class AutoFillData(
