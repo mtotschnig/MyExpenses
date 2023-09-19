@@ -219,6 +219,21 @@
                     android:id="@+id/TagGroup"
                     style="@style/FormField.Dialog" />
             </TableRow>
+            <TableRow android:id="@+id/AttachmentsRow">
+
+                <TextView
+                    style="@style/FormLabel.Condensed"
+                    android:text="Receipts" />
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/AttachmentGroup"
+                    style="@style/FormField.Dialog"
+                    android:layout_height="wrap_content"
+                    app:dividerDrawable="@drawable/divider"
+                    app:flexWrap="wrap"
+                    app:justifyContent="flex_start"
+                    app:showDivider="middle"/>
+            </TableRow>
         </TableLayout>
 
         <LinearLayout

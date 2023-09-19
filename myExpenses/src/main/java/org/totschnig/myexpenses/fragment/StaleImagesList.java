@@ -96,7 +96,7 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
       return true;
     }
     if (command == R.id.VIEW_COMMAND) {
-      imageViewIntentProvider.startViewIntent(requireActivity(),
+      imageViewIntentProvider.startViewAction(requireActivity(),
           uriAtPosition(((AdapterView.AdapterContextMenuInfo) info).position));
     }
     return false;

@@ -84,7 +84,7 @@ abstract class ItemRenderer(
         context: Context,
         withTags: Boolean
     ): Pair<AnnotatedString, List<String>> {
-        //TODO val attachmentIcon = if (pictureUri != null) "paperclip" else null
+        val attachmentIcon = if (attachmentCount > 0) "paperclip" else null
         val methodInfo = getMethodInfo(context)
         val methodIcon = methodInfo?.second
         return buildAnnotatedString {
@@ -116,14 +116,17 @@ abstract class ItemRenderer(
                     append(it.joinToString())
                 }
             }
-/*            attachmentIcon?.let {
+            attachmentIcon?.let {
                 append(" ")
                 appendInlineContent(
                     it,
                     context.getString(R.string.content_description_attachment)
                 )
-            }*/
-        } to listOfNotNull(methodIcon)
+                if (attachmentCount > 1) {
+                    append( "($attachmentCount)")
+                }
+            }
+        } to listOfNotNull(methodIcon, attachmentIcon)
     }
 
     @Composable

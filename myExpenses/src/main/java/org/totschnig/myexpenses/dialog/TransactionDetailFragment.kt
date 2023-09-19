@@ -17,18 +17,23 @@ package org.totschnig.myexpenses.dialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import com.squareup.picasso.Picasso
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.EDIT_REQUEST
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ImageViewIntentProvider
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
+import org.totschnig.myexpenses.databinding.AttachmentItemBinding
 import org.totschnig.myexpenses.databinding.AttributeBinding
 import org.totschnig.myexpenses.databinding.AttributeGroupHeaderBinding
 import org.totschnig.myexpenses.databinding.AttributeGroupTableBinding
@@ -44,9 +49,12 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.UiUtils.DateMode
 import org.totschnig.myexpenses.util.addChipsBulk
+import org.totschnig.myexpenses.util.attachmentInfoMap
 import org.totschnig.myexpenses.util.getDateMode
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
+import org.totschnig.myexpenses.util.setAttachmentInfo
 import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel
+import org.totschnig.myexpenses.viewmodel.data.AttachmentInfo
 import org.totschnig.myexpenses.viewmodel.data.Transaction
 import java.time.Instant
 import java.time.ZoneId
@@ -67,10 +75,9 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
     lateinit var currencyFormatter: ICurrencyFormatter
 
     @Inject
-    lateinit var picasso: Picasso
-
-    @Inject
     lateinit var homeCurrencyProvider: HomeCurrencyProvider
+
+    private lateinit var attachmentInfoMap: Map<Uri, AttachmentInfo>
 
     private val bankingFeature: BankingFeature
         get() = injector.bankingFeature() ?: object : BankingFeature {}
@@ -78,6 +85,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injector.inject(this)
+        attachmentInfoMap = attachmentInfoMap(requireContext())
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -96,6 +104,27 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                 binding.TagRow.visibility = View.GONE
             }
         }
+        viewModel.attachments(rowId).observe(this) { attachments ->
+            if (attachments.isEmpty()) {
+                binding.AttachmentsRow.visibility = View.GONE
+            } else {
+                attachments.forEach { uri ->
+                    AttachmentItemBinding.inflate(
+                        layoutInflater,
+                        binding.AttachmentGroup,
+                        false
+                    ).root.apply {
+                        binding.AttachmentGroup.addView(this)
+                        lifecycleScope.launch {
+                            setAttachmentInfo(withContext(Dispatchers.IO) { attachmentInfoMap.getValue(uri) })
+                        }
+                        setOnClickListener {
+                            imageViewIntentProvider.startViewAction(requireActivity(), uri)
+                        }
+                    }
+                }
+            }
+        }
 
         viewModel.attributes(rowId).observe(this) { groups ->
             groups.forEach { entry ->
@@ -105,12 +134,17 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                     }, binding.OneExpense.childCount - 1
                 )
                 val attributeTable = AttributeGroupTableBinding.inflate(layoutInflater).root.also {
-                    binding.OneExpense.addView(it, binding.OneExpense.childCount - 1 )
+                    binding.OneExpense.addView(it, binding.OneExpense.childCount - 1)
                 }
                 entry.value.filter { it.first.userVisible }.forEach {
                     attributeTable.addView(
                         with(AttributeBinding.inflate(layoutInflater)) {
-                            Name.text = (it.first as? FinTsAttribute)?.let { bankingFeature.resolveAttributeLabel(requireContext(), it) } ?: it.first.name
+                            Name.text = (it.first as? FinTsAttribute)?.let {
+                                bankingFeature.resolveAttributeLabel(
+                                    requireContext(),
+                                    it
+                                )
+                            } ?: it.first.name
                             Value.text = it.second
                             root
                         }
@@ -123,14 +157,11 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
             builder.setTitle(R.string.loading) //.setIcon(android.R.color.transparent)
                 .setNegativeButton(android.R.string.ok, this)
                 .setPositiveButton(R.string.menu_edit, null)
-                .setNeutralButton(R.string.menu_view_picture, this)
                 .create()
         alertDialog.setOnShowListener(object : ButtonOnShowDisabler() {
             override fun onShow(dialog: DialogInterface) {
                 if (transactionData == null) {
                     super.onShow(dialog)
-                    (dialog as AlertDialog).getButton(AlertDialog.BUTTON_NEUTRAL)
-                        ?.let { it.visibility = View.GONE }
                 }
                 //prevent automatic dismiss on button click
                 alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)

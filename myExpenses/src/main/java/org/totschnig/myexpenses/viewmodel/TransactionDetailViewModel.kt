@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.loadAttributes
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -55,8 +56,11 @@ class TransactionDetailViewModel(application: Application) :
         }?.let { emit(it) }
     }
 
-    @SuppressLint("Recycle")
     fun attributes(id: Long) = liveData(context = coroutineContext()) {
         emit(repository.loadAttributes(id).groupBy { it.first.context })
+    }
+
+    fun attachments(id: Long) = liveData(context = coroutineContext()) {
+        emit(repository.loadAttachments(id))
     }
 }

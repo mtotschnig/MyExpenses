@@ -20,13 +20,10 @@ import android.content.Context
 import android.content.Intent
 import android.database.ContentObserver
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.CancellationSignal
 import android.os.Handler
 import android.os.Parcelable
 import android.provider.CalendarContract
-import android.util.Size
 import android.view.*
 import android.widget.TextView
 import android.widget.Toast
@@ -48,6 +45,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
@@ -88,6 +86,7 @@ import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.Delet
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask.*
 import org.totschnig.myexpenses.viewmodel.data.Account
+import org.totschnig.myexpenses.viewmodel.data.AttachmentInfo
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
@@ -158,6 +157,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     private var accountsLoaded = false
     private var pObserver: ContentObserver? = null
     private lateinit var currencyViewModel: CurrencyViewModel
+
+    private lateinit var attachmentInfoMap: Map<Uri, AttachmentInfo>
     override fun getDate(): LocalDate {
         return dateEditBinding.DateButton.date
     }
@@ -260,6 +261,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             inject(viewModel)
             inject(currencyViewModel)
         }
+        attachmentInfoMap = attachmentInfoMap(this)
+
         //we enable it only after accountCursor has been loaded, preventing NPE when user clicks on it early
         amountInput.setTypeEnabled(false)
 
@@ -470,46 +473,21 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
-    private fun showAttachments(uris: List<Uri>) {
+    private fun showAttachments(uris: List<Pair<Uri, AttachmentInfo>>) {
         rootBinding.AttachmentGroup.removeViews(0, rootBinding.AttachmentGroup.childCount - 1)
-        val size = UiUtils.dp2Px(48f, resources)
-        val cancellationSignal = CancellationSignal()
-        uris.forEach { uri ->
+
+        uris.forEach { (uri, info) ->
             AttachmentItemBinding.inflate(layoutInflater, rootBinding.AttachmentGroup, false).root.apply {
+
                 rootBinding.AttachmentGroup.addView(this, rootBinding.AttachmentGroup.childCount - 1)
-                lifecycleScope.launch {
-                    withContext(Dispatchers.IO) {
-                        contentResolver.getType(uri)?.also {
-                            if (it.startsWith("image")) {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                    val thumbnail = contentResolver.loadThumbnail(
-                                        uri,
-                                        Size(size, size),
-                                        cancellationSignal
-                                    )
-                                    withContext(Dispatchers.Main) { setImageBitmap(thumbnail) }
-                                } else {
-                                    setImageResource(R.drawable.ic_menu_camera)
-                                }
-                            } else {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                    val icon = contentResolver.getTypeInfo(it).icon
-                                    withContext(Dispatchers.Main) { setImageIcon(icon) }
-                                } else {
-                                    setImageResource(R.drawable.ic_menu_chart)
-                                }
-                            }
-                        }
-                    }
-                }
+
+                setAttachmentInfo(info)
 
                 setOnClickListener {
                     showPicturePopupMenu(it, R.menu.picture) { item ->
                         when (item.itemId) {
                             R.id.VIEW_COMMAND ->
-                                startActivity(Intent(Intent.ACTION_VIEW, uri).apply {
-                                    flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                                })
+                                imageViewIntentProvider.startViewAction(this@ExpenseEdit, uri)
                             R.id.DELETE_COMMAND -> {
                                 setDirty()
                                 viewModel.removeAttachmentUri(uri)
@@ -583,8 +561,14 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         loadCurrencies()
         observeMoveResult()
         observeAutoFillData()
-        viewModel.attachmentUris.observe(this) {
-            showAttachments(it)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.attachmentUris
+                    .map { list -> list.map { it to withContext(Dispatchers.IO) { attachmentInfoMap.getValue(it) } } }
+                    .collect {
+                    showAttachments(it)
+                }
+            }
         }
     }
 

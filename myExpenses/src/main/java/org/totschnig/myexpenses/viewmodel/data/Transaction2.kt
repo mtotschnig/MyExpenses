@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTACHMENT_COUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
@@ -101,7 +102,8 @@ data class Transaction2(
     val month: Int,
     val week: Int,
     val day: Int,
-    val icon: String? = null
+    val icon: String? = null,
+    val attachmentCount: Int = 0
 ) : Parcelable {
 
     val currency: CurrencyUnit
@@ -165,6 +167,7 @@ data class Transaction2(
                 KEY_REFERENCE_NUMBER,
                 KEY_STATUS,
                 KEY_TAGLIST,
+                KEY_ATTACHMENT_COUNT,
                 KEY_PARENTID,
                 when (grouping) {
                     Grouping.MONTH -> getYearOfMonthStart()
@@ -230,7 +233,8 @@ data class Transaction2(
                 month = cursor.getInt(KEY_MONTH),
                 week = cursor.getInt(KEY_WEEK),
                 day = cursor.getInt(KEY_DAY),
-                icon = cursor.getStringOrNull(KEY_ICON)
+                icon = cursor.getStringOrNull(KEY_ICON),
+                attachmentCount = cursor.getInt(KEY_ATTACHMENT_COUNT)
             )
         }
     }

@@ -372,4 +372,8 @@
     <style name="Preference.Material.SingleLineTitle">
         <item name="singleLineTitle">true</item>
     </style>
+
+    <style name="AttachmentStyle">
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
 </resources>

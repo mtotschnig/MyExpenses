@@ -155,8 +155,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     }
 
     if (tableName.equals(TABLE_TRANSACTIONS)) {
-      stringBuilder.append(", ").append(TABLE_PLAN_INSTANCE_STATUS).append(".").append(KEY_TEMPLATEID);
-      stringBuilder.append(", ").append(TAG_LIST_EXPRESSION);
+      stringBuilder.append(", ").append(TABLE_PLAN_INSTANCE_STATUS).append(".").append(KEY_TEMPLATEID)
+              .append(", ").append(TAG_LIST_EXPRESSION)
+              .append(", count(").append(KEY_URI).append(") AS ").append(KEY_ATTACHMENT_COUNT);
     }
 
     stringBuilder.append(" FROM ").append(tableName).append(" LEFT JOIN ").append(TABLE_PAYEES).append(" ON ")
@@ -175,10 +176,11 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     if (tableName.equals(TABLE_TRANSACTIONS)) {
       stringBuilder.append(" LEFT JOIN ").append(TABLE_PLAN_INSTANCE_STATUS)
           .append(" ON ").append(tableName).append(".").append(KEY_ROWID).append(" = ")
-          .append(TABLE_PLAN_INSTANCE_STATUS).append(".").append(KEY_TRANSACTIONID);
-    }
-    if (tableName.equals(TABLE_TRANSACTIONS)) {
-      stringBuilder.append(tagJoin(tableName));
+          .append(TABLE_PLAN_INSTANCE_STATUS).append(".").append(KEY_TRANSACTIONID)
+          .append(tagJoin(tableName))
+          .append( " LEFT JOIN ").append(TABLE_ATTACHMENTS)
+          .append(" ON ").append(tableName).append(".").append(KEY_ROWID).append(" = ")
+          .append(TABLE_ATTACHMENTS).append(".").append(KEY_TRANSACTIONID);
     }
     return stringBuilder.toString();
   }

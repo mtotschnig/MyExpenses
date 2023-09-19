@@ -9,7 +9,6 @@ import android.widget.*
 import androidx.core.view.isVisible
 import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
-import com.squareup.picasso.Picasso
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.adapter.CrStatusAdapter
@@ -66,9 +65,6 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     @Inject
     lateinit var homeCurrencyProvider: HomeCurrencyProvider
-
-    @Inject
-    lateinit var picasso: Picasso
 
     val homeCurrency by lazy {
         homeCurrencyProvider.homeCurrencyUnit

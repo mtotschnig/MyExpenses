@@ -16,11 +16,12 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
@@ -28,6 +29,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -83,7 +85,10 @@ import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.asExtension
 import org.totschnig.myexpenses.util.io.FileCopyUtils
+import org.totschnig.myexpenses.util.io.getFileExtension
+import org.totschnig.myexpenses.util.io.getNameWithoutExtension
 import org.totschnig.myexpenses.viewmodel.data.Account
+import org.totschnig.myexpenses.viewmodel.data.AttachmentInfo
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import timber.log.Timber
 import java.io.IOException
@@ -200,13 +205,14 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     )
                 ) throw Throwable("Error while saving tags")
                 deletedUris.distinct().filterNot {
-                    it.toString().startsWith( PictureDirHelper.getPictureUriBase(true, getApplication()))
+                    it.toString()
+                        .startsWith(PictureDirHelper.getPictureUriBase(true, getApplication()))
                 }.forEach {
                     repository.onAttachmentDelete(it)
                 }
                 repository.saveAttachments(
                     transaction.id,
-                    attachmentUris.value?.map(::prepareUriForSave) ?: emptyList()
+                    attachmentUris.value.distinct().map(::prepareUriForSave) ?: emptyList()
                 )
                 result
             })
@@ -228,13 +234,20 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
             if (isExternal && !shouldCopyExternalUris) {
                 Timber.d("External, takePersistableUriPermission")
-                contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                contentResolver.takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
                 uri
             } else {
 
                 val type = contentResolver.getType(uri)
 
-                val result = if (type!!.startsWith("image") && prefHandler.getBoolean(PrefKey.OPTIMIZE_PICTURE, true)) {
+                val result = if (type!!.startsWith("image") && prefHandler.getBoolean(
+                        PrefKey.OPTIMIZE_PICTURE,
+                        true
+                    )
+                ) {
                     val format = prefHandler.enumValueOrDefault(
                         PrefKey.OPTIMIZE_PICTURE_FORMAT,
                         Bitmap.CompressFormat.WEBP
@@ -268,14 +281,14 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     val homeUri = if (fileName != null) PictureDirHelper.getOutputMediaUri(
                         false,
                         getApplication(),
-                        fileName = fileName,
-                        extension = null
+                        fileName = getNameWithoutExtension(fileName),
+                        extension = getFileExtension(fileName)
                     ) else {
                         val extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(type)
                         if (extension != null) PictureDirHelper.getOutputMediaUri(
                             false,
                             getApplication(),
-                            extension = extension
+                            extension = extension.takeIf { it.isNotEmpty() }
                         ) else throw IllegalStateException("Unable to calculate either fileName or extension")
                     }
                     FileCopyUtils.copy(contentResolver, uri, homeUri)
@@ -469,13 +482,16 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             emit(pair.first)
             pair.second?.takeIf { it.size > 0 }?.let { updateTags(it, false) }
             if (task == InstantiationTask.TRANSACTION) {
-                val uris = repository.loadAttachments(transactionId)
-                _attachmentUris.postValue(uris)
-
+                savedStateHandle[KEY_ATTACHMENT_URIS] = repository.loadAttachments(transactionId)
             }
         } ?: run {
             emit(null)
         }
+    }
+
+    companion object {
+        private const val KEY_ATTACHMENT_URIS = "attachmentUris"
+        private const val KEY_DELETED_URIS = "deletedUris"
     }
 
     fun startAutoFill(id: Long, overridePreferences: Boolean, autoFillAccountFromExtra: Boolean) {
@@ -533,26 +549,28 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     }
 
     private val deletedUris: ArrayList<Uri>
-        get() = savedStateHandle["deletedUris"] ?: ArrayList()
+        get() = savedStateHandle[KEY_DELETED_URIS] ?: ArrayList()
 
     private fun addDeletedUri(uri: Uri) {
-        savedStateHandle["deletedUris"] = deletedUris + uri
+        savedStateHandle[KEY_DELETED_URIS] = ArrayList<Uri>().apply {
+            addAll(deletedUris)
+            add(uri)
+        }
     }
 
-
-    private val _attachmentUris: MutableLiveData<ArrayList<Uri>> =
-        savedStateHandle.getLiveData("attachmentUris")
-    val attachmentUris: LiveData<out List<Uri>> = _attachmentUris.map { it.distinct() }
+    val attachmentUris: StateFlow<ArrayList<Uri>> =
+        savedStateHandle.getStateFlow(KEY_ATTACHMENT_URIS, ArrayList())
 
     fun addAttachmentUri(uri: Uri) {
-        _attachmentUris.value = (_attachmentUris.value ?: ArrayList()).apply {
+        savedStateHandle[KEY_ATTACHMENT_URIS] = ArrayList<Uri>().apply {
+            addAll(attachmentUris.value)
             add(uri)
         }
     }
 
     fun removeAttachmentUri(uri: Uri) {
-        _attachmentUris.value?.let {
-            _attachmentUris.value = it.apply { remove(uri) }
+        savedStateHandle[KEY_ATTACHMENT_URIS] = ArrayList<Uri>().apply {
+            addAll(attachmentUris.value.filterNot { it == uri })
         }
         addDeletedUri(uri)
     }

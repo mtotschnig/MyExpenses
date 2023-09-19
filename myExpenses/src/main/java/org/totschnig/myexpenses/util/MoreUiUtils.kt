@@ -1,23 +1,32 @@
 package org.totschnig.myexpenses.util
 
+import android.content.ContentResolver
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
+import android.os.Build
+import android.os.CancellationSignal
 import android.text.method.LinkMovementMethod
+import android.util.Size
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.ScrollView
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.graphics.ColorUtils.calculateContrast
 import androidx.core.widget.ImageViewCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.model.AccountType
@@ -27,6 +36,9 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.ui.filter.ScrollingChip
 import org.totschnig.myexpenses.util.UiUtils.DateMode
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.Companion.lazyMap
+import org.totschnig.myexpenses.viewmodel.data.AttachmentInfo
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
@@ -156,6 +168,52 @@ fun View.configurePopupAnchor(
         }
     }
 }
+
+fun ImageView.setAttachmentInfo(info: AttachmentInfo) {
+    if (info.thumbnail != null) {
+        setImageBitmap(info.thumbnail)
+    } else if (info.typeIcon != null) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            setImageIcon(info.typeIcon)
+        } else {
+            CrashHandler.report(IllegalStateException())
+        }
+    } else {
+        scaleType = ImageView.ScaleType.CENTER
+        setImageResource(info.fallbackResource ?: 0)
+    }
+}
+
+fun attachmentInfoMap(context: Context): Map<Uri, AttachmentInfo> {
+    val contentResolver = context.contentResolver
+    return lazyMap { uri ->
+        contentResolver.getType(uri)?.let {
+            if (it.startsWith("image")) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    val size = UiUtils.dp2Px(48f, context.resources)
+                    val cancellationSignal = CancellationSignal()
+                    AttachmentInfo.of(
+                        contentResolver.loadThumbnail(
+                            uri,
+                            Size(size, size),
+                            cancellationSignal
+                        )
+                    )
+                } else {
+                    AttachmentInfo.of(R.drawable.ic_menu_camera)
+                }
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    val icon = contentResolver.getTypeInfo(it).icon
+                    AttachmentInfo.of(icon)
+                } else {
+                    AttachmentInfo.of(R.drawable.ic_menu_template)
+                }
+            }
+        } ?: AttachmentInfo.of(R.drawable.ic_menu_help)
+    }
+}
+
 
 tailrec fun Context.getActivity(): BaseActivity? = this as? BaseActivity
     ?: (this as? ContextWrapper)?.baseContext?.getActivity()
