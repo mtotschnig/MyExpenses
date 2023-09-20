@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/PHOTO_COMMAND" android:title="Photo" android:icon="@drawable/ic_menu_camera" />
-    <item android:id="@+id/ATTACH_COMMAND" android:title="Attachment" android:icon="@drawable/ic_attachment"/>
+    <item android:id="@+id/ATTACH_COMMAND" android:title="@string/import_source_file" android:icon="@drawable/ic_attachment"/>
 </menu>

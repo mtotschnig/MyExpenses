@@ -136,10 +136,6 @@ class PreferencesBackupRestoreFragment: BasePreferenceFragment() {
             }
             true
         }
-        matches(preference, PrefKey.HELP) -> {
-            preferenceActivity.startActionView(preference.summary.toString())
-            true
-        }
         matches(preference, PrefKey.RESTORE) -> {
             restore.launch(preference.intent)
             true

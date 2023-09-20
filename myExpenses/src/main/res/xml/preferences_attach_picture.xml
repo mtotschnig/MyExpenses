@@ -32,4 +32,16 @@
         my:min="0"
         my:showSeekBarValue="true"
         my:updatesContinuously="true" />
+    <SwitchPreferenceCompat
+        my:allowDividerAbove="true"
+        android:defaultValue="true"
+        android:title="Copy attachments to application folder"
+        android:key="@string/pref_copy_attachment_key"
+        android:summaryOff="Files are not copied, we only store links."
+        android:summaryOn="Files are copied to application folder." />
+    <Preference
+        android:key="@string/pref_help_key"
+        android:title="@string/menu_help"
+        android:summary="https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Data#pros-and-cons-of-copying-or-linking-attachments"
+        />
 </PreferenceScreen>

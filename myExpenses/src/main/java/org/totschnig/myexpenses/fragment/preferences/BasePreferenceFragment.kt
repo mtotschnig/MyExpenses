@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.fragment.preferences
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.annotation.CallSuper
@@ -10,7 +11,9 @@ import androidx.preference.MultiSelectListPreferenceDialogFragment2
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.Help
 import org.totschnig.myexpenses.activity.PreferenceActivity
+import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
@@ -189,6 +192,20 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         trackPreferenceClick(preference)
+        if(matches(preference, PrefKey.HELP)) {
+            preference.summary?.takeIf { it.isNotEmpty() }?.also {
+                preferenceActivity.startActionView(it.toString())
+            } ?: run {
+                startActivity(Intent(requireContext(), Help::class.java).apply {
+                    putExtra(HelpDialogFragment.KEY_CONTEXT, preferenceScreen.key)
+                    putExtra(
+                        HelpDialogFragment.KEY_TITLE,
+                        preferenceScreen.title
+                    )
+                })
+            }
+            return true
+        }
         return super.onPreferenceTreeClick(preference)
     }
 

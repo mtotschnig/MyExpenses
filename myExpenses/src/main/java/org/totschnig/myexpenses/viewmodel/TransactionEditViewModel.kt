@@ -218,8 +218,8 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             })
         }
 
-    private val shouldCopyExternalUris = true
-
+    private val shouldCopyExternalUris
+        get() = prefHandler.getBoolean(PrefKey.COPY_ATTACHMENT, true)
 
     private fun prepareUriForSave(uri: Uri): Uri {
         val pictureUriBase: String = PictureDirHelper.getPictureUriBase(false, getApplication())

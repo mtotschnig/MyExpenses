@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--suppress AndroidElementNotAllowed -->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:title="@string/title_webui">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:title="@string/title_webui" android:key="WebUI">
     <org.totschnig.myexpenses.preference.HeaderPreference />
     <Preference
         android:key="@string/pref_web_ui_key"

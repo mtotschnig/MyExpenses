@@ -171,7 +171,8 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     OPTIMIZE_PICTURE_QUALITY(R.string.pref_optimize_picture_quality_key),
     MANAGE_APP_DIR_FILES(R.string.pref_export_manage_files_key),
     ACCOUNT_PANEL_VISIBLE("account_panel_visible"),
-    BANKING_FINTS(R.string.pref_banking_fints_key)
+    BANKING_FINTS(R.string.pref_banking_fints_key),
+    COPY_ATTACHMENT(R.string.pref_copy_attachment_key)
     ;
 
     @Deprecated("")
