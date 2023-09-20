@@ -56,5 +56,7 @@
     <string name="data">נתונים</string>
     <string name="start">"התחל"</string>
     <string name="nickname">"כינוי"</string>
+    <string name="add_file_attachment">"צרף קובץ"</string>
+    <string name="take_photo">"צילום תמונה"</string>
 </resources>
 

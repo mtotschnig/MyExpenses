@@ -53,5 +53,7 @@
     <string name="data">"數據"</string>
     <string name="start">"開始"</string>
     <string name="nickname">"暱稱"</string>
+    <string name="add_file_attachment">"附加檔案"</string>
+    <string name="take_photo">"拍照"</string>
 </resources>
 

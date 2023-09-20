@@ -19,4 +19,5 @@
     </plurals>
     <string name="display_options_sort_list_by">"Ordenar por"</string>
      <string name="nickname">"Alcunha"</string>
+    <string name="add_file_attachment">"Anexar ficheiro"</string>
 </resources>

@@ -51,4 +51,6 @@
     <string name="data">"డేటా"</string>
     <string name="start">"ప్రారంభించు"</string>
     <string name="nickname">"మారుపేరు"</string>
+    <string name="add_file_attachment">"ఫైల్‌ను జోడించు"</string>
+    <string name="take_photo">"ఫోటో తీయండి"</string>
 </resources>

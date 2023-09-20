@@ -53,5 +53,7 @@
     <string name="data">"Dữ liệu"</string>
     <string name="start">"Bắt đầu"</string>
     <string name="nickname">"Biệt hiệu"</string>
+    <string name="add_file_attachment">"Đính kèm tệp"</string>
+    <string name="take_photo">"Chụp ảnh"</string>
 </resources>
 

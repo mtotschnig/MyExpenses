@@ -57,5 +57,7 @@
     <string name="data">"Podaci"</string>
     <string name="start">"Početak"</string>
     <string name="nickname">"Nadimak"</string>
+    <string name="add_file_attachment">"Priloži datoteku"</string>
+    <string name="take_photo">"Snimi fotografiju"</string>
 </resources>
 

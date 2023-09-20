@@ -53,5 +53,7 @@
     <string name="data">"Data"</string>
     <string name="start">"Bermula"</string>
     <string name="nickname">"Nama panggilan"</string>
+    <string name="add_file_attachment">"Lampirkan fail"</string>
+    <string name="take_photo">"Ambil foto"</string>
 </resources>
 

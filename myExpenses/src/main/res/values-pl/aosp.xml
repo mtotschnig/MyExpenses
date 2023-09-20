@@ -57,5 +57,7 @@
     <string name="data">"Dane"</string>
     <string name="start">"Start"</string>
     <string name="nickname">"Pseudonim"</string>
+    <string name="add_file_attachment">"Załącz plik"</string>
+    <string name="take_photo">"Zrób zdjęcie"</string>
 </resources>
 

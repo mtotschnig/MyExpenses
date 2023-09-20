@@ -51,4 +51,6 @@
     <string name="data">"දත්ත"</string>
     <string name="start">"ආරම්භ කරන්න"</string>
     <string name="nickname">"අපනාමය"</string>
+    <string name="add_file_attachment">"ගොනුව අමුණන්න"</string>
+    <string name="take_photo">"ඡායාරූපය ගන්න"</string>
 </resources>

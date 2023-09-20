@@ -56,5 +56,7 @@
     <string name="data">"Date"</string>
     <string name="start">"Start"</string>
     <string name="nickname">"Pseudonim"</string>
+    <string name="add_file_attachment">"Ataşaţi un fişier"</string>
+    <string name="take_photo">"Fotografiați"</string>
 </resources>
 

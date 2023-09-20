@@ -57,5 +57,7 @@
     <string name="data">"Data"</string>
     <string name="start">"Spustit"</string>
     <string name="nickname">"Přezdívka"</string>
+    <string name="add_file_attachment">"Přiložit soubor"</string>
+    <string name="take_photo">"Vyfotit"</string>
 </resources>
 

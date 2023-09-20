@@ -57,5 +57,7 @@
     <string name="data">"Данные"</string>
     <string name="start">"Старт"</string>
     <string name="nickname">"Псевдоним"</string>
+    <string name="add_file_attachment">"Прикрепить файл"</string>
+    <string name="take_photo">"Сфотографировать"</string>
 </resources>
 

@@ -51,4 +51,6 @@
     <string name="data">"Gegevens"</string>
     <string name="start">"Starten"</string>
     <string name="nickname">"Bijnaam"</string>
+    <string name="add_file_attachment">"Bestand bijvoegen"</string>
+    <string name="take_photo">"Foto maken"</string>
 </resources>

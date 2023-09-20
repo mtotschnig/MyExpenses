@@ -57,5 +57,7 @@
     <string name="data">"Дані"</string>
     <string name="start">"Почати"</string>
     <string name="nickname">"Псевдонім"</string>
+    <string name="add_file_attachment">"Вкласти файл"</string>
+    <string name="take_photo">"Зробити фото"</string>
 </resources>
 

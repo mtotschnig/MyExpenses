@@ -55,4 +55,6 @@
     <string name="data">"Dades"</string>
     <string name="start">"Inicia"</string>
     <string name="nickname">"Àlies"</string>
+    <string name="add_file_attachment">"Adjunta un fitxer"</string>
+    <string name="take_photo">"Fes una foto"</string>
 </resources>

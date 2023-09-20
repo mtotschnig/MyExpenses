@@ -55,5 +55,7 @@
     <string name="data">"Adatok"</string>
     <string name="start">"Kezdés"</string>
     <string name="nickname">"Becenév"</string>
+    <string name="add_file_attachment">"Fájl csatolása"</string>
+    <string name="take_photo">"Fotó készítése"</string>
 </resources>
 

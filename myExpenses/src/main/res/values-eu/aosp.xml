@@ -56,5 +56,7 @@
     <string name="data">"Datuak"</string>
     <string name="start">"Hasi"</string>
     <string name="nickname">"Goitizena"</string>
+    <string name="add_file_attachment">"Erantsi fitxategia"</string>
+    <string name="take_photo">"Atera argazkia"</string>
 </resources>
 

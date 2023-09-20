@@ -50,5 +50,7 @@
     <string name="display_options_sort_list_by">"ترتیب دیں بہ لحاظ"</string>
     <string name="data">"ڈیٹا"</string>
     <string name="start">"شروع کریں"</string>
-     <string name="nickname">"عرفی نام"</string>
+    <string name="nickname">"عرفی نام"</string>
+    <string name="add_file_attachment">"فائل منسلک کریں"</string>
+    <string name="take_photo">"تصویر لیں"</string>
 </resources>

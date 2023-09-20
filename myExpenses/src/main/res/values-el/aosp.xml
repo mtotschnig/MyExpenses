@@ -55,5 +55,7 @@
     <string name="data">"Δεδομένα"</string>
     <string name="start">"Έναρξη"</string>
     <string name="nickname">"Ψευδώνυμο"</string>
+    <string name="add_file_attachment">"Επισύναψη αρχείου"</string>
+    <string name="take_photo">"Λήψη φωτογραφίας"</string>
 </resources>
 

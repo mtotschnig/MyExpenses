@@ -53,5 +53,7 @@
     <string name="data">"ទិន្នន័យ"</string>
     <string name="start">"ចាប់ផ្ដើម"</string>
     <string name="nickname">"ឈ្មោះ​ហៅក្រៅ"</string>
+    <string name="add_file_attachment">"ភ្ជាប់​ឯកសារ"</string>
+    <string name="take_photo">"ថតរូប"</string>
 </resources>
 

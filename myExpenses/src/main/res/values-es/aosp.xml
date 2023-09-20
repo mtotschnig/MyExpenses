@@ -55,5 +55,7 @@
     <string name="data">"Datos"</string>
     <string name="start">"Iniciar"</string>
     <string name="nickname">"Apodo"</string>
+    <string name="add_file_attachment">"Adjuntar archivo"</string>
+    <string name="take_photo">"Hacer una foto"</string>
 </resources>
 

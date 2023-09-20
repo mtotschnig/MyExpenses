@@ -54,5 +54,7 @@
     <string name="data">"Veri"</string>
     <string name="start">"Başlat"</string>
     <string name="nickname">"Takma ad"</string>
+    <string name="add_file_attachment">"Dosya ekleyin"</string>
+    <string name="take_photo">"Fotoğraf çek"</string>
 </resources>
 

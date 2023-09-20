@@ -54,5 +54,7 @@
     <string name="data">"데이터"</string>
     <string name="start">"시작"</string>
     <string name="nickname">"닉네임"</string>
+    <string name="add_file_attachment">"파일 첨부"</string>
+    <string name="take_photo">"사진 찍기"</string>
 </resources>
 
