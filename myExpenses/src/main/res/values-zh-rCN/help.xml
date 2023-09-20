@@ -155,7 +155,7 @@
     <string name="form_DebtEdit_label_help_text">该标签允许在用于交易的表单上选择债务，以便将交易标记为首付款。</string>
     <string name="cab_debts_help_text">该子菜单允许定义与所选方相关联的新债务，并管理现有债务。</string>
     <string name="help_ManageTags_select_filter_info">轻按标签以进行选择或取消选择，以便对交易列表进行筛选。使用浮动操作按钮确认选择。</string>
-    <string name="help_ManageStaleImages_info">此屏幕允许您处理已删除交易中留下的图像文件。长按条目，以便删除它们，或将它们从(可能是内部)存储文件夹移至外部存储上的备份文件夹(Android/data/org.totschnig.mxexpenses/files/images.old) 。</string>
+    <string name="help_ManageStaleImages_info">此屏幕允许您处理已删除交易中留下的图像文件。长按条目，以便删除它们，或将它们从(可能是内部)存储文件夹移至外部存储上的备份文件夹(%s) 。</string>
     <string name="help_ManageCurrencies_new">对于自定义货币，您还需要定义一个标签和一个字母代码，标签显示在用于选择货币的菜单中，字母代码按照惯例由三个字符组成。</string>
     <string name="form_MethodEdit_numbered_help_text">当对一个方法进行编号时，映射到该方法的事务将有一个用于输入参考编号的附加字段。</string>
     <string name="menu_equivalent_amount_help_text">为了计算所有账户的总金额，将外币账户的交易乘以你为该账户设置的汇率。但你也可以通过为任意单个交易设置一个等效的金额来覆盖这个隐式计算的金额。</string>

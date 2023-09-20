@@ -193,9 +193,14 @@ fun ImageView.setAttachmentInfo(info: AttachmentInfo) {
     }
 }
 
-fun attachmentInfoMap(context: Context): Map<Uri, AttachmentInfo> {
+fun attachmentInfoMap(context: Context, withFile: Boolean = false): Map<Uri, AttachmentInfo> {
     val contentResolver = context.contentResolver
     return lazyMap { uri ->
+        val file = if (withFile) try {
+            PictureDirHelper.getFileForUri(context, uri)
+        } catch (e: IllegalArgumentException) {
+            null
+        } else null
         contentResolver.getType(uri)?.let {
             if (it.startsWith("image")) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -207,23 +212,23 @@ fun attachmentInfoMap(context: Context): Map<Uri, AttachmentInfo> {
                                 uri,
                                 Size(size, size),
                                 cancellationSignal
-                            )
+                            ), file
                         )
                     } catch (e: Exception) {
                         null
                     }
                 } else {
-                    AttachmentInfo.of(R.drawable.ic_menu_camera)
+                    AttachmentInfo.of(R.drawable.ic_menu_camera, file)
                 }
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     val icon = contentResolver.getTypeInfo(it).icon
-                    AttachmentInfo.of(icon)
+                    AttachmentInfo.of(icon, file)
                 } else {
-                    AttachmentInfo.of(R.drawable.ic_menu_template)
+                    AttachmentInfo.of(R.drawable.ic_menu_template, file)
                 }
             }
-        } ?: AttachmentInfo.of(com.google.android.material.R.drawable.mtrl_ic_error)
+        } ?: AttachmentInfo.of(com.google.android.material.R.drawable.mtrl_ic_error, file)
     }
 }
 

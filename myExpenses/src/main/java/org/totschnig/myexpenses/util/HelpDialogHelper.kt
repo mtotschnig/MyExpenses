@@ -22,7 +22,7 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
 
     @Throws(Resources.NotFoundException::class)
     fun getString(@StringRes id: Int, vararg formatArgs: Any?): String =
-        resources.getString(id, formatArgs)
+        resources.getString(id, *formatArgs)
 
     fun resolveTitle(
         item: String,
@@ -52,6 +52,7 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
                     add(getString(R.string.menu_BudgetActivity_rollover_edit))
                 }.toTypedArray())
             }
+            "help_ManageStaleImages_info" -> getString(R.string.help_ManageStaleImages_info, "Documents/MyExpenses.Attachments.Archive")
             else -> {
                 val resIdString = resString.replace('.', '_')
                 val arrayId = resolveArray(resIdString)
@@ -131,12 +132,8 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
             "<br><img src=\"ic_warning\"> ",
             getString(R.string.orphaned_transaction_info)
         ).joinToString("")
-        "menu_categories_export" -> {
-            getString(R.string.export_to_format, "QIF")
-        }
-        else -> {
-            getStringOrNull(resIdString) ?: throw Resources.NotFoundException(resIdString)
-        }
+        "menu_categories_export" ->  getString(R.string.export_to_format, "QIF")
+        else -> getStringOrNull(resIdString) ?: throw Resources.NotFoundException(resIdString)
     }
 
     fun getStringOrNull(resIdString: String) = resolveString(resIdString)

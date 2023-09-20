@@ -77,7 +77,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
     @Inject
     lateinit var homeCurrencyProvider: HomeCurrencyProvider
 
-    private lateinit var attachmentInfoMap: Map<Uri, AttachmentInfo>
+    private var attachmentInfoMap: Map<Uri, AttachmentInfo>? = null
 
     private val bankingFeature: BankingFeature
         get() = injector.bankingFeature() ?: object : BankingFeature {}
@@ -116,7 +116,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                     ).root.apply {
                         binding.AttachmentGroup.addView(this)
                         lifecycleScope.launch {
-                            setAttachmentInfo(withContext(Dispatchers.IO) { attachmentInfoMap.getValue(uri) })
+                            setAttachmentInfo(withContext(Dispatchers.IO) { attachmentInfoMap!!.getValue(uri) })
                         }
                         setOnClickListener {
                             imageViewIntentProvider.startViewAction(requireActivity(), uri)
@@ -334,6 +334,11 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
 
     private fun formatCurrencyAbs(money: Money?): String {
         return currencyFormatter.formatCurrency(money!!.amountMajor.abs(), money.currencyUnit)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        attachmentInfoMap = null
     }
 
     companion object {

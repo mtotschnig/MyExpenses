@@ -58,14 +58,19 @@ class StaleImagesList : ContextualActionBarFragment(), LoaderManager.LoaderCallb
     @Inject
     lateinit var imageViewIntentProvider: ImageViewIntentProvider
 
-    private lateinit var attachmentInfoMap: Map<Uri, AttachmentInfo>
+    private var attachmentInfoMap: Map<Uri, AttachmentInfo>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val appComponent = (requireActivity().application as MyApplication).appComponent
         appComponent.inject(this)
         appComponent.inject(viewModel)
-        attachmentInfoMap = attachmentInfoMap(requireContext())
+        attachmentInfoMap = attachmentInfoMap(requireContext(), true)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        attachmentInfoMap = null
     }
 
     override fun dispatchCommandMultiple(
@@ -139,7 +144,7 @@ class StaleImagesList : ContextualActionBarFragment(), LoaderManager.LoaderCallb
                     return
                 }
                 lifecycleScope.launch {
-                    v.setAttachmentInfo(withContext(Dispatchers.IO) { attachmentInfoMap.getValue(Uri.parse(value)) })
+                    v.setAttachmentInfo(withContext(Dispatchers.IO) { attachmentInfoMap!!.getValue(Uri.parse(value)) })
                 }
                 v.tag = value
                 v.contentDescription = value
@@ -147,8 +152,10 @@ class StaleImagesList : ContextualActionBarFragment(), LoaderManager.LoaderCallb
         }
         lv.onItemClickListener =
             AdapterView.OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
-                (requireActivity() as ProtectedFragmentActivity).showSnackBar( //TODO Strict Mode Violation
-                    getFileForUri(requireContext(), uriAtPosition(position)).path
+                (requireActivity() as ProtectedFragmentActivity).showSnackBar(
+                    uriAtPosition(position).let {
+                        attachmentInfoMap!!.getValue(it).file?.path ?: it.toString()
+                    }
                 )
             }
         LoaderManager.getInstance(this).initLoader(0, null, this)

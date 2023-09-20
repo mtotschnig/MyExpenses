@@ -20,5 +20,5 @@
         android:icon="@drawable/ic_menu_help"
         android:orderInCategory="50"
         android:title="@string/menu_help"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 </menu>
