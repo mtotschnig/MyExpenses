@@ -15,9 +15,11 @@
 package org.totschnig.myexpenses.activity
 
 import android.app.NotificationManager
+import android.content.ClipData
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
 import android.database.ContentObserver
 import android.net.Uri
 import android.os.Bundle
@@ -474,7 +476,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
             if (uri != null) {
                 setDirty()
-                viewModel.addAttachmentUri(uri)
+                viewModel.addAttachmentUris(uri)
             }
         }
 
@@ -749,7 +751,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             }
         }
         intent.getParcelableExtra<Uri>(KEY_PICTURE_URI)?.let {
-            viewModel.addAttachmentUri(it)
+            viewModel.addAttachmentUris(it)
         }
         if (!intent.hasExtra(KEY_CACHED_DATA)) {
             amountInput.type = intent.getBooleanExtra(KEY_INCOME, false)
@@ -789,6 +791,15 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             transaction.amount = cached.amount
             transaction.originalAmount = cached.originalAmount
             transaction.equivalentAmount = cached.equivalentAmount
+            intent.clipData?.let {
+                viewModel.addAttachmentUris(
+                    *buildList {
+                        for (i in 0 until it.itemCount) {
+                            add(it.getItemAt(i).uri)
+                        }
+                    }.toTypedArray()
+                )
+            }
             setDirty()
         } else {
             intent.getLongExtra(KEY_DATE, 0).takeIf { it != 0L }?.let {
@@ -1186,7 +1197,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
                 val result = CropImage.getActivityResult(intent)
                 if (resultCode == RESULT_OK) {
-                    viewModel.addAttachmentUri(result.uri)
+                    viewModel.addAttachmentUris(result.uri)
                     setDirty()
                     viewModel.cleanupOrigFile(result)
                 } else {
@@ -1284,6 +1295,17 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     }
                 }
                 putExtra(KEY_CREATE_TEMPLATE, createTemplate)
+                val attachments = viewModel.attachmentUris.value
+                if (attachments.size > 0) {
+                    clipData = ClipData.newRawUri("Attachments", attachments.first()).apply {
+                        if (attachments.size > 1) {
+                            attachments.subList(1, attachments.size).forEach {
+                                addItem(ClipData.Item(it))
+                            }
+                        }
+                    }
+                    flags = FLAG_GRANT_READ_URI_PERMISSION
+                }
             }
             finish()
             startActivity(restartIntent)

@@ -16,12 +16,10 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
@@ -29,7 +27,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -88,7 +85,6 @@ import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.io.getFileExtension
 import org.totschnig.myexpenses.util.io.getNameWithoutExtension
 import org.totschnig.myexpenses.viewmodel.data.Account
-import org.totschnig.myexpenses.viewmodel.data.AttachmentInfo
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import timber.log.Timber
 import java.io.IOException
@@ -482,7 +478,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             emit(pair.first)
             pair.second?.takeIf { it.size > 0 }?.let { updateTags(it, false) }
             if (task == InstantiationTask.TRANSACTION) {
-                savedStateHandle[KEY_ATTACHMENT_URIS] = repository.loadAttachments(transactionId)
+                addAttachmentUris(*repository.loadAttachments(transactionId).toTypedArray())
             }
         } ?: run {
             emit(null)
@@ -561,10 +557,10 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     val attachmentUris: StateFlow<ArrayList<Uri>> =
         savedStateHandle.getStateFlow(KEY_ATTACHMENT_URIS, ArrayList())
 
-    fun addAttachmentUri(uri: Uri) {
+    fun addAttachmentUris(vararg uris: Uri) {
         savedStateHandle[KEY_ATTACHMENT_URIS] = ArrayList<Uri>().apply {
             addAll(attachmentUris.value)
-            add(uri)
+            addAll(uris)
         }
     }
 
