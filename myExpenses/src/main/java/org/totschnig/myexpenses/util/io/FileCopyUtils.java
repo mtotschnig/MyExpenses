@@ -33,7 +33,7 @@ public class FileCopyUtils {
   /**
    * copy src uri to dest uri
    */
-  public static void copy(ContentResolver contentResolver,  Uri src, Uri dest) throws IOException {
+  public static void copy(ContentResolver contentResolver, @NonNull Uri src, @NonNull Uri dest) throws IOException {
     try (InputStream input = contentResolver.openInputStream(src);
          OutputStream output = contentResolver.openOutputStream(dest)) {
       if (input == null) {

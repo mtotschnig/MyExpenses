@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.ATTACHMENTS_URI
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.util.PictureDirHelper
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import java.io.IOException
 
@@ -59,6 +60,11 @@ fun Repository.onAttachmentDelete(uri: Uri) {
         registerAsStale(uri)
     } else {
         Timber.d("found externally linked uri ($uri), need to release permission")
-        contentResolver.releasePersistableUriPermission(uri,  Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        try {
+            contentResolver.releasePersistableUriPermission(uri,  Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        } catch (e: SecurityException) {
+            //we had a URI without a permission. This should not happen
+            CrashHandler.report(e)
+        }
     }
 }

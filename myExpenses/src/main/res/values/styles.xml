@@ -374,6 +374,18 @@
     </style>
 
     <style name="AttachmentStyle">
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+    </style>
+    <style name="AttachmentStyle.Selectable">
+        <item name="strokeWidth">4dp</item>
+        <item name="strokeColor">#FF888888</item>
         <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+    <style name="AttachmentStyle.MultipleChoice">
+        <item name="strokeWidth">8dp</item>
+        <item name="strokeColor">@color/attachment_multiple_choice_stroke_color</item>
+        <item name="android:background">?android:attr/activatedBackgroundIndicator</item>
     </style>
 </resources>

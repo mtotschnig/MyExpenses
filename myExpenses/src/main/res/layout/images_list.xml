@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -14,20 +13,13 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/grid"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-  <GridView
-      android:id="@+id/grid"
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1"
-      android:columnWidth="100dp"
-      android:numColumns="auto_fit"
-      android:verticalSpacing="10dp"
-      android:horizontalSpacing="10dp"
-      android:stretchMode="columnWidth"
-      android:gravity="center"
-      />
-</LinearLayout>
+    android:layout_marginHorizontal="24dp"
+    android:columnWidth="60dp"
+    android:gravity="center"
+    android:numColumns="auto_fit"
+    android:stretchMode="columnWidth"
+    android:verticalSpacing="10dp" />

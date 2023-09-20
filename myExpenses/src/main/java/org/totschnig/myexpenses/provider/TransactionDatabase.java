@@ -340,7 +340,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
   private static final String STALE_URIS_CREATE =
       "CREATE TABLE " + TABLE_STALE_URIS
-          + " ( " + KEY_PICTURE_URI + " text);";
+          + " ( " + KEY_PICTURE_URI + " text not null unique);";
 
   private static final String ACCOUNTS_TRIGGER_CREATE =
       "CREATE TRIGGER sort_key_default " +

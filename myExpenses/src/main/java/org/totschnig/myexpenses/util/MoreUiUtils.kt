@@ -44,7 +44,11 @@ import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
-fun <T> ChipGroup.addChipsBulk(chips: Iterable<T>, closeFunction: ((T) -> Unit)? = null, prettyPrint: (T) -> CharSequence = { it.toString() }) {
+fun <T> ChipGroup.addChipsBulk(
+    chips: Iterable<T>,
+    closeFunction: ((T) -> Unit)? = null,
+    prettyPrint: (T) -> CharSequence = { it.toString() }
+) {
     removeAllViews()
     for (chip in chips) {
         addView(ScrollingChip(context).also { scrollingChip ->
@@ -95,6 +99,7 @@ fun getDateMode(accountType: AccountType?, prefHandler: PrefHandler) = when {
     (accountType == null || accountType != AccountType.CASH) &&
             prefHandler.getBoolean(PrefKey.TRANSACTION_WITH_VALUE_DATE, false)
     -> DateMode.BOOKING_VALUE
+
     prefHandler.getBoolean(PrefKey.TRANSACTION_WITH_TIME, true) -> DateMode.DATE_TIME
     else -> DateMode.DATE
 }
@@ -121,12 +126,14 @@ fun dateTimeFormatterLegacy(account: PageAccount, prefHandler: PrefHandler, cont
                 it to if (is24HourFormat) 3f else 4.6f
             }
         }
+
         Grouping.MONTH ->
             if (prefHandler.getString(PrefKey.GROUP_MONTH_STARTS, "1")!!.toInt() == 1) {
                 SimpleDateFormat("dd", Utils.localeFromContext(context)) to 2f
             } else {
                 Utils.localizedYearLessDateFormat(context) to 3f
             }
+
         Grouping.WEEK -> SimpleDateFormat("EEE", Utils.localeFromContext(context)) to 2f
         Grouping.YEAR -> Utils.localizedYearLessDateFormat(context) to 3f
         Grouping.NONE -> Utils.ensureDateFormatWithShortYear(context) to 4.6f
@@ -151,9 +158,11 @@ fun View.configurePopupAnchor(
     infoText: CharSequence
 ) {
     setOnClickListener {
-        val host = context.getActivity() ?: throw java.lang.IllegalStateException("BaseActivity expected")
+        val host =
+            context.getActivity() ?: throw java.lang.IllegalStateException("BaseActivity expected")
         host.hideKeyboard()
-        val infoTextView = LayoutInflater.from(host).inflate(R.layout.textview_info, null) as TextView
+        val infoTextView =
+            LayoutInflater.from(host).inflate(R.layout.textview_info, null) as TextView
         PopupWindow(infoTextView).apply {
             isOutsideTouchable = true
             isFocusable = true
@@ -192,13 +201,17 @@ fun attachmentInfoMap(context: Context): Map<Uri, AttachmentInfo> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     val size = UiUtils.dp2Px(48f, context.resources)
                     val cancellationSignal = CancellationSignal()
-                    AttachmentInfo.of(
-                        contentResolver.loadThumbnail(
-                            uri,
-                            Size(size, size),
-                            cancellationSignal
+                    try {
+                        AttachmentInfo.of(
+                            contentResolver.loadThumbnail(
+                                uri,
+                                Size(size, size),
+                                cancellationSignal
+                            )
                         )
-                    )
+                    } catch (e: Exception) {
+                        null
+                    }
                 } else {
                     AttachmentInfo.of(R.drawable.ic_menu_camera)
                 }
@@ -210,7 +223,7 @@ fun attachmentInfoMap(context: Context): Map<Uri, AttachmentInfo> {
                     AttachmentInfo.of(R.drawable.ic_menu_template)
                 }
             }
-        } ?: AttachmentInfo.of(R.drawable.ic_menu_help)
+        } ?: AttachmentInfo.of(com.google.android.material.R.drawable.mtrl_ic_error)
     }
 }
 
