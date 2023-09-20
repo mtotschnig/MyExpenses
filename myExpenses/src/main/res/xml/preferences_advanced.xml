@@ -22,6 +22,12 @@
         android:summary="@string/pref_custom_decimal_format_summary"
         android:title="@string/date_format" />
 
+    <EditTextPreference
+        android:defaultValue="@string/default_attachment_mime_types"
+        android:key="@string/pref_attachment_mime_types_key"
+        android:title="@string/pref_attachment_mime_types_title"
+        my:useSimpleSummaryProvider="true" />
+
     <PreferenceCategory
         android:key="@string/pref_planner_advanced_key"
         android:title="@string/planner_notification_channel_name">

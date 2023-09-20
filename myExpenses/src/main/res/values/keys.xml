@@ -125,6 +125,8 @@
     <string name="pref_auto_backup_unencrypted_info_key">auto_backup_unencrypted_info</string>
     <string name="pref_banking_fints_key">banking_fints</string>
     <string name="pref_copy_attachment_key">copy_attachment</string>
+    <string name="pref_attachment_mime_types_key">attachment_mime_types</string>
+    <string name="default_attachment_mime_types">image/*,application/pdf</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
     <string-array name="additional_credits">

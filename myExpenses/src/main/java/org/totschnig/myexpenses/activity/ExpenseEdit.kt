@@ -455,31 +455,43 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             updateDateLink()
         }
         rootBinding.TagRow.bindListener()
-        rootBinding.newAttachment.setOnClickListener {
-            showPicturePopupMenu(it, R.menu.create_attachment_options) { item ->
+        rootBinding.newAttachment.setOnClickListener { view ->
+            showPicturePopupMenu(view, R.menu.create_attachment_options) { item ->
+                val types = prefHandler.requireString(
+                    PrefKey.ATTACHMENT_MIME_TYPES,
+                    getString(R.string.default_attachment_mime_types)
+                ).split(',').map { it.trim() }.toTypedArray()
                 when (item.itemId) {
                     R.id.PHOTO_COMMAND -> startMediaChooserDo()
-                    R.id.ATTACH_COMMAND -> pickAttachment.launch(arrayOf("image/*", "application/pdf"))
+                    R.id.ATTACH_COMMAND -> pickAttachment.launch(types)
                 }
                 true
             }
         }
     }
 
-    private val pickAttachment: ActivityResultLauncher<Array<String>> = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-        if (uri != null) {
-            setDirty()
-            viewModel.addAttachmentUri(uri)
+    private val pickAttachment: ActivityResultLauncher<Array<String>> =
+        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+            if (uri != null) {
+                setDirty()
+                viewModel.addAttachmentUri(uri)
+            }
         }
-    }
 
     private fun showAttachments(uris: List<Pair<Uri, AttachmentInfo>>) {
         rootBinding.AttachmentGroup.removeViews(0, rootBinding.AttachmentGroup.childCount - 1)
 
         uris.forEach { (uri, info) ->
-            AttachmentItemBinding.inflate(layoutInflater, rootBinding.AttachmentGroup, false).root.apply {
+            AttachmentItemBinding.inflate(
+                layoutInflater,
+                rootBinding.AttachmentGroup,
+                false
+            ).root.apply {
 
-                rootBinding.AttachmentGroup.addView(this, rootBinding.AttachmentGroup.childCount - 1)
+                rootBinding.AttachmentGroup.addView(
+                    this,
+                    rootBinding.AttachmentGroup.childCount - 1
+                )
 
                 setAttachmentInfo(info)
 
@@ -488,6 +500,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                         when (item.itemId) {
                             R.id.VIEW_COMMAND ->
                                 imageViewIntentProvider.startViewAction(this@ExpenseEdit, uri)
+
                             R.id.DELETE_COMMAND -> {
                                 setDirty()
                                 viewModel.removeAttachmentUri(uri)
@@ -564,10 +577,18 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.attachmentUris
-                    .map { list -> list.map { it to withContext(Dispatchers.IO) { attachmentInfoMap.getValue(it) } } }
+                    .map { list ->
+                        list.map {
+                            it to withContext(Dispatchers.IO) {
+                                attachmentInfoMap.getValue(
+                                    it
+                                )
+                            }
+                        }
+                    }
                     .collect {
-                    showAttachments(it)
-                }
+                        showAttachments(it)
+                    }
             }
         }
     }
