@@ -439,7 +439,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         val oldMode = prefHandler.getBoolean(PrefKey.OCR, false)
         val newMode = !oldMode
         if (newMode) {
-            contribFeatureRequested(ContribFeature.OCR)
+            contribFeatureRequested(ContribFeature.OCR, false)
         } else {
             prefHandler.putBoolean(PrefKey.OCR, false)
             updateFab()
