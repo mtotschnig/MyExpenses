@@ -439,7 +439,6 @@
     <string name="import_accounts_none">Geen accounts geïmporteerd</string>
     <string name="search_date">Zoek op datum</string>
     <string name="before">voor %s</string>
-    <string name="menu_delete_picture">Verwijder foto</string>
     <string name="menu_distribution_aggreate">Verzamel uitgaven en inkomsten</string>
     <string name="folder_name">Mapnaam</string>
     <string name="menu_undelete_transaction">Verwijderen ongedaan maken</string>
@@ -581,7 +580,6 @@
     <string name="budget_exceeded_error_1_1">Alles behalve %s van uw budget is toegewezen aan andere categorieën.</string>
     <string name="pref_sync_wifi_only_summary">Synchroniseer alleen bij wifi</string>
     <string name="between_and">tussen %1$s en %2$s</string>
-    <string name="menu_view_picture">Bekijk foto</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d records zijn verwijderd.</string>
     <string name="synchronization_none">Geen synchronisatie</string>
     <string name="dialog_confirm_sync_remove_backend">Externe backend %s wordt verwijderd. Dit heeft geen invloed op gegevens die lokaal of op afstand zijn opgeslagen, maar de synchronisatiestatus gaat verloren.</string>
@@ -681,7 +679,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Aankoop mislukt of geannuleerd.</string>
     <string name="restore_not_possible_target_calendar_missing">De kalender %s die is ingesteld in het back-uparchief bestaat niet lokaal. Herstel is afgebroken.</string>
     <string name="restore_not_possible_local_calendar_missing">De huidige planningskalender is niet beschikbaar.</string>
-    <string name="menu_change_picture">Voeg een andere foto toe</string>
     <string name="pref_manage_stale_images_summary">Beheer foto\'s die zijn overgebleven van verwijderde transacties</string>
     <string name="transaction_deleted">Transactie is verwijderd</string>
     <string name="account_deleted">Account is verwijderd</string>

@@ -463,9 +463,6 @@
     <string name="restore_calendar_handling_ignore">Nie przywracaj planów</string>
     <string name="restore_not_possible_target_calendar_missing">Kalendarz %s ustawiony w archiwum kopii zapasowej nie istnieje lokalnie. Przywracanie zostało przerwane.</string>
     <string name="restore_not_possible_local_calendar_missing">Obecny kalendarz planowania nie jest dostępny.</string>
-    <string name="menu_view_picture">Obejrzyj obrazek</string>
-    <string name="menu_delete_picture">Usuń obrazek</string>
-    <string name="menu_change_picture">Załącz inny obrazek</string>
     <string name="menu_distribution_show_pie_char">Pokaż wykres kołowy</string>
     <string name="menu_distribution_aggreate">Łączne wydatki i dochody</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->

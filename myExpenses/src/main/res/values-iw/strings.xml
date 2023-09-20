@@ -473,9 +473,6 @@
     <string name="restore_calendar_handling_ignore">אל תשחזר תוכניות</string>
     <string name="restore_not_possible_target_calendar_missing">היומן %s המוגדר בארכיון הגיבוי אינו קיים באופן מקומי. השחזור בוטל.</string>
     <string name="restore_not_possible_local_calendar_missing">לוח התכנון הנוכחי אינו זמין.</string>
-    <string name="menu_view_picture">צפה בתמונה</string>
-    <string name="menu_delete_picture">מחק תמונה</string>
-    <string name="menu_change_picture">הצמד תמונה אחרת</string>
     <string name="menu_distribution_show_pie_char">הצג תרשים עוגה</string>
     <string name="menu_distribution_aggreate">הוצאות והכנסות מצטברות</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->

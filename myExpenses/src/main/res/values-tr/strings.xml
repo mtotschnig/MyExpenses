@@ -459,9 +459,6 @@
     <string name="restore_calendar_handling_ignore">Planlamaları geri alma</string>
     <string name="restore_not_possible_target_calendar_missing">Yedekleme arşivinde ayarlanan %s takvimi yerel olarak kullanılabilir değil. Geri yükleme iptal edildi.</string>
     <string name="restore_not_possible_local_calendar_missing">Güncel planlama takvimi mevcut değildir.</string>
-    <string name="menu_view_picture">Resmi görüntüle</string>
-    <string name="menu_delete_picture">Resmi sil</string>
-    <string name="menu_change_picture">Değişik bir resim ekle</string>
     <string name="menu_distribution_show_pie_char">Grafiği göster</string>
     <string name="menu_distribution_aggreate">Gelir ve harcamaları beraberleştir</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->

@@ -459,9 +459,6 @@
     <string name="restore_calendar_handling_ignore">Pläne nicht wiederherstellen</string>
     <string name="restore_not_possible_target_calendar_missing">Der in der Datensicherung festgelegte Kalender %s ist nicht lokal vorhanden. Wiederherstellung wurde abgebrochen.</string>
     <string name="restore_not_possible_local_calendar_missing">Der aktuell konfigurierte Kalender ist nicht vorhanden.</string>
-    <string name="menu_view_picture">Bild anzeigen</string>
-    <string name="menu_delete_picture">Bild löschen</string>
-    <string name="menu_change_picture">Anderes Bild anfügen</string>
     <string name="menu_distribution_show_pie_char">Tortendiagramm anzeigen</string>
     <string name="menu_distribution_aggreate">Ausgaben und Einnahmen zusammen zählen</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->

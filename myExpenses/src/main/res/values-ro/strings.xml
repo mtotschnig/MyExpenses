@@ -433,9 +433,6 @@
     <string name="restore_calendar_handling_ignore">Nu restaura scadenţe</string>
     <string name="restore_not_possible_target_calendar_missing">Calendarul  %s setat în arhiva de backup nu există la nivel local. Restaurare a fost abandonată.</string>
     <string name="restore_not_possible_local_calendar_missing">Calendarul curent de scadenţe nu este disponibil.</string>
-    <string name="menu_view_picture">Vezi imagine</string>
-    <string name="menu_delete_picture">Şterge imagine</string>
-    <string name="menu_change_picture">Atașați o imagine diferită</string>
     <string name="menu_distribution_show_pie_char">Afiseaza grafic pie</string>
     <string name="pref_manage_stale_images_summary">Gestionați imaginile rămase din tranzacțiile șterse</string>
     <string name="image_deleted">Poza a fost ștearsă</string>

@@ -116,9 +116,6 @@
     <string name="file_name">Filnavn</string>
     <string name="pref_manage_stale_images_title">Gamle bilder</string>
     <string name="menu_distribution_show_pie_char">Vis kakediagram</string>
-    <string name="menu_change_picture">Legg ved et annet bilde</string>
-    <string name="menu_delete_picture">Slett bilde</string>
-    <string name="menu_view_picture">Vis bilde</string>
     <string name="restore_calendar_handling_ignore">Ikke gjenopprett planer</string>
     <string name="import_source_file">Fil</string>
     <string name="comparison_operator_date_after">etter</string>

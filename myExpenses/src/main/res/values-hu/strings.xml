@@ -459,9 +459,6 @@
     <string name="restore_calendar_handling_ignore">Ne állítsa vissza a terveket</string>
     <string name="restore_not_possible_target_calendar_missing">A biztonsági mentési archívumban beállított %s naptár nem létezik helyileg. A visszaállítás megszakadt.</string>
     <string name="restore_not_possible_local_calendar_missing">A jelenlegi tervezőnaptár nem érhető el.</string>
-    <string name="menu_view_picture">Kép megtekintése</string>
-    <string name="menu_delete_picture">Kép törlése</string>
-    <string name="menu_change_picture">Csatoljon másik képet</string>
     <string name="menu_distribution_show_pie_char">Tortadiagram mutatása</string>
     <string name="menu_distribution_aggreate">Kiadások és bevételek összesítése</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->

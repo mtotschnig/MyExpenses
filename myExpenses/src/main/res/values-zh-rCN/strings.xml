@@ -452,9 +452,6 @@
     <string name="restore_calendar_handling_ignore">不要还原计划</string>
     <string name="restore_not_possible_target_calendar_missing">备份中设置的日历%s在本地不存在。还原动作已被中止。</string>
     <string name="restore_not_possible_local_calendar_missing">当前的收支计划日历无法使用。</string>
-    <string name="menu_view_picture">查看图片</string>
-    <string name="menu_delete_picture">删除图片</string>
-    <string name="menu_change_picture">附加其他图片</string>
     <string name="menu_distribution_show_pie_char">显示饼状图</string>
     <string name="menu_distribution_aggreate">汇总支出和收入</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->

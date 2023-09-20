@@ -459,9 +459,6 @@
     <string name="restore_calendar_handling_ignore">Не відновлювати плани</string>
     <string name="restore_not_possible_target_calendar_missing">Календар %s, визначений в резервній копії, не існує локально. Відновлення було перервано.</string>
     <string name="restore_not_possible_local_calendar_missing">Поточний календар планування недоступний.</string>
-    <string name="menu_view_picture">Переглянути зображення</string>
-    <string name="menu_delete_picture">Видалити зображення</string>
-    <string name="menu_change_picture">Прикріпити інше зображення</string>
     <string name="menu_distribution_show_pie_char">Показати кругову діаграму</string>
     <string name="menu_distribution_aggreate">Об\'єднати витрати та доходи</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->

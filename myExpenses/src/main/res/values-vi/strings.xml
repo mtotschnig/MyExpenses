@@ -443,9 +443,6 @@
     <string name="restore_calendar_handling_ignore">Không khôi phục các kế hoạch</string>
     <string name="restore_not_possible_target_calendar_missing">Lịch %s đặt trong bản sao lưu không tồn tại. Việc khôi phục đã bị ngừng.</string>
     <string name="restore_not_possible_local_calendar_missing">Lịch kế hoạch hiện tại không sẵn có.</string>
-    <string name="menu_view_picture">Xem ảnh</string>
-    <string name="menu_delete_picture">Xoá ảnh</string>
-    <string name="menu_change_picture">Đính kèm ảnh khác</string>
     <string name="menu_distribution_show_pie_char">Hiện biểu đồ tròn</string>
     <string name="menu_distribution_aggreate">Gộp thu và chi</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->

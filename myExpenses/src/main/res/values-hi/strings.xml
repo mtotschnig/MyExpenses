@@ -253,9 +253,6 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">के बाद</string>
     <string name="import_source_file">फ़ाइल</string>
-    <string name="menu_view_picture">तस्वीर देखें</string>
-    <string name="menu_delete_picture">चित्र हटाएं</string>
-    <string name="menu_change_picture">अलग तस्वीर संलग्न करें</string>
     <string name="file_name">फ़ाइल का नाम</string>
     <string name="folder_name">फोल्डर का नाम</string>
     <string name="pref_auto_backup_title">ऑटो बैकअप</string>

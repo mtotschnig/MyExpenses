@@ -461,9 +461,6 @@
     <string name="restore_calendar_handling_ignore">Non ripristinare i piani</string>
     <string name="restore_not_possible_target_calendar_missing">Il calendario %s dell\'archivio di backup non esiste localmente. Il ripristino è stato interrotto.</string>
     <string name="restore_not_possible_local_calendar_missing">Il calendario di pianificazione corrente non è disponibile.</string>
-    <string name="menu_view_picture">Visualizza l\'immagine</string>
-    <string name="menu_delete_picture">Elimina l\'immagine</string>
-    <string name="menu_change_picture">Allega un\'immagine diversa</string>
     <string name="menu_distribution_show_pie_char">Visualizza il grafico a torta</string>
     <string name="menu_distribution_aggreate">Aggrega redditi e spese</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->

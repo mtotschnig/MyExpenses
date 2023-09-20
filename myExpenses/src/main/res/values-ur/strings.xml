@@ -641,12 +641,9 @@
     <string name="restore_calendar_handling_ignore">منصوبوں کو بحال نہ کریں</string>
     <string name="restore_not_possible_target_calendar_missing">بیک اپ آرکائیو میں سیٹ کردہ کیلنڈر %s مقامی طور پر موجود نہیں ہے۔ بحالی کو روک دیا گیا ہے.</string>
     <string name="restore_not_possible_local_calendar_missing">موجودہ منصوبہ بندی کیلنڈر دستیاب نہیں ہے.</string>
-    <string name="menu_view_picture">تصویر دیکھیں</string>
-    <string name="menu_change_picture">مختلف تصویر منسلک کریں</string>
     <string name="menu_distribution_show_pie_char">پائی چارٹ دکھائیں</string>
     <string name="menu_distribution_aggreate">مجموعی اخراجات اور آمدنی</string>
     <string name="pref_manage_stale_images_title">باسی تصاویر</string>
-    <string name="menu_delete_picture">تصویر کو حذف کریں</string>
     <string name="menu_show_transactions">لین دین دکھائیں</string>
     <string name="cvs_import_set_first_line_as_header">کیا پہلی لائن کو ہیڈر لائن سمجھا جانا چاہئے؟</string>
     <string name="csv_import_delimiter_comma">کوما</string>

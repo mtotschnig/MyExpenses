@@ -36,6 +36,7 @@
     <string name="menu_search">Search</string>
     <!--https://android.googlesource.com/platform/packages/apps/UnifiedEmail  prefDialogTitle_removal_action -->
     <string name="default_action">"Default action"</string>
+    <string name="add_file_attachment">"Attach file"</string>
     <!-- packages/apps/Dialer/java/com/android/contacts/common /res/values/strings.xml -->
     <string name="full_name">Name</string>
     <string name="postal_country">Country</string>
@@ -44,6 +45,7 @@
     <string name="copy_text">Copy to clipboard</string>
     <string name="menu_export">Export</string>
     <string name="display_options_sort_list_by">Sort by</string>
+    <string name="take_photo">Take photo</string>
     <!--  packages/apps/DeskClock/res/values/strings.xml name="timer_stop" -->
     <string name="start">Start</string>
     <string name="stop">Stop</string>

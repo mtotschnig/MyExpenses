@@ -448,9 +448,6 @@
     <string name="restore_calendar_handling_ignore">Jangan pulihkan plan</string>
     <string name="restore_not_possible_target_calendar_missing">Kalendar %s ditetapkan dalam arkib sandar tidak wujud secara setempat. Pemulihan telah dihenti paksa.</string>
     <string name="restore_not_possible_local_calendar_missing">Kalendar perancangan semasa tidak tersedia.</string>
-    <string name="menu_view_picture">Lihat gambar</string>
-    <string name="menu_delete_picture">Padam gambar</string>
-    <string name="menu_change_picture">Lampir gambar lain</string>
     <string name="menu_distribution_show_pie_char">Tunjuk carta pai</string>
     <string name="menu_distribution_aggreate">Perbelanjaan dan pendapatan aggregat</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->

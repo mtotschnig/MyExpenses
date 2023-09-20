@@ -435,9 +435,6 @@
     <string name="restore_calendar_handling_ignore">Não restaurar os planos</string>
     <string name="restore_not_possible_target_calendar_missing">A agenda %s definida no arquivo de backup não existe localmente. A restauração foi cancelada.</string>
     <string name="restore_not_possible_local_calendar_missing">A agenda de planejamento atual não está disponível.</string>
-    <string name="menu_view_picture">Ver imagem</string>
-    <string name="menu_delete_picture">Excluir imagem</string>
-    <string name="menu_change_picture">Anexar uma imagem diferente</string>
     <string name="menu_distribution_show_pie_char">Exibir gráfico de pizza</string>
     <string name="menu_distribution_aggreate">Agregar despesas e receitas</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->

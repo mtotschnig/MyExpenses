@@ -628,9 +628,6 @@
     <string name="pref_manage_stale_images_summary">Upravljaj slikama koje su preostale od izbrisanih transakcija</string>
     <string name="pref_manage_stale_images_title">Stara slika</string>
     <string name="menu_distribution_aggreate">Kumuliraj troškove i prihode</string>
-    <string name="menu_change_picture">Priloži jednu drugu sliku</string>
-    <string name="menu_delete_picture">Izbriši sliku</string>
-    <string name="menu_view_picture">Prikaži sliku</string>
     <string name="licence_validation_premium">Premium funkcije su otključane.</string>
     <string name="dialog_title_warning_delete_category">Izbrisati kategoriju\?</string>
     <string name="dialog_contrib_usage_limit_split_templates">Tvoje trenutačno stanje licence (%1$s) dozvoljava stvaranje jednog predloška za višedjelne transakcije.</string>

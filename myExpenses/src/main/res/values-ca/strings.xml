@@ -432,7 +432,6 @@
     <string name="app_dir_not_compatible_with_nougat">L\'URL assignada per a còpies de seguretat i exportacions (%1$s) no té suport a Android Nougat. Seleccioneu un fitxer de nou.</string>
     <string name="search_status">Cerca estat</string>
     <string name="comparison_operator_between">entre</string>
-    <string name="menu_change_picture">Adjunta una imatge diferent</string>
     <string name="account_deleted">Compte eliminat</string>
     <string name="menu_distribution_show_pie_char">Mostra gràfic de sectors</string>
     <string name="mark_void_instead_of_delete">No eliminis la transacció, marca-la com a invàlida.</string>
@@ -554,7 +553,6 @@
     <string name="and">i</string>
     <string name="restore_calendar_handling_backup">Restaura projectes al calendari configurat a la còpia de seguretat, si existeix</string>
     <string name="restore_not_possible_local_calendar_missing">El calendari actual de planificació està indisponible.</string>
-    <string name="menu_view_picture">Veure imatge</string>
     <string name="image_deleted">Imatge eliminada</string>
     <string name="menu_undelete_transaction">Cancel·la l\'eliminació</string>
     <string name="io_error_unable_to_create_file">Impossible crear l\'arxiu %1$s a la carpeta %2$s</string>
@@ -617,7 +615,6 @@
     <string name="comparison_operator_lesser_than">menor que</string>
     <string name="comparison_operator_date_before">abans</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Compra fallida o cancel·lada.</string>
-    <string name="menu_delete_picture">Elimina imatge</string>
     <string name="menu_distribution_aggreate">Agrega despeses i impostos</string>
     <string name="restore_calendar_handling_ignore">No restauris projectes</string>
     <string name="pref_manage_stale_images_title">Magatzem d\'imatges</string>

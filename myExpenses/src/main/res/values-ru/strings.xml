@@ -472,9 +472,6 @@
     <string name="restore_calendar_handling_ignore">Не восстанавливайте планы </string>
     <string name="restore_not_possible_target_calendar_missing">Календарь %s, установленный в архиве резервных копий, не существует локально. Восстановление было прервано.</string>
     <string name="restore_not_possible_local_calendar_missing">Текущий календарь планирования недоступен.</string>
-    <string name="menu_view_picture">Просмотр изображения</string>
-    <string name="menu_delete_picture">Удалить изображение</string>
-    <string name="menu_change_picture">Прикрепить другое изображение</string>
     <string name="menu_distribution_show_pie_char">Показать круговую диаграмму</string>
     <string name="menu_distribution_aggreate">Объединить расходы и доходы</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->

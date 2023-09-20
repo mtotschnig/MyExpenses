@@ -455,9 +455,6 @@
     <string name="restore_calendar_handling_ignore">Ez berreskuratu planak</string>
     <string name="restore_not_possible_target_calendar_missing">Babeskopian ezarritako %s egutegia ez dago zure gailuan. Berreskuratzea bertan behera utzi da.</string>
     <string name="restore_not_possible_local_calendar_missing">Oraingo planifikazio egutegia ez dago erabilgarri.</string>
-    <string name="menu_view_picture">Ikusi irudia</string>
-    <string name="menu_delete_picture">Ezabatu irudia</string>
-    <string name="menu_change_picture">Erantsi beste irudi bat</string>
     <string name="menu_distribution_show_pie_char">Erakutsi tarta diagrama</string>
     <string name="menu_distribution_aggreate">Agregatu gatuak eta diru-sarrerak</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->

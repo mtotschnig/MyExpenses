@@ -355,9 +355,6 @@
     <string name="import_source_file">فایل</string>
     <string name="restore_calendar_handling_ignore">برنامه‌ها را بازیابی نکن</string>
     <string name="restore_not_possible_local_calendar_missing">تقویم برنامه‌ریزی فعلی در دسترس نیست.</string>
-    <string name="menu_view_picture">دیدن تصویر</string>
-    <string name="menu_delete_picture">حذف تصویر</string>
-    <string name="menu_change_picture">ضمیمه کردن تصویری دیگر</string>
     <string name="menu_distribution_show_pie_char">نمایش نمودار دایره‌ای</string>
     <string name="menu_distribution_aggreate">مجموع دخل و خرج</string>
     <string name="image_deleted">تصویر حذف شده‌است</string>

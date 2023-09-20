@@ -487,9 +487,6 @@
     <string name="restore_calendar_handling_ignore">لا تستعيد الخطط</string>
     <string name="restore_not_possible_target_calendar_missing">التقويم %s المعين في أرشيف النسخ الاحتياطي غير موجود محلياً. تم إحباط عملية الاستعادة.</string>
     <string name="restore_not_possible_local_calendar_missing">تقويم التخطيط الحالي غير متاح.</string>
-    <string name="menu_view_picture">أعرض الصورة</string>
-    <string name="menu_delete_picture">احذف الصورة</string>
-    <string name="menu_change_picture">أرفق صورة أخرى</string>
     <string name="menu_distribution_show_pie_char">أظهر التخطيط البياني</string>
     <string name="menu_distribution_aggreate">مجموع المصروفات والدخل</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->

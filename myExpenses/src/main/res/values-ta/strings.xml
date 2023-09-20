@@ -459,9 +459,6 @@
     <string name="restore_calendar_handling_ignore">திட்டங்களை மீட்டமைக்க வேண்டாம்</string>
     <string name="restore_not_possible_target_calendar_missing">காப்புப்பிரதியில் அமைக்கப்பட்டுள்ள நாட்காட்டி %s கருவியில் இல்லை. மீட்டெடுப்பு ரத்து செய்யப்பட்டது.</string>
     <string name="restore_not_possible_local_calendar_missing">தற்போதைய திட்டமிடல் நாட்காட்டி கிடைக்கவில்லை.</string>
-    <string name="menu_view_picture">படத்தை பார்</string>
-    <string name="menu_delete_picture">படத்தை நீக்கு</string>
-    <string name="menu_change_picture">வேறு படத்தை இணைக்கவும்</string>
     <string name="menu_distribution_show_pie_char">பை விளக்கப்படத்தை காட்டு</string>
     <string name="menu_distribution_aggreate">மொத்த செலவுகள் மற்றும் வருமானம்</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->

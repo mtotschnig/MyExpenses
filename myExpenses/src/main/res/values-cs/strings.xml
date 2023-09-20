@@ -473,9 +473,6 @@
     <string name="restore_calendar_handling_ignore">Neobnovovat plány</string>
     <string name="restore_not_possible_target_calendar_missing">Kalendář %s nastavený v záložním archivu lokálně neexistuje. Obnova byla přerušena.</string>
     <string name="restore_not_possible_local_calendar_missing">Aktuální plánovací kalendář není k dispozici.</string>
-    <string name="menu_view_picture">Zobrazit obrázek</string>
-    <string name="menu_delete_picture">Smazat obrázek</string>
-    <string name="menu_change_picture">Přiřadit jiný obrázek</string>
     <string name="menu_distribution_show_pie_char">Zobrazit výsečový graf</string>
     <string name="menu_distribution_aggreate">Agregovat výdaje a příjmy</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
