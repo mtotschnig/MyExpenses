@@ -237,7 +237,6 @@ abstract class TransactionDelegate<T : ITransaction>(
                     planButton.onClick()
                 }
             }
-            viewBinding.AttachmentsRow.visibility = View.GONE
         }
         if (!isSplitPart) {
             //we set adapter even if spinner is not immediately visible, since it might become visible
@@ -255,6 +254,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         }
         if (isSplitPart || isTemplate) {
             viewBinding.DateTimeRow.visibility = View.GONE
+            viewBinding.AttachmentsRow.visibility = View.GONE
         }
 
         createAdapters(withTypeSpinner, withAutoFill)
