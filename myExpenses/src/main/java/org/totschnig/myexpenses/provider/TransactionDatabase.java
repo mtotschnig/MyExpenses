@@ -28,6 +28,9 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.BANK_C
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PARTY_HIERARCHY_TRIGGER;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_UNIQUE_INDEX;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_CAT_ID_INDEX;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_PAYEE_ID_INDEX;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_UUID_INDEX_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTION_ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
@@ -110,9 +113,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_ORIGINAL_CURRENCY + " text, "
           + KEY_EQUIVALENT_AMOUNT + " integer,  "
           + KEY_DEBT_ID + " integer references " + TABLE_DEBTS + "(" + KEY_ROWID + ") ON DELETE SET NULL);";
-
-  private static final String TRANSACTIONS_UUID_INDEX_CREATE = "CREATE UNIQUE INDEX transactions_account_uuid_index ON "
-      + TABLE_TRANSACTIONS + "(" + KEY_ACCOUNTID + "," + KEY_UUID + "," + KEY_STATUS + ")";
 
   public TransactionDatabase(@NonNull PrefHandler prefHandler) {
     super(prefHandler);
@@ -568,34 +568,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + buildChangeTriggerDefinitionForColumn(KEY_CR_STATUS) + ", "
           + buildChangeTriggerDefinitionForColumn(KEY_REFERENCE_NUMBER) + "); END;";
 
-  private static final String INCREASE_CATEGORY_USAGE_ACTION = " BEGIN UPDATE " + TABLE_CATEGORIES + " SET " + KEY_USAGES + " = " +
-      KEY_USAGES + " + 1, " + KEY_LAST_USED + " = strftime('%s', 'now')  WHERE " + KEY_ROWID +
-      " IN (new." + KEY_CATID + " , (SELECT " + KEY_PARENTID +
-      " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = new." + KEY_CATID + ")); END;";
-
-  private static final String INCREASE_CATEGORY_USAGE_INSERT_TRIGGER = "CREATE TRIGGER insert_increase_category_usage "
-      + "AFTER INSERT ON " + TABLE_TRANSACTIONS
-      + " WHEN new." + KEY_CATID + " IS NOT NULL AND new." + KEY_CATID + " != " + SPLIT_CATID + ""
-      + INCREASE_CATEGORY_USAGE_ACTION;
-
-  private static final String INCREASE_CATEGORY_USAGE_UPDATE_TRIGGER = "CREATE TRIGGER update_increase_category_usage "
-      + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
-      + " WHEN new." + KEY_CATID + " IS NOT NULL AND (old." + KEY_CATID + " IS NULL OR new." + KEY_CATID + " != old." + KEY_CATID + ")"
-      + INCREASE_CATEGORY_USAGE_ACTION;
-
-  private static final String INCREASE_ACCOUNT_USAGE_ACTION = " BEGIN UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_USAGES + " = " +
-      KEY_USAGES + " + 1, " + KEY_LAST_USED + " = strftime('%s', 'now')  WHERE " + KEY_ROWID +
-      " = new." + KEY_ACCOUNTID + "; END;";
-
-  private static final String INCREASE_ACCOUNT_USAGE_INSERT_TRIGGER = "CREATE TRIGGER insert_increase_account_usage "
-      + "AFTER INSERT ON " + TABLE_TRANSACTIONS
-      + " WHEN new." + KEY_PARENTID + " IS NULL"
-      + INCREASE_ACCOUNT_USAGE_ACTION;
-
-  private static final String INCREASE_ACCOUNT_USAGE_UPDATE_TRIGGER = "CREATE TRIGGER update_increase_account_usage "
-      + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
-      + " WHEN new." + KEY_PARENTID + " IS NULL AND new." + KEY_ACCOUNTID + " != old." + KEY_ACCOUNTID + " AND (old." + KEY_TRANSFER_ACCOUNT + " IS NULL OR new." + KEY_ACCOUNTID + " != old." + KEY_TRANSFER_ACCOUNT + ")"
-      + INCREASE_ACCOUNT_USAGE_ACTION;
 
   private static final String UPDATE_ACCOUNT_SYNC_NULL_TRIGGER = "CREATE TRIGGER update_account_sync_null "
       + "AFTER UPDATE ON " + TABLE_ACCOUNTS
@@ -740,17 +712,14 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(ACCOUNT_ATTRIBUTES_CREATE);
 
     //Index
-    db.execSQL("CREATE INDEX transactions_cat_id_index on " + TABLE_TRANSACTIONS + "(" + KEY_CATID + ")");
+    db.execSQL(TRANSACTIONS_CAT_ID_INDEX);
     db.execSQL("CREATE INDEX templates_cat_id_index on " + TABLE_TEMPLATES + "(" + KEY_CATID + ")");
-    db.execSQL("CREATE INDEX transactions_payee_id_index on " + TABLE_TRANSACTIONS + "(" + KEY_PAYEEID + ")");
+    db.execSQL(TRANSACTIONS_PAYEE_ID_INDEX);
     db.execSQL("CREATE INDEX templates_payee_id_index on " + TABLE_TEMPLATES + "(" + KEY_PAYEEID + ")");
 
     // Triggers
     createOrRefreshTransactionTriggers(db);
-    db.execSQL(INCREASE_CATEGORY_USAGE_INSERT_TRIGGER);
-    db.execSQL(INCREASE_CATEGORY_USAGE_UPDATE_TRIGGER);
-    db.execSQL(INCREASE_ACCOUNT_USAGE_INSERT_TRIGGER);
-    db.execSQL(INCREASE_ACCOUNT_USAGE_UPDATE_TRIGGER);
+    createOrRefreshTransactionUsageTriggers(db);
     createOrRefreshAccountTriggers(db);
     db.execSQL(SETTINGS_CREATE);
     //TODO evaluate if we should get rid of the split transaction category id

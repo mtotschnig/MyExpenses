@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BIC
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BLZ
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CONTEXT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
@@ -27,16 +28,20 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USER_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
@@ -181,9 +186,41 @@ CREATE TABLE $TABLE_ATTACHMENTS (
 );
 """
 
+private const val INCREASE_CATEGORY_USAGE_ACTION =
+    " BEGIN UPDATE $TABLE_CATEGORIES SET $KEY_USAGES = $KEY_USAGES + 1, $KEY_LAST_USED = strftime('%s', 'now')  WHERE $KEY_ROWID IN (new.$KEY_CATID , (SELECT $KEY_PARENTID FROM $TABLE_CATEGORIES WHERE $KEY_ROWID = new.$KEY_CATID)); END;"
+
+private val INCREASE_CATEGORY_USAGE_INSERT_TRIGGER =
+    "CREATE TRIGGER insert_increase_category_usage AFTER INSERT ON $TABLE_TRANSACTIONS WHEN new.$KEY_CATID IS NOT NULL AND new.$KEY_CATID != ${DatabaseConstants.SPLIT_CATID}$INCREASE_CATEGORY_USAGE_ACTION"
+
+private const val INCREASE_CATEGORY_USAGE_UPDATE_TRIGGER = "CREATE TRIGGER update_increase_category_usage AFTER UPDATE ON $TABLE_TRANSACTIONS WHEN new.$KEY_CATID IS NOT NULL AND (old.$KEY_CATID IS NULL OR new.$KEY_CATID != old.$KEY_CATID)$INCREASE_CATEGORY_USAGE_ACTION"
+
+private const val INCREASE_ACCOUNT_USAGE_ACTION =
+    " BEGIN UPDATE $TABLE_ACCOUNTS SET $KEY_USAGES = $KEY_USAGES + 1, $KEY_LAST_USED = strftime('%s', 'now')  WHERE $KEY_ROWID = new.$KEY_ACCOUNTID; END;"
+
+private const val INCREASE_ACCOUNT_USAGE_INSERT_TRIGGER =
+    "CREATE TRIGGER insert_increase_account_usage AFTER INSERT ON $TABLE_TRANSACTIONS WHEN new.$KEY_PARENTID IS NULL$INCREASE_ACCOUNT_USAGE_ACTION"
+
+private const val INCREASE_ACCOUNT_USAGE_UPDATE_TRIGGER =
+    "CREATE TRIGGER update_increase_account_usage AFTER UPDATE ON $TABLE_TRANSACTIONS WHEN new.$KEY_PARENTID IS NULL AND new.$KEY_ACCOUNTID != old.$KEY_ACCOUNTID AND (old.$KEY_TRANSFER_ACCOUNT IS NULL OR new.$KEY_ACCOUNTID != old.$KEY_TRANSFER_ACCOUNT)$INCREASE_ACCOUNT_USAGE_ACTION"
+
+const val TRANSACTIONS_UUID_INDEX_CREATE =
+    "CREATE UNIQUE INDEX transactions_account_uuid_index ON $TABLE_TRANSACTIONS($KEY_ACCOUNTID,$KEY_UUID,$KEY_STATUS)"
+
+const val TRANSACTIONS_CAT_ID_INDEX =
+    "CREATE INDEX transactions_cat_id_index on $TABLE_TRANSACTIONS($KEY_CATID)"
+
+const val TRANSACTIONS_PAYEE_ID_INDEX =
+    "CREATE INDEX transactions_payee_id_index on $TABLE_TRANSACTIONS($KEY_PAYEEID)"
 
 abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
     SupportSQLiteOpenHelper.Callback(DATABASE_VERSION) {
+
+    fun createOrRefreshTransactionUsageTriggers(db: SupportSQLiteDatabase) {
+        db.execSQL(INCREASE_CATEGORY_USAGE_INSERT_TRIGGER)
+        db.execSQL(INCREASE_CATEGORY_USAGE_UPDATE_TRIGGER)
+        db.execSQL(INCREASE_ACCOUNT_USAGE_INSERT_TRIGGER)
+        db.execSQL(INCREASE_ACCOUNT_USAGE_UPDATE_TRIGGER)
+    }
 
     fun upgradeTo117(db: SupportSQLiteDatabase) {
         migrateCurrency(db, "VEB", CurrencyEnum.VES)
@@ -458,9 +495,19 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
                 "equivalent_amount integer, " +
                 "debt_id integer references debts(_id) ON DELETE SET NULL)"
         )
-        execSQL("INSERT INTO transactions ( _id,comment,date,value_date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,equivalent_amount,debt_id) SELECT _id, comment, date, amount, cat_id, account_id, payee_id, transfer_peer, transfer_account, method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,equivalent_amount,debt_id FROM transactions_old"
+        execSQL(
+            "INSERT INTO transactions (" +
+                    "_id,comment,date,value_date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,equivalent_amount,debt_id) " +
+                    "SELECT " +
+                    "_id,comment,date,value_date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,equivalent_amount,debt_id FROM transactions_old"
         )
         execSQL("DROP TABLE transactions_old")
+        createOrRefreshTransactionUsageTriggers(this)
+        createOrRefreshTransactionDebtTriggers(this)
+        execSQL(ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE)
+        execSQL(TRANSACTIONS_UUID_INDEX_CREATE)
+        execSQL(TRANSACTIONS_CAT_ID_INDEX)
+        execSQL(TRANSACTIONS_PAYEE_ID_INDEX)
         execSQL("ALTER TABLE changes RENAME to changes_old")
         execSQL("CREATE TABLE changes (" +
                 "account_id integer not null references accounts(_id) ON DELETE CASCADE," +
@@ -484,7 +531,10 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
                 "number text)"
         )
         execSQL(
-            "INSERT INTO changes (account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, value_date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number) SELECT account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, value_date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number FROM changes_old"
+            "INSERT INTO changes (" +
+                    "account_id,type,sync_sequence_local,uuid,timestamp,parent_uuid,comment,date,value_date,amount,original_amount,original_currency,equivalent_amount,cat_id,payee_id,transfer_account,method_id,cr_status,number) " +
+                    "SELECT " +
+                    "account_id,type,sync_sequence_local,uuid,timestamp,parent_uuid,comment,date,value_date,amount,original_amount,original_currency,equivalent_amount,cat_id,payee_id,transfer_account,method_id,cr_status,number FROM changes_old"
         )
         execSQL("DROP TABLE changes_old")
         execSQL("ALTER TABLE stale_uris RENAME to stale_uris_old")
