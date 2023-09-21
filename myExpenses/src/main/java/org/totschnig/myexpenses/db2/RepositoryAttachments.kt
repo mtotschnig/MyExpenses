@@ -5,7 +5,6 @@ import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.TransactionProvider

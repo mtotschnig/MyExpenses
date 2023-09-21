@@ -558,10 +558,10 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         savedStateHandle.getStateFlow(KEY_ATTACHMENT_URIS, ArrayList())
 
     fun addAttachmentUris(vararg uris: Uri) {
-        savedStateHandle[KEY_ATTACHMENT_URIS] = ArrayList<Uri>().apply {
+        savedStateHandle[KEY_ATTACHMENT_URIS] = ArrayList(mutableSetOf<Uri>().apply {
             addAll(attachmentUris.value)
             addAll(uris)
-        }
+        })
     }
 
     fun removeAttachmentUri(uri: Uri) {
