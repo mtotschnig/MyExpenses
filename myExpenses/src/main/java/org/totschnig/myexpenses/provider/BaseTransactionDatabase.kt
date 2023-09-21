@@ -55,6 +55,12 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTRIBUTES
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import timber.log.Timber
 
 const val DATABASE_VERSION = 148
@@ -472,71 +478,87 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
                 insert("attachments", values)
             }
         }
-        execSQL("ALTER TABLE transactions RENAME to transactions_old")
-        execSQL("CREATE TABLE transactions(" +
-                "_id integer primary key autoincrement, " +
-                "comment text, " +
-                "date datetime not null, " +
-                "value_date datetime not null, " +
-                "amount integer not null, " +
-                "cat_id integer references categories(_id), " +
-                "account_id integer not null references accounts(_id) ON DELETE CASCADE, " +
-                "payee_id integer references payee(_id), " +
-                "transfer_peer integer references transactions(_id), " +
-                "transfer_account integer references accounts(_id)," +
-                "method_id integer references paymentmethods(_id)," +
-                "parent_id integer references transactions(_id) ON DELETE CASCADE, " +
-                "status integer default 0, " +
-                "cr_status text not null check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')) default 'RECONCILED', " +
-                "number text, " +
-                "uuid text, " +
-                "original_amount integer, " +
-                "original_currency text, " +
-                "equivalent_amount integer, " +
-                "debt_id integer references debts(_id) ON DELETE SET NULL)"
-        )
-        execSQL(
-            "INSERT INTO transactions (" +
-                    "_id,comment,date,value_date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,equivalent_amount,debt_id) " +
-                    "SELECT " +
-                    "_id,comment,date,value_date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,equivalent_amount,debt_id FROM transactions_old"
-        )
-        execSQL("DROP TABLE transactions_old")
-        createOrRefreshTransactionUsageTriggers(this)
-        createOrRefreshTransactionDebtTriggers(this)
-        execSQL(ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE)
-        execSQL(TRANSACTIONS_UUID_INDEX_CREATE)
-        execSQL(TRANSACTIONS_CAT_ID_INDEX)
-        execSQL(TRANSACTIONS_PAYEE_ID_INDEX)
-        execSQL("ALTER TABLE changes RENAME to changes_old")
-        execSQL("CREATE TABLE changes (" +
-                "account_id integer not null references accounts(_id) ON DELETE CASCADE," +
-                "type text not null check (type in ('created','updated','deleted','unsplit','metadata','link')), " +
-                "sync_sequence_local integer, " +
-                "uuid text not null, " +
-                "timestamp datetime DEFAULT (strftime('%s','now')), " +
-                "parent_uuid text, " +
-                "comment text, " +
-                "date datetime, " +
-                "value_date datetime, " +
-                "amount integer, " +
-                "original_amount integer, " +
-                "original_currency text, " +
-                "equivalent_amount integer, " +
-                "cat_id integer references categories(_id) ON DELETE SET NULL, " +
-                "payee_id integer references payee(_id) ON DELETE SET NULL, " +
-                "transfer_account integer references accounts(_id) ON DELETE SET NULL," +
-                "method_id integer references paymentmethods(_id) ON DELETE SET NULL," +
-                "cr_status text check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID'))," +
-                "number text)"
-        )
-        execSQL(
-            "INSERT INTO changes (" +
-                    "account_id,type,sync_sequence_local,uuid,timestamp,parent_uuid,comment,date,value_date,amount,original_amount,original_currency,equivalent_amount,cat_id,payee_id,transfer_account,method_id,cr_status,number) " +
-                    "SELECT " +
-                    "account_id,type,sync_sequence_local,uuid,timestamp,parent_uuid,comment,date,value_date,amount,original_amount,original_currency,equivalent_amount,cat_id,payee_id,transfer_account,method_id,cr_status,number FROM changes_old"
-        )
-        execSQL("DROP TABLE changes_old")
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE ) {
+            execSQL("ALTER TABLE transactions RENAME to transactions_old")
+            execSQL(
+                "CREATE TABLE transactions(" +
+                        "_id integer primary key autoincrement, " +
+                        "comment text, " +
+                        "date datetime not null, " +
+                        "value_date datetime not null, " +
+                        "amount integer not null, " +
+                        "cat_id integer references categories(_id), " +
+                        "account_id integer not null references accounts(_id) ON DELETE CASCADE, " +
+                        "payee_id integer references payee(_id), " +
+                        "transfer_peer integer references transactions(_id), " +
+                        "transfer_account integer references accounts(_id)," +
+                        "method_id integer references paymentmethods(_id)," +
+                        "parent_id integer references transactions(_id) ON DELETE CASCADE, " +
+                        "status integer default 0, " +
+                        "cr_status text not null check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')) default 'RECONCILED', " +
+                        "number text, " +
+                        "uuid text, " +
+                        "original_amount integer, " +
+                        "original_currency text, " +
+                        "equivalent_amount integer, " +
+                        "debt_id integer references debts(_id) ON DELETE SET NULL)"
+            )
+            execSQL(
+                "INSERT INTO transactions (" +
+                        "_id,comment,date,value_date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,equivalent_amount,debt_id) " +
+                        "SELECT " +
+                        "_id,comment,date,value_date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,equivalent_amount,debt_id FROM transactions_old"
+            )
+            execSQL("DROP TABLE transactions_old")
+            createOrRefreshTransactionUsageTriggers(this)
+            createOrRefreshTransactionDebtTriggers(this)
+            execSQL(ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE)
+            execSQL(TRANSACTIONS_UUID_INDEX_CREATE)
+            execSQL(TRANSACTIONS_CAT_ID_INDEX)
+            execSQL(TRANSACTIONS_PAYEE_ID_INDEX)
+            execSQL("ALTER TABLE changes RENAME to changes_old")
+            execSQL(
+                "CREATE TABLE changes (" +
+                        "account_id integer not null references accounts(_id) ON DELETE CASCADE," +
+                        "type text not null check (type in ('created','updated','deleted','unsplit','metadata','link')), " +
+                        "sync_sequence_local integer, " +
+                        "uuid text not null, " +
+                        "timestamp datetime DEFAULT (strftime('%s','now')), " +
+                        "parent_uuid text, " +
+                        "comment text, " +
+                        "date datetime, " +
+                        "value_date datetime, " +
+                        "amount integer, " +
+                        "original_amount integer, " +
+                        "original_currency text, " +
+                        "equivalent_amount integer, " +
+                        "cat_id integer references categories(_id) ON DELETE SET NULL, " +
+                        "payee_id integer references payee(_id) ON DELETE SET NULL, " +
+                        "transfer_account integer references accounts(_id) ON DELETE SET NULL," +
+                        "method_id integer references paymentmethods(_id) ON DELETE SET NULL," +
+                        "cr_status text check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID'))," +
+                        "number text)"
+            )
+            execSQL(
+                "INSERT INTO changes (" +
+                        "account_id,type,sync_sequence_local,uuid,timestamp,parent_uuid,comment,date,value_date,amount,original_amount,original_currency,equivalent_amount,cat_id,payee_id,transfer_account,method_id,cr_status,number) " +
+                        "SELECT " +
+                        "account_id,type,sync_sequence_local,uuid,timestamp,parent_uuid,comment,date,value_date,amount,original_amount,original_currency,equivalent_amount,cat_id,payee_id,transfer_account,method_id,cr_status,number FROM changes_old"
+            )
+            execSQL("DROP TABLE changes_old")
+        } else {
+            execSQL("DROP TRIGGER IF EXISTS insert_change_log")
+            execSQL("DROP TRIGGER IF EXISTS insert_after_update_change_log")
+            execSQL("DROP TRIGGER IF EXISTS update_change_log")
+            execSQL("DROP VIEW IF EXISTS $VIEW_COMMITTED")
+            execSQL("DROP VIEW IF EXISTS $VIEW_UNCOMMITTED")
+            execSQL("DROP VIEW IF EXISTS $VIEW_ALL")
+            execSQL("DROP VIEW IF EXISTS $VIEW_EXTENDED")
+            execSQL("DROP VIEW IF EXISTS $VIEW_CHANGES_EXTENDED")
+            execSQL("DROP VIEW IF EXISTS $VIEW_WITH_ACCOUNT")
+            execSQL("ALTER TABLE transactions DROP COLUMN picture_id")
+            execSQL("ALTER TABLE changes DROP COLUMN picture_id")
+        }
         execSQL("ALTER TABLE stale_uris RENAME to stale_uris_old")
         execSQL("CREATE TABLE stale_uris (uri text not null unique)")
         execSQL("INSERT INTO stale_uris(uri) select distinct picture_id from stale_uris_old")
