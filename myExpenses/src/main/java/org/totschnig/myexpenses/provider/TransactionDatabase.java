@@ -340,7 +340,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
   private static final String STALE_URIS_CREATE =
       "CREATE TABLE " + TABLE_STALE_URIS
-          + " ( " + KEY_PICTURE_URI + " text not null unique);";
+          + " ( " + KEY_URI + " text not null unique);";
 
   private static final String ACCOUNTS_TRIGGER_CREATE =
       "CREATE TRIGGER sort_key_default " +
@@ -2252,12 +2252,17 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 146) {
         db.execSQL("ALTER TABLE payee add column short_name text");
         db.execSQL(PAYEE_UNIQUE_INDEX);
-        createOrRefreshViews(db);
+        //createOrRefreshViews(db);
       }
       if (oldVersion < 147) {
         db.execSQL("ALTER TABLE payee add column parent_id integer references payee(_id) ON DELETE CASCADE");
         db.execSQL("update payee set short_name = null where short_name = ''");
         db.execSQL(PARTY_HIERARCHY_TRIGGER);
+      }
+      if (oldVersion < 148) {
+        upgradeTo148(db);
+        createOrRefreshViews(db);
+        createOrRefreshTransactionTriggers(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);

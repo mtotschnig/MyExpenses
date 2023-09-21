@@ -113,6 +113,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
@@ -1111,7 +1112,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     .neg(android.R.string.cancel)
                     .extra(Bundle().apply {
                         putParcelable(KEY_OCR_RESULT, it)
-                        putParcelable(KEY_PICTURE_URI, scanUri)
+                        putParcelable(KEY_URI, scanUri)
                     })
                     .title(getString(R.string.scan_result_multiple_candidates_dialog_title))
                     .fields(
@@ -1223,7 +1224,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         recordUsage(ContribFeature.OCR)
         createRowIntent(Transactions.TYPE_TRANSACTION, false)?.apply {
             putExtra(KEY_OCR_RESULT, result)
-            putExtra(KEY_PICTURE_URI, scanUri)
+            putExtra(KEY_URI, scanUri)
         }?.let {
             startEdit(it)
         }
@@ -1250,7 +1251,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             extras.getInt(KEY_DATE),
                             extras.getInt(KEY_PAYEE_NAME)
                         ),
-                        extras.getParcelable(KEY_PICTURE_URI)!!
+                        extras.getParcelable(KEY_URI)!!
                     )
                     true
                 }

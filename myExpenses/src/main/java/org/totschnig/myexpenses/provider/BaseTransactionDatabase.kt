@@ -52,7 +52,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTRIBUTES
 import timber.log.Timber
 
-const val DATABASE_VERSION = 147
+const val DATABASE_VERSION = 148
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -395,30 +395,102 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
         }
     }
 
-    fun upgradeTo145(db: SupportSQLiteDatabase) {
-        with(db) {
-            execSQL("CREATE TABLE banks (_id integer primary key autoincrement, blz text not null, bic text not null, name text not null, user_id text not null, unique(blz, user_id))")
-            execSQL("ALTER TABLE accounts add column bank_id integer references banks(_id) ON DELETE SET NULL")
-            execSQL("ALTER TABLE payee RENAME to payee_old")
-            execSQL(
-                "CREATE TABLE payee (_id integer primary key autoincrement, name text not null, iban text, bic text, name_normalized text, unique(name, iban))"
-            )
-            execSQL("INSERT INTO payee (_id, name, name_normalized) SELECT _id, name, name_normalized FROM payee_old")
-            execSQL("DROP TABLE payee_old")
-            execSQL("CREATE TABLE attributes (_id integer primary key autoincrement,attribute_name text not null,context text not null, unique (attribute_name, context))")
-            Attribute.initDatabaseInternal(db, FinTsAttribute::class.java,
-                "attributes", "attribute_name", "context"
-            )
-            Attribute.initDatabaseInternal(db, BankingAttribute::class.java,
-                "attributes", "attribute_name", "context"
-            )
-            execSQL(
-                "CREATE TABLE transaction_attributes (transaction_id integer references transactions(_id) ON DELETE CASCADE,attribute_id integer references attributes(_id) ON DELETE CASCADE,value text not null,primary key (transaction_id, attribute_id))"
-            )
-            execSQL(
-                "CREATE TABLE account_attributes (account_id integer references accounts(_id) ON DELETE CASCADE,attribute_id integer references attributes(_id) ON DELETE CASCADE,value text not null,primary key (account_id, attribute_id))"
-            )
+    fun SupportSQLiteDatabase.upgradeTo145() {
+        execSQL("CREATE TABLE banks (_id integer primary key autoincrement, blz text not null, bic text not null, name text not null, user_id text not null, unique(blz, user_id))")
+        execSQL("ALTER TABLE accounts add column bank_id integer references banks(_id) ON DELETE SET NULL")
+        execSQL("ALTER TABLE payee RENAME to payee_old")
+        execSQL(
+            "CREATE TABLE payee (_id integer primary key autoincrement, name text not null, iban text, bic text, name_normalized text, unique(name, iban))"
+        )
+        execSQL("INSERT INTO payee (_id, name, name_normalized) SELECT _id, name, name_normalized FROM payee_old")
+        execSQL("DROP TABLE payee_old")
+        execSQL("CREATE TABLE attributes (_id integer primary key autoincrement,attribute_name text not null,context text not null, unique (attribute_name, context))")
+        Attribute.initDatabaseInternal(
+            this@upgradeTo145, FinTsAttribute::class.java,
+            "attributes", "attribute_name", "context"
+        )
+        Attribute.initDatabaseInternal(
+            this@upgradeTo145, BankingAttribute::class.java,
+            "attributes", "attribute_name", "context"
+        )
+        execSQL(
+            "CREATE TABLE transaction_attributes (transaction_id integer references transactions(_id) ON DELETE CASCADE,attribute_id integer references attributes(_id) ON DELETE CASCADE,value text not null,primary key (transaction_id, attribute_id))"
+        )
+        execSQL(
+            "CREATE TABLE account_attributes (account_id integer references accounts(_id) ON DELETE CASCADE,attribute_id integer references attributes(_id) ON DELETE CASCADE,value text not null,primary key (account_id, attribute_id))"
+        )
         }
+
+    fun SupportSQLiteDatabase.upgradeTo148() {
+        execSQL("CREATE TABLE attachments (transaction_id integer references transactions(_id) ON DELETE CASCADE, uri text)")
+        execSQL("DROP TRIGGER cache_stale_uri")
+        //insert existing attachments from transaction table into attachments table
+        //drop column picture_id
+        query("transactions", arrayOf("_id, picture_id"), "picture_id is not null").use { cursor ->
+            val values = ContentValues(2)
+            cursor.asSequence.forEach {
+                values.clear()
+                values.put(KEY_TRANSACTIONID, it.getLong(0))
+                values.put(KEY_URI, it.getString(1))
+                insert("attachments", values)
+            }
+        }
+        execSQL("ALTER TABLE transactions RENAME to transactions_old")
+        execSQL("CREATE TABLE transactions(" +
+                "_id integer primary key autoincrement, " +
+                "comment text, " +
+                "date datetime not null, " +
+                "value_date datetime not null, " +
+                "amount integer not null, " +
+                "cat_id integer references categories(_id), " +
+                "account_id integer not null references accounts(_id) ON DELETE CASCADE, " +
+                "payee_id integer references payee(_id), " +
+                "transfer_peer integer references transactions(_id), " +
+                "transfer_account integer references accounts(_id)," +
+                "method_id integer references paymentmethods(_id)," +
+                "parent_id integer references transactions(_id) ON DELETE CASCADE, " +
+                "status integer default 0, " +
+                "cr_status text not null check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')) default 'RECONCILED', " +
+                "number text, " +
+                "uuid text, " +
+                "original_amount integer, " +
+                "original_currency text, " +
+                "equivalent_amount integer, " +
+                "debt_id integer references debts(_id) ON DELETE SET NULL)"
+        )
+        execSQL("INSERT INTO transactions ( _id,comment,date,value_date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,equivalent_amount,debt_id) SELECT _id, comment, date, amount, cat_id, account_id, payee_id, transfer_peer, transfer_account, method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,equivalent_amount,debt_id FROM transactions_old"
+        )
+        execSQL("DROP TABLE transactions_old")
+        execSQL("ALTER TABLE changes RENAME to changes_old")
+        execSQL("CREATE TABLE changes (" +
+                "account_id integer not null references accounts(_id) ON DELETE CASCADE," +
+                "type text not null check (type in ('created','updated','deleted','unsplit','metadata','link')), " +
+                "sync_sequence_local integer, " +
+                "uuid text not null, " +
+                "timestamp datetime DEFAULT (strftime('%s','now')), " +
+                "parent_uuid text, " +
+                "comment text, " +
+                "date datetime, " +
+                "value_date datetime, " +
+                "amount integer, " +
+                "original_amount integer, " +
+                "original_currency text, " +
+                "equivalent_amount integer, " +
+                "cat_id integer references categories(_id) ON DELETE SET NULL, " +
+                "payee_id integer references payee(_id) ON DELETE SET NULL, " +
+                "transfer_account integer references accounts(_id) ON DELETE SET NULL," +
+                "method_id integer references paymentmethods(_id) ON DELETE SET NULL," +
+                "cr_status text check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID'))," +
+                "number text)"
+        )
+        execSQL(
+            "INSERT INTO changes (account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, value_date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number) SELECT account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, value_date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number FROM changes_old"
+        )
+        execSQL("DROP TABLE changes_old")
+        execSQL("ALTER TABLE stale_uris RENAME to stale_uris_old")
+        execSQL("CREATE TABLE stale_uris (uri text not null unique)")
+        execSQL("INSERT INTO stale_uris(uri) select distinct picture_id from stale_uris_old")
+        execSQL("DROP TABLE stale_uris_old")
     }
 
     override fun onCreate(db: SupportSQLiteDatabase) {

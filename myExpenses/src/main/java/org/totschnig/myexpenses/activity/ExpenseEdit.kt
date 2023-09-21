@@ -750,7 +750,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 startAutoFill(it.id, true)
             }
         }
-        intent.getParcelableExtra<Uri>(KEY_PICTURE_URI)?.let {
+        intent.getParcelableExtra<Uri>(KEY_URI)?.let {
             viewModel.addAttachmentUris(it)
         }
         if (!intent.hasExtra(KEY_CACHED_DATA)) {

@@ -109,7 +109,7 @@ class StaleImagesList : ContextualActionBarFragment(), LoaderManager.LoaderCallb
         imagesCursor!!.moveToPosition(position)
         return Uri.parse(
             imagesCursor!!.getString(
-                imagesCursor!!.getColumnIndexOrThrow(DatabaseConstants.KEY_PICTURE_URI)
+                imagesCursor!!.getColumnIndexOrThrow(DatabaseConstants.KEY_URI)
             )
         )
     }
@@ -124,7 +124,7 @@ class StaleImagesList : ContextualActionBarFragment(), LoaderManager.LoaderCallb
         val lv = v.findViewById<GridView>(R.id.grid)
 
         // Create an array to specify the fields we want to display in the list
-        val from = arrayOf(DatabaseConstants.KEY_PICTURE_URI)
+        val from = arrayOf(DatabaseConstants.KEY_URI)
 
         // and an array of the fields we want to bind those fields to 
         val to = intArrayOf(R.id.image)

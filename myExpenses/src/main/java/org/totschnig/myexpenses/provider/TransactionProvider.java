@@ -68,6 +68,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIO
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
@@ -686,12 +687,12 @@ public class TransactionProvider extends BaseTransactionProvider {
       case STALE_IMAGES:
         qb = SupportSQLiteQueryBuilder.builder(TABLE_STALE_URIS);
         if (projection == null)
-          projection = new String[]{"rowid as _id", KEY_PICTURE_URI};
+          projection = new String[]{"rowid as _id", KEY_URI};
         break;
       case STALE_IMAGES_ID:
         qb = SupportSQLiteQueryBuilder.builder(TABLE_STALE_URIS);
         additionalWhere.append("rowid = ").append(uri.getPathSegments().get(1));
-        projection = new String[]{KEY_PICTURE_URI};
+        projection = new String[]{KEY_URI};
         break;
       case TRANSACTIONS_LASTEXCHANGE:
         String currency1 = uri.getPathSegments().get(2);

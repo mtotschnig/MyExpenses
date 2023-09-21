@@ -48,7 +48,7 @@ fun Repository.loadAttachments(transactionId: Long): ArrayList<Uri> =
 
 fun Repository.registerAsStale(uri: Uri) {
     contentResolver.insert(TransactionProvider.STALE_IMAGES_URI, ContentValues(1).apply {
-        put(KEY_PICTURE_URI, uri.toString())
+        put(KEY_URI, uri.toString())
     })
 }
 
