@@ -77,7 +77,7 @@ class JSONExporter(
             methodLabel = methodLabel,
             status = status,
             referenceNumber = referenceNumber,
-            pictureFileName = pictureFileName,
+            attachments = attachmentFileNames,
             tags = tagList,
             splits = splits?.map(::convert)
         )
@@ -96,7 +96,7 @@ data class Transaction(
     val methodLabel: String?,
     val status: CrStatus?,
     val referenceNumber: String?,
-    val pictureFileName: String?,
+    val attachments: List<String>?,
     val tags: List<String>?,
     val splits: List<Transaction>?
 )

@@ -14,10 +14,10 @@
  */
 package org.totschnig.myexpenses.export
 
-import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
+import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
 import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Expect
@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.markAsExported
+import org.totschnig.myexpenses.db2.saveAttachments
 import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.db2.writeTag
 import org.totschnig.myexpenses.model.*
@@ -133,14 +134,7 @@ class ExportTest: BaseTestWithRepository() {
         op.date = baseSinceEpoch + 2
         op.saveAsNew(contentResolver)
         uuidList.add(op.uuid!!)
-        val contentValues = ContentValues(1)
-        contentValues.put(DatabaseConstants.KEY_PICTURE_URI, "file://sdcard/picture.png")
-        context.contentResolver.update(
-            ContentUris.withAppendedId(Transaction.CONTENT_URI, op.id),
-            contentValues,
-            null,
-            null
-        )
+        repository.saveAttachments(op.id, listOf(Uri.parse("file:///sdcard/picture.png")))
         op.amount = Money(CurrencyUnit.DebugInstance, income2)
         op.comment = "Note for myself with \"quote\""
         op.date = baseSinceEpoch + 3
@@ -385,7 +379,7 @@ class ExportTest: BaseTestWithRepository() {
             expect.that(JsonParser.parseReader(FileReader(outFile))).isEqualTo(
                 JsonParser.parseString(
                     """
-{"uuid":"${account.uuid}","label":"Account 1","currency":"${CurrencyUnit.DebugInstance.code}","openingBalance":1.00,"transactions":[{"uuid":"${uuidList[0]}","date":"15/12/2017","amount":-0.10,"methodLabel":"Cheque","status":"CLEARED","referenceNumber":"1","tags":["Tag One","Tags, Tags, Tags"]},{"uuid":"${uuidList[1]}","date":"15/12/2017","payee":"N.N.","amount":-0.20,"category":["Main"],"methodLabel":"Cheque","status":"UNRECONCILED","referenceNumber":"2"},{"uuid":"${uuidList[2]}","date":"15/12/2017","amount":0.30,"category":["Main","Sub"],"status":"UNRECONCILED","pictureFileName":"picture.png"},{"uuid":"${uuidList[3]}","date":"15/12/2017","amount":0.40,"category":["Main","Sub"],"comment":"Note for myself with \"quote\"","status":"UNRECONCILED"},{"uuid":"${uuidList[4]}","date":"15/12/2017","amount":0.50,"transferAccount":"Account 2","status":"RECONCILED"},{"uuid":"${uuidList[5]}","date":"15/12/2017","amount":-0.60,"transferAccount":"Account 2","status":"UNRECONCILED"},{"uuid":"${uuidList[8]}","date":"15/12/2017","payee":"N.N.","amount":0.70,"status":"UNRECONCILED","splits":[{"uuid":"${uuidList[6]}","date":"15/12/2017","amount":0.40,"category":["Main","Sub2"]},{"uuid":"${uuidList[7]}","date":"15/12/2017","amount":0.30,"category":["Main","Sub3"],"tags":["Tag One","Tags, Tags, Tags"]}]}]}
+{"uuid":"${account.uuid}","label":"Account 1","currency":"${CurrencyUnit.DebugInstance.code}","openingBalance":1.00,"transactions":[{"uuid":"${uuidList[0]}","date":"15/12/2017","amount":-0.10,"methodLabel":"Cheque","status":"CLEARED","referenceNumber":"1","tags":["Tag One","Tags, Tags, Tags"]},{"uuid":"${uuidList[1]}","date":"15/12/2017","payee":"N.N.","amount":-0.20,"category":["Main"],"methodLabel":"Cheque","status":"UNRECONCILED","referenceNumber":"2"},{"uuid":"${uuidList[2]}","date":"15/12/2017","amount":0.30,"category":["Main","Sub"],"status":"UNRECONCILED","attachments":["picture.png"]},{"uuid":"${uuidList[3]}","date":"15/12/2017","amount":0.40,"category":["Main","Sub"],"comment":"Note for myself with \"quote\"","status":"UNRECONCILED"},{"uuid":"${uuidList[4]}","date":"15/12/2017","amount":0.50,"transferAccount":"Account 2","status":"RECONCILED"},{"uuid":"${uuidList[5]}","date":"15/12/2017","amount":-0.60,"transferAccount":"Account 2","status":"UNRECONCILED"},{"uuid":"${uuidList[8]}","date":"15/12/2017","payee":"N.N.","amount":0.70,"status":"UNRECONCILED","splits":[{"uuid":"${uuidList[6]}","date":"15/12/2017","amount":0.40,"category":["Main","Sub2"]},{"uuid":"${uuidList[7]}","date":"15/12/2017","amount":0.30,"category":["Main","Sub3"],"tags":["Tag One","Tags, Tags, Tags"]}]}]}
                          """
                 )
             )

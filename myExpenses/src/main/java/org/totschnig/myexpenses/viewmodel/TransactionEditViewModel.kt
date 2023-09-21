@@ -208,7 +208,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 }
                 repository.saveAttachments(
                     transaction.id,
-                    attachmentUris.value.distinct().map(::prepareUriForSave) ?: emptyList()
+                    attachmentUris.value.distinct().map(::prepareUriForSave)
                 )
                 result
             })

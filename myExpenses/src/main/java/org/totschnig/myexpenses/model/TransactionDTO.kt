@@ -14,7 +14,7 @@ data class TransactionDTO(
     val methodLabel: String?,
     val status: CrStatus?,
     val referenceNumber: String?,
-    val pictureFileName: String?,
+    val attachmentFileNames: List<String>?,
     val tagList: List<String>?,
     val splits: List<TransactionDTO>?
 ) {

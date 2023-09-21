@@ -151,8 +151,8 @@ class CsvExporter(
         }
     }
 
-    private fun TransactionDTO.handleTags(stringBuilder: StringBuilder) {
-        stringBuilder.appendQ(tagList?.joinToString(", ") { if (it.contains(',')) "'$it'" else it })
+    private fun StringBuilder.handleList(list: List<String>?) {
+        appendQ(list?.joinToString(", ") { if (it.contains(',')) "'$it'" else it })
     }
 
     override val useCategoryOfFirstPartForParent = false
@@ -185,9 +185,9 @@ class CsvExporter(
             append(delimiter)
             appendQ(referenceNumber)
             append(delimiter)
-            appendQ(pictureFileName)
+            handleList(attachmentFileNames)
             append(delimiter)
-            handleTags(this)
+            handleList(tagList)
             splits?.forEach {
                 append("\n")
                 if (withAccountColumn) {
@@ -208,9 +208,9 @@ class CsvExporter(
                 append(delimiter)
                 appendQ("")
                 append(delimiter)
-                appendQ(it.pictureFileName)
+                appendQ("")
                 append(delimiter)
-                it.handleTags(this@apply)
+                handleList(it.tagList)
             }
         }.toString()
 }
