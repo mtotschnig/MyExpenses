@@ -1561,7 +1561,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 R.id.PRINT_COMMAND,
                 R.id.GROUPING_COMMAND,
                 R.id.SHOW_STATUS_HANDLE_COMMAND,
-                R.id.MANAGE_ACCOUNTS_COMMAND
+                R.id.MANAGE_ACCOUNTS_COMMAND,
+                R.id.FINTS_SYNC_COMMAND
             )) {
                 menu.findItem(item)?.setEnabledAndVisible(false)
             }
