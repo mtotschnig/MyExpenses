@@ -5,8 +5,8 @@ import androidx.fragment.app.FragmentActivity
 import dagger.Module
 import dagger.Provides
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.activity.ImageViewIntentProvider
-import org.totschnig.myexpenses.activity.SystemImageViewIntentProvider
+import org.totschnig.myexpenses.activity.ViewIntentProvider
+import org.totschnig.myexpenses.activity.SystemViewIntentProvider
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.ui.DiscoveryHelper
@@ -23,7 +23,7 @@ import javax.inject.Singleton
 open class UiModule {
     @Provides
     @Singleton
-    fun provideImageViewIntentProvider(): ImageViewIntentProvider = SystemImageViewIntentProvider()
+    fun provideImageViewIntentProvider(): ViewIntentProvider = SystemViewIntentProvider()
 
     @Provides
     @Singleton

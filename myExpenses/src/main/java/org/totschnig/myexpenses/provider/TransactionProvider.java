@@ -1189,45 +1189,33 @@ public class TransactionProvider extends BaseTransactionProvider {
     Cursor c;
     log("UPDATE Uri: %s, values: %s", uri, values);
     switch (uriMatch) {
-      case TRANSACTIONS:
-      case UNCOMMITTED:
-        count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, values, where, whereArgs);
-        break;
-      case TRANSACTION_ID:
-      case UNCOMMITTED_ID:
-        count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, values,
-            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where),
-            whereArgs);
-        break;
-      case TRANSACTION_UNDELETE:
+      case TRANSACTIONS, UNCOMMITTED ->
+              count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, values, where, whereArgs);
+      case TRANSACTION_ID, UNCOMMITTED_ID ->
+              count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, values,
+                      KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where),
+                      whereArgs);
+      case TRANSACTION_UNDELETE -> {
         segment = uri.getPathSegments().get(1);
         whereArgs = new String[]{segment, segment, segment};
         ContentValues v = new ContentValues();
         v.put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name());
         count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, v, "(" + WHERE_SELF_OR_DEPENDENT + ") AND " + KEY_CR_STATUS + "='" + CrStatus.VOID.name() + "'", whereArgs);
-        break;
-      case ACCOUNTS:
-        count = MoreDbUtilsKt.update(db, TABLE_ACCOUNTS, values, where, whereArgs);
-        break;
-      case ACCOUNT_ID:
-        count = MoreDbUtilsKt.update(db, TABLE_ACCOUNTS, values,
-            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
-        break;
-      case TEMPLATES:
-        count = MoreDbUtilsKt.update(db, TABLE_TEMPLATES, values, where, whereArgs);
-        break;
-      case TEMPLATE_ID:
-        count = MoreDbUtilsKt.update(db, TABLE_TEMPLATES, values,
-            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
-        break;
-      case PAYEE_ID:
+      }
+      case ACCOUNTS -> count = MoreDbUtilsKt.update(db, TABLE_ACCOUNTS, values, where, whereArgs);
+      case ACCOUNT_ID -> count = MoreDbUtilsKt.update(db, TABLE_ACCOUNTS, values,
+              KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+      case TEMPLATES -> count = MoreDbUtilsKt.update(db, TABLE_TEMPLATES, values, where, whereArgs);
+      case TEMPLATE_ID -> count = MoreDbUtilsKt.update(db, TABLE_TEMPLATES, values,
+              KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+      case PAYEE_ID -> {
         count = MoreDbUtilsKt.update(db, TABLE_PAYEES, values,
-            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+                KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         notifyChange(TRANSACTIONS_URI, false);
-        break;
-      case CATEGORIES:
-        throw new UnsupportedOperationException("Bulk update of categories is not supported");
-      case CATEGORY_ID:
+      }
+      case CATEGORIES ->
+              throw new UnsupportedOperationException("Bulk update of categories is not supported");
+      case CATEGORY_ID -> {
         if (values.containsKey(KEY_PARENTID)) {
           Long parentId = values.getAsLong(KEY_PARENTID);
           if (parentId == null && !values.containsKey(KEY_COLOR)) {
@@ -1239,69 +1227,68 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         segment = uri.getLastPathSegment();
         count = MoreDbUtilsKt.update(db, TABLE_CATEGORIES, values, KEY_ROWID + " = " + segment + prefixAnd(where),
-            whereArgs);
-        break;
-      case METHOD_ID:
-        count = MoreDbUtilsKt.update(db, TABLE_METHODS, values, KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where),
-            whereArgs);
-        break;
-      case TEMPLATES_INCREASE_USAGE:
+                whereArgs);
+      }
+      case METHOD_ID ->
+              count = MoreDbUtilsKt.update(db, TABLE_METHODS, values, KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where),
+                      whereArgs);
+      case TEMPLATES_INCREASE_USAGE -> {
         db.execSQL("UPDATE " + TABLE_TEMPLATES + " SET " + KEY_USAGES + " = " + KEY_USAGES + " + 1, " +
-            KEY_LAST_USED + " = strftime('%s', 'now') WHERE " + KEY_ROWID + " = " + uri.getPathSegments().get(1));
+                KEY_LAST_USED + " = strftime('%s', 'now') WHERE " + KEY_ROWID + " = " + uri.getPathSegments().get(1));
         count = 1;
-        break;
+      }
       //   when we move a transaction to a new target we apply two checks
       //1) we do not move a transfer to its own transfer_account
       //2) we check if the transactions method_id is also available in the target account, if not we set it to null
-      case TRANSACTION_MOVE:
+      case TRANSACTION_MOVE -> {
         segment = uri.getPathSegments().get(1);
         String target = uri.getPathSegments().get(3);
         db.execSQL("UPDATE " + TABLE_TRANSACTIONS +
-                " SET " +
-                KEY_ACCOUNTID + " = ?, " +
-                KEY_METHODID + " = " +
-                " CASE " +
-                " WHEN exists " +
-                " (SELECT 1 FROM " + TABLE_ACCOUNTTYES_METHODS +
-                " WHERE " + KEY_TYPE + " = " +
-                " (SELECT " + KEY_TYPE + " FROM " + TABLE_ACCOUNTS +
-                " WHERE " + DatabaseConstants.KEY_ROWID + " = ?) " +
-                " AND " + KEY_METHODID + " = " + TABLE_TRANSACTIONS + "." + KEY_METHODID + ")" +
-                " THEN " + KEY_METHODID +
-                " ELSE null " +
-                " END " +
-                " WHERE " + DatabaseConstants.KEY_ROWID + " = ? " +
-                " AND ( " + KEY_TRANSFER_ACCOUNT + " IS NULL OR " + KEY_TRANSFER_ACCOUNT + "  != ? )",
-            new String[]{target, target, segment, target});
+                        " SET " +
+                        KEY_ACCOUNTID + " = ?, " +
+                        KEY_METHODID + " = " +
+                        " CASE " +
+                        " WHEN exists " +
+                        " (SELECT 1 FROM " + TABLE_ACCOUNTTYES_METHODS +
+                        " WHERE " + KEY_TYPE + " = " +
+                        " (SELECT " + KEY_TYPE + " FROM " + TABLE_ACCOUNTS +
+                        " WHERE " + DatabaseConstants.KEY_ROWID + " = ?) " +
+                        " AND " + KEY_METHODID + " = " + TABLE_TRANSACTIONS + "." + KEY_METHODID + ")" +
+                        " THEN " + KEY_METHODID +
+                        " ELSE null " +
+                        " END " +
+                        " WHERE " + DatabaseConstants.KEY_ROWID + " = ? " +
+                        " AND ( " + KEY_TRANSFER_ACCOUNT + " IS NULL OR " + KEY_TRANSFER_ACCOUNT + "  != ? )",
+                new String[]{target, target, segment, target});
         count = 1;
-        break;
-      case TRANSACTION_TOGGLE_CRSTATUS:
+      }
+      case TRANSACTION_TOGGLE_CRSTATUS -> {
         db.execSQL("UPDATE " + TABLE_TRANSACTIONS +
-                " SET " + KEY_CR_STATUS +
-                " = CASE " + KEY_CR_STATUS +
-                " WHEN '" + "CLEARED" + "'" +
-                " THEN '" + "UNRECONCILED" + "'" +
-                " WHEN '" + "UNRECONCILED" + "'" +
-                " THEN '" + "CLEARED" + "'" +
-                " ELSE " + KEY_CR_STATUS +
-                " END" +
-                " WHERE " + DatabaseConstants.KEY_ROWID + " = ? ",
-            new String[]{uri.getPathSegments().get(1)});
+                        " SET " + KEY_CR_STATUS +
+                        " = CASE " + KEY_CR_STATUS +
+                        " WHEN '" + "CLEARED" + "'" +
+                        " THEN '" + "UNRECONCILED" + "'" +
+                        " WHEN '" + "UNRECONCILED" + "'" +
+                        " THEN '" + "CLEARED" + "'" +
+                        " ELSE " + KEY_CR_STATUS +
+                        " END" +
+                        " WHERE " + DatabaseConstants.KEY_ROWID + " = ? ",
+                new String[]{uri.getPathSegments().get(1)});
         count = 1;
-        break;
-      case CURRENCIES_CHANGE_FRACTION_DIGITS:
+      }
+      case CURRENCIES_CHANGE_FRACTION_DIGITS -> {
         List<String> segments = uri.getPathSegments();
         count = updateFractionDigits(db, segments.get(2), Integer.parseInt(segments.get(3)));
-        break;
-      case ACCOUNTS_SWAP_SORT_KEY:
+      }
+      case ACCOUNTS_SWAP_SORT_KEY -> {
         String sortKey1 = uri.getPathSegments().get(2);
         String sortKey2 = uri.getPathSegments().get(3);
         db.execSQL("UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_SORT_KEY + " = CASE " + KEY_SORT_KEY +
-                " WHEN ? THEN ? WHEN ? THEN ? END WHERE " + KEY_SORT_KEY + " in (?,?);",
-            new String[]{sortKey1, sortKey2, sortKey2, sortKey1, sortKey1, sortKey2});
+                        " WHEN ? THEN ? WHEN ? THEN ? END WHERE " + KEY_SORT_KEY + " in (?,?);",
+                new String[]{sortKey1, sortKey2, sortKey2, sortKey1, sortKey1, sortKey2});
         count = 2;
-        break;
-      case CHANGES:
+      }
+      case CHANGES -> {
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_INIT, false)) {
           String[] accountIdBindArgs = {uri.getQueryParameter(KEY_ACCOUNTID)};
           db.beginTransaction();
@@ -1309,8 +1296,8 @@ public class TransactionProvider extends BaseTransactionProvider {
             db.delete(TABLE_CHANGES, KEY_ACCOUNTID + " = ?", accountIdBindArgs);
             c = db.query(SupportSQLiteQueryBuilder.builder(TABLE_TRANSACTIONS)
                     .columns(new String[]{KEY_ROWID})
-                            .selection("(" + KEY_UUID + " IS NULL OR (" + KEY_TRANSFER_PEER + " IS NOT NULL AND (SELECT "+ KEY_UUID + " from "+ TABLE_TRANSACTIONS +  " peer where " + KEY_TRANSFER_PEER + " = "  + TABLE_TRANSACTIONS + "." + KEY_ROWID + ") is null )) AND ("
-                                    + KEY_TRANSFER_PEER + " IS NULL OR " + KEY_ROWID + " < " + KEY_TRANSFER_PEER + ")", new Object[] {})
+                    .selection("(" + KEY_UUID + " IS NULL OR (" + KEY_TRANSFER_PEER + " IS NOT NULL AND (SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " peer where " + KEY_TRANSFER_PEER + " = " + TABLE_TRANSACTIONS + "." + KEY_ROWID + ") is null )) AND ("
+                            + KEY_TRANSFER_PEER + " IS NULL OR " + KEY_ROWID + " < " + KEY_TRANSFER_PEER + ")", new Object[]{})
                     .create()
             );
             if (c.moveToFirst()) {
@@ -1325,45 +1312,45 @@ public class TransactionProvider extends BaseTransactionProvider {
             }
             c.close();
             db.execSQL("INSERT INTO " + TABLE_CHANGES + "("
-                    + KEY_TYPE + ", "
-                    + KEY_SYNC_SEQUENCE_LOCAL + ", "
-                    + KEY_UUID + ", "
-                    + KEY_PARENT_UUID + ", "
-                    + KEY_COMMENT + ", "
-                    + KEY_DATE + ", "
-                    + KEY_AMOUNT + ", "
-                    + KEY_ORIGINAL_AMOUNT + ", "
-                    + KEY_ORIGINAL_CURRENCY + ", "
-                    + KEY_EQUIVALENT_AMOUNT + ", "
-                    + KEY_CATID + ", "
-                    + KEY_ACCOUNTID + ","
-                    + KEY_PAYEEID + ", "
-                    + KEY_TRANSFER_ACCOUNT + ", "
-                    + KEY_METHODID + ","
-                    + KEY_CR_STATUS + ", "
-                    + KEY_REFERENCE_NUMBER
-                    + ") SELECT "
-                    + "'" + TransactionChange.Type.created.name() + "', "
-                    + " 1, "
-                    + KEY_UUID + ", "
-                    + "CASE WHEN " + KEY_PARENTID + " IS NULL THEN NULL ELSE " +
-                    "(SELECT " + KEY_UUID + " FROM " + TABLE_TRANSACTIONS + " parent where "
-                    + KEY_ROWID + " = " + TABLE_TRANSACTIONS + "." + KEY_PARENTID + ") END, "
-                    + KEY_COMMENT + ", "
-                    + KEY_DATE + ", "
-                    + KEY_AMOUNT + ", "
-                    + KEY_ORIGINAL_AMOUNT + ", "
-                    + KEY_ORIGINAL_CURRENCY + ", "
-                    + KEY_EQUIVALENT_AMOUNT + ", "
-                    + KEY_CATID + ", "
-                    + KEY_ACCOUNTID + ", "
-                    + KEY_PAYEEID + ", "
-                    + KEY_TRANSFER_ACCOUNT + ", "
-                    + KEY_METHODID + ","
-                    + KEY_CR_STATUS + ", "
-                    + KEY_REFERENCE_NUMBER
-                    + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?",
-                accountIdBindArgs);
+                            + KEY_TYPE + ", "
+                            + KEY_SYNC_SEQUENCE_LOCAL + ", "
+                            + KEY_UUID + ", "
+                            + KEY_PARENT_UUID + ", "
+                            + KEY_COMMENT + ", "
+                            + KEY_DATE + ", "
+                            + KEY_AMOUNT + ", "
+                            + KEY_ORIGINAL_AMOUNT + ", "
+                            + KEY_ORIGINAL_CURRENCY + ", "
+                            + KEY_EQUIVALENT_AMOUNT + ", "
+                            + KEY_CATID + ", "
+                            + KEY_ACCOUNTID + ","
+                            + KEY_PAYEEID + ", "
+                            + KEY_TRANSFER_ACCOUNT + ", "
+                            + KEY_METHODID + ","
+                            + KEY_CR_STATUS + ", "
+                            + KEY_REFERENCE_NUMBER
+                            + ") SELECT "
+                            + "'" + TransactionChange.Type.created.name() + "', "
+                            + " 1, "
+                            + KEY_UUID + ", "
+                            + "CASE WHEN " + KEY_PARENTID + " IS NULL THEN NULL ELSE " +
+                            "(SELECT " + KEY_UUID + " FROM " + TABLE_TRANSACTIONS + " parent where "
+                            + KEY_ROWID + " = " + TABLE_TRANSACTIONS + "." + KEY_PARENTID + ") END, "
+                            + KEY_COMMENT + ", "
+                            + KEY_DATE + ", "
+                            + KEY_AMOUNT + ", "
+                            + KEY_ORIGINAL_AMOUNT + ", "
+                            + KEY_ORIGINAL_CURRENCY + ", "
+                            + KEY_EQUIVALENT_AMOUNT + ", "
+                            + KEY_CATID + ", "
+                            + KEY_ACCOUNTID + ", "
+                            + KEY_PAYEEID + ", "
+                            + KEY_TRANSFER_ACCOUNT + ", "
+                            + KEY_METHODID + ","
+                            + KEY_CR_STATUS + ", "
+                            + KEY_REFERENCE_NUMBER
+                            + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?",
+                    accountIdBindArgs);
             ContentValues currentSyncIncrease = new ContentValues(1);
             currentSyncIncrease.put(KEY_SYNC_SEQUENCE_LOCAL, 1);
             MoreDbUtilsKt.update(db, TABLE_ACCOUNTS, currentSyncIncrease, KEY_ROWID + " = ?", accountIdBindArgs);
@@ -1377,18 +1364,15 @@ public class TransactionProvider extends BaseTransactionProvider {
           count = 1;
         } else {
           count = MoreDbUtilsKt.update(db, TABLE_CHANGES, values, where, whereArgs);
-          break;
         }
-        break;
-      case ACCOUNT_ID_GROUPING: {
+      }
+      case ACCOUNT_ID_GROUPING -> {
         count = handleAccountProperty(db, uri, KEY_GROUPING);
-        break;
       }
-      case ACCOUNT_ID_SORT: {
+      case ACCOUNT_ID_SORT -> {
         count = handleAccountProperty(db, uri, KEY_SORT_BY, KEY_SORT_DIRECTION);
-        break;
       }
-      case UNSPLIT: {
+      case UNSPLIT -> {
         String uuid = values.getAsString(KEY_UUID);
         if (uuid == null) {
           uuid = uuidForTransaction(db, values.getAsLong(KEY_ROWID));
@@ -1405,13 +1389,13 @@ public class TransactionProvider extends BaseTransactionProvider {
           pauseChangeTrigger(db);
           //parts are promoted to independence
           db.execSQL(String.format(Locale.ROOT, "UPDATE %s SET %s = null, %s = %s, %s = %s WHERE %s = %s ",
-              TABLE_TRANSACTIONS, KEY_PARENTID, KEY_CR_STATUS, crStatusSubSelect, KEY_PAYEEID, payeeIdSubSelect, KEY_PARENTID, rowIdSubSelect),
-              new String[]{uuid, uuid, uuid});
+                          TABLE_TRANSACTIONS, KEY_PARENTID, KEY_CR_STATUS, crStatusSubSelect, KEY_PAYEEID, payeeIdSubSelect, KEY_PARENTID, rowIdSubSelect),
+                  new String[]{uuid, uuid, uuid});
           //Change is recorded
           if (callerIsNotSyncAdapter(uri)) {
             db.execSQL(String.format(Locale.ROOT, "INSERT INTO %1$s (%2$s, %3$s, %4$s, %5$s) SELECT '%6$s', %7$s, %4$s, ? FROM %8$s WHERE %7$s = %9$s AND %10$s IS NOT NULL",
-                TABLE_CHANGES, KEY_TYPE, KEY_ACCOUNTID, KEY_SYNC_SEQUENCE_LOCAL, KEY_UUID,
-                TransactionChange.Type.unsplit.name(), KEY_ROWID, TABLE_ACCOUNTS, accountIdSubSelect, KEY_SYNC_ACCOUNT_NAME), new String[]{uuid, uuid});
+                    TABLE_CHANGES, KEY_TYPE, KEY_ACCOUNTID, KEY_SYNC_SEQUENCE_LOCAL, KEY_UUID,
+                    TransactionChange.Type.unsplit.name(), KEY_ROWID, TABLE_ACCOUNTS, accountIdSubSelect, KEY_SYNC_ACCOUNT_NAME), new String[]{uuid, uuid});
           }
           //parent is deleted
           count = db.delete(TABLE_TRANSACTIONS, KEY_UUID + " = ?", new String[]{uuid});
@@ -1420,50 +1404,43 @@ public class TransactionProvider extends BaseTransactionProvider {
         } finally {
           db.endTransaction();
         }
-        break;
       }
-      case BUDGET_ID: {
+      case BUDGET_ID -> {
         count = MoreDbUtilsKt.update(db, TABLE_BUDGETS, values,
-            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
-        break;
+                KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
       }
-      case BUDGET_CATEGORY: {
+      case BUDGET_CATEGORY -> {
         count = budgetCategoryUpsert(db, uri, values);
-        break;
       }
-      case BUDGET_ALLOCATIONS: {
+      case BUDGET_ALLOCATIONS -> {
         count = MoreDbUtilsKt.update(db, TABLE_BUDGET_ALLOCATIONS, values, where, whereArgs);
-        break;
       }
-      case CURRENCIES_CODE: {
+      case CURRENCIES_CODE -> {
         final String currency = uri.getLastPathSegment();
         count = MoreDbUtilsKt.update(db, TABLE_CURRENCIES, values, String.format("%s = '%s'%s", KEY_CODE,
-            currency, prefixAnd(where)), whereArgs);
-        break;
+                currency, prefixAnd(where)), whereArgs);
       }
-      case TAG_ID: {
+      case TAG_ID -> {
         count = MoreDbUtilsKt.update(db, TABLE_TAGS, values,
-            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
-        break;
+                KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
       }
-      case TRANSACTION_LINK_TRANSFER: {
+      case TRANSACTION_LINK_TRANSFER -> {
         count = MoreDbUtilsKt.linkTransfers(db, uri.getPathSegments().get(2), values.getAsString(KEY_UUID), callerIsNotSyncAdapter(uri));
-        break;
       }
-      case DEBTS:
-        count =MoreDbUtilsKt.update(db, TABLE_DEBTS, values, where, whereArgs);
-        break;
-      case DEBT_ID: {
+      case DEBTS -> count = MoreDbUtilsKt.update(db, TABLE_DEBTS, values, where, whereArgs);
+      case DEBT_ID -> {
         count = MoreDbUtilsKt.update(db, TABLE_DEBTS, values,
-            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
-        break;
+                KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
       }
-      case PLANINSTANCE_TRANSACTION_STATUS: {
+      case PLANINSTANCE_TRANSACTION_STATUS -> {
         count = MoreDbUtilsKt.update(db, TABLE_PLAN_INSTANCE_STATUS, values, where, whereArgs);
-        break;
       }
-      default:
-        throw unknownUri(uri);
+
+      //used during restore
+      case TRANSACTION_ATTACHMENTS -> {
+        count = MoreDbUtilsKt.update(db, TABLE_ATTACHMENTS, values, where, whereArgs);
+      }
+      default -> throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID || uriMatch == ACCOUNTS || uriMatch == ACCOUNT_ID ||
         uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TRANSACTION_UNDELETE ||

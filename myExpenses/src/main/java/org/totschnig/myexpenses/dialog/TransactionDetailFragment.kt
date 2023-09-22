@@ -31,7 +31,7 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.EDIT_REQUEST
 import org.totschnig.myexpenses.activity.ExpenseEdit
-import org.totschnig.myexpenses.activity.ImageViewIntentProvider
+import org.totschnig.myexpenses.activity.ViewIntentProvider
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.databinding.AttachmentItemBinding
 import org.totschnig.myexpenses.databinding.AttributeBinding
@@ -69,7 +69,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
     private lateinit var viewModel: TransactionDetailViewModel
 
     @Inject
-    lateinit var imageViewIntentProvider: ImageViewIntentProvider
+    lateinit var viewIntentProvider: ViewIntentProvider
 
     @Inject
     lateinit var currencyFormatter: ICurrencyFormatter
@@ -119,7 +119,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                             setAttachmentInfo(withContext(Dispatchers.IO) { attachmentInfoMap!!.getValue(uri) })
                         }
                         setOnClickListener {
-                            imageViewIntentProvider.startViewAction(requireActivity(), uri)
+                            viewIntentProvider.startViewAction(requireActivity(), uri)
                         }
                     }
                 }

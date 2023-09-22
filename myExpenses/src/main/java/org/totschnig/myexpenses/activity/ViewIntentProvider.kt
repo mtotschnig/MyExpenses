@@ -2,14 +2,13 @@ package org.totschnig.myexpenses.activity
 
 import android.content.Intent
 import android.app.Activity
-import android.content.Context
 import android.net.Uri
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import android.widget.Toast
 import org.totschnig.myexpenses.util.safeMessage
 import java.lang.Exception
 
-interface ImageViewIntentProvider {
+interface ViewIntentProvider {
     fun getViewIntent(uri: Uri): Intent
     fun startViewAction(activity: Activity, uri: Uri) {
         try {

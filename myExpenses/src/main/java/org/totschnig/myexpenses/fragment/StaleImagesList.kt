@@ -39,11 +39,10 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
-import org.totschnig.myexpenses.activity.ImageViewIntentProvider
+import org.totschnig.myexpenses.activity.ViewIntentProvider
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.util.PictureDirHelper.getFileForUri
 import org.totschnig.myexpenses.util.attachmentInfoMap
 import org.totschnig.myexpenses.util.setAttachmentInfo
 import org.totschnig.myexpenses.viewmodel.StaleImagesViewModel
@@ -56,7 +55,7 @@ class StaleImagesList : ContextualActionBarFragment(), LoaderManager.LoaderCallb
     private val viewModel: StaleImagesViewModel by viewModels()
 
     @Inject
-    lateinit var imageViewIntentProvider: ImageViewIntentProvider
+    lateinit var viewIntentProvider: ViewIntentProvider
 
     private var attachmentInfoMap: Map<Uri, AttachmentInfo>? = null
 
@@ -97,7 +96,7 @@ class StaleImagesList : ContextualActionBarFragment(), LoaderManager.LoaderCallb
             return true
         }
         if (command == R.id.VIEW_COMMAND) {
-            imageViewIntentProvider.startViewAction(
+            viewIntentProvider.startViewAction(
                 requireActivity(),
                 uriAtPosition((info as AdapterView.AdapterContextMenuInfo?)!!.position)
             )

@@ -203,7 +203,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     lateinit var reviewManager: ReviewManager
 
     @Inject
-    lateinit var imageViewIntentProvider: ImageViewIntentProvider
+    lateinit var viewIntentProvider: ViewIntentProvider
 
     @Inject
     lateinit var modelClass: Class<out MyExpensesViewModel>

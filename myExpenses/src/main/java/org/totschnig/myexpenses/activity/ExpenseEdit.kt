@@ -170,7 +170,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     }
 
     @Inject
-    lateinit var imageViewIntentProvider: ImageViewIntentProvider
+    lateinit var viewIntentProvider: ViewIntentProvider
 
     @Inject
     lateinit var discoveryHelper: IDiscoveryHelper
@@ -501,7 +501,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     showPicturePopupMenu(it, R.menu.picture) { item ->
                         when (item.itemId) {
                             R.id.VIEW_COMMAND ->
-                                imageViewIntentProvider.startViewAction(this@ExpenseEdit, uri)
+                                viewIntentProvider.startViewAction(this@ExpenseEdit, uri)
 
                             R.id.DELETE_COMMAND -> {
                                 setDirty()
