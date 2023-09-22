@@ -18,35 +18,29 @@
     xmlns:my="http://schemas.android.com/apk/res-auto">
     <org.totschnig.myexpenses.preference.HeaderPreference />
 
-    <PreferenceCategory
-        android:key="category_backup"
-        android:title="@string/menu_backup"
-        my:allowDividerAbove="false"
-        my:initialExpandedChildrenCount="1">
+    <Preference
+        android:summary="@string/pref_backup_summary"
+        android:title="@string/menu_backup">
+        <intent
+            android:action="BACKUP"
+            android:targetClass="org.totschnig.myexpenses.activity.BackupRestoreActivity"
+            android:targetPackage="@string/application_id" />
+    </Preference>
 
-        <Preference
-            android:summary="@string/pref_backup_summary">
-            <intent
-                android:action="BACKUP"
-                android:targetClass="org.totschnig.myexpenses.activity.BackupRestoreActivity"
-                android:targetPackage="@string/application_id" />
-        </Preference>
+    <org.totschnig.myexpenses.preference.PopupMenuPreference
+        android:key="@string/pref_app_dir_key"
+        android:title="@string/pref_app_dir_title" />
 
-        <org.totschnig.myexpenses.preference.PopupMenuPreference
-            android:key="@string/pref_app_dir_key"
-            android:title="@string/pref_app_dir_title" />
+    <EditTextPreference
+        android:defaultValue="myexpenses-backup"
+        android:key="@string/pref_backup_file_prefix_key"
+        android:title="@string/pref_backup_file_prefix_title"
+        my:useSimpleSummaryProvider="true" />
 
-        <EditTextPreference
-            android:defaultValue="myexpenses-backup"
-            android:key="@string/pref_backup_file_prefix_key"
-            android:title="@string/pref_backup_file_prefix_title"
-            my:useSimpleSummaryProvider="true" />
-
-        <org.totschnig.myexpenses.preference.AccountPreference
-            android:key="@string/pref_auto_backup_cloud_key"
-            android:summary="@string/pref_backup_cloud_summary"
-            android:title="@string/pref_backup_cloud_title" />
-    </PreferenceCategory>
+    <org.totschnig.myexpenses.preference.AccountPreference
+        android:key="@string/pref_auto_backup_cloud_key"
+        android:summary="@string/pref_backup_cloud_summary"
+        android:title="@string/pref_backup_cloud_title" />
 
     <Preference
         android:key="@string/pref_restore_key"
@@ -74,9 +68,10 @@
             android:title="@string/pref_auto_backup_time_title" />
     </PreferenceCategory>
 
-    <PreferenceCategory my:initialExpandedChildrenCount="1"
+    <PreferenceCategory
         android:key="category_purge"
-        android:layout="@layout/preference_category_empty">
+        android:layout="@layout/preference_category_empty"
+        my:initialExpandedChildrenCount="1">
 
         <SwitchPreferenceCompat
             android:key="@string/pref_purge_backup_key"
