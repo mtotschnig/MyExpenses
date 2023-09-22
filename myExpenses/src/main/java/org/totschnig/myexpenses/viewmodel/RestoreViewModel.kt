@@ -381,61 +381,52 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                     null,
                     null,
                     "$KEY_URI COLLATE BINARY"
-                )?.use {
-                    it.asSequence.forEachIndexed { index, cursor ->
+                )?.use { c ->
+                    c.asSequence.forEachIndexed { index, cursor ->
                         val uriValues = ContentValues(1)
                         val fromBackup = cursor.getString(0)
-                        val backupImage = backupFiles.firstOrNull {
-                            file -> file.name.startsWith("${index}_")
-                        }
-                        var restored: Uri? = null
-                        if (backupImage?.exists() == true) {
+                        val selection = "$KEY_URI = ?"
+                        val selectionArguments = arrayOf(fromBackup)
+                        val restored = (backupFiles.firstOrNull { file ->
+                            file.name.startsWith("${index}_")
+                        }?.let {
+                            it to it.nameWithoutExtension.substringAfter('_')
+                        } ?: Uri.parse(fromBackup).lastPathSegment?.let { fileName ->
+                            //legacy backups
+                            backupFiles.firstOrNull { it.name == fileName }?.let { it to it.nameWithoutExtension }
+                        })?.let { (image, fileName) ->
                             val restoredImage = PictureDirHelper.getOutputMediaFile(
-                                fileName = backupImage.nameWithoutExtension.substringAfter('_'),
+                                fileName = fileName,
                                 temp = false,
                                 checkUnique = true,
                                 application = getApplication(),
-                                extension = backupImage.extension
+                                extension = image.extension
                             )
-                            if (!FileCopyUtils.copy(
-                                    backupImage,
-                                    restoredImage
-                                )
-                            ) {
-                                CrashHandler.report(
-                                    Exception("Could not restore file $fromBackup from backup")
-                                )
-                            } else {
-                                restored =
+                            if (FileCopyUtils.copy(image, restoredImage)) {
+                                val restored =
                                     AppDirHelper.getContentUriForFile(
                                         application,
                                         restoredImage
                                     )
-                            }
-                        } else {
+                                uriValues.put(KEY_URI, restored.toString())
+                                contentResolver.update(
+                                    TransactionProvider.ATTACHMENTS_URI,
+                                    uriValues,
+                                    selection,
+                                    selectionArguments
+                                )
+                                true
+                            } else false
+                        }
+                        if (restored != true) {
                             CrashHandler.report(
                                 Exception("Could not restore file $fromBackup from backup")
                             )
-                        }
-                        if (restored != null) {
-                            uriValues.put(
-                                KEY_URI,
-                                restored.toString()
-                            )
-                        } else {
-                            uriValues.putNull(KEY_URI)
-                        }
-                        try {
-                            contentResolver.update(
+                            contentResolver.delete(
                                 TransactionProvider.ATTACHMENTS_URI,
-                                uriValues,
-                                "$KEY_URI = ?",
-                                arrayOf(fromBackup)
+                                selection,
+                                selectionArguments
                             )
-                        } catch (e: OperationApplicationException) {
-                            CrashHandler.report(e)
-                        } catch (e: RemoteException) {
-                            CrashHandler.report(e)
                         }
                     }
                 }
