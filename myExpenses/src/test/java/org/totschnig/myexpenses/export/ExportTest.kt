@@ -15,7 +15,6 @@
 package org.totschnig.myexpenses.export
 
 import android.content.ContentUris
-import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
@@ -34,7 +33,7 @@ import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.markAsExported
-import org.totschnig.myexpenses.db2.saveAttachments
+import org.totschnig.myexpenses.db2.addAttachments
 import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.db2.writeTag
 import org.totschnig.myexpenses.model.*
@@ -134,7 +133,7 @@ class ExportTest: BaseTestWithRepository() {
         op.date = baseSinceEpoch + 2
         op.saveAsNew(contentResolver)
         uuidList.add(op.uuid!!)
-        repository.saveAttachments(op.id, listOf(Uri.parse("file:///sdcard/picture.png")))
+        repository.addAttachments(op.id, listOf(Uri.parse("file:///sdcard/picture.png")))
         op.amount = Money(CurrencyUnit.DebugInstance, income2)
         op.comment = "Note for myself with \"quote\""
         op.date = baseSinceEpoch + 3

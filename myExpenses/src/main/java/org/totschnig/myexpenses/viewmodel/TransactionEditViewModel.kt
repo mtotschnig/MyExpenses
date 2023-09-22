@@ -31,12 +31,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
+import org.totschnig.myexpenses.db2.addAttachments
+import org.totschnig.myexpenses.db2.deleteAttachments
 import org.totschnig.myexpenses.db2.getCurrencyUnitForAccount
 import org.totschnig.myexpenses.db2.getLastUsedOpenAccount
 import org.totschnig.myexpenses.db2.loadActiveTagsForAccount
 import org.totschnig.myexpenses.db2.loadAttachments
-import org.totschnig.myexpenses.db2.onAttachmentDelete
-import org.totschnig.myexpenses.db2.saveAttachments
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefKey
@@ -200,13 +200,10 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                         tagsLiveData.value
                     )
                 ) throw Throwable("Error while saving tags")
-                deletedUris.distinct().filterNot {
-                    it.toString()
-                        .startsWith(PictureDirHelper.getPictureUriBase(true, getApplication()))
-                }.forEach {
-                    repository.onAttachmentDelete(it)
+                (originalUris - attachmentUris.value.toSet()).takeIf { it.isNotEmpty() }?.let {
+                    repository.deleteAttachments(transaction.id, it)
                 }
-                repository.saveAttachments(
+                repository.addAttachments(
                     transaction.id,
                     attachmentUris.value.distinct().map(::prepareUriForSave)
                 )
@@ -478,7 +475,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             emit(pair.first)
             pair.second?.takeIf { it.size > 0 }?.let { updateTags(it, false) }
             if (task == InstantiationTask.TRANSACTION) {
-                addAttachmentUris(*repository.loadAttachments(transactionId).toTypedArray())
+                originalUris = repository.loadAttachments(transactionId)
             }
         } ?: run {
             emit(null)
@@ -487,7 +484,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     companion object {
         private const val KEY_ATTACHMENT_URIS = "attachmentUris"
-        private const val KEY_DELETED_URIS = "deletedUris"
+        private const val KEY_ORIGINAL_URIS = "deletedUris"
     }
 
     fun startAutoFill(id: Long, overridePreferences: Boolean, autoFillAccountFromExtra: Boolean) {
@@ -544,15 +541,12 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         _autoFillData.tryEmit(null)
     }
 
-    private val deletedUris: ArrayList<Uri>
-        get() = savedStateHandle[KEY_DELETED_URIS] ?: ArrayList()
-
-    private fun addDeletedUri(uri: Uri) {
-        savedStateHandle[KEY_DELETED_URIS] = ArrayList<Uri>().apply {
-            addAll(deletedUris)
-            add(uri)
+    private var originalUris: ArrayList<Uri>
+        get() = savedStateHandle[KEY_ORIGINAL_URIS] ?: ArrayList()
+        set(value) {
+            savedStateHandle[KEY_ORIGINAL_URIS] = value
+            addAttachmentUris(*value.toTypedArray())
         }
-    }
 
     val attachmentUris: StateFlow<ArrayList<Uri>> =
         savedStateHandle.getStateFlow(KEY_ATTACHMENT_URIS, ArrayList())
@@ -568,7 +562,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         savedStateHandle[KEY_ATTACHMENT_URIS] = ArrayList<Uri>().apply {
             addAll(attachmentUris.value.filterNot { it == uri })
         }
-        addDeletedUri(uri)
     }
 
     data class AutoFillData(

@@ -996,8 +996,8 @@ public class TransactionProvider extends BaseTransactionProvider {
         return ACCOUNTS_ATTRIBUTES_URI;
       }
       case TRANSACTION_ATTACHMENTS -> {
-        MoreDbUtilsKt.insert(db, TABLE_ATTACHMENTS, values);
-        return uri;
+        id = MoreDbUtilsKt.insert(db, TABLE_ATTACHMENTS, values);
+        newUri = TRANSACTIONS_ATTRIBUTES_URI + "/" + id;
       }
       default -> throw unknownUri(uri);
     }
@@ -1017,6 +1017,8 @@ public class TransactionProvider extends BaseTransactionProvider {
       notifyChange(PAYEES_URI, false);
     } else if (uriMatch == UNCOMMITTED) {
       notifyChange(DEBTS_URI, false);
+    } else if (uriMatch == TRANSACTION_ATTACHMENTS) {
+      notifyChange(TRANSACTIONS_URI, false);
     }
     return id > 0 ? Uri.parse(newUri) : null;
   }
@@ -1164,6 +1166,8 @@ public class TransactionProvider extends BaseTransactionProvider {
         notifyChange(PAYEES_URI, false);
       } else if (uriMatch == UNCOMMITTED) {
         notifyChange(DEBTS_URI, false);
+      } else if (uriMatch == TRANSACTION_ATTACHMENTS) {
+        notifyChange(TRANSACTIONS_URI, false);
       }
       notifyChange(uri, uriMatch == TRANSACTION_ID);
     }

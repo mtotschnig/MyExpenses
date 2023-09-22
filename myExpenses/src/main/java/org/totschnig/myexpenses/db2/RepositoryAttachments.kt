@@ -10,18 +10,15 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ATTACHMENTS_URI
 import org.totschnig.myexpenses.provider.asSequence
+import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import java.io.IOException
 
-fun Repository.saveAttachments(transactionId: Long, attachments: List<Uri>) {
+fun Repository.addAttachments(transactionId: Long, attachments: List<Uri>) {
     val ops = ArrayList<ContentProviderOperation>()
-    ops.add(
-        ContentProviderOperation.newDelete(ATTACHMENTS_URI)
-            .withSelection("$KEY_TRANSACTIONID= ?", arrayOf(transactionId.toString()))
-            .build())
     attachments.forEach {
         ops.add(
             ContentProviderOperation.newInsert(ATTACHMENTS_URI)
@@ -31,8 +28,19 @@ fun Repository.saveAttachments(transactionId: Long, attachments: List<Uri>) {
     }
 
     if (contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops).size != ops.size) {
-        throw IOException("Saving tags failed")
+        throw IOException("Saving attachments failed")
     }
+}
+
+fun Repository.deleteAttachments(transactionId: Long, attachments: List<Uri>) {
+    if (contentResolver.delete(
+            ATTACHMENTS_URI,
+            "$KEY_TRANSACTIONID= ? AND $KEY_URI ${WhereFilter.Operation.IN.getOp(attachments.size)}",
+            arrayOf(transactionId.toString(), *attachments.map { it.toString() }.toTypedArray())
+        )!= attachments.size) {
+        throw IOException("Deleting attachments failed")
+    }
+    attachments.forEach { onAttachmentDelete(it) }
 }
 
 fun Repository.loadAttachments(transactionId: Long): ArrayList<Uri> =
@@ -57,7 +65,7 @@ fun Repository.onAttachmentDelete(uri: Uri) {
         ))) {
         Timber.d("found internally stored uri ($uri), need to set stale")
         registerAsStale(uri)
-    } else {
+    } else if (count(ATTACHMENTS_URI, "$KEY_URI = ?", arrayOf(uri.toString())) == 0) {
         Timber.d("found externally linked uri ($uri), need to release permission")
         try {
             contentResolver.releasePersistableUriPermission(uri,  Intent.FLAG_GRANT_READ_URI_PERMISSION)
