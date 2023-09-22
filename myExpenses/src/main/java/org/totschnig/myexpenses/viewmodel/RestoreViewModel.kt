@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.os.RemoteException
 import android.provider.CalendarContract
 import android.text.TextUtils
-import androidx.core.content.FileProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -348,7 +347,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                 //now handling plans
                 if (restorePlanStrategy == R.id.restore_calendar_handling_ignore) {
                     //we remove all links to plans we did not restore
-                    val planValues = ContentValues()
+                    val planValues = ContentValues(1)
                     planValues.putNull(DatabaseConstants.KEY_PLANID)
                     contentResolver.update(
                         Template.CONTENT_URI,
@@ -384,7 +383,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                     "$KEY_URI COLLATE BINARY"
                 )?.use {
                     it.asSequence.forEachIndexed { index, cursor ->
-                        val uriValues = ContentValues()
+                        val uriValues = ContentValues(1)
                         val fromBackup = cursor.getString(0)
                         val backupImage = backupFiles.firstOrNull {
                             file -> file.name.startsWith("${index}_")
@@ -420,11 +419,11 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                         }
                         if (restored != null) {
                             uriValues.put(
-                                DatabaseConstants.KEY_PICTURE_URI,
+                                KEY_URI,
                                 restored.toString()
                             )
                         } else {
-                            uriValues.putNull(DatabaseConstants.KEY_PICTURE_URI)
+                            uriValues.putNull(KEY_URI)
                         }
                         try {
                             contentResolver.update(
@@ -518,13 +517,12 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
     private fun registerAsStale(secure: Boolean) {
         val dir = PictureDirHelper.getPictureDir(getApplication(), secure) ?: return
         val files = dir.listFiles() ?: return
-        val values = ContentValues()
+        val values = ContentValues(1)
         for (file: File in files) {
-            val uri = if (secure) FileProvider.getUriForFile(
-                getApplication(),
-                "org.totschnig.myexpenses.fileprovider", file
-            ) else Uri.fromFile(file)
-            values.put(DatabaseConstants.KEY_PICTURE_URI, uri.toString())
+            values.put(
+                KEY_URI,
+                AppDirHelper.getContentUriForFile(getApplication(), file).toString()
+            )
             contentResolver.insert(TransactionProvider.STALE_IMAGES_URI, values)
         }
     }
