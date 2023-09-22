@@ -42,8 +42,10 @@ fun doBackup(
     return backup(cacheDir, context, prefHandler).mapCatching {
         try {
             ZipUtils.zipBackup(
+                context,
                 cacheDir,
-                backupFile, password
+                backupFile,
+                password
             )
 
             sync(context.contentResolver, withSync, backupFile)

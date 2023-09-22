@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.accounts.AccountManager
 import android.app.Application
-import android.content.ContentProviderOperation
 import android.content.ContentValues
 import android.content.OperationApplicationException
 import android.database.sqlite.SQLiteException
@@ -27,11 +26,12 @@ import org.totschnig.myexpenses.provider.BACKUP_DB_FILE_NAME
 import org.totschnig.myexpenses.provider.BACKUP_PREF_FILE_NAME
 import org.totschnig.myexpenses.provider.CALENDAR_FULL_PATH_PROJECTION
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.checkSyncAccounts
-import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.getBackupDbFile
 import org.totschnig.myexpenses.provider.getBackupPrefFile
 import org.totschnig.myexpenses.provider.getCalendarPath
@@ -147,7 +147,8 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                     }
                 }
             } catch (e: Exception) {
-                CrashHandler.report(e, mapOf(
+                CrashHandler.report(
+                    e, mapOf(
                         "fileUri" to (fileUri?.toString() ?: "null"),
                         "syncAccountName" to (syncAccountName ?: "null"),
                         "backupFromSync" to (backupFromSync ?: "null")
@@ -209,17 +210,19 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
             val backupPref = application.getSharedPreferences("backup_temp", 0)
             when (restorePlanStrategy) {
                 R.id.restore_calendar_handling_create_new -> {
-                    currentPlannerId = MyApplication.getInstance().createPlanner(false)
+                    currentPlannerId = getApplication<MyApplication>().createPlanner(false)
                     currentPlannerPath = getCalendarPath(contentResolver, currentPlannerId)
                 }
+
                 R.id.restore_calendar_handling_configured -> {
                     currentPlannerId = application.checkPlanner()
-                    currentPlannerPath = prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH,"")
+                    currentPlannerPath = prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH, "")
                     if (MyApplication.INVALID_CALENDAR_ID == currentPlannerId) {
                         failureResult(R.string.restore_not_possible_local_calendar_missing)
                         return@launch
                     }
                 }
+
                 R.id.restore_calendar_handling_backup -> {
                     var found = false
                     val calendarId = backupPref
@@ -272,7 +275,9 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                 val edit = application.settings.edit()
                 application.settings.all.forEach {
                     val key = it.key
-                    if (key != prefHandler.getKey(PrefKey.NEW_LICENCE) && key != prefHandler.getKey(PrefKey.LICENCE_EMAIL)
+                    if (key != prefHandler.getKey(PrefKey.NEW_LICENCE) && key != prefHandler.getKey(
+                            PrefKey.LICENCE_EMAIL
+                        )
                         && !key.startsWith("acra") && key != prefHandler.getKey(PrefKey.FIRST_INSTALL_VERSION)
                     ) {
                         edit.remove(key)
@@ -283,7 +288,8 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                     val key = it.key
                     if (key == prefHandler.getKey(PrefKey.LICENCE_LEGACY) ||
                         key == prefHandler.getKey(PrefKey.FIRST_INSTALL_VERSION) ||
-                        key == prefHandler.getKey(PrefKey.UI_WEB)) {
+                        key == prefHandler.getKey(PrefKey.UI_WEB)
+                    ) {
                         return@forEach
                     }
                     val value = it.value
@@ -291,21 +297,37 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                         Timber.i("Found: %s null", key)
                         return@forEach
                     }
-                    if (value is Long) {
-                        edit.putLong(key, backupPref.getLong(key, 0))
-                    } else if (value is Int) {
-                        edit.putInt(key, backupPref.getInt(key, 0))
-                    } else if (value is String) {
-                        edit.putString(key, backupPref.getString(key, ""))
-                    } else if (value is Boolean) {
-                        edit.putBoolean(key, backupPref.getBoolean(key, false))
-                    } else {
-                        Timber.i("Found: %s of type %s", key, value.javaClass.name)
+                    when (value) {
+                        is Long -> {
+                            edit.putLong(key, backupPref.getLong(key, 0))
+                        }
+
+                        is Int -> {
+                            edit.putInt(key, backupPref.getInt(key, 0))
+                        }
+
+                        is String -> {
+                            edit.putString(key, backupPref.getString(key, ""))
+                        }
+
+                        is Boolean -> {
+                            edit.putBoolean(key, backupPref.getBoolean(key, false))
+                        }
+
+                        else -> {
+                            Timber.i("Found: %s of type %s", key, value.javaClass.name)
+                        }
                     }
                 }
                 if (restorePlanStrategy == R.id.restore_calendar_handling_configured) {
-                    edit.putString(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_PATH), currentPlannerPath)
-                    edit.putString(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID), currentPlannerId)
+                    edit.putString(
+                        prefHandler.getKey(PrefKey.PLANNER_CALENDAR_PATH),
+                        currentPlannerPath
+                    )
+                    edit.putString(
+                        prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID),
+                        currentPlannerId
+                    )
                 } else if (restorePlanStrategy == R.id.restore_calendar_handling_ignore) {
                     edit.remove(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_PATH))
                     edit.remove(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID))
@@ -319,7 +341,10 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                 backupPrefFile.delete()
                 publishProgress(R.string.restore_preferences_success)
                 //if a user restores a backup we do not want past plan instances to flood the database
-                prefHandler.putLong(PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP, System.currentTimeMillis())
+                prefHandler.putLong(
+                    PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP,
+                    System.currentTimeMillis()
+                )
                 //now handling plans
                 if (restorePlanStrategy == R.id.restore_calendar_handling_ignore) {
                     //we remove all links to plans we did not restore
@@ -350,102 +375,69 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
 
                 //3. move pictures home and update uri
                 val backupPictureDir = File(workingDir, ZipUtils.PICTURES)
+                val backupFiles = backupPictureDir.listFiles()!!
                 contentResolver.query(
-                    TransactionProvider.TRANSACTIONS_URI,
-                    arrayOf(
-                        DatabaseConstants.KEY_ROWID,
-                        DatabaseConstants.KEY_PICTURE_URI,
-                        DatabaseConstants.KEY_ACCOUNTID,
-                        DatabaseConstants.KEY_TRANSFER_ACCOUNT
-                    ),
-                    DatabaseConstants.KEY_PICTURE_URI + " IS NOT NULL",
+                    TransactionProvider.ATTACHMENTS_URI,
+                    arrayOf("DISTINCT $KEY_URI"),
                     null,
-                    null
-                )?.use { cursor ->
-                    if (cursor.moveToFirst()) {
-                        do {
-                            val uriValues = ContentValues()
-                            val rowId = arrayOf(cursor.getString(0))
-                            val accountId = cursor.getString(2)
-                            val transferAccount = cursor.getString(3)
-                            val accountSelectionArgs =
-                                transferAccount?.let { arrayOf(accountId, it) }
-                                    ?: arrayOf(accountId)
-                            val fromBackup = Uri.parse(cursor.getString(1))
-                            val fileName = fromBackup.lastPathSegment
-                            val backupImage = fileName?.let { File(backupPictureDir, it) }
-                            var restored: Uri? = null
-                            if (backupImage?.exists() == true) {
-                                val restoredImage = PictureDirHelper.getOutputMediaFile(
-                                    fileName = backupImage.nameWithoutExtension,
-                                    temp = false,
-                                    checkUnique = true,
-                                    application = getApplication(),
-                                    extension = backupImage.extension
+                    null,
+                    "$KEY_URI COLLATE BINARY"
+                )?.use {
+                    it.asSequence.forEachIndexed { index, cursor ->
+                        val uriValues = ContentValues()
+                        val fromBackup = cursor.getString(0)
+                        val backupImage = backupFiles.firstOrNull {
+                            file -> file.name.startsWith("${index}_")
+                        }
+                        var restored: Uri? = null
+                        if (backupImage?.exists() == true) {
+                            val restoredImage = PictureDirHelper.getOutputMediaFile(
+                                fileName = backupImage.nameWithoutExtension.substringAfter('_'),
+                                temp = false,
+                                checkUnique = true,
+                                application = getApplication(),
+                                extension = backupImage.extension
+                            )
+                            if (!FileCopyUtils.copy(
+                                    backupImage,
+                                    restoredImage
                                 )
-                                if (!FileCopyUtils.copy(
-                                        backupImage,
-                                        restoredImage
-                                    )
-                                ) {
-                                    CrashHandler.report(
-                                        Exception("Could not restore file $fromBackup from backup")
-                                    )
-                                } else {
-                                    restored =
-                                        AppDirHelper.getContentUriForFile(
-                                            application,
-                                            restoredImage
-                                        )
-                                }
-                            } else {
+                            ) {
                                 CrashHandler.report(
                                     Exception("Could not restore file $fromBackup from backup")
                                 )
-                            }
-                            if (restored != null) {
-                                uriValues.put(
-                                    DatabaseConstants.KEY_PICTURE_URI,
-                                    restored.toString()
-                                )
                             } else {
-                                uriValues.putNull(DatabaseConstants.KEY_PICTURE_URI)
-                            }
-                            val ops = ArrayList<ContentProviderOperation>()
-                            try {
-                                val accountSelection =
-                                    " AND " + DatabaseConstants.KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(
-                                        accountSelectionArgs.size
+                                restored =
+                                    AppDirHelper.getContentUriForFile(
+                                        application,
+                                        restoredImage
                                     )
-                                ops.add(
-                                    ContentProviderOperation.newUpdate(TransactionProvider.ACCOUNTS_URI)
-                                        .withValue(DatabaseConstants.KEY_SEALED, -1)
-                                        .withSelection(
-                                            DatabaseConstants.KEY_SEALED + " = 1 " + accountSelection,
-                                            accountSelectionArgs
-                                        ).build()
-                                )
-                                ops.add(
-                                    ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)
-                                        .withValues(uriValues)
-                                        .withSelection(DatabaseConstants.KEY_ROWID + " = ?", rowId)
-                                        .build()
-                                )
-                                ops.add(
-                                    ContentProviderOperation.newUpdate(TransactionProvider.ACCOUNTS_URI)
-                                        .withValue(DatabaseConstants.KEY_SEALED, 1)
-                                        .withSelection(
-                                            DatabaseConstants.KEY_SEALED + " = -1 " + accountSelection,
-                                            accountSelectionArgs
-                                        ).build()
-                                )
-                                contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
-                            } catch (e: OperationApplicationException) {
-                                CrashHandler.report(e)
-                            } catch (e: RemoteException) {
-                                CrashHandler.report(e)
                             }
-                        } while (cursor.moveToNext())
+                        } else {
+                            CrashHandler.report(
+                                Exception("Could not restore file $fromBackup from backup")
+                            )
+                        }
+                        if (restored != null) {
+                            uriValues.put(
+                                DatabaseConstants.KEY_PICTURE_URI,
+                                restored.toString()
+                            )
+                        } else {
+                            uriValues.putNull(DatabaseConstants.KEY_PICTURE_URI)
+                        }
+                        try {
+                            contentResolver.update(
+                                TransactionProvider.ATTACHMENTS_URI,
+                                uriValues,
+                                "$KEY_URI = ?",
+                                arrayOf(fromBackup)
+                            )
+                        } catch (e: OperationApplicationException) {
+                            CrashHandler.report(e)
+                        } catch (e: RemoteException) {
+                            CrashHandler.report(e)
+                        }
                     }
                 }
                     ?: run {
