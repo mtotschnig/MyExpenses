@@ -198,7 +198,8 @@ CREATE TABLE $TABLE_ATTACHMENTS (
 const val TRANSACTIONS_ATTACHMENTS_CREATE = """
 CREATE TABLE $TABLE_TRANSACTION_ATTACHMENTS (
     $KEY_TRANSACTIONID integer references $TABLE_TRANSACTIONS($KEY_ROWID) ON DELETE CASCADE,
-    $KEY_ATTACHMENT_ID integer references $TABLE_ATTACHMENTS($KEY_ROWID)
+    $KEY_ATTACHMENT_ID integer references $TABLE_ATTACHMENTS($KEY_ROWID),
+    primary key ($KEY_TRANSACTIONID, $KEY_ATTACHMENT_ID)
 );
 """
 
@@ -476,7 +477,7 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
 
     fun SupportSQLiteDatabase.upgradeTo148() {
         execSQL("CREATE TABLE attachments (_id integer primary key autoincrement, uri text not null unique, uuid text not null unique)")
-        execSQL("CREATE TABLE transaction_attachments (transaction_id integer references transactions(_id) ON DELETE CASCADE, attachment_id integer references attachments(_id))")
+        execSQL("CREATE TABLE transaction_attachments (transaction_id integer references transactions(_id) ON DELETE CASCADE, attachment_id integer references attachments(_id), primary key (transaction_id, attachment_id))")
         execSQL("DROP TRIGGER IF EXISTS cache_stale_uri")
         //insert existing attachments from transaction table into attachments table
         //drop column picture_id

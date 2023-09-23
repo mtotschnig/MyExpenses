@@ -726,12 +726,15 @@ class SyncAdapter @JvmOverloads constructor(
                                 }
                             //noinspection Recycle
                             provider.query(
-                                TransactionProvider.ATTACHMENTS_URI,
+                                TransactionProvider.ATTACHMENTS_URI
+                                    .buildUpon()
+                                    .appendQueryParameter(KEY_UUID, transactionChange.uuid())
+                                    .build(),
+                                arrayOf(KEY_UUID),
                                 null,
-                                "EXISTS(SELECT 1 FROM $TABLE_TRANSACTION_ATTACHMENTS WHERE $KEY_ATTACHMENT_ID = $KEY_ROWID AND $KEY_TRANSACTIONID = (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?))",
                                 arrayOf(transactionChange.uuid()),
                                 null
-                            )?.useAndMap { it.getString(KEY_URI) }
+                            )?.useAndMap { it.getString(0) }
                                 ?.takeIf { it.isNotEmpty() }
                                 ?.let { attachments ->
                                     transactionChange =

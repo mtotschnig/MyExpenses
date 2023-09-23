@@ -205,7 +205,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 }
                 repository.addAttachments(
                     transaction.id,
-                    attachmentUris.value.distinct().map(::prepareUriForSave)
+                    (attachmentUris.value - originalUris.toSet()).map(::prepareUriForSave)
                 )
                 result
             })

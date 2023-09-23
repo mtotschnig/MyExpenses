@@ -690,13 +690,13 @@ public class TransactionProvider extends BaseTransactionProvider {
         return db.query(SupportSQLiteQueryBuilder.builder("sqlite_master").columns(new String[]{"name", "sql"}).selection("type = 'table'", new Object[]{}).create());
       case STALE_IMAGES:
         qb = SupportSQLiteQueryBuilder.builder(TABLE_ATTACHMENTS);
-        selection = STALE_ATTACHMENT_SELECTION;
+        selection = Companion.getSTALE_ATTACHMENT_SELECTION();
         if (projection == null)
           projection = new String[]{KEY_ROWID, KEY_URI};
         break;
       case STALE_IMAGES_ID:
         qb = SupportSQLiteQueryBuilder.builder(TABLE_ATTACHMENTS);
-        selection = STALE_ATTACHMENT_SELECTION + " AND " + KEY_ROWID + " = ?";
+        selection = Companion.getSTALE_ATTACHMENT_SELECTION() + " AND " + KEY_ROWID + " = ?";
         selectionArgs = new String[] { uri.getPathSegments().get(1) };
         projection = new String[]{KEY_URI};
         break;
@@ -835,7 +835,9 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case ATTACHMENTS: {
         qb = SupportSQLiteQueryBuilder.builder(TABLE_ATTACHMENTS);
-        selection = LIVE_ATTACHMENT_SELECTION;
+        String uuidSelection = uri.getQueryParameter(KEY_UUID);
+        selection = Companion.LIVE_ATTACHMENT_SELECTION(uuidSelection != null);
+        selectionArgs = uuidSelection != null ? new String[]{ uuidSelection } : null;
         break;
       }
       case TRANSACTION_ATTACHMENTS: {
@@ -1121,7 +1123,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         segment = uri.getPathSegments().get(1);
         count = db.delete(TABLE_ATTACHMENTS, KEY_ROWID + " = ?", new String[] { segment});
       }
-      case STALE_IMAGES -> count = db.delete(TABLE_ATTACHMENTS, STALE_ATTACHMENT_SELECTION, null);
+      case STALE_IMAGES -> count = db.delete(TABLE_ATTACHMENTS, Companion.getSTALE_ATTACHMENT_SELECTION(), null);
 
       case CHANGES -> count = db.delete(TABLE_CHANGES, where, whereArgs);
       case SETTINGS -> count = db.delete(TABLE_SETTINGS, where, whereArgs);
