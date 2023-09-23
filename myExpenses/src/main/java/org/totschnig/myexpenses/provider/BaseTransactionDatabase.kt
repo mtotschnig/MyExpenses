@@ -494,7 +494,7 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
                 insert("transaction_attachments", joinValues)
             }
         }
-        query("stale_uris", arrayOf("picture_id")).use { cursor ->
+        query("stale_uris", arrayOf("picture_id"), selection = null).use { cursor ->
             val attachmentValues = ContentValues(2)
             cursor.asSequence.forEach {
                 attachmentValues.clear()
@@ -585,10 +585,6 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
             execSQL("ALTER TABLE transactions DROP COLUMN picture_id")
             execSQL("ALTER TABLE changes DROP COLUMN picture_id")
         }
-        execSQL("ALTER TABLE stale_uris RENAME to stale_uris_old")
-        execSQL("CREATE TABLE stale_uris (uri text not null unique)")
-        execSQL("INSERT INTO stale_uris(uri) select distinct picture_id from stale_uris_old")
-        execSQL("DROP TABLE stale_uris_old")
     }
 
     override fun onCreate(db: SupportSQLiteDatabase) {
