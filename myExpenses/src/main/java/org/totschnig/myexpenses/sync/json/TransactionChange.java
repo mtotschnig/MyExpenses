@@ -13,7 +13,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_A
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENT_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TIMESTAMP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
@@ -57,8 +56,7 @@ public abstract class TransactionChange {
       KEY_CATID,
       KEY_METHOD_LABEL,
       KEY_CR_STATUS,
-      "NULLIF(TRIM(" + KEY_REFERENCE_NUMBER + "),'') AS " + KEY_REFERENCE_NUMBER,
-      KEY_PICTURE_URI
+      "NULLIF(TRIM(" + KEY_REFERENCE_NUMBER + "),'') AS " + KEY_REFERENCE_NUMBER
   };
 
   public static TransactionChange create(Cursor cursor) {
@@ -157,12 +155,15 @@ public abstract class TransactionChange {
   @Nullable
   public abstract String referenceNumber();
 
-  @ColumnName(KEY_PICTURE_URI)
+  //legacy from pre 3.6.5
   @Nullable
   public abstract String pictureUri();
 
   @Nullable
   public abstract List<String> tags();
+
+  @Nullable
+  public abstract List<String> attachments();
 
   @Nullable
   public abstract List<TransactionChange> splitParts();
@@ -253,6 +254,8 @@ public abstract class TransactionChange {
     public abstract Builder setSplitParts(List<TransactionChange> value);
 
     public abstract Builder setTags(List<String> value);
+
+    public abstract Builder setAttachments(List<String> value);
 
     public abstract Builder setCategoryInfo(List<CategoryInfo> value);
 

@@ -1,10 +1,13 @@
 package org.totschnig.myexpenses.provider
 
 import android.content.ContentProvider
+import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.database.Cursor
 import android.database.CursorWrapper
+import android.database.sqlite.SQLiteConstraintException
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -33,6 +36,7 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_DIRECTIO
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CALLER_IS_IN_BULK
+import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
@@ -155,6 +159,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
         return !uri.getBooleanQueryParameter(QUERY_PARAMETER_CALLER_IS_IN_BULK, false)
     }
 
+    fun attachmentUri(transactionId: Long) =
+        ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, transactionId)
+
     /**
      * @param transactionId When we edit a transaction, we want it to not be included into the debt sum, since it can be changed in the UI, and the variable amount will be calculated by the UI
      */
@@ -228,7 +235,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             "$TABLE_DEBTS LEFT JOIN $TABLE_PAYEES ON ($KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID)"
 
         const val TRANSACTION_ATTRIBUTES_JOIN =
-        "$TABLE_TRANSACTION_ATTRIBUTES LEFT JOIN $TABLE_ATTRIBUTES ON ($KEY_ATTRIBUTE_ID = $TABLE_ATTRIBUTES.$KEY_ROWID)"
+            "$TABLE_TRANSACTION_ATTRIBUTES LEFT JOIN $TABLE_ATTRIBUTES ON ($KEY_ATTRIBUTE_ID = $TABLE_ATTRIBUTES.$KEY_ROWID)"
 
         const val ACCOUNT_ATTRIBUTES_JOIN =
             "$TABLE_ACCOUNT_ATTRIBUTES LEFT JOIN $TABLE_ATTRIBUTES ON ($KEY_ATTRIBUTE_ID = $TABLE_ATTRIBUTES.$KEY_ROWID)"
@@ -246,6 +253,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
             "(SELECT $KEY_LABEL FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID) AS $KEY_DEBT_LABEL"
 
         const val TAG = "TransactionProvider"
+
+        const val STALE_ATTACHMENT_SELECTION = "NOT EXISTS(SELECT 1 FROM $TABLE_TRANSACTION_ATTACHMENTS WHERE $KEY_ATTACHMENT_ID = $KEY_ROWID)"
 
         fun defaultBudgetAllocationUri(accountId: Long, grouping: Grouping): Uri =
             TransactionProvider.BUDGETS_URI.buildUpon()
@@ -321,6 +330,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val TRANSACTION_ATTRIBUTES = 70
         protected const val ACCOUNT_ATTRIBUTES = 71
         protected const val TRANSACTION_ATTACHMENTS = 72
+        protected const val ATTACHMENTS = 73
     }
 
     val homeCurrency: String
@@ -1060,8 +1070,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
     fun insertAttribute(db: SupportSQLiteDatabase, values: ContentValues) {
         val name = values.getAsString(KEY_ATTRIBUTE_NAME)
         val context = values.getAsString(KEY_CONTEXT)
-        db.execSQL("INSERT INTO $TABLE_ATTRIBUTES ($KEY_ATTRIBUTE_NAME, $KEY_CONTEXT)  SELECT ?,? WHERE NOT EXISTS (SELECT 1 FROM $TABLE_ATTRIBUTES WHERE $KEY_ATTRIBUTE_NAME=? AND $KEY_CONTEXT = ? )",
-            arrayOf(name, context, name, context))
+        db.execSQL(
+            "INSERT INTO $TABLE_ATTRIBUTES ($KEY_ATTRIBUTE_NAME, $KEY_CONTEXT)  SELECT ?,? WHERE NOT EXISTS (SELECT 1 FROM $TABLE_ATTRIBUTES WHERE $KEY_ATTRIBUTE_NAME=? AND $KEY_CONTEXT = ? )",
+            arrayOf(name, context, name, context)
+        )
     }
 
     fun insertTransactionAttribute(db: SupportSQLiteDatabase, values: ContentValues) {
@@ -1072,8 +1084,14 @@ abstract class BaseTransactionProvider : ContentProvider() {
         insertObjectAttribute(db, values, TABLE_ACCOUNT_ATTRIBUTES, KEY_ACCOUNTID)
     }
 
-    private fun insertObjectAttribute(db: SupportSQLiteDatabase, values: ContentValues, table: String, linkColumn: String) {
-        db.execSQL("INSERT or REPLACE INTO $table SELECT DISTINCT ?, _id, ? FROM $TABLE_ATTRIBUTES WHERE $KEY_ATTRIBUTE_NAME = ? AND $KEY_CONTEXT = ?;",
+    private fun insertObjectAttribute(
+        db: SupportSQLiteDatabase,
+        values: ContentValues,
+        table: String,
+        linkColumn: String
+    ) {
+        db.execSQL(
+            "INSERT or REPLACE INTO $table SELECT DISTINCT ?, _id, ? FROM $TABLE_ATTRIBUTES WHERE $KEY_ATTRIBUTE_NAME = ? AND $KEY_CONTEXT = ?;",
             arrayOf(
                 values.getAsLong(linkColumn),
                 values.getAsString(KEY_VALUE),
@@ -1081,5 +1099,73 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 values.getAsString(KEY_CONTEXT)
             )
         )
+    }
+
+    fun requireAttachment(db: SupportSQLiteDatabase, uri: String) =
+        findAttachment(db, uri) ?: insertAttachment(db, uri)
+
+    fun findAttachment(db: SupportSQLiteDatabase, uri: String) = db.query(
+        TABLE_ATTACHMENTS,
+        arrayOf(KEY_ROWID),
+        "$KEY_URI = ?",
+        arrayOf(uri)
+    ).use { if (it.moveToFirst()) it.getLong(0) else null }
+
+
+    fun deleteAttachment(db: SupportSQLiteDatabase, attachmentId: Long, uriString: String) {
+        val uri = Uri.parse(uriString)
+        if (uri.authority != AppDirHelper.getFileProviderAuthority(context!!)) {
+            Timber.d("External, releasePersistableUriPermission")
+            if (try {
+                    db.delete(
+                        TABLE_ATTACHMENTS,
+                        "$KEY_ROWID = ? AND $KEY_URI = ?",
+                        arrayOf(attachmentId.toString(), uriString)
+                    )
+                } catch (e: SQLiteConstraintException) {
+                    //still in use
+                    0
+                } == 1
+            ) {
+                releasePersistableUriPermission(uri)
+            }
+        } else {
+            Timber.d("Internal, now considered stale, if no longer referenced")
+        }
+    }
+
+    open fun takePersistableUriPermission(uri: Uri) {
+        context!!.contentResolver.takePersistableUriPermission(
+            uri,
+            Intent.FLAG_GRANT_READ_URI_PERMISSION
+        )
+    }
+
+    open fun releasePersistableUriPermission(uri: Uri) {
+        try {
+            context!!.contentResolver.releasePersistableUriPermission(
+                uri,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
+        } catch (e: SecurityException) {
+            //we had a URI without a permission. This should not happen
+            CrashHandler.report(e)
+        }
+    }
+
+    private fun insertAttachment(db: SupportSQLiteDatabase, uriString: String): Long {
+        val id = db.insert(
+            TABLE_ATTACHMENTS,
+            ContentValues(2).apply {
+                put(KEY_URI, uriString)
+                put(KEY_UUID, Model.generateUuid())
+            }
+        )
+        val uri = Uri.parse(uriString)
+        if (uri.authority != AppDirHelper.getFileProviderAuthority(context!!)) {
+            Timber.d("External, takePersistableUriPermission")
+            takePersistableUriPermission(uri)
+        }
+        return id
     }
 }

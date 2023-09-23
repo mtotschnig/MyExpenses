@@ -3,11 +3,9 @@ package org.totschnig.myexpenses.viewmodel
 import android.accounts.AccountManager
 import android.app.Application
 import android.content.ContentValues
-import android.content.OperationApplicationException
 import android.database.sqlite.SQLiteException
 import android.net.Uri
 import android.os.Bundle
-import android.os.RemoteException
 import android.provider.CalendarContract
 import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
@@ -377,18 +375,19 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                 val backupFiles = backupPictureDir.listFiles()!!
                 contentResolver.query(
                     TransactionProvider.ATTACHMENTS_URI,
-                    arrayOf("DISTINCT $KEY_URI"),
+                    arrayOf(DatabaseConstants.KEY_ROWID, KEY_URI),
                     null,
                     null,
-                    "$KEY_URI COLLATE BINARY"
+                    null
                 )?.use { c ->
-                    c.asSequence.forEachIndexed { index, cursor ->
+                    c.asSequence.forEach { cursor ->
                         val uriValues = ContentValues(1)
-                        val fromBackup = cursor.getString(0)
+                        val rowId = cursor.getLong(0)
+                        val fromBackup = cursor.getString(1)
                         val selection = "$KEY_URI = ?"
                         val selectionArguments = arrayOf(fromBackup)
                         val restored = (backupFiles.firstOrNull { file ->
-                            file.name.startsWith("${index}_")
+                            file.name.startsWith("${rowId}_")
                         }?.let {
                             it to it.nameWithoutExtension.substringAfter('_')
                         } ?: Uri.parse(fromBackup).lastPathSegment?.let { fileName ->
@@ -514,7 +513,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                 KEY_URI,
                 AppDirHelper.getContentUriForFile(getApplication(), file).toString()
             )
-            contentResolver.insert(TransactionProvider.STALE_IMAGES_URI, values)
+            contentResolver.insert(TransactionProvider.ATTACHMENTS_URI, values)
         }
     }
 

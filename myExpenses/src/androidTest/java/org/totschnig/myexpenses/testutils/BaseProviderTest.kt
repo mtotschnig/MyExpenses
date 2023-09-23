@@ -6,6 +6,8 @@ import android.content.ContentResolver
 import android.content.Context
 import android.content.pm.ProviderInfo
 import android.content.res.Configuration
+import android.content.res.Resources
+import android.net.Uri
 import android.test.IsolatedContext
 import android.test.ProviderTestCase2
 import android.test.RenamingDelegatingContext
@@ -22,11 +24,14 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.CurrencyFormatter
+import java.io.File
 
 open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(TransactionProvider::class.java, TransactionProvider.AUTHORITY) {
-    lateinit var transactionProvider: TransactionProvider
-    lateinit var targetContextWrapper: Context
-    lateinit var resolver: MockContentResolver
+    private lateinit var transactionProvider: TransactionProvider
+    private lateinit var targetContextWrapper: Context
+    private lateinit var resolver: MockContentResolver
+
+    val persistedPermissions = mutableSetOf<Uri>()
 
     val targetContext: Context
         get() = InstrumentationRegistry.getInstrumentation().targetContext
@@ -57,7 +62,14 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(Transaction
     @Deprecated("Deprecated in Java")
     @Throws(Exception::class)
     override fun setUp() {
-        transactionProvider = TransactionProvider::class.java.newInstance()
+        transactionProvider = object : TransactionProvider() {
+            override fun takePersistableUriPermission(uri: Uri) {
+                persistedPermissions.add(uri)
+            }
+            override fun releasePersistableUriPermission(uri: Uri) {
+                persistedPermissions.remove(uri)
+            }
+        }
         resolver = MockContentResolver()
         val filenamePrefix = "test."
         targetContextWrapper = RenamingDelegatingContext(
@@ -72,6 +84,7 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(Transaction
         resolver.addProvider(TransactionProvider.AUTHORITY, transactionProvider)
     }
 
+    @Deprecated("Deprecated in Java")
     @Throws(Exception::class)
     override fun tearDown() {
         //we need to skip super.tearDown(), since we do not call super.setUp
@@ -83,8 +96,8 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(Transaction
 
     private inner class DelegatedMockContext(val resolver: ContentResolver) : MockContext() {
         override fun createConfigurationContext(overrideConfiguration: Configuration) = this
-        override fun getResources() = context.getResources()
-        override fun getDir(name: String, mode: Int) = context.getDir("mockcontext2_$name", mode)
+        override fun getResources(): Resources = context.resources
+        override fun getDir(name: String, mode: Int): File = context.getDir("mockContext2_$name", mode)
         override fun getApplicationContext() = this
         override fun getContentResolver() = resolver
     }

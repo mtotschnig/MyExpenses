@@ -21,6 +21,7 @@ import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_I
 import static org.totschnig.myexpenses.provider.DatabaseConstants.IS_SAME_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTACHMENT_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -89,13 +90,13 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SETTINGS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_STALE_URIS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SYNC_STATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTACHMENTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
@@ -211,8 +212,12 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   public static Uri PLAN_INSTANCE_SINGLE_URI(long templateId, long instanceId) {
     return ContentUris.appendId(ContentUris.appendId(
-        TransactionProvider.PLAN_INSTANCE_STATUS_URI.buildUpon(), templateId), instanceId)
+        PLAN_INSTANCE_STATUS_URI.buildUpon(), templateId), instanceId)
         .build();
+  }
+
+  public static Uri ATTACHMENTS_FOR_TRANSACTION_URI(long transactionId) {
+    return ContentUris.appendId(TRANSACTIONS_URI.buildUpon(), transactionId).appendPath("attachments").build();
   }
 
   public static final Uri CURRENCIES_URI =
@@ -272,7 +277,7 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   public static final Uri ATTRIBUTES_URI = Uri.parse("content://" + AUTHORITY + "/attributes");
 
-  public static final Uri ATTACHMENTS_URI = Uri.parse("content://" + AUTHORITY + "/transactions/attachments");
+  public static final Uri ATTACHMENTS_URI = Uri.parse("content://" + AUTHORITY + "/attachments");
 
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
@@ -684,13 +689,15 @@ public class TransactionProvider extends BaseTransactionProvider {
       case DEBUG_SCHEMA:
         return db.query(SupportSQLiteQueryBuilder.builder("sqlite_master").columns(new String[]{"name", "sql"}).selection("type = 'table'", new Object[]{}).create());
       case STALE_IMAGES:
-        qb = SupportSQLiteQueryBuilder.builder(TABLE_STALE_URIS);
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_ATTACHMENTS);
+        selection = STALE_ATTACHMENT_SELECTION;
         if (projection == null)
-          projection = new String[]{"rowid as _id", KEY_URI};
+          projection = new String[]{KEY_ROWID, KEY_URI};
         break;
       case STALE_IMAGES_ID:
-        qb = SupportSQLiteQueryBuilder.builder(TABLE_STALE_URIS);
-        additionalWhere.append("rowid = ").append(uri.getPathSegments().get(1));
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_ATTACHMENTS);
+        selection = STALE_ATTACHMENT_SELECTION + " AND " + KEY_ROWID + " = ?";
+        selectionArgs = new String[] { uri.getPathSegments().get(1) };
         projection = new String[]{KEY_URI};
         break;
       case TRANSACTIONS_LASTEXCHANGE:
@@ -826,8 +833,15 @@ public class TransactionProvider extends BaseTransactionProvider {
         qb = SupportSQLiteQueryBuilder.builder(ACCOUNT_ATTRIBUTES_JOIN);
         break;
       }
-      case TRANSACTION_ATTACHMENTS: {
+      case ATTACHMENTS: {
         qb = SupportSQLiteQueryBuilder.builder(TABLE_ATTACHMENTS);
+        break;
+      }
+      case TRANSACTION_ATTACHMENTS: {
+        projection = new String[] { KEY_URI };
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_TRANSACTION_ATTACHMENTS + " LEFT JOIN " + TABLE_ATTACHMENTS + " ON (" + KEY_ATTACHMENT_ID + " = " + KEY_ROWID + ")");
+        selection = KEY_TRANSACTIONID + "= ?";
+        selectionArgs = new String[] { uri.getPathSegments().get(1) };
         break;
       }
       default:
@@ -910,10 +924,6 @@ public class TransactionProvider extends BaseTransactionProvider {
         id = MoreDbUtilsKt.insert(db, TABLE_EVENT_CACHE, values);
         newUri = EVENT_CACHE_URI + "/" + id;
       }
-      case STALE_IMAGES -> {
-        id = MoreDbUtilsKt.insert(db, TABLE_STALE_URIS, values);
-        newUri = STALE_IMAGES_URI + "/" + id;
-      }
       case ACCOUNT_EXCHANGE_RATE -> {
         values.put(KEY_ACCOUNTID, uri.getPathSegments().get(1));
         values.put(KEY_CURRENCY_SELF, uri.getPathSegments().get(2));
@@ -995,9 +1005,17 @@ public class TransactionProvider extends BaseTransactionProvider {
         insertAccountAttribute(db, values);
         return ACCOUNTS_ATTRIBUTES_URI;
       }
+      case ATTACHMENTS ->  {
+        long attachmentId = requireAttachment(db, values.getAsString(KEY_URI));
+        newUri = ATTACHMENTS_URI + "/" + attachmentId;
+      }
       case TRANSACTION_ATTACHMENTS -> {
-        id = MoreDbUtilsKt.insert(db, TABLE_ATTACHMENTS, values);
-        newUri = TRANSACTIONS_ATTRIBUTES_URI + "/" + id;
+        long attachmentId = requireAttachment(db, values.getAsString(KEY_URI));
+        values.remove(KEY_URI);
+        values.put(KEY_TRANSACTIONID, uri.getPathSegments().get(1));
+        values.put(KEY_ATTACHMENT_ID, attachmentId);
+        id = MoreDbUtilsKt.insert(db, TABLE_TRANSACTION_ATTACHMENTS, values);
+        newUri = ATTACHMENTS_URI + "/" + attachmentId;
       }
       default -> throw unknownUri(uri);
     }
@@ -1098,10 +1116,12 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case EVENT_CACHE -> count = db.delete(TABLE_EVENT_CACHE, where, whereArgs);
       case STALE_IMAGES_ID -> {
+        //will fail if attachment is not stale
         segment = uri.getPathSegments().get(1);
-        count = db.delete(TABLE_STALE_URIS, "rowid=" + segment, null);
+        count = db.delete(TABLE_ATTACHMENTS, KEY_ROWID + " = ?", new String[] { segment});
       }
-      case STALE_IMAGES -> count = db.delete(TABLE_STALE_URIS, where, whereArgs);
+      case STALE_IMAGES -> count = db.delete(TABLE_ATTACHMENTS, STALE_ATTACHMENT_SELECTION, null);
+
       case CHANGES -> count = db.delete(TABLE_CHANGES, where, whereArgs);
       case SETTINGS -> count = db.delete(TABLE_SETTINGS, where, whereArgs);
       case BUDGET_ID ->
@@ -1146,7 +1166,15 @@ public class TransactionProvider extends BaseTransactionProvider {
                 KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
       }
       case TRANSACTION_ATTACHMENTS -> {
-        count = db.delete(TABLE_ATTACHMENTS, where, whereArgs);
+        String transactionId = uri.getPathSegments().get(1);
+        String attachmentUri = whereArgs[0];
+        Long attachmentId = findAttachment(db, attachmentUri);
+        if (attachmentId == null) return 0;
+        count = db.delete(TABLE_TRANSACTION_ATTACHMENTS,
+                KEY_TRANSACTIONID + " = ? AND " + KEY_ATTACHMENT_ID + " = ?",
+                new String[] { transactionId, attachmentId.toString() }
+        );
+        deleteAttachment(db, attachmentId, attachmentUri);
       }
       default -> throw unknownUri(uri);
     }
@@ -1649,7 +1677,8 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "attributes", ATTRIBUTES);
     URI_MATCHER.addURI(AUTHORITY, "transactions/attributes", TRANSACTION_ATTRIBUTES);
     URI_MATCHER.addURI(AUTHORITY, "accounts/attributes", ACCOUNT_ATTRIBUTES);
-    URI_MATCHER.addURI(AUTHORITY, "transactions/attachments", TRANSACTION_ATTACHMENTS);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/#/attachments", TRANSACTION_ATTACHMENTS);
+    URI_MATCHER.addURI(AUTHORITY, "attachments", ATTACHMENTS);
   }
 
   /**

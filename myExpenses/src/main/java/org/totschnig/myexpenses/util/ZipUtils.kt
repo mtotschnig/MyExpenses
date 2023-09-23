@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.text.TextUtils
 import androidx.documentfile.provider.DocumentFile
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
@@ -43,14 +44,15 @@ object ZipUtils {
         resolver
             .query(
                 TransactionProvider.ATTACHMENTS_URI,
-                arrayOf("DISTINCT $KEY_URI"),
+                arrayOf(KEY_ROWID, KEY_URI),
                 null,
                 null,
-                "$KEY_URI COLLATE BINARY"
+                null
             )?.use {
-                it.asSequence.forEachIndexed { index, cursor ->
-                    val uri = Uri.parse(cursor.getString(0))
-                    val fileName = "${index}_${DocumentFile.fromSingleUri(context, uri)?.name ?: uri.lastPathSegment}"
+                it.asSequence.forEach { cursor ->
+                    val rowId = cursor.getLong(0)
+                    val uri = Uri.parse(cursor.getString(1))
+                    val fileName = "${rowId}_${DocumentFile.fromSingleUri(context, uri)?.name ?: uri.lastPathSegment}"
                     try {
                         resolver.openInputStream(uri)?.use { inputStream ->
                             addInputStreamToZip(

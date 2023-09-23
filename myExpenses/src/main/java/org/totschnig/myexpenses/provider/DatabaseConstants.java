@@ -263,7 +263,6 @@ public class DatabaseConstants {
   public static final String KEY_EXCLUDE_FROM_TOTALS = "exclude_from_totals";
   public static final String KEY_PREDEFINED_METHOD_NAME = "predefined";
   public static final String KEY_UUID = "uuid";
-  public static final String KEY_PICTURE_URI = "picture_id";//historical reasons
   public static final String KEY_URI = "uri";
   public static final String KEY_ATTACHMENT_COUNT= "attachment_count";
   public static final String KEY_SYNC_ACCOUNT_NAME = "sync_account_name";
@@ -373,6 +372,8 @@ public class DatabaseConstants {
   public static final String KEY_CONTEXT = "context";
   public static final String KEY_ATTRIBUTE_ID = "attribute_id";
 
+  public static final String KEY_ATTACHMENT_ID = "attachment_id";
+
   /**
    * No special status
    */
@@ -413,7 +414,6 @@ public class DatabaseConstants {
   static final String VIEW_CHANGES_EXTENDED = "changes_extended";
   static final String VIEW_TEMPLATES_EXTENDED = "templates_extended";
   public static final String TABLE_PLAN_INSTANCE_STATUS = "planinstance_transaction";
-  static final String TABLE_STALE_URIS = "stale_uris";
   static final String TABLE_CHANGES = "changes";
   static final String TABLE_SETTINGS = "settings";
   static final String TABLE_ACCOUNT_EXCHANGE_RATES = "account_exchangerates";
@@ -436,6 +436,8 @@ public class DatabaseConstants {
   public static final String TABLE_ATTRIBUTES = "attributes";
 
   public static final String TABLE_ATTACHMENTS = "attachments";
+
+  public static final String TABLE_TRANSACTION_ATTACHMENTS = "transaction_attachments";
 
   public static final String TABLE_TRANSACTION_ATTRIBUTES = "transaction_attributes";
 

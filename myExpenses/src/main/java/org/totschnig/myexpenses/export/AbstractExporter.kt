@@ -129,14 +129,14 @@ abstract class AbstractExporter
         }
 
         fun Cursor.toDTO(isPart: Boolean = false): TransactionDTO {
-            val rowId = getLong(getColumnIndexOrThrow(KEY_ROWID)).toString()
+            val rowId = getLong(getColumnIndexOrThrow(KEY_ROWID))
             val catId = getLongOrNull(KEY_CATID)
             val isSplit = SPLIT_CATID == catId
             val splitCursor = if (isSplit) context.contentResolver.query(
                 Transaction.CONTENT_URI,
                 projection,
                 "$KEY_PARENTID = ?",
-                arrayOf(rowId),
+                arrayOf(rowId.toString()),
                 null
             ) else null
             val readCat =
@@ -147,16 +147,15 @@ abstract class AbstractExporter
                 TransactionProvider.TRANSACTIONS_TAGS_URI,
                 arrayOf(KEY_LABEL),
                 "$KEY_TRANSACTIONID = ?",
-                arrayOf(rowId),
+                arrayOf(rowId.toString()),
                 null
             )?.useAndMap { it.getString(0) }?.takeIf { it.isNotEmpty() }
 
             //noinspection Recycle
             val attachmentList = context.contentResolver.query(
-                TransactionProvider.ATTACHMENTS_URI,
+                TransactionProvider.ATTACHMENTS_FOR_TRANSACTION_URI(rowId),
                 arrayOf(KEY_URI),
-                "$KEY_TRANSACTIONID = ?",
-                arrayOf(rowId),
+                null, null,
                 null
             )?.useAndMap {
                 val uri = Uri.parse(it.getString(0))

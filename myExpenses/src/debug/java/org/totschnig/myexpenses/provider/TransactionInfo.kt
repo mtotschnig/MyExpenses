@@ -10,7 +10,7 @@ data class TransactionInfo @JvmOverloads constructor(
     val date: Date,
     val amount: Long,
     val accountId: Long,
-    val payeeId: Long,
+    val payeeId: Long? = null,
     val debtId: Long? = null,
     val catId : Long? = null,
     val methodId: Long? = null

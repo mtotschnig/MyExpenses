@@ -359,13 +359,21 @@ with data as
 const val TAG_LIST_EXPRESSION = "group_concat($TABLE_TAGS.$KEY_LABEL,'') AS $KEY_TAGLIST"
 
 fun tagJoin(mainTable: String): String {
-    val (tagTable, referenceColumn) = when (mainTable) {
+    val (joinTable, referenceColumn) = when (mainTable) {
         TABLE_TRANSACTIONS -> TABLE_TRANSACTIONS_TAGS to KEY_TRANSACTIONID
         TABLE_TEMPLATES -> TABLE_TEMPLATES_TAGS to KEY_TEMPLATEID
         else -> throw IllegalArgumentException()
     }
-    return " LEFT JOIN $tagTable ON $tagTable.$referenceColumn = $mainTable.$KEY_ROWID LEFT JOIN $TABLE_TAGS ON $KEY_TAGID= $TABLE_TAGS.$KEY_ROWID"
+    return associativeJoin(mainTable, joinTable, TABLE_TAGS, referenceColumn, KEY_TAGID)
 }
+
+fun associativeJoin(
+    mainTable: String,
+    joinTable: String,
+    associatedTable: String,
+    mainColumn: String,
+    associateColumn: String
+    ) = " LEFT JOIN $joinTable ON $joinTable.$mainColumn = $mainTable.$KEY_ROWID LEFT JOIN $associatedTable ON $associateColumn= $associatedTable.$KEY_ROWID"
 
 fun tagGroupBy(tableName: String): String =
     " GROUP BY $tableName.$KEY_ROWID"

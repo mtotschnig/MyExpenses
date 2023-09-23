@@ -225,14 +225,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             val isInTempFolder = uri.toString().startsWith(pictureUriTemp)
             val isExternal = !isInTempFolder
 
-            if (isExternal && !shouldCopyExternalUris) {
-                Timber.d("External, takePersistableUriPermission")
-                contentResolver.takePersistableUriPermission(
-                    uri,
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION
-                )
-                uri
-            } else {
+            if (isExternal && !shouldCopyExternalUris) uri else {
 
                 val type = contentResolver.getType(uri)
 

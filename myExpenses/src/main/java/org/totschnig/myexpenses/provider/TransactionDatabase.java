@@ -28,6 +28,7 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.BANK_C
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PARTY_HIERARCHY_TRIGGER;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_UNIQUE_INDEX;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_ATTACHMENTS_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_CAT_ID_INDEX;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_PAYEE_ID_INDEX;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_UUID_INDEX_CREATE;
@@ -35,6 +36,7 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSA
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.TAG_LIST_EXPRESSION;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.associativeJoin;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.buildViewDefinition;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.tagGroupBy;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.tagJoin;
@@ -178,9 +180,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           .append(" ON ").append(tableName).append(".").append(KEY_ROWID).append(" = ")
           .append(TABLE_PLAN_INSTANCE_STATUS).append(".").append(KEY_TRANSACTIONID)
           .append(tagJoin(tableName))
-          .append( " LEFT JOIN ").append(TABLE_ATTACHMENTS)
-          .append(" ON ").append(tableName).append(".").append(KEY_ROWID).append(" = ")
-          .append(TABLE_ATTACHMENTS).append(".").append(KEY_TRANSACTIONID);
+          .append(associativeJoin(TABLE_TRANSACTIONS, TABLE_TRANSACTION_ATTACHMENTS, TABLE_ATTACHMENTS, KEY_TRANSACTIONID, KEY_ATTACHMENT_ID));
     }
     return stringBuilder.toString();
   }
@@ -337,10 +337,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           KEY_INSTANCEID + " integer," + // NO LONGER references Instances._ID in calendar content provider; instanceId is calculated from day
           KEY_TRANSACTIONID + " integer UNIQUE references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + ") ON DELETE CASCADE, " +
           "primary key (" + KEY_TEMPLATEID + "," + KEY_INSTANCEID + "));";
-
-  private static final String STALE_URIS_CREATE =
-      "CREATE TABLE " + TABLE_STALE_URIS
-          + " ( " + KEY_URI + " text not null unique);";
 
   private static final String ACCOUNTS_TRIGGER_CREATE =
       "CREATE TRIGGER sort_key_default " +
@@ -680,6 +676,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
   public void onCreate(SupportSQLiteDatabase db) {
     db.execSQL(DATABASE_CREATE);
     db.execSQL(ATTACHMENTS_CREATE);
+    db.execSQL(TRANSACTIONS_ATTACHMENTS_CREATE);
     db.execSQL(TRANSACTIONS_UUID_INDEX_CREATE);
     db.execSQL(PAYEE_CREATE);
     db.execSQL(PAYEE_UNIQUE_INDEX);
@@ -703,7 +700,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.insert(TABLE_CATEGORIES, CONFLICT_NONE, initialValues);
     insertCurrencies(db);
     db.execSQL(EVENT_CACHE_CREATE);
-    db.execSQL(STALE_URIS_CREATE);
     db.execSQL(CHANGES_CREATE);
     db.execSQL(BANK_CREATE);
     db.execSQL(ATTRIBUTES_CREATE);

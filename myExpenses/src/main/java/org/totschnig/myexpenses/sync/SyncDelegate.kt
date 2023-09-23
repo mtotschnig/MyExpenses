@@ -231,6 +231,9 @@ class SyncDelegate(
         if (change.tags() != null) {
             builder.setTags(change.tags())
         }
+        if (change.attachments() != null) {
+            builder.setAttachments(change.attachments())
+        }
         if (change.categoryInfo() != null) {
             builder.setCategoryInfo(change.categoryInfo())
         }
@@ -402,7 +405,8 @@ class SyncDelegate(
         }
         change.crStatus()?.let { values.put(DatabaseConstants.KEY_CR_STATUS, it) }
         change.referenceNumber()?.let { values.put(DatabaseConstants.KEY_REFERENCE_NUMBER, it) }
-        change.pictureUri()?.let { values.put(DatabaseConstants.KEY_PICTURE_URI, it) }
+        //TODO
+        //change.pictureUri()?.let { values.put(DatabaseConstants.KEY_PICTURE_URI, it) }
         if (change.originalAmount() != null && change.originalCurrency() != null) {
             values.put(DatabaseConstants.KEY_ORIGINAL_AMOUNT, change.originalAmount())
             values.put(DatabaseConstants.KEY_ORIGINAL_CURRENCY, change.originalCurrency())

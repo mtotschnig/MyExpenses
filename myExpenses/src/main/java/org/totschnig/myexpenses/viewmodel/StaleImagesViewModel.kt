@@ -8,7 +8,6 @@ import android.os.Environment
 import android.provider.MediaStore
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.FileCopyUtils
@@ -45,7 +44,7 @@ class StaleImagesViewModel(application: Application) : ContentResolvingAndroidVi
                     null, null, null)?.use { cursor ->
                     if (cursor.moveToFirst()) {
                         val imageFileUri = Uri.parse(cursor.getString(0))
-                        val success: Boolean = imageFileUri.lastPathSegment?.takeIf { checkImagePath(it) }?.let { fileName ->
+                        val success: Boolean = imageFileUri.lastPathSegment?.let { fileName ->
                             try {
                                 val mimeType = contentResolver.getType(imageFileUri) ?: throw IOException("Could not get MIME type")
                                 val archiveUri = buildArchiveUri(fileName, mimeType) ?: throw IOException("Could not get output URI")
@@ -81,19 +80,15 @@ class StaleImagesViewModel(application: Application) : ContentResolvingAndroidVi
                         null, null, null)?.use { cursor ->
                     if (cursor.moveToFirst()) {
                         val imageFileUri = Uri.parse(cursor.getString(0))
-                        if (imageFileUri.lastPathSegment?.let { checkImagePath(it) } == true) {
-                            val success = if (imageFileUri.scheme == "file") {
-                                imageFileUri.path?.let { File(it).delete() } ?: false
-                            } else {
-                                contentResolver.delete(imageFileUri, null, null) > 0
-                            }
-                            if (success) {
-                                Timber.d("Successfully deleted file %s", imageFileUri.toString())
-                            } else {
-                                CrashHandler.report(Exception("Unable to delete file $imageFileUri"))
-                            }
+                        val success = if (imageFileUri.scheme == "file") {
+                            imageFileUri.path?.let { File(it).delete() } ?: false
                         } else {
-                            Timber.d("%s not deleted since it might still be in use", imageFileUri.toString())
+                            contentResolver.delete(imageFileUri, null, null) > 0
+                        }
+                        if (success) {
+                            Timber.d("Successfully deleted file %s", imageFileUri.toString())
+                        } else {
+                            CrashHandler.report(Exception("Unable to delete file $imageFileUri"))
                         }
                         contentResolver.delete(staleImageUri, null, null)
                     }
@@ -103,10 +98,4 @@ class StaleImagesViewModel(application: Application) : ContentResolvingAndroidVi
     }
 
     private fun staleImageUri(id: Long) = TransactionProvider.STALE_IMAGES_URI.buildUpon().appendPath(id.toString()).build()
-
-    private fun checkImagePath(lastPathSegment: String) = contentResolver.query(
-            TransactionProvider.ATTACHMENTS_URI, arrayOf("count(*)"),
-            DatabaseConstants.KEY_URI + " LIKE '%" + lastPathSegment + "'", null, null)?.use {
-        it.moveToFirst() && it.getInt(0) == 0
-    } ?: false
 }

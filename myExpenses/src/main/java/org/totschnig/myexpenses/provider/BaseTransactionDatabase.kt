@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTACHMENT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_NAME
@@ -54,6 +55,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTACHMENTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED
@@ -187,8 +189,16 @@ CREATE TABLE $TABLE_ACCOUNT_ATTRIBUTES (
 
 const val ATTACHMENTS_CREATE = """
 CREATE TABLE $TABLE_ATTACHMENTS (
+    $KEY_ROWID integer primary key autoincrement,
+    $KEY_URI text not null unique,
+    $KEY_UUID text not null unique
+);
+"""
+
+const val TRANSACTIONS_ATTACHMENTS_CREATE = """
+CREATE TABLE $TABLE_TRANSACTION_ATTACHMENTS (
     $KEY_TRANSACTIONID integer references $TABLE_TRANSACTIONS($KEY_ROWID) ON DELETE CASCADE,
-    $KEY_URI text not null
+    $KEY_ATTACHMENT_ID integer references $TABLE_ATTACHMENTS($KEY_ROWID)
 );
 """
 

@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.db2
 
+import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
@@ -9,6 +10,7 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.AUTOFILL_URI
@@ -69,17 +71,23 @@ open class Repository @Inject constructor(
     }
 
     fun deleteTransaction(id: Long, markAsVoid: Boolean = false, inBulk: Boolean = false): Boolean {
+        val ops = ArrayList<ContentProviderOperation>()
         loadAttachments(id).forEach {
-            onAttachmentDelete(it)
+            ops.add(
+                ContentProviderOperation
+                    .newDelete(TransactionProvider.ATTACHMENTS_FOR_TRANSACTION_URI(id))
+                    .withSelection("$KEY_URI = ?", arrayOf(it.toString()))
+                    .build()
+            )
         }
-        return contentResolver.delete(
+        ops.add(ContentProviderOperation.newDelete(
             ContentUris.withAppendedId(TRANSACTIONS_URI, id).buildUpon().apply {
                 if (markAsVoid) appendBooleanQueryParameter(QUERY_PARAMETER_MARK_VOID)
                 if (inBulk) appendBooleanQueryParameter(QUERY_PARAMETER_CALLER_IS_IN_BULK)
-            }.build(),
-            null,
-            null
-        ) > 0
+            }.build()
+        ).build())
+        val result = contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
+        return result.size == ops.size && result.last().count == 1
     }
 
     fun count(uri: Uri, selection: String? = null, selectionArgs: Array<String>? = null): Int {

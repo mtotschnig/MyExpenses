@@ -8,10 +8,10 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.ATTACHMENTS_FOR_TRANSACTION_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.ATTACHMENTS_URI
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
@@ -21,10 +21,10 @@ fun Repository.addAttachments(transactionId: Long, attachments: List<Uri>) {
     val ops = ArrayList<ContentProviderOperation>()
     attachments.forEach {
         ops.add(
-            ContentProviderOperation.newInsert(ATTACHMENTS_URI)
+            ContentProviderOperation.newInsert(ATTACHMENTS_FOR_TRANSACTION_URI(transactionId))
                 .withValue(KEY_URI, it.toString())
-                .withValue(KEY_TRANSACTIONID, transactionId)
-                .build())
+                .build()
+        )
     }
 
     if (contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops).size != ops.size) {
@@ -34,44 +34,24 @@ fun Repository.addAttachments(transactionId: Long, attachments: List<Uri>) {
 
 fun Repository.deleteAttachments(transactionId: Long, attachments: List<Uri>) {
     if (contentResolver.delete(
-            ATTACHMENTS_URI,
-            "$KEY_TRANSACTIONID= ? AND $KEY_URI ${WhereFilter.Operation.IN.getOp(attachments.size)}",
-            arrayOf(transactionId.toString(), *attachments.map { it.toString() }.toTypedArray())
-        )!= attachments.size) {
+            ATTACHMENTS_FOR_TRANSACTION_URI(transactionId),
+            "$KEY_URI ${WhereFilter.Operation.IN.getOp(attachments.size)}",
+            attachments.map { it.toString() }.toTypedArray()
+        ) != attachments.size
+    ) {
         throw IOException("Deleting attachments failed")
     }
-    attachments.forEach { onAttachmentDelete(it) }
 }
 
 fun Repository.loadAttachments(transactionId: Long): ArrayList<Uri> =
     ArrayList<Uri>().apply {
-        contentResolver.query(ATTACHMENTS_URI, null, "$KEY_TRANSACTIONID = ?", arrayOf(transactionId.toString()), null)?.use { cursor ->
+        contentResolver.query(
+            ATTACHMENTS_FOR_TRANSACTION_URI(transactionId),
+            null, null, null, null
+        )?.use { cursor ->
             cursor.asSequence.forEach {
-                val uri = Uri.parse(it.getString(KEY_URI))
+                val uri = Uri.parse(it.getString(0))
                 add(uri)
             }
         }
     }
-
-fun Repository.registerAsStale(uri: Uri) {
-    contentResolver.insert(TransactionProvider.STALE_IMAGES_URI, ContentValues(1).apply {
-        put(KEY_URI, uri.toString())
-    })
-}
-
-fun Repository.onAttachmentDelete(uri: Uri) {
-    if (uri.toString().startsWith(PictureDirHelper.getPictureUriBase(false,
-            context.applicationContext as MyApplication
-        ))) {
-        Timber.d("found internally stored uri ($uri), need to set stale")
-        registerAsStale(uri)
-    } else if (count(ATTACHMENTS_URI, "$KEY_URI = ?", arrayOf(uri.toString())) == 0) {
-        Timber.d("found externally linked uri ($uri), need to release permission")
-        try {
-            contentResolver.releasePersistableUriPermission(uri,  Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        } catch (e: SecurityException) {
-            //we had a URI without a permission. This should not happen
-            CrashHandler.report(e)
-        }
-    }
-}
