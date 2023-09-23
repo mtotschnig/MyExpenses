@@ -835,9 +835,11 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case ATTACHMENTS: {
         qb = SupportSQLiteQueryBuilder.builder(TABLE_ATTACHMENTS);
-        String uuidSelection = uri.getQueryParameter(KEY_UUID);
-        selection = Companion.LIVE_ATTACHMENT_SELECTION(uuidSelection != null);
-        selectionArgs = uuidSelection != null ? new String[]{ uuidSelection } : null;
+        if (selection == null) {
+          String uuidSelection = uri.getQueryParameter(KEY_UUID);
+          selection = Companion.LIVE_ATTACHMENT_SELECTION(uuidSelection != null);
+          selectionArgs = uuidSelection != null ? new String[]{uuidSelection} : null;
+        }
         break;
       }
       case TRANSACTION_ATTACHMENTS: {

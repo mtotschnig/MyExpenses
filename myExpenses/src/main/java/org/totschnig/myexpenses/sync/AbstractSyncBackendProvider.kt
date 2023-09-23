@@ -18,6 +18,8 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.myApplication
+import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.encrypted
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.notEncrypted
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.wrongPassphrase
@@ -269,26 +271,24 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         )
 
     @Throws(IOException::class)
-    private fun mapPictureDuringWrite(transactionChange: TransactionChange): TransactionChange {
-        if (transactionChange.pictureUri() != null) {
-            val newUri: String = String.format(
-                "%s_%s%s", transactionChange.uuid(),
-                Uri.parse(transactionChange.pictureUri()).lastPathSegment,
-                if (isEncrypted) ".enc" else ""
-            )
-            return try {
-                saveUriToAccountDir(newUri, Uri.parse(transactionChange.pictureUri()))
-                transactionChange.toBuilder().setPictureUri(newUri).build()
-            } catch (e: IOException) {
-                if (e is FileNotFoundException) {
-                    log().w(e, "Picture was deleted, %s", transactionChange.pictureUri())
-                    transactionChange.toBuilder().setPictureUri(null).build()
-                } else {
-                    throw e
+    private fun ensureAttachmentsOnWrite(changeSet: List<TransactionChange>) {
+        changeSet.flatMap { it.attachments() ?: emptyList() }.toSet().forEach { uuid ->
+            //TODO first check if backend has a copy of the file
+            context.contentResolver.query(
+                TransactionProvider.ATTACHMENTS_URI,
+                arrayOf(DatabaseConstants.KEY_URI),
+                "${DatabaseConstants.KEY_UUID} = ?",
+                arrayOf(uuid),
+                null
+            )?.use {
+                if (it.moveToFirst()) {
+                    val attachmentUri = Uri.parse(it.getString(0))
+                    val newUri =
+                        "${uuid}_${attachmentUri.lastPathSegment}${if (isEncrypted) ".enc" else ""}"
+                    saveUriToAccountDir(newUri, attachmentUri)
                 }
             }
         }
-        return transactionChange
     }
 
     @Throws(IOException::class)
@@ -297,23 +297,14 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         changeSet: List<TransactionChange>,
         context: Context
     ): SequenceNumber {
-        val changeSetMutable = changeSet.toMutableList()
         val nextSequence = getLastSequence(lastSequenceNumber).next()
-        for (i in changeSetMutable.indices) {
-            var mappedChange = mapPictureDuringWrite(changeSetMutable[i])
-            if (appInstance != null) {
-                mappedChange = mappedChange.toBuilder().setAppInstance(appInstance).build()
-            }
-            mappedChange.splitParts()?.toMutableList()?.let { splitPartsMutable ->
-                for (j in splitPartsMutable.indices) {
-                    splitPartsMutable[j] = mapPictureDuringWrite(splitPartsMutable[j])
-                }
-                mappedChange = mappedChange.toBuilder().setSplitParts(splitPartsMutable).build()
-            }
-            changeSetMutable[i] = mappedChange
-        }
-        val fileName = String.format(Locale.ROOT, "_%d.%s", nextSequence.number, extensionForData)
-        val fileContents = gson.toJson(changeSetMutable)
+        val finalChangeSet = if (appInstance != null) {
+            changeSet.map { it.toBuilder().setAppInstance(appInstance).build() }
+        } else changeSet
+
+        val fileName = "_${nextSequence.number}.$extensionForData"
+        val fileContents = gson.toJson(finalChangeSet)
+        ensureAttachmentsOnWrite(finalChangeSet)
         log().i("Writing to %s", fileName)
         log().i(fileContents)
         saveFileContents(
