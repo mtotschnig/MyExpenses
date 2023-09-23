@@ -475,19 +475,35 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
         }
 
     fun SupportSQLiteDatabase.upgradeTo148() {
-        execSQL("CREATE TABLE attachments (transaction_id integer references transactions(_id) ON DELETE CASCADE, uri text not null)")
-        execSQL("DROP TRIGGER cache_stale_uri")
+        execSQL("CREATE TABLE attachments (_id integer primary key autoincrement, uri text not null unique, uuid text not null unique)")
+        execSQL("CREATE TABLE transaction_attachments (transaction_id integer references transactions(_id) ON DELETE CASCADE, attachment_id integer references attachments(_id))")
+        execSQL("DROP TRIGGER IF EXISTS cache_stale_uri")
         //insert existing attachments from transaction table into attachments table
         //drop column picture_id
-        query("transactions", arrayOf("_id, picture_id"), "picture_id is not null").use { cursor ->
-            val values = ContentValues(2)
+        query("transactions", arrayOf("_id", "picture_id"), "picture_id is not null").use { cursor ->
+            val attachmentValues = ContentValues(2)
+            val joinValues = ContentValues(2)
             cursor.asSequence.forEach {
-                values.clear()
-                values.put(KEY_TRANSACTIONID, it.getLong(0))
-                values.put(KEY_URI, it.getString(1))
-                insert("attachments", values)
+                attachmentValues.clear()
+                attachmentValues.put(KEY_URI, it.getString(1))
+                attachmentValues.put(KEY_UUID, Model.generateUuid())
+                val id = insert("attachments", attachmentValues)
+                joinValues.clear()
+                joinValues.put(KEY_TRANSACTIONID, it.getLong(0))
+                joinValues.put(KEY_ATTACHMENT_ID, id)
+                insert("transaction_attachments", joinValues)
             }
         }
+        query("stale_uris", arrayOf("picture_id")).use { cursor ->
+            val attachmentValues = ContentValues(2)
+            cursor.asSequence.forEach {
+                attachmentValues.clear()
+                attachmentValues.put(KEY_URI, it.getString(0))
+                attachmentValues.put(KEY_UUID, Model.generateUuid())
+                insert("attachments", attachmentValues)
+            }
+        }
+        execSQL("DROP table stale_uris")
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE ) {
             execSQL("ALTER TABLE transactions RENAME to transactions_old")
             execSQL(
