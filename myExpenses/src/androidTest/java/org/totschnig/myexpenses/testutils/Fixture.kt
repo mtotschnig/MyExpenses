@@ -415,7 +415,6 @@ class Fixture(inst: Instrumentation) {
             if (crStatus != null) {
                 transaction.crStatus = crStatus
             }
-            transaction.pictureUri = pictureUri
             transaction.payee = payee
             transaction.comment = comment
             transaction.parentId = parentId

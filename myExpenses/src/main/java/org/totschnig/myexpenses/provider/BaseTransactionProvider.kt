@@ -254,7 +254,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
         const val TAG = "TransactionProvider"
 
-        const val STALE_ATTACHMENT_SELECTION = "NOT EXISTS(SELECT 1 FROM $TABLE_TRANSACTION_ATTACHMENTS WHERE $KEY_ATTACHMENT_ID = $KEY_ROWID)"
+        const val LIVE_ATTACHMENT_SELECTION = "EXISTS(SELECT 1 FROM $TABLE_TRANSACTION_ATTACHMENTS WHERE $KEY_ATTACHMENT_ID = $KEY_ROWID)"
+
+        const val STALE_ATTACHMENT_SELECTION = "NOT $LIVE_ATTACHMENT_SELECTION"
 
         fun defaultBudgetAllocationUri(accountId: Long, grouping: Grouping): Uri =
             TransactionProvider.BUDGETS_URI.buildUpon()

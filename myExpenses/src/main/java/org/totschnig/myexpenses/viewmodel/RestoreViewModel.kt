@@ -421,11 +421,6 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                             CrashHandler.report(
                                 Exception("Could not restore file $fromBackup from backup")
                             )
-                            contentResolver.delete(
-                                TransactionProvider.ATTACHMENTS_URI,
-                                selection,
-                                selectionArguments
-                            )
                         }
                     }
                 }

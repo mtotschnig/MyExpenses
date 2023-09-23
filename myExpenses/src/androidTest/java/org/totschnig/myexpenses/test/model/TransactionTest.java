@@ -57,7 +57,6 @@ public class TransactionTest extends ModelTest {
     Transaction op1 = Transaction.getNewInstance(mAccount1.getId(), getHomeCurrency());
     op1.setAmount(new Money(currencyUnit, 100L));
     op1.setComment("test transaction");
-    op1.setPictureUri(PictureDirHelper.getOutputMediaUri(false, getApp()));//we need an uri that is considered "home"
     op1.setPayee(payee);
     op1.save(getRepository().getContentResolver());
     assertTrue(op1.getId() > 0);
@@ -84,7 +83,6 @@ public class TransactionTest extends ModelTest {
     Transfer peer;
     op.setAmount(new Money(currencyUnit, 100));
     op.setComment("test transfer");
-    op.setPictureUri(PictureDirHelper.getOutputMediaUri(false, getApp()));
     op.save(getContentResolver());
     assertTrue(op.getId() > 0);
     Transaction restored = getTransactionFromDb(op.getId());
@@ -93,7 +91,7 @@ public class TransactionTest extends ModelTest {
     assertEquals(peer.getId(), op.getTransferPeer().longValue());
     assertEquals(op.getId(), peer.getTransferPeer().longValue());
     assertEquals(op.getTransferAccountId().longValue(), peer.getAccountId());
-    getRepository().deleteTransaction(id, false, false);
+    getRepository().deleteTransaction(op.getId(), false, false);
     assertNull("Transaction deleted, but can still be retrieved", getTransactionFromDb(op.getId()));
     assertNull("Transfer delete should delete peer, but peer can still be retrieved", getTransactionFromDb(peer.getId()));
   }
@@ -148,7 +146,6 @@ public class TransactionTest extends ModelTest {
     SplitTransaction op1 = SplitTransaction.getNewInstance(getContentResolver(), mAccount1.getId(), currencyUnit);
     op1.setAmount(new Money(currencyUnit, 100L));
     op1.setComment("test transaction");
-    op1.setPictureUri(PictureDirHelper.getOutputMediaUri(false, getApp()));
     op1.setDate(new Date(System.currentTimeMillis() - 1003900000));
     assertTrue(op1.getId() > 0);
     Transaction split1 = Transaction.getNewInstance(mAccount1.getId(), currencyUnit, op1.getId());
@@ -189,7 +186,7 @@ public class TransactionTest extends ModelTest {
     op1.save(getContentResolver());
     Transaction split1 = new Transfer(mAccount1.getId(), money, mAccount2.getId(), op1.getId());
     split1.save(getContentResolver());
-    getRepository().deleteTransaction(id, false, false);
+    getRepository().deleteTransaction(op1.getId(), false, false);
     assertNull("Transaction deleted, but can still be retrieved", getTransactionFromDb(op1.getId()));
   }
 

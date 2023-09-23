@@ -130,9 +130,10 @@ class TestMain : BaseMyExpensesTest() {
                     .performClick()
                 composeTestRule.onNodeWithText(getString(R.string.menu_edit)).performClick()
                 pressBack() //close keyboard
-                onView(withId(R.id.PictureContainer))
+/*                onView(withId(R.id.PictureContainer))
                     .perform(click())
                 takeScreenshot("edit")
+ */
             }
             else -> {
                 throw IllegalArgumentException("Unknown scenario" + BuildConfig.TEST_SCENARIO)

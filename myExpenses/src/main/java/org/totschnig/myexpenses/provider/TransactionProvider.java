@@ -835,6 +835,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case ATTACHMENTS: {
         qb = SupportSQLiteQueryBuilder.builder(TABLE_ATTACHMENTS);
+        selection = LIVE_ATTACHMENT_SELECTION;
         break;
       }
       case TRANSACTION_ATTACHMENTS: {
@@ -1006,16 +1007,16 @@ public class TransactionProvider extends BaseTransactionProvider {
         return ACCOUNTS_ATTRIBUTES_URI;
       }
       case ATTACHMENTS ->  {
-        long attachmentId = requireAttachment(db, values.getAsString(KEY_URI));
-        newUri = ATTACHMENTS_URI + "/" + attachmentId;
+        id = requireAttachment(db, values.getAsString(KEY_URI));
+        newUri = ATTACHMENTS_URI + "/" + id;
       }
       case TRANSACTION_ATTACHMENTS -> {
-        long attachmentId = requireAttachment(db, values.getAsString(KEY_URI));
+        id = requireAttachment(db, values.getAsString(KEY_URI));
         values.remove(KEY_URI);
         values.put(KEY_TRANSACTIONID, uri.getPathSegments().get(1));
-        values.put(KEY_ATTACHMENT_ID, attachmentId);
-        id = MoreDbUtilsKt.insert(db, TABLE_TRANSACTION_ATTACHMENTS, values);
-        newUri = ATTACHMENTS_URI + "/" + attachmentId;
+        values.put(KEY_ATTACHMENT_ID, id);
+        MoreDbUtilsKt.insert(db, TABLE_TRANSACTION_ATTACHMENTS, values);
+        newUri = ATTACHMENTS_URI + "/" + id;
       }
       default -> throw unknownUri(uri);
     }
@@ -1469,7 +1470,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
 
       //used during restore
-      case TRANSACTION_ATTACHMENTS -> {
+      case ATTACHMENTS -> {
         count = MoreDbUtilsKt.update(db, TABLE_ATTACHMENTS, values, where, whereArgs);
       }
       default -> throw unknownUri(uri);
