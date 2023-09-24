@@ -264,6 +264,8 @@ public class DatabaseConstants {
   public static final String KEY_PREDEFINED_METHOD_NAME = "predefined";
   public static final String KEY_UUID = "uuid";
   public static final String KEY_URI = "uri";
+
+  public static final String KEY_URI_LIST = "uri_list";
   public static final String KEY_ATTACHMENT_COUNT= "attachment_count";
   public static final String KEY_SYNC_ACCOUNT_NAME = "sync_account_name";
   public static final String KEY_TRANSFER_AMOUNT = "transfer_amount";

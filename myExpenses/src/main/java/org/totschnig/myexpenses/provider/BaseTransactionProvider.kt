@@ -1106,18 +1106,43 @@ abstract class BaseTransactionProvider : ContentProvider() {
         )
     }
 
-    fun requireAttachment(db: SupportSQLiteDatabase, uri: String) =
-        findAttachment(db, uri) ?: insertAttachment(db, uri)
+    fun requireAttachment(db: SupportSQLiteDatabase, uri: String, uuid: String?) =
+        uuid?.let { findAttachmentByUuid(db, it) }
+            ?: findAttachment(db, uri)
+            ?: insertAttachment(db, uri, uuid)
 
-    fun findAttachment(db: SupportSQLiteDatabase, uri: String) = db.query(
+    fun findAttachmentByUuid(db: SupportSQLiteDatabase, uuid: String) = db.query(
+        TABLE_ATTACHMENTS,
+        arrayOf(KEY_ROWID),
+        "$KEY_UUID = ?",
+        arrayOf(uuid)
+    ).use { if (it.moveToFirst()) it.getLong(0) else null }
+
+    private fun findAttachment(db: SupportSQLiteDatabase, uri: String) = db.query(
         TABLE_ATTACHMENTS,
         arrayOf(KEY_ROWID),
         "$KEY_URI = ?",
         arrayOf(uri)
     ).use { if (it.moveToFirst()) it.getLong(0) else null }
 
+    fun deleteAttachments(
+        db: SupportSQLiteDatabase,
+        transactionId: Long,
+        uriList: MutableList<String>
+    ): Boolean {
+        val attachmentIds = uriList.associateWith { findAttachment(db, it) ?: return false }
+        attachmentIds.forEach {
+            db.delete(
+                TABLE_TRANSACTION_ATTACHMENTS,
+                "$KEY_TRANSACTIONID = ? AND $KEY_ATTACHMENT_ID = ?",
+                arrayOf(transactionId.toString(), it.value.toString())
+            )
+            deleteAttachment(db, it.value, it.key)
+        }
+        return true
+    }
 
-    fun deleteAttachment(db: SupportSQLiteDatabase, attachmentId: Long, uriString: String) {
+    private fun deleteAttachment(db: SupportSQLiteDatabase, attachmentId: Long, uriString: String) {
         val uri = Uri.parse(uriString)
         if (uri.authority != AppDirHelper.getFileProviderAuthority(context!!)) {
             Timber.d("External, releasePersistableUriPermission")
@@ -1158,12 +1183,12 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
     }
 
-    private fun insertAttachment(db: SupportSQLiteDatabase, uriString: String): Long {
+    private fun insertAttachment(db: SupportSQLiteDatabase, uriString: String, uuid: String?): Long {
         val id = db.insert(
             TABLE_ATTACHMENTS,
             ContentValues(2).apply {
                 put(KEY_URI, uriString)
-                put(KEY_UUID, Model.generateUuid())
+                put(KEY_UUID, uuid ?: Model.generateUuid())
             }
         )
         val uri = Uri.parse(uriString)

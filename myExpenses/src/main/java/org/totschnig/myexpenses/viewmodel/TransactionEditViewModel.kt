@@ -70,6 +70,7 @@ import org.totschnig.myexpenses.provider.FULL_LABEL
 import org.totschnig.myexpenses.provider.ProviderUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
+import org.totschnig.myexpenses.provider.fileName
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongIfExists
 import org.totschnig.myexpenses.provider.getLongOrNull
@@ -263,20 +264,13 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     }
                     homeUri
                 } else {
-                    val fileName = DocumentFile.fromSingleUri(getApplication(), uri)!!.name
-                    val homeUri = if (fileName != null) PictureDirHelper.getOutputMediaUri(
+                    val fileName = uri.fileName(getApplication())
+                    val homeUri = PictureDirHelper.getOutputMediaUri(
                         false,
                         getApplication(),
                         fileName = getNameWithoutExtension(fileName),
                         extension = getFileExtension(fileName)
-                    ) else {
-                        val extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(type)
-                        if (extension != null) PictureDirHelper.getOutputMediaUri(
-                            false,
-                            getApplication(),
-                            extension = extension.takeIf { it.isNotEmpty() }
-                        ) else throw IllegalStateException("Unable to calculate either fileName or extension")
-                    }
+                    )
                     FileCopyUtils.copy(contentResolver, uri, homeUri)
                     homeUri
                 }

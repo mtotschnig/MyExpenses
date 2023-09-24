@@ -118,6 +118,20 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
         saveUriToFolder(fileName, uri, backupDir, false)
     }
 
+    override fun storeAttachment(uuid: String, uri: Uri, fileName: String) {
+        val attachmentDir = baseDir.requireFolder(ATTACHMENT_FOLDER_NAME)
+        if (attachmentDir.listFiles().none { it.name?.startsWith(uuid) == true }) {
+            saveUriToFolder("${uuid}_$fileName", uri, attachmentDir, true)
+        }
+    }
+
+    @Throws(IOException::class)
+    override fun getAttachment(uuid: String): Pair<String, InputStream> {
+        val attachmentDir = baseDir.requireFolder(ATTACHMENT_FOLDER_NAME)
+        val attachment = attachmentDir.listFiles().find { it.name?.startsWith(uuid) == true } ?: throw FileNotFoundException()
+        return attachment.name!!.substringAfter("${uuid}_") to (contentResolver.openInputStream(attachment.uri) ?: throw IOException())
+    }
+
     override val storedBackups: List<String>
         get() = baseDir.findFile(BACKUP_FOLDER_NAME)?.listFiles()?.mapNotNull { it.name }
             ?: emptyList()

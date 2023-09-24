@@ -186,6 +186,10 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         return getInputStream(accountUuid!!, relativeUri)
     }
 
+    override fun getAttachment(uuid: String): Pair<String, InputStream> {
+        TODO("Not yet implemented")
+    }
+
     @Throws(IOException::class)
     override fun getInputStreamForBackup(backupFile: String): InputStream {
         return getInputStream(BACKUP_FOLDER_NAME, backupFile)
@@ -249,6 +253,10 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         } catch (e: IOException) {
             ArrayList()
         }
+
+    override fun storeAttachment(uuid: String, uri: Uri, fileName: String) {
+        TODO("Not yet implemented")
+    }
 
     @Throws(IOException::class)
     override fun saveFileContents(

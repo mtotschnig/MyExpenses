@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.sync
 
 import android.accounts.AccountManager
 import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
@@ -18,8 +19,14 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.myApplication
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.asSequence
+import org.totschnig.myexpenses.provider.fileName
+import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.useAndMap
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.encrypted
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.notEncrypted
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.wrongPassphrase
@@ -30,7 +37,9 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crypt.EncryptionHelper
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.io.MIME_TYPE_OCTET_STREAM
-import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
+import org.totschnig.myexpenses.util.io.getFileExtension
+import org.totschnig.myexpenses.util.io.getNameWithoutExtension
+import timber.log.Timber
 import java.io.*
 import java.security.GeneralSecurityException
 import java.util.*
@@ -73,6 +82,9 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         encryptionToken = encrypt(EncryptionHelper.generateRandom(10))
 
     }
+
+    @Throws(IOException::class)
+    abstract fun storeAttachment(uuid: String, uri: Uri, fileName: String)
 
     @Throws(Exception::class)
     override fun setUp(
@@ -163,18 +175,24 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     }
 
     @Throws(IOException::class)
-    protected fun maybeEncrypt(inputStream: InputStream, maybeEncrypt: Boolean = true): InputStream =
-        if (maybeEncrypt && isEncrypted)  try {
+    protected fun maybeEncrypt(
+        inputStream: InputStream,
+        maybeEncrypt: Boolean = true
+    ): InputStream =
+        if (maybeEncrypt && isEncrypted) try {
             EncryptionHelper.encrypt(
                 inputStream,
                 encryptionPassword
             )
         } catch (e: GeneralSecurityException) {
             throw IOException(e)
-        }  else inputStream
+        } else inputStream
 
     @Throws(IOException::class)
-    protected fun maybeDecrypt(inputStream: InputStream, maybeDecrypt: Boolean = true): InputStream {
+    protected fun maybeDecrypt(
+        inputStream: InputStream,
+        maybeDecrypt: Boolean = true
+    ): InputStream {
         return try {
             if (maybeDecrypt && isEncrypted) EncryptionHelper.decrypt(
                 inputStream,
@@ -202,13 +220,13 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
             return ChangeSet.empty(sequenceNumber)
         }
         val iterator = changes.listIterator()
+        ensureAttachmentsOnRead(changes)
         while (iterator.hasNext()) {
             val transactionChange = iterator.next()
             if (transactionChange.isEmpty) {
                 log().w("found empty transaction change in json")
                 iterator.remove()
             } else {
-                iterator.set(mapPictureDuringRead(transactionChange))
                 if (transactionChange.splitParts() != null) {
                     val splitPartIterator = transactionChange.splitParts()!!
                         .listIterator()
@@ -240,8 +258,45 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         return transactionChange
     }
 
+    private fun ensureAttachmentsOnRead(changeSet: List<TransactionChange>) {
+        val attachments = changeSet.flatMap { it.attachments() ?: emptyList() }.toSet()
+        //noinspection Recycle
+        val existing = context.contentResolver.query(
+            TransactionProvider.ATTACHMENTS_URI,
+            arrayOf(KEY_UUID),
+            "$KEY_UUID ${WhereFilter.Operation.IN.getOp(attachments.size)}",
+            attachments.toTypedArray(),
+            null
+        )?.useAndMap { it.getString(0) } ?: emptyList()
+        Timber.i("ensureAttachmentsOnRead: found %s", existing.joinToString())
+        (attachments - existing.toSet()).forEach { uri ->
+            val (fileName, inputStream) = getAttachment(uri)
+            val homeUri = PictureDirHelper.getOutputMediaUri(
+                false,
+                context.myApplication,
+                fileName = getNameWithoutExtension(fileName),
+                extension = getFileExtension(fileName)
+            )
+            val output = context.contentResolver
+                .openOutputStream(homeUri) ?: throw IOException("Unable to write picture")
+            FileCopyUtils.copy(maybeDecrypt(inputStream), output)
+            inputStream.close()
+            output.close()
+            context.contentResolver.insert(
+                TransactionProvider.ATTACHMENTS_URI,
+                ContentValues(2).apply {
+                    put(KEY_URI, homeUri.toString())
+                    put(KEY_UUID, uri)
+                }
+            )
+        }
+
+    }
+
     @Throws(IOException::class)
     protected abstract fun getInputStreamForPicture(relativeUri: String): InputStream
+
+    protected abstract fun getAttachment(uuid: String): Pair<String, InputStream>
 
     protected fun getAccountMetaDataFromInputStream(inputStream: InputStream): Result<AccountMetaData> =
         try {
@@ -272,20 +327,19 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
 
     @Throws(IOException::class)
     private fun ensureAttachmentsOnWrite(changeSet: List<TransactionChange>) {
-        changeSet.flatMap { it.attachments() ?: emptyList() }.toSet().forEach { uuid ->
-            //TODO first check if backend has a copy of the file
+        val attachments = changeSet.flatMap { it.attachments() ?: emptyList() }.toSet()
+        if (attachments.isNotEmpty()) {
             context.contentResolver.query(
                 TransactionProvider.ATTACHMENTS_URI,
-                arrayOf(DatabaseConstants.KEY_URI),
-                "${DatabaseConstants.KEY_UUID} = ?",
-                arrayOf(uuid),
+                arrayOf(KEY_UUID, KEY_URI),
+                "$KEY_UUID ${WhereFilter.Operation.IN.getOp(attachments.size)}",
+                attachments.toTypedArray(),
                 null
-            )?.use {
-                if (it.moveToFirst()) {
-                    val attachmentUri = Uri.parse(it.getString(0))
-                    val newUri =
-                        "${uuid}_${attachmentUri.lastPathSegment}${if (isEncrypted) ".enc" else ""}"
-                    saveUriToAccountDir(newUri, attachmentUri)
+            )?.use { cursor ->
+                cursor.asSequence.forEach {
+                    val uuid = it.getString(0)
+                    val attachmentUri = Uri.parse(it.getString(1))
+                    storeAttachment(uuid, attachmentUri, attachmentUri.fileName(context))
                 }
             }
         }
@@ -326,7 +380,12 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     protected abstract fun saveUriToAccountDir(fileName: String, uri: Uri)
 
     protected fun buildMetadata(account: Account?): String {
-        return gson.toJson(AccountMetaData.from(account, context.injector.homeCurrencyProvider().homeCurrencyString))
+        return gson.toJson(
+            AccountMetaData.from(
+                account,
+                context.injector.homeCurrencyProvider().homeCurrencyString
+            )
+        )
     }
 
     protected fun getLastFileNamePart(fileName: String): String {
@@ -371,15 +430,26 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     }
 
     override fun writeCategories(categories: List<CategoryExport>): String {
-        saveFileContents(false, null, categoriesFilename, gson.toJson(categories), mimeTypeForData, true)
+        saveFileContents(
+            false,
+            null,
+            categoriesFilename,
+            gson.toJson(categories),
+            mimeTypeForData,
+            true
+        )
         return categoriesFilename
     }
 
     override val categories: Result<List<CategoryExport>>
         get() = kotlin.runCatching {
             readFileContents(false, categoriesFilename, true)?.let {
-                    gson.fromJson<List<CategoryExport>>(it, object : TypeToken<ArrayList<CategoryExport>>() {}.type)
-            } ?: throw FileNotFoundException(context.getString(R.string.not_exist_file_desc) + ": " + categoriesFilename)
+                gson.fromJson<List<CategoryExport>>(
+                    it,
+                    object : TypeToken<ArrayList<CategoryExport>>() {}.type
+                )
+            }
+                ?: throw FileNotFoundException(context.getString(R.string.not_exist_file_desc) + ": " + categoriesFilename)
         }
 
     @Throws(IOException::class)
@@ -440,6 +510,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         const val LOCK_FILE = ".lock.txt"
         const val KEY_LOCK_TOKEN = "lockToken"
         const val BACKUP_FOLDER_NAME = "BACKUPS"
+        const val ATTACHMENT_FOLDER_NAME = "ATTACHMENTS"
         const val MIME_TYPE_JSON = "application/json"
         private const val ACCOUNT_METADATA_FILENAME = "metadata"
         private const val CATEGORIES_FILENAME = "categories"

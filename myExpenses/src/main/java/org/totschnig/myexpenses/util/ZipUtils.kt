@@ -8,6 +8,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
+import org.totschnig.myexpenses.provider.fileName
 import org.totschnig.myexpenses.provider.getBackupDbFile
 import org.totschnig.myexpenses.provider.getBackupPrefFile
 import org.totschnig.myexpenses.util.crypt.EncryptionHelper
@@ -52,7 +53,7 @@ object ZipUtils {
                 it.asSequence.forEach { cursor ->
                     val rowId = cursor.getLong(0)
                     val uri = Uri.parse(cursor.getString(1))
-                    val fileName = "${rowId}_${DocumentFile.fromSingleUri(context, uri)?.name ?: uri.lastPathSegment}"
+                    val fileName = "${rowId}_${uri.fileName(context)}"
                     try {
                         resolver.openInputStream(uri)?.use { inputStream ->
                             addInputStreamToZip(

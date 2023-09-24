@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.sync
 
 import android.content.*
-import android.net.Uri
 import android.os.RemoteException
 import androidx.annotation.VisibleForTesting
 import androidx.core.util.Pair
@@ -11,7 +10,6 @@ import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -240,6 +238,27 @@ class SyncDelegate(
         return builder.setCurrentTimeStamp().build()
     }
 
+    private fun saveAttachmentLinks(
+        attachments: MutableList<String>?,
+        transactionId: Long?,
+        backReference: Int?
+    ) = buildList {
+        //we are not deleting transactions that might have been removed on another device, because
+        //we would need to compare existing attachments with the new list, which would only be doable
+        //via a method call but ContentProviderOperation.newCall is not available below API 30
+        attachments?.forEach { uuid ->
+            val insert =
+                ContentProviderOperation.newInsert(TransactionProvider.TRANSACTIONS_ATTACHMENTS_URI)
+                    .withValue(DatabaseConstants.KEY_UUID, uuid)
+            transactionId?.let {
+                insert.withValue(DatabaseConstants.KEY_TRANSACTIONID, it)
+            } ?: backReference?.let {
+                insert.withValueBackReference(DatabaseConstants.KEY_TRANSACTIONID, it)
+            } ?: throw IllegalArgumentException("neither id nor backReference provided")
+            add(insert.build())
+        }
+    }
+
     @VisibleForTesting
     fun collectOperations(
         change: TransactionChange,
@@ -249,7 +268,7 @@ class SyncDelegate(
         val uri = Transaction.CALLER_IS_SYNC_ADAPTER_URI
         var skipped = false
         val offset = ops.size
-        var tagOpsCount = 0
+        var additionalOpsCount = 0
         val tagIds = change.tags()?.let { repository.extractTagIds(it, tagToId) }
         when (change.type()) {
             TransactionChange.Type.created -> {
@@ -269,10 +288,11 @@ class SyncDelegate(
                                 .withValueBackReference(KEY_PARENTID, parentOffset)
                                 .build()
                         )
-                        val tagOps: ArrayList<ContentProviderOperation> =
-                            saveTagLinks(tagIds, transactionId, null, true)
+                        val tagOps = saveTagLinks(tagIds, transactionId, null, true)
                         ops.addAll(tagOps)
-                        tagOpsCount = tagOps.size
+                        val attachmentOps = saveAttachmentLinks(change.attachments(), transactionId, null)
+                        ops.addAll(attachmentOps)
+                        additionalOpsCount = tagOps.size + attachmentOps.size
                     } else {
                         skipped = true
                         SyncAdapter.log()
@@ -280,10 +300,11 @@ class SyncDelegate(
                     }
                 } else {
                     ops.addAll(getContentProviderOperationsForCreate(change, offset, parentOffset))
-                    val tagOps: ArrayList<ContentProviderOperation> =
-                        saveTagLinks(tagIds, null, offset, true)
+                    val tagOps= saveTagLinks(tagIds, null, offset, true)
                     ops.addAll(tagOps)
-                    tagOpsCount = tagOps.size
+                    val attachmentOps = saveAttachmentLinks(change.attachments(), null, offset)
+                    ops.addAll(attachmentOps)
+                    additionalOpsCount = tagOps.size + attachmentOps.size
                 }
             }
 
@@ -313,10 +334,11 @@ class SyncDelegate(
                         }
                         ops.add(builder.build())
                     }
-                    val tagOps: ArrayList<ContentProviderOperation> =
-                        saveTagLinks(tagIds, transactionId, null, true)
+                    val tagOps = saveTagLinks(tagIds, transactionId, null, true)
                     ops.addAll(tagOps)
-                    tagOpsCount = tagOps.size
+                    val attachmentOps = saveAttachmentLinks(change.attachments(), transactionId, null)
+                    ops.addAll(attachmentOps)
+                    additionalOpsCount = tagOps.size + attachmentOps.size
                 }
             }
 
@@ -366,7 +388,7 @@ class SyncDelegate(
         }
         if (change.isCreateOrUpdate && !skipped) {
             change.splitParts()?.let { splitParts ->
-                val newParentOffset = ops.size - 1 - tagOpsCount
+                val newParentOffset = ops.size - 1 - additionalOpsCount
                 mergeChanges(
                     filterDeleted(
                         splitParts,

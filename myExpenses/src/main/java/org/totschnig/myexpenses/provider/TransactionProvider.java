@@ -69,6 +69,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_A
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI_LIST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
@@ -216,10 +217,6 @@ public class TransactionProvider extends BaseTransactionProvider {
         .build();
   }
 
-  public static Uri ATTACHMENTS_FOR_TRANSACTION_URI(long transactionId) {
-    return ContentUris.appendId(TRANSACTIONS_URI.buildUpon(), transactionId).appendPath("attachments").build();
-  }
-
   public static final Uri CURRENCIES_URI =
       Uri.parse("content://" + AUTHORITY + "/currencies");
   public static final Uri TRANSACTIONS_SUM_URI =
@@ -278,6 +275,8 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final Uri ATTRIBUTES_URI = Uri.parse("content://" + AUTHORITY + "/attributes");
 
   public static final Uri ATTACHMENTS_URI = Uri.parse("content://" + AUTHORITY + "/attachments");
+
+  public static final Uri TRANSACTIONS_ATTACHMENTS_URI = Uri.parse("content://" + AUTHORITY + "/transactions/attachments");
 
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
@@ -350,6 +349,8 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String METHOD_SETUP_CATEGORIES = "setup_categories";
   public static final String METHOD_RESET_EQUIVALENT_AMOUNTS = "reset_equivalent_amounts";
   public static final String METHOD_CHECK_CORRUPTED_DATA_987 = "checkCorruptedData";
+
+  public static final String METHOD_DELETE_ATTACHMENTS = "deleteAttachments";
 
   public static final String KEY_RESULT = "result";
 
@@ -843,10 +844,10 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       }
       case TRANSACTION_ATTACHMENTS: {
-        projection = new String[] { KEY_URI };
+        if (projection == null) {
+          projection = new String[] { KEY_URI };
+        }
         qb = SupportSQLiteQueryBuilder.builder(TABLE_TRANSACTION_ATTACHMENTS + " LEFT JOIN " + TABLE_ATTACHMENTS + " ON (" + KEY_ATTACHMENT_ID + " = " + KEY_ROWID + ")");
-        selection = KEY_TRANSACTIONID + "= ?";
-        selectionArgs = new String[] { uri.getPathSegments().get(1) };
         break;
       }
       default:
@@ -1011,13 +1012,20 @@ public class TransactionProvider extends BaseTransactionProvider {
         return ACCOUNTS_ATTRIBUTES_URI;
       }
       case ATTACHMENTS ->  {
-        id = requireAttachment(db, values.getAsString(KEY_URI));
+        id = requireAttachment(db, values.getAsString(KEY_URI), values.getAsString(KEY_UUID));
         newUri = ATTACHMENTS_URI + "/" + id;
       }
       case TRANSACTION_ATTACHMENTS -> {
-        id = requireAttachment(db, values.getAsString(KEY_URI));
-        values.remove(KEY_URI);
-        values.put(KEY_TRANSACTIONID, uri.getPathSegments().get(1));
+        String uuid = values.getAsString(KEY_UUID);
+        if (uuid != null) {
+          Long attachmentByUuid = findAttachmentByUuid(db, uuid);
+          if (attachmentByUuid == null) return null;
+          values.remove(KEY_UUID);
+          id = attachmentByUuid;
+        } else {
+          id = requireAttachment(db, values.getAsString(KEY_URI), null);
+          values.remove(KEY_URI);
+        }
         values.put(KEY_ATTACHMENT_ID, id);
         MoreDbUtilsKt.insert(db, TABLE_TRANSACTION_ATTACHMENTS, values);
         newUri = ATTACHMENTS_URI + "/" + id;
@@ -1169,17 +1177,6 @@ public class TransactionProvider extends BaseTransactionProvider {
       case BANK_ID -> {
         count = db.delete(TABLE_BANKS,
                 KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
-      }
-      case TRANSACTION_ATTACHMENTS -> {
-        String transactionId = uri.getPathSegments().get(1);
-        String attachmentUri = whereArgs[0];
-        Long attachmentId = findAttachment(db, attachmentUri);
-        if (attachmentId == null) return 0;
-        count = db.delete(TABLE_TRANSACTION_ATTACHMENTS,
-                KEY_TRANSACTIONID + " = ? AND " + KEY_ATTACHMENT_ID + " = ?",
-                new String[] { transactionId, attachmentId.toString() }
-        );
-        deleteAttachment(db, attachmentId, attachmentUri);
       }
       default -> throw unknownUri(uri);
     }
@@ -1606,6 +1603,11 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHOD_CHECK_CORRUPTED_DATA_987 -> {
         return checkCorruptedData987();
       }
+      case METHOD_DELETE_ATTACHMENTS ->  {
+        Bundle result = new Bundle(1);
+        result.putBoolean(KEY_RESULT, deleteAttachments(getHelper().getWritableDatabase(), extras.getLong(KEY_TRANSACTIONID), Arrays.asList(extras.getStringArray(KEY_URI_LIST))));
+        return result;
+      }
     }
     return null;
   }
@@ -1682,7 +1684,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "attributes", ATTRIBUTES);
     URI_MATCHER.addURI(AUTHORITY, "transactions/attributes", TRANSACTION_ATTRIBUTES);
     URI_MATCHER.addURI(AUTHORITY, "accounts/attributes", ACCOUNT_ATTRIBUTES);
-    URI_MATCHER.addURI(AUTHORITY, "transactions/#/attachments", TRANSACTION_ATTACHMENTS);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/attachments", TRANSACTION_ATTACHMENTS);
     URI_MATCHER.addURI(AUTHORITY, "attachments", ATTACHMENTS);
   }
 

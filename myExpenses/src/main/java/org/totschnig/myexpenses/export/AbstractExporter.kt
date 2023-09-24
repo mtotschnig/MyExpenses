@@ -13,7 +13,9 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_ATTACHMENTS_URI
 import org.totschnig.myexpenses.provider.asSequence
+import org.totschnig.myexpenses.provider.fileName
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
@@ -153,14 +155,14 @@ abstract class AbstractExporter
 
             //noinspection Recycle
             val attachmentList = context.contentResolver.query(
-                TransactionProvider.ATTACHMENTS_FOR_TRANSACTION_URI(rowId),
+                TRANSACTIONS_ATTACHMENTS_URI,
                 arrayOf(KEY_URI),
-                null, null,
+                "$KEY_TRANSACTIONID = ?", arrayOf(rowId.toString()),
                 null
             )?.useAndMap {
                 val uri = Uri.parse(it.getString(0))
                 //We should only see file uri from unit test
-                if (uri.scheme == "file") uri.toFile().name else DocumentFile.fromSingleUri(context, uri)!!.name
+                if (uri.scheme == "file") uri.toFile().name else uri.fileName(context)
             }?.takeIf { it.isNotEmpty() }?.filterNotNull()
 
             val transactionDTO = TransactionDTO(

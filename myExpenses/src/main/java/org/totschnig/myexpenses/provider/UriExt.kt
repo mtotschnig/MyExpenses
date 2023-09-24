@@ -2,7 +2,10 @@ package org.totschnig.myexpenses.provider
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
+import android.content.Context
 import android.net.Uri
+import androidx.core.net.toFile
+import androidx.documentfile.provider.DocumentFile
 
 @SuppressLint("InlinedApi")
 fun Uri.withLimit(limit: Int, offset: Int? = null): Uri = buildUpon()
@@ -17,3 +20,5 @@ fun Uri.withLimit(limit: Int, offset: Int? = null): Uri = buildUpon()
             )
         }
     }.build()
+
+fun Uri.fileName(context: Context) = DocumentFile.fromSingleUri(context, this)!!.name ?: lastPathSegment!!

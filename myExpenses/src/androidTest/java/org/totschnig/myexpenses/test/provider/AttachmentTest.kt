@@ -2,20 +2,20 @@ package org.totschnig.myexpenses.test.provider
 
 import android.content.ContentValues
 import android.net.Uri
+import android.os.Bundle
 import com.google.common.truth.Truth.assertThat
 import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTACHMENT_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTACHMENTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTACHMENTS
 import org.totschnig.myexpenses.provider.TransactionInfo
-import org.totschnig.myexpenses.provider.TransactionProvider.ATTACHMENTS_FOR_TRANSACTION_URI
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ATTACHMENTS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.STALE_IMAGES_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_ATTACHMENTS_URI
 import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.testutils.BaseDbTest
 import org.totschnig.myexpenses.testutils.CursorSubject.Companion.assertThat
@@ -26,9 +26,10 @@ class AttachmentTest : BaseDbTest() {
     private var transactionId: Long = 0
 
     private val testUri: Uri
-        get() = ATTACHMENTS_FOR_TRANSACTION_URI(transactionId)
+        get() = TRANSACTIONS_ATTACHMENTS_URI
 
-    private val internalAttachmentUri = "content://org.totschnig.myexpenses.debug.fileprovider/external-files/Pictures/dummy.pdf"
+    private val internalAttachmentUri =
+        "content://org.totschnig.myexpenses.debug.fileprovider/external-files/Pictures/dummy.pdf"
     private val externalAttachmentUri = "content://some.other.app/external-files/Pictures/dummy.pdf"
 
 
@@ -39,21 +40,20 @@ class AttachmentTest : BaseDbTest() {
         transactionId = mDb.insert(TABLE_TRANSACTIONS, transaction.contentValues)
     }
 
-    private fun insertAttachments() {
-        val attachmentId = mDb.insert(TABLE_ATTACHMENTS, ContentValues(2).apply {
-            put(KEY_URI, internalAttachmentUri)
-            put(KEY_UUID, "uuid")
-        })
-        mDb.insert(TABLE_TRANSACTION_ATTACHMENTS, ContentValues(2).apply {
-            put(KEY_TRANSACTIONID, transactionId)
-            put(KEY_ATTACHMENT_ID, attachmentId)
-        })
-    }
-
     private fun expectStaleUris(expected: Int) {
         contentResolver.query(STALE_IMAGES_URI, null, null, null, null)!!.use {
             assertThat(it).hasCount(expected)
         }
+    }
+
+    private fun callDelete(uri: String) {
+        assertThat(contentResolver.call(
+            TransactionProvider.DUAL_URI,
+            TransactionProvider.METHOD_DELETE_ATTACHMENTS, null, Bundle(2).apply {
+                putLong(KEY_TRANSACTIONID, transactionId)
+                putStringArray(DatabaseConstants.KEY_URI_LIST, arrayOf(uri))
+            })!!.getBoolean(KEY_RESULT)
+        ).isTrue()
     }
 
     fun testInsertQueryDeleteInternal() {
@@ -63,19 +63,18 @@ class AttachmentTest : BaseDbTest() {
             assertThat(it).hasCount(0)
         }
         contentResolver.query(
-            testUri
-            , null, null, null, null
+            testUri, null, "$KEY_TRANSACTIONID = ?", arrayOf(transactionId.toString()), null
         )!!.use {
             assertThat(it).hasCount(0)
         }
         contentResolver.insert(testUri, ContentValues(1).apply {
+            put(KEY_TRANSACTIONID, transactionId)
             put(KEY_URI, internalAttachmentUri)
         })
         expectStaleUris(0)
         assertThat(persistedPermissions).isEmpty()
         contentResolver.query(
-            testUri
-            , null, null, null, null
+            testUri, null, "$KEY_TRANSACTIONID = ?", arrayOf(transactionId.toString()), null
         )!!.use {
             with(assertThat(it)) {
                 hasCount(1)
@@ -83,14 +82,20 @@ class AttachmentTest : BaseDbTest() {
                 hasString(0, internalAttachmentUri)
             }
         }
-        contentResolver.delete(testUri, "$KEY_URI = ?", arrayOf(internalAttachmentUri))
-        contentResolver.query(testUri, null, null, null, null)!!.use {
+        callDelete(internalAttachmentUri)
+        contentResolver.query(
+            testUri,
+            null,
+            "$KEY_TRANSACTIONID = ?",
+            arrayOf(transactionId.toString()),
+            null
+        )!!.use {
             assertThat(it).hasCount(0)
         }
         //uri should not be deleted but reported as stale
         expectStaleUris(1)
         contentResolver.query(ATTACHMENTS_URI, null, null, null, null)!!.use {
-            assertThat(it).hasCount(1)
+            assertThat(it).hasCount(0)
         }
     }
 
@@ -101,19 +106,18 @@ class AttachmentTest : BaseDbTest() {
             assertThat(it).hasCount(0)
         }
         contentResolver.query(
-            testUri
-            , null, null, null, null
+            testUri, null, "$KEY_TRANSACTIONID = ?", arrayOf(transactionId.toString()), null
         )!!.use {
             assertThat(it).hasCount(0)
         }
         contentResolver.insert(testUri, ContentValues(1).apply {
+            put(KEY_TRANSACTIONID, transactionId)
             put(KEY_URI, externalAttachmentUri)
         })
         expectStaleUris(0)
         assertThat(persistedPermissions).containsExactly(Uri.parse(externalAttachmentUri))
         contentResolver.query(
-            testUri
-            , null, null, null, null
+            testUri, null, "$KEY_TRANSACTIONID = ?", arrayOf(transactionId.toString()), null
         )!!.use {
             with(assertThat(it)) {
                 hasCount(1)
@@ -121,8 +125,14 @@ class AttachmentTest : BaseDbTest() {
                 hasString(0, externalAttachmentUri)
             }
         }
-        contentResolver.delete(testUri, "$KEY_URI = ?", arrayOf(externalAttachmentUri))
-        contentResolver.query(testUri, null, null, null, null)!!.use {
+        callDelete(externalAttachmentUri)
+        contentResolver.query(
+            testUri,
+            null,
+            "$KEY_TRANSACTIONID = ?",
+            arrayOf(transactionId.toString()),
+            null
+        )!!.use {
             assertThat(it).hasCount(0)
         }
         assertThat(persistedPermissions).isEmpty()
