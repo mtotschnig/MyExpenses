@@ -46,7 +46,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) :
-    SyncBackendProvider, ShardingResourceStorage<Res> {
+    SyncBackendProvider, ResourceStorage<Res> {
     /**
      * this holds the uuid of the db account which data is currently synced
      */
@@ -82,9 +82,6 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         encryptionToken = encrypt(EncryptionHelper.generateRandom(10))
 
     }
-
-    @Throws(IOException::class)
-    abstract fun storeAttachment(uuid: String, uri: Uri, fileName: String)
 
     @Throws(Exception::class)
     override fun setUp(
@@ -243,10 +240,10 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
 
     @Throws(IOException::class)
     private fun mapLegacyPictureDuringRead(uri: String) = Model.generateUuid().also {
-        storeAttachment(uri, it, getInputStreamForLegacyPicture(uri))
+        storeAttachmentToDatabase(uri, it, getInputStreamForLegacyPicture(uri))
     }
 
-    private fun storeAttachment(fileName: String, uuid:String, inputStream: InputStream) {
+    private fun storeAttachmentToDatabase(fileName: String, uuid:String, inputStream: InputStream) {
         val homeUri = PictureDirHelper.getOutputMediaUri(
             false,
             context.myApplication,
@@ -280,7 +277,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         Timber.i("ensureAttachmentsOnRead: found %s", existing.joinToString())
         (attachments - existing.toSet()).forEach { uuid ->
             val (fileName, inputStream) = getAttachment(uuid)
-            storeAttachment(fileName, uuid, inputStream)
+            storeAttachmentToDatabase(fileName, uuid, inputStream)
         }
 
     }
@@ -288,7 +285,19 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     @Throws(IOException::class)
     protected abstract fun getInputStreamForLegacyPicture(relativeUri: String): InputStream
 
-    protected abstract fun getAttachment(uuid: String): Pair<String, InputStream>
+    @Throws(IOException::class)
+    fun getAttachment(uuid: String): Pair<String, InputStream> {
+        val attachmentDir = requireCollection(ATTACHMENT_FOLDER_NAME)
+        val attachment = childrenForCollection(attachmentDir).find { nameForResource(it)?.startsWith(uuid) == true } ?: throw FileNotFoundException()
+        return nameForResource(attachment)!!.substringAfter("${uuid}_") to getInputStream(attachment)
+    }
+
+    private fun storeAttachmentToBackendIfNeeded(uuid: String, uri: Uri, fileName: String) {
+        val attachmentDir = requireCollection(ATTACHMENT_FOLDER_NAME)
+        if (childrenForCollection(attachmentDir).none { nameForResource(it)?.startsWith(uuid) == true }) {
+            saveUriToCollection("${uuid}_$fileName", uri, attachmentDir)
+        }
+    }
 
     protected fun getAccountMetaDataFromInputStream(inputStream: InputStream): Result<AccountMetaData> =
         try {
@@ -308,7 +317,10 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         }
     }
 
-    abstract fun getChangeSetFromResource(shardNumber: Int, resource: Res): ChangeSet
+    private fun getChangeSetFromResource(shardNumber: Int, resource: Res): ChangeSet = getChangeSetFromInputStream(
+        SequenceNumber(shardNumber, getSequenceFromFileName(nameForResource(resource))),
+        getInputStream(resource)
+    )
 
     final override fun getChangeSetSince(sequenceNumber: SequenceNumber): ChangeSet? =
         merge(
@@ -331,7 +343,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
                 cursor.asSequence.forEach {
                     val uuid = it.getString(0)
                     val attachmentUri = Uri.parse(it.getString(1))
-                    storeAttachment(uuid, attachmentUri, attachmentUri.fileName(context))
+                    storeAttachmentToBackendIfNeeded(uuid, attachmentUri, attachmentUri.fileName(context))
                 }
             }
         }
@@ -369,7 +381,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
      * should encrypt if backend is configured with encryption
      */
     @Throws(IOException::class)
-    protected abstract fun saveUriToAccountDir(fileName: String, uri: Uri)
+    protected abstract fun saveUriToCollection(fileName: String, uri: Uri, collection: Res, maybeEncrypt: Boolean = true)
 
     protected fun buildMetadata(account: Account?): String {
         return gson.toJson(
@@ -420,6 +432,18 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     override fun updateAccount(account: Account) {
         writeAccount(account, true)
     }
+
+    final override fun storeBackup(uri: Uri, fileName: String) {
+        saveUriToCollection(fileName, uri, requireCollection(BACKUP_FOLDER_NAME), false)
+    }
+
+    final override val storedBackups: List<String>
+        get() = childrenForCollection(requireCollection(BACKUP_FOLDER_NAME)).mapNotNull { nameForResource(it) }
+
+    final override fun getInputStreamForBackup(backupFile: String) = getInputStream(
+    childrenForCollection(requireCollection(BACKUP_FOLDER_NAME))
+        .find { nameForResource(it) == backupFile } ?: throw FileNotFoundException()
+    )
 
     override fun writeCategories(categories: List<CategoryExport>): String {
         saveFileContents(

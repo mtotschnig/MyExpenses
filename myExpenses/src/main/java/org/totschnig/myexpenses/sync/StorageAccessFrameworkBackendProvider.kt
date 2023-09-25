@@ -6,7 +6,6 @@ import androidx.documentfile.provider.DocumentFile
 import org.acra.util.StreamReader
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.sync.json.AccountMetaData
-import org.totschnig.myexpenses.sync.json.ChangeSet
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.io.getMimeType
 import java.io.*
@@ -83,26 +82,21 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
             ?: throw FileNotFoundException()
 
     @Throws(IOException::class)
-    override fun saveUriToAccountDir(fileName: String, uri: Uri) {
-        saveUriToFolder(fileName, uri, accountDir, true)
-    }
-
-    @Throws(IOException::class)
-    private fun saveUriToFolder(
+    override fun saveUriToCollection(
         fileName: String,
         uri: Uri,
-        folder: DocumentFile,
+        collection: DocumentFile,
         maybeEncrypt: Boolean
     ) {
         val input = contentResolver.openInputStream(uri)
-        val output = folder.createFile(getMimeType(fileName), fileName)
+        val output = collection.createFile(getMimeType(fileName), fileName)
             ?.let { contentResolver.openOutputStream(it.uri) }
 
         if (input == null) {
             throw IOException("Could not open InputStream $uri")
         }
         if (output == null) {
-            throw IOException("Could not open OutputStream $folder")
+            throw IOException("Could not open OutputStream $collection")
         }
 
         input.use { `in` ->
@@ -112,39 +106,10 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
         }
     }
 
-    @Throws(IOException::class)
-    override fun storeBackup(uri: Uri, fileName: String) {
-        val backupDir = baseDir.requireFolder(BACKUP_FOLDER_NAME)
-        saveUriToFolder(fileName, uri, backupDir, false)
-    }
-
-    override fun storeAttachment(uuid: String, uri: Uri, fileName: String) {
-        val attachmentDir = baseDir.requireFolder(ATTACHMENT_FOLDER_NAME)
-        if (attachmentDir.listFiles().none { it.name?.startsWith(uuid) == true }) {
-            saveUriToFolder("${uuid}_$fileName", uri, attachmentDir, true)
-        }
-    }
-
-    @Throws(IOException::class)
-    override fun getAttachment(uuid: String): Pair<String, InputStream> {
-        val attachmentDir = baseDir.requireFolder(ATTACHMENT_FOLDER_NAME)
-        val attachment = attachmentDir.listFiles().find { it.name?.startsWith(uuid) == true } ?: throw FileNotFoundException()
-        return attachment.name!!.substringAfter("${uuid}_") to (contentResolver.openInputStream(attachment.uri) ?: throw IOException())
-    }
-
-    override val storedBackups: List<String>
-        get() = baseDir.findFile(BACKUP_FOLDER_NAME)?.listFiles()?.mapNotNull { it.name }
-            ?: emptyList()
-
-    @Throws(FileNotFoundException::class)
-    override fun getInputStreamForBackup(backupFile: String): InputStream {
-        return baseDir.requireFolder(BACKUP_FOLDER_NAME).findFile(backupFile)?.uri?.let {
-            contentResolver.openInputStream(it)
-        } ?: throw FileNotFoundException()
-    }
-
     override fun collectionForShard(shardNumber: Int) =
         if (shardNumber == 0) accountDir else accountDir.findFile(folderForShard(shardNumber))
+
+    override fun requireCollection(collectionName: String) = baseDir.requireFolder(collectionName)
 
     override fun childrenForCollection(folder: DocumentFile?) =
         (folder ?: accountDir).listFiles().asList()
@@ -153,12 +118,7 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
 
     override fun isCollection(resource: DocumentFile) = resource.isDirectory
 
-    override fun getChangeSetFromResource(shardNumber: Int, resource: DocumentFile): ChangeSet {
-        val inputStream = contentResolver.openInputStream(resource.uri) ?: throw IOException()
-        return getChangeSetFromInputStream(
-            SequenceNumber(shardNumber, getSequenceFromFileName(resource.name!!)), inputStream
-        )
-    }
+    override fun getInputStream(resource: DocumentFile) = contentResolver.openInputStream(resource.uri) ?: throw IOException()
 
     private fun getAccountMetaData(file: DocumentFile) = try {
         getAccountMetaDataFromInputStream(

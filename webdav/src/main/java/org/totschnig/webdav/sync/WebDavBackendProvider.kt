@@ -20,11 +20,9 @@ import okio.source
 import org.acra.util.StreamReader
 import org.totschnig.myexpenses.sync.AbstractSyncBackendProvider
 import org.totschnig.myexpenses.sync.GenericAccountService
-import org.totschnig.myexpenses.sync.SequenceNumber
 import org.totschnig.myexpenses.sync.SyncBackendProvider.SyncParseException
 import org.totschnig.myexpenses.sync.getSyncProviderUrl
 import org.totschnig.myexpenses.sync.json.AccountMetaData
-import org.totschnig.myexpenses.sync.json.ChangeSet
 import org.totschnig.myexpenses.util.io.calculateSize
 import org.totschnig.myexpenses.util.io.getMimeType
 import org.totschnig.webdav.sync.client.CertificateHelper.fromString
@@ -148,20 +146,17 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
     private val lockFile: LockableDavResource
         get() = webDavClient.getResource(LOCK_FILE, accountUuid)
 
-    override fun getChangeSetFromResource(shardNumber: Int, resource: DavResource): ChangeSet {
-        return try {
-            getChangeSetFromInputStream(
-                SequenceNumber(
-                    shardNumber,
-                    getSequenceFromFileName(resource.fileName())
-                ),
-                resource[mimeTypeForData].byteStream()
-            )
-        } catch (e: HttpException) {
-            throw IOException(e)
-        } catch (e: DavException) {
-            throw IOException(e)
-        }
+    override fun requireCollection(collectionName: String): DavResource {
+        webDavClient.mkCol(collectionName)
+        return webDavClient.getCollection(collectionName)
+    }
+
+    override fun getInputStream(resource: DavResource) = try {
+        resource[mimeTypeForData].byteStream()
+    } catch (e: HttpException) {
+        throw IOException(e)
+    } catch (e: DavException) {
+        throw IOException(e)
     }
 
     override fun collectionForShard(shardNumber: Int) =
@@ -186,15 +181,6 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         return getInputStream(accountUuid!!, relativeUri)
     }
 
-    override fun getAttachment(uuid: String): Pair<String, InputStream> {
-        TODO("Not yet implemented")
-    }
-
-    @Throws(IOException::class)
-    override fun getInputStreamForBackup(backupFile: String): InputStream {
-        return getInputStream(BACKUP_FOLDER_NAME, backupFile)
-    }
-
     @Throws(IOException::class)
     private fun getInputStream(folderName: String, resourceName: String): InputStream {
         return try {
@@ -207,12 +193,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
     }
 
     @Throws(IOException::class)
-    override fun saveUriToAccountDir(fileName: String, uri: Uri) {
-        saveUriToFolder(fileName, uri, accountUuid!!, true)
-    }
-
-    @Throws(IOException::class)
-    private fun saveUriToFolder(fileName: String, uri: Uri, folder: String, maybeEncrypt: Boolean) {
+    override fun saveUriToCollection(fileName: String, uri: Uri, collection: DavResource, maybeEncrypt: Boolean) {
         val finalFileName = getLastFileNamePart(fileName)
         val encrypt = isEncrypted && maybeEncrypt
         val contentLength = if (encrypt) -1 else calculateSize(context.contentResolver, uri)
@@ -234,28 +215,10 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
             }
         }
         try {
-            webDavClient.upload(finalFileName, requestBody, folder)
+            webDavClient.upload(finalFileName, requestBody, collection)
         } catch (e: HttpException) {
             throw IOException(e)
         }
-    }
-
-    @Throws(IOException::class)
-    override fun storeBackup(uri: Uri, fileName: String) {
-        webDavClient.mkCol(BACKUP_FOLDER_NAME)
-        saveUriToFolder(fileName, uri, BACKUP_FOLDER_NAME, false)
-    }
-
-    override val storedBackups: List<String>
-        get() = try {
-            webDavClient.getFolderMembers(BACKUP_FOLDER_NAME)
-                .map { obj: DavResource -> obj.fileName() }
-        } catch (e: IOException) {
-            ArrayList()
-        }
-
-    override fun storeAttachment(uuid: String, uri: Uri, fileName: String) {
-        TODO("Not yet implemented")
     }
 
     @Throws(IOException::class)

@@ -22,8 +22,8 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.*
 import org.totschnig.myexpenses.sync.json.AccountMetaData
-import org.totschnig.myexpenses.sync.json.ChangeSet
 import org.totschnig.myexpenses.util.Preconditions
+import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStream
 import java.util.*
@@ -154,8 +154,6 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
             Preconditions.checkArgument(!TextUtils.isEmpty(accountUuid))
             return "$basePath/$accountUuid"
         }
-    private val backupPath: String
-        get() = "$basePath/$BACKUP_FOLDER_NAME"
 
     private fun getResourcePath(resource: String): String = "$accountPath/$resource"
 
@@ -167,6 +165,8 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
             mDbxClient.files().deleteV2("$basePath/$uuid")
         }
     }
+
+    override fun getInputStream(resource: Metadata): InputStream = getInputStream(resource.pathLower)
 
     @Throws(IOException::class)
     private fun getInputStream(resourcePath: String) = tryWithWrappedException {
@@ -182,16 +182,16 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
     private val lockFilePath: String
         get() = getResourcePath(LOCK_FILE)
 
-    override fun getChangeSetFromResource(shardNumber: Int, resource: Metadata): ChangeSet {
-        return getChangeSetFromInputStream(
-            SequenceNumber(shardNumber, getSequenceFromFileName(resource.name)),
-            getInputStream(resource.pathLower)
-        )
-    }
-
     override fun collectionForShard(shardNumber: Int) = metadata(
         if (shardNumber == 0) accountPath else "$accountPath/${folderForShard(shardNumber)}"
     )
+
+    override fun requireCollection(collectionName: String): Metadata {
+        val path = "$basePath/$collectionName"
+        requireFolder(path)
+        return metadata(path) ?: throw FileNotFoundException()
+    }
+
 
     override fun childrenForCollection(folder: Metadata?): List<Metadata> =
         mDbxClient.files().listFolder(folder?.pathLower ?: accountPath).entries
@@ -205,35 +205,15 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         return getInputStream(getResourcePath(relativeUri))
     }
 
-    override fun getAttachment(uuid: String): Pair<String, InputStream> {
-        TODO("Not yet implemented")
-    }
-
     @Throws(IOException::class)
-    override fun getInputStreamForBackup(backupFile: String): InputStream {
-        return getInputStream("$backupPath/$backupFile")
-    }
-
-    @Throws(IOException::class)
-    override fun storeBackup(uri: Uri, fileName: String) {
-        val backupPath = backupPath
-        requireFolder(backupPath)
-        saveUriToFolder(fileName, uri, backupPath, false)
-    }
-
-    override fun storeAttachment(uuid: String, uri: Uri, fileName: String) {
-        TODO("Not yet implemented")
-    }
-
-    @Throws(IOException::class)
-    override fun saveUriToAccountDir(fileName: String, uri: Uri) {
-        saveUriToFolder(fileName, uri, accountPath, true)
-    }
-
-    @Throws(IOException::class)
-    private fun saveUriToFolder(fileName: String, uri: Uri, folder: String, maybeEncrypt: Boolean) {
+    override fun saveUriToCollection(
+        fileName: String,
+        uri: Uri,
+        collection: Metadata,
+        maybeEncrypt: Boolean
+    ) {
         saveInputStream(
-            "$folder/${getLastFileNamePart(fileName)}",
+            "${collection.pathLower}/${getLastFileNamePart(fileName)}",
             maybeEncrypt(
                 context.contentResolver.openInputStream(uri)
                     ?: throw IOException("Could not read $uri"),
@@ -307,16 +287,6 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
 
     private fun getAccountMetaDataFromPath(path: String): Result<AccountMetaData> =
         getAccountMetaDataFromInputStream(getInputStream(path))
-
-    override val storedBackups: List<String>
-        get() = try {
-            mDbxClient.files().listFolder(
-                backupPath
-            ).entries
-                .map { obj: Metadata -> obj.name }
-        } catch (ignored: DbxException) {
-            emptyList()
-        }
 
     override val sharedPreferencesName = "dropbox"
 

@@ -3,13 +3,13 @@ package org.totschnig.myexpenses.sync
 import com.google.common.truth.Truth
 import org.junit.Test
 
-class ShardingResourceStorageTest {
+class ResourceStorageTest {
 
     open class Resource(val name: String)
 
     class Folder(val members: Set<Resource>, name: String) : Resource(name)
 
-    class Storage(private val storage: Folder) : ShardingResourceStorage<Resource> {
+    class Storage(private val storage: Folder) : ResourceStorage<Resource> {
         override fun collectionForShard(shardNumber: Int) =
             if (shardNumber == 0) storage else storage.members.find {
                 it.name == folderForShard(
