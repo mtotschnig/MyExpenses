@@ -46,6 +46,22 @@ class AttachmentTest : BaseDbTest() {
         }
     }
 
+    private fun expectLinkedAttachment(expected: String?) {
+        contentResolver.query(
+            testUri, null, "$KEY_TRANSACTIONID = ?", arrayOf(transactionId.toString()), null
+        )!!.use {
+            with(assertThat(it)) {
+                if (expected == null) {
+                    hasCount(0)
+                } else {
+                    hasCount(1)
+                    movesToFirst()
+                    hasString(0, expected)
+                }
+            }
+        }
+    }
+
     private fun callDelete(uri: String) {
         assertThat(contentResolver.call(
             TransactionProvider.DUAL_URI,
@@ -56,90 +72,46 @@ class AttachmentTest : BaseDbTest() {
         ).isTrue()
     }
 
+    private fun expectNoAttachments() {
+        contentResolver.query(ATTACHMENTS_URI, null, null, null, null)!!.use {
+            assertThat(it).hasCount(0)
+        }
+    }
+
     fun testInsertQueryDeleteInternal() {
         insertFixture()
         expectStaleUris(0)
-        contentResolver.query(STALE_IMAGES_URI, null, null, null, null)!!.use {
-            assertThat(it).hasCount(0)
-        }
-        contentResolver.query(
-            testUri, null, "$KEY_TRANSACTIONID = ?", arrayOf(transactionId.toString()), null
-        )!!.use {
-            assertThat(it).hasCount(0)
-        }
+        expectLinkedAttachment(null)
         contentResolver.insert(testUri, ContentValues(1).apply {
             put(KEY_TRANSACTIONID, transactionId)
             put(KEY_URI, internalAttachmentUri)
         })
         expectStaleUris(0)
         assertThat(persistedPermissions).isEmpty()
-        contentResolver.query(
-            testUri, null, "$KEY_TRANSACTIONID = ?", arrayOf(transactionId.toString()), null
-        )!!.use {
-            with(assertThat(it)) {
-                hasCount(1)
-                movesToFirst()
-                hasString(0, internalAttachmentUri)
-            }
-        }
+        expectLinkedAttachment(internalAttachmentUri)
         callDelete(internalAttachmentUri)
-        contentResolver.query(
-            testUri,
-            null,
-            "$KEY_TRANSACTIONID = ?",
-            arrayOf(transactionId.toString()),
-            null
-        )!!.use {
-            assertThat(it).hasCount(0)
-        }
+        expectLinkedAttachment(null)
         //uri should not be deleted but reported as stale
         expectStaleUris(1)
-        contentResolver.query(ATTACHMENTS_URI, null, null, null, null)!!.use {
-            assertThat(it).hasCount(0)
-        }
+        expectNoAttachments()
     }
 
     fun testInsertQueryDeleteExternal() {
         insertFixture()
         expectStaleUris(0)
-        contentResolver.query(STALE_IMAGES_URI, null, null, null, null)!!.use {
-            assertThat(it).hasCount(0)
-        }
-        contentResolver.query(
-            testUri, null, "$KEY_TRANSACTIONID = ?", arrayOf(transactionId.toString()), null
-        )!!.use {
-            assertThat(it).hasCount(0)
-        }
+        expectLinkedAttachment(null)
         contentResolver.insert(testUri, ContentValues(1).apply {
             put(KEY_TRANSACTIONID, transactionId)
             put(KEY_URI, externalAttachmentUri)
         })
         expectStaleUris(0)
         assertThat(persistedPermissions).containsExactly(Uri.parse(externalAttachmentUri))
-        contentResolver.query(
-            testUri, null, "$KEY_TRANSACTIONID = ?", arrayOf(transactionId.toString()), null
-        )!!.use {
-            with(assertThat(it)) {
-                hasCount(1)
-                movesToFirst()
-                hasString(0, externalAttachmentUri)
-            }
-        }
+        expectLinkedAttachment(externalAttachmentUri)
         callDelete(externalAttachmentUri)
-        contentResolver.query(
-            testUri,
-            null,
-            "$KEY_TRANSACTIONID = ?",
-            arrayOf(transactionId.toString()),
-            null
-        )!!.use {
-            assertThat(it).hasCount(0)
-        }
+        expectLinkedAttachment(null)
         assertThat(persistedPermissions).isEmpty()
         //uri should now be deleted
         expectStaleUris(0)
-        contentResolver.query(ATTACHMENTS_URI, null, null, null, null)!!.use {
-            assertThat(it).hasCount(0)
-        }
+        expectNoAttachments()
     }
 }

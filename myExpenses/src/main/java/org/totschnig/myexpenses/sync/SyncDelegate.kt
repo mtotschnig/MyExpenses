@@ -513,7 +513,6 @@ class SyncDelegate(
                 t.parentId = parentId
             }
         }
-        //change.pictureUri()?.let { t.pictureUri = Uri.parse(it) }
         change.originalAmount()?.let { originalAmount ->
             change.originalCurrency()?.let { originalCurrency ->
                 t.originalAmount = Money(currencyContext[originalCurrency], originalAmount)

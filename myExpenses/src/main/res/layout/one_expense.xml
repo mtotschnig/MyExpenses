@@ -398,7 +398,7 @@
 
                         <TextView
                             style="@style/FormLabel"
-                            android:text="Receipts" />
+                            android:text="@string/attachments" />
 
                         <com.google.android.flexbox.FlexboxLayout
                             android:id="@+id/AttachmentGroup"

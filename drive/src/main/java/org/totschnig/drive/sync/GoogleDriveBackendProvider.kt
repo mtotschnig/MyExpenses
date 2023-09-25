@@ -7,7 +7,7 @@ import android.net.Uri
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException
 import com.google.api.services.drive.model.File
 import org.acra.util.StreamReader
-import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.sync.AbstractSyncBackendProvider
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -117,7 +117,11 @@ class GoogleDriveBackendProvider internal constructor(
     ) {
         val base = if (toAccountDir) accountFolder else baseFolder
         val driveFolder = if (folder == null) base else {
-            getResInAccountDir(folder) ?: driveServiceHelper.createFolder(accountFolder.id, folder, null)
+            getResInAccountDir(folder) ?: driveServiceHelper.createFolder(
+                accountFolder.id,
+                folder,
+                null
+            )
         }
         saveFileContents(driveFolder, fileName, fileContents, mimeType, maybeEncrypt)
     }
@@ -202,31 +206,30 @@ class GoogleDriveBackendProvider internal constructor(
         }
     }
 
-    override fun getResInAccountDir(resourceName: String) = driveServiceHelper.getFileByNameAndParent(accountFolder, resourceName)
+    override fun getResInAccountDir(resourceName: String) =
+        driveServiceHelper.getFileByNameAndParent(accountFolder, resourceName)
 
     override fun getCollection(collectionName: String, require: Boolean): File? {
         val file = driveServiceHelper.getFileByNameAndParent(
             baseFolder, collectionName
         )
         val key = collectionPropertyKey(collectionName)
-        if (file != null && file.appProperties != null && getPropertyWithDefault(
-                file.appProperties,
-                key,
-                false
-            )
-        ) {
-            return file
+        return when {
+            file != null && file.appProperties != null &&
+                    getPropertyWithDefault(file.appProperties, key, false) -> file
+
+            require -> {
+                val properties: MutableMap<String, String> = HashMap()
+                properties[key] = "true"
+                driveServiceHelper.createFolder(
+                    baseFolder.id,
+                    collectionName,
+                    properties
+                )
+            }
+
+            else -> null
         }
-        if (require) {
-            val properties: MutableMap<String, String> = HashMap()
-            properties[key] = "true"
-            return driveServiceHelper.createFolder(
-                baseFolder.id,
-                BACKUP_FOLDER_NAME,
-                properties
-            )
-        }
-        return null
     }
 
     override fun childrenForCollection(folder: File?) =
@@ -315,7 +318,7 @@ class GoogleDriveBackendProvider internal constructor(
     }
 
     private val homeCurrency: String
-        get() = (context.applicationContext as MyApplication).appComponent.homeCurrencyProvider().homeCurrencyString
+        get() = context.injector.homeCurrencyProvider().homeCurrencyString
 
     private fun getPropertyWithDefault(
         metadata: Map<String, String>,
@@ -380,7 +383,7 @@ class GoogleDriveBackendProvider internal constructor(
         const val IS_SYNC_FOLDER = "isSyncFolder"
 
         private fun collectionPropertyKey(collectionName: String) =
-            when(collectionName) {
+            when (collectionName) {
                 BACKUP_FOLDER_NAME -> IS_BACKUP_FOLDER
                 ATTACHMENT_FOLDER_NAME -> IS_ATTACHMENT_FOLDER
                 else -> throw NotImplementedError()

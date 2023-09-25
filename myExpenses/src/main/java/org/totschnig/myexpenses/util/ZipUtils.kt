@@ -68,9 +68,7 @@ object ZipUtils {
                     }
                 }
             }
-        /*
-     * close the zip objects
-     */zip.flush()
+        zip.flush()
         zip.close()
     }
 
@@ -82,31 +80,23 @@ object ZipUtils {
         path: String, srcFile: File,
         zip: ZipOutputStream
     ) {
-        val `in` = FileInputStream(srcFile)
-        val filePath = path + (if (path == "") "" else "/") + srcFile.name
-        addInputStreamToZip(filePath, `in`, zip)
-        `in`.close()
+        FileInputStream(srcFile).use {
+            val filePath = path + (if (path == "") "" else "/") + srcFile.name
+            addInputStreamToZip(filePath, it, zip)
+        }
     }
 
     @Throws(IOException::class)
     private fun addInputStreamToZip(
-        path: String, `in`: InputStream?,
+        path: String, inputStream: InputStream,
         zip: ZipOutputStream
     ) {
-
-        /*
-     * write the file to the output
-     */
         val buf = ByteArray(1024)
         var len: Int
         zip.putNextEntry(ZipEntry(path))
-        while (`in`!!.read(buf).also { len = it } > 0) {
-            /*
-       * Write the Result
-       */
+        while (inputStream.read(buf).also { len = it } > 0) {
             zip.write(buf, 0, len)
         }
-        `in`.close()
     }
 
     @Throws(IOException::class, GeneralSecurityException::class)

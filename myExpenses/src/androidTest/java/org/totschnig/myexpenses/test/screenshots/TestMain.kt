@@ -2,7 +2,13 @@ package org.totschnig.myexpenses.test.screenshots
 
 import android.Manifest
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertTextContains
+import androidx.compose.ui.test.filter
+import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.core.os.LocaleListCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.closeSoftKeyboard
@@ -22,13 +28,19 @@ import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.GrantPermissionRule
 import androidx.test.uiautomator.UiDevice
 import org.hamcrest.Matchers.containsString
-import org.junit.*
+import org.junit.After
+import org.junit.AfterClass
+import org.junit.BeforeClass
+import org.junit.ClassRule
+import org.junit.Rule
+import org.junit.Test
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.test.espresso.SettingsTest
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.MockLicenceHandler
+import org.totschnig.myexpenses.testutils.withPositionInParent
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.versionNumber
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.cleanstatusbar.CleanStatusBar
@@ -130,10 +142,9 @@ class TestMain : BaseMyExpensesTest() {
                     .performClick()
                 composeTestRule.onNodeWithText(getString(R.string.menu_edit)).performClick()
                 pressBack() //close keyboard
-/*                onView(withId(R.id.PictureContainer))
+                onView(withPositionInParent(R.id.AttachmentGroup, 0))
                     .perform(click())
                 takeScreenshot("edit")
- */
             }
             else -> {
                 throw IllegalArgumentException("Unknown scenario" + BuildConfig.TEST_SCENARIO)

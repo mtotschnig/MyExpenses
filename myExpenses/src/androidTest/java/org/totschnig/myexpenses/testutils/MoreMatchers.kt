@@ -7,7 +7,9 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
+import androidx.test.espresso.matcher.ViewMatchers.withParentIndex
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Description
@@ -62,6 +64,16 @@ fun withOperationType(type: Int): Matcher<Any> =
             description.appendText("with operation type '$type'")
         }
     }
+
+/**
+ * https://stackoverflow.com/a/63330069/1199911
+ * @param parentViewId the resource id of the parent [View].
+ * @param position the child index of the [View] to match.
+ * @return a [Matcher] that matches the child [View] which has the given [position] within the specified parent.
+ */
+fun withPositionInParent(parentViewId: Int, position: Int): Matcher<View> {
+    return allOf(withParent(withId(parentViewId)), withParentIndex(position))
+}
 
 fun toolbarTitle(): ViewInteraction = onView(allOf(instanceOf(TextView::class.java), withParent(ViewMatchers.withId(R.id.toolbar))))
 

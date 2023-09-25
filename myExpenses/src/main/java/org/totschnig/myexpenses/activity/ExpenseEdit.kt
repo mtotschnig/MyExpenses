@@ -26,7 +26,12 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Parcelable
 import android.provider.CalendarContract
-import android.view.*
+import android.view.ContextMenu
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -47,9 +52,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -62,7 +67,11 @@ import org.totschnig.myexpenses.databinding.AttachmentItemBinding
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
-import org.totschnig.myexpenses.delegate.*
+import org.totschnig.myexpenses.delegate.CategoryDelegate
+import org.totschnig.myexpenses.delegate.MainDelegate
+import org.totschnig.myexpenses.delegate.SplitDelegate
+import org.totschnig.myexpenses.delegate.TransactionDelegate
+import org.totschnig.myexpenses.delegate.TransferDelegate
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
@@ -71,22 +80,59 @@ import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.fragment.PlanMonthFragment
 import org.totschnig.myexpenses.fragment.TemplatesList
 import org.totschnig.myexpenses.injector
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.ITransaction
+import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Plan.Recurrence
 import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.disableAutoFill
 import org.totschnig.myexpenses.preference.enableAutoFill
 import org.totschnig.myexpenses.preference.enumValueOrDefault
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.ui.*
-import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
+import org.totschnig.myexpenses.ui.AmountInput
+import org.totschnig.myexpenses.ui.ContextAwareRecyclerView
+import org.totschnig.myexpenses.ui.DateButton
+import org.totschnig.myexpenses.ui.DiscoveryHelper
+import org.totschnig.myexpenses.ui.ExchangeRateEdit
+import org.totschnig.myexpenses.ui.IDiscoveryHelper
+import org.totschnig.myexpenses.util.PermissionHelper
+import org.totschnig.myexpenses.util.PictureDirHelper
+import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.attachmentInfoMap
+import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.safeMessage
+import org.totschnig.myexpenses.util.setAttachmentInfo
+import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.util.tracking.Tracker
-import org.totschnig.myexpenses.viewmodel.*
+import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteComplete
+import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
+import org.totschnig.myexpenses.viewmodel.TagBaseViewModel
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask
-import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask.*
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask.FROM_INTENT_EXTRAS
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask.TEMPLATE
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask.TEMPLATE_FROM_TRANSACTION
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask.TRANSACTION
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.InstantiationTask.TRANSACTION_FROM_TEMPLATE
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.AttachmentInfo
 import org.totschnig.myexpenses.viewmodel.data.Currency
@@ -96,7 +142,6 @@ import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDate
 import javax.inject.Inject
-import kotlin.Result
 import kotlin.collections.set
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
@@ -277,7 +322,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 methodRowBinding,
                 injector
             )
-            setupObservers(true)
+            setupObservers()
             delegate.bind(
                 null,
                 withTypeSpinner,
@@ -568,8 +613,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
-    private fun setupObservers(fromSavedState: Boolean) {
-        loadAccounts(fromSavedState)
+    private fun setupObservers() {
+        loadAccounts()
         loadTemplates()
         linkInputsWithLabels()
         loadTags()
@@ -580,17 +625,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.attachmentUris
                     .map { list ->
-                        list.map {
-                            it to withContext(Dispatchers.IO) {
-                                attachmentInfoMap.getValue(
-                                    it
-                                )
-                            }
-                        }
-                    }
-                    .collect {
-                        showAttachments(it)
-                    }
+                        list.map { it to attachmentInfoMap.getValue(it) } }
+                    .flowOn(Dispatchers.IO)
+                    .collect { showAttachments(it) }
             }
         }
     }
@@ -665,7 +702,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
-    private fun loadAccounts(fromSavedState: Boolean) {
+    private fun loadAccounts() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.accounts.collect {
@@ -815,7 +852,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             methodRowBinding,
             injector
         )
-        setupObservers(false)
+        setupObservers()
         if (intent.getBooleanExtra(KEY_CREATE_TEMPLATE, false)) {
             createTemplate = true
             delegate.setCreateTemplate(true)

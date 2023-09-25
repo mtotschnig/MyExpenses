@@ -3,16 +3,13 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.ContentUris
 import android.content.ContentValues
-import android.content.Intent
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.webkit.MimeTypeMap
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.content.pm.ShortcutManagerCompat.FLAG_MATCH_PINNED
-import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -471,7 +468,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     companion object {
         private const val KEY_ATTACHMENT_URIS = "attachmentUris"
-        private const val KEY_ORIGINAL_URIS = "deletedUris"
+        private const val KEY_ORIGINAL_URIS = "originalUris"
     }
 
     fun startAutoFill(id: Long, overridePreferences: Boolean, autoFillAccountFromExtra: Boolean) {

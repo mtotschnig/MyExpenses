@@ -1,9 +1,9 @@
 package org.totschnig.myexpenses.util
 
-import android.content.ContentResolver
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.res.ColorStateList
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -19,14 +19,11 @@ import android.widget.PopupWindow
 import android.widget.ScrollView
 import android.widget.Spinner
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.graphics.ColorUtils.calculateContrast
 import androidx.core.widget.ImageViewCompat
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.model.AccountType
@@ -196,42 +193,48 @@ fun ImageView.setAttachmentInfo(info: AttachmentInfo) {
 fun attachmentInfoMap(context: Context, withFile: Boolean = false): Map<Uri, AttachmentInfo> {
     val contentResolver = context.contentResolver
     return lazyMap { uri ->
-        val file = if (withFile) try {
-            PictureDirHelper.getFileForUri(context, uri)
-        } catch (e: IllegalArgumentException) {
-            null
-        } else null
-        contentResolver.getType(uri)?.let {
-            if (it.startsWith("image")) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    val size = UiUtils.dp2Px(48f, context.resources)
-                    val cancellationSignal = CancellationSignal()
-                    try {
-                        AttachmentInfo.of(
-                            contentResolver.loadThumbnail(
-                                uri,
-                                Size(size, size),
-                                cancellationSignal
-                            ), file
-                        )
-                    } catch (e: Exception) {
-                        null
+        when (uri.scheme) {
+            "content" -> {
+                val file = if (withFile) try {
+                    PictureDirHelper.getFileForUri(context, uri)
+                } catch (e: IllegalArgumentException) {
+                    null
+                } else null
+                contentResolver.getType(uri)?.let {
+                    if (it.startsWith("image")) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            val size = UiUtils.dp2Px(48f, context.resources)
+                            val cancellationSignal = CancellationSignal()
+                            try {
+                                AttachmentInfo.of(
+                                    contentResolver.loadThumbnail(
+                                        uri,
+                                        Size(size, size),
+                                        cancellationSignal
+                                    ), file
+                                )
+                            } catch (e: Exception) {
+                                null
+                            }
+                        } else {
+                            AttachmentInfo.of(R.drawable.ic_menu_camera, file)
+                        }
+                    } else {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            val icon = contentResolver.getTypeInfo(it).icon
+                            AttachmentInfo.of(icon, file)
+                        } else {
+                            AttachmentInfo.of(R.drawable.ic_menu_template, file)
+                        }
                     }
-                } else {
-                    AttachmentInfo.of(R.drawable.ic_menu_camera, file)
-                }
-            } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    val icon = contentResolver.getTypeInfo(it).icon
-                    AttachmentInfo.of(icon, file)
-                } else {
-                    AttachmentInfo.of(R.drawable.ic_menu_template, file)
                 }
             }
-        } ?: AttachmentInfo.of(com.google.android.material.R.drawable.mtrl_ic_error, file)
+            "file" -> if (uri.pathSegments.first() == "android_asset")
+                AttachmentInfo.of(context.assets.open(uri.pathSegments[1]).use(BitmapFactory::decodeStream), null) else null
+            else -> null
+            } ?: AttachmentInfo.of(com.google.android.material.R.drawable.mtrl_ic_error, null)
+        }
     }
-}
-
 
 tailrec fun Context.getActivity(): BaseActivity? = this as? BaseActivity
     ?: (this as? ContextWrapper)?.baseContext?.getActivity()

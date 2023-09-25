@@ -209,7 +209,6 @@ abstract class TransactionDelegate<T : ITransaction>(
             parentId = transaction.parentId
             accountId = transaction.accountId
             methodId = transaction.methodId
-            //setPicture(transaction.pictureUri)
             planId = (transaction as? Template)?.plan?.id
             _crStatus = transaction.crStatus
             originTemplateId = transaction.originTemplateId
@@ -268,8 +267,6 @@ abstract class TransactionDelegate<T : ITransaction>(
                 setLocalDateTime(transaction)
             }
         } else {
-            //configurePicture()
-
             populateStatusSpinner()
         }
         viewBinding.Amount.visibility = View.VISIBLE

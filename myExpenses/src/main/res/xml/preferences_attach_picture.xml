@@ -35,10 +35,10 @@
     <SwitchPreferenceCompat
         my:allowDividerAbove="true"
         android:defaultValue="true"
-        android:title="Copy attachments to application folder"
+        android:title="@string/pref_copy_attachments_title"
         android:key="@string/pref_copy_attachment_key"
-        android:summaryOff="Files are not copied, we only store links."
-        android:summaryOn="Files are copied to application folder." />
+        android:summaryOff="@string/pref_copy_attachments_summary_off"
+        android:summaryOn="@string/pref_copy_attachments_summary_on" />
     <Preference
         android:key="@string/pref_help_key"
         android:title="@string/menu_help"

@@ -159,9 +159,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
         return !uri.getBooleanQueryParameter(QUERY_PARAMETER_CALLER_IS_IN_BULK, false)
     }
 
-    fun attachmentUri(transactionId: Long) =
-        ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, transactionId)
-
     /**
      * @param transactionId When we edit a transaction, we want it to not be included into the debt sum, since it can be changed in the UI, and the variable amount will be calculated by the UI
      */
@@ -1192,7 +1189,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             }
         )
         val uri = Uri.parse(uriString)
-        if (uri.authority != AppDirHelper.getFileProviderAuthority(context!!)) {
+        if (uri.scheme == "content" && uri.authority != AppDirHelper.getFileProviderAuthority(context!!)) {
             Timber.d("External, takePersistableUriPermission")
             takePersistableUriPermission(uri)
         }
