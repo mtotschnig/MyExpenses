@@ -66,10 +66,12 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         get() = encryptionPassword != null
     val accountMetadataFilename: String
         get() = String.format("%s.%s", ACCOUNT_METADATA_FILENAME, extensionForData)
-    val categoriesFilename: String
+    private val categoriesFilename: String
         get() = String.format("%s.%s", CATEGORIES_FILENAME, extensionForData)
     override val extensionForData: String
         get() = if (isEncrypted) "enc" else "json"
+
+    abstract val accountRes: Res
 
     fun setAccountUuid(account: Account) {
         accountUuid = account.uuid
@@ -238,6 +240,11 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         return ChangeSet.create(sequenceNumber, changes)
     }
 
+    abstract fun getResInAccountDir(resourceName: String): Res?
+
+    final override fun collectionForShard(shardNumber: Int) =
+        if (shardNumber == 0) accountRes else getResInAccountDir(folderForShard(shardNumber))
+
     @Throws(IOException::class)
     private fun mapLegacyPictureDuringRead(uri: String) = Model.generateUuid().also {
         storeAttachmentToDatabase(uri, it, getInputStreamForLegacyPicture(uri))
@@ -285,7 +292,8 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     }
 
     @Throws(IOException::class)
-    protected abstract fun getInputStreamForLegacyPicture(relativeUri: String): InputStream
+    fun getInputStreamForLegacyPicture(relativeUri: String) =
+        getInputStream(getResInAccountDir(relativeUri) ?: throw FileNotFoundException())
 
     @Throws(IOException::class)
     fun getAttachment(uuid: String): Pair<String, InputStream> {
@@ -440,8 +448,8 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     }
 
     final override val storedBackups: List<String>
-        get() = getCollection(BACKUP_FOLDER_NAME, false)?.let {
-            childrenForCollection(it).mapNotNull { nameForResource(it) }
+        get() = getCollection(BACKUP_FOLDER_NAME, false)?.let { folder ->
+            childrenForCollection(folder).mapNotNull { nameForResource(it) }
         } ?: emptyList()
 
     final override fun getInputStreamForBackup(backupFile: String) = getInputStream(

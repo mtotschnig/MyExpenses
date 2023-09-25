@@ -16,7 +16,7 @@ interface ResourceStorage<Res> {
 
     fun getCollection(collectionName: String, require: Boolean): Res?
 
-    fun requireCollection(collectionName: String) = getCollection(collectionName, true) ?: throw IOException()
+    fun requireCollection(collectionName: String): Res = getCollection(collectionName, true) ?: throw IOException()
 
     fun getInputStream(resource: Res): InputStream
 

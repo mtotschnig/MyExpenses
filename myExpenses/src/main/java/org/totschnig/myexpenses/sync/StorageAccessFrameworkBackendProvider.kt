@@ -22,6 +22,9 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
     private val metaDataFile
         get() = accountDir.findFile(accountMetadataFilename)
 
+    override val accountRes: DocumentFile
+        get() = accountDir
+
     @Throws(IOException::class)
     override fun withAccount(account: Account) {
         setAccountUuid(account)
@@ -77,11 +80,6 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
         }
 
     @Throws(IOException::class)
-    override fun getInputStreamForLegacyPicture(relativeUri: String) =
-        accountDir.findFile(relativeUri)?.let { contentResolver.openInputStream(it.uri) }
-            ?: throw FileNotFoundException()
-
-    @Throws(IOException::class)
     override fun saveUriToCollection(
         fileName: String,
         uri: Uri,
@@ -106,9 +104,7 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
         }
     }
 
-    override fun collectionForShard(shardNumber: Int) =
-        if (shardNumber == 0) accountDir else accountDir.findFile(folderForShard(shardNumber))
-
+    override fun getResInAccountDir(resourceName: String) = accountDir.findFile(resourceName)
 
     override fun getCollection(collectionName: String, require: Boolean) =
         baseDir.getFolder(collectionName, require)

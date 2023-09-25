@@ -40,6 +40,9 @@ class GoogleDriveBackendProvider internal constructor(
     }
     override val sharedPreferencesName = "google_drive"
 
+    override val accountRes: File
+        get() = accountFolder
+
     override fun readFileContents(
         fromAccountDir: Boolean,
         fileName: String,
@@ -81,11 +84,6 @@ class GoogleDriveBackendProvider internal constructor(
     override fun getInputStream(resource: File) = driveServiceHelper.read(resource.id)
 
     @Throws(IOException::class)
-    override fun getInputStreamForLegacyPicture(relativeUri: String): InputStream {
-        return getInputStream(accountFolder, relativeUri)
-    }
-
-    @Throws(IOException::class)
     private fun getInputStream(folder: File, title: String): InputStream {
         return driveServiceHelper.downloadFile(folder, title)
     }
@@ -119,7 +117,7 @@ class GoogleDriveBackendProvider internal constructor(
     ) {
         val base = if (toAccountDir) accountFolder else baseFolder
         val driveFolder = if (folder == null) base else {
-            getSubFolder(folder) ?: driveServiceHelper.createFolder(accountFolder.id, folder, null)
+            getResInAccountDir(folder) ?: driveServiceHelper.createFolder(accountFolder.id, folder, null)
         }
         saveFileContents(driveFolder, fileName, fileContents, mimeType, maybeEncrypt)
     }
@@ -204,8 +202,7 @@ class GoogleDriveBackendProvider internal constructor(
         }
     }
 
-    override fun collectionForShard(shardNumber: Int) =
-        if (shardNumber == 0) accountFolder else getSubFolder(folderForShard(shardNumber))
+    override fun getResInAccountDir(resourceName: String) = driveServiceHelper.getFileByNameAndParent(accountFolder, resourceName)
 
     override fun getCollection(collectionName: String, require: Boolean): File? {
         val file = driveServiceHelper.getFileByNameAndParent(
@@ -238,11 +235,6 @@ class GoogleDriveBackendProvider internal constructor(
     override fun nameForResource(resource: File): String? = resource.name
 
     override fun isCollection(resource: File) = driveServiceHelper.isFolder(resource)
-
-    @Throws(IOException::class)
-    private fun getSubFolder(shard: String): File? {
-        return driveServiceHelper.getFileByNameAndParent(accountFolder, shard)
-    }
 
     @get:Throws(IOException::class)
     override val remoteAccountList: List<Result<AccountMetaData>>

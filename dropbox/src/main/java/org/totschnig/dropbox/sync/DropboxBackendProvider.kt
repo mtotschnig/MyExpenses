@@ -34,6 +34,9 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
     private val basePath: String = "/$folderName"
     private lateinit var accountName: String
 
+    override val accountRes: Metadata
+        get() = metadata(accountPath) ?: throw FileNotFoundException()
+
     override fun setUp(
         accountManager: AccountManager,
         account: android.accounts.Account,
@@ -182,9 +185,7 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
     private val lockFilePath: String
         get() = getResourcePath(LOCK_FILE)
 
-    override fun collectionForShard(shardNumber: Int) = metadata(
-        if (shardNumber == 0) accountPath else "$accountPath/${folderForShard(shardNumber)}"
-    )
+    override fun getResInAccountDir(resourceName: String) = metadata(resourceName)
 
     override fun getCollection(collectionName: String, require: Boolean): Metadata? {
         val path = "$basePath/$collectionName"
@@ -201,11 +202,6 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
     override fun nameForResource(resource: Metadata): String = resource.name
 
     override fun isCollection(resource: Metadata) = resource is FolderMetadata
-
-    @Throws(IOException::class)
-    override fun getInputStreamForLegacyPicture(relativeUri: String): InputStream {
-        return getInputStream(getResourcePath(relativeUri))
-    }
 
     @Throws(IOException::class)
     override fun saveUriToCollection(
