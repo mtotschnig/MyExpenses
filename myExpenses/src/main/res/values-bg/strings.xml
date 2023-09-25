@@ -1038,4 +1038,6 @@
     <string name="read_from_data">Прочети от данните</string>
     <string name="merge_parties_strategy_group">Дублиранията се групират като зависими.</string>
     <string name="show_duplicates">Покажи дублирания</string>
+    <string name="whats_new_364_2">Нова стратегия за управление на дублираща се информация за платец/получател</string>
+    <string name="whats_new_364_1">Импорт в няколко сметки от един CSV файл</string>
 </resources>
