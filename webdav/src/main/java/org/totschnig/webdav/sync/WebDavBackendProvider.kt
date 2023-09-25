@@ -182,7 +182,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         get() = webDavClient.getFolderMembers().isEmpty()
 
     @Throws(IOException::class)
-    override fun getInputStreamForPicture(relativeUri: String): InputStream {
+    override fun getInputStreamForLegacyPicture(relativeUri: String): InputStream {
         return getInputStream(accountUuid!!, relativeUri)
     }
 

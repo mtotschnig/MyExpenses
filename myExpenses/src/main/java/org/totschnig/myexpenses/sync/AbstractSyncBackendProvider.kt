@@ -25,7 +25,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.fileName
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.useAndMap
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.encrypted
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.notEncrypted
@@ -34,6 +33,7 @@ import org.totschnig.myexpenses.sync.json.*
 import org.totschnig.myexpenses.sync.json.Utils.getChanges
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.crypt.EncryptionHelper
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.io.MIME_TYPE_OCTET_STREAM
@@ -227,12 +227,13 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
                 log().w("found empty transaction change in json")
                 iterator.remove()
             } else {
-                if (transactionChange.splitParts() != null) {
-                    val splitPartIterator = transactionChange.splitParts()!!
-                        .listIterator()
-                    while (splitPartIterator.hasNext()) {
-                        val splitPart = splitPartIterator.next()
-                        splitPartIterator.set(mapPictureDuringRead(splitPart))
+                transactionChange.pictureUri()?.let {
+                    if (transactionChange.attachments()?.isNotEmpty() == true) {
+                        CrashHandler.report(IllegalStateException("found attachments and legacy pictureUri together"))
+                    } else {
+                        iterator.set(transactionChange.toBuilder().setAttachments(
+                            listOf(mapLegacyPictureDuringRead(it))
+                        ).build())
                     }
                 }
             }
@@ -241,21 +242,29 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     }
 
     @Throws(IOException::class)
-    private fun mapPictureDuringRead(transactionChange: TransactionChange): TransactionChange {
-        transactionChange.pictureUri()?.let {
-            val homeUri = PictureDirHelper.getOutputMediaUri(
-                false,
-                context.myApplication
-            )
-            val input = getInputStreamForPicture(it)
-            val output = context.contentResolver
-                .openOutputStream(homeUri) ?: throw IOException("Unable to write picture")
-            FileCopyUtils.copy(maybeDecrypt(input), output)
-            input.close()
-            output.close()
-            return transactionChange.toBuilder().setPictureUri(homeUri.toString()).build()
-        }
-        return transactionChange
+    private fun mapLegacyPictureDuringRead(uri: String) = Model.generateUuid().also {
+        storeAttachment(uri, it, getInputStreamForLegacyPicture(uri))
+    }
+
+    private fun storeAttachment(fileName: String, uuid:String, inputStream: InputStream) {
+        val homeUri = PictureDirHelper.getOutputMediaUri(
+            false,
+            context.myApplication,
+            fileName = getNameWithoutExtension(fileName),
+            extension = getFileExtension(fileName)
+        )
+        val output = context.contentResolver
+            .openOutputStream(homeUri) ?: throw IOException("Unable to write picture")
+        FileCopyUtils.copy(maybeDecrypt(inputStream), output)
+        inputStream.close()
+        output.close()
+        context.contentResolver.insert(
+            TransactionProvider.ATTACHMENTS_URI,
+            ContentValues(2).apply {
+                put(KEY_URI, homeUri.toString())
+                put(KEY_UUID, uuid)
+            }
+        )
     }
 
     private fun ensureAttachmentsOnRead(changeSet: List<TransactionChange>) {
@@ -269,32 +278,15 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
             null
         )?.useAndMap { it.getString(0) } ?: emptyList()
         Timber.i("ensureAttachmentsOnRead: found %s", existing.joinToString())
-        (attachments - existing.toSet()).forEach { uri ->
-            val (fileName, inputStream) = getAttachment(uri)
-            val homeUri = PictureDirHelper.getOutputMediaUri(
-                false,
-                context.myApplication,
-                fileName = getNameWithoutExtension(fileName),
-                extension = getFileExtension(fileName)
-            )
-            val output = context.contentResolver
-                .openOutputStream(homeUri) ?: throw IOException("Unable to write picture")
-            FileCopyUtils.copy(maybeDecrypt(inputStream), output)
-            inputStream.close()
-            output.close()
-            context.contentResolver.insert(
-                TransactionProvider.ATTACHMENTS_URI,
-                ContentValues(2).apply {
-                    put(KEY_URI, homeUri.toString())
-                    put(KEY_UUID, uri)
-                }
-            )
+        (attachments - existing.toSet()).forEach { uuid ->
+            val (fileName, inputStream) = getAttachment(uuid)
+            storeAttachment(fileName, uuid, inputStream)
         }
 
     }
 
     @Throws(IOException::class)
-    protected abstract fun getInputStreamForPicture(relativeUri: String): InputStream
+    protected abstract fun getInputStreamForLegacyPicture(relativeUri: String): InputStream
 
     protected abstract fun getAttachment(uuid: String): Pair<String, InputStream>
 

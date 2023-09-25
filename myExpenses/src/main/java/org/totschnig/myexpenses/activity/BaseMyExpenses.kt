@@ -120,7 +120,6 @@ import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.sync.GenericAccountService.Companion.requestSync
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
@@ -1229,7 +1228,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean =
-        if (which == OnDialogResultListener.BUTTON_POSITIVE) {
+        if (super.onResult(dialogTag, which, extras)) true
+        else if (which == OnDialogResultListener.BUTTON_POSITIVE) {
             when (dialogTag) {
                 FILTER_COMMENT_DIALOG -> {
                     extras.getString(SimpleInputDialog.TEXT)?.let {

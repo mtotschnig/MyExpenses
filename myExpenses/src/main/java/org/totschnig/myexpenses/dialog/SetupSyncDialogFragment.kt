@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.Help
 import org.totschnig.myexpenses.compose.*
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.SetupSyncViewModel
 import org.totschnig.myexpenses.viewmodel.SetupSyncViewModel.SyncSource
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
@@ -186,8 +187,9 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                                                 entry.value!!
                                             )
                                         }
-                                    ).observe(this@SetupSyncDialogFragment) {
-                                        it.onSuccess {
+                                    ).observe(this@SetupSyncDialogFragment) { result ->
+                                        result.onSuccess {
+                                            if (!it) CrashHandler.report(IllegalStateException("setupSynchronization returned false "))
                                             progress.value = SetupProgress.COMPLETED
                                         }
                                     }

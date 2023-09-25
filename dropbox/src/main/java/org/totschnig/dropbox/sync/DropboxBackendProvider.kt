@@ -201,8 +201,12 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
     override fun isCollection(resource: Metadata) = resource is FolderMetadata
 
     @Throws(IOException::class)
-    override fun getInputStreamForPicture(relativeUri: String): InputStream {
+    override fun getInputStreamForLegacyPicture(relativeUri: String): InputStream {
         return getInputStream(getResourcePath(relativeUri))
+    }
+
+    override fun getAttachment(uuid: String): Pair<String, InputStream> {
+        TODO("Not yet implemented")
     }
 
     @Throws(IOException::class)
@@ -215,6 +219,10 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         val backupPath = backupPath
         requireFolder(backupPath)
         saveUriToFolder(fileName, uri, backupPath, false)
+    }
+
+    override fun storeAttachment(uuid: String, uri: Uri, fileName: String) {
+        TODO("Not yet implemented")
     }
 
     @Throws(IOException::class)

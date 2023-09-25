@@ -427,8 +427,6 @@ class SyncDelegate(
         }
         change.crStatus()?.let { values.put(DatabaseConstants.KEY_CR_STATUS, it) }
         change.referenceNumber()?.let { values.put(DatabaseConstants.KEY_REFERENCE_NUMBER, it) }
-        //TODO
-        //change.pictureUri()?.let { values.put(DatabaseConstants.KEY_PICTURE_URI, it) }
         if (change.originalAmount() != null && change.originalCurrency() != null) {
             values.put(DatabaseConstants.KEY_ORIGINAL_AMOUNT, change.originalAmount())
             values.put(DatabaseConstants.KEY_ORIGINAL_CURRENCY, change.originalCurrency())

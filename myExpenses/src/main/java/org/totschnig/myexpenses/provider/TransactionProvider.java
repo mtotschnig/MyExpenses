@@ -1027,7 +1027,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           values.remove(KEY_URI);
         }
         values.put(KEY_ATTACHMENT_ID, id);
-        MoreDbUtilsKt.insert(db, TABLE_TRANSACTION_ATTACHMENTS, values);
+        db.insert(TABLE_TRANSACTION_ATTACHMENTS, CONFLICT_IGNORE, values);
         newUri = ATTACHMENTS_URI + "/" + id;
       }
       default -> throw unknownUri(uri);

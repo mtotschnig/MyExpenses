@@ -78,7 +78,7 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
         }
 
     @Throws(IOException::class)
-    override fun getInputStreamForPicture(relativeUri: String) =
+    override fun getInputStreamForLegacyPicture(relativeUri: String) =
         accountDir.findFile(relativeUri)?.let { contentResolver.openInputStream(it.uri) }
             ?: throw FileNotFoundException()
 

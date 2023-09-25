@@ -139,27 +139,34 @@ class GenericAccountService : Service() {
         const val KEY_BROKEN = "broken"
         const val KEY_ENCRYPTED = "encrypted"
 
+        /**
+         * @return true if sync was requested, false if account is not syncable (deactivated)
+         */
         fun requestSync(
             accountName: String,
             manual: Boolean = true,
             expedited: Boolean = true,
             uuid: String? = null,
             extras: Bundle = Bundle()
-        ) {
-            ContentResolver.requestSync(
-                getAccount(accountName),
-                TransactionProvider.AUTHORITY, extras.apply {
-                    if (manual) {
-                        putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
+        ): Boolean {
+            val account = getAccount(accountName)
+            return if (ContentResolver.getIsSyncable(account, TransactionProvider.AUTHORITY) > 0) {
+                ContentResolver.requestSync(
+                    account,
+                    TransactionProvider.AUTHORITY, extras.apply {
+                        if (manual) {
+                            putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
+                        }
+                        if (expedited) {
+                            putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
+                        }
+                        if (uuid != null) {
+                            putString(KEY_UUID, uuid)
+                        }
                     }
-                    if (expedited) {
-                        putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
-                    }
-                    if (uuid != null) {
-                        putString(KEY_UUID, uuid)
-                    }
-                }
-            )
+                )
+                true
+            } else false
         }
 
         /**
@@ -267,7 +274,7 @@ class GenericAccountService : Service() {
             activateSync(getAccount(account), prefHandler)
         }
 
-        fun activateSync(account: Account, prefHandler: PrefHandler) {
+        private fun activateSync(account: Account, prefHandler: PrefHandler) {
             ContentResolver.setSyncAutomatically(account, TransactionProvider.AUTHORITY, true)
             ContentResolver.setIsSyncable(account, TransactionProvider.AUTHORITY, 1)
             addPeriodicSync(account, prefHandler)
@@ -280,7 +287,7 @@ class GenericAccountService : Service() {
             )
         }
 
-        fun getSyncFrequency(prefHandler: PrefHandler) =
+        private fun getSyncFrequency(prefHandler: PrefHandler) =
             prefHandler.getInt(
                 PrefKey.SYNC_FREQUCENCY,
                 DEFAULT_SYNC_FREQUENCY_HOURS

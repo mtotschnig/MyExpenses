@@ -1,14 +1,23 @@
 package org.totschnig.myexpenses.fragment
 
 import android.app.Activity.RESULT_OK
-import android.content.ContentResolver
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.view.*
+import android.view.ContextMenu
 import android.view.ContextMenu.ContextMenuInfo
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ExpandableListView
-import android.widget.ExpandableListView.*
+import android.widget.ExpandableListView.ExpandableListContextMenuInfo
+import android.widget.ExpandableListView.OnChildClickListener
+import android.widget.ExpandableListView.OnGroupExpandListener
+import android.widget.ExpandableListView.PACKED_POSITION_TYPE_CHILD
+import android.widget.ExpandableListView.getPackedPositionGroup
+import android.widget.ExpandableListView.getPackedPositionType
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -16,8 +25,6 @@ import androidx.lifecycle.lifecycleScope
 import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
 import com.google.android.material.snackbar.Snackbar
-import eltos.simpledialogfragment.SimpleDialog
-import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageSyncBackends
@@ -34,11 +41,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.sync.BackendService
-import org.totschnig.myexpenses.sync.GenericAccountService
-import org.totschnig.myexpenses.sync.GenericAccountService.Companion.activateSync
-import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
 import org.totschnig.myexpenses.sync.SyncBackendProvider
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
@@ -46,7 +49,7 @@ import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.AbstractSyncBackendViewModel
 import javax.inject.Inject
 
-class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListener,
+class SyncBackendList : Fragment(), OnGroupExpandListener,
     OnChildClickListener {
     private var _binding: SyncBackendsListBinding? = null
     private val binding get() = _binding!!
@@ -264,18 +267,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
 
     private fun requestSync(packedPosition: Long) {
         val syncAccountName = syncBackendAdapter.getSyncAccountName(packedPosition)
-        val account = getAccount(syncAccountName)
-        if (ContentResolver.getIsSyncable(account, TransactionProvider.AUTHORITY) > 0) {
-            GenericAccountService.requestSync(syncAccountName)
-        } else {
-            val bundle = Bundle(1)
-            bundle.putString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, syncAccountName)
-            SimpleDialog.build()
-                .msg("Backend is not ready to be synced")
-                .pos("Activate again")
-                .extra(bundle)
-                .show(this, DIALOG_INACTIVE_BACKEND)
-        }
+        manageSyncBackends.requestSync(syncAccountName)
     }
 
     fun reloadAccountList() {
@@ -331,26 +323,12 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
         return syncBackendAdapter.getAccountForSync(packedPosition)
     }
 
-    override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
-        if (dialogTag == DIALOG_INACTIVE_BACKEND && which == OnDialogResultListener.BUTTON_POSITIVE) {
-            activateSync(
-                extras.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!,
-                prefHandler
-            )
-        }
-        return false
-    }
-
     fun syncUnlink(uuid: String) {
         viewModel.syncUnlink(uuid).observe(this) { result ->
             result.onFailure {
                 manageSyncBackends.showSnackBar(it.safeMessage)
             }
         }
-    }
-
-    companion object {
-        private const val DIALOG_INACTIVE_BACKEND = "inactive_backend"
     }
 
     override fun onChildClick(

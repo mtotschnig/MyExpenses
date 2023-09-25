@@ -16,7 +16,7 @@ class SetupSyncViewModel(application: Application) : SyncViewModel(application) 
         localAccounts: List<LocalAccount>,
         remoteAccounts: List<AccountMetaData>,
         conflicts: List<Triple<LocalAccount, AccountMetaData, SyncSource>>
-    ): LiveData<Result<Unit>> = liveData(context = coroutineContext()) {
+    ): LiveData<Result<Boolean>> = liveData(context = coroutineContext()) {
         emit(kotlin.runCatching {
             val syncLocalList =
                 conflicts.filter { it.third == SyncSource.LOCAL }

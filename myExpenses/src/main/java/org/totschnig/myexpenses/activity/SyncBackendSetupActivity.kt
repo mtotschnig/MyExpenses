@@ -215,18 +215,21 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
         throw IllegalStateException()
     }
 
-    override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
-        if (DIALOG_TAG_PASSWORD == dialogTag) {
-            if (which != OnDialogResultListener.BUTTON_POSITIVE || "" == extras.getString(
-                    GenericAccountService.KEY_PASSWORD_ENCRYPTION
-                )
-            ) {
-                extras.remove(GenericAccountService.KEY_PASSWORD_ENCRYPTION)
+    override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
+        when {
+            super.onResult(dialogTag, which, extras) -> true
+            DIALOG_TAG_PASSWORD == dialogTag -> {
+                if (which != OnDialogResultListener.BUTTON_POSITIVE || "" == extras.getString(
+                        GenericAccountService.KEY_PASSWORD_ENCRYPTION
+                    )
+                ) {
+                    extras.remove(GenericAccountService.KEY_PASSWORD_ENCRYPTION)
+                }
+                createAccountDo(extras)
+                true
             }
-            createAccountDo(extras)
+            else -> false
         }
-        return false
-    }
 
     companion object {
         private const val DIALOG_TAG_PASSWORD = "password"
