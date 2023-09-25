@@ -7,6 +7,7 @@ import android.net.Uri
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException
 import com.google.api.services.drive.model.File
 import org.acra.util.StreamReader
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.sync.AbstractSyncBackendProvider
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -14,7 +15,6 @@ import org.totschnig.myexpenses.sync.SequenceNumber
 import org.totschnig.myexpenses.sync.SyncBackendProvider.AuthException
 import org.totschnig.myexpenses.sync.SyncBackendProvider.SyncParseException
 import org.totschnig.myexpenses.sync.json.AccountMetaData
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.io.getMimeType
 import timber.log.Timber
 import java.io.FileNotFoundException
@@ -189,13 +189,13 @@ class GoogleDriveBackendProvider internal constructor(
     }
 
     @Throws(IOException::class)
-    override fun withAccount(account: org.totschnig.myexpenses.model.Account) {
+    override fun withAccount(account: org.totschnig.myexpenses.model2.Account) {
         setAccountUuid(account)
         writeAccount(account, false)
     }
 
     @Throws(IOException::class)
-    override fun writeAccount(account: org.totschnig.myexpenses.model.Account, update: Boolean) {
+    override fun writeAccount(account: org.totschnig.myexpenses.model2.Account, update: Boolean) {
         val existingAccountFolder = getExistingAccountFolder(account.uuid!!)
         if (existingAccountFolder == null) {
             accountFolder = driveServiceHelper.createFolder(baseFolder.id, accountUuid!!, null)
@@ -318,13 +318,16 @@ class GoogleDriveBackendProvider internal constructor(
                 .setCurrency(
                     getPropertyWithDefault(
                         appProperties, ACCOUNT_METADATA_CURRENCY_KEY,
-                        Utils.getHomeCurrency().code
+                        homeCurrency
                     )
                 )
                 .setUuid(uuid)
                 .setLabel(metadata.name).build()
         }
     }
+
+    private val homeCurrency: String
+        get() = (context.applicationContext as MyApplication).appComponent.homeCurrencyProvider().homeCurrencyString
 
     private fun getPropertyWithDefault(
         metadata: Map<String, String>,
