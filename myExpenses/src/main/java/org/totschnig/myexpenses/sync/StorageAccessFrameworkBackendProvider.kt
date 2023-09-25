@@ -25,15 +25,15 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
     @Throws(IOException::class)
     override fun withAccount(account: Account) {
         setAccountUuid(account)
-        accountDir = baseDir.requireFolder(account.uuid!!)
+        accountDir = baseDir.getFolder(account.uuid!!)!!
         writeAccount(account, false)
     }
 
-    private fun DocumentFile.requireFolder(name: String): DocumentFile {
+    private fun DocumentFile.getFolder(name: String, require: Boolean = true): DocumentFile? {
         check(isDirectory)
         return findFile(name)?.also {
             if (!it.isDirectory) throw IOException("file exists, but is no directory")
-        } ?: createDirectory(name) ?: throw IOException("cannot create directory")
+        } ?: (if (require) createDirectory(name) else null)
     }
 
     @Throws(IOException::class)
@@ -109,7 +109,9 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
     override fun collectionForShard(shardNumber: Int) =
         if (shardNumber == 0) accountDir else accountDir.findFile(folderForShard(shardNumber))
 
-    override fun requireCollection(collectionName: String) = baseDir.requireFolder(collectionName)
+
+    override fun getCollection(collectionName: String, require: Boolean) =
+        baseDir.getFolder(collectionName, require)
 
     override fun childrenForCollection(folder: DocumentFile?) =
         (folder ?: accountDir).listFiles().asList()
@@ -143,7 +145,7 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
         maybeEncrypt: Boolean
     ) {
         val base = if (toAccountDir) accountDir else baseDir
-        val dir = if (folder == null) base else base.requireFolder(folder)
+        val dir = if (folder == null) base else base.getFolder(folder)!!
         saveFileContents(dir, fileName, fileContents, mimeType, maybeEncrypt)
     }
 

@@ -14,7 +14,9 @@ interface ResourceStorage<Res> {
 
     fun collectionForShard(shardNumber: Int): Res?
 
-    fun requireCollection(collectionName: String): Res
+    fun getCollection(collectionName: String, require: Boolean): Res?
+
+    fun requireCollection(collectionName: String) = getCollection(collectionName, true) ?: throw IOException()
 
     fun getInputStream(resource: Res): InputStream
 

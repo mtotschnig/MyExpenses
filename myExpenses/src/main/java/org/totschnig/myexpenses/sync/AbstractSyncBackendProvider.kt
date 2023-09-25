@@ -266,6 +266,8 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
 
     private fun ensureAttachmentsOnRead(changeSet: List<TransactionChange>) {
         val attachments = changeSet.flatMap { it.attachments() ?: emptyList() }.toSet()
+
+        if (attachments.isEmpty()) return
         //noinspection Recycle
         val existing = context.contentResolver.query(
             TransactionProvider.ATTACHMENTS_URI,
@@ -438,7 +440,9 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     }
 
     final override val storedBackups: List<String>
-        get() = childrenForCollection(requireCollection(BACKUP_FOLDER_NAME)).mapNotNull { nameForResource(it) }
+        get() = getCollection(BACKUP_FOLDER_NAME, false)?.let {
+            childrenForCollection(it).mapNotNull { nameForResource(it) }
+        } ?: emptyList()
 
     final override fun getInputStreamForBackup(backupFile: String) = getInputStream(
     childrenForCollection(requireCollection(BACKUP_FOLDER_NAME))

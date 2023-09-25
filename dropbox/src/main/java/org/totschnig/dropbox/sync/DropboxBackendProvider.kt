@@ -186,10 +186,12 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         if (shardNumber == 0) accountPath else "$accountPath/${folderForShard(shardNumber)}"
     )
 
-    override fun requireCollection(collectionName: String): Metadata {
+    override fun getCollection(collectionName: String, require: Boolean): Metadata? {
         val path = "$basePath/$collectionName"
-        requireFolder(path)
-        return metadata(path) ?: throw FileNotFoundException()
+        if (require) {
+            requireFolder(path)
+        }
+        return metadata(path) ?: (if (require) throw FileNotFoundException() else null)
     }
 
 

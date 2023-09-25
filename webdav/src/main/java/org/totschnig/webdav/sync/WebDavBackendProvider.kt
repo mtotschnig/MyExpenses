@@ -146,9 +146,11 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
     private val lockFile: LockableDavResource
         get() = webDavClient.getResource(LOCK_FILE, accountUuid)
 
-    override fun requireCollection(collectionName: String): DavResource {
-        webDavClient.mkCol(collectionName)
-        return webDavClient.getCollection(collectionName)
+    override fun getCollection(collectionName: String, require: Boolean): DavResource? {
+        if (require) {
+            webDavClient.mkCol(collectionName)
+        }
+        return webDavClient.getCollection(collectionName).takeIf { it.exists() }
     }
 
     override fun getInputStream(resource: DavResource) = try {
