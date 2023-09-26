@@ -1,8 +1,10 @@
 package org.totschnig.myexpenses.db2
 
+import android.annotation.SuppressLint
 import android.content.ContentProviderOperation
 import android.net.Uri
 import android.os.Bundle
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTACHMENT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI_LIST
@@ -13,6 +15,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_DELETE_ATTAC
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_ATTACHMENTS_URI
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.useAndMap
 import java.io.IOException
 
 fun Repository.addAttachments(transactionId: Long, attachments: List<Uri>) {
@@ -33,20 +36,19 @@ fun Repository.addAttachments(transactionId: Long, attachments: List<Uri>) {
 
 fun Repository.deleteAttachments(transactionId: Long, attachments: List<Uri>) {
     if (!contentResolver.call(DUAL_URI, METHOD_DELETE_ATTACHMENTS, null, Bundle(2).apply {
-        putLong(KEY_TRANSACTIONID, transactionId)
-        putStringArray(KEY_URI_LIST, attachments.map(Uri::toString).toTypedArray())
-    })!!.getBoolean(KEY_RESULT))  throw IOException("Deleting attachments failed")
+            putLong(KEY_TRANSACTIONID, transactionId)
+            putStringArray(KEY_URI_LIST, attachments.map(Uri::toString).toTypedArray())
+        })!!.getBoolean(KEY_RESULT)) throw IOException("Deleting attachments failed")
 }
 
-fun Repository.loadAttachments(transactionId: Long): ArrayList<Uri> =
-    ArrayList<Uri>().apply {
-        contentResolver.query(
-            TRANSACTIONS_ATTACHMENTS_URI,
-            null, "$KEY_TRANSACTIONID = ?", arrayOf(transactionId.toString()), null
-        )?.use { cursor ->
-            cursor.asSequence.forEach {
-                val uri = Uri.parse(it.getString(0))
-                add(uri)
-            }
-        }
-    }
+//noinspection Recycle
+fun Repository.loadAttachmentIds(transactionId: Long) = contentResolver.query(
+    TRANSACTIONS_ATTACHMENTS_URI,
+    arrayOf(KEY_ATTACHMENT_ID), "$KEY_TRANSACTIONID = ?", arrayOf(transactionId.toString()), null
+)?.useAndMap { it.getLong(0) } ?: emptyList()
+
+//noinspection Recycle
+fun Repository.loadAttachments(transactionId: Long) = contentResolver.query(
+    TRANSACTIONS_ATTACHMENTS_URI,
+    arrayOf(KEY_URI), "$KEY_TRANSACTIONID = ?", arrayOf(transactionId.toString()), null
+)?.useAndMap { Uri.parse(it.getString(0)) } ?: emptyList()

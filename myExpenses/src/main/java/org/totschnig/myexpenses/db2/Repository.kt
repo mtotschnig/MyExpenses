@@ -9,6 +9,7 @@ import androidx.core.database.getLongOrNull
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTACHMENT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
@@ -19,6 +20,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.DEBTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CALLER_IS_IN_BULK
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_MARK_VOID
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTION_ATTACHMENT_SINGLE_URI
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.viewmodel.data.Debt
@@ -73,20 +75,20 @@ open class Repository @Inject constructor(
 
     fun deleteTransaction(id: Long, markAsVoid: Boolean = false, inBulk: Boolean = false): Boolean {
         val ops = ArrayList<ContentProviderOperation>()
-        loadAttachments(id).forEach {
+        loadAttachmentIds(id).forEach {
             ops.add(
-                ContentProviderOperation
-                    .newDelete(TransactionProvider.TRANSACTIONS_ATTACHMENTS_URI)
-                    .withSelection("$KEY_TRANSACTIONID = ? AND $KEY_URI = ?", arrayOf(id.toString(), it.toString()))
+                ContentProviderOperation.newDelete(TRANSACTION_ATTACHMENT_SINGLE_URI(id, it))
                     .build()
             )
         }
-        ops.add(ContentProviderOperation.newDelete(
-            ContentUris.withAppendedId(TRANSACTIONS_URI, id).buildUpon().apply {
-                if (markAsVoid) appendBooleanQueryParameter(QUERY_PARAMETER_MARK_VOID)
-                if (inBulk) appendBooleanQueryParameter(QUERY_PARAMETER_CALLER_IS_IN_BULK)
-            }.build()
-        ).build())
+        ops.add(
+            ContentProviderOperation.newDelete(
+                ContentUris.withAppendedId(TRANSACTIONS_URI, id).buildUpon().apply {
+                    if (markAsVoid) appendBooleanQueryParameter(QUERY_PARAMETER_MARK_VOID)
+                    if (inBulk) appendBooleanQueryParameter(QUERY_PARAMETER_CALLER_IS_IN_BULK)
+                }.build()
+            ).build()
+        )
         val result = contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
         return result.size == ops.size && result.last().count == 1
     }

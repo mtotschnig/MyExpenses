@@ -459,7 +459,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             emit(pair.first)
             pair.second?.takeIf { it.size > 0 }?.let { updateTags(it, false) }
             if (task == InstantiationTask.TRANSACTION) {
-                originalUris = repository.loadAttachments(transactionId)
+                originalUris = ArrayList(repository.loadAttachments(transactionId))
             }
         } ?: run {
             emit(null)

@@ -217,6 +217,12 @@ public class TransactionProvider extends BaseTransactionProvider {
         .build();
   }
 
+  public static Uri TRANSACTION_ATTACHMENT_SINGLE_URI(long transactionId, long attachmentId) {
+    return ContentUris.appendId(ContentUris.appendId(
+                    TRANSACTIONS_ATTACHMENTS_URI.buildUpon(), transactionId), attachmentId)
+            .build();
+  }
+
   public static final Uri CURRENCIES_URI =
       Uri.parse("content://" + AUTHORITY + "/currencies");
   public static final Uri TRANSACTIONS_SUM_URI =
@@ -1178,6 +1184,15 @@ public class TransactionProvider extends BaseTransactionProvider {
         count = db.delete(TABLE_BANKS,
                 KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
       }
+      case TRANSACTION_ID_ATTACHMENT_ID -> {
+        String transactionId = uri.getPathSegments().get(2);
+        String attachmentId = uri.getPathSegments().get(3);
+        count = db.delete(TABLE_TRANSACTION_ATTACHMENTS,
+                KEY_TRANSACTIONID + " = ? AND " + KEY_ATTACHMENT_ID + " = ?",
+                new String[] { transactionId, attachmentId }
+        );
+        deleteAttachment(db, Long.parseLong(attachmentId), null);
+      }
       default -> throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || (uriMatch == TRANSACTION_ID && callerIsNotInBulkOperation(uri))) {
@@ -1196,7 +1211,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         notifyChange(PAYEES_URI, false);
       } else if (uriMatch == UNCOMMITTED) {
         notifyChange(DEBTS_URI, false);
-      } else if (uriMatch == TRANSACTION_ATTACHMENTS) {
+      } else if (uriMatch == TRANSACTION_ID_ATTACHMENT_ID) {
         notifyChange(TRANSACTIONS_URI, false);
       }
       notifyChange(uri, uriMatch == TRANSACTION_ID);
@@ -1686,6 +1701,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "accounts/attributes", ACCOUNT_ATTRIBUTES);
     URI_MATCHER.addURI(AUTHORITY, "transactions/attachments", TRANSACTION_ATTACHMENTS);
     URI_MATCHER.addURI(AUTHORITY, "attachments", ATTACHMENTS);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/attachments/#/#", TRANSACTION_ID_ATTACHMENT_ID);
   }
 
   /**

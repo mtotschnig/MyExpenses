@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.test.provider
 
+import android.content.ContentUris
 import android.content.ContentValues
 import android.net.Uri
 import android.os.Bundle
@@ -24,6 +25,7 @@ import java.util.Date
 class AttachmentTest : BaseDbTest() {
 
     private var transactionId: Long = 0
+    private var attachmentId: Long = 0
 
     private val testUri: Uri
         get() = TRANSACTIONS_ATTACHMENTS_URI
@@ -37,6 +39,9 @@ class AttachmentTest : BaseDbTest() {
         val account = AccountInfo("Test account", AccountType.CASH, 0, "USD")
         val accountId = mDb.insert(TABLE_ACCOUNTS, account.contentValues)
         val transaction = TransactionInfo("Transaction 0", Date(), 0, accountId)
+        //We insert two transactions, in order to have transactionId and attachmentId with different values,
+        //so that a bug where they were mixed up, would surface
+        mDb.insert(TABLE_TRANSACTIONS, transaction.contentValues)
         transactionId = mDb.insert(TABLE_TRANSACTIONS, transaction.contentValues)
     }
 
@@ -62,14 +67,22 @@ class AttachmentTest : BaseDbTest() {
         }
     }
 
-    private fun callDelete(uri: String) {
-        assertThat(contentResolver.call(
-            TransactionProvider.DUAL_URI,
-            TransactionProvider.METHOD_DELETE_ATTACHMENTS, null, Bundle(2).apply {
-                putLong(KEY_TRANSACTIONID, transactionId)
-                putStringArray(DatabaseConstants.KEY_URI_LIST, arrayOf(uri))
-            })!!.getBoolean(KEY_RESULT)
-        ).isTrue()
+    private fun callDelete(uri: String, callDeleteMethod: Boolean) {
+        if (callDeleteMethod) {
+            assertThat(contentResolver.call(
+                TransactionProvider.DUAL_URI,
+                TransactionProvider.METHOD_DELETE_ATTACHMENTS, null, Bundle(2).apply {
+                    putLong(KEY_TRANSACTIONID, transactionId)
+                    putStringArray(DatabaseConstants.KEY_URI_LIST, arrayOf(uri))
+                })!!.getBoolean(KEY_RESULT)
+            ).isTrue()
+        } else {
+            assertThat(contentResolver.delete(
+                TransactionProvider.TRANSACTION_ATTACHMENT_SINGLE_URI(
+                    transactionId, attachmentId
+                ),  null, null
+            )).isEqualTo(1)
+        }
     }
 
     private fun expectNoAttachments() {
@@ -78,40 +91,43 @@ class AttachmentTest : BaseDbTest() {
         }
     }
 
-    fun testInsertQueryDeleteInternal() {
-        insertFixture()
-        expectStaleUris(0)
-        expectLinkedAttachment(null)
-        contentResolver.insert(testUri, ContentValues(1).apply {
-            put(KEY_TRANSACTIONID, transactionId)
-            put(KEY_URI, internalAttachmentUri)
-        })
-        expectStaleUris(0)
-        assertThat(persistedPermissions).isEmpty()
-        expectLinkedAttachment(internalAttachmentUri)
-        callDelete(internalAttachmentUri)
-        expectLinkedAttachment(null)
-        //uri should not be deleted but reported as stale
-        expectStaleUris(1)
-        expectNoAttachments()
+    fun testInsertQueryDeleteInternalCall() {
+        doTheTest(withExternalUri = false, withCall = true)
     }
 
-    fun testInsertQueryDeleteExternal() {
+    fun testInsertQueryDeleteExternalCall() {
+        doTheTest(withExternalUri = true, withCall = true)
+    }
+
+    fun testInsertQueryDeleteInternalDelete() {
+        doTheTest(withExternalUri = false, withCall = false)
+    }
+
+    fun testInsertQueryDeleteExternalDelete() {
+        doTheTest(withExternalUri = true, withCall = false)
+    }
+
+    private fun doTheTest(withExternalUri: Boolean, withCall: Boolean) {
+        val uri = if(withExternalUri) externalAttachmentUri else internalAttachmentUri
         insertFixture()
         expectStaleUris(0)
         expectLinkedAttachment(null)
-        contentResolver.insert(testUri, ContentValues(1).apply {
+        attachmentId = ContentUris.parseId(contentResolver.insert(testUri, ContentValues(1).apply {
             put(KEY_TRANSACTIONID, transactionId)
-            put(KEY_URI, externalAttachmentUri)
-        })
+            put(KEY_URI, uri)
+        })!!)
         expectStaleUris(0)
-        assertThat(persistedPermissions).containsExactly(Uri.parse(externalAttachmentUri))
-        expectLinkedAttachment(externalAttachmentUri)
-        callDelete(externalAttachmentUri)
+        if (withExternalUri) {
+            assertThat(persistedPermissions).containsExactly(Uri.parse(externalAttachmentUri))
+        } else {
+            assertThat(persistedPermissions).isEmpty()
+        }
+        expectLinkedAttachment(uri)
+        callDelete(uri, withCall)
         expectLinkedAttachment(null)
         assertThat(persistedPermissions).isEmpty()
         //uri should now be deleted
-        expectStaleUris(0)
+        expectStaleUris(if (withExternalUri) 0 else 1)
         expectNoAttachments()
     }
 }

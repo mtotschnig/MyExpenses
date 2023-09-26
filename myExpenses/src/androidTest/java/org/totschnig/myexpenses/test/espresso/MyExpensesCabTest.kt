@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.test.espresso
 
+import android.net.Uri
 import androidx.compose.ui.test.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
@@ -13,6 +14,7 @@ import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.TEST_TAG_CONTEXT_MENU
 import org.totschnig.myexpenses.compose.TEST_TAG_LIST
+import org.totschnig.myexpenses.db2.addAttachments
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
@@ -29,6 +31,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         op0.amount = Money(homeCurrency, -100L)
         op0.save(contentResolver)
         for (i in 2 until 7) {
+            repository.addAttachments(op0.id, listOf(Uri.parse("file:///android_asset/screenshot.jpg")))
             op0.amount = Money(homeCurrency, -100L * i)
             op0.date = op0.date - 10000
             op0.saveAsNew(contentResolver)

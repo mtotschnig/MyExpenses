@@ -333,6 +333,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val ACCOUNT_ATTRIBUTES = 71
         protected const val TRANSACTION_ATTACHMENTS = 72
         protected const val ATTACHMENTS = 73
+        protected const val TRANSACTION_ID_ATTACHMENT_ID = 74
     }
 
     val homeCurrency: String
@@ -1122,6 +1123,13 @@ abstract class BaseTransactionProvider : ContentProvider() {
         arrayOf(uri)
     ).use { if (it.moveToFirst()) it.getLong(0) else null }
 
+    private fun findAttachment(db: SupportSQLiteDatabase, id: Long) = db.query(
+        TABLE_ATTACHMENTS,
+        arrayOf(KEY_URI),
+        "$KEY_ROWID = ?",
+        arrayOf(id)
+    ).use { if (it.moveToFirst()) it.getString(0) else null }
+
     fun deleteAttachments(
         db: SupportSQLiteDatabase,
         transactionId: Long,
@@ -1139,15 +1147,16 @@ abstract class BaseTransactionProvider : ContentProvider() {
         return true
     }
 
-    private fun deleteAttachment(db: SupportSQLiteDatabase, attachmentId: Long, uriString: String) {
-        val uri = Uri.parse(uriString)
+    fun deleteAttachment(db: SupportSQLiteDatabase, attachmentId: Long, uriString: String?) {
+
+        val uri = Uri.parse(uriString ?: findAttachment(db, attachmentId))
         if (uri.authority != AppDirHelper.getFileProviderAuthority(context!!)) {
             Timber.d("External, releasePersistableUriPermission")
             if (try {
                     db.delete(
                         TABLE_ATTACHMENTS,
-                        "$KEY_ROWID = ? AND $KEY_URI = ?",
-                        arrayOf(attachmentId.toString(), uriString)
+                        "$KEY_ROWID = ?",
+                        arrayOf(attachmentId)
                     )
                 } catch (e: SQLiteConstraintException) {
                     //still in use
