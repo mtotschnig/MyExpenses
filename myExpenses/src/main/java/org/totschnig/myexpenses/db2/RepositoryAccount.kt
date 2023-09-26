@@ -212,11 +212,6 @@ fun Repository.markAsExported(accountId: Long, filter: WhereFilter?) {
         val accountUri = TransactionProvider.ACCOUNTS_URI
         val debtUri = TransactionProvider.DEBTS_URI
         add(
-            ContentProviderOperation.newUpdate(accountUri)
-                .withValue(KEY_SEALED, -1)
-                .withSelection("$KEY_SEALED = 1", null).build()
-        )
-        add(
             ContentProviderOperation.newUpdate(debtUri).withValue(KEY_SEALED, -1)
                 .withSelection("$KEY_SEALED = 1", null).build()
         )
@@ -233,11 +228,6 @@ fun Repository.markAsExported(accountId: Long, filter: WhereFilter?) {
                 .withValue(KEY_STATUS, STATUS_EXPORTED)
                 .withSelection(selection, selectionArgs)
                 .build()
-        )
-        add(
-            ContentProviderOperation.newUpdate(accountUri)
-                .withValue(KEY_SEALED, 1)
-                .withSelection("$KEY_SEALED = -1", null).build()
         )
         add(
             ContentProviderOperation.newUpdate(debtUri).withValue(KEY_SEALED, 1)

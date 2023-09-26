@@ -20,6 +20,7 @@ import static android.database.sqlite.SQLiteDatabase.CONFLICT_NONE;
 import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_EXPENSE;
 import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_INCOME;
 import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_NEUTRAL;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNTS_SEALED_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ATTACHMENTS_CREATE;
@@ -31,8 +32,12 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_ATTACHMENTS_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_CAT_ID_INDEX;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_PAYEE_ID_INDEX;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_SEALED_DELETE_TRIGGER_CREATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_SEALED_INSERT_TRIGGER_CREATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_UUID_INDEX_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTION_ATTRIBUTES_CREATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSFER_SEALED_UPDATE_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.TAG_LIST_EXPRESSION;
@@ -344,32 +349,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           "BEGIN UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_SORT_KEY +
           " = (SELECT coalesce(max(" + KEY_SORT_KEY + "),0) FROM " + TABLE_ACCOUNTS + ") + 1 WHERE " +
           KEY_ROWID + " = NEW." + KEY_ROWID + "; END";
-
-  private static final String RAISE_UPDATE_SEALED_ACCOUNT =
-      "SELECT RAISE (FAIL, 'attempt to update sealed account');";
-
-  private static final String ACCOUNTS_SEALED_TRIGGER_CREATE =
-      String.format(Locale.ROOT, "CREATE TRIGGER sealed_account_update BEFORE UPDATE OF %1$s,%2$s,%3$s,%4$s,%5$s,%6$s,%7$s ON %8$s WHEN old.%9$s = 1 ",
-          KEY_LABEL, KEY_OPENING_BALANCE, KEY_DESCRIPTION, KEY_CURRENCY, KEY_TYPE, KEY_UUID, KEY_CRITERION, TABLE_ACCOUNTS, KEY_SEALED) +
-          String.format(Locale.ROOT, "BEGIN %s END", RAISE_UPDATE_SEALED_ACCOUNT);
-
-  private static final String TRANSACTIONS_SEALED_INSERT_TRIGGER_CREATE =
-      "CREATE TRIGGER sealed_account_transaction_insert " +
-          "BEFORE INSERT ON " + TABLE_TRANSACTIONS + " " +
-          "WHEN (SELECT " + KEY_SEALED + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = new." + KEY_ACCOUNTID + ") = 1 " +
-          String.format(Locale.ROOT, "BEGIN %s END", RAISE_UPDATE_SEALED_ACCOUNT);
-
-  private static final String TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE =
-      "CREATE TRIGGER sealed_account_transaction_update " +
-          "BEFORE UPDATE ON " + TABLE_TRANSACTIONS + " " +
-          "WHEN (SELECT max(" + KEY_SEALED + ") FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " IN (new." + KEY_ACCOUNTID + ",old." + KEY_ACCOUNTID + ",new." + KEY_TRANSFER_ACCOUNT + ",old." + KEY_TRANSFER_ACCOUNT  +")) = 1 " +
-          String.format(Locale.ROOT, "BEGIN %s END", RAISE_UPDATE_SEALED_ACCOUNT);
-
-  private static final String TRANSACTIONS_SEALED_DELETE_TRIGGER_CREATE =
-      "CREATE TRIGGER sealed_account_transaction_delete " +
-          "BEFORE DELETE ON " + TABLE_TRANSACTIONS + " " +
-          "WHEN (SELECT " + KEY_SEALED + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = old." + KEY_ACCOUNTID + ") = 1 " +
-          String.format(Locale.ROOT, "BEGIN %s END", RAISE_UPDATE_SEALED_ACCOUNT);
 
   private static final String CHANGES_CREATE =
       "CREATE TABLE " + TABLE_CHANGES
@@ -1891,13 +1870,15 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         db.execSQL("ALTER TABLE accounts add column hidden boolean default 0");
         db.execSQL("ALTER TABLE accounts add column sealed boolean default 0");
         createOrRefreshAccountSealedTrigger(db);
-        createOrRefreshTransactionSealedTriggers(db);
+        //createOrRefreshTransactionSealedTriggers(db);
       }
 
+/*
       if (oldVersion < 86) {
         db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_update");
         db.execSQL(TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE);
       }
+*/
 
       //if (oldVersion < 87) {
         //createOrRefreshTemplateViews(db);
@@ -1990,10 +1971,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         db.execSQL("DROP VIEW IF EXISTS " + VIEW_EXTENDED);
         db.execSQL("CREATE VIEW " + VIEW_EXTENDED + buildViewDefinitionExtended(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
       }*/
-      if (oldVersion < 96) {
+/*      if (oldVersion < 96) {
         db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_update");
         db.execSQL(TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE);
-      }
+      }*/
       if (oldVersion < 97) {
         //This index has been lost after a table rename
         db.execSQL("CREATE INDEX IF NOT EXISTS templates_cat_id_index on templates(cat_id)");
@@ -2048,8 +2029,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         createOrRefreshTransferTagsTriggers(db);
       }
       if (oldVersion < 104) {
-        db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_update");
-        db.execSQL(TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE);
+/*        db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_update");
+        db.execSQL(TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE);*/
         //repair uuids that got lost by bug
         repairTransferUuids(db);
       }
@@ -2141,10 +2122,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 122) {
         upgradeTo122(db);
       }
-      if (oldVersion < 123) {
+/*      if (oldVersion < 123) {
         db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_update");
         db.execSQL(TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE);
-      }
+      }*/
       if (oldVersion < 124) {
         upgradeTo124(db);
       }
@@ -2229,6 +2210,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         createOrRefreshViews(db);
         createOrRefreshTransactionTriggers(db);
       }
+      if (oldVersion < 149) {
+        createOrRefreshTransactionSealedTriggers(db);
+      }
 
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
@@ -2289,9 +2273,11 @@ public class TransactionDatabase extends BaseTransactionDatabase {
   private void createOrRefreshTransactionSealedTriggers(SupportSQLiteDatabase db) {
     db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_insert");
     db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_update");
+    db.execSQL("DROP TRIGGER IF EXISTS sealed_account_tranfer_update");
     db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_delete");
     db.execSQL(TRANSACTIONS_SEALED_INSERT_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE);
+    db.execSQL(TRANSFER_SEALED_UPDATE_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_SEALED_DELETE_TRIGGER_CREATE);
   }
 

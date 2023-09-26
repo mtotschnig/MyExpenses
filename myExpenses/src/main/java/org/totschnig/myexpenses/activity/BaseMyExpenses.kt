@@ -771,16 +771,15 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             if (account.sealed) finishActionMode()
         }
 
-        val showStatusHandle = if (account.type == AccountType.CASH)
+        val showStatusHandle = if (account.isAggregate || account.type == AccountType.CASH)
             false
         else
             viewModel.showStatusHandle().collectAsState(initial = true).value
 
         val onToggleCrStatus: ((Long) -> Unit)? = if (showStatusHandle) {
             {
-                checkSealed(listOf(it)) {
+                if (!account.sealed)
                     viewModel.toggleCrStatus(it)
-                }
             }
         } else null
 

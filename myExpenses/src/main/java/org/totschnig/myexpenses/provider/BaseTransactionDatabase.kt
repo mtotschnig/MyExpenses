@@ -22,18 +22,27 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BIC
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BLZ
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CONTEXT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
@@ -41,11 +50,13 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USER_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTACHMENTS
@@ -64,8 +75,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import timber.log.Timber
+import java.util.Locale
 
-const val DATABASE_VERSION = 148
+const val DATABASE_VERSION = 149
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -155,6 +167,7 @@ CREATE TABLE $TABLE_PAYEES (
     $KEY_PARENTID integer references $TABLE_PAYEES($KEY_ROWID) ON DELETE CASCADE,
     unique($KEY_PAYEE_NAME, $KEY_IBAN));
 """
+
 //the unique index on ($KEY_PAYEE_NAME, $KEY_IBAN) does not prevent duplicate names when iban is null
 const val PAYEE_UNIQUE_INDEX = """
 CREATE UNIQUE INDEX payee_name ON $TABLE_PAYEES($KEY_PAYEE_NAME) WHERE $KEY_IBAN IS NULL;
@@ -209,7 +222,8 @@ private const val INCREASE_CATEGORY_USAGE_ACTION =
 private val INCREASE_CATEGORY_USAGE_INSERT_TRIGGER =
     "CREATE TRIGGER insert_increase_category_usage AFTER INSERT ON $TABLE_TRANSACTIONS WHEN new.$KEY_CATID IS NOT NULL AND new.$KEY_CATID != ${DatabaseConstants.SPLIT_CATID}$INCREASE_CATEGORY_USAGE_ACTION"
 
-private const val INCREASE_CATEGORY_USAGE_UPDATE_TRIGGER = "CREATE TRIGGER update_increase_category_usage AFTER UPDATE ON $TABLE_TRANSACTIONS WHEN new.$KEY_CATID IS NOT NULL AND (old.$KEY_CATID IS NULL OR new.$KEY_CATID != old.$KEY_CATID)$INCREASE_CATEGORY_USAGE_ACTION"
+private const val INCREASE_CATEGORY_USAGE_UPDATE_TRIGGER =
+    "CREATE TRIGGER update_increase_category_usage AFTER UPDATE ON $TABLE_TRANSACTIONS WHEN new.$KEY_CATID IS NOT NULL AND (old.$KEY_CATID IS NULL OR new.$KEY_CATID != old.$KEY_CATID)$INCREASE_CATEGORY_USAGE_ACTION"
 
 private const val INCREASE_ACCOUNT_USAGE_ACTION =
     " BEGIN UPDATE $TABLE_ACCOUNTS SET $KEY_USAGES = $KEY_USAGES + 1, $KEY_LAST_USED = strftime('%s', 'now')  WHERE $KEY_ROWID = new.$KEY_ACCOUNTID; END;"
@@ -228,6 +242,44 @@ const val TRANSACTIONS_CAT_ID_INDEX =
 
 const val TRANSACTIONS_PAYEE_ID_INDEX =
     "CREATE INDEX transactions_payee_id_index on $TABLE_TRANSACTIONS($KEY_PAYEEID)"
+
+private const val RAISE_UPDATE_SEALED_ACCOUNT =
+    "SELECT RAISE (FAIL, 'attempt to update sealed account');"
+
+const val ACCOUNTS_SEALED_TRIGGER_CREATE =
+    """CREATE TRIGGER sealed_account_update
+ BEFORE UPDATE OF $KEY_LABEL,$KEY_OPENING_BALANCE,$KEY_DESCRIPTION,$KEY_CURRENCY,$KEY_TYPE,$KEY_UUID,$KEY_CRITERION ON $TABLE_ACCOUNTS
+ WHEN old.$KEY_SEALED = 1
+ BEGIN $RAISE_UPDATE_SEALED_ACCOUNT END"""
+
+const val TRANSACTIONS_SEALED_INSERT_TRIGGER_CREATE =
+    """CREATE TRIGGER sealed_account_transaction_insert
+ BEFORE INSERT ON $TABLE_TRANSACTIONS
+ WHEN (SELECT $KEY_SEALED FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = new.$KEY_ACCOUNTID) = 1
+ BEGIN $RAISE_UPDATE_SEALED_ACCOUNT END"""
+
+//we allow update of status
+const val TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE =
+    """CREATE TRIGGER sealed_account_transaction_update
+ BEFORE UPDATE OF $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_PEER, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_PARENTID, $KEY_REFERENCE_NUMBER, $KEY_UUID, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_DEBT_ID, $KEY_CR_STATUS
+ ON $TABLE_TRANSACTIONS
+ WHEN (SELECT max($KEY_SEALED) FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID IN (new.$KEY_ACCOUNTID,old.$KEY_ACCOUNTID)) = 1
+ BEGIN $RAISE_UPDATE_SEALED_ACCOUNT END"""
+
+//we allow update of cr_status and status
+const val TRANSFER_SEALED_UPDATE_TRIGGER_CREATE =
+    """CREATE TRIGGER sealed_account_tranfer_update
+ BEFORE UPDATE OF $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_PEER, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_PARENTID, $KEY_REFERENCE_NUMBER, $KEY_UUID, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_DEBT_ID
+ ON $TABLE_TRANSACTIONS
+ WHEN (SELECT $KEY_SEALED FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = old.$KEY_TRANSFER_ACCOUNT) = 1
+ BEGIN $RAISE_UPDATE_SEALED_ACCOUNT END"""
+
+
+const val TRANSACTIONS_SEALED_DELETE_TRIGGER_CREATE =
+    """CREATE TRIGGER sealed_account_transaction_delete
+ BEFORE DELETE ON $TABLE_TRANSACTIONS
+ WHEN (SELECT $KEY_SEALED FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = old.$KEY_ACCOUNTID) = 1
+ BEGIN $RAISE_UPDATE_SEALED_ACCOUNT END"""
 
 abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
     SupportSQLiteOpenHelper.Callback(DATABASE_VERSION) {
@@ -473,7 +525,7 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
         execSQL(
             "CREATE TABLE account_attributes (account_id integer references accounts(_id) ON DELETE CASCADE,attribute_id integer references attributes(_id) ON DELETE CASCADE,value text not null,primary key (account_id, attribute_id))"
         )
-        }
+    }
 
     fun SupportSQLiteDatabase.upgradeTo148() {
         execSQL("CREATE TABLE attachments (_id integer primary key autoincrement, uri text not null unique, uuid text not null unique)")
@@ -481,7 +533,11 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
         execSQL("DROP TRIGGER IF EXISTS cache_stale_uri")
         //insert existing attachments from transaction table into attachments table
         //drop column picture_id
-        query("transactions", arrayOf("_id", "picture_id"), "picture_id is not null").use { cursor ->
+        query(
+            "transactions",
+            arrayOf("_id", "picture_id"),
+            "picture_id is not null"
+        ).use { cursor ->
             val attachmentValues = ContentValues(2)
             val joinValues = ContentValues(2)
             cursor.asSequence.forEach {
@@ -505,7 +561,7 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
             }
         }
         execSQL("DROP table stale_uris")
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE ) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             execSQL("ALTER TABLE transactions RENAME to transactions_old")
             execSQL(
                 "CREATE TABLE transactions(" +
