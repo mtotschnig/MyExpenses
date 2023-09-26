@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Spinner xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_vertical"
+    android:layout_height="match_parent"
     android:layout_weight="1"
-    tools:showIn="@layout/method_row" />
+    >
+    <Spinner
+        android:id="@+id/Method"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        tools:showIn="@layout/method_row" />
+    <TextView
+        android:id="@+id/MethodOutlier"
+        android:visibility="gone"
+        android:layout_gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</FrameLayout>

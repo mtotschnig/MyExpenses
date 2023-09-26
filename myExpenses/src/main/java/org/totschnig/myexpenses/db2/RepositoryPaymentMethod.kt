@@ -107,7 +107,9 @@ private fun PaymentMethod.toContentValues(context: Context?) = ContentValues().a
 fun Repository.createPaymentMethod(context: Context?, method: PaymentMethod): PaymentMethod {
     val id =
         ContentUris.parseId(contentResolver.insert(METHODS_URI, method.toContentValues(context))!!)
-    setMethodAccountTypes(id, method.accountTypes)
+    if (method.accountTypes.isNotEmpty()) {
+        setMethodAccountTypes(id, method.accountTypes)
+    }
     return method.copy(id = id)
 }
 
@@ -149,8 +151,8 @@ fun Repository.findPaymentMethod(label: String) = contentResolver.query(
 /**
  * this method does not check, if label is predefined
  */
-fun Repository.writePaymentMethod(label: String, accountType: AccountType): Long {
-    return createPaymentMethod(null, PaymentMethod(label = label, accountTypes = listOf(accountType))).id
+fun Repository.writePaymentMethod(label: String, accountType: AccountType?): Long {
+    return createPaymentMethod(null, PaymentMethod(label = label, accountTypes = listOfNotNull(accountType))).id
 }
 
 fun Repository.deleteMethod(id: Long) {

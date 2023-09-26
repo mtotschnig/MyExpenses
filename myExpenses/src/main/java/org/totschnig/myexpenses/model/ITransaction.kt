@@ -10,6 +10,7 @@ import java.time.ZonedDateTime
 interface ITransaction: IModel {
     var status: Int
     var methodId: Long?
+    val methodLabel: String?
     var catId: Long?
     var categoryIcon: String?
     var label: String?

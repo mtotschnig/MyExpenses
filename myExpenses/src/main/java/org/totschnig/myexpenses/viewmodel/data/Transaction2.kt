@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
+import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.IS_SAME_CURRENCY
@@ -125,8 +126,7 @@ data class Transaction2(
      * pair of localized label and icon
      */
     fun getMethodInfo(context: Context): Pair<String, String?>? = methodLabel?.let {
-        (enumValueOrNull<PreDefinedPaymentMethod>(it)?.getLocalizedLabel(context)
-            ?: methodLabel) to methodIcon
+        it.translateIfPredefined(context) to methodIcon
     }
 
 

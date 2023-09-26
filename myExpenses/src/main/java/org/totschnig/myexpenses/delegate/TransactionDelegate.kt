@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
@@ -70,7 +71,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         homeCurrencyProvider.homeCurrencyUnit
     }
 
-    private val methodSpinner = SpinnerHelper(methodRowBinding.Method.root)
+    private val methodSpinner = SpinnerHelper(methodRowBinding.Method.Method)
     val accountSpinner = SpinnerHelper(viewBinding.Account)
     private val statusSpinner = SpinnerHelper(viewBinding.Status)
     private val operationTypeSpinner = SpinnerHelper(viewBinding.toolbar.OperationType)
@@ -147,6 +148,9 @@ abstract class TransactionDelegate<T : ITransaction>(
     var methodId: Long? = null
 
     @State
+    var methodLabel: String? = null
+
+    @State
     var _crStatus: CrStatus? = CrStatus.UNRECONCILED
 
     @State
@@ -209,6 +213,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             parentId = transaction.parentId
             accountId = transaction.accountId
             methodId = transaction.methodId
+            methodLabel = transaction.methodLabel
             planId = (transaction as? Template)?.plan?.id
             _crStatus = transaction.crStatus
             originTemplateId = transaction.originTemplateId
@@ -490,10 +495,15 @@ abstract class TransactionDelegate<T : ITransaction>(
                 }
             }
             if (!found) {
-                methodId = null
-                methodSpinner.setSelection(0)
+                methodSpinner.spinner.isVisible = false
+                with(methodRowBinding.Method.MethodOutlier) {
+                    text = methodLabel?.translateIfPredefined(context)
+                    isVisible = true
+                }
             }
         } else {
+            methodSpinner.spinner.isVisible = true
+            methodRowBinding.Method.MethodOutlier.isVisible = false
             methodSpinner.setSelection(0)
         }
         setVisibility(methodRowBinding.ClearMethod.root, methodId != null)
