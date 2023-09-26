@@ -167,7 +167,6 @@ data class Transaction2(
                 KEY_REFERENCE_NUMBER,
                 KEY_STATUS,
                 KEY_TAGLIST,
-                KEY_ATTACHMENT_COUNT,
                 KEY_PARENTID,
                 when (grouping) {
                     Grouping.MONTH -> getYearOfMonthStart()
@@ -181,7 +180,8 @@ data class Transaction2(
             ).let {
                 if (extended) it + listOf(
                     KEY_CURRENCY,
-                    "$TRANSFER_PEER_PARENT AS $KEY_TRANSFER_PEER_PARENT"
+                    "$TRANSFER_PEER_PARENT AS $KEY_TRANSFER_PEER_PARENT",
+                    KEY_ATTACHMENT_COUNT
                 ) else it
             }.toTypedArray()
 
@@ -234,7 +234,7 @@ data class Transaction2(
                 week = cursor.getInt(KEY_WEEK),
                 day = cursor.getInt(KEY_DAY),
                 icon = cursor.getStringOrNull(KEY_ICON),
-                attachmentCount = cursor.getInt(KEY_ATTACHMENT_COUNT)
+                attachmentCount = cursor.getIntIfExists(KEY_ATTACHMENT_COUNT) ?: 0
             )
         }
     }

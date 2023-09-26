@@ -208,4 +208,7 @@
         <item>@string/whats_new_364_1</item>
         <item>@string/whats_new_364_2</item>
     </string-array>
+    <string-array name="whats_new_365">
+        <item>@string/whats_new_365</item>
+    </string-array>
 </resources>

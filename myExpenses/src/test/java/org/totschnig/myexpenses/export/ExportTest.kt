@@ -115,7 +115,7 @@ class ExportTest: BaseTestWithRepository() {
         uuidList.add(op.uuid!!)
         context.contentResolver.applyBatch(
             TransactionProvider.AUTHORITY,
-            saveTagLinks(listOf(tag1Id, tag2Id), op.id, null, true)
+            ArrayList(saveTagLinks(listOf(tag1Id, tag2Id), op.id, null, true))
         )
         op.amount = (Money(CurrencyUnit.DebugInstance, expense2))
         op.catId = cat1Id
@@ -168,7 +168,7 @@ class ExportTest: BaseTestWithRepository() {
         uuidList.add(part.uuid!!)
         context.contentResolver.applyBatch(
             TransactionProvider.AUTHORITY,
-            saveTagLinks(listOf(tag1Id, tag2Id), part.id, null, true)
+            ArrayList(saveTagLinks(listOf(tag1Id, tag2Id), part.id, null, true))
         )
         split.status = DatabaseConstants.STATUS_NONE
         split.save(contentResolver, true)

@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.sync
 
 import com.google.common.truth.Truth
 import org.junit.Test
+import java.io.InputStream
 
 class ResourceStorageTest {
 
@@ -16,6 +17,14 @@ class ResourceStorageTest {
                     shardNumber
                 )
             }
+
+        override fun getCollection(collectionName: String, require: Boolean): Resource? {
+            TODO("Not yet implemented")
+        }
+
+        override fun getInputStream(resource: Resource): InputStream {
+            TODO("Not yet implemented")
+        }
 
         override fun childrenForCollection(folder: Resource?): Collection<Resource> =
             ((folder ?: storage) as Folder).members
