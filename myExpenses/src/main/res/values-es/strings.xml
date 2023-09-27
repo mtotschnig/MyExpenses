@@ -1053,4 +1053,9 @@
     <string name="show_duplicates">Mostrar los duplicados</string>
     <string name="whats_new_364_2">Nueva estrategia de gestión de la información duplicada sobre pagadores / beneficiarios</string>
     <string name="whats_new_364_1">Importar a varias cuentas desde un archivo CSV</string>
+    <string name="pref_attachment_mime_types_title">Tipos MIME permitidos para los archivos adjuntos</string>
+    <string name="pref_copy_attachments_summary_on">Los archivos se copian en la carpeta de la aplicación.</string>
+    <string name="attachments">Archivos adjuntos</string>
+    <string name="pref_copy_attachments_title">Copiar los archivos adjuntos a la carpeta de la aplicación</string>
+    <string name="pref_copy_attachments_summary_off">Los archivos no se copian, sólo se almacena una referencia.</string>
 </resources>

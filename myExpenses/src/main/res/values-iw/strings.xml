@@ -1068,4 +1068,9 @@
     <string name="read_from_data">קריאה מנתונים</string>
     <string name="merge_parties_strategy_group">כפילויות מקובצות כתלויות.</string>
     <string name="show_duplicates">הצגת כפילויות</string>
+    <string name="pref_attachment_mime_types_title">סוגי MIME מורשים לקבצים מצורפים</string>
+    <string name="pref_copy_attachments_summary_on">קבצים מועתקים לתיקיית היישומון.</string>
+    <string name="attachments">קבצים מצורפים</string>
+    <string name="pref_copy_attachments_title">העתקת קבצים מצורפים לתיקיית היישומון</string>
+    <string name="pref_copy_attachments_summary_off">קבצים לא מועתקים, מאוחסנת רק הפניה.</string>
 </resources>
