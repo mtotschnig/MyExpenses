@@ -191,11 +191,11 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final Uri TRANSACTIONS_URI =
       Uri.parse("content://" + AUTHORITY + "/transactions");
   public static final Uri UNCOMMITTED_URI =
-      Uri.parse("content://" + AUTHORITY + "/transactions/uncommitted");
+      Uri.parse("content://" + AUTHORITY + "/transactionsUncommitted");
   public static final Uri TEMPLATES_URI =
       Uri.parse("content://" + AUTHORITY + "/templates");
   public static final Uri TEMPLATES_UNCOMMITTED_URI =
-      Uri.parse("content://" + AUTHORITY + "/templates/uncommitted");
+      Uri.parse("content://" + AUTHORITY + "/templatesUncommitted");
   public static final Uri CATEGORIES_URI =
       Uri.parse("content://" + AUTHORITY + "/categories");
   public static final Uri PAYEES_URI =
@@ -289,7 +289,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String URI_SEGMENT_UNDELETE = "undelete";
   public static final String URI_SEGMENT_INCREASE_USAGE = "increaseUsage";
   public static final String URI_SEGMENT_GROUPS = "groups";
-  public static final String URI_SEGMENT_UNCOMMITTED = "uncommitted";
   public static final String URI_SEGMENT_CHANGE_FRACTION_DIGITS = "changeFractionDigits";
   public static final String URI_SEGMENT_TYPE_FILTER = "typeFilter";
   public static final String URI_SEGMENT_LAST_EXCHANGE = "lastExchange";
@@ -1044,7 +1043,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     if (uriMatch == TRANSACTIONS) {
       notifyChange(ACCOUNTS_URI, false);
       notifyChange(DEBTS_URI, false);
-      notifyChange(UNCOMMITTED_URI, false);
+      //notifyChange(UNCOMMITTED_URI, false);
     } else if (uriMatch == ACCOUNTS) {
       notifyAccountChange();
       notifyChange(BANKS_URI, false);
@@ -1199,7 +1198,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdapter(uri));
       notifyChange(ACCOUNTS_URI, false);
       notifyChange(DEBTS_URI, false);
-      notifyChange(UNCOMMITTED_URI, false);
+      //notifyChange(UNCOMMITTED_URI, false);
     } else {
       if (uriMatch == ACCOUNTS || uriMatch == ACCOUNT_ID) {
         notifyAccountChange();
@@ -1497,7 +1496,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdapter(uri));
       notifyChange(ACCOUNTS_URI, false);
       notifyChange(DEBTS_URI, false);
-      notifyChange(UNCOMMITTED_URI, false);
+      //notifyChange(UNCOMMITTED_URI, false);
       notifyChange(CATEGORIES_URI, false);
     } else if (
       //we do not need to refresh cursors on the usage counters
@@ -1630,12 +1629,12 @@ public class TransactionProvider extends BaseTransactionProvider {
   static {
     URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
     URI_MATCHER.addURI(AUTHORITY, "transactions", TRANSACTIONS);
-    URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_UNCOMMITTED, UNCOMMITTED);
+    URI_MATCHER.addURI(AUTHORITY, "transactionsUncommitted/", UNCOMMITTED);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_GROUPS + "/*", TRANSACTIONS_GROUPS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/sumsForAccounts", TRANSACTIONS_SUMS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_LAST_EXCHANGE + "/*/*", TRANSACTIONS_LASTEXCHANGE);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTION_ID);
-    URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_UNCOMMITTED + "/#", UNCOMMITTED_ID);
+    URI_MATCHER.addURI(AUTHORITY, "transactionsUncommitted/#", UNCOMMITTED_ID);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_MOVE + "/#", TRANSACTION_MOVE);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_TOGGLE_CRSTATUS, TRANSACTION_TOGGLE_CRSTATUS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_UNDELETE, TRANSACTION_UNDELETE);
@@ -1658,7 +1657,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "methods/" + URI_SEGMENT_TYPE_FILTER + "/*", METHODS_FILTERED);
     URI_MATCHER.addURI(AUTHORITY, "accounttypes_methods", ACCOUNTTYPES_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "templates", TEMPLATES);
-    URI_MATCHER.addURI(AUTHORITY, "templates/uncommitted", TEMPLATES_UNCOMMITTED);
+    URI_MATCHER.addURI(AUTHORITY, "templatesUncommitted", TEMPLATES_UNCOMMITTED);
     URI_MATCHER.addURI(AUTHORITY, "templates/#", TEMPLATE_ID);
     URI_MATCHER.addURI(AUTHORITY, "templates/#/" + URI_SEGMENT_INCREASE_USAGE, TEMPLATES_INCREASE_USAGE);
     URI_MATCHER.addURI(AUTHORITY, "sqlite_sequence/*", SQLITE_SEQUENCE_TABLE);
