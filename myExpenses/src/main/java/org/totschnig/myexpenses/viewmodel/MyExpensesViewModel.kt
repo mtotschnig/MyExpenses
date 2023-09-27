@@ -176,14 +176,14 @@ open class MyExpensesViewModel(
         }
     }
 
-    private val pageSize = if (BuildConfig.DEBUG) 1500 else 150
+    private val pageSize = if (BuildConfig.DEBUG) 40 else 150
 
     val items: Map<PageAccount, Flow<PagingData<Transaction2>>> = lazyMap {
         Pager(
             PagingConfig(
                 initialLoadSize = pageSize,
                 pageSize = pageSize,
-                prefetchDistance = 1,
+                prefetchDistance = pageSize,
                 enablePlaceholders = true
             ),
             pagingSourceFactory = pagingSourceFactories.getValue(it)

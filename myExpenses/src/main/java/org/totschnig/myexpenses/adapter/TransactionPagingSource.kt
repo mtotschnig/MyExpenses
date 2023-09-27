@@ -79,10 +79,7 @@ open class TransactionPagingSource(
 
     override fun getRefreshKey(state: PagingState<Int, Transaction2>): Int? {
         val result = state.anchorPosition?.let { anchorPosition ->
-            state.closestPageToPosition(anchorPosition)?.let { page ->
-                Timber.i("Calculating refreshKey for anchorPosition %d: page %s", anchorPosition, page)
-                page.itemsBefore
-            }
+            (anchorPosition - state.config.pageSize / 2).coerceAtLeast(0)
         }
         Timber.i("Calculating refreshKey for anchorPosition %d: %d", state.anchorPosition, result)
         return result
@@ -92,6 +89,9 @@ open class TransactionPagingSource(
     @SuppressLint("InlinedApi")
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Transaction2> {
         val position = params.key ?: 0
+        //if the previous page was loaded from an offset between 0 and loadsize,
+        //we must take care to load only the missing items before the offset
+        val loadSize = if (position < 0) params.loadSize + position else params.loadSize
         Timber.i("Requesting data for account %d at position %d", account.id, position)
         if (!whereFilter.value.isEmpty) {
             val selectionForParents =
@@ -112,7 +112,7 @@ open class TransactionPagingSource(
         }
         val data = withContext(Dispatchers.IO) {
             contentResolver.query(
-                uri.withLimit(params.loadSize, position),
+                uri.withLimit(loadSize, position.coerceAtLeast(0)),
                 projection,
                 "$selection AND ${DatabaseConstants.KEY_PARENTID} is null",
                 selectionArgs,
@@ -134,14 +134,14 @@ open class TransactionPagingSource(
             } ?: emptyList()
         }
         onLoadFinished()
-        val prevKey = if (position > 0) (position - params.loadSize).coerceAtLeast(0) else null
+        val prevKey = if (position > 0) (position - params.loadSize) else null
         val nextKey = if (data.size < params.loadSize) null else position + params.loadSize
         Timber.i("Setting prevKey %d, nextKey %d", prevKey, nextKey)
         return LoadResult.Page(
             data = data,
             prevKey = prevKey,
             nextKey = nextKey,
-            itemsBefore = position
+            itemsBefore = position.coerceAtLeast(0)
         )
     }
 
