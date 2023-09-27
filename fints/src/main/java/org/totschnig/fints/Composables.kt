@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -33,6 +34,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.R as RB
 
 @Composable
@@ -132,20 +134,22 @@ fun TanDialog(
 }
 
 @Composable
-fun BankIconImpl(blz: String) {
-    getIcon(blz)?.let {
-        Image(painter = painterResource(id = it), contentDescription = null)
+fun BankIconImpl(modifier: Modifier = Modifier, bank: Bank) {
+    getIcon(bank)?.let {
+        Image(modifier = modifier, painter = painterResource(id = it), contentDescription = null)
     } ?: run {
-        Image(imageVector = Icons.Filled.AccountBalance, contentDescription = null)
+        Image(modifier = modifier, imageVector = Icons.Filled.AccountBalance, contentDescription = null)
     }
 }
 
-private fun getIcon(blz: String) = when {
-    blz == "12030000" -> R.drawable.dkb
-    blz == "43060967" -> R.drawable.gls
-    blz.startsWith("200411") -> R.drawable.comdirect
-    blz[3] == '5' -> R.drawable.sparkasse
-    blz[3] == '9' -> R.drawable.volksbank
+private fun getIcon(bank: Bank) = when {
+    bank.blz == "12030000" -> R.drawable.dkb
+    bank.blz == "43060967" -> R.drawable.gls
+    bank.blz == "50010517" -> R.drawable.ing
+    bank.blz.startsWith("200411") -> R.drawable.comdirect
+    bank.blz[3] == '5' -> R.drawable.sparkasse
+    bank.blz[3] == '9' -> R.drawable.volksbank
+    bank.bankName.contains("sparda", ignoreCase = true) -> R.drawable.sparda
     else -> null
 }
 

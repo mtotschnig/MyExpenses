@@ -2,11 +2,11 @@ package org.totschnig.myexpenses.feature
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.fragment.app.FragmentManager
 import org.totschnig.myexpenses.db2.FinTsAttribute
+import org.totschnig.myexpenses.model2.Bank
 
 interface BankingFeature {
     companion object {
@@ -18,7 +18,7 @@ interface BankingFeature {
 
     fun startSyncFragment(bankId: Long, accountId: Long, fragmentManager: FragmentManager) {}
 
-    val bankIconRenderer: (@Composable (String) -> Unit)?
+    val bankIconRenderer: @Composable ((Modifier, Bank) -> Unit)?
         get() = null
 
     fun syncMenuTitle(context: Context): String = ""

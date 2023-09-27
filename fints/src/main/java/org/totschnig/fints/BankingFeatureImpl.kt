@@ -4,9 +4,11 @@ import android.app.Activity
 import android.content.Context
 import androidx.annotation.Keep
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.fragment.app.FragmentManager
 import org.totschnig.myexpenses.db2.FinTsAttribute
 import org.totschnig.myexpenses.feature.BankingFeature
+import org.totschnig.myexpenses.model2.Bank
 
 @Keep
 class BankingFeatureImpl: BankingFeature {
@@ -23,7 +25,7 @@ class BankingFeatureImpl: BankingFeature {
 
     }
 
-    override val bankIconRenderer: @Composable() ((String) -> Unit) = { BankIconImpl(blz = it) }
+    override val bankIconRenderer: @Composable() (Modifier, Bank) -> Unit = { modifier, bank -> BankIconImpl(modifier, bank) }
 
     override fun syncMenuTitle(context: Context) = context.getString(R.string.menu_sync_account) + " (FinTS)"
 

@@ -565,6 +565,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
 
         binding.accountPanel.accountList.setContent {
+            val banks = viewModel.banks.collectAsState()
             AppTheme {
                 viewModel.accountData.collectAsState().value.let { result ->
                     result?.onSuccess { data ->
@@ -603,7 +604,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             },
                             expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping.value}"),
                             expansionHandlerAccounts = viewModel.expansionHandler("collapsedAccounts"),
-                            bankIcon = bankingFeature.bankIconRenderer
+                            bankIcon = { modifier, id ->
+                                banks.value.find { it.id == id }
+                                    ?.let { bank -> bankingFeature.bankIconRenderer?.invoke(modifier, bank) }
+                            }
                         )
                     }?.onFailure {
                         val (message, forceQuit) = when (it) {

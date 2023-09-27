@@ -60,11 +60,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.DialogProperties
@@ -521,7 +521,9 @@ class Banking : ProtectedFragmentActivity() {
             getText(it)
         }
         AndroidView(
-            modifier = Modifier.width(OutlinedTextFieldDefaults.MinWidth).padding(bottom = 8.dp),
+            modifier = Modifier
+                .width(OutlinedTextFieldDefaults.MinWidth)
+                .padding(bottom = 8.dp),
             factory = { context -> TextView(context) },
             update = { it.text = help }
         )
@@ -540,7 +542,7 @@ fun BankRow(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
-        BankIconImpl(blz = bank.blz)
+        BankIconImpl(bank = bank)
         Column {
             Text(bank.bankName)
             Text(bank.blz + " / " + bank.bic)
@@ -599,5 +601,15 @@ fun AccountRow(
             Text(account.dbNumber)
             selected?.let { Text(stringResource(id = RF.string.import_into) + " " + it) }
         }
+    }
+}
+
+@Preview
+@Composable
+fun BankDemo() {
+    Column {
+        BankRow(bank = Bank(blz = "1234567",  bic = "XPNSS", bankName = "My home bank", userId = "1234"), onDelete = {}, onShow = {})
+        BankRow(bank = Bank(blz = "200411",  bic = "XPNSS", bankName = "Comdirect Bank", userId = "1234"), onDelete = {}, onShow = {})
+        BankRow(bank = Bank(blz = "1234567",  bic = "XPNSS", bankName = "Sparda Bank", userId = "1234"), onDelete = {}, onShow = {})
     }
 }

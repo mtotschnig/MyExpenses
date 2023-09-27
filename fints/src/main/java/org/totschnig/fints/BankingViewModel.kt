@@ -508,7 +508,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                 }
 
                 NEED_PT_PIN -> retData.replace(0, retData.length, bankingCredentials.password!!)
-                NEED_BLZ -> retData.replace(0, retData.length, bankingCredentials.bankLeitZahl)
+                NEED_BLZ -> retData.replace(0, retData.length, bankingCredentials.blz)
                 NEED_USERID -> retData.replace(0, retData.length, bankingCredentials.user)
                 NEED_CUSTOMERID -> retData.replace(0, retData.length, bankingCredentials.user)
                 NEED_PT_PHOTOTAN ->

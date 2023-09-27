@@ -55,7 +55,7 @@ fun AccountList(
     onToggleExcludeFromTotals: (FullAccount) -> Unit,
     expansionHandlerGroups: ExpansionHandler,
     expansionHandlerAccounts: ExpansionHandler,
-    bankIcon: (@Composable (String) -> Unit)?
+    bankIcon: (@Composable (Modifier, Long) -> Unit)?
 ) {
     val context = LocalContext.current
     val collapsedGroupIds = expansionHandlerGroups.collapsedIds.collectAsState(initial = null).value
@@ -137,7 +137,7 @@ private fun getHeader(
                 id to title
             }
             AccountGrouping.TYPE -> {
-                val id = account.type?.ordinal ?: AccountType.values().size
+                val id = account.type?.ordinal ?: AccountType.entries.size
                 val title =
                     context.getString(account.type?.toStringResPlural() ?: R.string.menu_aggregates)
                 id.toString() to title
@@ -165,7 +165,7 @@ fun AccountCard(
     onToggleSealed: (FullAccount) -> Unit = {},
     onToggleExcludeFromTotals: (FullAccount) -> Unit = {},
     toggleExpansion: () -> Unit = { },
-    bankIcon: @Composable() ((String) -> Unit)? = null
+    bankIcon: @Composable ((Modifier, Long) -> Unit)? = null
 ) {
     val format = LocalCurrencyFormatter.current
     val showMenu = remember { mutableStateOf(false) }
@@ -193,13 +193,13 @@ fun AccountCard(
                 .size(dimensionResource(id = R.dimen.account_color_diameter_compose))
             val color = Color(account.color(LocalContext.current.resources))
             if (account.criterion == null) {
-                if (account.blz == null || bankIcon == null) {
+                if (account.bankId == null || bankIcon == null) {
                     ColorCircle(modifier, color) {
                         if (account.isAggregate) {
                             Text(fontSize = 18.sp, text = "Σ", color = Color.White)
                         }
                     }
-                } else bankIcon.invoke(account.blz)
+                } else bankIcon.invoke(modifier, account.bankId)
 
             } else {
                 DonutInABox(
