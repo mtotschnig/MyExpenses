@@ -232,11 +232,13 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         subject: String,
         body: String
     ) {
-        EmailIntentBuilder.from(this)
+        if (!EmailIntentBuilder.from(this)
             .to(recipient)
             .subject(subject)
             .body(body)
-            .start()
+            .start()) {
+            showMessage(body)
+        }
     }
 
     fun startActivity(intent: Intent, notAvailableMessage: Int, forResultRequestCode: Int? = null) {
