@@ -224,7 +224,7 @@ class PreferenceUiFragment : BasePreferenceFragment() {
         //due to user changing app language in Android 13 system settings
         findPreference<ListPreference>(PrefKey.UI_LANGUAGE)?.apply {
             entries = getLocaleArray()
-            value = AppCompatDelegate.getApplicationLocales()[0]?.language
+            value = AppCompatDelegate.getApplicationLocales()[0]?.toLanguageTag()
                 ?: MyApplication.DEFAULT_LANGUAGE
             onPreferenceChangeListener =
                 Preference.OnPreferenceChangeListener { _, newValue ->
@@ -246,15 +246,11 @@ class PreferenceUiFragment : BasePreferenceFragment() {
             .map(this::getLocaleDisplayName)
             .toTypedArray()
 
-    private fun getLocaleDisplayName(localeString: CharSequence) =
+    private fun getLocaleDisplayName(localeString: String) =
         if (localeString == "default") {
             requireContext().getString(R.string.pref_ui_language_default)
         } else {
-            val localeParts = localeString.split("-")
-            val locale = if (localeParts.size == 2)
-                Locale(localeParts[0], localeParts[1])
-            else
-                Locale(localeParts[0])
+            val locale = Locale.forLanguageTag(localeString)
             locale.getDisplayName(locale)
         }
 
