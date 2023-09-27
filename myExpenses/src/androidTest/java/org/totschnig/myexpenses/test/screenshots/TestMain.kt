@@ -117,6 +117,7 @@ class TestMain : BaseMyExpensesTest() {
                 takeScreenshot("budget")
                 device.setOrientationNatural()
                 onIdle()
+                Thread.sleep(500)
                 pressBack()
                 pressBack()
                 clickMenuItem(R.id.SETTINGS_COMMAND)
