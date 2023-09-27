@@ -46,7 +46,7 @@
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="@string/pref_auto_fill_key"
-            android:title="@string/pref_auto_fill_summary" />
+            android:summary="@string/pref_auto_fill_summary" />
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:dependency="@string/pref_auto_fill_key"
@@ -107,13 +107,13 @@
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="@string/pref_scroll_to_current_date_key"
-            android:title="@string/pref_scroll_to_current_date_summary" />
+            android:summary="@string/pref_scroll_to_current_date_summary" />
 
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="@string/pref_group_header_show_details_key"
             android:persistent="false"
-            android:title="@string/pref_group_header_show_details_summary" />
+            android:summary="@string/pref_group_header_show_details_summary" />
 
         <ListPreference
             android:defaultValue="EndOfDay"
