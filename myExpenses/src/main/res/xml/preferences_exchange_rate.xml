@@ -19,7 +19,7 @@
     android:title="@string/pref_category_exchange_rates">
     <org.totschnig.myexpenses.preference.HeaderPreference />
     <ListPreference
-        android:defaultValue="EXCHANGE_RATE_HOST"
+        android:defaultValue="FRANKFURTER"
         android:key="@string/pref_exchange_rate_provider_key"
         android:summary="@string/pref_exchange_rate_provider_summary"
         android:title="@string/pref_exchange_rate_provider_title" />

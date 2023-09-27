@@ -34,9 +34,9 @@ class ExchangeRateServiceTest {
     }
 
     @Test
-    fun exchangeRateHostIsAlive() {
+    fun frankfurterIsAlive() {
         runBlocking {
-            val rate = service.getRate(ExchangeRateSource.ExchangeRateHost, null, date, "USD", "EUR")
+            val rate = service.getRate(ExchangeRateSource.Frankfurter, null, date, "USD", "EUR")
             Truth.assertThat(rate.first).isEqualTo(date)
             println(rate.second.toString())
         }

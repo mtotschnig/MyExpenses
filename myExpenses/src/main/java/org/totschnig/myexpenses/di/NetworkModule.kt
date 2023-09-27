@@ -17,8 +17,8 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.ExchangeRateRepository
 import org.totschnig.myexpenses.retrofit.CoinApi
-import org.totschnig.myexpenses.retrofit.ExchangeRateHost
 import org.totschnig.myexpenses.retrofit.ExchangeRateService
+import org.totschnig.myexpenses.retrofit.Frankfurter
 import org.totschnig.myexpenses.retrofit.OpenExchangeRates
 import org.totschnig.myexpenses.retrofit.RoadmapService
 import org.totschnig.myexpenses.room.ExchangeRateDatabase.Companion.getDatabase
@@ -112,16 +112,16 @@ open class NetworkModule {
         @JvmStatic
         @Provides
         @Singleton
-        fun provideExchangeRateHost(
+        fun provideFrankfurter(
             builder: OkHttpClient.Builder,
             converterFactory: GsonConverterFactory
-        ): ExchangeRateHost {
+        ): Frankfurter {
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://api.exchangerate.host/")
+                .baseUrl("https://api.frankfurter.app/")
                 .addConverterFactory(converterFactory)
                 .client(builder.build())
                 .build()
-            return retrofit.create(ExchangeRateHost::class.java)
+            return retrofit.create(Frankfurter::class.java)
         }
 
         @JvmStatic
@@ -161,7 +161,7 @@ open class NetworkModule {
         @Provides
         @Singleton
         fun provideExchangeRateService(
-            api1: ExchangeRateHost,
+            api1: Frankfurter,
             api2: OpenExchangeRates,
             api3: CoinApi
         ) = ExchangeRateService(api1, api2, api3)
