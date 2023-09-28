@@ -590,7 +590,7 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
                 "INSERT INTO transactions (" +
                         "_id,comment,date,value_date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,equivalent_amount,debt_id) " +
                         "SELECT " +
-                        "_id,comment,date,value_date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,equivalent_amount,debt_id FROM transactions_old"
+                        "_id,comment,date,coalesce(value_date,date),amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,equivalent_amount,debt_id FROM transactions_old"
             )
             execSQL("DROP TABLE transactions_old")
             createOrRefreshTransactionUsageTriggers(this)
