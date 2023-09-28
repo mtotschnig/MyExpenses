@@ -79,6 +79,9 @@ import org.totschnig.fints.R as RF
 
 data class TanRequest(val message: String, val bitmap: Bitmap?)
 
+val SUPPORTED_HBCI_VERSIONS =
+    arrayOf(HBCIVersion.HBCI_300, HBCIVersion.HBCI_220, HBCIVersion.HBCI_210, HBCIVersion.HBCI_201)
+
 class BankingViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
     init {
@@ -130,9 +133,9 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
         abstract class Done() : WorkState()
 
-        class Abort: Done()
+        class Abort : Done()
 
-        class Success(val message: String = ""): Done()
+        class Success(val message: String = "") : Done()
     }
 
     fun submitTan(tan: String?) {
@@ -201,7 +204,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         }
 
         val handle = try {
-            HBCIHandler(HBCIVersion.HBCI_300.id, passport)
+            HBCIHandler(bankingCredentials.hbciVersion.id, passport)
 
         } catch (e: Exception) {
             if (BuildConfig.DEBUG) {
@@ -354,7 +357,11 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     _workState.value =
                         WorkState.Success(
                             if (importCount > 0)
-                                getQuantityString(R.plurals.transactions_imported, importCount, importCount)
+                                getQuantityString(
+                                    R.plurals.transactions_imported,
+                                    importCount,
+                                    importCount
+                                )
                             else
                                 getString(R.string.transactions_imported_none)
                         )
@@ -409,7 +416,12 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     bankingCredentials,
                     work = { _, _, handle ->
 
-                        _workState.value = WorkState.Loading(getString(RF.string.progress_importing_account, konto.iban))
+                        _workState.value = WorkState.Loading(
+                            getString(
+                                RF.string.progress_importing_account,
+                                konto.iban
+                            )
+                        )
 
                         val umsatzJob: HBCIJob = handle.newJob("KUmsAll")
                         log("jobRestrictions : " + umsatzJob.jobRestrictions.toString())
@@ -437,13 +449,12 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                             repository.updateAccount(it) {
                                 put(KEY_BANK_ID, bank.id)
                             }
-                        } ?:
-                            repository.createAccount(
-                                konto.toAccount(
-                                    bank,
-                                    result.dataPerDay.firstOrNull()?.start?.value?.longValue ?: 0L
-                                )
-                            ).id
+                        } ?: repository.createAccount(
+                            konto.toAccount(
+                                bank,
+                                result.dataPerDay.firstOrNull()?.start?.value?.longValue ?: 0L
+                            )
+                        ).id
 
                         repository.saveAccountAttributes(accountId, konto.asAttributes)
 
@@ -556,7 +567,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     if (flicker.isNotEmpty()) {
                         TODO()
                     } else {
-                        _tanRequested.postValue(TanRequest(msg,null))
+                        _tanRequested.postValue(TanRequest(msg, null))
                         retData.replace(0, retData.length, runBlocking {
                             val result =
                                 tanFuture.await() ?: throw HBCI_Exception("TAN entry cancelled")
