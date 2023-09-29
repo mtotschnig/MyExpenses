@@ -9,8 +9,8 @@ import android.net.Uri
 import android.provider.CalendarContract
 import android.text.TextUtils
 import android.text.format.Time
-import com.android.calendar.EventRecurrenceFormatter
-import com.android.calendarcommon2.EventRecurrence
+import org.totschnig.myexpenses.calendar.EventRecurrenceFormatter
+import org.totschnig.myexpenses.calendar.EventRecurrence
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
@@ -105,7 +105,8 @@ class Plan private constructor(
         }
 
         private fun calendarDay2String(calendarDay: Int): String {
-            return EventRecurrence.day2String(EventRecurrence.dayOfWeek2Day(DayOfWeek.of(calendarDay)))
+            return EventRecurrence.day2String(
+                EventRecurrence.dayOfWeek2Day(DayOfWeek.of(calendarDay)))
         }
     }
 
@@ -225,7 +226,8 @@ class Plan private constructor(
         @JvmStatic
         fun prettyTimeInfo(ctx: Context, rRule: String?, start: Long): String {
             return  rRule?.takeIf { it.isNotEmpty() }?.let {
-                val eventRecurrence = EventRecurrence()
+                val eventRecurrence =
+                    EventRecurrence()
                 try {
                     eventRecurrence.parse(rRule)
                 } catch (e: EventRecurrence.InvalidFormatException) {

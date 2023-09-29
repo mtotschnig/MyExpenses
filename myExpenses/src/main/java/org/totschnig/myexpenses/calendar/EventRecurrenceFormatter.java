@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-package com.android.calendar;
+package org.totschnig.myexpenses.calendar;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.util.TimeFormatException;
-
-import com.android.calendarcommon2.EventRecurrence;
 
 import org.totschnig.myexpenses.R;
 

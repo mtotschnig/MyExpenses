@@ -9,7 +9,7 @@ import android.provider.CalendarContract;
 
 import androidx.annotation.NonNull;
 
-import com.android.calendarcommon2.EventRecurrence;
+import org.totschnig.myexpenses.calendar.EventRecurrence;
 
 import org.totschnig.myexpenses.BuildConfig;
 
