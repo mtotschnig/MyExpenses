@@ -372,7 +372,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
 
                 //3. move pictures home and update uri
                 val backupPictureDir = File(workingDir, ZipUtils.PICTURES)
-                val backupFiles = backupPictureDir.listFiles()!!
+                val backupFiles = backupPictureDir.listFiles() ?: emptyArray()
                 contentResolver.query(
                     TransactionProvider.ATTACHMENTS_URI,
                     arrayOf(DatabaseConstants.KEY_ROWID, KEY_URI),
