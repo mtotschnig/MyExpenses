@@ -36,11 +36,12 @@ object DbUtils {
             AutoBackupWorker.cancel(app)
             PlanExecutor.cancel(app)
             if (backupFile.exists()) {
-                app.contentResolver.acquireContentProviderClient(TransactionProvider.AUTHORITY)!!
-                    .use {
-                        val provider = it.localContentProvider as TransactionProvider
-                        provider.restore(backupFile, encrypt)
-                    }
+                val client =
+                    app.contentResolver.acquireContentProviderClient(TransactionProvider.AUTHORITY)!!
+                val provider = client.localContentProvider as TransactionProvider
+                provider.restore(backupFile, encrypt)
+                client.release()
+                true
             } else false
         } catch (e: Exception) {
             report(e)
