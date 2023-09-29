@@ -1040,4 +1040,10 @@
     <string name="show_duplicates">Duplikate anzeigen</string>
     <string name="whats_new_364_2">Neue Strategie für die Verwaltung von duplizierten Zahlern/Empfängern</string>
     <string name="whats_new_364_1">Import in mehrere Konten aus einer CSV-Datei</string>
+    <string name="whats_new_365">Beliebig viele Bilder und Dokumente (PDF) können angehängt werden</string>
+    <string name="pref_attachment_mime_types_title">Erlaubte MIME-Typen für Anhänge</string>
+    <string name="pref_copy_attachments_summary_on">Dateien werden in den Anwendungsordner kopiert.</string>
+    <string name="attachments">Anhänge</string>
+    <string name="pref_copy_attachments_title">Kopieren von Anhängen in den Anwendungsordner</string>
+    <string name="pref_copy_attachments_summary_off">Dateien werden nicht kopiert, nur eine Referenz wird gespeichert.</string>
 </resources>
