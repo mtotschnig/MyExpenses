@@ -192,4 +192,24 @@
     <string name="contrib_feature_synchronization_label">Sinkronisasi Cloud</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Status lisensi Anda saat ini (%2$s) memungkinkan Anda untuk membuat akun %1$d.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Status lisensi Anda saat ini (%2$s) memungkinkan Anda untuk membuat rencana %1$d.</string>
+    <string name="dialog_title_warning_delete_category">Hapus kategori\?</string>
+    <string name="dialog_export_not_yet_exported">Ekspor hanya transaksi belum diekspor</string>
+    <string name="dialog_title_balance_account">Saldo %1$s</string>
+    <string name="dialog_title_contrib_feature">Fitur premium</string>
+    <string name="feedback">Umpan balik</string>
+    <string name="export_sdcard_success">Data berhasil diekspor ke file \"%1$s\"</string>
+    <string name="dialog_title_warning_delete_transaction">Hapus transaksi\?</string>
+    <string name="dialog_remind_rate_2">Komentar Anda memungkinkan kami untuk terus menambahkan perbaikan dan peningkatan.</string>
+    <string name="expense">Pengeluaran</string>
+    <string name="dialog_title_warning_delete_template">Hapus template\?</string>
+    <string name="dialog_title_warning_delete_party">Hapus pesta\?</string>
+    <string name="dialog_remind_rate_1_suggest_improvement">Mohon luangkan waktu sejenak untuk mengirimkan saran Anda untuk perbaikan.</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">Dengan status lisensi Anda saat ini (%1$s), dialog ini akan ditampilkan pada setiap penggunaan.</string>
+    <string name="dialog_title_information">Informasi</string>
+    <string name="export_sdcard_failure">Ekspor ke file \"%1$s\" gagal: %2$s</string>
+    <string name="dialog_remind_rate_yes">Nilai sekarang</string>
+    <plurals name="dialog_title_warning_delete_account">
+        <item quantity="other">Hapus akun %1$d\?</item>
+    </plurals>
+    <string name="dialog_password_activate_protection">Aktifkan perlindungan kata sandi</string>
 </resources>

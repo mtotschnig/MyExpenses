@@ -1058,4 +1058,5 @@
     <string name="attachments">Archivos adjuntos</string>
     <string name="pref_copy_attachments_title">Copiar los archivos adjuntos a la carpeta de la aplicación</string>
     <string name="pref_copy_attachments_summary_off">Los archivos no se copian, sólo se almacena una referencia.</string>
+    <string name="whats_new_365">Adjuntar un número arbitrario de las imágenes y los documentos (PDF)</string>
 </resources>
