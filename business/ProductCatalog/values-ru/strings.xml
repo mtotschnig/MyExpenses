@@ -16,4 +16,5 @@
     <string name="budget_description">Определите, сколько вы собираетесь тратить в годовом, ежемесячном или недельном бюджете.</string>
     <string name="ocr_title">Скан чека</string>
     <string name="webui_title">Веб-интерфейс пользователя</string>
+    <string name="splittemplate_description">Неограниченное количество шаблонов и планов разбиения транзакций</string>
 </resources>
