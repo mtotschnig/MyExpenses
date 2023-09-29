@@ -9,10 +9,7 @@ import androidx.core.database.getLongOrNull
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTACHMENT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.AUTOFILL_URI

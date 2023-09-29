@@ -295,7 +295,7 @@ open class CategoryViewModel(
                         }
                     }
                 } catch (e: SQLiteConstraintException) {
-                    CrashHandler.reportWithDbSchema(e)
+                    CrashHandler.reportWithDbSchema(contentResolver, e)
                     Result.failure(e)
                 }
             }

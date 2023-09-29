@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.preference;
 
+import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.requireString;
+
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.MatrixCursor;
@@ -15,7 +17,6 @@ import androidx.preference.PreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.provider.DbUtils;
 
 public class CalendarListPreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat {
   @Override
@@ -51,9 +52,9 @@ public class CalendarListPreferenceDialogFragmentCompat extends PreferenceDialog
           if (calCursor.getString(0).equals(value)) {
             selectedIndex = calCursor.getPosition();
           }
-          if (DbUtils.getString(calCursor, 1).equals(MyApplication.PLANNER_ACCOUNT_NAME)
-              && DbUtils.getString(calCursor, 2).equals(CalendarContract.ACCOUNT_TYPE_LOCAL)
-              && DbUtils.getString(calCursor, 3).equals(MyApplication.PLANNER_CALENDAR_NAME))
+          if (requireString(calCursor, 1).equals(MyApplication.PLANNER_ACCOUNT_NAME)
+              && requireString(calCursor, 2).equals(CalendarContract.ACCOUNT_TYPE_LOCAL)
+              && requireString(calCursor, 3).equals(MyApplication.PLANNER_CALENDAR_NAME))
             localExists = true;
         } while (calCursor.moveToNext());
       }

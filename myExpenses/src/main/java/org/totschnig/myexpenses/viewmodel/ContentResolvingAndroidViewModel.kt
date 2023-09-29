@@ -183,7 +183,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
                     Template.delete(contentResolver, it, deletePlan)
                     success++
                 } catch (e: SQLiteConstraintException) {
-                    CrashHandler.reportWithDbSchema(e)
+                    CrashHandler.reportWithDbSchema(contentResolver, e)
                     failure++
                 }
             }
@@ -200,7 +200,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
                     if (repository.deleteTransaction(it, markAsVoid, true))
                         success++ else failure++
                 } catch (e: SQLiteConstraintException) {
-                    CrashHandler.reportWithDbSchema(e)
+                    CrashHandler.reportWithDbSchema(contentResolver, e)
                     failure++
                 }
                 bulkDeleteStateInternal.update {

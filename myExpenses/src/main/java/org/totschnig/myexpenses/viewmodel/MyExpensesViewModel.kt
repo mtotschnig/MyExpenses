@@ -27,7 +27,6 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
-import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.adapter.ClearingLastPagingSourceFactory
 import org.totschnig.myexpenses.adapter.TransactionPagingSource
 import org.totschnig.myexpenses.compose.ExpansionHandler
@@ -461,7 +460,7 @@ open class MyExpensesViewModel(
                 try {
                     Transaction.undelete(contentResolver, it) > 0
                 } catch (e: SQLiteConstraintException) {
-                    CrashHandler.reportWithDbSchema(e)
+                    CrashHandler.reportWithDbSchema(contentResolver, e)
                     false
                 }
             })

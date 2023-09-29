@@ -31,10 +31,11 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
-import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.useAndMap
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -91,8 +92,8 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                     val fileName = args.getString(KEY_FILE_NAME)!!
                     val delimiter = args.getChar(KEY_DELIMITER)
 
-                    val accountIds: Array<Long> = if (accountId > 0L) {
-                        arrayOf(accountId)
+                    val accountIds= if (accountId > 0L) {
+                        listOf(accountId)
                     } else {
                         var selection = "${DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS} = 0"
                         var selectionArgs: Array<String>? = null
@@ -100,14 +101,15 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                             selection += " AND $KEY_CURRENCY = ?"
                             selectionArgs = arrayOf(currency)
                         }
+                        //noinspection Recycle
                         application.contentResolver.query(
                             TransactionProvider.ACCOUNTS_URI,
                             arrayOf(KEY_ROWID),
                             selection,
                             selectionArgs,
                             null
-                        )?.use {
-                            DbUtils.getLongArrayFromCursor(it, KEY_ROWID)
+                        )?.useAndMap {
+                            it.getLong(KEY_ROWID)
                         } ?: throw IOException("Cursor was null")
                     }
                     var account: Account?

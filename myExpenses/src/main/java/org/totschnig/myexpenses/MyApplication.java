@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses;
 
+import static androidx.core.database.CursorKt.getLongOrNull;
 import static org.totschnig.myexpenses.feature.WebUiFeatureKt.RESTART_ACTION;
 import static org.totschnig.myexpenses.feature.WebUiFeatureKt.START_ACTION;
 import static org.totschnig.myexpenses.feature.WebUiFeatureKt.STOP_ACTION;
@@ -24,6 +25,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.WEBUI_HTTPS;
 import static org.totschnig.myexpenses.preference.PrefKey.WEBUI_PASSWORD;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.AGGREGATE_HOME_CURRENCY_CODE;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.CALENDAR_FULL_PATH_PROJECTION;
+import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.requireString;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -68,7 +70,6 @@ import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.BaseTransactionProvider;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.AutoBackupWorker;
@@ -364,7 +365,7 @@ public class MyApplication extends Application implements
       return null;
     } else {
       if (c.moveToFirst()) {
-        String found = DbUtils.getString(c, 0);
+        String found = requireString(c, 0);
         String expected = prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH, "");
         if (!found.equals(expected)) {
           CrashHandler.report(new Exception("found calendar, but path did not match"));
@@ -512,10 +513,10 @@ public class MyApplication extends Application implements
    * @param eventValues ContentValues where the extracted data is copied to
    */
   public static void copyEventData(Cursor eventCursor, ContentValues eventValues) {
-    eventValues.put(Events.DTSTART, DbUtils.getLongOrNull(eventCursor, 0));
+    eventValues.put(Events.DTSTART, getLongOrNull(eventCursor, 0));
     //older Android versions have populated both dtend and duration
     //restoring those on newer versions leads to IllegalArgumentException
-    Long dtEnd = DbUtils.getLongOrNull(eventCursor, 1);
+    Long dtEnd = getLongOrNull(eventCursor, 1);
     String duration = null;
     if (dtEnd == null) {
       duration = eventCursor.getString(6);

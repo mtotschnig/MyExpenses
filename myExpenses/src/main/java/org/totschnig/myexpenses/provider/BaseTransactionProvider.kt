@@ -379,11 +379,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     )
 
     val aggregateFunction: String
-        get() = if (prefHandler.getBoolean(
-                PrefKey.DB_SAFE_MODE,
-                false
-            )
-        ) "total" else "sum"
+        get() = DbUtils.aggregateFunction(prefHandler)
 
     fun buildAccountQuery(
         minimal: Boolean,

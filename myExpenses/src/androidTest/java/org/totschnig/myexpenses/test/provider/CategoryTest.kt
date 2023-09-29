@@ -18,9 +18,9 @@ package org.totschnig.myexpenses.test.provider
 import android.content.ContentUris
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
+import androidx.core.database.getLongOrNull
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
-import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.testutils.BaseDbTest
@@ -172,7 +172,7 @@ class CategoryTest : BaseDbTest() {
             assertTrue(it.moveToFirst())
             val labelIndex = it.getColumnIndex(DatabaseConstants.KEY_LABEL)
             val parentIdIndex = it.getColumnIndex(DatabaseConstants.KEY_PARENTID)
-            assertEquals(transaction.parentId, DbUtils.getLongOrNull(it, parentIdIndex))
+            assertEquals(transaction.parentId, it.getLongOrNull(parentIdIndex))
             assertEquals(transaction.label, it.getString(labelIndex))
         }
 
@@ -181,14 +181,14 @@ class CategoryTest : BaseDbTest() {
         try {
             mockContentResolver.insert(TransactionProvider.CATEGORIES_URI, values)
             fail("Expected insert failure for existing record but insert succeeded.")
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
         values.remove(DatabaseConstants.KEY_ROWID)
         values.put(DatabaseConstants.KEY_PARENTID, 100)
         try {
             mockContentResolver.insert(TransactionProvider.CATEGORIES_URI, values)
             fail("Expected insert failure for link to non-existing parent but insert succeeded.")
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
     }
 
@@ -251,7 +251,7 @@ class CategoryTest : BaseDbTest() {
                 category.contentValues
             )
             fail("Expected unique constraint to prevent main category from being created.")
-        } catch (e: SQLiteConstraintException) {
+        } catch (_: SQLiteConstraintException) {
         }
     }
 
@@ -266,7 +266,7 @@ class CategoryTest : BaseDbTest() {
                 category.contentValues
             )
             fail("Expected unique constraint to prevent sub category from being created.")
-        } catch (e: SQLiteConstraintException) {
+        } catch (_: SQLiteConstraintException) {
         }
     }
 
@@ -301,7 +301,7 @@ class CategoryTest : BaseDbTest() {
                 }, null, null
             )
             fail("Expected unique constraint to prevent sub category from being created.")
-        } catch (e: SQLiteConstraintException) {
+        } catch (_: SQLiteConstraintException) {
         }
     }
 
@@ -402,7 +402,7 @@ class CategoryTest : BaseDbTest() {
                 }, null, null
             )
             fail("Row with parentId equal to _id must not be allowed")
-        } catch (e: SQLiteConstraintException) {
+        } catch (_: SQLiteConstraintException) {
         }
     }
 
@@ -423,7 +423,7 @@ class CategoryTest : BaseDbTest() {
                 }, null, null
             )
             fail("Moving a category to its own descendant must be blocked.")
-        } catch (e: SQLiteConstraintException) {
+        } catch (_: SQLiteConstraintException) {
         }
     }
 }

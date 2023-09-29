@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.util.crashreporting
 
+import android.content.ContentResolver
 import android.content.Context
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
@@ -49,8 +50,8 @@ abstract class CrashHandler {
     companion object {
         private const val CUSTOM_DATA_KEY_BREADCRUMB = "Breadcrumb"
         @JvmStatic
-        fun reportWithDbSchema(e: Throwable) {
-            report(e, DbUtils.getSchemaDetails())
+        fun reportWithDbSchema(contentResolver: ContentResolver, e: Throwable) {
+            report(e, DbUtils.getSchemaDetails(contentResolver))
         }
 
         @JvmStatic

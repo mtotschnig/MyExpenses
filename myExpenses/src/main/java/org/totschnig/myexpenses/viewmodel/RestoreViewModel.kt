@@ -255,7 +255,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                 }
             }
             val encrypt = args.getBoolean(KEY_ENCRYPT, false)
-            if (DbUtils.restore(backupFile, encrypt)) {
+            if (DbUtils.restore(getApplication(), backupFile, encrypt)) {
                 publishProgress(R.string.restore_db_success)
 
                 //since we already started reading settings, we can not just copy the file

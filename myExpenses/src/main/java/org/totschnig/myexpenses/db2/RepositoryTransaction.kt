@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
+import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
@@ -167,7 +168,7 @@ fun Repository.getTransactionSum(accountId: Long, filter: WhereFilter? = null): 
     }
     return contentResolver.query(
         TransactionProvider.TRANSACTIONS_URI,
-        arrayOf("sum($KEY_AMOUNT)"),
+        arrayOf("${DbUtils.aggregateFunction(prefHandler)}($KEY_AMOUNT)"),
         selection,
         selectionArgs,
         null

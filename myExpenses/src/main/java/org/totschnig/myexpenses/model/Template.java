@@ -48,7 +48,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMI
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.FULL_LABEL;
-import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
+import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.getLongOrNull;
+import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.getString;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
@@ -71,7 +72,6 @@ import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.util.TextUtils;
@@ -321,7 +321,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     boolean isTransfer = !c.isNull(c.getColumnIndexOrThrow(KEY_TRANSFER_ACCOUNT));
     Long catId = getLongOrNull(c, KEY_CATID);
     if (isTransfer) {
-      template = new Transfer(accountId, amount, DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT));
+      template = new Transfer(accountId, amount, getLongOrNull(c, KEY_TRANSFER_ACCOUNT));
     } else {
       if (DatabaseConstants.SPLIT_CATID.equals(catId)) {
         template = new SplitTransaction(accountId, amount);
@@ -329,29 +329,29 @@ public class Template extends Transaction implements ITransfer, ISplit {
         template = new Transaction(accountId, amount);
         setCatId(catId);
       }
-      setMethodId(DbUtils.getLongOrNull(c, KEY_METHODID));
-      setPayee(DbUtils.getString(c, KEY_PAYEE_NAME));
-      setMethodLabel(DbUtils.getString(c, KEY_METHOD_LABEL));
+      setMethodId(getLongOrNull(c, KEY_METHODID));
+      setPayee(getString(c, KEY_PAYEE_NAME));
+      setMethodLabel(getString(c, KEY_METHOD_LABEL));
     }
     setId(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
-    setComment(DbUtils.getString(c, KEY_COMMENT));
-    setLabel(DbUtils.getString(c, KEY_LABEL));
-    setTitle(DbUtils.getString(c, KEY_TITLE));
-    planId = DbUtils.getLongOrNull(c, KEY_PLANID);
-    setParentId(DbUtils.getLongOrNull(c, KEY_PARENTID));
+    setComment(getString(c, KEY_COMMENT));
+    setLabel(getString(c, KEY_LABEL));
+    setTitle(getString(c, KEY_TITLE));
+    planId = getLongOrNull(c, KEY_PLANID);
+    setParentId(getLongOrNull(c, KEY_PARENTID));
     setPlanExecutionAutomatic(c.getInt(c.getColumnIndexOrThrow(KEY_PLAN_EXECUTION)) > 0);
     planExecutionAdvance = c.getInt(c.getColumnIndexOrThrow(KEY_PLAN_EXECUTION_ADVANCE));
     int uuidColumnIndex = c.getColumnIndexOrThrow(KEY_UUID);
     if (c.isNull(uuidColumnIndex)) {//while upgrade to DB schema 47, uuid is still null
       setUuid(generateUuid());
     } else {
-      setUuid(DbUtils.getString(c, KEY_UUID));
+      setUuid(getString(c, KEY_UUID));
     }
     setSealed(c.getInt(c.getColumnIndexOrThrow(KEY_SEALED)) > 0);
     try {
       defaultAction = Action.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_DEFAULT_ACTION)));
     } catch (IllegalArgumentException ignored) {}
-    setDebtId(DbUtils.getLongOrNull(c, KEY_DEBT_ID));
+    setDebtId(getLongOrNull(c, KEY_DEBT_ID));
   }
 
   public Template(ContentResolver contentResolver, long id, CurrencyUnit currencyUnit, int operationType, Long parentId) {

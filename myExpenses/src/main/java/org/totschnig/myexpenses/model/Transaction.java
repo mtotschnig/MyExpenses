@@ -60,7 +60,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.FULL_LABEL;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.checkSealedWithAlias;
-import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
+import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.getLongOrNull;
+import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.getString;
 import static org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI;
 import static org.totschnig.myexpenses.provider.TransactionProvider.UNCOMMITTED_URI;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
@@ -85,7 +86,6 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.db2.RepositoryPartyKt;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.ICurrencyFormatter;
@@ -418,9 +418,9 @@ public class Transaction extends Model implements ITransaction {
       t.setCrStatus(CrStatus.UNRECONCILED);
     }
     t.setMethodId(getLongOrNull(c, KEY_METHODID));
-    t.setMethodLabel(DbUtils.getString(c, KEY_METHOD_LABEL));
+    t.setMethodLabel(getString(c, KEY_METHOD_LABEL));
     t.setCatId(catId);
-    t.setPayee(DbUtils.getString(c, KEY_PAYEE_NAME));
+    t.setPayee(getString(c, KEY_PAYEE_NAME));
     t.setPayeeId(getLongOrNull(c, KEY_PAYEEID));
     t.setDebtId(getLongOrNull(c, KEY_DEBT_ID));
     t.setId(id);
@@ -428,9 +428,9 @@ public class Transaction extends Model implements ITransaction {
     t.setDate(date);
     final Long valueDate = getLongOrNull(c, KEY_VALUE_DATE);
     t.setValueDate(valueDate == null ? date : valueDate);
-    t.setComment(DbUtils.getString(c, KEY_COMMENT));
-    t.setReferenceNumber(DbUtils.getString(c, KEY_REFERENCE_NUMBER));
-    t.setLabel(DbUtils.getString(c, KEY_LABEL));
+    t.setComment(getString(c, KEY_COMMENT));
+    t.setReferenceNumber(getString(c, KEY_REFERENCE_NUMBER));
+    t.setLabel(getString(c, KEY_LABEL));
 
     Long originalAmount = getLongOrNull(c, KEY_ORIGINAL_AMOUNT);
     if (originalAmount != null) {
@@ -445,7 +445,7 @@ public class Transaction extends Model implements ITransaction {
 
     t.status = c.getInt(c.getColumnIndexOrThrow(KEY_STATUS));
     t.originTemplateId = getLongOrNull(c, KEY_TEMPLATEID);
-    t.setUuid(DbUtils.getString(c, KEY_UUID));
+    t.setUuid(getString(c, KEY_UUID));
     t.setSealed(c.getInt(c.getColumnIndexOrThrow(KEY_SEALED)) > 0);
     c.close();
     return t;
