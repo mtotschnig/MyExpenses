@@ -1533,7 +1533,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 menu.findItem(R.id.SYNC_COMMAND)?.setEnabledAndVisible(syncAccountName != null)
                 menu.findItem(R.id.FINTS_SYNC_COMMAND)?.apply {
                     setEnabledAndVisible(bankId != null)
-                    title = bankingFeature.syncMenuTitle(this@BaseMyExpenses)
+                    if (bankId != null) {
+                        title = bankingFeature.syncMenuTitle(this@BaseMyExpenses)
+                    }
                 }
 
                 menu.findItem(R.id.MANAGE_ACCOUNTS_COMMAND)?.apply {

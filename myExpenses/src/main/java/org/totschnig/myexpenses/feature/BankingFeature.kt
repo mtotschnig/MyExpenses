@@ -21,7 +21,7 @@ interface BankingFeature {
     val bankIconRenderer: @Composable ((Modifier, Bank) -> Unit)?
         get() = null
 
-    fun syncMenuTitle(context: Context): String = ""
+    fun syncMenuTitle(context: Context): String? = null
 
     fun resolveAttributeLabel(context: Context, finTsAttribute: FinTsAttribute): String = finTsAttribute.name
 }
