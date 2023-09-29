@@ -1053,4 +1053,10 @@
     <string name="show_duplicates">Montrer les doubles</string>
     <string name="whats_new_364_2">Nouvelle stratégie pour la gestion des tiers doublons</string>
     <string name="whats_new_364_1">Importer vers plusieurs comptes à partir d\'un fichier CSV</string>
+    <string name="whats_new_365">Joindre un nombre arbitraire d\'images et de documents (PDF)</string>
+    <string name="pref_attachment_mime_types_title">Types MIME autorisés pour pièces jointes</string>
+    <string name="pref_copy_attachments_summary_on">Les fichiers sont copiés dans le dossier d\'application.</string>
+    <string name="attachments">Pièces jointes</string>
+    <string name="pref_copy_attachments_title">Copier les pièces jointes au dossier d\'application</string>
+    <string name="pref_copy_attachments_summary_off">Les fichiers ne sont pas copiés, seulement une référence est stockée.</string>
 </resources>
