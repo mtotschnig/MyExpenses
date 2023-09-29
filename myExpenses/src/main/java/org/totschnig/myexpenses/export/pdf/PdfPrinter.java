@@ -236,22 +236,16 @@ public class PdfPrinter {
     int columnIndexDate = transactionCursor.getColumnIndex(KEY_DATE);
     int columnIndexCrStatus = transactionCursor.getColumnIndex(KEY_CR_STATUS);
 
-    DateFormat itemDateFormat;
-    switch (account.getGrouping()) {
-      case DAY:
-        itemDateFormat = android.text.format.DateFormat.getTimeFormat(context);
-        break;
-      case MONTH:
+    DateFormat itemDateFormat = switch (account.getGrouping()) {
+      case DAY -> android.text.format.DateFormat.getTimeFormat(context);
+      case MONTH ->
         //noinspection SimpleDateFormat
-        itemDateFormat = new SimpleDateFormat("dd");
-        break;
-      case WEEK:
+              new SimpleDateFormat("dd");
+      case WEEK ->
         //noinspection SimpleDateFormat
-        itemDateFormat = new SimpleDateFormat("EEE");
-        break;
-      default:
-        itemDateFormat = Utils.localizedYearLessDateFormat(context);
-    }
+              new SimpleDateFormat("EEE");
+      default -> Utils.localizedYearLessDateFormat(context);
+    };
     PdfPTable table = null;
 
     int prevHeaderId = 0, currentHeaderId;
@@ -265,46 +259,31 @@ public class PdfPrinter {
       int month = transactionCursor.getInt(columnIndexMonth);
       int week = transactionCursor.getInt(columnIndexWeek);
       int day = transactionCursor.getInt(columnIndexDay);
-      int second = -1;
 
-      switch (account.getGrouping()) {
-        case DAY:
-          currentHeaderId = year * 1000 + day;
-          break;
-        case WEEK:
-          currentHeaderId = year * 1000 + week;
-          break;
-        case MONTH:
-          currentHeaderId = year * 1000 + month;
-          break;
-        case YEAR:
-          currentHeaderId = year * 1000;
-          break;
-        default:
-          currentHeaderId = 1;
-      }
+      currentHeaderId = switch (account.getGrouping()) {
+        case DAY -> year * 1000 + day;
+        case WEEK -> year * 1000 + week;
+        case MONTH -> year * 1000 + month;
+        case YEAR -> year * 1000;
+        default -> 1;
+      };
       if (currentHeaderId != prevHeaderId) {
         if (table != null) {
           document.add(table);
         }
-        switch (account.getGrouping()) {
-          case DAY:
-            second = transactionCursor.getInt(columnIndexDay);
-            break;
-          case MONTH:
-            second = transactionCursor.getInt(columnIndexMonth);
-            break;
-          case WEEK:
-            second = transactionCursor.getInt(columnIndexWeek);
-            break;
-        }
+        int second = switch (account.getGrouping()) {
+          case DAY -> transactionCursor.getInt(columnIndexDay);
+          case MONTH -> transactionCursor.getInt(columnIndexMonth);
+          case WEEK -> transactionCursor.getInt(columnIndexWeek);
+          default -> -1;
+        };
         table = helper.newTable(2);
         table.setWidthPercentage(100f);
         PdfPCell cell = helper.printToCell(account.getGrouping().getDisplayTitle(context, year, second, DateInfo.fromCursor(transactionCursor)), FontType.HEADER);
         table.addCell(cell);
         if (groupCursor.isAfterLast()) {
-          Timber.w("Grouping: %s, currentHeaderId; %d, prevHeaderId: %d, filter: %s",
-                  account.getGrouping(), currentHeaderId, prevHeaderId, filter);
+          Timber.w("Account: %s, currentHeaderId; %d, prevHeaderId: %d, filter: %s, accountId: ",
+                  account, currentHeaderId, prevHeaderId, filter);
           throw new IllegalStateException();
         }
         long sumExpense = groupCursor.getLong(columnIndexGroupSumExpense);
