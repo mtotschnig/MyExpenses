@@ -13,6 +13,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
@@ -21,7 +22,11 @@ import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
 import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
-import com.roomorama.caldroid.*
+import com.roomorama.caldroid.CaldroidFragment
+import com.roomorama.caldroid.CaldroidGridAdapter
+import com.roomorama.caldroid.CaldroidListener
+import com.roomorama.caldroid.CalendarHelper
+import com.roomorama.caldroid.CellView
 import hirondelle.date4j.DateTime
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageTemplates
@@ -36,7 +41,6 @@ import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState
-import timber.log.Timber
 import java.util.Calendar
 import java.util.Locale
 import java.util.TimeZone
@@ -249,10 +253,10 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
         extraData
     ) {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val frameLayout = convertView ?: localInflater.inflate(R.layout.plan_calendar_cell, null)
-            val cell = frameLayout.findViewById<CellView>(R.id.cell)
+            val frameLayout = (convertView ?: localInflater.inflate(R.layout.plan_calendar_cell, null)) as CellView
             val state = frameLayout.findViewById<ImageView>(R.id.state)
-            customizeTextView(position, cell)
+            val text = frameLayout.findViewById<TextView>(R.id.calendar_tv)
+            customizeCell(position, frameLayout, text)
             val dateTime = datetimeList[position]
             val calculateId = CalendarProviderProxy.calculateId(dateTime)
             val planInstanceState = getState(calculateId)
@@ -298,7 +302,7 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
                             getString(R.string.plan_instance_state_cancelled)
                     }
                 }
-                cell.setTextColor(
+                text.setTextColor(
                     ResourcesCompat.getColor(
                         getResources(),
                         if (brightColor) com.caldroid.R.color.cell_text_color else com.caldroid.R.color.cell_text_color_dark,
@@ -352,9 +356,9 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
             return date ?: System.currentTimeMillis()
         }
 
-        override fun resetCustomResources(cellView: CellView) {
+        override fun resetCustomResources(cellView: View, tv: TextView) {
             cellView.background = stateListDrawable!!.mutate().constantState!!.newDrawable()
-            cellView.setTextColor(defaultTextColorRes)
+            tv.setTextColor(defaultTextColorRes)
         }
 
         override fun isEnabled(position: Int): Boolean {
@@ -364,7 +368,7 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
 
     companion object {
         private const val TOOLBAR_TITLE = "toolbarTitle"
-        private const val KEY_READ_ONLY = "readoOnly"
+        private const val KEY_READ_ONLY = "readOnly"
         const val INSTANCES_CURSOR = 1
         const val INSTANCE_STATUS_CURSOR = 2
         fun newInstance(

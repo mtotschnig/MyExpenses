@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:orientation="vertical">
+<com.roomorama.caldroid.CellView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cell"
+    style="?styleCaldroidSquareCell"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.roomorama.caldroid.SquareTextView
-        android:id="@+id/cell"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        style="?styleCaldroidSquareCell"/>
+        android:id="@+id/calendar_tv"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
 
     <ImageView
         android:id="@+id/state"
@@ -18,5 +21,5 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/plan_calendar_state_margin"
         android:layout_marginBottom="@dimen/plan_calendar_state_margin"
-        tools:ignore="ContentDescription"/>
-</FrameLayout>
+        tools:ignore="ContentDescription" />
+</com.roomorama.caldroid.CellView>

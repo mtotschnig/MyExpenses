@@ -201,7 +201,7 @@ dependencies {
     //noinspection GradleDependency
     api "com.squareup.picasso:picasso:$picassoVersion"
     implementation 'com.github.mtotschnig:MPAndroidChart:6fcf34d9d4'
-    implementation 'com.github.mtotschnig:Caldroid:e40729670a'
+    implementation 'com.github.mtotschnig:Caldroid:377d10a2a2'
     api('com.github.eltos:simpledialogfragments:2c82864000')
 
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.3'
