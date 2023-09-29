@@ -106,7 +106,7 @@ abstract class MainDelegate<T : ITransaction>(
             if (this@MainDelegate.payeeId != null) {
                 this.payeeId = this@MainDelegate.payeeId
             } else {
-                payee = viewBinding.Payee.text.toString()
+                payee = viewBinding.Payee.text.toString().trim()
             }
             this.debtId = this@MainDelegate.debtId
             this.methodId = this@MainDelegate.methodId
