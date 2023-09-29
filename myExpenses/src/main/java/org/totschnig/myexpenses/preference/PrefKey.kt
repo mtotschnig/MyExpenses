@@ -173,7 +173,8 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     ACCOUNT_PANEL_VISIBLE("account_panel_visible"),
     BANKING_FINTS(R.string.pref_banking_fints_key),
     COPY_ATTACHMENT(R.string.pref_copy_attachment_key),
-    ATTACHMENT_MIME_TYPES(R.string.pref_attachment_mime_types_key)
+    ATTACHMENT_MIME_TYPES(R.string.pref_attachment_mime_types_key),
+    TRANLATION_IMPROVEMENT(R.string.pref_translation_improvement_key)
     ;
 
     @Deprecated("")

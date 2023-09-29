@@ -98,6 +98,7 @@
     <string name="pref_sync_wifi_only_key">sync_wifi_only</string>
     <string name="pref_category_translation_key">category_translation</string>
     <string name="pref_translation_key">translation</string>
+    <string name="pref_translation_improvement_key">translation_improvement</string>
     <string name="pref_scroll_to_current_date_key">scroll_to_current_date</string>
     <string name="pref_security_export_password_key">security_export_password</string>
     <string name="pref_sync_changes_immediately_key">sync_changes_immediately</string>

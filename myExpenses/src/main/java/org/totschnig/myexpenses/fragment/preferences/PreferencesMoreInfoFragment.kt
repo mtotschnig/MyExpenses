@@ -46,6 +46,14 @@ class PreferencesMoreInfoFragment : BasePreferenceFragment() {
             MoreInfoDialogFragment().show(parentFragmentManager, "MORE_INFO")
             true
         }
+        matches(preference, PrefKey.TRANLATION_IMPROVEMENT) -> {
+            preferenceActivity.sendEmail(
+                "translations@myexpenses.mobi",
+                "My Expenses Translation - Suggestion for Improvement",
+                "Please provide a detailed description, ideally including a screenshot:"
+            )
+            true
+        }
         else -> false
 
     }
