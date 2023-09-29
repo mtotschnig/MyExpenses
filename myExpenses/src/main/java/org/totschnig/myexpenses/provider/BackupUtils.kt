@@ -23,6 +23,7 @@ import java.util.*
 const val BACKUP_DB_FILE_NAME = "BACKUP"
 const val BACKUP_PREF_FILE_NAME = "BACKUP_PREF"
 
+@Synchronized
 fun doBackup(
     context: Context,
     prefHandler: PrefHandler,
