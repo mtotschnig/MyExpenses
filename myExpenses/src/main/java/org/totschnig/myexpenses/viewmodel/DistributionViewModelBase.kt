@@ -302,7 +302,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         buildFilterClause(grouping, whereFilter, table).takeIf { it.isNotEmpty() }?.let {
             catFilter += " AND $it"
         }
-        return "(SELECT sum($amountCalculation) $catFilter) AS $KEY_SUM"
+        return "(SELECT ${DbUtils.aggregateFunction(prefHandler)}($amountCalculation) $catFilter) AS $KEY_SUM"
     }
 
     val filterClause: String
