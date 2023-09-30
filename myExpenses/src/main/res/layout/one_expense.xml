@@ -394,6 +394,8 @@
                         </LinearLayout>
                     </TableRow>
 
+                    <include layout="@layout/method_row" />
+
                     <TableRow android:id="@+id/AttachmentsRow">
 
                         <TextView
@@ -421,8 +423,6 @@
                                 app:strokeWidth="4dp" />
                         </com.google.android.flexbox.FlexboxLayout>
                     </TableRow>
-
-                    <include layout="@layout/method_row" />
 
                     <TableRow
                         android:id="@+id/DefaultActionRow"

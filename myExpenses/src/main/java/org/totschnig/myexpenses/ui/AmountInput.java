@@ -475,7 +475,7 @@ public class AmountInput extends ConstraintLayout {
       destination.writeInt(focusedId);
     }
 
-    public static final Parcelable.Creator<SavedState> CREATOR = new Creator<SavedState>() {
+    public static final Parcelable.Creator<SavedState> CREATOR = new Creator<>() {
 
       public SavedState createFromParcel(Parcel in) {
         return new SavedState(in);

@@ -85,7 +85,7 @@ class OrientationChangeTest : BaseExpenseEditTest() {
         testScenario = ActivityScenario.launch(i)
         //Thread.sleep(100) //unfortunately needed if test starts in landscape
         closeSoftKeyboard()
-        onView(withId(R.id.Method)).perform(nestedScrollToAction(), click())
+        onView(withId(R.id.MethodSpinner)).perform(nestedScrollToAction(), click())
         val string = getString(PreDefinedPaymentMethod.CREDITCARD.resId)
         onData(
             allOf(
@@ -93,10 +93,10 @@ class OrientationChangeTest : BaseExpenseEditTest() {
                 withMethod(string)
             )
         ).perform(click())
-        onView(withId(R.id.Method)).check(matches(withSpinnerText(containsString(string))))
+        onView(withId(R.id.MethodSpinner)).check(matches(withSpinnerText(containsString(string))))
         rotate()
         onIdle()
-        onView(withId(R.id.Method)).check(matches(withSpinnerText(containsString(string))))
+        onView(withId(R.id.MethodSpinner)).check(matches(withSpinnerText(containsString(string))))
         rotate()
     }
 

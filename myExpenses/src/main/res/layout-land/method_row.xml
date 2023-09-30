@@ -16,7 +16,7 @@
 
             <include
                 android:id="@+id/Method"
-                layout="@layout/method_spinner" />
+                layout="@layout/method_selection" />
 
             <include
                 android:id="@+id/ClearMethod"

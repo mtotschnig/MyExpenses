@@ -71,7 +71,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         homeCurrencyProvider.homeCurrencyUnit
     }
 
-    private val methodSpinner = SpinnerHelper(methodRowBinding.Method.Method)
+    private val methodSpinner = SpinnerHelper(methodRowBinding.Method.MethodSpinner)
     val accountSpinner = SpinnerHelper(viewBinding.Account)
     private val statusSpinner = SpinnerHelper(viewBinding.Status)
     private val operationTypeSpinner = SpinnerHelper(viewBinding.toolbar.OperationType)
@@ -621,7 +621,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             host.setDirty()
         }
         when (parent.id) {
-            R.id.Recurrence -> {
+            recurrenceSpinner.id -> {
                 var planVisibility = false
                 if (id > 0) {
                     if (PermissionHelper.PermissionGroup.CALENDAR.hasPermission(context)) {
@@ -640,18 +640,18 @@ abstract class TransactionDelegate<T : ITransaction>(
                     configurePlanDependents(planVisibility)
                 }
             }
-            R.id.Method -> {
+            methodSpinner.id -> {
                 val hasSelection = position > 0
                 methodId = if (hasSelection) parent.selectedItemId.takeIf { it > 0 } else null
                 setVisibility(methodRowBinding.ClearMethod.root, hasSelection)
                 setReferenceNumberVisibility()
             }
-            R.id.Account -> {
+            accountSpinner.id -> {
                 val account = mAccounts[position]
                 updateAccount(account)
                 //host.recreate() //dynamic colors
             }
-            R.id.OperationType -> {
+            operationTypeSpinner.id -> {
                 val newType =
                     (operationTypeSpinner.getItemAtPosition(position) as OperationType).type
                 if (host.isValidType(newType)) {
@@ -673,7 +673,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                     }
                 }
             }
-            R.id.Status -> {
+            statusSpinner.id -> {
                 (parent.selectedItem as? CrStatus)?.let {
                     _crStatus = it
                 }
