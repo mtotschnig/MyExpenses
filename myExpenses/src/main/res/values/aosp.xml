@@ -17,6 +17,7 @@
 
     <!-- packages/apps/Settings/res/values/strings.xml wifi_add_app_single_network_saving_summary -->
     <string name="saving">Saving…</string>
+    <string name="license_title">License</string>
     <!-- name="vpn_no_network" -->
     <string name="no_network">There is no network connection.</string>
     <!-- name="encryption_continue_button" -->
@@ -89,5 +90,6 @@
     <string name="data">Data</string>
     <!-- packages/apps/EmergencyInfo user_nickname -->
     <string name="nickname">Nickname</string>
+
 </resources>
 

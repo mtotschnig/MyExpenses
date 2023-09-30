@@ -61,5 +61,6 @@
     <string name="nickname">"اللقب"</string>
     <string name="add_file_attachment">"إرفاق ملف"</string>
     <string name="take_photo">"التقاط صورة"</string>
+    <string name="license_title">"الترخيص"</string>
 </resources>
 

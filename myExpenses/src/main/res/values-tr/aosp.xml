@@ -56,5 +56,6 @@
     <string name="nickname">"Takma ad"</string>
     <string name="add_file_attachment">"Dosya ekleyin"</string>
     <string name="take_photo">"Fotoğraf çek"</string>
+    <string name="license_title">"Lisans"</string>
 </resources>
 

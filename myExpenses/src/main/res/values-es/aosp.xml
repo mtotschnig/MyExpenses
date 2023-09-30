@@ -57,5 +57,6 @@
     <string name="nickname">"Apodo"</string>
     <string name="add_file_attachment">"Adjuntar archivo"</string>
     <string name="take_photo">"Hacer una foto"</string>
+    <string name="license_title">"Licencia"</string>
 </resources>
 

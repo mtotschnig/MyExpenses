@@ -57,5 +57,6 @@
     <string name="nickname">"Becenév"</string>
     <string name="add_file_attachment">"Fájl csatolása"</string>
     <string name="take_photo">"Fotó készítése"</string>
+    <string name="license_title">"Licenc"</string>
 </resources>
 

@@ -56,5 +56,6 @@
     <string name="nickname">"닉네임"</string>
     <string name="add_file_attachment">"파일 첨부"</string>
     <string name="take_photo">"사진 찍기"</string>
+    <string name="license_title">"라이선스"</string>
 </resources>
 

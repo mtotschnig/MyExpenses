@@ -58,5 +58,6 @@
     <string name="nickname">"Pseudonim"</string>
     <string name="add_file_attachment">"Ataşaţi un fişier"</string>
     <string name="take_photo">"Fotografiați"</string>
+    <string name="license_title">"Licență"</string>
 </resources>
 

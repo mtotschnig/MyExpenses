@@ -57,5 +57,6 @@
     <string name="nickname">"Pseudo"</string>
     <string name="add_file_attachment">"Joindre un fichier"</string>
     <string name="take_photo">"Prendre une photo"</string>
+    <string name="license_title">"Licence"</string>
 </resources>
 

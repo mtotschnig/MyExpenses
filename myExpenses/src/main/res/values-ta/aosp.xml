@@ -57,5 +57,6 @@
     <string name="nickname">"புனைப்பெயர்"</string>
     <string name="add_file_attachment">"கோப்பை இணை"</string>
     <string name="take_photo">"படமெடு"</string>
+    <string name="license_title">"உரிமம்"</string>
 </resources>
 

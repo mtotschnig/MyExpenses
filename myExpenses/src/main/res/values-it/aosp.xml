@@ -56,5 +56,6 @@
      <string name="nickname">"Nickname"</string>
     <string name="add_file_attachment">"Allega file"</string>
     <string name="take_photo">"Scatta foto"</string>
+    <string name="license_title">"Licenza"</string>
 </resources>
 

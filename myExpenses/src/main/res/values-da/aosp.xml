@@ -57,5 +57,6 @@
     <string name="nickname">"Kaldenavn"</string>
     <string name="add_file_attachment">"Vedhæft fil"</string>
     <string name="take_photo">"Tag billede"</string>
+    <string name="license_title">"Licens"</string>
 </resources>
 

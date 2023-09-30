@@ -56,5 +56,6 @@
     <string name="nickname">"Alias"</string>
     <string name="add_file_attachment">"Datei anhängen"</string>
     <string name="take_photo">"Foto machen"</string>
+    <string name="license_title">"Lizenz"</string>
 </resources>
 

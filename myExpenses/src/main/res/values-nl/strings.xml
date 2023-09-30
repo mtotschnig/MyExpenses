@@ -91,7 +91,6 @@
     <string name="expense">Onkosten</string>
     <string name="menu_back">Terug</string>
     <string name="menu_backup">Back-up</string>
-    <string name="help_heading_license">Licentie</string>
     <string name="menu_apply_template">Toepassen</string>
     <string name="menu_contrib">Bijdragen</string>
     <string name="menu_clone_transaction">Kloon</string>

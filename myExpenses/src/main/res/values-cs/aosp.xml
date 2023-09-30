@@ -59,5 +59,6 @@
     <string name="nickname">"Přezdívka"</string>
     <string name="add_file_attachment">"Přiložit soubor"</string>
     <string name="take_photo">"Vyfotit"</string>
+    <string name="license_title">"Licence"</string>
 </resources>
 

@@ -59,5 +59,6 @@
     <string name="nickname">"Псевдонім"</string>
     <string name="add_file_attachment">"Вкласти файл"</string>
     <string name="take_photo">"Зробити фото"</string>
+    <string name="license_title">"Ліцензія"</string>
 </resources>
 

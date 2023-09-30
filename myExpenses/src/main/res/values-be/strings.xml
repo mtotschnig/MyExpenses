@@ -33,7 +33,6 @@
     <string name="dialog_title_warning_delete_transaction">Выдаліць транзакцыю?</string>
     <string name="feedback">Зваротная сувязь</string>
     <string name="help_heading_credits">Крэдыты</string>
-    <string name="help_heading_license">Ліцэнзія</string>
     <string name="pm_creditcard">Крэдытная картка</string>
     <string name="pref_manage_accounts_title">Рахункі</string>
     <string name="pref_manage_categories_title">Катэгорыі</string>
