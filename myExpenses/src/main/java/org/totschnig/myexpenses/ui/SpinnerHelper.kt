@@ -92,7 +92,7 @@ class SpinnerHelper(val spinner: Spinner) : AdapterView.OnItemSelectedListener {
         spinner.onItemSelectedListener = if (listener == null) null else this
     }
 
-    override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         if (position != lastPosition) {
             lastPosition = position
             if (proxiedItemSelectedListener != null) {

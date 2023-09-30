@@ -183,9 +183,9 @@ enum class ContribFeature(
     val isProfessional: Boolean
         get() = licenceStatus === LicenceStatus.PROFESSIONAL
 
-    fun trialButton(): Int {
-        return if (trialMode == TrialMode.UNLIMITED) R.string.dialog_remind_later else R.string.dialog_contrib_no
-    }
+    val trialButton: Int
+        get() =
+            if (trialMode == TrialMode.UNLIMITED) R.string.dialog_remind_later else R.string.dialog_contrib_no
 
     companion object {
         const val FREE_PLANS = 3

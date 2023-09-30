@@ -94,7 +94,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val ctx = requireActivity() as ProtectedFragmentActivity
         val licenceStatus = licenceHandler.licenceStatus
-        val builder: AlertDialog.Builder = MaterialAlertDialogBuilder(ctx, R.style.ContribDialogTheme)
+        val builder: AlertDialog.Builder = MaterialAlertDialogBuilder(ctx)
         _binding = ContribDialogBinding.inflate(LayoutInflater.from(builder.context))
         dialogView = binding.root
 
@@ -218,7 +218,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
                 .setPositiveButton(R.string.upgrade_now, null)
         feature?.let {
             if (licenceHandler.hasTrialAccessTo(it)) {
-                builder.setNeutralButton(it.trialButton(), this)
+                builder.setNeutralButton(it.trialButton, this)
             }
         }
         val dialog = builder.create()

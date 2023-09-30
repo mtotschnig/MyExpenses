@@ -244,15 +244,6 @@
         <item name="android:textColor">?android:textColorTertiary</item>
     </style>
 
-    <style name="ContribDialogTheme">
-        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
-        <item name="buttonBarNeutralButtonStyle">@style/NegativeButtonStyle</item>
-    </style>
-
-    <style name="NegativeButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/material_grey</item>
-    </style>
-
     <style name="OnboardingInputLabel">
         <item name="android:textAppearance">@style/AdaptiveLabelTextAppearance</item>
         <item name="android:layout_marginTop">@dimen/suw_description_margin_top</item>
