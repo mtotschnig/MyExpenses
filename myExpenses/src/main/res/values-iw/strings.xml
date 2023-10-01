@@ -1072,4 +1072,5 @@
     <string name="attachments">קבצים מצורפים</string>
     <string name="pref_copy_attachments_title">העתקת קבצים מצורפים לתיקיית היישומון</string>
     <string name="pref_copy_attachments_summary_off">קבצים לא מועתקים, מאוחסנת רק הפניה.</string>
+    <string name="whats_new_365">צירוף מספר שרירותי של תמונות ומסמכים (PDF)</string>
 </resources>
