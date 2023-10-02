@@ -181,9 +181,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     private val accountForNewTransaction: FullAccount?
         get() = currentAccount?.let { current ->
-            current.takeIf { !it.isAggregate } ?: viewModel.accountData.value?.getOrNull()
+            current.takeIf { !it.isAggregate } ?:
+            viewModel.accountData.value?.getOrNull()
                 ?.filter { !it.isAggregate && (current.isHomeAggregate || it.currency == current.currency) }
-                ?.maxBy { it.lastUsed }
+                ?.maxByOrNull { it.lastUsed }
         }
 
     val currentFilter: FilterPersistence
@@ -1201,6 +1202,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     putExtra(ExpenseEdit.KEY_AUTOFILL_MAY_SET_ACCOUNT, true)
                 }
             }
+        } ?: run {
+            showSnackBar(R.string.warning_no_account)
+            null
         }
 
     private fun createRow(type: Int, isIncome: Boolean) {
@@ -1452,6 +1456,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     fun setupFabSubMenu() {
         floatingActionButton.setOnLongClickListener { fab ->
+            if (accountCount == 0) {
+                showSnackBar(R.string.warning_no_account)
+                return@setOnLongClickListener true
+            }
             discoveryHelper.markDiscovered(DiscoveryHelper.Feature.fab_long_press)
             val popup = PopupMenu(this, fab)
             val popupMenu = popup.menu
