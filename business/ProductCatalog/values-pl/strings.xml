@@ -15,4 +15,19 @@
     <string name="splittransaction_title">Podział transakcji</string>
     <string name="synchronization_title">Synchronizacja w chmurze</string>
     <string name="ocr_title">Zeskanuj paragon</string>
+    <string name="distribution_description">Wizualizacja statystycznego rozkładu transakcji według kategorii w różnych okresach (lata, miesiące, tygodnie, dni)</string>
+    <string name="csvimport_description">Zaawansowany, konfigurowalny import plików CSV (aplikacje arkuszy kalkulacyjnych)</string>
+    <string name="professional_benefit_1">Odblokuj wszystkie funkcje premium</string>
+    <string name="webui_description">Wprowadzanie danych za pomocą przeglądarki na komputerze</string>
+    <string name="ocr_description">Automatycznie wyodrębnij kwotę, datę i odbiorcę płatności</string>
+    <string name="adfree_description">Brak reklam.</string>
+    <string name="synchronization_description">Dane można synchronizować między wieloma urządzeniami.</string>
+    <string name="history_description">Dowiedz się, jak Twoja sytuacja finansowa ewoluuje w czasie</string>
+    <string name="categorytree_title">Drzewo kategorii</string>
+    <string name="distribution_title">Wykres kołowy</string>
+    <string name="plansunlimited_description">Odblokuj możliwość tworzenia więcej niż trzech planów dla transakcji cyklicznych.</string>
+    <string name="webui_title">Sieciowy interfejs użytkownika</string>
+    <string name="splittransaction_description">Pojedyncza transakcja może być podzielona na wiele części (kategorie i transfery).</string>
+    <string name="print_description">Drukowanie listy transakcji do pliku PDF</string>
+    <string name="budget_description">Określ, ile zamierzasz wydać w budżetach rocznych, miesięcznych lub tygodniowych</string>
 </resources>
