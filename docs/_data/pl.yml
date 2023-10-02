@@ -3,10 +3,10 @@ pl:
   imprint_text: Odpowiedzialny za zawartość tej witryny oraz za rozwój, utrzymanie
     i dystrybucję <i> {app_name} </i>
   privacy_policy_heading: Polityka prywatności
-  privacy_policy_text: "<i>{app_name}</i> nie ma dostępu do żadnych danych na urządzeniu\
-    \ innych niż jego własna baza danych, własny folder na karcie SD. Jeśli korzystasz\
-    \ z funkcji planów dla przyszłych i cyklicznych transakcji, przypisujesz kalendarz,\
-    \ w którym przechowywane są te plany."
+  privacy_policy_text: "<i>{app_name}</i> nie ma dostępu do żadnych danych na urządzeniu
+    innych niż jego własna baza danych, własny folder na karcie SD. Jeśli korzystasz
+    z funkcji planów dla przyszłych i cyklicznych transakcji, przypisujesz kalendarz,
+    w którym przechowywane są te plany."
   hero_main: "Personalny menadżer finansów dla systemu Android"
   hero_sub:
     use: "Łatwy w użyciu"
@@ -30,23 +30,25 @@ pl:
       transakcji
     export: <b>Eksportuj</b> do QIF i CSV. <b>Importuj</b> z QIF
     light_theme: <b>Temat</b> (ciemny i jasny) i <b>rozmiary czcionek</b> można dostosować
-    reconciliation: "<b>Porównanie</b>: Łatwe porównywanie statusu transakcji z wyciągami\
-      \ bankowymi"
+    reconciliation: "<b>Porównanie</b>: Łatwe porównywanie statusu transakcji z wyciągami
+      bankowymi"
     homescreen: <b>Widżet</b> na ekranie głównym i <b>skróty</b> do szybkiego wprowadzania
       danych
+    password: Dane mogą być chronione przez <b>hasło</b> lub <b>ekran blokady</b>
+      urządzenia
   contrib:
     thank_you: |
       Twój udział wspiera późniejszy rozwój Moich Wydatków. Dziękujemy!
-    feature-list-title: "Proszę przyczyń się ulepszając <i>{app_name}</i> i uzyskaj\
-      \ nieograniczony dostęp do następujących funkcji:"
+    feature-list-title: "Proszę przyczyń się ulepszając <i>{app_name}</i> i uzyskaj
+      nieograniczony dostęp do następujących funkcji:"
     feature:
-      accounts_unlimited: Odblokowanie możliwości tworzenia więcej niż pięciu kont
-      plans_unlimited: Nieograniczona liczba planów dla <b>powtarzających się</b>
-        transakcji
-      distribution: "<b>Wykres kołowy</b>: Wizualizuj rozkład statystyczny transakcji\
-        \ według kategorii w różnych okresach (lata, miesiące, tygodnie, dni)"
-      split_transaction: "<b>Rozdzielaj transakcje</b>: Pojedyncza transakcja może\
-        \ być podzielona na wiele części (kategorie i transfery)"
+      accounts_unlimited: Odblokuj możliwość tworzenia więcej niż pięciu kont
+      plans_unlimited: Odblokuj możliwość tworzenia więcej niż trzech planów dla transakcji
+        cyklicznych
+      distribution: "<b>Wykres kołowy</b>: Wizualizuj rozkład statystyczny transakcji
+        według kategorii w różnych okresach (lata, miesiące, tygodnie, dni)"
+      split_transaction: "<b>Rozdzielaj transakcje</b>: Pojedyncza transakcja może
+        być podzielona na wiele części (kategorie i transfery)"
       print: <b>Drukuj</b> listę transakcji do pliku PDF
       ad_free: <b>Brak reklam</b>
       csv_import: Wyrafinowany, dostosowywany <b>import CSV</b> (aplikacje do arkuszy
@@ -57,15 +59,23 @@ pl:
       email_support: <b>Wysyłaj pocztę e-mail</b> z reakcją gwarantowaną po upływie
         2 dni roboczych
       roadmap_voting: Głosowanie bezpośrednio na mapie drogowej <b>rozwoju</b>
+      history_chart: <b>Wykres historii</b> (Przepływ pieniędzy)
+      scan_receipt: '<b>Skanuj pokwitowania</b>: Automatycznie wyodrębnij kwotę, datę
+        i odbiorcę płatności'
+      cloud_sync: '<b>Synchronizacja z chmurą</b>: Dane mogą być synchronizowane między
+        wieloma urządzeniami'
+      webui: <b>Sieciowy interfejs użytkownika</b>
     one-time-payment: Płatność jednorazowa
     subscription: Subskrypcja
   store:
-    short_description: "Finanse osobiste: łatwe w obsłudze, bogate w funkcjonalność\
-      \ i open source"
-    full_description_intro: "{app_name} śledzi Twoje wydatki i dochody bezpośrednio\
-      \ na smartfonie i tablecie."
-    full_description_contrib: "Funkcje premium są odblokowywane przez zakup jednego\
-      \ z następujących kluczy licencyjnych:"
+    short_description: "Finanse osobiste: łatwe w obsłudze, bogate w funkcjonalność
+      i open source"
+    full_description_intro: "{app_name} śledzi Twoje wydatki i dochody bezpośrednio
+      na smartfonie i tablecie."
+    full_description_contrib: "Funkcje premium są odblokowywane przez zakup jednego
+      z następujących kluczy licencyjnych:"
+    highlight_3: Podsumuj swoją sytuację finansową na dzień, tydzień, miesiąc lub
+      rok
   permissions:
     heading: <i>{app_name}</i> wymaga następujących <u>uprawnień</u>
     calendar:
@@ -95,3 +105,10 @@ pl:
     history: Historia twojej sytuacji finansowej
     export: Eksport do formatu PDF, QIF i CSV
     sync: Synchronizacja w chmurze
+  customer_support: Obsługa klienta
+  screenshots:
+    budget: Określ, ile zamierzasz wydać w budżetach rocznych, miesięcznych lub tygodniowych
+    history: Dowiedz się, jak Twoja sytuacja finansowa ewoluuje w czasie
+    distribution: Wizualizacja rozkładu według kategorii
+    group: Grupowanie transakcji według dnia, tygodnia, miesiąca i roku
+    split: Podziel jedną transakcję na wiele kategorii
