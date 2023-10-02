@@ -75,7 +75,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import timber.log.Timber
-import java.util.Locale
 
 const val DATABASE_VERSION = 149
 
@@ -387,8 +386,8 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
             null,
             null,
             null
-        ).use {
-            it.asSequence.forEach {
+        ).use { cursor ->
+            cursor.asSequence.forEach {
                 db.update(
                     "categories",
                     ContentValues(1).apply {
@@ -487,8 +486,8 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
             null,
             null,
             null
-        ).use {
-            it.asSequence.forEach {
+        ).use { cursor ->
+            cursor.asSequence.forEach {
                 db.update(
                     "categories",
                     ContentValues(1).apply {
@@ -532,27 +531,27 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
         execSQL("CREATE TABLE transaction_attachments (transaction_id integer references transactions(_id) ON DELETE CASCADE, attachment_id integer references attachments(_id), primary key (transaction_id, attachment_id))")
         execSQL("DROP TRIGGER IF EXISTS cache_stale_uri")
         //insert existing attachments from transaction table into attachments table
-        //drop column picture_id
+        val attachmentValues = ContentValues(2)
+        val joinValues = ContentValues(2)
         query(
             "transactions",
             arrayOf("_id", "picture_id"),
             "picture_id is not null"
-        ).use { cursor ->
-            val attachmentValues = ContentValues(2)
-            val joinValues = ContentValues(2)
-            cursor.asSequence.forEach {
-                attachmentValues.clear()
-                attachmentValues.put(KEY_URI, it.getString(1))
-                attachmentValues.put(KEY_UUID, Model.generateUuid())
-                val id = insert("attachments", attachmentValues)
-                joinValues.clear()
-                joinValues.put(KEY_TRANSACTIONID, it.getLong(0))
-                joinValues.put(KEY_ATTACHMENT_ID, id)
+        ).useAndMap{ cursor ->
+            cursor.getLong(0) to cursor.getString(1)
+        }.groupBy({ it.second }, { it.first }).forEach { (uri, transactionIds) ->
+            attachmentValues.clear()
+            joinValues.clear()
+            attachmentValues.put(KEY_URI, uri)
+            attachmentValues.put(KEY_UUID, Model.generateUuid())
+            val id = insert("attachments", attachmentValues)
+            joinValues.put(KEY_ATTACHMENT_ID, id)
+            transactionIds.forEach {
+                joinValues.put(KEY_TRANSACTIONID, it)
                 insert("transaction_attachments", joinValues)
             }
         }
         query("stale_uris", arrayOf("picture_id"), selection = null).use { cursor ->
-            val attachmentValues = ContentValues(2)
             cursor.asSequence.forEach {
                 attachmentValues.clear()
                 attachmentValues.put(KEY_URI, it.getString(0))
