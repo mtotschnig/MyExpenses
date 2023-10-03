@@ -369,4 +369,35 @@
     <string name="pref_ui_theme_light">रोशनी</string>
     <string name="restore_db_success">डेटाबेस को बैकअप से पुनर्स्थापित कर दिया गया है।</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d योजनाएँ बैकअप से पुनर्स्थापित कर दी गई हैं</string>
+    <string name="import_source_select_error">कृपया %1$s प्रकार की एक फ़ाइल प्रदान करें</string>
+    <string name="import_categories_none">कोई श्रेणी आयात नहीं की गई</string>
+    <string name="import_parties_success">%1$s पार्टियाँ सफलतापूर्वक आयात की गईं</string>
+    <string name="search_tag">टैग खोजें</string>
+    <string name="warning_reset_account">यदि आप आगे बढ़ते हैं, तो इस खाते के सभी लेनदेन डेटाबेस से हटा दिए जाते हैं और उन्हें पुनर्स्थापित नहीं किया जा सकता है।</string>
+    <string name="menu_categories_setup_default">डिफ़ॉल्ट श्रेणियाँ सेटअप करें</string>
+    <string name="warning_reset_account_matched">यदि आप आगे बढ़ते हैं, तो वर्तमान फ़िल्टर से मेल खाने वाले लेनदेन डेटाबेस से हटा दिए जाएंगे और पुनर्स्थापित नहीं किए जा सकेंगे।</string>
+    <string name="warning_change_fraction_digits_1">भिन्न अंकों की नई संख्या से मिलान करने के लिए डेटाबेस में राशियों को अद्यतन करने की आवश्यकता है।</string>
+    <string name="search_payee">आदाता/दाता को खोजें</string>
+    <string name="app_dir_not_accessible">बैकअप और निर्यात के लिए वर्तमान में चयनित फ़ोल्डर (%1$s) पहुंच योग्य नहीं है। कृपया कोई भिन्न चुनें।</string>
+    <string name="search_method">विधि खोजें</string>
+    <string name="import_categories_success">%1$d श्रेणियाँ सफलतापूर्वक आयात की गईं।</string>
+    <string name="search_category">श्रेणी खोजें</string>
+    <string name="comparison_operator_equal">के बराबर</string>
+    <string name="app_dir_not_compatible_with_nougat">बैकअप और निर्यात के लिए वर्तमान में कॉन्फ़िगर किया गया यूआरआई (%1$s) एंड्रॉइड नौगट के तहत समर्थित नहीं है। कृपया फिर से एक फ़ोल्डर चुनें।</string>
+    <string name="search_comment">नोट्स खोजें</string>
+    <string name="import_accounts_success">%1$s खाते सफलतापूर्वक आयात किए गए</string>
+    <string name="warning_password_contrib">यदि आप अपना पासवर्ड भूल जाते हैं तो सुरक्षा प्रश्न सेट करने से आप ऐप को अनलॉक कर सकते हैं।</string>
+    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">यदि राशियाँ अद्यतन नहीं की गई हैं, तो परिवर्तन के बाद उन्हें %d से विभाजित करके प्रदर्शित किया जाएगा।</string>
+    <string name="warning_widget_disabled">आपको ऐप सेटिंग में इस विजेट को सक्षम करना होगा।</string>
+    <string name="comparison_operator_lesser_than">के मुकाबले कम</string>
+    <string name="import_accounts_none">कोई खाता आयात नहीं किया गया</string>
+    <string name="comparison_operator_greater_than">से अधिक</string>
+    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">खरीदारी विफल या रद्द कर दी गई।</string>
+    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">यदि राशियाँ अद्यतन नहीं की गई हैं, तो परिवर्तन के बाद उन्हें %d से गुणा करके प्रदर्शित किया जाएगा।</string>
+    <string name="warning_change_fraction_digits_checkbox_label">डेटाबेस में मात्राएँ अद्यतन करें</string>
+    <string name="warning_change_fraction_digits_3">यदि राशियाँ अद्यतन की जाती हैं, तो आप उनके आंशिक भाग के बारे में जानकारी खो देंगे।</string>
+    <string name="warning_restore">डेटाबेस और प्राथमिकताएँ फ़ाइल \"%1$s\" से पुनर्स्थापित की जाएंगी। वर्तमान डेटा हटा दिया जाएगा।</string>
+    <string name="search_amount">राशि खोजें</string>
+    <string name="comparison_operator_between">से</string>
+    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d लेनदेन सफलतापूर्वक %2$s खाते में आयात किया गया</string>
 </resources>
