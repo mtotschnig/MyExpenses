@@ -3,8 +3,6 @@ package org.totschnig.myexpenses.util
 import android.content.Context
 import android.net.Uri
 import android.os.Build
-import android.os.Environment
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
@@ -13,6 +11,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.displayName
 import java.io.File
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.Result
@@ -48,8 +47,25 @@ object AppDirHelper {
         .firstOrNull()
         ?.let { DocumentFile.fromFile(it) }
 
-    @JvmStatic
     fun cacheDir(context: Context): File = context.cacheDir
+
+    fun newWorkingDirectory(context: Context, base: String): File {
+        val baseDir = cacheDir(context)
+        var postfix = 0
+        do {
+            var name = base
+            if (postfix > 0) {
+                name += "_$postfix"
+            }
+            val result = File(baseDir, name)
+            if (!result.exists()) {
+                result.mkdir() || throw IOException("Mkdir failed")
+                return result
+            }
+            postfix++
+        } while (true)
+    }
+
 
     /**
      * @return creates a file object in parentDir, with a timestamp appended to
@@ -107,14 +123,14 @@ object AppDirHelper {
         return result
     }
 
-    fun newDirectory(parentDir: DocumentFile, base: String?): DocumentFile? {
+    fun newDirectory(parentDir: DocumentFile, base: String): DocumentFile? {
         var postfix = 0
         do {
             var name = base
             if (postfix > 0) {
                 name += "_$postfix"
             }
-            if (parentDir.findFile(name!!) == null) {
+            if (parentDir.findFile(name) == null) {
                 return parentDir.createDirectory(name)
             }
             postfix++
@@ -122,7 +138,7 @@ object AppDirHelper {
     }
 
     /**
-     * Chechs is application directory is writable. Should only be called from background
+     * Checks if application directory is writable. Should only be called from background
      * @param context activity or application
      * @return either positive Result or negative Result with problem description
      */

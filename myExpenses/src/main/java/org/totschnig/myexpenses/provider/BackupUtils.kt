@@ -39,7 +39,7 @@ fun doBackup(
     }
     val backupFile = requireBackupFile(appDir, prefHandler.backupFilePrefix,  !TextUtils.isEmpty(password))
         ?: return Result.failure(context, R.string.io_error_backupdir_null)
-    val cacheDir = AppDirHelper.cacheDir(context)
+    val cacheDir = AppDirHelper.newWorkingDirectory(context, "backup")
     return backup(cacheDir, context, prefHandler).mapCatching {
         try {
             ZipUtils.zipBackup(
@@ -56,8 +56,7 @@ fun doBackup(
             throw e
         } finally {
             Timber.w("now cleaning up cacheDir")
-            getBackupDbFile(cacheDir).delete()
-            getBackupPrefFile(cacheDir).delete()
+            cacheDir.deleteRecursively()
         }
     }
 }

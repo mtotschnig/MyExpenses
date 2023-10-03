@@ -99,7 +99,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
             var currentPlannerPath: String? = null
             val application = getApplication<MyApplication>()
 
-            val workingDir = AppDirHelper.cacheDir(application)
+            val workingDir = AppDirHelper.newWorkingDirectory(application, "restore")
             try {
                 val inputStream: PushbackInputStream? = if (syncAccountName != null) {
                     val account = GenericAccountService.getAccount(syncAccountName)
@@ -156,284 +156,282 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
             }
             val backupFile = getBackupDbFile(workingDir)
             val backupPrefFile = getBackupPrefFile(workingDir)
-            if (!backupFile.exists()) {
-                failureResult(
-                    R.string.restore_backup_file_not_found,
-                    BACKUP_DB_FILE_NAME, workingDir
-                )
-                return@launch
-            }
-            if (!backupPrefFile.exists()) {
-                failureResult(
-                    R.string.restore_backup_file_not_found,
-                    BACKUP_PREF_FILE_NAME, workingDir
-                )
-                return@launch
-            }
-
-            //peek into file to inspect version
-            versionPeekHelper.checkVersion(application, backupFile.path).onFailure {
-                failureResult(it)
-                if (it is SQLiteException) {
-                    CrashHandler.report(it)
-                }
-                return@launch
-            }
-
-            //peek into preferences to see if there is a calendar configured
-            val internalAppDir = application.filesDir.parentFile!!
-            val sharedPrefsDir = File(internalAppDir.path + "/shared_prefs/")
-            sharedPrefsDir.mkdir()
-            if (!sharedPrefsDir.isDirectory) {
-                CrashHandler.report(
-                    Exception("Could not access shared preferences directory at ${sharedPrefsDir.absolutePath}")
-                )
-                failureResult(R.string.restore_preferences_failure)
-                return@launch
-            }
-            val tempPrefFile = File(sharedPrefsDir, "backup_temp.xml")
-            if (!FileCopyUtils.copy(backupPrefFile, tempPrefFile)) {
-                CrashHandler.report(
-                    Exception("Preferences restore failed"),
-                    "FAILED_COPY_OPERATION", String.format(
-                        "%s => %s",
-                        backupPrefFile.absolutePath,
-                        tempPrefFile.absolutePath
+            try {
+                if (!backupFile.exists()) {
+                    failureResult(
+                        R.string.restore_backup_file_not_found,
+                        BACKUP_DB_FILE_NAME, workingDir
                     )
-                )
-                failureResult(R.string.restore_preferences_failure)
-                return@launch
-            }
-            val backupPref = application.getSharedPreferences("backup_temp", 0)
-            when (restorePlanStrategy) {
-                R.id.restore_calendar_handling_create_new -> {
-                    currentPlannerId = getApplication<MyApplication>().createPlanner(false)
-                    currentPlannerPath = getCalendarPath(contentResolver, currentPlannerId)
+                    return@launch
+                }
+                if (!backupPrefFile.exists()) {
+                    failureResult(
+                        R.string.restore_backup_file_not_found,
+                        BACKUP_PREF_FILE_NAME, workingDir
+                    )
+                    return@launch
                 }
 
-                R.id.restore_calendar_handling_configured -> {
-                    currentPlannerId = application.checkPlanner()
-                    currentPlannerPath = prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH, "")
-                    if (MyApplication.INVALID_CALENDAR_ID == currentPlannerId) {
-                        failureResult(R.string.restore_not_possible_local_calendar_missing)
-                        return@launch
+                //peek into file to inspect version
+                versionPeekHelper.checkVersion(application, backupFile.path).onFailure {
+                    failureResult(it)
+                    if (it is SQLiteException) {
+                        CrashHandler.report(it)
                     }
+                    return@launch
                 }
 
-                R.id.restore_calendar_handling_backup -> {
-                    var found = false
-                    val calendarId = backupPref
-                        .getString(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID), "-1")
-                    val calendarPath = backupPref
-                        .getString(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_PATH), "")
-                    if (!(calendarId == "-1" || calendarPath == "")) {
+                //peek into preferences to see if there is a calendar configured
+                val internalAppDir = application.filesDir.parentFile!!
+                val sharedPrefsDir = File(internalAppDir.path + "/shared_prefs/")
+                sharedPrefsDir.mkdir()
+                if (!sharedPrefsDir.isDirectory) {
+                    CrashHandler.report(
+                        Exception("Could not access shared preferences directory at ${sharedPrefsDir.absolutePath}")
+                    )
+                    failureResult(R.string.restore_preferences_failure)
+                    return@launch
+                }
+                val tempPrefFile = File(sharedPrefsDir, "backup_temp.xml")
+                if (!FileCopyUtils.copy(backupPrefFile, tempPrefFile)) {
+                    CrashHandler.report(
+                        Exception("Preferences restore failed"),
+                        "FAILED_COPY_OPERATION", String.format(
+                            "%s => %s",
+                            backupPrefFile.absolutePath,
+                            tempPrefFile.absolutePath
+                        )
+                    )
+                    failureResult(R.string.restore_preferences_failure)
+                    return@launch
+                }
+                val backupPref = application.getSharedPreferences("backup_temp", 0)
+                when (restorePlanStrategy) {
+                    R.id.restore_calendar_handling_create_new -> {
+                        currentPlannerId = getApplication<MyApplication>().createPlanner(false)
+                        currentPlannerPath = getCalendarPath(contentResolver, currentPlannerId)
+                    }
 
-                        try {
-                            contentResolver.query(
-                                CalendarContract.Calendars.CONTENT_URI,
-                                arrayOf(CalendarContract.Calendars._ID),
-                                "$CALENDAR_FULL_PATH_PROJECTION = ?",
-                                arrayOf(calendarPath),
-                                null
-                            )?.use {
-                                if (it.moveToFirst()) {
-                                    found = true
-                                }
-                            }
-                        } catch (e: SecurityException) {
-                            failureResult(e)
+                    R.id.restore_calendar_handling_configured -> {
+                        currentPlannerId = application.checkPlanner()
+                        currentPlannerPath = prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH, "")
+                        if (MyApplication.INVALID_CALENDAR_ID == currentPlannerId) {
+                            failureResult(R.string.restore_not_possible_local_calendar_missing)
                             return@launch
                         }
                     }
-                    if (!found) {
-                        failureResult(
-                            R.string.restore_not_possible_target_calendar_missing,
-                            calendarPath
-                        )
-                        return@launch
-                    }
-                }
-            }
-            val encrypt = args.getBoolean(KEY_ENCRYPT, false)
-            if (DbUtils.restore(getApplication(), backupFile, encrypt)) {
-                publishProgress(R.string.restore_db_success)
 
-                //since we already started reading settings, we can not just copy the file
-                //unless I found a way
-                //either to close the shared preferences and read it again
-                //or to find out if we are on a new install without reading preferences
-                //
-                //we open the backup file and read every entry
-                //getSharedPreferences does not allow to access file if it not in private data directory
-                //hence we copy it there first
-                //upon application install does not exist yet
-                application.settings
-                    .unregisterOnSharedPreferenceChangeListener(application)
-                val edit = application.settings.edit()
-                application.settings.all.forEach {
-                    val key = it.key
-                    if (key != prefHandler.getKey(PrefKey.NEW_LICENCE) && key != prefHandler.getKey(
-                            PrefKey.LICENCE_EMAIL
-                        )
-                        && !key.startsWith("acra") && key != prefHandler.getKey(PrefKey.FIRST_INSTALL_VERSION)
-                    ) {
-                        edit.remove(key)
-                    }
-                }
+                    R.id.restore_calendar_handling_backup -> {
+                        var found = false
+                        val calendarId = backupPref
+                            .getString(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID), "-1")
+                        val calendarPath = backupPref
+                            .getString(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_PATH), "")
+                        if (!(calendarId == "-1" || calendarPath == "")) {
 
-                backupPref.all.forEach {
-                    val key = it.key
-                    if (key == prefHandler.getKey(PrefKey.LICENCE_LEGACY) ||
-                        key == prefHandler.getKey(PrefKey.FIRST_INSTALL_VERSION) ||
-                        key == prefHandler.getKey(PrefKey.UI_WEB)
-                    ) {
-                        return@forEach
-                    }
-                    val value = it.value
-                    if (value == null) {
-                        Timber.i("Found: %s null", key)
-                        return@forEach
-                    }
-                    when (value) {
-                        is Long -> {
-                            edit.putLong(key, backupPref.getLong(key, 0))
+                            try {
+                                contentResolver.query(
+                                    CalendarContract.Calendars.CONTENT_URI,
+                                    arrayOf(CalendarContract.Calendars._ID),
+                                    "$CALENDAR_FULL_PATH_PROJECTION = ?",
+                                    arrayOf(calendarPath),
+                                    null
+                                )?.use {
+                                    if (it.moveToFirst()) {
+                                        found = true
+                                    }
+                                }
+                            } catch (e: SecurityException) {
+                                failureResult(e)
+                                return@launch
+                            }
                         }
-
-                        is Int -> {
-                            edit.putInt(key, backupPref.getInt(key, 0))
-                        }
-
-                        is String -> {
-                            edit.putString(key, backupPref.getString(key, ""))
-                        }
-
-                        is Boolean -> {
-                            edit.putBoolean(key, backupPref.getBoolean(key, false))
-                        }
-
-                        else -> {
-                            Timber.i("Found: %s of type %s", key, value.javaClass.name)
-                        }
-                    }
-                }
-                if (restorePlanStrategy == R.id.restore_calendar_handling_configured) {
-                    edit.putString(
-                        prefHandler.getKey(PrefKey.PLANNER_CALENDAR_PATH),
-                        currentPlannerPath
-                    )
-                    edit.putString(
-                        prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID),
-                        currentPlannerId
-                    )
-                } else if (restorePlanStrategy == R.id.restore_calendar_handling_ignore) {
-                    edit.remove(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_PATH))
-                    edit.remove(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID))
-                }
-                edit.putBoolean(prefHandler.getKey(PrefKey.ENCRYPT_DATABASE), encrypt)
-                edit.apply()
-                application.settings
-                    .registerOnSharedPreferenceChangeListener(application)
-                tempPrefFile.delete()
-                backupFile.delete()
-                backupPrefFile.delete()
-                publishProgress(R.string.restore_preferences_success)
-                //if a user restores a backup we do not want past plan instances to flood the database
-                prefHandler.putLong(
-                    PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP,
-                    System.currentTimeMillis()
-                )
-                //now handling plans
-                if (restorePlanStrategy == R.id.restore_calendar_handling_ignore) {
-                    //we remove all links to plans we did not restore
-                    val planValues = ContentValues(1)
-                    planValues.putNull(DatabaseConstants.KEY_PLANID)
-                    contentResolver.update(
-                        Template.CONTENT_URI,
-                        planValues, null, null
-                    )
-                } else {
-                    publishProgress(R.string.restore_calendar_success, application.restorePlanner())
-                }
-                Timber.i("now emptying event cache")
-                contentResolver.delete(
-                    TransactionProvider.EVENT_CACHE_URI, null, null
-                )
-
-                //now handling pictures
-                //1.stale uris in the backup can be ignored1
-                //delete from db
-                contentResolver.delete(
-                    TransactionProvider.STALE_IMAGES_URI, null, null
-                )
-                //2. all images that are left over in external and
-                //internal picture dir are now stale
-                registerAsStale(false)
-                registerAsStale(true)
-
-                //3. move pictures home and update uri
-                val backupPictureDir = File(workingDir, ZipUtils.PICTURES)
-                val backupFiles = backupPictureDir.listFiles() ?: emptyArray()
-                contentResolver.query(
-                    TransactionProvider.ATTACHMENTS_URI,
-                    arrayOf(DatabaseConstants.KEY_ROWID, KEY_URI),
-                    null,
-                    null,
-                    null
-                )?.use { c ->
-                    c.asSequence.forEach { cursor ->
-                        val uriValues = ContentValues(1)
-                        val rowId = cursor.getLong(0)
-                        val fromBackup = cursor.getString(1)
-                        val selection = "$KEY_URI = ?"
-                        val selectionArguments = arrayOf(fromBackup)
-                        val restored = (backupFiles.firstOrNull { file ->
-                            file.name.startsWith("${rowId}_")
-                        }?.let {
-                            it to it.nameWithoutExtension.substringAfter('_')
-                        } ?: Uri.parse(fromBackup).lastPathSegment?.let { fileName ->
-                            //legacy backups
-                            backupFiles.firstOrNull { it.name == fileName }?.let { it to it.nameWithoutExtension }
-                        })?.let { (image, fileName) ->
-                            val restoredImage = PictureDirHelper.getOutputMediaFile(
-                                fileName = fileName,
-                                temp = false,
-                                checkUnique = true,
-                                application = getApplication(),
-                                extension = image.extension
+                        if (!found) {
+                            failureResult(
+                                R.string.restore_not_possible_target_calendar_missing,
+                                calendarPath
                             )
-                            if (FileCopyUtils.copy(image, restoredImage)) {
-                                val restored =
-                                    AppDirHelper.getContentUriForFile(
-                                        application,
-                                        restoredImage
-                                    )
-                                uriValues.put(KEY_URI, restored.toString())
-                                contentResolver.update(
-                                    TransactionProvider.ATTACHMENTS_URI,
-                                    uriValues,
-                                    selection,
-                                    selectionArguments
+                            return@launch
+                        }
+                    }
+                }
+                val encrypt = args.getBoolean(KEY_ENCRYPT, false)
+                if (DbUtils.restore(getApplication(), backupFile, encrypt)) {
+                    publishProgress(R.string.restore_db_success)
+
+                    //since we already started reading settings, we can not just copy the file
+                    //unless I found a way
+                    //either to close the shared preferences and read it again
+                    //or to find out if we are on a new install without reading preferences
+                    //
+                    //we open the backup file and read every entry
+                    //getSharedPreferences does not allow to access file if it not in private data directory
+                    //hence we copy it there first
+                    //upon application install does not exist yet
+                    application.settings
+                        .unregisterOnSharedPreferenceChangeListener(application)
+                    val edit = application.settings.edit()
+                    application.settings.all.forEach {
+                        val key = it.key
+                        if (key != prefHandler.getKey(PrefKey.NEW_LICENCE) && key != prefHandler.getKey(
+                                PrefKey.LICENCE_EMAIL
+                            )
+                            && !key.startsWith("acra") && key != prefHandler.getKey(PrefKey.FIRST_INSTALL_VERSION)
+                        ) {
+                            edit.remove(key)
+                        }
+                    }
+
+                    backupPref.all.forEach {
+                        val key = it.key
+                        if (key == prefHandler.getKey(PrefKey.LICENCE_LEGACY) ||
+                            key == prefHandler.getKey(PrefKey.FIRST_INSTALL_VERSION) ||
+                            key == prefHandler.getKey(PrefKey.UI_WEB)
+                        ) {
+                            return@forEach
+                        }
+                        val value = it.value
+                        if (value == null) {
+                            Timber.i("Found: %s null", key)
+                            return@forEach
+                        }
+                        when (value) {
+                            is Long -> {
+                                edit.putLong(key, backupPref.getLong(key, 0))
+                            }
+
+                            is Int -> {
+                                edit.putInt(key, backupPref.getInt(key, 0))
+                            }
+
+                            is String -> {
+                                edit.putString(key, backupPref.getString(key, ""))
+                            }
+
+                            is Boolean -> {
+                                edit.putBoolean(key, backupPref.getBoolean(key, false))
+                            }
+
+                            else -> {
+                                Timber.i("Found: %s of type %s", key, value.javaClass.name)
+                            }
+                        }
+                    }
+                    if (restorePlanStrategy == R.id.restore_calendar_handling_configured) {
+                        edit.putString(
+                            prefHandler.getKey(PrefKey.PLANNER_CALENDAR_PATH),
+                            currentPlannerPath
+                        )
+                        edit.putString(
+                            prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID),
+                            currentPlannerId
+                        )
+                    } else if (restorePlanStrategy == R.id.restore_calendar_handling_ignore) {
+                        edit.remove(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_PATH))
+                        edit.remove(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID))
+                    }
+                    edit.putBoolean(prefHandler.getKey(PrefKey.ENCRYPT_DATABASE), encrypt)
+                    edit.apply()
+                    application.settings
+                        .registerOnSharedPreferenceChangeListener(application)
+                    tempPrefFile.delete()
+                    publishProgress(R.string.restore_preferences_success)
+                    //if a user restores a backup we do not want past plan instances to flood the database
+                    prefHandler.putLong(
+                        PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP,
+                        System.currentTimeMillis()
+                    )
+                    //now handling plans
+                    if (restorePlanStrategy == R.id.restore_calendar_handling_ignore) {
+                        //we remove all links to plans we did not restore
+                        val planValues = ContentValues(1)
+                        planValues.putNull(DatabaseConstants.KEY_PLANID)
+                        contentResolver.update(
+                            Template.CONTENT_URI,
+                            planValues, null, null
+                        )
+                    } else {
+                        publishProgress(R.string.restore_calendar_success, application.restorePlanner())
+                    }
+                    Timber.i("now emptying event cache")
+                    contentResolver.delete(
+                        TransactionProvider.EVENT_CACHE_URI, null, null
+                    )
+
+                    //now handling pictures
+                    //1.stale uris in the backup can be ignored1
+                    //delete from db
+                    contentResolver.delete(
+                        TransactionProvider.STALE_IMAGES_URI, null, null
+                    )
+                    //2. all images that are left over in external and
+                    //internal picture dir are now stale
+                    registerAsStale(false)
+                    registerAsStale(true)
+
+                    //3. move pictures home and update uri
+                    val backupPictureDir = File(workingDir, ZipUtils.PICTURES)
+                    val backupFiles = backupPictureDir.listFiles() ?: emptyArray()
+                    contentResolver.query(
+                        TransactionProvider.ATTACHMENTS_URI,
+                        arrayOf(DatabaseConstants.KEY_ROWID, KEY_URI),
+                        null,
+                        null,
+                        null
+                    )!!.use { c ->
+                        c.asSequence.forEach { cursor ->
+                            val uriValues = ContentValues(1)
+                            val rowId = cursor.getLong(0)
+                            val fromBackup = cursor.getString(1)
+                            val selection = "$KEY_URI = ?"
+                            val selectionArguments = arrayOf(fromBackup)
+                            val restored = (backupFiles.firstOrNull { file ->
+                                file.name.startsWith("${rowId}_")
+                            }?.let {
+                                it to it.nameWithoutExtension.substringAfter('_')
+                            } ?: Uri.parse(fromBackup).lastPathSegment?.let { fileName ->
+                                //legacy backups
+                                backupFiles.firstOrNull { it.name == fileName }?.let { it to it.nameWithoutExtension }
+                            })?.let { (image, fileName) ->
+                                val restoredImage = PictureDirHelper.getOutputMediaFile(
+                                    fileName = fileName,
+                                    temp = false,
+                                    checkUnique = true,
+                                    application = getApplication(),
+                                    extension = image.extension
                                 )
-                                true
-                            } else false
+                                if (FileCopyUtils.copy(image, restoredImage)) {
+                                    val restored =
+                                        AppDirHelper.getContentUriForFile(
+                                            application,
+                                            restoredImage
+                                        )
+                                    uriValues.put(KEY_URI, restored.toString())
+                                    contentResolver.update(
+                                        TransactionProvider.ATTACHMENTS_URI,
+                                        uriValues,
+                                        selection,
+                                        selectionArguments
+                                    )
+                                    true
+                                } else false
+                            }
+                            if (restored != true) {
+                                CrashHandler.report(
+                                    Exception("Could not restore file $fromBackup from backup")
+                                )
+                            }
                         }
-                        if (restored != true) {
-                            CrashHandler.report(
-                                Exception("Could not restore file $fromBackup from backup")
-                            )
-                        }
-                    }
-                }
-                    ?: run {
-                        failureResult(R.string.restore_db_failure)
-                        return@launch
                     }
 
-                restoreSyncState().takeIf { it.isNotEmpty() }?.let { publishProgress(it) }
-                updateTransferShortcut()
-                _result.update { Result.success(Unit) }
-            } else {
-                failureResult(R.string.restore_db_failure)
+                    restoreSyncState().takeIf { it.isNotEmpty() }?.let { publishProgress(it) }
+                    updateTransferShortcut()
+                    _result.update { Result.success(Unit) }
+                } else {
+                    failureResult(R.string.restore_db_failure)
+                }
+            } finally {
+                workingDir.deleteRecursively()
             }
         }
     }
