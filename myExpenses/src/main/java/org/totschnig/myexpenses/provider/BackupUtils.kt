@@ -15,7 +15,6 @@ import org.totschnig.myexpenses.util.ZipUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.failure
 import org.totschnig.myexpenses.util.io.displayName
-import timber.log.Timber
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -37,10 +36,13 @@ fun doBackup(
             context, R.string.app_dir_not_accessible, appDir.displayName
         )
     }
-    val backupFile = requireBackupFile(appDir, prefHandler.backupFilePrefix,  !TextUtils.isEmpty(password))
-        ?: return Result.failure(context, R.string.io_error_backupdir_null)
-    val cacheDir = AppDirHelper.newWorkingDirectory(context, "backup")
-    return backup(cacheDir, context, prefHandler).mapCatching {
+    val backupFile =
+        requireBackupFile(appDir, prefHandler.backupFilePrefix, !TextUtils.isEmpty(password))
+            ?: return Result.failure(context, R.string.io_error_backupdir_null)
+    return AppDirHelper.newWorkingDirectory(context, "backup").mapCatching { cacheDir ->
+        backup(cacheDir, context, prefHandler).getOrThrow()
+        cacheDir
+    }.mapCatching { cacheDir ->
         try {
             ZipUtils.zipBackup(
                 context,
@@ -55,7 +57,6 @@ fun doBackup(
             CrashHandler.report(e)
             throw e
         } finally {
-            Timber.w("now cleaning up cacheDir")
             cacheDir.deleteRecursively()
         }
     }
@@ -101,7 +102,11 @@ private fun sync(contentResolver: ContentResolver, backend: String?, backupFile:
     }
 }
 
-private fun requireBackupFile(appDir: DocumentFile, prefix: String, encrypted: Boolean): DocumentFile? {
+private fun requireBackupFile(
+    appDir: DocumentFile,
+    prefix: String,
+    encrypted: Boolean
+): DocumentFile? {
     return AppDirHelper.timeStampedFile(
         parentDir = appDir,
         prefix = prefix,

@@ -49,7 +49,7 @@ object AppDirHelper {
 
     fun cacheDir(context: Context): File = context.cacheDir
 
-    fun newWorkingDirectory(context: Context, base: String): File {
+    fun newWorkingDirectory(context: Context, base: String): Result<File> {
         val baseDir = cacheDir(context)
         var postfix = 0
         do {
@@ -59,8 +59,10 @@ object AppDirHelper {
             }
             val result = File(baseDir, name)
             if (!result.exists()) {
-                result.mkdir() || throw IOException("Mkdir failed")
-                return result
+                return if (result.mkdir()) {
+                    Result.success(result)
+                } else Result.failure(IOException("Mkdir failed"))
+
             }
             postfix++
         } while (true)

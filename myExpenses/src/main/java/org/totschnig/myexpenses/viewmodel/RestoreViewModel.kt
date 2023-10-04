@@ -99,7 +99,10 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
             var currentPlannerPath: String? = null
             val application = getApplication<MyApplication>()
 
-            val workingDir = AppDirHelper.newWorkingDirectory(application, "restore")
+            val workingDir = AppDirHelper.newWorkingDirectory(application, "restore").getOrElse {
+                failureResult(it)
+                return@launch
+            }
             try {
                 val inputStream: PushbackInputStream? = if (syncAccountName != null) {
                     val account = GenericAccountService.getAccount(syncAccountName)
@@ -153,6 +156,8 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                 )
                 failureResult(e)
                 return@launch
+            } finally {
+                workingDir.deleteRecursively()
             }
             val backupFile = getBackupDbFile(workingDir)
             val backupPrefFile = getBackupPrefFile(workingDir)
