@@ -865,7 +865,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 data = Uri.parse(uri)
             })
         } catch (e: ActivityNotFoundException) {
-            showSnackBar("No activity found for opening $uri", Snackbar.LENGTH_LONG, null)
+            showSnackBar("No activity found for opening $uri")
         }
     }
 

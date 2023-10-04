@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.fragment.preferences
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -161,7 +162,13 @@ class PreferencesBackupRestoreFragment: BasePreferenceFragment() {
     }
 
     private fun pickAppDir(appDirInfo: SettingsViewModel.AppDirInfo?) {
-        pickFolder.launch(appDirInfo?.documentFile?.uri)
+        try {
+            pickFolder.launch(appDirInfo?.documentFile?.uri)
+        } catch (e: ActivityNotFoundException) {
+            preferenceActivity.showSnackBar(
+                "No activity found for picking application directory."
+            )
+        }
     }
 
     private fun loadAppDirSummary() {
