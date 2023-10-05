@@ -185,7 +185,7 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
     private val lockFilePath: String
         get() = getResourcePath(LOCK_FILE)
 
-    override fun getResInAccountDir(resourceName: String) = metadata(resourceName)
+    override fun getResInAccountDir(resourceName: String) = metadata("$accountPath/$resourceName")
 
     override fun getCollection(collectionName: String, require: Boolean): Metadata? {
         val path = "$basePath/$collectionName"
