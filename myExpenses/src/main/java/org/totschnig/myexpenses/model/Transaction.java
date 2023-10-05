@@ -62,6 +62,7 @@ import static org.totschnig.myexpenses.provider.DbConstantsKt.FULL_LABEL;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.checkSealedWithAlias;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.getLongOrNull;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.getString;
+import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.getStringOrNull;
 import static org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI;
 import static org.totschnig.myexpenses.provider.TransactionProvider.UNCOMMITTED_URI;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;

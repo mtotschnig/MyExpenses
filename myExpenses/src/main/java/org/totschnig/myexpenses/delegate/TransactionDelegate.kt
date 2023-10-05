@@ -46,6 +46,7 @@ import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import javax.inject.Inject
+import kotlin.Result
 
 abstract class TransactionDelegate<T : ITransaction>(
     val viewBinding: OneExpenseBinding,
