@@ -400,4 +400,13 @@
     <string name="search_amount">राशि खोजें</string>
     <string name="comparison_operator_between">से</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d लेनदेन सफलतापूर्वक %2$s खाते में आयात किया गया</string>
+    <string name="pref_auto_backup_time_title">ऑटो-बैकअप समय</string>
+    <string name="pref_custom_decimal_format_summary">यदि आप अपने स्थान के लिए डिफ़ॉल्ट प्रारूप से संतुष्ट नहीं हैं, तो इसे अपनी आवश्यकताओं के अनुसार अनुकूलित करें। डिफ़ॉल्ट स्वरूप को पुनर्स्थापित करने के लिए खाली छोड़ दें।</string>
+    <string name="pref_custom_decimal_format_title">संख्या स्वरूप</string>
+    <string name="button_request_calendar_access" tools:ignore="UnusedResources">पहुंच प्रदान करें</string>
+    <string name="switch_off_text">बंद</string>
+    <string name="pref_auto_backup_summary">प्रतिदिन निर्दिष्ट समय पर डेटाबेस का बैकअप लें (केवल यदि डेटा बदल गया हो)।</string>
+    <string name="switch_on_text">चालू</string>
+    <string name="csv_import_no_mapping_found_for_amount">कृपया राशि, आय या व्यय में से किसी एक कॉलम को मैप करें।</string>
+    <string name="menu_show_transactions">लेन-देन दिखाएँ</string>
 </resources>

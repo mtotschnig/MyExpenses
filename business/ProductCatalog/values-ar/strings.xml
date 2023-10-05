@@ -20,4 +20,5 @@
     <string name="splittransaction_title">تقسيم العمليات</string>
     <string name="synchronization_title">تزامن سحابي</string>
     <string name="adfree_description">لا إعلانات.</string>
+    <string name="webui_description">استعمل متصفح الشبكة من الحاسوب لإدخال البيانات</string>
 </resources>

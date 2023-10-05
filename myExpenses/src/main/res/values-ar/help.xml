@@ -4,8 +4,8 @@
     <string name="help_contextual_actions">الإجراءات السياقية</string>
     <string name="help_contextual_actions_help">يتم عرض قائمة الإجراءات السياقية من خلال النقر لفترة طويلة على إدخال قائمة.</string>
     <string name="help_form_fields">حقول النموذج</string>
-    <string name="cab_delete_help_text">حذف العناصر المحددة</string>
-    <string name="cab_edit_help_text">تعديل العناصر المحددة</string>
+    <string name="cab_delete_help_text">حذف العناصر المحددة.</string>
+    <string name="cab_edit_help_text">تعديل العنصر المحدد.</string>
     <string name="help_MyExpenses_title">قائمة العمليات</string>
     <string name="help_MyExpenses_info">تسرد هذه الشاشة جميع المعاملات للحساب الجاري. استخدم زر الإجراء العائم لفتح النموذج لإنشاء معاملة جديدة.</string>
     <string name="help_MyExpenses_fab_long_press">الضغط لفترة طويلة على زر الإجراء العائم يفتح قائمة تسمح بإعداد النموذج للتحويل أو تقسيم المعاملة أو الدخل.</string>
@@ -65,9 +65,9 @@
     <string name="menu_ManageCategories_search_help_text">سيتم عرض الفئات الرئيسية والفرعية التي تطابق الاستعلام الخاص بك فقط.</string>
     <string name="menu_ManageCategories_sort_help_text">يمكن فرز قائمة الفئات حسب العنوان (أبجديًا) ، أو تكرار الاستخدامات ، أو حسب آخر مرة تم فيها تعيين معاملة لها.</string>
     <string name="cab_ManageCategories_color_help_text">يمكنك تخصيص لون للفئات الرئيسية. سيتم استخدام هذا اللون لتمثيل الفئة في الرسوم البيانية. ستستخدم الفئات الفرعية ظلال لون فئتها الرئيسية.</string>
-    <string name="help_ExpenseEdit_transaction_title">نموذج للعمليات.</string>
-    <string name="help_ExpenseEdit_transfer_title">نموذج للتحويلات.</string>
-    <string name="help_ExpenseEdit_split_title">نموذج للتقسيمات.</string>
+    <string name="help_ExpenseEdit_transaction_title">نموذج للمعاملات</string>
+    <string name="help_ExpenseEdit_transfer_title">نموذج للتحويلات</string>
+    <string name="help_ExpenseEdit_split_title">نموذج للتقسيمات</string>
     <string name="help_ExpenseEdit_splitPartCategory_title">نموذج لتقسيمات التصنيف</string>
     <string name="help_ExpenseEdit_splitPartTransfer_title">نموذج لتقسميات التحويل</string>
     <string name="help_ExpenseEdit_templateCategory_title">نموذج قوالب المعاملات</string>
@@ -179,4 +179,9 @@
     <string name="help_ManageCategories_expand_collapse">انقر على رمز &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt; لتوسيع أو تصغير فئة.</string>
     <string name="cab_ManageCategories_create_sub_cat_help_text">يفتح مربع الحوار لإنشاء فئة فرعية جديدة أسفل الفئة المحددة. يمكن أن تتداخل الفئات الفرعية بعمق عشوائي.</string>
     <string name="cab_ManageCategories_move_help_text">يمكن نقل أي فئة (مع فئاتها الفرعية) إلى فئة رئيسية جديدة. يمكن تحويل الفئات الفرعية إلى فئات رئيسية.</string>
+    <string name="menu_show_all_help_text">الديون التي تم إغلاقها أو سدادها (رصيدها 0) ستظهر فقط إذا تم تحديد هذا الخيار.</string>
+    <string name="help_debt_managment">ربط الديون بالأطراف، فحص قائمة المعاملات، و حساب الرصيد المتبقي.</string>
+    <string name="help_WebUI_info_2">حاليًا، واجهة المستخدم على الويب لا تدعم عمليات التحويل أو تقسيم المعاملات.</string>
+    <string name="help_ManageCategories_manage_context">انقر فوق مدخلة لإظهار القائمة الخاصة بها. اضغط لفترة طويلة لبدء التحديد المتعدد.</string>
+    <string name="form_split_parts_heading_help_text_1">استخدم الرمز + لإدخال العديد من الأجزاء المقسمة حسب الحاجة.</string>
 </resources>
