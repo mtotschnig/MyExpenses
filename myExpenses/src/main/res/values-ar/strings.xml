@@ -264,7 +264,7 @@
     <string name="pm_creditcard">بطاقة ائتمانية</string>
     <string name="pm_deposit">إيداع</string>
     <string name="pm_directdebit">أمر مستديم</string>
-    <string name="pm_type_credit">Credit</string>
+    <string name="pm_type_credit">إئتمان</string>
     <string name="pm_type_debit">مدين</string>
     <string name="pm_type_neutral">محايد</string>
     <string name="pref_app_dir_title">مجلد للنسخ الاحتياطية والتصديرات</string>
@@ -594,7 +594,7 @@
     <string name="template">نموذج</string>
     <string name="contrib_feature_synchronization_label">تزامن سحابي</string>
     <string name="all_contrib_key_features">جميع ميزات مفتاح المساهمة</string>
-    <string name="all_extended_key_features">جميع ميزات Extended Key</string>
+    <string name="all_extended_key_features">جميع ميزات المفتاح الممتد</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">ترقية</string>
     <string name="pref_backup_cloud_title">تخزين في خلفية المزامنة</string>
@@ -829,7 +829,7 @@
     <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
     <string name="checkbox_is_default">الافتراضي</string>
     <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
-    <string name="menu_remap">إعادة تعيين</string>
+    <string name="menu_remap">إعادة تخطيط</string>
     <string name="dialog_title_confirm_remap">هل تودّ تغيير التعيين (%s)؟</string>
     <string name="remap_category">سيتم تعيين كافة المعاملات المحددة للفئة %s.</string>
     <string name="remap_payee">سيتم تعيين كافة المعاملات المحددة للدافع / المستفيد %s.</string>
@@ -971,4 +971,6 @@
     <string name="menu_reconfigure">إعادة التكوين</string>
     <string name="add_shortcut">أضف اختصارا</string>
     <string name="whats_new_359">يمكن تخصيص أيقونات طرق الدفع.</string>
+    <string name="search_account">البحث عن حساب</string>
+    <string name="content_description_remove_icon">إزالة الرمز</string>
 </resources>
