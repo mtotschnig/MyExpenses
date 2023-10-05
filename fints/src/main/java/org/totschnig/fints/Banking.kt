@@ -110,6 +110,7 @@ class Banking : ProtectedFragmentActivity() {
                 val bankingCredentials: MutableState<BankingCredentials> =
                     rememberSaveable { mutableStateOf(BankingCredentials.EMPTY) }
                 val tanRequested = viewModel.tanRequested.observeAsState()
+                val tanMediumRequested = viewModel.tanMediumRequested.observeAsState()
                 val workState = viewModel.workState.collectAsState()
                 LaunchedEffect(workState.value) {
                     when (workState.value) {
@@ -211,6 +212,7 @@ class Banking : ProtectedFragmentActivity() {
                     }
                 }
                 TanDialog(tanRequest = tanRequested.value, submitTan = viewModel::submitTan)
+                TanMediaDialog(options = tanMediumRequested.value, submitMedia = viewModel::submitTanMedium)
             }
         }
     }
@@ -453,13 +455,9 @@ class Banking : ProtectedFragmentActivity() {
             }
             DialogState.Loading -> {
                 AlertDialog(
-                    properties = DialogProperties(dismissOnClickOutside = false),
-                    onDismissRequest = { dismiss(false) },
-                    confirmButton = {
-                        Button(onClick = { dismiss(false) }) {
-                            Text(stringResource(id = android.R.string.cancel))
-                        }
-                    },
+                    properties = DialogProperties(dismissOnClickOutside = false, dismissOnBackPress = false),
+                    onDismissRequest = { },
+                    confirmButton = { },
                     icon = { DialogIcon() },
                     text = {
                         Loading((workState as? Loading)?.message)

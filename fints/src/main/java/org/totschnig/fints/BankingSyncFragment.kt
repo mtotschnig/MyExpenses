@@ -40,6 +40,7 @@ class BankingSyncFragment : ComposeBaseDialogFragment2() {
             val workState = viewModel.workState.collectAsState()
             val errorState = viewModel.errorState.collectAsState()
             val tanRequested = viewModel.tanRequested.observeAsState()
+            val tanMediumRequested = viewModel.tanMediumRequested.observeAsState()
 
             Column {
                 when (workState.value) {
@@ -86,6 +87,7 @@ class BankingSyncFragment : ComposeBaseDialogFragment2() {
                 }
             }
             TanDialog(tanRequest = tanRequested.value, submitTan = viewModel::submitTan)
+            TanMediaDialog(options = tanMediumRequested.value, submitMedia = viewModel::submitTanMedium)
         }
     }
 

@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -82,7 +83,8 @@ data class TanRequest(val message: String, val bitmap: Bitmap?)
 val SUPPORTED_HBCI_VERSIONS =
     arrayOf(HBCIVersion.HBCI_300, HBCIVersion.HBCI_220, HBCIVersion.HBCI_210, HBCIVersion.HBCI_201)
 
-class BankingViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+class BankingViewModel(application: Application, val savedStateHandle: SavedStateHandle) :
+    ContentResolvingAndroidViewModel(application) {
 
     init {
         System.setProperty(
@@ -90,6 +92,12 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             "org.apache.xerces.jaxp.DocumentBuilderFactoryImpl"
         )
     }
+
+    var selectedTanMedium: String?
+        get() = savedStateHandle["selectedTanMedium"]
+        set(value) {
+            savedStateHandle["selectedTanMedium"] = value
+        }
 
     private val hbciProperties = Properties().also {
         it["client.product.name"] = "02F84CA8EC793B72255C747B4"
@@ -103,6 +111,12 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
     private val _tanRequested = MutableLiveData<TanRequest?>(null)
 
     val tanRequested: LiveData<TanRequest?> = _tanRequested
+
+    private val tanMediumFuture: CompletableDeferred<Pair<String, Boolean>?> = CompletableDeferred()
+
+    private val _tanMediumRequested = MutableLiveData<List<String>?>(null)
+
+    val tanMediumRequested: LiveData<List<String>?> = _tanMediumRequested
 
     private val _workState: MutableStateFlow<WorkState> =
         MutableStateFlow(WorkState.Initial)
@@ -131,7 +145,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             val accounts: List<Pair<Konto, Boolean>>
         ) : WorkState()
 
-        abstract class Done() : WorkState()
+        abstract class Done : WorkState()
 
         class Abort : Done()
 
@@ -141,6 +155,11 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
     fun submitTan(tan: String?) {
         tanFuture.complete(tan)
         _tanRequested.postValue(null)
+    }
+
+    fun submitTanMedium(selection: Pair<String, Boolean>?) {
+        tanMediumFuture.complete(selection)
+        _tanMediumRequested.postValue(null)
     }
 
     private fun log(msg: String) {
@@ -183,7 +202,6 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         work: suspend (BankInfo, HBCIPassport, HBCIHandler) -> Unit,
         onError: (Exception) -> Unit
     ) {
-
         val info = initHBCI(bankingCredentials) ?: run {
             HBCIUtils.doneThread()
             onError(Exception(getString(R.string.blz_not_found, bankingCredentials.blz)))
@@ -324,8 +342,8 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     val status: HBCIExecStatus = handle.execute()
 
                     if (!status.isOK) {
-                        status.toString()
-                        CrashHandler.report(Exception("Status was not ok"))
+                        error(status.toString())
+                        return@doHBCI
                     }
 
                     val result = umsatzJob.jobResult as GVRKUms
@@ -433,7 +451,8 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                         val status: HBCIExecStatus = handle.execute()
 
                         if (!status.isOK) {
-                            CrashHandler.report(Exception("Status was not ok"))
+                            error(status.toString())
+                            return@doHBCI
                         }
 
                         val result = umsatzJob.jobResult as GVRKUms
@@ -501,6 +520,20 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
     inner class MyHBCICallback(private val bankingCredentials: BankingCredentials) :
         AbstractHBCICallback() {
+        val KEY_SELECTED_TAN_MEDIUM: String
+            get() = "selectedTanMedium_${bankingCredentials.bank?.id}"
+
+        init {
+            if (bankingCredentials.bank != null) {
+                selectedTanMedium = prefHandler.getString(KEY_SELECTED_TAN_MEDIUM)
+            }
+        }
+
+        fun persistSelectedTanMedium() {
+            prefHandler.putString(KEY_SELECTED_TAN_MEDIUM, selectedTanMedium)
+        }
+
+
         override fun log(msg: String, level: Int, date: Date, trace: StackTraceElement) {
             log(msg)
         }
@@ -512,7 +545,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             datatype: Int,
             retData: StringBuffer
         ) {
-            Timber.tag("FinTS").i("callback:%d", reason)
+            log("callback:$reason")
             when (reason) {
                 NEED_PASSPHRASE_LOAD, NEED_PASSPHRASE_SAVE -> {
                     retData.replace(0, retData.length, bankingCredentials.password!!)
@@ -550,7 +583,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     val options = retData.toString().split("|")
                     if (options.size > 1) {
                         Timber.e(
-                            "SecMech Selection Dialog not yet implemented ().",
+                            "SecMech Selection Dialog not yet implemented (%s).",
                             retData.toString()
                         )
                     }
@@ -565,28 +598,40 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                 NEED_PT_TAN -> {
                     val flicker = retData.toString()
                     if (flicker.isNotEmpty()) {
-                        TODO()
+                        Timber.e("Flicker not yet implemented")
                     } else {
                         _tanRequested.postValue(TanRequest(msg, null))
                         retData.replace(0, retData.length, runBlocking {
-                            val result =
-                                tanFuture.await() ?: throw HBCI_Exception("TAN entry cancelled")
-                            result
+                            tanFuture.await() ?: throw HBCI_Exception("TAN entry cancelled")
                         })
                     }
                 }
 
-                NEED_PT_TANMEDIA -> {}
-                HAVE_ERROR -> Timber.d(msg)
+                NEED_PT_TANMEDIA -> {
+                    val options = retData.toString().split("|")
+                    retData.replace(0, retData.length,
+                        if (options.size == 1) {
+                            options[0]
+                        } else selectedTanMedium ?: runBlocking {
+                            _tanMediumRequested.postValue(options)
+                            tanMediumFuture.await()?.let { (medium, shouldPersist) ->
+                                selectedTanMedium = medium
+                                if (shouldPersist) persistSelectedTanMedium()
+                                medium
+                            }
+                                ?: throw HBCI_Exception("TAN media selection cancelled")
+                        }
+                    )
+                }
+
+                HAVE_ERROR -> Timber.e(msg)
                 else -> {}
             }
         }
 
-        override fun status(passport: HBCIPassport, statusTag: Int, o: Array<Any>?) {
-            Timber.tag("FinTS").i("status:%d", statusTag)
-            o?.forEach {
-                Timber.tag("FinTS").i(it.toString())
-            }
+        override fun status(passport: HBCIPassport, statusTag: Int, o: Array<Any?>?) {
+            log("status:$statusTag")
+            o?.forEach { log(it.toString()) }
         }
     }
 

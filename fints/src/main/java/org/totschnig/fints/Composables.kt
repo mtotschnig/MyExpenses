@@ -5,13 +5,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,7 +24,9 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -36,6 +42,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -80,13 +87,14 @@ fun ColumnScope.BankingCredentials(
         label = { Text(text = stringResource(id = R.string.login_name)) },
         singleLine = true
     )
-    val focusRequester = if (credentials.isNew) null else remember { FocusRequester() }.also { requester ->
-        LaunchedEffect(Unit) {
-            this.coroutineContext.job.invokeOnCompletion {
-                requester.requestFocus()
+    val focusRequester =
+        if (credentials.isNew) null else remember { FocusRequester() }.also { requester ->
+            LaunchedEffect(Unit) {
+                this.coroutineContext.job.invokeOnCompletion {
+                    requester.requestFocus()
+                }
             }
         }
-    }
     OutlinedTextField(
         modifier = Modifier
             .align(Alignment.CenterHorizontally)
@@ -131,7 +139,7 @@ fun TanDialog(
                 Button(onClick = {
                     submitTan(tan)
                 }) {
-                    Text("Send")
+                    Text(stringResource(id = android.R.string.ok))
                 }
             },
             text = {
@@ -147,6 +155,63 @@ fun TanDialog(
                         },
                         label = { Text(text = "TAN") },
                     )
+                }
+            }
+        )
+    }
+}
+
+@Composable
+fun TanMediaDialog(
+    options: List<String>?,
+    submitMedia: (Pair<String, Boolean>?) -> Unit
+) {
+    options?.let {
+        val (selectedOption, onOptionSelected) = remember { mutableStateOf(options[0]) }
+        val (shouldSaveSelection, onShouldSaveSelectionChanged) = remember { mutableStateOf(true) }
+        AlertDialog(
+            onDismissRequest = {
+                submitMedia(null)
+            },
+            confirmButton = {
+                Button(onClick = {
+                    submitMedia(selectedOption to shouldSaveSelection)
+                }) {
+                    Text(stringResource(id = android.R.string.ok))
+                }
+            },
+            text = {
+                Column(Modifier.selectableGroup()) {
+                    Text(stringResource(R.string.tan_medium_selection_prompt))
+                    options.forEach { text ->
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .selectable(
+                                    selected = text == selectedOption,
+                                    onClick = { onOptionSelected(text) },
+                                    role = Role.RadioButton
+                                ),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                modifier = Modifier.minimumInteractiveComponentSize(),
+                                selected = text == selectedOption,
+                                onClick = null
+                            )
+                            Text(
+                                text = text,
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        }
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Checkbox(
+                            checked = shouldSaveSelection,
+                            onCheckedChange = onShouldSaveSelectionChanged
+                        )
+                        Text(text = stringResource(id = R.string.checkbox_should_save_selection_label))
+                    }
                 }
             }
         )
@@ -180,7 +245,7 @@ private fun getIcon(bank: Bank) = when {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HbciVersionSelection(
-    credentials : MutableState<BankingCredentials>
+    credentials: MutableState<BankingCredentials>
 ) {
 
     var expanded by remember { mutableStateOf(false) }
@@ -234,4 +299,10 @@ fun Error(errorMessage: String?) {
             text = it
         )
     }
+}
+
+@Preview
+@Composable
+fun TanMediaPreview() {
+    TanMediaDialog(options = listOf("pushTan", "Pixel"), submitMedia = {})
 }

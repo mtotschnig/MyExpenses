@@ -45,4 +45,6 @@
     <string name="select_accounts_help_3">Please be aware, that not all banks provide access to all accounts by the procedure that <i>My Expenses</i> understands (For example, for Sparkassen, credit cards are not supported). From the main screen, when an account linked to your bank is displayed, select <i>Load transactions</i> from the menu in order to update.</string>
     <string name="fints_intro_1"><i>My Expenses</i> allows you to load account information (transaction history) from your bank in Germany, if it supports FinTS. It does not support payment initiation.</string>
     <string name="fints_intro_2">From the Settings screen, additional bank connections can be configured.</string>
+    <string name="tan_medium_selection_prompt">Please select one of the available TAN media:</string>
+    <string name="checkbox_should_save_selection_label">Save selection</string>
 </resources>

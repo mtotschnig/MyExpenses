@@ -43,4 +43,6 @@
     <string name="select_accounts_help_3">Nicht alle Banken erlauben den Zugriff auf alle Konten über eine Schnittstelle, die <i>Meine Ausgaben</i> versteht (Zum Beispiel funktionieren bei den Sparkassen Kreditkarten nicht). Am Startbildschirm, wenn ein mit der Bank verknüpftes Konto dargestellt wird, wählen Sie zur Aktualisierung im Menü <i>Umsätze abrufen</i>.</string>
     <string name="fints_intro_1"><i>Meine Ausgaben</i> erlaubt das Laden von Konto-Informationen (Buchungsverlauf) von ihrer Bank in Deutschland, sofern diese FinTS unterstützt. Das Auslösen von Zahlungen wird nicht unterstützt.</string>
     <string name="fints_intro_2">Von den Einstellungen aus können weitere Bankzugänge konfiguriert werden.</string>
+    <string name="tan_medium_selection_prompt">Bitte wählen Sie die Bezeichnung des gewünschten TAN-Mediums aus:</string>
+    <string name="checkbox_should_save_selection_label">Auswahl speichern</string>
 </resources>
