@@ -182,4 +182,6 @@
     <string name="menu_show_all_help_text">الديون التي تم إغلاقها أو سدادها (رصيدها 0) ستظهر فقط إذا تم تحديد هذا الخيار.</string>
     <string name="help_debt_managment">ربط الديون بالأطراف، فحص قائمة المعاملات، و حساب الرصيد المتبقي.</string>
     <string name="help_WebUI_info_2">حاليًا، واجهة المستخدم على الويب لا تدعم عمليات التحويل أو تقسيم المعاملات.</string>
+    <string name="help_ManageCategories_manage_context">انقر فوق مدخلة لإظهار القائمة الخاصة بها. اضغط لفترة طويلة لبدء التحديد المتعدد.</string>
+    <string name="form_split_parts_heading_help_text_1">استخدم الرمز + لإدخال العديد من الأجزاء المقسمة حسب الحاجة.</string>
 </resources>
