@@ -13,7 +13,6 @@ import org.totschnig.myexpenses.db2.createParty
 import org.totschnig.myexpenses.db2.findParty
 import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.writePaymentMethod
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -151,7 +150,7 @@ class HbciConverter(val repository: Repository, private val eur: CurrencyUnit) {
 
     private fun extractMethodId(methodLabel: String): Long =
         methodToId[methodLabel] ?: (repository.findPaymentMethod(methodLabel).takeIf { it != -1L }
-            ?: repository.writePaymentMethod(methodLabel, AccountType.BANK)).also {
+            ?: repository.writePaymentMethod(methodLabel, null)).also {
             methodToId[methodLabel] = it
         }
 }

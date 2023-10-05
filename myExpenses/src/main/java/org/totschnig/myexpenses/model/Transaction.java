@@ -127,7 +127,7 @@ public class Transaction extends Model implements ITransaction {
   private Long catId;
   private long accountId;
   private Long methodId;
-  private String methodLabel = "";
+  private String methodLabel = null;
   private Long parentId = null;
   private Long payeeId = null;
   private Long debtId = null;
@@ -418,7 +418,7 @@ public class Transaction extends Model implements ITransaction {
       t.setCrStatus(CrStatus.UNRECONCILED);
     }
     t.setMethodId(getLongOrNull(c, KEY_METHODID));
-    t.setMethodLabel(getString(c, KEY_METHOD_LABEL));
+    t.setMethodLabel(getStringOrNull(c, KEY_METHOD_LABEL));
     t.setCatId(catId);
     t.setPayee(getString(c, KEY_PAYEE_NAME));
     t.setPayeeId(getLongOrNull(c, KEY_PAYEEID));
