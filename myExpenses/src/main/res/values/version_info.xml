@@ -215,4 +215,7 @@
     <string-array name="whats_new_365">
         <item>@string/whats_new_365</item>
     </string-array>
+    <string-array name="whats_new_3651">
+        <item>@string/bug_fixes</item>
+    </string-array>
 </resources>
