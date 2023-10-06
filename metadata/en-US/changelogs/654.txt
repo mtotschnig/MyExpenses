@@ -1,0 +1,3 @@
+Bug fixes
+
+https://github.com/mtotschnig/MyExpenses/projects/111#column-19652872
