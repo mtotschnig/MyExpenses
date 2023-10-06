@@ -138,6 +138,7 @@ class Banking : ProtectedFragmentActivity() {
 
                 if (!calledFromOnboarding) {
                     Scaffold(
+                        containerColor = MaterialTheme.colorScheme.surface,
                         topBar = {
                             TopAppBar(
                                 title = { Text("Banking") },
