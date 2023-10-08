@@ -22,14 +22,14 @@ import androidx.appcompat.app.AlertDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.licence.Package
 import javax.inject.Inject
 
 class DonateDialogFragment : BaseDialogFragment() {
-    @JvmField
     @Inject
-    var licenceHandler: LicenceHandler? = null
+    lateinit var licenceHandler: LicenceHandler
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (requireActivity().application as MyApplication).appComponent.inject(this)
@@ -41,7 +41,7 @@ class DonateDialogFragment : BaseDialogFragment() {
         val builder: AlertDialog.Builder = MaterialAlertDialogBuilder(requireContext())
         val items = getPaymentOptions(aPackage).map { getString(it) }.toTypedArray()
         return builder
-            .setTitle(licenceHandler!!.getButtonLabel(aPackage))
+            .setTitle(licenceHandler.getButtonLabel(aPackage))
             .setItems(items, listener)
             .create()
     }
@@ -59,9 +59,8 @@ class DonateDialogFragment : BaseDialogFragment() {
         }
     }
 
-    private fun getPaymentOptions(aPackage: Package): IntArray {
-        return licenceHandler!!.getPaymentOptions(aPackage)
-    }
+    private fun getPaymentOptions(aPackage: Package) =
+        licenceHandler.getPaymentOptions(aPackage, injector.userCountry())
 
     override fun onCancel(dialog: DialogInterface) {
         (activity as? ContribInfoDialogActivity)?.finish()

@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.sync.GenericAccountService
+import org.totschnig.myexpenses.util.EU_COUNTRIES
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.Utils
@@ -268,12 +269,11 @@ open class LicenceHandler(
         return false
     }
 
-    fun getPaymentOptions(aPackage: Package): IntArray {
-        return if (aPackage.defaultPrice >= 500) intArrayOf(
-            R.string.donate_button_paypal,
-            R.string.donate_button_invoice
-        ) else intArrayOf(R.string.donate_button_paypal)
-    }
+    fun getPaymentOptions(aPackage: Package, userCountry: String) = listOfNotNull(
+        R.string.donate_button_paypal,
+        if (aPackage.defaultPrice >= 500 && EU_COUNTRIES.contains(userCountry))
+            R.string.donate_button_invoice else null
+    )
 
     open val doesUseIAP: Boolean
         get() = false

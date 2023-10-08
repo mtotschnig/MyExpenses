@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ContribDialogFragment
 import org.totschnig.myexpenses.dialog.DonateDialogFragment
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
@@ -57,7 +58,7 @@ class ContribInfoDialogActivity : IapActivity() {
         }
 
     private fun contribBuyGithub(aPackage: Package) {
-        val paymentOptions = licenceHandler.getPaymentOptions(aPackage)
+        val paymentOptions = licenceHandler.getPaymentOptions(aPackage, injector.userCountry())
         if (paymentOptions.size > 1) {
             DonateDialogFragment.newInstance(aPackage).show(supportFragmentManager, "CONTRIB")
         } else {

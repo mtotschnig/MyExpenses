@@ -16,11 +16,13 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.util.EU_COUNTRIES
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import java.util.*
 
-open class DefaultAdHandlerFactory(
+open class
+DefaultAdHandlerFactory(
     protected val context: Context,
     protected val prefHandler: PrefHandler,
     protected val userCountry: String,
@@ -66,35 +68,5 @@ open class DefaultAdHandlerFactory(
 
     companion object {
         private const val INITIAL_GRACE_DAYS = 2
-        private val EU_COUNTRIES = arrayOf(
-            "at",
-            "be",
-            "bg",
-            "cy",
-            "cz",
-            "de",
-            "dk",
-            "ee",
-            "el",
-            "es",
-            "fi",
-            "fr",
-            "hr",
-            "hu",
-            "ie",
-            "it",
-            "lt",
-            "lu",
-            "lv",
-            "mt",
-            "nl",
-            "pl",
-            "pt",
-            "ro",
-            "se",
-            "si",
-            "sk",
-            "uk"
-        )
     }
 }

@@ -1,0 +1,32 @@
+package org.totschnig.myexpenses.util
+
+val EU_COUNTRIES = arrayOf(
+    "at",
+    "be",
+    "bg",
+    "cy",
+    "cz",
+    "de",
+    "dk",
+    "ee",
+    "el",
+    "es",
+    "fi",
+    "fr",
+    "hr",
+    "hu",
+    "ie",
+    "it",
+    "lt",
+    "lu",
+    "lv",
+    "mt",
+    "nl",
+    "pl",
+    "pt",
+    "ro",
+    "se",
+    "si",
+    "sk",
+    "uk"
+)
