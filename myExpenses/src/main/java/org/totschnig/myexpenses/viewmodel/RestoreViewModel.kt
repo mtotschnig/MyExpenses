@@ -146,22 +146,8 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                         return@launch
                     }
                 }
-            } catch (e: Exception) {
-                CrashHandler.report(
-                    e, mapOf(
-                        "fileUri" to (fileUri?.toString() ?: "null"),
-                        "syncAccountName" to (syncAccountName ?: "null"),
-                        "backupFromSync" to (backupFromSync ?: "null")
-                    )
-                )
-                failureResult(e)
-                return@launch
-            } finally {
-                workingDir.deleteRecursively()
-            }
-            val backupFile = getBackupDbFile(workingDir)
-            val backupPrefFile = getBackupPrefFile(workingDir)
-            try {
+                val backupFile = getBackupDbFile(workingDir)
+                val backupPrefFile = getBackupPrefFile(workingDir)
                 if (!backupFile.exists()) {
                     failureResult(
                         R.string.restore_backup_file_not_found,
@@ -435,6 +421,16 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                 } else {
                     failureResult(R.string.restore_db_failure)
                 }
+            } catch (e: Exception) {
+                CrashHandler.report(
+                    e, mapOf(
+                        "fileUri" to (fileUri?.toString() ?: "null"),
+                        "syncAccountName" to (syncAccountName ?: "null"),
+                        "backupFromSync" to (backupFromSync ?: "null")
+                    )
+                )
+                failureResult(e)
+                return@launch
             } finally {
                 workingDir.deleteRecursively()
             }
