@@ -39,7 +39,7 @@
             android:key="@string/pref_translation_improvement_key"
             android:title="Suggest improvement" />
 
-        <org.totschnig.myexpenses.preference.SafePreference android:title="Join My Exepenses @ Weblate">
+        <org.totschnig.myexpenses.preference.SafePreference android:title="Join My Expenses @ Weblate">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://hosted.weblate.org/engage/my-expenses/" />
