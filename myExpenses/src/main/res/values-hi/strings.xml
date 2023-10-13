@@ -409,4 +409,5 @@
     <string name="switch_on_text">चालू</string>
     <string name="csv_import_no_mapping_found_for_amount">कृपया राशि, आय या व्यय में से किसी एक कॉलम को मैप करें।</string>
     <string name="menu_show_transactions">लेन-देन दिखाएँ</string>
+    <string name="pref_contrib_purchase_summary"></string>
 </resources>
