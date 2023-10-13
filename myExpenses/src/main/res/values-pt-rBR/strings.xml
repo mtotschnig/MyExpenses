@@ -102,6 +102,7 @@
     <string name="dialog_title_contrib_feature">Recurso premium</string>
     <plurals name="dialog_title_warning_delete_account">
         <item quantity="one">Excluir a conta\?</item>
+        <item quantity="many">Excluir %1$d contas\?</item>
         <item quantity="other">Excluir %1$d contas\?</item>
     </plurals>
     <string name="dialog_title_warning_delete_category">Apagar a categoria\?</string>
@@ -214,10 +215,12 @@
     <string name="no_accounts">Não há contas.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">O objeto selecionado está mapeado em uma transação e não pode ser excluído.</item>
+        <item quantity="many">%1$d objetos estão mapeados em transações e não podem ser excluídos.</item>
         <item quantity="other">%1$d objetos estão mapeados em transações e não podem ser excluídos.</item>
     </plurals>
     <plurals name="not_deletable_mapped_templates">
-        <item quantity="one">O objeto selecionado é mapeado em um modelo e não pode ser excluído.</item>
+        <item quantity="one">O objeto selecionado está mapeado em um modelo e não pode ser excluído.</item>
+        <item quantity="many">%1$d objetos estão mapeados em modelos e não podem ser excluídos.</item>
         <item quantity="other">%1$d objetos estão mapeados em modelos e não podem ser excluídos.</item>
     </plurals>
     <string name="numbered">numeradas</string>
@@ -342,6 +345,7 @@
     <string name="save_transaction_error">Não foi possível salvar a nova transação do modelo.</string>
     <plurals name="save_transaction_from_template_success">
         <item quantity="one">A nova transação foi salva, com sucesso, do modelo.</item>
+        <item quantity="many">%1$d novas transações foram salvas, com sucesso, de modelos.</item>
         <item quantity="other">%1$d novas transações foram salvas, com sucesso, de modelos.</item>
     </plurals>
     <string name="save_transaction_template_deleted">O modelo foi apagado</string>
@@ -381,15 +385,18 @@
     <string name="warning_delete_account">A conta \"%1$s\" será apagada com todas as suas transações.</string>
     <plurals name="warning_delete_main_category">
         <item quantity="one">Uma categoria selecionada contém subcategorias, que também serão excluídas.</item>
+        <item quantity="many">%1$d categorias selecionadas contém subcategorias, que também serão excluídas.</item>
         <item quantity="other">%1$d categorias selecionadas contém subcategorias, que também serão excluídas.</item>
     </plurals>
     <string name="warning_delete_category_with_budget">Para pelo menos uma categoria selecionada, há alocações de orçamento, que também serão apagadas.</string>
     <plurals name="warning_delete_template">
         <item quantity="one">O modelo selecionado será excluído.</item>
+        <item quantity="many">%1$d modelos selecionados serão excluídos.</item>
         <item quantity="other">%1$d modelos selecionados serão excluídos.</item>
     </plurals>
     <plurals name="warning_delete_transaction">
         <item quantity="one">A transação selecionada será apagada.</item>
+        <item quantity="many">As %1$d transações selecionadas serão apagadas.</item>
         <item quantity="other">As %1$d transações selecionadas serão apagadas.</item>
     </plurals>
     <string name="move_category_success">Uma categoria foi movida com sucesso.</string>
@@ -599,7 +606,7 @@
     <string name="onboarding_more_options">Mais opções</string>
     <string name="onboarding_restore_from_cloud">Restaurar a partir da sincronização na nuvem</string>
     <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">Backup</string>
+    <string name="onboarding_restore_from_cloud_backup">Backups</string>
     <string name="onboarding_restore_from_local">Restaurar ficheiro de backup local</string>
     <string name="dialog_button_add">Adicionar</string>
     <string name="contributed_by">Contribuído por %s</string>
@@ -636,6 +643,7 @@
     <string name="sync_login_again">Por favor, autentique-se novamente.</string>
     <plurals name="delete_success">
         <item quantity="one">Um objeto foi excluído com sucesso.</item>
+        <item quantity="many">%d objetos foram excluídos com sucesso.</item>
         <item quantity="other">%d objetos foram excluídos com sucesso.</item>
     </plurals>
     <string name="feature_deprecated">Obsoleto</string>
@@ -827,7 +835,8 @@
     <string name="dialog_multi_tag">Todas as transações selecionadas serão marcadas com %s.</string>
     <string name="dialog_multi_tag_clear">Todas as etiquetas serão removidas das transações selecionadas.</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">A etiqueta %1$s está mapeada numa transação. Ela deve ser excluída\?</item>
+        <item quantity="one">A etiqueta %1$s está mapeada em uma transação. Ela deve ser excluída\?</item>
+        <item quantity="many">A etiqueta %1$s está mapeada em %2$d transações. Ela deve ser excluída\?</item>
         <item quantity="other">A etiqueta %1$s está mapeada em %2$d transações. Ela deve ser excluída\?</item>
     </plurals>
     <string name="dialog_multi_tag_append">Adicionar novas etiquetas às já existentes</string>
@@ -944,6 +953,7 @@
     <string name="object_sealed_debt">O objeto refere-se a uma dívida encerrada.</string>
     <plurals name="debt_mapped_transactions">
         <item quantity="one">A dívida %1$s tem %2$d transação mapeada.</item>
+        <item quantity="many">A dívida %1$s tem %2$d transações mapeadas.</item>
         <item quantity="other">A dívida %1$s tem %2$d transações mapeadas.</item>
     </plurals>
     <string name="dialog_title_delete_debt">Excluir a dívida\?</string>
@@ -956,6 +966,7 @@
     <string name="cb_label_merge_accounts">Fundir contas</string>
     <plurals name="import_categories_icons_updated">
         <item quantity="one">Uma categoria foi atualizada com ícone.</item>
+        <item quantity="many">%1$d categorias foram atualizadas com ícones.</item>
         <item quantity="other">%1$d categorias foram atualizadas com ícones.</item>
     </plurals>
     <string name="whats_new_336_2">Etiquetas para as partes da divisão</string>
@@ -968,10 +979,12 @@
     <string name="purge_backups">Os seguintes backups antigos serão excluídos:</string>
     <plurals name="purge_backup_success">
         <item quantity="one">Um arquivo de backup antigo foi apagado.</item>
+        <item quantity="many">%d arquivos de backup antigos foram apagados.</item>
         <item quantity="other">%d arquivos de backup antigos foram apagados.</item>
     </plurals>
     <plurals name="purge_backup_failure">
         <item quantity="one">Não foi possível excluir um arquivo de backup antigo.</item>
+        <item quantity="many">Não foi possível excluir %d arquivos de backup antigos.</item>
         <item quantity="other">Não foi possível excluir %d arquivos de backup antigos.</item>
     </plurals>
     <string name="pref_purge_backup_require_confirmation_summary">Exibir mensagem de confirmação antes de excluir arquivos</string>
@@ -1005,7 +1018,7 @@
     <string name="notifications_channel_required">Por favor, habilite o canal %s.</string>
     <string name="debt_borrow_additional">Eu pego %s emprestado.</string>
     <string name="debt_paid_off_other">A dívida de %s está paga.</string>
-    <string name="debt_balance_they_owe">Agora %1$s deve %2$s</string>
+    <string name="debt_balance_they_owe">Agora %1$s deve %2$s.</string>
     <string name="debt_installment_pay">Eu pago uma parcela de %s.</string>
     <string name="debt_installment_receive">Eu recebo uma parcela de %s.</string>
     <string name="debt_paid_off_self">Minha dívida está paga.</string>
@@ -1020,4 +1033,29 @@
     <string name="optimize_image_file_size">Otimizar o tamanho do arquivo de imagem</string>
     <string name="maximum_size">Tamanho máximo</string>
     <string name="file_format">Formato do arquivo</string>
+    <string name="whats_new_364_2">Nova estratégia para gerenciamento de informações duplicadas de pagador/beneficiário</string>
+    <string name="select_template">Seleção do modelo</string>
+    <string name="button_relink_keep_date">Vincular novamente, mas manter a data</string>
+    <string name="remove_from_group">Remover do grupo</string>
+    <string name="orphaned_transaction_relink">A transação pode ser novamente vinculada com a instância do evento em %s.</string>
+    <string name="notifications_permission_required_auto_backup">Ao conceder a permissão para enviar notificações, você será informado sobre backups automáticos.</string>
+    <string name="whats_new_361_1">A lista de transações pode ser ordenada por valor.</string>
+    <string name="merge_parties_strategy_delete">Os duplicados são excluídas.</string>
+    <string name="whats_new_365">Anexar um número arbitrário de imagens e documentos (PDF)</string>
+    <string name="pref_attachment_mime_types_title">Tipos MIME permitidos para anexos</string>
+    <string name="button_relink_update_date">Vincular novamente e atualizar a data</string>
+    <string name="pref_copy_attachments_summary_on">Os arquivos são copiados para a pasta do aplicativo.</string>
+    <string name="attachments">Anexos</string>
+    <string name="whats_new_364_1">Importar em várias contas a partir de um arquivo CSV</string>
+    <string name="pref_copy_attachments_title">Copiar anexos para a pasta do aplicativo</string>
+    <string name="read_from_data">Obter a partir dos dados</string>
+    <string name="image_optimize_quality_summary">Qualidade 0 significa comprimir para o menor tamanho. 100 significa comprimir para a qualidade visual máxima.</string>
+    <string name="orphaned_transaction_info">Existe uma transação vinculada ao plano para essa data, mas não existe nenhuma instância de evento nesta data.</string>
+    <string name="orphaned_transaction_align_date">Opcionalmente, a data armazenada com a transação também pode ser alinhada com a data da instância.</string>
+    <string name="template_shortcut">Atalho para o modelo</string>
+    <string name="merge_parties_strategy_group">Os duplicados são agrupados como dependentes.</string>
+    <string name="whats_new_358">O widget segue a configuração do tema (claro/escuro).</string>
+    <string name="pref_copy_attachments_summary_off">Os arquivos não são copiados, é armazenada apenas uma referência.</string>
+    <string name="show_duplicates">Exibir os duplicados</string>
+    <string name="whats_new_361_2">Os arquivos na pasta do aplicativo (backups e exportações) podem ser compartilhados ou excluídos.</string>
 </resources>
