@@ -13,8 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginVertical="5dp"
         android:layout_weight="1"
         android:orientation="vertical"
         android:paddingHorizontal="8dp">

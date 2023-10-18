@@ -79,8 +79,9 @@ import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel;
 import org.totschnig.myexpenses.viewmodel.ShareViewModel;
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
-import org.totschnig.myexpenses.widget.AbstractWidget;
+import org.totschnig.myexpenses.widget.AbstractListWidget;
 import org.totschnig.myexpenses.widget.AccountRemoteViewsFactory;
+import org.totschnig.myexpenses.widget.BudgetWidget;
 import org.totschnig.myexpenses.widget.TemplateRemoteViewsFactory;
 
 import javax.inject.Named;
@@ -232,7 +233,9 @@ public interface AppComponent {
 
   void inject(AccountRemoteViewsFactory accountRemoteViewsFactory);
 
-  void inject(AbstractWidget abstractWidget);
+  void inject(AbstractListWidget abstractListWidget);
+
+  void inject(BudgetWidget budgetWidget);
 
   void inject(ExchangeRateViewModel exchangeRateViewModel);
 

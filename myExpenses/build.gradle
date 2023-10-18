@@ -280,6 +280,7 @@ dependencies {
 
     implementation 'com.github.mtotschnig:Android-Image-Cropper:3ead230612'
     api "androidx.core:core-ktx:$ktxVersion"
+    implementation "androidx.core:core-remoteviews:1.0.0"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     implementation 'androidx.work:work-runtime-ktx:2.8.1'

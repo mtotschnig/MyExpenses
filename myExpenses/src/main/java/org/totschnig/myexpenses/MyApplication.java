@@ -85,7 +85,7 @@ import org.totschnig.myexpenses.util.io.NetworkUtilsKt;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.log.TagFilterFileLoggingTree;
 import org.totschnig.myexpenses.viewmodel.WebUiViewModel;
-import org.totschnig.myexpenses.widget.AbstractWidgetKt;
+import org.totschnig.myexpenses.widget.AbstractListWidgetKt;
 import org.totschnig.myexpenses.widget.WidgetObserver;
 
 import java.io.IOException;
@@ -293,7 +293,7 @@ public class MyApplication extends Application implements
   @Override
   public void onConfigurationChanged(@NonNull Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
-    AbstractWidgetKt.onConfigurationChanged(this);
+    AbstractListWidgetKt.onConfigurationChanged(this);
   }
 
   public long getLastPause() {
@@ -308,7 +308,7 @@ public class MyApplication extends Application implements
       // otherwise user could gain unprotected access to the app
       boolean isDataEntryEnabled = prefHandler.getBoolean(PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET, false);
       boolean isStartFromWidget = ctx.getIntent().getBooleanExtra(
-          AbstractWidgetKt.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);
+          AbstractListWidgetKt.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);
       if (!isDataEntryEnabled || !isStartFromWidget) {
         this.mLastPause = System.nanoTime();
       }
@@ -332,7 +332,7 @@ public class MyApplication extends Application implements
     if (ctx instanceof OnboardingActivity) return false;
     boolean isStartFromWidget = ctx == null
         || ctx.getIntent().getBooleanExtra(
-        AbstractWidgetKt.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);
+        AbstractListWidgetKt.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);
     boolean isProtected = isProtected();
     long lastPause = getLastPause();
     Timber.i("reading last pause : %d", lastPause);

@@ -54,6 +54,7 @@
     <string name="pref_template_click_default_key">template_click_default</string>
     <string name="pref_protection_enable_account_widget_key">enable_account_widget</string>
     <string name="pref_protection_enable_template_widget_key">enable_template_widget</string>
+    <string name="pref_protection_enable_budget_widget_key">enable_budget_widget</string>
     <string name="pref_protection_enable_data_entry_from_widget_key">enable_data_entry_from_widget</string>
     <string name="pref_account_grouping_key">account_grouping</string>
     <string name="pref_manage_stale_images_key">manage_stale_images</string>
