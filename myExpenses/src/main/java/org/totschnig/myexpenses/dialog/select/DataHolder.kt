@@ -2,7 +2,7 @@ package org.totschnig.myexpenses.dialog.select
 
 import android.database.Cursor
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
 @Parcelize

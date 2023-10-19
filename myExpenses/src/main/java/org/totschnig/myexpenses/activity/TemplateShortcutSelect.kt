@@ -69,16 +69,18 @@ fun SelectionScreen(
     val horizontalPadding = dimensionResource(id = R.dimen.padding_dialog_side)
     val verticalPadding = dimensionResource(id = R.dimen.padding_dialog_content_top)
     Column(
-        modifier = Modifier.padding(
-            horizontal = horizontalPadding,
-            vertical = verticalPadding,
-        )
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = horizontalPadding,
+                vertical = verticalPadding,
+            )
     ) {
         var selectedItem by remember { mutableStateOf<TemplateInfo?>(null) }
         if (data == null) {
-            Text("Loading")
+            Text(stringResource(R.string.loading))
         } else if (data.isEmpty()) {
-            Text("No templates")
+            Text(stringResource(id = R.string.no_templates))
         } else {
             LazyColumn(modifier = Modifier.weight(1f, false)) {
                 items(data.size) { index ->

@@ -1,29 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:attr/colorBackground"
-    android:paddingHorizontal="8dp"
-    android:paddingVertical="5dp"
+    android:orientation="vertical"
     android:theme="@style/Theme.Material3.DynamicColors.DayNight">
 
     <TextView
         android:id="@+id/title"
-        android:layout_gravity="top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <ProgressBar
-        android:id="@+id/budget_progress"
-        style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
-        android:progressDrawable="@drawable/budget_progress"
-        android:layout_gravity="center_vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="?colorPrimaryContainer"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="?colorOnPrimaryContainer" />
+
     <FrameLayout
-        android:layout_gravity="center_vertical"
-        android:id="@+id/todayMarker"
-        android:background="?colorOnSurface"
-        android:layout_width="1dp"
-        android:layout_height="24dp" />
-</FrameLayout>
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp">
+
+        <ProgressBar
+            android:id="@+id/budget_progress"
+            style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:progressDrawable="@drawable/budget_progress" />
+
+        <ImageView
+            android:id="@+id/todayMarker"
+            android:layout_width="1dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:background="?colorOnSurface"
+            tools:ignore="ContentDescription" />
+    </FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+    <TextView
+        android:id="@+id/spent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+</LinearLayout>

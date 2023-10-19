@@ -925,6 +925,8 @@
     <string name="account_widget_configuration_sum_total">Include future transactions</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Account widget configuration</string>
+    <!-- Title of dialogue that allows to configure account widget -->
+    <string name="budget_widget_configuration">Select budget</string>
     <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
     <string name="menu_merge">Merge</string>
     <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->

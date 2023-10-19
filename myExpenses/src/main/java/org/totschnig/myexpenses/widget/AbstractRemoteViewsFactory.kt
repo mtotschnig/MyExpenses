@@ -69,7 +69,6 @@ abstract class AbstractRemoteViewsFactory(
 
     companion object {
 
-
         val rowLayout: Int
             get() = when(AppCompatDelegate.getDefaultNightMode()) {
                 AppCompatDelegate.MODE_NIGHT_NO -> R.layout.widget_row_light

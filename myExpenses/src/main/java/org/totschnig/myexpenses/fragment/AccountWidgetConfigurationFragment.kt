@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.edit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -77,7 +78,10 @@ class AccountWidgetConfigurationFragment : PreferenceFragmentCompat() {
                 context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
 
         fun clearPreferences(context: Context, appWidgetId: Int) {
-            sharedPreferences(context).edit().remove(selectionKey(appWidgetId)).remove(sumKey(appWidgetId)).apply()
+            sharedPreferences(context).edit {
+                remove(selectionKey(appWidgetId))
+                remove(sumKey(appWidgetId))
+            }
         }
     }
 }

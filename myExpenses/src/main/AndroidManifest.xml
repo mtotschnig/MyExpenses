@@ -294,6 +294,15 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activity.BudgetWidgetConfigure"
+            android:exported="true"
+            android:label="@string/budget_widget_configuration"
+            android:theme="@style/Configuration">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".activity.TemplateShortcutSelect"
             android:icon="@drawable/ic_menu_template_shortcut"
             android:exported="true"
