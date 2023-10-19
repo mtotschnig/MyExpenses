@@ -3,7 +3,7 @@ buildscript {
     ext {
         compose_compiler_version = '1.5.3'
         kotlin_version = '1.9.10'
-        agp_version = '8.1.2'
+        agp_version = '8.2.0-rc01'
     }
 }
 plugins {
