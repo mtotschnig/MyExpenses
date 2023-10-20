@@ -14,16 +14,18 @@ import org.totschnig.myexpenses.provider.getString
 
 data class BudgetMinimal(val id: Long, val title: String)
 
-class BudgetWidgetConfigurationViewModel(application: Application): ContentResolvingAndroidViewModel(application) {
+class BudgetWidgetConfigurationViewModel(application: Application) :
+    ContentResolvingAndroidViewModel(application) {
     val budgets: StateFlow<List<BudgetMinimal>?> = contentResolver.observeQuery(
-        TransactionProvider.BUDGETS_URI, null,
-        null,
-        null, null, false
+        TransactionProvider.BUDGETS_URI,
+        arrayOf(
+            BudgetViewModel.q(DatabaseConstants.KEY_ROWID),
+            DatabaseConstants.KEY_TITLE
+        )
     )
         .mapToList { cursor ->
-            val id = cursor.getLong(DatabaseConstants.KEY_ROWID)
             BudgetMinimal(
-                id,
+                cursor.getLong(DatabaseConstants.KEY_ROWID),
                 cursor.getString(DatabaseConstants.KEY_TITLE),
             )
         }

@@ -30,7 +30,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.viewmodel.BudgetWidgetConfigurationViewModel
 import org.totschnig.myexpenses.widget.BudgetWidget
-import timber.log.Timber
 
 class BudgetWidgetConfigure : BaseWidgetConfigure() {
 
