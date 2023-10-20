@@ -51,7 +51,6 @@ class BudgetWidgetConfigure : BaseWidgetConfigure() {
                             vertical = verticalPadding,
                         )
                 ) {
-                    Timber.i("Composing")
                     val data = viewModel.budgets.collectAsState().value
                     if (data == null) {
                         Text(stringResource(R.string.loading))
@@ -95,7 +94,7 @@ class BudgetWidgetConfigure : BaseWidgetConfigure() {
                                 id = if (selectedItem == null)
                                     android.R.string.cancel
                                 else
-                                    R.string.add_shortcut
+                                    R.string.add_widget
                             )
                         )
                     }
