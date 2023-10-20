@@ -130,7 +130,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
             homeCurrencyProvider.homeCurrencyUnit else currencyContext.get(currency)
         val budgetId = cursor.getLong(KEY_ROWID)
         val accountId = cursor.getLong(KEY_ACCOUNTID)
-        val grouping = Grouping.valueOf(cursor.getString(KEY_GROUPING))
+        val grouping = cursor.getEnum(KEY_GROUPING, Grouping.NONE)
         Budget(
             id = budgetId,
             accountId = accountId,

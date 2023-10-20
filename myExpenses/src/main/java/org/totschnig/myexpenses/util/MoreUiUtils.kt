@@ -125,7 +125,7 @@ fun dateTimeFormatterLegacy(account: PageAccount, prefHandler: PrefHandler, cont
         }
 
         Grouping.MONTH ->
-            if (prefHandler.getString(PrefKey.GROUP_MONTH_STARTS, "1")!!.toInt() == 1) {
+            if (prefHandler.monthStart == 1) {
                 SimpleDateFormat("dd", Utils.localeFromContext(context)) to 2f
             } else {
                 Utils.localizedYearLessDateFormat(context) to 3f

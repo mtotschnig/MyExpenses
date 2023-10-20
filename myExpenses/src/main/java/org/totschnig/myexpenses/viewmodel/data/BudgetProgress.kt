@@ -4,8 +4,8 @@ data class BudgetProgress(
     val title: String,
     val allocated: Long,
     val spent: Long,
-    val totalDays: Int,
-    val currentDay: Int
+    val totalDays: Long,
+    val currentDay: Long
 ) {
     val remainingBudget: Long
         get() = allocated - spent

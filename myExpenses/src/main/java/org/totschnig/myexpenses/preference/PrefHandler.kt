@@ -46,6 +46,9 @@ interface PrefHandler {
     val collate
         get() = if (encryptDatabase) "NOCASE" else "LOCALIZED"
 
+    val monthStart
+        get() = requireString((PrefKey.GROUP_MONTH_STARTS), "1").toInt()
+
 }
 
 inline fun <reified T : Enum<T>> PrefHandler.enumValueOrDefault(prefKey: PrefKey, default: T): T =

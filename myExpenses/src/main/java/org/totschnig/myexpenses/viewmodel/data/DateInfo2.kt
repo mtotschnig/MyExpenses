@@ -8,9 +8,11 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_WEEK
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR_OF_MONTH_START
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR_OF_WEEK_START
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_END
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START
 import org.totschnig.myexpenses.provider.getIntIfExistsOr0
+import org.totschnig.myexpenses.provider.getLongIfExistsOr0
+import org.totschnig.myexpenses.provider.getStringIfExists
+import java.time.LocalDate
 
 data class DateInfo2(
     val day: Int, val week: Int, val month: Int, val year: Int,
@@ -32,14 +34,15 @@ data class DateInfo2(
 }
 
 data class DateInfo3(
-    val maxValue: Int, val weekStart: Int, val weekEnd: Int
+    val maxValue: Int, val weekStart: LocalDate?,
 ) {
     companion object {
         fun fromCursor(cursor: Cursor) = with(cursor) {
             DateInfo3(
                 getIntIfExistsOr0(KEY_MAX_VALUE),
-                getIntIfExistsOr0(KEY_WEEK_START),
-                getIntIfExistsOr0(KEY_WEEK_END)
+                getStringIfExists(KEY_WEEK_START)?.let {
+                    LocalDate.parse(it)
+                }
             )
         }
     }

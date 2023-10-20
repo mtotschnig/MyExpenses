@@ -295,8 +295,7 @@ fun HeaderData(
                     dateInfo.year,
                     dateInfo.yearOfWeekStart,
                     dateInfo.yearOfMonthStart,
-                    headerRow.weekStart,
-                    headerRow.weekEnd
+                    headerRow.weekStart
                 ),
             ),
             style = MaterialTheme.typography.titleMedium,

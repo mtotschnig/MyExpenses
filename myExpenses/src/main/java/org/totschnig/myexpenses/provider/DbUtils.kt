@@ -63,16 +63,6 @@ object DbUtils {
         )
     }
 
-    @JvmStatic
-    fun weekEndFromGroupSqlExpression(year: Int, week: Int): String {
-        return String.format(
-            Locale.US,
-            DatabaseConstants.getCountFromWeekStartZero() + " AS " + DatabaseConstants.KEY_WEEK_END,
-            year,
-            week * 7 + 6
-        )
-    }
-
     fun maximumWeekExpression(year: Int): String {
         return String.format(Locale.US, DatabaseConstants.getWeekMax(), year)
     }

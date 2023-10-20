@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTION_ATTACHMENT_SINGLE_URI
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.util.ICurrencyFormatter
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -29,7 +30,8 @@ open class Repository @Inject constructor(
     val context: Context,
     val currencyContext: CurrencyContext,
     val currencyFormatter: ICurrencyFormatter,
-    val prefHandler: PrefHandler
+    val prefHandler: PrefHandler,
+    val homeCurrencyProvider: HomeCurrencyProvider
 ) {
     companion object {
         const val UUID_SEPARATOR = ":"

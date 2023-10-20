@@ -45,7 +45,6 @@ public class DatabaseConstants {
   private static String THIS_WEEK;
   private static String THIS_MONTH;
   private static String WEEK_START;
-  private static String WEEK_END;
   private static String COUNT_FROM_WEEK_START_ZERO;
   private static String WEEK_START_JULIAN;
   private static String WEEK_MAX;
@@ -70,7 +69,7 @@ public class DatabaseConstants {
 
   public static void buildLocalized(Locale locale, Context context, PrefHandler prefHandler, String homeCurrency) {
     weekStartsOn = Utils.getFirstDayOfWeekFromPreferenceWithFallbackToLocale(locale, prefHandler);
-    monthStartsOn = Integer.parseInt(prefHandler.requireString(PrefKey.GROUP_MONTH_STARTS,"1"));
+    monthStartsOn = prefHandler.getMonthStart();
     int monthDelta = monthStartsOn - 1;
     int nextWeekEndSqlite;
     int nextWeekStartsSqlite = weekStartsOn - 1; //Sqlite starts with Sunday = 0
@@ -83,17 +82,16 @@ public class DatabaseConstants {
     }
     YEAR_OF_WEEK_START = "CAST(strftime('%Y',date,'unixepoch','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)";
     YEAR_OF_MONTH_START = "CAST(strftime('%Y',date,'unixepoch','localtime','-" + monthDelta + " day') AS integer)";
-    WEEK_START = "strftime('%s',date,'unixepoch','localtime','weekday " + nextWeekEndSqlite + "', '-6 day','utc')";
+    WEEK_START = "date(date,'unixepoch','localtime','weekday " + nextWeekEndSqlite + "', '-6 day')";
     THIS_YEAR_OF_WEEK_START = "CAST(strftime('%Y','now','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)";
-    WEEK_END = "strftime('%s',date,'unixepoch','localtime','weekday " + nextWeekEndSqlite + "','utc')";
     WEEK = "CAST((strftime('%j',date,'unixepoch','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') - 1) / 7 + 1 AS integer)"; //calculated for the beginning of the week
     MONTH = "CAST(strftime('%m',date,'unixepoch','localtime','-" + monthDelta + " day') AS integer) - 1"; //convert to 0 based
     THIS_WEEK = "CAST((strftime('%j','now','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') - 1) / 7 + 1 AS integer)";
     THIS_MONTH = "CAST(strftime('%m','now','localtime','-" + monthDelta + " day') AS integer) - 1";
     THIS_YEAR_OF_MONTH_START =  "CAST(strftime('%Y','now','localtime','-" + monthDelta + " day') AS integer)";
-    COUNT_FROM_WEEK_START_ZERO = "strftime('%%s','%d-01-01','weekday " + nextWeekStartsSqlite + "', '" +
+    COUNT_FROM_WEEK_START_ZERO = "date('%d-01-01','weekday " + nextWeekStartsSqlite + "', '" +
         "-7 day" +
-        "' ,'+%d day','utc')";
+        "' ,'+%d day')";
     WEEK_START_JULIAN = "julianday(date,'unixepoch','localtime'," + JULIAN_DAY_OFFSET + ",'weekday " + nextWeekEndSqlite + "', '-6 day')";
     WEEK_MAX= "CAST((strftime('%%j','%d-12-31','weekday " + nextWeekEndSqlite + "', '-6 day') - 1) / 7 + 1 AS integer)";
     buildProjection(context, homeCurrency);
@@ -128,8 +126,7 @@ public class DatabaseConstants {
             THIS_YEAR + " AS " + KEY_THIS_YEAR,
             THIS_WEEK + " AS " + KEY_THIS_WEEK,
             THIS_DAY + " AS " + KEY_THIS_DAY,
-            WEEK_START + " AS " + KEY_WEEK_START,
-            WEEK_END + " AS " + KEY_WEEK_END
+            WEEK_START + " AS " + KEY_WEEK_START
     };
 
     //extended
@@ -226,7 +223,6 @@ public class DatabaseConstants {
   public static final String KEY_CODE = "code";
   public static final String KEY_WEEK_START = "week_start";
   public static final String KEY_GROUP_START = "group_start";
-  public static final String KEY_WEEK_END = "week_end";
   public static final String KEY_DAY = "day";
   public static final String KEY_WEEK = "week";
   public static final String KEY_MONTH = "month";
@@ -557,11 +553,6 @@ public class DatabaseConstants {
   public static String getWeekStart() {
     ensureLocalized();
     return WEEK_START;
-  }
-
-  public static String getWeekEnd() {
-    ensureLocalized();
-    return WEEK_END;
   }
 
   /**

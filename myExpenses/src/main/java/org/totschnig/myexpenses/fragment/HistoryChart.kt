@@ -217,8 +217,9 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
         Grouping.MONTH -> Grouping.getDisplayTitleForMonth(
             (value / MONTH_GROUPING_YEAR_X).toInt(),
             (value % MONTH_GROUPING_YEAR_X).toInt(),
-            DateFormat.SHORT,
-            (requireActivity() as BaseActivity).getLocale()
+            FormatStyle.SHORT,
+            (requireActivity() as BaseActivity).getLocale(),
+            prefHandler.monthStart
         )
 
         Grouping.YEAR -> String.format(Locale.ROOT, "%d", value.toInt())

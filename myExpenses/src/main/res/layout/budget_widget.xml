@@ -15,8 +15,9 @@
         android:layout_gravity="top"
         android:background="?colorPrimaryContainer"
         android:gravity="center_vertical"
-        android:padding="16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textColor="?colorOnPrimaryContainer" />
 
     <FrameLayout

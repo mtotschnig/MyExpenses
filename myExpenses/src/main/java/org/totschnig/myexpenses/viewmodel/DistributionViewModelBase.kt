@@ -169,12 +169,6 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                             grouping.second
                         )
                     )
-                    add(
-                        DbUtils.weekEndFromGroupSqlExpression(
-                            grouping.year,
-                            grouping.second
-                        )
-                    )
                 }
             }
             contentResolver.observeQuery(

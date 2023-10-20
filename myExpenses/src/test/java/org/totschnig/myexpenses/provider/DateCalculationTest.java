@@ -92,7 +92,6 @@ public class DateCalculationTest {
         DatabaseConstants.getYearOfWeekStart() + " AS year",
         DatabaseConstants.getWeek() + " AS week",
         DatabaseConstants.getWeekStart() + " AS week_start",
-        DatabaseConstants.getWeekEnd() + " AS week_end",
         KEY_DATE
     };
     Cursor c = mDb.query(
@@ -106,32 +105,22 @@ public class DateCalculationTest {
       int week = c.getInt(1);
       long weekStartAsTimeStamp = c.getLong(2);
       int dayOfYearOfWeekStart = getDayOfYearFromTimestamp(weekStartAsTimeStamp);
-      long weekEndAsTimeStamp = c.getLong(3);
-      int dayOfYearOfWeekEnd = getDayOfYearFromTimestamp(weekEndAsTimeStamp);
-      long unixTimeStamp = c.getLong(4);
+      long unixTimeStamp = c.getLong(3);
       String date = SimpleDateFormat.getDateInstance().format(new Date(unixTimeStamp * 1000));
       String weekStartFromGroupSqlExpression = DbUtils.weekStartFromGroupSqlExpression(year, week);
-      String weekEndFromGroupSqlExpression = DbUtils.weekEndFromGroupSqlExpression(year, week);
       Cursor check = mDb.query(
           TABLE,
           new String[]{
-              weekStartFromGroupSqlExpression,
-              weekEndFromGroupSqlExpression
+              weekStartFromGroupSqlExpression
           },
           null, null, null, null, null);
       check.moveToFirst();
       long weekStartFromGroupAsTimeStamp = check.getLong(0);
       int dayOfYearOfWeekStartFromGroup = getDayOfYearFromTimestamp(weekStartFromGroupAsTimeStamp);
-      long weekEndFromGroupAsTimeStamp = check.getLong(1);
-      int dayOfYearOfWeekEndFromGroup = getDayOfYearFromTimestamp(weekEndFromGroupAsTimeStamp);
       assertEquals(String.format(Locale.ROOT,
           "With timezone %s and week starts on %d, for date %s (%d) comparing weekStart %d did not match weekStart from group (%d,%d) %d",
           timeZone, configuredWeekStart, date, unixTimeStamp, weekStartAsTimeStamp, year, week, weekStartFromGroupAsTimeStamp),
           dayOfYearOfWeekStart, dayOfYearOfWeekStartFromGroup);
-      assertEquals(String.format(Locale.ROOT,
-          "With timezone %s and week starts on %d, for date %s (%d) comparing weekEnd %d did not match weekEnd from group %d",
-          timeZone, configuredWeekStart, date, unixTimeStamp, weekEndAsTimeStamp, weekEndFromGroupAsTimeStamp),
-          dayOfYearOfWeekEnd, dayOfYearOfWeekEndFromGroup);
       check.close();
       c.moveToNext();
     }

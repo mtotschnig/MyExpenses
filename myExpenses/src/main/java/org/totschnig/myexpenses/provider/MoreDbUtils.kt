@@ -14,6 +14,7 @@ import android.provider.CalendarContract.Calendars
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
+import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
 import androidx.sqlite.db.SupportSQLiteStatement
@@ -497,6 +498,10 @@ fun SupportSQLiteDatabase.query(
             }
         }
         .create())
+
+fun SupportSQLiteDatabase.dualQuery(
+    columns: Array<String>
+): Cursor = query(SimpleSQLiteQuery("SELECT ${columns.joinToString(", ")}"))
 
 fun suggestNewCategoryColor(db: SupportSQLiteDatabase) = db.query(
     table = ColorUtils.MAIN_COLORS_AS_TABLE,

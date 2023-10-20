@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.model
 
 import android.content.Context
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.LocalDateFormatter
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.Utils
@@ -10,12 +12,13 @@ import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.time.chrono.IsoChronology
+import java.time.YearMonth
 import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeFormatterBuilder
 import java.time.format.FormatStyle
 import java.time.temporal.ChronoUnit
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
+import kotlin.math.min
 
 /**
  * grouping of transactions
@@ -43,7 +46,7 @@ enum class Grouping {
         ctx: Context,
         groupYear: Int,
         groupSecond: Int,
-        dateInfo: DateInfo
+        dateInfo: DateInfo,
     ): String {
         val locale = ctx.resources.configuration.locale
         return try {
@@ -66,11 +69,11 @@ enum class Grouping {
                     val thisYearOfWeekStart = dateInfo.thisYearOfWeekStart
                     val dateFormat = Utils.localizedYearLessDateFormat(ctx)
                     val weekRange = (" (" + Utils.convDateTime(
-                        dateInfo.weekStart.toLong(),
+                        dateInfo.weekStart,
                         dateFormat
                     )
                             + " - " + Utils.convDateTime(
-                        dateInfo.weekEnd.toLong(),
+                        dateInfo.weekEnd,
                         dateFormat
                     ) + " )")
                     val yearPrefix = if (groupYear == thisYearOfWeekStart) {
@@ -86,8 +89,9 @@ enum class Grouping {
                     getDisplayTitleForMonth(
                         groupYear,
                         groupSecond,
-                        DateFormat.LONG,
-                        locale
+                        FormatStyle.LONG,
+                        locale,
+                        ctx.injector.prefHandler().monthStart
                     )
                 }
 
@@ -102,42 +106,32 @@ enum class Grouping {
 
         fun groupId(year: Int, second: Int) = year * 1000 + second
 
+        fun getMonthRange(groupYear: Int, groupSecond: Int, monthStarts: Int): Pair<LocalDate, LocalDate> {
+            val startMonth = groupSecond + 1
+            val yearMonth = YearMonth.of(groupYear, startMonth)
+            return if (monthStarts == 1) {
+               yearMonth.atDay(1) to yearMonth.atEndOfMonth()
+            } else {
+                val nextMonth = yearMonth.plusMonths(1)
+                (if (monthStarts > yearMonth.lengthOfMonth())
+                    nextMonth.atDay(1) else yearMonth.atDay(monthStarts)) to
+                nextMonth.atDay(min(monthStarts - 1,nextMonth.lengthOfMonth()))
+            }
+        }
+
         fun getDisplayTitleForMonth(
             groupYear: Int,
             groupSecond: Int,
-            style: Int,
-            userPreferredLocale: Locale
+            style: FormatStyle,
+            userPreferredLocale: Locale,
+            monthStarts: Int
         ): String {
-            val monthStarts = PrefKey.GROUP_MONTH_STARTS.getString("1")!!.toInt()
-            var cal = Calendar.getInstance()
             return if (monthStarts == 1) {
-                cal[groupYear, groupSecond] = 1
-                SimpleDateFormat("MMMM y", userPreferredLocale).format(cal.time)
+                DateTimeFormatter.ofPattern("MMMM y").format(YearMonth.of(groupYear, groupSecond +1))
             } else {
-                val dateFormat = DateFormat.getDateInstance(style, userPreferredLocale)
-                cal = Calendar.getInstance()
-                cal[groupYear, groupSecond] = 1
-                if (cal.getActualMaximum(Calendar.DAY_OF_MONTH) < monthStarts) {
-                    cal[groupYear, groupSecond + 1] = 1
-                } else {
-                    cal[Calendar.DATE] = monthStarts
-                }
-                val startDate = dateFormat.format(cal.time)
-                var endYear = groupYear
-                var endMonth = groupSecond + 1
-                if (endMonth > Calendar.DECEMBER) {
-                    endMonth = Calendar.JANUARY
-                    endYear++
-                }
-                cal = Calendar.getInstance()
-                cal[endYear, endMonth] = 1
-                if (cal.getActualMaximum(Calendar.DAY_OF_MONTH) < monthStarts - 1) {
-                    cal[Calendar.DATE] = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
-                } else {
-                    cal[Calendar.DATE] = monthStarts - 1
-                }
-                val endDate = dateFormat.format(cal.time)
-                " ($startDate - $endDate )"
+                val dateFormat = DateTimeFormatter.ofLocalizedDate(style).withLocale(userPreferredLocale)
+                val range = getMonthRange(groupYear, groupSecond, monthStarts)
+                "(${dateFormat.format(range.first)} - ${dateFormat.format(range.second)})"
             }
         }
 

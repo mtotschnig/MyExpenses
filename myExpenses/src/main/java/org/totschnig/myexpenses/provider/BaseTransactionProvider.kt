@@ -1044,7 +1044,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
             }
             if (group === Grouping.WEEK) {
                 add("${getWeekStart()} AS $KEY_WEEK_START")
-                add("${getWeekEnd()} AS $KEY_WEEK_END")
             }
         }.toTypedArray()
 
