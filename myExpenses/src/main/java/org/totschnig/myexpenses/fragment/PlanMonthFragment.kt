@@ -373,7 +373,7 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
         const val INSTANCE_STATUS_CURSOR = 2
         fun newInstance(
             title: String?, templateId: Long, planId: Long, color: Int,
-            readOnly: Boolean, prefHandler: PrefHandler?
+            readOnly: Boolean, prefHandler: PrefHandler
         ): PlanMonthFragment {
             val f = PlanMonthFragment()
             val args = Bundle()
@@ -386,10 +386,7 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
             args.putBoolean(KEY_READ_ONLY, readOnly)
             args.putInt(
                 START_DAY_OF_WEEK,
-                Utils.getFirstDayOfWeekFromPreferenceWithFallbackToLocale(
-                    Locale.getDefault(),
-                    prefHandler
-                )
+                prefHandler.weekStartWithFallback(Locale.getDefault())
             )
             f.arguments = args
             return f

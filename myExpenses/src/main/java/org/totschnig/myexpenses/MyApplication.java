@@ -25,7 +25,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.WEBUI_HTTPS;
 import static org.totschnig.myexpenses.preference.PrefKey.WEBUI_PASSWORD;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.AGGREGATE_HOME_CURRENCY_CODE;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.CALENDAR_FULL_PATH_PROJECTION;
-import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.requireString;
+import static org.totschnig.myexpenses.provider.CursorExtKt.requireString;
 
 import android.app.Activity;
 import android.app.ActivityManager;

@@ -160,7 +160,8 @@ fun TransactionList(
                 }
             }
         }
-        val headerCorrection = with(LocalDensity.current) { TextUnit(59f, TextUnitType.Sp).toPx() }.roundToInt()
+        val headerCorrection =
+            with(LocalDensity.current) { TextUnit(59f, TextUnitType.Sp).toPx() }.roundToInt()
         if (scrollToCurrentDateStartIndex.value == null) {
             if (scrollToCurrentDate.value) {
                 LaunchedEffect(Unit) {
@@ -272,7 +273,7 @@ fun TransactionList(
 fun HeaderData(
     grouping: Grouping,
     headerRow: HeaderRow,
-    dateInfo: DateInfo2,
+    dateInfo: DateInfo,
     showSumDetails: Boolean,
     showOnlyDelta: Boolean,
     alignStart: Boolean = false,
@@ -287,16 +288,7 @@ fun HeaderData(
     ) {
         Text(
             text = grouping.getDisplayTitle(
-                context, headerRow.year, headerRow.second,
-                DateInfo(
-                    dateInfo.day,
-                    dateInfo.week,
-                    dateInfo.month,
-                    dateInfo.year,
-                    dateInfo.yearOfWeekStart,
-                    dateInfo.yearOfMonthStart,
-                    headerRow.weekStart
-                ),
+                context, headerRow.year, headerRow.second, dateInfo, headerRow.weekStart
             ),
             style = MaterialTheme.typography.titleMedium,
         )
@@ -354,7 +346,7 @@ fun HeaderRenderer(
     account: PageAccount,
     headerId: Int,
     headerRow: HeaderRow,
-    dateInfo: DateInfo2,
+    dateInfo: DateInfo,
     budget: Pair<Long, Long>?,
     isExpanded: Boolean,
     toggle: (() -> Unit)?,
@@ -438,7 +430,7 @@ fun RowRTL() {
 fun Header() {
     val amount = Money(CurrencyUnit.DebugInstance, 1234)
     val headerRow = HeaderRow(
-        2022, 11, amount, amount, amount, amount, amount, amount, 0, 0
+        2022, 11, amount, amount, amount, amount, amount, amount, LocalDate.now()
     )
     HeaderRenderer(
         account = PageAccount(
@@ -454,7 +446,7 @@ fun Header() {
         ),
         headerId = 2022001,
         headerRow = headerRow,
-        dateInfo = DateInfo2.EMPTY,
+        dateInfo = DateInfo.EMPTY,
         budget = null,
         isExpanded = true,
         toggle = { },

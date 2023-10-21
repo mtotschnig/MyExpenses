@@ -48,8 +48,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMI
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.FULL_LABEL;
-import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.getLongOrNull;
-import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.getString;
+import static org.totschnig.myexpenses.provider.CursorExtKt.getLongOrNull;
+import static org.totschnig.myexpenses.provider.CursorExtKt.getString;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;

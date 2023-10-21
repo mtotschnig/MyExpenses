@@ -7,6 +7,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import java.text.SimpleDateFormat
+import java.time.DayOfWeek
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -15,6 +16,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import java.util.Calendar
 
 fun epoch2LocalDate(epochSecond: Long): LocalDate = ZonedDateTime.ofInstant(
     Instant.ofEpochSecond(epochSecond), ZoneId.systemDefault()
@@ -69,3 +71,15 @@ fun validateDateFormat(context: Context, dateFormat: String) = when {
         context.getString(R.string.date_format_illegal) + " (${e.safeMessage})"
     }
 }
+
+val Int.toDayOfWeek: DayOfWeek
+    get() = when(this) {
+        Calendar.SUNDAY -> DayOfWeek.SUNDAY
+        Calendar.MONDAY -> DayOfWeek.MONDAY
+        Calendar.TUESDAY -> DayOfWeek.TUESDAY
+        Calendar.WEDNESDAY -> DayOfWeek.WEDNESDAY
+        Calendar.THURSDAY -> DayOfWeek.THURSDAY
+        Calendar.FRIDAY -> DayOfWeek.FRIDAY
+        Calendar.SATURDAY -> DayOfWeek.SATURDAY
+        else -> throw IllegalArgumentException()
+    }

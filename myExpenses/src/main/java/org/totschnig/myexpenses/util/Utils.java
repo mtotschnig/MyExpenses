@@ -450,12 +450,6 @@ public class Utils {
     return new GregorianCalendar(locale).getFirstDayOfWeek();
   }
 
-  public static int getFirstDayOfWeekFromPreferenceWithFallbackToLocale(Locale locale, PrefHandler prefHandler) {
-    String weekStartsOn = prefHandler.requireString(PrefKey.GROUP_WEEK_STARTS,"-1");
-    return weekStartsOn.equals("-1") ? Utils.getFirstDayOfWeek(locale) :
-        Integer.parseInt(weekStartsOn);
-  }
-
   public static void configureGroupingMenu(SubMenu groupingMenu, Grouping currentGrouping) {
     (switch (currentGrouping) {
           case DAY -> groupingMenu.findItem(R.id.GROUPING_DAY_COMMAND);

@@ -4,6 +4,9 @@ import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.preference.PreferenceFragmentCompat
+import org.totschnig.myexpenses.util.Utils
+import java.util.Calendar
+import java.util.Locale
 
 interface PrefHandler {
     fun getKey(key: PrefKey): String
@@ -47,7 +50,21 @@ interface PrefHandler {
         get() = if (encryptDatabase) "NOCASE" else "LOCALIZED"
 
     val monthStart
-        get() = requireString((PrefKey.GROUP_MONTH_STARTS), "1").toInt()
+        get() = try {
+            requireString((PrefKey.GROUP_MONTH_STARTS), "1").toInt()
+                .takeIf { it in 1..31 }
+        } catch (e: NumberFormatException) {
+            null
+        } ?: 1
+
+    val weekStart
+        get() = try {
+            getString(PrefKey.GROUP_WEEK_STARTS)?.toInt()
+        } catch (e: NumberFormatException) {
+            null
+        }.takeIf { it in Calendar.SUNDAY..Calendar.SATURDAY }
+
+    fun weekStartWithFallback(locale: Locale) = weekStart ?: Utils.getFirstDayOfWeek(locale)
 
 }
 

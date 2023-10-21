@@ -10,18 +10,15 @@ import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
-import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.util.readThemeColor
-import timber.log.Timber
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import java.util.Calendar
 
 
 /**
@@ -49,8 +46,15 @@ class DateButton @JvmOverloads constructor(
             0
         )
         compoundDrawablePadding = 0
-        TextViewCompat.setCompoundDrawableTintList(this,
-            ColorStateList.valueOf(readThemeColor(getContext(), androidx.appcompat.R.attr.colorPrimary)))
+        TextViewCompat.setCompoundDrawableTintList(
+            this,
+            ColorStateList.valueOf(
+                readThemeColor(
+                    getContext(),
+                    androidx.appcompat.R.attr.colorPrimary
+                )
+            )
+        )
         val horizontalPadding = 0
         setPaddingRelative(horizontalPadding, paddingTop, horizontalPadding, paddingBottom)
         //noinspection ClickableViewAccessibility
@@ -69,9 +73,11 @@ class DateButton @JvmOverloads constructor(
                 it <= marginTouchWidth -> {
                     previousDay()
                 }
+
                 it >= width - marginTouchWidth -> {
                     nextDay()
                 }
+
                 else -> {
                     super.onClick()
                 }
@@ -107,20 +113,11 @@ class DateButton @JvmOverloads constructor(
             ZonedDateTime.of(date.atStartOfDay(), ZoneId.of("UTC")).toEpochSecond() * 1000
         ).apply {
             with(context.injector.prefHandler()) {
-                requireString(PrefKey.GROUP_WEEK_STARTS, "-1")
-                    .let { weekStartSetting ->
-                        try {
-                            weekStartSetting.toInt()
-                                .takeIf { it in Calendar.SUNDAY..Calendar.SATURDAY }
-                        } catch (e: NumberFormatException) {
-                            null
-                        }?.let { firstDayOfWeek ->
-                            setCalendarConstraints(
-                                CalendarConstraints.Builder().setFirstDayOfWeek(firstDayOfWeek)
-                                    .build()
-                            )
-                        }
-                    }
+                weekStart?.let {
+                    setCalendarConstraints(
+                        CalendarConstraints.Builder().setFirstDayOfWeek(it).build()
+                    )
+                }
                 getInt(TimeButton.KEY_INPUT_MODE, -1).takeIf { it != -1 }?.let {
                     setInputMode(it)
                 }
@@ -131,7 +128,8 @@ class DateButton @JvmOverloads constructor(
     override fun attachListener(dialogFragment: MaterialDatePicker<Long>) {
         dialogFragment.addOnPositiveButtonClickListener {
             setDateInternal(epochMillis2LocalDate(it, ZoneId.of("UTC")))
-            context.injector.prefHandler().putInt(TimeButton.KEY_INPUT_MODE, dialogFragment.inputMode)
+            context.injector.prefHandler()
+                .putInt(TimeButton.KEY_INPUT_MODE, dialogFragment.inputMode)
         }
         dialogFragment.addOnDismissListener {
             dialogShown = false

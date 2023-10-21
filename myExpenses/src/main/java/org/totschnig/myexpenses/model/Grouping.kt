@@ -2,21 +2,18 @@ package org.totschnig.myexpenses.model
 
 import android.content.Context
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.compose.LocalDateFormatter
 import org.totschnig.myexpenses.injector
-import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.asDateTimeFormatter
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.time.temporal.ChronoUnit
-import java.util.Calendar
 import java.util.Locale
 import kotlin.math.min
 
@@ -47,42 +44,51 @@ enum class Grouping {
         groupYear: Int,
         groupSecond: Int,
         dateInfo: DateInfo,
+        weekStart: LocalDate?,
+        weekRangeOnly: Boolean = false
     ): String {
         val locale = ctx.resources.configuration.locale
         return try {
             when (this) {
                 NONE -> ctx.getString(R.string.menu_aggregates)
                 DAY -> {
-                    val today = LocalDate.ofYearDay(dateInfo.thisYear, dateInfo.thisDay)
+                    val today = LocalDate.ofYearDay(dateInfo.year, dateInfo.day)
                     val day = LocalDate.ofYearDay(groupYear, groupSecond)
-                    val title = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).withLocale(locale).format(day)
-                    when(ChronoUnit.DAYS.between(day, today)) {
+                    when (ChronoUnit.DAYS.between(day, today)) {
                         1L -> R.string.yesterday
                         0L -> R.string.today
                         -1L -> R.string.tomorrow
                         else -> null
-                    }?.let { ctx.getString(it) + " (" + title + ")" } ?: title
+                    }?.let { ctx.getString(it) }
+                        ?: DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
+                            .withLocale(locale)
+                            .format(day)
                 }
 
                 WEEK -> {
-                    val thisWeek = dateInfo.thisWeek
-                    val thisYearOfWeekStart = dateInfo.thisYearOfWeekStart
-                    val dateFormat = Utils.localizedYearLessDateFormat(ctx)
-                    val weekRange = (" (" + Utils.convDateTime(
-                        dateInfo.weekStart,
-                        dateFormat
-                    )
-                            + " - " + Utils.convDateTime(
-                        dateInfo.weekEnd,
-                        dateFormat
-                    ) + " )")
-                    val yearPrefix = if (groupYear == thisYearOfWeekStart) {
-                        if (groupSecond == thisWeek) return ctx.getString(R.string.grouping_this_week) + weekRange else if (groupSecond == thisWeek - 1) return ctx.getString(
-                            R.string.grouping_last_week
-                        ) + weekRange
-                        ""
-                    } else "$groupYear, "
-                    yearPrefix + ctx.getString(R.string.grouping_week) + " " + groupSecond + weekRange
+                    val formatter =
+                        (Utils.localizedYearLessDateFormat(ctx) as? SimpleDateFormat)?.asDateTimeFormatter
+                    val weekEnd = getWeekEndFromStart(weekStart!!)
+                    fun format(localDate: LocalDate) =
+                        formatter?.format(localDate) ?: localDate.toString()
+
+                    val weekRange = "${format(weekStart)} - ${format(weekEnd)}"
+
+                    if (weekRangeOnly) return weekRange
+
+                    val thisWeek = dateInfo.week
+                    val thisYearOfWeekStart = dateInfo.yearOfWeekStart
+
+                    if (groupYear == thisYearOfWeekStart) {
+                        if (groupSecond == thisWeek) {
+                            return "${ctx.getString(R.string.grouping_this_week)} ($weekRange)"
+                        } else if (groupSecond == thisWeek - 1) {
+                            return "${ctx.getString(R.string.grouping_last_week)} ($weekRange)"
+                        }
+                    }
+
+                    val yearPrefix = if (groupYear == thisYearOfWeekStart) "" else "$groupYear, "
+                    "$yearPrefix${ctx.getString(R.string.grouping_week)} $groupSecond ($weekRange)"
                 }
 
                 MONTH -> {
@@ -106,16 +112,22 @@ enum class Grouping {
 
         fun groupId(year: Int, second: Int) = year * 1000 + second
 
-        fun getMonthRange(groupYear: Int, groupSecond: Int, monthStarts: Int): Pair<LocalDate, LocalDate> {
+        fun getWeekEndFromStart(weekStart: LocalDate) = weekStart.plusDays(6)
+
+        fun getMonthRange(
+            groupYear: Int,
+            groupSecond: Int,
+            monthStarts: Int
+        ): Pair<LocalDate, LocalDate> {
             val startMonth = groupSecond + 1
             val yearMonth = YearMonth.of(groupYear, startMonth)
             return if (monthStarts == 1) {
-               yearMonth.atDay(1) to yearMonth.atEndOfMonth()
+                yearMonth.atDay(1) to yearMonth.atEndOfMonth()
             } else {
                 val nextMonth = yearMonth.plusMonths(1)
                 (if (monthStarts > yearMonth.lengthOfMonth())
                     nextMonth.atDay(1) else yearMonth.atDay(monthStarts)) to
-                nextMonth.atDay(min(monthStarts - 1,nextMonth.lengthOfMonth()))
+                        nextMonth.atDay(min(monthStarts - 1, nextMonth.lengthOfMonth()))
             }
         }
 
@@ -127,9 +139,11 @@ enum class Grouping {
             monthStarts: Int
         ): String {
             return if (monthStarts == 1) {
-                DateTimeFormatter.ofPattern("MMMM y").format(YearMonth.of(groupYear, groupSecond +1))
+                DateTimeFormatter.ofPattern("MMMM y")
+                    .format(YearMonth.of(groupYear, groupSecond + 1))
             } else {
-                val dateFormat = DateTimeFormatter.ofLocalizedDate(style).withLocale(userPreferredLocale)
+                val dateFormat =
+                    DateTimeFormatter.ofLocalizedDate(style).withLocale(userPreferredLocale)
                 val range = getMonthRange(groupYear, groupSecond, monthStarts)
                 "(${dateFormat.format(range.first)} - ${dateFormat.format(range.second)})"
             }

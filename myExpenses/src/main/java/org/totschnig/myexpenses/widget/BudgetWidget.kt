@@ -48,9 +48,10 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
             Timber.i("totalDays / currentDay : %d / %d", budgetInfo.totalDays, budgetInfo.currentDay)
             val progress = budgetInfo.spent / budgetInfo.allocated.toFloat()
             val todayPosition = budgetInfo.currentDay / budgetInfo.totalDays.toFloat()
+            val showCurrentPosition = budgetInfo.totalDays > 1 && budgetInfo.currentDay in 1..budgetInfo.totalDays
             val color = when {
                 progress > 1 -> R.layout.budget_widget_progress_red
-                progress > todayPosition -> R.layout.budget_widget_progress_yellow
+                showCurrentPosition && progress > todayPosition -> R.layout.budget_widget_progress_yellow
                 else -> R.layout.budget_widget_progress_green
             }
             Timber.i("progress: %f - %f", progress, todayPosition)
@@ -60,39 +61,46 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
             ).apply {
                 val titleVisible = availableHeight >= 110
                 setViewVisibility(
-                    R.id.title,
+                    R.id.titleRow,
                     if (titleVisible) View.VISIBLE else View.GONE
                 )
                 setTextViewText(R.id.title, budgetInfo.title)
+                setTextViewText(R.id.groupInfo, budgetInfo.groupInfo)
                 setViewStubLayoutResource(R.id.budgetProgressStub, color)
                 setViewVisibility(R.id.budgetProgressStub, View.VISIBLE)
                 setProgressBarProgress(R.id.budget_progress, (progress * 100).toInt())
-                val translation = availableWidth * todayPosition - 0.5F
-                Timber.i("translation %f", translation)
                 val remainingBudget = budgetInfo.remainingBudget
                 val remainingDays = budgetInfo.remainingDays
                 val info = buildList {
                     if (!titleVisible) {
-                        add("${budgetInfo.title}:")
+                        add("${budgetInfo.title} (${budgetInfo.groupInfo}):")
                     }
                     add("You have spent ${budgetInfo.spent} of ${budgetInfo.allocated}.")
-                    if (remainingBudget > 0 && remainingDays > 0) {
-                        add("Remainder: $remainingBudget (${remainingBudget / remainingDays.toFloat()} / day)")
+                    if (remainingBudget > 0) {
+                        add("Remainder: $remainingBudget")
+                        if (remainingDays > 0) {
+                            add("(${remainingBudget / remainingDays.toFloat()} / day)")
+                        }
                     }
                 }.joinToString(separator = " ")
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    setViewTranslationXDimen(
-                        R.id.todayMarker,
-                        translation,
-                        TypedValue.COMPLEX_UNIT_DIP
-                    )
+                if (showCurrentPosition) {
+                    val translation = availableWidth * todayPosition - 0.5F
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        setViewTranslationXDimen(
+                            R.id.todayMarker,
+                            translation,
+                            TypedValue.COMPLEX_UNIT_DIP
+                        )
+                    } else {
+                        val padding = TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP,
+                            translation,
+                            context.resources.displayMetrics
+                        ).toInt()
+                        setViewPadding(R.id.todayMarkerContainer, padding, 0, 0, 0)
+                    }
                 } else {
-                    val padding = TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        translation,
-                        context.resources.displayMetrics
-                    ).toInt()
-                    setViewPadding(R.id.todayMarkerContainer, padding, 0, 0, 0)
+                    setViewVisibility(R.id.todayMarkerContainer, View.GONE)
                 }
                 setTextViewText(R.id.spent, info)
                 setOnClickPendingIntent(

@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.export.pdf;
 
 
 import static com.itextpdf.text.Chunk.GENERICTAG;
+import static org.totschnig.myexpenses.provider.CursorExtKt.getLocalDateIfExists;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -24,13 +25,13 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSF
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_WEEK_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.CTE_TRANSACTION_GROUPS;
-import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.getLongOrNull;
-import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.getString;
-import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.requireString;
+import static org.totschnig.myexpenses.provider.CursorExtKt.getLongOrNull;
+import static org.totschnig.myexpenses.provider.CursorExtKt.getString;
 import static org.totschnig.myexpenses.util.ArrayUtilsKt.joinArrays;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.convAmount;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
@@ -68,8 +69,8 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.model2.Account;
+import org.totschnig.myexpenses.provider.CursorExtKt;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.MoreDbUtilsKt;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.ICurrencyFormatter;
@@ -280,7 +281,9 @@ public class PdfPrinter {
         };
         table = helper.newTable(2);
         table.setWidthPercentage(100f);
-        PdfPCell cell = helper.printToCell(account.getGrouping().getDisplayTitle(context, year, second, DateInfo.fromCursor(transactionCursor)), FontType.HEADER);
+        PdfPCell cell = helper.printToCell(account.getGrouping().getDisplayTitle(context, year, second,
+                DateInfo.Companion.fromCursor(transactionCursor), getLocalDateIfExists(transactionCursor, KEY_WEEK_START), false), //TODO
+                FontType.HEADER);
         table.addCell(cell);
         if (groupCursor.isAfterLast()) {
           Timber.w("Account: %s, currentHeaderId; %d, prevHeaderId: %d, filter: %s, accountId: ",
@@ -449,7 +452,7 @@ public class PdfPrinter {
       cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
       table.addCell(cell);
       String comment = transactionCursor.getString(columnIndexComment);
-      List<String> tagList = MoreDbUtilsKt.splitStringList(transactionCursor, KEY_TAGLIST);
+      List<String> tagList = CursorExtKt.splitStringList(transactionCursor, KEY_TAGLIST);
       final boolean hasComment = comment != null && comment.length() > 0;
       final boolean hasTags = tagList.size() > 0;
       if (hasComment || hasTags) {

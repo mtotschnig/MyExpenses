@@ -1,6 +1,6 @@
 package org.totschnig.myexpenses.preference;
 
-import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.requireString;
+import static org.totschnig.myexpenses.provider.CursorExtKt.requireString;
 
 import android.content.DialogInterface;
 import android.database.Cursor;

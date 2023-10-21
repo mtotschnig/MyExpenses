@@ -22,6 +22,8 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.db2.budgetAllocationQueryUri
+import org.totschnig.myexpenses.db2.budgetAllocationUri
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -44,9 +46,11 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
         editRollOver.value = true
         return true
     }
+
     fun stopRollOverEdit() {
         editRollOver.value = false
     }
+
     val duringRollOverEdit: Boolean
         get() = editRollOver.value
 
@@ -81,7 +85,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                 arrayOf(budgetId.toString()),
                 null,
                 true
-            ).mapToOne(mapper = budgetCreatorFunction).collect { budget ->
+            ).mapToOne(mapper = repository.budgetCreatorFunction).collect { budget ->
                 _accountInfo.tryEmit(budget)
                 if (groupingInfo == null) {
                     if (groupingYear == 0 && groupingSecond == 0) {
@@ -103,29 +107,8 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
         }
 
         budgetFlow = groupingInfoFlow.filterNotNull().flatMapLatest { info ->
-            val builder = budgetAllocationUri(budgetId, 0).buildUpon()
-            if (info.grouping != Grouping.NONE) {
-                builder.appendQueryParameter(
-                    DatabaseConstants.KEY_YEAR,
-                    info.year.toString()
-                )
-                if (info.grouping != Grouping.YEAR) {
-                    builder.appendQueryParameter(
-                        DatabaseConstants.KEY_SECOND_GROUP,
-                        info.second.toString()
-                    )
-                }
-            }
-            contentResolver.observeQuery(
-                uri = builder.build()
-            ).mapToOne(BudgetAllocation.EMPTY) {
-                BudgetAllocation(
-                    budget = it.getLong(DatabaseConstants.KEY_BUDGET),
-                    rollOverPrevious = it.getLong(DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS),
-                    rollOverNext = it.getLong(DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT),
-                    oneTime = it.getInt(DatabaseConstants.KEY_ONE_TIME) != 0
-                )
-            }
+            contentResolver.observeQuery(budgetAllocationQueryUri(budgetId, 0, info))
+                .mapToOne(BudgetAllocation.EMPTY, mapper = BudgetAllocation.Companion::fromCursor)
         }
 
         categoryTreeForBudget = combine(
@@ -162,14 +145,6 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                 ).map { it.copy(budget = budget) }
             }
     }
-
-    private fun budgetAllocationUri(budgetId: Long, categoryId: Long) = ContentUris.withAppendedId(
-        ContentUris.withAppendedId(
-            TransactionProvider.BUDGETS_URI,
-            budgetId
-        ),
-        categoryId
-    )
 
     override fun dateFilterClause(groupingInfo: GroupingInfo): String? {
         return if (groupingInfo.grouping == Grouping.NONE) accountInfo.value?.durationAsSqlFilter() else
@@ -302,9 +277,10 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                 CrashHandler.throwOrReport("Rollovers already exist")
             } else {
                 saveRollOverList(tree.children.mapNotNull { category ->
-                    (category.budget.totalAllocated + category.aggregateSum).takeIf { it != 0L }?.let {
-                        category.id to it
-                    }
+                    (category.budget.totalAllocated + category.aggregateSum).takeIf { it != 0L }
+                        ?.let {
+                            category.id to it
+                        }
                 })
             }
         }

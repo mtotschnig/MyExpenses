@@ -78,7 +78,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             groupingInfo = GroupingInfo(grouping, 0, 0)
         } else {
             viewModelScope.launch {
-                groupingInfo =  with(dateInfo.first()) {
+                groupingInfo = with(dateInfo.first()) {
                     GroupingInfo(
                         grouping = grouping,
                         year = when (grouping) {
@@ -98,7 +98,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         }
     }
 
-    fun GroupingInfo.next(dateInfo: DateInfo3): GroupingInfo {
+    fun GroupingInfo.next(dateInfo: DateInfoExtra): GroupingInfo {
         val nextSecond = second + 1
         val overflow = nextSecond > dateInfo.maxValue
         return copy(
@@ -107,7 +107,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         )
     }
 
-    fun GroupingInfo.previous(dateInfo: DateInfo3): GroupingInfo {
+    fun GroupingInfo.previous(dateInfo: DateInfoExtra): GroupingInfo {
         val nextSecond = second - 1
         val underflow = nextSecond < grouping.minValue
         return copy(
@@ -143,7 +143,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val dateInfoExtra: StateFlow<DateInfo3?> =
+    val dateInfoExtra: StateFlow<DateInfoExtra?> =
         groupingInfoFlow.filterNotNull().flatMapLatest { grouping ->
             //if we are at the beginning of the year we are interested in the max of the previous year
             val maxYearToLookUp = if (grouping.second <= 1) grouping.year - 1 else grouping.year
@@ -153,6 +153,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                     "strftime('%%j','%d-12-31')",
                     maxYearToLookUp
                 )
+
                 Grouping.WEEK -> DbUtils.maximumWeekExpression(maxYearToLookUp)
                 Grouping.MONTH -> "11"
                 else -> "0"
@@ -182,7 +183,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                 withContext(Dispatchers.IO) {
                     query.run()?.use { cursor ->
                         cursor.moveToFirst()
-                        DateInfo3.fromCursor(cursor)
+                        DateInfoExtra.fromCursor(cursor)
                     }
                 }
             }
@@ -197,17 +198,11 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             defaultDisplayTitle
         } else if (dateInfoExtra != null) {
             groupingInfo.grouping.getDisplayTitle(
-                localizedContext, groupingInfo.year, groupingInfo.second,
-                DateInfo(
-                    dateInfo.day,
-                    dateInfo.week,
-                    dateInfo.month,
-                    dateInfo.year,
-                    dateInfo.yearOfWeekStart,
-                    dateInfo.yearOfMonthStart,
-                    dateInfoExtra.weekStart,
-                    dateInfoExtra.weekEnd
-                )
+                localizedContext,
+                groupingInfo.year,
+                groupingInfo.second,
+                dateInfo,
+                dateInfoExtra.weekStart
             )
         } else null
     }.filterNotNull()
@@ -280,10 +275,12 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                     )
                 table = VIEW_WITH_ACCOUNT
             }
+
             accountInfo.accountId < 0 -> {
                 accountSelection =
                     " IN (SELECT $KEY_ROWID from $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = '${accountInfo.currency.code}' AND $KEY_EXCLUDE_FROM_TOTALS = 0 )"
             }
+
             else -> {
                 accountSelection = " = ${accountInfo.accountId}"
             }

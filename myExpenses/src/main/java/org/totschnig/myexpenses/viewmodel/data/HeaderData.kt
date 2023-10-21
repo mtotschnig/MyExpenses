@@ -6,16 +6,14 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.getInt
-import org.totschnig.myexpenses.provider.getIntIfExistsOr0
+import org.totschnig.myexpenses.provider.getLocalDateIfExists
 import org.totschnig.myexpenses.provider.getLong
-import org.totschnig.myexpenses.provider.getLongIfExistsOr0
-import org.totschnig.myexpenses.provider.getStringIfExists
 import java.time.LocalDate
 
 data class HeaderData(
     val account: PageAccount,
     val groups: Map<Int, HeaderRow>,
-    val dateInfo: DateInfo2,
+    val dateInfo: DateInfo,
     val isFiltered: Boolean
 ) {
 
@@ -87,9 +85,7 @@ data class HeaderRow(
             expenseSum = cursor.getLong(KEY_SUM_EXPENSES),
             transferSum = cursor.getLong(KEY_SUM_TRANSFERS),
             previousBalance = previousBalance,
-            weekStart = cursor.getStringIfExists(KEY_WEEK_START)?.let {
-                LocalDate.parse(it)
-            }
+            weekStart = cursor.getLocalDateIfExists(KEY_WEEK_START)
         )
     }
 }

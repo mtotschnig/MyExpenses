@@ -68,7 +68,7 @@ public class DatabaseConstants {
   }
 
   public static void buildLocalized(Locale locale, Context context, PrefHandler prefHandler, String homeCurrency) {
-    weekStartsOn = Utils.getFirstDayOfWeekFromPreferenceWithFallbackToLocale(locale, prefHandler);
+    weekStartsOn = prefHandler.weekStartWithFallback(locale);
     monthStartsOn = prefHandler.getMonthStart();
     int monthDelta = monthStartsOn - 1;
     int nextWeekEndSqlite;
