@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import android.content.ContentUris
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
@@ -17,10 +16,9 @@ import kotlinx.coroutines.flow.flattenMerge
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.db2.budgetAllocationQueryUri
+import org.totschnig.myexpenses.db2.sumLoaderForBudget
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
@@ -32,28 +30,16 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_DEFAULT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.THIS_DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
 import org.totschnig.myexpenses.provider.DatabaseConstants.getThisMonth
 import org.totschnig.myexpenses.provider.DatabaseConstants.getThisWeek
-import org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfMonthStart
-import org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfWeekStart
-import org.totschnig.myexpenses.provider.DatabaseConstants.getWeek
-import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
-import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
-import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import java.util.Locale
 
@@ -86,75 +72,31 @@ open class BudgetViewModel(application: Application) :
     @OptIn(ExperimentalCoroutinesApi::class)
     val amounts: Flow<Tuple4<Int, Long, Long, Long>> = budgetLoaderFlow.map { pair ->
         val (position, budget) = pair
-        val sumBuilder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
-        if (prefHandler.getBoolean(PrefKey.BUDGET_AGGREGATE_TYPES, true)) {
-            sumBuilder.appendBooleanQueryParameter(
-                TransactionProvider.QUERY_PARAMETER_AGGREGATE_TYPES
-            )
-                .build()
-        }
-        val isTotalAccount = budget.accountId == HOME_AGGREGATE_ID
-        if (!isTotalAccount) {
-            if (budget.accountId < 0) {
-                sumBuilder.appendQueryParameter(KEY_CURRENCY, budget.currency.code)
-            } else {
-                sumBuilder.appendQueryParameter(KEY_ACCOUNTID, budget.accountId.toString())
-            }
-        }
-        val filterPersistence =
-            FilterPersistence(prefHandler, prefNameForCriteria(budget.id), null, false)
-        var filterClause = buildDateFilterClause(budget)
-        val selectionArgs: Array<String>?
-        if (!filterPersistence.whereFilter.isEmpty) {
-            filterClause += " AND " + filterPersistence.whereFilter.getSelectionForParts(
-                VIEW_WITH_ACCOUNT
-            )
-            selectionArgs = filterPersistence.whereFilter.getSelectionArgs(true)
-        } else {
-            selectionArgs = null
-        }
+
+        val (sumUri, sumSelection, sumSelectionArguments) = repository.sumLoaderForBudget(budget)
 
         val allocationUri = budgetAllocationQueryUri(
             budget.id,
             0,
             budget.grouping,
             THIS_YEAR,
-            thisSecond(budget.grouping)
+            budget.grouping.queryArgumentForThisSecond
         )
 
         combine(
             contentResolver.observeQuery(
-                sumBuilder.build(),
-                null, filterClause, selectionArgs, null, true
+                sumUri,
+                null, sumSelection, sumSelectionArguments, null, true
             )
-                .mapToOne { cursor -> cursor.getLong(0) },
+                .mapToOne { it.getLong(0) },
             contentResolver.observeQuery(allocationUri)
                 .mapToOne(0) { it.getLong(0) }
-        ) { spent, allocated ->
-            Tuple4(position, budget.id, spent, allocated)
-        }
+        ) { spent, allocated -> Tuple4(position, budget.id, spent, allocated) }
     }.flattenMerge()
 
     fun loadBudgetAmounts(position: Int, budget: Budget) {
         viewModelScope.launch {
             budgetLoaderFlow.emit(position to budget)
-        }
-    }
-
-    private fun buildDateFilterClause(budget: Budget): String {
-        val year = "$YEAR = $THIS_YEAR"
-        return when (budget.grouping) {
-            Grouping.YEAR -> year
-            Grouping.DAY -> "$year AND $DAY = ${thisSecond(budget.grouping)}"
-            Grouping.WEEK -> getYearOfWeekStart() + " = " + getThisYearOfWeekStart() + " AND " + getWeek() + " = " + thisSecond(
-                budget.grouping
-            )
-
-            Grouping.MONTH -> getYearOfMonthStart() + " = " + getThisYearOfMonthStart() + " AND " + getMonth() + " = " + thisSecond(
-                budget.grouping
-            )
-
-            else -> budget.durationAsSqlFilter()
         }
     }
 

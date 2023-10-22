@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.model
 import android.content.Context
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.asDateTimeFormatter
@@ -107,6 +108,14 @@ enum class Grouping {
             "Error while generating title: ${e.safeMessage}"
         }
     }
+
+    val queryArgumentForThisSecond : String
+        get() = when (this) {
+            DAY -> DatabaseConstants.THIS_DAY
+            WEEK -> DatabaseConstants.getThisWeek()
+            MONTH -> DatabaseConstants.getThisMonth()
+            else -> ""
+        }
 
     companion object {
 
