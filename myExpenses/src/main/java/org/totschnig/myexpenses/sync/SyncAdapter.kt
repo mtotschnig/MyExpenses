@@ -377,12 +377,16 @@ class SyncAdapter @JvmOverloads constructor(
                                             localChanges =
                                                 syncDelegate.collectSplits(localChanges).toMutableList()
                                         }
+                                        val localChangesWasNotEmpty = localChanges.size > 0
+                                        val remoteChangesWasNotEmpty = remoteChanges.isNotEmpty()
                                         val mergeResult: Pair<List<TransactionChange>, List<TransactionChange>> =
                                             syncDelegate.mergeChangeSets(localChanges, remoteChanges)
                                         localChanges = mergeResult.first.toMutableList()
                                         remoteChanges = mergeResult.second
                                         if (remoteChanges.isNotEmpty()) {
                                             syncDelegate.writeRemoteChangesToDb(provider, remoteChanges)
+                                        }
+                                        if (remoteChangesWasNotEmpty) {
                                             accountManager.setUserData(
                                                 account,
                                                 lastRemoteSyncKey,
@@ -398,19 +402,23 @@ class SyncAdapter @JvmOverloads constructor(
                                                     localChanges,
                                                     context
                                                 )
+                                        }
+                                        if (localChangesWasNotEmpty) {
                                             accountManager.setUserData(
                                                 account,
                                                 lastLocalSyncKey,
                                                 lastSyncedLocal.toString()
                                             )
                                             log().i("storing lastSyncedLocal: $lastSyncedLocal")
-                                            accountManager.setUserData(
-                                                account,
-                                                lastRemoteSyncKey,
-                                                lastSyncedRemote.toString()
-                                            )
-                                            log().i("storing lastSyncedRemote: $lastSyncedRemote")
-                                            successLocal2Remote = localChanges.size
+                                            if (localChanges.size > 0) {
+                                                accountManager.setUserData(
+                                                    account,
+                                                    lastRemoteSyncKey,
+                                                    lastSyncedRemote.toString()
+                                                )
+                                                log().i("storing lastSyncedRemote: $lastSyncedRemote")
+                                                successLocal2Remote = localChanges.size
+                                            }
                                         }
                                         if (!BuildConfig.DEBUG) {
                                             // on debug build for auditing purposes, we keep changes in the table
