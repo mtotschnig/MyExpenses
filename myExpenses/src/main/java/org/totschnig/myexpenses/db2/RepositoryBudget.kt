@@ -233,7 +233,7 @@ fun Repository.loadBudgetProgress(budgetId: Long): BudgetProgress? {
         }
 
         BudgetProgress(
-            budget.title, groupingInfo.description, allocated, -spent, totalDays, currentDay
+            budget.title, budget.currency, groupingInfo.description, allocated, -spent, totalDays, currentDay
         )
     }
 }

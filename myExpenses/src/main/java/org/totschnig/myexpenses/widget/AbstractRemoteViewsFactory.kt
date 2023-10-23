@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.widget
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
 import android.database.Cursor
 import android.database.sqlite.SQLiteException
 import android.os.Binder

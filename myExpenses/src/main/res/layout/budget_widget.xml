@@ -9,26 +9,26 @@
     android:theme="@style/Theme.Material3.DynamicColors.DayNight">
 
     <RelativeLayout
-        android:id="@+id/titleRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="?colorPrimaryContainer"
         android:paddingHorizontal="16dp"
-        android:paddingVertical="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:paddingVertical="8dp">
+
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:gravity="center_vertical"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="?colorOnPrimaryContainer" />
+            android:textColor="?colorOnPrimaryContainer"
+            tools:text="TITLE" />
+
         <TextView
             android:id="@+id/groupInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:gravity="center_vertical"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="?colorOnPrimaryContainer" />
     </RelativeLayout>
@@ -36,18 +36,40 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        tools:ignore="UselessLeaf" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="16dp">
 
-        <ViewStub
-            android:id="@+id/budgetProgressStub"
+        <ProgressBar
+            android:id="@+id/budget_progress_red"
+            style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical" />
+            android:layout_gravity="center_vertical"
+            android:progressDrawable="@drawable/budget_progress"
+            android:progressTint="#FF0000" />
+
+        <ProgressBar
+            android:id="@+id/budget_progress_green"
+            style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:progressDrawable="@drawable/budget_progress"
+            android:progressTint="#00FF00" />
+
+        <ProgressBar
+            android:id="@+id/budget_progress_yellow"
+            style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:progressDrawable="@drawable/budget_progress"
+            android:progressTint="#FFFF00" />
 
         <FrameLayout
             android:id="@+id/todayMarkerContainer"
@@ -65,19 +87,126 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/summarySpacer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        tools:ignore="UselessLeaf" />
 
     <TextView
-        android:id="@+id/spent"
-        android:layout_width="wrap_content"
+        android:id="@+id/headerPerDay"
+        style="@style/BudgetWidgetHeader"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="16dp" />
+        android:layout_marginHorizontal="16dp"
+        android:background="@drawable/border_bottom"
+        android:gravity="end"
+        android:paddingBottom="2dp" />
+
+    <LinearLayout
+        android:id="@+id/budgetedLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:background="@drawable/border_bottom"
+        android:orientation="horizontal"
+        android:paddingVertical="2dp">
+
+        <TextView
+            style="@style/BudgetWidgetHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="@string/budget_table_header_budgeted" />
+
+        <TextView
+            android:id="@+id/allocated"
+            style="@style/BudgetWidgetCell"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            tools:text="1111"
+            android:gravity="end" />
+
+        <TextView
+            android:id="@+id/allocatedDaily"
+            style="@style/BudgetWidgetCell"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/spentLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:background="@drawable/border_bottom"
+        android:orientation="horizontal"
+        android:paddingVertical="2dp">
+
+        <TextView
+            style="@style/BudgetWidgetHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/budget_table_header_spent" />
+
+        <TextView
+            android:id="@+id/spent"
+            style="@style/BudgetWidgetCell"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end" />
+
+        <TextView
+            android:id="@+id/spentDaily"
+            style="@style/BudgetWidgetCell"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/remainderLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:background="@drawable/border_bottom"
+        android:orientation="horizontal"
+        android:paddingVertical="2dp">
+
+        <TextView
+            android:id="@+id/remainderCaption"
+            style="@style/BudgetWidgetHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/remainder"
+            style="@style/BudgetWidgetCell"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end" />
+
+        <TextView
+            android:id="@+id/remainderDaily"
+            style="@style/BudgetWidgetCell"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end" />
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        tools:ignore="UselessLeaf" />
 </LinearLayout>

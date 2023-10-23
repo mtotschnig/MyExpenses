@@ -12,10 +12,8 @@ import android.widget.RemoteViewsService
 import androidx.appcompat.app.AppCompatDelegate
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
-import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefKey
 import timber.log.Timber
-import javax.inject.Inject
 
 
 const val WIDGET_CLICK = "org.totschnig.myexpenses.WIDGET_CLICK"
@@ -47,9 +45,6 @@ abstract class AbstractListWidget(
     protectionKey: PrefKey
 ) : BaseWidget(protectionKey) {
     abstract val emptyTextResourceId: Int
-
-    @Inject
-    lateinit var currencyContext: CurrencyContext
 
     override fun onReceive(context: Context, intent: Intent) {
         context.injector.inject(this)

@@ -16,9 +16,14 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_FULL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.formatMoney
 import javax.inject.Inject
 
@@ -38,6 +43,9 @@ class AccountRemoteViewsFactory(
     @Inject
     lateinit var currencyContext: CurrencyContext
 
+    @Inject
+    lateinit var currencyFormatter: ICurrencyFormatter
+
     init {
         context.injector.inject(this)
     }
@@ -52,7 +60,7 @@ class AccountRemoteViewsFactory(
     override fun buildCursor() = buildCursor(context, accountId)
 
     override fun RemoteViews.populate(cursor: Cursor) {
-        populate(context, currencyContext, this, cursor, sumColumn, width, null)
+        populate(context, currencyContext, currencyFormatter, this, cursor, sumColumn, width, null)
     }
 
     companion object {
@@ -111,6 +119,7 @@ class AccountRemoteViewsFactory(
         fun populate(
             context: Context,
             currencyContext: CurrencyContext,
+            currencyFormatter: ICurrencyFormatter,
             remoteViews: RemoteViews,
             cursor: Cursor,
             sumColumn: String,
@@ -129,7 +138,7 @@ class AccountRemoteViewsFactory(
                 setTextViewText(R.id.line1, account.getLabelForScreenTitle(context))
                 setTextViewText(
                     R.id.note,
-                    context.injector.currencyFormatter().formatMoney(currentBalance)
+                    currencyFormatter.formatMoney(currentBalance)
                 )
                 setAmountColor(context, R.id.note, sum)
                 val block: Intent.() -> Unit = {

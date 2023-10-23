@@ -8,8 +8,8 @@ import android.os.Build
 import android.util.TypedValue
 import android.view.View
 import android.widget.RemoteViews
+import androidx.annotation.IdRes
 import androidx.core.widget.RemoteViewsCompat.setProgressBarProgress
-import androidx.core.widget.RemoteViewsCompat.setViewStubLayoutResource
 import androidx.core.widget.RemoteViewsCompat.setViewTranslationXDimen
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BudgetActivity
@@ -19,10 +19,16 @@ import org.totschnig.myexpenses.db2.loadBudgetProgress
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.doAsync
-import timber.log.Timber
 import javax.inject.Inject
+import kotlin.math.absoluteValue
 
+enum class ProgressLayout(@IdRes val viewId: Int) {
+    InBudget(R.id.budget_progress_green),
+    OverDayBudget(R.id.budget_progress_yellow),
+    OverTotalBudget(R.id.budget_progress_red)
+}
 
 class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
 
@@ -40,49 +46,41 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
         appWidgetId: Int
     ) {
         doAsync {
-            val availableWidth = availableWidth(context, appWidgetManager, appWidgetId) - 32
+            val horizontalPadding = 32
+            val availableWidth = availableWidth(context, appWidgetManager, appWidgetId) - horizontalPadding
             val availableHeight = availableHeight(context, appWidgetManager, appWidgetId)
-            Timber.i("availableHeight: %d", availableHeight)
             val budgetId = BudgetWidgetConfigure.loadSelectionPref(context, appWidgetId)
             val budgetInfo = repository.loadBudgetProgress(budgetId) ?: return@doAsync
-            Timber.i("totalDays / currentDay : %d / %d", budgetInfo.totalDays, budgetInfo.currentDay)
             val progress = budgetInfo.spent / budgetInfo.allocated.toFloat()
             val todayPosition = budgetInfo.currentDay / budgetInfo.totalDays.toFloat()
             val showCurrentPosition = budgetInfo.totalDays > 1 && budgetInfo.currentDay in 1..budgetInfo.totalDays
-            val color = when {
-                progress > 1 -> R.layout.budget_widget_progress_red
-                showCurrentPosition && progress > todayPosition -> R.layout.budget_widget_progress_yellow
-                else -> R.layout.budget_widget_progress_green
+            val progressLayout = when {
+                progress > 1 -> ProgressLayout.OverTotalBudget
+                showCurrentPosition && progress > todayPosition -> ProgressLayout.OverDayBudget
+                else -> ProgressLayout.InBudget
             }
-            Timber.i("progress: %f - %f", progress, todayPosition)
             val widget = RemoteViews(
                 context.packageName,
                 R.layout.budget_widget
             ).apply {
-                val titleVisible = availableHeight >= 110
-                setViewVisibility(
-                    R.id.titleRow,
-                    if (titleVisible) View.VISIBLE else View.GONE
-                )
+                fun setProgressBarVisibility(progressBarViewId: Int) {
+                    setViewVisibility(progressBarViewId,
+                        if (progressLayout.viewId == progressBarViewId) View.VISIBLE else View.GONE)
+                }
+                val summaryVisibility = if (availableHeight < 110) View.GONE else View.VISIBLE
+                setViewVisibility(R.id.headerPerDay, summaryVisibility)
+                setViewVisibility(R.id.budgetedLine, summaryVisibility)
+                setViewVisibility(R.id.spentLine, summaryVisibility)
+                setViewVisibility(R.id.remainderLine, summaryVisibility)
+                setViewVisibility(R.id.summarySpacer, summaryVisibility)
                 setTextViewText(R.id.title, budgetInfo.title)
                 setTextViewText(R.id.groupInfo, budgetInfo.groupInfo)
-                setViewStubLayoutResource(R.id.budgetProgressStub, color)
-                setViewVisibility(R.id.budgetProgressStub, View.VISIBLE)
-                setProgressBarProgress(R.id.budget_progress, (progress * 100).toInt())
+                setProgressBarVisibility(R.id.budget_progress_green)
+                setProgressBarVisibility(R.id.budget_progress_yellow)
+                setProgressBarVisibility(R.id.budget_progress_red)
+                setProgressBarProgress(progressLayout.viewId, (progress * 100).toInt())
                 val remainingBudget = budgetInfo.remainingBudget
                 val remainingDays = budgetInfo.remainingDays
-                val info = buildList {
-                    if (!titleVisible) {
-                        add("${budgetInfo.title} (${budgetInfo.groupInfo}):")
-                    }
-                    add("You have spent ${budgetInfo.spent} of ${budgetInfo.allocated}.")
-                    if (remainingBudget > 0) {
-                        add("Remainder: $remainingBudget")
-                        if (remainingDays > 0) {
-                            add("(${remainingBudget / remainingDays.toFloat()} / day)")
-                        }
-                    }
-                }.joinToString(separator = " ")
                 if (showCurrentPosition) {
                     val translation = availableWidth * todayPosition - 0.5F
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -102,7 +100,37 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
                 } else {
                     setViewVisibility(R.id.todayMarkerContainer, View.GONE)
                 }
-                setTextViewText(R.id.spent, info)
+                fun amountFormatted(amount: Long) = currencyFormatter.convAmount(amount, budgetInfo.currency)
+                if (summaryVisibility == View.VISIBLE) {
+                    val perDayVisibility = if (budgetInfo.totalDays > 1 && budgetInfo.currentDay > 0) View.VISIBLE else View.GONE
+                    setViewVisibility(R.id.headerPerDay, perDayVisibility)
+                    setViewVisibility(R.id.allocatedDaily, perDayVisibility)
+                    setViewVisibility(R.id.spentDaily, perDayVisibility)
+                    setViewVisibility(R.id.remainderDaily, perDayVisibility)
+                    setTextViewText(R.id.allocated, amountFormatted((budgetInfo.allocated)))
+                    if (perDayVisibility == View.VISIBLE) {
+                        setTextViewText(R.id.headerPerDay, "⌀ (${context.getString(R.string.grouping_day)})")
+                        setTextViewText(
+                            R.id.allocatedDaily,
+                            amountFormatted(budgetInfo.allocated / budgetInfo.totalDays)
+                        )
+                        setTextViewText(
+                            R.id.spentDaily,
+                            amountFormatted(budgetInfo.spent / budgetInfo.currentDay)
+                        )
+                    }
+                    setTextViewText(R.id.spent, amountFormatted(budgetInfo.spent))
+                    val withinBudget: Boolean = remainingBudget > 0
+                    val daysRemain = remainingDays > 0
+                    setTextViewText(R.id.remainder, amountFormatted(remainingBudget.absoluteValue))
+                    setTextViewText(R.id.remainderCaption, context.getString(
+                        if (withinBudget) R.string.budget_table_header_available else R.string.budget_table_header_overspent
+                    ))
+                    setTextViewText(
+                        R.id.remainderDaily,
+                        if (daysRemain && withinBudget) amountFormatted(remainingBudget / remainingDays) else ""
+                    )
+                }
                 setOnClickPendingIntent(
                     R.id.layout,
                     PendingIntent.getActivity(
@@ -124,7 +152,8 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 setProgressBarProgressTintList(progressBarId, tint)
             } else {
-                //This does not work on API 28..30, so we use ViewStubs to
+                //This does not work on API 28..30, so we need to use alternative solution of swapping
+                between three different progressbars
                 try {
                     RemoteViews::class.java.getMethod(
                         "setProgressTintList",

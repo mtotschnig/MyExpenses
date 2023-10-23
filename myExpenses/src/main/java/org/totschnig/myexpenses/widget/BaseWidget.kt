@@ -9,15 +9,24 @@ import android.os.Bundle
 import android.widget.RemoteViews
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.PreferenceActivity
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import javax.inject.Inject
 
 abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvider() {
 
     @Inject
     lateinit var prefHandler: PrefHandler
+
+    @Inject
+    lateinit var currencyContext: CurrencyContext
+
+    @Inject
+    lateinit var currencyFormatter: ICurrencyFormatter
 
     protected open fun isProtected(context: Context): Boolean {
         return (context.myApplication).isProtected &&

@@ -63,6 +63,7 @@ class AccountWidget :
                             AccountRemoteViewsFactory.populate(
                                 context = context,
                                 currencyContext = currencyContext,
+                                currencyFormatter = currencyFormatter,
                                 remoteViews = widget,
                                 cursor = cursor,
                                 sumColumn = AccountRemoteViewsFactory.sumColumn(
