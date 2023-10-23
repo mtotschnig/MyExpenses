@@ -51,4 +51,5 @@
     <dimen name="widget_min_width">40dp</dimen>
 
     <dimen name="preferences_header_width">300dp</dimen>
+    <dimen name="preview_today_translation">0dp</dimen>
 </resources>

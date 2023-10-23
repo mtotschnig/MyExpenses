@@ -8,6 +8,16 @@
             <solid android:color="@color/white_disabled_material" />
         </shape>
     </item>
+    <item android:id="@android:id/secondaryProgress"
+        android:gravity="center_vertical|fill_horizontal">
+        <clip>
+            <shape android:shape="rectangle"
+                android:tint="?attr/colorControlActivated">
+                <corners android:radius="5dp" />
+                <solid android:color="@android:color/white" />
+            </shape>
+        </clip>
+    </item>
     <item android:id="@android:id/progress"
         android:gravity="center_vertical|fill_horizontal">
         <clip>

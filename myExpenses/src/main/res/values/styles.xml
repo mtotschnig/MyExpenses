@@ -320,7 +320,7 @@
 
     <style name="AccountWidgetPreview" parent="Theme.Material3.DynamicColors.DayNight">
         <item name="widgetLine1">@string/default_account_name</item>
-        <item name="widgetNote">1 000,00 $</item>
+        <item name="widgetNote">$1,000.00</item>
         <item name="widgetCommand1">@drawable/ic_menu_add</item>
         <item name="widgetCommand2">@drawable/ic_menu_forward</item>
     </style>
@@ -378,5 +378,14 @@
         <item name="strokeWidth">8dp</item>
         <item name="strokeColor">@color/attachment_multiple_choice_stroke_color</item>
         <item name="android:background">?android:attr/activatedBackgroundIndicator</item>
+    </style>
+
+    <style name="BudgetWidgetHeader">
+        <item name="android:textAppearance">@style/TextAppearance.Material3.BodySmall</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+    <style name="BudgetWidgetCell">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:gravity">end</item>
     </style>
 </resources>

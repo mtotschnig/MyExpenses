@@ -16,5 +16,6 @@
     android:minResizeHeight="40dp"
     android:maxResizeHeight="180dp"
     android:resizeMode="vertical|horizontal"
+    android:previewLayout="@layout/budget_widget"
     android:updatePeriodMillis="0" />
 

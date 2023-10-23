@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.IdRes
 import androidx.core.widget.RemoteViewsCompat.setProgressBarProgress
+import androidx.core.widget.RemoteViewsCompat.setProgressBarSecondaryProgress
 import androidx.core.widget.RemoteViewsCompat.setViewTranslationXDimen
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BudgetActivity
@@ -78,11 +79,16 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
                 setProgressBarVisibility(R.id.budget_progress_green)
                 setProgressBarVisibility(R.id.budget_progress_yellow)
                 setProgressBarVisibility(R.id.budget_progress_red)
-                setProgressBarProgress(progressLayout.viewId, (progress * 100).toInt())
+                if (progress > 1) {
+                    setProgressBarProgress(progressLayout.viewId, (100 / progress).toInt())
+                    setProgressBarSecondaryProgress(progressLayout.viewId, 100)
+                } else {
+                    setProgressBarProgress(progressLayout.viewId, (progress * 100).toInt())
+                }
                 val remainingBudget = budgetInfo.remainingBudget
                 val remainingDays = budgetInfo.remainingDays
                 if (showCurrentPosition) {
-                    val translation = availableWidth * todayPosition - 0.5F
+                    val translation = availableWidth * todayPosition * (if (progress > 1) (1 / progress) else 1f) - 0.5F
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                         setViewTranslationXDimen(
                             R.id.todayMarker,
@@ -109,7 +115,6 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
                     setViewVisibility(R.id.remainderDaily, perDayVisibility)
                     setTextViewText(R.id.allocated, amountFormatted((budgetInfo.allocated)))
                     if (perDayVisibility == View.VISIBLE) {
-                        setTextViewText(R.id.headerPerDay, "⌀ (${context.getString(R.string.grouping_day)})")
                         setTextViewText(
                             R.id.allocatedDaily,
                             amountFormatted(budgetInfo.allocated / budgetInfo.totalDays)
@@ -120,7 +125,7 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
                         )
                     }
                     setTextViewText(R.id.spent, amountFormatted(budgetInfo.spent))
-                    val withinBudget: Boolean = remainingBudget > 0
+                    val withinBudget: Boolean = remainingBudget >= 0
                     val daysRemain = remainingDays > 0
                     setTextViewText(R.id.remainder, amountFormatted(remainingBudget.absoluteValue))
                     setTextViewText(R.id.remainderCaption, context.getString(

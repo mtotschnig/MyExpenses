@@ -20,15 +20,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            android:text="@string/testData_account1Description"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="?colorOnPrimaryContainer"
-            tools:text="TITLE" />
+            android:textColor="?colorOnPrimaryContainer" />
 
         <TextView
             android:id="@+id/groupInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:text="@string/grouping_this_week"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="?colorOnPrimaryContainer" />
     </RelativeLayout>
@@ -51,7 +52,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:progressDrawable="@drawable/budget_progress"
-            android:progressTint="#FF0000" />
+            android:progressTint="@color/caldroid_light_red"
+            android:secondaryProgressTint="#FF0000"
+            android:visibility="gone" />
 
         <ProgressBar
             android:id="@+id/budget_progress_green"
@@ -60,7 +63,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:progressDrawable="@drawable/budget_progress"
-            android:progressTint="#00FF00" />
+            android:progressTint="#00FF00"
+            android:visibility="gone" />
 
         <ProgressBar
             android:id="@+id/budget_progress_yellow"
@@ -68,6 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:progress="50"
             android:progressDrawable="@drawable/budget_progress"
             android:progressTint="#FFFF00" />
 
@@ -82,6 +87,7 @@
                 android:layout_height="24dp"
                 android:layout_gravity="center_vertical"
                 android:background="?colorOnSurface"
+                android:translationX="@dimen/preview_today_translation"
                 tools:ignore="ContentDescription" />
         </FrameLayout>
     </FrameLayout>
@@ -93,7 +99,7 @@
         android:layout_weight="1"
         tools:ignore="UselessLeaf" />
 
-    <TextView
+    <LinearLayout
         android:id="@+id/headerPerDay"
         style="@style/BudgetWidgetHeader"
         android:layout_width="match_parent"
@@ -101,7 +107,25 @@
         android:layout_marginHorizontal="16dp"
         android:background="@drawable/border_bottom"
         android:gravity="end"
-        android:paddingBottom="2dp" />
+        android:orientation="horizontal"
+        android:paddingBottom="2dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⌀ (" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/grouping_day" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=")" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/budgetedLine"
@@ -126,8 +150,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            tools:text="1111"
-            android:gravity="end" />
+            android:gravity="end"
+            android:text="$700.00" />
 
         <TextView
             android:id="@+id/allocatedDaily"
@@ -135,7 +159,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="end" />
+            android:gravity="end"
+            android:text="$100.00" />
     </LinearLayout>
 
     <LinearLayout
@@ -160,7 +185,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="end" />
+            android:gravity="end"
+            android:text="$300.00" />
 
         <TextView
             android:id="@+id/spentDaily"
@@ -168,7 +194,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="end" />
+            android:gravity="end"
+            android:text="$150.00" />
     </LinearLayout>
 
     <LinearLayout
@@ -185,7 +212,8 @@
             style="@style/BudgetWidgetHeader"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:text="@string/budget_table_header_available" />
 
         <TextView
             android:id="@+id/remainder"
@@ -193,7 +221,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="end" />
+            android:gravity="end"
+            android:text="$400.00" />
 
         <TextView
             android:id="@+id/remainderDaily"
@@ -201,7 +230,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="end" />
+            android:gravity="end"
+            android:text="$80.00" />
     </LinearLayout>
 
     <FrameLayout
