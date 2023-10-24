@@ -1045,4 +1045,7 @@
     <string name="attachments">Anhänge</string>
     <string name="pref_copy_attachments_title">Kopieren von Anhängen in den Anwendungsordner</string>
     <string name="pref_copy_attachments_summary_off">Dateien werden nicht kopiert, nur eine Referenz wird gespeichert.</string>
+    <string name="budget_deleted">Budget wurde gelöscht</string>
+    <string name="budget_widget_configuration">Budget auswählen</string>
+    <string name="budget_table_header_overspent">Überschreitung</string>
 </resources>
