@@ -176,6 +176,12 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
         }
     }
 
+    override fun onDeleted(context: Context, appWidgetIds: IntArray) {
+        appWidgetIds.forEach { appWidgetId ->
+            BudgetWidgetConfigure.clearPreferences(context, appWidgetId)
+        }
+    }
+
     val layout: Int
         get() = when (AppCompatDelegate.getDefaultNightMode()) {
             AppCompatDelegate.MODE_NIGHT_NO -> R.layout.budget_widget_light
