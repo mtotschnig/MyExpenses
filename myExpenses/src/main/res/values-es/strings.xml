@@ -712,7 +712,7 @@
     <string name="budget_table_header_budgeted">Presupuestado</string>
     <string name="budget_table_header_allocated">Asignado</string>
     <string name="budget_table_header_spent">Gastado</string>
-    <string name="budget_table_header_remainder">Recordatorio</string>
+    <string name="budget_table_header_available">Recordatorio</string>
     <string name="budget_allocated_amount">Cantidad asignada</string>
     <string name="budget_exceeded_error_1_1">Todo salvo %s de tu presupuesto ha sido asignado a otras categorías.</string>
     <string name="budget_exceeded_error_1_2">Todo tu presupuesto ha sido asignado a otras categorías.</string>

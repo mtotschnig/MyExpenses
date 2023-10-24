@@ -704,7 +704,7 @@
     <string name="budget_table_header_budgeted">Budgetiert</string>
     <string name="budget_table_header_allocated">Zugewiesen</string>
     <string name="budget_table_header_spent">Ausgegeben</string>
-    <string name="budget_table_header_remainder">Rest</string>
+    <string name="budget_table_header_available">Rest</string>
     <string name="budget_allocated_amount">Zugewiesener Betrag</string>
     <string name="budget_exceeded_error_1_1">Alles bis auf %s Ihres Budgets wurde anderen Kategorien zugewiesen.</string>
     <string name="budget_exceeded_error_1_2">Ihr gesamtes Budget wurde anderen Kategorien zugewiesen.</string>

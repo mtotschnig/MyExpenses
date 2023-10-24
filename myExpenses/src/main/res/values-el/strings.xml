@@ -668,7 +668,7 @@
     <string name="budget_table_header_budgeted">Προϋπολογισμένο</string>
     <string name="budget_table_header_allocated">Κατανεμημένο</string>
     <string name="budget_table_header_spent">Ξοδεύτηκε</string>
-    <string name="budget_table_header_remainder">Υπόλοιπο</string>
+    <string name="budget_table_header_available">Υπόλοιπο</string>
     <string name="budget_allocated_amount">Κατανεμημένο ποσό</string>
     <!-- Description for button that allows to clear the selected method -->
     <string name="content_description_clear_method">Απαλοιφή μεθόδου</string>

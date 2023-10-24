@@ -689,7 +689,7 @@
     <string name="budget_table_header_budgeted">Dibajetkan</string>
     <string name="budget_table_header_allocated">Diperuntukkan</string>
     <string name="budget_table_header_spent">Belanja</string>
-    <string name="budget_table_header_remainder">Baki</string>
+    <string name="budget_table_header_available">Baki</string>
     <string name="budget_allocated_amount">Amaun diperuntukkan</string>
     <string name="budget_exceeded_error_1_2">Semua bajet anda telah diperuntuk ke kategori lain.</string>
     <string name="budget_exceeded_error_2">Tingkatkan amaun dibajetkan, atau buang duit daripada kategori lain.</string>

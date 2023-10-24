@@ -706,7 +706,7 @@
     <string name="budget_table_header_budgeted">Preventivato</string>
     <string name="budget_table_header_allocated">Stanziato</string>
     <string name="budget_table_header_spent">Speso</string>
-    <string name="budget_table_header_remainder">Rimanente</string>
+    <string name="budget_table_header_available">Rimanente</string>
     <string name="budget_allocated_amount">Importo stanziato</string>
     <string name="budget_exceeded_error_1_1">Tutto il tuo budget ad eccezione del %s è stato stanziato in altre categorie.</string>
     <string name="budget_exceeded_error_1_2">Tutto il tuo budget è stato stanziato in altre categorie.</string>

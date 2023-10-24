@@ -720,7 +720,7 @@
     <string name="budget_table_header_budgeted">מתוקצב</string>
     <string name="budget_table_header_allocated">מוקצה</string>
     <string name="budget_table_header_spent">הוצאה</string>
-    <string name="budget_table_header_remainder">תזכורת</string>
+    <string name="budget_table_header_available">תזכורת</string>
     <string name="budget_allocated_amount">סכום מוקצה</string>
     <string name="budget_exceeded_error_1_1">הכול פרט ל־%s מהתקציב שלך הוקצה לקטגוריות אחרות.</string>
     <string name="budget_exceeded_error_1_2">כל התקציב שלך הוקצה לקטגוריות אחרות.</string>

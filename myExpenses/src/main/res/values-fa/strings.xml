@@ -451,7 +451,7 @@
     <string name="dialog_title_edit_budget">ویرایش بودجه</string>
     <string name="budget_table_header_budgeted">بودجه بندی شده</string>
     <string name="budget_table_header_spent">خرج شده</string>
-    <string name="budget_table_header_remainder">باقیمانده</string>
+    <string name="budget_table_header_available">باقیمانده</string>
     <!-- Description for button that allows to clear the selected category -->
     <string name="content_description_clear_category">دسته را پاک کن</string>
     <string name="currency_code">کد</string>

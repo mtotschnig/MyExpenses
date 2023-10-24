@@ -704,7 +704,7 @@
     <string name="budget_table_header_budgeted">В бюджета</string>
     <string name="budget_table_header_allocated">Разпределена</string>
     <string name="budget_table_header_spent">Похарчено</string>
-    <string name="budget_table_header_remainder">Остатък</string>
+    <string name="budget_table_header_available">Остатък</string>
     <string name="budget_allocated_amount">Заделена сума</string>
     <string name="budget_exceeded_error_1_1">Всички, освен %s от вашия бюджет, са заделени в други категории.</string>
     <string name="budget_exceeded_error_1_2">Целият бюджет е заделен в други категории.</string>

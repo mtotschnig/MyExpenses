@@ -693,7 +693,7 @@
     <string name="budget_table_header_budgeted">予算計画済</string>
     <string name="budget_table_header_allocated">割り当て済</string>
     <string name="budget_table_header_spent">消費</string>
-    <string name="budget_table_header_remainder">リマインダー</string>
+    <string name="budget_table_header_available">リマインダー</string>
     <string name="budget_allocated_amount">割り当て済金額</string>
     <string name="budget_exceeded_error_1_1">%s を除いたすべての予算は、他の分類に割り当てられています。</string>
     <string name="budget_exceeded_error_1_2">すべての予算は、他の分類に割り当てられています。</string>

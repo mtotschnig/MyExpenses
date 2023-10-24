@@ -521,7 +521,7 @@
     <string name="budget_table_header_budgeted">بجٹ</string>
     <string name="budget_table_header_allocated">مختص</string>
     <string name="budget_table_header_spent">خرچ کیا</string>
-    <string name="budget_table_header_remainder">باقی</string>
+    <string name="budget_table_header_available">باقی</string>
     <string name="budget_allocated_amount">مختص رقم</string>
     <string name="backup_is_encrypted">بیک اپ فائل انکرپٹڈ ہے. اسے ڈکرپٹ کرنے کے لیے، آپ کو اس کا پاس فریز بتانا ہوگا.</string>
     <string name="backup_wrong_password">بیک اپ فائل ایک مختلف پاس فریز کے ساتھ خفیہ کردہ معلوم ہوتی ہے.</string>

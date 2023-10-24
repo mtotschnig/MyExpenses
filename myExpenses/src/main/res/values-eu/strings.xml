@@ -644,7 +644,7 @@
     <string name="saving_goal">Gordetzen helburua</string>
     <string name="credit_limit">Kreditu muga</string>
     <string name="clear_all_filters">Kendu iragazkiak</string>
-    <string name="budget_table_header_remainder">Hondarra</string>
+    <string name="budget_table_header_available">Hondarra</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">Itxi</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->

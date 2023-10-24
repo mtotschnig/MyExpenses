@@ -702,7 +702,7 @@
     <string name="budget_table_header_budgeted">ಬಜೆಟ್ ಮಾಡಲಾಗಿದೆ</string>
     <string name="budget_table_header_allocated">ಹಂಚಿಕೆ</string>
     <string name="budget_table_header_spent">ಖರ್ಚು ಮಾಡಿದೆ</string>
-    <string name="budget_table_header_remainder">ಉಳಿದ</string>
+    <string name="budget_table_header_available">ಉಳಿದ</string>
     <string name="budget_allocated_amount">ನಿಗದಿಪಡಿಸಿದ ಮೊತ್ತ</string>
     <string name="budget_exceeded_error_1_1">ನಿಮ್ಮ ಬಜೆಟ್‌ನ %s ಹೊರತುಪಡಿಸಿ ಉಳಿದೆಲ್ಲವನ್ನು ಇತರ ವರ್ಗಗಳಿಗೆ ಹಂಚಲಾಗಿದೆ.</string>
     <string name="budget_exceeded_error_1_2">ನಿಮ್ಮ ಎಲ್ಲಾ ಬಜೆಟ್ ಅನ್ನು ಇತರ ವರ್ಗಗಳಿಗೆ ನಿಗದಿಪಡಿಸಲಾಗಿದೆ.</string>

@@ -705,7 +705,7 @@
     <string name="budget_table_header_budgeted">Költségvetési</string>
     <string name="budget_table_header_allocated">Kiosztott</string>
     <string name="budget_table_header_spent">Elköltve</string>
-    <string name="budget_table_header_remainder">Maradék</string>
+    <string name="budget_table_header_available">Maradék</string>
     <string name="budget_allocated_amount">Kijelölt összeg</string>
     <string name="budget_exceeded_error_1_1">A költségvetés %s kivételével más kategóriákhoz került kiosztásra.</string>
     <string name="budget_exceeded_error_1_2">Minden költségvetése más kategóriákhoz került kiosztásra.</string>

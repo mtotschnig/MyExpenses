@@ -700,7 +700,7 @@
     <string name="budget_table_header_budgeted">Розподілено</string>
     <string name="budget_table_header_allocated">Виділено</string>
     <string name="budget_table_header_spent">Витрачено</string>
-    <string name="budget_table_header_remainder">Залишок</string>
+    <string name="budget_table_header_available">Залишок</string>
     <string name="budget_allocated_amount">Виділена сума</string>
     <string name="budget_exceeded_error_1_1">Все в бюджеті, окрім %s, було виділено в інші категорії.</string>
     <string name="budget_exceeded_error_1_2">Весь Ваш бюджет було виділено в інші категорії.</string>

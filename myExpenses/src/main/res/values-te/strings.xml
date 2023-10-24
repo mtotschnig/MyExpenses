@@ -346,7 +346,7 @@
     <string name="budget_exceeded_error_1_2">మీ బడ్జెట్ అంతా ఇతర వర్గాలకు కేటాయించబడింది.</string>
     <string name="budget_exceeded_error_1_1">మీ బడ్జెట్‌లో %s మినహా మిగిలినవి ఇతర వర్గాలకు కేటాయించబడ్డాయి.</string>
     <string name="budget_allocated_amount">కేటాయించిన మొత్తం</string>
-    <string name="budget_table_header_remainder">రిమైండర్</string>
+    <string name="budget_table_header_available">రిమైండర్</string>
     <string name="budget_table_header_spent">ఖర్చు</string>
     <string name="budget_table_header_allocated">కేటాయించబడింది</string>
     <string name="menu_budget">బడ్జెట్లో</string>

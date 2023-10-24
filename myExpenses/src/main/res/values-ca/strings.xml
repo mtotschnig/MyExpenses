@@ -670,7 +670,7 @@
     <string name="navigation_drawer_accounts_title">Gestionar comptes</string>
     <string name="budget_exceeded_error_1_1">La totalitat del pressupost excepte %s ha estat assignat a altres categories.</string>
     <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Sí, vull continuar veient anuncis</string>
-    <string name="budget_table_header_remainder">Romanent</string>
+    <string name="budget_table_header_available">Romanent</string>
     <string name="pref_sync_changes_immediately_summary">Escriu immediatament els canvis locals al sistema de servei</string>
     <string name="pref_sync_wifi_only_summary">Sincronitza només quan tingui Wi-Fi</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">La carpeta que ha seleccionat correspon a un compte existent al sistema de servei. Cal triar una carpeta principal per poder reutilitzar aquest servei.</string>

@@ -720,7 +720,7 @@
     <string name="budget_table_header_budgeted">V rozpočtu</string>
     <string name="budget_table_header_allocated">Alokováno</string>
     <string name="budget_table_header_spent">Utraceno</string>
-    <string name="budget_table_header_remainder">Zbytek</string>
+    <string name="budget_table_header_available">Zbytek</string>
     <string name="budget_allocated_amount">Přidělená částka</string>
     <string name="budget_exceeded_error_1_1">Vše až na %s z vašeho rozpočtu bylo přemístěno do ostatních kategorií</string>
     <string name="budget_exceeded_error_1_2">Celý váš rozpočet byl přidělen k jiným kategoriím.</string>

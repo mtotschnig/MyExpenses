@@ -704,7 +704,7 @@
     <string name="budget_table_header_budgeted">திட்டமிடப்பட்டது</string>
     <string name="budget_table_header_allocated">ஒதுக்கப்பட்டது</string>
     <string name="budget_table_header_spent">செலவிடப்பட்டது</string>
-    <string name="budget_table_header_remainder">மீதம்</string>
+    <string name="budget_table_header_available">மீதம்</string>
     <string name="budget_allocated_amount">ஒதுக்கீடு செய்யப்பட்ட தொகை</string>
     <string name="budget_exceeded_error_1_1">நீங்கள் திட்டமிட்ட தொகையில் %s போக அனைத்தும் மற்ற வகைகளுக்கு ஒதுக்கப்பட்டுள்ளது.</string>
     <string name="budget_exceeded_error_1_2">நீங்கள் திட்டமிட்ட தொகை அனைத்தும் மற்ற வகைகளுக்கு ஒதுக்கப்பட்டுள்ளது.</string>

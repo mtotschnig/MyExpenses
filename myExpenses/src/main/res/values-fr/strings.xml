@@ -712,7 +712,7 @@
     <string name="budget_table_header_budgeted">Budgétisé</string>
     <string name="budget_table_header_allocated">Alloué</string>
     <string name="budget_table_header_spent">Dépensé</string>
-    <string name="budget_table_header_remainder">Reste</string>
+    <string name="budget_table_header_available">Reste</string>
     <string name="budget_allocated_amount">Montant alloué</string>
     <string name="budget_exceeded_error_1_1">Tout votre budget, sauf %s, a été alloué à d\'autres catégories.</string>
     <string name="budget_exceeded_error_1_2">Tout votre budget a été alloué à d\'autres catégories.</string>

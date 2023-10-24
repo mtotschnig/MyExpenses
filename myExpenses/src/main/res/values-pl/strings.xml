@@ -700,7 +700,7 @@
     <string name="budget_table_header_budgeted">Rozdzielono</string>
     <string name="budget_table_header_allocated">Zaalokowano</string>
     <string name="budget_table_header_spent">Wydano</string>
-    <string name="budget_table_header_remainder">Pozostałość</string>
+    <string name="budget_table_header_available">Pozostałość</string>
     <string name="budget_allocated_amount">Kwota przydzielona</string>
     <string name="budget_exceeded_error_1_2">Cały Twój budżet został przydzielony do pozostałych kategorii.</string>
     <string name="budget_exceeded_error_2">Zwiększ rozmiar budżetu lub usuń pieniądze z pozostałych kategorii.</string>
