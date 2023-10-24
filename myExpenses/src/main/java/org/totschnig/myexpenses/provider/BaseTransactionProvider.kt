@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.provider
 
 import android.content.ContentProvider
-import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -639,60 +638,77 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     fun budgetCategoryUpsert(db: SupportSQLiteDatabase, uri: Uri, values: ContentValues): Int {
-        val (budgetId, catId) = parseBudgetCategoryUri(uri)
-        val year: String? = values.getAsString(KEY_YEAR)
-        val second: String? = values.getAsString(KEY_SECOND_GROUP)
-        val budget: String? = values.getAsString(KEY_BUDGET)
-        val oneTime: String? = values.getAsBoolean(KEY_ONE_TIME)?.let { if (it) "1" else "0" }
-        val rollOverPrevious: String? = values.getAsString(KEY_BUDGET_ROLLOVER_PREVIOUS)
-        val rollOverNext: String? = values.getAsString(KEY_BUDGET_ROLLOVER_NEXT)
-        check(
-            (budget != null && rollOverNext == null && rollOverPrevious == null) ||
-                    (budget == null && oneTime == null && year != null &&
-                            (rollOverNext != null).xor(rollOverPrevious != null)
-                            )
-        )
-        val statementBuilder = StringBuilder()
-        statementBuilder.append("INSERT OR REPLACE INTO $TABLE_BUDGET_ALLOCATIONS ($KEY_BUDGETID, $KEY_CATID, $KEY_YEAR, $KEY_SECOND_GROUP, $KEY_BUDGET_ROLLOVER_PREVIOUS, $KEY_BUDGET_ROLLOVER_NEXT, $KEY_BUDGET, $KEY_ONE_TIME) ")
-        statementBuilder.append("VALUES (?,?,?,?,")
-        val baseArgs = listOf(budgetId, catId, year, second)
-        val argsList = mutableListOf<String?>()
-        argsList.addAll(baseArgs)
-        if (rollOverPrevious == null) {
-            statementBuilder.append("(select $KEY_BUDGET_ROLLOVER_PREVIOUS from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?),")
+        db.beginTransaction()
+        return try {
+            val (budgetId, catId) = parseBudgetCategoryUri(uri)
+            val year: String? = values.getAsString(KEY_YEAR)
+            val second: String? = values.getAsString(KEY_SECOND_GROUP)
+            db.delete(
+                TABLE_BUDGET_ALLOCATIONS,
+                listOf(
+                    "$KEY_BUDGETID = ?",
+                    "$KEY_CATID = ?",
+                    KEY_YEAR + if (year == null) " IS NULL" else " = ?",
+                    KEY_SECOND_GROUP + if (second == null) " IS NULL" else " = ?"
+                ).joinToString(" AND "),
+                listOfNotNull(budgetId, catId, year, second).toTypedArray<String>()
+            )
+            val budget: String? = values.getAsString(KEY_BUDGET)
+            val oneTime: String? = values.getAsBoolean(KEY_ONE_TIME)?.let { if (it) "1" else "0" }
+            val rollOverPrevious: String? = values.getAsString(KEY_BUDGET_ROLLOVER_PREVIOUS)
+            val rollOverNext: String? = values.getAsString(KEY_BUDGET_ROLLOVER_NEXT)
+            check(
+                (budget != null && rollOverNext == null && rollOverPrevious == null) ||
+                        (budget == null && oneTime == null && year != null &&
+                                (rollOverNext != null).xor(rollOverPrevious != null)
+                                )
+            )
+            val statementBuilder = StringBuilder()
+            statementBuilder.append("INSERT INTO $TABLE_BUDGET_ALLOCATIONS ($KEY_BUDGETID, $KEY_CATID, $KEY_YEAR, $KEY_SECOND_GROUP, $KEY_BUDGET_ROLLOVER_PREVIOUS, $KEY_BUDGET_ROLLOVER_NEXT, $KEY_BUDGET, $KEY_ONE_TIME) ")
+            statementBuilder.append("VALUES (?,?,?,?,")
+            val baseArgs = listOf(budgetId, catId, year, second)
+            val argsList = mutableListOf<String?>()
             argsList.addAll(baseArgs)
-        } else {
-            statementBuilder.append("?,")
-            argsList.add(rollOverPrevious)
-        }
-        if (rollOverNext == null) {
-            statementBuilder.append("(select $KEY_BUDGET_ROLLOVER_NEXT from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?),")
-            argsList.addAll(baseArgs)
-        } else {
-            statementBuilder.append("?,")
-            argsList.add(rollOverNext)
-        }
-        if (budget != null) {
-            statementBuilder.append("?,?)")
-            argsList.add(budget)
-            argsList.add(oneTime ?: "1")
-        } else {
-            statementBuilder.append("(select $KEY_BUDGET from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?),")
-            statementBuilder.append("(select $KEY_ONE_TIME from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?))")
-            argsList.addAll(baseArgs)
-            argsList.addAll(baseArgs)
-        }
-        return db.compileStatement(statementBuilder.toString()).use {
-            argsList.forEachIndexed { index, arg ->
-                val bindIndex = index + 1
-                if (arg != null) {
-                    it.bindString(bindIndex, arg)
-                } else {
-                    it.bindNull(bindIndex)
-                }
+            if (rollOverPrevious == null) {
+                statementBuilder.append("(select $KEY_BUDGET_ROLLOVER_PREVIOUS from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?),")
+                argsList.addAll(baseArgs)
+            } else {
+                statementBuilder.append("?,")
+                argsList.add(rollOverPrevious)
             }
-            log("$it - ${argsList.joinToString()}")
-            it.executeUpdateDelete()
+            if (rollOverNext == null) {
+                statementBuilder.append("(select $KEY_BUDGET_ROLLOVER_NEXT from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?),")
+                argsList.addAll(baseArgs)
+            } else {
+                statementBuilder.append("?,")
+                argsList.add(rollOverNext)
+            }
+            if (budget != null) {
+                statementBuilder.append("?,?)")
+                argsList.add(budget)
+                argsList.add(oneTime ?: "1")
+            } else {
+                statementBuilder.append("(select $KEY_BUDGET from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?),")
+                statementBuilder.append("(select $KEY_ONE_TIME from $TABLE_BUDGET_ALLOCATIONS where $KEY_BUDGETID = ? AND $KEY_CATID = ? AND $KEY_YEAR = ? AND $KEY_SECOND_GROUP = ?))")
+                argsList.addAll(baseArgs)
+                argsList.addAll(baseArgs)
+            }
+            val result = db.compileStatement(statementBuilder.toString()).use {
+                argsList.forEachIndexed { index, arg ->
+                    val bindIndex = index + 1
+                    if (arg != null) {
+                        it.bindString(bindIndex, arg)
+                    } else {
+                        it.bindNull(bindIndex)
+                    }
+                }
+                log("$it - ${argsList.joinToString()}")
+                if (it.executeInsert() == -1L) 0 else 1
+            }
+            db.setTransactionSuccessful()
+            result
+        } finally {
+            db.endTransaction()
         }
     }
 

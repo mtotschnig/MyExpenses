@@ -25,20 +25,18 @@ class AccountWidget :
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         if (intent.action == WIDGET_LIST_DATA_CHANGED) {
-            doAsync {
-                intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
-                    ?.forEach { appWidgetId ->
-                        val accountId = AccountRemoteViewsFactory.accountId(context, appWidgetId)
-                        if (accountId != Long.MAX_VALUE.toString()) {
-                            updateSingleAccountWidget(
-                                context,
-                                AppWidgetManager.getInstance(context),
-                                appWidgetId,
-                                accountId
-                            )
-                        }
+            intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
+                ?.forEach { appWidgetId ->
+                    val accountId = AccountRemoteViewsFactory.accountId(context, appWidgetId)
+                    if (accountId != Long.MAX_VALUE.toString()) {
+                        updateSingleAccountWidget(
+                            context,
+                            AppWidgetManager.getInstance(context),
+                            appWidgetId,
+                            accountId
+                        )
                     }
-            }
+                }
         }
     }
 

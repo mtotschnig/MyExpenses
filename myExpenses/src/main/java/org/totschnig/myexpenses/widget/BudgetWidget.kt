@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.db2.loadBudgetProgress
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.doAsync
 import javax.inject.Inject
@@ -39,6 +40,12 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
     override fun onReceive(context: Context, intent: Intent) {
         context.injector.inject(this)
         super.onReceive(context, intent)
+        if (intent.action == WIDGET_LIST_DATA_CHANGED) {
+            intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
+                ?.forEach { appWidgetId ->
+                    updateWidgetDo(context, AppWidgetManager.getInstance(context), appWidgetId)
+                }
+        }
     }
 
     override fun updateWidgetDo(
@@ -150,6 +157,13 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
             }
             appWidgetManager.updateAppWidget(appWidgetId, widget)
         }
+    }
+
+    companion object {
+        val OBSERVED_URIS = arrayOf(
+            TransactionProvider.BUDGETS_URI,
+            TransactionProvider.TRANSACTIONS_URI
+        )
     }
 
     /*    private fun RemoteViews.setProgressBarProgressColorCompat(progressBarId: Int, color: Int) {
