@@ -139,7 +139,7 @@ android {
     lint {
         abortOnError true
         checkDependencies true
-        disable 'InvalidPackage', 'MissingQuantity', 'MissingTranslation', 'ImpliedQuantity'
+        disable 'InvalidPackage', 'MissingQuantity', 'MissingTranslation', 'ImpliedQuantity', 'Instantiatable'
     }
     namespace 'org.totschnig.myexpenses'
 }

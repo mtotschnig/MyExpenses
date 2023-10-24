@@ -92,6 +92,7 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
+        super.onBackPressed()
         if (isDirty) {
             showDiscardDialog()
         } else {
