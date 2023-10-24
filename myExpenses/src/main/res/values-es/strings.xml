@@ -363,7 +363,7 @@
     <string name="status_void">Inválido</string>
     <string name="subcategory">Subcategoría</string>
     <string name="sum_expenses">Gastos</string>
-    <string name="sum_income">Ingresos</string>
+    <string name="sum_income">Ingreso</string>
     <string name="sum_transfer">Transferencias</string>
     <!-- platform is replaced with Android or Blackberry -->
     <string name="tell_a_friend_message">Probar {app_name}, gestor de finanzas personales para {platform}, desde {website}</string>
@@ -1058,4 +1058,8 @@
     <string name="pref_copy_attachments_title">Copiar los archivos adjuntos a la carpeta de la aplicación</string>
     <string name="pref_copy_attachments_summary_off">Los archivos no se copian, sólo se almacena una referencia.</string>
     <string name="whats_new_365">Adjuntar un número arbitrario de las imágenes y los documentos (PDF)</string>
+    <string name="budget_deleted">Presupuesto suprimido</string>
+    <string name="widget_title_budget">Mi presupuesto</string>
+    <string name="budget_widget_configuration">Seleccione un presupuesto</string>
+    <string name="budget_table_header_overspent">Gastado de más</string>
 </resources>
