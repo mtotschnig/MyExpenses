@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.RemoteViews
+import androidx.appcompat.app.AppCompatDelegate
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.PreferenceActivity
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -15,6 +16,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.ICurrencyFormatter
+import org.totschnig.myexpenses.util.safeMessage
 import javax.inject.Inject
 
 abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvider() {
@@ -103,4 +105,16 @@ abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvide
             else -> AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT
         }, Int.MAX_VALUE
     )
+
+    val listLayout: Int
+        get() = when (AppCompatDelegate.getDefaultNightMode()) {
+            AppCompatDelegate.MODE_NIGHT_NO -> R.layout.widget_list_light
+            AppCompatDelegate.MODE_NIGHT_YES -> R.layout.widget_list_dark
+            else -> R.layout.widget_list
+        }
+
+    fun errorView(context: Context, throwable: Throwable) =
+        RemoteViews(context.packageName, listLayout).apply {
+            setTextViewText(R.id.emptyView, throwable.safeMessage)
+    }
 }

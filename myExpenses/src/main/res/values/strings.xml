@@ -475,6 +475,7 @@
     <string name="image_deleted">Picture has been deleted</string>
     <string name="transaction_deleted">Transaction has been deleted</string>
     <string name="account_deleted">Account has been deleted</string>
+    <string name="budget_deleted">Budget has been deleted</string>
     <string name="dialog_export_applied_to_filter">Only transactions matched by the current filter will be considered.</string>
     <string name="export_handle_deleted_create_helper">Create helper transaction</string>
     <string name="export_handle_deleted_update_balance">Update opening balance</string>
@@ -926,7 +927,7 @@
     <string name="account_widget_configuration_sum_total">Include future transactions</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Account widget configuration</string>
-    <!-- Title of dialogue that allows to configure account widget -->
+    <!-- Title of dialogue that allows to configure budget widget -->
     <string name="budget_widget_configuration">Select budget</string>
     <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
     <string name="menu_merge">Merge</string>

@@ -84,32 +84,28 @@ abstract class AbstractListWidget(
             clickBaseIntent(context),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
         )
-        appWidgetManager.updateAppWidget(appWidgetId, RemoteViews(
-            context.packageName,
-            when (AppCompatDelegate.getDefaultNightMode()) {
-                AppCompatDelegate.MODE_NIGHT_NO -> R.layout.widget_list_light
-                AppCompatDelegate.MODE_NIGHT_YES -> R.layout.widget_list_dark
-                else -> R.layout.widget_list
-            }
-        ).apply {
-            setEmptyView(R.id.list, R.id.emptyView)
-            setOnClickPendingIntent(R.id.emptyView, clickPI)
+        appWidgetManager.updateAppWidget(
+            appWidgetId,
+            RemoteViews(context.packageName, listLayout).apply {
+                setEmptyView(R.id.list, R.id.emptyView)
+                setOnClickPendingIntent(R.id.emptyView, clickPI)
 
-            setRemoteAdapter(R.id.list, Intent(context, clazz).apply {
-                putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-                val availableWidth = availableWidthForButtons(context, appWidgetManager, appWidgetId)
-                Timber.i("availableWidth: %d", availableWidth)
-                putExtra(KEY_WIDTH, availableWidth)
-                // When intents are compared, the extras are ignored, so we need to embed the extras
-                // into the data so that the extras will not be ignored.
-                data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
-            })
-            setTextViewText(
-                R.id.emptyView,
-                context.getString(emptyTextResourceId)
-            )
-            setPendingIntentTemplate(R.id.list, clickPI)
-        }
+                setRemoteAdapter(R.id.list, Intent(context, clazz).apply {
+                    putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+                    val availableWidth =
+                        availableWidthForButtons(context, appWidgetManager, appWidgetId)
+                    Timber.i("availableWidth: %d", availableWidth)
+                    putExtra(KEY_WIDTH, availableWidth)
+                    // When intents are compared, the extras are ignored, so we need to embed the extras
+                    // into the data so that the extras will not be ignored.
+                    data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
+                })
+                setTextViewText(
+                    R.id.emptyView,
+                    context.getString(emptyTextResourceId)
+                )
+                setPendingIntentTemplate(R.id.list, clickPI)
+            }
         )
     }
 
@@ -117,5 +113,9 @@ abstract class AbstractListWidget(
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int
-    ) = availableWidth(context, appWidgetManager, appWidgetId) - (WIDGET_ROW_RESERVED_SPACE_FOR_INFO * context.resources.configuration.fontScale).toInt()
+    ) = availableWidth(
+        context,
+        appWidgetManager,
+        appWidgetId
+    ) - (WIDGET_ROW_RESERVED_SPACE_FOR_INFO * context.resources.configuration.fontScale).toInt()
 }

@@ -80,11 +80,7 @@ class AccountWidget :
                         throw Exception(context.getString(R.string.account_deleted))
                     }
                 } ?: throw Exception("Cursor returned null")
-            }.getOrElse {
-                RemoteViews(context.packageName, R.layout.widget_list).apply {
-                    setTextViewText(R.id.emptyView, it.safeMessage)
-                }
-            }
+            }.getOrElse { errorView(context, it) }
             appWidgetManager.updateAppWidget(appWidgetId, widget)
         }
     }

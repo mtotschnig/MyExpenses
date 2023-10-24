@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="?android:attr/colorBackground"
     android:orientation="vertical"
-    android:theme="@style/Theme.Material3.DynamicColors.DayNight">
+    android:theme="@style/Theme.Material3.Light">
 
     <include layout="@layout/budget_widget_inner" />
 </LinearLayout>
