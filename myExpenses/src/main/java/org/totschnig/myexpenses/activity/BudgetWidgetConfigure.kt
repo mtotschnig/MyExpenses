@@ -28,15 +28,17 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
-import org.totschnig.myexpenses.viewmodel.BudgetWidgetConfigurationViewModel
+import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.viewmodel.BudgetViewModel
 import org.totschnig.myexpenses.widget.BudgetWidget
 
 class BudgetWidgetConfigure : BaseWidgetConfigure() {
 
-    private val viewModel: BudgetWidgetConfigurationViewModel by viewModels()
+    private val viewModel: BudgetViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        injector.inject(viewModel)
         setContent {
             AppTheme {
                 var selectedItem by remember { mutableStateOf<Long?>(null) }
@@ -50,7 +52,7 @@ class BudgetWidgetConfigure : BaseWidgetConfigure() {
                             vertical = verticalPadding,
                         )
                 ) {
-                    val data = viewModel.budgets.collectAsState().value
+                    val data = viewModel.data.collectAsState(null).value
                     if (data == null) {
                         Text(stringResource(R.string.loading))
                     } else if (data.isEmpty()) {
@@ -67,7 +69,7 @@ class BudgetWidgetConfigure : BaseWidgetConfigure() {
                                         onClick = null
                                     )
                                     Text(
-                                        text = item.title,
+                                        text = item.titleComplete(this@BudgetWidgetConfigure),
                                         modifier = Modifier.fillMaxWidth()
                                     )
                                 }

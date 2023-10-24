@@ -7,9 +7,9 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.evernote.android.state.State
@@ -40,10 +40,11 @@ import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.getLabelForBudgetType
 import java.time.LocalDate
 
-class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicker.OnDateChangedListener,
-        SelectFilterDialog.Host {
+class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
+    DatePicker.OnDateChangedListener,
+    SelectFilterDialog.Host {
 
-    private lateinit var viewModel: BudgetEditViewModel
+    private val viewModel: BudgetEditViewModel by viewModels()
     private lateinit var binding: OneBudgetBinding
     private var pendingBudgetLoad = 0L
     private var resumedP = false
@@ -56,11 +57,21 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     var accountId: Long = 0
 
     private val allFilterChips: Array<ScrollingChip>
-        get() = with(binding) { arrayOf( FILTERCATEGORYCOMMAND, FILTERPAYEECOMMAND, FILTERMETHODCOMMAND, FILTERSTATUSCOMMAND, FILTERTAGCOMMAND, FILTERACCOUNTCOMMAND) }
+        get() = with(binding) {
+            arrayOf(
+                FILTERCATEGORYCOMMAND,
+                FILTERPAYEECOMMAND,
+                FILTERMETHODCOMMAND,
+                FILTERSTATUSCOMMAND,
+                FILTERTAGCOMMAND,
+                FILTERACCOUNTCOMMAND
+            )
+        }
 
-    fun setupListeners() {
+    private fun setupListeners() {
         val removeFilter: (View) -> Unit = { view -> removeFilter((view.parent as View).id) }
-        val startFilterDialog: (View) -> Unit = { view -> startFilterDialog((view.parent as View).id) }
+        val startFilterDialog: (View) -> Unit =
+            { view -> startFilterDialog((view.parent as View).id) }
         allFilterChips.forEach {
             it.setOnCloseIconClickListener(removeFilter)
             it.setOnClickListener(startFilterDialog)
@@ -104,29 +115,34 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                     startActivityForResult(this, FILTER_CATEGORY_REQUEST)
                 }
             }
+
             R.id.FILTER_TAG_COMMAND -> {
                 Intent(this, ManageTags::class.java).apply {
                     action = Action.SELECT_FILTER.name
                     startActivityForResult(this, FILTER_TAGS_REQUEST)
                 }
             }
+
             R.id.FILTER_PAYEE_COMMAND -> {
                 Intent(this, ManageParties::class.java).apply {
                     action = Action.SELECT_FILTER.name
                     startActivityForResult(this, FILTER_PAYEE_REQUEST)
                 }
             }
+
             R.id.FILTER_METHOD_COMMAND -> {
                 SelectMethodsAllDialogFragment()
-                        .show(supportFragmentManager, "METHOD_FILTER")
+                    .show(supportFragmentManager, "METHOD_FILTER")
             }
+
             R.id.FILTER_STATUS_COMMAND -> {
                 SelectCrStatusDialogFragment.newInstance(false)
-                        .show(supportFragmentManager, "STATUS_FILTER")
+                    .show(supportFragmentManager, "STATUS_FILTER")
             }
+
             R.id.FILTER_ACCOUNT_COMMAND -> {
                 SelectMultipleAccountDialogFragment.newInstance(selectedAccount().currency)
-                        .show(supportFragmentManager, "ACCOUNT_FILTER")
+                    .show(supportFragmentManager, "ACCOUNT_FILTER")
             }
         }
     }
@@ -139,16 +155,20 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         binding = OneBudgetBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupToolbarWithClose()
-        viewModel = ViewModelProvider(this)[BudgetEditViewModel::class.java]
         injector.inject(viewModel)
         pendingBudgetLoad = if (savedInstanceState == null) budgetId else 0L
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.accountsMinimal().take(1).collect { list ->
                     accountSpinnerHelper.adapter = IdAdapter(this@BudgetEdit, list)
-                    (accountId.takeIf { it != 0L } ?: list.getOrNull(0)?.id)?.let { populateAccount(it) }
+                    (accountId.takeIf { it != 0L } ?: list.getOrNull(0)?.id)?.let {
+                        populateAccount(
+                            it
+                        )
+                    }
                     if (pendingBudgetLoad != 0L) {
-                        viewModel.budget(pendingBudgetLoad).observe(this@BudgetEdit) { populateData(it) }
+                        viewModel.budget(pendingBudgetLoad)
+                            .observe(this@BudgetEdit) { populateData(it) }
                     }
                 }
             }
@@ -166,7 +186,13 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
             setSelection(Grouping.MONTH.ordinal)
         }
         accountSpinnerHelper = SpinnerHelper(binding.Accounts)
-        filterPersistence = FilterPersistence(prefHandler, prefNameForCriteria(budgetId), savedInstanceState, false, !newInstance)
+        filterPersistence = FilterPersistence(
+            prefHandler,
+            prefNameForCriteria(budgetId),
+            savedInstanceState,
+            false,
+            !newInstance
+        )
 
         filterPersistence.whereFilter.criteria.forEach(this::showFilterCriteria)
         configureFilterDependents()
@@ -180,39 +206,42 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     }
 
     @Deprecated("Deprecated in Java")
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode != Activity.RESULT_CANCELED) {
             when (requestCode) {
                 FILTER_CATEGORY_REQUEST -> {
-                    intent?.getStringExtra(KEY_LABEL)?.let { label ->
+                    data?.getStringExtra(KEY_LABEL)?.let { label ->
                         if (resultCode == Activity.RESULT_OK) {
-                            intent.getLongExtra(KEY_ROWID, 0).takeIf { it > 0 }?.let {
+                            data.getLongExtra(KEY_ROWID, 0).takeIf { it > 0 }?.let {
                                 addCategoryFilter(label, it)
                             }
                         }
                         if (resultCode == Activity.RESULT_FIRST_USER) {
-                            intent.getLongArrayExtra(KEY_ROWID)?.let {
+                            data.getLongArrayExtra(KEY_ROWID)?.let {
                                 addCategoryFilter(label, *it)
                             }
                         }
                     }
                 }
+
                 FILTER_TAGS_REQUEST -> {
-                    intent?.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST)?.takeIf { it.size > 0 }?.let {
-                        val tagIds = it.map(Tag::id).toLongArray()
-                        val label = it.map(Tag::label).joinToString(", ")
-                        addFilterCriterion(TagCriterion(label, *tagIds))
-                    }
+                    data?.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST)?.takeIf { it.size > 0 }
+                        ?.let {
+                            val tagIds = it.map(Tag::id).toLongArray()
+                            val label = it.map(Tag::label).joinToString(", ")
+                            addFilterCriterion(TagCriterion(label, *tagIds))
+                        }
                 }
+
                 FILTER_PAYEE_REQUEST -> {
-                    intent?.getStringExtra(KEY_LABEL)?.let { label ->
+                    data?.getStringExtra(KEY_LABEL)?.let { label ->
                         if (resultCode == Activity.RESULT_OK) {
-                            intent.getLongExtra(KEY_ROWID, 0).takeIf { it > 0 }?.let {
+                            data.getLongExtra(KEY_ROWID, 0).takeIf { it > 0 }?.let {
                                 addPayeeFilter(label, it)
                             }
                         }
                         if (resultCode == Activity.RESULT_FIRST_USER) {
-                            intent.getLongArrayExtra(KEY_ROWID)?.let {
+                            data.getLongArrayExtra(KEY_ROWID)?.let {
                                 addPayeeFilter(label, *it)
                             }
                         }
@@ -220,7 +249,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                 }
             }
         }
-        super.onActivityResult(requestCode, resultCode, intent)
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun addCategoryFilter(label: String, vararg catIds: Long) {
@@ -297,6 +326,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
             R.id.Type -> {
                 configureTypeDependents(binding.Type.adapter.getItem(position) as Grouping)
             }
+
             R.id.Accounts -> {
                 configureAccount()
                 removeFilter(R.id.FILTER_ACCOUNT_COMMAND)
@@ -341,7 +371,8 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     override fun onFabClicked() {
         super.onFabClicked()
         val grouping = typeSpinnerHelper.selectedItem as Grouping
-        val duration = if (grouping == Grouping.NONE) binding.DurationFrom.getDate() to binding.DurationTo.getDate() else null
+        val duration =
+            if (grouping == Grouping.NONE) binding.DurationFrom.getDate() to binding.DurationTo.getDate() else null
         if (duration != null && duration.second < duration.first) {
             showDismissibleSnackBar(R.string.budget_date_end_after_start)
         } else {
@@ -374,7 +405,10 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     private fun selectedAccount() = binding.Accounts.selectedItem as AccountMinimal
 }
 
-class GroupingAdapter(context: Context) : ArrayAdapter<Grouping>(context, android.R.layout.simple_spinner_item, android.R.id.text1, Grouping.values()) {
+class GroupingAdapter(context: Context) : ArrayAdapter<Grouping>(
+    context, android.R.layout.simple_spinner_item, android.R.id.text1,
+    Grouping.entries.toTypedArray()
+) {
 
     init {
         setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)

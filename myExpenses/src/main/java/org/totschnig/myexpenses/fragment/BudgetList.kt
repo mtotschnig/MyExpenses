@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.BudgetActivity
 import org.totschnig.myexpenses.databinding.BudgetListRowBinding
 import org.totschnig.myexpenses.databinding.BudgetsBinding
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
@@ -38,7 +39,7 @@ import javax.inject.Inject
 class BudgetList : Fragment() {
     private var _binding: BudgetsBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: BudgetViewModel
+    private val viewModel: BudgetViewModel by activityViewModels()
     private var budgetAmounts: MutableMap<Long, Pair<Long, Long>?> = mutableMapOf()
 
     @Inject
@@ -72,8 +73,7 @@ class BudgetList : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = requireActivity().let {
-            viewModel = ViewModelProvider(it)[BudgetViewModel::class.java]
-            (requireActivity().application as MyApplication).appComponent.inject(viewModel)
+            it.injector.inject(viewModel)
             BudgetsAdapter(it)
         }
         with(binding.recyclerView) {

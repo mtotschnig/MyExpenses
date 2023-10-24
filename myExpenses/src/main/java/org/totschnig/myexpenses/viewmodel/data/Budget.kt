@@ -82,12 +82,12 @@ data class Budget(
         return "%s - %s".format(start!!.format(dateFormat), end!!.format(dateFormat))
     }
 
-    fun titleComplete(context: Context) = "%s (%s)".format(title,
-            when (grouping) {
-                Grouping.NONE -> durationPrettyPrint()
-                else -> context.getString(grouping.getLabelForBudgetType())
-            }
-    )
+    fun titleComplete(context: Context) = "$title (${
+        when (grouping) {
+            Grouping.NONE -> durationPrettyPrint()
+            else -> context.getString(grouping.getLabelForBudgetType())
+        }
+    })"
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Budget>() {

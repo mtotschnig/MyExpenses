@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.db2.budgetAllocationQueryUri
 import org.totschnig.myexpenses.db2.sumLoaderForBudget
-import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
@@ -35,10 +34,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
-import org.totschnig.myexpenses.provider.DatabaseConstants.THIS_DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.getThisMonth
-import org.totschnig.myexpenses.provider.DatabaseConstants.getThisWeek
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import java.util.Locale
@@ -98,13 +94,6 @@ open class BudgetViewModel(application: Application) :
         viewModelScope.launch {
             budgetLoaderFlow.emit(position to budget)
         }
-    }
-
-    private fun thisSecond(grouping: Grouping) = when (grouping) {
-        Grouping.DAY -> THIS_DAY
-        Grouping.WEEK -> getThisWeek()
-        Grouping.MONTH -> getThisMonth()
-        else -> ""
     }
 
     companion object {
