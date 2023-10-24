@@ -99,8 +99,8 @@ abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvide
         appWidgetId: Int
     ) = appWidgetManager.getAppWidgetOptions(appWidgetId).getInt(
         when (context.resources.configuration.orientation) {
-            Configuration.ORIENTATION_LANDSCAPE -> AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT
-            else -> AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT
+            Configuration.ORIENTATION_LANDSCAPE -> AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT
+            else -> AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT
         }, Int.MAX_VALUE
     )
 }

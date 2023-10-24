@@ -85,7 +85,7 @@
                 android:id="@+id/todayMarker"
                 android:layout_width="1dp"
                 android:layout_height="24dp"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="center_vertical|start"
                 android:background="?colorOnSurface"
                 android:translationX="@dimen/preview_today_translation"
                 tools:ignore="ContentDescription" />

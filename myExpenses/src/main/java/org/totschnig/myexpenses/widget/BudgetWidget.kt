@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.LayoutDirection
 import android.util.TypedValue
 import android.view.View
 import android.widget.RemoteViews
@@ -95,7 +96,9 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
                 val remainingBudget = budgetInfo.remainingBudget
                 val remainingDays = budgetInfo.remainingDays
                 if (showCurrentPosition) {
-                    val translation = availableWidth * todayPosition * (if (progress > 1) (1 / progress) else 1f) - 0.5F
+                    val layoutDirection = if (context.resources.configuration.layoutDirection == LayoutDirection.RTL) -1 else 1
+                    val translation = (availableWidth * todayPosition *
+                            (if (progress > 1) (1 / progress) else 1f) - 0.5F) * layoutDirection
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                         setViewTranslationXDimen(
                             R.id.todayMarker,
