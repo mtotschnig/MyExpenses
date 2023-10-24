@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import java.util.*
 
 open class BaseTestWithRepository {
@@ -21,7 +22,8 @@ open class BaseTestWithRepository {
         ApplicationProvider.getApplicationContext<MyApplication>(),
         currencyContext,
         Mockito.mock(CurrencyFormatter::class.java),
-        Mockito.mock(PrefHandler::class.java)
+        Mockito.mock(PrefHandler::class.java),
+        Mockito.mock(HomeCurrencyProvider::class.java)
     )
 
     val contentResolver: ContentResolver = repository.contentResolver
