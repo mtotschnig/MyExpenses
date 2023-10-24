@@ -64,4 +64,7 @@
     <color name="RECONCILED">#00FF00</color>
     <color name="settings_two_pane_background_color">#FFDBD9DD</color>
 
+    <color name="overspent">#c00100</color>
+    <color name="overspentDaily">#dddd00</color>
+    <color name="inBudget">#026e00</color>
 </resources>

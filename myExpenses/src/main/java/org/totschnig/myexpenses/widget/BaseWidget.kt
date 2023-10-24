@@ -16,8 +16,11 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.ICurrencyFormatter
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
 import javax.inject.Inject
+
+class NoDataException(message: String): Exception(message)
 
 abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvider() {
 
@@ -113,8 +116,12 @@ abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvide
             else -> R.layout.widget_list
         }
 
-    fun errorView(context: Context, throwable: Throwable) =
-        RemoteViews(context.packageName, listLayout).apply {
+    fun errorView(context: Context, throwable: Throwable): RemoteViews {
+        if (throwable !is NoDataException) {
+            CrashHandler.report(throwable)
+        }
+        return RemoteViews(context.packageName, listLayout).apply {
             setTextViewText(R.id.emptyView, throwable.safeMessage)
+        }
     }
 }

@@ -13,7 +13,6 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.doAsync
-import org.totschnig.myexpenses.util.safeMessage
 
 const val CLICK_ACTION_NEW_TRANSACTION = "newTransaction"
 const val CLICK_ACTION_NEW_TRANSFER = "newTransfer"
@@ -77,7 +76,7 @@ class AccountWidget :
                             )
                         }
                     } else {
-                        throw Exception(context.getString(R.string.account_deleted))
+                        throw NoDataException(context.getString(R.string.account_deleted))
                     }
                 } ?: throw Exception("Cursor returned null")
             }.getOrElse { errorView(context, it) }

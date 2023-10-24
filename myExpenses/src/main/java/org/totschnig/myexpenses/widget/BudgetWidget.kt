@@ -25,10 +25,11 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.doAsync
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.absoluteValue
 
-enum class ProgressLayout(@IdRes val viewId: Int) {
+enum class ProgressState(@IdRes val progressBarId: Int) {
     InBudget(R.id.budget_progress_green),
     OverDayBudget(R.id.budget_progress_yellow),
     OverTotalBudget(R.id.budget_progress_red)
@@ -58,26 +59,27 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
         doAsync {
             val widget = runCatching {
                 val horizontalPadding = 32
+                val todayMarkerCorrection = 2f
                 val availableWidth =
                     availableWidth(context, appWidgetManager, appWidgetId) - horizontalPadding
                 val availableHeight = availableHeight(context, appWidgetManager, appWidgetId)
                 val budgetId = BudgetWidgetConfigure.loadSelectionPref(context, appWidgetId)
                 val budgetInfo = repository.loadBudgetProgress(budgetId)
-                    ?: throw Exception(context.getString(R.string.budget_deleted))
+                    ?: throw NoDataException(context.getString(R.string.budget_deleted))
                 val progress = budgetInfo.spent / budgetInfo.allocated.toFloat()
                 val todayPosition = budgetInfo.currentDay / budgetInfo.totalDays.toFloat()
                 val showCurrentPosition =
                     budgetInfo.totalDays > 1 && budgetInfo.currentDay in 1..budgetInfo.totalDays
-                val progressLayout = when {
-                    progress > 1 -> ProgressLayout.OverTotalBudget
-                    showCurrentPosition && progress > todayPosition -> ProgressLayout.OverDayBudget
-                    else -> ProgressLayout.InBudget
+                val progressState = when {
+                    progress > 1 -> ProgressState.OverTotalBudget
+                    showCurrentPosition && progress > todayPosition -> ProgressState.OverDayBudget
+                    else -> ProgressState.InBudget
                 }
                 RemoteViews(context.packageName, layout).apply {
                     fun setProgressBarVisibility(progressBarViewId: Int) {
                         setViewVisibility(
                             progressBarViewId,
-                            if (progressLayout.viewId == progressBarViewId) View.VISIBLE else View.GONE
+                            if (progressState.progressBarId == progressBarViewId) View.VISIBLE else View.GONE
                         )
                     }
 
@@ -92,11 +94,18 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
                     setProgressBarVisibility(R.id.budget_progress_green)
                     setProgressBarVisibility(R.id.budget_progress_yellow)
                     setProgressBarVisibility(R.id.budget_progress_red)
-                    if (progress > 1) {
-                        setProgressBarProgress(progressLayout.viewId, (100 / progress).toInt())
-                        setProgressBarSecondaryProgress(progressLayout.viewId, 100)
-                    } else {
-                        setProgressBarProgress(progressLayout.viewId, (progress * 100).toInt())
+                    when (progressState) {
+                        ProgressState.OverTotalBudget -> {
+                            setProgressBarProgress(progressState.progressBarId, (100 / progress).toInt())
+                            setProgressBarSecondaryProgress(progressState.progressBarId, 100)
+                        }
+                        ProgressState.OverDayBudget -> {
+                            setProgressBarProgress(progressState.progressBarId, (todayPosition * 100).toInt())
+                            setProgressBarSecondaryProgress(progressState.progressBarId, (progress * 100).toInt())
+                        }
+                        else -> {
+                            setProgressBarProgress(progressState.progressBarId, (progress * 100).toInt())
+                        }
                     }
                     val remainingBudget = budgetInfo.remainingBudget
                     val remainingDays = budgetInfo.remainingDays
@@ -104,7 +113,8 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
                         val layoutDirection =
                             if (context.resources.configuration.layoutDirection == LayoutDirection.RTL) -1 else 1
                         val translation = (availableWidth * todayPosition *
-                                (if (progress > 1) (1 / progress) else 1f) - 0.5F) * layoutDirection
+                                (if (progress > 1) (1 / progress) else 1f) - todayMarkerCorrection) * layoutDirection
+                        Timber.i("todayPosition: $todayPosition, translation: $translation")
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                             setViewTranslationXDimen(
                                 R.id.todayMarker,

@@ -48,8 +48,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:progressDrawable="@drawable/budget_progress"
-            android:progressTint="@color/caldroid_light_red"
-            android:secondaryProgressTint="#FF0000"
+            android:progressTint="@color/overspentDaily"
+            android:secondaryProgressTint="@color/overspent"
             android:visibility="gone" />
 
         <ProgressBar
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:progressDrawable="@drawable/budget_progress"
-            android:progressTint="#00FF00"
+            android:progressTint="@color/inBudget"
             android:visibility="gone" />
 
         <ProgressBar
@@ -70,7 +70,8 @@
             android:layout_gravity="center_vertical"
             android:progress="50"
             android:progressDrawable="@drawable/budget_progress"
-            android:progressTint="#FFFF00" />
+            android:progressTint="@color/inBudget"
+            android:secondaryProgressTint="@color/overspentDaily" />
 
         <FrameLayout
             android:id="@+id/todayMarkerContainer"
@@ -79,7 +80,7 @@
 
             <ImageView
                 android:id="@+id/todayMarker"
-                android:layout_width="1dp"
+                android:layout_width="2dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_vertical|start"
                 android:background="?colorOnSurface"

@@ -20,4 +20,7 @@
     <color name="activatedBackground">@color/material_grey_700</color>
     <color name="activatedBackgroundPlanner">@color/material_grey_600</color>
     <color name="settings_two_pane_background_color">@android:color/transparent</color>
+    <color name="overspent">#ffb4a8</color>
+    <color name="overspentDaily">#dddd00</color>
+    <color name="inBudget">#02e600</color>
 </resources>
