@@ -1,10 +1,14 @@
 package org.totschnig.myexpenses.provider;
 
+import static junit.framework.Assert.assertEquals;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import androidx.test.core.app.ApplicationProvider;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,16 +20,13 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefKey;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
-
-import static junit.framework.Assert.assertEquals;
-
-import androidx.test.core.app.ApplicationProvider;
 
 /**
  * This test can be run from the command line with different timezones
@@ -37,20 +38,18 @@ public class DateCalculationTest {
   // Contains an SQLite database, used as test data
   private SQLiteDatabase mDb;
 
-  private String TABLE = "test_dates";
-  private String KEY_DATE = "date";
-  private Random random;
-  private Calendar calendar;
+  private final String TABLE = "test_dates";
+  private final String KEY_DATE = "date";
 
   @Before
   public void setUp() {
     final Context targetContext = RuntimeEnvironment.getApplication();
     mDb = new MyDbHelper(targetContext).getWritableDatabase();
     ContentValues v = new ContentValues();
-    for (int year = 2010; year < 2022; year++) {
+    for (int year = 2020; year < 2032; year++) {
       int month = 11, day = 26;
-      while (true) {
-        random = new Random();
+      do {
+        Random random = new Random();
         int hour = random.nextInt(24);
         int minute = random.nextInt(60);
         v.put(KEY_DATE, new GregorianCalendar(year, month, day, hour, minute).getTime().getTime() / 1000);
@@ -60,10 +59,7 @@ public class DateCalculationTest {
           month = 0;
           day = 1;
         }
-        if (day == 7) {
-          break;
-        }
-      }
+      } while (day != 7);
     }
   }
 
@@ -83,7 +79,6 @@ public class DateCalculationTest {
   }
 
   private void doTheTest(String timeZone, int configuredWeekStart) {
-    calendar = Calendar.getInstance();
     ((MyApplication) ApplicationProvider.getApplicationContext()).getAppComponent().prefHandler()
             .putString(PrefKey.GROUP_WEEK_STARTS, String.valueOf(configuredWeekStart));
     DatabaseConstants.buildLocalized(Locale.getDefault(), (MyApplication) RuntimeEnvironment.getApplication());
@@ -103,8 +98,8 @@ public class DateCalculationTest {
     while (!c.isAfterLast()) {
       int year = c.getInt(0);
       int week = c.getInt(1);
-      long weekStartAsTimeStamp = c.getLong(2);
-      int dayOfYearOfWeekStart = getDayOfYearFromTimestamp(weekStartAsTimeStamp);
+      String weekStart = c.getString(2);
+      int dayOfYearOfWeekStart = getDayOfYearFromDate(weekStart);
       long unixTimeStamp = c.getLong(3);
       String date = SimpleDateFormat.getDateInstance().format(new Date(unixTimeStamp * 1000));
       String weekStartFromGroupSqlExpression = DbUtils.weekStartFromGroupSqlExpression(year, week);
@@ -115,11 +110,11 @@ public class DateCalculationTest {
           },
           null, null, null, null, null);
       check.moveToFirst();
-      long weekStartFromGroupAsTimeStamp = check.getLong(0);
-      int dayOfYearOfWeekStartFromGroup = getDayOfYearFromTimestamp(weekStartFromGroupAsTimeStamp);
+      String weekStartFromGroup = check.getString(0);
+      int dayOfYearOfWeekStartFromGroup = getDayOfYearFromDate(weekStartFromGroup);
       assertEquals(String.format(Locale.ROOT,
-          "With timezone %s and week starts on %d, for date %s (%d) comparing weekStart %d did not match weekStart from group (%d,%d) %d",
-          timeZone, configuredWeekStart, date, unixTimeStamp, weekStartAsTimeStamp, year, week, weekStartFromGroupAsTimeStamp),
+          "With timezone %s and week starts on %d, for date %s (%d) comparing weekStart %s did not match weekStart from group (%d,%d) %s",
+          timeZone, configuredWeekStart, date, unixTimeStamp, weekStart, year, week, weekStartFromGroup),
           dayOfYearOfWeekStart, dayOfYearOfWeekStartFromGroup);
       check.close();
       c.moveToNext();
@@ -127,9 +122,8 @@ public class DateCalculationTest {
     c.close();
   }
 
-  private int getDayOfYearFromTimestamp(long timestamp) {
-    calendar.setTimeInMillis(timestamp * 1000);
-    return calendar.get(Calendar.DAY_OF_YEAR);
+  private int getDayOfYearFromDate(String date) {
+    return LocalDate.parse(date).getDayOfYear();
   }
 
   private class MyDbHelper extends SQLiteOpenHelper {
