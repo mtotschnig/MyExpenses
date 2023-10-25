@@ -12,7 +12,6 @@ import javax.inject.Singleton
 @Module
 class SyncModule {
     @Provides
-    @Singleton
     fun provideSyncDelegate(
         currencyContext: CurrencyContext,
         featureManager: FeatureManager,

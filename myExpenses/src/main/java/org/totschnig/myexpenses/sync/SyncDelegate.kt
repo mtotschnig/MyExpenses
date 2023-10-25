@@ -456,7 +456,7 @@ class SyncDelegate(
             payeeToId[party] = it
         }
 
-    fun extractMethodId(methodLabel: String): Long =
+    private fun extractMethodId(methodLabel: String): Long =
         methodToId[methodLabel] ?: (repository.findPaymentMethod(methodLabel).takeIf { it != -1L }
             ?: repository.writePaymentMethod(methodLabel, account.type)).also {
             methodToId[methodLabel] = it
@@ -546,14 +546,6 @@ class SyncDelegate(
 
     fun removeMetadataChange(input: List<TransactionChange>) =
         input.filter { value: TransactionChange -> value.type() != TransactionChange.Type.metadata }
-
-    fun concat(contentBuilders: List<CharSequence>) =
-        contentBuilders.foldIndexed(StringBuilder()) { index, sum, element ->
-            if (index > 0) {
-                sum.append("\n")
-            }
-            sum.append(element)
-        }
 
     fun requireFeatureForAccount(context: Context, name: String): Feature? {
         BackendService.forAccount(name).getOrNull()?.feature?.let {

@@ -44,6 +44,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import javax.inject.Provider
 import kotlin.math.pow
 
 class SyncAdapter @JvmOverloads constructor(
@@ -64,7 +65,7 @@ class SyncAdapter @JvmOverloads constructor(
     lateinit var currencyContext: CurrencyContext
 
     @Inject
-    lateinit var syncDelegate: SyncDelegate
+    lateinit var syncDelegateProvider: Provider<SyncDelegate>
 
     @Inject
     lateinit var repository: Repository
@@ -80,6 +81,7 @@ class SyncAdapter @JvmOverloads constructor(
         account: Account, extras: Bundle, authority: String,
         provider: ContentProviderClient, syncResult: SyncResult
     ) {
+        val syncDelegate = syncDelegateProvider.get()
         log().i("onPerformSync %s", extras)
         if (extras.getBoolean(KEY_NOTIFICATION_CANCELLED, false)) {
             if (ContentResolver.isSyncPending(account, authority)) {
@@ -346,7 +348,7 @@ class SyncAdapter @JvmOverloads constructor(
                                     backend.updateAccount(instanceFromDb)
                                 } else if (remoteMetadataChange != null) {
                                     backend.readAccountMetaData().onSuccess {
-                                        if (updateAccountFromMetadata(provider, it)) {
+                                        if (updateAccountFromMetadata(provider, syncDelegate, it)) {
                                             successRemote2Local += 1
                                         } else {
                                             appendToNotification(
@@ -465,6 +467,7 @@ class SyncAdapter @JvmOverloads constructor(
     @Throws(RemoteException::class, OperationApplicationException::class)
     private fun updateAccountFromMetadata(
         provider: ContentProviderClient,
+        syncDelegate: SyncDelegate,
         accountMetaData: AccountMetaData
     ): Boolean {
         val ops = ArrayList<ContentProviderOperation>()
@@ -597,11 +600,19 @@ class SyncAdapter @JvmOverloads constructor(
             contentBuilder.append(content)
             notifyUser(
                 notificationTitle,
-                syncDelegate.concat(contentBuilders),
+                concat(contentBuilders),
                 account, null
             )
         }
     }
+
+    fun concat(contentBuilders: List<CharSequence>) =
+        contentBuilders.foldIndexed(StringBuilder()) { index, sum, element ->
+            if (index > 0) {
+                sum.append("\n")
+            }
+            sum.append(element)
+        }
 
     private fun report(e: Throwable) {
         CrashHandler.report(e, TAG)
@@ -764,12 +775,12 @@ class SyncAdapter @JvmOverloads constructor(
         return result
     }
 
-    private fun buildChangesUri(current_sync: Long, accountId: Long): Uri {
+    private fun buildChangesUri(currentSync: Long, accountId: Long): Uri {
         return TransactionProvider.CHANGES_URI.buildUpon()
             .appendQueryParameter(KEY_ACCOUNTID, accountId.toString())
             .appendQueryParameter(
                 KEY_SYNC_SEQUENCE_LOCAL,
-                current_sync.toString()
+                currentSync.toString()
             )
             .build()
     }
