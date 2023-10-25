@@ -71,7 +71,7 @@ class PreferencesContribFragment : BasePreferenceFragment(), SimpleDialog.OnDial
                     .fields(
                         Input.email(KEY_EMAIL)
                             .required().text(licenceEmail),
-                        Input.plain(KEY_KEY)
+                        Input.plain(KEY_KEY).min(4)
                             .required().hint(R.string.licence_key).text(licenceKey)
                     )
                     .pos(R.string.button_validate)
