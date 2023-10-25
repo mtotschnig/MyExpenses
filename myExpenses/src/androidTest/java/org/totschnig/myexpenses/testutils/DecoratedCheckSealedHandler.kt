@@ -6,9 +6,9 @@ import androidx.test.espresso.idling.CountingIdlingResource
 import org.totschnig.myexpenses.provider.CheckSealedHandler
 
 class DecoratedCheckSealedHandler(cr: ContentResolver, private val countingIdlingResource: CountingIdlingResource) : CheckSealedHandler(cr) {
-    override fun check(itemIds: List<Long>, listener: ResultListener) {
+    override fun check(itemIds: List<Long>, withTransfer: Boolean, listener: ResultListener) {
         countingIdlingResource.increment()
-        super.check(itemIds, listener)
+        super.check(itemIds, withTransfer, listener)
     }
 
     override fun onQueryComplete(token: Int, cookie: Any, cursor: Cursor?) {

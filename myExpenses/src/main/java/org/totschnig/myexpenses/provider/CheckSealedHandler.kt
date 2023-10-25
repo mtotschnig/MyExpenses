@@ -17,7 +17,7 @@ open class CheckSealedHandler(cr: ContentResolver) : AsyncQueryHandler(cr) {
         fun onResult(result: Result<Pair<Boolean, Boolean>>)
     }
 
-    open fun check(itemIds: List<Long>, listener: ResultListener) {
+    open fun check(itemIds: List<Long>, withTransfer: Boolean, listener: ResultListener) {
         startQuery(
             TOKEN,
             listener,
@@ -25,7 +25,8 @@ open class CheckSealedHandler(cr: ContentResolver) : AsyncQueryHandler(cr) {
             arrayOf(
                 "MAX(" + checkForSealedAccount(
                     VIEW_COMMITTED,
-                    TABLE_TRANSACTIONS
+                    TABLE_TRANSACTIONS,
+                    withTransfer
                 ) + ")",
                 "MAX(${checkForSealedDebt(VIEW_COMMITTED)})"
             ),

@@ -15,8 +15,9 @@ fun checkSealedWithAlias(baseTable: String, innerTable: String) =
  * we check if the object is linked to a sealed account, either via its account, it transfer_account, or its children.
  * For Children, we only need to check for transfer_account, since there account is identical to their parent.
  */
-fun checkForSealedAccount(baseTable: String, innerTable: String) =
+fun checkForSealedAccount(baseTable: String, innerTable: String, withTransfer: Boolean = true) = if (withTransfer)
     "(SELECT max($KEY_SEALED) FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_ACCOUNTID OR $KEY_ROWID = $KEY_TRANSFER_ACCOUNT OR $KEY_ROWID in (SELECT $KEY_TRANSFER_ACCOUNT FROM $innerTable WHERE $KEY_PARENTID = $baseTable.$KEY_ROWID))"
+    else "(SELECT $KEY_SEALED FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_ACCOUNTID)"
 
 /**
  * we check if the object is linked to a sealed debt.

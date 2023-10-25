@@ -783,8 +783,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
         val onToggleCrStatus: ((Long) -> Unit)? = if (showStatusHandle) {
             {
-                if (!account.sealed)
+                checkSealed(listOf(it), withTransfer = false) {
                     viewModel.toggleCrStatus(it)
+                }
             }
         } else null
 
@@ -1860,8 +1861,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     open fun buildCheckSealedHandler() = lazy { CheckSealedHandler(contentResolver) }.value
 
-    fun checkSealed(itemIds: List<Long>, onChecked: Runnable) {
-        buildCheckSealedHandler().check(itemIds) { result ->
+    fun checkSealed(itemIds: List<Long>, withTransfer: Boolean = true, onChecked: Runnable) {
+        buildCheckSealedHandler().check(itemIds, withTransfer) { result ->
             lifecycleScope.launchWhenResumed {
                 result.onSuccess {
                     if (it.first && it.second) {

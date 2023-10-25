@@ -1745,7 +1745,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     int baseLength = baseProjection.length;
     String[] projection = new String[baseLength + 1];
     System.arraycopy(baseProjection, 0, projection, 0, baseLength);
-    projection[baseLength] = checkForSealedAccount(baseTable, TABLE_TEMPLATES) + " AS " + KEY_SEALED;
+    projection[baseLength] = checkForSealedAccount(baseTable, TABLE_TEMPLATES, true) + " AS " + KEY_SEALED;
     return projection;
   }
 
