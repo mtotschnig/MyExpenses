@@ -736,8 +736,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         putInt(
             KEY_COUNT,
             db.query("select count(*) from $TABLE_ACCOUNTS where $KEY_HIDDEN = 1").use {
-                it.moveToFirst()
-                it.getInt(0)
+                if (it.moveToFirst()) it.getInt(0) else 0
             }
         )
     }
