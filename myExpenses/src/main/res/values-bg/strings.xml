@@ -1045,4 +1045,8 @@
     <string name="attachments">Прикачени</string>
     <string name="pref_copy_attachments_title">Копирай прикачените файлове в папката на приложението</string>
     <string name="pref_copy_attachments_summary_off">Файловете не се копират, запазва се само връзка към тях.</string>
+    <string name="budget_deleted">Бюджета е изтрит</string>
+    <string name="widget_title_budget">Моя бюджет</string>
+    <string name="budget_widget_configuration">Избери бюджет</string>
+    <string name="budget_table_header_overspent">Преразход</string>
 </resources>
