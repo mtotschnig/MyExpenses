@@ -38,6 +38,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.DebugCurrencyFormatter
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.util.*
 import java.util.concurrent.TimeoutException
@@ -169,7 +170,8 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
             ApplicationProvider.getApplicationContext<MyApplication>(),
             currencyContext,
             DebugCurrencyFormatter,
-            Mockito.mock(PrefHandler::class.java)
+            Mockito.mock(PrefHandler::class.java),
+            Mockito.mock(HomeCurrencyProvider::class.java)
         )
 
     val contentResolver: ContentResolver = repository.contentResolver

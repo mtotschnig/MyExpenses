@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import java.io.File
 
 open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(TransactionProvider::class.java, TransactionProvider.AUTHORITY) {
@@ -47,7 +48,8 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(Transaction
             targetContextWrapper,
             Mockito.mock(CurrencyContext::class.java),
             Mockito.mock(CurrencyFormatter::class.java),
-            Mockito.mock(PrefHandler::class.java)
+            Mockito.mock(PrefHandler::class.java),
+            Mockito.mock(HomeCurrencyProvider::class.java)
         )
 
     val contentResolver: ContentResolver
