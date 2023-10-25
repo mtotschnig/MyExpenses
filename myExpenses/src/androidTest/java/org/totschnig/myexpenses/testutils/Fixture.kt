@@ -253,7 +253,7 @@ class Fixture(inst: Instrumentation) {
 
         // Template
         Truth.assertWithMessage("Unable to create planner").that(
-            MyApplication.getInstance().createPlanner(true)
+            MyApplication.instance.createPlanner(true)
         ).isNotEqualTo(MyApplication.INVALID_CALENDAR_ID)
 
         //createPlanner sets up a new plan, mPlannerCalendarId is only set in onSharedPreferenceChanged

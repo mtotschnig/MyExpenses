@@ -741,7 +741,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 /*  private void insertTestData(SupportSQLiteDatabase db, int countGroup, int countChild) {
     int dayInSeconds = 60 * 60 * 24;
     long date = System.currentTimeMillis() / 1000 + dayInSeconds * 500;
-    int categories = MoreDbUtilsKt.setupDefaultCategories(db, MyApplication.getInstance().getResources()).getFirst();
+    int categories = MoreDbUtilsKt.setupDefaultCategories(db, MyApplication.Companion.getInstance().getResources()).getFirst();
     for (int i = 1; i <= countGroup; i++) {
       AccountInfo testAccount = new AccountInfo("Test account " + i, AccountType.BANK, 0);
       long testAccountId = db.insert(DatabaseConstants.TABLE_ACCOUNTS, CONFLICT_NONE, testAccount.getContentValues());
@@ -1328,12 +1328,12 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
 
       if (oldVersion < 51) {
-        File pictureDir = PictureDirHelper.getPictureDir(MyApplication.getInstance(), false);
+        File pictureDir = PictureDirHelper.getPictureDir(MyApplication.Companion.getInstance(), false);
         //fallback if not mounted
         if (pictureDir == null) {
           pictureDir = new File(
               Environment.getExternalStorageDirectory().getPath() +
-                  "/Android/data/" + MyApplication.getInstance().getPackageName() + "/files",
+                  "/Android/data/" + MyApplication.Companion.getInstance().getPackageName() + "/files",
               Environment.DIRECTORY_PICTURES);
         }
         if (!pictureDir.exists()) {
@@ -1458,12 +1458,12 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 57) {
         //fix custom app uris
         try {
-          if (CALENDAR.hasPermission(MyApplication.getInstance())) {
+          if (CALENDAR.hasPermission(MyApplication.Companion.getInstance())) {
             Cursor c = MoreDbUtilsKt.query(db,"templates", new String[]{"_id", "plan_id"}, "plan_id IS NOT null", null, null, null, null, null);
             if (c.moveToFirst()) {
               while (!c.isAfterLast()) {
                 Plan.updateCustomAppUri(
-                        MyApplication.getInstance().getContentResolver(),
+                        MyApplication.Companion.getInstance().getContentResolver(),
                         c.getLong(1),
                         Template.buildCustomAppUri(c.getLong(0))
                 );
@@ -1522,7 +1522,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         Cursor c = db.query("SELECT distinct currency from accounts");
         if (c.moveToFirst()) {
           while (!c.isAfterLast()) {
-            CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
+            CurrencyContext currencyContext = MyApplication.Companion.getInstance().getAppComponent().currencyContext();
             currencyContext.ensureFractionDigitsAreCached(currencyContext.get(c.getString(0)));
             c.moveToNext();
           }
@@ -1793,7 +1793,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         Cursor c = db.query("SELECT distinct currency from accounts");
         if (c.moveToFirst()) {
           String GROUPING_PREF_PREFIX = "AGGREGATE_GROUPING_";
-          final SharedPreferences settings = MyApplication.getInstance().getSettings();
+          final SharedPreferences settings = MyApplication.Companion.getInstance().getSettings();
           final SharedPreferences.Editor editor = settings.edit();
           boolean updated = false;
           while (!c.isAfterLast()) {
@@ -1846,7 +1846,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       //}
 
       if (oldVersion < 83) {
-        final String auto_backup_cloud = MyApplication.getInstance().getSettings().getString("auto_backup_cloud", null);
+        final String auto_backup_cloud = MyApplication.Companion.getInstance().getSettings().getString("auto_backup_cloud", null);
         if (auto_backup_cloud != null) {
           ContentValues values = new ContentValues(2);
           values.put("key", "auto_backup_cloud");
@@ -1914,7 +1914,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
                     "account_id", "_id", "currency", "code", "budgets.currency", HOME_AGGREGATE_ID), "grouping"},
             null, null, null, null, null, null);
         if (c.moveToFirst()) {
-          final SharedPreferences settings = MyApplication.getInstance().getSettings();
+          final SharedPreferences settings = MyApplication.Companion.getInstance().getSettings();
           final SharedPreferences.Editor editor = settings.edit();
           while (c.getPosition() < c.getCount()) {
             final long accountId = c.getLong(1);
@@ -2162,7 +2162,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 135) {
         db.execSQL("ALTER TABLE categories add column uuid text");
         db.execSQL("CREATE UNIQUE INDEX categories_uuid ON categories(uuid)");
-        MoreDbUtilsKt.insertUuidsForDefaultCategories(db, MyApplication.getInstance().getResources());
+        MoreDbUtilsKt.insertUuidsForDefaultCategories(db, MyApplication.Companion.getInstance().getResources());
       }
       if (oldVersion < 136) {
         upgradeTo136(db);

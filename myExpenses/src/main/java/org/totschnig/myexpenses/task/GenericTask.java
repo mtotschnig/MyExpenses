@@ -48,7 +48,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
    */
   @Override
   protected Object doInBackground(T... ids) {
-    final MyApplication application = MyApplication.getInstance();
+    final MyApplication application = MyApplication.Companion.getInstance();
     final Context context = application.getWrappedContext();
     ContentResolver cr = context.getContentResolver();
     ContentValues values;

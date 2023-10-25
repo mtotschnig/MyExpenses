@@ -35,7 +35,7 @@ class TemplateWidget: AbstractListWidget(TemplateWidgetService::class.java, Pref
                 })
             }
             CLICK_ACTION_SAVE -> {
-                if (MyApplication.getInstance().shouldLock(null)) {
+                if (MyApplication.instance.shouldLock(null)) {
                     Toast.makeText(context,
                             context.getString(R.string.warning_instantiate_template_from_widget_password_protected),
                             Toast.LENGTH_LONG).show()

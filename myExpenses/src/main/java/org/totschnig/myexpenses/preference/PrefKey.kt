@@ -180,12 +180,12 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
 
     @Deprecated("")
     fun getKey(): String? {
-        return if (resId == 0) _key else MyApplication.getInstance().getString(resId)
+        return if (resId == 0) _key else MyApplication.instance.getString(resId)
     }
 
     @Deprecated("")
     fun getString(defValue: String?): String? {
-        return MyApplication.getInstance().settings.getString(getKey(), defValue)
+        return MyApplication.instance.settings.getString(getKey(), defValue)
     }
 
     constructor(resId: Int) : this(resId, null)

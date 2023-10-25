@@ -36,7 +36,7 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
     this.withCategoriesP = b.getBoolean(TaskExecutionFragment.KEY_WITH_CATEGORIES);
     this.fileUri = b.getParcelable(TaskExecutionFragment.KEY_FILE_PATH);
     this.sourceStr = fileUri.getPath();
-    MyApplication.getInstance().getAppComponent().inject(this);
+    MyApplication.Companion.getInstance().getAppComponent().inject(this);
   }
 
   private String title;
@@ -71,7 +71,7 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
    * return false upon problem (and sets a result object) or true
    */
   protected Result<Pair<CategoryTree, ArrayList<String>>> parseXML() {
-    Context app = MyApplication.getInstance();
+    Context app = MyApplication.Companion.getInstance();
     InputStream catXML = null;
     Result<Pair<CategoryTree, ArrayList<String>>> result;
 
@@ -149,7 +149,7 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
    */
   @Override
   protected Result doInBackground(Void... ignored) {
-    final MyApplication application = MyApplication.getInstance();
+    final MyApplication application = MyApplication.Companion.getInstance();
     final Context context = application.getWrappedContext();
     Result<Pair<CategoryTree, ArrayList<String>>> r = parseXML();
     if (!r.isSuccess()) {

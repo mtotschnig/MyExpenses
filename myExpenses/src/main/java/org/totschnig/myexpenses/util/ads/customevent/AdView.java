@@ -70,7 +70,7 @@ public class AdView extends WebView {
     }
     Bundle bundle = new Bundle(1);
     bundle.putString(Tracker.EVENT_PARAM_AD_PROVIDER, contentProvider.first.name());
-    MyApplication.getInstance().getAppComponent().tracker().logEvent(Tracker.EVENT_AD_CUSTOM, bundle);
+    MyApplication.Companion.getInstance().getAppComponent().tracker().logEvent(Tracker.EVENT_AD_CUSTOM, bundle);
     this.loadData(String.format("<center>%s</center>", contentProvider.second), "text/html", "utf-8");
     listener.onBannerLoaded(this);
     contentProvider.first.record(prefHandler);

@@ -313,7 +313,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
   public Template(Cursor c) {
     super();
     CurrencyUnit currency;
-    final CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
+    final CurrencyContext currencyContext = MyApplication.Companion.getInstance().getAppComponent().currencyContext();
     int currencyColumnIndex = c.getColumnIndex(KEY_CURRENCY);
     long accountId = c.getLong(c.getColumnIndexOrThrow(KEY_ACCOUNTID));
     currency = currencyContext.get(c.getString(currencyColumnIndex));
@@ -570,7 +570,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     }
     updateNewPlanEnabled();
     if (runPlanner) {
-      PlanExecutor.Companion.enqueueSelf(MyApplication.getInstance(), MyApplication.getInstance().getAppComponent().prefHandler(), true);
+      PlanExecutor.Companion.enqueueSelf(MyApplication.Companion.getInstance(), MyApplication.Companion.getInstance().getAppComponent().prefHandler(), true);
     }
 
     return uri;
@@ -649,7 +649,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
   }
 
   public static void updateNewPlanEnabled() {
-    final AppComponent appComponent = MyApplication.getInstance().getAppComponent();
+    final AppComponent appComponent = MyApplication.Companion.getInstance().getAppComponent();
     LicenceHandler licenceHandler = appComponent.licenceHandler();
     PrefHandler prefHandler = appComponent.prefHandler();
     Repository repository = appComponent.repository();

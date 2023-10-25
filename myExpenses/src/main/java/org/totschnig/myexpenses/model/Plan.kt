@@ -126,10 +126,10 @@ class Plan private constructor(
                 values.put(CalendarContract.Events.RRULE, rRule)
             }
             values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().id)
-            var calendarId: String? = MyApplication.getInstance().checkPlanner()
+            var calendarId: String? = MyApplication.instance.checkPlanner()
                 ?: throw CalendarIntegrationNotAvailableException()
             if (MyApplication.INVALID_CALENDAR_ID == calendarId) {
-                calendarId = MyApplication.getInstance().createPlanner(true)
+                calendarId = MyApplication.instance.createPlanner(true)
                 if (calendarId == MyApplication.INVALID_CALENDAR_ID) {
                     throw CalendarIntegrationNotAvailableException()
                 }
@@ -160,7 +160,7 @@ class Plan private constructor(
         @JvmStatic
         fun getInstanceFromDb(contentResolver: ContentResolver, planId: Long): Plan? {
             var plan: Plan? = null
-            if (PermissionGroup.CALENDAR.hasPermission(MyApplication.getInstance())) {
+            if (PermissionGroup.CALENDAR.hasPermission(MyApplication.instance)) {
                 val c = contentResolver.query(
                     ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, planId),
                     arrayOf(
@@ -250,7 +250,7 @@ class Plan private constructor(
                 values.put(CalendarContract.Events.CUSTOM_APP_URI, customAppUri)
                 values.put(
                     CalendarContract.Events.CUSTOM_APP_PACKAGE,
-                    MyApplication.getInstance().packageName
+                    MyApplication.instance.packageName
                 )
                 contentResolver.update(
                     ContentUris.withAppendedId(

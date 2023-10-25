@@ -74,7 +74,7 @@ public class WebDavClient {
   PrefHandler prefHandler;
 
   public WebDavClient(@NonNull String baseUrl, String userName, String password, final X509Certificate trustedCertificate, boolean allowUnverified) throws InvalidCertificateException {
-    DaggerWebDavComponent.builder().appComponent(MyApplication.getInstance().getAppComponent()).build().inject(this);
+    DaggerWebDavComponent.builder().appComponent(MyApplication.Companion.getInstance().appComponent).build().inject(this);
 
     // Base URL needs to point to a directory.
     if (!baseUrl.endsWith("/")) {

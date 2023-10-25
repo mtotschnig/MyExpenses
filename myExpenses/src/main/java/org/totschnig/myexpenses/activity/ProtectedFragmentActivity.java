@@ -110,7 +110,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   @Override
   protected void attachBaseContext(Context newBase) {
     super.attachBaseContext(newBase);
-    final MyApplication application = MyApplication.getInstance();
+    final MyApplication application = MyApplication.Companion.getInstance();
     final int customFontScale = application.getAppComponent().prefHandler().getInt(UI_FONTSIZE, 0);
     if (customFontScale > 0) {
       Configuration config = new Configuration();

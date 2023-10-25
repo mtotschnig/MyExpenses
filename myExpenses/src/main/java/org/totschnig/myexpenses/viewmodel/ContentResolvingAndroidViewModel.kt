@@ -15,6 +15,7 @@ import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import com.theartofdev.edmodo.cropper.CropImage
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
@@ -119,7 +120,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
             cursor.moveToFirst()
             emit(DateInfo.fromCursor(cursor))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     fun accountsMinimal(query: String? = null, withAggregates: Boolean = true): Flow<List<AccountMinimal>> = contentResolver.observeQuery(
         if (withAggregates) ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES else ACCOUNTS_MINIMAL_URI, null,

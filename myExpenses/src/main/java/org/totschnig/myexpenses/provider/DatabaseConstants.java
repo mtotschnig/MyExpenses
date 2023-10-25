@@ -161,7 +161,7 @@ public class DatabaseConstants {
 
   private static void ensureLocalized() {
     if (!isLocalized) {
-      buildLocalized(Locale.getDefault(), MyApplication.getInstance());
+      buildLocalized(Locale.getDefault(), MyApplication.Companion.getInstance());
     }
   }
 

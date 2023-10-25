@@ -904,7 +904,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     fun initLocaleContext() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            requireApplication().userPreferredLocale = AppCompatDelegate.getApplicationLocales()[0]
+            requireApplication().setUserPreferredLocale(AppCompatDelegate.getApplicationLocales()[0])
         }
         DatabaseConstants.buildLocalized(
             getLocale(),

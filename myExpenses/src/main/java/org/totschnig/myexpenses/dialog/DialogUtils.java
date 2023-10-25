@@ -90,7 +90,7 @@ public class DialogUtils {
     dialog.show();
     if (callback == null) {
       callback = () -> {
-        MyApplication.getInstance().setLocked(false);
+        MyApplication.Companion.getInstance().isLocked = false;
         ctx.showWindow();
       };
     }
@@ -138,14 +138,14 @@ public class DialogUtils {
    */
   @SuppressLint("NewApi")
   @NonNull
-  public static String getDisplayName(Uri uri) {
+  public static String getDisplayName(Uri uri) {//TODO pass in contentresolver
 
     if (!"file".equalsIgnoreCase(uri.getScheme())) {
       // The query, since it only applies to a single document, will only return
       // one row. There's no need to filter, sort, or select fields, since we want
       // all fields for one document.
       try {
-        Cursor cursor = MyApplication.getInstance().getContentResolver()
+        Cursor cursor = MyApplication.Companion.getInstance().getContentResolver()
             .query(uri, null, null, null, null, null);
 
         if (cursor != null) {

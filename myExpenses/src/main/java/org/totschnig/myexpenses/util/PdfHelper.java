@@ -40,7 +40,7 @@ public class PdfHelper {
     final Locale l = Locale.getDefault();
     layoutDirectionFromLocaleIsRTL = TextUtils.getLayoutDirectionFromLocale(l)
         == View.LAYOUT_DIRECTION_RTL;
-    if (MyApplication.getInstance().getMemoryClass() >= 32) {
+    if (MyApplication.Companion.getInstance().getMemoryClass() >= 32) {
       //we want the Default Font to be used first
       try {
         File dir = new File("/system/fonts");

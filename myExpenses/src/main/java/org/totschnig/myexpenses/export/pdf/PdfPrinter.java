@@ -118,7 +118,7 @@ public class PdfPrinter {
     this.destDir = destDir;
     this.filter = filter;
     this.currentBalance = currentBalance;
-    MyApplication.getInstance().getAppComponent().inject(this);
+    MyApplication.Companion.getInstance().getAppComponent().inject(this);
     this.account = accountId > 0 ? RepositoryAccountKt.loadAccount(repository, accountId) :
       RepositoryAccountKt.loadAggregateAccount(repository, accountId);
   }

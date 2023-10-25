@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
-import org.totschnig.myexpenses.MyApplication.INVOICES_EMAIL
+import org.totschnig.myexpenses.MyApplication.Companion.INVOICES_EMAIL
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.licence.BillingListener

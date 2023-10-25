@@ -53,7 +53,7 @@ public class PrintTask extends AsyncTask<Void, String, Result<Uri>> {
    */
   @Override
   protected Result<Uri> doInBackground(Void... ignored) {
-    final MyApplication application = MyApplication.getInstance();
+    final MyApplication application = MyApplication.Companion.getInstance();
     final Context context = application.getWrappedContext();
     DocumentFile appDir = AppDirHelper.getAppDir(application, true);
     if (appDir == null) {
