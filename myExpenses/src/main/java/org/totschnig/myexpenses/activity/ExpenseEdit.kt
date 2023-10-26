@@ -386,17 +386,16 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 }
                 val isNewTemplate = intent.getBooleanExtra(KEY_NEW_TEMPLATE, false)
                 if (operationType == TYPE_SPLIT) {
-                    val allowed: Boolean
-                    val contribFeature: ContribFeature
-                    if (isNewTemplate) {
-                        contribFeature = ContribFeature.SPLIT_TEMPLATE
-                        allowed = prefHandler.getBoolean(PrefKey.NEW_SPLIT_TEMPLATE_ENABLED, true)
+                    val (contribFeature, allowed) = if (isNewTemplate) {
+                        ContribFeature.SPLIT_TEMPLATE to
+                                prefHandler.getBoolean(PrefKey.NEW_SPLIT_TEMPLATE_ENABLED, true)
                     } else {
-                        contribFeature = ContribFeature.SPLIT_TRANSACTION
-                        allowed = licenceHandler.hasTrialAccessTo(contribFeature)
+                        ContribFeature.SPLIT_TRANSACTION to
+                                licenceHandler.hasTrialAccessTo(ContribFeature.SPLIT_TRANSACTION)
                     }
                     if (!allowed) {
-                        abortWithMessage(contribFeature.buildRequiresString(this))
+                        contribFeatureRequested(contribFeature)
+                        finish()
                         return
                     }
                 }
@@ -625,7 +624,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.attachmentUris
                     .map { list ->
-                        list.map { it to attachmentInfoMap.getValue(it) } }
+                        list.map { it to attachmentInfoMap.getValue(it) }
+                    }
                     .flowOn(Dispatchers.IO)
                     .collect { showAttachments(it) }
             }

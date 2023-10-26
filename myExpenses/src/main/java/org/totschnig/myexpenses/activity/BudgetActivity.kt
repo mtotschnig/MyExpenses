@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.compose.Budget
 import org.totschnig.myexpenses.compose.ExpansionMode
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
@@ -63,6 +64,11 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (!licenceHandler.hasTrialAccessTo(ContribFeature.BUDGET)) {
+            contribFeatureRequested(ContribFeature.BUDGET)
+            finish()
+            return
+        }
         val binding = setupView()
         injector.inject(viewModel)
         sortDelegate = SortDelegate(
