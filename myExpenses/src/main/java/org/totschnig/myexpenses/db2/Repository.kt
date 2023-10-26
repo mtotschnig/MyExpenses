@@ -139,8 +139,8 @@ open class Repository @Inject constructor(
             currency = currencyUnit,
             grouping = grouping,
             color = cursor.getInt(DatabaseConstants.KEY_COLOR),
-            start = cursor.getStringOrNull(DatabaseConstants.KEY_START),
-            end = cursor.getStringOrNull(DatabaseConstants.KEY_END),
+            start = if (grouping == Grouping.NONE) cursor.getString(DatabaseConstants.KEY_START) else null,
+            end = if (grouping == Grouping.NONE) cursor.getString(DatabaseConstants.KEY_END) else null,
             accountName = cursor.getStringOrNull(DatabaseConstants.KEY_ACCOUNT_LABEL),
             default = cursor.getBoolean(DatabaseConstants.KEY_IS_DEFAULT)
         )
