@@ -1058,4 +1058,9 @@
     <string name="attachments">Pièces jointes</string>
     <string name="pref_copy_attachments_title">Copier les pièces jointes au dossier d\'application</string>
     <string name="pref_copy_attachments_summary_off">Les fichiers ne sont pas copiés, seulement une référence est stockée.</string>
+    <string name="budget_deleted">Le budget a été supprimé</string>
+    <string name="widget_title_budget">Mon budget</string>
+    <string name="budget_widget_configuration">Sélectionner un budget</string>
+    <string name="whats_new_366">Widget de l’écran d’accueil affichant l’état actuel du budget.</string>
+    <string name="budget_table_header_overspent">Dépassement</string>
 </resources>
