@@ -71,8 +71,9 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
                     dir.listFiles()
                         .filter { (it.length() > 0) && !it.isDirectory }
                         .sortedByDescending { it.lastModified() }
-                        .filter { it.name != null }
-                        .map { it.name!! to it.length() }
+                        .mapNotNull {
+                            it.name?.let { name -> name to it.length() }
+                        }
                 )
             }
         }
