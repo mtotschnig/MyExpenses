@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.widget.AdapterView
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.evernote.android.state.State
 import org.apache.commons.csv.CSVRecord
 import org.totschnig.myexpenses.R
@@ -27,8 +26,6 @@ import javax.inject.Inject
 
 
 class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
-    @State
-    var dataReady = false
 
     @State
     var mUsageRecorded = false
@@ -39,10 +36,6 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
     @Inject
     lateinit var repository: Repository
 
-    private fun setDataReady() {
-        dataReady = true
-        mSectionsPagerAdapter.notifyDataSetChanged()
-    }
 
     private val csvImportViewModel: CsvImportViewModel by viewModels()
 
@@ -56,7 +49,7 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        val allowed = parseFragment.isReady && idle
+        val allowed = parseFragment?.isReady == true && idle
         menu.findItem(R.id.PARSE_COMMAND)?.isEnabled = allowed
         menu.findItem(R.id.IMPORT_COMMAND)?.isEnabled = allowed
         super.onPrepareOptionsMenu(menu)
@@ -86,33 +79,25 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
         if (shouldGoBack()) super.onBackPressed()
     }
 
-    override fun setupTabs() {
-        //we only add the first tab, the second one once data has been parsed
-        addTab(0)
-        if (dataReady) {
-            addTab(1)
-        }
+    override fun createFragment(position: Int) = when(position) {
+        0 -> CsvImportParseFragment.newInstance()
+        1 -> CsvImportDataFragment.newInstance()
+        else -> throw IllegalArgumentException()
     }
 
-    private fun addTab(index: Int) {
-        when (index) {
-            0 -> mSectionsPagerAdapter.addFragment(
-                CsvImportParseFragment.newInstance(),
-                getString(R.string.menu_parse)
-            )
-            1 -> mSectionsPagerAdapter.addFragment(
-                CsvImportDataFragment.newInstance(),
-                getString(R.string.csv_import_preview)
-            )
-        }
+    override fun getItemCount() = 2
+
+    override fun getTitle(position: Int) = when(position) {
+        0 -> getString(R.string.menu_parse)
+        1 -> getString(R.string.csv_import_preview)
+        else -> throw IllegalArgumentException()
     }
+
 
     override fun onPositive(args: Bundle, checked: Boolean) {
         super.onPositive(args, checked)
         if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.SET_HEADER_COMMAND) {
-            (supportFragmentManager.findFragmentByTag(
-                mSectionsPagerAdapter.getFragmentName(1)
-            ) as? CsvImportDataFragment)?.setHeader(args.getInt(CsvImportDataFragment.KEY_HEADER_LINE_POSITION))
+            dataFragment!!.setHeader(args.getInt(CsvImportDataFragment.KEY_HEADER_LINE_POSITION))
         }
     }
 
@@ -132,21 +117,8 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
         showProgress()
         csvImportViewModel.parseFile(uri, delimiter, encoding).observe(this) { result ->
             hideProgress()
-            result.onSuccess { data ->
-                if (data.isNotEmpty()) {
-                    if (!dataReady) {
-                        addTab(1)
-                        setDataReady()
-                    }
-                    (supportFragmentManager.findFragmentByTag(
-                        mSectionsPagerAdapter.getFragmentName(1)
-                    ) as? CsvImportDataFragment)?.let {
-                        it.setData(data)
-                        binding.viewPager.currentItem = 1
-                    }
-                } else {
-                    showSnackBar(R.string.parse_error_no_data_found)
-                }
+            result.onSuccess {
+                binding.viewPager.currentItem = 1
             }.onFailure {
                 showSnackBar(
                     when (it) {
@@ -168,9 +140,9 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
                 dataSet,
                 columnToFieldMap,
                 dateFormat,
-                parseFragment.autoFillCategories,
+                parseFragment!!.autoFillCategories,
                 AccountConfiguration(accountId, currency, accountType),
-                parseFragment.uri!!
+                parseFragment!!.uri!!
             ).observe(this) { result ->
                 hideProgress()
                 result.onSuccess { resultList ->
@@ -206,26 +178,31 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
         }
     }
 
-    private val parseFragment: CsvImportParseFragment
+    private val dataFragment: CsvImportDataFragment?
+        get() = supportFragmentManager.findFragmentByTag(
+            mSectionsPagerAdapter.getFragmentName(1)
+        ) as CsvImportDataFragment?
+
+    private val parseFragment: CsvImportParseFragment?
         get() = supportFragmentManager.findFragmentByTag(
             mSectionsPagerAdapter.getFragmentName(0)
-        ) as CsvImportParseFragment
+        ) as? CsvImportParseFragment
 
     val accountId: Long
         get() {
-            return parseFragment.getSelectedAccountId()
+            return parseFragment!!.getSelectedAccountId()
         }
 
     val currency: String
-        get() = parseFragment.getSelectedCurrency()
+        get() = parseFragment!!.getSelectedCurrency()
 
     val dateFormat: QifDateFormat
         get() {
-            return parseFragment.dateFormat
+            return parseFragment!!.dateFormat
         }
 
     val accountType: AccountType
         get() {
-            return parseFragment.accountType
+            return parseFragment!!.accountType
         }
 }

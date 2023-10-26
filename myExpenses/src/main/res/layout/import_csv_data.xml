@@ -1,35 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<HorizontalScrollView android:id="@+id/scrollHorizontal"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/switcher"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:fillViewport="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <TextView
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/scan_result_no_data" />
+
+    <HorizontalScrollView
+        android:id="@+id/scrollHorizontal"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:fillViewport="true">
 
         <LinearLayout
-            android:id="@+id/header_line"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="@dimen/csv_import_checkbox_column_width"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/csv_import_header_text_size"
-                android:text="@string/select"/>
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/my_recycler_view"
             android:layout_width="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-</HorizontalScrollView>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/header_line"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/csv_import_checkbox_column_width"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/select"
+                    android:textSize="@dimen/csv_import_header_text_size" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/my_recycler_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        </LinearLayout>
+    </HorizontalScrollView>
+</ViewSwitcher>

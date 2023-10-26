@@ -3,7 +3,10 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.liveData
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVRecord
 import org.totschnig.myexpenses.R
@@ -14,27 +17,37 @@ import org.totschnig.myexpenses.io.CSVParser
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.util.ResultUnit
 import java.io.InputStreamReader
 
 data class AccountConfiguration(val id: Long, val currency: String, val type: AccountType)
 
-class CsvImportViewModel(application: Application) : ImportDataViewModel(application) {
+class CsvImportViewModel(application: Application, val savedStateHandle: SavedStateHandle) :
+    ImportDataViewModel(application) {
 
-    override val format= "CSV"
+    override val format = "CSV"
 
-    fun parseFile(uri: Uri, delimiter: Char, encoding: String): LiveData<Result<List<CSVRecord>>> =
+    val dataFlow: StateFlow<List<CSVRecord>> = savedStateHandle.getStateFlow("data", emptyList())
+
+    private var data: List<CSVRecord>
+        get() = savedStateHandle["data"] ?: emptyList()
+        set(value) {
+            savedStateHandle["data"] = value
+        }
+
+
+    fun parseFile(uri: Uri, delimiter: Char, encoding: String): LiveData<Result<Unit>> =
         liveData(context = coroutineContext()) {
-            try {
-                contentResolver.openInputStream(uri)?.use {
-                    emit(
-                        Result.success(
-                            CSVFormat.DEFAULT.withDelimiter(delimiter)
-                                .parse(InputStreamReader(it, encoding)).records
-                        )
-                    )
-                } ?: throw java.lang.Exception("OpenInputStream returned null")
-            } catch (e: Exception) {
-                emit(Result.failure(e))
+            contentResolver.openInputStream(uri)?.use {
+                try {
+                    contentResolver.openInputStream(uri)?.use {
+                        data = CSVFormat.DEFAULT.withDelimiter(delimiter)
+                            .parse(InputStreamReader(it, encoding)).records
+                        emit(ResultUnit)
+                    } ?: throw java.lang.Exception("OpenInputStream returned null")
+                } catch (e: Exception) {
+                    emit(Result.failure(e))
+                }
             }
         }
 
