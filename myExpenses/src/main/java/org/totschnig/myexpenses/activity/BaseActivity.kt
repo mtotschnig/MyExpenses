@@ -42,6 +42,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.evernote.android.state.State
 import com.google.android.material.color.HarmonizedColors
 import com.google.android.material.color.HarmonizedColorsOptions
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
@@ -1152,20 +1153,24 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    fun tintSystemUi(color: Int) {
+    val isDynamicColorAvailable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+
+    fun tintSystemUi(color: Int): Int {
+        val harmonized = MaterialColors.harmonizeWithPrimary(this, color)
         if (shouldTintSystemUi()) {
             with(window) {
                 clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
                 addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-                statusBarColor = color
-                navigationBarColor = color
+                statusBarColor = harmonized
+                navigationBarColor = harmonized
             }
             with(WindowInsetsControllerCompat(window, window.decorView)) {
-                val isBright = isBrightColor(color)
+                val isBright = isBrightColor(harmonized)
                 isAppearanceLightNavigationBars = isBright
                 isAppearanceLightStatusBars = isBright
             }
         }
+        return color
     }
 
     private fun shouldTintSystemUi() = try {

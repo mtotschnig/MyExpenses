@@ -211,8 +211,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   public void tintSystemUiAndFab(int color) {
-    int harmonized = MaterialColors.harmonizeWithPrimary(this, color);
-    tintSystemUi(harmonized);
+    int harmonized = tintSystemUi(color);
     setBackgroundTintList(getFloatingActionButton(), harmonized);
   }
 
