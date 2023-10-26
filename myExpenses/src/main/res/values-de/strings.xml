@@ -1049,4 +1049,5 @@
     <string name="budget_widget_configuration">Budget auswählen</string>
     <string name="budget_table_header_overspent">Überschreitung</string>
     <string name="widget_title_budget">Mein Budget</string>
+    <string name="whats_new_366">Startbildschirm-Widget, das den aktuellen Status des Budgets anzeigt.</string>
 </resources>
