@@ -1091,4 +1091,5 @@
     <string name="pref_copy_attachments_summary_off">Files are not copied, only a reference is stored.</string>
     <string name="whats_new_365">Attach arbitrary number of images and documents (PDF)</string>
     <string name="widget_title_budget">My budget</string>
+    <string name="whats_new_366">Home Screen Widget displaying current state of budget.</string>
 </resources>

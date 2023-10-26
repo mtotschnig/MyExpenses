@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.activity
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -12,7 +13,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.collectAsState
@@ -31,6 +35,7 @@ import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
 import org.totschnig.myexpenses.widget.BudgetWidget
+
 
 class BudgetWidgetConfigure : BaseWidgetConfigure() {
 
@@ -56,7 +61,7 @@ class BudgetWidgetConfigure : BaseWidgetConfigure() {
                     if (data == null) {
                         Text(stringResource(R.string.loading))
                     } else if (data.isEmpty()) {
-                        Text(stringResource(id = R.string.scan_result_no_data))
+                        Text(stringResource(id = R.string.no_budgets))
                     } else {
                         LazyColumn(modifier = Modifier.padding(16.dp)) {
                             items(data) { item ->
@@ -81,23 +86,39 @@ class BudgetWidgetConfigure : BaseWidgetConfigure() {
                             .padding(top = 12.dp)
                             .align(Alignment.CenterHorizontally),
                         onClick = {
-                            selectedItem?.let { item ->
-                                appWidgetId?.let { widget ->
-                                    saveSelectionPref(this@BudgetWidgetConfigure, widget, item)
-                                    apply(BudgetWidget::class.java)
+                            if (data?.isEmpty() == true) {
+                                startActivity(
+                                    Intent(
+                                        this@BudgetWidgetConfigure,
+                                        BudgetEdit::class.java
+                                    )
+                                )
+                            } else {
+                                selectedItem?.let { item ->
+                                    appWidgetId?.let { widget ->
+                                        saveSelectionPref(this@BudgetWidgetConfigure, widget, item)
+                                        apply(BudgetWidget::class.java)
+                                    }
+                                } ?: run {
+                                    finish()
                                 }
-                            } ?: run {
-                                finish()
                             }
                         }) {
-                        Text(
-                            stringResource(
-                                id = if (selectedItem == null)
-                                    android.R.string.cancel
-                                else
-                                    R.string.add_widget
+                        if (data?.isEmpty() == true) {
+                            Icon(
+                                Icons.Default.Add,
+                                contentDescription = stringResource(R.string.menu_create_budget)
                             )
-                        )
+                        } else {
+                            Text(
+                                stringResource(
+                                    id = if (selectedItem == null)
+                                        android.R.string.cancel
+                                    else
+                                        R.string.add_widget
+                                )
+                            )
+                        }
                     }
                 }
             }
