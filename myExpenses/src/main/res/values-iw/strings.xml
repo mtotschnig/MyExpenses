@@ -1073,4 +1073,8 @@
     <string name="pref_copy_attachments_title">העתקת קבצים מצורפים לתיקיית היישומון</string>
     <string name="pref_copy_attachments_summary_off">קבצים לא מועתקים, מאוחסנת רק הפניה.</string>
     <string name="whats_new_365">צירוף מספר שרירותי של תמונות ומסמכים (PDF)</string>
+    <string name="budget_deleted">התקציב נמחק</string>
+    <string name="widget_title_budget">התקציב שלי</string>
+    <string name="budget_widget_configuration">בחירת תקציב</string>
+    <string name="budget_table_header_overspent">הוצאה עודפת</string>
 </resources>
