@@ -1062,4 +1062,5 @@
     <string name="widget_title_budget">Mi presupuesto</string>
     <string name="budget_widget_configuration">Seleccione un presupuesto</string>
     <string name="budget_table_header_overspent">Gastado de más</string>
+    <string name="whats_new_366">Widget en la pantalla de inicio que muestra el estado actual del presupuesto.</string>
 </resources>
