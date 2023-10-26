@@ -59,7 +59,7 @@ class DriveServiceHelper(context: Context, accountName: String) {
                 credential)
                 .setApplicationName(context.getString(R.string.app_name))
                 .build()
-        DaggerDriveComponent.builder().appComponent(MyApplication.instance.getAppComponent()).build().inject(this);
+        DaggerDriveComponent.builder().appComponent(MyApplication.instance.appComponent).build().inject(this);
 
     }
 

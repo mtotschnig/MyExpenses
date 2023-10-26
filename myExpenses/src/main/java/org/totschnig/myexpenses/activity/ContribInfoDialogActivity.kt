@@ -119,6 +119,10 @@ class ContribInfoDialogActivity : IapActivity() {
         }
     }
 
+    override fun onPurchaseCancelled() {
+        finish(true)
+    }
+
     fun finish(canceled: Boolean) {
         val featureStringFromExtra = intent.getStringExtra(KEY_FEATURE)
         if (featureStringFromExtra != null) {

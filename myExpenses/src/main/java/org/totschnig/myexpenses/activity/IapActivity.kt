@@ -40,9 +40,7 @@ abstract class IapActivity: ProtectedFragmentActivity(), BillingListener {
         sendEmail(INVOICES_EMAIL, subject, messageBody)
     }
 
-    fun onPurchaseCancelled() {
-        showMessage(getString(R.string.premium_failed_or_canceled))
-    }
+    open fun onPurchaseCancelled() {}
 
     fun onPurchaseFailed(code: Int) {
         showMessage(
