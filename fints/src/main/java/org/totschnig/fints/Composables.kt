@@ -220,7 +220,7 @@ fun TanMediaDialog(
 
 @Composable
 fun BankIconImpl(modifier: Modifier = Modifier, bank: Bank) {
-    getIcon(bank)?.let {
+    bank.asWellKnown?.icon?.let {
         Image(modifier = modifier, painter = painterResource(id = it), contentDescription = null)
     } ?: run {
         Image(
@@ -229,17 +229,6 @@ fun BankIconImpl(modifier: Modifier = Modifier, bank: Bank) {
             contentDescription = null
         )
     }
-}
-
-private fun getIcon(bank: Bank) = when {
-    bank.blz == "12030000" -> R.drawable.dkb
-    bank.blz == "43060967" -> R.drawable.gls
-    bank.blz == "50010517" -> R.drawable.ing
-    bank.blz.startsWith("200411") -> R.drawable.comdirect
-    bank.blz[3] == '5' -> R.drawable.sparkasse
-    bank.blz[3] == '9' -> R.drawable.volksbank
-    bank.bankName.contains("sparda", ignoreCase = true) -> R.drawable.sparda
-    else -> null
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

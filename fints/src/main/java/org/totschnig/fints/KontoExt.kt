@@ -12,7 +12,8 @@ fun Konto.toAccount(bank: Bank, openingBalance: Long) = Account(
     currency = curr,
     type = AccountType.BANK,
     bankId = bank.id,
-    openingBalance = openingBalance
+    openingBalance = openingBalance,
+    color = bank.asWellKnown?.color ?: Account.DEFAULT_COLOR
 )
 
 val Konto.asAttributes
