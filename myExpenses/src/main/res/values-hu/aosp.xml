@@ -58,5 +58,7 @@
     <string name="add_file_attachment">"Fájl csatolása"</string>
     <string name="take_photo">"Fotó készítése"</string>
     <string name="license_title">"Licenc"</string>
+<!--  TLDU   <string name="available">"Rendelkezésre áll"</string>-->
+    <string name="available">Elérhető</string>
 </resources>
 

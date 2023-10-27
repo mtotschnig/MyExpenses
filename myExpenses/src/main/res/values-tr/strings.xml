@@ -704,7 +704,6 @@
     <string name="budget_table_header_budgeted">Bütçelenmiş</string>
     <string name="budget_table_header_allocated">Tahsis edilmiş</string>
     <string name="budget_table_header_spent">Harcanmış</string>
-    <string name="budget_table_header_available">Kalan</string>
     <string name="budget_allocated_amount">Tahsis edilen meblağ</string>
     <string name="budget_exceeded_error_1_1">Bütçenizin %s haricindeki tümü başka kategorilere tahsis edildi.</string>
     <string name="budget_exceeded_error_1_2">Tüm bütçeniz başka kategorilere tahsis edildi.</string>

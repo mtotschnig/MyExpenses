@@ -56,5 +56,6 @@
     <string name="add_file_attachment">"添加附件"</string>
     <string name="take_photo">"拍照"</string>
     <string name="license_title">"许可"</string>
+    <string name="available">"可用"</string>
 </resources>
 

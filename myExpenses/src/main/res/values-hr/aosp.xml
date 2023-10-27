@@ -60,5 +60,6 @@
     <string name="add_file_attachment">"Priloži datoteku"</string>
     <string name="take_photo">"Snimi fotografiju"</string>
     <string name="license_title">"Licenca"</string>
+    <string name="available">"Dostupno"</string>
 </resources>
 

@@ -712,7 +712,6 @@
     <string name="budget_table_header_budgeted">Orçado</string>
     <string name="budget_table_header_allocated">Alocado</string>
     <string name="budget_table_header_spent">Gasto</string>
-    <string name="budget_table_header_available">Restante</string>
     <string name="budget_allocated_amount">Quantia alocada</string>
     <string name="budget_exceeded_error_1_1">Tudo menos %s do seu orçamento foi alocado em outras categorias.</string>
     <string name="budget_exceeded_error_1_2">Todo o seu orçamento foi alocado em outras categorias.</string>

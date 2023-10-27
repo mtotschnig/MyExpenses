@@ -58,5 +58,6 @@
     <string name="add_file_attachment">"Επισύναψη αρχείου"</string>
     <string name="take_photo">"Λήψη φωτογραφίας"</string>
     <string name="license_title">"Άδεια"</string>
+    <string name="available">"Διαθέσιμη"</string>
 </resources>
 

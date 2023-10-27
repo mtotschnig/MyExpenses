@@ -210,7 +210,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/budget_table_header_available" />
+            android:text="@string/available" />
 
         <TextView
             android:id="@+id/remainder"

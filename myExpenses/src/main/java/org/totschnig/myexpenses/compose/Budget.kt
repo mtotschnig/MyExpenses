@@ -207,7 +207,7 @@ private fun Header(withRollOverColumn: Boolean) {
         VerticalDivider()
         HeaderCell(R.string.budget_table_header_spent)
         VerticalDivider()
-        HeaderCell(R.string.budget_table_header_available)
+        HeaderCell(R.string.available)
         if (withRollOverColumn) {
             VerticalDivider()
             HeaderCell(R.string.budget_table_header_rollover)

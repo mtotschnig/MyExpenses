@@ -56,5 +56,6 @@
     <string name="add_file_attachment">"Đính kèm tệp"</string>
     <string name="take_photo">"Chụp ảnh"</string>
     <string name="license_title">"Giấy phép"</string>
+    <string name="available">"Có sẵn"</string>
 </resources>
 

@@ -58,5 +58,6 @@
     <string name="add_file_attachment">"Adjuntar archivo"</string>
     <string name="take_photo">"Hacer una foto"</string>
     <string name="license_title">"Licencia"</string>
+    <string name="available">"Disponible"</string>
 </resources>
 

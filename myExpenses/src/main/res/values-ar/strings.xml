@@ -735,7 +735,6 @@
     <string name="budget_table_header_budgeted">مدرج في الميزانية</string>
     <string name="budget_table_header_allocated">مخصص</string>
     <string name="budget_table_header_spent">المبلغ المُنفق</string>
-    <string name="budget_table_header_available">متاح</string>
     <string name="budget_allocated_amount">المبلغ المخصص</string>
     <string name="budget_exceeded_error_1_1">تم تخصيص كل ميزانيتك باستثناء %s لفئات أخرى.</string>
     <string name="budget_exceeded_error_1_2">تم تخصيص كل ميزانيتك لفئات أخرى.</string>

@@ -90,6 +90,7 @@
     <string name="data">Data</string>
     <!-- packages/apps/EmergencyInfo user_nickname -->
     <string name="nickname">Nickname</string>
-
+    <!-- Settings - subscription_available -->
+    <string name="available">Available</string>
 </resources>
 

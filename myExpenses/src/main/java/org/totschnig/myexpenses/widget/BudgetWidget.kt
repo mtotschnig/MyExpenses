@@ -161,7 +161,7 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
                         )
                         setTextViewText(
                             R.id.remainderCaption, context.getString(
-                                if (withinBudget) R.string.budget_table_header_available else R.string.budget_table_header_overspent
+                                if (withinBudget) R.string.available else R.string.budget_table_header_overspent
                             )
                         )
                         setTextViewText(

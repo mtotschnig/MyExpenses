@@ -57,5 +57,6 @@
     <string name="add_file_attachment">"파일 첨부"</string>
     <string name="take_photo">"사진 찍기"</string>
     <string name="license_title">"라이선스"</string>
+    <string name="available">"사용 가능"</string>
 </resources>
 

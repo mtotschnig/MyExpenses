@@ -697,7 +697,6 @@
     <string name="budget_table_header_budgeted">預算</string>
     <string name="budget_table_header_allocated">已分配</string>
     <string name="budget_table_header_spent">已花費</string>
-    <string name="budget_table_header_available">剩餘</string>
     <string name="budget_allocated_amount">配置的金額</string>
     <string name="budget_exceeded_error_1_1">您的預算只剩下%s可以被分配，其他的金額都已分到其他類別了。</string>
     <string name="budget_exceeded_error_1_2">您的所有預算都已分配到其他類別。</string>

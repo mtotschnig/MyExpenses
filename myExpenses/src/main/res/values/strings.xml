@@ -715,7 +715,6 @@
     <string name="budget_table_header_budgeted">Budgeted</string>
     <string name="budget_table_header_allocated">Allocated</string>
     <string name="budget_table_header_spent">Spent</string>
-    <string name="budget_table_header_available">Available</string>
     <string name="budget_table_header_overspent">Overspent</string>
     <string name="budget_allocated_amount">Allocated amount</string>
     <string name="budget_exceeded_error_1_1">All but %s of your budget has been allocated to other categories.</string>

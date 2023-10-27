@@ -62,5 +62,6 @@
     <string name="add_file_attachment">"إرفاق ملف"</string>
     <string name="take_photo">"التقاط صورة"</string>
     <string name="license_title">"الترخيص"</string>
+    <string name="available">"متوفرة"</string>
 </resources>
 

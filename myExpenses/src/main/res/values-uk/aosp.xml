@@ -60,5 +60,6 @@
     <string name="add_file_attachment">"Вкласти файл"</string>
     <string name="take_photo">"Зробити фото"</string>
     <string name="license_title">"Ліцензія"</string>
+    <string name="available">"Доступно"</string>
 </resources>
 

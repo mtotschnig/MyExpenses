@@ -58,5 +58,7 @@
     <string name="add_file_attachment">"கோப்பை இணை"</string>
     <string name="take_photo">"படமெடு"</string>
     <string name="license_title">"உரிமம்"</string>
+<!-- TLDU    <string name="available">"பயன்படுத்துவதற்குத் தயாராக உள்ளது"</string>-->
+    <string name="available">கிடைக்கக்கூடிய</string>
 </resources>
 

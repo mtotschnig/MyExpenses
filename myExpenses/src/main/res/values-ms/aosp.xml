@@ -56,5 +56,6 @@
     <string name="add_file_attachment">"Lampirkan fail"</string>
     <string name="take_photo">"Ambil foto"</string>
     <string name="license_title">"Lesen"</string>
+    <string name="available">"Tersedia"</string>
 </resources>
 

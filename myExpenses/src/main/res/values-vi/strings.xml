@@ -669,7 +669,6 @@
     <string name="budget_table_header_budgeted">Đã góp quỹ</string>
     <string name="budget_table_header_allocated">Đã phân bố</string>
     <string name="budget_table_header_spent">Đã chi</string>
-    <string name="budget_table_header_available">Nhắc nhở</string>
     <string name="budget_allocated_amount">Số tiền đã phân bố</string>
     <!-- Description for button that allows to clear the selected method -->
     <string name="content_description_clear_method">Xóa phương thức</string>

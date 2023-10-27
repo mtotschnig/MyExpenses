@@ -815,7 +815,6 @@
     <string name="content_description_expand">Uitvouwen</string>
     <string name="clear_all_filters">Wis alle filters</string>
     <string name="budget_allocated_amount">Toegewezen bedrag</string>
-    <string name="budget_table_header_available">Rest</string>
     <string name="currency_code">Code</string>
     <string name="menu_hide">Verbergen</string>
     <string name="content_description_closed">Gesloten</string>

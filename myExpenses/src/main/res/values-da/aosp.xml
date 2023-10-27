@@ -58,5 +58,6 @@
     <string name="add_file_attachment">"Vedhæft fil"</string>
     <string name="take_photo">"Tag billede"</string>
     <string name="license_title">"Licens"</string>
+    <string name="available">"Tilgængeligt"</string>
 </resources>
 
