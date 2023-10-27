@@ -72,6 +72,7 @@ import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.PlannerUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.util.TextUtils;
@@ -477,8 +478,8 @@ public class Template extends Transaction implements ITransfer, ISplit {
   }
 
   @Override
-  public Uri save(ContentResolver contentResolver, boolean withCommit) {
-    return save(contentResolver, null);
+  public Uri save(@NonNull ContentResolver contentResolver, @Nullable PlannerUtils plannerUtils, boolean withCommit) {
+    return save(contentResolver, plannerUtils, null);
   }
 
   /**
@@ -486,13 +487,14 @@ public class Template extends Transaction implements ITransfer, ISplit {
    *
    * @return the Uri of the template. Upon creation it is returned from the content provider, null if inserting fails on constraints
    */
-  public Uri save(ContentResolver contentResolver, Long withLinkedTransaction) {
+
+  public Uri save(ContentResolver contentResolver, PlannerUtils plannerUtils, Long withLinkedTransaction) {
     boolean runPlanner = false;
     if (plan != null) {
        if (plan.getId() == 0) {
          runPlanner = true;
        }
-      Uri planUri = plan.save(contentResolver);
+      Uri planUri = plan.save(contentResolver, plannerUtils);
       if (planUri != null) {
         planId = ContentUris.parseId(planUri);
       }

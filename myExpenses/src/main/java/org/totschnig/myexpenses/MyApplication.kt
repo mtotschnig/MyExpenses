@@ -17,14 +17,12 @@ package org.totschnig.myexpenses
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.Application
-import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.UriPermission
 import android.content.res.Configuration
 import android.database.Cursor
-import android.net.Uri
 import android.os.Build
 import android.os.Process
 import android.os.StrictMode
@@ -39,7 +37,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.acra.util.StreamReader
-import org.totschnig.myexpenses.MyApplication.Companion.INVALID_CALENDAR_ID
 import org.totschnig.myexpenses.activity.OnboardingActivity
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.DaggerAppComponent
@@ -50,24 +47,20 @@ import org.totschnig.myexpenses.feature.RESTART_ACTION
 import org.totschnig.myexpenses.feature.START_ACTION
 import org.totschnig.myexpenses.feature.STOP_ACTION
 import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
-import org.totschnig.myexpenses.provider.CALENDAR_FULL_PATH_PROJECTION
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
+import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.getCalendarPath
-import org.totschnig.myexpenses.provider.requireString
 import org.totschnig.myexpenses.service.AutoBackupWorker.Companion.enqueueOrCancel
 import org.totschnig.myexpenses.service.PlanExecutor
-import org.totschnig.myexpenses.service.PlanExecutor.Companion.enqueueSelf
 import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.ui.ContextHelper
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.io.isConnectedWifi
@@ -109,6 +102,10 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
 
     @Inject
     lateinit var currencyFormatter: ICurrencyFormatter
+
+    @Inject
+    lateinit var plannerUtils: PlannerUtils
+
     private var lastPause: Long = 0
 
     @JvmField
@@ -132,11 +129,6 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
         } else context
     }
 
-    /**
-     * we cache value of planner calendar id, so that we can handle changes in
-     * value
-     */
-    private var mPlannerCalendarId: String = INVALID_CALENDAR_ID
     override fun onCreate() {
         if (BuildConfig.DEBUG) {
             enableStrictMode()
@@ -287,192 +279,6 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
         get() = prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false) ||
                 prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)
 
-    /**
-     * verifies if the passed in calendarid exists and is the one stored in [PrefKey.PLANNER_CALENDAR_PATH]
-     *
-     * @param calendarId id of calendar in system calendar content provider
-     * @return the same calendarId if it is safe to use, [.INVALID_CALENDAR_ID] if the calendar
-     * is no longer valid, null if verification was not possible
-     */
-    private fun checkPlannerInternal(calendarId: String?) = contentResolver.query(
-        CalendarContract.Calendars.CONTENT_URI,
-        arrayOf(
-            "$CALENDAR_FULL_PATH_PROJECTION AS path",
-            CalendarContract.Calendars.SYNC_EVENTS
-        ),
-        CalendarContract.Calendars._ID + " = ?",
-        arrayOf(calendarId),
-        null
-    )?.use {
-        if (it.moveToFirst()) {
-            val found = it.requireString(0)
-            val expected = prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH, "")
-            if (found != expected) {
-                report(Exception("found calendar, but path did not match"))
-                INVALID_CALENDAR_ID
-            } else {
-                val syncEvents = it.getInt(1)
-                if (syncEvents == 0) {
-                    val parts = found.split("/".toRegex(), limit = 3).toTypedArray<String>()
-                    if (parts[0] == PLANNER_ACCOUNT_NAME && parts[1] == CalendarContract.ACCOUNT_TYPE_LOCAL) {
-                        val builder = CalendarContract.Calendars.CONTENT_URI.buildUpon()
-                            .appendEncodedPath(calendarId)
-                        builder.appendQueryParameter(
-                            CalendarContract.Calendars.ACCOUNT_NAME,
-                            PLANNER_ACCOUNT_NAME
-                        )
-                        builder.appendQueryParameter(
-                            CalendarContract.Calendars.ACCOUNT_TYPE,
-                            CalendarContract.ACCOUNT_TYPE_LOCAL
-                        )
-                        builder.appendQueryParameter(
-                            CalendarContract.CALLER_IS_SYNCADAPTER,
-                            "true"
-                        )
-                        val values = ContentValues(1)
-                        values.put(CalendarContract.Calendars.SYNC_EVENTS, 1)
-                        contentResolver.update(builder.build(), values, null, null)
-                        Timber.i("Fixing sync_events for planning calendar ")
-                    }
-                }
-                calendarId
-            }
-        } else {
-            report(Exception("configured calendar %s has been deleted: $calendarId"))
-            INVALID_CALENDAR_ID
-        }
-    } ?: run {
-        report(Exception("Received null cursor while checking calendar"))
-        null
-    }
-
-    /**
-     * WARNING this method relies on calendar permissions being granted. It is the callers duty
-     * to check if they have been granted
-     *
-     * @return id of planning calendar if it has been configured and passed checked
-     */
-    fun checkPlanner(): String? {
-        mPlannerCalendarId =
-            prefHandler.requireString(PrefKey.PLANNER_CALENDAR_ID, INVALID_CALENDAR_ID)
-        if (mPlannerCalendarId != INVALID_CALENDAR_ID) {
-            val checkedId = checkPlannerInternal(mPlannerCalendarId)
-            if (INVALID_CALENDAR_ID == checkedId) {
-                removePlanner()
-            }
-            return checkedId
-        }
-        return INVALID_CALENDAR_ID
-    }
-
-    fun removePlanner() {
-        settings.edit()
-            .remove(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID))
-            .remove(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_PATH))
-            .remove(prefHandler.getKey(PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP))
-            .apply()
-    }
-
-    /**
-     * check if we already have a calendar in Account [.PLANNER_ACCOUNT_NAME]
-     * of type [CalendarContract.ACCOUNT_TYPE_LOCAL] with name
-     * [.PLANNER_ACCOUNT_NAME] if yes use it, otherwise create it
-     *
-     * @param persistToSharedPref if true id of the created calendar is stored in preferences
-     * @return id if we have configured a useable calendar, or [INVALID_CALENDAR_ID]
-     */
-    fun createPlanner(persistToSharedPref: Boolean): String {
-        val builder = CalendarContract.Calendars.CONTENT_URI.buildUpon()
-        builder.appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, PLANNER_ACCOUNT_NAME)
-        builder.appendQueryParameter(
-            CalendarContract.Calendars.ACCOUNT_TYPE,
-            CalendarContract.ACCOUNT_TYPE_LOCAL
-        )
-        builder.appendQueryParameter(
-            CalendarContract.CALLER_IS_SYNCADAPTER,
-            "true"
-        )
-        val calendarUri = builder.build()
-        val plannerCalendarId = contentResolver.query(
-            calendarUri,
-            arrayOf(CalendarContract.Calendars._ID),
-            CalendarContract.Calendars.NAME + " = ?",
-            arrayOf(PLANNER_CALENDAR_NAME),
-            null
-        )?.use {
-            if (it.moveToFirst()) {
-                val existing = it.getLong(0).toString()
-                Timber.i("found a preexisting calendar %s ", existing)
-                existing
-            } else {
-                val values = ContentValues()
-                values.put(CalendarContract.Calendars.ACCOUNT_NAME, PLANNER_ACCOUNT_NAME)
-                values.put(
-                    CalendarContract.Calendars.ACCOUNT_TYPE,
-                    CalendarContract.ACCOUNT_TYPE_LOCAL
-                )
-                values.put(CalendarContract.Calendars.NAME, PLANNER_CALENDAR_NAME)
-                values.put(
-                    CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
-                    Utils.getTextWithAppName(this, R.string.plan_calendar_name).toString()
-                )
-                values.put(
-                    CalendarContract.Calendars.CALENDAR_COLOR,
-                    resources.getColor(R.color.appDefault)
-                )
-                values.put(
-                    CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL,
-                    CalendarContract.Calendars.CAL_ACCESS_OWNER
-                )
-                values.put(CalendarContract.Calendars.OWNER_ACCOUNT, "private")
-                values.put(CalendarContract.Calendars.SYNC_EVENTS, 1)
-                val uri: Uri? = try {
-                    contentResolver.insert(calendarUri, values)
-                } catch (e: IllegalArgumentException) {
-                    report(e)
-                    return INVALID_CALENDAR_ID
-                }
-                if (uri == null) {
-                    report(Exception("Inserting planner calendar failed, uri is null"))
-                    return INVALID_CALENDAR_ID
-                }
-                val lastPathSegment = uri.lastPathSegment
-                if (lastPathSegment == null || lastPathSegment == "0") {
-                    report(
-                        Exception("Inserting planner calendar failed, last path segment is $lastPathSegment")
-                    )
-                    return INVALID_CALENDAR_ID
-                }
-                Timber.i("successfully set up new calendar: %s", lastPathSegment)
-                lastPathSegment
-            }
-        } ?: run {
-            report(Exception("Searching for planner calendar failed, Calendar app not installed?"))
-            return INVALID_CALENDAR_ID
-        }
-        if (persistToSharedPref) {
-            // onSharedPreferenceChanged should now trigger DailyScheduler.updatePlannerAlarms
-            prefHandler.putString(PrefKey.PLANNER_CALENDAR_ID, plannerCalendarId)
-        }
-        return plannerCalendarId
-    }
-
-    private fun insertEventAndUpdatePlan(
-        eventValues: ContentValues,
-        templateId: Long
-    ): Boolean {
-        val uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI, eventValues)
-        val planId = ContentUris.parseId(uri!!)
-        Timber.i("event copied with new id %d ", planId)
-        val planValues = ContentValues()
-        planValues.put(DatabaseConstants.KEY_PLANID, planId)
-        val updated = contentResolver.update(
-            ContentUris.withAppendedId(Template.CONTENT_URI, templateId),
-            planValues, null, null
-        )
-        return updated > 0
-    }
-
     private fun controlWebUi(action: String) {
         val intent = serviceIntent
         if (intent != null) {
@@ -512,82 +318,9 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
                 controlWebUi(if (webUiRunning) RESTART_ACTION else STOP_ACTION)
             }
         } else if (key == prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID)) {
-            val oldValue = mPlannerCalendarId
-            var safeToMovePlans = true
-            val newValue = sharedPreferences.getString(key, INVALID_CALENDAR_ID)!!
-            if (oldValue == newValue) {
-                return
-            }
-            mPlannerCalendarId = newValue
-            if (newValue != INVALID_CALENDAR_ID) {
-                // if we cannot verify that the oldValue has the correct path
-                // we will not risk mangling with an unrelated calendar
-                if (oldValue != INVALID_CALENDAR_ID && oldValue != checkPlannerInternal(oldValue)) safeToMovePlans =
-                    false
-                // we also store the name and account of the calendar,
-                // to protect against cases where a user wipes the data of the calendar
-                // provider
-                // and then accidentally we link to the wrong calendar
-                val path = getCalendarPath(contentResolver, mPlannerCalendarId)
-                if (path != null) {
-                    Timber.i("storing calendar path %s ", path)
-                    prefHandler.putString(PrefKey.PLANNER_CALENDAR_PATH, path)
-                } else {
-                    report(
-                        IllegalStateException(
-                            "could not retrieve configured calendar"
-                        )
-                    )
-                    mPlannerCalendarId = INVALID_CALENDAR_ID
-                    prefHandler.remove(PrefKey.PLANNER_CALENDAR_PATH)
-                    prefHandler.putString(PrefKey.PLANNER_CALENDAR_ID, INVALID_CALENDAR_ID)
-                }
-                if (mPlannerCalendarId == INVALID_CALENDAR_ID) {
-                    return
-                }
-                if (oldValue == INVALID_CALENDAR_ID) {
-                    enqueueSelf(this, prefHandler, true)
-                } else if (safeToMovePlans) {
-                    val eventValues = ContentValues()
-                    eventValues.put(CalendarContract.Events.CALENDAR_ID, newValue.toLong())
-                    contentResolver.query(
-                        Template.CONTENT_URI, arrayOf(
-                            DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PLANID
-                        ),
-                        DatabaseConstants.KEY_PLANID + " IS NOT null", null, null
-                    )?.use { plan ->
-                        if (plan.moveToFirst()) {
-                            do {
-                                val templateId = plan.getLong(0)
-                                val planId = plan.getLong(1)
-                                val eventUri = ContentUris.withAppendedId(
-                                    CalendarContract.Events.CONTENT_URI,
-                                    planId
-                                )
-                                contentResolver.query(
-                                    eventUri,
-                                    buildEventProjection(),
-                                    CalendarContract.Events.CALENDAR_ID + " = ?",
-                                    arrayOf(oldValue),
-                                    null
-                                )?.use { event ->
-                                    if (event.moveToFirst()) {
-                                        copyEventData(event, eventValues)
-                                        if (insertEventAndUpdatePlan(eventValues, templateId)) {
-                                            Timber.i("updated plan id in template %d", templateId)
-                                            val deleted =
-                                                contentResolver.delete(eventUri, null, null)
-                                            Timber.i("deleted old event %d", deleted)
-                                        }
-                                    }
-                                }
-                            } while (plan.moveToNext())
-                        }
-                    }
-                }
-            } else {
-                prefHandler.remove(PrefKey.PLANNER_CALENDAR_PATH)
-            }
+            plannerUtils.onPlannerCalendarIdChanged(
+                sharedPreferences.getString(key, INVALID_CALENDAR_ID)!!
+            )
         }
     }
 
@@ -596,143 +329,6 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
             val am = getSystemService(ACTIVITY_SERVICE) as ActivityManager
             return am.memoryClass
         }
-    //TODO move out to helper class
-    /**
-     * 1.check if a planner is configured. If no, nothing to do 2.check if the
-     * configured planner exists on the device 2.1 if yes go through all events
-     * and look for them based on UUID added to description recreate events that
-     * we did not find (2.2 if no, user should have been asked to select a target
-     * calendar where we will store the recreated events)
-     *
-     * @return number of restored plans
-     */
-    fun restorePlanner(): Int {
-        val calendarId = prefHandler.getString(PrefKey.PLANNER_CALENDAR_ID, INVALID_CALENDAR_ID)
-        val calendarPath = prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH, "")
-        Timber.d(
-            "restore plans to calendar with id %s and path %s", calendarId,
-            calendarPath
-        )
-        var restoredPlansCount = 0
-        if (!(calendarId == INVALID_CALENDAR_ID || calendarPath == "")) {
-            contentResolver.query(
-                CalendarContract.Calendars.CONTENT_URI,
-                arrayOf(CalendarContract.Calendars._ID),
-                CALENDAR_FULL_PATH_PROJECTION
-                        + " = ?",
-                arrayOf(calendarPath),
-                null
-            )?.use {
-                if (it.moveToFirst()) {
-                    mPlannerCalendarId = it.getString(0)
-                    Timber.d("restorePlaner: found calendar with id %s", mPlannerCalendarId)
-                    prefHandler.putString(PrefKey.PLANNER_CALENDAR_ID, mPlannerCalendarId)
-                    val planValues = ContentValues()
-                    val eventValues = ContentValues()
-                    eventValues.put(
-                        CalendarContract.Events.CALENDAR_ID,
-                        mPlannerCalendarId.toLong()
-                    )
-                    contentResolver.query(
-                        Template.CONTENT_URI, arrayOf(
-                            DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PLANID,
-                            DatabaseConstants.KEY_UUID
-                        ), DatabaseConstants.KEY_PLANID
-                                + " IS NOT null", null, null
-                    )?.use { plan ->
-                        if (plan.moveToFirst()) {
-                            do {
-                                val templateId = plan.getLong(0)
-                                val oldPlanId = plan.getLong(1)
-                                val uuid = plan.getString(2)
-                                if (contentResolver.query(
-                                        CalendarContract.Events.CONTENT_URI,
-                                        arrayOf<String>(CalendarContract.Events._ID),
-                                        CalendarContract.Events.CALENDAR_ID + " = ? AND " + CalendarContract.Events.DESCRIPTION
-                                                + " LIKE ?",
-                                        arrayOf<String>(mPlannerCalendarId, "%$uuid%"),
-                                        null
-                                    )?.use { event ->
-                                        if (event.moveToFirst()) {
-                                            val newPlanId = event.getLong(0)
-                                            Timber.d(
-                                                "Looking for event with uuid %s: found id %d. Original event had id %d",
-                                                uuid, newPlanId, oldPlanId
-                                            )
-                                            if (newPlanId != oldPlanId) {
-                                                planValues.put(
-                                                    DatabaseConstants.KEY_PLANID,
-                                                    newPlanId
-                                                )
-                                                val updated = contentResolver.update(
-                                                    ContentUris.withAppendedId(
-                                                        Template.CONTENT_URI, templateId
-                                                    ), planValues, null,
-                                                    null
-                                                )
-                                                if (updated > 0) {
-                                                    Timber.i(
-                                                        "updated plan id in template: %d",
-                                                        templateId
-                                                    )
-                                                    restoredPlansCount++
-                                                }
-                                            } else {
-                                                restoredPlansCount++
-                                            }
-                                            true
-                                        } else false
-                                    } == false
-                                ) {
-                                    Timber.d(
-                                        "Looking for event with uuid %s did not find, now reconstructing from cache",
-                                        uuid
-                                    )
-                                    if (contentResolver.query(
-                                            TransactionProvider.EVENT_CACHE_URI,
-                                            buildEventProjection(),
-                                            CalendarContract.Events.DESCRIPTION + " LIKE ?",
-                                            arrayOf<String>(
-                                                "%$uuid%"
-                                            ),
-                                            null
-                                        )?.use { event ->
-                                            if (event.moveToFirst()) {
-                                                copyEventData(event, eventValues)
-                                                if (insertEventAndUpdatePlan(
-                                                        eventValues,
-                                                        templateId
-                                                    )
-                                                ) {
-                                                    Timber.i(
-                                                        "updated plan id in template %d",
-                                                        templateId
-                                                    )
-                                                    restoredPlansCount++
-                                                }
-                                                true
-                                            } else false
-                                        } == true
-                                    ) {
-                                        //need to set eventId to null
-                                        planValues.putNull(DatabaseConstants.KEY_PLANID)
-                                        contentResolver.update(
-                                            ContentUris.withAppendedId(
-                                                Template.CONTENT_URI,
-                                                templateId
-                                            ),
-                                            planValues, null, null
-                                        )
-                                    }
-                                }
-                            } while (plan.moveToNext())
-                        }
-                    }
-                }
-            }
-        }
-        return restoredPlansCount
-    }
 
     fun markDataDirty() {
         try {
@@ -770,9 +366,6 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
 
     companion object {
         const val DEFAULT_LANGUAGE = "default"
-        const val PLANNER_CALENDAR_NAME = "MyExpensesPlanner"
-        const val PLANNER_ACCOUNT_NAME = "Local Calendar"
-        const val INVALID_CALENDAR_ID = "-1"
 
         @get:Deprecated("")
         lateinit var instance: MyApplication

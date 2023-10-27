@@ -87,6 +87,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.db2.RepositoryPartyKt;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.PlannerUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.ICurrencyFormatter;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
@@ -290,12 +291,7 @@ public class Transaction extends Model implements ITransaction {
   }
 
   public void setCrStatus(@NonNull CrStatus crStatus) {
-    if (crStatus == null) {
-      Timber.e("Attempt to set crStatus to null");
-      this.crStatus = CrStatus.UNRECONCILED;
-    } else {
-      this.crStatus = crStatus;
-    }
+    this.crStatus = crStatus;
   }
 
   public String getCategoryIcon() {
@@ -655,6 +651,10 @@ public class Transaction extends Model implements ITransaction {
   }
 
   public Uri save(ContentResolver contentResolver, boolean withCommit) {
+    return save(contentResolver, null, withCommit);
+  }
+
+  public Uri save(ContentResolver contentResolver, @Nullable PlannerUtils plannerUtils, boolean withCommit) {
     Uri uri;
     try {
       ContentProviderResult[] result = contentResolver.applyBatch(TransactionProvider.AUTHORITY,
@@ -670,7 +670,6 @@ public class Transaction extends Model implements ITransaction {
       return null;
     }
     if (initialPlan != null) {
-      //TODO proper context
       String title = initialPlan.getFirst() != null ? initialPlan.getFirst() :
               (!isEmpty(getPayee()) ? getPayee() :
                       (!isSplit() && !isEmpty(getLabel()) ? getLabel() :
@@ -687,7 +686,7 @@ public class Transaction extends Model implements ITransaction {
         originTemplate.setPlan(new Plan(initialPlan.getThird(), initialPlan.getSecond(), title, description));
         withLinkedTransaction = getId();
       }
-      originTemplate.save(contentResolver, withLinkedTransaction);
+      originTemplate.save(contentResolver, plannerUtils, withLinkedTransaction);
       originTemplateId = originTemplate.getId();
       originPlanId = originTemplate.planId;
     }

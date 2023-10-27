@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.DebugCurrencyFormatter
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
@@ -59,7 +60,13 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
     val prefHandler: PrefHandler
         get() = app.appComponent.prefHandler()
 
-    val homeCurrency: CurrencyUnit by lazy { app.appComponent.homeCurrencyProvider().homeCurrencyUnit }
+    val homeCurrencyProvider: HomeCurrencyProvider
+        get() = app.appComponent.homeCurrencyProvider()
+
+    val plannerUtils: PlannerUtils
+        get() = app.appComponent.plannerUtils()
+
+    val homeCurrency: CurrencyUnit by lazy { homeCurrencyProvider.homeCurrencyUnit }
 
     @JvmOverloads
     fun buildAccount(label: String, openingBalance: Long = 0L, currency: String = homeCurrency.code) =
@@ -170,8 +177,8 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
             ApplicationProvider.getApplicationContext<MyApplication>(),
             currencyContext,
             DebugCurrencyFormatter,
-            Mockito.mock(PrefHandler::class.java),
-            Mockito.mock(HomeCurrencyProvider::class.java)
+            prefHandler,
+            homeCurrencyProvider
         )
 
     val contentResolver: ContentResolver = repository.contentResolver

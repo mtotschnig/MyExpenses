@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.util.localDateTime2EpochMillis
@@ -38,8 +39,13 @@ import java.time.LocalTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.TemporalAdjusters
+import javax.inject.Inject
 
 class PlannerViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+
+    @Inject
+    lateinit var plannerUtils: PlannerUtils
+
     data class Month(val year: Int, val month: Int) {
         init {
             if (month < 0 || month > 12) throw IllegalArgumentException()
@@ -117,9 +123,7 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
         ContentUris.appendId(builder, startMonth.startMillis())
         ContentUris.appendId(builder, endMonth.endMillis())
         viewModelScope.launch {
-            val plannerCalendarId = withContext(Dispatchers.Default) {
-                getApplication<MyApplication>().checkPlanner()
-            }
+            val plannerCalendarId = withContext(Dispatchers.Default) { plannerUtils.checkPlanner() }
             contentResolver.observeQuery( builder.build(), null,
                 CalendarContract.Events.CALENDAR_ID + " = " + plannerCalendarId,
                 null, CalendarContract.Instances.BEGIN + " ASC", false)

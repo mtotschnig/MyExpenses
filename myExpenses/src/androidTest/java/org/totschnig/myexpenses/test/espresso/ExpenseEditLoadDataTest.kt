@@ -354,7 +354,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             "Daily",
             plan.compileDescription(app)
         )
-        plan.save(contentResolver)
+        plan.save(contentResolver, plannerUtils, false)
         launchAndWait(intent.apply {
             putExtra(DatabaseConstants.KEY_TEMPLATEID, plan.id)
         }).use {

@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.model
 import android.content.ContentResolver
 import android.net.Uri
 import org.totschnig.myexpenses.model.Plan.Recurrence
+import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.time.LocalDate
 import java.time.ZonedDateTime
@@ -37,7 +38,7 @@ interface ITransaction: IModel {
     fun setDate(zonedDateTime: ZonedDateTime)
     fun setValueDate(zonedDateTime: ZonedDateTime)
     fun setInitialPlan(initialPlan: Triple<String?, Recurrence, LocalDate>)
-    fun save(contentResolver: ContentResolver, withCommit: Boolean): Uri?
+    fun save(contentResolver: ContentResolver, plannerUtils: PlannerUtils, withCommit: Boolean): Uri?
 
     fun saveTags(contentResolver: ContentResolver, tags: List<Tag>?): Boolean
 }

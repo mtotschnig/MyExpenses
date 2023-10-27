@@ -40,7 +40,7 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
   }
 
   private void initializePlanInfo() {
-    String calendarId = ((MyApplication) context.getApplicationContext()).checkPlanner();
+    String calendarId = ((MyApplication) context.getApplicationContext()).appComponent.plannerUtils().checkPlanner();
     Cursor wrapped = getWrappedCursor();
     if (wrapped.moveToFirst()) {
       ArrayList<Long> plans = new ArrayList<>();

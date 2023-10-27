@@ -522,3 +522,20 @@ fun checkSyncAccounts(context: Context) {
         where, validAccounts
     )
 }
+
+fun insertEventAndUpdatePlan(
+    contentResolver: ContentResolver,
+    eventValues: ContentValues,
+    templateId: Long
+): Boolean {
+    val uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI, eventValues)
+    val planId = ContentUris.parseId(uri!!)
+    Timber.i("event copied with new id %d ", planId)
+    val planValues = ContentValues()
+    planValues.put(KEY_PLANID, planId)
+    val updated = contentResolver.update(
+        ContentUris.withAppendedId(Template.CONTENT_URI, templateId),
+        planValues, null, null
+    )
+    return updated > 0
+}

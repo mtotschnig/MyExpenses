@@ -18,6 +18,8 @@ import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
+import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Tag
@@ -64,7 +66,7 @@ class Fixture(inst: Instrumentation) {
         Plan.delete(contentResolver, planId)
     }
 
-    fun setup(withPicture: Boolean, repository: Repository, defaultCurrency: CurrencyUnit) {
+    fun setup(withPicture: Boolean, repository: Repository, plannerUtils: PlannerUtils, defaultCurrency: CurrencyUnit) {
         this.repository = repository
         val contentResolver = repository.contentResolver
         val foreignCurrency =
@@ -253,8 +255,8 @@ class Fixture(inst: Instrumentation) {
 
         // Template
         Truth.assertWithMessage("Unable to create planner").that(
-            MyApplication.instance.createPlanner(true)
-        ).isNotEqualTo(MyApplication.INVALID_CALENDAR_ID)
+            plannerUtils.createPlanner(true)
+        ).isNotEqualTo(INVALID_CALENDAR_ID)
 
         //createPlanner sets up a new plan, mPlannerCalendarId is only set in onSharedPreferenceChanged
         //if it is has not been called yet, when we save our plan, saving fails.
@@ -289,7 +291,7 @@ class Fixture(inst: Instrumentation) {
                 template.title,
                 template.compileDescription(appContext)
             )
-                .save(contentResolver)!!
+                .save(contentResolver, plannerUtils)!!
         )
         template.planId = planId
         template.save(contentResolver)

@@ -29,6 +29,8 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.TimePreference
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
+import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
@@ -55,6 +57,8 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
     lateinit var currencyFormatter: ICurrencyFormatter
     @Inject
     lateinit var repository: Repository
+    @Inject
+    lateinit var plannerUtils: PlannerUtils
 
     val contentResolver: ContentResolver
         get() = repository.contentResolver
@@ -148,13 +152,13 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
             logAndNotifyError("Calendar permission not granted")
             return Result.failure()
         }
-        val plannerCalendarId: String? = (applicationContext as MyApplication).checkPlanner()
+        val plannerCalendarId: String? = plannerUtils.checkPlanner()
         if (plannerCalendarId == null) {
             logAndNotifyError("planner verification failed, will try later")
             scheduleNextRun()
             return Result.failure()
         }
-        if (plannerCalendarId == MyApplication.INVALID_CALENDAR_ID) {
+        if (plannerCalendarId == INVALID_CALENDAR_ID) {
             logAndNotifyError("no planner set, nothing to do")
             return Result.failure()
         }

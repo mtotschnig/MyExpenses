@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.activity
 
-import android.Manifest
 import android.os.Bundle
 import android.text.format.DateUtils
 import com.vmadalin.easypermissions.EasyPermissions.somePermissionPermanentlyDenied
@@ -8,13 +7,19 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ExtendProLicenceDialogFragment.Companion.newInstance
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.isGithub
 import org.totschnig.myexpenses.util.licence.LicenceHandler.Companion.log
 import org.totschnig.myexpenses.util.licence.LicenceStatus
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 abstract class LaunchActivity : IapActivity() {
+
+    @Inject
+    lateinit var plannerUtils: PlannerUtils
+
     override val shouldQueryIap: Boolean
         get() = true
 
@@ -73,7 +78,7 @@ abstract class LaunchActivity : IapActivity() {
                 PermissionHelper.PermissionGroup.CALENDAR.androidPermissions
             )
         ) {
-            requireApplication().removePlanner()
+            plannerUtils.removePlanner(prefHandler)
         }
     }
 

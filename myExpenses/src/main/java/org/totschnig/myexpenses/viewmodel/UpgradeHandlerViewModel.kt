@@ -426,8 +426,8 @@ class UpgradeHandlerViewModel(application: Application) :
 
             if (fromVersion < 583 && prefHandler.requireString(
                     PrefKey.PLANNER_CALENDAR_ID,
-                    MyApplication.INVALID_CALENDAR_ID
-                ) != MyApplication.INVALID_CALENDAR_ID
+                    INVALID_CALENDAR_ID
+                ) != INVALID_CALENDAR_ID
             ) {
                 PlanExecutor.enqueueSelf(getApplication(), prefHandler, true)
             }

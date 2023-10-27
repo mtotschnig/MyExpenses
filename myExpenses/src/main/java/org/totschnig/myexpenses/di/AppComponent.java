@@ -47,8 +47,10 @@ import org.totschnig.myexpenses.fragment.SyncBackendList;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.fragment.preferences.BasePreferenceFragment;
 import org.totschnig.myexpenses.model.CurrencyContext;
+import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.BaseTransactionProvider;
+import org.totschnig.myexpenses.provider.PlannerUtils;
 import org.totschnig.myexpenses.retrofit.ExchangeRateService;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.service.SyncNotificationDismissHandler;
@@ -74,10 +76,12 @@ import org.totschnig.myexpenses.viewmodel.FeatureViewModel;
 import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel;
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel;
 import org.totschnig.myexpenses.viewmodel.OcrViewModel;
+import org.totschnig.myexpenses.viewmodel.PlannerViewModel;
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel;
 import org.totschnig.myexpenses.viewmodel.ShareViewModel;
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel;
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 import org.totschnig.myexpenses.widget.AbstractListWidget;
 import org.totschnig.myexpenses.widget.AccountRemoteViewsFactory;
@@ -163,6 +167,8 @@ public interface AppComponent {
 
   FeatureManager featureManager();
 
+  PlannerUtils plannerUtils();
+
   void inject(MyApplication application);
 
   void inject(ExpenseEdit expenseEdit);
@@ -215,6 +221,10 @@ public interface AppComponent {
 
   void inject(ContentResolvingAndroidViewModel contentResolvingAndroidViewModel);
 
+  void inject(PlannerViewModel plannerViewModel);
+
+  void inject(TransactionEditViewModel transactionEditViewModel);
+
   void inject(CurrencyViewModel contentResolvingAndroidViewModel);
 
   void inject(SettingsViewModel settingsViewModel);
@@ -244,6 +254,8 @@ public interface AppComponent {
   void inject(PlannerFragment.PlanInstanceViewHolder planInstanceViewHolder);
 
   void inject(BasePreferenceFragment basePreferenceFragment);
+
+  void inject(CalendarListPreferenceDialogFragmentCompat calendarListPreferenceDialogFragmentCompat);
 
   void inject(ExtendProLicenceDialogFragment extendProLicenceDialogFragment);
 

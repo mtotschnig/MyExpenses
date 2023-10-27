@@ -13,6 +13,8 @@ import org.totschnig.myexpenses.calendar.EventRecurrenceFormatter
 import org.totschnig.myexpenses.calendar.EventRecurrence
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
+import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -32,12 +34,12 @@ import java.util.*
  * holds information about an event in the calendar
  */
 class Plan private constructor(
-    id: Long,
+    var id: Long,
     var dtStart: Long,
     var rRule: String?,
     var title: String,
     var description: String
-) : Model(), Serializable {
+) : Serializable {
 
     private constructor(
         id: Long = 0L,
@@ -115,7 +117,7 @@ class Plan private constructor(
      *
      * @return the id of the created object
      */
-    override fun save(contentResolver: ContentResolver): Uri? {
+    fun save(contentResolver: ContentResolver, plannerUtils: PlannerUtils): Uri? {
         val uri: Uri
         val values = ContentValues()
         values.put(CalendarContract.Events.TITLE, title)
@@ -126,11 +128,11 @@ class Plan private constructor(
                 values.put(CalendarContract.Events.RRULE, rRule)
             }
             values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().id)
-            var calendarId: String? = MyApplication.instance.checkPlanner()
+            var calendarId: String? = plannerUtils.checkPlanner()
                 ?: throw CalendarIntegrationNotAvailableException()
-            if (MyApplication.INVALID_CALENDAR_ID == calendarId) {
-                calendarId = MyApplication.instance.createPlanner(true)
-                if (calendarId == MyApplication.INVALID_CALENDAR_ID) {
+            if (INVALID_CALENDAR_ID == calendarId) {
+                calendarId = plannerUtils.createPlanner(true)
+                if (calendarId == INVALID_CALENDAR_ID) {
                     throw CalendarIntegrationNotAvailableException()
                 }
             }
@@ -273,9 +275,5 @@ class Plan private constructor(
                 null
             )
         }
-    }
-
-    init {
-        this.id = id
     }
 }

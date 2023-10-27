@@ -64,6 +64,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.FULL_LABEL
+import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.ProviderUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
@@ -86,11 +87,15 @@ import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import timber.log.Timber
 import java.io.IOException
+import javax.inject.Inject
 import kotlin.math.pow
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
 class TransactionEditViewModel(application: Application, savedStateHandle: SavedStateHandle) :
     TagHandlingViewModel(application, savedStateHandle) {
+
+    @Inject
+    lateinit var plannerUtils: PlannerUtils
 
     private val splitPartLoader = MutableStateFlow<Pair<Long, Boolean>?>(null)
 
@@ -173,7 +178,8 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 val existingTemplateMaybeUpdateShortcut =
                     Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && transaction is Template && transaction.id != 0L
                 val result =
-                    transaction.save(contentResolver, true)?.let { ContentUris.parseId(it) }
+                    transaction.save(contentResolver, plannerUtils, true)
+                        ?.let { ContentUris.parseId(it) }
                         ?: throw Throwable("Error while saving transaction")
                 if (existingTemplateMaybeUpdateShortcut) {
                     if (

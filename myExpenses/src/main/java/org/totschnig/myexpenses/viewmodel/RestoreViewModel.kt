@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.accounts.AccountManager
 import android.app.Application
+import android.content.ContentUris
 import android.content.ContentValues
 import android.database.sqlite.SQLiteException
 import android.net.Uri
@@ -26,12 +27,15 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper
 import org.totschnig.myexpenses.provider.DbUtils
+import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
+import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.checkSyncAccounts
 import org.totschnig.myexpenses.provider.getBackupDbFile
 import org.totschnig.myexpenses.provider.getBackupPrefFile
 import org.totschnig.myexpenses.provider.getCalendarPath
+import org.totschnig.myexpenses.provider.insertEventAndUpdatePlan
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory
@@ -57,6 +61,9 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
 
     @Inject
     lateinit var versionPeekHelper: DatabaseVersionPeekHelper
+
+    @Inject
+    lateinit var plannerUtils: PlannerUtils
 
     private fun failureResult(throwable: Throwable) {
         _result.update {
@@ -199,14 +206,15 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                 val backupPref = application.getSharedPreferences("backup_temp", 0)
                 when (restorePlanStrategy) {
                     R.id.restore_calendar_handling_create_new -> {
-                        currentPlannerId = getApplication<MyApplication>().createPlanner(false)
+                        currentPlannerId = plannerUtils.createPlanner(false)
                         currentPlannerPath = getCalendarPath(contentResolver, currentPlannerId)
                     }
 
                     R.id.restore_calendar_handling_configured -> {
-                        currentPlannerId = application.checkPlanner()
-                        currentPlannerPath = prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH, "")
-                        if (MyApplication.INVALID_CALENDAR_ID == currentPlannerId) {
+                        currentPlannerId = plannerUtils.checkPlanner()
+                        currentPlannerPath =
+                            prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH, "")
+                        if (INVALID_CALENDAR_ID == currentPlannerId) {
                             failureResult(R.string.restore_not_possible_local_calendar_missing)
                             return@launch
                         }
@@ -323,8 +331,6 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                     }
                     edit.putBoolean(prefHandler.getKey(PrefKey.ENCRYPT_DATABASE), encrypt)
                     edit.apply()
-                    application.settings
-                        .registerOnSharedPreferenceChangeListener(application)
                     tempPrefFile.delete()
                     publishProgress(R.string.restore_preferences_success)
                     //if a user restores a backup we do not want past plan instances to flood the database
@@ -342,8 +348,13 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                             planValues, null, null
                         )
                     } else {
-                        publishProgress(R.string.restore_calendar_success, application.restorePlanner())
+                        publishProgress(
+                            R.string.restore_calendar_success,
+                            restorePlanner()
+                        )
                     }
+                    application.settings
+                        .registerOnSharedPreferenceChangeListener(application)
                     Timber.i("now emptying event cache")
                     contentResolver.delete(
                         TransactionProvider.EVENT_CACHE_URI, null, null
@@ -382,7 +393,8 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                                 it to it.nameWithoutExtension.substringAfter('_')
                             } ?: Uri.parse(fromBackup).lastPathSegment?.let { fileName ->
                                 //legacy backups
-                                backupFiles.firstOrNull { it.name == fileName }?.let { it to it.nameWithoutExtension }
+                                backupFiles.firstOrNull { it.name == fileName }
+                                    ?.let { it to it.nameWithoutExtension }
                             })?.let { (image, fileName) ->
                                 val restoredImage = PictureDirHelper.getOutputMediaFile(
                                     fileName = fileName,
@@ -509,6 +521,145 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
             )
             contentResolver.insert(TransactionProvider.ATTACHMENTS_URI, values)
         }
+    }
+
+    /**
+     * 1.check if a planner is configured. If no, nothing to do 2.check if the
+     * configured planner exists on the device 2.1 if yes go through all events
+     * and look for them based on UUID added to description recreate events that
+     * we did not find (2.2 if no, user should have been asked to select a target
+     * calendar where we will store the recreated events)
+     *
+     * @return number of restored plans
+     */
+    private fun restorePlanner(): Int {
+        val calendarIdFromBackup = prefHandler.getString(
+            PrefKey.PLANNER_CALENDAR_ID,
+            INVALID_CALENDAR_ID
+        )
+        val calendarPath = prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH, "")
+        Timber.d(
+            "restore plans to calendar with id %s and path %s", calendarIdFromBackup,
+            calendarPath
+        )
+        var restoredPlansCount = 0
+        if (!(calendarIdFromBackup == INVALID_CALENDAR_ID || calendarPath == "")) {
+            contentResolver.query(
+                CalendarContract.Calendars.CONTENT_URI,
+                arrayOf(CalendarContract.Calendars._ID),
+                CALENDAR_FULL_PATH_PROJECTION
+                        + " = ?",
+                arrayOf(calendarPath),
+                null
+            )?.use {
+                if (it.moveToFirst()) {
+                    val calendarId = it.getLong(0)
+                    Timber.d("restorePlaner: found calendar with id %d", calendarId)
+                    prefHandler.putString(PrefKey.PLANNER_CALENDAR_ID, calendarId.toString())
+                    val planValues = ContentValues()
+                    val eventValues = ContentValues()
+                    eventValues.put(
+                        CalendarContract.Events.CALENDAR_ID,
+                        calendarId
+                    )
+                    contentResolver.query(
+                        Template.CONTENT_URI, arrayOf(
+                            DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PLANID,
+                            DatabaseConstants.KEY_UUID
+                        ), DatabaseConstants.KEY_PLANID
+                                + " IS NOT null", null, null
+                    )?.use { plan ->
+                        if (plan.moveToFirst()) {
+                            do {
+                                val templateId = plan.getLong(0)
+                                val oldPlanId = plan.getLong(1)
+                                val uuid = plan.getString(2)
+                                if (contentResolver.query(
+                                        CalendarContract.Events.CONTENT_URI,
+                                        arrayOf(CalendarContract.Events._ID),
+                                        CalendarContract.Events.CALENDAR_ID + " = ? AND " + CalendarContract.Events.DESCRIPTION
+                                                + " LIKE ?",
+                                        arrayOf(calendarId.toString(), "%$uuid%"),
+                                        null
+                                    )?.use { event ->
+                                        if (event.moveToFirst()) {
+                                            val newPlanId = event.getLong(0)
+                                            Timber.d(
+                                                "Looking for event with uuid %s: found id %d. Original event had id %d",
+                                                uuid, newPlanId, oldPlanId
+                                            )
+                                            if (newPlanId != oldPlanId) {
+                                                planValues.put(
+                                                    DatabaseConstants.KEY_PLANID,
+                                                    newPlanId
+                                                )
+                                                val updated = contentResolver.update(
+                                                    ContentUris.withAppendedId(
+                                                        Template.CONTENT_URI, templateId
+                                                    ), planValues, null,
+                                                    null
+                                                )
+                                                if (updated > 0) {
+                                                    Timber.i(
+                                                        "updated plan id in template: %d",
+                                                        templateId
+                                                    )
+                                                    restoredPlansCount++
+                                                }
+                                            } else {
+                                                restoredPlansCount++
+                                            }
+                                            true
+                                        } else false
+                                    } == false
+                                ) {
+                                    Timber.d(
+                                        "Looking for event with uuid %s did not find, now reconstructing from cache",
+                                        uuid
+                                    )
+                                    if (contentResolver.query(
+                                            TransactionProvider.EVENT_CACHE_URI,
+                                            MyApplication.buildEventProjection(),
+                                            CalendarContract.Events.DESCRIPTION + " LIKE ?",
+                                            arrayOf("%$uuid%"),
+                                            null
+                                        )?.use { event ->
+                                            if (event.moveToFirst()) {
+                                                MyApplication.copyEventData(event, eventValues)
+                                                if (insertEventAndUpdatePlan(
+                                                        contentResolver,
+                                                        eventValues,
+                                                        templateId
+                                                    )
+                                                ) {
+                                                    Timber.i(
+                                                        "updated plan id in template %d",
+                                                        templateId
+                                                    )
+                                                    restoredPlansCount++
+                                                }
+                                                true
+                                            } else false
+                                        } == false
+                                    ) {
+                                        //need to set eventId to null
+                                        planValues.putNull(DatabaseConstants.KEY_PLANID)
+                                        contentResolver.update(
+                                            ContentUris.withAppendedId(
+                                                Template.CONTENT_URI,
+                                                templateId
+                                            ),
+                                            planValues, null, null
+                                        )
+                                    }
+                                }
+                            } while (plan.moveToNext())
+                        }
+                    }
+                }
+            }
+        }
+        return restoredPlansCount
     }
 
     companion object {
