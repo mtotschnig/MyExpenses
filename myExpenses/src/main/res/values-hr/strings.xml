@@ -981,4 +981,9 @@
     <string name="merge_parties_strategy_group">Duplikati su grupirani zajedno.</string>
     <string name="pref_copy_attachments_summary_off">Datoteke se ne kopiraju. Sprema se samo referenca.</string>
     <string name="show_duplicates">Prikaži duplikate</string>
+    <string name="budget_deleted">Proračun je izbrisan</string>
+    <string name="widget_title_budget">Moj proračun</string>
+    <string name="budget_widget_configuration">Odaberi proračun</string>
+    <string name="whats_new_366">Widget na početnom ekranu koji prikazuje aktualno stanje proračuna.</string>
+    <string name="budget_table_header_overspent">Prekoračeno</string>
 </resources>
