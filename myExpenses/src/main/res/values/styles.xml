@@ -204,7 +204,7 @@
     </style>
 
     <style name="CalculatorButton.Delete">
-        <item name="android:text">&lt;</item>
+        <item name="android:text">⌫</item>
         <item name="android:contentDescription">
             @string/content_description_calculator_delete_button
         </item>
