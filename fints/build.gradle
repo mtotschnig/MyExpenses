@@ -41,7 +41,7 @@ dependencies {
     implementation "androidx.compose.material:material-icons-extended"
     implementation "androidx.compose.runtime:runtime-livedata"
 
-    implementation  'com.github.hbci4j:hbci4j-core:3.1.71'
+    implementation  'com.github.hbci4j:hbci4j-core:3.1.72'
     implementation 'xerces:xercesImpl:2.12.0'
     implementation "org.apache.commons:commons-lang3:$commonsLang"
 
