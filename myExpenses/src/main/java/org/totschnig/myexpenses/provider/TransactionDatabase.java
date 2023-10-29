@@ -40,11 +40,8 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSA
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSFER_SEALED_UPDATE_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.TAG_LIST_EXPRESSION;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.associativeJoin;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.buildViewDefinition;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.tagGroupBy;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.tagJoin;
 import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
@@ -135,59 +132,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
             " FROM " + TABLE_TRANSACTIONS + " LEFT JOIN " +
             TABLE_ACCOUNTS + " ON " + KEY_ACCOUNTID +
             " = " + TABLE_ACCOUNTS + "." + KEY_ROWID;
-  }
-
-  private String buildViewDefinitionExtended(String tableName) {
-    StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append( " AS ");
-    if (!tableName.equals(TABLE_CHANGES)) {
-      stringBuilder.append(DbConstantsKt.getCategoryTreeForView());
-    }
-    stringBuilder.append(" SELECT ").append(tableName).append(".*, coalesce(").append(TABLE_PAYEES)
-        .append(".").append(KEY_SHORT_NAME).append(",").append(TABLE_PAYEES)
-            .append(".").append(KEY_PAYEE_NAME) .append(") AS ").append(KEY_PAYEE_NAME).append(", ")
-        .append(TABLE_METHODS).append(".").append(KEY_LABEL).append(" AS ").append(KEY_METHOD_LABEL).append(", ")
-        .append(TABLE_METHODS).append(".").append(KEY_ICON).append(" AS ").append(KEY_METHOD_ICON);
-
-    if (!tableName.equals(TABLE_CHANGES)) {
-      stringBuilder.append(", ")
-          .append("Tree.").append(KEY_PATH).append(", ")
-          .append("Tree.").append(KEY_ICON).append(", ")
-          .append(KEY_COLOR).append(", ")
-          .append(KEY_CURRENCY).append(", ")
-          .append(KEY_SEALED).append(", ")
-          .append(KEY_EXCLUDE_FROM_TOTALS).append(", ")
-          .append(TABLE_ACCOUNTS).append(".").append(KEY_TYPE).append(" AS ").append(KEY_ACCOUNT_TYPE).append(", ")
-          .append(TABLE_ACCOUNTS).append(".").append(KEY_LABEL).append(" AS ").append(KEY_ACCOUNT_LABEL);
-    }
-
-    if (tableName.equals(TABLE_TRANSACTIONS)) {
-      stringBuilder.append(", ").append(TABLE_PLAN_INSTANCE_STATUS).append(".").append(KEY_TEMPLATEID)
-              .append(", ").append(TAG_LIST_EXPRESSION)
-              .append(", count(").append(KEY_URI).append(") AS ").append(KEY_ATTACHMENT_COUNT);
-    }
-
-    stringBuilder.append(" FROM ").append(tableName).append(" LEFT JOIN ").append(TABLE_PAYEES).append(" ON ")
-        .append(KEY_PAYEEID).append(" = ").append(TABLE_PAYEES).append(".").append(KEY_ROWID)
-        .append(" LEFT JOIN ")
-        .append(TABLE_METHODS).append(" ON ").append(KEY_METHODID).append(" = ").append(TABLE_METHODS)
-        .append(".").append(KEY_ROWID);
-
-    if (!tableName.equals(TABLE_CHANGES)) {
-      stringBuilder.append(" LEFT JOIN ").append(TABLE_ACCOUNTS).append(" ON ").append(KEY_ACCOUNTID)
-          .append(" = ").append(TABLE_ACCOUNTS).append(".").append(KEY_ROWID)
-           .append(" LEFT JOIN Tree ON ").append(KEY_CATID)
-           .append(" = TREE.").append(KEY_ROWID);
-    }
-
-    if (tableName.equals(TABLE_TRANSACTIONS)) {
-      stringBuilder.append(" LEFT JOIN ").append(TABLE_PLAN_INSTANCE_STATUS)
-          .append(" ON ").append(tableName).append(".").append(KEY_ROWID).append(" = ")
-          .append(TABLE_PLAN_INSTANCE_STATUS).append(".").append(KEY_TRANSACTIONID)
-          .append(tagJoin(tableName))
-          .append(associativeJoin(TABLE_TRANSACTIONS, TABLE_TRANSACTION_ATTACHMENTS, TABLE_ATTACHMENTS, KEY_TRANSACTIONID, KEY_ATTACHMENT_ID));
-    }
-    return stringBuilder.toString();
   }
 
   /**

@@ -13,7 +13,10 @@ import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTACHMENT_COUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTACHMENT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_NAME
@@ -31,14 +34,19 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
@@ -47,6 +55,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
@@ -64,7 +73,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BANKS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTACHMENTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTRIBUTES
@@ -537,7 +548,7 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
             "transactions",
             arrayOf("_id", "picture_id"),
             "picture_id is not null"
-        ).useAndMap{ cursor ->
+        ).useAndMap { cursor ->
             cursor.getLong(0) to cursor.getString(1)
         }.groupBy({ it.second }, { it.first }).forEach { (uri, transactionIds) ->
             attachmentValues.clear()
@@ -741,6 +752,46 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
     fun insertFinTSAttributes(db: SupportSQLiteDatabase) {
         Attribute.initDatabase(db, FinTsAttribute::class.java)
         Attribute.initDatabase(db, BankingAttribute::class.java)
+    }
+
+    fun buildViewDefinitionExtended(tableName: String) = buildString {
+        append(" AS ")
+        if (tableName != DatabaseConstants.TABLE_CHANGES) {
+            append(getCategoryTreeForView())
+        }
+        append(" SELECT $tableName.*, coalesce($TABLE_PAYEES.$KEY_SHORT_NAME,$TABLE_PAYEES.$KEY_PAYEE_NAME) AS $KEY_PAYEE_NAME, ")
+        append("$TABLE_METHODS.$KEY_LABEL AS $KEY_METHOD_LABEL, ")
+        append("$TABLE_METHODS.$KEY_ICON AS $KEY_METHOD_ICON")
+        if (tableName != DatabaseConstants.TABLE_CHANGES) {
+            append(", Tree.$KEY_PATH, Tree.$KEY_ICON, $KEY_COLOR, $KEY_CURRENCY, $KEY_SEALED, $KEY_EXCLUDE_FROM_TOTALS, ")
+            append("$TABLE_ACCOUNTS.$KEY_TYPE AS $KEY_ACCOUNT_TYPE, ")
+            append("$TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL")
+        }
+        if (tableName == TABLE_TRANSACTIONS) {
+            append(", $TABLE_PLAN_INSTANCE_STATUS.$KEY_TEMPLATEID, ")
+            append(TAG_LIST_EXPRESSION)
+            append(", count($KEY_URI) AS $KEY_ATTACHMENT_COUNT")
+        }
+        append(" FROM $tableName")
+        append(" LEFT JOIN $TABLE_PAYEES ON $KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID")
+        append(" LEFT JOIN $TABLE_METHODS ON $KEY_METHODID = $TABLE_METHODS.$KEY_ROWID")
+        if (tableName != DatabaseConstants.TABLE_CHANGES) {
+            append(" LEFT JOIN $TABLE_ACCOUNTS ON $KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID")
+            append(" LEFT JOIN Tree ON $KEY_CATID = TREE.$KEY_ROWID")
+        }
+        if (tableName == TABLE_TRANSACTIONS) {
+            append(" LEFT JOIN $TABLE_PLAN_INSTANCE_STATUS ON $tableName.$KEY_ROWID = $TABLE_PLAN_INSTANCE_STATUS.$KEY_TRANSACTIONID")
+            append(tagJoin(tableName))
+            append(
+                associativeJoin(
+                    TABLE_TRANSACTIONS,
+                    TABLE_TRANSACTION_ATTACHMENTS,
+                    TABLE_ATTACHMENTS,
+                    KEY_TRANSACTIONID,
+                    KEY_ATTACHMENT_ID
+                )
+            )
+        }
     }
 }
 
