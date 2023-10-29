@@ -87,7 +87,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import timber.log.Timber
 
-const val DATABASE_VERSION = 149
+const val DATABASE_VERSION = 150
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -771,6 +771,7 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
             append(", $TABLE_PLAN_INSTANCE_STATUS.$KEY_TEMPLATEID, ")
             append(TAG_LIST_EXPRESSION)
             append(", count($KEY_URI) AS $KEY_ATTACHMENT_COUNT")
+            append(", $KEY_IBAN")
         }
         append(" FROM $tableName")
         append(" LEFT JOIN $TABLE_PAYEES ON $KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID")

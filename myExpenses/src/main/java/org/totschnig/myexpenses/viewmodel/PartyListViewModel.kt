@@ -72,9 +72,9 @@ class PartyListViewModel(
     fun parties(hierarchical: Boolean): Flow<List<Party>> = savedStateHandle.getLiveData(KEY_FILTER, "")
         .asFlow()
         .distinctUntilChanged()
-        .flatMapLatest {
+        .flatMapLatest { filter ->
             val (selection, selectionArgs) = joinQueryAndAccountFilter(
-                it,
+                filter,
                 savedStateHandle.get<Long>(KEY_ACCOUNTID),
                 KEY_PAYEE_NAME_NORMALIZED, KEY_PAYEEID, TABLE_PAYEES
             )

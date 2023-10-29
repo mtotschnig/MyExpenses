@@ -2151,11 +2151,13 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
       if (oldVersion < 148) {
         upgradeTo148(db);
-        createOrRefreshViews(db);
         createOrRefreshTransactionTriggers(db);
       }
       if (oldVersion < 149) {
         createOrRefreshTransactionSealedTriggers(db);
+      }
+      if (oldVersion < 150) {
+        createOrRefreshViews(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);

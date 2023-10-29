@@ -116,7 +116,11 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                     ).root.apply {
                         binding.AttachmentGroup.addView(this)
                         lifecycleScope.launch {
-                            setAttachmentInfo(withContext(Dispatchers.IO) { attachmentInfoMap!!.getValue(uri) })
+                            setAttachmentInfo(withContext(Dispatchers.IO) {
+                                attachmentInfoMap!!.getValue(
+                                    uri
+                                )
+                            })
                         }
                         setOnClickListener {
                             viewIntentProvider.startViewAction(requireActivity(), uri)
@@ -290,8 +294,9 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                     binding.Number.text = transaction.referenceNumber
                 }
                 if (transaction.payee != "" || transaction.debtLabel != null) {
-                    val payeeInfo = transaction.payee + if (transaction.debtLabel == null) "" else
-                        " (${transaction.debtLabel})"
+                    val payeeInfo = transaction.payee +
+                            (if (transaction.debtLabel == null) "" else " (${transaction.debtLabel})") +
+                            if (transaction.iban == null) "" else " (${transaction.iban})"
                     binding.Payee.text = payeeInfo
                     binding.PayeeLabel.setText(
                         when {

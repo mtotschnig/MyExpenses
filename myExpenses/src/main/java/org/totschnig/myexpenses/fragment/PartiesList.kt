@@ -92,11 +92,13 @@ class PartiesList : Fragment(), OnDialogResultListener {
             with(binding.checkBox) {
                 visibility = if (hasSelectMultiple()) View.VISIBLE else View.INVISIBLE
                 this.isChecked = isChecked
-                setOnCheckedChangeListener { _, isChecked ->
-                    itemCallback.onCheckedChanged(
-                        isChecked,
-                        party
-                    )
+                setOnCheckedChangeListener { view, isChecked ->
+                    if (view.isShown) {
+                        itemCallback.onCheckedChanged(
+                            isChecked,
+                            party
+                        )
+                    }
                 }
             }
             binding.Debt.visibility = if (party.hasOpenDebts()) View.VISIBLE else View.GONE
@@ -122,6 +124,11 @@ class PartiesList : Fragment(), OnDialogResultListener {
 
     inner class PayeeAdapter :
         ListAdapter<Party, ViewHolder>(DIFF_CALLBACK), ItemCallback {
+
+        init {
+            setHasStableIds(true)
+        }
+
         private var checkStates: MutableSet<Long> = mutableSetOf()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -133,9 +140,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
             }
         }
 
-        override fun onViewDetachedFromWindow(holder: ViewHolder) {
-            holder.binding.checkBox.setOnCheckedChangeListener(null)
-        }
+        override fun getItemId(position: Int) = getItem(position).id
 
         override fun onCurrentListChanged(
             previousList: MutableList<Party>,

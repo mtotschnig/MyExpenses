@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
@@ -93,7 +94,8 @@ data class Transaction(
     val accountType: AccountType,
     override val debtLabel: String?,
     override val tagList: String? = null,
-    override val icon: String? = null
+    override val icon: String? = null,
+    val iban: String? = null
 ) : SplitPartRVAdapter.ITransaction {
     val isSameCurrency: Boolean
         get() = transferAmount?.let { amount.currencyUnit == it.currencyUnit } ?: true
@@ -139,7 +141,8 @@ data class Transaction(
             KEY_ACCOUNT_LABEL,
             KEY_ACCOUNT_TYPE,
             DEBT_LABEL_EXPRESSION,
-            KEY_TAGLIST
+            KEY_TAGLIST,
+            KEY_IBAN
         )
 
         fun fromCursor(
@@ -216,7 +219,8 @@ data class Transaction(
                 hasTransferPeerParent = cursor.getLongOrNull(KEY_TRANSFER_PEER_PARENT) != null,
                 debtLabel = cursor.getStringOrNull(KEY_DEBT_LABEL),
                 tagList = cursor.splitStringList(KEY_TAGLIST).joinToString(),
-                icon = cursor.getStringOrNull(KEY_ICON)
+                icon = cursor.getStringOrNull(KEY_ICON),
+                iban = cursor.getStringOrNull(KEY_IBAN)
             )
         }
     }
