@@ -69,7 +69,7 @@ class PartyListViewModel(
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val parties: Flow<List<Party>> = savedStateHandle.getLiveData(KEY_FILTER, "")
+    fun parties(hierarchical: Boolean): Flow<List<Party>> = savedStateHandle.getLiveData(KEY_FILTER, "")
         .asFlow()
         .distinctUntilChanged()
         .flatMapLatest {
@@ -79,9 +79,10 @@ class PartyListViewModel(
                 KEY_PAYEE_NAME_NORMALIZED, KEY_PAYEEID, TABLE_PAYEES
             )
             contentResolver.observeQuery(
-                PAYEES_URI.buildUpon()
-                    .appendBooleanQueryParameter(QUERY_PARAMETER_HIERARCHICAL)
-                    .build(), null,
+                PAYEES_URI.buildUpon().also {
+                    if (hierarchical) it.appendBooleanQueryParameter(QUERY_PARAMETER_HIERARCHICAL)
+                }.build(),
+                null,
                 selection,
                 selectionArgs, null, true
             ).transform { query ->
@@ -92,16 +93,20 @@ class PartyListViewModel(
                         var currentItem: Party? = null
                         while (cursor.moveToNext()) {
                             val element = Party.fromCursor(cursor)
-                            if (cursor.getLongOrNull(KEY_PARENTID) == null) {
-                                if (currentItem != null) {
-                                    items.add(currentItem.copy(
-                                        duplicates = buildList { addAll(duplicates) }
-                                    ))
-                                    duplicates.clear()
+                            if (hierarchical) {
+                                if (cursor.getLongOrNull(KEY_PARENTID) == null) {
+                                    if (currentItem != null) {
+                                        items.add(currentItem.copy(
+                                            duplicates = buildList { addAll(duplicates) }
+                                        ))
+                                        duplicates.clear()
+                                    }
+                                    currentItem = element
+                                } else {
+                                    duplicates.add(element)
                                 }
-                                currentItem = element
                             } else {
-                                duplicates.add(element)
+                                items.add(element)
                             }
                         }
                         if (currentItem != null) {

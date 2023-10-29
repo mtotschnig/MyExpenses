@@ -467,7 +467,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
         viewModel.loadDebts().observe(viewLifecycleOwner) {
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.parties
+                    viewModel.parties(action != Action.SELECT_FILTER)
                         .collect { parties: List<Party> ->
                             if (viewModel.filter.isNullOrEmpty()) {
                                 activity?.invalidateOptionsMenu()
