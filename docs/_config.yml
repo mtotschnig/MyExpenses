@@ -134,6 +134,71 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.6.6
+    - "2023-10-28"
+    -
+      de: |
+        Startbildschirm-Widget, das den aktuellen Status des Budgets anzeigt.
+      es: |
+        Widget en la pantalla de inicio que muestra el estado actual del presupuesto.
+      fr: |
+        Widget de l’écran d’accueil affichant l’état actuel du budget.
+      hr: |
+        Widget na početnom ekranu koji prikazuje aktualno stanje proračuna.
+      iw: |
+        וידג׳ט מסך בית המציג את מצב התקציב הנוכחי.
+      en: |
+        Home Screen Widget displaying current state of budget.
+    -
+      github: 110#column-19652350
+      mastodon: 111302423088949295
+  -
+    - 3.6.5
+    - "2023-10-02"
+    -
+      bg: |
+        Прикачане на произволен брой изображения и документи (pdf)
+      de: |
+        Beliebig viele Bilder und Dokumente (PDF) können angehängt werden
+      es: |
+        Adjuntar un número arbitrario de las imágenes y los documentos (PDF)
+      fr: |
+        Joindre un nombre arbitraire d'images et de documents (PDF)
+      hr: |
+        Priloži proizvoljan broj slika i dokumenata (PDF)
+      iw: |
+        צירוף מספר שרירותי של תמונות ומסמכים (PDF)
+      pt: |
+        Anexar um número arbitrário de imagens e documentos (PDF)
+      en: |
+        Attach arbitrary number of images and documents (PDF)
+    -
+      github: 109#column-19632045
+      mastodon: 111150859961956469
+  -
+    - 3.6.4
+    - "2023-09-16"
+    -
+      bg: |
+        Нова стратегия за управление на дублираща се информация за платец/получател. Импорт в няколко сметки от един CSV файл.
+      de: |
+        Neue Strategie für die Verwaltung von duplizierten Zahlern/Empfängern. Import in mehrere Konten aus einer CSV-Datei.
+      es: |
+        Nueva estrategia de gestión de la información duplicada sobre pagadores / beneficiarios. Importar a varias cuentas desde un archivo CSV.
+      fr: |
+        Nouvelle stratégie pour la gestion des tiers doublons. Importer vers plusieurs comptes à partir d'un fichier CSV.
+      hr: |
+        Nova strategija za upravljanje duplim podacima primalaca/platiše. Uvoz u više računa iz jedne CSV datoteke.
+      iw: |
+        אסטרטגיה חדשה לניהול פרטי משלם/מוטב כפולים. ייבוא למגוון חשבונות מקובץ CSV יחיד.
+      pt: |
+        Nova estratégia para gerenciamento de informações duplicadas de pagador/beneficiário. Importar em várias contas a partir de um arquivo CSV.
+      en: |
+        Import into multiple accounts from one CSV file. New strategy for managing duplicate payer/payee information.
+    -
+      github: 108#column-19611865
+      mastodon: 111062759658083878
+  -
     - 3.6.3
     - "2023-09-01"
     -
