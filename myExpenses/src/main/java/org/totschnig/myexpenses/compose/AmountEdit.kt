@@ -3,17 +3,24 @@ package org.totschnig.myexpenses.compose
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.util.Utils
 import java.math.BigDecimal
 import java.text.DecimalFormat
@@ -26,7 +33,6 @@ fun AmountEdit(
     fractionDigits: Int = 2,
     isError: Boolean
 ) {
-    val digits = stringResource(id = R.string.amount_digits).toCharArray() + '-'
     val decimalSeparator = remember { Utils.getDefaultDecimalSeparator() }
     // TODO we should take into account the arab separator as well
     val otherSeparator = remember { if (decimalSeparator == '.') ',' else '.' }
@@ -53,7 +59,7 @@ fun AmountEdit(
             val input = newValue.replace(otherSeparator, decimalSeparator)
             val decimalSeparatorCount = input.count { it == decimalSeparator }
             if (
-                input.all { digits.indexOf(it) > -1 } &&
+                input.all { it.isDigit() } &&
                 decimalSeparatorCount <= (if (fractionDigits == 0) 0 else 1) &&
                 (decimalSeparatorCount == 0 || input.substringAfter(decimalSeparator).length <= fractionDigits) &&
                 input.lastIndexOf('-') <= 0

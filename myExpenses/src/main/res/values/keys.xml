@@ -231,7 +231,6 @@
     <string name="db_error_cursor_null">Cursor is null</string>
     <string name="db_error_cursor_empty">Cursor is empty</string>
     <!--<string name="roadmap_particpate">Participate</string>-->
-    <string name="amount_digits">١٢٣٤٥٦٧٨٩۱۲۳۴۵۶۷۸۹1234567890,.٫</string>
     <string name="roadmap_update_confirmation">Your vote will be updated</string>
     <string name="roadmap_email_rationale">Please submit your email together with your vote. When we start working on an issue that you have voted for, we might contact you and ask you to kindly share your expectations on how it should be implemented, and verify that you are still interested in the issue.</string>
     <string name="roadmap_email_rationale_pro">In order to allow us to validate the entitlement tied to your professional licence, please use the email associated with your licence.</string>

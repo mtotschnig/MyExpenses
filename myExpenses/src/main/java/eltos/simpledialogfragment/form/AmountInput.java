@@ -76,10 +76,9 @@ public class AmountInput extends FormElement<AmountInput, AmountInputViewHolder>
     }
     underMinError = in.readString();
     switch (in.readInt()) {
-      case 1: withTypeSwitch = true; break;
-      case -1: withTypeSwitch = false; break;
-      default:
-        withTypeSwitch = null;
+      case 1 -> withTypeSwitch = true;
+      case -1 -> withTypeSwitch = false;
+      default -> withTypeSwitch = null;
     }
   }
 
@@ -100,7 +99,7 @@ public class AmountInput extends FormElement<AmountInput, AmountInputViewHolder>
     return 0;
   }
 
-  public static final Creator<AmountInput> CREATOR = new Creator<AmountInput>() {
+  public static final Creator<AmountInput> CREATOR = new Creator<>() {
     @Override
     public AmountInput createFromParcel(Parcel in) {
       return new AmountInput(in);
