@@ -95,7 +95,7 @@
     <string name="help_ExpenseEdit_splitPartTransfer_title">Obrazac za prijenos podjela</string>
     <string name="form_amount_switch_help_text">Koristi sklopku za prikazivanje troškova ili prihoda.</string>
     <string name="form_calculator_help_text">Gumb &lt;img src=\?calcIcon&gt; otvara kalukulator.</string>
-    <string name="menu_HistoryActivity_history_transfers_help_text">Uključi/Isključi, ako se prijenosi trebaju tretirati kao redovni prihod ili rashod.</string>
+    <string name="menu_HistoryActivity_history_transfers_help_text">Uključi/Isključi, ako se prijenosi trebaju tretirati kao redovni prihod ili trošak.</string>
     <string name="form_account_help_text">Odaberi račun kojemu transakcija pripada.</string>
     <string name="form_date_time_help_text">Upiši datum i vrijeme izvršavanja transakcije.</string>
     <string name="form_payer_or_payee_help_text">Ovo polje pamti vrijednosti koje uneseš i predložit će ih u budućnosti.</string>
