@@ -1,0 +1,3 @@
+• Home Screen Widget displaying current state of budget.
+
+https://github.com/mtotschnig/MyExpenses/projects/110#column-19652350

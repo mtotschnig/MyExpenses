@@ -1,0 +1,3 @@
+• Startbildschirm-Widget, das den aktuellen Status des Budgets anzeigt.
+
+https://github.com/mtotschnig/MyExpenses/projects/110#column-19652350

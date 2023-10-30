@@ -1,0 +1,3 @@
+• Widget de l’écran d’accueil affichant l’état actuel du budget.
+
+https://github.com/mtotschnig/MyExpenses/projects/110#column-19652350
