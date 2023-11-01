@@ -35,7 +35,9 @@ fun Repository.saveCategory(category: Category): Uri? {
         if (category.id == 0L) {
             put(DatabaseConstants.KEY_PARENTID, category.parentId)
         }
-        put(DatabaseConstants.KEY_TYPE, category.typeFlags.toInt())
+        if (category.parentId == null) {
+            put(DatabaseConstants.KEY_TYPE, category.typeFlags.toInt())
+        }
     }
     return try {
         if (category.id == 0L) {
@@ -253,7 +255,8 @@ fun Repository.loadCategory(id: Long): Category? = contentResolver.query(
         DatabaseConstants.KEY_LABEL,
         DatabaseConstants.KEY_COLOR,
         DatabaseConstants.KEY_ICON,
-        DatabaseConstants.KEY_UUID
+        DatabaseConstants.KEY_UUID,
+        DatabaseConstants.KEY_TYPE
     ),
     "${DatabaseConstants.KEY_ROWID} = ?",
     arrayOf(id.toString()),
@@ -266,6 +269,7 @@ fun Repository.loadCategory(id: Long): Category? = contentResolver.query(
             label = it.getString(1),
             color = it.getIntOrNull(2),
             icon = it.getString(3),
-            uuid = it.getString(4)
+            uuid = it.getString(4),
+            typeFlags = it.getInt(5).toUByte()
         ) else null
 }

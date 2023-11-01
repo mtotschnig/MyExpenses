@@ -641,6 +641,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     createOrRefreshTransactionTriggers(db);
     createOrRefreshTransactionUsageTriggers(db);
     createOrRefreshAccountTriggers(db);
+    createCategoryTypeTriggers(db);
+
     db.execSQL(SETTINGS_CREATE);
     //TODO evaluate if we should get rid of the split transaction category id
     db.execSQL("CREATE TRIGGER protect_split_transaction" +

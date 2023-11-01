@@ -125,7 +125,7 @@ BEGIN
 END
 """
 
-private val CATEGORY_HIERARCHY_TRIGGER = """
+private const val CATEGORY_HIERARCHY_TRIGGER = """
 CREATE TRIGGER category_hierarchy_update
 BEFORE UPDATE ON $TABLE_CATEGORIES WHEN new.$KEY_PARENTID IS NOT old.$KEY_PARENTID AND new.$KEY_PARENTID IN ($categoryTreeSelectForTrigger)
 BEGIN $RAISE_INCONSISTENT_CATEGORY_HIERARCHY END
@@ -159,7 +159,47 @@ CREATE TRIGGER category_label_unique_update
     WHEN new.$KEY_PARENTID IS NULL ANd new.$KEY_LABEL != old.$KEY_LABEL AND exists (SELECT 1 from $TABLE_CATEGORIES WHERE $KEY_LABEL = new.$KEY_LABEL AND $KEY_PARENTID IS NULL)
     BEGIN
     SELECT RAISE (FAIL, 'main category exists');
-END
+    END
+"""
+
+private const val CATEGORY_TYPE_INSERT_TRIGGER = """
+CREATE TRIGGER category_type_insert
+    AFTER INSERT
+    ON $TABLE_CATEGORIES
+    WHEN new.$KEY_PARENTID IS NOT NULL
+    BEGIN
+        UPDATE $TABLE_CATEGORIES SET $KEY_TYPE = (SELECT $KEY_TYPE FROM $TABLE_CATEGORIES WHERE $KEY_ROWID = new.$KEY_PARENTID) WHERE $KEY_ROWID = new.$KEY_ROWID;
+    END
+"""
+
+private const val CATEGORY_TYPE_UPDATE_TRIGGER_MAIN = """
+CREATE TRIGGER category_type_update_type_main
+    AFTER UPDATE
+    ON $TABLE_CATEGORIES
+    WHEN new.$KEY_TYPE IS NOT old.$KEY_TYPE
+    BEGIN
+        UPDATE $TABLE_CATEGORIES SET $KEY_TYPE = new.$KEY_TYPE WHERE $KEY_PARENTID IN ($categoryTreeSelectForTrigger);
+    END
+"""
+
+private const val CATEGORY_TYPE_UPDATE_TRIGGER_SUB = """
+CREATE TRIGGER category_type_update_type_sub
+    BEFORE UPDATE
+    ON $TABLE_CATEGORIES
+    WHEN new.$KEY_TYPE IS NOT old.$KEY_TYPE AND new.$KEY_PARENTID IS NOT NULL AND new.$KEY_TYPE IS NOT (SELECT $KEY_TYPE FROM $TABLE_CATEGORIES WHERE $KEY_ROWID = new.$KEY_PARENTID)
+    BEGIN
+        SELECT RAISE (FAIL, 'sub category type must match parent type');
+    END
+"""
+
+private const val CATEGORY_TYPE_MOVE_TRIGGER = """
+CREATE TRIGGER category_type_move
+    AFTER UPDATE
+    ON $TABLE_CATEGORIES
+    WHEN new.$KEY_PARENTID IS NOT old.$KEY_PARENTID AND new.$KEY_PARENTID IS NOT NULL
+    BEGIN
+        UPDATE $TABLE_CATEGORIES SET $KEY_TYPE = (SELECT $KEY_TYPE FROM $TABLE_CATEGORIES WHERE $KEY_ROWID = new.$KEY_PARENTID) WHERE $KEY_ROWID = new.$KEY_ROWID;
+    END
 """
 
 const val BANK_CREATE = """
@@ -747,6 +787,13 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
                 execSQL(CATEGORY_LABEL_LEGACY_TRIGGER_UPDATE)
             }
         }
+    }
+
+    fun createCategoryTypeTriggers(db: SupportSQLiteDatabase) {
+        db.execSQL(CATEGORY_TYPE_INSERT_TRIGGER)
+        db.execSQL(CATEGORY_TYPE_UPDATE_TRIGGER_MAIN)
+        db.execSQL(CATEGORY_TYPE_UPDATE_TRIGGER_SUB)
+        db.execSQL(CATEGORY_TYPE_MOVE_TRIGGER)
     }
 
     fun insertFinTSAttributes(db: SupportSQLiteDatabase) {
