@@ -50,6 +50,7 @@ import androidx.loader.app.LoaderManager
 import com.evernote.android.state.State
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.DynamicColorsOptions
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.coroutines.Dispatchers
@@ -117,6 +118,7 @@ import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.PictureDirHelper
+import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.attachmentInfoMap
 import org.totschnig.myexpenses.util.checkMenuIcon
@@ -141,6 +143,7 @@ import org.totschnig.myexpenses.viewmodel.data.AttachmentInfo
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
+import timber.log.Timber
 import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -281,7 +284,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     fun updateContentColor(color: Int) {
         this.color = color
         if (isDynamicColorAvailable) {
-            tintSystemUi(color)
+            tintSystemUi(UiUtils.getColor(this, com.google.android.material.R.attr.colorPrimaryContainer))
         } else {
             tintSystemUiAndFab(color)
         }
@@ -291,10 +294,12 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         super.onCreate(savedInstanceState)
         if (isDynamicColorAvailable) {
             (color.takeIf { it != 0 } ?: intent.getIntExtra(KEY_COLOR, 0).takeIf { it != 0 })?.let {
+                val harmonized = MaterialColors.harmonizeWithPrimary(this, it)
+                Timber.tag("DEBUGG").i("DynamicColors.applyToActivityIfAvailable input %d, harmonized: %d", it, harmonized)
                 DynamicColors.applyToActivityIfAvailable(
                     this,
                     DynamicColorsOptions.Builder()
-                        .setContentBasedSource(it)
+                        .setContentBasedSource(harmonized)
                         .build()
                 )
             }

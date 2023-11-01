@@ -1155,22 +1155,23 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     val isDynamicColorAvailable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
-    fun tintSystemUi(color: Int): Int {
-        val harmonized = MaterialColors.harmonizeWithPrimary(this, color)
+    fun tintSystemUi(color: Int) {
+
         if (shouldTintSystemUi()) {
+            Timber.tag("DEBUGG").i("tintSystemUi input %d", color)
             with(window) {
                 clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
                 addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-                statusBarColor = harmonized
-                navigationBarColor = harmonized
+                statusBarColor = color
+                navigationBarColor = color
             }
             with(WindowInsetsControllerCompat(window, window.decorView)) {
-                val isBright = isBrightColor(harmonized)
+                val isBright = isBrightColor(color)
+                Timber.tag("DEBUGG").i("tintSystemUi %b", isBright)
                 isAppearanceLightNavigationBars = isBright
                 isAppearanceLightStatusBars = isBright
             }
         }
-        return color
     }
 
     private fun shouldTintSystemUi() = try {
