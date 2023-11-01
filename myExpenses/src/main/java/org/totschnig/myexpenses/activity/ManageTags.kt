@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.FragmentActivity
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.fragment.TagList
@@ -25,6 +26,11 @@ class ManageTags: ProtectedFragmentActivity() {
         if (action == Action.MANAGE) {
             floatingActionButton.visibility = View.GONE
         }
+        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                doHome()
+            }
+        })
     }
 
     override val fabDescription = R.string.confirm
@@ -40,11 +46,5 @@ class ManageTags: ProtectedFragmentActivity() {
     override fun doHome() {
         setResult(FragmentActivity.RESULT_CANCELED, (supportFragmentManager.findFragmentById(R.id.tag_list) as TagList).cancelIntent())
         finish()
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        super.onBackPressed()
-        doHome()
     }
 }
