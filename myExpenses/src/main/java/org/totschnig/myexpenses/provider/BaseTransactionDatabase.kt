@@ -66,6 +66,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USER_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTACHMENTS
@@ -330,6 +331,11 @@ const val TRANSACTIONS_SEALED_DELETE_TRIGGER_CREATE =
  BEFORE DELETE ON $TABLE_TRANSACTIONS
  WHEN (SELECT $KEY_SEALED FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = old.$KEY_ACCOUNTID) = 1
  BEGIN $RAISE_UPDATE_SEALED_ACCOUNT END"""
+
+
+const val VIEW_WITH_ACCOUNT_DEFINITION =
+    """CREATE VIEW $VIEW_WITH_ACCOUNT AS SELECT $TABLE_TRANSACTIONS.*, $TABLE_CATEGORIES.$KEY_TYPE, $TABLE_ACCOUNTS.$KEY_COLOR, $KEY_CURRENCY, $KEY_EXCLUDE_FROM_TOTALS, $TABLE_ACCOUNTS.$KEY_TYPE AS $KEY_ACCOUNT_TYPE, $TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL FROM $TABLE_TRANSACTIONS LEFT JOIN $TABLE_CATEGORIES on $KEY_CATID = $TABLE_CATEGORIES.$KEY_ROWID LEFT JOIN $TABLE_ACCOUNTS ON $KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID WHERE $KEY_STATUS != $STATUS_UNCOMMITTED"""
+
 
 abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
     SupportSQLiteOpenHelper.Callback(DATABASE_VERSION) {

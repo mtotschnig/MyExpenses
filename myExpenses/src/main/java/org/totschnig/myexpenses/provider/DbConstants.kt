@@ -286,11 +286,14 @@ const val TRANSFER_ACCOUNT_LABEL =
 fun accountQueryCTE(
     homeCurrency: String,
     futureStartsNow: Boolean,
-    aggregateFunction: String
+    aggregateFunction: String,
+    typeFallBack: UByte
 ): String {
     val futureCriterion =
         if (futureStartsNow) "'now'" else "'now', 'localtime', 'start of day', '+1 day', 'utc'"
-
+    val isExpense = "$KEY_TRANSFER_PEER IS NULL AND ($KEY_TYPE = 1 OR ($KEY_TYPE = 3 AND $KEY_AMOUNT < 0))"
+    val isIncome = "$KEY_TRANSFER_PEER IS NULL AND ($KEY_TYPE = 2 OR ($KEY_TYPE = 3 AND $KEY_AMOUNT > 0))"
+    val isTransfer = "$KEY_TRANSFER_PEER IS NOT NULL OR $KEY_TYPE = 0"
     return """
 WITH now as (
     SELECT
@@ -298,6 +301,7 @@ WITH now as (
 ), amounts AS (
     SELECT
         $KEY_AMOUNT,
+        coalesce($KEY_TYPE, $typeFallBack) AS $KEY_TYPE,
         $KEY_TRANSFER_PEER,
         $KEY_CR_STATUS,
         $KEY_DATE,
@@ -313,17 +317,17 @@ WITH now as (
         ) AS $KEY_EQUIVALENT_AMOUNT,
         $VIEW_WITH_ACCOUNT.$KEY_ACCOUNTID 
     FROM ${exchangeRateJoin(VIEW_WITH_ACCOUNT, KEY_ACCOUNTID, homeCurrency)}
-    WHERE $KEY_PARENTID IS NULL AND $KEY_CR_STATUS != '${CrStatus.VOID.name}'
+    WHERE $WHERE_NOT_SPLIT AND $KEY_CR_STATUS != '${CrStatus.VOID.name}'
 ), aggregates AS (
     SELECT
         $KEY_ACCOUNTID,
         $aggregateFunction($KEY_AMOUNT) as $KEY_TOTAL,
         $aggregateFunction($KEY_EQUIVALENT_AMOUNT) as equivalent_total,
-        $aggregateFunction(CASE WHEN $KEY_AMOUNT > 0 AND $KEY_TRANSFER_PEER IS NULL THEN $KEY_AMOUNT ELSE 0 END) as $KEY_SUM_INCOME,
-        $aggregateFunction(CASE WHEN $KEY_AMOUNT > 0 AND $KEY_TRANSFER_PEER IS NULL THEN $KEY_EQUIVALENT_AMOUNT ELSE 0 END) as equivalent_income,
-        $aggregateFunction(CASE WHEN $KEY_AMOUNT < 0 AND $KEY_TRANSFER_PEER IS NULL THEN $KEY_AMOUNT ELSE 0 END) as $KEY_SUM_EXPENSES,
-        $aggregateFunction(CASE WHEN $KEY_AMOUNT < 0 AND $KEY_TRANSFER_PEER IS NULL THEN $KEY_EQUIVALENT_AMOUNT ELSE 0 END) as equivalent_expense,
-        $aggregateFunction(CASE WHEN $KEY_TRANSFER_PEER is NULL THEN 0 ELSE $KEY_AMOUNT END) as $KEY_SUM_TRANSFERS,
+        $aggregateFunction(CASE WHEN $isIncome THEN $KEY_AMOUNT ELSE 0 END) as $KEY_SUM_INCOME,
+        $aggregateFunction(CASE WHEN $isIncome THEN $KEY_EQUIVALENT_AMOUNT ELSE 0 END) as equivalent_income,
+        $aggregateFunction(CASE WHEN $isExpense THEN $KEY_AMOUNT ELSE 0 END) as $KEY_SUM_EXPENSES,
+        $aggregateFunction(CASE WHEN $isExpense THEN $KEY_EQUIVALENT_AMOUNT ELSE 0 END) as equivalent_expense,
+        $aggregateFunction(CASE WHEN $isTransfer THEN $KEY_AMOUNT ELSE 0  END) as $KEY_SUM_TRANSFERS,
         $aggregateFunction(CASE WHEN $KEY_DATE < (select now from now) THEN $KEY_AMOUNT ELSE 0 END) as $KEY_CURRENT,
         $aggregateFunction(CASE WHEN $KEY_DATE < (select now from now) THEN $KEY_EQUIVALENT_AMOUNT ELSE 0 END) as equivalent_current,
         $aggregateFunction(CASE WHEN $KEY_CR_STATUS IN ( 'RECONCILED', 'CLEARED' ) THEN $KEY_AMOUNT ELSE 0 END) as $KEY_CLEARED_TOTAL,
@@ -422,8 +426,14 @@ private fun transactionsJoin(
 }
 
 const val CTE_TRANSACTION_GROUPS = "cte_transaction_groups"
-fun buildTransactionGroupCte(selection: String, forHome: String?, includeTransfers: Boolean) =
-    buildString {
+fun buildTransactionGroupCte(
+    selection: String,
+    forHome: String?,
+    includeTransfers: Boolean,
+    unmappedTransactionsTypeFallback: UByte
+): String {
+    val typeFallbackExpression = "coalesce($KEY_TYPE, $unmappedTransactionsTypeFallback)"
+    return buildString {
         append("WITH $CTE_TRANSACTION_GROUPS AS (SELECT ")
         append(KEY_ROWID)
         append(",")
@@ -446,14 +456,18 @@ fun buildTransactionGroupCte(selection: String, forHome: String?, includeTransfe
         append(KEY_TRANSFER_PEER)
         append(",")
         append(KEY_METHODID)
+        append(",")
+        append("$typeFallbackExpression AS $KEY_TYPE")
         append(", cast(CASE WHEN ")
-        append((if (includeTransfers) "$WHERE_NOT_SPLIT AND $WHERE_NOT_VOID" else WHERE_TRANSACTION))
+        append("$WHERE_NOT_SPLIT AND $WHERE_NOT_VOID")
+        if (!includeTransfers) append(" AND $KEY_TRANSFER_PEER IS NULL ")
         append(" THEN ")
         append(getAmountCalculation(forHome))
         append(" ELSE 0 END as integer) AS $KEY_DISPLAY_AMOUNT")
         if (!includeTransfers && forHome == null) {
-            append(", CASE WHEN $WHERE_TRANSFER THEN $KEY_AMOUNT ELSE 0 END AS $KEY_TRANSFER_AMOUNT")
+            append(", CASE WHEN $WHERE_NOT_SPLIT AND $WHERE_NOT_VOID AND ($KEY_TRANSFER_PEER IS NOT NULL OR $typeFallbackExpression = 0) THEN $KEY_AMOUNT ELSE 0 END AS $KEY_TRANSFER_AMOUNT")
         }
         append(" FROM $VIEW_WITH_ACCOUNT")
         append(" WHERE $selection)")
     }
+}

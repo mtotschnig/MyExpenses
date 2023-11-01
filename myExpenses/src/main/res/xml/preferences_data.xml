@@ -57,4 +57,9 @@
             android:targetClass="org.totschnig.myexpenses.activity.ManageTags"
             android:targetPackage="@string/application_id" />
     </Preference>
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:key="@string/pref_unmapped_transaction_as_transfer_key"
+        android:summaryOff="@string/pref_unmapped_transaction_as_transfer_summary_off"
+        android:summaryOn="@string/pref_unmapped_transaction_as_transfer_summary_on" />
 </PreferenceScreen> 

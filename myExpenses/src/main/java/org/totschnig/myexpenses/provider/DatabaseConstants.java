@@ -476,23 +476,13 @@ public class DatabaseConstants {
   public static final Long SPLIT_CATID = 0L;
 
   public static final String WHERE_NOT_SPLIT =
-      "(" + KEY_CATID + " IS null OR " + KEY_CATID + " != " + SPLIT_CATID + ")";
+      KEY_CATID + " IS NOT " + SPLIT_CATID;
   public static final String WHERE_NOT_SPLIT_PART =
       KEY_PARENTID + " IS null";
   public static final String WHERE_NOT_VOID =
       KEY_CR_STATUS + " != '" + CrStatus.VOID.name() + "'";
   public static final String WHERE_TRANSACTION =
       WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID + " AND " + KEY_TRANSFER_PEER + " is null";
-  public static final String WHERE_TRANSFER =
-      WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID + " AND " + KEY_TRANSFER_PEER + " is not null";
-
-  public static String getTransferSum(String aggregateFunction) {
-    return aggregateFunction + "(CASE WHEN " + WHERE_TRANSFER + " THEN " + KEY_AMOUNT + " ELSE 0 END)";
-  }
-
-  //exclude split_catid
-  public static final String MAPPED_CATEGORIES =
-      "count(CASE WHEN  " + KEY_CATID + ">0 AND " + WHERE_NOT_VOID + " THEN 1 ELSE null END) as " + KEY_MAPPED_CATEGORIES;
 
   public static final String WHERE_DEPENDENT = KEY_PARENTID + " = ? OR " + KEY_ROWID + " IN "
       + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)";

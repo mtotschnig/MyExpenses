@@ -1091,4 +1091,6 @@
     <string name="whats_new_365">Attach arbitrary number of images and documents (PDF)</string>
     <string name="widget_title_budget">My budget</string>
     <string name="whats_new_366">Home Screen Widget displaying current state of budget.</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_on">Unmapped transactions are counted as transfers</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_off">Unmapped transactions are counted as expense / income</string>
 </resources>

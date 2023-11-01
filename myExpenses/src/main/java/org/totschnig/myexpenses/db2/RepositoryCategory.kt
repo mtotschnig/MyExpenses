@@ -21,8 +21,10 @@ import org.totschnig.myexpenses.viewmodel.data.Category
 import java.io.IOException
 import java.util.UUID
 
+const val FLAG_TRANSFER: UByte = 0u
 const val FLAG_EXPENSE: UByte = 1u
 const val FLAG_INCOME: UByte = 2u
+val FLAG_NEUTRAL = FLAG_EXPENSE or FLAG_INCOME
 
 fun Repository.saveCategory(category: Category): Uri? {
     val initialValues = ContentValues().apply {

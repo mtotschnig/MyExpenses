@@ -22,6 +22,8 @@ import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.FutureCriterion
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
+import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.DataModule
 import org.totschnig.myexpenses.model.*
@@ -380,6 +382,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
     val aggregateFunction: String
         get() = DbUtils.aggregateFunction(prefHandler)
 
+    val unmappedTransactionsTypeFallback: UByte
+        get() = if(prefHandler.getBoolean(PrefKey.UNMAPPED_TRANSACTION_AS_TRANSFER, false)) FLAG_TRANSFER else FLAG_NEUTRAL
+
     fun buildAccountQuery(
         minimal: Boolean,
         mergeAggregate: String?,
@@ -399,7 +404,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             )
         } == FutureCriterion.Current
 
-        val cte = accountQueryCTE(homeCurrency, futureStartsNow, aggregateFunction)
+        val cte = accountQueryCTE(homeCurrency, futureStartsNow, aggregateFunction, unmappedTransactionsTypeFallback)
 
         val joinWithAggregates =
             "$TABLE_ACCOUNTS LEFT JOIN aggregates ON $TABLE_ACCOUNTS.$KEY_ROWID = aggregates.$KEY_ACCOUNTID"
@@ -1041,8 +1046,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val projection = buildList {
             add("$yearExpression AS $KEY_YEAR")
             add("$secondDef AS $KEY_SECOND_GROUP")
-            add("$aggregateFunction(CASE WHEN $KEY_DISPLAY_AMOUNT > 0 THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_INCOME")
-            add("$aggregateFunction(CASE WHEN $KEY_DISPLAY_AMOUNT < 0 THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_EXPENSES")
+            add("$aggregateFunction(CASE WHEN $KEY_TYPE = 1 OR ($KEY_TYPE = 3 AND $KEY_DISPLAY_AMOUNT < 0) THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_EXPENSES")
+            add("$aggregateFunction(CASE WHEN $KEY_TYPE = 2 OR ($KEY_TYPE = 3 AND $KEY_DISPLAY_AMOUNT > 0) THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_INCOME")
             if (!includeTransfers) {
                 //for the Grand total account transfer calculation is neither possible (adding amounts in
                 //different currencies) nor necessary (should result in 0)
@@ -1067,7 +1072,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             selectionArgs?.let { addAll(it) }
         }.toTypedArray()
 
-        val sql = buildTransactionGroupCte(accountQuery, forHome, includeTransfers) + " " +
+        val sql = buildTransactionGroupCte(accountQuery, forHome, includeTransfers, unmappedTransactionsTypeFallback) + " " +
                 SupportSQLiteQueryBuilder.builder(CTE_TRANSACTION_GROUPS)
                     .columns(projection)
                     .selection(selection, finalArgs)
