@@ -193,6 +193,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_COLOR + " integer, "
           + KEY_ICON + " string, " //TODO migrate to text
           + KEY_UUID + " text, "
+          + KEY_TYPE + " integer, "
           + "UNIQUE (" + KEY_LABEL + "," + KEY_PARENTID + "));";
 
   private static final String CATEGORY_UUID_INDEX_CREATE = "CREATE UNIQUE INDEX categories_uuid ON "

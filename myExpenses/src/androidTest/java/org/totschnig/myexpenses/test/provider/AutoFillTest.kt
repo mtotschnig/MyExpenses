@@ -74,7 +74,7 @@ class AutoFillTest : BaseDbTest() {
         testAccountId = mDb.insert(TABLE_ACCOUNTS, testAccount.contentValues)
         payeeId = mDb.insert(TABLE_PAYEES, PayeeInfo("N.N").contentValues)
         catId =
-            mDb.insert(TABLE_CATEGORIES, CategoryInfo("Main", null).contentValues)
+            mDb.insert(TABLE_CATEGORIES, CategoryInfo("Main").contentValues)
         methodChequeId = repository.findPaymentMethod(PreDefinedPaymentMethod.CHEQUE.name)!!
         methodCreditCardId = repository.findPaymentMethod(PreDefinedPaymentMethod.CREDITCARD.name)!!
         payeeId1 = mDb.insert(TABLE_PAYEES, PayeeInfo("y.y").contentValues)
@@ -82,7 +82,7 @@ class AutoFillTest : BaseDbTest() {
         payeeId2 = mDb.insert(TABLE_PAYEES, PayeeInfo("OhneGeld").contentValues)
         catId1 = mDb.insert(
             TABLE_CATEGORIES,
-            CategoryInfo("Main 1", null).contentValues
+            CategoryInfo("Main 1").contentValues
         )
         insertData()
     }

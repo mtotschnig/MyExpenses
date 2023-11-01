@@ -30,11 +30,11 @@ class CategoryTest : BaseDbTest() {
     private lateinit var testCategories: List<Pair<Long, CategoryInfo>>
     private fun insertData() {
         testCategories = buildList {
-            CategoryInfo("Main 1", null).let {
+            CategoryInfo("Main 1").let {
                 add(mDb.insert(TABLE_CATEGORIES, it.contentValues) to it)
             }
             val main1Id = get(0).first
-            CategoryInfo("Main 2", null).let {
+            CategoryInfo("Main 2").let {
                 add(mDb.insert(TABLE_CATEGORIES, it.contentValues) to it)
             }
             CategoryInfo("Sub 1", main1Id).let {
@@ -152,9 +152,7 @@ class CategoryTest : BaseDbTest() {
     }
 
     fun testInserts() {
-        val transaction = CategoryInfo(
-            "Main 3", null
-        )
+        val transaction = CategoryInfo("Main 3")
         val rowUri = mockContentResolver.insert(
             TransactionProvider.CATEGORIES_URI,
             transaction.contentValues
@@ -242,9 +240,7 @@ class CategoryTest : BaseDbTest() {
 
     fun testUniqueConstraintsCreateMain() {
         insertData()
-        val category = CategoryInfo(
-            "Main 1", null
-        )
+        val category = CategoryInfo("Main 1")
         try {
             mockContentResolver.insert(
                 TransactionProvider.CATEGORIES_URI,
@@ -425,5 +421,9 @@ class CategoryTest : BaseDbTest() {
             fail("Moving a category to its own descendant must be blocked.")
         } catch (_: SQLiteConstraintException) {
         }
+    }
+
+    fun testSubCategoryShouldInheritType() {
+
     }
 }

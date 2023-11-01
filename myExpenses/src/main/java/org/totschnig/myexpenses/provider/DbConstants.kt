@@ -228,6 +228,7 @@ SELECT
     $KEY_PARENTID,
     $KEY_USAGES,
     $KEY_LAST_USED,
+    $KEY_TYPE,
     1 AS $KEY_LEVEL,
     ${matches?.replace("_Tree_", "main") ?: "1"} AS $KEY_MATCHES_FILTER
 FROM $TABLE_CATEGORIES main
@@ -248,6 +249,7 @@ SELECT
     subtree.$KEY_PARENTID,
     subtree.$KEY_USAGES,
     subtree.$KEY_LAST_USED,
+    subtree.$KEY_TYPE,
     level + 1,
     ${matches?.replace("_Tree_", "subtree") ?: "1"} AS $KEY_MATCHES_FILTER
 FROM $TABLE_CATEGORIES subtree

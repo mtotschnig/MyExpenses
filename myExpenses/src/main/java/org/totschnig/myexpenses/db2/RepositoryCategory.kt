@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.db2
 
 import android.content.ContentProviderOperation
 import android.content.ContentProviderOperation.newDelete
-import android.content.ContentProviderOperation.newInsert
 import android.content.ContentProviderOperation.newUpdate
 import android.content.ContentUris
 import android.content.ContentValues
@@ -20,8 +19,10 @@ import org.totschnig.myexpenses.sync.json.ICategoryInfo
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.io.IOException
-import java.util.ArrayList
 import java.util.UUID
+
+const val FLAG_EXPENSE: UByte = 1u
+const val FLAG_INCOME: UByte = 2u
 
 fun Repository.saveCategory(category: Category): Uri? {
     val initialValues = ContentValues().apply {
@@ -34,6 +35,7 @@ fun Repository.saveCategory(category: Category): Uri? {
         if (category.id == 0L) {
             put(DatabaseConstants.KEY_PARENTID, category.parentId)
         }
+        put(DatabaseConstants.KEY_TYPE, category.typeFlags.toInt())
     }
     return try {
         if (category.id == 0L) {
@@ -216,7 +218,8 @@ fun Repository.ensureCategory(categoryInfo: ICategoryInfo, parentId: Long?): Pai
             .distinct()
             .joinToString(Repository.UUID_SEPARATOR)
 
-        operations.add(ContentProviderOperation.newUpdate(ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, target.first))
+        operations.add(
+            newUpdate(ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, target.first))
             .withValues(
                 ContentValues(3).apply {
                     put(DatabaseConstants.KEY_UUID, newUuids)

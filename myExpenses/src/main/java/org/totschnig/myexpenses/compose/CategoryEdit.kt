@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
@@ -13,20 +14,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
+import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryEdit(
     dialogState: CategoryViewModel.Show,
     onDismissRequest: () -> Unit = {},
-    onSave: (String, String?) -> Unit = { _, _ -> }
+    onSave: (String, String?, UByte) -> Unit = { _, _, _ -> }
 ) {
     val titleBottomPadding = 12.dp
     val fieldPadding = 12.dp
     val buttonRowTopPadding = 12.dp
     val context = LocalContext.current
-    var label by rememberSaveable { mutableStateOf(dialogState.label ?: "") }
-    var icon by rememberSaveable { mutableStateOf(dialogState.icon) }
+    var label by rememberSaveable { mutableStateOf(dialogState.category?.label ?: "") }
+    var icon by rememberSaveable { mutableStateOf(dialogState.category?.icon) }
+    var typeFlags by remember { mutableStateOf<UByte>(dialogState.category?.typeFlags ?: 0u) }
     var shouldValidate by remember { mutableStateOf(false) }
     var showIconSelection by rememberSaveable { mutableStateOf(false) }
 
@@ -51,12 +56,31 @@ fun CategoryEdit(
             ) {
                 Text(
                     modifier = Modifier.padding(bottom = titleBottomPadding),
-                    text = if (dialogState.id == null) {
+                    text = if (dialogState.category == null) {
                         if (dialogState.parent == null) stringResource(R.string.menu_create_main_cat)
                         else stringResource(R.string.menu_create_sub_cat) + " (${dialogState.parent.label})"
                     } else stringResource(R.string.menu_edit_cat),
                     style = MaterialTheme.typography.titleMedium
                 )
+                val options = listOf(R.string.expense to FLAG_EXPENSE, R.string.income to FLAG_INCOME)
+                if (dialogState.category?.parentId == null && dialogState.parent == null)  {
+                    MultiChoiceSegmentedButtonRow(
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    ) {
+                        options.forEachIndexed { index, type ->
+                            SegmentedButton(
+                                shape = SegmentedButtonDefaults.itemShape(index = index, count = options.size),
+                                onCheckedChange = {
+                                    typeFlags = if(it) typeFlags or type.second else typeFlags and type.second.inv()
+                                },
+                                checked = (typeFlags and type.second) != 0u.toUByte()
+                            ) {
+                                Text(stringResource(id = type.first))
+                            }
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(fieldPadding))
+                }
                 OutlinedTextField(
                     modifier = Modifier.testTag(TEST_TAG_EDIT_TEXT),
                     label = { Text(stringResource(id = R.string.label)) },
@@ -101,12 +125,12 @@ fun CategoryEdit(
                         onClick = {
                             shouldValidate = true
                             if (label.isNotEmpty()) {
-                                onSave(label, icon)
+                                onSave(label, icon, typeFlags)
                             }
                         }) {
                         Text(
                             text = stringResource(
-                                id = if (dialogState.id == 0L) R.string.dialog_button_add
+                                id = if (dialogState.category == null) R.string.dialog_button_add
                                 else R.string.menu_save
                             )
                         )
@@ -162,5 +186,5 @@ fun CategoryEdit(
 @Preview(widthDp = 200)
 @Composable
 fun PreviewDialog() {
-    CategoryEdit(dialogState = CategoryViewModel.Show(0L))
+    CategoryEdit(dialogState = CategoryViewModel.Show())
 }

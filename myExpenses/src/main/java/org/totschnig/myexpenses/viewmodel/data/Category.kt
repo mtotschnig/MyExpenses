@@ -22,7 +22,14 @@ data class Category(
     val icon: String? = null,
     val sum: Long = 0L,
     val budget: BudgetAllocation = BudgetAllocation.EMPTY,
-    val uuid: String? = null
+    val uuid: String? = null,
+    /**
+     - 0: neither [org.totschnig.myexpenses.db2.FLAG_EXPENSE] nor [org.totschnig.myexpenses.db2.FLAG_INCOME]
+     - 1: [org.totschnig.myexpenses.db2.FLAG_EXPENSE]
+     - 2: [org.totschnig.myexpenses.db2.FLAG_INCOME]
+     - 3: both [org.totschnig.myexpenses.db2.FLAG_EXPENSE] and [org.totschnig.myexpenses.db2.FLAG_INCOME]
+     */
+    val typeFlags: UByte = 0u
 ) : Parcelable, Serializable {
 
     fun flatten(): List<Category> = buildList {

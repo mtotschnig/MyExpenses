@@ -75,10 +75,8 @@ open class CategoryViewModel(
     sealed class DialogState : java.io.Serializable
     object NoShow : DialogState()
     data class Show(
-        val id: Long? = null,
+        val category: Category? = null,
         val parent: Category? = null,
-        val label: String? = null,
-        val icon: String? = null,
         val saving: Boolean = false,
         val error: Boolean = false
     ) : DialogState()
@@ -191,14 +189,15 @@ open class CategoryViewModel(
         }
     }
 
-    fun saveCategory(label: String, icon: String?) {
+    fun saveCategory(label: String, icon: String?, typeFlags: UByte) {
         viewModelScope.launch(context = coroutineContext()) {
             (dialogState as? Show)?.takeIf { !it.saving }?.let {
                 val category = Category(
-                    id = it.id ?: 0,
+                    id = it.category?.id ?: 0,
                     label = label,
                     icon = icon,
-                    parentId = it.parent?.id
+                    parentId = it.parent?.id,
+                    typeFlags = typeFlags
                 )
                 dialogState = it.copy(saving = true)
                 dialogState = if (repository.saveCategory(category) == null) {
@@ -451,6 +450,7 @@ open class CategoryViewModel(
                         val nextPath = cursor.getString(KEY_PATH)
                         val nextColor = if (withColors) cursor.getIntOrNull(KEY_COLOR) else null
                         val nextIcon = cursor.getStringOrNull(KEY_ICON)
+                        val nextType = cursor.getInt(KEY_TYPE).toUByte()
                         val nextIsMatching = cursor.getInt(KEY_MATCHES_FILTER) == 1
                         val nextLevel = cursor.getInt(KEY_LEVEL)
                         val nextSum = cursor.getLongIfExistsOr0(KEY_SUM)
@@ -485,7 +485,8 @@ open class CategoryViewModel(
                                         nextBudgetRollOverPrevious,
                                         nextBudgetRollOverNext,
                                         nextBudgetOneTime
-                                    )
+                                    ),
+                                    typeFlags = nextType
                                 )
                             )
                         } else return@buildList

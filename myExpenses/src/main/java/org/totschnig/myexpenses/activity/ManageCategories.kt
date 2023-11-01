@@ -642,7 +642,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
      */
     open fun editCat(category: Category) {
         viewModel.dialogState =
-            CategoryViewModel.Show(id = category.id, label = category.label, icon = category.icon)
+            CategoryViewModel.Show(category = category)
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
