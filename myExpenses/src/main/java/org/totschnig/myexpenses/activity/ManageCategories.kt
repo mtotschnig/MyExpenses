@@ -118,7 +118,7 @@ class ManageCategories : ProtectedFragmentActivity(),
             viewModel.setSortOrder(sortDelegate.currentSortOrder)
             true
         } else if (item.itemId == Menu.NONE) {
-            when(item.groupId) {
+            when (item.groupId) {
                 R.id.SYNC_COMMAND_EXPORT_CATEGORIES -> viewModel.syncCatsExport(item.title.toString())
                 R.id.SYNC_COMMAND_IMPORT_CATEGORIES -> viewModel.syncCatsImport(item.title.toString())
             }
@@ -215,46 +215,47 @@ class ManageCategories : ProtectedFragmentActivity(),
                 }
                 viewModel.categoryTree.collectAsState(initial = Category.LOADING).value.let { root ->
                     val typeFlags = viewModel.typeFilterLiveData.observeAsState(null).value
-                    Box(modifier = Modifier.fillMaxSize()) {
-                        when {
-                            root == Category.LOADING -> {
-                                CircularProgressIndicator(
-                                    modifier = Modifier
-                                        .size(96.dp)
-                                        .align(Alignment.Center)
-                                )
-                            }
+                    Column(modifier = Modifier.fillMaxSize()) {
+                        if (typeFlags != null) {
+                            TypeConfiguration(
+                                modifier = Modifier.align(CenterHorizontally),
+                                typeFlags = typeFlags,
+                                onCheckedChange = { viewModel.typeFilter = it }
+                            )
+                        }
+                        Box(modifier = Modifier.fillMaxWidth().weight(1f)) {
+                            when {
+                                root == Category.LOADING -> {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier
+                                            .size(96.dp)
+                                            .align(Alignment.Center)
+                                    )
+                                }
 
-                            root.children.isEmpty() -> {
-                                Column(
-                                    modifier = Modifier.align(Alignment.Center),
-                                    verticalArrangement = Arrangement.spacedBy(5.dp),
-                                    horizontalAlignment = CenterHorizontally
-                                ) {
-                                    Text(text = stringResource(id = R.string.no_categories))
-                                    if (viewModel.filter.isNullOrBlank() && typeFlags == null) {
-                                        Button(onClick = { importCats() }) {
-                                            Column(horizontalAlignment = CenterHorizontally) {
-                                                Icon(
-                                                    imageVector = Icons.Filled.PlaylistAdd,
-                                                    contentDescription = null
-                                                )
-                                                Text(text = stringResource(id = R.string.menu_categories_setup_default))
+                                root.children.isEmpty() -> {
+                                    Column(
+                                        modifier = Modifier.align(Alignment.Center),
+                                        verticalArrangement = Arrangement.spacedBy(5.dp),
+                                        horizontalAlignment = CenterHorizontally
+                                    ) {
+                                        Text(text = stringResource(id = R.string.no_categories))
+                                        if (viewModel.filter.isNullOrBlank() && typeFlags == null) {
+                                            Button(onClick = { importCats() }) {
+                                                Column(horizontalAlignment = CenterHorizontally) {
+                                                    Icon(
+                                                        imageVector = Icons.Filled.PlaylistAdd,
+                                                        contentDescription = null
+                                                    )
+                                                    Text(text = stringResource(id = R.string.menu_categories_setup_default))
+                                                }
                                             }
                                         }
                                     }
                                 }
-                            }
 
-                            else -> {
-                                Column {
-                                    if (typeFlags != null) {
-                                        TypeConfiguration(
-                                            modifier = Modifier.align(CenterHorizontally),
-                                            typeFlags = typeFlags,
-                                            onCheckedChange = { viewModel.typeFilter = it }
-                                        )
-                                    }
+                                else -> {
+
                                     Category(
                                         category = if (action == Action.SELECT_FILTER)
                                             root.copy(children = buildList {
@@ -413,10 +414,12 @@ class ManageCategories : ProtectedFragmentActivity(),
                         viewModel.deleteCategories(selectionState)
                         true
                     }
+
                     R.id.SELECT_COMMAND -> {
                         doMultiSelection()
                         true
                     }
+
                     else -> false
                 }
 
@@ -488,6 +491,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                                     dismissCallback
                                 )
                             }
+
                             is OperationPending -> {
                                 val messages = buildList {
                                     if (it.hasDescendants > 0) {
@@ -613,12 +617,14 @@ class ManageCategories : ProtectedFragmentActivity(),
                 finishActionMode()
                 true
             }
+
             R.id.DELETE_COMMAND_DO -> {
                 showSnackBarIndefinite(R.string.progress_dialog_deleting)
                 @Suppress("UNCHECKED_CAST")
                 viewModel.deleteCategoriesDo((tag as Array<Long>).toList())
                 true
             }
+
             R.id.SETUP_CATEGORIES_DEFAULT_COMMAND -> {
                 importCats()
                 true
@@ -628,21 +634,25 @@ class ManageCategories : ProtectedFragmentActivity(),
                 exportCats("ISO-8859-1")
                 true
             }
+
             R.id.EXPORT_CATEGORIES_COMMAND_UTF8 -> {
                 exportCats("UTF-8")
                 true
             }
+
             R.id.TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP -> {
                 val value = tag as Boolean
                 parentSelectionOnTap.value = value
                 prefHandler.putBoolean(PrefKey.PARENT_CATEGORY_SELECTION_ON_TAP, value)
                 true
             }
+
             R.id.TYPE_FILTER_COMMAND -> {
                 viewModel.toggleTypeFilterIsShown()
                 invalidateOptionsMenu()
                 true
             }
+
             else -> false
         }
 
@@ -680,7 +690,7 @@ class ManageCategories : ProtectedFragmentActivity(),
             val (command, category) = tag as Pair<Int, Category>
             if (command == R.id.CREATE_SUB_COMMAND) {
                 createCat(category)
-            } else if(command == R.id.SELECT_COMMAND) {
+            } else if (command == R.id.SELECT_COMMAND) {
                 doSingleSelection(category)
             }
         }
