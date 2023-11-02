@@ -18,7 +18,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <item
-        app:iconTint="@color/checkable_menu_item_color"
         android:checkable="true"
         android:checked="false"
         android:icon="@drawable/ic_filter"

@@ -133,7 +133,7 @@ abstract class ImportDataViewModel(application: Application) :
     }
 
     fun insertCategories(categories: Set<CategoryInfo>) = categories.sumOf {
-        CategoryHelper.insert(repository, it.name, categoryToId, true)
+        CategoryHelper.insert(repository, it.name, categoryToId, true, it.income)
     }
 
     private fun insertTransactions(
