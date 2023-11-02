@@ -9,8 +9,13 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MultiChoiceSegmentedButtonRow
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +31,8 @@ import app.futured.donut.compose.DonutProgress
 import app.futured.donut.compose.data.DonutModel
 import app.futured.donut.compose.data.DonutSection
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
+import org.totschnig.myexpenses.db2.FLAG_INCOME
 
 @Composable
 fun ExpansionHandle(
@@ -92,6 +99,31 @@ fun DonutInABox(
             text = progress.toString(),
             fontSize = fontSize,
             )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TypeConfiguration(
+    modifier: Modifier,
+    typeFlags: UByte,
+    onCheckedChange: (UByte) -> Unit
+) {
+    MultiChoiceSegmentedButtonRow(
+        modifier = modifier
+    ) {
+        val options = listOf(R.string.expense to FLAG_EXPENSE, R.string.income to FLAG_INCOME)
+        options.forEachIndexed { index, type ->
+            SegmentedButton(
+                shape = SegmentedButtonDefaults.itemShape(index = index, count = options.size),
+                onCheckedChange = {
+                    onCheckedChange(if(it) typeFlags or type.second else typeFlags and type.second.inv())
+                },
+                checked = (typeFlags and type.second) != 0u.toUByte()
+            ) {
+                Text(stringResource(id = type.first))
+            }
+        }
     }
 }
 

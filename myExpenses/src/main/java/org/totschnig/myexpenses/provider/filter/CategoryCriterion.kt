@@ -21,6 +21,7 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.categoryTreeSelect
 
 @Parcelize
@@ -42,12 +43,12 @@ class CategoryCriterion(
         get() = if (operation === WhereFilter.Operation.ISNULL) {
             super.selection
         } else "$column IN (" + categoryTreeSelect(
-            null,
-            null,
-            arrayOf(DatabaseConstants.KEY_ROWID),
-            null,
-            WhereFilter.Operation.IN.getOp(selectionArgs.size),
-            null
+            sortOrder = null,
+            matches = null,
+            projection = arrayOf(KEY_ROWID),
+            selection = null,
+            rootExpression = "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(selectionArgs.size)}",
+            categorySeparator = null
         ) + ")"
 
     companion object {

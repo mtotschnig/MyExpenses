@@ -70,6 +70,8 @@ import org.totschnig.myexpenses.databinding.AttachmentItemBinding
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
+import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.delegate.CategoryDelegate
 import org.totschnig.myexpenses.delegate.MainDelegate
 import org.totschnig.myexpenses.delegate.SplitDelegate
@@ -127,6 +129,7 @@ import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.setAttachmentInfo
 import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.util.tracking.Tracker
+import org.totschnig.myexpenses.viewmodel.CategoryViewModel.Companion.KEY_TYPE_FILTER
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteComplete
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
@@ -1179,15 +1182,16 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
      * calls the activity for selecting (and managing) categories
      */
     fun startSelectCategory() {
-        val i = Intent(this, ManageCategories::class.java)
-        forwardDataEntryFromWidget(i)
-        //we pass the currently selected category in to prevent
-        //it from being deleted, which can theoretically lead
-        //to crash upon saving https://github.com/mtotschnig/MyExpenses/issues/71
-        (delegate as? CategoryDelegate)?.catId?.let {
-            i.putExtra(KEY_PROTECTION_INFO, ManageCategories.ProtectionInfo(it, isTemplate))
-        }
-        startActivityForResult(i, SELECT_CATEGORY_REQUEST)
+        startActivityForResult(Intent(this, ManageCategories::class.java).apply {
+            forwardDataEntryFromWidget(this)
+            //we pass the currently selected category in to prevent
+            //it from being deleted, which can theoretically lead
+            //to crash upon saving https://github.com/mtotschnig/MyExpenses/issues/71
+            (delegate as? CategoryDelegate)?.catId?.let<Long, Unit> {
+                putExtra(KEY_PROTECTION_INFO, ManageCategories.ProtectionInfo(it, isTemplate))
+            }
+            putExtra(KEY_TYPE_FILTER, (if (delegate.isIncome) FLAG_INCOME else FLAG_EXPENSE).toInt())
+        }, SELECT_CATEGORY_REQUEST)
     }
 
     override fun saveState() {

@@ -1,9 +1,24 @@
 package org.totschnig.myexpenses.compose
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -12,13 +27,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.db2.FLAG_EXPENSE
-import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryEdit(
     dialogState: CategoryViewModel.Show,
@@ -31,7 +42,7 @@ fun CategoryEdit(
     val context = LocalContext.current
     var label by rememberSaveable { mutableStateOf(dialogState.category?.label ?: "") }
     var icon by rememberSaveable { mutableStateOf(dialogState.category?.icon) }
-    var typeFlags by remember { mutableStateOf<UByte>(dialogState.category?.typeFlags ?: 0u) }
+    var typeFlags by remember { mutableStateOf(dialogState.category?.typeFlags ?: 0u) }
     var shouldValidate by remember { mutableStateOf(false) }
     var showIconSelection by rememberSaveable { mutableStateOf(false) }
 
@@ -62,23 +73,13 @@ fun CategoryEdit(
                     } else stringResource(R.string.menu_edit_cat),
                     style = MaterialTheme.typography.titleMedium
                 )
-                val options = listOf(R.string.expense to FLAG_EXPENSE, R.string.income to FLAG_INCOME)
+
                 if (dialogState.category?.parentId == null && dialogState.parent == null)  {
-                    MultiChoiceSegmentedButtonRow(
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    ) {
-                        options.forEachIndexed { index, type ->
-                            SegmentedButton(
-                                shape = SegmentedButtonDefaults.itemShape(index = index, count = options.size),
-                                onCheckedChange = {
-                                    typeFlags = if(it) typeFlags or type.second else typeFlags and type.second.inv()
-                                },
-                                checked = (typeFlags and type.second) != 0u.toUByte()
-                            ) {
-                                Text(stringResource(id = type.first))
-                            }
-                        }
-                    }
+                    TypeConfiguration(
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        typeFlags = typeFlags,
+                        onCheckedChange = { typeFlags = it }
+                    )
                     Spacer(modifier = Modifier.height(fieldPadding))
                 }
                 OutlinedTextField(

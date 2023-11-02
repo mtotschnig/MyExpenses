@@ -487,9 +487,10 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_HIERARCHICAL, false)) {
           final boolean withBudget = projection != null && Arrays.asList(projection).contains(KEY_BUDGET);
+
           String sql = withBudget ? categoryTreeWithBudget(sortOrder, selection, projection, uri.getQueryParameter(KEY_YEAR), uri.getQueryParameter(KEY_SECOND_GROUP)) :
                   categoryTreeSelect(sortOrder, selection, projection, null, null,
-                  uri.getQueryParameter(QUERY_PARAMETER_CATEGORY_SEPARATOR));
+                  uri.getQueryParameter(QUERY_PARAMETER_CATEGORY_SEPARATOR), uri.getQueryParameter(KEY_TYPE));
           c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
           c.setNotificationUri(getContext().getContentResolver(), uri);
           return c;

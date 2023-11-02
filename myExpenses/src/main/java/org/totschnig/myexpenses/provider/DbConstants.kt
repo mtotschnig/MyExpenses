@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.provider
 
 import android.net.Uri
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
+import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.WhereFilter
@@ -38,12 +40,14 @@ fun categoryTreeSelect(
     projection: Array<String>? = null,
     selection: String? = null,
     rootExpression: String? = null,
-    categorySeparator: String? = null
+    categorySeparator: String? = null,
+    typeParameter: String? = null
 ) = categoryTreeCTE(
     rootExpression = rootExpression,
     sortOrder = sortOrder,
     matches = matches,
-    categorySeparator = categorySeparator
+    categorySeparator = categorySeparator,
+    type = typeParameter?.toUByte()
 ) + "SELECT ${projection?.joinToString() ?: "*"} FROM Tree ${selection?.let { "WHERE $it" } ?: ""}"
 
 const val categoryTreeSelectForTrigger = """
@@ -161,7 +165,7 @@ fun categoryTreeWithMappedObjects(
         }
     }
     return """
-            ${categoryTreeCTE(rootExpression = "= $TABLE_CATEGORIES.$KEY_ROWID")}
+            ${categoryTreeCTE(rootExpression = "$KEY_ROWID = $TABLE_CATEGORIES.$KEY_ROWID")}
             SELECT
             ${map.joinToString()}
             FROM $TABLE_CATEGORIES
@@ -211,12 +215,27 @@ fun getPayeeWithDuplicatesCTE(selection: String?, collate: String) = """
     JOIN cte ON cte.$KEY_ROWID = dups.$KEY_PARENTID ORDER BY $KEY_LEVEL DESC, $KEY_PAYEE_NAME COLLATE $collate) SELECT * FROM cte
 """.trimIndent()
 
+/**
+ * if [rootExpression] is specified [type] is ignored
+ */
 fun categoryTreeCTE(
     rootExpression: String? = null,
     sortOrder: String? = null,
     matches: String? = null,
-    categorySeparator: String? = null
-): String = """
+    categorySeparator: String? = null,
+    type: UByte? = null
+): String {
+    val where = rootExpression ?: buildString {
+        append("$KEY_PARENTID IS NULL")
+        if (type != null) {
+            append(" AND $KEY_TYPE  ")
+            append(
+                if (type == 0.toUByte()) "= 0"
+                else "& $type > 0"
+            )
+        }
+    }
+    return """
 WITH Tree AS (
 SELECT
     $KEY_LABEL,
@@ -232,17 +251,17 @@ SELECT
     1 AS $KEY_LEVEL,
     ${matches?.replace("_Tree_", "main") ?: "1"} AS $KEY_MATCHES_FILTER
 FROM $TABLE_CATEGORIES main
-WHERE ${rootExpression?.let { " $KEY_ROWID $it" } ?: "$KEY_PARENTID IS NULL"}
+WHERE $where
 UNION ALL
 SELECT
     subtree.$KEY_LABEL,
     subtree.$KEY_UUID,
     Tree.$KEY_PATH || '${categorySeparator ?: " > "}' || ${
-    maybeEscapeLabel(
-        categorySeparator,
-        "subtree"
-    )
-},
+        maybeEscapeLabel(
+            categorySeparator,
+            "subtree"
+        )
+    },
     subtree.$KEY_COLOR,
     subtree.$KEY_ICON,
     subtree.$KEY_ROWID,
@@ -257,6 +276,7 @@ JOIN Tree ON Tree._id = subtree.parent_id
 ORDER BY $KEY_LEVEL DESC${sortOrder?.let { ", $it" } ?: ""}
 )
 """.trimIndent()
+}
 
 fun fullCatCase(categorySeparator: String?) = "(" + categoryTreeSelect(
     projection = arrayOf(KEY_PATH),

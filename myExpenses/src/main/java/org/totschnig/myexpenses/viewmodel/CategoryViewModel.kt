@@ -8,6 +8,7 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
@@ -31,6 +32,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.deleteCategory
 import org.totschnig.myexpenses.db2.ensureCategoryTree
 import org.totschnig.myexpenses.db2.moveCategory
@@ -101,10 +103,24 @@ open class CategoryViewModel(
     val sortOrder = MutableStateFlow(Sort.LABEL)
 
     var filter: String?
-        get() = savedStateHandle.get<String>(KEY_FILTER)
+        get() = savedStateHandle[KEY_FILTER]
         set(value) {
             savedStateHandle[KEY_FILTER] = value
         }
+
+    var typeFilter: UByte?
+        get() = savedStateHandle.get<Int>(KEY_TYPE_FILTER)?.toUByte()
+        set(value) {
+            savedStateHandle[KEY_TYPE_FILTER] = value?.toInt()
+        }
+
+    fun toggleTypeFilterIsShown() {
+        typeFilter = if (typeFilter == null) FLAG_NEUTRAL else null
+    }
+
+    val typeFilterLiveData = savedStateHandle.getLiveData<Int?>(KEY_TYPE_FILTER, null).map {
+        it?.toUByte()
+    }
 
     fun setSortOrder(sort: Sort) {
         sortOrder.tryEmit(sort)
@@ -112,12 +128,13 @@ open class CategoryViewModel(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val categoryTree = combine(
+        typeFilterLiveData.asFlow(),
         savedStateHandle.getLiveData(KEY_FILTER, "").asFlow(),
         sortOrder
-    ) { filter, sort ->
-        Timber.d("new emission: $filter/$sort")
-        filter to sort
-    }.flatMapLatest { (filter, sortOrder) ->
+    ) { type, filter, sort ->
+        Timber.d("new emission: $type/$filter/$sort")
+        Triple(type, filter, sort)
+    }.flatMapLatest { (type, filter, sortOrder) ->
         val (selection, selectionArgs) = joinQueryAndAccountFilter(
             filter,
             savedStateHandle.get<Long>(KEY_ACCOUNTID),
@@ -127,6 +144,7 @@ open class CategoryViewModel(
             selection = selection,
             selectionArgs = selectionArgs?.let { it + it } ?: emptyArray(),
             sortOrder = sortOrder.toOrderByWithDefault(defaultSort, collate),
+            queryParameter = type?.let { mapOf(KEY_TYPE to type.toString()) } ?: emptyMap(),
             projection = null,
             keepCriteria = null,
             withColors = false
@@ -434,6 +452,8 @@ open class CategoryViewModel(
     }
 
     companion object {
+
+        const val KEY_TYPE_FILTER = "typeFilter"
 
         fun ingest(
             withColors: Boolean,

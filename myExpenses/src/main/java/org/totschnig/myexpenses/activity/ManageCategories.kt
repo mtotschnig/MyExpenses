@@ -18,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.PlaylistAdd
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -52,7 +53,7 @@ import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.Operati
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.io.Serializable
 
-open class ManageCategories : ProtectedFragmentActivity(),
+class ManageCategories : ProtectedFragmentActivity(),
     ContribIFace {
 
     private var actionMode: ActionMode? = null
@@ -72,6 +73,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
             menu.findItem(R.id.TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP).setEnabledAndVisible(
                 action == Action.SELECT_MAPPING
             )
+            menu.findItem(R.id.TYPE_FILTER_COMMAND).isChecked = viewModel.typeFilter != null
         }
         menuInflater.inflate(R.menu.search, menu)
         configureSearch(this, menu, this::onQueryTextChange)
@@ -89,6 +91,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
         menu.findItem(R.id.TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP)?.let {
             it.isChecked = parentSelectionOnTap.value
         }
+        checkMenuIcon(menu.findItem(R.id.TYPE_FILTER_COMMAND))
         prepareSearch(menu, viewModel.filter)
         val accountNames = GenericAccountService.getAccountNames(this)
         menu.findItem(R.id.SYNC_COMMAND)?.let { item ->
@@ -139,8 +142,10 @@ open class ManageCategories : ProtectedFragmentActivity(),
         val (helpVariant, title) = when (action) {
             Action.MANAGE ->
                 HelpVariant.manage to R.string.pref_manage_categories_title
+
             Action.SELECT_FILTER ->
                 HelpVariant.select_filter to R.string.search_category
+
             Action.SELECT_MAPPING ->
                 HelpVariant.select_mapping to R.string.select_category
         }
@@ -176,7 +181,10 @@ open class ManageCategories : ProtectedFragmentActivity(),
                         LaunchedEffect(selectionState.value) {
                             selectionState.value?.let {
                                 if (it.level > 2) {
-                                    contribFeatureRequested(ContribFeature.CATEGORY_TREE, R.id.SELECT_COMMAND to it)
+                                    contribFeatureRequested(
+                                        ContribFeature.CATEGORY_TREE,
+                                        R.id.SELECT_COMMAND to it
+                                    )
                                 } else {
                                     doSingleSelection(it)
                                 }
@@ -184,6 +192,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
                         }
                         ChoiceMode.SingleChoiceMode(selectionState, parentSelectionOnTap.value)
                     }
+
                     Action.MANAGE, Action.SELECT_FILTER -> {
                         val selectionState = rememberMutableStateListOf<Category>()
                         LaunchedEffect(selectionState.size) {
@@ -205,6 +214,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
                     )
                 }
                 viewModel.categoryTree.collectAsState(initial = Category.LOADING).value.let { root ->
+                    val typeFlags = viewModel.typeFilterLiveData.observeAsState(null).value
                     Box(modifier = Modifier.fillMaxSize()) {
                         when {
                             root == Category.LOADING -> {
@@ -214,6 +224,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
                                         .align(Alignment.Center)
                                 )
                             }
+
                             root.children.isEmpty() -> {
                                 Column(
                                     modifier = Modifier.align(Alignment.Center),
@@ -221,7 +232,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
                                     horizontalAlignment = CenterHorizontally
                                 ) {
                                     Text(text = stringResource(id = R.string.no_categories))
-                                    if (viewModel.filter.isNullOrBlank()) {
+                                    if (viewModel.filter.isNullOrBlank() && typeFlags == null) {
                                         Button(onClick = { importCats() }) {
                                             Column(horizontalAlignment = CenterHorizontally) {
                                                 Icon(
@@ -234,72 +245,86 @@ open class ManageCategories : ProtectedFragmentActivity(),
                                     }
                                 }
                             }
+
                             else -> {
-                                Category(
-                                    category = if (action == Action.SELECT_FILTER)
-                                        root.copy(children = buildList {
-                                            add(
-                                                Category(
-                                                    id = NULL_ITEM_ID,
-                                                    label = stringResource(id = R.string.unmapped),
-                                                    level = 1
+                                Column {
+                                    if (typeFlags != null) {
+                                        TypeConfiguration(
+                                            modifier = Modifier.align(CenterHorizontally),
+                                            typeFlags = typeFlags,
+                                            onCheckedChange = { viewModel.typeFilter = it }
+                                        )
+                                    }
+                                    Category(
+                                        category = if (action == Action.SELECT_FILTER)
+                                            root.copy(children = buildList {
+                                                add(
+                                                    Category(
+                                                        id = NULL_ITEM_ID,
+                                                        label = stringResource(id = R.string.unmapped),
+                                                        level = 1
+                                                    )
                                                 )
-                                            )
-                                            addAll(root.children)
-                                        })
-                                    else root,
-                                    expansionMode = ExpansionMode.DefaultCollapsed(
-                                        rememberMutableStateListOf()
-                                    ),
-                                    menuGenerator = remember {
-                                        {
-                                            if (action == Action.SELECT_FILTER) null else Menu(
-                                                listOfNotNull(
-                                                    if ((choiceMode as? ChoiceMode.SingleChoiceMode)?.selectParentOnClick == false) {
-                                                        select("SELECT_CATEGORY") { doSingleSelection(it) }
-                                                    } else null,
-                                                    edit("EDIT_CATEGORY") { editCat(it) },
-                                                    delete("DELETE_CATEGORY") {
-                                                        if (it.flatten().map { it.id }
-                                                                .contains(protectionInfo?.id)) {
-                                                            showSnackBar(
-                                                                resources.getQuantityString(
-                                                                    if (protectionInfo!!.isTemplate) R.plurals.not_deletable_mapped_templates else R.plurals.not_deletable_mapped_transactions,
-                                                                    1,
-                                                                    1
+                                                addAll(root.children)
+                                            })
+                                        else root,
+                                        expansionMode = ExpansionMode.DefaultCollapsed(
+                                            rememberMutableStateListOf()
+                                        ),
+                                        menuGenerator = remember {
+                                            {
+                                                if (action == Action.SELECT_FILTER) null else Menu(
+                                                    listOfNotNull(
+                                                        if ((choiceMode as? ChoiceMode.SingleChoiceMode)?.selectParentOnClick == false) {
+                                                            select("SELECT_CATEGORY") {
+                                                                doSingleSelection(
+                                                                    it
                                                                 )
-                                                            )
-                                                        } else {
-                                                            viewModel.deleteCategories(
-                                                                listOf(it)
-                                                            )
-                                                        }
-                                                    },
-                                                    MenuEntry(
-                                                        icon = Icons.Filled.Add,
-                                                        label = R.string.subcategory,
-                                                        command = "CREATE_SUBCATEGORY"
-                                                    ) {
-                                                        if (it.level > 1) {
-                                                            contribFeatureRequested(
-                                                                ContribFeature.CATEGORY_TREE,
-                                                                R.id.CREATE_SUB_COMMAND to it
-                                                            )
-                                                        } else {
-                                                            createCat(it)
-                                                        }
-                                                    },
-                                                    MenuEntry(
-                                                        icon = myiconpack.ArrowsAlt,
-                                                        label = R.string.menu_move,
-                                                        command = "MOVE_CATEGORY"
-                                                    ) { showMoveTargetDialog(it) }
+                                                            }
+                                                        } else null,
+                                                        edit("EDIT_CATEGORY") { editCat(it) },
+                                                        delete("DELETE_CATEGORY") {
+                                                            if (it.flatten().map { it.id }
+                                                                    .contains(protectionInfo?.id)) {
+                                                                showSnackBar(
+                                                                    resources.getQuantityString(
+                                                                        if (protectionInfo!!.isTemplate) R.plurals.not_deletable_mapped_templates else R.plurals.not_deletable_mapped_transactions,
+                                                                        1,
+                                                                        1
+                                                                    )
+                                                                )
+                                                            } else {
+                                                                viewModel.deleteCategories(
+                                                                    listOf(it)
+                                                                )
+                                                            }
+                                                        },
+                                                        MenuEntry(
+                                                            icon = Icons.Filled.Add,
+                                                            label = R.string.subcategory,
+                                                            command = "CREATE_SUBCATEGORY"
+                                                        ) {
+                                                            if (it.level > 1) {
+                                                                contribFeatureRequested(
+                                                                    ContribFeature.CATEGORY_TREE,
+                                                                    R.id.CREATE_SUB_COMMAND to it
+                                                                )
+                                                            } else {
+                                                                createCat(it)
+                                                            }
+                                                        },
+                                                        MenuEntry(
+                                                            icon = myiconpack.ArrowsAlt,
+                                                            label = R.string.menu_move,
+                                                            command = "MOVE_CATEGORY"
+                                                        ) { showMoveTargetDialog(it) }
+                                                    )
                                                 )
-                                            )
-                                        }
-                                    },
-                                    choiceMode = choiceMode
-                                )
+                                            }
+                                        },
+                                        choiceMode = choiceMode
+                                    )
+                                }
                             }
                         }
                     }
@@ -611,6 +636,11 @@ open class ManageCategories : ProtectedFragmentActivity(),
                 val value = tag as Boolean
                 parentSelectionOnTap.value = value
                 prefHandler.putBoolean(PrefKey.PARENT_CATEGORY_SELECTION_ON_TAP, value)
+                true
+            }
+            R.id.TYPE_FILTER_COMMAND -> {
+                viewModel.toggleTypeFilterIsShown()
+                invalidateOptionsMenu()
                 true
             }
             else -> false
