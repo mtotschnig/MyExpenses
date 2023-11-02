@@ -1155,6 +1155,13 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     val isDynamicColorAvailable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
+    fun tintSystemUiAndFab(color: Int) {
+        //If we use dynamic content based color, we do not need to harmonize the color
+        val harmonized = if (isDynamicColorAvailable) color else MaterialColors.harmonizeWithPrimary(this, color)
+        tintSystemUi(harmonized)
+        floatingActionButton.setBackgroundTintList(harmonized)
+    }
+
     fun tintSystemUi(color: Int) {
 
         if (shouldTintSystemUi()) {

@@ -210,12 +210,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     return false;
   }
 
-  public void tintSystemUiAndFab(int color) {
-    int harmonized = MaterialColors.harmonizeWithPrimary(this, color);
-    tintSystemUi(harmonized);
-    setBackgroundTintList(getFloatingActionButton(), harmonized);
-  }
-
   public void onPostExecute(int taskId, @Nullable Object o) {
     removeAsyncTaskFragment(shouldKeepProgress(taskId));
   }
