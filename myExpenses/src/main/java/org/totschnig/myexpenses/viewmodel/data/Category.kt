@@ -29,7 +29,7 @@ data class Category(
      - 2: [org.totschnig.myexpenses.db2.FLAG_INCOME]
      - 3: both [org.totschnig.myexpenses.db2.FLAG_EXPENSE] and [org.totschnig.myexpenses.db2.FLAG_INCOME]
      */
-    val typeFlags: UByte = 0u
+    val typeFlags: UByte? = null
 ) : Parcelable, Serializable {
 
     fun flatten(): List<Category> = buildList {

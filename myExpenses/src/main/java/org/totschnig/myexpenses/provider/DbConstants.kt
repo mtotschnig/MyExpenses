@@ -287,9 +287,9 @@ fun fullCatCase(categorySeparator: String?) = "(" + categoryTreeSelect(
 fun categoryPathFromLeave(rowId: String): String {
     check(rowId.toInt() > 0) { "rowId must be positive" }
     return """
-    WITH Tree AS (SELECT parent_id, label, icon, uuid, color  from categories child where _id = $rowId
+    WITH Tree AS (SELECT $KEY_PARENTID, $KEY_LABEL, $KEY_ICON, $KEY_UUID, $KEY_COLOR, $KEY_TYPE  from $TABLE_CATEGORIES child where $KEY_ROWID = $rowId
     UNION ALL
-    SELECT parent.parent_id, parent.label, parent.icon, parent.uuid, parent.color from categories parent JOIN Tree on Tree.parent_id = parent._id
+    SELECT parent.$KEY_PARENTID, parent.$KEY_LABEL, parent.$KEY_ICON, parent.$KEY_UUID, parent.$KEY_COLOR, parent.$KEY_TYPE from $TABLE_CATEGORIES parent JOIN Tree on Tree.$KEY_PARENTID = parent.$KEY_ROWID
     ) SELECT * FROM Tree
 """.trimIndent()
 }

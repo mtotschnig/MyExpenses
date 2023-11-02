@@ -411,6 +411,7 @@ open class CategoryViewModel(
                                                 nextLabel,
                                                 nextIcon,
                                                 nextColor,
+                                                if (parentId == null) cursor.getInt(KEY_TYPE) else null,
                                                 ingest(cursor, nextId)
                                             )
                                         )
