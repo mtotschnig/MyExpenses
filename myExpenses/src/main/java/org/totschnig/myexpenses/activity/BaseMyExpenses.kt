@@ -742,7 +742,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         toolbar.subtitle = null
                     }
                 }
-                val pagerState = rememberPagerState { accountData.count() }
+                val pagerState = remember { PagerState(initialPage = currentPage) }
+                // !.6 val pagerState = rememberPagerState { accountData.count() }
                 if (accountData.isNotEmpty()) {
                     LaunchedEffect(viewModel.selectedAccountId) {
                         if (pagerState.currentPage != currentPage) {
@@ -761,6 +762,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             },
                         verticalAlignment = Alignment.Top,
                         state = pagerState,
+                        //remove next line when upgrading to 1.6
+                        pageCount = accountData.count(),
                         pageSpacing = 10.dp,
                         key = { accountData[it].id }
                     ) {

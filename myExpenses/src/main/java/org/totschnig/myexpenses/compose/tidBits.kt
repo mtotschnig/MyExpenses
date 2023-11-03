@@ -3,19 +3,20 @@ package org.totschnig.myexpenses.compose
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MultiChoiceSegmentedButtonRow
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -102,7 +103,8 @@ fun DonutInABox(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+// Swap this in when upgrading to 1.6
+/*@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TypeConfiguration(
     modifier: Modifier,
@@ -123,6 +125,30 @@ fun TypeConfiguration(
             ) {
                 Text(stringResource(id = type.first))
             }
+        }
+    }
+}*/
+
+@Composable
+fun TypeConfiguration(
+    modifier: Modifier,
+    typeFlags: UByte,
+    onCheckedChange: (UByte) -> Unit
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        val options = listOf(R.string.expense to FLAG_EXPENSE, R.string.income to FLAG_INCOME)
+        options.forEach { type ->
+            Checkbox(
+                onCheckedChange = {
+                    onCheckedChange(if(it) typeFlags or type.second else typeFlags and type.second.inv())
+                },
+                checked = (typeFlags and type.second) != 0u.toUByte()
+            )
+            Text(stringResource(id = type.first))
         }
     }
 }
