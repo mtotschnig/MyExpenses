@@ -171,9 +171,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         get() = rootBinding.ERR.ExchangeRate
 
     @State
-    var color = 0
-
-    @State
     var parentId = 0L
 
     val accountId: Long
@@ -281,7 +278,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     fun updateContentColor(color: Int) {
         this.color = color
-        if (isDynamicColorAvailable) {
+        if (canUseContentColor) {
             tintSystemUi(UiUtils.getColor(this, com.google.android.material.R.attr.colorPrimaryContainer))
         } else {
             tintSystemUiAndFab(color)
@@ -290,16 +287,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (isDynamicColorAvailable) {
-            (color.takeIf { it != 0 } ?: intent.getIntExtra(KEY_COLOR, 0).takeIf { it != 0 })?.let {
-                DynamicColors.applyToActivityIfAvailable(
-                    this,
-                    DynamicColorsOptions.Builder()
-                        .setContentBasedSource(it)
-                        .build()
-                )
-            }
-        }
         maybeRepairRequerySchema()
         setHelpVariant(HelpVariant.transaction, false)
         rootBinding = OneExpenseBinding.inflate(LayoutInflater.from(this))
@@ -600,6 +587,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             R.id.EDIT_COMMAND -> {
                 startActivityForResult(Intent(this, ExpenseEdit::class.java).apply {
                     putExtra(if (isTemplate) KEY_TEMPLATEID else KEY_ROWID, info.id)
+                    putExtra(KEY_COLOR, color)
                 }, EDIT_REQUEST)
                 true
             }
@@ -1168,6 +1156,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             putExtra(KEY_PAYEEID, (delegate as? MainDelegate)?.payeeId)
             putExtra(KEY_NEW_TEMPLATE, isMainTemplate)
             putExtra(KEY_INCOME, delegate.isIncome)
+            putExtra(KEY_COLOR, color)
         }, EDIT_REQUEST)
     }
 
@@ -1183,6 +1172,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         (delegate as? CategoryDelegate)?.catId?.let {
             i.putExtra(KEY_PROTECTION_INFO, ManageCategories.ProtectionInfo(it, isTemplate))
         }
+        i.putExtra(KEY_COLOR, color)
         startActivityForResult(i, SELECT_CATEGORY_REQUEST)
     }
 

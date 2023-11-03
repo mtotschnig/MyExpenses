@@ -97,8 +97,7 @@ class OnboardingUiFragment : OnboardingFragment() {
         updateFontSizeDisplayName(fontScale)
 
         //theme
-        val theme =
-            prefHandler.getString(PrefKey.UI_THEME_KEY, getString(R.string.pref_ui_theme_default))
+        val theme = prefHandler.uiMode(requireContext())
 
         themeSelectionBinding.themeSwitch?.let {
             val isLight = ProtectedFragmentActivity.ThemeType.light.name == theme

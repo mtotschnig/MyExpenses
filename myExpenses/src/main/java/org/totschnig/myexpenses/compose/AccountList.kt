@@ -48,7 +48,7 @@ fun AccountList(
     grouping: AccountGrouping,
     selectedAccount: Long,
     onSelected: (Long) -> Unit,
-    onEdit: (Long) -> Unit,
+    onEdit: (FullAccount) -> Unit,
     onDelete: (FullAccount) -> Unit,
     onHide: (Long) -> Unit,
     onToggleSealed: (FullAccount) -> Unit,
@@ -159,7 +159,7 @@ fun AccountCard(
     isCollapsed: Boolean = false,
     isSelected: Boolean = false,
     onSelected: () -> Unit = {},
-    onEdit: (Long) -> Unit = {},
+    onEdit: (FullAccount) -> Unit = {},
     onDelete: (FullAccount) -> Unit = {},
     onHide: (Long) -> Unit = {},
     onToggleSealed: (FullAccount) -> Unit = {},
@@ -249,7 +249,7 @@ fun AccountCard(
                 buildList {
                     if (account.id > 0) {
                         if (!account.sealed) {
-                            add(edit("EDIT_ACCOUNT") { onEdit(account.id) })
+                            add(edit("EDIT_ACCOUNT") { onEdit(account) })
                         }
                         add(delete("DELETE_ACCOUNT") { onDelete(account) })
                         add(MenuEntry(

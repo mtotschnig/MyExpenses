@@ -5,7 +5,10 @@
         <item name="android:windowLightStatusBar">?isLightTheme</item>
     </style>
 
-    <style name="EditDialog" parent="EditDialogBase">
+    <style name="EditDialog" parent="EditDialog.V23" />
+
+
+    <style name="EditDialog.V23" parent="EditDialogBase">
         <item name="android:windowLightStatusBar">?isLightTheme</item>
     </style>
 

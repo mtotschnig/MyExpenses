@@ -229,12 +229,16 @@ fun attachmentInfoMap(context: Context, withFile: Boolean = false): Map<Uri, Att
                     }
                 }
             }
+
             "file" -> if (uri.pathSegments.first() == "android_asset")
-                AttachmentInfo.of(context.assets.open(uri.pathSegments[1]).use(BitmapFactory::decodeStream), null) else null
+                AttachmentInfo.of(
+                    context.assets.open(uri.pathSegments[1]).use(BitmapFactory::decodeStream), null
+                ) else null
+
             else -> null
-            } ?: AttachmentInfo.of(com.google.android.material.R.drawable.mtrl_ic_error, null)
-        }
+        } ?: AttachmentInfo.of(com.google.android.material.R.drawable.mtrl_ic_error, null)
     }
+}
 
 tailrec fun Context.getActivity(): BaseActivity? = this as? BaseActivity
     ?: (this as? ContextWrapper)?.baseContext?.getActivity()
