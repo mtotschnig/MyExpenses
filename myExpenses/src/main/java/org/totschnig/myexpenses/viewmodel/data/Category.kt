@@ -17,7 +17,7 @@ data class Category(
     val label: String,
     val path: String = label,
     val children: List<Category> = emptyList(),
-    val isMatching: Boolean = true,
+    val isMatching: Boolean = false,
     val color: Int? = null,
     val icon: String? = null,
     val sum: Long = 0L,
@@ -40,7 +40,7 @@ data class Category(
     fun pruneNonMatching(_criteria: ((Category) -> Boolean)? = null): Category? {
         val criteria = _criteria ?: { it.isMatching }
         val prunedChildren = children.mapNotNull { it.pruneNonMatching(criteria) }
-        return if (id == 0L || criteria(this) || prunedChildren.isNotEmpty()) {
+        return if (criteria(this) || prunedChildren.isNotEmpty()) {
             copy(children = prunedChildren)
         } else null
     }
@@ -82,7 +82,8 @@ data class Category(
         get() = budget.rollOverNext != 0L || children.any { it.budget.rollOverNext != 0L }
 
     companion object {
-        val LOADING = Category(label = "EMPTY")
+        val LOADING = Category(label = "")
+        val EMPTY = Category(label = "")
         const val NO_CATEGORY_ASSIGNED_LABEL = "—"
     }
 }

@@ -9,6 +9,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.PluralsRes
 import androidx.appcompat.view.ActionMode
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -23,6 +24,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -50,6 +52,7 @@ import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationComplete
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationPending
+import org.totschnig.myexpenses.viewmodel.LoadingState
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.io.Serializable
 
@@ -213,19 +216,19 @@ class ManageCategories : ProtectedFragmentActivity(),
                         onSave = viewModel::saveCategory
                     )
                 }
-                viewModel.categoryTree.collectAsState(initial = Category.LOADING).value.let { root ->
+                viewModel.categoryTree.collectAsState(initial = Category.LOADING).value.let { state ->
                     val typeFlags = viewModel.typeFilterLiveData.observeAsState(null).value
                     Column(modifier = Modifier.fillMaxSize()) {
                         if (typeFlags != null) {
                             TypeConfiguration(
-                                modifier = Modifier.align(CenterHorizontally),
+                                modifier = Modifier.fillMaxWidth().background(color = colorResource(id = R.color.cardBackground)),
                                 typeFlags = typeFlags,
                                 onCheckedChange = { viewModel.typeFilter = it }
                             )
                         }
                         Box(modifier = Modifier.fillMaxWidth().weight(1f)) {
-                            when {
-                                root == Category.LOADING -> {
+                            when(state) {
+                                LoadingState.Loading -> {
                                     CircularProgressIndicator(
                                         modifier = Modifier
                                             .size(96.dp)
@@ -233,14 +236,14 @@ class ManageCategories : ProtectedFragmentActivity(),
                                     )
                                 }
 
-                                root.children.isEmpty() -> {
+                                is LoadingState.Empty -> {
                                     Column(
                                         modifier = Modifier.align(Alignment.Center),
                                         verticalArrangement = Arrangement.spacedBy(5.dp),
                                         horizontalAlignment = CenterHorizontally
                                     ) {
                                         Text(text = stringResource(id = R.string.no_categories))
-                                        if (viewModel.filter.isNullOrBlank() && typeFlags == null) {
+                                        if (!state.hasUnfiltered) {
                                             Button(onClick = { importCats() }) {
                                                 Column(horizontalAlignment = CenterHorizontally) {
                                                     Icon(
@@ -254,11 +257,11 @@ class ManageCategories : ProtectedFragmentActivity(),
                                     }
                                 }
 
-                                else -> {
+                                is LoadingState.Data -> {
 
                                     Category(
                                         category = if (action == Action.SELECT_FILTER)
-                                            root.copy(children = buildList {
+                                            state.data.copy(children = buildList {
                                                 add(
                                                     Category(
                                                         id = NULL_ITEM_ID,
@@ -266,9 +269,9 @@ class ManageCategories : ProtectedFragmentActivity(),
                                                         level = 1
                                                     )
                                                 )
-                                                addAll(root.children)
+                                                addAll(state.data.children)
                                             })
-                                        else root,
+                                        else state.data,
                                         expansionMode = ExpansionMode.DefaultCollapsed(
                                             rememberMutableStateListOf()
                                         ),
@@ -348,7 +351,7 @@ class ManageCategories : ProtectedFragmentActivity(),
     fun doMultiSelection() {
         val selected = (choiceMode as ChoiceMode.MultiChoiceMode).selectionState
         if (selected.size == 1 || !selected.any { it.id == NULL_ITEM_ID }) {
-            val label = viewModel.categoryTree.value.flatten()
+            val label = (viewModel.categoryTree.value as LoadingState.Data).data.flatten()
                 .filter { selected.any { category -> category.id == it.id } }
                 .joinToString(separator = ",") { it.label }
             setResult(RESULT_FIRST_USER, Intent().apply {

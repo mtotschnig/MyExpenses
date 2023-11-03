@@ -16,8 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModelProvider
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.compose.*
+import org.totschnig.myexpenses.compose.ButtonRow
+import org.totschnig.myexpenses.compose.Category
+import org.totschnig.myexpenses.compose.ChoiceMode
+import org.totschnig.myexpenses.compose.ExpansionMode
+import org.totschnig.myexpenses.compose.rememberMutableStateListOf
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
+import org.totschnig.myexpenses.viewmodel.LoadingState
 import org.totschnig.myexpenses.viewmodel.data.Category
 
 class SelectCategoryMoveTargetDialogFragment : ComposeBaseDialogFragment() {
@@ -42,18 +47,23 @@ class SelectCategoryMoveTargetDialogFragment : ComposeBaseDialogFragment() {
                 text = stringResource(id = R.string.dialog_title_select_target)
             )
 
-            Category(
-                modifier = Modifier.weight(1f),
-                category = viewModel.categoryTreeForSelect.collectAsState(initial = Category.LOADING).value.copy(
-                    label = stringResource(id = R.string.transform_subcategory_to_main)
-                ),
-                expansionMode = ExpansionMode.DefaultExpanded(rememberMutableStateListOf()),
-                choiceMode = ChoiceMode.SingleChoiceMode(selectionState) {
-                          it != source.parentId
-                },
-                excludedSubTree = source.id,
-                withRoot = source.parentId != null
-            )
+            val state = viewModel.categoryTreeForSelect.collectAsState(initial = LoadingState.Loading)
+
+            (state.value as? LoadingState.Data)?.let {
+                Category(
+                    modifier = Modifier.weight(1f),
+                    category = it.data.copy(
+                        label = stringResource(id = R.string.transform_subcategory_to_main)
+                    ),
+                    expansionMode = ExpansionMode.DefaultExpanded(rememberMutableStateListOf()),
+                    choiceMode = ChoiceMode.SingleChoiceMode(selectionState) {
+                        it != source.parentId
+                    },
+                    excludedSubTree = source.id,
+                    withRoot = source.parentId != null
+                )
+            }
+
             ButtonRow(modifier = Modifier.padding(bottom = dialogPadding, end = dialogPadding)) {
                 Button(onClick = { dismiss() }) {
                     Text(stringResource(id = android.R.string.cancel))

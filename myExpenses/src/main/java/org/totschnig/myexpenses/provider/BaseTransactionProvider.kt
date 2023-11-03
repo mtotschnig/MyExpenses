@@ -746,6 +746,15 @@ abstract class BaseTransactionProvider : ContentProvider() {
         )
     }
 
+    fun hasCategories(db: SupportSQLiteDatabase): Bundle = Bundle(1).apply {
+        putBoolean(
+            KEY_COUNT,
+            db.query("SELECT EXISTS (SELECT 1 FROM $TABLE_CATEGORIES WHERE $KEY_ROWID != $SPLIT_CATID)").use {
+                if (it.moveToFirst()) it.getInt(0) == 1 else false
+            }
+        )
+    }
+
     fun uuidForTransaction(db: SupportSQLiteDatabase, id: Long): String = db.query(
         table = TABLE_TRANSACTIONS,
         columns = arrayOf(KEY_UUID),

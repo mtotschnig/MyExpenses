@@ -99,7 +99,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 val sort = viewModel.sortOrder.collectAsState()
                 val whereFilter = viewModel.whereFilter.collectAsState().value
                 Box(modifier = Modifier.fillMaxSize()) {
-                    if (category == Category.LOADING || budget == null) {
+                    if (category === Category.LOADING || budget == null) {
                         CircularProgressIndicator(
                             modifier = Modifier
                                 .size(96.dp)

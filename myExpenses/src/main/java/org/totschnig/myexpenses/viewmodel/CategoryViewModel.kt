@@ -57,6 +57,15 @@ import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
 import java.io.FileNotFoundException
 
+sealed class LoadingState {
+    data object Loading: LoadingState()
+
+    sealed class Result: LoadingState()
+    class Data(val data: Category): Result()
+
+    class Empty(val hasUnfiltered: Boolean): Result()
+}
+
 open class CategoryViewModel(
     application: Application,
     protected val savedStateHandle: SavedStateHandle
@@ -150,9 +159,9 @@ open class CategoryViewModel(
             withColors = false
         )
     }
-        .stateIn(viewModelScope, SharingStarted.Lazily, Category.LOADING)
+        .stateIn(viewModelScope, SharingStarted.Lazily, LoadingState.Loading)
 
-    val categoryTreeForSelect: Flow<Category>
+    val categoryTreeForSelect: Flow<LoadingState>
         get() = categoryTree(sortOrder = sortOrder.value.toOrderByWithDefault(defaultSort, collate))
 
     fun categoryTree(
@@ -164,7 +173,7 @@ open class CategoryViewModel(
         queryParameter: Map<String, String> = emptyMap(),
         keepCriteria: ((Category) -> Boolean)? = null,
         withColors: Boolean = true
-    ): Flow<Category> {
+    ): Flow<LoadingState.Result> {
         return contentResolver.observeQuery(
             categoryUri(queryParameter),
             projection,
@@ -172,7 +181,7 @@ open class CategoryViewModel(
             selectionArgs + (additionalSelectionArgs ?: emptyArray()),
             sortOrder ?: KEY_LABEL,
             true
-        ).mapToTree(keepCriteria, withColors)
+        ).mapToResult(keepCriteria, withColors)
     }
 
     private fun categoryUri(queryParameter: Map<String, String>): Uri =
@@ -184,25 +193,28 @@ open class CategoryViewModel(
             }
             .build()
 
-    private fun Flow<Query>.mapToTree(
+    private fun Flow<Query>.mapToResult(
         keepCriteria: ((Category) -> Boolean)?,
         withColors: Boolean
-    ): Flow<Category> = mapNotNull { query ->
+    ): Flow<LoadingState.Result> = mapNotNull { query ->
         withContext(Dispatchers.IO) {
             query.run()?.use { cursor ->
-                cursor.moveToFirst()
-                Category(
-                    id = 0,
-                    parentId = null,
-                    level = 0,
-                    label = "ROOT",
-                    children = ingest(
-                        withColors,
-                        cursor,
-                        null,
-                        1
-                    )
-                ).pruneNonMatching(keepCriteria)
+                if (cursor.moveToFirst())
+                    Category(
+                        id = 0,
+                        parentId = null,
+                        level = 0,
+                        label = "ROOT",
+                        children = ingest(
+                            withColors,
+                            cursor,
+                            null,
+                            1
+                        )
+                    ).pruneNonMatching(keepCriteria)?.let {
+                        LoadingState.Data(data = it)
+                    } ?: LoadingState.Empty(true)
+                else LoadingState.Empty(cursor.extras.getBoolean(KEY_COUNT))
             }
         }
     }

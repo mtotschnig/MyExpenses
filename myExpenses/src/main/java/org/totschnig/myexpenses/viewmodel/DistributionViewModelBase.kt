@@ -254,7 +254,10 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             }.toTypedArray(),
             queryParameter = queryParameter,
             keepCriteria = keepCriteria
-        )
+        ).mapNotNull { when(it) {
+            is LoadingState.Empty -> Category.EMPTY
+            is LoadingState.Data -> it.data
+        } }
 
     private fun sumColumn(
         accountInfo: T,
