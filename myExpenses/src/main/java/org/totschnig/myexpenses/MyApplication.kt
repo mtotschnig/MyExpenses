@@ -133,7 +133,6 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
         if (BuildConfig.DEBUG) {
             enableStrictMode()
         }
-        DynamicColors.applyToActivitiesIfAvailable(this)
         super<Application>.onCreate()
         checkAppReplacingState()
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)

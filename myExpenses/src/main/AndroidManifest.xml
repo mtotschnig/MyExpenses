@@ -73,6 +73,7 @@
         android:name=".MyApplication"
         android:allowBackup="true"
         android:backupAgent=".MyBackupAgent"
+        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/mybackupscheme"
         android:fullBackupOnly="true"
         android:icon="@mipmap/ic_myexpenses"

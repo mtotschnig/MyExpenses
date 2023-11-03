@@ -50,7 +50,6 @@ import androidx.loader.app.LoaderManager
 import com.evernote.android.state.State
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.DynamicColorsOptions
-import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.coroutines.Dispatchers
@@ -146,7 +145,6 @@ import org.totschnig.myexpenses.viewmodel.data.AttachmentInfo
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
-import timber.log.Timber
 import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -174,9 +172,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         get() = rootBinding.Amount
     override val exchangeRateEdit: ExchangeRateEdit
         get() = rootBinding.ERR.ExchangeRate
-
-    @State
-    var color = 0
 
     @State
     var parentId = 0L
@@ -286,7 +281,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     fun updateContentColor(color: Int) {
         this.color = color
-        if (isDynamicColorAvailable) {
+        if (canUseContentColor) {
             tintSystemUi(UiUtils.getColor(this, com.google.android.material.R.attr.colorPrimaryContainer))
         } else {
             tintSystemUiAndFab(color)
@@ -295,18 +290,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (isDynamicColorAvailable) {
-            (color.takeIf { it != 0 } ?: intent.getIntExtra(KEY_COLOR, 0).takeIf { it != 0 })?.let {
-                val harmonized = MaterialColors.harmonizeWithPrimary(this, it)
-                Timber.tag("DEBUGG").i("DynamicColors.applyToActivityIfAvailable input %d, harmonized: %d", it, harmonized)
-                DynamicColors.applyToActivityIfAvailable(
-                    this,
-                    DynamicColorsOptions.Builder()
-                        .setContentBasedSource(harmonized)
-                        .build()
-                )
-            }
-        }
         maybeRepairRequerySchema()
         setHelpVariant(HelpVariant.transaction, false)
         rootBinding = OneExpenseBinding.inflate(LayoutInflater.from(this))
@@ -607,6 +590,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             R.id.EDIT_COMMAND -> {
                 startActivityForResult(Intent(this, ExpenseEdit::class.java).apply {
                     putExtra(if (isTemplate) KEY_TEMPLATEID else KEY_ROWID, info.id)
+                    putExtra(KEY_COLOR, color)
                 }, EDIT_REQUEST)
                 true
             }
@@ -1175,6 +1159,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             putExtra(KEY_PAYEEID, (delegate as? MainDelegate)?.payeeId)
             putExtra(KEY_NEW_TEMPLATE, isMainTemplate)
             putExtra(KEY_INCOME, delegate.isIncome)
+            putExtra(KEY_COLOR, color)
         }, EDIT_REQUEST)
     }
 
@@ -1190,6 +1175,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             (delegate as? CategoryDelegate)?.catId?.let<Long, Unit> {
                 putExtra(KEY_PROTECTION_INFO, ManageCategories.ProtectionInfo(it, isTemplate))
             }
+            putExtra(KEY_COLOR, color)
             putExtra(KEY_TYPE_FILTER, (if (delegate.isIncome) FLAG_INCOME else FLAG_EXPENSE).toInt())
         }, SELECT_CATEGORY_REQUEST)
     }

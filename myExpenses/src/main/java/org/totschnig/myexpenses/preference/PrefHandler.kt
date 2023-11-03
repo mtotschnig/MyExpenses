@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.preference.PreferenceFragmentCompat
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.util.Utils
 import java.util.Calendar
 import java.util.Locale
@@ -66,6 +67,10 @@ interface PrefHandler {
 
     fun weekStartWithFallback(locale: Locale) = weekStart ?: Utils.getFirstDayOfWeek(locale)
 
+    fun uiMode(context: Context) = getString(
+        PrefKey.UI_THEME_KEY,
+        context.getString(R.string.pref_ui_theme_default)
+    )
 }
 
 inline fun <reified T : Enum<T>> PrefHandler.enumValueOrDefault(prefKey: PrefKey, default: T): T =

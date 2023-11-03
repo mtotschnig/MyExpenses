@@ -7,6 +7,8 @@ import android.app.NotificationManager
 import android.content.*
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.content.res.Configuration.UI_MODE_NIGHT_NO
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
@@ -40,6 +42,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.evernote.android.state.State
+import com.evernote.android.state.StateSaver
+import com.google.android.material.color.DynamicColors
+import com.google.android.material.color.DynamicColorsOptions
 import com.google.android.material.color.HarmonizedColors
 import com.google.android.material.color.HarmonizedColorsOptions
 import com.google.android.material.color.MaterialColors
@@ -71,6 +76,7 @@ import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.maybeRepairRequerySchema
 import org.totschnig.myexpenses.service.PlanExecutor.Companion.enqueueSelf
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -102,7 +108,7 @@ import kotlin.math.sign
 
 abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener,
     ConfirmationDialogListener, EasyPermissions.PermissionCallbacks, AmountInput.Host, ContribIFace,
-    OnDialogResultListener{
+    OnDialogResultListener {
     private var snackBar: Snackbar? = null
     private var pwDialog: AlertDialog? = null
 
@@ -193,6 +199,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 putExtra(DatabaseConstants.KEY_AMOUNT, amount)
             }
             putExtra(CalculatorInput.EXTRA_KEY_INPUT_ID, id)
+            putExtra(KEY_COLOR, color)
         }
         (supportFragmentManager.findFragmentById(0) as? AmountInputHostDialog)?.also {
             it.startActivityForResult(intent, CALCULATOR_REQUEST)
@@ -234,10 +241,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         body: String
     ) {
         if (!EmailIntentBuilder.from(this)
-            .to(recipient)
-            .subject(subject)
-            .body(body)
-            .start()) {
+                .to(recipient)
+                .subject(subject)
+                .body(body)
+                .start()
+        ) {
             showMessage(body)
         }
     }
@@ -254,7 +262,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
-        if (feature == ContribFeature.BANKING)  {
+        if (feature == ContribFeature.BANKING) {
             if (featureViewModel.isFeatureAvailable(this, Feature.FINTS)) {
                 startBanking()
             } else {
@@ -273,6 +281,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     @State
     var downloadPending: String? = null
+
+    @State
+    var color = 0
 
     @Inject
     lateinit var prefHandler: PrefHandler
@@ -320,7 +331,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     @CallSuper
     open fun onFeatureAvailable(feature: Feature) {
         featureManager.initActivity(this)
-        if (feature == Feature.FINTS)  startBanking()
+        if (feature == Feature.FINTS) startBanking()
     }
 
     open fun maybeRepairRequerySchema() {
@@ -334,12 +345,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        with(injector) {
-            inject(ocrViewModel)
-            inject(featureViewModel)
-            inject(shareViewModel)
-        }
+    fun harmonizeColors() {
         HarmonizedColors.applyToContextIfAvailable(
             this,
             HarmonizedColorsOptions.Builder()
@@ -357,6 +363,30 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 )
                 .build()
         )
+    }
+
+    private val contentColor: Int
+        get() = if (canUseContentColor) color.takeIf { it != 0 } ?: intent.getIntExtra(KEY_COLOR, 0) else 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        with(injector) {
+            inject(ocrViewModel)
+            inject(featureViewModel)
+            inject(shareViewModel)
+        }
+
+        StateSaver.restoreInstanceState(this, savedInstanceState)
+        contentColor.takeIf { it != 0 }?.also {
+            DynamicColors.applyToActivityIfAvailable(
+                this,
+                DynamicColorsOptions.Builder()
+                    .setContentBasedSource(it)
+                    .setOnAppliedCallback {
+                        harmonizeColors()
+                    }
+                    .build()
+            )
+        } ?: run { harmonizeColors() }
 
         featureViewModel.getFeatureState().observe(this, EventObserver { featureState ->
             when (featureState) {
@@ -426,6 +456,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 }
             }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        StateSaver.saveInstanceState(this, outState)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -1153,12 +1188,41 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    val isDynamicColorAvailable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+    fun maybeApplyDynamicColor(): Boolean = if (canUseContentColor) {
+        recreate()
+        true
+    } else false
+
+    val canUseContentColor: Boolean by lazy {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (prefHandler.getInt(PrefKey.UI_FONTSIZE, 0) == 0) true else {
+                val uiModeFromPref = prefHandler.uiMode(this)
+                if (uiModeFromPref == "default") true else {
+                    val ourUiMode = if (uiModeFromPref == "dark")
+                        UI_MODE_NIGHT_YES else UI_MODE_NIGHT_NO
+                    val systemUiMode =
+                        applicationContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+                    Timber.tag("DEBUGG").i("our: %d, system: %d", ourUiMode, systemUiMode)
+                    ourUiMode == systemUiMode
+                }
+            }
+        } else false
+    }
+
+    val doesUseContentColor: Boolean
+        get() = canUseContentColor && intent.hasExtra(KEY_COLOR)
+
+    fun tintSystemUiAndFab(color: Int) {
+        //If we use dynamic content based color, we do not need to harmonize the color
+        val harmonized =
+            if (canUseContentColor) color else MaterialColors.harmonizeWithPrimary(this, color)
+        tintSystemUi(harmonized)
+        floatingActionButton.setBackgroundTintList(harmonized)
+    }
 
     fun tintSystemUi(color: Int) {
 
         if (shouldTintSystemUi()) {
-            Timber.tag("DEBUGG").i("tintSystemUi input %d", color)
             with(window) {
                 clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
                 addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -1167,7 +1231,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             }
             with(WindowInsetsControllerCompat(window, window.decorView)) {
                 val isBright = isBrightColor(color)
-                Timber.tag("DEBUGG").i("tintSystemUi %b", isBright)
                 isAppearanceLightNavigationBars = isBright
                 isAppearanceLightStatusBars = isBright
             }

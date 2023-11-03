@@ -92,9 +92,6 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         get() = if (dataLoaded) _currencyUnit!! else throw IllegalStateException()
 
     @State
-    var color: Int = 0
-
-    @State
     var excludeFromTotals = false
 
     @State
@@ -477,7 +474,9 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
         if (EDIT_COLOR_DIALOG == dialogTag && which == OnDialogResultListener.BUTTON_POSITIVE) {
             color = extras.getInt(SimpleColorDialog.COLOR)
-            UiUtils.setBackgroundOnButton(binding.colorInput.ColorIndicator, color)
+            if (!maybeApplyDynamicColor()) {
+                UiUtils.setBackgroundOnButton(binding.colorInput.ColorIndicator, color)
+            }
             return true
         }
         return false

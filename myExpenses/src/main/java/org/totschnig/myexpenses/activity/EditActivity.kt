@@ -19,6 +19,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
@@ -33,6 +34,8 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
 
     @State
     var isDirty = false
+
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     @State
     var newInstance = true
@@ -90,14 +93,18 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
         isSaving = true
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        super.onBackPressed()
-        if (isDirty) {
-            showDiscardDialog()
-        } else {
-            dispatchOnBackPressed()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        onBackPressedCallback = object : OnBackPressedCallback(isDirty) {
+            override fun handleOnBackPressed() {
+                if (isDirty) {
+                    showDiscardDialog()
+                } else {
+                    dispatchOnBackPressed()
+                }
+            }
         }
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     override fun onCurrencySelectionChanged(currencyUnit: CurrencyUnit) {
@@ -118,10 +125,12 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
 
     fun setDirty() {
         isDirty = true
+        onBackPressedCallback.isEnabled = true
     }
 
     protected fun clearDirty() {
         isDirty = false
+        onBackPressedCallback.isEnabled = false
     }
 
     override val snackBarContainerId = R.id.edit_container

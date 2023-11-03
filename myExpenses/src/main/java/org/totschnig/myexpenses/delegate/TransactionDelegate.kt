@@ -657,9 +657,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             accountSpinner.id -> {
                 val account = mAccounts[position]
                 updateAccount(account)
-                if (host.isDynamicColorAvailable) {
-                    host.recreate()
-                }
+                host.maybeApplyDynamicColor()
             }
             operationTypeSpinner.id -> {
                 val newType =

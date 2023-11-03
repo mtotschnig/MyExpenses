@@ -92,7 +92,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    StateSaver.restoreInstanceState(this, savedInstanceState);
     if (requireApplication().isProtected()) {
       getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
           WindowManager.LayoutParams.FLAG_SECURE);
@@ -100,11 +99,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     settings.registerOnSharedPreferenceChangeListener(this);
     TypedArray themeArray = getTheme().obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
     textColorSecondary = themeArray.getColorStateList(0);
-  }
-
-  protected void onSaveInstanceState(@NonNull Bundle outState) {
-    super.onSaveInstanceState(outState);
-    StateSaver.saveInstanceState(this, outState);
   }
 
   @Override
@@ -208,12 +202,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
 
   protected boolean shouldKeepProgress(int taskId) {
     return false;
-  }
-
-  public void tintSystemUiAndFab(int color) {
-    int harmonized = MaterialColors.harmonizeWithPrimary(this, color);
-    tintSystemUi(harmonized);
-    setBackgroundTintList(getFloatingActionButton(), harmonized);
   }
 
   public void onPostExecute(int taskId, @Nullable Object o) {
