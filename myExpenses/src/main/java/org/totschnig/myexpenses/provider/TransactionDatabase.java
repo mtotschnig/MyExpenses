@@ -2154,6 +2154,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 151) {
         db.execSQL("ALTER TABLE categories add column type integer");
         db.execSQL("DROP VIEW IF EXISTS " + VIEW_WITH_ACCOUNT);
+        db.execSQL("UPDATE categories set type = 3 where _id != 0");
         db.execSQL(VIEW_WITH_ACCOUNT_DEFINITION);
       }
 
