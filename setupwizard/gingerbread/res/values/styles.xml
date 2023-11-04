@@ -19,7 +19,9 @@
 
     <!-- General styles -->
 
-    <style name="SuwThemeMaterial" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="SuwThemeMaterial" parent="Theme.Material3.DynamicColors.DayNight">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <item name="android:listPreferredItemHeight">@dimen/suw_items_preferred_height</item>
         <item name="android:listPreferredItemPaddingEnd" tools:ignore="NewApi">?attr/suwMarginSides</item>
         <item name="android:listPreferredItemPaddingStart" tools:ignore="NewApi">?attr/suwMarginSides</item>
