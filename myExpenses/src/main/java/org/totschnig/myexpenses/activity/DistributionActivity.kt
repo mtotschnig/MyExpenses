@@ -240,7 +240,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 val accountInfo = viewModel.accountInfo.collectAsState(null)
                 Box(modifier = Modifier.fillMaxSize()) {
                     when {
-                        categoryTree.value == Category.LOADING -> {
+                        categoryTree.value === Category.LOADING -> {
                             CircularProgressIndicator(
                                 modifier = Modifier
                                     .size(96.dp)
