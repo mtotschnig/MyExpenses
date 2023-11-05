@@ -62,7 +62,6 @@
     <string name="menu_categories_setup_default_help_text">Bir seri varsayılan kategori içe aktarılacaktır.</string>
     <string name="menu_categories_export_help_text">Kategoriler QIF dosyasına dışa aktarılacaktır.</string>
     <string name="menu_distribution_show_pie_char_help_text">Yuvarlak diyagramın görüntülenmesini aç ya da kapat.</string>
-    <string name="menu_distribution_aggreate_help_text">Varsayılan değer olarak, hesaplanan toplamlar hem harcamalar hem de gelirleri içerir. Bunların ayrı olarak gösterilmesini seçebilirsiniz, eylem çubuğundaki bir düğme harcamalar ve gelirler arasında geçiş yapmaya imkân verir.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">Seçilen kategoriler, işlem listesini filtrelemek için kullanılacaktır.</string>
     <string name="menu_ManageCategories_search_help_text">Sorgunuzla eşleşen sadece ana ve alt kategoriler gösterilecektir.</string>
     <string name="menu_ManageCategories_sort_help_text">Kategori listesi başlıklara göre (alfabetik olarak), kullanma sıklığına göre ya da son muamele ilişkilendirme tarihine göre sıralanabilir.</string>
@@ -158,7 +157,6 @@
     <string name="cab_show_transactions_help_text">Güncel hesapta seçilen kategoriye eşlenen tüm muameleleri listeleyen bir diyalog kutusu aç.</string>
     <string name="menu_BudgetActivity_back_forward_help_text">Bütçeyi geçmiş ve gelecekteki zaman periyotlarındaki harcamalar ile karşılaştırın.</string>
     <string name="menu_BudgetActivity_edit_help_text">Bütçenin tanımını değiştirin.</string>
-    <string name="menu_budget_aggregate_help_text">Varsayılan değer olarak, hesaplanan toplamlar hem giderleri hem de gelirleri içerir. Şayet bu seçeneği devre dışı bırakırsanız, gelirler görmezden gelinecek ve sadece harcamalar dikkate alınacaktır.</string>
     <string name="menu_budget_allocated_only_help_text">Bu seçeneği etkinleştirdiğinizde sadece herhangi bir meblağın tahsis edildiği kategoriler görüntülenecektir.</string>
     <string name="menu_BudgetActivity_delete_help_text">Güncel olarak görüntülenen bütçe silinecektir.</string>
     <string name="help_ManageBudgets_title">Tüm bütçelerin listesi</string>

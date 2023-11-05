@@ -62,7 +62,6 @@
     <string name="menu_categories_setup_default_help_text">קבוצה של קטגוריות ברירת מחדל תיובא.</string>
     <string name="menu_categories_export_help_text">הקטגוריות יוצאו לקובץ QIF.</string>
     <string name="menu_distribution_show_pie_char_help_text">החלף את הנראות של תרשים העוגה.</string>
-    <string name="menu_distribution_aggreate_help_text">כברירת מחדל, הסכומים המחושבים כוללים הן הוצאות והן הכנסות. אתה יכול להחליט להציג אותם בנפרד, כפתור בסרגל הפעולות מאפשר לך לעבור בין ההוצאות וההכנסות.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">הקטגוריות שנבחרו ישמשו לסינון רשימת העסקאות.</string>
     <string name="menu_ManageCategories_search_help_text">רק קטגוריות עיקריות ותת-קטגוריות התואמות את השאילתה שלך יוצגו.</string>
     <string name="menu_ManageCategories_sort_help_text">ניתן לסווג את רשימת הקטגוריות לפי כותרת (לפי סדר אלפביתי), לפי תדירות השימוש, או לפי הפעם האחרונה ששוייכה לעסקה.</string>
@@ -158,7 +157,6 @@
     <string name="cab_show_transactions_help_text">פתיחת תיבת דו-שיח המפרטת את כל העסקאות הממופות לקטגוריה שנבחרה בחשבון הנוכחי.</string>
     <string name="menu_BudgetActivity_back_forward_help_text">השווה את התקציב עם ההוצאות של תקופות העבר והעתיד.</string>
     <string name="menu_BudgetActivity_edit_help_text">שנה את הגדרת התקציב.</string>
-    <string name="menu_budget_aggregate_help_text">כברירת מחדל, הסכומים המחושבים כוללים גם הוצאות וגם הכנסות. אם אתה מבטל אפשרות זו, מתעלמים מההכנסה, רק הוצאות נלקחות בחשבון.</string>
     <string name="menu_budget_allocated_only_help_text">על ידי הפעלת אפשרות זו מוצגות רק קטגוריות, שהוקצו להם סכום מסוים.</string>
     <string name="menu_BudgetActivity_delete_help_text">התקציב המוצג כעת יימחק.</string>
     <string name="help_ManageBudgets_title">רשימת כל התקציבים</string>

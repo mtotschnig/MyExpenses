@@ -18,7 +18,6 @@
     <string name="help_ManageBudgets_title">అన్ని బడ్జెట్ల జాబితా</string>
     <string name="menu_BudgetActivity_delete_help_text">ప్రస్తుతం ప్రదర్శించబడిన బడ్జెట్ తొలగించబడుతుంది.</string>
     <string name="menu_budget_allocated_only_help_text">ఈ ఎంపికను సక్రియం చేయడం ద్వారా, కొంత మొత్తాన్ని కేటాయించిన వర్గాలు మాత్రమే ప్రదర్శించబడతాయి.</string>
-    <string name="menu_budget_aggregate_help_text">అప్రమేయంగా, లెక్కించిన మొత్తాలలో ఖర్చులు మరియు ఆదాయం రెండూ ఉంటాయి. మీరు ఈ ఎంపికను నిష్క్రియం చేస్తే, ఆదాయం విస్మరించబడుతుంది, ఖర్చులు మాత్రమే పరిగణనలోకి తీసుకోబడతాయి.</string>
     <string name="menu_BudgetActivity_edit_help_text">బడ్జెట్ నిర్వచనాన్ని మార్చండి.</string>
     <string name="menu_BudgetActivity_back_forward_help_text">గత మరియు భవిష్యత్తు కాలాల ఖర్చుతో బడ్జెట్‌ను పోల్చండి.</string>
     <string name="cab_show_transactions_help_text">ప్రస్తుత ఖాతాలో ఎంచుకున్న వర్గానికి మ్యాప్ చేసిన అన్ని లావాదేవీల జాబితాను తెరవండి.</string>
@@ -113,7 +112,6 @@
     <string name="menu_ManageCategories_sort_help_text">వర్గం జాబితాను శీర్షిక ద్వారా (అక్షరక్రమంగా), ఉపయోగాల పౌన తరచుదనం పున్యం ద్వారా లేదా చివరిసారిగా లావాదేవీకి మ్యాప్ చేయబడినప్పుడు క్రమబద్ధీకరించవచ్చు.</string>
     <string name="menu_ManageCategories_search_help_text">మీ ప్రశ్నకు సరిపోయే ప్రధాన మరియు ఉప వర్గాలు మాత్రమే ప్రదర్శించబడతాయి.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">లావాదేవీ జాబితాను ఫిల్టర్ చేయడానికి ఎంచుకున్న వర్గాలు ఉపయోగించబడతాయి.</string>
-    <string name="menu_distribution_aggreate_help_text">అప్రమేయంగా, లెక్కించిన మొత్తాలలో ఖర్చులు మరియు ఆదాయం రెండూ ఉంటాయి. మీరు వాటిని విడిగా చూపించాలని నిర్ణయించుకోవచ్చు, యాక్షన్ బార్‌లోని ఒక బటన్ ఖర్చులు మరియు ఆదాయాల మధ్య టోగుల్ చేయడానికి మిమ్మల్ని అనుమతిస్తుంది.</string>
     <string name="menu_distribution_show_pie_char_help_text">పై చార్ట్ యొక్క దృశ్యమానతను టోగుల్ చేయండి.</string>
     <string name="menu_categories_export_help_text">వర్గాలు QIF ఫైల్‌కు ఎగుమతి చేయబడతాయి.</string>
     <string name="menu_categories_setup_default_help_text">డిఫాల్ట్ వర్గాల సమితి దిగుమతి అవుతుంది.</string>

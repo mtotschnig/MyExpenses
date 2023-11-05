@@ -443,7 +443,6 @@
     <string name="restore_not_possible_target_calendar_missing">Lịch %s đặt trong bản sao lưu không tồn tại. Việc khôi phục đã bị ngừng.</string>
     <string name="restore_not_possible_local_calendar_missing">Lịch kế hoạch hiện tại không sẵn có.</string>
     <string name="menu_distribution_show_pie_char">Hiện biểu đồ tròn</string>
-    <string name="menu_distribution_aggreate">Gộp thu và chi</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Ảnh mất hiệu lực</string>
     <string name="pref_manage_stale_images_summary">Xử lý hình ảnh còn dư từ các giao dịch đã bị xoá</string>

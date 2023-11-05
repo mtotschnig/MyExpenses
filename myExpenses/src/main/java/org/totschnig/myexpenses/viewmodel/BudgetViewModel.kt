@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.db2.sumLoaderForBudget
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
@@ -30,12 +31,14 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_DEFAULT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import java.util.Locale
 
@@ -84,9 +87,9 @@ open class BudgetViewModel(application: Application) :
                 sumUri,
                 null, sumSelection, sumSelectionArguments, null, true
             )
-                .mapToOne { it.getLong(0) },
+                .mapToOne { it.getLong(KEY_SUM) },
             contentResolver.observeQuery(allocationUri)
-                .mapToOne(0) { it.getLong(0) }
+                .mapToOne(0) { it.getLong(KEY_BUDGET) }
         ) { spent, allocated -> Tuple4(position, budget.id, spent, allocated) }
     }.flattenMerge()
 

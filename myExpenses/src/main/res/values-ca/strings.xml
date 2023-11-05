@@ -614,7 +614,6 @@
     <string name="comparison_operator_lesser_than">menor que</string>
     <string name="comparison_operator_date_before">abans</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Compra fallida o cancel·lada.</string>
-    <string name="menu_distribution_aggreate">Agrega despeses i impostos</string>
     <string name="restore_calendar_handling_ignore">No restauris projectes</string>
     <string name="pref_manage_stale_images_title">Magatzem d\'imatges</string>
     <string name="pref_manage_stale_images_summary">Gestiona imatges sobrants de transaccions eleminades</string>

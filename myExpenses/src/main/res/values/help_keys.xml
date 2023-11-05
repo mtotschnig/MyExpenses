@@ -34,7 +34,6 @@
     <string name="menu_RoadmapVoteActivity_clear_help_text">All weights will be reset to 0.</string>
     <string name="cab_RoadmapVoteActivity_learn_more_help_text">Learn more about the ticket by reading its page on Github.</string>
     <string name="cab_RoadmapVoteActivity_set_weight_help_text">Select the amount of points that corresponds to how relevant the issue is for you.</string>
-    <string name="menu_budget_aggregate">@string/menu_distribution_aggreate</string>
     <string name="accounts">@string/pref_manage_accounts_title</string>
     <string name="filter">@string/budget_form_label_filter</string>
     <string name="help_ManageTags_manage_title">@string/tags</string>

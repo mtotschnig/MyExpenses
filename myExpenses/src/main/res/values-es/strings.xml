@@ -466,7 +466,6 @@
     <string name="restore_not_possible_target_calendar_missing">El calendario %s configurado en la copia de seguridad no existe a nivel loca. La restauración ha sido cancelada.</string>
     <string name="restore_not_possible_local_calendar_missing">El actual calendario de planificación no está disponible.</string>
     <string name="menu_distribution_show_pie_char">Mostrar el gráfico de sectores</string>
-    <string name="menu_distribution_aggreate">Agregar gastos e ingresos</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Antiguas imágenes</string>
     <string name="pref_manage_stale_images_summary">Administrar imágenes restantes de transacciones eliminadas</string>

@@ -113,7 +113,6 @@
     <string name="menu_save_and_new_help_text">如果勾选此项，保存数据后会使用相同的数据创建一个新的交易。</string>
     <string name="form_attach_image_help_text">&lt;img src=android:ic_menu_camera&gt; 此按钮可以给对象添加图片(例如：从相册选择或者使用相机) 。</string>
     <string name="help_ExpenseEdit_transaction_info">使用此表单录入一个新的交易或者编辑已有交易。使用操作栏的下拉菜单可在添加新的转账和拆分交易的表单之间进行切换。</string>
-    <string name="menu_distribution_aggreate_help_text">默认情况下，计算的总金额包括支出和收入。你可以设置分开展示，在操作栏的按钮切换支出和收入。</string>
     <string name="menu_distribution_show_pie_char_help_text">切换为饼图。</string>
     <string name="menu_forward_help_text">导航到下一组。也可以通过从右到左的滑动手势来实现。</string>
     <string name="menu_ManageCategories_distribution_grouping_help_text">设置分组类型，并以每天、每月、每周或每年为单位显示分布情况。</string>
@@ -178,7 +177,6 @@
     <string name="cab_show_transactions_help_text">打开对话框会列出映射到当前账号中所选类别的所有交易</string>
     <string name="form_BudgetEdit_filter_help_text">可以根据类别、交易对象、方式或状态来过滤预算，仅计入与这些过滤器匹配的交易</string>
     <string name="form_BudgetEdit_accounts_help_text">预算要么仅限于一个账户，要么涵盖所有使用相同币种的账户，或者指所有币种的总和</string>
-    <string name="menu_budget_aggregate_help_text">默认情况下，计算的总和包括支出和收入。如果禁用此选项，则仅考虑支出而忽略收入</string>
     <string name="cab_sync_link_help_text">为本地和远程都存在的某个账户启动同步，你需要决定是否应在首次同步时保留本地或远程数据</string>
     <string name="help_Budget_spent_click">点击已花费的金额会列出与当前预算和相应类别相关的所有交易</string>
     <string name="menu_budget_allocated_only_help_text">通过启用此选项，仅显示已分配一定数额的类别</string>

@@ -459,7 +459,6 @@
     <string name="restore_not_possible_target_calendar_missing">Календарът %s, записан в архива, не съществува локално. Възстановяването е отменено.</string>
     <string name="restore_not_possible_local_calendar_missing">Не е посочен текущ план календар.</string>
     <string name="menu_distribution_show_pie_char">Покажи графиката</string>
-    <string name="menu_distribution_aggreate">Сумирай разходите и приходите</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Ненужни изображения</string>
     <string name="pref_manage_stale_images_summary">Управление на изображения, останали след изтриване на транзакция</string>

@@ -108,7 +108,6 @@
         <item>back</item>
         <item>forward</item>
         <item>distribution_show_pie_char</item><!-- sic! -->
-        <item>distribution_aggreate</item><!-- sic! -->
     </string-array>
 
     <string-array name="ManageCategories_manage_cabitems">
@@ -145,7 +144,6 @@
         <item>edit</item>
         <item>rollover</item>
         <item>manage_categories</item>
-        <item>budget_aggregate</item>
         <item>budget_allocated_only</item>
         <item>delete</item>
     </string-array>

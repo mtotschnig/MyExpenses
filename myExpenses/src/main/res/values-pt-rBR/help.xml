@@ -62,7 +62,6 @@
     <string name="menu_categories_setup_default_help_text">Um conjunto de categorias padrão será importado.</string>
     <string name="menu_categories_export_help_text">As categorias serão exportadas para o arquivo QIF.</string>
     <string name="menu_distribution_show_pie_char_help_text">Alterna a visibilidade do gráfico de pizza.</string>
-    <string name="menu_distribution_aggreate_help_text">Por padrão, as somas calculadas incluem tanto despesas quanto receitas. Você pode escolher exibi-las separadamente. Um botão na barra de ação permite alternar entre despesas e receitas.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">As categorias selecionadas serão usadas para filtrar a lista de transações.</string>
     <string name="menu_ManageCategories_search_help_text">Apenas as categorias principais e secundárias correspondentes à sua consulta serão exibidas.</string>
     <string name="menu_ManageCategories_sort_help_text">A lista de categorias pode ser ordenada pelo título (alfabeticamente), pela frequência de uso ou pela última vez em que uma transação foi mapeada para ela.</string>
@@ -158,7 +157,6 @@
     <string name="cab_show_transactions_help_text">Abre uma caixa de diálogo listando todas as transações mapeadas para a categoria selecionada na conta atual.</string>
     <string name="menu_BudgetActivity_back_forward_help_text">Compare o orçamento com o gasto de períodos passados e futuros.</string>
     <string name="menu_BudgetActivity_edit_help_text">Altera a definição do orçamento.</string>
-    <string name="menu_budget_aggregate_help_text">Por padrão, as somas calculadas incluem despesas e receitas. Se você desativar esta opção, apenas as despesas serão consideradas e as receitas serão ignoradas.</string>
     <string name="menu_budget_allocated_only_help_text">Ao ativar esta opção, apenas as categorias para as quais alguma quantia foi alocada, são exibidas.</string>
     <string name="menu_BudgetActivity_delete_help_text">O orçamento em exibição será excluído.</string>
     <string name="help_ManageBudgets_title">Lista de todos os orçamentos</string>

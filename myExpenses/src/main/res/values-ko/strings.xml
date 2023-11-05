@@ -416,7 +416,6 @@
     <string name="restore_not_possible_target_calendar_missing">백업에 설정된 %s 캘린더가 저장소에 존재하지 않습니다. 복원이 중단되었습니다.</string>
     <string name="restore_not_possible_local_calendar_missing">현재의 계획 캘린더가 존재하지 않습니다.</string>
     <string name="menu_distribution_show_pie_char">파이 그래프 표시</string>
-    <string name="menu_distribution_aggreate">지출과 수입 총계</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">오래된 이미지</string>
     <string name="pref_manage_stale_images_summary">삭제된 거래 내역으로부터 남겨진 사진 관리</string>

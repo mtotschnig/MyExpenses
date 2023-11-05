@@ -66,7 +66,6 @@
     <string name="cab_ManageCategories_create_sub_cat_help_text">Otvara dijalog za stvaranje nove potkategorije ispod odabrane kategorije. Potkategorije se mogu smjestiti na proizvoljnu razinu.</string>
     <string name="cab_ManageCategories_move_help_text">Bilo koja kategorija (zajedno sa svojim potkategorijama) može se premjestiti u novu nadređenu kategoriju. Potkategorije se mogu promijeniti u glavne kategorije.</string>
     <string name="menu_distribution_show_pie_char_help_text">Uključi/isključi vidljivost kružnog dijagrama.</string>
-    <string name="menu_distribution_aggreate_help_text">Prema zadanim postavkama, izračunati zbrojevi uključuju troškove i prihode. Mogu se prikazati zasebno, gumb u traci radnji omogućuje prebacivanje između troškova i prihoda.</string>
     <string name="menu_ManageCategories_search_help_text">Prikazat će se samo glavne kategorije i potkategorije koje odgovaraju tvom upitu.</string>
     <string name="menu_ManageCategories_sort_help_text">Popis kategorija može se razvrstati po naslovu (abecednim redom), po učestalosti korištenja ili po zadnjem vremenu mapiranja transakcije.</string>
     <string name="cab_ManageCategories_color_help_text">Glavnim kategorijama možeš dodijeliti boju. Ova će se boja koristiti za predstavljanje kategorije u dijagramima. Podkategorije će koristiti nijanse boje glavne kategorije.</string>

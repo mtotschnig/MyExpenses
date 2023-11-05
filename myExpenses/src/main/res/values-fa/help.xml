@@ -46,7 +46,6 @@
     <string name="menu_categories_setup_default_help_text">مجموعه ای از مقادیر پیش فرض وارد می شود.</string>
     <string name="menu_categories_export_help_text">دسته بندی ها به فایل QIF صادر می شود.</string>
     <string name="menu_distribution_show_pie_char_help_text">قابلیت مشاهده نمودار پایینی را تغییر دهید.</string>
-    <string name="menu_distribution_aggreate_help_text">به طور پیش فرض، مبلغ محاسبه شده شامل هر دو هزینه و درآمد است. شما می توانید تصمیم بگیرید که آنها را به طور جداگانه نشان دهید، یک دکمه در نوار عمل به شما امکان می دهد بین هزینه ها و درآمد را تغییر دهید.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">دسته های انتخاب شده برای فیلتر کردن لیست تراکنش ها استفاده خواهند شد.</string>
     <string name="menu_ManageCategories_search_help_text">تنها دسته های اصلی و زیر که با پرس و جو شما مطابقت دارند نمایش داده خواهند شد.</string>
     <string name="cab_ManageCategories_color_help_text">شما می توانید یک رنگ را به دسته های اصلی اختصاص دهید. این رنگ برای نشان دادن رده در نمودار استفاده می شود. زیر شاخه ها از سایه رنگ اصلی آنها استفاده می کنند.</string>

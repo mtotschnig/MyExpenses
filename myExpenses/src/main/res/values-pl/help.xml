@@ -49,7 +49,6 @@
   <string name="menu_categories_setup_default_help_text">Zaimportowany zostanie zestaw domyślnych kategorii.</string>
   <string name="menu_categories_export_help_text">Kategorie zostaną wyeksportowane do pliku QIF.</string>
   <string name="menu_distribution_show_pie_char_help_text">Przełącz widoczność wykresu kołowego.</string>
-  <string name="menu_distribution_aggreate_help_text">Domyślnie, kalkulowane sumy zawierają zarówno wydatki jak i przychody. Możesz zadecydować by wyświetlać je osobno, przycisk w pasku akcji pozwala na przełączanie pomiędzy wydatkami i przychodami.</string>
   <string name="cab_ManageCategories_select_filter_select_help_text">Wybrane kategorie posłużą do filtrowania listy transakcji.</string>
   <string name="menu_ManageCategories_search_help_text">Tylko kategorie główne i podkategorie które pasują do twojego zapytania zostaną wyświetlone.</string>
   <string name="menu_ManageCategories_sort_help_text">Lista kategorii może być sortowana według tytułu (alfabetycznie), według częstotliwości używania lub ostatniego czasu, kiedy transakcja została do niej przyporządkowana.</string>

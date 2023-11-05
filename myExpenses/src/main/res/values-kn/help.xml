@@ -54,7 +54,6 @@
     <string name="menu_categories_setup_default_help_text">ಡೀಫಾಲ್ಟ್ ವರ್ಗಗಳ ಗುಂಪನ್ನು ಆಮದು ಮಾಡಲಾಗುವುದು.</string>
     <string name="menu_categories_export_help_text">ವರ್ಗಗಳನ್ನು QIF ಫೈಲ್‌ಗೆ ರಫ್ತು ಮಾಡಲಾಗುತ್ತದೆ.</string>
     <string name="menu_distribution_show_pie_char_help_text">ಪೈ ಚಾರ್ಟ್ನ ಗೋಚರತೆಯನ್ನು ಟಾಗಲ್ ಮಾಡಿ.</string>
-    <string name="menu_distribution_aggreate_help_text">ಪೂರ್ವನಿಯೋಜಿತವಾಗಿ, ಲೆಕ್ಕಹಾಕಿದ ಮೊತ್ತವು ವೆಚ್ಚಗಳು ಮತ್ತು ಆದಾಯ ಎರಡನ್ನೂ ಒಳಗೊಂಡಿರುತ್ತದೆ. ಅವುಗಳನ್ನು ಪ್ರತ್ಯೇಕವಾಗಿ ತೋರಿಸಲು ನೀವು ನಿರ್ಧರಿಸಬಹುದು, ಆಕ್ಷನ್ ಬಾರ್‌ನಲ್ಲಿರುವ ಒಂದು ಬಟನ್ ವೆಚ್ಚಗಳು ಮತ್ತು ಆದಾಯದ ನಡುವೆ ಟಾಗಲ್ ಮಾಡಲು ನಿಮಗೆ ಅನುಮತಿಸುತ್ತದೆ.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">ವಹಿವಾಟು ಪಟ್ಟಿಯನ್ನು ಫಿಲ್ಟರ್ ಮಾಡಲು ಆಯ್ಕೆಮಾಡಿದ ವರ್ಗಗಳನ್ನು ಬಳಸಲಾಗುತ್ತದೆ.</string>
     <string name="menu_ManageCategories_search_help_text">ನಿಮ್ಮ ಪ್ರಶ್ನೆಗೆ ಹೊಂದಿಕೆಯಾಗುವ ಮುಖ್ಯ ಮತ್ತು ಉಪ ವಿಭಾಗಗಳನ್ನು ಮಾತ್ರ ಪ್ರದರ್ಶಿಸಲಾಗುತ್ತದೆ.</string>
     <string name="menu_ManageCategories_sort_help_text">ವರ್ಗದ ಪಟ್ಟಿಯನ್ನು ಶೀರ್ಷಿಕೆಯಿಂದ (ವರ್ಣಮಾಲೆಯಂತೆ), ಬಳಕೆಯ ಆವರ್ತನದ ಮೂಲಕ ಅಥವಾ ಕೊನೆಯ ಬಾರಿಗೆ ವಹಿವಾಟನ್ನು ಮ್ಯಾಪ್ ಮಾಡಿದ ನಂತರ ವಿಂಗಡಿಸಬಹುದು.</string>
@@ -145,7 +144,6 @@
     <string name="cab_show_transactions_help_text">ಪ್ರಸ್ತುತ ಖಾತೆಯಲ್ಲಿ ಆಯ್ದ ವರ್ಗಕ್ಕೆ ಮ್ಯಾಪ್ ಮಾಡಲಾದ ಎಲ್ಲಾ ವಹಿವಾಟುಗಳನ್ನು ಪಟ್ಟಿ ಮಾಡುವ ಸಂವಾದವನ್ನು ತೆರೆಯಿರಿ.</string>
     <string name="menu_BudgetActivity_back_forward_help_text">ಹಿಂದಿನ ಮತ್ತು ಭವಿಷ್ಯದ ಅವಧಿಗಳ ಖರ್ಚಿನೊಂದಿಗೆ ಬಜೆಟ್ ಅನ್ನು ಹೋಲಿಕೆ ಮಾಡಿ.</string>
     <string name="menu_BudgetActivity_edit_help_text">ಬಜೆಟ್ ವ್ಯಾಖ್ಯಾನವನ್ನು ಬದಲಾಯಿಸಿ.</string>
-    <string name="menu_budget_aggregate_help_text">ಪೂರ್ವನಿಯೋಜಿತವಾಗಿ, ಲೆಕ್ಕಹಾಕಿದ ಮೊತ್ತವು ವೆಚ್ಚಗಳು ಮತ್ತು ಆದಾಯ ಎರಡನ್ನೂ ಒಳಗೊಂಡಿರುತ್ತದೆ. ನೀವು ಈ ಆಯ್ಕೆಯನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿದರೆ, ಆದಾಯವನ್ನು ನಿರ್ಲಕ್ಷಿಸಲಾಗುತ್ತದೆ, ವೆಚ್ಚಗಳನ್ನು ಮಾತ್ರ ಗಣನೆಗೆ ತೆಗೆದುಕೊಳ್ಳಲಾಗುತ್ತದೆ.</string>
     <string name="menu_budget_allocated_only_help_text">ಈ ಆಯ್ಕೆಯನ್ನು ಸಕ್ರಿಯಗೊಳಿಸುವ ಮೂಲಕ, ಕೆಲವು ಮೊತ್ತವನ್ನು ನಿಗದಿಪಡಿಸಿದ ವರ್ಗಗಳನ್ನು ಮಾತ್ರ ಪ್ರದರ್ಶಿಸಲಾಗುತ್ತದೆ.</string>
     <string name="menu_BudgetActivity_delete_help_text">ಪ್ರಸ್ತುತ ಪ್ರದರ್ಶಿಸಲಾದ ಬಜೆಟ್ ಅನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
     <string name="help_ManageBudgets_title">ಎಲ್ಲಾ ಬಜೆಟ್‌ಗಳ ಪಟ್ಟಿ</string>

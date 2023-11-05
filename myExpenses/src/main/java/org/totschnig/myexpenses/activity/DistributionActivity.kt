@@ -64,7 +64,6 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     OnDialogResultListener {
     override val viewModel: DistributionViewModel by viewModels()
     private lateinit var chart: PieChart
-    override val prefKey = PrefKey.DISTRIBUTION_AGGREGATE_TYPES
     private val showChart = mutableStateOf(false)
     private var mDetector: GestureDetector? = null
 
@@ -81,7 +80,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         menuInflater.inflate(R.menu.grouping, menu)
         (menu.findItem(R.id.switchId).actionView?.findViewById(R.id.TaType) as? SwitchCompat)?.let {
             it.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-                prefHandler.putBoolean(prefKey, isChecked)
+                prefHandler.putBoolean(PrefKey.DISTRIBUTION_AGGREGATE_TYPES, isChecked)
                 viewModel.setIncomeType(isChecked)
                 reset()
             }
@@ -102,12 +101,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         menu.findItem(R.id.TOGGLE_CHART_COMMAND)?.let {
             it.isChecked = showChart.value
         }
-        val item = menu.findItem(R.id.switchId)
-        item.setEnabledAndVisible(!viewModel.aggregateTypes)
-        if (!viewModel.aggregateTypes) {
-            (item.actionView?.findViewById<View>(R.id.TaType) as? SwitchCompat)?.isChecked =
-                viewModel.incomeType
-        }
+        (menu.findItem(R.id.switchId).actionView?.findViewById<View>(R.id.TaType) as? SwitchCompat)?.isChecked =
+            viewModel.incomeType
         return true
     }
 
@@ -163,6 +158,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.setIncomeType(prefHandler.getBoolean(PrefKey.DISTRIBUTION_AGGREGATE_TYPES, false))
         val binding = setupView()
         showChart.value = prefHandler.getBoolean(PrefKey.DISTRIBUTION_SHOW_CHART, true)
         injector.inject(viewModel)

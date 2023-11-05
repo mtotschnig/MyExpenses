@@ -438,7 +438,6 @@
     <string name="import_accounts_none">Geen accounts geïmporteerd</string>
     <string name="search_date">Zoek op datum</string>
     <string name="before">voor %s</string>
-    <string name="menu_distribution_aggreate">Verzamel uitgaven en inkomsten</string>
     <string name="folder_name">Mapnaam</string>
     <string name="menu_undelete_transaction">Verwijderen ongedaan maken</string>
     <string name="cvs_import_set_first_line_as_header">Moet de eerste regel worden behandeld als een kopregel\?</string>

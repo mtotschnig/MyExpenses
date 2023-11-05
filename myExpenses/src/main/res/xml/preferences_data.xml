@@ -60,6 +60,7 @@
     <SwitchPreferenceCompat
         android:defaultValue="false"
         android:key="@string/pref_unmapped_transaction_as_transfer_key"
+        android:title="@string/pref_unmapped_transaction_as_transfer_title"
         android:summaryOff="@string/pref_unmapped_transaction_as_transfer_summary_off"
         android:summaryOn="@string/pref_unmapped_transaction_as_transfer_summary_on" />
 </PreferenceScreen> 

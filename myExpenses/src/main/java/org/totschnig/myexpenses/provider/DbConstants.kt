@@ -3,6 +3,8 @@ package org.totschnig.myexpenses.provider
 import android.net.Uri
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
+import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.WhereFilter
@@ -193,6 +195,7 @@ WITH Tree AS (
 SELECT
     $rootPath AS $KEY_PATH,
     $KEY_ICON,
+    $KEY_TYPE,
     $KEY_ROWID
 FROM $TABLE_CATEGORIES main
 WHERE $rootExpression
@@ -200,6 +203,7 @@ UNION ALL
 SELECT
     Tree.$KEY_PATH || $separator || subtree.$KEY_LABEL,
     subtree.$KEY_ICON,
+    subtree.$KEY_TYPE,
     subtree.$KEY_ROWID
 FROM $TABLE_CATEGORIES subtree
 JOIN Tree ON Tree.$KEY_ROWID = subtree.$KEY_PARENTID
@@ -307,13 +311,13 @@ fun accountQueryCTE(
     homeCurrency: String,
     futureStartsNow: Boolean,
     aggregateFunction: String,
-    typeFallBack: UByte
+    typeWithFallBack: String
 ): String {
     val futureCriterion =
         if (futureStartsNow) "'now'" else "'now', 'localtime', 'start of day', '+1 day', 'utc'"
-    val isExpense = "$KEY_TRANSFER_PEER IS NULL AND ($KEY_TYPE = 1 OR ($KEY_TYPE = 3 AND $KEY_AMOUNT < 0))"
-    val isIncome = "$KEY_TRANSFER_PEER IS NULL AND ($KEY_TYPE = 2 OR ($KEY_TYPE = 3 AND $KEY_AMOUNT > 0))"
-    val isTransfer = "$KEY_TRANSFER_PEER IS NOT NULL OR $KEY_TYPE = 0"
+    val isExpense = "$KEY_TRANSFER_PEER IS NULL AND ($KEY_TYPE = $FLAG_EXPENSE OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT < 0))"
+    val isIncome = "$KEY_TRANSFER_PEER IS NULL AND ($KEY_TYPE = $FLAG_INCOME OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT > 0))"
+    val isTransfer = "$KEY_TRANSFER_PEER IS NOT NULL OR $KEY_TYPE = $FLAG_TRANSFER"
     return """
 WITH now as (
     SELECT
@@ -321,7 +325,7 @@ WITH now as (
 ), amounts AS (
     SELECT
         $KEY_AMOUNT,
-        coalesce($KEY_TYPE, $typeFallBack) AS $KEY_TYPE,
+        $typeWithFallBack AS $KEY_TYPE,
         $KEY_TRANSFER_PEER,
         $KEY_CR_STATUS,
         $KEY_DATE,
@@ -426,7 +430,7 @@ private fun transactionsJoin(
     tableName: String = TABLE_TRANSACTIONS,
     withPlanInstance: Boolean = tableName == TABLE_TRANSACTIONS
 ) = buildString {
-    append(" SELECT $tableName.*, Tree.$KEY_PATH, Tree.$KEY_ICON, $TABLE_PAYEES.$KEY_PAYEE_NAME, $TABLE_METHODS.$KEY_LABEL AS $KEY_METHOD_LABEL, $TABLE_METHODS.$KEY_ICON AS $KEY_METHOD_ICON")
+    append(" SELECT $tableName.*, Tree.$KEY_PATH, Tree.$KEY_ICON, Tree.$KEY_TYPE,  $TABLE_PAYEES.$KEY_PAYEE_NAME, $TABLE_METHODS.$KEY_LABEL AS $KEY_METHOD_LABEL, $TABLE_METHODS.$KEY_ICON AS $KEY_METHOD_ICON")
     if (withPlanInstance) {
         append(", $TABLE_PLAN_INSTANCE_STATUS.$KEY_TEMPLATEID")
     }
@@ -450,9 +454,8 @@ fun buildTransactionGroupCte(
     selection: String,
     forHome: String?,
     includeTransfers: Boolean,
-    unmappedTransactionsTypeFallback: UByte
+    typeWithFallBack: String
 ): String {
-    val typeFallbackExpression = "coalesce($KEY_TYPE, $unmappedTransactionsTypeFallback)"
     return buildString {
         append("WITH $CTE_TRANSACTION_GROUPS AS (SELECT ")
         append(KEY_ROWID)
@@ -477,7 +480,7 @@ fun buildTransactionGroupCte(
         append(",")
         append(KEY_METHODID)
         append(",")
-        append("$typeFallbackExpression AS $KEY_TYPE")
+        append("$typeWithFallBack AS $KEY_TYPE")
         append(", cast(CASE WHEN ")
         append("$WHERE_NOT_SPLIT AND $WHERE_NOT_VOID")
         if (!includeTransfers) append(" AND $KEY_TRANSFER_PEER IS NULL ")
@@ -485,9 +488,28 @@ fun buildTransactionGroupCte(
         append(getAmountCalculation(forHome))
         append(" ELSE 0 END as integer) AS $KEY_DISPLAY_AMOUNT")
         if (!includeTransfers && forHome == null) {
-            append(", CASE WHEN $WHERE_NOT_SPLIT AND $WHERE_NOT_VOID AND ($KEY_TRANSFER_PEER IS NOT NULL OR $typeFallbackExpression = 0) THEN $KEY_AMOUNT ELSE 0 END AS $KEY_TRANSFER_AMOUNT")
+            append(", CASE WHEN $WHERE_NOT_SPLIT AND $WHERE_NOT_VOID AND ($KEY_TRANSFER_PEER IS NOT NULL OR $typeWithFallBack = 0) THEN $KEY_AMOUNT ELSE 0 END AS $KEY_TRANSFER_AMOUNT")
         }
         append(" FROM $VIEW_WITH_ACCOUNT")
         append(" WHERE $selection)")
     }
+}
+
+fun effectiveTypeExpression(typeWithFallback: String): String =
+    "CASE WHEN $KEY_TRANSFER_PEER IS NULL THEN CASE $typeWithFallback WHEN $FLAG_NEUTRAL THEN CASE WHEN $KEY_AMOUNT > 0 THEN $FLAG_INCOME ELSE $FLAG_EXPENSE END ELSE $typeWithFallback END ELSE 0 END AS $KEY_TYPE"
+
+fun transactionSumQuery(
+    typeWithFallBack: String,
+    accountSelection: String?,
+    sumExpression: String,
+    typeParameter: String?
+): String {
+    val typeQuery = if (typeParameter == null) "!= 0" else "= $typeParameter"
+    val groupBy = if (typeParameter == null) "GROUP BY $KEY_TYPE" else ""
+    val typeColumn = if (typeParameter == null) "$KEY_TYPE," else ""
+    return """
+    WITH amounts AS (
+    SELECT ${effectiveTypeExpression(typeWithFallBack)}, $KEY_AMOUNT FROM $VIEW_WITH_ACCOUNT 
+    WHERE ($KEY_CATID IS NOT $SPLIT_CATID AND $KEY_CR_STATUS != 'VOID' ${accountSelection ?: ""}))
+    SELECT $typeColumn $sumExpression AS $KEY_SUM FROM amounts WHERE $KEY_TYPE $typeQuery $groupBy"""
 }

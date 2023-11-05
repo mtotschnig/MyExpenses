@@ -2148,14 +2148,14 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 149) {
         createOrRefreshTransactionSealedTriggers(db);
       }
-      if (oldVersion < 150) {
+/*      if (oldVersion < 150) {
         createOrRefreshViews(db);
-      }
+      }*/
       if (oldVersion < 151) {
         db.execSQL("ALTER TABLE categories add column type integer");
-        db.execSQL("DROP VIEW IF EXISTS " + VIEW_WITH_ACCOUNT);
         db.execSQL("UPDATE categories set type = 3 where _id != 0");
-        db.execSQL(VIEW_WITH_ACCOUNT_DEFINITION);
+        createOrRefreshViews(db);
+        createCategoryTypeTriggers(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);
