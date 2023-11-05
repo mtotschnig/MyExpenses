@@ -453,45 +453,20 @@ const val CTE_TRANSACTION_GROUPS = "cte_transaction_groups"
 fun buildTransactionGroupCte(
     selection: String,
     forHome: String?,
-    includeTransfers: Boolean,
     typeWithFallBack: String
 ): String {
     return buildString {
         append("WITH $CTE_TRANSACTION_GROUPS AS (SELECT ")
-        append(KEY_ROWID)
-        append(",")
-        append(KEY_PARENTID)
-        append(",")
         append(KEY_DATE)
-        append(",")
-        append(KEY_COMMENT)
-        append(",")
-        append(KEY_CR_STATUS)
-        append(",")
-        append(KEY_ACCOUNTID)
-        append(",")
-        append(KEY_TRANSFER_ACCOUNT)
-        append(",")
-        append(KEY_CATID)
-        append(",")
-        append(KEY_PAYEEID)
         append(",")
         append(KEY_TRANSFER_PEER)
         append(",")
-        append(KEY_METHODID)
-        append(",")
         append("$typeWithFallBack AS $KEY_TYPE")
-        append(", cast(CASE WHEN ")
-        append("$WHERE_NOT_SPLIT AND $WHERE_NOT_VOID")
-        if (!includeTransfers) append(" AND $KEY_TRANSFER_PEER IS NULL ")
-        append(" THEN ")
+        append(", cast(")
         append(getAmountCalculation(forHome))
-        append(" ELSE 0 END as integer) AS $KEY_DISPLAY_AMOUNT")
-        if (!includeTransfers && forHome == null) {
-            append(", CASE WHEN $WHERE_NOT_SPLIT AND $WHERE_NOT_VOID AND ($KEY_TRANSFER_PEER IS NOT NULL OR $typeWithFallBack = 0) THEN $KEY_AMOUNT ELSE 0 END AS $KEY_TRANSFER_AMOUNT")
-        }
+        append(" AS integer) AS $KEY_AMOUNT")
         append(" FROM $VIEW_WITH_ACCOUNT")
-        append(" WHERE $selection)")
+        append(" WHERE $WHERE_NOT_SPLIT AND $WHERE_NOT_VOID AND $selection)")
     }
 }
 
