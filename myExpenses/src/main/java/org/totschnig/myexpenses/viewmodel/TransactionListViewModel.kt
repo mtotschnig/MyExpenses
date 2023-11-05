@@ -69,6 +69,7 @@ class TransactionListViewModel(
                     accountId,
                     Grouping.NONE,
                     homeCurrencyProvider.homeCurrencyString,
+                    prefHandler,
                     extended = false
                 ),
                 selection,

@@ -241,7 +241,8 @@ open class MyExpensesViewModel(
             filterPersistence.getValue(account.id).whereFilterAsFlow,
             homeCurrencyProvider,
             currencyContext,
-            viewModelScope
+            viewModelScope,
+            prefHandler
         )
 
     val filterPersistence: Map<Long, FilterPersistence> = lazyMap {

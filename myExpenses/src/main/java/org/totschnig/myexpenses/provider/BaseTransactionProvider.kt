@@ -37,6 +37,8 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGAT
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_BY_AGGREGATE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_DIRECTION_AGGREGATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DbUtils.aggregateFunction
+import org.totschnig.myexpenses.provider.DbUtils.typeWithFallBack
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CALLER_IS_IN_BULK
 import org.totschnig.myexpenses.util.AppDirHelper
@@ -382,16 +384,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
     )
 
     val aggregateFunction: String
-        get() = DbUtils.aggregateFunction(prefHandler)
+        get() = aggregateFunction(prefHandler)
 
     val typeWithFallBack: String
-        get() = "coalesce($KEY_TYPE, ${
-            if (prefHandler.getBoolean(
-                    PrefKey.UNMAPPED_TRANSACTION_AS_TRANSFER,
-                    false
-                )
-            ) FLAG_TRANSFER else FLAG_NEUTRAL
-        })"
+        get() = typeWithFallBack(prefHandler)
 
     fun buildAccountQuery(
         minimal: Boolean,
