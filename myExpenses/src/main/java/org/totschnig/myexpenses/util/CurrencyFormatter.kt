@@ -18,10 +18,11 @@ interface ICurrencyFormatter {
         currency: CurrencyUnit,
         configure: ((DecimalFormat) -> Unit)? = null
     ): String
+
     fun invalidate(contentResolver: ContentResolver, currency: String? = null) {}
 }
 
-object DebugCurrencyFormatter: ICurrencyFormatter {
+object DebugCurrencyFormatter : ICurrencyFormatter {
 
     override fun formatCurrency(
         amount: BigDecimal,
@@ -34,9 +35,13 @@ object DebugCurrencyFormatter: ICurrencyFormatter {
  * formats an amount with a currency
  * @return formatted string
  */
-fun ICurrencyFormatter.formatMoney(money: Money): String {
+@JvmOverloads
+fun ICurrencyFormatter.formatMoney(
+    money: Money,
+    configure: ((DecimalFormat) -> Unit)? = null
+): String {
     val amount = money.amountMajor
-    return formatCurrency(amount, money.currencyUnit)
+    return formatCurrency(amount, money.currencyUnit, configure)
 }
 
 /**
@@ -52,7 +57,7 @@ fun ICurrencyFormatter.convAmount(amount: Long, currency: CurrencyUnit): String 
 open class CurrencyFormatter(
     private val prefHandler: PrefHandler,
     private val application: MyApplication
-): ICurrencyFormatter {
+) : ICurrencyFormatter {
     private val numberFormats: MutableMap<String, NumberFormat> = HashMap()
 
     override fun invalidate(contentResolver: ContentResolver, currency: String?) {
@@ -112,10 +117,10 @@ open class CurrencyFormatter(
         currency: CurrencyUnit,
         configure: ((DecimalFormat) -> Unit)?
     ): String {
-        return getNumberFormat(currency).also { nf ->
-            if (configure != null ) {
-                (nf as? DecimalFormat)?.let { df -> configure(df) }
-            }
-        } .format(amount)
+        return getNumberFormat(currency).let { nf ->
+            if (configure != null && nf is DecimalFormat) {
+                (nf.clone() as DecimalFormat).also { configure(it) }
+            } else nf
+        }.format(amount)
     }
 }
