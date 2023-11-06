@@ -571,7 +571,6 @@
     <string name="image_deleted">చిత్రం తొలగించబడింది</string>
     <string name="pref_manage_stale_images_summary">తొలగించిన లావాదేవీల నుండి మిగిలి ఉన్న చిత్రాలను నిర్వహించండి</string>
     <string name="pref_manage_stale_images_title">పాత చిత్రాలు</string>
-    <string name="menu_distribution_aggreate">మొత్తం ఖర్చులు మరియు ఆదాయం</string>
     <string name="menu_distribution_show_pie_char">పై చార్ట్ చూపించు</string>
     <string name="restore_not_possible_local_calendar_missing">ప్రస్తుత ప్రణాళిక క్యాలెండర్ అందుబాటులో లేదు.</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">లావాదేవీల జాబితాను PDF కి ఎగుమతి చేయండి</string>

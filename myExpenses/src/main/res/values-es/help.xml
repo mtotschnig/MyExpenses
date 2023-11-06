@@ -62,7 +62,6 @@
     <string name="menu_categories_setup_default_help_text">Se importarán un conjunto de categorías por defecto.</string>
     <string name="menu_categories_export_help_text">Las categorías se exportarán a un archivo QIF.</string>
     <string name="menu_distribution_show_pie_char_help_text">Alternar la visibilidad de los gráficos de sectores.</string>
-    <string name="menu_distribution_aggreate_help_text">De forma predeterminada, las sumas calculadas incluyen gastos e ingresos. Podrá decidir mostrarlas por separado. El botón en la barra de acción le permitirá alternar entre gastos e ingresos.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">Las categorías seleccionadas se utilizarán para filtrar la lista de transacciones.</string>
     <string name="menu_ManageCategories_search_help_text">Sólo se mostrarán las categorías principales y las subcategorías que coinciden con su consulta.</string>
     <string name="menu_ManageCategories_sort_help_text">La lista de categorías puede ordenarse por título (alfabéticamente), por la frecuencia de uso o por la última vez en que se le asignó una transacción.</string>
@@ -159,7 +158,6 @@
     <string name="cab_show_transactions_help_text">Abrir una ventana con un listado de transacciones de la categoría seleccionada en la actual cuenta.</string>
     <string name="menu_BudgetActivity_back_forward_help_text">Comparar presupuestos con gastos de periodos de tiempo pasados y futuros.</string>
     <string name="menu_BudgetActivity_edit_help_text">Cambiar la definición del presupuesto.</string>
-    <string name="menu_budget_aggregate_help_text">Por defecto, las sumas calculadas incluyen tanto gastos como ingresos. Si desactiva esta opción, se ignorarán los ingresos, teniendo en cuento sólo los gastos.</string>
     <string name="menu_budget_allocated_only_help_text">Activando esta opción, sólo se mostrarán las categorías que hayan sido asignadas al mismo monto.</string>
     <string name="menu_BudgetActivity_delete_help_text">Se eliminará el actual presupuesto que se muestra.</string>
     <string name="help_ManageBudgets_title">Lista de todos los presupuestos</string>

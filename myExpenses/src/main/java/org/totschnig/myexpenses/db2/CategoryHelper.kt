@@ -7,6 +7,7 @@ import org.totschnig.myexpenses.viewmodel.data.Category
 object CategoryHelper {
     private val unicodeEscaper = UnicodeUnescaper()
     private var countInserted = 0
+
     /**
      * inserts the category to the database if needed
      * @param categoryToId a map which caches the relation between the category name and the database
@@ -18,10 +19,16 @@ object CategoryHelper {
         repository: Repository,
         name: String,
         categoryToId: MutableMap<String, Long>,
-        stripQifCategoryClass: Boolean
+        stripQifCategoryClass: Boolean,
+        typeFlags: UByte = FLAG_NEUTRAL
     ): Int {
         countInserted = 0
-        insertCategory(parse(if (stripQifCategoryClass) stripCategoryClass(name) else name), categoryToId, repository)
+        insertCategory(
+            repository,
+            parse(if (stripQifCategoryClass) stripCategoryClass(name) else name),
+            categoryToId,
+            typeFlags
+        )
         return countInserted
     }
 
@@ -35,9 +42,10 @@ object CategoryHelper {
     private fun parse(name: String) = name.split(":".toRegex())
 
     private fun insertCategory(
+        repository: Repository,
         name: List<String>,
         categoryToId: MutableMap<String, Long>,
-        repository: Repository
+        typeFlags: UByte = FLAG_NEUTRAL
     ) {
         var parentId: Long? = null
         var path = ""
@@ -46,7 +54,7 @@ object CategoryHelper {
             path += it
             var id = categoryToId[path]
             if (id == null) {
-                id = maybeWriteCategory(repository, it, parentId)
+                id = maybeWriteCategory(repository, it, parentId, typeFlags)
                 if (id != -1L) categoryToId[path] = id
             }
             if (id == -1L) {
@@ -57,11 +65,22 @@ object CategoryHelper {
         }
     }
 
-    private fun maybeWriteCategory(repository: Repository, name: String, parentId: Long?): Long {
+    private fun maybeWriteCategory(
+        repository: Repository,
+        name: String,
+        parentId: Long?,
+        typeFlags: UByte = FLAG_NEUTRAL
+    ): Long {
         val unescaped = unicodeEscaper.translate(name)
         var id = repository.findCategory(unescaped, parentId)
         if (id == -1L) {
-            id = repository.saveCategory(Category(label = unescaped, parentId = parentId))
+            id = repository.saveCategory(
+                Category(
+                    label = unescaped,
+                    parentId = parentId,
+                    typeFlags = typeFlags
+                )
+            )
                 ?.let { ContentUris.parseId(it) } ?: -1
             if (id != -1L) countInserted++
         }

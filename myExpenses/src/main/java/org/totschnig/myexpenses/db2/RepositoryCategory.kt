@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.db2
 
 import android.content.ContentProviderOperation
 import android.content.ContentProviderOperation.newDelete
-import android.content.ContentProviderOperation.newInsert
 import android.content.ContentProviderOperation.newUpdate
 import android.content.ContentUris
 import android.content.ContentValues
@@ -12,32 +11,47 @@ import androidx.annotation.VisibleForTesting
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
-import arrow.core.Tuple5
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import arrow.core.Tuple6
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.sync.json.CategoryExport
 import org.totschnig.myexpenses.sync.json.ICategoryInfo
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.io.IOException
-import java.util.ArrayList
 import java.util.UUID
+
+const val FLAG_TRANSFER: UByte = 0u
+const val FLAG_EXPENSE: UByte = 1u
+const val FLAG_INCOME: UByte = 2u
+val FLAG_NEUTRAL = FLAG_EXPENSE or FLAG_INCOME
 
 fun Repository.saveCategory(category: Category): Uri? {
     val initialValues = ContentValues().apply {
-        put(DatabaseConstants.KEY_LABEL, category.label.trim())
-        put(DatabaseConstants.KEY_LABEL_NORMALIZED, Utils.normalize(category.label))
+        put(KEY_LABEL, category.label.trim())
+        put(KEY_LABEL_NORMALIZED, Utils.normalize(category.label))
         category.color.takeIf { it != 0 }?.let {
-            put(DatabaseConstants.KEY_COLOR, it)
+            put(KEY_COLOR, it)
         }
-        put(DatabaseConstants.KEY_ICON, category.icon)
+        put(KEY_ICON, category.icon)
         if (category.id == 0L) {
-            put(DatabaseConstants.KEY_PARENTID, category.parentId)
+            put(KEY_PARENTID, category.parentId)
+        }
+        if (category.parentId == null) {
+            put(KEY_TYPE, (category.typeFlags ?: FLAG_NEUTRAL).toInt())
         }
     }
     return try {
         if (category.id == 0L) {
-            initialValues.put(DatabaseConstants.KEY_UUID, category.uuid ?: UUID.randomUUID().toString())
+            initialValues.put(KEY_UUID, category.uuid ?: UUID.randomUUID().toString())
             contentResolver.insert(TransactionProvider.CATEGORIES_URI, initialValues)
         } else {
             TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(category.id.toString()).build().let {
@@ -55,7 +69,7 @@ fun Repository.moveCategory(source: Long, target: Long?) = try {
         TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(source.toString())
             .build(),
         ContentValues().apply {
-            put(DatabaseConstants.KEY_PARENTID, target)
+            put(KEY_PARENTID, target)
         },
         null,
         null
@@ -73,7 +87,7 @@ fun Repository.deleteCategory(id: Long) = contentResolver.delete(
 fun Repository.updateCategoryColor(id: Long, color: Int?) = contentResolver.update(
     ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, id),
     ContentValues().apply {
-        put(DatabaseConstants.KEY_COLOR, color)
+        put(KEY_COLOR, color)
     }, null, null
 ) == 1
 
@@ -85,14 +99,14 @@ fun Repository.updateCategoryColor(id: Long, color: Int?) = contentResolver.upda
 fun Repository.findCategory(label: String, parentId: Long? = null): Long {
     val stripped = label.trim()
     val (parentSelection, parentSelectionArgs) = if (parentId == null) {
-        "${DatabaseConstants.KEY_PARENTID} is null" to emptyArray()
+        "$KEY_PARENTID is null" to emptyArray()
     } else {
-        "${DatabaseConstants.KEY_PARENTID} = ?" to arrayOf(parentId.toString())
+        "$KEY_PARENTID = ?" to arrayOf(parentId.toString())
     }
     return contentResolver.query(
         TransactionProvider.CATEGORIES_URI,
-        arrayOf(DatabaseConstants.KEY_ROWID),
-        "${DatabaseConstants.KEY_LABEL} = ? AND $parentSelection",
+        arrayOf(KEY_ROWID),
+        "$KEY_LABEL = ? AND $parentSelection",
         arrayOf(stripped) + parentSelectionArgs,
         null
     )?.use {
@@ -130,37 +144,39 @@ fun Repository.ensureCategory(categoryInfo: ICategoryInfo, parentId: Long?): Pai
     val sourceBasedOnUuid = contentResolver.query(
         TransactionProvider.CATEGORIES_URI,
         arrayOf(
-            DatabaseConstants.KEY_ROWID,
-            DatabaseConstants.KEY_LABEL,
-            DatabaseConstants.KEY_PARENTID,
-            DatabaseConstants.KEY_ICON,
-            DatabaseConstants.KEY_COLOR
+            KEY_ROWID,
+            KEY_LABEL,
+            KEY_PARENTID,
+            KEY_ICON,
+            KEY_COLOR,
+            KEY_TYPE
         ),
-        Array(uuids.size) { "instr(${DatabaseConstants.KEY_UUID}, ?) > 0" }.joinToString(" OR "),
+        Array(uuids.size) { "instr($KEY_UUID, ?) > 0" }.joinToString(" OR "),
         uuids.toTypedArray(),
         null
     )?.use {
         if (it.moveToFirst()) {
-            Tuple5(
+            Tuple6(
                 it.getLong(0),
                 it.getString(1),
                 it.getLongOrNull(2),
                 it.getStringOrNull(3),
-                it.getIntOrNull(4)
+                it.getIntOrNull(4),
+                it.getInt(5)
             )
         } else null
     }
 
     val (parentSelection, parentSelectionArgs) = if (parentId == null) {
-        "${DatabaseConstants.KEY_PARENTID} is null" to emptyArray()
+        "$KEY_PARENTID is null" to emptyArray()
     } else {
-        "${DatabaseConstants.KEY_PARENTID} = ?" to arrayOf(parentId.toString())
+        "$KEY_PARENTID = ?" to arrayOf(parentId.toString())
     }
 
     val target = contentResolver.query(
         TransactionProvider.CATEGORIES_URI,
-        arrayOf(DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_UUID),
-        "${DatabaseConstants.KEY_LABEL} = ? AND $parentSelection",
+        arrayOf(KEY_ROWID, KEY_UUID),
+        "$KEY_LABEL = ? AND $parentSelection",
         arrayOf(stripped) + parentSelectionArgs,
         null
     )?.use {
@@ -176,16 +192,19 @@ fun Repository.ensureCategory(categoryInfo: ICategoryInfo, parentId: Long?): Pai
             val categoryId = sourceBasedOnUuid.first
             val contentValues = ContentValues().apply {
                 if (sourceBasedOnUuid.second != categoryInfo.label) {
-                    put(DatabaseConstants.KEY_LABEL, categoryInfo.label)
+                    put(KEY_LABEL, categoryInfo.label)
                 }
                 if (sourceBasedOnUuid.third != parentId) {
-                    put(DatabaseConstants.KEY_PARENTID, parentId)
+                    put(KEY_PARENTID, parentId)
                 }
                 if (sourceBasedOnUuid.fourth != categoryInfo.icon) {
-                    put(DatabaseConstants.KEY_ICON, categoryInfo.icon)
+                    put(KEY_ICON, categoryInfo.icon)
                 }
                 if (sourceBasedOnUuid.fifth != categoryInfo.color) {
-                    put(DatabaseConstants.KEY_COLOR, categoryInfo.color)
+                    put(KEY_COLOR, categoryInfo.color)
+                }
+                if (parentId == null && categoryInfo.type != null && sourceBasedOnUuid.sixth != categoryInfo.type) {
+                    put(KEY_TYPE, categoryInfo.type)
                 }
             }
             if (contentValues.size() > 0) {
@@ -198,9 +217,9 @@ fun Repository.ensureCategory(categoryInfo: ICategoryInfo, parentId: Long?): Pai
             return categoryId to false
         } else {
             val contentValues = ContentValues(1).apply {
-                put(DatabaseConstants.KEY_CATID, target.first)
+                put(KEY_CATID, target.first)
             }
-            val selection = "${DatabaseConstants.KEY_CATID} = ?"
+            val selection = "$KEY_CATID = ?"
             val selectionArgs = arrayOf(sourceBasedOnUuid.first.toString())
             operations.add(newUpdate(TransactionProvider.TRANSACTIONS_URI).withValues(contentValues).withSelection(selection, selectionArgs).build())
             operations.add(newUpdate(TransactionProvider.TEMPLATES_URI).withValues(contentValues).withSelection(selection, selectionArgs).build())
@@ -216,12 +235,16 @@ fun Repository.ensureCategory(categoryInfo: ICategoryInfo, parentId: Long?): Pai
             .distinct()
             .joinToString(Repository.UUID_SEPARATOR)
 
-        operations.add(ContentProviderOperation.newUpdate(ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, target.first))
+        operations.add(
+            newUpdate(ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, target.first))
             .withValues(
-                ContentValues(3).apply {
-                    put(DatabaseConstants.KEY_UUID, newUuids)
-                    put(DatabaseConstants.KEY_ICON, categoryInfo.icon)
-                    put(DatabaseConstants.KEY_COLOR, categoryInfo.color)
+                ContentValues().apply {
+                    put(KEY_UUID, newUuids)
+                    put(KEY_ICON, categoryInfo.icon)
+                    put(KEY_COLOR, categoryInfo.color)
+                    if (parentId == null && categoryInfo.type != null) {
+                        put(KEY_TYPE, categoryInfo.type)
+                    }
                 }
             ).build()
         )
@@ -236,7 +259,8 @@ fun Repository.ensureCategory(categoryInfo: ICategoryInfo, parentId: Long?): Pai
             parentId = parentId,
             icon = categoryInfo.icon,
             uuid = categoryInfo.uuid,
-            color = categoryInfo.color
+            color = categoryInfo.color,
+            typeFlags = if (parentId == null) categoryInfo.type?.toUByte() ?: FLAG_NEUTRAL else null
         )
     )?.let { ContentUris.parseId(it) to true }
         ?: throw IOException("Saving category failed")
@@ -246,13 +270,14 @@ fun Repository.ensureCategory(categoryInfo: ICategoryInfo, parentId: Long?): Pai
 fun Repository.loadCategory(id: Long): Category? = contentResolver.query(
     TransactionProvider.CATEGORIES_URI,
     arrayOf(
-        DatabaseConstants.KEY_PARENTID,
-        DatabaseConstants.KEY_LABEL,
-        DatabaseConstants.KEY_COLOR,
-        DatabaseConstants.KEY_ICON,
-        DatabaseConstants.KEY_UUID
+        KEY_PARENTID,
+        KEY_LABEL,
+        KEY_COLOR,
+        KEY_ICON,
+        KEY_UUID,
+        KEY_TYPE
     ),
-    "${DatabaseConstants.KEY_ROWID} = ?",
+    "$KEY_ROWID = ?",
     arrayOf(id.toString()),
     null
 )?.use {
@@ -263,6 +288,7 @@ fun Repository.loadCategory(id: Long): Category? = contentResolver.query(
             label = it.getString(1),
             color = it.getIntOrNull(2),
             icon = it.getString(3),
-            uuid = it.getString(4)
+            uuid = it.getString(4),
+            typeFlags = it.getInt(5).toUByte()
         ) else null
 }

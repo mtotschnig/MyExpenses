@@ -53,7 +53,6 @@
   <string name="menu_categories_setup_default_help_text">Lehenetsitako kategoria multzo bat inportatuko da.</string>
   <string name="menu_categories_export_help_text">Kategoriak QIF fitxategira esportatuko dira.</string>
   <string name="menu_distribution_show_pie_char_help_text">Txandakatu grafiko biribilaren ikusgaitasuna.</string>
-  <string name="menu_distribution_aggreate_help_text">Lehenetsita, kalkulatutako baturetan gastuak eta irabaziak daude. Biak bereiz erakustea erabaki dezakezu, ekintza-barrako botoi batekin gastu eta irabazi artean txandakatu dezakezu.</string>
   <string name="cab_ManageCategories_select_filter_select_help_text">Hautatutako kategoriak transakzioen zerrenda iragazteko erabiliko dira.</string>
   <string name="menu_ManageCategories_search_help_text">Zure kontsultarekin bat datozen kategoria nagusiak eta azpikategoriak bakarrik bistaratuko dira.</string>
   <string name="menu_ManageCategories_sort_help_text">Kategoria zerrenda izenburuaren (alfabetikoki), erabilera maiztasunaren edo transakzio bat esleitua izan den azken aldiaren arabera ordenatu daiteke.</string>

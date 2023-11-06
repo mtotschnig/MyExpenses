@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.adapter.TransactionPagingSource
 import org.totschnig.myexpenses.di.ViewModelModule
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
@@ -47,7 +48,8 @@ class DecoratingMyExpensesViewModel(application: Application,
             homeCurrencyProvider,
             currencyContext,
             viewModelScope,
-            countingResource
+            countingResource,
+            prefHandler
         )
 }
 
@@ -85,14 +87,16 @@ class DecoratedTransactionPagingSource(
     homeCurrencyProvider: HomeCurrencyProvider,
     currencyContext: CurrencyContext,
     coroutineScope: CoroutineScope,
-    private val countingIdlingResource: CountingIdlingResource
+    private val countingIdlingResource: CountingIdlingResource,
+    prefHandler: PrefHandler
 ) : TransactionPagingSource(
     context,
     account,
     whereFilter,
     homeCurrencyProvider,
     currencyContext,
-    coroutineScope
+    coroutineScope,
+    prefHandler
 ) {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Transaction2> {

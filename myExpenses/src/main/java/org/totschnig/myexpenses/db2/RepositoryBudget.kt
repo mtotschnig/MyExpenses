@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
 import org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfMonthStart
@@ -81,12 +82,7 @@ fun budgetAllocationQueryUri(
 
 fun Repository.sumLoaderForBudget(budget: Budget): Triple<Uri, String, Array<String>?> {
     val sumBuilder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
-    if (prefHandler.getBoolean(PrefKey.BUDGET_AGGREGATE_TYPES, true)) {
-        sumBuilder.appendBooleanQueryParameter(
-            TransactionProvider.QUERY_PARAMETER_AGGREGATE_TYPES
-        )
-            .build()
-    }
+    sumBuilder.appendQueryParameter(KEY_TYPE, FLAG_EXPENSE.toString())
     val isTotalAccount = budget.accountId == DataBaseAccount.HOME_AGGREGATE_ID
     if (!isTotalAccount) {
         if (budget.accountId < 0) {

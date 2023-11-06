@@ -61,7 +61,6 @@
     <string name="menu_categories_setup_default_help_text">Импорт на комплект предварително подготвени категории.</string>
     <string name="menu_categories_export_help_text">Категориите ще бъдат експортирани във файл тип QIF.</string>
     <string name="menu_distribution_show_pie_char_help_text">Включва / изключва показването на графиката.</string>
-    <string name="menu_distribution_aggreate_help_text">По подразбиране, изчислените суми включват и двете - и разходи и приходи. Ако искате да се показват по отделно, бутона - или + в ленатата за действия ще превключва между разходи и приходи.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">Избраните категории ще се използват за филтриране на списъка с транзакции.</string>
     <string name="menu_ManageCategories_search_help_text">Ще бъдат показани само категориите (главна и подкатегория), съответстващи на заявката за търсене.</string>
     <string name="menu_ManageCategories_sort_help_text">Списъка на категориите може да е подреден по име (в азбучен ред), по честота на използване или по последно използвана категория.</string>
@@ -157,7 +156,6 @@
     <string name="cab_show_transactions_help_text">Отваря списък на транзакциите от текущата сметка за избраната категория.</string>
     <string name="menu_BudgetActivity_back_forward_help_text">Сравнете бюджета с разходите от минали или бъдещи периоди от време.</string>
     <string name="menu_BudgetActivity_edit_help_text">Промяна на бюджетната дефиниция.</string>
-    <string name="menu_budget_aggregate_help_text">По подразбиране изчислените суми включват както разходи, така и приходи. Ако деактивирате тази опция, приходите се игнорират, отчитат се само разходите.</string>
     <string name="menu_budget_allocated_only_help_text">При активиране на тази опция се показват само категориите, за които има разпределена сума.</string>
     <string name="menu_BudgetActivity_delete_help_text">Показаният бюджет ще бъде изтрит.</string>
     <string name="help_ManageBudgets_title">Списък на всички бюджети</string>

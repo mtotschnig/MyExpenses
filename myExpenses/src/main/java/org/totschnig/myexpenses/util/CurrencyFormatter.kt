@@ -10,27 +10,38 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.text.NumberFormat
-import java.util.*
-import javax.inject.Inject
-import javax.inject.Singleton
+import java.util.Currency
 
 interface ICurrencyFormatter {
-    fun formatCurrency(amount: BigDecimal, currency: CurrencyUnit): String
+    fun formatCurrency(
+        amount: BigDecimal,
+        currency: CurrencyUnit,
+        configure: ((DecimalFormat) -> Unit)? = null
+    ): String
+
     fun invalidate(contentResolver: ContentResolver, currency: String? = null) {}
 }
 
-object DebugCurrencyFormatter: ICurrencyFormatter {
-    override fun formatCurrency(amount: BigDecimal, currency: CurrencyUnit): String =
-        "${currency.code} $amount"
+object DebugCurrencyFormatter : ICurrencyFormatter {
+
+    override fun formatCurrency(
+        amount: BigDecimal,
+        currency: CurrencyUnit,
+        configure: ((DecimalFormat) -> Unit)?
+    ) = "${currency.code} $amount"
 }
 
 /**
  * formats an amount with a currency
  * @return formatted string
  */
-fun ICurrencyFormatter.formatMoney(money: Money): String {
+@JvmOverloads
+fun ICurrencyFormatter.formatMoney(
+    money: Money,
+    configure: ((DecimalFormat) -> Unit)? = null
+): String {
     val amount = money.amountMajor
-    return formatCurrency(amount, money.currencyUnit)
+    return formatCurrency(amount, money.currencyUnit, configure)
 }
 
 /**
@@ -46,7 +57,7 @@ fun ICurrencyFormatter.convAmount(amount: Long, currency: CurrencyUnit): String 
 open class CurrencyFormatter(
     private val prefHandler: PrefHandler,
     private val application: MyApplication
-): ICurrencyFormatter {
+) : ICurrencyFormatter {
     private val numberFormats: MutableMap<String, NumberFormat> = HashMap()
 
     override fun invalidate(contentResolver: ContentResolver, currency: String?) {
@@ -101,7 +112,15 @@ open class CurrencyFormatter(
         return numberFormat
     }
 
-    override fun formatCurrency(amount: BigDecimal, currency: CurrencyUnit): String {
-        return getNumberFormat(currency).format(amount)
+    override fun formatCurrency(
+        amount: BigDecimal,
+        currency: CurrencyUnit,
+        configure: ((DecimalFormat) -> Unit)?
+    ): String {
+        return getNumberFormat(currency).let { nf ->
+            if (configure != null && nf is DecimalFormat) {
+                (nf.clone() as DecimalFormat).also { configure(it) }
+            } else nf
+        }.format(amount)
     }
 }

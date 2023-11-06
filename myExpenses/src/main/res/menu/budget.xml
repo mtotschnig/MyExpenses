@@ -43,11 +43,6 @@
         android:title="@string/menu_manage_categories"
         app:showAsAction="never"/>
     <item
-        android:id="@id/TOGGLE_AGGREGATE_TYPES"
-        android:checkable="true"
-        android:title="@string/menu_budget_aggregate"
-        app:showAsAction="never"/>
-    <item
         android:id="@id/BUDGET_ALLOCATED_ONLY"
         android:checkable="true"
         android:title="@string/menu_budget_allocated_only"

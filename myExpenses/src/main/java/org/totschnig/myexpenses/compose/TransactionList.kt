@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.localDateTime2Epoch
 import org.totschnig.myexpenses.viewmodel.data.*
 import timber.log.Timber
+import java.text.DecimalFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -327,9 +328,15 @@ fun HeaderData(
                     "⊕ " + amountFormatter.formatMoney(headerRow.incomeSum),
                     color = LocalColors.current.income
                 )
+                val configureExpenseSum: (DecimalFormat) -> Unit = remember {
+                    {
+                        it.negativePrefix = ""
+                        it.positivePrefix = "+"
+                    }
+                }
                 Text(
                     modifier = Modifier.padding(horizontal = generalPadding),
-                    text = "⊖ " + amountFormatter.formatMoney(headerRow.expenseSum),
+                    text = "⊖ " + amountFormatter.formatMoney(headerRow.expenseSum, configureExpenseSum),
                     color = LocalColors.current.expense
                 )
                 Text(

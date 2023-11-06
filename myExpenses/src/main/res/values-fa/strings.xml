@@ -355,7 +355,6 @@
     <string name="restore_calendar_handling_ignore">برنامه‌ها را بازیابی نکن</string>
     <string name="restore_not_possible_local_calendar_missing">تقویم برنامه‌ریزی فعلی در دسترس نیست.</string>
     <string name="menu_distribution_show_pie_char">نمایش نمودار دایره‌ای</string>
-    <string name="menu_distribution_aggreate">مجموع دخل و خرج</string>
     <string name="image_deleted">تصویر حذف شده‌است</string>
     <string name="transaction_deleted">تراکنش حذف شده‌است</string>
     <string name="dialog_export_applied_to_filter">فقط تراکنش‌های مطابق با فیلتر فعلی درنظر گرفته خواهندشد.</string>

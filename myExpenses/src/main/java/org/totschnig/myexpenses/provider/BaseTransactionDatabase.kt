@@ -66,6 +66,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USER_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTACHMENTS
@@ -87,7 +88,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import timber.log.Timber
 
-const val DATABASE_VERSION = 150
+const val DATABASE_VERSION = 151
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -125,7 +126,7 @@ BEGIN
 END
 """
 
-private val CATEGORY_HIERARCHY_TRIGGER = """
+private const val CATEGORY_HIERARCHY_TRIGGER = """
 CREATE TRIGGER category_hierarchy_update
 BEFORE UPDATE ON $TABLE_CATEGORIES WHEN new.$KEY_PARENTID IS NOT old.$KEY_PARENTID AND new.$KEY_PARENTID IN ($categoryTreeSelectForTrigger)
 BEGIN $RAISE_INCONSISTENT_CATEGORY_HIERARCHY END
@@ -159,7 +160,47 @@ CREATE TRIGGER category_label_unique_update
     WHEN new.$KEY_PARENTID IS NULL ANd new.$KEY_LABEL != old.$KEY_LABEL AND exists (SELECT 1 from $TABLE_CATEGORIES WHERE $KEY_LABEL = new.$KEY_LABEL AND $KEY_PARENTID IS NULL)
     BEGIN
     SELECT RAISE (FAIL, 'main category exists');
-END
+    END
+"""
+
+private const val CATEGORY_TYPE_INSERT_TRIGGER = """
+CREATE TRIGGER category_type_insert
+    AFTER INSERT
+    ON $TABLE_CATEGORIES
+    WHEN new.$KEY_PARENTID IS NOT NULL
+    BEGIN
+        UPDATE $TABLE_CATEGORIES SET $KEY_TYPE = (SELECT $KEY_TYPE FROM $TABLE_CATEGORIES WHERE $KEY_ROWID = new.$KEY_PARENTID) WHERE $KEY_ROWID = new.$KEY_ROWID;
+    END
+"""
+
+private const val CATEGORY_TYPE_UPDATE_TRIGGER_MAIN = """
+CREATE TRIGGER category_type_update_type_main
+    AFTER UPDATE
+    ON $TABLE_CATEGORIES
+    WHEN new.$KEY_TYPE IS NOT old.$KEY_TYPE
+    BEGIN
+        UPDATE $TABLE_CATEGORIES SET $KEY_TYPE = new.$KEY_TYPE WHERE $KEY_PARENTID IN ($categoryTreeSelectForTrigger);
+    END
+"""
+
+private const val CATEGORY_TYPE_UPDATE_TRIGGER_SUB = """
+CREATE TRIGGER category_type_update_type_sub
+    BEFORE UPDATE
+    ON $TABLE_CATEGORIES
+    WHEN new.$KEY_TYPE IS NOT old.$KEY_TYPE AND new.$KEY_PARENTID IS NOT NULL AND new.$KEY_TYPE IS NOT (SELECT $KEY_TYPE FROM $TABLE_CATEGORIES WHERE $KEY_ROWID = new.$KEY_PARENTID)
+    BEGIN
+        SELECT RAISE (FAIL, 'sub category type must match parent type');
+    END
+"""
+
+private const val CATEGORY_TYPE_MOVE_TRIGGER = """
+CREATE TRIGGER category_type_move
+    AFTER UPDATE
+    ON $TABLE_CATEGORIES
+    WHEN new.$KEY_PARENTID IS NOT old.$KEY_PARENTID AND new.$KEY_PARENTID IS NOT NULL
+    BEGIN
+        UPDATE $TABLE_CATEGORIES SET $KEY_TYPE = (SELECT $KEY_TYPE FROM $TABLE_CATEGORIES WHERE $KEY_ROWID = new.$KEY_PARENTID) WHERE $KEY_ROWID = new.$KEY_ROWID;
+    END
 """
 
 const val BANK_CREATE = """
@@ -290,6 +331,11 @@ const val TRANSACTIONS_SEALED_DELETE_TRIGGER_CREATE =
  BEFORE DELETE ON $TABLE_TRANSACTIONS
  WHEN (SELECT $KEY_SEALED FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = old.$KEY_ACCOUNTID) = 1
  BEGIN $RAISE_UPDATE_SEALED_ACCOUNT END"""
+
+
+const val VIEW_WITH_ACCOUNT_DEFINITION =
+    """CREATE VIEW $VIEW_WITH_ACCOUNT AS SELECT $TABLE_TRANSACTIONS.*, $TABLE_CATEGORIES.$KEY_TYPE, $TABLE_ACCOUNTS.$KEY_COLOR, $KEY_CURRENCY, $KEY_EXCLUDE_FROM_TOTALS, $TABLE_ACCOUNTS.$KEY_TYPE AS $KEY_ACCOUNT_TYPE, $TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL FROM $TABLE_TRANSACTIONS LEFT JOIN $TABLE_CATEGORIES on $KEY_CATID = $TABLE_CATEGORIES.$KEY_ROWID LEFT JOIN $TABLE_ACCOUNTS ON $KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID WHERE $KEY_STATUS != $STATUS_UNCOMMITTED"""
+
 
 abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
     SupportSQLiteOpenHelper.Callback(DATABASE_VERSION) {
@@ -749,6 +795,13 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
         }
     }
 
+    fun createCategoryTypeTriggers(db: SupportSQLiteDatabase) {
+        db.execSQL(CATEGORY_TYPE_INSERT_TRIGGER)
+        db.execSQL(CATEGORY_TYPE_UPDATE_TRIGGER_MAIN)
+        db.execSQL(CATEGORY_TYPE_UPDATE_TRIGGER_SUB)
+        db.execSQL(CATEGORY_TYPE_MOVE_TRIGGER)
+    }
+
     fun insertFinTSAttributes(db: SupportSQLiteDatabase) {
         Attribute.initDatabase(db, FinTsAttribute::class.java)
         Attribute.initDatabase(db, BankingAttribute::class.java)
@@ -763,7 +816,7 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
         append("$TABLE_METHODS.$KEY_LABEL AS $KEY_METHOD_LABEL, ")
         append("$TABLE_METHODS.$KEY_ICON AS $KEY_METHOD_ICON")
         if (tableName != DatabaseConstants.TABLE_CHANGES) {
-            append(", Tree.$KEY_PATH, Tree.$KEY_ICON, $KEY_COLOR, $KEY_CURRENCY, $KEY_SEALED, $KEY_EXCLUDE_FROM_TOTALS, ")
+            append(", Tree.$KEY_PATH, Tree.$KEY_ICON, Tree.$KEY_TYPE, $KEY_COLOR, $KEY_CURRENCY, $KEY_SEALED, $KEY_EXCLUDE_FROM_TOTALS, ")
             append("$TABLE_ACCOUNTS.$KEY_TYPE AS $KEY_ACCOUNT_TYPE, ")
             append("$TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL")
         }

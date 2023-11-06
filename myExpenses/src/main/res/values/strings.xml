@@ -468,7 +468,6 @@
     <string name="restore_not_possible_target_calendar_missing">The calendar %s set in the backup archive does not exist locally. Restore has been aborted.</string>
     <string name="restore_not_possible_local_calendar_missing">The current planning calendar is not available.</string>
     <string name="menu_distribution_show_pie_char">Show pie chart</string>
-    <string name="menu_distribution_aggreate">Aggregate expenses and income</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Stale images</string>
     <string name="pref_manage_stale_images_summary">Manage pictures left over from deleted transactions</string>
@@ -1091,4 +1090,7 @@
     <string name="whats_new_365">Attach arbitrary number of images and documents (PDF)</string>
     <string name="widget_title_budget">My budget</string>
     <string name="whats_new_366">Home Screen Widget displaying current state of budget.</string>
+    <string name="pref_unmapped_transaction_as_transfer_title">Unmapped transactions</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_off">are counted as expense / income</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_on">are counted as transfer</string>
 </resources>

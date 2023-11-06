@@ -8,6 +8,7 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
@@ -31,6 +32,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.deleteCategory
 import org.totschnig.myexpenses.db2.ensureCategoryTree
 import org.totschnig.myexpenses.db2.moveCategory
@@ -55,6 +57,15 @@ import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
 import java.io.FileNotFoundException
 
+sealed class LoadingState {
+    data object Loading: LoadingState()
+
+    sealed class Result: LoadingState()
+    class Data(val data: Category): Result()
+
+    class Empty(val hasUnfiltered: Boolean): Result()
+}
+
 open class CategoryViewModel(
     application: Application,
     protected val savedStateHandle: SavedStateHandle
@@ -73,12 +84,10 @@ open class CategoryViewModel(
     val defaultSort = Sort.USAGES
 
     sealed class DialogState : java.io.Serializable
-    object NoShow : DialogState()
+    data object NoShow : DialogState()
     data class Show(
-        val id: Long? = null,
+        val category: Category? = null,
         val parent: Category? = null,
-        val label: String? = null,
-        val icon: String? = null,
         val saving: Boolean = false,
         val error: Boolean = false
     ) : DialogState()
@@ -103,10 +112,24 @@ open class CategoryViewModel(
     val sortOrder = MutableStateFlow(Sort.LABEL)
 
     var filter: String?
-        get() = savedStateHandle.get<String>(KEY_FILTER)
+        get() = savedStateHandle[KEY_FILTER]
         set(value) {
             savedStateHandle[KEY_FILTER] = value
         }
+
+    var typeFilter: UByte?
+        get() = savedStateHandle.get<Int>(KEY_TYPE_FILTER)?.toUByte()
+        set(value) {
+            savedStateHandle[KEY_TYPE_FILTER] = value?.toInt()
+        }
+
+    fun toggleTypeFilterIsShown() {
+        typeFilter = if (typeFilter == null) FLAG_NEUTRAL else null
+    }
+
+    val typeFilterLiveData = savedStateHandle.getLiveData<Int?>(KEY_TYPE_FILTER, null).map {
+        it?.toUByte()
+    }
 
     fun setSortOrder(sort: Sort) {
         sortOrder.tryEmit(sort)
@@ -114,12 +137,13 @@ open class CategoryViewModel(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val categoryTree = combine(
+        typeFilterLiveData.asFlow(),
         savedStateHandle.getLiveData(KEY_FILTER, "").asFlow(),
         sortOrder
-    ) { filter, sort ->
-        Timber.d("new emission: $filter/$sort")
-        filter to sort
-    }.flatMapLatest { (filter, sortOrder) ->
+    ) { type, filter, sort ->
+        Timber.d("new emission: $type/$filter/$sort")
+        Triple(type, filter, sort)
+    }.flatMapLatest { (type, filter, sortOrder) ->
         val (selection, selectionArgs) = joinQueryAndAccountFilter(
             filter,
             savedStateHandle.get<Long>(KEY_ACCOUNTID),
@@ -129,14 +153,15 @@ open class CategoryViewModel(
             selection = selection,
             selectionArgs = selectionArgs?.let { it + it } ?: emptyArray(),
             sortOrder = sortOrder.toOrderByWithDefault(defaultSort, collate),
+            queryParameter = type?.let { mapOf(KEY_TYPE to type.toString()) } ?: emptyMap(),
             projection = null,
             keepCriteria = null,
             withColors = false
         )
     }
-        .stateIn(viewModelScope, SharingStarted.Lazily, Category.LOADING)
+        .stateIn(viewModelScope, SharingStarted.Lazily, LoadingState.Loading)
 
-    val categoryTreeForSelect: Flow<Category>
+    val categoryTreeForSelect: Flow<LoadingState>
         get() = categoryTree(sortOrder = sortOrder.value.toOrderByWithDefault(defaultSort, collate))
 
     fun categoryTree(
@@ -148,7 +173,7 @@ open class CategoryViewModel(
         queryParameter: Map<String, String> = emptyMap(),
         keepCriteria: ((Category) -> Boolean)? = null,
         withColors: Boolean = true
-    ): Flow<Category> {
+    ): Flow<LoadingState.Result> {
         return contentResolver.observeQuery(
             categoryUri(queryParameter),
             projection,
@@ -156,7 +181,7 @@ open class CategoryViewModel(
             selectionArgs + (additionalSelectionArgs ?: emptyArray()),
             sortOrder ?: KEY_LABEL,
             true
-        ).mapToTree(keepCriteria, withColors)
+        ).mapToResult(keepCriteria, withColors)
     }
 
     private fun categoryUri(queryParameter: Map<String, String>): Uri =
@@ -168,37 +193,41 @@ open class CategoryViewModel(
             }
             .build()
 
-    private fun Flow<Query>.mapToTree(
+    private fun Flow<Query>.mapToResult(
         keepCriteria: ((Category) -> Boolean)?,
         withColors: Boolean
-    ): Flow<Category> = mapNotNull { query ->
+    ): Flow<LoadingState.Result> = mapNotNull { query ->
         withContext(Dispatchers.IO) {
             query.run()?.use { cursor ->
-                cursor.moveToFirst()
-                Category(
-                    id = 0,
-                    parentId = null,
-                    level = 0,
-                    label = "ROOT",
-                    children = ingest(
-                        withColors,
-                        cursor,
-                        null,
-                        1
-                    )
-                ).pruneNonMatching(keepCriteria)
+                if (cursor.moveToFirst())
+                    Category(
+                        id = 0,
+                        parentId = null,
+                        level = 0,
+                        label = "ROOT",
+                        children = ingest(
+                            withColors,
+                            cursor,
+                            null,
+                            1
+                        )
+                    ).pruneNonMatching(keepCriteria)?.let {
+                        LoadingState.Data(data = it)
+                    } ?: LoadingState.Empty(true)
+                else LoadingState.Empty(cursor.extras.getBoolean(KEY_COUNT))
             }
         }
     }
 
-    fun saveCategory(label: String, icon: String?) {
+    fun saveCategory(label: String, icon: String?, typeFlags: UByte) {
         viewModelScope.launch(context = coroutineContext()) {
             (dialogState as? Show)?.takeIf { !it.saving }?.let {
                 val category = Category(
-                    id = it.id ?: 0,
+                    id = it.category?.id ?: 0,
                     label = label,
                     icon = icon,
-                    parentId = it.parent?.id
+                    parentId = it.parent?.id,
+                    typeFlags = typeFlags
                 )
                 dialogState = it.copy(saving = true)
                 dialogState = if (repository.saveCategory(category) == null) {
@@ -394,6 +423,7 @@ open class CategoryViewModel(
                                                 nextLabel,
                                                 nextIcon,
                                                 nextColor,
+                                                if (parentId == null) cursor.getInt(KEY_TYPE) else null,
                                                 ingest(cursor, nextId)
                                             )
                                         )
@@ -436,6 +466,8 @@ open class CategoryViewModel(
 
     companion object {
 
+        const val KEY_TYPE_FILTER = "typeFilter"
+
         fun ingest(
             withColors: Boolean,
             cursor: Cursor,
@@ -451,6 +483,7 @@ open class CategoryViewModel(
                         val nextPath = cursor.getString(KEY_PATH)
                         val nextColor = if (withColors) cursor.getIntOrNull(KEY_COLOR) else null
                         val nextIcon = cursor.getStringOrNull(KEY_ICON)
+                        val nextType = cursor.getIntOrNull(KEY_TYPE)?.toUByte()
                         val nextIsMatching = cursor.getInt(KEY_MATCHES_FILTER) == 1
                         val nextLevel = cursor.getInt(KEY_LEVEL)
                         val nextSum = cursor.getLongIfExistsOr0(KEY_SUM)
@@ -485,7 +518,8 @@ open class CategoryViewModel(
                                         nextBudgetRollOverPrevious,
                                         nextBudgetRollOverNext,
                                         nextBudgetOneTime
-                                    )
+                                    ),
+                                    typeFlags = nextType
                                 )
                             )
                         } else return@buildList

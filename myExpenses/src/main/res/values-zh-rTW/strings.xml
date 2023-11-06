@@ -453,7 +453,6 @@
     <string name="restore_not_possible_target_calendar_missing">備份中設定的日曆 %s 已經不存在於本機裝置。還原動作已被中止了。</string>
     <string name="restore_not_possible_local_calendar_missing">當前的收支計畫日曆無法使用。</string>
     <string name="menu_distribution_show_pie_char">顯示圓餅統計圖</string>
-    <string name="menu_distribution_aggreate">彙總支出和收入</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">陳舊圖檔</string>
     <string name="pref_manage_stale_images_summary">管理已刪除的交易，所留下的圖片</string>

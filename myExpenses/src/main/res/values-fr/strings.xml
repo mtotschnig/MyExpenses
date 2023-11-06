@@ -466,7 +466,6 @@
     <string name="restore_not_possible_target_calendar_missing">Le calendrier %s situé dans l\'archive de sauvegarde n\'existe pas localement. La restauration a été abandonnée.</string>
     <string name="restore_not_possible_local_calendar_missing">Le calendrier actuel d\'échéances n\'est pas disponible.</string>
     <string name="menu_distribution_show_pie_char">Voir le graphique en secteurs</string>
-    <string name="menu_distribution_aggreate">Totaliser les recettes et dépenses</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Images non utilisées</string>
     <string name="pref_manage_stale_images_summary">Gérer les photos ayant fait partie des transactions supprimées</string>

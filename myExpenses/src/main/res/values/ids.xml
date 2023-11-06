@@ -83,7 +83,6 @@
     <item name="QUIT_COMMAND" type="id" />
     <item name="SPLIT_TRANSACTION_COMMAND" type="id" />
     <item name="TOGGLE_CHART_COMMAND" type="id" />
-    <item name="TOGGLE_AGGREGATE_TYPES" type="id" />
     <item name="VIEW_COMMAND" type="id" />
     <item name="CHANGE_COMMAND" type="id" />
     <item name="SAVE_COMMAND" type="id" />
@@ -215,4 +214,5 @@
     <item name="NOTIFICATION_SETTINGS_COMMAND" type="id" />
     <item name="DELETE_FILES_COMMAND" type="id" />
     <item name="DELETE_BANK_COMMAND_DO" type="id" />
+    <item name="TYPE_FILTER_COMMAND" type="id" />
 </resources>

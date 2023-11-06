@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -35,7 +36,8 @@ open class TransactionPagingSource(
     val whereFilter: StateFlow<WhereFilter>,
     val homeCurrencyProvider: HomeCurrencyProvider,
     val currencyContext: CurrencyContext,
-    coroutineScope: CoroutineScope
+    coroutineScope: CoroutineScope,
+    prefHandler: PrefHandler
 ) :
     ClearingPagingSource<Int, Transaction2>() {
 
@@ -48,7 +50,7 @@ open class TransactionPagingSource(
     private val observer: ContentObserver
 
     init {
-        account.loadingInfo(homeCurrencyProvider.homeCurrencyString).also {
+        account.loadingInfo(homeCurrencyProvider.homeCurrencyString, prefHandler).also {
             uri = it.first
             projection = it.second
             selection = it.third

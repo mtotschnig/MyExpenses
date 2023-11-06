@@ -1,9 +1,26 @@
 package org.totschnig.myexpenses.compose
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
@@ -11,7 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 
@@ -19,14 +35,18 @@ import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 fun CategoryEdit(
     dialogState: CategoryViewModel.Show,
     onDismissRequest: () -> Unit = {},
-    onSave: (String, String?) -> Unit = { _, _ -> }
+    onSave: (String, String?, UByte) -> Unit = { _, _, _ -> }
 ) {
     val titleBottomPadding = 12.dp
     val fieldPadding = 12.dp
     val buttonRowTopPadding = 12.dp
     val context = LocalContext.current
-    var label by rememberSaveable { mutableStateOf(dialogState.label ?: "") }
-    var icon by rememberSaveable { mutableStateOf(dialogState.icon) }
+    var label by rememberSaveable { mutableStateOf(dialogState.category?.label ?: "") }
+    var icon by rememberSaveable { mutableStateOf(dialogState.category?.icon) }
+    var typeFlags by rememberSaveable(stateSaver = Saver(
+        save = { it.toInt() },
+        restore = { it.toUByte() }
+    )) { mutableStateOf(dialogState.category?.typeFlags ?: 0u) }
     var shouldValidate by remember { mutableStateOf(false) }
     var showIconSelection by rememberSaveable { mutableStateOf(false) }
 
@@ -51,12 +71,21 @@ fun CategoryEdit(
             ) {
                 Text(
                     modifier = Modifier.padding(bottom = titleBottomPadding),
-                    text = if (dialogState.id == null) {
+                    text = if (dialogState.category == null) {
                         if (dialogState.parent == null) stringResource(R.string.menu_create_main_cat)
                         else stringResource(R.string.menu_create_sub_cat) + " (${dialogState.parent.label})"
                     } else stringResource(R.string.menu_edit_cat),
                     style = MaterialTheme.typography.titleMedium
                 )
+
+                if (dialogState.category?.parentId == null && dialogState.parent == null)  {
+                    TypeConfiguration(
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        typeFlags = typeFlags,
+                        onCheckedChange = { typeFlags = it }
+                    )
+                    Spacer(modifier = Modifier.height(fieldPadding))
+                }
                 OutlinedTextField(
                     modifier = Modifier.testTag(TEST_TAG_EDIT_TEXT),
                     label = { Text(stringResource(id = R.string.label)) },
@@ -101,12 +130,12 @@ fun CategoryEdit(
                         onClick = {
                             shouldValidate = true
                             if (label.isNotEmpty()) {
-                                onSave(label, icon)
+                                onSave(label, icon, typeFlags)
                             }
                         }) {
                         Text(
                             text = stringResource(
-                                id = if (dialogState.id == 0L) R.string.dialog_button_add
+                                id = if (dialogState.category == null) R.string.dialog_button_add
                                 else R.string.menu_save
                             )
                         )
@@ -162,5 +191,5 @@ fun CategoryEdit(
 @Preview(widthDp = 200)
 @Composable
 fun PreviewDialog() {
-    CategoryEdit(dialogState = CategoryViewModel.Show(0L))
+    CategoryEdit(dialogState = CategoryViewModel.Show())
 }

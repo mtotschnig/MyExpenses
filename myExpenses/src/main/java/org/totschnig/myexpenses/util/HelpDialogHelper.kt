@@ -41,18 +41,21 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
             .bold { append(getString(resId)) }
             .append(": ")
         return when (resString) {
-            "menu_BudgetActivity_rollover_help_text" -> {
-                TextUtils.concat(*buildList {
-                    add(getString(R.string.menu_BudgetActivity_rollover_help_text))
-                    add(toTitle(R.string.menu_aggregates))
-                    add(getString(R.string.menu_BudgetActivity_rollover_total))
-                    add(toTitle(R.string.pref_manage_categories_title))
-                    add(getString(R.string.menu_BudgetActivity_rollover_categories))
-                    add(toTitle(R.string.menu_edit))
-                    add(getString(R.string.menu_BudgetActivity_rollover_edit))
-                }.toTypedArray())
-            }
-            "help_ManageStaleImages_info" -> getString(R.string.help_ManageStaleImages_info, "Documents/MyExpenses.Attachments.Archive")
+            "menu_BudgetActivity_rollover_help_text" -> TextUtils.concat(*buildList {
+                add(getString(R.string.menu_BudgetActivity_rollover_help_text))
+                add(toTitle(R.string.menu_aggregates))
+                add(getString(R.string.menu_BudgetActivity_rollover_total))
+                add(toTitle(R.string.pref_manage_categories_title))
+                add(getString(R.string.menu_BudgetActivity_rollover_categories))
+                add(toTitle(R.string.menu_edit))
+                add(getString(R.string.menu_BudgetActivity_rollover_edit))
+            }.toTypedArray())
+
+            "help_ManageStaleImages_info" -> getString(
+                R.string.help_ManageStaleImages_info,
+                "Documents/MyExpenses.Attachments.Archive"
+            )
+
             else -> {
                 val resIdString = resString.replace('.', '_')
                 val arrayId = resolveArray(resIdString)
@@ -120,20 +123,31 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
      * the resulting exception is caught and empty String is returned.
      */
     @Throws(Resources.NotFoundException::class)
-    fun getStringOrThrowIf0(resIdString: String) = when (resIdString) {
-        "help_ManageTemplates_plans_info" -> arrayOf<CharSequence>(
-            getString(R.string.help_ManageTemplates_plans_info_header),
-            "<br><img src=\"ic_stat_open\"> ",
-            getString(R.string.help_ManageTemplates_plans_info_open),
-            "<br><img src=\"ic_stat_applied\"> ",
-            getString(R.string.help_ManageTemplates_plans_info_applied),
-            "<br><img src=\"ic_stat_cancelled\"> ",
-            getString(R.string.help_ManageTemplates_plans_info_cancelled),
-            "<br><img src=\"ic_warning\"> ",
-            getString(R.string.orphaned_transaction_info)
-        ).joinToString("")
-        "menu_categories_export" ->  getString(R.string.export_to_format, "QIF")
-        else -> getStringOrNull(resIdString) ?: throw Resources.NotFoundException(resIdString)
+    fun getStringOrThrowIf0(resIdString: String): String {
+        fun toBold(resId: Int) = "<b>${getString(resId)}</b>"
+        return when (resIdString) {
+            "help_ManageTemplates_plans_info" -> arrayOf<CharSequence>(
+                getString(R.string.help_ManageTemplates_plans_info_header),
+                "<br><img src=\"ic_stat_open\"> ",
+                getString(R.string.help_ManageTemplates_plans_info_open),
+                "<br><img src=\"ic_stat_applied\"> ",
+                getString(R.string.help_ManageTemplates_plans_info_applied),
+                "<br><img src=\"ic_stat_cancelled\"> ",
+                getString(R.string.help_ManageTemplates_plans_info_cancelled),
+                "<br><img src=\"ic_warning\"> ",
+                getString(R.string.orphaned_transaction_info)
+            ).joinToString("")
+
+            "menu_categories_export" -> getString(R.string.export_to_format, "QIF")
+            "help_ManageCategories_category_types" -> buildString {
+                append(toBold(R.string.expense))
+                append("/")
+                append(toBold(R.string.income))
+                append(": <a href='https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Data#expense-and-income-categories'>FAQ</a>")
+            }
+
+            else -> getStringOrNull(resIdString) ?: throw Resources.NotFoundException(resIdString)
+        }
     }
 
     fun getStringOrNull(resIdString: String) = resolveString(resIdString)

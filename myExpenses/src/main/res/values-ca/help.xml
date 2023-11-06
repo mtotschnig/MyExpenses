@@ -27,7 +27,6 @@
     <string name="menu_invert_transfer_help_text">Inverteix la direcció de la transferència canviant els comptes de \"De\" i \"Per a\".</string>
     <string name="help_AccountEdit_title">Pantalla dels comptes</string>
     <string name="help_MethodEdit_title">Pantalla de les formes de pagament</string>
-    <string name="menu_distribution_aggreate_help_text">Per defecte es calculen quantitats tenint en compte les despeses i els ingressos. Si decideix que vol mostrar-los serparadament, un botó d\'acció de la barra permet oscil·lar la visió entre despeses i ingressos.</string>
     <string name="menu_ManageCategories_search_help_text">Només les categories principals i les subcategories coincideints de la seva cerca es mostraran.</string>
     <string name="help_form_fields">Camps de formulari</string>
     <string name="help_MyExpenses_fab_long_press">Tocar prolongadament el botó d\'acció flotant obre un menú que permet preparar el formulari per transferir, transaccions repartides o ingressos.</string>

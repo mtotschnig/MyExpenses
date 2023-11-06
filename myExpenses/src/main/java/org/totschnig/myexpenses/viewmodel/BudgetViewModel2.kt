@@ -11,15 +11,19 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
+import arrow.core.Tuple4
 import arrow.core.Tuple5
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.db2.budgetAllocationQueryUri
@@ -70,9 +74,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
     private lateinit var budgetFlow: Flow<BudgetAllocation>
     lateinit var categoryTreeForBudget: Flow<Category>
 
-    val sum: Flow<Long> = combine(sums, _aggregateTypes) { sums, aggregate ->
-        if (aggregate) (sums.first - sums.second) else -sums.second
-    }
+    val sum: StateFlow<Long> = sums.map { it.second }.stateIn(viewModelScope, SharingStarted.Companion.Lazily, 0)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun initWithBudget(budgetId: Long, groupingYear: Int, groupingSecond: Int) {
@@ -113,24 +115,22 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
 
         categoryTreeForBudget = combine(
             _accountInfo.filterNotNull(),
-            _aggregateTypes,
             _allocatedOnly,
             groupingInfoFlow.filterNotNull(),
             _whereFilter
-        ) { accountInfo, aggregateTypes, allocatedOnly, grouping, whereFilter ->
-            Tuple5(
+        ) { accountInfo, allocatedOnly, grouping, whereFilter ->
+            Tuple4(
                 accountInfo,
-                if (aggregateTypes) null else false,
                 allocatedOnly,
                 grouping,
                 whereFilter
             )
         }.combine(budgetFlow) { tuple, budget -> tuple to budget }
             .flatMapLatest { (tuple, budget) ->
-                val (accountInfo, incomeType, allocatedOnly, grouping, whereFilter) = tuple
+                val (accountInfo, allocatedOnly, grouping, whereFilter) = tuple
                 categoryTreeWithSum(
                     accountInfo = accountInfo,
-                    incomeType = incomeType,
+                    incomeType = false,
                     groupingInfo = grouping,
                     queryParameter = buildMap {
                         if (grouping.grouping != Grouping.NONE) {
@@ -263,7 +263,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
             } else {
                 saveRollOverList(
                     listOf(
-                        0L to tree.budget.totalAllocated + sum.first()
+                        0L to tree.budget.totalAllocated + sum.value
                     )
                 )
             }

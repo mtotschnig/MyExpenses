@@ -62,7 +62,6 @@
     <string name="menu_categories_setup_default_help_text">Un insieme di categorie predefinite verrà importato.</string>
     <string name="menu_categories_export_help_text">Categorie verranno esportate in file QIF.</string>
     <string name="menu_distribution_show_pie_char_help_text">Attiva o disattiva la visibilità del grafico a torta.</string>
-    <string name="menu_distribution_aggreate_help_text">Per impostazione predefinita, le somme calcolate includono sia le spese che i proventi. È possibile decidere di mostrare loro separatamente, un pulsante nella barra delle azioni consente di alternare tra spese e proventi.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">Le categorie selezionate verranno utilizzate per filtrare l\'elenco delle transazioni.</string>
     <string name="menu_ManageCategories_search_help_text">Solo la categoria principale e le sottocategorie che corrispondono alla tua query verranno visualizzate.</string>
     <string name="menu_ManageCategories_sort_help_text">Elenco categoria possa essere ordinato per titolo (in ordine alfabetico), per frequenza di utilizzi, o in base all\'ultima volta che una transazione è stata mappata ad esso.</string>
@@ -159,7 +158,6 @@
     <string name="cab_show_transactions_help_text">Apri una schermata elencante tutte le transazioni associate alla categoria selezionata nell\'attuale conto.</string>
     <string name="menu_BudgetActivity_back_forward_help_text">Confronta il budget con le spese passate e future.</string>
     <string name="menu_BudgetActivity_edit_help_text">Modifica la definizione del budget.</string>
-    <string name="menu_budget_aggregate_help_text">Da impostazione predefinita, le somme calcolate comprendono sia le spese che le entrate. Se si disattiva questa opzione, le entrate vengono ignorate, e vengono prese in considerazione solo le spese.</string>
     <string name="menu_budget_allocated_only_help_text">Attivando questa opzione, vengono visualizzate solo le categorie per le quali è stato stanziato un determinato importo.</string>
     <string name="menu_BudgetActivity_delete_help_text">Il budget attualmente visualizzato verrà eliminato.</string>
     <string name="help_ManageBudgets_title">Elenco di tutti i budget</string>

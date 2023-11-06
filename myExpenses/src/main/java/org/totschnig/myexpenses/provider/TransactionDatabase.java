@@ -38,6 +38,7 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSA
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_UUID_INDEX_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTION_ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSFER_SEALED_UPDATE_TRIGGER_CREATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.VIEW_WITH_ACCOUNT_DEFINITION;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.buildViewDefinition;
@@ -122,18 +123,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     super(prefHandler);
   }
 
-  private static String buildViewWithAccount() {
-    return " AS SELECT " + TABLE_TRANSACTIONS + ".*" + ", " +
-            KEY_COLOR + ", " +
-            KEY_CURRENCY + ", " +
-            KEY_EXCLUDE_FROM_TOTALS + ", " +
-            TABLE_ACCOUNTS + "." + KEY_TYPE + " AS " + KEY_ACCOUNT_TYPE + ", " +
-            TABLE_ACCOUNTS + "." + KEY_LABEL + " AS " + KEY_ACCOUNT_LABEL +
-            " FROM " + TABLE_TRANSACTIONS + " LEFT JOIN " +
-            TABLE_ACCOUNTS + " ON " + KEY_ACCOUNTID +
-            " = " + TABLE_ACCOUNTS + "." + KEY_ROWID;
-  }
-
   /**
    * SQL statement for accounts TABLE
    */
@@ -193,6 +182,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_COLOR + " integer, "
           + KEY_ICON + " string, " //TODO migrate to text
           + KEY_UUID + " text, "
+          + KEY_TYPE + " integer, "
           + "UNIQUE (" + KEY_LABEL + "," + KEY_PARENTID + "));";
 
   private static final String CATEGORY_UUID_INDEX_CREATE = "CREATE UNIQUE INDEX categories_uuid ON "
@@ -640,6 +630,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     createOrRefreshTransactionTriggers(db);
     createOrRefreshTransactionUsageTriggers(db);
     createOrRefreshAccountTriggers(db);
+    createCategoryTypeTriggers(db);
+
     db.execSQL(SETTINGS_CREATE);
     //TODO evaluate if we should get rid of the split transaction category id
     db.execSQL("CREATE TRIGGER protect_split_transaction" +
@@ -1980,7 +1972,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
       if (oldVersion < 105) {
         db.execSQL("DROP VIEW IF EXISTS " + VIEW_WITH_ACCOUNT);
-        db.execSQL("CREATE VIEW " + VIEW_WITH_ACCOUNT + buildViewWithAccount() + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+        db.execSQL(VIEW_WITH_ACCOUNT_DEFINITION);
       }
       if (oldVersion < 106) {
         db.execSQL("DROP TRIGGER IF EXISTS update_change_log");
@@ -2156,8 +2148,14 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 149) {
         createOrRefreshTransactionSealedTriggers(db);
       }
-      if (oldVersion < 150) {
+/*      if (oldVersion < 150) {
         createOrRefreshViews(db);
+      }*/
+      if (oldVersion < 151) {
+        db.execSQL("ALTER TABLE categories add column type integer");
+        db.execSQL("UPDATE categories set type = 3 where _id != 0");
+        createOrRefreshViews(db);
+        createCategoryTypeTriggers(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);
@@ -2245,7 +2243,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
             tagGroupBy + ";");
 
     db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
-    db.execSQL("CREATE VIEW " + VIEW_WITH_ACCOUNT + buildViewWithAccount() + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+    db.execSQL(VIEW_WITH_ACCOUNT_DEFINITION);
 
     createOrRefreshTemplateViews(db);
   }

@@ -80,7 +80,6 @@
     <string name="menu_ManageCategories_distribution_grouping_help_text">Definir o tipo de agrupamento e exibir a distribuição por dia, mês, semana ou ano.</string>
     <string name="menu_categories_export_help_text">As categorias serão exportadas para um ficheiro QIF.</string>
     <string name="menu_distribution_show_pie_char_help_text">Alternar a visibilidade do gráfico circular.</string>
-    <string name="menu_distribution_aggreate_help_text">Por omissão, as somas calculadas incluem ambas as despesas e a receita. Pode optar por mostrar as mesmas separadamente, um botão na barra de ações permite-lhe alternar entre as despesas e a receita.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">As categorias selecionadas serão usadas para filtrar a lista de transações.</string>
     <string name="menu_ManageCategories_search_help_text">Apenas a categoria principal e as subcategorias que coincidem com a sua pesquisa serão exibidas.</string>
     <string name="menu_ManageCategories_sort_help_text">A lista de categorias pode ser ordenada por título (alfabeticamente), por frequência de usos, ou pela última categoria atribuída a uma transação.</string>
@@ -173,7 +172,6 @@
     <string name="help_Budget_spent_click">Ao clicar nos montantes gastos, são listadas todas as transações relevantes para o orçamento atual e a categoria correspondente.</string>
     <string name="cab_show_transactions_help_text">Abre uma caixa de diálogo listando todas as transações mapeadas para a categoria selecionada na conta atual.</string>
     <string name="menu_BudgetActivity_back_forward_help_text">Compare o orçamento com o gasto de períodos passados e futuros.</string>
-    <string name="menu_budget_aggregate_help_text">Por padrão, as somas calculadas incluem despesas e receitas. Se desativar esta opção, apenas as despesas serão consideradas e as receitas serão ignoradas.</string>
     <string name="menu_budget_allocated_only_help_text">Ao ativar esta opção, apenas as categorias para as quais alguma quantia foi alocada, são exibidas.</string>
     <string name="menu_BudgetActivity_delete_help_text">O orçamento em exibição será excluído.</string>
     <string name="menu_BudgetActivity_rollover_categories">Os restantes de cada categoria estao em vigor e as alocações do próximo período serão afetadas.</string>

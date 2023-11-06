@@ -10,6 +10,7 @@ import arrow.core.Tuple4
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.WhereFilter
@@ -126,9 +127,9 @@ data class PageAccount(
     }
 
     //Tuple4 of Uri / projection / selection / selectionArgs
-    fun loadingInfo(homeCurrency: String): Tuple4<Uri, Array<String>, String, Array<String>?> {
+    fun loadingInfo(homeCurrency: String, prefHandler: PrefHandler): Tuple4<Uri, Array<String>, String, Array<String>?> {
         val uri = extendedUriForTransactionList(shortenComment = true)
-        val projection = Transaction2.projection(id, grouping, homeCurrency)
+        val projection = Transaction2.projection(id, grouping, homeCurrency, prefHandler)
         val (selection, selectionArgs) = selectionInfo
         return Tuple4(uri, projection, selection, selectionArgs)
     }

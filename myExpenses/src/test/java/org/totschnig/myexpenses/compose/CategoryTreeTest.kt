@@ -1,6 +1,6 @@
 package org.totschnig.myexpenses.compose
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import org.totschnig.myexpenses.viewmodel.data.Category
 
@@ -21,7 +21,7 @@ class CategoryTreeTest {
                 )
             )
         )
-        Truth.assertThat(category.pruneNonMatching()).isEqualTo(category)
+        assertThat(category.pruneNonMatching()).isEqualTo(category)
     }
 
     @Test
@@ -48,7 +48,7 @@ class CategoryTreeTest {
                 )
             )
         )
-        Truth.assertThat(category.flatten().map { it.label }).containsExactly(
+        assertThat(category.flatten().map { it.label }).containsExactly(
             "ROOT", "1", "1.1", "1.1.1", "2", "2.1", "2.1.1"
         )
     }
@@ -68,6 +68,6 @@ class CategoryTreeTest {
                 )
             )
         )
-        Truth.assertThat(category.pruneNonMatching()!!.children).isEmpty()
+        assertThat(category.pruneNonMatching()).isNull()
     }
 }

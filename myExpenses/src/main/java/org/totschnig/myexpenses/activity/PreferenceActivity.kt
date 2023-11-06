@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.fragment.preferences.PreferencesWebUiFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.service.AutoBackupWorker
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.PermissionHelper
@@ -246,6 +247,11 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
 
             getKey(PrefKey.PLANNER_EXECUTION_TIME) -> {
                 enqueuePlanner(false)
+            }
+
+            getKey(PrefKey.UNMAPPED_TRANSACTION_AS_TRANSFER) -> {
+                contentResolver.notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false)
+                contentResolver.notifyChange(TransactionProvider.ACCOUNTS_URI, null, false)
             }
         }
     }

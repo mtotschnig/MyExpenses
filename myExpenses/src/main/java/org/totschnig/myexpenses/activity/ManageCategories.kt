@@ -9,6 +9,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.PluralsRes
 import androidx.appcompat.view.ActionMode
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -18,10 +19,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.PlaylistAdd
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -49,10 +52,11 @@ import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationComplete
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationPending
+import org.totschnig.myexpenses.viewmodel.LoadingState
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.io.Serializable
 
-open class ManageCategories : ProtectedFragmentActivity(),
+class ManageCategories : ProtectedFragmentActivity(),
     ContribIFace {
 
     private var actionMode: ActionMode? = null
@@ -72,6 +76,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
             menu.findItem(R.id.TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP).setEnabledAndVisible(
                 action == Action.SELECT_MAPPING
             )
+            menu.findItem(R.id.TYPE_FILTER_COMMAND).isChecked = viewModel.typeFilter != null
         }
         menuInflater.inflate(R.menu.search, menu)
         configureSearch(this, menu, this::onQueryTextChange)
@@ -89,6 +94,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
         menu.findItem(R.id.TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP)?.let {
             it.isChecked = parentSelectionOnTap.value
         }
+        checkMenuIcon(menu.findItem(R.id.TYPE_FILTER_COMMAND))
         prepareSearch(menu, viewModel.filter)
         val accountNames = GenericAccountService.getAccountNames(this)
         menu.findItem(R.id.SYNC_COMMAND)?.let { item ->
@@ -115,7 +121,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
             viewModel.setSortOrder(sortDelegate.currentSortOrder)
             true
         } else if (item.itemId == Menu.NONE) {
-            when(item.groupId) {
+            when (item.groupId) {
                 R.id.SYNC_COMMAND_EXPORT_CATEGORIES -> viewModel.syncCatsExport(item.title.toString())
                 R.id.SYNC_COMMAND_IMPORT_CATEGORIES -> viewModel.syncCatsImport(item.title.toString())
             }
@@ -139,8 +145,10 @@ open class ManageCategories : ProtectedFragmentActivity(),
         val (helpVariant, title) = when (action) {
             Action.MANAGE ->
                 HelpVariant.manage to R.string.pref_manage_categories_title
+
             Action.SELECT_FILTER ->
                 HelpVariant.select_filter to R.string.search_category
+
             Action.SELECT_MAPPING ->
                 HelpVariant.select_mapping to R.string.select_category
         }
@@ -176,7 +184,10 @@ open class ManageCategories : ProtectedFragmentActivity(),
                         LaunchedEffect(selectionState.value) {
                             selectionState.value?.let {
                                 if (it.level > 2) {
-                                    contribFeatureRequested(ContribFeature.CATEGORY_TREE, R.id.SELECT_COMMAND to it)
+                                    contribFeatureRequested(
+                                        ContribFeature.CATEGORY_TREE,
+                                        R.id.SELECT_COMMAND to it
+                                    )
                                 } else {
                                     doSingleSelection(it)
                                 }
@@ -184,6 +195,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
                         }
                         ChoiceMode.SingleChoiceMode(selectionState, parentSelectionOnTap.value)
                     }
+
                     Action.MANAGE, Action.SELECT_FILTER -> {
                         val selectionState = rememberMutableStateListOf<Category>()
                         LaunchedEffect(selectionState.size) {
@@ -204,102 +216,119 @@ open class ManageCategories : ProtectedFragmentActivity(),
                         onSave = viewModel::saveCategory
                     )
                 }
-                viewModel.categoryTree.collectAsState(initial = Category.LOADING).value.let { root ->
-                    Box(modifier = Modifier.fillMaxSize()) {
-                        when {
-                            root == Category.LOADING -> {
-                                CircularProgressIndicator(
-                                    modifier = Modifier
-                                        .size(96.dp)
-                                        .align(Alignment.Center)
-                                )
-                            }
-                            root.children.isEmpty() -> {
-                                Column(
-                                    modifier = Modifier.align(Alignment.Center),
-                                    verticalArrangement = Arrangement.spacedBy(5.dp),
-                                    horizontalAlignment = CenterHorizontally
-                                ) {
-                                    Text(text = stringResource(id = R.string.no_categories))
-                                    if (viewModel.filter.isNullOrBlank()) {
-                                        Button(onClick = { importCats() }) {
-                                            Column(horizontalAlignment = CenterHorizontally) {
-                                                Icon(
-                                                    imageVector = Icons.Filled.PlaylistAdd,
-                                                    contentDescription = null
-                                                )
-                                                Text(text = stringResource(id = R.string.menu_categories_setup_default))
+                viewModel.categoryTree.collectAsState(initial = Category.LOADING).value.let { state ->
+                    val typeFlags = viewModel.typeFilterLiveData.observeAsState(null).value
+                    Column(modifier = Modifier.fillMaxSize()) {
+                        if (typeFlags != null) {
+                            TypeConfiguration(
+                                modifier = Modifier.fillMaxWidth().background(color = colorResource(id = R.color.cardBackground)),
+                                typeFlags = typeFlags,
+                                onCheckedChange = { viewModel.typeFilter = it }
+                            )
+                        }
+                        Box(modifier = Modifier.fillMaxWidth().weight(1f)) {
+                            when(state) {
+                                LoadingState.Loading -> {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier
+                                            .size(96.dp)
+                                            .align(Alignment.Center)
+                                    )
+                                }
+
+                                is LoadingState.Empty -> {
+                                    Column(
+                                        modifier = Modifier.align(Alignment.Center),
+                                        verticalArrangement = Arrangement.spacedBy(5.dp),
+                                        horizontalAlignment = CenterHorizontally
+                                    ) {
+                                        Text(text = stringResource(id = R.string.no_categories))
+                                        if (!state.hasUnfiltered) {
+                                            Button(onClick = { importCats() }) {
+                                                Column(horizontalAlignment = CenterHorizontally) {
+                                                    Icon(
+                                                        imageVector = Icons.Filled.PlaylistAdd,
+                                                        contentDescription = null
+                                                    )
+                                                    Text(text = stringResource(id = R.string.menu_categories_setup_default))
+                                                }
                                             }
                                         }
                                     }
                                 }
-                            }
-                            else -> {
-                                Category(
-                                    category = if (action == Action.SELECT_FILTER)
-                                        root.copy(children = buildList {
-                                            add(
-                                                Category(
-                                                    id = NULL_ITEM_ID,
-                                                    label = stringResource(id = R.string.unmapped),
-                                                    level = 1
+
+                                is LoadingState.Data -> {
+
+                                    Category(
+                                        category = if (action == Action.SELECT_FILTER)
+                                            state.data.copy(children = buildList {
+                                                add(
+                                                    Category(
+                                                        id = NULL_ITEM_ID,
+                                                        label = stringResource(id = R.string.unmapped),
+                                                        level = 1
+                                                    )
                                                 )
-                                            )
-                                            addAll(root.children)
-                                        })
-                                    else root,
-                                    expansionMode = ExpansionMode.DefaultCollapsed(
-                                        rememberMutableStateListOf()
-                                    ),
-                                    menuGenerator = remember {
-                                        {
-                                            if (action == Action.SELECT_FILTER) null else Menu(
-                                                listOfNotNull(
-                                                    if ((choiceMode as? ChoiceMode.SingleChoiceMode)?.selectParentOnClick == false) {
-                                                        select("SELECT_CATEGORY") { doSingleSelection(it) }
-                                                    } else null,
-                                                    edit("EDIT_CATEGORY") { editCat(it) },
-                                                    delete("DELETE_CATEGORY") {
-                                                        if (it.flatten().map { it.id }
-                                                                .contains(protectionInfo?.id)) {
-                                                            showSnackBar(
-                                                                resources.getQuantityString(
-                                                                    if (protectionInfo!!.isTemplate) R.plurals.not_deletable_mapped_templates else R.plurals.not_deletable_mapped_transactions,
-                                                                    1,
-                                                                    1
+                                                addAll(state.data.children)
+                                            })
+                                        else state.data,
+                                        expansionMode = ExpansionMode.DefaultCollapsed(
+                                            rememberMutableStateListOf()
+                                        ),
+                                        menuGenerator = remember {
+                                            {
+                                                if (action == Action.SELECT_FILTER) null else Menu(
+                                                    listOfNotNull(
+                                                        if ((choiceMode as? ChoiceMode.SingleChoiceMode)?.selectParentOnClick == false) {
+                                                            select("SELECT_CATEGORY") {
+                                                                doSingleSelection(
+                                                                    it
                                                                 )
-                                                            )
-                                                        } else {
-                                                            viewModel.deleteCategories(
-                                                                listOf(it)
-                                                            )
-                                                        }
-                                                    },
-                                                    MenuEntry(
-                                                        icon = Icons.Filled.Add,
-                                                        label = R.string.subcategory,
-                                                        command = "CREATE_SUBCATEGORY"
-                                                    ) {
-                                                        if (it.level > 1) {
-                                                            contribFeatureRequested(
-                                                                ContribFeature.CATEGORY_TREE,
-                                                                R.id.CREATE_SUB_COMMAND to it
-                                                            )
-                                                        } else {
-                                                            createCat(it)
-                                                        }
-                                                    },
-                                                    MenuEntry(
-                                                        icon = myiconpack.ArrowsAlt,
-                                                        label = R.string.menu_move,
-                                                        command = "MOVE_CATEGORY"
-                                                    ) { showMoveTargetDialog(it) }
+                                                            }
+                                                        } else null,
+                                                        edit("EDIT_CATEGORY") { editCat(it) },
+                                                        delete("DELETE_CATEGORY") {
+                                                            if (it.flatten().map { it.id }
+                                                                    .contains(protectionInfo?.id)) {
+                                                                showSnackBar(
+                                                                    resources.getQuantityString(
+                                                                        if (protectionInfo!!.isTemplate) R.plurals.not_deletable_mapped_templates else R.plurals.not_deletable_mapped_transactions,
+                                                                        1,
+                                                                        1
+                                                                    )
+                                                                )
+                                                            } else {
+                                                                viewModel.deleteCategories(
+                                                                    listOf(it)
+                                                                )
+                                                            }
+                                                        },
+                                                        MenuEntry(
+                                                            icon = Icons.Filled.Add,
+                                                            label = R.string.subcategory,
+                                                            command = "CREATE_SUBCATEGORY"
+                                                        ) {
+                                                            if (it.level > 1) {
+                                                                contribFeatureRequested(
+                                                                    ContribFeature.CATEGORY_TREE,
+                                                                    R.id.CREATE_SUB_COMMAND to it
+                                                                )
+                                                            } else {
+                                                                createCat(it)
+                                                            }
+                                                        },
+                                                        MenuEntry(
+                                                            icon = myiconpack.ArrowsAlt,
+                                                            label = R.string.menu_move,
+                                                            command = "MOVE_CATEGORY"
+                                                        ) { showMoveTargetDialog(it) }
+                                                    )
                                                 )
-                                            )
-                                        }
-                                    },
-                                    choiceMode = choiceMode
-                                )
+                                            }
+                                        },
+                                        choiceMode = choiceMode
+                                    )
+                                }
                             }
                         }
                     }
@@ -322,7 +351,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
     fun doMultiSelection() {
         val selected = (choiceMode as ChoiceMode.MultiChoiceMode).selectionState
         if (selected.size == 1 || !selected.any { it.id == NULL_ITEM_ID }) {
-            val label = viewModel.categoryTree.value.flatten()
+            val label = (viewModel.categoryTree.value as LoadingState.Data).data.flatten()
                 .filter { selected.any { category -> category.id == it.id } }
                 .joinToString(separator = ",") { it.label }
             setResult(RESULT_FIRST_USER, Intent().apply {
@@ -388,10 +417,12 @@ open class ManageCategories : ProtectedFragmentActivity(),
                         viewModel.deleteCategories(selectionState)
                         true
                     }
+
                     R.id.SELECT_COMMAND -> {
                         doMultiSelection()
                         true
                     }
+
                     else -> false
                 }
 
@@ -463,6 +494,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
                                     dismissCallback
                                 )
                             }
+
                             is OperationPending -> {
                                 val messages = buildList {
                                     if (it.hasDescendants > 0) {
@@ -588,12 +620,14 @@ open class ManageCategories : ProtectedFragmentActivity(),
                 finishActionMode()
                 true
             }
+
             R.id.DELETE_COMMAND_DO -> {
                 showSnackBarIndefinite(R.string.progress_dialog_deleting)
                 @Suppress("UNCHECKED_CAST")
                 viewModel.deleteCategoriesDo((tag as Array<Long>).toList())
                 true
             }
+
             R.id.SETUP_CATEGORIES_DEFAULT_COMMAND -> {
                 importCats()
                 true
@@ -603,16 +637,25 @@ open class ManageCategories : ProtectedFragmentActivity(),
                 exportCats("ISO-8859-1")
                 true
             }
+
             R.id.EXPORT_CATEGORIES_COMMAND_UTF8 -> {
                 exportCats("UTF-8")
                 true
             }
+
             R.id.TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP -> {
                 val value = tag as Boolean
                 parentSelectionOnTap.value = value
                 prefHandler.putBoolean(PrefKey.PARENT_CATEGORY_SELECTION_ON_TAP, value)
                 true
             }
+
+            R.id.TYPE_FILTER_COMMAND -> {
+                viewModel.toggleTypeFilterIsShown()
+                invalidateOptionsMenu()
+                true
+            }
+
             else -> false
         }
 
@@ -642,7 +685,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
      */
     open fun editCat(category: Category) {
         viewModel.dialogState =
-            CategoryViewModel.Show(id = category.id, label = category.label, icon = category.icon)
+            CategoryViewModel.Show(category = category)
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
@@ -650,7 +693,7 @@ open class ManageCategories : ProtectedFragmentActivity(),
             val (command, category) = tag as Pair<Int, Category>
             if (command == R.id.CREATE_SUB_COMMAND) {
                 createCat(category)
-            } else if(command == R.id.SELECT_COMMAND) {
+            } else if (command == R.id.SELECT_COMMAND) {
                 doSingleSelection(category)
             }
         }

@@ -59,7 +59,6 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
 
     override val viewModel: BudgetViewModel2 by viewModels()
     private lateinit var sortDelegate: SortDelegate
-    override val prefKey = PrefKey.BUDGET_AGGREGATE_TYPES
     private var hasRollovers: Boolean? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,7 +98,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 val sort = viewModel.sortOrder.collectAsState()
                 val whereFilter = viewModel.whereFilter.collectAsState().value
                 Box(modifier = Modifier.fillMaxSize()) {
-                    if (category == Category.LOADING || budget == null) {
+                    if (category === Category.LOADING || budget == null) {
                         CircularProgressIndicator(
                             modifier = Modifier
                                 .size(96.dp)
@@ -125,7 +124,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                             Budget(
                                 modifier = Modifier.weight(1f),
                                 category = category.copy(
-                                    sum = viewModel.sum.collectAsState(initial = 0L).value,
+                                    sum = viewModel.sum.collectAsState().value,
                                 ).let {
                                     when (sort.value) {
                                         Sort.SPENT -> it.sortChildrenBySumRecursive()

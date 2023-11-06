@@ -15,8 +15,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
+import org.totschnig.myexpenses.db2.FLAG_INCOME
+import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
+import kotlin.math.sign
 
 fun Modifier.amountBorder(color: Color) = this
     .border(
@@ -80,15 +84,18 @@ fun ColoredAmountText(
     withBorder: Boolean = false,
     prefix: String = "",
     postfix: String = "",
-    neutral: Boolean = false
+    type: UByte? = when(money.amountMinor.sign) {
+        1 -> FLAG_INCOME
+        -1 -> FLAG_EXPENSE
+        else -> null
+    }
 ) {
-    val color = when {
-        neutral -> Color.Unspecified
-        money.amountMinor > 0 -> LocalColors.current.income
-        money.amountMinor < 0 -> LocalColors.current.expense
+    val color = when(type) {
+        FLAG_INCOME-> LocalColors.current.income
+        FLAG_EXPENSE -> LocalColors.current.expense
+        FLAG_TRANSFER -> LocalColors.current.transfer
         else -> Color.Unspecified
     }
-    val amount = if (neutral) money.amountMajor.abs() else money.amountMajor
     Text(
         modifier = modifier
             .conditional(withBorder) { amountBorder(color) }
@@ -96,7 +103,7 @@ fun ColoredAmountText(
         fontWeight = fontWeight,
         textAlign = textAlign,
         style = style,
-        text = prefix + LocalCurrencyFormatter.current.formatCurrency(amount, money.currencyUnit) + postfix,
+        text = prefix + LocalCurrencyFormatter.current.formatCurrency(money.amountMajor, money.currencyUnit) + postfix,
         color = color
     )
 }

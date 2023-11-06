@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.compose
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.SemanticsPropertyKey
 import androidx.compose.ui.semantics.semantics
+import org.totschnig.myexpenses.BuildConfig
 
 const val TEST_TAG_PAGER = "PAGER"
 const val TEST_TAG_LIST = "LIST"
@@ -19,4 +20,5 @@ const val TEST_TAG_BUDGET_SPENT = "BUDGET_SPENT"
 
 val amountProperty = SemanticsPropertyKey<Long>("amount")
 
-fun Modifier.amountSemantics(amount: Long) = semantics { set(amountProperty, amount) }
+fun Modifier.amountSemantics(amount: Long) = if (BuildConfig.DEBUG)
+    semantics { set(amountProperty, amount) } else this

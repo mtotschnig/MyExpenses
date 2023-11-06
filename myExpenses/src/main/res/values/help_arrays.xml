@@ -108,7 +108,6 @@
         <item>back</item>
         <item>forward</item>
         <item>distribution_show_pie_char</item><!-- sic! -->
-        <item>distribution_aggreate</item><!-- sic! -->
     </string-array>
 
     <string-array name="ManageCategories_manage_cabitems">
@@ -145,7 +144,6 @@
         <item>edit</item>
         <item>rollover</item>
         <item>manage_categories</item>
-        <item>budget_aggregate</item>
         <item>budget_allocated_only</item>
         <item>delete</item>
     </string-array>
@@ -389,11 +387,13 @@
         <item>help_ManageCategories_manage_info</item>
         <item>help_ManageCategories_expand_collapse</item>
         <item>help_ManageCategories_manage_context</item>
+        <item>help_ManageCategories_category_types</item>
     </string-array>
 
     <string-array name="help_ManageCategories_select_mapping_info">
         <item>help_ManageCategories_select_mapping_info</item>
         <item>help_ManageCategories_expand_collapse</item>
+        <item>help_ManageCategories_category_types</item>
     </string-array>
 
     <string-array name="help_ManageCategories_select_filter_info">

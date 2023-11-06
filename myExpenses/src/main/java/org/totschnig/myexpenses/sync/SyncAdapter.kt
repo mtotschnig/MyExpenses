@@ -762,7 +762,9 @@ class SyncAdapter @JvmOverloads constructor(
                                             it.getString(KEY_UUID),
                                             it.getString(KEY_LABEL),
                                             it.getStringOrNull(KEY_ICON),
-                                            it.getIntOrNull(KEY_COLOR)
+                                            it.getIntOrNull(KEY_COLOR),
+                                            if (it.getLongOrNull(KEY_PARENTID) == null)
+                                                it.getInt(KEY_TYPE) else null
                                         ) }.toList().asReversed()
                                 ).build()
                             }

@@ -19,22 +19,25 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
 import androidx.core.database.getLongOrNull
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.testutils.BaseDbTest
+import org.totschnig.myexpenses.testutils.CursorSubject
 import org.totschnig.myexpenses.util.ColorUtils
 
 class CategoryTest : BaseDbTest() {
     private lateinit var testCategories: List<Pair<Long, CategoryInfo>>
     private fun insertData() {
         testCategories = buildList {
-            CategoryInfo("Main 1", null).let {
+            CategoryInfo("Main Expense", type = FLAG_EXPENSE.toInt()).let {
                 add(mDb.insert(TABLE_CATEGORIES, it.contentValues) to it)
             }
             val main1Id = get(0).first
-            CategoryInfo("Main 2", null).let {
+            CategoryInfo("Main Income", type = FLAG_EXPENSE.toInt()).let {
                 add(mDb.insert(TABLE_CATEGORIES, it.contentValues) to it)
             }
             CategoryInfo("Sub 1", main1Id).let {
@@ -52,7 +55,7 @@ class CategoryTest : BaseDbTest() {
         )
         val labelSelection = DatabaseConstants.KEY_LABEL + " = " + "?"
         val selectionColumns = "$labelSelection OR $labelSelection OR $labelSelection"
-        val selectionArgs = arrayOf("Main 1", "Main 2", "Sub 1")
+        val selectionArgs = arrayOf("Main Expense", "Main Income", "Sub 1")
         val sortOrder = DatabaseConstants.KEY_LABEL + " ASC"
         mockContentResolver.query(
             TransactionProvider.CATEGORIES_URI,
@@ -106,7 +109,7 @@ class CategoryTest : BaseDbTest() {
 
     fun testQueriesOnCategoryIdUri() {
         val selectionColumns = DatabaseConstants.KEY_LABEL + " = " + "?"
-        val selectionArgs = arrayOf("Main 1")
+        val selectionArgs = arrayOf("Main Expense")
         val projection = arrayOf(
             DatabaseConstants.KEY_ROWID,
             DatabaseConstants.KEY_LABEL
@@ -152,9 +155,7 @@ class CategoryTest : BaseDbTest() {
     }
 
     fun testInserts() {
-        val transaction = CategoryInfo(
-            "Main 3", null
-        )
+        val transaction = CategoryInfo("Main 3")
         val rowUri = mockContentResolver.insert(
             TransactionProvider.CATEGORIES_URI,
             transaction.contentValues
@@ -194,7 +195,7 @@ class CategoryTest : BaseDbTest() {
 
     fun testDeleteCascades() {
         val selectionColumns = DatabaseConstants.KEY_LABEL + " IN (?,?)"
-        val selectionArgsMain = arrayOf("Main 1", "Main 2")
+        val selectionArgsMain = arrayOf("Main Expense", "Main Income")
         val selectionArgsSub = arrayOf("Sub 1", "Sub 2")
         insertData()
         val rowsDeleted = mockContentResolver.delete(
@@ -225,7 +226,7 @@ class CategoryTest : BaseDbTest() {
 
     fun testUpdates() {
         val selectionColumns = DatabaseConstants.KEY_LABEL + " = " + "?"
-        val selectionArgs = arrayOf("Main 1")
+        val selectionArgs = arrayOf("Main Expense")
         try {
             mockContentResolver.update(
                 TransactionProvider.CATEGORIES_URI,
@@ -242,9 +243,7 @@ class CategoryTest : BaseDbTest() {
 
     fun testUniqueConstraintsCreateMain() {
         insertData()
-        val category = CategoryInfo(
-            "Main 1", null
-        )
+        val category = CategoryInfo("Main Expense")
         try {
             mockContentResolver.insert(
                 TransactionProvider.CATEGORIES_URI,
@@ -273,14 +272,14 @@ class CategoryTest : BaseDbTest() {
     fun testUniqueConstraintsUpdateMain() {
         insertData()
 
-        //we try to set the name of Main 2 to Main 1
+        //we try to set the name of Main Income to Main Expense
         try {
             mockContentResolver.update(
                 TransactionProvider.CATEGORIES_URI.buildUpon()
                     .appendPath(testCategories[1].first.toString())
                     .build(),
                 ContentValues().apply {
-                    put(DatabaseConstants.KEY_LABEL, "Main 1")
+                    put(DatabaseConstants.KEY_LABEL, "Main Expense")
                 }, null, null
             )
             fail("Expected unique constraint to prevent main category from being updated.")
@@ -360,7 +359,7 @@ class CategoryTest : BaseDbTest() {
 
     fun testMoveToOtherCategorySucceeds() {
         insertData()
-        //Main 2 can be moved to Sub 1
+        //Main Income can be moved to Sub 1
         val sub1Id = testCategories[2].first
         val categoryIdUri = TransactionProvider.CATEGORIES_URI.buildUpon()
             .appendPath(testCategories[1].first.toString())
@@ -389,7 +388,7 @@ class CategoryTest : BaseDbTest() {
 
     fun testShouldNotAllowSelfReference() {
         insertData()
-        //Main 1 can not be moved to itself
+        //Main Expense can not be moved to itself
         val main1Id = testCategories[0].first
         val categoryIdUri = TransactionProvider.CATEGORIES_URI.buildUpon()
             .appendPath(main1Id.toString())
@@ -409,7 +408,7 @@ class CategoryTest : BaseDbTest() {
 
     fun testShouldNotAllowCyclicHierarchy() {
         insertData()
-        //Main 1 can not be moved to its own child Sub 1
+        //Main Expense can not be moved to its own child Sub 1
         val main1Id = testCategories[0].first
         val sub1Id = testCategories[2].first
         val categoryIdUri = TransactionProvider.CATEGORIES_URI.buildUpon()

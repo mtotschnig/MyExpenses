@@ -456,7 +456,6 @@
     <string name="restore_not_possible_target_calendar_missing">Το ημερολόγιο %s που ρυθμίστηκε στην αρχειοθήκη αντιγράφων ασφαλείας δεν υπάρχει τοπικά. Η επαναφορά ματαιώθηκε.</string>
     <string name="restore_not_possible_local_calendar_missing">Το τρέχον ημερολόγιο προγραμματισμού δεν είναι διαθέσιμο.</string>
     <string name="menu_distribution_show_pie_char">Εμφάνιση γράφημα πίτας</string>
-    <string name="menu_distribution_aggreate">Συγκεντρωτικό εξόδων και εσόδων</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Παλαιές εικόνες</string>
     <string name="pref_manage_stale_images_summary">Διαχείριση εικόνων που έχουν απομείνει από διαγραμμένες συναλλαγές</string>

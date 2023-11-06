@@ -26,7 +26,6 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.io.FileUtils
 import org.totschnig.myexpenses.viewmodel.data.Tag
@@ -133,7 +132,7 @@ abstract class ImportDataViewModel(application: Application) :
     }
 
     fun insertCategories(categories: Set<CategoryInfo>) = categories.sumOf {
-        CategoryHelper.insert(repository, it.name, categoryToId, true)
+        CategoryHelper.insert(repository, it.name, categoryToId, true, it.type)
     }
 
     private fun insertTransactions(

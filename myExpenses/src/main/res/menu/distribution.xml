@@ -38,9 +38,4 @@
         app:showAsAction="never"
         android:checkable="true"
         android:title="@string/menu_distribution_show_pie_char"/>
-    <item
-        android:id="@id/TOGGLE_AGGREGATE_TYPES"
-        app:showAsAction="never"
-        android:checkable="true"
-        android:title="@string/menu_distribution_aggreate"/>
 </menu>

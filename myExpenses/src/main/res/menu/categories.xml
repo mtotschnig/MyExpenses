@@ -18,6 +18,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <item
+        android:checkable="true"
+        android:checked="false"
+        android:icon="@drawable/ic_filter"
+        android:id="@id/TYPE_FILTER_COMMAND"
+        android:title="@string/type"
+        app:showAsAction="always"
+        />
+    <item
         android:id="@id/SETUP_CATEGORIES_DEFAULT_COMMAND"
         android:icon="@drawable/ic_menu_add_list"
         android:title="@string/menu_categories_setup_default"

@@ -20,6 +20,8 @@ import android.database.Cursor
 import android.net.Uri
 import androidx.annotation.VisibleForTesting
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
+import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.service.AutoBackupWorker
@@ -104,4 +106,12 @@ object DbUtils {
             false
         )
     ) "total" else "sum"
+
+    fun typeWithFallBack(prefHandler: PrefHandler)= "coalesce(${DatabaseConstants.KEY_TYPE}, ${
+        if (prefHandler.getBoolean(
+                PrefKey.UNMAPPED_TRANSACTION_AS_TRANSFER,
+                false
+            )
+        ) FLAG_TRANSFER else FLAG_NEUTRAL
+    })"
 }

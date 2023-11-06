@@ -5,13 +5,14 @@ import android.database.Cursor
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable
 import kotlinx.parcelize.Parcelize
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.IS_SAME_CURRENCY
@@ -44,6 +45,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_PARENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
@@ -58,7 +60,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
 import org.totschnig.myexpenses.provider.DatabaseConstants.getWeek
 import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
 import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
+import org.totschnig.myexpenses.provider.DbUtils.typeWithFallBack
 import org.totschnig.myexpenses.provider.FULL_LABEL
+import org.totschnig.myexpenses.provider.effectiveTypeExpression
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getIntIfExists
 import org.totschnig.myexpenses.provider.getLong
@@ -104,7 +108,8 @@ data class Transaction2(
     val week: Int,
     val day: Int,
     val icon: String? = null,
-    val attachmentCount: Int = 0
+    val attachmentCount: Int = 0,
+    val type: UByte = FLAG_NEUTRAL
 ) : Parcelable {
 
     val currency: CurrencyUnit
@@ -136,15 +141,16 @@ data class Transaction2(
             accountId: Long,
             grouping: Grouping,
             homeCurrency: String,
+            prefHandler: PrefHandler,
             extended: Boolean = true
         ) = buildList {
-            addAll(projection(grouping, extended, DataBaseAccount.isHomeAggregate(accountId), homeCurrency))
+            addAll(projection(grouping, extended, DataBaseAccount.isHomeAggregate(accountId), homeCurrency, prefHandler))
             if (DataBaseAccount.isAggregate(accountId) && extended) {
                 addAll(additionalAggregateColumns)
             }
         }.toTypedArray()
 
-        private fun projection(grouping: Grouping, extended: Boolean, isHomeAggregate: Boolean, homeCurrency: String): Array<String> =
+        private fun projection(grouping: Grouping, extended: Boolean, isHomeAggregate: Boolean, homeCurrency: String, prefHandler: PrefHandler): Array<String> =
             listOf(
                 KEY_ROWID,
                 KEY_DATE,
@@ -176,7 +182,8 @@ data class Transaction2(
                 "${getMonth()} AS $KEY_MONTH",
                 "${getWeek()} AS $KEY_WEEK",
                 "$DAY AS $KEY_DAY",
-                KEY_ICON
+                KEY_ICON,
+                effectiveTypeExpression(typeWithFallBack(prefHandler))
             ).let {
                 if (extended) it + listOf(
                     KEY_CURRENCY,
@@ -234,7 +241,8 @@ data class Transaction2(
                 week = cursor.getInt(KEY_WEEK),
                 day = cursor.getInt(KEY_DAY),
                 icon = cursor.getStringOrNull(KEY_ICON),
-                attachmentCount = cursor.getIntIfExists(KEY_ATTACHMENT_COUNT) ?: 0
+                attachmentCount = cursor.getIntIfExists(KEY_ATTACHMENT_COUNT) ?: 0,
+                type = cursor.getInt(KEY_TYPE).toUByte()
             )
         }
     }

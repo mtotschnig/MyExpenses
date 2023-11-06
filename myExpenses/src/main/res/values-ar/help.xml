@@ -60,7 +60,6 @@
     <string name="menu_categories_setup_default_help_text">سيتم استيراد مجموعة من الفئات الافتراضية.</string>
     <string name="menu_categories_export_help_text">سيتم تصدير الفئات إلى ملف QIF.</string>
     <string name="menu_distribution_show_pie_char_help_text">تبديل رؤية المخطط الدائري.</string>
-    <string name="menu_distribution_aggreate_help_text">بشكل افتراضي ، تتضمن المبالغ المحسوبة كلاً من النفقات والدخل. يمكنك أن تقرر إظهارها بشكل منفصل ، يتيح لك الزر الموجود في شريط الإجراءات التبديل بين النفقات والدخل.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">سيتم استخدام الفئات المحددة لتصفية قائمة المعاملات.</string>
     <string name="menu_ManageCategories_search_help_text">سيتم عرض الفئات الرئيسية والفرعية التي تطابق الاستعلام الخاص بك فقط.</string>
     <string name="menu_ManageCategories_sort_help_text">يمكن فرز قائمة الفئات حسب العنوان (أبجديًا) ، أو تكرار الاستخدامات ، أو حسب آخر مرة تم فيها تعيين معاملة لها.</string>
@@ -155,7 +154,6 @@
     <string name="cab_show_transactions_help_text">افتح مربع حوار يسرد جميع المعاملات المعينة للفئة المحددة في الحساب الجاري.</string>
     <string name="menu_BudgetActivity_back_forward_help_text">قارن الميزانية بإنفاق الفترات الزمنية الماضية والمستقبلية.</string>
     <string name="menu_BudgetActivity_edit_help_text">قم بتغيير تعريف الميزانية.</string>
-    <string name="menu_budget_aggregate_help_text">بشكل افتراضي ، تتضمن المبالغ المحسوبة كلاً من النفقات والدخل. إذا قمت بإلغاء تنشيط هذا الخيار ، فسيتم تجاهل الدخل ، وتؤخذ النفقات فقط في الاعتبار.</string>
     <string name="menu_budget_allocated_only_help_text">من خلال تنشيط هذا الخيار ، يتم عرض الفئات التي تم تخصيص مبلغ لها فقط.</string>
     <string name="menu_BudgetActivity_delete_help_text">سيتم حذف الميزانية المعروضة حاليًا.</string>
     <string name="help_ManageBudgets_title">قائمة بجميع الميزانيات</string>

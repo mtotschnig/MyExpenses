@@ -1,17 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="InconsistentArrays">
-    <string-array name="Cat_1_Icons">
+    <string-array name="Cat_I_1_Icons">
+        <item>right-to-bracket</item>
+        <item>family</item>
+        <item>child</item>
+        <item>scale-balanced</item>
+    </string-array>
+    <string-array name="Cat_I_2_Icons">
+        <item>funding</item>
+        <item>divide</item>
+        <item>chart-line</item>
+    </string-array>
+    <string-array name="Cat_I_3_Icons">
+        <item>envelope</item>
+        <item>envelope</item>
+        <item>award</item>
+        <item>thumbs-up</item>
+    </string-array>
+    <string-array name="Cat_I_4_Icons">
+        <item>person-cane</item>
+        <item>magnifying-glass-plus</item>
+        <item>magnifying-glass-dollar</item>
+        <item>person-walking-with-cane</item>
+    </string-array>
+    <string-array name="Cat_I_5_Icons">
+        <item>right-to-bracket</item>
+        <item>calendar-minus</item>
+        <item>filter-circle-dollar</item>
+        <item>unemployment</item>
+        <item>user-shield</item>
+        <item>gift</item>
+    </string-array>
+    <string-array name="Cat_E_1_Icons">
         <item>piggy-bank</item>
         <item>arrow-down</item>
         <item>percent</item>
         <item>file-invoice-dollar</item>
     </string-array>
-    <string-array name="Cat_2_Icons">
+    <string-array name="Cat_E_2_Icons">
         <item>clothing</item>
         <item>shirt</item>
         <item>shoe</item>
     </string-array>
-    <string-array name="Cat_3_Icons">
+    <string-array name="Cat_E_3_Icons">
         <item>property</item>
         <item>house-chimney-crack</item>
         <item>couch</item>
@@ -25,18 +56,7 @@
         <item>phone</item>
         <item>water</item>
     </string-array>
-    <string-array name="Cat_4_Icons">
-        <item>right-to-bracket</item>
-        <item>family</item>
-        <item>child</item>
-        <item>scale-balanced</item>
-    </string-array>
-    <string-array name="Cat_5_Icons">
-        <item>funding</item>
-        <item>divide</item>
-        <item>chart-line</item>
-    </string-array>
-    <string-array name="Cat_6_Icons">
+    <string-array name="Cat_E_4_Icons">
         <item>chess-board</item>
         <item>book</item>
         <item>video</item>
@@ -50,7 +70,7 @@
         <item>table-tennis-paddle-ball</item>
         <item>newspaper</item>
     </string-array>
-    <string-array name="Cat_7_Icons">
+    <string-array name="Cat_E_5_Icons">
         <item>suitcase-medical</item>
         <item>prescription-bottle-medical</item>
         <item>user-doctor</item>
@@ -59,18 +79,18 @@
         <item>wheelchair</item>
         <item>stethoscope</item>
     </string-array>
-    <string-array name="Cat_8_Icons">
+    <string-array name="Cat_E_6_Icons">
         <item>house</item>
         <item>garden</item>
         <item>appliance</item>
         <item>screwdriver-wrench</item>
     </string-array>
-    <string-array name="Cat_9_Icons">
+    <string-array name="Cat_E_7_Icons">
         <item>paw</item>
         <item>bone</item>
         <item>syringe</item>
     </string-array>
-    <string-array name="Cat_10_Icons">
+    <string-array name="Cat_E_8_Icons">
         <item>car</item>
         <item>cart-shopping</item>
         <item>car-burst</item>
@@ -80,7 +100,7 @@
         <item>square-parking</item>
         <item>car-battery</item>
     </string-array>
-    <string-array name="Cat_11_Icons">
+    <string-array name="Cat_E_9_Icons">
         <item>child</item>
         <item>bottle</item>
         <item>bed</item>
@@ -89,7 +109,7 @@
         <item>toys</item>
         <item>pocket</item>
     </string-array>
-    <string-array name="Cat_12_Icons">
+    <string-array name="Cat_E_10_Icons">
         <item>mortgage</item>
         <item>battery-three-quarters</item>
         <item>divide</item>
@@ -97,39 +117,20 @@
         <item>shield-halved</item>
         <item>percent</item>
     </string-array>
-    <string-array name="Cat_13_Icons">
+    <string-array name="Cat_E_11_Icons">
         <item>pizza-slice</item>
         <item>apple-whole</item>
         <item>utensils</item>
         <item>cart-shopping</item>
     </string-array>
-    <string-array name="Cat_14_Icons">
-        <item>envelope</item>
-        <item>envelope</item>
-        <item>award</item>
-        <item>thumbs-up</item>
-    </string-array>
-    <string-array name="Cat_15_Icons">
-        <item>person-cane</item>
-        <item>magnifying-glass-plus</item>
-        <item>magnifying-glass-dollar</item>
-        <item>person-walking-with-cane</item>
-    </string-array>
-    <string-array name="Cat_16_Icons">
+    <string-array name="Cat_E_12_Icons">
         <item>right-from-bracket</item>
         <item>church</item>
         <item>piggy-bank</item>
         <item>circle-dollar-to-slot</item>
         <item>filter-circle-dollar</item>
     </string-array>
-    <string-array name="Cat_17_Icons">
-        <item>right-to-bracket</item>
-        <item>calendar-minus</item>
-        <item>filter-circle-dollar</item>
-        <item>unemployment</item>
-        <item>user-shield</item>
-    </string-array>
-    <string-array name="Cat_18_Icons">
+    <string-array name="Cat_E_13_Icons">
         <item>cake-candles</item>
         <item>train</item>
         <item>plane</item>
@@ -137,13 +138,13 @@
         <item>card-travel</item>
         <item>monument</item>
     </string-array>
-    <string-array name="Cat_19_Icons">
+    <string-array name="Cat_E_14_Icons">
         <item>shield-halved</item>
         <item>heart-crack</item>
         <item>user-shield</item>
         <item>scale-balanced</item>
     </string-array>
-    <string-array name="Cat_20_Icons">
+    <string-array name="Cat_E_15_Icons">
         <item>house</item>
         <item>battery-three-quarters</item>
         <item>couch</item>
@@ -155,10 +156,10 @@
         <item>phone</item>
         <item>water</item>
     </string-array>
-    <string-array name="Cat_21_Icons">
+    <string-array name="Cat_E_16_Icons">
         <item>gift</item>
     </string-array>
-    <string-array name="Cat_22_Icons">
+    <string-array name="Cat_E_17_Icons">
         <item>percent</item>
         <item>taxes</item>
         <item>fence</item>

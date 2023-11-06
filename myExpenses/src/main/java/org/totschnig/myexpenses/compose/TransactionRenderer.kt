@@ -123,7 +123,7 @@ abstract class ItemRenderer(
                     context.getString(R.string.content_description_attachment)
                 )
                 if (attachmentCount > 1) {
-                    append( "($attachmentCount)")
+                    append("($attachmentCount)")
                 }
             }
         } to listOfNotNull(methodIcon, attachmentIcon)
@@ -223,11 +223,13 @@ abstract class ItemRenderer(
                         contentDescription = stringResource(id = R.string.split_transaction),
                         modifier = Modifier.fillMaxSize()
                     )
+
                     isTransfer -> CharIcon(
                         char = if (accountLabel != null) '⬧' else Transfer.getIndicatorCharForLabel(
                             amount.amountMinor > 0
                         )
                     )
+
                     else -> Icon(icon ?: "minus")
                 }
             }
@@ -269,6 +271,17 @@ abstract class ItemRenderer(
     ) {
         Icon(icon, size = inlineIconSize)
     }
+
+    @Composable
+    fun Transaction2.ColoredAmountText(
+        style: TextStyle = LocalTextStyle.current,
+    ) {
+        ColoredAmountText(
+            money = if (isTransferAggregate) amount.negate() else amount,
+            style = style,
+            type = if (isTransferAggregate) null else type
+        )
+    }
 }
 
 class CompactTransactionRenderer(
@@ -306,7 +319,7 @@ class CompactTransactionRenderer(
             text = description,
             icons = secondaryInfo.second
         )
-        ColoredAmountText(money = transaction.amount, neutral = transaction.isTransferAggregate)
+        transaction.ColoredAmountText()
     }
 
     override fun Modifier.height() = this.height(IntrinsicSize.Min)
@@ -345,7 +358,8 @@ class NewTransactionRenderer(
             }
             if (transaction.tagList.isNotEmpty()) {
                 FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
                     transaction.tagList.forEach {
                         Text(
                             text = it,
@@ -360,10 +374,8 @@ class NewTransactionRenderer(
 
         }
         Column(horizontalAlignment = Alignment.End) {
-            ColoredAmountText(
-                money = transaction.amount,
+            transaction.ColoredAmountText(
                 style = MaterialTheme.typography.bodyLarge,
-                neutral = transaction.isTransferAggregate
             )
             dateTimeFormatter?.let {
                 Text(text = it.format(transaction.date), style = MaterialTheme.typography.bodySmall)

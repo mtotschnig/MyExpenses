@@ -22,6 +22,10 @@ import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.FutureCriterion
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
+import org.totschnig.myexpenses.db2.FLAG_INCOME
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
+import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.DataModule
 import org.totschnig.myexpenses.model.*
@@ -33,6 +37,8 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGAT
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_BY_AGGREGATE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_DIRECTION_AGGREGATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DbUtils.aggregateFunction
+import org.totschnig.myexpenses.provider.DbUtils.typeWithFallBack
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CALLER_IS_IN_BULK
 import org.totschnig.myexpenses.util.AppDirHelper
@@ -378,7 +384,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
     )
 
     val aggregateFunction: String
-        get() = DbUtils.aggregateFunction(prefHandler)
+        get() = aggregateFunction(prefHandler)
+
+    val typeWithFallBack: String
+        get() = typeWithFallBack(prefHandler)
 
     fun buildAccountQuery(
         minimal: Boolean,
@@ -399,7 +408,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
             )
         } == FutureCriterion.Current
 
-        val cte = accountQueryCTE(homeCurrency, futureStartsNow, aggregateFunction)
+        val cte =
+            accountQueryCTE(homeCurrency, futureStartsNow, aggregateFunction, typeWithFallBack)
 
         val joinWithAggregates =
             "$TABLE_ACCOUNTS LEFT JOIN aggregates ON $TABLE_ACCOUNTS.$KEY_ROWID = aggregates.$KEY_ACCOUNTID"
@@ -741,6 +751,16 @@ abstract class BaseTransactionProvider : ContentProvider() {
         )
     }
 
+    fun hasCategories(db: SupportSQLiteDatabase): Bundle = Bundle(1).apply {
+        putBoolean(
+            KEY_COUNT,
+            db.query("SELECT EXISTS (SELECT 1 FROM $TABLE_CATEGORIES WHERE $KEY_ROWID != $SPLIT_CATID)")
+                .use {
+                    if (it.moveToFirst()) it.getInt(0) == 1 else false
+                }
+        )
+    }
+
     fun uuidForTransaction(db: SupportSQLiteDatabase, id: Long): String = db.query(
         table = TABLE_TRANSACTIONS,
         columns = arrayOf(KEY_UUID),
@@ -1017,11 +1037,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
             TransactionProvider.QUERY_PARAMETER_WITH_JULIAN_START,
             false
         ) && (group == Grouping.WEEK || group == Grouping.DAY)
-        val includeTransfers: Boolean =
-            uri.getBooleanQueryParameter(
-                TransactionProvider.QUERY_PARAMETER_INCLUDE_TRANSFERS,
-                false
-            )
+        val includeTransfers = uri.getBooleanQueryParameter(
+            TransactionProvider.QUERY_PARAMETER_INCLUDE_TRANSFERS,
+            false
+        )
 
         val yearExpression = when (group) {
             Grouping.NONE -> "1"
@@ -1041,13 +1060,27 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val projection = buildList {
             add("$yearExpression AS $KEY_YEAR")
             add("$secondDef AS $KEY_SECOND_GROUP")
-            add("$aggregateFunction(CASE WHEN $KEY_DISPLAY_AMOUNT > 0 THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_INCOME")
-            add("$aggregateFunction(CASE WHEN $KEY_DISPLAY_AMOUNT < 0 THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_EXPENSES")
+
+            val isExpense = if(includeTransfers)
+                "$KEY_TYPE = $FLAG_EXPENSE OR ($KEY_TYPE != $FLAG_INCOME AND $KEY_AMOUNT < 0)"
+            else
+                "$KEY_TRANSFER_PEER IS NULL AND ($KEY_TYPE = $FLAG_EXPENSE OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT < 0))"
+            add("$aggregateFunction(CASE WHEN $isExpense THEN $KEY_AMOUNT ELSE 0 END) AS $KEY_SUM_EXPENSES")
+
+            val isIncome = if(includeTransfers)
+                "$KEY_TYPE = $FLAG_INCOME OR ($KEY_TYPE != $FLAG_EXPENSE AND $KEY_AMOUNT > 0)"
+            else
+                "$KEY_TRANSFER_PEER IS NULL AND ($KEY_TYPE = $FLAG_INCOME OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT > 0))"
+            add("$aggregateFunction(CASE WHEN $isIncome THEN $KEY_AMOUNT ELSE 0 END) AS $KEY_SUM_INCOME")
+
             if (!includeTransfers) {
-                //for the Grand total account transfer calculation is neither possible (adding amounts in
-                //different currencies) nor necessary (should result in 0)
-                add("${if (forHome != null) "0" else "$aggregateFunction($KEY_TRANSFER_AMOUNT)"} AS $KEY_SUM_TRANSFERS")
+                //for the Grand total account the transfers between accounts managed by the app should equal to 0,
+                //so we only include transactions mapped to transfer categories (i.e. transfers to accounts external to the app)
+                val isTransfer = if (forHome == null) "$KEY_TRANSFER_PEER IS NOT NULL OR $KEY_TYPE = $FLAG_TRANSFER" else "raw_type = $FLAG_TRANSFER"
+
+                add("$aggregateFunction(CASE WHEN $isTransfer THEN $KEY_AMOUNT ELSE 0 END) AS $KEY_SUM_TRANSFERS")
             }
+
             //previously we started distribution from group header and needed to know if there were mapped categories
             //maybe we add this functionality back later
             //MAPPED_CATEGORIES;
@@ -1067,7 +1100,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
             selectionArgs?.let { addAll(it) }
         }.toTypedArray()
 
-        val sql = buildTransactionGroupCte(accountQuery, forHome, includeTransfers) + " " +
+        val sql = buildTransactionGroupCte(
+            accountQuery,
+            forHome,
+            typeWithFallBack
+        ) + " " +
                 SupportSQLiteQueryBuilder.builder(CTE_TRANSACTION_GROUPS)
                     .columns(projection)
                     .selection(selection, finalArgs)
@@ -1196,7 +1233,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
     }
 
-    private fun insertAttachment(db: SupportSQLiteDatabase, uriString: String, uuid: String?): Long {
+    private fun insertAttachment(
+        db: SupportSQLiteDatabase,
+        uriString: String,
+        uuid: String?
+    ): Long {
         val id = db.insert(
             TABLE_ATTACHMENTS,
             ContentValues(2).apply {
@@ -1205,7 +1246,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
             }
         )
         val uri = Uri.parse(uriString)
-        if (uri.scheme == "content" && uri.authority != AppDirHelper.getFileProviderAuthority(context!!)) {
+        if (uri.scheme == "content" && uri.authority != AppDirHelper.getFileProviderAuthority(
+                context!!
+            )
+        ) {
             Timber.d("External, takePersistableUriPermission")
             takePersistableUriPermission(uri)
         }

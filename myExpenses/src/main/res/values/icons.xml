@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="InconsistentArrays">
-    <string-array name="Cat_1_Icons">
+    <string-array name="Cat_I_1_Icons">
         <item>right-to-bracket</item>
         <item>unemployment</item>
         <item>family</item>
@@ -9,19 +9,19 @@
         <item>handshake-angle</item>
         <item>user-shield</item>
     </string-array>
-    <string-array name="Cat_2_Icons">
+    <string-array name="Cat_I_2_Icons">
         <item>person-cane</item>
         <item>retirement-2</item>
         <item>magnifying-glass-dollar</item>
         <item>magnifying-glass-plus</item>
     </string-array>
-    <string-array name="Cat_3_Icons">
+    <string-array name="Cat_I_3_Icons">
         <item>funding</item>
         <item>divide</item>
         <item>percent</item>
         <item>chart-line</item>
     </string-array>
-    <string-array name="Cat_4_Icons">
+    <string-array name="Cat_I_4_Icons">
         <item>envelope</item>
         <item>business-time</item>
         <item>calendar-minus</item>
@@ -29,13 +29,13 @@
         <item>thumbs-up</item>
         <item>envelope</item>
     </string-array>
-    <string-array name="Cat_5_Icons">
+    <string-array name="Cat_I_5_Icons">
         <item>right-to-bracket</item>
         <item>gift</item>
         <item>retweet</item>
         <item>recycle</item>
     </string-array>
-    <string-array name="Cat_6_Icons">
+    <string-array name="Cat_E_1_Icons">
         <item>pizza-slice</item>
         <item>whiskey-glass</item>
         <item>bread-slice</item>
@@ -46,14 +46,14 @@
         <item>bell-concierge</item>
         <item>cart-shopping</item>
     </string-array>
-    <string-array name="Cat_7_Icons">
+    <string-array name="Cat_E_2_Icons">
         <item>paw</item>
         <item>bone</item>
         <item>parachute-box</item>
         <item>comb</item>
         <item>syringe</item>
     </string-array>
-    <string-array name="Cat_8_Icons">
+    <string-array name="Cat_E_3_Icons">
         <item>shield-halved</item>
         <item>car-burst</item>
         <item>notes-medical</item>
@@ -61,7 +61,7 @@
         <item>heart-crack</item>
         <item>user-shield</item>
     </string-array>
-    <string-array name="Cat_9_Icons">
+    <string-array name="Cat_E_4_Icons">
         <item>car</item>
         <item>gas-pump</item>
         <item>screwdriver-wrench</item>
@@ -69,39 +69,39 @@
         <item>square-parking</item>
         <item>gavel</item>
     </string-array>
-    <string-array name="Cat_10_Icons">
+    <string-array name="Cat_E_5_Icons">
         <item>gift</item>
     </string-array>
-    <string-array name="Cat_11_Icons">
+    <string-array name="Cat_E_6_Icons">
         <item>child</item>
         <item>bottle</item>
         <item>school</item>
     </string-array>
-    <string-array name="Cat_12_Icons">
+    <string-array name="Cat_E_7_Icons">
         <item>building-columns</item>
         <item>podium</item>
         <item>user-graduate</item>
         <item>book</item>
     </string-array>
-    <string-array name="Cat_13_Icons">
+    <string-array name="Cat_E_8_Icons">
         <item>right-from-bracket</item>
         <item>piggy-bank</item>
         <item>mortgage</item>
         <item>battery-three-quarters</item>
         <item>retweet</item>
     </string-array>
-    <string-array name="Cat_14_Icons">
+    <string-array name="Cat_E_9_Icons">
         <item>user-tie</item>
         <item>retweet-cancel</item>
         <item>retweet</item>
     </string-array>
-    <string-array name="Cat_15_Icons">
+    <string-array name="Cat_E_10_Icons">
         <item>percent</item>
         <item>taxes</item>
         <item>fence</item>
         <item>plus</item>
     </string-array>
-    <string-array name="Cat_16_Icons">
+    <string-array name="Cat_E_11_Icons">
         <item>house</item>
         <item>hotel</item>
         <item>key</item>
@@ -120,7 +120,7 @@
         <item>phone</item>
         <item>mobile</item>
     </string-array>
-    <string-array name="Cat_17_Icons">
+    <string-array name="Cat_E_12_Icons">
         <item>chess-board</item>
         <item>circle-dot</item>
         <item>bowling-ball</item>
@@ -137,11 +137,11 @@
         <item>campground</item>
         <item>monument</item>
     </string-array>
-    <string-array name="Cat_18_Icons">
+    <string-array name="Cat_E_13_Icons">
         <item>mortgage</item>
         <item>money-bill</item>
     </string-array>
-    <string-array name="Cat_19_Icons">
+    <string-array name="Cat_E_14_Icons">
         <item>suitcase-medical</item>
         <item>notes-medical</item>
         <item>tooth</item>
@@ -153,12 +153,12 @@
         <item>prescription-bottle-medical</item>
         <item>user-shield</item>
     </string-array>
-    <string-array name="Cat_20_Icons">
+    <string-array name="Cat_E_15_Icons">
         <item>image-portrait</item>
         <item>scissors</item>
         <item>shirt</item>
     </string-array>
-    <string-array name="Cat_21_Icons">
+    <string-array name="Cat_E_16_Icons">
         <item>route</item>
         <item>bus</item>
         <item>train-subway</item>
@@ -167,7 +167,7 @@
         <item>cable-car</item>
         <item>plane</item>
     </string-array>
-    <string-array name="Cat_22_Icons">
+    <string-array name="Cat_E_17_Icons">
         <item>cake-candles</item>
         <item>house</item>
         <item>monument</item>

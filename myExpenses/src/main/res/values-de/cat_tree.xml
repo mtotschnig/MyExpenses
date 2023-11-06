@@ -1,17 +1,48 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="InconsistentArrays">
-    <string-array name="Cat_1">
+    <string-array name="Cat_I_1">
+        <item>Einkünfte</item>
+        <item>Familienbeihilfe</item>
+        <item>Kindergeld</item>
+        <item>Steuerausgleich</item>
+    </string-array>
+    <string-array name="Cat_I_2">
+        <item>Erträge</item>
+        <item>Dividenden</item>
+        <item>Kapitalertrag</item>
+    </string-array>
+    <string-array name="Cat_I_3">
+        <item>Lohn</item>
+        <item>Nettogehalt</item>
+        <item>Prämien</item>
+        <item>Zuschläge</item>
+    </string-array>
+    <string-array name="Cat_I_4">
+        <item>Pension</item>
+        <item>Private Rente</item>
+        <item>Staatliche Rente</item>
+        <item>Versehrtenrente</item>
+    </string-array>
+    <string-array name="Cat_I_5">
+        <item>Sonstige Einnahmen</item>
+        <item>Abfertigung</item>
+        <item>Alimente</item>
+        <item>Arbeitslosengeld</item>
+        <item>Sozialhilfe</item>
+        <item>Geschenke</item>
+    </string-array>
+    <string-array name="Cat_E_1">
         <item>Bankgebühren</item>
         <item>Depotgebühren</item>
         <item>Dispozinsen</item>
         <item>Kontoführung</item>
     </string-array>
-    <string-array name="Cat_2">
+    <string-array name="Cat_E_2">
         <item>Bekleidung</item>
         <item>Kleidung</item>
         <item>Schuhe</item>
     </string-array>
-    <string-array name="Cat_3">
+    <string-array name="Cat_E_3">
         <item>Eigenheim</item>
         <item>Eigenheimversicherung</item>
         <item>Einrichtung</item>
@@ -25,18 +56,7 @@
         <item>Telefon</item>
         <item>Wasser</item>
     </string-array>
-    <string-array name="Cat_4">
-        <item>Einkünfte</item>
-        <item>Familienbeihilfe</item>
-        <item>Kindergeld</item>
-        <item>Steuerausgleich</item>
-    </string-array>
-    <string-array name="Cat_5">
-        <item>Erträge</item>
-        <item>Dividenden</item>
-        <item>Kapitalertrag</item>
-    </string-array>
-    <string-array name="Cat_6">
+    <string-array name="Cat_E_4">
         <item>Freizeit</item>
         <item>Bücher</item>
         <item>Filme</item>
@@ -50,7 +70,7 @@
         <item>Sportartikel</item>
         <item>Zeitschriften</item>
     </string-array>
-    <string-array name="Cat_7">
+    <string-array name="Cat_E_5">
         <item>Gesundheit</item>
         <item>Apotheke</item>
         <item>Facharzt</item>
@@ -59,18 +79,18 @@
         <item>Pflege</item>
         <item>Praktischer Arzt</item>
     </string-array>
-    <string-array name="Cat_8">
+    <string-array name="Cat_E_6">
         <item>Haushalt</item>
         <item>Gartengeräte</item>
         <item>Haushaltsgeräte</item>
         <item>Werkzeug</item>
     </string-array>
-    <string-array name="Cat_9">
+    <string-array name="Cat_E_7">
         <item>Haustiere</item>
         <item>Futter</item>
         <item>Tierarzt</item>
     </string-array>
-    <string-array name="Cat_10">
+    <string-array name="Cat_E_8">
         <item>Kfzkosten</item>
         <item>Autokauf</item>
         <item>Autoversicherung</item>
@@ -80,7 +100,7 @@
         <item>Parkgebühren</item>
         <item>Reparaturen</item>
     </string-array>
-    <string-array name="Cat_11">
+    <string-array name="Cat_E_9">
         <item>Kinder</item>
         <item>Betreuung</item>
         <item>Internat</item>
@@ -89,7 +109,7 @@
         <item>Spielzeug</item>
         <item>Taschengeld</item>
     </string-array>
-    <string-array name="Cat_12">
+    <string-array name="Cat_E_10">
         <item>Kredit</item>
         <item>Bearbeitungsgebühr</item>
         <item>Kreditrate</item>
@@ -97,39 +117,20 @@
         <item>Kreditversicherung</item>
         <item>Kreditzinsen</item>
     </string-array>
-    <string-array name="Cat_13">
+    <string-array name="Cat_E_11">
         <item>Lebensmittel</item>
         <item>Nahrungsmittel</item>
         <item>Restaurant</item>
         <item>Supermarkt</item>
     </string-array>
-    <string-array name="Cat_14">
-        <item>Lohn</item>
-        <item>Nettogehalt</item>
-        <item>Prämien</item>
-        <item>Zuschläge</item>
-    </string-array>
-    <string-array name="Cat_15">
-        <item>Pension</item>
-        <item>Private Rente</item>
-        <item>Staatliche Rente</item>
-        <item>Versehrtenrente</item>
-    </string-array>
-    <string-array name="Cat_16">
+    <string-array name="Cat_E_12">
         <item>Sonstige Ausgaben</item>
         <item>Kirchenbeitrag</item>
         <item>Sparbeträge</item>
         <item>Spenden</item>
         <item>Unterhalt</item>
     </string-array>
-    <string-array name="Cat_17">
-        <item>Sonstige Einnahmen</item>
-        <item>Abfertigung</item>
-        <item>Alimente</item>
-        <item>Arbeitslosengeld</item>
-        <item>Sozialhilfe</item>
-    </string-array>
-    <string-array name="Cat_18">
+    <string-array name="Cat_E_13">
         <item>Urlaub</item>
         <item>Bahnkarten</item>
         <item>Flugtickets</item>
@@ -137,13 +138,13 @@
         <item>Reisebüro</item>
         <item>Sehenswürdigkeiten</item>
     </string-array>
-    <string-array name="Cat_19">
+    <string-array name="Cat_E_14">
         <item>Versicherungen</item>
         <item>Haftpflichtversicherung</item>
         <item>Lebensversicherung</item>
         <item>Rechtsschutzversicherung</item>
     </string-array>
-    <string-array name="Cat_20">
+    <string-array name="Cat_E_15">
         <item>Wohnung</item>
         <item>Betriebskosten</item>
         <item>Einrichtung</item>
@@ -155,10 +156,10 @@
         <item>Telefon</item>
         <item>Wasser</item>
     </string-array>
-    <string-array name="Cat_21">
+    <string-array name="Cat_E_16">
         <item>Geschenke</item>
     </string-array>
-    <string-array name="Cat_22">
+    <string-array name="Cat_E_17">
         <item>Steuer</item>
         <item>Einkommenssteuer</item>
         <item>Grundsteuer</item>

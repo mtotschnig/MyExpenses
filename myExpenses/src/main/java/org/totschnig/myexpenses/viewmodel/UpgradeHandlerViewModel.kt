@@ -121,7 +121,7 @@ class UpgradeHandlerViewModel(application: Application) :
 
                             "cr" -> edit.putString(
                                 key,
-                                CrStatus.values()[Integer.parseInt(`val`)].name
+                                CrStatus.entries[Integer.parseInt(`val`)].name
                             )
                         }
                     }
@@ -255,11 +255,6 @@ class UpgradeHandlerViewModel(application: Application) :
                             true
                         )
                     ) remove(PrefKey.DISTRIBUTION_AGGREGATE_TYPES)
-                    if (getBoolean(
-                            PrefKey.BUDGET_AGGREGATE_TYPES,
-                            true
-                        )
-                    ) remove(PrefKey.BUDGET_AGGREGATE_TYPES)
                 }
             }
 
@@ -356,7 +351,7 @@ class UpgradeHandlerViewModel(application: Application) :
                                         if (headerId == Long.MAX_VALUE.toString()) {
                                             AGGREGATE_HOME_CURRENCY_CODE
                                         } else {
-                                            CurrencyEnum.values()
+                                            CurrencyEnum.entries
                                                 .find { it.name.hashCode() == headerId.toInt() }?.name
                                         }
                                     } else headerId
@@ -463,12 +458,12 @@ class UpgradeHandlerViewModel(application: Application) :
                     null, null, null
                 )?.use {
                     it.asSequence.forEach { cursor ->
-                        cursor.getEnumOrNull<PreDefinedPaymentMethod>(1)?.let {
-                            Timber.i("Upgrading ${cursor.getLong(0)} ${it.icon}")
+                        cursor.getEnumOrNull<PreDefinedPaymentMethod>(1)?.let { method ->
+                            Timber.i("Upgrading ${cursor.getLong(0)} ${method.icon}")
                             contentResolver.update(
                                 ContentUris.withAppendedId(METHODS_URI, cursor.getLong(0)),
                                 ContentValues(1).apply {
-                                    put(KEY_ICON, it.icon)
+                                    put(KEY_ICON, method.icon)
                                 },
                                 null, null
                             )

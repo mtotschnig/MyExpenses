@@ -450,7 +450,6 @@
     <string name="restore_not_possible_target_calendar_missing">バックアップアーカイブに設定されたカレンダー %s はローカルに存在しません。復元を中止しました。</string>
     <string name="restore_not_possible_local_calendar_missing">現在のプランニング カレンダーが利用できません。</string>
     <string name="menu_distribution_show_pie_char">パイチャートを表示</string>
-    <string name="menu_distribution_aggreate">支出と収入を集計</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">古くなった画像</string>
     <string name="pref_manage_stale_images_summary">削除された取引から残っている写真を管理します</string>

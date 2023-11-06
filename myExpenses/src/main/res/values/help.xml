@@ -81,7 +81,6 @@
     <string name="menu_categories_setup_default_help_text">A set of default categories will be imported.</string>
     <string name="menu_categories_export_help_text">Categories will be exported to QIF file.</string>
     <string name="menu_distribution_show_pie_char_help_text">Toggle the visibility of the pie chart.</string>
-    <string name="menu_distribution_aggreate_help_text">By default, the calculated sums include both expenses and income. You can decide to show them separately, a button in the action bar allows you to toggle between expenses and income.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">The selected categories will be used for filtering the transaction list.</string>
     <string name="menu_ManageCategories_search_help_text">Only main and sub categories which match your query will be displayed.</string>
     <string name="menu_ManageCategories_sort_help_text">The category list can be sorted by title (alphabetically), by frequency of usages, or by the last time a transaction was mapped to it.</string>
@@ -182,7 +181,6 @@
     <string name="cab_show_transactions_help_text">Open a dialog listing all transactions mapped to the selected category in the current account.</string>
     <string name="menu_BudgetActivity_back_forward_help_text">Compare budget with spending of past and future periods of time.</string>
     <string name="menu_BudgetActivity_edit_help_text">Change the budget\'s definition.</string>
-    <string name="menu_budget_aggregate_help_text">By default, the calculated sums include both expenses and income. If you deactivate this option, income is ignored, only expenses are taken into account.</string>
     <string name="menu_budget_allocated_only_help_text">By activating this option, only categories, for which some amount has been allocated, are displayed.</string>
     <string name="menu_BudgetActivity_delete_help_text">The currently displayed budget will be deleted.</string>
     <string name="menu_BudgetActivity_rollover_help_text">If you underspend or overspend on your budget, you can rollover the difference to the next period, so that the amount that you can allocate there is either increased or decreased. There are three options:</string>

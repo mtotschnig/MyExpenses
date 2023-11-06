@@ -11,22 +11,61 @@ import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
+import org.totschnig.myexpenses.db2.FLAG_INCOME
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.updateCategoryColor
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TREE_CATEGORIES
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
+import org.totschnig.myexpenses.provider.DatabaseConstants.YEAR
+import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountHomeEquivalent
+import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
+import org.totschnig.myexpenses.provider.DatabaseConstants.getWeek
+import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
+import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.viewmodel.data.*
-import java.util.*
+import org.totschnig.myexpenses.viewmodel.data.Budget
+import org.totschnig.myexpenses.viewmodel.data.Category
+import org.totschnig.myexpenses.viewmodel.data.DateInfoExtra
+import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
+import java.util.Locale
 
 private const val KEY_GROUPING_INFO = "groupingInfo"
 
@@ -45,23 +84,16 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         MutableStateFlow(WhereFilter.empty())
     val whereFilter: StateFlow<WhereFilter> = _whereFilter
 
-    protected val _aggregateTypes = MutableStateFlow(true)
     private val _incomeType = MutableStateFlow(false)
     val groupingInfoFlow: Flow<GroupingInfo?>
         get() = savedStateHandle.getLiveData<GroupingInfo?>(KEY_GROUPING_INFO, null).asFlow()
 
-    val aggregateTypes: Boolean
-        get() = _aggregateTypes.value
 
     val incomeType: Boolean
         get() = _incomeType.value
 
     val grouping: Grouping
         get() = groupingInfo?.grouping ?: Grouping.NONE
-
-    fun setAggregateTypes(newValue: Boolean) {
-        _aggregateTypes.tryEmit(newValue)
-    }
 
     fun setIncomeType(newValue: Boolean) {
         _incomeType.tryEmit(newValue)
@@ -213,11 +245,10 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
     @OptIn(ExperimentalCoroutinesApi::class)
     val categoryTreeForDistribution = combine(
         _accountInfo.filterNotNull(),
-        _aggregateTypes,
         _incomeType,
         groupingInfoFlow.filterNotNull()
-    ) { accountInfo, aggregateTypes, incomeType, grouping ->
-        Triple(accountInfo, if (aggregateTypes) null else incomeType, grouping)
+    ) { accountInfo, incomeType, grouping ->
+        Triple(accountInfo, incomeType, grouping)
     }.flatMapLatest { (accountInfo, incomeType, grouping) ->
         categoryTreeWithSum(
             accountInfo = accountInfo,
@@ -229,7 +260,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
 
     fun categoryTreeWithSum(
         accountInfo: T,
-        incomeType: Boolean?,
+        incomeType: Boolean,
         groupingInfo: GroupingInfo,
         queryParameter: Map<String, String> = emptyMap(),
         whereFilter: WhereFilter = WhereFilter.empty(),
@@ -254,11 +285,14 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             }.toTypedArray(),
             queryParameter = queryParameter,
             keepCriteria = keepCriteria
-        )
+        ).mapNotNull { when(it) {
+            is LoadingState.Empty -> Category.EMPTY
+            is LoadingState.Data -> it.data
+        } }
 
     private fun sumColumn(
         accountInfo: T,
-        incomeType: Boolean?,
+        incomeType: Boolean,
         grouping: GroupingInfo,
         whereFilter: WhereFilter
     ): String {
@@ -287,9 +321,9 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         }
         var catFilter =
             "FROM $table WHERE ${WHERE_NOT_VOID}${if (accountSelection == null) "" else " AND +${KEY_ACCOUNTID}$accountSelection"} AND $KEY_CATID = $TREE_CATEGORIES.${KEY_ROWID}"
-        if (incomeType != null) {
-            catFilter += " AND " + KEY_AMOUNT + (if (incomeType) ">" else "<") + "0"
-        }
+        val typeFlag = if(incomeType) FLAG_INCOME else FLAG_EXPENSE
+        val comparisonOperator = (if (incomeType) ">" else "<")
+        catFilter += " AND ($KEY_TYPE = $typeFlag OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT $comparisonOperator 0))"
         buildFilterClause(grouping, whereFilter, table).takeIf { it.isNotEmpty() }?.let {
             catFilter += " AND $it"
         }
@@ -344,7 +378,6 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         .filterNotNull()
         .flatMapLatest { (accountInfo, grouping, whereFilter) ->
             val builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
-                .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_GROUPED_BY_TYPE)
             val id = accountInfo.accountId
             if (id != HOME_AGGREGATE_ID) {
                 if (id < 0) {
@@ -366,9 +399,9 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                         var income: Long = 0
                         var expense: Long = 0
                         for (pair in cursor.asSequence) {
-                            val type = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_TYPE))
+                            val type = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_TYPE)).toUByte()
                             val sum = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_SUM))
-                            if (type > 0) {
+                            if (type == FLAG_INCOME) {
                                 income = sum
                             } else {
                                 expense = sum

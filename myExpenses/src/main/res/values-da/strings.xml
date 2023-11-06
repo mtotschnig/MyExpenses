@@ -412,7 +412,6 @@
     <string name="restore_not_possible_target_calendar_missing">Den i sikkerhedkopien valgte Kalender %s findes ikke i lokalindstillingerne. Systemgendannelse afbrudt.</string>
     <string name="restore_not_possible_local_calendar_missing">Den aktuelle planlægning kalender er ikke tilgængelig.</string>
     <string name="menu_distribution_show_pie_char">Vis cirkeldiagram</string>
-    <string name="menu_distribution_aggreate">Samlede udgifter og indtægter</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Gamle billeder</string>
     <string name="pref_manage_stale_images_summary">Administrer billeder fra slettede posteringer</string>

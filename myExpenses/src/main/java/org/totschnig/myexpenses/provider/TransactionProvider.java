@@ -58,7 +58,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_BY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID;
@@ -112,6 +111,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLI
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_DEPENDENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_TRANSACTION;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.CTE_TRANSACTION_AMOUNTS;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetAllocation;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetSelect;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect;
@@ -120,6 +120,7 @@ import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithMa
 import static org.totschnig.myexpenses.provider.DbConstantsKt.checkForSealedAccount;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getPayeeWithDuplicatesCTE;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionMappedObjectQuery;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionSumQuery;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.computeWhere;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.dualQuery;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.groupByForPaymentMethodQuery;
@@ -321,8 +322,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   private static final String QUERY_PARAMETER_SYNC_BEGIN = "syncBegin";
   private static final String QUERY_PARAMETER_SYNC_END = "syncEnd";
   public static final String QUERY_PARAMETER_WITH_JULIAN_START = "withJulianStart";
-  public static final String QUERY_PARAMETER_GROUPED_BY_TYPE = "groupedByType";
-  public static final String QUERY_PARAMETER_AGGREGATE_TYPES = "aggregateTypes";
   public static final String QUERY_PARAMETER_WITH_COUNT = "count";
   public static final String QUERY_PARAMETER_WITH_INSTANCE = "withInstance";
   public static final String QUERY_PARAMETER_HIERARCHICAL = "hierarchical";
@@ -440,8 +439,6 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       case TRANSACTIONS_SUMS: {
         String accountSelectionQuery = null;
-        boolean groupByType = uri.getBooleanQueryParameter(QUERY_PARAMETER_GROUPED_BY_TYPE, false);
-        boolean aggregateTypes = uri.getBooleanQueryParameter(QUERY_PARAMETER_AGGREGATE_TYPES, false);
         accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
         if (accountSelector == null) {
           accountSelector = uri.getQueryParameter(KEY_CURRENCY);
@@ -455,26 +452,19 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         additionalWhere.append(WHERE_TRANSACTION);
 
-        if (groupByType) {
-          groupBy = KEY_TYPE;
-        } else if (!aggregateTypes) {
-          //expenses only
-          additionalWhere.append(" AND " + KEY_AMOUNT + " < 0");
-        }
         String amountCalculation;
-        qb = SupportSQLiteQueryBuilder.builder(VIEW_WITH_ACCOUNT);
         if (accountSelector != null) {
           selectionArgs = joinArrays(selectionArgs, new String[]{accountSelector});
-          additionalWhere.append(" AND " + KEY_ACCOUNTID).append(accountSelectionQuery);
+          accountSelectionQuery = " AND " + KEY_ACCOUNTID + accountSelectionQuery;
           amountCalculation = KEY_AMOUNT;
         } else {
-          amountCalculation = DatabaseConstants.getAmountHomeEquivalent(VIEW_WITH_ACCOUNT, getHomeCurrency());
+          amountCalculation = DatabaseConstants.getAmountHomeEquivalent(CTE_TRANSACTION_AMOUNTS, getHomeCurrency());
         }
         String sumExpression = aggregateFunction + "(" + amountCalculation + ")";
-        if (groupByType) sumExpression = "abs(" + sumExpression + ")";
-        final String sumColumn = sumExpression + " as  " + KEY_SUM;
-        projection = groupByType ? new String[]{KEY_AMOUNT + " > 0 as " + KEY_TYPE, sumColumn} : new String[]{sumColumn};
-        break;
+        // if type flag is passed in, then we only return one type, otherwise two rows for expense and income are returned
+        String sql = transactionSumQuery(getTypeWithFallBack(), accountSelectionQuery, sumExpression, uri.getQueryParameter(KEY_TYPE));
+        c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
+        return c;
       }
       case TRANSACTIONS_GROUPS: {
         return transactionGroupsQuery(db, uri, selection, selectionArgs);
@@ -487,12 +477,14 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_HIERARCHICAL, false)) {
           final boolean withBudget = projection != null && Arrays.asList(projection).contains(KEY_BUDGET);
+
+          String withType = uri.getQueryParameter(KEY_TYPE);
           String sql = withBudget ? categoryTreeWithBudget(sortOrder, selection, projection, uri.getQueryParameter(KEY_YEAR), uri.getQueryParameter(KEY_SECOND_GROUP)) :
                   categoryTreeSelect(sortOrder, selection, projection, null, null,
-                  uri.getQueryParameter(QUERY_PARAMETER_CATEGORY_SEPARATOR));
+                  uri.getQueryParameter(QUERY_PARAMETER_CATEGORY_SEPARATOR), withType);
           c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
           c.setNotificationUri(getContext().getContentResolver(), uri);
-          return c;
+          return (withType != null && c.getCount() == 0) ? wrapWithResultCompat(c, hasCategories(db)) :  c;
         } else {
           qb = SupportSQLiteQueryBuilder.builder(TABLE_CATEGORIES);
           additionalWhere.append(KEY_ROWID + " != " + SPLIT_CATID);
