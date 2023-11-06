@@ -1061,4 +1061,8 @@
     <string name="budget_widget_configuration">Seleccione un presupuesto</string>
     <string name="budget_table_header_overspent">Gastado de más</string>
     <string name="whats_new_366">Widget en la pantalla de inicio que muestra el estado actual del presupuesto.</string>
+    <string name="pref_unmapped_transaction_as_transfer_title">Transacciones no asignadas</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_on">se contabilizan como transferencia</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_off">se contabilizan como gastos / ingresos</string>
+    <string name="whats_new_367">Las categorías pueden configurarse ahora como categorías de gastos o de ingresos, lo que afectará a la forma en que se calculan las sumas de gastos e ingresos.</string>
 </resources>
