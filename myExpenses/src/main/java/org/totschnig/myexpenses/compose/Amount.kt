@@ -85,8 +85,8 @@ fun ColoredAmountText(
     prefix: String = "",
     postfix: String = "",
     type: UByte? = when(money.amountMinor.sign) {
-        1 -> FLAG_EXPENSE
-        -1 -> FLAG_INCOME
+        1 -> FLAG_INCOME
+        -1 -> FLAG_EXPENSE
         else -> null
     }
 ) {

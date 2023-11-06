@@ -49,6 +49,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
@@ -58,7 +59,9 @@ import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
+import java.text.DecimalFormat
 import kotlin.math.abs
+import kotlin.math.sign
 
 class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     OnDialogResultListener {
@@ -131,16 +134,25 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 invalidateOptionsMenu()
                 true
             }
+
             else -> false
         }
 
     private fun setChartData(categories: List<Category>) {
         if ((::chart.isInitialized)) {
-            chart.data = PieData(PieDataSet(categories.map {
-                PieEntry(
-                    abs(it.aggregateSum.toFloat()),
-                    it.label
-                )
+            chart.data = PieData(PieDataSet(categories.mapNotNull { category ->
+                category.aggregateSum.takeIf {
+                    when(it.sign) {
+                        1 -> true
+                        -1 -> false
+                        else -> null
+                    } == viewModel.incomeType
+                }?.let {
+                    PieEntry(
+                        abs(it.toFloat()),
+                        category.label
+                    )
+                }
             }, "").apply {
                 colors = categories.map { it.color ?: 0 }
                 sliceSpace = 2f
@@ -194,7 +206,11 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                         if (showChart.value) categoryState.value.withSubColors {
                             getSubColors(it, isDark)
                         } else {
-                            categoryState.value.copy(children = categoryState.value.children.map { it.copy(color = null) })
+                            categoryState.value.copy(children = categoryState.value.children.map {
+                                it.copy(
+                                    color = null
+                                )
+                            })
                         }
                     }
                 }
@@ -247,6 +263,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                     .align(Alignment.Center)
                             )
                         }
+
                         categoryTree.value.children.isEmpty() -> {
                             Text(
                                 modifier = Modifier.align(Alignment.Center),
@@ -254,6 +271,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                 textAlign = TextAlign.Center
                             )
                         }
+
                         else -> {
                             val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
                             when (configuration.orientation) {
@@ -277,6 +295,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                         RenderSumLine(accountInfo.value, sums)
                                     }
                                 }
+
                                 else -> {
                                     Column {
                                         RenderTree(
@@ -399,9 +418,11 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         accountInfo: DistributionAccountInfo?,
         sums: Pair<Long, Long>
     ) {
-        accountInfo?.let {
+        accountInfo?.let { account ->
             val showTotal = viewModel.showTotal.collectAsState(initial = false)
             val accountFormatter = LocalCurrencyFormatter.current
+            val income = Money(accountInfo.currency, sums.first)
+            val expense = Money(accountInfo.currency, sums.second)
             Divider(
                 modifier = Modifier.padding(top = 4.dp),
                 color = MaterialTheme.colorScheme.onSurface,
@@ -424,26 +445,62 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                     if (showTotal.value) {
                         Text(
                             modifier = Modifier.weight(1f),
-                            text = "+ " + accountFormatter.convAmount(sums.first, it.currency)
-                                    + " - " + accountFormatter.convAmount(sums.second, it.currency)
-                                    + " = " + accountFormatter.convAmount(sums.first - sums.second, it.currency),
+                            text = buildString {
+                                val configure: (DecimalFormat) -> Unit = {
+                                    it.positivePrefix = "+ "
+                                    it.negativePrefix = " - "
+                                }
+                                append(
+                                    accountFormatter.formatCurrency(
+                                        income.amountMajor,
+                                        account.currency,
+                                        configure
+                                    )
+                                )
+                                append(
+                                    accountFormatter.formatCurrency(
+                                        expense.amountMajor,
+                                        account.currency,
+                                        configure
+                                    )
+                                )
+                                append(" = ")
+                                append(
+                                    accountFormatter.convAmount(
+                                        sums.first + sums.second,
+                                        account.currency
+                                    )
+                                )
+                            },
                             textAlign = TextAlign.Center
                         )
                     } else {
+                        val configure: (DecimalFormat) -> Unit = {
+                            it.positivePrefix = "+"
+                            it.negativePrefix = "-"
+                        }
                         Text(
                             modifier = Modifier.weight(1f),
-                            text = "+" + accountFormatter.convAmount(sums.first, it.currency),
+                            text = accountFormatter.formatCurrency(
+                                income.amountMajor,
+                                account.currency,
+                                configure
+                            ),
                             textAlign = TextAlign.End
                         )
                         Text(
                             modifier = Modifier.weight(1f),
-                            text = "-" + accountFormatter.convAmount(sums.second, it.currency),
+                            text = accountFormatter.formatCurrency(
+                                expense.amountMajor,
+                                account.currency,
+                                configure
+                            ),
                             textAlign = TextAlign.End
                         )
                     }
                 }
             }
-            Divider(color = Color(it.color), thickness = 4.dp)
+            Divider(color = Color(account.color), thickness = 4.dp)
         }
     }
 

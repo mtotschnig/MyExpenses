@@ -74,7 +74,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
     private lateinit var budgetFlow: Flow<BudgetAllocation>
     lateinit var categoryTreeForBudget: Flow<Category>
 
-    val sum: StateFlow<Long> = sums.map { -it.second }.stateIn(viewModelScope, SharingStarted.Companion.Lazily, 0)
+    val sum: StateFlow<Long> = sums.map { it.second }.stateIn(viewModelScope, SharingStarted.Companion.Lazily, 0)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun initWithBudget(budgetId: Long, groupingYear: Int, groupingSecond: Int) {

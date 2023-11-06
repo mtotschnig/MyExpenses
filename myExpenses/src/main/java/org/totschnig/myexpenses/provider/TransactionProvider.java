@@ -459,7 +459,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         } else {
           amountCalculation = DatabaseConstants.getAmountHomeEquivalent(VIEW_WITH_ACCOUNT, getHomeCurrency());
         }
-        String sumExpression = "abs(" + aggregateFunction + "(" + amountCalculation + ")" + ")";
+        String sumExpression = aggregateFunction + "(" + amountCalculation + ")";
         // if type flag is passed in, then we only return one type, otherwise two rows for expense and income are returned
         String sql = transactionSumQuery(getTypeWithFallBack(), accountSelectionQuery, sumExpression, uri.getQueryParameter(KEY_TYPE));
         c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);

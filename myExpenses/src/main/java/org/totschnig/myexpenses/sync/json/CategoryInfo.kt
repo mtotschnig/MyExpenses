@@ -16,7 +16,7 @@ data class CategoryInfo(
     override val label: String,
     override val icon: String?,
     override val color: Int?,
-    override val type: Int?
+    override val type: Int? = null
 ) : ICategoryInfo
 
 @Keep

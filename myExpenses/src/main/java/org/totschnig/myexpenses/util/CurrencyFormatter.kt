@@ -10,18 +10,24 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.text.NumberFormat
-import java.util.*
-import javax.inject.Inject
-import javax.inject.Singleton
+import java.util.Currency
 
 interface ICurrencyFormatter {
-    fun formatCurrency(amount: BigDecimal, currency: CurrencyUnit): String
+    fun formatCurrency(
+        amount: BigDecimal,
+        currency: CurrencyUnit,
+        configure: ((DecimalFormat) -> Unit)? = null
+    ): String
     fun invalidate(contentResolver: ContentResolver, currency: String? = null) {}
 }
 
 object DebugCurrencyFormatter: ICurrencyFormatter {
-    override fun formatCurrency(amount: BigDecimal, currency: CurrencyUnit): String =
-        "${currency.code} $amount"
+
+    override fun formatCurrency(
+        amount: BigDecimal,
+        currency: CurrencyUnit,
+        configure: ((DecimalFormat) -> Unit)?
+    ) = "${currency.code} $amount"
 }
 
 /**
@@ -101,7 +107,15 @@ open class CurrencyFormatter(
         return numberFormat
     }
 
-    override fun formatCurrency(amount: BigDecimal, currency: CurrencyUnit): String {
-        return getNumberFormat(currency).format(amount)
+    override fun formatCurrency(
+        amount: BigDecimal,
+        currency: CurrencyUnit,
+        configure: ((DecimalFormat) -> Unit)?
+    ): String {
+        return getNumberFormat(currency).also { nf ->
+            if (configure != null ) {
+                (nf as? DecimalFormat)?.let { df -> configure(df) }
+            }
+        } .format(amount)
     }
 }
