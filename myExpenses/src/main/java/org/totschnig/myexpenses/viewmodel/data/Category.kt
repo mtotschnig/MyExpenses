@@ -82,8 +82,8 @@ data class Category(
         get() = budget.rollOverNext != 0L || children.any { it.budget.rollOverNext != 0L }
 
     companion object {
-        val LOADING = Category(label = "")
-        val EMPTY = Category(label = "")
+        val LOADING = Category(label = "LOADING")
+        val EMPTY = Category(label = "EMPTY")
         const val NO_CATEGORY_ASSIGNED_LABEL = "—"
     }
 }
