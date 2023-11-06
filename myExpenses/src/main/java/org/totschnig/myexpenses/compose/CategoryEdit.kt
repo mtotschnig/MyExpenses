@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -42,7 +43,10 @@ fun CategoryEdit(
     val context = LocalContext.current
     var label by rememberSaveable { mutableStateOf(dialogState.category?.label ?: "") }
     var icon by rememberSaveable { mutableStateOf(dialogState.category?.icon) }
-    var typeFlags by remember { mutableStateOf(dialogState.category?.typeFlags ?: 0u) }
+    var typeFlags by rememberSaveable(stateSaver = Saver(
+        save = { it.toInt() },
+        restore = { it.toUByte() }
+    )) { mutableStateOf(dialogState.category?.typeFlags ?: 0u) }
     var shouldValidate by remember { mutableStateOf(false) }
     var showIconSelection by rememberSaveable { mutableStateOf(false) }
 
