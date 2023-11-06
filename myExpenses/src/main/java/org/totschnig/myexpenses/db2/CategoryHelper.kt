@@ -20,14 +20,14 @@ object CategoryHelper {
         name: String,
         categoryToId: MutableMap<String, Long>,
         stripQifCategoryClass: Boolean,
-        isIncome: Boolean = false
+        typeFlags: UByte = FLAG_NEUTRAL
     ): Int {
         countInserted = 0
         insertCategory(
             repository,
             parse(if (stripQifCategoryClass) stripCategoryClass(name) else name),
             categoryToId,
-            isIncome
+            typeFlags
         )
         return countInserted
     }
@@ -45,7 +45,7 @@ object CategoryHelper {
         repository: Repository,
         name: List<String>,
         categoryToId: MutableMap<String, Long>,
-        isIncome: Boolean = false
+        typeFlags: UByte = FLAG_NEUTRAL
     ) {
         var parentId: Long? = null
         var path = ""
@@ -54,7 +54,7 @@ object CategoryHelper {
             path += it
             var id = categoryToId[path]
             if (id == null) {
-                id = maybeWriteCategory(repository, it, parentId, isIncome)
+                id = maybeWriteCategory(repository, it, parentId, typeFlags)
                 if (id != -1L) categoryToId[path] = id
             }
             if (id == -1L) {
@@ -69,7 +69,7 @@ object CategoryHelper {
         repository: Repository,
         name: String,
         parentId: Long?,
-        isIncome: Boolean = false
+        typeFlags: UByte = FLAG_NEUTRAL
     ): Long {
         val unescaped = unicodeEscaper.translate(name)
         var id = repository.findCategory(unescaped, parentId)
@@ -78,7 +78,7 @@ object CategoryHelper {
                 Category(
                     label = unescaped,
                     parentId = parentId,
-                    typeFlags = if (isIncome) FLAG_INCOME else FLAG_EXPENSE
+                    typeFlags = typeFlags
                 )
             )
                 ?.let { ContentUris.parseId(it) } ?: -1

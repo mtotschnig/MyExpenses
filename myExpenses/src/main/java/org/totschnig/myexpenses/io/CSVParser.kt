@@ -111,7 +111,7 @@ class CSVParser(
                     } else {
                         val category1 = category +
                                 (subCategory.takeIf { it.isNotEmpty() }?.let { ":$it" } ?: "")
-                        categories.add(CategoryInfo(category1, false))
+                        categories.add(CategoryInfo(category1))
                         transaction.category(category1)
                     }
                 }

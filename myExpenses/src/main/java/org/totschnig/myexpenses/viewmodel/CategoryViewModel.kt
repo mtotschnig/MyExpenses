@@ -84,7 +84,7 @@ open class CategoryViewModel(
     val defaultSort = Sort.USAGES
 
     sealed class DialogState : java.io.Serializable
-    object NoShow : DialogState()
+    data object NoShow : DialogState()
     data class Show(
         val category: Category? = null,
         val parent: Category? = null,

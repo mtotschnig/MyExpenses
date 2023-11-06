@@ -24,10 +24,10 @@ data class Category(
     val budget: BudgetAllocation = BudgetAllocation.EMPTY,
     val uuid: String? = null,
     /**
-     - 0: neither [org.totschnig.myexpenses.db2.FLAG_EXPENSE] nor [org.totschnig.myexpenses.db2.FLAG_INCOME]
-     - 1: [org.totschnig.myexpenses.db2.FLAG_EXPENSE]
-     - 2: [org.totschnig.myexpenses.db2.FLAG_INCOME]
-     - 3: both [org.totschnig.myexpenses.db2.FLAG_EXPENSE] and [org.totschnig.myexpenses.db2.FLAG_INCOME]
+     * [org.totschnig.myexpenses.db2.FLAG_EXPENSE]
+     * [org.totschnig.myexpenses.db2.FLAG_INCOME]
+     * [org.totschnig.myexpenses.db2.FLAG_NEUTRAL]
+     * [org.totschnig.myexpenses.db2.FLAG_TRANSFER]
      */
     val typeFlags: UByte? = null
 ) : Parcelable, Serializable {
