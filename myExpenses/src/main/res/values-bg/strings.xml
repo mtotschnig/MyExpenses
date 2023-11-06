@@ -1047,4 +1047,5 @@
     <string name="widget_title_budget">Моя бюджет</string>
     <string name="budget_widget_configuration">Избери бюджет</string>
     <string name="budget_table_header_overspent">Преразход</string>
+    <string name="whats_new_366">Уйджета на начален екран показва текущото състояние на бюджета.</string>
 </resources>

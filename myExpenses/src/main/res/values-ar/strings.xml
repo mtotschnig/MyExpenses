@@ -963,7 +963,7 @@
     <string name="account_deleted">تم حذف الحساب</string>
     <string name="debt_managment">إدارة الديون</string>
     <string name="whats_new_338">تسلسل هرمي عميق بشكل تعسفي للفئات</string>
-    <string name="dialog_title_purge_backups">تطهير النسخ الاحتياطية القديمة</string>
+    <string name="dialog_title_purge_backups">حذف النسخ الاحتياطية القديمة</string>
     <string name="icons_for_categories">ايقونات الفئات</string>
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">الفئات</string>
     <string name="menu_reconfigure">إعادة التكوين</string>
@@ -971,4 +971,49 @@
     <string name="whats_new_359">يمكن تخصيص أيقونات طرق الدفع.</string>
     <string name="search_account">البحث عن حساب</string>
     <string name="content_description_remove_icon">إزالة الرمز</string>
+    <string name="warning_party_delete_debt">عند حذف هذا الطرف يتم حذف الديون المحددة له أيضا.</string>
+    <plurals name="debt_mapped_transactions">
+        <item quantity="zero">يحتوي الدين %1$s على %2$d معاملة معينة.</item>
+        <item quantity="one">يحتوي الدين %1$s على %2$d معاملات معينة.</item>
+        <item quantity="two"></item>
+        <item quantity="few"></item>
+        <item quantity="many"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="title_activity_debt_overview">نظرة عامة على الديون</string>
+    <string name="setup_completed">اكتمل الإعداد</string>
+    <string name="menu_parent_category_selection">حدد الفئة الأصل بنقرة قصيرة</string>
+    <string name="budget_deleted">تم حذف الميزانية</string>
+    <string name="debt_owes_me">مدين لي</string>
+    <string name="object_sealed_debt">يشير الكائن إلى دين مغلق.</string>
+    <string name="pref_mlkit_script_title">البرنامج النصي لMlKit</string>
+    <string name="debt">دين</string>
+    <string name="budget_widget_configuration">اختيار الميزانية</string>
+    <plurals name="purge_backup_success">
+        <item quantity="zero">تمت إزالة ملف نسخ احتياطي قديم.</item>
+        <item quantity="one">تمت إزالة %d من ملفات النسخ الاحتياطي القديمة.</item>
+        <item quantity="two"></item>
+        <item quantity="few"></item>
+        <item quantity="many"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="budget_table_header_overspent">إسراف في الإنفاق</string>
+    <string name="purge_backups">سيتم حذف ملفات النسخ الاحتياطي القديمة التالية:</string>
+    <string name="dialog_title_warning_delete_party">حذف الطرف ؟</string>
+    <string name="debts">ديون</string>
+    <string name="whats_new_336_1">مشاركة ملخص الديون</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">مع حالة الترخيص الحالية (%1$s)، سيتم عرض هذا الحوار عند كل استخدام.</string>
+    <string name="cb_label_merge_accounts">دمج الحسابات</string>
+    <string name="debt_I_owe">أنا مدين</string>
+    <string name="dialog_title_delete_debt">حذف الدين ؟</string>
+    <string name="menu_new_debt">دين جديد</string>
+    <string name="whats_new_336_2">علامات للأجزاء المقسمة</string>
+    <plurals name="import_categories_icons_updated">
+        <item quantity="zero">تم تحديث فئة واحدة بالأيقونة</item>
+        <item quantity="one">تم تحديث فئة واحدة بالأيقونات</item>
+        <item quantity="two"></item>
+        <item quantity="few"></item>
+        <item quantity="many"></item>
+        <item quantity="other"></item>
+    </plurals>
 </resources>
