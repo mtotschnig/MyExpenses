@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CallSplit
 import androidx.compose.material.icons.filled.ContentCopy
@@ -179,12 +178,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     var selectedAccountId: Long
         get() = viewModel.selectedAccountId
-        set(value) { viewModel.selectedAccountId = value }
+        set(value) {
+            viewModel.selectedAccountId = value
+        }
 
     private val accountForNewTransaction: FullAccount?
         get() = currentAccount?.let { current ->
-            current.takeIf { !it.isAggregate } ?:
-            viewModel.accountData.value?.getOrNull()
+            current.takeIf { !it.isAggregate } ?: viewModel.accountData.value?.getOrNull()
                 ?.filter { !it.isAggregate && (current.isHomeAggregate || it.currency == current.currency) }
                 ?.maxByOrNull { it.lastUsed }
         }
@@ -609,7 +609,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             expansionHandlerAccounts = viewModel.expansionHandler("collapsedAccounts"),
                             bankIcon = { modifier, id ->
                                 banks.value.find { it.id == id }
-                                    ?.let { bank -> bankingFeature.bankIconRenderer?.invoke(modifier, bank) }
+                                    ?.let { bank ->
+                                        bankingFeature.bankIconRenderer?.invoke(
+                                            modifier,
+                                            bank
+                                        )
+                                    }
                             }
                         )
                     }?.onFailure {
@@ -743,7 +748,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     }
                 }
                 val pagerState = remember { PagerState(initialPage = currentPage) }
-                // !.6 val pagerState = rememberPagerState { accountData.count() }
+                // 1.6 val pagerState = rememberPagerState { accountData.count() }
                 if (accountData.isNotEmpty()) {
                     LaunchedEffect(viewModel.selectedAccountId) {
                         if (pagerState.currentPage != currentPage) {
@@ -1809,6 +1814,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         featureViewModel.requestFeature(this, Feature.OCR)
                     }
                 }
+
                 ContribFeature.BANKING -> {
                     val (bankId, accountId) = tag as Pair<Long, Long>
                     bankingFeature.startSyncFragment(bankId, accountId, supportFragmentManager)
