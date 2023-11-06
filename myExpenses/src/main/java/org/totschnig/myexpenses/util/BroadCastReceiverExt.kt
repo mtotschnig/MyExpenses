@@ -7,6 +7,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 fun BroadcastReceiver.doAsync(
+    tag: String,
     block: suspend () -> Unit
 ) {
     val pendingResult = goAsync()
@@ -15,7 +16,7 @@ fun BroadcastReceiver.doAsync(
         try {
             pendingResult.finish()
         } catch (e: Exception) {
-            CrashHandler.report(e)
+            CrashHandler.report(e, mapOf( "context" to tag))
         }
     }
 }

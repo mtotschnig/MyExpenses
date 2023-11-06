@@ -23,7 +23,7 @@ class AccountRemovedReceiver : BroadcastReceiver() {
             intent.getStringExtra(KEY_ACCOUNT_TYPE) == GenericAccountService.ACCOUNT_TYPE &&
             context.injector.prefHandler().getInt(PrefKey.CURRENT_VERSION, 0) > 0
                 ) {
-            doAsync {
+            doAsync("AccountRemovedReceiver") {
                 try {
                     val where = "${DatabaseConstants.KEY_SYNC_ACCOUNT_NAME} = ? "
                     context.contentResolver.update(

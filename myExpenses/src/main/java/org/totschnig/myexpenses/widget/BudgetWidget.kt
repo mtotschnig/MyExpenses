@@ -56,7 +56,7 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int
     ) {
-        doAsync {
+        doAsync("BudgetWidget") {
             val widget = runCatching {
                 val horizontalPadding = 32
                 val todayMarkerCorrection = 2f

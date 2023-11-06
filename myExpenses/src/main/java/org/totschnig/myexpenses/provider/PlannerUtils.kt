@@ -188,7 +188,7 @@ const val INVALID_CALENDAR_ID = "-1"
                 calendarId
             }
         } else {
-            CrashHandler.report(Exception("configured calendar %s has been deleted: $calendarId"))
+            CrashHandler.report(Exception("configured calendar $calendarId has been deleted"))
             INVALID_CALENDAR_ID
         }
     } ?: run {

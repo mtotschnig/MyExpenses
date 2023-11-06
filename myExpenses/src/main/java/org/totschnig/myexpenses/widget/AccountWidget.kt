@@ -47,7 +47,7 @@ class AccountWidget :
         appWidgetId: Int,
         accountId: String
     ) {
-        doAsync {
+        doAsync("AccountWidget") {
             val widget = kotlin.runCatching {
                 AccountRemoteViewsFactory.buildCursor(context, accountId)
             }.mapCatching {
