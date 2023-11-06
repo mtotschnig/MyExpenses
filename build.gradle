@@ -17,8 +17,8 @@ plugins {
 }
 
 ext {
-    versionCode = 657
-    versionName = '3.6.6'
+    versionCode = 658
+    versionName = '3.6.7'
     compileSdkVersion = 34
     minSdkVersion = 21
     targetSdkVersion = 33
@@ -32,7 +32,7 @@ ext {
     roomVersion = "2.6.0"
     archLifecycleVersion = '2.6.2'
     androidxArchVersion = '2.2.0'
-    fragmentVersion = "1.6.1"
+    fragmentVersion = "1.6.2"
     coroutines = '1.7.1'
     mockitoVersion = '5.4.0'
     retrofitVersion = "2.10.0-SNAPSHOT"

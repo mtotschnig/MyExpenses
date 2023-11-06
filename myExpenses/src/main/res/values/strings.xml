@@ -1093,4 +1093,5 @@
     <string name="pref_unmapped_transaction_as_transfer_title">Unmapped transactions</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">are counted as expense / income</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_on">are counted as transfer</string>
+    <string name="whats_new_367">Categories can now be configured as expense or income categories, which will impact how the expense and income sums are calculated.</string>
 </resources>
