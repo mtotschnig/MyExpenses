@@ -483,7 +483,7 @@ open class CategoryViewModel(
                         val nextPath = cursor.getString(KEY_PATH)
                         val nextColor = if (withColors) cursor.getIntOrNull(KEY_COLOR) else null
                         val nextIcon = cursor.getStringOrNull(KEY_ICON)
-                        val nextType = cursor.getInt(KEY_TYPE).toUByte()
+                        val nextType = cursor.getIntOrNull(KEY_TYPE)?.toUByte()
                         val nextIsMatching = cursor.getInt(KEY_MATCHES_FILTER) == 1
                         val nextLevel = cursor.getInt(KEY_LEVEL)
                         val nextSum = cursor.getLongIfExistsOr0(KEY_SUM)

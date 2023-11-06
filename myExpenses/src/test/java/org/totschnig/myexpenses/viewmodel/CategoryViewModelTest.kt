@@ -1,8 +1,6 @@
 package org.totschnig.myexpenses.viewmodel
 
-import android.app.Application
 import android.database.MatrixCursor
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
@@ -25,7 +23,8 @@ class CategoryViewModelTest {
                     KEY_ICON,
                     KEY_PATH,
                     KEY_MATCHES_FILTER,
-                    KEY_LEVEL
+                    KEY_LEVEL,
+                    KEY_TYPE
                 ), 8
             )
 
@@ -35,7 +34,7 @@ class CategoryViewModelTest {
             label: String,
             path: String = if (parent == null) label else ""
         ) =
-            addRow(arrayOf(id, parent, label, null, null, path, 1, path.split(" -> ").size))
+            addRow(arrayOf(id, parent, label, null, null, path, 1, path.split(" -> ").size, null))
         cursor.addCat(1, null, "Car")
         cursor.addCat(2, 1, "Fuel", "Car -> Fuel")
         cursor.addCat(3, null, "Care")
@@ -56,9 +55,11 @@ class CategoryViewModelTest {
                         level = 2,
                         label = "Fuel",
                         path = "Car -> Fuel",
-                        parentId = 1
+                        parentId = 1,
+                        isMatching = true
                     )
-                )
+                ),
+                isMatching = true
             ),
             Category(
                 id = 3,
@@ -77,28 +78,34 @@ class CategoryViewModelTest {
                                 level = 3,
                                 parentId = 4,
                                 label = "Underwear",
-                                path = "Care -> Clothing -> Underwear"
+                                path = "Care -> Clothing -> Underwear",
+                                isMatching = true
                             )
-                        )
+                        ),
+                        isMatching = true
                     ),
                     Category(
                         id = 6,
                         level = 2,
                         parentId = 3,
                         label = "Hairdresser",
-                        path = "Care -> Hairdresser"
+                        path = "Care -> Hairdresser",
+                        isMatching = true
                     )
-                )
+                ),
+                isMatching = true
             ),
             Category(
                 id = 7,
                 level = 1,
-                label = "Food"
+                label = "Food",
+                isMatching = true
             ),
             Category(
                 id = 8,
                 level = 1,
-                label = "Leisure"
+                label = "Leisure",
+                isMatching = true
             ),
         ).inOrder()
     }
