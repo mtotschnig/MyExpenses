@@ -1076,7 +1076,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             if (!includeTransfers) {
                 //for the Grand total account the transfers between accounts managed by the app should equal to 0,
                 //so we only include transactions mapped to transfer categories (i.e. transfers to accounts external to the app)
-                val isTransfer = if (forHome == null) "$KEY_TRANSFER_PEER IS NOT NULL OR $KEY_TYPE = $FLAG_TRANSFER" else "$KEY_TYPE = $FLAG_TRANSFER"
+                val isTransfer = if (forHome == null) "$KEY_TRANSFER_PEER IS NOT NULL OR $KEY_TYPE = $FLAG_TRANSFER" else "raw_type = $FLAG_TRANSFER"
 
                 add("$aggregateFunction(CASE WHEN $isTransfer THEN $KEY_AMOUNT ELSE 0 END) AS $KEY_SUM_TRANSFERS")
             }

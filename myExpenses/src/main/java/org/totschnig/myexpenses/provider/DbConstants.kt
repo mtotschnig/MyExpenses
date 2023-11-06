@@ -450,6 +450,8 @@ private fun transactionsJoin(
 }
 
 const val CTE_TRANSACTION_GROUPS = "cte_transaction_groups"
+const val CTE_TRANSACTION_AMOUNTS = "cte_amounts"
+
 fun buildTransactionGroupCte(
     selection: String,
     forHome: String?,
@@ -462,6 +464,10 @@ fun buildTransactionGroupCte(
         append(KEY_TRANSFER_PEER)
         append(",")
         append("$typeWithFallBack AS $KEY_TYPE")
+        if (forHome != null) {
+            append(",")
+            append("$KEY_TYPE AS raw_type")
+        }
         append(", cast(")
         append(getAmountCalculation(forHome))
         append(" AS integer) AS $KEY_AMOUNT")
@@ -483,8 +489,8 @@ fun transactionSumQuery(
     val groupBy = if (typeParameter == null) "GROUP BY $KEY_TYPE" else ""
     val typeColumn = if (typeParameter == null) "$KEY_TYPE," else ""
     return """
-    WITH amounts AS (
-    SELECT ${effectiveTypeExpression(typeWithFallBack)}, $KEY_AMOUNT FROM $VIEW_WITH_ACCOUNT 
+    WITH $CTE_TRANSACTION_AMOUNTS AS (
+    SELECT ${effectiveTypeExpression(typeWithFallBack)}, $KEY_AMOUNT, $KEY_PARENTID, $KEY_ACCOUNTID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT FROM $VIEW_WITH_ACCOUNT 
     WHERE ($KEY_CATID IS NOT $SPLIT_CATID AND $KEY_CR_STATUS != 'VOID' ${accountSelection ?: ""}))
-    SELECT $typeColumn $sumExpression AS $KEY_SUM FROM amounts WHERE $KEY_TYPE $typeQuery $groupBy"""
+    SELECT $typeColumn $sumExpression AS $KEY_SUM FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_TYPE $typeQuery $groupBy"""
 }

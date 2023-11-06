@@ -111,6 +111,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLI
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_DEPENDENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_TRANSACTION;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.CTE_TRANSACTION_AMOUNTS;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetAllocation;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetSelect;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect;
@@ -457,7 +458,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           accountSelectionQuery = " AND " + KEY_ACCOUNTID + accountSelectionQuery;
           amountCalculation = KEY_AMOUNT;
         } else {
-          amountCalculation = DatabaseConstants.getAmountHomeEquivalent(VIEW_WITH_ACCOUNT, getHomeCurrency());
+          amountCalculation = DatabaseConstants.getAmountHomeEquivalent(CTE_TRANSACTION_AMOUNTS, getHomeCurrency());
         }
         String sumExpression = aggregateFunction + "(" + amountCalculation + ")";
         // if type flag is passed in, then we only return one type, otherwise two rows for expense and income are returned
