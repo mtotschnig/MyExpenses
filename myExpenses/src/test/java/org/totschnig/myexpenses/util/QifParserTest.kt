@@ -11,6 +11,8 @@ package org.totschnig.myexpenses.util
 import com.google.common.truth.Truth
 import org.junit.Assert
 import org.junit.Test
+import org.totschnig.myexpenses.CategoryInfoSubject.Companion.assertThat
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.export.CategoryInfo
 import org.totschnig.myexpenses.export.qif.QifBufferedReader
 import org.totschnig.myexpenses.export.qif.QifDateFormat
@@ -22,7 +24,7 @@ import java.io.ByteArrayInputStream
 import java.io.InputStreamReader
 import java.math.BigDecimal
 import java.nio.charset.StandardCharsets
-import java.util.*
+import java.util.Collections
 
 class QifParserTest {
     private lateinit var p: QifParser
@@ -163,11 +165,11 @@ class QifParserTest {
         Assert.assertEquals(3, p.categories.size.toLong())
         val categories = getCategoriesList()
         Assert.assertEquals("P1", categories[0].name)
-        Assert.assertFalse(categories[0].income)
+        assertThat(categories[0]).isExpense()
         Assert.assertEquals("P1:c1", categories[1].name)
-        Assert.assertFalse(categories[1].income)
+        assertThat(categories[1]).isExpense()
         Assert.assertEquals("P2", categories[2].name)
-        Assert.assertTrue(categories[2].income)
+        assertThat(categories[2]).isIncome()
         Assert.assertEquals(1, p.accounts.size.toLong())
         val a = p.accounts[0]
         Assert.assertEquals("My Cash Account", a.memo)
@@ -292,9 +294,9 @@ class QifParserTest {
         Assert.assertEquals(2, p.categories.size.toLong())
         val categories = getCategoriesList()
         Assert.assertEquals("P1", categories[0].name)
-        Assert.assertFalse(categories[0].income)
+        assertThat(categories[0]).isExpense()
         Assert.assertEquals("P1:c1", categories[1].name)
-        Assert.assertFalse(categories[1].income)
+        assertThat(categories[1]).isExpense()
         Assert.assertEquals(1, p.accounts.size.toLong())
         val a = p.accounts[0]
         Assert.assertEquals("My Cash Account", a.memo)
@@ -718,9 +720,9 @@ class QifParserTest {
         Assert.assertEquals(2, p.categories.size.toLong())
         val categories = getCategoriesList()
         Assert.assertEquals("P1", categories[0].name)
-        Assert.assertFalse(categories[0].income)
+        assertThat(categories[0]).isExpense()
         Assert.assertEquals("P1:c1", categories[1].name)
-        Assert.assertFalse(categories[1].income)
+        assertThat(categories[1]).isExpense()
     }
 
     @Test
@@ -778,9 +780,9 @@ class QifParserTest {
             """.trimIndent()
         )
         Truth.assertThat(p.categories).containsExactly(
-            CategoryInfo("Main category A"),
-            CategoryInfo("Main category A:Sub category A.1"),
-            CategoryInfo("Main category A:Sub category A.1:Sub sub category A.1.1")
+            CategoryInfo("Main category A", FLAG_EXPENSE),
+            CategoryInfo("Main category A:Sub category A.1", FLAG_EXPENSE),
+            CategoryInfo("Main category A:Sub category A.1:Sub sub category A.1.1", FLAG_EXPENSE)
         )
     }
 
