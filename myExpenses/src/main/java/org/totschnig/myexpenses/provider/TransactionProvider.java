@@ -450,12 +450,11 @@ public class TransactionProvider extends BaseTransactionProvider {
         } else {
           accountSelectionQuery = " = ?";
         }
-        additionalWhere.append(WHERE_TRANSACTION);
 
         String amountCalculation;
         if (accountSelector != null) {
           selectionArgs = joinArrays(selectionArgs, new String[]{accountSelector});
-          selection += " AND " + KEY_ACCOUNTID + accountSelectionQuery;
+          selection += (TextUtils.isEmpty(selection) ? "" : " AND ") + KEY_ACCOUNTID + accountSelectionQuery;
           amountCalculation = KEY_AMOUNT;
         } else {
           amountCalculation = DatabaseConstants.getAmountHomeEquivalent(CTE_TRANSACTION_AMOUNTS, getHomeCurrency());
