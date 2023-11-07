@@ -1048,4 +1048,8 @@
     <string name="budget_widget_configuration">Избери бюджет</string>
     <string name="budget_table_header_overspent">Преразход</string>
     <string name="whats_new_366">Уйджета на начален екран показва текущото състояние на бюджета.</string>
+    <string name="pref_unmapped_transaction_as_transfer_title">Ненанесени транзакции</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_on">се считат за паричен превод</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_off">се считат за разход/приход</string>
+    <string name="whats_new_367">Сега категориите може да се конфигурират като разход или приход, което ще се отрази при калкулирането сумите за разход и приход.</string>
 </resources>

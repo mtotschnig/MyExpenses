@@ -212,4 +212,20 @@
         <item quantity="other">Hapus akun %1$d\?</item>
     </plurals>
     <string name="dialog_password_activate_protection">Aktifkan perlindungan kata sandi</string>
+    <string name="help_heading_credits">Kredit</string>
+    <string name="grisbi_import_parties_loading">Memuat pihak dari %1$s</string>
+    <string name="grouping_month">Bulan</string>
+    <string name="income">Pendapatan</string>
+    <string name="dialog_export_delete">Hapus transaksi yang diekspor</string>
+    <string name="grisbi_import_categories_loading">Memuat kategori dari %1$s</string>
+    <string name="grouping_day">Hari</string>
+    <string name="grouping_week">Minggu</string>
+    <string name="help_button_rate">Penilaian atau ulasan</string>
+    <string name="help_heading_whats_new">Yang baru</string>
+    <string name="import_select_transactions">Transaksi</string>
+    <string name="ftp_uri_malformed">URI cacat %1$s</string>
+    <string name="grouping_last_week">Minggu lalu</string>
+    <string name="grouping_none">Tidak dikelompokkan</string>
+    <string name="grouping_year">Tahun</string>
+    <string name="grouping_this_week">Minggu ini</string>
 </resources>
