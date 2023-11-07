@@ -39,7 +39,11 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
 
     @State
     var newInstance = true
-    protected fun validateAmountInput(input: AmountInput, showToUser: Boolean, ifPresent: Boolean = true) =
+    protected fun validateAmountInput(
+        input: AmountInput,
+        showToUser: Boolean,
+        ifPresent: Boolean = true
+    ) =
         input.getTypedValue(ifPresent, showToUser)
 
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
@@ -93,6 +97,13 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
         isSaving = true
     }
 
+    open val onBackPressedCallbackEnabled: Boolean
+        get() = isDirty
+
+    fun updateOnBackPressedCallbackEnabled() {
+        onBackPressedCallback.isEnabled = onBackPressedCallbackEnabled
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         onBackPressedCallback = object : OnBackPressedCallback(isDirty) {
@@ -116,7 +127,7 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
     }
 
     protected open fun dispatchOnBackPressed() {
-        super.onBackPressed()
+        doHome()
     }
 
     protected fun linkInputsWithLabels() {
@@ -125,12 +136,12 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
 
     fun setDirty() {
         isDirty = true
-        onBackPressedCallback.isEnabled = true
+        updateOnBackPressedCallbackEnabled()
     }
 
     protected fun clearDirty() {
         isDirty = false
-        onBackPressedCallback.isEnabled = false
+        updateOnBackPressedCallbackEnabled()
     }
 
     override val snackBarContainerId = R.id.edit_container

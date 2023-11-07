@@ -15,6 +15,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -33,6 +34,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.Budget
 import org.totschnig.myexpenses.compose.ExpansionMode
+import org.totschnig.myexpenses.compose.TEST_TAG_BUDGET_ROOT
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
@@ -122,7 +124,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                             )
 
                             Budget(
-                                modifier = Modifier.weight(1f),
+                                modifier = Modifier.weight(1f).testTag(TEST_TAG_BUDGET_ROOT),
                                 category = category.copy(
                                     sum = viewModel.sum.collectAsState().value,
                                 ).let {

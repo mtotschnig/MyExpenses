@@ -91,10 +91,12 @@ class ManageCategories : ProtectedFragmentActivity(),
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         sortDelegate.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP)?.let {
-            it.isChecked = parentSelectionOnTap.value
+        if (intent.asAction != Action.SELECT_FILTER) {
+            menu.findItem(R.id.TOGGLE_PARENT_CATEGORY_SELECTION_ON_TAP)?.let {
+                it.isChecked = parentSelectionOnTap.value
+            }
+            checkMenuIcon(menu.findItem(R.id.TYPE_FILTER_COMMAND))
         }
-        checkMenuIcon(menu.findItem(R.id.TYPE_FILTER_COMMAND))
         prepareSearch(menu, viewModel.filter)
         val accountNames = GenericAccountService.getAccountNames(this)
         menu.findItem(R.id.SYNC_COMMAND)?.let { item ->

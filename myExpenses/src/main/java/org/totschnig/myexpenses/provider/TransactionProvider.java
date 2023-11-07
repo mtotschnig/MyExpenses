@@ -455,14 +455,14 @@ public class TransactionProvider extends BaseTransactionProvider {
         String amountCalculation;
         if (accountSelector != null) {
           selectionArgs = joinArrays(selectionArgs, new String[]{accountSelector});
-          accountSelectionQuery = " AND " + KEY_ACCOUNTID + accountSelectionQuery;
+          selection += " AND " + KEY_ACCOUNTID + accountSelectionQuery;
           amountCalculation = KEY_AMOUNT;
         } else {
           amountCalculation = DatabaseConstants.getAmountHomeEquivalent(CTE_TRANSACTION_AMOUNTS, getHomeCurrency());
         }
         String sumExpression = aggregateFunction + "(" + amountCalculation + ")";
         // if type flag is passed in, then we only return one type, otherwise two rows for expense and income are returned
-        String sql = transactionSumQuery(getTypeWithFallBack(), accountSelectionQuery, sumExpression, uri.getQueryParameter(KEY_TYPE));
+        String sql = transactionSumQuery(getTypeWithFallBack(), selection, sumExpression, uri.getQueryParameter(KEY_TYPE));
         c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
         return c;
       }

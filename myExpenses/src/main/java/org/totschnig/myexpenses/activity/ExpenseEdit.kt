@@ -228,6 +228,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     private var menuItem2TemplateMap: MutableMap<Int, DataTemplate> = mutableMapOf()
 
+    private val isSplitParent: Boolean
+        get() = operationType == TYPE_SPLIT
+
     private val isSplitPart: Boolean
         get() = parentId != 0L
 
@@ -383,7 +386,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     operationType = TYPE_TRANSACTION
                 }
                 val isNewTemplate = intent.getBooleanExtra(KEY_NEW_TEMPLATE, false)
-                if (operationType == TYPE_SPLIT) {
+                if (isSplitParent) {
+                    updateOnBackPressedCallbackEnabled()
                     val (contribFeature, allowed) = if (isNewTemplate) {
                         ContribFeature.SPLIT_TEMPLATE to
                                 prefHandler.getBoolean(PrefKey.NEW_SPLIT_TEMPLATE_ENABLED, true)
@@ -707,7 +711,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 viewModel.accounts.collect {
                     setAccounts(it)
                     collectSplitParts()
-                    if (operationType == TYPE_SPLIT) {
+                    if (isSplitParent) {
                         viewModel.loadSplitParts(delegate.rowId, isTemplate)
                     }
                 }
@@ -1251,18 +1255,21 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
+    override val onBackPressedCallbackEnabled: Boolean
+        get() = super.onBackPressedCallbackEnabled || isSplitParent || backwardCanceledTagsIntent() != null
+
     override fun dispatchOnBackPressed() {
         hideKeyboard()
         cleanup {
             backwardCanceledTagsIntent()?.let {
                 setResult(RESULT_CANCELED, it)
             }
-            super.dispatchOnBackPressed()
+            doHome()
         }
     }
 
     private fun cleanup(onComplete: () -> Unit) {
-        if (operationType == TYPE_SPLIT && ::delegate.isInitialized) {
+        if (isSplitParent && ::delegate.isInitialized) {
             delegate.rowId.let {
                 viewModel.cleanupSplit(it, isTemplate).observe(this) {
                     onComplete()
@@ -1353,7 +1360,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     private fun onSaved(result: Result<Long>, transaction: ITransaction) {
         result.onSuccess {
-            if (operationType == TYPE_SPLIT) {
+            if (isSplitParent) {
                 recordUsage(ContribFeature.SPLIT_TRANSACTION)
             }
             if (createNew) {
@@ -1677,6 +1684,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         super.handleDeletedTagIds(ids)
         if (isSplitPart) {
             viewModel.deletedTagIds = ids
+            updateOnBackPressedCallbackEnabled()
         }
     }
 }
