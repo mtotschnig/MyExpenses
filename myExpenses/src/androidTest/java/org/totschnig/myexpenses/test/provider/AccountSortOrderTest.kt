@@ -10,7 +10,7 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
-import org.totschnig.myexpenses.testutils.CursorSubject.Companion.assertThat
+import org.totschnig.shared_test.CursorSubject.Companion.assertThat
 import org.totschnig.myexpenses.util.Utils
 
 //TODO test grouping

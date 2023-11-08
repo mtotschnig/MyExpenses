@@ -6,13 +6,13 @@ import org.totschnig.myexpenses.model.Model
 import java.util.*
 
 data class TransactionInfo @JvmOverloads constructor(
-    val comment: String,
-    val date: Date,
-    val amount: Long,
     val accountId: Long,
+    val amount: Long,
+    val date: Date = Date(),
+    val comment: String = "",
     val payeeId: Long? = null,
     val debtId: Long? = null,
-    val catId : Long? = null,
+    val catId: Long? = null,
     val methodId: Long? = null
 ) {
     val dateAsLong: Long

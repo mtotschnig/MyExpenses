@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.testutils
+package org.totschnig.shared_test
 
 import android.database.Cursor
 import com.google.common.truth.FailureMetadata
@@ -19,12 +19,27 @@ class CursorSubject private constructor(
         columnCount().isEqualTo(expected)
     }
 
+    fun hasColumns(vararg columns: String) {
+        check("columns").that(actual.columnNames)
+            .asList()
+            .containsExactly(*columns)
+            .inOrder()
+    }
+
     fun movesToFirst() {
         check("moveToFirst").that(actual.moveToFirst()).isTrue()
     }
 
+    fun hasString(columnName: String, expected: String) {
+        check("hasString").that(actual.getString(actual.getColumnIndexOrThrow(columnName))).isEqualTo(expected)
+    }
+
     fun hasString(columnIndex: Int, expected: String) {
         check("hasString").that(actual.getString(columnIndex)).isEqualTo(expected)
+    }
+
+    fun hasLong(columnName: String, expected: Long) {
+        check("hasLong").that(actual.getLong(actual.getColumnIndexOrThrow(columnName))).isEqualTo(expected)
     }
 
     fun hasLong(columnIndex: Int, expected: Long) {

@@ -10,21 +10,26 @@ import org.totschnig.myexpenses.provider.getLocalDateIfExists
 import org.totschnig.myexpenses.provider.getLong
 import java.time.LocalDate
 
-data class HeaderData(
-    val account: PageAccount,
-    val groups: Map<Int, HeaderRow>,
-    val dateInfo: DateInfo,
-    val isFiltered: Boolean
-) {
-
+sealed interface HeaderDataResult {
+    val account: PageAccount
     fun calculateGroupId(transaction: Transaction2) = account.grouping.calculateGroupId(transaction.year, getSecond(transaction))
-
     private fun getSecond(transaction: Transaction2) = when(account.grouping) {
         Grouping.DAY -> transaction.day
         Grouping.WEEK -> transaction.week
         Grouping.MONTH -> transaction.month
         else -> 0
     }
+}
+
+data class HeaderDataEmpty(override val account: PageAccount): HeaderDataResult
+data class HeaderDataError(override val account: PageAccount): HeaderDataResult
+
+data class HeaderData(
+    override val account: PageAccount,
+    val groups: Map<Int, HeaderRow>,
+    val dateInfo: DateInfo,
+    val isFiltered: Boolean
+): HeaderDataResult {
 
     companion object {
         fun fromSequence(account: PageAccount, sequence: Sequence<Cursor>): Map<Int, HeaderRow> =

@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.*
+import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.groupingUriBuilder
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.enumValueOrNull
@@ -110,11 +111,10 @@ data class PageAccount(
     override val currency: String = currencyUnit.code
     fun groupingQuery(whereFilter: WhereFilter): Triple<Uri, String?, Array<String>?> {
         val filter = whereFilter.takeIf { !it.isEmpty }
-        val selection = filter?.getSelectionForParts(CTE_TRANSACTION_GROUPS)
+        val selection = filter?.getSelectionForParts(VIEW_WITH_ACCOUNT)
         val args = filter?.getSelectionArgs(true)
         return Triple(
-            Transaction.CONTENT_URI.buildUpon().appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
-                .appendPath(grouping.name).apply {
+            groupingUriBuilder(grouping).apply {
                     if (id > 0) {
                         appendQueryParameter(KEY_ACCOUNTID, id.toString())
                     } else if (!isHomeAggregate(id)) {

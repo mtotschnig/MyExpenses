@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.test.provider
 
 import android.content.ContentUris
 import org.totschnig.myexpenses.db2.findPaymentMethod
-import org.totschnig.myexpenses.feature.Payee
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -13,7 +12,8 @@ import org.totschnig.myexpenses.provider.TransactionInfo
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.testutils.BaseDbTest
-import org.totschnig.myexpenses.testutils.CursorSubject
+import org.totschnig.shared_test.CursorSubject
+import org.totschnig.shared_test.CursorSubject.Companion.assertThat
 import java.util.Date
 
 class AutoFillTest : BaseDbTest() {
@@ -31,30 +31,30 @@ class AutoFillTest : BaseDbTest() {
     private fun insertData() {
         val now = Date()
         testTransactions[0] = TransactionInfo(
-            "Transaction 0",
-            now,
-            0,
             testAccountId,
+            0,
+            now,
+            "Transaction 0",
             payeeId,
             null,
             catId1,
             methodCreditCardId
         )
         testTransactions[1] = TransactionInfo(
-            "Transaction 1",
-            now,
-            200,
             testAccountId,
+            200,
+            now,
+            "Transaction 1",
             payeeId,
             null,
             catId,
             methodChequeId
         )
         testTransactions[2] = TransactionInfo(
-            "Transaction 2",
-            now,
-            -100,
             testAccountId,
+            -100,
+            now,
+            "Transaction 2",
             payeeId1,
             null,
             catId,
@@ -116,7 +116,7 @@ class AutoFillTest : BaseDbTest() {
             null,
             null
         )!!.use {
-            with(CursorSubject.assertThat(it)) {
+            with(assertThat(it)) {
                 if (transaction != null) {
                     reportsTransaction(transaction)
                 } else {

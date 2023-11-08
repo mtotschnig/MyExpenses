@@ -819,7 +819,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 .takeIf { !it.isEmpty }?.let {
                     FilterCard(it, ::clearFilter)
                 }
-            headerData.collectAsState(null).value?.let { headerData ->
+            headerData.collectAsState().value.let { headerData ->
                 val withCategoryIcon =
                     viewModel.withCategoryIcon.collectAsState(initial = true).value
                 val lazyPagingItems =

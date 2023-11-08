@@ -290,7 +290,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
   public static final String URI_SEGMENT_UNDELETE = "undelete";
   public static final String URI_SEGMENT_INCREASE_USAGE = "increaseUsage";
-  public static final String URI_SEGMENT_GROUPS = "groups";
   public static final String URI_SEGMENT_CHANGE_FRACTION_DIGITS = "changeFractionDigits";
   public static final String URI_SEGMENT_TYPE_FILTER = "typeFilter";
   public static final String URI_SEGMENT_LAST_EXCHANGE = "lastExchange";

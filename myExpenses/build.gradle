@@ -311,6 +311,7 @@ dependencies {
     androidTestImplementation "org.assertj:assertj-core:$assertjVersionAndroid"
     androidTestImplementation "com.google.truth:truth:$truthVersion"
     androidTestImplementation "androidx.arch.core:core-testing:$androidxArchVersion"
+    androidTestImplementation(project(":shared-test"))
 
     testImplementation("com.adevinta.android:barista:$barista") {
         exclude group: 'org.jetbrains.kotlin' // Only if you already use Kotlin in your project
@@ -327,6 +328,7 @@ dependencies {
     testImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     testImplementation "androidx.test:rules:$androidSupportTestVersion"
     testImplementation "androidx.test.ext:junit:$androidxTextExtJunit"
+    testImplementation(project(":shared-test"))
 
 }
 

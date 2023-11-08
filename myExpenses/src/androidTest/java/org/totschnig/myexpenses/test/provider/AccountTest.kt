@@ -11,11 +11,22 @@ import org.junit.Test
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.SortDirection
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_BY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.SORT_URI
-import org.totschnig.myexpenses.testutils.CursorSubject.Companion.assertThat
+import org.totschnig.shared_test.CursorSubject.Companion.assertThat
 
 class AccountTest {
     @get:Rule

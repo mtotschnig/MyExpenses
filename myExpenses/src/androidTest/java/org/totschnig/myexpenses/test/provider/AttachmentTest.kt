@@ -19,7 +19,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.STALE_IMAGES_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_ATTACHMENTS_URI
 import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.testutils.BaseDbTest
-import org.totschnig.myexpenses.testutils.CursorSubject.Companion.assertThat
+import org.totschnig.shared_test.CursorSubject.Companion.assertThat
 import java.util.Date
 
 class AttachmentTest : BaseDbTest() {
@@ -38,7 +38,7 @@ class AttachmentTest : BaseDbTest() {
     private fun insertFixture() {
         val account = AccountInfo("Test account", AccountType.CASH, 0, "USD")
         val accountId = mDb.insert(TABLE_ACCOUNTS, account.contentValues)
-        val transaction = TransactionInfo("Transaction 0", Date(), 0, accountId)
+        val transaction = TransactionInfo(accountId, 0, Date(), "Transaction 0")
         //We insert two transactions, in order to have transactionId and attachmentId with different values,
         //so that a bug where they were mixed up, would surface
         mDb.insert(TABLE_TRANSACTIONS, transaction.contentValues)

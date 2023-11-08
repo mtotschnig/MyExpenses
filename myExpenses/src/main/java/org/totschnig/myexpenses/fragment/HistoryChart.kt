@@ -47,6 +47,7 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.groupingUriBuilder
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -304,8 +305,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
         if (id == GROUPING_CURSOR) {
             var selection: String? = null
             var selectionArgs: Array<String>? = null
-            val builder = TransactionProvider.TRANSACTIONS_URI.buildUpon()
-            //TODO enable filtering ?
+            val builder = groupingUriBuilder(grouping)
             if (!filter.isEmpty) {
                 selection =
                     filter.getSelectionForParts(DatabaseConstants.VIEW_EXTENDED) //GROUP query uses extended view
@@ -313,8 +313,6 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                     selectionArgs = filter.getSelectionArgs(true)
                 }
             }
-            builder.appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
-                .appendPath(grouping.name)
             if (!DataBaseAccount.isHomeAggregate(accountInfo.id)) {
                 if (DataBaseAccount.isAggregate(accountInfo.id)) {
                     builder.appendQueryParameter(

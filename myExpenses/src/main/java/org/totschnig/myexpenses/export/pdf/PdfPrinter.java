@@ -29,6 +29,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_WEEK_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.CTE_TRANSACTION_GROUPS;
 import static org.totschnig.myexpenses.provider.CursorExtKt.getLongOrNull;
 import static org.totschnig.myexpenses.provider.CursorExtKt.getString;
@@ -212,7 +213,7 @@ public class PdfPrinter {
     String selection;
     String[] selectionArgs;
     if (!filter.isEmpty()) {
-      selection = filter.getSelectionForParts(CTE_TRANSACTION_GROUPS);
+      selection = filter.getSelectionForParts(VIEW_WITH_ACCOUNT);
       selectionArgs = filter.getSelectionArgs(true);
     } else {
       selection = null;

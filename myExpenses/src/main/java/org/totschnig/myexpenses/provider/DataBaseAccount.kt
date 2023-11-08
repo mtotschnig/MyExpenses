@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.provider
 import android.net.Uri
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.groupingUriBuilder
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
@@ -44,7 +45,7 @@ abstract class DataBaseAccount {
 
     val groupingUri: Uri
         get() {
-            val baseUri = getGroupingBaseUriBuilder(grouping)
+            val baseUri = groupingUriBuilder(grouping)
             return when {
                 !isAggregate -> baseUri.appendQueryParameter(KEY_ACCOUNTID, id.toString())
                 isHomeAggregate -> baseUri
@@ -124,10 +125,5 @@ abstract class DataBaseAccount {
                     )
                         .build()
             }
-
-        protected fun getGroupingBaseUriBuilder(grouping: Grouping): Uri.Builder {
-            return Transaction.CONTENT_URI.buildUpon()
-                .appendPath(TransactionProvider.URI_SEGMENT_GROUPS).appendPath(grouping.name)
-        }
     }
 }

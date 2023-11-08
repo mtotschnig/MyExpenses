@@ -204,7 +204,7 @@ open class MyExpensesViewModel(
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val headerData: Map<PageAccount, Flow<HeaderData?>> = lazyMap { account ->
+    private val headerData: Map<PageAccount, StateFlow<HeaderDataResult>> = lazyMap { account ->
         filterPersistence.getValue(account.id).whereFilterAsFlow.flatMapLatest { filter ->
             val groupingQuery = account.groupingQuery(filter)
             contentResolver.observeQuery(
@@ -220,12 +220,12 @@ open class MyExpensesViewModel(
                         null
                     }?.use { cursor ->
                         HeaderData.fromSequence(account, cursor.asSequence)
-                    } ?: emptyMap()
+                    }
                 }
             }.combine(dateInfo) { headerData, dateInfo ->
-                HeaderData(account, headerData, dateInfo, !filter.isEmpty)
+                headerData?.let { HeaderData(account, it, dateInfo, !filter.isEmpty)  } ?: HeaderDataError(account)
             }
-        }.stateIn(viewModelScope, SharingStarted.Lazily, null)
+        }.stateIn(viewModelScope, SharingStarted.Lazily, HeaderDataEmpty(account))
     }
 
     private val pagingSourceFactories: Map<PageAccount, ClearingLastPagingSourceFactory<Int, Transaction2>> = lazyMap {

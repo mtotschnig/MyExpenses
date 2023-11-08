@@ -60,7 +60,7 @@ import kotlin.math.roundToInt
 private fun LazyPagingItems<Transaction2>.getCurrentPosition(
     startIndex: Pair<Int, Int>,
     sortDirection: SortDirection,
-    headerData: HeaderData,
+    headerData: HeaderDataResult,
     collapsedIds: Set<String>
 ): Pair<Pair<Int, Int>?, Boolean> {
     var (index, visibleIndex) = startIndex
@@ -102,7 +102,7 @@ enum class FutureCriterion {
 fun TransactionList(
     modifier: Modifier,
     lazyPagingItems: LazyPagingItems<Transaction2>,
-    headerData: HeaderData,
+    headerData: HeaderDataResult,
     budgetData: State<BudgetData?>,
     selectionHandler: SelectionHandler?,
     menuGenerator: (Transaction2) -> Menu? = { null },
@@ -128,7 +128,6 @@ fun TransactionList(
         }
     } else {
         val futureBackgroundColor = colorResource(id = R.color.future_background)
-        val showOnlyDelta = headerData.account.isHomeAggregate || headerData.isFiltered
         val scrollToCurrentDateStartIndex = remember {
             mutableStateOf(if (scrollToCurrentDate.value) 0 to 0 else null)
         }
@@ -191,31 +190,37 @@ fun TransactionList(
                     val isGroupHidden = collapsedIds?.contains(headerId.toString()) ?: false
                     if (headerId !== null && headerId != lastHeader) {
                         stickyHeader(key = headerId) {
-                            headerData.groups[headerId]
-                                ?.let { headerRow ->
-                                    // reimplement DbConstants.budgetColumn outside of Database
-                                    val budget = budgetData.value?.let { data ->
-                                        (data.data.find { it.headerId == headerId }
-                                            ?: data.data.lastOrNull { !it.oneTime && it.headerId < headerId })?.let {
-                                            data.budgetId to it.amount
+                            when (headerData) {
+                                is HeaderData -> {
+                                    headerData.groups[headerId]?.let { headerRow ->
+                                        // reimplement DbConstants.budgetColumn outside of Database
+                                        val budget = budgetData.value?.let { data ->
+                                            (data.data.find { it.headerId == headerId }
+                                                ?: data.data.lastOrNull { !it.oneTime && it.headerId < headerId })?.let {
+                                                data.budgetId to it.amount
+                                            }
                                         }
+                                        HeaderRenderer(
+                                            account = headerData.account,
+                                            headerId = headerId,
+                                            headerRow = headerRow,
+                                            dateInfo = headerData.dateInfo,
+                                            budget = budget,
+                                            isExpanded = !isGroupHidden,
+                                            toggle = expansionHandler?.let {
+                                                { expansionHandler.toggle(headerId.toString()) }
+                                            },
+                                            onBudgetClick = onBudgetClick,
+                                            showSumDetails = showSumDetails,
+                                            showOnlyDelta = headerData.account.isHomeAggregate || headerData.isFiltered
+                                        )
+                                        Divider()
                                     }
-                                    HeaderRenderer(
-                                        account = headerData.account,
-                                        headerId = headerId,
-                                        headerRow = headerRow,
-                                        dateInfo = headerData.dateInfo,
-                                        budget = budget,
-                                        isExpanded = !isGroupHidden,
-                                        toggle = expansionHandler?.let {
-                                            { expansionHandler.toggle(headerId.toString()) }
-                                        },
-                                        onBudgetClick = onBudgetClick,
-                                        showSumDetails = showSumDetails,
-                                        showOnlyDelta = showOnlyDelta
-                                    )
-                                    Divider()
                                 }
+
+                                is HeaderDataEmpty -> {}
+                                is HeaderDataError -> { Text("Error loading group header data", color = MaterialTheme.colorScheme.error) }
+                            }
                         }
                     }
                     val isLast = index == lazyPagingItems.itemCount - 1
@@ -336,7 +341,10 @@ fun HeaderData(
                 }
                 Text(
                     modifier = Modifier.padding(horizontal = generalPadding),
-                    text = "⊖ " + amountFormatter.formatMoney(headerRow.expenseSum, configureExpenseSum),
+                    text = "⊖ " + amountFormatter.formatMoney(
+                        headerRow.expenseSum,
+                        configureExpenseSum
+                    ),
                     color = LocalColors.current.expense
                 )
                 Text(

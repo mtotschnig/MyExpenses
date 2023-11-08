@@ -56,7 +56,7 @@ class TransactionDebtTest: BaseDbTest() {
         )
         closedTransaction = mDb.insert(
             DatabaseConstants.TABLE_TRANSACTIONS,
-            TransactionInfo("Transaction closed", Date(), 0, testAccountId, payeeId1, closedDebt).contentValues
+            TransactionInfo(testAccountId, 0, Date(), "Transaction closed", payeeId1, closedDebt).contentValues
         )
         mDb.update(TABLE_DEBTS, ContentValues(1).apply { put(KEY_SEALED, 1) },
             "$KEY_ROWID = ?", arrayOf(closedDebt.toString()))
@@ -88,7 +88,14 @@ class TransactionDebtTest: BaseDbTest() {
     }
 
     fun testInsertIntoSealedDebtShouldFail() {
-        val testTransaction = TransactionInfo("Transaction 0", Date(), 0, testAccountId, payeeId1, closedDebt)
+        val testTransaction = TransactionInfo(
+            testAccountId,
+            0,
+            Date(),
+            "Transaction 0",
+            payeeId1,
+            closedDebt
+        )
 
         try {
             mDb.insert(

@@ -21,12 +21,10 @@ import android.database.sqlite.SQLiteConstraintException
 import androidx.core.database.getLongOrNull
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.testutils.BaseDbTest
-import org.totschnig.myexpenses.testutils.CursorSubject
 import org.totschnig.myexpenses.util.ColorUtils
 
 class CategoryTest : BaseDbTest() {

@@ -256,6 +256,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
         const val TAG = "TransactionProvider"
 
+        protected const val URI_SEGMENT_GROUPS = "groups"
+
         fun LIVE_ATTACHMENT_SELECTION(withUUIDSelection: Boolean = false) =
             "EXISTS(SELECT 1 FROM $TABLE_TRANSACTION_ATTACHMENTS WHERE $KEY_ATTACHMENT_ID = $KEY_ROWID" +
                     (if (withUUIDSelection) " AND $KEY_TRANSACTIONID = (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)" else "") +
@@ -269,6 +271,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 .appendPath(accountId.toString())
                 .appendPath(grouping.name)
                 .build()
+
+        fun groupingUriBuilder(grouping: Grouping): Uri.Builder = TransactionProvider.TRANSACTIONS_URI
+                .buildUpon()
+                .appendPath(URI_SEGMENT_GROUPS)
+                .appendPath(grouping.name)
 
         protected const val TRANSACTIONS = 1
         protected const val TRANSACTION_ID = 2
@@ -1101,13 +1108,13 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }.toTypedArray()
 
         val sql = buildTransactionGroupCte(
-            accountQuery,
+            listOfNotNull(accountQuery, selection).joinToString(" AND "),
             forHome,
             typeWithFallBack
         ) + " " +
                 SupportSQLiteQueryBuilder.builder(CTE_TRANSACTION_GROUPS)
                     .columns(projection)
-                    .selection(selection, finalArgs)
+                    .selection(null, finalArgs)
                     .groupBy(groupBy)
                     .create()
                     .sql

@@ -1,0 +1,22 @@
+plugins {
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
+}
+
+android {
+    namespace = "org.totschnig.shared_test"
+    compileSdk = 34
+
+    defaultConfig {
+        minSdk = 21
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation("com.google.truth:truth:$truthVersion")
+}
