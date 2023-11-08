@@ -1018,7 +1018,7 @@
     </plurals>
     <string name="upgrade_info_557">كيف تحب التصميم الجديد؟ من فضلك، اسمحوا لنا أن نعرف. يمكن تفعيل متغير أقرب إلى التصميم القديم في الإعدادات (%1$s -&gt; %2$s).</string>
     <string name="pref_unmapped_transaction_as_transfer_title">المعاملات غير المعينة</string>
-    <string name="github_sponsors">يتم توفير مفاتيح الترخيص أيضًا إلى رعاة Github</string>
+    <string name="github_sponsors">يتم توفير مفاتيح الترخيص أيضًا إلى رعاة &lt;a href=%s&gt;Github&lt;/a&gt;</string>
     <string name="whats_new_364_2">استراتيجية جديدة لإدارة معلومات الدافع/المدفوع لأمره المكررة</string>
     <string name="select_template">حدد قالب</string>
     <string name="budget_only_current_period">تعيين لـ %s فقط</string>
