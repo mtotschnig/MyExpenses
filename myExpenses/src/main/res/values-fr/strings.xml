@@ -556,8 +556,8 @@
     <string name="pref_sync_frequency_summary">À quelle fréquence les données devraient être synchronisés (en heures)</string>
     <string name="dialog_confirm_sync_unlink">Si vous supprimez le lien de ce compte de %s, l’état de synchronisation se perdra. Pour les relier à nouveau plus tard, il sera nécessaire de faire une synchronisation complète pour être de nouveau exécutée.</string>
     <string name="dialog_sync_link">Un compte avec l’uuid %s existe dans la base de données locale et sur le serveur distant. Lorsque vous liez les deux, vous devez décider, si, au départ, vous souhaitez télécharger les données locales au serveur distant ou télécharger des données distantes à la base de données locale.</string>
-    <string name="dialog_command_sync_link_remote">Télécharger du site distant</string>
-    <string name="dialog_command_sync_link_local">Télécharger en local</string>
+    <string name="dialog_command_sync_link_remote">Télécharger du distant vers le local</string>
+    <string name="dialog_command_sync_link_local">Télécharger du local vers le distant</string>
     <string name="dialog_synced_to_other">Un compte avec l’uuid %s déjà existe dans la base de données locale et est lié à un serveur distant différent.</string>
     <string name="menu_remove">Supprimer</string>
     <string name="dialog_confirm_sync_remove_backend">Le serveur distant %s sera supprimé. Cela n’affectera pas les données stockées localement ou à distance, mais l’état de synchronisation se perdra.</string>
