@@ -73,12 +73,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
                 R.id.PayeeRow, R.id.AccountRow
             )
-            onView(
-                withIdAndParent(
-                    R.id.AmountEditText,
-                    R.id.Amount
-                )
-            ).check(matches(withText("5")))
+            checkAmount(5)
         }
     }
 
@@ -109,18 +104,8 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         )
         foreignTransfer.save(contentResolver)
         load(foreignTransfer.id).use {
-            onView(
-                withIdAndParent(
-                    R.id.AmountEditText,
-                    R.id.Amount
-                )
-            ).check(matches(withText("1")))
-            onView(
-                withIdAndParent(
-                    R.id.AmountEditText,
-                    R.id.TransferAmount
-                )
-            ).check(matches(withText("2")))
+            checkAmount(1)
+            checkAmount(2, R.id.TransferAmount)
             onView(
                 withIdAndAncestor(
                     R.id.ExchangeRateEdit1,
@@ -162,12 +147,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
                 R.id.TransferAccountRow
             )
-            onView(
-                withIdAndParent(
-                    R.id.AmountEditText,
-                    R.id.Amount
-                )
-            ).check(matches(withText("6")))
+            checkAmount(6)
             checkTransferDirection(loadFromPeer)
 
         }
@@ -221,12 +201,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 R.id.TransferAccountRow
             )
             toolbarTitle().check(matches(withText(R.string.menu_create_transfer)))
-            onView(
-                withIdAndParent(
-                    R.id.AmountEditText,
-                    R.id.Amount
-                )
-            ).check(matches(withText("6")))
+            checkAmount(6)
             checkTransferDirection(loadFromPeer)
         }
     }
@@ -242,12 +217,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                     ).id
                 ).isEqualTo(R.id.TransferAccount)
             }
-            onView(
-                withIdAndParent(
-                    R.id.AmountEditText,
-                    R.id.Amount
-                )
-            ).check(matches(withText("6")))
+            checkAmount(6)
         }
     }
 
@@ -262,12 +232,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                     ).id
                 ).isEqualTo(R.id.Account)
             }
-            onView(
-                withIdAndParent(
-                    R.id.AmountEditText,
-                    R.id.Amount
-                )
-            ).check(matches(withText("6")))
+            checkAmount(6)
         }
     }
 
@@ -366,12 +331,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             testScenario.onActivity { activity: ExpenseEdit ->
                 Assertions.assertThat(activity.isTemplate).isTrue()
             }
-            onView(
-                withIdAndParent(
-                    R.id.AmountEditText,
-                    R.id.Amount
-                )
-            ).check(matches(withText("7")))
+            checkAmount(7)
             onView(withId(R.id.Title))
                 .check(matches(withText("Daily plan")))
 
@@ -404,13 +364,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             testScenario.onActivity { activity: ExpenseEdit ->
                 Assertions.assertThat(activity.isTemplate).isFalse()
             }
-            onView(
-                withIdAndParent(
-                    R.id.AmountEditText,
-                    R.id.Amount
-                )
-            ).check(matches(withText("8")))
-
+            checkAmount(8)
         }
     }
 

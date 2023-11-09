@@ -639,9 +639,6 @@ public class Transaction extends Model implements ITransaction {
    * it will be mapped to an existing or new row in payee table during save
    */
   public void setPayee(String payee) {
-    if (!this.payee.equals(payee)) {
-      this.setPayeeId(null);
-    }
     this.payee = payee;
   }
 

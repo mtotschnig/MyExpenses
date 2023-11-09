@@ -105,9 +105,8 @@ abstract class MainDelegate<T : ITransaction>(
             this.amount = amount
             if (this@MainDelegate.payeeId != null) {
                 this.payeeId = this@MainDelegate.payeeId
-            } else {
-                payee = viewBinding.Payee.text.toString().trim()
             }
+            payee = viewBinding.Payee.text.toString().trim()
             this.debtId = this@MainDelegate.debtId
             this.methodId = this@MainDelegate.methodId
             val selectedItem = viewBinding.OriginalAmount.selectedCurrency

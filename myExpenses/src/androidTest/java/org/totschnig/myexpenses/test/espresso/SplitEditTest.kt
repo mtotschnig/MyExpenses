@@ -8,9 +8,7 @@ import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBackUnconditionally
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.scrollTo
-import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -30,7 +28,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.adapter.IdHolder
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
-import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Transaction
@@ -38,9 +35,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.testutils.Espresso.withIdAndParent
 import org.totschnig.myexpenses.testutils.withAccount
-import org.totschnig.myexpenses.testutils.withOperationType
 
 class SplitEditTest : BaseExpenseEditTest() {
     private val accountLabel1 = "Test label 1"
@@ -66,14 +61,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         closeSoftKeyboard()
         onView(withId(R.id.CREATE_PART_COMMAND)).perform(scrollTo(), click())
         setAmount(50)
-        onView(withId(R.id.OperationType)).perform(click())
-        onData(
-            allOf(
-                instanceOf(TransactionDelegate.OperationType::class.java),
-                withOperationType(Transactions.TYPE_TRANSFER)
-            )
-        ).perform(click())
-        onView(withId(R.id.TransferAccount)).perform(scrollTo(), click())
+        setOperationType(Transactions.TYPE_TRANSFER)
         onData(
             allOf(
                 instanceOf(IdHolder::class.java),

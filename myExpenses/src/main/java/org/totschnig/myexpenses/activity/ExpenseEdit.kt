@@ -820,6 +820,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             transaction.crStatus = cached.crStatus
             transaction.comment = cached.comment
             transaction.payee = cached.payee
+            transaction.payeeId = cached.payeeId
             (transaction as? Template)?.let { template ->
                 with(cached.cachedTemplate!!) {
                     template.title = title
@@ -1580,6 +1581,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         val valueDate: Long,
         val crStatus: CrStatus,
         val comment: String?,
+        val payeeId: Long?,
         val payee: String?,
         val cachedTemplate: CachedTemplate?,
         val referenceNumber: String?,
@@ -1606,6 +1608,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             valueDate,
             crStatus,
             comment,
+            payeeId,
             payee,
             (this as? Template)?.run {
                 CachedTemplate(

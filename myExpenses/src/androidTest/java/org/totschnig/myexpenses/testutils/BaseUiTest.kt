@@ -36,7 +36,6 @@ import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.PlannerUtils
-import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.DebugCurrencyFormatter
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
@@ -212,4 +211,8 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
 
     protected fun writeCategory(label: String, parentId: Long? = null) =
         ContentUris.parseId(repository.saveCategory(Category(label = label, parentId = parentId))!!)
+
+    fun unlock() {
+        (app.appComponent.licenceHandler() as MockLicenceHandler).setLockState(false)
+    }
 }

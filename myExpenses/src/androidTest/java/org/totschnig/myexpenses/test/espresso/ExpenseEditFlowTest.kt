@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.test.espresso
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
@@ -46,12 +45,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
      */
     @Test
     fun testScenarioForBug5b11072e6007d59fcd92c40b() {
-        onView(
-            Espresso.withIdAndParent(
-                R.id.AmountEditText,
-                R.id.Amount
-            )
-        ).perform(ViewActions.typeText(10.toString()))
+        setAmount(10)
         onView(Espresso.withIdAndParent(R.id.TaType, R.id.Amount))
             .perform(click())
         closeSoftKeyboard()
@@ -65,12 +59,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
 
     @Test
     fun calculatorMaintainsType() {
-        onView(
-            Espresso.withIdAndParent(
-                R.id.AmountEditText,
-                R.id.Amount
-            )
-        ).perform(ViewActions.typeText("123"))
+        setAmount(123)
         closeSoftKeyboard()
         onView(
             Espresso.withIdAndParent(
@@ -89,11 +78,6 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         clickMenuItem(R.id.MANAGE_TEMPLATES_COMMAND)
         onView(withText("Template")).perform(click())
         toolbarTitle().check(ViewAssertions.matches(withText(R.string.menu_create_transaction)))
-        onView(
-            Espresso.withIdAndParent(
-                R.id.AmountEditText,
-                R.id.Amount
-            )
-        ).check(ViewAssertions.matches(withText("5")))
+        checkAmount(5)
     }
 }

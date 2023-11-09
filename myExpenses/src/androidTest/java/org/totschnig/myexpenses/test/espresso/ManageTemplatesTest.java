@@ -22,7 +22,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
-import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
@@ -30,7 +29,6 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model2.Account;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
-import org.totschnig.myexpenses.testutils.MockLicenceHandler;
 
 //TODO test CAB actions
 public class ManageTemplatesTest extends BaseUiTest<ManageTemplates> {
@@ -124,11 +122,5 @@ public class ManageTemplatesTest extends BaseUiTest<ManageTemplates> {
       case "SAVE" -> verifySaveAction();
       case "EDIT" -> verifyEditAction();
     }
-  }
-
-  private void unlock() {
-    final AppComponent appComponent = getApp().getAppComponent();
-    MockLicenceHandler licenceHandler = ((MockLicenceHandler) appComponent.licenceHandler());
-    licenceHandler.setLockState(false);
   }
 }

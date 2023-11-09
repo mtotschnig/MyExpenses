@@ -39,7 +39,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.test.espresso.SettingsTest
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
-import org.totschnig.myexpenses.testutils.MockLicenceHandler
 import org.totschnig.myexpenses.testutils.withPositionInParent
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.versionNumber
 import tools.fastlane.screengrab.Screengrab
@@ -156,7 +155,7 @@ class TestMain : BaseMyExpensesTest() {
     private fun loadFixture(withPicture: Boolean) {
         //LocaleTestRule only configure for app context, fixture loads resources from instrumentation context
         LocaleUtil.localeFromString(LocaleUtil.getTestLocale())?.let { configureLocale(it) }
-        (app.licenceHandler as MockLicenceHandler).setLockState(false)
+        unlock()
         app.fixture.setup(withPicture, repository, app.appComponent.plannerUtils(), homeCurrency)
         prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, app.fixture.account1.id)
         prefHandler.putInt(PrefKey.CURRENT_VERSION, versionNumber)
