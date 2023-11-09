@@ -22,7 +22,7 @@ open class CurrencyViewModel(application: Application) :
             TransactionProvider.CURRENCIES_URI, null, null, null,
             KEY_CODE, true
         )
-            .mapToList { Currency.create(it, userPreferredLocale) }
+            .mapToList(dispatcher = coroutineDispatcher) { Currency.create(it, userPreferredLocale) }
             .map { it.sorted() }
 
     val currenciesFromEnum: List<Currency>

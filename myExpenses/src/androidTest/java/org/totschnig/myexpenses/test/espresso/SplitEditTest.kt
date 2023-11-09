@@ -62,6 +62,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         onView(withId(R.id.CREATE_PART_COMMAND)).perform(scrollTo(), click())
         setAmount(50)
         setOperationType(Transactions.TYPE_TRANSFER)
+        onView(withId(R.id.TransferAccount)).perform(scrollTo(), click())
         onData(
             allOf(
                 instanceOf(IdHolder::class.java),
