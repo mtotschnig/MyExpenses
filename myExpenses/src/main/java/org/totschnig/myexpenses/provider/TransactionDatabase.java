@@ -685,7 +685,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         long catId = j % categories;
         long payeeId = db.insert(DatabaseConstants.TABLE_PAYEES, CONFLICT_NONE, new PayeeInfo("Payee " + i + "_" + j).getContentValues());
         date -= dayInSeconds;
-        TransactionInfo transactionInfo = new TransactionInfo("Transaction " + j, new Date(date * 1000), 0, testAccountId, payeeId, null, catId);
+        TransactionInfo transactionInfo = new TransactionInfo(testAccountId, 0, new Date(date * 1000), "Transaction " + j, payeeId, null, catId);
         db.insert(
             DatabaseConstants.TABLE_TRANSACTIONS,
             CONFLICT_NONE,

@@ -16,6 +16,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -173,6 +174,10 @@ fun TransactionList(
                     scrollToCurrentDate.value = false
                 }
             }
+            val headersWithSumDetails = rememberMutableStateMapOf<Int, Boolean>(
+                defaultValue = showSumDetails,
+                showSumDetails
+            )
             LazyColumn(
                 modifier = modifier
                     .testTag(TEST_TAG_LIST)
@@ -211,15 +216,22 @@ fun TransactionList(
                                                 { expansionHandler.toggle(headerId.toString()) }
                                             },
                                             onBudgetClick = onBudgetClick,
-                                            showSumDetails = showSumDetails,
+                                            showSumDetails = headersWithSumDetails.getValue(headerId),
                                             showOnlyDelta = headerData.account.isHomeAggregate || headerData.isFiltered
-                                        )
+                                        ) {
+                                            headersWithSumDetails[headerId] = it
+                                        }
                                         Divider()
                                     }
                                 }
 
                                 is HeaderDataEmpty -> {}
-                                is HeaderDataError -> { Text("Error loading group header data", color = MaterialTheme.colorScheme.error) }
+                                is HeaderDataError -> {
+                                    Text(
+                                        "Error loading group header data",
+                                        color = MaterialTheme.colorScheme.error
+                                    )
+                                }
                             }
                         }
                     }
@@ -282,11 +294,11 @@ fun HeaderData(
     dateInfo: DateInfo,
     showSumDetails: Boolean,
     showOnlyDelta: Boolean,
-    alignStart: Boolean = false,
+    updateShowSumDetails: (Boolean) -> Unit,
+    alignStart: Boolean = false
 ) {
     val context = LocalContext.current
     val amountFormatter = LocalCurrencyFormatter.current
-    val showSumDetailsState = remember(showSumDetails) { mutableStateOf(showSumDetails) }
 
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -316,7 +328,7 @@ fun HeaderData(
                 modifier = Modifier
                     .padding(horizontal = 6.dp)
                     .clickable {
-                        showSumDetailsState.value = !showSumDetailsState.value
+                        updateShowSumDetails(!showSumDetails)
                     },
                 text = delta
             )
@@ -324,7 +336,7 @@ fun HeaderData(
                 Text(" = " + amountFormatter.formatMoney(headerRow.interimBalance))
             }
         }
-        if (showSumDetailsState.value) {
+        if (showSumDetails) {
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = if (alignStart) Arrangement.Start else Arrangement.Center
@@ -367,7 +379,8 @@ fun HeaderRenderer(
     toggle: (() -> Unit)?,
     onBudgetClick: (Long, Int) -> Unit,
     showSumDetails: Boolean,
-    showOnlyDelta: Boolean
+    showOnlyDelta: Boolean,
+    updateShowSumDetails: (Boolean) -> Unit = {}
 ) {
 
     Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
@@ -391,17 +404,26 @@ fun HeaderRenderer(
                     fontSize = 12.sp,
                     color = Color(account.color(LocalContext.current.resources))
                 )
+
                 HeaderData(
                     account.grouping,
                     headerRow,
                     dateInfo,
                     showSumDetails,
                     showOnlyDelta,
+                    updateShowSumDetails,
                     alignStart = true
                 )
             }
         } else {
-            HeaderData(account.grouping, headerRow, dateInfo, showSumDetails, showOnlyDelta)
+            HeaderData(
+                account.grouping,
+                headerRow,
+                dateInfo,
+                showSumDetails,
+                showOnlyDelta,
+                updateShowSumDetails
+            )
         }
     }
 }

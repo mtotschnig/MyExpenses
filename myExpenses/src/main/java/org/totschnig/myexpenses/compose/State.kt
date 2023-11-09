@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.toMutableStateList
@@ -28,6 +29,19 @@ fun <K, V> rememberMutableStateMapOf(vararg pairs: Pair<K, V>)  =
     ) {
         pairs.toList().toMutableStateMap()
     }
+
+@Composable
+fun <K, V> rememberMutableStateMapOf(defaultValue: V, vararg inputs: Any?)  =
+    rememberSaveable(
+        inputs = inputs,
+        saver = listSaver(
+            save = { it.toList() },
+            restore = { it.toMutableStateMap().withDefault { defaultValue } }
+        )
+    ) {
+        mutableStateMapOf<K, V>().withDefault { defaultValue }
+    }
+
 
 fun <T> MutableState<List<T>>.toggle(element: T) = if (value.contains(element)) {
     value = value - element
