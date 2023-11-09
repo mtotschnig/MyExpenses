@@ -12,6 +12,7 @@ import androidx.preference.Preference.OnPreferenceChangeListener
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
@@ -23,6 +24,11 @@ class PreferenceDataFragment: BasePreferenceFragment() {
     private val currencyViewModel: CurrencyViewModel by viewModels()
 
     override val preferencesResId = R.xml.preferences_data
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        injector.inject(currencyViewModel)
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
