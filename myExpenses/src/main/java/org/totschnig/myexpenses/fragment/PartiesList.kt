@@ -62,6 +62,7 @@ import org.totschnig.myexpenses.util.configureSearch
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.prepareSearch
+import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.viewmodel.MergeStrategy
 import org.totschnig.myexpenses.viewmodel.PartyListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Party
@@ -78,8 +79,6 @@ class PartiesList : Fragment(), OnDialogResultListener {
 
     val manageParties: ManageParties
         get() = (activity as ManageParties)
-
-    private var mergeMenuItem: MenuItem? = null
 
     inner class ViewHolder(val binding: PayeeRowBinding, private val itemCallback: ItemCallback) :
         RecyclerView.ViewHolder(binding.root) {
@@ -354,7 +353,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
             val idToKeep = selectedItemIds[bundle.getInt(KEY_POSITION)]
             viewModel.mergeParties(
                 selectedItemIds.subtract(setOf(idToKeep)),
-                selectedItemIds[bundle.getInt(KEY_POSITION)],
+                idToKeep,
                 bundle.getSerializable(KEY_STRATEGY) as MergeStrategy
             )
             adapter.clearSelection()
@@ -386,7 +385,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
         if (activity == null) return
         inflater.inflate(R.menu.search, menu)
         if (action == Action.MANAGE) {
-            mergeMenuItem = menu.add(Menu.NONE, R.id.MERGE_COMMAND, 0, R.string.menu_merge).apply {
+            menu.add(Menu.NONE, R.id.MERGE_COMMAND, 0, R.string.menu_merge).apply {
                 setIcon(R.drawable.ic_menu_split_transaction)
                 isCheckable = true
             }
@@ -418,7 +417,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
 
     private fun updateUiMergeMode() {
         with(manageParties) {
-            mergeMenuItem?.isChecked = mergeMode
+            invalidateOptionsMenu()
             configureFloatingActionButton()
             setFabEnabled(!mergeMode)
         }
@@ -432,7 +431,8 @@ class PartiesList : Fragment(), OnDialogResultListener {
     @Deprecated("Deprecated in Java")
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        mergeMenuItem?.let {
+        menu.findItem(R.id.MERGE_COMMAND)?.let {
+            it.setEnabledAndVisible(adapter.itemCount > 1)
             it.isChecked = mergeMode
         }
         prepareSearch(menu, viewModel.filter)
@@ -474,9 +474,6 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.parties(action != Action.SELECT_FILTER)
                         .collect { parties: List<Party> ->
-                            if (viewModel.filter.isNullOrEmpty()) {
-                                activity?.invalidateOptionsMenu()
-                            }
                             if (action != Action.SELECT_FILTER) {
                                 binding.empty.visibility =
                                     if (parties.isEmpty()) View.VISIBLE else View.GONE
@@ -490,7 +487,11 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                     )
                                 else
                                     parties
-                            )
+                            ) {
+                                if (viewModel.filter.isNullOrEmpty()) {
+                                    activity?.invalidateOptionsMenu()
+                                }
+                            }
                         }
                 }
             }
