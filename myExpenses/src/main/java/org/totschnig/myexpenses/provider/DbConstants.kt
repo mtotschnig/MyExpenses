@@ -470,7 +470,7 @@ fun buildTransactionGroupCte(
         }
         append(", cast(")
         append(getAmountCalculation(forHome))
-        append(" AS integer) AS $KEY_AMOUNT")
+        append(" AS integer) AS $KEY_DISPLAY_AMOUNT")
         append(" FROM $VIEW_WITH_ACCOUNT")
         append(" WHERE $WHERE_NOT_SPLIT AND $WHERE_NOT_VOID AND $selection)")
     }

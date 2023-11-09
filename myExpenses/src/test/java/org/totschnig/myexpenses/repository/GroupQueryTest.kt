@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionInfo
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.viewmodel.data.Category
@@ -69,7 +70,7 @@ class GroupQueryTest : BaseTestWithRepository() {
     }
 
     @Test
-    fun groupQueryWithoutFilter() {
+    fun groupQueryFilterWithCategoryFilter() {
         val filter = WhereFilter(listOf(CategoryCriterion("Neutral", searchCategory)))
         contentResolver.query(
             BaseTransactionProvider.groupingUriBuilder(Grouping.NONE).build(),
@@ -98,7 +99,42 @@ class GroupQueryTest : BaseTestWithRepository() {
     }
 
     @Test
-    fun groupQueryWithFilter() {
+    fun groupQueryFilterWithAmountFilter() {
+        val filter = WhereFilter(
+            listOf(
+                AmountCriterion.create(
+                    WhereFilter.Operation.EQ, "EUR",  true, 400L, null
+                )
+            )
+        )
+        contentResolver.query(
+            BaseTransactionProvider.groupingUriBuilder(Grouping.NONE).build(),
+            null,
+            filter.getSelectionForParts(VIEW_WITH_ACCOUNT),
+            filter.getSelectionArgs(true),
+            null
+        )?.use {
+            with(assertThat(it)) {
+                hasCount(1)
+                hasColumns(
+                    KEY_YEAR,
+                    KEY_SECOND_GROUP,
+                    KEY_SUM_EXPENSES,
+                    KEY_SUM_INCOME,
+                    KEY_SUM_TRANSFERS
+                )
+                movesToFirst()
+                hasInt(0, 1)
+                hasInt(1, 1)
+                hasLong(2, 0)
+                hasLong(3, 400)
+                hasLong(4, 0)
+            }
+        }
+    }
+
+    @Test
+    fun groupQueryWithoutFilter() {
         contentResolver.query(
             BaseTransactionProvider.groupingUriBuilder(Grouping.NONE).build(),
             null,
