@@ -29,6 +29,7 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.BANK_C
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PARTY_HIERARCHY_TRIGGER;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_UNIQUE_INDEX;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.SPLIT_PART_CR_STATUS_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_ATTACHMENTS_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_CAT_ID_INDEX;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_PAYEE_ID_INDEX;
@@ -588,6 +589,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
   @Override
   public void onCreate(SupportSQLiteDatabase db) {
     db.execSQL(DATABASE_CREATE);
+    db.execSQL(SPLIT_PART_CR_STATUS_TRIGGER_CREATE);
     db.execSQL(ATTACHMENTS_CREATE);
     db.execSQL(TRANSACTIONS_ATTACHMENTS_CREATE);
     db.execSQL(TRANSACTIONS_UUID_INDEX_CREATE);
@@ -2156,6 +2158,11 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         db.execSQL("UPDATE categories set type = 3 where _id != 0");
         createOrRefreshViews(db);
         createCategoryTypeTriggers(db);
+      }
+
+      if (oldVersion < 152) {
+        db.execSQL("update transactions set cr_status = (select cr_status from transactions parent where parent._id = transactions.parent_id) where parent_id is not null");
+        db.execSQL(SPLIT_PART_CR_STATUS_TRIGGER_CREATE);
       }
 
       TransactionProvider.resumeChangeTrigger(db);
