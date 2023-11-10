@@ -3,4 +3,5 @@
     <dimen name="calculator_button_min">50dp</dimen>
     <dimen name="calculator_button_text_size">24sp</dimen>
     <dimen name="calculator_button_layout_margin">3dp</dimen>
+    <integer name="filter_chip_max_lines">4</integer>
 </resources>

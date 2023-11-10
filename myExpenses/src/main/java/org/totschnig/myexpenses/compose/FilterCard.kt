@@ -13,7 +13,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.filter.WhereFilter
@@ -43,7 +45,7 @@ fun FilterCard(whereFilter: WhereFilter?, clearFilter: () -> Unit) {
                     selected = true,
                     onClick = { },
                     label = {
-                        Text(it.prettyPrint(LocalContext.current))
+                        Text(it.prettyPrint(LocalContext.current), maxLines = integerResource(id = R.integer.filter_chip_max_lines), overflow = TextOverflow.Ellipsis)
                     }
                 )
             }

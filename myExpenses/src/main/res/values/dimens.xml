@@ -52,4 +52,6 @@
 
     <dimen name="preferences_header_width">300dp</dimen>
     <dimen name="preview_today_translation">0dp</dimen>
+
+    <integer name="filter_chip_max_lines">2</integer>
 </resources>
