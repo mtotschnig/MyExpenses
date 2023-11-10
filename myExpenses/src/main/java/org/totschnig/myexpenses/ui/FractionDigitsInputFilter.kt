@@ -27,9 +27,14 @@ class FractionDigitsInputFilter(
     ): CharSequence {
         val v = CharArray(end - start)
         TextUtils.getChars(source, start, end, v, 0)
-        var input: String = String(v).replace(otherSeparator, decimalSeparator).filter {
-            it.isDigit() || (fractionDigits > 0 && it == decimalSeparator)
-        }
+        var input: String = String(v).replace(otherSeparator, decimalSeparator)
+        val lastSeparatorIndex = input.lastIndexOf(decimalSeparator)
+        input = if (fractionDigits == 0)
+            input.substring(0, lastSeparatorIndex).filter { it.isDigit() }
+        else
+            input.filterIndexed { index, c ->
+                c.isDigit() || (c == decimalSeparator && index == lastSeparatorIndex)
+            }
         val partBeforeInput = dest.substring(0, dstart)
         val partAfterInput = dest.substring(dend, dest.length)
         Timber.i("parts: %s, %s", partBeforeInput, partAfterInput)
