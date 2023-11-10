@@ -491,6 +491,6 @@ fun transactionSumQuery(
     return """
     WITH $CTE_TRANSACTION_AMOUNTS AS (
     SELECT ${effectiveTypeExpression(typeWithFallBack)}, $KEY_AMOUNT, $KEY_PARENTID, $KEY_ACCOUNTID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT FROM $VIEW_WITH_ACCOUNT 
-    WHERE ($KEY_CATID IS NOT $SPLIT_CATID AND $KEY_CR_STATUS != 'VOID' AND ${selection ?: ""}))
+    WHERE ($KEY_CATID IS NOT $SPLIT_CATID AND $KEY_CR_STATUS != 'VOID' ${if (selection.isNullOrEmpty()) "" else " AND $selection"}))
     SELECT $typeColumn $sumExpression AS $KEY_SUM FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_TYPE $typeQuery $groupBy"""
 }
