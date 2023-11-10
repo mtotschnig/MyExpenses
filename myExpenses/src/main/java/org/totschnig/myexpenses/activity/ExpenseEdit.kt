@@ -1181,7 +1181,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 putExtra(KEY_PROTECTION_INFO, ManageCategories.ProtectionInfo(it, isTemplate))
             }
             putExtra(KEY_COLOR, color)
-            putExtra(KEY_TYPE_FILTER, (if (delegate.isIncome) FLAG_INCOME else FLAG_EXPENSE).toInt())
+            putExtra(KEY_TYPE_FILTER, (if (delegate.isIncome) FLAG_INCOME else FLAG_EXPENSE))
         }, SELECT_CATEGORY_REQUEST)
     }
 
