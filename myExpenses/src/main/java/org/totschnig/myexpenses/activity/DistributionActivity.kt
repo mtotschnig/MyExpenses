@@ -140,19 +140,11 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
 
     private fun setChartData(categories: List<Category>) {
         if ((::chart.isInitialized)) {
-            chart.data = PieData(PieDataSet(categories.mapNotNull { category ->
-                category.aggregateSum.takeIf {
-                    when(it.sign) {
-                        1 -> true
-                        -1 -> false
-                        else -> null
-                    } == viewModel.incomeType
-                }?.let {
-                    PieEntry(
-                        abs(it.toFloat()),
-                        category.label
-                    )
-                }
+            chart.data = PieData(PieDataSet(categories.map { category ->
+                PieEntry(
+                    abs(category.aggregateSum.toFloat()),
+                    category.label
+                )
             }, "").apply {
                 colors = categories.map { it.color ?: 0 }
                 sliceSpace = 2f
@@ -223,7 +215,13 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                         expansionState.forEach { expanded ->
                             result = result.children.find { it.id == expanded.id } ?: result
                         }
-                        result
+                        result.copy(children = result.children.filter {
+                                category -> when(category.aggregateSum.sign) {
+                                    1 -> true
+                                    -1 -> false
+                                    else -> null
+                                } == viewModel.incomeType
+                        })
                     }
                 }
                 LaunchedEffect(chartCategoryTree.value) {
