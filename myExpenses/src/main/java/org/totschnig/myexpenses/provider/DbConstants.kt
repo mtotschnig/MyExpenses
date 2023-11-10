@@ -49,7 +49,7 @@ fun categoryTreeSelect(
     sortOrder = sortOrder,
     matches = matches,
     categorySeparator = categorySeparator,
-    type = typeParameter?.toUByte()
+    type = typeParameter?.toByte()
 ) + "SELECT ${projection?.joinToString() ?: "*"} FROM Tree ${selection?.let { "WHERE $it" } ?: ""}"
 
 const val categoryTreeSelectForTrigger = """
@@ -227,14 +227,14 @@ fun categoryTreeCTE(
     sortOrder: String? = null,
     matches: String? = null,
     categorySeparator: String? = null,
-    type: UByte? = null
+    type: Byte? = null
 ): String {
     val where = rootExpression ?: buildString {
         append("$KEY_PARENTID IS NULL")
         if (type != null) {
             append(" AND $KEY_TYPE  ")
             append(
-                if (type == 0.toUByte()) "= 0"
+                if (type == 0.toByte()) "= 0"
                 else "& $type > 0"
             )
         }

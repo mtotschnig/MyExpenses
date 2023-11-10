@@ -29,7 +29,7 @@ data class Category(
      * [org.totschnig.myexpenses.db2.FLAG_NEUTRAL]
      * [org.totschnig.myexpenses.db2.FLAG_TRANSFER]
      */
-    val typeFlags: UByte? = null
+    val typeFlags: Byte? = null
 ) : Parcelable, Serializable {
 
     fun flatten(): List<Category> = buildList {

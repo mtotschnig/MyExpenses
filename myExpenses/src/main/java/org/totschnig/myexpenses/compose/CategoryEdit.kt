@@ -35,7 +35,7 @@ import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 fun CategoryEdit(
     dialogState: CategoryViewModel.Show,
     onDismissRequest: () -> Unit = {},
-    onSave: (String, String?, UByte) -> Unit = { _, _, _ -> }
+    onSave: (String, String?, Byte) -> Unit = { _, _, _ -> }
 ) {
     val titleBottomPadding = 12.dp
     val fieldPadding = 12.dp
@@ -43,10 +43,7 @@ fun CategoryEdit(
     val context = LocalContext.current
     var label by rememberSaveable { mutableStateOf(dialogState.category?.label ?: "") }
     var icon by rememberSaveable { mutableStateOf(dialogState.category?.icon) }
-    var typeFlags by rememberSaveable(stateSaver = Saver(
-        save = { it.toInt() },
-        restore = { it.toUByte() }
-    )) { mutableStateOf(dialogState.category?.typeFlags ?: 0u) }
+    var typeFlags by rememberSaveable { mutableStateOf(dialogState.category?.typeFlags ?: 0) }
     var shouldValidate by remember { mutableStateOf(false) }
     var showIconSelection by rememberSaveable { mutableStateOf(false) }
 

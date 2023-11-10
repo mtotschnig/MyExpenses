@@ -20,7 +20,7 @@ object CategoryHelper {
         name: String,
         categoryToId: MutableMap<String, Long>,
         stripQifCategoryClass: Boolean,
-        typeFlags: UByte = FLAG_NEUTRAL
+        typeFlags: Byte = FLAG_NEUTRAL
     ): Int {
         countInserted = 0
         insertCategory(
@@ -45,7 +45,7 @@ object CategoryHelper {
         repository: Repository,
         name: List<String>,
         categoryToId: MutableMap<String, Long>,
-        typeFlags: UByte = FLAG_NEUTRAL
+        typeFlags: Byte = FLAG_NEUTRAL
     ) {
         var parentId: Long? = null
         var path = ""
@@ -69,7 +69,7 @@ object CategoryHelper {
         repository: Repository,
         name: String,
         parentId: Long?,
-        typeFlags: UByte = FLAG_NEUTRAL
+        typeFlags: Byte = FLAG_NEUTRAL
     ): Long {
         val unescaped = unicodeEscaper.translate(name)
         var id = repository.findCategory(unescaped, parentId)

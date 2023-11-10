@@ -28,10 +28,11 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.io.IOException
 import java.util.UUID
+import kotlin.experimental.or
 
-const val FLAG_TRANSFER: UByte = 0u
-const val FLAG_EXPENSE: UByte = 1u
-const val FLAG_INCOME: UByte = 2u
+const val FLAG_TRANSFER: Byte = 0
+const val FLAG_EXPENSE: Byte = 1
+const val FLAG_INCOME: Byte = 2
 val FLAG_NEUTRAL = FLAG_EXPENSE or FLAG_INCOME
 
 fun Repository.saveCategory(category: Category): Uri? {
@@ -260,7 +261,7 @@ fun Repository.ensureCategory(categoryInfo: ICategoryInfo, parentId: Long?): Pai
             icon = categoryInfo.icon,
             uuid = categoryInfo.uuid,
             color = categoryInfo.color,
-            typeFlags = if (parentId == null) categoryInfo.type?.toUByte() ?: FLAG_NEUTRAL else null
+            typeFlags = if (parentId == null) categoryInfo.type?.toByte() ?: FLAG_NEUTRAL else null
         )
     )?.let { ContentUris.parseId(it) to true }
         ?: throw IOException("Saving category failed")
@@ -289,6 +290,6 @@ fun Repository.loadCategory(id: Long): Category? = contentResolver.query(
             color = it.getIntOrNull(2),
             icon = it.getString(3),
             uuid = it.getString(4),
-            typeFlags = it.getInt(5).toUByte()
+            typeFlags = it.getInt(5).toByte()
         ) else null
 }

@@ -109,7 +109,7 @@ data class Transaction2(
     val day: Int,
     val icon: String? = null,
     val attachmentCount: Int = 0,
-    val type: UByte = FLAG_NEUTRAL
+    val type: Byte = FLAG_NEUTRAL
 ) : Parcelable {
 
     val currency: CurrencyUnit
@@ -242,7 +242,7 @@ data class Transaction2(
                 day = cursor.getInt(KEY_DAY),
                 icon = cursor.getStringOrNull(KEY_ICON),
                 attachmentCount = cursor.getIntIfExists(KEY_ATTACHMENT_COUNT) ?: 0,
-                type = cursor.getInt(KEY_TYPE).toUByte()
+                type = cursor.getInt(KEY_TYPE).toByte()
             )
         }
     }

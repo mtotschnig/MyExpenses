@@ -30,7 +30,7 @@ class GroupQueryTest : BaseTestWithRepository() {
     private var testAccountId: Long = 0
     private var searchCategory: Long = 0
 
-    private fun insertCategory(label: String, typeFlags: UByte) = ContentUris.parseId(
+    private fun insertCategory(label: String, typeFlags: Byte) = ContentUris.parseId(
         repository.saveCategory(
             Category(
                 label = label,

@@ -399,7 +399,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                         var income: Long = 0
                         var expense: Long = 0
                         for (pair in cursor.asSequence) {
-                            val type = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_TYPE)).toUByte()
+                            val type = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_TYPE)).toByte()
                             val sum = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_SUM))
                             if (type == FLAG_INCOME) {
                                 income = sum

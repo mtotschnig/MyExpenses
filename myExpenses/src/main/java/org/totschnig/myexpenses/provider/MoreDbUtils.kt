@@ -199,7 +199,7 @@ private fun setupCategoriesInternal(
     database: SupportSQLiteDatabase,
     resources: Resources,
     categoryDefinitions : Array<Triple<Int, Int, Int>>,
-    typeFlag: UByte
+    typeFlag: Byte
 ): Pair<Int, Int> {
     var totalInserted = 0
     var totalUpdated = 0

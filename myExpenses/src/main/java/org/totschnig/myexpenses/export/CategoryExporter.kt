@@ -50,7 +50,7 @@ object CategoryExporter {
                                     val level = c.getInt(2)
                                     //we only manage type at root level, so we only export it there
                                     if (level == 1) {
-                                        val type = c.getInt(1).toUByte()
+                                        val type = c.getInt(1).toByte()
                                         if (type == FLAG_EXPENSE) {
                                             append(" \nE")
                                         } else if (type == FLAG_INCOME) {

@@ -117,19 +117,17 @@ open class CategoryViewModel(
             savedStateHandle[KEY_FILTER] = value
         }
 
-    var typeFilter: UByte?
-        get() = savedStateHandle.get<Int>(KEY_TYPE_FILTER)?.toUByte()
+    var typeFilter: Byte?
+        get() = savedStateHandle.get<Byte>(KEY_TYPE_FILTER)
         set(value) {
-            savedStateHandle[KEY_TYPE_FILTER] = value?.toInt()
+            savedStateHandle[KEY_TYPE_FILTER] = value
         }
 
     fun toggleTypeFilterIsShown() {
         typeFilter = if (typeFilter == null) FLAG_NEUTRAL else null
     }
 
-    val typeFilterLiveData = savedStateHandle.getLiveData<Int?>(KEY_TYPE_FILTER, null).map {
-        it?.toUByte()
-    }
+    val typeFilterLiveData = savedStateHandle.getLiveData<Byte?>(KEY_TYPE_FILTER, null)
 
     fun setSortOrder(sort: Sort) {
         sortOrder.tryEmit(sort)
@@ -219,7 +217,7 @@ open class CategoryViewModel(
         }
     }
 
-    fun saveCategory(label: String, icon: String?, typeFlags: UByte) {
+    fun saveCategory(label: String, icon: String?, typeFlags: Byte) {
         viewModelScope.launch(context = coroutineContext()) {
             (dialogState as? Show)?.takeIf { !it.saving }?.let {
                 val category = Category(
@@ -483,7 +481,7 @@ open class CategoryViewModel(
                         val nextPath = cursor.getString(KEY_PATH)
                         val nextColor = if (withColors) cursor.getIntOrNull(KEY_COLOR) else null
                         val nextIcon = cursor.getStringOrNull(KEY_ICON)
-                        val nextType = cursor.getIntOrNull(KEY_TYPE)?.toUByte()
+                        val nextType = cursor.getIntOrNull(KEY_TYPE)?.toByte()
                         val nextIsMatching = cursor.getInt(KEY_MATCHES_FILTER) == 1
                         val nextLevel = cursor.getInt(KEY_LEVEL)
                         val nextSum = cursor.getLongIfExistsOr0(KEY_SUM)

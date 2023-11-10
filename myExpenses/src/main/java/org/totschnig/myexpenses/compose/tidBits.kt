@@ -34,6 +34,9 @@ import app.futured.donut.compose.data.DonutSection
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
+import kotlin.experimental.and
+import kotlin.experimental.inv
+import kotlin.experimental.or
 
 @Composable
 fun ExpansionHandle(
@@ -108,8 +111,8 @@ fun DonutInABox(
 @Composable
 fun TypeConfiguration(
     modifier: Modifier,
-    typeFlags: UByte,
-    onCheckedChange: (UByte) -> Unit
+    typeFlags: Byte,
+    onCheckedChange: (Byte) -> Unit
 ) {
     MultiChoiceSegmentedButtonRow(
         modifier = modifier
@@ -121,7 +124,7 @@ fun TypeConfiguration(
                 onCheckedChange = {
                     onCheckedChange(if(it) typeFlags or type.second else typeFlags and type.second.inv())
                 },
-                checked = (typeFlags and type.second) != 0u.toUByte()
+                checked = (typeFlags and type.second) != 0u.toByte()
             ) {
                 Text(stringResource(id = type.first))
             }
@@ -132,8 +135,8 @@ fun TypeConfiguration(
 @Composable
 fun TypeConfiguration(
     modifier: Modifier,
-    typeFlags: UByte,
-    onCheckedChange: (UByte) -> Unit
+    typeFlags: Byte,
+    onCheckedChange: (Byte) -> Unit
 ) {
     Row(
         modifier = modifier,
@@ -146,7 +149,7 @@ fun TypeConfiguration(
                 onCheckedChange = {
                     onCheckedChange(if(it) typeFlags or type.second else typeFlags and type.second.inv())
                 },
-                checked = (typeFlags and type.second) != 0u.toUByte()
+                checked = (typeFlags and type.second) != 0.toByte()
             )
             Text(stringResource(id = type.first))
         }
