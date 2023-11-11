@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.test.screenshots
 
 import android.Manifest
+import android.content.res.Configuration
+import android.content.res.Resources
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.filter
@@ -23,7 +25,6 @@ import androidx.test.espresso.contrib.DrawerActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.GrantPermissionRule
 import androidx.test.uiautomator.UiDevice
@@ -31,9 +32,7 @@ import org.hamcrest.Matchers.containsString
 import org.junit.After
 import org.junit.AfterClass
 import org.junit.BeforeClass
-import org.junit.ClassRule
 import org.junit.Rule
-import org.junit.Test
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefKey
@@ -43,14 +42,12 @@ import org.totschnig.myexpenses.testutils.withPositionInParent
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.versionNumber
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.cleanstatusbar.CleanStatusBar
-import tools.fastlane.screengrab.locale.LocaleTestRule
 import tools.fastlane.screengrab.locale.LocaleUtil
 
+abstract class TestMain : BaseMyExpensesTest() {
 
-/**
- * This test is meant to be run with FastLane Screengrab, but also works on its own.
- */
-class TestMain : BaseMyExpensesTest() {
+    open val shouldTakeScreenShot = false
+
     @get:Rule
     val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
         Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR
@@ -61,12 +58,14 @@ class TestMain : BaseMyExpensesTest() {
         app.fixture.cleanup(contentResolver)
     }
 
-    @Test
-    fun mkScreenShots() {
-        val scenario = InstrumentationRegistry.getArguments().getString("scenario", "1")
-        loadFixture(scenario == "2")
+    fun runScenario(scenario: String, locale: String?) {
+        loadFixture(scenario == "2", locale)
         scenario(scenario)
-        AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())
+        testScenario.onActivity {
+            it.runOnUiThread {
+                AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())
+            }
+        }
     }
 
     private fun drawerAction(action: ViewAction) {
@@ -130,6 +129,7 @@ class TestMain : BaseMyExpensesTest() {
                 Thread.sleep(5000)
                 takeScreenshot("sync")
             }
+
             "2" -> {
                 //tablet screenshots
                 takeScreenshot("main")
@@ -137,7 +137,12 @@ class TestMain : BaseMyExpensesTest() {
                 takeScreenshot("distribution")
                 pressBack()
                 listNode.onChildren()
-                    .filter(hasText(testContext.getString(org.totschnig.myexpenses.test.R.string.testData_transaction1SubCat), substring = true))
+                    .filter(
+                        hasText(
+                            testContext.getString(org.totschnig.myexpenses.test.R.string.testData_transaction1SubCat),
+                            substring = true
+                        )
+                    )
                     .onFirst()
                     .performClick()
                 composeTestRule.onNodeWithText(getString(R.string.menu_edit)).performClick()
@@ -146,15 +151,22 @@ class TestMain : BaseMyExpensesTest() {
                     .perform(click())
                 takeScreenshot("edit")
             }
+
             else -> {
                 throw IllegalArgumentException("Unknown scenario" + BuildConfig.TEST_SCENARIO)
             }
         }
     }
 
-    private fun loadFixture(withPicture: Boolean) {
+    private fun loadFixture(withPicture: Boolean, locale: String?) {
         //LocaleTestRule only configure for app context, fixture loads resources from instrumentation context
-        LocaleUtil.localeFromString(LocaleUtil.getTestLocale())?.let { configureLocale(it) }
+        LocaleUtil.localeFromString(locale)?.let {
+            AppCompatDelegate.setApplicationLocales(LocaleListCompat.create(it))
+            val config = Configuration()
+            config.locale = it
+            testContext.resources.update(config)
+            targetContext.resources.update(config)
+        }
         unlock()
         app.fixture.setup(withPicture, repository, app.appComponent.plannerUtils(), homeCurrency)
         prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, app.fixture.account1.id)
@@ -163,9 +175,16 @@ class TestMain : BaseMyExpensesTest() {
         launch()
     }
 
+    private fun Resources.update(configuration: Configuration) {
+        updateConfiguration(configuration, displayMetrics)
+    }
+
+
     private fun takeScreenshot(fileName: String) {
-        onIdle()
-        Screengrab.screenshot(fileName)
+        if (shouldTakeScreenShot) {
+            onIdle()
+            Screengrab.screenshot(fileName)
+        }
     }
 
     companion object {
@@ -181,9 +200,5 @@ class TestMain : BaseMyExpensesTest() {
         fun afterAll() {
             CleanStatusBar.disable()
         }
-
-        @ClassRule
-        @JvmField
-        val localeTestRule = LocaleTestRule()
     }
 }

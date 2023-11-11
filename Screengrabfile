@@ -2,7 +2,7 @@
 # fastlane screengrab
 app_package_name('org.totschnig.myexpenses.debug')
 
-use_tests_in_packages(['org.totschnig.myexpenses.test.screenshots'])
+use_tests_in_classes(['org.totschnig.myexpenses.test.screenshots.ScreenGrabTest'])
 
 app_apk_path('myExpenses/build/outputs/apk/extern/debug/myExpenses-extern-debug.apk')
 tests_apk_path('myExpenses/build/outputs/apk/androidTest/extern/debug/myExpenses-extern-debug-androidTest.apk')
@@ -17,7 +17,7 @@ locales([
     'el-GR',
     'en-US',
     'es-ES',
-    'es-US'
+    'es-US',
     'eu-ES',
     'fr-FR',
     'fr-CA',
@@ -30,10 +30,10 @@ locales([
     'kn-IN',
     'ko-KR',
     'ms-MY',
-    'nl-NL'
+    'nl-NL',
     'pl-PL',
     'pt-BR',
-    'pt-PT'
+    'pt-PT',
     'ro-RO',
     'ru-RU',
     'si-LK',
@@ -52,4 +52,4 @@ clear_previous_screenshots(false)
 
 use_timestamp_suffix(false)
 
-launch_arguments(["scenario 2"])
+launch_arguments(["scenario 1"])

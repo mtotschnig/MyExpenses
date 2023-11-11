@@ -26,6 +26,7 @@ import java.util.*
 
 class ExpenseEditTest : BaseExpenseEditTest() {
     private lateinit var account2: Account
+    private lateinit var yenAccount: Account
     private lateinit var currency1: CurrencyUnit
     private lateinit var currency2: CurrencyUnit
 
@@ -37,6 +38,8 @@ class ExpenseEditTest : BaseExpenseEditTest() {
         account2 =
             Account(label = "Test label 2", currency = currency2.code, type = AccountType.BANK)
                 .createIn(repository)
+        yenAccount =
+            Account(label = "Japan", currency = "JPY").createIn(repository)
     }
 
     private fun launch(i: Intent) = ActivityScenario.launch<TestExpenseEdit>(i).also {
@@ -75,6 +78,15 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             putExtra(DatabaseConstants.KEY_ACCOUNTID, account2.id)
         }).use {
             checkEffectiveVisible(R.id.Status)
+        }
+    }
+
+    @Test
+    fun amountInputWithFractionDigitLessCurrency() {
+        launch(intent.apply {
+            putExtra(DatabaseConstants.KEY_ACCOUNTID, yenAccount.id)
+        }).use {
+            setAmount(100)
         }
     }
 

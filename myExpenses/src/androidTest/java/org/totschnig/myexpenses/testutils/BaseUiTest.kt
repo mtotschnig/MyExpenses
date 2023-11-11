@@ -201,14 +201,6 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
         }
     }
 
-    protected fun configureLocale(locale: Locale) {
-        AppCompatDelegate.setApplicationLocales(LocaleListCompat.create(locale))
-    }
-
-    private fun Resources.update(configuration: Configuration) {
-        updateConfiguration(configuration, displayMetrics)
-    }
-
     protected fun writeCategory(label: String, parentId: Long? = null) =
         ContentUris.parseId(repository.saveCategory(Category(label = label, parentId = parentId))!!)
 

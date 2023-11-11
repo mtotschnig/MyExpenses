@@ -108,7 +108,6 @@ public class MyExpenses extends BaseMyExpenses implements
     if (savedInstanceState == null) {
       Bundle extras = getIntent().getExtras();
       if (extras != null) {
-        setSelectedAccountId(Utils.getFromExtra(extras, KEY_ROWID, 0));
         showTransactionFromIntent(extras);
       }
     }
