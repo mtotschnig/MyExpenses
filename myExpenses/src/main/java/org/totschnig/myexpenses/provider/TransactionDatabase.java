@@ -2161,7 +2161,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
 
       if (oldVersion < 152) {
-        repairWithSealedAccounts(db, () ->  db.execSQL("update transactions set cr_status = (select cr_status from transactions parent where parent._id = transactions.parent_id) where parent_id is not null"));
+        repairWithSealedAccountsAndDebts(db, () ->  db.execSQL("update transactions set cr_status = (select cr_status from transactions parent where parent._id = transactions.parent_id) where parent_id is not null"));
         db.execSQL(SPLIT_PART_CR_STATUS_TRIGGER_CREATE);
       }
 
