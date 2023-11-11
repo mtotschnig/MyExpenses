@@ -29,7 +29,7 @@ class FractionDigitsInputFilter(
         TextUtils.getChars(source, start, end, v, 0)
         var input: String = String(v).replace(otherSeparator, decimalSeparator)
         val lastSeparatorIndex = input.lastIndexOf(decimalSeparator)
-        input = if (fractionDigits == 0)
+        input = if (fractionDigits == 0 && lastSeparatorIndex > -1)
             input.substring(0, lastSeparatorIndex).filter { it.isDigit() }
         else
             input.filterIndexed { index, c ->

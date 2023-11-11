@@ -21,6 +21,18 @@ class FractionDigitsInputFilterTest {
     }
 
     @Test
+    fun shouldAllowClearingOfData() {
+        assertThat(buildFilter(0).filter("", "", 0, 0)).isEqualTo("")
+        assertThat(buildFilter(2).filter("", "", 0, 0)).isEqualTo("")
+    }
+
+    @Test
+    fun shouldAcceptSeparatorLessInputWithoutFractionDigits() {
+        val filter = buildFilter(0)
+        assertThat(filter.filter("112", "", 0,0)).isEqualTo("112")
+    }
+
+    @Test
     fun shouldKeepLastSeparator() {
         val filter = buildFilter()
         assertThat(filter.filter("5,912.00", "", 0,0)).isEqualTo("5912.00")
