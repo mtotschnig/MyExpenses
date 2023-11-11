@@ -40,7 +40,7 @@ class TemplateWidget: AbstractListWidget(TemplateWidgetService::class.java, Pref
                             context.getString(R.string.warning_instantiate_template_from_widget_password_protected),
                             Toast.LENGTH_LONG).show()
                 } else {
-                        doAsync("TemplateWidget") {
+                        doAsync {
                             Transaction.getInstanceFromTemplateWithTags(context.contentResolver, templateId)?.let {
                             if (it.first.save(context.contentResolver, true) != null && it.first.saveTags(
                                     context.contentResolver,

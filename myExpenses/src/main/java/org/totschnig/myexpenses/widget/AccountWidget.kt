@@ -24,22 +24,31 @@ class AccountWidget :
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         if (intent.action == WIDGET_LIST_DATA_CHANGED) {
-            intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
-                ?.forEach { appWidgetId ->
-                    val accountId = AccountRemoteViewsFactory.accountId(context, appWidgetId)
-                    if (accountId != Long.MAX_VALUE.toString()) {
+            val widgets = intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
+                ?.map { it to AccountRemoteViewsFactory.accountId(context, it) }
+                ?.filter { it.second != Long.MAX_VALUE.toString() }
+            if (widgets?.isNotEmpty() == true) {
+                doAsync {
+                    widgets.forEach {
                         updateSingleAccountWidget(
                             context,
                             AppWidgetManager.getInstance(context),
-                            appWidgetId,
-                            accountId
+                            it.first,
+                            it.second
                         )
                     }
                 }
+            }
         }
     }
 
     override val emptyTextResourceId = R.string.no_accounts
+
+    override fun shouldGoAsync(context: Context, vararg appWidgetId: Int): Boolean {
+        return !isProtected(context) && appWidgetId.any {
+            AccountRemoteViewsFactory.accountId(context, it) != Long.MAX_VALUE.toString()
+        }
+    }
 
     private fun updateSingleAccountWidget(
         context: Context,
@@ -47,41 +56,39 @@ class AccountWidget :
         appWidgetId: Int,
         accountId: String
     ) {
-        doAsync("AccountWidget") {
-            val widget = kotlin.runCatching {
-                AccountRemoteViewsFactory.buildCursor(context, accountId)
-            }.mapCatching {
-                it?.use { cursor ->
-                    if (cursor.moveToFirst()) {
-                        RemoteViews(
-                            context.packageName,
-                            AbstractRemoteViewsFactory.rowLayout
-                        ).also { widget ->
-                            AccountRemoteViewsFactory.populate(
-                                context = context,
-                                currencyContext = currencyContext,
-                                currencyFormatter = currencyFormatter,
-                                remoteViews = widget,
-                                cursor = cursor,
-                                sumColumn = AccountRemoteViewsFactory.sumColumn(
-                                    context,
-                                    appWidgetId
-                                ),
-                                availableWidth = availableWidthForButtons(
-                                    context,
-                                    appWidgetManager,
-                                    appWidgetId
-                                ),
-                                clickInfo = Pair(appWidgetId, clickBaseIntent(context))
-                            )
-                        }
-                    } else {
-                        throw NoDataException(context.getString(R.string.account_deleted))
+        val widget = kotlin.runCatching {
+            AccountRemoteViewsFactory.buildCursor(context, accountId)
+        }.mapCatching {
+            it?.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    RemoteViews(
+                        context.packageName,
+                        AbstractRemoteViewsFactory.rowLayout
+                    ).also { widget ->
+                        AccountRemoteViewsFactory.populate(
+                            context = context,
+                            currencyContext = currencyContext,
+                            currencyFormatter = currencyFormatter,
+                            remoteViews = widget,
+                            cursor = cursor,
+                            sumColumn = AccountRemoteViewsFactory.sumColumn(
+                                context,
+                                appWidgetId
+                            ),
+                            availableWidth = availableWidthForButtons(
+                                context,
+                                appWidgetManager,
+                                appWidgetId
+                            ),
+                            clickInfo = Pair(appWidgetId, clickBaseIntent(context))
+                        )
                     }
-                } ?: throw Exception("Cursor returned null")
-            }.getOrElse { errorView(context, it) }
-            appWidgetManager.updateAppWidget(appWidgetId, widget)
-        }
+                } else {
+                    throw NoDataException(context.getString(R.string.account_deleted))
+                }
+            } ?: throw Exception("Cursor returned null")
+        }.getOrElse { errorView(context, it) }
+        appWidgetManager.updateAppWidget(appWidgetId, widget)
     }
 
     override fun updateWidgetDo(

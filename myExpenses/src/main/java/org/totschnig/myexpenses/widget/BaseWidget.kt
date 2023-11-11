@@ -14,9 +14,9 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.doAsync
 import org.totschnig.myexpenses.util.safeMessage
 import javax.inject.Inject
 
@@ -33,9 +33,21 @@ abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvide
     @Inject
     lateinit var currencyFormatter: ICurrencyFormatter
 
+    open fun shouldGoAsync(context: Context, vararg appWidgetId: Int): Boolean = false
+
     protected open fun isProtected(context: Context): Boolean {
         return (context.myApplication).isProtected &&
                 !prefHandler.getBoolean(protectionKey, false)
+    }
+
+    private fun maybeAsync(context: Context, vararg appWidgetId: Int, block: () -> Unit) {
+        if (shouldGoAsync(context, *appWidgetId)) {
+            doAsync {
+               block()
+            }
+        } else {
+            block()
+        }
     }
 
     override fun onAppWidgetOptionsChanged(
@@ -44,7 +56,9 @@ abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvide
         appWidgetId: Int,
         newOptions: Bundle
     ) {
-        updateWidget(context, appWidgetManager, appWidgetId)
+        maybeAsync(context, appWidgetId) {
+            updateWidget(context, appWidgetManager, appWidgetId)
+        }
     }
 
     override fun onUpdate(
@@ -52,8 +66,10 @@ abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvide
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
-        appWidgetIds.forEach { appWidgetId ->
-            updateWidget(context, appWidgetManager, appWidgetId)
+        maybeAsync(context, *appWidgetIds) {
+            appWidgetIds.forEach { appWidgetId ->
+                updateWidget(context, appWidgetManager, appWidgetId)
+            }
         }
     }
 
@@ -63,9 +79,9 @@ abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvide
         appWidgetId: Int
     )
 
-    open fun updateWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
+    private fun updateWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
 
-        if (isProtected(context))
+        if (isProtected(context)) {
             appWidgetManager.updateAppWidget(appWidgetId,
                 RemoteViews(context.packageName, R.layout.widget_locked).apply {
                     setOnClickPendingIntent(
@@ -84,7 +100,9 @@ abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvide
                                 context.getString(R.string.warning_widget_disabled)
                     )
                 })
-        else updateWidgetDo(context, appWidgetManager, appWidgetId)
+        } else {
+            updateWidgetDo(context, appWidgetManager, appWidgetId)
+        }
     }
 
     fun availableWidth(

@@ -40,14 +40,18 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
     @Inject
     lateinit var repository: Repository
 
+    override fun shouldGoAsync(context: Context, vararg appWidgetId: Int): Boolean = true
+
     override fun onReceive(context: Context, intent: Intent) {
         context.injector.inject(this)
         super.onReceive(context, intent)
         if (intent.action == WIDGET_LIST_DATA_CHANGED) {
-            intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
-                ?.forEach { appWidgetId ->
-                    updateWidgetDo(context, AppWidgetManager.getInstance(context), appWidgetId)
-                }
+            doAsync {
+                intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
+                    ?.forEach { appWidgetId ->
+                        updateWidgetDo(context, AppWidgetManager.getInstance(context), appWidgetId)
+                    }
+            }
         }
     }
 
@@ -56,134 +60,146 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int
     ) {
-        doAsync("BudgetWidget") {
-            val widget = runCatching {
-                val horizontalPadding = 32
-                val todayMarkerCorrection = 2f
-                val availableWidth =
-                    availableWidth(context, appWidgetManager, appWidgetId) - horizontalPadding
-                val availableHeight = availableHeight(context, appWidgetManager, appWidgetId)
-                val budgetId = BudgetWidgetConfigure.loadSelectionPref(context, appWidgetId)
-                val budgetInfo = repository.loadBudgetProgress(budgetId)
-                    ?: throw NoDataException(context.getString(R.string.budget_deleted))
-                val progress = budgetInfo.spent / budgetInfo.allocated.toFloat()
-                val todayPosition = budgetInfo.currentDay / budgetInfo.totalDays.toFloat()
-                val showCurrentPosition =
-                    budgetInfo.totalDays > 1 && budgetInfo.currentDay in 1..budgetInfo.totalDays
-                val progressState = when {
-                    progress > 1 -> ProgressState.OverTotalBudget
-                    showCurrentPosition && progress > todayPosition -> ProgressState.OverDayBudget
-                    else -> ProgressState.InBudget
+        val widget = runCatching {
+            val horizontalPadding = 32
+            val todayMarkerCorrection = 2f
+            val availableWidth =
+                availableWidth(context, appWidgetManager, appWidgetId) - horizontalPadding
+            val availableHeight = availableHeight(context, appWidgetManager, appWidgetId)
+            val budgetId = BudgetWidgetConfigure.loadSelectionPref(context, appWidgetId)
+            val budgetInfo = repository.loadBudgetProgress(budgetId)
+                ?: throw NoDataException(context.getString(R.string.budget_deleted))
+            val progress = budgetInfo.spent / budgetInfo.allocated.toFloat()
+            val todayPosition = budgetInfo.currentDay / budgetInfo.totalDays.toFloat()
+            val showCurrentPosition =
+                budgetInfo.totalDays > 1 && budgetInfo.currentDay in 1..budgetInfo.totalDays
+            val progressState = when {
+                progress > 1 -> ProgressState.OverTotalBudget
+                showCurrentPosition && progress > todayPosition -> ProgressState.OverDayBudget
+                else -> ProgressState.InBudget
+            }
+            RemoteViews(context.packageName, layout).apply {
+                fun setProgressBarVisibility(progressBarViewId: Int) {
+                    setViewVisibility(
+                        progressBarViewId,
+                        if (progressState.progressBarId == progressBarViewId) View.VISIBLE else View.GONE
+                    )
                 }
-                RemoteViews(context.packageName, layout).apply {
-                    fun setProgressBarVisibility(progressBarViewId: Int) {
-                        setViewVisibility(
-                            progressBarViewId,
-                            if (progressState.progressBarId == progressBarViewId) View.VISIBLE else View.GONE
+
+                val summaryVisibility = if (availableHeight < 110) View.GONE else View.VISIBLE
+                setViewVisibility(R.id.headerPerDay, summaryVisibility)
+                setViewVisibility(R.id.budgetedLine, summaryVisibility)
+                setViewVisibility(R.id.spentLine, summaryVisibility)
+                setViewVisibility(R.id.remainderLine, summaryVisibility)
+                setViewVisibility(R.id.summarySpacer, summaryVisibility)
+                setTextViewText(R.id.title, budgetInfo.title)
+                setTextViewText(R.id.groupInfo, budgetInfo.groupInfo)
+                setProgressBarVisibility(R.id.budget_progress_green)
+                setProgressBarVisibility(R.id.budget_progress_yellow)
+                setProgressBarVisibility(R.id.budget_progress_red)
+                when (progressState) {
+                    ProgressState.OverTotalBudget -> {
+                        setProgressBarProgress(
+                            progressState.progressBarId,
+                            (100 / progress).toInt()
+                        )
+                        setProgressBarSecondaryProgress(progressState.progressBarId, 100)
+                    }
+
+                    ProgressState.OverDayBudget -> {
+                        setProgressBarProgress(
+                            progressState.progressBarId,
+                            (todayPosition * 100).toInt()
+                        )
+                        setProgressBarSecondaryProgress(
+                            progressState.progressBarId,
+                            (progress * 100).toInt()
                         )
                     }
 
-                    val summaryVisibility = if (availableHeight < 110) View.GONE else View.VISIBLE
-                    setViewVisibility(R.id.headerPerDay, summaryVisibility)
-                    setViewVisibility(R.id.budgetedLine, summaryVisibility)
-                    setViewVisibility(R.id.spentLine, summaryVisibility)
-                    setViewVisibility(R.id.remainderLine, summaryVisibility)
-                    setViewVisibility(R.id.summarySpacer, summaryVisibility)
-                    setTextViewText(R.id.title, budgetInfo.title)
-                    setTextViewText(R.id.groupInfo, budgetInfo.groupInfo)
-                    setProgressBarVisibility(R.id.budget_progress_green)
-                    setProgressBarVisibility(R.id.budget_progress_yellow)
-                    setProgressBarVisibility(R.id.budget_progress_red)
-                    when (progressState) {
-                        ProgressState.OverTotalBudget -> {
-                            setProgressBarProgress(progressState.progressBarId, (100 / progress).toInt())
-                            setProgressBarSecondaryProgress(progressState.progressBarId, 100)
-                        }
-                        ProgressState.OverDayBudget -> {
-                            setProgressBarProgress(progressState.progressBarId, (todayPosition * 100).toInt())
-                            setProgressBarSecondaryProgress(progressState.progressBarId, (progress * 100).toInt())
-                        }
-                        else -> {
-                            setProgressBarProgress(progressState.progressBarId, (progress * 100).toInt())
-                        }
+                    else -> {
+                        setProgressBarProgress(
+                            progressState.progressBarId,
+                            (progress * 100).toInt()
+                        )
                     }
-                    val remainingBudget = budgetInfo.remainingBudget
-                    val remainingDays = budgetInfo.remainingDays
-                    if (showCurrentPosition) {
-                        val layoutDirection =
-                            if (context.resources.configuration.layoutDirection == LayoutDirection.RTL) -1 else 1
-                        val translation = (availableWidth * todayPosition *
-                                (if (progress > 1) (1 / progress) else 1f) - todayMarkerCorrection) * layoutDirection
-                        Timber.i("todayPosition: $todayPosition, translation: $translation")
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                            setViewTranslationXDimen(
-                                R.id.todayMarker,
-                                translation,
-                                TypedValue.COMPLEX_UNIT_DIP
-                            )
-                        } else {
-                            val padding = TypedValue.applyDimension(
-                                TypedValue.COMPLEX_UNIT_DIP,
-                                translation,
-                                context.resources.displayMetrics
-                            ).toInt()
-                            setViewPadding(R.id.todayMarkerContainer, padding, 0, 0, 0)
-                        }
+                }
+                val remainingBudget = budgetInfo.remainingBudget
+                val remainingDays = budgetInfo.remainingDays
+                if (showCurrentPosition) {
+                    val layoutDirection =
+                        if (context.resources.configuration.layoutDirection == LayoutDirection.RTL) -1 else 1
+                    val translation = (availableWidth * todayPosition *
+                            (if (progress > 1) (1 / progress) else 1f) - todayMarkerCorrection) * layoutDirection
+                    Timber.i("todayPosition: $todayPosition, translation: $translation")
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        setViewTranslationXDimen(
+                            R.id.todayMarker,
+                            translation,
+                            TypedValue.COMPLEX_UNIT_DIP
+                        )
                     } else {
-                        setViewVisibility(R.id.todayMarkerContainer, View.GONE)
+                        val padding = TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP,
+                            translation,
+                            context.resources.displayMetrics
+                        ).toInt()
+                        setViewPadding(R.id.todayMarkerContainer, padding, 0, 0, 0)
                     }
-                    fun amountFormatted(amount: Long) =
-                        currencyFormatter.convAmount(amount, budgetInfo.currency)
-                    if (summaryVisibility == View.VISIBLE) {
-                        val perDayVisibility =
-                            if (budgetInfo.totalDays > 1 && budgetInfo.currentDay > 0) View.VISIBLE else View.GONE
-                        setViewVisibility(R.id.headerPerDay, perDayVisibility)
-                        setViewVisibility(R.id.allocatedDaily, perDayVisibility)
-                        setViewVisibility(R.id.spentDaily, perDayVisibility)
-                        setViewVisibility(R.id.remainderDaily, perDayVisibility)
-                        setTextViewText(R.id.allocated, amountFormatted((budgetInfo.allocated)))
-                        if (perDayVisibility == View.VISIBLE) {
-                            setTextViewText(
-                                R.id.allocatedDaily,
-                                amountFormatted(budgetInfo.allocated / budgetInfo.totalDays)
-                            )
-                            setTextViewText(
-                                R.id.spentDaily,
-                                amountFormatted(budgetInfo.spent / budgetInfo.currentDay)
-                            )
-                        }
-                        setTextViewText(R.id.spent, amountFormatted(budgetInfo.spent))
-                        val withinBudget: Boolean = remainingBudget >= 0
-                        val daysRemain = remainingDays > 0
+                } else {
+                    setViewVisibility(R.id.todayMarkerContainer, View.GONE)
+                }
+                fun amountFormatted(amount: Long) =
+                    currencyFormatter.convAmount(amount, budgetInfo.currency)
+                if (summaryVisibility == View.VISIBLE) {
+                    val perDayVisibility =
+                        if (budgetInfo.totalDays > 1 && budgetInfo.currentDay > 0) View.VISIBLE else View.GONE
+                    setViewVisibility(R.id.headerPerDay, perDayVisibility)
+                    setViewVisibility(R.id.allocatedDaily, perDayVisibility)
+                    setViewVisibility(R.id.spentDaily, perDayVisibility)
+                    setViewVisibility(R.id.remainderDaily, perDayVisibility)
+                    setTextViewText(R.id.allocated, amountFormatted((budgetInfo.allocated)))
+                    if (perDayVisibility == View.VISIBLE) {
                         setTextViewText(
-                            R.id.remainder,
-                            amountFormatted(remainingBudget.absoluteValue)
+                            R.id.allocatedDaily,
+                            amountFormatted(budgetInfo.allocated / budgetInfo.totalDays)
                         )
                         setTextViewText(
-                            R.id.remainderCaption, context.getString(
-                                if (withinBudget) R.string.available else R.string.budget_table_header_overspent
-                            )
-                        )
-                        setTextViewText(
-                            R.id.remainderDaily,
-                            if (daysRemain && withinBudget) amountFormatted(remainingBudget / remainingDays) else ""
+                            R.id.spentDaily,
+                            amountFormatted(budgetInfo.spent / budgetInfo.currentDay)
                         )
                     }
-                    setOnClickPendingIntent(
-                        R.id.layout,
-                        PendingIntent.getActivity(
-                            context,
-                            appWidgetId,
-                            Intent(context, BudgetActivity::class.java).apply {
-                                putExtra(DatabaseConstants.KEY_ROWID, budgetId)
-                            },
-                            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+                    setTextViewText(R.id.spent, amountFormatted(budgetInfo.spent))
+                    val withinBudget: Boolean = remainingBudget >= 0
+                    val daysRemain = remainingDays > 0
+                    setTextViewText(
+                        R.id.remainder,
+                        amountFormatted(remainingBudget.absoluteValue)
+                    )
+                    setTextViewText(
+                        R.id.remainderCaption, context.getString(
+                            if (withinBudget) R.string.available else R.string.budget_table_header_overspent
                         )
                     )
+                    setTextViewText(
+                        R.id.remainderDaily,
+                        if (daysRemain && withinBudget) amountFormatted(remainingBudget / remainingDays) else ""
+                    )
                 }
-            }.getOrElse { errorView(context, it) }
-            appWidgetManager.updateAppWidget(appWidgetId, widget)
-        }
+                setOnClickPendingIntent(
+                    R.id.layout,
+                    PendingIntent.getActivity(
+                        context,
+                        appWidgetId,
+                        Intent(context, BudgetActivity::class.java).apply {
+                            putExtra(DatabaseConstants.KEY_ROWID, budgetId)
+                        },
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+                    )
+                )
+            }
+        }.getOrElse { errorView(context, it) }
+        appWidgetManager.updateAppWidget(appWidgetId, widget)
     }
 
     override fun onDeleted(context: Context, appWidgetIds: IntArray) {
