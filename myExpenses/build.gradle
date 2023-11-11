@@ -297,8 +297,6 @@ dependencies {
     androidTestImplementation "androidx.test:rules:$androidSupportTestVersion"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
     androidTestImplementation("androidx.test.espresso:espresso-contrib:$espressoVersion")
-    //https://github.com/android/android-test/issues/861#issuecomment-952431166
-    androidTestImplementation "com.google.android.apps.common.testing.accessibility.framework:accessibility-test-framework:4.0.0"
     //androidTestImplementation  "androidx.test.espresso.idling:idling-concurrent:$espressoVersion"
     androidTestImplementation "org.mockito:mockito-android:$mockitoVersion"
     androidTestImplementation("com.adevinta.android:barista:$barista") {

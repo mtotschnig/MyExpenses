@@ -12,7 +12,7 @@ class ArabTest: TestMain() {
 
     @Test
     fun runArab() {
-        runScenario("1", JapaneseTest.locale)
+        runScenario("1", locale)
     }
 
     companion object {

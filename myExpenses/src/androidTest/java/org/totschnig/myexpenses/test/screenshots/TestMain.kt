@@ -169,10 +169,9 @@ abstract class TestMain : BaseMyExpensesTest() {
         }
         unlock()
         app.fixture.setup(withPicture, repository, app.appComponent.plannerUtils(), homeCurrency)
-        prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, app.fixture.account1.id)
         prefHandler.putInt(PrefKey.CURRENT_VERSION, versionNumber)
         prefHandler.putInt(PrefKey.FIRST_INSTALL_VERSION, versionNumber)
-        launch()
+        launch(app.fixture.account1.id)
     }
 
     private fun Resources.update(configuration: Configuration) {
