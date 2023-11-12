@@ -32,12 +32,15 @@ class CategoryTest: BaseTestWithRepository() {
         val mainCategory = Category(label = "Main", typeFlags = FLAG_EXPENSE).run {
             copy(id = ContentUris.parseId(repository.saveCategory(this)!!))
         }
-        val sub = ContentUris.parseId(repository.saveCategory(Category(label = "Sub", parentId = mainCategory.id))!!)
-        val subSub = ContentUris.parseId(repository.saveCategory(Category(label = "SubSub", parentId = sub))!!)
+        //we first create sub1 and sub2 under main, and then move sub1 to sub2, in order to
+        //create a condition where the original trigger had failed
+        val sub1 = ContentUris.parseId(repository.saveCategory(Category(label = "Sub", parentId = mainCategory.id))!!)
+        val sub2 = ContentUris.parseId(repository.saveCategory(Category(label = "SubSub", parentId = mainCategory.id))!!)
+        repository.moveCategory(sub1, sub2)
         repository.saveCategory(mainCategory.copy(typeFlags = FLAG_INCOME))
         assertThat(repository.loadCategory(mainCategory.id)!!.typeFlags).isEqualTo(FLAG_INCOME)
-        assertThat(repository.loadCategory(sub)!!.typeFlags).isEqualTo(FLAG_INCOME)
-        assertThat(repository.loadCategory(subSub)!!.typeFlags).isEqualTo(FLAG_INCOME)
+        assertThat(repository.loadCategory(sub1)!!.typeFlags).isEqualTo(FLAG_INCOME)
+        assertThat(repository.loadCategory(sub2)!!.typeFlags).isEqualTo(FLAG_INCOME)
     }
 
     @Test

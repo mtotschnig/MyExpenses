@@ -88,7 +88,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import timber.log.Timber
 
-const val DATABASE_VERSION = 152
+const val DATABASE_VERSION = 153
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -173,13 +173,13 @@ CREATE TRIGGER category_type_insert
     END
 """
 
-private const val CATEGORY_TYPE_UPDATE_TRIGGER_MAIN = """
+const val CATEGORY_TYPE_UPDATE_TRIGGER_MAIN = """
 CREATE TRIGGER category_type_update_type_main
     AFTER UPDATE
     ON $TABLE_CATEGORIES
     WHEN new.$KEY_TYPE IS NOT old.$KEY_TYPE
     BEGIN
-        UPDATE $TABLE_CATEGORIES SET $KEY_TYPE = new.$KEY_TYPE WHERE $KEY_PARENTID IN ($categoryTreeSelectForTrigger);
+        UPDATE $TABLE_CATEGORIES SET $KEY_TYPE = new.$KEY_TYPE WHERE $KEY_PARENTID = new.$KEY_ROWID;
     END
 """
 
@@ -189,7 +189,7 @@ CREATE TRIGGER category_type_update_type_sub
     ON $TABLE_CATEGORIES
     WHEN new.$KEY_TYPE IS NOT old.$KEY_TYPE AND new.$KEY_PARENTID IS NOT NULL AND new.$KEY_TYPE IS NOT (SELECT $KEY_TYPE FROM $TABLE_CATEGORIES WHERE $KEY_ROWID = new.$KEY_PARENTID)
     BEGIN
-        SELECT RAISE (FAIL, 'sub category type must match parent type');
+        SELECT RAISE (ABORT, 'sub category type must match parent type');
     END
 """
 

@@ -26,6 +26,7 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUN
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ATTACHMENTS_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.BANK_CREATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.CATEGORY_TYPE_UPDATE_TRIGGER_MAIN;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PARTY_HIERARCHY_TRIGGER;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_UNIQUE_INDEX;
@@ -571,6 +572,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     //to take care of ensuring consistency during upgrades
     if (!db.isReadOnly()) {
       db.execSQL("PRAGMA foreign_keys=ON;");
+      db.execSQL("PRAGMA recursive_triggers = ON;");
     }
     try {
       String uncommitedSelect = String.format(Locale.ROOT, "(SELECT %s from %s where %s = %d)",
@@ -2163,6 +2165,12 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 152) {
         repairWithSealedAccountsAndDebts(db, () ->  db.execSQL("update transactions set cr_status = (select cr_status from transactions parent where parent._id = transactions.parent_id) where parent_id is not null"));
         db.execSQL(SPLIT_PART_CR_STATUS_TRIGGER_CREATE);
+      }
+
+      if (oldVersion < 153) {
+        db.execSQL("DROP TRIGGER IF EXISTS category_type_update_type_main");
+        db.execSQL(CATEGORY_TYPE_UPDATE_TRIGGER_MAIN);
+        db.execSQL("UPDATE categories SET type = (SELECT type FROM categories parent WHERE parent._id = categories.parent_id) WHERE parent_id IN (SELECT _id FROM categories WHERE parent_id IS NULL)");
       }
 
       TransactionProvider.resumeChangeTrigger(db);

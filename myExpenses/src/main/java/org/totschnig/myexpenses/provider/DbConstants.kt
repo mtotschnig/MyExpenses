@@ -66,7 +66,7 @@ SELECT
     subtree.$KEY_PARENTID,
     level + 1
 FROM $TABLE_CATEGORIES subtree
-JOIN Tree ON Tree._id = subtree.parent_id
+JOIN Tree ON Tree.$KEY_ROWID = subtree.$KEY_PARENTID
 ORDER BY $KEY_LEVEL DESC
 ) SELECT $KEY_ROWID From Tree
 """
