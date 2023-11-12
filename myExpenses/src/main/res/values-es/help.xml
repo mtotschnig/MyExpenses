@@ -203,4 +203,5 @@
     <string name="help_DebtOverview_info">Haga clic en una entrada para ampliarla o contraerla.</string>
     <string name="debt_help_overflow">Para cada deuda, utilice el menú de la esquina superior derecha para editarla, cerrarla, eliminarla o compartirla. Las deudas en moneda extranjera pueden listarse opcionalmente con importes equivalentes en la moneda nacional.</string>
     <string name="menu_show_all_help_text">Las deudas que han sido cerradas o pagadas (su saldo es 0), sólo se mostrarán, si esta opción está marcada.</string>
+    <string name="menu_type_filter_help_text">Cuando esta opción está activada, puede seleccionar que sólo se muestren las categorías de gastos, ingresos o transferencias.</string>
 </resources>
