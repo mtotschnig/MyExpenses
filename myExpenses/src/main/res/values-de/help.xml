@@ -203,4 +203,5 @@
     <string name="debt_help_overflow">Für jede Schuld gibt es rechts oben ein Menü, mit dem man sie bearbeiten, schließen, löschen oder teilen kann. Fremdwährungsschulden können optional mit den entsprechenden Beträgen in der Heimatwährung aufgeführt werden.</string>
     <string name="menu_show_all_help_text">Schulden, die geschlossen oder abgezahlt wurden (ihr Saldo ist 0), werden nur angezeigt, wenn diese Option aktiviert ist.</string>
     <string name="help_DebtOverview_info">Klicken Sie auf einen Eintrag, um ihn ein- oder auszublenden.</string>
+    <string name="menu_type_filter_help_text">Wenn diese Option aktiviert ist, können Sie auswählen, ob nur Ausgaben-, Einkommen- oder Umbuchungskategorien angezeigt werden sollen.</string>
 </resources>
