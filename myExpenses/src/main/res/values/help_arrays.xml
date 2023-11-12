@@ -102,6 +102,7 @@
         <item>search</item>
         <item>categories_setup_default</item>
         <item>parent_category_selection</item>
+        <item>type_filter</item>
     </string-array>
 
     <string-array name="DistributionActivity_menuitems">
