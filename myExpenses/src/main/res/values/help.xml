@@ -218,4 +218,5 @@
     <string name="help_DebtOverview_info">Click on an entry in order to expand / collapse.</string>
     <string name="debt_help_overflow">For each debt, use the menu in the top right corner in order to edit, close, delete or share it. Foreign currency debts can optionally be listed with equivalent amounts in the home currency.</string>
     <string name="menu_show_all_help_text">Debts that have been closed or paid off (their balance is 0), will only be shown, if this option is checked.</string>
+    <string name="menu_type_filter_help_text">When this option is activated, you can select to only show expense, income or transfer categories.</string>
 </resources>

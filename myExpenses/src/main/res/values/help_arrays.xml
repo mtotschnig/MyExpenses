@@ -94,6 +94,7 @@
         <item>search</item>
         <item>categories_setup_default</item>
         <item>categories_export</item>
+        <item>type_filter</item>
     </string-array>
 
     <string-array name="ManageCategories_select_mapping_menuitems">
