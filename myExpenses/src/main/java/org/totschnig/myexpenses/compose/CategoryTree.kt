@@ -28,11 +28,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
+import org.totschnig.myexpenses.db2.FLAG_INCOME
+import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.toggle
 import org.totschnig.myexpenses.viewmodel.data.Category
 import kotlin.math.floor
 import kotlin.math.sqrt
+
+val Byte?.asColor: Color
+    @Composable get() = when (this) {
+        FLAG_INCOME -> LocalColors.current.income
+        FLAG_EXPENSE -> LocalColors.current.expense
+        FLAG_TRANSFER -> LocalColors.current.transfer
+        else -> Color.Unspecified
+    }
 
 @Composable
 fun Category(
@@ -45,7 +56,8 @@ fun Category(
     excludedSubTree: Long? = null,
     withRoot: Boolean = false,
     startPadding: Dp = 0.dp,
-    sumCurrency: CurrencyUnit? = null
+    sumCurrency: CurrencyUnit? = null,
+    withTypeColors: Boolean = true
 ) {
     val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
 
@@ -69,7 +81,8 @@ fun Category(
                 onToggleSelection = {
                     choiceMode.toggleSelection(selectedAncestor, category)
                 },
-                sumCurrency = sumCurrency
+                sumCurrency = sumCurrency,
+                withTypeColors = withTypeColors
             )
         }
         if (category.level > 0) {
@@ -87,7 +100,8 @@ fun Category(
                             choiceMode = choiceMode,
                             excludedSubTree = excludedSubTree,
                             startPadding = subTreePadding,
-                            sumCurrency = sumCurrency
+                            sumCurrency = sumCurrency,
+                            withTypeColors = withTypeColors
                         )
                     }
                 }
@@ -112,7 +126,8 @@ fun Category(
                         choiceMode = choiceMode,
                         excludedSubTree = excludedSubTree,
                         startPadding = subTreePadding,
-                        sumCurrency = sumCurrency
+                        sumCurrency = sumCurrency,
+                        withTypeColors = withTypeColors
                     )
                     if (index < filteredChildren.lastIndex) {
                         Divider()
@@ -132,7 +147,8 @@ fun CategoryRenderer(
     menuGenerator: (Category) -> Menu?,
     startPadding: Dp,
     onToggleSelection: () -> Unit,
-    sumCurrency: CurrencyUnit?
+    sumCurrency: CurrencyUnit?,
+    withTypeColors: Boolean
 ) {
     val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
     val isExpanded = expansionMode.isExpanded(category.id)
@@ -222,7 +238,11 @@ fun CategoryRenderer(
         } else {
             Spacer(modifier = Modifier.width(24.dp))
         }
-        Text(text = category.label, modifier = Modifier.weight(1f))
+        Text(
+            text = category.label,
+            modifier = Modifier.weight(1f),
+            color = if (withTypeColors) category.typeFlags.asColor else Color.Unspecified
+        )
 
         sumCurrency?.let {
             ColoredAmountText(

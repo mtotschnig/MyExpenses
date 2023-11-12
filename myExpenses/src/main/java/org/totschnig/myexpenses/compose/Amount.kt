@@ -90,12 +90,8 @@ fun ColoredAmountText(
         else -> null
     }
 ) {
-    val color = when(type) {
-        FLAG_INCOME-> LocalColors.current.income
-        FLAG_EXPENSE -> LocalColors.current.expense
-        FLAG_TRANSFER -> LocalColors.current.transfer
-        else -> Color.Unspecified
-    }
+    val color = type.asColor
+
     Text(
         modifier = modifier
             .conditional(withBorder) { amountBorder(color) }

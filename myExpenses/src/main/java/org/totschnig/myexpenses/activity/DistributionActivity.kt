@@ -403,7 +403,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                         }
                     )
                 }
-            }
+            },
+            withTypeColors = false
         )
     }
 
