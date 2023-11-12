@@ -14,7 +14,7 @@ data class Category(
     val id: Long = 0,
     val parentId: Long? = null,
     val level: Int = 0,
-    val label: String,
+    val label: String = "",
     val path: String = label,
     val children: List<Category> = emptyList(),
     val isMatching: Boolean = false,

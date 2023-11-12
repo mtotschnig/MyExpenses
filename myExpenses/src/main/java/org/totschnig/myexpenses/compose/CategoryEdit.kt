@@ -68,7 +68,7 @@ fun CategoryEdit(
             ) {
                 Text(
                     modifier = Modifier.padding(bottom = titleBottomPadding),
-                    text = if (dialogState.category == null) {
+                    text = if (dialogState.isNew) {
                         if (dialogState.parent == null) stringResource(R.string.menu_create_main_cat)
                         else stringResource(R.string.menu_create_sub_cat) + " (${dialogState.parent.label})"
                     } else stringResource(R.string.menu_edit_cat),
@@ -132,7 +132,7 @@ fun CategoryEdit(
                         }) {
                         Text(
                             text = stringResource(
-                                id = if (dialogState.category == null) R.string.dialog_button_add
+                                id = if (dialogState.isNew) R.string.dialog_button_add
                                 else R.string.menu_save
                             )
                         )

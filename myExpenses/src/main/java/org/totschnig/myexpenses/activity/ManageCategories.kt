@@ -679,7 +679,12 @@ class ManageCategories : ProtectedFragmentActivity(),
      * if label is already used, shows an error
      */
     open fun createCat(parent: Category?) {
-        viewModel.dialogState = CategoryViewModel.Show(parent = parent)
+        viewModel.dialogState = CategoryViewModel.Show(
+            parent = parent,
+            category = if (parent == null) Category(
+                typeFlags = viewModel.typeFilter
+            ) else null
+        )
     }
 
     /**

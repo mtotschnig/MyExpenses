@@ -90,7 +90,10 @@ open class CategoryViewModel(
         val parent: Category? = null,
         val saving: Boolean = false,
         val error: Boolean = false
-    ) : DialogState()
+    ) : DialogState() {
+        val isNew: Boolean
+            get() = category == null || category.id == 0L
+    }
 
     @OptIn(SavedStateHandleSaveableApi::class)
     var dialogState: DialogState by savedStateHandle.saveable { mutableStateOf(NoShow) }
