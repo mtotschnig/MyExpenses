@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.test.screenshots
 
-import android.Manifest
 import android.content.res.Configuration
 import android.content.res.Resources
 import androidx.appcompat.app.AppCompatDelegate
@@ -26,13 +25,11 @@ import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
-import androidx.test.rule.GrantPermissionRule
 import androidx.test.uiautomator.UiDevice
 import org.hamcrest.Matchers.containsString
 import org.junit.After
 import org.junit.AfterClass
 import org.junit.BeforeClass
-import org.junit.Rule
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefKey
@@ -47,11 +44,6 @@ import tools.fastlane.screengrab.locale.LocaleUtil
 abstract class TestMain : BaseMyExpensesTest() {
 
     open val shouldTakeScreenShot = false
-
-    @get:Rule
-    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR
-    )
 
     @After
     fun cleanUp() {
