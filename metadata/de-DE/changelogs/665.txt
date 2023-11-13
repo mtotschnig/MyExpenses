@@ -1,0 +1,4 @@
+• Kategorien können jetzt als Ausgaben- oder Einkommenskategorien konfiguriert werden, was sich auf die Berechnung der Ausgaben- und Einkommenssummen auswirkt.
+
+https://github.com/mtotschnig/MyExpenses/projects/113#column-19675398
+

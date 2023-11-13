@@ -1,0 +1,3 @@
+• Las categorías pueden configurarse ahora como categorías de gastos o de ingresos, lo que afectará a la forma en que se calculan las sumas de gastos e ingresos.
+
+https://github.com/mtotschnig/MyExpenses/projects/113#column-19675398
