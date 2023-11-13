@@ -287,6 +287,8 @@ dependencies {
 
     implementation 'de.cketti.mailto:email-intent-builder:2.0.0'
 
+    implementation 'androidx.browser:browser:1.6.0'
+
     androidTestImplementation composeBom
     androidTestImplementation 'tools.fastlane:screengrab:2.1.1'
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"

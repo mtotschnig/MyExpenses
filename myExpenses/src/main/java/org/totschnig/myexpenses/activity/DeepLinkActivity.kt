@@ -1,19 +1,23 @@
 package org.totschnig.myexpenses.activity
 
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
+import android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.evernote.android.state.State
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.*
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel
 
 class DeepLinkActivity : ProtectedFragmentActivity() {
-    private var isPdt = true //PayPalDataTransfer
+    @State
+    var isPdt = false //PayPalDataTransfer
     private val licenceValidationViewModel: LicenceValidationViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +81,17 @@ class DeepLinkActivity : ProtectedFragmentActivity() {
                 licenceValidationViewModel.result.collect { result ->
                     result?.let {
                         dismissSnackBar()
-                        showMessageWithPayPalInfo(it)
+                        if (isPdt) {
+                            val intent = Intent(this@DeepLinkActivity, ContribInfoDialogActivity::class.java).apply {
+                                action = "FINISH"
+                            }
+                            intent.putExtra("message", it)
+                            intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP)
+                            intent.addFlags(FLAG_ACTIVITY_SINGLE_TOP)
+                            startActivity(intent)
+                        } else {
+                            showMessageWithPayPalInfo(it)
+                        }
                     }
                 }
             }

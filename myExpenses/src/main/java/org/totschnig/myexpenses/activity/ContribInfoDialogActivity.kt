@@ -5,7 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.lifecycleScope
+import com.evernote.android.state.State
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
@@ -24,6 +26,7 @@ import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.tracking.Tracker
 import timber.log.Timber
 
+
 /**
  * Manages the dialog shown to user when they request usage of a premium functionality or click on
  * the dedicated entry on the preferences screen. If called from an activity extending
@@ -33,7 +36,8 @@ import timber.log.Timber
  * for the premium feature directly
  */
 class ContribInfoDialogActivity : IapActivity() {
-    private var doFinishAfterMessageDismiss = true
+    @State
+    var doFinishAfterMessageDismiss = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
@@ -49,6 +53,15 @@ class ContribInfoDialogActivity : IapActivity() {
                     .show(supportFragmentManager, "CONTRIB")
                 supportFragmentManager.executePendingTransactions()
             }
+        }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        if (intent.action == "FINISH") {
+            showMessage(
+            "${getString(R.string.paypal_callback_info)} ${intent.getStringExtra("message")}"
+            )
         }
     }
 
@@ -97,16 +110,8 @@ class ContribInfoDialogActivity : IapActivity() {
 
     fun startPayment(paymentOption: Int, aPackage: Package) {
         if (paymentOption == R.string.donate_button_paypal) {
-            try {
-                startActivity(Intent(Intent.ACTION_VIEW).apply {
-                    addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    data = Uri.parse(licenceHandler.getPaypalUri(aPackage))
-                })
-                finish()
-            } catch (e: ActivityNotFoundException) {
-                complain("No activity found for opening Paypal")
-            }
+            val intent: CustomTabsIntent = CustomTabsIntent.Builder().build()
+            intent.launchUrl(this, Uri.parse(licenceHandler.getPaypalUri(aPackage)))
         } else if (paymentOption == R.string.donate_button_invoice) {
             sendInvoiceRequest(aPackage)
             finish()
@@ -128,7 +133,8 @@ class ContribInfoDialogActivity : IapActivity() {
         if (featureStringFromExtra != null) {
             val feature = ContribFeature.valueOf(featureStringFromExtra)
             val shouldCallFeature =
-                licenceHandler.hasAccessTo(feature) || !canceled && licenceHandler.usagesLeft(feature)
+                licenceHandler.hasAccessTo(feature) ||
+                        (!canceled && licenceHandler.usagesLeft(feature))
             if (callerIsContribIface()) {
                 val i = Intent()
                 i.putExtra(KEY_FEATURE, featureStringFromExtra)
