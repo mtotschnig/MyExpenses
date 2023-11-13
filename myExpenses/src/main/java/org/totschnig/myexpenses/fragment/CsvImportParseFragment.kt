@@ -172,10 +172,8 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
             if (restoredUriString != null) {
                 val restoredUri = Uri.parse(restoredUriString)
                 val displayName = DialogUtils.getDisplayName(restoredUri)
-                if (displayName != null) {
-                    uri = restoredUri
-                    fileNameBinding.Filename.setText(displayName)
-                }
+                uri = restoredUri
+                fileNameBinding.Filename.setText(displayName)
             }
         }
     }
@@ -184,8 +182,13 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
         DialogUtils.openBrowse(mUri, this)
     }
 
-    override fun checkTypeParts(mimeType: String, extension: String) =
-        ImportFileResultHandler.checkTypePartsDefault(mimeType)
+    override fun checkTypeParts(mimeType: String, extension: String): Boolean {
+        if (extension == "csv") return true
+        val typeParts = mimeType.split('/')
+        if (typeParts.isEmpty()) return false
+        return (typeParts[0] == "text") ||
+                (typeParts.getOrNull(1)?.contains("csv") == true)
+    }
 
     override fun getTypeName(): String {
         return "CSV"
