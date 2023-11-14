@@ -41,6 +41,8 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.HistoryChartBinding
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
+import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.dialog.TransactionListComposeDialogFragment
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
@@ -93,11 +95,11 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
     @Inject
     lateinit var currencyContext: CurrencyContext
 
-    var showBalance = true
+    private var showBalance = true
 
-    var includeTransfers = false
+    private var includeTransfers = false
 
-    var showTotals = true
+    private var showTotals = true
 
     private val viewModel: HistoryViewModel by activityViewModels()
 
@@ -184,7 +186,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                 override fun onValueSelected(e: Entry, h: Highlight) {
                     if (h.stackIndex > -1) {
                         //expense is first entry, income second
-                        val type = if (h.stackIndex == 0) -1 else 1
+                        val type = if (h.stackIndex == 0) FLAG_EXPENSE else FLAG_INCOME
                         TransactionListComposeDialogFragment.newInstance(
                             TransactionListViewModel.LoadingInfo(
                                 accountId = accountInfo.id,

@@ -477,7 +477,7 @@ fun buildTransactionGroupCte(
 }
 
 fun effectiveTypeExpression(typeWithFallback: String): String =
-    "CASE WHEN $KEY_TRANSFER_PEER IS NULL THEN CASE $typeWithFallback WHEN $FLAG_NEUTRAL THEN CASE WHEN $KEY_AMOUNT > 0 THEN $FLAG_INCOME ELSE $FLAG_EXPENSE END ELSE $typeWithFallback END ELSE 0 END AS $KEY_TYPE"
+    "CASE WHEN $KEY_TRANSFER_PEER IS NULL THEN CASE $typeWithFallback WHEN $FLAG_NEUTRAL THEN CASE WHEN $KEY_AMOUNT > 0 THEN $FLAG_INCOME ELSE $FLAG_EXPENSE END ELSE $typeWithFallback END ELSE 0 END"
 
 fun transactionSumQuery(
     typeWithFallBack: String,
@@ -490,7 +490,7 @@ fun transactionSumQuery(
     val typeColumn = if (typeParameter == null) "$KEY_TYPE," else ""
     return """
     WITH $CTE_TRANSACTION_AMOUNTS AS (
-    SELECT ${effectiveTypeExpression(typeWithFallBack)}, $KEY_AMOUNT, $KEY_PARENTID, $KEY_ACCOUNTID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT FROM $VIEW_WITH_ACCOUNT 
+    SELECT ${effectiveTypeExpression(typeWithFallBack)} AS $KEY_TYPE, $KEY_AMOUNT, $KEY_PARENTID, $KEY_ACCOUNTID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT FROM $VIEW_WITH_ACCOUNT
     WHERE ($KEY_CATID IS NOT $SPLIT_CATID AND $KEY_CR_STATUS != 'VOID' ${if (selection.isNullOrEmpty()) "" else " AND $selection"}))
     SELECT $typeColumn $sumExpression AS $KEY_SUM FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_TYPE $typeQuery $groupBy"""
 }

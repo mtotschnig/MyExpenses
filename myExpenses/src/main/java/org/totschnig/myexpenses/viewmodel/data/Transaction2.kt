@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DISPLAY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EFFECTIVE_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
@@ -183,7 +184,7 @@ data class Transaction2(
                 "${getWeek()} AS $KEY_WEEK",
                 "$DAY AS $KEY_DAY",
                 KEY_ICON,
-                effectiveTypeExpression(typeWithFallBack(prefHandler))
+                "${effectiveTypeExpression(typeWithFallBack(prefHandler))} AS $KEY_TYPE"
             ).let {
                 if (extended) it + listOf(
                     KEY_CURRENCY,

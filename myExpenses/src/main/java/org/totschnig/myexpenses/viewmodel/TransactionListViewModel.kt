@@ -8,13 +8,19 @@ import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
 import kotlinx.parcelize.Parcelize
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
+import org.totschnig.myexpenses.db2.FLAG_INCOME
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
+import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isHomeAggregate
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.uriBuilderForTransactionList
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.effectiveTypeExpression
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 
 const val KEY_LOADING_INFO = "loadingInfo"
@@ -36,7 +42,7 @@ class TransactionListViewModel(
         val groupingClause: String?,
         val groupingArgs: List<String> = emptyList(),
         val label: String?,
-        val type: Int,
+        val type: Byte,
         val withTransfers: Boolean = true,
         val icon: String? = null
     ) : Parcelable
@@ -122,12 +128,21 @@ class TransactionListViewModel(
                 selectionParts += it
                 selectionArgs.addAll(groupingArgs.toTypedArray())
             }
-            if (type != 0) {
-                selectionParts += KEY_AMOUNT + (if (type == -1) "<" else ">") + "0"
+            if (!(type == FLAG_NEUTRAL && withTransfers)) {
+                val types = buildList {
+                    if(type != FLAG_EXPENSE) {
+                        add(FLAG_INCOME)
+                    }
+                    if(type != FLAG_INCOME) {
+                        add(FLAG_EXPENSE)
+                    }
+                    if(withTransfers) {
+                        add(FLAG_TRANSFER)
+                    }
+                }
+                selectionParts += "${effectiveTypeExpression(DbUtils.typeWithFallBack(prefHandler))} IN (${types.joinToString()})"
             }
-            if (!withTransfers) {
-                selectionParts += "$KEY_TRANSFER_PEER is null"
-            }
+
             selectionParts.joinToString(" AND ") to selectionArgs.toTypedArray()
         }
 }

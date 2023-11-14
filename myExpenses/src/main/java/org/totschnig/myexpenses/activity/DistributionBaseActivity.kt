@@ -8,6 +8,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
+import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.dialog.TransactionListComposeDialogFragment
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
@@ -82,7 +84,7 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
                     groupingClause = viewModel.filterClause,
                     groupingArgs = viewModel.whereFilter.value.getSelectionArgsList(true),
                     label = if (category.level == 0) accountInfo.label(this) else category.label,
-                    type = if (viewModel.incomeType) 1 else -1,
+                    type = if (viewModel.incomeType) FLAG_INCOME else FLAG_EXPENSE,
                     icon = category.icon
                 )
             )

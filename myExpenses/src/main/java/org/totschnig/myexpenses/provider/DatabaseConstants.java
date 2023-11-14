@@ -24,8 +24,6 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.preference.PrefHandler;
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Calendar;
 import java.util.Locale;
