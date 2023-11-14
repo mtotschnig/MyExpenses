@@ -73,7 +73,7 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
         expansionState.clear()
     }
 
-    fun showTransactions(category: Category) {
+    fun showTransactions(category: Category, incomeType: Boolean = false, aggregateNeutral: Boolean = false) {
         viewModel.accountInfo.value?.let { accountInfo ->
             TransactionListComposeDialogFragment.newInstance(
                 TransactionListViewModel.LoadingInfo(
@@ -84,7 +84,8 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
                     groupingClause = viewModel.filterClause,
                     groupingArgs = viewModel.whereFilter.value.getSelectionArgsList(true),
                     label = if (category.level == 0) accountInfo.label(this) else category.label,
-                    type = if (viewModel.incomeType) FLAG_INCOME else FLAG_EXPENSE,
+                    type = incomeType,
+                    aggregateNeutral = aggregateNeutral,
                     icon = category.icon
                 )
             )

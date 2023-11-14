@@ -19,14 +19,12 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.updateCategoryColor
@@ -84,20 +82,12 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         MutableStateFlow(WhereFilter.empty())
     val whereFilter: StateFlow<WhereFilter> = _whereFilter
 
-    private val _incomeType = MutableStateFlow(false)
     val groupingInfoFlow: Flow<GroupingInfo?>
         get() = savedStateHandle.getLiveData<GroupingInfo?>(KEY_GROUPING_INFO, null).asFlow()
-
-
-    val incomeType: Boolean
-        get() = _incomeType.value
 
     val grouping: Grouping
         get() = groupingInfo?.grouping ?: Grouping.NONE
 
-    fun setIncomeType(newValue: Boolean) {
-        _incomeType.tryEmit(newValue)
-    }
 
     var groupingInfo: GroupingInfo?
         get() = savedStateHandle.get<GroupingInfo>(KEY_GROUPING_INFO)
@@ -242,25 +232,10 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
     open val defaultDisplayTitle: String?
         get() = getString(R.string.menu_aggregates)
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val categoryTreeForDistribution = combine(
-        _accountInfo.filterNotNull(),
-        _incomeType,
-        groupingInfoFlow.filterNotNull()
-    ) { accountInfo, incomeType, grouping ->
-        Triple(accountInfo, incomeType, grouping)
-    }.flatMapLatest { (accountInfo, incomeType, grouping) ->
-        categoryTreeWithSum(
-            accountInfo = accountInfo,
-            incomeType = incomeType,
-            groupingInfo = grouping,
-            keepCriteria = { it.sum != 0L }
-        )
-    }.map { it.sortChildrenBySumRecursive() }
-
     fun categoryTreeWithSum(
         accountInfo: T,
         incomeType: Boolean,
+        aggregateNeutral: Boolean,
         groupingInfo: GroupingInfo,
         queryParameter: Map<String, String> = emptyMap(),
         whereFilter: WhereFilter = WhereFilter.empty(),
@@ -271,7 +246,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             selection = selection,
             projection = buildList {
                 add("$TREE_CATEGORIES.*")
-                add(sumColumn(accountInfo, incomeType, groupingInfo, whereFilter))
+                add(sumColumn(accountInfo, incomeType, aggregateNeutral, groupingInfo, whereFilter))
                 if (accountInfo is Budget) {
                     add(KEY_BUDGET)
                     add(KEY_BUDGET_ROLLOVER_PREVIOUS)
@@ -293,6 +268,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
     private fun sumColumn(
         accountInfo: T,
         incomeType: Boolean,
+        aggregateNeutral: Boolean,
         grouping: GroupingInfo,
         whereFilter: WhereFilter
     ): String {
@@ -319,11 +295,12 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                 accountSelection = " = ${accountInfo.accountId}"
             }
         }
+        val selectedType = if (incomeType) FLAG_INCOME else FLAG_NEUTRAL
         var catFilter =
             "FROM $table WHERE ${WHERE_NOT_VOID}${if (accountSelection == null) "" else " AND +${KEY_ACCOUNTID}$accountSelection"} AND $KEY_CATID = $TREE_CATEGORIES.${KEY_ROWID}"
-        val typeFlag = if(incomeType) FLAG_INCOME else FLAG_EXPENSE
-        val comparisonOperator = (if (incomeType) ">" else "<")
-        catFilter += " AND ($KEY_TYPE = $typeFlag OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT $comparisonOperator 0))"
+        //since we can ignore here unmapped transactions and transfers, we do not need to use the full effective type expression
+        catFilter += if(aggregateNeutral) " AND $KEY_TYPE IN ($selectedType, $FLAG_NEUTRAL)" else
+            " AND ($KEY_TYPE = $selectedType OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT ${if (incomeType) ">" else "<"} 0))"
         buildFilterClause(grouping, whereFilter, table).takeIf { it.isNotEmpty() }?.let {
             catFilter += " AND $it"
         }

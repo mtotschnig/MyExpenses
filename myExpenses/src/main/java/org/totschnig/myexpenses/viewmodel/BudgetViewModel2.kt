@@ -131,6 +131,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
                 categoryTreeWithSum(
                     accountInfo = accountInfo,
                     incomeType = false,
+                    aggregateNeutral = false,
                     groupingInfo = grouping,
                     queryParameter = buildMap {
                         if (grouping.grouping != Grouping.NONE) {

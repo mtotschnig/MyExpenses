@@ -215,4 +215,7 @@
     <item name="DELETE_FILES_COMMAND" type="id" />
     <item name="DELETE_BANK_COMMAND_DO" type="id" />
     <item name="TYPE_FILTER_COMMAND" type="id" />
+    <item name="FILTER_EXPENSE_COMMAND" type="id" />
+    <item name="FILTER_INCOME_COMMAND" type="id" />
+    <item name="AGGREGATE_COMMAND" type="id" />
 </resources>

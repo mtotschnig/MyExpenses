@@ -7,9 +7,7 @@ import android.util.SparseArray
 import android.view.*
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.Menu
-import android.widget.CompoundButton
 import androidx.activity.viewModels
-import androidx.appcompat.widget.SwitchCompat
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
@@ -44,6 +42,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.color.SimpleColorDialog
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.*
@@ -81,13 +80,6 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.distribution, menu)
         menuInflater.inflate(R.menu.grouping, menu)
-        (menu.findItem(R.id.switchId).actionView?.findViewById(R.id.TaType) as? SwitchCompat)?.let {
-            it.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-                prefHandler.putBoolean(PrefKey.DISTRIBUTION_AGGREGATE_TYPES, isChecked)
-                viewModel.setIncomeType(isChecked)
-                reset()
-            }
-        }
         super.onCreateOptionsMenu(menu)
         return true
     }
@@ -104,13 +96,40 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         menu.findItem(R.id.TOGGLE_CHART_COMMAND)?.let {
             it.isChecked = showChart.value
         }
-        (menu.findItem(R.id.switchId).actionView?.findViewById<View>(R.id.TaType) as? SwitchCompat)?.isChecked =
-            viewModel.incomeType
+        lifecycleScope.launch {
+            val currentIncomeType = viewModel.incomeType().first()
+            val typeMenu = menu.findItem(R.id.TYPE_FILTER_COMMAND).subMenu!!
+            typeOptions.entries.firstOrNull { it.value == currentIncomeType }?.let {
+                typeMenu.findItem(it.key).isChecked =  true
+            }
+            val currentAggregateNeutral = viewModel.aggregateNeutral().first()
+            typeMenu.findItem(R.id.AGGREGATE_COMMAND).isChecked = currentAggregateNeutral
+        }
         return true
     }
 
+    private val typeOptions = mapOf(
+        R.id.FILTER_EXPENSE_COMMAND to false,
+        R.id.FILTER_INCOME_COMMAND to true,
+    )
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (handleGrouping(item)) return true
+        typeOptions[item.itemId]?.let {
+            lifecycleScope.launch {
+                viewModel.persistIncomeType(it)
+                invalidateOptionsMenu()
+                reset()
+            }
+            return true
+        }
+        if (item.itemId == R.id.AGGREGATE_COMMAND) {
+            lifecycleScope.launch {
+                viewModel.persistAggregateNeutral(!item.isChecked)
+                invalidateOptionsMenu()
+                reset()
+            }
+        }
         return super.onOptionsItemSelected(item)
     }
 
@@ -162,7 +181,6 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.setIncomeType(prefHandler.getBoolean(PrefKey.DISTRIBUTION_AGGREGATE_TYPES, false))
         val binding = setupView()
         showChart.value = prefHandler.getBoolean(PrefKey.DISTRIBUTION_SHOW_CHART, true)
         injector.inject(viewModel)
@@ -206,7 +224,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                         }
                     }
                 }
-
+                val incomeType = viewModel.incomeType().collectAsState(initial = false)
                 val chartCategoryTree = remember {
                     derivedStateOf {
                         //expansionState does not reflect updates to the data, that is why we just use it
@@ -215,13 +233,13 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                         expansionState.forEach { expanded ->
                             result = result.children.find { it.id == expanded.id } ?: result
                         }
-                        result.copy(children = result.children.filter {
-                                category -> when(category.aggregateSum.sign) {
-                                    1 -> true
-                                    -1 -> false
-                                    else -> null
-                                } == viewModel.incomeType
+                        result.copy(children = result.children.filter { category ->
+                            when (category.aggregateSum.sign) {
+                                1 -> true
+                                else -> false
+                            } == incomeType.value
                         })
+
                     }
                 }
                 LaunchedEffect(chartCategoryTree.value) {
@@ -387,7 +405,15 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                         Icons.Filled.List,
                                         R.string.menu_show_transactions,
                                         "SHOW_TRANSACTIONS"
-                                    ) { showTransactions(category) }
+                                    ) {
+                                        lifecycleScope.launch {
+                                            showTransactions(
+                                                category,
+                                                viewModel.incomeType().first(),
+                                                viewModel.aggregateNeutral().first()
+                                            )
+                                        }
+                                    }
                                 )
                             }
                             if (category.level == 1 && category.color != null)

@@ -185,8 +185,6 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
             setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
                 override fun onValueSelected(e: Entry, h: Highlight) {
                     if (h.stackIndex > -1) {
-                        //expense is first entry, income second
-                        val type = if (h.stackIndex == 0) FLAG_EXPENSE else FLAG_INCOME
                         TransactionListComposeDialogFragment.newInstance(
                             TransactionListViewModel.LoadingInfo(
                                 accountId = accountInfo.id,
@@ -194,7 +192,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                                 grouping = grouping,
                                 groupingClause = buildGroupingClause(e.x.toInt()),
                                 label = formatXValue(e.x),
-                                type = type,
+                                type = h.stackIndex == 1,//expense is first entry, income second
                                 withTransfers = includeTransfers
                             )
                         ).show(parentFragmentManager, "List")

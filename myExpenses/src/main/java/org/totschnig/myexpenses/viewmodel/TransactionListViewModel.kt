@@ -42,7 +42,8 @@ class TransactionListViewModel(
         val groupingClause: String?,
         val groupingArgs: List<String> = emptyList(),
         val label: String?,
-        val type: Byte,
+        val type: Boolean,
+        val aggregateNeutral: Boolean = false,
         val withTransfers: Boolean = true,
         val icon: String? = null
     ) : Parcelable
@@ -128,21 +129,17 @@ class TransactionListViewModel(
                 selectionParts += it
                 selectionArgs.addAll(groupingArgs.toTypedArray())
             }
-            if (!(type == FLAG_NEUTRAL && withTransfers)) {
-                val types = buildList {
-                    if(type != FLAG_EXPENSE) {
-                        add(FLAG_INCOME)
-                    }
-                    if(type != FLAG_INCOME) {
-                        add(FLAG_EXPENSE)
-                    }
-                    if(withTransfers) {
-                        add(FLAG_TRANSFER)
-                    }
+            val types = buildList {
+                add(if(type) FLAG_INCOME else FLAG_EXPENSE)
+                if(aggregateNeutral) {
+                    add(FLAG_NEUTRAL)
                 }
-                selectionParts += "${effectiveTypeExpression(DbUtils.typeWithFallBack(prefHandler))} IN (${types.joinToString()})"
+                if(withTransfers) {
+                    add(FLAG_TRANSFER)
+                }
             }
-
+            val typeExpression = if(aggregateNeutral) KEY_TYPE else effectiveTypeExpression(DbUtils.typeWithFallBack(prefHandler))
+            selectionParts += "$typeExpression IN (${types.joinToString()})"
             selectionParts.joinToString(" AND ") to selectionArgs.toTypedArray()
         }
 }
