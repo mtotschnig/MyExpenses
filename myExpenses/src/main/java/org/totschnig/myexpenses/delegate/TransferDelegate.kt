@@ -71,6 +71,7 @@ class TransferDelegate(
         if (transaction != null) {
             mTransferAccountId = transaction.transferAccountId
             transferPeer = transaction.transferPeer
+            viewBinding.TransferAmount.setFractionDigits(transaction.transferAmount!!.currencyUnit.fractionDigits)
         }
         viewBinding.Amount.addTextChangedListener(LinkedTransferAmountTextWatcher(true))
         viewBinding.TransferAmount.addTextChangedListener(LinkedTransferAmountTextWatcher(false))
