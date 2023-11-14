@@ -105,12 +105,10 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_DEPENDENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_DEPENDENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_RELATED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_PEER;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_TRANSACTION;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.CTE_TRANSACTION_AMOUNTS;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetAllocation;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetSelect;
@@ -1083,7 +1081,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           } else {
             ContentValues v = new ContentValues();
             v.put(KEY_CR_STATUS, CrStatus.VOID.name());
-            count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, v, WHERE_SELF_OR_DEPENDENT, new String[]{segment, segment, segment});
+            count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, v, WHERE_SELF_OR_RELATED, new String[]{segment, segment, segment});
           }
           db.setTransactionSuccessful();
         } finally {
@@ -1239,7 +1237,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         whereArgs = new String[]{segment, segment, segment};
         ContentValues v = new ContentValues();
         v.put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name());
-        count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, v, "(" + WHERE_SELF_OR_DEPENDENT + ") AND " + KEY_CR_STATUS + "='" + CrStatus.VOID.name() + "'", whereArgs);
+        count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, v, "(" + WHERE_SELF_OR_RELATED + ") AND " + KEY_CR_STATUS + "='" + CrStatus.VOID.name() + "'", whereArgs);
       }
       case ACCOUNTS -> count = MoreDbUtilsKt.update(db, TABLE_ACCOUNTS, values, where, whereArgs);
       case ACCOUNT_ID -> count = MoreDbUtilsKt.update(db, TABLE_ACCOUNTS, values,
