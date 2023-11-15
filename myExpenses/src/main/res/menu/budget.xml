@@ -43,6 +43,10 @@
         android:title="@string/menu_manage_categories"
         app:showAsAction="never"/>
     <item
+        android:checkable="true"
+        android:id="@id/AGGREGATE_COMMAND"
+        android:title="Aggregate neutral categories" />
+    <item
         android:id="@id/BUDGET_ALLOCATED_ONLY"
         android:checkable="true"
         android:title="@string/menu_budget_allocated_only"

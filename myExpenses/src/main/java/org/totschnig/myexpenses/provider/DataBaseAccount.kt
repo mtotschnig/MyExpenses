@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.provider
 import android.net.Uri
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model2.IAccount
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.groupingUriBuilder
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
@@ -16,9 +17,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.getProjectionExtended
 /**
  * groups databaseSpecific information
  */
-abstract class DataBaseAccount {
-    abstract val id: Long
-    abstract val currency: String
+abstract class DataBaseAccount: IAccount {
+    abstract override val id: Long
+    abstract override val currency: String
     abstract val grouping: Grouping
 
     val isHomeAggregate get() = isHomeAggregate(id)
@@ -44,14 +45,11 @@ abstract class DataBaseAccount {
         }
 
     val groupingUri: Uri
-        get() {
-            val baseUri = groupingUriBuilder(grouping)
-            return when {
-                !isAggregate -> baseUri.appendQueryParameter(KEY_ACCOUNTID, id.toString())
-                isHomeAggregate -> baseUri
-                else -> baseUri.appendQueryParameter(KEY_CURRENCY, currency)
-            }.build()
-        }
+        get() = groupingUriBuilder(grouping).apply {
+            queryParameter?.let {
+                appendQueryParameter(it.first, it.second)
+            }
+        }.build()
 
     companion object {
 

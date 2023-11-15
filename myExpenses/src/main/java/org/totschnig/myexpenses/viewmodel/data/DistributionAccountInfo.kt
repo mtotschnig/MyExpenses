@@ -2,10 +2,19 @@ package org.totschnig.myexpenses.viewmodel.data
 
 import android.content.Context
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model2.IAccount
+import org.totschnig.myexpenses.provider.DataBaseAccount
+import org.totschnig.myexpenses.provider.DatabaseConstants
 
-interface DistributionAccountInfo {
+interface DistributionAccountInfo: IAccount {
     val accountId: Long
     fun label(context: Context): String
-    val currency: CurrencyUnit
+    val currencyUnit: CurrencyUnit
     val color: Int
+
+    override val currency: String
+        get() = currencyUnit.code
+
+    override val id: Long
+        get() = accountId
 }

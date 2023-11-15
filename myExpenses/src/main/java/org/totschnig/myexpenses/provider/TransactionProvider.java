@@ -58,6 +58,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_BY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID;
@@ -113,9 +114,10 @@ import static org.totschnig.myexpenses.provider.DbConstantsKt.CTE_TRANSACTION_AM
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetAllocation;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetSelect;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithBudget;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithMappedObjects;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithSum;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.checkForSealedAccount;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.getAccountSelector;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getPayeeWithDuplicatesCTE;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionMappedObjectQuery;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionSumQuery;
@@ -335,6 +337,10 @@ public class TransactionProvider extends BaseTransactionProvider {
    */
   public static final String QUERY_PARAMETER_INCLUDE_TRANSFERS = "includeTransfers";
 
+  public static final String QUERY_PARAMETER_AGGREGATE_NEUTRAL = "aggregateNeutral";
+
+  public static final String QUERY_PARAMETER_ALLOCATED_ONLY = "allocatedOnly";
+
   /**
    * Colon separated list of account types
    */
@@ -435,22 +441,9 @@ public class TransactionProvider extends BaseTransactionProvider {
         additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
       case TRANSACTIONS_SUMS: {
-        String accountSelectionQuery = null;
-        accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
-        if (accountSelector == null) {
-          accountSelector = uri.getQueryParameter(KEY_CURRENCY);
-          if (accountSelector != null) {
-            accountSelectionQuery = " IN " +
-                "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
-                KEY_EXCLUDE_FROM_TOTALS + "=0)";
-          }
-        } else {
-          accountSelectionQuery = " = ?";
-        }
-
+        String accountSelectionQuery = getAccountSelector(uri);
         String amountCalculation;
-        if (accountSelector != null) {
-          selectionArgs = joinArrays(selectionArgs, new String[]{accountSelector});
+        if (accountSelectionQuery != null) {
           selection += (TextUtils.isEmpty(selection) ? "" : " AND ") + KEY_ACCOUNTID + accountSelectionQuery;
           amountCalculation = KEY_AMOUNT;
         } else {
@@ -458,7 +451,13 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         String sumExpression = aggregateFunction + "(" + amountCalculation + ")";
         // if type flag is passed in, then we only return one type, otherwise two rows for expense and income are returned
-        String sql = transactionSumQuery(getTypeWithFallBack(), selection, sumExpression, uri.getQueryParameter(KEY_TYPE));
+        String sql = transactionSumQuery(
+                getTypeWithFallBack(),
+                selection,
+                sumExpression,
+                uri.getQueryParameter(KEY_TYPE),
+                uri.getBooleanQueryParameter(QUERY_PARAMETER_AGGREGATE_NEUTRAL, false)
+        );
         c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
         return c;
       }
@@ -472,12 +471,27 @@ public class TransactionProvider extends BaseTransactionProvider {
           return measureAndLogQuery(db, uri, sql, selection, selectionArgs);
         }
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_HIERARCHICAL, false)) {
-          final boolean withBudget = projection != null && Arrays.asList(projection).contains(KEY_BUDGET);
+          final boolean withSum = projection != null && Arrays.asList(projection).contains(KEY_SUM);
 
           String withType = uri.getQueryParameter(KEY_TYPE);
-          String sql = withBudget ? categoryTreeWithBudget(sortOrder, selection, projection, uri.getQueryParameter(KEY_YEAR), uri.getQueryParameter(KEY_SECOND_GROUP)) :
-                  categoryTreeSelect(sortOrder, selection, projection, null, null,
-                  uri.getQueryParameter(QUERY_PARAMETER_CATEGORY_SEPARATOR), withType);
+          String sql = withSum ?
+                  categoryTreeWithSum(
+                          aggregateFunction,
+                          homeCurrencyProvider.getHomeCurrencyString(),
+                          sortOrder,
+                          selection,
+                          projection,
+                          uri
+                  ) :
+                  categoryTreeSelect(
+                          sortOrder,
+                          selection,
+                          projection,
+                          null,
+                          null,
+                          uri.getQueryParameter(QUERY_PARAMETER_CATEGORY_SEPARATOR),
+                          withType
+                  );
           c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
           c.setNotificationUri(getContext().getContentResolver(), uri);
           return (withType != null && c.getCount() == 0) ? wrapWithResultCompat(c, hasCategories(db)) :  c;

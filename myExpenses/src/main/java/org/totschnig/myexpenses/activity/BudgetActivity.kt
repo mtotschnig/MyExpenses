@@ -29,6 +29,7 @@ import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.AmountInputHostDialog
 import eltos.simpledialogfragment.form.Check
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
@@ -137,12 +138,12 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                                 expansionMode = ExpansionMode.DefaultCollapsed(
                                     rememberMutableStateListOf()
                                 ),
-                                currency = budget.currency,
+                                currency = budget.currencyUnit,
                                 onBudgetEdit = { cat, parent ->
                                     showEditBudgetDialog(
                                         cat,
                                         parent,
-                                        budget.currency,
+                                        budget.currencyUnit,
                                         budget.grouping != Grouping.NONE
                                     )
                                 },
@@ -224,7 +225,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             when (dialogTag) {
                 EDIT_BUDGET_DIALOG -> {
                     val amount = Money(
-                        budget.currency,
+                        budget.currencyUnit,
                         (extras.getSerializable(DatabaseConstants.KEY_AMOUNT) as BigDecimal)
                     )
                     viewModel.updateBudget(
@@ -371,6 +372,9 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 menu.findItem(R.id.ROLLOVER_TOTAL).setEnabledAndVisible(hasRollovers == false)
                 menu.findItem(R.id.ROLLOVER_CATEGORIES).setEnabledAndVisible(hasRollovers == false)
                 menu.findItem(R.id.ROLLOVER_CLEAR).setEnabledAndVisible(hasRollovers == true)
+            }
+            lifecycleScope.launch {
+                menu.findItem(R.id.AGGREGATE_COMMAND).isChecked = viewModel.aggregateNeutral.first()
             }
         }
         return true

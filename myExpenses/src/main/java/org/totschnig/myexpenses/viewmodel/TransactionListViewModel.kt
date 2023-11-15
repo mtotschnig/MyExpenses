@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
+import org.totschnig.myexpenses.db2.asCategoryType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
@@ -130,7 +131,7 @@ class TransactionListViewModel(
                 selectionArgs.addAll(groupingArgs.toTypedArray())
             }
             val types = buildList {
-                add(if(type) FLAG_INCOME else FLAG_EXPENSE)
+                add(type.asCategoryType)
                 if(aggregateNeutral) {
                     add(FLAG_NEUTRAL)
                 }

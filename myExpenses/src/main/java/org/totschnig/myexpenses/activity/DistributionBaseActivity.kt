@@ -8,11 +8,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
-import org.totschnig.myexpenses.db2.FLAG_EXPENSE
-import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.dialog.TransactionListComposeDialogFragment
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.viewmodel.DistributionViewModelBase
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel
@@ -65,6 +62,14 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
                 viewModel.forward()
                 true
             }
+            R.id.AGGREGATE_COMMAND ->{
+                lifecycleScope.launch {
+                    viewModel.persistAggregateNeutral(tag as Boolean)
+                    invalidateOptionsMenu()
+                    reset()
+                }
+                true
+            }
 
             else -> false
         }
@@ -78,7 +83,7 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
             TransactionListComposeDialogFragment.newInstance(
                 TransactionListViewModel.LoadingInfo(
                     accountId = accountInfo.accountId,
-                    currency = accountInfo.currency,
+                    currency = accountInfo.currencyUnit,
                     catId = category.id,
                     grouping = viewModel.grouping,
                     groupingClause = viewModel.filterClause,

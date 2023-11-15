@@ -1,13 +1,27 @@
 package org.totschnig.myexpenses.provider
 
 import android.net.Uri
+import androidx.core.text.isDigitsOnly
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
+import org.totschnig.myexpenses.db2.asCategoryType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_AGGREGATE_NEUTRAL
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ALLOCATED_ONLY
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
+
+val Uri.accountSelector: String?
+    get() = getQueryParameter(KEY_ACCOUNTID)?.let {
+        require(it.isDigitsOnly())
+        "= $it"
+    } ?: getQueryParameter(KEY_CURRENCY)?.let {
+        require(it.matches("[A-Z]{3}".toRegex()))
+        " IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = '$it' AND $KEY_EXCLUDE_FROM_TOTALS=0)";
+    }
 
 fun checkSealedWithAlias(baseTable: String, innerTable: String) =
     "max(" + checkForSealedAccount(
@@ -19,8 +33,9 @@ fun checkSealedWithAlias(baseTable: String, innerTable: String) =
  * we check if the object is linked to a sealed account, either via its account, it transfer_account, or its children.
  * For Children, we only need to check for transfer_account, since there account is identical to their parent.
  */
-fun checkForSealedAccount(baseTable: String, innerTable: String, withTransfer: Boolean = true) = if (withTransfer)
-    "(SELECT max($KEY_SEALED) FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_ACCOUNTID OR $KEY_ROWID = $KEY_TRANSFER_ACCOUNT OR $KEY_ROWID in (SELECT $KEY_TRANSFER_ACCOUNT FROM $innerTable WHERE $KEY_PARENTID = $baseTable.$KEY_ROWID))"
+fun checkForSealedAccount(baseTable: String, innerTable: String, withTransfer: Boolean = true) =
+    if (withTransfer)
+        "(SELECT max($KEY_SEALED) FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_ACCOUNTID OR $KEY_ROWID = $KEY_TRANSFER_ACCOUNT OR $KEY_ROWID in (SELECT $KEY_TRANSFER_ACCOUNT FROM $innerTable WHERE $KEY_PARENTID = $baseTable.$KEY_ROWID))"
     else "(SELECT $KEY_SEALED FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_ACCOUNTID)"
 
 /**
@@ -92,16 +107,30 @@ fun subSelectFromAllocations(
     "(SELECT $column from Allocations ${budgetSelectForGroup(year, second)})" +
             if (withAlias) " AS $column" else ""
 
-
-fun categoryTreeWithBudget(
+fun categoryTreeWithSum(
+    aggregateFunction: String,
+    homeCurrency: String,
     sortOrder: String? = null,
     selection: String? = null,
     projection: Array<String>,
-    year: String?,
-    second: String?
+    uri: Uri
 ): String {
+    val year = uri.getQueryParameter(KEY_YEAR)
+    val second = uri.getQueryParameter(KEY_SECOND_GROUP)
+    val accountSelector = uri.accountSelector
+    val incomeType = uri.getBooleanQueryParameter(KEY_TYPE, false)
+    val type = incomeType.asCategoryType
+    val aggregateNeutral = uri.getBooleanQueryParameter(QUERY_PARAMETER_AGGREGATE_NEUTRAL, false)
     val map = projection.map {
         when (it) {
+            KEY_SUM -> buildString {
+                //else is FLAG_NEUTRAL because the categoryTreeCTE returns type and neutral
+                val amountStatement = if(aggregateNeutral) KEY_AMOUNT else
+                    "CASE $KEY_TYPE WHEN $type THEN $KEY_AMOUNT ELSE ${if (incomeType) "max" else "min"}($KEY_AMOUNT, 0) END"
+                append("(SELECT $aggregateFunction($amountStatement) FROM amounts ")
+                append(") AS $KEY_SUM")
+            }
+
             KEY_BUDGET -> budgetColumn(year, second)
             KEY_BUDGET_ROLLOVER_NEXT, KEY_BUDGET_ROLLOVER_PREVIOUS, KEY_ONE_TIME ->
                 subSelectFromAllocations(it, year, second)
@@ -109,12 +138,37 @@ fun categoryTreeWithBudget(
             else -> it
         }
     }
-    return categoryTreeCTE(sortOrder = sortOrder) +
-            ", ${budgetAllocationsCTE("$KEY_CATID= Tree.$KEY_ROWID AND $KEY_BUDGETID = ?")}" +
-            " SELECT ${map.joinToString()} FROM Tree ${selection?.let { "WHERE $it" } ?: ""}"
+    return buildString {
+        append(categoryTreeCTE(
+            sortOrder = sortOrder,
+            type = type
+        ))
+        val amountCalculation = if (accountSelector == null)
+            getAmountHomeEquivalent(VIEW_WITH_ACCOUNT, homeCurrency) + " AS $KEY_AMOUNT"
+        else
+            KEY_AMOUNT
+        append(", amounts as (select $amountCalculation from $VIEW_WITH_ACCOUNT WHERE ")
+        append(WHERE_NOT_VOID)
+        accountSelector?.let {
+            append(" AND +${KEY_ACCOUNTID}=$it")
+        }
+        selection?.takeIf { it.isNotEmpty() }?.let {
+            append( " AND $it")
+        }
+        append(" AND $KEY_CATID = $TREE_CATEGORIES.${KEY_ROWID}")
+        append(")")
+        if (projection.contains(KEY_BUDGET)) {
+            append(", ")
+            append(budgetAllocationsCTE("$KEY_CATID= Tree.$KEY_ROWID AND $KEY_BUDGETID = ?"))
+        }
+        append(" SELECT ${map.joinToString()} FROM Tree")
+        if(uri.getBooleanQueryParameter(QUERY_PARAMETER_ALLOCATED_ONLY, false)) {
+            append( " WHERE $KEY_BUDGET IS NOT NULL OR $KEY_SUM IS NOT NULL")
+        }
+    }
 }
 
-fun budgetAllocationsCTE(budgetSelect: String) =
+private fun budgetAllocationsCTE(budgetSelect: String) =
     "Allocations AS (SELECT $KEY_BUDGET, $KEY_YEAR, $KEY_SECOND_GROUP, $KEY_ONE_TIME, $KEY_BUDGET_ROLLOVER_PREVIOUS, $KEY_BUDGET_ROLLOVER_NEXT FROM $TABLE_BUDGET_ALLOCATIONS WHERE $budgetSelect)"
 
 fun parseBudgetCategoryUri(uri: Uri) = uri.pathSegments.let { it[1] to it[2] }
@@ -212,10 +266,14 @@ JOIN Tree ON Tree.$KEY_ROWID = subtree.$KEY_PARENTID
 }
 
 fun getPayeeWithDuplicatesCTE(selection: String?, collate: String) = """
-    WITH cte AS (SELECT ${BaseTransactionProvider.payeeProjection(TABLE_PAYEES).joinToString(",")}, 1 AS $KEY_LEVEL FROM $TABLE_PAYEES 
+    WITH cte AS (SELECT ${
+    BaseTransactionProvider.payeeProjection(TABLE_PAYEES).joinToString(",")
+}, 1 AS $KEY_LEVEL FROM $TABLE_PAYEES 
     WHERE $KEY_PARENTID IS NULL ${selection?.let { " AND $it" } ?: ""}
     UNION ALL
-    SELECT ${BaseTransactionProvider.payeeProjection("dups").joinToString(",")}, $KEY_LEVEL+1 from $TABLE_PAYEES dups
+    SELECT ${
+    BaseTransactionProvider.payeeProjection("dups").joinToString(",")
+}, $KEY_LEVEL+1 from $TABLE_PAYEES dups
     JOIN cte ON cte.$KEY_ROWID = dups.$KEY_PARENTID ORDER BY $KEY_LEVEL DESC, $KEY_PAYEE_NAME COLLATE $collate) SELECT * FROM cte
 """.trimIndent()
 
@@ -315,8 +373,10 @@ fun accountQueryCTE(
 ): String {
     val futureCriterion =
         if (futureStartsNow) "'now'" else "'now', 'localtime', 'start of day', '+1 day', 'utc'"
-    val isExpense = "$KEY_TRANSFER_PEER IS NULL AND ($KEY_TYPE = $FLAG_EXPENSE OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT < 0))"
-    val isIncome = "$KEY_TRANSFER_PEER IS NULL AND ($KEY_TYPE = $FLAG_INCOME OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT > 0))"
+    val isExpense =
+        "$KEY_TRANSFER_PEER IS NULL AND ($KEY_TYPE = $FLAG_EXPENSE OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT < 0))"
+    val isIncome =
+        "$KEY_TRANSFER_PEER IS NULL AND ($KEY_TYPE = $FLAG_INCOME OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT > 0))"
     val isTransfer = "$KEY_TRANSFER_PEER IS NOT NULL OR $KEY_TYPE = $FLAG_TRANSFER"
     return """
 WITH now as (
@@ -404,7 +464,8 @@ fun associativeJoin(
     associatedTable: String,
     mainColumn: String,
     associateColumn: String
-    ) = " LEFT JOIN $joinTable ON $joinTable.$mainColumn = $mainTable.$KEY_ROWID LEFT JOIN $associatedTable ON $associateColumn= $associatedTable.$KEY_ROWID"
+) =
+    " LEFT JOIN $joinTable ON $joinTable.$mainColumn = $mainTable.$KEY_ROWID LEFT JOIN $associatedTable ON $associateColumn= $associatedTable.$KEY_ROWID"
 
 fun tagGroupBy(tableName: String): String =
     " GROUP BY $tableName.$KEY_ROWID"
@@ -483,11 +544,13 @@ fun transactionSumQuery(
     typeWithFallBack: String,
     selection: String?,
     sumExpression: String,
-    typeParameter: String?
+    typeParameter: String?,
+    aggregateNeutral: Boolean
 ): String {
     val typeQuery = if (typeParameter == null) "!= 0" else "= $typeParameter"
     val groupBy = if (typeParameter == null) "GROUP BY $KEY_TYPE" else ""
     val typeColumn = if (typeParameter == null) "$KEY_TYPE," else ""
+    //TODO return only one row with KEY_EXPENSE_SU; AND KEY_INCOME_SUM which will allow us to take aggregateNeutral flag into account
     return """
     WITH $CTE_TRANSACTION_AMOUNTS AS (
     SELECT ${effectiveTypeExpression(typeWithFallBack)} AS $KEY_TYPE, $KEY_AMOUNT, $KEY_PARENTID, $KEY_ACCOUNTID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT FROM $VIEW_WITH_ACCOUNT

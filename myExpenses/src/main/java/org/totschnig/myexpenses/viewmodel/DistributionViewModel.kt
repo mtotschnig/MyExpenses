@@ -62,7 +62,7 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
                     val label = it.getString(0)
                     override val accountId = accountId
                     override fun label(context: Context) = label
-                    override val currency = currencyContext.get(it.getString(1))
+                    override val currencyUnit = currencyContext.get(it.getString(1))
                     override val color = if (isAggregate) -1 else it.getInt(2)
                 })
             }
@@ -87,10 +87,12 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
     }
 
     private val incomeTypePrefKey = booleanPreferencesKey("distributionType")
-    private val aggregateNeutralPrefKey = booleanPreferencesKey("aggregateNeutral")
+    override val aggregateNeutralPrefKey = booleanPreferencesKey("aggregateNeutral")
 
-    fun incomeType(): Flow<Boolean> = dataStore.data.map { preferences ->
-        preferences[incomeTypePrefKey] ?: false
+    val incomeType: Flow<Boolean> by lazy {
+        dataStore.data.map { preferences ->
+            preferences[incomeTypePrefKey] ?: false
+        }
     }
 
     suspend fun persistIncomeType(incomeType: Boolean) {
@@ -99,27 +101,17 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
         }
     }
 
-    fun aggregateNeutral(): Flow<Boolean> = dataStore.data.map { preferences ->
-        preferences[aggregateNeutralPrefKey] ?: false
-    }
-
-    suspend fun persistAggregateNeutral(aggregateNeutral: Boolean) {
-        dataStore.edit { preference ->
-            preference[aggregateNeutralPrefKey] = aggregateNeutral
-        }
-    }
-
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val categoryTreeForDistribution by lazy {
         combine(
             _accountInfo.filterNotNull(),
-            incomeType(),
-            aggregateNeutral(),
+            incomeType,
+            aggregateNeutral,
             groupingInfoFlow.filterNotNull()
         ) { accountInfo, incomeType, aggregateNeutral, grouping ->
             Tuple4(accountInfo, incomeType, aggregateNeutral, grouping)
-        }.flatMapLatest { (accountInfo, incomeType, aggregateNeutral,  grouping) ->
+        }.flatMapLatest { (accountInfo, incomeType, aggregateNeutral, grouping) ->
             categoryTreeWithSum(
                 accountInfo = accountInfo,
                 incomeType = incomeType,

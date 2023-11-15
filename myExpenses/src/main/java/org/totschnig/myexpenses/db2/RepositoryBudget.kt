@@ -3,8 +3,6 @@ package org.totschnig.myexpenses.db2
 import android.content.ContentUris
 import android.net.Uri
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
@@ -19,7 +17,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.getWeek
 import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
 import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.getLocalDate
 import org.totschnig.myexpenses.util.toDayOfWeek
@@ -83,13 +80,8 @@ fun budgetAllocationQueryUri(
 fun Repository.sumLoaderForBudget(budget: Budget): Triple<Uri, String, Array<String>?> {
     val sumBuilder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
     sumBuilder.appendQueryParameter(KEY_TYPE, FLAG_EXPENSE.toString())
-    val isTotalAccount = budget.accountId == DataBaseAccount.HOME_AGGREGATE_ID
-    if (!isTotalAccount) {
-        if (budget.accountId < 0) {
-            sumBuilder.appendQueryParameter(DatabaseConstants.KEY_CURRENCY, budget.currency.code)
-        } else {
-            sumBuilder.appendQueryParameter(DatabaseConstants.KEY_ACCOUNTID, budget.accountId.toString())
-        }
+    budget.queryParameter?.let {
+        sumBuilder.appendQueryParameter(it.first, it.second)
     }
     val filterPersistence =
         FilterPersistence(prefHandler, BudgetViewModel.prefNameForCriteria(budget.id), null, false)
@@ -229,7 +221,7 @@ fun Repository.loadBudgetProgress(budgetId: Long): BudgetProgress? {
         }
 
         BudgetProgress(
-            budget.title, budget.currency, groupingInfo.description, allocated, -spent, totalDays, currentDay
+            budget.title, budget.currencyUnit, groupingInfo.description, allocated, -spent, totalDays, currentDay
         )
     }
 }

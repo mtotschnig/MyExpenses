@@ -71,6 +71,7 @@ import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
+import org.totschnig.myexpenses.db2.asCategoryType
 import org.totschnig.myexpenses.delegate.CategoryDelegate
 import org.totschnig.myexpenses.delegate.MainDelegate
 import org.totschnig.myexpenses.delegate.SplitDelegate
@@ -1181,7 +1182,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 putExtra(KEY_PROTECTION_INFO, ManageCategories.ProtectionInfo(it, isTemplate))
             }
             putExtra(KEY_COLOR, color)
-            putExtra(KEY_TYPE_FILTER, (if (delegate.isIncome) FLAG_INCOME else FLAG_EXPENSE))
+            putExtra(KEY_TYPE_FILTER, delegate.isIncome.asCategoryType)
         }, SELECT_CATEGORY_REQUEST)
     }
 

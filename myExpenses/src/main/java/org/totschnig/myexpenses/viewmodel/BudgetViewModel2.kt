@@ -6,12 +6,13 @@ import android.content.ContentUris
 import android.content.ContentValues
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateMap
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
-import arrow.core.Tuple4
 import arrow.core.Tuple5
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -31,10 +32,9 @@ import org.totschnig.myexpenses.db2.budgetAllocationUri
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
-import org.totschnig.myexpenses.provider.getInt
-import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
@@ -83,7 +83,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
             contentResolver.observeQuery(
                 TransactionProvider.BUDGETS_URI,
                 BudgetViewModel.PROJECTION,
-                "${BudgetViewModel.q(DatabaseConstants.KEY_ROWID)} = ?",
+                "${BudgetViewModel.q(KEY_ROWID)} = ?",
                 arrayOf(budgetId.toString()),
                 null,
                 true
@@ -115,34 +115,28 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
 
         categoryTreeForBudget = combine(
             _accountInfo.filterNotNull(),
+            aggregateNeutral,
             _allocatedOnly,
             groupingInfoFlow.filterNotNull(),
             _whereFilter
-        ) { accountInfo, allocatedOnly, grouping, whereFilter ->
-            Tuple4(
+        ) { accountInfo, aggregateNeutral, allocatedOnly, grouping, whereFilter ->
+            Tuple5(
                 accountInfo,
+                aggregateNeutral,
                 allocatedOnly,
                 grouping,
                 whereFilter
             )
         }.combine(budgetFlow) { tuple, budget -> tuple to budget }
             .flatMapLatest { (tuple, budget) ->
-                val (accountInfo, allocatedOnly, grouping, whereFilter) = tuple
+                val (accountInfo, aggregateNeutral, allocatedOnly, grouping, whereFilter) = tuple
                 categoryTreeWithSum(
                     accountInfo = accountInfo,
                     incomeType = false,
-                    aggregateNeutral = false,
+                    aggregateNeutral = aggregateNeutral,
                     groupingInfo = grouping,
-                    queryParameter = buildMap {
-                        if (grouping.grouping != Grouping.NONE) {
-                            put(DatabaseConstants.KEY_YEAR, grouping.year.toString())
-                            if (grouping.grouping != Grouping.YEAR) {
-                                put(DatabaseConstants.KEY_SECOND_GROUP, grouping.second.toString())
-                            }
-                        }
-                    },
                     whereFilter = whereFilter,
-                    selection = if (allocatedOnly) "${DatabaseConstants.KEY_BUDGET} IS NOT NULL OR ${DatabaseConstants.KEY_SUM} IS NOT NULL" else null,
+                    queryParameter = mapOf(TransactionProvider.QUERY_PARAMETER_ALLOCATED_ONLY to allocatedOnly.toString())
                 ).map { it.copy(budget = budget) }
             }
     }
@@ -297,4 +291,9 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
             duringRollOverSave = false
         }
     }
+
+    override val aggregateNeutralPrefKey by lazy {
+        booleanPreferencesKey("aggregateNeutralBudget_${savedStateHandle.get<Long>(KEY_ROWID)}")
+    }
+
 }

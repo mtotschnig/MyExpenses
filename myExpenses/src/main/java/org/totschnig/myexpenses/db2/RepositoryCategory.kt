@@ -35,6 +35,9 @@ const val FLAG_EXPENSE: Byte = 1
 const val FLAG_INCOME: Byte = 2
 val FLAG_NEUTRAL = FLAG_EXPENSE or FLAG_INCOME
 
+val Boolean.asCategoryType: Byte
+    get() = if (this) FLAG_INCOME else FLAG_EXPENSE
+
 fun Repository.saveCategory(category: Category): Uri? {
     val initialValues = ContentValues().apply {
         put(KEY_LABEL, category.label.trim())

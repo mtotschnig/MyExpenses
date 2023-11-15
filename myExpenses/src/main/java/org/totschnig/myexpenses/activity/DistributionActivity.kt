@@ -97,13 +97,12 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             it.isChecked = showChart.value
         }
         lifecycleScope.launch {
-            val currentIncomeType = viewModel.incomeType().first()
+            val currentIncomeType = viewModel.incomeType.first()
             val typeMenu = menu.findItem(R.id.TYPE_FILTER_COMMAND).subMenu!!
             typeOptions.entries.firstOrNull { it.value == currentIncomeType }?.let {
-                typeMenu.findItem(it.key).isChecked =  true
+                typeMenu.findItem(it.key).isChecked = true
             }
-            val currentAggregateNeutral = viewModel.aggregateNeutral().first()
-            typeMenu.findItem(R.id.AGGREGATE_COMMAND).isChecked = currentAggregateNeutral
+            typeMenu.findItem(R.id.AGGREGATE_COMMAND).isChecked = viewModel.aggregateNeutral.first()
         }
         return true
     }
@@ -122,13 +121,6 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 reset()
             }
             return true
-        }
-        if (item.itemId == R.id.AGGREGATE_COMMAND) {
-            lifecycleScope.launch {
-                viewModel.persistAggregateNeutral(!item.isChecked)
-                invalidateOptionsMenu()
-                reset()
-            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -224,7 +216,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                         }
                     }
                 }
-                val incomeType = viewModel.incomeType().collectAsState(initial = false)
+                val incomeType = viewModel.incomeType.collectAsState(initial = false)
                 val chartCategoryTree = remember {
                     derivedStateOf {
                         //expansionState does not reflect updates to the data, that is why we just use it
@@ -394,7 +386,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             category = tree,
             choiceMode = choiceMode,
             expansionMode = expansionMode,
-            sumCurrency = accountInfo?.currency,
+            sumCurrency = accountInfo?.currencyUnit,
             menuGenerator = remember {
                 { category ->
                     org.totschnig.myexpenses.compose.Menu(
@@ -409,8 +401,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                         lifecycleScope.launch {
                                             showTransactions(
                                                 category,
-                                                viewModel.incomeType().first(),
-                                                viewModel.aggregateNeutral().first()
+                                                viewModel.incomeType.first(),
+                                                viewModel.aggregateNeutral.first()
                                             )
                                         }
                                     }
@@ -446,8 +438,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         accountInfo?.let { account ->
             val showTotal = viewModel.showTotal.collectAsState(initial = false)
             val accountFormatter = LocalCurrencyFormatter.current
-            val income = Money(accountInfo.currency, sums.first)
-            val expense = Money(accountInfo.currency, sums.second)
+            val income = Money(accountInfo.currencyUnit, sums.first)
+            val expense = Money(accountInfo.currencyUnit, sums.second)
             Divider(
                 modifier = Modifier.padding(top = 4.dp),
                 color = MaterialTheme.colorScheme.onSurface,
@@ -478,14 +470,14 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                 append(
                                     accountFormatter.formatCurrency(
                                         income.amountMajor,
-                                        account.currency,
+                                        account.currencyUnit,
                                         configure
                                     )
                                 )
                                 append(
                                     accountFormatter.formatCurrency(
                                         expense.amountMajor,
-                                        account.currency,
+                                        account.currencyUnit,
                                         configure
                                     )
                                 )
@@ -493,7 +485,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                 append(
                                     accountFormatter.convAmount(
                                         sums.first + sums.second,
-                                        account.currency
+                                        account.currencyUnit
                                     )
                                 )
                             },
@@ -508,7 +500,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                             modifier = Modifier.weight(1f),
                             text = accountFormatter.formatCurrency(
                                 income.amountMajor,
-                                account.currency,
+                                account.currencyUnit,
                                 configure
                             ),
                             textAlign = TextAlign.End
@@ -517,7 +509,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                             modifier = Modifier.weight(1f),
                             text = accountFormatter.formatCurrency(
                                 expense.amountMajor,
-                                account.currency,
+                                account.currencyUnit,
                                 configure
                             ),
                             textAlign = TextAlign.End
