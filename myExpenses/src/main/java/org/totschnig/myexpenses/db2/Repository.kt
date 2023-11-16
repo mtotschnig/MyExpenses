@@ -100,7 +100,7 @@ open class Repository @Inject constructor(
             ).build()
         )
         val result = contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
-        return result.size == ops.size && result.last().count == 1
+        return result.size == ops.size && result.last().count!! > 0
     }
 
     fun count(uri: Uri, selection: String? = null, selectionArgs: Array<String>? = null): Int {
