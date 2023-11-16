@@ -26,7 +26,7 @@ import java.time.format.FormatStyle
 
 
 data class Budget(
-    override val id: Long, override val accountId: Long, val title: String, val description: String?,
+    val id: Long, override val accountId: Long, val title: String, val description: String?,
     override val currencyUnit: CurrencyUnit, val grouping: Grouping, override val color: Int,
     val start: LocalDate?, val end: LocalDate?, val accountName: String?, val default: Boolean) : DistributionAccountInfo {
     constructor(id: Long, accountId: Long, title: String, description: String?, currency: CurrencyUnit, grouping: Grouping, color: Int, start: String?, end: String?, accountName: String?, default: Boolean) : this(

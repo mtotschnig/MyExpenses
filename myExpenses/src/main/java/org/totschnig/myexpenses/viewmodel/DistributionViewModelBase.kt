@@ -10,6 +10,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
+import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import arrow.core.Tuple4
 import kotlinx.coroutines.Dispatchers
@@ -22,6 +23,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
@@ -29,7 +31,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.updateCategoryColor
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DataBaseAccount
@@ -42,6 +43,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_P
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TREE_CATEGORIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
@@ -53,9 +56,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
 import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
-import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.getLongIfExistsOr0
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.DateInfoExtra
@@ -256,7 +258,10 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             }.toTypedArray(),
             queryParameter = queryParameter + buildMap {
                 put(KEY_TYPE, incomeType.toString())
-                put(TransactionProvider.QUERY_PARAMETER_AGGREGATE_NEUTRAL, aggregateNeutral.toString())
+                put(
+                    TransactionProvider.QUERY_PARAMETER_AGGREGATE_NEUTRAL,
+                    aggregateNeutral.toString()
+                )
                 if (accountInfo.accountId != DataBaseAccount.HOME_AGGREGATE_ID) {
                     put(KEY_ACCOUNTID, accountInfo.accountId.toString())
                 }
@@ -268,10 +273,12 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                 }
             },
             keepCriteria = keepCriteria
-        ).mapNotNull { when(it) {
-            is LoadingState.Empty -> Category.EMPTY
-            is LoadingState.Data -> it.data
-        } }
+        ).mapNotNull {
+            when (it) {
+                is LoadingState.Empty -> Category.EMPTY
+                is LoadingState.Data -> it.data
+            }
+        }
 
     val filterClause: String
         get() = buildFilterClause(groupingInfo!!, _whereFilter.value, VIEW_COMMITTED)
@@ -310,62 +317,62 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         }
     }
 
+    open val withIncomeSum = true
+
+    private val sumProjection by lazy {
+        if (withIncomeSum) arrayOf(KEY_SUM_EXPENSES, KEY_SUM_INCOME) else
+        arrayOf(KEY_SUM_EXPENSES)
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     val sums: Flow<Pair<Long, Long>> by lazy {
         combine(
-        _accountInfo.filterNotNull(),
-        aggregateNeutral,
-        groupingInfoFlow,
-        _whereFilter
-    ) { accountInfo, aggregateNeutral, grouping, whereFilter ->
-        grouping?.let {
-            Tuple4(
-                accountInfo,
-                aggregateNeutral,
-                grouping,
-                whereFilter
-            )
-        }
-    }
-        .filterNotNull()
-        .flatMapLatest { (accountInfo, aggregateNeutral, grouping, whereFilter) ->
-            val builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
-            accountInfo.queryParameter?.let {
-                builder.appendQueryParameter(it.first, it.second)
+            _accountInfo.filterNotNull(),
+            //if we ask for both sums and income, aggregateNeutral does not make sense, since
+            //then transactions from neutral categories would appear on both sides, giving meaningless results
+            if (withIncomeSum) flowOf(false) else aggregateNeutral,
+            groupingInfoFlow,
+            _whereFilter
+        ) { accountInfo, aggregateNeutral, grouping, whereFilter ->
+            grouping?.let {
+                Tuple4(
+                    accountInfo,
+                    aggregateNeutral,
+                    grouping,
+                    whereFilter
+                )
             }
-            builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_AGGREGATE_NEUTRAL, aggregateNeutral.toString())
+        }
+            .filterNotNull()
+            .flatMapLatest { (accountInfo, aggregateNeutral, grouping, whereFilter) ->
+                val builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
+                accountInfo.queryParameter?.let {
+                    builder.appendQueryParameter(it.first, it.second)
+                }
+                builder.appendQueryParameter(
+                    TransactionProvider.QUERY_PARAMETER_AGGREGATE_NEUTRAL,
+                    aggregateNeutral.toString()
+                )
 
-            //if we have no income or expense, there is no row in the cursor
-            contentResolver.observeQuery(
-                builder.build(),
-                null,
-                buildFilterClause(grouping, whereFilter, VIEW_WITH_ACCOUNT),
-                whereFilter.getSelectionArgs(true),
-                null, true
-            ).mapNotNull { query ->
-                withContext(Dispatchers.IO) {
-                    query.run()?.use { cursor ->
-                        var income: Long = 0
-                        var expense: Long = 0
-                        for (pair in cursor.asSequence) {
-                            val type = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_TYPE)).toByte()
-                            val sum = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_SUM))
-                            if (type == FLAG_INCOME) {
-                                income = sum
-                            } else {
-                                expense = sum
-                            }
-                        }
-                        Pair(income, expense)
-                    }
+                //if we have no income or expense, there is no row in the cursor
+                contentResolver.observeQuery(
+                    builder.build(),
+                    sumProjection,
+                    buildFilterClause(grouping, whereFilter, VIEW_WITH_ACCOUNT),
+                    whereFilter.getSelectionArgs(true),
+                    null, true
+                ).mapToOne {
+                    Pair(
+                        it.getLongIfExistsOr0(KEY_SUM_INCOME),
+                        it.getLongIfExistsOr0(KEY_SUM_EXPENSES)
+                    )
                 }
             }
-        }
     }
 
     abstract val aggregateNeutralPrefKey: Preferences.Key<Boolean>
 
-    suspend fun persistAggregateNeutral(aggregateNeutral: Boolean) {
+    open suspend fun persistAggregateNeutral(aggregateNeutral: Boolean) {
         dataStore.edit { preference ->
             preference[aggregateNeutralPrefKey] = aggregateNeutral
         }

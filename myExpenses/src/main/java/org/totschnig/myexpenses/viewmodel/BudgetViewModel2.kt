@@ -7,7 +7,6 @@ import android.content.ContentValues
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
@@ -39,6 +38,9 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
 import org.totschnig.myexpenses.viewmodel.data.Category
+import org.totschnig.myexpenses.widget.BudgetWidget
+import org.totschnig.myexpenses.widget.WIDGET_LIST_DATA_CHANGED
+import org.totschnig.myexpenses.widget.updateWidgets
 
 class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHandle) :
     DistributionViewModelBase<Budget>(application, savedStateHandle) {
@@ -74,7 +76,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
     private lateinit var budgetFlow: Flow<BudgetAllocation>
     lateinit var categoryTreeForBudget: Flow<Category>
 
-    val sum: StateFlow<Long> = sums.map { it.second }.stateIn(viewModelScope, SharingStarted.Companion.Lazily, 0)
+    val sum: StateFlow<Long> by lazy { sums.map { it.second }.stateIn(viewModelScope, SharingStarted.Companion.Lazily, 0) }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun initWithBudget(budgetId: Long, groupingYear: Int, groupingSecond: Int) {
@@ -293,7 +295,17 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
     }
 
     override val aggregateNeutralPrefKey by lazy {
-        booleanPreferencesKey("aggregateNeutralBudget_${savedStateHandle.get<Long>(KEY_ROWID)}")
+        booleanPreferencesKey("$AGGREGATE_NEUTRAL_PREFKEY_PREFIX${savedStateHandle.get<Long>(KEY_ROWID)}")
     }
 
+    override suspend fun persistAggregateNeutral(aggregateNeutral: Boolean) {
+        super.persistAggregateNeutral(aggregateNeutral)
+        updateWidgets(getApplication(), BudgetWidget::class.java, WIDGET_LIST_DATA_CHANGED)
+    }
+
+    override val withIncomeSum = false
+
+    companion object {
+        const val AGGREGATE_NEUTRAL_PREFKEY_PREFIX = "aggregateNeutralBudget_"
+    }
 }

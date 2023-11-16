@@ -401,8 +401,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                         lifecycleScope.launch {
                                             showTransactions(
                                                 category,
-                                                viewModel.incomeType.first(),
-                                                viewModel.aggregateNeutral.first()
+                                                viewModel.incomeType.first()
                                             )
                                         }
                                     }

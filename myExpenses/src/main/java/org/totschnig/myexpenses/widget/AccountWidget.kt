@@ -44,12 +44,6 @@ class AccountWidget :
 
     override val emptyTextResourceId = R.string.no_accounts
 
-    override fun shouldGoAsync(context: Context, vararg appWidgetId: Int): Boolean {
-        return !isProtected(context) && appWidgetId.any {
-            AccountRemoteViewsFactory.accountId(context, it) != Long.MAX_VALUE.toString()
-        }
-    }
-
     private fun updateSingleAccountWidget(
         context: Context,
         appWidgetManager: AppWidgetManager,
@@ -91,7 +85,7 @@ class AccountWidget :
         appWidgetManager.updateAppWidget(appWidgetId, widget)
     }
 
-    override fun updateWidgetDo(
+    override suspend fun updateWidgetDo(
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int

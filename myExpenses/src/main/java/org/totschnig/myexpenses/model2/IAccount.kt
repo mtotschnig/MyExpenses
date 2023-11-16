@@ -4,15 +4,15 @@ import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
 interface IAccount {
-    val id: Long
+    val accountId: Long
     val currency: String
 
     val queryParameter: Pair<String, String>?
-        get() = if (id != DataBaseAccount.HOME_AGGREGATE_ID) {
-            if (id < 0) {
+        get() = if (accountId != DataBaseAccount.HOME_AGGREGATE_ID) {
+            if (accountId < 0) {
                 DatabaseConstants.KEY_CURRENCY to currency
             } else {
-                DatabaseConstants.KEY_ACCOUNTID to id.toString()
+                DatabaseConstants.KEY_ACCOUNTID to accountId.toString()
             }
         } else null
 }

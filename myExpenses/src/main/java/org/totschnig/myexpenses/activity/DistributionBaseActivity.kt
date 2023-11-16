@@ -5,6 +5,7 @@ import android.view.Menu
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
@@ -78,7 +79,7 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
         expansionState.clear()
     }
 
-    fun showTransactions(category: Category, incomeType: Boolean = false, aggregateNeutral: Boolean = false) {
+    suspend fun showTransactions(category: Category, incomeType: Boolean = false) {
         viewModel.accountInfo.value?.let { accountInfo ->
             TransactionListComposeDialogFragment.newInstance(
                 TransactionListViewModel.LoadingInfo(
@@ -90,7 +91,7 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
                     groupingArgs = viewModel.whereFilter.value.getSelectionArgsList(true),
                     label = if (category.level == 0) accountInfo.label(this) else category.label,
                     type = incomeType,
-                    aggregateNeutral = aggregateNeutral,
+                    aggregateNeutral = viewModel.aggregateNeutral.first(),
                     icon = category.icon
                 )
             )

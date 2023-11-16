@@ -37,7 +37,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
@@ -53,7 +52,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_BY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
@@ -72,7 +70,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI_LIST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS_TAGS;
@@ -108,8 +105,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_DEPENDENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_RELATED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_PEER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_RELATED;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.CTE_TRANSACTION_AMOUNTS;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetAllocation;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetSelect;
@@ -119,6 +116,7 @@ import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithSu
 import static org.totschnig.myexpenses.provider.DbConstantsKt.checkForSealedAccount;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getAccountSelector;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getPayeeWithDuplicatesCTE;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.amountCalculation;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionMappedObjectQuery;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionSumQuery;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.computeWhere;
@@ -128,7 +126,6 @@ import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.havingForPaymentMe
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.mapPaymentMethodProjection;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.suggestNewCategoryColor;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.tableForPaymentMethodQuery;
-import static org.totschnig.myexpenses.util.ArrayUtilsKt.joinArrays;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 import android.content.ContentProviderOperation;
@@ -381,7 +378,6 @@ public class TransactionProvider extends BaseTransactionProvider {
 
     String aggregateFunction = getAggregateFunction();
 
-    String accountSelector;
     int uriMatch = URI_MATCHER.match(uri);
     //noinspection InlinedApi
     String queryParameterLimit = uri.getQueryParameter(ContentResolver.QUERY_ARG_LIMIT);
@@ -393,6 +389,8 @@ public class TransactionProvider extends BaseTransactionProvider {
     }
     switch (uriMatch) {
       case TRANSACTIONS: {
+        String accountSelector = getAccountSelector(uri);
+        selection = TextUtils.isEmpty(selection) ? accountSelector : selection + " AND " + accountSelector;
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS, false)) {
           String sql = transactionMappedObjectQuery(selection);
           c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
@@ -426,8 +424,7 @@ public class TransactionProvider extends BaseTransactionProvider {
                   "NOT(" + IS_SAME_CURRENCY + ") OR " + KEY_AMOUNT + " < 0" :
                   IS_SAME_CURRENCY + " AND " + KEY_AMOUNT + " < 0 OR (NOT(" + IS_SAME_CURRENCY + ") AND " + KEY_CURRENCY  + "='" + getHomeCurrency() + "')"  ;
           String mergeTransferSelection = KEY_TRANSFER_PEER + " IS NULL OR " + keepTransferPartCriterion;
-          selection = selection == null ? mergeTransferSelection :
-                  selection + " AND (" + mergeTransferSelection + ")";
+          selection += " AND (" + mergeTransferSelection + ")";
         }
         break;
       }
@@ -441,21 +438,15 @@ public class TransactionProvider extends BaseTransactionProvider {
         additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
       case TRANSACTIONS_SUMS: {
-        String accountSelectionQuery = getAccountSelector(uri);
-        String amountCalculation;
-        if (accountSelectionQuery != null) {
-          selection += (TextUtils.isEmpty(selection) ? "" : " AND ") + KEY_ACCOUNTID + accountSelectionQuery;
-          amountCalculation = KEY_AMOUNT;
-        } else {
-          amountCalculation = DatabaseConstants.getAmountHomeEquivalent(CTE_TRANSACTION_AMOUNTS, getHomeCurrency());
-        }
-        String sumExpression = aggregateFunction + "(" + amountCalculation + ")";
+        String accountSelector = getAccountSelector(uri);
+        selection = TextUtils.isEmpty(selection) ? accountSelector : selection + " AND " + accountSelector;
+        String sumExpression = aggregateFunction + "(" + amountCalculation(uri, CTE_TRANSACTION_AMOUNTS, getHomeCurrency()) + ")";
         // if type flag is passed in, then we only return one type, otherwise two rows for expense and income are returned
         String sql = transactionSumQuery(
+                projection,
                 getTypeWithFallBack(),
                 selection,
                 sumExpression,
-                uri.getQueryParameter(KEY_TYPE),
                 uri.getBooleanQueryParameter(QUERY_PARAMETER_AGGREGATE_NEUTRAL, false)
         );
         c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);

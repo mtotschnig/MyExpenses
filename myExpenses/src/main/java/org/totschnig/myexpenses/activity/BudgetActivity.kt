@@ -125,7 +125,9 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                             )
 
                             Budget(
-                                modifier = Modifier.weight(1f).testTag(TEST_TAG_BUDGET_ROOT),
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .testTag(TEST_TAG_BUDGET_ROOT),
                                 category = category.copy(
                                     sum = viewModel.sum.collectAsState().value,
                                 ).let {
@@ -147,7 +149,11 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                                         budget.grouping != Grouping.NONE
                                     )
                                 },
-                                onShowTransactions = ::showTransactions,
+                                onShowTransactions = {
+                                    lifecycleScope.launch {
+                                        showTransactions(it)
+                                    }
+                                },
                                 hasRolloverNext = category.hasRolloverNext,
                                 editRollOver = if (viewModel.duringRollOverEdit) {
                                     viewModel.editRollOverMap
@@ -167,7 +173,12 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 }
             }
         }
-        viewModel.setAllocatedOnly(prefHandler.getBoolean(templateForAllocatedOnlyKey(budgetId), false))
+        viewModel.setAllocatedOnly(
+            prefHandler.getBoolean(
+                templateForAllocatedOnlyKey(budgetId),
+                false
+            )
+        )
     }
 
     private fun showEditBudgetDialog(
@@ -181,13 +192,15 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             .neg()
         val amount = Money(currencyUnit, category.budget.budget)
         //The rollOver reduces the amount we need to allocate specific for this period
-        val min = category.children.sumOf { it.budget.totalAllocated } - category.budget.rollOverPrevious
+        val min =
+            category.children.sumOf { it.budget.totalAllocated } - category.budget.rollOverPrevious
         val max = if (category.level > 0) {
             val bundle = Bundle(1).apply {
                 putLong(DatabaseConstants.KEY_CATID, category.id)
             }
             simpleFormDialog.extra(bundle)
-            val allocated: Long = parentItem?.children?.sumOf { it.budget.totalAllocated } ?: category.budget.totalAllocated
+            val allocated: Long = parentItem?.children?.sumOf { it.budget.totalAllocated }
+                ?: category.budget.totalAllocated
             val allocatable = parentItem?.budget?.totalAllocated?.minus(allocated)
             val maxLong = allocatable?.plus(category.budget.totalAllocated)
             if (maxLong != null && maxLong <= 0) {
@@ -205,14 +218,25 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         simpleFormDialog
             .fields(
                 *buildList {
-                    add(buildAmountField(
-                        amount, max?.let { Money(currencyUnit, it).amountMajor },
-                        Money(currencyUnit, min).amountMajor, category.level, this@BudgetActivity
-                    ))
+                    add(
+                        buildAmountField(
+                            amount,
+                            max?.let { Money(currencyUnit, it).amountMajor },
+                            Money(currencyUnit, min).amountMajor,
+                            category.level,
+                            this@BudgetActivity
+                        )
+                    )
                     if (withOneTimeCheck)
-                        add(Check.box(DatabaseConstants.KEY_ONE_TIME)
-                            .label(getString(R.string.budget_only_current_period, supportActionBar?.subtitle))
-                            .check(category.budget.oneTime)
+                        add(
+                            Check.box(DatabaseConstants.KEY_ONE_TIME)
+                                .label(
+                                    getString(
+                                        R.string.budget_only_current_period,
+                                        supportActionBar?.subtitle
+                                    )
+                                )
+                                .check(category.budget.oneTime)
                         )
                 }.toTypedArray()
             )
@@ -236,6 +260,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                     )
                     return true
                 }
+
                 DELETE_BUDGET_DIALOG -> {
                     viewModel.deleteBudget(
                         budgetId = budget.id
@@ -249,6 +274,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                     }
                     return true
                 }
+
                 DELETE_ROLLOVER_DIALOG -> {
                     viewModel.rollOverClear()
                     return true
@@ -268,6 +294,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 })
                 true
             }
+
             R.id.BUDGET_ALLOCATED_ONLY -> {
                 viewModel.accountInfo.value?.let {
                     val value = tag as Boolean
@@ -278,6 +305,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 }
                 true
             }
+
             R.id.EDIT_COMMAND -> {
                 viewModel.accountInfo.value?.let {
                     startActivity(Intent(this, BudgetEdit::class.java).apply {
@@ -286,6 +314,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 }
                 true
             }
+
             R.id.DELETE_COMMAND -> {
                 viewModel.accountInfo.value?.let {
                     SimpleDialog.build()
@@ -302,10 +331,12 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 }
                 true
             }
+
             R.id.ROLLOVER_TOTAL -> {
                 viewModel.rollOverTotal()
                 true
             }
+
             R.id.ROLLOVER_CLEAR -> {
                 SimpleDialog.build()
                     .title(supportActionBar?.subtitle?.toString())
@@ -318,29 +349,38 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                     .show(this, DELETE_ROLLOVER_DIALOG)
                 true
             }
+
             R.id.ROLLOVER_CATEGORIES -> {
                 viewModel.rollOverCategories()
                 true
             }
+
             R.id.ROLLOVER_EDIT -> {
                 if (viewModel.startRollOverEdit()) {
                     invalidateOptionsMenu()
                 } else {
-                    Toast.makeText(this, "RollOver Save still ongoing. Try again later", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this,
+                        "RollOver Save still ongoing. Try again later",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
                 true
             }
+
             R.id.ROLLOVER_EDIT_CANCEL -> {
                 viewModel.stopRollOverEdit()
                 invalidateOptionsMenu()
                 true
             }
+
             R.id.ROLLOVER_EDIT_SAVE -> {
                 viewModel.stopRollOverEdit()
                 invalidateOptionsMenu()
                 viewModel.rollOverSave()
                 true
             }
+
             else -> false
         }
 

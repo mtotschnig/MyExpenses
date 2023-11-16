@@ -30,10 +30,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_WEEK_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.CTE_TRANSACTION_GROUPS;
 import static org.totschnig.myexpenses.provider.CursorExtKt.getLongOrNull;
 import static org.totschnig.myexpenses.provider.CursorExtKt.getString;
-import static org.totschnig.myexpenses.util.ArrayUtilsKt.joinArrays;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.convAmount;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
 
@@ -92,7 +90,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import kotlin.Pair;
 import timber.log.Timber;
 
 public class PdfPrinter {
@@ -129,12 +126,14 @@ public class PdfPrinter {
     Timber.d("Print start %d", start);
     PdfHelper helper = new PdfHelper();
     Timber.d("Helper created %d", (System.currentTimeMillis() - start));
-    Pair<String, String[]> selectionInfo = account.getSelectionInfo();
-    String selection = selectionInfo.getFirst();
-    String[] selectionArgs = selectionInfo.getSecond();
+    String selection;
+    String[] selectionArgs;
     if (filter != null && !filter.isEmpty()) {
-      selection += " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED);
-      selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false));
+      selection = " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED);
+      selectionArgs = filter.getSelectionArgs(false);
+    } else {
+      selection = "";
+      selectionArgs = new String[] {};
     }
     Cursor transactionCursor;
     String fileName = account.getLabel().replaceAll("\\W", "");
@@ -150,7 +149,7 @@ public class PdfPrinter {
       sortBy = account.getSortBy();
     }
     transactionCursor = context.getContentResolver().query(
-        account.extendedUriForTransactionList(false, false),
+        account.uriForTransactionList(false, false, true),
         account.getExtendedProjectionForTransactionList(),
         selection + " AND " + KEY_PARENTID + " is null", selectionArgs, sortBy + " " + account.getSortDirection());
     //first we check if there are any exportable transactions

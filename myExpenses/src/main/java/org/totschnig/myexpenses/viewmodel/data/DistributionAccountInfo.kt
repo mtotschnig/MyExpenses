@@ -7,14 +7,10 @@ import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
 interface DistributionAccountInfo: IAccount {
-    val accountId: Long
     fun label(context: Context): String
     val currencyUnit: CurrencyUnit
     val color: Int
 
     override val currency: String
         get() = currencyUnit.code
-
-    override val id: Long
-        get() = accountId
 }

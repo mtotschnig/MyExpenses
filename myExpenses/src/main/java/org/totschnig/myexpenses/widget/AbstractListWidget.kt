@@ -9,7 +9,6 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
-import androidx.appcompat.app.AppCompatDelegate
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefKey
@@ -18,7 +17,6 @@ import timber.log.Timber
 
 const val WIDGET_CLICK = "org.totschnig.myexpenses.WIDGET_CLICK"
 const val KEY_CLICK_ACTION = "clickAction"
-const val WIDGET_LIST_DATA_CHANGED = "org.totschnig.myexpenses.LIST_DATA_CHANGED"
 const val WIDGET_CONTEXT_CHANGED = "org.totschnig.myexpenses.CONTEXT_CHANGED"
 const val EXTRA_START_FROM_WIDGET = "startFromWidget"
 const val EXTRA_START_FROM_WIDGET_DATA_ENTRY = "startFromWidgetDataEntry"
@@ -73,7 +71,7 @@ abstract class AbstractListWidget(
 
     fun clickBaseIntent(context: Context) = Intent(WIDGET_CLICK, null, context, javaClass)
 
-    override fun updateWidgetDo(
+    override suspend fun updateWidgetDo(
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int

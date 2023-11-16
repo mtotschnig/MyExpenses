@@ -12,16 +12,26 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_AGGREGATE_NEUTRAL
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ALLOCATED_ONLY
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 
-val Uri.accountSelector: String?
-    get() = getQueryParameter(KEY_ACCOUNTID)?.let {
-        require(it.isDigitsOnly())
-        "= $it"
-    } ?: getQueryParameter(KEY_CURRENCY)?.let {
-        require(it.matches("[A-Z]{3}".toRegex()))
-        " IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = '$it' AND $KEY_EXCLUDE_FROM_TOTALS=0)";
-    }
+val Uri.accountSelector: String
+    get() =
+        KEY_ACCOUNTID + (
+                getQueryParameter(KEY_ACCOUNTID)?.let {
+                    require(it.isDigitsOnly())
+                    "= $it"
+                }
+                    ?: (" IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS=0 " +
+                            (getQueryParameter(KEY_CURRENCY)?.let {
+                                require(it.matches("[A-Z]{3}".toRegex()))
+                                "AND $KEY_CURRENCY = '$it'"
+                            } ?: "") +
+                            ")"
+                            )
+                )
+
+fun Uri.amountCalculation(tableName: String, homeCurrency: String) =
+    if (getQueryParameter(KEY_ACCOUNTID) != null || getQueryParameter(KEY_CURRENCY) != null)
+        KEY_AMOUNT else getAmountHomeEquivalent(tableName, homeCurrency)
 
 fun checkSealedWithAlias(baseTable: String, innerTable: String) =
     "max(" + checkForSealedAccount(
@@ -125,7 +135,7 @@ fun categoryTreeWithSum(
         when (it) {
             KEY_SUM -> buildString {
                 //else is FLAG_NEUTRAL because the categoryTreeCTE returns type and neutral
-                val amountStatement = if(aggregateNeutral) KEY_AMOUNT else
+                val amountStatement = if (aggregateNeutral) KEY_AMOUNT else
                     "CASE $KEY_TYPE WHEN $type THEN $KEY_AMOUNT ELSE ${if (incomeType) "max" else "min"}($KEY_AMOUNT, 0) END"
                 append("(SELECT $aggregateFunction($amountStatement) FROM amounts ")
                 append(") AS $KEY_SUM")
@@ -139,21 +149,21 @@ fun categoryTreeWithSum(
         }
     }
     return buildString {
-        append(categoryTreeCTE(
-            sortOrder = sortOrder,
-            type = type
-        ))
+        append(
+            categoryTreeCTE(
+                sortOrder = sortOrder,
+                type = type
+            )
+        )
         val amountCalculation = if (accountSelector == null)
             getAmountHomeEquivalent(VIEW_WITH_ACCOUNT, homeCurrency) + " AS $KEY_AMOUNT"
         else
             KEY_AMOUNT
         append(", amounts as (select $amountCalculation from $VIEW_WITH_ACCOUNT WHERE ")
         append(WHERE_NOT_VOID)
-        accountSelector?.let {
-            append(" AND +${KEY_ACCOUNTID}=$it")
-        }
+        append(" AND +$accountSelector")
         selection?.takeIf { it.isNotEmpty() }?.let {
-            append( " AND $it")
+            append(" AND $it")
         }
         append(" AND $KEY_CATID = $TREE_CATEGORIES.${KEY_ROWID}")
         append(")")
@@ -162,8 +172,8 @@ fun categoryTreeWithSum(
             append(budgetAllocationsCTE("$KEY_CATID= Tree.$KEY_ROWID AND $KEY_BUDGETID = ?"))
         }
         append(" SELECT ${map.joinToString()} FROM Tree")
-        if(uri.getBooleanQueryParameter(QUERY_PARAMETER_ALLOCATED_ONLY, false)) {
-            append( " WHERE $KEY_BUDGET IS NOT NULL OR $KEY_SUM IS NOT NULL")
+        if (uri.getBooleanQueryParameter(QUERY_PARAMETER_ALLOCATED_ONLY, false)) {
+            append(" WHERE $KEY_BUDGET IS NOT NULL OR $KEY_SUM IS NOT NULL")
         }
     }
 }
@@ -541,19 +551,32 @@ fun effectiveTypeExpression(typeWithFallback: String): String =
     "CASE WHEN $KEY_TRANSFER_PEER IS NULL THEN CASE $typeWithFallback WHEN $FLAG_NEUTRAL THEN CASE WHEN $KEY_AMOUNT > 0 THEN $FLAG_INCOME ELSE $FLAG_EXPENSE END ELSE $typeWithFallback END ELSE 0 END"
 
 fun transactionSumQuery(
+    projection: Array<String>,
     typeWithFallBack: String,
     selection: String?,
     sumExpression: String,
-    typeParameter: String?,
     aggregateNeutral: Boolean
-): String {
-    val typeQuery = if (typeParameter == null) "!= 0" else "= $typeParameter"
-    val groupBy = if (typeParameter == null) "GROUP BY $KEY_TYPE" else ""
-    val typeColumn = if (typeParameter == null) "$KEY_TYPE," else ""
-    //TODO return only one row with KEY_EXPENSE_SU; AND KEY_INCOME_SUM which will allow us to take aggregateNeutral flag into account
-    return """
-    WITH $CTE_TRANSACTION_AMOUNTS AS (
+) = if (aggregateNeutral) {
+    require(projection.size == 1)
+    val column = projection.first()
+    val type = when (column) {
+        KEY_SUM_INCOME -> FLAG_INCOME
+        KEY_SUM_EXPENSES -> FLAG_EXPENSE
+        else -> throw IllegalArgumentException()
+    }
+    """SELECT $sumExpression AS $column FROM $VIEW_WITH_ACCOUNT WHERE $KEY_TYPE IN ($type, $FLAG_NEUTRAL)
+AND ($KEY_CATID IS NOT $SPLIT_CATID AND $KEY_CR_STATUS != 'VOID' ${if (selection.isNullOrEmpty()) "" else " AND $selection"})"""
+} else {
+    val columns = projection.map {
+        when (it) {
+            KEY_SUM_EXPENSES -> "(SELECT $sumExpression FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_TYPE = $FLAG_EXPENSE) AS $KEY_SUM_EXPENSES"
+            KEY_SUM_INCOME -> "(SELECT $sumExpression FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_TYPE = $FLAG_INCOME) AS $KEY_SUM_INCOME"
+            else -> throw IllegalArgumentException()
+        }
+    }
+    require(columns.isNotEmpty())
+    """WITH $CTE_TRANSACTION_AMOUNTS AS (
     SELECT ${effectiveTypeExpression(typeWithFallBack)} AS $KEY_TYPE, $KEY_AMOUNT, $KEY_PARENTID, $KEY_ACCOUNTID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT FROM $VIEW_WITH_ACCOUNT
     WHERE ($KEY_CATID IS NOT $SPLIT_CATID AND $KEY_CR_STATUS != 'VOID' ${if (selection.isNullOrEmpty()) "" else " AND $selection"}))
-    SELECT $typeColumn $sumExpression AS $KEY_SUM FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_TYPE $typeQuery $groupBy"""
+    SELECT ${columns.joinToString()}"""
 }

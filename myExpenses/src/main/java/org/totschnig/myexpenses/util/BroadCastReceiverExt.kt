@@ -3,10 +3,8 @@ package org.totschnig.myexpenses.util
 import android.content.BroadcastReceiver
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import timber.log.Timber
 
 fun BroadcastReceiver.doAsync(
     block: suspend () -> Unit

@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
@@ -45,16 +46,12 @@ open class TransactionPagingSource(
         get() = context.contentResolver
     private val uri: Uri
     private val projection: Array<String>
-    private var selection: String
-    private var selectionArgs: Array<String>?
     private val observer: ContentObserver
 
     init {
         account.loadingInfo(homeCurrencyProvider.homeCurrencyString, prefHandler).also {
             uri = it.first
             projection = it.second
-            selection = it.third
-            selectionArgs = it.fourth
         }
         observer = object : ContentObserver(Handler(Looper.getMainLooper())) {
             override fun onChange(selfChange: Boolean) {
@@ -95,16 +92,14 @@ open class TransactionPagingSource(
         //we must take care to load only the missing items before the offset
         val loadSize = if (position < 0) params.loadSize + position else params.loadSize
         Timber.i("Requesting data for account %d at position %d", account.id, position)
+        var selection = "$KEY_PARENTID is null"
+        var selectionArgs: Array<String>? = null
         if (!whereFilter.value.isEmpty) {
             val selectionForParents =
                 whereFilter.value.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED)
             if (selectionForParents.isNotEmpty()) {
-                selection += " AND "
-                selection += selectionForParents
-                selectionArgs = buildList {
-                    selectionArgs?.let { addAll(it) }
-                    whereFilter.value.getSelectionArgsIfNotEmpty(false)?.let { addAll(it) }
-                }.toTypedArray()
+                selection += " AND $selectionForParents"
+                selectionArgs = whereFilter.value.getSelectionArgsIfNotEmpty(false)
             }
         }
         val startTime = if (BuildConfig.DEBUG) Instant.now() else null
@@ -116,7 +111,7 @@ open class TransactionPagingSource(
             contentResolver.query(
                 uri.withLimit(loadSize, position.coerceAtLeast(0)),
                 projection,
-                "$selection AND ${DatabaseConstants.KEY_PARENTID} is null",
+                selection,
                 selectionArgs,
                 "$sortBy ${account.sortDirection}", null
             )?.use { cursor ->
