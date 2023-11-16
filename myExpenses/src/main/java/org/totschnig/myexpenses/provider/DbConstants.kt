@@ -29,9 +29,10 @@ val Uri.accountSelector: String
                             )
                 )
 
-fun Uri.amountCalculation(tableName: String, homeCurrency: String) =
+fun Uri.amountCalculation(tableName: String, homeCurrency: String, withAlias: Boolean = false): String =
     if (getQueryParameter(KEY_ACCOUNTID) != null || getQueryParameter(KEY_CURRENCY) != null)
-        KEY_AMOUNT else getAmountHomeEquivalent(tableName, homeCurrency)
+        KEY_AMOUNT else getAmountHomeEquivalent(tableName, homeCurrency) +
+            if(withAlias) " AS $KEY_AMOUNT" else ""
 
 fun checkSealedWithAlias(baseTable: String, innerTable: String) =
     "max(" + checkForSealedAccount(
@@ -155,10 +156,7 @@ fun categoryTreeWithSum(
                 type = type
             )
         )
-        val amountCalculation = if (accountSelector == null)
-            getAmountHomeEquivalent(VIEW_WITH_ACCOUNT, homeCurrency) + " AS $KEY_AMOUNT"
-        else
-            KEY_AMOUNT
+        val amountCalculation = uri.amountCalculation(VIEW_WITH_ACCOUNT, homeCurrency, true)
         append(", amounts as (select $amountCalculation from $VIEW_WITH_ACCOUNT WHERE ")
         append(WHERE_NOT_VOID)
         append(" AND +$accountSelector")

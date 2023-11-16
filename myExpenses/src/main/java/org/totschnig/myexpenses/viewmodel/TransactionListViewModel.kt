@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
+import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
 import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountHomeEquivalent
@@ -47,7 +48,7 @@ class TransactionListViewModel(
         val label: String?,
         val type: Boolean,
         val aggregateNeutral: Boolean = false,
-        val withTransfers: Boolean = true,
+        val withTransfers: Boolean = false,
         val icon: String? = null
     ) : Parcelable
 
@@ -106,7 +107,7 @@ class TransactionListViewModel(
             val selectionArgs = mutableListOf<String>()
             selectionParts += WHERE_NOT_VOID
             if (catId == 0L) {
-                selectionParts += WHERE_NOT_SPLIT_PART
+                selectionParts += WHERE_NOT_SPLIT
             }
             groupingClause?.takeIf { it.isNotEmpty() }?.let {
                 selectionParts += it
