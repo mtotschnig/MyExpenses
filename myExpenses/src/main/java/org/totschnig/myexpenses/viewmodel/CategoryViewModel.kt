@@ -416,6 +416,7 @@ open class CategoryViewModel(
                                     val nextColor = cursor.getIntOrNull(KEY_COLOR)
                                     val nextIcon = cursor.getStringOrNull(KEY_ICON)
                                     val nextUuid = cursor.getString(KEY_UUID)
+                                    val nextType = if (parentId == null) cursor.getIntOrNull(KEY_TYPE) else null
                                     if (nextParent == parentId) {
                                         cursor.moveToNext()
                                         add(
@@ -424,7 +425,7 @@ open class CategoryViewModel(
                                                 nextLabel,
                                                 nextIcon,
                                                 nextColor,
-                                                if (parentId == null) cursor.getInt(KEY_TYPE) else null,
+                                                nextType,
                                                 ingest(cursor, nextId)
                                             )
                                         )
