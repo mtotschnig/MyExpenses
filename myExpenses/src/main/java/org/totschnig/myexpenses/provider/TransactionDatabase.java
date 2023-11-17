@@ -1975,8 +1975,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         repairTransferUuids(db);
       }
       if (oldVersion < 105) {
-        db.execSQL("DROP VIEW IF EXISTS " + VIEW_WITH_ACCOUNT);
-        db.execSQL(VIEW_WITH_ACCOUNT_DEFINITION);
+        //db.execSQL("DROP VIEW IF EXISTS " + VIEW_WITH_ACCOUNT);
+        //db.execSQL(VIEW_WITH_ACCOUNT_DEFINITION);
       }
       if (oldVersion < 106) {
         db.execSQL("DROP TRIGGER IF EXISTS update_change_log");
