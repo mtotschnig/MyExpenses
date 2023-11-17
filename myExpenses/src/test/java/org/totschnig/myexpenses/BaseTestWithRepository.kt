@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses
 
 import android.content.ContentResolver
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.test.core.app.ApplicationProvider
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
@@ -23,7 +25,8 @@ open class BaseTestWithRepository {
         currencyContext,
         Mockito.mock(CurrencyFormatter::class.java),
         Mockito.mock(PrefHandler::class.java),
-        Mockito.mock(HomeCurrencyProvider::class.java)
+        Mockito.mock(HomeCurrencyProvider::class.java),
+        Mockito.mock(DataStore::class.java) as DataStore<Preferences>
     )
 
     val contentResolver: ContentResolver = repository.contentResolver
