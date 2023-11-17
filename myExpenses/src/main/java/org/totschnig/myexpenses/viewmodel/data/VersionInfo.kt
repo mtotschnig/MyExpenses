@@ -120,6 +120,9 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
             "363" -> arrayOf(
                 "Multibanking (${Locale.GERMANY.displayCountry})"
             )
+            "368" -> arrayOf(
+                "${t(R.string.menu_distribution)}, ${t(R.string.menu_budget)}: ${t(R.string.ui_refinement)}"
+            )
             else -> {
                 val resId = res.getIdentifier(
                     "whats_new_$nameCondensed",
