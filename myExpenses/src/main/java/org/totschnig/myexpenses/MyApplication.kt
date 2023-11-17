@@ -120,6 +120,7 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
     fun setUserPreferredLocale(locale: Locale?) {
         _userPreferredLocale = locale
     }
+
     val wrappedContext: Context
         get() = wrapContext(this)
 
@@ -194,15 +195,16 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
             .applicationContext(this)
             .build()
     }
-    
+
     private fun plantTree(tag: String) {
         Timber.plant(TagFilterFileLoggingTree(this, tag))
     }
 
     private fun setupLogging() {
-        Timber.uprootAll()
-        if (prefHandler.getBoolean(PrefKey.DEBUG_LOGGING, BuildConfig.DEBUG)) {
-            MainScope().launch(Dispatchers.IO) {
+        MainScope().launch(Dispatchers.IO) {
+            Timber.uprootAll()
+            if (prefHandler.getBoolean(PrefKey.DEBUG_LOGGING, BuildConfig.DEBUG)) {
+
                 Timber.plant(Timber.DebugTree())
                 try {
                     plantTree(PlanExecutor.TAG)
@@ -213,11 +215,11 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
                     plantTree(BankingFeature.TAG)
                 } catch (e: Exception) {
                     report(e)
-                }   
+                }
             }
-        }
-        if (prefHandler.getBoolean(PrefKey.CRASHREPORT_ENABLED, true)) {
-            crashHandler.setupLogging(this)
+            if (prefHandler.getBoolean(PrefKey.CRASHREPORT_ENABLED, true)) {
+                crashHandler.setupLogging(this@MyApplication)
+            }
         }
     }
 
