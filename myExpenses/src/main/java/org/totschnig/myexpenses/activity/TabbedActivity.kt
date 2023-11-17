@@ -21,6 +21,7 @@ abstract class TabbedActivity : ProtectedFragmentActivity() {
         setContentView(binding.root)
         setupToolbar()
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
+        binding.viewPager.offscreenPageLimit = 1
         binding.viewPager.adapter = mSectionsPagerAdapter
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
             tab.text = getTitle(position)
