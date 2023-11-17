@@ -7,6 +7,8 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import androidx.core.database.getLongOrNull
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -42,7 +44,8 @@ open class Repository @Inject constructor(
     val currencyContext: CurrencyContext,
     val currencyFormatter: ICurrencyFormatter,
     val prefHandler: PrefHandler,
-    val homeCurrencyProvider: HomeCurrencyProvider
+    val homeCurrencyProvider: HomeCurrencyProvider,
+    val dataStore: DataStore<Preferences>
 ) {
     companion object {
         const val UUID_SEPARATOR = ":"

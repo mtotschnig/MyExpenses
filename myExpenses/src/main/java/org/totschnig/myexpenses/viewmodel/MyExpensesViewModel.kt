@@ -191,13 +191,10 @@ open class MyExpensesViewModel(
     }
 
     private val sums: Map<PageAccount, Flow<SumInfo>> = lazyMap { account ->
-        val (selection, selectionArgs) = account.selectionInfo
         contentResolver.observeQuery(
-            uri = TRANSACTIONS_URI.buildUpon()
+            uri = account.uriBuilderForTransactionList(extended = false)
                 .appendBooleanQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS)
-                .build(),
-            selection = selection,
-            selectionArgs = selectionArgs
+                .build()
         ).mapToOne {
             SumInfoLoaded.fromCursor(it)
         }.stateIn(viewModelScope, SharingStarted.Lazily, SumInfoUnknown)

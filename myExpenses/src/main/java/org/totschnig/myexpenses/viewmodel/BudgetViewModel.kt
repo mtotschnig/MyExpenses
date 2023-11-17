@@ -31,7 +31,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_DEFAULT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS
@@ -39,6 +39,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.viewmodel.BudgetViewModel2.Companion.aggregateNeutralPrefKey
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import java.util.Locale
 
@@ -56,6 +57,9 @@ open class BudgetViewModel(application: Application) :
      */
     val databaseResult = MutableLiveData<Long>()
 
+    /**
+     * pair of position to budget
+     */
     private val budgetLoaderFlow = MutableSharedFlow<Pair<Int, Budget>>()
 
 
@@ -69,29 +73,40 @@ open class BudgetViewModel(application: Application) :
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val amounts: Flow<Tuple4<Int, Long, Long, Long>> = budgetLoaderFlow.map { pair ->
-        val (position, budget) = pair
-
-        val (sumUri, sumSelection, sumSelectionArguments) = repository.sumLoaderForBudget(budget)
-
-        val allocationUri = budgetAllocationQueryUri(
-            budget.id,
-            0,
-            budget.grouping,
-            THIS_YEAR,
-            budget.grouping.queryArgumentForThisSecond
-        )
-
-        combine(
-            contentResolver.observeQuery(
-                sumUri,
-                null, sumSelection, sumSelectionArguments, null, true
+    val amounts: Flow<Tuple4<Int, Long, Long, Long>> by lazy {
+        budgetLoaderFlow.map { budgetPair ->
+            dataStore.data.map {
+                Triple(
+                    budgetPair.first,
+                    budgetPair.second,
+                    it[aggregateNeutralPrefKey(budgetPair.second.id)] == true
+                )
+            }
+        }.flattenMerge().map { (position, budget, aggregateNeutral) ->
+            val (sumUri, sumSelection, sumSelectionArguments) = repository.sumLoaderForBudget(
+                budget,
+                aggregateNeutral
             )
-                .mapToOne { it.getLong(KEY_SUM) },
-            contentResolver.observeQuery(allocationUri)
-                .mapToOne(0) { it.getLong(KEY_BUDGET) }
-        ) { spent, allocated -> Tuple4(position, budget.id, spent, allocated) }
-    }.flattenMerge()
+
+            val allocationUri = budgetAllocationQueryUri(
+                budget.id,
+                0,
+                budget.grouping,
+                THIS_YEAR,
+                budget.grouping.queryArgumentForThisSecond
+            )
+
+            combine(
+                contentResolver.observeQuery(
+                    sumUri,
+                    arrayOf(KEY_SUM_EXPENSES), sumSelection, sumSelectionArguments, null, true
+                )
+                    .mapToOne { it.getLong(KEY_SUM_EXPENSES) },
+                contentResolver.observeQuery(allocationUri)
+                    .mapToOne(0) { it.getLong(KEY_BUDGET) }
+            ) { spent, allocated -> Tuple4(position, budget.id, spent, allocated) }
+        }.flattenMerge()
+    }
 
     fun loadBudgetAmounts(position: Int, budget: Budget) {
         viewModelScope.launch {

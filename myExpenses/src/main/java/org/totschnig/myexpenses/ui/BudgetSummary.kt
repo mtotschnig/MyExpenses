@@ -25,10 +25,10 @@ class BudgetSummary @JvmOverloads constructor(
     fun bind(budget: Budget, spent: Long, allocated: Long, currencyFormatter: ICurrencyFormatter) {
         binding.budgetProgressTotal.finishedStrokeColor = budget.color
         binding.budgetProgressTotal.unfinishedStrokeColor = getComplementColor(budget.color)
-        tableBinding.totalBudget.text = currencyFormatter.formatMoney(Money(budget.currency, allocated))
-        tableBinding.totalAmount.text = currencyFormatter.formatMoney(Money(budget.currency, -spent))
+        tableBinding.totalBudget.text = currencyFormatter.formatMoney(Money(budget.currencyUnit, allocated))
+        tableBinding.totalAmount.text = currencyFormatter.formatMoney(Money(budget.currencyUnit, -spent))
         val available = allocated - spent
-        tableBinding.totalAvailable.text = currencyFormatter.formatMoney(Money(budget.currency, available))
+        tableBinding.totalAvailable.text = currencyFormatter.formatMoney(Money(budget.currencyUnit, available))
         val onBudget = available >= 0
         tableBinding.totalAvailable.setBackgroundResource(getBackgroundForAvailable(onBudget))
         tableBinding.totalAvailable.setTextColor(context.resources.getColor(if (onBudget) R.color.colorIncome else R.color.colorExpense))

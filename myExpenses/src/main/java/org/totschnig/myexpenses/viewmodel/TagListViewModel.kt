@@ -13,8 +13,10 @@ import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.getIntIfExists
@@ -43,7 +45,7 @@ class TagListViewModel(application: Application, savedStateHandle: SavedStateHan
 
     fun loadTags() {
         viewModelScope.launch {
-            val accountId = savedStateHandle.get<Long>(DatabaseConstants.KEY_ACCOUNTID)
+            val accountId = savedStateHandle.get<Long>(KEY_ACCOUNTID)
             val builder = TransactionProvider.TAGS_URI.buildUpon()
 
             if (accountId == null) {

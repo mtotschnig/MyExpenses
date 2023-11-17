@@ -5,10 +5,14 @@ import android.os.Parcelable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
+import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
+import arrow.core.Tuple4
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -19,6 +23,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
@@ -26,41 +31,33 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.db2.FLAG_EXPENSE
-import org.totschnig.myexpenses.db2.FLAG_INCOME
-import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.updateCategoryColor
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
+import org.totschnig.myexpenses.provider.DataBaseAccount
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TREE_CATEGORIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
 import org.totschnig.myexpenses.provider.DatabaseConstants.YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountHomeEquivalent
 import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
 import org.totschnig.myexpenses.provider.DatabaseConstants.getWeek
 import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
 import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.getLongIfExistsOr0
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.DateInfoExtra
@@ -84,20 +81,12 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         MutableStateFlow(WhereFilter.empty())
     val whereFilter: StateFlow<WhereFilter> = _whereFilter
 
-    private val _incomeType = MutableStateFlow(false)
     val groupingInfoFlow: Flow<GroupingInfo?>
         get() = savedStateHandle.getLiveData<GroupingInfo?>(KEY_GROUPING_INFO, null).asFlow()
-
-
-    val incomeType: Boolean
-        get() = _incomeType.value
 
     val grouping: Grouping
         get() = groupingInfo?.grouping ?: Grouping.NONE
 
-    fun setIncomeType(newValue: Boolean) {
-        _incomeType.tryEmit(newValue)
-    }
 
     var groupingInfo: GroupingInfo?
         get() = savedStateHandle.get<GroupingInfo>(KEY_GROUPING_INFO)
@@ -242,36 +231,20 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
     open val defaultDisplayTitle: String?
         get() = getString(R.string.menu_aggregates)
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val categoryTreeForDistribution = combine(
-        _accountInfo.filterNotNull(),
-        _incomeType,
-        groupingInfoFlow.filterNotNull()
-    ) { accountInfo, incomeType, grouping ->
-        Triple(accountInfo, incomeType, grouping)
-    }.flatMapLatest { (accountInfo, incomeType, grouping) ->
-        categoryTreeWithSum(
-            accountInfo = accountInfo,
-            incomeType = incomeType,
-            groupingInfo = grouping,
-            keepCriteria = { it.sum != 0L }
-        )
-    }.map { it.sortChildrenBySumRecursive() }
-
     fun categoryTreeWithSum(
         accountInfo: T,
         incomeType: Boolean,
+        aggregateNeutral: Boolean,
         groupingInfo: GroupingInfo,
-        queryParameter: Map<String, String> = emptyMap(),
         whereFilter: WhereFilter = WhereFilter.empty(),
-        selection: String? = null,
-        keepCriteria: ((Category) -> Boolean)? = null
+        keepCriteria: ((Category) -> Boolean)? = null,
+        queryParameter: Map<String, String> = emptyMap(),
     ): Flow<Category> =
         categoryTree(
-            selection = selection,
+            selection = buildFilterClause(groupingInfo, whereFilter, VIEW_WITH_ACCOUNT),
             projection = buildList {
                 add("$TREE_CATEGORIES.*")
-                add(sumColumn(accountInfo, incomeType, groupingInfo, whereFilter))
+                add(KEY_SUM)
                 if (accountInfo is Budget) {
                     add(KEY_BUDGET)
                     add(KEY_BUDGET_ROLLOVER_PREVIOUS)
@@ -283,52 +256,29 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                 (accountInfo as? Budget)?.id?.let { add(it.toString()) }
                 addAll(whereFilter.getSelectionArgs(true))
             }.toTypedArray(),
-            queryParameter = queryParameter,
+            queryParameter = queryParameter + buildMap {
+                put(KEY_TYPE, incomeType.toString())
+                put(
+                    TransactionProvider.QUERY_PARAMETER_AGGREGATE_NEUTRAL,
+                    aggregateNeutral.toString()
+                )
+                if (accountInfo.accountId != DataBaseAccount.HOME_AGGREGATE_ID) {
+                    put(KEY_ACCOUNTID, accountInfo.accountId.toString())
+                }
+                if (groupingInfo.grouping != Grouping.NONE) {
+                    put(DatabaseConstants.KEY_YEAR, groupingInfo.year.toString())
+                    if (groupingInfo.grouping != Grouping.YEAR) {
+                        put(DatabaseConstants.KEY_SECOND_GROUP, groupingInfo.second.toString())
+                    }
+                }
+            },
             keepCriteria = keepCriteria
-        ).mapNotNull { when(it) {
-            is LoadingState.Empty -> Category.EMPTY
-            is LoadingState.Data -> it.data
-        } }
-
-    private fun sumColumn(
-        accountInfo: T,
-        incomeType: Boolean,
-        grouping: GroupingInfo,
-        whereFilter: WhereFilter
-    ): String {
-        val accountSelection: String?
-        var amountCalculation = KEY_AMOUNT
-        var table = VIEW_COMMITTED
-        when {
-            accountInfo.accountId == HOME_AGGREGATE_ID -> {
-                accountSelection = null
-                amountCalculation =
-                    getAmountHomeEquivalent(
-                        VIEW_WITH_ACCOUNT,
-                        homeCurrencyProvider.homeCurrencyString
-                    )
-                table = VIEW_WITH_ACCOUNT
-            }
-
-            accountInfo.accountId < 0 -> {
-                accountSelection =
-                    " IN (SELECT $KEY_ROWID from $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = '${accountInfo.currency.code}' AND $KEY_EXCLUDE_FROM_TOTALS = 0 )"
-            }
-
-            else -> {
-                accountSelection = " = ${accountInfo.accountId}"
+        ).mapNotNull {
+            when (it) {
+                is LoadingState.Empty -> Category.EMPTY
+                is LoadingState.Data -> it.data
             }
         }
-        var catFilter =
-            "FROM $table WHERE ${WHERE_NOT_VOID}${if (accountSelection == null) "" else " AND +${KEY_ACCOUNTID}$accountSelection"} AND $KEY_CATID = $TREE_CATEGORIES.${KEY_ROWID}"
-        val typeFlag = if(incomeType) FLAG_INCOME else FLAG_EXPENSE
-        val comparisonOperator = (if (incomeType) ">" else "<")
-        catFilter += " AND ($KEY_TYPE = $typeFlag OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT $comparisonOperator 0))"
-        buildFilterClause(grouping, whereFilter, table).takeIf { it.isNotEmpty() }?.let {
-            catFilter += " AND $it"
-        }
-        return "(SELECT ${DbUtils.aggregateFunction(prefHandler)}($amountCalculation) $catFilter) AS $KEY_SUM"
-    }
 
     val filterClause: String
         get() = buildFilterClause(groupingInfo!!, _whereFilter.value, VIEW_COMMITTED)
@@ -361,57 +311,72 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val sums: Flow<Pair<Long, Long>> = combine(
-        _accountInfo.filterNotNull(),
-        groupingInfoFlow,
-        _whereFilter
-    ) { accountInfo, grouping, whereFilter ->
-        grouping?.let {
-            Triple(
-                accountInfo,
-                grouping,
-                whereFilter
-            )
+    val aggregateNeutral: Flow<Boolean> by lazy {
+        dataStore.data.map { preferences ->
+            preferences[aggregateNeutralPrefKey] ?: false
         }
     }
-        .filterNotNull()
-        .flatMapLatest { (accountInfo, grouping, whereFilter) ->
-            val builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
-            val id = accountInfo.accountId
-            if (id != HOME_AGGREGATE_ID) {
-                if (id < 0) {
-                    builder.appendQueryParameter(KEY_CURRENCY, accountInfo.currency.code)
-                } else {
-                    builder.appendQueryParameter(KEY_ACCOUNTID, id.toString())
-                }
-            }
-            //if we have no income or expense, there is no row in the cursor
-            contentResolver.observeQuery(
-                builder.build(),
-                null,
-                buildFilterClause(grouping, whereFilter, VIEW_WITH_ACCOUNT),
-                whereFilter.getSelectionArgs(true),
-                null, true
-            ).mapNotNull { query ->
-                withContext(Dispatchers.IO) {
-                    query.run()?.use { cursor ->
-                        var income: Long = 0
-                        var expense: Long = 0
-                        for (pair in cursor.asSequence) {
-                            val type = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_TYPE)).toByte()
-                            val sum = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_SUM))
-                            if (type == FLAG_INCOME) {
-                                income = sum
-                            } else {
-                                expense = sum
-                            }
-                        }
-                        Pair(income, expense)
-                    }
-                }
+
+    open val withIncomeSum = true
+
+    private val sumProjection by lazy {
+        if (withIncomeSum) arrayOf(KEY_SUM_EXPENSES, KEY_SUM_INCOME) else
+        arrayOf(KEY_SUM_EXPENSES)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val sums: Flow<Pair<Long, Long>> by lazy {
+        combine(
+            _accountInfo.filterNotNull(),
+            //if we ask for both sums and income, aggregateNeutral does not make sense, since
+            //then transactions from neutral categories would appear on both sides, giving meaningless results
+            if (withIncomeSum) flowOf(false) else aggregateNeutral,
+            groupingInfoFlow,
+            _whereFilter
+        ) { accountInfo, aggregateNeutral, grouping, whereFilter ->
+            grouping?.let {
+                Tuple4(
+                    accountInfo,
+                    aggregateNeutral,
+                    grouping,
+                    whereFilter
+                )
             }
         }
+            .filterNotNull()
+            .flatMapLatest { (accountInfo, aggregateNeutral, grouping, whereFilter) ->
+                val builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
+                accountInfo.queryParameter?.let {
+                    builder.appendQueryParameter(it.first, it.second)
+                }
+                builder.appendQueryParameter(
+                    TransactionProvider.QUERY_PARAMETER_AGGREGATE_NEUTRAL,
+                    aggregateNeutral.toString()
+                )
+
+                //if we have no income or expense, there is no row in the cursor
+                contentResolver.observeQuery(
+                    builder.build(),
+                    sumProjection,
+                    buildFilterClause(grouping, whereFilter, VIEW_WITH_ACCOUNT),
+                    whereFilter.getSelectionArgs(true),
+                    null, true
+                ).mapToOne {
+                    Pair(
+                        it.getLongIfExistsOr0(KEY_SUM_INCOME),
+                        it.getLongIfExistsOr0(KEY_SUM_EXPENSES)
+                    )
+                }
+            }
+    }
+
+    abstract val aggregateNeutralPrefKey: Preferences.Key<Boolean>
+
+    open suspend fun persistAggregateNeutral(aggregateNeutral: Boolean) {
+        dataStore.edit { preference ->
+            preference[aggregateNeutralPrefKey] = aggregateNeutral
+        }
+    }
 
     @Parcelize
     data class GroupingInfo(

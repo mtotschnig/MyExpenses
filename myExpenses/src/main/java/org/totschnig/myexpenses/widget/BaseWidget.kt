@@ -20,7 +20,9 @@ import org.totschnig.myexpenses.util.doAsync
 import org.totschnig.myexpenses.util.safeMessage
 import javax.inject.Inject
 
-class NoDataException(message: String): Exception(message)
+class NoDataException(message: String) : Exception(message)
+
+const val WIDGET_LIST_DATA_CHANGED = "org.totschnig.myexpenses.LIST_DATA_CHANGED"
 
 abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvider() {
 
@@ -33,21 +35,9 @@ abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvide
     @Inject
     lateinit var currencyFormatter: ICurrencyFormatter
 
-    open fun shouldGoAsync(context: Context, vararg appWidgetId: Int): Boolean = false
-
     protected open fun isProtected(context: Context): Boolean {
         return (context.myApplication).isProtected &&
                 !prefHandler.getBoolean(protectionKey, false)
-    }
-
-    private fun maybeAsync(context: Context, vararg appWidgetId: Int, block: () -> Unit) {
-        if (shouldGoAsync(context, *appWidgetId)) {
-            doAsync {
-               block()
-            }
-        } else {
-            block()
-        }
     }
 
     override fun onAppWidgetOptionsChanged(
@@ -56,7 +46,7 @@ abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvide
         appWidgetId: Int,
         newOptions: Bundle
     ) {
-        maybeAsync(context, appWidgetId) {
+        doAsync {
             updateWidget(context, appWidgetManager, appWidgetId)
         }
     }
@@ -66,20 +56,24 @@ abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvide
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
-        maybeAsync(context, *appWidgetIds) {
+        doAsync {
             appWidgetIds.forEach { appWidgetId ->
                 updateWidget(context, appWidgetManager, appWidgetId)
             }
         }
     }
 
-    abstract fun updateWidgetDo(
+    abstract suspend fun updateWidgetDo(
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int
     )
 
-    private fun updateWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
+    private suspend fun updateWidget(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetId: Int
+    ) {
 
         if (isProtected(context)) {
             appWidgetManager.updateAppWidget(appWidgetId,

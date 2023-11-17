@@ -35,8 +35,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import kotlin.experimental.and
-import kotlin.experimental.inv
-import kotlin.experimental.or
+import kotlin.experimental.xor
 
 @Composable
 fun ExpansionHandle(
@@ -147,7 +146,7 @@ fun TypeConfiguration(
         options.forEach { type ->
             Checkbox(
                 onCheckedChange = {
-                    onCheckedChange(if(it) typeFlags or type.second else typeFlags and type.second.inv())
+                    onCheckedChange(typeFlags xor type.second)
                 },
                 checked = (typeFlags and type.second) != 0.toByte()
             )

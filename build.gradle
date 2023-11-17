@@ -33,7 +33,7 @@ ext {
     archLifecycleVersion = '2.6.2'
     androidxArchVersion = '2.2.0'
     fragmentVersion = "1.6.2"
-    coroutines = '1.7.1'
+    coroutines = '1.7.3'
     mockitoVersion = '5.4.0'
     retrofitVersion = "2.10.0-SNAPSHOT"
     androidXCoreVersion = "1.12.0"

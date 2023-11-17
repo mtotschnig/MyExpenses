@@ -5,14 +5,12 @@ import android.view.Menu
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
-import org.totschnig.myexpenses.db2.FLAG_EXPENSE
-import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.dialog.TransactionListComposeDialogFragment
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.viewmodel.DistributionViewModelBase
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel
@@ -65,6 +63,14 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
                 viewModel.forward()
                 true
             }
+            R.id.AGGREGATE_COMMAND ->{
+                lifecycleScope.launch {
+                    viewModel.persistAggregateNeutral(tag as Boolean)
+                    invalidateOptionsMenu()
+                    reset()
+                }
+                true
+            }
 
             else -> false
         }
@@ -73,18 +79,19 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
         expansionState.clear()
     }
 
-    fun showTransactions(category: Category) {
+    suspend fun showTransactions(category: Category, incomeType: Boolean = false) {
         viewModel.accountInfo.value?.let { accountInfo ->
             TransactionListComposeDialogFragment.newInstance(
                 TransactionListViewModel.LoadingInfo(
                     accountId = accountInfo.accountId,
-                    currency = accountInfo.currency,
+                    currency = accountInfo.currencyUnit,
                     catId = category.id,
                     grouping = viewModel.grouping,
                     groupingClause = viewModel.filterClause,
                     groupingArgs = viewModel.whereFilter.value.getSelectionArgsList(true),
                     label = if (category.level == 0) accountInfo.label(this) else category.label,
-                    type = if (viewModel.incomeType) FLAG_INCOME else FLAG_EXPENSE,
+                    type = incomeType,
+                    aggregateNeutral = viewModel.aggregateNeutral.first(),
                     icon = category.icon
                 )
             )

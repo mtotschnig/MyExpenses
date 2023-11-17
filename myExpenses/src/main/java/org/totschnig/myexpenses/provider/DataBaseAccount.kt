@@ -2,7 +2,7 @@ package org.totschnig.myexpenses.provider
 
 import android.net.Uri
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model2.IAccount
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.groupingUriBuilder
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
@@ -16,25 +16,30 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.getProjectionExtended
 /**
  * groups databaseSpecific information
  */
-abstract class DataBaseAccount {
+abstract class DataBaseAccount : IAccount {
     abstract val id: Long
-    abstract val currency: String
+    abstract override val currency: String
     abstract val grouping: Grouping
+
+    override val accountId: Long
+        get() = id
 
     val isHomeAggregate get() = isHomeAggregate(id)
 
     val isAggregate get() = isAggregate(id)
 
+    fun uriForTransactionList(
+        withType: Boolean = false,
+        shortenComment: Boolean = false,
+        extended: Boolean = true
+    ): Uri = uriBuilderForTransactionList(withType, shortenComment, extended).build()
 
-    val selectionInfo: Pair<String, Array<String>?>
-        get() = when {
-            !isAggregate -> selectionInfo(id)
-            isHomeAggregate -> selectionInfoHome
-            else -> selectionInfoAggregate(currency)
-        }
-
-    fun extendedUriForTransactionList(withType: Boolean = false, shortenComment: Boolean = false) =
-        uriForTransactionList(id, withType, shortenComment)
+    fun uriBuilderForTransactionList(
+        withType: Boolean = false,
+        shortenComment: Boolean = false,
+        extended: Boolean = true
+    ) =
+        uriBuilderForTransactionList(id, currency, withType, shortenComment, extended)
 
     val extendedProjectionForTransactionList: Array<String>
         get() = when {
@@ -44,14 +49,11 @@ abstract class DataBaseAccount {
         }
 
     val groupingUri: Uri
-        get() {
-            val baseUri = groupingUriBuilder(grouping)
-            return when {
-                !isAggregate -> baseUri.appendQueryParameter(KEY_ACCOUNTID, id.toString())
-                isHomeAggregate -> baseUri
-                else -> baseUri.appendQueryParameter(KEY_CURRENCY, currency)
-            }.build()
-        }
+        get() = groupingUriBuilder(grouping).apply {
+            queryParameter?.let {
+                appendQueryParameter(it.first, it.second)
+            }
+        }.build()
 
     companion object {
 
@@ -67,28 +69,31 @@ abstract class DataBaseAccount {
 
         fun isAggregate(id: Long) = id < 0
 
-        fun selectionInfo(id: Long) =
-            "$KEY_ACCOUNTID = ?" to arrayOf(id.toString())
+        fun uriBuilderForTransactionList(
+            id: Long,
+            currency: String,
+            withType: Boolean = false,
+            shortenComment: Boolean = false,
+            extended: Boolean = true
+        ): Uri.Builder = when {
+            !isAggregate(id) -> uriBuilderForTransactionList(shortenComment, extended).apply {
+                appendQueryParameter(KEY_ACCOUNTID, id.toString())
+            }
 
-        fun selectionInfoAggregate(currency: String) =
-            "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID from $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = ? AND $KEY_EXCLUDE_FROM_TOTALS = 0)" to arrayOf(
-                currency
-            )
-
-        val selectionInfoHome =
-            "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID from $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS = 0)" to null
-
-        fun uriForTransactionList(id: Long, withType: Boolean = false, shortenComment: Boolean = false, extended: Boolean = true): Uri = when {
-            !isAggregate(id) -> uriForTransactionList(shortenComment, extended)
             isHomeAggregate(id) -> uriForTransactionListHome(withType, shortenComment, extended)
-            else -> uriForTransactionListAggregate(withType, shortenComment, extended)
+            else -> uriForTransactionListAggregate(withType, shortenComment, extended).apply {
+                appendQueryParameter(KEY_CURRENCY, currency)
+            }
         }
 
         fun uriForTransactionList(shortenComment: Boolean, extended: Boolean = true): Uri =
             uriBuilderForTransactionList(shortenComment, extended).build()
 
-        fun uriBuilderForTransactionList(shortenComment: Boolean, extended: Boolean = true): Uri.Builder =
-            Transaction.CONTENT_URI.buildUpon().apply {
+        fun uriBuilderForTransactionList(
+            shortenComment: Boolean,
+            extended: Boolean = true
+        ): Uri.Builder =
+            TransactionProvider.TRANSACTIONS_URI.buildUpon().apply {
                 if (extended) {
                     appendQueryParameter(TransactionProvider.QUERY_PARAMETER_EXTENDED, "1")
                 }
@@ -101,14 +106,14 @@ abstract class DataBaseAccount {
             withType: Boolean,
             shortenComment: Boolean,
             extended: Boolean
-        ): Uri =
+        ): Uri.Builder =
             uriWithMergeTransfers(withType, true, shortenComment, extended)
 
         private fun uriForTransactionListAggregate(
             withType: Boolean,
             shortenComment: Boolean,
             extended: Boolean
-        ): Uri =
+        ): Uri.Builder =
             uriWithMergeTransfers(withType, false, shortenComment, extended)
 
         private fun uriWithMergeTransfers(
@@ -117,13 +122,12 @@ abstract class DataBaseAccount {
             shortenComment: Boolean,
             extended: Boolean
         ) =
-            uriForTransactionList(shortenComment, extended).let {
-                if (withType) it else
-                    it.buildUpon().appendQueryParameter(
+            uriBuilderForTransactionList(shortenComment, extended).apply {
+                if (!withType)
+                    appendQueryParameter(
                         TransactionProvider.QUERY_PARAMETER_MERGE_TRANSFERS,
                         if (forHome) "2" else "1"
                     )
-                        .build()
             }
     }
 }

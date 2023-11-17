@@ -40,8 +40,6 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
     @Inject
     lateinit var repository: Repository
 
-    override fun shouldGoAsync(context: Context, vararg appWidgetId: Int): Boolean = true
-
     override fun onReceive(context: Context, intent: Intent) {
         context.injector.inject(this)
         super.onReceive(context, intent)
@@ -55,7 +53,7 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
         }
     }
 
-    override fun updateWidgetDo(
+    override suspend fun updateWidgetDo(
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int
