@@ -479,10 +479,11 @@ class UpgradeHandlerViewModel(application: Application) :
                 }
             }
             if (fromVersion < 666) {
-                if (prefHandler.isSet(PrefKey.DISTRIBUTION_AGGREGATE_TYPES))
-                dataStore.edit {
-                    it[booleanPreferencesKey("distributionType")] =
-                        prefHandler.getBoolean(PrefKey.DISTRIBUTION_AGGREGATE_TYPES, false)
+                if (prefHandler.isSet(PrefKey.DISTRIBUTION_AGGREGATE_TYPES)) {
+                    dataStore.edit {
+                        it[booleanPreferencesKey("distributionType")] =
+                            prefHandler.getBoolean(PrefKey.DISTRIBUTION_AGGREGATE_TYPES, false)
+                    }
                 }
             }
 
