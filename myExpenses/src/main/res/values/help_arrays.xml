@@ -110,6 +110,7 @@
         <item>back</item>
         <item>forward</item>
         <item>distribution_show_pie_char</item><!-- sic! -->
+        <item>aggregate_neutral_categories</item>
     </string-array>
 
     <string-array name="ManageCategories_manage_cabitems">
@@ -148,6 +149,7 @@
         <item>manage_categories</item>
         <item>budget_allocated_only</item>
         <item>delete</item>
+        <item>aggregate_neutral_categories</item>
     </string-array>
 
     <string-array name="ExpenseEdit_transaction_menuitems">

@@ -1097,4 +1097,5 @@
     <!-- This is shown as summary for a preference (if checked) which allows to configure how unmapped transactions are counted -->
     <string name="pref_unmapped_transaction_as_transfer_summary_on">are counted as transfer</string>
     <string name="whats_new_367">Categories can now be configured as expense or income categories, which will impact how the expense and income sums are calculated.</string>
+    <string name="menu_aggregate_neutral_categories">Aggregate neutral categories</string>
 </resources>

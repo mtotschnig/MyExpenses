@@ -219,4 +219,5 @@
     <string name="debt_help_overflow">For each debt, use the menu in the top right corner in order to edit, close, delete or share it. Foreign currency debts can optionally be listed with equivalent amounts in the home currency.</string>
     <string name="menu_show_all_help_text">Debts that have been closed or paid off (their balance is 0), will only be shown, if this option is checked.</string>
     <string name="menu_type_filter_help_text">When this option is activated, you can select to only show expense, income or transfer categories.</string>
+    <string name="menu_aggregate_neutral_categories_help_text">Transactions mapped to income categories are always counted as income, transactions mapped to outcome categories are always counted as expense. This option allows you to configure how transactions mapped to neutral categories are counted: By default if they are positive they represent an income, if they are negative an expense. But if this option is activated, they are always included into both the sums of your income and expense.</string>
 </resources>

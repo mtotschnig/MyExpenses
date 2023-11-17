@@ -43,7 +43,7 @@
             <item
                 android:checkable="true"
                 android:id="@id/AGGREGATE_COMMAND"
-                android:title="Aggregate neutral categories" />
+                android:title="@string/menu_aggregate_neutral_categories" />
         </menu>
     </item>
     <item
