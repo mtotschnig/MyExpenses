@@ -33,10 +33,8 @@ import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.updateCategoryColor
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
@@ -252,18 +250,18 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                     add(KEY_ONE_TIME)
                 }
             }.toTypedArray(),
-            additionalSelectionArgs = buildList {
-                (accountInfo as? Budget)?.id?.let { add(it.toString()) }
-                addAll(whereFilter.getSelectionArgs(true))
-            }.toTypedArray(),
+            additionalSelectionArgs = whereFilter.getSelectionArgs(true),
             queryParameter = queryParameter + buildMap {
                 put(KEY_TYPE, incomeType.toString())
                 put(
                     TransactionProvider.QUERY_PARAMETER_AGGREGATE_NEUTRAL,
                     aggregateNeutral.toString()
                 )
-                if (accountInfo.accountId != DataBaseAccount.HOME_AGGREGATE_ID) {
-                    put(KEY_ACCOUNTID, accountInfo.accountId.toString())
+                accountInfo.queryParameter?.let {
+                    put(it.first, it.second)
+                }
+                if (accountInfo is Budget) {
+                    put(DatabaseConstants.KEY_BUDGETID, accountInfo.id.toString())
                 }
                 if (groupingInfo.grouping != Grouping.NONE) {
                     put(DatabaseConstants.KEY_YEAR, groupingInfo.year.toString())

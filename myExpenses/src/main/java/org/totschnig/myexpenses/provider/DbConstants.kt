@@ -167,8 +167,10 @@ fun categoryTreeWithSum(
         append(" AND $KEY_CATID = $TREE_CATEGORIES.${KEY_ROWID}")
         append(")")
         if (projection.contains(KEY_BUDGET)) {
+            val budgetId = uri.getQueryParameter(KEY_BUDGETID)!!
+            require(budgetId.isDigitsOnly())
             append(", ")
-            append(budgetAllocationsCTE("$KEY_CATID= Tree.$KEY_ROWID AND $KEY_BUDGETID = ?"))
+            append(budgetAllocationsCTE("$KEY_CATID= Tree.$KEY_ROWID AND $KEY_BUDGETID = $budgetId"))
         }
         append(" SELECT ${map.joinToString()} FROM Tree")
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_ALLOCATED_ONLY, false)) {
