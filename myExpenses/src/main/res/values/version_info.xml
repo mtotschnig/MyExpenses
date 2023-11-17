@@ -179,8 +179,7 @@
     <string name="project_board_365">109#column-19632045</string>
     <string name="project_board_366">110#column-19652350</string>
     <string name="project_board_367">113#column-19675398</string>
-    <string name="project_board_3671">114#column-19681947</string>
-    <string name="project_board_3672">115#column-19682551</string>
+    <string name="project_board_368">116#column-19684067</string>
 
     <string-array name="whats_new_314">
         <item>@string/title_scan_receipt_feature</item>
