@@ -8,7 +8,6 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
@@ -371,10 +370,9 @@ open class CategoryViewModel(
     fun exportCats(encoding: String) {
         viewModelScope.launch(context = coroutineContext()) {
             val context = getApplication<MyApplication>()
-            val destDir = AppDirHelper.getAppDir(context)
             val fileName = "categories"
             _exportResult.update {
-                if (destDir != null) {
+                AppDirHelper.getAppDir(context).mapCatching { destDir ->
                     CategoryExporter.export(getApplication(), encoding,
                         lazy {
                             AppDirHelper.timeStampedFile(
@@ -385,10 +383,10 @@ open class CategoryViewModel(
                                 Result.success(it)
                             } ?: Result.failure(createFileFailure(context, destDir, fileName))
                         }
-                    ).mapCatching {
-                        it.uri to it.displayName
-                    }
-                } else failure(R.string.io_error_appdir_null)
+                    ).getOrThrow()
+                }. mapCatching {
+                    it.uri to it.displayName
+                }
             }
         }
     }

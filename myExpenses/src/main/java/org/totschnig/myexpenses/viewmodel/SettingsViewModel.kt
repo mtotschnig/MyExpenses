@@ -29,7 +29,6 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.io.displayName
 import java.io.File
-import java.io.IOException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -38,7 +37,12 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
     @Inject
     lateinit var exchangeRateRepository: ExchangeRateRepository
 
-    data class AppDirInfo(val documentFile: DocumentFile, val displayName: String, val isWriteable: Boolean, val isDefault: Boolean)
+    data class AppDirInfo(
+        val documentFile: DocumentFile,
+        val displayName: String,
+        val isWriteable: Boolean,
+        val isDefault: Boolean
+    )
 
     private val _appDirInfo: MutableLiveData<Result<AppDirInfo>> = MutableLiveData()
     val appDirInfo: LiveData<Result<AppDirInfo>> = _appDirInfo
@@ -66,7 +70,7 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
 
     fun loadAppData() {
         viewModelScope.launch(coroutineContext()) {
-            AppDirHelper.getAppDir(getApplication())?.let { dir ->
+            AppDirHelper.getAppDir(getApplication()).onSuccess { dir ->
                 _appData.postValue(
                     dir.listFiles()
                         .filter { (it.length() > 0) && !it.isDirectory }
@@ -115,26 +119,16 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
 
     fun loadAppDirInfo() {
         viewModelScope.launch(context = coroutineContext()) {
-            val appDir = AppDirHelper.getAppDir(getApplication(), false)?.let {
-                it to false
-            } ?: AppDirHelper.getDefaultAppDir(getApplication())?.let {
-                it to true
-            }
-
-            appDir?.let { (documentFile, isDefault) ->
-                _appDirInfo.postValue(
-                    Result.success(
+            _appDirInfo.postValue(
+                AppDirHelper.getAppDirWithDefault(getApplication())
+                    .map { (documentFile, isDefault) ->
                         AppDirInfo(
                             documentFile,
                             documentFile.displayName,
                             AppDirHelper.isWritableDirectory(documentFile),
                             isDefault
                         )
-                    )
-                )
-            } ?: run {
-                _appDirInfo.postValue(Result.failure(IOException()))
-            }
+                    })
         }
     }
 

@@ -16,7 +16,7 @@ class ShareUtilsTest {
     fun shouldConvertSingleFileUri() {
         val mimeType = "text/plain"
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        val testFileUri = AppDirHelper.getAppDir(context)!!
+        val testFileUri = AppDirHelper.getAppDir(context).getOrThrow()
             .createFile(mimeType, "testFile")!!.uri
         assertFileScheme(testFileUri)
         val fileUris = listOf(testFileUri)
@@ -29,10 +29,9 @@ class ShareUtilsTest {
     fun shouldConvertMultipleFileUris() {
         val mimeType = "text/plain"
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        val testFile1Uri = AppDirHelper.getAppDir(context)!!
-            .createFile(mimeType, "testFile1")!!.uri
-        val testFile2Uri = AppDirHelper.getAppDir(context)!!
-            .createFile(mimeType, "testFile1")!!.uri
+        val appDir = AppDirHelper.getAppDir(context).getOrThrow()
+        val testFile1Uri = appDir.createFile(mimeType, "testFile1")!!.uri
+        val testFile2Uri = appDir.createFile(mimeType, "testFile1")!!.uri
         val fileUris = listOf(testFile1Uri, testFile2Uri)
         fileUris.forEach { uri: Uri -> assertFileScheme(uri) }
         val intent = ShareViewModel.buildIntent(context, fileUris, mimeType, null)

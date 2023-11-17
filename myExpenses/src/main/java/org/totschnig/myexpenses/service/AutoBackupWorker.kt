@@ -144,7 +144,7 @@ class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) : B
 
 class BackupPurgeWorker(context: Context, workerParameters: WorkerParameters) : BaseAutoBackupWorker(context, workerParameters) {
     override suspend fun doWork(): Result {
-        AppDirHelper.getAppDir(applicationContext)?.let { appDir ->
+        AppDirHelper.getAppDir(applicationContext).onSuccess { appDir ->
             notify(
                 buildMessage(
                     BackupViewModel.purgeResult2Message(

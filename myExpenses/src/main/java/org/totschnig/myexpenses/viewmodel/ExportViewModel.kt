@@ -112,12 +112,10 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                             it.getLong(KEY_ROWID)
                         } ?: throw IOException("Cursor was null")
                     }
-                    var account: Account?
-                    val appDir = AppDirHelper.getAppDir(application)
-                    if (appDir == null) {
+                    AppDirHelper.getAppDir(application).onFailure {
                         publishProgress(localizedContext.getString(R.string.io_error_appdir_null))
-
-                    } else {
+                    }.onSuccess { appDir ->
+                        var account: Account?
                         val oneFile = accountIds.size == 1 || mergeP
                         val destDir = if (oneFile) {
                             appDir

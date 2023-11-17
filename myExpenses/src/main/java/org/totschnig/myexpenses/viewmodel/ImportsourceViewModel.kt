@@ -15,7 +15,7 @@ class ImportSourceViewModel(application: Application) : BaseViewModel(applicatio
 
     fun loadAppData(typeChecker: (String, String) -> Boolean) {
         viewModelScope.launch(coroutineContext()) {
-            AppDirHelper.getAppDir(getApplication())?.let { dir ->
+            AppDirHelper.getAppDir(getApplication()).onSuccess { dir ->
                 _appData.postValue(
                     dir.listFiles()
                         .filter { it.length() > 0 && !it.isDirectory }
@@ -25,6 +25,4 @@ class ImportSourceViewModel(application: Application) : BaseViewModel(applicatio
             }
         }
     }
-
-
 }

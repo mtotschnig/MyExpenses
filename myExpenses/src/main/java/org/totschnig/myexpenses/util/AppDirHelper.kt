@@ -22,30 +22,42 @@ object AppDirHelper {
      * returns [android.content.ContextWrapper.getExternalFilesDir] with argument null
      */
     @JvmStatic
-    fun getAppDir(context: Context, withDefault: Boolean = true): DocumentFile? {
-        val prefString = context.injector.prefHandler().getString(PrefKey.APP_DIR, null)
-        if (prefString != null) {
-            val pref = Uri.parse(prefString)
-            if ("file" == pref.scheme) {
-                val appDir = File(pref.path!!)
-                if (appDir.mkdir() || appDir.isDirectory) {
-                    return DocumentFile.fromFile(appDir)
+    fun getAppDir(context: Context): Result<DocumentFile> =
+        getAppDirFromPref(context).mapCatching {
+            it ?: getDefaultAppDir(context)
+        }.onFailure { CrashHandler.report(it) }
+
+    fun getAppDirLegacy(context: Context) = getAppDir(context).getOrNull()
+
+    fun getAppDirWithDefault(context: Context): Result<Pair<DocumentFile, Boolean>> =
+        getAppDirFromPref(context).mapCatching {
+            if (it != null)
+                it to false
+            else
+                getDefaultAppDir(context) to true
+        }
+
+    private fun getAppDirFromPref(context: Context): Result<DocumentFile?> =
+        runCatching {
+            context.injector.prefHandler().getString(PrefKey.APP_DIR, null)?.let {
+                val pref = Uri.parse(it)
+                if ("file" == pref.scheme) {
+                    val appDir = File(pref.path!!)
+                    if (appDir.mkdir() || appDir.isDirectory) {
+                        DocumentFile.fromFile(appDir)
+                    } else null
+                } else {
+                    DocumentFile.fromTreeUri(context, pref)!!
                 }
-            } else {
-                return DocumentFile.fromTreeUri(context, pref)
             }
         }
-        return if (withDefault) getDefaultAppDir(context).also {
-            if (it == null) {
-                CrashHandler.report(Exception("no not-null value found in getExternalFilesDirs"))
-            }
-        } else null
-    }
 
-    fun getDefaultAppDir(context: Context) = context.getExternalFilesDirs(null)
+
+    private fun getDefaultAppDir(context: Context): DocumentFile = context.getExternalFilesDirs(null)
         .filterNotNull()
         .firstOrNull()
         ?.let { DocumentFile.fromFile(it) }
+        ?: throw Exception("no not-null value found in getExternalFilesDirs")
 
     fun cacheDir(context: Context): File = context.cacheDir
 
@@ -144,17 +156,14 @@ object AppDirHelper {
      * @param context activity or application
      * @return either positive Result or negative Result with problem description
      */
-    @JvmStatic
-    fun checkAppDir(context: Context): Result<DocumentFile> {
-        val appDir = getAppDir(context)
-            ?: return Result.failure(context, R.string.io_error_appdir_null)
+    fun checkAppDir(context: Context): Result<DocumentFile> = getAppDir(context).mapCatching {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            val uri = appDir.uri
+            val uri = it.uri
             if ("file" == uri.scheme) {
                 try {
                     getContentUriForFile(context, File(File(uri.path!!), "test"))
                 } catch (e: IllegalArgumentException) {
-                    return Result.failure(
+                    throw localizedThrowable(
                         context,
                         R.string.app_dir_not_compatible_with_nougat,
                         uri.toString()
@@ -162,8 +171,8 @@ object AppDirHelper {
                 }
             }
         }
-        return if (isWritableDirectory(appDir)) Result.success(appDir) else
-            Result.failure(context, R.string.app_dir_not_accessible, appDir.displayName)
+        it.takeIf { isWritableDirectory(it) } ?:
+        throw localizedThrowable(context, R.string.app_dir_not_accessible, it.displayName)
     }
 
     fun isWritableDirectory(appDir: DocumentFile): Boolean {
@@ -180,6 +189,7 @@ object AppDirHelper {
             }
             uri
         }
+
         "content" -> uri
         else -> {
             CrashHandler.report(

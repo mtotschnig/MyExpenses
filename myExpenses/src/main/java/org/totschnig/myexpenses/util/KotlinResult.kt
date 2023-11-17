@@ -8,6 +8,12 @@ fun <T> Result.Companion.failure(
     context: Context,
     @StringRes resId: Int,
     vararg formatArgs: Any?
-): Result<T> = failure(Throwable(context.getString(resId, *formatArgs)))
+): Result<T> = failure(localizedThrowable(context, resId, *formatArgs))
 
 val ResultUnit = Result.success(Unit)
+
+fun localizedThrowable(
+    context: Context,
+    @StringRes resId: Int,
+    vararg formatArgs: Any?
+) = Throwable(context.getString(resId, formatArgs))

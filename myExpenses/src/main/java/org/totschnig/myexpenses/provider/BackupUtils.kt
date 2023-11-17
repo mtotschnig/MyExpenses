@@ -13,11 +13,11 @@ import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ZipUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.failure
-import org.totschnig.myexpenses.util.io.displayName
+import org.totschnig.myexpenses.util.localizedThrowable
 import java.io.File
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 const val BACKUP_DB_FILE_NAME = "BACKUP"
 const val BACKUP_PREF_FILE_NAME = "BACKUP_PREF"
@@ -29,28 +29,14 @@ fun doBackup(
     withSync: String?
 ): Result<Pair<DocumentFile, List<DocumentFile>>> {
     val password = prefHandler.getString(PrefKey.EXPORT_PASSWORD, null)
-    val appDir = AppDirHelper.getAppDir(context)
-        ?: return Result.failure(context, R.string.io_error_appdir_null)
-    if (!AppDirHelper.isWritableDirectory(appDir)) {
-        return Result.failure(
-            context, R.string.app_dir_not_accessible, appDir.displayName
-        )
-    }
-    val backupFile =
-        requireBackupFile(appDir, prefHandler.backupFilePrefix, !TextUtils.isEmpty(password))
-            ?: return Result.failure(context, R.string.io_error_backupdir_null)
-    return AppDirHelper.newWorkingDirectory(context, "backup").mapCatching { cacheDir ->
+    return AppDirHelper.checkAppDir(context).mapCatching { appDir ->
+        val backupFile =
+            requireBackupFile(appDir, prefHandler.backupFilePrefix, !TextUtils.isEmpty(password))
+                ?: throw localizedThrowable(context, R.string.io_error_backupdir_null)
+        val cacheDir = AppDirHelper.newWorkingDirectory(context, "backup").getOrThrow()
         backup(cacheDir, context, prefHandler).getOrThrow()
-        cacheDir
-    }.mapCatching { cacheDir ->
         try {
-            ZipUtils.zipBackup(
-                context,
-                cacheDir,
-                backupFile,
-                password
-            )
-
+            ZipUtils.zipBackup(context, cacheDir, backupFile, password)
             sync(context.contentResolver, withSync, backupFile)
             backupFile to listOldBackups(appDir, prefHandler)
         } catch (e: Exception) {
