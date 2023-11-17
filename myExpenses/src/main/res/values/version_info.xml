@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string-array name="versions">
-        <item>665;3.6.7.2</item>
-        <item>664;3.6.7.1</item>
+        <item>666;3.6.8</item>
         <item>662;3.6.7</item>
         <item>657;3.6.6</item>
         <item>653;3.6.5</item>
@@ -228,12 +227,5 @@
     </string-array>
     <string-array name="whats_new_367">
         <item>@string/whats_new_367</item>
-    </string-array>
-    <string-array name="whats_new_3671">
-        <item>@string/bug_fixes</item>
-    </string-array>
-    <string-array name="whats_new_3672">
-        <item>@string/bug_fixes</item>
-        <item>@string/ui_refinement</item>
     </string-array>
 </resources>

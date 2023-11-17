@@ -87,7 +87,7 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
     }
 
     private val incomeTypePrefKey = booleanPreferencesKey("distributionType")
-    override val aggregateNeutralPrefKey = booleanPreferencesKey("aggregateNeutral")
+    override val aggregateNeutralPrefKey = booleanPreferencesKey("distributionAggregateNeutral")
 
     val incomeType: Flow<Boolean> by lazy {
         dataStore.data.map { preferences ->

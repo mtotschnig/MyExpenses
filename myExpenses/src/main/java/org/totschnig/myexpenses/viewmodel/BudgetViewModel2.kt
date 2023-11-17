@@ -307,6 +307,6 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
 
     companion object {
         fun aggregateNeutralPrefKey(budgetId: Long) = booleanPreferencesKey(AGGREGATE_NEUTRAL_PREF_KEY_PREFIX + budgetId)
-        private const val AGGREGATE_NEUTRAL_PREF_KEY_PREFIX = "aggregateNeutralBudget_"
+        private const val AGGREGATE_NEUTRAL_PREF_KEY_PREFIX = "budgetAggregateNeutral_"
     }
 }
