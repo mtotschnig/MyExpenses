@@ -71,7 +71,9 @@ class TransferDelegate(
         if (transaction != null) {
             mTransferAccountId = transaction.transferAccountId
             transferPeer = transaction.transferPeer
-            viewBinding.TransferAmount.setFractionDigits(transaction.transferAmount!!.currencyUnit.fractionDigits)
+            transaction.transferAmount?.let {
+                viewBinding.TransferAmount.setFractionDigits(it.currencyUnit.fractionDigits)
+            }
         }
         viewBinding.Amount.addTextChangedListener(LinkedTransferAmountTextWatcher(true))
         viewBinding.TransferAmount.addTextChangedListener(LinkedTransferAmountTextWatcher(false))
@@ -282,7 +284,7 @@ class TransferDelegate(
             if (amount == null && transferAmount == null) {
                 null
             } else buildTemplate(account).apply {
-                if (amount != null) {
+                if (amount != null && amount.amountMinor != 0L) {
                     this.amount = amount
                     setTransferAccountId(transferAccount.id)
                 } else if (!isSame) {

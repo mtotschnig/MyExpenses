@@ -817,7 +817,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                     }
                     this.defaultAction =
                         Template.Action.entries[viewBinding.DefaultAction.selectedItemPosition]
-                    if (this.amount.amountMinor == 0L && forSave) {
+                    if (this.amount.amountMinor == 0L && (this.transferAmount?.amountMinor ?: 0L) == 0L && forSave) {
                         if (plan == null && this.defaultAction == Template.Action.SAVE) {
                             host.showSnackBar(context.getString(R.string.template_default_action_without_amount_hint))
                             return null
@@ -864,7 +864,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         ifPresent: Boolean,
         currencyUnit: CurrencyUnit
     ): Result<Money?> {
-        val result = validateAmountInput(input, ifPresent, showToUser)
+        val result = validateAmountInput(input, ifPresent = ifPresent, showToUser = showToUser)
         return if (result == null) Result.success(null) else
             kotlin.runCatching {
                 try {
