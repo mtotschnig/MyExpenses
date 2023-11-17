@@ -12,6 +12,8 @@ import android.view.View
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.*
@@ -177,7 +179,8 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
             currencyContext,
             DebugCurrencyFormatter,
             prefHandler,
-            homeCurrencyProvider
+            homeCurrencyProvider,
+            Mockito.mock(DataStore::class.java) as DataStore<Preferences>
         )
 
     val contentResolver: ContentResolver = repository.contentResolver

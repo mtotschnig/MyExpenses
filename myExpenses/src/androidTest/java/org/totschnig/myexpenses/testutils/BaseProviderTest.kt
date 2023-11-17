@@ -13,6 +13,8 @@ import android.test.ProviderTestCase2
 import android.test.RenamingDelegatingContext
 import android.test.mock.MockContentResolver
 import android.test.mock.MockContext
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.test.platform.app.InstrumentationRegistry
 import org.mockito.Mockito
 import org.totschnig.myexpenses.TestApp
@@ -49,7 +51,8 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(Transaction
             Mockito.mock(CurrencyContext::class.java),
             Mockito.mock(CurrencyFormatter::class.java),
             Mockito.mock(PrefHandler::class.java),
-            Mockito.mock(HomeCurrencyProvider::class.java)
+            Mockito.mock(HomeCurrencyProvider::class.java),
+            Mockito.mock(DataStore::class.java) as DataStore<Preferences>
         )
 
     val contentResolver: ContentResolver
