@@ -204,4 +204,5 @@
     <string name="debt_help_overflow">Para cada deuda, utilice el menú de la esquina superior derecha para editarla, cerrarla, eliminarla o compartirla. Las deudas en moneda extranjera pueden listarse opcionalmente con importes equivalentes en la moneda nacional.</string>
     <string name="menu_show_all_help_text">Las deudas que han sido cerradas o pagadas (su saldo es 0), sólo se mostrarán, si esta opción está marcada.</string>
     <string name="menu_type_filter_help_text">Cuando esta opción está activada, puede seleccionar que sólo se muestren las categorías de gastos, ingresos o transferencias.</string>
+    <string name="menu_aggregate_neutral_categories_help_text">Las transacciones asignadas a las categorías de ingresos siempre se cuentan como ingresos, las transacciones asignadas a las categorías de los resultados siempre se cuentan como gastos. Esta opción le permite configurar cómo se contabilizan las transacciones asignadas a categorías neutras: Por defecto si son positivas representan un ingreso, si son negativas un gasto. Pero si se activa esta opción, siempre se incluyen en ambas sumas de ingresos y gastos.</string>
 </resources>
