@@ -295,7 +295,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
     }
 
     override val aggregateNeutralPrefKey by lazy {
-        booleanPreferencesKey("$AGGREGATE_NEUTRAL_PREFKEY_PREFIX${savedStateHandle.get<Long>(KEY_ROWID)}")
+        aggregateNeutralPrefKey(savedStateHandle[KEY_ROWID]!!)
     }
 
     override suspend fun persistAggregateNeutral(aggregateNeutral: Boolean) {
@@ -306,6 +306,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
     override val withIncomeSum = false
 
     companion object {
-        const val AGGREGATE_NEUTRAL_PREFKEY_PREFIX = "aggregateNeutralBudget_"
+        fun aggregateNeutralPrefKey(budgetId: Long) = booleanPreferencesKey(AGGREGATE_NEUTRAL_PREF_KEY_PREFIX + budgetId)
+        private const val AGGREGATE_NEUTRAL_PREF_KEY_PREFIX = "aggregateNeutralBudget_"
     }
 }

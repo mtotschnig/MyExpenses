@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
@@ -40,6 +39,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.viewmodel.BudgetViewModel2.Companion.aggregateNeutralPrefKey
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import java.util.Locale
 
@@ -72,20 +72,15 @@ open class BudgetViewModel(application: Application) :
         }
     }
 
-    val amountsExperiment by lazy {
-        budgetLoaderFlow.combine(dataStore.data) { budget, preferences ->
-            budget to preferences
-        }.map { (pair, preferences) ->
-
-        }
-    }
-
     @OptIn(ExperimentalCoroutinesApi::class)
     val amounts: Flow<Tuple4<Int, Long, Long, Long>> by lazy {
         budgetLoaderFlow.map { budgetPair ->
-            val key = "${BudgetViewModel2.AGGREGATE_NEUTRAL_PREFKEY_PREFIX}${budgetPair.second.id}"
             dataStore.data.map {
-                Triple(budgetPair.first, budgetPair.second, it[booleanPreferencesKey(key)] == true)
+                Triple(
+                    budgetPair.first,
+                    budgetPair.second,
+                    it[aggregateNeutralPrefKey(budgetPair.second.id)] == true
+                )
             }
         }.flattenMerge().map { (position, budget, aggregateNeutral) ->
             val (sumUri, sumSelection, sumSelectionArguments) = repository.sumLoaderForBudget(

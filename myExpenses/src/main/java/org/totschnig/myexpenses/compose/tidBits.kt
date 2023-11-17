@@ -35,8 +35,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import kotlin.experimental.and
-import kotlin.experimental.inv
-import kotlin.experimental.or
 import kotlin.experimental.xor
 
 @Composable

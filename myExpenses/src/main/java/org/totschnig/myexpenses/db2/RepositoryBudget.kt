@@ -24,7 +24,7 @@ import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.getLocalDate
 import org.totschnig.myexpenses.util.toDayOfWeek
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
-import org.totschnig.myexpenses.viewmodel.BudgetViewModel2.Companion.AGGREGATE_NEUTRAL_PREFKEY_PREFIX
+import org.totschnig.myexpenses.viewmodel.BudgetViewModel2.Companion.aggregateNeutralPrefKey
 import org.totschnig.myexpenses.viewmodel.DistributionViewModelBase
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
@@ -219,7 +219,7 @@ suspend fun Repository.loadBudgetProgress(budgetId: Long): BudgetProgress? = con
     ).use {
         if (it?.moveToFirst() != true) 0 else BudgetAllocation.fromCursor(it).totalAllocated
     }
-    val aggregateNeutral = dataStore.data.first()[booleanPreferencesKey("${AGGREGATE_NEUTRAL_PREFKEY_PREFIX}$budgetId")] ?: false
+    val aggregateNeutral = dataStore.data.first()[aggregateNeutralPrefKey(budgetId)] ?: false
     val (sumUri, sumSelection, sumSelectionArguments) = sumLoaderForBudget(budget, aggregateNeutral)
     val spent = contentResolver.query(sumUri, arrayOf(KEY_SUM_EXPENSES), sumSelection, sumSelectionArguments, null).use {
         if (it?.moveToFirst() != true) 0 else it.getLong(0)
