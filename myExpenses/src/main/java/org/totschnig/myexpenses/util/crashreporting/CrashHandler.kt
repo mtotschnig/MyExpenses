@@ -13,7 +13,7 @@ abstract class CrashHandler {
     private var currentBreadCrumb: String? = null
 
     open fun onAttachBaseContext(application: MyApplication) {}
-    open fun setupLogging(context: Context) {}
+    open suspend fun setupLogging(context: Context) {}
     open fun putCustomData(key: String, value: String) {}
     open fun setEnabled(enabled: Boolean) {}
 
