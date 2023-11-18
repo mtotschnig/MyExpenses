@@ -1065,4 +1065,5 @@
     <string name="pref_unmapped_transaction_as_transfer_summary_on">sont comptabilisés en tant que transferts</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">sont comptabilisés en tant que dépenses / revenus</string>
     <string name="whats_new_367">Les catégories peuvent désormais être configurées en tant que catégories de dépenses ou de revenus, ce qui aura un impact sur le calcul des totaux des dépenses et des revenus.</string>
+    <string name="menu_aggregate_neutral_categories">Totaliser les catégories neutres</string>
 </resources>
