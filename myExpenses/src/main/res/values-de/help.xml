@@ -204,4 +204,5 @@
     <string name="menu_show_all_help_text">Schulden, die geschlossen oder abgezahlt wurden (ihr Saldo ist 0), werden nur angezeigt, wenn diese Option aktiviert ist.</string>
     <string name="help_DebtOverview_info">Klicken Sie auf einen Eintrag, um ihn ein- oder auszublenden.</string>
     <string name="menu_type_filter_help_text">Wenn diese Option aktiviert ist, können Sie auswählen, ob nur Ausgaben-, Einkommen- oder Umbuchungskategorien angezeigt werden sollen.</string>
+    <string name="menu_aggregate_neutral_categories_help_text">Buchungen, die Einkommenskategorien zugeordnet sind, werden immer als Einnahmen gezählt, Buchungen, die Ergebniskategorien zugeordnet sind, werden immer als Ausgaben gezählt. Mit dieser Option können Sie konfigurieren, wie Buchungen gezählt werden, die neutralen Kategorien zugeordnet sind: Wenn sie positiv sind, stellen sie standardmäßig ein Einkommen dar, wenn sie negativ sind, eine Ausgabe. Wenn diese Option jedoch aktiviert ist, sind sie immer sowohl in der Summe Ihrer Einnahmen als auch Ihrer Ausgaben enthalten.</string>
 </resources>

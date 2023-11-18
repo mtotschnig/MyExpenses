@@ -1065,4 +1065,5 @@
     <string name="pref_unmapped_transaction_as_transfer_summary_on">se contabilizan como transferencia</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">se contabilizan como gastos / ingresos</string>
     <string name="whats_new_367">Las categorías pueden configurarse ahora como categorías de gastos o de ingresos, lo que afectará a la forma en que se calculan las sumas de gastos e ingresos.</string>
+    <string name="menu_aggregate_neutral_categories">Categorías neutrales agregadas</string>
 </resources>
