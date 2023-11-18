@@ -154,7 +154,9 @@ tasks.withType(Test) {
 }
 
 dependencies {
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
+    //LeakCanary leads to failure of Screengrab's LocaleUtil:
+    //https://github.com/fastlane/fastlane/issues/19521#issuecomment-1170017435
+    //debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugarVersion"
     implementation project(':transactionscontract')

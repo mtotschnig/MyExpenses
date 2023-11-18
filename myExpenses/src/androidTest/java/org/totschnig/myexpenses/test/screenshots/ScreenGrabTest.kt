@@ -1,32 +1,29 @@
 package org.totschnig.myexpenses.test.screenshots
 
-import android.Manifest
+import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.rule.GrantPermissionRule
 import org.junit.Rule
 import org.junit.Test
 import tools.fastlane.screengrab.locale.LocaleTestRule
-import tools.fastlane.screengrab.locale.LocaleUtil
 
 /**
  * When not run from ScreenGrab, it runs with device locale
  */
-class ScreenGrabTest: TestMain() {
-
-    @get:Rule
-    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR
-    )
+@LargeTest
+class ScreenGrabTest: TestMain(null) {
 
     @Rule
     @JvmField
     val localeTestRule = LocaleTestRule()
 
-    override val shouldTakeScreenShot = true
+    override val shouldTakeScreenShot = getInstrumentationArgument("screenshots", "1") == "true"
 
     @Test
     fun mkScreenshots() {
-        val scenario = InstrumentationRegistry.getArguments().getString("scenario", "1")
-        runScenario(scenario, LocaleUtil.getTestLocale())
+        val scenario = getInstrumentationArgument("scenario", "1")
+        runScenario(scenario)
     }
+
+    private fun getInstrumentationArgument(key: String, @Suppress("SameParameterValue") defaultValue: String) =
+        InstrumentationRegistry.getArguments().getString(key, defaultValue)
 }

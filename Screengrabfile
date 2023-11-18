@@ -1,4 +1,4 @@
-# ./gradlew assembleExternDebug assembleAndroidTest
+# ./gradlew assembleExternDebug assembleExternAndroidTest
 # fastlane screengrab
 app_package_name('org.totschnig.myexpenses.debug')
 
@@ -52,4 +52,6 @@ clear_previous_screenshots(false)
 
 use_timestamp_suffix(false)
 
-launch_arguments(["scenario 1"])
+launch_arguments(["scenario 1", "screenshots true"])
+
+# specific_device("emulator-5556")

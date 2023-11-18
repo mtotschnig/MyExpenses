@@ -1,8 +1,8 @@
 package org.totschnig.myexpenses.test.screenshots
 
-import android.content.res.Configuration
-import android.content.res.Resources
-import androidx.appcompat.app.AppCompatDelegate
+import android.Manifest
+import android.content.Context
+import android.os.Build
 import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.filter
 import androidx.compose.ui.test.hasText
@@ -10,7 +10,6 @@ import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.core.os.LocaleListCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onIdle
@@ -25,11 +24,16 @@ import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import androidx.test.rule.GrantPermissionRule
 import androidx.test.uiautomator.UiDevice
 import org.hamcrest.Matchers.containsString
 import org.junit.After
 import org.junit.AfterClass
+import org.junit.Before
 import org.junit.BeforeClass
+import org.junit.Rule
+import org.junit.rules.RuleChain
+import org.junit.rules.TestRule
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefKey
@@ -39,25 +43,50 @@ import org.totschnig.myexpenses.testutils.withPositionInParent
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.versionNumber
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.cleanstatusbar.CleanStatusBar
+import tools.fastlane.screengrab.locale.LocaleTestRule
 import tools.fastlane.screengrab.locale.LocaleUtil
+import java.util.Locale
 
-abstract class TestMain : BaseMyExpensesTest() {
+abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
+
+    @Rule
+    @JvmField
+    val chain: TestRule = RuleChain
+        .outerRule(
+            GrantPermissionRule.grant(
+                *buildList {
+                    add(Manifest.permission.WRITE_CALENDAR)
+                    add(Manifest.permission.READ_CALENDAR)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        add(Manifest.permission.POST_NOTIFICATIONS)
+                    }
+                    add(Manifest.permission.CHANGE_CONFIGURATION)
+                }.toTypedArray()
+            )
+        )
+        .around(
+            locale?.let { LocaleTestRule(it) } ?: LocaleTestRule()
+        )
 
     open val shouldTakeScreenShot = false
+
+
+    @Before
+    fun configureLocale() {
+        LocaleUtil.localeFromString(LocaleUtil.getTestLocale())?.let {
+            //targetContext.updateWith(it)
+            testContext.updateWith(it)
+        }
+    }
 
     @After
     fun cleanUp() {
         app.fixture.cleanup(contentResolver)
     }
 
-    fun runScenario(scenario: String, locale: String?) {
-        loadFixture(scenario == "2", locale)
+    fun runScenario(scenario: String) {
+        loadFixture(scenario == "2")
         scenario(scenario)
-        testScenario.onActivity {
-            it.runOnUiThread {
-                AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())
-            }
-        }
     }
 
     private fun drawerAction(action: ViewAction) {
@@ -82,6 +111,10 @@ abstract class TestMain : BaseMyExpensesTest() {
                 listNode.onChildren().onFirst()
                     .assertTextContains(getString(R.string.split_transaction), substring = true)
                 clickContextItem(R.string.details)
+                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
+                    //https://github.com/android/android-test/issues/444
+                    Thread.sleep(500)
+                }
                 onView(withId(android.R.id.button1)).perform(click())
                 closeSoftKeyboard()
                 takeScreenshot("split")
@@ -118,7 +151,9 @@ abstract class TestMain : BaseMyExpensesTest() {
                 onView(withText(containsString("Drive"))).perform(click())
                 onView(withText(containsString("Dropbox"))).perform(click())
                 onView(withText(containsString("WebDAV"))).perform(scrollTo(), click())
-                Thread.sleep(5000)
+                if(shouldTakeScreenShot) {
+                    Thread.sleep(5000)
+                }
                 takeScreenshot("sync")
             }
 
@@ -150,15 +185,7 @@ abstract class TestMain : BaseMyExpensesTest() {
         }
     }
 
-    private fun loadFixture(withPicture: Boolean, locale: String?) {
-        //LocaleTestRule only configure for app context, fixture loads resources from instrumentation context
-        LocaleUtil.localeFromString(locale)?.let {
-            AppCompatDelegate.setApplicationLocales(LocaleListCompat.create(it))
-            val config = Configuration()
-            config.locale = it
-            testContext.resources.update(config)
-            targetContext.resources.update(config)
-        }
+    private fun loadFixture(withPicture: Boolean) {
         unlock()
         app.fixture.setup(withPicture, repository, app.appComponent.plannerUtils(), homeCurrency)
         prefHandler.putInt(PrefKey.CURRENT_VERSION, versionNumber)
@@ -166,10 +193,11 @@ abstract class TestMain : BaseMyExpensesTest() {
         launch(app.fixture.account1.id)
     }
 
-    private fun Resources.update(configuration: Configuration) {
-        updateConfiguration(configuration, displayMetrics)
+    private fun Context.updateWith(locale: Locale) {
+        val config = resources.configuration
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
     }
-
 
     private fun takeScreenshot(fileName: String) {
         if (shouldTakeScreenShot) {
