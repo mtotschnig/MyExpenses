@@ -1,0 +1,3 @@
+This version brings back the option to aggregate amounts for categories that are not configured exclusively as income or expense categories. It can be set globally on the Distribution Screen and separately for each budget.
+
+https://github.com/mtotschnig/MyExpenses/projects/116#column-19684067

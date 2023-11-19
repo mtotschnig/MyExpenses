@@ -1,0 +1,3 @@
+Diese Version bietet auch für Kategorien, die nicht ausschließlich als Einnahmen- oder Ausgabenkategorien konfiguriert sind, die Möglichkeit, Beträge zusammenzufassen. Die Option kann global für die Darstellung der Verteilung und separat für jedes Budget festgelegt werden.
+
+https://github.com/mtotschnig/MyExpenses/projects/116#column-19684067

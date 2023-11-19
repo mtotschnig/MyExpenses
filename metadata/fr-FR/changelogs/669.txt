@@ -1,0 +1,3 @@
+Cette version ramène la possibilité d'agréger les montants pour les catégories qui ne sont pas configurées exclusivement comme catégories de revenus ou de dépenses. L'option peut être définie globalement sur l'écran de distribution et séparément pour chaque budget.
+
+https://github.com/mtotschnig/MyExpenses/projects/116#column-19684067
