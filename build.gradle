@@ -59,5 +59,5 @@ ext {
     barista = "4.3.0"
     googleHttp = "1.43.3"
     composeBom = "androidx.compose:compose-bom:2023.06.01"
-    activityCompose = "1.8.0"
+    activityCompose = "1.8.1"
 }
