@@ -126,13 +126,12 @@ public class PdfPrinter {
     Timber.d("Print start %d", start);
     PdfHelper helper = new PdfHelper();
     Timber.d("Helper created %d", (System.currentTimeMillis() - start));
-    String selection;
+    String selection = KEY_PARENTID + " is null";
     String[] selectionArgs;
     if (filter != null && !filter.isEmpty()) {
-      selection = " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED);
+      selection+= " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED);
       selectionArgs = filter.getSelectionArgs(false);
     } else {
-      selection = "";
       selectionArgs = new String[] {};
     }
     Cursor transactionCursor;
@@ -151,9 +150,8 @@ public class PdfPrinter {
     transactionCursor = context.getContentResolver().query(
         account.uriForTransactionList(false, false, true),
         account.getExtendedProjectionForTransactionList(),
-        selection + " AND " + KEY_PARENTID + " is null", selectionArgs, sortBy + " " + account.getSortDirection());
+        selection, selectionArgs, sortBy + " " + account.getSortDirection());
     //first we check if there are any exportable transactions
-    //String selection = KEY_ACCOUNTID + " = " + getId() + " AND " + KEY_PARENTID + " is null";
     if (transactionCursor.getCount() == 0) {
       transactionCursor.close();
       return Result.ofFailure(R.string.no_exportable_expenses);
