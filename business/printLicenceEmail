@@ -19,7 +19,6 @@ fi
 package=Contrib
 type=Licence
 lang=en_US
-#endpoint=http://127.0.0.1:3000/users
 endpoint=https://licencedb.myexpenses.mobi/users
 
 while getopts "p:l:s" opt; do
@@ -28,7 +27,7 @@ while getopts "p:l:s" opt; do
            ;;
         l) lang=$OPTARG
            ;;
-        s) endpoint=https://myexpenses-licencedb-staging.herokuapp.com/users
+        s) endpoint=http://127.0.0.1:3000/users
            ;;
         '?')
             show_help >&2
@@ -47,7 +46,7 @@ then
 fi
 
 available_locales='ar bg cs de el en es eu fr he it ja kn ms pl pt ru tr vi'
-available_addons='SplitTemplate History Budget Ocr WebUi CategoryTree CsvImport Synchronization AccountsUnlimited PlansUnlimited SplitTransaction Distribution Print AdFree'
+available_addons='SplitTemplate History Budget Ocr WebUi CategoryTree CsvImport Synchronization AccountsUnlimited PlansUnlimited SplitTransaction Distribution Print AdFree Banking'
 
 if [[ -z "${lang// }" || ! " $available_locales " =~ .*\ $lang\ .* ]]
 then
