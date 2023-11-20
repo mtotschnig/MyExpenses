@@ -236,7 +236,7 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener {
             builder.setTitle(
                 concatResStrings(
                     requireContext(),
-                    " : ",
+                    ": ",
                     R.string.dialog_title_contrib_feature,
                     it.labelResId
                 )
