@@ -141,7 +141,7 @@ fun Spinner.checkNewAccountLimitation(prefHandler: PrefHandler, context: Context
         (selectedView as? TextView)?.let {
             it.error = ""
             it.setTextColor(Color.RED)
-            it.text = ContribFeature.ACCOUNTS_UNLIMITED.buildUsageLimitString(context)
+            it.text = ContribFeature.ACCOUNTS_UNLIMITED.buildTrialString(context)
         }
     }
 }

@@ -54,8 +54,7 @@ import java.io.Serializable
 import java.util.*
 import javax.inject.Inject
 
-class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListener,
-    View.OnClickListener {
+class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener {
     private var _binding: ContribDialogBinding? = null
     private val binding get() = _binding!!
     private var feature: ContribFeature? = null
@@ -105,18 +104,16 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
         //prepare trial card
         feature?.let { feature ->
             val removePhrase = feature.buildRemoveLimitation(requireContext(), true)
+            val trialString = feature.buildTrialString(ctx, licenceHandler)
             if (licenceHandler.hasTrialAccessTo(feature)) {
                 binding.intro.text = removePhrase
                 binding.trialInfoCard.isVisible = true
                 binding.trialInfoCard.setOnClickListener(this)
                 trialButton.setOnClickListener(this)
-                binding.trialInfo.text =
-                    feature.buildTrialString(ctx, licenceHandler.getEndOfTrial(feature))
+                binding.trialInfo.text = trialString
             } else {
                 binding.trialInfoCard.isVisible = false
-                binding.intro.text = TextUtils.concat(
-                    feature.getLimitReachedWarning(ctx), " ", removePhrase
-                )
+                binding.intro.text = TextUtils.concat(trialString, " ", removePhrase)
             }
         } ?: run {
             binding.trialInfoCard.isVisible = false
@@ -280,7 +277,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
         val dialog = builder.create()
         dialog.setOnShowListener {
             val button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            button.setOnClickListener { onUpgradeClicked() }
+            button.setOnClickListener { onButtonClicked() }
             if (savedInstanceState != null) {
                 updateButtons(
                     selectedPackage.let {
@@ -305,22 +302,17 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
     private fun getSinglePackage(): AddOnPackage =
         AddOnPackage.values.find { it.feature == feature } ?: throw IllegalStateException()
 
-    private fun onUpgradeClicked() {
+    private fun onButtonClicked() {
         val ctx = activity as ContribInfoDialogActivity? ?: return
         selectedPackage?.let {
             ctx.contribBuyDo(it)
             dismiss()
         } ?: run {
-            showSnackBar(R.string.select_package)
-        }
-    }
-
-    override fun onClick(dialog: DialogInterface, which: Int) {
-        val ctx = activity as ContribInfoDialogActivity? ?: return
-        when (which) {
-            AlertDialog.BUTTON_NEUTRAL -> {
+            if (feature != null) {
                 ctx.logEvent(Tracker.EVENT_CONTRIB_DIALOG_NEGATIVE, null)
                 ctx.finish(false)
+            } else {
+                showSnackBar(R.string.select_package)
             }
         }
     }

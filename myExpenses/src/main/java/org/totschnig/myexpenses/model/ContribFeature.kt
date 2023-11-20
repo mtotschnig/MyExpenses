@@ -28,44 +28,15 @@ enum class ContribFeature(
     val trialMode: TrialMode = TrialMode.DURATION,
     val licenceStatus: LicenceStatus = LicenceStatus.CONTRIB
 ) {
-    ACCOUNTS_UNLIMITED(TrialMode.NONE) {
-        override fun buildUsageLimitString(context: Context): String {
-            val currentLicence = getCurrentLicence(context)
-            return context.getString(
-                R.string.dialog_contrib_usage_limit_accounts,
-                FREE_ACCOUNTS,
-                currentLicence
-            )
-        }
-    },
-    PLANS_UNLIMITED(TrialMode.NONE) {
-        override fun buildUsageLimitString(context: Context): String {
-            val currentLicence = getCurrentLicence(context)
-            return context.getString(
-                R.string.dialog_contrib_usage_limit_plans,
-                FREE_PLANS,
-                currentLicence
-            )
-        }
-    },
+    ACCOUNTS_UNLIMITED(TrialMode.NONE),
+    PLANS_UNLIMITED(TrialMode.NONE),
     SPLIT_TRANSACTION,
     DISTRIBUTION,
     PRINT,
     AD_FREE(TrialMode.NONE),
     CSV_IMPORT(licenceStatus = LicenceStatus.EXTENDED),
     SYNCHRONIZATION(licenceStatus = LicenceStatus.EXTENDED),
-    SPLIT_TEMPLATE(
-        TrialMode.NONE,
-        LicenceStatus.PROFESSIONAL
-    ) {
-        override fun buildUsageLimitString(context: Context): String {
-            val currentLicence = getCurrentLicence(context)
-            return context.getString(
-                R.string.dialog_contrib_usage_limit_split_templates,
-                currentLicence
-            )
-        }
-    },
+    SPLIT_TEMPLATE(TrialMode.NONE, LicenceStatus.PROFESSIONAL),
     PRO_SUPPORT(TrialMode.NONE, LicenceStatus.PROFESSIONAL),
     ROADMAP_VOTING(
         TrialMode.NONE,
@@ -121,54 +92,57 @@ enum class ContribFeature(
         )
     }
 
-    fun buildTrialString(ctx: Context, endOfTrial: Long) = HtmlCompat.fromHtml(
-        ctx.getString(R.string.dialog_contrib_trial_info,
-            ctx.getString(licenceStatus.resId),
-            "<i>" + ctx.getString(labelResId) + "</i>",
-            TRIAL_DURATION_DAYS,
-            Utils.getDateFormatSafe(ctx).format(Date(endOfTrial))
-        ),
-        HtmlCompat.FROM_HTML_MODE_LEGACY
-    )
+    open fun buildTrialString(
+        context: Context,
+        licenceHandler: LicenceHandler = context.injector.licenceHandler()
+    ): CharSequence {
+        val currentLicence = getCurrentLicence(context, licenceHandler)
 
-    fun buildUsagesLeftString(ctx: Context, licenceHandler: LicenceHandler): CharSequence? {
-        return if (trialMode == TrialMode.DURATION) {
-            val now = System.currentTimeMillis()
-            val endOfTrial = licenceHandler.getEndOfTrial(this)
-            if (endOfTrial < now) {
-                getLimitReachedWarning(ctx)
-            } else {
-                ctx.getString(
-                    R.string.warning_limited_trial, ctx.getString(labelResId),
-                    Utils.getDateFormatSafe(ctx)
-                        .format(Date(endOfTrial))
-                )
-            }
-        } else null
-    }
-
-    open fun buildUsageLimitString(context: Context): String {
-        val currentLicence = getCurrentLicence(context)
         return when (trialMode) {
-            TrialMode.DURATION -> context.getString(
-                R.string.dialog_contrib_usage_limit_synchronization,
-                TRIAL_DURATION_DAYS,
-                currentLicence
-            )
+            TrialMode.NONE -> when (this) {
+                ACCOUNTS_UNLIMITED -> context.getString(
+                    R.string.dialog_contrib_usage_limit_accounts,
+                    FREE_ACCOUNTS,
+                    currentLicence
+                )
+
+                PLANS_UNLIMITED -> context.getString(
+                    R.string.dialog_contrib_usage_limit_plans,
+                    FREE_PLANS,
+                    currentLicence
+                )
+
+                SPLIT_TEMPLATE -> context.getString(
+                    R.string.dialog_contrib_usage_limit_split_templates,
+                    currentLicence
+                )
+
+                else -> throw IllegalStateException()
+            }
+
+            TrialMode.DURATION ->
+                if (licenceHandler.getEndOfTrial(this) < System.currentTimeMillis())
+                    getLimitReachedWarning(context) else HtmlCompat.fromHtml(
+                    context.getString(
+                        R.string.dialog_contrib_trial_info,
+                        currentLicence,
+                        "<i>" + context.getString(labelResId) + "</i>",
+                        TRIAL_DURATION_DAYS,
+                        Utils.getDateFormatSafe(context)
+                            .format(Date(licenceHandler.getEndOfTrial(this)))
+                    ),
+                    HtmlCompat.FROM_HTML_MODE_LEGACY
+                )
 
             TrialMode.UNLIMITED -> context.getString(
                 R.string.dialog_contrib_usage_limit_with_dialog,
                 currentLicence
             )
-
-            else -> ""
         }
     }
 
-    protected fun getCurrentLicence(context: Context): String {
-        val licenceStatus = context.injector.licenceHandler().licenceStatus
-        return context.getString(licenceStatus?.resId ?: R.string.licence_status_free)
-    }
+    protected fun getCurrentLicence(context: Context, licenceHandler: LicenceHandler) =
+        context.getString(licenceHandler.licenceStatus?.resId ?: R.string.licence_status_free)
 
     fun buildRemoveLimitation(ctx: Context, asHTML: Boolean): CharSequence {
         val resId = R.string.dialog_contrib_reminder_remove_limitation
@@ -183,8 +157,7 @@ enum class ContribFeature(
         get() = licenceStatus === LicenceStatus.PROFESSIONAL
 
     val trialButton: Int
-        get() =
-            if (trialMode == TrialMode.UNLIMITED) R.string.dialog_remind_later else R.string.dialog_contrib_no
+        get() = R.string.dialog_contrib_no
 
     companion object {
         const val FREE_PLANS = 3

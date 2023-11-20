@@ -81,7 +81,7 @@ abstract class ImportDataViewModel(application: Application) :
                                 R.string.qif_parse_failure_found_multiple_accounts,
                                 format
                             ) + " " +
-                                    ContribFeature.ACCOUNTS_UNLIMITED.buildUsageLimitString(
+                                    ContribFeature.ACCOUNTS_UNLIMITED.buildTrialString(
                                         localizedContext
                                     ) +
                                     ContribFeature.ACCOUNTS_UNLIMITED.buildRemoveLimitation(

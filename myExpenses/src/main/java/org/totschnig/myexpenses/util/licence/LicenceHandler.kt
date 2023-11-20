@@ -396,10 +396,8 @@ open class LicenceHandler(
 
     fun updateNewAccountEnabled() {
         val newAccountEnabled =
-            hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED) || repository.countAccounts(
-                null,
-                null
-            ) < ContribFeature.FREE_ACCOUNTS
+            hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED) ||
+                    repository.countAccounts() < ContribFeature.FREE_ACCOUNTS
         prefHandler.putBoolean(PrefKey.NEW_ACCOUNT_ENABLED, newAccountEnabled)
     }
 
@@ -414,11 +412,7 @@ open class LicenceHandler(
 
 
     fun usagesLeft(feature: ContribFeature) = when (feature.trialMode) {
-        ContribFeature.TrialMode.DURATION -> {
-            val now = clock.millis()
-            getEndOfTrial(feature) > now
-        }
-
+        ContribFeature.TrialMode.DURATION -> getEndOfTrial(feature) > clock.millis()
         ContribFeature.TrialMode.UNLIMITED -> true
         else -> false
     }
@@ -427,10 +421,8 @@ open class LicenceHandler(
         return prefHandler.getLong(feature.prefKey, clock.millis())
     }
 
-    fun getEndOfTrial(feature: ContribFeature): Long {
-        val trialDurationMillis = TimeUnit.DAYS.toMillis(TRIAL_DURATION_DAYS)
-        return getStartOfTrial(feature) + trialDurationMillis
-    }
+    fun getEndOfTrial(feature: ContribFeature) =
+        getStartOfTrial(feature) + TimeUnit.DAYS.toMillis(TRIAL_DURATION_DAYS)
 
     companion object {
         protected const val LICENSE_STATUS_KEY = "licence_status"
