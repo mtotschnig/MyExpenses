@@ -948,4 +948,5 @@
     <string name="whats_new_338">Произвольно глубокая иерархия категорий</string>
     <string name="icons_for_categories">Иконки для категорий</string>
     <string name="add_shortcut">Добавить ярлык</string>
+    <string name="dialog_contrib_trial_info">Ваш текущий статус лицензии (%1$s) позволяет вам попробовать %2$s в течение %3$d дней (до %4$s).</string>
 </resources>
