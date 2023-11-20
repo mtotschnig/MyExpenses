@@ -66,7 +66,7 @@ class ConfirmationDialogFragment : BaseDialogFragment(), DialogInterface.OnClick
                 isChecked = bundle.getBoolean(KEY_CHECKBOX_INITIALLY_CHECKED, false)
                 if (checkedLabel != 0) {
                     setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-                        (dialog as AlertDialog?)!!.getButton(DialogInterface.BUTTON_POSITIVE)
+                        (dialog as AlertDialog).getButton(DialogInterface.BUTTON_POSITIVE)
                             .setText(
                                 if (isChecked) checkedLabel else positiveLabel
                             )

@@ -91,13 +91,11 @@ open class LicenceHandler(
     /**
      * @return user either has access through licence or through trial
      */
-    fun hasTrialAccessTo(feature: ContribFeature): Boolean {
-        return hasAccessTo(feature) || usagesLeft(feature)
-    }
+    fun hasTrialAccessTo(feature: ContribFeature) =
+        hasAccessTo(feature) || usagesLeft(feature)
 
-    fun hasAccessTo(feature: ContribFeature): Boolean {
-        return isEnabledFor(feature.licenceStatus) || addOnFeatures.contains(feature)
-    }
+    fun hasAccessTo(feature: ContribFeature) =
+        isEnabledFor(feature.licenceStatus) || addOnFeatures.contains(feature)
 
     open fun isEnabledFor(licenceStatus: LicenceStatus) =
         (this.licenceStatus?.compareTo(licenceStatus) ?: -1) >= 0

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/aboutscrollview"
     android:layout_width="match_parent"
     android:layout_height="0dp"
@@ -10,22 +11,47 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:showDividers="middle"
+        android:divider="@drawable/empty_horizontal_divider"
         android:paddingHorizontal="@dimen/padding_dialog_side">
 
-        <TextView
-            android:id="@+id/feature_info"
-            android:layout_width="wrap_content"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/trial_info_card"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/vertical_padding_paragraph"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            app:cardCornerRadius="4dp"
+            app:strokeColor="?colorOnSurface"
+            app:strokeWidth="1dp">
+            <LinearLayout
+                android:padding="@dimen/general_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/try_button"
+                    style="@style/SelectLicenceButton"
+                    android:checked="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:id="@+id/trial_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/vertical_padding_paragraph"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
-            android:id="@+id/usages_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/vertical_padding_paragraph"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:visibility="gone" />
+            android:id="@+id/intro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </TextView>
 
         <include
             android:id="@+id/contrib_feature_container"

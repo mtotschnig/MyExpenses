@@ -121,16 +121,15 @@ enum class ContribFeature(
         )
     }
 
-    fun buildFullInfoString(ctx: Context): CharSequence {
-        return HtmlCompat.fromHtml(
-            ctx.getString(
-                R.string.dialog_contrib_premium_feature,
-                "<i>" + ctx.getString(labelResId) + "</i>",
-                ctx.getString(licenceStatus.resId)
-            ) + " " +
-                    buildUsageLimitString(ctx), HtmlCompat.FROM_HTML_MODE_LEGACY
-        )
-    }
+    fun buildTrialString(ctx: Context, endOfTrial: Long) = HtmlCompat.fromHtml(
+        ctx.getString(R.string.dialog_contrib_trial_info,
+            ctx.getString(licenceStatus.resId),
+            "<i>" + ctx.getString(labelResId) + "</i>",
+            TRIAL_DURATION_DAYS,
+            Utils.getDateFormatSafe(ctx).format(Date(endOfTrial))
+        ),
+        HtmlCompat.FROM_HTML_MODE_LEGACY
+    )
 
     fun buildUsagesLeftString(ctx: Context, licenceHandler: LicenceHandler): CharSequence? {
         return if (trialMode == TrialMode.DURATION) {
