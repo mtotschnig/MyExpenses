@@ -10,7 +10,6 @@
     <string name="dialog_password_change_password">Ganti kata sandi</string>
     <string name="dialog_contrib_text_1"><i>([app_name]</i> ditawarkan open source.</string>
     <string name="dialog_contrib_reminder_remove_limitation">Hapus batasan ini dan akses lebih banyak fitur dengan memutakhirkan <i>{app_name}</i>.</string>
-    <string name="dialog_contrib_premium_feature">%1$s adalah fitur premium (%2$s).</string>
     <string name="dialog_contrib_no">Coba</string>
     <string name="description">Deskripsi</string>
     <string name="default_account_name">Buku Anggaran</string>
@@ -187,7 +186,6 @@
     <string name="menu_parent_category_selection">Pilih kategori induk dengan ketukan singkat</string>
     <string name="dialog_command_disabled_distribution">Tidak ada transaksi yang dipetakan ke kategori di akun ini.</string>
     <string name="dialog_contrib_text_2">Silakan berkontribusi dengan meng-upgrade <i>{nama_aplikasi}</i> dan dapatkan akses tak terbatas ke fitur-fitur berikut:</string>
-    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Anda dapat menggunakannya selama %1$d hari dengan status lisensi Anda saat ini (%2$s).</string>
     <string name="dialog_contrib_usage_limit_split_templates">Status lisensi Anda saat ini (%1$s) memungkinkan Anda untuk membuat 1 templat terpisah.</string>
     <string name="contrib_feature_synchronization_label">Sinkronisasi Cloud</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Status lisensi Anda saat ini (%2$s) memungkinkan Anda untuk membuat akun %1$d.</string>

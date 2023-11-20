@@ -60,8 +60,6 @@
     <string name="dialog_command_disabled_balance">Ingen afregnede posteringer der skal afstemmes.</string>
     <string name="dialog_command_disabled_reset_account">Ingen Posteringer der kan eksporteres.</string>
     <string name="dialog_command_disabled_distribution">På denne konto blev ingen posteringer henført til kategorier.</string>
-    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-    <string name="dialog_contrib_premium_feature">%1$s er en premium funktion (%2$s).</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> er tilbudt open source.</string>
     <string name="dialog_export_delete">Slet eksporterede posteringer</string>
     <string name="dialog_export_not_yet_exported">Eksporter kun posteringer der ikke blev eksporteret endnu</string>

@@ -73,12 +73,9 @@
     <string name="dialog_command_disabled_distribution">هیچ تراکنشی به دسته‌بندیهای این حساب اضافه نشده است.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">امتحان کردن</string>
-    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-    <string name="dialog_contrib_premium_feature">%1$sمخصوص نسخه سفارشی است (%2$s).</string>
     <string name="dialog_contrib_reminder_remove_limitation">رفع این محدودیت و دسترسی به ویژگی‌های بیشتر از طریق ارتقاء <i>{app_name}</i></string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> به صورت متن‌باز ارائه شده است.</string>
     <string name="dialog_contrib_text_2">لطفاً با ارتقاء <i>{app_name}</i> به برنامه کمک کنید و به ویژگی‌های زیر دسترسی نامحدود پیدا کنید:</string>
-    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">شما با لایسنس فعلی می‌توانید %1$d روز دیگر از این استفاده کنید (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">شما با لایسنس فعلی (%2$s) می‌توانید %1$d حساب ایجاد کنید.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">شما با لایسنس فعلی (%2$s) می‌توانید %1$d برنامه ایجاد کنید.</string>
     <string name="dialog_contrib_usage_limit_split_templates">شما با لایسنس فعلی (%1$s) می‌توانید 1 قالب تقسیم‌بندی بسازید.</string>
@@ -412,7 +409,6 @@
     <string name="pref_sync_frequency_summary">چند بار داده‌ها باید همگام‌سازی شوند (در ساعت)</string>
     <string name="menu_remove">حذف</string>
     <string name="dialog_confirm_sync_link_remote">داده‌های محلی این حساب حذف خواهند شد.</string>
-    <string name="warning_limited_trial">ویژگی %1$sتا %2$s مهلت تست دارد.</string>
     <string name="warning_trial_limit_reached">دورهٔ امتحانی تست کردن ویژگی %s تمام شده‌است.</string>
     <string name="template">قالب</string>
     <string name="contrib_feature_synchronization_label">همگام‌سازی ابری</string>

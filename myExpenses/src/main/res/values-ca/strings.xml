@@ -57,8 +57,6 @@
     <string name="dialog_command_disabled_balance">No hi ha operacions eliminades a reconciliar .</string>
     <string name="dialog_command_disabled_reset_account">No hi ha cap operació per a exportar.</string>
     <string name="dialog_command_disabled_distribution">En aquest compte no hi ha cap operació assignada a cap categoria.</string>
-    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-    <string name="dialog_contrib_premium_feature">%1$s és una característica premium  (%2$s).</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> és de codi obert.</string>
     <string name="dialog_export_delete">Suprimeix les operacions exportades</string>
     <string name="dialog_export_not_yet_exported">Exporta només les operacions que encara no s\'han exportat</string>
@@ -404,7 +402,6 @@
     <string name="dialog_contrib_no">Provar</string>
     <string name="dialog_contrib_reminder_remove_limitation">Elimina aquesta limitació i tingues accés a més funcions millorant <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_2">Siusplau contribuïu millorant <i>{app_name}</i> i obtingueu accés sense límits a les següents funcions:</string>
-    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Pots utilitzar-la %1$d dies amb la teva llicència actual (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">L\'estat de la vostra llicència (%2$s) us permet crear %1$d comptes.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">L\'estat de la vostra llicència (%2$s) us permet crear %1$d terminis.</string>
     <string name="dialog_title_warning_delete_category">Elminar categoria\?</string>
@@ -477,7 +474,6 @@
     <string name="exchange_rate">Tipus de canvi</string>
     <string name="search_transfer">Cerca per transferència</string>
     <string name="menu_sync_unlink">Atura la sincronització</string>
-    <string name="warning_limited_trial">La funció %1$s es pot provar fins %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">La seguretat en bloqueig de pantalla no s\'ha configurat.</string>
     <string name="export_to_format">Exporta a %s</string>
     <plurals name="delete_success">

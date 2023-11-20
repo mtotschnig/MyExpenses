@@ -73,12 +73,9 @@
     <string name="dialog_command_disabled_distribution">Żadna z transakcji nie została zmapowana do kategorii na tym koncie.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">Próbuj</string>
-    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-    <string name="dialog_contrib_premium_feature">%1$s jest funkcją premium (%2$s).</string>
     <string name="dialog_contrib_reminder_remove_limitation">Usuń to ograniczenie i uzyskaj dostęp do dodatkowych funkcji, aktualizując <i>{app_name} </i>.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> jest oferowany otwartoźródłowo.</string>
     <string name="dialog_contrib_text_2">Proszę przyczyń się ulepszając <i>{app_name}</i> i uzyskaj nieograniczony dostęp do następujących funkcji:</string>
-    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Możesz użyć na %1$d dni z aktualnym stanem licencji (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Twój aktualny status licencji (%2$s) umożliwia utworzenie %1$d kont.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Aktualny status licencji (%2$s) umożliwia utworzenie %1$d planów.</string>
     <string name="dialog_contrib_usage_limit_split_templates">Aktualny status licencji (%1$s) pozwala utworzyć 1 szablon.</string>
@@ -560,7 +557,6 @@
     <string name="dialog_confirm_sync_remove_backend">Zdalny serwer %s zostanie usunięty. Nie wpłynie to na dane przechowywane lokalnie lub zdalnie, ale status synchronizacji zostanie utracony.</string>
     <string name="dialog_confirm_sync_link_local">Zdalne dane dla tego konta zostaną usunięte. Upewnij się, że żadne inne urządzenia nie są z nim połączone.</string>
     <string name="dialog_confirm_sync_link_remote">Dane lokalne dla tego konta zostaną usunięte.</string>
-    <string name="warning_limited_trial">Funkcja %1$s może być testowana do %2$s.</string>
     <string name="warning_trial_limit_reached">Okres próbny do testowania funkcji %s został zakończony.</string>
     <string name="warning_synchronization_folder_usage">Ten folder służy do synchronizowania danych między instalacjami {app_name} na różnych urządzeniach. Nie modyfikuj żadnej jego zawartości ręcznie.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Wybrany folder odpowiada jednemu kontu istniejącego serwera. Musisz wybrać folder nadrzędny, aby ponownie użyć ten serwer.</string>

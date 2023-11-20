@@ -71,12 +71,9 @@
     <string name="dialog_command_disabled_insert_transfer">Операції переказу вимагають наявності другого рахунку.</string>
     <string name="dialog_command_disabled_reset_account">Немає операцій для експорту.</string>
     <string name="dialog_command_disabled_distribution">Жодній операцій в цьому рахунку не було присвоєно категорію.</string>
-    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-    <string name="dialog_contrib_premium_feature">%1$s є преміум-функцією (%2$s).</string>
     <string name="dialog_contrib_reminder_remove_limitation">Усуньте це обмеження та отримайте доступ до додаткових функцій, модернізувавши <i>{app_name}</i> до преміум-версії.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> надається з відкритим програмним кодом.</string>
     <string name="dialog_contrib_text_2">Будь ласка, підтримайте проект, модернізувавши <i>{app_name}</i>, та отримайте необмежений доступ до таких функцій:</string>
-    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Ви можете використовувати це протягом %1$d днів із вашим поточним статусом ліцензії (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Ваш поточний статус ліцензії (%2$s) дозволяє створювати %1$d рахунки.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Ваш поточний статус ліцензії (%2$s) дозволяє створювати %1$d плани.</string>
     <string name="dialog_contrib_usage_limit_split_templates">Ваш поточна ліцензія (%1$s) дозволяє створювати 1 шаблон поділу.</string>
@@ -555,7 +552,6 @@
     <string name="dialog_confirm_sync_remove_backend">Віддалений сервер %s буде видалено. Це не вплине на дані, що зберігаються локально або віддалено, але стан синхронізації втратиться.</string>
     <string name="dialog_confirm_sync_link_local">Віддалені дані для цього рахунку буде видалено. Переконайтеся, що з ним не пов\'язані інші пристрої.</string>
     <string name="dialog_confirm_sync_link_remote">Локальні дані для цього рахунку буде видалено.</string>
-    <string name="warning_limited_trial">Функцією %1$s можна користуватись до %2$s.</string>
     <string name="warning_trial_limit_reached">Випробувальний період для користування функцією %s закінчився.</string>
     <string name="warning_synchronization_folder_usage">Ця тека використовується для синхронізації даних між інсталяціями {app_name} на різних пристроях. Будь ласка, не змінюйте її вміст самостійно.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Вибрана тека відповідає одному рахунку існуючого сервера. Щоб ще раз використати цей сервер, Вам потрібно вибрати батьківську теку.</string>

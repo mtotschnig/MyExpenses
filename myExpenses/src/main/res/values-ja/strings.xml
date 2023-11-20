@@ -73,11 +73,8 @@
     <string name="dialog_command_disabled_distribution">この勘定の分類に配置する取引はありません。</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">試してみる</string>
-    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-    <string name="dialog_contrib_premium_feature">%1$s はプレミアム機能です (%2$s)。</string>
     <string name="dialog_contrib_reminder_remove_limitation"><i>{app_name}</i> をアップグレードすると、この制限を取り除き、より多くの機能にアクセスすることができます</string>
     <string name="dialog_contrib_text_2"><i>{app_name}</i> をアップグレードすることで貢献して、次の機能に無制限にアクセスしてください:</string>
-    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">現在のライセンスステータス (%2$s) で %1$d 日間使用できます。</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">現在のライセンスステータス (%2$s) で %1$d アカウント作成できます。</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">現在のライセンスステータス (%2$s) で %1$d 計画作成できます。</string>
     <string name="dialog_contrib_usage_limit_split_templates">現在のライセンス状況 (%1$s) 分割テンプレートを 1 つ作成することができます。</string>
@@ -546,7 +543,6 @@
     <string name="dialog_confirm_sync_remove_backend">リモートバックエンド %s は削除されます。 これはローカルまたはリモートに保存されたデータには影響しませんが、同期ステータスは失われます。</string>
     <string name="dialog_confirm_sync_link_local">このアカウントのリモートデータは削除されます。 他のデバイスがリンクされていないことを確認してください。</string>
     <string name="dialog_confirm_sync_link_remote">このアカウントのローカルデータは削除されます。</string>
-    <string name="warning_limited_trial">%1$s機能は %2$s までテストできます。</string>
     <string name="warning_trial_limit_reached">%s機能をテストする試用期間が終了しました。</string>
     <string name="warning_synchronization_folder_usage">このフォルダーは、さまざまなデバイス上の{app_name}のインストール間でデータを同期するために使用されます。 内容を手動で変更しないでください。</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">選択したフォルダーは、既存のバックエンドのアカウントに対応します。 このバックエンドを再利用するには、その親フォルダーを選択する必要があります。</string>

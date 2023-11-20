@@ -73,12 +73,9 @@
     <string name="dialog_command_disabled_distribution">Нет операций, сопоставленных с категориями в этом счёте.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">Испытать</string>
-    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-    <string name="dialog_contrib_premium_feature">%1$s является премиум функцией (%2$s).</string>
     <string name="dialog_contrib_reminder_remove_limitation">Снимите это ограничение, а также получите больше возможностей расширив <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> с открытым исходным кодом.</string>
     <string name="dialog_contrib_text_2">Пожалуйста, внесите вклад расширив <i>{app_name}</i> и получите неограниченный доступ к следующим возможностях:</string>
-    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Вы можете использовать это до %1$d дней с Вашим лицензионным статусом (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Ваш текущий лицензионный статус (%2$s) позволяет Вам создать %1$d счетов.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Ваш текущий лицензионный статус (%2$s) позволяет создавать %1$d планов.</string>
     <string name="dialog_contrib_usage_limit_split_templates">Ваш текущий лицензионный статус (%1$s) позволяет Вам создать 1 расщепленный шаблон.</string>
@@ -568,7 +565,6 @@
     <string name="dialog_confirm_sync_remove_backend">Удаленный сервер %s будет удален. Это не повлияет на данные, хранящиеся локально или удаленно, но состояние синхронизации потеряется.</string>
     <string name="dialog_confirm_sync_link_local">Удаленные данные для этого счета будут удалены. Убедитесь, что другие устройства не связаны с ним.</string>
     <string name="dialog_confirm_sync_link_remote">Локальные данные для этого счета будут удалены.</string>
-    <string name="warning_limited_trial">Функция %1$s будет доступна до %2$s.</string>
     <string name="warning_trial_limit_reached">Пробный период функции %s завершился.</string>
     <string name="warning_synchronization_folder_usage">Эта папка используется для синхронизации данных между установками {app_name} на разных устройствах. Пожалуйста, не изменяйте его содержимое вручную.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Каталог, который вы выбрали, соответствует одному счету существующего сервера. Вам нужно выбрать родительскую папку, чтобы использовать этот сервер.</string>

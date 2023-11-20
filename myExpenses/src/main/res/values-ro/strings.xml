@@ -67,8 +67,6 @@
     <string name="dialog_command_disabled_distribution">Nici o tranzacţie nu a fost atribuită în categoriile acestui cont</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">Încearcă</string>
-    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-    <string name="dialog_contrib_premium_feature">%1$s  este o funcţionalitate premium (%2$s).</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> este oferit open source.</string>
     <string name="dialog_export_delete">Şterge tranzacţiile exportate</string>
     <string name="dialog_export_not_yet_exported">Exportă numai tranzacţiile neexportate </string>

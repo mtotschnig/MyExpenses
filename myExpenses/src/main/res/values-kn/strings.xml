@@ -73,12 +73,9 @@
     <string name="dialog_command_disabled_distribution">ಈ ಖಾತೆಯಲ್ಲಿನ ವರ್ಗಗಳಿಗೆ ಯಾವುದೇ ವಹಿವಾಟುಗಳನ್ನು ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿಲ್ಲ.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">ಪ್ರಯತ್ನಿಸಿ</string>
-    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-    <string name="dialog_contrib_premium_feature">%1$s ಪ್ರೀಮಿಯಂ ವೈಶಿಷ್ಟ್ಯವಾಗಿದೆ (%2$s).</string>
     <string name="dialog_contrib_reminder_remove_limitation"><i>{app_name}</i> ಅನ್ನು ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡುವ ಮೂಲಕ ಈ ಮಿತಿಯನ್ನು ತೆಗೆದುಹಾಕಿ ಮತ್ತು ಹೆಚ್ಚಿನ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಪ್ರವೇಶಿಸಿ.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> ಅನ್ನು ಮುಕ್ತ ಮೂಲವಾಗಿ ನೀಡಲಾಗುತ್ತದೆ.</string>
     <string name="dialog_contrib_text_2">ದಯವಿಟ್ಟು <i>{app_name} ಅನ್ನು</i> ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡುವ ಮೂಲಕ ಕೊಡುಗೆ ನೀಡಿ ಮತ್ತು ಈ ಕೆಳಗಿನ ವೈಶಿಷ್ಟ್ಯಗಳಿಗೆ ಅನಿಯಂತ್ರಿತ ಪ್ರವೇಶವನ್ನು ಪಡೆಯಿರಿ:</string>
-    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿಯೊಂದಿಗೆ (%2$s) ನೀವು ಇದನ್ನು %1$d ದಿನಗಳವರೆಗೆ ಬಳಸಬಹುದು.</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿ (%2$s) %1$d ಖಾತೆಗಳನ್ನು ರಚಿಸಲು ನಿಮಗೆ ಅನುಮತಿಸುತ್ತದೆ.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿ (%2$s) %1$d ಯೋಜನೆಗಳನ್ನು ರಚಿಸಲು ನಿಮಗೆ ಅನುಮತಿಸುತ್ತದೆ.</string>
     <string name="dialog_contrib_usage_limit_split_templates">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿ (%1$s) 1 ವಿಭಜಿತ ಟೆಂಪ್ಲೇಟ್ ರಚಿಸಲು ನಿಮಗೆ ಅನುಮತಿಸುತ್ತದೆ.</string>
@@ -554,7 +551,6 @@
     <string name="dialog_confirm_sync_remove_backend">ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್ %s ಅನ್ನು ತೆಗೆದುಹಾಕಲಾಗುತ್ತದೆ. ಇದು ಸ್ಥಳೀಯವಾಗಿ ಅಥವಾ ದೂರದಿಂದಲೇ ಸಂಗ್ರಹವಾಗಿರುವ ಡೇಟಾದ ಮೇಲೆ ಪರಿಣಾಮ ಬೀರುವುದಿಲ್ಲ, ಆದರೆ ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಸ್ಥಿತಿ ಕಳೆದುಹೋಗುತ್ತದೆ.</string>
     <string name="dialog_confirm_sync_link_local">ಈ ಖಾತೆಯ ರಿಮೋಟ್ ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ. ಬೇರೆ ಯಾವುದೇ ಸಾಧನಗಳು ಇದಕ್ಕೆ ಲಿಂಕ್ ಆಗಿಲ್ಲ ಎಂದು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.</string>
     <string name="dialog_confirm_sync_link_remote">ಈ ಖಾತೆಯ ಸ್ಥಳೀಯ ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
-    <string name="warning_limited_trial">%1$s ವೈಶಿಷ್ಟ್ಯವನ್ನು %2$s ರವರೆಗೆ ಪರೀಕ್ಷಿಸಬಹುದು.</string>
     <string name="warning_trial_limit_reached">ವೈಶಿಷ್ಟ್ಯವನ್ನು ಪರೀಕ್ಷಿಸುವ ಪ್ರಾಯೋಗಿಕ ಅವಧಿ %s ಕೊನೆಗೊಂಡಿದೆ.</string>
     <string name="warning_synchronization_folder_usage">ವಿಭಿನ್ನ ಸಾಧನಗಳಲ್ಲಿ {app_name} ನ ಸ್ಥಾಪನೆಗಳ ನಡುವೆ ಡೇಟಾವನ್ನು ಸಿಂಕ್ರೊನೈಸ್ ಮಾಡಲು ಈ ಫೋಲ್ಡರ್ ಅನ್ನು ಬಳಸಲಾಗುತ್ತದೆ. ದಯವಿಟ್ಟು ಅದರ ಯಾವುದೇ ವಿಷಯಗಳನ್ನು ಹಸ್ತಚಾಲಿತವಾಗಿ ಮಾರ್ಪಡಿಸಬೇಡಿ.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">ನೀವು ಆಯ್ಕೆ ಮಾಡಿದ ಫೋಲ್ಡರ್ ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಬ್ಯಾಕೆಂಡ್‌ನ ಒಂದು ಖಾತೆಗೆ ಅನುರೂಪವಾಗಿದೆ. ಈ ಬ್ಯಾಕೆಂಡ್ ಅನ್ನು ಮರುಬಳಕೆ ಮಾಡಲು ನೀವು ಅದರ ಮೂಲ ಫೋಲ್ಡರ್ ಅನ್ನು ಆರಿಸಬೇಕಾಗುತ್ತದೆ.</string>

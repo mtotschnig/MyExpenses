@@ -5,7 +5,6 @@
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Eksporter overføringsliste til PDF</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Ubegrenset antall planer</string>
     <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Kakediagram (distribusjon per kategori)</string>
-    <string name="dialog_contrib_premium_feature">%1$s er en premiumsfunksjon (%2$s).</string>
     <string name="current_balance">Nåværende saldo</string>
     <string name="checkbox_is_default">Forvalg</string>
     <string name="menu_edit_budget">Rediger budsjett</string>

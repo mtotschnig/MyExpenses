@@ -168,7 +168,6 @@
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">మీరు ఎంచుకున్న ఫోల్డర్ ఇప్పటికే ఉన్న బ్యాకెండ్ యొక్క ఒక ఖాతాకు అనుగుణంగా ఉంటుంది. ఈ బ్యాకెండ్‌ను తిరిగి ఉపయోగించడానికి మీరు దాని మాతృ ఫోల్డర్‌ను ఎంచుకోవాలి.</string>
     <string name="warning_synchronization_folder_usage">వివిధ పరికరాల్లో {app_name} యొక్క సంస్థాపనల మధ్య డేటాను సమకాలీకరించడానికి ఈ ఫోల్డర్ ఉపయోగించబడుతుంది. దయచేసి దానిలోని ఏ విషయాలను మానవీయంగా సవరించవద్దు.</string>
     <string name="warning_trial_limit_reached">ఫీచర్ %s ను పరీక్షించడానికి ట్రయల్ వ్యవధి ముగిసింది.</string>
-    <string name="warning_limited_trial">%1$s ఫీచర్ %2$s వరకు పరీక్షించవచ్చు.</string>
     <string name="dialog_confirm_sync_link_remote">ఈ ఖాతా కోసం స్థానిక డేటా తొలగించబడుతుంది.</string>
     <string name="dialog_confirm_sync_link_local">ఈ ఖాతా కోసం రిమోట్ డేటా తొలగించబడుతుంది. ఇతర పరికరాలు దీనికి లింక్ చేయబడలేదని నిర్ధారించుకోండి.</string>
     <string name="dialog_confirm_sync_remove_backend">రిమోట్ బ్యాకెండ్ %s తీసివేయబడుతుంది. ఇది స్థానికంగా లేదా రిమోట్‌గా నిల్వ చేసిన డేటాను ప్రభావితం చేయదు, కానీ సమకాలీకరణ స్థితి కోల్పోతుంది.</string>
@@ -526,11 +525,9 @@
     <string name="dialog_contrib_usage_limit_split_templates">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿ (%1$s) 1 ವಿಭಜಿತ ಟೆಂಪ್ಲೇಟ್ ರಚಿಸಲು ನಿಮಗೆ ಅನುಮತಿಸುತ್ತದೆ.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿ (%2$s) %1$d ಯೋಜನೆಗಳನ್ನು ರಚಿಸಲು ನಿಮಗೆ ಅನುಮತಿಸುತ್ತದೆ.</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿ (%2$s) %1$d ಖಾತೆಗಳನ್ನು ರಚಿಸಲು ನಿಮಗೆ ಅನುಮತಿಸುತ್ತದೆ.</string>
-    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">మీ ప్రస్తుత లైసెన్స్ స్థితి (%2$s) తో మీరు దీన్ని %1$d రోజులు ఉపయోగించవచ్చు.</string>
     <string name="dialog_contrib_text_2">దయచేసి <i> {app_name} </i> అప్‌గ్రేడ్ చేయడం ద్వారా సహకరించండి మరియు ఈ క్రింది లక్షణాలకు అనియంత్రిత ప్రాప్యతను పొందండి:</string>
     <string name="dialog_contrib_text_1"><i> {app_name} </i> ఓపెన్ సోర్స్ అందించబడుతుంది.</string>
     <string name="dialog_contrib_reminder_remove_limitation"><i> {app_name} </i> ని అప్‌గ్రేడ్ చేయడం ద్వారా ఈ పరిమితిని తొలగించి మరిన్ని ఫీచర్‌లను యాక్సెస్ చేయండి.</string>
-    <string name="dialog_contrib_premium_feature">%1$s అనేది ప్రీమియం లక్షణం (%2$s).</string>
     <string name="dialog_contrib_no">ప్రయత్నించండి</string>
     <string name="dialog_command_disabled_distribution">ఈ ఖాతాలోని వర్గాలకు లావాదేవీలు మ్యాప్ చేయబడలేదు.</string>
     <string name="dialog_command_disabled_reset_account">ఎగుమతి చేయడానికి లావాదేవీలు లేవు.</string>

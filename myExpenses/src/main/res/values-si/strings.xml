@@ -43,8 +43,6 @@
     <string name="description">සවිස්තරය</string>
     <string name="dialog_command_disabled_reset_account">නිර්යාත කිරීමට ගනුදෙනු නැත.</string>
     <string name="dialog_command_disabled_distribution">ප්‍රබේධ සදහා වෙන්කළ ගනුදෙනු මෙම ගිණුමෙහි නොමැත </string>
-    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-    <string name="dialog_contrib_premium_feature">%1$s පාරිතෝෂික අංගයකි (%2$s)</string>
     <string name="dialog_export_delete">අපනයනය කල ගනුදෙනු මකාදමන ලදී </string>
     <string name="dialog_export_not_yet_exported">අපනයන නොකළ ගනුදෙනු සියල්ල අපනයන කරන්න </string>
     <string name="dialog_password_activate_protection">මුරපද ආරක්ෂාව ක්‍රියාත්මක කරන්න </string>

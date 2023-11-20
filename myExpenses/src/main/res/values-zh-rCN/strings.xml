@@ -73,12 +73,9 @@
     <string name="dialog_command_disabled_distribution">此账户中，没有交易映射到此类别。</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">试用高级功能</string>
-    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-    <string name="dialog_contrib_premium_feature">%1$s 是一项高级功能 (%2$s).</string>
     <string name="dialog_contrib_reminder_remove_limitation">移除这个限制并访问更多功能，方法是升级 <i>{app_name}</i>。</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i>提供开放源代码。</string>
     <string name="dialog_contrib_text_2">请透过升级来赞助<i>{app_name}</i>，还可以解锁得到以下更多的功能:</string>
-    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">您目前许可证 (%2$s)，允许你使用该功能 %1$d 天。</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">依据您目前许可证(%2$s)的权限，您可以建立%1$d个账户。</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">依据您目前的版本(%2$s)的权限，您可以创建%1$d个收支计划。</string>
     <string name="dialog_contrib_usage_limit_split_templates">依据您目前许可证(%1$s)的权限，您可以创建1个拆分款项的模板。</string>
@@ -549,7 +546,6 @@
     <string name="dialog_confirm_sync_remove_backend">远程后端%s将被移除。这不会影响本地或远程存储的数据，但是同步状态会丢失。</string>
     <string name="dialog_confirm_sync_link_local">该账户的远程数据将被删除。请确保没有其他设备与它相链接。</string>
     <string name="dialog_confirm_sync_link_remote">该账户的本地数据将被删除。</string>
-    <string name="warning_limited_trial">%1$s此功能可以试用到%2$s之前。</string>
     <string name="warning_trial_limit_reached">%s功能的试用期已经结束。</string>
     <string name="warning_synchronization_folder_usage">{app_name}安装在不同设备上时，两者之间的数据同步在此文件夹里。请不要手动修改其任何内容。</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">您选择的文件夹对应于现有后端的一个账户。您需要选择其上层文件夹才能重用此后端。</string>

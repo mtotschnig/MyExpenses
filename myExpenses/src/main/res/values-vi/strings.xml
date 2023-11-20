@@ -71,11 +71,8 @@
     <string name="dialog_command_disabled_insert_transfer">Việc chuyển khoản yêu cầu một tài khoản khác.</string>
     <string name="dialog_command_disabled_reset_account">Không có giao dịch để xuất.</string>
     <string name="dialog_command_disabled_distribution">Không có giao dịch nào được cho phân loại trong tài khoản này.</string>
-    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-    <string name="dialog_contrib_premium_feature">%1$s là tính năng trả phí (%2$s).</string>
     <string name="dialog_contrib_reminder_remove_limitation">Loại bỏ sự giới hạn này và sử dụng nhiều tính năng hơn bằng cách nâng cấp <i>{app_name}</i></string>
     <string name="dialog_contrib_text_2">Xin hãy đóng góp bằng cách nâng cấp <i>{app_name}</i> và sử dụng không giới hạn các tính năng sau:</string>
-    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Bạn có thể dùng nó trong %1$d ngày với bản quyền hiện tại (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Bản quyền hiện tại của bạn (%2$s) cho phép bạn tạo %1$d tài khoản.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Bản quyền hiện tại của bạn (%2$s) cho phép bạn tạo %1$d kế hoạch.</string>
     <string name="dialog_contrib_usage_limit_split_templates">Bản quyền hiện tại của bạn (%1$s) cho phép bạn tạo chỉ một bản mẫu chia tách.</string>
@@ -539,7 +536,6 @@
     <string name="dialog_confirm_sync_remove_backend">Backend từ xa %s sẽ bị xoá. Điều này sẽ không ảnh hưởng tới dữ liệu ở trong máy lẫn bên ngoài, nhưng việc đồng bộ hoá sẽ bị ngưng.</string>
     <string name="dialog_confirm_sync_link_local">Những dữ liệu từ xa của tài khoản này sẽ bị xoá. Đảm bảo rằng không có thiết bị nào khác được liên kết với tài khoản này.</string>
     <string name="dialog_confirm_sync_link_remote">Dữ liệu nội bộ của tài khoản này sẽ bị xoá.</string>
-    <string name="warning_limited_trial">Tính năng %1$s có thể được dùng thử cho tới %2$s</string>
     <string name="warning_trial_limit_reached">Thời gian dùng thử tính năng %s đã kết thúc.</string>
     <string name="warning_synchronization_folder_usage">Thư mục này được sử dụng cho việc đồng bộ dữ liệu giữa các bản cài của ứng dụng trên những thiết bị khác nhau ({app_name}). Vui lòng không tuỳ ý chỉnh sửa các thư mục này và nội dung của nó.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Thư mục bạn đã chọn tương ứng với một tài khoản của một backend sẵn có. Bạn cần chọn thư mục mẹ của nó để dùng lại backend này.</string>

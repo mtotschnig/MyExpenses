@@ -73,12 +73,9 @@
     <string name="dialog_command_disabled_distribution">Tiada transaksi telah dipetakan pada kategori dalam akaun ini.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">Cuba</string>
-    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-    <string name="dialog_contrib_premium_feature">%1$s merupakan fitur premium (%2$s).</string>
     <string name="dialog_contrib_reminder_remove_limitation">Buang sekatan ini dan capai lagi banyak fitur dengan menatar <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> merupakan sumber terbuka.</string>
     <string name="dialog_contrib_text_2">Berilah sumbangan dalam bentuk derma dengan menatar <i>{app_name}</i> dan peroleh capaian tanpa had fitur-fitur berikut:</string>
-    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Anda boleh guna sehingga %1$d hari dengan status lesen semasa anda (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Status lesen semasa anda (%2$s) membolehkan anda cipta sehingga %1$d akaun.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Status lesen semasa anda (%2$s) membolehkan anda cipta sehingga %1$d plan.</string>
     <string name="dialog_contrib_usage_limit_split_templates">Status lesen semasa anda (%1$s) membolehkan anda cipta 1 templat pengasingan</string>
@@ -544,7 +541,6 @@
     <string name="dialog_confirm_sync_remove_backend">Bahagian belakang jauh %s akan dibuang. Ia tidak mempengaruhi data yang disimpan secara setempat atau jauh, tetapi status penyegerakan akan hilang.</string>
     <string name="dialog_confirm_sync_link_local">Data jauh untuk akaun ini akan dipadamkan. Pastikan tiada peranti dipaut padanya.</string>
     <string name="dialog_confirm_sync_link_remote">Data setempat untuk akaun ini akan dipadamkan.</string>
-    <string name="warning_limited_trial">Fitur %1$s boleh diuji sehingga %2$s.</string>
     <string name="warning_trial_limit_reached">Tempoh percubaan untuk menguji fitur %s telah tamat.</string>
     <string name="warning_synchronization_folder_usage">Folder ini digunakan untuk menyegerakkan data diantara pemasangan {app_name} pada peranti berlainan. Sila jangan ubahsuai mana-mana kandungannya secara manual.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Folder yang anda telah pilih akaunnya berkait dengan bahagian belakang sedia ada. Anda perlu pilih folder induknya untuk dapat guna semula bahagian belakang ini.</string>

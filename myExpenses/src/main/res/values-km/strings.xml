@@ -56,8 +56,6 @@
     <string name="dialog_command_disabled_balance">គ្មានប្រតិបត្តិការបោសសំអាតឱ្យស្រុះស្រួល។</string>
     <string name="dialog_command_disabled_reset_account">គ្មាន​ប្រតិបត្តិការ​ណា​នាំយកចេញ​ឡើយ។</string>
     <string name="dialog_command_disabled_distribution">គ្មាន​ប្រតិបត្តិការ​ណា​ បានភ្ជាប់​ នឹង​ថ្នាក់​ណាមួយ​ ក្នុង​គណនីនេះទេ។</string>
-    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-    <string name="dialog_contrib_premium_feature">%1$s គឺជា​លក្ខណៈពិសេស​ដែល​តម្រូវ​បង់​ប្រាក់។ (%2$s)</string>
     <string name="dialog_export_delete">លុបចោលប្រតិបតិ្តការដែលបាននាំចេញ</string>
     <string name="dialog_export_not_yet_exported">នាំចេញតែប្រតិបត្តិការណាដែលមិនទាន់បាននាំចេញនៅឡើយ</string>
     <string name="dialog_password_activate_protection">ធ្វើឱ្យសកម្មនូវការពារពាក្យសម្ងាត់</string>

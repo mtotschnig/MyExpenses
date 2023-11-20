@@ -73,12 +73,9 @@
     <string name="dialog_command_disabled_distribution">لا يوجد عمليات معينة للتصنيفات لهذا الحساب.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">للتجربة</string>
-    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-    <string name="dialog_contrib_premium_feature">%1$s هذه الخاصية تتطلب ميزات كاملة (%2$s).</string>
     <string name="dialog_contrib_reminder_remove_limitation">قم بإزالة هذا القيد والوصول إلى المزيد من الميزات عن طريق ترقية <i> {app_name}</i>.</string>
     <string name="dialog_contrib_text_1">إن <i>{app_name}</i> مفتوح المصدر.</string>
     <string name="dialog_contrib_text_2">يرجى المساهمة بترقية <i>{app_name}</i> والحصول على وصول غير مقيد إلى الميزات التالية:</string>
-    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">يمكنك استخدامه لمدة %1$d يوماً بحالة ترخيصك الحالية (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">تسمح لك حالة الترخيص الحالية (%2$s) بإنشاء %1$d حسابات.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">تسمح لك حالة الترخيص الحالية (%2$s) بإنشاء %1$d من الخطط.</string>
     <string name="dialog_contrib_usage_limit_split_templates">تسمح لك حالة ترخيصك الحالية (%1$s) بإنشاء نموذج مجزأ واحد.</string>
@@ -583,7 +580,6 @@
     <string name="dialog_confirm_sync_remove_backend">ستتم إزالة الواجهة الخلفية البعيدة %s. لن يؤثر ذلك على البيانات المخزنة محلياً أو عن بُعد، ولكن حالة المزامنة سوف تُفقد.</string>
     <string name="dialog_confirm_sync_link_local">سيتم حذف البيانات البعيدة لهذا الحساب. تأكد من عدم وجود أجهزة أخرى مرتبطة به.</string>
     <string name="dialog_confirm_sync_link_remote">سيتم حذف البيانات المحلية لهذا الحساب.</string>
-    <string name="warning_limited_trial">يمكن اختبار الميزة %1$s حتى %2$s.</string>
     <string name="warning_trial_limit_reached">انتهت الفترة التجريبية لاختبار الميزة %s.</string>
     <string name="warning_synchronization_folder_usage">يُستخدم هذا المجلد لمزامنة البيانات بين عمليات تثبيت {app_name} على أجهزة مختلفة. يُرجى عدم تعديل أي من محتوياته يدوياً.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">المجلد الذي حددته يتوافق مع حساب موجود لواجهة خلفية. يتعين عليك تحديد المجلد الأصلي الخاص به لإعادة استخدام هذه الخلفية.</string>

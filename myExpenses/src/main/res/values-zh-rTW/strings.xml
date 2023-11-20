@@ -73,12 +73,9 @@
     <string name="dialog_command_disabled_distribution">此帳戶中，沒有交易對應到此類別。</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">試用</string>
-    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-    <string name="dialog_contrib_premium_feature">%1$s是屬於高級功能(%2$s)</string>
     <string name="dialog_contrib_reminder_remove_limitation">升級版本後可以移除此限制與使用更多的功能<i>{app_name}</i></string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i>提供開放原始碼</string>
     <string name="dialog_contrib_text_2">請用升級來贊助<i>{app_name}</i>，還可以解鎖得到以下更多的功能:</string>
-    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">依據您目前許可證(%2$s)的權限，您可以使用此功能%1$d天。</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">依據您目前許可證(%2$s)的權限，您可以建立%1$d個帳戶。</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">依據您目前的版本(%2$s)的權限，您可以建立%1$d個收支計畫。</string>
     <string name="dialog_contrib_usage_limit_split_templates">依據您目前許可證(%1$s)的權限，您可以建立1個分割款項的範本。</string>
@@ -550,7 +547,6 @@
     <string name="dialog_confirm_sync_remove_backend">遠程後端%s將被移除。這不會影響本機或遠端存儲的資料，但是會失去同步狀態。</string>
     <string name="dialog_confirm_sync_link_local">該帳戶的遠端資料將被刪除。請確保沒有其他裝置與它相連結。</string>
     <string name="dialog_confirm_sync_link_remote">該帳戶在本機的資料將被刪除。</string>
-    <string name="warning_limited_trial">%1$s此功能可以試用到%2$s之前。</string>
     <string name="warning_trial_limit_reached">試用版功能%s已經到期。</string>
     <string name="warning_synchronization_folder_usage">{app_name}安裝在不同裝置上時，兩者之間的資料同步在此檔案夾裡。請不要手動修改其任何內容。</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">您所選的檔案夾已對應到此後端的一個帳戶。您需要選擇其上層檔案夾才能重用此後端。</string>

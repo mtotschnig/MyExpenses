@@ -51,8 +51,6 @@
     <string name="dialog_contrib_no">کوشش کریں</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> کو اوپن سورس پیش کیا جاتا ہے۔</string>
     <string name="dialog_contrib_text_2">براہ کرم <i>{app_name}</i> کو اپ گریڈ کرکے تعاون کریں اور درج ذیل خصوصیات تک غیر محدود رسائی حاصل کریں:</string>
-    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">آپ اسے اپنی موجودہ لائسنس کی حیثیت (%2$s) کے ساتھ %1$d دنوں تک استعمال کر سکتے ہیں۔</string>
-    <string name="dialog_contrib_premium_feature">%1$s ایک پریمیم خصوصیت ہے (%2$s)۔</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">آپ کی موجودہ لائسنس کی حیثیت (%2$s) آپ کو %1$d منصوبے بنانے کی اجازت دیتی ہے۔</string>
     <string name="dialog_export_delete">برآمد شدہ لین دین کو حذف کریں</string>
     <string name="dialog_export_not_yet_exported">ایکسپورٹ صرف ٹرانزیکشنز ابھی تک ایکسپورٹ نہیں ہوئی ہیں</string>
@@ -453,7 +451,6 @@
     <string name="menu_remove">ہٹا دیں</string>
     <string name="dialog_confirm_sync_remove_backend">ریموٹ بیک اینڈ %s کو ہٹا دیا جائے گا۔ یہ مقامی طور پر یا دور سے ذخیرہ کردہ ڈیٹا کو متاثر نہیں کرے گا، لیکن مطابقت پذیری کی حیثیت ختم ہو جاتی ہے۔</string>
     <string name="dialog_confirm_sync_link_remote">اس اکاؤنٹ کا مقامی ڈیٹا حذف کر دیا جائے گا.</string>
-    <string name="warning_limited_trial">فیچر %1$s کو %2$s تک ٹیسٹ کیا جا سکتا ہے.</string>
     <string name="warning_trial_limit_reached">ٹیسٹنگ فیچر %s کے لیے آزمائشی مدت ختم ہو گئی ہے.</string>
     <string name="link_account_failure_2">اسی uuid کے ساتھ ایک اکاؤنٹ پہلے سے ہی ریموٹ بیک اینڈ پر موجود ہے.</string>
     <string name="link_account_failure_3">تنازعہ کو اندراج کے سیاق و سباق کے مینو سے دستی طور پر حل کیا جا سکتا ہے.</string>

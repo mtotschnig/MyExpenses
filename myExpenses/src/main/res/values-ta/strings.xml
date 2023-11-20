@@ -73,12 +73,9 @@
     <string name="dialog_command_disabled_distribution">இந்த கணக்கில் எந்தவொரு பரிவர்த்தனையும் வகைப்படுத்தப்படவில்லை.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">முயற்சி செய்</string>
-    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-    <string name="dialog_contrib_premium_feature">%1$s ஒரு மதிப்பு அம்சம் (%2$s).</string>
     <string name="dialog_contrib_reminder_remove_limitation"><i>{app_name}</i> ஐ மேம்படுத்துவதன் மூலம் இந்த வரம்பை நீக்கி கூடுதல் அம்சங்களை பெறலாம்.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> திறந்த மூல செயலியாக வழங்கப்படுகிறது.</string>
     <string name="dialog_contrib_text_2"><i>{app_name}</i> ஐ மேம்படுத்துவதன் மூலம் (தயவுசெய்து) பங்களித்து பின்வரும் அம்சங்களுக்கு வரம்பற்ற அணுகலைப் பெறவும்:</string>
-    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">உங்கள் தற்போதைய உரிம நிலை (%2$s) உடன்  நீங்கள் %1$d நாட்களுக்கு அதைப் பயன்படுத்தலாம்.</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">உங்கள் தற்போதைய உரிம நிலை (%2$s) %1$d கணக்குகளை உருவாக்க உங்களை அனுமதிக்கிறது.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">உங்கள் தற்போதைய உரிம நிலை (%2$s) உங்களை %1$d திட்டங்களை உருவாக்க உங்களை அனுமதிக்கிறது.</string>
     <string name="dialog_contrib_usage_limit_split_templates">உங்கள் தற்போதைய உரிம நிலை (%1$s) 1 பிரிவு வார்ப்புருவை உருவாக்க உங்களை அனுமதிக்கிறது.</string>
@@ -556,7 +553,6 @@
     <string name="dialog_confirm_sync_remove_backend">தொலைநிலை பின்தளம் %s அகற்றப்படும். இது உள்ளே அல்லது தொலைநிலையில் சேமிக்கப்பட்ட தரவை பாதிக்காது, ஆனால் ஒத்திசைவு நிலை இழக்கப்படும்.</string>
     <string name="dialog_confirm_sync_link_local">இந்த கணக்கிற்கான தொலைநிலை தரவு நீக்கப்படும். வேறு எந்த கருவியும் அதனுடன் இணைக்கப்படவில்லை என்பதை உறுதிப்படுத்திக் கொள்ளுங்கள்.</string>
     <string name="dialog_confirm_sync_link_remote">இந்த கணக்கிற்கான உள் தரவு நீக்கப்படும்.</string>
-    <string name="warning_limited_trial">%1$s அம்சம் %2$s வரை பரிசோதனை செய்யலாம்.</string>
     <string name="warning_trial_limit_reached">%s அம்சத்திற்கான பரிசோதனைக் காலம் முடிந்தது.</string>
     <string name="warning_synchronization_folder_usage">வெவ்வேறு கருவிகளில் {app_name} இன் நிறுவல்களுக்கு இடையேயான ஒத்திசைவுக்காக இந்த கோப்புறை பயன்படுத்தப்படுகிறது.  தயவு செய்து அதன் உள்ளடக்கங்களை கைமுறையாக மாற்ற வேண்டாம்.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">நீங்கள் தேர்ந்தெடுத்திற்கும் கோப்புறை ஏற்கனவே இருக்கும் ஒரு பின்தளத்தின் ஒரு கணக்குடன் ஒத்துள்ளது. இந்த பின்தளத்தை மறுபயன்பாடு செய்ய, அதன் மூலக் கோப்புறையை நீங்கள் தேர்ந்தெடுக்க வேண்டும்.</string>

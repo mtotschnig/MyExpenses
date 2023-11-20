@@ -75,13 +75,10 @@
     <string name="dialog_command_disabled_distribution">No transactions have been mapped to categories in this account.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">Try</string>
-    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-    <string name="dialog_contrib_premium_feature">%1$s is a premium feature (%2$s).</string>
     <string name="dialog_contrib_reminder_remove_limitation">Remove this limitation and access more features by upgrading <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> is offered open source.</string>
     <string name="dialog_contrib_text_2">Please contribute by upgrading <i>{app_name}</i> and gain unrestricted access to the following features:</string>
     <string name="dialog_contrib_trial_info">Your current licence status (%1$s) allows you to try %2$s for %3$d days (until %4$s).</string>
-    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">You can use it for %1$d days with your current licence status (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Your current licence status (%2$s) allows you to create %1$d accounts.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Your current licence status (%2$s) allows you to create %1$d plans.</string>
     <string name="dialog_contrib_usage_limit_split_templates">Your current licence status (%1$s) allows you to create 1 split template.</string>
@@ -569,7 +566,6 @@
     <string name="dialog_confirm_sync_remove_backend">Remote backend %s will be removed. This will not affect data stored locally or remotely, but synchronization status gets lost.</string>
     <string name="dialog_confirm_sync_link_local">Remote data for this account will be deleted. Make sure no other devices are linked to it.</string>
     <string name="dialog_confirm_sync_link_remote">Local data for this account will be deleted.</string>
-    <string name="warning_limited_trial">Feature %1$s can be tested until %2$s.</string>
     <string name="warning_trial_limit_reached">The trial period for testing feature %s has ended.</string>
     <string name="warning_synchronization_folder_usage">This folder is used for synchronizing data between installations of {app_name} on different devices. Please do not modify any of its contents manually.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">The folder you have selected corresponds to one account of an existing backend. You need to select its parent folder in order to reuse this backend.</string>

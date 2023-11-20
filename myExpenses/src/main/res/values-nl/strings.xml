@@ -107,7 +107,6 @@
     <string name="dialog_contrib_no">Probeer</string>
     <string name="dialog_contrib_reminder_remove_limitation">Verwijder deze beperking en krijg toegang tot meer functies door <i>{app_name}</i> te upgraden.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> wordt open source aangeboden.</string>
-    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">U kunt het %1$d dagen gebruiken met uw huidige licentiestatus (%2$s).</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Met uw huidige licentiestatus (%2$s) kunt u %1$d plannen maken.</string>
     <string name="dialog_contrib_usage_limit_split_templates">Met uw huidige licentiestatus (%1$s) kunt u 1 gesplitst sjabloon maken.</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Met uw huidige licentiestatus (%1$s) wordt deze dialoog bij elk gebruik weergegeven.</string>
@@ -141,7 +140,6 @@
     </plurals>
     <string name="dialog_contrib_text_2">Draag bij door <i>{app_name}</i> te upgraden en krijg onbeperkte toegang tot de volgende functies:</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Met uw huidige licentiestatus (%2$s) kunt u %1$d accounts aanmaken.</string>
-    <string name="dialog_contrib_premium_feature">%1$s is een premium functie (%2$s).</string>
     <string name="dialog_export_not_yet_exported">Exporteer alleen transacties die nog niet zijn geëxporteerd</string>
     <string name="dialog_remind_rate_1_suggest_improvement">Neem even de tijd om ons uw suggesties voor verbeteringen te sturen.</string>
     <string name="grouping_last_week">Vorige week</string>
@@ -422,7 +420,6 @@
     <string name="validate_error_webdav_404">De URL bestaat niet op de server.</string>
     <string name="dialog_confirm_sync_unlink">Als u dit account ontkoppelt van %s, gaat de synchronisatiestatus verloren. Als u ze later opnieuw wilt koppelen, moet een volledige synchronisatie opnieuw worden uitgevoerd.</string>
     <string name="dialog_sync_link">Een account met uuid %s bestaat zowel in de lokale database als op de externe backend. Wanneer u beide koppelt, moet u beslissen of u in eerste instantie lokale gegevens naar de externe backend wilt uploaden of externe gegevens naar de lokale database wilt downloaden.</string>
-    <string name="warning_limited_trial">Functie %1$s kan worden getest tot %2$s.</string>
     <string name="warning_synchronization_folder_usage">Deze map wordt gebruikt voor het synchroniseren van gegevens tussen installaties van {app_name} op verschillende apparaten. Wijzig de inhoud niet handmatig.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">De map die u hebt geselecteerd, komt overeen met één account van een bestaande backend. U moet de bovenliggende map selecteren om deze backend opnieuw te gebruiken.</string>
     <string name="warning_auto_backup_deactivated">Automatische back-up is gedeactiveerd. U kunt het opnieuw inschakelen via de instellingen nadat u het probleem hebt opgelost (bijvoorbeeld door een andere map voor back-ups te selecteren).</string>
