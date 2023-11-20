@@ -804,4 +804,5 @@
     <string name="dialog_title_purge_backups">Εκκαθάριση παλαιών αντιγράφων ασφαλείας</string>
     <string name="menu_reconfigure">Επαναδιαμόρφωση</string>
     <string name="whats_new_359">Τα εικονίδια για τις μεθόδους πληρωμής μπορούν να προσαρμοστούν.</string>
+    <string name="dialog_contrib_trial_info">Η τρέχουσα κατάσταση άδειας χρήσης (%1$s) σάς επιτρέπει να δοκιμάσετε το %2$s για %3$d ημέρες (μέχρι το %4$s).</string>
 </resources>
