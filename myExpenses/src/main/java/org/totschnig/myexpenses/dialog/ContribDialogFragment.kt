@@ -27,6 +27,7 @@ import android.widget.RadioButton
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.content.res.ResourcesCompat.getColor
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import androidx.core.view.isVisible
@@ -133,13 +134,7 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener {
 
         //prepare CONTRIB section
         with(binding.contribFeatureContainer) {
-            root.setBackgroundColor(
-                ResourcesCompat.getColor(
-                    resources,
-                    LicenceStatus.CONTRIB.color,
-                    null
-                )
-            )
+            root.setBackgroundColorFromLicenceStatus(LicenceStatus.CONTRIB)
             if (licenceStatus == null && LicenceStatus.CONTRIB.covers(feature)) {
                 contribVisible = true
                 val contribList =
@@ -156,16 +151,9 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener {
 
         //prepare EXTENDED section
         with(binding.extendedFeatureContainer) {
-            root.setBackgroundColor(
-                ResourcesCompat.getColor(
-                    resources,
-                    LicenceStatus.EXTENDED.color,
-                    null
-                )
-            )
-            if (LicenceStatus.CONTRIB.greaterOrEqual(licenceStatus) && LicenceStatus.EXTENDED.covers(
-                    feature
-                )
+            root.setBackgroundColorFromLicenceStatus(LicenceStatus.EXTENDED)
+            if (LicenceStatus.CONTRIB.greaterOrEqual(licenceStatus) &&
+                LicenceStatus.EXTENDED.covers(feature)
             ) {
                 extendedVisible = true
                 val lines = ArrayList<CharSequence>()
@@ -189,13 +177,7 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener {
         //prepare PROFESSIONAL section
         with(binding.professionalFeatureContainer) {
             val lines = ArrayList<CharSequence>()
-            root.setBackgroundColor(
-                ResourcesCompat.getColor(
-                    resources,
-                    LicenceStatus.PROFESSIONAL.color,
-                    null
-                )
-            )
+            root.setBackgroundColorFromLicenceStatus(LicenceStatus.PROFESSIONAL)
             if (extendedVisible) {
                 lines.add(getString(R.string.all_extended_key_features) + "\n+")
             } else if (feature?.isProfessional == true) {
@@ -223,13 +205,7 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener {
         //single FEATURE
         with(binding.singleFeatureContainer) {
             feature?.let {
-                root.setBackgroundColor(
-                    ResourcesCompat.getColor(
-                        resources,
-                        it.licenceStatus.color,
-                        null
-                    )
-                )
+                root.setBackgroundColorFromLicenceStatus(it.licenceStatus)
                 singleVisible = true
                 packageLabel.setText(it.labelResId)
                 packagePrice.text = licenceHandler.getFormattedPrice(getSinglePackage())
@@ -297,6 +273,10 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener {
             }
         }
         return dialog
+    }
+
+    private fun View.setBackgroundColorFromLicenceStatus(licenceStatus: LicenceStatus) {
+        setBackgroundColor(getColor(resources, licenceStatus.color, null))
     }
 
     private fun getSinglePackage(): AddOnPackage =
