@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.activity
 
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -38,6 +37,8 @@ import timber.log.Timber
 class ContribInfoDialogActivity : IapActivity() {
     @State
     var doFinishAfterMessageDismiss = true
+    @State
+    var purchaseStarted = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
@@ -56,13 +57,25 @@ class ContribInfoDialogActivity : IapActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (purchaseStarted) {
+            if (intent.action == ACTION_FINISH) {
+                showMessage(
+                    "${getString(R.string.paypal_callback_info)} ${intent.getStringExtra(KEY_MESSAGE)}"
+                )
+            } else {
+                finish(true)
+            }
+        }
+    }
+
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        if (intent.action == "FINISH") {
-            showMessage(
-            "${getString(R.string.paypal_callback_info)} ${intent.getStringExtra("message")}"
-            )
-        }
+        setIntent(intent.also {
+            it.putExtra(KEY_FEATURE, this.intent.getStringExtra(KEY_FEATURE))
+            it.putExtra(KEY_TAG, this.intent.getSerializableExtra(KEY_TAG))
+        })
     }
 
     private val packageFromExtra: Package?
@@ -80,9 +93,9 @@ class ContribInfoDialogActivity : IapActivity() {
     }
 
     fun contribBuyDo(aPackage: Package) {
-        val bundle = Bundle(1)
-        bundle.putString(Tracker.EVENT_PARAM_PACKAGE, aPackage.javaClass.simpleName)
-        logEvent(Tracker.EVENT_CONTRIB_DIALOG_BUY, bundle)
+        logEvent(Tracker.EVENT_CONTRIB_DIALOG_BUY, Bundle(1).apply {
+            putString(Tracker.EVENT_PARAM_PACKAGE, aPackage.javaClass.simpleName)
+        })
         when (distribution) {
             DistributionHelper.Distribution.PLAY, DistributionHelper.Distribution.AMAZON ->
                 lifecycleScope.launch {
@@ -99,6 +112,7 @@ class ContribInfoDialogActivity : IapActivity() {
                         }
                     }
                 }
+
             else -> contribBuyGithub(aPackage)
         }
     }
@@ -110,6 +124,7 @@ class ContribInfoDialogActivity : IapActivity() {
 
     fun startPayment(paymentOption: Int, aPackage: Package) {
         if (paymentOption == R.string.donate_button_paypal) {
+            purchaseStarted = true
             val intent: CustomTabsIntent = CustomTabsIntent.Builder().build()
             intent.launchUrl(this, Uri.parse(licenceHandler.getPaypalUri(aPackage)))
         } else if (paymentOption == R.string.donate_button_invoice) {
@@ -204,6 +219,18 @@ class ContribInfoDialogActivity : IapActivity() {
         private const val KEY_PACKAGE = "package"
         const val KEY_TAG = "tag"
         private const val KEY_SHOULD_REPLACE_EXISTING = "shouldReplaceExisting"
+        private const val ACTION_FINISH = "FINISH"
+        private const val KEY_MESSAGE = "message"
+
+        fun getOnPurchaseCompleteIntent(context: Context, message: String) =
+            Intent(context, ContribInfoDialogActivity::class.java).apply {
+                action = ACTION_FINISH
+                putExtra(KEY_MESSAGE, message)
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            }
+
+
         fun getIntentFor(context: Context?, feature: ContribFeature?) =
             Intent(context, ContribInfoDialogActivity::class.java).apply {
                 action = Intent.ACTION_MAIN
