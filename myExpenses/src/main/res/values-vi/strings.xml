@@ -715,4 +715,5 @@
     <string name="bug_fixes" tools:ignore="UnusedResources">Sửa lỗi</string>
     <string name="dialog_title_purge_backups">Thanh lọc các bản sao lưu cũ</string>
     <string name="whats_new_359">Các biểu tượng cho phương thức thanh toán có thể được tùy chỉnh.</string>
+    <string name="dialog_contrib_trial_info">Trạng thái giấy phép hiện tại của bạn (%1$s) cho phép bạn dùng thử %2$s trong %3$d ngày (cho đến %4$s).</string>
 </resources>
