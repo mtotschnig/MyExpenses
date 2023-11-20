@@ -58,7 +58,7 @@ abstract class ImportDataViewModel(application: Application) :
     }
 
     fun insertAccounts(accounts: List<ImportAccount>, currencyUnit: CurrencyUnit, uri: Uri): Int {
-        val nrOfAccounts = repository.countAccounts(null, null)
+        val nrOfAccounts = repository.countAccounts()
         val hasUnlimitedAccounts = getApplication<MyApplication>().appComponent.licenceHandler()
             .hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED)
         var importCount = 0

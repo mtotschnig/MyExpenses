@@ -62,6 +62,7 @@ import eltos.simpledialogfragment.form.Spinner
 import eltos.simpledialogfragment.input.SimpleInputDialog
 import eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID
 import eltos.simpledialogfragment.list.MenuDialog
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -74,6 +75,7 @@ import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.select
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.databinding.ActivityMainBinding
+import org.totschnig.myexpenses.db2.countAccounts
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ExportDialogFragment
@@ -112,6 +114,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
@@ -1955,13 +1958,15 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
             showVersionDialog(prevVersion)
         } else {
-            if ((!licenceHandler.hasTrialAccessTo(ContribFeature.SYNCHRONIZATION) && !prefHandler.getBoolean(
-                    PrefKey.SYNC_UPSELL_NOTIFICATION_SHOWN,
-                    false
-                ))
-            ) {
-                prefHandler.putBoolean(PrefKey.SYNC_UPSELL_NOTIFICATION_SHOWN, true)
-                ContribUtils.showContribNotification(this, ContribFeature.SYNCHRONIZATION)
+            lifecycleScope.launch(Dispatchers.IO) {
+                if ((!licenceHandler.hasTrialAccessTo(ContribFeature.SYNCHRONIZATION)
+                            && viewModel.repository.countAccounts("$KEY_SYNC_ACCOUNT_NAME IS NOT NULL", null) > 0
+                            && !prefHandler.getBoolean(PrefKey.SYNC_UPSELL_NOTIFICATION_SHOWN, false)
+                        )
+                ) {
+                    prefHandler.putBoolean(PrefKey.SYNC_UPSELL_NOTIFICATION_SHOWN, true)
+                    ContribUtils.showContribNotification(this@BaseMyExpenses, ContribFeature.SYNCHRONIZATION)
+                }
             }
         }
         checkCalendarPermission()

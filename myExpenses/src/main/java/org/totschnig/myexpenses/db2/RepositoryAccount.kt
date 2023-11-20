@@ -297,7 +297,7 @@ fun updateTransferPeersForTransactionDelete(
     )
 }
 
-fun Repository.countAccounts(selection: String?, selectionArgs: Array<String?>?) =
+fun Repository.countAccounts(selection: String? = null, selectionArgs: Array<String>? = null) =
     contentResolver.query(
         TransactionProvider.ACCOUNTS_URI, arrayOf("count(*)"),
         selection, selectionArgs, null

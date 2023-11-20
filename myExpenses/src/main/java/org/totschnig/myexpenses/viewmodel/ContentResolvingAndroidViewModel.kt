@@ -245,7 +245,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
     }
 
     val isTransferEnabled
-        get() = repository.countAccounts(null, null) > 1
+        get() = repository.countAccounts() > 1
 
     /**
      * @param rowId For split transactions, we check if any of their children is linked to a debt,
