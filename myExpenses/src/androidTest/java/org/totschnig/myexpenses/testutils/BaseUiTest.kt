@@ -122,14 +122,7 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
 
     protected fun handleContribDialog(contribFeature: ContribFeature?) {
         if (!app.appComponent.licenceHandler().hasAccessTo(contribFeature!!)) {
-            if (DistributionHelper.isPlay) {
-                try {
-                    //without play service a billing setup error dialog is displayed
-                    onView(ViewMatchers.withText(android.R.string.ok)).perform(ViewActions.click())
-                } catch (ignored: Exception) {
-                }
-            }
-            onView(ViewMatchers.withText(R.string.dialog_title_contrib_feature)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            onView(ViewMatchers.withSubstring(getString(R.string.dialog_title_contrib_feature))).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
             onView(ViewMatchers.withText(R.string.dialog_contrib_no)).perform(ViewActions.scrollTo(), ViewActions.click())
         }
     }
