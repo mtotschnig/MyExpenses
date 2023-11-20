@@ -1046,9 +1046,9 @@
     <string name="redesign">إعادة التصميم</string>
     <plurals name="purge_backup_failure">
         <item quantity="zero">لا يمكن حذف ملف النسخ الاحتياطي القديم.</item>
-        <item quantity="one"></item>
-        <item quantity="two"></item>
-        <item quantity="few"></item>
+        <item quantity="one"/>
+        <item quantity="two"/>
+        <item quantity="few"/>
         <item quantity="many">لا يمكن حذف ملفات النسخ الاحتياطي القديم.</item>
         <item quantity="other">لا يمكن حذف ملفات النسخ الاحتياطي القديم.</item>
     </plurals>
@@ -1090,4 +1090,5 @@
     <string name="select_all_list_too_large">الأمر %s غير متوفر لأنه تم تحميل القائمة جزئيًا فقط. الرجاء استخدام وظيفة البحث لتقليل حجم القائمة.</string>
     <string name="whats_new_361_2">يمكن مشاركة أو حذف الملفات الموجودة في مجلد التطبيق (النسخ الاحتياطية والصادرات).</string>
     <string name="debt_installment_receive">أحصل على قسط من %s.</string>
+    <string name="dialog_contrib_trial_info">تسمح لك حالة الترخيص الحالية (%1$s) بتجربة %2$s لمدة %3$d أيام (حتى %4$s).</string>
 </resources>
