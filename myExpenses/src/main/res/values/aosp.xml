@@ -92,5 +92,6 @@
     <string name="nickname">Nickname</string>
     <!-- Settings - subscription_available -->
     <string name="available">Available</string>
+    <string name="settings_label">"Settings"</string>
+    <string name="security_settings_title">Security</string>
 </resources>
-
