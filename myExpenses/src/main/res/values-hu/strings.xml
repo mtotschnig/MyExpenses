@@ -925,4 +925,5 @@
     <string name="add_shortcut">Indító hozzáadása</string>
     <string name="whats_new_359">A fizetési módok ikonjai testre szabhatók.</string>
     <string name="dialog_contrib_trial_info">Jelenlegi licencállapota (%1$s) lehetővé teszi az %2$s kipróbálását %3$d napig (%4$s-ig).</string>
+    <string name="one_time_payment">Egyszeri fizetés</string>
 </resources>

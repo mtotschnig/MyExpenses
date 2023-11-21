@@ -26,7 +26,6 @@ import android.view.View
 import android.widget.RadioButton
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.content.res.ResourcesCompat.getColor
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
@@ -42,9 +41,10 @@ import org.totschnig.myexpenses.databinding.ContribDialogBinding
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.TextUtils.getContribFeatureLabelsAsList
-import org.totschnig.myexpenses.util.distrib.DistributionHelper.isGithub
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.distrib.DistributionHelper.isGithub
+import org.totschnig.myexpenses.util.distrib.DistributionHelper.isPlay
 import org.totschnig.myexpenses.util.licence.AddOnPackage
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.licence.LicenceStatus
@@ -52,7 +52,6 @@ import org.totschnig.myexpenses.util.licence.Package
 import org.totschnig.myexpenses.util.licence.ProfessionalPackage
 import org.totschnig.myexpenses.util.tracking.Tracker
 import java.io.Serializable
-import java.util.*
 import javax.inject.Inject
 
 class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener {
@@ -176,6 +175,12 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener {
 
         //prepare PROFESSIONAL section
         with(binding.professionalFeatureContainer) {
+            packageIntro.isVisible = true
+            if (isPlay) {
+                packageIntro.setText(R.string.dialog_contrib_subscription_info_play)
+            } else {
+                packageIntro.isVisible = false
+            }
             val lines = ArrayList<CharSequence>()
             root.setBackgroundColorFromLicenceStatus(LicenceStatus.PROFESSIONAL)
             if (extendedVisible) {

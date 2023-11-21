@@ -1053,4 +1053,5 @@
     <string name="show_duplicates">Exibir os duplicados</string>
     <string name="whats_new_361_2">Os arquivos na pasta do aplicativo (backups e exportações) podem ser compartilhados ou excluídos.</string>
     <string name="dialog_contrib_trial_info">Seu status de licença atual (%1$s) permite que você experimente %2$s por %3$d dias (até %4$s).</string>
+    <string name="one_time_payment">Pagamento único</string>
 </resources>

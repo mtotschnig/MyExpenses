@@ -912,4 +912,5 @@
     <string name="bug_fixes" tools:ignore="UnusedResources">错误修复</string>
     <string name="dialog_title_purge_backups">清除旧的备份</string>
     <string name="menu_reconfigure">重新配置</string>
+    <string name="one_time_payment">一次性支付</string>
 </resources>

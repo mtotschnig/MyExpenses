@@ -923,4 +923,5 @@
     <string name="menu_reconfigure">Reconfigurar</string>
     <string name="add_shortcut">Adicionar atalho</string>
     <string name="dialog_contrib_trial_info">Seu status de licença atual (%1$s) permite que você experimente %2$s por %3$d dias (até %4$s).</string>
+    <string name="one_time_payment">Pagamento único</string>
 </resources>

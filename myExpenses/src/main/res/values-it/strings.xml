@@ -1020,4 +1020,5 @@
     <string name="content_description_remove_icon">Rimuovi l\'icona</string>
     <string name="whats_new_359">Le icone dei metodi di pagamento possono essere personalizzate.</string>
     <string name="dialog_contrib_trial_info">Lo stato attuale della tua licenza (%1$s) ti consente di provare %2$s per %3$d giorni (fino a %4$s).</string>
+    <string name="one_time_payment">Pagamento unico</string>
 </resources>

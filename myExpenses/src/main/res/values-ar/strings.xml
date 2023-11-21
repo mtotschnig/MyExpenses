@@ -1091,4 +1091,5 @@
     <string name="whats_new_361_2">يمكن مشاركة أو حذف الملفات الموجودة في مجلد التطبيق (النسخ الاحتياطية والصادرات).</string>
     <string name="debt_installment_receive">أحصل على قسط من %s.</string>
     <string name="dialog_contrib_trial_info">تسمح لك حالة الترخيص الحالية (%1$s) بتجربة %2$s لمدة %3$d أيام (حتى %4$s).</string>
+    <string name="one_time_payment">دفعة مالية لمرة واحدة</string>
 </resources>

@@ -857,4 +857,5 @@
     <string name="icons_for_categories">వర్గాలకు చిహ్నాలు</string>
     <string name="webui_warning_move_transaction">లావాదేవీ ఖాతా {account}కి తరలించబడుతుంది.</string>
     <string name="required">అవసరం</string>
+    <string name="one_time_payment">వన్-టైమ్ చెల్లింపు</string>
 </resources>

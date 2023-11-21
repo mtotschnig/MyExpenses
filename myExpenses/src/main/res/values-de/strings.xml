@@ -1050,4 +1050,5 @@
     <string name="whats_new_367">Kategorien können jetzt als Ausgaben- oder Einkommenskategorien konfiguriert werden, was sich auf die Berechnung der Ausgaben- und Einkommenssummen auswirkt.</string>
     <string name="menu_aggregate_neutral_categories">Neutrale Kategorien zusammenfassen</string>
     <string name="dialog_contrib_trial_info">Mit Ihrem aktuellen Lizenzstatus (%1$s) können Sie %2$s %3$d Tage lang testen (bis %4$s).</string>
+    <string name="one_time_payment">Einmalige Zahlung</string>
 </resources>

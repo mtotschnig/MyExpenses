@@ -780,4 +780,5 @@
     <string name="menu_reconfigure">Reconfigurar</string>
     <string name="add_shortcut">Afegeix drecera</string>
     <string name="dialog_contrib_trial_info">L\'estat actual de la llicència (%1$s) us permet provar %2$s durant %3$d dies (fins a %4$s).</string>
+    <string name="one_time_payment">Pagament únic</string>
 </resources>

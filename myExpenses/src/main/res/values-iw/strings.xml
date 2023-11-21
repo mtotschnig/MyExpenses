@@ -1073,4 +1073,5 @@
     <string name="budget_table_header_overspent">הוצאה עודפת</string>
     <string name="whats_new_366">וידג׳ט מסך בית המציג את מצב התקציב הנוכחי.</string>
     <string name="dialog_contrib_trial_info">סטטוס הרישיון הנוכחי שלך (%1$s) מאפשר לך לנסות את %2$s למשך %3$d ימים (עד %4$s).</string>
+    <string name="one_time_payment">תשלום חד פעמי</string>
 </resources>

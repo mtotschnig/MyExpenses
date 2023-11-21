@@ -770,4 +770,5 @@
     <string name="add_shortcut">Dodaj subskrypcję</string>
     <string name="whats_new_359">Dostosowywane są metody płatności.</string>
     <string name="dialog_contrib_trial_info">Twój obecny status licencji (%1$s) umożliwia wypróbowanie %2$s przez %3$d dni (do %4$s).</string>
+    <string name="one_time_payment">Płatność jednorazowa</string>
 </resources>

@@ -19,6 +19,7 @@ import androidx.core.text.HtmlCompat
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.distrib.DistributionHelper.isPlay
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler.Companion.TRIAL_DURATION_DAYS
 import org.totschnig.myexpenses.util.licence.LicenceStatus
@@ -123,14 +124,20 @@ enum class ContribFeature(
             TrialMode.DURATION ->
                 if (licenceHandler.getEndOfTrial(this) < System.currentTimeMillis())
                     getLimitReachedWarning(context) else HtmlCompat.fromHtml(
-                    context.getString(
-                        R.string.dialog_contrib_trial_info,
-                        currentLicence,
-                        "<i>" + context.getString(labelResId) + "</i>",
-                        TRIAL_DURATION_DAYS,
-                        Utils.getDateFormatSafe(context)
-                            .format(Date(licenceHandler.getEndOfTrial(this)))
-                    ),
+                    buildString {
+                        append(context.getString(
+                            R.string.dialog_contrib_trial_info,
+                            currentLicence,
+                            "<i>" + context.getString(labelResId) + "</i>",
+                            TRIAL_DURATION_DAYS,
+                            Utils.getDateFormatSafe(context)
+                                .format(Date(licenceHandler.getEndOfTrial(this@ContribFeature)))
+                        ))
+                        if (isPlay) {
+                            append(" ")
+                            append(context.getString(R.string.dialog_contrib_trial_info_play))
+                        }
+                    },
                     HtmlCompat.FROM_HTML_MODE_LEGACY
                 )
 

@@ -16,12 +16,19 @@
         android:padding="@dimen/general_padding"
         tools:showIn="@layout/contrib_dialog">
 
+        <TextView
+            android:id="@+id/package_intro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/one_time_payment"
+            />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatRadioButton
+            <RadioButton
                 android:id="@+id/package_button"
                 style="@style/SelectLicenceButton"
                 android:layout_width="wrap_content"

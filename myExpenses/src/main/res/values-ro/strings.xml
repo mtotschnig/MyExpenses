@@ -510,4 +510,5 @@
     <string name="add_shortcut">Adaugă scurtătură</string>
     <string name="whats_new_359">Icoanele pentru metodele de plată pot fi personalizate.</string>
     <string name="dialog_contrib_trial_info">Starea actuală a licenței (%1$s) vă permite să încercați %2$s timp de %3$d zile (până la %4$s).</string>
+    <string name="one_time_payment">Plată unică</string>
 </resources>

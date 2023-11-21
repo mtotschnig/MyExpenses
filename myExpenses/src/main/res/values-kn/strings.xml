@@ -953,4 +953,5 @@
     <string name="rollover_edit_invalid">ಒಂದು ವರ್ಗಕ್ಕೆ ನಿಯೋಜಿಸಲಾದ ರೋಲ್‌ಓವರ್‌ನ ಮೊತ್ತ ಮತ್ತು ಉಪವರ್ಗಗಳಿಗೆ ನಿಯೋಜಿಸಲಾದ ರೋಲ್‌ಓವರ್‌ಗಳು ಉಳಿದವನ್ನು ಮೀರುವಂತಿಲ್ಲ.</string>
     <string name="budget_only_current_period">%s ಗೆ ಮಾತ್ರ ಹೊಂದಿಸಿ</string>
     <string name="upgrade_info_557">ಹೊಸ ವಿನ್ಯಾಸವನ್ನು ನೀವು ಹೇಗೆ ಇಷ್ಟಪಡುತ್ತೀರಿ\? ದಯವಿಟ್ಟು ನಮಗೆ ತಿಳಿಸಿ. ಹಳೆಯ ವಿನ್ಯಾಸಕ್ಕೆ ಹತ್ತಿರವಿರುವ ರೂಪಾಂತರವನ್ನು ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಸಕ್ರಿಯಗೊಳಿಸಬಹುದು (%1$s -&gt; %2$s).</string>
+    <string name="one_time_payment">ಒಂದು ಬಾರಿ ಪಾವತಿ</string>
 </resources>

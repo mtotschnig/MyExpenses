@@ -494,4 +494,5 @@
     <string name="pref_sort_order_custom">사용자 지정</string>
     <string name="crash_dialog_title">{app_name}이(가) 충돌했습니다</string>
     <string name="plan_instance_state_open">열기</string>
+    <string name="one_time_payment">일회성 결제</string>
 </resources>

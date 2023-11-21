@@ -982,4 +982,5 @@
     <string name="whats_new_366">Widget na početnom ekranu koji prikazuje aktualno stanje proračuna.</string>
     <string name="budget_table_header_overspent">Prekoračeno</string>
     <string name="dialog_contrib_trial_info">Vaš trenutni status licence (%1$s) omogućuje vam da isprobate %2$s %3$d dana (do %4$s).</string>
+    <string name="one_time_payment">Jednokratno plaćanje</string>
 </resources>

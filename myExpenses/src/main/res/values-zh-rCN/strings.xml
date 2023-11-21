@@ -981,4 +981,5 @@
     <string name="notifications_permission_required_sync">通过授予发送通知的权限，您可以监控同步操作的进度</string>
     <string name="notifications_channel_required">请启用“%s”通知渠道</string>
     <string name="add_shortcut">添加快捷方式</string>
+    <string name="one_time_payment">一次性支付</string>
 </resources>

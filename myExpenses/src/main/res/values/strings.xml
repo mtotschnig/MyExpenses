@@ -80,6 +80,8 @@
     <string name="dialog_contrib_text_2">Please contribute by upgrading <i>{app_name}</i> and gain unrestricted access to the following features:</string>
     <!-- %1$s is replaced with user's current licence (Free, Contrib, Extended or Professional), %2$s with the label of the feature, eg. Budgeting,  %3$d with the number of days, currently 60, %4$s with the end of the trial for the currently requested feature-->
     <string name="dialog_contrib_trial_info">Your current licence status (%1$s) allows you to try %2$s for %3$d days (until %4$s).</string>
+    <string name="dialog_contrib_trial_info_play"><![CDATA[This free trial will <b>never</b> convert to any type of subscription.]]></string>
+    <string name="dialog_contrib_subscription_info_play">This subscription takes immediate effect, is billed monthly or yearly and can be cancelled any time.</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Your current licence status (%2$s) allows you to create %1$d accounts.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Your current licence status (%2$s) allows you to create %1$d plans.</string>
     <string name="dialog_contrib_usage_limit_split_templates">Your current licence status (%1$s) allows you to create 1 split template.</string>
@@ -1096,4 +1098,5 @@
     <string name="pref_unmapped_transaction_as_transfer_summary_on">are counted as transfer</string>
     <string name="whats_new_367">Categories can now be configured as expense or income categories, which will impact how the expense and income sums are calculated.</string>
     <string name="menu_aggregate_neutral_categories">Aggregate neutral categories</string>
+    <string name="one_time_payment">One-time payment</string>
 </resources>

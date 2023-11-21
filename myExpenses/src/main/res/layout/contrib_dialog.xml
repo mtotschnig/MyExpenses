@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <androidx.appcompat.widget.AppCompatRadioButton
+                <RadioButton
                     android:id="@+id/try_button"
                     style="@style/SelectLicenceButton"
                     android:checked="true"

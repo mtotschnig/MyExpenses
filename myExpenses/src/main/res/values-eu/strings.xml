@@ -666,4 +666,5 @@
     <string name="menu_reconfigure">Birmoldatu</string>
     <string name="add_shortcut">Gehitu sarbide zuzena</string>
     <string name="dialog_contrib_trial_info">Egungo lizentziaren egoerak (%1$s) %2$s probatzeko aukera ematen dizu %3$d egunetan (%4$s arte).</string>
+    <string name="one_time_payment">Aldi bakarreko ordainketa</string>
 </resources>

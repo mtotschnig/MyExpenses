@@ -1063,4 +1063,5 @@
     <string name="whats_new_367">Les catégories peuvent désormais être configurées en tant que catégories de dépenses ou de revenus, ce qui aura un impact sur le calcul des totaux des dépenses et des revenus.</string>
     <string name="menu_aggregate_neutral_categories">Totaliser les catégories neutres</string>
     <string name="dialog_contrib_trial_info">L’état actuel de votre licence (%1$s) vous permet d’essayer %2$s pendant %3$d jours (jusqu’à %4$s).</string>
+    <string name="one_time_payment">Paiement unique</string>
 </resources>

@@ -1063,4 +1063,5 @@
     <string name="whats_new_367">Las categorías pueden configurarse ahora como categorías de gastos o de ingresos, lo que afectará a la forma en que se calculan las sumas de gastos e ingresos.</string>
     <string name="menu_aggregate_neutral_categories">Categorías neutrales agregadas</string>
     <string name="dialog_contrib_trial_info">El estado actual de su licencia (%1$s) le permite probar %2$s durante %3$d días (hasta %4$s).</string>
+    <string name="one_time_payment">Pago único</string>
 </resources>

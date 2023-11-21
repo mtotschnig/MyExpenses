@@ -1019,4 +1019,5 @@
     <string name="whats_new_359">Ödeme yöntemleri için simgeler özelleştirilebilir.</string>
     <string name="search_account">Hesap ara</string>
     <string name="dialog_contrib_trial_info">Mevcut lisans durumunuz (%1$s), %3$d gün boyunca (%4$s\'e kadar) %2$s denemenize olanak tanır.</string>
+    <string name="one_time_payment">Bir defalık ödeme</string>
 </resources>
