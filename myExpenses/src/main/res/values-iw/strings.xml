@@ -1072,6 +1072,11 @@
     <string name="budget_widget_configuration">בחירת תקציב</string>
     <string name="budget_table_header_overspent">הוצאה עודפת</string>
     <string name="whats_new_366">וידג׳ט מסך בית המציג את מצב התקציב הנוכחי.</string>
-    <string name="dialog_contrib_trial_info">סטטוס הרישיון הנוכחי שלך (%1$s) מאפשר לך לנסות את %2$s למשך %3$d ימים (עד %4$s).</string>
+    <string name="dialog_contrib_trial_info">מצב הרישיון הנוכחי שלך (%1$s) מאפשר לך לנסות את %2$s למשך %3$d ימים (עד %4$s).</string>
+    <string name="pref_unmapped_transaction_as_transfer_title">העברות לא ממופות</string>
+    <string name="menu_aggregate_neutral_categories">כינוס הקטגוריות הנייטרליות</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_on">נחשבות כהעברה</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_off">נחשבות כהוצאה / הכנסה</string>
+    <string name="whats_new_367">אפשר להגדיר קטגוריות כהוצאה או הכנסה, מה שישפיע על איך מחושבים הסכומים של ההוצאות וההכנסות.</string>
     <string name="one_time_payment">תשלום חד פעמי</string>
 </resources>
