@@ -59,4 +59,7 @@
     <string name="take_photo">"Tag billede"</string>
     <string name="license_title">"Licens"</string>
     <string name="available">"Tilgængeligt"</string>
+    <string name="settings_label">"Indstillinger"</string>
+    <string name="security_settings_title">"Sikkerhed"</string>
+    <string name="screen_lock">"Skærmlås"</string>
 </resources>

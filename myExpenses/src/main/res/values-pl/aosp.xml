@@ -61,4 +61,7 @@
     <string name="take_photo">"Zrób zdjęcie"</string>
     <string name="license_title">"Licencja"</string>
     <string name="available">"Dostępna"</string>
+    <string name="settings_label">"Ustawienia"</string>
+    <string name="security_settings_title">"Zabezpieczenia"</string>
+    <string name="screen_lock">"Blokada ekranu"</string>
 </resources>

@@ -160,7 +160,6 @@
     <string name="menu_reset_plan_instance">دوبارہ ترتیب دیں</string>
     <string name="menu_save">محفوظ کریں</string>
     <string name="menu_save_and_new">محفوظ کریں اور نیا</string>
-    <string name="menu_settings">ترتیبات</string>
     <string name="menu_share">کسی دوست کو بتائیں</string>
     <string name="button_label_share_file">شیئر کریں</string>
     <string name="button_label_close">بند کریں</string>
@@ -227,7 +226,6 @@
     <string name="pref_category_title_import">درآمد کریں</string>
     <string name="pref_category_title_manage">انتظام کریں</string>
     <string name="pref_category_title_more_information">مزید معلومات</string>
-    <string name="pref_category_title_security">سیکورٹی</string>
     <string name="pref_category_title_ui">یوزر انٹرفیس</string>
     <string name="pref_checkbox_enabled">فعال</string>
     <string name="pref_checkbox_disabled">معذور</string>
@@ -252,7 +250,6 @@
     <string name="pref_manage_sync_backends_summary">اکاؤنٹس (%s) کی مطابقت پذیری کے لیے بیک اینڈ شامل کریں.</string>
     <string name="pref_more_info_dialog_title">لائسنس اور کریڈٹس</string>
     <string name="pref_password_not_equal">پاس ورڈ میچ نہیں کرتے</string>
-    <string name="pref_perform_protection_title">تحفظ</string>
     <string name="pref_planning_calendar_create_local">نیا مقامی منصوبہ بندی کیلنڈر بنائیں</string>
     <string name="pref_protection_delay_seconds_summary">ایپ کو پاس ورڈ کے ذریعے لاک کر دیا جائے گا اس سے پہلے کے بیکار سیکنڈ.</string>
     <string name="pref_protection_delay_seconds_title">تحفظ تک تاخیر</string>

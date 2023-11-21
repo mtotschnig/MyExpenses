@@ -121,7 +121,6 @@
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
     <string name="menu_reset_plan_instance">Restablecer</string>
     <string name="menu_save">Gardar</string>
-    <string name="menu_settings">Axustes</string>
     <string name="menu_share">Dillo a unha amizade</string>
     <string name="no_categories">Sen categorías.</string>
     <string name="no_expenses">Sen gastos aínda!</string>
@@ -150,7 +149,6 @@
     <string name="pref_category_title_export">Exportar</string>
     <string name="pref_category_title_import">Importar</string>
     <string name="pref_category_title_more_information">Máis información</string>
-    <string name="pref_category_title_security">Seguranza</string>
     <string name="pref_category_title_ui">Interface de usuario</string>
     <string name="pref_custom_currency_title">Personalizar moedas</string>
     <string name="pref_import_from_grisbi_title">Importar desde Grisbi</string>

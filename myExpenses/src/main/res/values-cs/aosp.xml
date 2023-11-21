@@ -61,4 +61,7 @@
     <string name="take_photo">"Vyfotit"</string>
     <string name="license_title">"Licence"</string>
     <string name="available">"Dostupné"</string>
+    <string name="settings_label">"Nastavení"</string>
+    <string name="security_settings_title">"Zabezpečení"</string>
+    <string name="screen_lock">"Zámek obrazovky"</string>
 </resources>

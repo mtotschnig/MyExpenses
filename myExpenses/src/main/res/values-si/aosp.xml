@@ -55,4 +55,7 @@
     <string name="take_photo">"ඡායාරූපය ගන්න"</string>
     <string name="license_title">"බලපත්‍රය"</string>
     <string name="available">"ලද හැක"</string>
+    <string name="settings_label">"සැකසීම්"</string>
+    <string name="security_settings_title">"ආරක්ෂාව"</string>
+    <string name="screen_lock">"තිර අගුල"</string>
 </resources>

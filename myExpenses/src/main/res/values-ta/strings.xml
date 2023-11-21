@@ -188,7 +188,6 @@
     <string name="menu_reset_plan_instance">நிலை கொணர்</string>
     <string name="menu_save">சேமி</string>
     <string name="menu_save_and_new">சேமி மற்றும் புதியதை தொடங்கு</string>
-    <string name="menu_settings">அமைப்புகள்</string>
     <string name="menu_share">நண்பனிடம் கூறு</string>
     <string name="button_label_share_file">பகிர்</string>
     <string name="button_label_close">மூடு</string>
@@ -260,7 +259,6 @@
     <string name="pref_category_title_import">இறக்குமதி</string>
     <string name="pref_category_title_manage">நிர்வகி</string>
     <string name="pref_category_title_more_information">மேலும் தகவல்</string>
-    <string name="pref_category_title_security">பாதுகாப்பு</string>
     <string name="pref_category_title_ui">பயனர் இடைமுகம்</string>
     <string name="pref_checkbox_enabled">இயக்கப்பட்டது</string>
     <string name="pref_checkbox_disabled">முடக்கப்பட்டது</string>
@@ -292,7 +290,6 @@
     <string name="pref_manage_sync_backends_summary">கணக்குகளை (%s) ஒத்திசைக்க பின்தளங்களை சேர்க்கவும்.</string>
     <string name="pref_more_info_dialog_title">உரிமம் &amp; புகழாரம்</string>
     <string name="pref_password_not_equal">கடவுச்சொற்கள் பொருந்தவில்லை</string>
-    <string name="pref_perform_protection_title">பாதுகாப்பு</string>
     <string name="pref_perform_share_title">ஏற்றுமதி மற்றும் காப்புப்பிரதிகளை பகிர்</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">புதிய உள் திட்டக் நாட்காட்டியை உருவாக்கவும்</string>

@@ -75,7 +75,7 @@ abstract class AbstractSyncBackendViewModel(application: Application) :
                             R.string.link_account_failure_2, R.string.link_account_failure_3
                         )
                                 + "(" + TextUtils.concatResStrings(
-                            getApplication(), ", ", R.string.menu_settings,
+                            getApplication(), ", ", R.string.settings_label,
                             R.string.pref_manage_sync_backends_title
                         ) + ")"
                     )

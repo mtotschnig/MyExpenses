@@ -94,4 +94,5 @@
     <string name="available">Available</string>
     <string name="settings_label">"Settings"</string>
     <string name="security_settings_title">Security</string>
+    <string name="screen_lock">Screen lock</string>
 </resources>

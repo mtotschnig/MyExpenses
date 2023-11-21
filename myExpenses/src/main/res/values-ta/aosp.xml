@@ -60,4 +60,7 @@
     <string name="license_title">"உரிமம்"</string>
 <!-- TLDU    <string name="available">"பயன்படுத்துவதற்குத் தயாராக உள்ளது"</string>-->
     <string name="available">கிடைக்கக்கூடிய</string>
+    <string name="settings_label">"அமைப்பு"</string>
+    <string name="security_settings_title">"பாதுகாப்பு"</string>
+    <string name="screen_lock">"திரைப் பூட்டு"</string>
 </resources>

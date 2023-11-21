@@ -155,7 +155,6 @@
     <string name="menu_reset_plan_instance">रीसेट</string>
     <string name="menu_save">सेव</string>
     <string name="menu_save_and_new">सेव और नया</string>
-    <string name="menu_settings">सेटिंग्स</string>
     <string name="menu_share">दोस्त को बताओ</string>
     <string name="no_app_handling_email_available">ईमेल सँभालने वाली कोई ऐप उपलब्ध नहीं है।</string>
     <string name="no_app_handling_pdf_available">पीडीऍफ़ सँभालने वाली कोई ऐप उपलब्ध नहीं है।</string>
@@ -196,7 +195,6 @@
     <string name="pref_category_title_import">आयात</string>
     <string name="pref_category_title_manage">प्रबंधित</string>
     <string name="pref_category_title_more_information">अधिक जानकारी</string>
-    <string name="pref_category_title_security">सुरक्षा</string>
     <string name="pref_category_title_ui">यूजर इंटरफ़ेस</string>
     <string name="pref_checkbox_enabled">सक्रिय</string>
     <string name="pref_checkbox_disabled">निष्क्रिय</string>
@@ -326,7 +324,6 @@
     <string name="planner_notification_channel_name">योजनाकार</string>
     <string name="planner_create_calendar_success">स्थानीय योजनाकार कैलेंडर सफलतापूर्वक बनाया गया</string>
     <string name="pref_backup_summary">डेटाबेस और प्राथमिकता का बैकअप बनाएं।</string>
-    <string name="pref_perform_protection_title">सुरक्षा</string>
     <string name="pref_import_from_grisbi_summary">ग्रिस्बी एक्सएमएल फ़ाइल से श्रेणियां और पार्टियां आयात करें</string>
     <string name="pref_news_title">समाचार</string>
     <string name="pref_custom_currency_title">करेंसी को अनुकूलित करें</string>

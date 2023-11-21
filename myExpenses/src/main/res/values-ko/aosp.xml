@@ -58,4 +58,7 @@
     <string name="take_photo">"사진 찍기"</string>
     <string name="license_title">"라이선스"</string>
     <string name="available">"사용 가능"</string>
+    <string name="settings_label">"설정"</string>
+    <string name="security_settings_title">"보안"</string>
+    <string name="screen_lock">"화면 잠금"</string>
 </resources>

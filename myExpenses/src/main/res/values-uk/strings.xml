@@ -181,7 +181,6 @@
     <string name="menu_reset_plan_instance">Скинути</string>
     <string name="menu_save">Зберегти</string>
     <string name="menu_save_and_new">Зберегти і створити</string>
-    <string name="menu_settings">Налаштування</string>
     <string name="menu_share">Розповісти другу</string>
     <string name="button_label_share_file">Поділитися</string>
     <string name="button_label_close">Закрити</string>
@@ -255,7 +254,6 @@
     <string name="pref_category_title_import">Імпортувати</string>
     <string name="pref_category_title_manage">Керувати</string>
     <string name="pref_category_title_more_information">Додаткові відомості</string>
-    <string name="pref_category_title_security">Безпека</string>
     <string name="pref_category_title_ui">Користувацький інтерфейс</string>
     <string name="pref_checkbox_enabled">Увімкнено</string>
     <string name="pref_checkbox_disabled">Вимкнено</string>
@@ -287,7 +285,6 @@
     <string name="pref_manage_sync_backends_summary">Додати сховища для синхронізації рахунків (%s).</string>
     <string name="pref_more_info_dialog_title">Ліцензія і творці</string>
     <string name="pref_password_not_equal">Паролі не збігаються</string>
-    <string name="pref_perform_protection_title">Захист</string>
     <string name="pref_perform_share_title">Поділитися експортом та резервними копіями</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Створити новий локальний календар планів</string>

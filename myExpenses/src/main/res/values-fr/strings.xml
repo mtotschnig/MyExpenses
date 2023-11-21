@@ -189,7 +189,6 @@
     <string name="menu_reset_plan_instance">Réinitialiser</string>
     <string name="menu_save">Enregistrer</string>
     <string name="menu_save_and_new">Enregistrer et nouveau</string>
-    <string name="menu_settings">Paramètres</string>
     <string name="menu_share">Recommander</string>
     <string name="button_label_share_file">Partager</string>
     <string name="button_label_close">Fermer</string>
@@ -263,7 +262,6 @@
     <string name="pref_category_title_import">Import</string>
     <string name="pref_category_title_manage">Gestion</string>
     <string name="pref_category_title_more_information">Plus d\'information</string>
-    <string name="pref_category_title_security">Sécurité</string>
     <string name="pref_category_title_ui">Interface utilisateur</string>
     <string name="pref_checkbox_enabled">Activé</string>
     <string name="pref_checkbox_disabled">Désactivé</string>
@@ -295,7 +293,6 @@
     <string name="pref_manage_sync_backends_summary">Ajoutez un serveur pour la synchronisation des comptes (%s).</string>
     <string name="pref_more_info_dialog_title">Licence et générique</string>
     <string name="pref_password_not_equal">Les mots de passe sont différents</string>
-    <string name="pref_perform_protection_title">Protection</string>
     <string name="pref_perform_share_title">Partage des exportations et des sauvegardes</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Créer un nouveau calendrier local</string>

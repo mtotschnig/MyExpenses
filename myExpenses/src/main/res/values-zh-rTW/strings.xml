@@ -187,7 +187,6 @@
     <string name="menu_reset_plan_instance">重設</string>
     <string name="menu_save">存檔</string>
     <string name="menu_save_and_new">儲存後新增</string>
-    <string name="menu_settings">程式設定</string>
     <string name="menu_share">推薦給朋友</string>
     <string name="button_label_share_file">分享</string>
     <string name="button_label_close">關閉</string>
@@ -257,7 +256,6 @@
     <string name="pref_category_title_import">匯入</string>
     <string name="pref_category_title_manage">管理設定</string>
     <string name="pref_category_title_more_information">更多資訊</string>
-    <string name="pref_category_title_security">安全性</string>
     <string name="pref_category_title_ui">使用者介面</string>
     <string name="pref_checkbox_enabled">已啟用</string>
     <string name="pref_checkbox_disabled">已停用</string>
@@ -289,7 +287,6 @@
     <string name="pref_manage_sync_backends_summary">新增後端或雲端設備以同步帳戶（%s）。</string>
     <string name="pref_more_info_dialog_title">授權與所有權</string>
     <string name="pref_password_not_equal">密碼不符合</string>
-    <string name="pref_perform_protection_title">保護設定</string>
     <string name="pref_perform_share_title">共享匯出的備份檔</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">建立新的本機計畫日曆</string>

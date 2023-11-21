@@ -232,5 +232,5 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
         get() = getString(R.string.menu_backup) + " / " + getString(R.string.pref_restore_title)
 
     val protectionTitle: String
-        get() = getString(R.string.pref_category_title_security) + " / " + getString(R.string.pref_category_title_privacy)
+        get() = getString(R.string.security_settings_title) + " / " + getString(R.string.pref_category_title_privacy)
 }

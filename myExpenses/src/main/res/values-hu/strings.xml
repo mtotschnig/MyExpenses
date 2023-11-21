@@ -188,7 +188,6 @@
     <string name="menu_reset_plan_instance">Visszaállítás</string>
     <string name="menu_save">Mentés</string>
     <string name="menu_save_and_new">Mentés és új</string>
-    <string name="menu_settings">Beállítások</string>
     <string name="menu_share">Mondja el egy barátnak</string>
     <string name="button_label_share_file">Megosztás</string>
     <string name="button_label_close">Bezár</string>
@@ -260,7 +259,6 @@
     <string name="pref_category_title_import">Import</string>
     <string name="pref_category_title_manage">Kezelés</string>
     <string name="pref_category_title_more_information">További információ</string>
-    <string name="pref_category_title_security">Biztonság</string>
     <string name="pref_category_title_ui">Felhasználói felület</string>
     <string name="pref_checkbox_enabled">Engedélyezve</string>
     <string name="pref_checkbox_disabled">Letiltva</string>
@@ -292,7 +290,6 @@
     <string name="pref_manage_sync_backends_summary">Háttérprogramok hozzáadása a fiókok szinkronizálásához (%s).</string>
     <string name="pref_more_info_dialog_title">Licensz és Közreműködők</string>
     <string name="pref_password_not_equal">A jelszavak nem egyeznek</string>
-    <string name="pref_perform_protection_title">Védelem</string>
     <string name="pref_perform_share_title">Az exportált állomány megosztása</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Helyi terv-naptár létrehozása</string>

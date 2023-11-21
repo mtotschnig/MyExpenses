@@ -133,7 +133,6 @@
     <string name="menu_reset_plan_instance">ප්‍රත්‍යාරම්භ කරනවා</string>
     <string name="menu_save">සුරකින්න</string>
     <string name="menu_save_and_new">සුරකින්න සහ නව </string>
-    <string name="menu_settings">කට්ටල අංග </string>
     <string name="menu_share">යහළුවකුට පවසන්න </string>
     <string name="method">ගෙවීමේ ක්රමය</string>
     <string name="no_app_handling_email_available"> නියැලුම් පරිහරණය කිරීමේ විද්‍යුත් ලිපිනයක් නොමැත.</string>
@@ -193,7 +192,6 @@
     <string name="pref_category_title_import">ආනයනය </string>
     <string name="pref_category_title_manage">කලමනාකරණය </string>
     <string name="pref_category_title_more_information">තවත් විස්තර</string>
-    <string name="pref_category_title_security">ආරක්ෂණය</string>
     <string name="pref_category_title_ui">පාවිච්චි කරන්නාගේ අතුරු මුහුණත </string>
     <string name="pref_checkbox_enabled">පවරනවා</string>
     <string name="pref_checkbox_disabled">අබල කරනවා</string>

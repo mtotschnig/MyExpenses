@@ -57,4 +57,7 @@
     <string name="take_photo">"拍照"</string>
     <string name="license_title">"许可"</string>
     <string name="available">"可用"</string>
+    <string name="settings_label">"设置"</string>
+    <string name="security_settings_title">"安全"</string>
+    <string name="screen_lock">"屏幕锁定"</string>
 </resources>

@@ -172,7 +172,6 @@
     <string name="menu_reset_plan_instance">초기화</string>
     <string name="menu_save">저장</string>
     <string name="menu_save_and_new">저장하고 새로 만들기</string>
-    <string name="menu_settings">설정</string>
     <string name="menu_share">친구에게 알려주기</string>
     <string name="menu_split_transaction">분할 거래로 바꾸기</string>
     <string name="method">지불 방법</string>
@@ -237,7 +236,6 @@
     <string name="pref_category_title_import">가져오기</string>
     <string name="pref_category_title_manage">관리</string>
     <string name="pref_category_title_more_information">더 많은 정보</string>
-    <string name="pref_category_title_security">보안</string>
     <string name="pref_category_title_ui">사용자 인터페이스</string>
     <string name="pref_checkbox_enabled">사용함</string>
     <string name="pref_checkbox_disabled">사용하지 않음</string>

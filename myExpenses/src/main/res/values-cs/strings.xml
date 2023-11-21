@@ -190,7 +190,6 @@
     <string name="menu_reset_plan_instance">Obnovit</string>
     <string name="menu_save">Uložit</string>
     <string name="menu_save_and_new">Uložit a nový</string>
-    <string name="menu_settings">Nastavení</string>
     <string name="menu_share">Oznámit příteli</string>
     <string name="button_label_share_file">Sdílet</string>
     <string name="button_label_close">Zavřít</string>
@@ -266,7 +265,6 @@
     <string name="pref_category_title_import">Importovat</string>
     <string name="pref_category_title_manage">Správa</string>
     <string name="pref_category_title_more_information">Více informací</string>
-    <string name="pref_category_title_security">Bezpečnost</string>
     <string name="pref_category_title_ui">Uživatelské rozhraní</string>
     <string name="pref_checkbox_enabled">Aktivováno</string>
     <string name="pref_checkbox_disabled">Zakázáno</string>
@@ -298,7 +296,6 @@
     <string name="pref_manage_sync_backends_summary">Přidejte rozhraní backend pro synchronizaci účtů (%s).</string>
     <string name="pref_more_info_dialog_title">Licence a kredity</string>
     <string name="pref_password_not_equal">Hesla si neodpovídají.</string>
-    <string name="pref_perform_protection_title">Ochrana</string>
     <string name="pref_perform_share_title">Sdílet soubor pro export</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Vytvoření nového místního plánovacího kalendáře</string>

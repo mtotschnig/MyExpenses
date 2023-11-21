@@ -59,4 +59,7 @@
     <string name="take_photo">"Λήψη φωτογραφίας"</string>
     <string name="license_title">"Άδεια"</string>
     <string name="available">"Διαθέσιμη"</string>
+    <string name="settings_label">"Ρυθμίσεις"</string>
+    <string name="security_settings_title">"Ασφάλεια"</string>
+    <string name="screen_lock">"Κλείδωμα οθόνης"</string>
 </resources>

@@ -175,7 +175,6 @@
     <string name="menu_reset_plan_instance">Redefinir</string>
     <string name="menu_save">Salvar</string>
     <string name="menu_save_and_new">Salvar e novo</string>
-    <string name="menu_settings">Configurações</string>
     <string name="menu_share">Indique a um amigo</string>
     <string name="menu_split_transaction">Transformar em transação dividida</string>
     <string name="method">Forma de pagamento</string>
@@ -242,7 +241,6 @@
     <string name="pref_category_title_import">Importar</string>
     <string name="pref_category_title_manage">Gerenciar</string>
     <string name="pref_category_title_more_information">Mais informações</string>
-    <string name="pref_category_title_security">Segurança</string>
     <string name="pref_category_title_ui">Interface do utilizador</string>
     <string name="pref_checkbox_enabled">Habilitado</string>
     <string name="pref_checkbox_disabled">Desabilitado</string>
@@ -577,7 +575,6 @@
     <string name="app_dir_not_compatible_with_nougat">A URI atualmente configurada para backups e exportações (%1$s) não é suportada pelo Android Nougat. Por favor, selecione a pasta novamente.</string>
     <string name="warning_delete_category_with_budget">Para pelo menos uma categoria selecionada, há alocações de orçamento, que também serão excluídas.</string>
     <string name="select_payee">Selecionar pagador/beneficiário</string>
-    <string name="pref_perform_protection_title">Proteção</string>
     <string name="pref_auto_fill_summary">Preencha com dados da última transação para o mesmo beneficiário/pagador</string>
     <string name="no_accounts">Não há contas.</string>
     <string name="image_capture_not_installed">Não foi encontrado nenhum app para tirar fotos.</string>

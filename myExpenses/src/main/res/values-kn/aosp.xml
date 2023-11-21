@@ -60,4 +60,7 @@
     <string name="take_photo">"ಫೋಟೋ ತೆಗೆಯಿರಿ"</string>
     <string name="license_title">"ಪರವಾನಗಿ"</string>
     <string name="available">"ಲಭ್ಯತೆ"</string>
+    <string name="settings_label">"ಸೆಟ್ಟಿಂಗ್‌ಗಳು"</string>
+    <string name="security_settings_title">"ಭದ್ರತೆ"</string>
+    <string name="screen_lock">"ಸ್ಕ್ರೀನ್ ಲಾಕ್"</string>
 </resources>

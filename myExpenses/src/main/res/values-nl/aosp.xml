@@ -55,4 +55,7 @@
     <string name="take_photo">"Foto maken"</string>
     <string name="license_title">"Licentie"</string>
     <string name="available">"Beschikbaar"</string>
+    <string name="settings_label">"Instellingen"</string>
+    <string name="security_settings_title">"Beveiliging"</string>
+    <string name="screen_lock">"Schermvergrendeling"</string>
 </resources>

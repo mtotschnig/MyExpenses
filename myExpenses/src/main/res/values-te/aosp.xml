@@ -55,4 +55,7 @@
     <string name="take_photo">"ఫోటో తీయండి"</string>
     <string name="license_title">"లైసెన్స్"</string>
     <string name="available">"అందుబాటులో ఉంది"</string>
+    <string name="settings_label">"సెట్టింగ్‌లు"</string>
+    <string name="security_settings_title">"సెక్యూరిటీ"</string>
+    <string name="screen_lock">"స్క్రీన్ లాక్"</string>
 </resources>

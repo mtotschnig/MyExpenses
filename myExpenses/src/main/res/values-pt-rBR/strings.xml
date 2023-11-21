@@ -189,7 +189,6 @@
     <string name="menu_reset_plan_instance">Redefinir</string>
     <string name="menu_save">Salvar</string>
     <string name="menu_save_and_new">Salvar e novo</string>
-    <string name="menu_settings">Configurações</string>
     <string name="menu_share">Indique a um amigo</string>
     <string name="button_label_share_file">Compartilhar</string>
     <string name="button_label_close">Fechar</string>
@@ -263,7 +262,6 @@
     <string name="pref_category_title_import">Importar</string>
     <string name="pref_category_title_manage">Gerir</string>
     <string name="pref_category_title_more_information">Mais informações</string>
-    <string name="pref_category_title_security">Segurança</string>
     <string name="pref_category_title_ui">Interface do utilizador</string>
     <string name="pref_checkbox_enabled">Ativado</string>
     <string name="pref_checkbox_disabled">Desativado</string>
@@ -295,7 +293,6 @@
     <string name="pref_manage_sync_backends_summary">Adicionar destino para sincronizar contas (%s).</string>
     <string name="pref_more_info_dialog_title">Licença &amp; Créditos</string>
     <string name="pref_password_not_equal">As senhas não coincidem</string>
-    <string name="pref_perform_protection_title">Proteção</string>
     <string name="pref_perform_share_title">Compartilhar exportações e backups</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Criar nova agenda de planejamento local</string>

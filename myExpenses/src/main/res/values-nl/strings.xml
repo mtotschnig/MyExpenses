@@ -220,7 +220,6 @@
     <string name="menu_edit_split_part_transfer">Overdracht gesplitst gedeelte bewerken</string>
     <string name="menu_exclude_from_totals">Uitsluiten van totalen</string>
     <string name="menu_forward">Doorsturen</string>
-    <string name="menu_settings">Instellingen</string>
     <string name="menu_share">Vertel het een vriend</string>
     <string name="button_label_close">Sluiten</string>
     <string name="menu_split_transaction">Transformeren om te splitsen</string>
@@ -261,11 +260,10 @@
     <string name="pref_manage_parties_summary" tools:ignore="UnusedResources">Partijen (betalers en begunstigden) toevoegen, bewerken, verwijderen.</string>
     <string name="pref_more_info_dialog_title">Licentie &amp; tegoeden</string>
     <string name="pref_password_not_equal">Wachtwoorden komen niet overeen</string>
-    <string name="pref_perform_protection_title">Beveiliging</string>
     <string name="pref_planning_calendar_create_local">Maak een nieuwe lokale planningskalender</string>
     <string name="pref_protection_delay_seconds_summary">Inactieve seconden voordat de app wordt vergrendeld met een wachtwoord.</string>
     <string name="pref_qif_export_file_encoding_title">Codering</string>
-    <string name="pref_share_target_summary">Laat leeg als u wilt kiezen tussen geschikte apps (E-mail, Dropbox, Google Docs, ...), of geef een URL op in een van de ondersteunde schema\'s</string>
+    <string name="pref_share_target_summary">Laat leeg als u wilt kiezen tussen geschikte apps (E-mail, Dropbox, Google Docs, …), of geef een URL op in een van de ondersteunde schema\'s</string>
     <string name="pref_ui_language_title">Taal</string>
     <string name="pref_ui_theme_dark">Donker</string>
     <string name="pref_ui_theme_light">Licht</string>
@@ -338,7 +336,6 @@
     <string name="pref_category_title_export">Exporteren</string>
     <string name="pref_category_title_manage">Beheren</string>
     <string name="pref_category_title_more_information">Meer informatie</string>
-    <string name="pref_category_title_security">Beveiliging</string>
     <string name="pref_category_title_ui">Gebruikersomgeving</string>
     <string name="pref_checkbox_enabled">Ingeschakeld</string>
     <string name="pref_checkbox_disabled">Uitgeschakeld</string>

@@ -183,7 +183,6 @@
     <string name="menu_reset_plan_instance">Cài đặt lại</string>
     <string name="menu_save">Lưu</string>
     <string name="menu_save_and_new">Lưu và tạo mới</string>
-    <string name="menu_settings">Thiết lập</string>
     <string name="menu_share">Chia sẻ</string>
     <string name="button_label_share_file">Chia sẻ</string>
     <string name="button_label_close">Đóng</string>
@@ -251,7 +250,6 @@
     <string name="pref_category_title_import">Nhập dữ liệu</string>
     <string name="pref_category_title_manage">Quản lý</string>
     <string name="pref_category_title_more_information">Thêm thông tin</string>
-    <string name="pref_category_title_security">An ninh</string>
     <string name="pref_category_title_ui">Giao diện người dùng</string>
     <string name="pref_checkbox_enabled">Bật</string>
     <string name="pref_checkbox_disabled">Tắt</string>
@@ -283,7 +281,6 @@
     <string name="pref_manage_sync_backends_summary">Thêm phụ trợ cho việc đồng bộ các tài khoản (%s).</string>
     <string name="pref_more_info_dialog_title">Giấy phép &amp; Ghi công</string>
     <string name="pref_password_not_equal">Mật khẩu không khớp</string>
-    <string name="pref_perform_protection_title">Bảo vệ</string>
     <string name="pref_perform_share_title">Chia sẻ tập tin xuất dữ liệu</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Tạo lịch kế hoạch trên máy</string>

@@ -182,7 +182,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Passord kreves.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Tillatt uten passord.</string>
     <string name="pref_perform_share_title">Del eksporter og sikkerhetskopier</string>
-    <string name="pref_perform_protection_title">Beskyttelse</string>
     <string name="pref_password_not_equal">Passordene samsvarer ikke</string>
     <string name="pref_more_info_dialog_title">Lisens og bidragsytere</string>
     <string name="pref_manage_methods_title">Betalingsmetoder</string>
@@ -196,7 +195,6 @@
     <string name="pref_checkbox_disabled">Avskrudd</string>
     <string name="pref_checkbox_enabled">Påskrudd</string>
     <string name="pref_category_title_ui">Brukergrensesnitt</string>
-    <string name="pref_category_title_security">Sikkerhet</string>
     <string name="pref_category_title_more_information">Mer info</string>
     <string name="pref_category_title_manage">Håndter</string>
     <string name="pref_category_title_import">Importer</string>
@@ -223,7 +221,6 @@
     <string name="method">Betalingsmetode</string>
     <string name="button_label_close">Lukk</string>
     <string name="button_label_share_file">Del</string>
-    <string name="menu_settings">Innstillinger</string>
     <string name="menu_save_and_new">Lagre og ny</string>
     <string name="menu_save">Lagre</string>
     <string name="menu_reset_plan_instance">Tilbakestill</string>

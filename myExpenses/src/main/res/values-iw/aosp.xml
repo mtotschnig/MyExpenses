@@ -60,4 +60,7 @@
     <string name="take_photo">"צילום תמונה"</string>
     <string name="license_title">"רישיון"</string>
     <string name="available">"זמין"</string>
+    <string name="settings_label">"הגדרות"</string>
+    <string name="security_settings_title">"אבטחה"</string>
+    <string name="screen_lock">"נעילת מסך"</string>
 </resources>

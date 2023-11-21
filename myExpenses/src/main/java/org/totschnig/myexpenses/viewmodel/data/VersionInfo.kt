@@ -26,7 +26,7 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 t(R.string.active_tags)
             )
             "331" -> arrayOf(
-                "${t(R.string.menu_settings)} - ${t(R.string.autofill)}: ${t(R.string.ui_refinement)}"
+                "${t(R.string.settings_label)} - ${t(R.string.autofill)}: ${t(R.string.ui_refinement)}"
             )
             "332" -> arrayOf(
                 "${t(R.string.pref_translation_title)} : ${Locale("te").displayLanguage}",
@@ -115,7 +115,7 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 "${t(R.string.help_ManageTemplates_plans_title)}: ${t(R.string.ui_refinement)}"
             )
             "362" -> arrayOf(
-                "${t(R.string.menu_settings)}: ${t(R.string.ui_refinement)}"
+                "${t(R.string.settings_label)}: ${t(R.string.ui_refinement)}"
             )
             "363" -> arrayOf(
                 "Multibanking (${Locale.GERMANY.displayCountry})"

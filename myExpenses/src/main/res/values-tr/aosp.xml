@@ -58,4 +58,7 @@
     <string name="take_photo">"Fotoğraf çek"</string>
     <string name="license_title">"Lisans"</string>
     <string name="available">"Kullanılabilir"</string>
+    <string name="settings_label">"Ayarlar"</string>
+    <string name="security_settings_title">"Güvenlik"</string>
+    <string name="screen_lock">"Ekran kilidi"</string>
 </resources>

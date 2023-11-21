@@ -79,7 +79,7 @@
     <Preference
         android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesProtectionFragment"
         android:key="@string/pref_category_security_key"
-        android:title="@string/pref_category_title_security" />
+        android:title="@string/security_settings_title" />
 
     <Preference
         android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesMoreInfoFragment"

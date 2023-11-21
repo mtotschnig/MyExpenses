@@ -187,7 +187,6 @@
     <string name="menu_reset_plan_instance">重置</string>
     <string name="menu_save">保存</string>
     <string name="menu_save_and_new">保存并新建</string>
-    <string name="menu_settings">设置</string>
     <string name="menu_share">分享给朋友</string>
     <string name="button_label_share_file">分享</string>
     <string name="button_label_close">关闭</string>
@@ -257,7 +256,6 @@
     <string name="pref_category_title_import">导入</string>
     <string name="pref_category_title_manage">管理</string>
     <string name="pref_category_title_more_information">更多资讯</string>
-    <string name="pref_category_title_security">安全</string>
     <string name="pref_category_title_ui">用户界面</string>
     <string name="pref_checkbox_enabled">启用</string>
     <string name="pref_checkbox_disabled">已禁用</string>
@@ -289,7 +287,6 @@
     <string name="pref_manage_sync_backends_summary">添加用于同步账户的后端（%s）。</string>
     <string name="pref_more_info_dialog_title">许可 &amp; 鸣谢</string>
     <string name="pref_password_not_equal">密码不匹配</string>
-    <string name="pref_perform_protection_title">保护设置</string>
     <string name="pref_perform_share_title">分享导出的备份文件</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">创建新的本地计划日历</string>

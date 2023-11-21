@@ -61,4 +61,7 @@
     <string name="take_photo">"Snimi fotografiju"</string>
     <string name="license_title">"Licenca"</string>
     <string name="available">"Dostupno"</string>
+    <string name="settings_label">"Postavke"</string>
+    <string name="security_settings_title">"Sigurnost"</string>
+    <string name="screen_lock">"Zaključavanje zaslona"</string>
 </resources>

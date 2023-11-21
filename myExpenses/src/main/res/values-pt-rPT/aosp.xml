@@ -20,4 +20,7 @@
     <string name="display_options_sort_list_by">"Ordenar por"</string>
      <string name="nickname">"Alcunha"</string>
     <string name="add_file_attachment">"Anexar ficheiro"</string>
+    <string name="settings_label">"Definições"</string>
+    <string name="security_settings_title">"Segurança"</string>
+    <string name="screen_lock">"Bloqueio de ecrã"</string>
 </resources>

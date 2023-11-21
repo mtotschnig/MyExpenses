@@ -188,7 +188,6 @@
     <string name="menu_reset_plan_instance">Нулирай</string>
     <string name="menu_save">Запамети</string>
     <string name="menu_save_and_new">Запамети и нов</string>
-    <string name="menu_settings">Настройки</string>
     <string name="menu_share">Кажи на приятел</string>
     <string name="button_label_share_file">Сподели</string>
     <string name="button_label_close">Затвори</string>
@@ -260,7 +259,6 @@
     <string name="pref_category_title_import">Внасяне на данни</string>
     <string name="pref_category_title_manage">Управление</string>
     <string name="pref_category_title_more_information">Повече информация</string>
-    <string name="pref_category_title_security">Сигурност</string>
     <string name="pref_category_title_ui">Потребителски интерфейс</string>
     <string name="pref_checkbox_enabled">Разрешено</string>
     <string name="pref_checkbox_disabled">Забранено</string>
@@ -292,7 +290,6 @@
     <string name="pref_manage_sync_backends_summary">Добавяне на хранилища за синхронизиране на сметки (%s).</string>
     <string name="pref_more_info_dialog_title">Лиценз и кредити</string>
     <string name="pref_password_not_equal">Паролите не съвпадат</string>
-    <string name="pref_perform_protection_title">Защита</string>
     <string name="pref_perform_share_title">Споделяне на експорт и архив</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Създай нов локален план-календар </string>

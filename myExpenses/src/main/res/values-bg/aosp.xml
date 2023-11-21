@@ -60,4 +60,7 @@
     <string name="take_photo">"Снимане"</string>
     <string name="license_title">"Лиценз"</string>
     <string name="available">"Налице"</string>
+    <string name="settings_label">"Настройки"</string>
+    <string name="security_settings_title">"Сигурност"</string>
+    <string name="screen_lock">"Заключване на екрана"</string>
 </resources>

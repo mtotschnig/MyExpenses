@@ -60,4 +60,7 @@
     <string name="take_photo">"Fotografiați"</string>
     <string name="license_title">"Licență"</string>
     <string name="available">"Disponibil"</string>
+    <string name="settings_label">"Setări"</string>
+    <string name="security_settings_title">"Securitate"</string>
+    <string name="screen_lock">"Blocarea ecranului"</string>
 </resources>

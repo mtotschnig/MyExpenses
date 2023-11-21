@@ -57,4 +57,7 @@
     <string name="take_photo">"Ambil foto"</string>
     <string name="license_title">"Lesen"</string>
     <string name="available">"Tersedia"</string>
+    <string name="settings_label">"Tetapan"</string>
+    <string name="security_settings_title">"Keselamatan"</string>
+    <string name="screen_lock">"Kunci skrin"</string>
 </resources>

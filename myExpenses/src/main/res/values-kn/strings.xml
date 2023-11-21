@@ -188,7 +188,6 @@
     <string name="menu_reset_plan_instance">ಮರುಹೊಂದಿಸಿ</string>
     <string name="menu_save">ಉಳಿಸಿ</string>
     <string name="menu_save_and_new">ಉಳಿಸಿ ಮತ್ತು ಹೊಸದು</string>
-    <string name="menu_settings">ಸೆಟ್ಟಿಂಗ್ಸ್</string>
     <string name="menu_share">ಗೆಳೆಯನಿಗೆ ಹೇಳು</string>
     <string name="button_label_share_file">ಹಂಚಿಕೊಳ್ಳಿ</string>
     <string name="button_label_close">ಮುಚ್ಚಿ</string>
@@ -259,7 +258,6 @@
     <string name="pref_category_title_import">ಆಮದು</string>
     <string name="pref_category_title_manage">ನಿರ್ವಹಿಸು</string>
     <string name="pref_category_title_more_information">ಹೆಚ್ಚಿನ ಮಾಹಿತಿ</string>
-    <string name="pref_category_title_security">ಭದ್ರತೆ</string>
     <string name="pref_category_title_ui">ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್</string>
     <string name="pref_checkbox_enabled">ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ</string>
     <string name="pref_checkbox_disabled">ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ</string>
@@ -291,7 +289,6 @@
     <string name="pref_manage_sync_backends_summary">ಖಾತೆಗಳನ್ನು ಸಿಂಕ್ರೊನೈಸ್ ಮಾಡಲು ಬ್ಯಾಕೆಂಡ್‌ಗಳನ್ನು ಸೇರಿಸಿ (%s).</string>
     <string name="pref_more_info_dialog_title">ಪರವಾನಗಿ ಮತ್ತು ಸಾಲಗಳು</string>
     <string name="pref_password_not_equal">ಗುಪ್ತಪದಗಳುತಾಳೆಯಾಗುತ್ತಿಲ್ಲ</string>
-    <string name="pref_perform_protection_title">ರಕ್ಷಣೆ</string>
     <string name="pref_perform_share_title">ರಫ್ತು ಮತ್ತು ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಿ</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">ಹೊಸ ಸ್ಥಳೀಯ ಯೋಜನೆ ಕ್ಯಾಲೆಂಡರ್ ರಚಿಸಿ</string>

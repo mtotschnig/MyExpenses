@@ -63,4 +63,7 @@
     <string name="take_photo">"التقاط صورة"</string>
     <string name="license_title">"الترخيص"</string>
     <string name="available">"متوفرة"</string>
+    <string name="settings_label">"الإعدادات"</string>
+    <string name="security_settings_title">"الأمان"</string>
+    <string name="screen_lock">"قفل الشاشة"</string>
 </resources>

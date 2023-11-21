@@ -411,7 +411,6 @@
     <string name="pref_planning_calendar_summary">భవిష్యత్ మరియు పునరావృత లావాదేవీల కోసం ప్రణాళికలు నిల్వ చేయబడిన క్యాలెండర్‌ను ఎంచుకోండి</string>
     <string name="pref_planning_calendar_create_local">క్రొత్త స్థానిక ప్రణాళిక క్యాలెండర్‌ను సృష్టించండి</string>
     <string name="pref_perform_share_title">ఎగుమతులు మరియు బ్యాకప్‌లను భాగస్వామ్యం చేయండి</string>
-    <string name="pref_perform_protection_title">రక్షణ</string>
     <string name="pref_password_not_equal">గుత్త పదములు సరి పోవట్లేదు</string>
     <string name="pref_more_info_dialog_title">లైసెన్స్ &amp; క్రెడిట్స్</string>
     <string name="pref_manage_sync_backends_summary">ఖాతాలను (%s) సమకాలీకరించడానికి బ్యాకెండ్లను జోడించండి.</string>
@@ -438,7 +437,6 @@
     <string name="pref_checkbox_disabled">నిలిపివేయబడింది</string>
     <string name="pref_checkbox_enabled">ప్రారంభించబడింది</string>
     <string name="pref_category_title_ui">వినియోగ మార్గము</string>
-    <string name="pref_category_title_security">భద్రత</string>
     <string name="pref_category_title_more_information">మరింత సమాచారం</string>
     <string name="pref_category_title_manage">నిర్వహించడానికి</string>
     <string name="pref_category_title_import">దిగుమతి</string>
@@ -629,7 +627,6 @@
     <string name="button_label_close">దగ్గరగా</string>
     <string name="button_label_share_file">భాగస్వామ్యం చేయండి</string>
     <string name="menu_share">స్నేహితుడికి చెప్పండి</string>
-    <string name="menu_settings">సెట్టింగులు</string>
     <string name="menu_save_and_new">సేవ్ మరియు క్రొత్తది</string>
     <string name="menu_save">సేవ్ చేయండి</string>
     <string name="menu_reset_plan_instance">రీసెట్ చేయండి</string>

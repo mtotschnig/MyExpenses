@@ -41,7 +41,7 @@
     <item
         android:id="@id/SETTINGS_COMMAND"
         android:orderInCategory="40"
-        android:title="@string/menu_settings"
+        android:title="@string/settings_label"
         app:showAsAction="never" />
     <item
         android:id="@id/BACKUP_COMMAND"

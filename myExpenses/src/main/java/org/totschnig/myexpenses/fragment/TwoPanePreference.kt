@@ -67,7 +67,7 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
         slidingPaneLayout.addPanelSlideListener(object :
             SlidingPaneLayout.SimplePanelSlideListener() {
             override fun onPanelClosed(panel: View) {
-                requireActivity().setTitle(org.totschnig.myexpenses.R.string.menu_settings)
+                requireActivity().setTitle(org.totschnig.myexpenses.R.string.settings_label)
             }
 
         })

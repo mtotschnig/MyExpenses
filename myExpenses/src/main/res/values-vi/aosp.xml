@@ -57,4 +57,7 @@
     <string name="take_photo">"Chụp ảnh"</string>
     <string name="license_title">"Giấy phép"</string>
     <string name="available">"Có sẵn"</string>
+    <string name="settings_label">"Cài đặt"</string>
+    <string name="security_settings_title">"Bảo mật"</string>
+    <string name="screen_lock">"Phương thức khóa màn hình"</string>
 </resources>

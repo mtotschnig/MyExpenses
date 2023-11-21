@@ -155,7 +155,6 @@
     <string name="menu_reset_plan_instance">Reinicia</string>
     <string name="menu_save">Desa</string>
     <string name="menu_save_and_new">Desa i nova</string>
-    <string name="menu_settings">Preferències</string>
     <string name="menu_share">Digueu-ho a un amic</string>
     <string name="button_label_close">Tanca</string>
     <string name="method">Forme de pagament</string>
@@ -210,7 +209,6 @@
     <string name="pref_category_title_import">Importació</string>
     <string name="pref_category_title_manage">Personalitza</string>
     <string name="pref_category_title_more_information">Més informació</string>
-    <string name="pref_category_title_security">Seguretat</string>
     <string name="pref_category_title_ui">Interfície d\'usuari</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
     <string name="pref_contrib_purchase_summary">Compreu accés a funcions premium.</string>
@@ -393,7 +391,6 @@
     <string name="pref_import_summary">Importar transaccions, categories o parts des de l\'arxiu %s</string>
     <string name="pref_import_title">Importar %s</string>
     <string name="pref_manage_sync_backends_summary">Afegiu un servei per a la sincronització del compte (%s).</string>
-    <string name="pref_perform_protection_title">Protecció</string>
     <string name="qif_parse_result">Analitzat: %1$s comptes; %2$s categories i %3$s parts</string>
     <string name="restore_backup_file_not_found">L\'arxiu %1$s no s\'ha trobat a l\'arxiu \"%2$s\"</string>
     <string name="contrib_feature_category_tree_label">Arbre de categories</string>

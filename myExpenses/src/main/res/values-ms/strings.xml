@@ -187,7 +187,6 @@
     <string name="menu_reset_plan_instance">Tetap semula</string>
     <string name="menu_save">Simpan</string>
     <string name="menu_save_and_new">Simpan dan baharu</string>
-    <string name="menu_settings">Tetapan</string>
     <string name="menu_share">Beritahu rakan</string>
     <string name="button_label_share_file">Kongsi</string>
     <string name="button_label_close">Tutup</string>
@@ -255,7 +254,6 @@
     <string name="pref_category_title_import">Import</string>
     <string name="pref_category_title_manage">Urus</string>
     <string name="pref_category_title_more_information">Lagi maklumat</string>
-    <string name="pref_category_title_security">Keselamatan</string>
     <string name="pref_category_title_ui">Antaramuka pengguna</string>
     <string name="pref_checkbox_enabled">Dibenarkan</string>
     <string name="pref_checkbox_disabled">Dilumpuhkan</string>
@@ -287,7 +285,6 @@
     <string name="pref_manage_sync_backends_summary">Tambah bahagian belakang untuk penyegerakan akaun (%s).</string>
     <string name="pref_more_info_dialog_title">Lesen &amp; Penghargaan</string>
     <string name="pref_password_not_equal">Kata laluan tidak sepadan</string>
-    <string name="pref_perform_protection_title">Perlindungan</string>
     <string name="pref_perform_share_title">Kongsi eksport dan sandar</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Cipta kalendar perancangan setempat baharu</string>

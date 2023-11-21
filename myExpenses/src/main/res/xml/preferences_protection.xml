@@ -4,7 +4,7 @@
     <org.totschnig.myexpenses.preference.HeaderPreference />
     <PreferenceCategory
         android:key="category_protection"
-        android:title="@string/pref_perform_protection_title"
+        android:title="@string/screen_lock"
         my:allowDividerAbove="false"
         my:expandButtonTitle="@string/feature_deprecated"
         my:initialExpandedChildrenCount="2">

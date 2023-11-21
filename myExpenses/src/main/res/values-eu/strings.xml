@@ -188,7 +188,6 @@
     <string name="menu_reset_plan_instance">Berrezarri</string>
     <string name="menu_save">Gorde</string>
     <string name="menu_save_and_new">Gorde eta berria</string>
-    <string name="menu_settings">Ezarpenak</string>
     <string name="menu_share">Esan lagun bati</string>
     <string name="button_label_share_file">Partekatu</string>
     <string name="button_label_close">Itxi</string>
@@ -258,7 +257,6 @@
     <string name="pref_category_title_import">Inportatu</string>
     <string name="pref_category_title_manage">Kudeatu</string>
     <string name="pref_category_title_more_information">Informazio gehiago</string>
-    <string name="pref_category_title_security">Segurtasuna</string>
     <string name="pref_category_title_ui">Erabiltzaile interfazea</string>
     <string name="pref_checkbox_enabled">Gaituta</string>
     <string name="pref_checkbox_disabled">Ezgaituta</string>
@@ -290,7 +288,6 @@
     <string name="pref_manage_sync_backends_summary">Gehitu atzealdekoak kontuentzat sinkronizatzean (%s).</string>
     <string name="pref_more_info_dialog_title">Lizentzia eta egiletza</string>
     <string name="pref_password_not_equal">Pasahitzak ez datoz bat</string>
-    <string name="pref_perform_protection_title">Babesa</string>
     <string name="pref_perform_share_title">Elkarbanatu esportazioak eta babeskopiak</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Sortu tokiko planifikazio egutegi berria</string>

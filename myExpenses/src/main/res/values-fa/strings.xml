@@ -176,7 +176,6 @@
     <string name="menu_reset_plan_instance">تنظیم مجدد</string>
     <string name="menu_save">ذخیره</string>
     <string name="menu_save_and_new">ذخیره و جدید</string>
-    <string name="menu_settings">تنظیمات</string>
     <string name="menu_share">گفتن به دوستان</string>
     <string name="button_label_share_file">اشتراک گذاری</string>
     <string name="button_label_close">بستن</string>
@@ -232,7 +231,6 @@
     <string name="pref_category_title_import">درون‌ریزی</string>
     <string name="pref_category_title_manage">مدیریت</string>
     <string name="pref_category_title_more_information">اطلاعات بیشتر</string>
-    <string name="pref_category_title_security">امنیت</string>
     <string name="pref_category_title_ui">رابط کاربری</string>
     <string name="pref_checkbox_enabled">فعال شد</string>
     <string name="pref_checkbox_disabled">غیرفعال شد</string>
@@ -250,7 +248,6 @@
     <string name="pref_manage_methods_summary">ساخت و ویرایش روش‌های پرداخت و اختصاص دادن آن‌ها به نوع حساب</string>
     <string name="pref_manage_methods_title">روش‌های پرداخت</string>
     <string name="pref_password_not_equal">گذرواژه تطابق ندارد</string>
-    <string name="pref_perform_protection_title">محافظت</string>
     <string name="pref_perform_share_title">به‌اشتراک‌گذاری خروجی‌ها و بک‌آپ‌ها</string>
     <string name="pref_protection_delay_seconds_title">تاخیر تا محافظت</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">گذرواژه نیاز است.</string>

@@ -190,7 +190,6 @@
     <string name="menu_reset_plan_instance">אפס - Reset</string>
     <string name="menu_save">שמור</string>
     <string name="menu_save_and_new">שמור וחדש</string>
-    <string name="menu_settings">הגדרות</string>
     <string name="menu_share">ספר לחבר</string>
     <string name="button_label_share_file">שתף</string>
     <string name="button_label_close">סגור</string>
@@ -266,7 +265,6 @@
     <string name="pref_category_title_import">יבוא</string>
     <string name="pref_category_title_manage">ניהול</string>
     <string name="pref_category_title_more_information">מידע נוסף</string>
-    <string name="pref_category_title_security">בטחון</string>
     <string name="pref_category_title_ui">ממשק משתמש</string>
     <string name="pref_checkbox_enabled">מופעל</string>
     <string name="pref_checkbox_disabled">מושבת</string>
@@ -298,7 +296,6 @@
     <string name="pref_manage_sync_backends_summary">הוספת backenders לסנכרון חשבונות (%s).</string>
     <string name="pref_more_info_dialog_title">רישיון &amp; amp; נקודות זכות</string>
     <string name="pref_password_not_equal">סיסמאות אינן תואמות</string>
-    <string name="pref_perform_protection_title">הגנה</string>
     <string name="pref_perform_share_title">שתף את היצוא ואת הגיבויים</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">צור יומן תכנון מקומי חדש</string>

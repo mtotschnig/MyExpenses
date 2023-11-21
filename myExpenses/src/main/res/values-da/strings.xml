@@ -165,7 +165,6 @@
     <string name="menu_reset_plan_instance">Nulstil</string>
     <string name="menu_save">Gem</string>
     <string name="menu_save_and_new">Gem og ny</string>
-    <string name="menu_settings">Indstillinger</string>
     <string name="menu_share">Fortæl en ven</string>
     <string name="menu_split_transaction">Opsplit</string>
     <string name="method">Betalingsmetode</string>
@@ -230,7 +229,6 @@
     <string name="pref_category_title_import">Importer</string>
     <string name="pref_category_title_manage">Administrer</string>
     <string name="pref_category_title_more_information">Flere oplysninger</string>
-    <string name="pref_category_title_security">Sikkerhed</string>
     <string name="pref_category_title_ui">Brugergrænseflade</string>
     <string name="pref_checkbox_enabled">Aktiveret</string>
     <string name="pref_checkbox_disabled">Deaktiveret</string>

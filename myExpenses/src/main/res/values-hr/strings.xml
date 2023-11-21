@@ -162,7 +162,6 @@
     <string name="menu_reset_plan_instance">Obnovi</string>
     <string name="menu_save">Spremi</string>
     <string name="menu_save_and_new">Spremi i novo</string>
-    <string name="menu_settings">Postavke</string>
     <string name="menu_share">Preporuči prijatelju</string>
     <string name="method">Način plaćanja</string>
     <string name="no_app_handling_email_available">Nema programa za email.</string>
@@ -228,7 +227,6 @@
     <string name="pref_category_title_import">Uvezi</string>
     <string name="pref_category_title_manage">Upravljaj</string>
     <string name="pref_category_title_more_information">VIše informacija</string>
-    <string name="pref_category_title_security">Sigurnost</string>
     <string name="pref_category_title_ui">Korisničko sučelje</string>
     <string name="pref_checkbox_enabled">Aktivirano</string>
     <string name="pref_checkbox_disabled">Deaktivirano</string>
@@ -841,7 +839,6 @@
     <string name="warning_delete_category_with_budget">Za barem jednu odabranu kategoriju postoje dodijeljivanja proračunu koja će se također izbrisati.</string>
     <string name="status_void">anulirano</string>
     <string name="select_payee">Odaberi platišu/primaoca</string>
-    <string name="pref_perform_protection_title">Zaštita</string>
     <string name="pref_manage_sync_backends_summary">Dodaj pozadinske sustave za sinkroniziranje računa (%s).</string>
     <string name="pref_contrib_purchase_title_upgrade">Nadogradi ključ</string>
     <string name="pref_sort_order_usages">Broj korištenja</string>

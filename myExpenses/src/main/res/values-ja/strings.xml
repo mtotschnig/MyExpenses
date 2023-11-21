@@ -186,7 +186,6 @@
     <string name="menu_reset_plan_instance">リセット</string>
     <string name="menu_save">保存</string>
     <string name="menu_save_and_new">保存および新規</string>
-    <string name="menu_settings">設定</string>
     <string name="menu_share">友達に教える</string>
     <string name="button_label_share_file">共有</string>
     <string name="button_label_close">閉じる</string>
@@ -255,7 +254,6 @@
     <string name="pref_category_title_import">インポート</string>
     <string name="pref_category_title_manage">管理</string>
     <string name="pref_category_title_more_information">詳細な情報</string>
-    <string name="pref_category_title_security">セキュリティ</string>
     <string name="pref_category_title_ui">ユーザーインターフェイス</string>
     <string name="pref_checkbox_enabled">有効</string>
     <string name="pref_checkbox_disabled">無効</string>
@@ -287,7 +285,6 @@
     <string name="pref_manage_sync_backends_summary">アカウントを同期するためのバックエンドを追加します (%s)。</string>
     <string name="pref_more_info_dialog_title">ライセンス &amp; クレジット</string>
     <string name="pref_password_not_equal">パスワードが一致しません</string>
-    <string name="pref_perform_protection_title">保護</string>
     <string name="pref_perform_share_title">エクスポートとバックアップを共有</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">新しいローカル プランニング カレンダーを作成</string>

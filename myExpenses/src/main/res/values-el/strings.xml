@@ -188,7 +188,6 @@
     <string name="menu_reset_plan_instance">Επαναφορά</string>
     <string name="menu_save">Αποθήκευση</string>
     <string name="menu_save_and_new">Αποθήκευση και δημιουργία</string>
-    <string name="menu_settings">Ρυθμίσεις</string>
     <string name="menu_share">Πες το σε ένα φίλο</string>
     <string name="button_label_share_file">Μοιραστείτε</string>
     <string name="button_label_close">Κλείσιμο</string>
@@ -260,7 +259,6 @@
     <string name="pref_category_title_import">Εισαγωγή</string>
     <string name="pref_category_title_manage">Διαχείριση</string>
     <string name="pref_category_title_more_information">Περισσότερες πληροφορίες</string>
-    <string name="pref_category_title_security">Ασφάλεια</string>
     <string name="pref_category_title_ui">Σύνδεση, διεπαφή με τον χρήστη</string>
     <string name="pref_checkbox_enabled">Ενεργοποιημένο</string>
     <string name="pref_checkbox_disabled">Απενεργοποιημένο</string>
@@ -290,7 +288,6 @@
     <string name="pref_manage_sync_backends_title">Backend συγχρονισμού</string>
     <string name="pref_more_info_dialog_title">Άδεια &amp; πιστώσεις</string>
     <string name="pref_password_not_equal">Κωδικοί πρόσβασης δεν ταιριάζουν</string>
-    <string name="pref_perform_protection_title">Προστασία</string>
     <string name="pref_perform_share_title">Μοιραστείτε αρχείο  εξαγωγής</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Δημιουργήσετε νέο τοπικό ημερολόγιο προγραμματισμού</string>

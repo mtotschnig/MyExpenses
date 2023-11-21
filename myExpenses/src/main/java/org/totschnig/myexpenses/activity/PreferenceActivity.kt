@@ -93,7 +93,7 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
         binding = SettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupToolbar()
-        title = getString(R.string.menu_settings)
+        title = getString(R.string.settings_label)
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()

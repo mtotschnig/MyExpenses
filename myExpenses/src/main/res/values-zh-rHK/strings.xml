@@ -124,7 +124,6 @@
     <string name="menu_reset_all">匯出和重設所有</string>
     <string name="menu_save">保存</string>
     <string name="menu_save_and_new">保存並新增</string>
-    <string name="menu_settings">設定</string>
     <string name="button_label_close">關閉</string>
     <string name="method">付款方法</string>
     <string name="no_app_handling_email_available">沒有可用的應用程序電子郵件。</string>
@@ -176,7 +175,6 @@
     <string name="pref_category_title_import">匯入</string>
     <string name="pref_category_title_manage">管理</string>
     <string name="pref_category_title_more_information">更多資訊</string>
-    <string name="pref_category_title_security">安全</string>
     <string name="pref_category_title_ui">用戶界面</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
     <string name="pref_contrib_purchase_summary">購買使用高級功能的權限。</string>
