@@ -83,11 +83,11 @@ iw:
     calendar:
       label: גישה ללוח שנה
       explanation: תוכניות לעסקאות עתידיות וחוזרות המאוחסנות ביומן מקומי מיוחד או
-        בכל לוח שנה אחר שתקצו.
+        בכל לוח שנה אחר שיוקצה.
     internet:
       label: גישה לאינטרנט
-      explanation_usage_tracking: מעקב אנונימי אחר השימוש
-      explanation_crash_reporting: דוחו"ת קריסה
+      explanation_usage_tracking: מעקב אלמוני אחר השימוש
+      explanation_crash_reporting: דוחות קריסה
       explanation_key_validation: אימות מפתח רישיון
       explanation_cloud_sync: סנכרון לענן
     accounts:
