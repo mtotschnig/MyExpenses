@@ -89,23 +89,23 @@
     <string name="dialog_remind_rate_how_many_stars">כמה כוכבים תשקול להעניק לאפליקציה {app_name}?</string>
     <string name="dialog_remind_rate_1">הקדישו בבקשה רגע מזמנכם כדי לדרג ולבקר את האפליקציה {app_name}.</string>
     <string name="dialog_remind_rate_2">ההערות שלך עוזרות לנו להוסיף שיפורים ותוספות.</string>
-    <string name="dialog_remind_rate_1_suggest_improvement">הקדישו מספר דקות כדי לשלוח לנו את ההצעות שלכם לשיפור.</string>
-    <string name="dialog_remind_rate_yes">דרגו עכשיו</string>
+    <string name="dialog_remind_rate_1_suggest_improvement">נא להקדיש מספר דקות כדי לשלוח לנו את ההצעות שלך לשיפור.</string>
+    <string name="dialog_remind_rate_yes">לדרג עכשיו</string>
     <string name="dialog_security_answer">תשובה</string>
     <string name="dialog_security_question">שאלה</string>
     <string name="dialog_title_information">מידע</string>
     <!-- %1$s is replace with account label -->
-    <string name="dialog_title_balance_account">יתרה %1$s</string>
-    <string name="dialog_title_contrib_feature">תכונת פרימיום</string>
+    <string name="dialog_title_balance_account">יתרה בחשבון %1$s</string>
+    <string name="dialog_title_contrib_feature">יכולת פרימיום</string>
     <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">מחק חשבון?</item>
-        <item quantity="two">למחוק חשבונות %1$d?</item>
-        <item quantity="many">למחוק חשבונות %1$d?</item>
-        <item quantity="other">האם מחוק חשבונות %1$d?</item>
+        <item quantity="one">למחוק חשבון?</item>
+        <item quantity="two">למחוק שני חשבונות?</item>
+        <item quantity="many">למחוק %1$d חשבונות?</item>
+        <item quantity="other"></item>
     </plurals>
-    <string name="dialog_title_warning_delete_category">האם למחוק קטגוריה?</string>
-    <string name="dialog_title_warning_delete_template">האם למחוק תבנית?</string>
-    <string name="dialog_title_warning_delete_transaction">האם למחוק את העסקה?</string>
+    <string name="dialog_title_warning_delete_category">למחוק קטגוריה?</string>
+    <string name="dialog_title_warning_delete_template">למחוק תבנית?</string>
+    <string name="dialog_title_warning_delete_transaction">למחוק את העסקה?</string>
     <string name="expense">הוצאה</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">יצוא קובץ \"%1$s\" נכשל %2$s</string>
