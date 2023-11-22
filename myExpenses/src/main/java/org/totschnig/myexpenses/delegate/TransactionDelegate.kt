@@ -948,7 +948,9 @@ abstract class TransactionDelegate<T : ITransaction>(
         }
 
         viewBinding.Amount.setTypeEnabled(true)
+        isProcessingLinkedAmountInputs = true
         configureType()
+        isProcessingLinkedAmountInputs = false
         setAccount()
     }
 
@@ -965,6 +967,12 @@ abstract class TransactionDelegate<T : ITransaction>(
         accountId = account.id
         host.loadActiveTags(account.id)
         configureAccountDependent(account)
+    }
+
+    fun setType(type: Boolean) {
+        isProcessingLinkedAmountInputs = true
+        viewBinding.Amount.type = type
+        isProcessingLinkedAmountInputs = false
     }
 
     open fun configureType() {

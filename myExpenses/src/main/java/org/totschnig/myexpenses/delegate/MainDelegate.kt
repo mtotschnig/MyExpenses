@@ -88,7 +88,14 @@ abstract class MainDelegate<T : ITransaction>(
         payeeId = host.parentPayeeId
     }
 
-    fun onAmountChanged() {
+    override fun configureType() {
+        super.configureType()
+         if (viewBinding.Amount.typedValue.compareTo(BigDecimal.ZERO) != 0) {
+             onAmountChanged()
+         }
+    }
+
+    open fun onAmountChanged() {
         if (debtId != null) {
             updateDebtCheckBox(debts.find { it.id == debtId })
         }

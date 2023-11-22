@@ -797,7 +797,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             viewModel.addAttachmentUris(it)
         }
         if (!intent.hasExtra(KEY_CACHED_DATA)) {
-            amountInput.type = intent.getBooleanExtra(KEY_INCOME, false)
+            delegate.setType(intent.getBooleanExtra(KEY_INCOME, false))
         }
         (intent.getSerializableExtra(KEY_AMOUNT) as? BigDecimal)?.let {
             amountInput.setAmount(it)
@@ -939,7 +939,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         if (shouldLoadMethods) {
             loadMethods(currentAccount)
         }
-        (delegate as? MainDelegate)?.onAmountChanged()
         discoveryHelper.markDiscovered(DiscoveryHelper.Feature.expense_income_switch)
     }
 

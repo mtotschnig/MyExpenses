@@ -45,7 +45,6 @@ class SplitDelegate(
 
     @State
     var userSetAmount: Boolean = false
-    var automaticAmountUpdate: Boolean = false
 
     override fun bindUnsafe(
         transaction: ITransaction?,
@@ -84,18 +83,6 @@ class SplitDelegate(
             withAutoFill
         )
 
-        viewBinding.Amount.addTextChangedListener(object : MyTextWatcher() {
-            override fun afterTextChanged(s: Editable) {
-                if (!automaticAmountUpdate) {
-                        if (!isProcessingLinkedAmountInputs) {
-                            userSetAmount = true
-                        }
-                        updateBalance()
-                    } else {
-                        automaticAmountUpdate = false
-                    }
-            }
-        })
         viewBinding.CategoryRow.visibility = View.GONE
         viewBinding.SplitRow.visibility = View.VISIBLE
         host.registerForContextMenu(viewBinding.list)
@@ -115,13 +102,26 @@ class SplitDelegate(
         }
     }
 
+    override fun onAmountChanged() {
+        super.onAmountChanged()
+        if (!userSetAmount && !isProcessingLinkedAmountInputs) {
+            userSetAmount = true
+        }
+        updateBalance()
+    }
+
     override fun buildMainTransaction(account: Account): ISplit =
         if (isTemplate) buildTemplate(account) else SplitTransaction(account.id)
 
     override fun prepareForNew() {
         super.prepareForNew()
         val account = currentAccount()!!
-        rowId = SplitTransaction.getNewInstance(context.contentResolver, account.id, account.currency, true).id
+        rowId = SplitTransaction.getNewInstance(
+            context.contentResolver,
+            account.id,
+            account.currency,
+            true
+        ).id
         host.viewModel.loadSplitParts(rowId, isTemplate)
     }
 
@@ -143,9 +143,10 @@ class SplitDelegate(
         } else if (transactionSum != 0L) {
             val existingValue = viewBinding.Amount.typedValue
             val newValue = Money(adapter.currencyUnit, transactionSum).amountMajor
-            automaticAmountUpdate = true
             if (existingValue.compareTo(newValue) != 0) {
+                isProcessingLinkedAmountInputs = true
                 viewBinding.Amount.setAmount(newValue)
+                isProcessingLinkedAmountInputs = false
             }
         }
     }
