@@ -144,7 +144,7 @@ class SplitDelegate(
             val existingValue = viewBinding.Amount.typedValue
             val newValue = Money(adapter.currencyUnit, transactionSum).amountMajor
             automaticAmountUpdate = true
-            if (existingValue != newValue) {
+            if (existingValue.compareTo(newValue) != 0) {
                 viewBinding.Amount.setAmount(newValue)
             }
         }
