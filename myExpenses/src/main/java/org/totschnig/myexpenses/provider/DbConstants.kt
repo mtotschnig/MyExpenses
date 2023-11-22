@@ -31,6 +31,13 @@ val Uri.transactionQuerySelector: String
         "$KEY_PARENTID = $it"
     } ?: accountSelector
 
+
+val Uri.templateQuerySelector: String?
+    get() = getQueryParameter(KEY_PARENTID)?.let {
+        requireIdParameter(it)
+        "$KEY_PARENTID = $it"
+    }
+
 /**
  * with paramter KEY_ACCOUNTID show single account, with parameter KEY_CURRENCY show for all
  * accounts with given currency (if not excluded from totals), otherwise all transactions (if not

@@ -117,6 +117,7 @@ import static org.totschnig.myexpenses.provider.DbConstantsKt.checkForSealedAcco
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getAccountSelector;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getPayeeWithDuplicatesCTE;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.amountCalculation;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.getTemplateQuerySelector;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getTransactionQuerySelector;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionMappedObjectQuery;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionSumQuery;
@@ -627,6 +628,8 @@ public class TransactionProvider extends BaseTransactionProvider {
       case TEMPLATES:
         String instanceId = uri.getQueryParameter(QUERY_PARAMETER_WITH_INSTANCE);
         if (instanceId == null) {
+          String selector = getTemplateQuerySelector(uri);
+          selection = TextUtils.isEmpty(selection) ? selector : selection + " AND " + selector;
           qb = SupportSQLiteQueryBuilder.builder(VIEW_TEMPLATES_EXTENDED);
           if (projection == null) {
             projection = extendProjectionWithSealedCheck(Template.PROJECTION_EXTENDED, VIEW_TEMPLATES_EXTENDED);

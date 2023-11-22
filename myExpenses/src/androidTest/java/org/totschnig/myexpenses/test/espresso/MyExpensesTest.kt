@@ -84,7 +84,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     @Test
     fun settingsScreenIsOpened() {
         openActionBarOverflowMenu()
-        Espresso.onData(Matchers.hasToString(getString(R.string.menu_settings)))
+        Espresso.onData(Matchers.hasToString(getString(R.string.settings_label)))
             .perform(ViewActions.click())
         Intents.intended(
             IntentMatchers.hasComponent(
