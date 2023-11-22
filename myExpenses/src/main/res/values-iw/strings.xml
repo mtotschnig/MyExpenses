@@ -81,8 +81,8 @@
     <string name="dialog_contrib_usage_limit_split_templates">המצב הנוכחי של רשיונכם (%1$s) מאפשר לכם ליצור תבנית מפוצלת אחת.</string>
     <string name="dialog_export_delete">מחק עסקאות שיוצאו</string>
     <string name="dialog_export_not_yet_exported">יצא רק עסקאות שלא יוצאו עדיין</string>
-    <string name="dialog_password_activate_protection">הפעילו הגנה באמצעות סיסמה</string>
-    <string name="dialog_password_change_password">שנו סיסמה</string>
+    <string name="dialog_password_activate_protection">הפעלת הגנה באמצעות סיסמה</string>
+    <string name="dialog_password_change_password">החלפת סיסמה</string>
     <string name="dialog_password_new_password">סיסמה חדשה</string>
     <string name="dialog_password_new_password_confirmation">סיסמה חדשה (אישור)</string>
     <string name="dialog_remind_later">מאוחר יותר</string>
@@ -101,7 +101,7 @@
         <item quantity="one">למחוק חשבון?</item>
         <item quantity="two">למחוק שני חשבונות?</item>
         <item quantity="many">למחוק %1$d חשבונות?</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <string name="dialog_title_warning_delete_category">למחוק קטגוריה?</string>
     <string name="dialog_title_warning_delete_template">למחוק תבנית?</string>
