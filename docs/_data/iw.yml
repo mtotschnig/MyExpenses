@@ -82,11 +82,11 @@ iw:
     heading: היישומון ‚<i>{app_name}</i>’ דורש את <u>ההרשאות</u> הבאות
     calendar:
       label: גישה ללוח שנה
-      explanation: תוכניות לעסקאות עתידיות וחוזרות מאוחסנות ביומן מקומי מיוחד או בכל
-        לוח שנה אחר שהוקצה לך.
+      explanation: תוכניות לעסקאות עתידיות וחוזרות המאוחסנות ביומן מקומי מיוחד או
+        בכל לוח שנה אחר שתקצו.
     internet:
-      label: אינטרנט
-      explanation_usage_tracking: מעקב אנונימי אחר שימוש
+      label: גישה לאינטרנט
+      explanation_usage_tracking: מעקב אנונימי אחר השימוש
       explanation_crash_reporting: דוחו"ת קריסה
       explanation_key_validation: אימות מפתח רישיון
       explanation_cloud_sync: סנכרון לענן
