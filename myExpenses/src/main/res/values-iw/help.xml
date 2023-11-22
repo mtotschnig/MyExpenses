@@ -55,10 +55,10 @@
     <string name="menu_ManageTemplates_templates_sort_help_text">ניתן לסדר את רשימת התבניות לפי כותרת (סדר אלפביתי), לפי כמות, לפי תדירות השימוש, או בפעם האחרונה שהופקה עסקה ממנה.</string>
     <string name="help_ManageCategories_distribution_info">מסך זה מציג את התפלגות ההוצאות וההכנסות לפי קטגוריות, עבור כל העסקאות בחשבון, או עבור קבוצה מסוימת. אם תרחיבו קטגוריה ראשית ברשימה, תרשים העוגה יציג את ההפצה של קטגוריות המשנה שלה. אם תבחר קטגוריה ברשימה, היא תודגש בתרשים העוגה, ולהיפך. לחצו לחיצה ארוכה על קטגוריה כדי להציג רשימה מצטברת של העסקאות הממופות אליה.</string>
     <string name="help_ManageCategories_select_mapping_info">בנוסף לפעולות שבאפשרותכם לבצע בעת ניהול קטגוריות ממסך ההעדפות (יצירה, עריכה, מחיקה), במסך זה אתם ממפים עסקה לקטגוריה שנבחרה בפשטות על ידי לחיצה עליה.</string>
-    <string name="help_ManageCategories_manage_info">מסך זה מאפשר ליצור, לערוך ולמחוק קטגוריות. כברירת מחדל, קריטריון המיון הראשי ברשימת הקטגוריות הוא מספר הפעמים שבהן אתה משתמש בקטגוריה (הקריטריונים המשניים בסדר אלפביתי). פעולה זו מעניקה לך גישה מהירה לקטגוריות שבהן אתה משתמש בתדירות הגבוהה ביותר.</string>
-    <string name="menu_ManageCategories_distribution_grouping_help_text">הגדר את סוג הקיבוץ לקבוצה והצג את ההפצה ליום, חודש, שבוע או שנה.</string>
-    <string name="menu_back_help_text">נווט אל הקבוצה הקודמת. ניתן לעשות זאת גם באמצעות מחוות החלקה משמאל לימין.</string>
-    <string name="menu_forward_help_text">נווט אל הקבוצה הבאה. ניתן לעשות זאת גם באמצעות תנועת החלקה מימין לשמאל.</string>
+    <string name="help_ManageCategories_manage_info">מסך זה מאפשר ליצור, לערוך ולמחוק קטגוריות. כברירת מחדל, קריטריון המיון הראשי ברשימת הקטגוריות הוא מספר הפעמים שבהן אתם משתמשים בקטגוריה (הקריטריונים המשניים בסדר אלפביתי). פעולה זו מעניקה לכם גישה מהירה לקטגוריות שבהן אתם משתמשים בתדירות הגבוהה ביותר.</string>
+    <string name="menu_ManageCategories_distribution_grouping_help_text">הגדירו את סוג הקיבוץ לקבוצה והציגו את ההפצה ליום, חודש, שבוע או שנה.</string>
+    <string name="menu_back_help_text">נווטו אל הקבוצה הקודמת. ניתן לעשות זאת גם באמצעות מחוות החלקה משמאל לימין.</string>
+    <string name="menu_forward_help_text">נווטו אל הקבוצה הבאה. ניתן לעשות זאת גם באמצעות תנועת החלקה מימין לשמאל.</string>
     <string name="menu_categories_setup_default_help_text">קבוצה של קטגוריות ברירת מחדל תיובא.</string>
     <string name="menu_categories_export_help_text">הקטגוריות יוצאו לקובץ QIF.</string>
     <string name="menu_distribution_show_pie_char_help_text">החלף את הנראות של תרשים העוגה.</string>
