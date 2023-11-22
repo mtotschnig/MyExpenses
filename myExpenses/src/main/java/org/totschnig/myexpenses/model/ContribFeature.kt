@@ -96,7 +96,7 @@ enum class ContribFeature(
     open fun buildTrialString(
         context: Context,
         licenceHandler: LicenceHandler = context.injector.licenceHandler()
-    ): CharSequence {
+    ): CharSequence? {
         val currentLicence = getCurrentLicence(context, licenceHandler)
 
         return when (trialMode) {
@@ -118,7 +118,7 @@ enum class ContribFeature(
                     currentLicence
                 )
 
-                else -> throw IllegalStateException()
+                else -> null
             }
 
             TrialMode.DURATION ->

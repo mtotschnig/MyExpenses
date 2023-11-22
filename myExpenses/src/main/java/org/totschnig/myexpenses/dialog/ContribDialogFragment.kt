@@ -103,17 +103,18 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener {
 
         //prepare trial card
         feature?.let { feature ->
-            val removePhrase = feature.buildRemoveLimitation(requireContext(), true)
-            val trialString = feature.buildTrialString(ctx, licenceHandler)
-            if (licenceHandler.hasTrialAccessTo(feature)) {
-                binding.intro.text = removePhrase
-                binding.trialInfoCard.isVisible = true
-                binding.trialInfoCard.setOnClickListener(this)
-                trialButton.setOnClickListener(this)
-                binding.trialInfo.text = trialString
-            } else {
-                binding.trialInfoCard.isVisible = false
-                binding.intro.text = TextUtils.concat(trialString, " ", removePhrase)
+            feature.buildTrialString(ctx, licenceHandler)?.also { trialString ->
+                val removePhrase = feature.buildRemoveLimitation(requireContext(), true)
+                if (licenceHandler.hasTrialAccessTo(feature)) {
+                    binding.intro.text = removePhrase
+                    binding.trialInfoCard.isVisible = true
+                    binding.trialInfoCard.setOnClickListener(this)
+                    trialButton.setOnClickListener(this)
+                    binding.trialInfo.text = trialString
+                } else {
+                    binding.trialInfoCard.isVisible = false
+                    binding.intro.text = TextUtils.concat(trialString, " ", removePhrase)
+                }
             }
         } ?: run {
             binding.trialInfoCard.isVisible = false
