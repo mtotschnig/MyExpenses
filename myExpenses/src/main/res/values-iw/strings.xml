@@ -575,8 +575,8 @@
     <string name="progress_dialog_checking_sync_backend">מאמת backend</string>
     <string name="template">תבנית</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">סנכרון לענן</string>
-    <string name="all_contrib_key_features">כל התכונות של מפתח תורם</string>
-    <string name="all_extended_key_features">כל התכונות של מפתח מורחב</string>
+    <string name="all_contrib_key_features">כל היכולות של מפתח תורם</string>
+    <string name="all_extended_key_features">כל היכולות של מפתח מורחב</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">שדרג</string>
     <string name="pref_backup_cloud_title">אחסן על סנכרון backend</string>
