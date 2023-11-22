@@ -88,11 +88,11 @@
     <string name="form_comment_help_text">הזן כל הערה לגבי האובייקט.</string>
     <string name="form_method_help_text">שדה זה זמין רק אם החשבון הנוכחי הוא מסוג המקושר לאמצעי תשלום כלשהוא. כברירת מחדל, רק חשבונות בנק מקושרים לשיטות תשלום (המחאה, כרטיס אשראי, הפקדה, הוראת קבע). עברו אל הגדרות - &amp; gt; נהל - &amp; gt; אמצעי תשלום כדי להגדיר את השיוך בין סוגי החשבון ושיטות התשלום. כאשר אתם בוחרים שיטה המוגדרת כממוספרת, שדה נוסף להזנת מספר סימוכין הופך לזמין.</string>
     <string name="form_attach_image_help_text">כפתור &lt;img src=\"android:ic_menu_camera\"&gt; מאפשר לך לצרף תמונה (למשל מהגלריה או מהמצלמה) לעצם.</string>
-    <string name="form_default_action_help_text">עבור כל תבנית, תוכל להגדיר אם לחיצה קצרה עליה ברשימת התבניות תשמור את המופע באופן מיידי או שתזין את טופס העריכה שבו תוכל לשנות אותו לפני השמירה. תמיד תוכל לגשת לשתי הפעולות באמצעות הקשה ארוכה.</string>
-    <string name="form_category_help_text">לחצן זה פותח את רשימת הקטגוריות, שבהן תוכל לבחור את הקטגוריה שברצונך למפות לעסקה.</string>
-    <string name="form_split_parts_heading_help_text_3">באפשרותך לשמור רק את העסקה המפוצלת, אם סכום העסקה הוקצה במדויק.</string>
+    <string name="form_default_action_help_text">עבור כל תבנית, תוכלו להגדיר אם לחיצה קצרה עליה ברשימת התבניות תשמור את המופע באופן מיידי או שתזין את טופס העריכה שבו תוכלו לשנות אותו לפני השמירה. תמיד תוכלו לגשת לשתי הפעולות באמצעות הקשה ארוכה.</string>
+    <string name="form_category_help_text">לחצן זה פותח את רשימת הקטגוריות, שבהן תוכלו לבחור את הקטגוריה שברצונך למפות לעסקה.</string>
+    <string name="form_split_parts_heading_help_text_3">באפשרותכם לשמור רק את העסקה המפוצלת, אם סכום העסקה הוקצה במדויק.</string>
     <string name="form_ExpenseEdit_splitPartCategory_category_help_text">נא לבחור קטגוריה לחלק המפוצל.</string>
-    <string name="form_transfer_from_account_transfer_to_account_help_text">הקצה את החשבונות שאליהם מועבר אובייקט זה מ… או אל.</string>
+    <string name="form_transfer_from_account_transfer_to_account_help_text">הקצו את החשבונות שאליהם מועבר אובייקט זה מ… או אל.</string>
     <string name="form_exchange_rate_help_text">תוכל לציין את התעריף באחת משני הכיוונים של ההעברה. ההיוון ההפוך והסכום המתאים לחלק התלותי של שער החליפין מחושבים באופן אוטומטי.</string>
     <string name="form_title_help_text">הזן כותרת שמזהה את התבנית באופן ייחודי.</string>
     <string name="form_plan_help_text">כאשר אתה יוצר תכנית עבור תבנית, היא מתווספת ליומן פרטי המטופל באפליקציית היומן שלך. ניתן להגדיר את התוכנית כאירוע חד פעמי, או כ חוזר מדי יום, שבועי, חודשי או שנתי.</string>
@@ -188,7 +188,7 @@
     <string name="cab_ManageCategories_select_help_text">שייך את הקטגוריה שנבחרה לעסקה וחזור לטופס העסקה.</string>
     <string name="menu_parent_category_selection_help_text">עם אפשרות זו אפשר לכוון את הנקישה על קטגוריה שיש לה קטגוריות צאצאיות: אם האפשרות מסומנת, נקישה קצרה תבחר קטגוריה, אם לא מסומנת, נקישה קצרה תרחיב/תצמצם את הקטגוריה. במקרה השני, הבחירה זמינה מתפריט ההקשר.</string>
     <string name="form_split_parts_heading_help_text_1">יש להשתמש בסמל + כדי למלא כמה חלקים מפוצלים שצריך.</string>
-    <string name="form_split_parts_heading_help_text_2">שדה הכמות יעודכן אוטומטית עם סכום החלקים, למעט אם מילאת את הסכום ידנית, במקרה כזה ההפרש בין הסכום של החלקים והסכום הכללי (שאינו מפוצל) יופיע.</string>
+    <string name="form_split_parts_heading_help_text_2">שדה הכמות יעודכן אוטומטית עם סכום החלקים, למעט אם מילאתם את הסכום ידנית, במקרה כזה ההפרש בין הסכום של החלקים והסכום הכללי (שאינו מפוצל) יופיע.</string>
     <string name="help_WebUI_info_1">לקרוא לכתובת שמופיעה בכתובת מהדפדפן במחשב השולחני שלך.</string>
     <string name="help_WebUI_info_2">מנשק המשתמש המקוון לא תומך כרגע בהעברות או עסקאות מפוצלות.</string>
     <string name="help_WebUI_info_3">אפשר להגדיר סיסמה כדי להגן על הגישה. בחלונית שמופיעה על ידי הדפדפן, רק הסיסמה קובעת, אין כל התייחסות לשם המשתמש.</string>
