@@ -16,7 +16,7 @@
  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">חשבון</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
-    <string name="account_types">סוגי חשבון</string>
+    <string name="account_types">סוגי חשבונות</string>
     <string name="account_type_asset">חשבון הנכס</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
     <string name="account_type_asset_plural">חשבונות הנכס</string>
@@ -29,13 +29,13 @@
     <string name="account_type_ccard">כרטיס אשראי</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
     <string name="account_type_ccard_plural">כרטיסי אשראי</string>
-    <string name="account_type_liability">חשבון התחיבויות</string>
+    <string name="account_type_liability">חשבון התחייבויות</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_liability_plural">חשבונות התחיבויות</string>
+    <string name="account_type_liability_plural">חשבונות התחייבות</string>
     <string name="already_defined">%1$sכבר מוגדר</string>
     <string name="amount">סכום</string>
     <string name="app_name">ההוצאות שלי</string>
-    <string name="backup_success">מסד הנתונים וההעדפות נכתבים בהצלחה ל- \"%1$s\".</string>
+    <string name="backup_success">מסד הנתונים וההעדפות נכתבו בהצלחה ל- \"%1$s\".</string>
     <string name="category">קטגוריה</string>
     <string name="color">צבע</string>
     <string name="comment">הערות</string>
@@ -48,11 +48,11 @@
     <string name="contrib_feature_print_label">ייצא רשימת עסקאות ל- PDF</string>
     <string name="contrib_feature_csv_import_label">ייבוא CSV</string>
     <string name="contrib_feature_split_template_label">מספר בלתי מוגבל של תבניות מפוצלות</string>
-    <string name="contrib_feature_pro_support_label"><b>שלח תמיכה</b> בדוא\"ל עם תגובה מובטחת בתוך 2 ימי עסקים</string>
-    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">זכות הצבעה על <b>מפת דרכים לפיתוח</b></string>
+    <string name="contrib_feature_pro_support_label"><b>שלח בקשה לתמיכה</b> בדוא\"ל עם תגובה מובטחת בתוך 2 ימי עסקים</string>
+    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">זכות הצבעה על <b>מפת דרכים להמשך הפיתוח</b></string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">תרשים היסטוריה</string>
-    <string name="licence_status_free">חופשי</string>
-    <string name="contrib_key">מפתח לתורם</string>
+    <string name="licence_status_free">חופשי \\ חינמי</string>
+    <string name="contrib_key">מפתח תורם</string>
     <string name="extended_key">מפתח מורחב</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
     <string name="contrib_key_requires">דורש %1$s.</string>
@@ -67,45 +67,45 @@
     <string name="description">תאור</string>
     <string name="dialog_balance_delete">מחק עסקאות שאומתו reconciled</string>
     <string name="dialog_confirm_discard_changes">למחוק שינויים?</string>
-    <string name="dialog_command_disabled_balance">אין עסקאות מסולקות cleared  שיש ליישב reconciled.</string>
+    <string name="dialog_command_disabled_balance">אין עסקאות מסולקות cleared שיש ליישב reconciled.</string>
     <string name="dialog_command_disabled_insert_transfer">עסקאות העברה דורשות חשבון שני.</string>
     <string name="dialog_command_disabled_reset_account">אין עסקאות לייצוא.</string>
     <string name="dialog_command_disabled_distribution">לא בוצעו עסקאות ממופות לקטגוריות בחשבון זה.</string>
     <!-- Button for accessing trial of premium feature -->
-    <string name="dialog_contrib_no">נסה</string>
-    <string name="dialog_contrib_reminder_remove_limitation">הסר הגבלה זו וגישה לתכונות נוספות על-ידי שדרוג<i>{app_name}</i>.</string>
+    <string name="dialog_contrib_no">התנסות</string>
+    <string name="dialog_contrib_reminder_remove_limitation">הסירו הגבלה זו וקבלו גישה לתכונות נוספות על-ידי שדרוג<i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1">קוד פתוח מוצע <i>{app_name}</i> .</string>
-    <string name="dialog_contrib_text_2">אנא תרמו על ידי שדרוג <i>{app_name}</i> ולקבל גישה בלתי מוגבלת לתכונות הבאות:</string>
-    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">מצב הרישיון הנוכחי שלך (%2$s) מאפשר לך ליצור %1$d חשבונות.</string>
-    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">המצב הנוכחי של רשיונך (%2$s)מאפש רך ליצור%1$dתוכניות.</string>
-    <string name="dialog_contrib_usage_limit_split_templates">המצב הנוכחי של רשיונך (%1$s) מאפשר לך ליצור תבנית מפוצלת אחת.</string>
+    <string name="dialog_contrib_text_2">אנא תרמו על ידי שדרוג <i>{app_name}</i> וקבלו גישה בלתי מוגבלת לתכונות הבאות:</string>
+    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">מצב הרישיון הנוכחי שלכם (%2$s) מאפשר לכם ליצור %1$d חשבונות.</string>
+    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">המצב הנוכחי של רשיונכם (%2$s)מאפשר לכם יצירת %1$d תוכניות.</string>
+    <string name="dialog_contrib_usage_limit_split_templates">המצב הנוכחי של רשיונכם (%1$s) מאפשר לכם ליצור תבנית מפוצלת אחת.</string>
     <string name="dialog_export_delete">מחק עסקאות שיוצאו</string>
     <string name="dialog_export_not_yet_exported">יצא רק עסקאות שלא יוצאו עדיין</string>
-    <string name="dialog_password_activate_protection">הפעל הגנה באמצעות סיסמה</string>
-    <string name="dialog_password_change_password">שנה סיסמה</string>
+    <string name="dialog_password_activate_protection">הפעלת הגנה באמצעות סיסמה</string>
+    <string name="dialog_password_change_password">החלפת סיסמה</string>
     <string name="dialog_password_new_password">סיסמה חדשה</string>
     <string name="dialog_password_new_password_confirmation">סיסמה חדשה (אישור)</string>
     <string name="dialog_remind_later">מאוחר יותר</string>
-    <string name="dialog_remind_rate_how_many_stars">כמה כוכבים תעניק לאפליקציה {app_name}?</string>
-    <string name="dialog_remind_rate_1">הקדש בבקשה רגע כדי לדרג ולבדוק את האפליקציה {app_name}.</string>
-    <string name="dialog_remind_rate_2">ההערות שלך מאפשרות לנו להוסיף שיפורים ותוספות.</string>
-    <string name="dialog_remind_rate_1_suggest_improvement">הקדש מספר דקות כדי לשלוח לנו את ההצעות שלך לשיפור.</string>
-    <string name="dialog_remind_rate_yes">דרג עכשיו</string>
+    <string name="dialog_remind_rate_how_many_stars">כמה כוכבים תשקול להעניק לאפליקציה {app_name}?</string>
+    <string name="dialog_remind_rate_1">הקדישו בבקשה רגע מזמנכם כדי לדרג ולבקר את האפליקציה {app_name}.</string>
+    <string name="dialog_remind_rate_2">ההערות שלך עוזרות לנו להוסיף שיפורים ותוספות.</string>
+    <string name="dialog_remind_rate_1_suggest_improvement">נא להקדיש מספר דקות כדי לשלוח לנו את ההצעות שלך לשיפור.</string>
+    <string name="dialog_remind_rate_yes">לדרג עכשיו</string>
     <string name="dialog_security_answer">תשובה</string>
     <string name="dialog_security_question">שאלה</string>
     <string name="dialog_title_information">מידע</string>
     <!-- %1$s is replace with account label -->
-    <string name="dialog_title_balance_account">מאזן %1$s</string>
-    <string name="dialog_title_contrib_feature">תכונת פרימיום</string>
+    <string name="dialog_title_balance_account">יתרה בחשבון %1$s</string>
+    <string name="dialog_title_contrib_feature">יכולת פרימיום</string>
     <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">מחק חשבון?</item>
-        <item quantity="two">למחוק חשבונות %1$d?</item>
-        <item quantity="many">למחוק חשבונות %1$d?</item>
-        <item quantity="other">האם מחוק חשבונות %1$d?</item>
+        <item quantity="one">למחוק חשבון?</item>
+        <item quantity="two">למחוק שני חשבונות?</item>
+        <item quantity="many">למחוק %1$d חשבונות?</item>
+        <item quantity="other"/>
     </plurals>
-    <string name="dialog_title_warning_delete_category">האם למחוק קטגוריה?</string>
-    <string name="dialog_title_warning_delete_template">האם למחוק תבנית?</string>
-    <string name="dialog_title_warning_delete_transaction">האם למחוק את העסקה?</string>
+    <string name="dialog_title_warning_delete_category">למחוק קטגוריה?</string>
+    <string name="dialog_title_warning_delete_template">למחוק תבנית?</string>
+    <string name="dialog_title_warning_delete_transaction">למחוק את העסקה?</string>
     <string name="expense">הוצאה</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">יצוא קובץ \"%1$s\" נכשל %2$s</string>
@@ -572,8 +572,8 @@
     <string name="progress_dialog_checking_sync_backend">מאמת backend</string>
     <string name="template">תבנית</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">סנכרון לענן</string>
-    <string name="all_contrib_key_features">כל התכונות של מפתח Contrib</string>
-    <string name="all_extended_key_features">כל התכונות של מפתח מורחב</string>
+    <string name="all_contrib_key_features">כל היכולות של מפתח תורם</string>
+    <string name="all_extended_key_features">כל היכולות של מפתח מורחב</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">שדרג</string>
     <string name="pref_backup_cloud_title">אחסן על סנכרון backend</string>
@@ -977,7 +977,7 @@
     <string name="whats_new_336_2">תגיות לחלקים המפוצלים</string>
     <string name="setup_completed">ההקמה הושלמה</string>
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">עץ קטגוריות</string>
-    <string name="dialog_contrib_usage_limit_with_dialog">עם מצב הרישיון הנוכחי שלך (%1$s), חלונית זאת תוצג עם כל הפעלה.</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">עם מצב הרישיון הנוכחי שלכם (%1$s), חלונית זאת תוצג עם כל הפעלה.</string>
     <string name="whats_new_338">היררכיית קטגוריה עמוקה שרירותית</string>
     <string name="menu_parent_category_selection">אפשר לבחור קטגוריית הורה בנקישה קצרה</string>
     <string name="purge_backups">הגיבויים הישנים הבאים יימחקו:</string>
@@ -1069,7 +1069,7 @@
     <string name="budget_widget_configuration">בחירת תקציב</string>
     <string name="budget_table_header_overspent">הוצאה עודפת</string>
     <string name="whats_new_366">וידג׳ט מסך בית המציג את מצב התקציב הנוכחי.</string>
-    <string name="dialog_contrib_trial_info">מצב הרישיון הנוכחי שלך (%1$s) מאפשר לך לנסות את %2$s למשך %3$d ימים (עד %4$s).</string>
+    <string name="dialog_contrib_trial_info">מצב הרישיון הנוכחי שלכם (%1$s) מאפשר לכם להתנסות ב- %2$s למשך %3$d ימים (עד %4$s).</string>
     <string name="pref_unmapped_transaction_as_transfer_title">העברות לא ממופות</string>
     <string name="menu_aggregate_neutral_categories">כינוס הקטגוריות הנייטרליות</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_on">נחשבות כהעברה</string>
