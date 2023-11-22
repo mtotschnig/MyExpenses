@@ -32,8 +32,8 @@
     <string name="help_ManageParties_manage_info">מסך זה מפרט את הצדדים המשמשים להשלמה האוטומטית של שדה משלם / מקבל התשלום.</string>
     <string name="help_ManageParties_select_mapping_info">בחירת קבוצה על ידי הקשה עליה.</string>
     <string name="help_ManageParties_select_filter_info">הקשה על קבוצה לסינון רשימת העסקאות. לחצו לחיצה ארוכה לבחירת מספר צדדים.</string>
-    <string name="help_ManageParties_floating_action_button">השתמשו בלחצן הפעולה הצפה כדי להוסיף רשומה חדשה.</string>
-    <string name="menu_merge_help_text">אם אותו צד מופיע מספר פעמים ברשימה עם וריאציות איות שונות, תוכלו למזג אותן יחד. תתבקשו לבחור איזה גרסה תישמר.</string>
+    <string name="help_ManageParties_floating_action_button">לחצן הפעולה הצף משמש להוספת רשומה חדשה.</string>
+    <string name="menu_merge_help_text">אם אותו צד מופיע מספר פעמים ברשימה עם הבדלי איות שונים, אפשר למזג אותם יחד. צריך לבחור איזו גרסה תישמר.</string>
     <string name="help_ManageTemplates_plans_title">תצוגת תוכנית בלוח שנה</string>
     <string name="help_ManageTemplates_planner_title">אירועים חוזרים צפויים</string>
     <string name="help_ManageTemplates_templates_info">&lt;img src=\"ic_menu_template\"&gt; בעוד שניתן לגזור תבניות מעסקאות באמצעות תפריט ההקשר שלהם, כאן ניתן ליצור תבניות חדשות מאפס (עבור עסקאות או העברות) על ידי לחיצה על כפתור הפעולה הצף. לחיצה על תבנית, תיצור מופע עבורו.&lt;br&gt;&lt;img src=\"ic_event\"&gt; תוכנית היא תבנית שעבורה יצרת אירוע (חד פעמי או חוזר) בלוח התכנון. לחיצה על תוכנית, תפתח תצוגת לוח שנה, המציגה מופעים קודמים ועתידים של תוכנית.</string>
