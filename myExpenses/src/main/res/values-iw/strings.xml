@@ -1076,4 +1076,6 @@
     <string name="pref_unmapped_transaction_as_transfer_summary_off">נחשבות כהוצאה / הכנסה</string>
     <string name="whats_new_367">אפשר להגדיר קטגוריות כהוצאה או הכנסה, מה שישפיע על איך מחושבים הסכומים של ההוצאות וההכנסות.</string>
     <string name="one_time_payment">תשלום חד פעמי</string>
+    <string name="dialog_contrib_trial_info_play">תקופת הניסיון החינמית הזו <b>לעולם</b> לא תמיר לכל סוג של מנוי.</string>
+    <string name="dialog_contrib_subscription_info_play">מנוי זה נכנס לתוקף באופן מיידי, מחויב מדי חודש או מדי שנה וניתן לבטלו בכל עת.</string>
 </resources>
