@@ -117,6 +117,7 @@ import static org.totschnig.myexpenses.provider.DbConstantsKt.checkForSealedAcco
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getAccountSelector;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getPayeeWithDuplicatesCTE;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.amountCalculation;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.getTransactionQuerySelector;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionMappedObjectQuery;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionSumQuery;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.computeWhere;
@@ -389,8 +390,8 @@ public class TransactionProvider extends BaseTransactionProvider {
     }
     switch (uriMatch) {
       case TRANSACTIONS: {
-        String accountSelector = getAccountSelector(uri);
-        selection = TextUtils.isEmpty(selection) ? accountSelector : selection + " AND " + accountSelector;
+        String selector = getTransactionQuerySelector(uri);
+        selection = TextUtils.isEmpty(selection) ? selector : selection + " AND " + selector;
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS, false)) {
           String sql = transactionMappedObjectQuery(selection);
           c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);

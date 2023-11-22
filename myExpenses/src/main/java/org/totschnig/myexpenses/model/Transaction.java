@@ -732,9 +732,7 @@ public class Transaction extends Model implements ITransaction {
 
   /**
    * all Split Parts are cloned and we work with the uncommitted clones
-   *
-   * @param contentResolver
-   * @param clone           if true an uncommited clone of the instance is prepared
+   * @param clone  if true an uncommited clone of the instance is prepared
    */
   public void prepareForEdit(ContentResolver contentResolver, boolean clone, boolean withCurrentDate) {
     if (withCurrentDate) {
@@ -751,9 +749,11 @@ public class Transaction extends Model implements ITransaction {
       }
       String idStr = String.valueOf(oldId);
       //we only create uncommited clones if none exist yet
-      Cursor c = contentResolver.query(getContentUri(), new String[]{KEY_ROWID},
-          KEY_PARENTID + " = ? AND NOT EXISTS (SELECT 1 from " + getUncommittedView()
-              + " WHERE " + KEY_PARENTID + " = ?)", new String[]{idStr, idStr}, null);
+      Cursor c = contentResolver.query(
+              getContentUri().buildUpon().appendQueryParameter(KEY_PARENTID, idStr).build(),
+              new String[]{KEY_ROWID},
+              "NOT EXISTS (SELECT 1 from " + getUncommittedView()
+              + " WHERE " + KEY_PARENTID + " = ?)", new String[]{idStr}, null);
       if (c != null) {
         c.moveToFirst();
         while (!c.isAfterLast()) {

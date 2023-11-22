@@ -22,10 +22,10 @@ class TransactionDetailViewModel(application: Application) :
     fun transaction(transactionId: Long): LiveData<List<TData>> =
         liveData(context = coroutineContext()) {
             contentResolver.query(
-                Transaction.EXTENDED_URI,
+                Transaction.EXTENDED_URI.buildUpon().appendQueryParameter(KEY_TRANSACTIONID, transactionId.toString()).build(),
                 projection(localizedContext, homeCurrencyProvider.homeCurrencyString),
-                "$KEY_ROWID = ? OR $KEY_PARENTID = ?",
-                Array(2) { transactionId.toString() },
+                null,
+                null,
                 "$KEY_PARENTID IS NULL DESC"
             )?.useAndMap {
                 fromCursor(

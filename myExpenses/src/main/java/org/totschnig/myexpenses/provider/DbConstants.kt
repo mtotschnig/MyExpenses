@@ -13,11 +13,35 @@ import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_AGG
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ALLOCATED_ONLY
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 
+private fun requireIdParameter(parameter: String) {
+    require(parameter.isDigitsOnly())
+}
+
+/**
+ * with parameter KEY_TRANSACTIONID we return the transaction and its split parts (used from
+ * Transaction Detail Fragment); with parameter KEY_PARENT_ID we return just the split parts (used
+ * from Edit split; otherwise accountSelector logic is applied
+ */
+val Uri.transactionQuerySelector: String
+    get() = getQueryParameter(KEY_TRANSACTIONID)?.let {
+        requireIdParameter(it)
+        "($KEY_ROWID = $it OR $KEY_PARENTID = $it)"
+    } ?:  getQueryParameter(KEY_PARENTID)?.let {
+        requireIdParameter(it)
+        "$KEY_PARENTID = $it"
+    } ?: accountSelector
+
+/**
+ * with paramter KEY_ACCOUNTID show single account, with parameter KEY_CURRENCY show for all
+ * accounts with given currency (if not excluded from totals), otherwise all transactions (if not
+ * excluded from totals) = Grand total account
+ */
+
 val Uri.accountSelector: String
     get() =
         KEY_ACCOUNTID + (
                 getQueryParameter(KEY_ACCOUNTID)?.let {
-                    require(it.isDigitsOnly())
+                    requireIdParameter(it)
                     "= $it"
                 }
                     ?: (" IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS=0 " +
