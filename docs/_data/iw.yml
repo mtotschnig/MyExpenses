@@ -91,7 +91,7 @@ iw:
       explanation_key_validation: אימות מפתח רישיון
       explanation_cloud_sync: סנכרון לענן
     accounts:
-      label: חשבונות
+      label: גישה לחשבונות
       explanation: סנכרון בין מכשירים באמצעות שירותי ענן.
   contrib-key: מפתח תורם
   extended-key: מפתח מורחב
@@ -101,10 +101,10 @@ iw:
   customer_support: שירות לקוחות
   screenshot_titles:
     group: קיבוץ לפי שנה, חודש או שבוע
-    summarize: סיכום כל החשבונות שלך
+    summarize: סיכום כל החשבונות שלכם
     budget: תקציבים שנתיים, חודשיים ושבועיים
     split: פיצול למספר קטגוריות
     distribution: תרשים עוגה
-    history: היסטוריה של המצב הכלכלי שלך
-    export: ייצא ל- PDF, QIF ו- CSV
+    history: היסטוריה של המצב הכלכלי שלכם
+    export: ייצוא ל- PDF, QIF ו- CSV
     sync: סנכרון לענן
