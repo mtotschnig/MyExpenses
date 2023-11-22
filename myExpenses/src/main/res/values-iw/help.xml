@@ -48,11 +48,11 @@
     <string name="cab_ManageTemplates_delete_help_text">מחק את התבניות שנבחרו ואת כל התוכניות המשויכות.</string>
     <string name="cab_ManageTemplates_edit_help_text">עריכת התבנית שנבחרה ויצירה או עריכה של תוכנית משויכת.</string>
     <string name="cab_ManageTemplates_plans_create_instance_save_help_text">אפשר ליצור עסקאות בזמן מופעי האירוע שנבחרו ולשמור אותם מיידית.</string>
-    <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">צור עסקה בזמן מופע האירוע שנבחר והזן את טופס העריכה שבו תוכל לשנות אותו לפני השמירה.</string>
+    <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">צרו עסקה בזמן מופע האירוע שנבחר והזינו את טופס העריכה, בו תוכל לשנות אותו לפני השמירה.</string>
     <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">ציין שבמקרים של אירועים נבחרים, אין ליצור עסקאות. אם נוצרו עסקאות עבור מופעי האירועים שנבחרו, הם יימחקו.</string>
     <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">אם נוצרו עסקאות עבור מופעי האירועים שנבחרו, הם יימחקו, אם הם סומנו כמבוטלים, הסימון יוסר.</string>
-    <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">ערוך את העסקה שנוצרה עבור מופע התוכנית שנבחר.</string>
-    <string name="menu_ManageTemplates_templates_sort_help_text">ניתן לסדר את רשימת התבניות לפי כותרת (לפי סדר אלפביתי), לפי כמות, לפי תדירות השימוש, או בפעם האחרונה שהופקה עסקה ממנה.</string>
+    <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">ערכו את העסקה שנוצרה עבור מופע התוכנית שנבחר.</string>
+    <string name="menu_ManageTemplates_templates_sort_help_text">ניתן לסדר את רשימת התבניות לפי כותרת (סדר אלפביתי), לפי כמות, לפי תדירות השימוש, או בפעם האחרונה שהופקה עסקה ממנה.</string>
     <string name="help_ManageCategories_distribution_info">מסך זה מציג את התפלגות ההוצאות וההכנסות לפי קטגוריות, עבור כל העסקאות בחשבון, או עבור קבוצה מסוימת. אם תרחיב קטגוריה ראשית ברשימה, תרשים העוגה יציג את ההפצה של קטגוריות המשנה שלה. אם תבחר קטגוריה ברשימה, היא תודגש בתרשים העוגה, ולהיפך. לחץ לחיצה ארוכה על קטגוריה כדי להציג רשימה מצטברת של העסקאות הממופות אליה.</string>
     <string name="help_ManageCategories_select_mapping_info">בנוסף לפעולות שבאפשרותך לבצע בעת ניהול קטגוריות ממסך ההעדפות (צור, ערוך, מחק), במסך זה אתה ממפה עסקה לקטגוריה שנבחרהפשוט על ידי לחיצה עליו.</string>
     <string name="help_ManageCategories_manage_info">מסך זה מאפשר ליצור, לערוך ולמחוק קטגוריות. כברירת מחדל, קריטריון המיון הראשי ברשימת הקטגוריות הוא מספר הפעמים שבהן אתה משתמש בקטגוריה (הקריטריונים המשניים בסדר אלפביתי). פעולה זו מעניקה לך גישה מהירה לקטגוריות שבהן אתה משתמש בתדירות הגבוהה ביותר.</string>
