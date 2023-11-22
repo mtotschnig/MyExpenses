@@ -314,7 +314,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
         //we enable it only after accountCursor has been loaded, preventing NPE when user clicks on it early
         amountInput.setTypeEnabled(false)
-
+        rootBinding.CREATEPARTCOMMAND.setOnClickListener {
+            createRow()
+        }
         if (savedInstanceState != null) {
             delegate = TransactionDelegate.create(
                 operationType,
@@ -886,9 +888,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         invalidateOptionsMenu()
         cached?.tags?.let {
             viewModel.updateTags(it, true)
-        }
-        rootBinding.CREATEPARTCOMMAND.setOnClickListener {
-            createRow()
         }
     }
 
