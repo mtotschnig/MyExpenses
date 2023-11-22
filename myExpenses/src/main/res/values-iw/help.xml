@@ -75,14 +75,14 @@
     <string name="help_ExpenseEdit_templateTransfer_title">טופס תבניות העברה</string>
     <string name="help_ExpenseEdit_templateSplit_title">טופס תבניות מפוצלות</string>
     <string name="help_ExpenseEdit_transaction_info">השתמשו בטופס זה כדי להזין עסקה חדשה או לערוך עסקה קיימת. השתמשו בתפריט הנפתח שבשורת הפעולות כדי לעבור לטופס להוספת העברה חדשה או עסקה מפוצלת.</string>
-    <string name="help_ExpenseEdit_templateCategory_info">השתמשו בטופס זה כדי להזין תבנית חדשה או לערוך תבנית קיימת. השתמשו בתפריט הנפתח בשורת הפעולות כדי לעבור בין תבניות לעסקאות, העברות ופיצולים.</string>
+    <string name="help_ExpenseEdit_templateCategory_info">אפשר להשתמש בטופס זה כדי להזין תבנית חדשה או לערוך תבנית קיימת. שימוש בתפריט הנפתח בשורת הפעולות מאפשר לעבור בין תבניות לעסקאות, העברות ופיצולים.</string>
     <string name="help_ExpenseEdit_split_info">עסקת פיצול היא עסקה אחת המפוצלת בחלקים, שבהם ניתן להקצות כל חלק לקטגוריה אחרת, או להעביר לחשבון אחר.</string>
     <string name="form_account_help_text">בחירת החשבון שאליו משתייכת העסקה.</string>
     <string name="form_date_time_help_text">נא למלא את התאריך והשעה שבהם בוצעה העסקה.</string>
     <string name="form_date_time_help_text_configuration">בהגדרות ניתן להשבית את קלט הזמן ולאפשר את ההבחנה בין תאריך ההזמנה לבין תאריך הערך.</string>
     <string name="form_date_time_help_text_link"><![CDATA[אם <img src=\"ic_hchain\"> / <img src=\"ic_hchain_broken\">toggle במצב  מקושר, הגדרת תאריך ערך או תאריך ההזמנה תעדכן את התאריך השני.]]></string>
     <string name="form_payer_or_payee_help_text">שדה זה זוכר את הערכים שהזנת ויציע אותם בעתיד.</string>
-    <string name="form_amount_switch_help_text">השתמשו במתג כדי לעבור בין הוצאה להכנסה.</string>
+    <string name="form_amount_switch_help_text">אפשר להשתמש במתג כדי לעבור בין הוצאה להכנסה.</string>
     <string name="form_calculator_help_text"><![CDATA[כפתור <img src=\"?calcIcon\"> פותח את המחשבון.]]></string>
     <string name="form_crstatus_help_text">לגבי עסקאות השייכות לחשבונות בנק, תוכל לשנות את סטטוס העסקה ל- cleared. כדי להגדיר את זה ל- reconciled, עליך להשתמש בפקודה \"יתרת חשבון\" מתוך רשימת עסקאות. אם הסטטוס מוגדר לביטול, העסקה לא תיספר.</string>
     <string name="form_comment_help_text">הזן כל הערה לגבי האובייקט.</string>
