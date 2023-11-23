@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.provider
+package org.totschnig.myexpenses.repository
 
 import android.content.ContentUris
 import android.content.ContentValues
@@ -14,6 +14,8 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.TransactionProvider
 import java.util.*
 
 

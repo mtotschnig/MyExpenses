@@ -629,7 +629,8 @@ public class TransactionProvider extends BaseTransactionProvider {
         String instanceId = uri.getQueryParameter(QUERY_PARAMETER_WITH_INSTANCE);
         if (instanceId == null) {
           String selector = getTemplateQuerySelector(uri);
-          selection = TextUtils.isEmpty(selection) ? selector : selection + " AND " + selector;
+          selection = TextUtils.isEmpty(selection) ? selector : (selection +
+                  (TextUtils.isEmpty(selector) ? "" : " AND " + selector));
           qb = SupportSQLiteQueryBuilder.builder(VIEW_TEMPLATES_EXTENDED);
           if (projection == null) {
             projection = extendProjectionWithSealedCheck(Template.PROJECTION_EXTENDED, VIEW_TEMPLATES_EXTENDED);

@@ -14,7 +14,6 @@
 */
 package org.totschnig.myexpenses.model
 
-import android.content.ContentResolver
 import android.content.ContentUris
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
@@ -29,7 +28,11 @@ import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.requireParty
 import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.viewmodel.data.Category
+import org.totschnig.shared_test.CursorSubject
 
 @RunWith(RobolectricTestRunner::class)
 class TemplateTest: BaseTestWithRepository() {
@@ -82,20 +85,53 @@ class TemplateTest: BaseTestWithRepository() {
 
     @Test
     fun testTemplate() {
-        val template = buildTemplate()
+        val template = buildTransactionTemplate()
         val restored = Template.getInstanceFromDb(contentResolver, template.id)
         assertThat(restored).isEqualTo(template)
     }
 
     @Test
     fun testTransactionFromTemplate() {
-        val template = buildTemplate()
+        val template = buildTransactionTemplate()
         val transaction = Transaction.getInstanceFromTemplate(contentResolver, template)
         assertThat(transaction.catId).isEqualTo(template.catId)
         assertThat(transaction.accountId).isEqualTo(template.accountId)
         assertThat(transaction.payeeId).isEqualTo(template.payeeId)
         assertThat(transaction.methodId).isEqualTo(template.methodId)
         assertThat(transaction.comment).isEqualTo(template.comment)
+    }
+
+    @Test
+    fun testTransferFromTemplate() {
+        val template = buildTransferTemplate()
+        val transaction = Transaction.getInstanceFromTemplate(contentResolver, template)
+        assertThat(transaction).isInstanceOf(Transfer::class.java)
+        assertThat(transaction.accountId).isEqualTo(template.accountId)
+        assertThat(transaction.comment).isEqualTo(template.comment)
+        assertThat(transaction.transferAccountId).isEqualTo(template.transferAccountId)
+    }
+
+    @Test
+    fun testSplitFromTemplate() {
+        val template = buildSplitTemplate()
+        val transaction = Transaction.getInstanceFromTemplate(contentResolver, template)
+        assertThat(transaction).isInstanceOf(SplitTransaction::class.java)
+        assertThat(transaction.accountId).isEqualTo(template.accountId)
+        assertThat(transaction.comment).isEqualTo(template.comment)
+
+        contentResolver.query(
+            TransactionProvider.UNCOMMITTED_URI,
+            null,
+            "$KEY_PARENTID=?",
+            arrayOf(transaction.id.toString()),
+            null
+        )!!.use {
+            with(CursorSubject.assertThat(it)) {
+                hasCount(1)
+                movesToFirst()
+                hasLong(KEY_CATID, categoryId)
+            }
+        }
     }
 
     @Test
@@ -125,7 +161,7 @@ class TemplateTest: BaseTestWithRepository() {
         assertThat(Template.getInstanceFromDb(contentResolver, t.id)).isEqualTo(t)
     }
 
-    private fun buildTemplate() = Template(contentResolver, mAccount1.id, CurrencyUnit.DebugInstance, Transactions.TYPE_TRANSACTION, null).apply {
+    private fun buildTransactionTemplate() = Template(contentResolver, mAccount1.id, CurrencyUnit.DebugInstance, Transactions.TYPE_TRANSACTION, null).apply {
         catId = this@TemplateTest.categoryId
         payee = "N.N"
         payeeId = this@TemplateTest.payeeId
@@ -135,5 +171,19 @@ class TemplateTest: BaseTestWithRepository() {
             methodId = it
         }
         save(contentResolver)
+    }
+
+    private fun buildTransferTemplate() = Template(contentResolver, mAccount1.id, CurrencyUnit.DebugInstance, Transactions.TYPE_TRANSFER, null).apply {
+        comment = "Some comment"
+        setTransferAccountId(mAccount2.id)
+        save(contentResolver)
+    }
+
+    private fun buildSplitTemplate() = Template(contentResolver, mAccount1.id, CurrencyUnit.DebugInstance, Transactions.TYPE_SPLIT, null).apply {
+        comment = "Some comment"
+        val parentId = ContentUris.parseId(save(contentResolver)!!)
+        val part = Template(contentResolver, mAccount1.id, CurrencyUnit.DebugInstance, Transactions.TYPE_SPLIT, parentId)
+        part.catId = this@TemplateTest.categoryId
+        part.save(contentResolver, true)
     }
 }

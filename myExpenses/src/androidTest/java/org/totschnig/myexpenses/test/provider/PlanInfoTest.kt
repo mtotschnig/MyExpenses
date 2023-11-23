@@ -3,73 +3,23 @@ package org.totschnig.myexpenses.test.provider
 import android.database.Cursor
 import android.database.MatrixCursor
 import android.net.Uri
-import android.os.Build
 import android.provider.CalendarContract
 import android.test.mock.MockContentProvider
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import org.assertj.core.api.Assertions.assertThat
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.insert
-import org.totschnig.myexpenses.testutils.BaseDbTest
 import timber.log.Timber
 import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
 
 
-class PlanInfoTest : BaseDbTest() {
-    private val dailyPlan = Plan(1, "FREQ=DAILY")
-    private val weeklyPlan = Plan(2, "FREQ=WEEKLY")
-    private val monthlyPlan = Plan(3, "FREQ=MONTHLY")
-    private val templateInfos: Array<TemplateInfo> by lazy {
-        val testAccountId = mDb.insert(DatabaseConstants.TABLE_ACCOUNTS,
-                AccountInfo("Test account", AccountType.CASH, 0).contentValues)
-        val payeeId = mDb.insert(DatabaseConstants.TABLE_PAYEES, PayeeInfo("N.N").contentValues)
-        arrayOf(TemplateInfo(testAccountId, "Template monthly", 150, payeeId, monthlyPlan.id),
-                TemplateInfo(testAccountId, "Template weekly", 200, payeeId, weeklyPlan.id),
-                TemplateInfo(testAccountId, "Template daily", 100, payeeId, dailyPlan.id))
-    }
-
-    override fun setUp() {
-        super.setUp()
-        //grantCalendarPermission()
-        EventProvider().also {
-            MatrixCursor(arrayOf(CalendarContract.Events._ID, CalendarContract.Events.RRULE, CalendarContract.Events.DTSTART)).apply {
-                addRow(dailyPlan.toMatrixRow())
-                addRow(weeklyPlan.toMatrixRow())
-                addRow(monthlyPlan.toMatrixRow())
-                it.addEventResult(this)
-            }
-            mockContentResolver.addProvider(CalendarContract.AUTHORITY, it)
-        }
-    }
-
-    //unfortunately does not work
-    fun grantCalendarPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            with(getInstrumentation()) {
-                uiAutomation.apply {
-                    grantRuntimePermission(targetContext.packageName, "android.permission.READ_CALENDAR")
-                    grantRuntimePermission(targetContext.packageName, "android.permission.WRITE_CALENDAR")
-                }
-            }
-        }
-    }
-
-    private fun insertData() {
-        for (transactionInfo in templateInfos) {
-
-            mDb.insert(
-                    DatabaseConstants.TABLE_TEMPLATES,
-                    transactionInfo.contentValues
-            )
-        }
-    }
+class PlanInfoTest : BaseTemplateTest() {
 
     fun testPlanInfoSortByAmount() {
         planInfoTestHelper("$KEY_AMOUNT DESC", longArrayOf(weeklyPlan.id, monthlyPlan.id, dailyPlan.id ))

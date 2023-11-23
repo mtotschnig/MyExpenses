@@ -502,11 +502,12 @@ public class Transaction extends Model implements ITransaction {
     tr.setPayeeId(te.getPayeeId());
     tr.setLabel(te.getLabel());
     tr.originTemplateId = te.getId();
-    final String idString = String.valueOf(te.getId());
     if (tr instanceof SplitTransaction) {
       tr.save(contentResolver);
-      Cursor c = contentResolver.query(Template.CONTENT_URI, new String[]{KEY_ROWID},
-          KEY_PARENTID + " = ?", new String[]{idString}, null);
+      Cursor c = contentResolver.query(
+              uriForParts(Template.CONTENT_URI, te.getId()),
+              new String[]{KEY_ROWID}, null, null, null
+      );
       if (c != null) {
         c.moveToFirst();
         while (!c.isAfterLast()) {
@@ -527,13 +528,15 @@ public class Transaction extends Model implements ITransaction {
       }
     }
     contentResolver.update(
-        TransactionProvider.TEMPLATES_URI
-            .buildUpon()
-            .appendPath(idString)
+            ContentUris.appendId(TransactionProvider.TEMPLATES_URI.buildUpon(), te.getId())
             .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
             .build(),
         null, null, null);
     return tr;
+  }
+
+  public static Uri uriForParts(Uri contentUri, long mainId) {
+    return contentUri.buildUpon().appendQueryParameter(KEY_PARENTID, String.valueOf(mainId)).build();
   }
 
   public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromTemplateWithTags(ContentResolver contentResolver, Template te) {
@@ -750,7 +753,7 @@ public class Transaction extends Model implements ITransaction {
       String idStr = String.valueOf(oldId);
       //we only create uncommited clones if none exist yet
       Cursor c = contentResolver.query(
-              getContentUri().buildUpon().appendQueryParameter(KEY_PARENTID, idStr).build(),
+              uriForParts(getContentUri(), oldId),
               new String[]{KEY_ROWID},
               "NOT EXISTS (SELECT 1 from " + getUncommittedView()
               + " WHERE " + KEY_PARENTID + " = ?)", new String[]{idStr}, null);
