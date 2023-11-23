@@ -76,7 +76,7 @@
     <string name="dialog_contrib_reminder_remove_limitation">הסירו הגבלה זו וקבלו גישה לתכונות נוספות על-ידי שדרוג<i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1">קוד פתוח מוצע <i>{app_name}</i> .</string>
     <string name="dialog_contrib_text_2">אנא תרמו על ידי שדרוג <i>{app_name}</i> וקבלו גישה בלתי מוגבלת לתכונות הבאות:</string>
-    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">מצב הרישיון הנוכחי שלכם (%2$s) מאפשר לכם ליצור %1$d חשבונות.</string>
+    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">מצב הרישיון הנוכחי שלך (%2$s) מאפשר לך ליצור %1$d חשבונות.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">המצב הנוכחי של רשיונכם (%2$s)מאפשר לכם יצירת %1$d תוכניות.</string>
     <string name="dialog_contrib_usage_limit_split_templates">המצב הנוכחי של רשיונכם (%1$s) מאפשר לכם ליצור תבנית מפוצלת אחת.</string>
     <string name="dialog_export_delete">מחק עסקאות שיוצאו</string>
@@ -1076,6 +1076,6 @@
     <string name="pref_unmapped_transaction_as_transfer_summary_off">נחשבות כהוצאה / הכנסה</string>
     <string name="whats_new_367">אפשר להגדיר קטגוריות כהוצאה או הכנסה, מה שישפיע על איך מחושבים הסכומים של ההוצאות וההכנסות.</string>
     <string name="one_time_payment">תשלום חד פעמי</string>
-    <string name="dialog_contrib_trial_info_play">תקופת הניסיון החינמית הזו <b>לעולם</b> לא תמיר לכל סוג של מנוי.</string>
+    <string name="dialog_contrib_trial_info_play">תקופת הניסיון החינמית הזו <b>לעולם</b> לא תומר לסוג כלשהו של מנוי.</string>
     <string name="dialog_contrib_subscription_info_play">מנוי זה נכנס לתוקף באופן מיידי, מחויב מדי חודש או מדי שנה וניתן לבטלו בכל עת.</string>
 </resources>
