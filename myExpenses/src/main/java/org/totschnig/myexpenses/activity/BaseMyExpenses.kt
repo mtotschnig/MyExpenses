@@ -1960,12 +1960,21 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         } else {
             lifecycleScope.launch(Dispatchers.IO) {
                 if ((!licenceHandler.hasTrialAccessTo(ContribFeature.SYNCHRONIZATION)
-                            && viewModel.repository.countAccounts("$KEY_SYNC_ACCOUNT_NAME IS NOT NULL", null) > 0
-                            && !prefHandler.getBoolean(PrefKey.SYNC_UPSELL_NOTIFICATION_SHOWN, false)
-                        )
+                            && viewModel.repository.countAccounts(
+                        "$KEY_SYNC_ACCOUNT_NAME IS NOT NULL",
+                        null
+                    ) > 0
+                            && !prefHandler.getBoolean(
+                        PrefKey.SYNC_UPSELL_NOTIFICATION_SHOWN,
+                        false
+                    )
+                            )
                 ) {
                     prefHandler.putBoolean(PrefKey.SYNC_UPSELL_NOTIFICATION_SHOWN, true)
-                    ContribUtils.showContribNotification(this@BaseMyExpenses, ContribFeature.SYNCHRONIZATION)
+                    ContribUtils.showContribNotification(
+                        this@BaseMyExpenses,
+                        ContribFeature.SYNCHRONIZATION
+                    )
                 }
             }
         }
@@ -2089,18 +2098,22 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             R.id.SPLIT_TRANSACTION_COMMAND -> {
                 finishActionMode()
                 val ids = args.getLongArray(KEY_ROW_IDS)!!
-                viewModel.split(ids).observe(this) {
-                    recordUsage(ContribFeature.SPLIT_TRANSACTION)
-                    it.onSuccess {
-                        showSnackBar(
-                            if (ids.size > 1)
-                                getString(R.string.split_transaction_one_success)
-                            else
-                                getString(R.string.split_transaction_group_success, ids.size)
-                        )
-                    }.onFailure {
-                        showSnackBar(getString(R.string.split_transaction_not_possible))
-                    }
+                viewModel.split(ids).observe(this) { result ->
+                    showSnackBar(result.fold(
+                        onSuccess = {
+                            if (it) {
+                                recordUsage(ContribFeature.SPLIT_TRANSACTION)
+                                if (ids.size > 1)
+                                    getString(R.string.split_transaction_one_success)
+                                else
+                                    getString(
+                                        R.string.split_transaction_group_success,
+                                        ids.size
+                                    )
+                            } else getString(R.string.split_transaction_not_possible)
+                        },
+                        onFailure = { it.safeMessage }
+                    ))
                 }
             }
 

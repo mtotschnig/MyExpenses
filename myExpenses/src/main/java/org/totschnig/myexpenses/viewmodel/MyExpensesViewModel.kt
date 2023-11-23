@@ -572,44 +572,46 @@ open class MyExpensesViewModel(
                 .build(),
             projection, where, selectionArgs, null
         )?.use { cursor ->
-            if (cursor.count > 1) {
-                emit(Result.failure(Exception()))
-                null
-            } else {
-                cursor.moveToFirst()
-                val accountId = cursor.getLong(KEY_ACCOUNTID)
-                val currencyUnit = currencyContext[cursor.getString(KEY_CURRENCY)]
-                val amount = Money(
-                    currencyUnit,
-                    cursor.getLong(KEY_AMOUNT)
-                )
-                val payeeId = cursor.getLongOrNull(KEY_PAYEEID)
-                val date = cursor.getLong(KEY_DATE)
-                val crStatus =
-                    enumValueOrDefault(cursor.getString(KEY_CR_STATUS), CrStatus.UNRECONCILED)
-                SplitTransaction.getNewInstance(contentResolver, accountId, currencyUnit, false).also {
-                    it.amount = amount
-                    it.date = date
-                    it.payeeId = payeeId
-                    it.crStatus = crStatus
+            emit(when(cursor.count) {
+                1 -> {
+                    cursor.moveToFirst()
+                    val accountId = cursor.getLong(KEY_ACCOUNTID)
+                    val currencyUnit = currencyContext[cursor.getString(KEY_CURRENCY)]
+                    val amount = Money(
+                        currencyUnit,
+                        cursor.getLong(KEY_AMOUNT)
+                    )
+                    val payeeId = cursor.getLongOrNull(KEY_PAYEEID)
+                    val date = cursor.getLong(KEY_DATE)
+                    val crStatus =
+                        enumValueOrDefault(cursor.getString(KEY_CR_STATUS), CrStatus.UNRECONCILED)
+                    val parent = SplitTransaction.getNewInstance(contentResolver, accountId, currencyUnit, false).also {
+                        it.amount = amount
+                        it.date = date
+                        it.payeeId = payeeId
+                        it.crStatus = crStatus
+                    }
+                    val operations = parent.buildSaveOperations(contentResolver, false)
+                    operations.add(
+                        ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
+                            .withValues(ContentValues().apply {
+                                put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
+                                put(KEY_DATE, parent.date)
+                                putNull(KEY_PAYEEID)
+                            })
+                            .withValueBackReference(KEY_PARENTID, 0)
+                            .withSelection(where, selectionArgs)
+                            .withExpectedCount(count)
+                            .build()
+                    )
+                    contentResolver.applyBatch(AUTHORITY, operations)
+                    Result.success(true)
                 }
-            }
-        }?.let { parent ->
-            val operations = parent.buildSaveOperations(contentResolver, false)
-            operations.add(
-                ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
-                    .withValues(ContentValues().apply {
-                        put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
-                        put(KEY_DATE, parent.date)
-                        putNull(KEY_PAYEEID)
-                    })
-                    .withValueBackReference(KEY_PARENTID, 0)
-                    .withSelection(where, selectionArgs)
-                    .withExpectedCount(count)
-                    .build()
-            )
-            contentResolver.applyBatch(AUTHORITY, operations)
-            emit(ResultUnit)
+                0 -> Result.failure(IllegalStateException().also {
+                    CrashHandler.report(it)
+                })
+                else -> Result.success(false)
+            })
         }
     }
 
