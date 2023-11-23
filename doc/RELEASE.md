@@ -8,6 +8,7 @@
   * ./gradlew lintExternRelease
   * ./gradlew testExternDebugUnitTest (-PBETA=true)
   * adb uninstall org.totschnig.myexpenses.debug
+  * adb shell settings put global hidden_api_policy 1 # needed for LocaleUtil
   * ./gradlew connectedExternDebugAndroidTest
   * ./gradlew clean :myExpenses:packageExternReleaseUniversalApk
 * test upgrade mechanism
