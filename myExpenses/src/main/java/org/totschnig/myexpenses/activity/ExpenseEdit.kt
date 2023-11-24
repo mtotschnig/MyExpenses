@@ -340,6 +340,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 refreshPlanData(false)
             }
             floatingActionButton.show()
+            updateOnBackPressedCallbackEnabled()
         } else {
             areDatesLinked = prefHandler.getBoolean(PrefKey.DATES_ARE_LINKED, false)
             updateDateLink()
@@ -390,7 +391,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 }
                 val isNewTemplate = intent.getBooleanExtra(KEY_NEW_TEMPLATE, false)
                 if (isSplitParent) {
-                    updateOnBackPressedCallbackEnabled()
                     val (contribFeature, allowed) = if (isNewTemplate) {
                         ContribFeature.SPLIT_TEMPLATE to
                                 prefHandler.getBoolean(PrefKey.NEW_SPLIT_TEMPLATE_ENABLED, true)
@@ -852,6 +852,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             }
         }
         operationType = transaction.operationType()
+        updateOnBackPressedCallbackEnabled()
         delegate = TransactionDelegate.create(
             transaction,
             rootBinding,
