@@ -25,7 +25,7 @@
     <string name="account_type_bank_plural">חשבונות בנק</string>
     <string name="account_type_cash">חשבון במזומן</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">חשבונות במזומן</string>
+    <string name="account_type_cash_plural">חשבונות מזומן</string>
     <string name="account_type_ccard">כרטיס אשראי</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
     <string name="account_type_ccard_plural">כרטיסי אשראי</string>
