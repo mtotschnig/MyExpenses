@@ -34,11 +34,12 @@ sealed class Feature(@StringRes val labelResId: Int, val moduleName: String) {
                 "dropbox" -> DROPBOX
                 "webdav" -> WEBDAV
                 "fints" -> FINTS
+                "sqlcrypt" -> SQLCRYPT
                 else -> null
             }
 
-        fun values(): Array<Feature> {
-            return arrayOf(
+        val values: List<Feature>
+            get() = listOf(
                 OCR,
                 WEBUI,
                 TESSERACT,
@@ -51,23 +52,23 @@ sealed class Feature(@StringRes val labelResId: Int, val moduleName: String) {
                 DRIVE,
                 DROPBOX,
                 WEBDAV,
-                FINTS,
+                SQLCRYPT,
+                FINTS
             )
-        }
 
     }
 
     sealed class SyncBackend(labelResId: Int, moduleName: String) :
         Feature(labelResId, moduleName) {
         override fun canUninstall(context: Context, prefHandler: PrefHandler) =
-            GenericAccountService.getAccountNames(context).none {
-                it.startsWith(
-                    BackendService.values().first { it.feature == this }.label
+            GenericAccountService.getAccountNames(context).none { account ->
+                account.startsWith(
+                    BackendService.entries.first { it.feature == this }.label
                 )
             }
     }
 
-    object OCR : Feature(R.string.title_scan_receipt_feature, "ocr") {
+    data object OCR : Feature(R.string.title_scan_receipt_feature, "ocr") {
         override fun canUninstall(context: Context, prefHandler: PrefHandler) =
             !prefHandler.getBoolean(PrefKey.OCR, false)
     }
@@ -87,27 +88,27 @@ sealed class Feature(@StringRes val labelResId: Int, val moduleName: String) {
                     getUserConfiguredMlkitScriptModule(context, prefHandler) != this
     }
 
-    object WEBUI : Feature(R.string.title_webui, "webui") {
+    data object WEBUI : Feature(R.string.title_webui, "webui") {
         override fun canUninstall(context: Context, prefHandler: PrefHandler) =
             !prefHandler.getBoolean(PrefKey.UI_WEB, false)
     }
 
-    object TESSERACT : OcrEngine(R.string.title_tesseract, "tesseract")
-    object MLKIT : OcrEngine(R.string.title_mlkit, "mlkit")
-    object DEVA : MlkitProcessor(R.string.title_mlkit_deva, "mlkit_deva")
-    object HAN : MlkitProcessor(R.string.title_mlkit_han, "mlkit_han")
-    object JPAN : MlkitProcessor(R.string.title_mlkit_jpan, "mlkit_jpan")
-    object KORE : MlkitProcessor(R.string.title_mlkit_kore, "mlkit_kore")
-    object LATN : MlkitProcessor(R.string.title_mlkit_latn, "mlkit_latn")
-    object DRIVE : SyncBackend(R.string.title_drive, "drive")
-    object DROPBOX : SyncBackend(R.string.title_dropbox, "dropbox")
-    object WEBDAV : SyncBackend(R.string.title_webdav, "webdav")
-    object SQLCRYPT: Feature(R.string.title_sqlcrypt, "sqlcrypt") {
+    data object TESSERACT : OcrEngine(R.string.title_tesseract, "tesseract")
+    data object MLKIT : OcrEngine(R.string.title_mlkit, "mlkit")
+    data object DEVA : MlkitProcessor(R.string.title_mlkit_deva, "mlkit_deva")
+    data object HAN : MlkitProcessor(R.string.title_mlkit_han, "mlkit_han")
+    data object JPAN : MlkitProcessor(R.string.title_mlkit_jpan, "mlkit_jpan")
+    data object KORE : MlkitProcessor(R.string.title_mlkit_kore, "mlkit_kore")
+    data object LATN : MlkitProcessor(R.string.title_mlkit_latn, "mlkit_latn")
+    data object DRIVE : SyncBackend(R.string.title_drive, "drive")
+    data object DROPBOX : SyncBackend(R.string.title_dropbox, "dropbox")
+    data object WEBDAV : SyncBackend(R.string.title_webdav, "webdav")
+    data object SQLCRYPT: Feature(R.string.title_sqlcrypt, "sqlcrypt") {
         override fun canUninstall(context: Context, prefHandler: PrefHandler): Boolean {
             return !prefHandler.encryptDatabase
         }
     }
-    object FINTS: Feature(R.string.title_fints, "fints")
+    data object FINTS: Feature(R.string.title_fints, "fints")
 }
 
 enum class Script {

@@ -398,7 +398,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 )
 
                 is FeatureViewModel.FeatureState.FeatureAvailable -> {
-                    Feature.values().find { featureState.modules.contains(it.moduleName) }?.let {
+                    Feature.values.find { featureState.modules.contains(it.moduleName) }?.let {
                         showSnackBar(
                             getString(
                                 R.string.feature_downloaded,

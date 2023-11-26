@@ -79,8 +79,8 @@ open class DataModule {
         prefHandler: PrefHandler,
         @Named(AppComponent.DATABASE_NAME) provideDatabaseName: (@JvmSuppressWildcards Boolean) -> String
     ): SupportSQLiteOpenHelper {
-        Timber.w("building SupportSQLiteOpenHelper")
         val encryptDatabase = prefHandler.encryptDatabase
+        Timber.w("building SupportSQLiteOpenHelper (encryptDatabase %b)", encryptDatabase)
         return when {
             encryptDatabase -> cryptProvider.provideEncryptedDatabase(appContext)
             else -> FrameworkSQLiteOpenHelperFactory()
