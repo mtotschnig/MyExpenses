@@ -758,12 +758,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         transaction: Transaction?,
         task: InstantiationTask
     ) {
-        transaction?.let {
+        transaction?.also {
             if (transaction.isSealed) {
                 abortWithMessage("This transaction refers to a closed account or debt and can no longer be edited")
             } else {
                 populate(it, withAutoFill && task != TRANSACTION_FROM_TEMPLATE)
-
             }
         } ?: run {
             abortWithMessage(
@@ -781,6 +780,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         transaction?.let { populate(it, withAutoFill) } ?: run {
             val errMsg = getString(R.string.warning_no_account)
             abortWithMessage(errMsg)
+            return
         }
         intent.getParcelableExtra<OcrResultFlat>(KEY_OCR_RESULT)?.let { ocrResultFlat ->
             ocrResultFlat.amount?.let { amountInput.setRaw(it) }
