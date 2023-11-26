@@ -25,7 +25,7 @@ ext {
     espressoVersion = "3.5.1"
     androidSupportTestVersion = "1.5.0"
     androidxTextExtJunit = "1.1.5"
-    daggerVersion = "2.46"
+    daggerVersion = "2.48.1"
     okHttpVersion = "4.11.0"
     acraVersion = "5.9.7"
     robolectricVersion = '4.10'
