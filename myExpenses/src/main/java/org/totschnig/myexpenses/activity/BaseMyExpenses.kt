@@ -1720,7 +1720,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
-        currentAccount?.let { currentAccount ->
+        currentAccount?.also { currentAccount ->
             when (feature) {
                 ContribFeature.DISTRIBUTION -> {
                     recordUsage(feature)
@@ -1798,7 +1798,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             putExtra(KEY_ROWID, budgetId)
                             fillIntentForGroupingFromTag(headerId)
                         })
-                    } else if (selectedAccountId != 0L) {
+                    } else {
                         recordUsage(feature)
                         val i = Intent(this, ManageBudgets::class.java)
                         startActivity(i)
@@ -1825,6 +1825,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
                 else -> {}
             }
+        } ?: run {
+            showSnackBar(R.string.no_accounts)
         }
     }
 

@@ -160,15 +160,18 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.accountsMinimal().take(1).collect { list ->
-                    accountSpinnerHelper.adapter = IdAdapter(this@BudgetEdit, list)
-                    (accountId.takeIf { it != 0L } ?: list.getOrNull(0)?.id)?.let {
-                        populateAccount(
-                            it
-                        )
-                    }
-                    if (pendingBudgetLoad != 0L) {
-                        viewModel.budget(pendingBudgetLoad)
-                            .observe(this@BudgetEdit) { populateData(it) }
+                    if (list.isEmpty()) {
+                        Toast.makeText(this@BudgetEdit, getString(R.string.no_accounts), Toast.LENGTH_LONG).show()
+                        finish()
+                    } else {
+                        accountSpinnerHelper.adapter = IdAdapter(this@BudgetEdit, list)
+                        (accountId.takeIf { it != 0L } ?: list.getOrNull(0)?.id)?.let {
+                            populateAccount(it)
+                        }
+                        if (pendingBudgetLoad != 0L) {
+                            viewModel.budget(pendingBudgetLoad)
+                                .observe(this@BudgetEdit) { populateData(it) }
+                        }
                     }
                 }
             }
