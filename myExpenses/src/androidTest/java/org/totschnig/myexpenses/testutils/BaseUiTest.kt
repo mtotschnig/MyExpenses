@@ -6,12 +6,8 @@ import android.content.ContentUris
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
-import android.content.res.Configuration
-import android.content.res.Resources
 import android.view.View
 import androidx.annotation.IdRes
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.LocaleListCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.test.core.app.ActivityScenario
@@ -70,11 +66,17 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
     val homeCurrency: CurrencyUnit by lazy { homeCurrencyProvider.homeCurrencyUnit }
 
     @JvmOverloads
-    fun buildAccount(label: String, openingBalance: Long = 0L, currency: String = homeCurrency.code) =
+    fun buildAccount(
+        label: String,
+        openingBalance: Long = 0L,
+        currency: String = homeCurrency.code,
+        excludFromTotals: Boolean = false
+    ) =
         Account(
             label = label,
             openingBalance = openingBalance,
-            currency = currency
+            currency = currency,
+            excludeFromTotals = excludFromTotals
         ).createIn(repository)
 
     fun getTransactionFromDb(id: Long): Transaction = Transaction.getInstanceFromDb(contentResolver, id, homeCurrency)

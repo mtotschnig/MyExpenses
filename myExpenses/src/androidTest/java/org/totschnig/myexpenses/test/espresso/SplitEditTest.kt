@@ -23,7 +23,6 @@ import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.instanceOf
-import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
@@ -32,7 +31,6 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
@@ -48,11 +46,6 @@ class SplitEditTest : BaseExpenseEditTest() {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_SPLIT)
         }
 
-    @Before
-    fun fixture() {
-        account1 = buildAccount(accountLabel1)
-    }
-
     private fun assertUncommittedCount(uri: Uri, count: Int) {
         assertThat(repository.count(uri, "$KEY_STATUS= $STATUS_UNCOMMITTED"))
             .isEqualTo(count)
@@ -66,7 +59,8 @@ class SplitEditTest : BaseExpenseEditTest() {
         assertUncommittedCount(TransactionProvider.TEMPLATES_UNCOMMITTED_URI, count)
     }
 
-    private fun launch(configureIntent: Intent.() -> Unit = {}) {
+    private fun launch(excludeFromTotals: Boolean = false, configureIntent: Intent.() -> Unit = {}) {
+        account1 = buildAccount(accountLabel1)
         testScenario = ActivityScenario.launchActivityForResult(
             baseIntent.apply(configureIntent)
         )
@@ -99,7 +93,7 @@ class SplitEditTest : BaseExpenseEditTest() {
     @Test
     fun bug987() {
         val account2 = buildAccount("Test Account 2")
-        launch { putExtra(KEY_ACCOUNTID, account1.id) }
+        launch()
         closeSoftKeyboard()
         onView(withId(R.id.CREATE_PART_COMMAND)).perform(scrollTo(), click())
         setAmount(50)
@@ -192,6 +186,14 @@ class SplitEditTest : BaseExpenseEditTest() {
         assertFinishing()
     }
 
+    @Test
+    fun withAccountExcludedFromTotals() {
+        launch(excludeFromTotals = true)
+        createParts(1)
+        onView(withId(R.id.CREATE_COMMAND)).perform(click())
+        assertFinishing()
+    }
+
     private fun createParts(times: Int) {
         repeat(times) {
             closeSoftKeyboard()
@@ -200,6 +202,7 @@ class SplitEditTest : BaseExpenseEditTest() {
             onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
             setAmount(50)
             onView(withId(R.id.CREATE_COMMAND)).perform(click())//save part
+            onView(withId(R.id.list)).check(matches(hasChildCount(it+1)))
         }
     }
 
