@@ -46,8 +46,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
     @Test
     fun testScenarioForBug5b11072e6007d59fcd92c40b() {
         setAmount(10)
-        onView(Espresso.withIdAndParent(R.id.TaType, R.id.Amount))
-            .perform(click())
+        toggleType()
         closeSoftKeyboard()
         onView(ViewMatchers.withId(R.id.Category))
             .perform(click())
@@ -69,8 +68,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         ).perform(click())
         onView(ViewMatchers.withId(R.id.bOK))
             .perform(click())
-        onView(Espresso.withIdAndParent(R.id.TaType, R.id.Amount))
-            .check(ViewAssertions.matches(ViewMatchers.isNotChecked()))
+        checkType(false)
     }
 
     @Test

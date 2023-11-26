@@ -175,11 +175,20 @@ class SplitEditTest : BaseExpenseEditTest() {
         assertUncommittedTransactions(0)
     }
 
+    private fun verifyTypeToggle(initiallyChecked: Boolean) {
+        checkType(initiallyChecked)
+        toggleType()
+        checkType(!initiallyChecked)
+    }
+
     @Test
     fun createPartAndSave() {
         launch()
+        verifyTypeToggle(false)
         createParts(5)
-        onView(withId(R.id.CREATE_COMMAND)).perform(click())//amount is now updated automatically
+        verifyTypeToggle(true)
+        verifyTypeToggle(false)
+        onView(withId(R.id.CREATE_COMMAND)).perform(click())
         assertFinishing()
     }
 

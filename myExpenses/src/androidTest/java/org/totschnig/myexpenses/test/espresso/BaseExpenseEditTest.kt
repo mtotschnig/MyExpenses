@@ -9,9 +9,11 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.action.ViewActions.typeText
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
+import androidx.test.espresso.matcher.ViewMatchers.isChecked
+import androidx.test.espresso.matcher.ViewMatchers.isNotChecked
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.CoreMatchers.allOf
@@ -53,7 +55,17 @@ abstract class BaseExpenseEditTest: BaseUiTest<TestExpenseEdit>() {
 
     fun checkAmount(amount: Int, parent: Int = R.id.Amount) {
         onView(withIdAndParent(R.id.AmountEditText, parent))
-            .check(ViewAssertions.matches(withText(amount.toString())))
+            .check(matches(withText(amount.toString())))
+    }
+
+    fun toggleType() {
+        onView(withIdAndParent(R.id.TaType, R.id.Amount))
+            .perform(click())
+    }
+
+    fun checkType(checked: Boolean) {
+        onView(withIdAndParent(R.id.TaType, R.id.Amount))
+            .check(matches(if(checked) isChecked() else isNotChecked()))
     }
 
     fun setStoredPayee(payee: String) {
@@ -68,7 +80,7 @@ abstract class BaseExpenseEditTest: BaseUiTest<TestExpenseEdit>() {
                 withText(R.string.response_yes)
             )
         ).perform(click())
-        onView(withId(R.id.Payee)).check(ViewAssertions.matches(withText("John")))
+        onView(withId(R.id.Payee)).check(matches(withText("John")))
     }
 
     fun setOperationType(@TransactionsContract.Transactions.TransactionType operationType: Int) {
