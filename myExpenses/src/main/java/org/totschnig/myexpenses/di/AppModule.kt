@@ -19,7 +19,7 @@ import java.util.*
 import javax.inject.Named
 import javax.inject.Singleton
 
-object NoOpTracker: Tracker {
+object NoOpTracker : Tracker {
     override fun init(context: Context, licenceStatus: LicenceStatus?) {
         //noop
     }
@@ -54,16 +54,10 @@ open class AppModule {
     @Provides
     @Singleton
     @Named(AppComponent.USER_COUNTRY)
-    fun provideUserCountry(application: MyApplication?): String {
-        val defaultCountry = "us"
-        return if (BuildConfig.DEBUG) {
-            defaultCountry
-        } else {
-            val countryFromTelephonyManager =
-                Utils.getCountryFromTelephonyManager(application)
-            countryFromTelephonyManager ?: defaultCountry
-        }
-    }
+    fun provideUserCountry(application: MyApplication?) =
+        (if (BuildConfig.DEBUG) null else Utils.getCountryFromTelephonyManager(application))
+            ?: Locale.getDefault().country.takeIf { it.isNotEmpty() }?.lowercase(Locale.ROOT)
+            ?: "us"
 
     @Provides
     @Singleton
