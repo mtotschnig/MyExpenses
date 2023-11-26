@@ -243,7 +243,7 @@ class SyncDelegate(
         transactionId: Long?,
         backReference: Int?
     ) = buildList {
-        //we are not deleting transactions that might have been removed on another device, because
+        //we are not deleting attachments that might have been removed on another device, because
         //we would need to compare existing attachments with the new list, which would only be doable
         //via a method call but ContentProviderOperation.newCall is not available below API 30
         attachments?.forEach { uuid ->

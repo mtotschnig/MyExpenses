@@ -16,7 +16,9 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.AppDirHelper;
+import org.totschnig.myexpenses.util.ExceptionUtilsKt;
 import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import timber.log.Timber;
 
@@ -62,8 +64,8 @@ public class PrintTask extends AsyncTask<Void, String, Result<Uri>> {
         try {
             return new PdfPrinter(accountId, appDir, filter, currentBalance).print(context);
         } catch (Exception e) {
-            Timber.e(e, "Error while printing");
-            return Result.ofFailure(R.string.export_sdcard_failure, appDir.getName(), e.getMessage());
+            CrashHandler.report(e);
+            return Result.ofFailure(R.string.export_sdcard_failure, appDir.getName(), ExceptionUtilsKt.getSafeMessage(e));
         }
     }
 }

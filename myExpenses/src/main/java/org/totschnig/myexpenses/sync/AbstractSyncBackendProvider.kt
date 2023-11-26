@@ -283,7 +283,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
             attachments.toTypedArray(),
             null
         )?.useAndMap { it.getString(0) } ?: emptyList()
-        Timber.i("ensureAttachmentsOnRead: found %s", existing.joinToString())
+        log().w("ensureAttachmentsOnRead: found %s", existing.joinToString())
         (attachments - existing.toSet()).forEach { uuid ->
             val (fileName, inputStream) = getAttachment(uuid)
             storeAttachmentToDatabase(fileName, uuid, inputStream)
