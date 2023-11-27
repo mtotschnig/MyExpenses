@@ -297,7 +297,7 @@
     <string name="pref_planning_calendar_summary">Seleziona il calendario in cui sono memorizzati i piani per le transazioni future e ricorrenti</string>
     <string name="pref_protection_delay_seconds_summary">Secondi di inattività prima che l\'app sia bloccata con password.</string>
     <string name="pref_protection_delay_seconds_title">Ritardo prima della protezione</string>
-    <string name="pref_protection_enable_data_entry_from_widget_title">Immissione di dati da widgets e collegamenti</string>
+    <string name="pref_protection_enable_data_entry_from_widget_title">Immissione di dati da widget e scorciatoie</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Ammessi senza password.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Password richiesta.</string>
     <string name="pref_qif_export_file_encoding_title">Set di caratteri</string>
@@ -987,7 +987,7 @@
     </plurals>
     <string name="pref_csv_export_split_amount_summary">Usa colonne separate per entrate e spese</string>
     <string name="select_all_list_too_large">Il comando %s non è disponibile perché l\'elenco è caricato solo parzialmente. Si prega di utilizzare la funzionalità di Ricerca per ridurre le dimensioni dell\'elenco.</string>
-    <string name="menu_reconfigure">Riconfigurare</string>
+    <string name="menu_reconfigure">Riconfigura</string>
     <string name="database_is_encrypted">Il database è crittografato.</string>
     <string name="debt_installment_receive">Ricevo una rata di %s.</string>
     <string name="debt_lend_additional">Presto %s.</string>
@@ -1003,7 +1003,7 @@
     <string name="optimize_image_file_size">Ottimizzare le dimensioni del file immagine</string>
     <string name="encrypt_database_info">Il database sarà crittografato con una passphrase che non può essere estratta dal dispositivo. Di conseguenza, non verrà eseguito il backup dal servizio di backup del dispositivo.</string>
     <string name="dialog_confirm_rollover_delete">Tutti gli importi di rollover per questo periodo saranno cancellati.</string>
-    <string name="encrypt_database">Crittografare il database</string>
+    <string name="encrypt_database">Crittografa il database</string>
     <string name="github_sponsors">Le chiavi di licenza vengono fornite anche agli &lt;a href=%s&gt;Github Sponsors&lt;/a&gt;.</string>
     <string name="notifications_permission_required_webui">Concedendo il permesso di inviare notifiche, è possibile controllare lo stato del server web.</string>
     <string name="notifications_permission_required_planner"><i>{app_name}</i> ha bisogno dell\'autorizzazione per inviare notifiche quando vengono pubblicate transazioni future.</string>
@@ -1020,4 +1020,33 @@
     <string name="one_time_payment">Pagamento unico</string>
     <string name="dialog_contrib_trial_info_play">Questa prova gratuita non si convertirà <b>mai</b> in alcun tipo di abbonamento.</string>
     <string name="dialog_contrib_subscription_info_play">Questo abbonamento ha effetto immediato, viene fatturato mensilmente o annualmente e può essere annullato in qualsiasi momento.</string>
+    <string name="pref_unmapped_transaction_as_transfer_title">Transazioni non assegnate</string>
+    <string name="whats_new_364_2">Nuova strategia per gestire informazioni duplicate su paganti/beneficiari</string>
+    <string name="select_template">Seleziona il modello</string>
+    <string name="remove_from_group">Rimuovi dal gruppo</string>
+    <string name="menu_aggregate_neutral_categories">Includi le categorie neutre</string>
+    <string name="notifications_permission_required_auto_backup">Consentendo il permesso di inviare notifiche, verrai informato dei backup automatici.</string>
+    <string name="whats_new_361_1">La lista delle transazioni può essere ordinata per importo.</string>
+    <string name="merge_parties_strategy_delete">I duplicati vengono cancellati.</string>
+    <string name="budget_deleted">Il bilancio è stato cancellato</string>
+    <string name="whats_new_365">Allega un numero arbitrario di immagini e documenti (PDF)</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_on">sono contate come trasferimento</string>
+    <string name="pref_attachment_mime_types_title">Tipologia di media consentiti per gli allegati</string>
+    <string name="widget_title_budget">Il mio budget</string>
+    <string name="pref_copy_attachments_summary_on">I file vengono copiati nella cartella dell\'applicazione.</string>
+    <string name="attachments">Allegati</string>
+    <string name="budget_widget_configuration">Seleziona il bilancio</string>
+    <string name="whats_new_366">Il widget sulla schermata principale mostra lo stato attuale del tuo bilancio.</string>
+    <string name="budget_table_header_overspent">Eccesso di spesa</string>
+    <string name="whats_new_364_1">Importa all\'interno di diversi conti a partire da un file CSV</string>
+    <string name="pref_copy_attachments_title">Copia gli allegati nella cartella dell\'applicazione</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_off">sono contate come spesa / reddito</string>
+    <string name="template_shortcut">Scorciatoia ai modelli</string>
+    <string name="merge_parties_strategy_group">I duplicati vengono raggruppati come voci secondarie.</string>
+    <string name="search_account">Cerca per conto</string>
+    <string name="whats_new_358">Il widget segue la configurazione del tema (chiaro/scuro).</string>
+    <string name="pref_copy_attachments_summary_off">I file non vengono copiati, ma viene creato un riferimento al file originale.</string>
+    <string name="show_duplicates">Mostra i duplicati</string>
+    <string name="whats_new_367">Ora le categorie possono essere configurate come categorie di spesa o di reddito, che avranno un impatto su come i totali delle spese e dei redditi vengono calcolati.</string>
+    <string name="whats_new_361_2">I file nella cartella dell\'applicazione (backup ed esportazioni) possono essere condivisi o eliminati.</string>
 </resources>
