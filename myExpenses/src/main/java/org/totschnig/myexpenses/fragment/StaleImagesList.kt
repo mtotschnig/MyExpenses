@@ -43,8 +43,8 @@ import org.totschnig.myexpenses.activity.ViewIntentProvider
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.util.attachmentInfoMap
-import org.totschnig.myexpenses.util.setAttachmentInfo
+import org.totschnig.myexpenses.util.ui.attachmentInfoMap
+import org.totschnig.myexpenses.util.ui.setAttachmentInfo
 import org.totschnig.myexpenses.viewmodel.StaleImagesViewModel
 import org.totschnig.myexpenses.viewmodel.data.AttachmentInfo
 import javax.inject.Inject

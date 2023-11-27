@@ -37,7 +37,7 @@ import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.ColorUtils.isBrightColor
-import org.totschnig.myexpenses.util.UiUtils
+import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState

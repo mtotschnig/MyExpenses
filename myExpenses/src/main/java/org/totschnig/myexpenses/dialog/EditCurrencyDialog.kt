@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter.AllCaps
-import android.text.InputFilter.LengthFilter
 import android.text.TextWatcher
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -21,7 +20,8 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.form.FormFieldNotEmptyValidator
 import org.totschnig.myexpenses.util.form.FormValidator
 import org.totschnig.myexpenses.util.form.NumberRangeValidator
-import org.totschnig.myexpenses.util.postScrollToBottom
+import org.totschnig.myexpenses.util.ui.postScrollToBottom
+import org.totschnig.myexpenses.util.ui.withOkClick
 import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import java.util.*
@@ -104,7 +104,7 @@ class EditCurrencyDialog : DialogViewBinding<EditCurrencyBinding>() {
             })
         } ?: run {
             title = getString(R.string.dialog_title_new_currency)
-            with (binding.edtCurrencyCode) {
+            with(binding.edtCurrencyCode) {
                 isFocusable = true
                 isFocusableInTouchMode = true
                 isEnabled = true
@@ -112,16 +112,12 @@ class EditCurrencyDialog : DialogViewBinding<EditCurrencyBinding>() {
             }
         }
         binding.edtCurrencyFractionDigits.setText(currentFractionDigits().toString())
-        val alertDialog = builder
+        return builder
             .setNegativeButton(android.R.string.cancel, null)
             .setPositiveButton(android.R.string.ok, null)
             .setTitle(title)
             .create()
-        alertDialog.setOnShowListener { dialog: DialogInterface ->
-            val button = (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
-            button.setOnClickListener { onOkClick() }
-        }
-        return alertDialog
+            .withOkClick { onOkClick() }
     }
 
     private fun readSymbolFromUI(): String {

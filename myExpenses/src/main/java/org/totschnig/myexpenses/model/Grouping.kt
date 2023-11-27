@@ -6,7 +6,7 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.asDateTimeFormatter
+import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import java.text.SimpleDateFormat

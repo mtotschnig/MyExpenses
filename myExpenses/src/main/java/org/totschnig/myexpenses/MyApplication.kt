@@ -65,7 +65,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.repor
 import org.totschnig.myexpenses.util.io.isConnectedWifi
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.log.TagFilterFileLoggingTree
-import org.totschnig.myexpenses.util.setNightMode
+import org.totschnig.myexpenses.util.ui.setNightMode
 import org.totschnig.myexpenses.viewmodel.WebUiViewModel.Companion.serviceIntent
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET_DATA_ENTRY
 import org.totschnig.myexpenses.widget.WidgetObserver.Companion.register

@@ -12,7 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.core.content.res.ResourcesCompat
 import com.kazy.fontdrawable.FontDrawable
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.util.UiUtils
+import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 sealed interface IIconInfo {

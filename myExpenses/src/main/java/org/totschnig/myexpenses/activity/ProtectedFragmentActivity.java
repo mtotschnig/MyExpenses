@@ -27,7 +27,6 @@ import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_FONTSIZE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.util.MoreUiUtilsKt.setBackgroundTintList;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -50,9 +49,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import com.evernote.android.state.StateSaver;
-import com.google.android.material.color.MaterialColors;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;

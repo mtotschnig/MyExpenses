@@ -36,6 +36,10 @@ import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.TextUtils.appendCurrencyDescription
 import org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
+import org.totschnig.myexpenses.util.ui.UiUtils
+import org.totschnig.myexpenses.util.ui.addChipsBulk
+import org.totschnig.myexpenses.util.ui.getDateMode
+import org.totschnig.myexpenses.util.ui.validateAmountInput
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
@@ -46,7 +50,6 @@ import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import javax.inject.Inject
-import kotlin.Result
 
 abstract class TransactionDelegate<T : ITransaction>(
     val viewBinding: OneExpenseBinding,
@@ -460,8 +463,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         configureEquivalentAmountVisibility()
         if (equivalentAmountVisible) {
             currentAccount()?.let {
-                if (validateAmountInput(
-                        viewBinding.EquivalentAmount,
+                if (viewBinding.EquivalentAmount.validateAmountInput(
                         showToUser = false,
                         ifPresent = true
                     ) == null
@@ -853,36 +855,14 @@ abstract class TransactionDelegate<T : ITransaction>(
         } ?: Plan.Recurrence.NONE
 
     protected fun validateAmountInput(): BigDecimal? =
-        validateAmountInput(viewBinding.Amount, showToUser = false, ifPresent = false)
+        viewBinding.Amount.validateAmountInput(showToUser = false, ifPresent = false)
 
     protected fun validateAmountInput(forSave: Boolean, currencyUnit: CurrencyUnit) =
-        validateAmountInput(viewBinding.Amount, forSave, forSave, currencyUnit)
-
-    protected open fun validateAmountInput(
-        input: AmountInput,
-        showToUser: Boolean,
-        ifPresent: Boolean,
-        currencyUnit: CurrencyUnit
-    ): Result<Money?> {
-        val result = validateAmountInput(input, ifPresent = ifPresent, showToUser = showToUser)
-        return if (result == null) Result.success(null) else
-            kotlin.runCatching {
-                try {
-                    Money(currencyUnit, result)
-                } catch (e: ArithmeticException) {
-                    if (showToUser) {
-                        input.setError("Number too large.")
-                    }
-                    throw e
-                }
-            }
-    }
-
-    protected open fun validateAmountInput(
-        input: AmountInput,
-        showToUser: Boolean,
-        ifPresent: Boolean
-    ): BigDecimal? = input.getTypedValue(ifPresent, showToUser)
+        viewBinding.Amount.validateAmountInput(
+            currencyUnit,
+            showToUser = forSave,
+            ifPresent = forSave
+        )
 
     private fun configureAccountDependent(account: Account) {
         val currencyUnit = account.currency

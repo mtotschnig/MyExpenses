@@ -26,7 +26,7 @@ import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.ShortcutHelper
-import org.totschnig.myexpenses.util.UiUtils
+import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber

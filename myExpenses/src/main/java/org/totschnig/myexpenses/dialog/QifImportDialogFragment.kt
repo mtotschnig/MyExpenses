@@ -20,7 +20,7 @@ import org.totschnig.myexpenses.adapter.IdAdapter
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.util.checkNewAccountLimitation
+import org.totschnig.myexpenses.util.ui.checkNewAccountLimitation
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.ImportConfigurationViewModel
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal

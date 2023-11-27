@@ -60,6 +60,7 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.distrib.DistributionHelper;
+import org.totschnig.myexpenses.util.ui.UiUtils;
 import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlPullParser;
 

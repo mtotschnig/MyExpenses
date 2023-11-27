@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.util;
+package org.totschnig.myexpenses.util.ui;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -39,7 +39,7 @@ public class UiUtils {
     return drawableToBitmap(d);
   }
 
-  static Drawable getTintedDrawableForContext(Context context, int drawableResId) {
+  public static Drawable getTintedDrawableForContext(Context context, int drawableResId) {
     return AppCompatResources.getDrawable(context, drawableResId);
   }
 

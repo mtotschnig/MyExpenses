@@ -46,7 +46,7 @@ import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
-import org.totschnig.myexpenses.util.addChipsBulk
+import org.totschnig.myexpenses.util.ui.addChipsBulk
 import org.totschnig.myexpenses.util.buildAmountField
 import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2

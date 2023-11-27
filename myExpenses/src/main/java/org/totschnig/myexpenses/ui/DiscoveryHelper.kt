@@ -8,7 +8,7 @@ import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.util.UiUtils
+import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import timber.log.Timber
 

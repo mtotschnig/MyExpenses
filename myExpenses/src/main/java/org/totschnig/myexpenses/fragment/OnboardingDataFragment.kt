@@ -21,14 +21,14 @@ import org.totschnig.myexpenses.dialog.buildColorDialog
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
 import org.totschnig.myexpenses.ui.bindListener
-import org.totschnig.myexpenses.util.UiUtils
+import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.ui.requireAmountInput
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.OnBoardingDataViewModel
@@ -82,8 +82,10 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
 
     override fun onNextButtonClicked() {
         hostActivity.doWithEncryptionCheck {
-            prefHandler.putString(PrefKey.HOME_CURRENCY, selectedCurrency.code)
-            viewModel.saveAccount(buildAccount())
+            buildAccount().onSuccess {
+                prefHandler.putString(PrefKey.HOME_CURRENCY, selectedCurrency.code)
+                viewModel.saveAccount(it)
+            }
         }
     }
 
@@ -203,21 +205,19 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         get() = currencyContext[(binding.Currency.selectedItem as Currency).code]
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
-    private fun buildAccount(): Account {
-        var label = binding.Label.text.toString()
-        if (TextUtils.isEmpty(label)) {
-            label = getString(R.string.default_account_name)
-        }
-        val openingBalance = binding.Amount.typedValue
+    private fun buildAccount(): Result<Account> {
         val currency = selectedCurrency
-        return Account(
-            label = label,
-            currency = currency.code,
-            openingBalance = Money(currency, openingBalance).amountMinor,
-            description = binding.Description.text.toString(),
-            type = binding.AccountType.selectedItem as AccountType,
-            color = viewModel.accountColor
-        )
+        return binding.Amount.requireAmountInput(currency).map { money ->
+            Account(
+                label = binding.Label.text.toString().takeIf { it.isNotEmpty() }
+                    ?: getString(R.string.default_account_name),
+                currency = currency.code,
+                openingBalance = money.amountMinor,
+                description = binding.Description.text.toString(),
+                type = binding.AccountType.selectedItem as AccountType,
+                color = viewModel.accountColor
+            )
+        }
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {

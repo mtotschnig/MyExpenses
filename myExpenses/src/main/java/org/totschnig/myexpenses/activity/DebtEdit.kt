@@ -17,11 +17,12 @@ import org.totschnig.myexpenses.ui.ButtonWithDialog
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
+import org.totschnig.myexpenses.util.ui.validateAmountInput
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 import org.totschnig.myexpenses.viewmodel.data.Debt
-import java.math.BigDecimal
 import java.time.LocalDate
+import kotlin.math.sign
 
 class DebtEdit : EditActivity(), ButtonWithDialog.Host, ExchangeRateEdit.Host {
     private lateinit var binding: OneDebtBinding
@@ -147,30 +148,29 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host, ExchangeRateEdit.Host {
             binding.Label.error = getString(R.string.required)
             return
         }
-        binding.Amount.selectedCurrency?.let {
-            isSaving = true
-            val amount = binding.Amount.typedValue
-            val equivalentAmount = if (it.code == homeCurrency.code) null else {
-                Money(
-                    currencyUnit = homeCurrency,
-                    amountMajor = binding.EquivalentAmount.validate(false)?.let {
-                        if (amount.signum() == -1) it.negate() else it
-                    } ?: BigDecimal.ZERO
-                )
-            }
-            viewModel.saveDebt(
-                Debt(
-                    debtId,
-                    binding.Label.text.toString(),
-                    binding.Description.text.toString(),
-                    payeeId,
-                    amount,
-                    currencyContext[it.code],
-                    binding.DateButton.date,
-                    equivalentAmount?.amountMinor
-                )
-            ).observe(this) {
-                finish()
+        binding.Amount.selectedCurrency?.let { currency ->
+            val currencyUnit = currencyContext[currency.code]
+            binding.Amount.validateAmountInput(currencyUnit).getOrNull()?.let { amount ->
+                val equivalentAmount = if (currency.code == homeCurrency.code) null else
+                    (binding.EquivalentAmount.validateAmountInput(homeCurrency).getOrNull()
+                        ?: return).let {
+                        if (amount.amountMinor.sign == -1) it.negate() else it
+                    }
+                isSaving = true
+                viewModel.saveDebt(
+                    Debt(
+                        id = debtId,
+                        label = binding.Label.text.toString(),
+                        description = binding.Description.text.toString(),
+                        payeeId = payeeId,
+                        amount = amount.amountMinor,
+                        currency = currencyUnit,
+                        date = binding.DateButton.date,
+                        equivalentAmount = equivalentAmount?.amountMinor
+                    )
+                ).observe(this) {
+                    finish()
+                }
             }
         }
     }

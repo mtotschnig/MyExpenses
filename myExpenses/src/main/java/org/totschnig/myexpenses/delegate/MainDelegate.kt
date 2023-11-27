@@ -40,9 +40,10 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.configurePopupAnchor
+import org.totschnig.myexpenses.util.ui.configurePopupAnchor
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.formatMoney
+import org.totschnig.myexpenses.util.ui.validateAmountInput
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import java.math.BigDecimal
@@ -119,11 +120,8 @@ abstract class MainDelegate<T : ITransaction>(
             val selectedItem = viewBinding.OriginalAmount.selectedCurrency
             if (selectedItem != null) {
                 val currency = selectedItem.code
-                val originalAmount = validateAmountInput(
-                    viewBinding.OriginalAmount,
-                    showToUser = true,
-                    ifPresent = true,
-                    currencyUnit = currencyContext[currency]
+                val originalAmount = viewBinding.OriginalAmount.validateAmountInput(
+                    currencyContext[currency]
                 )
                 originalAmount.onFailure {
                     return null
@@ -134,12 +132,7 @@ abstract class MainDelegate<T : ITransaction>(
             } else {
                 this.originalAmount = null
             }
-            val equivalentAmount = validateAmountInput(
-                viewBinding.EquivalentAmount,
-                showToUser = true,
-                ifPresent = true,
-                homeCurrency
-            )
+            val equivalentAmount = viewBinding.EquivalentAmount.validateAmountInput(homeCurrency)
             equivalentAmount.onFailure {
                 return null
             }.onSuccess {
@@ -280,8 +273,7 @@ abstract class MainDelegate<T : ITransaction>(
     private fun calculateInstallment(debt: Debt) =
         (if (debt.currency != currentAccount()!!.currency)
             with(
-                validateAmountInput(
-                    viewBinding.EquivalentAmount,
+                viewBinding.EquivalentAmount.validateAmountInput(
                     showToUser = false,
                     ifPresent = false
                 )

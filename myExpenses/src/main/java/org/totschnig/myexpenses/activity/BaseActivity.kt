@@ -94,6 +94,8 @@ import org.totschnig.myexpenses.util.distrib.DistributionHelper.marketSelfUri
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.util.tracking.Tracker
+import org.totschnig.myexpenses.util.ui.UiUtils
+import org.totschnig.myexpenses.util.ui.setBackgroundTintList
 import org.totschnig.myexpenses.viewmodel.FeatureViewModel
 import org.totschnig.myexpenses.viewmodel.OcrViewModel
 import org.totschnig.myexpenses.viewmodel.ShareViewModel

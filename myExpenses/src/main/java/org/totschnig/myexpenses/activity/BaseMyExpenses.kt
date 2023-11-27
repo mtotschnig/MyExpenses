@@ -133,11 +133,11 @@ import org.totschnig.myexpenses.util.ContribUtils
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.asDateTimeFormatter
+import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
 import org.totschnig.myexpenses.util.configureSortDirectionMenu
 import org.totschnig.myexpenses.util.convAmount
-import org.totschnig.myexpenses.util.dateTimeFormatter
-import org.totschnig.myexpenses.util.dateTimeFormatterLegacy
+import org.totschnig.myexpenses.util.ui.dateTimeFormatter
+import org.totschnig.myexpenses.util.ui.dateTimeFormatterLegacy
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.distrib.ReviewManager
 import org.totschnig.myexpenses.util.formatMoney

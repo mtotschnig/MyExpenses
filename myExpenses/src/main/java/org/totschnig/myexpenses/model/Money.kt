@@ -25,11 +25,7 @@ data class Money(val currencyUnit: CurrencyUnit, val amountMinor: Long) : Parcel
 
     @Throws(ArithmeticException::class)
     constructor(currencyUnit: CurrencyUnit, amountMajor: BigDecimal) :
-            this(currencyUnit,
-                amountMajor
-                    .movePointRight(currencyUnit.fractionDigits)
-                    .setScale(0, RoundingMode.DOWN)
-                    .longValueExact())
+            this(currencyUnit, convertBigDecimal(amountMajor, currencyUnit.fractionDigits))
 
     fun negate(): Money  = Money(currencyUnit, -amountMinor)
 
@@ -37,6 +33,11 @@ data class Money(val currencyUnit: CurrencyUnit, val amountMinor: Long) : Parcel
         get() = BigDecimal(amountMinor).movePointLeft(currencyUnit.fractionDigits)
 
     companion object {
+
+        fun convertBigDecimal(input: BigDecimal, fractionDigits: Int) = input
+            .movePointRight(fractionDigits)
+            .setScale(0, RoundingMode.DOWN)
+            .longValueExact()
         /**
          * Builds a Money instance where amount is provided in micro units (=1/1000000 of the main unit)
          *

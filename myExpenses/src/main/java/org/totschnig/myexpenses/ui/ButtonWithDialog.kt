@@ -12,7 +12,7 @@ import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
 import com.google.android.material.button.MaterialButton
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.getActivity
+import org.totschnig.myexpenses.util.ui.getActivity
 
 abstract class ButtonWithDialog<T: DialogFragment> @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : MaterialButton(context, attrs, defStyleAttr) {

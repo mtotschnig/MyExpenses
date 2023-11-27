@@ -33,7 +33,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.ImportFileResultHandler
 import org.totschnig.myexpenses.util.ImportFileResultHandler.FileNameHostFragment
-import org.totschnig.myexpenses.util.checkNewAccountLimitation
+import org.totschnig.myexpenses.util.ui.checkNewAccountLimitation
 import org.totschnig.myexpenses.util.linkInputsWithLabels
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.ImportConfigurationViewModel

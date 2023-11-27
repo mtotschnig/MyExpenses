@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.dialog
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -11,14 +10,17 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.databinding.FilterAmountBinding
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.filter.AmountCriterion.Companion.create
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import java.math.BigDecimal
+import org.totschnig.myexpenses.util.ui.validateAmountInput
+import org.totschnig.myexpenses.util.ui.withOkClick
 
-class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>(),
-    DialogInterface.OnClickListener {
+class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
+
+    val currency: CurrencyUnit
+        get() = (requireArguments().getSerializable(DatabaseConstants.KEY_CURRENCY) as CurrencyUnit)
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = initBuilder {
             FilterAmountBinding.inflate(it)
@@ -39,41 +41,37 @@ class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>(),
         }
         (binding.Operator.adapter as ArrayAdapter<*>)
             .setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
-        val fractionDigits =
-            (requireArguments().getSerializable(DatabaseConstants.KEY_CURRENCY) as CurrencyUnit?)!!.fractionDigits
+        val fractionDigits = currency.fractionDigits
         binding.amount1.fractionDigits = fractionDigits
         binding.amount2.fractionDigits = fractionDigits
         return builder
             .setTitle(R.string.search_amount)
-            .setPositiveButton(android.R.string.ok, this)
+            .setPositiveButton(android.R.string.ok, null)
             .setNegativeButton(android.R.string.cancel, null)
-            .create()
+            .create().withOkClick(::onOkClick)
     }
 
-    override fun onClick(dialog: DialogInterface, which: Int) {
+    private fun onOkClick() {
         val ctx = activity as MyExpenses? ?: return
-        val bdAmount1 = binding.amount1.validate(false) ?: return
-        var bdAmount2: BigDecimal? = null
+        val currency = this.currency
+        val amount1 = binding.amount1.validateAmountInput(currency) ?: return
         val selectedOp =
             resources.getStringArray(R.array.comparison_operator_values)[binding.Operator.selectedItemPosition]
         val type = binding.type.checkedButtonId == R.id.income
-        if (selectedOp == "BTW") {
-            bdAmount2 = binding.amount2.validate(false)
-            if (bdAmount2 == null) {
-                return
-            }
-        }
-        val currency =
-            requireArguments().getSerializable(DatabaseConstants.KEY_CURRENCY) as CurrencyUnit?
+        val amount2 = if (selectedOp == "BTW") {
+            binding.amount2.validateAmountInput(currency)
+        } else null
+
         ctx.addFilterCriterion(
             create(
                 WhereFilter.Operation.valueOf(selectedOp),
-                currency!!.code,
+                currency.code,
                 type,
-                Money(currency, bdAmount1).amountMinor,
-                if (bdAmount2 != null) Money(currency, bdAmount2).amountMinor else null
+                amount1.amountMinor,
+                amount2?.amountMinor
             )
         )
+        dismiss()
     }
 
     companion object {

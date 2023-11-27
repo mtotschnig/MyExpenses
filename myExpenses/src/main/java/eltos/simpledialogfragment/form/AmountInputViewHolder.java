@@ -9,6 +9,7 @@ import android.view.View;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.model.Money;
 
 import java.math.BigDecimal;
 
@@ -84,6 +85,12 @@ class AmountInputViewHolder extends FormElementViewHolder<AmountInput> {
   protected boolean validate(Context context) {
     final BigDecimal result = amountInputText.validate(true);
     if (result == null) return false;
+    try {
+      Money.Companion.convertBigDecimal(result, field.fractionDigits);
+    } catch (ArithmeticException e) {
+      inputLayout.setError("Number too large");
+      return false;
+    }
     if (field.max != null && result.compareTo(field.max) > 0) {
       inputLayout.setError(field.maxExceededError);
       return false;
@@ -92,6 +99,7 @@ class AmountInputViewHolder extends FormElementViewHolder<AmountInput> {
       inputLayout.setError(field.underMinError);
       return false;
     }
+
     return true;
   }
 }

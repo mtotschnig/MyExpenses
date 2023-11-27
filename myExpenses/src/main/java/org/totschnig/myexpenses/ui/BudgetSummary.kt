@@ -10,7 +10,7 @@ import org.totschnig.myexpenses.databinding.BudgetTotalTableBinding
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.util.ColorUtils.getComplementColor
 import org.totschnig.myexpenses.util.ICurrencyFormatter
-import org.totschnig.myexpenses.util.UiUtils
+import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.getBackgroundForAvailable
 import org.totschnig.myexpenses.viewmodel.data.Budget

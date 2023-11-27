@@ -10,6 +10,7 @@ import android.graphics.drawable.Icon;
 import android.os.Build;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.util.ui.UiUtils;
 
 import androidx.core.app.NotificationCompat;
 

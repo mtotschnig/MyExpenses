@@ -1,11 +1,9 @@
 package org.totschnig.myexpenses.util
 
 import android.graphics.Color
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
-import android.util.SparseIntArray
 import androidx.core.graphics.ColorUtils
 import com.github.mikephil.charting.utils.ColorTemplate
+import org.totschnig.myexpenses.util.ui.getBestForeground
 import kotlin.math.roundToInt
 
 object ColorUtils {

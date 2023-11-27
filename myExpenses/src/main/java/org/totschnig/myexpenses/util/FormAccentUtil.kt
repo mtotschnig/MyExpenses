@@ -11,6 +11,7 @@ import android.widget.Spinner
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
+import org.totschnig.myexpenses.util.ui.findParentWithTypeRecursively
 
 fun linkInputsWithLabels(table: TableLayout) {
     val listener = OnFocusChangeListener { v: View, hasFocus: Boolean ->

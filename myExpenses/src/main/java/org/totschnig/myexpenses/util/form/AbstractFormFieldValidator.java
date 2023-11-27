@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputLayout;
 
-import static org.totschnig.myexpenses.util.MoreUiUtilsKt.findParentWithTypeRecursively;
+import static org.totschnig.myexpenses.util.ui.MoreUiUtilsKt.findParentWithTypeRecursively;
 
 public abstract class AbstractFormFieldValidator {
   protected Context context;

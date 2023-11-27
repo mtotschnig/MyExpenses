@@ -47,12 +47,12 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.ICurrencyFormatter
-import org.totschnig.myexpenses.util.UiUtils.DateMode
-import org.totschnig.myexpenses.util.addChipsBulk
-import org.totschnig.myexpenses.util.attachmentInfoMap
-import org.totschnig.myexpenses.util.getDateMode
+import org.totschnig.myexpenses.util.ui.UiUtils.DateMode
+import org.totschnig.myexpenses.util.ui.addChipsBulk
+import org.totschnig.myexpenses.util.ui.attachmentInfoMap
+import org.totschnig.myexpenses.util.ui.getDateMode
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
-import org.totschnig.myexpenses.util.setAttachmentInfo
+import org.totschnig.myexpenses.util.ui.setAttachmentInfo
 import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel
 import org.totschnig.myexpenses.viewmodel.data.AttachmentInfo
 import org.totschnig.myexpenses.viewmodel.data.Transaction

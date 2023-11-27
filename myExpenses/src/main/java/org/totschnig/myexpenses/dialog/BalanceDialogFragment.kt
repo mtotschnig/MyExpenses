@@ -22,8 +22,8 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.databinding.BalanceBinding
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.util.UiUtils
-import org.totschnig.myexpenses.util.postScrollToBottom
+import org.totschnig.myexpenses.util.ui.UiUtils
+import org.totschnig.myexpenses.util.ui.postScrollToBottom
 
 class BalanceDialogFragment : DialogViewBinding<BalanceBinding>(), DialogInterface.OnClickListener {
 

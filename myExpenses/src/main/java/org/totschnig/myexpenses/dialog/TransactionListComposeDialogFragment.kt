@@ -21,7 +21,7 @@ import org.totschnig.myexpenses.compose.CompactTransactionRenderer
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.asDateTimeFormatter
+import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.KEY_LOADING_INFO
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel

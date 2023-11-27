@@ -10,7 +10,8 @@ import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.prefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.util.UiUtils.DateMode
+import org.totschnig.myexpenses.util.ui.UiUtils.DateMode
+import org.totschnig.myexpenses.util.ui.getDateMode
 
 @RunWith(RobolectricTestRunner::class)
 class UiUtilsDateModeTest {

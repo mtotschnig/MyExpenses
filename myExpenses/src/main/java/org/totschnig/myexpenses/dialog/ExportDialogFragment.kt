@@ -37,8 +37,8 @@ import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.configurePopupAnchor
-import org.totschnig.myexpenses.util.postScrollToBottom
+import org.totschnig.myexpenses.util.ui.configurePopupAnchor
+import org.totschnig.myexpenses.util.ui.postScrollToBottom
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_CREATE_HELPER
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_DO_NOTHING
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_UPDATE_BALANCE

@@ -7,12 +7,21 @@ import android.net.Uri
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_SUM
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.util.localDate2Epoch
-import java.math.BigDecimal
 import java.time.LocalDate
 import kotlin.math.sign
 
@@ -35,7 +44,7 @@ data class Debt(
         label: String,
         description: String,
         payeeId: Long,
-        amount: BigDecimal,
+        amount: Long,
         currency: CurrencyUnit,
         date: LocalDate,
         equivalentAmount: Long?
@@ -44,7 +53,7 @@ data class Debt(
         label,
         description,
         payeeId,
-        Money(currency, amount).amountMinor,
+        amount,
         currency,
         localDate2Epoch(date),
         equivalentAmount = equivalentAmount
