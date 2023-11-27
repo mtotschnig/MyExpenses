@@ -60,14 +60,14 @@ class SplitEditTest : BaseExpenseEditTest() {
     }
 
     private fun launch(excludeFromTotals: Boolean = false, configureIntent: Intent.() -> Unit = {}) {
-        account1 = buildAccount(accountLabel1)
+        account1 = buildAccount(accountLabel1, excludeFromTotals = excludeFromTotals)
         testScenario = ActivityScenario.launchActivityForResult(
             baseIntent.apply(configureIntent)
         )
     }
 
-    private fun launchEdit() {
-        launch { putExtra(KEY_ROWID, prepareSplit()) }
+    private fun launchEdit(excludeFromTotals: Boolean = false) {
+        launch(excludeFromTotals) { putExtra(KEY_ROWID, prepareSplit()) }
     }
 
     private fun prepareSplit(): Long {
@@ -187,11 +187,17 @@ class SplitEditTest : BaseExpenseEditTest() {
     }
 
     @Test
-    fun withAccountExcludedFromTotals() {
+    fun withAccountExcludedFromTotalsCreateNewSplit() {
         launch(excludeFromTotals = true)
         createParts(1)
         onView(withId(R.id.CREATE_COMMAND)).perform(click())
         assertFinishing()
+    }
+
+    @Test
+    fun withAccountExcludedFromTotalsEditExistingSplit() {
+        launchEdit(excludeFromTotals = true)
+        onView(withId(R.id.list)).check(matches(hasChildCount(2)))
     }
 
     private fun createParts(times: Int) {

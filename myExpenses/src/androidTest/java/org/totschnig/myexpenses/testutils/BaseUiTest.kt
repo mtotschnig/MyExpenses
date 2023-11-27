@@ -70,13 +70,13 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
         label: String,
         openingBalance: Long = 0L,
         currency: String = homeCurrency.code,
-        excludFromTotals: Boolean = false
+        excludeFromTotals: Boolean = false
     ) =
         Account(
             label = label,
             openingBalance = openingBalance,
             currency = currency,
-            excludeFromTotals = excludFromTotals
+            excludeFromTotals = excludeFromTotals
         ).createIn(repository)
 
     fun getTransactionFromDb(id: Long): Transaction = Transaction.getInstanceFromDb(contentResolver, id, homeCurrency)
