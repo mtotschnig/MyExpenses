@@ -47,7 +47,11 @@ class CursorSubject private constructor(
     }
 
     fun hasInt(columnIndex: Int, expected: Int) {
-        check("hasLong").that(actual.getInt(columnIndex)).isEqualTo(expected)
+        check("hasInt").that(actual.getInt(columnIndex)).isEqualTo(expected)
+    }
+
+    fun isNull(columnIndex: Int) {
+        check("isNull").that(actual.isNull(columnIndex)).isTrue()
     }
 
     private fun count(): IntegerSubject = check("count").that(actual.count)

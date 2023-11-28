@@ -70,8 +70,7 @@ class AutoFillTest : BaseDbTest() {
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
-        val testAccount = AccountInfo("Test account", AccountType.CASH, 0, "USD")
-        testAccountId = mDb.insert(TABLE_ACCOUNTS, testAccount.contentValues)
+        testAccountId = setupTestAccount()
         payeeId = mDb.insert(TABLE_PAYEES, PayeeInfo("N.N").contentValues)
         catId =
             mDb.insert(TABLE_CATEGORIES, CategoryInfo("Main").contentValues)

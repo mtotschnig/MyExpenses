@@ -31,9 +31,8 @@ class TransactionDebtTest: BaseDbTest() {
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
-        val testAccount = AccountInfo("Test account", AccountType.CASH, 0)
-        testAccountId =
-            mDb.insert(TABLE_ACCOUNTS, testAccount.contentValues)
+        testAccountId = setupTestAccount()
+
         payeeId1 = mDb.insert(
             TABLE_PAYEES,
             PayeeInfo("A.A.").contentValues

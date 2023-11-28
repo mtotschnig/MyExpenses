@@ -93,14 +93,15 @@ abstract class DataBaseAccount : IAccount {
             shortenComment: Boolean,
             extended: Boolean = true
         ): Uri.Builder =
-            TransactionProvider.TRANSACTIONS_URI.buildUpon().apply {
-                if (extended) {
-                    appendQueryParameter(TransactionProvider.QUERY_PARAMETER_EXTENDED, "1")
+            (if (extended) TransactionProvider.EXTENDED_URI else TransactionProvider.TRANSACTIONS_URI)
+                .buildUpon().apply {
+                    if (shortenComment) {
+                        appendQueryParameter(
+                            TransactionProvider.QUERY_PARAMETER_SHORTEN_COMMENT,
+                            "1"
+                        )
+                    }
                 }
-                if (shortenComment) {
-                    appendQueryParameter(TransactionProvider.QUERY_PARAMETER_SHORTEN_COMMENT, "1")
-                }
-            }
 
         private fun uriForTransactionListHome(
             withType: Boolean,

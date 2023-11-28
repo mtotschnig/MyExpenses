@@ -160,8 +160,6 @@ public class Transaction extends Model implements ITransaction {
   private int status = 0;
 
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
-  public static final Uri EXTENDED_URI = CONTENT_URI.buildUpon().appendQueryParameter(
-      TransactionProvider.QUERY_PARAMETER_EXTENDED, "1").build();
   public static final Uri CALLER_IS_SYNC_ADAPTER_URI = CONTENT_URI.buildUpon()
       .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_CALLER_IS_SYNCADAPTER, "1").build();
 
@@ -377,7 +375,7 @@ public class Transaction extends Model implements ITransaction {
         KEY_EQUIVALENT_AMOUNT, CATEGORY_ICON, checkSealedWithAlias(VIEW_ALL, TABLE_TRANSACTIONS)};
 
     Cursor c = contentResolver.query(
-        EXTENDED_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection, null, null, null);
+            TransactionProvider.EXTENDED_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection, null, null, null);
     if (c == null) {
       return null;
     }

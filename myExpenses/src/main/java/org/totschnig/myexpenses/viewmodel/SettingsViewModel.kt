@@ -98,7 +98,7 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
         liveData(context = coroutineContext()) {
             corruptedIdList()?.let { longs ->
                 contentResolver.query(
-                    Transaction.EXTENDED_URI,
+                    TransactionProvider.EXTENDED_URI,
                     arrayOf(KEY_DATE, KEY_AMOUNT, KEY_CURRENCY, KEY_ACCOUNT_LABEL),
                     "$KEY_ROWID ${Operation.IN.getOp(longs.size)}",
                     longs.map { it.toString() }.toTypedArray(), null

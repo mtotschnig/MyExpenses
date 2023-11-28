@@ -17,7 +17,6 @@ import kotlinx.coroutines.launch
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.Transaction.EXTENDED_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.*
@@ -66,7 +65,7 @@ open class DebtViewModel(application: Application) : ContentResolvingAndroidView
                 getAmountHomeEquivalent(VIEW_EXTENDED, homeCurrency)
             } END"
         return contentResolver.observeQuery(
-            uri = EXTENDED_URI,
+            uri = TransactionProvider.EXTENDED_URI,
             projection = arrayOf(KEY_ROWID, KEY_DATE, KEY_AMOUNT, equivalentAmountColumn),
             selection = "$KEY_DEBT_ID = ?",
             selectionArgs = arrayOf(debt.id.toString()),

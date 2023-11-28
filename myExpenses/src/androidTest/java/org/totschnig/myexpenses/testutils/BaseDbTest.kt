@@ -3,7 +3,10 @@
 package org.totschnig.myexpenses.testutils
 
 import androidx.sqlite.db.SupportSQLiteDatabase
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.insert
+import org.totschnig.myexpenses.test.provider.AccountInfo
 
 
 open class BaseDbTest : BaseProviderTest() {
@@ -15,6 +18,11 @@ open class BaseDbTest : BaseProviderTest() {
         super.setUp()
         mDb = provider.openHelperForTest.writableDatabase
     }
+
+    fun setupTestAccount(): Long = mDb.insert(
+        DatabaseConstants.TABLE_ACCOUNTS,
+        AccountInfo("Test account", AccountType.CASH, 0).contentValues
+    )
 
     @Throws(Exception::class)
     override fun tearDown() {

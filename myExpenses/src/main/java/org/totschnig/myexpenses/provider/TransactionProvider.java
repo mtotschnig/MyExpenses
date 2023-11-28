@@ -193,6 +193,9 @@ public class TransactionProvider extends BaseTransactionProvider {
       Uri.parse("content://" + AUTHORITY + "/transactions");
   public static final Uri UNCOMMITTED_URI =
       Uri.parse("content://" + AUTHORITY + "/transactionsUncommitted");
+  public static final Uri EXTENDED_URI =
+          TRANSACTIONS_URI.buildUpon().appendQueryParameter(
+                  TransactionProvider.QUERY_PARAMETER_EXTENDED, "1").build();
   public static final Uri TEMPLATES_URI =
       Uri.parse("content://" + AUTHORITY + "/templates");
   public static final Uri TEMPLATES_UNCOMMITTED_URI =

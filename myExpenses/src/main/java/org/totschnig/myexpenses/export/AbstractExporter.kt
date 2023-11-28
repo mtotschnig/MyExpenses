@@ -197,7 +197,7 @@ abstract class AbstractExporter
         }
 
         return context.contentResolver.query(
-            Transaction.EXTENDED_URI,
+            TransactionProvider.EXTENDED_URI,
             projection, selection, selectionArgs, KEY_DATE
         )?.use { cursor ->
 

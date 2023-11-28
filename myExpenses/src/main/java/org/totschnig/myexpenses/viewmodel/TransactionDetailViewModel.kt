@@ -22,7 +22,7 @@ class TransactionDetailViewModel(application: Application) :
     fun transaction(transactionId: Long): LiveData<List<TData>> =
         liveData(context = coroutineContext()) {
             contentResolver.query(
-                Transaction.EXTENDED_URI.buildUpon().appendQueryParameter(KEY_TRANSACTIONID, transactionId.toString()).build(),
+                TransactionProvider.EXTENDED_URI.buildUpon().appendQueryParameter(KEY_TRANSACTIONID, transactionId.toString()).build(),
                 projection(localizedContext, homeCurrencyProvider.homeCurrencyString),
                 null,
                 null,

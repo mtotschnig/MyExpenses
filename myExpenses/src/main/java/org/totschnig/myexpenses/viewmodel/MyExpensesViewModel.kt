@@ -566,7 +566,7 @@ open class MyExpensesViewModel(
             KEY_CR_STATUS
         )
         contentResolver.query(
-            Transaction.EXTENDED_URI.buildUpon()
+            EXTENDED_URI.buildUpon()
                 .appendQueryParameter(QUERY_PARAMETER_GROUP_BY, groupBy)
                 .appendQueryParameter(QUERY_PARAMETER_DISTINCT, "1")
                 .build(),
