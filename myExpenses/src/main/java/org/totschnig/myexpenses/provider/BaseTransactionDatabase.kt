@@ -55,6 +55,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
@@ -77,7 +79,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TAGS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTACHMENTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL
@@ -816,6 +820,14 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
         if (tableName != DatabaseConstants.TABLE_CHANGES) {
             append(getCategoryTreeForView())
         }
+        if (tableName == TABLE_TRANSACTIONS) {
+            fun cteTemplate(cte: String, aggregateExpression: String, associateTable: String, table: String, associateColumn: String) =
+                "$cte as (SELECT $KEY_TRANSACTIONID, $aggregateExpression FROM $associateTable LEFT JOIN $table ON $associateColumn = $table.$KEY_ROWID GROUP BY $KEY_TRANSACTIONID)"
+            append(",")
+            append(cteTemplate("cte_tags", TAG_LIST_EXPRESSION, TABLE_TRANSACTIONS_TAGS, TABLE_TAGS, KEY_TAGID))
+            append(",")
+            append(cteTemplate("cte_attachments", "count($KEY_URI) AS $KEY_ATTACHMENT_COUNT", TABLE_TRANSACTION_ATTACHMENTS, TABLE_ATTACHMENTS, KEY_ATTACHMENT_ID))
+        }
         append(" SELECT $tableName.*, coalesce($TABLE_PAYEES.$KEY_SHORT_NAME,$TABLE_PAYEES.$KEY_PAYEE_NAME) AS $KEY_PAYEE_NAME, ")
         append("$TABLE_METHODS.$KEY_LABEL AS $KEY_METHOD_LABEL, ")
         append("$TABLE_METHODS.$KEY_ICON AS $KEY_METHOD_ICON")
@@ -826,9 +838,9 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
         }
         if (tableName == TABLE_TRANSACTIONS) {
             append(", $TABLE_PLAN_INSTANCE_STATUS.$KEY_TEMPLATEID, ")
-            append(TAG_LIST_EXPRESSION)
-            append(", count($KEY_URI) AS $KEY_ATTACHMENT_COUNT")
-            append(", $KEY_IBAN")
+            append(KEY_TAGLIST)
+            append(", $KEY_ATTACHMENT_COUNT, ")
+            append(KEY_IBAN)
         }
         append(" FROM $tableName")
         append(" LEFT JOIN $TABLE_PAYEES ON $KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID")
@@ -839,16 +851,8 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
         }
         if (tableName == TABLE_TRANSACTIONS) {
             append(" LEFT JOIN $TABLE_PLAN_INSTANCE_STATUS ON $tableName.$KEY_ROWID = $TABLE_PLAN_INSTANCE_STATUS.$KEY_TRANSACTIONID")
-            append(tagJoin(tableName))
-            append(
-                associativeJoin(
-                    TABLE_TRANSACTIONS,
-                    TABLE_TRANSACTION_ATTACHMENTS,
-                    TABLE_ATTACHMENTS,
-                    KEY_TRANSACTIONID,
-                    KEY_ATTACHMENT_ID
-                )
-            )
+            append(" LEFT JOIN cte_tags ON cte_tags.$KEY_TRANSACTIONID = $tableName.$KEY_ROWID")
+            append(" LEFT JOIN cte_attachments ON cte_attachments.$KEY_TRANSACTIONID = $tableName.$KEY_ROWID")
         }
     }
 }

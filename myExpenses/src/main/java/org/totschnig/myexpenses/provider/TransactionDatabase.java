@@ -2253,9 +2253,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     String viewDefinition = buildViewDefinition(TABLE_TRANSACTIONS);
     db.execSQL("CREATE VIEW " + VIEW_COMMITTED + viewDefinition + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED  + tagGroupBy + ";");
     db.execSQL("CREATE VIEW " + VIEW_UNCOMMITTED + viewDefinition + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + tagGroupBy + ";");
-    db.execSQL("CREATE VIEW " + VIEW_ALL + viewExtended + tagGroupBy);
-    db.execSQL("CREATE VIEW " + VIEW_EXTENDED + viewExtended + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED +
-            tagGroupBy + ";");
+    db.execSQL("CREATE VIEW " + VIEW_ALL + viewExtended);
+    db.execSQL("CREATE VIEW " + VIEW_EXTENDED + viewExtended + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED);
 
     db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
     db.execSQL(VIEW_WITH_ACCOUNT_DEFINITION);
