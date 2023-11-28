@@ -32,15 +32,6 @@ class CategoryDelegate(
 
     override val operationType = TYPE_TRANSACTION
 
-    @State
-    var label: String? = null
-
-    @State
-    var categoryIcon: String? = null
-
-    @State
-    var catId: Long? = null
-
     override fun bind(
         transaction: ITransaction?,
         withTypeSpinner: Boolean,
@@ -55,12 +46,6 @@ class CategoryDelegate(
             recurrence,
             withAutoFill
         )
-        viewBinding.Category.setOnClickListener { host.startSelectCategory() }
-        if (transaction != null) {
-            label = transaction.label
-            categoryIcon = transaction.categoryIcon
-            catId = transaction.catId
-        }
         if (parentId != null) {
             hideRowsSpecificToMain()
         }
@@ -82,10 +67,7 @@ class CategoryDelegate(
     }
 
     override fun buildMainTransaction(account: Account): ITransaction =
-        (if (isTemplate) buildTemplate(account) else Transaction(account.id, parentId)).apply {
-            this.catId = this@CategoryDelegate.catId
-            this.label = this@CategoryDelegate.label
-        }
+        (if (isTemplate) buildTemplate(account) else Transaction(account.id, parentId))
 
     override fun configureType() {
         super.configureType()

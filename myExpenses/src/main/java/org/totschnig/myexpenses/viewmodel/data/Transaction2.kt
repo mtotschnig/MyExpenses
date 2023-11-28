@@ -31,18 +31,19 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DISPLAY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_PARENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
@@ -61,7 +62,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.getWeek
 import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
 import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
 import org.totschnig.myexpenses.provider.DbUtils.typeWithFallBack
-import org.totschnig.myexpenses.provider.FULL_LABEL
+import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.effectiveTypeExpression
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getIntIfExists
@@ -87,10 +88,11 @@ data class Transaction2(
     val parentId: Long? = null,
     val comment: String? = null,
     val catId: Long? = null,
-    val label: String? = null,
+    val categoryPath: String? = null,
     val payee: String? = null,
     val transferPeer: Long? = null,
     val transferAccount: Long? = null,
+    val transferAccountLabel: String? = null,
     val accountId: Long,
     val methodId: Long? = null,
     val methodLabel: String? = null,
@@ -161,7 +163,8 @@ data class Transaction2(
                 ) else KEY_AMOUNT)  + " AS $KEY_DISPLAY_AMOUNT",
                 KEY_COMMENT,
                 KEY_CATID,
-                FULL_LABEL,
+                KEY_PATH,
+                TRANSFER_ACCOUNT_LABEL,
                 KEY_PAYEE_NAME,
                 KEY_TRANSFER_PEER,
                 KEY_TRANSFER_ACCOUNT,
@@ -218,9 +221,10 @@ data class Transaction2(
                 payee = cursor.getStringOrNull(KEY_PAYEE_NAME),
                 methodLabel = cursor.getStringOrNull(KEY_METHOD_LABEL),
                 methodIcon = cursor.getStringOrNull(KEY_METHOD_ICON),
-                label = cursor.getStringOrNull(KEY_LABEL),
+                categoryPath = cursor.getStringOrNull(KEY_PATH),
                 transferPeer = transferPeer,
                 transferAccount = cursor.getLongOrNull(KEY_TRANSFER_ACCOUNT),
+                transferAccountLabel =  cursor.getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL),
                 accountId = cursor.getLong(KEY_ACCOUNTID),
                 methodId = cursor.getLongOrNull(KEY_METHODID),
                 crStatus = enumValueOrDefault(

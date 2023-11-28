@@ -83,8 +83,8 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     override val menuResource: Int
         get() = R.menu.templateslist_context
     private var mTemplatesCursor: Cursor? = null
-    private var mAdapter: SimpleCursorAdapter? = null
-    lateinit var mManager: LoaderManager
+    private lateinit var mAdapter: SimpleCursorAdapter
+    private lateinit var mManager: LoaderManager
     private var columnIndexAmount = 0
     private var columnIndexComment = 0
     private var columnIndexPayee = 0
@@ -157,7 +157,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         // Create an array to specify the fields we want to display in the list
         val from = arrayOf(
             DatabaseConstants.KEY_TITLE,
-            DatabaseConstants.KEY_LABEL,
+            DatabaseConstants.KEY_PATH,
             DatabaseConstants.KEY_AMOUNT
         )
         // and an array of the fields we want to bind those fields to
@@ -495,7 +495,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                     }
                 }
             }
-            mAdapter!!.swapCursor(mTemplatesCursor)
+            mAdapter.swapCursor(mTemplatesCursor)
             requireActivity().invalidateOptionsMenu()
         }
     }
@@ -622,7 +622,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     override fun onLoaderReset(loader: Loader<Cursor?>) {
         if (loader.id == SORTABLE_CURSOR) {
             mTemplatesCursor = null
-            mAdapter!!.swapCursor(null)
+            mAdapter.swapCursor(null)
         }
     }
 

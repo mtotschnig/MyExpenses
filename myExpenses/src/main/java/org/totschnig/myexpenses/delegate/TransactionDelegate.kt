@@ -58,6 +58,15 @@ abstract class TransactionDelegate<T : ITransaction>(
     val isTemplate: Boolean
 ) : AdapterView.OnItemSelectedListener {
 
+    @State
+    var label: String? = null
+
+    @State
+    var categoryIcon: String? = null
+
+    @State
+    var catId: Long? = null
+
     @Inject
     lateinit var prefHandler: PrefHandler
 
@@ -211,7 +220,11 @@ abstract class TransactionDelegate<T : ITransaction>(
         recurrence: Plan.Recurrence?,
         withAutoFill: Boolean
     ) {
+        viewBinding.Category.setOnClickListener { host.startSelectCategory() }
         if (transaction != null) {
+            label = transaction.label
+            categoryIcon = transaction.categoryIcon
+            catId = transaction.catId
             rowId = transaction.id
             parentId = transaction.parentId
             accountId = transaction.accountId
@@ -777,6 +790,8 @@ abstract class TransactionDelegate<T : ITransaction>(
                 it
             )
         }?.apply {
+            catId = this@TransactionDelegate.catId
+            label = this@TransactionDelegate.label
             originTemplateId = this@TransactionDelegate.originTemplateId
             uuid = this@TransactionDelegate.uuid
             id = rowId

@@ -64,6 +64,7 @@ import androidx.sqlite.db.SupportSQLiteQuery;
 import androidx.sqlite.db.SupportSQLiteQueryBuilder;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyContext;
@@ -615,6 +616,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     initialValues.put(KEY_PARENTID, SPLIT_CATID);
     initialValues.put(KEY_LABEL, "__SPLIT_TRANSACTION__");
     db.insert(TABLE_CATEGORIES, CONFLICT_NONE, initialValues);
+    initialValues.clear();
+    initialValues.put(KEY_LABEL, MyApplication.Companion.getInstance().getString(R.string.transfer));
+    initialValues.put(KEY_TYPE, 0);
+    getPrefHandler().putLong(PrefKey.DEFAULT_TRANSFER_CATEGORY, db.insert(TABLE_CATEGORIES, CONFLICT_NONE, initialValues));
     insertCurrencies(db);
     db.execSQL(EVENT_CACHE_CREATE);
     db.execSQL(CHANGES_CREATE);

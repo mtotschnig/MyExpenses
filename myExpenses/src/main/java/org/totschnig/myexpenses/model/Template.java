@@ -31,6 +31,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
@@ -47,7 +48,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.FULL_LABEL;
 import static org.totschnig.myexpenses.provider.CursorExtKt.getLongOrNull;
 import static org.totschnig.myexpenses.provider.CursorExtKt.getString;
 
@@ -143,7 +143,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
         KEY_AMOUNT,
         KEY_COMMENT,
         KEY_CATID,
-        FULL_LABEL,
+        KEY_PATH,
         KEY_PAYEE_NAME,
         KEY_TRANSFER_ACCOUNT,
         KEY_ACCOUNTID,
@@ -336,7 +336,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     }
     setId(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
     setComment(getString(c, KEY_COMMENT));
-    setLabel(getString(c, KEY_LABEL));
+    setLabel(getString(c, KEY_PATH));
     setTitle(getString(c, KEY_TITLE));
     planId = getLongOrNull(c, KEY_PLANID);
     setParentId(getLongOrNull(c, KEY_PARENTID));
@@ -355,7 +355,13 @@ public class Template extends Transaction implements ITransfer, ISplit {
     setDebtId(getLongOrNull(c, KEY_DEBT_ID));
   }
 
-  public Template(ContentResolver contentResolver, long id, CurrencyUnit currencyUnit, int operationType, Long parentId) {
+  public Template(
+          ContentResolver contentResolver,
+          long id,
+          CurrencyUnit currencyUnit,
+          int operationType,
+          Long parentId
+  ) {
     super();
     setTitle("");
     switch (operationType) {

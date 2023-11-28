@@ -39,6 +39,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
+import org.totschnig.myexpenses.viewmodel.data.Category.Companion.NO_CATEGORY_ASSIGNED_LABEL
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -56,18 +57,12 @@ abstract class ItemRenderer(
         forLegacy: Boolean
     ): AnnotatedString {
         return buildAnnotatedString {
-            if (isTransfer) {
-                accountLabel?.let { append("$it ") }
-                if (forLegacy || accountLabel != null) {
-                    append(Transfer.getIndicatorPrefixForLabel(amount.amountMinor))
-                }
-                label?.let { append(it) }
-            } else if (isSplit) {
+            if (isSplit) {
                 append(context.getString(R.string.split_transaction))
             } else if (forLegacy && catId == null && status != DatabaseConstants.STATUS_HELPER) {
-                append(org.totschnig.myexpenses.viewmodel.data.Category.NO_CATEGORY_ASSIGNED_LABEL)
+                append(NO_CATEGORY_ASSIGNED_LABEL)
             } else {
-                label?.let {
+                categoryPath?.let {
                     if (forLegacy) {
                         append(it)
                     } else {
@@ -75,6 +70,15 @@ abstract class ItemRenderer(
                             append(it)
                         }
                     }
+                }
+                if (isTransfer) {
+                    if (categoryPath != null) append(" (")
+                    accountLabel?.let { append("$it ") }
+                    if (forLegacy || accountLabel != null) {
+                        append(Transfer.getIndicatorPrefixForLabel(amount.amountMinor))
+                    }
+                    transferAccountLabel?.let { append(it) }
+                    if (categoryPath != null) append(")")
                 }
             }
         }
@@ -224,13 +228,15 @@ abstract class ItemRenderer(
                         modifier = Modifier.fillMaxSize()
                     )
 
+                    icon != null -> Icon(icon)
+
                     isTransfer -> CharIcon(
                         char = if (accountLabel != null) '⬧' else Transfer.getIndicatorCharForLabel(
                             amount.amountMinor > 0
                         )
                     )
 
-                    else -> Icon(icon ?: "minus")
+                    else -> Icon("minus")
                 }
             }
         }
@@ -436,7 +442,7 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
             referenceNumber = "1",
             accountId = -1,
             catId = 1,
-            label = "Obst und Gemüse",
+            categoryPath = "Obst und Gemüse",
             comment = "Erika Musterfrau",
             icon = "apple",
             year = 2022,

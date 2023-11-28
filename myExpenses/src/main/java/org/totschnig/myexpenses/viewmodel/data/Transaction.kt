@@ -25,12 +25,12 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
@@ -52,7 +52,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_PEER_PARENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.DatabaseConstants.getExchangeRate
-import org.totschnig.myexpenses.provider.FULL_LABEL
+import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.checkSealedWithAlias
 import org.totschnig.myexpenses.provider.getDouble
 import org.totschnig.myexpenses.provider.getInt
@@ -80,7 +80,7 @@ data class Transaction(
     val catId: Long?,
     val payee: String,
     val methodLabel: String?,
-    override val label: String?,
+    override val categorPath: String?,
     val transferPeer: Long?,
     val transferAmount: Money?,
     val hasTransferPeerParent: Boolean,
@@ -112,7 +112,8 @@ data class Transaction(
             KEY_AMOUNT,
             KEY_COMMENT,
             KEY_CATID,
-            FULL_LABEL,
+            KEY_PATH,
+            TRANSFER_ACCOUNT_LABEL,
             KEY_PAYEE_NAME,
             KEY_TRANSFER_PEER,
             KEY_TRANSFER_ACCOUNT,
@@ -170,7 +171,7 @@ data class Transaction(
                 catId = cursor.getLongOrNull(KEY_CATID),
                 payee = cursor.getString(KEY_PAYEE_NAME),
                 methodLabel = cursor.getStringOrNull(KEY_METHOD_LABEL),
-                label = cursor.getStringOrNull(KEY_LABEL),
+                categorPath = cursor.getStringOrNull(KEY_PATH),
                 transferPeer = transferPeer,
                 transferAmount = transferAccountId?.let {
                     val transferCurrencyUnit =

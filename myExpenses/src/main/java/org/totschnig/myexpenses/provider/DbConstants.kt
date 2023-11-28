@@ -398,14 +398,8 @@ fun categoryPathFromLeave(rowId: String): String {
 """.trimIndent()
 }
 
-/**
- * for transfer label of transfer_account, for transaction full breadcrumb of category
- */
-const val FULL_LABEL =
-    "CASE WHEN  $KEY_TRANSFER_ACCOUNT THEN (SELECT $KEY_LABEL FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_TRANSFER_ACCOUNT) ELSE $KEY_PATH END AS  $KEY_LABEL"
-
 const val TRANSFER_ACCOUNT_LABEL =
-    "CASE WHEN  $KEY_TRANSFER_ACCOUNT THEN (SELECT $KEY_LABEL FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_TRANSFER_ACCOUNT) END AS  $KEY_TRANSFER_ACCOUNT_LABEL"
+    "CASE WHEN $KEY_TRANSFER_ACCOUNT THEN (SELECT $KEY_LABEL FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_TRANSFER_ACCOUNT) END AS $KEY_TRANSFER_ACCOUNT_LABEL"
 
 fun accountQueryCTE(
     homeCurrency: String,
@@ -416,10 +410,10 @@ fun accountQueryCTE(
     val futureCriterion =
         if (futureStartsNow) "'now'" else "'now', 'localtime', 'start of day', '+1 day', 'utc'"
     val isExpense =
-        "$KEY_TRANSFER_PEER IS NULL AND ($KEY_TYPE = $FLAG_EXPENSE OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT < 0))"
+        "$KEY_TYPE = $FLAG_EXPENSE OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT < 0)"
     val isIncome =
-        "$KEY_TRANSFER_PEER IS NULL AND ($KEY_TYPE = $FLAG_INCOME OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT > 0))"
-    val isTransfer = "$KEY_TRANSFER_PEER IS NOT NULL OR $KEY_TYPE = $FLAG_TRANSFER"
+        "$KEY_TYPE = $FLAG_INCOME OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT > 0)"
+    val isTransfer = "$KEY_TYPE = $FLAG_TRANSFER"
     return """
 WITH now as (
     SELECT
@@ -567,10 +561,6 @@ fun buildTransactionGroupCte(
         append(KEY_TRANSFER_PEER)
         append(",")
         append("$typeWithFallBack AS $KEY_TYPE")
-        if (forHome != null) {
-            append(",")
-            append("$KEY_TYPE AS raw_type")
-        }
         append(", cast(")
         append(getAmountCalculation(forHome))
         append(" AS integer) AS $KEY_DISPLAY_AMOUNT")
@@ -580,7 +570,7 @@ fun buildTransactionGroupCte(
 }
 
 fun effectiveTypeExpression(typeWithFallback: String): String =
-    "CASE WHEN $KEY_TRANSFER_PEER IS NULL THEN CASE $typeWithFallback WHEN $FLAG_NEUTRAL THEN CASE WHEN $KEY_AMOUNT > 0 THEN $FLAG_INCOME ELSE $FLAG_EXPENSE END ELSE $typeWithFallback END ELSE 0 END"
+    "CASE $typeWithFallback WHEN $FLAG_NEUTRAL THEN CASE WHEN $KEY_AMOUNT > 0 THEN $FLAG_INCOME ELSE $FLAG_EXPENSE END ELSE $typeWithFallback END"
 
 fun transactionSumQuery(
     projection: Array<String>,

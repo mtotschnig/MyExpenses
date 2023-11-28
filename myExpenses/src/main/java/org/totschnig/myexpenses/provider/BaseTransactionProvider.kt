@@ -1071,19 +1071,19 @@ abstract class BaseTransactionProvider : ContentProvider() {
             val isExpense = if(includeTransfers)
                 "$KEY_TYPE = $FLAG_EXPENSE OR ($KEY_TYPE != $FLAG_INCOME AND $KEY_DISPLAY_AMOUNT < 0)"
             else
-                "$KEY_TRANSFER_PEER IS NULL AND ($KEY_TYPE = $FLAG_EXPENSE OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_DISPLAY_AMOUNT < 0))"
+                "$KEY_TYPE = $FLAG_EXPENSE OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_DISPLAY_AMOUNT < 0)"
             add("$aggregateFunction(CASE WHEN $isExpense THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_EXPENSES")
 
             val isIncome = if(includeTransfers)
                 "$KEY_TYPE = $FLAG_INCOME OR ($KEY_TYPE != $FLAG_EXPENSE AND $KEY_DISPLAY_AMOUNT > 0)"
             else
-                "$KEY_TRANSFER_PEER IS NULL AND ($KEY_TYPE = $FLAG_INCOME OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_DISPLAY_AMOUNT > 0))"
+                "$KEY_TYPE = $FLAG_INCOME OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_DISPLAY_AMOUNT > 0)"
             add("$aggregateFunction(CASE WHEN $isIncome THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_INCOME")
 
             if (!includeTransfers) {
                 //for the Grand total account the transfers between accounts managed by the app should equal to 0,
                 //so we only include transactions mapped to transfer categories (i.e. transfers to accounts external to the app)
-                val isTransfer = if (forHome == null) "$KEY_TRANSFER_PEER IS NOT NULL OR $KEY_TYPE = $FLAG_TRANSFER" else "raw_type = $FLAG_TRANSFER"
+                val isTransfer = if (forHome == null) "$KEY_TYPE = $FLAG_TRANSFER" else "$KEY_TRANSFER_PEER IS NULL AND $KEY_TYPE = $FLAG_TRANSFER"
 
                 add("$aggregateFunction(CASE WHEN $isTransfer THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_TRANSFERS")
             }

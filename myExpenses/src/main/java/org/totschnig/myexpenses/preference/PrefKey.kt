@@ -175,7 +175,8 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     COPY_ATTACHMENT(R.string.pref_copy_attachment_key),
     ATTACHMENT_MIME_TYPES(R.string.pref_attachment_mime_types_key),
     TRANLATION_IMPROVEMENT(R.string.pref_translation_improvement_key),
-    UNMAPPED_TRANSACTION_AS_TRANSFER(R.string.pref_unmapped_transaction_as_transfer_key)
+    UNMAPPED_TRANSACTION_AS_TRANSFER(R.string.pref_unmapped_transaction_as_transfer_key),
+    DEFAULT_TRANSFER_CATEGORY("default_transfer_category")
     ;
 
     @Deprecated("")

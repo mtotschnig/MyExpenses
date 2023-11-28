@@ -16,7 +16,7 @@
 package org.totschnig.myexpenses.provider;
 
 import static org.totschnig.myexpenses.db2.RepositoryPaymentMethodKt.localizedLabelSqlColumn;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.FULL_LABEL;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.TRANSFER_ACCOUNT_LABEL;
 
 import android.content.Context;
 
@@ -104,11 +104,12 @@ public class DatabaseConstants {
             KEY_AMOUNT + " AS " + KEY_DISPLAY_AMOUNT,
             KEY_COMMENT,
             KEY_CATID,
-            FULL_LABEL,
+            KEY_PATH,
             KEY_PAYEEID,
             KEY_PAYEE_NAME,
             KEY_TRANSFER_PEER,
             KEY_TRANSFER_ACCOUNT,
+            TRANSFER_ACCOUNT_LABEL,
             KEY_METHODID,
             localizedLabelSqlColumn(context, KEY_METHOD_LABEL) + " AS " + KEY_METHOD_LABEL,
             KEY_CR_STATUS,

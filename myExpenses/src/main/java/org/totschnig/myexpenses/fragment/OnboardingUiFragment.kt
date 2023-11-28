@@ -139,7 +139,7 @@ class OnboardingUiFragment : OnboardingFragment() {
                 referenceNumber = "1",
                 accountId = -1,
                 catId = 1,
-                label = stringResource(id = R.string.testData_transaction2Comment),
+                categoryPath = stringResource(id = R.string.testData_transaction2Comment),
                 comment = stringResource(id = R.string.testData_transaction4Payee),
                 icon = "cart-shopping",
                 year = 0,

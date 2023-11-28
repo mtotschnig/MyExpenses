@@ -37,6 +37,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LAB
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
@@ -58,7 +59,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_AMOUN
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.FULL_LABEL;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.checkSealedWithAlias;
 import static org.totschnig.myexpenses.provider.CursorExtKt.getLongOrNull;
 import static org.totschnig.myexpenses.provider.CursorExtKt.getString;
@@ -369,7 +369,7 @@ public class Transaction extends Model implements ITransaction {
     Transaction t;
     final CurrencyContext currencyContext = MyApplication.Companion.getInstance().getAppComponent().currencyContext();
     String[] projection = new String[]{KEY_ROWID, KEY_DATE, KEY_VALUE_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
-        FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT, TRANSFER_CURRENCY, KEY_DEBT_ID,
+        KEY_PATH, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT, TRANSFER_CURRENCY, KEY_DEBT_ID,
         KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_CURRENCY,
         KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT(VIEW_ALL), KEY_TEMPLATEID, KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY,
         KEY_EQUIVALENT_AMOUNT, CATEGORY_ICON, checkSealedWithAlias(VIEW_ALL, TABLE_TRANSACTIONS)};
@@ -423,7 +423,7 @@ public class Transaction extends Model implements ITransaction {
     t.setValueDate(valueDate == null ? date : valueDate);
     t.setComment(getString(c, KEY_COMMENT));
     t.setReferenceNumber(getString(c, KEY_REFERENCE_NUMBER));
-    t.setLabel(getString(c, KEY_LABEL));
+    t.setLabel(getString(c, KEY_PATH));
 
     Long originalAmount = getLongOrNull(c, KEY_ORIGINAL_AMOUNT);
     if (originalAmount != null) {

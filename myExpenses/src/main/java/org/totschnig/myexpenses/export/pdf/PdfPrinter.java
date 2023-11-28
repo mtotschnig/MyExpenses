@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.export.pdf;
 
 import static com.itextpdf.text.Chunk.GENERICTAG;
 import static org.totschnig.myexpenses.provider.CursorExtKt.getLocalDateIfExists;
+import static org.totschnig.myexpenses.provider.CursorExtKt.getStringOrNull;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -15,6 +16,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CU
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
@@ -23,6 +25,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START;
@@ -229,7 +232,7 @@ public class PdfPrinter {
     int columnIndexWeek = transactionCursor.getColumnIndex(KEY_WEEK);
     int columnIndexDay = transactionCursor.getColumnIndex(KEY_DAY);
     int columnIndexAmount = transactionCursor.getColumnIndex(KEY_DISPLAY_AMOUNT);
-    int columnIndexLabel = transactionCursor.getColumnIndex(KEY_LABEL);
+    int columnIndexPath = transactionCursor.getColumnIndex(KEY_PATH);
     int columnIndexComment = transactionCursor.getColumnIndex(KEY_COMMENT);
     int columnIndexReferenceNumber = transactionCursor.getColumnIndex(KEY_REFERENCE_NUMBER);
     int columnIndexPayee = transactionCursor.getColumnIndex(KEY_PAYEE_NAME);
@@ -385,47 +388,50 @@ public class PdfPrinter {
         cell.getPhrase().getChunks().get(0).setGenericTag(VOID_MARKER);
       }
 
-      String catText = transactionCursor.getString(columnIndexLabel);
-      if (getLongOrNull(transactionCursor, KEY_TRANSFER_PEER) != null) {
-        catText = Transfer.getIndicatorPrefixForLabel(amount) + catText;
-      } else {
-        Long catId = getLongOrNull(transactionCursor, KEY_CATID);
-        if (SPLIT_CATID.equals(catId)) {
-          Cursor splits = context.getContentResolver().query(Transaction.CONTENT_URI, null,
-              KEY_PARENTID + " = " + transactionCursor.getLong(columnIndexRowId), null, null);
-          splits.moveToFirst();
-          StringBuilder catTextBuilder = new StringBuilder();
-          while (splits.getPosition() < splits.getCount()) {
-            String splitText =  getString(splits, KEY_LABEL);
-            if (splitText.length() > 0) {
-              if (getLongOrNull(splits, KEY_TRANSFER_PEER) != null) {
-                splitText = "[" + splitText + "]";
-              }
-            } else {
-              splitText = Category.NO_CATEGORY_ASSIGNED_LABEL;
-            }
-            splitText += " " + convAmount(currencyFormatter, splits.getLong(
-                splits.getColumnIndexOrThrow(KEY_DISPLAY_AMOUNT)), currencyUnit());
-            String splitComment = getString(splits, KEY_COMMENT);
-            if (splitComment.length() > 0) {
-              splitText += " (" + splitComment + ")";
-            }
-            catTextBuilder.append(splitText);
-            if (splits.getPosition() != splits.getCount() - 1) {
-              catTextBuilder.append("; ");
-            }
-            splits.moveToNext();
-          }
-          catText = catTextBuilder.toString();
-          splits.close();
-        } else if (catId == null) {
-          catText = Category.NO_CATEGORY_ASSIGNED_LABEL;
-        }
-      }
+      String catText = "";
       if (account.getId() < 0) {
         //for aggregate accounts we need to indicate the account name
         catText = transactionCursor.getString(transactionCursor.getColumnIndexOrThrow(KEY_ACCOUNT_LABEL))
-            + " " + catText;
+                + " ";
+      }
+      Long catId = getLongOrNull(transactionCursor, KEY_CATID);
+      if (SPLIT_CATID.equals(catId)) {
+        Cursor splits = context.getContentResolver().query(Transaction.CONTENT_URI, null,
+            KEY_PARENTID + " = " + transactionCursor.getLong(columnIndexRowId), null, null);
+        splits.moveToFirst();
+        StringBuilder catTextBuilder = new StringBuilder();
+        while (splits.getPosition() < splits.getCount()) {
+          String splitText =  getString(splits, KEY_LABEL);
+          if (splitText.length() > 0) {
+            if (getLongOrNull(splits, KEY_TRANSFER_PEER) != null) {
+              splitText = "[" + splitText + "]";
+            }
+          } else {
+            splitText = Category.NO_CATEGORY_ASSIGNED_LABEL;
+          }
+          splitText += " " + convAmount(currencyFormatter, splits.getLong(
+              splits.getColumnIndexOrThrow(KEY_DISPLAY_AMOUNT)), currencyUnit());
+          String splitComment = getString(splits, KEY_COMMENT);
+          if (splitComment.length() > 0) {
+            splitText += " (" + splitComment + ")";
+          }
+          catTextBuilder.append(splitText);
+          if (splits.getPosition() != splits.getCount() - 1) {
+            catTextBuilder.append("; ");
+          }
+          splits.moveToNext();
+        }
+        catText += catTextBuilder.toString();
+        splits.close();
+      } else {
+        if (catId == null) {
+          catText += Category.NO_CATEGORY_ASSIGNED_LABEL;
+        } else {
+          catText += transactionCursor.getString(columnIndexPath);
+        }
+        if (getLongOrNull(transactionCursor, KEY_TRANSFER_PEER) != null) {
+          catText += " (" +Transfer.getIndicatorPrefixForLabel(amount) + getStringOrNull(transactionCursor, KEY_TRANSFER_ACCOUNT_LABEL) + ")";
+        }
       }
       String referenceNumber = transactionCursor.getString(columnIndexReferenceNumber);
       if (referenceNumber != null && referenceNumber.length() > 0)
