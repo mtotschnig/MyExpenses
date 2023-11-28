@@ -107,7 +107,9 @@ class SplitDelegate(
         if (!userSetAmount && !isProcessingLinkedAmountInputs) {
             userSetAmount = true
         }
-        updateBalance()
+        if (!isProcessingLinkedAmountInputs) {
+            updateBalance()
+        }
     }
 
     override fun buildMainTransaction(account: Account): ISplit =

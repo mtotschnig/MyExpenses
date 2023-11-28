@@ -59,7 +59,10 @@ class SplitEditTest : BaseExpenseEditTest() {
         assertUncommittedCount(TransactionProvider.TEMPLATES_UNCOMMITTED_URI, count)
     }
 
-    private fun launch(excludeFromTotals: Boolean = false, configureIntent: Intent.() -> Unit = {}) {
+    private fun launch(
+        excludeFromTotals: Boolean = false,
+        configureIntent: Intent.() -> Unit = {}
+    ) {
         account1 = buildAccount(accountLabel1, excludeFromTotals = excludeFromTotals)
         testScenario = ActivityScenario.launchActivityForResult(
             baseIntent.apply(configureIntent)
@@ -200,15 +203,23 @@ class SplitEditTest : BaseExpenseEditTest() {
         onView(withId(R.id.list)).check(matches(hasChildCount(2)))
     }
 
-    private fun createParts(times: Int) {
+    private fun createParts(
+        times: Int,
+        amount: Int = 50,
+        toggleType: Boolean = false,
+        initialChildCount: Int = 0
+    ) {
         repeat(times) {
             closeSoftKeyboard()
             onView(withId(R.id.CREATE_PART_COMMAND)).perform(nestedScrollToAction(), click())
             onView(withId(R.id.MANAGE_TEMPLATES_COMMAND)).check(doesNotExist())
             onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
-            setAmount(50)
+            if (toggleType) {
+                toggleType()
+            }
+            setAmount(amount)
             onView(withId(R.id.CREATE_COMMAND)).perform(click())//save part
-            onView(withId(R.id.list)).check(matches(hasChildCount(it+1)))
+            onView(withId(R.id.list)).check(matches(hasChildCount(initialChildCount + it + 1)))
         }
     }
 
@@ -247,5 +258,15 @@ class SplitEditTest : BaseExpenseEditTest() {
         clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, false) //toggle save and new off
         closeKeyboardAndSave()
         assertFinishing()
+    }
+
+    /**
+     * Bug https://github.com/mtotschnig/MyExpenses/issues/1323
+     */
+    @Test
+    fun createPartsWhichFlipSign() {
+        launch()
+        createParts(1, 50, false)
+        createParts(1, 100, true, initialChildCount = 1)
     }
 }
