@@ -56,7 +56,7 @@ class CursorSubject private constructor(
 
     private fun count(): IntegerSubject = check("count").that(actual.count)
 
-    private fun columnCount(): IntegerSubject = check("columnCount").that(actual.count)
+    private fun columnCount(): IntegerSubject = check("columnCount").that(actual.columnCount)
 
     companion object {
         fun assertThat(cursor: Cursor): CursorSubject {

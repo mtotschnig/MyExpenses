@@ -122,7 +122,9 @@ class TransactionListViewModel(
                     add(FLAG_TRANSFER)
                 }
             }
-            val typeExpression = if(aggregateNeutral) KEY_TYPE else effectiveTypeExpression(DbUtils.typeWithFallBack(prefHandler))
+            val typeWithFallback = DbUtils.typeWithFallBack(prefHandler)
+            val typeExpression = if(aggregateNeutral) typeWithFallback else
+                effectiveTypeExpression(typeWithFallback)
             selectionParts += "$typeExpression IN (${types.joinToString()})"
             selectionParts.joinToString(" AND ") to selectionArgs.toTypedArray()
         }

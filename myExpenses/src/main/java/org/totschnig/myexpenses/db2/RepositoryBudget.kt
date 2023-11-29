@@ -83,7 +83,6 @@ fun budgetAllocationQueryUri(
 
 fun Repository.sumLoaderForBudget(budget: Budget, aggregateNeutral: Boolean): Triple<Uri, String, Array<String>?> {
     val sumBuilder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
-    sumBuilder.appendQueryParameter(KEY_TYPE, FLAG_EXPENSE.toString())
     budget.queryParameter?.let {
         sumBuilder.appendQueryParameter(it.first, it.second)
     }
