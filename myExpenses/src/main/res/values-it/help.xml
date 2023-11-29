@@ -181,4 +181,9 @@
     <string name="help_debt_managment">Associa i debiti alle parti, controlla l\'elenco delle transazioni e calcola il saldo residuo.</string>
     <string name="help_SetupSync_info">Questa schermata ti permette di selezionare i dati che vuoi sincronizzare tra il dispositivo e il backend. Elenca tutti i conti sul tuo dispositivo che non sono ancora sincronizzati con altri backend, e tutti i conti memorizzati sul backend. Cliccando su &lt;img src=ic_hchain_broken&gt; / &lt;img src=ic_hchain&gt; selezionerai o deselezionerai un conto per la sincronizzazione. Se selezioni un conto che esiste già sia in locale che in remoto, devi decidere inizialmente se i dati sul tuo dispositivo devono sovrascrivere i dati esistenti sul backend, o il contrario.</string>
     <string name="cab_ManageCategories_select_help_text">Mappa la categoria selezionata alla transazione e ritorna al modulo di transazione.</string>
+    <string name="cab_ManageCategories_create_sub_cat_help_text">Apre la finestra di dialogo per creare una nuova sottocategoria al di sotto della categoria selezionata. Le sottocategorie possono essere nidificate con profondità arbitraria.</string>
+    <string name="help_ManageCategories_expand_collapse">Fare clic sull\'icona &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt; per espandere o comprimere una categoria.</string>
+    <string name="cab_ManageCategories_move_help_text">Qualsiasi categoria (insieme con le sue sottocategorie) può essere spostata in una nuova categoria principale. Le sottocategorie possono essere trasformate in categorie principali.</string>
+    <string name="help_ManageCategories_select_filter_info">Clicca su un elemento per cominciale la selezione multipla.</string>
+    <string name="help_ManageCategories_manage_context">Fare clic su una voce per mostrare il menu contestuale. Toccare a lungo per cominciare una selezione multipla.</string>
 </resources>
