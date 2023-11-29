@@ -26,10 +26,12 @@ import org.totschnig.myexpenses.compose.TEST_TAG_EDIT_TEXT
 import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.TEST_TAG_POSITIVE_BUTTON
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseComposeTest
+import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import java.time.LocalDate
 import java.util.*
@@ -38,18 +40,20 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
 
     private lateinit var account: org.totschnig.myexpenses.model2.Account
     private var categoryId: Long = 0
-    private val origListSize = 2
+    private var origListSize = 0
 
     private fun baseFixture() {
         account = buildAccount("Test account 1")
         categoryId = writeCategory(label = "TestCategory")
         writeCategory(label = "Control Category")
+        origListSize = repository.count(TransactionProvider.CATEGORIES_URI)
     }
 
     private fun launch() =
         ActivityScenario.launch<ManageCategories>(
             Intent(targetContext, ManageCategories::class.java).also {
                 it.action = Action.MANAGE.name
+                it.putExtra(CategoryViewModel.KEY_TYPE_FILTER, FLAG_NEUTRAL)
             }
         ).also {
             testScenario = it

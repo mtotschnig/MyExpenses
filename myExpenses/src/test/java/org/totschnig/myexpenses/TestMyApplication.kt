@@ -36,6 +36,7 @@ class TestMyApplication : MyApplication() {
             .coroutineModule(object: CoroutineModule() {
                 override fun provideCoroutineDispatcher() = Dispatchers.Main.immediate
             })
+            .dataModule(DataModule(false))
             .build()
     }
 }

@@ -28,10 +28,10 @@ class ManageCategoriesTest : BaseUiTest<ManageCategories>() {
     @Test
     @Throws(TimeoutException::class)
     fun setupCategoriesShouldPopulateList() {
-        assertThat(repository.count(TransactionProvider.CATEGORIES_URI)).isEqualTo(0)
+        val origDataSize = repository.count(TransactionProvider.CATEGORIES_URI)
         Espresso.openActionBarOverflowMenu()
         androidx.test.espresso.Espresso.onView(ViewMatchers.withText(R.string.menu_categories_setup_default))
             .perform(ViewActions.click())
-        assertThat(repository.count(TransactionProvider.CATEGORIES_URI)).isGreaterThan(0)
+        assertThat(repository.count(TransactionProvider.CATEGORIES_URI)).isGreaterThan(origDataSize)
     }
 }

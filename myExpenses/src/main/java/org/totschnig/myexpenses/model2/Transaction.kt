@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DISPLAY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
@@ -90,7 +91,7 @@ data class Transaction(
                 else
                     (number.takeIf { it.isNotEmpty() }?.let { "($it) " } ?: "")
                             + buildList {
-                        cursor.getString(KEY_LABEL).takeIf { it.isNotEmpty() }?.let {
+                        cursor.getString(KEY_PATH).takeIf { it.isNotEmpty() }?.let {
                             val transferIndicator = if (transferPeer == null) "" else {
                                 Transfer.getIndicatorPrefixForLabel(amount)
                             }

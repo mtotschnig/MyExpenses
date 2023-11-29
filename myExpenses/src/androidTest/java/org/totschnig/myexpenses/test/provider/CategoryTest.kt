@@ -55,16 +55,9 @@ class CategoryTest : BaseDbTest() {
         val selectionColumns = "$labelSelection OR $labelSelection OR $labelSelection"
         val selectionArgs = arrayOf("Main Expense", "Main Income", "Sub 1")
         val sortOrder = DatabaseConstants.KEY_LABEL + " ASC"
-        mockContentResolver.query(
-            TransactionProvider.CATEGORIES_URI,
-            null,
-            null,
-            null,
-            null
-        )!!.use {
-            assertEquals(0, it.count)
-            insertData()
-        }
+
+        val origSize = repository.count(TransactionProvider.CATEGORIES_URI)
+        insertData()
 
         mockContentResolver.query(
             TransactionProvider.CATEGORIES_URI,
@@ -73,7 +66,7 @@ class CategoryTest : BaseDbTest() {
             null,
             null
         )!!.use {
-            assertEquals(testCategories.size, it.count)
+            assertEquals(origSize + testCategories.size, it.count)
         }
 
         mockContentResolver.query(
@@ -112,18 +105,7 @@ class CategoryTest : BaseDbTest() {
             DatabaseConstants.KEY_ROWID,
             DatabaseConstants.KEY_LABEL
         )
-        var categoryIdUri = ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, 1)
-
-        mockContentResolver.query(
-            categoryIdUri,
-            null,
-            null,
-            null,
-            null
-        )!!.use {
-            assertEquals(0, it.count)
-            insertData()
-        }
+        insertData()
 
         val inputCategoryId = mockContentResolver.query(
             TransactionProvider.CATEGORIES_URI,
@@ -136,7 +118,7 @@ class CategoryTest : BaseDbTest() {
             assertTrue(it.moveToFirst())
             it.getInt(0)
         }
-        categoryIdUri =
+        val categoryIdUri =
             ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, inputCategoryId.toLong())
 
         mockContentResolver.query(
@@ -153,6 +135,7 @@ class CategoryTest : BaseDbTest() {
     }
 
     fun testInserts() {
+        val origSize = repository.count(TransactionProvider.CATEGORIES_URI)
         val transaction = CategoryInfo("Main 3")
         val rowUri = mockContentResolver.insert(
             TransactionProvider.CATEGORIES_URI,
@@ -167,7 +150,7 @@ class CategoryTest : BaseDbTest() {
             null,
             null
         )!!.use {
-            assertEquals(1, it.count)
+            assertEquals(origSize + 1, it.count)
             assertTrue(it.moveToFirst())
             val labelIndex = it.getColumnIndex(DatabaseConstants.KEY_LABEL)
             val parentIdIndex = it.getColumnIndex(DatabaseConstants.KEY_PARENTID)
@@ -346,7 +329,6 @@ class CategoryTest : BaseDbTest() {
             while (it.moveToNext()) {
                 val color = it.getInt(1)
                 if (it.isNull(0)) {
-                    //parentId
                     assertTrue(color != 0)
                 } else {
                     assertEquals(0, color)

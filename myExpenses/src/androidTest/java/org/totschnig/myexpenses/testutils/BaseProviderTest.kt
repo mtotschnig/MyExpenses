@@ -45,12 +45,15 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(Transaction
     val homeCurrency: CurrencyUnit
         get() = app.appComponent.homeCurrencyProvider().homeCurrencyUnit
 
+    val prefHandler: PrefHandler
+        get() = app.appComponent.prefHandler()
+
     protected val repository: Repository
         get() = Repository(
             targetContextWrapper,
             Mockito.mock(CurrencyContext::class.java),
             Mockito.mock(CurrencyFormatter::class.java),
-            Mockito.mock(PrefHandler::class.java),
+            prefHandler,
             Mockito.mock(HomeCurrencyProvider::class.java),
             Mockito.mock(DataStore::class.java) as DataStore<Preferences>
         )

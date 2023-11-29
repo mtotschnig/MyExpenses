@@ -45,6 +45,7 @@ import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_I
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.buildViewDefinition;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.tagGroupBy;
+import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.suggestNewCategoryColor;
 import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
@@ -87,6 +88,7 @@ import java.util.Locale;
 import timber.log.Timber;
 
 public class TransactionDatabase extends BaseTransactionDatabase {
+  protected boolean shouldInsertDefaultTransferCategory;
 
   /**
    * SQL statement for expenses TABLE
@@ -122,8 +124,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_EQUIVALENT_AMOUNT + " integer,  "
           + KEY_DEBT_ID + " integer references " + TABLE_DEBTS + "(" + KEY_ROWID + ") ON DELETE SET NULL);";
 
-  public TransactionDatabase(@NonNull PrefHandler prefHandler) {
+  public TransactionDatabase(@NonNull PrefHandler prefHandler, boolean shouldInsertDefaultTransferCategory) {
     super(prefHandler);
+    this.shouldInsertDefaultTransferCategory = shouldInsertDefaultTransferCategory;
   }
 
   /**
@@ -616,10 +619,13 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     initialValues.put(KEY_PARENTID, SPLIT_CATID);
     initialValues.put(KEY_LABEL, "__SPLIT_TRANSACTION__");
     db.insert(TABLE_CATEGORIES, CONFLICT_NONE, initialValues);
-    initialValues.clear();
-    initialValues.put(KEY_LABEL, MyApplication.Companion.getInstance().getString(R.string.transfer));
-    initialValues.put(KEY_TYPE, 0);
-    getPrefHandler().putLong(PrefKey.DEFAULT_TRANSFER_CATEGORY, db.insert(TABLE_CATEGORIES, CONFLICT_NONE, initialValues));
+    if (shouldInsertDefaultTransferCategory) {
+      initialValues.clear();
+      initialValues.put(KEY_LABEL, MyApplication.Companion.getInstance().getString(R.string.transfer));
+      initialValues.put(KEY_TYPE, 0);
+      initialValues.put(KEY_COLOR, suggestNewCategoryColor(db));
+      getPrefHandler().putLong(PrefKey.DEFAULT_TRANSFER_CATEGORY, db.insert(TABLE_CATEGORIES, CONFLICT_NONE, initialValues));
+    }
     insertCurrencies(db);
     db.execSQL(EVENT_CACHE_CREATE);
     db.execSQL(CHANGES_CREATE);

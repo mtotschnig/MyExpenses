@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.model2.Account;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 public class AccountTest extends ModelTest {
@@ -41,14 +42,15 @@ public class AccountTest extends ModelTest {
       income2 = 40L,
       transferP = 50L,
       transferN = 60L;
-  private long catId;
 
   private void insertData() {
     Transaction op;
     CurrencyUnit currencyUnit = getHomeCurrency();
+    long defaultTransferCategory = getPrefHandler().getLong(PrefKey.DEFAULT_TRANSFER_CATEGORY, -1);
+    assertNotSame(-1L, defaultTransferCategory);
     account1 = buildAccount("Account 1", openingBalance);
     account2 = buildAccount("Account 2", openingBalance);
-    catId = writeCategory(TEST_CAT, null);
+
     op = Transaction.getNewInstance(account1.getId(), currencyUnit);
     op.setAmount(new Money(currencyUnit, -expense1));
     op.setCrStatus(CrStatus.CLEARED);
@@ -58,10 +60,11 @@ public class AccountTest extends ModelTest {
     op.setAmount(new Money(currencyUnit, income1));
     op.saveAsNew(getContentResolver());
     op.setAmount(new Money(currencyUnit, income2));
-    op.setCatId(catId);
+    op.setCatId(writeCategory(TEST_CAT, null));
     op.saveAsNew(getContentResolver());
     Transfer op1 = Transfer.getNewInstance(account1.getId(), currencyUnit, account2.getId());
     op1.setAmount(new Money(currencyUnit, transferP));
+    op1.setCatId(defaultTransferCategory);
     op1.save(getContentResolver());
     op1.setAmount(new Money(currencyUnit, -transferN));
     op1.saveAsNew(getContentResolver());

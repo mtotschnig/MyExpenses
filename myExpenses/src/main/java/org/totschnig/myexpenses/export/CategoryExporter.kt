@@ -7,11 +7,9 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.failure
-import timber.log.Timber
 import java.io.IOException
 import java.io.OutputStreamWriter
 
@@ -59,7 +57,7 @@ object CategoryExporter {
                                     }
                                     append("\n^")
                                 }
-                                out.write(sb.toString())
+                                out.write(sb)
                                 c.moveToNext()
                             }
                         }
