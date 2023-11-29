@@ -32,7 +32,6 @@ object ProviderUtils {
                             repository.findAnyOpenByLabel(it)
                         }?.takeIf { it != -1L }?.let {
                             setTransferAccountId(it)
-                            label = transferAccountLabel
                         }
                     }
                 }
@@ -60,7 +59,7 @@ object ProviderUtils {
                         CategoryHelper.insert(repository, categoryLabel!!, categoryToId, false)
                         catId = categoryToId[categoryLabel]
                         if (catId != null) {
-                            label = categoryLabel
+                            categoryPath = categoryLabel
                         }
                     }
                 }

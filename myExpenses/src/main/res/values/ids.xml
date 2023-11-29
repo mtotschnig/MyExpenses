@@ -218,4 +218,5 @@
     <item name="FILTER_EXPENSE_COMMAND" type="id" />
     <item name="FILTER_INCOME_COMMAND" type="id" />
     <item name="AGGREGATE_COMMAND" type="id" />
+    <item name="CATEGORY_COMMAND" type="id" />
 </resources>

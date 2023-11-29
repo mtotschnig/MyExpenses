@@ -27,10 +27,20 @@ import android.text.TextUtils
 import android.text.style.StyleSpan
 import android.text.style.UnderlineSpan
 import android.util.SparseBooleanArray
-import android.view.*
 import android.view.ContextMenu.ContextMenuInfo
-import android.widget.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AbsListView
+import android.widget.AdapterView
 import android.widget.AdapterView.AdapterContextMenuInfo
+import android.widget.ImageView
+import android.widget.SimpleCursorAdapter
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.DialogFragment
@@ -44,25 +54,61 @@ import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.*
+import org.totschnig.myexpenses.activity.BaseActivity
+import org.totschnig.myexpenses.activity.EDIT_REQUEST
+import org.totschnig.myexpenses.activity.ExpenseEdit
+import org.totschnig.myexpenses.activity.ManageTemplates
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.TemplatesListBinding
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.getCurrencyForAccount
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Sort.Companion.preferredOrderByForTemplatesWithPlans
+import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.model.Transfer.RIGHT_ARROW
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEFAULT_ACTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_INFO
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
+import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
+import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringIfExists
+import org.totschnig.myexpenses.provider.getStringOrNull
+import org.totschnig.myexpenses.provider.isNull
 import org.totschnig.myexpenses.task.TaskExecutionFragment
-import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
+import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.TemplatesListViewModel
@@ -71,6 +117,7 @@ import timber.log.Timber
 import java.io.Serializable
 import java.lang.ref.WeakReference
 import javax.inject.Inject
+import kotlin.math.absoluteValue
 
 const val KEY_INSTANCE = "instance"
 const val DIALOG_TAG_CONFIRM_CANCEL = "confirm_cancel"
@@ -82,22 +129,12 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     private var popup: PopupMenu? = null
     override val menuResource: Int
         get() = R.menu.templateslist_context
-    private var mTemplatesCursor: Cursor? = null
+    private var _templatesCursor: Cursor? = null
+
+    val templatesCursor: Cursor
+        get() = _templatesCursor!!
     private lateinit var mAdapter: SimpleCursorAdapter
     private lateinit var mManager: LoaderManager
-    private var columnIndexAmount = 0
-    private var columnIndexComment = 0
-    private var columnIndexPayee = 0
-    private var columnIndexColor = 0
-    private var columnIndexDefaultAction = 0
-    private var columnIndexCurrency = 0
-    private var columnIndexTransferAccount = 0
-    private var columnIndexPlanId = 0
-    private var columnIndexTitle = 0
-    private var columnIndexRowId = 0
-    private var columnIndexPlanInfo = 0
-    private var columnIndexIsSealed = 0
-    private var indexesCalculated = false
     private var hasPlans = false
 
     /**
@@ -156,9 +193,9 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         mManager.initLoader(SORTABLE_CURSOR, null, this)
         // Create an array to specify the fields we want to display in the list
         val from = arrayOf(
-            DatabaseConstants.KEY_TITLE,
-            DatabaseConstants.KEY_PATH,
-            DatabaseConstants.KEY_AMOUNT
+            KEY_TITLE,
+            KEY_PATH,
+            KEY_AMOUNT
         )
         // and an array of the fields we want to bind those fields to
         val to = intArrayOf(R.id.title, R.id.category, R.id.amount)
@@ -173,19 +210,19 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         binding.list.adapter = mAdapter
         binding.list.emptyView = binding.empty
         binding.list.setOnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, id: Long ->
-            if (mTemplatesCursor == null || !mTemplatesCursor!!.moveToPosition(position)) return@setOnItemClickListener
-            val isSealed = mTemplatesCursor!!.getInt(columnIndexIsSealed) != 0
+            if (_templatesCursor == null || !templatesCursor.moveToPosition(position)) return@setOnItemClickListener
+            val isSealed = templatesCursor.getInt(KEY_SEALED) != 0
             if (isSealed) {
                 ctx.showSnackBar(R.string.object_sealed)
             }
-            if (mTemplatesCursor!!.isNull(columnIndexPlanId)) {
+            if (templatesCursor.isNull(KEY_PLANID)) {
                 if (!isSealed) {
                     if (isForeignExchangeTransfer(position)) {
                         dispatchCreateInstanceEditDo(id)
                     } else {
                         val splitAtPosition = isSplitAtPosition(position)
                         val defaultAction: Template.Action = enumValueOrDefault(
-                            mTemplatesCursor!!.getString(columnIndexDefaultAction),
+                            templatesCursor.getString(KEY_DEFAULT_ACTION),
                             Template.Action.SAVE
                         )
                         if (defaultAction == Template.Action.SAVE) {
@@ -206,10 +243,10 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
             } else {
                 if (isCalendarPermissionGranted) {
                     val planMonthFragment = PlanMonthFragment.newInstance(
-                        mTemplatesCursor!!.getString(columnIndexTitle),
+                        templatesCursor.getString(KEY_TITLE),
                         id,
-                        mTemplatesCursor!!.getLong(columnIndexPlanId),
-                        mTemplatesCursor!!.getInt(columnIndexColor), isSealed, prefHandler
+                        templatesCursor.getLong(KEY_PLANID),
+                        templatesCursor.getInt(KEY_COLOR), isSealed, prefHandler
                     )
                     if (!childFragmentManager.isStateSaved) {
                         planMonthFragment.show(childFragmentManager, CALDROID_DIALOG_FRAGMENT_TAG)
@@ -317,7 +354,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         } else if (command == R.id.EDIT_COMMAND) {
             finishActionMode()
             i = Intent(activity, ExpenseEdit::class.java)
-            i.putExtra(DatabaseConstants.KEY_TEMPLATEID, menuInfo.id)
+            i.putExtra(KEY_TEMPLATEID, menuInfo.id)
             //TODO check what to do on Result
             startActivityForResult(i, EDIT_REQUEST)
             return true
@@ -325,7 +362,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         return false
     }
 
-    private fun isSplitAtPosition(position: Int) = mTemplatesCursor?.let {
+    private fun isSplitAtPosition(position: Int) = _templatesCursor?.let {
         it.moveToPosition(position) && it.getLongOrNull(KEY_CATID) == SPLIT_CATID
     } ?: false
 
@@ -373,23 +410,23 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     fun dispatchCreateInstanceEditDo(itemId: Long) {
         startActivity(Intent(requireActivity(), ExpenseEdit::class.java).apply {
             action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE
-            putExtra(DatabaseConstants.KEY_TEMPLATEID, itemId)
+            putExtra(KEY_TEMPLATEID, itemId)
         })
     }
 
     private fun dispatchCreateInstanceEdit(templateId: Long, instanceId: Long, date: Long) {
         startActivity(
             Intent(requireActivity(), ExpenseEdit::class.java)
-                .putExtra(DatabaseConstants.KEY_TEMPLATEID, templateId)
-                .putExtra(DatabaseConstants.KEY_INSTANCEID, instanceId)
-                .putExtra(DatabaseConstants.KEY_DATE, date)
+                .putExtra(KEY_TEMPLATEID, templateId)
+                .putExtra(KEY_INSTANCEID, instanceId)
+                .putExtra(KEY_DATE, date)
         )
     }
 
     fun dispatchEditInstance(transactionId: Long?) {
         startActivityForResult(
             Intent(requireActivity(), ExpenseEdit::class.java)
-                .putExtra(DatabaseConstants.KEY_ROWID, transactionId), EDIT_REQUEST
+                .putExtra(KEY_ROWID, transactionId), EDIT_REQUEST
         )
     }
 
@@ -410,7 +447,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                     .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_PLAN_INFO)
                     .build(),
                 null,
-                DatabaseConstants.KEY_PARENTID + " is null",
+                DatabaseConstants.KEY_PARENTID + " IS NULL",
                 null,
                 preferredOrderByForTemplatesWithPlans(prefHandler, Sort.USAGES, prefHandler.collate)
             )
@@ -420,46 +457,30 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     override fun onLoadFinished(loader: Loader<Cursor?>, c: Cursor?) {
         val ctx = requireActivity() as ManageTemplates
         if (loader.id == SORTABLE_CURSOR) {
-            mTemplatesCursor = c
-            if (c != null && !indexesCalculated) {
-                columnIndexRowId = c.getColumnIndex(DatabaseConstants.KEY_ROWID)
-                columnIndexAmount = c.getColumnIndex(DatabaseConstants.KEY_AMOUNT)
-                columnIndexComment = c.getColumnIndex(DatabaseConstants.KEY_COMMENT)
-                columnIndexPayee = c.getColumnIndex(DatabaseConstants.KEY_PAYEE_NAME)
-                columnIndexColor = c.getColumnIndex(DatabaseConstants.KEY_COLOR)
-                columnIndexCurrency = c.getColumnIndex(DatabaseConstants.KEY_CURRENCY)
-                columnIndexTransferAccount =
-                    c.getColumnIndex(DatabaseConstants.KEY_TRANSFER_ACCOUNT)
-                columnIndexPlanId = c.getColumnIndex(DatabaseConstants.KEY_PLANID)
-                columnIndexTitle = c.getColumnIndex(DatabaseConstants.KEY_TITLE)
-                columnIndexPlanInfo = c.getColumnIndex(DatabaseConstants.KEY_PLAN_INFO)
-                columnIndexIsSealed = c.getColumnIndex(DatabaseConstants.KEY_SEALED)
-                columnIndexDefaultAction = c.getColumnIndex(DatabaseConstants.KEY_DEFAULT_ACTION)
-                indexesCalculated = true
-            }
+            _templatesCursor = c
             invalidateCAB()
             hasPlans = false
-            if (isCalendarPermissionGranted && mTemplatesCursor != null && mTemplatesCursor!!.moveToFirst()) {
+            if (isCalendarPermissionGranted && _templatesCursor != null && templatesCursor.moveToFirst()) {
                 val needToExpand =
                     if (expandedHandled) ManageTemplates.NOT_CALLED else ctx.calledFromCalendarWithId
                 var planMonthFragment: PlanMonthFragment? = null
-                while (!mTemplatesCursor!!.isAfterLast) {
-                    val planId = mTemplatesCursor!!.getLong(columnIndexPlanId)
+                while (!templatesCursor.isAfterLast) {
+                    val planId = templatesCursor.getLong(KEY_PLANID)
                     if (planId != 0L) {
                         hasPlans = true
                     }
-                    val templateId = mTemplatesCursor!!.getLong(columnIndexRowId)
+                    val templateId = templatesCursor.getLong(KEY_ROWID)
                     if (needToExpand == templateId) {
                         planMonthFragment = PlanMonthFragment.newInstance(
-                            mTemplatesCursor!!.getString(columnIndexTitle),
+                            templatesCursor.getString(KEY_TITLE),
                             templateId,
                             planId,
-                            mTemplatesCursor!!.getInt(columnIndexColor),
-                            mTemplatesCursor!!.getInt(columnIndexIsSealed) != 0,
+                            templatesCursor.getInt(KEY_COLOR),
+                            templatesCursor.getInt(KEY_SEALED) != 0,
                             prefHandler
                         )
                     }
-                    mTemplatesCursor!!.moveToNext()
+                    templatesCursor.moveToNext()
                 }
                 if (needToExpand != ManageTemplates.NOT_CALLED) {
                     expandedHandled = true
@@ -470,22 +491,21 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                     }
                 }
                 //look for plans that we could possible relink
-                if (!repairTriggered && mTemplatesCursor!!.moveToFirst()) {
+                if (!repairTriggered && templatesCursor.moveToFirst()) {
                     val missingUuids = ArrayList<String>()
-                    while (!mTemplatesCursor!!.isAfterLast) {
-                        if (!mTemplatesCursor!!.isNull(columnIndexPlanId) && mTemplatesCursor!!.isNull(
-                                columnIndexPlanInfo
-                            )
+                    while (!templatesCursor.isAfterLast) {
+                        if (!templatesCursor.isNull(KEY_PLANID) &&
+                            templatesCursor.isNull(KEY_PLAN_INFO)
                         ) {
                             missingUuids.add(
-                                mTemplatesCursor!!.getString(
-                                    mTemplatesCursor!!.getColumnIndexOrThrow(
+                                templatesCursor.getString(
+                                    templatesCursor.getColumnIndexOrThrow(
                                         DatabaseConstants.KEY_UUID
                                     )
                                 )
                             )
                         }
-                        mTemplatesCursor!!.moveToNext()
+                        templatesCursor.moveToNext()
                     }
                     if (missingUuids.size > 0) {
                         RepairHandler(this).obtainMessage(
@@ -495,7 +515,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                     }
                 }
             }
-            mAdapter.swapCursor(mTemplatesCursor)
+            mAdapter.swapCursor(_templatesCursor)
             requireActivity().invalidateOptionsMenu()
         }
     }
@@ -621,7 +641,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
 
     override fun onLoaderReset(loader: Loader<Cursor?>) {
         if (loader.id == SORTABLE_CURSOR) {
-            mTemplatesCursor = null
+            _templatesCursor = null
             mAdapter.swapCursor(null)
         }
     }
@@ -644,26 +664,42 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
             ResourcesCompat.getColor(resources, R.color.colorExpense, null)
         private val colorIncome: Int =
             ResourcesCompat.getColor(resources, R.color.colorIncome, null)
+        private val colorTransfer: Int =
+            ResourcesCompat.getColor(resources, R.color.colorTransfer, null)
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             val convertView = super.getView(position, convertView, parent)
             val c = cursor
             c.moveToPosition(position)
-            val isSealed = c.getInt(columnIndexIsSealed) != 0
-            val doesHavePlan = !c.isNull(columnIndexPlanId)
+            val isSealed = c.getInt(KEY_SEALED) != 0
+            val doesHavePlan = !c.isNull(KEY_PLANID)
+            val isTransfer = !c.isNull(KEY_TRANSFER_ACCOUNT)
             val tv1 = convertView.findViewById<TextView>(R.id.amount)
-            val amount = c.getLong(columnIndexAmount)
-            tv1.setTextColor(if (amount < 0) colorExpense else colorIncome)
-            tv1.text = currencyFormatter.convAmount(
-                amount,
-                currencyContext[c.getString(columnIndexCurrency)]
+            val amount = c.getLong(KEY_AMOUNT)
+            tv1.setTextColor(
+                when {
+                    isTransfer -> colorTransfer
+                    amount < 0 -> colorExpense
+                    else -> colorIncome
+                }
             )
-            val color = c.getInt(columnIndexColor)
+            tv1.text = currencyFormatter.convAmount(
+                if (isTransfer) amount.absoluteValue else amount,
+                currencyContext[c.getString(KEY_CURRENCY)]
+            )
+            val color = c.getInt(KEY_COLOR)
             convertView.findViewById<View>(R.id.colorAccount).setBackgroundColor(color)
             val tv2 = convertView.findViewById<TextView>(R.id.category)
             var catText = tv2.text
-            if (!c.isNull(columnIndexTransferAccount)) {
-                catText = Transfer.getIndicatorPrefixForLabel(amount) + catText
+            if (isTransfer) {
+                val account = c.getString(KEY_ACCOUNT_LABEL)
+                val transferAccount = c.getString(KEY_TRANSFER_ACCOUNT_LABEL)
+
+                val transfer = if (amount < 0) "$account $RIGHT_ARROW $transferAccount"
+                else "$transferAccount $RIGHT_ARROW $account"
+
+                catText = if (catText.isEmpty()) transfer
+                else TextUtils.concat(catText, " (", transfer, ")")
             } else {
                 val catId = c.getLongOrNull(KEY_CATID)
                 if (catId == null) {
@@ -672,23 +708,22 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
             }
             //TODO: simplify confer TemplateWidget
             var ssb: SpannableStringBuilder
-            val comment = c.getString(columnIndexComment)
+            val comment = c.getStringOrNull(KEY_COMMENT)
             val commentSeparator = " / "
-            if (comment != null && comment.isNotEmpty()) {
+            if (!comment.isNullOrEmpty()) {
                 ssb = SpannableStringBuilder(comment)
                 ssb.setSpan(StyleSpan(Typeface.ITALIC), 0, comment.length, 0)
                 catText = TextUtils.concat(catText, commentSeparator, ssb)
             }
-            val payee = c.getString(columnIndexPayee)
-            if (payee != null && payee.isNotEmpty()) {
+            val payee = c.getStringOrNull(KEY_COMMENT)
+            if (!payee.isNullOrEmpty()) {
                 ssb = SpannableStringBuilder(payee)
                 ssb.setSpan(UnderlineSpan(), 0, payee.length, 0)
                 catText = TextUtils.concat(catText, commentSeparator, ssb)
             }
             tv2.text = catText
             if (doesHavePlan) {
-                var planInfo: CharSequence? =
-                    if (columnIndexPlanInfo == -1) null else c.getString(columnIndexPlanInfo)
+                var planInfo: CharSequence? = c.getStringIfExists(KEY_PLAN_INFO)
                 if (planInfo == null) {
                     planInfo = if (isCalendarPermissionGranted) {
                         getString(R.string.plan_event_deleted)
@@ -697,7 +732,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                     }
                 }
                 (convertView.findViewById<View>(R.id.title) as TextView).text =
-                    "${c.getString(columnIndexTitle)} ($planInfo)"
+                    "${c.getString(KEY_TITLE)} ($planInfo)"
             }
             val planImage = convertView.findViewById<ImageView>(R.id.Plan)
             planImage.setImageResource(
@@ -765,10 +800,10 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     }
 
     private fun isForeignExchangeTransfer(position: Int): Boolean {
-        if (mTemplatesCursor != null && mTemplatesCursor!!.moveToPosition(position)) {
-            if (!mTemplatesCursor!!.isNull(columnIndexTransferAccount)) {
-                return mTemplatesCursor!!.getString(columnIndexCurrency) != repository.getCurrencyForAccount(
-                    mTemplatesCursor!!.getLong(columnIndexTransferAccount)
+        if (_templatesCursor != null && templatesCursor.moveToPosition(position)) {
+            if (!templatesCursor.isNull(KEY_TRANSFER_ACCOUNT)) {
+                return templatesCursor.getString(KEY_CURRENCY) != repository.getCurrencyForAccount(
+                    templatesCursor.getLong(KEY_TRANSFER_ACCOUNT)
                 )
             }
         }
@@ -776,14 +811,14 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     }
 
     private fun isPlan(position: Int): Boolean {
-        return if (mTemplatesCursor != null && mTemplatesCursor!!.moveToPosition(position)) {
-            !mTemplatesCursor!!.isNull(columnIndexPlanId)
+        return if (_templatesCursor != null && templatesCursor.moveToPosition(position)) {
+            !templatesCursor.isNull(KEY_PLANID)
         } else false
     }
 
     private fun isSealed(position: Int): Boolean {
-        return if (mTemplatesCursor != null && mTemplatesCursor!!.moveToPosition(position)) {
-            mTemplatesCursor!!.getInt(columnIndexIsSealed) == 1
+        return if (_templatesCursor != null && templatesCursor.moveToPosition(position)) {
+            templatesCursor.getInt(KEY_SEALED) == 1
         } else false
     }
 
@@ -831,6 +866,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                 DIALOG_TAG_CONFIRM_DELETE -> viewModel.deleteTransactions(
                     longArrayOf(extras.getLong(KEY_TRANSACTIONID))
                 )
+
                 DIALOG_TAG_CONFIRM_RESET -> viewModel.reset(extras.getParcelable(KEY_INSTANCE)!!)
                 DIALOG_TAG_CONFIRM_CANCEL -> viewModel.cancel(extras.getParcelable(KEY_INSTANCE)!!)
             }

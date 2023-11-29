@@ -5,6 +5,7 @@ import android.text.Editable
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import androidx.core.view.isVisible
 import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
@@ -50,6 +51,9 @@ class TransferDelegate(
     @State
     var transferPeer: Long? = null
 
+    @State
+    var categoryVisible = false
+
     override val helpVariant: ExpenseEdit.HelpVariant
         get() = when {
             isTemplate -> ExpenseEdit.HelpVariant.templateTransfer
@@ -80,8 +84,8 @@ class TransferDelegate(
         viewBinding.TransferAmount.addTextChangedListener(LinkedTransferAmountTextWatcher(false))
         viewBinding.ERR.ExchangeRate.setExchangeRateWatcher(LinkedExchangeRateTextWatcher())
         viewBinding.Amount.hideTypeButton()
-        viewBinding.CategoryRow.visibility = View.GONE
-        viewBinding.TransferAccountRow.visibility = View.VISIBLE
+        viewBinding.CategoryRow.isVisible = false
+        viewBinding.TransferAccountRow.isVisible = true
         viewBinding.AccountLabel.setText(R.string.transfer_from_account)
         super.bind(
             transaction,
@@ -92,6 +96,7 @@ class TransferDelegate(
         )
         hideRowsSpecificToMain()
         configureTransferDirection()
+        configureCategoryVisibility()
     }
 
     override fun populateFields(transaction: ITransfer, withAutoFill: Boolean) {
@@ -164,8 +169,8 @@ class TransferDelegate(
         val currency = currentAccount.currency
         val transferAccountCurrencyUnit = transferAccount.currency
         val isSame = currency == transferAccountCurrencyUnit
-        setVisibility(viewBinding.TransferAmountRow, !isSame)
-        setVisibility(viewBinding.ERR.root as ViewGroup, !isSame && !isTemplate)
+        viewBinding.TransferAmountRow.isVisible = !isSame
+        (viewBinding.ERR.root as ViewGroup).isVisible = !isSame && !isTemplate
         addCurrencyToInput(
             viewBinding.TransferAmountLabel,
             viewBinding.TransferAmount,
@@ -351,6 +356,15 @@ class TransferDelegate(
             applyExchangeRate(constant, variable, exchangeFactor)
             isProcessingLinkedAmountInputs = false
         }
+    }
+
+    fun toggleCategory() {
+        categoryVisible = !categoryVisible
+        configureCategoryVisibility()
+    }
+
+    private fun configureCategoryVisibility() {
+        viewBinding.CategoryRow.isVisible = categoryVisible
     }
 
     companion object {

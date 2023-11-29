@@ -19,6 +19,7 @@ import static org.totschnig.myexpenses.contract.TransactionsContract.Transaction
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
@@ -27,7 +28,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEFAULT_ACTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
@@ -50,6 +50,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.CursorExtKt.getLongOrNull;
 import static org.totschnig.myexpenses.provider.CursorExtKt.getString;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.TRANSFER_ACCOUNT_LABEL;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
@@ -146,7 +147,9 @@ public class Template extends Transaction implements ITransfer, ISplit {
         KEY_PATH,
         KEY_PAYEE_NAME,
         KEY_TRANSFER_ACCOUNT,
+        TRANSFER_ACCOUNT_LABEL,
         KEY_ACCOUNTID,
+        KEY_ACCOUNT_LABEL,
         KEY_METHODID,
         KEY_TITLE,
         KEY_PLANID,
@@ -183,7 +186,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
       template = new Transaction(t.getAccountId(), t.getAmount());
     }
     setCatId(t.getCatId());
-    setLabel(t.getLabel());
+    setCategoryPath(t.getCategoryPath());
     setComment(t.getComment());
     setMethodId(t.getMethodId());
     setMethodLabel(t.getMethodLabel());
@@ -323,6 +326,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     Long catId = getLongOrNull(c, KEY_CATID);
     if (isTransfer) {
       template = new Transfer(accountId, amount, getLongOrNull(c, KEY_TRANSFER_ACCOUNT));
+      setCatId(catId);
     } else {
       if (DatabaseConstants.SPLIT_CATID.equals(catId)) {
         template = new SplitTransaction(accountId, amount);
@@ -336,7 +340,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     }
     setId(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
     setComment(getString(c, KEY_COMMENT));
-    setLabel(getString(c, KEY_PATH));
+    setCategoryPath(getString(c, KEY_PATH));
     setTitle(getString(c, KEY_TITLE));
     planId = getLongOrNull(c, KEY_PLANID);
     setParentId(getLongOrNull(c, KEY_PARENTID));
@@ -519,9 +523,8 @@ public class Template extends Transaction implements ITransfer, ISplit {
     initialValues.put(KEY_AMOUNT, getAmount().getAmountMinor());
     if (isTransfer()) {
       initialValues.put(KEY_TRANSFER_ACCOUNT, template.getTransferAccountId());
-    } else {
-      initialValues.put(KEY_CATID, getCatId());
     }
+    initialValues.put(KEY_CATID, getCatId());
     initialValues.put(KEY_PAYEEID, payeeStore);
     initialValues.put(KEY_METHODID, getMethodId());
     initialValues.put(KEY_TITLE, getTitle());

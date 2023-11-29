@@ -255,10 +255,6 @@ public class Transfer extends Transaction implements ITransfer {
     return direction ? RIGHT_ARROW : LEFT_ARROW;
   }
 
-  public String printLabelWithPrefix() {
-    return getIndicatorPrefixForLabel(getAmount().getAmountMinor()) + " " + getLabel();
-  }
-
   @Override
   public int operationType() {
     return TYPE_TRANSFER;

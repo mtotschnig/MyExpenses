@@ -51,6 +51,9 @@ fun Cursor.getDoubleIfExists(column: String) =
 
 fun Cursor.getBoolean(column: String) = getInt(column) == 1
 fun Cursor.getBoolean(columnIndex: Int) = getInt(columnIndex) == 1
+
+fun Cursor.isNull(column: String) = isNull(getColumnIndexOrThrow(column))
+
 inline fun <reified T : Enum<T>> Cursor.getEnum(column: String, default: T) =
     enumValueOrDefault(getString(column), default)
 

@@ -67,6 +67,7 @@ import org.totschnig.myexpenses.databinding.AttachmentItemBinding
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
+import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.db2.asCategoryType
 import org.totschnig.myexpenses.delegate.CategoryDelegate
 import org.totschnig.myexpenses.delegate.MainDelegate
@@ -968,6 +969,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 }
                 it.setEnabledAndVisible(menuItem2TemplateMap.isNotEmpty())
             }
+            menu.findItem(R.id.CATEGORY_COMMAND)?.let {
+                it.isChecked = (delegate as? TransferDelegate)?.categoryVisible == true
+            }
         }
         return super.onPrepareOptionsMenu(menu)
     }
@@ -1010,6 +1014,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
                 .setIcon(R.drawable.ic_menu_move)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+            menu.add(Menu.NONE, R.id.CATEGORY_COMMAND, 0 , R.string.category).isCheckable = true
         } else if (isMainTransaction) {
             menu.add(
                 Menu.NONE,
@@ -1140,6 +1145,14 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     return true
                 }
             }
+
+            R.id.CATEGORY_COMMAND -> {
+                if (::delegate.isInitialized) {
+                    (delegate as? TransferDelegate)?.toggleCategory()
+                    invalidateOptionsMenu()
+                    return true
+                }
+            }
         }
         return false
     }
@@ -1177,7 +1190,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 putExtra(KEY_PROTECTION_INFO, ManageCategories.ProtectionInfo(it, isTemplate))
             }
             putExtra(KEY_COLOR, color)
-            putExtra(KEY_TYPE_FILTER, delegate.isIncome.asCategoryType)
+            putExtra(KEY_TYPE_FILTER, if (delegate is TransferDelegate) FLAG_TRANSFER
+            else delegate.isIncome.asCategoryType)
         }, SELECT_CATEGORY_REQUEST)
     }
 
@@ -1226,7 +1240,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         super.onActivityResult(requestCode, resultCode, intent)
         when (requestCode) {
             SELECT_CATEGORY_REQUEST -> if (intent != null) {
-                (delegate as? CategoryDelegate)?.setCategory(
+                delegate.setCategory(
                     intent.getStringExtra(KEY_LABEL),
                     intent.getStringExtra(KEY_ICON),
                     intent.getLongExtra(KEY_ROWID, 0)
@@ -1403,7 +1417,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
                     else -> {
                         CrashHandler.report(it)
-                        (delegate as? CategoryDelegate)?.resetCategory()
+                        delegate.resetCategory()
                         "Error while saving transaction: ${it.safeMessage}"
                     }
                 }

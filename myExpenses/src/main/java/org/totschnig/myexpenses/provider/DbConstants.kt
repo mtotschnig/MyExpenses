@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.provider
 
 import android.net.Uri
 import androidx.core.text.isDigitsOnly
+import org.totschnig.myexpenses.db2.DEFAULT_CATEGORY_PATH_SEPARATOR
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
@@ -360,7 +361,7 @@ UNION ALL
 SELECT
     subtree.$KEY_LABEL,
     subtree.$KEY_UUID,
-    Tree.$KEY_PATH || '${categorySeparator ?: " > "}' || ${
+    Tree.$KEY_PATH || '${categorySeparator ?: DEFAULT_CATEGORY_PATH_SEPARATOR}' || ${
         maybeEscapeLabel(
             categorySeparator,
             "subtree"

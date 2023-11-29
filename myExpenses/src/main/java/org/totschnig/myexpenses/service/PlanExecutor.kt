@@ -227,7 +227,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                     .setSmallIcon(R.drawable.ic_stat_notification_sigma)
                                     .setContentTitle(title)
                                 builder.setWhen(date)
-                                var content: String = template.label?.let { "$it : " } ?: ""
+                                var content: String = template.categoryPath?.let { "$it : " } ?: ""
                                 content += currencyFormatter.formatMoney(template.amount)
                                 builder.setContentText(content)
                                 if (template.isPlanExecutionAutomatic) {

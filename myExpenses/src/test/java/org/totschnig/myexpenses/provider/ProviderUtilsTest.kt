@@ -99,7 +99,7 @@ class ProviderUtilsTest: BaseTestWithRepository() {
         extras.putString(Transactions.CATEGORY_LABEL, category)
         val transaction = buildFromExtras(extras)
         assertEquals(repository.findCategory(category), transaction.catId)
-        assertEquals(category, transaction.label)
+        assertEquals(category, transaction.categoryPath)
     }
 
     @Test
@@ -112,7 +112,7 @@ class ProviderUtilsTest: BaseTestWithRepository() {
             repository.findCategory("C", repository.findCategory("B")),
             transaction.catId
         )
-        assertEquals(category, transaction.label)
+        assertEquals(category, transaction.categoryPath)
     }
 
     @Test
@@ -151,6 +151,5 @@ class ProviderUtilsTest: BaseTestWithRepository() {
         val transaction = buildFromExtras(extras)
         Assert.assertTrue(transaction is Transfer)
         assertEquals(dollarAccount.id, transaction.transferAccountId.toLong())
-        assertEquals("USD-Account", transaction.label)
     }
 }

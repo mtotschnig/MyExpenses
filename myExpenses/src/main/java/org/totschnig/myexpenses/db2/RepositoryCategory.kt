@@ -12,6 +12,7 @@ import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
 import arrow.core.Tuple6
+import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
@@ -22,6 +23,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.asSequence
+import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.sync.json.CategoryExport
 import org.totschnig.myexpenses.sync.json.ICategoryInfo
 import org.totschnig.myexpenses.util.Utils
@@ -34,6 +37,8 @@ const val FLAG_TRANSFER: Byte = 0
 const val FLAG_EXPENSE: Byte = 1
 const val FLAG_INCOME: Byte = 2
 val FLAG_NEUTRAL = FLAG_EXPENSE or FLAG_INCOME
+
+const val DEFAULT_CATEGORY_PATH_SEPARATOR = " > "
 
 val Boolean.asCategoryType: Byte
     get() = if (this) FLAG_INCOME else FLAG_EXPENSE
@@ -269,6 +274,13 @@ fun Repository.ensureCategory(categoryInfo: ICategoryInfo, parentId: Long?): Pai
     )?.let { ContentUris.parseId(it) to true }
         ?: throw IOException("Saving category failed")
 }
+
+fun Repository.getCategoryPath(id: Long)= contentResolver.query(
+    ContentUris.withAppendedId(BaseTransactionProvider.CATEGORY_TREE_URI, id),
+    null, null, null, null
+)?.use { cursor ->
+    cursor.asSequence.map { it.getString(KEY_LABEL) }.toList().asReversed()
+}?.joinToString(DEFAULT_CATEGORY_PATH_SEPARATOR)
 
 @VisibleForTesting
 fun Repository.loadCategory(id: Long): Category? = contentResolver.query(

@@ -14,7 +14,7 @@ interface ITransaction: IModel {
     val methodLabel: String?
     var catId: Long?
     var categoryIcon: String?
-    var label: String?
+    var categoryPath: String?
     var crStatus: CrStatus
     var equivalentAmount: Money?
     var originalAmount: Money?

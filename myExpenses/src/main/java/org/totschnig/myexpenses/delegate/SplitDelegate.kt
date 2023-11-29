@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.delegate
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
+import androidx.core.view.isVisible
 import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
@@ -83,8 +84,8 @@ class SplitDelegate(
             withAutoFill
         )
 
-        viewBinding.CategoryRow.visibility = View.GONE
-        viewBinding.SplitRow.visibility = View.VISIBLE
+        viewBinding.CategoryRow.isVisible = false
+        viewBinding.SplitRow.isVisible = true
         host.registerForContextMenu(viewBinding.list)
         missingRecurrenceFeature = if (!withTypeSpinner || prefHandler.getBoolean(
                 PrefKey.NEW_SPLIT_TEMPLATE_ENABLED,

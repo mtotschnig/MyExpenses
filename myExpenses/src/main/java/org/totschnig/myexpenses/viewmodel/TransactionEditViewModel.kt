@@ -30,6 +30,7 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.db2.addAttachments
 import org.totschnig.myexpenses.db2.deleteAttachments
+import org.totschnig.myexpenses.db2.getCategoryPath
 import org.totschnig.myexpenses.db2.getCurrencyUnitForAccount
 import org.totschnig.myexpenses.db2.getLastUsedOpenAccount
 import org.totschnig.myexpenses.db2.loadActiveTagsForAccount
@@ -305,6 +306,16 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         }
     }
 
+    private fun Transaction.applyDefaultTransferCategory() {
+        if(isTransfer) {
+            catId = prefHandler.getLong(PrefKey.DEFAULT_TRANSFER_CATEGORY, -1L)
+                .takeIf { it != -1L }
+            catId?.let {
+                categoryPath = repository.getCategoryPath(it)
+            }
+        }
+    }
+
     suspend fun newTemplate(
         operationType: Int,
         parentId: Long?
@@ -317,7 +328,9 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 it.second,
                 true,
                 parentId
-            )
+            )?.apply {
+               applyDefaultTransferCategory()
+            }
         }
     }
 
@@ -351,8 +364,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         parentId: Long?
     ): Transfer? = ensureLoadData(accountId, currencyUnit)?.let { (accountId, currencyUnit) ->
         Transfer.getNewInstance(accountId, currencyUnit, transferAccountId, parentId).apply {
-            catId = prefHandler.getLong(PrefKey.DEFAULT_TRANSFER_CATEGORY, -1L)
-                .takeIf { it != -1L }
+            applyDefaultTransferCategory()
         }
     }
 
@@ -453,7 +465,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 )
             ) {
                 Pair(
-                    Template(contentResolver, this, payee ?: label),
+                    Template(contentResolver, this, payee ?: categoryPath),
                     this.loadTags(contentResolver)
                 )
             }

@@ -42,6 +42,7 @@ import org.totschnig.myexpenses.util.ui.getDateMode
 import org.totschnig.myexpenses.util.ui.validateAmountInput
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
+import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.math.BigDecimal
@@ -222,7 +223,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     ) {
         viewBinding.Category.setOnClickListener { host.startSelectCategory() }
         if (transaction != null) {
-            label = transaction.label
+            label = transaction.categoryPath
             categoryIcon = transaction.categoryIcon
             catId = transaction.catId
             rowId = transaction.id
@@ -243,7 +244,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         } else {
             StateSaver.restoreInstanceState(this, savedInstanceState)
         }
-        setVisibility(viewBinding.toolbar.OperationType, withTypeSpinner)
+        viewBinding.toolbar.OperationType.isVisible = withTypeSpinner
         originTemplateId?.let { host.loadOriginTemplate(it) }
 
         if (isMainTemplate) {
@@ -331,6 +332,45 @@ abstract class TransactionDelegate<T : ITransaction>(
         if (equivalentAmountVisible) {
             configureEquivalentAmountVisibility()
         }
+
+        viewBinding.ClearCategory.setOnClickListener {
+            resetCategory()
+        }
+        setCategoryButton()
+    }
+
+    /**
+     * set label on category button
+     */
+    fun setCategoryButton() {
+        if (label.isNullOrEmpty()) {
+            viewBinding.Category.setText(R.string.select)
+            viewBinding.ClearCategory.visibility = View.GONE
+        } else {
+            viewBinding.Category.text = label
+            viewBinding.ClearCategory.visibility = View.VISIBLE
+
+        }
+        val startDrawable = categoryIcon?.let {
+            IIconInfo.resolveIcon(it)?.asDrawable(context, androidx.appcompat.R.attr.colorPrimary)
+        }
+        viewBinding.Category.setCompoundDrawablesRelativeWithIntrinsicBounds(
+            startDrawable,
+            null,
+            null,
+            null
+        )
+    }
+
+    fun setCategory(label: String?, categoryIcon: String?, catId: Long?) {
+        this.label = label
+        this.categoryIcon = categoryIcon
+        this.catId = catId
+        setCategoryButton()
+    }
+
+    fun resetCategory() {
+        setCategory(null, null, null)
     }
 
     protected fun hideRowsSpecificToMain() {
@@ -351,7 +391,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     private fun setPlannerRowVisibility(visibility: Boolean) {
-        setVisibility(viewBinding.PlanRow, visibility)
+        viewBinding.PlanRow.isVisible = visibility
     }
 
     /**
@@ -407,7 +447,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     private fun configureEquivalentAmountVisibility() {
-        setVisibility(viewBinding.EquivalentAmountRow, equivalentAmountVisible)
+        viewBinding.EquivalentAmountRow.isVisible = equivalentAmountVisible
         viewBinding.EquivalentAmount.setCompoundResultInput(
             if (equivalentAmountVisible) viewBinding.Amount.validate(
                 false
@@ -416,16 +456,12 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     private fun configureOriginalAmountVisibility() {
-        setVisibility(viewBinding.OriginalAmountRow, originalAmountVisible)
+        viewBinding.OriginalAmountRow.isVisible = originalAmountVisible
     }
 
     private fun populateOriginalCurrency() {
         viewBinding.OriginalAmount.setSelectedCurrency(originalCurrencyCode?.let { currencyContext[it] }
             ?: homeCurrency)
-    }
-
-    protected fun setVisibility(view: View, visible: Boolean) {
-        view.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
     protected fun addCurrencyToInput(
@@ -529,7 +565,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             methodRowBinding.Method.MethodOutlier.isVisible = false
             methodSpinner.setSelection(0)
         }
-        setVisibility(methodRowBinding.ClearMethod.root, methodId != null)
+        methodRowBinding.ClearMethod.root.isVisible = methodId != null
         setReferenceNumberVisibility()
     }
 
@@ -595,7 +631,7 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     private fun createMethodAdapter() {
         methodsAdapter =
-            //TODO Use IdAdapter
+                //TODO Use IdAdapter
             object : ArrayAdapter<PaymentMethod>(context, android.R.layout.simple_spinner_item) {
                 override fun getItemId(position: Int): Long {
                     return getItem(position)?.id() ?: 0L
@@ -663,17 +699,20 @@ abstract class TransactionDelegate<T : ITransaction>(
                     configurePlanDependents(planVisibility)
                 }
             }
+
             methodSpinner.id -> {
                 val hasSelection = position > 0
                 methodId = if (hasSelection) parent.selectedItemId.takeIf { it > 0 } else null
-                setVisibility(methodRowBinding.ClearMethod.root, hasSelection)
+                methodRowBinding.ClearMethod.root.isVisible = hasSelection
                 setReferenceNumberVisibility()
             }
+
             accountSpinner.id -> {
                 val account = mAccounts[position]
                 updateAccount(account)
                 host.maybeApplyDynamicColor()
             }
+
             operationTypeSpinner.id -> {
                 val newType =
                     (operationTypeSpinner.getItemAtPosition(position) as OperationType).type
@@ -696,6 +735,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                     }
                 }
             }
+
             statusSpinner.id -> {
                 (parent.selectedItem as? CrStatus)?.let {
                     _crStatus = it
@@ -774,7 +814,14 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     protected fun buildTemplate(account: Account) =
-        Template.getTypedNewInstance(context.contentResolver, operationType, account.id, account.currency, false, parentId)!!
+        Template.getTypedNewInstance(
+            context.contentResolver,
+            operationType,
+            account.id,
+            account.currency,
+            false,
+            parentId
+        )!!
 
     abstract fun buildTransaction(
         forSave: Boolean,
@@ -791,7 +838,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             )
         }?.apply {
             catId = this@TransactionDelegate.catId
-            label = this@TransactionDelegate.label
+            categoryPath = this@TransactionDelegate.label
             originTemplateId = this@TransactionDelegate.originTemplateId
             uuid = this@TransactionDelegate.uuid
             id = rowId
@@ -834,7 +881,9 @@ abstract class TransactionDelegate<T : ITransaction>(
                     }
                     this.defaultAction =
                         Template.Action.entries[viewBinding.DefaultAction.selectedItemPosition]
-                    if (this.amount.amountMinor == 0L && (this.transferAmount?.amountMinor ?: 0L) == 0L && forSave) {
+                    if (this.amount.amountMinor == 0L && (this.transferAmount?.amountMinor
+                            ?: 0L) == 0L && forSave
+                    ) {
                         if (plan == null && this.defaultAction == Template.Action.SAVE) {
                             host.showSnackBar(context.getString(R.string.template_default_action_without_amount_hint))
                             return null
@@ -906,17 +955,19 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     private fun configureDateInput(account: Account) {
         val dateMode = getDateMode(account.type, prefHandler)
-        setVisibility(dateEditBinding.TimeButton, dateMode == UiUtils.DateMode.DATE_TIME)
-        setVisibility(dateEditBinding.Date2Button, dateMode == UiUtils.DateMode.BOOKING_VALUE)
-        setVisibility(dateEditBinding.DateLink, dateMode == UiUtils.DateMode.BOOKING_VALUE)
+        dateEditBinding.TimeButton.isVisible = dateMode == UiUtils.DateMode.DATE_TIME
+        dateEditBinding.Date2Button.isVisible = dateMode == UiUtils.DateMode.BOOKING_VALUE
+        dateEditBinding.DateLink.isVisible = dateMode == UiUtils.DateMode.BOOKING_VALUE
 
         viewBinding.DateTimeLabel.text = when (dateMode) {
             UiUtils.DateMode.BOOKING_VALUE -> context.getString(R.string.booking_date) + "/" + context.getString(
                 R.string.value_date
             )
+
             UiUtils.DateMode.DATE_TIME -> context.getString(R.string.date) + " / " + context.getString(
                 R.string.time
             )
+
             UiUtils.DateMode.DATE -> context.getString(R.string.date)
         }
     }
@@ -951,10 +1002,8 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     private fun configureStatusSpinner() {
         currentAccount()?.let {
-            setVisibility(
-                statusSpinner.spinner,
+            statusSpinner.spinner.isVisible =
                 !isSplitPart && !isTemplate && it.type != AccountType.CASH
-            )
         }
     }
 
@@ -991,10 +1040,10 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     private fun configurePlanDependents(visibility: Boolean) {
-        setVisibility(planButton, visibility)
-        setVisibility(planExecutionButton, visibility)
-        setVisibility(viewBinding.advanceExecutionRow, visibility)
-        setVisibility(viewBinding.DefaultActionRow, !visibility)
+        planButton.isVisible = visibility
+        planExecutionButton.isVisible = visibility
+        viewBinding.advanceExecutionRow.isVisible = visibility
+        viewBinding.DefaultActionRow.isVisible = !visibility
     }
 
     open fun onSaveInstanceState(outState: Bundle) {
@@ -1059,7 +1108,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                     }
                 }
             }
-            setVisibility(viewBinding.EditPlan, true)
+            viewBinding.EditPlan.isVisible = true
             viewBinding.EditPlan.setOnClickListener {
                 host.launchPlanView(false, plan.id)
             }
@@ -1078,7 +1127,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     fun setCreateTemplate(
         createTemplate: Boolean
     ) {
-        setVisibility(viewBinding.TitleRow, createTemplate)
+        viewBinding.TitleRow.isVisible = createTemplate
         setPlannerRowVisibility(createTemplate)
     }
 
@@ -1109,6 +1158,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                         ).also {
                             injector.inject(it)
                         }
+
                         isSplit -> SplitDelegate(
                             viewBinding,
                             dateEditBinding,
@@ -1117,6 +1167,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                         ).also {
                             injector.inject(it)
                         }
+
                         else -> CategoryDelegate(
                             viewBinding,
                             dateEditBinding,
@@ -1142,6 +1193,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             ).also {
                 injector.inject(it)
             }
+
             TYPE_SPLIT -> SplitDelegate(
                 viewBinding,
                 dateEditBinding,
@@ -1150,6 +1202,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             ).also {
                 injector.inject(it)
             }
+
             else -> CategoryDelegate(
                 viewBinding,
                 dateEditBinding,

@@ -31,7 +31,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT;
@@ -103,7 +102,6 @@ import java.util.Locale;
 
 import kotlin.Pair;
 import kotlin.Triple;
-import timber.log.Timber;
 
 /**
  * Domain class for transactions
@@ -114,7 +112,7 @@ public class Transaction extends Model implements ITransaction {
   private String comment = "";
   private String payee = "";
   private String referenceNumber = "";
-  private String label = "";
+  private String categoryPath = "";
   /**
    * seconds since epoch
    */
@@ -228,15 +226,15 @@ public class Transaction extends Model implements ITransaction {
   }
 
   /**
-   * stores a short label of the category or the account the transaction is linked to
+   * stores the full path of the category
    */
   @Nullable
-  public String getLabel() {
-    return label;
+  public String getCategoryPath() {
+    return categoryPath;
   }
 
-  public void setLabel(String label) {
-    this.label = label;
+  public void setCategoryPath(String label) {
+    this.categoryPath = label;
   }
 
   public void setTransferAmount(Money transferAmount) {
@@ -423,7 +421,7 @@ public class Transaction extends Model implements ITransaction {
     t.setValueDate(valueDate == null ? date : valueDate);
     t.setComment(getString(c, KEY_COMMENT));
     t.setReferenceNumber(getString(c, KEY_REFERENCE_NUMBER));
-    t.setLabel(getString(c, KEY_PATH));
+    t.setCategoryPath(getString(c, KEY_PATH));
 
     Long originalAmount = getLongOrNull(c, KEY_ORIGINAL_AMOUNT);
     if (originalAmount != null) {
@@ -484,6 +482,7 @@ public class Transaction extends Model implements ITransaction {
       case TYPE_TRANSFER -> {
         tr = new Transfer(te.getAccountId(), te.getAmount());
         tr.setTransferAccountId(te.getTransferAccountId());
+        tr.setCatId(te.getCatId());
       }
       case TYPE_SPLIT -> {
         tr = new SplitTransaction(te.getAccountId(), te.getAmount());
@@ -498,7 +497,7 @@ public class Transaction extends Model implements ITransaction {
     tr.setComment(te.getComment());
     tr.setPayee(te.getPayee());
     tr.setPayeeId(te.getPayeeId());
-    tr.setLabel(te.getLabel());
+    tr.setCategoryPath(te.getCategoryPath());
     tr.originTemplateId = te.getId();
     if (tr instanceof SplitTransaction) {
       tr.save(contentResolver);
@@ -670,7 +669,7 @@ public class Transaction extends Model implements ITransaction {
     if (initialPlan != null) {
       String title = initialPlan.getFirst() != null ? initialPlan.getFirst() :
               (!isEmpty(getPayee()) ? getPayee() :
-                      (!isSplit() && !isEmpty(getLabel()) ? getLabel() :
+                      (!isSplit() && !isEmpty(getCategoryPath()) ? getCategoryPath() :
                               (!isEmpty(getComment()) ? getComment() :
                                       MyApplication.Companion.getInstance().getString(R.string.menu_create_template)
                               )
@@ -903,13 +902,13 @@ public class Transaction extends Model implements ITransaction {
     if (getCatId() != null && getCatId() > 0) {
       sb.append(ctx.getString(R.string.category));
       sb.append(" : ");
-      sb.append(getLabel());
+      sb.append(getCategoryPath());
       sb.append("\n");
     }
     if (isTransfer()) {
       sb.append(ctx.getString(R.string.account));
       sb.append(" : ");
-      sb.append(getLabel());
+      sb.append(getCategoryPath());
       sb.append("\n");
     }
     //comment
@@ -992,7 +991,7 @@ public class Transaction extends Model implements ITransaction {
     int result = this.getComment() != null ? this.getComment().hashCode() : 0;
     result = 31 * result + (this.getPayee() != null ? this.getPayee().hashCode() : 0);
     result = 31 * result + (this.getReferenceNumber() != null ? this.getReferenceNumber().hashCode() : 0);
-    result = 31 * result + (this.getLabel() != null ? this.getLabel().hashCode() : 0);
+    result = 31 * result + (this.getCategoryPath() != null ? this.getCategoryPath().hashCode() : 0);
     result = 31 * result + Long.valueOf(getDate()).hashCode();
     result = 31 * result + this.getAmount().hashCode();
     result = 31 * result + (this.getTransferAmount() != null ? this.getTransferAmount().hashCode() : 0);

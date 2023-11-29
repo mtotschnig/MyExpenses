@@ -50,8 +50,6 @@ class CategoryDelegate(
             hideRowsSpecificToMain()
         }
 
-        setCategoryButton()
-
         addCurrencyToInput(
             viewBinding.EquivalentAmountLabel,
             viewBinding.EquivalentAmount,
@@ -60,10 +58,6 @@ class CategoryDelegate(
         )
 
         viewBinding.EquivalentAmount.setFractionDigits(homeCurrency.fractionDigits)
-
-        viewBinding.ClearCategory.setOnClickListener {
-            setCategory(null, null, null)
-        }
     }
 
     override fun buildMainTransaction(account: Account): ITransaction =
@@ -72,28 +66,6 @@ class CategoryDelegate(
     override fun configureType() {
         super.configureType()
         setCategoryButton()
-    }
-
-    fun resetCategory() {
-        setCategory(null, null, null)
-    }
-
-    /**
-     * set label on category button
-     */
-    private fun setCategoryButton() {
-        if (label.isNullOrEmpty()) {
-            viewBinding.Category.setText(R.string.select)
-            viewBinding.ClearCategory.visibility = View.GONE
-        } else {
-            viewBinding.Category.text = label
-            viewBinding.ClearCategory.visibility = View.VISIBLE
-
-        }
-        val startDrawable = categoryIcon?.let {
-            IIconInfo.resolveIcon(it)?.asDrawable(context, androidx.appcompat.R.attr.colorPrimary)
-        }
-        viewBinding.Category.setCompoundDrawablesRelativeWithIntrinsicBounds(startDrawable, null, null, null)
     }
 
     override fun populateFields(transaction: ITransaction, withAutoFill: Boolean) {
@@ -147,12 +119,5 @@ class CategoryDelegate(
             debtId = data.debtId
             updateUiWithDebt()
         }
-    }
-
-    fun setCategory(label: String?, categoryIcon: String?, catId: Long?) {
-        this.label = label
-        this.categoryIcon = categoryIcon
-        this.catId = catId
-        setCategoryButton()
     }
 }
