@@ -825,7 +825,6 @@
     <string name="pref_clone_with_current_date_summary_on">Cloned transactions have current date</string>
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">Cloned transactions keep original date</string>
-    <string name="pref_protection_screenshot_information">By activating device protection, screenshot capture is disabled.</string>
     <string name="tags_create_or_select">Create or select tags</string>
     <string name="tags">Tags</string>
     <string name="pref_manage_tags_summary">Add, edit, delete tags.</string>
@@ -1097,4 +1096,6 @@
     <string name="menu_aggregate_neutral_categories">Aggregate neutral categories</string>
     <string name="one_time_payment">One-time payment</string>
     <string name="warning_delete_default_transfer_category">Category %s is configured as default transfer category and should not be deleted.</string>
+    <string name="whats_new_369_1">Transfers can be mapped to categories.</string>
+    <string name="whats_new_369_2">When screen lock is enabled, allow to opt-out of disabling screenshots.</string>
 </resources>

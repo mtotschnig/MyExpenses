@@ -806,7 +806,6 @@
     <string name="pref_clone_with_current_date_summary_on">நகல் எடுக்கப்படும் பரிவர்த்தனைகள் தற்போதைய தேதியை பெற்றிருக்கும்</string>
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">நகல் எடுக்கப்படும் பரிவர்த்தனைகள் அசல் தேதியை தக்கவைத்துக் கொள்ளும்</string>
-    <string name="pref_protection_screenshot_information">கருவியின் பாதுகாப்பைச் செயல்படுத்துவதன் மூலம், திரைப்பிடிப்பு முடக்கப்பட்டது.</string>
     <string name="tags_create_or_select">குறிச்சொற்களை உருவாக்கவும் அல்லது தேர்ந்தெடுக்கவும்</string>
     <string name="tags">குறிச்சொற்கள்</string>
     <string name="pref_manage_tags_summary">குறிச்சொற்களைச் சேர்க்கவும், திருத்தவும், நீக்கவும்.</string>

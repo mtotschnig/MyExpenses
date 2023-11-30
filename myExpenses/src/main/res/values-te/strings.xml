@@ -745,7 +745,6 @@
     <string name="pref_manage_tags_summary">ట్యాగ్‌లను జోడించండి, సవరించండి, తొలగించండి.</string>
     <string name="tags">టాగ్లు</string>
     <string name="tags_create_or_select">ట్యాగ్‌లను సృష్టించండి లేదా ఎంచుకోండి</string>
-    <string name="pref_protection_screenshot_information">పరికర రక్షణను సక్రియం చేయడం ద్వారా, స్క్రీన్ షాట్ క్యాప్చర్ నిలిపివేయబడుతుంది.</string>
     <string name="pref_clone_with_current_date_summary_off">క్లోన్ చేసిన లావాదేవీలు అసలు తేదీని ఉంచుతాయి</string>
     <string name="pref_clone_with_current_date_summary_on">క్లోన్ చేసిన లావాదేవీలకు ప్రస్తుత తేదీ ఉంది</string>
     <string name="button_label_clone_and_remap">క్లోన్ మరియు రీమాప్</string>

@@ -814,7 +814,6 @@
     <string name="pref_clone_with_current_date_summary_on">Las transacciones clonadas tendrán la fecha actual</string>
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">Las transacciones clonadas mantendrán la fecha original</string>
-    <string name="pref_protection_screenshot_information">La opción de captura de pantalla quedará deshabilitada al activar la protección del dispositivo.</string>
     <string name="tags_create_or_select">Crear o seleccionar etiquetas</string>
     <string name="tags">Etiquetas</string>
     <string name="pref_manage_tags_summary">Añadir, editar o eliminar etiquetas.</string>

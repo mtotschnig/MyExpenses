@@ -798,7 +798,6 @@
     <string name="pref_clone_with_current_date_summary_on">复制的交易使用当前日期</string>
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">复制的交易保留原本日期</string>
-    <string name="pref_protection_screenshot_information">若激活此项保护功能，本应用程序的屏幕截图功能将被禁用。</string>
     <string name="tags_create_or_select">创建或选择标签</string>
     <string name="tags">标签</string>
     <string name="pref_manage_tags_summary">添加，编辑或删除标签。</string>

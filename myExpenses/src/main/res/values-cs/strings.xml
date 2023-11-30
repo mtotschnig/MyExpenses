@@ -822,7 +822,6 @@
     <string name="pref_clone_with_current_date_summary_on">Klonované transakce mají aktuální datum</string>
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">Klonované transakce si zachovávají původní datum</string>
-    <string name="pref_protection_screenshot_information">Aktivováním ochrany zařízení bude vypnuto pořízování snímků obrazovky.</string>
     <string name="tags_create_or_select">Vytvořte nebo vyberte štítky</string>
     <string name="tags">Štítky</string>
     <string name="pref_manage_tags_summary">Přidávejte, upravujte a odstraňujte štítky.</string>

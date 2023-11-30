@@ -806,7 +806,6 @@
     <string name="pref_clone_with_current_date_summary_on">Geklonte Buchungen haben das aktuelle Datum</string>
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">Geklonte Buchungen behalten das ursprüngliche Datum</string>
-    <string name="pref_protection_screenshot_information">Durch Aktivieren des Geräteschutzes wird die Screenshot-Aufnahme deaktiviert.</string>
     <string name="tags_create_or_select">Schlagwörter erstellen oder auswählen</string>
     <string name="tags">Schlagwörter</string>
     <string name="pref_manage_tags_summary">Schlagwörter hinzufügen, bearbeiten, löschen.</string>

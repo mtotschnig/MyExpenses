@@ -710,7 +710,6 @@
     <string name="pref_manage_tags_summary">Dodaj, uredi ili izbriši oznake.</string>
     <string name="tags">Oznake</string>
     <string name="tags_create_or_select">Stvori ili odaberi oznake</string>
-    <string name="pref_protection_screenshot_information">Aktiviranjem zaštite uređaja onemogućeno je snimanje ekrana.</string>
     <string name="pref_clone_with_current_date_summary_off">Kopije transakcije zadržavaju trenutačni datum</string>
     <string name="pref_clone_with_current_date_summary_on">Kopije transakcije imaju trenutačni datum</string>
     <string name="button_label_clone_and_remap">Dupliciraj i poveži</string>

@@ -794,7 +794,6 @@
     <string name="pref_clone_with_current_date_summary_on">複製された取引は現在の日付になります</string>
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">複製された取引は元の日付になります</string>
-    <string name="pref_protection_screenshot_information">デバイス保護を有効にすると、スクリーンショットのキャプチャが無効になります。</string>
     <string name="tags_create_or_select">タグの作成または選択</string>
     <string name="tags">タグ</string>
     <string name="pref_manage_tags_summary">タグの追加、編集、削除。</string>

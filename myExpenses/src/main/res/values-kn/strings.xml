@@ -802,7 +802,6 @@
     <string name="pref_clone_with_current_date_summary_on">ಅಬೀಜ ವಹಿವಾಟುಗಳು ಪ್ರಸ್ತುತ ದಿನಾಂಕವನ್ನು ಹೊಂದಿವೆ</string>
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">ಅಬೀಜ ವಹಿವಾಟುಗಳು ಮೂಲ ದಿನಾಂಕವನ್ನು ಇಡುತ್ತವೆ</string>
-    <string name="pref_protection_screenshot_information">ಸಾಧನ ರಕ್ಷಣೆಯನ್ನು ಸಕ್ರಿಯಗೊಳಿಸುವ ಮೂಲಕ, ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ಸೆರೆಹಿಡಿಯುವಿಕೆಯನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ.</string>
     <string name="tags_create_or_select">ಟ್ಯಾಗ್‌ಗಳನ್ನು ರಚಿಸಿ ಅಥವಾ ಆಯ್ಕೆಮಾಡಿ</string>
     <string name="tags">ಟ್ಯಾಗ್ಗಳು</string>
     <string name="pref_manage_tags_summary">ಟ್ಯಾಗ್‌ಗಳನ್ನು ಸೇರಿಸಿ, ಸಂಪಾದಿಸಿ, ಅಳಿಸಿ.</string>

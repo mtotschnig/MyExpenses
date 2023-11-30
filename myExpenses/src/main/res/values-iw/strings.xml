@@ -824,7 +824,6 @@
     <string name="pref_clone_with_current_date_summary_on">לעסקאות משובצות יש תאריך נוכחי</string>
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">עסקאות משובצות שומרות על התאריך המקורי</string>
-    <string name="pref_protection_screenshot_information">על ידי הפעלת הגנת מכשירים, לכידת המסך מושבתת.</string>
     <string name="tags_create_or_select">צור או בחר תג</string>
     <string name="tags">תגים</string>
     <string name="pref_manage_tags_summary">הוספה, עריכה, מחיקה של תגים.</string>

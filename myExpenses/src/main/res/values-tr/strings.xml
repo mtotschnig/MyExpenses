@@ -806,7 +806,6 @@
     <string name="pref_clone_with_current_date_summary_on">Klonlanmış muamelelerin tarihi güncel tarihtir</string>
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">Klonlanmış muameleler orijinal tarihi korur</string>
-    <string name="pref_protection_screenshot_information">Aygıt korumasını etkinleştirerek ekran görüntüsü alma devre dışı bırakılır.</string>
     <string name="tags_create_or_select">Etiket oluştur veya seç</string>
     <string name="tags">Etiketler</string>
     <string name="pref_manage_tags_summary">Etiket ilave et, düzenle veya sil.</string>

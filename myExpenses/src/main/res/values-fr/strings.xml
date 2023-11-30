@@ -814,7 +814,6 @@
     <string name="pref_clone_with_current_date_summary_on">Les opérations clonées ont la date du jour</string>
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">Les opérations clonées conservent la date d\'origine</string>
-    <string name="pref_protection_screenshot_information">En activant la protection de l\'appareil, la capture d\'écran est désactivée.</string>
     <string name="tags_create_or_select">Créer ou sélectionner des étiquettes</string>
     <string name="tags">Étiquettes</string>
     <string name="pref_manage_tags_summary">Ajouter, modifier, supprimer des étiquettes.</string>

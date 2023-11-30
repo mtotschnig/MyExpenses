@@ -837,7 +837,6 @@
     <string name="pref_clone_with_current_date_summary_on">المعاملات المستنسخة لها التاريخ الحالي</string>
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">تحافظ المعاملات المستنسخة على التاريخ الأصلي</string>
-    <string name="pref_protection_screenshot_information">من خلال تنشيط حماية الجهاز، يتم تعطيل التقاط لقطة الشاشة.</string>
     <string name="tags_create_or_select">إنشاء أو تحديد العلامات</string>
     <string name="tags">العلامات</string>
     <string name="pref_manage_tags_summary">إضافة وتحرير وحذف العلامات.</string>

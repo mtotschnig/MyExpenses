@@ -225,7 +225,6 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
 
             getKey(PrefKey.PROTECTION_LEGACY), getKey(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN) -> {
                 if (sharedPreferences.getBoolean(key, false)) {
-                    showSnackBar(R.string.pref_protection_screenshot_information)
                     if (prefHandler.getBoolean(PrefKey.AUTO_BACKUP, false)) {
                         showUnencryptedBackupWarning()
                     }

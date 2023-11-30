@@ -646,7 +646,6 @@
     <string name="pref_manage_tags_summary">Adicione, edite, apague etiquetas.</string>
     <string name="tags">Etiquetas</string>
     <string name="tags_create_or_select">Criar ou selecionar etiquetas</string>
-    <string name="pref_protection_screenshot_information">Ao ativar a proteção do dispositivo, a captura de tela é desativada.</string>
     <string name="pref_clone_with_current_date_summary_off">As transações clonadas mantêm a data original</string>
     <string name="pref_clone_with_current_date_summary_on">As transações clonadas mudam para a data atual</string>
     <string name="button_label_clone_and_remap">Clonar e remapear</string>

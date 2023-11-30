@@ -530,7 +530,6 @@
     <string name="checkbox_is_default">Standaard</string>
     <string name="dialog_title_confirm_remap">Toewijzing wijzigen (%s) \?</string>
     <string name="pref_clone_with_current_date_summary_off">Gekloonde transacties behouden de oorspronkelijke datum</string>
-    <string name="pref_protection_screenshot_information">Door apparaatbeveiliging te activeren, is het vastleggen van screenshots uitgeschakeld.</string>
     <string name="tags_create_or_select">Tags maken of selecteren</string>
     <string name="menu_tag">Tag</string>
     <string name="dialog_multi_tag">Alle geselecteerde transacties worden getagd met %s.</string>

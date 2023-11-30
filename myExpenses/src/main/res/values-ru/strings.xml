@@ -819,7 +819,6 @@
     <string name="pref_clone_with_current_date_summary_on">Клонированные операции имеют текущую дату</string>
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">Клонированные операции сохраняют исходную дату</string>
-    <string name="pref_protection_screenshot_information">При активации защиты устройства захват снимков экрана отключается.</string>
     <string name="tags_create_or_select">Создать или выбрать теги</string>
     <string name="tags">Теги</string>
     <string name="pref_manage_tags_summary">Добавить, изменить, удалить теги.</string>

@@ -806,7 +806,6 @@
     <string name="pref_clone_with_current_date_summary_on">Клонирай транзакциите с текуща дата</string>
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">Клонирай транзакциите с първоначалната им дата</string>
-    <string name="pref_protection_screenshot_information">При активиране на защитата на устройството, възможността за екранна снимка се блокира.</string>
     <string name="tags_create_or_select">Създаване или избор на маркери</string>
     <string name="tags">Маркери</string>
     <string name="pref_manage_tags_summary">Добавяне, редактиране, изтриване на маркери.</string>

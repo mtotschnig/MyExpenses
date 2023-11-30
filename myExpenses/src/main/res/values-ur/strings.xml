@@ -747,7 +747,6 @@
     <string name="button_label_clone_and_remap">کلون اور ری میپ کریں</string>
     <string name="pref_clone_with_current_date_summary_on">کلون شدہ لین دین کی موجودہ تاریخ ہے</string>
     <string name="pref_clone_with_current_date_summary_off">کلون شدہ لین دین کی اصل تاریخ ہوتی ہے</string>
-    <string name="pref_protection_screenshot_information">آلہ کے تحفظ کو فعال کرنے سے، اسکرین شاٹ کیپچر کو غیر فعال کر دیا جاتا ہے.</string>
     <string name="tags_create_or_select">ٹیگز بنائیں یا منتخب کریں</string>
     <string name="tags">ٹیگز</string>
     <string name="remap_empty_list">کوئی آئٹم نہیں ملا، جسے تمام منتخب لین دین میں نقشہ بنایا جا سکے.</string>

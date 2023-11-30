@@ -808,7 +808,6 @@
     <string name="pref_clone_with_current_date_summary_on">A klónozott tranzakciók aktuális dátummal rendelkeznek</string>
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">A klónozott tranzakciók megtartják az eredeti dátumot.</string>
-    <string name="pref_protection_screenshot_information">Az eszközvédelem aktiválásával a képernyőkép rögzítése le van tiltva.</string>
     <string name="tags_create_or_select">Címkék létrehozása vagy kiválasztása</string>
     <string name="tags">Címkék</string>
     <string name="pref_manage_tags_summary">Adjon hozzá, módosítson, töröljön címkéket.</string>
