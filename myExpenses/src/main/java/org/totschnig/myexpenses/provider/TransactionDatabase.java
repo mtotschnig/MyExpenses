@@ -50,6 +50,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -124,8 +125,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_EQUIVALENT_AMOUNT + " integer,  "
           + KEY_DEBT_ID + " integer references " + TABLE_DEBTS + "(" + KEY_ROWID + ") ON DELETE SET NULL);";
 
-  public TransactionDatabase(@NonNull PrefHandler prefHandler, boolean shouldInsertDefaultTransferCategory) {
-    super(prefHandler);
+  public TransactionDatabase(@NonNull Context context, @NonNull PrefHandler prefHandler, boolean shouldInsertDefaultTransferCategory) {
+    super(context, prefHandler);
     this.shouldInsertDefaultTransferCategory = shouldInsertDefaultTransferCategory;
   }
 
@@ -620,11 +621,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     initialValues.put(KEY_LABEL, "__SPLIT_TRANSACTION__");
     db.insert(TABLE_CATEGORIES, CONFLICT_NONE, initialValues);
     if (shouldInsertDefaultTransferCategory) {
-      initialValues.clear();
-      initialValues.put(KEY_LABEL, MyApplication.Companion.getInstance().getString(R.string.transfer));
-      initialValues.put(KEY_TYPE, 0);
-      initialValues.put(KEY_COLOR, suggestNewCategoryColor(db));
-      getPrefHandler().putLong(PrefKey.DEFAULT_TRANSFER_CATEGORY, db.insert(TABLE_CATEGORIES, CONFLICT_NONE, initialValues));
+      insertDefaultTransferCategory(db);
     }
     insertCurrencies(db);
     db.execSQL(EVENT_CACHE_CREATE);
@@ -2186,6 +2183,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
       if (oldVersion < 154) {
         createOrRefreshViews(db);
+      }
+
+      if (oldVersion < 155) {
+        insertDefaultTransferCategory(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);

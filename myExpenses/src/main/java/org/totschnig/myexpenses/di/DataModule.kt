@@ -87,7 +87,7 @@ open class DataModule(private val shouldInsertDefaultTransferCategory: Boolean =
         }.create(
             SupportSQLiteOpenHelper.Configuration.builder(appContext)
                 .name(provideDatabaseName(encryptDatabase)).callback(
-                    TransactionDatabase(prefHandler, shouldInsertDefaultTransferCategory)
+                    TransactionDatabase(appContext, prefHandler, shouldInsertDefaultTransferCategory)
                 ).build()
         ).also {
             it.setWriteAheadLoggingEnabled(false)

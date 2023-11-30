@@ -1,10 +1,12 @@
 package org.totschnig.myexpenses.provider
 
 import android.content.ContentValues
+import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.os.Build
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Attribute
 import org.totschnig.myexpenses.db2.BankingAttribute
 import org.totschnig.myexpenses.db2.FinTsAttribute
@@ -92,7 +94,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import timber.log.Timber
 
-const val DATABASE_VERSION = 154
+const val DATABASE_VERSION = 155
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -345,7 +347,10 @@ const val SPLIT_PART_CR_STATUS_TRIGGER_CREATE =
  AFTER UPDATE OF $KEY_CR_STATUS ON $TABLE_TRANSACTIONS
  BEGIN UPDATE $TABLE_TRANSACTIONS SET $KEY_CR_STATUS = new.$KEY_CR_STATUS WHERE $KEY_PARENTID = new.$KEY_ROWID; END"""
 
-abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
+abstract class BaseTransactionDatabase(
+    val context: Context,
+    val prefHandler: PrefHandler
+) :
     SupportSQLiteOpenHelper.Callback(DATABASE_VERSION) {
 
     fun createOrRefreshTransactionUsageTriggers(db: SupportSQLiteDatabase) {
@@ -854,6 +859,19 @@ abstract class BaseTransactionDatabase(val prefHandler: PrefHandler) :
             append(" LEFT JOIN cte_tags ON cte_tags.$KEY_TRANSACTIONID = $tableName.$KEY_ROWID")
             append(" LEFT JOIN cte_attachments ON cte_attachments.$KEY_TRANSACTIONID = $tableName.$KEY_ROWID")
         }
+    }
+
+    fun insertDefaultTransferCategory(db: SupportSQLiteDatabase) {
+        prefHandler.putLong(
+            PrefKey.DEFAULT_TRANSFER_CATEGORY,
+            db.insert(TABLE_CATEGORIES, SQLiteDatabase.CONFLICT_NONE,
+                ContentValues(3).apply {
+                    put(KEY_LABEL, context.getString(R.string.transfer))
+                    put(KEY_TYPE, 0)
+                    put(KEY_COLOR, suggestNewCategoryColor(db))
+                }
+            )
+        )
     }
 }
 
