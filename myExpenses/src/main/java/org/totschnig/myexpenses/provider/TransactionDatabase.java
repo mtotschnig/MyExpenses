@@ -2158,7 +2158,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 151) {
         db.execSQL("ALTER TABLE categories add column type integer");
         db.execSQL("UPDATE categories set type = 3 where _id != 0");
-        createOrRefreshViews(db);
+        //createOrRefreshViews(db);
         createCategoryTypeTriggers(db);
       }
 
@@ -2171,6 +2171,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         db.execSQL("DROP TRIGGER IF EXISTS category_type_update_type_main");
         db.execSQL(CATEGORY_TYPE_UPDATE_TRIGGER_MAIN);
         db.execSQL("UPDATE categories SET type = (SELECT type FROM categories parent WHERE parent._id = categories.parent_id) WHERE parent_id IN (SELECT _id FROM categories WHERE parent_id IS NULL)");
+      }
+
+      if (oldVersion < 154) {
+        createOrRefreshViews(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);
