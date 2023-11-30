@@ -60,6 +60,7 @@ abstract class AmountActivity<T: TagHandlingViewModel> : EditActivity() {
     fun TagRowBinding.bindListener() {
         TagSelection.setOnClickListener {
             val i = Intent(this@AmountActivity, ManageTags::class.java).apply {
+                forwardDataEntryFromWidget(this)
                 viewModel.tagsLiveData.value?.let { tagList ->
                     putExtra(KEY_SELECTED_IDS, tagList.map { it.id }.toLongArray())
                 }
