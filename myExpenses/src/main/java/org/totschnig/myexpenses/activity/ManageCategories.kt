@@ -223,13 +223,17 @@ class ManageCategories : ProtectedFragmentActivity(),
                     Column(modifier = Modifier.fillMaxSize()) {
                         if (typeFlags != null) {
                             TypeConfiguration(
-                                modifier = Modifier.fillMaxWidth().background(color = colorResource(id = R.color.cardBackground)),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .background(color = colorResource(id = R.color.cardBackground)),
                                 typeFlags = typeFlags,
                                 onCheckedChange = { viewModel.typeFilter = it }
                             )
                         }
-                        Box(modifier = Modifier.fillMaxWidth().weight(1f)) {
-                            when(state) {
+                        Box(modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)) {
+                            when (state) {
                                 LoadingState.Loading -> {
                                     CircularProgressIndicator(
                                         modifier = Modifier
@@ -290,19 +294,40 @@ class ManageCategories : ProtectedFragmentActivity(),
                                                         } else null,
                                                         edit("EDIT_CATEGORY") { editCat(it) },
                                                         delete("DELETE_CATEGORY") {
-                                                            if (it.flatten().map { it.id }
-                                                                    .contains(protectionInfo?.id)) {
-                                                                showSnackBar(
-                                                                    resources.getQuantityString(
-                                                                        if (protectionInfo!!.isTemplate) R.plurals.not_deletable_mapped_templates else R.plurals.not_deletable_mapped_transactions,
-                                                                        1,
-                                                                        1
+                                                            val flatList = it.flatten()
+                                                            val defaultTransferCategory =
+                                                                flatList.find {
+                                                                    it.id == prefHandler.getLong(
+                                                                        PrefKey.DEFAULT_TRANSFER_CATEGORY,
+                                                                        -1
                                                                     )
-                                                                )
-                                                            } else {
-                                                                viewModel.deleteCategories(
-                                                                    listOf(it)
-                                                                )
+                                                                }
+                                                            when {
+                                                                flatList.map { it.id }
+                                                                    .contains(protectionInfo?.id) -> {
+                                                                    showSnackBar(
+                                                                        resources.getQuantityString(
+                                                                            if (protectionInfo!!.isTemplate) R.plurals.not_deletable_mapped_templates else R.plurals.not_deletable_mapped_transactions,
+                                                                            1,
+                                                                            1
+                                                                        )
+                                                                    )
+                                                                }
+
+                                                                defaultTransferCategory != null -> {
+                                                                    showSnackBar(
+                                                                        getString(
+                                                                            R.string.warning_delete_default_transfer_category,
+                                                                            defaultTransferCategory.path
+                                                                        )
+                                                                    )
+                                                                }
+
+                                                                else -> {
+                                                                    viewModel.deleteCategories(
+                                                                        listOf(it)
+                                                                    )
+                                                                }
                                                             }
                                                         },
                                                         MenuEntry(
