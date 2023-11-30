@@ -3,11 +3,10 @@ it:
   imprint_text: Responsabile per il contenuto di questo sito web e per lo sviluppo,
     la manutenzione e la distribuzione di <i>{app_name}</i>
   privacy_policy_heading: Informativa sulla privacy
-  privacy_policy_text: "<i>{app_name}</i> non accede ad alcuna informazione sul tuo\
-    \ dispositivo, al di fuori del proprio database e della propria cartella sulla\
-    \ scheda SD. Se si utilizza la funzionalità dei piani per le transazioni future\
-    \ e ricorrenti, dovrà essere assegnato il calendario su cui saranno memorizzati\
-    \ questi piani."
+  privacy_policy_text: "<i>{app_name}</i> non accede ad alcuna informazione sul tuo
+    dispositivo, al di fuori del proprio database e della propria cartella sulla scheda
+    SD. Se si utilizza la funzionalità dei piani per le transazioni future e ricorrenti,
+    dovrà essere assegnato il calendario su cui saranno memorizzati questi piani."
   hero_main: "Gestione delle finanze personali per Android"
   hero_sub:
     use: "Facile da usare"
@@ -46,60 +45,60 @@ it:
       schermo </b> del dispositivo
     light_theme: <b> Tema </b>(scuro e chiaro) e <b> dimensione caratteri </b> possono
       essere personalizzati
-    reconciliation: "<b>Riconciliazione</b>: Confronta facilmente lo stato delle transazioni\
-      \ con il tuo estratto conto"
+    reconciliation: "<b>Riconciliazione</b>: Confronta facilmente lo stato delle transazioni
+      con il tuo estratto conto"
     homescreen: <b> Widget </b> per la schermata principale e <b> scorciatoie </b>
       per l'inserimento rapido dei dati
   contrib:
     thank_you: |
       Il tuo contributo permette l'ulteriore sviluppo di Le mie spese. Grazie!
-    feature-list-title: "Si prega di contribuire aggiornando <i>{app_name}</i> e ottenere\
-      \ l'accesso illimitato alle seguenti caratteristiche:"
+    feature-list-title: "Si prega di contribuire aggiornando <i>{app_name}</i> e ottenere
+      l'accesso illimitato alle seguenti caratteristiche:"
     feature:
       accounts_unlimited: Sbloccare la possibilità di creare più di cinque conti
-      plans_unlimited: Numero illimitato di piani per le transazioni <b> ricorrenti
-        </b>
-      distribution: "<b> Grafico a torta </b>: visualizza la distribuzione statistica\
-        \ delle transazioni per categoria su periodi diversi (anni, mesi, settimane,\
-        \ giorni)"
-      split_transaction: "<b> Transazione frazionata </b>: una singola transazione\
-        \ può essere suddivisa in più parti (categorie e trasferimenti)"
+      plans_unlimited: Sblocca la possibilità di creare più di tre piani per le transazioni
+        ricorrenti
+      distribution: "<b> Grafico a torta </b>: visualizza la distribuzione statistica
+        delle transazioni per categoria su periodi diversi (anni, mesi, settimane,
+        giorni)"
+      split_transaction: "<b> Transazione frazionata </b>: una singola transazione
+        può essere suddivisa in più parti (categorie e trasferimenti)"
       print: <b> Esporta </b>l'elenco delle transazioni in un file PDF
       ad_free: <b>Nessun annuncio</b>
       csv_import: <b> Importazione CSV </b> sofisticata e personalizzabile (applicazioni
         per fogli di calcolo)
       auto_backup: <b> Backup automatici </b> giornalieri con caricamento opzionale
         sul cloud
-      cloud_sync: "<b> Sincronizzazione </b>: I dati possono essere sincronizzati\
-        \ fra più dispositivi"
+      cloud_sync: "<b> Sincronizzazione </b>: I dati possono essere sincronizzati
+        fra più dispositivi"
       split_template: Numero illimitato di <b> modelli e piani per le transazioni
         frazionate </b>
       email_support: <b> Supporto email </b> con risposta garantita entro 2 giorni
         lavorativi
       roadmap_voting: Votare direttamente sulla <b>roadmap di sviluppo</b>
       history_chart: <b> Grafico storico </b> (flusso di cassa)
-      budgeting: "<b> Bilancio </b>: confronta le tue spese con i limiti imposti per\
-        \ categoria su base giornaliera, settimanale, mensile o annuale."
-      scan_receipt: "<b>Scansiona gli scontrini</b> : estrai automaticamente l'importo,\
-        \ la data ed il beneficiario"
+      budgeting: "<b> Bilancio </b>: confronta le tue spese con i limiti imposti per
+        categoria su base giornaliera, settimanale, mensile o annuale."
+      scan_receipt: "<b>Scansiona gli scontrini</b> : estrai automaticamente l'importo,
+        la data ed il beneficiario"
       webui: <b>Interfaccia utente Web</b>
     one-time-payment: Pagamento unico
     subscription: Sottoscrizione
   store:
-    short_description: "Finanze personali: facile da usare, ricche funzionalità, codice\
-      \ sorgente aperto"
-    full_description_intro: "{app_name} tiene traccia delle tue spese e delle tue\
-      \ entrate, direttamente sul tuo smartphone e sul tuo tablet."
-    full_description_contrib: "Le funzionalità premium sono sbloccate con l'acquisto\
-      \ di una delle seguenti licenze:"
-    full_description_contrib_amazon: "Numerose funzioni aggiuntive possono essere\
-      \ sbloccate con l'acquisto di una delle licenze, ad esempio:"
-    highlight_1: "Tieni traccia delle tue spese e delle tue entrate attraverso diversi\
-      \ conti, modelli e categorie"
-    highlight_2: "Condividi i tuoi dati fra più telefoni e tablet tramite WebDAV e\
-      \ Google Drive"
-    highlight_3: "Ricapitola la situazione finanziaria del giorno, settimana, mese,\
-      \ o anno"
+    short_description: "Finanze personali: facile da usare, ricche funzionalità, codice
+      sorgente aperto"
+    full_description_intro: "{app_name} tiene traccia delle tue spese e delle tue
+      entrate, direttamente sul tuo smartphone e sul tuo tablet."
+    full_description_contrib: "Le funzionalità premium sono sbloccate con l'acquisto
+      di una delle seguenti licenze:"
+    full_description_contrib_amazon: "Numerose funzioni aggiuntive possono essere
+      sbloccate con l'acquisto di una delle licenze, ad esempio:"
+    highlight_1: "Tieni traccia delle tue spese e delle tue entrate attraverso diversi
+      conti, modelli e categorie"
+    highlight_2: "Condividi i tuoi dati fra più telefoni e tablet tramite WebDAV e
+      Google Drive"
+    highlight_3: "Ricapitola la situazione finanziaria del giorno, settimana, mese,
+      o anno"
   permissions:
     heading: <i>{app_name}</i> richiede le seguenti <u>autorizzazioni</u>
     calendar:
