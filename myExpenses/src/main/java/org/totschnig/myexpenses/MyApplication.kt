@@ -263,7 +263,6 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
                 || ctx.intent.getBooleanExtra(
             EXTRA_START_FROM_WIDGET_DATA_ENTRY, false
         ))
-        val isProtected = isProtected
         val lastPause = lastPause
         Timber.i("reading last pause : %d", lastPause)
         val isPostDelay = System.nanoTime() - lastPause > prefHandler.getInt(
@@ -276,8 +275,7 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
     }
 
     val isProtected: Boolean
-        get() = prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false) ||
-                prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)
+        get() = prefHandler.isProtected
 
     private fun controlWebUi(action: String) {
         val intent = serviceIntent

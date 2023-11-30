@@ -62,4 +62,5 @@
     <string name="settings_label">"Configuració"</string>
     <string name="security_settings_title">"Seguretat"</string>
     <string name="screen_lock">"Bloqueig de pantalla"</string>
+    <string name="screenshot">"Captura de pantalla"</string>
 </resources>

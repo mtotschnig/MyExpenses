@@ -35,10 +35,8 @@ abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvide
     @Inject
     lateinit var currencyFormatter: ICurrencyFormatter
 
-    protected open fun isProtected(context: Context): Boolean {
-        return (context.myApplication).isProtected &&
-                !prefHandler.getBoolean(protectionKey, false)
-    }
+    protected open fun isProtected(context: Context) = prefHandler.isProtected &&
+            !prefHandler.getBoolean(protectionKey, false)
 
     override fun onAppWidgetOptionsChanged(
         context: Context,

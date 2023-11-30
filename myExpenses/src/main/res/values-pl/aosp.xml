@@ -64,4 +64,5 @@
     <string name="settings_label">"Ustawienia"</string>
     <string name="security_settings_title">"Zabezpieczenia"</string>
     <string name="screen_lock">"Blokada ekranu"</string>
+    <string name="screenshot">"Zrzuty ekranu"</string>
 </resources>

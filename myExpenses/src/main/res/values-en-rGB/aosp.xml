@@ -6,4 +6,5 @@
 <resources>
     <string name="customize">Customise</string>
     <string name="license_title">"Licence"</string>
+    <string name="screenshot">"Screenshot"</string>
 </resources>

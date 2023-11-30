@@ -69,6 +69,7 @@ class PreferencesProtectionFragment : BasePreferenceFragment() {
             isLegacy || prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)
         requirePreference<Preference>(PrefKey.SECURITY_QUESTION).isEnabled = isLegacy
         requirePreference<Preference>(PrefKey.PROTECTION_DELAY_SECONDS).isEnabled = isProtected
+        requirePreference<Preference>(PrefKey.PROTECTION_ALLOW_SCREENSHOT).isEnabled = isProtected
         requirePreference<Preference>(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET).isEnabled =
             isProtected
         requirePreference<Preference>(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET).isEnabled =

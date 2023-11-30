@@ -63,4 +63,5 @@
     <string name="settings_label">"Настройки"</string>
     <string name="security_settings_title">"Сигурност"</string>
     <string name="screen_lock">"Заключване на екрана"</string>
+    <string name="screenshot">"Екранна снимка"</string>
 </resources>

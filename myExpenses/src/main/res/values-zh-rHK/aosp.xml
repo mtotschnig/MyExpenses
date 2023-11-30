@@ -60,4 +60,5 @@
     <string name="settings_label">"設定"</string>
     <string name="security_settings_title">"安全性"</string>
     <string name="screen_lock">"螢幕鎖定"</string>
+    <string name="screenshot">"屏幕擷取畫面"</string>
 </resources>

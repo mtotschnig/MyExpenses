@@ -359,9 +359,7 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
     }
 
     fun protectionCheck(pref: Preference) =
-        if (pref.key == prefHandler.getKey(PrefKey.CATEGORY_SECURITY) &&
-            (application as MyApplication).isProtected
-        ) {
+        if (pref.key == prefHandler.getKey(PrefKey.CATEGORY_SECURITY) && prefHandler.isProtected) {
             confirmCredentials(
                 CONFIRM_DEVICE_CREDENTIALS_MANAGE_PROTECTION_SETTINGS_REQUEST,
                 { twoPanePreference.startPerformProtection() },

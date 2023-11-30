@@ -61,4 +61,5 @@
     <string name="settings_label">"Impostazioni"</string>
     <string name="security_settings_title">"Sicurezza"</string>
     <string name="screen_lock">"Blocco schermo"</string>
+    <string name="screenshot">"Screenshot"</string>
 </resources>

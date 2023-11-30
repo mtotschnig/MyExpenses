@@ -62,4 +62,5 @@
     <string name="settings_label">"Ρυθμίσεις"</string>
     <string name="security_settings_title">"Ασφάλεια"</string>
     <string name="screen_lock">"Κλείδωμα οθόνης"</string>
+    <string name="screenshot">"Στιγμιότυπο οθόνης"</string>
 </resources>

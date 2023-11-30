@@ -61,4 +61,5 @@
     <string name="settings_label">"Ayarlar"</string>
     <string name="security_settings_title">"Güvenlik"</string>
     <string name="screen_lock">"Ekran kilidi"</string>
+    <string name="screenshot">"Ekran görüntüsü"</string>
 </resources>

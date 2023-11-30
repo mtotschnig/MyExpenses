@@ -58,4 +58,5 @@
     <string name="settings_label">"Instellingen"</string>
     <string name="security_settings_title">"Beveiliging"</string>
     <string name="screen_lock">"Schermvergrendeling"</string>
+    <string name="screenshot">"Screenshot"</string>
 </resources>

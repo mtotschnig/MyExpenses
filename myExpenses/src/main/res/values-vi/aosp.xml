@@ -60,4 +60,5 @@
     <string name="settings_label">"Cài đặt"</string>
     <string name="security_settings_title">"Bảo mật"</string>
     <string name="screen_lock">"Phương thức khóa màn hình"</string>
+    <string name="screenshot">"Ảnh chụp màn hình"</string>
 </resources>

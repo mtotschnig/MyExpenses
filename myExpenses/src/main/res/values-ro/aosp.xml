@@ -63,4 +63,5 @@
     <string name="settings_label">"Setări"</string>
     <string name="security_settings_title">"Securitate"</string>
     <string name="screen_lock">"Blocarea ecranului"</string>
+    <string name="screenshot">"Captură de ecran"</string>
 </resources>

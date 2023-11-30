@@ -18,13 +18,6 @@ package org.totschnig.myexpenses.activity;
 import static org.totschnig.myexpenses.activity.ConstantsKt.CALCULATOR_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.CONTRIB_REQUEST;
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
-import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DATE_FORMAT;
-import static org.totschnig.myexpenses.preference.PrefKey.DB_SAFE_MODE;
-import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
-import static org.totschnig.myexpenses.preference.PrefKey.GROUP_WEEK_STARTS;
-import static org.totschnig.myexpenses.preference.PrefKey.HOME_CURRENCY;
-import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK_SCREEN;
-import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_FONTSIZE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
@@ -32,7 +25,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -42,7 +34,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -66,7 +57,7 @@ import java.math.BigDecimal;
 
 import javax.inject.Inject;
 public abstract class ProtectedFragmentActivity extends BaseActivity
-    implements OnSharedPreferenceChangeListener,
+    implements
     TaskExecutionFragment.TaskCallbacks,
     ProgressDialogFragment.ProgressDialogListener {
 
@@ -88,10 +79,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (requireApplication().isProtected()) {
-      getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
-          WindowManager.LayoutParams.FLAG_SECURE);
-    }
     settings.registerOnSharedPreferenceChangeListener(this);
     TypedArray themeArray = getTheme().obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
     textColorSecondary = themeArray.getColorStateList(0);
@@ -129,15 +116,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   protected void onResume() {
     super.onResume();
     getCrashHandler().addBreadcrumb(getClass().getSimpleName());
-  }
-
-  @Override
-  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-                                        String key) {
-    if (prefHandler.matches(key, UI_FONTSIZE, PROTECTION_LEGACY, DB_SAFE_MODE,
-        PROTECTION_DEVICE_LOCK_SCREEN, GROUP_MONTH_STARTS, GROUP_WEEK_STARTS, HOME_CURRENCY, CUSTOM_DATE_FORMAT)) {
-      setScheduledRestart(true);
-    }
   }
 
   @Override

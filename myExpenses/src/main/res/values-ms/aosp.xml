@@ -60,4 +60,5 @@
     <string name="settings_label">"Tetapan"</string>
     <string name="security_settings_title">"Keselamatan"</string>
     <string name="screen_lock">"Kunci skrin"</string>
+    <string name="screenshot">"Tangkapan skrin"</string>
 </resources>

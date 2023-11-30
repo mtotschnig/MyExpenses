@@ -64,4 +64,5 @@
     <string name="settings_label">"Nastavení"</string>
     <string name="security_settings_title">"Zabezpečení"</string>
     <string name="screen_lock">"Zámek obrazovky"</string>
+    <string name="screenshot">"Snímky obrazovky"</string>
 </resources>

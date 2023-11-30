@@ -7,7 +7,7 @@
         android:title="@string/screen_lock"
         my:allowDividerAbove="false"
         my:expandButtonTitle="@string/feature_deprecated"
-        my:initialExpandedChildrenCount="2">
+        my:initialExpandedChildrenCount="3">
         <SwitchPreferenceCompat
             android:key="@string/pref_protection_device_lock_screen_key"
             android:title="@string/pref_protection_device_lock_screen_title" />
@@ -20,6 +20,12 @@
             my:min="1"
             my:showSeekBarValue="true"
             my:updatesContinuously="true" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_protection_allow_screenshot_key"
+            android:summaryOff="@string/pref_checkbox_disabled"
+            android:summaryOn="@string/pref_checkbox_enabled"
+            android:title="@string/screenshot" />
         <org.totschnig.myexpenses.preference.LegacyPasswordPreference
             android:key="@string/pref_protection_password_key"
             android:title="@string/pref_protection_password_title" />

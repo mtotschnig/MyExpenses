@@ -130,6 +130,7 @@
     <string name="pref_attachment_mime_types_key">attachment_mime_types</string>
     <string name="default_attachment_mime_types">image/*,application/pdf</string>
     <string name="pref_unmapped_transaction_as_transfer_key">unmapped_transaction_as_transfer</string>
+    <string name="pref_protection_allow_screenshot_key">protection_allow_screenshot</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
     <string-array name="additional_credits">

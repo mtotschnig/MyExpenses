@@ -71,6 +71,13 @@ interface PrefHandler {
         PrefKey.UI_THEME_KEY,
         context.getString(R.string.pref_ui_theme_default)
     )
+
+    val isProtected
+        get() =  getBoolean(PrefKey.PROTECTION_LEGACY, false) ||
+                getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)
+
+    val shouldSecureWindow
+        get() = isProtected && !getBoolean(PrefKey.PROTECTION_ALLOW_SCREENSHOT, false)
 }
 
 inline fun <reified T : Enum<T>> PrefHandler.enumValueOrDefault(prefKey: PrefKey, default: T): T =
