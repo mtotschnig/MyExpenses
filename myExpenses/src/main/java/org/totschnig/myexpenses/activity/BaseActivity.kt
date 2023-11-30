@@ -1234,7 +1234,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                         UI_MODE_NIGHT_YES else UI_MODE_NIGHT_NO
                     val systemUiMode =
                         applicationContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-                    Timber.tag("DEBUGG").i("our: %d, system: %d", ourUiMode, systemUiMode)
                     ourUiMode == systemUiMode
                 }
             }
