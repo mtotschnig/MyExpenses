@@ -475,7 +475,7 @@ fun exchangeRateJoin(
 
 fun transactionMappedObjectQuery(selection: String): String = """
 with data as
- (select $KEY_ROWID, $KEY_CATID, $KEY_METHODID, $KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_TAGID from $TABLE_TRANSACTIONS left join $TABLE_TRANSACTIONS_TAGS on $KEY_TRANSACTIONID = $KEY_ROWID where $KEY_CR_STATUS != '${CrStatus.VOID.name}' AND $selection)
+ (select $KEY_ROWID, $KEY_CATID, $KEY_METHODID, $KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_TAGID from $TABLE_TRANSACTIONS left join $TABLE_TRANSACTIONS_TAGS on $KEY_TRANSACTIONID = $KEY_ROWID where $KEY_CR_STATUS != '${CrStatus.VOID.name}' AND +$selection)
  SELECT
        exists(select 1 from data) AS $KEY_COUNT,
        exists(select 1 from data where $KEY_CATID > 0) AS $KEY_MAPPED_CATEGORIES,

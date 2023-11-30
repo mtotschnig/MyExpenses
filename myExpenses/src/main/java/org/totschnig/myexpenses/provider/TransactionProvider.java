@@ -107,7 +107,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_DEPENDEN
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_RELATED;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.CTE_TRANSACTION_AMOUNTS;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetAllocation;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.budgetSelect;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeSelect;
@@ -116,7 +115,6 @@ import static org.totschnig.myexpenses.provider.DbConstantsKt.categoryTreeWithSu
 import static org.totschnig.myexpenses.provider.DbConstantsKt.checkForSealedAccount;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getAccountSelector;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getPayeeWithDuplicatesCTE;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.amountCalculation;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getTemplateQuerySelector;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getTransactionQuerySelector;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionMappedObjectQuery;
@@ -394,13 +392,14 @@ public class TransactionProvider extends BaseTransactionProvider {
     }
     switch (uriMatch) {
       case TRANSACTIONS: {
-        String selector = getTransactionQuerySelector(uri);
-        selection = TextUtils.isEmpty(selection) ? selector : selection + " AND " + selector;
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_MAPPED_OBJECTS, false)) {
-          String sql = transactionMappedObjectQuery(selection);
+          if (selection != null) CrashHandler.throwOrReport("mapped object query ignores selection");
+          String sql = transactionMappedObjectQuery(getAccountSelector(uri));
           c = measureAndLogQuery(db, uri, sql, selection, selectionArgs);
           return c;
         }
+        String selector = getTransactionQuerySelector(uri);
+        selection = TextUtils.isEmpty(selection) ? selector : selection + " AND " + selector;
         String forCatId = uri.getQueryParameter(KEY_CATID);
         boolean extended = uri.getQueryParameter(QUERY_PARAMETER_EXTENDED) != null;
         if (projection == null) {
