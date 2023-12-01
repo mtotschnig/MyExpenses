@@ -17,4 +17,7 @@
     <string name="ocr_title">Скан чека</string>
     <string name="webui_title">Веб-интерфейс пользователя</string>
     <string name="splittemplate_description">Неограниченное количество шаблонов и планов разбиения транзакций</string>
+    <string name="categorytree_title">Дерево категорий</string>
+    <string name="distribution_title">Круговая диаграмма</string>
+    <string name="plansunlimited_description">Разблокировать возможность создать более трёх планов для повторяющихся транзакций</string>
 </resources>
