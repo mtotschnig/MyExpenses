@@ -200,4 +200,5 @@
     <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">Door een budget te definiëren, definieert u een totaalbedrag dat u gedurende een bepaalde periode wilt uitgeven. U kunt ook bedragen toewijzen voor categorieën en subcategorieën. U houdt dan bij hoeveel u hebt uitgegeven en hoeveel er nog te besteden is.</string>
     <string name="form_default_action_help_text">Voor elke sjabloon kunt u configureren of een korte tik erop in de sjabloonlijst de instantie onmiddellijk opslaat of het bewerkingsformulier invoert waar u het kunt wijzigen voordat u het opslaat. U hebt altijd toegang tot beide acties door lang te tikken.</string>
     <string name="form_plan_help_text_mode">Een plan kan worden ingesteld op automatisch of handmatig. Wanneer er een exemplaar van een automatisch abonnement plaatsvindt, wordt de transactie gemaakt en ontvangt u een melding. Als het plan handmatig is, ontvangt u ook een melding, waardoor u de keuze hebt om het sjabloon te annuleren, aan te passen of toe te passen.</string>
+    <string name="help_DebtOverview_info">Klik op een invoer om uit- of in te vouwen.</string>
 </resources>
