@@ -32,11 +32,11 @@ nl:
     onderhoud en distributie van <i>{app_name}</i>
   imprint: Afdruk
   privacy_policy_text: <i> {app_name} </i> heeft geen toegang tot gegevens op uw apparaat,
-    behalve een eigen database, een eigen map op de SD-kaart. Als u de functie van plannen
-    voor toekomstige en terugkerende transacties gebruikt, wijst u de agenda toe, waar
-    deze plannen worden opgeslagen.
+    behalve een eigen database, een eigen map op de SD-kaart. Als u de functie van
+    plannen voor toekomstige en terugkerende transacties gebruikt, wijst u de agenda
+    toe, waar deze plannen worden opgeslagen.
   sections:
-    premium: Ga voor premium
+    premium: Ga voor betaalde versie
     versionlist: Wijzigingenlijst
     features: Mogelijkheden
     participate: Deelnemen
@@ -48,29 +48,29 @@ nl:
   screenshots:
     budget: Bepaal hoeveel u van plan bent te besteden aan jaarlijkse, maandelijkse
       of wekelijkse budgetten
-    group: Groepeer uw transacties per dag, week, maand of jaar
-    summarize: Som al uw rekeningen op (geavanceerde verwerking van wisselkoersen per
-      rekening en per transactie)
+    group: Groepeert je transacties per dag, week, maand of jaar
+    summarize: Som al uw rekeningen op (geavanceerde verwerking van wisselkoersen
+      per rekening en per transactie)
     distribution: Visualiseer de verdeling per categorie
     history: Begrijp hoe uw financiële situatie in de loop van de tijd evolueert
     export: Afdrukken naar PDF en uitwisselen via QIF en CSV.
     sync: Synchroniseer versleutelde accountgegevens op meerdere apparaten via privé-
       of openbare cloudservices.
-    split: Splits één transactie op in meerdere categorieën
+    split: Splits transactie in meerdere categorien
   contrib:
     feature:
-      distribution: '<b> Cirkeldiagram</b>: Visualiseer de statistische verdeling van
-        transacties per categorie over verschillende perioden (jaren, maanden, weken,
-        dagen)'
-      accounts_unlimited: Ontgrendel de mogelijkheid om meer dan vijf accounts aan te
-        maken
-      split_transaction: '<b>Gesplitste transactie</b>: Een enkele transactie kan worden
-        opgesplitst in meerdere delen (categorieën en overschrijvingen)'
+      distribution: '<b> Cirkeldiagram</b>: Visualiseer de statistische verdeling
+        van transacties per categorie over verschillende perioden (jaren, maanden,
+        weken, dagen)'
+      accounts_unlimited: Ontgrendel de mogelijkheid om meer dan vijf accounts aan
+        te maken
+      split_transaction: '<b>Gesplitste transactie</b>: Een enkele transactie kan
+        worden opgesplitst in meerdere delen (categorieën en overschrijvingen)'
       print: <b>Print</b> de transactielijst naar een PDF-bestand
       ad_free: <b>Geen advertenties</b>
       csv_import: Geavanceerde, aanpasbare <b>CSV-import</b> (spreadsheettoepassingen)
-      auto_backup: Dagelijkse <b>geautomatiseerde back-up</b> met optionele upload naar
-        cloudopslag
+      auto_backup: Dagelijkse <b>geautomatiseerde back-up</b> met optionele upload
+        naar cloudopslag
       cloud_sync: '<b>Cloudsynchronisatie</b>: gegevens kunnen worden gesynchroniseerd
         tussen meerdere apparaten'
       split_template: Onbeperkt aantal <b>sjablonen en abonnementen voor gesplitste
@@ -86,9 +86,10 @@ nl:
       webui: <b>Webgebruikersinterface</b>
       plans_unlimited: Ontgrendel de mogelijkheid om meer dan drie plannen te maken
         voor terugkerende transacties
-    thank_you: "Uw bijdrage ondersteunt de verdere ontwikkeling van Mijn Uitgaven. Bedankt!\n"
-    feature-list-title: 'Draag alstublieft bij door <i>{app_name}</i> te upgraden en
-      krijg onbeperkte toegang tot de volgende functies:'
+    thank_you: "Uw bijdrage ondersteunt de verdere ontwikkeling van Mijn Uitgaven.
+      Bedankt!\n"
+    feature-list-title: 'Draag alstublieft bij door <i>{app_name}</i> te upgraden
+      en krijg onbeperkte toegang tot de volgende functies:'
     one-time-payment: Eenmalige betaling
     subscription: Abonnement
   features:
@@ -98,8 +99,8 @@ nl:
     password: Gegevens kunnen worden beschermd met <b>wachtwoord</b> of apparaat <b>vergrendelscherm</b>
     plans: Onbeperkt aantal <b>sjablonen</b> en maximaal drie abonnementen voor <b>terugkerende</b>
       transacties
-    light_theme: <b> Thema </b> (donker en licht) en <b> lettergrootte </b> kunnen worden
-      aangepast
+    light_theme: <b> Thema </b> (donker en licht) en <b> lettergrootte </b> kunnen
+      worden aangepast
     reconciliation: '<b> Reconciliatie</b>: vergelijk eenvoudig de transactiestatus
       met uw bankafschriften'
     homescreen: Startscherm <b>widget</b> en <b>snelkoppelingen</b> voor snelle gegevensinvoer
@@ -110,12 +111,12 @@ nl:
       en Open Source'
     full_description_intro: '{app_name} houdt uw uitgaven en uw inkomsten bij, rechtstreeks
       op uw smartphone en op uw tablet.'
-    full_description_contrib: 'Premiumfuncties worden ontgrendeld door aankoop van een
-      van de volgende licentiesleutels:'
-    full_description_contrib_amazon: 'Veel extra functies worden ontgrendeld door aankoop
-      van een van de licentiesleutels, bijvoorbeeld:'
-    highlight_2: Deel uw gegevens tussen meerdere telefoons en tablets via WebDAV en
-      Google Drive
+    full_description_contrib: 'Premiumfuncties worden ontgrendeld door aankoop van
+      een van de volgende licentiesleutels:'
+    full_description_contrib_amazon: 'Veel extra functies worden ontgrendeld door
+      aankoop van een van de licentiesleutels, bijvoorbeeld:'
+    highlight_2: Deel uw gegevens tussen meerdere telefoons en tablets via WebDAV
+      en Google Drive
     highlight_3: Vat uw financiële situatie samen per dag, week, maand of jaar
   privacy_policy_heading: Privacybeleid
   menu_title:
