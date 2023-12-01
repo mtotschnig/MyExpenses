@@ -13,4 +13,15 @@
     <string name="splittransaction_title">Поділена операція</string>
     <string name="synchronization_title">Синхронізація</string>
     <string name="ocr_title">Сканувати квитанцію</string>
+    <string name="csvimport_description">Настроюваний імпорт CSV</string>
+    <string name="webui_description">Використовуйте браузер ПК для введення даних</string>
+    <string name="ocr_description">Автоматично розпізнати суму, дату і одержувача</string>
+    <string name="adfree_description">Відсутня реклама.</string>
+    <string name="history_description">Зрозуміти як стан рахунку міняється з часом</string>
+    <string name="categorytree_title">Дерево категорій</string>
+    <string name="splittemplate_description">Необмежена кількість шаблонів і планів поділених операцій</string>
+    <string name="accountsunlimited_description">Розблокувати можливість створити більше п\'яти рахунків</string>
+    <string name="categorytree_description">Довільна глибока ієрархія категорій</string>
+    <string name="webui_title">Веб-інтерфейс</string>
+    <string name="budget_description">Вкажіть скільки плануєте витратити за рік, місяць чи тиждень</string>
 </resources>
