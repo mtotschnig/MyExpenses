@@ -403,5 +403,12 @@
     <string name="switch_on_text">चालू</string>
     <string name="csv_import_no_mapping_found_for_amount">कृपया राशि, आय या व्यय में से किसी एक कॉलम को मैप करें।</string>
     <string name="menu_show_transactions">लेन-देन दिखाएँ</string>
-    <string name="pref_contrib_purchase_summary"></string>
+    <string name="pref_contrib_purchase_summary">प्रीमियम सुविधाएँ खरीदें</string>
+    <string name="pref_import_summary">%s फ़ाइल से लेनदेन, श्रेणियाँ और पार्टियाँ आयात करें</string>
+    <string name="pref_manage_methods_summary">भुगतान विधियां बनाएं और संपादित करें तथा उन्हें खाता प्रकारों के साथ संबद्ध करें।</string>
+    <string name="dialog_contrib_subscription_info_play">यह सदस्यता तत्काल प्रभाव से लागू होती है, मासिक या वार्षिक रूप से बिल किया जाता है और इसे किसी भी समय रद्द किया जा सकता है।</string>
+    <string name="pref_manage_sync_backends_title">सिंक्रोनाइज़ेशन बैकएंड</string>
+    <string name="pref_enter_licence_summary">यदि आपको कुंजी प्राप्त हुई है, तो प्रीमियम सुविधाओं तक पहुंच प्राप्त करें।</string>
+    <string name="pref_manage_sync_backends_summary">खातों को सिंक्रनाइज़ करने के लिए बैकएंड जोड़ें (%s)।</string>
+    <string name="pref_perform_share_title">निर्यात और बैकअप साझा करें</string>
 </resources>
