@@ -4,8 +4,12 @@
     <string-array name="translators_ar">
         <item>Ar.Alothaim</item>
         <item>Rageriser</item>
-        <item>Anas Zerkli (Damascus-Syria)</item>
+        <item>Anas Zerkli</item>
         <item>https://gengo.com/</item>
+        <item>itsmohmans</item>
+        <item>Jessy Kihn III</item>
+        <item>Resolved2418</item>
+        <item>Softmap</item>
     </string-array>
 
     <string-array name="translators_bg">
@@ -16,6 +20,8 @@
     <string-array name="translators_ca">
         <item>Paco Rivière</item>
         <item>jpgine</item>
+        <item>Feliu Cabañas Pastó</item>
+        <item>t3rr0rz0n3</item>
     </string-array>
 
     <string-array name="translators_cs">
@@ -29,7 +35,8 @@
 
     <string-array name="translators_de">
         <item>Michael Totschnig</item>
-        <item>J. Lavoie (j.lavoie@net-c.ca)</item>
+        <item>J. Lavoie</item>
+        <item>eltos</item>
     </string-array>
 
     <string-array name="translators_el">
@@ -40,12 +47,13 @@
 
     <string-array name="translators_es">
         <item>Miguel Rodriguez</item>
+        <item>gallegonovato</item>
         <item>Elier Espinoza</item>
         <item>Johanna Totschnig</item>
         <item>Gudrun Totschnig</item>
         <item>Christof Totschnig</item>
         <item>Laurent Collombet</item>
-        <item>Guille (willelopz+weblate@gmail.com)</item>
+        <item>Guille</item>
     </string-array>
 
     <string-array name="translators_eu">
@@ -57,12 +65,12 @@
         <item>Laurent Collombet</item>
         <item>Michael Totschnig</item>
         <item>Alexandre Beelen</item>
-        <item>J. Lavoie (j.lavoie@net-c.ca)</item>
+        <item>J. Lavoie</item>
     </string-array>
 
     <string-array name="translators_hr">
         <item>Mihovil Nakić-Vojnović</item>
-        <item>Milo Ivir (mail@milotype.de)</item>
+        <item>Milo Ivir</item>
     </string-array>
 
     <string-array name="translators_hu">
@@ -81,12 +89,14 @@
         <item>Silvia Delpero</item>
         <item>Gudrun Totschnig</item>
         <item>Pierluigi Rufo</item>
-        <item>Alessandro Mandelli (mandelli.alessandro@ngi.it)</item>
+        <item>Alessandro Mandelli</item>
     </string-array>
 
     <string-array name="translators_iw">
         <item>צבי  פנחסוביץ</item>
-        <item>Yaron Shahrabani (sh.yaron@gmail.com)</item>
+        <item>Yaron Shahrabani</item>
+        <item>Gilad the Grain</item>
+        <item>Avi Markovitz</item>
     </string-array>
 
     <string-array name="translators_ja">
@@ -104,6 +114,7 @@
 
     <string-array name="translators_ko">
         <item>halcyonest</item>
+        <item>이정희</item>
     </string-array>
 
     <string-array name="translators_ms">
@@ -114,6 +125,7 @@
         <item>Erik Paelman</item>
         <item>Birdibird</item>
         <item>Rudi Timmermans</item>
+        <item>Cees</item>
     </string-array>
 
     <string-array name="translators_pl">
@@ -122,6 +134,7 @@
         <item>stibb</item>
         <item>tangodev</item>
         <item>Damian S.</item>
+        <item>Maciej Klupp</item>
     </string-array>
 
     <string-array name="translators_pt">
@@ -130,33 +143,41 @@
         <item>Frederico Gonçalves Guimarães</item>
         <item>Fernando Maia</item>
         <item>Maria Gabriel</item>
-        <item>ssantos (ssantos@web.de)</item>
+        <item>ssantos</item>
+        <item>Rysete</item>
+        <item>gbonaspetti</item>
     </string-array>
 
     <string-array name="translators_pt_pt">
         <item>Sérgio Marques</item>
-        <item>ssantos (ssantos@web.de)</item>
+        <item>ssantos</item>
     </string-array>
 
     <string-array name="translators_ro">
         <item>Doru Deaconu</item>
+        <item>Ciprian</item>
     </string-array>
 
     <string-array name="translators_ru">
         <item>Дмитрий Стрельников</item>
         <item>Дмитрий Куренков</item>
         <item>Kirill Arkhipkin</item>
-        <item>Nikita Epifanov (nikgreens@protonmail.com)</item>
+        <item>Nikita Epifanov</item>
+        <item>Oleg</item>
+        <item>Zangar Zhanabek</item>
+        <item>dbozorov</item>
     </string-array>
 
     <string-array name="translators_si">
         <item>isuru</item>
         <item>janith9590</item>
         <item>Dilruni Ganepola</item>
+        <item>HelaBasa</item>
     </string-array>
 
     <string-array name="translators_ta">
         <item>Kaartic Sivaraam</item>
+        <item>guruleninnbc01b4b6f821486e</item>
     </string-array>
 
     <string-array name="translators_te">
@@ -166,17 +187,18 @@
     <string-array name="translators_tr">
         <item>mauron</item>
         <item>Caner Başaran</item>
-        <item>Oğuz Ersen (oguzersen@protonmail.com)</item>
+        <item>Oğuz Ersen</item>
     </string-array>
 
     <string-array name="translators_uk">
         <item>Володимир Галандзій</item>
         <item>Ігор Красилівський</item>
         <item>Дмитро Савицький</item>
+        <item>Balanda Nazarii</item>
     </string-array>
 
     <string-array name="translators_ur">
-        <item>Nabeel (nabeelhassan1295@gmail.com)</item>
+        <item>Muhammad Nabeel</item>
     </string-array>
 
     <string-array name="translators_vi">
@@ -194,7 +216,11 @@
 
     <string-array name="translators_zh">
         <item>hhggit</item>
-        <item>frankxue (keshan.xue@outlook.com)</item>
-        <item>Eric (spice2wolf@gmail.com)</item>
+        <item>frankxue</item>
+        <item>Eric</item>
+        <item>Dwhite Reeves</item>
+        <item>JY3</item>
+        <item>Mark MA</item>
+        <item>hong</item>
     </string-array>
 </resources>
