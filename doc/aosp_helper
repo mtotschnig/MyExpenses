@@ -1,0 +1,17 @@
+#!/bin/bash
+BASEDIR=/home/michael/MyExpenses/myExpenses/src/main/res
+while IFS=":" read FILE STRING
+do 
+  temp=${FILE:11}
+  lang=${temp%/*}
+  aosp=$BASEDIR/values-$lang/aosp.xml
+  if [ -f $aosp ]; then
+    echo $lang
+    (
+    head -n -1 $aosp
+    echo "$STRING"
+    echo -n "</resources>"
+    ) >$aosp.tmp
+    mv $aosp.tmp $aosp
+  fi
+done

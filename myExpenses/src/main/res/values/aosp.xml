@@ -92,8 +92,12 @@
     <string name="nickname">Nickname</string>
     <!-- Settings - subscription_available -->
     <string name="available">Available</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings grep -ri 943294133671632976 res  |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="settings_label">"Settings"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings grep -ri 6710768415432791970 res  |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="security_settings_title">Security</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings grep -ri 6710768415432791970 res  | sed 's/unlock_set_unlock_launch_picker_title/screen_lock/' |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="screen_lock">Screen lock</string>
+    <!-- /opt/extra/AOSP/packages/apps/Gallery2 grep -ri folder_screenshot res/values*  | sed 's/folder_//' |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper  -->
     <string name="screenshot">Screenshot</string>
 </resources>
