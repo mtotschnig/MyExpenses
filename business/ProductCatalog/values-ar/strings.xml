@@ -21,4 +21,14 @@
     <string name="synchronization_title">تزامن سحابي</string>
     <string name="adfree_description">لا إعلانات.</string>
     <string name="webui_description">استعمل متصفح الشبكة من الحاسوب لإدخال البيانات</string>
+    <string name="distribution_description">عرض إحصائي للمعاملات حسب الصّنف خلال دورات مختلفة( سنة، شهر، أسبوع، أيام)</string>
+    <string name="csvimport_description">استيراد ملف CSV متطور وقابل للتعديل</string>
+    <string name="professional_benefit_1">فتح جميع الميزات المتميزة</string>
+    <string name="synchronization_description">إمكانية مزامنة الداتا إلى عدة أحهزة</string>
+    <string name="categorytree_title">فروع التصنيفات</string>
+    <string name="distribution_title">مخطط دائري</string>
+    <string name="plansunlimited_description">فتح قابلية إنشاء أكثر من ثلاثة خطط للمعاملات المتكررة</string>
+    <string name="categorytree_description">التسلسل الهرمي للفئة العميقة</string>
+    <string name="splittransaction_description">عملية واحدة يمكن تقسيمها إلى عدة أجزاء (فئات و تحويلات)</string>
+    <string name="print_description">طباعة قائمة المعاملات إلى ملف PDF</string>
 </resources>
