@@ -62,4 +62,5 @@
     <string name="security_settings_title">"セキュリティ"</string>
     <string name="screen_lock">"画面ロック"</string>
     <string name="screenshot">"スクリーンショット"</string>
+    <string name="menu_add">"追加"</string>
 </resources>

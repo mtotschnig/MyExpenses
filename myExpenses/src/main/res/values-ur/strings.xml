@@ -476,7 +476,6 @@
     <string name="onboarding_get_started">شروع کرنے کے</string>
     <string name="onboarding_restore_from_cloud">کلاؤڈ سنکرونائزیشن سے بحال کریں</string>
     <string name="onboarding_restore_from_local">مقامی بیک اپ فائل کو بحال کریں</string>
-    <string name="dialog_button_add">شامل کریں</string>
     <string name="contributed_by">%s کے ذریعے تعاون کیا گیا</string>
     <string name="pref_sync_notification_summary">مطابقت پذیری کی پیشرفت کے بارے میں مطلع کریں</string>
     <string name="never">کبھی نہیں</string>

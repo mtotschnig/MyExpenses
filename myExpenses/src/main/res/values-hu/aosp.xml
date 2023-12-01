@@ -64,4 +64,5 @@
     <string name="security_settings_title">"Biztonság"</string>
     <string name="screen_lock">"Képernyőzár"</string>
     <string name="screenshot">"Képernyőkép"</string>
+    <string name="menu_add">"Hozzáadás"</string>
 </resources>

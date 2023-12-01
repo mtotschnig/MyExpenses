@@ -469,7 +469,6 @@
     <string name="onboarding_more_options">Meer Opties</string>
     <string name="onboarding_restore_from_cloud">Herstel vanuit cloudsynchronisatie</string>
     <string name="onboarding_restore_from_local">Herstel lokaal back-upbestand</string>
-    <string name="dialog_button_add">Toevoegen</string>
     <string name="plan_custom_recurrence_info">Sla eerst het sjabloon op. Het plan wordt vervolgens geopend in de kalender-app, waar u een aangepaste herhaling kunt instellen.</string>
     <string name="progress_validating_licence">Licentie valideren</string>
     <string name="button_validate">Valideren</string>

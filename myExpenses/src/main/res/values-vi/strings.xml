@@ -570,7 +570,6 @@
     <string name="onboarding_more_options">Nhiều tuỳ chọn hơn</string>
     <string name="onboarding_restore_from_cloud">Khôi phục từ bản đồng bộ trực tuyến</string>
     <string name="onboarding_restore_from_local">Khôi phục từ tập tin sao lưu trong máy</string>
-    <string name="dialog_button_add">Thêm</string>
     <string name="contributed_by">Đóng góp bởi %s</string>
     <string name="pref_sync_notification_summary">Thông báo về quá trình đồng bộ hoá</string>
     <string name="pref_debug_logging_summary">Ghi thông tin gỡ lỗi vào nhật ký hệ thống</string>

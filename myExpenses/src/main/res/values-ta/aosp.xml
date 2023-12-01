@@ -63,4 +63,5 @@
     <string name="settings_label">"அமைப்பு"</string>
     <string name="security_settings_title">"பாதுகாப்பு"</string>
     <string name="screen_lock">"திரைப் பூட்டு"</string>
+    <string name="menu_add">"சேர்"</string>
 </resources>

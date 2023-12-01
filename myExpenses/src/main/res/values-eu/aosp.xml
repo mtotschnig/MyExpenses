@@ -63,4 +63,5 @@
     <string name="settings_label">"Ezarpenak"</string>
     <string name="security_settings_title">"Segurtasuna"</string>
     <string name="screen_lock">"Pantailaren blokeoa"</string>
+    <string name="menu_add">"Gehitu"</string>
 </resources>

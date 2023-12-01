@@ -595,7 +595,6 @@
     <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
     <string name="onboarding_restore_from_cloud_backup">Kopie zapasowe</string>
     <string name="onboarding_restore_from_local">Przywróć lokalną kopię</string>
-    <string name="dialog_button_add">Dodaj</string>
     <string name="contributed_by">Wniesione przez %s</string>
     <string name="pref_sync_notification_summary">Powiadamiaj o postępie synchronizacji</string>
     <string name="pref_debug_logging_summary">Zapisuj informacje debugowania w dzienniku systemowym</string>

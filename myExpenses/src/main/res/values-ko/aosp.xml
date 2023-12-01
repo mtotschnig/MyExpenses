@@ -62,4 +62,5 @@
     <string name="security_settings_title">"보안"</string>
     <string name="screen_lock">"화면 잠금"</string>
     <string name="screenshot">"스크린샷"</string>
+    <string name="menu_add">"추가"</string>
 </resources>

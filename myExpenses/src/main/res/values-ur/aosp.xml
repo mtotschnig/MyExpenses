@@ -58,4 +58,5 @@
     <string name="settings_label">"ترتیبات"</string>
     <string name="security_settings_title">"سیکیورٹی"</string>
     <string name="screen_lock">"اسکرین لاک"</string>
+    <string name="menu_add">"شامل کریں"</string>
 </resources>

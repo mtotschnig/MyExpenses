@@ -583,7 +583,6 @@
     <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
     <string name="onboarding_restore_from_cloud_backup">バックアップ</string>
     <string name="onboarding_restore_from_local">ローカルのバックアップファイルを復元</string>
-    <string name="dialog_button_add">追加</string>
     <string name="contributed_by">貢献者 %s</string>
     <string name="pref_sync_notification_summary">同期の進行状況を通知する</string>
     <string name="pref_debug_logging_summary">システムログにデバッグ情報を書き込む</string>

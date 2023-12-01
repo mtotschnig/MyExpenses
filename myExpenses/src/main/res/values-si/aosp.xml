@@ -59,4 +59,5 @@
     <string name="security_settings_title">"ආරක්ෂාව"</string>
     <string name="screen_lock">"තිර අගුල"</string>
     <string name="screenshot">"තිර රුව"</string>
+    <string name="menu_add">"එක් කරන්න"</string>
 </resources>

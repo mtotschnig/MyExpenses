@@ -64,4 +64,5 @@
     <string name="security_settings_title">"Сигурност"</string>
     <string name="screen_lock">"Заключване на екрана"</string>
     <string name="screenshot">"Екранна снимка"</string>
+    <string name="menu_add">"Добавяне"</string>
 </resources>

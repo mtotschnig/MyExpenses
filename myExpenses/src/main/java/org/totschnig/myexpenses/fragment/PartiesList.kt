@@ -598,7 +598,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
             )
             .title(if (party == null) R.string.menu_create_party else R.string.menu_edit_party)
             .cancelable(false)
-            .pos(if (party == null) R.string.dialog_button_add else R.string.menu_save)
+            .pos(if (party == null) R.string.menu_add else R.string.menu_save)
             .neut()
             .extra(Bundle().apply {
                 putLong(KEY_ROWID, party?.id ?: 0L)

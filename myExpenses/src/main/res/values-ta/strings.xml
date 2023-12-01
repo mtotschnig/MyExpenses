@@ -593,7 +593,6 @@
     <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
     <string name="onboarding_restore_from_cloud_backup">காப்புப்பிரதிகள்</string>
     <string name="onboarding_restore_from_local">உள் காப்புப்பிரதி கோப்பை மீட்டமை</string>
-    <string name="dialog_button_add">சேர்</string>
     <string name="contributed_by">%s-ஆல் பங்களிக்கப்பட்டது</string>
     <string name="pref_sync_notification_summary">ஒத்திசைவின் முன்னேற்றம் பற்றி தெரிவிக்கவும்</string>
     <string name="pref_debug_logging_summary">கணினி குறிப்பில் பிழைத்திருத்த உதவும் தகவல்களை எழுதவும்</string>

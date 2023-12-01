@@ -63,4 +63,5 @@
     <string name="settings_label">"ಸೆಟ್ಟಿಂಗ್‌ಗಳು"</string>
     <string name="security_settings_title">"ಭದ್ರತೆ"</string>
     <string name="screen_lock">"ಸ್ಕ್ರೀನ್ ಲಾಕ್"</string>
+    <string name="menu_add">"ಸೇರಿಸು"</string>
 </resources>

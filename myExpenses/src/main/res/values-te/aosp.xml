@@ -58,4 +58,5 @@
     <string name="settings_label">"సెట్టింగ్‌లు"</string>
     <string name="security_settings_title">"సెక్యూరిటీ"</string>
     <string name="screen_lock">"స్క్రీన్ లాక్"</string>
+    <string name="menu_add">"జోడించండి"</string>
 </resources>

@@ -132,7 +132,7 @@ fun CategoryEdit(
                         }) {
                         Text(
                             text = stringResource(
-                                id = if (dialogState.isNew) R.string.dialog_button_add
+                                id = if (dialogState.isNew) R.string.menu_add
                                 else R.string.menu_save
                             )
                         )

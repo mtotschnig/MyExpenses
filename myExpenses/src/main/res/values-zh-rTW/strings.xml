@@ -587,7 +587,6 @@
     <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
     <string name="onboarding_restore_from_cloud_backup">備份檔案</string>
     <string name="onboarding_restore_from_local">從本機備份檔案來復原</string>
-    <string name="dialog_button_add">新增</string>
     <string name="contributed_by">由%s貢獻</string>
     <string name="pref_sync_notification_summary">通知有關同步的進度</string>
     <string name="pref_debug_logging_summary">將偵錯資訊寫入系統日誌</string>

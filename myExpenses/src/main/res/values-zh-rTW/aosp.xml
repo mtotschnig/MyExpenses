@@ -61,4 +61,5 @@
     <string name="security_settings_title">"安全性"</string>
     <string name="screen_lock">"螢幕鎖定"</string>
     <string name="screenshot">"螢幕擷取畫面"</string>
+    <string name="menu_add">"新增"</string>
 </resources>

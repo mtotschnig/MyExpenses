@@ -579,7 +579,6 @@
     <string name="onboarding_more_options">Lagi Pilihan</string>
     <string name="onboarding_restore_from_cloud">Pulihkan melalui penyegerakan awan</string>
     <string name="onboarding_restore_from_local">Pulih fail sandar setempat</string>
-    <string name="dialog_button_add">Tambah</string>
     <string name="contributed_by">%sDisumbang oleh </string>
     <string name="pref_sync_notification_summary">Makluman berkenaan kemajuan penyegerakan</string>
     <string name="pref_debug_logging_summary">Tuli maklumat penyahpepijatan ke dalam log sistem</string>

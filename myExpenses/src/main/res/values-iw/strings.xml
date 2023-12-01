@@ -607,7 +607,6 @@
     <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
     <string name="onboarding_restore_from_cloud_backup">גיבויים</string>
     <string name="onboarding_restore_from_local">שחזור קובץ גיבוי מקומי</string>
-    <string name="dialog_button_add">הוסף</string>
     <string name="contributed_by">נתרם על ידי %s</string>
     <string name="pref_sync_notification_summary">הודע על התקדמות הסנכרון</string>
     <string name="pref_debug_logging_summary">כתוב מידע לצורך פתרון באגים ביומן המערכת</string>

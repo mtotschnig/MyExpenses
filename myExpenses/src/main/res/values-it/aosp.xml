@@ -62,4 +62,5 @@
     <string name="security_settings_title">"Sicurezza"</string>
     <string name="screen_lock">"Blocco schermo"</string>
     <string name="screenshot">"Screenshot"</string>
+    <string name="menu_add">"Aggiungi"</string>
 </resources>

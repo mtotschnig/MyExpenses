@@ -59,4 +59,5 @@
     <string name="security_settings_title">"Beveiliging"</string>
     <string name="screen_lock">"Schermvergrendeling"</string>
     <string name="screenshot">"Screenshot"</string>
+    <string name="menu_add">"Toevoegen"</string>
 </resources>

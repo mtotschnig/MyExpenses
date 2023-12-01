@@ -453,7 +453,6 @@
     <string name="synchronization_end_success_none">No hi ha canvis per sincronitzar.</string>
     <string name="onboarding_more_options">Més opcions</string>
     <string name="onboarding_restore_from_local">Restaurar des de còpia de seguretat local</string>
-    <string name="dialog_button_add">Afegir</string>
     <string name="contributed_by">Contribució de %s</string>
     <string name="plan_custom_recurrence_info">Siuplau desi la plantilla. abans. S\'obrirà el projecte a l\'aplicació de calendari on podrà configurar una reaparició personalitzada.</string>
     <string name="button_validate">Valida</string>

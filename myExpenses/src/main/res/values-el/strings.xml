@@ -573,7 +573,6 @@
     <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
     <string name="onboarding_restore_from_cloud_backup">Αντίγραφα ασφαλείας</string>
     <string name="onboarding_restore_from_local">Επαναφορά τοπικού αντιγράφου ασφαλείας</string>
-    <string name="dialog_button_add">Προσθήκη</string>
     <string name="pref_sync_notification_summary">Ειδοποίηση σχετικά με την πρόοδο του συγχρονισμού</string>
     <string name="pref_debug_logging_summary">Εγγραφή πληροφοριών εντοπισμού σφαλμάτων στο αρχείο καταγραφής συστήματος</string>
     <string name="plan_custom_recurrence_info">Αποθηκεύστε πρώτα το πρότυπο. Στη συνέχεια, το σχέδιο θα ανοίξει στην εφαρμογή ημερολογίου, όπου μπορείτε να ορίσετε μια προσαρμοσμένη περιοδικότητα.</string>

@@ -63,4 +63,5 @@
     <string name="security_settings_title">"Sikkerhed"</string>
     <string name="screen_lock">"Skærmlås"</string>
     <string name="screenshot">"Skærmbillede"</string>
+    <string name="menu_add">"Tilføj"</string>
 </resources>

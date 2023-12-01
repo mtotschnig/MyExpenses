@@ -607,7 +607,6 @@
     <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
     <string name="onboarding_restore_from_cloud_backup">Zálohy</string>
     <string name="onboarding_restore_from_local">Obnovit místní zálohovací soubor</string>
-    <string name="dialog_button_add">Přidat</string>
     <string name="contributed_by">Přispěno %s</string>
     <string name="pref_sync_notification_summary">Upozornit na průběh synchronizace</string>
     <string name="pref_debug_logging_summary">Zápis informací ladění do systémového protokolu</string>

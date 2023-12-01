@@ -559,7 +559,6 @@
     <string name="onboarding_more_options">Mais opções</string>
     <string name="onboarding_restore_from_cloud">Restaurar a partir da sincronização na nuvem</string>
     <string name="onboarding_restore_from_local">Restaurar ficheiro de backup local</string>
-    <string name="dialog_button_add">Adicionar</string>
     <string name="pref_category_exchange_rates">Taxas de câmbio</string>
     <string name="budget_duration_from">De</string>
     <string name="budget_duration_to">Até</string>

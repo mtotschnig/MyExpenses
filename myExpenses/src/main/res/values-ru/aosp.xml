@@ -65,4 +65,5 @@
     <string name="security_settings_title">"Безопасность"</string>
     <string name="screen_lock">"Блокировка экрана"</string>
     <string name="screenshot">"Скриншоты"</string>
+    <string name="menu_add">"Добавить"</string>
 </resources>

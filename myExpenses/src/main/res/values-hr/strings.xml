@@ -496,7 +496,6 @@
     <string name="pref_debug_logging_summary">Piši podatke o otklanjanju grešaka u dnevnik sustava</string>
     <string name="pref_sync_notification_summary">Obavijesti o napretku sinkronizacije</string>
     <string name="contributed_by">Doprinositelj: %s</string>
-    <string name="dialog_button_add">Dodaj</string>
     <string name="onboarding_restore_from_local">Obnovi lokalnu datoteku sigurnosne kopije</string>
     <string name="onboarding_restore_from_cloud_backup">Sigurnosne kopije</string>
     <string name="onboarding_restore_from_cloud">Obnovi putem sinkronizacije iz oblaka</string>

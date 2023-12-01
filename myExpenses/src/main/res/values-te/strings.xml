@@ -126,7 +126,6 @@
     <string name="pref_debug_logging_summary">సిస్టమ్ లాగ్‌లో డీబగ్గింగ్ సమాచారాన్ని వ్రాయండి</string>
     <string name="pref_sync_notification_summary">సమకాలీకరణ పురోగతి గురించి తెలియజేయండి</string>
     <string name="contributed_by">%s తోడ్పడింది</string>
-    <string name="dialog_button_add">జోడించు</string>
     <string name="onboarding_restore_from_local">స్థానిక బ్యాకప్ ఫైల్‌ను పునరుద్ధరించండి</string>
     <string name="onboarding_restore_from_cloud_backup">బ్యాకప్</string>
     <string name="onboarding_restore_from_cloud">క్లౌడ్ సమకాలీకరణ నుండి పునరుద్ధరించండి</string>

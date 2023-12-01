@@ -100,4 +100,6 @@
     <string name="screen_lock">Screen lock</string>
     <!-- /opt/extra/AOSP/packages/apps/Gallery2 grep -ri folder_screenshot res/values*  | sed 's/folder_//' |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper  -->
     <string name="screenshot">Screenshot</string>
+    <!-- /opt/extra/AOSP/packages/apps/Contacts$ grep -ri menu_add_contacts res/values* | sed 's/_contacts//' |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
+    <string name="menu_add">"Add"</string>
 </resources>

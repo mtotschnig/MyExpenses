@@ -64,4 +64,5 @@
     <string name="security_settings_title">"אבטחה"</string>
     <string name="screen_lock">"נעילת מסך"</string>
     <string name="screenshot">"צילום מסך"</string>
+    <string name="menu_add">"הוספה"</string>
 </resources>

@@ -62,4 +62,5 @@
     <string name="security_settings_title">"Sicherheit"</string>
     <string name="screen_lock">"Displaysperre"</string>
     <string name="screenshot">"Screenshots"</string>
+    <string name="menu_add">"Hinzufügen"</string>
 </resources>

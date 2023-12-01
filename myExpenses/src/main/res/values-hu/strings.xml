@@ -593,7 +593,6 @@
     <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
     <string name="onboarding_restore_from_cloud_backup">Biztonsági mentések</string>
     <string name="onboarding_restore_from_local">Helyi biztonsági mentés visszaállítása</string>
-    <string name="dialog_button_add">Hozzáadás</string>
     <string name="contributed_by">%s közreműködésével</string>
     <string name="pref_sync_notification_summary">Értesítés a szinkronizálás állapotáról</string>
     <string name="pref_debug_logging_summary">Írjon hibakeresési információt a rendszernaplóba</string>

@@ -62,4 +62,5 @@
     <string name="security_settings_title">"Güvenlik"</string>
     <string name="screen_lock">"Ekran kilidi"</string>
     <string name="screenshot">"Ekran görüntüsü"</string>
+    <string name="menu_add">"Ekle"</string>
 </resources>
