@@ -107,4 +107,11 @@
     <string name="Sub_1_2">Familjebidrag</string>
     <string name="Sub_1_1">Arbetslöshetsersättning</string>
     <string name="Main_1">Annan inkomst</string>
+    <string name="Sub_13_3">Kostnader</string>
+    <string name="Sub_11_1">Sjuksköterska</string>
+    <string name="Sub_19_8">Kemist</string>
+    <string name="Sub_13_2">Lån/Inteckning</string>
+    <string name="Sub_19_9">Personnummer</string>
+    <string name="Main_18">Lån/Inteckningar</string>
+    <string name="Sub_7_4">Operationsveterinär</string>
 </resources>

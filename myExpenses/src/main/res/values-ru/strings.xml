@@ -905,7 +905,7 @@
         <item quantity="other">Долг %1$s имеет %2$d сопоставленных операций.</item>
     </plurals>
     <string name="account_widget_configuration_sum_total">Включить будущие операции</string>
-    <string name="warning_link_transfer">Две выбранные операции будут связаны как перевод. Информация о получателе/плательщике и категории будет удалена.</string>
+    <string name="warning_link_transfer">Две выбранные транзакции будут объединены. Информация об отправителей/получателей средств и категории будут удалены.</string>
     <string name="warning_party_delete_debt">При удалении этой стороны долги, определенные для нее, также будут удалены.</string>
     <string name="merge_parties_select">Выберите название объединенной стороны:</string>
     <string name="account_widget_configuration">Настройка виджета счета</string>
