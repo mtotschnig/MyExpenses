@@ -186,4 +186,11 @@
     <string name="cab_ManageCategories_move_help_text">Qualsiasi categoria (insieme con le sue sottocategorie) può essere spostata in una nuova categoria principale. Le sottocategorie possono essere trasformate in categorie principali.</string>
     <string name="help_ManageCategories_select_filter_info">Clicca su un elemento per cominciale la selezione multipla.</string>
     <string name="help_ManageCategories_manage_context">Fare clic su una voce per mostrare il menu contestuale. Toccare a lungo per cominciare una selezione multipla.</string>
+    <string name="menu_BudgetActivity_rollover_help_text">Se si spende in eccesso o in difetto del proprio budget, si può trasferire la differenza al periodo successivo, in modo tale che l\'importo che possa essere allocato venga diminuito o aumentato. Ci sono tre opzioni:</string>
+    <string name="help_Budget_amount_click_1">La modifica di un importo non avrà ripercussioni sui periodi passati. A meno che tu non decida di impostarla solo per il periodo corrente, influenzerà i periodi futuri.</string>
+    <string name="menu_BudgetActivity_rollover_total">Solo il restante del budget totale viene trasferito, in modo tale che il budget totale del periodo successivo venga aumentato o diminuito.</string>
+    <string name="help_ManageSyncBackends_saf">Questa opzione consente di selezionare una cartella tramite la finestra di selezione file di Android. È utile soprattutto se hai installato un\'app di archiviazione cloud che supporta la selezione di una cartella per l\'archiviazione dei contenuti, per esempio Nextcloud.</string>
+    <string name="help_Budget_spent_click">Fare clic sugli importi spesi elenca tutte le transazioni pertinenti al bilancio attuale e alla categoria corrispondente.</string>
+    <string name="form_split_parts_heading_help_text_2">Il campo dell\'importo verrà aggiornato automaticamente con la somma delle parti, a meno che non si inserisca manualmente un importo, nel qual caso verrà mostrata la differenza tra la somma delle parti e l\'importo complessivo.</string>
+    <string name="menu_BudgetActivity_rollover_categories">Il restante per ogni categoria viene trasferito, e il corrispettivo stanziato nel periodo successivo sarà conseguentemente modificato.</string>
 </resources>
