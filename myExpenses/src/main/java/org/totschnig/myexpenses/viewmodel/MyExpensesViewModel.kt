@@ -479,15 +479,22 @@ open class MyExpensesViewModel(
                 val newUpdate =
                     ContentProviderOperation.newUpdate(TRANSACTIONS_URI).withValue(column, rowId)
                 if (transaction.isSplit) {
-                    newUpdate.withSelection("$KEY_ROWID = ? OR $KEY_PARENTID= ?", Array(2) {
-                        transaction.id.toString()
-                    })
+                    var selection = "$KEY_ROWID = ${transaction.id}"
+                    if (column == KEY_ACCOUNTID) {
+                        selection += " OR $KEY_PARENTID = ${transaction.id}"
+                    }
+                    newUpdate.withSelection(selection, null)
                 } else {
-                    newUpdate.withSelection(
-                        "$KEY_ROWID = ?",
-                        arrayOf("")
-                    )//replaced by back reference
+                    var selection = "$KEY_ROWID = ?"
+                    val isCategoryUpdate = column == KEY_CATID
+                    if (isCategoryUpdate) {
+                        selection += " OR $KEY_TRANSFER_PEER = ?"
+                    }
+                    newUpdate.withSelection(selection, arrayOfNulls(if (isCategoryUpdate) 2 else 1))//replaced by back reference
                         .withSelectionBackReference(0, 0)
+                    if (isCategoryUpdate) {
+                        newUpdate.withSelectionBackReference(1, 0)
+                    }
                 }
                 ops.add(newUpdate.build())
                 if (contentResolver.applyBatch(
@@ -511,6 +518,9 @@ open class MyExpensesViewModel(
                 var selection = "$KEY_ROWID IN ($list)"
                 if (column == KEY_ACCOUNTID) {
                     selection += " OR $KEY_PARENTID IN ($list)"
+                }
+                if (column == KEY_CATID) {
+                    selection += " OR $KEY_TRANSFER_PEER IN ($list)"
                 }
                 contentResolver.update(
                     TRANSACTIONS_URI,

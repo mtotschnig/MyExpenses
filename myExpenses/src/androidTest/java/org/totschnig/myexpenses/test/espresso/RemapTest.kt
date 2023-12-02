@@ -4,6 +4,7 @@ import androidx.compose.ui.test.filterToOne
 import androidx.compose.ui.test.hasAnyAncestor
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
@@ -19,8 +20,10 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
@@ -29,7 +32,7 @@ import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.childAtPosition
 import java.time.ZonedDateTime
 
-class RemapAccountTest : BaseMyExpensesTest() {
+class RemapTest : BaseMyExpensesTest() {
 
     private fun createMoney() = Money(homeCurrency, 2000)
 
@@ -68,12 +71,54 @@ class RemapAccountTest : BaseMyExpensesTest() {
             ),
             "$KEY_PARENTID IS NOT NULL",
             null, null
-            )!!.use { cursor ->
+        )!!.use { cursor ->
             cursor.asSequence.forEach {
-                    assertThat(it.getLong(1)).isEqualTo(it.getLong(0))
-                }
+                assertThat(it.getLong(1)).isEqualTo(it.getLong(0))
+            }
         }
     }
+
+    @Test
+    fun remapCategoryShouldUpdateTransferPeer() {
+        doRemapCategory(false)
+    }
+
+    @Test
+    fun remapAndCloneCategoryShouldUpdateTransferPeer() {
+        doRemapCategory(true)
+    }
+
+    private fun doRemapCategory(doClone: Boolean) {
+        val account1 = buildAccount("K1")
+        val account2 = buildAccount("K2")
+        Transfer(account1.id, createMoney(), account2.id).also {
+            it.save(contentResolver)
+        }
+        val catLabel = "Food"
+        writeCategory(catLabel)
+        launch(account1.id)
+        openCab(R.id.REMAP_PARENT)
+        onView(allOf(withText(R.string.category))).perform(click())
+        composeTestRule.onNodeWithText(catLabel).performClick()
+        confirmRemap(doClone)
+        verifyCatIdsForTransfers()
+    }
+
+    private fun verifyCatIdsForTransfers() {
+        contentResolver.query(
+            TRANSACTIONS_URI,
+            arrayOf(
+                KEY_CATID,
+                "(SELECT $KEY_CATID FROM $TABLE_TRANSACTIONS peer WHERE $KEY_ROWID = $VIEW_COMMITTED.$KEY_TRANSFER_PEER)"
+            ),
+            null, null, null
+        )!!.use { cursor ->
+            cursor.asSequence.forEach {
+                assertThat(it.getLong(1)).isEqualTo(it.getLong(0))
+            }
+        }
+    }
+
 
     private fun doRemapAccount(accountId: Long, target: String, doClone: Boolean = false) {
         launch(accountId)
@@ -96,6 +141,10 @@ class RemapAccountTest : BaseMyExpensesTest() {
                 )
             )
         ).perform(ViewActions.scrollTo(), click())
+        confirmRemap(doClone)
+    }
+
+    private fun confirmRemap(doClone: Boolean) {
         if (doClone) {
             onView(withId(R.id.checkBox)).perform(click())
         }
@@ -113,4 +162,5 @@ class RemapAccountTest : BaseMyExpensesTest() {
             )
         ).perform(ViewActions.scrollTo(), click())
     }
+
 }

@@ -305,7 +305,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     val noMethods = currentAccount!!.type == AccountType.CASH ||
                             (currentAccount!!.isAggregate && selectionState.any { it.accountType == AccountType.CASH })
                     findItem(R.id.REMAP_PAYEE_COMMAND).isVisible = !hasTransfer
-                    findItem(R.id.REMAP_CATEGORY_COMMAND).isVisible = !hasTransfer && !hasSplit
+                    findItem(R.id.REMAP_CATEGORY_COMMAND).isVisible = !hasSplit
                     findItem(R.id.REMAP_METHOD_COMMAND).isVisible = !hasTransfer && !noMethods
                     findItem(R.id.SPLIT_TRANSACTION_COMMAND).isVisible = !hasSplit && !hasVoid
                     findItem(R.id.LINK_TRANSFER_COMMAND).isVisible =
