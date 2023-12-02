@@ -1054,4 +1054,6 @@
     <string name="orphaned_transaction_info">Una transazione è associata al piano per questa data, ma non esiste alcun evento in questa data.</string>
     <string name="orphaned_transaction_align_date">Facoltativamente, la data associata alla transazione può essere allineata alla data dell\'evento.</string>
     <string name="warning_delete_default_transfer_category">La categoria %s è configurata come categoria di bonifico predefinita e non deve essere eliminata.</string>
+    <string name="whats_new_369_1">I trasferimenti possono essere assegnati a categorie.</string>
+    <string name="whats_new_369_2">Quando il blocco schermo è abilitato, consenti la disabilitazione del blocco screenshot.</string>
 </resources>
