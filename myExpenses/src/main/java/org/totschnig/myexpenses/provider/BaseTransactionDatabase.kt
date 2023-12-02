@@ -732,10 +732,6 @@ abstract class BaseTransactionDatabase(
                             arrayOf(it.first)
                         )
                     )
-                    execSQL(
-                        "update transactions set account_id = ? where parent_id = ?;",
-                        arrayOf(it.second, it.first)
-                    )
                 }
                 CrashHandler.report(Exception("Found and repaired ${affected.size} corrupted split transactions"))
             }
