@@ -759,9 +759,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     fun hasCategories(db: SupportSQLiteDatabase): Bundle = Bundle(1).apply {
+        val defaultCatIds = listOfNotNull(SPLIT_CATID, prefHandler.defaultTransferCategory).joinToString()
         putBoolean(
             KEY_COUNT,
-            db.query("SELECT EXISTS (SELECT 1 FROM $TABLE_CATEGORIES WHERE $KEY_ROWID != $SPLIT_CATID)")
+            db.query("SELECT EXISTS (SELECT 1 FROM $TABLE_CATEGORIES WHERE $KEY_ROWID NOT IN ($defaultCatIds))")
                 .use {
                     if (it.moveToFirst()) it.getInt(0) == 1 else false
                 }

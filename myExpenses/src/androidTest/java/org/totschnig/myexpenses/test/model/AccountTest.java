@@ -46,8 +46,7 @@ public class AccountTest extends ModelTest {
   private void insertData() {
     Transaction op;
     CurrencyUnit currencyUnit = getHomeCurrency();
-    long defaultTransferCategory = getPrefHandler().getLong(PrefKey.DEFAULT_TRANSFER_CATEGORY, -1);
-    assertNotSame(-1L, defaultTransferCategory);
+    long defaultTransferCategory = getPrefHandler().getDefaultTransferCategory();
     account1 = buildAccount("Account 1", openingBalance);
     account2 = buildAccount("Account 2", openingBalance);
 

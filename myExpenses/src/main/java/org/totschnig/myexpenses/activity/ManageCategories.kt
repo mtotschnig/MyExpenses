@@ -297,10 +297,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                                                             val flatList = it.flatten()
                                                             val defaultTransferCategory =
                                                                 flatList.find {
-                                                                    it.id == prefHandler.getLong(
-                                                                        PrefKey.DEFAULT_TRANSFER_CATEGORY,
-                                                                        -1
-                                                                    )
+                                                                    it.id == prefHandler.defaultTransferCategory
                                                                 }
                                                             when {
                                                                 flatList.map { it.id }
