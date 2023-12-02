@@ -24,7 +24,7 @@
     <string name="menu_print_help_text">יוצר תצוגה הניתנת להדפסה של העסקאות המוצגות כעת.</string>
     <string name="menu_search_help_text">ערך זה פותח תפריט משנה המאפשר לכם להגדיר קריטריונים לחיפוש לפי קטגוריה, סכום, תגובה, סטטוס, משלם / מוטב ושיטת תשלום. כאשר מסנן החיפוש פעיל, באפשרותכם ללחוץ בקלילות על הערך שלו בתפריט המשנה כדי לבטל זאת.</string>
     <string name="cab_create_template_from_transaction_help_text">הגדרת תבנית חדשה המבוססת על העסקה שנבחרה. תנחה אותך עבור הכותרת של התבנית.</string>
-    <string name="cab_clone_transaction_help_text">העסקאות שנבחרו ישוכפלו עם התאריך והשעה הנוכחיים. באפשרותכם לבצע שינויים לפני שמירת העותק.</string>
+    <string name="cab_clone_transaction_help_text">העסקאות שנבחרו ישוכפלו עם התאריך והשעה הנוכחיים. ניתן לבצע שינויים לפני שמירת העותק.</string>
     <string name="cab_split_help_text">לאחר מכן אפשר לערוך את העסקה כדי ליצור חלקים נוספים לפי הצורך.</string>
     <string name="menu_scan_mode_help_text">הפעלת מצב הסריקה מאפשרת לסרוק קבלות במהירות.</string>
     <string name="cab_link_help_text">ניתן לקשר הוצאה בחשבון אחד להכנסה בחשבון אחר. אם לחשבונות יש אותו סוג מטבע (לרבות מט״ח), שתי העסקאות חייבות להיות בסכומים זהים.</string>
@@ -37,7 +37,7 @@
     <string name="help_ManageTemplates_plans_title">תצוגת תוכנית בלוח שנה</string>
     <string name="help_ManageTemplates_planner_title">אירועים חוזרים צפויים</string>
     <string name="help_ManageTemplates_templates_info">&lt;img src=\"ic_menu_template\"&gt; בעוד שניתן לגזור תבניות מעסקאות באמצעות תפריט ההקשר שלהם, כאן ניתן ליצור תבניות חדשות מאפס (עבור עסקאות או העברות) על ידי לחיצה על כפתור הפעולה הצף. לחיצה על תבנית, תיצור מופע עבורה.&lt;br&gt;&lt;img src=\"ic_event\"&gt; תוכנית היא תבנית שעבורה יצרת אירוע (חד פעמי או חוזר) בלוח התכנון. לחיצה על תוכנית, תפתח תצוגת לוח שנה, המציגה מופעים קודמים ועתידיים של תוכנית.</string>
-    <string name="help_ManageTemplates_planner_intro">לחיצה ארוכה על מופע פתוח מתחילה בחירה מרובה. הקשה על התחלה או סיום של טווח התאריכים מאפשרת להרחיב את הטווח לעבר או לעתיד.</string>
+    <string name="help_ManageTemplates_planner_intro">לחיצה ארוכה על מופע פתוח מתחילה בחירה מרוכזת. הקשה על התחלה או סיום של טווח התאריכים מאפשרת להרחיב את הטווח לעבר או לעתיד.</string>
     <string name="help_ManageTemplates_plans_intro">כל תאריך מסומן מייצג מופע של התוכנית.</string>
     <string name="help_ManageTemplates_plans_info_header">מצב המופע מסומן על ידי הסמלים הבאים:</string>
     <string name="help_ManageTemplates_plans_info_open">המופע עדיין לא הוחל.</string>
@@ -63,8 +63,8 @@
     <string name="menu_categories_export_help_text">הקטגוריות יוצאו לקובץ QIF.</string>
     <string name="menu_distribution_show_pie_char_help_text">החלף את הנראות של תרשים העוגה.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">הקטגוריות שנבחרו ישמשו לסינון רשימת העסקאות.</string>
-    <string name="menu_ManageCategories_search_help_text">רק קטגוריות עיקריות ותת-קטגוריות התואמות את השאילתה שלכם יוצגו.</string>
-    <string name="menu_ManageCategories_sort_help_text">ניתן לסווג את רשימת הקטגוריות לפי כותרת (לפי סדר אלפביתי), לפי תדירות השימוש, או לפי הפעם האחרונה ששוייכה לעסקה.</string>
+    <string name="menu_ManageCategories_search_help_text">רק קטגוריות עיקריות ותת־קטגוריות התואמות את השאילתה שלך תוצגנה.</string>
+    <string name="menu_ManageCategories_sort_help_text">ניתן לסווג את רשימת הקטגוריות לפי כותרת (בסדר אלפביתי), לפי תדירות השימוש, או לפי הפעם האחרונה ששויכה לעסקה.</string>
     <string name="cab_ManageCategories_color_help_text">ניתן להקצות צבע לקטגוריות עיקריות. צבע זה ישמש לייצוג הקטגוריה בתרשימים. קטגוריות משנה ישתמשו בגוונים של צבע הקטגוריה העיקרית שלהם.</string>
     <string name="help_ExpenseEdit_transaction_title">טופס עסקאות</string>
     <string name="help_ExpenseEdit_transfer_title">טופס העברות</string>
@@ -74,7 +74,7 @@
     <string name="help_ExpenseEdit_templateCategory_title">טופס תבניות עסקה</string>
     <string name="help_ExpenseEdit_templateTransfer_title">טופס תבניות העברה</string>
     <string name="help_ExpenseEdit_templateSplit_title">טופס תבניות מפוצלות</string>
-    <string name="help_ExpenseEdit_transaction_info">השתמשו בטופס זה כדי להזין עסקה חדשה או לערוך עסקה קיימת. השתמשו בתפריט הנפתח שבשורת הפעולות כדי לעבור לטופס להוספת העברה חדשה או עסקה מפוצלת.</string>
+    <string name="help_ExpenseEdit_transaction_info">טופס זה משמש להזנת עסקה חדשה או לעריכת עסקה קיימת. התפריט הנפתח שבשורת הפעולות משמש למעבר לטופס להוספת העברה חדשה או עסקה מפוצלת.</string>
     <string name="help_ExpenseEdit_templateCategory_info">אפשר להשתמש בטופס זה כדי להזין תבנית חדשה או לערוך תבנית קיימת. שימוש בתפריט הנפתח בשורת הפעולות מאפשר לעבור בין תבניות לעסקאות, העברות ופיצולים.</string>
     <string name="help_ExpenseEdit_split_info">עסקת פיצול היא עסקה אחת המפוצלת בחלקים, שבהם ניתן להקצות כל חלק לקטגוריה אחרת, או להעביר לחשבון אחר.</string>
     <string name="form_account_help_text">בחירת החשבון שאליו משתייכת העסקה.</string>
@@ -110,7 +110,7 @@
     <string name="help_AccountEdit_title">טופס חשבונות</string>
     <string name="form_AccountEdit_label_help_text">התווית מזהה את החשבון ברשימת החשבונות.</string>
     <string name="form_description_help_text">לתיאור יש רק כוונה אינפורמטיבית.</string>
-    <string name="form_AccountEdit_amount_switch_help_text">השתמשו במתג כדי להתחיל עם יתרת פתיחה שלילית.</string>
+    <string name="form_AccountEdit_amount_switch_help_text">המתג משמש כדי להתחיל עם יתרת פתיחה שלילית.</string>
     <string name="form_currency_help_text">נא לבחור מטבע מהרשימה המסופקת של כל המטבעות הנוכחיים.</string>
     <string name="form_AccountEdit_type_help_text">ניתן להגדיר את סוג החשבון כחשבון מזומן, בנק, נכס, התחייבויות, כרטיס אשראי. הסוג קובע את אמצעי התשלום הזמינים שאפשר להגדיר דרך הגדרות -&gt; ניהול -&gt; שיטות תשלום.</string>
     <string name="form_AccountEdit_type_help_text_reconciliation">התכונה \'reconciliation\' זמינה עבור כל החשבונות, למעט חשבונות מזומנים: היא מאפשרת להגדיר סטטוס של עסקאות לניקוי, לאחר אישורו, ו-reconciel החשבון כולו עם דוח הבנק שלך באמצעות הפקודה \'יתרת חשבון\'.</string>
