@@ -9,6 +9,7 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Attribute
 import org.totschnig.myexpenses.db2.BankingAttribute
+import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.db2.FinTsAttribute
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.Model
@@ -714,6 +715,27 @@ abstract class BaseTransactionDatabase(
         }
     }
 
+    fun SupportSQLiteDatabase.upgradeTo155() {
+        val defaultTransferCategoryLabel = context.getString(R.string.transfer)
+        val conflictingEntry = query(
+            TABLE_CATEGORIES,
+            arrayOf(KEY_ROWID, KEY_TYPE),
+            "$KEY_LABEL = ?",
+            arrayOf(defaultTransferCategoryLabel)
+        ).use {
+            if (it.moveToFirst()) it.getLong(0) to it.getInt(1) else null
+        }
+        if (conflictingEntry == null) {
+            insertDefaultTransferCategory(this, defaultTransferCategoryLabel)
+        } else {
+            if (conflictingEntry.second == FLAG_TRANSFER.toInt()) {
+                prefHandler.putLong(PrefKey.DEFAULT_TRANSFER_CATEGORY, conflictingEntry.first)
+            } else {
+                insertDefaultTransferCategory(this, "_${defaultTransferCategoryLabel}_")
+            }
+        }
+    }
+
     fun SupportSQLiteDatabase.upgradeTo156() {
         //repair split transactions corrupted due to bug https://github.com/mtotschnig/MyExpenses/issues/1333
         repairWithSealedAccountsAndDebts(this) {
@@ -908,12 +930,12 @@ abstract class BaseTransactionDatabase(
         }
     }
 
-    fun insertDefaultTransferCategory(db: SupportSQLiteDatabase) {
+    fun insertDefaultTransferCategory(db: SupportSQLiteDatabase, label: String) {
         prefHandler.putLong(
             PrefKey.DEFAULT_TRANSFER_CATEGORY,
             db.insert(TABLE_CATEGORIES, SQLiteDatabase.CONFLICT_NONE,
                 ContentValues(3).apply {
-                    put(KEY_LABEL, context.getString(R.string.transfer))
+                    put(KEY_LABEL, label)
                     put(KEY_TYPE, 0)
                     put(KEY_COLOR, suggestNewCategoryColor(db))
                 }
