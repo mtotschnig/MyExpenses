@@ -198,7 +198,7 @@
     <string name="menu_BudgetActivity_rollover_edit">אפשרות זו מאפשרות לך להגדיר את הגלגול בהצלחה. למשל, אפשר להגדיר גלגולים חלקיים רק לחלק מהקטגוריות או תת־הקטגוריות ולגלגל את החלק שנותר לתקציב הכללי.</string>
     <string name="help_Budget_amount_click_1">שינוי סכום אף פעם לא ישפיע על התקופות שקדמו. אלמלא החלטת להגדיר אותו לתקופה מסוימת, הוא ישפיע על תקופות עתידיות.</string>
     <string name="menu_BudgetActivity_rollover_help_text">אם התקציב שלך מוצה מעבר לצפוי או לא מוצה מספיק, ניתן לגלגל את ההפרש לתקופה הבאה כדי שהסכום שניתן להקצות שם הוא מוגדל או מוקטן. קיימות שלוש אפשרויות:</string>
-    <string name="cab_MyExpenses_select_help_text">אפשר לבחור במספר פריטים על ידי בחירת הפקודה הזאת או בלחיצה ארוכה על רשומה ברשימה.</string>
+    <string name="cab_MyExpenses_select_help_text">ניתן לבחור במספר פריטים על ידי בחירת הפקודה הזאת או בלחיצה ארוכה על רשומה ברשימה.</string>
     <string name="help_ManageSyncBackends_saf">אפשרות זו מאפשרת לבחור תיקייה דרך חלונית בחירת הקבצים של Android. היא שימושית בעיקר אם התקנת יישומון אחסון בענן שתומך בבחירת תיקייה לאחסון תוכן כמו למשל NextCloud.</string>
     <string name="help_DebtOverview_info">לחיצה על רשומה תרחיב/תצמצם אותה.</string>
     <string name="menu_show_all_help_text">חובות שנסגרו או שולמו במלואם (יתרתם 0), יופיעו רק אם האפשרות הזאת מסומנת.</string>
