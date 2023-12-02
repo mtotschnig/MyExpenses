@@ -68,7 +68,7 @@
     <string name="dialog_balance_delete">Eliminare le transazioni riconciliate</string>
     <string name="dialog_confirm_discard_changes">Annullare le modifiche?</string>
     <string name="dialog_command_disabled_balance">Nessuna transazione liquidata di riconciliarsi.</string>
-    <string name="dialog_command_disabled_insert_transfer">Le operazioni di trasferimento richiedono un secondo conto.</string>
+    <string name="dialog_command_disabled_insert_transfer">Le operazioni di bonifico richiedono un secondo conto.</string>
     <string name="dialog_command_disabled_reset_account">Nessuna transazione da esportare.</string>
     <string name="dialog_command_disabled_distribution">Nessuna transazione è stata assegnata a categorie in questo conto.</string>
     <!-- Button for accessing trial of premium feature -->
@@ -1053,4 +1053,5 @@
     <string name="read_from_data">Importa dai dati</string>
     <string name="orphaned_transaction_info">Una transazione è associata al piano per questa data, ma non esiste alcun evento in questa data.</string>
     <string name="orphaned_transaction_align_date">Facoltativamente, la data associata alla transazione può essere allineata alla data dell\'evento.</string>
+    <string name="warning_delete_default_transfer_category">La categoria %s è configurata come categoria di bonifico predefinita e non deve essere eliminata.</string>
 </resources>
