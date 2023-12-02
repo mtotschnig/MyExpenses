@@ -92,9 +92,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 
-const val DATABASE_VERSION = 155
+const val DATABASE_VERSION = 156
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -713,6 +714,34 @@ abstract class BaseTransactionDatabase(
         }
     }
 
+    fun SupportSQLiteDatabase.upgradeTo156() {
+        //repair split transactions corrupted due to bug https://github.com/mtotschnig/MyExpenses/issues/1333
+        repairWithSealedAccountsAndDebts(this) {
+            val affected =
+                query("select _id,account_id from transactions where cat_id = 0 and exists(select 1 from transactions parts where parts.parent_id = transactions._id and parts.account_id != transactions.account_id)").use { cursor ->
+                    cursor.asSequence.map { it.getLong(0) to it.getLong(1) }.toList()
+                }
+            if (affected.isNotEmpty()) {
+                affected.forEach {
+                    Timber.w(
+                        "Updated %d transactions",
+                        update(
+                            "transactions",
+                            ContentValues(1).apply { put("account_id", it.second) },
+                            "parent_id = ?",
+                            arrayOf(it.first)
+                        )
+                    )
+                    execSQL(
+                        "update transactions set account_id = ? where parent_id = ?;",
+                        arrayOf(it.second, it.first)
+                    )
+                }
+                CrashHandler.report(Exception("Found and repaired ${affected.size} corrupted split transactions"))
+            }
+        }
+    }
+
     override fun onCreate(db: SupportSQLiteDatabase) {
         prefHandler.putInt(PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION, DATABASE_VERSION)
     }
@@ -826,12 +855,34 @@ abstract class BaseTransactionDatabase(
             append(getCategoryTreeForView())
         }
         if (tableName == TABLE_TRANSACTIONS) {
-            fun cteTemplate(cte: String, aggregateExpression: String, associateTable: String, table: String, associateColumn: String) =
+            fun cteTemplate(
+                cte: String,
+                aggregateExpression: String,
+                associateTable: String,
+                table: String,
+                associateColumn: String
+            ) =
                 "$cte as (SELECT $KEY_TRANSACTIONID, $aggregateExpression FROM $associateTable LEFT JOIN $table ON $associateColumn = $table.$KEY_ROWID GROUP BY $KEY_TRANSACTIONID)"
             append(",")
-            append(cteTemplate("cte_tags", TAG_LIST_EXPRESSION, TABLE_TRANSACTIONS_TAGS, TABLE_TAGS, KEY_TAGID))
+            append(
+                cteTemplate(
+                    "cte_tags",
+                    TAG_LIST_EXPRESSION,
+                    TABLE_TRANSACTIONS_TAGS,
+                    TABLE_TAGS,
+                    KEY_TAGID
+                )
+            )
             append(",")
-            append(cteTemplate("cte_attachments", "count($KEY_URI) AS $KEY_ATTACHMENT_COUNT", TABLE_TRANSACTION_ATTACHMENTS, TABLE_ATTACHMENTS, KEY_ATTACHMENT_ID))
+            append(
+                cteTemplate(
+                    "cte_attachments",
+                    "count($KEY_URI) AS $KEY_ATTACHMENT_COUNT",
+                    TABLE_TRANSACTION_ATTACHMENTS,
+                    TABLE_ATTACHMENTS,
+                    KEY_ATTACHMENT_ID
+                )
+            )
         }
         append(" SELECT $tableName.*, coalesce($TABLE_PAYEES.$KEY_SHORT_NAME,$TABLE_PAYEES.$KEY_PAYEE_NAME) AS $KEY_PAYEE_NAME, ")
         append("$TABLE_METHODS.$KEY_LABEL AS $KEY_METHOD_LABEL, ")

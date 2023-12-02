@@ -38,7 +38,7 @@ import java.util.Date;
 /**
  * copy of {@link TransactionTest} which runs under the assumption that changes triggers fire
  */
-public class TransactionTestWithChangeTriggers extends ModelTest {
+public class TransactionWithChangeTriggersTest extends ModelTest {
   private Account mAccount1;
   private Account mAccount2;
   private Account mAccount3;
@@ -236,7 +236,6 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     split2.setAmount(new Money(currencyUnit, 50L));
     split2.setStatus(STATUS_UNCOMMITTED);
     split2.save(getContentResolver());
-    op3.save(getContentResolver());
     assertEquals(3, getAccountUsage(mAccount1.getId()));
   }
 

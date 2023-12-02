@@ -28,12 +28,8 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.adapter.IdHolder
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.SplitTransaction
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.withAccount
@@ -70,24 +66,8 @@ class SplitEditTest : BaseExpenseEditTest() {
     }
 
     private fun launchEdit(excludeFromTotals: Boolean = false) {
-        launch(excludeFromTotals) { putExtra(KEY_ROWID, prepareSplit()) }
+        launch(excludeFromTotals) { putExtra(KEY_ROWID, prepareSplit(account1.id)) }
     }
-
-    private fun prepareSplit(): Long {
-        val currencyUnit = homeCurrency
-        return with(SplitTransaction.getNewInstance(contentResolver, account1.id, currencyUnit)) {
-            amount = Money(currencyUnit, 10000)
-            status = STATUS_NONE
-            save(contentResolver, true)
-            val part = Transaction.getNewInstance(account1.id, currencyUnit, id)
-            part.amount = Money(currencyUnit, 5000)
-            part.save(contentResolver)
-            part.amount = Money(currencyUnit, 5000)
-            part.saveAsNew(contentResolver)
-            id
-        }
-    }
-
 
     /*
     Verify resolution of

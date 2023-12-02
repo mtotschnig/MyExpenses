@@ -479,7 +479,9 @@ open class MyExpensesViewModel(
                 val newUpdate =
                     ContentProviderOperation.newUpdate(TRANSACTIONS_URI).withValue(column, rowId)
                 if (transaction.isSplit) {
-                    newUpdate.withSelection("$KEY_ROWID = ?", arrayOf(transaction.id.toString()))
+                    newUpdate.withSelection("$KEY_ROWID = ? OR $KEY_PARENTID= ?", Array(2) {
+                        transaction.id.toString()
+                    })
                 } else {
                     newUpdate.withSelection(
                         "$KEY_ROWID = ?",

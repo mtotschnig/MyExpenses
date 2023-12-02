@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.util.DebugCurrencyFormatter
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
@@ -211,5 +212,20 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
 
     fun unlock() {
         (app.appComponent.licenceHandler() as MockLicenceHandler).setLockState(false)
+    }
+
+    protected fun prepareSplit(accountId: Long): Long {
+        val currencyUnit = homeCurrency
+        return with(SplitTransaction.getNewInstance(contentResolver, accountId, currencyUnit)) {
+            amount = Money(currencyUnit, 10000)
+            status = STATUS_NONE
+            save(contentResolver, true)
+            val part = Transaction.getNewInstance(accountId, currencyUnit, id)
+            part.amount = Money(currencyUnit, 5000)
+            part.save(contentResolver)
+            part.amount = Money(currencyUnit, 5000)
+            part.saveAsNew(contentResolver)
+            id
+        }
     }
 }
