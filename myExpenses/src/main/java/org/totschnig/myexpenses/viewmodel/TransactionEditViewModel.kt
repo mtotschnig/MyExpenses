@@ -63,16 +63,17 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.ProviderUtils
+import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
 import org.totschnig.myexpenses.provider.fileName
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongIfExists
-import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
 import org.totschnig.myexpenses.provider.getStringOrNull
@@ -307,7 +308,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     }
 
     private fun Transaction.applyDefaultTransferCategory() {
-        if(isTransfer) {
+        if (isTransfer) {
             catId = prefHandler.defaultTransferCategory
             catId?.let {
                 categoryPath = repository.getCategoryPath(it)
@@ -328,7 +329,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 true,
                 parentId
             )?.apply {
-               applyDefaultTransferCategory()
+                applyDefaultTransferCategory()
             }
         }
     }
@@ -388,15 +389,14 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 KEY_COMMENT,
                 KEY_PATH,
                 KEY_TRANSFER_ACCOUNT,
+                TRANSFER_ACCOUNT_LABEL,
                 if (parentIsTemplate) null else BaseTransactionProvider.DEBT_LABEL_EXPRESSION,
                 KEY_TAGLIST,
                 KEY_ICON
             ).toTypedArray(),
             selection = "$KEY_PARENTID = ?",
             selectionArgs = arrayOf(parentId.toString())
-        ).mapToList { cursor ->
-            SplitPart.fromCursor(cursor)
-        }
+        ).mapToList(mapper = SplitPart.Companion::fromCursor)
     }
 
     fun moveUnCommittedSplitParts(transactionId: Long, accountId: Long, isTemplate: Boolean) {
@@ -598,24 +598,25 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         override val id: Long,
         override val amountRaw: Long,
         override val comment: String?,
-        override val categorPath: String?,
-        override val isTransfer: Boolean,
+        override val categoryPath: String?,
+        override val transferAccount: String?,
         override val debtLabel: String?,
         override val tagList: String?,
         override val icon: String?
     ) : SplitPartRVAdapter.ITransaction {
         companion object {
-            fun fromCursor(cursor: Cursor) =
+            fun fromCursor(cursor: Cursor) = with(cursor) {
                 SplitPart(
-                    cursor.getLong(KEY_ROWID),
-                    cursor.getLong(KEY_AMOUNT),
-                    cursor.getStringOrNull(KEY_COMMENT),
-                    cursor.getStringOrNull(KEY_PATH),
-                    cursor.getLongOrNull(KEY_TRANSFER_ACCOUNT) != null,
-                    cursor.getStringIfExists(KEY_DEBT_LABEL),
-                    cursor.splitStringList(KEY_TAGLIST).joinToString(),
-                    cursor.getStringOrNull(KEY_ICON)
+                    getLong(KEY_ROWID),
+                    getLong(KEY_AMOUNT),
+                    getStringOrNull(KEY_COMMENT),
+                    getStringOrNull(KEY_PATH),
+                    getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL),
+                    getStringIfExists(KEY_DEBT_LABEL),
+                    splitStringList(KEY_TAGLIST).joinToString(),
+                    getStringOrNull(KEY_ICON)
                 )
+            }
         }
     }
 

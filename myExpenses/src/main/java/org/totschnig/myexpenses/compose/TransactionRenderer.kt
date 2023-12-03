@@ -59,7 +59,9 @@ abstract class ItemRenderer(
         return buildAnnotatedString {
             if (isSplit) {
                 append(context.getString(R.string.split_transaction))
-            } else if (forLegacy && catId == null && status != DatabaseConstants.STATUS_HELPER) {
+            } else if (forLegacy && !isTransfer && catId == null &&
+                status != DatabaseConstants.STATUS_HELPER
+            ) {
                 append(NO_CATEGORY_ASSIGNED_LABEL)
             } else {
                 categoryPath?.let {

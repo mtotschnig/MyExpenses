@@ -6,12 +6,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.loadAttributes
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.useAndMap
 import org.totschnig.myexpenses.viewmodel.data.Tag
-import org.totschnig.myexpenses.viewmodel.data.Transaction.Companion.fromCursor
+import org.totschnig.myexpenses.viewmodel.data.Transaction.Companion.readTransaction
 import org.totschnig.myexpenses.viewmodel.data.Transaction.Companion.projection
 import org.totschnig.myexpenses.viewmodel.data.Transaction as TData
 
@@ -28,9 +27,8 @@ class TransactionDetailViewModel(application: Application) :
                 null,
                 "$KEY_PARENTID IS NULL DESC"
             )?.useAndMap {
-                fromCursor(
+                it.readTransaction(
                     getApplication(),
-                    it,
                     currencyContext,
                     homeCurrencyProvider.homeCurrencyUnit
                 )

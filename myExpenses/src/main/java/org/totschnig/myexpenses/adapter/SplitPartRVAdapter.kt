@@ -77,8 +77,8 @@ class SplitPartRVAdapter(
             binding.category.text = buildSpannedString {
                 append(
                     when {
-                        transaction.isTransfer -> Transfer.getIndicatorPrefixForLabel(transaction.amountRaw) + transaction.categorPath
-                        else -> transaction.categorPath ?: Category.NO_CATEGORY_ASSIGNED_LABEL
+                        transaction.isTransfer -> Transfer.getIndicatorPrefixForLabel(transaction.amountRaw) + transaction.transferAccount
+                        else -> transaction.categoryPath ?: Category.NO_CATEGORY_ASSIGNED_LABEL
                     }
                 )
                 transaction.comment.takeIf { !it.isNullOrBlank() }?.let {
@@ -116,14 +116,17 @@ class SplitPartRVAdapter(
     }
 
     interface ITransaction {
-        val isTransfer: Boolean
         val comment: String?
-        val categorPath: String?
+        val categoryPath: String?
+        val transferAccount: String?
         val id: Long
         val amountRaw: Long
         val debtLabel: String?
         val tagList: String?
         val icon: String?
+
+        val isTransfer
+            get() = transferAccount != null
 
         override fun equals(other: Any?): Boolean
     }

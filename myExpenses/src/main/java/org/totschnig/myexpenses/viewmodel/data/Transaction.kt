@@ -39,6 +39,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
@@ -80,7 +81,8 @@ data class Transaction(
     val catId: Long?,
     val payee: String,
     val methodLabel: String?,
-    override val categorPath: String?,
+    override val categoryPath: String?,
+    override val transferAccount: String?,
     val transferPeer: Long?,
     val transferAmount: Money?,
     val hasTransferPeerParent: Boolean,
@@ -99,8 +101,6 @@ data class Transaction(
 ) : SplitPartRVAdapter.ITransaction {
     val isSameCurrency: Boolean
         get() = transferAmount?.let { amount.currencyUnit == it.currencyUnit } ?: true
-    override val isTransfer
-        get() = transferPeer != null
     val isSplit
         get() = SPLIT_CATID == catId
 
@@ -146,82 +146,82 @@ data class Transaction(
             KEY_IBAN
         )
 
-        fun fromCursor(
+        fun Cursor.readTransaction(
             context: Context,
-            cursor: Cursor,
             currencyContext: CurrencyContext,
             homeCurrency: CurrencyUnit
         ): Transaction {
             val currencyUnit =
-                currencyContext.get(cursor.getString(KEY_CURRENCY))
-            val amountRaw = cursor.getLong(KEY_AMOUNT)
+                currencyContext.get(getString(KEY_CURRENCY))
+            val amountRaw = getLong(KEY_AMOUNT)
             val money = Money(currencyUnit, amountRaw)
-            val transferAccountId = cursor.getLongOrNull(KEY_TRANSFER_ACCOUNT)
-            val date: Long = cursor.getLong(KEY_DATE)
-            val transferPeer = cursor.getLongOrNull(KEY_TRANSFER_PEER)
+            val transferAccountId = getLongOrNull(KEY_TRANSFER_ACCOUNT)
+            val date: Long = getLong(KEY_DATE)
+            val transferPeer = getLongOrNull(KEY_TRANSFER_PEER)
 
             return Transaction(
-                id = cursor.requireLong(KEY_ROWID),
-                accountId = cursor.getLong(KEY_ACCOUNTID),
+                id = requireLong(KEY_ROWID),
+                accountId = getLong(KEY_ACCOUNTID),
                 amountRaw = amountRaw,
                 amount = money,
                 date = epoch2ZonedDateTime(date),
-                valueDate = cursor.getLongOrNull(KEY_VALUE_DATE) ?: date,
-                comment = cursor.getStringOrNull(KEY_COMMENT),
-                catId = cursor.getLongOrNull(KEY_CATID),
-                payee = cursor.getString(KEY_PAYEE_NAME),
-                methodLabel = cursor.getStringOrNull(KEY_METHOD_LABEL),
-                categorPath = cursor.getStringOrNull(KEY_PATH),
+                valueDate = getLongOrNull(KEY_VALUE_DATE) ?: date,
+                comment = getStringOrNull(KEY_COMMENT),
+                catId = getLongOrNull(KEY_CATID),
+                payee = getString(KEY_PAYEE_NAME),
+                methodLabel = getStringOrNull(KEY_METHOD_LABEL),
+                categoryPath = getStringOrNull(KEY_PATH),
+                transferAccount = getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL),
                 transferPeer = transferPeer,
                 transferAmount = transferAccountId?.let {
                     val transferCurrencyUnit =
                         currencyContext.get(
-                            cursor.getString(KEY_TRANSFER_CURRENCY)
+                            getString(KEY_TRANSFER_CURRENCY)
                         )
                     Money(
                         transferCurrencyUnit,
-                        cursor.getLong(KEY_TRANSFER_AMOUNT)
+                        getLong(KEY_TRANSFER_AMOUNT)
                     )
                 },
-                originalAmount = cursor.getLongOrNull(KEY_ORIGINAL_AMOUNT)?.let {
+                originalAmount = getLongOrNull(KEY_ORIGINAL_AMOUNT)?.let {
                     Money(
                         currencyContext.get(
-                            cursor.getString(KEY_ORIGINAL_CURRENCY)
+                            getString(KEY_ORIGINAL_CURRENCY)
                         ), it
                     )
                 },
-                equivalentAmount = cursor.getLongOrNull(KEY_EQUIVALENT_AMOUNT)?.let {
+                equivalentAmount = getLongOrNull(KEY_EQUIVALENT_AMOUNT)?.let {
                     Money(homeCurrency, it)
                 }
                     ?: Money(
                         homeCurrency, money.amountMajor.multiply(
                             BigDecimal(
                                 calculateRealExchangeRate(
-                                    cursor.getDouble(KEY_EXCHANGE_RATE),
+                                    getDouble(KEY_EXCHANGE_RATE),
                                     currencyUnit, homeCurrency
                                 )
                             )
                         )
                     ),
                 crStatus = enumValueOrDefault(
-                    cursor.getStringOrNull(KEY_CR_STATUS),
+                    getStringOrNull(KEY_CR_STATUS),
                     CrStatus.UNRECONCILED
                 ),
-                referenceNumber = cursor.getStringOrNull(KEY_REFERENCE_NUMBER),
-                originTemplate = cursor.getLongOrNull(KEY_TEMPLATEID)?.let {
+                referenceNumber = getStringOrNull(KEY_REFERENCE_NUMBER),
+                originTemplate = getLongOrNull(KEY_TEMPLATEID)?.let {
                     Template.getInstanceFromDb(context.contentResolver, it)
                 },
-                isSealed = cursor.getInt(KEY_SEALED) > 0,
-                accountLabel = cursor.getString(KEY_ACCOUNT_LABEL),
+                isSealed = getInt(KEY_SEALED) > 0,
+                accountLabel = getString(KEY_ACCOUNT_LABEL),
                 accountType = enumValueOrDefault(
-                    cursor.getStringOrNull(KEY_ACCOUNT_TYPE),
+                    getStringOrNull(KEY_ACCOUNT_TYPE),
                     AccountType.CASH
                 ),
-                hasTransferPeerParent = cursor.getLongOrNull(KEY_TRANSFER_PEER_PARENT) != null,
-                debtLabel = cursor.getStringOrNull(KEY_DEBT_LABEL),
-                tagList = cursor.splitStringList(KEY_TAGLIST).joinToString(),
-                icon = cursor.getStringOrNull(KEY_ICON),
-                iban = cursor.getStringOrNull(KEY_IBAN)
+                hasTransferPeerParent = getLongOrNull(KEY_TRANSFER_PEER_PARENT) != null,
+                debtLabel = getStringOrNull(KEY_DEBT_LABEL),
+                tagList = splitStringList(KEY_TAGLIST).joinToString(),
+                icon = getStringOrNull(KEY_ICON),
+                iban = getStringOrNull(KEY_IBAN)
             )
         }
     }

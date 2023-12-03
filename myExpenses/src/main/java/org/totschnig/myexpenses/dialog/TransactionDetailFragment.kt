@@ -238,9 +238,9 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                 val amountText: String
                 if (transaction.isTransfer) {
                     binding.Account.text =
-                        if (isIncome) transaction.categorPath else transaction.accountLabel
+                        if (isIncome) transaction.transferAccount else transaction.accountLabel
                     binding.Category.text =
-                        if (isIncome) transaction.accountLabel else transaction.categorPath
+                        if (isIncome) transaction.accountLabel else transaction.transferAccount
                     amountText = if (transaction.isSameCurrency) {
                         formatCurrencyAbs(transaction.amount)
                     } else {
@@ -251,7 +251,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                 } else {
                     binding.Account.text = transaction.accountLabel
                     if (transaction.catId != null && transaction.catId > 0) {
-                        binding.Category.text = transaction.categorPath
+                        binding.Category.text = transaction.categoryPath
                     } else {
                         binding.CategoryRow.visibility = View.GONE
                     }
