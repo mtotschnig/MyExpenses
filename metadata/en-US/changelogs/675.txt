@@ -1,0 +1,4 @@
+• Transfers can be mapped to categories.
+• When screen lock is enabled, allow to opt-out of disabling screenshots.
+
+https://github.com/mtotschnig/MyExpenses/projects/118#column-19691508

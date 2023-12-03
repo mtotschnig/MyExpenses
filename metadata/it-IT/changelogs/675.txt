@@ -1,0 +1,4 @@
+• I trasferimenti possono essere assegnati a categorie.
+• Quando il blocco schermo è abilitato, consenti la disabilitazione del blocco screenshot.
+
+https://github.com/mtotschnig/MyExpenses/projects/118#column-19691508

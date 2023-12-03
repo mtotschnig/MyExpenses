@@ -1,0 +1,4 @@
+• Les transferts peuvent être associés à des catégories.
+• Lorsque le verrouillage de l'écran est activé, permettez les captures d'écran.
+
+https://github.com/mtotschnig/MyExpenses/projects/118#column-19691508

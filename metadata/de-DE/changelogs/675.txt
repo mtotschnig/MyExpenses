@@ -1,0 +1,4 @@
+• Umbuchungen können Kategorien zugeordnet werden.
+• Wenn die Bildschirmsperre aktiviert ist, können Sie Screenshots erlauben.
+
+https://github.com/mtotschnig/MyExpenses/projects/118#column-19691508

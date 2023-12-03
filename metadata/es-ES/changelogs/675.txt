@@ -1,0 +1,4 @@
+• Las transferencias pueden asignarse a las categorías.
+• Cuando el bloqueo de pantalla está activado, permite optar por desactivar las capturas de pantalla.
+
+https://github.com/mtotschnig/MyExpenses/projects/118#column-19691508
