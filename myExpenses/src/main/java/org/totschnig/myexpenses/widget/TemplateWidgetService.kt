@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.provider.requireLong
 import org.totschnig.myexpenses.util.formatMoney
 import java.util.Locale
@@ -65,7 +66,9 @@ class TemplateRemoteViewsFactory(
         val currency = currencyContext.get(cursor.getString(KEY_CURRENCY))
         val amount = Money(currency, cursor.requireLong(KEY_AMOUNT))
         val isTransfer = !(cursor.isNull(cursor.getColumnIndexOrThrow(KEY_TRANSFER_ACCOUNT)))
-        val label = cursor.getString(KEY_LABEL)
+        val categoryPath = cursor.getStringOrNull(KEY_PATH)
+        val accountLabel = cursor.getStringOrNull(KEY_ACCOUNT_LABEL)
+        val transferAccountLabel = cursor.getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL)
         val comment = cursor.getString(KEY_COMMENT)
         val payee = cursor.getString(KEY_PAYEE_NAME)
         setTextViewText(
@@ -73,8 +76,12 @@ class TemplateRemoteViewsFactory(
             title + " : " + context.injector.currencyFormatter().formatMoney(amount)
         )
         val commentSeparator = " / "
-        val description =
-            SpannableStringBuilder(if (isTransfer) Transfer.getIndicatorPrefixForLabel(amount.amountMinor) + label else label)
+        val description = SpannableStringBuilder(
+            if (isTransfer) {
+                if (amount.amountMinor < 0) "$accountLabel ${Transfer.RIGHT_ARROW} $transferAccountLabel"
+                else "$transferAccountLabel ${Transfer.RIGHT_ARROW} $accountLabel"
+            } else categoryPath
+        )
         if (!TextUtils.isEmpty(comment)) {
             if (description.isNotEmpty()) {
                 description.append(commentSeparator)
