@@ -84,7 +84,6 @@ class TransferDelegate(
         viewBinding.TransferAmount.addTextChangedListener(LinkedTransferAmountTextWatcher(false))
         viewBinding.ERR.ExchangeRate.setExchangeRateWatcher(LinkedExchangeRateTextWatcher())
         viewBinding.Amount.hideTypeButton()
-        viewBinding.CategoryRow.isVisible = false
         viewBinding.TransferAccountRow.isVisible = true
         viewBinding.AccountLabel.setText(R.string.transfer_from_account)
         super.bind(
@@ -94,6 +93,7 @@ class TransferDelegate(
             recurrence,
             withAutoFill
         )
+        if (catId != null && catId != prefHandler.defaultTransferCategory) categoryVisible = true
         hideRowsSpecificToMain()
         configureTransferDirection()
         configureCategoryVisibility()
