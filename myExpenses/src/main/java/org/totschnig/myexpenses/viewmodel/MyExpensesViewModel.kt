@@ -558,8 +558,6 @@ open class MyExpensesViewModel(
 
     fun split(ids: LongArray) = liveData(context = coroutineContext()) {
         val count = ids.size
-        val where = KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(count)
-        val selectionArgs = ids.map { it.toString() }.toTypedArray()
         val projection = arrayOf(
             KEY_ACCOUNTID,
             KEY_CURRENCY,
@@ -579,10 +577,11 @@ open class MyExpensesViewModel(
         )
         contentResolver.query(
             EXTENDED_URI.buildUpon()
+                .appendQueryParameter(QUERY_PARAMETER_TRANSACTION_ID_LIST, ids.joinToString())
                 .appendQueryParameter(QUERY_PARAMETER_GROUP_BY, groupBy)
                 .appendQueryParameter(QUERY_PARAMETER_DISTINCT, "1")
                 .build(),
-            projection, where, selectionArgs, null
+            projection, null, null, null
         )?.use { cursor ->
             emit(when(cursor.count) {
                 1 -> {
@@ -604,6 +603,8 @@ open class MyExpensesViewModel(
                         it.crStatus = crStatus
                     }
                     val operations = parent.buildSaveOperations(contentResolver, false)
+                    val where = KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(count)
+                    val selectionArgs = ids.map { it.toString() }.toTypedArray()
                     operations.add(
                         ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
                             .withValues(ContentValues().apply {

@@ -349,6 +349,8 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_WITH_HIDDEN_ACCOUNT_COUNT = "withHiddenAccountCount";
 
   public static final String QUERY_PARAMETER_WITH_FILTER = "withFilter";
+
+  public static final String QUERY_PARAMETER_TRANSACTION_ID_LIST = "transaction_id_list";
   @Deprecated
   public static final String METHOD_BULK_START = "bulkStart";
   @Deprecated

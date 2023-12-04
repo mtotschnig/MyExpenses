@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_AGGREGATE_NEUTRAL
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ALLOCATED_ONLY
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_TRANSACTION_ID_LIST
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 
 private fun requireIdParameter(parameter: String) {
@@ -20,12 +21,18 @@ private fun requireIdParameter(parameter: String) {
 }
 
 /**
- * with parameter KEY_TRANSACTIONID we return the transaction and its split parts (used from
- * Transaction Detail Fragment); with parameter KEY_PARENT_ID we return just the split parts (used
- * from Edit split; otherwise accountSelector logic is applied
+ * - with parameter QUERY_PARAMETER_TRANSACTION_ID_LIST return requested ids
+ * - with parameter KEY_TRANSACTIONID return the transaction and its split parts
+ *   (used from Transaction Detail Fragment)
+ * - with parameter KEY_PARENTID return just the split parts
+ *   (used from Edit split)
+ * - otherwise accountSelector logic is applied
  */
 val Uri.transactionQuerySelector: String
-    get() = getQueryParameter(KEY_TRANSACTIONID)?.let {
+    get() = getQueryParameter(QUERY_PARAMETER_TRANSACTION_ID_LIST)?.let { idList ->
+        idList.split(',').forEach { requireIdParameter(it.trim()) }
+        "$KEY_ROWID IN ($idList)"
+    } ?:  getQueryParameter(KEY_TRANSACTIONID)?.let {
         requireIdParameter(it)
         "($KEY_ROWID = $it OR $KEY_PARENTID = $it)"
     } ?:  getQueryParameter(KEY_PARENTID)?.let {
