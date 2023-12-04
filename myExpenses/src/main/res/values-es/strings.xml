@@ -1059,7 +1059,7 @@
     <string name="menu_aggregate_neutral_categories">Categorías neutrales agregadas</string>
     <string name="dialog_contrib_trial_info">El estado de su licencia actual (%1$s) le permite probar %2$s durante %3$d días (hasta %4$s).</string>
     <string name="one_time_payment">Un único pago</string>
-    <string name="dialog_contrib_trial_info_play">Esta prueba gratuita <b>nunca</b> se convertirá en ningún tipo de suscripción.</string>
+    <string name="dialog_contrib_trial_info_play">Esta prueba gratuita nunca se convertirá en ningún tipo de suscripción.</string>
     <string name="dialog_contrib_subscription_info_play">Esta suscripción tiene efecto inmediato, se factura mensual o anualmente y puede cancelarse en cualquier momento.</string>
     <string name="whats_new_369_1">Las transferencias pueden asignarse a las categorías.</string>
     <string name="warning_delete_default_transfer_category">La categoría %s está configurada como categoría de transferencia por defecto y no debe eliminarse.</string>

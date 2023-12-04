@@ -1087,6 +1087,6 @@
     <string name="debt_installment_receive">أحصل على قسط من %s.</string>
     <string name="dialog_contrib_trial_info">تسمح لك حالة الترخيص الحالية (%1$s) بتجربة %2$s لمدة %3$d أيام (حتى %4$s).</string>
     <string name="one_time_payment">دفعة مالية لمرة واحدة</string>
-    <string name="dialog_contrib_trial_info_play">لن يتم تحويل هذه النسخة التجريبية المجانية <b> أبدًا </b> إلى أي نوع من الاشتراكات.</string>
+    <string name="dialog_contrib_trial_info_play">لن يتم تحويل هذه النسخة التجريبية المجانية  أبدًا إلى أي نوع من الاشتراكات.</string>
     <string name="dialog_contrib_subscription_info_play">يسري هذا الاشتراك على الفور ، ويتم إصدار فاتورة شهرية أو سنوية ويمكن إلغاؤه في أي وقت.</string>
 </resources>

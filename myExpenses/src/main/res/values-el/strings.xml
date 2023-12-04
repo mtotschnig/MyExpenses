@@ -801,7 +801,7 @@
     <string name="menu_reconfigure">Επαναδιαμόρφωση</string>
     <string name="whats_new_359">Τα εικονίδια για τις μεθόδους πληρωμής μπορούν να προσαρμοστούν.</string>
     <string name="dialog_contrib_trial_info">Η τρέχουσα κατάσταση άδειας χρήσης (%1$s) σάς επιτρέπει να δοκιμάσετε το %2$s για %3$d ημέρες (μέχρι το %4$s).</string>
-    <string name="dialog_contrib_trial_info_play">Αυτή η δωρεάν δοκιμή <b>ποτέ</b> δεν θα μετατραπεί σε κανένα είδος συνδρομής.</string>
+    <string name="dialog_contrib_trial_info_play">Αυτή η δωρεάν δοκιμή ποτέ δεν θα μετατραπεί σε κανένα είδος συνδρομής.</string>
     <string name="dialog_contrib_subscription_info_play">Αυτή η συνδρομή τίθεται σε άμεση ισχύ, χρεώνεται μηνιαία ή ετήσια και μπορεί να ακυρωθεί ανά πάσα στιγμή.</string>
     <string name="sub_budget_exceeded_error_1_2">Όλο το ποσό που διατίθεται στην κύρια κατηγορία έχει διατεθεί σε άλλες υποκατηγορίες.</string>
     <string name="sub_budget_exceeded_error_1_1">Όλα εκτός από %s του ποσού που διατίθεται στην κύρια κατηγορία έχουν διατεθεί σε άλλες υποκατηγορίες.</string>

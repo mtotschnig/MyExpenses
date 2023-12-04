@@ -1046,7 +1046,7 @@
     <string name="menu_aggregate_neutral_categories">Neutrale Kategorien zusammenfassen</string>
     <string name="dialog_contrib_trial_info">Mit Ihrem aktuellen Lizenzstatus (%1$s) können Sie %2$s %3$d Tage lang testen (bis %4$s).</string>
     <string name="one_time_payment">Einmalige Zahlung</string>
-    <string name="dialog_contrib_trial_info_play">Diese kostenlose Testversion wird <b>niemals</b> in irgendeine Art von Abonnement umgewandelt.</string>
+    <string name="dialog_contrib_trial_info_play">Diese kostenlose Testversion wird niemals in irgendeine Art von Abonnement umgewandelt.</string>
     <string name="dialog_contrib_subscription_info_play">Dieses Abonnement tritt sofort in Kraft, wird monatlich oder jährlich abgerechnet und kann jederzeit gekündigt werden.</string>
     <string name="whats_new_369_1">Umbuchungen können Kategorien zugeordnet werden.</string>
     <string name="warning_delete_default_transfer_category">Die Kategorie %s ist als Standardkategorie für Umbuchungen konfiguriert und sollte nicht gelöscht werden.</string>

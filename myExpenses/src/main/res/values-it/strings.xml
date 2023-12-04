@@ -1019,7 +1019,7 @@
     <string name="whats_new_359">Le icone dei metodi di pagamento possono essere personalizzate.</string>
     <string name="dialog_contrib_trial_info">Lo stato attuale della tua licenza (%1$s) ti consente di provare %2$s per %3$d giorni (fino a %4$s).</string>
     <string name="one_time_payment">Pagamento unico</string>
-    <string name="dialog_contrib_trial_info_play">Questa prova gratuita non si convertirà <b>mai</b> in alcun tipo di abbonamento.</string>
+    <string name="dialog_contrib_trial_info_play">Questa prova gratuita non si convertirà mai in alcun tipo di abbonamento.</string>
     <string name="dialog_contrib_subscription_info_play">Questo abbonamento ha effetto immediato, viene fatturato mensilmente o annualmente, e può essere cancellato in qualsiasi momento.</string>
     <string name="pref_unmapped_transaction_as_transfer_title">Transazioni non assegnate</string>
     <string name="whats_new_364_2">Nuova strategia per gestire informazioni duplicate su paganti/beneficiari</string>

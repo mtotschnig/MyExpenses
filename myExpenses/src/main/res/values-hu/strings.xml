@@ -921,6 +921,6 @@
     <string name="whats_new_359">A fizetési módok ikonjai testre szabhatók.</string>
     <string name="dialog_contrib_trial_info">Jelenlegi licencállapota (%1$s) lehetővé teszi az %2$s kipróbálását %3$d napig (%4$s-ig).</string>
     <string name="one_time_payment">Egyszeri fizetés</string>
-    <string name="dialog_contrib_trial_info_play">Ez az ingyenes próbaverzió <b>soha</b> nem vált át semmilyen típusú előfizetésre.</string>
+    <string name="dialog_contrib_trial_info_play">Ez az ingyenes próbaverzió soha nem vált át semmilyen típusú előfizetésre.</string>
     <string name="dialog_contrib_subscription_info_play">Ez az előfizetés azonnal hatályba lép, havonta vagy évente kerül számlázásra, és bármikor lemondható.</string>
 </resources>

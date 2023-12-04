@@ -1059,7 +1059,7 @@
     <string name="menu_aggregate_neutral_categories">Totaliser les catégories neutres</string>
     <string name="dialog_contrib_trial_info">L’état actuel de votre licence (%1$s) vous permet d’essayer %2$s pendant %3$d jours (jusqu’à %4$s).</string>
     <string name="one_time_payment">Paiement unique</string>
-    <string name="dialog_contrib_trial_info_play">Cet essai gratuit ne sera <b>jamais</b> converti en aucun type d\'abonnement.</string>
+    <string name="dialog_contrib_trial_info_play">Cet essai gratuit ne sera jamais converti en aucun type d\'abonnement.</string>
     <string name="dialog_contrib_subscription_info_play">Cet abonnement prend effet immédiatement, est facturé mensuellement ou annuellement et peut être résilié à tout moment.</string>
     <string name="whats_new_369_1">Les transferts peuvent être associés à des catégories.</string>
     <string name="warning_delete_default_transfer_category">La catégorie %s est configurée comme catégorie de transfert par défaut et ne doit pas être supprimée.</string>

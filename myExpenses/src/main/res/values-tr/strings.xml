@@ -1015,6 +1015,6 @@
     <string name="search_account">Hesap ara</string>
     <string name="dialog_contrib_trial_info">Mevcut lisans durumunuz (%1$s), %3$d gün boyunca (%4$s\'e kadar) %2$s denemenize olanak tanır.</string>
     <string name="one_time_payment">Bir defalık ödeme</string>
-    <string name="dialog_contrib_trial_info_play">Bu ücretsiz deneme sürümü <b>hiçbir zaman</b> herhangi bir abonelik türüne dönüşmeyecektir.</string>
+    <string name="dialog_contrib_trial_info_play">Bu ücretsiz deneme sürümü hiçbir zaman herhangi bir abonelik türüne dönüşmeyecektir.</string>
     <string name="dialog_contrib_subscription_info_play">Bu abonelik hemen yürürlüğe girer, aylık veya yıllık olarak faturalandırılır ve herhangi bir zamanda iptal edilebilir.</string>
 </resources>

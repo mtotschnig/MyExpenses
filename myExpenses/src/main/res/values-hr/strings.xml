@@ -978,6 +978,6 @@
     <string name="budget_table_header_overspent">Prekoračeno</string>
     <string name="dialog_contrib_trial_info">Vaš trenutni status licence (%1$s) omogućuje vam da isprobate %2$s %3$d dana (do %4$s).</string>
     <string name="one_time_payment">Jednokratno plaćanje</string>
-    <string name="dialog_contrib_trial_info_play">Ovo besplatno probno razdoblje <b>nikad</b> neće se pretvoriti u bilo koju vrstu pretplate.</string>
+    <string name="dialog_contrib_trial_info_play">Ovo besplatno probno razdoblje nikad neće se pretvoriti u bilo koju vrstu pretplate.</string>
     <string name="dialog_contrib_subscription_info_play">Ova pretplata stupa na snagu odmah, naplaćuje se mjesečno ili godišnje i može se otkazati u bilo kojem trenutku.</string>
 </resources>

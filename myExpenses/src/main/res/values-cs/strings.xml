@@ -939,6 +939,6 @@
     <string name="add_shortcut">Přidat zkratku</string>
     <string name="whats_new_359">Ikony platebních metod lze přizpůsobit.</string>
     <string name="dialog_contrib_trial_info">Váš aktuální stav licence (%1$s) vám umožňuje vyzkoušet %2$s na %3$d dní (do %4$s).</string>
-    <string name="dialog_contrib_trial_info_play">Tato bezplatná zkušební verze se <b>nikdy</b> nepřevede na žádný typ předplatného.</string>
+    <string name="dialog_contrib_trial_info_play">Tato bezplatná zkušební verze se nikdy nepřevede na žádný typ předplatného.</string>
     <string name="dialog_contrib_subscription_info_play">Toto předplatné nabývá okamžité účinnosti, je účtováno měsíčně nebo ročně a lze jej kdykoli zrušit.</string>
 </resources>

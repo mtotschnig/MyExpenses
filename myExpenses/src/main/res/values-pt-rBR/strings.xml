@@ -1049,6 +1049,6 @@
     <string name="whats_new_361_2">Os arquivos na pasta do aplicativo (backups e exportações) podem ser compartilhados ou excluídos.</string>
     <string name="dialog_contrib_trial_info">Seu status de licença atual (%1$s) permite que você experimente %2$s por %3$d dias (até %4$s).</string>
     <string name="one_time_payment">Pagamento único</string>
-    <string name="dialog_contrib_trial_info_play">Esta avaliação gratuita <b>nunca</b> será convertida em qualquer tipo de assinatura.</string>
+    <string name="dialog_contrib_trial_info_play">Esta avaliação gratuita nunca será convertida em qualquer tipo de assinatura.</string>
     <string name="dialog_contrib_subscription_info_play">Esta assinatura tem efeito imediato, é cobrada mensalmente ou anualmente e pode ser cancelada a qualquer momento.</string>
 </resources>

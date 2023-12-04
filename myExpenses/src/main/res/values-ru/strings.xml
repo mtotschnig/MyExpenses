@@ -945,6 +945,6 @@
     <string name="add_shortcut">Добавить ярлык</string>
     <string name="dialog_contrib_trial_info">Ваш текущий статус лицензии (%1$s) позволяет вам попробовать %2$s в течение %3$d дней (до %4$s).</string>
     <string name="one_time_payment">Единовременный платеж</string>
-    <string name="dialog_contrib_trial_info_play">Эта бесплатная пробная версия <b>никогда</b> не преобразуется в какой-либо тип подписки.</string>
+    <string name="dialog_contrib_trial_info_play">Эта бесплатная пробная версия никогда не преобразуется в какой-либо тип подписки.</string>
     <string name="dialog_contrib_subscription_info_play">Эта подписка вступает в силу немедленно, оплачивается ежемесячно или ежегодно и может быть отменена в любое время.</string>
 </resources>
