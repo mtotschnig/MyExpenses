@@ -59,7 +59,7 @@ class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
             resources.getStringArray(R.array.comparison_operator_values)[binding.Operator.selectedItemPosition]
         val type = binding.type.checkedButtonId == R.id.income
         val amount2 = if (selectedOp == "BTW") {
-            binding.amount2.validateAmountInput(currency)
+            binding.amount2.validateAmountInput(currency) ?: return
         } else null
 
         ctx.addFilterCriterion(
