@@ -89,7 +89,7 @@
     <string name="dialog_remind_rate_how_many_stars">Quante stelle daresti a {app_name}?</string>
     <string name="dialog_remind_rate_1">Prenditi un momento per votare e rivedere {app_name}.</string>
     <string name="dialog_remind_rate_2">I tuoi commenti ci permettono di aggiungere continuamente miglioramenti e perfezionamenti.</string>
-    <string name="dialog_remind_rate_1_suggest_improvement">Prenditi un momento per inviarci i tuoi suggerimenti per migliorarci.</string>
+    <string name="dialog_remind_rate_1_suggest_improvement">Ti preghiamo di dedicare un minuto a inviarci i tuoi consiglio per migliorarci.</string>
     <string name="dialog_remind_rate_yes">Vota ora</string>
     <string name="dialog_security_answer">Risposta</string>
     <string name="dialog_security_question">Domanda</string>
@@ -143,7 +143,7 @@
     <string name="menu_clone_transaction">Ricopiare</string>
     <string name="menu_contrib">Contribuire</string>
     <string name="menu_create_account">Nuovo conto</string>
-    <string name="menu_create_instance_edit">Applicare e modificare</string>
+    <string name="menu_create_instance_edit">Applica e modifica</string>
     <string name="menu_create_instance_save">Applica e salva</string>
     <string name="menu_create_main_cat">Nuova categoria principale</string>
     <string name="menu_create_method">Nuovo modo di pagamento</string>
@@ -210,12 +210,14 @@
     <string name="no_templates">Non ci sono modelli.</string>
     <string name="no_accounts">Nessun conto.</string>
     <plurals name="not_deletable_mapped_transactions">
-        <item quantity="one">L\'oggetto selezionato viene mappato a una operazione e non può essere cancellato.</item>
-        <item quantity="other">%1$d oggetti selezionati vengono mappati alle operazioni e non possono essere cancellati.</item>
+        <item quantity="one">L\'oggetto selezionato è assegnato ad una transazione e non può essere cancellato.</item>
+        <item quantity="many">%1$d oggetti selezionati sono assegnati a delle transazioni e non potranno essere cancellati.</item>
+        <item quantity="other">%1$d oggetti selezionati sono assegnati a delle transazioni e non potranno essere cancellati.</item>
     </plurals>
     <plurals name="not_deletable_mapped_templates">
-        <item quantity="one">L\'oggetto selezionato viene mappato a un modello e non può essere cancellato.</item>
-        <item quantity="other">%1$d oggetti selezionati vengono mappati ai modelli e non possono essere cancellati.</item>
+        <item quantity="one">L\'oggetto selezionato è associato ad un modello e non può essere cancellato.</item>
+        <item quantity="many">%1$d oggetti selezionati sono associati a dei modelli e non possono essere cancellati.</item>
+        <item quantity="other">%1$d oggetti selezionati sono associati a dei modelli e non possono essere cancellati.</item>
     </plurals>
     <string name="numbered">numerazione</string>
     <string name="opening_balance">Saldo iniziale</string>
@@ -337,7 +339,8 @@
     <string name="save_transaction_and_new_success">Salvato con successo</string>
     <string name="save_transaction_error">Non è possible salvare la nuova transazione da modello.</string>
     <plurals name="save_transaction_from_template_success">
-        <item quantity="one">Nuova transazione salvata con successo da modello.</item>
+        <item quantity="one">Nuova transazione salvata con successo dal modello.</item>
+        <item quantity="many">%1$d nuove operazioni sono state salvate con successo dai modelli.</item>
         <item quantity="other">%1$d nuove operazioni sono state salvate con successo dai modelli.</item>
     </plurals>
     <string name="save_transaction_template_deleted">Modello è stato cancellato</string>
@@ -503,7 +506,7 @@
     <string name="date_format_hour">Ora</string>
     <string name="date_format_minute">Minuto</string>
     <string name="pref_sort_order_last_used">Usato l\'ultima volta</string>
-    <string name="pref_sort_order_custom">Su ordinazione</string>
+    <string name="pref_sort_order_custom">Personalizzato</string>
     <string name="content_description_calculator">Calcolatrice</string>
     <!-- describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_open">aperto</string>
@@ -518,7 +521,7 @@
     <string name="paypal_callback_info">La transazione è stata completata e una ricevuta per l\'acquisto le è stata inviata per e-mail. Può accedere al suo account su www.paypal.com per visualizzare i dettagli di questa transazione.</string>
     <string name="search_transfer">Ricerca per il trasferimento</string>
     <!-- Sort plans (recurring transactions) by the next instance  -->
-    <string name="pref_sort_order_next_instance">Istanza successiva</string>
+    <string name="pref_sort_order_next_instance">Evento successivo</string>
     <string name="crash_dialog_title">{app_name} ha avuto un problema</string>
     <string name="crash_dialog_text">Errore imprevisto durante l\'imposizione all\'applicazione di interrompere. Vi preghiamo di aiutarci a risolvere questo problema inviandoci i dati di errore, tutto ciò che dovete fare è fare clic su OK.</string>
     <string name="crash_dialog_comment_prompt">È possibile aggiungere i tuoi commenti sul problema riportato di seguito:</string>
@@ -668,7 +671,7 @@
     <string name="licence_expires_today">La tua Licenza Professionale scade oggi.</string>
     <string name="licence_expired_yesterday">La tua Licenza Professionale è scaduta ieri.</string>
     <string name="licence_has_expired_n_days">La tua Licenza Professionale è scaduta %d giorni fa.</string>
-    <string name="pref_category_title_privacy">Vita privata</string>
+    <string name="pref_category_title_privacy">Privacy</string>
     <string name="pref_ad_consent_title">Annunci personalizzati</string>
     <string name="ad_consent_non_personalized">Pubblicità non personalizzate</string>
     <string name="gdpr_consent_message">Collaboriamo con {ad_provider} per sostenere il supporto, la manutenzione e lo sviluppo di {app_name} mostrandoti gli annunci. Vorremmo chiedere il tuo consenso. Se preferisci non vedere alcuna pubblicità, ti preghiamo di pagare la versione senza pubblicità.</string>
@@ -792,7 +795,7 @@
     <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
     <string name="menu_remap">Riassegna</string>
     <string name="dialog_title_confirm_remap">Riassegnare (%s) ?</string>
-    <string name="remap_category">Tutte le transazioni selezionate verranno associate alla categoria %s.</string>
+    <string name="remap_category">Tutte le transazioni selezionate verranno assegnate alla categoria %s.</string>
     <string name="remap_payee">Tutte le transazioni selezionate verranno assegnate al pagante / beneficiario %s.</string>
     <string name="remap_method">Tutte le transazioni selezionate verranno assegnate al metodo %s.</string>
     <string name="remap_account">Tutte le transazioni selezionate verranno assegnate al conto %s.</string>
@@ -977,7 +980,7 @@
         <item quantity="other">Non è stato possibile eliminare %d vecchi file di backup.</item>
     </plurals>
     <string name="upgrade_info_557">Ti piace il nuovo design\? Per favore faccelo sapere. Una variante più simile al vecchio design può essere attivata nelle Impostazioni (%1$s - %2$s).</string>
-    <string name="budget_table_header_rollover">Rollover</string>
+    <string name="budget_table_header_rollover">Resto</string>
     <plurals name="purge_backup_success">
         <item quantity="one">Un vecchio file di backup è stato eliminato.</item>
         <item quantity="many">%d vecchi file di backup sono stati eliminati.</item>
@@ -994,13 +997,13 @@
     <string name="debt_balance_i_owe">Sono ora in debito con %s.</string>
     <string name="debt_borrow_additional">Prendo in prestito %s.</string>
     <string name="debt_paid_off_other">Il debito di %s è stato saldato.</string>
-    <string name="rollover_edit_invalid">La somma del rollover assegnato ad una categoria e i rollover assegnati alle sottocategorie non possono superare il resto.</string>
+    <string name="rollover_edit_invalid">La somma del resto assegnato ad una categoria e i resti assegnati alle sottocategorie non possono superare il resto complessivo.</string>
     <string name="debt_balance_they_owe">%1$s è ora in debito con %2$s.</string>
     <string name="pref_backup_file_prefix_title">Prefisso del file</string>
     <string name="whats_new_355">Il nome del file di backup è ora configurabile.</string>
     <string name="optimize_image_file_size">Ottimizza le dimensioni del file di immagine</string>
     <string name="encrypt_database_info">Il database sarà crittografato con una passphrase che non potrà essere esportata da questo dispositivo. Di conseguenza, non verrà salvata dal servizio di backup del dispositivo.</string>
-    <string name="dialog_confirm_rollover_delete">Tutti gli importi di rollover per questo periodo saranno cancellati.</string>
+    <string name="dialog_confirm_rollover_delete">Tutti gli importi di resto per questo periodo saranno cancellati.</string>
     <string name="encrypt_database">Crittografa il database</string>
     <string name="github_sponsors">Chiavi di licenza vengono fornite anche agli &lt;a href=%s&gt;Sponsor su Github&lt;/a&gt;.</string>
     <string name="notifications_permission_required_webui">Concedendo i permessi per inviare notifiche, è possibile controllare lo stato del server.</string>
