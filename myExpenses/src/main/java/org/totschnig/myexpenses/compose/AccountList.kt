@@ -190,13 +190,13 @@ fun AccountCard(
         ) {
             val modifier = Modifier
                 .padding(end = 6.dp)
-                .size(dimensionResource(id = R.dimen.account_color_diameter_compose))
+                .size((dimensionResource(id = R.dimen.account_list_aggregate_letter_font_size).value * 1.444).dp)
             val color = Color(account.color(LocalContext.current.resources))
             if (account.criterion == null) {
                 if (account.bankId == null || bankIcon == null) {
                     ColorCircle(modifier, color) {
                         if (account.isAggregate) {
-                            Text(fontSize = 18.sp, text = "Σ", color = Color.White)
+                            Text(fontSize = 13.sp, text = "Σ", color = Color.White)
                         }
                     }
                 } else bankIcon.invoke(modifier, account.bankId)

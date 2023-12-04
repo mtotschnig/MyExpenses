@@ -22,7 +22,7 @@
     <dimen name="textSizeLabel">12sp</dimen>
     <dimen name="textSizeSmall">14sp</dimen>
     <dimen name="account_color_diameter">42sp</dimen>
-    <dimen name="account_color_diameter_compose">26sp</dimen>
+    <dimen name="account_list_aggregate_letter_font_size">13sp</dimen>
 
     <dimen name="accessibility_clickable_minimum">48dp</dimen>
     <dimen name="vertical_padding_paragraph">8dp</dimen>
