@@ -66,9 +66,7 @@ class TemplateRemoteViewsFactory(
         val currency = currencyContext.get(cursor.getString(KEY_CURRENCY))
         val amount = Money(currency, cursor.requireLong(KEY_AMOUNT))
         val isTransfer = !(cursor.isNull(cursor.getColumnIndexOrThrow(KEY_TRANSFER_ACCOUNT)))
-        val categoryPath = cursor.getStringOrNull(KEY_PATH)
-        val accountLabel = cursor.getStringOrNull(KEY_ACCOUNT_LABEL)
-        val transferAccountLabel = cursor.getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL)
+
         val comment = cursor.getString(KEY_COMMENT)
         val payee = cursor.getString(KEY_PAYEE_NAME)
         setTextViewText(
@@ -78,9 +76,11 @@ class TemplateRemoteViewsFactory(
         val commentSeparator = " / "
         val description = SpannableStringBuilder(
             if (isTransfer) {
+                val accountLabel = cursor.getStringOrNull(KEY_ACCOUNT_LABEL)
+                val transferAccountLabel = cursor.getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL)
                 if (amount.amountMinor < 0) "$accountLabel ${Transfer.RIGHT_ARROW} $transferAccountLabel"
                 else "$transferAccountLabel ${Transfer.RIGHT_ARROW} $accountLabel"
-            } else categoryPath
+            } else cursor.getString(KEY_PATH)
         )
         if (!TextUtils.isEmpty(comment)) {
             if (description.isNotEmpty()) {
