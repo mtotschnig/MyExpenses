@@ -1,15 +1,24 @@
 package org.totschnig.myexpenses.test.espresso
 
 import android.net.Uri
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.assertContentDescriptionEquals
+import androidx.compose.ui.test.assertTextContains
+import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
+import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers.isDialog
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.Matchers
-import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.TEST_TAG_CONTEXT_MENU
@@ -24,9 +33,9 @@ import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 class MyExpensesCabTest : BaseMyExpensesTest() {
     private val origListSize = 6
     private lateinit var account: Account
-    @Before
-    fun fixture() {
-        account = buildAccount("Test account 1")
+
+    private fun launch(excludeFromTotals: Boolean = false) {
+        account = buildAccount("Test account 1", excludeFromTotals = excludeFromTotals)
         val op0 = Transaction.getNewInstance(account.id, homeCurrency)
         op0.amount = Money(homeCurrency, -100L)
         op0.save(contentResolver)
@@ -41,6 +50,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
 
     @Test
     fun cloneCommandIncreasesListSize() {
+        launch()
         assertListSize(origListSize)
         clickContextItem(R.string.menu_clone_transaction)
         closeKeyboardAndSave()
@@ -49,6 +59,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
 
     @Test
     fun editCommandKeepsListSize() {
+        launch()
         assertListSize(origListSize)
         clickContextItem(R.string.menu_edit)
         closeKeyboardAndSave()
@@ -57,6 +68,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
 
     @Test
     fun createTemplateCommandCreatesTemplate() {
+        launch()
         val templateTitle = "Espresso Template Test"
         assertListSize(origListSize)
         clickContextItem(R.string.menu_create_template_from_transaction)
@@ -73,21 +85,25 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
 
     @Test
     fun deleteCommandDecreasesListSize() {
+        launch()
         doDelete(useCab = false, cancel = false)
     }
 
     @Test
     fun deleteCommandDecreasesListSizeCab() {
+        launch()
         doDelete(useCab = true, cancel = false)
     }
 
     @Test
     fun deleteCommandCancelKeepsListSize() {
+        launch()
         doDelete(useCab = false, cancel = true)
     }
 
     @Test
     fun deleteCommandCancelKeepsListSizeCab() {
+        launch()
         doDelete(useCab = true, cancel = true)
     }
 
@@ -102,11 +118,13 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
 
     @Test
     fun deleteCommandWithVoidOptionCab() {
+        launch()
         doDeleteCommandWithVoidOption(true)
     }
 
     @Test
     fun deleteCommandWithVoidOption() {
+        launch()
         doDeleteCommandWithVoidOption(false)
     }
 
@@ -135,6 +153,17 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
 
     @Test
     fun splitCommandCreatesSplitTransaction() {
+        launch()
+        doSplitCommandTest()
+    }
+
+    @Test
+    fun withAccountExcludedFromTotalsSplitCommandCreatesSplitTransaction() {
+        launch(true)
+        doSplitCommandTest()
+    }
+
+    private fun doSplitCommandTest() {
         openCab(R.id.SPLIT_TRANSACTION_COMMAND)
         handleContribDialog(ContribFeature.SPLIT_TRANSACTION)
         onView(withText(R.string.menu_split_transaction))
@@ -144,6 +173,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
 
     @Test
     fun cabIsRestoredAfterOrientationChange() {
+        launch()
         openCab(null)
         rotate()
         onView(withId(androidx.appcompat.R.id.action_mode_bar)).check(matches(isDisplayed()))
@@ -151,6 +181,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
 
     @Test
     fun contextForSealedAccount() {
+        launch()
         testScenario.onActivity {
             it.viewModel.setSealed(account.id, true)
         }
