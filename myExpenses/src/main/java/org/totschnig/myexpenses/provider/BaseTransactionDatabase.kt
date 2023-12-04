@@ -96,7 +96,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 
-const val DATABASE_VERSION = 156
+const val DATABASE_VERSION = 157
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -756,6 +756,14 @@ abstract class BaseTransactionDatabase(
                     )
                 }
                 CrashHandler.report(Exception("Found and repaired ${affected.size} corrupted split transactions"))
+            }
+        }
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo157() {
+        repairWithSealedAccountsAndDebts(this) {
+            prefHandler.defaultTransferCategory?.let {
+                execSQL("UPDATE transactions SET cat_id = $it WHERE cat_id IS NULL AND transfer_peer is not null")
             }
         }
     }

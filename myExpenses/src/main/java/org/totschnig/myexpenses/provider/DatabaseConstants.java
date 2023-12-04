@@ -480,8 +480,6 @@ public class DatabaseConstants {
       KEY_PARENTID + " IS null";
   public static final String WHERE_NOT_VOID =
       KEY_CR_STATUS + " != '" + CrStatus.VOID.name() + "'";
-  public static final String WHERE_TRANSACTION =
-      WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID + " AND " + KEY_TRANSFER_PEER + " is null";
 
   public static final String WHERE_DEPENDENT = KEY_PARENTID + " = ? OR " + KEY_ROWID + " IN "
       + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)";
