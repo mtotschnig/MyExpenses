@@ -14,8 +14,8 @@
     <string name="popup_MyExpenses_toolbar_new_balance">חישוב ההפרש בין היתרה הנוכחית לערך חדש.</string>
     <string name="menu_status_handle_help_text">הסטטוס של העסקה מסומן על ידי מלבן צבעוני: אפור עבור Unreconciled, כחול עבור Cleared, ירוק עבור Reconcieled. לחיצה על המלבן משנה את הסטטוס.</string>
     <string name="menu_reset_help_text">פקודה זו תייצא את כל העסקאות של החשבון הנוכחי לקובץ בכרטיס SD בפורמט QIF או CSV. באפשרותכם להחליט למחוק את העסקאות המיוצאות. במקרה זה, יתרת הפתיחה מותאמת באופן אוטומטי. לחלופין, אם העסקאות לא נמחקות, הן יסומנו כמיוצאות. האפליקציה \'ההוצאות שלי\' יכולה לשתף את הקובץ מיד לאחר הייצוא באמצעות שרת FTP, דוא\"ל או כל יישומון שיתוף קבצים אחר, אם אתם תגדירו זאת בהגדרות. אם מסנן החיפוש פעיל, רק העסקאות שמופו על ידי מסנן זה יילקחו בחשבון.</string>
-    <string name="menu_grouping_help_text">ניתן לקבץ עסקאות לפי יום, שבוע, חודש או שנה. עבור כל קבוצה, סכום ההכנסות, ההוצאות וההעברות מחושב ומוצג. כאשר תלחצו על כותרת קבוצה, תצוגת קבוצת העסקאות תסגר ורק הכותרת תוצג. לחצו שוב כדי להרחיב.</string>
-    <string name="menu_sort_direction_help_text">ניתן למיין עסקאות בסדר עולה (הישן בראש) או יורד (האחרון בראש).</string>
+    <string name="menu_grouping_help_text">ניתן לקבץ עסקאות לפי יום, שבוע, חודש או שנה. עבור כל קבוצה, סכום ההכנסות, ההוצאות וההעברות מחושב ומוצג. לחיצה על כותרת קבוצה, תסגור את תצוגת קבוצת העסקאות ורק הכותרת תוצג. לחיצה נוספת תרחיב.</string>
+    <string name="menu_sort_direction_help_text">ניתן למיין עסקאות בסדר עולה (הישנה בראש) או יורד (האחרונה בראש).</string>
     <string name="menu_distribution_help_text">הצגת התפלגות ההוצאות שלך לפי קטגוריה. אפשר ללחוץ לחיצה ארוכה על כותרת קבוצה כדי לבדוק את החלוקה לתקופת זמן מסוימת.</string>
     <string name="menu_budget_help_text">ניהול תקציבים יומיים, שבועיים, חודשיים או שנתיים עבור החשבון המוצג כעת.</string>
     <string name="menu_history_help_text">הצגת תרשים תזרים מזומנים: כיצד חשבונך והכנסותיך התפתחו במשך ימים, שבועות, חודשים או שנים?</string>
@@ -92,11 +92,11 @@
     <string name="form_category_help_text">לחצן זה פותח את רשימת הקטגוריות, שבהן אפשר לבחור את הקטגוריה למיפוי לעסקה.</string>
     <string name="form_split_parts_heading_help_text_3">אפשר לשמור רק את העסקה המפוצלת, אם סכום העסקה הוקצה במדויק.</string>
     <string name="form_ExpenseEdit_splitPartCategory_category_help_text">נא לבחור קטגוריה לחלק המפוצל.</string>
-    <string name="form_transfer_from_account_transfer_to_account_help_text">הקצו את החשבונות שאליהם מועבר אובייקט זה מ… או אל.</string>
+    <string name="form_transfer_from_account_transfer_to_account_help_text">הקצאת החשבונות שמהם או אליהם יועבר העצם הזה.</string>
     <string name="form_exchange_rate_help_text">אפשר לציין את התעריף באחד משני הכיוונים של ההעברה. הכיוון ההפוך והסכום המתאים לחלק התלותי של שער החליפין מחושבים באופן אוטומטי.</string>
     <string name="form_title_help_text">נא למלא כותרת שמבדילה את התבנית באופן ייחודי.</string>
     <string name="form_plan_help_text">יצירת תוכנית לתבנית, מוסיפה אותה ללוח שנה פרטי שמתופעלת על ידי יישומון לוח השנה שלך. ניתן להגדיר את התוכנית כאירוע חד פעמי, או עם חזרה יומית, שבועית, חודשית או שנתית.</string>
-    <string name="form_plan_help_text_advanced">לאחר שתשמרו את התבנית, תוכלו להגדיר סוגים מתקדמים יותר של הישנות שימוש באפליקציית לוח השנה שלך.</string>
+    <string name="form_plan_help_text_advanced">לאחר שמירת התבנית, ניתן להגדיר סוגים מתקדמים יותר של הישנות דרך יישומון לוח השנה שלך.</string>
     <string name="form_plan_help_text_mode">ניתן להגדיר תוכנית אוטומטית או ידנית. כאשר מתרחש מופע של תוכנית אוטומטית, תיווצר העסקה ותתקבל הודעה. כאשר התוכנית ידנית, תישלח גם התראה, שמשאירה לך לבחור האם לבטל, לערוך או להחיל את התבנית כלפיך.</string>
     <string name="menu_save_help_text">שמירת הנתונים וסגירת הטופס.</string>
     <string name="menu_save_and_new_help_text">אם זה מסומן, לאחר שמירת הנתונים, הטופס נשאר פתוח ליצירת עסקה חדשה עם אותם נתונים.</string>
@@ -116,8 +116,8 @@
     <string name="form_AccountEdit_type_help_text_reconciliation">התכונה \'reconciliation\' זמינה עבור כל החשבונות, למעט חשבונות מזומנים: היא מאפשרת להגדיר סטטוס של עסקאות לניקוי, לאחר אישורו, ו-reconciel החשבון כולו עם דוח הבנק שלך באמצעות הפקודה \'יתרת חשבון\'.</string>
     <string name="form_color_help_text">ברשימת הפעולות עבור חשבון, צבעו ישמש כצבע ממשק משתמש ראשי.</string>
     <string name="form_synchronization_help_text_select">נא לבחור מנגנון לסנכרון מול הענן.</string>
-    <string name="form_synchronization_help_text_add">ניתן להוסיף Backends (הגדרות לשרתי האחסון) ממסך ההגדרות.</string>
-    <string name="form_AccountEdit_active_tags_help_text">אתם יכולים לשייך מספר תגים פעילים או יותר לכל חשבון. כשאתם יוצרים עסקה חדשה, היא מתויגת אוטומטית עם אלה, על סמך החשבון שנבחר.</string>
+    <string name="form_synchronization_help_text_add">ניתן להוסיף מנגנונים ממסך ההגדרות.</string>
+    <string name="form_AccountEdit_active_tags_help_text">ניתן לשייך תגית פעילות אחת או יותר לכל חשבון. בעת יצירת עסקה חדשה, היא מתויגת אוטומטית עם אלה, על סמך החשבון שנבחר.</string>
     <string name="menu_exclude_from_totals_help_text">סימון אפשרות זו תחריג את החשבון הזה מהצבירה לפי מטבע.</string>
     <string name="help_MethodEdit_title">טופס שיטות תשלום</string>
     <string name="form_MethodEdit_label_help_text">התווית מקלה בזיהוי השיטה כשממפים אליה עסקה.</string>
@@ -188,7 +188,7 @@
     <string name="cab_ManageCategories_select_help_text">שיוך הקטגוריה שנבחרה לעסקה וחזרה לטופס העסקה.</string>
     <string name="menu_parent_category_selection_help_text">עם אפשרות זו אפשר לכוון את הנקישה על קטגוריה שיש לה קטגוריות צאצאיות: אם האפשרות מסומנת, נקישה קצרה תבחר קטגוריה, אם לא מסומנת, נקישה קצרה תרחיב/תצמצם את הקטגוריה. במקרה השני, הבחירה זמינה מתפריט ההקשר.</string>
     <string name="form_split_parts_heading_help_text_1">יש להשתמש בסמל + כדי למלא כמה חלקים מפוצלים שצריך.</string>
-    <string name="form_split_parts_heading_help_text_2">שדה הכמות יעודכן אוטומטית עם סכום החלקים, למעט אם מילאתם את הסכום ידנית, במקרה כזה ההפרש בין הסכום של החלקים והסכום הכללי (שאינו מפוצל) יופיע.</string>
+    <string name="form_split_parts_heading_help_text_2">שדה הכמות יעודכן אוטומטית עם סכום החלקים, למעט אם מילאת את הסכום ידנית, במקרה כזה ההפרש בין הסכום של החלקים והסכום הכללי (שאינו מפוצל) יופיע.</string>
     <string name="help_WebUI_info_1">„לקרוא” לכתובת שמופיעה בכתובת מהדפדפן במחשב השולחני שלך.</string>
     <string name="help_WebUI_info_2">כרגע, מנשק המשתמש המקוון לא תומך בהעברות או בעסקאות מפוצלות.</string>
     <string name="help_WebUI_info_3">ניתן להגדיר סיסמה כדי למנוע גישה בלתי מורשית. בחלונית שתופיע על ידי הדפדפן, רק הסיסמה קובעת, אין להתייחס לשם המשתמש.</string>
