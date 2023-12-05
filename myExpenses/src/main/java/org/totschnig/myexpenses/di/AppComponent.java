@@ -46,6 +46,7 @@ import org.totschnig.myexpenses.fragment.StaleImagesList;
 import org.totschnig.myexpenses.fragment.SyncBackendList;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.fragment.preferences.BasePreferenceFragment;
+import org.totschnig.myexpenses.fragment.preferences.PreferencesContribFragment;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.PrefHandler;
@@ -306,5 +307,7 @@ public interface AppComponent {
   void inject(PlanExecutor planExecutor);
 
   void inject(CsvImportActivity csvImportActivity);
+
+  void inject(PreferencesContribFragment preferencesContribFragment);
 
 }

@@ -73,7 +73,8 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        headerPreference?.isVisible = !preferenceActivity.twoPanePreference.slidingPaneLayout.isSlideable
+        headerPreference?.isVisible =
+            !preferenceActivity.twoPanePreference.slidingPaneLayout.isSlideable
     }
 
     val headerPreference: HeaderPreference?
@@ -127,9 +128,13 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
         val fragment = when {
             preference is TimePreference -> TimePreferenceDialogFragmentCompat.newInstance(key)
             preference is FontSizeDialogPreference -> FontSizeDialogFragmentCompat.newInstance(key)
-            preference is SimplePasswordPreference -> SimplePasswordDialogFragmentCompat.newInstance(key)
+            preference is SimplePasswordPreference -> SimplePasswordDialogFragmentCompat.newInstance(
+                key
+            )
+
             matches(preference, PrefKey.MANAGE_APP_DIR_FILES) ->
                 MultiSelectListPreferenceDialogFragment2.newInstance(key)
+
             matches(preference, PrefKey.PROTECTION_LEGACY) -> {
                 if (prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)) {
                     showOnlyOneProtectionWarning(false)
@@ -138,6 +143,7 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
                     LegacyPasswordPreferenceDialogFragmentCompat.newInstance(key)
                 }
             }
+
             matches(preference, PrefKey.PLANNER_CALENDAR_ID) -> {
                 if (PermissionGroup.CALENDAR.hasPermission(requireContext())) {
                     CalendarListPreferenceDialogFragmentCompat.newInstance(key)
@@ -146,7 +152,12 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
                     return
                 }
             }
-            matches(preference, PrefKey.SECURITY_QUESTION) -> SecurityQuestionDialogFragmentCompat.newInstance(key)
+
+            matches(
+                preference,
+                PrefKey.SECURITY_QUESTION
+            ) -> SecurityQuestionDialogFragmentCompat.newInstance(key)
+
             else -> null
         }
 
@@ -192,7 +203,7 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         trackPreferenceClick(preference)
-        if(matches(preference, PrefKey.HELP)) {
+        if (matches(preference, PrefKey.HELP)) {
             preference.summary?.takeIf { it.isNotEmpty() }?.also {
                 preferenceActivity.startActionView(it.toString())
             } ?: run {

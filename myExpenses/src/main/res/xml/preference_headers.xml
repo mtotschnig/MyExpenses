@@ -72,7 +72,7 @@
 
     <Preference
         android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesContribFragment"
-        android:key="contrib"
+        android:key="@string/pref_contrib_purchase_key"
         android:title="@string/menu_contrib"
         my:allowDividerAbove="true" />
 

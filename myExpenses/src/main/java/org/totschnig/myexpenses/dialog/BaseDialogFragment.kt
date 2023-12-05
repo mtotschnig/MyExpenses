@@ -71,7 +71,7 @@ abstract class BaseDialogFragment : DialogFragment() {
         }
     }
 
-    protected fun showSnackBar(resId: Int) {
+    protected fun showSnackBar(resId: Int, duration: Int = Snackbar.LENGTH_LONG) {
         showSnackBar(getString(resId))
     }
 

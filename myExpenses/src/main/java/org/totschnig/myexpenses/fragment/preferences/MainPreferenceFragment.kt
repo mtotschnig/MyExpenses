@@ -9,6 +9,7 @@ import androidx.preference.*
 import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.ContribInfoDialogActivity
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
@@ -159,7 +160,12 @@ class MainPreferenceFragment : BasePreferenceFragment(),
         }
 
     override fun onPreferenceTreeClick(preference: Preference)= when {
+        matches(preference, PrefKey.CONTRIB_PURCHASE) && !licenceHandler.isContribEnabled -> {
+            preferenceActivity.dispatchCommand(R.id.CONTRIB_INFO_COMMAND, null)
+            true
+        }
         super.onPreferenceTreeClick(preference) -> true
+
         handleContrib(PrefKey.BANKING_FINTS, ContribFeature.BANKING, preference) -> true
         else -> false
     }

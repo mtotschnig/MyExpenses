@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.fragment.TwoPanePreference
 import org.totschnig.myexpenses.fragment.TwoPanePreference.Companion.KEY_INITIAL_SCREEN
 import org.totschnig.myexpenses.fragment.preferences.BasePreferenceFragment
+import org.totschnig.myexpenses.fragment.preferences.OldPreferencesContribFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferenceDataFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferencesContribFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferencesBackupRestoreFragment.Companion.KEY_CHECKED_FILES
@@ -73,8 +74,6 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 licenceValidationViewModel.result.collect { result ->
                     result?.let {
-                        twoPanePreference.getDetailFragment<PreferencesContribFragment>()
-                            ?.configureContribPrefs()
                         showDismissibleSnackBar(it, dismissCallback)
                     }
                 }
@@ -354,6 +353,9 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             if (resultCode == RESULT_OK) {
                 twoPanePreference.startPerformProtection()
             }
+        }
+        if (requestCode == CONTRIB_REQUEST && resultCode == RESULT_FIRST_USER) {
+            validateLicence()
         }
     }
 

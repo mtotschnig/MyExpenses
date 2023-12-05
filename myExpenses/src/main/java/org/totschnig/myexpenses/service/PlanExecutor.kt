@@ -201,7 +201,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                         cursor.getLong(cursor.getColumnIndexOrThrow(CalendarContract.Instances.EVENT_ID))
                     val date =
                         cursor.getLong(cursor.getColumnIndexOrThrow(CalendarContract.Instances.BEGIN))
-                    val localDate = epochMillis2LocalDate(date, ZoneId.systemDefault())
+                    val localDate = epochMillis2LocalDate(date)
                     val diff = ChronoUnit.DAYS.between(today, localDate)
                     val instanceId = CalendarProviderProxy.calculateId(date)
                     //2) check if they are part of a plan linked to a template

@@ -1036,7 +1036,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    open fun showContribDialog(feature: ContribFeature?, tag: Serializable?) {
+    open fun showContribDialog(feature: ContribFeature? = null, tag: Serializable? = null) {
         startActivityForResult(getIntentFor(this, feature).apply {
             putExtra(ContribInfoDialogActivity.KEY_TAG, tag)
         }, CONTRIB_REQUEST)

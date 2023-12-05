@@ -14,6 +14,7 @@
 */
 package org.totschnig.myexpenses.dialog
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
@@ -30,15 +31,22 @@ import androidx.core.content.res.ResourcesCompat.getColor
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
+import eltos.simpledialogfragment.SimpleDialog
+import eltos.simpledialogfragment.form.Input
+import eltos.simpledialogfragment.form.SimpleFormDialog
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.ContribDialogBinding
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.TextUtils.getContribFeatureLabelsAsList
 import org.totschnig.myexpenses.util.Utils
@@ -51,10 +59,11 @@ import org.totschnig.myexpenses.util.licence.LicenceStatus
 import org.totschnig.myexpenses.util.licence.Package
 import org.totschnig.myexpenses.util.licence.ProfessionalPackage
 import org.totschnig.myexpenses.util.tracking.Tracker
+import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel
 import java.io.Serializable
 import javax.inject.Inject
 
-class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener {
+class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener, SimpleDialog.OnDialogResultListener {
     private var _binding: ContribDialogBinding? = null
     private val binding get() = _binding!!
     private var feature: ContribFeature? = null
@@ -86,7 +95,8 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener {
         requireArguments().getString(ContribInfoDialogActivity.KEY_FEATURE)?.let {
             feature = ContribFeature.valueOf(it)
         }
-        (requireActivity().application as MyApplication).appComponent.inject(this)
+        injector.inject(this)
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -256,10 +266,14 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener {
             } ?: R.string.upgrade_now, null
             )
 
+        if (licenceHandler.needsKeyEntry) {
+            builder.setNeutralButton(R.string.pref_enter_licence_title, null)
+        }
+
         val dialog = builder.create()
         dialog.setOnShowListener {
-            val button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            button.setOnClickListener { onButtonClicked() }
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener { onPositiveButtonClicked() }
+            dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener { onNeutralButtonClicked() }
             if (savedInstanceState != null) {
                 updateButtons(
                     selectedPackage.let {
@@ -288,7 +302,7 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener {
     private fun getSinglePackage(): AddOnPackage =
         AddOnPackage.values.find { it.feature == feature } ?: throw IllegalStateException()
 
-    private fun onButtonClicked() {
+    private fun onPositiveButtonClicked() {
         val ctx = activity as ContribInfoDialogActivity? ?: return
         selectedPackage?.let {
             ctx.contribBuyDo(it)
@@ -301,6 +315,45 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener {
                 showSnackBar(R.string.select_package)
             }
         }
+    }
+
+    private fun onNeutralButtonClicked() {
+        val licenceKey = prefHandler.getString(PrefKey.NEW_LICENCE, "")
+        val licenceEmail = prefHandler.getString(PrefKey.LICENCE_EMAIL, "")
+        SimpleFormDialog.build()
+            .title(R.string.pref_enter_licence_title)
+            .fields(
+                Input.email(KEY_EMAIL)
+                    .required().text(licenceEmail),
+                Input.plain(KEY_KEY).min(4)
+                    .required().hint(R.string.licence_key).text(licenceKey)
+            )
+            .pos(R.string.button_validate)
+            .neut()
+            .show(
+                this,
+                DIALOG_VALIDATE_LICENCE
+            )
+    }
+
+    override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
+        if (dialogTag == DIALOG_VALIDATE_LICENCE) {
+            if (which == SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE) {
+                prefHandler.putString(
+                    PrefKey.NEW_LICENCE,
+                    extras.getString(KEY_KEY)!!.trim()
+                )
+                prefHandler.putString(
+                    PrefKey.LICENCE_EMAIL,
+                    extras.getString(KEY_EMAIL)!!.trim()
+                )
+                (activity as? ContribInfoDialogActivity)?.let {
+                    it.setResult(Activity.RESULT_FIRST_USER)
+                    it.finish()
+                }
+            }
+        }
+        return true
     }
 
     override fun onCancel(dialog: DialogInterface) {
@@ -386,6 +439,9 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener {
     }
 
     companion object {
+        const val DIALOG_VALIDATE_LICENCE = "validateLicence"
+        const val KEY_EMAIL = "email"
+        const val KEY_KEY = "key"
         @JvmStatic
         fun newInstance(feature: String?, tag: Serializable?) = ContribDialogFragment().apply {
             arguments = Bundle().apply {

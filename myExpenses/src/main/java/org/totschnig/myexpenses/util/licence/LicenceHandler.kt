@@ -5,14 +5,32 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import androidx.annotation.VisibleForTesting
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.key
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import com.google.android.vending.licensing.PreferenceObfuscator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.apache.commons.lang3.time.DateUtils
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.IapActivity
+import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.countAccounts
 import org.totschnig.myexpenses.model.ContribFeature
@@ -27,10 +45,13 @@ import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrNull
+import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import timber.log.Timber
 import java.time.Clock
 import java.time.LocalTime
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.Date
 import java.util.Locale
 import java.util.UUID
@@ -47,17 +68,26 @@ open class LicenceHandler(
 ) {
     private var hasOurLicence = false
     private val isSandbox = BuildConfig.DEBUG
+
+    class LicenceUpdateEvent
+
+    private val licenceStatusFlow by lazy {
+        MutableStateFlow(LicenceUpdateEvent())
+    }
+
+    private suspend fun licenceStatusUpdated() {
+        licenceStatusFlow.emit(LicenceUpdateEvent())
+    }
+
     var licenceStatus: LicenceStatus? = null
         internal set(value) {
             crashHandler.putCustomData("Licence", value?.name ?: "null")
             field = value
         }
-    val addOnFeatures: MutableSet<ContribFeature> = mutableSetOf()
+    private val addOnFeatures: MutableSet<ContribFeature> = mutableSetOf()
 
     val currencyUnit: CurrencyUnit = CurrencyUnit("EUR", "€", 2)
-    fun hasValidKey(): Boolean {
-        return hasOurLicence
-    }
+    fun hasValidKey() = hasOurLicence
 
     //called from PlayStoreLicenceHandler
     fun maybeUpgradeAddonFeatures(features: List<ContribFeature>, newPurchase: Boolean) {
@@ -117,7 +147,8 @@ open class LicenceHandler(
             try {
                 Template.updateNewPlanEnabled()
                 updateNewAccountEnabled()
-            } catch (_: Exception) {}
+            } catch (_: Exception) {
+            }
             GenericAccountService.updateAccountsIsSyncable(
                 context,
                 this@LicenceHandler,
@@ -129,8 +160,7 @@ open class LicenceHandler(
         }
     }
 
-    open fun voidLicenceStatus(keepFeatures: Boolean) {
-        this.licenceStatus = null
+    open suspend fun voidLicenceStatus(keepFeatures: Boolean) {
         licenseStatusPrefs.remove(LICENSE_STATUS_KEY)
         licenseStatusPrefs.remove(LICENSE_VALID_SINCE_KEY)
         licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY)
@@ -142,13 +172,13 @@ open class LicenceHandler(
             hasOurLicence = false
         }
         licenseStatusPrefs.commit()
+        licenceStatusUpdated()
+        this.licenceStatus = null
     }
 
-    open fun updateLicenceStatus(licence: Licence) {
+    open suspend fun updateLicenceStatus(licence: Licence) {
         hasOurLicence = true
-        this.licenceStatus = licence.type
         licenseStatusPrefs.putString(LICENSE_STATUS_KEY, licence.type?.name ?: "null")
-        addFeatures(licence.featureList)
         if (licence.validSince != null) {
             val validSince =
                 licence.validSince.atTime(LocalTime.MAX).atZone(ZoneId.of("Etc/GMT-14"))
@@ -168,6 +198,9 @@ open class LicenceHandler(
             licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY)
         }
         licenseStatusPrefs.commit()
+        addFeatures(licence.featureList)
+        this.licenceStatus = licence.type
+        licenceStatusUpdated()
         update()
     }
 
@@ -215,7 +248,8 @@ open class LicenceHandler(
         return validUntilMillis.takeIf { it != 0L }?.let {
             context.getString(
                 R.string.valid_until,
-                Utils.getDateFormatSafe(this.context).format(Date(it))
+                DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                    .format(epochMillis2LocalDate(it))
             )
         }
     }
@@ -277,11 +311,13 @@ open class LicenceHandler(
         get() = false
 
     open val needsKeyEntry: Boolean
-        get() = true
+        get() = !hasValidKey()
 
     fun getPaypalUri(aPackage: Package): String {
         val host = if (isSandbox) "www.sandbox.paypal.com" else "www.paypal.com"
-        var uri = "https://$host/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=${aPackage.payPalButtonId(isSandbox)}&on0=${aPackage.optionName}&os0=${aPackage::class.java.simpleName}&lc=$paypalLocale&currency_code=EUR"
+        var uri = "https://$host/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=${
+            aPackage.payPalButtonId(isSandbox)
+        }&on0=${aPackage.optionName}&os0=${aPackage::class.java.simpleName}&lc=$paypalLocale&currency_code=EUR"
         prefHandler.getString(PrefKey.LICENCE_EMAIL, null)?.let {
             uri += "&custom=" + Uri.encode(it)
         }
@@ -321,7 +357,7 @@ open class LicenceHandler(
             }
         }
 
-    fun handleExpiration() {
+    suspend fun handleExpiration() {
         val licenceDuration = validUntilMillis - validSinceMillis
         if (TimeUnit.MILLISECONDS.toDays(licenceDuration) > 240) { // roughly eight months
             licenceStatus = LicenceStatus.EXTENDED_FALLBACK
@@ -344,11 +380,6 @@ open class LicenceHandler(
                 }
                 result += "(+ $it)"
             }
-        if (licenceStatus == LicenceStatus.PROFESSIONAL) {
-            getProLicenceStatus(context)?.let {
-                result += String.format(" (%s)", it)
-            }
-        }
         return result
     }
 
@@ -423,6 +454,65 @@ open class LicenceHandler(
 
     fun getEndOfTrial(feature: ContribFeature) =
         getStartOfTrial(feature) + TimeUnit.DAYS.toMillis(TRIAL_DURATION_DAYS)
+
+    @Composable
+    fun ManageLicence(
+        contribBuyDo: (ProfessionalPackage?) -> Unit,
+        validateLicence: () -> Unit,
+        removeLicence: () -> Unit
+    ) {
+        AppTheme {
+            key(licenceStatusFlow.collectAsState().value) {
+                if (licenceStatus == null) {
+                    Button(modifier = Modifier.wrapContentSize(), onClick = { contribBuyDo(null) }) {
+                        Text(stringResource(id = R.string.pref_contrib_purchase_title))
+                    }
+                } else {
+                    val isPro = licenceStatus == LicenceStatus.PROFESSIONAL
+                    Column(
+                        modifier = Modifier.padding(
+                            dimensionResource(id = R.dimen.general_padding)
+                        ),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.thank_you),
+                            style = MaterialTheme.typography.titleSmall
+                        )
+                        Text(
+                            prefHandler.getString(
+                                PrefKey.LICENCE_EMAIL,
+                                ""
+                            ) + ": " + prefHandler.getString(PrefKey.NEW_LICENCE, "")
+                        )
+                        Text(prettyPrintStatus(context)!!)
+                        if (isPro) {
+                            getProLicenceStatus(context)?.let { Text(it) }
+                            proPackagesForExtendOrSwitch!!.forEach {
+                                Button(onClick = { contribBuyDo(it) }) {
+                                    Text(getExtendOrSwitchMessage(it))
+                                }
+                            }
+                        } else {
+                            Button(onClick = { contribBuyDo(null) }) {
+                                Text(
+                                    stringResource(
+                                        id = R.string.pref_contrib_purchase_title_upgrade
+                                    )
+                                )
+                            }
+                        }
+                        Button(onClick = validateLicence) {
+                            Text(stringResource(id = R.string.button_validate))
+                        }
+                        Button(onClick = removeLicence) {
+                            Text(stringResource(id = R.string.menu_remove))
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     companion object {
         protected const val LICENSE_STATUS_KEY = "licence_status"

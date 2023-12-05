@@ -29,7 +29,7 @@ data class PlanInstance(val templateId: Long, val transactionId: Long?, val titl
                     }, sealed)
 
     val localDate: LocalDate
-        get() = epochMillis2LocalDate(date, ZoneId.systemDefault())
+        get() = epochMillis2LocalDate(date)
 
     val instanceId: Long
         get() = CalendarProviderProxy.calculateId(date)

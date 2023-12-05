@@ -2,9 +2,11 @@ package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
 import android.text.format.DateUtils
+import androidx.lifecycle.lifecycleScope
 import com.vmadalin.easypermissions.EasyPermissions.somePermissionPermanentlyDenied
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.dialog.ExtendProLicenceDialogFragment.Companion.newInstance
+import org.totschnig.myexpenses.dialog.ExtendProLicenceDialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.PlannerUtils
@@ -50,7 +52,9 @@ abstract class LaunchActivity : IapActivity() {
                                     getString(R.string.licence_expired_yesterday)
                                 } else {
                                     if (daysToGo < -7) { //grace period is over,
-                                        licenceHandler.handleExpiration()
+                                        lifecycleScope.launch {
+                                            licenceHandler.handleExpiration()
+                                        }
                                     }
                                     getString(R.string.licence_has_expired_n_days, -daysToGo)
                                 }
@@ -58,7 +62,8 @@ abstract class LaunchActivity : IapActivity() {
                                     PrefKey.PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN,
                                     now
                                 )
-                                newInstance(message).show(
+                                ExtendProLicenceDialogFragment.newInstance(message)
+                                    .show(
                                     supportFragmentManager, "UP_SELL"
                                 )
                             }
