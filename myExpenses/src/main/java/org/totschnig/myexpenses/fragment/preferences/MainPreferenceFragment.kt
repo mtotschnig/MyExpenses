@@ -9,7 +9,6 @@ import androidx.preference.*
 import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.ContribInfoDialogActivity
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
@@ -87,7 +86,8 @@ class MainPreferenceFragment : BasePreferenceFragment(),
         requirePreference<Preference>(PrefKey.CATEGORY_IO).title = ioTitle
         requirePreference<Preference>(PrefKey.CATEGORY_BACKUP_RESTORE).title = backupRestoreTitle
         requirePreference<Preference>(PrefKey.CATEGORY_SECURITY).title = protectionTitle
-        requirePreference<Preference>(PrefKey.BANKING_FINTS).summary = "FinTS (${Locale.GERMANY.displayCountry})"
+        requirePreference<Preference>(PrefKey.BANKING_FINTS).summary =
+            "FinTS (${Locale.GERMANY.displayCountry})"
 
         viewModel.appData.observe(this) {
             with(requirePreference<MultiSelectListPreference>(PrefKey.MANAGE_APP_DIR_FILES)) {
@@ -95,7 +95,14 @@ class MainPreferenceFragment : BasePreferenceFragment(),
                     isVisible = false
                 } else {
                     isVisible = true
-                    entries = it.map { "${it.first} (${Formatter.formatFileSize(requireContext(), it.second)})" }.toTypedArray()
+                    entries = it.map {
+                        "${it.first} (${
+                            Formatter.formatFileSize(
+                                requireContext(),
+                                it.second
+                            )
+                        })"
+                    }.toTypedArray()
                     entryValues = it.map { it.first }.toTypedArray()
                 }
             }
@@ -108,10 +115,17 @@ class MainPreferenceFragment : BasePreferenceFragment(),
         if (values.isNotEmpty() && preference == prefHandler.getKey(PrefKey.MANAGE_APP_DIR_FILES)) {
             if (which == DialogInterface.BUTTON_NEGATIVE) {
                 ConfirmationDialogFragment.newInstance(Bundle().apply {
-                    putStringArray(PreferencesBackupRestoreFragment.KEY_CHECKED_FILES, values.toTypedArray())
+                    putStringArray(
+                        PreferencesBackupRestoreFragment.KEY_CHECKED_FILES,
+                        values.toTypedArray()
+                    )
                     putString(
                         ConfirmationDialogFragment.KEY_MESSAGE,
-                        resources.getQuantityString(R.plurals.delete_files_confirmation_message, values.size, values.size)
+                        resources.getQuantityString(
+                            R.plurals.delete_files_confirmation_message,
+                            values.size,
+                            values.size
+                        )
                     )
                     putInt(
                         ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
@@ -159,11 +173,12 @@ class MainPreferenceFragment : BasePreferenceFragment(),
             adapter = it
         }
 
-    override fun onPreferenceTreeClick(preference: Preference)= when {
+    override fun onPreferenceTreeClick(preference: Preference) = when {
         matches(preference, PrefKey.CONTRIB_PURCHASE) && !licenceHandler.isContribEnabled -> {
             preferenceActivity.dispatchCommand(R.id.CONTRIB_INFO_COMMAND, null)
             true
         }
+
         super.onPreferenceTreeClick(preference) -> true
 
         handleContrib(PrefKey.BANKING_FINTS, ContribFeature.BANKING, preference) -> true
