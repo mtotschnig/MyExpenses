@@ -6,11 +6,9 @@ import android.net.Uri
 import android.os.Build
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,12 +16,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.google.android.vending.licensing.PreferenceObfuscator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.apache.commons.lang3.time.DateUtils
@@ -84,7 +82,7 @@ open class LicenceHandler(
             crashHandler.putCustomData("Licence", value?.name ?: "null")
             field = value
         }
-    private val addOnFeatures: MutableSet<ContribFeature> = mutableSetOf()
+    protected val addOnFeatures: MutableSet<ContribFeature> = mutableSetOf()
 
     val currencyUnit: CurrencyUnit = CurrencyUnit("EUR", "€", 2)
     fun hasValidKey() = hasOurLicence
@@ -459,12 +457,15 @@ open class LicenceHandler(
     fun ManageLicence(
         contribBuyDo: (ProfessionalPackage?) -> Unit,
         validateLicence: () -> Unit,
-        removeLicence: () -> Unit
+        removeLicence: () -> Unit,
+        manageSubscription: (Uri) -> Unit
     ) {
         AppTheme {
             key(licenceStatusFlow.collectAsState().value) {
                 if (licenceStatus == null) {
-                    Button(modifier = Modifier.wrapContentSize(), onClick = { contribBuyDo(null) }) {
+                    Button(
+                        modifier = Modifier.wrapContentSize(),
+                        onClick = { contribBuyDo(null) }) {
                         Text(stringResource(id = R.string.pref_contrib_purchase_title))
                     }
                 } else {
@@ -502,17 +503,30 @@ open class LicenceHandler(
                                 )
                             }
                         }
-                        Button(onClick = validateLicence) {
-                            Text(stringResource(id = R.string.button_validate))
+                        if (needsKeyEntry) {
+                            Button(onClick = validateLicence) {
+                                Text(stringResource(id = R.string.button_validate))
+                            }
+                            Button(onClick = removeLicence) {
+                                Text(stringResource(id = R.string.menu_remove))
+                            }
                         }
-                        Button(onClick = removeLicence) {
-                            Text(stringResource(id = R.string.menu_remove))
+                        subscriptionManagementLink?.let {
+                            Button(onClick = {
+                                manageSubscription(it)
+                            }) {
+                                Text(stringResource(id = R.string.pref_category_title_manage))
+                            }
                         }
                     }
                 }
             }
         }
     }
+
+    open val subscriptionManagementLink: Uri?
+        get() = null
+
 
     companion object {
         protected const val LICENSE_STATUS_KEY = "licence_status"
