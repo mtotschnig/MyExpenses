@@ -73,7 +73,7 @@ open class LicenceHandler(
         MutableStateFlow(LicenceUpdateEvent())
     }
 
-    private suspend fun licenceStatusUpdated() {
+    protected suspend fun licenceStatusUpdated() {
         licenceStatusFlow.emit(LicenceUpdateEvent())
     }
 
@@ -102,6 +102,7 @@ open class LicenceHandler(
 
     //called from PlayStoreLicenceHandler
     fun maybeUpgradeLicence(licenceStatus: LicenceStatus?) {
+        //we downgrade only if we do not have our own licence
         if (!hasOurLicence || this.licenceStatus?.greaterOrEqual(licenceStatus) != true) {
             this.licenceStatus = licenceStatus
         }
