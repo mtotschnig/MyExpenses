@@ -6,8 +6,7 @@ import android.view.ViewGroup
 import org.totschnig.myexpenses.activity.BaseActivity
 
 interface AdHandlerFactory {
-    val isRequestLocationInEeaOrUnknown: Boolean
-        get() = false
+    suspend fun isPrivacyOptionsRequired() = false
     val isAdDisabled: Boolean
         get() = true
 

@@ -5,8 +5,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.annotation.Keep
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.Utils
@@ -51,11 +53,16 @@ class PreferencesProtectionFragment : BasePreferenceFragment() {
                 removePreference(requirePreference(PrefKey.CRASHREPORT_ENABLED))
                 removePreference(requirePreference(PrefKey.CRASHREPORT_USEREMAIL))
             }
-            if (adHandlerFactory.isAdDisabled || !adHandlerFactory.isRequestLocationInEeaOrUnknown) {
-                removePreference(requirePreference(PrefKey.PERSONALIZED_AD_CONSENT))
-            }
-            if (preferenceCount == 0) {
-                preferenceScreen.removePreference(this)
+            lifecycleScope.launch {
+                val adConsentPref = requirePreference<Preference>(PrefKey.PERSONALIZED_AD_CONSENT)
+                if (adHandlerFactory.isPrivacyOptionsRequired()) {
+                    adConsentPref.isVisible = true
+                } else {
+                    removePreference(adConsentPref)
+                    if (preferenceCount == 0) {
+                        preferenceScreen.removePreference(this@with)
+                    }
+                }
             }
         }
 
@@ -89,7 +96,7 @@ class PreferencesProtectionFragment : BasePreferenceFragment() {
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
-        when(key) {
+        when (key) {
             getKey(PrefKey.PROTECTION_LEGACY), getKey(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN) ->
                 setProtectionDependentsState()
         }

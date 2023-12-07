@@ -7,10 +7,8 @@ import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.util.EU_COUNTRIES
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.licence.LicenceHandler
-import java.util.Arrays
 
 open class
 DefaultAdHandlerFactory(
@@ -25,8 +23,6 @@ DefaultAdHandlerFactory(
                         isInInitialGracePeriod || BuildConfig.DEBUG)
     private val isInInitialGracePeriod: Boolean
         get() = Utils.getDaysSinceInstall(context) < INITIAL_GRACE_DAYS
-    override val isRequestLocationInEeaOrUnknown: Boolean
-        get() = Arrays.binarySearch(EU_COUNTRIES, userCountry) >= 0
 
     override fun create(adContainer: ViewGroup, baseActivity: BaseActivity): AdHandler {
         return if (isAdDisabled) NoOpAdHandler else CustomAdHandler(
