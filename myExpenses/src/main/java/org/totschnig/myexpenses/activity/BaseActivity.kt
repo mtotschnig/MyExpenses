@@ -1318,6 +1318,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
+    open fun checkGdprConsent(forceShow: Boolean) {
+        adHandlerFactory.gdprConsent(this, forceShow)
+    }
+
 
     companion object {
         const val ASYNC_TAG = "ASYNC_TASK"

@@ -272,10 +272,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     }
   }
 
-  public void checkGdprConsent(boolean forceShow) {
-    adHandlerFactory.gdprConsent(this, forceShow);
-  }
-
   @Override
   public void onCurrencySelectionChanged(CurrencyUnit currencyUnit) {
   }

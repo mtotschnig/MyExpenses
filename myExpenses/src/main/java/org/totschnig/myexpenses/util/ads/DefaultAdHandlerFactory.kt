@@ -2,24 +2,15 @@ package org.totschnig.myexpenses.util.ads
 
 import android.content.Context
 import android.view.ViewGroup
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import com.squareup.phrase.Phrase
-import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.BuildConfig
-import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
-import org.totschnig.myexpenses.dialog.GdprDialogFragment
-import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.EU_COUNTRIES
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.licence.LicenceHandler
-import java.util.*
+import java.util.Arrays
 
 open class
 DefaultAdHandlerFactory(
@@ -44,18 +35,6 @@ DefaultAdHandlerFactory(
             baseActivity,
             userCountry
         )
-    }
-
-    override fun gdprConsent(context: ProtectedFragmentActivity, forceShow: Boolean) {
-        if (forceShow || (!isAdDisabled && isRequestLocationInEeaOrUnknown &&
-                    !prefHandler.isSet(PrefKey.PERSONALIZED_AD_CONSENT))
-        ) {
-            context.lifecycleScope.launch {
-                context.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    GdprDialogFragment().show(context.supportFragmentManager, "GDPR")
-                }
-            }
-        }
     }
 
     override fun clearConsent() {

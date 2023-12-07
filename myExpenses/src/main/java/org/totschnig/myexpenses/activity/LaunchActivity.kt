@@ -95,6 +95,7 @@ abstract class LaunchActivity : IapActivity() {
 
     override fun onBillingSetupFailed(reason: String) {
         log().w("Billing setup failed (%s)", reason)
+        checkGdprConsent(false)
     }
 
     override fun onLicenceStatusSet(newStatus: String?) {

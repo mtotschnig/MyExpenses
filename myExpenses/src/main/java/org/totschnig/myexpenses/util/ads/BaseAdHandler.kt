@@ -21,17 +21,9 @@ abstract class BaseAdHandler protected constructor(
     val prefHandler: PrefHandler
         get() = activity.prefHandler
     var parent: BaseAdHandler? = null
-    private var initialized = false
-    protected fun init() {
-        if (!initialized) {
-            initInternal()
-            initialized = true
-        }
-    }
 
     override fun startBanner() {
         try {
-            init()
             if (shouldHideAd) {
                 hide()
             } else {
@@ -41,8 +33,6 @@ abstract class BaseAdHandler protected constructor(
             Timber.e(e)
         }
     }
-
-    protected open fun initInternal() {}
 
     protected abstract fun startBannerInternal()
 
@@ -94,7 +84,6 @@ abstract class BaseAdHandler protected constructor(
     override fun onEditTransactionResult(): Boolean {
         try {
             if (!shouldHideAd) {
-                init()
                 return maybeShowInterstitial()
             }
         } catch (e: Exception) {
