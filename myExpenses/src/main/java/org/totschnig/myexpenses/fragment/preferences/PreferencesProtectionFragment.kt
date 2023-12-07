@@ -10,6 +10,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
@@ -47,21 +48,16 @@ class PreferencesProtectionFragment : BasePreferenceFragment() {
                 R.string.crash_reports_user_info
             )
 
-        with(requirePreference<PreferenceCategory>(PrefKey.CATEGORY_PRIVACY)) {
-            if (!DistributionHelper.distribution.supportsTrackingAndCrashReporting) {
-                removePreference(requirePreference(PrefKey.TRACKING))
-                removePreference(requirePreference(PrefKey.CRASHREPORT_ENABLED))
-                removePreference(requirePreference(PrefKey.CRASHREPORT_USEREMAIL))
-            }
-            lifecycleScope.launch {
-                val adConsentPref = requirePreference<Preference>(PrefKey.PERSONALIZED_AD_CONSENT)
-                if (adHandlerFactory.isPrivacyOptionsRequired()) {
-                    adConsentPref.isVisible = true
-                } else {
-                    removePreference(adConsentPref)
-                    if (preferenceCount == 0) {
-                        preferenceScreen.removePreference(this@with)
-                    }
+        requirePreference<PreferenceCategory>(PrefKey.CATEGORY_PRIVACY).isVisible =
+            DistributionHelper.distribution.supportsTrackingAndCrashReporting
+
+        with(requirePreference<PreferenceCategory>(PrefKey.CATEGORY_ADS)) {
+            if (adHandlerFactory.isAdDisabled)  {
+                isVisible = false
+            } else {
+                lifecycleScope.launch {
+                    requirePreference<Preference>(PrefKey.PERSONALIZED_AD_CONSENT).isVisible =
+                        adHandlerFactory.isPrivacyOptionsRequired(requireActivity())
                 }
             }
         }
@@ -89,6 +85,10 @@ class PreferencesProtectionFragment : BasePreferenceFragment() {
         super.onPreferenceTreeClick(preference) -> true
         matches(preference, PrefKey.PERSONALIZED_AD_CONSENT) -> {
             preferenceActivity.checkGdprConsent(true)
+            true
+        }
+        matches(preference, PrefKey.NO_ADS) -> {
+            preferenceActivity.contribFeatureRequested(ContribFeature.AD_FREE)
             true
         }
 

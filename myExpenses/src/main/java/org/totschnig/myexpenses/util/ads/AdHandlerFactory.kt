@@ -1,12 +1,11 @@
 package org.totschnig.myexpenses.util.ads
 
 import android.app.Activity
-import android.content.Context
 import android.view.ViewGroup
 import org.totschnig.myexpenses.activity.BaseActivity
 
 interface AdHandlerFactory {
-    suspend fun isPrivacyOptionsRequired() = false
+    suspend fun isPrivacyOptionsRequired(activity: Activity) = false
     val isAdDisabled: Boolean
         get() = true
 

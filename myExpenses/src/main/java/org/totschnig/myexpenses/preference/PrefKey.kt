@@ -45,6 +45,8 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     UI_LANGUAGE(R.string.pref_ui_language_key),
     APP_DIR(R.string.pref_app_dir_key),
     CATEGORY_PRIVACY(R.string.pref_category_privacy_key),
+    CATEGORY_ADS(R.string.pref_category_privacy_key),
+    NO_ADS(R.string.pref_no_ads_key),
     CATEGORY_IO(R.string.pref_category_io_key),
     CATEGORY_BACKUP_RESTORE(R.string.pref_category_backup_restore_key),
     CATEGORY_SECURITY(R.string.pref_category_security_key),

@@ -87,9 +87,19 @@
             android:summary="@string/pref_acra_user_email_summary"
             android:title="@string/pref_acra_user_email"
             my:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="@string/pref_category_ads_key"
+        android:title="Ads">
+
         <Preference
             my:isPreferenceVisible="false"
             android:key="@string/pref_ad_consent_key"
-            android:title="@string/pref_ad_consent_title" />
+            android:title="Privacy" />
+        <Preference
+            android:key="@string/pref_no_ads_key"
+            android:title="@string/gdpr_consent_button_no" />
+
+
     </PreferenceCategory>
 </PreferenceScreen>
