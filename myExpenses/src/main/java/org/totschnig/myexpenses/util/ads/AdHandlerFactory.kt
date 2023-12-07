@@ -18,6 +18,4 @@ interface AdHandlerFactory {
      * @param forceShow if false, consent form is only shown if consent is unknown
      */
     fun gdprConsent(context: Activity, forceShow: Boolean) {}
-    fun clearConsent() {}
-    fun setConsent(context: Context?, personalized: Boolean) {}
 }

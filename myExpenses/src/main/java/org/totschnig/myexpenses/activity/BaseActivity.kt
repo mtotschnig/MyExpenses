@@ -1019,15 +1019,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
-    fun gdprConsent(personalized: Boolean) {
-        adHandlerFactory.setConsent(this, personalized)
-    }
-
-    fun gdprNoConsent() {
-        adHandlerFactory.clearConsent()
-        contribFeatureRequested(ContribFeature.AD_FREE)
-    }
-
     open fun contribFeatureRequested(feature: ContribFeature, tag: Serializable? = null) {
         if (licenceHandler.hasAccessTo(feature)) {
             (this as ContribIFace).contribFeatureCalled(feature, tag)

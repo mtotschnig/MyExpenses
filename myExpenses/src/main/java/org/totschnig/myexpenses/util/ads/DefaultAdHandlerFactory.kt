@@ -37,14 +37,6 @@ DefaultAdHandlerFactory(
         )
     }
 
-    override fun clearConsent() {
-        prefHandler.remove(PrefKey.PERSONALIZED_AD_CONSENT)
-    }
-
-    override fun setConsent(context: Context?, personalized: Boolean) {
-        prefHandler.putBoolean(PrefKey.PERSONALIZED_AD_CONSENT, personalized)
-    }
-
     companion object {
         private const val INITIAL_GRACE_DAYS = 2
     }
