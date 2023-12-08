@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.fragment.preferences
 import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.Keep
+import androidx.fragment.app.activityViewModels
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
@@ -11,11 +12,16 @@ import eltos.simpledialogfragment.list.CustomListDialog
 import eltos.simpledialogfragment.list.SimpleListDialog
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
+import org.totschnig.myexpenses.dialog.SelectDefaultTransferCategoryDialogFragment
+import org.totschnig.myexpenses.dialog.SelectDefaultTransferCategoryDialogFragment.Companion.SELECT_CATEGORY_REQUEST
 import org.totschnig.myexpenses.feature.Feature
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
+import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import timber.log.Timber
 import java.io.File
 import java.util.Locale
@@ -24,7 +30,21 @@ import java.util.Locale
 class PreferencesAdvancedFragment : BasePreferenceFragment(),
     LocalizedFormatEditTextPreference.OnValidationErrorListener,
     SimpleDialog.OnDialogResultListener {
+
+    private val categoryViewModel: CategoryViewModel by activityViewModels()
+
     override val preferencesResId = R.xml.preferences_advanced
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        injector.inject(categoryViewModel)
+        super.onCreate(savedInstanceState)
+        childFragmentManager.setFragmentResultListener(
+            SELECT_CATEGORY_REQUEST,
+            this
+        ) { _, bundle ->
+            setDefaultTransferCategoryPath(bundle.getString(DatabaseConstants.KEY_PATH)!!)
+        }
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
@@ -60,9 +80,17 @@ class PreferencesAdvancedFragment : BasePreferenceFragment(),
 
         requirePreference<LocalizedFormatEditTextPreference>(PrefKey.CUSTOM_DATE_FORMAT)
             .onValidationErrorListener = this
+
+        categoryViewModel.defaultTransferCategory().observe(this) {
+            setDefaultTransferCategoryPath(it)
+        }
     }
 
-    override fun onPreferenceTreeClick(preference: Preference)= when {
+    private fun setDefaultTransferCategoryPath(path: String) {
+        requirePreference<Preference>(PrefKey.DEFAULT_TRANSFER_CATEGORY).summary = path
+    }
+
+    override fun onPreferenceTreeClick(preference: Preference) = when {
         super.onPreferenceTreeClick(preference) -> true
         matches(preference, PrefKey.DEBUG_REPAIR_987) -> {
             viewModel.prettyPrintCorruptedData(currencyFormatter).observe(this) { message ->
@@ -77,6 +105,7 @@ class PreferencesAdvancedFragment : BasePreferenceFragment(),
             }
             true
         }
+
         matches(preference, PrefKey.DEBUG_LOG_SHARE) -> {
             viewModel.logData().observe(this) {
                 SimpleListDialog.build().choiceMode(CustomListDialog.MULTI_CHOICE)
@@ -88,6 +117,13 @@ class PreferencesAdvancedFragment : BasePreferenceFragment(),
             }
             true
         }
+
+        matches(preference, PrefKey.DEFAULT_TRANSFER_CATEGORY) -> {
+            SelectDefaultTransferCategoryDialogFragment()
+                .show(childFragmentManager, "SELECT_DEFAULT")
+            true
+        }
+
         else -> false
     }
 

@@ -28,6 +28,10 @@
         android:title="@string/pref_attachment_mime_types_title"
         my:useSimpleSummaryProvider="true" />
 
+    <Preference
+        android:key="@string/pref_default_transfer_category_key"
+        android:title="@string/default_transfer_category"/>
+
     <PreferenceCategory
         android:key="@string/pref_planner_advanced_key"
         android:title="@string/planner_notification_channel_name">

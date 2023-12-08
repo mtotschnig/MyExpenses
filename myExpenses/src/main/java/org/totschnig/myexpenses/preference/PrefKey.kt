@@ -178,7 +178,7 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     ATTACHMENT_MIME_TYPES(R.string.pref_attachment_mime_types_key),
     TRANLATION_IMPROVEMENT(R.string.pref_translation_improvement_key),
     UNMAPPED_TRANSACTION_AS_TRANSFER(R.string.pref_unmapped_transaction_as_transfer_key),
-    DEFAULT_TRANSFER_CATEGORY("default_transfer_category"),
+    DEFAULT_TRANSFER_CATEGORY(R.string.pref_default_transfer_category_key),
     PROTECTION_ALLOW_SCREENSHOT(R.string.pref_protection_allow_screenshot_key)
     ;
 

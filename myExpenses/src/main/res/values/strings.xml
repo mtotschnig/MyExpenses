@@ -1087,4 +1087,5 @@
     <string name="warning_delete_default_transfer_category">Category %s is configured as default transfer category and should not be deleted.</string>
     <string name="whats_new_369_1">Transfers can be mapped to categories.</string>
     <string name="whats_new_369_2">When screen lock is enabled, allow to opt-out of disabling screenshots.</string>
+    <string name="default_transfer_category">Default transfer category</string>
 </resources>

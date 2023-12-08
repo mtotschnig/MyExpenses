@@ -8,6 +8,7 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
@@ -34,6 +35,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.deleteCategory
 import org.totschnig.myexpenses.db2.ensureCategoryTree
+import org.totschnig.myexpenses.db2.getCategoryPath
 import org.totschnig.myexpenses.db2.moveCategory
 import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.export.CategoryExporter
@@ -462,6 +464,14 @@ open class CategoryViewModel(
                     }
                 ).let { message -> _syncResult.update { message } }
         }
+    }
+
+    fun defaultTransferCategory() = liveData(context = coroutineContext()) {
+        emit(
+            prefHandler.defaultTransferCategory?.let {
+                repository.getCategoryPath(it)
+            } ?: getString(R.string.unmapped)
+        )
     }
 
     companion object {
