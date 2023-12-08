@@ -409,4 +409,21 @@
     <string name="pref_perform_share_title">निर्यात और बैकअप साझा करें</string>
     <string name="import_parties_none">कोई पार्टी आयातित नहीं</string>
     <string name="import_transactions_none">%1$s खाते में कोई लेनदेन आयात नहीं किया गया</string>
+    <string name="pref_share_target_summary">यदि आप उपयुक्त ऐप्स (ईमेल, ड्रॉपबॉक्स, Google डॉक्स,…) के बीच चयन करना चाहते हैं, या समर्थित योजनाओं में से किसी एक में यूआरएल प्रदान करना चाहते हैं तो खाली छोड़ दें</string>
+    <string name="warning_delete_account">खाता \"%1$s\" उसके सभी लेन-देन सहित हटा दिया जाएगा।</string>
+    <string name="sum_expenses">खर्च</string>
+    <string name="pref_shortcut_summary">शॉर्टकट को होम स्क्रीन पर रखें।</string>
+    <string name="progress_dialog_printing">%s उत्पन्न हो रहा है</string>
+    <string name="dialog_contrib_trial_info_play">यह निःशुल्क परीक्षण <b>कभी</b>किसी भी प्रकार की सदस्यता में परिवर्तित नहीं होगा।</string>
+    <string name="dialog_contrib_trial_info">आपकी वर्तमान लाइसेंस स्थिति (%1$s) आपको %3$d दिनों (%4$s तक) के लिए %2$s आज़माने की अनुमति देती है।</string>
+    <string name="move_category_success">एक श्रेणी सफलतापूर्वक स्थानांतरित कर दी गई।</string>
+    <plurals name="warning_delete_main_category">
+        <item quantity="one">एक चयनित श्रेणी में उपश्रेणियाँ हैं, उन्हें भी हटा दिया जाएगा।</item>
+        <item quantity="other">%1$d चयनित श्रेणियों में उपश्रेणियाँ हैं, उन्हें भी हटा दिया जाएगा।</item>
+    </plurals>
+    <string name="warning_delete_category_with_budget">कम से कम एक चयनित श्रेणी के लिए बजट आवंटन है, उसे भी हटा दिया जाएगा।</string>
+    <string name="subcategory">उपश्रेणी</string>
+    <string name="split_parts_heading">भागों को विभाजित करें</string>
+    <string name="share_scheme_not_supported">स्कीम %1$s समर्थित नहीं है</string>
+    <string name="move_category_failure">एक श्रेणी को स्थानांतरित नहीं किया गया, क्योंकि लक्ष्य पर वही लेबल पहले से मौजूद है।</string>
 </resources>
