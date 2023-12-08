@@ -90,12 +90,12 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:key="@string/pref_category_ads_key"
-        android:title="Ads">
+        android:title="@string/about_ads">
 
         <Preference
             my:isPreferenceVisible="false"
             android:key="@string/pref_ad_consent_key"
-            android:title="Privacy" />
+            android:title="@string/pref_category_title_privacy" />
         <Preference
             android:key="@string/pref_no_ads_key"
             android:title="@string/gdpr_consent_button_no" />

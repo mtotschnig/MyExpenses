@@ -230,13 +230,7 @@
     <string name="pref_category_title_ui">Korisničko sučelje</string>
     <string name="pref_checkbox_enabled">Aktivirano</string>
     <string name="pref_checkbox_disabled">Deaktivirano</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">Kupi pristup premium funkcijama.</string>
-    <string name="pref_contrib_purchase_title">Kupi ključ</string>
-    <string name="pref_contrib_purchase_title_in_app">Plaćanje unutar programa</string>
     <string name="pref_custom_currency_title">Prilagodi valute</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary">Ako si primio/la ključ, pristupi premium funkcijama.</string>
     <string name="pref_enter_licence_title">Upiši ključ</string>
     <string name="pref_export_format_title">Format podataka</string>
     <string name="pref_import_from_grisbi_summary">Uvezi kategorije i stranke iz Grisbi XML datoteke</string>
@@ -812,10 +806,6 @@
     <string name="navigation_drawer_accounts_title">Upravljaj računima</string>
     <string name="sort_order">Redoslijed razvrstavanja</string>
     <string name="gdpr_consent_button_no">Plati za verziju bez oglasa</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Da, nastavi za gledanje oglasa</string>
-    <string name="gdpr_consent_message">Surađujemo s {ad_provider} i prikazujemo oglase kako bismo omogućili podršku, održavanje i razvoj programa {app_name}. Molimo te da na to pristaneš. Ako više ne želiš vidjeti oglase, kupi verziju bez oglasa.</string>
-    <string name="ad_consent_non_personalized">Opći oglasi</string>
-    <string name="pref_ad_consent_title">Personalizirani oglasi</string>
     <string name="pref_category_title_privacy">Privatnost</string>
     <string name="hint_auto_fill">Da li za automatsko ispunjavanje koristiti podatke iz zadnje transakcije za istog primaoca/platišu\? Može se promijeniti u postavkama.</string>
     <string name="comparison_operator_date_after">nakon</string>

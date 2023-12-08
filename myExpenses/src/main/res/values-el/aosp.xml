@@ -64,4 +64,5 @@
     <string name="screen_lock">"Κλείδωμα οθόνης"</string>
     <string name="screenshot">"Στιγμιότυπο οθόνης"</string>
     <string name="menu_add">"Προσθήκη"</string>
+    <string name="about_ads">"Διαφημίσεις"</string>
 </resources>

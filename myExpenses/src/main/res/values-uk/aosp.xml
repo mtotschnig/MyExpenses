@@ -66,4 +66,5 @@
     <string name="screen_lock">"Блокування екрана"</string>
     <string name="screenshot">"Знімки екрана"</string>
     <string name="menu_add">"Додати"</string>
+    <string name="about_ads">"Реклама"</string>
 </resources>

@@ -274,14 +274,8 @@
     <string name="pref_category_title_ui">واجهة المستخدم</string>
     <string name="pref_checkbox_enabled">مفعل</string>
     <string name="pref_checkbox_disabled">معطل</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">شراء الوصول إلى الميزات الكاملة.</string>
-    <string name="pref_contrib_purchase_title">مفتاح الشراء</string>
     <string name="pref_contrib_purchase_title_upgrade">مفتاح الترقية </string>
-    <string name="pref_contrib_purchase_title_in_app">الشراء داخل التطبيق</string>
     <string name="pref_custom_currency_title">تخصيص العملات</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary">إذا حصلت على المفتاح, يمكنك الحصول على الميزات الكاملة.</string>
     <string name="pref_enter_licence_title">أدخل المفتاح</string>
     <string name="pref_export_format_title">تنسيق البيانات</string>
     <string name="pref_import_from_grisbi_summary">استيراد التصنيفات والأطراف  Grisbi XML </string>
@@ -698,10 +692,6 @@
     <string name="licence_expired_yesterday">انتهت صلاحية مفتاحك المهني أمس.</string>
     <string name="licence_has_expired_n_days">انتهت صلاحية مفتاحك المهني قبل %d يوم.</string>
     <string name="pref_category_title_privacy">الخصوصية</string>
-    <string name="pref_ad_consent_title">الإعلانات المخصصة</string>
-    <string name="ad_consent_non_personalized">الإعلانات غير المخصصة</string>
-    <string name="gdpr_consent_message">لقد دخلنا في شراكة مع {ad_provider} من أجل الحفاظ على دعم {app_name} وصيانته وتطويره من خلال عرض الإعلانات لك. نود أن نطلب موافقتك. إذا كنت تفضل عدم رؤية أي إعلانات، يُرجى الدفع مقابل الإصدار الخالي من الإعلانات.</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">نعم، استمر في مشاهدة الإعلانات</string>
     <string name="gdpr_consent_button_no">ادفع مقابل النسخة الخالية من الإعلانات</string>
     <string name="sort_order">ترتيب الفرز</string>
     <string name="navigation_drawer_accounts_title">إدارة الحسابات</string>

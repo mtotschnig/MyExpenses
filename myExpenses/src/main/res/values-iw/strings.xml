@@ -268,14 +268,8 @@
     <string name="pref_category_title_ui">ממשק משתמש</string>
     <string name="pref_checkbox_enabled">מופעל</string>
     <string name="pref_checkbox_disabled">מושבת</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">רכישת גישה לתכונות פרמיום מורחבות.</string>
-    <string name="pref_contrib_purchase_title">מפתח רכישה</string>
     <string name="pref_contrib_purchase_title_upgrade">מפתח לשדרוג</string>
-    <string name="pref_contrib_purchase_title_in_app">תשלום מתוך האפליקציה</string>
     <string name="pref_custom_currency_title">התאמה אישית של מטבעות</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary">אם קיבלת מפתח, קבל גישה לתכונות פרימיום.</string>
     <string name="pref_enter_licence_title">הכנס מפתח</string>
     <string name="pref_export_format_title">פורמט נתונים</string>
     <string name="pref_import_from_grisbi_summary">ייבוא קטגוריות וקבוצות מקובץ XML של Grisbi</string>
@@ -683,10 +677,6 @@
     <string name="licence_expired_yesterday">אתמןל פג תוקפו של המפתח המקצועי שלך.</string>
     <string name="licence_has_expired_n_days">המפתח המקצועי שלך פג לפני %d ימים.</string>
     <string name="pref_category_title_privacy">פרטיות</string>
-    <string name="pref_ad_consent_title">מודעות מותאמות אישית</string>
-    <string name="ad_consent_non_personalized">מודעות שאינן מותאמות אישית</string>
-    <string name="gdpr_consent_message">אנו משתפים פעולה עם {ad_provider} כדי לשמור על התמיכה, התחזוקה והפיתוח של {app_name} על ידי הצגת מודעות. ברצוננו לבקש את הסכמתך. אם אתה מעדיף שלא לראות מודעות, עליך לשלם עבור הגרסה ללא מודעות.</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">כן, המשך לראות מודעות</string>
     <string name="gdpr_consent_button_no">שלם עבור הגרסה ללא מודעות</string>
     <string name="sort_order">סדר המיון</string>
     <string name="navigation_drawer_accounts_title">נהל חשבונות</string>

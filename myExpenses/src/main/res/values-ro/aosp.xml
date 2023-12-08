@@ -65,4 +65,5 @@
     <string name="screen_lock">"Blocarea ecranului"</string>
     <string name="screenshot">"Captură de ecran"</string>
     <string name="menu_add">"Adăugați"</string>
+    <string name="about_ads">"Anunțuri"</string>
 </resources>

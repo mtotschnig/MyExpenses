@@ -262,14 +262,8 @@
     <string name="pref_category_title_ui">Felhasználói felület</string>
     <string name="pref_checkbox_enabled">Engedélyezve</string>
     <string name="pref_checkbox_disabled">Letiltva</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">Vásároljon hozzáférést a prémium funkciókhoz.</string>
-    <string name="pref_contrib_purchase_title">Kulcs vásárlása</string>
     <string name="pref_contrib_purchase_title_upgrade">Kulcs frissítése</string>
-    <string name="pref_contrib_purchase_title_in_app">Alkalmazáson belüli fizetés</string>
     <string name="pref_custom_currency_title">Pénznemek testreszabása</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary">Ha kapott egy kulcsot, nyerjen hozzáférést a prémium funkciókhoz.</string>
     <string name="pref_enter_licence_title">Kulcs megadása</string>
     <string name="pref_export_format_title">Adat formátum</string>
     <string name="pref_import_from_grisbi_summary">Kategóriák és résztvevők beolvasása Grisbi XML.</string>
@@ -668,10 +662,6 @@
     <string name="licence_expired_yesterday">Professzionális kulcsa tegnap lejárt.</string>
     <string name="licence_has_expired_n_days">Professzionális kulcsa %d napja lejárt.</string>
     <string name="pref_category_title_privacy">Adatvédelem</string>
-    <string name="pref_ad_consent_title">Személyre szabott hirdetések</string>
-    <string name="ad_consent_non_personalized">Nem személyre szabott reklámok</string>
-    <string name="gdpr_consent_message">A(z) {ad_provider}-al együttműködve támogatjuk, fenntartjuk és fejlesztjük az {app_name} alkalmazást hirdetések megjelenítése által. Szeretnénk kérni a hozzájárulását. Ha nem szeretne hirdetéseket látni, kérjük, fizessen a hirdetés nélküli verzióért.</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Igen, továbbra is lásson hirdetéseket</string>
     <string name="gdpr_consent_button_no">Fizessen a reklámmentes verzióért</string>
     <string name="sort_order">Rendezési sorrend</string>
     <string name="navigation_drawer_accounts_title">Fiókok kezelése</string>

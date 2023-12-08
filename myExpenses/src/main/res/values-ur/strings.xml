@@ -229,12 +229,8 @@
     <string name="pref_category_title_ui">یوزر انٹرفیس</string>
     <string name="pref_checkbox_enabled">فعال</string>
     <string name="pref_checkbox_disabled">معذور</string>
-    <string name="pref_contrib_purchase_summary">پریمیم خصوصیات تک رسائی خریدیں.</string>
-    <string name="pref_contrib_purchase_title">خریداری کی چابی</string>
     <string name="pref_contrib_purchase_title_upgrade">اپ گریڈ کلید</string>
-    <string name="pref_contrib_purchase_title_in_app">درون ایپ ادائیگی</string>
     <string name="pref_custom_currency_title">کرنسیوں کو اپنی مرضی کے مطابق بنائیں</string>
-    <string name="pref_enter_licence_summary">اگر آپ کو کلید موصول ہوئی ہے تو پریمیم خصوصیات تک رسائی حاصل کریں.</string>
     <string name="pref_enter_licence_title">کلید درج کریں</string>
     <string name="pref_export_format_title">ڈیٹا فارمیٹ</string>
     <string name="pref_import_from_grisbi_summary">Grisbi XML فائل سے زمرے اور پارٹیاں درآمد کریں</string>
@@ -508,8 +504,6 @@
     <string name="licence_expires_today">آپ کی پیشہ ورانہ کلید آج ختم ہو رہی ہے.</string>
     <string name="licence_expired_yesterday">آپ کی پیشہ ورانہ کلید کل ختم ہو گئی ہے.</string>
     <string name="pref_category_title_privacy">‍رازداری</string>
-    <string name="pref_ad_consent_title">ذاتی نوعیت کے اشتہارات</string>
-    <string name="ad_consent_non_personalized">غیر ذاتی نوعیت کے اشتہارات</string>
     <string name="dialog_title_edit_budget">بجٹ میں ترمیم کریں</string>
     <string name="budget_table_header_budgeted">بجٹ</string>
     <string name="budget_table_header_allocated">مختص</string>
@@ -698,8 +692,6 @@
     <string name="pref_transaction_time_summary">لین دین کا صحیح وقت مقرر کرنے کی اجازت دیں.</string>
     <string name="ungroup_split_transaction_success">اسپلٹ ٹرانزیکشن کو کامیابی کے ساتھ غیر گروپ کر دیا گیا.</string>
     <string name="split_transaction_one_success">لین دین کامیابی کے ساتھ تقسیم میں تبدیل ہو گیا.</string>
-    <string name="gdpr_consent_message">ہم آپ کو اشتہارات دکھا کر {app_name} کی حمایت، دیکھ بھال اور ترقی کو برقرار رکھنے کے لیے {ad_provider} کے ساتھ شراکت کرتے ہیں. ہم آپ کی رضامندی طلب کرنا چاہیں گے. اگر آپ کوئی اشتہار نہ دیکھنا پسند کرتے ہیں تو براہ کرم اشتہار سے پاک ورژن کی ادائیگی کریں.</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">ہاں، اشتہارات دیکھنا جاری رکھیں</string>
     <string name="gdpr_consent_button_no">اشتہار سے پاک ورژن کے لیے ادائیگی کریں</string>
     <string name="sort_order">ترتیب</string>
     <string name="navigation_drawer_accounts_title">اکاؤنٹس کا نظم کریں</string>

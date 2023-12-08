@@ -68,30 +68,6 @@ class AppNameLocalizationTest {
         }
     }
 
-    @Test
-    fun shouldBuildWithPhrase() {
-        val context = ApplicationProvider.getApplicationContext<Application>()
-        val locales = context.resources.getStringArray(R.array.pref_ui_language_values).asList()
-            .minus("default")
-        val failures = mutableListOf<String>()
-        for (locale in locales) {
-            setLocale(locale)
-            try {
-                Phrase.from(context, R.string.gdpr_consent_message)
-                    .put(Utils.PLACEHOLDER_APP_NAME, context.getString(R.string.app_name))
-                    .put("ad_provider", "PubNative")
-                    .format()
-            } catch (e: Exception) {
-                failures.add(locale)
-            }
-        }
-        if (failures.size > 0) {
-            Assert.fail(
-                "Non-compliant resources: " + failures.joinToString()
-            )
-        }
-    }
-
     private fun setLocale(locale: String) {
         RuntimeEnvironment.setQualifiers(mapToQualifier(locale))
     }

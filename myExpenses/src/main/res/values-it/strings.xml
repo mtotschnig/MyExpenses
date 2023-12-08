@@ -265,14 +265,8 @@
     <string name="pref_category_title_ui">Interfaccia utente</string>
     <string name="pref_checkbox_enabled">Abilitato</string>
     <string name="pref_checkbox_disabled">Non abilitato</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">Acquistare l\'accesso a funzionalità premium.</string>
-    <string name="pref_contrib_purchase_title">Acquista una licenza</string>
     <string name="pref_contrib_purchase_title_upgrade">Aggiorna la licenza</string>
-    <string name="pref_contrib_purchase_title_in_app">pagamento nel applicazione</string>
     <string name="pref_custom_currency_title">Personalizzare le valute</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary">Se avete ricevuto una licenza, otterrete l\'accesso a funzionalità premium.</string>
     <string name="pref_enter_licence_title">Inserisci la licenza</string>
     <string name="pref_export_format_title">Formato dati</string>
     <string name="pref_import_from_grisbi_summary">Importa categorie e beneficiari da file Grisbi XML</string>
@@ -672,10 +666,6 @@
     <string name="licence_expired_yesterday">La tua Licenza Professionale è scaduta ieri.</string>
     <string name="licence_has_expired_n_days">La tua Licenza Professionale è scaduta %d giorni fa.</string>
     <string name="pref_category_title_privacy">Privacy</string>
-    <string name="pref_ad_consent_title">Annunci personalizzati</string>
-    <string name="ad_consent_non_personalized">Pubblicità non personalizzate</string>
-    <string name="gdpr_consent_message">Collaboriamo con {ad_provider} per sostenere il supporto, la manutenzione e lo sviluppo di {app_name} mostrandoti gli annunci. Vorremmo chiedere il tuo consenso. Se preferisci non vedere alcuna pubblicità, ti preghiamo di pagare la versione senza pubblicità.</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Sì, continua a vedere gli annunci</string>
     <string name="gdpr_consent_button_no">Paga per la versione senza pubblicità</string>
     <string name="sort_order">Ordinamento</string>
     <string name="navigation_drawer_accounts_title">Gestione dei conti</string>

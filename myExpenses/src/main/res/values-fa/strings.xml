@@ -234,9 +234,7 @@
     <string name="pref_category_title_ui">رابط کاربری</string>
     <string name="pref_checkbox_enabled">فعال شد</string>
     <string name="pref_checkbox_disabled">غیرفعال شد</string>
-    <string name="pref_contrib_purchase_title">کلید فعال‌سازی</string>
     <string name="pref_contrib_purchase_title_upgrade">کلید ارتقاء</string>
-    <string name="pref_contrib_purchase_title_in_app">پرداخت درون‌برنامه‌ای</string>
     <string name="pref_custom_currency_title">سفارشی‌سازی واحد پول</string>
     <string name="pref_enter_licence_title">کلید را وارد کنید</string>
     <string name="pref_export_format_title">فرمت تاریخ</string>
@@ -510,8 +508,6 @@
     <string name="menu_split_transaction">تبدیل به تسهیم</string>
     <string name="no_split_parts">دسته تسهیم وجود ندارد.</string>
     <string name="numbered">شماره گذاری شده</string>
-    <string name="pref_contrib_purchase_summary">دسترسی به ویژگی های پریمیوم را خریداری کنید.</string>
-    <string name="pref_enter_licence_summary">در صورت دریافت کلید، به ویژگی‌های پریمیوم دسترسی پیدا می کنید.</string>
     <string name="pref_import_from_grisbi_summary">وارد کردن دسته‌ها و اشخاص از فایل XML Grisbi</string>
     <string name="pref_import_from_grisbi_title">وارد کردن از Grisbi</string>
     <string name="pref_import_summary">وارد کردن تراکنش ها، دسته ها و اشخاص از فایل %s</string>

@@ -105,7 +105,6 @@ open class PrefHandlerImpl(
     override fun setDefaultValues(context: Context) {
         setDefaultValues(context, R.xml.preferences_advanced)
         setDefaultValues(context, R.xml.preferences_attach_picture)
-        setDefaultValues(context, R.xml.preferences_contrib)
         setDefaultValues(context, R.xml.preferences_data)
         setDefaultValues(context, R.xml.preferences_exchange_rate)
         setDefaultValues(context, R.xml.preferences_backup_restore)

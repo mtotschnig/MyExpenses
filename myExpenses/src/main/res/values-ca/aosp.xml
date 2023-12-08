@@ -64,4 +64,5 @@
     <string name="screen_lock">"Bloqueig de pantalla"</string>
     <string name="screenshot">"Captura de pantalla"</string>
     <string name="menu_add">"Afegeix"</string>
+    <string name="about_ads">"Anuncis"</string>
 </resources>

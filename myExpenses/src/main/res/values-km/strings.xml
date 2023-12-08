@@ -219,8 +219,6 @@
     <string name="pref_category_title_ui">User Interface</string>
     <string name="pref_checkbox_enabled">បើក</string>
     <string name="pref_checkbox_disabled">បិទ</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">ទិញការចូលប្រើលក្ខណៈពិសេស។</string>
     <string name="pref_export_format_title">ទ្រង់ទ្រាយទិន្នន័យ</string>
     <string name="pref_import_from_grisbi_title">នាំចូលពី Grisbi</string>
     <string name="pref_manage_accounts_title">គណនី</string>

@@ -265,14 +265,8 @@
     <string name="pref_category_title_ui">Interface utilisateur</string>
     <string name="pref_checkbox_enabled">Activé</string>
     <string name="pref_checkbox_disabled">Désactivé</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">Acheter l\'accès aux fonctions Premium.</string>
-    <string name="pref_contrib_purchase_title">Acheter la clé</string>
     <string name="pref_contrib_purchase_title_upgrade">Mettre la clé à niveau</string>
-    <string name="pref_contrib_purchase_title_in_app">Paiement dans l\'application</string>
     <string name="pref_custom_currency_title">Personnaliser les devises</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary">Si vous avez reçu une clé, celle-ci déverrouille l\'accès aux fonctions Premium.</string>
     <string name="pref_enter_licence_title">Saisir la clé</string>
     <string name="pref_export_format_title">Format de données</string>
     <string name="pref_import_from_grisbi_summary">Importer les catégories (et tiers) à partir de Grisbi XML</string>
@@ -675,10 +669,6 @@
     <string name="licence_expired_yesterday">Votre clé professionnelle a expiré hier.</string>
     <string name="licence_has_expired_n_days">Votre clé professionnelle a expiré il y a %d jours.</string>
     <string name="pref_category_title_privacy">Données privées</string>
-    <string name="pref_ad_consent_title">Annonces personnalisées</string>
-    <string name="ad_consent_non_personalized">Annonces non personnalisées</string>
-    <string name="gdpr_consent_message">Nous travaillons en partenariat avec {ad_provider} afin d\'assurer la prise en charge, la maintenance et le développement de {app_name} en vous montrant des publicités. Nous aimerions demander votre consentement. Si vous préférez ne pas voir d\'annonces, s\'il vous plaît, achetez la version sans publicité.</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Oui, continuez à voir les annonces</string>
     <string name="gdpr_consent_button_no">Payer pour la version sans publicité</string>
     <string name="sort_order">Ordre de tri</string>
     <string name="navigation_drawer_accounts_title">Gestion des comptes</string>

@@ -253,14 +253,8 @@
     <string name="pref_category_title_ui">Giao diện người dùng</string>
     <string name="pref_checkbox_enabled">Bật</string>
     <string name="pref_checkbox_disabled">Tắt</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">Nâng cấp để dùng các tính năng trả phí.</string>
-    <string name="pref_contrib_purchase_title">Mua một khóa</string>
     <string name="pref_contrib_purchase_title_upgrade">Nâng cấp khóa</string>
-    <string name="pref_contrib_purchase_title_in_app">Mua hàng trong ứng dụng</string>
     <string name="pref_custom_currency_title">Tùy chỉnh các loại tiền tệ</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary">Nếu bạn đã nhận một khóa, hãy nâng cấp lên các tính năng trả phí.</string>
     <string name="pref_enter_licence_title">Nhập khóa</string>
     <string name="pref_export_format_title">Định dạng dữ liệu</string>
     <string name="pref_import_from_grisbi_summary">Nhập các phân loại (và các nhóm) Grisbi XML</string>

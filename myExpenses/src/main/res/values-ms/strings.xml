@@ -257,14 +257,8 @@
     <string name="pref_category_title_ui">Antaramuka pengguna</string>
     <string name="pref_checkbox_enabled">Dibenarkan</string>
     <string name="pref_checkbox_disabled">Dilumpuhkan</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">Beli capaian ke fitur premium.</string>
-    <string name="pref_contrib_purchase_title">Beli Kunci</string>
     <string name="pref_contrib_purchase_title_upgrade">Kunci tatar</string>
-    <string name="pref_contrib_purchase_title_in_app">Pembayaran In-App</string>
     <string name="pref_custom_currency_title">Suaikan matawang</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary">Jika anda menerima kunci, dapatkan capaian ke fitur premium.</string>
     <string name="pref_enter_licence_title">Masukkan kunci</string>
     <string name="pref_export_format_title">Format data</string>
     <string name="pref_import_from_grisbi_summary">Import kategori dan pihak dari fail XML Grisbi</string>
@@ -652,10 +646,6 @@
     <string name="licence_expired_yesterday">Kunci profesional anda akan tamat tempoh semalam.</string>
     <string name="licence_has_expired_n_days">Kunci profesional anda akan tamat tempoh %d hari yang lalu.</string>
     <string name="pref_category_title_privacy">Kerahsiaan</string>
-    <string name="pref_ad_consent_title">Iklan peribadi</string>
-    <string name="ad_consent_non_personalized">Iklan bukan-peribadi</string>
-    <string name="gdpr_consent_message">Kami bekerjasama dengan {ad_provider} untuk memastikan kelangsungan sokongan, penyelenggaraan dan pembangunan {app_name} dengan memaparkan iklan kepada anda. Oleh itu kami mahukan keizinan anda. Jika anda tidak mahu iklan, sila beli versi bebas iklan.</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Ya, teruskan melihat iklan</string>
     <string name="gdpr_consent_button_no">Beli untuk versi tanpa-iklan</string>
     <string name="sort_order">Tertib isih</string>
     <string name="navigation_drawer_accounts_title">Urus akaun</string>

@@ -239,14 +239,8 @@
     <string name="pref_category_title_ui">사용자 인터페이스</string>
     <string name="pref_checkbox_enabled">사용함</string>
     <string name="pref_checkbox_disabled">사용하지 않음</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">프리미엄 기능에 대한 액세스를 구입하십시오.</string>
-    <string name="pref_contrib_purchase_title">기부 확인 키 구매 </string>
     <string name="pref_contrib_purchase_title_upgrade">키 업그레이드</string>
-    <string name="pref_contrib_purchase_title_in_app">인앱 결제</string>
     <string name="pref_custom_currency_title">화폐 단위 설정</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary">기부 확인 키를 받으셨다면 프리미엄 기능을 사용하세요.</string>
     <string name="pref_enter_licence_title">기부 확인 키 입력</string>
     <string name="pref_export_format_title">데이터 형식</string>
     <string name="pref_import_from_grisbi_summary">Grisbi XML 파일에서 카테고리와 구성원 가져오기</string>

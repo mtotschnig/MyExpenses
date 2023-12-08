@@ -102,4 +102,6 @@
     <string name="screenshot">Screenshot</string>
     <!-- /opt/extra/AOSP/packages/apps/Contacts$ grep -ri menu_add_contacts res/values* | sed 's/_contacts//' |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="menu_add">"Add"</string>
+    <!-- /opt/extra/AOSP/packages/apps/TvSettings/Settings$ grep -ri about_ads res/values* | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
+    <string name="about_ads">Ads</string>
 </resources>

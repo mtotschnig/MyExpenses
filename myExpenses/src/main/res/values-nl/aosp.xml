@@ -60,4 +60,5 @@
     <string name="screen_lock">"Schermvergrendeling"</string>
     <string name="screenshot">"Screenshot"</string>
     <string name="menu_add">"Toevoegen"</string>
+    <string name="about_ads">"Advertenties"</string>
 </resources>

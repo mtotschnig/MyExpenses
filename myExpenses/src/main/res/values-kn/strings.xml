@@ -261,14 +261,8 @@
     <string name="pref_category_title_ui">ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್</string>
     <string name="pref_checkbox_enabled">ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ</string>
     <string name="pref_checkbox_disabled">ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">ಪ್ರೀಮಿಯಂ ವೈಶಿಷ್ಟ್ಯಗಳಿಗೆ ಪ್ರವೇಶವನ್ನು ಖರೀದಿಸಿ.</string>
-    <string name="pref_contrib_purchase_title">ಕೀಲಿಯನ್ನು ಖರೀದಿಸಿ</string>
     <string name="pref_contrib_purchase_title_upgrade">ಕೀಲಿಯನ್ನು ನವೀಕರಿಸಿ</string>
-    <string name="pref_contrib_purchase_title_in_app">ಅಪ್ಲಿಕೇಶನ್‌ನಲ್ಲಿ ಪಾವತಿ</string>
     <string name="pref_custom_currency_title">ಕರೆನ್ಸಿಗಳನ್ನು ಕಸ್ಟಮೈಸ್ ಮಾಡಿ</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary">ನೀವು ಕೀಲಿಯನ್ನು ಸ್ವೀಕರಿಸಿದ್ದರೆ, ಪ್ರೀಮಿಯಂ ವೈಶಿಷ್ಟ್ಯಗಳಿಗೆ ಪ್ರವೇಶವನ್ನು ಪಡೆಯಿರಿ.</string>
     <string name="pref_enter_licence_title">ಕೀಲಿಯನ್ನು ನಮೂದಿಸಿ</string>
     <string name="pref_export_format_title">ಡೇಟಾ ಸ್ವರೂಪ</string>
     <string name="pref_import_from_grisbi_summary">ಗ್ರಿಸ್ಬಿ ಎಕ್ಸ್‌ಎಂಎಲ್ ಫೈಲ್‌ನಿಂದ ವಿಭಾಗಗಳು ಮತ್ತು ಪಕ್ಷಗಳನ್ನು ಆಮದು ಮಾಡಿ</string>
@@ -665,10 +659,6 @@
     <string name="licence_expired_yesterday">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀ ನಿನ್ನೆ ಅವಧಿ ಮೀರಿದೆ.</string>
     <string name="licence_has_expired_n_days">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀಲಿಯು %d ದಿನಗಳ ಹಿಂದೆ ಅವಧಿ ಮೀರಿದೆ.</string>
     <string name="pref_category_title_privacy">ಗೌಪ್ಯತೆ</string>
-    <string name="pref_ad_consent_title">ವೈಯಕ್ತಿಕಗೊಳಿಸಿದ ಜಾಹೀರಾತುಗಳು</string>
-    <string name="ad_consent_non_personalized">ವೈಯಕ್ತೀಕರಿಸದ ಜಾಹೀರಾತುಗಳು</string>
-    <string name="gdpr_consent_message">ನಿಮಗೆ ಜಾಹೀರಾತುಗಳನ್ನು ತೋರಿಸುವ ಮೂಲಕ {app_name} ನ ಬೆಂಬಲ, ನಿರ್ವಹಣೆ ಮತ್ತು ಅಭಿವೃದ್ಧಿಯನ್ನು ಉಳಿಸಿಕೊಳ್ಳಲು ನಾವು {ad_provider} ನೊಂದಿಗೆ ಪಾಲುದಾರರಾಗಿದ್ದೇವೆ. ನಿಮ್ಮ ಒಪ್ಪಿಗೆ ಕೇಳಲು ನಾವು ಬಯಸುತ್ತೇವೆ. ನೀವು ಯಾವುದೇ ಜಾಹೀರಾತುಗಳನ್ನು ನೋಡದಿರಲು ಬಯಸಿದರೆ, ದಯವಿಟ್ಟು ಜಾಹೀರಾತು-ಮುಕ್ತ ಆವೃತ್ತಿಗೆ ಪಾವತಿಸಿ.</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">ಹೌದು, ಜಾಹೀರಾತುಗಳನ್ನು ನೋಡುವುದನ್ನು ಮುಂದುವರಿಸಿ</string>
     <string name="gdpr_consent_button_no">ಜಾಹೀರಾತು-ಮುಕ್ತ ಆವೃತ್ತಿಗೆ ಪಾವತಿಸಿ</string>
     <string name="sort_order">ವಿಂಗಡಣೆ ಆದೇಶ</string>
     <string name="navigation_drawer_accounts_title">ಖಾತೆಗಳನ್ನು ನಿರ್ವಹಿಸಿ</string>

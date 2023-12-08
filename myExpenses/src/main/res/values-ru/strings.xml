@@ -267,14 +267,8 @@
     <string name="pref_category_title_ui">Пользовательский интерфейс</string>
     <string name="pref_checkbox_enabled">Включено</string>
     <string name="pref_checkbox_disabled">Выключено</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">Приобретение дает доступ к премиум функциям.</string>
-    <string name="pref_contrib_purchase_title">Приобрести ключ</string>
     <string name="pref_contrib_purchase_title_upgrade">Повысить уровень ключа</string>
-    <string name="pref_contrib_purchase_title_in_app">в-App платежей</string>
     <string name="pref_custom_currency_title">Настроить курс обмена</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary">Если вы получили ключ, получите доступ к премиум функциям.</string>
     <string name="pref_enter_licence_title">Ввести ключ</string>
     <string name="pref_export_format_title">Формат даты</string>
     <string name="pref_import_from_grisbi_summary">Импорт категорий и участников из Grisbi XML файла</string>
@@ -681,10 +675,6 @@
     <string name="licence_expired_yesterday">Ваш тариф \"профессиональный\" закончился вчера.</string>
     <string name="licence_has_expired_n_days">Срок действия вашего профессионального ключа истек %d дней назад.</string>
     <string name="pref_category_title_privacy">Конфиденциальность</string>
-    <string name="pref_ad_consent_title">Персонализированная реклама</string>
-    <string name="ad_consent_non_personalized">Не персонализированная реклама</string>
-    <string name="gdpr_consent_message">Мы сотрудничаем с {ad_provider}, чтобы через показ рекламы обеспечать поддержку, обслуживание и разработку {app_name}. Мы хотели бы попросить вашего согласия. Если вы предпочитаете не видеть рекламу, пожалуйста, платите за версию без рекламы.</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Да, продолжить видеть рекламу</string>
     <string name="gdpr_consent_button_no">Оплатить за версию без рекламы</string>
     <string name="sort_order">Направление сортировки</string>
     <string name="navigation_drawer_accounts_title">Управление счетами</string>

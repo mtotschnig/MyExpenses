@@ -262,14 +262,8 @@
     <string name="pref_category_title_ui">பயனர் இடைமுகம்</string>
     <string name="pref_checkbox_enabled">இயக்கப்பட்டது</string>
     <string name="pref_checkbox_disabled">முடக்கப்பட்டது</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">மதிப்பு அம்சங்களுக்கான நுழைவுரிமை வாங்குதல்</string>
-    <string name="pref_contrib_purchase_title">திறவுகோல் வாங்குதல்</string>
     <string name="pref_contrib_purchase_title_upgrade">திறவுகோலை மேம்படுத்துதல்</string>
-    <string name="pref_contrib_purchase_title_in_app">செயலி சார்ந்த கட்டணம்</string>
     <string name="pref_custom_currency_title">நாணயங்களைத் தனி விருப்பமாக்குதல்</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary">நீங்கள் ஒரு திறவுகோலைப் பெற்றிருந்தால் மதிப்பு அம்சங்களை அணுகலாம்.</string>
     <string name="pref_enter_licence_title">திறவுகோலை உள்ளிடவும்</string>
     <string name="pref_export_format_title">தரவு வடிவம்</string>
     <string name="pref_import_from_grisbi_summary">Grisbi XML கோப்பிலிருந்து வகைகள் மற்றும் தரப்புகளை இறக்குமதி செய்</string>
@@ -667,10 +661,6 @@
     <string name="licence_expired_yesterday">உங்கள் நிபுணத்துவ திறவுகோல் நேற்று காலாவதியாகிவிட்டது.</string>
     <string name="licence_has_expired_n_days">உங்கள் நிபுணத்துவ திறவுகோல் %d நாட்களுக்கு முன்பு காலாவதியாகிவிட்டது.</string>
     <string name="pref_category_title_privacy">தனியுரிமை</string>
-    <string name="pref_ad_consent_title">தனிப்பயனாக்கப்பட்ட விளம்பரங்கள்</string>
-    <string name="ad_consent_non_personalized">தனிப்பயனாக்கப்படாத விளம்பரங்கள்</string>
-    <string name="gdpr_consent_message">விளம்பரங்களைக் காட்டுவதன் மூலம் {app_name} இன் ஆதரவு, பராமரிப்பு மற்றும் வளர்ச்சி ஆகியவற்றைத் தக்கவைத்துக் கொள்வதற்காக {ad_provider} உடன் நாங்கள் தொழில் கூட்டு வைத்துள்ளோம். உங்கள் ஒப்புதலை நாங்கள் கேட்க விரும்புகிறோம். நீங்கள் விளம்பரங்களைப் பார்க்க விரும்பவில்லை எனில், விளம்பரமற்ற பதிப்பிற்கு பணம் செலுத்தவும்.</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">ஆம், விளம்பரங்களை தொடர்ந்து பார்க்கவும்</string>
     <string name="gdpr_consent_button_no">விளம்பரம் இல்லாத பதிப்பிற்கு பணம் செலுத்து</string>
     <string name="sort_order">வரிசைப்படுத்தும் முறை</string>
     <string name="navigation_drawer_accounts_title">கணக்குகளை நிர்வகி</string>

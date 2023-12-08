@@ -250,7 +250,6 @@
     <string name="pref_app_dir_title">Map voor back-ups en exports</string>
     <string name="pref_auto_fill_summary">Vul de gegevens in van de laatste transactie voor dezelfde begunstigde/betaler</string>
     <string name="pref_custom_currency_title">Valuta\'s aanpassen</string>
-    <string name="pref_enter_licence_summary">Als u een sleutel hebt ontvangen, krijgt u toegang tot premiumfuncties.</string>
     <string name="pref_import_summary">Importeer transacties, categorieën en partijen uit %s bestand</string>
     <string name="pref_import_title">%s importeren</string>
     <string name="pref_manage_accounts_title">Accounts</string>
@@ -339,10 +338,7 @@
     <string name="pref_category_title_ui">Gebruikersomgeving</string>
     <string name="pref_checkbox_enabled">Ingeschakeld</string>
     <string name="pref_checkbox_disabled">Uitgeschakeld</string>
-    <string name="pref_contrib_purchase_title">Koop sleutel</string>
     <string name="pref_contrib_purchase_title_upgrade">Upgradesleutel</string>
-    <string name="pref_contrib_purchase_title_in_app">In-app betaling</string>
-    <string name="pref_contrib_purchase_summary">Koop toegang tot premiumfuncties.</string>
     <string name="pref_enter_licence_title">Sleutel invoeren</string>
     <string name="pref_export_format_title">Dataformaat</string>
     <string name="pref_import_from_grisbi_summary">Importeer categorieën en partijen uit het Grisbi XML-bestand</string>
@@ -489,8 +485,6 @@
     <string name="licence_expires_n_days">Uw professionele sleutel verloopt over %d dagen.</string>
     <string name="licence_expired_yesterday">Uw professionele sleutel is gisteren verlopen.</string>
     <string name="pref_category_title_privacy">Privacy</string>
-    <string name="pref_ad_consent_title">Gepersonaliseerde advertenties</string>
-    <string name="ad_consent_non_personalized">Niet-gepersonaliseerde advertenties</string>
     <string name="navigation_drawer_accounts_title">Accounts beheren</string>
     <string name="pref_translation_title">Vertalen</string>
     <string name="content_description_collapse">Inklappen</string>
@@ -727,7 +721,6 @@
     <string name="licence_expires_tomorrow">Uw professionele sleutel verloopt morgen.</string>
     <string name="licence_has_expired_n_days">Uw professionele sleutel is %d dagen geleden verlopen.</string>
     <string name="gdpr_consent_button_no">Betaal voor de advertentievrije versie</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Ja, blijf advertenties tonen</string>
     <string name="warning_synced_account_cannot_be_closed">Een account dat is gekoppeld aan een synchronisatie-backend kan niet worden gesloten</string>
     <string name="translated_by">Vertaald door</string>
     <string name="pref_category_exchange_rates">Wisselkoersen</string>
@@ -801,7 +794,6 @@
     <string name="home_currency_change_warning">Als u uw eigen valuta wijzigt, gaan equivalente bedragen en wisselkoersen verloren en moeten deze opnieuw worden gedefinieerd.</string>
     <string name="pref_transaction_time_summary">Toestaan om de exacte transactietijd in te stellen.</string>
     <string name="pref_value_date_summary">Toestaan om valutadatum in te stellen naast de boekingsdatum. De transactietijd wordt verborgen. Deze instelling wordt niet toegepast op geldrekeningen.</string>
-    <string name="gdpr_consent_message">We werken samen met {ad_provider} om de ondersteuning, het onderhoud en de ontwikkeling van {app_name} te ondersteunen door u advertenties te tonen. Graag vragen wij uw toestemming. Als u liever geen advertenties ziet, gelieve te betalen voor de reclamevrije versie.</string>
     <string name="sort_order">Sorteervolgorde</string>
     <string name="content_description_expand">Uitvouwen</string>
     <string name="clear_all_filters">Wis alle filters</string>

@@ -176,8 +176,6 @@
     <string name="pref_category_title_manage">管理</string>
     <string name="pref_category_title_more_information">更多資訊</string>
     <string name="pref_category_title_ui">用戶界面</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">購買使用高級功能的權限。</string>
     <string name="pref_export_format_title">日期格式</string>
     <string name="pref_import_from_grisbi_summary">匯入類別 和貿易夥伴.</string>
     <string name="pref_import_from_grisbi_title">由Grisbi匯入</string>

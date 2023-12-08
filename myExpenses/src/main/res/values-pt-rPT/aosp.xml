@@ -25,4 +25,5 @@
     <string name="screen_lock">"Bloqueio de ecrã"</string>
     <string name="screenshot">"Captura de ecrã"</string>
     <string name="menu_add">"Adicionar"</string>
+    <string name="about_ads">"Anúncios"</string>
 </resources>

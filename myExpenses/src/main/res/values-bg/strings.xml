@@ -262,14 +262,8 @@
     <string name="pref_category_title_ui">Потребителски интерфейс</string>
     <string name="pref_checkbox_enabled">Разрешено</string>
     <string name="pref_checkbox_disabled">Забранено</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">Закупете достъп до Допълнителни функции.</string>
-    <string name="pref_contrib_purchase_title">Закупете Ключ</string>
     <string name="pref_contrib_purchase_title_upgrade">Надстройте ключ</string>
-    <string name="pref_contrib_purchase_title_in_app">Плащане в приложението</string>
     <string name="pref_custom_currency_title">Персонализирайте валути</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary">Ако сте получили ключ, получавате достъп до допълнителните функции.</string>
     <string name="pref_enter_licence_title">Въведете ключ</string>
     <string name="pref_export_format_title">Формат на данните</string>
     <string name="pref_import_from_grisbi_summary">Внасяне на категории и страни от Grisbi XML файл</string>
@@ -667,10 +661,6 @@
     <string name="licence_expired_yesterday">Професионалният Ви ключ изтече вчера.</string>
     <string name="licence_has_expired_n_days">Професионалният Ви ключ е изтекъл преди %d дни.</string>
     <string name="pref_category_title_privacy">Поверителност</string>
-    <string name="pref_ad_consent_title">Персонализирани реклами</string>
-    <string name="ad_consent_non_personalized">Не-персонализирани реклами</string>
-    <string name="gdpr_consent_message">Ние си сътрудничим с {ad_provider}, за да продължаваме поддръжката и развитието на {app_name}, като Ви показваме реклами. Бихме желали да получим Вашето съгласие. Ако предпочитате да не виждате реклами, моля, платете за версия без реклами.</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Да, продължавам да гледам реклами</string>
     <string name="gdpr_consent_button_no">Плащам за версия без реклама</string>
     <string name="sort_order">Подреди по</string>
     <string name="navigation_drawer_accounts_title">Управление на сметки</string>

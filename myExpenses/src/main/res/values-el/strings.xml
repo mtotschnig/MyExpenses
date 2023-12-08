@@ -262,14 +262,8 @@
     <string name="pref_category_title_ui">Σύνδεση, διεπαφή με τον χρήστη</string>
     <string name="pref_checkbox_enabled">Ενεργοποιημένο</string>
     <string name="pref_checkbox_disabled">Απενεργοποιημένο</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">Αγοράστε πρόσβαση σε αναβαθμισμένα χαρακτηριστικά.</string>
-    <string name="pref_contrib_purchase_title">Αγορά κλειδιού</string>
     <string name="pref_contrib_purchase_title_upgrade">Κλειδί αναβάθμισης</string>
-    <string name="pref_contrib_purchase_title_in_app">Αγορά εντός της εφαρμογής</string>
     <string name="pref_custom_currency_title">Προσαρμογή νομισμάτων</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary">Εάν λάβατε ένα κλειδί, έχετε πρόσβαση σε αναβαθμισμένα χαρακτηριστικά.</string>
     <string name="pref_enter_licence_title">Εισάγετε το κλειδί</string>
     <string name="pref_export_format_title"> Μορφή δεδομένων</string>
     <string name="pref_import_from_grisbi_summary">Κάνετε εισαγωγή κατηγοριών και μερών Grisbi XML</string>
@@ -793,7 +787,6 @@
     <string name="whats_new_336_1">Μοιραστείτε την σύνοψη χρέους</string>
     <string name="whats_new_336_2">Ετικέτες για χωρισμένα μέρη</string>
     <string name="title_activity_debt_overview">Επισκόπηση χρέους</string>
-    <string name="gdpr_consent_message">Συνεργαζόμαστε με το {ad_provider} προκειμένου να διατηρήσουμε την υποστήριξη, τη συντήρηση και την ανάπτυξη του {app_name} προβάλλοντας διαφημίσεις. Θα θέλαμε να ζητήσουμε τη συγκατάθεσή σας. Εάν προτιμάτε να μην βλέπετε διαφημίσεις, πληρώστε για την έκδοση χωρίς διαφημίσεις.</string>
     <string name="budget_exceeded_error_1_2">Όλος ο προϋπολογισμός σας έχει διατεθεί σε άλλες κατηγορίες.</string>
     <string name="pref_scroll_to_current_date_summary">Κατά την έναρξη της εφαρμογής, μεταβείτε στη λίστα συναλλαγών στην τρέχουσα ημερομηνία</string>
     <string name="whats_new_338">Αυθαίρετα βαθιά ιεραρχία κατηγοριών</string>

@@ -53,10 +53,6 @@
     <string name="navigation_drawer_accounts_title">ఖాతాలను నిర్వహించండి</string>
     <string name="sort_order">క్రమాన్ని క్రమబద్ధీకరించు</string>
     <string name="gdpr_consent_button_no">ప్రకటన రహిత సంస్కరణ కోసం చెల్లించండి</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">అవును, ప్రకటనలను చూడటం కొనసాగించండి</string>
-    <string name="gdpr_consent_message">మీకు ప్రకటనలను చూపించడం ద్వారా {app_name} యొక్క మద్దతు, నిర్వహణ మరియు అభివృద్ధిని కొనసాగించడానికి మేము {ad_provider} తో భాగస్వామి. మేము మీ సమ్మతిని అడగాలనుకుంటున్నాము. మీరు ఏ ప్రకటనలను చూడకూడదనుకుంటే, దయచేసి ప్రకటన రహిత సంస్కరణకు చెల్లించండి.</string>
-    <string name="ad_consent_non_personalized">వ్యక్తిగతీకరించని ప్రకటనలు</string>
-    <string name="pref_ad_consent_title">వ్యక్తిగతీకరించిన ప్రకటనలు</string>
     <string name="pref_category_title_privacy">గోప్యత</string>
     <string name="licence_has_expired_n_days">మీ ప్రొఫెషనల్ కీ %d రోజుల క్రితం గడువు ముగిసింది.</string>
     <string name="licence_expired_yesterday">మీ ప్రొఫెషనల్ కీ నిన్న గడువు ముగిసింది.</string>
@@ -427,12 +423,8 @@
     <string name="pref_import_from_grisbi_summary">గ్రిస్బీ XML ఫైల్ నుండి వర్గాలు మరియు పార్టీలను దిగుమతి చేయండి</string>
     <string name="pref_export_format_title">డేటా ఫార్మాట్</string>
     <string name="pref_enter_licence_title">కీని నమోదు చేయండి</string>
-    <string name="pref_enter_licence_summary">మీరు కీని అందుకుంటే, ప్రీమియం లక్షణాలకు ప్రాప్యతను పొందండి.</string>
     <string name="pref_custom_currency_title">కరెన్సీలను అనుకూలీకరించండి</string>
-    <string name="pref_contrib_purchase_title_in_app">అనువర్తనంలో చెల్లింపు</string>
     <string name="pref_contrib_purchase_title_upgrade">కీని అప్‌గ్రేడ్ చేయండి</string>
-    <string name="pref_contrib_purchase_title">కొనుగోలు కీ</string>
-    <string name="pref_contrib_purchase_summary">ప్రీమియం లక్షణాలకు ప్రాప్యతను కొనుగోలు చేయండి.</string>
     <string name="pref_checkbox_disabled">నిలిపివేయబడింది</string>
     <string name="pref_checkbox_enabled">ప్రారంభించబడింది</string>
     <string name="pref_category_title_ui">వినియోగ మార్గము</string>

@@ -41,9 +41,6 @@
     <string name="navigation_drawer_accounts_title">Håndter kontoer</string>
     <string name="sort_order">Sorteringsrekkefølge</string>
     <string name="gdpr_consent_button_no">Betal for den reklamefrie versjonen</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Ja, fortsett å vise reklame</string>
-    <string name="ad_consent_non_personalized">Ikke-fotfølgende reklame</string>
-    <string name="pref_ad_consent_title">Fotfølgende reklame</string>
     <string name="pref_category_title_privacy">Personvern</string>
     <string name="menu_equivalent_amount">Motsvarende beløp</string>
     <string name="menu_original_amount">Opprinnelig beløp</string>
@@ -190,7 +187,6 @@
     <string name="pref_import_from_grisbi_title">Importer fra Grisbi</string>
     <string name="pref_export_format_title">Dataformat</string>
     <string name="pref_contrib_purchase_title_upgrade">Oppgrader nøkkel</string>
-    <string name="pref_contrib_purchase_title">Kjøp nøkkel</string>
     <string name="pref_checkbox_disabled">Avskrudd</string>
     <string name="pref_checkbox_enabled">Påskrudd</string>
     <string name="pref_category_title_ui">Brukergrensesnitt</string>

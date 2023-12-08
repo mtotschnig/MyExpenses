@@ -232,14 +232,8 @@
     <string name="pref_category_title_ui">Brugergrænseflade</string>
     <string name="pref_checkbox_enabled">Aktiveret</string>
     <string name="pref_checkbox_disabled">Deaktiveret</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">Køb adgang til premium funktioner.</string>
-    <string name="pref_contrib_purchase_title">Køb nøgle</string>
     <string name="pref_contrib_purchase_title_upgrade">Opgrader produktnøglen</string>
-    <string name="pref_contrib_purchase_title_in_app">In-app-betaling</string>
     <string name="pref_custom_currency_title">Ændre valutaer</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary">Hvis du har modtaget en nøgle, kan du få adgang til premium funktionerne.</string>
     <string name="pref_enter_licence_title">Indtast nøgle</string>
     <string name="pref_export_format_title">Dataformat</string>
     <string name="pref_import_from_grisbi_summary">Importere kategorier og parterne fra Grisbi XML fil</string>

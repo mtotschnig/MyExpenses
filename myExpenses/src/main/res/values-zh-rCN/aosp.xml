@@ -62,4 +62,5 @@
     <string name="screen_lock">"屏幕锁定"</string>
     <string name="screenshot">"屏幕截图"</string>
     <string name="menu_add">"添加"</string>
+    <string name="about_ads">"广告"</string>
 </resources>

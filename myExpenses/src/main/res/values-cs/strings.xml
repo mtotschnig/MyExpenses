@@ -268,14 +268,8 @@
     <string name="pref_category_title_ui">Uživatelské rozhraní</string>
     <string name="pref_checkbox_enabled">Aktivováno</string>
     <string name="pref_checkbox_disabled">Zakázáno</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">Kupte si přístup k prémiovým funkcím.</string>
-    <string name="pref_contrib_purchase_title">Klíč nákupu</string>
     <string name="pref_contrib_purchase_title_upgrade">Klíč pro upgrade</string>
-    <string name="pref_contrib_purchase_title_in_app">Platba v aplikaci</string>
     <string name="pref_custom_currency_title">Přizpůsobit měny</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary">Pokud jste obdrželi klíč, získejte přístup k nadstandardním funkcím.</string>
     <string name="pref_enter_licence_title">Vložte klíč</string>
     <string name="pref_export_format_title">Formát dat</string>
     <string name="pref_import_from_grisbi_summary">Import kategorií a stran Grisbi XML</string>
@@ -683,10 +677,6 @@
     <string name="licence_expired_yesterday">Váš profesionální klíč včera vypršel.</string>
     <string name="licence_has_expired_n_days">Platnost vašeho profesionálního klíče vypršela před %d dny.</string>
     <string name="pref_category_title_privacy">Soukromí</string>
-    <string name="pref_ad_consent_title">Přizpůsobené reklamy</string>
-    <string name="ad_consent_non_personalized">Nepřizpůsobené reklamy</string>
-    <string name="gdpr_consent_message">Pro zachování podpory, údržby a vývoje {app_name} vám ve spolupráci s {ad_provider} zobrazujeme reklamy. Chceme vás požádat o souhlas. Pokud reklamy nechcete vidět, kupte si prosím verzi bez reklam.</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Ano, nadále zobrazovat reklamy</string>
     <string name="gdpr_consent_button_no">Zaplaťte si verzi bez reklam</string>
     <string name="sort_order">Pořadí řazení</string>
     <string name="navigation_drawer_accounts_title">Spravovat účty</string>

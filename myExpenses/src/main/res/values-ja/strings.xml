@@ -257,14 +257,8 @@
     <string name="pref_category_title_ui">ユーザーインターフェイス</string>
     <string name="pref_checkbox_enabled">有効</string>
     <string name="pref_checkbox_disabled">無効</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">プレミアムと拡張機能への購入アクセス。</string>
-    <string name="pref_contrib_purchase_title">購入キー</string>
     <string name="pref_contrib_purchase_title_upgrade">キーをアップグレード</string>
-    <string name="pref_contrib_purchase_title_in_app">アプリ内課金</string>
     <string name="pref_custom_currency_title">通貨をカスタマイズ</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary">キーを受け取った場合、プレミアム機能へアクセスすることができます。</string>
     <string name="pref_enter_licence_title">キーを入力</string>
     <string name="pref_export_format_title">データ形式</string>
     <string name="pref_import_from_grisbi_summary">Grisbi XML ファイルから分類と取引先をインポートします</string>
@@ -656,10 +650,6 @@
     <string name="licence_expired_yesterday">プロフェッショナルキーは昨日期限が切れました。</string>
     <string name="licence_has_expired_n_days">プロフェッショナルキーは %d 日前に期限が切れています。</string>
     <string name="pref_category_title_privacy">プライバシー</string>
-    <string name="pref_ad_consent_title">パーソナライズされた広告</string>
-    <string name="ad_consent_non_personalized">パーソナライズされていない広告</string>
-    <string name="gdpr_consent_message">{app_name} のサポート、メンテナンス、開発を維持するために {ad_provider} と提携して広告を表示しています。 あなたの同意を求めます。 広告が表示されないようにするには、広告なしバージョンの料金をお支払いください。</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">はい、続行して広告を表示します</string>
     <string name="gdpr_consent_button_no">広告なしバージョンを購入します</string>
     <string name="sort_order">ソート順</string>
     <string name="navigation_drawer_accounts_title">勘定の管理</string>

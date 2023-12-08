@@ -259,14 +259,8 @@
     <string name="pref_category_title_ui">用户界面</string>
     <string name="pref_checkbox_enabled">启用</string>
     <string name="pref_checkbox_disabled">已禁用</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">购买使用高级功能的权限。</string>
-    <string name="pref_contrib_purchase_title">购买密钥</string>
     <string name="pref_contrib_purchase_title_upgrade">升级密钥</string>
-    <string name="pref_contrib_purchase_title_in_app">应用程序内付款</string>
     <string name="pref_custom_currency_title">自定义货币</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary">如果您收到密钥，则可以使用高级功能。</string>
     <string name="pref_enter_licence_title">输入密钥</string>
     <string name="pref_export_format_title">数据格式</string>
     <string name="pref_import_from_grisbi_summary">从 Grisbi XML 文件导入类别和交易对象</string>
@@ -659,10 +653,6 @@
     <string name="licence_expired_yesterday">您的\"专业版密钥(Professional Key)\"已在昨天过期。</string>
     <string name="licence_has_expired_n_days">您的\"专业版密钥(Professional Key)\"已在%d天前过期。</string>
     <string name="pref_category_title_privacy">隐私</string>
-    <string name="pref_ad_consent_title">个性化广告</string>
-    <string name="ad_consent_non_personalized">非个性化广告</string>
-    <string name="gdpr_consent_message">我们与{ad_provider}合作，所以我们想征得您的同意，通过向您展示广告来维持{app_name}的维护和开发。如果您不想看到任何广告，请为无广告版本付费。</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">是的，继续看广告</string>
     <string name="gdpr_consent_button_no">支付无广告版本</string>
     <string name="sort_order">排序顺序</string>
     <string name="navigation_drawer_accounts_title">管理账户</string>

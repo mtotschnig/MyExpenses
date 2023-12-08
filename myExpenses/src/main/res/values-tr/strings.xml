@@ -262,14 +262,8 @@
     <string name="pref_category_title_ui">Kullanıcı arayüzü</string>
     <string name="pref_checkbox_enabled">Etkinleştirilmiş</string>
     <string name="pref_checkbox_disabled">Devre dışı</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">Premium (ödemeli) işlevlere erişim satın al.</string>
-    <string name="pref_contrib_purchase_title">Anahtarını Satın Al</string>
     <string name="pref_contrib_purchase_title_upgrade">Yükseltme anahtarı</string>
-    <string name="pref_contrib_purchase_title_in_app">Uygulama içi ödeme</string>
     <string name="pref_custom_currency_title">Para birimlerini kişiselleştir</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary">Eğer anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>
     <string name="pref_enter_licence_title">Anahtarını gir</string>
     <string name="pref_export_format_title">Veri biçimi</string>
     <string name="pref_import_from_grisbi_summary">Kategorileri ve tarafları Grisbi XML dosyasından içe aktarın</string>
@@ -667,10 +661,6 @@
     <string name="licence_expired_yesterday">Profesyonel anahtarınızın geçerliliği dün sona erdi.</string>
     <string name="licence_has_expired_n_days">Profesyonel anahtarınızın geçerliliği %d gün önce sona erdi.</string>
     <string name="pref_category_title_privacy">Gizlilik</string>
-    <string name="pref_ad_consent_title">Kişiselleştirilmiş reklamlar</string>
-    <string name="ad_consent_non_personalized">Kişiselleştirilmemiş reklamlar</string>
-    <string name="gdpr_consent_message">{app_name} uygulamasının destek, bakım ve geliştirilmesini sürdürmek için {ad_provider} ile işbirliği yaparak size reklam gösteriyoruz. Bu konuda rızanızı istiyoruz. Reklam görmek istemiyorsanız, lütfen reklamsız sürüm için ödeme yapın.</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Evet, reklam görmeye devam et</string>
     <string name="gdpr_consent_button_no">Reklamsız sürüm için ödeme yap</string>
     <string name="sort_order">Sıralama düzeni</string>
     <string name="navigation_drawer_accounts_title">Hesapları yönet</string>

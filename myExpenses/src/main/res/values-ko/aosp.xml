@@ -63,4 +63,5 @@
     <string name="screen_lock">"화면 잠금"</string>
     <string name="screenshot">"스크린샷"</string>
     <string name="menu_add">"추가"</string>
+    <string name="about_ads">"광고"</string>
 </resources>

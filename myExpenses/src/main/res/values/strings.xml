@@ -271,14 +271,8 @@
     <string name="pref_category_title_ui">User interface</string>
     <string name="pref_checkbox_enabled">Enabled</string>
     <string name="pref_checkbox_disabled">Disabled</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">Purchase access to premium features.</string>
-    <string name="pref_contrib_purchase_title">Purchase key</string>
     <string name="pref_contrib_purchase_title_upgrade">Upgrade key</string>
-    <string name="pref_contrib_purchase_title_in_app">In-App payment</string>
     <string name="pref_custom_currency_title">Customize currencies</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary">If you received a key, gain access to premium features.</string>
     <string name="pref_enter_licence_title">Enter key</string>
     <string name="pref_export_format_title">Data format</string>
     <string name="pref_import_from_grisbi_summary">Import categories and parties from Grisbi XML file</string>
@@ -682,10 +676,6 @@
     <string name="licence_expired_yesterday">Your professional key has expired yesterday.</string>
     <string name="licence_has_expired_n_days">Your professional key has expired %d days ago.</string>
     <string name="pref_category_title_privacy">Privacy</string>
-    <string name="pref_ad_consent_title">Personalized ads</string>
-    <string name="ad_consent_non_personalized">Non-personalized ads</string>
-    <string name="gdpr_consent_message">We partner with {ad_provider} in order to sustain the support, maintenance and development of {app_name} by showing you ads. We would like to ask for your consent. If you prefer to not see any ads, please pay for the ad-free version.</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Yes, continue to see ads</string>
     <string name="gdpr_consent_button_no">Pay for the ad-free version</string>
     <string name="sort_order">Sort order</string>
     <string name="navigation_drawer_accounts_title">Manage accounts</string>

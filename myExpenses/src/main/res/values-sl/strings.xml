@@ -13,7 +13,8 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- --><resources xmlns:tools="http://schemas.android.com/tools">
+ -->
+<resources>
     <string name="account">Račun</string>
     <string name="account_type_asset">Račun sredstev</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->

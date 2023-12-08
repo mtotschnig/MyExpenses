@@ -265,14 +265,8 @@
     <string name="pref_category_title_ui">Interface do utilizador</string>
     <string name="pref_checkbox_enabled">Ativado</string>
     <string name="pref_checkbox_disabled">Desativado</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">Adquira acesso a recursos premium.</string>
-    <string name="pref_contrib_purchase_title">Comprar chave</string>
     <string name="pref_contrib_purchase_title_upgrade">Atualizar chave</string>
-    <string name="pref_contrib_purchase_title_in_app">Pagamentos no app</string>
     <string name="pref_custom_currency_title">Personalizar moedas</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary">Caso tenha recebido uma chave, obtenha acesso aos recursos premium.</string>
     <string name="pref_enter_licence_title">Digite a chave</string>
     <string name="pref_export_format_title">Formato dos dados</string>
     <string name="pref_import_from_grisbi_summary">Importa categorias e parceiros do ficheiro XML do Grisbi</string>
@@ -675,10 +669,6 @@
     <string name="licence_expired_yesterday">A sua chave profissional expirou ontem.</string>
     <string name="licence_has_expired_n_days">A sua chave profissional expirou %d dias atrás.</string>
     <string name="pref_category_title_privacy">Privacidade</string>
-    <string name="pref_ad_consent_title">Anúncios personalizados</string>
-    <string name="ad_consent_non_personalized">Anúncios não personalizados</string>
-    <string name="gdpr_consent_message">Nós temos parceria com {ad_provider} à fim de sustentar o suporte, a manutenção e o desenvolvimento de {app_name}, exibindo propagandas. Nós gostaríamos de pedir o seu consentimento para isso. Caso prefira não ver nenhum anúncio, por favor, pague pela versão sem propagandas.</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Sim, continuar vendo anúncios</string>
     <string name="gdpr_consent_button_no">Pagar pela versão sem anúncios</string>
     <string name="sort_order">Ordem de classificação</string>
     <string name="navigation_drawer_accounts_title">Gerir contas</string>

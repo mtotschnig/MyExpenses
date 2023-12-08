@@ -467,7 +467,7 @@ open class LicenceHandler(
                     Button(
                         modifier = Modifier.wrapContentSize(),
                         onClick = { contribBuyDo(null) }) {
-                        Text(stringResource(id = R.string.pref_contrib_purchase_title))
+                        Text(stringResource(id = R.string.menu_contrib))
                     }
                 } else {
                     val isPro = licenceStatus == LicenceStatus.PROFESSIONAL

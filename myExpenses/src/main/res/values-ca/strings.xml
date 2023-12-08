@@ -210,10 +210,6 @@
     <string name="pref_category_title_manage">Personalitza</string>
     <string name="pref_category_title_more_information">Més informació</string>
     <string name="pref_category_title_ui">Interfície d\'usuari</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">Compreu accés a funcions premium.</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary">Si heu rebut una clau, podeu accedir a les funcions avançades.</string>
     <string name="pref_enter_licence_title">Entreu la clau</string>
     <string name="pref_export_format_title">Format de les dades</string>
     <string name="pref_import_from_grisbi_summary">Importeu les categories i els tercers de Grisbi XML</string>
@@ -685,11 +681,9 @@
     <string name="pref_scroll_to_current_date_summary">Quan s\'iniciï l\'aplicació, llisca fins a la data actual</string>
     <string name="professional_key_fallback_info">Una susbscripció a Clau Professional que hagi estat activa com a mínim un any i no es renovi es convertirà actualment en una Clau Extesa il·limitada.</string>
     <string name="pref_category_title_privacy">Privacitat</string>
-    <string name="pref_ad_consent_title">Anuncis personalitzats</string>
     <string name="budget_exceeded_error_2">Incrementa la quantitat pressupostada o retira diners d\'altres categories.</string>
     <string name="sub_budget_exceeded_error_1_1">Tot excepte %s de la quantitat assignada a la categoria principal ha estat assignat a altres subcategories.</string>
     <string name="split_transaction_one_success">Transacció convertida a transacció dividida amb èxit.</string>
-    <string name="gdpr_consent_message">Estem associats amb {ad_provider} per a poder mantenir, donar suport i desenvolupar {app_name}. Ens agradaria demanar el vostre consentiment. Si prefereix no veure anuncis, siusplau activi la versió sense anuncis de pagament.</string>
     <string name="booking_date">Data de reserva</string>
     <string name="licence_expires_tomorrow">La vostra clau professional expirarà demà.</string>
     <string name="content_description_collapse">Redueix</string>

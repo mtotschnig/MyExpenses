@@ -63,4 +63,5 @@
     <string name="screen_lock">"Blocco schermo"</string>
     <string name="screenshot">"Screenshot"</string>
     <string name="menu_add">"Aggiungi"</string>
+    <string name="about_ads">"Annunci"</string>
 </resources>

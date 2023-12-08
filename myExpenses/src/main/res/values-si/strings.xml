@@ -195,8 +195,6 @@
     <string name="pref_category_title_ui">පාවිච්චි කරන්නාගේ අතුරු මුහුණත </string>
     <string name="pref_checkbox_enabled">පවරනවා</string>
     <string name="pref_checkbox_disabled">අබල කරනවා</string>
-    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">වාරික විශේෂාංග සඳහා ප්‍රවේශය මිලදී ගන්න.</string>
     <string name="pref_enter_licence_title">යතුර ඇතුළු කරන්න </string>
     <string name="pref_export_format_title">දත්ත ආකෘතිය</string>
     <string name="pref_import_from_grisbi_summary">පක්ෂ සහ වර්ග ග්රිස්බි හි  XML ලිපිගොනුවෙන් ආනයනය කරන්න </string>
