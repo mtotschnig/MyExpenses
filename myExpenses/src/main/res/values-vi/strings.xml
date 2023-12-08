@@ -631,9 +631,6 @@
     <string name="licence_expired_yesterday">Khoá cao cấp của bạn đã hết hạn trong ngày hôm qua.</string>
     <string name="licence_has_expired_n_days">Khoá cao cấp của bạn đã hết hạn %d ngày trước.</string>
     <string name="pref_category_title_privacy">Riêng tư</string>
-    <string name="pref_ad_consent_title">Quảng cáo được tuỳ biến</string>
-    <string name="ad_consent_non_personalized">Quảng cáo không được cá nhân hóa</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">OK, sống chung với quảng cáo</string>
     <string name="gdpr_consent_button_no">Mua bản không quảng cáo</string>
     <string name="sort_order">Thứ tự sắp xếp</string>
     <string name="navigation_drawer_accounts_title">Quản lý tài khoản</string>

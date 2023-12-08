@@ -656,8 +656,6 @@
     <string name="pref_debug_logging_summary">اطلاعات اشکال زدایی را در گزارش سیستم بنویسید</string>
     <string name="contrib_feature_category_tree_label">دسته بندی درختی</string>
     <string name="dialog_contrib_usage_limit_with_dialog">با وضعیت مجوز فعلی شما (%1$s)، این گفتگو در هر استفاده، نمایش داده می شود.</string>
-    <string name="ad_consent_non_personalized">تبلیغات شخصی سازی نشده</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">بله، ادامه دادن دیدن تبلیغات</string>
     <string name="content_description_clear_method">پاک کردن شیوه</string>
     <string name="budget_exceeded_error_1_1">تمام بودجهٔ شما به جز %s به دسته‌های دیگر اختصاص داده شده است.</string>
     <string name="sub_budget_exceeded_error_1_2">تمام مبلغ اختصاص یافته به دسته اصلی به سایر زیردسته‌ها اختصاص یافته است.</string>
@@ -672,7 +670,6 @@
     <string name="menu_create_template_for_split">قالب چند‌بخشی جدید</string>
     <string name="credit_limit">محدودیت اعتبار</string>
     <string name="pref_category_title_privacy">حریم خصوصی</string>
-    <string name="pref_ad_consent_title">تبلیغات شخصی سازی شده</string>
     <string name="sort_order">ترتیب چینش</string>
     <string name="budget_exceeded_error_1_2">تمام بودجه شما به دسته‌های دیگر اختصاص یافته است.</string>
     <string name="pref_sync_changes_immediately_summary">ارسال تغییرات محلی بلافاصله به سرور</string>
