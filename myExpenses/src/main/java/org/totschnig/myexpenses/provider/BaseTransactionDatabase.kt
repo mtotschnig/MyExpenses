@@ -96,7 +96,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 
-const val DATABASE_VERSION = 157
+const val DATABASE_VERSION = 158
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -348,6 +348,8 @@ const val SPLIT_PART_CR_STATUS_TRIGGER_CREATE =
     """CREATE TRIGGER split_part_cr_status_trigger
  AFTER UPDATE OF $KEY_CR_STATUS ON $TABLE_TRANSACTIONS
  BEGIN UPDATE $TABLE_TRANSACTIONS SET $KEY_CR_STATUS = new.$KEY_CR_STATUS WHERE $KEY_PARENTID = new.$KEY_ROWID; END"""
+
+private const val DEFAULT_TRANSFER_CATEGORY_UUID = "9d84b522-4c8c-40bd-a8f8-18c8788ee59e"
 
 abstract class BaseTransactionDatabase(
     val context: Context,
@@ -768,6 +770,12 @@ abstract class BaseTransactionDatabase(
         }
     }
 
+    fun SupportSQLiteDatabase.upgradeTo158() {
+        prefHandler.defaultTransferCategory?.let {
+            execSQL("UPDATE categories SET uuid = '$DEFAULT_TRANSFER_CATEGORY_UUID' WHERE _id = $it")
+        }
+    }
+
     override fun onCreate(db: SupportSQLiteDatabase) {
         prefHandler.putInt(PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION, DATABASE_VERSION)
     }
@@ -946,6 +954,7 @@ abstract class BaseTransactionDatabase(
                     put(KEY_LABEL, label)
                     put(KEY_TYPE, 0)
                     put(KEY_COLOR, suggestNewCategoryColor(db))
+                    put(KEY_UUID, DEFAULT_TRANSFER_CATEGORY_UUID)
                 }
             )
         )
