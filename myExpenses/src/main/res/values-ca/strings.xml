@@ -352,7 +352,6 @@
     <string name="number_format_illegal">Format de nombre il·legal</string>
     <string name="no_accounts">Sense comptes.</string>
     <string name="payer_or_payee">Beneficiari/Pagador</string>
-    <string name="pref_contrib_purchase_title">Adquirir clau</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Cal contrasenya.</string>
     <string name="pref_shortcut_not_added">No es diposa de pantalla d\'inici que accepti dreceres.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d projectes han estat restaurats de la còpia de seguretat</string>
@@ -382,7 +381,6 @@
     <string name="pref_app_dir_title">Carpeta per còpia de seguretat i exportar</string>
     <string name="pref_auto_fill_summary">Omplir amb dades de l\'última transacció del mateix beneficiari/pagador</string>
     <string name="pref_contrib_purchase_title_upgrade">Millorar clau</string>
-    <string name="pref_contrib_purchase_title_in_app">Pagaments dins l\'aplicació</string>
     <string name="pref_custom_currency_title">Personalitzar divises</string>
     <string name="pref_import_summary">Importar transaccions, categories o parts des de l\'arxiu %s</string>
     <string name="pref_import_title">Importar %s</string>
@@ -656,7 +654,6 @@
     <string name="budget_table_header_budgeted">Pressupostat</string>
     <string name="navigation_drawer_accounts_title">Gestionar comptes</string>
     <string name="budget_exceeded_error_1_1">La totalitat del pressupost excepte %s ha estat assignat a altres categories.</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Sí, vull continuar veient anuncis</string>
     <string name="pref_sync_changes_immediately_summary">Escriu immediatament els canvis locals al sistema de servei</string>
     <string name="pref_sync_wifi_only_summary">Sincronitza només quan tingui Wi-Fi</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">La carpeta que ha seleccionat correspon a un compte existent al sistema de servei. Cal triar una carpeta principal per poder reutilitzar aquest servei.</string>
@@ -664,7 +661,6 @@
     <string name="pref_value_date_summary">Permet establir data de valor a més de data de reserva. L\'hora de la transacció romandrà oculta. Aquesta configuració no es s\'aplica a comptes d\'efectiu.</string>
     <string name="value_date">Data valor</string>
     <string name="licence_expires_n_days">La vostra clau professional expirarà d\'aquí a %d dies.</string>
-    <string name="ad_consent_non_personalized">Anuncis no personalitzats</string>
     <string name="gdpr_consent_button_no">Pagar la versió lliure d\'anuncis</string>
     <string name="dialog_title_edit_budget">Edita el pressupost</string>
     <string name="budget_table_header_allocated">Assignat</string>

@@ -631,7 +631,6 @@
     <string name="booking_date">Ημερομηνία Δέσμευσης</string>
     <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->
     <string name="value_date">Ημερομηνία αξίας</string>
-    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Ναι, συνεχίστε να βλέπετε διαφημίσεις</string>
     <string name="gdpr_consent_button_no">Πληρωμή για την έκδοση χωρίς διαφημίσεις</string>
     <string name="sort_order">Σειρά ταξινόμησης</string>
     <string name="navigation_drawer_accounts_title">Διαχείριση λογαριασμών</string>
@@ -773,8 +772,6 @@
     </plurals>
     <string name="contributed_by">Συνεισφορά από %s</string>
     <string name="pref_category_title_privacy">Προστασία δεδομένων</string>
-    <string name="pref_ad_consent_title">Εξατομικευμένες διαφημίσεις</string>
-    <string name="ad_consent_non_personalized">Μη εξατομικευμένες διαφημίσεις</string>
     <string name="ui_refinement">Βελτίωση του περιβάλλοντος εργασίας χρήστη</string>
     <string name="performance_enhancement" tools:ignore="UnusedResources">Βελτίωση απόδοσης</string>
     <string name="stability_improvements" tools:ignore="UnusedResources">Βελτιώσεις σταθερότητας</string>
@@ -858,7 +855,7 @@
     <string name="pref_clone_with_current_date_title">Ημερομηνία κλωνοποιημένων συναλλαγών</string>
     <plurals name="warning_delete_tag">
         <item quantity="one">Η ετικέτα %1$s αντιστοιχίζεται σε μία συναλλαγή. Πρέπει να διαγραφεί;</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <string name="synchronization_end_success">%1$d Απομακρυσμένες αλλαγές γράφτηκαν στην τοπική βάση δεδομένων. %2$d οι τοπικές αλλαγές γράφτηκαν σε απομακρυσμένο backend.</string>
     <string name="button_label_clone_and_remap">Κλώνος και αναδιατύπωση</string>
