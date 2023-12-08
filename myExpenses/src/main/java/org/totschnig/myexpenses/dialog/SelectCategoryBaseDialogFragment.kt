@@ -14,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.ButtonRow
@@ -25,13 +26,8 @@ import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import org.totschnig.myexpenses.viewmodel.LoadingState
 import org.totschnig.myexpenses.viewmodel.data.Category
 
-class SelectCategoryMoveTargetDialogFragment : ComposeBaseDialogFragment() {
-    lateinit var viewModel: CategoryViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity())[CategoryViewModel::class.java]
-    }
+abstract class SelectCategoryBaseDialogFragment : ComposeBaseDialogFragment() {
+    val viewModel: CategoryViewModel by activityViewModels()
 
     @Composable
     override fun BuildContent() {

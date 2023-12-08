@@ -134,6 +134,117 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.6.9
+    - "2023-12-03"
+    -
+      de: |
+        Umbuchungen können Kategorien zugeordnet werden. Wenn die Bildschirmsperre aktiviert ist, können Sie Screenshots erlauben.
+      es: |
+        Las transferencias pueden asignarse a las categorías. Cuando el bloqueo de pantalla está activado, permite optar por desactivar las capturas de pantalla.
+      fr: |
+        Les transferts peuvent être associés à des catégories. Lorsque le verrouillage de l'écran est activé, permettez les captures d'écran.
+      it: |
+        I trasferimenti possono essere assegnati a categorie. Quando il blocco schermo è abilitato, consenti la disabilitazione del blocco screenshot.
+      en: |
+        Transfers can be mapped to categories. When screen lock is enabled, allow to opt-out of disabling screenshots.
+    -
+      github: 118#column-19691508
+      mastodon: 111504468267860332
+  -
+    - 3.6.8
+    - "2023-11-19"
+    -
+      ar: |
+        توزيع, وضع الميزانية: صقل واجهة المستخدم
+      bg: |
+        Графика, Бюджетиране: Подобрения в потребителския интерфейс
+      ca: |
+        Per categories, Pressupostar: Refinament de la interfície d'usuari
+      cs: |
+        Distribuce, Rozpočty: Zdokonalení uživatelského rozhraní
+      da: |
+        Distribution, Budgettering: Forbedring af brugergrænsefladen
+      de: |
+        Verteilung, Budgetierung: Verfeinerung der Benutzeroberfläche
+      el: |
+        Διανομή, Προϋπολογισμός: Βελτίωση του περιβάλλοντος εργασίας χρήστη
+      es: |
+        Distribución, Presupuestar: Interfaz de usuario mejorada
+      eu: |
+        Distribuzioa, Aurrekontua: Erabiltzaile-interfazea hobetzea
+      fr: |
+        Répartition, Budgétisation: Raffinement de l'interface utilisateur
+      hr: |
+        Distribucija, Izrada proračuna: Poboljšanje korisničkog sučelja
+      hu: |
+        Elosztás, Költségvetés: A felhasználói felület finomítása
+      it: |
+        Distribuzione, Bilancio: Miglioramento dell'interfaccia utente
+      iw: |
+        הפצה, תקצוב: חידוד ממשק המשתמש
+      ja: |
+        分布, 予算作成: ユーザーインターフェースの洗練
+      kn: |
+        ವಿತರಣೆ, ಬಜೆಟ್: ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್ನ ಪರಿಷ್ಕರಣೆ
+      ko: |
+        분포, 예산편성: 사용자 인터페이스 개선
+      km: |
+        ការចែកចាយ, ថវិកា: ការ កែ ច្នៃ ចំណុច ប្រទាក់ អ្នក ប្រើ
+      ms: |
+        Agihan, Pembelanjawan: Penghalusan antaramuka pengguna
+      nl: |
+        Verdeling, Budgettering: Verfijning van de gebruikersinterface
+      pl: |
+        Rozkład wydatków, Przydzielanie budżetu: Dopracowanie interfejsu użytkownika
+      pt: |
+        Distribuição, Orçamento: Melhorias na interface do usuário
+      ro: |
+        Distribuire, Bugetare: Perfecționarea interfeței cu utilizatorul
+      ru: |
+        Распределение, Бюджетирование: Усовершенствование пользовательского интерфейса
+      si: |
+        බෙදාහැරිම , අයවැය සකස් කිරීම: පරිශීලක අතුරුමුහුණත පිරිපහදු කිරීම
+      ta: |
+        பரிமாற்றம், வரவு செலவுத் திட்டம்: பயனர் இடைமுகத்தை மெருகேற்றுதல்
+      te: |
+        పంపిణీ, బడ్జెట్లో: వినియోగదారు ఇంటర్ఫేస్ యొక్క శుద్ధీకరణ
+      tr: |
+        Dağılım, Bütçeleme: Kullanıcı arayüzü iyileştirildi
+      vi: |
+        Phân phối, Ngân quỹ: Cải tiến giao diện người dùng
+      zh: |
+        开销分布统计表, 预算编制: 用户界面的改进
+      zh-TW: |
+        統計報表, 預算編訂: 完善用户界面
+      en: |
+        Distribution, Budgeting: Refinement of the user interface
+    -
+      github: 116#column-19684067
+      mastodon: 111433728475407148
+  -
+    - 3.6.7
+    - "2023-11-08"
+    -
+      ar: |
+        يمكن الآن تكوين الفئات كفئات مصروفات أو دخل، مما سيؤثر على كيفية حساب مبالغ المصروفات والدخل.
+      bg: |
+        Сега категориите може да се конфигурират като разход или приход, което ще се отрази при калкулирането сумите за разход и приход.
+      de: |
+        Kategorien können jetzt als Ausgaben- oder Einkommenskategorien konfiguriert werden, was sich auf die Berechnung der Ausgaben- und Einkommenssummen auswirkt.
+      es: |
+        Las categorías pueden configurarse ahora como categorías de gastos o de ingresos, lo que afectará a la forma en que se calculan las sumas de gastos e ingresos.
+      fr: |
+        Les catégories peuvent désormais être configurées en tant que catégories de dépenses ou de revenus, ce qui aura un impact sur le calcul des totaux des dépenses et des revenus.
+      it: |
+        Ora le categorie possono essere configurate come categorie di spesa o di reddito, che avranno un impatto su come i totali delle spese e dei redditi vengono calcolati.
+      iw: |
+        אפשר להגדיר קטגוריות כהוצאה או הכנסה, מה שישפיע על איך מחושבים הסכומים של ההוצאות וההכנסות.
+      en: |
+        Categories can now be configured as expense or income categories, which will impact how the expense and income sums are calculated.
+    -
+      github: 113#column-19675398
+      mastodon: 111375868306290140
+  -
     - 3.6.6
     - "2023-10-28"
     -
