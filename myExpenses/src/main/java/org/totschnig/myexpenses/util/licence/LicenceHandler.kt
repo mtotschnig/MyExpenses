@@ -310,7 +310,7 @@ open class LicenceHandler(
         get() = false
 
     open val needsKeyEntry: Boolean
-        get() = !hasValidKey()
+        get() = true
 
     fun getPaypalUri(aPackage: Package): String {
         val host = if (isSandbox) "www.sandbox.paypal.com" else "www.paypal.com"

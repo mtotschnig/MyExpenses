@@ -266,7 +266,7 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener, Simple
             } ?: R.string.upgrade_now, null
             )
 
-        if (licenceHandler.needsKeyEntry) {
+        if (licenceHandler.needsKeyEntry && !licenceHandler.hasValidKey()) {
             builder.setNeutralButton(R.string.pref_enter_licence_title, null)
         }
 
