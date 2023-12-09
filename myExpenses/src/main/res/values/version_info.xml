@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string-array name="versions">
+        <item>681;3.6.9.1</item>
         <item>678;3.6.9</item>
         <item>671;3.6.8</item>
         <item>662;3.6.7</item>
@@ -126,6 +127,7 @@
     <string name="version_more_info_367">111375868306290140</string>
     <string name="version_more_info_368">111433728475407148</string>
     <string name="version_more_info_369">111504468267860332</string>
+    <string name="version_more_info_3691">111552065954592754</string>
 
     <!-- Github -->
     <string name="project_board_314">30#column-10686300</string>
@@ -184,6 +186,7 @@
     <string name="project_board_367">113#column-19675398</string>
     <string name="project_board_368">116#column-19684067</string>
     <string name="project_board_369">118#column-19691508</string>
+    <string name="project_board_3691">119#column-19700405</string>
 
     <string-array name="whats_new_314">
         <item>@string/title_scan_receipt_feature</item>
@@ -235,4 +238,9 @@
         <item>@string/whats_new_369_1</item>
         <item>@string/whats_new_369_2</item>
     </string-array>
+    <string-array name="whats_new_3691">
+        <item>@string/whats_new_3691</item>
+        <item>@string/bug_fixes</item>
+    </string-array>
+    <string name="whats_new_3691">You can now select the category which will be used for transfers by default.</string>
 </resources>
