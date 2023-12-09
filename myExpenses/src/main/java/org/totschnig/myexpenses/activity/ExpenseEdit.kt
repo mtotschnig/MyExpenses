@@ -774,7 +774,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     }
 
     private fun populateWithNewInstance(transaction: Transaction?) {
-        transaction?.let { populate(it, withAutoFill) } ?: run {
+        transaction?.also { populate(it, withAutoFill) } ?: run {
             val errMsg = getString(R.string.warning_no_account)
             abortWithMessage(errMsg)
             return
