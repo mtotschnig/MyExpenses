@@ -163,9 +163,6 @@ enum class ContribFeature(
     val isProfessional: Boolean
         get() = licenceStatus === LicenceStatus.PROFESSIONAL
 
-    val trialButton: Int
-        get() = R.string.dialog_contrib_no
-
     companion object {
         const val FREE_PLANS = 3
         const val FREE_ACCOUNTS = 5

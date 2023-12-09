@@ -31,15 +31,12 @@ import androidx.core.content.res.ResourcesCompat.getColor
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.form.Input
 import eltos.simpledialogfragment.form.SimpleFormDialog
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
@@ -59,11 +56,11 @@ import org.totschnig.myexpenses.util.licence.LicenceStatus
 import org.totschnig.myexpenses.util.licence.Package
 import org.totschnig.myexpenses.util.licence.ProfessionalPackage
 import org.totschnig.myexpenses.util.tracking.Tracker
-import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel
 import java.io.Serializable
 import javax.inject.Inject
 
-class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener, SimpleDialog.OnDialogResultListener {
+class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
+    SimpleDialog.OnDialogResultListener {
     private var _binding: ContribDialogBinding? = null
     private val binding get() = _binding!!
     private var feature: ContribFeature? = null
@@ -262,7 +259,7 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener, Simple
         builder.setView(dialogView)
             .setIcon(R.mipmap.ic_launcher_alt)
             .setPositiveButton(feature?.let {
-                if (licenceHandler.hasTrialAccessTo(it)) it.trialButton else null
+                if (licenceHandler.hasTrialAccessTo(it)) R.string.dialog_contrib_no else null
             } ?: R.string.upgrade_now, null
             )
 
@@ -272,11 +269,13 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener, Simple
 
         val dialog = builder.create()
         dialog.setOnShowListener {
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener { onPositiveButtonClicked() }
-            dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener { onNeutralButtonClicked() }
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                .setOnClickListener { onPositiveButtonClicked() }
+            dialog.getButton(AlertDialog.BUTTON_NEUTRAL)
+                .setOnClickListener { onNeutralButtonClicked() }
             if (savedInstanceState != null) {
-                updateButtons(
-                    selectedPackage.let {
+                selectedPackage?.let {
+                    updateButtons(
                         when (it) {
                             Package.Contrib -> contribButton
                             Package.Extended, Package.Upgrade -> extendedButton
@@ -284,12 +283,10 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener, Simple
                                 updateProPrice(licenceStatus)
                                 professionalButton
                             }
-
                             is AddOnPackage -> singleButton
-                            else -> trialButton
                         }
-                    }
-                )
+                    )
+                }
             }
         }
         return dialog
@@ -422,14 +419,19 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener, Simple
         }
     }
 
-    private fun updateButtons(selected: RadioButton?) {
+    private fun updateButtons(selected: RadioButton) {
         trialButton.isChecked = trialButton === selected
         if (contribVisible) contribButton.isChecked = contribButton === selected
         if (extendedVisible) extendedButton.isChecked = extendedButton === selected
         if (singleVisible) singleButton.isChecked = singleButton === selected
         professionalButton.isChecked = professionalButton === selected
         (dialog as AlertDialog).getButton(DialogInterface.BUTTON_POSITIVE).setText(
-            if (trialButton === selected) feature!!.trialButton else R.string.upgrade_now
+            if (trialButton === selected) {
+                if (feature == null) {
+                    CrashHandler.throwOrReport("trialButton selected without feature")
+                }
+                R.string.dialog_contrib_no
+            } else R.string.upgrade_now
         )
     }
 
@@ -442,6 +444,7 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener, Simple
         const val DIALOG_VALIDATE_LICENCE = "validateLicence"
         const val KEY_EMAIL = "email"
         const val KEY_KEY = "key"
+
         @JvmStatic
         fun newInstance(feature: String?, tag: Serializable?) = ContribDialogFragment().apply {
             arguments = Bundle().apply {
