@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.fragment
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.view.doOnLayout
 import androidx.preference.*
 import androidx.slidingpanelayout.widget.SlidingPaneLayout
@@ -31,6 +32,7 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
     ): Boolean {
         val started = if (headerFragment.isSlideable) {
             requireActivity().title = pref.title
+            setHeaderFocusable(false)
             startFragment(caller, pref)
         } else if (caller !is MainPreferenceFragment || headerFragment.highlightedKey != pref.key) {
             startFragment(caller, pref)
@@ -38,7 +40,12 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
         if (started && caller is MainPreferenceFragment) {
             caller.onLoadPreference(pref.key)
         }
-        return true
+        return started
+    }
+
+    private fun setHeaderFocusable(focusable: Boolean) {
+        (headerFragment.view as? ViewGroup)?.descendantFocusability =
+            if (focusable) ViewGroup.FOCUS_AFTER_DESCENDANTS else ViewGroup.FOCUS_BLOCK_DESCENDANTS
     }
 
     private fun startFragment(
@@ -46,7 +53,6 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
         pref: Preference
     ) = if ((requireActivity() as PreferenceActivity).protectionCheck(pref)) {
         super.onPreferenceStartFragment(caller, pref)
-        true
     } else false
 
     fun startPerformProtection() {
@@ -99,7 +105,13 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
                 childFragmentManager.popBackStackImmediate()
                 ensureTitle()
                 true
-            } else slidingPaneLayout.closePane()
+            } else {
+                slidingPaneLayout.closePane().also {
+                    if(it) {
+                        setHeaderFocusable(true)
+                    }
+                }
+            }
         } else false
 
     companion object {
