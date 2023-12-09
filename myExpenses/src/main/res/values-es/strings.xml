@@ -1054,4 +1054,5 @@
     <string name="whats_new_369_1">Las transferencias pueden asignarse a las categorías.</string>
     <string name="warning_delete_default_transfer_category">La categoría %s está configurada como categoría de transferencia por defecto y no debe eliminarse.</string>
     <string name="whats_new_369_2">Cuando el bloqueo de pantalla está activado, permite optar por desactivar las capturas de pantalla.</string>
+    <string name="default_transfer_category">Categoría de transferencia predeterminada</string>
 </resources>
