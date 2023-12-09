@@ -98,12 +98,12 @@ public abstract class PreferenceGroup extends Preference {
             setInitialExpandedChildrenCount(TypedArrayUtils.getInt(
                     a, R.styleable.PreferenceGroup_initialExpandedChildrenCount,
                     R.styleable.PreferenceGroup_initialExpandedChildrenCount, Integer.MAX_VALUE));
-            if (a.hasValue(R.styleable.PreferenceGroup_expandButtonTitle)) {
-                expandButtonTitle = TypedArrayUtils.getText(a, R.styleable.PreferenceGroup_expandButtonTitle,
-                        R.styleable.PreferenceGroup_expandButtonTitle);
-            } else {
-                expandButtonTitle = context.getString(R.string.expand_button_title);
-            }
+        }
+        if (a.hasValue(R.styleable.PreferenceGroup_expandButtonTitle)) {
+            expandButtonTitle = TypedArrayUtils.getText(a, R.styleable.PreferenceGroup_expandButtonTitle,
+                    R.styleable.PreferenceGroup_expandButtonTitle);
+        } else {
+            expandButtonTitle = context.getString(R.string.expand_button_title);
         }
         a.recycle();
     }

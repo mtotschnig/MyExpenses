@@ -40,5 +40,18 @@ dependencies {
     api("androidx.slidingpanelayout:slidingpanelayout:1.2.0")
     implementation("com.google.android.material:material:$materialComponents")
 
-
+    androidTestImplementation("androidx.test.ext:junit:$androidxTextExtJunit")
+    androidTestImplementation("androidx.test:core:$androidSupportTestVersion")
+    androidTestImplementation("androidx.test:runner:1.5.2")
+    androidTestImplementation("androidx.test:rules:1.5.0")
+    androidTestImplementation("androidx.test.espresso:espresso-core:$espressoVersion")
+    //androidTestImplementation(libs.espressoCore, excludes.espresso)
+    androidTestImplementation("org.mockito:mockito-core:2.25.0") {
+        exclude group: "net.bytebuddy:byte-buddy"
+    }
+    androidTestImplementation("com.linkedin.dexmaker:dexmaker-mockito:2.28.3") {
+        exclude group: "net.bytebuddy:byte-buddy"
+    }
+    androidTestImplementation "com.google.truth:truth:$truthVersion"
+    androidTestImplementation("androidx.multidex:multidex:2.0.1")
 }
