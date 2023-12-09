@@ -855,7 +855,7 @@
     <string name="pref_clone_with_current_date_title">Ημερομηνία κλωνοποιημένων συναλλαγών</string>
     <plurals name="warning_delete_tag">
         <item quantity="one">Η ετικέτα %1$s αντιστοιχίζεται σε μία συναλλαγή. Πρέπει να διαγραφεί;</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <string name="synchronization_end_success">%1$d Απομακρυσμένες αλλαγές γράφτηκαν στην τοπική βάση δεδομένων. %2$d οι τοπικές αλλαγές γράφτηκαν σε απομακρυσμένο backend.</string>
     <string name="button_label_clone_and_remap">Κλώνος και αναδιατύπωση</string>

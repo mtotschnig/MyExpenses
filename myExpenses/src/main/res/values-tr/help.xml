@@ -203,4 +203,6 @@
     <string name="menu_show_all_help_text">Kapatılan veya ödenen (bakiyesi 0 olan) borçlar, yalnızca bu seçenek işaretliyse gösterilecektir.</string>
     <string name="help_DebtOverview_info">Genişletmek / daraltmak için bir unsura tıklayın.</string>
     <string name="debt_help_overflow">Her borç için, düzenlemek, kapatmak, silmek veya paylaşmak için sağ üst köşedeki menüyü kullanın. Yabancı para borçları isteğe bağlı olarak ana para birimindeki eş değer tutarlarla listelenebilir.</string>
+    <string name="menu_type_filter_help_text">Bu seçenek etkinleştirildiğinde, yalnızca gider, gelir veya transfer kategorilerini göstermeyi seçebilirsiniz.</string>
+    <string name="menu_aggregate_neutral_categories_help_text">Gelir kategorilerine ilişkilendirilen muameleler her zaman gelir olarak sayılır, gider kategorilerine ilişkilendirilen muameleler her zaman gider olarak sayılır. Bu seçenek, tarafsız kategorilere ilişkilendirilen muamelelerin nasıl sayılacağını yapılandırmanıza olanak tanır: Öntanımlı olarak, eğer pozitiflerse geliri, negatiflerse gideri temsil ederler. Ancak bu seçenek etkinleştirilirse, her zaman hem gelir hem de gider toplamlarınıza dahil edilirler.</string>
 </resources>
