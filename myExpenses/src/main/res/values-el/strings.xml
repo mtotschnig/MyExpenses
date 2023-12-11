@@ -881,7 +881,6 @@
     <string name="menu_save_and_new_content_description">Αποθηκεύστε τα δεδομένα, αφήστε τη φόρμα ανοιχτή για τη δημιουργία μιας νέας συναλλαγής με τα ίδια δεδομένα.</string>
     <string name="warning_balance_account_delete">Εάν προχωρήσετε, όλες οι συμφωνημένες συναλλαγές αυτού του λογαριασμού θα διαγραφούν από τη βάση δεδομένων και δεν θα μπορείτε να τις επαναφέρετε.</string>
     <string name="synchronization_select_folder_dialog_title">Επιλέξτε έναν υπάρχοντα φάκελο ή δημιουργήστε έναν νέο</string>
-    <string name="menu_merge">Συγχώνευση</string>
     <string name="sync_io_error_cannot_connect">Δεν είναι δυνατή η σύνδεση στο backend συγχρονισμού.</string>
     <string name="clone_and_remap_result">Οι επιλεγμένες συναλλαγές κλωνοποιήθηκαν και αναδιατυπώθηκαν.</string>
     <string name="menu_remap">Αναδιατύπωση</string>

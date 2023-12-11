@@ -18,7 +18,7 @@ class OcrFeatureImpl(@Suppress("unused") val prefHandler: PrefHandler): OcrFeatu
         MessageDialogFragment.newInstance(
                 null,
                 baseActivity.getString(R.string.ocr_download_info),
-                MessageDialogFragment.Button(R.string.button_download, R.id.OCR_DOWNLOAD_COMMAND, null),
+                MessageDialogFragment.Button(R.string.action_download, R.id.OCR_DOWNLOAD_COMMAND, null),
                 MessageDialogFragment.Button(R.string.learn_more, R.id.OCR_FAQ_COMMAND, null),
                 null).show(baseActivity.supportFragmentManager, "OCR_DOWNLOAD")
     }
