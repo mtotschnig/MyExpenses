@@ -1,0 +1,4 @@
+• Sie können jetzt die Kategorie auswählen, die standardmäßig Umbuchungen zugeorndet wird.
+• Bugs behoben
+
+https://github.com/mtotschnig/MyExpenses/projects/119#column-19700405

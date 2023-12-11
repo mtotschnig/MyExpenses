@@ -1,0 +1,4 @@
+• Il est dorénavant possible de seléctionner la catégorie qui sera affectée aux transferts par défaut.
+• Corrections des erreurs
+
+https://github.com/mtotschnig/MyExpenses/projects/119#column-19700405

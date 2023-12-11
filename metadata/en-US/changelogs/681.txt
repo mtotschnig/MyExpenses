@@ -1,0 +1,4 @@
+• You can now select the category which will be used for transfers by default.
+• Bug fixes
+
+https://github.com/mtotschnig/MyExpenses/projects/119#column-19700405
