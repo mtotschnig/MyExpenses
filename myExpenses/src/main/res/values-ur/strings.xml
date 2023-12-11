@@ -568,7 +568,6 @@
     <string name="scan_result_no_amount">کوئی رقم نہیں ملی</string>
     <string name="scan_result_no_date">کوئی تاریخ نہیں ملی</string>
     <string name="scan_result_no_payee">کوئی وصول کنندہ نہیں ملا</string>
-    <string name="button_download">ڈاؤن لوڈ کریں</string>
     <string name="pref_feature_uninstall_title">خصوصیات اور زبانوں کی انسٹالیشن کی درخواست کریں</string>
     <string name="pref_feature_uninstall_summary">Play Store آخر کار پس منظر میں ان ماڈیولز کو ہٹانے کی کوشش کرتا ہے.</string>
     <string name="pref_feature_uninstall_languages_title">زبانیں</string>
@@ -730,7 +729,6 @@
     <string name="dialog_title_confirm_remap">میپنگ تبدیل کریں (%s)؟</string>
     <string name="remap_payee">تمام منتخب کردہ لین دین کو ادا کنندہ/ وصول کنندہ %s کے ساتھ میپ کیا جائے گا.</string>
     <string name="remap_method">تمام منتخب کردہ لین دین کو طریقہ %s میں میپ کیا جائے گا.</string>
-    <string name="checkbox_is_default">طے شدہ</string>
     <string name="remap_category">تمام منتخب کردہ لین دین کو زمرہ %s میں میپ کیا جائے گا.</string>
     <string name="remap_account">تمام منتخب کردہ لین دین کو اکاؤنٹ %s میں میپ کیا جائے گا.</string>
     <string name="remapping_result">منتخب کردہ لین دین کو دوبارہ ترتیب دیا گیا.</string>
@@ -819,7 +817,6 @@
     <string name="performance_enhancement" tools:ignore="UnusedResources">کارکردگی میں اضافہ</string>
     <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">منتقلی، تقسیم لین دین یا آمدنی کے لیے فارم کو براہ راست کھولنے کے لیے تیرتے ہوئے ایکشن بٹن کو تھپتھپائیں اور دبائے رکھیں.</string>
     <string name="confirmation_load_template_discard_data">موجودہ فارم ڈیٹا کو ضائع کر دیا جائے گا.</string>
-    <string name="menu_merge">ضم</string>
     <string name="account_widget_configuration_sum_total">مستقبل کے لین دین کو شامل کریں</string>
     <string name="warning_link_transfer">دو منتخب ٹرانزیکشنز کو ٹرانسفر کے طور پر منسلک کیا جائے گا. وصول کنندہ/ ادا کنندہ اور زمرہ کی معلومات چھوڑ دی جائیں گی.</string>
     <string name="warning_party_delete_debt">اس پارٹی کو حذف کرتے وقت، اس کے لیے بیان کردہ قرضوں کو بھی حذف کر دیا جائے گا.</string>

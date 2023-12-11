@@ -67,4 +67,7 @@
     <string name="screenshot">"Zrzuty ekranu"</string>
     <string name="menu_add">"Dodaj"</string>
     <string name="about_ads">"Reklamy"</string>
+    <string name="menu_merge">Scal</string>
+    <string name="checkbox_is_default">"Domyślna"</string>
+    <string name="action_download">"Pobierz"</string>
 </resources>

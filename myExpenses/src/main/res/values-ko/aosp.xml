@@ -64,4 +64,7 @@
     <string name="screenshot">"스크린샷"</string>
     <string name="menu_add">"추가"</string>
     <string name="about_ads">"광고"</string>
+    <string name="menu_merge">병합</string>
+    <string name="checkbox_is_default">"기본값"</string>
+    <string name="action_download">"다운로드"</string>
 </resources>

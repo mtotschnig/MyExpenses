@@ -67,4 +67,7 @@
     <string name="screenshot">"Знімки екрана"</string>
     <string name="menu_add">"Додати"</string>
     <string name="about_ads">"Реклама"</string>
+    <string name="menu_merge">Об’єднати</string>
+    <string name="checkbox_is_default">"За умовчанням"</string>
+    <string name="action_download">"Завантажити"</string>
 </resources>

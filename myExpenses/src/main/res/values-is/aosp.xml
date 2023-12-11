@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="checkbox_is_default">"Sjálfgefið"</string>
+    <string name="action_download">"Sækja"</string>
+</resources>

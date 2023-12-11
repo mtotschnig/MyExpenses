@@ -66,4 +66,7 @@
     <string name="screenshot">"Екранна снимка"</string>
     <string name="menu_add">"Добавяне"</string>
     <string name="about_ads">"Реклами"</string>
+    <string name="menu_merge">Обединяване</string>
+    <string name="checkbox_is_default">"По подразбиране"</string>
+    <string name="action_download">"Изтегляне"</string>
 </resources>

@@ -520,7 +520,6 @@
     <string name="budget_filter_all_tags">Alle tags</string>
     <string name="warning_delete_budget">Budget \"%1$s\" wordt verwijderd.</string>
     <string name="app_restart_required">De nieuwe configuratie vereist dat de app opnieuw wordt opgestart om van kracht te worden.</string>
-    <string name="checkbox_is_default">Standaard</string>
     <string name="dialog_title_confirm_remap">Toewijzing wijzigen (%s) \?</string>
     <string name="pref_clone_with_current_date_summary_off">Gekloonde transacties behouden de oorspronkelijke datum</string>
     <string name="tags_create_or_select">Tags maken of selecteren</string>
@@ -589,7 +588,6 @@
     <string name="content_description_clear_method">Duidelijke methode</string>
     <string name="pref_ocr_time_formats_title">Tijdsindelingen</string>
     <string name="pref_ocr_date_formats_title">Datumindelingen</string>
-    <string name="button_download">Downloaden</string>
     <string name="scan_result_no_date">Geen datum gevonden</string>
     <string name="unmapped_filter_only_single">\'Niet-toegewezen\' filter kan niet worden opgenomen in meervoudige selectie</string>
     <string name="sub_budget_exceeded_error_2">Verhoog het bedrag dat is toegewezen aan de hoofdcategorie of verwijder geld uit andere subcategorieën.</string>
@@ -821,7 +819,6 @@
     <string name="scan_result_multiple_candidates_dialog_title">Meerdere kandidaten gevonden. Selecteer:</string>
     <string name="select_package">Selecteer een licentiepakket.</string>
     <string name="recurrence_last_day_of_month">Laatste dag</string>
-    <string name="menu_merge">Samenvoegen</string>
     <string name="auto_fill_focus">Zet Focus op Begunstigde</string>
     <string name="warning_plan_instance_delete">De transactie die voor de geselecteerde datum is aangemaakt, wordt verwijderd.</string>
     <string name="bug_fixes" tools:ignore="UnusedResources">Foutoplossingen</string>

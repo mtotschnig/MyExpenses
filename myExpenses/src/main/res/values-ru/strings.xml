@@ -788,8 +788,6 @@
     <string name="onboarding_privacy_title">Ваши данные остаются в ваших руках</string>
     <string name="onboarding_privacy_intro">Ваши финансовые данные не пересылаются ни на какой сервер, как находящийся под нашим контролем, так и под контролем какой-либо третьей стороны. </string>
     <string name="app_restart_required">Для вступления в силу новой конфигурации требуется перезапуск приложения.</string>
-    <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
-    <string name="checkbox_is_default">По умолчанию</string>
     <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
     <string name="menu_remap">Переоформления</string>
     <string name="dialog_title_confirm_remap">Изменить сопоставление (%s)?</string>
@@ -830,7 +828,6 @@
     <string name="language_download_requested">Переводы для языка %s запрашиваются в Play Store</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Особенности</string>
-    <string name="button_download">Скачать</string>
     <string name="menu_save_and_new_content_description">Сохранить данные, открыть форму для создания новой операции с теми же данными.</string>
     <string name="pref_feature_uninstall_summary">Play Store пытается в конечном итоге удалить эти модули в фоновом режиме.</string>
     <string name="pref_feature_uninstall_title">Запросить удаление функций и языков</string>
@@ -913,7 +910,6 @@
     <string name="auto_fill_focus">Установить фокус на получателе платежа</string>
     <string name="request_for_invoice">Запрос счета-фактуры</string>
     <string name="active_tags">Активные теги</string>
-    <string name="menu_merge">Объединить</string>
     <string name="account_widget_configuration_sum">Тип отображаемой суммы</string>
     <string name="recurrence_last_day_of_month">Последний день</string>
     <string name="account_deleted">Счет удален</string>

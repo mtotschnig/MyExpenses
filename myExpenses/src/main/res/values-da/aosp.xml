@@ -65,4 +65,7 @@
     <string name="screenshot">"Skærmbillede"</string>
     <string name="menu_add">"Tilføj"</string>
     <string name="about_ads">"Annoncer"</string>
+    <string name="menu_merge">Flet</string>
+    <string name="checkbox_is_default">"Standard"</string>
+    <string name="action_download">"Download"</string>
 </resources>

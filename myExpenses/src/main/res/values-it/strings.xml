@@ -780,8 +780,6 @@
     <string name="onboarding_privacy_title">I tuoi dati rimangono nelle tue mani</string>
     <string name="onboarding_privacy_intro">I tuoi dati finanziari non vengono inviati a nessun server, né gestiti da noi, né da terze parti.</string>
     <string name="app_restart_required">La nuova configurazione richiede il riavvio dell\'app.</string>
-    <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
-    <string name="checkbox_is_default">Default</string>
     <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
     <string name="menu_remap">Riassegna</string>
     <string name="dialog_title_confirm_remap">Riassegnare (%s) ?</string>
@@ -851,7 +849,6 @@
     <string name="scan_result_no_amount">Non è stato trovato alcun importo</string>
     <string name="scan_result_no_date">Non è stata trovata alcuna data</string>
     <string name="scan_result_no_payee">Non è stato trovato alcun beneficiario</string>
-    <string name="button_download">Scarica</string>
     <string name="pref_feature_uninstall_title">Richiedi la disinstallazione di funzionalità e lingue</string>
     <string name="pref_feature_uninstall_summary">Play Store cercherà di rimuovere quei moduli in background.</string>
     <string name="pref_feature_uninstall_languages_title">Lingue</string>
@@ -897,8 +894,6 @@
     <string name="account_widget_configuration_sum_total">Includi transazioni future</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Configurazione del widget del conto</string>
-    <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
-    <string name="menu_merge">Raggruppa</string>
     <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
     <string name="merge_parties_select">Seleziona il nuovo nome del beneficiario/pagante:</string>
     <!-- This is the label for a field for accounts. Active tags are automatically added to new transactions when an account is selected. -->

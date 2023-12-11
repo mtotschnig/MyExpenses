@@ -64,4 +64,7 @@
     <string name="screenshot">"Ekran görüntüsü"</string>
     <string name="menu_add">"Ekle"</string>
     <string name="about_ads">"Reklam"</string>
+    <string name="menu_merge">Birleştir</string>
+    <string name="checkbox_is_default">"Varsayılan"</string>
+    <string name="action_download">"İndir"</string>
 </resources>

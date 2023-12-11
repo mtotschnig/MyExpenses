@@ -60,4 +60,7 @@
     <string name="screen_lock">"اسکرین لاک"</string>
     <string name="menu_add">"شامل کریں"</string>
     <string name="about_ads">"اشتہارات"</string>
+    <string name="menu_merge">ضم کریں</string>
+    <string name="checkbox_is_default">"ڈیفالٹ"</string>
+    <string name="action_download">"ڈاؤن لوڈ کریں"</string>
 </resources>

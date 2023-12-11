@@ -731,7 +731,6 @@
     <string name="menu_edit_budget">Редагувати бюджет</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Особливості</string>
-    <string name="button_download">Завантажити</string>
     <string name="crash_reports_user_info">{app_name} автоматично надсилатиме звіти розробникам про аварійне завершення роботи програми, що дозволить виправляти проблеми швидше.</string>
     <string name="pref_category_title_crash_reports">Звіти про помилки</string>
     <string name="pref_enable_acra">Дозволити автоматичне надсилання звітів про помилки</string>
@@ -783,7 +782,6 @@
     <string name="dialog_title_confirm_remap">Змінити відображення (%s) \?</string>
     <string name="menu_remap">Перепризначити</string>
     <string name="onboarding_privacy_intro">Ваші фінансові дані не надсилаються на жоден сервер, який не належить нам або третім особам.</string>
-    <string name="checkbox_is_default">Типово</string>
     <string name="feature_download_requested">Функція %s запитується з Play Store.</string>
     <string name="menu_scan_mode">Режим сканування</string>
     <string name="pref_ocr_total_indicators_title">Показники для загальної суми</string>
@@ -810,7 +808,6 @@
     <string name="account_widget_configuration_sum">Тип відображуваної суми</string>
     <string name="auto_fill_focus">Зверніть увагу на одержувача</string>
     <string name="warning_plan_instance_delete">Транзакцію, створену на вибрану дату, буде видалено.</string>
-    <string name="menu_merge">Обʼєднати</string>
     <string name="account_widget_configuration_sum_total">Включіть майбутні транзакції</string>
     <string name="merge_parties_select">Виберіть назву об\'єднаної партії:</string>
     <string name="active_tags">Активні теги</string>

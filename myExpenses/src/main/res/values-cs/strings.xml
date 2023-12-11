@@ -791,8 +791,6 @@
     <string name="onboarding_privacy_title">Vaše údaje zůstanou ve vašich rukou</string>
     <string name="onboarding_privacy_intro">Vaše finanční údaje nejsou odesílány na žádný server provozovaný námi nebo třetí stranou.</string>
     <string name="app_restart_required">Aby nová konfigurace vešla v platnost, je nutné restartovat aplikaci.</string>
-    <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
-    <string name="checkbox_is_default">Výchozí</string>
     <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
     <string name="menu_remap">Přemapovat</string>
     <string name="dialog_title_confirm_remap">Chcete změnit mapování (%s)?</string>
@@ -863,7 +861,6 @@
     <string name="scan_result_no_amount">Nebyla nalezena žádná částka</string>
     <string name="scan_result_no_date">Nebylo nalezeno žádné datum</string>
     <string name="scan_result_no_payee">Příjemce platby nenalezen</string>
-    <string name="button_download">Stáhnout</string>
     <string name="pref_feature_uninstall_title">Požádat o odinstalování funkcí a jazyků</string>
     <string name="pref_feature_uninstall_summary">Obchod Play se nakonec pokusí tyto moduly odebrat na pozadí.</string>
     <string name="pref_feature_uninstall_languages_title">Jazyky</string>
@@ -909,8 +906,6 @@
     <string name="account_widget_configuration_sum_total">Zahrnout budoucí transakce</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Konfigurace widgetu účtu</string>
-    <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
-    <string name="menu_merge">Spojit</string>
     <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
     <string name="merge_parties_select">Vyberte název sloučené strany:</string>
     <string name="crash_reports_user_info">{app_name} pošle automaticky záznamy o pádech aplikace vývojářům, což umožní napravení chyb mnohem rychleji.</string>

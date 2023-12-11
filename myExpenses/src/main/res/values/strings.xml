@@ -794,8 +794,6 @@
     <string name="onboarding_privacy_title">Your data stays in your hands</string>
     <string name="onboarding_privacy_intro">Your financial data is not sent to any server, neither operated by us nor by any third party.</string>
     <string name="app_restart_required">New configuration requires app restart to take effect.</string>
-    <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
-    <string name="checkbox_is_default">Default</string>
     <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
     <string name="menu_remap">Remap</string>
     <string name="dialog_title_confirm_remap">Change mapping (%s) ?</string>
@@ -864,7 +862,6 @@
     <string name="scan_result_no_amount">No amount found</string>
     <string name="scan_result_no_date">No date found</string>
     <string name="scan_result_no_payee">No payee found</string>
-    <string name="button_download">Download</string>
     <string name="pref_feature_uninstall_title">Request deinstallation of features and languages</string>
     <string name="pref_feature_uninstall_summary">Play Store tries to eventually remove those modules in the background.</string>
     <string name="pref_feature_uninstall_languages_title">Languages</string>
@@ -912,8 +909,6 @@
     <string name="account_widget_configuration">Account widget configuration</string>
     <!-- Title of dialogue that allows to configure budget widget -->
     <string name="budget_widget_configuration">Select budget</string>
-    <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
-    <string name="menu_merge">Merge</string>
     <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
     <string name="merge_parties_select">Select name of merged party:</string>
     <!-- This is the label for a field for accounts. Active tags are automatically added to new transactions when an account is selected. -->

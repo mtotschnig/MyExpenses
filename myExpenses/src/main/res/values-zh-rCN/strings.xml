@@ -767,8 +767,6 @@
     <string name="onboarding_privacy_title">您的数据掌握在您的手中</string>
     <string name="onboarding_privacy_intro">您的财务数据不会发送到任何由我们或任何第三方运营的服务器。</string>
     <string name="app_restart_required">新配置需要重启应用程序才能生效。</string>
-    <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
-    <string name="checkbox_is_default">选用默认设置</string>
     <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
     <string name="menu_remap">重新分配映射</string>
     <string name="dialog_title_confirm_remap">确定更改映射(%s)?</string>
@@ -836,7 +834,6 @@
     <string name="scan_result_no_amount">找不到金额</string>
     <string name="scan_result_no_date">找不到日期</string>
     <string name="scan_result_no_payee">找不到收款人</string>
-    <string name="button_download">下载</string>
     <string name="pref_feature_uninstall_title">要求卸载\"功能\"和\"语言\"</string>
     <string name="pref_feature_uninstall_summary">Google Play 商店 尝试在后台删除这些模块。</string>
     <string name="pref_feature_uninstall_languages_title">语言</string>
@@ -882,8 +879,6 @@
     <string name="account_widget_configuration_sum_total">包括未来交易</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">配置账户小部件widget</string>
-    <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
-    <string name="menu_merge">合并</string>
     <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
     <string name="merge_parties_select">请选择要合并的交易对象：</string>
     <string name="pref_category_title_crash_reports">故障报告</string>

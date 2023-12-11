@@ -61,4 +61,7 @@
     <string name="screenshot">"තිර රුව"</string>
     <string name="menu_add">"එක් කරන්න"</string>
     <string name="about_ads">"දැන්වීම්"</string>
+    <string name="menu_merge">ඒකාබද්ධ කරන්න</string>
+    <string name="checkbox_is_default">"සුපුරුදු"</string>
+    <string name="action_download">"බාගන්න"</string>
 </resources>

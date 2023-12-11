@@ -65,4 +65,7 @@
     <string name="screenshot">"Captures d'écran"</string>
     <string name="menu_add">"Ajouter"</string>
     <string name="about_ads">"Annonces"</string>
+    <string name="menu_merge">Fusionner</string>
+    <string name="checkbox_is_default">"Par défaut"</string>
+    <string name="action_download">"Télécharger"</string>
 </resources>

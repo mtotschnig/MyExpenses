@@ -771,8 +771,6 @@
     <string name="onboarding_privacy_title">ನಿಮ್ಮ ಡೇಟಾ ನಿಮ್ಮ ಕೈಯಲ್ಲಿರುತ್ತದೆ</string>
     <string name="onboarding_privacy_intro">ನಿಮ್ಮ ಹಣಕಾಸಿನ ಡೇಟಾವನ್ನು ಯಾವುದೇ ಸರ್ವರ್‌ಗೆ ಕಳುಹಿಸಲಾಗುವುದಿಲ್ಲ, ನಮ್ಮಿಂದ ಅಥವಾ ಯಾವುದೇ ಮೂರನೇ ವ್ಯಕ್ತಿಯಿಂದ ನಿರ್ವಹಿಸುವುದಿಲ್ಲ.</string>
     <string name="app_restart_required">ಹೊಸ ಕಾನ್ಫಿಗರೇಶನ್ ಕಾರ್ಯಗತಗೊಳ್ಳಲು ಅಪ್ಲಿಕೇಶನ್ ಮರುಪ್ರಾರಂಭದ ಅಗತ್ಯವಿದೆ.</string>
-    <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
-    <string name="checkbox_is_default">ಡೀಫಾಲ್ಟ್</string>
     <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
     <string name="menu_remap">ರೀಮ್ಯಾಪ್</string>
     <string name="dialog_title_confirm_remap">ಮ್ಯಾಪಿಂಗ್ ಅನ್ನು ಬದಲಾಯಿಸಿ (%s)?</string>
@@ -820,7 +818,6 @@
     <string name="pref_feature_uninstall_summary">ಪ್ಲೇ ಸ್ಟೋರ್ ಅಂತಿಮವಾಗಿ ಆ ಮಾಡ್ಯೂಲ್‌ಗಳನ್ನು ಹಿನ್ನೆಲೆಯಲ್ಲಿ ತೆಗೆದುಹಾಕಲು ಪ್ರಯತ್ನಿಸುತ್ತದೆ.</string>
     <string name="pref_ocr_time_formats_title">ಸಮಯ ಸ್ವರೂಪಗಳು</string>
     <string name="pref_feature_uninstall_title">ವೈಶಿಷ್ಟ್ಯಗಳು ಮತ್ತು ಭಾಷೆಗಳ ಅಸ್ಥಾಪನೆಯನ್ನು ವಿನಂತಿಸಿ</string>
-    <string name="button_download">ಡೌನ್‌ಲೋಡ್</string>
     <string name="scan_result_no_payee">ಯಾವುದೇ ಪಾವತಿಸುವವರು ಕಂಡುಬಂದಿಲ್ಲ</string>
     <string name="scan_result_no_date">ಯಾವುದೇ ದಿನಾಂಕ ಕಂಡುಬಂದಿಲ್ಲ</string>
     <string name="scan_result_no_amount">ಯಾವುದೇ ಮೊತ್ತ ಕಂಡುಬಂದಿಲ್ಲ</string>
@@ -852,7 +849,6 @@
     <string name="request_for_invoice">ಸರಕುಪಟ್ಟಿಗಾಗಿ ವಿನಂತಿ</string>
     <string name="active_tags">ಸಕ್ರಿಯ ಟ್ಯಾಗ್‌ಗಳು</string>
     <string name="merge_parties_select">ವಿಲೀನಗೊಂಡ ಪಕ್ಷದ ಹೆಸರನ್ನು ಆಯ್ಕೆಮಾಡಿ:</string>
-    <string name="menu_merge">ವಿಲೀನಗೊಳ್ಳಲು</string>
     <string name="account_widget_configuration">ಖಾತೆ ವಿಜೆಟ್ ಕಾನ್ಫಿಗರೇಶನ್</string>
     <string name="account_widget_configuration_sum_total">ಭವಿಷ್ಯದ ವಹಿವಾಟುಗಳನ್ನು ಸೇರಿಸಿ</string>
     <string name="account_widget_configuration_sum">ಪ್ರದರ್ಶಿತ ಮೊತ್ತದ ಪ್ರಕಾರ</string>

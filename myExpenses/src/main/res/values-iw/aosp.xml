@@ -66,4 +66,7 @@
     <string name="screenshot">"צילום מסך"</string>
     <string name="menu_add">"הוספה"</string>
     <string name="about_ads">"מודעות"</string>
+    <string name="menu_merge">מזג</string>
+    <string name="checkbox_is_default">"ברירת מחדל"</string>
+    <string name="action_download">"הורד"</string>
 </resources>

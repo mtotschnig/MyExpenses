@@ -64,4 +64,7 @@
     <string name="screenshot">"Screenshots"</string>
     <string name="menu_add">"Hinzufügen"</string>
     <string name="about_ads">"Anzeigen"</string>
+    <string name="menu_merge">Zusammenführen</string>
+    <string name="checkbox_is_default">"Standard"</string>
+    <string name="action_download">"Herunterladen"</string>
 </resources>

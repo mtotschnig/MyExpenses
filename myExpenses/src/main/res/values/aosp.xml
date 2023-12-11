@@ -104,4 +104,10 @@
     <string name="menu_add">"Add"</string>
     <!-- /opt/extra/AOSP/packages/apps/TvSettings/Settings$ grep -ri about_ads res/values* | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="about_ads">Ads</string>
+    <!-- /opt/extra/AOSP/packages/apps/Dialer/java/com/android/incallui/incall/impl$ grep -ri incall_label_merge res/values* | sed 's/incall_label/menu/' |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper  -->
+    <string name="menu_merge">Merge</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings grep -ri keyboard_layout_default_label res/values* | sed 's/keyboard_layout_default_label/checkbox_is_default/' |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
+    <string name="checkbox_is_default">Default</string>
+    <!-- /opt/extra/AOSP/packages/apps/Messaging$ grep -ri action_download res/values* | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
+    <string name="action_download">Download</string>
 </resources>

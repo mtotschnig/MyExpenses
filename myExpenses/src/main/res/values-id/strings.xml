@@ -135,7 +135,6 @@
     <string name="pref_feature_uninstall_languages_title">Bahasa</string>
     <string name="select_package">Silakan piliih lisensi paket.</string>
     <string name="download_completed">Download (%s) telah selesai.</string>
-    <string name="menu_merge">Gabung</string>
     <string name="pref_category_title_crash_reports">Laporan crash</string>
     <string name="dialog_command_disabled_insert_transfer">Transaksi transfer memerlukan akun kedua.</string>
     <string name="pref_planner_manual_time_noon">12 siang</string>
@@ -151,7 +150,6 @@
     <string name="scan_result_no_amount">Tidak ada jumlah yang ditemukan</string>
     <string name="scan_result_no_date">Tidak ada tanggal yang ditemukan</string>
     <string name="scan_result_no_payee">Tidak ada penerima pembayaran yang ditemukan</string>
-    <string name="button_download">Unduh</string>
     <string name="pref_feature_uninstall_title">Meminta penghapusan instalasi fitur dan bahasa</string>
     <string name="cb_label_merge_accounts">Gabungkan akun</string>
     <string name="pref_mlkit_script_title">Skrip untuk MlKit</string>

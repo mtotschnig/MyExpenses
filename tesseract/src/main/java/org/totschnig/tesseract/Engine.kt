@@ -100,7 +100,7 @@ object Engine : TesseractEngine {
         val language = language(baseActivity, baseActivity.prefHandler)
         if (language != baseActivity.downloadPending) {
             ConfirmationDialogFragment.newInstance(Bundle().apply {
-                putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.button_download)
+                putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.action_download)
                 putString(
                     ConfirmationDialogFragment.KEY_MESSAGE,
                     baseActivity.getString(

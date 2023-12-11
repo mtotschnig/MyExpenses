@@ -775,8 +775,6 @@
     <string name="onboarding_privacy_title">Данните ви остават във вашите ръце</string>
     <string name="onboarding_privacy_intro">Вашите финансови данни не се изпращат до никой сървър, те не се обработват от нас, нито от трета страна.</string>
     <string name="app_restart_required">За да влезе в сила новата конфигурация се изисква рестартиране на приложението.</string>
-    <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
-    <string name="checkbox_is_default">Подразбиращ се</string>
     <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
     <string name="menu_remap">Групово редаактиране</string>
     <string name="dialog_title_confirm_remap">Да запиша ли \'%s\'?</string>
@@ -845,7 +843,6 @@
     <string name="scan_result_no_amount">Не е намерена сума</string>
     <string name="scan_result_no_date">Не е намерена дата</string>
     <string name="scan_result_no_payee">Не е намерен получател/платец</string>
-    <string name="button_download">Изтегли</string>
     <string name="pref_feature_uninstall_title">Заявка за деинсталиране на функции и езици</string>
     <string name="pref_feature_uninstall_summary">Play Store се опитва евентуално да премахне тези модули във фонов режим.</string>
     <string name="pref_feature_uninstall_languages_title">Езици</string>
@@ -891,8 +888,6 @@
     <string name="account_widget_configuration_sum_total">Включи бъдещи транзакции</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Конфигуриране на уйджет за сметка</string>
-    <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
-    <string name="menu_merge">Обединяване</string>
     <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
     <string name="merge_parties_select">Изберете име за обединена страна:</string>
     <!-- This is the label for a field for accounts. Active tags are automatically added to new transactions when an account is selected. -->

@@ -65,4 +65,7 @@
     <string name="screen_lock">"திரைப் பூட்டு"</string>
     <string name="menu_add">"சேர்"</string>
     <string name="about_ads">"விளம்பரங்கள்"</string>
+    <string name="menu_merge">இணை</string>
+    <string name="checkbox_is_default">"இயல்புநிலை"</string>
+    <string name="action_download">"இறக்கு"</string>
 </resources>

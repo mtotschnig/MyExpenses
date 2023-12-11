@@ -64,4 +64,7 @@
     <string name="screenshot">"Screenshot"</string>
     <string name="menu_add">"Aggiungi"</string>
     <string name="about_ads">"Annunci"</string>
+    <string name="menu_merge">Unisci</string>
+    <string name="checkbox_is_default">"Predefinita"</string>
+    <string name="action_download">"Scarica"</string>
 </resources>

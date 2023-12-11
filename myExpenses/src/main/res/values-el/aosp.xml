@@ -65,4 +65,7 @@
     <string name="screenshot">"Στιγμιότυπο οθόνης"</string>
     <string name="menu_add">"Προσθήκη"</string>
     <string name="about_ads">"Διαφημίσεις"</string>
+    <string name="menu_merge">Συγχώνευση</string>
+    <string name="checkbox_is_default">"Προεπιλογή"</string>
+    <string name="action_download">"Λήψη"</string>
 </resources>

@@ -692,8 +692,6 @@
     <string name="budget_filter_all_tags">Όλες οι ετικέτες</string>
     <string name="budget_form_label_filter">Φίλτρο</string>
     <string name="menu_edit_budget">Επεξεργασία προϋπολογισμού</string>
-    <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
-    <string name="checkbox_is_default">Προεπιλογή</string>
     <string name="tags_create_or_select">Δημιουργία ή επιλογή ετικετών</string>
     <string name="tags">Ετικέτες</string>
     <string name="pref_manage_tags_summary">Προσθήκη, επεξεργασία, διαγραφή ετικετών.</string>
@@ -714,7 +712,6 @@
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Χαρακτηριστικά</string>
     <string name="scan_result_no_data">Δεν υπάρχουν δεδομένα</string>
-    <string name="button_download">Λήψη</string>
     <string name="pref_feature_uninstall_languages_title">Γλώσσες</string>
     <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
     <string name="pref_ocr_engine_title">Μηχανή αναγνώρισης κειμένου</string>

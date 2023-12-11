@@ -777,8 +777,6 @@
     <string name="onboarding_privacy_title">Az adatai az ön kezében maradnak</string>
     <string name="onboarding_privacy_intro">Az ön pénzügyi adatai nem kerülnek elküldésre, sem általunk, sem harmadik fél által üzemeltetett szerverre.</string>
     <string name="app_restart_required">Az új konfiguráció érvénybe léptetéséhez újra kell indítani az alkalmazást.</string>
-    <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
-    <string name="checkbox_is_default">Alapértelmezett</string>
     <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
     <string name="menu_remap">Újratársítás</string>
     <string name="dialog_title_confirm_remap">(%s) megfeleltetés módosítása?</string>
@@ -847,7 +845,6 @@
     <string name="scan_result_no_amount">Nem található összeg</string>
     <string name="scan_result_no_date">Nem található dátum</string>
     <string name="scan_result_no_payee">Nincs kedvezményezett</string>
-    <string name="button_download">Letöltés</string>
     <string name="pref_feature_uninstall_title">Kérje a funkciók és a nyelvek eltávolítását</string>
     <string name="pref_feature_uninstall_summary">A Play Store végül megpróbálja eltávolítani ezeket a modulokat a háttérből.</string>
     <string name="pref_feature_uninstall_languages_title">Nyelvek</string>
@@ -893,8 +890,6 @@
     <string name="account_widget_configuration_sum_total">Tartalmazza a jövőbeli tranzakciókat</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Fiók widget beállítása</string>
-    <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
-    <string name="menu_merge">Egyesítés</string>
     <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
     <string name="merge_parties_select">Válassza ki az egyesített fél nevét:</string>
     <!-- This is the label for a field for accounts. Active tags are automatically added to new transactions when an account is selected. -->

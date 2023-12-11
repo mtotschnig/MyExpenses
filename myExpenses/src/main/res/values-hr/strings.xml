@@ -635,7 +635,6 @@
     <string name="request_for_invoice">Zahtjev za račun</string>
     <string name="active_tags">Aktivne oznake</string>
     <string name="merge_parties_select">Upiši ime sjedinjene stranke:</string>
-    <string name="menu_merge">Sjedini</string>
     <string name="account_widget_configuration">Konfiguracija widgeta računa</string>
     <string name="account_widget_configuration_sum_total">Uključi buduće transakcije</string>
     <string name="account_widget_configuration_sum">Vrsta prikazanog zbroja</string>
@@ -665,7 +664,6 @@
     <string name="pref_feature_uninstall_languages_title">Jezici</string>
     <string name="pref_feature_uninstall_summary">Play Store pokušava na kraju ukloniti te module u pozadini.</string>
     <string name="pref_feature_uninstall_title">Zatraži deinstaliranje funkcija i jezika</string>
-    <string name="button_download">Preuzmi</string>
     <string name="scan_result_no_payee">Nijedan primalac nije pronađen</string>
     <string name="scan_result_no_date">Nijedan datum nije pronađen</string>
     <string name="scan_result_no_amount">Nijedan iznos nije pronađen</string>
@@ -715,7 +713,6 @@
     <string name="remap_category">Sve odabrane transakcije će se povezati s kategorijom %s.</string>
     <string name="dialog_title_confirm_remap">Promijeniti povezivanje (%s)\?</string>
     <string name="menu_remap">Promijeni vezu</string>
-    <string name="checkbox_is_default">Standardno</string>
     <string name="app_restart_required">Za preuzimanje nove konfiguracije program se mora ponovo pokrenuti.</string>
     <string name="onboarding_privacy_intro">Tvoji se financijski podaci ne šalju na nijedan poslužitelj, niti itko drugi njima upravlja.</string>
     <string name="onboarding_privacy_title">Ti vladaš svojim podacima</string>

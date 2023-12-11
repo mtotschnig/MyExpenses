@@ -758,7 +758,6 @@
     <string name="budget_filter_all_tags">Totes les etiquetes</string>
     <string name="onboarding_privacy_intro">Les vostres dades financeres no s\'envien a cap servidor, ni operat per nosaltres ni per tercers.</string>
     <string name="app_restart_required">La nova configuració requereix reiniciar l\'aplicació per a aplicar-se.</string>
-    <string name="checkbox_is_default">Per defecte</string>
     <string name="budget_date_end_after_start">La data de finalització del pressupost ha de ser posterior a la data d\'inici.</string>
     <string name="dialog_title_warning_delete_budget">Eliminar pressupost\?</string>
     <string name="warning_delete_budget">El pressupost \"%1$s\" s\'eliminarà.</string>

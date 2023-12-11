@@ -66,4 +66,7 @@
     <string name="screenshot">"Képernyőkép"</string>
     <string name="menu_add">"Hozzáadás"</string>
     <string name="about_ads">"Hirdetések"</string>
+    <string name="menu_merge">Egyesítés</string>
+    <string name="checkbox_is_default">"Alapértelmezett"</string>
+    <string name="action_download">"Letöltés"</string>
 </resources>

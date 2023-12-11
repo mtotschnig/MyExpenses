@@ -672,7 +672,6 @@
     <string name="request_for_invoice">ఇన్వాయిస్ కోసం అభ్యర్థన</string>
     <string name="active_tags">సక్రియ ట్యాగ్‌లు</string>
     <string name="merge_parties_select">విలీనం చేసిన పార్టీ పేరును ఎంచుకోండి:</string>
-    <string name="menu_merge">విలీనం</string>
     <string name="account_widget_configuration">ఖాతా విడ్జెట్ కాన్ఫిగరేషన్</string>
     <string name="account_widget_configuration_sum_total">భవిష్యత్ లావాదేవీలను చేర్చండి</string>
     <string name="account_widget_configuration_sum">ప్రదర్శించబడిన మొత్తం రకం</string>
@@ -703,7 +702,6 @@
     <string name="pref_feature_uninstall_languages_title">భాషలు</string>
     <string name="pref_feature_uninstall_summary">ప్లే స్టోర్ చివరికి ఆ మాడ్యూళ్ళను నేపథ్యంలో తొలగించడానికి ప్రయత్నిస్తుంది.</string>
     <string name="pref_feature_uninstall_title">లక్షణాలు మరియు భాషల తొలగింపును అభ్యర్థించండి</string>
-    <string name="button_download">డౌన్‌లోడ్</string>
     <string name="scan_result_no_payee">చెల్లింపుదారుడు కనుగొనబడలేదు</string>
     <string name="scan_result_no_date">తేదీ కనుగొనబడలేదు</string>
     <string name="scan_result_no_amount">మొత్తం కనుగొనబడలేదు</string>
@@ -748,7 +746,6 @@
     <string name="remap_category">ఎంచుకున్న అన్ని లావాదేవీలు %s వర్గానికి మ్యాప్ చేయబడతాయి.</string>
     <string name="dialog_title_confirm_remap">మ్యాపింగ్ (%s) మార్చాలా\?</string>
     <string name="menu_remap">రీమాప్</string>
-    <string name="checkbox_is_default">డిఫాల్ట్</string>
     <string name="app_restart_required">క్రొత్త కాన్ఫిగరేషన్ అమలులోకి రావడానికి అనువర్తన పున art ప్రారంభం అవసరం.</string>
     <string name="onboarding_privacy_intro">మీ ఆర్థిక డేటా ఏ సర్వర్‌కు పంపబడదు, మా చేత లేదా మూడవ పక్షం చేత నిర్వహించబడదు.</string>
     <string name="onboarding_privacy_title">మీ డేటా మీ చేతుల్లోనే ఉంటుంది</string>

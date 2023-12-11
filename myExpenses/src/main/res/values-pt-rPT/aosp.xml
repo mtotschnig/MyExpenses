@@ -26,4 +26,7 @@
     <string name="screenshot">"Captura de ecrã"</string>
     <string name="menu_add">"Adicionar"</string>
     <string name="about_ads">"Anúncios"</string>
+    <string name="menu_merge">Unir</string>
+    <string name="checkbox_is_default">"Predefinição"</string>
+    <string name="action_download">"Transferir"</string>
 </resources>

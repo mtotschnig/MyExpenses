@@ -783,8 +783,6 @@
     <string name="onboarding_privacy_title">Vos données restent entre vos mains</string>
     <string name="onboarding_privacy_intro">Vos données financières ne sont envoyées à aucun serveur, ni géré par nous ni par aucun tiers.</string>
     <string name="app_restart_required">La nouvelle configuration nécessite le redémarrage de l\'application pour prendre effet.</string>
-    <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
-    <string name="checkbox_is_default">Défaut</string>
     <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
     <string name="menu_remap">Réaffecter</string>
     <string name="dialog_title_confirm_remap">Modifier (%s) \?</string>
@@ -854,7 +852,6 @@
     <string name="scan_result_no_amount">Aucun montant trouvé</string>
     <string name="scan_result_no_date">Aucune date trouvée</string>
     <string name="scan_result_no_payee">Aucun tiers trouvé</string>
-    <string name="button_download">Télécharger</string>
     <string name="pref_feature_uninstall_title">Demander la désinstallation des fonctionnalités et des langues</string>
     <string name="pref_feature_uninstall_summary">Play Store essaie finalement de supprimer ces modules en arrière-plan.</string>
     <string name="pref_feature_uninstall_languages_title">Langues</string>
@@ -900,8 +897,6 @@
     <string name="account_widget_configuration_sum_total">Inclure les transactions futures</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Configuration du widget \"Mes comptes\"</string>
-    <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
-    <string name="menu_merge">Fusionner</string>
     <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
     <string name="merge_parties_select">Sélectionnez le nom du tiers fusionné :</string>
     <!-- This is the label for a field for accounts. Active tags are automatically added to new transactions when an account is selected. -->

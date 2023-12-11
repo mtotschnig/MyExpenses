@@ -763,8 +763,6 @@
     <string name="onboarding_privacy_title">データはあななの手元にあります</string>
     <string name="onboarding_privacy_intro">あなたの財務データはどこのサーバーにも送信されず、私たちも第三者も操作していません。</string>
     <string name="app_restart_required">新しい設定を有効にするには、アプリの再起動が必要です。</string>
-    <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
-    <string name="checkbox_is_default">デフォルト</string>
     <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
     <string name="menu_remap">再配置</string>
     <string name="dialog_title_confirm_remap">配置を変更しますか (%s) ?</string>
@@ -808,7 +806,6 @@
     <string name="pref_planner_manual_time_current">アプリケーションの時間</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">特長</string>
-    <string name="button_download">ダウンロード</string>
     <string name="menu_save_and_new_content_description">データを保存し、同じデータで新しい取引を作成するためにフォームを開いたままにします。</string>
     <string name="crash_reports_user_info">{app_name} は、迅速に問題を解決することができるようするため、アプリケーションのクラッシュについてのレポートを、開発者に自動で送信します。</string>
     <string name="pref_category_title_crash_reports">クラッシュ レポート</string>

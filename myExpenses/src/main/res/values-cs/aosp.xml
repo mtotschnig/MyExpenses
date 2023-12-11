@@ -67,4 +67,7 @@
     <string name="screenshot">"Snímky obrazovky"</string>
     <string name="menu_add">"Přidat"</string>
     <string name="about_ads">"Reklamy"</string>
+    <string name="menu_merge">Sloučit</string>
+    <string name="checkbox_is_default">"Výchozí"</string>
+    <string name="action_download">"Stáhnout"</string>
 </resources>

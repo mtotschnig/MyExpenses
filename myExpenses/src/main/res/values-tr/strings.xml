@@ -775,8 +775,6 @@
     <string name="onboarding_privacy_title">Verlileriniz sizin ellerinizde kalacaktır</string>
     <string name="onboarding_privacy_intro">Finansal verileriniz ne biz, ne de üçüncü bir taraf tarafından yönetilen hiçbir sunucuya gönderilmez.</string>
     <string name="app_restart_required">Yeni yapılandırmanın uygulanması için uygulamanın yeniden başlatılması gerekir.</string>
-    <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
-    <string name="checkbox_is_default">Varsayılan</string>
     <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
     <string name="menu_remap">Yeniden eşleme</string>
     <string name="dialog_title_confirm_remap">Eşleme değiştirilsin mi (%s)?</string>
@@ -845,7 +843,6 @@
     <string name="scan_result_no_amount">Hiçbir meblağ bulunamadı</string>
     <string name="scan_result_no_date">Hiçbir tarih bulunamadı</string>
     <string name="scan_result_no_payee">Hiçbir alacaklı bulunamadı</string>
-    <string name="button_download">İndir</string>
     <string name="pref_feature_uninstall_title">İşlev ve lisanların kurulumunun kaldırılmasını talep et</string>
     <string name="pref_feature_uninstall_summary">Play Store bu modülleri arka planda kaldırmaya çalışacaktır.</string>
     <string name="pref_feature_uninstall_languages_title">Lisanlar</string>
@@ -891,8 +888,6 @@
     <string name="account_widget_configuration_sum_total">Gelecek muameleleri dahil et</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Hesap widget\'i yapılandırması</string>
-    <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
-    <string name="menu_merge">Birleştir</string>
     <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
     <string name="merge_parties_select">Birleştirilecek tarafın ismini seçin:</string>
     <!-- This is the label for a field for accounts. Active tags are automatically added to new transactions when an account is selected. -->

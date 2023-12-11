@@ -558,7 +558,6 @@
     <string name="budget_duration_to">Até</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Características</string>
-    <string name="button_download">Baixar</string>
     <string name="menu_save_and_new_content_description">Salve os dados, deixando o formulário aberto para a criação de uma nova transação com os mesmos dados.</string>
     <string name="upgrade_now">Atualizar</string>
     <string name="all_extended_key_features">Todos os recursos da Chave Estendida</string>
@@ -651,7 +650,6 @@
     <string name="remap_category">Todas as transações selecionadas serão mapeadas para a categoria %s.</string>
     <string name="dialog_title_confirm_remap">Alterar mapeamento (%s)\?</string>
     <string name="menu_remap">Remapear</string>
-    <string name="checkbox_is_default">Padrão</string>
     <string name="app_restart_required">A nova configuração será ativada quando o aplicativo for reiniciado.</string>
     <string name="onboarding_privacy_intro">Seus dados financeiros não são enviados para nenhum servidor, nem são operados por nós ou por terceiros.</string>
     <string name="onboarding_privacy_title">Seus dados ficam em suas mãos</string>
@@ -849,7 +847,6 @@
     <string name="warning_link_transfer">As duas transações selecionadas serão vinculadas como uma transferência. As informações de beneficiário/pagador e da categoria serão descartadas.</string>
     <string name="account_widget_configuration_sum_total">Incluir transações futuras</string>
     <string name="account_widget_configuration">Configuração do widget de conta</string>
-    <string name="menu_merge">Unificar</string>
     <string name="merge_parties_select">Selecione o nome do parceiro unificado:</string>
     <string name="active_tags">Etiquetas ativas</string>
     <string name="request_for_invoice">Pedido de fatura</string>

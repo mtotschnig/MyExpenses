@@ -63,4 +63,7 @@
     <string name="screenshot">"រូបថត​អេក្រង់"</string>
     <string name="menu_add">"បន្ថែម"</string>
     <string name="about_ads">"ផ្សាយ​ពាណិជ្ជកម្ម"</string>
+    <string name="menu_merge">បញ្ចូលគ្នា</string>
+    <string name="checkbox_is_default">"លំនាំដើម"</string>
+    <string name="action_download">"ទាញ​យក"</string>
 </resources>

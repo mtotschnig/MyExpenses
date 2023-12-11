@@ -63,4 +63,7 @@
     <string name="screenshot">"Tangkapan skrin"</string>
     <string name="menu_add">"Tambah"</string>
     <string name="about_ads">"Iklan"</string>
+    <string name="menu_merge">Gabung</string>
+    <string name="checkbox_is_default">"Lalai"</string>
+    <string name="action_download">"Muat turun"</string>
 </resources>

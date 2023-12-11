@@ -66,4 +66,7 @@
     <string name="screenshot">"Captură de ecran"</string>
     <string name="menu_add">"Adăugați"</string>
     <string name="about_ads">"Anunțuri"</string>
+    <string name="menu_merge">Îmbinați</string>
+    <string name="checkbox_is_default">"Prestabilit"</string>
+    <string name="action_download">"Descărcați"</string>
 </resources>

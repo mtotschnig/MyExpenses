@@ -685,7 +685,6 @@
     <string name="menu_edit_budget">Sửa quỹ</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Tính năng</string>
-    <string name="button_download">Tải xuống</string>
     <string name="menu_save_and_new_content_description">Lưu dữ liệu, để trạng thái mở cho mẫu đơn để tạo một giao dịch mới với cùng dữ liệu.</string>
     <string name="crash_reports_user_info">{app_name} sẽ tự động gửi báo cáo về những lần ứng dụng bị lỗi tới nhà phát triển của nó, việc này sẽ giúp họ sửa chữa lỗi nhanh hơn.</string>
     <string name="pref_category_title_crash_reports">Báo cáo lỗi</string>

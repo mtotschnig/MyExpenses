@@ -63,4 +63,7 @@
     <string name="screenshot">"Ảnh chụp màn hình"</string>
     <string name="menu_add">"Thêm"</string>
     <string name="about_ads">"Quảng cáo"</string>
+    <string name="menu_merge">Hợp nhất</string>
+    <string name="checkbox_is_default">"Mặc định"</string>
+    <string name="action_download">"Tải xuống"</string>
 </resources>

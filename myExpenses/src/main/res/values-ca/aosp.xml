@@ -65,4 +65,7 @@
     <string name="screenshot">"Captura de pantalla"</string>
     <string name="menu_add">"Afegeix"</string>
     <string name="about_ads">"Anuncis"</string>
+    <string name="menu_merge">Combina</string>
+    <string name="checkbox_is_default">"Predeterminat"</string>
+    <string name="action_download">"Baixa"</string>
 </resources>

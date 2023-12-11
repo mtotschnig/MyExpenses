@@ -69,4 +69,7 @@
     <string name="screenshot">"لقطة شاشة"</string>
     <string name="menu_add">"إضافة"</string>
     <string name="about_ads">"الإعلانات"</string>
+    <string name="menu_merge">دمج</string>
+    <string name="checkbox_is_default">"تلقائي"</string>
+    <string name="action_download">"تنزيل"</string>
 </resources>

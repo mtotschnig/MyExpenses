@@ -806,8 +806,6 @@
     <string name="onboarding_privacy_title">تبقى بياناتك بين يديك</string>
     <string name="onboarding_privacy_intro">لا يتم إرسال بياناتك المالية إلى أي خادم، ولا يتم تشغيله من قبلنا ولا من قبل أي طرف ثالث.</string>
     <string name="app_restart_required">تتطلب التهيئة الجديد إعادة تشغيل التطبيق ليصبح ساري المفعول.</string>
-    <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
-    <string name="checkbox_is_default">الافتراضي</string>
     <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
     <string name="menu_remap">إعادة تخطيط</string>
     <string name="dialog_title_confirm_remap">هل تودّ تغيير التعيين (%s)؟</string>
@@ -880,7 +878,6 @@
     <string name="scan_result_no_amount">لم يتم العثور على مبلغ</string>
     <string name="scan_result_no_date">لم يتم العثور على تاريخ</string>
     <string name="scan_result_no_payee">لم يتم العثور على المستفيد</string>
-    <string name="button_download">تنزيل</string>
     <string name="pref_feature_uninstall_title">قم بطلب إلغاء تثبيت الميزات واللغات</string>
     <string name="pref_feature_uninstall_summary">يحاول متجر جوجل بلاي في النهاية إزالة هذه الوحدات في الخلفية.</string>
     <string name="pref_feature_uninstall_languages_title">اللغات</string>
@@ -934,7 +931,6 @@
     <string name="request_for_invoice">طلب فاتورة</string>
     <string name="active_tags">علامات نشطة</string>
     <string name="merge_parties_select">حدد اسم الطرف المدمج:</string>
-    <string name="menu_merge">دمج</string>
     <string name="account_widget_configuration_sum_total">قم بتضمين المعاملات المستقبلية</string>
     <string name="account_widget_configuration_sum">نوع المبلغ المعروض</string>
     <string name="warning_link_transfer">سيتم ربط المعاملتين المحددتين كتحويل. سيتم تجاهل معلومات المدفوع له/ الدافع والفئة.</string>

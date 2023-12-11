@@ -67,4 +67,7 @@
     <string name="screenshot">"Скриншоты"</string>
     <string name="menu_add">"Добавить"</string>
     <string name="about_ads">"Реклама"</string>
+    <string name="menu_merge">Объединить</string>
+    <string name="checkbox_is_default">"По умолчанию"</string>
+    <string name="action_download">"Скачать"</string>
 </resources>

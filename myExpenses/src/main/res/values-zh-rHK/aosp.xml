@@ -63,4 +63,7 @@
     <string name="screenshot">"屏幕擷取畫面"</string>
     <string name="menu_add">"新增"</string>
     <string name="about_ads">"廣告"</string>
+    <string name="menu_merge">合併</string>
+    <string name="checkbox_is_default">"預設"</string>
+    <string name="action_download">"下載"</string>
 </resources>

@@ -65,4 +65,7 @@
     <string name="screen_lock">"ಸ್ಕ್ರೀನ್ ಲಾಕ್"</string>
     <string name="menu_add">"ಸೇರಿಸು"</string>
     <string name="about_ads">"ಜಾಹೀರಾತುಗಳು"</string>
+    <string name="menu_merge">ವಿಲೀನಗೊಳಿಸು</string>
+    <string name="checkbox_is_default">"ಡಿಫಾಲ್ಟ್"</string>
+    <string name="action_download">"ಡೌನ್‌ಲೋಡ್‌"</string>
 </resources>

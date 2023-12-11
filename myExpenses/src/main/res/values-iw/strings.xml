@@ -793,8 +793,6 @@
     <string name="onboarding_privacy_title">הנתונים שלך נשארים ברשותך</string>
     <string name="onboarding_privacy_intro">הנתונים הכספיים שלך לא נשלחים לשום שרת, לא שמופעל על ידינו ולא על ידי גורם שלישי כלשהו.</string>
     <string name="app_restart_required">תצורה חדשה מחייבת הפעלה מחדש של היישומון.</string>
-    <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
-    <string name="checkbox_is_default">ברירת מחדל</string>
     <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
     <string name="menu_remap">מיפוי מחדש</string>
     <string name="dialog_title_confirm_remap">שנה מיפוי%s?</string>
@@ -865,7 +863,6 @@
     <string name="scan_result_no_amount">לא נמצא סכום</string>
     <string name="scan_result_no_date">לא נמצא תאריך</string>
     <string name="scan_result_no_payee">לא נמצא מקבל תשלום</string>
-    <string name="button_download">הורד</string>
     <string name="pref_feature_uninstall_title">בקשת הסרה של יכולות ושפות</string>
     <string name="pref_feature_uninstall_summary">חנות Play מנסה בסופו של דבר להסיר את המודולים האלה ברקע.</string>
     <string name="pref_feature_uninstall_languages_title">שפות</string>
@@ -911,8 +908,6 @@
     <string name="account_widget_configuration_sum_total">כולל עסקאות עתידיות</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">תצורת יישומון חשבון</string>
-    <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
-    <string name="menu_merge">מזג</string>
     <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
     <string name="merge_parties_select">בחר שם של הצד הממוזג:</string>
     <!-- This is the label for a field for accounts. Active tags are automatically added to new transactions when an account is selected. -->
