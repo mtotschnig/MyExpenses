@@ -39,6 +39,11 @@
         android:title="@string/pref_ui_language_title"
         my:useSimpleSummaryProvider="true" />
 
+    <Preference
+        android:key="@string/pref_customize_main_menu_key"
+        android:title="Main menu"
+        android:summary="@string/customize" />
+
     <PreferenceCategory
         android:key="category_auto_fill"
         android:title="@string/autofill"
