@@ -31,16 +31,19 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
         pref: Preference
     ): Boolean {
         val started = if (headerFragment.isSlideable) {
-            requireActivity().title = pref.title
-            setHeaderFocusable(false)
-            startFragment(caller, pref)
+            startFragment(caller, pref).also {
+                if (it) {
+                    requireActivity().title = pref.title
+                    setHeaderFocusable(false)
+                }
+            }
         } else if (caller !is MainPreferenceFragment || headerFragment.highlightedKey != pref.key) {
             startFragment(caller, pref)
         } else false
         if (started && caller is MainPreferenceFragment) {
             caller.onLoadPreference(pref.key)
         }
-        return started
+        return true
     }
 
     private fun setHeaderFocusable(focusable: Boolean) {
@@ -58,13 +61,17 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
     fun startPerformProtection() {
         val pref = headerFragment.requirePreference<Preference>(PrefKey.CATEGORY_SECURITY)
         super.onPreferenceStartFragment(headerFragment, pref)
+        if (headerFragment.isSlideable) {
+            requireActivity().title = pref.title
+            setHeaderFocusable(false)
+        }
         headerFragment.onLoadPreference(pref.key)
     }
 
     val headerFragment: MainPreferenceFragment
         get() = childFragmentManager.findFragmentById(R.id.preferences_header) as MainPreferenceFragment
 
-    inline fun <reified F: BasePreferenceFragment?> getDetailFragment(): F? = childFragmentManager
+    inline fun <reified F : BasePreferenceFragment?> getDetailFragment(): F? = childFragmentManager
         .findFragmentById(R.id.preferences_detail) as? F
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -107,7 +114,7 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
                 true
             } else {
                 slidingPaneLayout.closePane().also {
-                    if(it) {
+                    if (it) {
                         setHeaderFocusable(true)
                     }
                 }
