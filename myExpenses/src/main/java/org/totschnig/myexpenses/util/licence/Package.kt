@@ -36,7 +36,7 @@ sealed class Package(val defaultPrice: Long) : Parcelable {
 
     @Parcelize
     @Keep
-    data object Contrib : Package(1350)
+    data object Contrib : Package(1240)
 
     @Parcelize
     @Keep
@@ -44,7 +44,7 @@ sealed class Package(val defaultPrice: Long) : Parcelable {
 
     @Parcelize
     @Keep
-    data object Extended : Package(1800)
+    data object Extended : Package(1550)
 }
 
 @Suppress("ClassName")
@@ -56,15 +56,15 @@ sealed class ProfessionalPackage(defaultPrice: Long, val duration: Int) : Packag
 
     @Parcelize
     @Keep
-    data object Professional_6 : ProfessionalPackage(500, 6)
+    data object Professional_6 : ProfessionalPackage(499, 6)
 
     @Parcelize
     @Keep
-    data object Professional_12 : ProfessionalPackage(900, 12)
+    data object Professional_12 : ProfessionalPackage(895, 12)
 
     @Parcelize
     @Keep
-    data object Professional_24 : ProfessionalPackage(1700, 24)
+    data object Professional_24 : ProfessionalPackage(1690, 24)
 
     @Parcelize
     @Keep
