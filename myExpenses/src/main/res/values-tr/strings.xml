@@ -1036,4 +1036,5 @@
     <string name="show_duplicates">Yinelenenleri Göster</string>
     <string name="whats_new_367">Kategoriler artık gider veya gelir kategorileri olarak yapılandırılabilir, bu da gider ve gelir toplamlarının nasıl hesaplandığını etkileyecektir.</string>
     <string name="whats_new_361_2">Uygulama klasöründeki dosyalar (yedeklemeler ve dışa aktarmalar) paylaşılabilir veya silinebilir.</string>
+    <string name="default_transfer_category">Öntanımlı transfer kategorisi</string>
 </resources>
