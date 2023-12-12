@@ -66,4 +66,5 @@
     <string name="menu_merge">Gabung</string>
     <string name="checkbox_is_default">"Lalai"</string>
     <string name="action_download">"Muat turun"</string>
+    <string name="menu">"Menu"</string>
 </resources>

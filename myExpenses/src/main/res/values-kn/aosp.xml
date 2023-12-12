@@ -68,4 +68,5 @@
     <string name="menu_merge">ವಿಲೀನಗೊಳಿಸು</string>
     <string name="checkbox_is_default">"ಡಿಫಾಲ್ಟ್"</string>
     <string name="action_download">"ಡೌನ್‌ಲೋಡ್‌"</string>
+    <string name="menu">"ಮೆನು"</string>
 </resources>

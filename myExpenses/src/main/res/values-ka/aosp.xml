@@ -2,4 +2,5 @@
 <resources>
     <string name="checkbox_is_default">"ნაგულისხმევი"</string>
     <string name="action_download">"ჩამოტვირთვა"</string>
+    <string name="menu">"მენიუ"</string>
 </resources>

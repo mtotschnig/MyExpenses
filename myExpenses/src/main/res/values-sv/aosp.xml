@@ -2,4 +2,5 @@
 <resources>
     <string name="checkbox_is_default">"Standard"</string>
     <string name="action_download">"Ladda ned"</string>
+    <string name="menu">"Meny"</string>
 </resources>

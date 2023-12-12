@@ -72,4 +72,5 @@
     <string name="menu_merge">دمج</string>
     <string name="checkbox_is_default">"تلقائي"</string>
     <string name="action_download">"تنزيل"</string>
+    <string name="menu">"قائمة"</string>
 </resources>

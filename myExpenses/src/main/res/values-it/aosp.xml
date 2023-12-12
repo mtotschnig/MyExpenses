@@ -67,4 +67,5 @@
     <string name="menu_merge">Unisci</string>
     <string name="checkbox_is_default">"Predefinita"</string>
     <string name="action_download">"Scarica"</string>
+    <string name="menu">"Menu"</string>
 </resources>

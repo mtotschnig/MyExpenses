@@ -2,4 +2,5 @@
 <resources>
     <string name="checkbox_is_default">"Predvolené"</string>
     <string name="action_download">"Stiahnuť"</string>
+    <string name="menu">"Ponuka"</string>
 </resources>

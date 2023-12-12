@@ -2,4 +2,5 @@
 <resources>
     <string name="checkbox_is_default">"Standart"</string>
     <string name="action_download">"Yuklab olish"</string>
+    <string name="menu">"Menyu"</string>
 </resources>

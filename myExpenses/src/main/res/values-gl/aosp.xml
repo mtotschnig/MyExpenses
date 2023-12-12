@@ -2,4 +2,5 @@
 <resources>
     <string name="checkbox_is_default">"Predeterminado"</string>
     <string name="action_download">"Descargar"</string>
+    <string name="menu">"Menú"</string>
 </resources>

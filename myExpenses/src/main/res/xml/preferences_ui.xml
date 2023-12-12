@@ -41,7 +41,7 @@
 
     <Preference
         android:key="@string/pref_customize_main_menu_key"
-        android:title="Main menu"
+        android:title="@string/menu"
         android:summary="@string/customize" />
 
     <PreferenceCategory

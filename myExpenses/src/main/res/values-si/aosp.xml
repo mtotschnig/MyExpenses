@@ -64,4 +64,5 @@
     <string name="menu_merge">ඒකාබද්ධ කරන්න</string>
     <string name="checkbox_is_default">"සුපුරුදු"</string>
     <string name="action_download">"බාගන්න"</string>
+    <string name="menu">"මෙනුව"</string>
 </resources>

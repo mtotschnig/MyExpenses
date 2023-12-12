@@ -2,4 +2,5 @@
 <resources>
     <string name="checkbox_is_default">"Noklusējums"</string>
     <string name="action_download">"Lejupielādēt"</string>
+    <string name="menu">"Izvēlne"</string>
 </resources>

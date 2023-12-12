@@ -2,4 +2,5 @@
 <resources>
     <string name="checkbox_is_default">"ਪੂਰਵ-ਨਿਰਧਾਰਿਤ"</string>
     <string name="action_download">"ਡਾਊਨਲੋਡ ਕਰੋ"</string>
+    <string name="menu">"ਮੀਨੂ"</string>
 </resources>

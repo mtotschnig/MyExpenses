@@ -2,4 +2,5 @@
 <resources>
     <string name="checkbox_is_default">"ค่าเริ่มต้น"</string>
     <string name="action_download">"ดาวน์โหลด"</string>
+    <string name="menu">"เมนู"</string>
 </resources>

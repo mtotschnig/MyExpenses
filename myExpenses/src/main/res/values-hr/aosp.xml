@@ -70,4 +70,5 @@
     <string name="menu_merge">Spoji</string>
     <string name="checkbox_is_default">"Zadano"</string>
     <string name="action_download">"Preuzmi"</string>
+    <string name="menu">"Izbornik"</string>
 </resources>

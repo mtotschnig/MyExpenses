@@ -2,4 +2,5 @@
 <resources>
     <string name="checkbox_is_default">"Стандардно"</string>
     <string name="action_download">"Преземи"</string>
+    <string name="menu">"Мени"</string>
 </resources>

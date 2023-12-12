@@ -2,4 +2,5 @@
 <resources>
     <string name="checkbox_is_default">"မူရင်း"</string>
     <string name="action_download">"ဒေါင်းလုဒ် လုပ်ရန်"</string>
+    <string name="menu">"မီနူး"</string>
 </resources>

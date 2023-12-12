@@ -68,4 +68,5 @@
     <string name="menu_merge">இணை</string>
     <string name="checkbox_is_default">"இயல்புநிலை"</string>
     <string name="action_download">"இறக்கு"</string>
+    <string name="menu">"மெனு"</string>
 </resources>

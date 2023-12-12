@@ -2,4 +2,5 @@
 <resources>
     <string name="checkbox_is_default">"Numatytasis"</string>
     <string name="action_download">"Atsisiųsti"</string>
+    <string name="menu">"Meniu"</string>
 </resources>

@@ -2,4 +2,5 @@
 <resources>
     <string name="checkbox_is_default">"E parazgjedhur"</string>
     <string name="action_download">"Shkarko"</string>
+    <string name="menu">"Menyja"</string>
 </resources>

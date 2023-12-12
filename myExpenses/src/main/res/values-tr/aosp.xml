@@ -67,4 +67,5 @@
     <string name="menu_merge">Birleştir</string>
     <string name="checkbox_is_default">"Varsayılan"</string>
     <string name="action_download">"İndir"</string>
+    <string name="menu">"Menü"</string>
 </resources>

@@ -2,4 +2,5 @@
 <resources>
     <string name="checkbox_is_default">"پیش‌فرض"</string>
     <string name="action_download">"دانلود"</string>
+    <string name="menu">"منو"</string>
 </resources>

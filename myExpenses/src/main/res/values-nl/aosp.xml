@@ -64,4 +64,5 @@
     <string name="menu_merge">Samenvoegen</string>
     <string name="checkbox_is_default">"Standaard"</string>
     <string name="action_download">"Downloaden"</string>
+    <string name="menu">"Menu"</string>
 </resources>

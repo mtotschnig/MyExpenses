@@ -67,4 +67,5 @@
     <string name="menu_merge">統合</string>
     <string name="checkbox_is_default">"デフォルト"</string>
     <string name="action_download">"ダウンロード"</string>
+    <string name="menu">"メニュー"</string>
 </resources>

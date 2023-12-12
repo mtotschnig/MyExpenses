@@ -2,4 +2,5 @@
 <resources>
     <string name="checkbox_is_default">"Oletus"</string>
     <string name="action_download">"Lataa"</string>
+    <string name="menu">"Valikko"</string>
 </resources>

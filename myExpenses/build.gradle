@@ -291,6 +291,9 @@ dependencies {
 
     implementation 'androidx.browser:browser:1.7.0'
 
+    implementation("com.github.livefront.sealed-enum:runtime:0.7.0")
+    ksp("com.github.livefront.sealed-enum:ksp:0.7.0")
+
     androidTestImplementation composeBom
     androidTestImplementation 'tools.fastlane:screengrab:2.1.1'
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"

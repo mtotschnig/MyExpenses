@@ -2,4 +2,5 @@
 <resources>
     <string name="checkbox_is_default">"Sjálfgefið"</string>
     <string name="action_download">"Sækja"</string>
+    <string name="menu">"Valmynd"</string>
 </resources>

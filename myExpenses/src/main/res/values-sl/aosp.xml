@@ -2,4 +2,5 @@
 <resources>
     <string name="checkbox_is_default">"Privzeto"</string>
     <string name="action_download">"Prenos"</string>
+    <string name="menu">"Meni"</string>
 </resources>

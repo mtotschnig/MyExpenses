@@ -2,4 +2,5 @@
 <resources>
     <string name="checkbox_is_default">"Verstek"</string>
     <string name="action_download">"Laai af"</string>
+    <string name="menu">"Kieslys"</string>
 </resources>

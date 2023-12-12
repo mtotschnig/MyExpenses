@@ -2,4 +2,5 @@
 <resources>
     <string name="checkbox_is_default">"Okuzenzakalelayo"</string>
     <string name="action_download">"Landa"</string>
+    <string name="menu">"Imenyu"</string>
 </resources>

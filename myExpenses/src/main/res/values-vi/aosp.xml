@@ -66,4 +66,5 @@
     <string name="menu_merge">Hợp nhất</string>
     <string name="checkbox_is_default">"Mặc định"</string>
     <string name="action_download">"Tải xuống"</string>
+    <string name="menu">"Trình đơn"</string>
 </resources>

@@ -2,4 +2,5 @@
 <resources>
     <string name="checkbox_is_default">"ഡിഫോൾട്ട്"</string>
     <string name="action_download">"ഡൗൺലോഡ്"</string>
+    <string name="menu">"മെനു"</string>
 </resources>

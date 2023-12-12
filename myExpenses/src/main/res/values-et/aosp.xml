@@ -2,4 +2,5 @@
 <resources>
     <string name="checkbox_is_default">"Vaikepaigutus"</string>
     <string name="action_download">"Laadi alla"</string>
+    <string name="menu">"Menüü"</string>
 </resources>

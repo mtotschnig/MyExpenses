@@ -2,4 +2,5 @@
 <resources>
     <string name="checkbox_is_default">"डिफल्ट"</string>
     <string name="action_download">"डाउनलोड गर्नुहोस्"</string>
+    <string name="menu">"मेनु"</string>
 </resources>

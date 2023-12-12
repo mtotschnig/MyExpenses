@@ -5,6 +5,9 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.preference.PreferenceFragmentCompat
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.dialog.MenuItem
+import org.totschnig.myexpenses.dialog.valueOf
+import org.totschnig.myexpenses.dialog.values
 import org.totschnig.myexpenses.util.Utils
 import java.util.Calendar
 import java.util.Locale
@@ -27,6 +30,13 @@ interface PrefHandler {
     fun getLong(key: String, defValue: Long): Long
     fun putLong(key: PrefKey, value: Long)
     fun putLong(key: String, value: Long)
+
+    fun getStringSet(key:PrefKey, separator: Char = ':'): Set<String>?
+
+    /**
+     * @param separator no item in value must contain separator
+     */
+    fun putStringSet(key: PrefKey, value: Set<String>, separator: Char = ':')
     fun remove(key: PrefKey)
     fun remove(key: String)
     fun isSet(key: PrefKey): Boolean
@@ -81,6 +91,10 @@ interface PrefHandler {
 
     val defaultTransferCategory: Long?
         get() = getLong(PrefKey.DEFAULT_TRANSFER_CATEGORY, -1L).takeIf { it != -1L }
+
+    val mainMenu: List<MenuItem>
+        get() = getStringSet(PrefKey.CUSTOMIZE_MAIN_MENU)
+            ?.let { stored -> stored.map { MenuItem.valueOf(it) } } ?: MenuItem.values
 }
 
 inline fun <reified T : Enum<T>> PrefHandler.enumValueOrDefault(prefKey: PrefKey, default: T): T =

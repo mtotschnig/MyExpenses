@@ -79,6 +79,17 @@ open class PrefHandlerImpl(
         sharedPreferences.edit().putLong(key, value).apply()
     }
 
+    override fun getStringSet(key: PrefKey, separator: Char): Set<String>? {
+        return sharedPreferences.getString(getKey(key), null)?.let {
+            LinkedHashSet(it.split(separator))
+        }
+    }
+
+    override fun putStringSet(key: PrefKey, value: Set<String>, separator: Char) {
+        require(value.none { it.contains(separator) }) { "Cannot marshall set if any value contains '$separator'" }
+        sharedPreferences.edit().putString(getKey(key), value.joinToString(separator.toString())).apply()
+    }
+
     override fun remove(key: PrefKey) {
         remove(getKey(key))
     }

@@ -110,4 +110,6 @@
     <string name="checkbox_is_default">Default</string>
     <!-- /opt/extra/AOSP/packages/apps/Messaging$ grep -ri action_download res/values* | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="action_download">Download</string>
+    <!-- /opt/extra/AOSP/packages/apps/QuickAccessWallet$ grep -ri accessibility_menu | sed 's/accessibility_//' |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
+    <string name="menu">"Menu"</string>
 </resources>

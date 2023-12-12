@@ -70,4 +70,5 @@
     <string name="menu_merge">Объединить</string>
     <string name="checkbox_is_default">"По умолчанию"</string>
     <string name="action_download">"Скачать"</string>
+    <string name="menu">"Меню"</string>
 </resources>

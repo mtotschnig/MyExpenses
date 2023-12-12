@@ -2,4 +2,5 @@
 <resources>
     <string name="checkbox_is_default">"Varsayılan"</string>
     <string name="action_download">"Endirin"</string>
+    <string name="menu">"Menyu"</string>
 </resources>

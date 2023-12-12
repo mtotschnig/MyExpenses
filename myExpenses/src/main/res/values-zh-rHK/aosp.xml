@@ -66,4 +66,5 @@
     <string name="menu_merge">合併</string>
     <string name="checkbox_is_default">"預設"</string>
     <string name="action_download">"下載"</string>
+    <string name="menu">"選單"</string>
 </resources>

@@ -63,4 +63,5 @@
     <string name="menu_merge">విలీనం చేయి</string>
     <string name="checkbox_is_default">"ఆటోమేటిక్"</string>
     <string name="action_download">"డౌన్‌లోడ్ చేయి"</string>
+    <string name="menu">"మెనూ"</string>
 </resources>
