@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.dialog
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.MenuRes
@@ -26,7 +27,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,14 +35,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.livefront.sealedenum.GenSealedEnum
+import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.compose.ButtonRow
+import org.totschnig.myexpenses.compose.rememberMutableStateListOf
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.TextUtils
 import timber.log.Timber
 import java.util.Collections
 
+@Parcelize
 sealed class MenuItem(
     @IdRes val id: Int,
     @StringRes private val labelRes: Int,
@@ -49,7 +53,7 @@ sealed class MenuItem(
     @MenuRes val subMenu: Int? = null,
     val isCheckable: Boolean = false,
     val isEnabledByDefault: Boolean = true
-) {
+): Parcelable {
     open fun getLabel(context: Context) = context.getString(labelRes)
 
     data object Search : MenuItem(
@@ -201,8 +205,8 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment() {
 
     @Composable
     override fun BuildContent() {
-        val activeItems = remember { prefHandler.mainMenu.toMutableStateList() }
-        val inactiveItems = remember { (MenuItem.values - activeItems).toMutableStateList() }
+        val activeItems = rememberMutableStateListOf(prefHandler.mainMenu)
+        val inactiveItems = rememberMutableStateListOf(MenuItem.values - activeItems)
 
         Column {
             Text(
@@ -215,7 +219,9 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment() {
                     R.string.customize
                 )
             )
-            LazyColumn(modifier = Modifier.padding(dialogPadding).weight(1f)) {
+            LazyColumn(modifier = Modifier
+                .padding(dialogPadding)
+                .weight(1f)) {
                 itemsIndexed(activeItems) { index, item ->
                     ItemRow(item, true,
                         onCheckedChange = if (item != MenuItem.Settings) {

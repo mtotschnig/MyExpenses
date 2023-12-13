@@ -10,13 +10,13 @@ import androidx.compose.runtime.toMutableStateMap
 
 //https://stackoverflow.com/a/68887484/1199911
 @Composable
-fun <T> rememberMutableStateListOf(vararg elements: T) = rememberSaveable(
+fun <T> rememberMutableStateListOf(elements: List<T> = emptyList()) = rememberSaveable(
     saver = listSaver(
         save = { it.toList() },
         restore = { it.toMutableStateList() }
     )
 ) {
-    elements.toList().toMutableStateList()
+    elements.toMutableStateList()
 }
 
 @Composable
