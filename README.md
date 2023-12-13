@@ -75,6 +75,7 @@ Credits
 - [Email Intent Builder](https://github.com/cketti/EmailIntentBuilder)
 - [HBCI4Java](https://github.com/hbci4j/hbci4java)
 - [Hibiscus](https://github.com/willuhn/hibiscus)
+- [sealed-enum](https://github.com/livefront/sealed-enum)
 
 and on the contribution of many users that helped make My Expenses available in 34 different 
 <a href="http://www.myexpenses.mobi/en/#translate">languages</a>.

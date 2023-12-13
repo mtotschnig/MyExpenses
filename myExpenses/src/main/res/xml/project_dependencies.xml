@@ -219,4 +219,9 @@
         <url>https://github.com/willuhn/hibiscus</url>
         <licence>GNU General Public License v2</licence>
     </project>
+    <project>
+        <name>sealed-enum</name>
+        <url>https://github.com/livefront/sealed-enum</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
 </credits>
