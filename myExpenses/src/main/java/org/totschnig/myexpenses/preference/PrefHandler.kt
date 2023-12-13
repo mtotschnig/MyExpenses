@@ -94,7 +94,13 @@ interface PrefHandler {
 
     val mainMenu: List<MenuItem>
         get() = getStringSet(PrefKey.CUSTOMIZE_MAIN_MENU)
-            ?.let { stored -> stored.map { MenuItem.valueOf(it) } }
+            ?.let { stored -> stored.mapNotNull {
+                try {
+                    MenuItem.valueOf(it)
+                } catch (e: IllegalArgumentException) {
+                    null
+                }
+            } }
             ?: MenuItem.defaultConfiguration
 }
 

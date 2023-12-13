@@ -154,7 +154,7 @@ sealed class MenuItem(
     )
 
     data object Manage : MenuItem(
-        R.id.MANAGE_ACCOUNTS_COMMAND,
+        R.id.MANAGE_ACCOUNT_COMMAND,
         R.string.account,
         R.drawable.ic_menu_edit,
         R.menu.main_manage
