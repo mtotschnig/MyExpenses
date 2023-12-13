@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="pref_ui_theme_default">default</string>
-    <string-array name="whats_new_315" tools:ignore="InconsistentArrays">
-        <item>@string/ui_refinement</item>
-        <item>@string/whats_new_315_dark_theme_q</item>
-    </string-array>
 </resources>
