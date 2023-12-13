@@ -80,7 +80,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.distribution, menu)
-        menuInflater.inflate(R.menu.grouping, menu)
+        menuInflater.inflate(R.menu.grouping, menu.findItem(R.id.GROUPING_COMMAND).subMenu)
         super.onCreateOptionsMenu(menu)
         return true
     }

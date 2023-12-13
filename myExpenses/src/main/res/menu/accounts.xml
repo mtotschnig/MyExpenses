@@ -20,7 +20,7 @@
     <item
         android:id="@id/HIDDEN_ACCOUNTS_COMMAND"
         android:title="@string/menu_hidden_accounts"
-        android:icon="@drawable/design_ic_visibility_off"
+        android:icon="@drawable/ic_hide"
         android:visible="false"
         tools:ignore="PrivateResource">
     </item>

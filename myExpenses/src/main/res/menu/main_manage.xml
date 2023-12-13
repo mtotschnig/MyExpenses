@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@id/EDIT_ACCOUNT_COMMAND"
+        android:title="@string/menu_edit" />
+    <item
+        android:id="@id/DELETE_ACCOUNT_COMMAND"
+        android:title="@string/menu_delete" />
+    <item
+        android:id="@id/HIDE_ACCOUNT_COMMAND"
+        android:title="@string/menu_hide" />
+    <item
+        android:id="@id/TOGGLE_SEALED_COMMAND"
+        tools:ignore="MenuTitle" />
+    <item
+        android:id="@id/EXCLUDE_FROM_TOTALS_COMMAND"
+        android:checkable="true"
+        android:title="@string/menu_exclude_from_totals" />
+</menu>

@@ -94,7 +94,8 @@ interface PrefHandler {
 
     val mainMenu: List<MenuItem>
         get() = getStringSet(PrefKey.CUSTOMIZE_MAIN_MENU)
-            ?.let { stored -> stored.map { MenuItem.valueOf(it) } } ?: MenuItem.values
+            ?.let { stored -> stored.map { MenuItem.valueOf(it) } }
+            ?: MenuItem.defaultConfiguration
 }
 
 inline fun <reified T : Enum<T>> PrefHandler.enumValueOrDefault(prefKey: PrefKey, default: T): T =

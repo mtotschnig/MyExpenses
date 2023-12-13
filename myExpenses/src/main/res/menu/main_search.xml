@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="all">
+        <item
+            android:id="@id/FILTER_CATEGORY_COMMAND"
+            android:title="@string/category" />
+        <item
+            android:id="@id/FILTER_AMOUNT_COMMAND"
+            android:title="@string/amount" />
+        <item
+            android:id="@id/FILTER_COMMENT_COMMAND"
+            android:title="@string/comment" />
+        <item
+            android:id="@id/FILTER_STATUS_COMMAND"
+            android:enabled="false"
+            android:title="@string/status" />
+        <item
+            android:id="@id/FILTER_PAYEE_COMMAND"
+            android:enabled="false"
+            android:title="@string/payer_or_payee" />
+        <item
+            android:id="@id/FILTER_METHOD_COMMAND"
+            android:enabled="false"
+            android:title="@string/method" />
+        <item
+            android:id="@id/FILTER_DATE_COMMAND"
+            android:title="@string/date" />
+        <item
+            android:id="@id/FILTER_TRANSFER_COMMAND"
+            android:title="@string/transfer" />
+        <item
+            android:id="@id/FILTER_TAG_COMMAND"
+            android:title="@string/tags" />
+        <item
+            android:id="@id/FILTER_ACCOUNT_COMMAND"
+            android:title="@string/accounts" />
+    </group>
+</menu>

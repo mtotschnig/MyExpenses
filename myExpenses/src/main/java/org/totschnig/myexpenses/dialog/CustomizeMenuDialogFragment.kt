@@ -1,8 +1,10 @@
 package org.totschnig.myexpenses.dialog
 
+import android.content.Context
 import android.os.Bundle
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
+import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,6 +35,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.livefront.sealedenum.GenSealedEnum
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.compose.ButtonRow
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.TextUtils
@@ -41,35 +44,150 @@ import java.util.Collections
 
 sealed class MenuItem(
     @IdRes val id: Int,
-    @StringRes val label: Int,
-    @DrawableRes val icon: Int
+    @StringRes private val labelRes: Int,
+    @DrawableRes val icon: Int? = null,
+    @MenuRes val subMenu: Int? = null,
+    val isCheckable: Boolean = false,
+    val isEnabledByDefault: Boolean = true
 ) {
+    open fun getLabel(context: Context) = context.getString(labelRes)
+
+    data object Search : MenuItem(
+        R.id.SEARCH_COMMAND,
+        R.string.menu_search,
+        R.drawable.ic_menu_search,
+        R.menu.main_search,
+        true
+    )
     data object Templates : MenuItem(
         R.id.MANAGE_TEMPLATES_COMMAND,
         R.string.menu_templates,
         R.drawable.ic_menu_template
     )
 
-    data object Budget: MenuItem(
+    data object Budget : MenuItem(
         R.id.BUDGET_COMMAND,
         R.string.menu_budget,
         R.drawable.ic_budget
     )
 
-    data object Print: MenuItem(
+    data object Distribution : MenuItem(
+        R.id.DISTRIBUTION_COMMAND,
+        R.string.menu_distribution,
+        R.drawable.ic_menu_chart
+    )
+
+    data object History : MenuItem(
+        R.id.HISTORY_COMMAND,
+        R.string.menu_history,
+        R.drawable.ic_history
+    )
+
+    data object Parties : MenuItem(
+        R.id.MANAGE_PARTIES_COMMAND,
+        0,
+        R.drawable.ic_group
+    ) {
+        override fun getLabel(context: Context) = TextUtils.concatResStrings(
+            context, " / ", R.string.pref_manage_parties_title, R.string.debts
+        )
+    }
+
+    data object ScanMode: MenuItem(
+        R.id.SCAN_MODE_COMMAND,
+        R.string.menu_scan_mode,
+        R.drawable.ic_scan,
+        isCheckable = true
+    )
+
+    data object Reset : MenuItem(
+        R.id.RESET_COMMAND,
+        R.string.menu_reset,
+        R.drawable.ic_menu_download
+    )
+
+    data object Sync : MenuItem(
+        R.id.SYNC_COMMAND,
+        R.string.menu_sync_now,
+        R.drawable.ic_sync
+    )
+
+    data object FinTsSync : MenuItem(
+        R.id.FINTS_SYNC_COMMAND,
+        0,
+        R.drawable.ic_bank
+    ) {
+        override fun getLabel(context: Context) =
+            (context as? BaseActivity)?.bankingFeature?.syncMenuTitle(context) ?: "FinTS"
+    }
+
+    data object ShowStatusHandle: MenuItem(
+        R.id.SHOW_STATUS_HANDLE_COMMAND,
+        R.string.status,
+        R.drawable.ic_square
+    )
+
+    data object Balance : MenuItem(
+        R.id.BALANCE_COMMAND,
+        R.string.menu_balance,
+        R.drawable.ic_action_balance
+    )
+
+    data object Sort : MenuItem(
+        R.id.SORT_MENU,
+        R.string.display_options_sort_list_by,
+        R.drawable.ic_menu_sort,
+        R.menu.main_sort
+    )
+
+    data object Grouping: MenuItem(
+        R.id.GROUPING_COMMAND,
+        R.string.menu_grouping,
+        R.drawable.ic_action_group,
+        R.menu.grouping
+    )
+
+    data object Print : MenuItem(
         R.id.PRINT_COMMAND,
         R.string.menu_print,
         R.drawable.ic_menu_print
     )
 
-    data object Settings: MenuItem(
+    data object Manage : MenuItem(
+        R.id.MANAGE_ACCOUNTS_COMMAND,
+        R.string.account,
+        R.drawable.ic_menu_edit,
+        R.menu.main_manage
+    )
+
+    data object Share : MenuItem(
+        R.id.SHARE_COMMAND,
+        R.string.menu_share,
+        R.drawable.ic_share
+    )
+
+    data object Settings : MenuItem(
         R.id.SETTINGS_COMMAND,
         R.string.settings_label,
-        R.drawable.ic_lock
+        R.drawable.ic_settings
+    )
+
+    data object Help: MenuItem(
+        R.id.HELP_COMMAND,
+        R.string.menu_help,
+        R.drawable.ic_menu_help
+    )
+
+    data object Backup: MenuItem(
+        R.id.BACKUP_COMMAND,
+        R.string.menu_backup,
+        isEnabledByDefault = false
     )
 
     @GenSealedEnum
-    companion object
+    companion object {
+        val defaultConfiguration = values.filter { it.isEnabledByDefault }
+    }
 }
 
 class CustomizeMenuDialogFragment : ComposeBaseDialogFragment() {
@@ -80,6 +198,7 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment() {
             Timber.i(it)
         }
     }
+
     @Composable
     override fun BuildContent() {
         val activeItems = remember { prefHandler.mainMenu.toMutableStateList() }
@@ -96,10 +215,9 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment() {
                     R.string.customize
                 )
             )
-            LazyColumn(modifier = Modifier.padding(dialogPadding)) {
+            LazyColumn(modifier = Modifier.padding(dialogPadding).weight(1f)) {
                 itemsIndexed(activeItems) { index, item ->
-                    ItemRow(checked = true,
-                        label = item.label,
+                    ItemRow(item, true,
                         onCheckedChange = if (item != MenuItem.Settings) {
                             {
                                 activeItems.remove(item)
@@ -120,7 +238,7 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment() {
                     }
                 }
                 items(inactiveItems) { item ->
-                    ItemRow(checked = false, label = item.label, onCheckedChange = {
+                    ItemRow(item, false, onCheckedChange = {
                         activeItems.add(item)
                         inactiveItems.remove(item)
                     })
@@ -139,12 +257,16 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment() {
                 TextButton(onClick = {
                     inactiveItems.clear()
                     activeItems.clear()
-                    activeItems.addAll(MenuItem.values)
+                    activeItems.addAll(MenuItem.defaultConfiguration)
+                    inactiveItems.addAll(MenuItem.values - activeItems)
                 }) {
                     Text(stringResource(id = R.string.menu_reset_plan_instance))
                 }
                 TextButton(onClick = {
-                    prefHandler.putStringSet(PrefKey.CUSTOMIZE_MAIN_MENU, LinkedHashSet(activeItems.map { it.name }))
+                    prefHandler.putStringSet(
+                        PrefKey.CUSTOMIZE_MAIN_MENU,
+                        LinkedHashSet(activeItems.map { it.name })
+                    )
                     dismiss()
                 }) {
                     Text(stringResource(id = R.string.confirm))
@@ -155,8 +277,8 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment() {
 
     @Composable
     private fun ItemRow(
+        item: MenuItem,
         checked: Boolean,
-        label: Int,
         onCheckedChange: (() -> Unit)?,
         onUp: (() -> Unit)? = null,
         onDown: (() -> Unit)? = null
@@ -165,7 +287,7 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment() {
             Checkbox(checked = checked, enabled = onCheckedChange != null, onCheckedChange = {
                 onCheckedChange?.invoke()
             })
-            Text(stringResource(id = label))
+            Text(item.getLabel(LocalContext.current))
             Spacer(modifier = Modifier.weight(1f))
             Row(modifier = Modifier.width(96.dp), horizontalArrangement = Arrangement.Center) {
                 onUp?.let {

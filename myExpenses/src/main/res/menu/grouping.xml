@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@id/GROUPING_COMMAND"
-        android:orderInCategory="20"
-        android:title="@string/menu_grouping"
-        android:icon="@drawable/ic_action_group"
-        app:showAsAction="ifRoom">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item android:id="@id/GROUPING_NONE_COMMAND" android:title="@string/grouping_none"/>
-                <item android:id="@id/GROUPING_DAY_COMMAND" android:title="@string/grouping_day"/>
-                <item android:id="@id/GROUPING_WEEK_COMMAND" android:title="@string/grouping_week"/>
-                <item android:id="@id/GROUPING_MONTH_COMMAND" android:title="@string/grouping_month" />
-                <item android:id="@id/GROUPING_YEAR_COMMAND" android:title="@string/grouping_year" />
-            </group>
-        </menu>
-    </item>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:id="@id/GROUPING_NONE_COMMAND" android:title="@string/grouping_none"/>
+        <item android:id="@id/GROUPING_DAY_COMMAND" android:title="@string/grouping_day"/>
+        <item android:id="@id/GROUPING_WEEK_COMMAND" android:title="@string/grouping_week"/>
+        <item android:id="@id/GROUPING_MONTH_COMMAND" android:title="@string/grouping_month" />
+        <item android:id="@id/GROUPING_YEAR_COMMAND" android:title="@string/grouping_year" />
+    </group>
 </menu>

@@ -133,17 +133,18 @@ import org.totschnig.myexpenses.util.ContribUtils
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
+import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.util.configureSortDirectionMenu
 import org.totschnig.myexpenses.util.convAmount
-import org.totschnig.myexpenses.util.ui.dateTimeFormatter
-import org.totschnig.myexpenses.util.ui.dateTimeFormatterLegacy
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.distrib.ReviewManager
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.getSortDirectionFromMenuItemId
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.setEnabledAndVisible
+import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
+import org.totschnig.myexpenses.util.ui.dateTimeFormatter
+import org.totschnig.myexpenses.util.ui.dateTimeFormatterLegacy
 import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteComplete
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteProgress
@@ -1514,22 +1515,34 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        super.onCreateOptionsMenu(menu)
-        menuInflater.inflate(R.menu.expenses, menu)
-        menuInflater.inflate(R.menu.grouping, menu)
+        prefHandler.mainMenu.forEach { menuItem ->
+            if (menuItem.subMenu != null) {
+                val subMenu = menu.addSubMenu(Menu.NONE, menuItem.id, Menu.NONE, menuItem.getLabel(this))
+                menuInflater.inflate(menuItem.subMenu, subMenu)
+                subMenu.item
+            } else {
+                menu.add(Menu.NONE, menuItem.id, Menu.NONE, menuItem.getLabel(this))
+            }
+                .apply {
+                    menuItem.icon?.let { setIcon(it) }
+                    isCheckable = menuItem.isCheckable
+                    setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+                }
+        }
         return true
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         if (accountData.isNotEmpty() && currentAccount != null) {
             menu.findItem(R.id.SCAN_MODE_COMMAND)?.let {
-                it.isChecked = prefHandler.getBoolean(PrefKey.OCR, false)
+                it.isChecked = isScanMode()
+                checkMenuIcon(it)
             }
             with(currentAccount!!) {
                 val reconciliationAvailable = type != AccountType.CASH && !sealed
                 val groupingMenu = menu.findItem(R.id.GROUPING_COMMAND)
                 val groupingEnabled = sortBy == KEY_DATE
-                groupingMenu.setEnabledAndVisible(groupingEnabled)
+                groupingMenu?.setEnabledAndVisible(groupingEnabled)
 
                 if (groupingEnabled) {
                     groupingMenu?.subMenu?.let {
@@ -1549,6 +1562,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     if (reconciliationAvailable) {
                         lifecycleScope.launch {
                             isChecked = viewModel.showStatusHandle().first()
+                            checkMenuIcon(this@apply)
                         }
                     }
                 }
@@ -1564,7 +1578,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 menu.findItem(R.id.MANAGE_ACCOUNTS_COMMAND)?.apply {
                     setEnabledAndVisible(!isAggregate)
                     if (!isAggregate) {
-                        title = label
                         subMenu?.findItem(R.id.TOGGLE_SEALED_COMMAND)?.setTitle(
                             if (sealed) R.string.menu_reopen else R.string.menu_close
                         )
@@ -1575,7 +1588,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     }
                 }
             }
-            filterHandler.configureSearchMenu(menu.findItem(R.id.SEARCH_COMMAND))
+            menu.findItem(R.id.SEARCH_COMMAND)?.let {
+                filterHandler.configureSearchMenu(menu.findItem(R.id.SEARCH_COMMAND))
+            }
         } else {
             for (item in listOf(
                 R.id.SEARCH_COMMAND,

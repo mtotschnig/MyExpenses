@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MenuTitle">
+    <group android:checkableBehavior="single">
+        <item android:id="@id/SORT_BY_DATE_DESCENDING_COMMAND" />
+        <item android:id="@id/SORT_BY_DATE_ASCENDING_COMMAND" />
+        <item android:id="@id/SORT_BY_AMOUNT_DESCENDING_COMMAND" />
+        <item android:id="@id/SORT_BY_AMOUNT_ASCENDING_COMMAND" />
+    </group>
+</menu>
