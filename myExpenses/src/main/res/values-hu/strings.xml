@@ -899,11 +899,9 @@
     <string name="debt_managment">Adósságkezelés</string>
     <string name="ui_refinement">A felhasználói felület finomítása</string>
     <string name="bug_fixes" tools:ignore="UnusedResources">Hibajavítások</string>
-    <string name="whats_new_338">Tetszőlegesen mély kategóriahierarchia</string>
     <string name="dialog_title_purge_backups">Régi biztonsági mentések törlése</string>
     <string name="menu_reconfigure">Újrakonfigurálás</string>
     <string name="add_shortcut">Indító hozzáadása</string>
-    <string name="whats_new_359">A fizetési módok ikonjai testre szabhatók.</string>
     <string name="dialog_contrib_trial_info">Jelenlegi licencállapota (%1$s) lehetővé teszi az %2$s kipróbálását %3$d napig (%4$s-ig).</string>
     <string name="one_time_payment">Egyszeri fizetés</string>
     <string name="dialog_contrib_trial_info_play">Ez az ingyenes próbaverzió soha nem vált át semmilyen típusú előfizetésre.</string>

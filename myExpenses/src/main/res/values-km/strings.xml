@@ -363,6 +363,5 @@
     <string name="synchronization">ការធ្វើសមកាលកម្ម</string>
     <string name="ui_refinement">ការ កែ ច្នៃ ចំណុច ប្រទាក់ អ្នក ប្រើ</string>
     <string name="menu_budget">ថវិកា</string>
-    <string name="whats_new_338">ឋានានុក្រមប្រភេទជ្រៅតាមអំពើចិត្ត</string>
     <string name="bug_fixes" tools:ignore="UnusedResources">កែកំហុស</string>
 </resources>

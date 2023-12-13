@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="whats_new_364_2">استراتيجية جديدة لإدارة معلومات الدافع/المدفوع لأمره المكررة</string>
+    <string name="whats_new_361_1">يمكن فرز قائمة المعاملات حسب المبلغ.</string>
+    <string name="whats_new_365">إرفاق عدد عشوائي من الصور والمستندات (PDF)</string>
+    <string name="whats_new_366">أداة الشاشة الرئيسية تعرض الحالة الحالية للميزانية.</string>
+    <string name="whats_new_364_1">الاستيراد إلى حسابات متعددة من ملف CSV واحد</string>
+    <string name="whats_new_358">القطعة تتبع تكوين الموضوع (فاتح / داكن).</string>
+    <string name="whats_new_355">أصبح الآن اسم ملف النسخ الاحتياطي قابلاً للتكوين.</string>
+    <string name="whats_new_367">يمكن الآن تكوين الفئات كفئات مصروفات أو دخل، مما سيؤثر على كيفية حساب مبالغ المصروفات والدخل.</string>
+    <string name="whats_new_361_2">يمكن مشاركة أو حذف الملفات الموجودة في مجلد التطبيق (النسخ الاحتياطية والصادرات).</string>
+</resources>

@@ -471,7 +471,6 @@
     <string name="synchronization">동기화</string>
     <string name="bug_fixes" tools:ignore="UnusedResources">버그 수정</string>
     <string name="menu_budget">예산편성</string>
-    <string name="whats_new_338">임의의 깊은 범주 계층 구조</string>
     <string name="content_description_calculator_clear_button">모두 재설정</string>
     <string name="content_description_calculator_delete_button">마지막 숫자 삭제하기</string>
     <string name="date_format_hour">시간</string>

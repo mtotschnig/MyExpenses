@@ -932,12 +932,9 @@
         <item quantity="one">Bir kategori simgesiyle güncellendi.</item>
         <item quantity="other">%1$d kategori simgesiyle güncellendi.</item>
     </plurals>
-    <string name="whats_new_336_1">Borç özetini paylaşın</string>
-    <string name="whats_new_336_2">Alt muameleler için etiketler</string>
     <string name="setup_completed">Kurulum tamamlandı</string>
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Kategori ağacı</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Geçerli lisans durumunuzla (%1$s), bu iletişim kutusu her kullanımda görüntülenecektir.</string>
-    <string name="whats_new_338">İstenilen derinlikte kategori hiyerarşisi</string>
     <string name="menu_parent_category_selection">Kısa dokunuşla üst kategoriyi seç</string>
     <string name="dialog_title_purge_backups">Eski yedekleri temizle</string>
     <string name="pref_purge_backup_require_confirmation_summary">Dosyalar temizlenmeden önce onay iste</string>
@@ -952,7 +949,6 @@
     </plurals>
     <string name="pref_purge_backup_keep_title">Saklanacak en fazla son yedekleme dosyası sayısı</string>
     <string name="pref_debug_logging_share_summary">Günlük dosyalarını paylaş</string>
-    <string name="whats_new_340">Notlar alanı birden çok satıra izin verir.</string>
     <string name="webui_warning_move_transaction">Muamele {account} hesabına taşınacak.</string>
     <string name="pref_csv_export_split_amount_summary">Gelir ve giderler için ayrı sütunlar kullanın</string>
     <string name="pref_csv_export_split_categories_summary">Kategori hiyerarşisinin her seviyesi için ayrı sütunlar kullanın</string>
@@ -985,7 +981,6 @@
     <string name="debt_paid_off_self">Borcum ödendi.</string>
     <string name="debt_balance_they_owe">%1$s şimdi %2$s borçlu.</string>
     <string name="pref_backup_file_prefix_title">Dosya ön eki</string>
-    <string name="whats_new_355">Yedekleme dosyası adı artık yapılandırılabilir.</string>
     <string name="file_format">Dosya Biçimi</string>
     <string name="image_optimize_quality_summary">Niteliğin 0 olması, en küçük boyut için sıkıştırma anlamına gelir. 100 en yüksek görsel kalite için sıkıştırma anlamına gelir.</string>
     <string name="maximum_size">Azami boyut</string>
@@ -995,25 +990,19 @@
     <string name="select_template">Şablon seç</string>
     <string name="template_shortcut">Şablon kısayolu</string>
     <string name="content_description_remove_icon">Simgeyi kaldır</string>
-    <string name="whats_new_358">Widget, tema yapılandırmasını (açık/koyu) takip eder.</string>
-    <string name="whats_new_359">Ödeme yöntemleri için simgeler özelleştirilebilir.</string>
     <string name="search_account">Hesap ara</string>
     <string name="dialog_contrib_trial_info">Güncel lisans durumunuz (%1$s), %3$d gün boyunca (%4$s\'e kadar) %2$s denemenize olanak tanır.</string>
     <string name="one_time_payment">Bir defalık ödeme</string>
     <string name="dialog_contrib_trial_info_play">Bu ücretsiz deneme sürümü hiçbir zaman herhangi bir abonelik türüne dönüşmeyecektir.</string>
     <string name="dialog_contrib_subscription_info_play">Bu abonelik hemen yürürlüğe girer, aylık veya yıllık olarak faturalandırılır ve herhangi bir zamanda iptal edilebilir.</string>
-    <string name="whats_new_369_1">Transferler kategorilerle ilişkilendirilebilir.</string>
     <string name="pref_unmapped_transaction_as_transfer_title">İlişkilendirilmeyen muameleler</string>
-    <string name="whats_new_364_2">Yinelenen ödeyen/alacaklı bilgilerini yönetmek için yeni yöntem</string>
     <string name="button_relink_keep_date">Yeniden bağla, ancak tarihi koru</string>
     <string name="remove_from_group">Gruptan kaldır</string>
     <string name="orphaned_transaction_relink">Muamele olay örneklemesi ile %s tarihinde yeniden bağlanabilir.</string>
     <string name="menu_aggregate_neutral_categories">Nötr kategorileri topla</string>
     <string name="notifications_permission_required_auto_backup">Bildirim gönderme iznini vererek, otomatik yedeklemeler hakkında bilgilendirileceksiniz.</string>
-    <string name="whats_new_361_1">Muamele listesi miktara göre sıralanabilir.</string>
     <string name="merge_parties_strategy_delete">Yinelenenler silinir.</string>
     <string name="budget_deleted">Bütçe silindi</string>
-    <string name="whats_new_365">İstenilen sayıda resim ve belge (PDF) ekle</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_on">transfer olarak sayılır</string>
     <string name="warning_delete_default_transfer_category">%s kategorisi öntanımlı transfer kategorisi olarak yapılandırıldı ve silinmemelidir.</string>
     <string name="pref_attachment_mime_types_title">Ekler için izin verilen MIME türleri</string>
@@ -1022,19 +1011,14 @@
     <string name="pref_copy_attachments_summary_on">Dosyalar uygulama klasörüne kopyalanır.</string>
     <string name="attachments">Ekler</string>
     <string name="budget_widget_configuration">Bütçe seç</string>
-    <string name="whats_new_366">Bütçenin güncel durumunu gösteren ana ekran widget\'ı.</string>
     <string name="budget_table_header_overspent">Fazla harcanmış</string>
-    <string name="whats_new_364_1">Tek bir CSV dosyasından birden fazla hesaba aktar</string>
     <string name="pref_copy_attachments_title">Ekleri uygulama klasörüne kopyala</string>
     <string name="read_from_data">Veriden oku</string>
-    <string name="whats_new_369_2">Ekran kilidi etkinleştirildiğinde, ekran görüntülerinin devre dışı bırakılmasına izin ver.</string>
     <string name="orphaned_transaction_info">Bu tarih için plana bir muamele bağlandı, ancak bu tarihte herhangi bir olay örneklemesi yok.</string>
     <string name="orphaned_transaction_align_date">İsteğe bağlı olarak, muameleyle birlikte kaydedilen tarih de örnekleme tarihiyle eşleştirilebilir.</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">gider / gelir olarak sayılır</string>
     <string name="merge_parties_strategy_group">Yinelenenler bağımlı olarak gruplandırılır.</string>
     <string name="pref_copy_attachments_summary_off">Dosyalar kopyalanmaz, yalnızca bir referans kaydedilir.</string>
     <string name="show_duplicates">Yinelenenleri Göster</string>
-    <string name="whats_new_367">Kategoriler artık gider veya gelir kategorileri olarak yapılandırılabilir, bu da gider ve gelir toplamlarının nasıl hesaplandığını etkileyecektir.</string>
-    <string name="whats_new_361_2">Uygulama klasöründeki dosyalar (yedeklemeler ve dışa aktarmalar) paylaşılabilir veya silinebilir.</string>
     <string name="default_transfer_category">Öntanımlı transfer kategorisi</string>
 </resources>

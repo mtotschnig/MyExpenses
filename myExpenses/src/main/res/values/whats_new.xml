@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="whats_new_355">Backup file name is now configurable.</string>
+    <string name="whats_new_358">Widget follows theme configuration (light/dark).</string>
+    <string name="whats_new_359">Icons for payment methods can be customized.</string>
+    <string name="whats_new_361_1">Transaction list can be sorted by amount.</string>
+    <string name="whats_new_361_2">Files in application folder (backups and exports) can be shared or deleted.</string>
+    <string name="whats_new_364_1">Import into multiple accounts from one CSV file</string>
+    <string name="whats_new_364_2">New strategy for managing duplicate payer/payee information</string>
+    <string name="whats_new_365">Attach arbitrary number of images and documents (PDF)</string>
+    <string name="whats_new_366">Home Screen Widget displaying current state of budget.</string>
+    <string name="whats_new_367">Categories can now be configured as expense or income categories, which will impact how the expense and income sums are calculated.</string>
+    <string name="whats_new_369_1">Transfers can be mapped to categories.</string>
+    <string name="whats_new_369_2">When screen lock is enabled, allow to opt-out of disabling screenshots.</string>
+    <string name="whats_new_370">Menu on main screen can be fully customized.</string>
+</resources>

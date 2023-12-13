@@ -943,12 +943,9 @@
         <item quantity="many">%1$d categorias foram atualizadas com ícones.</item>
         <item quantity="other">%1$d categorias foram atualizadas com ícones.</item>
     </plurals>
-    <string name="whats_new_336_2">Etiquetas para as partes da divisão</string>
-    <string name="whats_new_336_1">Compartilhar o resumo da dívida</string>
     <string name="setup_completed">Configuração concluída</string>
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Árvore de categorias</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Devido ao status atual da sua licença (%1$s), este diálogo será exibido a cada utilização.</string>
-    <string name="whats_new_338">Hierarquia de categorias arbitrariamente profunda</string>
     <string name="dialog_title_purge_backups">Expurgar backups antigos</string>
     <string name="purge_backups">Os seguintes backups antigos serão excluídos:</string>
     <plurals name="purge_backup_success">
@@ -964,7 +961,6 @@
     <string name="pref_purge_backup_require_confirmation_summary">Exibir mensagem de confirmação antes de excluir arquivos</string>
     <string name="pref_purge_backup_keep_title">Número máximo de backups recentes a serem preservados</string>
     <string name="menu_parent_category_selection">Selecionar a categoria mãe no toque breve</string>
-    <string name="whats_new_340">Campos de anotação permitem múltiplas linhas.</string>
     <string name="pref_debug_logging_share_summary">Compartilhar arquivos de registro</string>
     <string name="pref_csv_export_split_amount_summary">Usa colunas separadas para receitas e despesas</string>
     <string name="pref_csv_export_split_categories_summary">Usa colunas separadas para cada nível da hierarquia de categoria</string>
@@ -983,7 +979,6 @@
     <string name="menu_reconfigure">Reconfigurar</string>
     <string name="encrypt_database">Criptografar o banco de dados</string>
     <string name="add_shortcut">Adicionar atalho</string>
-    <string name="whats_new_359">Os ícones dos métodos de pagamento podem ser personalizados.</string>
     <string name="search_account">Pesquisar por conta</string>
     <string name="encrypt_database_info">O banco de dados será criptografado com uma senha que não poderá ser extraída deste dispositivo. Consequentemente, ela não será incluída no backup efetuado pelo serviço de backup do seu aparelho.</string>
     <string name="github_sponsors">Chaves de licença também são fornecidas &lt;a href=%s&gt;patrocinadores do Github&lt;/a&gt;.</string>
@@ -1002,25 +997,20 @@
     <string name="notifications_permission_required_planner"><i>{app_name}</i> necessita da sua permissão para enviar notificações, quando futuras transações forem publicadas.</string>
     <string name="notifications_permission_required_webui">Ao conceder a permissão para enviar notificações, você pode controlar o status do servidor web.</string>
     <string name="notifications_permission_required_sync">Ao conceder a permissão para enviar notificações, você pode monitorar o andamento das operações de sincronização.</string>
-    <string name="whats_new_355">O nome do arquivo de backup agora é configurável.</string>
     <string name="image_optimize_quality">Qualidade</string>
     <string name="optimize_image_file_size">Otimizar o tamanho do arquivo de imagem</string>
     <string name="maximum_size">Tamanho máximo</string>
     <string name="file_format">Formato do arquivo</string>
-    <string name="whats_new_364_2">Nova estratégia para gerenciamento de informações duplicadas de pagador/beneficiário</string>
     <string name="select_template">Seleção do modelo</string>
     <string name="button_relink_keep_date">Vincular novamente, mas manter a data</string>
     <string name="remove_from_group">Remover do grupo</string>
     <string name="orphaned_transaction_relink">A transação pode ser novamente vinculada com a instância do evento em %s.</string>
     <string name="notifications_permission_required_auto_backup">Ao conceder a permissão para enviar notificações, você será informado sobre backups automáticos.</string>
-    <string name="whats_new_361_1">A lista de transações pode ser ordenada por valor.</string>
     <string name="merge_parties_strategy_delete">Os duplicados são excluídas.</string>
-    <string name="whats_new_365">Anexar um número arbitrário de imagens e documentos (PDF)</string>
     <string name="pref_attachment_mime_types_title">Tipos MIME permitidos para anexos</string>
     <string name="button_relink_update_date">Vincular novamente e atualizar a data</string>
     <string name="pref_copy_attachments_summary_on">Os arquivos são copiados para a pasta do aplicativo.</string>
     <string name="attachments">Anexos</string>
-    <string name="whats_new_364_1">Importar em várias contas a partir de um arquivo CSV</string>
     <string name="pref_copy_attachments_title">Copiar anexos para a pasta do aplicativo</string>
     <string name="read_from_data">Obter a partir dos dados</string>
     <string name="image_optimize_quality_summary">Qualidade 0 significa comprimir para o menor tamanho. 100 significa comprimir para a qualidade visual máxima.</string>
@@ -1028,10 +1018,8 @@
     <string name="orphaned_transaction_align_date">Opcionalmente, a data armazenada com a transação também pode ser alinhada com a data da instância.</string>
     <string name="template_shortcut">Atalho para o modelo</string>
     <string name="merge_parties_strategy_group">Os duplicados são agrupados como dependentes.</string>
-    <string name="whats_new_358">O widget segue a configuração do tema (claro/escuro).</string>
     <string name="pref_copy_attachments_summary_off">Os arquivos não são copiados, é armazenada apenas uma referência.</string>
     <string name="show_duplicates">Exibir os duplicados</string>
-    <string name="whats_new_361_2">Os arquivos na pasta do aplicativo (backups e exportações) podem ser compartilhados ou excluídos.</string>
     <string name="dialog_contrib_trial_info">Seu status de licença atual (%1$s) permite que você experimente %2$s por %3$d dias (até %4$s).</string>
     <string name="one_time_payment">Pagamento único</string>
     <string name="dialog_contrib_trial_info_play">Esta avaliação gratuita nunca será convertida em qualquer tipo de assinatura.</string>

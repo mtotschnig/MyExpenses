@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string-array name="versions">
-        <item>681;3.6.9.1</item>
+        <item>682;3.7.0</item>
         <item>678;3.6.9</item>
         <item>671;3.6.8</item>
         <item>662;3.6.7</item>
@@ -31,73 +31,9 @@
         <item>538;3.4.3</item>
         <item>534;3.4.2</item>
         <item>532;3.4.1</item>
-        <item>529;3.4.0</item>
-        <item>528;3.3.9</item>
-        <item>521;3.3.8</item>
-        <item>515;3.3.7</item>
-        <item>511;3.3.6</item>
-        <item>504;3.3.5</item>
-        <item>498;3.3.4</item>
-        <item>494;3.3.3</item>
-        <item>491;3.3.2</item>
-        <item>488;3.3.1</item>
-        <item>484;3.3.0</item>
-        <item>481;3.2.9</item>
-        <item>479;3.2.8</item>
-        <item>476;3.2.7</item>
-        <item>475;3.2.6</item>
-        <item>473;3.2.5</item>
-        <item>463;3.2.4</item>
-        <item>457;3.2.3</item>
-        <item>454;3.2.2</item>
-        <item>448;3.2.1</item>
-        <item>444;3.2.0</item>
-        <item>443;3.1.9</item>
-        <item>441;3.1.8</item>
-        <item>439;3.1.7</item>
-        <item>435;3.1.6</item>
-        <item>432;3.1.5</item>
-        <item>428;3.1.4</item>
-        <item>421;3.1.3</item>
-        <item>413;3.1.2</item>
-        <item>409;3.1.1</item>
-        <item>403;3.1.0</item>
     </string-array>
 
-    <!-- Facebook -->
-    <string name="version_more_info_310">793834357808329</string>
-    <string name="version_more_info_311">2590210351240427</string>
-    <string name="version_more_info_312">2604944273100368</string>
-    <string name="version_more_info_313">2677572629170865</string>
-    <string name="version_more_info_314">2716940141900780</string>
-    <string name="version_more_info_315">2733962776865183</string>
-    <string name="version_more_info_316">2741460342782093</string>
-    <string name="version_more_info_317">2755797368015057</string>
-    <string name="version_more_info_318">2760165394244921</string>
-    <string name="version_more_info_319">2768864520041675</string>
-    <string name="version_more_info_320">2773874729540654</string>
-    <string name="version_more_info_321">2786000138328113</string>
-    <string name="version_more_info_322">2811630932431700</string>
-    <string name="version_more_info_323">2815938965334230</string>
-    <string name="version_more_info_324">2829170794011047</string>
-    <string name="version_more_info_325">2844975219097271</string>
-    <string name="version_more_info_326">2850988161829310</string>
-    <string name="version_more_info_327">2855988281329298</string>
-    <string name="version_more_info_328">2864490073812452</string>
-    <string name="version_more_info_329">2872253503036109</string>
-    <string name="version_more_info_330">2878062012455258</string>
-    <string name="version_more_info_331">2902101723384620</string>
-    <string name="version_more_info_332">2913424232252369</string>
-
     <!-- Mastodon -->
-    <string name="version_more_info_333">106547283868308478</string>
-    <string name="version_more_info_334">106976016336053121</string>
-    <string name="version_more_info_335">107389729386210664</string>
-    <string name="version_more_info_336">107745551599621121</string>
-    <string name="version_more_info_337">107877987796717018</string>
-    <string name="version_more_info_338">108159979078178826</string>
-    <string name="version_more_info_339">108256043745255728</string>
-    <string name="version_more_info_340">108345073884573364</string>
     <string name="version_more_info_341">108453949261184111</string>
     <string name="version_more_info_342">108646207090890572</string>
     <string name="version_more_info_343">108747302097004279</string>
@@ -127,36 +63,8 @@
     <string name="version_more_info_367">111375868306290140</string>
     <string name="version_more_info_368">111433728475407148</string>
     <string name="version_more_info_369">111504468267860332</string>
-    <string name="version_more_info_3691">111552065954592754</string>
 
     <!-- Github -->
-    <string name="project_board_314">30#column-10686300</string>
-    <string name="project_board_315">31#column-11152071</string>
-    <string name="project_board_316">32#column-11377778</string>
-    <string name="project_board_317">34#column-11664847</string>
-    <string name="project_board_318">35#column-11734963</string>
-    <string name="project_board_319">33#column-11450748</string>
-    <string name="project_board_320">36#column-11936717</string>
-    <string name="project_board_321">37#column-11936721</string>
-    <string name="project_board_322">38#column-12291166</string>
-    <string name="project_board_323">41#column-12654018</string>
-    <string name="project_board_324">42#column-12850531</string>
-    <string name="project_board_325">44#column-13183753</string>
-    <string name="project_board_326">46#column-13353640</string>
-    <string name="project_board_327">47#column-13500972</string>
-    <string name="project_board_328">48#column-13591495</string>
-    <string name="project_board_329">49#column-13853714</string>
-    <string name="project_board_330">50#column-13929647</string>
-    <string name="project_board_331">52#column-14150674</string>
-    <string name="project_board_332">54#column-14601926</string>
-    <string name="project_board_333">55#column-14888706</string>
-    <string name="project_board_334">57#column-15356254</string>
-    <string name="project_board_335">58#column-16107025</string>
-    <string name="project_board_336">61#column-17032814</string>
-    <string name="project_board_337">64#column-17809661</string>
-    <string name="project_board_338">65#column-17887806</string>
-    <string name="project_board_339">67#column-18533219</string>
-    <string name="project_board_340">70#column-18752877</string>
     <string name="project_board_341">69#column-18649612</string>
     <string name="project_board_342">71#column-18889056</string>
     <string name="project_board_343">73#column-19080863</string>
@@ -186,24 +94,8 @@
     <string name="project_board_367">113#column-19675398</string>
     <string name="project_board_368">116#column-19684067</string>
     <string name="project_board_369">118#column-19691508</string>
-    <string name="project_board_3691">119#column-19700405</string>
+    <string name="project_board_370">120#column-19702783</string>
 
-    <string-array name="whats_new_314">
-        <item>@string/title_scan_receipt_feature</item>
-    </string-array>
-    <string-array name="whats_new_315" tools:ignore="InconsistentArrays">
-        <item>@string/ui_refinement</item>
-    </string-array>
-    <string-array name="whats_new_319">
-        <item>@string/ui_refinement</item>
-    </string-array>
-    <string-array name="whats_new_334">
-        <item>@string/debt_managment</item>
-    </string-array>
-    <string-array name="whats_new_336">
-        <item>@string/whats_new_336_1</item>
-        <item>@string/whats_new_336_2</item>
-    </string-array>
     <string-array name="whats_new_355">
         <item>@string/whats_new_355</item>
     </string-array>
@@ -238,9 +130,7 @@
         <item>@string/whats_new_369_1</item>
         <item>@string/whats_new_369_2</item>
     </string-array>
-    <string-array name="whats_new_3691">
-        <item>@string/whats_new_3691</item>
-        <item>@string/bug_fixes</item>
+    <string-array name="whats_new_370">
+        <item>@string/whats_new_370</item>
     </string-array>
-    <string name="whats_new_3691">You can now select the category which will be used for transfers by default.</string>
 </resources>

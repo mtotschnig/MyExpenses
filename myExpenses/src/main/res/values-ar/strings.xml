@@ -939,7 +939,6 @@
     <string name="title_webui">واجهة مستخدم الويب</string>
     <string name="account_deleted">تم حذف الحساب</string>
     <string name="debt_managment">إدارة الديون</string>
-    <string name="whats_new_338">تسلسل هرمي عميق بشكل تعسفي للفئات</string>
     <string name="dialog_title_purge_backups">حذف النسخ الاحتياطية القديمة</string>
     <string name="icons_for_categories">ايقونات الفئات</string>
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">الفئات</string>
@@ -978,13 +977,11 @@
     <string name="purge_backups">سيتم حذف ملفات النسخ الاحتياطي القديمة التالية:</string>
     <string name="dialog_title_warning_delete_party">حذف الطرف ؟</string>
     <string name="debts">ديون</string>
-    <string name="whats_new_336_1">مشاركة ملخص الديون</string>
     <string name="dialog_contrib_usage_limit_with_dialog">مع حالة الترخيص الحالية (%1$s)، سيتم عرض هذا الحوار عند كل استخدام.</string>
     <string name="cb_label_merge_accounts">دمج الحسابات</string>
     <string name="debt_I_owe">أنا مدين</string>
     <string name="dialog_title_delete_debt">حذف الدين ؟</string>
     <string name="menu_new_debt">دين جديد</string>
-    <string name="whats_new_336_2">علامات للأجزاء المقسمة</string>
     <plurals name="import_categories_icons_updated">
         <item quantity="zero">تم تحديث فئة واحدة بالأيقونة</item>
         <item quantity="one">تم تحديث فئة واحدة بالأيقونات</item>
@@ -996,7 +993,6 @@
     <string name="upgrade_info_557">كيف تحب التصميم الجديد؟ من فضلك، اسمحوا لنا أن نعرف. يمكن تفعيل متغير أقرب إلى التصميم القديم في الإعدادات (%1$s -&gt; %2$s).</string>
     <string name="pref_unmapped_transaction_as_transfer_title">المعاملات غير المعينة</string>
     <string name="github_sponsors">يتم توفير مفاتيح الترخيص أيضًا إلى رعاة &lt;a href=%s&gt;Github&lt;/a&gt;</string>
-    <string name="whats_new_364_2">استراتيجية جديدة لإدارة معلومات الدافع/المدفوع لأمره المكررة</string>
     <string name="select_template">حدد قالب</string>
     <string name="budget_only_current_period">تعيين لـ %s فقط</string>
     <string name="button_relink_keep_date">أعد الارتباط، لكن احتفظ بالتاريخ</string>
@@ -1005,10 +1001,8 @@
     <string name="pref_backup_file_prefix_title">بادئة الملف</string>
     <string name="notifications_permission_required_auto_backup">من خلال منح الإذن بإرسال الإشعارات، سيتم إعلامك بشأن عمليات النسخ الاحتياطي التلقائي.</string>
     <string name="encrypt_database">تشفير قاعدة البيانات</string>
-    <string name="whats_new_361_1">يمكن فرز قائمة المعاملات حسب المبلغ.</string>
     <string name="dialog_confirm_rollover_delete">سيتم حذف جميع مبالغ التمديد لهذه الفترة.</string>
     <string name="merge_parties_strategy_delete">يتم حذف التكرارات.</string>
-    <string name="whats_new_365">إرفاق عدد عشوائي من الصور والمستندات (PDF)</string>
     <string name="notifications_channel_required">الرجاء تمكين القناة %s.</string>
     <string name="debt_paid_off_other">تم سداد دين %s.</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_on">يتم احتسابها على أنها تحويل</string>
@@ -1023,7 +1017,6 @@
     <string name="attachments">المرفقات</string>
     <string name="maximum_size">أكبر مقاس</string>
     <string name="budget_table_header_rollover">مدور</string>
-    <string name="whats_new_366">أداة الشاشة الرئيسية تعرض الحالة الحالية للميزانية.</string>
     <string name="redesign">إعادة التصميم</string>
     <plurals name="purge_backup_failure">
         <item quantity="zero">لا يمكن حذف ملف النسخ الاحتياطي القديم.</item>
@@ -1034,7 +1027,6 @@
         <item quantity="other">لا يمكن حذف ملفات النسخ الاحتياطي القديم.</item>
     </plurals>
     <string name="pref_csv_export_split_date_time_summary">استخدام أعمدة منفصلة للتاريخ والوقت</string>
-    <string name="whats_new_364_1">الاستيراد إلى حسابات متعددة من ملف CSV واحد</string>
     <string name="pref_copy_attachments_title">انسخ المرفقات إلى مجلد التطبيق</string>
     <string name="read_from_data">القراءة من البيانات</string>
     <string name="pref_csv_export_split_categories_summary">استخدم أعمدة منفصلة لكل مستوى من مستويات التسلسل الهرمي للفئة</string>
@@ -1059,17 +1051,12 @@
     <string name="template_shortcut">اختصار القالب</string>
     <string name="merge_parties_strategy_group">يتم تجميع التكرارات كتوابع.</string>
     <string name="encrypt_database_info">سيتم تشفير قاعدة البيانات باستخدام عبارة مرور لا يمكن استخراجها من هذا الجهاز. وبالتالي لن يتم نسخها احتياطيًا بواسطة خدمة النسخ الاحتياطي بجهازك.</string>
-    <string name="whats_new_358">القطعة تتبع تكوين الموضوع (فاتح / داكن).</string>
-    <string name="whats_new_355">أصبح الآن اسم ملف النسخ الاحتياطي قابلاً للتكوين.</string>
     <string name="pref_purge_backup_keep_title">الحد الأقصى لعدد ملفات النسخ الاحتياطي الأحدث التي سيتم الاحتفاظ بها</string>
-    <string name="whats_new_340">يسمح حقل الملاحظات بأسطر متعددة.</string>
     <string name="pref_copy_attachments_summary_off">لا يتم نسخ الملفات، يتم تخزين مرجع فقط.</string>
     <string name="webui_warning_move_transaction">سيتم نقل المعاملة إلى الحساب {account}.</string>
     <string name="show_duplicates">إظهار التكرارات</string>
     <string name="debt_paid_off_self">تم سداد ديوني.</string>
-    <string name="whats_new_367">يمكن الآن تكوين الفئات كفئات مصروفات أو دخل، مما سيؤثر على كيفية حساب مبالغ المصروفات والدخل.</string>
     <string name="select_all_list_too_large">الأمر %s غير متوفر لأنه تم تحميل القائمة جزئيًا فقط. الرجاء استخدام وظيفة البحث لتقليل حجم القائمة.</string>
-    <string name="whats_new_361_2">يمكن مشاركة أو حذف الملفات الموجودة في مجلد التطبيق (النسخ الاحتياطية والصادرات).</string>
     <string name="debt_installment_receive">أحصل على قسط من %s.</string>
     <string name="dialog_contrib_trial_info">تسمح لك حالة الترخيص الحالية (%1$s) بتجربة %2$s لمدة %3$d أيام (حتى %4$s).</string>
     <string name="one_time_payment">دفعة مالية لمرة واحدة</string>

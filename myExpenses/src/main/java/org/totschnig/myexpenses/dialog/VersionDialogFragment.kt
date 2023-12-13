@@ -98,23 +98,13 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
                                     drawableRes = R.drawable.ic_github,
                                     contentDescription = "Github"
                                 )
-                                if (version.code >= 493) {
-                                    VersionInfoButton(
-                                        version = version,
-                                        resPrefix = "version_more_info_",
-                                        baseUri = "https://mastodon.social/@myexpenses/",
-                                        drawableRes = R.drawable.ic_mastodon,
-                                        contentDescription = "Mastodon"
-                                    )
-                                } else {
-                                    VersionInfoButton(
-                                        version = version,
-                                        resPrefix = "version_more_info_",
-                                        baseUri = "https://www.facebook.com/MyExpenses/posts/",
-                                        drawableRes = R.drawable.ic_facebook,
-                                        contentDescription = "Facebook"
-                                    )
-                                }
+                                VersionInfoButton(
+                                    version = version,
+                                    resPrefix = "version_more_info_",
+                                    baseUri = "https://mastodon.social/@myexpenses/",
+                                    drawableRes = R.drawable.ic_mastodon,
+                                    contentDescription = "Mastodon"
+                                )
                             }
                         }
                     }

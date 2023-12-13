@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="whats_new_355">Il nome del file di backup è ora configurabile.</string>
+    <string name="whats_new_359">Le icone dei metodi di pagamento possono essere personalizzate.</string>
+    <string name="whats_new_364_2">Nuova strategia per gestire informazioni duplicate su paganti/beneficiari</string>
+    <string name="whats_new_361_1">La lista delle transazioni può essere ordinata per importo.</string>
+    <string name="whats_new_365">Allega un numero arbitrario di immagini e documenti (PDF)</string>
+    <string name="whats_new_366">Il widget sulla schermata principale mostra lo stato attuale del tuo bilancio.</string>
+    <string name="whats_new_364_1">Importa all\'interno di diversi conti a partire da un file CSV</string>
+    <string name="whats_new_358">Il widget segue la configurazione del tema (chiaro/scuro).</string>
+    <string name="whats_new_367">Ora le categorie possono essere configurate come categorie di spesa o di reddito, che avranno un impatto su come i totali delle spese e dei redditi vengono calcolati.</string>
+    <string name="whats_new_361_2">I file nella cartella dell\'applicazione (backup ed esportazioni) possono essere condivisi o eliminati.</string>
+    <string name="whats_new_369_1">I trasferimenti possono essere assegnati a categorie.</string>
+    <string name="whats_new_369_2">Quando il blocco schermo è abilitato, consenti la disabilitazione del blocco screenshot.</string>
+</resources>

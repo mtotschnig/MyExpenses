@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="whats_new_355">Der Name der Sicherungsdatei ist jetzt konfigurierbar.</string>
+    <string name="whats_new_358">Das Widget folgt der Themenkonfiguration (hell/dunkel).</string>
+    <string name="whats_new_361_1">Die Buchungsliste kann nach Betrag sortiert werden.</string>
+    <string name="whats_new_361_2">Dateien im Anwendungsordner (Backups und Export-Dateien) können geteilt oder gelöscht werden.</string>
+    <string name="whats_new_364_2">Neue Strategie für die Verwaltung von duplizierten Zahlern/Empfängern</string>
+    <string name="whats_new_364_1">Import in mehrere Konten aus einer CSV-Datei</string>
+    <string name="whats_new_365">Beliebig viele Bilder und Dokumente (PDF) können angehängt werden</string>
+    <string name="whats_new_366">Startbildschirm-Widget, das den aktuellen Status des Budgets anzeigt.</string>
+    <string name="whats_new_367">Kategorien können jetzt als Ausgaben- oder Einkommenskategorien konfiguriert werden, was sich auf die Berechnung der Ausgaben- und Einkommenssummen auswirkt.</string>
+    <string name="whats_new_369_1">Umbuchungen können Kategorien zugeordnet werden.</string>
+    <string name="whats_new_369_2">Wenn die Bildschirmsperre aktiviert ist, können Sie Screenshots erlauben.</string>
+</resources>

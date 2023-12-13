@@ -153,8 +153,6 @@
     <string name="pref_feature_uninstall_title">Meminta penghapusan instalasi fitur dan bahasa</string>
     <string name="cb_label_merge_accounts">Gabungkan akun</string>
     <string name="pref_mlkit_script_title">Skrip untuk MlKit</string>
-    <string name="whats_new_336_1">Ringkasan utang saham</string>
-    <string name="whats_new_336_2">Tag untuk membelah bagian</string>
     <string name="setup_completed">Penyiapan selesai</string>
     <string name="dialog_title_purge_backups">Bersihkan cadangan lama</string>
     <string name="purge_backups">File cadangan lama berikut ini akan dihapus:</string>

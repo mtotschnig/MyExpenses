@@ -604,15 +604,11 @@
     </plurals>
     <string name="debt_managment">قرض کا انتظام</string>
     <string name="title_activity_debt_overview">قرض کا جائزہ</string>
-    <string name="whats_new_336_1">قرض کا خلاصہ شیئر کریں</string>
-    <string name="whats_new_336_2">تقسیم حصوں کے لیے ٹیگز</string>
     <string name="setup_completed">سیٹ اپ مکمل ہو گیا</string>
-    <string name="whats_new_338">من مانی طور پر گہری زمرہ کا درجہ بندی</string>
     <string name="menu_parent_category_selection">شارٹ ٹیپ پر پیرنٹ زمرہ منتخب کریں</string>
     <string name="dialog_title_purge_backups">پرانے بیک اپ کو صاف کریں</string>
     <string name="pref_purge_backup_require_confirmation_summary">فائلوں کو صاف کرنے سے پہلے تصدیق کا اشارہ دکھائیں</string>
     <string name="pref_debug_logging_share_summary">لاگ فائلوں کا اشتراک کریں</string>
-    <string name="whats_new_340">نوٹس فیلڈ متعدد لائنوں کی اجازت دیتا ہے.</string>
     <string name="pref_csv_export_split_categories_summary">زمرہ کے درجہ بندی کے ہر درجے کے لیے علیحدہ کالم استعمال کریں</string>
     <string name="pref_csv_export_split_amount_summary">آمدنی اور اخراجات کے لیے علیحدہ کالم استعمال کریں</string>
     <string name="budget_table_header_rollover">رول اوور</string>

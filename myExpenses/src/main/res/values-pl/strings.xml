@@ -741,7 +741,6 @@
     <string name="title_scan_receipt_feature">Zeskanuj paragon</string>
     <string name="debt_managment">Zarządzanie długiem</string>
     <string name="ui_refinement">Dopracowanie interfejsu użytkownika</string>
-    <string name="whats_new_338">Arbitralnie głęboka hierarchia kategorii</string>
     <string name="dialog_title_purge_backups">Wyczyść stare kopie zapasowe</string>
     <plurals name="dialog_title_warning_delete_account">
         <item quantity="one">Usunąć konto\?</item>
@@ -751,7 +750,6 @@
     </plurals>
     <string name="menu_reconfigure">Przekonfiguruj</string>
     <string name="add_shortcut">Dodaj subskrypcję</string>
-    <string name="whats_new_359">Dostosowywane są metody płatności.</string>
     <string name="dialog_contrib_trial_info">Twój obecny status licencji (%1$s) umożliwia wypróbowanie %2$s przez %3$d dni (do %4$s).</string>
     <string name="one_time_payment">Płatność jednorazowa</string>
     <string name="dialog_contrib_trial_info_play">Ta bezpłatna wersja próbna nigdy nie zostanie przekształcona w żaden rodzaj subskrypcji.</string>

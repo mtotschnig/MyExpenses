@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="whats_new_355">Yedekleme dosyası adı artık yapılandırılabilir.</string>
+    <string name="whats_new_358">Widget, tema yapılandırmasını (açık/koyu) takip eder.</string>
+    <string name="whats_new_359">Ödeme yöntemleri için simgeler özelleştirilebilir.</string>
+    <string name="whats_new_361_1">Muamele listesi miktara göre sıralanabilir.</string>
+    <string name="whats_new_361_2">Uygulama klasöründeki dosyalar (yedeklemeler ve dışa aktarmalar) paylaşılabilir veya silinebilir.</string>
+    <string name="whats_new_364_1">Tek bir CSV dosyasından birden fazla hesaba aktar</string>
+    <string name="whats_new_364_2">Yinelenen ödeyen/alacaklı bilgilerini yönetmek için yeni yöntem</string>
+    <string name="whats_new_365">İstenilen sayıda resim ve belge (PDF) ekle</string>
+    <string name="whats_new_366">Bütçenin güncel durumunu gösteren ana ekran widget\'ı.</string>
+    <string name="whats_new_367">Kategoriler artık gider veya gelir kategorileri olarak yapılandırılabilir, bu da gider ve gelir toplamlarının nasıl hesaplandığını etkileyecektir.</string>
+    <string name="whats_new_369_1">Transferler kategorilerle ilişkilendirilebilir.</string>
+    <string name="whats_new_369_2">Ekran kilidi etkinleştirildiğinde, ekran görüntülerinin devre dışı bırakılmasına izin ver.</string>
+</resources>

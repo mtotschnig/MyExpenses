@@ -898,7 +898,6 @@
     <string name="active_tags">活跃标签</string>
     <string name="pref_news_title">新闻</string>
     <string name="debt_managment">债务管理</string>
-    <string name="whats_new_338">任意深的类别层次结构</string>
     <string name="dialog_title_purge_backups">清除旧备份</string>
     <string name="dialog_title_delete_debt">删除债务？</string>
     <string name="debt">债务</string>
@@ -922,8 +921,6 @@
     </plurals>
     <string name="cb_label_merge_accounts">合并账户</string>
     <string name="pref_mlkit_script_title">MlKit 脚本</string>
-    <string name="whats_new_336_1">分享债务概览</string>
-    <string name="whats_new_336_2">拆分款项的标签</string>
     <string name="setup_completed">设置完成</string>
     <string name="pref_debug_logging_share_summary">分享日志文件</string>
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">类别树</string>
@@ -934,7 +931,6 @@
     <string name="title_activity_debt_overview">债务概览</string>
     <string name="debt_owes_me">欠债人 %s</string>
     <string name="warning_party_delete_debt">删除该交易对象时，相关的债务也将一并删除。</string>
-    <string name="whats_new_340">支持多行备注</string>
     <string name="webui_warning_move_transaction">交易将移至账户 {account}。</string>
     <string name="pref_csv_export_split_date_time_summary">日期和时间单独一列</string>
     <string name="pref_csv_export_split_amount_summary">收入和支出单独一列</string>

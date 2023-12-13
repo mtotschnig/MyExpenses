@@ -943,10 +943,7 @@
         <item quantity="many">%1$d catégories ont été mises à jour avec une icône.</item>
         <item quantity="other">%1$d catégories ont été mises à jour avec une icône.</item>
     </plurals>
-    <string name="whats_new_336_1">Partager le résumé de la dette</string>
-    <string name="whats_new_336_2">Étiquettes pour les sous-opérations</string>
     <string name="setup_completed">Configuration terminée</string>
-    <string name="whats_new_338">Une hiérarchie de catégories arbitrairement profonde</string>
     <string name="contrib_feature_category_tree_label">Arborescence des catégories</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Avec votre statut de licence actuel (%1$s), ce dialogue s\'affichera à chaque utilisation.</string>
     <string name="menu_parent_category_selection">Sélectionnez la catégorie parent en appuyant brièvement</string>
@@ -964,7 +961,6 @@
         <item quantity="other">%d anciens fichiers de sauvegarde n\'ont pas pu être supprimés.</item>
     </plurals>
     <string name="pref_purge_backup_keep_title">Nombre maximal de fichiers de sauvegarde les plus récents à conserver</string>
-    <string name="whats_new_340">Le champ \"Notes\" autorise plusieurs lignes.</string>
     <string name="pref_debug_logging_share_summary">Partager les fichiers journaux</string>
     <string name="webui_warning_move_transaction">La transaction sera déplacée vers le compte {account}.</string>
     <string name="pref_csv_export_split_categories_summary">Utiliser des colonnes distinctes pour chaque niveau de la hiérarchie des catégories</string>
@@ -998,7 +994,6 @@
     <string name="debt_balance_i_owe">Je dois maintenant %s.</string>
     <string name="debt_balance_they_owe">%1$s doit maintenant %2$s.</string>
     <string name="pref_backup_file_prefix_title">Préfixe du fichier</string>
-    <string name="whats_new_355">Le nom du fichier de sauvegarde est désormais configurable.</string>
     <string name="optimize_image_file_size">Optimiser la taille du fichier image</string>
     <string name="maximum_size">Taille maximale</string>
     <string name="file_format">Format de fichier</string>
@@ -1007,26 +1002,19 @@
     <string name="add_shortcut">Ajouter le raccourci</string>
     <string name="template_shortcut">Raccourci Modèle</string>
     <string name="select_template">Sélectionner un modèle</string>
-    <string name="whats_new_358">Le widget suit la configuration du thème (clair/sombre).</string>
     <string name="content_description_remove_icon">Supprimer l\'icône</string>
-    <string name="whats_new_359">Les icônes des modes de paiement peuvent être personnalisées.</string>
     <string name="search_account">Recherche de compte</string>
     <string name="orphaned_transaction_info">Une opération est liée à l\'échéancier pour cette date, mais aucune instance n\'existe à cette date.</string>
     <string name="orphaned_transaction_relink">L\'opération peut être reliée à l\'événement au %s.</string>
     <string name="orphaned_transaction_align_date">La date stockée avec l\'opération peut également être alignée sur la date de l\'instance.</string>
     <string name="button_relink_keep_date">Relier, mais conserver la date</string>
     <string name="button_relink_update_date">Relier et mettre à jour la date</string>
-    <string name="whats_new_361_1">La liste des opérations peut être triée par montant.</string>
-    <string name="whats_new_361_2">Les fichiers dans le dossier d\'application (sauvegardes et exportations) peuvent être partagés ou supprimés.</string>
     <string name="notifications_permission_required_auto_backup">En accordant l’autorisation d’envoyer des notifications, vous serez informé des sauvegardes automatiques.</string>
     <string name="remove_from_group">Supprimer du groupe</string>
     <string name="merge_parties_strategy_delete">Les doubles sont supprimés.</string>
     <string name="read_from_data">Lire à partir de données</string>
     <string name="merge_parties_strategy_group">Les doubles sont regroupés comme dépendants.</string>
     <string name="show_duplicates">Montrer les doubles</string>
-    <string name="whats_new_364_2">Nouvelle stratégie pour la gestion des tiers doublons</string>
-    <string name="whats_new_364_1">Importer vers plusieurs comptes à partir d\'un fichier CSV</string>
-    <string name="whats_new_365">Joindre un nombre arbitraire d\'images et de documents (PDF)</string>
     <string name="pref_attachment_mime_types_title">Types MIME autorisés pour pièces jointes</string>
     <string name="pref_copy_attachments_summary_on">Les fichiers sont copiés dans le dossier d\'application.</string>
     <string name="attachments">Pièces jointes</string>
@@ -1035,19 +1023,15 @@
     <string name="budget_deleted">Le budget a été supprimé</string>
     <string name="widget_title_budget">Mon budget</string>
     <string name="budget_widget_configuration">Sélectionner un budget</string>
-    <string name="whats_new_366">Widget de l’écran d’accueil affichant l’état actuel du budget.</string>
     <string name="budget_table_header_overspent">Dépassement</string>
     <string name="pref_unmapped_transaction_as_transfer_title">Opérations sans liaison</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_on">sont comptabilisés en tant que transferts</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">sont comptabilisés en tant que dépenses / revenus</string>
-    <string name="whats_new_367">Les catégories peuvent désormais être configurées en tant que catégories de dépenses ou de revenus, ce qui aura un impact sur le calcul des totaux des dépenses et des revenus.</string>
     <string name="menu_aggregate_neutral_categories">Totaliser les catégories neutres</string>
     <string name="dialog_contrib_trial_info">L’état actuel de votre licence (%1$s) vous permet d’essayer %2$s pendant %3$d jours (jusqu’à %4$s).</string>
     <string name="one_time_payment">Paiement unique</string>
     <string name="dialog_contrib_trial_info_play">Cet essai gratuit ne sera jamais converti en aucun type d\'abonnement.</string>
     <string name="dialog_contrib_subscription_info_play">Cet abonnement prend effet immédiatement, est facturé mensuellement ou annuellement et peut être résilié à tout moment.</string>
-    <string name="whats_new_369_1">Les transferts peuvent être associés à des catégories.</string>
     <string name="warning_delete_default_transfer_category">La catégorie %s est configurée comme catégorie de transfert par défaut et ne doit pas être supprimée.</string>
-    <string name="whats_new_369_2">Lorsque le verrouillage de l\'écran est activé, permettez les captures d\'écran.</string>
     <string name="default_transfer_category">Catégorie de transfert par défaut</string>
 </resources>

@@ -960,13 +960,7 @@
         <item quantity="one">One category was updated with icon.</item>
         <item quantity="other">%1$d categories were updated with icons.</item>
     </plurals>
-    <!-- New feature in version 3.3.6 #1 (https://github.com/mtotschnig/MyExpenses/issues/870)-->
-    <string name="whats_new_336_1">Share debt summary</string>
-    <!-- New feature in version 3.3.6 #2 (https://github.com/mtotschnig/MyExpenses/issues/889) -->
-    <string name="whats_new_336_2">Tags for split parts</string>
     <string name="setup_completed">Setup completed</string>
-    <!-- New feature in version 3.3.8 -->
-    <string name="whats_new_338">Arbitrarily deep category hierarchy</string>
     <string name="menu_parent_category_selection">Select parent category on short tap</string>
     <string name="dialog_title_purge_backups">Purge old backups</string>
     <string name="purge_backups">The following old backup files will be deleted:</string>
@@ -983,8 +977,6 @@
     <string name="pref_purge_backup_require_confirmation_summary">Show confirmation prompt before files are purged</string>
     <!-- Summary for an entry on the preference screen that prepares a message with log files attached for debugging purposes.  -->
     <string name="pref_debug_logging_share_summary">Share log files</string>
-    <!-- New feature in version 3.4.0 -->
-    <string name="whats_new_340">Notes field allows multiple lines.</string>
     <!-- {account} is replaced with account label -->
     <string name="webui_warning_move_transaction">The transaction will be moved to account "{account}".</string>
     <string name="pref_csv_export_split_categories_summary">Use separate columns for each level of category hierarchy</string>
@@ -1033,7 +1025,6 @@
     <!--%1$s is replaced with the name of the debtor. %2$s is replaced with the amount. -->
     <string name="debt_balance_they_owe">%1$s now owes %2$s.</string>
     <string name="pref_backup_file_prefix_title">File prefix</string>
-    <string name="whats_new_355">Backup file name is now configurable.</string>
     <string name="optimize_image_file_size">Optimize image file size</string>
     <string name="maximum_size">Maximum size</string>
     <string name="file_format">File Format</string>
@@ -1044,43 +1035,32 @@
     <!-- Title of the screen where user selects a template as target for a shortcut -->
     <string name="select_template">Select template</string>
     <string name="add_shortcut">Add Shortcut</string>
-    <string name="whats_new_358">Widget follows theme configuration (light/dark).</string>
-    <string name="whats_new_359">Icons for payment methods can be customized.</string>
     <string name="orphaned_transaction_info">A transaction is linked to the plan for this date, but no event instance exists at this date.</string>
     <!-- %s is replaced by the date of the event instance this transaction can be relinked with. -->
     <string name="orphaned_transaction_relink">The transaction can be relinked with the event instance on %s.</string>
     <string name="orphaned_transaction_align_date">Optionally the date stored with the transaction can also be aligned with the instance date.</string>
     <string name="button_relink_keep_date">Relink, but keep date</string>
     <string name="button_relink_update_date">Relink and update date</string>
-    <string name="whats_new_361_1">Transaction list can be sorted by amount.</string>
-    <string name="whats_new_361_2">Files in application folder (backups and exports) can be shared or deleted.</string>
     <!-- This is an option in the configuration of CSV and QIF imports which means that the account label(s) found in the data will be used to locate account(s) into which transactions are imported  -->
     <string name="read_from_data">Read from data</string>
     <string name="merge_parties_strategy_delete">Duplicates are deleted.</string>
     <string name="merge_parties_strategy_group">Duplicates are grouped as dependents.</string>
     <string name="show_duplicates">Show Duplicates</string>
     <string name="remove_from_group">Remove from group</string>
-    <string name="whats_new_364_1">Import into multiple accounts from one CSV file</string>
-    <string name="whats_new_364_2">New strategy for managing duplicate payer/payee information</string>
     <string name="pref_attachment_mime_types_title">Allowed MIME types for attachments</string>
     <string name="attachments">Attachments</string>
     <string name="pref_copy_attachments_title">Copy attachments to application folder</string>
     <string name="pref_copy_attachments_summary_on">Files are copied to application folder.</string>
     <string name="pref_copy_attachments_summary_off">Files are not copied, only a reference is stored.</string>
-    <string name="whats_new_365">Attach arbitrary number of images and documents (PDF)</string>
     <string name="widget_title_budget">My budget</string>
-    <string name="whats_new_366">Home Screen Widget displaying current state of budget.</string>
     <!-- Title of preference which allows to configure how unmapped transactions are counted -->
     <string name="pref_unmapped_transaction_as_transfer_title">Unmapped transactions</string>
     <!-- This is shown as summary for a preference (if unchecked) which allows to configure how unmapped transactions are counted -->
     <string name="pref_unmapped_transaction_as_transfer_summary_off">are counted as expense / income</string>
     <!-- This is shown as summary for a preference (if checked) which allows to configure how unmapped transactions are counted -->
     <string name="pref_unmapped_transaction_as_transfer_summary_on">are counted as transfer</string>
-    <string name="whats_new_367">Categories can now be configured as expense or income categories, which will impact how the expense and income sums are calculated.</string>
     <string name="menu_aggregate_neutral_categories">Aggregate neutral categories</string>
     <string name="one_time_payment">One-time payment</string>
     <string name="warning_delete_default_transfer_category">Category %s is configured as default transfer category and should not be deleted.</string>
-    <string name="whats_new_369_1">Transfers can be mapped to categories.</string>
-    <string name="whats_new_369_2">When screen lock is enabled, allow to opt-out of disabling screenshots.</string>
     <string name="default_transfer_category">Default transfer category</string>
 </resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="whats_new_359">Ikone za načine plaćanja se mogu prilagoditi.</string>
+    <string name="whats_new_355">Ime datoteke sigurnosne kopije se sada može konfigurirati.</string>
+    <string name="whats_new_361_1">Popis transakcija se može razvrstati po iznosu.</string>
+    <string name="whats_new_361_2">Datoteke u mapi aplikacije (sigurnosne kopije i izvozi) se mogu dijeliti ili izbrisati.</string>
+    <string name="whats_new_358">Widget koristi konfiguraciju teme (svijetla/tamna).</string>
+    <string name="whats_new_364_2">Nova strategija za upravljanje duplim podacima primalaca/platiše</string>
+    <string name="whats_new_365">Priloži proizvoljan broj slika i dokumenata (PDF)</string>
+    <string name="whats_new_364_1">Uvoz u više računa iz jedne CSV datoteke</string>
+    <string name="whats_new_366">Widget na početnom ekranu koji prikazuje aktualno stanje proračuna.</string>
+</resources>

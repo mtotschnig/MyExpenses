@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="whats_new_355">Ahora se puede configurar el nombre del archivo de la copia de seguridad.</string>
+    <string name="whats_new_358">El widget sigue la configuración del tema (claro/oscuro).</string>
+    <string name="whats_new_359">Los iconos de los métodos de pago pueden personalizarse.</string>
+    <string name="whats_new_361_1">La lista de transacciones puede ordenarse por importe.</string>
+    <string name="whats_new_361_2">Los archivos de la carpeta de la aplicación (copias de seguridad y exportaciones) se pueden compartir o eliminar.</string>
+    <string name="whats_new_364_2">Nueva estrategia de gestión de la información duplicada sobre pagadores / beneficiarios</string>
+    <string name="whats_new_364_1">Importar a varias cuentas desde un archivo CSV</string>
+    <string name="whats_new_365">Adjuntar un número arbitrario de las imágenes y los documentos (PDF)</string>
+    <string name="whats_new_366">Widget en la pantalla de inicio que muestra el estado actual del presupuesto.</string>
+    <string name="whats_new_367">Las categorías pueden configurarse ahora como categorías de gastos o de ingresos, lo que afectará a la forma en que se calculan las sumas de gastos e ingresos.</string>
+    <string name="whats_new_369_1">Las transferencias pueden asignarse a las categorías.</string>
+    <string name="whats_new_369_2">Cuando el bloqueo de pantalla está activado, permite optar por desactivar las capturas de pantalla.</string>
+</resources>

@@ -547,8 +547,6 @@
     <string name="dialog_title_delete_debt">Schuld verwijderen\?</string>
     <string name="pref_debug_logging_share_summary">Deel logbestanden</string>
     <string name="cb_label_merge_accounts">Accounts samenvoegen</string>
-    <string name="whats_new_336_1">Schuldoverzicht delen</string>
-    <string name="whats_new_336_2">Tags voor gesplitste onderdelen</string>
     <plurals name="purge_backup_success">
         <item quantity="one">Eén oud back-upbestand is schoongemaakt.</item>
         <item quantity="other">%d oude back-upbestanden werden schoongemaakt.</item>
@@ -827,7 +825,6 @@
     <string name="debt_owes_me">%s is mij schuldig</string>
     <string name="debt_I_owe">Ik ben %s verschuldigd</string>
     <string name="pref_purge_backup_require_confirmation_summary">Toon bevestigingsprompt voordat bestanden worden opgeschoond</string>
-    <string name="whats_new_340">Het notitieveld staat meerdere lijnen toe.</string>
     <string name="licence_validation_error_expired">Licentie verlopen</string>
     <string name="licence_key">Licentiesleutel</string>
     <string name="dialog_title_new_currency">Nieuwe valuta</string>
@@ -854,7 +851,6 @@
         <item quantity="one">Eén categorie is bijgewerkt met een icoon.</item>
         <item quantity="other">%1$d categorieën zijn bijgewerkt met iconen.</item>
     </plurals>
-    <string name="whats_new_338">Willekeurig diepe categoriehiërarchie</string>
     <string name="extended_upgrade_goodie_github">Extra %d maanden worden eenmalig toegekend aan gebruikers die al in het bezit zijn van de Uitgebreide Licentie</string>
     <string name="eu_vat_info">Voor inwoners van de Europese Unie zijn de getoonde prijzen exclusief BTW.</string>
     <string name="extend_until">Verlengen tot %1$s voor %2$s</string>

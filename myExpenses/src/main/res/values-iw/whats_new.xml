@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="whats_new_355">שם קובץ הגיבוי נתון לשינוי מעתה.</string>
+    <string name="whats_new_358">וידג׳ט עוקב אחר עיצוב המערכת (בהיר/כהה).</string>
+    <string name="whats_new_361_1">אפשר לסדר את רשימת העסקאות לפי סכום.</string>
+    <string name="whats_new_361_2">אפשר לשתף או למחוק את הקבצים בתיקיית היישום (גיבויים וייצוא).</string>
+    <string name="whats_new_364_1">ייבוא למגוון חשבונות מקובץ CSV יחיד</string>
+    <string name="whats_new_364_2">אסטרטגיה חדשה לניהול פרטי משלם/מוטב כפולים</string>
+    <string name="whats_new_359">אפשר לתאם סמלים לשיטות תשלום.</string>
+    <string name="whats_new_365">צירוף מספר שרירותי של תמונות ומסמכים (PDF)</string>
+    <string name="whats_new_366">וידג׳ט מסך בית המציג את מצב התקציב הנוכחי.</string>
+    <string name="whats_new_367">אפשר להגדיר קטגוריות כהוצאה או הכנסה, מה שישפיע על איך מחושבים הסכומים של ההוצאות וההכנסות.</string>
+
+</resources>

@@ -869,7 +869,6 @@
     </plurals>
     <string name="cb_label_merge_accounts">Spoji račune</string>
     <string name="pref_mlkit_script_title">Skripta za MlKit</string>
-    <string name="whats_new_338">Proizvoljno duboka hijerarhija kategorija</string>
     <string name="dialog_title_purge_backups">Izbriši stare sigurnosne kopije</string>
     <string name="purge_backups">Izbrisat će se sljedeće stare sigurnosne kopije:</string>
     <string name="pref_purge_backup_require_confirmation_summary">Prikaži prozor za potvrdu prije brisanja datoteka</string>
@@ -885,9 +884,6 @@
         <item quantity="other">%d starih datoteka sigurnosnih kopija nisu izbrisane.</item>
     </plurals>
     <string name="pref_debug_logging_share_summary">Dijeli datoteke dnevnika</string>
-    <string name="whats_new_340">Polje za bilješke dopušta više redaka.</string>
-    <string name="whats_new_336_1">Dijeli sažetak dugova</string>
-    <string name="whats_new_336_2">Oznake za podijeljene dijelove</string>
     <string name="pref_purge_backup_keep_title">Maksimalni broj najnovijih datoteka sigurnosnih kopija koje će se zadržati</string>
     <string name="contrib_feature_category_tree_label">Stablo kategorija</string>
     <string name="dialog_contrib_usage_limit_with_dialog">S tvojim trenutačnim stanjem licence (%1$s), ovaj će se dijalog prikazati pri svakoj upotrebi.</string>
@@ -926,8 +922,6 @@
     <string name="search_account">Traži račun</string>
     <string name="select_template">Odaberi predložak</string>
     <string name="add_shortcut">Dodaj prečac</string>
-    <string name="whats_new_359">Ikone za načine plaćanja se mogu prilagoditi.</string>
-    <string name="whats_new_355">Ime datoteke sigurnosne kopije se sada može konfigurirati.</string>
     <string name="optimize_image_file_size">Optimiraj veličinu slikovne datoteke</string>
     <string name="template_shortcut">Prečac predloška</string>
     <string name="pref_backup_file_prefix_title">Prefiks datoteke</string>
@@ -936,23 +930,17 @@
     <string name="image_optimize_quality">Kvaliteta</string>
     <string name="maximum_size">Maksimalna veličina</string>
     <string name="orphaned_transaction_align_date">S transakcijom spremljeni datum se opcionalno može uskladiti i s datumom instance.</string>
-    <string name="whats_new_361_1">Popis transakcija se može razvrstati po iznosu.</string>
-    <string name="whats_new_361_2">Datoteke u mapi aplikacije (sigurnosne kopije i izvozi) se mogu dijeliti ili izbrisati.</string>
     <string name="orphaned_transaction_info">Transakcija je povezana s planom za ovaj datum, ali na ovaj datum ne postoji nijedna instanca događaja.</string>
     <string name="notifications_permission_required_auto_backup">Davanjem dozvole za slanje obavijesti dobivat ćeš obavijesti o automatskom spremanju sigurnosnih kopija.</string>
-    <string name="whats_new_358">Widget koristi konfiguraciju teme (svijetla/tamna).</string>
     <string name="orphaned_transaction_relink">Transakcija se može ponovo povezati s instancom događaja na %s.</string>
     <string name="button_relink_keep_date">Poveži ponovo, ali zadrži datum</string>
     <string name="button_relink_update_date">Poveži ponovo i aktualiziraj datum</string>
     <string name="image_optimize_quality_summary">Kvaliteta 0 znači komprimiranje za najmanju veličinu. 100 znači komprimiranje za maksimalnu vizualnu kvalitetu.</string>
-    <string name="whats_new_364_2">Nova strategija za upravljanje duplim podacima primalaca/platiše</string>
     <string name="remove_from_group">Ukloni iz grupe</string>
     <string name="merge_parties_strategy_delete">Duplikati su izbrisani.</string>
-    <string name="whats_new_365">Priloži proizvoljan broj slika i dokumenata (PDF)</string>
     <string name="pref_attachment_mime_types_title">Dopuštene MIME vrste za priloge</string>
     <string name="pref_copy_attachments_summary_on">Datoteke se kopiraju u mapu aplikacije.</string>
     <string name="attachments">Prilozi</string>
-    <string name="whats_new_364_1">Uvoz u više računa iz jedne CSV datoteke</string>
     <string name="pref_copy_attachments_title">Kopiraj privitke u mapu aplikacije</string>
     <string name="read_from_data">Učitaj iz podataka</string>
     <string name="merge_parties_strategy_group">Duplikati su grupirani zajedno.</string>
@@ -961,7 +949,7 @@
     <string name="budget_deleted">Proračun je izbrisan</string>
     <string name="widget_title_budget">Moj proračun</string>
     <string name="budget_widget_configuration">Odaberi proračun</string>
-    <string name="whats_new_366">Widget na početnom ekranu koji prikazuje aktualno stanje proračuna.</string>
+
     <string name="budget_table_header_overspent">Prekoračeno</string>
     <string name="dialog_contrib_trial_info">Vaš trenutni status licence (%1$s) omogućuje vam da isprobate %2$s %3$d dana (do %4$s).</string>
     <string name="one_time_payment">Jednokratno plaćanje</string>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="whats_new_359">Os ícones dos métodos de pagamento podem ser personalizados.</string>
+    <string name="whats_new_355">O nome do arquivo de backup agora é configurável.</string>
+    <string name="whats_new_364_2">Nova estratégia para gerenciamento de informações duplicadas de pagador/beneficiário</string>
+    <string name="whats_new_361_1">A lista de transações pode ser ordenada por valor.</string>
+    <string name="whats_new_365">Anexar um número arbitrário de imagens e documentos (PDF)</string>
+    <string name="whats_new_364_1">Importar em várias contas a partir de um arquivo CSV</string>
+    <string name="whats_new_358">O widget segue a configuração do tema (claro/escuro).</string>
+    <string name="whats_new_361_2">Os arquivos na pasta do aplicativo (backups e exportações) podem ser compartilhados ou excluídos.</string>
+
+</resources>

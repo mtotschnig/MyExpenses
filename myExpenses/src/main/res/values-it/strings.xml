@@ -938,12 +938,9 @@
         <item quantity="one">Una categoria è stata aggiornata con l\'icona.</item>
         <item quantity="other">%1$d categorie sono state aggiornate con le icone.</item>
     </plurals>
-    <string name="whats_new_336_1">Condividi il riepilogo del debito</string>
-    <string name="whats_new_336_2">Tag per importi frazionati</string>
     <string name="setup_completed">Impostazione completata</string>
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Albero delle categorie</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Al tuo attuale stato di licenza (%1$s), questa finestra verrà visualizzato ad ogni utilizzo.</string>
-    <string name="whats_new_338">Gerarchia di categorie arbitrariamente profonda</string>
     <string name="dialog_title_purge_backups">Elimina i vecchi backup</string>
     <string name="icons_for_categories">Icone per le categorie</string>
     <string name="content_description_attachment">Allegato</string>
@@ -956,7 +953,6 @@
     <string name="pref_purge_backup_keep_title">Numero massimo di vecchi backup da conservare</string>
     <string name="pref_purge_backup_require_confirmation_summary">Mostra un avviso di conferma prima di eliminare i file</string>
     <string name="pref_debug_logging_share_summary">Condividi i file di log</string>
-    <string name="whats_new_340">I campi di nota consentono di usare più righe.</string>
     <string name="webui_warning_move_transaction">La transazione verrà spostata sul conto {account}.</string>
     <string name="budget_only_current_period">Imposta solo per %s</string>
     <plurals name="purge_backup_failure">
@@ -985,7 +981,6 @@
     <string name="rollover_edit_invalid">La somma del resto assegnato ad una categoria e i resti assegnati alle sottocategorie non possono superare il resto complessivo.</string>
     <string name="debt_balance_they_owe">%1$s è ora in debito con %2$s.</string>
     <string name="pref_backup_file_prefix_title">Prefisso del file</string>
-    <string name="whats_new_355">Il nome del file di backup è ora configurabile.</string>
     <string name="optimize_image_file_size">Ottimizza le dimensioni del file di immagine</string>
     <string name="encrypt_database_info">Il database sarà crittografato con una passphrase che non potrà essere esportata da questo dispositivo. Di conseguenza, non verrà salvata dal servizio di backup del dispositivo.</string>
     <string name="dialog_confirm_rollover_delete">Tutti gli importi di resto per questo periodo saranno cancellati.</string>
@@ -1001,40 +996,31 @@
     <string name="image_optimize_quality_summary">Una qualità di 0 significa comprimere per ottenere le dimensioni più piccole. 100 significa comprimere per ottenere la massima qualità visiva.</string>
     <string name="add_shortcut">Aggiungi collegamento</string>
     <string name="content_description_remove_icon">Rimuovi l\'icona</string>
-    <string name="whats_new_359">Le icone dei metodi di pagamento possono essere personalizzate.</string>
     <string name="dialog_contrib_trial_info">Lo stato attuale della tua licenza (%1$s) ti consente di provare %2$s per %3$d giorni (fino a %4$s).</string>
     <string name="one_time_payment">Pagamento unico</string>
     <string name="dialog_contrib_trial_info_play">Questa prova gratuita non si convertirà mai in alcun tipo di abbonamento.</string>
     <string name="dialog_contrib_subscription_info_play">Questo abbonamento ha effetto immediato, viene fatturato mensilmente o annualmente, e può essere cancellato in qualsiasi momento.</string>
     <string name="pref_unmapped_transaction_as_transfer_title">Transazioni non assegnate</string>
-    <string name="whats_new_364_2">Nuova strategia per gestire informazioni duplicate su paganti/beneficiari</string>
     <string name="select_template">Seleziona il modello</string>
     <string name="remove_from_group">Rimuovi dal gruppo</string>
     <string name="menu_aggregate_neutral_categories">Includi le categorie neutre</string>
     <string name="notifications_permission_required_auto_backup">Consentendo il permesso di inviare notifiche, verrai informato dei backup automatici.</string>
-    <string name="whats_new_361_1">La lista delle transazioni può essere ordinata per importo.</string>
     <string name="merge_parties_strategy_delete">I duplicati vengono cancellati.</string>
     <string name="budget_deleted">Il bilancio è stato cancellato</string>
-    <string name="whats_new_365">Allega un numero arbitrario di immagini e documenti (PDF)</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_on">sono contate come trasferimento</string>
     <string name="pref_attachment_mime_types_title">Tipologia di media consentiti per gli allegati</string>
     <string name="widget_title_budget">Il mio budget</string>
     <string name="pref_copy_attachments_summary_on">I file vengono copiati nella cartella dell\'applicazione.</string>
     <string name="attachments">Allegati</string>
     <string name="budget_widget_configuration">Seleziona il bilancio</string>
-    <string name="whats_new_366">Il widget sulla schermata principale mostra lo stato attuale del tuo bilancio.</string>
     <string name="budget_table_header_overspent">Eccesso di spesa</string>
-    <string name="whats_new_364_1">Importa all\'interno di diversi conti a partire da un file CSV</string>
     <string name="pref_copy_attachments_title">Copia gli allegati nella cartella dell\'applicazione</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">sono contate come spesa / reddito</string>
     <string name="template_shortcut">Scorciatoia ai modelli</string>
     <string name="merge_parties_strategy_group">I duplicati vengono raggruppati come voci secondarie.</string>
     <string name="search_account">Cerca per conto</string>
-    <string name="whats_new_358">Il widget segue la configurazione del tema (chiaro/scuro).</string>
     <string name="pref_copy_attachments_summary_off">I file non vengono copiati, ma viene creato un riferimento al file originale.</string>
     <string name="show_duplicates">Mostra i duplicati</string>
-    <string name="whats_new_367">Ora le categorie possono essere configurate come categorie di spesa o di reddito, che avranno un impatto su come i totali delle spese e dei redditi vengono calcolati.</string>
-    <string name="whats_new_361_2">I file nella cartella dell\'applicazione (backup ed esportazioni) possono essere condivisi o eliminati.</string>
     <string name="button_relink_keep_date">Riassocia, ma mantieni la data</string>
     <string name="orphaned_transaction_relink">La transazione può essere riassociata all\'evento in data %s.</string>
     <string name="button_relink_update_date">Riassocia e aggiorna la data</string>
@@ -1042,6 +1028,4 @@
     <string name="orphaned_transaction_info">Una transazione è associata al piano per questa data, ma non esiste alcun evento in questa data.</string>
     <string name="orphaned_transaction_align_date">Facoltativamente, la data associata alla transazione può essere allineata alla data dell\'evento.</string>
     <string name="warning_delete_default_transfer_category">La categoria %s è configurata come categoria di bonifico predefinita e non deve essere eliminata.</string>
-    <string name="whats_new_369_1">I trasferimenti possono essere assegnati a categorie.</string>
-    <string name="whats_new_369_2">Quando il blocco schermo è abilitato, consenti la disabilitazione del blocco screenshot.</string>
 </resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="whats_new_355">Le nom du fichier de sauvegarde est désormais configurable.</string>
+    <string name="whats_new_358">Le widget suit la configuration du thème (clair/sombre).</string>
+    <string name="whats_new_359">Les icônes des modes de paiement peuvent être personnalisées.</string>
+    <string name="whats_new_361_1">La liste des opérations peut être triée par montant.</string>
+    <string name="whats_new_361_2">Les fichiers dans le dossier d\'application (sauvegardes et exportations) peuvent être partagés ou supprimés.</string>
+    <string name="whats_new_364_2">Nouvelle stratégie pour la gestion des tiers doublons</string>
+    <string name="whats_new_364_1">Importer vers plusieurs comptes à partir d\'un fichier CSV</string>
+    <string name="whats_new_365">Joindre un nombre arbitraire d\'images et de documents (PDF)</string>
+    <string name="whats_new_366">Widget de l’écran d’accueil affichant l’état actuel du budget.</string>
+    <string name="whats_new_367">Les catégories peuvent désormais être configurées en tant que catégories de dépenses ou de revenus, ce qui aura un impact sur le calcul des totaux des dépenses et des revenus.</string>
+    <string name="whats_new_369_1">Les transferts peuvent être associés à des catégories.</string>
+    <string name="whats_new_369_2">Lorsque le verrouillage de l\'écran est activé, permettez les captures d\'écran.</string>
+
+</resources>

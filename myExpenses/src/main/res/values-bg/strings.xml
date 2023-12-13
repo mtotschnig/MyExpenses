@@ -932,10 +932,7 @@
         <item quantity="one">Една категория е обновена с икона.</item>
         <item quantity="other">%1$d категории са обновени с икони.</item>
     </plurals>
-    <string name="whats_new_336_2">Етикети на разпределените части</string>
-    <string name="whats_new_336_1">Споделяне на резюме на задълженията</string>
     <string name="setup_completed">Настройката завърши</string>
-    <string name="whats_new_338">Произволно дълбока йерархия на категориите</string>
     <string name="dialog_contrib_usage_limit_with_dialog">При сегашния статус на лиценза (%1$s), този диалог ще се показва при всяка употреба.</string>
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Дърво на категориите</string>
     <string name="menu_parent_category_selection">С кратко докосване избирате родителската категория</string>
@@ -955,7 +952,6 @@
     <string name="pref_csv_export_split_categories_summary">Използвай отделна колона за всяко ниво в йерархията на категориите</string>
     <string name="pref_csv_export_split_amount_summary">Използвай отделни колони за приходи и разходи</string>
     <string name="pref_debug_logging_share_summary">Споделяне на файловете дневници за дебъг</string>
-    <string name="whats_new_340">Полето Бележки позволява няколко абзаца.</string>
     <string name="webui_warning_move_transaction">Транзакцията ще бъде преместена в сметка {account}.</string>
     <string name="icons_for_categories">Икони за категориите</string>
     <string name="budget_only_current_period">Задай само за %s</string>
@@ -985,7 +981,6 @@
     <string name="debt_balance_i_owe">Сега дължа %s.</string>
     <string name="debt_balance_they_owe">%1$s сега дължи %2$s.</string>
     <string name="pref_backup_file_prefix_title">Префикс на името</string>
-    <string name="whats_new_355">Името на архивния файл вече може да се конфигурира.</string>
     <string name="image_optimize_quality_summary">Качество 0 означава компресиране до минимален размер. 100 е компресиране с максимално видимо качество.</string>
     <string name="file_format">Формат на файла</string>
     <string name="image_optimize_quality">Качество</string>
@@ -993,27 +988,20 @@
     <string name="optimize_image_file_size">Оптимизиране размера на файла на изображение</string>
     <string name="select_template">Избор на шаблон</string>
     <string name="template_shortcut">Пряк път към шаблон</string>
-    <string name="whats_new_358">Уйджета следва настройката за тема (светла/тъмна).</string>
     <string name="add_shortcut">Добави пряк път</string>
     <string name="content_description_remove_icon">Премахни иконата</string>
-    <string name="whats_new_359">Иконите на методите за плащане може да бъдат персонализирани.</string>
     <string name="search_account">Търсене на сметка</string>
     <string name="orphaned_transaction_info">В плана за тази дата има свързана транзакция, обаче липсва инстанция за същата дата.</string>
     <string name="orphaned_transaction_relink">Транзакцията може да бъде свързана с инстанцията от %s.</string>
     <string name="orphaned_transaction_align_date">При желание може да запазите за дата на транзакцията датата на инстанцията.</string>
     <string name="button_relink_update_date">Свържи и обнови датата</string>
     <string name="button_relink_keep_date">Свържи, но запази датата</string>
-    <string name="whats_new_361_1">Списъкът транзакции може да се сортира по сума.</string>
-    <string name="whats_new_361_2">Файловете в папката на приложението (архиви и екпортирани данни) може да бъдат споделяни или изтривани.</string>
     <string name="notifications_permission_required_auto_backup">Като предоставите разрешение за изпращане на известия, ще бъдете информирани за автоматичното архивиране.</string>
     <string name="remove_from_group">Премахни от група</string>
     <string name="merge_parties_strategy_delete">Дублиранията се изтриват.</string>
     <string name="read_from_data">Прочети от данните</string>
     <string name="merge_parties_strategy_group">Дублиранията се групират като зависими.</string>
     <string name="show_duplicates">Покажи дублирания</string>
-    <string name="whats_new_364_2">Нова стратегия за управление на дублираща се информация за платец/получател</string>
-    <string name="whats_new_364_1">Импорт в няколко сметки от един CSV файл</string>
-    <string name="whats_new_365">Прикачане на произволен брой изображения и документи (pdf)</string>
     <string name="pref_attachment_mime_types_title">Позволени са MIME типове за прикачвания</string>
     <string name="pref_copy_attachments_summary_on">Файловете се копират в папката на приложението.</string>
     <string name="attachments">Прикачени</string>
@@ -1023,18 +1011,14 @@
     <string name="widget_title_budget">Моя бюджет</string>
     <string name="budget_widget_configuration">Избери бюджет</string>
     <string name="budget_table_header_overspent">Преразход</string>
-    <string name="whats_new_366">Уйджета на начален екран показва текущото състояние на бюджета.</string>
     <string name="pref_unmapped_transaction_as_transfer_title">Ненанесени транзакции</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_on">се считат за паричен превод</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">се считат за разход/приход</string>
-    <string name="whats_new_367">Сега категориите може да се конфигурират като разход или приход, което ще се отрази при калкулирането сумите за разход и приход.</string>
     <string name="dialog_contrib_trial_info">Текущият статус на лиценза (%1$s) ви позволява да опитате %2$s за %3$d дни (до %4$s).</string>
     <string name="one_time_payment">Еднократно плащане</string>
     <string name="dialog_contrib_subscription_info_play">Абонамента влиза в сила незабавно, таксува се месечно или годишно и може да бъде отменен по всяко време.</string>
-    <string name="whats_new_369_1">Преводите може да бъдат свързани с категории.</string>
     <string name="menu_aggregate_neutral_categories">Обединяване на неутрални категории (за разход и за приход)</string>
     <string name="warning_delete_default_transfer_category">Категорията %s е зададена като категория по подразбиране за превод и не може да бъде изтрита.</string>
     <string name="dialog_contrib_trial_info_play">Тази безплатна пробна версия няма да се преобразува в какъвто и да е вид абонамент.</string>
     <string name="default_transfer_category">Категория по подразбиране за превод</string>
-    <string name="whats_new_369_2">При разрешено заключване на екрана може да се избере дали да се забрани екранна снимка.</string>
 </resources>
