@@ -610,7 +610,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 PrefKey.PROTECTION_ALLOW_SCREENSHOT,
                 PrefKey.PROTECTION_DEVICE_LOCK_SCREEN,
                 PrefKey.PROTECTION_LEGACY,
-                PrefKey.UI_FONTSIZE
+                PrefKey.UI_FONTSIZE,
+                PrefKey.CUSTOMIZE_MAIN_MENU
             )
         ) {
             scheduledRestart = true
