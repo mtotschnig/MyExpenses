@@ -3,4 +3,6 @@
     <string name="checkbox_is_default">"Verstek"</string>
     <string name="action_download">"Laai af"</string>
     <string name="menu">"Kieslys"</string>
+    <string name="action_move_down">"Skuif af"</string>
+    <string name="action_move_up">"Skuif op"</string>
 </resources>

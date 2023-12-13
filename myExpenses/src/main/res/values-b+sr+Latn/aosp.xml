@@ -2,4 +2,6 @@
 <resources>
     <string name="checkbox_is_default">"Podrazumevano"</string>
     <string name="menu">"Meni"</string>
+    <string name="action_move_down">"Premesti nadole"</string>
+    <string name="action_move_up">"Premesti nagore"</string>
 </resources>

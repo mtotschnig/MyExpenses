@@ -68,4 +68,6 @@
     <string name="checkbox_is_default">"Standard"</string>
     <string name="action_download">"Herunterladen"</string>
     <string name="menu">"Menü"</string>
+    <string name="action_move_down">"Nach unten"</string>
+    <string name="action_move_up">"Nach oben"</string>
 </resources>

@@ -70,4 +70,6 @@
     <string name="checkbox_is_default">"ברירת מחדל"</string>
     <string name="action_download">"הורד"</string>
     <string name="menu">"תפריט"</string>
+    <string name="action_move_down">"הזזה למטה"</string>
+    <string name="action_move_up">"הזזה למעלה"</string>
 </resources>

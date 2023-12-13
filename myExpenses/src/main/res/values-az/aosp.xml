@@ -3,4 +3,6 @@
     <string name="checkbox_is_default">"Varsayılan"</string>
     <string name="action_download">"Endirin"</string>
     <string name="menu">"Menyu"</string>
+    <string name="action_move_down">"Aşağı keçin"</string>
+    <string name="action_move_up">"Yuxarı keçin"</string>
 </resources>

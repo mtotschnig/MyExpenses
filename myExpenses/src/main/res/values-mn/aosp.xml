@@ -3,4 +3,6 @@
     <string name="checkbox_is_default">"Үндсэн"</string>
     <string name="action_download">"Татаж авах"</string>
     <string name="menu">"Цэс"</string>
+    <string name="action_move_down">"Доош зөөх"</string>
+    <string name="action_move_up">"Дээш зөөх"</string>
 </resources>

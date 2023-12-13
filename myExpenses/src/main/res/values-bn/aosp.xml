@@ -3,4 +3,6 @@
     <string name="checkbox_is_default">"ডিফল্ট"</string>
     <string name="action_download">"ডাউনলোড করুন"</string>
     <string name="menu">"মেনু"</string>
+    <string name="action_move_down">"নিচে সরান"</string>
+    <string name="action_move_up">"উপরে সরান"</string>
 </resources>

@@ -3,4 +3,6 @@
     <string name="checkbox_is_default">"Կանխադրված"</string>
     <string name="action_download">"Ներբեռնել"</string>
     <string name="menu">"Ընտրացանկ"</string>
+    <string name="action_move_down">"Տեղափոխել ներքև"</string>
+    <string name="action_move_up">"Տեղափոխել վերև"</string>
 </resources>

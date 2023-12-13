@@ -68,4 +68,6 @@
     <string name="checkbox_is_default">"デフォルト"</string>
     <string name="action_download">"ダウンロード"</string>
     <string name="menu">"メニュー"</string>
+    <string name="action_move_down">"下に移動します"</string>
+    <string name="action_move_up">"上に移動します"</string>
 </resources>

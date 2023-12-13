@@ -68,4 +68,6 @@
     <string name="checkbox_is_default">"Predefinita"</string>
     <string name="action_download">"Scarica"</string>
     <string name="menu">"Menu"</string>
+    <string name="action_move_down">"Sposta giù"</string>
+    <string name="action_move_up">"Sposta su"</string>
 </resources>

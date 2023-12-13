@@ -30,4 +30,6 @@
     <string name="checkbox_is_default">"Predefinição"</string>
     <string name="action_download">"Transferir"</string>
     <string name="menu">"Menu"</string>
+    <string name="action_move_down">"Mover para baixo"</string>
+    <string name="action_move_up">"Mover para cima"</string>
 </resources>

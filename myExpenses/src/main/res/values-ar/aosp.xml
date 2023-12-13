@@ -73,4 +73,6 @@
     <string name="checkbox_is_default">"تلقائي"</string>
     <string name="action_download">"تنزيل"</string>
     <string name="menu">"قائمة"</string>
+    <string name="action_move_down">"نقل لأسفل"</string>
+    <string name="action_move_up">"نقل لأعلى"</string>
 </resources>

@@ -69,4 +69,6 @@
     <string name="checkbox_is_default">"Par défaut"</string>
     <string name="action_download">"Télécharger"</string>
     <string name="menu">"Menu"</string>
+    <string name="action_move_down">"Déplacer vers le bas"</string>
+    <string name="action_move_up">"Déplacer vers haut"</string>
 </resources>

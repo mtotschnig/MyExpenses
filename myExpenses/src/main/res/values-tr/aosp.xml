@@ -68,4 +68,6 @@
     <string name="checkbox_is_default">"Varsayılan"</string>
     <string name="action_download">"İndir"</string>
     <string name="menu">"Menü"</string>
+    <string name="action_move_down">"Aşağı taşı"</string>
+    <string name="action_move_up">"Yukarı taşı"</string>
 </resources>

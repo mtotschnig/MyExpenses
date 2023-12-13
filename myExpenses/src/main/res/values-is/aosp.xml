@@ -3,4 +3,6 @@
     <string name="checkbox_is_default">"Sjálfgefið"</string>
     <string name="action_download">"Sækja"</string>
     <string name="menu">"Valmynd"</string>
+    <string name="action_move_down">"Færa niður"</string>
+    <string name="action_move_up">"Færa upp"</string>
 </resources>

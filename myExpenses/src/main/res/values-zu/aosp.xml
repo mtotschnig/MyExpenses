@@ -3,4 +3,6 @@
     <string name="checkbox_is_default">"Okuzenzakalelayo"</string>
     <string name="action_download">"Landa"</string>
     <string name="menu">"Imenyu"</string>
+    <string name="action_move_down">"Iya phansi"</string>
+    <string name="action_move_up">"Iya phezulu"</string>
 </resources>

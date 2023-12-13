@@ -71,4 +71,6 @@
     <string name="checkbox_is_default">"Výchozí"</string>
     <string name="action_download">"Stáhnout"</string>
     <string name="menu">"Nabídka"</string>
+    <string name="action_move_down">"Přesunout dolů"</string>
+    <string name="action_move_up">"Přesunout nahoru"</string>
 </resources>

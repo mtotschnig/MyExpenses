@@ -67,4 +67,6 @@
     <string name="checkbox_is_default">"默认"</string>
     <string name="action_download">"下载"</string>
     <string name="menu">"菜单"</string>
+    <string name="action_move_down">"下移"</string>
+    <string name="action_move_up">"上移"</string>
 </resources>

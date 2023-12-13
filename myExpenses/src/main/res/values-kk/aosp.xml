@@ -3,4 +3,6 @@
     <string name="checkbox_is_default">"Әдепкі"</string>
     <string name="action_download">"Жүктеу"</string>
     <string name="menu">"Mәзір"</string>
+    <string name="action_move_down">"Төмен қарай жылжыту"</string>
+    <string name="action_move_up">"Жоғары қарай жылжыту"</string>
 </resources>

@@ -64,4 +64,6 @@
     <string name="checkbox_is_default">"ఆటోమేటిక్"</string>
     <string name="action_download">"డౌన్‌లోడ్ చేయి"</string>
     <string name="menu">"మెనూ"</string>
+    <string name="action_move_down">"క్రిందికి తరలించు"</string>
+    <string name="action_move_up">"పైకి తరలించు"</string>
 </resources>

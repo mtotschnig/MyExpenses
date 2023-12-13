@@ -3,4 +3,6 @@
     <string name="checkbox_is_default">"Стандардно"</string>
     <string name="action_download">"Преземи"</string>
     <string name="menu">"Мени"</string>
+    <string name="action_move_down">"Премести надолу"</string>
+    <string name="action_move_up">"Премести нагоре"</string>
 </resources>

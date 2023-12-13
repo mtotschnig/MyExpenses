@@ -3,4 +3,6 @@
     <string name="checkbox_is_default">"Predvolené"</string>
     <string name="action_download">"Stiahnuť"</string>
     <string name="menu">"Ponuka"</string>
+    <string name="action_move_down">"Presunúť nadol"</string>
+    <string name="action_move_up">"Presunúť nahor"</string>
 </resources>

@@ -112,4 +112,8 @@
     <string name="action_download">Download</string>
     <!-- /opt/extra/AOSP/packages/apps/QuickAccessWallet$ grep -ri accessibility_menu | sed 's/accessibility_//' |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="menu">"Menu"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri  action_drag_label_move_down | sed 's/drag_label_//' |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
+    <string name="action_move_down">"Move down"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri  action_drag_label_move_up | sed 's/drag_label_//' |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
+    <string name="action_move_up">"Move up"</string>
 </resources>

@@ -3,4 +3,6 @@
     <string name="checkbox_is_default">"डिफ़ॉल्ट"</string>
     <string name="action_download">"डाउनलोड करें"</string>
     <string name="menu">"मेन्यू"</string>
+    <string name="action_move_down">"नीचे ले जाएं"</string>
+    <string name="action_move_up">"ऊपर ले जाएं"</string>
 </resources>

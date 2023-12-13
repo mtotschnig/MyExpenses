@@ -70,4 +70,6 @@
     <string name="checkbox_is_default">"Alapértelmezett"</string>
     <string name="action_download">"Letöltés"</string>
     <string name="menu">"Menü"</string>
+    <string name="action_move_down">"Mozgatás lefelé"</string>
+    <string name="action_move_up">"Mozgatás felfelé"</string>
 </resources>

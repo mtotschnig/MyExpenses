@@ -3,4 +3,6 @@
     <string name="checkbox_is_default">"Default"</string>
     <string name="action_download">"I-download"</string>
     <string name="menu">"Menu"</string>
+    <string name="action_move_down">"Ilipat pababa"</string>
+    <string name="action_move_up">"Ilipat pataas"</string>
 </resources>

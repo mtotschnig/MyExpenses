@@ -65,4 +65,6 @@
     <string name="checkbox_is_default">"සුපුරුදු"</string>
     <string name="action_download">"බාගන්න"</string>
     <string name="menu">"මෙනුව"</string>
+    <string name="action_move_down">"පහළට ගෙන යන්න"</string>
+    <string name="action_move_up">"ඉහළට ගෙන යන්න"</string>
 </resources>

@@ -3,4 +3,6 @@
     <string name="checkbox_is_default">"Oletus"</string>
     <string name="action_download">"Lataa"</string>
     <string name="menu">"Valikko"</string>
+    <string name="action_move_down">"Siirrä alaspäin"</string>
+    <string name="action_move_up">"Siirrä ylöspäin"</string>
 </resources>

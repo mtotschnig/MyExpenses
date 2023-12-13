@@ -65,4 +65,6 @@
     <string name="checkbox_is_default">"Standaard"</string>
     <string name="action_download">"Downloaden"</string>
     <string name="menu">"Menu"</string>
+    <string name="action_move_down">"Omlaag"</string>
+    <string name="action_move_up">"Omhoog"</string>
 </resources>

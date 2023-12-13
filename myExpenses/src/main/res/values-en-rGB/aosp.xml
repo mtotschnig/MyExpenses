@@ -7,4 +7,6 @@
     <string name="customize">Customise</string>
     <string name="license_title">"Licence"</string>
     <string name="menu">"Menu"</string>
+    <string name="action_move_down">"Move down"</string>
+    <string name="action_move_up">"Move up"</string>
 </resources>

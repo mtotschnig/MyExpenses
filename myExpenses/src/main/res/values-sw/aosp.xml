@@ -3,4 +3,6 @@
     <string name="checkbox_is_default">"Chaguomsingi"</string>
     <string name="action_download">"Pakua"</string>
     <string name="menu">"Menyu"</string>
+    <string name="action_move_down">"Sogeza chini"</string>
+    <string name="action_move_up">"Sogeza juu"</string>
 </resources>

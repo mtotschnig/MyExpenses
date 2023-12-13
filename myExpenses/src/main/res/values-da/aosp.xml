@@ -69,4 +69,6 @@
     <string name="checkbox_is_default">"Standard"</string>
     <string name="action_download">"Download"</string>
     <string name="menu">"Menu"</string>
+    <string name="action_move_down">"Flyt ned"</string>
+    <string name="action_move_up">"Flyt op"</string>
 </resources>

@@ -69,4 +69,6 @@
     <string name="checkbox_is_default">"Προεπιλογή"</string>
     <string name="action_download">"Λήψη"</string>
     <string name="menu">"Μενού"</string>
+    <string name="action_move_down">"Μετακίνηση κάτω"</string>
+    <string name="action_move_up">"Μετακίνηση επάνω"</string>
 </resources>

@@ -67,4 +67,6 @@
     <string name="checkbox_is_default">"លំនាំដើម"</string>
     <string name="action_download">"ទាញ​យក"</string>
     <string name="menu">"ម៉ឺនុយ"</string>
+    <string name="action_move_down">"ផ្លាស់ទីចុះក្រោម"</string>
+    <string name="action_move_up">"ផ្លាស់ទីឡើងលើ"</string>
 </resources>

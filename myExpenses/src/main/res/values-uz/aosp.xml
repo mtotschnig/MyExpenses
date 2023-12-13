@@ -3,4 +3,6 @@
     <string name="checkbox_is_default">"Standart"</string>
     <string name="action_download">"Yuklab olish"</string>
     <string name="menu">"Menyu"</string>
+    <string name="action_move_down">"Pastga siljitish"</string>
+    <string name="action_move_up">"Tepaga siljitish"</string>
 </resources>

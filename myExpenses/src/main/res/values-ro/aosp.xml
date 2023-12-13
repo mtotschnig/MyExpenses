@@ -70,4 +70,6 @@
     <string name="checkbox_is_default">"Prestabilit"</string>
     <string name="action_download">"Descărcați"</string>
     <string name="menu">"Meniu"</string>
+    <string name="action_move_down">"Mută în jos"</string>
+    <string name="action_move_up">"Mută în sus"</string>
 </resources>

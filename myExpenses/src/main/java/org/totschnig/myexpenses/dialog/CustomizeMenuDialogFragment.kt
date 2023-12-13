@@ -32,6 +32,7 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.livefront.sealedenum.GenSealedEnum
@@ -293,6 +294,11 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment() {
             Checkbox(checked = checked, enabled = onCheckedChange != null, onCheckedChange = {
                 onCheckedChange?.invoke()
             })
+            item.icon?.let { Icon(
+                modifier = Modifier.padding(end = 8.dp),
+                painter = painterResource(id = it),
+                contentDescription = null)
+            }
             Text(item.getLabel(LocalContext.current))
             Spacer(modifier = Modifier.weight(1f))
             Row(modifier = Modifier.width(96.dp), horizontalArrangement = Arrangement.Center) {
@@ -300,7 +306,7 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment() {
                     IconButton(onClick = it) {
                         Icon(
                             Icons.Filled.KeyboardArrowUp,
-                            contentDescription = "Localized description"
+                            contentDescription = stringResource(id = R.string.action_move_up)
                         )
                     }
                 }
@@ -308,7 +314,7 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment() {
                     IconButton(onClick = it) {
                         Icon(
                             Icons.Filled.KeyboardArrowDown,
-                            contentDescription = "Localized description"
+                            contentDescription = stringResource(id = R.string.action_move_down)
                         )
                     }
                 }

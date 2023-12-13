@@ -68,4 +68,6 @@
     <string name="checkbox_is_default">"기본값"</string>
     <string name="action_download">"다운로드"</string>
     <string name="menu">"메뉴"</string>
+    <string name="action_move_down">"아래로 이동"</string>
+    <string name="action_move_up">"위로 이동"</string>
 </resources>

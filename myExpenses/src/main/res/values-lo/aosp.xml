@@ -3,4 +3,6 @@
     <string name="checkbox_is_default">"ຄ່າເລີ່ມຕົ້ນ"</string>
     <string name="action_download">"ດາວໂຫລດ"</string>
     <string name="menu">"ເມນູ"</string>
+    <string name="action_move_down">"ຍ້າຍລົງ"</string>
+    <string name="action_move_up">"ຍ້າຍຂຶ້ນ"</string>
 </resources>

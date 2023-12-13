@@ -3,4 +3,6 @@
     <string name="checkbox_is_default">"ነባሪ"</string>
     <string name="action_download">"አውርድ"</string>
     <string name="menu">"ምናሌ"</string>
+    <string name="action_move_down">"ወደ ታች ውሰድ"</string>
+    <string name="action_move_up">"ወደ ላይ ውሰድ"</string>
 </resources>

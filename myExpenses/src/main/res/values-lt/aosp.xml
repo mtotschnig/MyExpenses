@@ -3,4 +3,6 @@
     <string name="checkbox_is_default">"Numatytasis"</string>
     <string name="action_download">"Atsisiųsti"</string>
     <string name="menu">"Meniu"</string>
+    <string name="action_move_down">"Perkelti žemyn"</string>
+    <string name="action_move_up">"Perkelti aukštyn"</string>
 </resources>

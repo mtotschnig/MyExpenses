@@ -3,4 +3,6 @@
     <string name="checkbox_is_default">"Noklusējums"</string>
     <string name="action_download">"Lejupielādēt"</string>
     <string name="menu">"Izvēlne"</string>
+    <string name="action_move_down">"Pārvietot uz leju"</string>
+    <string name="action_move_up">"Pārvietot uz augšu"</string>
 </resources>

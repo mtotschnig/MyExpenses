@@ -3,4 +3,6 @@
     <string name="checkbox_is_default">"ഡിഫോൾട്ട്"</string>
     <string name="action_download">"ഡൗൺലോഡ്"</string>
     <string name="menu">"മെനു"</string>
+    <string name="action_move_down">"താഴേക്ക് നീക്കുക"</string>
+    <string name="action_move_up">"മുകളിലേക്ക് നീക്കുക"</string>
 </resources>

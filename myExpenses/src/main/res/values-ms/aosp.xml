@@ -67,4 +67,6 @@
     <string name="checkbox_is_default">"Lalai"</string>
     <string name="action_download">"Muat turun"</string>
     <string name="menu">"Menu"</string>
+    <string name="action_move_down">"Alih ke bawah"</string>
+    <string name="action_move_up">"Alihkan ke atas"</string>
 </resources>

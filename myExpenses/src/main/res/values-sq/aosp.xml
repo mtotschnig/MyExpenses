@@ -3,4 +3,6 @@
     <string name="checkbox_is_default">"E parazgjedhur"</string>
     <string name="action_download">"Shkarko"</string>
     <string name="menu">"Menyja"</string>
+    <string name="action_move_down">"Lëvize poshtë"</string>
+    <string name="action_move_up">"Lëvize lart"</string>
 </resources>

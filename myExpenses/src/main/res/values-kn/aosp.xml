@@ -69,4 +69,6 @@
     <string name="checkbox_is_default">"ಡಿಫಾಲ್ಟ್"</string>
     <string name="action_download">"ಡೌನ್‌ಲೋಡ್‌"</string>
     <string name="menu">"ಮೆನು"</string>
+    <string name="action_move_down">"ಕೆಳಗೆ ಸರಿಸಿ"</string>
+    <string name="action_move_up">"ಮೇಲೆ ಸರಿಸಿ"</string>
 </resources>

@@ -3,4 +3,6 @@
     <string name="checkbox_is_default">"ડિફૉલ્ટ"</string>
     <string name="action_download">"ડાઉનલોડ કરો"</string>
     <string name="menu">"મેનૂ"</string>
+    <string name="action_move_down">"નીચે ખસેડો"</string>
+    <string name="action_move_up">"ઉપર ખસેડો"</string>
 </resources>
