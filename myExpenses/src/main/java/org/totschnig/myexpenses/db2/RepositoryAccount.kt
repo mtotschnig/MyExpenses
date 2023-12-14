@@ -211,7 +211,6 @@ fun Repository.deleteAccount(accountId: Long): String? {
 
 fun Repository.markAsExported(accountId: Long, filter: WhereFilter?) {
     val ops = buildList {
-        val accountUri = TransactionProvider.ACCOUNTS_URI
         val debtUri = TransactionProvider.DEBTS_URI
         add(
             ContentProviderOperation.newUpdate(debtUri).withValue(KEY_SEALED, -1)
@@ -222,7 +221,7 @@ fun Repository.markAsExported(accountId: Long, filter: WhereFilter?) {
         var selectionArgs: Array<String>? =
             arrayOf(accountId.toString(), STATUS_NONE.toString())
         if (filter != null && !filter.isEmpty) {
-            selection += " AND " + filter.getSelectionForParents(TABLE_TRANSACTIONS)
+            selection += " AND " + filter.getSelectionForParents(TABLE_TRANSACTIONS, true)
             selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false))
         }
         add(

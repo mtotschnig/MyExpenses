@@ -37,17 +37,16 @@ class PayeeCriterion(
     @IgnoredOnParcel
     override val column = DatabaseConstants.KEY_PAYEEID
 
-    override val selection: String
-        get() {
-            return if (operation === WhereFilter.Operation.ISNULL) {
-                super.selection
-            } else {
-                val selection = WhereFilter.Operation.IN.getOp(values.size)
-                (column + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
-                        + DatabaseConstants.TABLE_PAYEES + " WHERE " + DatabaseConstants.KEY_PARENTID + " " + selection + " OR "
-                        + DatabaseConstants.KEY_ROWID + " " + selection + ")")
-            }
+    override fun getSelection(forExport: Boolean): String {
+        return if (operation === WhereFilter.Operation.ISNULL) {
+            super.getSelection(false)
+        } else {
+            val selection = WhereFilter.Operation.IN.getOp(values.size)
+            (column + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
+                    + DatabaseConstants.TABLE_PAYEES + " WHERE " + DatabaseConstants.KEY_PARENTID + " " + selection + " OR "
+                    + DatabaseConstants.KEY_ROWID + " " + selection + ")")
         }
+    }
 
     override val selectionArgs: Array<String>
         get() = arrayOf(*super.selectionArgs, *super.selectionArgs)

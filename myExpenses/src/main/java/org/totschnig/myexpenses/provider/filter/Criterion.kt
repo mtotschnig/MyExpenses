@@ -34,11 +34,15 @@ abstract class Criterion<T: Any> : Parcelable {
     open val key: String
         get() = column
 
+    open val columnForExport: String
+        get() = column
+
 
     val isNull: Boolean
         get() = operation == Operation.ISNULL
-    open val selection: String
-        get() = column + " " + operation.getOp(selectionArgs.size)
+
+    open fun getSelection(forExport: Boolean): String = (if (forExport) columnForExport else column) +
+            " " + operation.getOp(selectionArgs.size)
 
     fun size(): Int = values.size
 
@@ -79,9 +83,9 @@ abstract class Criterion<T: Any> : Parcelable {
                 + " = " + tableName + "." + DatabaseConstants.KEY_PARENTID + " AND (" + selection + ")))")
     }
 
-    fun getSelectionForParts(tableName: String) = applyToSplitParents(selection, tableName)
+    fun getSelectionForParts(tableName: String) = applyToSplitParents(getSelection(false), tableName)
 
-    fun getSelectionForParents(tableName: String) = applyToSplitParts(selection, tableName)
+    fun getSelectionForParents(tableName: String, forExport: Boolean) = applyToSplitParts(getSelection(forExport), tableName)
 
     open fun shouldApplyToParts() = true
 

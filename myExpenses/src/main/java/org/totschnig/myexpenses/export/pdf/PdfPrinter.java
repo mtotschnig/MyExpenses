@@ -132,7 +132,7 @@ public class PdfPrinter {
     String selection = KEY_PARENTID + " is null";
     String[] selectionArgs;
     if (filter != null && !filter.isEmpty()) {
-      selection+= " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED);
+      selection+= " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED, false);
       selectionArgs = filter.getSelectionArgs(false);
     } else {
       selectionArgs = new String[] {};

@@ -32,11 +32,10 @@ class TransferCriterion(
     @IgnoredOnParcel
     override val operation = WhereFilter.Operation.IN
 
-    override val selection: String
-        get() {
-            val selection = operation.getOp(values.size)
-            return "${DatabaseConstants.KEY_TRANSFER_PEER} IS NOT NULL AND ($column $selection OR ${DatabaseConstants.KEY_ACCOUNTID} $selection)"
-        }
+    override fun getSelection(forExport: Boolean): String {
+        val selection = operation.getOp(values.size)
+        return "${DatabaseConstants.KEY_TRANSFER_PEER} IS NOT NULL AND ($column $selection OR ${DatabaseConstants.KEY_ACCOUNTID} $selection)"
+    }
 
     override val selectionArgs: Array<String>
         get() = arrayOf(*super.selectionArgs, *super.selectionArgs)

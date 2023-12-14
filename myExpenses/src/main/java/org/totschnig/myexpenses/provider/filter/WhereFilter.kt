@@ -22,8 +22,8 @@ import androidx.annotation.CheckResult
 data class WhereFilter(val criteria: List<Criterion<*>>) {
     constructor(): this(emptyList())
 
-    fun getSelectionForParents(tableName: String) =
-        criteria.joinToString(" AND ") { it.getSelectionForParents(tableName) }
+    fun getSelectionForParents(tableName: String, forExport: Boolean = false) =
+        criteria.joinToString(" AND ") { it.getSelectionForParents(tableName, forExport) }
 
     fun getSelectionForParts(tableName: String)=
         criteria.joinToString(" AND ") { it.getSelectionForParts(tableName) }

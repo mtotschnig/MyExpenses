@@ -42,6 +42,9 @@ class AmountCriterion(
     @IgnoredOnParcel
     override val column = DatabaseConstants.KEY_DISPLAY_AMOUNT
 
+    override val columnForExport: String
+        get() = DatabaseConstants.KEY_AMOUNT
+
     override val key: String
         get() = DatabaseConstants.KEY_AMOUNT
 

@@ -18,8 +18,11 @@ class TagCriterion(
     @IgnoredOnParcel
     override val operation = WhereFilter.Operation.IN
 
-    override val selection: String
-        get() = "$KEY_ROWID IN (SELECT $KEY_TRANSACTIONID FROM $TABLE_TRANSACTIONS_TAGS WHERE ${super.selection})"
+    override fun getSelection(forExport: Boolean): String =
+        "$KEY_ROWID IN (SELECT $KEY_TRANSACTIONID FROM $TABLE_TRANSACTIONS_TAGS WHERE ${super.getSelection(
+            false
+        )
+        })"
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_TAG_COMMAND

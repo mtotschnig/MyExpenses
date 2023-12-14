@@ -34,11 +34,10 @@ class AccountCriterion(
     @IgnoredOnParcel
     override val column = ACCOUNT_COLUMN
 
-    override val selection: String
-        get()  {
-            val selection = operation.getOp(values.size)
-            return "$column $selection OR ${DatabaseConstants.KEY_TRANSFER_ACCOUNT} $selection"
-        }
+    override fun getSelection(forExport: Boolean): String {
+        val selection = operation.getOp(values.size)
+        return "$column $selection OR ${DatabaseConstants.KEY_TRANSFER_ACCOUNT} $selection"
+    }
 
     override val selectionArgs: Array<String>
         get() = arrayOf(*super.selectionArgs, *super.selectionArgs)

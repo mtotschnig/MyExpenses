@@ -89,7 +89,7 @@ abstract class AbstractExporter
         var selectionArgs: Array<String>? = arrayOf(account.id.toString())
         if (notYetExportedP) selection += " AND $KEY_STATUS = $STATUS_NONE"
         if (filter != null && !filter.isEmpty) {
-            selection += " AND " + filter.getSelectionForParents(VIEW_EXTENDED)
+            selection += " AND " + filter.getSelectionForParents(VIEW_EXTENDED, true)
             selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false))
         }
         val projection = arrayOf(

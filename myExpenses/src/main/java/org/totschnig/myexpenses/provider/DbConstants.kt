@@ -518,7 +518,7 @@ fun tagGroupBy(tableName: String): String =
 fun buildTransactionRowSelect(filter: WhereFilter?) =
     "SELECT $KEY_ROWID from $TABLE_TRANSACTIONS WHERE $KEY_ACCOUNTID = ?" +
             if (filter?.isEmpty == false) {
-                " AND ${filter.getSelectionForParents(TABLE_TRANSACTIONS)}"
+                " AND ${filter.getSelectionForParents(TABLE_TRANSACTIONS, true)}"
             } else ""
 
 fun transactionListAsCTE(catId: String) =
