@@ -72,4 +72,6 @@
     <string name="menu">"Menü"</string>
     <string name="action_move_down">"Mozgatás lefelé"</string>
     <string name="action_move_up">"Mozgatás felfelé"</string>
+    <string name="calendar_delete">Naptár törlése</string>
+    <string name="preferences_calendar_delete_message">Valóban törölni akarja ezt a naptárat?</string>
 </resources>

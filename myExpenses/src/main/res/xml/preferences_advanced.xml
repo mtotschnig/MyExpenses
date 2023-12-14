@@ -52,6 +52,12 @@
             android:key="@string/pref_planner_manual_time_key"
             android:title="@string/pref_planner_manual_time_title"
             my:useSimpleSummaryProvider="true" />
+
+        <Preference
+            android:key="@string/pref_remove_local_calendar_key"
+            android:title="@string/calendar_delete"
+            android:summary="Local Calendar/LOCAL/MyExpensesPlanner"
+            my:isPreferenceVisible="false" />
     </PreferenceCategory>
 
     <PreferenceCategory

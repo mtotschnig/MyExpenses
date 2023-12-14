@@ -5,4 +5,6 @@
     <string name="menu">"Menu"</string>
     <string name="action_move_down">"Turunkan"</string>
     <string name="action_move_up">"Naikkan"</string>
+    <string name="calendar_delete">Hapus kalender</string>
+    <string name="preferences_calendar_delete_message">Apakah anda yakin ingin menghapus kalender ini?</string>
 </resources>

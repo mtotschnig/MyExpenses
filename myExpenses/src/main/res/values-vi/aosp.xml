@@ -69,4 +69,6 @@
     <string name="menu">"Trình đơn"</string>
     <string name="action_move_down">"Chuyển xuống"</string>
     <string name="action_move_up">"Chuyển lên"</string>
+    <string name="calendar_delete">Xóa lịch</string>
+    <string name="preferences_calendar_delete_message">Bạn có thực sự muốn xóa lịch này không?</string>
 </resources>

@@ -5,4 +5,6 @@
     <string name="menu">"Valmynd"</string>
     <string name="action_move_down">"Færa niður"</string>
     <string name="action_move_up">"Færa upp"</string>
+    <string name="calendar_delete">Eyða dagatali</string>
+    <string name="preferences_calendar_delete_message">Viltu í alvörunni eyða þessu dagatali?</string>
 </resources>

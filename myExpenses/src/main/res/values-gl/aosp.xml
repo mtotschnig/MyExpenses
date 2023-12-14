@@ -5,4 +5,6 @@
     <string name="menu">"Menú"</string>
     <string name="action_move_down">"Mover cara a abaixo"</string>
     <string name="action_move_up">"Mover cara a arriba"</string>
+    <string name="calendar_delete">Borrar calendario</string>
+    <string name="preferences_calendar_delete_message">Realmente quere eliminar este calendario ?</string>
 </resources>

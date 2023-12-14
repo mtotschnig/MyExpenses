@@ -71,4 +71,6 @@
     <string name="menu">"Menú"</string>
     <string name="action_move_down">"Mou avall"</string>
     <string name="action_move_up">"Mou amunt"</string>
+    <string name="calendar_delete">Suprimeix el calendari</string>
+    <string name="preferences_calendar_delete_message">Vols suprimir aquest calendari?</string>
 </resources>

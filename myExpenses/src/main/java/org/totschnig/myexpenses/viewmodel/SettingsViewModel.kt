@@ -12,6 +12,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
@@ -19,6 +21,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.ExchangeRateRepository
+import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
+import org.totschnig.myexpenses.provider.PlannerUtils
+import org.totschnig.myexpenses.provider.PlannerUtils.Companion.checkLocalCalendar
+import org.totschnig.myexpenses.provider.PlannerUtils.Companion.deleteLocalCalendar
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
@@ -91,6 +97,21 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
         corruptedIdList()?.let {
             emit(it.size)
         }
+    }
+
+    fun shouldOfferCalendarRemoval() = liveData(context = coroutineContext()) {
+        val localCalendar = contentResolver.checkLocalCalendar()
+        emit(
+            (localCalendar != null && localCalendar != INVALID_CALENDAR_ID) &&
+                    (localCalendar != prefHandler.requireString(
+                        PrefKey.PLANNER_CALENDAR_ID,
+                        INVALID_CALENDAR_ID
+                    )
+                            || repository.count(
+                        TransactionProvider.TEMPLATES_URI,
+                        "${DatabaseConstants.KEY_PLANID} IS NOT NULL"
+                    ) == 0)
+        )
     }
 
     fun prettyPrintCorruptedData(currencyFormatter: ICurrencyFormatter) =
@@ -178,5 +199,9 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
             })
         }
         loadAppData()
+    }
+
+    fun deleteLocalCalendar() = liveData(context = coroutineContext()) {
+        emit(contentResolver.deleteLocalCalendar())
     }
 }

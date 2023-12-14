@@ -72,4 +72,6 @@
     <string name="menu">"Меню"</string>
     <string name="action_move_down">"Преместване надолу"</string>
     <string name="action_move_up">"Преместване нагоре"</string>
+    <string name="calendar_delete">Изтрий календара</string>
+    <string name="preferences_calendar_delete_message">Наистина ли искате да изтриете този календар?</string>
 </resources>

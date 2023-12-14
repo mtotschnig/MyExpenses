@@ -70,4 +70,6 @@
     <string name="menu">"メニュー"</string>
     <string name="action_move_down">"下に移動します"</string>
     <string name="action_move_up">"上に移動します"</string>
+    <string name="calendar_delete">カレンダーの削除</string>
+    <string name="preferences_calendar_delete_message">本当にこのカレンダーを削除しますか?</string>
 </resources>

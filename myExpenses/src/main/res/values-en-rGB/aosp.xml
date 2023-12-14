@@ -9,4 +9,6 @@
     <string name="menu">"Menu"</string>
     <string name="action_move_down">"Move down"</string>
     <string name="action_move_up">"Move up"</string>
+    <string name="calendar_delete">Delete calendar</string>
+    <string name="preferences_calendar_delete_message">Do you really want to delete this calendar?</string>
 </resources>

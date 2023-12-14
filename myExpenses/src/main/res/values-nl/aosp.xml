@@ -67,4 +67,6 @@
     <string name="menu">"Menu"</string>
     <string name="action_move_down">"Omlaag"</string>
     <string name="action_move_up">"Omhoog"</string>
+    <string name="calendar_delete">Agenda verwijderen</string>
+    <string name="preferences_calendar_delete_message">Weet u zeker dat u deze kalender wilt verwijderen?</string>
 </resources>

@@ -5,4 +5,6 @@
     <string name="menu">"Menyu"</string>
     <string name="action_move_down">"Aşağı keçin"</string>
     <string name="action_move_up">"Yuxarı keçin"</string>
+    <string name="calendar_delete">Təqvimi sil</string>
+    <string name="preferences_calendar_delete_message">Həqiqətən bu təqvimi silmək istəyirsiniz?</string>
 </resources>

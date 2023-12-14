@@ -73,4 +73,6 @@
     <string name="menu">"Menu"</string>
     <string name="action_move_down">"Przesuń w dół"</string>
     <string name="action_move_up">"Przesuń w górę"</string>
+    <string name="calendar_delete">Usuń kalendarz</string>
+    <string name="preferences_calendar_delete_message">Czy na pewno chcesz usunąć ten kalendarz?</string>
 </resources>

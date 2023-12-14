@@ -71,4 +71,6 @@
     <string name="menu">"Menu"</string>
     <string name="action_move_down">"Déplacer vers le bas"</string>
     <string name="action_move_up">"Déplacer vers haut"</string>
+    <string name="calendar_delete">Supprimer le calendrier</string>
+    <string name="preferences_calendar_delete_message">Voulez-vous vraiment supprimer ce compteur ?</string>
 </resources>

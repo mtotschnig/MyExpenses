@@ -28,6 +28,7 @@ class CalendarListPreferenceDialogFragmentCompat : PreferenceDialogFragmentCompa
         super.onCreate(savedInstanceState)
         injector.inject(this)
     }
+
     override fun onPrepareDialogBuilder(builder: AlertDialog.Builder) {
         val preference = preference as ListPreference
         var localExists = false

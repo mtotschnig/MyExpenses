@@ -220,4 +220,5 @@
     <item name="AGGREGATE_COMMAND" type="id" />
     <item name="CATEGORY_COMMAND" type="id" />
     <item name="MANAGE_ACCOUNT_COMMAND" type="id" />
+    <item name="DELETE_CALENDAR_COMMAND" type="id" />
 </resources>

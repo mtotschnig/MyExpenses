@@ -69,4 +69,6 @@
     <string name="menu">"選單"</string>
     <string name="action_move_down">"向下移"</string>
     <string name="action_move_up">"向上移"</string>
+    <string name="calendar_delete">刪除日曆</string>
+    <string name="preferences_calendar_delete_message">你確定要刪除此日曆嗎？</string>
 </resources>

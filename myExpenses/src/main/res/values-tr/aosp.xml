@@ -70,4 +70,6 @@
     <string name="menu">"Menü"</string>
     <string name="action_move_down">"Aşağı taşı"</string>
     <string name="action_move_up">"Yukarı taşı"</string>
+    <string name="calendar_delete">Takvimi sil</string>
+    <string name="preferences_calendar_delete_message">Bu takvimi gerçekten silmek istiyor musunuz?</string>
 </resources>

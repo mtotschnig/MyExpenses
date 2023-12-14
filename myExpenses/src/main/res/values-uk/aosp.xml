@@ -73,4 +73,5 @@
     <string name="menu">"Меню"</string>
     <string name="action_move_down">"Перемістити вниз"</string>
     <string name="action_move_up">"Перемістити вгору"</string>
+    <string name="calendar_delete">Видалити календар</string>
 </resources>

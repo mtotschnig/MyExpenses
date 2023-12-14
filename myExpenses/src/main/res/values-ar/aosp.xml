@@ -75,4 +75,6 @@
     <string name="menu">"قائمة"</string>
     <string name="action_move_down">"نقل لأسفل"</string>
     <string name="action_move_up">"نقل لأعلى"</string>
+    <string name="calendar_delete">حذف التقويم</string>
+    <string name="preferences_calendar_delete_message">أمتأكد من حذف هذا التقويم؟</string>
 </resources>

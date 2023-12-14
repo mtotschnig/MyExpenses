@@ -116,4 +116,7 @@
     <string name="action_move_down">"Move down"</string>
     <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri  action_drag_label_move_up | sed 's/drag_label_//' |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="action_move_up">"Move up"</string>
+    <!-- /opt/extra/lineage/packages/apps/Etar/app/src/main$ grep -ri preferences_calendar_delete_delete | sed 's/preferences_calendar_delete_delete/calendar_delete/' | aosp_helper -->
+    <string name="calendar_delete">Delete calendar</string>
+    <string name="preferences_calendar_delete_message">Do you really want to delete this calendar?</string>
 </resources>

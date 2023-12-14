@@ -11,6 +11,7 @@ import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.list.CustomListDialog
 import eltos.simpledialogfragment.list.SimpleListDialog
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.SelectDefaultTransferCategoryDialogFragment
 import org.totschnig.myexpenses.dialog.SelectDefaultTransferCategoryDialogFragment.Companion.SELECT_CATEGORY_REQUEST
@@ -69,6 +70,10 @@ class PreferencesAdvancedFragment : BasePreferenceFragment(),
             }
         }
 
+        viewModel.shouldOfferCalendarRemoval().observe(this) {
+            configureDeleteCalendarPreference((it))
+        }
+
         if (featureManager.allowsUninstall()) {
             configureUninstallPrefs()
         } else {
@@ -88,6 +93,10 @@ class PreferencesAdvancedFragment : BasePreferenceFragment(),
 
     private fun setDefaultTransferCategoryPath(path: String) {
         requirePreference<Preference>(PrefKey.DEFAULT_TRANSFER_CATEGORY).summary = path
+    }
+
+    fun configureDeleteCalendarPreference(isVisible: Boolean) {
+        requirePreference<Preference>(PrefKey.REMOVE_LOCAL_CALENDAR).isVisible = isVisible
     }
 
     override fun onPreferenceTreeClick(preference: Preference) = when {
@@ -121,6 +130,24 @@ class PreferencesAdvancedFragment : BasePreferenceFragment(),
         matches(preference, PrefKey.DEFAULT_TRANSFER_CATEGORY) -> {
             SelectDefaultTransferCategoryDialogFragment()
                 .show(childFragmentManager, "SELECT_DEFAULT")
+            true
+        }
+
+        matches(preference, PrefKey.REMOVE_LOCAL_CALENDAR) -> {
+            ConfirmationDialogFragment.newInstance(Bundle().apply {
+                putString(
+                    ConfirmationDialogFragment.KEY_MESSAGE,
+                    getString(R.string.preferences_calendar_delete_message)
+                )
+                putInt(
+                    ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                    R.string.calendar_delete
+                )
+                putInt(
+                    ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                    R.id.DELETE_CALENDAR_COMMAND
+                )
+            }).show(parentFragmentManager, "CONFIRM_CALENDAR_DELETE")
             true
         }
 

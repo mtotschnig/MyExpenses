@@ -73,4 +73,6 @@
     <string name="menu">"Меню"</string>
     <string name="action_move_down">"Опустить"</string>
     <string name="action_move_up">"Поднять"</string>
+    <string name="calendar_delete">Удалить календарь</string>
+    <string name="preferences_calendar_delete_message">Вы действительно хотите удалить этот календарь?</string>
 </resources>

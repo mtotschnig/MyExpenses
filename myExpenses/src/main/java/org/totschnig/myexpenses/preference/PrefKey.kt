@@ -180,7 +180,8 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     UNMAPPED_TRANSACTION_AS_TRANSFER(R.string.pref_unmapped_transaction_as_transfer_key),
     DEFAULT_TRANSFER_CATEGORY(R.string.pref_default_transfer_category_key),
     PROTECTION_ALLOW_SCREENSHOT(R.string.pref_protection_allow_screenshot_key),
-    CUSTOMIZE_MAIN_MENU(R.string.pref_customize_main_menu_key)
+    CUSTOMIZE_MAIN_MENU(R.string.pref_customize_main_menu_key),
+    REMOVE_LOCAL_CALENDAR(R.string.pref_remove_local_calendar_key)
     ;
 
     @Deprecated("")

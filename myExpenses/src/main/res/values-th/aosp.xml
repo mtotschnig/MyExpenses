@@ -5,4 +5,6 @@
     <string name="menu">"เมนู"</string>
     <string name="action_move_down">"เลื่อนลง"</string>
     <string name="action_move_up">"เลื่อนขึ้น"</string>
+    <string name="calendar_delete">ลบปฏิทิน</string>
+    <string name="preferences_calendar_delete_message">คุณต้องการลบปฏิทินนี้หรือไม่</string>
 </resources>

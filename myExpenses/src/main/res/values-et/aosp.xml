@@ -5,4 +5,6 @@
     <string name="menu">"Menüü"</string>
     <string name="action_move_down">"Teisalda alla"</string>
     <string name="action_move_up">"Teisalda üles"</string>
+    <string name="calendar_delete">Kustuta kalender</string>
+    <string name="preferences_calendar_delete_message">Kas olete kindel, et soovite seda kalendrit kustutada?</string>
 </resources>

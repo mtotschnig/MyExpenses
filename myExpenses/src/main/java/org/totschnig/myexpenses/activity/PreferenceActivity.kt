@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.fragment.TwoPanePreference
 import org.totschnig.myexpenses.fragment.TwoPanePreference.Companion.KEY_INITIAL_SCREEN
 import org.totschnig.myexpenses.fragment.preferences.BasePreferenceFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferenceDataFragment
+import org.totschnig.myexpenses.fragment.preferences.PreferencesAdvancedFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferencesBackupRestoreFragment.Companion.KEY_CHECKED_FILES
 import org.totschnig.myexpenses.fragment.preferences.PreferencesOcrFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferencesWebUiFragment
@@ -150,6 +151,22 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             R.id.REMOVE_LICENCE_COMMAND -> {
                 showSnackBarIndefinite(R.string.progress_removing_licence)
                 licenceValidationViewModel.removeLicence()
+                true
+            }
+
+            R.id.DELETE_CALENDAR_COMMAND -> {
+                viewModel?.deleteLocalCalendar()?.observe(this) {
+                    when(it) {
+                        1 -> twoPanePreference.getDetailFragment<PreferencesAdvancedFragment>()
+                            ?.configureDeleteCalendarPreference(false)
+                        else -> {
+                            val message = if (it == 0) "Deletion of local calendar failed" else
+                                "PANIC: DeleteLocalCalendar returned $it"
+                            CrashHandler.report(Exception(message))
+                            showSnackBar(message)
+                        }
+                    }
+                }
                 true
             }
 

@@ -69,4 +69,6 @@
     <string name="menu">"Menu"</string>
     <string name="action_move_down">"Mover para o fim"</string>
     <string name="action_move_up">"Mover para cima"</string>
+    <string name="calendar_delete">Excluir calendário</string>
+    <string name="preferences_calendar_delete_message">Tem certeza de que deseja excluir este calendário?</string>
 </resources>

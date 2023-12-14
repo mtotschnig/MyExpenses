@@ -5,4 +5,6 @@
     <string name="menu">"Ponuka"</string>
     <string name="action_move_down">"Presunúť nadol"</string>
     <string name="action_move_up">"Presunúť nahor"</string>
+    <string name="calendar_delete">Vymazať kalendár</string>
+    <string name="preferences_calendar_delete_message">Naozaj chcete vymazať tento kalendár?</string>
 </resources>

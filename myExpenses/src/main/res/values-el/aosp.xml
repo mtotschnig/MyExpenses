@@ -71,4 +71,6 @@
     <string name="menu">"Μενού"</string>
     <string name="action_move_down">"Μετακίνηση κάτω"</string>
     <string name="action_move_up">"Μετακίνηση επάνω"</string>
+    <string name="calendar_delete">Διαγραφή ημερολογίου</string>
+    <string name="preferences_calendar_delete_message">Θέλετε σίγουρα να διαγράψετε το ημερολόγιο;</string>
 </resources>

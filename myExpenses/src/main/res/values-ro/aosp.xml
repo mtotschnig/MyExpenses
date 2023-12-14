@@ -72,4 +72,6 @@
     <string name="menu">"Meniu"</string>
     <string name="action_move_down">"Mută în jos"</string>
     <string name="action_move_up">"Mută în sus"</string>
+    <string name="calendar_delete">Ștergere calendar</string>
+    <string name="preferences_calendar_delete_message">Sigur vreţi sa ştergeţi acest calendar?</string>
 </resources>

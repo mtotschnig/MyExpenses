@@ -1,9 +1,14 @@
 package org.totschnig.myexpenses.provider
 
+import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
 import android.net.Uri
 import android.provider.CalendarContract
+import android.provider.CalendarContract.ACCOUNT_TYPE_LOCAL
+import android.provider.CalendarContract.CALLER_IS_SYNCADAPTER
+import android.provider.CalendarContract.Calendars.ACCOUNT_NAME
+import android.provider.CalendarContract.Calendars.ACCOUNT_TYPE
 import androidx.core.content.res.ResourcesCompat
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -35,6 +40,40 @@ const val INVALID_CALENDAR_ID = "-1"
             plannerCalendarId = prefHandler.requireString(PrefKey.PLANNER_CALENDAR_ID, INVALID_CALENDAR_ID)
     }
 
+    companion object {
+
+        private val calendarUri = CalendarContract.Calendars.CONTENT_URI.buildUpon()
+            .appendQueryParameter(ACCOUNT_NAME, PLANNER_ACCOUNT_NAME)
+            .appendQueryParameter(ACCOUNT_TYPE, ACCOUNT_TYPE_LOCAL)
+            .appendQueryParameter(CALLER_IS_SYNCADAPTER, "true")
+            .build()
+
+        fun ContentResolver.checkLocalCalendar(): String? {
+            val cursor = query(
+                calendarUri,
+                arrayOf(CalendarContract.Calendars._ID),
+                CalendarContract.Calendars.NAME + " = ?",
+                arrayOf(PLANNER_CALENDAR_NAME), null
+            )
+            return if (cursor == null) {
+                CrashHandler.report(Exception("Searching for planner calendar failed, Calendar app not installed?"))
+                INVALID_CALENDAR_ID
+            } else cursor.use {
+                if (it.moveToFirst()) {
+                    it.getLong(0).toString().also { id ->
+                        Timber.i("found a preexisting calendar %s ", id)
+                    }
+                } else null
+            }
+        }
+
+        fun ContentResolver.deleteLocalCalendar(): Int {
+            return checkLocalCalendar()?.takeIf { it != INVALID_CALENDAR_ID }?.let {
+                delete(calendarUri.buildUpon().appendEncodedPath(it).build(), null, null)
+            } ?: 0
+        }
+    }
+
     /**
      * check if we already have a calendar in Account [.PLANNER_ACCOUNT_NAME]
      * of type [CalendarContract.ACCOUNT_TYPE_LOCAL] with name
@@ -43,73 +82,49 @@ const val INVALID_CALENDAR_ID = "-1"
      * @return id if we have configured a useable calendar, or [INVALID_CALENDAR_ID]
      */
     fun createPlanner(persistToSharedPref: Boolean): String {
-        val builder = CalendarContract.Calendars.CONTENT_URI.buildUpon()
-        builder.appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, PLANNER_ACCOUNT_NAME)
-        builder.appendQueryParameter(
-            CalendarContract.Calendars.ACCOUNT_TYPE,
-            CalendarContract.ACCOUNT_TYPE_LOCAL
-        )
-        builder.appendQueryParameter(
-            CalendarContract.CALLER_IS_SYNCADAPTER,
-            "true"
-        )
-        val calendarUri = builder.build()
-        val plannerCalendarId = context.contentResolver.query(
-            calendarUri,
-            arrayOf(CalendarContract.Calendars._ID),
-            CalendarContract.Calendars.NAME + " = ?",
-            arrayOf(PLANNER_CALENDAR_NAME),
-            null
-        )?.use {
-            if (it.moveToFirst()) {
-                val existing = it.getLong(0).toString()
-                Timber.i("found a preexisting calendar %s ", existing)
-                existing
-            } else {
-                val values = ContentValues()
-                values.put(CalendarContract.Calendars.ACCOUNT_NAME, PLANNER_ACCOUNT_NAME)
-                values.put(
-                    CalendarContract.Calendars.ACCOUNT_TYPE,
-                    CalendarContract.ACCOUNT_TYPE_LOCAL
-                )
-                values.put(CalendarContract.Calendars.NAME, PLANNER_CALENDAR_NAME)
-                values.put(
-                    CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
-                    Utils.getTextWithAppName(context, R.string.plan_calendar_name).toString()
-                )
-                values.put(
-                    CalendarContract.Calendars.CALENDAR_COLOR,
-                    ResourcesCompat.getColor(context.resources, R.color.appDefault, null)
-                )
-                values.put(
-                    CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL,
-                    CalendarContract.Calendars.CAL_ACCESS_OWNER
-                )
-                values.put(CalendarContract.Calendars.OWNER_ACCOUNT, "private")
-                values.put(CalendarContract.Calendars.SYNC_EVENTS, 1)
-                val uri: Uri? = try {
-                    context.contentResolver.insert(calendarUri, values)
-                } catch (e: IllegalArgumentException) {
-                    CrashHandler.report(e)
-                    return INVALID_CALENDAR_ID
-                }
-                if (uri == null) {
-                    CrashHandler.report(Exception("Inserting planner calendar failed, uri is null"))
-                    return INVALID_CALENDAR_ID
-                }
-                val lastPathSegment = uri.lastPathSegment
-                if (lastPathSegment == null || lastPathSegment == "0") {
-                    CrashHandler.report(
-                        Exception("Inserting planner calendar failed, last path segment is $lastPathSegment")
-                    )
-                    return INVALID_CALENDAR_ID
-                }
-                Timber.i("successfully set up new calendar: %s", lastPathSegment)
-                lastPathSegment
+        val existing = context.contentResolver.checkLocalCalendar()
+        if (existing == INVALID_CALENDAR_ID) return INVALID_CALENDAR_ID
+        val plannerCalendarId = existing ?: kotlin.run {
+            val values = ContentValues()
+            values.put(ACCOUNT_NAME, PLANNER_ACCOUNT_NAME)
+            values.put(
+                ACCOUNT_TYPE,
+                ACCOUNT_TYPE_LOCAL
+            )
+            values.put(CalendarContract.Calendars.NAME, PLANNER_CALENDAR_NAME)
+            values.put(
+                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+                Utils.getTextWithAppName(context, R.string.plan_calendar_name).toString()
+            )
+            values.put(
+                CalendarContract.Calendars.CALENDAR_COLOR,
+                ResourcesCompat.getColor(context.resources, R.color.appDefault, null)
+            )
+            values.put(
+                CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL,
+                CalendarContract.Calendars.CAL_ACCESS_OWNER
+            )
+            values.put(CalendarContract.Calendars.OWNER_ACCOUNT, "private")
+            values.put(CalendarContract.Calendars.SYNC_EVENTS, 1)
+            val uri: Uri? = try {
+                context.contentResolver.insert(calendarUri, values)
+            } catch (e: IllegalArgumentException) {
+                CrashHandler.report(e)
+                return INVALID_CALENDAR_ID
             }
-        } ?: run {
-            CrashHandler.report(Exception("Searching for planner calendar failed, Calendar app not installed?"))
-            return INVALID_CALENDAR_ID
+            if (uri == null) {
+                CrashHandler.report(Exception("Inserting planner calendar failed, uri is null"))
+                return INVALID_CALENDAR_ID
+            }
+            val lastPathSegment = uri.lastPathSegment
+            if (lastPathSegment == null || lastPathSegment == "0") {
+                CrashHandler.report(
+                    Exception("Inserting planner calendar failed, last path segment is $lastPathSegment")
+                )
+                return INVALID_CALENDAR_ID
+            }
+            Timber.i("successfully set up new calendar: %s", lastPathSegment)
+            lastPathSegment
         }
         if (persistToSharedPref) {
             prefHandler.putString(PrefKey.PLANNER_CALENDAR_ID, plannerCalendarId)
@@ -164,19 +179,19 @@ const val INVALID_CALENDAR_ID = "-1"
                 val syncEvents = it.getInt(1)
                 if (syncEvents == 0) {
                     val parts = found.split("/".toRegex(), limit = 3).toTypedArray<String>()
-                    if (parts[0] == PLANNER_ACCOUNT_NAME && parts[1] == CalendarContract.ACCOUNT_TYPE_LOCAL) {
+                    if (parts[0] == PLANNER_ACCOUNT_NAME && parts[1] == ACCOUNT_TYPE_LOCAL) {
                         val builder = CalendarContract.Calendars.CONTENT_URI.buildUpon()
                             .appendEncodedPath(calendarId)
                         builder.appendQueryParameter(
-                            CalendarContract.Calendars.ACCOUNT_NAME,
+                            ACCOUNT_NAME,
                             PLANNER_ACCOUNT_NAME
                         )
                         builder.appendQueryParameter(
-                            CalendarContract.Calendars.ACCOUNT_TYPE,
-                            CalendarContract.ACCOUNT_TYPE_LOCAL
+                            ACCOUNT_TYPE,
+                            ACCOUNT_TYPE_LOCAL
                         )
                         builder.appendQueryParameter(
-                            CalendarContract.CALLER_IS_SYNCADAPTER,
+                            CALLER_IS_SYNCADAPTER,
                             "true"
                         )
                         val values = ContentValues(1)

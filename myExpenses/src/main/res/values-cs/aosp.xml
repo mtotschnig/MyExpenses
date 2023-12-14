@@ -73,4 +73,6 @@
     <string name="menu">"Nabídka"</string>
     <string name="action_move_down">"Přesunout dolů"</string>
     <string name="action_move_up">"Přesunout nahoru"</string>
+    <string name="calendar_delete">Odstranit kalendář</string>
+    <string name="preferences_calendar_delete_message">Opravdu si přejete odstranit tento kalendář?</string>
 </resources>
