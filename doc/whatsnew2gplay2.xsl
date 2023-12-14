@@ -35,6 +35,10 @@
             <xsl:value-of select="$dir" />
             <xsl:text>/help.xml</xsl:text>
         </xsl:variable>
+        <xsl:variable name="upgrade">
+            <xsl:value-of select="$dir" />
+            <xsl:text>/whats_new.xml</xsl:text>
+        </xsl:variable>
         <xsl:variable name="changelog">
             <xsl:for-each select="tokenize($version, ' ')">
                 <xsl:variable name="entry">
@@ -52,7 +56,7 @@
                             <xsl:value-of select="$special-version-info" />
                         </xsl:when>
                         <xsl:otherwise>
-                            <xsl:for-each select="document($strings)/resources/string[starts-with(@name,my:changeLogResourceName($version))]">
+                            <xsl:for-each select="document($upgrade)/resources/string[starts-with(@name,my:changeLogResourceName($version))]">
                                 <xsl-text>•&#032;</xsl-text>
                                 <xsl:apply-templates mode="unescape" select="." />
                                 <xsl:if test="position() != last()">

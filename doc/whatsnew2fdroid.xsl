@@ -42,6 +42,10 @@
             <xsl:value-of select="$dir" />
             <xsl:text>/help.xml</xsl:text>
         </xsl:variable>
+        <xsl:variable name="upgrade">
+            <xsl:value-of select="$dir" />
+            <xsl:text>/whats_new.xml</xsl:text>
+        </xsl:variable>
         <xsl:variable name="info">
             <xsl:text>../myExpenses/src/main/res/values/version_info.xml</xsl:text>
         </xsl:variable>
@@ -62,7 +66,7 @@
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:for-each
-                            select="document($strings)/resources/string[starts-with(@name,my:changeLogResourceName($version))]">
+                            select="document($upgrade)/resources/string[starts-with(@name,my:changeLogResourceName($version))]">
                             <xsl-text>•&#032;</xsl-text>
                             <xsl:apply-templates mode="unescape" select="." />
                             <xsl:if test="position() != last()">
