@@ -12,5 +12,5 @@
     <string name="whats_new_367">Les catégories peuvent désormais être configurées en tant que catégories de dépenses ou de revenus, ce qui aura un impact sur le calcul des totaux des dépenses et des revenus.</string>
     <string name="whats_new_369_1">Les transferts peuvent être associés à des catégories.</string>
     <string name="whats_new_369_2">Lorsque le verrouillage de l\'écran est activé, permettez les captures d\'écran.</string>
-
+    <string name="whats_new_370">Le menu sur l’écran principal peut être entièrement personnalisé.</string>
 </resources>
