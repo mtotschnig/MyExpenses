@@ -84,14 +84,12 @@ abstract class AbstractExporter
             }
         }
         //first we check if there are any exportable transactions
-        var selection =
-            "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null"
-        var selectionArgs: Array<String>? = arrayOf(account.id.toString())
+        var selection = "$KEY_PARENTID is null"
         if (notYetExportedP) selection += " AND $KEY_STATUS = $STATUS_NONE"
-        if (filter != null && !filter.isEmpty) {
+        var selectionArgs = if (filter != null && !filter.isEmpty) {
             selection += " AND " + filter.getSelectionForParents(VIEW_EXTENDED, true)
-            selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false))
-        }
+            filter.getSelectionArgs(false)
+        } else null
         val projection = arrayOf(
             KEY_UUID,
             KEY_ROWID,
@@ -197,8 +195,7 @@ abstract class AbstractExporter
         }
 
         return context.contentResolver.query(
-            TransactionProvider.EXTENDED_URI,
-            projection, selection, selectionArgs, KEY_DATE
+            account.uriForTransactionList(), projection, selection, selectionArgs, KEY_DATE
         )?.use { cursor ->
 
             if (cursor.count == 0) {
