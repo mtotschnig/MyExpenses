@@ -401,10 +401,10 @@ public class PdfPrinter {
         splits.moveToFirst();
         StringBuilder catTextBuilder = new StringBuilder();
         while (splits.getPosition() < splits.getCount()) {
-          String splitText =  getString(splits, KEY_LABEL);
+          String splitText =  getString(splits, KEY_PATH);
           if (splitText.length() > 0) {
             if (getLongOrNull(splits, KEY_TRANSFER_PEER) != null) {
-              splitText = "[" + splitText + "]";
+              splitText += " (" +Transfer.getIndicatorPrefixForLabel(amount) + getStringOrNull(splits, KEY_TRANSFER_ACCOUNT_LABEL) + ")";
             }
           } else {
             splitText = Category.NO_CATEGORY_ASSIGNED_LABEL;
