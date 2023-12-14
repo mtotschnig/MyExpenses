@@ -139,7 +139,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
     private fun doDeleteCommandWithVoidOption(useCab: Boolean) {
         assertListSize(origListSize)
         triggerDelete(useCab)
-        onView(withId(R.id.checkBox)).perform(click())
+        onView(withId(R.id.checkBox)).inRoot(isDialog()).perform(click())
         onView(withText(R.string.menu_delete)).perform(click())
         val voidStatus = getString(R.string.status_void)
         composeTestRule.onNodeWithTag(TEST_TAG_LIST).onChildren().onFirst()
