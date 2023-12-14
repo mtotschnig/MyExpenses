@@ -12,4 +12,5 @@
     <string name="whats_new_367">Las categorías pueden configurarse ahora como categorías de gastos o de ingresos, lo que afectará a la forma en que se calculan las sumas de gastos e ingresos.</string>
     <string name="whats_new_369_1">Las transferencias pueden asignarse a las categorías.</string>
     <string name="whats_new_369_2">Cuando el bloqueo de pantalla está activado, permite optar por desactivar las capturas de pantalla.</string>
+    <string name="whats_new_370">El menú de la pantalla principal es totalmente personalizable.</string>
 </resources>
