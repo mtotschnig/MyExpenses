@@ -299,27 +299,27 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment() {
                 painter = painterResource(id = it),
                 contentDescription = null)
             }
-            Text(item.getLabel(LocalContext.current))
-            Spacer(modifier = Modifier.weight(1f))
-            Row(modifier = Modifier.width(96.dp), horizontalArrangement = Arrangement.Center) {
-                onUp?.let {
-                    IconButton(onClick = it) {
-                        Icon(
-                            Icons.Filled.KeyboardArrowUp,
-                            contentDescription = stringResource(id = R.string.action_move_up)
-                        )
+            Text(text = item.getLabel(LocalContext.current), modifier = Modifier.weight(1f))
+            if (onUp != null || onDown != null) {
+                Row(modifier = Modifier.width(96.dp), horizontalArrangement = Arrangement.Center) {
+                    onUp?.let {
+                        IconButton(onClick = it) {
+                            Icon(
+                                Icons.Filled.KeyboardArrowUp,
+                                contentDescription = stringResource(id = R.string.action_move_up)
+                            )
+                        }
                     }
-                }
-                onDown?.let {
-                    IconButton(onClick = it) {
-                        Icon(
-                            Icons.Filled.KeyboardArrowDown,
-                            contentDescription = stringResource(id = R.string.action_move_down)
-                        )
+                    onDown?.let {
+                        IconButton(onClick = it) {
+                            Icon(
+                                Icons.Filled.KeyboardArrowDown,
+                                contentDescription = stringResource(id = R.string.action_move_down)
+                            )
+                        }
                     }
                 }
             }
-
         }
     }
 }
