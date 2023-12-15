@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.provider
 
+import android.Manifest
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
@@ -9,6 +10,7 @@ import android.provider.CalendarContract.ACCOUNT_TYPE_LOCAL
 import android.provider.CalendarContract.CALLER_IS_SYNCADAPTER
 import android.provider.CalendarContract.Calendars.ACCOUNT_NAME
 import android.provider.CalendarContract.Calendars.ACCOUNT_TYPE
+import androidx.annotation.RequiresPermission
 import androidx.core.content.res.ResourcesCompat
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -48,6 +50,7 @@ const val INVALID_CALENDAR_ID = "-1"
             .appendQueryParameter(CALLER_IS_SYNCADAPTER, "true")
             .build()
 
+        @RequiresPermission(Manifest.permission.READ_CALENDAR)
         fun ContentResolver.checkLocalCalendar(): String? {
             val cursor = query(
                 calendarUri,
@@ -67,6 +70,7 @@ const val INVALID_CALENDAR_ID = "-1"
             }
         }
 
+        @RequiresPermission(allOf = [Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR])
         fun ContentResolver.deleteLocalCalendar(): Int {
             return checkLocalCalendar()?.takeIf { it != INVALID_CALENDAR_ID }?.let {
                 delete(calendarUri.buildUpon().appendEncodedPath(it).build(), null, null)
@@ -79,8 +83,9 @@ const val INVALID_CALENDAR_ID = "-1"
      * of type [CalendarContract.ACCOUNT_TYPE_LOCAL] with name
      * [.PLANNER_ACCOUNT_NAME] if yes use it, otherwise create it
      *
-     * @return id if we have configured a useable calendar, or [INVALID_CALENDAR_ID]
+     * @return id if we have configured a usable calendar, or [INVALID_CALENDAR_ID]
      */
+    @RequiresPermission(allOf = [Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR])
     fun createPlanner(persistToSharedPref: Boolean): String {
         val existing = context.contentResolver.checkLocalCalendar()
         if (existing == INVALID_CALENDAR_ID) return INVALID_CALENDAR_ID
@@ -133,11 +138,9 @@ const val INVALID_CALENDAR_ID = "-1"
     }
 
     /**
-     * WARNING this method relies on calendar permissions being granted. It is the callers duty
-     * to check if they have been granted
-     *
      * @return id of planning calendar if it has been configured and passed checked
      */
+    @RequiresPermission(Manifest.permission.READ_CALENDAR)
     fun checkPlanner(): String? {
         val calendarId =
             prefHandler.requireString(PrefKey.PLANNER_CALENDAR_ID, INVALID_CALENDAR_ID)
@@ -159,6 +162,7 @@ const val INVALID_CALENDAR_ID = "-1"
      * @return the same calendarId if it is safe to use, [.INVALID_CALENDAR_ID] if the calendar
      * is no longer valid, null if verification was not possible
      */
+    @RequiresPermission(Manifest.permission.READ_CALENDAR)
     private fun checkPlannerInternal(calendarId: String?) = context.contentResolver.query(
         CalendarContract.Calendars.CONTENT_URI,
         arrayOf(
@@ -218,6 +222,7 @@ const val INVALID_CALENDAR_ID = "-1"
         prefHandler.remove(PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP)
     }
 
+    @RequiresPermission(Manifest.permission.READ_CALENDAR)
     fun onPlannerCalendarIdChanged(newValue: String) {
         val oldValue = plannerCalendarId
         var safeToMovePlans = true

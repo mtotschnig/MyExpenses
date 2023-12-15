@@ -1,6 +1,10 @@
 package org.totschnig.myexpenses.viewmodel
 
+import android.Manifest
 import android.app.Application
+import android.content.pm.PackageManager
+import androidx.annotation.RequiresPermission
+import androidx.core.app.ActivityCompat
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -22,7 +26,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.ExchangeRateRepository
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
-import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.PlannerUtils.Companion.checkLocalCalendar
 import org.totschnig.myexpenses.provider.PlannerUtils.Companion.deleteLocalCalendar
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -100,7 +103,12 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
     }
 
     fun shouldOfferCalendarRemoval() = liveData(context = coroutineContext()) {
-        val localCalendar = contentResolver.checkLocalCalendar()
+        val localCalendar = if (ActivityCompat.checkSelfPermission(
+                getApplication(),
+                Manifest.permission.READ_CALENDAR
+            ) == PackageManager.PERMISSION_GRANTED
+        ) contentResolver.checkLocalCalendar()
+        else null
         emit(
             (localCalendar != null && localCalendar != INVALID_CALENDAR_ID) &&
                     (localCalendar != prefHandler.requireString(
@@ -201,6 +209,7 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
         loadAppData()
     }
 
+    @RequiresPermission(allOf = [Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR])
     fun deleteLocalCalendar() = liveData(context = coroutineContext()) {
         emit(contentResolver.deleteLocalCalendar())
     }
