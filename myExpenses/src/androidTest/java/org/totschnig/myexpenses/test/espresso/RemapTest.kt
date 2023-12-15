@@ -9,6 +9,7 @@ import androidx.compose.ui.test.performClick
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth.assertThat
@@ -160,7 +161,7 @@ class RemapTest : BaseMyExpensesTest() {
                     3
                 )
             )
-        ).perform(ViewActions.scrollTo(), click())
+        ).inRoot(isDialog()).perform(ViewActions.scrollTo(), click())
     }
 
 }
