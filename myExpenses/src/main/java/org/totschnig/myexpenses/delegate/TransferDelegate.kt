@@ -15,8 +15,10 @@ import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.model.ITransfer
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.model.isNullOr0
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.ui.MyTextWatcher
@@ -293,8 +295,8 @@ class TransferDelegate(
             if (amount == null && transferAmount == null) {
                 null
             } else buildTemplate(account).apply {
-                if (amount != null && amount.amountMinor != 0L) {
-                    this.amount = amount
+                if (!amount.isNullOr0() || transferAmount.isNullOr0()) {
+                    this.amount = amount ?: Money(currentAccount.currency, 0)
                     setTransferAccountId(transferAccount.id)
                 } else if (!isSame) {
                     this.accountId = transferAccount.id

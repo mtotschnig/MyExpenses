@@ -868,14 +868,13 @@ abstract class TransactionDelegate<T : ITransaction>(
                     }
                     this.isPlanExecutionAutomatic = planExecutionButton.isChecked
                     this.planExecutionAdvance = viewBinding.advanceExecutionSeek.progress
-                    val description = compileDescription(context.myApplication)
                     if (recurrenceSpinner.selectedItemPosition > 0 || this@TransactionDelegate.planId != null) {
                         plan = Plan(
                             this@TransactionDelegate.planId ?: 0L,
                             planButton.date,
                             selectedRecurrence,
                             title,
-                            description
+                            compileDescription(context.myApplication)
                         )
                     }
                     this.defaultAction =

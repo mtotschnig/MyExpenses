@@ -23,22 +23,21 @@ import org.totschnig.myexpenses.model.Template.Action
 import org.totschnig.myexpenses.model2.Account
 import java.util.Currency
 
-class ForeignTransferTemplateTest : BaseExpenseEditTest() {
+class TransferTemplateTest : BaseExpenseEditTest() {
     lateinit var account2: Account
 
     @Before
     fun fixture() {
-        val currency1 = CurrencyUnit(Currency.getInstance("USD"))
-        val currency2 = CurrencyUnit(Currency.getInstance("EUR"))
+        val currency = CurrencyUnit(Currency.getInstance("USD"))
         val accountLabel1 = "Test label 1"
         account1 = buildAccount(
             accountLabel1,
-            currency = currency1.code
+            currency = currency.code
         )
         val accountLabel2 = "Test label 2"
         account2 = buildAccount(
             accountLabel2,
-            currency = currency2.code
+            currency = currency.code
         )
     }
 
@@ -76,7 +75,7 @@ class ForeignTransferTemplateTest : BaseExpenseEditTest() {
 
     private fun runTheTest(
         defaultAction: Action,
-        amountField: Int? = R.id.Amount,
+        amount: Int?,
         assertion: () -> Unit
     ) {
         launch(intent.apply {
@@ -87,8 +86,8 @@ class ForeignTransferTemplateTest : BaseExpenseEditTest() {
             putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true)
         }).use {
             setTitle()
-            if (amountField != null) {
-                setAmount(3000, amountField)
+            if (amount != null) {
+                setAmount(amount)
             }
             setDefaultAction(defaultAction)
             closeKeyboardAndSave()
@@ -96,32 +95,17 @@ class ForeignTransferTemplateTest : BaseExpenseEditTest() {
         }
     }
 
-
     @Test
     fun withAmountOnFirstAccountSave() {
-        runTheTest(Action.SAVE) {
+        runTheTest(Action.SAVE, 3000) {
             assertCorrectlySaved(account1.id, -300000)
         }
     }
 
     @Test
     fun withAmountOnFirstAccountEdit() {
-        runTheTest(Action.EDIT) {
+        runTheTest(Action.EDIT, 3000) {
             assertCorrectlySaved(account1.id, -300000)
-        }
-    }
-
-    @Test
-    fun withAmountOnSecondAccountSave() {
-        runTheTest(Action.SAVE, R.id.TransferAmount) {
-            assertCorrectlySaved(account2.id, 300000)
-        }
-    }
-
-    @Test
-    fun withAmountOnSecondAccountEdit() {
-        runTheTest(Action.EDIT, R.id.TransferAmount) {
-            assertCorrectlySaved(account2.id, 300000)
         }
     }
 
