@@ -140,7 +140,7 @@ const val INVALID_CALENDAR_ID = "-1"
     /**
      * @return id of planning calendar if it has been configured and passed checked
      */
-    @RequiresPermission(Manifest.permission.READ_CALENDAR)
+    @RequiresPermission(Manifest.permission.READ_CALENDAR, conditional = true)
     fun checkPlanner(): String? {
         val calendarId =
             prefHandler.requireString(PrefKey.PLANNER_CALENDAR_ID, INVALID_CALENDAR_ID)
@@ -222,7 +222,7 @@ const val INVALID_CALENDAR_ID = "-1"
         prefHandler.remove(PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP)
     }
 
-    @RequiresPermission(Manifest.permission.READ_CALENDAR)
+    @RequiresPermission(Manifest.permission.READ_CALENDAR, conditional = true)
     fun onPlannerCalendarIdChanged(newValue: String) {
         val oldValue = plannerCalendarId
         var safeToMovePlans = true

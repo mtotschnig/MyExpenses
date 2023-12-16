@@ -94,6 +94,7 @@ class CalendarListPreferenceDialogFragmentCompat : PreferenceDialogFragmentCompa
                 val itemId = (dialog as AlertDialog).listView.getItemIdAtPosition(which)
                 if (itemId == -1L) {
                     //TODO: use Async Task Strict Mode violation
+                    //noinspection MissingPermission
                     val plannerId: String = plannerUtils.createPlanner(false)
                     val success = plannerId != INVALID_CALENDAR_ID
                     (activity as ProtectedFragmentActivity?)!!.showSnackBar(

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string-array name="versions">
+        <item>688;3.7.0.1</item>
         <item>687;3.7.0</item>
         <item>678;3.6.9</item>
         <item>671;3.6.8</item>
@@ -96,6 +97,7 @@
     <string name="project_board_368">116#column-19684067</string>
     <string name="project_board_369">118#column-19691508</string>
     <string name="project_board_370">120#column-19702783</string>
+    <string name="project_board_3701">121#column-19708719</string>
 
     <string-array name="whats_new_355">
         <item>@string/whats_new_355</item>
@@ -133,5 +135,8 @@
     </string-array>
     <string-array name="whats_new_370">
         <item>@string/whats_new_370</item>
+    </string-array>
+    <string-array name="whats_new_3701">
+        <item>@string/bug_fixes</item>
     </string-array>
 </resources>

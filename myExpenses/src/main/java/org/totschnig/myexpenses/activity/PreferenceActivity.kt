@@ -155,6 +155,7 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             }
 
             R.id.DELETE_CALENDAR_COMMAND -> {
+                //noinspection MissingPermission
                 viewModel?.deleteLocalCalendar()?.observe(this) {
                     when(it) {
                         1 -> twoPanePreference.getDetailFragment<PreferencesAdvancedFragment>()

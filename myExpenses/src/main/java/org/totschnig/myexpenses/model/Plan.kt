@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.model
 
+import android.Manifest
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
@@ -9,6 +10,7 @@ import android.net.Uri
 import android.provider.CalendarContract
 import android.text.TextUtils
 import android.text.format.Time
+import androidx.annotation.RequiresPermission
 import org.totschnig.myexpenses.calendar.EventRecurrenceFormatter
 import org.totschnig.myexpenses.calendar.EventRecurrence
 import org.totschnig.myexpenses.MyApplication
@@ -117,6 +119,7 @@ class Plan private constructor(
      *
      * @return the id of the created object
      */
+    @RequiresPermission(allOf = [Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR])
     fun save(contentResolver: ContentResolver, plannerUtils: PlannerUtils): Uri? {
         val uri: Uri
         val values = ContentValues()

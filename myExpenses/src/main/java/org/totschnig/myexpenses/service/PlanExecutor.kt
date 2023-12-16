@@ -43,7 +43,6 @@ import org.totschnig.myexpenses.util.safeMessage
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import java.util.*
@@ -152,6 +151,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
             logAndNotifyError("Calendar permission not granted")
             return Result.failure()
         }
+        //noinspection MissingPermission
         val plannerCalendarId: String? = plannerUtils.checkPlanner()
         if (plannerCalendarId == null) {
             logAndNotifyError("planner verification failed, will try later")

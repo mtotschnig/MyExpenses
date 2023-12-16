@@ -206,6 +206,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                 val backupPref = application.getSharedPreferences("backup_temp", 0)
                 when (restorePlanStrategy) {
                     R.id.restore_calendar_handling_create_new -> {
+                        //noinspection MissingPermission
                         currentPlannerId = plannerUtils.createPlanner(false)
                         currentPlannerPath = getCalendarPath(contentResolver, currentPlannerId)
                     }

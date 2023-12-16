@@ -52,6 +52,7 @@ import static org.totschnig.myexpenses.provider.CursorExtKt.getLongOrNull;
 import static org.totschnig.myexpenses.provider.CursorExtKt.getString;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.TRANSFER_ACCOUNT_LABEL;
 
+import android.Manifest;
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
 import android.content.ContentResolver;
@@ -64,6 +65,7 @@ import android.os.RemoteException;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresPermission;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.db2.Repository;
@@ -498,6 +500,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
    * @return the Uri of the template. Upon creation it is returned from the content provider, null if inserting fails on constraints
    */
 
+  @RequiresPermission(allOf = {Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR}, conditional = true)
   public Uri save(ContentResolver contentResolver, PlannerUtils plannerUtils, Long withLinkedTransaction) {
     boolean runPlanner = false;
     if (plan != null) {
