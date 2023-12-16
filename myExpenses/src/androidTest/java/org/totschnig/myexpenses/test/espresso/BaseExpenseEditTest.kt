@@ -39,11 +39,11 @@ abstract class BaseExpenseEditTest: BaseUiTest<TestExpenseEdit>() {
 
     val intent get() = Intent(targetContext, TestExpenseEdit::class.java)
 
-    fun setAmount(amount: Int) {
+    fun setAmount(amount: Int, field: Int = R.id.Amount) {
         onView(
             withIdAndParent(
                 R.id.AmountEditText,
-                R.id.Amount
+                field
             )
         ).perform(
             scrollTo(),

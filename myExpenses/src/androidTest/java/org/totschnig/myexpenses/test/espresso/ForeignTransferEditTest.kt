@@ -7,6 +7,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.testutils.Espresso
 import java.util.Currency
 
 class ForeignTransferEditTest : BaseExpenseEditTest() {
@@ -23,7 +24,7 @@ class ForeignTransferEditTest : BaseExpenseEditTest() {
         val accountLabel2 = "Test label 2"
         val id = buildAccount(
             accountLabel2,
-            currency = currency1.code
+            currency = currency2.code
         ).id
         transfer = Transfer.getNewInstance(account1.id, currency1, id).apply {
             setAmountAndTransferAmount(Money(currency1, -2000L), Money(currency2, -3000L))
@@ -36,6 +37,7 @@ class ForeignTransferEditTest : BaseExpenseEditTest() {
         val i = intent
         i.putExtra(DatabaseConstants.KEY_ROWID, transfer!!.id)
         testScenario = ActivityScenario.launchActivityForResult(i)
+        androidx.test.espresso.Espresso.onIdle()
         closeKeyboardAndSave()
         assertFinishing()
     }
