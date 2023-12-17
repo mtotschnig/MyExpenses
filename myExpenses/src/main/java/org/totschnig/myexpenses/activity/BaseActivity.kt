@@ -517,7 +517,12 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     override fun onResume() {
         super.onResume()
-        registerReceiver(downloadReceiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        ContextCompat.registerReceiver(
+            this,
+            downloadReceiver,
+            IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE),
+            ContextCompat.RECEIVER_EXPORTED
+        )
         featureViewModel.registerCallback()
         if (scheduledRestart) {
             scheduledRestart = false

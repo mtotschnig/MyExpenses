@@ -21,7 +21,7 @@ ext {
     versionName = '3.7.0.1'
     compileSdkVersion = 34
     minSdkVersion = 21
-    targetSdkVersion = 33
+    targetSdkVersion = 34
     espressoVersion = "3.5.1"
     androidSupportTestVersion = "1.5.0"
     androidxTextExtJunit = "1.1.5"
