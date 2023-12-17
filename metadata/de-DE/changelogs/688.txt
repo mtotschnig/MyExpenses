@@ -1,0 +1,6 @@
+• Das Menü auf dem Hauptbildschirm kann vollständig angepasst werden.
+• Bugs behoben
+
+3.6.9.1: https://github.com/mtotschnig/MyExpenses/projects/119#column-19700405
+3.7.0:   https://github.com/mtotschnig/MyExpenses/projects/120#column-19702783
+3.7.0.1: https://github.com/mtotschnig/MyExpenses/projects/121#column-19708719
