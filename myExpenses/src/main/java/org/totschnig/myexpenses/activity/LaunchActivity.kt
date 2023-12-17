@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.format.DateUtils
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +18,7 @@ import org.totschnig.myexpenses.util.licence.LicenceStatus
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+@SuppressLint("CustomSplashScreen")
 abstract class LaunchActivity : IapActivity() {
 
     @Inject

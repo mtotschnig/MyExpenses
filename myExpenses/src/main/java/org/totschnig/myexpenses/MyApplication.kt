@@ -123,11 +123,10 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
     val wrappedContext: Context
         get() = wrapContext(this)
 
-    fun wrapContext(context: Context): Context {
-        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU && _userPreferredLocale != null) {
-            ContextHelper.wrap(context, _userPreferredLocale)
-        } else context
-    }
+    fun wrapContext(context: Context) = _userPreferredLocale
+        ?.takeIf { Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU }
+        ?.let { ContextHelper.wrap(context, it) }
+        ?: context
 
     override fun onCreate() {
         if (BuildConfig.DEBUG) {

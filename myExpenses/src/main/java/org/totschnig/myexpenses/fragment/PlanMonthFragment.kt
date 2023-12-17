@@ -253,6 +253,7 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
         extraData
     ) {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+            //noinspection InflateParams
             val frameLayout = (convertView ?: localInflater.inflate(R.layout.plan_calendar_cell, null)) as CellView
             val state = frameLayout.findViewById<ImageView>(R.id.state)
             val text = frameLayout.findViewById<TextView>(R.id.calendar_tv)

@@ -82,7 +82,8 @@
         android:localeConfig="@xml/locales_config"
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
-        tools:replace="android:label">
+        tools:replace="android:label"
+        tools:targetApi="tiramisu">
         <activity
             android:name=".activity.DebtOverview"
             android:exported="false"
@@ -140,9 +141,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="https" />
-                <data
-                    android:host="www.myexpenses.mobi"
-                    android:path="/callback2.html" />
+                <data android:host="www.myexpenses.mobi"/>
+                <data android:path="/callback2.html"/>
             </intent-filter>
         </activity>
         <activity

@@ -9,11 +9,13 @@
   see <http://www.gnu.org/licenses/>. -->
 <!-- inspired by Financisto -->
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:initialLayout="@layout/widget_list"
     android:minWidth="@dimen/widget_default_width"
     android:minHeight="@dimen/widget_default_height"
     android:minResizeWidth="@dimen/widget_min_width"
     android:previewLayout="@layout/template_widget_preview"
     android:resizeMode="vertical|horizontal"
-    android:updatePeriodMillis="0" />
+    android:updatePeriodMillis="0"
+    tools:targetApi="s" />
 

@@ -8,6 +8,7 @@
   a copy of the GNU General Public License along with My Expenses. If not,
   see <http://www.gnu.org/licenses/>. -->
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:configure="org.totschnig.myexpenses.activity.BudgetWidgetConfigure"
     android:initialLayout="@layout/budget_widget"
     android:minWidth="250dp"
@@ -17,5 +18,6 @@
     android:maxResizeHeight="180dp"
     android:resizeMode="vertical|horizontal"
     android:previewLayout="@layout/budget_widget"
-    android:updatePeriodMillis="0" />
+    android:updatePeriodMillis="0"
+    tools:targetApi="s" />
 

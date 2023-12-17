@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.util.ui
 
 import android.content.Context
 import android.content.ContextWrapper
-import android.content.DialogInterface
 import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -20,7 +19,6 @@ import android.widget.PopupWindow
 import android.widget.ScrollView
 import android.widget.Spinner
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.graphics.ColorUtils.calculateContrast
 import androidx.core.widget.ImageViewCompat
@@ -162,8 +160,9 @@ fun View.configurePopupAnchor(
         val host =
             context.getActivity() ?: throw java.lang.IllegalStateException("BaseActivity expected")
         host.hideKeyboard()
-        val infoTextView =
-            LayoutInflater.from(host).inflate(R.layout.textview_info, null) as TextView
+        //noinspection InflateParams
+        val infoTextView = LayoutInflater.from(host).inflate(R.layout.textview_info, null)
+                as TextView
         PopupWindow(infoTextView).apply {
             isOutsideTouchable = true
             isFocusable = true
