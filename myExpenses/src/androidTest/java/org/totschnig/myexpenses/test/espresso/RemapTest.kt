@@ -147,7 +147,7 @@ class RemapTest : BaseMyExpensesTest() {
 
     private fun confirmRemap(doClone: Boolean) {
         if (doClone) {
-            onView(withId(R.id.checkBox)).perform(click())
+            onView(withId(R.id.checkBox)).inRoot(isDialog()).perform(click())
         }
         onView(
             allOf(
