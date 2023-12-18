@@ -826,4 +826,6 @@
     <string name="menu_hidden_accounts">Приховані облікові записи</string>
     <string name="content_description_remove_icon">Видалити піктограму</string>
     <string name="button_label_show">Показати</string>
+    <string name="dialog_contrib_trial_info_play">Ця безкоштовна пробна версія ніколи не буде перетворена на будь-який тип підписки.</string>
+    <string name="dialog_contrib_trial_info">Ваш поточний статус ліцензії (%1$s) дозволяє пробувати %2$s протягом %3$d днів (до %4$s).</string>
 </resources>
