@@ -660,16 +660,19 @@ abstract class BaseTransactionProvider : ContentProvider() {
             val (budgetId, catId) = parseBudgetCategoryUri(uri)
             val year: String? = values.getAsString(KEY_YEAR)
             val second: String? = values.getAsString(KEY_SECOND_GROUP)
-            db.delete(
-                TABLE_BUDGET_ALLOCATIONS,
-                listOf(
-                    "$KEY_BUDGETID = ?",
-                    "$KEY_CATID = ?",
-                    KEY_YEAR + if (year == null) " IS NULL" else " = ?",
-                    KEY_SECOND_GROUP + if (second == null) " IS NULL" else " = ?"
-                ).joinToString(" AND "),
-                listOfNotNull(budgetId, catId, year, second).toTypedArray<String>()
-            )
+            check((year != null) == (second != null))
+            if (year == null && second == null) {
+                db.delete(
+                    TABLE_BUDGET_ALLOCATIONS,
+                    listOf(
+                        "$KEY_BUDGETID = ?",
+                        "$KEY_CATID = ?",
+                        "$KEY_YEAR IS NULL",
+                        "$KEY_SECOND_GROUP IS NULL"
+                    ).joinToString(" AND "),
+                    arrayOf(budgetId, catId)
+                )
+            }
             val budget: String? = values.getAsString(KEY_BUDGET)
             val oneTime: String? = values.getAsBoolean(KEY_ONE_TIME)?.let { if (it) "1" else "0" }
             val rollOverPrevious: String? = values.getAsString(KEY_BUDGET_ROLLOVER_PREVIOUS)
@@ -681,7 +684,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                                 )
             )
             val statementBuilder = StringBuilder()
-            statementBuilder.append("INSERT INTO $TABLE_BUDGET_ALLOCATIONS ($KEY_BUDGETID, $KEY_CATID, $KEY_YEAR, $KEY_SECOND_GROUP, $KEY_BUDGET_ROLLOVER_PREVIOUS, $KEY_BUDGET_ROLLOVER_NEXT, $KEY_BUDGET, $KEY_ONE_TIME) ")
+            statementBuilder.append("INSERT OR REPLACE INTO $TABLE_BUDGET_ALLOCATIONS ($KEY_BUDGETID, $KEY_CATID, $KEY_YEAR, $KEY_SECOND_GROUP, $KEY_BUDGET_ROLLOVER_PREVIOUS, $KEY_BUDGET_ROLLOVER_NEXT, $KEY_BUDGET, $KEY_ONE_TIME) ")
             statementBuilder.append("VALUES (?,?,?,?,")
             val baseArgs = listOf(budgetId, catId, year, second)
             val argsList = mutableListOf<String?>()
