@@ -271,9 +271,11 @@ private fun RowScope.BudgetNumbers(
     hasRolloverNext: Boolean,
     editRollOver: SnapshotStateMap<Long, Pair<Long, Boolean>>?
 ) {
+    val totalBudget = category.budget.budget + category.budget.rollOverPrevious
     //Allocation
     val allocation =
-        if (category.children.isEmpty()) category.budget.budget else category.children.sumOf { it.budget.budget }
+        if (category.children.isEmpty()) totalBudget else
+            category.children.sumOf { it.budget.budget }
     Column(modifier = Modifier.numberColumn(this)) {
         AmountText(
             modifier = Modifier.testTag(TEST_TAG_BUDGET_BUDGET)
@@ -295,7 +297,7 @@ private fun RowScope.BudgetNumbers(
             AmountText(
                 modifier = Modifier.fillMaxWidth(),
                 prefix = " = ",
-                amount = category.budget.budget + category.budget.rollOverPrevious,
+                amount = totalBudget,
                 currency = currency,
                 textAlign = TextAlign.End
             )
