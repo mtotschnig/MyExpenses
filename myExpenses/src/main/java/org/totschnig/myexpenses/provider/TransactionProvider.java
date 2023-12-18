@@ -52,6 +52,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_BY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
@@ -70,6 +71,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI_LIST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS_TAGS;
@@ -774,6 +776,11 @@ public class TransactionProvider extends BaseTransactionProvider {
           c = measureAndLogQuery(db, uri, sql, null, null);
           return c;
         } else {
+          if (uri.getQueryParameter(KEY_YEAR) != null || uri.getQueryParameter(KEY_SECOND_GROUP) != null) {
+            CrashHandler.throwOrReport(
+                    "When querying budget_category with projection, grouping parameters are ignored ", TAG
+            );
+          }
           qb = SupportSQLiteQueryBuilder.builder(TABLE_BUDGET_ALLOCATIONS);
           additionalWhere.append(budgetSelect(uri));
           break;

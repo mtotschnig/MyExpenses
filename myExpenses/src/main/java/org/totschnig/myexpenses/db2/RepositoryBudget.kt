@@ -68,8 +68,8 @@ fun budgetAllocationQueryUri(
     budgetId: Long,
     categoryId: Long,
     grouping: Grouping,
-    year: String,
-    second: String
+    year: String?,
+    second: String?
 ): Uri = with(budgetAllocationUri(budgetId, categoryId)) {
     if (grouping != Grouping.NONE) {
         val builder = buildUpon()

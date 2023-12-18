@@ -710,7 +710,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 argsList.addAll(baseArgs)
                 argsList.addAll(baseArgs)
             }
-            val result = db.compileStatement(statementBuilder.toString()).use {
+            val statement = statementBuilder.toString()
+            val result = db.compileStatement(statement).use {
                 argsList.forEachIndexed { index, arg ->
                     val bindIndex = index + 1
                     if (arg != null) {
@@ -719,7 +720,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         it.bindNull(bindIndex)
                     }
                 }
-                log("$it - ${argsList.joinToString()}")
+                log("$statement - ${argsList.joinToString()}")
                 if (it.executeInsert() == -1L) 0 else 1
             }
             db.setTransactionSuccessful()
