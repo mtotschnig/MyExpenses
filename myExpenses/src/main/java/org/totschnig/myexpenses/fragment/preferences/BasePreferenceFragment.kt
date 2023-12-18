@@ -28,8 +28,6 @@ import org.totschnig.myexpenses.preference.PreferenceDataStore
 import org.totschnig.myexpenses.preference.SecurityQuestionDialogFragmentCompat
 import org.totschnig.myexpenses.preference.SimplePasswordDialogFragmentCompat
 import org.totschnig.myexpenses.preference.SimplePasswordPreference
-import org.totschnig.myexpenses.preference.TimePreference
-import org.totschnig.myexpenses.preference.TimePreferenceDialogFragmentCompat
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
@@ -126,7 +124,6 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
             }
         }
         val fragment = when {
-            preference is TimePreference -> TimePreferenceDialogFragmentCompat.newInstance(key)
             preference is FontSizeDialogPreference -> FontSizeDialogFragmentCompat.newInstance(key)
             preference is SimplePasswordPreference -> SimplePasswordDialogFragmentCompat.newInstance(
                 key

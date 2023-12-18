@@ -5,9 +5,10 @@ import android.text.format.DateFormat.is24HourFormat
 import android.util.AttributeSet
 import com.evernote.android.state.State
 import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_CLOCK
 import com.google.android.material.timepicker.TimeFormat
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.util.ui.preferredTimePickerBuilder
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -27,13 +28,7 @@ class TimeButton @JvmOverloads constructor(
     private var timeFormatter: DateTimeFormatter =
         DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
 
-    override fun buildDialog() = MaterialTimePicker.Builder()
-        .setTimeFormat(if (is24HourFormat(context)) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H)
-        .apply {
-            context.injector.prefHandler().getInt(KEY_INPUT_MODE, -1).takeIf { it != -1 }?.let {
-                setInputMode(it)
-            }
-        }
+    override fun buildDialog() = preferredTimePickerBuilder(context)
         .setHour(time.hour)
         .setMinute(time.minute)
         .build()
@@ -52,15 +47,11 @@ class TimeButton @JvmOverloads constructor(
 
     override fun attachListener(dialogFragment: MaterialTimePicker) {
         dialogFragment.addOnPositiveButtonClickListener {
-            context.injector.prefHandler().putInt(KEY_INPUT_MODE, dialogFragment.inputMode)
+            context.injector.prefHandler().putInt(PrefKey.TIME_PICKER_INPUT_MODE, dialogFragment.inputMode)
             setTime(LocalTime.of(dialogFragment.hour, dialogFragment.minute))
         }
         dialogFragment.addOnDismissListener {
             dialogShown = false
         }
-    }
-
-    companion object {
-        const val KEY_INPUT_MODE = "timePickerInputMode"
     }
 }

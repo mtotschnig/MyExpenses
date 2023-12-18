@@ -10,6 +10,7 @@ import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import org.totschnig.myexpenses.util.getDateTimeFormatter
@@ -118,9 +119,9 @@ class DateButton @JvmOverloads constructor(
                         CalendarConstraints.Builder().setFirstDayOfWeek(it).build()
                     )
                 }
-                getInt(TimeButton.KEY_INPUT_MODE, -1).takeIf { it != -1 }?.let {
-                    setInputMode(it)
-                }
+                getInt(PrefKey.DATE_PICKER_INPUT_MODE, -1)
+                    .takeIf { it != -1 }
+                    ?.let { setInputMode(it) }
             }
         }
         .build()
@@ -129,7 +130,7 @@ class DateButton @JvmOverloads constructor(
         dialogFragment.addOnPositiveButtonClickListener {
             setDateInternal(epochMillis2LocalDate(it, ZoneId.of("UTC")))
             context.injector.prefHandler()
-                .putInt(TimeButton.KEY_INPUT_MODE, dialogFragment.inputMode)
+                .putInt(PrefKey.DATE_PICKER_INPUT_MODE, dialogFragment.inputMode)
         }
         dialogFragment.addOnDismissListener {
             dialogShown = false
@@ -144,9 +145,5 @@ class DateButton @JvmOverloads constructor(
     fun overrideText(text: CharSequence) {
         this.text = text
         setCompoundDrawables(null, null, null, null)
-    }
-
-    companion object {
-        const val KEY_INPUT_MODE = "datePickerInputMode"
     }
 }

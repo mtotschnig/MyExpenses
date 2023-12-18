@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.CancellationSignal
+import android.text.format.DateFormat
 import android.text.method.LinkMovementMethod
 import android.util.Size
 import android.view.LayoutInflater
@@ -24,13 +25,17 @@ import androidx.core.graphics.ColorUtils.calculateContrast
 import androidx.core.widget.ImageViewCompat
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.ui.TimeButton
 import org.totschnig.myexpenses.ui.filter.ScrollingChip
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
@@ -245,3 +250,11 @@ fun attachmentInfoMap(context: Context, withFile: Boolean = false): Map<Uri, Att
 
 tailrec fun Context.getActivity(): BaseActivity? = this as? BaseActivity
     ?: (this as? ContextWrapper)?.baseContext?.getActivity()
+
+fun preferredTimePickerBuilder(context: Context) = MaterialTimePicker.Builder()
+    .setTimeFormat(if (DateFormat.is24HourFormat(context)) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H)
+    .apply {
+        context.injector.prefHandler().getInt(PrefKey.TIME_PICKER_INPUT_MODE, -1)
+            .takeIf { it != -1 }
+            ?.let { setInputMode(it) }
+    }
