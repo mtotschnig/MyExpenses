@@ -80,6 +80,7 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 "${t(R.string.menu_distribution)}, ${t(R.string.menu_budget)}: ${t(R.string.ui_refinement)}"
             )
             else -> {
+                //noinspection DiscouragedApi
                 val resId = res.getIdentifier(
                     "whats_new_$nameCondensed",
                     "array",
@@ -94,8 +95,8 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
             }
         }
         if (changesArray != null) {
-            val resId =
-                res.getIdentifier("contributors_$nameCondensed", "array", ctx.packageName)
+            //noinspection DiscouragedApi
+            val resId = res.getIdentifier("contributors_$nameCondensed", "array", ctx.packageName)
             if (resId != 0) {
                 val contributorArray = res.getStringArray(resId)
                 val resultArray = arrayOfNulls<String>(changesArray.size)

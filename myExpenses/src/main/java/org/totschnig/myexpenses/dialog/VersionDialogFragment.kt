@@ -14,6 +14,7 @@
 */
 package org.totschnig.myexpenses.dialog
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
@@ -148,6 +149,7 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
             )
         }
 
+    @SuppressLint("DiscouragedApi")
     private fun resolveMoreInfo(resPrefix: String, version: VersionInfo) = resources.getIdentifier(
         resPrefix + version.nameCondensed,
         "string",

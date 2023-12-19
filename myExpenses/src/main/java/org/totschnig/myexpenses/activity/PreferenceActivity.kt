@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.activity
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.appwidget.AppWidgetProvider
 import android.content.Context
@@ -384,6 +385,7 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             false
         } else true
 
+    @SuppressLint("DiscouragedApi")
     fun getTranslatorsArrayResId(language: String, country: String?): Int {
         var result = 0
         val prefix = "translators_"

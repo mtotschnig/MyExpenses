@@ -271,31 +271,31 @@ class WebInputService : LifecycleService(), IWebInputService {
                                         call.respondText(
                                             """
                                         let messages = {
-                                        ${i18nJson("app_name")},
-                                        ${i18nJson("title_webui")},
-                                        ${i18nJson("account")},
-                                        ${i18nJson("amount")},
-                                        ${i18nJson("date")},
-                                        ${i18nJson("time")},
-                                        ${i18nJson("booking_date")},
-                                        ${i18nJson("value_date")},
-                                        ${i18nJson("payer_or_payee")},
-                                        ${i18nJson("category")},
-                                        ${i18nJson("tags")},
-                                        ${i18nJson("comment")},
-                                        ${i18nJson("method")},
-                                        ${i18nJson("menu_save")},
-                                        ${i18nJson("menu_create_transaction")},
-                                        ${i18nJson("menu_edit_transaction")},
-                                        ${i18nJson("reference_number")},
-                                        ${i18nJson("menu_edit")},
-                                        ${i18nJson("dialog_confirm_discard_changes")},
-                                        ${i18nJson("menu_clone_transaction")},
-                                        ${i18nJson("menu_delete")},
-                                        ${i18nJson("no_expenses")},
-                                        ${i18nJson("webui_warning_move_transaction")},
-                                        ${i18nJson("validate_error_not_empty")},
-                                        ${i18nJsonPlurals("warning_delete_transaction")}
+                                        ${i18nJson("app_name", R.string.app_name)},
+                                        ${i18nJson("title_webui", R.string.title_webui)},
+                                        ${i18nJson("account", R.string.account)},
+                                        ${i18nJson("amount", R.string.amount)},
+                                        ${i18nJson("date", R.string.date)},
+                                        ${i18nJson("time", R.string.time)},
+                                        ${i18nJson("booking_date", R.string.booking_date)},
+                                        ${i18nJson("value_date", R.string.value_date)},
+                                        ${i18nJson("payer_or_payee", R.string.payer_or_payee)},
+                                        ${i18nJson("category", R.string.category)},
+                                        ${i18nJson("tags", R.string.tags)},
+                                        ${i18nJson("comment", R.string.comment)},
+                                        ${i18nJson("method", R.string.method)},
+                                        ${i18nJson("menu_save", R.string.menu_save)},
+                                        ${i18nJson("menu_create_transaction", R.string.menu_create_transaction)},
+                                        ${i18nJson("menu_edit_transaction", R.string.menu_edit_transaction)},
+                                        ${i18nJson("reference_number", R.string.reference_number)},
+                                        ${i18nJson("menu_edit", R.string.menu_edit)},
+                                        ${i18nJson("dialog_confirm_discard_changes", R.string.dialog_confirm_discard_changes)},
+                                        ${i18nJson("menu_clone_transaction", R.string.menu_clone_transaction)},
+                                        ${i18nJson("menu_delete", R.string.menu_delete)},
+                                        ${i18nJson("no_expenses", R.string.no_expenses)},
+                                        ${i18nJson("webui_warning_move_transaction", R.string.webui_warning_move_transaction)},
+                                        ${i18nJson("validate_error_not_empty", R.string.validate_error_not_empty)},
+                                        ${i18nJsonPlurals("warning_delete_transaction", R.plurals.warning_delete_transaction)}
                                         };
                                     """.trimIndent(), ContentType.Text.JavaScript
                                         )
@@ -520,16 +520,11 @@ class WebInputService : LifecycleService(), IWebInputService {
         false
     }
 
-    private fun i18nJsonPlurals(resourceName: String, quantity: Int = 1) =
-        "$resourceName : '${
-            tqPlurals(
-                resources.getIdentifier(resourceName, "plurals", packageName),
-                quantity
-            )
-        }'"
+    private fun i18nJsonPlurals(resourceName: String, @PluralsRes resourceId: Int, quantity: Int = 1) =
+        "$resourceName : '${tqPlurals(resourceId, quantity)}'"
 
-    private fun i18nJson(resourceName: String) =
-        "$resourceName : '${tq(resources.getIdentifier(resourceName, "string", packageName))}'"
+    private fun i18nJson(resourceName: String, @StringRes resourceId: Int) =
+        "$resourceName : '${tq(resourceId)}'"
 
     private fun tq(@StringRes resId: Int) = wrappedContext.getString(resId).replace("'", "\\'")
 
