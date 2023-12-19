@@ -363,8 +363,8 @@
     <string name="warning_splitpartcategory_context">분할 거래의 일부분인 이체 내역은 분할 거래의 맥락에서만 편집될 수 있습니다.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d과 %2$d 사이의 숫자를 설정하세요</string>
     <string name="import_categories_success">%1$d 카테고리를 성공적으로 가져왔습니다.</string>
-    <string name="import_parties_success">%1$s 구성원을 성공적으로 가져왔습니다</string>
-    <string name="import_accounts_success">%1$s 계좌를 성공적으로 가져왔습니다</string>
+    <string name="import_parties_success">%1$d 구성원을 성공적으로 가져왔습니다.</string>
+    <string name="import_accounts_success">%1$d 계좌를 성공적으로 가져왔습니다.</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d 거래 내역을 %2$s 계좌로 성공적으로 가져왔습니다</string>
     <string name="import_accounts_none">가져온 계좌가 없습니다</string>
     <string name="import_categories_none">가져온 카테고리가 없습니다</string>

@@ -401,8 +401,8 @@
     <string name="warning_change_fraction_digits_3">Wenn Beträge aktualisiert werden, verlieren Sie die Information über deren Bruchteil.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Beträge in der Datenbank aktualisieren</string>
     <string name="import_categories_success">%1$d Kategorien erfolgreich importiert.</string>
-    <string name="import_parties_success">%1$s Parteien erfolgreich importiert</string>
-    <string name="import_accounts_success">%1$s Konten erfolgreich importiert</string>
+    <string name="import_parties_success">%1$d Parteien erfolgreich importiert.</string>
+    <string name="import_accounts_success">%1$d Konten erfolgreich importiert.</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d Buchungen erfolgreich in das Konto %2$s importiert</string>
     <string name="import_accounts_none">Keine Konten importiert</string>
     <string name="import_categories_none">Keine Kategorien importiert</string>

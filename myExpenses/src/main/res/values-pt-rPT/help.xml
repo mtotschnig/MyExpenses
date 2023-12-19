@@ -174,7 +174,7 @@
     <string name="menu_BudgetActivity_back_forward_help_text">Compare o orçamento com o gasto de períodos passados e futuros.</string>
     <string name="menu_budget_allocated_only_help_text">Ao ativar esta opção, apenas as categorias para as quais alguma quantia foi alocada, são exibidas.</string>
     <string name="menu_BudgetActivity_delete_help_text">O orçamento em exibição será excluído.</string>
-    <string name="menu_BudgetActivity_rollover_categories">Os restantes de cada categoria estao em vigor e as alocações do próximo período serão afetadas.</string>
+    <string name="menu_BudgetActivity_rollover_categories">Os restantes de cada categoria estão em vigor e as alocações do próximo período serão afetadas.</string>
     <string name="menu_BudgetActivity_rollover_edit">Está opção permite-lhe que e configure precisamente a vigência, por exemplo pode definir uma vigência parcial apenas para algumas categorias ou subcategorias e a adoção dessa parte no orçamento total.</string>
     <string name="help_ManageBudgets_title">Lista de todos os orçamentos</string>
     <string name="help_ManageBudgets_info">Este ecrã mostra um resumo de todos os orçamentos que criou. Use o botão de ação flutuante para criar um novo orçamento. Clicar numa entrada da lista exibe um único orçamento.</string>

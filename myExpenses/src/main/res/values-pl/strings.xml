@@ -406,8 +406,8 @@
     <string name="warning_change_fraction_digits_3">Jeśli kwoty zostaną zaktualizowane, utracisz informacje o ich ułamkowej części.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Zaktualizuj kwoty w bazie danych</string>
     <string name="import_categories_success">Kategorie %1$d zostały zaimportowane pomyślnie.</string>
-    <string name="import_parties_success">Partie %1$s zostały zaimportowane pomyślnie</string>
-    <string name="import_accounts_success">%1$s kont pomyślnie zaimportowano</string>
+    <string name="import_parties_success">Partie %1$d zostały zaimportowane pomyślnie.</string>
+    <string name="import_accounts_success">%1$d kont pomyślnie zaimportowano.</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transakcji pomyślnie zaimportowano do konta %2$s</string>
     <string name="import_accounts_none">Nie zaimportowano żadnych kont</string>
     <string name="import_categories_none">Nie zaimportowano żadnych kategorii</string>

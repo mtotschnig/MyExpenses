@@ -382,11 +382,11 @@
     <string name="search_method">طریقہ تلاش کریں</string>
     <string name="search_tag">ٹیگ تلاش کریں</string>
     <string name="warning_restore">ڈیٹا بیس اور ترجیحات کو فائل \"%1$s\" سے بحال کر دیا جائے گا۔ موجودہ ڈیٹا کو حذف کر دیا جائے گا.</string>
-    <string name="import_accounts_success">%1$s اکاؤنٹس کامیابی کے ساتھ درآمد ہو گئے</string>
+    <string name="import_accounts_success">%1$d اکاؤنٹس کامیابی کے ساتھ درآمد ہو گئے</string>
     <string name="widget_title_accounts">میرے اکاؤنٹس</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">براہ کرم %1$d اور %2$d کے درمیان نمبر سیٹ کریں</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">اگر رقم کو اپ ڈیٹ نہیں کیا جاتا ہے، تو وہ تبدیلی کے بعد %d سے ضرب کے طور پر دکھائی جائیں گی.</string>
-    <string name="import_parties_success">%1$s پارٹیاں کامیابی کے ساتھ درآمد ہو گئیں</string>
+    <string name="import_parties_success">%1$d پارٹیاں کامیابی کے ساتھ درآمد ہو گئیں</string>
     <string name="menu_create_folder">نیا فولڈر</string>
     <string name="import_transactions_none">اکاؤنٹ %1$s میں کوئی لین دین درآمد نہیں کیا گیا</string>
     <string name="app_dir_not_accessible">بیک اپ اور برآمدات (%1$s) کے لیے فی الحال منتخب کردہ فولڈر قابل رسائی نہیں ہے۔ براہ کرم ایک مختلف منتخب کریں.</string>

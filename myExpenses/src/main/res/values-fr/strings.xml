@@ -408,8 +408,8 @@
     <string name="warning_change_fraction_digits_3">Si les montants sont mis à jour, vous perdrez les informations sur leur partie fractionnaire.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Mise à jour des montants de la base de données</string>
     <string name="import_categories_success">%1$d catégories ont été importés.</string>
-    <string name="import_parties_success">%1$s tiers ont été importés</string>
-    <string name="import_accounts_success">%1$s comptes importés avec succès</string>
+    <string name="import_parties_success">%1$d tiers ont été importés.</string>
+    <string name="import_accounts_success">%1$d comptes importés avec succès.</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d opérations importées avec succès dans le compte %2$s</string>
     <string name="import_accounts_none">Aucun compte importé</string>
     <string name="import_categories_none">Aucune catégorie importée</string>

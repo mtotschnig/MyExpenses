@@ -415,8 +415,8 @@
     <string name="warning_change_fraction_digits_3">אם הסכומים מעודכנים, תאבד את המידע על החלק החלקי שלהם.</string>
     <string name="warning_change_fraction_digits_checkbox_label">עדכן סכומים במסד הנתונים</string>
     <string name="import_categories_success">%1$d קטגוריות יובאו בהצלחה.</string>
-    <string name="import_parties_success">%1$sעסקעות יובאו בהצלחה</string>
-    <string name="import_accounts_success">%1$s חשבונות יובאו בהצלחה</string>
+    <string name="import_parties_success">%1$dעסקעות יובאו בהצלחה.</string>
+    <string name="import_accounts_success">%1$d חשבונות יובאו בהצלחה.</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d עסקעות יובאו בהצלחה לחשבון %2$s</string>
     <string name="import_accounts_none">לא יובאו חשבונות</string>
     <string name="import_categories_none">לא יובאו קטגוריות</string>

@@ -359,8 +359,8 @@
     <string name="warning_splitpartcategory_context">Prijenosi koje su dio višedjelne transakcije mogu se urediti samo u kontekstu višedjelne transakcije.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Odaberi broj između %1$d i %2$d</string>
     <string name="import_categories_success">%1$d kategorije uspješno uvezene.</string>
-    <string name="import_parties_success">%1$s stranke uspješno uvezene</string>
-    <string name="import_accounts_success">%1$s računi uspješno uvezeni</string>
+    <string name="import_parties_success">%1$d stranke uspješno uvezene.</string>
+    <string name="import_accounts_success">%1$d računi uspješno uvezeni.</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transakcije uspješno uvezene u račun %2$s</string>
     <string name="import_accounts_none">Nijedan račun nije uvezen</string>
     <string name="import_categories_none">Nijedna kategorija nije uvezena</string>

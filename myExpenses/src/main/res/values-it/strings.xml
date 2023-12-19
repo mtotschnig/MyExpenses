@@ -406,8 +406,8 @@
     <string name="warning_change_fraction_digits_3">Se gli importi sono aggiornati, si perderanno le informazioni sulla loro parte frazionaria.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Aggiorna gli importi nel database</string>
     <string name="import_categories_success">%1$d categorie state importate.</string>
-    <string name="import_parties_success">%1$s beneficiari state importate</string>
-    <string name="import_accounts_success">%1$s conti importati correttamente</string>
+    <string name="import_parties_success">%1$d beneficiari state importate.</string>
+    <string name="import_accounts_success">%1$d conti importati correttamente.</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transazioni importate correttamente nel conto %2$s</string>
     <string name="import_accounts_none">Nessun conto importato</string>
     <string name="import_categories_none">Nessuna categoria importata</string>

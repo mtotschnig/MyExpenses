@@ -403,7 +403,7 @@
     <string name="export_handle_deleted_update_balance">Beginsaldo bijwerken</string>
     <string name="io_error_unable_to_create_file">Kan bestand %1$s niet maken in map %2$s</string>
     <string name="csv_import_delimiter_comma">Komma</string>
-    <string name="import_accounts_success">%1$s accounts zijn succesvol geïmporteerd</string>
+    <string name="import_accounts_success">%1$d accounts zijn succesvol geïmporteerd.</string>
     <string name="import_parties_none">Geen partijen geïmporteerd</string>
     <string name="pref_custom_decimal_format_summary">Als u niet tevreden bent met de standaardindeling voor uw landinstelling, past u deze aan uw behoeften aan. Laat leeg om de standaardindeling te herstellen.</string>
     <string name="warning_split_transactions">De geselecteerde transacties worden gegroepeerd in één gesplitste transactie. Hun datuminformatie gaat verloren, d.w.z. vervangen door hun gemiddelde.</string>
@@ -640,7 +640,7 @@
     <string name="export_to_format">Exporteer naar %s</string>
     <string name="pref_csv_export_split_categories_summary">Gebruik afzonderlijke kolommen voor elk niveau van de categoriehiërarchie</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Als bedragen niet worden bijgewerkt, worden ze na de wijziging weergegeven als gedeeld door %d.</string>
-    <string name="import_parties_success">%1$s partijen succesvol geïmporteerd</string>
+    <string name="import_parties_success">%1$d partijen succesvol geïmporteerd.</string>
     <string name="import_categories_none">Geen categorieën geïmporteerd</string>
     <string name="import_transactions_none">Geen transacties geïmporteerd in account %1$s</string>
     <string name="menu_create_folder">Nieuwe Map</string>

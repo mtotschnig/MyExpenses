@@ -258,7 +258,7 @@
     <string name="warning_restore">數據庫和喜好設定將會從備份中被恢復過來 (%1$s)。當前的數據會被刪除。</string>
     <string name="warning_splitpartcategory_context">轉移是分割的一部分，它只能在有分割的情況下被編輯或刪除。</string>
     <string name="import_categories_success">%1$d 類別  被匯入成功。</string>
-    <string name="import_parties_success">%1$s 貿易夥伴被匯入成功</string>
+    <string name="import_parties_success">%1$d 貿易夥伴被匯入成功。</string>
     <string name="pref_auto_backup_title">啟用自動備份</string>
     <string name="pref_auto_backup_summary">每日在指定時間備份資料庫 (僅當數據已經改變)</string>
     <string name="pref_auto_backup_time_title">自動備份時間</string>

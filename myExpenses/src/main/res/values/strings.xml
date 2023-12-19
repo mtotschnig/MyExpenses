@@ -79,7 +79,7 @@
     <string name="dialog_contrib_text_1"><i>{app_name}</i> is offered open source.</string>
     <string name="dialog_contrib_text_2">Please contribute by upgrading <i>{app_name}</i> and gain unrestricted access to the following features:</string>
     <!-- %1$s is replaced with user's current licence (Free, Contrib, Extended or Professional), %2$s with the label of the feature, eg. Budgeting,  %3$d with the number of days, currently 60, %4$s with the end of the trial for the currently requested feature-->
-    <string name="dialog_contrib_trial_info">Your current licence status (%1$s) allows you to try %2$s for %3$d days (until %4$s).</string>
+    <string name="dialog_contrib_trial_info" tools:ignore="PluralsCandidate">Your current licence status (%1$s) allows you to try %2$s for %3$d days (until %4$s).</string>
     <string name="dialog_contrib_trial_info_play">This free trial will never convert to any type of subscription.</string>
     <string name="dialog_contrib_subscription_info_play">This subscription takes immediate effect, is billed monthly or yearly and can be cancelled any time.</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Your current licence status (%2$s) allows you to create %1$d accounts.</string>
@@ -413,9 +413,9 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">If amounts are not updated, they will be displayed as divided by %d after the change.</string>
     <string name="warning_change_fraction_digits_3">If amounts are updated, you will lose the information about their fractional part.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Update amounts in database</string>
-    <string name="import_categories_success">%1$d categories successfully imported.</string>
-    <string name="import_parties_success">%1$s parties successfully imported</string>
-    <string name="import_accounts_success">%1$s accounts successfully imported</string>
+    <string name="import_categories_success" tools:ignore="PluralsCandidate">%1$d categories successfully imported.</string>
+    <string name="import_parties_success" tools:ignore="PluralsCandidate">%1$d parties successfully imported.</string>
+    <string name="import_accounts_success" tools:ignore="PluralsCandidate">%1$d accounts successfully imported.</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transactions successfully imported into account %2$s</string>
     <string name="import_accounts_none">No accounts imported</string>
     <string name="import_categories_none">No categories imported</string>
@@ -589,11 +589,11 @@
     <string name="sync_io_exception_unlocking">Error while removing lock from remote backend.</string>
     <string name="sync_io_exception_locking">Remote backend is locked or cannot be locked.</string>
     <string name="synchronization_start">Starting synchronization for account %s.</string>
-    <string name="synchronization_end_success">%1$d remote changes were written to local database. %2$d local changes were written to remote backend.</string>
+    <string name="synchronization_end_success" tools:ignore="PluralsCandidate">%1$d remote changes were written to local database. %2$d local changes were written to remote backend.</string>
     <string name="synchronization_end_success_none">No changes to synchronize.</string>
     <string name="pref_webdav_timeout_title">WebDAV Timeout (in seconds)</string>
-    <string name="sync_state_restored">Sync state was restored for %d accounts.</string>
-    <string name="sync_state_could_not_be_restored">Sync state could not be restored for %d accounts.</string>
+    <string name="sync_state_restored" tools:ignore="PluralsCandidate">Sync state was restored for %d accounts.</string>
+    <string name="sync_state_could_not_be_restored" tools:ignore="PluralsCandidate">Sync state could not be restored for %d accounts.</string>
     <string name="onboarding_ui_title">{app_name} adapts to your preference</string>
     <string name="onboarding_data_title">Let\'s set up your first account</string>
     <string name="onboarding_get_started">Get started</string>
@@ -613,16 +613,16 @@
     <string name="licence_validation_error_device_limit_exceeded">Device limit exceeded. Please remove licence from another device.</string>
     <string name="button_validate">Validate</string>
     <string name="licence_key">Licence Key</string>
-    <string name="licence_removal_information">If you no longer need premium functionality on this device, you can remove the licence key. This frees the key for activation on one more other device. The key can be activated on up to %d devices.</string>
+    <string name="licence_removal_information" tools:ignore="PluralsCandidate">If you no longer need premium functionality on this device, you can remove the licence key. This frees the key for activation on one more other device. The key can be activated on up to %d devices.</string>
     <string name="progress_removing_licence">Removing licence</string>
     <string name="licence_removal_success">Licence key was successfully freed from this device.</string>
     <string name="professional_key">Professional Key</string>
-    <string name="n_months">%d months</string>
+    <string name="n_months" tools:ignore="PluralsCandidate">%d months</string>
     <string name="eu_vat_info">For residents of the European Union prices displayed do not include VAT.</string>
     <string name="valid_until">Until %s</string>
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">Extend until %1$s for %2$s</string>
-    <string name="extended_upgrade_goodie_github">Additional %d months are granted once to users who already own the Extended Licence</string>
+    <string name="extended_upgrade_goodie_github" tools:ignore="PluralsCandidate">Additional %d months are granted once to users who already own the Extended Licence</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">Switch to yearly subscription</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Switch to monthly subscription</string>
     <string name="extend_validity">Extend validity</string>
@@ -662,7 +662,7 @@
     <string name="menu_ungroup_split_transaction">Ungroup split</string>
     <string name="ungroup_split_transaction_success">Split Transaction was successfully ungrouped.</string>
     <string name="split_transaction_one_success">Transaction successfully transformed to split.</string>
-    <string name="split_transaction_group_success">%1$d transactions were successfully grouped into one split transaction.</string>
+    <string name="split_transaction_group_success" tools:ignore="PluralsCandidate">%1$d transactions were successfully grouped into one split transaction.</string>
     <string name="split_transaction_not_possible">Only transactions that have same account, payee, and status can be grouped into one split transaction.</string>
     <string name="pref_transaction_time_summary">Allow to set exact transaction time.</string>
     <string name="pref_value_date_summary">Allow to set value date in addition to booking date. Transaction time will be hidden. This setting is not applied to cash accounts.</string>
@@ -670,11 +670,11 @@
     <string name="booking_date">Booking date</string>
     <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->
     <string name="value_date">Value date</string>
-    <string name="licence_expires_n_days">Your professional key will expire in %d days.</string>
+    <string name="licence_expires_n_days" tools:ignore="PluralsCandidate">Your professional key will expire in %d days.</string>
     <string name="licence_expires_tomorrow">Your professional key will expire tomorrow.</string>
     <string name="licence_expires_today">Your professional key expires today.</string>
     <string name="licence_expired_yesterday">Your professional key has expired yesterday.</string>
-    <string name="licence_has_expired_n_days">Your professional key has expired %d days ago.</string>
+    <string name="licence_has_expired_n_days" tools:ignore="PluralsCandidate">Your professional key has expired %d days ago.</string>
     <string name="pref_category_title_privacy">Privacy</string>
     <string name="gdpr_consent_button_no">Pay for the ad-free version</string>
     <string name="sort_order">Sort order</string>

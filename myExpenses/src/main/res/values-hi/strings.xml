@@ -363,7 +363,7 @@
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d योजनाएँ बैकअप से पुनर्स्थापित कर दी गई हैं</string>
     <string name="import_source_select_error">कृपया %1$s प्रकार की एक फ़ाइल प्रदान करें</string>
     <string name="import_categories_none">कोई श्रेणी आयात नहीं की गई</string>
-    <string name="import_parties_success">%1$s पार्टियाँ सफलतापूर्वक आयात की गईं</string>
+    <string name="import_parties_success">%1$d पार्टियाँ सफलतापूर्वक आयात की गईं</string>
     <string name="search_tag">टैग खोजें</string>
     <string name="warning_reset_account">यदि आप आगे बढ़ते हैं, तो इस खाते के सभी लेनदेन डेटाबेस से हटा दिए जाते हैं और उन्हें पुनर्स्थापित नहीं किया जा सकता है।</string>
     <string name="menu_categories_setup_default">डिफ़ॉल्ट श्रेणियाँ सेटअप करें</string>
@@ -377,7 +377,7 @@
     <string name="comparison_operator_equal">के बराबर</string>
     <string name="app_dir_not_compatible_with_nougat">बैकअप और निर्यात के लिए वर्तमान में कॉन्फ़िगर किया गया यूआरआई (%1$s) एंड्रॉइड नौगट के तहत समर्थित नहीं है। कृपया फिर से एक फ़ोल्डर चुनें।</string>
     <string name="search_comment">नोट्स खोजें</string>
-    <string name="import_accounts_success">%1$s खाते सफलतापूर्वक आयात किए गए</string>
+    <string name="import_accounts_success">%1$d खाते सफलतापूर्वक आयात किए गए</string>
     <string name="warning_password_contrib">यदि आप अपना पासवर्ड भूल जाते हैं तो सुरक्षा प्रश्न सेट करने से आप ऐप को अनलॉक कर सकते हैं।</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">यदि राशियाँ अद्यतन नहीं की गई हैं, तो परिवर्तन के बाद उन्हें %d से विभाजित करके प्रदर्शित किया जाएगा।</string>
     <string name="warning_widget_disabled">आपको ऐप सेटिंग में इस विजेट को सक्षम करना होगा।</string>

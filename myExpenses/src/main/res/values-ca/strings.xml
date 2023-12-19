@@ -294,7 +294,7 @@
     <string name="warning_restore">La base de dades i les preferències es restauraran des de la còpia de seguretat (%1$s). S\'esborraran les dades actuals.</string>
     <string name="warning_splitpartcategory_context">Transferències que formen part d\'una transacció dividida només es poden editar en el marc de la divisió.</string>
     <string name="import_categories_success">%1$d categories importades amb èxit.</string>
-    <string name="import_parties_success">%1$s tercers s\'han importat correctament</string>
+    <string name="import_parties_success">%1$d tercers s\'han importat correctament.</string>
     <string name="import_accounts_none">No s\'ha importat cap compte</string>
     <string name="pref_auto_backup_title">Permetre còpia de seguretat automàtica</string>
     <string name="pref_auto_backup_summary">Còpia de seguretat de base de dades diària a l\'hora especificada (només si les dades han canviat).</string>
@@ -528,7 +528,7 @@
     <string name="picture">Imatge</string>
     <string name="warning_device_lock_screen_not_set_up_2">Vagi a \"Configuració -&gt; Seguretat -&gt; Bloqueig de pantalla\" per a establir el bloqueig de pantalla.</string>
     <string name="warning_change_fraction_digits_3">Si les quantitats s\'actualitzen, prendreu la informació sobre la seva part fraccionaria.</string>
-    <string name="import_accounts_success">%1$s comptes importats amb èxit</string>
+    <string name="import_accounts_success">%1$d comptes importats amb èxit.</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d opreacions importades amb èxit al compte %2$s</string>
     <string name="import_source_select_error">Aporteu un fitxer del tipus %1$s</string>
     <string name="menu_categories_setup_default">Definir categories per defecte</string>

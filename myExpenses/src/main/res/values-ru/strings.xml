@@ -414,8 +414,8 @@
     <string name="warning_change_fraction_digits_3">Если суммы будут обновлены, вы потеряете информацию об их дробной части.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Обновить данные в базе данных</string>
     <string name="import_categories_success">%1$d категорий успешно импортированы.</string>
-    <string name="import_parties_success">%1$s участников успешно импортированы</string>
-    <string name="import_accounts_success">%1$s счета успешно импортированы</string>
+    <string name="import_parties_success">%1$d участников успешно импортированы.</string>
+    <string name="import_accounts_success">%1$d счета успешно импортированы.</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d операций успешно импортированы в счёт %2$s</string>
     <string name="import_accounts_none">Нет импортированных счетов</string>
     <string name="import_categories_none">Категории не импортированы</string>

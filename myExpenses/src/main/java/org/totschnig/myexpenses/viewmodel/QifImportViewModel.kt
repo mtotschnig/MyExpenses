@@ -81,7 +81,7 @@ class QifImportViewModel(application: Application) : ImportDataViewModel(applica
             publishProgress(
                 if (totalParties == 0) getString(R.string.import_parties_none) else getString(
                     R.string.import_parties_success,
-                    totalParties.toString()
+                    totalParties
                 )
             )
         }
@@ -100,7 +100,7 @@ class QifImportViewModel(application: Application) : ImportDataViewModel(applica
                 publishProgress(
                     if (importedAccounts == 0) getString(R.string.import_accounts_none) else getString(
                         R.string.import_accounts_success,
-                        importedAccounts.toString()
+                        importedAccounts
                     )
                 )
             } else {

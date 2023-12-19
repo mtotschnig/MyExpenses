@@ -16,7 +16,7 @@
     <string name="account_type_ccard">Kreditkort</string>
     <string name="grouping_day">Dag</string>
     <string name="grouping_week">Vecka</string>
-    <string name="backup_success">Skrivningen av databasen och egenskaper till \"%$1s\" lyckades.</string>
+    <string name="backup_success">Skrivningen av databasen och egenskaper till \"%1$s\" lyckades.</string>
     <string name="help_button_rate">Betygssätt eller granska</string>
     <string name="dialog_title_balance_account">Saldo %1$s</string>
     <string name="date">Datum</string>

@@ -401,8 +401,8 @@
     <string name="warning_change_fraction_digits_3">தொகைகள் புதுப்பிக்கப்பட்டால், நீங்கள் அவைகளின் பின்ன பகுதியை பற்றிய தகவலை இழப்பீர்கள்.</string>
     <string name="warning_change_fraction_digits_checkbox_label">தரவுத்தளத்தில் உள்ள தொகைகளை புதுப்பி</string>
     <string name="import_categories_success">%1$d வகைகள் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டன.</string>
-    <string name="import_parties_success">%1$s தரப்புகள் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டன</string>
-    <string name="import_accounts_success">%1$s கணக்குகள் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டன</string>
+    <string name="import_parties_success">%1$d தரப்புகள் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டன.</string>
+    <string name="import_accounts_success">%1$d கணக்குகள் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டன.</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d பரிவர்த்தனைகள் வெற்றிகரமாக %2$s கணக்கிற்கு இறக்குமதி செய்யப்பட்டன</string>
     <string name="import_accounts_none">எந்த கணக்குகளும் இறக்குமதி செய்யப்படவில்லை</string>
     <string name="import_categories_none">எந்த வகைகளும் இறக்குமதி செய்யப்படவில்லை</string>

@@ -392,8 +392,8 @@
     <string name="warning_change_fraction_digits_3">アカウントが更新された場合は、端数部分に関する情報を失います。</string>
     <string name="warning_change_fraction_digits_checkbox_label">データベースの金額を更新</string>
     <string name="import_categories_success">%1$d 分類は正常にインポートされました。</string>
-    <string name="import_parties_success">%1$s 取引先は正常にインポートされました</string>
-    <string name="import_accounts_success">%1$s 勘定は正常にインポートされました</string>
+    <string name="import_parties_success">%1$d 取引先は正常にインポートされました。</string>
+    <string name="import_accounts_success">%1$d 勘定は正常にインポートされました。</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d 取引は勘定 %2$s に正常にインポートされました</string>
     <string name="import_accounts_none">インポートされた勘定はありません</string>
     <string name="import_categories_none">インポートされた分類はありません</string>

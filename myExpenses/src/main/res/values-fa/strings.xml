@@ -312,7 +312,7 @@
     <string name="warning_restore">پایگاه داده و ترجیحات از فایل «%1$s» بازبابی خواهند شد. داده‌های فعلی حذف خواهند شد.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">لطفاً یک عدد از بین %1$d تا %2$d بگذارید</string>
     <string name="import_categories_success">%1$d دسته‌بندی با موفقیت درون‌ریزی شد.</string>
-    <string name="import_accounts_success">%1$sحساب با موفقیت درون‌ریزی شد</string>
+    <string name="import_accounts_success">%1$dحساب با موفقیت درون‌ریزی شد</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d تراکنش با موفقیت به حساب %2$s درون‌ریزی شد</string>
     <string name="import_accounts_none">هیچ حسابی درون‌ریزی نشد</string>
     <string name="import_categories_none">هیچ دسته‌بندی‌ای درون‌ریزی نشد</string>
@@ -561,7 +561,7 @@
     <string name="dialog_confirm_sync_unlink">اگر پیوند این حساب را از %s لغو کنید، وضعیت همگام‌سازی از بین می‌رود. پیوند دادن مجدد آنها بعداً، نیاز به همگام سازی کامل دارد تا دوباره اجرا شود.</string>
     <string name="pref_protection_delay_seconds_summary">با گذشت چند ثانیه از زمان بیکاری، کاره با رمز قفل خواهد شد.</string>
     <string name="warning_instantiate_template_from_widget_password_protected">نمونه‌برداری سریع از الگوها از این ویجت تنها در صورتی کار می‌کند که اجازه ورود داده‌ها از ویجت‌ها بدون رمز عبور را در تنظیمات برنامه بدهید.</string>
-    <string name="import_parties_success">%1$s شخص با موفقیت درون ریزی شد</string>
+    <string name="import_parties_success">%1$d شخص با موفقیت درون ریزی شد</string>
     <string name="warning_change_fraction_digits_1">مقادیر موجود در پایگاه داده باید به روز شوند تا با تعداد جدید ارقام کسری مطابقت داشته باشند.</string>
     <string name="restore_calendar_handling">مدیریت داده های تقویم</string>
     <string name="menu_parse">تجزیه</string>

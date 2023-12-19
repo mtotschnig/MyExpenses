@@ -187,7 +187,7 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
       }
       msg += totalImportedParty == 0 ?
           context.getString(R.string.import_parties_none) :
-          context.getString(R.string.import_parties_success, String.valueOf(totalImportedParty));
+          context.getString(R.string.import_parties_success, totalImportedParty);
     }
     return Result.ofSuccess(msg);
   }

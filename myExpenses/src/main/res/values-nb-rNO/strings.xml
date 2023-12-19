@@ -136,8 +136,8 @@
     <string name="import_parties_none">Ingen parter importert</string>
     <string name="import_categories_none">Ingen kategorier importert</string>
     <string name="import_accounts_none">Ingen kontoer importert</string>
-    <string name="import_accounts_success">Importerte %1$s kontoer</string>
-    <string name="import_parties_success">Importerte %1$s parter</string>
+    <string name="import_accounts_success">Importerte %1$d kontoer.</string>
+    <string name="import_parties_success">Importerte %1$d parter.</string>
     <string name="import_categories_success">Importerte %1$d kategorier.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Velg et nummer mellom %1$d og %2$d</string>
     <string name="warning_password_protected">Programmet er passordbeskyttet.</string>
