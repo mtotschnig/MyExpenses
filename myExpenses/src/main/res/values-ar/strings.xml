@@ -959,7 +959,7 @@
     <string name="setup_completed">اكتمل الإعداد</string>
     <string name="menu_parent_category_selection">حدد الفئة الأصل بنقرة قصيرة</string>
     <string name="budget_deleted">تم حذف الميزانية</string>
-    <string name="debt_owes_me">مدين لي</string>
+    <string name="debt_owes_me">%s مدين لي</string>
     <string name="object_sealed_debt">يشير الكائن إلى دين مغلق.</string>
     <string name="pref_mlkit_script_title">البرنامج النصي لMlKit</string>
     <string name="debt">دين</string>
@@ -978,7 +978,7 @@
     <string name="debts">ديون</string>
     <string name="dialog_contrib_usage_limit_with_dialog">مع حالة الترخيص الحالية (%1$s)، سيتم عرض هذا الحوار عند كل استخدام.</string>
     <string name="cb_label_merge_accounts">دمج الحسابات</string>
-    <string name="debt_I_owe">أنا مدين</string>
+    <string name="debt_I_owe">أنا مدين %s</string>
     <string name="dialog_title_delete_debt">حذف الدين ؟</string>
     <string name="menu_new_debt">دين جديد</string>
     <plurals name="import_categories_icons_updated">
