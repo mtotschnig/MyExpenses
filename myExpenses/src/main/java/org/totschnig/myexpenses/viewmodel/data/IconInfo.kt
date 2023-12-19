@@ -35,24 +35,16 @@ sealed interface IIconInfo {
                 )
             )
 
-        fun resolveIconsForCategory(context: Context, category: String) =
+        fun resolveIconsForCategory(context: Context, category: IconCategory): Map<String, IIconInfo> =
             buildMap {
-                context.resources.getStringArray(
-                    context.resources.getIdentifier(
-                        "category_${category}_icons",
-                        "array",
-                        context.packageName
-                    )
-                ).forEach {
+                context.resources.getStringArray(category.fontAweSomeIcons).forEach {
                     put(
                         it,
                         FontAwesomeIcons[it]
                             ?: throw IllegalArgumentException("no icon $it")
                     )
                 }
-                context.resources.getIdentifier(
-                    "extra_${category}_icons", "array", context.packageName
-                ).takeIf { it != 0 }?.let { resId ->
+                category.extraIcons?.let { resId ->
                     context.resources.getStringArray(resId).forEach {
                         put(
                             it,

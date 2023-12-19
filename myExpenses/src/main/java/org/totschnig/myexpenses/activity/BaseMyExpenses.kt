@@ -386,7 +386,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     this,
                     it,
                     3,
-                    DiscoveryHelper.Feature.fab_long_press
+                    DiscoveryHelper.Feature.FabLongPress
                 )
             }
         }
@@ -1476,7 +1476,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 showSnackBar(R.string.warning_no_account)
                 return@setOnLongClickListener true
             }
-            discoveryHelper.markDiscovered(DiscoveryHelper.Feature.fab_long_press)
+            discoveryHelper.markDiscovered(DiscoveryHelper.Feature.FabLongPress)
             val popup = PopupMenu(this, fab)
             val popupMenu = popup.menu
             popup.setOnMenuItemClickListener { item ->

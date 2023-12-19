@@ -479,7 +479,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 if (operationType != TYPE_TRANSFER) {
                     discoveryHelper.discover(
                         this, amountInput.typeButton(), 1,
-                        DiscoveryHelper.Feature.expense_income_switch
+                        DiscoveryHelper.Feature.ExpenseIncomeSwitch
                     )
                 }
             }
@@ -937,7 +937,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         if (shouldLoadMethods) {
             loadMethods(currentAccount)
         }
-        discoveryHelper.markDiscovered(DiscoveryHelper.Feature.expense_income_switch)
+        discoveryHelper.markDiscovered(DiscoveryHelper.Feature.ExpenseIncomeSwitch)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {

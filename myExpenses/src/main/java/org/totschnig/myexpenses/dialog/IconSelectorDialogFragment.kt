@@ -11,7 +11,7 @@ class IconSelectorDialogFragment : ComposeBaseDialogFragment2() {
     @Composable
     override fun BuildContent() {
         IconSelector(onIconSelected = {
-            (activity as? OnIconSelectedListener)?.onIconSelected(it.key)
+            (activity as? OnIconSelectedListener)?.onIconSelected(it)
             dismiss()
         })
     }

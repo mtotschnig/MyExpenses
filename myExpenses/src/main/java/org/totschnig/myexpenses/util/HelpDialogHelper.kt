@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.util
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.text.Html.ImageGetter
@@ -165,6 +166,7 @@ class HelpDialogHelper(val context: Context) : ImageGetter {
         @Suppress("SameParameterValue") defType: String
     ) = resolve(Resources.getSystem(), resIdString, defType, "android")
 
+    @SuppressLint("DiscouragedApi")
     private fun resolve(
         resources: Resources,
         resIdString: String,

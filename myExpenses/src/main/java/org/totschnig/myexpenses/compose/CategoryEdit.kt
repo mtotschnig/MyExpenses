@@ -153,7 +153,7 @@ fun CategoryEdit(
                     IconSelector(
                         modifier = Modifier.weight(1f),
                         onIconSelected = {
-                            icon = it.key
+                            icon = it
                             showIconSelection = false
                         }
                     )

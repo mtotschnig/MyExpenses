@@ -170,7 +170,7 @@ class UpgradeHandlerViewModel(application: Application) :
                 )?.use {
                     if (it.moveToFirst()) {
                         if (it.getInt(0) > 0) {
-                            discoveryHelper.markDiscovered(DiscoveryHelper.Feature.expense_income_switch)
+                            discoveryHelper.markDiscovered(DiscoveryHelper.Feature.ExpenseIncomeSwitch)
                         }
                     }
                 }

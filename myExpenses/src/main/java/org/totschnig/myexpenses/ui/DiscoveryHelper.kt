@@ -15,19 +15,21 @@ import timber.log.Timber
 class DiscoveryHelper(val prefHandler: PrefHandler) : IDiscoveryHelper {
 
     enum class Feature(val key: String) {
-        expense_income_switch("showDiscoveryExpenseIncomeSwitch") {
+        ExpenseIncomeSwitch("showDiscoveryExpenseIncomeSwitch") {
             override fun toTitle(context: Context) = with(context) {
                 String.format("%s / %s", getString(R.string.expense), getString(R.string.income))
             }
         },
-        fab_long_press("showDiscoveryFabLongPress") {
+        FabLongPress("showDiscoveryFabLongPress") {
             override fun toTitle(context: Context) = with(context) {
                 String.format("%s / %s / %s / %s", getString(R.string.transfer), getString(R.string.split_transaction), getString(R.string.income), getString(R.string.expense))
             }
         };
 
-        open fun getLabelResId(ctx: Context) =
-                ctx.resources.getIdentifier("discover_feature_$name", "string", ctx.packageName)
+        open fun getLabelResId(ctx: Context) = when(this) {
+            ExpenseIncomeSwitch -> R.string.discover_feature_expense_income_switch
+            FabLongPress -> R.string.discover_feature_fab_long_press
+        }
 
         fun toDescription(context: Context) = context.getString(getLabelResId(context))
 
@@ -42,7 +44,7 @@ class DiscoveryHelper(val prefHandler: PrefHandler) : IDiscoveryHelper {
                         target.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                             override fun onGlobalLayout() {
                                 discoveryShow(context, target, feature, UiUtils.px2Dp(target.width / 2))
-                                target.viewTreeObserver.removeGlobalOnLayoutListener(this)
+                                target.viewTreeObserver.removeOnGlobalLayoutListener(this)
                             }
                         })
                     } else {
@@ -53,7 +55,7 @@ class DiscoveryHelper(val prefHandler: PrefHandler) : IDiscoveryHelper {
 
     override fun markDiscovered(feature: Feature) {
         prefHandler.putBoolean(feature.key, false)
-        Timber.d("Marked as discoverd: %s", feature)
+        Timber.d("Marked as discovered: %s", feature)
     }
 
     private fun discoveryShow(context: Activity, target: View, feature: Feature, targetRadius: Int? = null) {
