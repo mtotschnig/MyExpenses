@@ -26,15 +26,6 @@ sealed interface IIconInfo {
                 null
             }
 
-        fun resolveLabelForCategory(context: Context, category: String) =
-            context.getString(
-                context.resources.getIdentifier(
-                    "category_${category}_label",
-                    "string",
-                    context.packageName
-                )
-            )
-
         fun resolveIconsForCategory(context: Context, category: IconCategory): Map<String, IIconInfo> =
             buildMap {
                 context.resources.getStringArray(category.fontAweSomeIcons).forEach {
