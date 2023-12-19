@@ -94,7 +94,7 @@
     <string name="help_ExpenseEdit_templateSplit_title">Formulário para modelos de divisão</string>
     <string name="help_ExpenseEdit_transaction_info">Utilize este formulário para introduzir uma nova transação ou para editar uma já existente. Utilize o menu em cascata na barra de ações para mudar para o formulário de adição de uma nova transferência ou transação dividida.</string>
     <string name="help_ExpenseEdit_templateCategory_info">Use este formulário para inserir um novo modelo ou para editar um existente. Use o menu suspenso na barra de ações para alternar entre os modelos de transações, transferências e divisões.</string>
-    <string name="help_ExpenseEdit_split_info">Uma transação dividida é uma transação única dividida em partes, onde cada parte pode ser atribuida a uma categoria diferente, ou transferida para uma conta diferente.</string>
+    <string name="help_ExpenseEdit_split_info">Uma transação dividida é uma transação única dividida em partes, onde cada parte pode ser atribuída a uma categoria diferente, ou transferida para uma conta diferente.</string>
     <string name="form_account_help_text">Selecionar a conta a que pretence a transação.</string>
     <string name="form_date_time_help_text">Insira a data e a hora em que a transação ocorreu.</string>
     <string name="form_date_time_help_text_configuration">Nas configurações, pode desativar a entrada de horário e permitir a diferenciação entre a data do pagamento e a data da contabilização.</string>
