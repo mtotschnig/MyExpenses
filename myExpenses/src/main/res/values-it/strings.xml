@@ -541,7 +541,7 @@
     <string name="pref_sync_frequency_title">Frequenza di sincronizzazione</string>
     <string name="pref_sync_frequency_summary">Quanto spesso devono essere sincronizzati i dati (in ore)</string>
     <string name="dialog_confirm_sync_unlink">Se si scollega questo account da %s, lo stato di sincronizzazione verrà perso. Collegandolo nuovamente in seguito, richiederà una sincronizzazione completa per essere eseguito di nuovo.</string>
-    <string name="dialog_sync_link">Un conto con uuid %sè presente sia nel database locale che nel back-end remoto. Quando si collegano entrambi, è necessario decidere se si desidera caricare i dati locali sul back-end remoto o scaricare i dati remoti nel database locale.</string>
+    <string name="dialog_sync_link">Un conto con uuid %s è presente sia nel database locale che nel back-end remoto. Quando si collegano entrambi, è necessario decidere se si desidera caricare i dati locali sul back-end remoto o scaricare i dati remoti nel database locale.</string>
     <string name="dialog_command_sync_link_remote">Scaricare da remoto</string>
     <string name="dialog_command_sync_link_local">Caricare da locale</string>
     <string name="dialog_synced_to_other">Un conto con UUID %s è già presente nel database locale ed è collegato ad un diverso back-end remoto.</string>
@@ -825,7 +825,7 @@
     <string name="pref_planner_manual_time_current">Tempo di applicazione</string>
     <!-- Title in Settings screen, and title of dynamically loaded feature module -->
     <string name="title_scan_receipt_feature">Scansiona lo scontrino</string>
-    <string name="feature_download_requested">É richiesta la funzione %s dal Google Play Store.</string>
+    <string name="feature_download_requested">È richiesta la funzione %s dal Google Play Store.</string>
     <string name="feature_downloaded">La funzione %s è stata installata.</string>
     <!-- If this mode is active, the action button will open the camera for scanning a receipt  -->
     <string name="menu_scan_mode">Modalità scansione</string>

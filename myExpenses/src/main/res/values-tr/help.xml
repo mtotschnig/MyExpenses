@@ -113,7 +113,7 @@
     <string name="form_AccountEdit_amount_switch_help_text">Sıfır altı açılış bakiyesi ile başlangıç yapmak için düğmeyi kullanın.</string>
     <string name="form_currency_help_text">Sunulan tüm güncel para birimleri listesinden bir para birimi seçin.</string>
     <string name="form_AccountEdit_type_help_text">Hesabın türünü Nakit, Banka Hesabı, Aktif, Borç ya da Kredi Kartı olarak belirtebilirsiniz. Tür, Ayarlar -&gt; Yönet -&gt; Ödeme Yöntemleri kısmında yapılandırabileceğiniz kullanılabilir ödeme yöntemlerini belirler.</string>
-    <string name="form_AccountEdit_type_help_text_reconciliation">Mutabakat özelliği nakit hesaplar hariç hepsi için geçerlidir: teyit edildiğinde herhangi bir muamelenin durumunu temizlenmişe çevirmenize imkan verir ve hesabın tümünü \"Hesap bakiyesi\" komutu ile banka ekstrenizle mutabık kılar.</string>
+    <string name="form_AccountEdit_type_help_text_reconciliation">Mutabakat özelliği nakit hesaplar hariç hepsi için geçerlidir: teyit edildiğinde herhangi bir muamelenin durumunu temizlenmişe çevirmenize imkân verir ve hesabın tümünü \"Hesap bakiyesi\" komutu ile banka ekstrenizle mutabık kılar.</string>
     <string name="form_color_help_text">Bir hesabın muamele listesindeki renk, birincil kullanıcı arayüzü rengi olarak kullanılacaktır.</string>
     <string name="form_synchronization_help_text_select">Bulut eşzamanlaması için bir arka uç seç.</string>
     <string name="form_synchronization_help_text_add">Arka uçlar Ayarlar ekranından eklenebilir.</string>
