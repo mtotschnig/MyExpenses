@@ -1237,9 +1237,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         } else false
     }
 
-    val doesUseContentColor: Boolean
-        get() = canUseContentColor && intent.hasExtra(KEY_COLOR)
-
     fun tintSystemUiAndFab(color: Int) {
         //If we use dynamic content based color, we do not need to harmonize the color
         val harmonized =
