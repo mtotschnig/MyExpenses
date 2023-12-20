@@ -2,6 +2,7 @@ plugins {
     id 'com.android.dynamic-feature'
     id 'kotlin-android'
     id 'kotlin-parcelize'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -45,8 +46,11 @@ dependencies {
     implementation 'xerces:xercesImpl:2.12.2'
     implementation "org.apache.commons:commons-lang3:$commonsLang"
 
-
     implementation "androidx.core:core-ktx:$androidXCoreVersion"
+
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
+
     testImplementation "junit:junit:4.13.2"
     androidTestImplementation "androidx.test.ext:junit:1.1.5"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"

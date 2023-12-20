@@ -31,6 +31,11 @@ interface Tracker {
         const val EVENT_BACKUP_SKIPPED = "backup_skipped"
         const val EVENT_RESTORE_FINISHED = "restore_finished"
 
+        const val EVENT_FINTS_ERROR = "fints_error"
+        const val EVENT_FINTS_BANK_ADDED = "fints_bank_added"
+        const val EVENT_FINTS_ACCOUNT_IMPORTED = "fints_account_imported"
+        const val EVENT_FINTS_TRANSACTIONS_LOADED = "fints_transactions_loaded"
+
         //only used for interstitial
         const val EVENT_AD_SHOWN = "ad_shown"
         const val EVENT_PARAM_AD_PROVIDER = "provider"
@@ -40,5 +45,6 @@ interface Tracker {
         const val EVENT_PARAM_OPERATION_TYPE = "operation_type"
         const val EVENT_PARAM_ITEM_ID = "item_id"
         const val EVENT_PARAM_BUTTON_ID = "button_id"
+        const val EVENT_PARAM_BLZ = "blz"
     }
 }

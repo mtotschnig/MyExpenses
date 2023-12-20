@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.viewModels
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.ButtonRow
 import org.totschnig.myexpenses.dialog.ComposeBaseDialogFragment2
@@ -28,9 +29,10 @@ class BankingSyncFragment : ComposeBaseDialogFragment2() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        with(requireActivity().injector) {
-            inject(viewModel)
-        }
+        DaggerFinTSComponent.builder()
+            .appComponent((requireActivity().application as MyApplication).appComponent)
+            .build()
+            .inject(viewModel)
         viewModel.loadBank(requireArguments().getLong(KEY_BANK_ID))
     }
 

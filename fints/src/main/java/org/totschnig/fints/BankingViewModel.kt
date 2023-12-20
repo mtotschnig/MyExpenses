@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.ContentUris
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Bundle
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -68,6 +69,7 @@ import org.totschnig.myexpenses.provider.useAndMap
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
+import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel
 import timber.log.Timber
 import java.io.File
@@ -76,6 +78,7 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date
 import java.util.Properties
+import javax.inject.Inject
 import org.totschnig.fints.R as RF
 
 data class TanRequest(val message: String, val bitmap: Bitmap?)
@@ -83,8 +86,10 @@ data class TanRequest(val message: String, val bitmap: Bitmap?)
 val SUPPORTED_HBCI_VERSIONS =
     arrayOf(HBCIVersion.HBCI_300, HBCIVersion.HBCI_220, HBCIVersion.HBCI_210, HBCIVersion.HBCI_201)
 
-class BankingViewModel(application: Application, val savedStateHandle: SavedStateHandle) :
+class BankingViewModel(application: Application, private val savedStateHandle: SavedStateHandle) :
     ContentResolvingAndroidViewModel(application) {
+        @Inject
+        lateinit var tracker: Tracker
 
     init {
         System.setProperty(
@@ -170,8 +175,15 @@ class BankingViewModel(application: Application, val savedStateHandle: SavedStat
         _errorState.value = msg
     }
 
-    private fun error(exception: Exception) {
+    private fun error(exception: Exception, bankingCredentials: BankingCredentials) {
+        logEvent(Tracker.EVENT_FINTS_ERROR, bankingCredentials)
         error(Utils.getCause(exception).safeMessage)
+    }
+
+    private fun logEvent(event: String, bankingCredentials: BankingCredentials) {
+        tracker.logEvent(event, Bundle(1).apply {
+            putString(Tracker.EVENT_PARAM_BLZ, bankingCredentials.bank?.blz ?: bankingCredentials.blz)
+        })
     }
 
     private fun initHBCI(bankingCredentials: BankingCredentials): BankInfo? {
@@ -264,7 +276,8 @@ class BankingViewModel(application: Application, val savedStateHandle: SavedStat
             doHBCI(
                 bankingCredentials,
                 work = { info, passport, _ ->
-                    val bank = if (bankingCredentials.isNew)
+                    val bank = if (bankingCredentials.isNew) {
+                        logEvent(Tracker.EVENT_FINTS_BANK_ADDED, bankingCredentials)
                         repository.createBank(
                             Bank(
                                 blz = info.blz,
@@ -272,7 +285,8 @@ class BankingViewModel(application: Application, val savedStateHandle: SavedStat
                                 bankName = info.name,
                                 userId = bankingCredentials.user
                             )
-                        ) else bankingCredentials.bank!!
+                        )
+                    } else bankingCredentials.bank!!
 
                     val importedAccounts = bankingCredentials.bank?.let {
                         repository.importedAccounts(it.id)
@@ -291,7 +305,7 @@ class BankingViewModel(application: Application, val savedStateHandle: SavedStat
                     }
                 },
                 onError = {
-                    error(it)
+                    error(it, bankingCredentials)
                     _workState.value = WorkState.Initial
                 }
             )
@@ -383,9 +397,10 @@ class BankingViewModel(application: Application, val savedStateHandle: SavedStat
                             else
                                 getString(R.string.transactions_imported_none)
                         )
+                    logEvent(Tracker.EVENT_FINTS_TRANSACTIONS_LOADED, credentials)
                 },
                 onError = {
-                    error(it)
+                    error(it, credentials)
                     _workState.value = WorkState.Abort()
                 }
             )
@@ -489,10 +504,11 @@ class BankingViewModel(application: Application, val savedStateHandle: SavedStat
                             }
                         }
                         setAccountLastSynced(accountId)
+                        logEvent(Tracker.EVENT_FINTS_ACCOUNT_IMPORTED, bankingCredentials)
                         successCount++
                     },
                     onError = {
-                        error(it)
+                        error(it, bankingCredentials)
                         _workState.value = WorkState.Abort()
                     }
                 )
@@ -520,17 +536,17 @@ class BankingViewModel(application: Application, val savedStateHandle: SavedStat
 
     inner class MyHBCICallback(private val bankingCredentials: BankingCredentials) :
         AbstractHBCICallback() {
-        val KEY_SELECTED_TAN_MEDIUM: String
+        private val keySelectedTanMedium: String
             get() = "selectedTanMedium_${bankingCredentials.bank?.id}"
 
         init {
             if (bankingCredentials.bank != null) {
-                selectedTanMedium = prefHandler.getString(KEY_SELECTED_TAN_MEDIUM)
+                selectedTanMedium = prefHandler.getString(keySelectedTanMedium)
             }
         }
 
-        fun persistSelectedTanMedium() {
-            prefHandler.putString(KEY_SELECTED_TAN_MEDIUM, selectedTanMedium)
+        private fun persistSelectedTanMedium() {
+            prefHandler.putString(keySelectedTanMedium, selectedTanMedium)
         }
 
 

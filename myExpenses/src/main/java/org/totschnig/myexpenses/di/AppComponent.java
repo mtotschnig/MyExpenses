@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.di;
 
 import androidx.annotation.Nullable;
+import androidx.datastore.core.DataStore;
+import androidx.datastore.preferences.core.Preferences;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -94,6 +96,7 @@ import javax.inject.Singleton;
 
 import dagger.BindsInstance;
 import dagger.Component;
+import kotlinx.coroutines.CoroutineDispatcher;
 import okhttp3.OkHttpClient;
 
 @Singleton
@@ -169,6 +172,10 @@ public interface AppComponent {
   FeatureManager featureManager();
 
   PlannerUtils plannerUtils();
+
+  CoroutineDispatcher coroutineDispatcher();
+
+  DataStore<Preferences> preferencesDataStore();
 
   void inject(MyApplication application);
 

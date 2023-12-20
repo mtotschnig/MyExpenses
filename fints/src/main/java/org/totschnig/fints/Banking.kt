@@ -70,6 +70,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.DialogProperties
 import org.kapott.hbci.structures.Konto
 import org.totschnig.fints.BankingViewModel.WorkState.*
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.compose.AppTheme
@@ -94,12 +95,12 @@ class Banking : ProtectedFragmentActivity() {
 
     }
 
-
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        injector.inject(viewModel)
+        DaggerFinTSComponent.builder().appComponent((application as MyApplication).appComponent)
+            .build().inject(viewModel)
         setContent {
             AppTheme {
 
