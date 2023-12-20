@@ -14,12 +14,12 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  --><resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="account">Account</string>
+    <string name="account">Rekening</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
-    <string name="account_types">Soorten accounts</string>
-    <string name="account_type_asset">Activa-account</string>
+    <string name="account_types">Soorten rekeningen</string>
+    <string name="account_type_asset">Activarekening</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_asset_plural">Activa-accounts</string>
+    <string name="account_type_asset_plural">Activarekeningen</string>
     <string name="account_type_bank">Bankrekening</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
     <string name="account_type_bank_plural">Bankrekeningen</string>
@@ -29,20 +29,20 @@
     <string name="account_type_ccard">Kredietkaart</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
     <string name="account_type_ccard_plural">Kredietkaarten</string>
-    <string name="already_defined">%1$s bestaat al</string>
+    <string name="already_defined">%1$s is reeds gedefinieerd</string>
     <string name="amount">Bedrag</string>
     <string name="app_name">Mijn Uitgaven</string>
     <string name="backup_success">Database en voorkeuren succesvol geschreven naar \"%1$s\".</string>
     <string name="category">Categorie</string>
     <string name="color">Kleur</string>
     <string name="comment">Notities</string>
-    <string name="confirmation_dialog_dont_show_again">Niet meer weergeven</string>
+    <string name="confirmation_dialog_dont_show_again">Niet meer tonen</string>
     <string name="contrib_feature_ad_free_label">Geen advertenties</string>
-    <string name="contrib_feature_accounts_unlimited_label">Onbeperkt aantal accounts</string>
+    <string name="contrib_feature_accounts_unlimited_label">Onbeperkt aantal rekeningen</string>
     <string name="contrib_feature_attach_picture_label">Voeg afbeelding toe aan transactie</string>
     <string name="contrib_feature_distribution_label">Cirkeldiagram (Verdeling per categorie)</string>
-    <string name="contrib_feature_plans_unlimited_label">Ongelimiteerd aantal plannen</string>
-    <string name="contrib_feature_print_label">Transactielijst exporteren naar PDF</string>
+    <string name="contrib_feature_plans_unlimited_label">Onbeperkt aantal abonnementen</string>
+    <string name="contrib_feature_print_label">Exporteer de transactielijst naar PDF</string>
     <string name="contrib_feature_csv_import_label">CSV importeren</string>
     <string name="income">Inkomsten</string>
     <string name="pm_creditcard">Kredietkaart</string>
@@ -53,22 +53,22 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Onbeperkt aantal gesplitste sjablonen</string>
     <string name="account_type_liability">Passiva rekening</string>
     <string name="account_type_liability_plural">Passiva rekeningen</string>
-    <string name="date_format">Datum indeling</string>
+    <string name="date_format">Datumindeling</string>
     <string name="contrib_key">Bijdragen Sleutel</string>
     <string name="extended_key">Uitgebreide sleutel</string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>E-mail ondersteuning</b> met gegarandeerd antwoord binnen 2 werkdagen</string>
+    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>E-mailondersteuning</b> met gegarandeerd antwoord binnen twee werkdagen</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Stemrecht op <b>ontwikkelingsroutekaart</b></string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Geschiedenis grafiek</string>
     <string name="licence_status_free">Gratis</string>
-    <string name="date_format_illegal">Illegaal datumformaat</string>
+    <string name="date_format_illegal">Illegale datumindeling</string>
     <string name="decimal_separator">Decimaal scheidingsteken</string>
     <string name="default_account_name">Begrotingsboek</string>
-    <string name="description">Omschrijving</string>
-    <string name="number_format_illegal">Illegaal getalformaat</string>
+    <string name="description">Beschrijving</string>
+    <string name="number_format_illegal">Illegale nummernotatie</string>
     <string name="dialog_password_new_password">Nieuw wachtwoord</string>
     <string name="dialog_password_new_password_confirmation">Nieuw wachtwoord (bevestiging)</string>
     <string name="dialog_remind_later">Later</string>
-    <string name="dialog_remind_rate_how_many_stars">Hoeveel sterren zou u geven aan {app_name}\?</string>
+    <string name="dialog_remind_rate_how_many_stars">Hoeveel sterren zou je geven aan {app_name}?</string>
     <string name="dialog_title_warning_delete_category">Categorie verwijderen\?</string>
     <string name="menu_balance">Saldo rekening</string>
     <string name="menu_cancel_plan_instance">Annuleren</string>
@@ -79,37 +79,37 @@
     <string name="menu_aggregates">Totaal</string>
     <string name="menu_create_main_cat">Nieuwe hoofdcategorie</string>
     <string name="dialog_command_disabled_balance">Geen goedgekeurde transacties die moeten worden verwerkt.</string>
-    <string name="dialog_command_disabled_insert_transfer">Overboekingen vereisen een tweede account.</string>
+    <string name="dialog_command_disabled_insert_transfer">Voor overdrachtstransacties is een tweede rekening vereist.</string>
     <string name="dialog_command_disabled_reset_account">Geen transacties om te exporteren.</string>
-    <string name="dialog_command_disabled_distribution">Er zijn geen transacties toegewezen aan categorieën in dit account.</string>
+    <string name="dialog_command_disabled_distribution">In deze rekening zijn geen transacties aan categorieën toegewezen.</string>
     <string name="grouping_none">Niet gegroepeerd</string>
     <string name="grouping_week">Week</string>
     <string name="grouping_year">Jaar</string>
     <string name="help_button_rate">Beoordelen</string>
-    <string name="help_heading_credits">Tegoeden</string>
+    <string name="help_heading_credits">Kredieten</string>
     <string name="grouping_this_week">Deze week</string>
     <string name="expense">Onkosten</string>
     <string name="menu_back">Terug</string>
     <string name="menu_backup">Back-up</string>
     <string name="menu_apply_template">Toepassen</string>
-    <string name="menu_contrib">Bijdragen</string>
+    <string name="menu_contrib">Draag bij</string>
     <string name="menu_clone_transaction">Kloon</string>
     <string name="menu_create_instance_edit">Toepassen en bewerken</string>
     <string name="menu_create_instance_save">Toepassen en opslaan</string>
-    <string name="menu_create_account">Nieuw account</string>
+    <string name="menu_create_account">Nieuwe rekening</string>
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">Categorie boom</string>
     <string name="contrib_key_requires">Vereist %1$s.</string>
     <string name="currency">Valuta</string>
     <string name="current_balance">Huidig saldo</string>
     <string name="date">Datum</string>
-    <string name="dialog_confirm_discard_changes">Veranderingen weggooien\?</string>
+    <string name="dialog_confirm_discard_changes">Wijzigingen weggooien?</string>
     <string name="dialog_balance_delete">Verwerkte transacties verwijderen</string>
     <string name="dialog_contrib_no">Probeer</string>
     <string name="dialog_contrib_reminder_remove_limitation">Verwijder deze beperking en krijg toegang tot meer functies door <i>{app_name}</i> te upgraden.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> wordt open source aangeboden.</string>
-    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Met uw huidige licentiestatus (%2$s) kunt u %1$d plannen maken.</string>
-    <string name="dialog_contrib_usage_limit_split_templates">Met uw huidige licentiestatus (%1$s) kunt u 1 gesplitst sjabloon maken.</string>
-    <string name="dialog_contrib_usage_limit_with_dialog">Met uw huidige licentiestatus (%1$s) wordt deze dialoog bij elk gebruik weergegeven.</string>
+    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Met je huidige licentiestatus (%2$s) kun je %1$d plannen maken.</string>
+    <string name="dialog_contrib_usage_limit_split_templates">Met je huidige licentiestatus (%1$s) kun je 1 gesplitst sjabloon maken.</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">Met je huidige licentiestatus (%1$s) wordt deze dialoog bij elk gebruik weergegeven.</string>
     <string name="dialog_export_delete">Verwijder geëxporteerde transacties</string>
     <string name="dialog_password_activate_protection">Activeer wachtwoordbeveiliging</string>
     <string name="dialog_password_change_password">Wijzig wachtwoord</string>
@@ -120,13 +120,13 @@
     <string name="dialog_security_question">Vraag</string>
     <string name="dialog_title_information">Informatie</string>
     <string name="dialog_title_balance_account">Saldo %1$s</string>
-    <string name="dialog_title_contrib_feature">Premium functie</string>
+    <string name="dialog_title_contrib_feature">Premium-functie</string>
     <string name="dialog_title_warning_delete_template">Sjabloon verwijderen\?</string>
     <string name="dialog_title_warning_delete_transaction">Transactie verwijderen\?</string>
     <string name="dialog_title_warning_delete_party">Verwijder tegenpartij\?</string>
     <string name="export_sdcard_success">Gegevens succesvol geëxporteerd naar bestand \"%1$s\"</string>
     <string name="feedback">Feedback</string>
-    <string name="ftp_uri_malformed">Misvormde URI %1$s</string>
+    <string name="ftp_uri_malformed">Onjuist opgemaakte URI %1$s</string>
     <string name="grisbi_import_categories_loading">Categorieën laden van %1$s</string>
     <string name="grisbi_import_parties_loading">Partijen laden van %1$s</string>
     <string name="grouping_month">Maand</string>
@@ -135,31 +135,31 @@
     <string name="help_heading_whats_new">Wat is nieuw</string>
     <string name="import_select_transactions">Transacties</string>
     <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Account verwijderen\?</item>
-        <item quantity="other">%1$d accounts verwijderen\?</item>
+        <item quantity="one">Rekening verwijderen?</item>
+        <item quantity="other">%1$d rekeningen verwijderen?</item>
     </plurals>
     <string name="dialog_contrib_text_2">Draag bij door <i>{app_name}</i> te upgraden en krijg onbeperkte toegang tot de volgende functies:</string>
-    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Met uw huidige licentiestatus (%2$s) kunt u %1$d accounts aanmaken.</string>
+    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Met je huidige licentiestatus (%2$s) kun je %1$d rekeningen aanmaken.</string>
     <string name="dialog_export_not_yet_exported">Exporteer alleen transacties die nog niet zijn geëxporteerd</string>
-    <string name="dialog_remind_rate_1_suggest_improvement">Neem even de tijd om ons uw suggesties voor verbeteringen te sturen.</string>
+    <string name="dialog_remind_rate_1_suggest_improvement">Neem even de tijd om ons je suggesties voor verbeteringen te sturen.</string>
     <string name="grouping_last_week">Vorige week</string>
-    <string name="invalid_number_format">Decimale notatie wordt niet herkend door uw landinstelling. Gebruik %1$s</string>
+    <string name="invalid_number_format">Decimaal formaat wordt niet herkend door je landinstelling. Gebruik %1$s</string>
     <string name="menu_create_method">Nieuwe betalingswijze</string>
     <string name="menu_create_split_part_category">Nieuw categorie gesplitst onderdeel</string>
     <string name="menu_create_party">Nieuwe partij</string>
     <string name="menu_create_split">Nieuwe split</string>
     <string name="reference_number">Referentienummer</string>
     <string name="menu_edit">Bewerken</string>
-    <string name="menu_create_template_for_transaction">Nieuwe transactiesjabloon</string>
-    <string name="menu_edit_split_part_category">Categorie gesplitst gedeelte bewerken</string>
+    <string name="menu_create_template_for_transaction">Nieuw transactiesjabloon</string>
+    <string name="menu_edit_split_part_category">Categorie gesplitst deel bewerken</string>
     <string name="button_label_share_file">Delen</string>
     <string name="no_app_handling_ftp_available">Geen app-afhandeling ftp beschikbaar. <i>Verzenden met FTP</i> installeren\?</string>
-    <string name="no_app_handling_pdf_available">Geen app die pdf-bestanden verwerkt.</string>
+    <string name="no_app_handling_pdf_available">Geen app die PDF-bestanden verwerkt beschikbaar.</string>
     <string name="image_capture_not_installed">Geen app gevonden voor het maken van foto\'s.</string>
     <string name="no_exportable_expenses">Er zijn geen transacties die nog niet geëxporteerd zijn.</string>
     <string name="plan_event_deleted">Het plan dat aan deze sjabloon is gekoppeld, is uit de kalender verwijderd.</string>
-    <string name="parse_error_file_not_found">Kan bestand niet vinden %1$s</string>
-    <string name="password_disabled_reenable">De wachtwoordbeveiliging is uitgeschakeld. U kunt het opnieuw inschakelen in de instellingen.</string>
+    <string name="parse_error_file_not_found">Kan bestand %1$s niet vinden</string>
+    <string name="password_disabled_reenable">De wachtwoordbeveiliging is uitgeschakeld. Je kunt het opnieuw inschakelen in de instellingen.</string>
     <string name="password_not_valid">Wachtwoord ongeldig. Probeer het opnieuw!</string>
     <string name="planner_create_calendar_failure">Kan geen lokale plannerkalender maken</string>
     <string name="password_security_answer_not_valid">Fout antwoord. Probeer het opnieuw!</string>
@@ -186,11 +186,11 @@
     <string name="warning_password_contrib">Als u een beveiligingsvraag instelt, kunt u de app ontgrendelen, voor het geval u uw wachtwoord vergeet.</string>
     <string name="warning_restore">Database en voorkeuren worden hersteld vanuit het bestand \"%1$s\". De huidige gegevens worden verwijderd.</string>
     <string name="warning_splitpartcategory_context">Transfers die deel uitmaken van een splitsing kunnen alleen worden bewerkt in de context van de splitsing.</string>
-    <string name="menu_create_transaction">Nieuwe boeking</string>
+    <string name="menu_create_transaction">Nieuwe Transactie</string>
     <string name="menu_edit_method">Bewerk betaalwijze</string>
-    <string name="menu_edit_party">Edit partij</string>
+    <string name="menu_edit_party">Bewerk partij</string>
     <string name="menu_edit_plan_instance">Bewerk enkel plan exemplaar</string>
-    <string name="menu_edit_split">Splitsing bewerken</string>
+    <string name="menu_edit_split">Bewerk splitsing</string>
     <string name="menu_grouping">Groepering</string>
     <string name="menu_help">Help</string>
     <string name="menu_save">Opslaan</string>
@@ -212,35 +212,35 @@
     <string name="menu_create_template">Nieuw sjabloon</string>
     <string name="menu_create_template_from_transaction">Opslaan als sjabloon</string>
     <string name="menu_create_template_for_transfer">Nieuw overdrachtssjabloon</string>
-    <string name="menu_create_transfer">Nieuwe transfer</string>
+    <string name="menu_create_transfer">Nieuwe Overschrijving</string>
     <string name="menu_delete">Verwijderen</string>
-    <string name="menu_distribution">Verdeling</string>
-    <string name="menu_edit_account">Bewerk account</string>
-    <string name="menu_edit_cat">Categorie bewerken</string>
-    <string name="menu_edit_split_part_transfer">Overdracht gesplitst gedeelte bewerken</string>
+    <string name="menu_distribution">Distributie</string>
+    <string name="menu_edit_account">Bewerk rekening</string>
+    <string name="menu_edit_cat">Bewerk categorie</string>
+    <string name="menu_edit_split_part_transfer">Bewerk het overdrachtssplitsingsgedeelte</string>
     <string name="menu_exclude_from_totals">Uitsluiten van totalen</string>
     <string name="menu_forward">Doorsturen</string>
     <string name="menu_share">Vertel het een vriend</string>
     <string name="button_label_close">Sluiten</string>
     <string name="menu_split_transaction">Transformeren om te splitsen</string>
     <string name="method">Betaalmethode</string>
-    <string name="no_app_handling_email_available">Geen e-mail voor app-afhandeling beschikbaar.</string>
+    <string name="no_app_handling_email_available">Geen app-afhandeling van e-mail beschikbaar.</string>
     <string name="no_categories">Geen categorieën.</string>
-    <string name="no_expenses">Nog geen uitgaven!</string>
+    <string name="no_expenses">Nog Geen Uitgaven!</string>
     <string name="no_filemanager_installed">Geen bestandsbeheerder geïnstalleerd</string>
-    <string name="no_calendar_app_installed">Geen app gevonden voor het bewerken van kalendergebeurtenissen.</string>
-    <string name="no_mapped_transactions">Er zijn in deze periode geen transacties toegewezen aan categorieën.</string>
-    <string name="no_split_parts">Geen gesplitste delen.</string>
+    <string name="no_calendar_app_installed">Geen app gevonden voor het bewerken van agenda-afspraken.</string>
+    <string name="no_mapped_transactions">Gedurende deze periode zijn er geen transacties toegewezen aan categorieën.</string>
+    <string name="no_split_parts">Geen gesplitste onderdelen.</string>
     <string name="no_templates">Geen sjablonen.</string>
-    <string name="no_accounts">Geen accounts.</string>
+    <string name="no_accounts">Geen rekeningen.</string>
     <plurals name="not_deletable_mapped_templates">
         <item quantity="one">Het geselecteerde object is toegewezen aan een sjabloon en kan niet worden verwijderd.</item>
         <item quantity="other">%1$d objecten zijn toegewezen aan sjablonen en kunnen niet worden verwijderd.</item>
     </plurals>
     <string name="opening_balance">Beginsaldo</string>
     <string name="parse_error_other_exception">Er is een fout opgetreden: %1$s</string>
-    <string name="parse_error_parse_exception">Kan bestand niet parseren</string>
-    <string name="password_prompt">Voer uw wachtwoord in</string>
+    <string name="parse_error_parse_exception">Kon bestand niet ontleden</string>
+    <string name="password_prompt">Vul je wachtwoord in</string>
     <string name="payee">Begunstigde</string>
     <string name="payer">Betaler</string>
     <string name="payer_or_payee">Begunstigde/Betaler</string>
@@ -307,7 +307,7 @@
     <string name="warning_delete_account">Account \"%1$s\" wordt verwijderd met al zijn transacties.</string>
     <string name="pref_news_title">Nieuws</string>
     <string name="menu_invert_transfer">Omkeren</string>
-    <string name="menu_manage_plans">Sjablonen/Planning</string>
+    <string name="menu_manage_plans">Sjablonen en plannen</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Wachtwoord is vereist.</string>
     <string name="pm_type_neutral">Neutraal</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Gegevensinvoer vanuit widgets en snelkoppelingen</string>
@@ -321,13 +321,13 @@
     <string name="warning_delete_reconciled">Als u afgestemde transacties verwijdert, wijkt uw administratie af van het bankafschrift.</string>
     <string name="warning_delete_category_with_budget">Voor ten minste één geselecteerde categorie zijn er budgettoewijzingen, die ook worden verwijderd.</string>
     <string name="menu_edit_transaction">Bewerk Transactie</string>
-    <string name="menu_edit_template">Bewerk sjabloon</string>
+    <string name="menu_edit_template">Bewerk Sjabloon</string>
     <string name="menu_print">Afdrukken</string>
-    <string name="menu_reset">Exporteren en resetten</string>
-    <string name="menu_reset_all">Exporteer en reset alles</string>
-    <string name="menu_reset_plan_instance">Resetten</string>
+    <string name="menu_reset">Exporteren en opnieuw instellen</string>
+    <string name="menu_reset_all">Alles exporteren en opnieuw instellen</string>
+    <string name="menu_reset_plan_instance">Opnieuw instellen</string>
     <string name="menu_open">Open</string>
-    <string name="menu_import">Import</string>
+    <string name="menu_import">Importeren</string>
     <string name="plan_automatic">automatisch</string>
     <string name="plan_calendar_name">{app_name} planner</string>
     <string name="planner_notification_channel_name">Planner</string>
@@ -357,7 +357,7 @@
     <string name="unsplit_amount_greater_than_zero">Er is nog een bedrag ongesplitst.</string>
     <string name="move_category_success">Eén categorie is succesvol verplaatst.</string>
     <string name="move_category_failure">Eén categorie is niet verplaatst, omdat dezelfde tag al bestaat bij het doel.</string>
-    <string name="menu_edit_transfer">Bewerk overdracht</string>
+    <string name="menu_edit_transfer">Bewerk Overdracht</string>
     <string name="numbered">genummerd</string>
     <string name="parse_error_grisbi_version_not_supported">Niet-ondersteunde Grisbi-bestandsversie: %1$s</string>
     <string name="parse_error_no_data_found">Geen importeerbare gegevens gevonden in bestand.</string>
@@ -690,7 +690,7 @@
     <string name="menu_remove">Verwijderen</string>
     <string name="warning_trial_limit_reached">De proefperiode voor het testen van functie %s is afgelopen.</string>
     <string name="progress_dialog_checking_sync_backend">Backend verifiëren</string>
-    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloud synchronisatie</string>
+    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloudsynchronisatie</string>
     <string name="all_contrib_key_features">Alle functies van Bijdragen Sleutel</string>
     <string name="pref_backup_cloud_title">Opslaan op synchronisatie-backend</string>
     <string name="currency_symbol">Valutasymbool</string>
@@ -872,4 +872,54 @@
     <string name="one_time_payment">Eenmalige betaling</string>
     <string name="dialog_contrib_trial_info_play">Deze gratis proefperiode wordt nooit omgezet naar welk type abonnement dan ook.</string>
     <string name="dialog_contrib_subscription_info_play">Dit abonnement gaat onmiddellijk in, wordt maandelijks of jaarlijks gefactureerd en kan op elk moment worden opgezegd.</string>
+    <string name="pref_unmapped_transaction_as_transfer_title">Niet-toegewezen transacties</string>
+    <string name="github_sponsors">Licentiesleutels worden ook verstrekt aan &lt;a href=%s&gt;Github-sponsors&lt;/a&gt;.</string>
+    <string name="select_template">Selecteer sjabloon</string>
+    <string name="button_relink_keep_date">Opnieuw koppelen, maar datum behouden</string>
+    <string name="remove_from_group">Verwijderen uit groep</string>
+    <string name="orphaned_transaction_relink">De transactie kan opnieuw worden gekoppeld aan het gebeurtenisexemplaar op %s.</string>
+    <string name="menu_aggregate_neutral_categories">Verzamel neutrale categorieën</string>
+    <string name="pref_backup_file_prefix_title">Voorvoegsel van bestand</string>
+    <string name="notifications_permission_required_auto_backup">Door toestemming te geven voor het versturen van notificaties wordt je op de hoogte gehouden van automatische back-ups.</string>
+    <string name="merge_parties_strategy_delete">Dubbele exemplaren worden verwijderd.</string>
+    <string name="budget_deleted">Begroting is verwijderd</string>
+    <string name="notifications_channel_required">Activeer kanaal %s.</string>
+    <string name="debt_paid_off_other">%s\' schuld is afbetaald.</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_on">worden geteld als overdracht</string>
+    <string name="warning_delete_default_transfer_category">Categorie %s is geconfigureerd als standaard overdrachtscategorie en mag niet verwijderd worden.</string>
+    <string name="notifications_permission_required_webui">Door toestemming te geven om notificaties te versturen, kun je de status van de webserver controleren.</string>
+    <string name="pref_attachment_mime_types_title">Toegestane MIME-typen voor bijlagen</string>
+    <string name="button_relink_update_date">Opnieuw koppelen en datum bijwerken</string>
+    <string name="file_format">Bestandsformaat</string>
+    <string name="widget_title_budget">Mijn budget</string>
+    <string name="pref_copy_attachments_summary_on">Bestanden worden gekopieerd naar de toepassingsmap.</string>
+    <string name="attachments">Bijlagen</string>
+    <string name="budget_widget_configuration">Selecteer budget</string>
+    <string name="dialog_contrib_trial_info" tools:ignore="PluralsCandidate">Met je huidige licentiestatus (%1$s) kun je %2$s gedurende %3$d dagen uitproberen (tot %4$s).</string>
+    <string name="maximum_size">Maximumgrootte</string>
+    <string name="budget_table_header_overspent">Te veel uitgegeven</string>
+    <string name="pref_copy_attachments_title">Kopieer bijlagen naar toepassingsmap</string>
+    <string name="read_from_data">Lezen uit gegevens</string>
+    <string name="image_optimize_quality_summary">Kwaliteit 0 betekent comprimeren voor het kleinste formaat. 100 betekent comprimeren voor maximale beeldkwaliteit.</string>
+    <string name="debt_borrow_additional">Ik leen %s.</string>
+    <string name="notifications_permission_required_sync">Door toestemming te geven om meldingen te verzenden, kun je de voortgang van de synchronisatiebewerkingen volgen.</string>
+    <string name="debt_lend_additional">Ik leende %s.</string>
+    <string name="default_transfer_category">Standaard overdrachtscategorie</string>
+    <string name="optimize_image_file_size">Optimaliseer de bestandsgrootte van afbeeldingen</string>
+    <string name="orphaned_transaction_info">Er is een transactie gekoppeld aan het plan voor deze datum, maar op deze datum bestaat er geen gebeurtenisinstantie.</string>
+    <string name="orphaned_transaction_align_date">Optioneel kan de datum die bij de transactie wordt opgeslagen ook worden afgestemd op de exemplaardatum.</string>
+    <string name="debt_balance_they_owe">%1$s is nu %2$s verschuldigd.</string>
+    <string name="debt_installment_pay">Ik betaal een termijn van %s.</string>
+    <string name="notifications_permission_required_planner"><i>{app_name}</i> heeft toestemming nodig om je meldingen te sturen wanneer toekomstige transacties worden gepost.</string>
+    <string name="image_optimize_quality">Kwaliteit</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_off">worden als kosten/inkomsten geteld</string>
+    <string name="debt_balance_i_owe">Ik ben nu %s schuldig.</string>
+    <string name="template_shortcut">Snelkoppeling sjabloon</string>
+    <string name="merge_parties_strategy_group">Duplicaten worden gegroepeerd als afhankelijke personen.</string>
+    <string name="search_account">Zoek naar rekening</string>
+    <string name="pref_copy_attachments_summary_off">Bestanden worden niet gekopieerd, alleen een referentie wordt opgeslagen.</string>
+    <string name="show_duplicates">Dubbelen Tonen</string>
+    <string name="debt_paid_off_self">Mijn schuld is afbetaald.</string>
+    <string name="content_description_remove_icon">Verwijder pictogram</string>
+    <string name="debt_installment_receive">Ik ontvang een termijn van %s.</string>
 </resources>
