@@ -79,13 +79,19 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="advanced_scan"
-        android:title="@string/title_scan_receipt_feature">
+        android:key="take_photo"
+        android:title="@string/take_photo">
 
         <EditTextPreference
             android:key="@string/pref_camera_app_key"
             android:title="@string/default_camera_app_title"
             my:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_camera_chooser_key"
+            android:title="@string/pick_image_intent_chooser_title"
+            />
 
     </PreferenceCategory>
 

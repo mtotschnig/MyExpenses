@@ -1194,7 +1194,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         im.hideSoftInputFromWindow(window.decorView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
     }
 
-    fun startMediaChooserDo(fileName: String, cameraOnly: Boolean) {
+    fun startMediaChooserDo(fileName: String) {
         lifecycleScope.launch {
             val uris = withContext(Dispatchers.IO) {
                 PictureDirHelper.getOutputMediaUri(
@@ -1208,7 +1208,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 )
             }
             CropImage.activity()
-                .setCameraOnly(cameraOnly)
+                .setCameraOnly(!prefHandler.getBoolean(PrefKey.CAMERA_CHOOSER,  false))
                 .setCameraPackage(prefHandler.getString(PrefKey.CAMERA_APP)?.takeIf { it.isNotEmpty() })
                 .setAllowFlipping(false)
                 .setCaptureImageOutputUri(uris.first)

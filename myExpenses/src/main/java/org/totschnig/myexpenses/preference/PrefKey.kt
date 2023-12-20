@@ -184,7 +184,8 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     REMOVE_LOCAL_CALENDAR(R.string.pref_remove_local_calendar_key),
     TIME_PICKER_INPUT_MODE("timePickerInputMode"),
     DATE_PICKER_INPUT_MODE("datePickerInputMode"),
-    CAMERA_APP(R.string.pref_camera_app_key)
+    CAMERA_APP(R.string.pref_camera_app_key),
+    CAMERA_CHOOSER(R.string.pref_camera_chooser_key)
     ;
 
     @Deprecated("")

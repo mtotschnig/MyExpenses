@@ -1508,7 +1508,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     }
 
     private fun startMediaChooserDo() {
-        startMediaChooserDo(PictureDirHelper.defaultFileName, false)
+        startMediaChooserDo(PictureDirHelper.defaultFileName)
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {

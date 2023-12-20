@@ -1824,7 +1824,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
                         if ((tag as Boolean)) {
                             //ocrViewModel.startOcrFeature(Uri.parse("file:///android_asset/OCR.jpg"), supportFragmentManager);
-                            startMediaChooserDo("SCAN", true)
+                            startMediaChooserDo("SCAN")
                         } else {
                             activateOcrMode()
                         }
