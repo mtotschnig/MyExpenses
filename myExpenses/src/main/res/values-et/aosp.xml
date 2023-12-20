@@ -7,4 +7,5 @@
     <string name="action_move_up">"Teisalda üles"</string>
     <string name="calendar_delete">Kustuta kalender</string>
     <string name="preferences_calendar_delete_message">Kas olete kindel, et soovite seda kalendrit kustutada?</string>
+    <string name="default_camera_app_title">"Kaamerarakendus"</string>
 </resources>

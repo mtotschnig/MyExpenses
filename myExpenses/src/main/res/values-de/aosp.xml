@@ -72,4 +72,5 @@
     <string name="action_move_up">"Nach oben"</string>
     <string name="calendar_delete">Kalender löschen</string>
     <string name="preferences_calendar_delete_message">Willst du wirklich diesen Kalender löschen?</string>
+    <string name="default_camera_app_title">"Kamera-App"</string>
 </resources>

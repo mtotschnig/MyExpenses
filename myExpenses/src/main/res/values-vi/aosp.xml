@@ -71,4 +71,5 @@
     <string name="action_move_up">"Chuyển lên"</string>
     <string name="calendar_delete">Xóa lịch</string>
     <string name="preferences_calendar_delete_message">Bạn có thực sự muốn xóa lịch này không?</string>
+    <string name="default_camera_app_title">"Ứng dụng máy ảnh"</string>
 </resources>

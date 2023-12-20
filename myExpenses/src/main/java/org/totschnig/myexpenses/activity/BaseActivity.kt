@@ -1209,6 +1209,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             }
             CropImage.activity()
                 .setCameraOnly(cameraOnly)
+                .setCameraPackage(prefHandler.getString(PrefKey.CAMERA_APP)?.takeIf { it.isNotEmpty() })
                 .setAllowFlipping(false)
                 .setCaptureImageOutputUri(uris.first)
                 .setOutputUri(uris.second)

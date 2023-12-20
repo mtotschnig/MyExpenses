@@ -5,4 +5,5 @@
     <string name="menu">"منو"</string>
     <string name="action_move_down">"انتقال به پایین"</string>
     <string name="action_move_up">"انتقال به بالا"</string>
+    <string name="default_camera_app_title">"برنامه دوربین"</string>
 </resources>

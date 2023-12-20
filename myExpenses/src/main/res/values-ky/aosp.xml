@@ -5,4 +5,5 @@
     <string name="menu">"Меню"</string>
     <string name="action_move_down">"Төмөн жылдыруу"</string>
     <string name="action_move_up">"Жогору жылдыруу"</string>
+    <string name="default_camera_app_title">"Камера колдонмосу"</string>
 </resources>

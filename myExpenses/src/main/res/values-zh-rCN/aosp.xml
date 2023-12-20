@@ -71,4 +71,5 @@
     <string name="action_move_up">"上移"</string>
     <string name="calendar_delete">删除日历</string>
     <string name="preferences_calendar_delete_message">您是否想删除此日历？</string>
+    <string name="default_camera_app_title">"相机应用"</string>
 </resources>

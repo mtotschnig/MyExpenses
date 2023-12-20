@@ -5,4 +5,5 @@
     <string name="menu">"മെനു"</string>
     <string name="action_move_down">"താഴേക്ക് നീക്കുക"</string>
     <string name="action_move_up">"മുകളിലേക്ക് നീക്കുക"</string>
+    <string name="default_camera_app_title">"ക്യാമറാ ആപ്പ്"</string>
 </resources>

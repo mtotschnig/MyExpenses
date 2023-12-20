@@ -118,5 +118,8 @@
     <string name="action_move_up">"Move up"</string>
     <!-- /opt/extra/lineage/packages/apps/Etar/app/src/main$ grep -ri preferences_calendar_delete_delete | sed 's/preferences_calendar_delete_delete/calendar_delete/' | aosp_helper -->
     <string name="calendar_delete">Delete calendar</string>
+    <!-- /opt/extra/lineage/packages/apps/Etar/app/src/main grep -ri preferences_calendar_delete_message | aosp_helper -->
     <string name="preferences_calendar_delete_message">Do you really want to delete this calendar?</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri default_camera_app_title |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper  -->
+    <string name="default_camera_app_title">Camera app</string>
 </resources>

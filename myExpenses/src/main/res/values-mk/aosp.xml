@@ -5,4 +5,5 @@
     <string name="menu">"Мени"</string>
     <string name="action_move_down">"Премести надолу"</string>
     <string name="action_move_up">"Премести нагоре"</string>
+    <string name="default_camera_app_title">"Апликација за камера"</string>
 </resources>

@@ -69,4 +69,5 @@
     <string name="menu">"Menu"</string>
     <string name="action_move_down">"Alih ke bawah"</string>
     <string name="action_move_up">"Alihkan ke atas"</string>
+    <string name="default_camera_app_title">"Apl kamera"</string>
 </resources>

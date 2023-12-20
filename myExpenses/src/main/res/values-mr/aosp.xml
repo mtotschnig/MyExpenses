@@ -5,4 +5,5 @@
     <string name="menu">"मेनू"</string>
     <string name="action_move_down">"खाली हलवा"</string>
     <string name="action_move_up">"वर हलवा"</string>
+    <string name="default_camera_app_title">"कॅमेरा ॲप"</string>
 </resources>

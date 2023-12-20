@@ -77,6 +77,18 @@
             android:key="@string/pref_webdav_allow_unverified_host_key"
             android:summary="Allow communication with https even when certificate is issued to different host. WARNING: this is insecure, only use on private network and at your own risk. This setting is taken into account when you setup a WebDAV backend. Changing it does not affect existing backends." />
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="advanced_scan"
+        android:title="@string/title_scan_receipt_feature">
+
+        <EditTextPreference
+            android:key="@string/pref_camera_app_key"
+            android:title="@string/default_camera_app_title"
+            my:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory
         android:key="@string/pref_debug_key"
         android:title="@string/pref_debug_title">

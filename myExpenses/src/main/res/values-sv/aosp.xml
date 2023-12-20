@@ -7,4 +7,5 @@
     <string name="action_move_up">"Flytta uppåt"</string>
     <string name="calendar_delete">Ta bort kalender</string>
     <string name="preferences_calendar_delete_message">Vill du verkligen ta bort den här kalendern?</string>
+    <string name="default_camera_app_title">"Kameraapp"</string>
 </resources>

@@ -5,4 +5,5 @@
     <string name="menu">"Kieslys"</string>
     <string name="action_move_down">"Skuif af"</string>
     <string name="action_move_up">"Skuif op"</string>
+    <string name="default_camera_app_title">"Kamera-app"</string>
 </resources>

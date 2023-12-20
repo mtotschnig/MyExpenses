@@ -5,4 +5,5 @@
     <string name="menu">"મેનૂ"</string>
     <string name="action_move_down">"નીચે ખસેડો"</string>
     <string name="action_move_up">"ઉપર ખસેડો"</string>
+    <string name="default_camera_app_title">"કૅમેરા ઍપ}one{કૅમેરા ઍપ"</string>
 </resources>

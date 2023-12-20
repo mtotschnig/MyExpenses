@@ -5,4 +5,5 @@
     <string name="menu">"Izvēlne"</string>
     <string name="action_move_down">"Pārvietot uz leju"</string>
     <string name="action_move_up">"Pārvietot uz augšu"</string>
+    <string name="default_camera_app_title">"Kameras lietotne"</string>
 </resources>

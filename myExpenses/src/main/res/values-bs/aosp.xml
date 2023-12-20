@@ -4,4 +4,5 @@
     <string name="menu">"Meni"</string>
     <string name="action_move_down">"Pomjeri nadolje"</string>
     <string name="action_move_up">"Pomjeri nagore"</string>
+    <string name="default_camera_app_title">"Aplikacija za kameru"</string>
 </resources>

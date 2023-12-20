@@ -66,4 +66,5 @@
     <string name="menu">"మెనూ"</string>
     <string name="action_move_down">"క్రిందికి తరలించు"</string>
     <string name="action_move_up">"పైకి తరలించు"</string>
+    <string name="default_camera_app_title">"కెమెరా యాప్"</string>
 </resources>

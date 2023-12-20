@@ -71,4 +71,5 @@
     <string name="menu">"ಮೆನು"</string>
     <string name="action_move_down">"ಕೆಳಗೆ ಸರಿಸಿ"</string>
     <string name="action_move_up">"ಮೇಲೆ ಸರಿಸಿ"</string>
+    <string name="default_camera_app_title">"ಕ್ಯಾಮರಾ ಆ್ಯಪ್"</string>
 </resources>

@@ -5,4 +5,5 @@
     <string name="menu">"Imenyu"</string>
     <string name="action_move_down">"Iya phansi"</string>
     <string name="action_move_up">"Iya phezulu"</string>
+    <string name="default_camera_app_title">"I-app yekhamera"</string>
 </resources>

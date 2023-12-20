@@ -5,4 +5,5 @@
     <string name="menu">"Meny"</string>
     <string name="action_move_down">"Flytt ned"</string>
     <string name="action_move_up">"Flytt opp"</string>
+    <string name="default_camera_app_title">"Kameraapp"</string>
 </resources>

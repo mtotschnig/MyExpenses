@@ -5,4 +5,5 @@
     <string name="menu">"Menu"</string>
     <string name="action_move_down">"Ilipat pababa"</string>
     <string name="action_move_up">"Ilipat pataas"</string>
+    <string name="default_camera_app_title">"App na camera"</string>
 </resources>

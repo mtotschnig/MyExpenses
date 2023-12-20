@@ -280,7 +280,7 @@ dependencies {
     //implementation "com.google.mlkit:vision-interfaces:+"
     //implementation "com.google.guava:guava:31.1-android"
 
-    implementation 'com.github.mtotschnig:Android-Image-Cropper:3ead230612'
+    implementation 'com.github.mtotschnig:Android-Image-Cropper:31818d73e0'
     api "androidx.core:core-ktx:$androidXCoreVersion"
     implementation "androidx.core:core-remoteviews:1.0.0"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"

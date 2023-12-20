@@ -7,4 +7,5 @@
     <string name="action_move_up">"Lëvize lart"</string>
     <string name="calendar_delete">Fshi kalendarin</string>
     <string name="preferences_calendar_delete_message">Vërtet doni ta fshini këtë kalendar?</string>
+    <string name="default_camera_app_title">"Aplikacioni i kamerës"</string>
 </resources>

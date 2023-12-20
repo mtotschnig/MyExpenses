@@ -72,4 +72,5 @@
     <string name="action_move_up">"上に移動します"</string>
     <string name="calendar_delete">カレンダーの削除</string>
     <string name="preferences_calendar_delete_message">本当にこのカレンダーを削除しますか?</string>
+    <string name="default_camera_app_title">"カメラアプリ"</string>
 </resources>

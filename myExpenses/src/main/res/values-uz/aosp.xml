@@ -5,4 +5,5 @@
     <string name="menu">"Menyu"</string>
     <string name="action_move_down">"Pastga siljitish"</string>
     <string name="action_move_up">"Tepaga siljitish"</string>
+    <string name="default_camera_app_title">"Kamera ilovasi"</string>
 </resources>

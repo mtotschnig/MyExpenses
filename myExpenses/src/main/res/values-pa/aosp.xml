@@ -5,4 +5,5 @@
     <string name="menu">"ਮੀਨੂ"</string>
     <string name="action_move_down">"ਹੇਠਾਂ ਲੈ ਜਾਓ"</string>
     <string name="action_move_up">"ਉੱਪਰ ਲੈ ਜਾਓ"</string>
+    <string name="default_camera_app_title">"ਕੈਮਰਾ ਐਪ"</string>
 </resources>

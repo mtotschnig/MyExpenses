@@ -5,4 +5,5 @@
     <string name="menu">"ເມນູ"</string>
     <string name="action_move_down">"ຍ້າຍລົງ"</string>
     <string name="action_move_up">"ຍ້າຍຂຶ້ນ"</string>
+    <string name="default_camera_app_title">"ແອັບກ້ອງຖ່າຍຮູບ"</string>
 </resources>

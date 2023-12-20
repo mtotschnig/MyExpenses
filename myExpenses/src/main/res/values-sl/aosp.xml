@@ -7,4 +7,5 @@
     <string name="action_move_up">"Premakni navzgor"</string>
     <string name="calendar_delete">Izbriši koledar</string>
     <string name="preferences_calendar_delete_message">Ste prepričani, da želite izbrisati ta koledar?</string>
+    <string name="default_camera_app_title">"Fotografska aplikacija"</string>
 </resources>

@@ -73,4 +73,5 @@
     <string name="action_move_up">"Flyt op"</string>
     <string name="calendar_delete">Slet kalender</string>
     <string name="preferences_calendar_delete_message">Sikker på, at du vil slette denne kalender?</string>
+    <string name="default_camera_app_title">"Kameraapp"</string>
 </resources>

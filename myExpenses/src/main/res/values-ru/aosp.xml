@@ -75,4 +75,5 @@
     <string name="action_move_up">"Поднять"</string>
     <string name="calendar_delete">Удалить календарь</string>
     <string name="preferences_calendar_delete_message">Вы действительно хотите удалить этот календарь?</string>
+    <string name="default_camera_app_title">"Приложение камеры"</string>
 </resources>

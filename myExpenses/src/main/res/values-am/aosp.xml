@@ -5,4 +5,5 @@
     <string name="menu">"ምናሌ"</string>
     <string name="action_move_down">"ወደ ታች ውሰድ"</string>
     <string name="action_move_up">"ወደ ላይ ውሰድ"</string>
+    <string name="default_camera_app_title">"የካሜራ መተግበሪያ"</string>
 </resources>

@@ -67,4 +67,5 @@
     <string name="menu">"මෙනුව"</string>
     <string name="action_move_down">"පහළට ගෙන යන්න"</string>
     <string name="action_move_up">"ඉහළට ගෙන යන්න"</string>
+    <string name="default_camera_app_title">"කැමරා යෙදුම"</string>
 </resources>

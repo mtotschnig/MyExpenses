@@ -72,4 +72,5 @@
     <string name="action_move_up">"위로 이동"</string>
     <string name="calendar_delete">캘린더 삭제</string>
     <string name="preferences_calendar_delete_message">정말 이 캘린더를 삭제하시겠습니까?</string>
+    <string name="default_camera_app_title">"카메라 앱"</string>
 </resources>

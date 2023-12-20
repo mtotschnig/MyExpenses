@@ -73,4 +73,5 @@
     <string name="menu">"Izbornik"</string>
     <string name="action_move_down">"Premještanje dolje"</string>
     <string name="action_move_up">"Premještanje gore"</string>
+    <string name="default_camera_app_title">"Aplikacija kamere"</string>
 </resources>

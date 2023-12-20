@@ -7,4 +7,5 @@
     <string name="action_move_up">"ზემოთ გადატანა"</string>
     <string name="calendar_delete">კალენდრის წაშლა</string>
     <string name="preferences_calendar_delete_message">ნამდვილად გსურთ კალენდრის წაშლა?</string>
+    <string name="default_camera_app_title">"კამერის აპი"</string>
 </resources>

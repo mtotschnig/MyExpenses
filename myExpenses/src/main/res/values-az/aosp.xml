@@ -7,4 +7,5 @@
     <string name="action_move_up">"Yuxarı keçin"</string>
     <string name="calendar_delete">Təqvimi sil</string>
     <string name="preferences_calendar_delete_message">Həqiqətən bu təqvimi silmək istəyirsiniz?</string>
+    <string name="default_camera_app_title">"Kamera tətbiqi"</string>
 </resources>

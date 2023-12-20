@@ -74,4 +74,5 @@
     <string name="action_move_down">"Перемістити вниз"</string>
     <string name="action_move_up">"Перемістити вгору"</string>
     <string name="calendar_delete">Видалити календар</string>
+    <string name="default_camera_app_title">"Додаток для камери"</string>
 </resources>
