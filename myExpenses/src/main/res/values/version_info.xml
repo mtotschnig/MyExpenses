@@ -2,7 +2,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string-array name="versions">
         <item>690;3.7.1</item>
-        <item>688;3.7.0.1</item>
         <item>687;3.7.0</item>
         <item>678;3.6.9</item>
         <item>671;3.6.8</item>
