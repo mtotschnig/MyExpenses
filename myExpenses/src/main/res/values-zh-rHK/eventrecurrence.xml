@@ -18,25 +18,20 @@
     <string name="does_not_repeat">"單次活動"</string>
     <string name="endByDate">"；直至 <xliff:g id="DATE">%s</xliff:g>"</string>
     <plurals name="endByCount">
-        <item quantity="one">"；1 次"</item>
         <item quantity="other">"；<xliff:g id="NUMBER">%d</xliff:g> 次"</item>
     </plurals>
     <plurals name="daily">
-        <item quantity="one">"每天"</item>
         <item quantity="other">"每 <xliff:g id="NUMBER">%d</xliff:g> 天"</item>
     </plurals>
     <string name="every_weekday">"每週的工作日 (星期一至五)"</string>
     <plurals name="weekly">
-        <item quantity="one">"每星期 (逢<xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>)"</item>
         <item quantity="other">"每 <xliff:g id="NUMBER">%1$d</xliff:g> 星期 (逢<xliff:g id="DAYS_OF_WEEK"
             >%2$s</xliff:g>)"</item>
     </plurals>
     <plurals name="monthly">
-        <item quantity="one">每月</item>
         <item quantity="other">"每 <xliff:g id="COUNT">%d</xliff:g> 個月"</item>
     </plurals>
     <plurals name="yearly">
-        <item quantity="one">每年</item>
         <item quantity="other">"每 <xliff:g id="COUNT">%d</xliff:g> 年"</item>
     </plurals>
     <string name="monthly_on_day">"每月 (<xliff:g id="DAY_OF_MONTH">%s</xliff:g> 日)"</string>

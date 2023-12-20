@@ -100,8 +100,7 @@
     <plurals name="dialog_title_warning_delete_account">
         <item quantity="one">למחוק חשבון?</item>
         <item quantity="two">למחוק שני חשבונות?</item>
-        <item quantity="many">למחוק %1$d חשבונות?</item>
-        <item quantity="other"/>
+        <item quantity="other">למחוק %1$d חשבונות?</item>
     </plurals>
     <string name="dialog_title_warning_delete_category">למחוק קטגוריה?</string>
     <string name="dialog_title_warning_delete_template">למחוק תבנית?</string>
@@ -213,13 +212,11 @@
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">האובייקט שנבחר ממופה לעסקה ולא ניתן למחוק אותו.</item>
         <item quantity="two">%1$d אובייקטים  ממופים לעסקאות ולא ניתן למחוק אותם.</item>
-        <item quantity="many">%1$d אובייקטים  ממופים לעסקאות ולא ניתן למחוק אותם.</item>
         <item quantity="other">%1$d אובייקטים  ממופים לעסקאות ולא ניתן למחוק אותם.</item>
     </plurals>
     <plurals name="not_deletable_mapped_templates">
         <item quantity="one">האובייקט שנבחר ממופה לתבנית ולא ניתן למחוק אותו.</item>
         <item quantity="two">אובייקטים %1$d ממופים לתבניות ולא ניתן למחוק אותם.</item>
-        <item quantity="many">אובייקטים %1$d ממופים לתבניות ולא ניתן למחוק אותם.</item>
         <item quantity="other">אובייקטים %1$d ממופים לתבניות ולא ניתן למחוק אותם.</item>
     </plurals>
     <string name="numbered">ממוספר</string>
@@ -337,7 +334,6 @@
     <plurals name="save_transaction_from_template_success">
         <item quantity="one">עסקה חדשה נשמרה בהצלחה מתבנית.</item>
         <item quantity="two">%1$d עסקאות חדשות נשמרו בהצלחה מתבניות.</item>
-        <item quantity="many">%1$d עסקאות חדשות נשמרו בהצלחה מתבניות.</item>
         <item quantity="other">%1$d עסקאות חדשות נשמרו בהצלחה מתבניות.</item>
     </plurals>
     <string name="save_transaction_template_deleted">התבנית נמחקה</string>
@@ -378,20 +374,17 @@
     <plurals name="warning_delete_main_category">
         <item quantity="one">לקטגוריה אחת שנבחרה יש קטגוריות משנה, שיימחקו גם כן.</item>
         <item quantity="two">%1$d קטגוריות נבחרות  יש קטגוריות משנה, שיימחק גם כן.</item>
-        <item quantity="many">%1$d קטגוריות נבחרות  יש קטגוריות משנה, שיימחק גם כן.</item>
         <item quantity="other">%1$d קטגוריות נבחרות  יש קטגוריות משנה, שיימחק גם כן.</item>
     </plurals>
     <string name="warning_delete_category_with_budget">לפחות בקטגוריה אחת שנבחרה יש הקצאות תקציב, שיימחקו גם הן.</string>
     <plurals name="warning_delete_template">
         <item quantity="one">התבנית שנבחרה תימחק.</item>
         <item quantity="two">%1$d תבניות שנבחרו  יימחקו.</item>
-        <item quantity="many">%1$d תבניות שנבחרו  יימחקו.</item>
         <item quantity="other">%1$d תבניות שנבחרו  יימחקו.</item>
     </plurals>
     <plurals name="warning_delete_transaction">
         <item quantity="one">העסקה שנבחרה תימחק.</item>
         <item quantity="two">%1$dעיסקאות שנבחרו  יימחקו.</item>
-        <item quantity="many">%1$dעיסקאות שנבחרו  יימחקו.</item>
         <item quantity="other">%1$dעיסקאות שנבחרו  יימחקו.</item>
     </plurals>
     <string name="move_category_success">קטגוריה אחת הועברה בהצלחה.</string>
@@ -636,7 +629,6 @@
     <plurals name="delete_success">
         <item quantity="one">אובייקט אחד נמחק בהצלחה.</item>
         <item quantity="two">%dאובייקטים  נמחקו בהצלחה.</item>
-        <item quantity="many">%dאובייקטים  נמחקו בהצלחה.</item>
         <item quantity="other">%dאובייקטים  נמחקו בהצלחה.</item>
     </plurals>
     <string name="feature_deprecated">הוצא משימוש</string>
@@ -824,7 +816,6 @@
     <plurals name="warning_delete_tag">
         <item quantity="one">תג %1$s ממופה לעסקה אחת. האם יש למחוק אותו?</item>
         <item quantity="two">תג %1$s ממופה לעסקאות %2$d. האם יש למחוק אותו?</item>
-        <item quantity="many">תג %1$s ממופה לעסקאות %2$d. האם יש למחוק אותו?</item>
         <item quantity="other">תג %1$s ממופה לעסקאות %2$d. האם יש למחוק אותו?</item>
     </plurals>
     <string name="dialog_multi_tag_append">הוסף תגים חדשים לתגים קיימים</string>
@@ -934,7 +925,6 @@
     <plurals name="debt_mapped_transactions">
         <item quantity="one">לחוב %1$s יש העברה ממופת אחת.</item>
         <item quantity="two">לחוב %1$s יש %2$d העברות ממופות.</item>
-        <item quantity="many">לחוב %1$s יש %2$d העברות ממופות.</item>
         <item quantity="other">לחוב %1$s יש %2$d העברות ממופות.</item>
     </plurals>
     <string name="warning_party_delete_debt">מחיקת הגוף תוביל גם למחיקת החובות שמוגדרים מולו.</string>
@@ -953,7 +943,6 @@
     <plurals name="import_categories_icons_updated">
         <item quantity="one">קטגוריה עודכנה עם סמל.</item>
         <item quantity="two">%1$d קטגוריות עודכנו עם סמלים.</item>
-        <item quantity="many">%1$d קטגוריות עודכנו עם סמלים.</item>
         <item quantity="other">%1$d קטגוריות עודכנו עם סמלים.</item>
     </plurals>
     <string name="setup_completed">ההקמה הושלמה</string>
@@ -967,13 +956,11 @@
     <plurals name="purge_backup_success">
         <item quantity="one">גיבוי אחד ישן נמחק.</item>
         <item quantity="two">%d גיבויים ישנים נמחקו.</item>
-        <item quantity="many">%d גיבויים ישנים נמחקו.</item>
         <item quantity="other">%d גיבויים ישנים נמחקו.</item>
     </plurals>
     <plurals name="purge_backup_failure">
         <item quantity="one">מחיקת אחד מקובצי הגיבוי הישנים נכשלה.</item>
         <item quantity="two">מחיקת %d מקובצי הגיבוי הישנים נכשלה.</item>
-        <item quantity="many">מחיקת %d מקובצי הגיבוי הישנים נכשלה.</item>
         <item quantity="other">מחיקת %d מקובצי הגיבוי הישנים נכשלה.</item>
     </plurals>
     <string name="pref_debug_logging_share_summary">שיתוף קובצי יומנים</string>
