@@ -85,4 +85,12 @@
     <string name="licence_validation_failure">Kunde inte bekräfta licensnyckeln.</string>
     <string name="color">Färg</string>
     <string name="menu_back">Bakåt</string>
+    <string name="dialog_balance_delete">Ta bort avstämda överföringar</string>
+    <string name="contrib_feature_distribution_label">Cirkeldiagram (Distribution per kategori)</string>
+    <string name="contrib_feature_attach_picture_label">Bifoga bild till överföring</string>
+    <string name="contrib_key_requires">Kräver %1$s.</string>
+    <string name="decimal_separator">Decimaltecken</string>
+    <string name="account_type_liability_plural">Likviditetskonton</string>
+    <string name="dialog_confirm_discard_changes">Kasta bort ändringarna?</string>
+    <string name="already_defined">%1$s är redan definierat</string>
 </resources>
