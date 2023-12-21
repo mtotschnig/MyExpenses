@@ -405,7 +405,7 @@
     <string name="csv_import_delimiter_comma">Komma</string>
     <string name="import_accounts_success">%1$d rekeningen succesvol geïmporteerd.</string>
     <string name="import_parties_none">Geen partijen geïmporteerd</string>
-    <string name="pref_custom_decimal_format_summary">Als u niet tevreden bent met de standaardindeling voor uw landinstelling, past u deze aan uw behoeften aan. Laat leeg om de standaardindeling te herstellen.</string>
+    <string name="pref_custom_decimal_format_summary">Als je niet tevreden bent met het standaardformaat voor je landinstelling, pas dit dan aan je behoeften aan. Laat leeg om het standaardformaat te herstellen.</string>
     <string name="warning_split_transactions">De geselecteerde transacties worden gegroepeerd in één gesplitste transactie. Hun datuminformatie gaat verloren, d.w.z. vervangen door hun gemiddelde.</string>
     <string name="split_transaction_not_possible">Alleen transacties met dezelfde rekening, begunstigde en status kunnen worden gegroepeerd in één gesplitste transactie.</string>
     <string name="professional_key_fallback_info">Een abonnement op de Professional Key dat minimaal een jaar actief is en niet wordt verlengd, wordt automatisch omgezet in een onbeperkte Extended Key.</string>
@@ -635,7 +635,7 @@
     <string name="remap_empty_list">Er is geen item gevonden dat aan alle geselecteerde transacties kan worden toegewezen.</string>
     <string name="clone_and_remap_result">De geselecteerde transacties zijn gekloond en opnieuw toegewezen.</string>
     <string name="button_label_clone_and_remap">Klonen en opnieuw toewijzen</string>
-    <string name="csv_import_subcategory_requires_category">Als u een subcategorie toewijst, moet u ook een categorie toewijzen.</string>
+    <string name="csv_import_subcategory_requires_category">Als je een subcategorie toewijst, moet je ook een categorie toewijzen.</string>
     <string name="calendar_permission_required"><i> {app_name} </i> heeft toestemming nodig om toegang te krijgen tot uw kalender, om plannen te maken voor toekomstige en terugkerende transacties.</string>
     <string name="export_to_format">Exporteer naar %s</string>
     <string name="pref_csv_export_split_categories_summary">Gebruik afzonderlijke kolommen voor elk niveau van de categoriehiërarchie</string>
@@ -666,9 +666,9 @@
     <string name="file_name">Bestandsnaam</string>
     <string name="mark_void_instead_of_delete">Verwijder de transactie niet, maar markeer deze als ongeldig.</string>
     <string name="slash_forbidden_in_filename">/ teken is niet toegestaan in bestandsnamen</string>
-    <string name="pref_csv_import_delimiter">Scheidings-teken</string>
-    <string name="menu_parse">Parseren</string>
-    <string name="csv_import_field_mapped_more_than_once">%s is meer dan eens in kaart gebracht.</string>
+    <string name="pref_csv_import_delimiter">Scheidingsteken</string>
+    <string name="menu_parse">Ontleden</string>
+    <string name="csv_import_field_mapped_more_than_once">%s wordt meer dan eens in kaart gebracht.</string>
     <string name="csv_import_no_mapping_found_for_amount">Wijs één kolom toe aan bedrag, inkomsten of uitgaven.</string>
     <string name="menu_show_transactions">Toon transacties</string>
     <string name="pref_auto_backup_summary">Maak dagelijks een back-up van de database op het opgegeven tijdstip (alleen als gegevens zijn gewijzigd).</string>
@@ -777,7 +777,7 @@
     <string name="search_category">Zoek op categorie</string>
     <string name="csv_import_preview">Voorbeeld</string>
     <string name="hint_url">URL</string>
-    <string name="csv_import_delimiter_tab">Tab</string>
+    <string name="csv_import_delimiter_tab">Tabblad</string>
     <string name="plan_instance_state_applied">toegepast</string>
     <string name="onboarding_restore_from_cloud_backup">Back-ups</string>
     <string name="contributed_by">Bijgedragen door %s</string>
