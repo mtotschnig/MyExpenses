@@ -221,7 +221,6 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                         ).also {
                             it.submitList(list.subList(1, list.size))
                             binding.splitList.adapter = it
-                            it.notifyDataSetChanged()
                         }
                     }
 
