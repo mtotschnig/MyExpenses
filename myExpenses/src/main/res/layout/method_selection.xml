@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="0dp"
     android:layout_height="match_parent"
     android:layout_weight="1"
-    >
+    tools:ignore="MergeRootFrame"
+    tools:showIn="@layout/method_row">
+
     <Spinner
         android:id="@+id/MethodSpinner"
-        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical" />
+
+    <TextView
+        android:id="@+id/MethodOutlier"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        tools:showIn="@layout/method_row" />
-    <TextView
-        android:id="@+id/MethodOutlier"
-        android:visibility="gone"
-        android:layout_gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:visibility="gone" />
 </FrameLayout>
