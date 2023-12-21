@@ -7,7 +7,6 @@ import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
 import org.totschnig.myexpenses.model2.Bank
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_ID
@@ -21,7 +20,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
-import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.useAndMap
 import java.time.LocalDate
 
@@ -90,6 +88,7 @@ fun Repository.importedAccounts(bankId: Long): List<AccountInformation> =
         )
     }?.map { (_, value) -> AccountInformation.fromMap(value.toMap()) } ?: emptyList()
 
+//noinspection Recycle
 fun Repository.accountInformation(accountId: Long): AccountInformation? = contentResolver.query(
     TransactionProvider.ACCOUNTS_ATTRIBUTES_URI,
     arrayOf(KEY_CONTEXT, KEY_ATTRIBUTE_NAME, KEY_VALUE),

@@ -94,6 +94,7 @@ class ShareViewModel(application: Application) : ContentResolvingAndroidViewMode
 
                     @Throws(IOException::class)
                     override fun writeTo(sink: BufferedSink) {
+                        //noinspection Recycle
                         val source = (contentResolver.openInputStream(uri)
                             ?: throw IOException("Could not read $uri")).source()
                         try {
