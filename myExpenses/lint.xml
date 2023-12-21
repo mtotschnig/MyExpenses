@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
     <issue id="DialogTag" severity="ignore" />
+    <issue id="UnusedTranslation" severity="ignore" />
+    <!-- https://github.com/bcgit/bc-java/issues/1306
+    <issue id="TrustAllX509TrustManager" /> -->
     <issue id="UnusedResources">
         <ignore path="src/main/res/values/version_info.xml" />
         <ignore path="src/main/categoryIcons" />
