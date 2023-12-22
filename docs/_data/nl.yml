@@ -1,12 +1,12 @@
 nl:
-  all_contrib_key_features: Alle functies van Bijdragen Sleutel
-  all_extended_key_features: Alle functies van Uitgebreide Sleutel
-  contrib-key: Bijdragen sleutel
+  all_contrib_key_features: Alle functies van Contribute Key
+  all_extended_key_features: Alle functies van Extended Key
+  contrib-key: Bijdragesleutel
   extended-key: Uitgebreide sleutel
   permissions:
     accounts:
-      explanation: Synchronisatie tussen apparaten via cloudservices.
-      label: Accounts
+      explanation: Synchronisatie op verschillende apparaten via clouddiensten.
+      label: Rekeningen
     calendar:
       label: Kalender
       explanation: Plannen voor toekomstige en terugkerende transacties worden opgeslagen
@@ -21,7 +21,7 @@ nl:
   professional-key: Professionele sleutel
   screenshot_titles:
     group: Groepeer op jaar, maand of week
-    summarize: Verzamel al uw accounts
+    summarize: Tel al uw rekeningen bij elkaar op
     budget: Jaarlijkse, maandelijkse en wekelijkse budgetten
     split: Opsplitsen in meerdere categorieën
     sync: Cloud synchronisatie
@@ -48,7 +48,7 @@ nl:
   screenshots:
     budget: Bepaal hoeveel u van plan bent te besteden aan jaarlijkse, maandelijkse
       of wekelijkse budgetten
-    group: Groepeert je transacties per dag, week, maand of jaar
+    group: Groepeer uw transacties per dag, week, maand en jaar
     summarize: Som al uw rekeningen op (geavanceerde verwerking van wisselkoersen
       per rekening en per transactie)
     distribution: Visualiseer de verdeling per categorie
@@ -62,7 +62,7 @@ nl:
       distribution: '<b> Cirkeldiagram</b>: Visualiseer de statistische verdeling
         van transacties per categorie over verschillende perioden (jaren, maanden,
         weken, dagen)'
-      accounts_unlimited: Ontgrendel de mogelijkheid om meer dan vijf accounts aan
+      accounts_unlimited: Ontgrendel de mogelijkheid om meer dan vijf rekeningen aan
         te maken
       split_transaction: '<b>Gesplitste transactie</b>: Een enkele transactie kan
         worden opgesplitst in meerdere delen (categorieën en overschrijvingen)'
