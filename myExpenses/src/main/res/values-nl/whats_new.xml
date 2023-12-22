@@ -1,2 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="whats_new_369_1">Overdrachten kunnen worden toegewezen aan categorieën.</string>
+    <string name="whats_new_370">Het menu op het hoofdscherm kan volledig worden aangepast.</string>
+    <string name="whats_new_364_2">Nieuwe strategie voor het beheren van dubbele informatie over betalers/begunstigden</string>
+    <string name="whats_new_361_1">Transactielijst kan worden gesorteerd op bedrag.</string>
+    <string name="whats_new_365">Voeg een willekeurig aantal afbeeldingen en documenten toe (PDF)</string>
+    <string name="whats_new_366">Startschermwidget die de huidige status van het budget weergeeft.</string>
+    <string name="whats_new_364_1">Importeer vanuit één CSV-bestand in meerdere rekeningen</string>
+    <string name="whats_new_369_2">Wanneer schermvergrendeling is ingeschakeld, kunt u zich afmelden voor het uitschakelen van schermafbeeldingen.</string>
+    <string name="whats_new_358">Widget volgt de themaconfiguratie (licht/donker).</string>
+    <string name="whats_new_355">De naam van het back-upbestand kan nu worden geconfigureerd.</string>
+    <string name="whats_new_367">Categorieën kunnen nu worden geconfigureerd als uitgaven- of inkomstencategorieën, wat van invloed is op de manier waarop de uitgaven- en inkomstensommen worden berekend.</string>
+    <string name="whats_new_359">Pictogrammen voor betaalmethoden kunnen worden aangepast.</string>
+    <string name="whats_new_361_2">Bestanden in de applicatiemap (back-ups en exports) kunnen worden gedeeld of verwijderd.</string>
+</resources>
