@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="new_version">Ny version</string>
     <string name="add_shortcut">Lägg till genväg</string>
     <string name="comment">Anteckningar</string>
@@ -93,4 +93,27 @@
     <string name="account_type_liability_plural">Likviditetskonton</string>
     <string name="dialog_confirm_discard_changes">Kasta bort ändringarna?</string>
     <string name="already_defined">%1$s är redan definierat</string>
+    <string name="grisbi_import_parties_loading">Laddar parter från %1$s</string>
+    <string name="menu_create_party">Ny part</string>
+    <string name="button_label_share_file">Dela</string>
+    <string name="licence_validation_premium">Premium-funktioner har låsts upp.</string>
+    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Din aktuella licens status (%2$s) tillåter dig att skapa %1$d konton.</string>
+    <string name="menu_aggregates">Totalt</string>
+    <string name="licence_validation_success">Valideringen av licensnyckeln lyckades:</string>
+    <string name="menu_reset">Exportera och återställ</string>
+    <string name="all_extended_key_features">Alla funktioner för den förlängda nyckeln</string>
+    <string name="menu_help">Hjälp</string>
+    <string name="menu_clone_transaction">Klona</string>
+    <string name="help_heading_whats_new">Vad är nytt</string>
+    <string name="menu_create_main_cat">Ny huvudkategori</string>
+    <string name="dialog_remind_rate_2">Dina kommentarer tillåter oss att fortsättningsvis lägga till förbättringar och utökningar.</string>
+    <string name="button_label_close">Stäng</string>
+    <string name="menu_manage_plans">Mallar och abbonemang</string>
+    <string name="menu_contrib">Bidra</string>
+    <string name="export_sdcard_failure">Exporteringen till filen \"%1$s\" misslyckades: %2$s</string>
+    <string name="grouping_none">Ej grupperad</string>
+    <string name="menu_save">Spara</string>
+    <string name="menu_share">Berätta för en vän</string>
+    <string name="menu_reset_plan_instance">Återställ</string>
+    <string name="dialog_password_activate_protection">Aktivera lösenordsskydd</string>
 </resources>
