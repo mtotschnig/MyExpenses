@@ -1929,7 +1929,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 result.onSuccess {
                     currentAccount?.let {
                         with(it) {
-                            exportViewModel.hasExported(selectedAccountId)
+                            exportViewModel.hasExported(this)
                                 .observe(this@BaseMyExpenses) { hasExported ->
                                     ExportDialogFragment.newInstance(
                                         ExportDialogFragment.AccountInfo(

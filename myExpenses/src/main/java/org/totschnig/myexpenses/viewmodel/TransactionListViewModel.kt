@@ -115,15 +115,15 @@ class TransactionListViewModel(
             }
             val types = buildList {
                 add(type.asCategoryType)
-                if(aggregateNeutral) {
+                if (aggregateNeutral) {
                     add(FLAG_NEUTRAL)
                 }
-                if(withTransfers) {
+                if (withTransfers) {
                     add(FLAG_TRANSFER)
                 }
             }
             val typeWithFallback = DbUtils.typeWithFallBack(prefHandler)
-            val typeExpression = if(aggregateNeutral) typeWithFallback else
+            val typeExpression = if (aggregateNeutral) typeWithFallback else
                 effectiveTypeExpression(typeWithFallback)
             selectionParts += "$typeExpression IN (${types.joinToString()})"
             selectionParts.joinToString(" AND ") to selectionArgs.toTypedArray()

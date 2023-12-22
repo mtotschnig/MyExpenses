@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -40,6 +41,7 @@ import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.displayName
+import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -263,22 +265,12 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
         emit(AppDirHelper.checkAppDir(getApplication()))
     }
 
-    fun hasExported(accountId: Long) = liveData(coroutineDispatcher) {
-        val (selection, selectionArgs) =
-            if (accountId != HOME_AGGREGATE_ID) {
-                if (accountId < 0L) {
-                    //aggregate account
-                    "${DatabaseConstants.KEY_ACCOUNTID} IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = (SELECT $KEY_CODE FROM $TABLE_CURRENCIES WHERE $KEY_ROWID = ?))" to
-                            arrayOf(abs(accountId).toString())
-                } else {
-                    DatabaseConstants.KEY_ACCOUNTID + " = ?" to arrayOf(accountId.toString())
-                }
-            } else null to null
+    fun hasExported(account: DataBaseAccount) = liveData(coroutineDispatcher) {
         contentResolver.query(
-            Transaction.CONTENT_URI,
+            account.uriForTransactionList(extended = false, mergeTransfers = false),
             arrayOf("max(" + DatabaseConstants.KEY_STATUS + ")"),
-            selection,
-            selectionArgs,
+            null,
+            null,
             null
         )?.use {
             it.moveToFirst()
