@@ -578,6 +578,9 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                         val bitmap = BitmapFactory.decodeByteArray(code.image, 0, code.image.size)
 
                         _tanRequested.postValue(TanRequest(msg, bitmap))
+                        retData.replace(0, retData.length, runBlocking {
+                            tanFuture.await() ?: throw HBCI_Exception("TAN entry cancelled")
+                        })
 
                     } catch (e: Exception) {
                         throw HBCI_Exception(e)
@@ -590,7 +593,9 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                         val bitmap = BitmapFactory.decodeByteArray(code.image, 0, code.image.size)
 
                         _tanRequested.postValue(TanRequest(code.message, bitmap))
-
+                        retData.replace(0, retData.length, runBlocking {
+                            tanFuture.await() ?: throw HBCI_Exception("TAN entry cancelled")
+                        })
                     } catch (e: Exception) {
                         throw HBCI_Exception(e)
                     }
