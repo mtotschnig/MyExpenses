@@ -1,2 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="whats_new_369_1">Överföringar kan mappas till kategorier.</string>
+    <string name="whats_new_364_2">Ny strategi för att hantera dubbla uppgifter om betalare/förmånstagare</string>
+    <string name="whats_new_361_1">Listan för överföringar kan sorteras efter summa.</string>
+    <string name="whats_new_365">Bifoga valfritt antal bilder och dokument (PDF)</string>
+    <string name="whats_new_366">Widgeten på huvudskärmen visar den aktuella statusen för din budget.</string>
+    <string name="whats_new_364_1">Importera till flera konton från en CSV-fil</string>
+    <string name="whats_new_369_2">Tillåt att välja bort inaktivering av skärmdumpar när skärmlåset är aktiverat.</string>
+    <string name="whats_new_358">Widgeten följer temats konfiguration (ljus/mörk).</string>
+    <string name="whats_new_355">Säkerhetskopians filnamn är nu konfigurerbar.</string>
+    <string name="whats_new_367">Kategorier kan nu konfigureras som kostnads- eller intäktskategorier, vilket kommer att påverka hur kostnads- och intäktssummorna beräknas.</string>
+    <string name="whats_new_359">Ikoner för betalningsmetoder kan anpassas.</string>
+    <string name="whats_new_361_2">Filer i applikationens mapp (säkerhetskopior och exporteringar) kan delas eller bli borttagna.</string>
+</resources>
