@@ -490,7 +490,7 @@ open class LicenceHandler(
                         Text(prettyPrintStatus(context)!!)
                         if (isPro) {
                             getProLicenceStatus(context)?.let { Text(it) }
-                            proPackagesForExtendOrSwitch!!.forEach {
+                            proPackagesForExtendOrSwitch?.forEach {
                                 Button(onClick = { contribBuyDo(it) }) {
                                     Text(getExtendOrSwitchMessage(it))
                                 }
