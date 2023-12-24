@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="testData_account1Description">Dagliga utgifter</string>
+    <string name="testData_account3Label">Bankkonto</string>
+    <string name="testData_account1Label">Min plånbok</string>
+    <string name="testData_transaction2Comment">Frukter &amp; Grönsaker</string>
+    <string name="testData_transaction4Payee">Pizzeria Antonella</string>
+    <string name="testData_tag_project">Projekt utan titel</string>
+    <string name="testData_templatePayee">John Doe</string>
+    <string name="testData_account2Label">helg i Paris</string>
+</resources>

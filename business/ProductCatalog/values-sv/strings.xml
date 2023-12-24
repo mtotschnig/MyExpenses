@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="budget_title">Budgetering</string>
+    <string name="ocr_description">Extrahera summa, datum och betalare automatiskt</string>
+    <string name="history_description">Förstå hur din finansiella situation utvecklar sig med tiden</string>
+    <string name="splittemplate_description">Obegränsat antal mallar och planer för delade transaktioner</string>
+    <string name="ocr_title">Skanna kvitto</string>
+    <string name="history_title">Historiskt diagram</string>
+    <string name="budget_description">Definiera hur mycket du avser att spendera varje år, per månad eller veckovisa budgetar</string>
+</resources>
