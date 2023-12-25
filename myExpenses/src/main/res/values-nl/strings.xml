@@ -183,7 +183,7 @@
     <string name="restore_backup_file_not_found">Geen bestand %1$s gevonden in archief \"%2$s\"</string>
     <string name="continue_confirmation">Wil je doorgaan?</string>
     <string name="warning_reset_account">Als je doorgaat, worden alle transacties van dit account uit de database verwijderd en kunnen deze niet worden hersteld.</string>
-    <string name="warning_password_contrib">Als je een beveiligingsvraag instelt, kun je de app ontgrendelen, voor het geval je uw wachtwoord vergeet.</string>
+    <string name="warning_password_contrib">Als je een beveiligingsvraag instelt, kun je de app ontgrendelen, voor het geval je jouw wachtwoord vergeet.</string>
     <string name="warning_restore">Database en voorkeuren worden hersteld vanuit het bestand \"%1$s\". De huidige gegevens worden verwijderd.</string>
     <string name="warning_splitpartcategory_context">Overdrachten die deel uitmaken van een splitsing kunnen alleen worden bewerkt in de context van de splitsing.</string>
     <string name="menu_create_transaction">Nieuwe Transactie</string>
@@ -200,8 +200,8 @@
     <string name="pref_restore_title">Herstellen</string>
     <string name="restore_preferences_failure">Herstellen van voorkeuren is mislukt</string>
     <string name="save_transaction_and_new_success">Succesvol opgeslagen</string>
-    <string name="status_cleared">gewist</string>
-    <string name="status_void">leegte</string>
+    <string name="status_cleared">vrijgemaakt</string>
+    <string name="status_void">ongeldig</string>
     <string name="no_methods">Geen betaalmethoden.</string>
     <string name="no_parties">Geen partijen.</string>
     <string name="password_lost">Wachtwoord vergeten</string>
@@ -591,7 +591,7 @@
     <string name="sub_budget_exceeded_error_2">Verhoog het bedrag dat is toegewezen aan de hoofdcategorie of verwijder geld uit andere subcategorieën.</string>
     <string name="sub_budget_under_allocated_error">%s zijn al toegewezen aan subcategorieën. Tenzij je geld van hen verwijdert, moet je dat bedrag in ieder geval toewijzen aan de hoofdcategorie.</string>
     <string name="pref_planner_manual_time_current">Tijd van toepassing</string>
-    <string name="menu_scan_mode">Scan-modus</string>
+    <string name="menu_scan_mode">Scanmodus</string>
     <string name="pref_ocr_total_indicators_summary">Een lijst met tekenreeksen die de totale waarde in een ontvangstbewijs identificeren. Zet elke waarde op een nieuwe regel. Laat leeg om de standaardwaarde te herstellen.</string>
     <string name="pref_criterion_futur_title">Criterium voor toekomstige transacties</string>
     <string name="scan_result_no_data">Geen gegevens</string>
@@ -627,7 +627,7 @@
     <string name="pref_debug_title">Foutopsporing</string>
     <string name="exchange_rate_not_supported">De geconfigureerde wisselkoersprovider biedt niet de koers %1$s : %2$s. Je kunt proberen een andere te selecteren in de instellingen.</string>
     <string name="budget_date_end_after_start">De einddatum van het budget moet na de startdatum vallen.</string>
-    <string name="pref_exchange_rate_provider_title">Wisselkoers aanbieder</string>
+    <string name="pref_exchange_rate_provider_title">Wisselkoers Aanbieder</string>
     <string name="pref_exchange_rates_api_key_summary">Registreer een gratise rekeningnummer op %s en geef je App ID op</string>
     <string name="budget_only_current_period">Alleen instellen voor %s</string>
     <string name="dialog_title_warning_delete_budget">Budget verwijderen\?</string>
@@ -738,7 +738,7 @@
     <string name="pref_group_header_show_details_summary">Toon detailsommen in groepskoptekst</string>
     <string name="warning_unencrypted_backup">Hoewel je gegevens beschermd zijn tegen ongeoorloofde toegang op dit apparaat, worden er back-ups gemaakt zonder codering, tenzij je %s configureert.</string>
     <string name="warning_link_transfer">De twee geselecteerde transacties worden als overboeking aan elkaar gekoppeld. Informatie over begunstigde/betaler en categorie wordt verwijderd.</string>
-    <string name="pref_acra_user_email_summary">Voer uw e-mailadres in als je bereid bent om te helpen bij het opsporen van fouten en ons toe te staan contact met je op te nemen.</string>
+    <string name="pref_acra_user_email_summary">Voer je e-mailadres in als je bereid bent te helpen met het opsporen van fouten en ons de mogelijkheid geeft contact met u op te nemen.</string>
     <string name="debt_managment">Schuldenbeheer</string>
     <string name="title_activity_debt_overview">Schuldenoverzicht</string>
     <string name="pref_purge_backup_keep_title">Maximaal aantal meest recente back-upbestanden om te bewaren</string>
@@ -784,7 +784,7 @@
     <string name="pref_sync_notification_summary">Informeren over synchronisatievoortgang</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Overstappen naar een maandabonnement</string>
     <string name="extend_validity">Geldigheid verlengen</string>
-    <string name="progress_dialog_fetching_data_from_sync_backend">Gegevens ophalen uit een externe back-end. Dit kan enige tijd duren.</string>
+    <string name="progress_dialog_fetching_data_from_sync_backend">Gegevens ophalen uit een externe backend. Dit kan enige tijd duren.</string>
     <string name="never">nooit</string>
     <string name="always">altijd</string>
     <string name="home_currency_change_warning">Als je uw thuis valuta wijzigt, gaan equivalente bedragen en wisselkoersen verloren en moeten deze opnieuw worden gedefinieerd.</string>
