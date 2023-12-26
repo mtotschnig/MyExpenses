@@ -1372,8 +1372,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     data = Uri.parse("market://details?id=org.totschnig.ocr.tesseract")
                 }
                 packageManager.queryIntentActivities(intent, 0)
-                    .find { it.activityInfo.packageName == "org.fdroid.fdroid" }
-                    ?.activityInfo?.let {
+                    .map { it.activityInfo }
+                    .find {
+                        it.packageName == "org.fdroid.fdroid" || it.packageName == "org.fdroid.basic"
+                    }?.let {
                         intent.component = ComponentName(it.applicationInfo.packageName, it.name)
                         startActivity(intent)
                     }
