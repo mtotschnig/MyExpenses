@@ -2,7 +2,7 @@
 <resources>
     <string name="splittemplate_title">Gesplitst sjabloon</string>
     <string name="history_title">Geschiedenis grafiek</string>
-    <string name="history_description">Begrijp hoe uw financiële situatie in de loop van de tijd evolueert</string>
+    <string name="history_description">Krijg inzicht in hoe je financiële situatie zich in de loop van de tijd ontwikkelt</string>
     <string name="budget_title">Budgettering</string>
     <string name="ocr_title">Bon scannen</string>
     <string name="ocr_description">Haal automatisch bedrag, datum en begunstigde op</string>
@@ -17,14 +17,14 @@
     <string name="plansunlimited_description">Ontgrendel de mogelijkheid om meer dan drie abonnementen voor terugkerende transacties te maken.</string>
     <string name="print_title">Afdrukken</string>
     <string name="print_description">Druk de transactielijst af naar een PDF-bestand</string>
-    <string name="splittransaction_description">Een enkele transactie kan worden opgesplitst in meerdere delen (categorieën en overschrijvingen).</string>
+    <string name="splittransaction_description">Eén transactie kan worden opgesplitst in meerdere delen (categorieën en overboekingen).</string>
     <string name="synchronization_title">Cloud synchronisatie</string>
     <string name="synchronization_description">Gegevens kunnen worden gesynchroniseerd tussen meerdere apparaten.</string>
     <string name="professional_benefit_1">Ontgrendel alle premiumfuncties</string>
     <string name="professional_benefit_2">E-mail ondersteuning</string>
     <string name="professional_benefit_3">Stemrecht op ontwikkelingsroutekaart</string>
     <string name="splittemplate_description">Onbeperkt aantal sjablonen en plannen voor gesplitste transacties</string>
-    <string name="budget_description">Bepaal hoeveel u van plan bent te besteden aan jaarlijkse, maandelijkse of wekelijkse budgetten</string>
+    <string name="budget_description">Bepaal hoeveel je van plan bent uit te geven in jaarlijkse, maandelijkse of wekelijkse budgetten</string>
     <string name="categorytree_title">Categorie Boom</string>
     <string name="accountsunlimited_title">Onbeperkt aantal accounts</string>
     <string name="accountsunlimited_description">Ontgrendel de mogelijkheid om meer dan vijf accounts aan te maken.</string>
