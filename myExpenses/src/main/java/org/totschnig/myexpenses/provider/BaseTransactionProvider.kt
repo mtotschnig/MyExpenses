@@ -272,7 +272,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 .appendPath(grouping.name)
                 .build()
 
-        fun groupingUriBuilder(grouping: Grouping): Uri.Builder = TransactionProvider.TRANSACTIONS_URI
+        fun groupingUriBuilder(grouping: Grouping): Uri.Builder =
+            TransactionProvider.TRANSACTIONS_URI
                 .buildUpon()
                 .appendPath(URI_SEGMENT_GROUPS)
                 .appendPath(grouping.name)
@@ -763,7 +764,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     fun hasCategories(db: SupportSQLiteDatabase): Bundle = Bundle(1).apply {
-        val defaultCatIds = listOfNotNull(SPLIT_CATID, prefHandler.defaultTransferCategory).joinToString()
+        val defaultCatIds =
+            listOfNotNull(SPLIT_CATID, prefHandler.defaultTransferCategory).joinToString()
         putBoolean(
             KEY_COUNT,
             db.query("SELECT EXISTS (SELECT 1 FROM $TABLE_CATEGORIES WHERE $KEY_ROWID NOT IN ($defaultCatIds))")
@@ -1073,13 +1075,13 @@ abstract class BaseTransactionProvider : ContentProvider() {
             add("$yearExpression AS $KEY_YEAR")
             add("$secondDef AS $KEY_SECOND_GROUP")
 
-            val isExpense = if(includeTransfers)
+            val isExpense = if (includeTransfers)
                 "$KEY_TYPE = $FLAG_EXPENSE OR ($KEY_TYPE != $FLAG_INCOME AND $KEY_DISPLAY_AMOUNT < 0)"
             else
                 "$KEY_TYPE = $FLAG_EXPENSE OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_DISPLAY_AMOUNT < 0)"
             add("$aggregateFunction(CASE WHEN $isExpense THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_EXPENSES")
 
-            val isIncome = if(includeTransfers)
+            val isIncome = if (includeTransfers)
                 "$KEY_TYPE = $FLAG_INCOME OR ($KEY_TYPE != $FLAG_EXPENSE AND $KEY_DISPLAY_AMOUNT > 0)"
             else
                 "$KEY_TYPE = $FLAG_INCOME OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_DISPLAY_AMOUNT > 0)"
@@ -1088,7 +1090,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
             if (!includeTransfers) {
                 //for the Grand total account the transfers between accounts managed by the app should equal to 0,
                 //so we only include transactions mapped to transfer categories (i.e. transfers to accounts external to the app)
-                val isTransfer = if (forHome == null) "$KEY_TYPE = $FLAG_TRANSFER" else "$KEY_TRANSFER_PEER IS NULL AND $KEY_TYPE = $FLAG_TRANSFER"
+                val isTransfer =
+                    if (forHome == null) "$KEY_TYPE = $FLAG_TRANSFER" else "$KEY_TRANSFER_PEER IS NULL AND $KEY_TYPE = $FLAG_TRANSFER"
 
                 add("$aggregateFunction(CASE WHEN $isTransfer THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_TRANSFERS")
             }

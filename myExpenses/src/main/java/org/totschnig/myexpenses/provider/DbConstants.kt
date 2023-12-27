@@ -581,6 +581,9 @@ fun buildTransactionGroupCte(
 fun effectiveTypeExpression(typeWithFallback: String): String =
     "CASE $typeWithFallback WHEN $FLAG_NEUTRAL THEN CASE WHEN $KEY_AMOUNT > 0 THEN $FLAG_INCOME ELSE $FLAG_EXPENSE END ELSE $typeWithFallback END"
 
+fun effectiveTypeExpressionIncludeTransfers(typeWithFallback: String): String =
+    "CASE $typeWithFallback WHEN $FLAG_EXPENSE THEN $FLAG_EXPENSE WHEN $FLAG_INCOME THEN $FLAG_INCOME ELSE CASE WHEN $KEY_AMOUNT > 0 THEN $FLAG_INCOME ELSE $FLAG_EXPENSE END END"
+
 fun transactionSumQuery(
     uri: Uri,
     projection: Array<String>,

@@ -6,9 +6,6 @@ import org.totschnig.myexpenses.model2.IAccount
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.groupingUriBuilder
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.getProjectionExtended
 import org.totschnig.myexpenses.provider.DatabaseConstants.getProjectionExtendedAggregate
 import org.totschnig.myexpenses.provider.DatabaseConstants.getProjectionExtendedHome

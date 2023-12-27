@@ -9,7 +9,6 @@ import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
-import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.db2.asCategoryType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
@@ -17,14 +16,13 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isHomeAggrega
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.uriBuilderForTransactionList
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT
-import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
 import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountHomeEquivalent
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.effectiveTypeExpression
+import org.totschnig.myexpenses.provider.effectiveTypeExpressionIncludeTransfers
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 
 const val KEY_LOADING_INFO = "loadingInfo"
@@ -113,19 +111,13 @@ class TransactionListViewModel(
                 selectionParts += it
                 selectionArgs.addAll(groupingArgs.toTypedArray())
             }
-            val types = buildList {
-                add(type.asCategoryType)
-                if (aggregateNeutral) {
-                    add(FLAG_NEUTRAL)
-                }
-                if (withTransfers) {
-                    add(FLAG_TRANSFER)
-                }
-            }
             val typeWithFallback = DbUtils.typeWithFallBack(prefHandler)
-            val typeExpression = if (aggregateNeutral) typeWithFallback else
-                effectiveTypeExpression(typeWithFallback)
-            selectionParts += "$typeExpression IN (${types.joinToString()})"
+            val typeExpression = when {
+                aggregateNeutral -> "$typeWithFallback IN (${type.asCategoryType}, $FLAG_NEUTRAL)"
+                withTransfers -> effectiveTypeExpressionIncludeTransfers(typeWithFallback) + " = " + type.asCategoryType
+                else -> effectiveTypeExpression(typeWithFallback) + " = " + type.asCategoryType
+            }
+            selectionParts += typeExpression
             selectionParts.joinToString(" AND ") to selectionArgs.toTypedArray()
         }
 }
