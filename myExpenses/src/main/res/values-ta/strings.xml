@@ -343,7 +343,7 @@
     <string name="status">நிலை</string>
     <string name="status_cleared">ஒப்புக்கொள்ளப்பட்டது</string>
     <string name="status_reconciled">நல்லிணக்கம் செய்யப்பட்டது</string>
-    <string name="status_uncreconciled">நல்லிணக்கம் செய்யப்படாதது</string>
+    <string name="status_unreconciled">நல்லிணக்கம் செய்யப்படாதது</string>
     <string name="status_void">வெற்று</string>
     <string name="subcategory">துணை வகை</string>
     <string name="sum_expenses">செலவுகள்</string>

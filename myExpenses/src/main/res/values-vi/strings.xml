@@ -332,7 +332,7 @@
     <string name="status">Trạng thái</string>
     <string name="status_cleared">đã thanh toán</string>
     <string name="status_reconciled">đã khớp</string>
-    <string name="status_uncreconciled">chưa khớp</string>
+    <string name="status_unreconciled">chưa khớp</string>
     <string name="status_void">trống</string>
     <string name="subcategory">Phân loại phụ thuộc</string>
     <string name="sum_expenses">Chi</string>

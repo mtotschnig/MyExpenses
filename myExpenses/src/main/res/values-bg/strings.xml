@@ -343,7 +343,7 @@
     <string name="status">Статус</string>
     <string name="status_cleared">изчистена</string>
     <string name="status_reconciled">съгласувана</string>
-    <string name="status_uncreconciled">несъгласувана</string>
+    <string name="status_unreconciled">несъгласувана</string>
     <string name="status_void">не сумирай</string>
     <string name="subcategory">Подкатегория</string>
     <string name="sum_expenses">Разходи общо</string>

@@ -267,7 +267,7 @@
     <string name="status">Estat</string>
     <string name="status_cleared">aprovada</string>
     <string name="status_reconciled">reconciliat</string>
-    <string name="status_uncreconciled">sense reconciliar</string>
+    <string name="status_unreconciled">sense reconciliar</string>
     <string name="subcategory">Subcategoria</string>
     <string name="sum_expenses">Despeses</string>
     <string name="sum_income">Ingressos</string>

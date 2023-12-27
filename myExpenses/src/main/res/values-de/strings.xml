@@ -343,7 +343,7 @@
     <string name="status">Status</string>
     <string name="status_cleared">verrechnet</string>
     <string name="status_reconciled">abgestimmt</string>
-    <string name="status_uncreconciled">nicht abgestimmt</string>
+    <string name="status_unreconciled">nicht abgestimmt</string>
     <string name="status_void">ungültig</string>
     <string name="subcategory">Unterkategorie</string>
     <string name="sum_expenses">Ausgaben</string>

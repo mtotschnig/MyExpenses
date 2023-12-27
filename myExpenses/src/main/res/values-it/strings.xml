@@ -348,7 +348,7 @@
     <string name="status">Stato</string>
     <string name="status_cleared">liquidato</string>
     <string name="status_reconciled">riconciliato</string>
-    <string name="status_uncreconciled">non riconciliato</string>
+    <string name="status_unreconciled">non riconciliato</string>
     <string name="status_void">invalido</string>
     <string name="subcategory">Sottocategoria</string>
     <string name="sum_expenses">Spese</string>

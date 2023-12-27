@@ -310,7 +310,7 @@
     <string name="status">Status</string>
     <string name="status_cleared">afregnet</string>
     <string name="status_reconciled">afstemt</string>
-    <string name="status_uncreconciled">ikke afstemt</string>
+    <string name="status_unreconciled">ikke afstemt</string>
     <string name="status_void">ugyldig</string>
     <string name="subcategory">Underkategori</string>
     <string name="sum_expenses">Udgifter</string>

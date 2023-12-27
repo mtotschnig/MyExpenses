@@ -283,7 +283,7 @@
     <string name="split_parts_heading">Onderdelen splitsen</string>
     <string name="status">Status</string>
     <string name="status_reconciled">afgestemd</string>
-    <string name="status_uncreconciled">niet afgestemd</string>
+    <string name="status_unreconciled">niet afgestemd</string>
     <string name="subcategory">Subcategorie</string>
     <string name="sum_expenses">Uitgaven</string>
     <string name="sum_transfer">Overschrijvingen</string>

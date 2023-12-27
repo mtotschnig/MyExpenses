@@ -344,7 +344,7 @@
     <string name="status">Stan</string>
     <string name="status_cleared">oczyszczone</string>
     <string name="status_reconciled">uzgodnione</string>
-    <string name="status_uncreconciled">nieuzgodnione</string>
+    <string name="status_unreconciled">nieuzgodnione</string>
     <string name="status_void">anulowano</string>
     <string name="subcategory">Podkategoria</string>
     <string name="sum_expenses">Wydatki</string>

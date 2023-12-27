@@ -335,7 +335,7 @@
     <string name="thank_you">آپ کی حمایت کا شکریہ!</string>
     <string name="warning_delete_category_with_budget">کم از کم ایک منتخب زمرہ کے لیے، بجٹ مختص ہیں، جو بھی حذف کر دیا جائے گا.</string>
     <string name="status_reconciled">مفاہمت</string>
-    <string name="status_uncreconciled">غیر متفق</string>
+    <string name="status_unreconciled">غیر متفق</string>
     <string name="sum_expenses">اخراجات</string>
     <string name="time">وقت</string>
     <string name="continue_confirmation">کیا آپ جاری رکھنا چاہتے ہیں؟</string>

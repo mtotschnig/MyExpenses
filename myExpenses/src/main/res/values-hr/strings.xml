@@ -308,7 +308,7 @@
     <string name="status">Stanje</string>
     <string name="status_cleared">odobreno</string>
     <string name="status_reconciled">usklađeno</string>
-    <string name="status_uncreconciled">neusklađeno</string>
+    <string name="status_unreconciled">neusklađeno</string>
     <string name="subcategory">Podkategorija</string>
     <string name="sum_expenses">Troškovi</string>
     <string name="sum_income">Prihod</string>

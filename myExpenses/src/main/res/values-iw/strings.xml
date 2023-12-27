@@ -347,7 +347,7 @@
     <string name="status">מצב</string>
     <string name="status_cleared">בוצע Cleared</string>
     <string name="status_reconciled">מתאים לדף הבנק Reconciled</string>
-    <string name="status_uncreconciled">אינו מתאים לדף הבבנק Unreconciled</string>
+    <string name="status_unreconciled">אינו מתאים לדף הבבנק Unreconciled</string>
     <string name="status_void">מבוטל</string>
     <string name="subcategory">תת קטגוריה</string>
     <string name="sum_expenses">הוצאות</string>

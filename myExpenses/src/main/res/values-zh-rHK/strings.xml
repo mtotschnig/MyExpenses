@@ -230,7 +230,7 @@
     <string name="status">狀態</string>
     <string name="status_cleared">已結清</string>
     <string name="status_reconciled">已對賬</string>
-    <string name="status_uncreconciled">未對賬</string>
+    <string name="status_unreconciled">未對賬</string>
     <string name="subcategory">子類別</string>
     <string name="sum_expenses">支出</string>
     <string name="sum_income">收入</string>

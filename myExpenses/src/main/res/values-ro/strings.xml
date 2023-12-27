@@ -327,7 +327,7 @@
     <string name="status">Status</string>
     <string name="status_cleared">procesată</string>
     <string name="status_reconciled">decontată</string>
-    <string name="status_uncreconciled">nedecontată</string>
+    <string name="status_unreconciled">nedecontată</string>
     <string name="status_void">gol</string>
     <string name="subcategory">Subcategorie</string>
     <string name="sum_expenses">Cheltuieli</string>

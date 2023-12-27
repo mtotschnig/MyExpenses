@@ -339,7 +339,7 @@
     <string name="status">Статус</string>
     <string name="status_cleared">підтверджено</string>
     <string name="status_reconciled">узгоджено</string>
-    <string name="status_uncreconciled">неузгоджено</string>
+    <string name="status_unreconciled">неузгоджено</string>
     <string name="status_void">анульовано</string>
     <string name="subcategory">Підкатегорія</string>
     <string name="sum_expenses">Витрати</string>

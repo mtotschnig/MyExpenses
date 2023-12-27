@@ -343,7 +343,7 @@
     <string name="status">Durum</string>
     <string name="status_cleared">temizlendi</string>
     <string name="status_reconciled">uzlaşmış</string>
-    <string name="status_uncreconciled">uzlaşmamış</string>
+    <string name="status_unreconciled">uzlaşmamış</string>
     <string name="status_void">hükümsüz</string>
     <string name="subcategory">Alt kategori</string>
     <string name="sum_expenses">Harcamalar</string>

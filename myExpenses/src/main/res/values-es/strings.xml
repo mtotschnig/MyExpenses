@@ -347,7 +347,7 @@
     <string name="status">Estado</string>
     <string name="status_cleared">Despejado</string>
     <string name="status_reconciled">Reconciliado</string>
-    <string name="status_uncreconciled">No reconciliado</string>
+    <string name="status_unreconciled">No reconciliado</string>
     <string name="status_void">Inválido</string>
     <string name="subcategory">Subcategoría</string>
     <string name="sum_expenses">Gastos</string>

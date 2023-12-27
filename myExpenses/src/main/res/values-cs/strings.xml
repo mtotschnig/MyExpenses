@@ -351,7 +351,7 @@
     <string name="status">Stav</string>
     <string name="status_cleared">zrušeno</string>
     <string name="status_reconciled">odsouhlasen</string>
-    <string name="status_uncreconciled">neodsouhlasené</string>
+    <string name="status_unreconciled">neodsouhlasené</string>
     <string name="status_void">prázdné</string>
     <string name="subcategory">Podkategorie</string>
     <string name="sum_expenses">Výdaje</string>

@@ -359,7 +359,7 @@
     <string name="status">الحالات</string>
     <string name="status_cleared">تمت تصفيته</string>
     <string name="status_reconciled">تمت تسويته</string>
-    <string name="status_uncreconciled">لم تتم تسويتها</string>
+    <string name="status_unreconciled">لم تتم تسويتها</string>
     <string name="status_void">لاغي</string>
     <string name="subcategory">التصنيفات الفرعية</string>
     <string name="sum_expenses">المصاريف</string>

@@ -339,7 +339,7 @@
     <string name="status">状态</string>
     <string name="status_cleared">已入帐/已结算</string>
     <string name="status_reconciled">已对帐</string>
-    <string name="status_uncreconciled">未入帐</string>
+    <string name="status_unreconciled">未入帐</string>
     <string name="status_void">无效</string>
     <string name="subcategory">子类别</string>
     <string name="sum_expenses">支出</string>

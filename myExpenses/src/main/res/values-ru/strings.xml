@@ -350,7 +350,7 @@
     <string name="status">Статус</string>
     <string name="status_cleared">очистить</string>
     <string name="status_reconciled">согласовать</string>
-    <string name="status_uncreconciled">не согласовывать</string>
+    <string name="status_unreconciled">не согласовывать</string>
     <string name="status_void">пусто</string>
     <string name="subcategory">Субкатегория</string>
     <string name="sum_expenses">Расходы</string>

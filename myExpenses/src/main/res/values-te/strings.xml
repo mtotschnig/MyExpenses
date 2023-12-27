@@ -334,7 +334,7 @@
     <string name="sum_expenses">ఖర్చులు</string>
     <string name="subcategory">ఉపవర్గం</string>
     <string name="status_void">శూన్యమైనది</string>
-    <string name="status_uncreconciled">రాజీపడలేదు</string>
+    <string name="status_unreconciled">రాజీపడలేదు</string>
     <string name="status_reconciled">రాజీ పడింది</string>
     <string name="status_cleared">క్లియర్ చేయబడింది</string>
     <string name="budget_exceeded_error_1_2">మీ బడ్జెట్ అంతా ఇతర వర్గాలకు కేటాయించబడింది.</string>

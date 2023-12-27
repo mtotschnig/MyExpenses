@@ -538,7 +538,7 @@
     <string name="share_scheme_not_supported">طرح %1$s پشتیبانی نمی‌شود</string>
     <string name="pref_sort_order_usages">تعداد موارد استفاده</string>
     <string name="csv_import_subcategory_requires_category">در صورت نگاشتن زیرشاخه، باید دسته بندی را نیز نگاشت کنید.</string>
-    <string name="status_uncreconciled">غیر قابل تطبیق</string>
+    <string name="status_unreconciled">غیر قابل تطبیق</string>
     <string name="warning_reset_account_all">اگر ادامه دهید، برای همه حساب‌های %1$s، تراکنش‌ها از پایگاه داده حذف می‌شوند و قابل بازیابی نیستند.</string>
     <string name="warning_splitpartcategory_context">نقل و انتقالاتی که بخشی از یک تسهیم هستند فقط در زمینه تسهیم قابل ویرایش هستند.</string>
     <string name="menu_categories_setup_default">دسته بندی های پیش فرض را تنظیم کنید</string>

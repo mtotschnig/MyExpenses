@@ -19,7 +19,7 @@ enum class CrStatus(@ColorRes val color: Int, val symbol: Char?) {
     fun toStringRes() = when (this) {
         CLEARED -> R.string.status_cleared
         RECONCILED -> R.string.status_reconciled
-        UNRECONCILED -> R.string.status_uncreconciled
+        UNRECONCILED -> R.string.status_unreconciled
         VOID -> R.string.status_void
     }
 

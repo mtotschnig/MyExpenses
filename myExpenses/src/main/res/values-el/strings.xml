@@ -341,7 +341,7 @@
     <string name="status">Κατάσταση</string>
     <string name="status_cleared">εκκαθαρισμένη</string>
     <string name="status_reconciled">διακανονισμένο</string>
-    <string name="status_uncreconciled">μη διακανονισμένο</string>
+    <string name="status_unreconciled">μη διακανονισμένο</string>
     <string name="status_void">Κενός</string>
     <string name="subcategory">Υποκατηγορία</string>
     <string name="sum_expenses">Έξοδα</string>

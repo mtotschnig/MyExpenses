@@ -337,7 +337,7 @@
     <string name="status">ステータス</string>
     <string name="status_cleared">消込済</string>
     <string name="status_reconciled">照合済</string>
-    <string name="status_uncreconciled">未照合</string>
+    <string name="status_unreconciled">未照合</string>
     <string name="status_void">無効</string>
     <string name="subcategory">副分類</string>
     <string name="sum_expenses">支出</string>

@@ -269,7 +269,7 @@
     <string name="status">තත්වය </string>
     <string name="status_cleared">හිස් කරා </string>
     <string name="status_reconciled">සාමාධානය කරනවා</string>
-    <string name="status_uncreconciled">අසමගි කරනවා </string>
+    <string name="status_unreconciled">අසමගි කරනවා </string>
     <string name="subcategory">අනු ප්‍රබේධ </string>
     <string name="sum_expenses">වියදම් </string>
     <string name="sum_income">ආදායම</string>

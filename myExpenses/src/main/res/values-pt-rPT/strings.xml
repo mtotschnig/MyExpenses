@@ -324,7 +324,7 @@
     <string name="status">Status</string>
     <string name="status_cleared">compensada</string>
     <string name="status_reconciled">reconciliada</string>
-    <string name="status_uncreconciled">não reconciliada</string>
+    <string name="status_unreconciled">não reconciliada</string>
     <string name="status_void">vazio</string>
     <string name="subcategory">Subcategoria</string>
     <string name="sum_expenses">Despesas</string>

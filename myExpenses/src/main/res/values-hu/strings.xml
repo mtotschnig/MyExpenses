@@ -343,7 +343,7 @@
     <string name="status">Állapot</string>
     <string name="status_cleared">rendezett</string>
     <string name="status_reconciled">egyeztetett</string>
-    <string name="status_uncreconciled">nem egyeztetett</string>
+    <string name="status_unreconciled">nem egyeztetett</string>
     <string name="status_void">érvénytelen</string>
     <string name="subcategory">Alkategória</string>
     <string name="sum_expenses">Kiadások</string>

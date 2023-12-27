@@ -342,7 +342,7 @@
     <string name="status">ಸ್ಥಿತಿ</string>
     <string name="status_cleared">ತೆರವುಗೊಳಿಸಲಾಗಿದೆ</string>
     <string name="status_reconciled">ರಾಜಿ</string>
-    <string name="status_uncreconciled">ಹೊಂದಾಣಿಕೆ ಮಾಡಿಕೊಂಡಿಲ್ಲ</string>
+    <string name="status_unreconciled">ಹೊಂದಾಣಿಕೆ ಮಾಡಿಕೊಂಡಿಲ್ಲ</string>
     <string name="status_void">ಅನೂರ್ಜಿತ</string>
     <string name="subcategory">ಉಪವರ್ಗ</string>
     <string name="sum_expenses">ವೆಚ್ಚಗಳು</string>

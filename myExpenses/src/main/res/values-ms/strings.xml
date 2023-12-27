@@ -336,7 +336,7 @@
     <string name="status">Status</string>
     <string name="status_cleared">selesai</string>
     <string name="status_reconciled">disesuaikan</string>
-    <string name="status_uncreconciled">belum disesuaikan</string>
+    <string name="status_unreconciled">belum disesuaikan</string>
     <string name="status_void">tidak sah</string>
     <string name="subcategory">Subkategori</string>
     <string name="sum_expenses">Perbelanjaan</string>

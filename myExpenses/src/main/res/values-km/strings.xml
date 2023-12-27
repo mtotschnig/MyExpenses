@@ -280,7 +280,7 @@
     <string name="status">ស្ថានភាព</string>
     <string name="status_cleared">ជម្រះ</string>
     <string name="status_reconciled">ស្រុះស្រួល</string>
-    <string name="status_uncreconciled">មិន​ស្រុះស្រួល</string>
+    <string name="status_unreconciled">មិន​ស្រុះស្រួល</string>
     <string name="subcategory">ចំណាត់ថ្នាក់រង</string>
     <string name="sum_expenses">ចំណាយ</string>
     <string name="sum_income">ចំណូល</string>

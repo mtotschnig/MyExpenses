@@ -316,7 +316,7 @@
     <string name="status">상태</string>
     <string name="status_cleared">지불 완료</string>
     <string name="status_reconciled">수지 결산 맞춤</string>
-    <string name="status_uncreconciled">수지 결산 맞추지 않음</string>
+    <string name="status_unreconciled">수지 결산 맞추지 않음</string>
     <string name="status_void">무효</string>
     <string name="subcategory">하위 카테고리</string>
     <string name="sum_expenses">지출</string>

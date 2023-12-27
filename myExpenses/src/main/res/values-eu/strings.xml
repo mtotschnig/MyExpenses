@@ -341,7 +341,7 @@
     <string name="status">Egoera</string>
     <string name="status_cleared">kitatuta</string>
     <string name="status_reconciled">berdinkatuta</string>
-    <string name="status_uncreconciled">berdinkatu gabe</string>
+    <string name="status_unreconciled">berdinkatu gabe</string>
     <string name="status_void">indargabetua</string>
     <string name="subcategory">Azpi-kategoria</string>
     <string name="sum_expenses">Gastuak</string>
