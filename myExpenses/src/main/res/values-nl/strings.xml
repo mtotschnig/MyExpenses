@@ -200,7 +200,7 @@
     <string name="pref_restore_title">Herstellen</string>
     <string name="restore_preferences_failure">Herstellen van voorkeuren is mislukt</string>
     <string name="save_transaction_and_new_success">Succesvol opgeslagen</string>
-    <string name="status_cleared">vrijgemaakt</string>
+    <string name="status_cleared">bevestigd</string>
     <string name="status_void">ongeldig</string>
     <string name="no_methods">Geen betaalmethoden.</string>
     <string name="no_parties">Geen partijen.</string>
