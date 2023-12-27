@@ -71,11 +71,11 @@
     <!-- Main category -->
     <string name="Main_7">Huisdieren</string>
     <!-- Subcategory under "Pets" -->
-    <string name="Sub_7_1">Voer</string>
+    <string name="Sub_7_1">Voedsel</string>
     <!-- Subcategory under "Pets" -->
     <string name="Sub_7_2">Overige benodigdheden</string>
     <!-- Subcategory under "Pets" -->
-    <string name="Sub_7_3">Vachtverzorging</string>
+    <string name="Sub_7_3">Uiterlijke verzorging</string>
     <!-- Subcategory under "Pets" -->
     <string name="Sub_7_4">Dierenarts</string>
     <!-- Main category -->
@@ -181,7 +181,7 @@
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_5">IT</string>
     <!-- Subcategory under "Leisures" -->
-    <string name="Sub_17_6">Spellen</string>
+    <string name="Sub_17_6">Spelletjes</string>
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_7">Boeken</string>
     <!-- Subcategory under "Leisures" -->
@@ -197,7 +197,7 @@
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_13">Uitrusting</string>
     <!-- Subcategory under "Leisures" -->
-    <string name="Sub_17_14">Musea/tentoonstellingen</string>
+    <string name="Sub_17_14">Musea/Tentoonstellingen</string>
     <!-- Main category -->
     <string name="Main_18">Lening/Hypotheek</string>
     <!-- Subcategory under "Loan/Mortgage" -->
@@ -211,7 +211,7 @@
     <!-- Subcategory under "Health" -->
     <string name="Sub_19_3">Ziekenhuis</string>
     <!-- Subcategory under "Health" -->
-    <string name="Sub_19_4">Fysiotherapeut</string>
+    <string name="Sub_19_4">Kinesitherapeut</string>
     <!-- Subcategory under "Health" -->
     <string name="Sub_19_5">Dokter</string>
     <!-- Subcategory under "Health" -->
