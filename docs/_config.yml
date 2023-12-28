@@ -219,6 +219,8 @@ versions:
         Il menù sulla schermata principale può essere completamente personalizzato.
       nl: |
         Het menu op het hoofdscherm kan volledig worden aangepast.
+      pt: |
+        O menu na tela principal pode ser totalmente personalizado.
       tr: |
         Ana ekrandaki menü tamamen özelleştirilebilir.
       en: |
@@ -242,6 +244,8 @@ versions:
         I trasferimenti possono essere assegnati a categorie. Quando il blocco schermo è abilitato, consenti la disabilitazione del blocco screenshot.
       nl: |
         Overdrachten kunnen worden toegewezen aan categorieën. Wanneer schermvergrendeling is ingeschakeld, kunt u zich afmelden voor het uitschakelen van schermafbeeldingen.
+      pt: |
+        As transferências podem ser mapeadas para categorias. Quando o bloqueio de tela estiver ativado, permita cancelar a desativação de capturas de tela.
       tr: |
         Transferler kategorilerle ilişkilendirilebilir. Ekran kilidi etkinleştirildiğinde, ekran görüntülerinin devre dışı bırakılmasına izin ver.
       en: |
@@ -340,6 +344,8 @@ versions:
         אפשר להגדיר קטגוריות כהוצאה או הכנסה, מה שישפיע על איך מחושבים הסכומים של ההוצאות וההכנסות.
       nl: |
         Categorieën kunnen nu worden geconfigureerd als uitgaven- of inkomstencategorieën, wat van invloed is op de manier waarop de uitgaven- en inkomstensommen worden berekend.
+      pt: |
+        As categorias agora podem ser configuradas como categorias de despesa ou receita, o que afetará a forma como as somas de despesas e receitas são calculadas.
       tr: |
         Kategoriler artık gider veya gelir kategorileri olarak yapılandırılabilir, bu da gider ve gelir toplamlarının nasıl hesaplandığını etkileyecektir.
       en: |
@@ -369,6 +375,8 @@ versions:
         וידג׳ט מסך בית המציג את מצב התקציב הנוכחי.
       nl: |
         Startschermwidget die de huidige status van het budget weergeeft.
+      pt: |
+        Widget da tela inicial exibindo o estado atual do orçamento.
       tr: |
         Bütçenin güncel durumunu gösteren ana ekran widget'ı.
       en: |
