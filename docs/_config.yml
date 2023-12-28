@@ -134,6 +134,66 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.7.1
+    - "2023-12-20"
+    -
+      ar: |
+        التقاط صورة: صقل واجهة المستخدم
+      bg: |
+        Снимане: Подобрения в потребителския интерфейс
+      cs: |
+        Vyfotit: Zdokonalení uživatelského rozhraní
+      de: |
+        Foto machen: Verfeinerung der Benutzeroberfläche
+      el: |
+        Λήψη φωτογραφίας: Βελτίωση του περιβάλλοντος εργασίας χρήστη
+      es: |
+        Hacer una foto: Interfaz de usuario mejorada
+      fr: |
+        Prendre une photo: Raffinement de l'interface utilisateur
+      hr: |
+        Snimi fotografiju: Poboljšanje korisničkog sučelja
+      hu: |
+        Fotó készítése: A felhasználói felület finomítása
+      it: |
+        Scatta foto: Miglioramento dell'interfaccia utente
+      iw: |
+        צילום תמונה: חידוד ממשק המשתמש
+      pl: |
+        Zrób zdjęcie: Dopracowanie interfejsu użytkownika
+      pt: |
+        Tirar foto: Melhorias na interface do usuário
+      ro: |
+        Fotografiați: Perfecționarea interfeței cu utilizatorul
+      tr: |
+        Fotoğraf çek: Kullanıcı arayüzü iyileştirildi
+      vi: |
+        Chụp ảnh: Cải tiến giao diện người dùng
+      en: |
+        Take photo: Refinement of the user interface
+    -
+      github: 122#column-19711490
+      mastodon: 111613681916953556
+  -
+    - 3.7.0
+    - "2023-12-14"
+    -
+      de: |
+        Das Menü auf dem Hauptbildschirm kann vollständig angepasst werden.
+      es: |
+        El menú de la pantalla principal es totalmente personalizable.
+      fr: |
+        Le menu sur l’écran principal peut être entièrement personnalisé.
+      it: |
+        Il menù sulla schermata principale può essere completamente personalizzato.
+      tr: |
+        Ana ekrandaki menü tamamen özelleştirilebilir.
+      en: |
+        Menu on main screen can be fully customized.
+    -
+      github: 120#column-19702783
+      mastodon: 111578953480346198
+  -
     - 3.6.9
     - "2023-12-03"
     -
