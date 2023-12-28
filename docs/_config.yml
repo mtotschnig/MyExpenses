@@ -141,14 +141,20 @@ versions:
         التقاط صورة: صقل واجهة المستخدم
       bg: |
         Снимане: Подобрения в потребителския интерфейс
+      ca: |
+        Fes una foto: Refinament de la interfície d'usuari
       cs: |
         Vyfotit: Zdokonalení uživatelského rozhraní
+      da: |
+        Tag billede: Forbedring af brugergrænsefladen
       de: |
         Foto machen: Verfeinerung der Benutzeroberfläche
       el: |
         Λήψη φωτογραφίας: Βελτίωση του περιβάλλοντος εργασίας χρήστη
       es: |
         Hacer una foto: Interfaz de usuario mejorada
+      eu: |
+        Atera argazkia: Erabiltzaile-interfazea hobetzea
       fr: |
         Prendre une photo: Raffinement de l'interface utilisateur
       hr: |
@@ -159,18 +165,43 @@ versions:
         Scatta foto: Miglioramento dell'interfaccia utente
       iw: |
         צילום תמונה: חידוד ממשק המשתמש
+      ja: |
+        写真を撮影: ユーザーインターフェースの洗練
+      kn: |
+        ಫೋಟೋ ತೆಗೆಯಿರಿ: ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್ನ ಪರಿಷ್ಕರಣೆ
+      ko: |
+        사진 찍기: 사용자 인터페이스 개선
+      km: |
+        ថតរូប: ការ កែ ច្នៃ ចំណុច ប្រទាក់ អ្នក ប្រើ
+      ms: |
+        Ambil foto: Penghalusan antaramuka pengguna
+      nl: |
+        Foto maken: Verfijning van de gebruikersinterface
       pl: |
         Zrób zdjęcie: Dopracowanie interfejsu użytkownika
       pt: |
         Tirar foto: Melhorias na interface do usuário
       ro: |
         Fotografiați: Perfecționarea interfeței cu utilizatorul
+      ru: |
+        Сфотографировать: Усовершенствование пользовательского интерфейса
+      si: |
+        ඡායාරූපය ගන්න: පරිශීලක අතුරුමුහුණත පිරිපහදු කිරීම
+      ta: |
+        படமெடு: பயனர் இடைமுகத்தை மெருகேற்றுதல்
+      te: |
+        ఫోటో తీయండి: వినియోగదారు ఇంటర్ఫేస్ యొక్క శుద్ధీకరణ
       tr: |
         Fotoğraf çek: Kullanıcı arayüzü iyileştirildi
       vi: |
         Chụp ảnh: Cải tiến giao diện người dùng
+      zh: |
+        拍照: 用户界面的改进
+      zh-TW: |
+        拍照: 完善用户界面
       en: |
         Take photo: Refinement of the user interface
+
     -
       github: 122#column-19711490
       mastodon: 111613681916953556
@@ -186,6 +217,8 @@ versions:
         Le menu sur l’écran principal peut être entièrement personnalisé.
       it: |
         Il menù sulla schermata principale può essere completamente personalizzato.
+      nl: |
+        Het menu op het hoofdscherm kan volledig worden aangepast.
       tr: |
         Ana ekrandaki menü tamamen özelleştirilebilir.
       en: |
@@ -197,6 +230,8 @@ versions:
     - 3.6.9
     - "2023-12-03"
     -
+      bg: |
+        Преводите може да бъдат свързани с категории. При разрешено заключване на екрана може да се избере дали да се забрани екранна снимка.
       de: |
         Umbuchungen können Kategorien zugeordnet werden. Wenn die Bildschirmsperre aktiviert ist, können Sie Screenshots erlauben.
       es: |
@@ -205,6 +240,10 @@ versions:
         Les transferts peuvent être associés à des catégories. Lorsque le verrouillage de l'écran est activé, permettez les captures d'écran.
       it: |
         I trasferimenti possono essere assegnati a categorie. Quando il blocco schermo è abilitato, consenti la disabilitazione del blocco screenshot.
+      nl: |
+        Overdrachten kunnen worden toegewezen aan categorieën. Wanneer schermvergrendeling is ingeschakeld, kunt u zich afmelden voor het uitschakelen van schermafbeeldingen.
+      tr: |
+        Transferler kategorilerle ilişkilendirilebilir. Ekran kilidi etkinleştirildiğinde, ekran görüntülerinin devre dışı bırakılmasına izin ver.
       en: |
         Transfers can be mapped to categories. When screen lock is enabled, allow to opt-out of disabling screenshots.
     -
@@ -299,6 +338,10 @@ versions:
         Ora le categorie possono essere configurate come categorie di spesa o di reddito, che avranno un impatto su come i totali delle spese e dei redditi vengono calcolati.
       iw: |
         אפשר להגדיר קטגוריות כהוצאה או הכנסה, מה שישפיע על איך מחושבים הסכומים של ההוצאות וההכנסות.
+      nl: |
+        Categorieën kunnen nu worden geconfigureerd als uitgaven- of inkomstencategorieën, wat van invloed is op de manier waarop de uitgaven- en inkomstensommen worden berekend.
+      tr: |
+        Kategoriler artık gider veya gelir kategorileri olarak yapılandırılabilir, bu da gider ve gelir toplamlarının nasıl hesaplandığını etkileyecektir.
       en: |
         Categories can now be configured as expense or income categories, which will impact how the expense and income sums are calculated.
     -
@@ -308,6 +351,10 @@ versions:
     - 3.6.6
     - "2023-10-28"
     -
+      ar: |
+        أداة الشاشة الرئيسية تعرض الحالة الحالية للميزانية.
+      bg: |
+        Уйджета на начален екран показва текущото състояние на бюджета.
       de: |
         Startbildschirm-Widget, das den aktuellen Status des Budgets anzeigt.
       es: |
@@ -316,8 +363,14 @@ versions:
         Widget de l’écran d’accueil affichant l’état actuel du budget.
       hr: |
         Widget na početnom ekranu koji prikazuje aktualno stanje proračuna.
+      it: |
+        Il widget sulla schermata principale mostra lo stato attuale del tuo bilancio.
       iw: |
         וידג׳ט מסך בית המציג את מצב התקציב הנוכחי.
+      nl: |
+        Startschermwidget die de huidige status van het budget weergeeft.
+      tr: |
+        Bütçenin güncel durumunu gösteren ana ekran widget'ı.
       en: |
         Home Screen Widget displaying current state of budget.
     -
@@ -327,6 +380,8 @@ versions:
     - 3.6.5
     - "2023-10-02"
     -
+      ar: |
+        إرفاق عدد عشوائي من الصور والمستندات (PDF)
       bg: |
         Прикачане на произволен брой изображения и документи (pdf)
       de: |
@@ -337,10 +392,16 @@ versions:
         Joindre un nombre arbitraire d'images et de documents (PDF)
       hr: |
         Priloži proizvoljan broj slika i dokumenata (PDF)
+      it: |
+        Allega un numero arbitrario di immagini e documenti (PDF)
       iw: |
         צירוף מספר שרירותי של תמונות ומסמכים (PDF)
+      nl: |
+        Voeg een willekeurig aantal afbeeldingen en documenten toe (PDF)
       pt: |
         Anexar um número arbitrário de imagens e documentos (PDF)
+      tr: |
+        İstenilen sayıda resim ve belge (PDF) ekle
       en: |
         Attach arbitrary number of images and documents (PDF)
     -
@@ -350,20 +411,28 @@ versions:
     - 3.6.4
     - "2023-09-16"
     -
+      ar: |
+        الاستيراد إلى حسابات متعددة من ملف CSV واحد. استراتيجية جديدة لإدارة معلومات الدافع/المدفوع لأمره المكررة.
       bg: |
         Нова стратегия за управление на дублираща се информация за платец/получател. Импорт в няколко сметки от един CSV файл.
       de: |
-        Neue Strategie für die Verwaltung von duplizierten Zahlern/Empfängern. Import in mehrere Konten aus einer CSV-Datei.
+        Import in mehrere Konten aus einer CSV-Datei. Neue Strategie für die Verwaltung von duplizierten Zahlern/Empfängern.
       es: |
         Nueva estrategia de gestión de la información duplicada sobre pagadores / beneficiarios. Importar a varias cuentas desde un archivo CSV.
       fr: |
         Nouvelle stratégie pour la gestion des tiers doublons. Importer vers plusieurs comptes à partir d'un fichier CSV.
       hr: |
         Nova strategija za upravljanje duplim podacima primalaca/platiše. Uvoz u više računa iz jedne CSV datoteke.
+      it: |
+        Nuova strategia per gestire informazioni duplicate su paganti/beneficiari. Importa all'interno di diversi conti a partire da un file CSV.
       iw: |
-        אסטרטגיה חדשה לניהול פרטי משלם/מוטב כפולים. ייבוא למגוון חשבונות מקובץ CSV יחיד.
+        ייבוא למגוון חשבונות מקובץ CSV יחיד. אסטרטגיה חדשה לניהול פרטי משלם/מוטב כפולים.
+      nl: |
+        Importeer vanuit één CSV-bestand in meerdere rekeningen Nieuwe strategie voor het beheren van dubbele informatie over betalers/begunstigden
       pt: |
         Nova estratégia para gerenciamento de informações duplicadas de pagador/beneficiário. Importar em várias contas a partir de um arquivo CSV.
+      tr: |
+        Tek bir CSV dosyasından birden fazla hesaba aktar. Yinelenen ödeyen/alacaklı bilgilerini yönetmek için yeni yöntem.
       en: |
         Import into multiple accounts from one CSV file. New strategy for managing duplicate payer/payee information.
     -
@@ -515,18 +584,28 @@ versions:
     - 3.6.1
     - "2023-07-03"
     -
+      ar: |
+        يمكن فرز قائمة المعاملات حسب المبلغ. يمكن مشاركة أو حذف الملفات الموجودة في مجلد التطبيق (النسخ الاحتياطية والصادرات).
       bg: |
         Списъкът транзакции може да се сортира по сума. Файловете в папката на приложението (архиви и екпортирани данни) може да бъдат споделяни или изтривани.
       de: |
         Die Buchungsliste kann nach Betrag sortiert werden. Dateien im Anwendungsordner (Backups und Export-Dateien) können geteilt oder gelöscht werden.
       es: |
-        Los archivos de la carpeta de la aplicación (copias de seguridad y exportaciones) se pueden compartir o eliminar. La lista de transacciones puede ordenarse por importe.
+        La lista de transacciones puede ordenarse por importe. Los archivos de la carpeta de la aplicación (copias de seguridad y exportaciones) se pueden compartir o eliminar.
       fr: |
         La liste des opérations peut être triée par montant. Les fichiers dans le dossier d'application (sauvegardes et exportations) peuvent être partagés ou supprimés.
       hr: |
         Popis transakcija se može razvrstati po iznosu. Datoteke u mapi aplikacije (sigurnosne kopije i izvozi) se mogu dijeliti ili izbrisati.
+      it: |
+        La lista delle transazioni può essere ordinata per importo. I file nella cartella dell'applicazione (backup ed esportazioni) possono essere condivisi o eliminati.
       iw: |
         אפשר לסדר את רשימת העסקאות לפי סכום. אפשר לשתף או למחוק את הקבצים בתיקיית היישום (גיבויים וייצוא).
+      nl: |
+        Transactielijst kan worden gesorteerd op bedrag. Bestanden in de applicatiemap (back-ups en exports) kunnen worden gedeeld of verwijderd.
+      pt: |
+        A lista de transações pode ser ordenada por valor. Os arquivos na pasta do aplicativo (backups e exportações) podem ser compartilhados ou excluídos.
+      tr: |
+        Muamele listesi miktara göre sıralanabilir. Uygulama klasöründeki dosyalar (yedeklemeler ve dışa aktarmalar) paylaşılabilir veya silinebilir.
       en: |
         Transaction list can be sorted by amount. Files in application folder (backups and exports) can be shared or deleted.
     -
@@ -632,6 +711,8 @@ versions:
     - 3.5.8
     - "2023-06-09"
     -
+      ar: |
+        القطعة تتبع تكوين الموضوع (فاتح / داكن). اختصار القالب.
       bg: |
         Уйджета следва настройката за тема (светла/тъмна). Пряк път към шаблон
       de: |
@@ -640,8 +721,16 @@ versions:
         El widget sigue la configuración del tema (claro/oscuro). Acceso directo a la plantilla
       fr: |
         Le widget suit la configuration du thème (clair/sombre). Raccourci Modèle
+      hr: |
+        Widget koristi konfiguraciju teme (svijetla/tamna). Prečac predloška.
+      it: |
+        Il widget segue la configurazione del tema (chiaro/scuro). Scorciatoia ai modelli.
       iw: |
         וידג׳ט עוקב אחר עיצוב המערכת (בהיר/כהה). קיצור דרך לתבנית
+      nl: |
+        Widget volgt de themaconfiguratie (licht/donker). Snelkoppeling sjabloon.
+      pt: |
+        O widget segue a configuração do tema (claro/escuro). Atalho para o modelo.
       tr: |
         Widget, tema yapılandırmasını (açık/koyu) takip eder. Şablon kısayolu
       en: |
@@ -661,6 +750,8 @@ versions:
     - 3.5.6
     - "2023-05-12"
     -
+      ar: |
+        تحسين حجم ملف الصورة
       bg: |
         Оптимизиране размера на файла на изображение
       de: |
@@ -669,10 +760,18 @@ versions:
         Optimización del tamaño del archivo de la imagen
       fr: |
         Optimiser la taille du fichier image
+      hr: |
+        Optimiraj veličinu slikovne datoteke
       it: |
-        Ottimizzare le dimensioni del file immagine
+        Ottimizza le dimensioni del file di immagine
       iw: |
         מיטוב גודל קובץ התמונה
+      nl: |
+        Optimaliseer de bestandsgrootte van afbeeldingen
+      pl: |
+        Zoptymalizuj rozmiar pliku obrazu
+      pt: |
+        Otimizar o tamanho do arquivo de imagem
       tr: |
         Resim dosyası boyutunu iyileştir
       en: |
@@ -684,6 +783,8 @@ versions:
     - 3.5.5
     - "2023-05-02"
     -
+      ar: |
+        أصبح الآن اسم ملف النسخ الاحتياطي قابلاً للتكوين.
       bg: |
         Името на архивния файл вече може да се конфигурира.
       de: |
@@ -692,10 +793,16 @@ versions:
         Ahora se puede configurar el nombre del archivo de la copia de seguridad.
       fr: |
         Le nom du fichier de sauvegarde est désormais configurable.
+      hr: |
+        Ime datoteke sigurnosne kopije se sada može konfigurirati.
       it: |
         Il nome del file di backup è ora configurabile.
       iw: |
         שם קובץ הגיבוי נתון לשינוי מעתה.
+      nl: |
+        De naam van het back-upbestand kan nu worden geconfigureerd.
+      pt: |
+        O nome do arquivo de backup agora é configurável.
       tr: |
         Yedekleme dosyası adı artık yapılandırılabilir.
       en: |
@@ -969,6 +1076,8 @@ versions:
     - 3.5.0
     - "2023-01-30"
     -
+      ar: |
+        تشفير قاعدة البيانات (إصدار تجريبي)
       bg: |
         Криптиране на базата данни (Експериментални)
       de: |
