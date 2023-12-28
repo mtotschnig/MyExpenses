@@ -1024,4 +1024,8 @@
     <string name="one_time_payment">Pagamento único</string>
     <string name="dialog_contrib_trial_info_play">Esta avaliação gratuita nunca será convertida em qualquer tipo de assinatura.</string>
     <string name="dialog_contrib_subscription_info_play">Esta assinatura tem efeito imediato, é cobrada mensalmente ou anualmente e pode ser cancelada a qualquer momento.</string>
+    <string name="budget_deleted">O orçamento foi excluído</string>
+    <string name="widget_title_budget">Meu orçamento</string>
+    <string name="budget_widget_configuration">Selecione orçamento</string>
+    <string name="budget_table_header_overspent">Gastos excessivos</string>
 </resources>
