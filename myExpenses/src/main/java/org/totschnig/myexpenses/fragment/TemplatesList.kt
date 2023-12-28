@@ -82,6 +82,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEFAULT_ACTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_INFO
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
@@ -715,7 +716,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                 ssb.setSpan(StyleSpan(Typeface.ITALIC), 0, comment.length, 0)
                 catText = TextUtils.concat(catText, commentSeparator, ssb)
             }
-            val payee = c.getStringOrNull(KEY_COMMENT)
+            val payee = c.getStringOrNull(KEY_PAYEE_NAME)
             if (!payee.isNullOrEmpty()) {
                 ssb = SpannableStringBuilder(payee)
                 ssb.setSpan(UnderlineSpan(), 0, payee.length, 0)
