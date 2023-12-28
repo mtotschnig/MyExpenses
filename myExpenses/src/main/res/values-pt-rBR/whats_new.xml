@@ -8,5 +8,9 @@
     <string name="whats_new_364_1">Importar em várias contas a partir de um arquivo CSV</string>
     <string name="whats_new_358">O widget segue a configuração do tema (claro/escuro).</string>
     <string name="whats_new_361_2">Os arquivos na pasta do aplicativo (backups e exportações) podem ser compartilhados ou excluídos.</string>
-
+    <string name="whats_new_369_1">As transferências podem ser mapeadas para categorias.</string>
+    <string name="whats_new_370">O menu na tela principal pode ser totalmente personalizado.</string>
+    <string name="whats_new_366">Widget da tela inicial exibindo o estado atual do orçamento.</string>
+    <string name="whats_new_369_2">Quando o bloqueio de tela estiver ativado, permita cancelar a desativação de capturas de tela.</string>
+    <string name="whats_new_367">As categorias agora podem ser configuradas como categorias de despesa ou receita, o que afetará a forma como as somas de despesas e receitas são calculadas.</string>
 </resources>
