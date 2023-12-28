@@ -1024,4 +1024,14 @@
     <string name="one_time_payment">Pagamento único</string>
     <string name="dialog_contrib_trial_info_play">Esta avaliação gratuita nunca será convertida em qualquer tipo de assinatura.</string>
     <string name="dialog_contrib_subscription_info_play">Esta assinatura tem efeito imediato, é cobrada mensalmente ou anualmente e pode ser cancelada a qualquer momento.</string>
+    <string name="budget_deleted">O orçamento foi excluído</string>
+    <string name="widget_title_budget">Meu orçamento</string>
+    <string name="budget_widget_configuration">Selecione orçamento</string>
+    <string name="budget_table_header_overspent">Gastos excessivos</string>
+    <string name="pref_unmapped_transaction_as_transfer_title">Transações não mapeadas</string>
+    <string name="menu_aggregate_neutral_categories">Agregar categorias neutras</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_on">são contados como transferência</string>
+    <string name="warning_delete_default_transfer_category">A categoria %s está configurada como categoria de transferência padrão e não deve ser excluída.</string>
+    <string name="default_transfer_category">Categoria de transferência padrão</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_off">são contabilizados como despesa/receita</string>
 </resources>
