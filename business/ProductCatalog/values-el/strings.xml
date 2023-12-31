@@ -10,8 +10,24 @@
     <string name="accountsunlimited_description">Ξεκλειδώστε τη δυνατότητα δημιουργίας περισσότερων από πέντε λογαριασμών.</string>
     <string name="adfree_title">Χωρίς διαφημίσεις</string>
     <string name="csvimport_title">Εισαγωγή CSV</string>
-    <string name="synchronization_title">Συγχρονισμός σύννεφου</string>
+    <string name="synchronization_title">Συγχρονισμός με το σύννεφο</string>
     <string name="plansunlimited_title">Απεριόριστος αριθμός σχεδίων</string>
     <string name="print_title">Εκτύπωση</string>
-    <string name="splittransaction_title">Διαιρεμένη συναλλαγή</string>
+    <string name="splittransaction_title">Διαίρεση συναλλαγής</string>
+    <string name="distribution_description">Οπτικοποιήστε τη στατιστική κατανομή των συναλλαγών ανά κατηγορία σε διαφορετικές περιόδους (έτη, μήνες, εβδομάδες, ημέρες)</string>
+    <string name="csvimport_description">Εξελιγμένη, προσαρμόσιμη εισαγωγή CSV (εφαρμογές υπολογιστικών φύλλων)</string>
+    <string name="professional_benefit_1">Ξεκλειδώστε όλες τις premium λειτουργίες</string>
+    <string name="webui_description">Χρησιμοποιήστε το πρόγραμμα περιήγησης του υπολογιστή σας για εισαγωγή δεδομένων</string>
+    <string name="ocr_description">Αυτόματη εξαγωγή ποσού, ημερομηνίας και δικαιούχου</string>
+    <string name="adfree_description">Χωρίς διαφημίσεις.</string>
+    <string name="synchronization_description">Τα δεδομένα μπορούν να συγχρονιστούν μεταξύ πολλών συσκευών.</string>
+    <string name="history_description">Κατανοήστε πώς εξελίσσεται η οικονομική σας κατάσταση με την πάροδο του χρόνου</string>
+    <string name="categorytree_title">Δέντρο Κατηγοριών</string>
+    <string name="distribution_title">Γράφημα πίτας</string>
+    <string name="splittemplate_description">Απεριόριστος αριθμός προτύπων και σχεδίων για διαχωρισμένες συναλλαγές</string>
+    <string name="plansunlimited_description">Ξεκλειδώστε τη δυνατότητα δημιουργίας περισσότερων των τριών σχεδίων για επαναλαμβανόμενες συναλλαγές.</string>
+    <string name="webui_title">Διαδικτυακό περιβάλλον χρήστη</string>
+    <string name="splittransaction_description">Μια μεμονωμένη συναλλαγή μπορεί να χωριστεί σε πολλαπλά μέρη (κατηγορίες και μεταφορές).</string>
+    <string name="print_description">Εκτύπωση της λίστας συναλλαγών σε αρχείο PDF</string>
+    <string name="budget_description">Καθορίστε τα ποσά που σκοπεύετε να ξοδέψετε σε ετήσιους, μηνιαίους ή εβδομαδιαίους προϋπολογισμούς</string>
 </resources>
