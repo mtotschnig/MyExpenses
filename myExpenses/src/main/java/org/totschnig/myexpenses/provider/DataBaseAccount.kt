@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.provider
 
 import android.net.Uri
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.model2.IAccount
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.groupingUriBuilder
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -9,6 +10,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.getProjectionExtended
 import org.totschnig.myexpenses.provider.DatabaseConstants.getProjectionExtendedAggregate
 import org.totschnig.myexpenses.provider.DatabaseConstants.getProjectionExtendedHome
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_SORT_DIRECTION
+import org.totschnig.myexpenses.provider.filter.WhereFilter
 
 /**
  * groups databaseSpecific information
@@ -17,6 +20,7 @@ abstract class DataBaseAccount : IAccount {
     abstract val id: Long
     abstract override val currency: String
     abstract val grouping: Grouping
+    abstract val sortDirection: SortDirection
 
     override val accountId: Long
         get() = id
@@ -45,12 +49,23 @@ abstract class DataBaseAccount : IAccount {
             else -> getProjectionExtendedAggregate()
         }
 
-    val groupingUri: Uri
-        get() = groupingUriBuilder(grouping).apply {
-            queryParameter?.let {
-                appendQueryParameter(it.first, it.second)
-            }
-        }.build()
+    fun groupingQuery(whereFilter: WhereFilter): Triple<Uri, String?, Array<String>?> {
+        val filter = whereFilter.takeIf { !it.isEmpty }
+        val selection = filter?.getSelectionForParts(DatabaseConstants.VIEW_WITH_ACCOUNT)
+        val args = filter?.getSelectionArgs(true)
+        return Triple(
+            groupingUriBuilder(grouping).apply {
+                if (id > 0) {
+                    appendQueryParameter(KEY_ACCOUNTID, id.toString())
+                } else if (!isHomeAggregate(id)) {
+                    appendQueryParameter(KEY_CURRENCY, currency)
+                }
+                appendQueryParameter(QUERY_PARAMETER_SORT_DIRECTION, sortDirection.name)
+            }.build(),
+            selection,
+            args
+        )
+    }
 
     companion object {
 

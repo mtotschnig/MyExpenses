@@ -41,6 +41,7 @@ import org.totschnig.myexpenses.provider.DbUtils.aggregateFunction
 import org.totschnig.myexpenses.provider.DbUtils.typeWithFallBack
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CALLER_IS_IN_BULK
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_SORT_DIRECTION
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -1062,7 +1063,19 @@ abstract class BaseTransactionProvider : ContentProvider() {
             Grouping.MONTH -> getYearOfMonthStart()
             else -> YEAR
         }
-        val groupBy = if (group == Grouping.YEAR) KEY_YEAR else "$KEY_YEAR,$KEY_SECOND_GROUP"
+        val groupBy = when (group) {
+            Grouping.NONE -> null
+            Grouping.YEAR -> KEY_YEAR
+            else -> "$KEY_YEAR,$KEY_SECOND_GROUP"
+        }
+
+        val orderBy = uri.getQueryParameter(QUERY_PARAMETER_SORT_DIRECTION)?.let { direction ->
+            when (group) {
+                Grouping.NONE -> null
+                Grouping.YEAR -> "$KEY_YEAR $direction"
+                else -> "$KEY_YEAR $direction,$KEY_SECOND_GROUP $direction"
+            }
+        }
         val secondDef = when (group) {
             Grouping.NONE -> "1"
             Grouping.DAY -> DAY
@@ -1124,6 +1137,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     .columns(projection)
                     .selection(null, finalArgs)
                     .groupBy(groupBy)
+                    .orderBy(orderBy)
                     .create()
                     .sql
         return db.measureAndLogQuery(uri, sql, selection, finalArgs)

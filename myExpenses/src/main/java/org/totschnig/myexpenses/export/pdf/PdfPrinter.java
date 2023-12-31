@@ -3,6 +3,8 @@ package org.totschnig.myexpenses.export.pdf;
 
 import static com.itextpdf.text.Chunk.GENERICTAG;
 import static org.totschnig.myexpenses.provider.CursorExtKt.getLocalDateIfExists;
+import static org.totschnig.myexpenses.provider.CursorExtKt.getLongOrNull;
+import static org.totschnig.myexpenses.provider.CursorExtKt.getString;
 import static org.totschnig.myexpenses.provider.CursorExtKt.getStringOrNull;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
@@ -13,7 +15,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DISPLAY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH;
@@ -33,8 +34,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_WEEK_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT;
-import static org.totschnig.myexpenses.provider.CursorExtKt.getLongOrNull;
-import static org.totschnig.myexpenses.provider.CursorExtKt.getString;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.convAmount;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
 
@@ -93,6 +92,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import kotlin.Triple;
 import timber.log.Timber;
 
 public class PdfPrinter {
@@ -210,17 +210,9 @@ public class PdfPrinter {
 
   private void addTransactionList(Document document, Cursor transactionCursor, PdfHelper helper, Context context)
       throws DocumentException, IOException {
-    String selection;
-    String[] selectionArgs;
-    if (!filter.isEmpty()) {
-      selection = filter.getSelectionForParts(VIEW_WITH_ACCOUNT);
-      selectionArgs = filter.getSelectionArgs(true);
-    } else {
-      selection = null;
-      selectionArgs = null;
-    }
-    Cursor groupCursor = context.getContentResolver().query(account.getGroupingUri(), null, selection, selectionArgs,
-        KEY_YEAR + " ASC," + KEY_SECOND_GROUP + " ASC");
+    Triple<Uri, String, String[]> groupingQuery = account.groupingQuery(filter);
+    Cursor groupCursor = context.getContentResolver().query(groupingQuery.getFirst(), null,
+            groupingQuery.getSecond(), groupingQuery.getThird(), null);
 
     int columnIndexGroupSumIncome = groupCursor.getColumnIndex(KEY_SUM_INCOME);
     int columnIndexGroupSumExpense = groupCursor.getColumnIndex(KEY_SUM_EXPENSES);

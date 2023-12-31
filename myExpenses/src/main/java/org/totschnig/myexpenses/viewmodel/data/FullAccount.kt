@@ -7,12 +7,48 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.core.content.res.ResourcesCompat
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.*
-import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.groupingUriBuilder
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.DataBaseAccount
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_FUTURE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_BY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.getBoolean
+import org.totschnig.myexpenses.provider.getEnum
+import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getLongOrNull
+import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.enumValueOrNull
 
 abstract class BaseAccount : DataBaseAccount() {
@@ -37,7 +73,7 @@ data class FullAccount(
     val sumTransfer: Long = 0L,
     override val grouping: Grouping = Grouping.NONE,
     val sortBy: String = KEY_DATE,
-    val sortDirection: SortDirection = SortDirection.DESC,
+    override val sortDirection: SortDirection = SortDirection.DESC,
     val syncAccountName: String? = null,
     val reconciledTotal: Long = 0L,
     val clearedTotal: Long = 0L,
@@ -99,7 +135,7 @@ data class PageAccount(
     override val id: Long,
     val type: AccountType?,
     val sortBy: String,
-    val sortDirection: SortDirection,
+    override val sortDirection: SortDirection,
     override val grouping: Grouping,
     val currencyUnit: CurrencyUnit,
     val sealed: Boolean,
@@ -107,22 +143,6 @@ data class PageAccount(
     override val _color: Int
 ) : BaseAccount() {
     override val currency: String = currencyUnit.code
-    fun groupingQuery(whereFilter: WhereFilter): Triple<Uri, String?, Array<String>?> {
-        val filter = whereFilter.takeIf { !it.isEmpty }
-        val selection = filter?.getSelectionForParts(VIEW_WITH_ACCOUNT)
-        val args = filter?.getSelectionArgs(true)
-        return Triple(
-            groupingUriBuilder(grouping).apply {
-                    if (id > 0) {
-                        appendQueryParameter(KEY_ACCOUNTID, id.toString())
-                    } else if (!isHomeAggregate(id)) {
-                        appendQueryParameter(KEY_CURRENCY, currency)
-                    }
-                }.build(),
-            selection,
-            args
-        )
-    }
 
     //Tuple4 of Uri / projection / selection / selectionArgs
     fun loadingInfo(homeCurrency: String, prefHandler: PrefHandler): Pair<Uri, Array<String>> =

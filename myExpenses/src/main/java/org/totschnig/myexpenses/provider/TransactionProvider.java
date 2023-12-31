@@ -328,6 +328,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_HIERARCHICAL = "hierarchical";
   public static final String QUERY_PARAMETER_CATEGORY_SEPARATOR = "categorySeparator";
   public static final String QUERY_PARAMETER_SHORTEN_COMMENT = "shortenComment";
+  public static final String QUERY_PARAMETER_SORT_DIRECTION = "sortDirection";
   /**
    * 1 -> mapped objects for each row
    * 2 -> aggregate sums for all mapped objects

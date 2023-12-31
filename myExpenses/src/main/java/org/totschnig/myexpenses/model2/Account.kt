@@ -26,7 +26,7 @@ data class Account(
     val uuid: String? = null,
     val isSealed: Boolean = false,
     val sortBy: String = KEY_DATE,
-    val sortDirection: SortDirection = SortDirection.DESC,
+    override val sortDirection: SortDirection = SortDirection.DESC,
     /**
      * describes rate of this accounts minor unit to homeCurrency minor unit
      */
