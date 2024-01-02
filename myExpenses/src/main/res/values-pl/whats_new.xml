@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="whats_new_359">Dostosowywane są metody płatności.</string>
+    <string name="whats_new_369_1">Transfery można przyporządkować do kategorii.</string>
+    <string name="whats_new_370">Menu na ekranie głównym można w pełni dostosować.</string>
+    <string name="whats_new_364_2">Nowa strategia zarządzania zduplikowanymi informacjami o płatniku/odbiorcy płatności</string>
+    <string name="whats_new_361_1">Lista transakcji może być sortowana według kwoty.</string>
+    <string name="whats_new_365">Dołącz dowolną liczbę obrazów i dokumentów (PDF)</string>
+    <string name="whats_new_366">Widżet na ekranie głównym wyświetlający aktualny stan budżetu.</string>
+    <string name="whats_new_364_1">Import na wiele kont z jednego pliku CSV</string>
+    <string name="whats_new_369_2">Gdy blokada ekranu jest włączona, zezwól na rezygnację z wyłączania zrzutów ekranu.</string>
+    <string name="whats_new_358">Widżet jest zgodny z konfiguracją motywu (jasny/ciemny).</string>
+    <string name="whats_new_355">Nazwę pliku kopii zapasowej można teraz konfigurować.</string>
+    <string name="whats_new_367">Kategorie można teraz skonfigurować jako kategorie wydatków lub przychodów, co wpłynie na sposób obliczania sum wydatków i przychodów.</string>
+    <string name="whats_new_361_2">Pliki w folderze aplikacji (kopie zapasowe i eksporty) mogą być udostępniane lub usuwane.</string>
 </resources>
