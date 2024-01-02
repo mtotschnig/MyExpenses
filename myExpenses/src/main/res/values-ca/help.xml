@@ -66,7 +66,8 @@
     <string name="cab_split_help_text">Pot editar la transacció més tard per afegir-hi parts que hi manquin.</string>
     <string name="cab_link_help_text">Un despesa a un compte pot ser vinculada a un ingrés d\'un altre compte. Si els comptes tenen la mateixa divisa, les dues transaccions han de tenir quantitats idèntiques.</string>
     <string name="help_ManageParties_select_filter_info">Toqui una part per filtrar la llista de transaccions. Toqui prolongadament per selecionar múltiples parts.</string>
-    <string name="menu_merge_help_text">Si la mateixa entrada apareix vàries vegades al llistat amb variacions d\'escriptura, pot fusionar-les. Se li demanarà que seleccioni una de les variants com a definitiva.</string>
+    <string name="menu_merge_help_text">Si la mateixa entrada apareix vàries vegades al llistat amb variacions d\'escriptura, pot fusionar-les.</string>
+    <string name="help_ManageParties_mergeMode_info_2">Se li demanarà que seleccioni una de les variants com a definitiva.</string>
     <string name="help_ManageTemplates_plans_info_header">L\'estat de l\'operació s\'indica amb les icones següents:</string>
     <string name="help_ManageTemplates_plans_info_open">L\'operació encara no s\'ha implementat.</string>
     <string name="help_ManageTemplates_plans_info_applied">L\'operació s\'ha implementat.</string>

@@ -81,7 +81,8 @@
     <string name="help_ManageParties_select_mapping_info">Odaberi stranku dodirom.</string>
     <string name="help_ManageParties_select_filter_info">Dodirni stranku za filtriranje popisa transakcija. Dodirni dugo za biranje više stranaka.</string>
     <string name="help_ManageParties_floating_action_button">Koristi plutajući gumb radnji za dodavanje novog unosa.</string>
-    <string name="menu_merge_help_text">Ako se ista stranka u popisu pojavljuje više puta u različitim varijantama pisanja, možeš ih spojiti. Morat ćeš odlučiti koju varijantu želiš zadržati.</string>
+    <string name="menu_merge_help_text">Ako se ista stranka u popisu pojavljuje više puta u različitim varijantama pisanja, možeš ih spojiti.</string>
+    <string name="help_ManageParties_mergeMode_info_2">Morat ćeš odlučiti koju varijantu želiš zadržati.</string>
     <string name="help_ManageTemplates_templates_info">&lt;img src=ic_menu_template&gt;Dok se predlošci mogu izvesti iz transakcija putem njihovog kontekstnog izbornika, ovdje možeš stvoriti nove predloške (za transakcije ili prijenose) pritiskom na plutajući gumb radnji. Pritiskom na predložak stvorit ćeš instancu za transakciju ili prijenos.&lt;br&gt;&lt;img src=ic_event&gt;Plan je predložak za koji si stvorio/la događaj (jednokratan ili ponavljajući) u kalendaru planova. Pritiskom na plan otvorit će se prikaz kalendara koji prikazuje prošle i nadolazeće instance plana.</string>
     <string name="help_ManageTemplates_plans_intro">Svaki istaknuti datum predstavlja instancu plana.</string>
     <string name="help_ManageTemplates_plans_info_header">Stanje instance označeno je sljedećim ikonama:</string>

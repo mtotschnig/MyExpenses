@@ -67,7 +67,8 @@
     <string name="popup_MyExpenses_toolbar_copy_text">موجودی فعلی را در کلیپ بورد کپی کنید.</string>
     <string name="cab_link_help_text">هزینه در یک حساب را می توان با درآمد در حساب دیگر مرتبط کرد. اگر حساب ها دارای ارز یکسانی باشند، دو تراکنش باید دارای مبالغ یکسان باشند.</string>
     <string name="help_ManageParties_floating_action_button">از دکمه شناور برای افزودن ورودی جدید استفاده کنید.</string>
-    <string name="menu_merge_help_text">اگر یک فرد چندین بار در لیست با تغییرات املایی متفاوت ظاهر شود، می توانید آنها را با هم ادغام کنید. از شما خواسته می شود که کدام نوع را انتخاب کنید.</string>
+    <string name="menu_merge_help_text">اگر یک فرد چندین بار در لیست با تغییرات املایی متفاوت ظاهر شود، می توانید آنها را با هم ادغام کنید.</string>
+    <string name="help_ManageParties_mergeMode_info_2">از شما خواسته می شود که کدام نوع را انتخاب کنید.</string>
     <string name="help_ManageTemplates_planner_intro">ضربه زدن طولانی بر روی یک نمونه باز، انتخاب چندگانه را آغاز می کند. ضربه زدن روی شروع یا پایان محدوده تاریخ به شما امکان می دهد محدوده را به گذشته یا آینده گسترش دهید.</string>
     <string name="help_ManageTemplates_plans_info_header">وضعیت یک نمونه با نمادهای زیر نشان داده می شود:</string>
     <string name="help_ManageTemplates_plans_info_open">نمونه هنوز اعمال نشده است.</string>

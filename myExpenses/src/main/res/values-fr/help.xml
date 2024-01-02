@@ -33,7 +33,8 @@
     <string name="help_ManageParties_select_mapping_info">Sélectionnez un tiers en appuyant dessus.</string>
     <string name="help_ManageParties_select_filter_info">Appuyez sur un tiers pour filtrer la liste des opérations. Appuyez longuement pour sélectionner plusieurs tiers.</string>
     <string name="help_ManageParties_floating_action_button">Le bouton d\'action flottant permet d\'ajouter une nouvelle entrée.</string>
-    <string name="menu_merge_help_text">Si le même tiers apparaît plusieurs fois dans la liste avec différentes variantes orthographiques, vous pouvez les fusionner. Vous serez invité à sélectionner la variante à conserver.</string>
+    <string name="menu_merge_help_text">Si le même tiers apparaît plusieurs fois dans la liste avec différentes variantes orthographiques, vous pouvez les fusionner.</string>
+    <string name="help_ManageParties_mergeMode_info_2">Vous serez invité à sélectionner la variante à conserver.</string>
     <string name="help_ManageTemplates_plans_title">Calendrier</string>
     <string name="help_ManageTemplates_planner_title">Echéances à venir</string>
     <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Tandis que les modèles peuvent être issus des transactions par le biais de leur menu de contexte, ici vous pouvez créer de nouveaux modèles à partir de rien (pour les transactions ou transferts) en cliquant sur le bouton d\'action. En cliquant sur un modèle, vous créez une nouvelle instance pour elle.<br><img src=\"ic_event\">Une échéance est un modèle pour lequel vous avez créé un événement (unique ou répétitif) dans le calendrier de l\'échéancier. Cliquez sur un échéancier, pour ouvrir un calendrier, qui affichera ses instances passées et futures.]]></string>

@@ -671,7 +671,7 @@
     <string name="auto_fill_focus">చెల్లింపుదారు పై దృష్టి పెట్టండి</string>
     <string name="request_for_invoice">ఇన్వాయిస్ కోసం అభ్యర్థన</string>
     <string name="active_tags">సక్రియ ట్యాగ్‌లు</string>
-    <string name="merge_parties_select">విలీనం చేసిన పార్టీ పేరును ఎంచుకోండి:</string>
+    <string name="merge_parties_select">విలీనం చేసిన పార్టీ పేరును ఎంచుకోండి</string>
     <string name="account_widget_configuration">ఖాతా విడ్జెట్ కాన్ఫిగరేషన్</string>
     <string name="account_widget_configuration_sum_total">భవిష్యత్ లావాదేవీలను చేర్చండి</string>
     <string name="account_widget_configuration_sum">ప్రదర్శించబడిన మొత్తం రకం</string>

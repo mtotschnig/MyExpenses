@@ -150,6 +150,16 @@ import javax.inject.Inject
 import kotlin.collections.set
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
+
+const val HELP_VARIANT_TRANSACTION = "transaction"
+const val HELP_VARIANT_TRANSFER = "transfer"
+const val HELP_VARIANT_SPLIT = "split"
+const val HELP_VARIANT_TEMPLATE_CATEGORY = "templateCategory"
+const val HELP_VARIANT_TEMPLATE_TRANSFER = "templateTransfer"
+const val HELP_VARIANT_TEMPLATE_SPLIT = "templateSplit"
+const val HELP_VARIANT_SPLIT_PART_CATEGORY = "splitPartCategory"
+const val HELP_VARIANT_SPLIT_PART_TRANSFER = "splitPartTransfer"
+
 /**
  * Activity for editing a transaction
  *
@@ -210,10 +220,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     private lateinit var attachmentInfoMap: Map<Uri, AttachmentInfo>
     override fun getDate(): LocalDate {
         return dateEditBinding.DateButton.date
-    }
-
-    enum class HelpVariant {
-        transaction, transfer, split, templateCategory, templateTransfer, templateSplit, splitPartCategory, splitPartTransfer
     }
 
     @Inject
@@ -292,7 +298,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         maybeRepairRequerySchema()
-        setHelpVariant(HelpVariant.transaction, false)
+        setHelpVariant(HELP_VARIANT_TRANSACTION, false)
         rootBinding = OneExpenseBinding.inflate(LayoutInflater.from(this))
         rootBinding.TagRow.TagLabel.setText(R.string.tags)
         dateEditBinding = DateEditBinding.bind(rootBinding.root)

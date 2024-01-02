@@ -7,8 +7,8 @@ enum class Action {
     SELECT_MAPPING, SELECT_FILTER, MANAGE
 }
 
-enum class HelpVariant {
-    manage, select_mapping, select_filter
-}
+const val HELP_VARIANT_MANGE = "manage"
+const val HELP_VARIANT_SELECT_MAPPING = "select_mapping"
+const val HELP_VARIANT_SELECT_FILTER = "select_filter"
 
 val Intent.asAction get() = enumValueOrDefault(action, Action.SELECT_MAPPING)

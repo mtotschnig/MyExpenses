@@ -14,7 +14,20 @@ import org.totschnig.myexpenses.activity.CsvImportActivity
 import org.totschnig.myexpenses.activity.DebtEdit
 import org.totschnig.myexpenses.activity.DistributionActivity
 import org.totschnig.myexpenses.activity.ExpenseEdit
-import org.totschnig.myexpenses.activity.HelpVariant
+import org.totschnig.myexpenses.activity.HELP_VARIANT_MANGE
+import org.totschnig.myexpenses.activity.HELP_VARIANT_PLANNER
+import org.totschnig.myexpenses.activity.HELP_VARIANT_PLANS
+import org.totschnig.myexpenses.activity.HELP_VARIANT_SELECT_FILTER
+import org.totschnig.myexpenses.activity.HELP_VARIANT_SELECT_MAPPING
+import org.totschnig.myexpenses.activity.HELP_VARIANT_SPLIT
+import org.totschnig.myexpenses.activity.HELP_VARIANT_SPLIT_PART_CATEGORY
+import org.totschnig.myexpenses.activity.HELP_VARIANT_SPLIT_PART_TRANSFER
+import org.totschnig.myexpenses.activity.HELP_VARIANT_TEMPLATES
+import org.totschnig.myexpenses.activity.HELP_VARIANT_TEMPLATE_CATEGORY
+import org.totschnig.myexpenses.activity.HELP_VARIANT_TEMPLATE_SPLIT
+import org.totschnig.myexpenses.activity.HELP_VARIANT_TEMPLATE_TRANSFER
+import org.totschnig.myexpenses.activity.HELP_VARIANT_TRANSACTION
+import org.totschnig.myexpenses.activity.HELP_VARIANT_TRANSFER
 import org.totschnig.myexpenses.activity.HistoryActivity
 import org.totschnig.myexpenses.activity.ManageBudgets
 import org.totschnig.myexpenses.activity.ManageCategories
@@ -143,12 +156,19 @@ class HelpDialogHelperTest(private val activity: Class<out ProtectedFragmentActi
         }
     }
 
-    private fun getHelpVariants(clazz: Class<out ProtectedFragmentActivity>) = when (clazz) {
-        ExpenseEdit::class.java -> ExpenseEdit.HelpVariant.values()
-        ManageCategories::class.java, ManageParties::class.java, ManageTags::class.java -> HelpVariant.values()
-        ManageTemplates::class.java -> ManageTemplates.HelpVariant.values()
-        else -> null
-    }?.map { it.toString() } ?: emptyList()
+    private fun getHelpVariants(clazz: Class<out ProtectedFragmentActivity>): List<String> = when (clazz) {
+        ExpenseEdit::class.java -> listOf(
+            HELP_VARIANT_TRANSACTION, HELP_VARIANT_TRANSFER, HELP_VARIANT_SPLIT,
+            HELP_VARIANT_TEMPLATE_CATEGORY, HELP_VARIANT_TEMPLATE_TRANSFER,
+            HELP_VARIANT_TEMPLATE_SPLIT, HELP_VARIANT_SPLIT_PART_CATEGORY,
+            HELP_VARIANT_SPLIT_PART_TRANSFER
+        )
+        ManageCategories::class.java, ManageParties::class.java, ManageTags::class.java -> listOf(
+            HELP_VARIANT_MANGE, HELP_VARIANT_SELECT_FILTER, HELP_VARIANT_SELECT_MAPPING
+        )
+        ManageTemplates::class.java -> listOf(HELP_VARIANT_TEMPLATES, HELP_VARIANT_PLANS, HELP_VARIANT_PLANNER)
+        else -> emptyList()
+    }
 
     private fun testMenuItems(
         activityName: String,

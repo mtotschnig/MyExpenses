@@ -41,7 +41,8 @@
     <string name="help_ManageTemplates_templates_info">&lt;img src=ic_menu_template&gt;Hoewel sjablonen kunnen worden afgeleid van transacties via hun contextmenu, kun je hier nieuwe sjablonen maken (voor transacties of overschrijvingen) door op de zwevende actieknop te klikken. Als je op een sjabloon klikt, wordt er een instantie voor gemaakt.&lt;br&gt;&lt;img src=ic_event&gt;Een plan is een sjabloon waarvoor je een evenement (eenmalig of terugkerend) hebt gemaakt in de plannerkalender. Als je op een plan klikt, wordt een kalenderweergave geopend, die eerdere en toekomstige exemplaren van een plan weergeeft.</string>
     <string name="help_ManageTemplates_planner_intro">Als je lang op een open exemplaar tikt, wordt meervoudige selectie gestart. Door op het begin of einde van het datumbereik te tikken, kun je het bereik uitbreiden naar het verleden of de toekomst.</string>
     <string name="help_ManageParties_select_mapping_info">Selecteer een partij door erop te tikken.</string>
-    <string name="menu_merge_help_text">Als dezelfde partij meerdere keren in de lijst voorkomt met verschillende spellingsvarianten, kun je ze samenvoegen. Je wordt gevraagd om te selecteren welke variant je wilt behouden.</string>
+    <string name="menu_merge_help_text">Als dezelfde partij meerdere keren in de lijst voorkomt met verschillende spellingsvarianten, kun je ze samenvoegen.</string>
+    <string name="help_ManageParties_mergeMode_info_2">Je wordt gevraagd om te selecteren welke variant je wilt behouden.</string>
     <string name="help_ManageTemplates_plans_intro">Elke gemarkeerde datum vertegenwoordigt een instantie van het plan.</string>
     <string name="help_ManageTemplates_plans_info_header">De status van een instantie wordt aangegeven door de volgende iconen:</string>
     <string name="help_ManageTemplates_plans_info_open">De instantie is nog niet toegepast.</string>

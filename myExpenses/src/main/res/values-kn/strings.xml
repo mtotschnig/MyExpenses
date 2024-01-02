@@ -848,7 +848,7 @@
     <string name="auto_fill_focus">ಪಾವತಿಸುವವರ ಮೇಲೆ ಕೇಂದ್ರೀಕರಿಸಿ</string>
     <string name="request_for_invoice">ಸರಕುಪಟ್ಟಿಗಾಗಿ ವಿನಂತಿ</string>
     <string name="active_tags">ಸಕ್ರಿಯ ಟ್ಯಾಗ್‌ಗಳು</string>
-    <string name="merge_parties_select">ವಿಲೀನಗೊಂಡ ಪಕ್ಷದ ಹೆಸರನ್ನು ಆಯ್ಕೆಮಾಡಿ:</string>
+    <string name="merge_parties_select">ವಿಲೀನಗೊಂಡ ಪಕ್ಷದ ಹೆಸರನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
     <string name="account_widget_configuration">ಖಾತೆ ವಿಜೆಟ್ ಕಾನ್ಫಿಗರೇಶನ್</string>
     <string name="account_widget_configuration_sum_total">ಭವಿಷ್ಯದ ವಹಿವಾಟುಗಳನ್ನು ಸೇರಿಸಿ</string>
     <string name="account_widget_configuration_sum">ಪ್ರದರ್ಶಿತ ಮೊತ್ತದ ಪ್ರಕಾರ</string>

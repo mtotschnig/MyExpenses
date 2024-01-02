@@ -146,13 +146,13 @@ class ManageCategories : ProtectedFragmentActivity(),
         injector.inject(viewModel)
         val (helpVariant, title) = when (action) {
             Action.MANAGE ->
-                HelpVariant.manage to R.string.pref_manage_categories_title
+                HELP_VARIANT_MANGE to R.string.pref_manage_categories_title
 
             Action.SELECT_FILTER ->
-                HelpVariant.select_filter to R.string.search_category
+                HELP_VARIANT_SELECT_FILTER to R.string.search_category
 
             Action.SELECT_MAPPING ->
-                HelpVariant.select_mapping to R.string.select_category
+                HELP_VARIANT_SELECT_MAPPING to R.string.select_category
         }
         setHelpVariant(helpVariant, true)
         if (title != 0) supportActionBar!!.setTitle(title)
@@ -700,7 +700,7 @@ class ManageCategories : ProtectedFragmentActivity(),
      * presents AlertDialog for adding a new category
      * if label is already used, shows an error
      */
-    open fun createCat(parent: Category?) {
+    private fun createCat(parent: Category?) {
         viewModel.dialogState = CategoryViewModel.Show(
             parent = parent,
             category = if (parent == null) Category(
@@ -712,7 +712,7 @@ class ManageCategories : ProtectedFragmentActivity(),
     /**
      * presents AlertDialog for editing an existing category
      */
-    open fun editCat(category: Category) {
+    private fun editCat(category: Category) {
         viewModel.dialogState =
             CategoryViewModel.Show(category = category)
     }

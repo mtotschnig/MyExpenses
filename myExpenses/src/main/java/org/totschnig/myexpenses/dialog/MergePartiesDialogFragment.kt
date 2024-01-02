@@ -3,20 +3,27 @@ package org.totschnig.myexpenses.dialog
 import android.os.Bundle
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.OpenInNew
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.compose.ButtonRow
 import org.totschnig.myexpenses.fragment.PartiesList.Companion.DIALOG_MERGE_PARTY
 import org.totschnig.myexpenses.viewmodel.MergeStrategy
@@ -53,7 +61,11 @@ class MergePartiesDialogFragment : ComposeBaseDialogFragment() {
         else RoundedCornerShape(8.dp)
 
         Column(modifier = Modifier.padding(dialogPadding)) {
-
+            Text(
+                text= stringResource(id = R.string.merge_parties_select),
+                modifier = Modifier.padding(bottom = 8.dp),
+                style = MaterialTheme.typography.titleLarge
+            )
             ExposedDropdownMenuBox(
                 modifier = Modifier.fillMaxWidth(),
                 expanded = expanded,
@@ -65,12 +77,6 @@ class MergePartiesDialogFragment : ComposeBaseDialogFragment() {
                     readOnly = true,
                     value = options[selectedPartyIndex],
                     onValueChange = {},
-                    label = {
-                        Text(
-                            stringResource(id = R.string.merge_parties_select),
-                            fontWeight = FontWeight.Bold
-                        )
-                    },
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                     shape = shape,
                     colors = ExposedDropdownMenuDefaults.textFieldColors(
@@ -122,6 +128,15 @@ class MergePartiesDialogFragment : ComposeBaseDialogFragment() {
                 }
             }
             ButtonRow {
+                TextButton(onClick = {
+                    (requireActivity() as BaseActivity).startActionView(
+                        "https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Data#strategies-for-merging-duplicate-parties"
+                    )
+                }) {
+                    Icon(imageVector = Icons.Filled.OpenInNew, contentDescription = null)
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(stringResource(id = R.string.menu_help))
+                }
                 Button(onClick = {
                     setFragmentResult(
                         DIALOG_MERGE_PARTY,
@@ -132,7 +147,7 @@ class MergePartiesDialogFragment : ComposeBaseDialogFragment() {
                     )
                     dismiss()
                 }) {
-                    Text(stringResource(id = android.R.string.ok))
+                    Text(stringResource(id = R.string.menu_merge))
                 }
             }
         }

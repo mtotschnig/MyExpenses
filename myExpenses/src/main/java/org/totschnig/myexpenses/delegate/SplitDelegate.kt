@@ -7,6 +7,8 @@ import androidx.core.view.isVisible
 import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
+import org.totschnig.myexpenses.activity.HELP_VARIANT_SPLIT
+import org.totschnig.myexpenses.activity.HELP_VARIANT_TEMPLATE_SPLIT
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.databinding.DateEditBinding
@@ -35,8 +37,8 @@ class SplitDelegate(
 
     override val operationType = TransactionsContract.Transactions.TYPE_SPLIT
 
-    override val helpVariant: ExpenseEdit.HelpVariant
-        get() = if (isTemplate) ExpenseEdit.HelpVariant.templateSplit else ExpenseEdit.HelpVariant.split
+    override val helpVariant: String
+        get() = if (isTemplate) HELP_VARIANT_TEMPLATE_SPLIT else HELP_VARIANT_SPLIT
     override val typeResId = R.string.split_transaction
     override val editResId = R.string.menu_edit_split
     override val shouldAutoFill = false

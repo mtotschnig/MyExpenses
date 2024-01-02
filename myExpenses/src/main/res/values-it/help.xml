@@ -33,7 +33,8 @@
     <string name="help_ManageParties_select_mapping_info">Seleziona una delle parti con un tocco.</string>
     <string name="help_ManageParties_select_filter_info">Tocca una delle parti per filtrare la lista delle transazioni. Tieni premuto a lungo per selezionare più parti.</string>
     <string name="help_ManageParties_floating_action_button">Utilizzare il pulsante fluttuante per aggiungere una nuova voce.</string>
-    <string name="menu_merge_help_text">Se lo stesso beneficiario / pagante compare più volte nell\'elenco con diverse varianti ortografiche, puoi raggrupparle. Ti verrà chiesto di selezionare quale variante mantenere.</string>
+    <string name="menu_merge_help_text">Se lo stesso beneficiario / pagante compare più volte nell\'elenco con diverse varianti ortografiche, puoi raggrupparle.</string>
+    <string name="help_ManageParties_mergeMode_info_2">Ti verrà chiesto di selezionare quale variante mantenere.</string>
     <string name="help_ManageTemplates_plans_title">Calendario</string>
     <string name="help_ManageTemplates_planner_title">Prossime ricorrenze</string>
     <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Mentre i modelli possono essere derivati da transazioni attraverso i menu di scelta rapida, qui è possibile creare nuovi modelli dal niente (per transazioni o trasferimenti) facendo clic sul pulsante fluttuante. Se si fa clic su una voce dell\'elenco, è possibile creare istanze del modello. Facendo clic su un modello, verrà creata un\'istanza per esso.<br><img src=\"ic_event\">Un piano è un modello per cui è stato creato un evento (unico o ricorrente) sul calendario. Cliccando su un piano, si aprirà una visualizzazione del calendario, che visualizza istanze passate o imminenti di un piano.]]></string>

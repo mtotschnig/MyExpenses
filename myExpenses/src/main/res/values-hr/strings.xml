@@ -634,7 +634,7 @@
     <string name="auto_fill_focus">Postavi polje primaoca aktivnim</string>
     <string name="request_for_invoice">Zahtjev za račun</string>
     <string name="active_tags">Aktivne oznake</string>
-    <string name="merge_parties_select">Upiši ime sjedinjene stranke:</string>
+    <string name="merge_parties_select">Upiši ime sjedinjene stranke</string>
     <string name="account_widget_configuration">Konfiguracija widgeta računa</string>
     <string name="account_widget_configuration_sum_total">Uključi buduće transakcije</string>
     <string name="account_widget_configuration_sum">Vrsta prikazanog zbroja</string>

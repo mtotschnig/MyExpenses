@@ -50,7 +50,8 @@
     <string name="help_ManageTemplates_planner_title">Próximas recorrências</string>
     <string name="help_ManageParties_select_filter_info">Utilize o botão de ação flutuante para adicionar uma nova entrada.</string>
     <string name="help_ManageParties_floating_action_button">Use o botão de ação flutuante para adicionar uma nova entrada.</string>
-    <string name="menu_merge_help_text">Se o mesmo parceiro aparecer várias vezes na lista com diferentes variações de grafia, pode mesclá-los. Será solicitado a selecionar qual variante manter.</string>
+    <string name="menu_merge_help_text">Se o mesmo parceiro aparecer várias vezes na lista com diferentes variações de grafia, pode mesclá-los.</string>
+    <string name="help_ManageParties_mergeMode_info_2">Será solicitado a selecionar qual variante manter.</string>
     <string name="help_ManageTemplates_templates_info">&lt;img src=\"ic_menu_template\"&gt;Enquanto que os modelos podem derivar de transações através dos respetivos menus de contexto, aqui pode criar novos modelos a partir do zero (para transações ou transferências) clicando no botão de ação flutuante. Clicar num modelo, irá criar uma ocorrência para o mesmo.&lt;br&gt;&lt;img src=\"ic_event\"&gt;Um plano é um modelo para o qual criou um evento (único ou recorrente) no calendário de planeamento. Clicar num plano, abrirá a vista de calendário que exibe as ocorrências passadas e futuras de um plano.</string>
     <string name="help_ManageTemplates_planner_intro">Um toque longo numa instância aberta inicia a seleção múltipla. Tocar no início ou no final do intervalo de datas permite estender o intervalo ao passado ou o futuro.</string>
     <string name="help_ManageTemplates_plans_intro">Cada data realçada representa uma ocorrência do plano.</string>

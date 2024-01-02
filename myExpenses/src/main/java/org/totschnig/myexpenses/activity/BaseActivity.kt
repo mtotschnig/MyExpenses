@@ -1006,10 +1006,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     protected open val helpContext: String
         get() = javaClass.simpleName
 
-    fun setHelpVariant(helpVariant: Enum<*>, addBreadCrumb: Boolean = false) {
-        this.helpVariant = helpVariant.name
+    fun setHelpVariant(helpVariant: String, addBreadCrumb: Boolean = false) {
+        this.helpVariant = helpVariant
         if (addBreadCrumb) {
-            crashHandler.addBreadcrumb(helpVariant.name)
+            crashHandler.addBreadcrumb(helpVariant)
         }
     }
 

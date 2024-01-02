@@ -33,7 +33,8 @@
     <string name="help_ManageParties_select_mapping_info">Selecione um parceiro tocando nele.</string>
     <string name="help_ManageParties_select_filter_info">Toque em um parceiro para filtrar a lista de transações. Dê um toque longo para selecionar vários parceiros.</string>
     <string name="help_ManageParties_floating_action_button">Use o botão de ação flutuante para adicionar uma nova entrada.</string>
-    <string name="menu_merge_help_text">Se o mesmo parceiro aparecer várias vezes na lista com diferentes variações de grafia, você pode mesclá-los. Você será solicitado a selecionar qual variante manter.</string>
+    <string name="menu_merge_help_text">Se o mesmo parceiro aparecer várias vezes na lista com diferentes variações de grafia, você pode mesclá-los.</string>
+    <string name="help_ManageParties_mergeMode_info_2">Você será solicitado a selecionar qual variante manter.</string>
     <string name="help_ManageTemplates_plans_title">Visualização do calendário de planos</string>
     <string name="help_ManageTemplates_planner_title">Próximas recorrências</string>
     <string name="help_ManageTemplates_templates_info"><![CDATA[<img src="ic_menu_template">Embora os modelos possam ser derivados de transações por meio de seu menu de contexto, aqui você pode criar novos modelos do zero (para transações ou transferências) clicando no botão de ação flutuante. Clicar em um modelo criará uma instância para ele.<br><img src="ic_event"> Um plano é um modelo para o qual você criou um evento (único ou recorrente) no calendário de planejamento. Clicar em um plano abre uma visualização do calendário, que exibe as instâncias anteriores e futuras de um plano.]]></string>

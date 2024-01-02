@@ -881,7 +881,7 @@
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">設定帳戶小工具widget</string>
     <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
-    <string name="merge_parties_select">請選擇要合併的交易對象：</string>
+    <string name="merge_parties_select">請選擇要合併的交易對象</string>
     <string name="crash_reports_user_info">{app_name} 將會自動呈報程式的錯誤給開發者，讓他們可以盡快地修正錯誤。 </string>
     <string name="pref_acra_user_email_summary">若您願意幫助程式除錯，並允許我們與您聯絡，請輸入您的電子郵件地址。</string>
     <string name="new_version">新版本</string>

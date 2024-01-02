@@ -19,9 +19,9 @@ class ManageTags: ProtectedFragmentActivity() {
             else -> R.string.tags_create_or_select
         })
         setHelpVariant(when(action) {
-            Action.MANAGE -> HelpVariant.manage
-            Action.SELECT_FILTER -> HelpVariant.select_filter
-            else -> HelpVariant.select_mapping
+            Action.MANAGE -> HELP_VARIANT_MANGE
+            Action.SELECT_FILTER -> HELP_VARIANT_SELECT_FILTER
+            else -> HELP_VARIANT_SELECT_MAPPING
         })
         if (action == Action.MANAGE) {
             floatingActionButton.visibility = View.GONE

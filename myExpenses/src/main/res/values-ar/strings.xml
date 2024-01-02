@@ -930,7 +930,7 @@
     <string name="auto_fill_focus">تعيين التركيز على المستفيد</string>
     <string name="request_for_invoice">طلب فاتورة</string>
     <string name="active_tags">علامات نشطة</string>
-    <string name="merge_parties_select">حدد اسم الطرف المدمج:</string>
+    <string name="merge_parties_select">حدد اسم الطرف المدمج</string>
     <string name="account_widget_configuration_sum_total">قم بتضمين المعاملات المستقبلية</string>
     <string name="account_widget_configuration_sum">نوع المبلغ المعروض</string>
     <string name="warning_link_transfer">سيتم ربط المعاملتين المحددتين كتحويل. سيتم تجاهل معلومات المدفوع له/ الدافع والفئة.</string>

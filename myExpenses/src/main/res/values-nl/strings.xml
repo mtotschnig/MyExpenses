@@ -538,7 +538,7 @@
     <string name="title_webui">Web-gebruikersinterface</string>
     <string name="single_feature_info">Als alternatief kun je onbeperkte toegang kopen tot alleen deze functie.</string>
     <string name="account_widget_configuration">Configuratie van rekeningwidget</string>
-    <string name="merge_parties_select">Selecteer de naam van de samengevoegde partij:</string>
+    <string name="merge_parties_select">Selecteer de naam van de samengevoegde partij</string>
     <string name="active_tags">Actieve Tags</string>
     <string name="crash_reports_user_info">{app_name} stuurt automatisch rapporten over applicatiecrashes naar de ontwikkelaars, waardoor ze problemen sneller kunnen oplossen.</string>
     <string name="ui_refinement">Verfijning van de gebruikersinterface</string>

@@ -11,6 +11,9 @@ import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
+import org.totschnig.myexpenses.activity.HELP_VARIANT_SPLIT_PART_CATEGORY
+import org.totschnig.myexpenses.activity.HELP_VARIANT_TEMPLATE_CATEGORY
+import org.totschnig.myexpenses.activity.HELP_VARIANT_TRANSACTION
 import org.totschnig.myexpenses.adapter.CrStatusAdapter
 import org.totschnig.myexpenses.adapter.IdAdapter
 import org.totschnig.myexpenses.adapter.NothingSelectedSpinnerAdapter
@@ -110,11 +113,11 @@ abstract class TransactionDelegate<T : ITransaction>(
         })
     }
 
-    open val helpVariant: ExpenseEdit.HelpVariant
+    open val helpVariant: String
         get() = when {
-            isTemplate -> ExpenseEdit.HelpVariant.templateCategory
-            isSplitPart -> ExpenseEdit.HelpVariant.splitPartCategory
-            else -> ExpenseEdit.HelpVariant.transaction
+            isTemplate -> HELP_VARIANT_TEMPLATE_CATEGORY
+            isSplitPart -> HELP_VARIANT_SPLIT_PART_CATEGORY
+            else -> HELP_VARIANT_TRANSACTION
         }
 
     fun title(newInstance: Boolean) = with(context) {

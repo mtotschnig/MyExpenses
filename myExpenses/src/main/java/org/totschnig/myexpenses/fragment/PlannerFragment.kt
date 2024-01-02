@@ -18,7 +18,7 @@ import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.ManageTemplates
+import org.totschnig.myexpenses.activity.HELP_VARIANT_PLANNER
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.PlanInstanceBinding
 import org.totschnig.myexpenses.databinding.PlannerFragmentBinding
@@ -149,7 +149,7 @@ class PlannerFragment : DialogViewBinding<PlannerFragmentBinding>() {
         binding.HELPCOMMAND.setOnClickListener { view ->
             (activity as? ProtectedFragmentActivity)?.dispatchCommand(
                 view.id,
-                ManageTemplates.HelpVariant.planner.name
+                HELP_VARIANT_PLANNER
             )
         }
         return alertDialog

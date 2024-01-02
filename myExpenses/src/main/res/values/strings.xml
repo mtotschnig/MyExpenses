@@ -910,7 +910,7 @@
     <!-- Title of dialogue that allows to configure budget widget -->
     <string name="budget_widget_configuration">Select budget</string>
     <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
-    <string name="merge_parties_select">Select name of merged party:</string>
+    <string name="merge_parties_select">Select name of merged party</string>
     <!-- This is the label for a field for accounts. Active tags are automatically added to new transactions when an account is selected. -->
     <string name="active_tags">Active Tags</string>
     <!-- This is used in the title of the email by which user requests an invoice for payment via bank transfer -->

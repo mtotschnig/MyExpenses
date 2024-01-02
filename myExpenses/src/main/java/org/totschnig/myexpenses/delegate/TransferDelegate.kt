@@ -9,6 +9,9 @@ import androidx.core.view.isVisible
 import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
+import org.totschnig.myexpenses.activity.HELP_VARIANT_SPLIT_PART_TRANSFER
+import org.totschnig.myexpenses.activity.HELP_VARIANT_TEMPLATE_TRANSFER
+import org.totschnig.myexpenses.activity.HELP_VARIANT_TRANSFER
 import org.totschnig.myexpenses.adapter.IdAdapter
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.databinding.DateEditBinding
@@ -56,11 +59,11 @@ class TransferDelegate(
     @State
     var categoryVisible = false
 
-    override val helpVariant: ExpenseEdit.HelpVariant
+    override val helpVariant: String
         get() = when {
-            isTemplate -> ExpenseEdit.HelpVariant.templateTransfer
-            isSplitPart -> ExpenseEdit.HelpVariant.splitPartTransfer
-            else -> ExpenseEdit.HelpVariant.transfer
+            isTemplate -> HELP_VARIANT_TEMPLATE_TRANSFER
+            isSplitPart -> HELP_VARIANT_SPLIT_PART_TRANSFER
+            else -> HELP_VARIANT_TRANSFER
         }
 
     override val typeResId = R.string.transfer

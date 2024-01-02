@@ -45,9 +45,12 @@
     <string name="help_ManageMethods_info">This screen lists the predefined payment methods (Cheque, Credit card, Deposit, Direct debit) and lets you define new ones. Use the floating action button to open the form for creating a new method.</string>
     <string name="help_ManageParties_manage_info">This screen lists the parties used for the autocompletion of the Payer/Payee field.</string>
     <string name="help_ManageParties_select_mapping_info">Select a party by tapping on it.</string>
-    <string name="help_ManageParties_select_filter_info">Tap on a party for filtering the transaction list. Long tap for selecting multiple parties.</string>
+    <string name="help_ManageParties_select_filter_info">Select all the parties that you want to use for filtering the transaction list.</string>
     <string name="help_ManageParties_floating_action_button">Use the floating action button to add a new entry.</string>
-    <string name="menu_merge_help_text">If the same party appears multiple times in the list with different spelling variations, you can merge them together. You will be prompted to select which variant to keep.</string>
+    <string name="help_ManageParties_floating_action_button_2">Use the floating action button to confirm the selection.</string>
+    <string name="help_ManageParties_mergeMode_info_1">Select the duplicate parties that you want to merge.</string>
+    <string name="help_ManageParties_mergeMode_info_2">You will be prompted to select which variant to keep.</string>
+    <string name="menu_merge_help_text">If the same party appears multiple times in the list with different spelling variations, you can merge them together.</string>
     <string name="help_ManageTemplates_plans_title">Plan calendar view</string>
     <string name="help_ManageTemplates_planner_title">Upcoming recurrences</string>
     <string name="help_ManageTemplates_templates_info"><![CDATA[<img src="ic_menu_template">While templates can be derived from transactions through their context menu, here you can create new templates from scratch (for transactions or transfers) by clicking on the floating action button. Clicking on a template, will create an instance for it.<br><img src="ic_event">A plan is a template for which you have created an event (one-time or recurring) in the planner calendar. Clicking on a plan, will open a calendar view, which displays past and upcoming instances of a plan.]]></string>

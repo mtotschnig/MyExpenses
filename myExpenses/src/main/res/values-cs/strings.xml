@@ -907,7 +907,7 @@
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Konfigurace widgetu účtu</string>
     <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
-    <string name="merge_parties_select">Vyberte název sloučené strany:</string>
+    <string name="merge_parties_select">Vyberte název sloučené strany</string>
     <string name="crash_reports_user_info">{app_name} pošle automaticky záznamy o pádech aplikace vývojářům, což umožní napravení chyb mnohem rychleji.</string>
     <string name="pref_category_title_crash_reports">Hlášení o pádech</string>
     <string name="pref_enable_acra">Povolí automatické posílání záznamů o pádech</string>

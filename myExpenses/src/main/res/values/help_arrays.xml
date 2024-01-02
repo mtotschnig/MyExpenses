@@ -497,6 +497,17 @@
         <item>help_ManageParties_floating_action_button</item>
     </string-array>
 
+    <string-array name="help_ManageParties_select_filter_info">
+        <item>help_ManageParties_select_filter_info</item>
+        <item>help_ManageParties_floating_action_button_2</item>
+    </string-array>
+
+    <string-array name="help_ManageParties_mergeMode_info">
+        <item>help_ManageParties_mergeMode_info_1</item>
+        <item>help_ManageParties_floating_action_button_2</item>
+        <item>help_ManageParties_mergeMode_info_2</item>
+    </string-array>
+
     <string-array name="menu_parties_debts_help_text">
         <item>pref_manage_parties_summary</item>
         <item>help_debt_managment</item>

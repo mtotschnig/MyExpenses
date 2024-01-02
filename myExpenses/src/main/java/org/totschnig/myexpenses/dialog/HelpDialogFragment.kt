@@ -22,8 +22,6 @@ import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.text.HtmlCompat
-import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.HelpDialogActionRowBinding

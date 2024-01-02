@@ -30,19 +30,19 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import java.io.Serializable
 
+const val HELP_VARIANT_TEMPLATES = "templates"
+const val HELP_VARIANT_PLANS = "plans"
+const val HELP_VARIANT_PLANNER = "planner"
+
 class ManageTemplates : ProtectedFragmentActivity(), ConfirmationDialogListener, ContribIFace {
     var calledFromCalendarWithId = NOT_CALLED
         private set
 
     private lateinit var mListFragment: TemplatesList
 
-    enum class HelpVariant {
-        templates, plans, planner
-    }
-
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHelpVariant(HelpVariant.templates, true)
+        setHelpVariant(HELP_VARIANT_TEMPLATES, true)
         setContentView(R.layout.manage_templates)
         setupToolbar()
         title = getString(R.string.menu_manage_plans)

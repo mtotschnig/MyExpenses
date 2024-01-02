@@ -33,7 +33,8 @@
     <string name="help_ManageParties_select_mapping_info">Wählen Sie eine Partei aus, indem Sie darauf tippen.</string>
     <string name="help_ManageParties_select_filter_info">Tippen Sie auf eine Partei, um die Buchungsliste zu filtern. Langes Tippen ermöglicht die Auswahl mehrerer Parteien.</string>
     <string name="help_ManageParties_floating_action_button">Verwenden Sie die schwebende Aktionsschaltfläche um einen Eintrag hinzuzufügen.</string>
-    <string name="menu_merge_help_text">Wenn dieselbe Partei mehrmals in der Liste mit unterschiedlichen Rechtschreibvarianten angezeigt wird, können Sie diese zusammenführen. Sie werden aufgefordert, die beizubehaltende Variante auszuwählen.</string>
+    <string name="menu_merge_help_text">Wenn dieselbe Partei mehrmals in der Liste mit unterschiedlichen Rechtschreibvarianten angezeigt wird, können Sie diese zusammenführen.</string>
+    <string name="help_ManageParties_mergeMode_info_2">Sie werden aufgefordert, die beizubehaltende Variante auszuwählen.</string>
     <string name="help_ManageTemplates_plans_title">Plan Kalenderansicht</string>
     <string name="help_ManageTemplates_planner_title">Bevorstehende Wiederholungen</string>
     <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Während Vorlagen auch von bestehenden Buchungen über deren Kontextmenü abgeleitet werden können, können Sie hier neue Vorlagen (für Buchungen und Umbuchungen) von Grund auf festlegen, indem Sie auf die schwebende Aktionsschaltfläche klicken. Wenn Sie auf eine Vorlage klicken, wird diese angewendet.<br><img src=\"ic_event\">Ein Plan ist eine Vorlage, für die Sie im Kalender ein Ereignis (einmalig oder wiederkehrend) angelegt haben. Wenn Sie auf einen Plan klicken, wird ein Kalender angezeigt, der vergangene und zukünftige Ereignisse dieses Plans anzeigt.]]></string>

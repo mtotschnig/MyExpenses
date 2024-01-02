@@ -975,7 +975,7 @@
     <string name="contrib_feature_category_tree_label">Drzewo kategorii</string>
     <string name="show_duplicates">Pokaż duplikaty</string>
     <string name="debt_paid_off_self">Mój dług został spłacony.</string>
-    <string name="merge_parties_select">Wybierz nazwę scalonej strony:</string>
+    <string name="merge_parties_select">Wybierz nazwę scalonej strony</string>
     <string name="tesseract_download_confirmation">Czy chcesz pobrać dane rozpoznawania tekstu dla %s ?</string>
     <string name="scan_result_multiple_candidates_dialog_title">Znaleziono wielu kandydatów. Proszę wybrać:</string>
     <string name="ungroup_split_transaction_success">Transakcja podziału została pomyślnie rozgrupowana.</string>

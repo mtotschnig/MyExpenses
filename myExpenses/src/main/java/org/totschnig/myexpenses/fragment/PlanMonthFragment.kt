@@ -29,7 +29,7 @@ import com.roomorama.caldroid.CalendarHelper
 import com.roomorama.caldroid.CellView
 import hirondelle.date4j.DateTime
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.ManageTemplates
+import org.totschnig.myexpenses.activity.HELP_VARIANT_PLANS
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.dialog.OrphanedTransactionDialog
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -37,8 +37,8 @@ import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.ColorUtils.isBrightColor
-import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState
 import java.util.Calendar
@@ -132,7 +132,7 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
         toolbar.setOnMenuItemClickListener { item: MenuItem ->
             (requireActivity() as ProtectedFragmentActivity).dispatchCommand(
                 item.itemId,
-                ManageTemplates.HelpVariant.plans.name
+                HELP_VARIANT_PLANS
             )
             true
         }

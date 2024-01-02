@@ -754,7 +754,7 @@
     <string name="ocr_download_info">متن کی شناخت کی صلاحیت ایک بیرونی ایپلیکیشن کے ذریعہ فراہم کی جاتی ہے.</string>
     <string name="warning_unencrypted_backup">جب کہ آپ کا ڈیٹا اس ڈیوائس پر غیر مجاز رسائی سے محفوظ ہے، بیک اپ انکرپشن کے بغیر بنائے جاتے ہیں، جب تک کہ آپ %s کو کنفیگر نہ کریں.</string>
     <string name="warning_plan_instance_delete">منتخب تاریخ کے لیے تخلیق کردہ لین دین کو حذف کر دیا جائے گا.</string>
-    <string name="merge_parties_select">ضم شدہ پارٹی کا نام منتخب کریں:</string>
+    <string name="merge_parties_select">ضم شدہ پارٹی کا نام منتخب کریں</string>
     <string name="active_tags">ایکٹو ٹیگز</string>
     <string name="request_for_invoice">انوائس کی درخواست</string>
     <string name="auto_fill_focus">وصول کنندہ پر توجہ مرکوز کریں</string>

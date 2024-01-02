@@ -33,7 +33,8 @@
     <string name="help_ManageParties_select_mapping_info">בחירת צד על ידי הקשה עליו.</string>
     <string name="help_ManageParties_select_filter_info">לחיצה על קבוצה תסנן את רשימת העסקאות. לחיצה ארוכה לבחירת מספר צדדים.</string>
     <string name="help_ManageParties_floating_action_button">לחצן הפעולה הצף משמש להוספת רשומה חדשה.</string>
-    <string name="menu_merge_help_text">אם אותו צד מופיע מספר פעמים ברשימה עם הבדלי איות שונים, אפשר למזג אותם יחד. צריך לבחור איזו גרסה תישמר.</string>
+    <string name="menu_merge_help_text">אם אותו צד מופיע מספר פעמים ברשימה עם הבדלי איות שונים, אפשר למזג אותם יחד.</string>
+    <string name="help_ManageParties_mergeMode_info_2">צריך לבחור איזו גרסה תישמר.</string>
     <string name="help_ManageTemplates_plans_title">תצוגת תוכנית בלוח שנה</string>
     <string name="help_ManageTemplates_planner_title">אירועים חוזרים צפויים</string>
     <string name="help_ManageTemplates_templates_info">&lt;img src=\"ic_menu_template\"&gt; בעוד שניתן לגזור תבניות מעסקאות באמצעות תפריט ההקשר שלהם, כאן ניתן ליצור תבניות חדשות מאפס (עבור עסקאות או העברות) על ידי לחיצה על כפתור הפעולה הצף. לחיצה על תבנית, תיצור מופע עבורה.&lt;br&gt;&lt;img src=\"ic_event\"&gt; תוכנית היא תבנית שעבורה יצרת אירוע (חד פעמי או חוזר) בלוח התכנון. לחיצה על תוכנית, תפתח תצוגת לוח שנה, המציגה מופעים קודמים ועתידיים של תוכנית.</string>

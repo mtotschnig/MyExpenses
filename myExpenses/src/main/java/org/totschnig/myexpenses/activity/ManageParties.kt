@@ -49,20 +49,21 @@ class ManageParties : DebtActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.manage_parties)
         setupToolbar()
-        var title = 0
-        when (intent.asAction) {
+        val title = when (intent.asAction) {
             Action.MANAGE -> {
-                setHelpVariant(HelpVariant.manage, true)
-                title = R.string.pref_manage_parties_title
+                setHelpVariant(HELP_VARIANT_MANGE, true)
+                R.string.pref_manage_parties_title
             }
+
             Action.SELECT_FILTER -> {
-                setHelpVariant(HelpVariant.select_filter, true)
+                setHelpVariant(HELP_VARIANT_SELECT_FILTER, true)
                 setFabEnabled(false)
-                title = R.string.search_payee
+                R.string.search_payee
             }
+
             Action.SELECT_MAPPING -> {
-                setHelpVariant(HelpVariant.select_mapping, true)
-                title = R.string.select_payee
+                setHelpVariant(HELP_VARIANT_SELECT_MAPPING, true)
+                R.string.select_payee
             }
         }
         if (title != 0) supportActionBar!!.setTitle(title)
