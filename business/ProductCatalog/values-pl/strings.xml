@@ -30,4 +30,5 @@
     <string name="splittransaction_description">Pojedyncza transakcja może być podzielona na wiele części (kategorie i transfery).</string>
     <string name="print_description">Drukowanie listy transakcji do pliku PDF</string>
     <string name="budget_description">Określ, ile zamierzasz wydać w budżetach rocznych, miesięcznych lub tygodniowych</string>
+    <string name="categorytree_description">Dowolnie głęboka hierarchia kategorii</string>
 </resources>
