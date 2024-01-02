@@ -6,17 +6,30 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.compose.ui.test.*
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onData
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.NoMatchingViewException
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
+import androidx.test.espresso.action.ViewActions.typeText
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.DrawerActions
 import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.matcher.IntentMatchers
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withParent
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth
-import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matchers
+import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.containsString
+import org.hamcrest.Matchers.hasToString
+import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -34,32 +47,38 @@ import org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowMenu
 import org.totschnig.myexpenses.util.formatMoney
 
 class MyExpensesTest : BaseMyExpensesTest() {
-    lateinit var account: Account
+    private lateinit var account1: Account
+    private lateinit var account2: Account
+    private lateinit var account3: Account
     @Before
     fun fixture() {
         prefHandler.putBoolean(PrefKey.ACCOUNT_PANEL_VISIBLE, true)
-        account =  buildAccount("Test account 1")
-        launch(account.id)
+        account1 =  buildAccount("Test account 1")
+        account2 =  buildAccount("Test account 2")
+        account3 =  buildAccount("Test account 3")
+        launch(account2.id)
         Intents.init()
     }
 
     @After
     override fun tearDown() {
         Intents.release()
-        repository.deleteAccount(account.id)
+        repository.deleteAccount(account1.id)
+        repository.deleteAccount(account2.id)
+        repository.deleteAccount(account3.id)
     }
 
     @Test
     fun viewPagerIsSetup() {
         composeTestRule.onNodeWithText(getString(R.string.no_expenses)).assertIsDisplayed()
-        assertDataSize(1)
+        assertDataSize(4)
     }
 
     @Test
     fun floatingActionButtonOpensForm() {
-        Espresso.onView(ViewMatchers.withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())
+        onView(withId(R.id.CREATE_COMMAND)).perform(click())
         Intents.intended(
-            IntentMatchers.hasComponent(
+            hasComponent(
                 ExpenseEdit::class.java.name
             )
         )
@@ -68,28 +87,25 @@ class MyExpensesTest : BaseMyExpensesTest() {
     @Test
     fun helpDialogIsOpened() {
         openActionBarOverflowMenu()
-        Espresso.onData(Matchers.hasToString(getString(R.string.menu_help)))
-            .perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withText(Matchers.containsString(getString(R.string.help_MyExpenses_title))))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(
-            Matchers.allOf(
-                ViewMatchers.isAssignableFrom(Button::class.java),
-                ViewMatchers.withText(Matchers.`is`(app.getString(android.R.string.ok)))
+        onData(hasToString(getString(R.string.menu_help))).perform(click())
+        onView(withText(containsString(getString(R.string.help_MyExpenses_title))))
+            .check(matches(isDisplayed()))
+        onView(
+            allOf(
+                isAssignableFrom(Button::class.java),
+                withText(Matchers.`is`(app.getString(android.R.string.ok)))
             )
         )
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            .check(matches(isDisplayed()))
     }
 
     @Test
     fun settingsScreenIsOpened() {
         openActionBarOverflowMenu()
-        Espresso.onData(Matchers.hasToString(getString(R.string.settings_label)))
-            .perform(ViewActions.click())
+        onData(hasToString(getString(R.string.settings_label)))
+            .perform(click())
         Intents.intended(
-            IntentMatchers.hasComponent(
-                PreferenceActivity::class.java.name
-            )
+            hasComponent(PreferenceActivity::class.java.name)
         )
     }
 
@@ -114,29 +130,33 @@ class MyExpensesTest : BaseMyExpensesTest() {
      */
     private fun testInActiveItemHelper(menuItemId: Int, messageResId: Int) {
         clickMenuItem(menuItemId)
-        Espresso.onView(ViewMatchers.withText(messageResId))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withText(messageResId))
+            .check(matches(isDisplayed()))
     }
 
     @Test
-    fun newAccountFormIsOpened() {
+    fun newAccountKeepPosition() {
         openDrawer()
-        Espresso.onView(ViewMatchers.withId(R.id.expansionTrigger)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withText(R.string.menu_create_account))
-            .perform(ViewActions.click())
+        onView(withId(R.id.expansionTrigger)).perform(click())
+        onView(withText(R.string.menu_create_account))
+            .perform(click())
         Intents.intended(
-            Matchers.allOf(
-                IntentMatchers.hasComponent(
-                    AccountEdit::class.java.name
-                ),
-                Matchers.not(IntentMatchers.hasExtraWithKey(DatabaseConstants.KEY_ROWID))
+            allOf(
+                hasComponent(AccountEdit::class.java.name),
+                not(hasExtraWithKey(DatabaseConstants.KEY_ROWID))
             )
         )
+        onView(withId(R.id.Label)).perform(
+            typeText("A"),
+            closeSoftKeyboard()
+        )
+        onView(withId(R.id.CREATE_COMMAND)).perform(click())
+        checkTitle()
     }
 
     private fun openDrawer() {
         try {
-            Espresso.onView(ViewMatchers.withId(R.id.drawer)).perform(DrawerActions.open())
+            onView(withId(R.id.drawer)).perform(DrawerActions.open())
         } catch (e: NoMatchingViewException) { /*drawerLess layout*/
         }
     }
@@ -150,10 +170,10 @@ class MyExpensesTest : BaseMyExpensesTest() {
         openDrawer()
         clickContextItem(R.string.menu_edit)
         Intents.intended(
-            Matchers.allOf(
-                IntentMatchers.hasComponent(
+            allOf(
+                hasComponent(
                     AccountEdit::class.java.name
-                ), IntentMatchers.hasExtraWithKey(DatabaseConstants.KEY_ROWID)
+                ), hasExtraWithKey(DatabaseConstants.KEY_ROWID)
             )
         )
     }
@@ -162,16 +182,18 @@ class MyExpensesTest : BaseMyExpensesTest() {
     @Throws(InterruptedException::class)
     fun deleteConfirmationDialogDeleteButtonDeletes() {
         openDrawer()
-        clickContextItem(R.string.menu_delete)
-        Espresso.onView(ViewMatchers.withText(dialogTitleWarningDeleteAccount))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(
-            Matchers.allOf(
-                ViewMatchers.isAssignableFrom(Button::class.java),
-                ViewMatchers.withText(Matchers.`is`(getString(R.string.menu_delete)))
+        clickContextItem(R.string.menu_delete, position = 1)
+        onView(withText(dialogTitleWarningDeleteAccount))
+            .check(matches(isDisplayed()))
+        onView(
+            allOf(
+                isAssignableFrom(Button::class.java),
+                withText(Matchers.`is`(getString(R.string.menu_delete)))
             )
-        ).perform(ViewActions.click())
-        assertDataSize(0)
+        ).perform(click())
+        assertDataSize(3)
+        //after deletetion of Account 1, Account 2 should still be selected
+        checkTitle()
     }
 
     private val dialogTitleWarningDeleteAccount: String
@@ -181,15 +203,15 @@ class MyExpensesTest : BaseMyExpensesTest() {
     fun deleteConfirmationDialogCancelButtonCancels() {
         openDrawer()
         clickContextItem(R.string.menu_delete)
-        Espresso.onView(ViewMatchers.withText(dialogTitleWarningDeleteAccount))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(
-            Matchers.allOf(
-                ViewMatchers.isAssignableFrom(Button::class.java),
-                ViewMatchers.withText(Matchers.`is`(getString(android.R.string.cancel)))
+        onView(withText(dialogTitleWarningDeleteAccount))
+            .check(matches(isDisplayed()))
+        onView(
+            allOf(
+                isAssignableFrom(Button::class.java),
+                withText(Matchers.`is`(getString(android.R.string.cancel)))
             )
-        ).perform(ViewActions.click())
-        assertDataSize(1)
+        ).perform(click())
+        assertDataSize(4)
     }
 
     @Test
@@ -208,20 +230,20 @@ class MyExpensesTest : BaseMyExpensesTest() {
             longClick()
         }
         composeTestRule.onNodeWithText(getString(R.string.menu_delete)).performClick()
-        Espresso.onView(
+        onView(
             ViewMatchers.withSubstring(
                 getString(
                     R.string.warning_delete_account,
                     label1
                 )
             )
-        ).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(
-            Matchers.allOf(
-                ViewMatchers.isAssignableFrom(Button::class.java),
-                ViewMatchers.withText(R.string.menu_delete)
+        ).check(matches(isDisplayed()))
+        onView(
+            allOf(
+                isAssignableFrom(Button::class.java),
+                withText(R.string.menu_delete)
             )
-        ).perform(ViewActions.click())
+        ).perform(click())
         Truth.assertThat(repository.loadAccount(account1.id)).isNull()
         Truth.assertThat(repository.loadAccount(account2.id)).isNotNull()
     }
@@ -230,9 +252,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     fun templateScreenIsOpened() {
         clickMenuItem(R.id.MANAGE_TEMPLATES_COMMAND)
         Intents.intended(
-            IntentMatchers.hasComponent(
-                ManageTemplates::class.java.name
-            )
+            hasComponent(ManageTemplates::class.java.name)
         )
     }
 
@@ -246,23 +266,19 @@ class MyExpensesTest : BaseMyExpensesTest() {
     private fun checkTitle() {
         val currencyFormatter = app.appComponent.currencyFormatter()
         val balance = currencyFormatter.formatMoney(Money(homeCurrency, 0))
-        Espresso.onView(
-            Matchers.allOf(
-                CoreMatchers.instanceOf(
-                    TextView::class.java
-                ),
-                ViewMatchers.withParent(ViewMatchers.withId(R.id.toolbar)),
-                ViewMatchers.withText("Test account 1")
+        onView(
+            allOf(
+                instanceOf(TextView::class.java),
+                withParent(withId(R.id.toolbar)),
+                withText("Test account 2")
             )
-        ).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(
-            Matchers.allOf(
-                CoreMatchers.instanceOf(
-                    TextView::class.java
-                ),
-                ViewMatchers.withParent(ViewMatchers.withId(R.id.toolbar)),
-                ViewMatchers.withText(balance)
+        ).check(matches(isDisplayed()))
+        onView(
+            allOf(
+                instanceOf(TextView::class.java),
+                withParent(withId(R.id.toolbar)),
+                withText(balance)
             )
-        ).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        ).check(matches(isDisplayed()))
     }
 }
