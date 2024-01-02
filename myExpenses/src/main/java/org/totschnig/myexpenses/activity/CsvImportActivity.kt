@@ -168,6 +168,7 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
                         )
                     )
                 }.onFailure {
+                    CrashHandler.report(it)
                     showSnackBar(it.message ?: it.javaClass.simpleName)
                 }
             }

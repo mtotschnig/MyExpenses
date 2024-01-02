@@ -55,7 +55,7 @@ data class ImportAccount(
 
 }
 
-data class ImportTransaction constructor(
+data class ImportTransaction(
     val date: Date,
     val valueDAte: Date?,
     val amount: BigDecimal,
@@ -71,7 +71,7 @@ data class ImportTransaction constructor(
     val splits: List<ImportTransaction>?
 ) {
     class Builder {
-        private lateinit var date: Date
+        private var date: Date = Date()
         private var valueDate: Date? = null
         lateinit var amount: BigDecimal
         var payee: String? = null
