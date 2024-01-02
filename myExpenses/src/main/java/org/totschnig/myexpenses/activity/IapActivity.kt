@@ -3,7 +3,7 @@ package org.totschnig.myexpenses.activity
 import android.os.Bundle
 import org.totschnig.myexpenses.MyApplication.Companion.INVOICES_EMAIL
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.util.licence.BillingListener
 import org.totschnig.myexpenses.util.licence.BillingManager
 import org.totschnig.myexpenses.util.licence.Package
@@ -32,11 +32,10 @@ abstract class IapActivity: ProtectedFragmentActivity(), BillingListener {
     fun sendInvoiceRequest(aPackage: Package) {
         val packageLabel = licenceHandler.getButtonLabel(aPackage)
         val subject = "[${getString(R.string.app_name)}] ${getString(R.string.request_for_invoice)}"
-        val userCountry = Utils.getCountryFromTelephonyManager(this)
         val messageBody =
             "${getString(R.string.licence_key)}: $packageLabel\n${getString(R.string.full_name)}:\n${
                 getString(R.string.postal_country)
-            }: ${userCountry ?: ""}"
+            }: ${injector.userCountry() ?: ""}"
         sendEmail(INVOICES_EMAIL, subject, messageBody)
     }
 
