@@ -221,4 +221,24 @@
     <string name="grouping_none">Tidak dikelompokkan</string>
     <string name="grouping_year">Tahun</string>
     <string name="grouping_this_week">Minggu ini</string>
+    <string name="licence_validation_premium">Fitur-fitur premium telah dibuka.</string>
+    <string name="menu_aggregates">Jumlah</string>
+    <string name="licence_validation_success">Kunci lisensi berhasil divalidasi:</string>
+    <string name="menu_balance">Saldo akun</string>
+    <string name="menu_backup">Cadangkan</string>
+    <string name="invalid_number_format">Format desimal tidak dikenali oleh wilayah Anda. Silakan gunakan %1$s</string>
+    <string name="menu_cancel_plan_instance">Batal</string>
+    <string name="menu_clone_transaction">Klon</string>
+    <string name="dialog_contrib_trial_info_play">Uji coba gratis ini tidak akan pernah berubah menjadi jenis langganan apa pun.</string>
+    <string name="menu_create_main_cat">Kategori utama baru</string>
+    <string name="dialog_contrib_subscription_info_play">Langganan ini berlaku segera, ditagih setiap bulan atau setiap tahun dan dapat dibatalkan kapan saja.</string>
+    <string name="dialog_contrib_trial_info" tools:ignore="PluralsCandidate">Status lisensi Anda saat ini (%1$s) memungkinkan Anda untuk mencoba %2$s selama %3$d hari (hingga %4$s).</string>
+    <string name="menu_create_account">Akun baru</string>
+    <string name="menu_create_instance_edit">Terapkan dan edit</string>
+    <string name="menu_apply_template">Terapkan</string>
+    <string name="menu_contrib">Kontribusi</string>
+    <string name="menu_create_instance_save">Terapkan dan simpan</string>
+    <string name="label">Label</string>
+    <string name="licence_validation_failure">Tidak dapat memvalidasi kunci lisensi.</string>
+    <string name="menu_back">Kembali</string>
 </resources>
