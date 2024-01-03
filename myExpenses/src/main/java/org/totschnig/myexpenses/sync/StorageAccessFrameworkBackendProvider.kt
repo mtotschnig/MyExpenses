@@ -33,9 +33,9 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
     }
 
     private fun DocumentFile.getFolder(name: String, require: Boolean = true): DocumentFile? {
-        check(isDirectory)
+        if (!isDirectory) throw IOException("${this.name} is not a directory")
         return findFile(name)?.also {
-            if (!it.isDirectory) throw IOException("file exists, but is no directory")
+            if (!it.isDirectory) throw IOException("file $name exists, but is not a directory")
         } ?: (if (require) createDirectory(name) else null)
     }
 
