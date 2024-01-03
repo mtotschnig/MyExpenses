@@ -31,6 +31,12 @@ enum class BackendService(
         "Dropbox",
         Feature.DROPBOX
     ),
+    ONEDRIVE(
+        "org.totschnig.onedrive.sync.OneDriveProviderFactory",
+        R.id.SYNC_BACKEND_DROPBOX,
+        "OneDrive",
+        Feature.ONEDRIVE
+    ),
     WEBDAV(
         "org.totschnig.webdav.sync.WebDavBackendProviderFactory",
         R.id.SYNC_BACKEND_WEBDAV,
@@ -59,8 +65,8 @@ enum class BackendService(
 
     companion object {
         fun forAccount(account: String) = kotlin.runCatching {
-            values().firstOrNull { account.startsWith(it.label) } ?: throw IllegalArgumentException("No Backend found for $account")
+            entries.firstOrNull { account.startsWith(it.label) } ?: throw IllegalArgumentException("No Backend found for $account")
         }
-        fun allAvailable(context: Context) = values().filter { it.isAvailable(context) }
+        fun allAvailable(context: Context) = entries.filter { it.isAvailable(context) }
     }
 }

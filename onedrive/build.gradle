@@ -1,0 +1,36 @@
+plugins {
+    id 'com.android.dynamic-feature'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+}
+android {
+    compileSdk project.compileSdkVersion
+
+    defaultConfig {
+        missingDimensionStrategy 'textRecognition', 'extern'
+        minSdk project.minSdkVersion
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    namespace 'org.totschnig.onedrive'
+}
+
+dependencies {
+    implementation project(":myExpenses")
+    implementation 'com.evernote:android-state:1.4.1'
+    kapt 'com.evernote:android-state-processor:1.4.1'
+
+    implementation("com.microsoft.identity.client:msal:4.10.0") {
+        exclude(group : "io.opentelemetry")
+    }
+    implementation("io.opentelemetry:opentelemetry-api:1.18.0")
+    implementation("io.opentelemetry:opentelemetry-context:1.18.0")
+}
+
+configurations.configureEach {
+    exclude group:"com.yubico.yubikit", module:"android"
+    exclude group:"com.yubico.yubikit", module:"piv"
+}
