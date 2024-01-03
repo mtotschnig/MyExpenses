@@ -750,10 +750,10 @@
     </plurals>
     <string name="menu_reconfigure">Przekonfiguruj</string>
     <string name="add_shortcut">Dodaj subskrypcję</string>
-    <string name="dialog_contrib_trial_info">Twój obecny status licencji (%1$s) umożliwia wypróbowanie %2$s przez %3$d dni (do %4$s).</string>
+    <string name="dialog_contrib_trial_info">Aktualny stan licencji (%1$s) pozwala na wypróbowanie %2$s przez %3$d dni (do %4$s).</string>
     <string name="one_time_payment">Płatność jednorazowa</string>
     <string name="dialog_contrib_trial_info_play">Ta bezpłatna wersja próbna nigdy nie zostanie przekształcona w żaden rodzaj subskrypcji.</string>
-    <string name="dialog_contrib_subscription_info_play">Ta subskrypcja wchodzi w życie natychmiast, jest rozliczana miesięcznie lub rocznie i można ją anulować w dowolnym momencie.</string>
+    <string name="dialog_contrib_subscription_info_play">Ta subskrypcja zaczyna obowiązywać natychmiast, jest rozliczana miesięcznie lub rocznie i można ją anulować w dowolnym momencie.</string>
     <string name="menu_edit_tag">Edytuj tag</string>
     <string name="upgrade_info_557">Jak Wam się podoba nowy design? Daj nam znać. Wariant bliższy staremu projektowi można aktywować w Ustawieniach (%1$s -&gt; %2$s).</string>
     <string name="sub_budget_exceeded_error_1_2">Cała kwota przeznaczona na kategorię główną została przydzielona do innych podkategorii.</string>
@@ -770,7 +770,7 @@
     <string name="dialog_title_warning_delete_budget">Usunąć budżet?</string>
     <plurals name="debt_mapped_transactions">
         <item quantity="one">Dłużna %1$s ma %2$d zmapowaną transakcję.</item>
-        <item quantity="few"></item>
+        <item quantity="few"/>
         <item quantity="many">Dług %1$s ma %2$d zmapowanych transakcji.</item>
         <item quantity="other">Dług %1$s ma %2$d zmapowanych transakcji.</item>
     </plurals>
@@ -859,7 +859,7 @@
     <string name="select_package">Wybierz pakiet licencji.</string>
     <plurals name="purge_backup_success">
         <item quantity="one">Jeden stary plik kopii zapasowej został wyczyszczony.</item>
-        <item quantity="few"></item>
+        <item quantity="few"/>
         <item quantity="many">%d stare pliki kopii zapasowych zostały usunięte.</item>
         <item quantity="other">%d stare pliki kopii zapasowych zostały usunięte.</item>
     </plurals>
@@ -880,7 +880,7 @@
     <string name="dialog_multi_tag_replace">Zastępowanie istniejących tagów nowymi tagami</string>
     <plurals name="purge_backup_failure">
         <item quantity="one">Nie można usunąć jednego starego pliku kopii zapasowej.</item>
-        <item quantity="few"></item>
+        <item quantity="few"/>
         <item quantity="many">Nie można usunąć %d starych plików kopii zapasowych.</item>
         <item quantity="other">Nie można usunąć %d starych plików kopii zapasowych.</item>
     </plurals>
@@ -893,7 +893,7 @@
     <string name="pref_clone_with_current_date_title">Data sklonowanych transakcji</string>
     <plurals name="warning_delete_tag">
         <item quantity="one">Tag %1$s jest mapowany na jedną transakcję. Czy należy go usunąć?</item>
-        <item quantity="few"></item>
+        <item quantity="few"/>
         <item quantity="many">Tag %1$s jest mapowany na %2$d transakcje. Czy należy go usunąć?</item>
         <item quantity="other">Tag %1$s jest mapowany na %2$d transakcje. Czy należy go usunąć?</item>
     </plurals>
@@ -929,7 +929,7 @@
     <string name="optimize_image_file_size">Zoptymalizuj rozmiar pliku obrazu</string>
     <string name="orphaned_transaction_info">Transakcja jest połączona z planem dla tej daty, ale w tym dniu nie istnieje żadne wystąpienie zdarzenia.</string>
     <string name="sync_backend_is_encrypted">Zdalny backend jest szyfrowany. Musisz określić hasło.</string>
-    <string name="dialog_title_warning_delete_party">Usunąć imprezę?</string>
+    <string name="dialog_title_warning_delete_party">Usunąć przyjęcie?</string>
     <string name="orphaned_transaction_align_date">Opcjonalnie data przechowywana w transakcji może być również wyrównana z datą wystąpienia.</string>
     <string name="stability_improvements" tools:ignore="UnusedResources">Poprawa stabilności</string>
     <string name="debt_balance_they_owe">%1$s teraz jest winien %2$s.</string>
@@ -945,7 +945,7 @@
     <string name="backup_save_to_sync_backend">Zapisz w %s</string>
     <string name="image_optimize_quality">Jakość</string>
     <string name="budget_filter_all_states">Wszystkie statusy</string>
-    <string name="dialog_contrib_usage_limit_with_dialog">Przy obecnym stanie licencji (%1$s) to okno dialogowe będzie wyświetlane przy każdym użyciu.</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">Przy aktualnym stanie licencji (%1$s) to okno dialogowe będzie wyświetlane przy każdym użyciu.</string>
     <string name="dialog_title_warning_delete_tag">Usunąć tag?</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">są liczone jako wydatek/przychód</string>
     <string name="warning_balance_account_delete">Jeśli będziesz kontynuować, wszystkie uzgodnione transakcje tego konta zostaną usunięte z bazy danych i nie będzie można ich przywrócić.</string>
@@ -991,7 +991,7 @@
     <string name="move_category_failure">Jedna kategoria nie została przeniesiona, ponieważ ta sama etykieta już istnieje w miejscu docelowym.</string>
     <plurals name="import_categories_icons_updated">
         <item quantity="one">Jedna kategoria została zaktualizowana o ikonę.</item>
-        <item quantity="few"></item>
+        <item quantity="few"/>
         <item quantity="many">%1$d kategorie zostały zaktualizowane o ikony.</item>
         <item quantity="other">%1$d kategorie zostały zaktualizowane o ikony.</item>
     </plurals>
