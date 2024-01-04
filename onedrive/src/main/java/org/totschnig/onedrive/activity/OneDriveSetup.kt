@@ -24,12 +24,12 @@ class OneDriveSetup: AbstractSyncSetup<OneDriveSetupViewModel>() {
             object : IPublicClientApplication.IMultipleAccountApplicationCreatedListener {
                 override fun onCreated(application: IMultipleAccountPublicClientApplication) {
                     mMultipleAccountApp = application
+
                     mMultipleAccountApp!!.acquireToken(this@OneDriveSetup, arrayOf("user.read"),
                         object : AuthenticationCallback {
                         override fun onSuccess(authenticationResult: IAuthenticationResult) {
-                            Timber.d("Successfully authenticated")
-                            Timber.d("ID Token: " + authenticationResult.account.claims!!["id_token"])
-                            showSnackBar(authenticationResult.account.username)
+                            viewModel.initWithAccessToken(authenticationResult.accessToken)
+                            viewModel.query()
                         }
 
                         override fun onError(exception: MsalException?) {
@@ -49,9 +49,7 @@ class OneDriveSetup: AbstractSyncSetup<OneDriveSetupViewModel>() {
             })
     }
 
-    override fun handleException(exception: Exception): Boolean {
-        TODO("Not yet implemented")
-    }
+    override fun handleException(exception: Exception) = false
 
     override fun instantiateViewModel() = ViewModelProvider(this)[OneDriveSetupViewModel::class.java]
 

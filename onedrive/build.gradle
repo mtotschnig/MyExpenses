@@ -8,29 +8,42 @@ android {
 
     defaultConfig {
         missingDimensionStrategy 'textRecognition', 'extern'
-        minSdk project.minSdkVersion
+        minSdk 26
+        consumerProguardFiles("consumer-rules.txt")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
+    }
+    packagingOptions {
+        jniLibs {
+            excludes += ['META-INF/*']
+        }
+        resources {
+            excludes += ['META-INF/*']
+        }
     }
     namespace 'org.totschnig.onedrive'
 }
 
 dependencies {
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugarVersion"
     implementation project(":myExpenses")
-    implementation 'com.evernote:android-state:1.4.1'
-    kapt 'com.evernote:android-state-processor:1.4.1'
 
     implementation("com.microsoft.identity.client:msal:4.10.0") {
         exclude(group : "io.opentelemetry")
     }
     implementation("io.opentelemetry:opentelemetry-api:1.18.0")
     implementation("io.opentelemetry:opentelemetry-context:1.18.0")
+
+    implementation 'com.microsoft.graph:microsoft-graph:5.77.0'
+    implementation 'com.azure:azure-identity:1.11.1'
 }
 
 configurations.configureEach {
     exclude group:"com.yubico.yubikit", module:"android"
     exclude group:"com.yubico.yubikit", module:"piv"
+    exclude group:"com.google.guava", module:"guava"
 }
