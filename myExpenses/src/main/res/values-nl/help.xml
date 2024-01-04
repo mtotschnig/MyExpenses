@@ -32,7 +32,7 @@
     <string name="menu_balance_help_text">Deze opdracht opent een dialoogvenster met het laatste afgestemde saldo en het gewiste saldo. Je kunt dit laatste vergelijken met je bankafschrift en alle vereffende transacties markeren als afgestemd. Optioneel kun je ervoor kiezen om afgestemde transacties te verwijderen.</string>
     <string name="menu_print_help_text">Genereert een afdrukbare weergave van de transacties die momenteel worden weergegeven.</string>
     <string name="menu_search_help_text">Dit item opent een submenu waarin je zoekcriteria kunt definiëren op basis van categorie, bedrag, opmerking, status, betaler/begunstigde en betalingsmethode. Wanneer een zoekfilter actief is, kun je eenvoudig op het item in het submenu klikken om het te deactiveren.</string>
-    <string name="cab_create_template_from_transaction_help_text">Definieer een nieuwe sjabloon op basis van de geselecteerde transactie. Zal je vragen om de titel van de sjabloon.</string>
+    <string name="cab_create_template_from_transaction_help_text">Definieer een nieuw sjabloon gebaseerd op de geselecteerde transactie. Zal je om de titel van de sjabloon vragen.</string>
     <string name="cab_clone_transaction_help_text">De geselecteerde transacties worden gekloond met de huidige datum en tijd. Je kunt wijzigingen aanbrengen voordat je de kopie opslaat.</string>
     <string name="cab_link_help_text">Een uitgave op de ene rekening kan worden gekoppeld aan een inkomen op een andere rekening. Als de rekeningen dezelfde valuta hebben, moeten de twee transacties identieke bedragen hebben.</string>
     <string name="help_ManageParties_select_filter_info">Tik op een partij om de transactielijst te filteren. Tik lang om meerdere partijen te selecteren.</string>
@@ -100,7 +100,7 @@
     <string name="cab_remove_help_text">Verwijder de geselecteerde backend.</string>
     <string name="cab_sync_unlink_help_text">De geselecteerde rekening wordt niet meer gesynchroniseerd met de backend</string>
     <string name="help_HistoryActivity_info">Dit scherm toont je cashflow, hoe je uitgaven en inkomsten evolueren over jaren, maanden, weken of dagen.</string>
-    <string name="menu_HistoryActivity_history_transfers_help_text">Schakel in of overdrachten moeten worden behandeld als reguliere inkomsten of uitgaven.</string>
+    <string name="menu_HistoryActivity_history_transfers_help_text">Schakel in, als overdrachten moeten worden behandeld als reguliere inkomsten of uitgaven.</string>
     <string name="help_Budget_spent_click">Door op de uitgegeven bedragen te klikken, worden alle transacties weergegeven die relevant zijn voor het huidige budget en de bijbehorende categorie.</string>
     <string name="cab_show_transactions_help_text">Open een dialoogvenster met alle transacties die zijn toegewezen aan de geselecteerde categorie in de lopende rekening.</string>
     <string name="menu_BudgetActivity_edit_help_text">Wijzig de definitie van het budget.</string>
