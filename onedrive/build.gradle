@@ -31,6 +31,8 @@ android {
 dependencies {
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugarVersion"
     implementation project(":myExpenses")
+    implementation 'com.evernote:android-state:1.4.1'
+    kapt 'com.evernote:android-state-processor:1.4.1'
 
     implementation("com.microsoft.identity.client:msal:4.10.0") {
         exclude(group : "io.opentelemetry")

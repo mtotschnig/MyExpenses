@@ -4,7 +4,6 @@ import android.accounts.Account
 import android.accounts.AccountManager
 import android.content.Context
 import androidx.annotation.Keep
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory
 import org.totschnig.myexpenses.sync.getSyncProviderUrl
 import org.totschnig.onedrive.activity.OneDriveSetup

@@ -89,20 +89,8 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
     @Throws(IOException::class)
     override fun withAccount(account: Account) {
         setAccountUuid(account)
-        val accountPath = accountPath
         requireFolder(accountPath)
-        val metadataPath = getResourcePath(accountMetadataFilename)
-        if (!exists(metadataPath)) {
-            saveFileContents(
-                true,
-                null,
-                accountMetadataFilename,
-                buildMetadata(account),
-                mimeTypeForData,
-                true
-            )
-            createWarningFile()
-        }
+        writeAccount(account, false)
     }
 
     @Throws(IOException::class)
