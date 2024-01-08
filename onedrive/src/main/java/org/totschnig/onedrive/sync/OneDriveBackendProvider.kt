@@ -13,43 +13,91 @@ import com.microsoft.graph.requests.DriveItemContentStreamRequestBuilder
 import com.microsoft.graph.requests.DriveItemRequestBuilder
 import com.microsoft.graph.requests.DriveRequestBuilder
 import com.microsoft.graph.requests.GraphServiceClient
+import com.microsoft.identity.client.AcquireTokenSilentParameters
+import com.microsoft.identity.client.IAccount
+import com.microsoft.identity.client.IAuthenticationResult
+import com.microsoft.identity.client.IMultipleAccountPublicClientApplication
+import com.microsoft.identity.client.IMultipleAccountPublicClientApplication.GetAccountCallback
+import com.microsoft.identity.client.IPublicClientApplication
+import com.microsoft.identity.client.PublicClientApplication
+import com.microsoft.identity.client.SilentAuthenticationCallback
+import com.microsoft.identity.client.exception.MsalException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.Request
 import org.acra.util.StreamReader
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.sync.AbstractSyncBackendProvider
-import org.totschnig.myexpenses.sync.GenericAccountService
-import org.totschnig.myexpenses.sync.SyncBackendProvider
 import org.totschnig.myexpenses.sync.json.AccountMetaData
+import org.totschnig.onedrive.R
 import org.totschnig.onedrive.getAll
 import java.io.IOException
 import java.io.InputStream
 import java.util.concurrent.CompletableFuture
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class OneDriveBackendProvider internal constructor(context: Context, folderName: String) :
     AbstractSyncBackendProvider<DriveItem>(context) {
     private lateinit var graphClient: GraphServiceClient<Request>
     private val basePath: String = folderName
 
-    override fun setUp(
+    override suspend fun setUp(
         accountManager: AccountManager,
         account: android.accounts.Account,
         encryptionPassword: String?,
         create: Boolean
     ) {
-        val authToken = accountManager.peekAuthToken(
-            account,
-            GenericAccountService.AUTH_TOKEN_TYPE
-        )
-            ?: throw SyncBackendProvider.AuthException(
-                NullPointerException("authToken is null"),
-                null /* TODO */
-            )
+        val accessToken = withContext(Dispatchers.IO) {
+            suspendCoroutine { cont ->
+                PublicClientApplication.createMultipleAccountPublicClientApplication(
+                    context.applicationContext,
+                    R.raw.msal_config,
+                    object : IPublicClientApplication.IMultipleAccountApplicationCreatedListener {
+                        override fun onCreated(application: IMultipleAccountPublicClientApplication) {
+                            application.getAccount(
+                                accountManager.getUserData(account, KEY_MICROSOFT_ACCOUNT),
+                                object : GetAccountCallback {
+                                    override fun onTaskCompleted(result: IAccount) {
+                                        application.acquireTokenSilentAsync(
+                                            AcquireTokenSilentParameters.Builder()
+                                                .withScopes(listOf("Files.ReadWrite.All"))
+                                                .fromAuthority("https://login.microsoftonline.com/common")
+                                                .forAccount(result)
+                                                .withCallback(object: SilentAuthenticationCallback {
+                                                    override fun onSuccess(authenticationResult: IAuthenticationResult) {
+                                                        cont.resume(authenticationResult.accessToken)
+                                                    }
+
+                                                    override fun onError(exception: MsalException) {
+                                                        cont.resumeWithException(exception)
+                                                    }
+                                                })
+                                                .build()
+                                        )
+                                    }
+
+                                    override fun onError(exception: MsalException) {
+                                        cont.resumeWithException(exception)
+                                    }
+                                })
+                        }
+
+                        override fun onError(exception: MsalException) {
+                            cont.resumeWithException(exception)
+                        }
+
+                    }
+                )
+            }
+        }
         graphClient = GraphServiceClient.builder()
             .logger(DefaultLogger().also {
                 it.loggingLevel = LoggerLevel.DEBUG
             })
             .authenticationProvider {
-                CompletableFuture.supplyAsync { authToken }
+                CompletableFuture.supplyAsync { accessToken }
             }
             .buildClient()
         super.setUp(accountManager, account, encryptionPassword, create)
@@ -255,6 +303,10 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
 
     override fun deleteLockTokenFile() {
         itemWithPath(getResourcePath(LOCK_FILE)).buildRequest().delete()
+    }
+
+    companion object {
+        const val KEY_MICROSOFT_ACCOUNT = "microsoftAccount"
     }
 
 }

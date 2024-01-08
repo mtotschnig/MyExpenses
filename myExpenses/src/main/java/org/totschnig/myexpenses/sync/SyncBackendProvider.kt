@@ -41,7 +41,7 @@ interface SyncBackendProvider {
         @Throws(IOException::class) get
 
     @Throws(Exception::class)
-    fun setUp(
+    suspend fun setUp(
         accountManager: AccountManager,
         account: android.accounts.Account,
         encryptionPassword: String?,

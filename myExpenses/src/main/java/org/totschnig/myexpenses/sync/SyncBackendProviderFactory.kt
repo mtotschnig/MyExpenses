@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.sync
 import android.accounts.Account
 import android.accounts.AccountManager
 import android.content.Context
-import android.content.Intent
 import arrow.core.flatMap
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.loadPassword
@@ -30,7 +29,7 @@ abstract class SyncBackendProviderFactory {
     companion object {
         const val ACTION_RECONFIGURE = "reconfigure"
         @JvmStatic
-        operator fun get(
+        suspend fun get(
             context: Context,
             account: Account,
             create: Boolean

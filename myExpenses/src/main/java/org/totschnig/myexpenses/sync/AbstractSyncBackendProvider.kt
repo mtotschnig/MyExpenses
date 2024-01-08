@@ -86,7 +86,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     }
 
     @Throws(Exception::class)
-    override fun setUp(
+    override suspend fun setUp(
         accountManager: AccountManager,
         account: android.accounts.Account,
         encryptionPassword: String?,

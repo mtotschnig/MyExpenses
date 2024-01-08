@@ -17,6 +17,7 @@ import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.onedrive.R
+import org.totschnig.onedrive.sync.OneDriveBackendProvider.Companion.KEY_MICROSOFT_ACCOUNT
 import org.totschnig.onedrive.viewmodel.OneDriveSetupViewModel
 import timber.log.Timber
 
@@ -24,12 +25,12 @@ class OneDriveSetup : AbstractSyncSetup<OneDriveSetupViewModel>() {
     private lateinit var mMultipleAccountApp: IMultipleAccountPublicClientApplication
 
     @State
-    var accessToken: String = ""
+    var account: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         PublicClientApplication.createMultipleAccountPublicClientApplication(
-            this,
+            applicationContext,
             R.raw.msal_config,
             object : IPublicClientApplication.IMultipleAccountApplicationCreatedListener {
                 override fun onCreated(application: IMultipleAccountPublicClientApplication) {
@@ -40,8 +41,9 @@ class OneDriveSetup : AbstractSyncSetup<OneDriveSetupViewModel>() {
                             .withScopes(listOf("Files.ReadWrite.All"))
                             .withCallback(object : AuthenticationCallback {
                                 override fun onSuccess(authenticationResult: IAuthenticationResult) {
-                                    accessToken = authenticationResult.accessToken
-                                    viewModel.initWithAccessToken(accessToken)
+                                    account = authenticationResult.account.id
+                                    Timber.i("AuthenticationResult expiresOn: ${authenticationResult.expiresOn}")
+                                    viewModel.initWithAccessToken(authenticationResult.accessToken)
                                     viewModel.query()
                                 }
 
@@ -75,9 +77,9 @@ class OneDriveSetup : AbstractSyncSetup<OneDriveSetupViewModel>() {
         ViewModelProvider(this)[OneDriveSetupViewModel::class.java]
 
     override fun Intent.buildSuccessIntent(folder: Pair<String, String>) {
-        putExtra(AccountManager.KEY_AUTHTOKEN, accessToken)
         putExtra(AccountManager.KEY_USERDATA, Bundle(1).apply {
             putString(GenericAccountService.KEY_SYNC_PROVIDER_URL, folder.second)
+            putString(KEY_MICROSOFT_ACCOUNT, account)
         })
     }
 }
