@@ -1,0 +1,18 @@
+plugins {
+    id 'com.android.dynamic-feature'
+    id 'org.jetbrains.kotlin.android'
+}
+android {
+    namespace 'org.totschnig.jackson'
+    compileSdk project.compileSdkVersion
+
+    defaultConfig {
+        missingDimensionStrategy 'textRecognition', 'extern'
+        minSdk project.minSdkVersion
+    }
+}
+
+dependencies {
+    implementation project(":myExpenses")
+    implementation "com.fasterxml.jackson.core:jackson-core:2.15.3"
+}

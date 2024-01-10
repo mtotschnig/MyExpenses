@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.sync
 
 import android.content.Context
+import android.os.Build
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -33,10 +34,16 @@ enum class BackendService(
     ),
     ONEDRIVE(
         "org.totschnig.onedrive.sync.OneDriveProviderFactory",
-        R.id.SYNC_BACKEND_DROPBOX,
+        R.id.SYNC_BACKEND_ONEDRIVE,
         "OneDrive",
         Feature.ONEDRIVE
-    ),
+    ) {
+        //theoretically OneDrive would work on N with our work of azure-core. But if a future AGP
+        //version allowed us to switch back to upstream azure-core, we would then have to drop support
+        //for N.
+        override fun isAvailable(context: Context) = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+                && super.isAvailable(context)
+    },
     WEBDAV(
         "org.totschnig.webdav.sync.WebDavBackendProviderFactory",
         R.id.SYNC_BACKEND_WEBDAV,
@@ -65,8 +72,10 @@ enum class BackendService(
 
     companion object {
         fun forAccount(account: String) = kotlin.runCatching {
-            entries.firstOrNull { account.startsWith(it.label) } ?: throw IllegalArgumentException("No Backend found for $account")
+            entries.firstOrNull { account.startsWith(it.label) }
+                ?: throw IllegalArgumentException("No Backend found for $account")
         }
+
         fun allAvailable(context: Context) = entries.filter { it.isAvailable(context) }
     }
 }

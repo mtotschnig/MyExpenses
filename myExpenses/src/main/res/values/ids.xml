@@ -133,6 +133,7 @@
     <item name="SYNC_BACKEND_WEBDAV" type="id" />
     <item name="SYNC_BACKEND_DRIVE" type="id" />
     <item name="SYNC_BACKEND_DROPBOX" type="id" />
+    <item name="SYNC_BACKEND_ONEDRIVE" type="id" />
     <item name="REMOVE_LICENCE_COMMAND" type="id" />
     <item name="SORT_MENU" type="id" />
     <item name="SORT_BY_DATE_ASCENDING_COMMAND" type="id" />

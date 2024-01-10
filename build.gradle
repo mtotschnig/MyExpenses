@@ -1,9 +1,9 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext {
-        compose_compiler_version = '1.5.3'
-        kotlin_version = '1.9.10'
-        agp_version = '8.2.0'
+        compose_compiler_version = '1.5.7'
+        kotlin_version = '1.9.21'
+        agp_version = '8.2.1'
     }
 }
 plugins {
@@ -11,7 +11,7 @@ plugins {
     id 'com.android.library' version "$agp_version" apply false
     id 'org.jetbrains.kotlin.android' version "$kotlin_version" apply false
     id 'com.android.dynamic-feature' version "$agp_version" apply false
-    id("com.google.devtools.ksp") version "$kotlin_version-1.0.13" apply false
+    id("com.google.devtools.ksp") version "$kotlin_version-1.0.16" apply false
     //drive
     //id 'com.google.gms.google-services' version '4.3.15' apply false
 }
@@ -48,7 +48,7 @@ ext {
     annotations = "1.7.0"
     commonsLang = "3.12.0"
     commonsText = "1.9"
-    ktor = '2.3.2'
+    ktor = '2.3.7'
     bouncycastle = "1.71"
     desugarVersion = '2.0.4'
     mlkitTextRecognition = "16.0.0"

@@ -1,5 +1,6 @@
 # Keep the names of JSON-serializable objects.
 -keepnames public class * implements com.microsoft.graph.serializer.IJsonBackedObject
+-keepclassmembers class com.microsoft.graph.requests.** {*;}
 
 ## GSON 2.2.4 specific rules ##
 # Source: https://github.com/google/gson/blob/master/examples/android-proguard-example/proguard.cfg
@@ -39,6 +40,10 @@
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 -dontwarn okio.**
 
+-dontwarn com.google.crypto.tink.subtle.Ed25519Sign$KeyPair
+-dontwarn com.google.crypto.tink.subtle.Ed25519Sign
+-dontwarn com.google.crypto.tink.subtle.Ed25519Verify
+-dontwarn com.google.crypto.tink.subtle.X25519
 -dontwarn com.yubico.yubikit.android.transport.nfc.NfcConfiguration
 -dontwarn com.yubico.yubikit.android.transport.nfc.NfcDispatcher
 -dontwarn com.yubico.yubikit.android.transport.nfc.NfcNotAvailable
@@ -59,55 +64,8 @@
 -dontwarn com.yubico.yubikit.piv.Slot
 -dontwarn com.yubico.yubikit.piv.jca.PivPrivateKey
 -dontwarn com.yubico.yubikit.piv.jca.PivProvider
--dontwarn io.micrometer.context.ContextAccessor
--dontwarn jakarta.servlet.ServletRequest
--dontwarn jakarta.servlet.http.HttpServletRequest
--dontwarn jakarta.servlet.http.HttpServletResponse
 -dontwarn java.beans.ConstructorProperties
 -dontwarn java.beans.Transient
--dontwarn javax.servlet.ServletRequest
--dontwarn javax.servlet.http.HttpServletRequest
--dontwarn javax.servlet.http.HttpServletResponse
--dontwarn net.shibboleth.utilities.java.support.xml.SerializeSupport
--dontwarn org.cryptomator.siv.SivMode
--dontwarn org.joda.time.DateTime
--dontwarn org.opensaml.core.config.InitializationException
--dontwarn org.opensaml.core.config.InitializationService
--dontwarn org.opensaml.core.xml.XMLObject
--dontwarn org.opensaml.core.xml.XMLObjectBuilder
--dontwarn org.opensaml.core.xml.XMLObjectBuilderFactory
--dontwarn org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport
--dontwarn org.opensaml.core.xml.io.Marshaller
--dontwarn org.opensaml.core.xml.io.MarshallerFactory
--dontwarn org.opensaml.core.xml.io.MarshallingException
--dontwarn org.opensaml.core.xml.io.Unmarshaller
--dontwarn org.opensaml.core.xml.io.UnmarshallerFactory
--dontwarn org.opensaml.core.xml.io.UnmarshallingException
--dontwarn org.opensaml.core.xml.schema.XSString
--dontwarn org.opensaml.core.xml.schema.impl.XSStringBuilder
--dontwarn org.opensaml.saml.saml2.core.Assertion
--dontwarn org.opensaml.saml.saml2.core.Attribute
--dontwarn org.opensaml.saml.saml2.core.AttributeStatement
--dontwarn org.opensaml.saml.saml2.core.AttributeValue
--dontwarn org.opensaml.saml.saml2.core.Audience
--dontwarn org.opensaml.saml.saml2.core.AudienceRestriction
--dontwarn org.opensaml.saml.saml2.core.AuthnContext
--dontwarn org.opensaml.saml.saml2.core.AuthnContextClassRef
--dontwarn org.opensaml.saml.saml2.core.AuthnStatement
--dontwarn org.opensaml.saml.saml2.core.Conditions
--dontwarn org.opensaml.saml.saml2.core.Issuer
--dontwarn org.opensaml.saml.saml2.core.NameID
--dontwarn org.opensaml.saml.saml2.core.Subject
--dontwarn org.opensaml.saml.saml2.core.SubjectConfirmation
--dontwarn org.opensaml.saml.saml2.core.SubjectConfirmationData
--dontwarn org.opensaml.saml.security.impl.SAMLSignatureProfileValidator
--dontwarn org.opensaml.security.credential.BasicCredential
--dontwarn org.opensaml.security.credential.Credential
--dontwarn org.opensaml.security.credential.UsageType
--dontwarn org.opensaml.xmlsec.signature.Signature
--dontwarn org.opensaml.xmlsec.signature.support.SignatureException
--dontwarn org.opensaml.xmlsec.signature.support.SignatureValidator
--dontwarn org.opensaml.xmlsec.signature.support.Signer
--dontwarn reactor.blockhound.integration.BlockHoundIntegration
+-dontwarn com.google.j2objc.annotations.Weak
 
 -keep class javax.xml.datatype.Duration { *; }

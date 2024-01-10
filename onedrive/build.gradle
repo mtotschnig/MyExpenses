@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         missingDimensionStrategy 'textRecognition', 'extern'
-        minSdk 26
+        minSdk 21
         consumerProguardFiles("consumer-rules.txt")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -31,6 +31,7 @@ android {
 dependencies {
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugarVersion"
     implementation project(":myExpenses")
+    implementation project(":jackson")
     implementation 'com.evernote:android-state:1.4.1'
     kapt 'com.evernote:android-state-processor:1.4.1'
 
@@ -41,11 +42,16 @@ dependencies {
     implementation("io.opentelemetry:opentelemetry-context:1.18.0")
 
     implementation 'com.microsoft.graph:microsoft-graph:5.77.0'
-    implementation 'com.azure:azure-identity:1.11.1'
 }
 
 configurations.configureEach {
     exclude group:"com.yubico.yubikit", module:"android"
     exclude group:"com.yubico.yubikit", module:"piv"
     exclude group:"com.google.guava", module:"guava"
+
+    resolutionStrategy {
+        dependencySubstitution {
+            substitute module("com.azure:azure-core") using module("com.github.mtotschnig.Azure-Core:azure-core:0ccd6e7285")
+        }
+    }
 }

@@ -37,7 +37,7 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
     override val accountRes: Metadata
         get() = metadata(accountPath) ?: throw FileNotFoundException()
 
-    override fun setUp(
+    override suspend fun setUp(
         accountManager: AccountManager,
         account: android.accounts.Account,
         encryptionPassword: String?,

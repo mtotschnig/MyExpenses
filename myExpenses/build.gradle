@@ -130,7 +130,7 @@ android {
     //It does not seem possible to define dynamicFeatures dependent on variant
     //If you want to build intern variant, you need to include mlkit (+ at least one of ':mlkit_latn', ':mlkit_han', ':mlkit_deva', ':mlkit_jpan', ':mlkit_kore') and/or tesseract module
     //drive for Sync with Google Drive
-    dynamicFeatures = [':ocr', ':webdav', ':sqlcrypt', ':fints', ':onedrive']
+    dynamicFeatures = [':ocr', ':webui', ':dropbox', ':webdav', ':sqlcrypt', ':fints', ':onedrive', ':jackson']
 
     composeOptions {
         kotlinCompilerExtensionVersion compose_compiler_version
@@ -142,6 +142,12 @@ android {
         disable 'InvalidPackage', 'MissingQuantity', 'MissingTranslation', 'ImpliedQuantity', 'Instantiatable'
     }
     namespace 'org.totschnig.myexpenses'
+
+/*    bundle {
+        packagingOptions {
+            merge 'root/META-INF/services/reactor.blockhound.integration.BlockHoundIntegration'
+        }
+    }*/
 }
 
 kotlin.sourceSets.all {
@@ -278,7 +284,7 @@ dependencies {
     //Mlkit / Drive
     //implementation "com.google.android.gms:play-services-base:18.1.0"
     //implementation "com.google.mlkit:vision-interfaces:+"
-    implementation "com.google.guava:guava:32.0.1-android"
+    implementation("com.google.guava:guava:33.0.0-android")
 
     implementation 'com.github.mtotschnig:Android-Image-Cropper:31818d73e0'
     api "androidx.core:core-ktx:$androidXCoreVersion"
@@ -362,4 +368,8 @@ tasks.register('echoPublishTag') {
             println "Release should be built on master, current branch is $currentBranch"
         }
     }
+}
+
+configurations.configureEach {
+    exclude group: 'com.google.j2objc', module: 'j2objc-annotations'
 }
