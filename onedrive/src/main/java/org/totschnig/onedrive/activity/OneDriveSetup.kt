@@ -2,7 +2,9 @@ package org.totschnig.onedrive.activity
 
 import android.accounts.AccountManager
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import com.evernote.android.state.State
 import com.microsoft.identity.client.AcquireTokenParameters
@@ -21,6 +23,7 @@ import org.totschnig.onedrive.sync.OneDriveBackendProvider.Companion.KEY_MICROSO
 import org.totschnig.onedrive.viewmodel.OneDriveSetupViewModel
 import timber.log.Timber
 
+@RequiresApi(Build.VERSION_CODES.N)
 class OneDriveSetup : AbstractSyncSetup<OneDriveSetupViewModel>() {
     private lateinit var mMultipleAccountApp: IMultipleAccountPublicClientApplication
 
