@@ -51,7 +51,7 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    signingConfigs {
+    /*signingConfigs {
         release {
             storeFile file(getPropertyIfDefined("RELEASE_STORE_FILE", "unknown"))
             storePassword getPropertyIfDefined("RELEASE_STORE_PASSWORD", "unknown")
@@ -59,13 +59,13 @@ android {
             keyPassword getPropertyIfDefined("RELEASE_KEY_PASSWORD", "unknown")
 
         }
-    }
+    }*/
 
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-project.txt'
-            signingConfig signingConfigs.release
+            //signingConfig signingConfigs.release
             manifestPlaceholders = [appName: "@string/app_name", debug: "false"]
             applicationIdSuffix ""
             //ndk.debugSymbolLevel = 'FULL'
