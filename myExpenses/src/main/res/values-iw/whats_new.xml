@@ -10,5 +10,7 @@
     <string name="whats_new_365">צירוף מספר שרירותי של תמונות ומסמכים (PDF)</string>
     <string name="whats_new_366">וידג׳ט מסך בית המציג את מצב התקציב הנוכחי.</string>
     <string name="whats_new_367">אפשר להגדיר קטגוריות כהוצאה או הכנסה, מה שישפיע על איך מחושבים הסכומים של ההוצאות וההכנסות.</string>
-
+    <string name="whats_new_369_1">אפשר למפות העברות לקטגוריות.</string>
+    <string name="whats_new_370">התפריט במסך הרשת נתון לשינויים נרחבים.</string>
+    <string name="whats_new_369_2">כאשר נעילת מסך פעילה, לאפשר לסגת מהשבתת צילומי מסך.</string>
 </resources>
