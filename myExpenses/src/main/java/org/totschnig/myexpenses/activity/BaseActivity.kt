@@ -71,6 +71,7 @@ import org.totschnig.myexpenses.dialog.DialogUtils.PasswordDialogUnlockedCallbac
 import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
+import org.totschnig.myexpenses.feature.values
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.myApplication
@@ -403,7 +404,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 )
 
                 is FeatureViewModel.FeatureState.FeatureAvailable -> {
-                    Feature.values.find { featureState.modules.contains(it.moduleName) }?.let {
+                    Feature.values.find { featureState.modules.contains(it.moduleName) }?.also {
                         showSnackBar(
                             getString(
                                 R.string.feature_downloaded,
@@ -416,7 +417,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                         } else {
                             onFeatureAvailable(it)
                         }
-                    }
+                    } ?: run { report(Throwable("No feature found for ${featureState.modules.joinToString()}")) }
                 }
 
                 is FeatureViewModel.FeatureState.Error -> {

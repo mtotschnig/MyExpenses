@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.feature
 import android.app.Activity
 import android.content.Context
 import androidx.annotation.StringRes
+import com.livefront.sealedenum.GenSealedEnum
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
@@ -18,43 +19,9 @@ sealed class Feature(@StringRes val labelResId: Int, val moduleName: String) {
 
     open fun canUninstall(context: Context, prefHandler: PrefHandler) = false
 
+    @GenSealedEnum
     companion object {
-        fun fromModuleName(moduleName: String): Feature? =
-            when (moduleName) {
-                "ocr" -> OCR
-                "webui" -> WEBUI
-                "tesseract" -> TESSERACT
-                "mlkit" -> MLKIT
-                "mlkit_deva" -> DEVA
-                "mlkit_han" -> HAN
-                "mlkit_jpan" -> JPAN
-                "mlkit_kore" -> KORE
-                "mlkit_latn" -> LATN
-                "drive" -> DRIVE
-                "dropbox" -> DROPBOX
-                "webdav" -> WEBDAV
-                "fints" -> FINTS
-                "sqlcrypt" -> SQLCRYPT
-                else -> null
-            }
-
-        val values: List<Feature>
-            get() = listOf(
-                OCR,
-                WEBUI,
-                TESSERACT,
-                MLKIT,
-                DEVA,
-                HAN,
-                JPAN,
-                KORE,
-                LATN,
-                DRIVE,
-                DROPBOX,
-                WEBDAV,
-                SQLCRYPT,
-                FINTS
-            )
+        fun fromModuleName(moduleName: String) = Feature.values.find { it.moduleName == moduleName }
 
     }
 
