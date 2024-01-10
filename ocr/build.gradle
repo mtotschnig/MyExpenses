@@ -8,7 +8,6 @@ android {
 
     defaultConfig {
         //missingDimensionStrategy 'distribution', 'play'
-        //missingDimensionStrategy 'security', 'gms'
         minSdkVersion project.minSdkVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

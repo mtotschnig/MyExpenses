@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"
+        android:maxSdkVersion="22" />
+    <application tools:ignore="MissingApplicationIcon">
+        <activity android:name=".activity.OneDriveSetup" />
+        <activity android:name="com.microsoft.identity.client.BrowserTabActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="org.totschnig.myexpenses.debug"
+                    android:path="/C0IvU+B7dh8cH8p3AK7MR5DTjyg="
+                    android:scheme="msauth" />
+            </intent-filter>
+        </activity>
+    </application>
+
+    <dist:module
+        dist:instant="false"
+        dist:title="@string/title_onedrive">
+        <dist:delivery>
+            <dist:on-demand />
+        </dist:delivery>
+        <dist:fusing dist:include="true" />
+    </dist:module>
+</manifest>

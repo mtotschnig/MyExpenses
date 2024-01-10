@@ -22,11 +22,11 @@ class SyncBackendViewModel(application: Application) : AbstractSyncBackendViewMo
         if (isFeatureAvailable)
             liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
                 emit(
-                    SyncBackendProviderFactory[
+                    SyncBackendProviderFactory.get(
                             getApplication(),
                             GenericAccountService.getAccount(accountName),
                             false
-                    ]
+                    )
                         .mapCatching { it.remoteAccountList })
             } else null
 }

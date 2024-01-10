@@ -186,11 +186,11 @@ class GenericAccountService : Service() {
             return Account(accountName, ACCOUNT_TYPE)
         }
 
-        fun getSyncBackendProvider(
+        suspend fun getSyncBackendProvider(
             context: Context,
             syncAccountName: String
         ): Result<SyncBackendProvider> =
-            SyncBackendProviderFactory[context, getAccount(syncAccountName), false].onFailure {
+            SyncBackendProviderFactory.get(context, getAccount(syncAccountName), false).onFailure {
                 CrashHandler.report(it, "Provider", syncAccountName)
             }
 

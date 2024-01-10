@@ -1,0 +1,71 @@
+# Keep the names of JSON-serializable objects.
+-keepnames public class * implements com.microsoft.graph.serializer.IJsonBackedObject
+-keepclassmembers class com.microsoft.graph.requests.** {*;}
+
+## GSON 2.2.4 specific rules ##
+# Source: https://github.com/google/gson/blob/master/examples/android-proguard-example/proguard.cfg
+# Gson uses generic type information stored in a class file when working with fields. Proguard
+# removes such information by default, so configure it to keep all of it.
+-keepattributes Signature
+# For using GSON @Expose annotation
+-keepattributes *Annotation*
+-keepattributes EnclosingMethod
+# Gson specific classes
+-keep class sun.misc.Unsafe { *; }
+-keep class com.google.gson.stream.** { *; }
+# Gson specific classes used by Broker.
+-keep class * implements com.google.gson.TypeAdapterFactory
+-keep class * implements com.google.gson.JsonSerializer
+-keep class * implements com.google.gson.JsonDeserializer
+
+-dontnote sun.misc.Unsafe
+-dontnote com.google.gson.**
+
+# JUnit
+-dontwarn org.junit.**
+-dontwarn junit.**
+
+# okhttp
+
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-dontwarn okhttp3.**
+
+# okio
+
+-keep class sun.misc.Unsafe { *; }
+-dontwarn java.nio.file.*
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+-dontwarn okio.**
+
+-dontwarn com.google.crypto.tink.subtle.Ed25519Sign$KeyPair
+-dontwarn com.google.crypto.tink.subtle.Ed25519Sign
+-dontwarn com.google.crypto.tink.subtle.Ed25519Verify
+-dontwarn com.google.crypto.tink.subtle.X25519
+-dontwarn com.yubico.yubikit.android.transport.nfc.NfcConfiguration
+-dontwarn com.yubico.yubikit.android.transport.nfc.NfcDispatcher
+-dontwarn com.yubico.yubikit.android.transport.nfc.NfcNotAvailable
+-dontwarn com.yubico.yubikit.android.transport.nfc.NfcSmartCardConnection
+-dontwarn com.yubico.yubikit.android.transport.nfc.NfcYubiKeyDevice
+-dontwarn com.yubico.yubikit.android.transport.nfc.NfcYubiKeyManager
+-dontwarn com.yubico.yubikit.android.transport.usb.UsbConfiguration
+-dontwarn com.yubico.yubikit.android.transport.usb.UsbYubiKeyDevice
+-dontwarn com.yubico.yubikit.android.transport.usb.UsbYubiKeyManager
+-dontwarn com.yubico.yubikit.android.transport.usb.connection.UsbSmartCardConnection
+-dontwarn com.yubico.yubikit.core.application.BadResponseException
+-dontwarn com.yubico.yubikit.core.smartcard.ApduException
+-dontwarn com.yubico.yubikit.core.smartcard.SmartCardConnection
+-dontwarn com.yubico.yubikit.core.util.Callback
+-dontwarn com.yubico.yubikit.core.util.Result
+-dontwarn com.yubico.yubikit.piv.InvalidPinException
+-dontwarn com.yubico.yubikit.piv.PivSession
+-dontwarn com.yubico.yubikit.piv.Slot
+-dontwarn com.yubico.yubikit.piv.jca.PivPrivateKey
+-dontwarn com.yubico.yubikit.piv.jca.PivProvider
+-dontwarn java.beans.ConstructorProperties
+-dontwarn java.beans.Transient
+-dontwarn com.google.j2objc.annotations.Weak
+
+-keep class javax.xml.datatype.Duration { *; }

@@ -1,0 +1,15 @@
+{
+  "client_id" : "8c886ddf-3e29-40ae-bf13-287b75affd0b",
+  "authorization_user_agent" : "DEFAULT",
+  "redirect_uri" : "msauth://org.totschnig.myexpenses.debug/C0IvU%2BB7dh8cH8p3AK7MR5DTjyg%3D",
+  "account_mode" : "MULTIPLE",
+  "authorities" : [
+    {
+      "type": "AAD",
+      "audience": {
+        "type": "AzureADandPersonalMicrosoftAccount",
+        "tenant_id": "common"
+      }
+    }
+  ]
+}

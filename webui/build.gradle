@@ -4,7 +4,7 @@ plugins {
     id 'kotlin-kapt'
 }
 android {
-    compileSdkVersion project.compileSdkVersion
+    compileSdk project.compileSdkVersion
 
     defaultConfig {
         missingDimensionStrategy 'textRecognition', 'extern'
@@ -33,7 +33,7 @@ android {
 
 dependencies {
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugarVersion"
-    api project(":myExpenses")
+    implementation project(":myExpenses")
     implementation "androidx.lifecycle:lifecycle-service:$archLifecycleVersion"
     implementation "org.apache.commons:commons-text:$commonsText"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"

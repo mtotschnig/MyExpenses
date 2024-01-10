@@ -191,7 +191,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
         val isSealed: Boolean
     ) : Parcelable
 
-    private fun buildResult(
+    private suspend fun buildResult(
         accountName: String,
         shouldReturnBackups: Boolean,
         shouldQueryLocalAccounts: Boolean,
@@ -219,7 +219,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
             }?.filterNotNull() ?: emptyList() else emptyList()
 
         val account = getAccount(accountName)
-        return SyncBackendProviderFactory[getApplication(), account, create].mapCatching { syncBackendProvider ->
+        return SyncBackendProviderFactory.get(getApplication(), account, create).mapCatching { syncBackendProvider ->
             val syncAccounts =
                 syncBackendProvider.remoteAccountList
                     .mapNotNull { it.getOrNull() }

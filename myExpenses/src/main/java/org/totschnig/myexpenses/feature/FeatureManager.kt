@@ -103,6 +103,7 @@ sealed class Feature(@StringRes val labelResId: Int, val moduleName: String) {
     data object DRIVE : SyncBackend(R.string.title_drive, "drive")
     data object DROPBOX : SyncBackend(R.string.title_dropbox, "dropbox")
     data object WEBDAV : SyncBackend(R.string.title_webdav, "webdav")
+    data object ONEDRIVE : SyncBackend(R.string.title_onedrive, "onedrive")
     data object SQLCRYPT: Feature(R.string.title_sqlcrypt, "sqlcrypt") {
         override fun canUninstall(context: Context, prefHandler: PrefHandler): Boolean {
             return !prefHandler.encryptDatabase

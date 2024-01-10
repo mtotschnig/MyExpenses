@@ -113,7 +113,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
             try {
                 val inputStream: PushbackInputStream? = if (syncAccountName != null) {
                     val account = GenericAccountService.getAccount(syncAccountName)
-                    SyncBackendProviderFactory[application, account, false].onFailure {
+                    SyncBackendProviderFactory.get(application, account, false).onFailure {
                         val error = Exception(
                             "Unable to get sync backend provider for $syncAccountName",
                             it

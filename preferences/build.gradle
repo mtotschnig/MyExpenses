@@ -54,4 +54,6 @@ dependencies {
     }
     androidTestImplementation "com.google.truth:truth:$truthVersion"
     androidTestImplementation("androidx.multidex:multidex:2.0.1")
+
+    implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
 }
