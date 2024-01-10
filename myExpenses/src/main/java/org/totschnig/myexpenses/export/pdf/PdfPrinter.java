@@ -279,7 +279,7 @@ public class PdfPrinter {
                 FontType.HEADER);
         table.addCell(cell);
         if (groupCursor.isAfterLast()) {
-          Timber.w("Account: %s, currentHeaderId; %d, prevHeaderId: %d, filter: %s, accountId: ",
+          Timber.w("Account: %s, currentHeaderId; %d, prevHeaderId: %d, filter: %s",
                   account, currentHeaderId, prevHeaderId, filter);
           throw new IllegalStateException();
         }
