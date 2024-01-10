@@ -64,7 +64,7 @@ class GoogleDriveBackendProvider internal constructor(
     }
 
     @Throws(Exception::class)
-    override fun setUp(
+    override suspend fun setUp(
         accountManager: AccountManager,
         account: Account,
         encryptionPassword: String?,
