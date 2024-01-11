@@ -129,7 +129,7 @@
     <string name="help_ManageCurrencies_symbol">Można również skonfigurować symbol waluty, który jest używany podczas formatowania kwot w określonej walucie.</string>
     <string name="cab_show_transactions_help_text">Otwórz okno dialogowe zawierające listę wszystkich transakcji przypisanych do wybranej kategorii na rachunku bieżącym.</string>
     <string name="help_MyExpenses_fab_long_press">Długie naciśnięcie pływającego przycisku akcji otwiera menu, które pozwala przygotować formularz przelewu, podzielonej transakcji lub dochodu.</string>
-    <string name="help_ManageParties_select_filter_info">Stuknij stronę, aby przefiltrować listę transakcji. Długie dotknięcie umożliwia wybranie wielu stron.</string>
+    <string name="help_ManageParties_select_filter_info">Wybierz wszystkie strony, których chcesz użyć do filtrowania listy transakcji.</string>
     <string name="help_ManageBudgets_title">Lista wszystkich budżetów</string>
     <string name="menu_NavigationDrawer_sort_help_text_custom">Kliknięcie na \"Niestandardowe\" pozwala dowolnie skonfigurować pozycję każdego konta.</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Kopiowanie bieżącego salda do schowka.</string>
@@ -154,7 +154,7 @@
     <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">Definiując budżet, określasz ogólną kwotę, jaką chcesz wydać w danym okresie. Możesz także przydzielać kwoty na kategorie i podkategorie. Następnie monitorujesz, ile wydałeś i ile jeszcze pozostało do wydania.</string>
     <string name="help_BudgetEdit_title">Formularz dla budżetów</string>
     <string name="help_ManageParties_select_mapping_info">Wybierz imprezę, dotykając jej.</string>
-    <string name="menu_merge_help_text">Jeśli ten sam podmiot pojawia się wielokrotnie na liście z różnymi wariantami pisowni, można je połączyć. Zostanie wyświetlony monit o wybranie wariantu, który ma zostać zachowany.</string>
+    <string name="menu_merge_help_text">Jeśli ten sam podmiot pojawia się wielokrotnie na liście z różnymi wariantami pisowni, można je połączyć.</string>
     <string name="form_date_time_help_text_configuration">W ustawieniach można wyłączyć wprowadzanie czasu i włączyć rozróżnianie między datą rezerwacji a datą waluty.</string>
     <string name="help_Budget_spent_click">Kliknięcie na wydane kwoty powoduje wyświetlenie listy wszystkich transakcji istotnych dla bieżącego budżetu i odpowiedniej kategorii.</string>
     <string name="cab_NavigationDrawer_hide_help_text">Usuń konto z listy.</string>
@@ -181,4 +181,31 @@
     <string name="menu_HistoryActivity_history_show_balance_help_text">Przełącz widoczność salda.</string>
     <string name="menu_BudgetActivity_rollover_categories">Pozostała część każdej kategorii jest przenoszona, co będzie miało wpływ na odpowiednią alokację w następnym okresie.</string>
     <string name="help_ManageBudgets_info">Na tym ekranie wyświetlane jest podsumowanie wszystkich utworzonych budżetów. Użyj pływającego przycisku akcji, aby utworzyć nowy budżet. Kliknięcie pozycji listy powoduje wyświetlenie pojedynczego budżetu.</string>
+    <string name="form_DebtEdit_date_help_text">Wprowadź datę zaciągnięcia długu.</string>
+    <string name="help_WebUI_info_1">Wywołaj adres URL wyświetlany w podtytule z przeglądarki internetowej na komputerze stacjonarnym.</string>
+    <string name="help_WebUI_info_2">Obecnie internetowy interfejs użytkownika nie obsługuje przelewów ani podzielonych transakcji.</string>
+    <string name="menu_type_filter_help_text">Gdy ta opcja jest aktywna, można wybrać wyświetlanie tylko kategorii wydatków, przychodów lub przelewów.</string>
+    <string name="cab_MyExpenses_select_help_text">Wybór wielokrotny można uruchomić, wybierając to polecenie lub dotykając długo pozycji na liście.</string>
+    <string name="form_DebtEdit_amount_help_text">Wprowadź pierwotną kwotę zadłużenia. Transakcje powiązane z długiem będą zmniejszać lub zwiększać saldo. Użyj przełącznika, aby odróżnić długi, które jesteś winien, od długów, które są należne Tobie. Jeśli wybierzesz walutę inną niż waluta krajowa, zadłużenie będzie widoczne tylko na rachunkach w tej samej walucie.</string>
+    <string name="help_WebUI_info_4">Podczas wyświetlania transakcji dla wybranego konta internetowy interfejs użytkownika będzie korzystał z tych samych filtrów, które zostały ustawione w aplikacji na urządzeniu z systemem Android.</string>
+    <string name="help_DebtOverview_info">Kliknij wpis, aby go rozwinąć/zawinąć.</string>
+    <string name="debt_help_overflow">Dla każdego długu użyj menu w prawym górnym rogu, aby go edytować, zamknąć, usunąć lub udostępnić. Zadłużenia w walutach obcych mogą być opcjonalnie wymienione z równoważnymi kwotami w walucie krajowej.</string>
+    <string name="cab_remap_help_text">Użyj poleceń w tym podmenu, jeśli chcesz zmienić daną właściwość (konto, kategorię, płatnika/odbiorcę lub metodę płatności) dla wszystkich wybranych transakcji.</string>
+    <string name="form_BudgetEdit_type_help_text">Budżet jest definiowany jako regularny (dzienny, miesięczny, tygodniowy, roczny) lub jednorazowy. W przypadku budżetów jednorazowych użytkownik określa początek i koniec ich obowiązywania. Budżet regularny (który nie jest filtrowany) można ustawić jako domyślny: Oznacza to, że lista transakcji (jeśli jest skonfigurowana do grupowania danych według dnia, tygodnia, miesiąca lub roku) pokaże postęp dla tego budżetu dla każdego okresu.</string>
+    <string name="form_DebtEdit_label_help_text">Etykieta pozwala wybrać zadłużenie na formularzu transakcji, aby oznaczyć transakcję jako przedpłatę.</string>
+    <string name="help_debt_managment">Powiąż długi ze stronami, sprawdź listę transakcji i oblicz pozostałe saldo.</string>
+    <string name="cab_debts_help_text">Podmenu to pozwala na zdefiniowanie nowych długów powiązanych z wybranym podmiotem oraz zarządzanie istniejącymi długami: wgląd w historię transakcji i pozostałe saldo oraz ich edycję, zamknięcie lub usunięcie.</string>
+    <string name="menu_parent_category_selection_help_text">Za pomocą tej opcji można dostosować dotknięcie kategorii, która ma kategorie podrzędne: Jeśli jest zaznaczona, krótkie dotknięcie spowoduje wybranie kategorii; jeśli jest odznaczona, krótkie dotknięcie spowoduje rozwinięcie / zwinięcie kategorii. W tym drugim przypadku wybór jest dostępny z menu kontekstowego.</string>
+    <string name="help_SetupSync_info">Ten ekran pozwala wybrać dane, które chcesz zsynchronizować między urządzeniem a zapleczem. Zawiera listę wszystkich kont na urządzeniu, które nie są jeszcze zsynchronizowane z innymi zapleczami, oraz wszystkich kont przechowywanych na zapleczu. Kliknięcie &lt;img src=ic_hchain_broken&gt; / &lt;img src=ic_hchain&gt; spowoduje zaznaczenie lub odznaczenie konto do synchronizacji. Jeśli wybierzesz konto, które już istnieje zarówno lokalnie, jak i zdalnie, musisz zdecydować, czy początkowo dane na urządzeniu powinny zastąpić istniejące dane na zapleczu, czy na odwrót.</string>
+    <string name="help_ManageParties_floating_action_button_2">Użyj pływającego przycisku akcji, aby potwierdzić wybór.</string>
+    <string name="help_ManageParties_mergeMode_info_1">Wybierz zduplikowane strony, które chcesz scalić.</string>
+    <string name="help_ManageParties_mergeMode_info_2">Zostaniesz poproszony o wybranie wariantu, który chcesz zachować.</string>
+    <string name="help_ManageTags_select_filter_info">Wybierz lub usuń zaznaczenie znaczników do filtrowania listy transakcji, dotykając ich. Użyj pływającego przycisku akcji, aby potwierdzić wybór.</string>
+    <string name="help_ManageTags_manage_info">Twórz nowe tagi, wpisując je w polu tekstowym. Ikona x na każdym tagu usuwa go z bazy danych. Długie dotknięcie tagu umożliwia jego edycję.</string>
+    <string name="help_ManageTags_select_mapping_info">Mapuj lub anuluj mapowanie tagów, dotykając ich. Użyj pływającego przycisku akcji, aby potwierdzić mapowanie.</string>
+    <string name="menu_show_all_help_text">Długi, które zostały zamknięte lub spłacone (ich saldo wynosi 0), będą wyświetlane tylko wtedy, gdy ta opcja jest zaznaczona.</string>
+    <string name="form_BudgetEdit_filter_help_text">Budżety można filtrować według kategorii, stron, metod lub stanów. Uwzględniane są tylko transakcje dopasowane do tych filtrów.</string>
+    <string name="form_tags_help_text">Ikona + umożliwia wybór istniejących tagów i tworzenie nowych. Ikona x na każdym tagu pozwala usunąć mapowanie między transakcją a tagiem.</string>
+    <string name="menu_aggregate_neutral_categories_help_text">Transakcje zmapowane do kategorii przychodów są zawsze liczone jako przychody, a transakcje zmapowane do kategorii wydatków są zawsze liczone jako wydatki. Ta opcja pozwala skonfigurować sposób liczenia transakcji zmapowanych do kategorii neutralnych: Domyślnie, jeśli są dodatnie, stanowią przychód, jeśli są ujemne - wydatek. Ale jeśli ta opcja jest aktywna, są one zawsze uwzględniane zarówno w sumach przychodów, jak i wydatków.</string>
+    <string name="help_WebUI_info_3">Można ustawić hasło w celu ochrony dostępu. W oknie dialogowym wyświetlanym przez przeglądarkę internetową uwzględniane jest tylko hasło, nazwa użytkownika jest ignorowana.</string>
 </resources>
