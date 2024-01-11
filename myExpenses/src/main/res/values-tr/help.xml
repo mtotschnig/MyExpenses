@@ -31,7 +31,7 @@
     <string name="help_ManageMethods_info">Bu ekran önceden tanımlanmış ödeme yöntemlerini (Çek, kredi kartı, mevduat, doğrudan ödeme) listeler ve yenilerini tanımlamanıza imkân verir. Yeni yöntem oluşturacak formu açmak için kayan eylem düğmesini kullanın.</string>
     <string name="help_ManageParties_manage_info">Bu ekran borçlu/alacaklı alanlarının otomatik tamamlanmasında kullanılan unsurları listeler. </string>
     <string name="help_ManageParties_select_mapping_info">Muameleye müdahil bir taraf seçmek için üzerine dokunun.</string>
-    <string name="help_ManageParties_select_filter_info">Muamele listesine filtre uygulamak için muameleye müdahil bir tarafa dokunun. Birden fazla taraf seçmek için uzun dokunun.</string>
+    <string name="help_ManageParties_select_filter_info">Muamele listesini filtrelemek için kullanmak istediğiniz tüm tarafları seçin.</string>
     <string name="help_ManageParties_floating_action_button">Yeni bir unsur eklemek için kayan eylem düğmesini kullanın.</string>
     <string name="menu_merge_help_text">Şayet aynı taraf listede imla değişiklikleriyle birden fazla defa mevcutsa, bunları birleştirebilirsiniz.</string>
     <string name="help_ManageParties_mergeMode_info_2">Hangisinin muhafaza edileceğini seçmeniz istenecektir.</string>
@@ -206,4 +206,6 @@
     <string name="debt_help_overflow">Her borç için, düzenlemek, kapatmak, silmek veya paylaşmak için sağ üst köşedeki menüyü kullanın. Yabancı para borçları isteğe bağlı olarak ana para birimindeki eş değer tutarlarla listelenebilir.</string>
     <string name="menu_type_filter_help_text">Bu seçenek etkinleştirildiğinde, yalnızca gider, gelir veya transfer kategorilerini göstermeyi seçebilirsiniz.</string>
     <string name="menu_aggregate_neutral_categories_help_text">Gelir kategorilerine ilişkilendirilen muameleler her zaman gelir olarak sayılır, gider kategorilerine ilişkilendirilen muameleler her zaman gider olarak sayılır. Bu seçenek, tarafsız kategorilere ilişkilendirilen muamelelerin nasıl sayılacağını yapılandırmanıza olanak tanır: Öntanımlı olarak, eğer pozitiflerse geliri, negatiflerse gideri temsil ederler. Ancak bu seçenek etkinleştirilirse, her zaman hem gelir hem de gider toplamlarınıza dahil edilirler.</string>
+    <string name="help_ManageParties_floating_action_button_2">Seçimi onaylamak için kayan eylem düğmesini kullanın.</string>
+    <string name="help_ManageParties_mergeMode_info_1">Birleştirmek istediğiniz yinelenen tarafları seçin.</string>
 </resources>
