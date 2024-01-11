@@ -65,6 +65,8 @@ pl:
       cloud_sync: '<b>Synchronizacja z chmurą</b>: Dane mogą być synchronizowane między
         wieloma urządzeniami'
       webui: <b>Sieciowy interfejs użytkownika</b>
+      budgeting: '<b>Budżetowanie</b>: porównaj swoje wydatki z limitami ustawionymi
+        dla każdej kategorii w ujęciu dziennym, tygodniowym, miesięcznym lub rocznym.'
     one-time-payment: Płatność jednorazowa
     subscription: Subskrypcja
   store:
@@ -76,6 +78,11 @@ pl:
       z następujących kluczy licencyjnych:"
     highlight_3: Podsumuj swoją sytuację finansową na dzień, tydzień, miesiąc lub
       rok
+    highlight_2: Udostępniaj swoje dane między wieloma telefonami i tabletami za pośrednictwem
+      WebDAV i Dysku Google
+    highlight_1: Śledź swoje wydatki i dochody za pomocą wielu kont, szablonów i kategorii
+    full_description_contrib_amazon: 'Wiele dodatkowych funkcji odblokowuje się poprzez
+      zakup jednego z kluczy licencyjnych, np.:'
   permissions:
     heading: <i>{app_name}</i> wymaga następujących <u>uprawnień</u>
     calendar:
@@ -112,3 +119,8 @@ pl:
     distribution: Wizualizacja rozkładu według kategorii
     group: Grupowanie transakcji według dnia, tygodnia, miesiąca i roku
     split: Podziel jedną transakcję na wiele kategorii
+    export: Drukowanie do formatu PDF i wymiana za pośrednictwem plików QIF i CSV.
+    sync: Synchronizuj zaszyfrowane dane konta na wielu urządzeniach za pośrednictwem
+      usług chmury prywatnej lub publicznej.
+    summarize: Podsumowanie wszystkich rachunków (zaawansowana obsługa kursów wymiany
+      dla każdego rachunku i transakcji)
