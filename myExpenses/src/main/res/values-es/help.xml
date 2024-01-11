@@ -31,7 +31,7 @@
     <string name="help_ManageMethods_info">Esta pantalla muestra las formas de pago predefinidas (cheque, tarjeta de crédito, depósito, tarjeta de débito) y le permitirá definir otras nuevas. Utilice el botón de acción flotante para abrir el formulario para la creación de un nuevo método.</string>
     <string name="help_ManageParties_manage_info">Esta pantalla muestra los grupos que se utilizan para el autocompletado del campo ordenante/acreedor.</string>
     <string name="help_ManageParties_select_mapping_info">Seleccione un grupo pulsando sobre él.</string>
-    <string name="help_ManageParties_select_filter_info">Pulse sobre un grupo para aplicar filtros a la lista de transacciones. Una pulsación larga permitirá seleccionar varios grupos.</string>
+    <string name="help_ManageParties_select_filter_info">Seleccione todas las partes que desee utilizar para filtrar la lista de transacciones.</string>
     <string name="help_ManageParties_floating_action_button">Utilice el botón de acción flotante para añadir una nueva entrada.</string>
     <string name="menu_merge_help_text">Si el mismo grupo aparece varias veces en la lista con diferentes variantes ortográficas, puede fusionarlas.</string>
     <string name="help_ManageParties_mergeMode_info_2">Se le pedirá que seleccione la variante que desea conservar.</string>
@@ -206,4 +206,6 @@
     <string name="menu_show_all_help_text">Las deudas que han sido cerradas o pagadas (su saldo es 0), sólo se mostrarán, si esta opción está marcada.</string>
     <string name="menu_type_filter_help_text">Cuando esta opción está activada, puede seleccionar que sólo se muestren las categorías de gastos, ingresos o transferencias.</string>
     <string name="menu_aggregate_neutral_categories_help_text">Las transacciones asignadas a las categorías de ingresos siempre se cuentan como ingresos, las transacciones asignadas a las categorías de gastos siempre se cuentan como gastos. Esta opción le permite configurar cómo se contabilizan las transacciones asignadas a las categorías neutrales: Por defecto si son positivas representan un ingreso, si son negativas un gasto. Pero si se activa esta opción, siempre se incluyen en ambas sumas de ingresos y gastos.</string>
+    <string name="help_ManageParties_mergeMode_info_1">Seleccione las partidas duplicadas que desea fusionar.</string>
+    <string name="help_ManageParties_floating_action_button_2">Utilice el botón de acción flotante para confirmar la selección.</string>
 </resources>
