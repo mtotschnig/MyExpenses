@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.AccountInfo
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
@@ -23,12 +24,19 @@ import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.shared_test.CursorSubject.Companion.assertThat
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.util.Date
 
 @RunWith(RobolectricTestRunner::class)
 class GroupQueryTest : BaseTestWithRepository() {
 
     private var testAccountId: Long = 0
-    private var searchCategory: Long = 0
+    private var neutralCategoryId : Long = 0
+    private var expenseCategoryId : Long = 0
+    private var incomeCategoryId  : Long = 0
+    private var transferCategoryId: Long = 0
 
     private fun insertCategory(label: String, typeFlags: Byte) = ContentUris.parseId(
         repository.saveCategory(
@@ -58,20 +66,23 @@ class GroupQueryTest : BaseTestWithRepository() {
                 testAccount.contentValues
             )!!
         )
-        val neutralCategoryId = insertCategory("Neutral", FLAG_NEUTRAL)
-        val expenseCategoryId = insertCategory("Expense", FLAG_EXPENSE)
-        val incomeCategoryId = insertCategory("Income", FLAG_INCOME)
-        val transferCategoryId = insertCategory("Transfer", FLAG_TRANSFER)
+        neutralCategoryId = insertCategory("Neutral", FLAG_NEUTRAL)
+        expenseCategoryId = insertCategory("Expense", FLAG_EXPENSE)
+        incomeCategoryId  = insertCategory("Income", FLAG_INCOME)
+        transferCategoryId =insertCategory("Transfer", FLAG_TRANSFER)
+    }
+
+    private fun insertTransactions() {
         insertTransaction(100, neutralCategoryId)
         insertTransaction(-200, expenseCategoryId)
         insertTransaction(400, incomeCategoryId)
         insertTransaction(800, transferCategoryId)
-        searchCategory = neutralCategoryId
     }
 
     @Test
     fun groupQueryFilterWithCategoryFilter() {
-        val filter = WhereFilter(listOf(CategoryCriterion("Neutral", searchCategory)))
+        insertTransactions()
+        val filter = WhereFilter(listOf(CategoryCriterion("Neutral", neutralCategoryId)))
         contentResolver.query(
             BaseTransactionProvider.groupingUriBuilder(Grouping.NONE).build(),
             null,
@@ -100,6 +111,7 @@ class GroupQueryTest : BaseTestWithRepository() {
 
     @Test
     fun groupQueryFilterWithAmountFilter() {
+        insertTransactions()
         val filter = WhereFilter(
             listOf(
                 AmountCriterion.create(
@@ -135,6 +147,7 @@ class GroupQueryTest : BaseTestWithRepository() {
 
     @Test
     fun groupQueryWithoutFilter() {
+        insertTransactions()
         contentResolver.query(
             BaseTransactionProvider.groupingUriBuilder(Grouping.NONE).build(),
             null,
@@ -157,6 +170,43 @@ class GroupQueryTest : BaseTestWithRepository() {
                 hasLong(2, -200)
                 hasLong(3, 500)
                 hasLong(4, 800)
+            }
+        }
+    }
+
+    @Test
+    fun groupQueryWithVoid() {
+        contentResolver.insert(
+            TransactionProvider.TRANSACTIONS_URI, TransactionInfo(
+                accountId = testAccountId,
+                amount = 12345,
+                date = Date.from(ZonedDateTime.of(LocalDateTime.of(2024, 1, 1,12, 0), ZoneId.systemDefault()).toInstant()),
+                crStatus = CrStatus.VOID
+            ).contentValues
+        )
+
+        contentResolver.query(
+            BaseTransactionProvider.groupingUriBuilder(Grouping.DAY).build(),
+            null,
+            null,
+            null,
+            null
+        )?.use {
+            with(assertThat(it)) {
+                hasCount(1)
+                hasColumns(
+                    KEY_YEAR,
+                    KEY_SECOND_GROUP,
+                    KEY_SUM_EXPENSES,
+                    KEY_SUM_INCOME,
+                    KEY_SUM_TRANSFERS
+                )
+                movesToFirst()
+                hasInt(0, 2024)
+                hasInt(1, 1)
+                hasLong(2, 0)
+                hasLong(3, 0)
+                hasLong(4, 0)
             }
         }
     }

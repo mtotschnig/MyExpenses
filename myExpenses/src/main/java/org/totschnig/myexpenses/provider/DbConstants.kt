@@ -570,9 +570,9 @@ fun buildTransactionGroupCte(
         append(KEY_TRANSFER_PEER)
         append(",")
         append("$typeWithFallBack AS $KEY_TYPE")
-        append(", CASE WHEN $KEY_CR_STATUS = '${CrStatus.VOID.name}' THEN 0 ELSE cast(")
+        append(", cast(CASE WHEN $KEY_CR_STATUS = '${CrStatus.VOID.name}' THEN 0 ELSE ")
         append(getAmountCalculation(forHome))
-        append(" AS integer) END AS $KEY_DISPLAY_AMOUNT")
+        append(" END AS integer) AS $KEY_DISPLAY_AMOUNT")
         append(" FROM $VIEW_WITH_ACCOUNT")
         append(" WHERE $WHERE_NOT_SPLIT AND $selection)")
     }
