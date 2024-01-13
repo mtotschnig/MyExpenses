@@ -71,7 +71,7 @@ class OneDriveSetup : AbstractSyncSetup<OneDriveSetupViewModel>() {
 
     fun onException(exception: Exception) {
         CrashHandler.report(exception)
-        showSnackBar(exception.safeMessage)
+        showMessage(exception.safeMessage)
     }
 
     override fun handleException(exception: Exception) = false
