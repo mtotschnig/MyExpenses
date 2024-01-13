@@ -21,9 +21,9 @@ hr:
     thank_you: |
       Tvoj doprinos podržava daljnji razvoj programa „Moji troškovi”. Hvala ti!
     feature:
-      roadmap_voting: Pravo glasa na <b>razvojnom putu</b>
+      roadmap_voting: Pravo glasanja u <b>planiranju razvoja</b>
       webui: <b>Internetsko korisničko sučelje</b>
-      scan_receipt: '<b>Skeniraj račune</b>: Automatski izdvoji iznos, datum i primaoca'
+      scan_receipt: '<b>Snimi račune</b>: Automatski izdvoji iznos, datum i primaoca'
       budgeting: '<b>Proračun</b>: Usporedi potrošnju s tvojim postavljenim ograničenjima
         po kategoriji na dnevnoj, tjednoj, mjesečnoj ili godišnjoj osnovi.'
       history_chart: <b>Dijagram povijesti</b> (Novčani tok)
