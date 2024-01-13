@@ -105,7 +105,6 @@ class CsvImportDataFragment : Fragment() {
                 viewModel.dataFlow.collect {
                     setData(it)
                 }
-
             }
         }
     }

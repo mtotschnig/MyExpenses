@@ -14,7 +14,10 @@ import android.widget.AdapterView
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.CsvImportActivity
@@ -97,23 +100,31 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
             onItemSelectedListener = this@CsvImportParseFragment
         }
         DialogUtils.configureCurrencySpinner(binding.AccountTable.Currency, this)
-        lifecycleScope.launchWhenStarted {
-            currencyViewModel.currencies.collect { currencies: List<Currency?> ->
-                currencyAdapter.addAll(currencies)
-                binding.AccountTable.Currency.setSelection(currencyAdapter.getPosition(currencyViewModel.default))
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                currencyViewModel.currencies.collect { currencies: List<Currency?> ->
+                    currencyAdapter.addAll(currencies)
+                    binding.AccountTable.Currency.setSelection(currencyAdapter.getPosition(currencyViewModel.default))
+                }
             }
         }
-        lifecycleScope.launchWhenStarted {
-            viewModel.accounts.collect {
-                accountsAdapter.clear()
-                accountsAdapter.addAll(it)
-                binding.AccountTable.Account.setSelection(accountsAdapter.getPosition(viewModel.accountId))
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.accounts.collect {
+                    accountsAdapter.clear()
+                    accountsAdapter.addAll(it)
+                    binding.AccountTable.Account.setSelection(accountsAdapter.getPosition(viewModel.accountId))
+                }
             }
         }
+
         with(binding.AccountTable.AccountType) {
             DialogUtils.configureTypeSpinner(this)
             onItemSelectedListener = this@CsvImportParseFragment
         }
+
         fileNameBinding.btnBrowse.setOnClickListener(this)
         linkInputsWithLabels(binding.Table)
         return binding.root
