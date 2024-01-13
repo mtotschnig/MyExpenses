@@ -241,17 +241,10 @@ class GoogleDriveBackendProvider internal constructor(
 
     @get:Throws(IOException::class)
     override val remoteAccountList: List<Result<AccountMetaData>>
-        get() {
-            val fileList = driveServiceHelper.listChildren(baseFolder)
-            return fileList
-                .filter { file: File? ->
-                    driveServiceHelper.isFolder(
-                        file!!
-                    )
-                }
-                .filter { metadata: File -> verifyRemoteAccountFolderName(metadata.name) }
-                .map { metadata: File? -> getAccountMetaDataFromDriveMetadata(metadata) }
-        }
+        get() = driveServiceHelper.listChildren(baseFolder)
+            .filter(driveServiceHelper::isFolder)
+            .filter { verifyRemoteAccountFolderName(it.name) }
+            .map(::getAccountMetaDataFromDriveMetadata)
 
     private fun getAccountMetaDataFromDriveMetadata(metadata: File?): Result<AccountMetaData> {
         val accountMetadata: File? = try {
