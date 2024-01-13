@@ -139,8 +139,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     val floatingActionButton: FloatingActionButton
         get() = _floatingActionButton!!
 
-    private val _floatingActionButton: FloatingActionButton?
-        get() = findViewById(R.id.CREATE_COMMAND) as? FloatingActionButton
 
     fun configureFloatingActionButton() {
         _floatingActionButton?.apply {
@@ -148,6 +146,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             fabIcon?.let { setImageResource(it) }
         }
     }
+
+    open val _floatingActionButton: FloatingActionButton? = null
 
     @StringRes
     open val fabDescription: Int? = null

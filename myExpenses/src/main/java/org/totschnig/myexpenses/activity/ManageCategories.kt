@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
@@ -136,6 +137,9 @@ class ManageCategories : ProtectedFragmentActivity(),
             return if (action == Action.SELECT_MAPPING || action == Action.MANAGE)
                 R.string.menu_create_main_cat else null
         }
+
+    override val _floatingActionButton: FloatingActionButton
+        get() = binding.fab.CREATECOMMAND
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val action = intent.asAction

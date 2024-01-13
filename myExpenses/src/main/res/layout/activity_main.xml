@@ -22,7 +22,7 @@
 
                 <include android:id="@+id/viewPagerMain" layout="@layout/viewpager_main" />
 
-                <include layout="@layout/floating_action_button" />
+                <include android:id="@+id/fab" layout="@layout/floating_action_button" />
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
         </LinearLayout>
         <!-- The navigation drawer -->

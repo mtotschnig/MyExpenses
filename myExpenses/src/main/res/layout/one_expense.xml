@@ -549,6 +549,7 @@
     </LinearLayout>
 
     <include
+        android:id="@+id/fab"
         layout="@layout/floating_action_button"
         android:visibility="@integer/create_fab_initial_visibility" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

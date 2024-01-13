@@ -48,6 +48,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.loader.app.LoaderManager
 import com.evernote.android.state.State
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.coroutines.Dispatchers
@@ -283,6 +284,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         super.onEnterAnimationComplete()
         floatingActionButton.show()
     }
+
+    override val _floatingActionButton: FloatingActionButton
+        get() = rootBinding.fab.CREATECOMMAND
 
     override val fabActionName = "SAVE_TRANSACTION"
 
