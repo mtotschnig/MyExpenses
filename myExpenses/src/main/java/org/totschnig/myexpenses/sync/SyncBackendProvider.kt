@@ -64,7 +64,10 @@ interface SyncBackendProvider {
     fun updateAccount(account: Account)
 
     fun readAccountMetaData(): Result<AccountMetaData>
+
     fun writeCategories(categories: List<CategoryExport>): String
+
+    fun suggestDelay(e: IOException): Long? = null
 
     val categories: Result<List<CategoryExport>>
 

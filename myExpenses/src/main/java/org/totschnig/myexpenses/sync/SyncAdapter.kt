@@ -145,7 +145,7 @@ class SyncAdapter @JvmOverloads constructor(
                             log().e(throwable, "Error setting up account %s", account)
                         }
                         syncResult.stats.numIoExceptions++
-                        syncResult.delayUntil = ioDefaultDelaySeconds
+                        syncResult.delayUntil = getIoDelaySeconds()
                         appendToNotification(
                             concatResStrings(
                                 context,
@@ -267,7 +267,7 @@ class SyncAdapter @JvmOverloads constructor(
                                             return@runBlocking
                                         }
                                         syncResult.stats.numIoExceptions++
-                                        syncResult.delayUntil = ioDefaultDelaySeconds
+                                        syncResult.delayUntil = getIoDelaySeconds(backend.suggestDelay(e))
                                         notifyIoException(
                                             R.string.sync_io_exception_reset_account_data,
                                             account
@@ -289,7 +289,7 @@ class SyncAdapter @JvmOverloads constructor(
                                         return@runBlocking
                                     }
                                     syncResult.stats.numIoExceptions++
-                                    syncResult.delayUntil = ioDefaultDelaySeconds
+                                    syncResult.delayUntil = getIoDelaySeconds(backend.suggestDelay(e))
                                     notifyIoException(
                                         R.string.sync_io_exception_setup_remote_account,
                                         account
@@ -305,7 +305,7 @@ class SyncAdapter @JvmOverloads constructor(
                                     }
                                     notifyIoException(R.string.sync_io_exception_locking, account)
                                     syncResult.stats.numIoExceptions++
-                                    syncResult.delayUntil = ioLockDelaySeconds
+                                    syncResult.delayUntil = getIoLockDelaySeconds(backend.suggestDelay(e))
                                     continue
                                 }
                                 var completedWithoutError = false
@@ -431,7 +431,7 @@ class SyncAdapter @JvmOverloads constructor(
                                         return@runBlocking
                                     }
                                     syncResult.stats.numIoExceptions++
-                                    syncResult.delayUntil = ioDefaultDelaySeconds
+                                    syncResult.delayUntil = getIoDelaySeconds(backend.suggestDelay(e))
                                     notifyIoException(R.string.sync_io_exception_syncing, account)
                                 } catch (e: RemoteException) {
                                     syncResult.databaseError = true
@@ -474,7 +474,7 @@ class SyncAdapter @JvmOverloads constructor(
                                                 account
                                             )
                                             syncResult.stats.numIoExceptions++
-                                            syncResult.delayUntil = ioLockDelaySeconds
+                                            syncResult.delayUntil = getIoLockDelaySeconds(backend.suggestDelay(e))
                                         }
                                     }
                                 }
@@ -536,8 +536,7 @@ class SyncAdapter @JvmOverloads constructor(
         val opsSize = ops.size
         val resultsSize = contentProviderResults.size
         if (opsSize != resultsSize) {
-            CrashHandler.report(
-                Exception("applied $opsSize operations, received $resultsSize results"), TAG)
+            report(Exception("applied $opsSize operations, received $resultsSize results"))
             return false
         }
         return true
@@ -555,7 +554,7 @@ class SyncAdapter @JvmOverloads constructor(
                 var fileName = getStringSetting(provider, KEY_UPLOAD_AUTO_BACKUP_NAME)
                 try {
                     if (fileName == null) {
-                        CrashHandler.report(Exception("KEY_UPLOAD_AUTO_BACKUP_NAME empty"))
+                        report(Exception("KEY_UPLOAD_AUTO_BACKUP_NAME empty"))
                         fileName = "backup-" + SimpleDateFormat("yyyMMdd", Locale.US).format(Date())
                     }
                     log().i("Storing backup %s (%s)", fileName, autoBackupFileUri)
@@ -844,7 +843,7 @@ class SyncAdapter @JvmOverloads constructor(
                 } else null
             }
         } catch (remoteException: RemoteException) {
-            CrashHandler.report(remoteException)
+            report(remoteException)
             null
         }
         return result
@@ -858,12 +857,12 @@ class SyncAdapter @JvmOverloads constructor(
                 arrayOf(prefKey)
             )
         } catch (remoteException: RemoteException) {
-            CrashHandler.report(remoteException)
+            report(remoteException)
         }
     }
 
     override fun onSyncCanceled() {
-        CrashHandler.report(Exception("Sync canceled"), TAG)
+        report(Exception("Sync canceled"))
         super.onSyncCanceled()
     }
 
@@ -874,10 +873,9 @@ class SyncAdapter @JvmOverloads constructor(
         const val KEY_UPLOAD_AUTO_BACKUP_NAME = "upload_auto_backup_name"
 
         const val KEY_NOTIFICATION_CANCELLED = "notification_cancelled"
-        val LOCK_TIMEOUT_MINUTES = if (BuildConfig.DEBUG) 1 else 5
-        private val IO_DEFAULT_DELAY_SECONDS = TimeUnit.MINUTES.toSeconds(5)
-        private val IO_LOCK_DELAY_SECONDS =
-            TimeUnit.MINUTES.toSeconds(LOCK_TIMEOUT_MINUTES.toLong())
+        val LOCK_TIMEOUT_MINUTES = if (BuildConfig.DEBUG) 1L else 5L
+        private val IO_DEFAULT_DELAY_MILLIS = TimeUnit.MINUTES.toMillis(5)
+        private val IO_LOCK_DELAY_MILLIS = TimeUnit.MINUTES.toMillis(LOCK_TIMEOUT_MINUTES)
         const val TAG = "SyncAdapter"
 
         @JvmStatic
@@ -890,10 +888,11 @@ class SyncAdapter @JvmOverloads constructor(
             return "last_synced_local_$accountId"
         }
 
-        private val ioDefaultDelaySeconds: Long
-            get() = System.currentTimeMillis() / 1000 + IO_DEFAULT_DELAY_SECONDS
-        private val ioLockDelaySeconds: Long
-            get() = System.currentTimeMillis() / 1000 + IO_LOCK_DELAY_SECONDS
+        private fun getIoDelaySeconds(backOffMillis: Long? = null): Long =
+            (System.currentTimeMillis() + (backOffMillis ?: IO_DEFAULT_DELAY_MILLIS)) / 1000
+
+        private fun getIoLockDelaySeconds(backOffMillis: Long? = null): Long =
+            (System.currentTimeMillis() + (backOffMillis ?: IO_LOCK_DELAY_MILLIS)) / 1000
         private val featureLoadDelaySeconds: Long
             get() = System.currentTimeMillis() / 1000 + 60
 

@@ -8,6 +8,8 @@ import android.text.TextUtils
 import com.dropbox.core.DbxException
 import com.dropbox.core.DbxRequestConfig
 import com.dropbox.core.InvalidAccessTokenException
+import com.dropbox.core.RateLimitException
+import com.dropbox.core.RetryException
 import com.dropbox.core.oauth.DbxCredential
 import com.dropbox.core.v2.DbxClientV2
 import com.dropbox.core.v2.files.FolderMetadata
@@ -23,6 +25,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.*
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.util.Preconditions
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStream
@@ -185,7 +188,9 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
 
 
     override fun childrenForCollection(folder: Metadata?): List<Metadata> =
-        mDbxClient.files().listFolder(folder?.pathLower ?: accountPath).entries
+        tryWithWrappedException {
+            mDbxClient.files().listFolder(folder?.pathLower ?: accountPath).entries
+        }
 
     override fun nameForResource(resource: Metadata): String = resource.name
 
@@ -217,6 +222,9 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
     private fun <T> tryWithWrappedException(block: () -> T): T = try {
         block()
     } catch (e: DbxException) {
+        if (e is RateLimitException) {
+            CrashHandler.report(e)
+        }
         throw (if (e is InvalidAccessTokenException) SyncBackendProvider.AuthException(
             e,
             reAuthenticationIntent()
@@ -280,4 +288,6 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         action = ACTION_RE_AUTHENTICATE
         putExtra(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, accountName)
     }
+
+    override fun suggestDelay(e: IOException) = (e.cause as? RetryException)?.backoffMillis
 }
