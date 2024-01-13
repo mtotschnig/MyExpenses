@@ -16,4 +16,4 @@ fun localizedThrowable(
     context: Context,
     @StringRes resId: Int,
     vararg formatArgs: Any?
-) = Throwable(context.getString(resId, formatArgs))
+) = Throwable(context.getString(resId, *formatArgs))
