@@ -9,4 +9,8 @@
     <string name="whats_new_365">Priloži proizvoljan broj slika i dokumenata (PDF)</string>
     <string name="whats_new_364_1">Uvoz u više računa iz jedne CSV datoteke</string>
     <string name="whats_new_366">Widget na početnom ekranu koji prikazuje aktualno stanje proračuna.</string>
+    <string name="whats_new_369_1">Prijenosi se mogu dodijeliti kategorijama.</string>
+    <string name="whats_new_369_2">Kada je zaključavanje ekrana aktivirano, dozvoli opciju onemogućavanja snimanja snimki ekrana.</string>
+    <string name="whats_new_370">Izbornik u glavnom ekranu se može potpuno prilagoditi.</string>
+    <string name="whats_new_367">Kategorije se sada mogu konfigurirati kao kategorije troškova ili prihoda, što će utjecati na način na koji se izračunavaju iznosi troškova i prihoda.</string>
 </resources>
