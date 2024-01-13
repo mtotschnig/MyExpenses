@@ -257,7 +257,7 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
             mDbxClient.files().listFolder(basePath).entries
                 .asSequence()
                 .filterIsInstance<FolderMetadata>()
-                .filter { metadata: Metadata -> metadata.name != BACKUP_FOLDER_NAME }
+                .filter { metadata: Metadata -> verifyRemoteAccountFolderName(metadata.name) }
                 .map { metadata: Metadata -> basePath + "/" + metadata.name + "/" + accountMetadataFilename }
                 .filter { accountMetadataPath: String? ->
                     try {

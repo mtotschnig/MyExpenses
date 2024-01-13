@@ -249,7 +249,7 @@ class GoogleDriveBackendProvider internal constructor(
                         file!!
                     )
                 }
-                .filter { metadata: File -> metadata.name != BACKUP_FOLDER_NAME }
+                .filter { metadata: File -> verifyRemoteAccountFolderName(metadata.name) }
                 .map { metadata: File? -> getAccountMetaDataFromDriveMetadata(metadata) }
         }
 

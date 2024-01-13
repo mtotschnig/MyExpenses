@@ -534,6 +534,9 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         return String.format(Locale.ROOT, "%s-%s", accountUuid, key)
     }
 
+    protected fun verifyRemoteAccountFolderName(folderName: String?) =
+        folderName != null && folderName != BACKUP_FOLDER_NAME && folderName != ATTACHMENT_FOLDER_NAME
+
     companion object {
         const val LOCK_FILE = ".lock.txt"
         const val KEY_LOCK_TOKEN = "lockToken"

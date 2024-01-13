@@ -169,7 +169,7 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
 
     override val remoteAccountList: List<Result<AccountMetaData>>
         get() = baseDir.listFiles().filter { obj -> obj.isDirectory }
-            .filter { directory -> directory.name != BACKUP_FOLDER_NAME }
+            .filter { directory -> verifyRemoteAccountFolderName(directory.name) }
             .mapNotNull { directory -> directory.findFile(accountMetadataFilename) }
             .map { file -> getAccountMetaData(file) }
 

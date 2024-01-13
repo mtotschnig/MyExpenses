@@ -283,20 +283,11 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
     override val remoteAccountList: List<Result<AccountMetaData>>
         get() = webDavClient.getFolderMembers()
             .asSequence()
-            .filter { davResource: DavResource? -> LockableDavResource.isCollection(davResource) }
-            .filter { davResource: DavResource -> getLastPathSegment(davResource.location) != BACKUP_FOLDER_NAME }
-            .map { davResource: DavResource ->
-                webDavClient.getResource(
-                    davResource.location,
-                    accountMetadataFilename
-                )
-            }
-            .filter { obj: LockableDavResource -> obj.exists() }
-            .map { lockableDavResource: LockableDavResource ->
-                getAccountMetaDataFromDavResource(
-                    lockableDavResource
-                )
-            }
+            .filter(LockableDavResource::isCollection)
+            .filter { verifyRemoteAccountFolderName(getLastPathSegment(it.location)) }
+            .map { webDavClient.getResource(it.location, accountMetadataFilename) }
+            .filter { it.exists() }
+            .map { getAccountMetaDataFromDavResource(it) }
             .toList()
 
     private fun getAccountMetaDataFromDavResource(lockableDavResource: LockableDavResource): Result<AccountMetaData> =

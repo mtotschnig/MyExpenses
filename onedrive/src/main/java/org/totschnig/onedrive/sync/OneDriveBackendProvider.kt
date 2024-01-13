@@ -190,14 +190,9 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
         fromAccountDir: Boolean,
         fileName: String,
         maybeDecrypt: Boolean
-    ) = try {
-        itemWithPath((if (fromAccountDir) accountPath else basePath).appendPath(fileName))
-            .content()
-            .buildRequest()
-            .get()
-    } catch (e: GraphServiceException) {
-        null
-    }
+    ) = itemWithPath((if (fromAccountDir) accountPath else basePath).appendPath(fileName))
+        .content()
+        .saveGet()
         ?.use { StreamReader(maybeDecrypt(it, maybeDecrypt)).read() }
 
     @Throws(IOException::class)
@@ -244,8 +239,8 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
     override val remoteAccountList: List<Result<AccountMetaData>>
         get() = itemWithPath(basePath).children().buildRequest()
             .get()
-            ?.getAll()?.filter { it.folder != null && it.name != BACKUP_FOLDER_NAME }
-            ?.map {
+            ?.getAll()?.filter { it.folder != null && verifyRemoteAccountFolderName(it.name) }
+            ?.mapNotNull {
                 getAccountMetaDataFromDriveItem(
                     itemWithId(it.id!!).itemWithPath(
                         accountMetadataFilename
@@ -255,18 +250,13 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
             ?: emptyList()
 
     private fun getAccountMetaDataFromDriveItem(driveItem: DriveItemRequestBuilder) =
-        getAccountMetaDataFromInputStream(
-            driveItem
-                .content()
-                .buildRequest()
-                .get() ?: throw IOException()
-        )
+        driveItem.content().saveGet()?.let { getAccountMetaDataFromInputStream(it) }
 
     private fun getResourcePath(resource: String) = accountPath.appendPath(resource)
 
     override fun readAccountMetaData() = getAccountMetaDataFromDriveItem(
         itemWithPath(getResourcePath(accountMetadataFilename))
-    )
+    ) ?: Result.failure(IOException("No metaDatafile"))
 
     override fun getCollection(collectionName: String, require: Boolean): DriveItem {
         return getFolderRequestBuilder(basePath, collectionName, require).buildRequest()
