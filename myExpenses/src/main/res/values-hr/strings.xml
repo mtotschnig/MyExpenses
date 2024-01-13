@@ -414,7 +414,7 @@
     <string name="dialog_contrib_text_2">Doprinesi putem nadogradnje programa <i>{app_name}</i> i dobij neograničen pristup sljedećim funkcijama:</string>
     <string name="pref_value_date_summary">Dozvoli postavljanje datuma vrijednosti uz datuma uknjiženja. Vrijeme transakcije će se sakriti. Ova se postavka ne primjenjuje na gotovinske račune.</string>
     <string name="roadmap_vote">Glas u planu razvoja</string>
-    <string name="contrib_feature_roadmap_voting_label">Pravo glasa u <b>planu razvoja</b></string>
+    <string name="contrib_feature_roadmap_voting_label">Pravo glasanja u <b>planiranju razvoja</b></string>
     <string name="menu_distribution_show_pie_char">Prikaži kružni dijagram</string>
     <string name="contrib_feature_distribution_label">Kružni dijagram (distribucija po kategorijama)</string>
     <string name="discover_feature_fab_long_press">Dodirni i drži plutajući gumb radnje pritisnutim za izravno otvaranje obrasca za prijenose, višedjelne transakcije ili prihod.</string>
@@ -616,9 +616,9 @@
     <string name="pref_manage_stale_images_title">Stara slika</string>
     <string name="licence_validation_premium">Premium funkcije su otključane.</string>
     <string name="dialog_title_warning_delete_category">Izbrisati kategoriju\?</string>
-    <string name="dialog_contrib_usage_limit_split_templates">Tvoje trenutačno stanje licence (%1$s) dozvoljava stvaranje jednog predloška za višedjelne transakcije.</string>
-    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Tvoje trenutačno stanje licence (%2$s) dozvoljava stvaranje %1$d plana.</string>
-    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Tvoje trenutačno stanje licence (%2$s) dozvoljava stvaranje %1$d računa.</string>
+    <string name="dialog_contrib_usage_limit_split_templates">Tvoje trenutačno stanje licence (%1$s) ti dozvoljava stvaranje jednog predloška za višedjelne transakcije.</string>
+    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Tvoje trenutačno stanje licence (%2$s) ti dozvoljava stvaranje %1$d plana.</string>
+    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Tvoje trenutačno stanje licence (%2$s) ti dozvoljava stvaranje %1$d računa.</string>
     <string name="dialog_contrib_reminder_remove_limitation">Ukloni ovo ograničenje i pristupi dodatnim funkcijama nadogradnjom programa <i>{app_name}</i>.</string>
     <string name="dialog_contrib_no">Probaj</string>
     <string name="dialog_command_disabled_insert_transfer">Transakcije prijenosa trebaju drugi račun.</string>
@@ -676,14 +676,14 @@
     <string name="pref_ocr_date_formats_title">Formati datuma</string>
     <string name="pref_ocr_total_indicators_summary">Popis nizova koji identificiraju ukupnu vrijednost u računu. Stavi svaku vrijednost u novi redak. Ostavi prazno za vraćanje na standardnu vrijednost.</string>
     <string name="pref_ocr_total_indicators_title">Indikatori za ukupni iznos</string>
-    <string name="button_scan">Skeniraj</string>
-    <string name="menu_scan_mode">Modus skeniranja</string>
+    <string name="button_scan">Snimi</string>
+    <string name="menu_scan_mode">Modus snimanja</string>
     <string name="feature_downloaded">Funkcija %s je instalirana.</string>
     <string name="feature_download_requested">Funkcija %s je zatražena na Play Store.</string>
-    <string name="title_scan_receipt_feature">Skeniraj račun</string>
+    <string name="title_scan_receipt_feature">Snimi račun</string>
     <string name="pref_planner_manual_time_current">Vrijeme primjene</string>
     <string name="pref_planner_manual_time_noon">12 h (podne)</string>
-    <string name="pref_planner_manual_time_title">Vrijeme za ručno primijenjenu planiranu transakciju</string>
+    <string name="pref_planner_manual_time_title">Vrijeme za ručno primijenjenu zakazanu transakciju</string>
     <string name="language_download_requested">Prijevodi za %s jezik su zatraženi na Play Store</string>
     <string name="new_tag_hint">Upiši novu oznaku</string>
     <string name="dialog_multi_tag_replace">Zamijeni postojeće oznake s novim oznakama</string>
@@ -886,7 +886,7 @@
     <string name="pref_debug_logging_share_summary">Dijeli datoteke dnevnika</string>
     <string name="pref_purge_backup_keep_title">Maksimalni broj najnovijih datoteka sigurnosnih kopija koje će se zadržati</string>
     <string name="contrib_feature_category_tree_label">Stablo kategorija</string>
-    <string name="dialog_contrib_usage_limit_with_dialog">S tvojim trenutačnim stanjem licence (%1$s), ovaj će se dijalog prikazati pri svakoj upotrebi.</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">S tvojim trenutačnim stanjem licence (%1$s) će se ovaj dijalog prikazati pri svakoj upotrebi.</string>
     <string name="menu_parent_category_selection">Odaberi nadređenu kategoriju kratkim dodirom</string>
     <string name="webui_warning_move_transaction">Transakcija će se premjestiti na račun {account}.</string>
     <string name="pref_csv_export_split_categories_summary">Koristi zasebne stupce za svaku razinu hijerarhije kategorija</string>
@@ -949,10 +949,15 @@
     <string name="budget_deleted">Proračun je izbrisan</string>
     <string name="widget_title_budget">Moj proračun</string>
     <string name="budget_widget_configuration">Odaberi proračun</string>
-
     <string name="budget_table_header_overspent">Prekoračeno</string>
-    <string name="dialog_contrib_trial_info">Vaš trenutni status licence (%1$s) omogućuje vam da isprobate %2$s %3$d dana (do %4$s).</string>
+    <string name="dialog_contrib_trial_info">Tvoje trenutačno stanje licence (%1$s) ti dozvoljava isprobati funkciju „%2$s” %3$d dana (do %4$s).</string>
     <string name="one_time_payment">Jednokratno plaćanje</string>
     <string name="dialog_contrib_trial_info_play">Ovo besplatno probno razdoblje nikad neće se pretvoriti u bilo koju vrstu pretplate.</string>
     <string name="dialog_contrib_subscription_info_play">Ova pretplata stupa na snagu odmah, naplaćuje se mjesečno ili godišnje i može se otkazati u bilo kojem trenutku.</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_on">se računaju kao prijenos</string>
+    <string name="default_transfer_category">Zadana kategorija prijenosa</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_off">se računaju kao trošak / prihod</string>
+    <string name="menu_aggregate_neutral_categories">Zbroji neutralne kategorije</string>
+    <string name="warning_delete_default_transfer_category">Kategorija „%s” je konfigurirana kao zadana kategorija prijenosa i ne treba je brisati.</string>
+    <string name="pref_unmapped_transaction_as_transfer_title">Nedodijeljene transakcije</string>
 </resources>
