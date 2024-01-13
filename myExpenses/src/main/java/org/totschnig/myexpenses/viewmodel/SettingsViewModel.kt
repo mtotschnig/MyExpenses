@@ -82,10 +82,13 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
                 _appData.postValue(
                     dir.listFiles()
                         .filter { (it.length() > 0) && !it.isDirectory }
-                        .sortedByDescending { it.lastModified() }
-                        .mapNotNull {
-                            it.name?.let { name -> name to it.length() }
+                        .mapNotNull { file ->
+                            file.name?.let {
+                                Triple(it, file.length(), file.lastModified())
+                            }
                         }
+                        .sortedByDescending { it.third }
+                        .map { it.first to it.second }
                 )
             }
         }
