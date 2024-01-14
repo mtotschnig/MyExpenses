@@ -80,8 +80,7 @@ object CategoryHelper {
                     parentId = parentId,
                     typeFlags = typeFlags
                 )
-            )
-                ?.let { ContentUris.parseId(it) } ?: -1
+            ) ?: -1
             if (id != -1L) countInserted++
         }
         return id

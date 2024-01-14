@@ -22,20 +22,20 @@ class CategoryTest: BaseTestWithRepository() {
 
     @Test
     fun subCategoryShouldInheritTypeOnInsert() {
-        val parent = ContentUris.parseId(repository.saveCategory(Category(label = "Main", typeFlags = FLAG_EXPENSE))!!)
-        val sub = ContentUris.parseId(repository.saveCategory(Category(label = "Sub", parentId = parent))!!)
+        val parent = repository.saveCategory(Category(label = "Main", typeFlags = FLAG_EXPENSE))!!
+        val sub = repository.saveCategory(Category(label = "Sub", parentId = parent))!!
         assertThat(repository.loadCategory(sub)!!.typeFlags).isEqualTo(FLAG_EXPENSE)
     }
 
     @Test
     fun subCategoryShouldInheritTypeAfterUpdateOfType() {
         val mainCategory = Category(label = "Main", typeFlags = FLAG_EXPENSE).run {
-            copy(id = ContentUris.parseId(repository.saveCategory(this)!!))
+            copy(id = repository.saveCategory(this)!!)
         }
         //we first create sub1 and sub2 under main, and then move sub1 to sub2, in order to
         //create a condition where the original trigger had failed
-        val sub1 = ContentUris.parseId(repository.saveCategory(Category(label = "Sub", parentId = mainCategory.id))!!)
-        val sub2 = ContentUris.parseId(repository.saveCategory(Category(label = "SubSub", parentId = mainCategory.id))!!)
+        val sub1 = repository.saveCategory(Category(label = "Sub", parentId = mainCategory.id))!!
+        val sub2 = repository.saveCategory(Category(label = "SubSub", parentId = mainCategory.id))!!
         repository.moveCategory(sub1, sub2)
         repository.saveCategory(mainCategory.copy(typeFlags = FLAG_INCOME))
         assertThat(repository.loadCategory(mainCategory.id)!!.typeFlags).isEqualTo(FLAG_INCOME)
@@ -46,13 +46,13 @@ class CategoryTest: BaseTestWithRepository() {
     @Test
     fun subCategoryShouldInheritTypeMoveSubCategoryToOtherParent() {
         val expenseCategory = Category(label = "Expense", typeFlags = FLAG_EXPENSE).run {
-            copy(id = ContentUris.parseId(repository.saveCategory(this)!!))
+            copy(id = repository.saveCategory(this)!!)
         }
         val incomeCategory = Category(label = "Income", typeFlags = FLAG_INCOME).run {
-            copy(id = ContentUris.parseId(repository.saveCategory(this)!!))
+            copy(id = repository.saveCategory(this)!!)
         }
-        val sub = ContentUris.parseId(repository.saveCategory(Category(label = "Sub", parentId = expenseCategory.id))!!)
-        val subSub = ContentUris.parseId(repository.saveCategory(Category(label = "SubSub", parentId = sub))!!)
+        val sub = repository.saveCategory(Category(label = "Sub", parentId = expenseCategory.id))!!
+        val subSub = repository.saveCategory(Category(label = "SubSub", parentId = sub))!!
         repository.moveCategory(sub, incomeCategory.id)
         val subCategory = repository.loadCategory(sub)!!
         assertThat(subCategory.parentId).isEqualTo(incomeCategory.id)
@@ -63,11 +63,11 @@ class CategoryTest: BaseTestWithRepository() {
     @Test
     fun subCategoryShouldInheritTypeMoveMainCategoryToOtherParent() {
         val expenseCategory = Category(label = "Expense", typeFlags = FLAG_EXPENSE).run {
-            copy(id = ContentUris.parseId(repository.saveCategory(this)!!))
+            copy(id = repository.saveCategory(this)!!)
         }
-        val sub = ContentUris.parseId(repository.saveCategory(Category(label = "Sub", parentId = expenseCategory.id))!!)
+        val sub = repository.saveCategory(Category(label = "Sub", parentId = expenseCategory.id))!!
         val incomeCategory = Category(label = "Income", typeFlags = FLAG_INCOME).run {
-            copy(id = ContentUris.parseId(repository.saveCategory(this)!!))
+            copy(id = repository.saveCategory(this)!!)
         }
         repository.moveCategory(expenseCategory.id, incomeCategory.id)
         val new = repository.loadCategory(expenseCategory.id)!!
@@ -79,10 +79,10 @@ class CategoryTest: BaseTestWithRepository() {
     @Test
     fun shouldKeepTypeTransformSubIntoMain() {
         val expenseCategory = Category(label = "Expense", typeFlags = FLAG_EXPENSE).run {
-            copy(id = ContentUris.parseId(repository.saveCategory(this)!!))
+            copy(id = repository.saveCategory(this)!!)
         }
-        val sub = ContentUris.parseId(repository.saveCategory(Category(label = "Sub", parentId = expenseCategory.id))!!)
-        val subSub = ContentUris.parseId(repository.saveCategory(Category(label = "SubSub", parentId = sub))!!)
+        val sub = repository.saveCategory(Category(label = "Sub", parentId = expenseCategory.id))!!
+        val subSub = repository.saveCategory(Category(label = "SubSub", parentId = sub))!!
         repository.moveCategory(sub, null)
         val subCategory = repository.loadCategory(sub)!!
         assertThat(subCategory.parentId).isNull()
@@ -93,9 +93,9 @@ class CategoryTest: BaseTestWithRepository() {
     @Test(expected = SQLiteConstraintException::class)
     fun shouldNotAllowUpdateOfTypeForSubCategory() {
         val expenseCategory = Category(label = "Expense", typeFlags = FLAG_EXPENSE).run {
-            copy(id = ContentUris.parseId(repository.saveCategory(this)!!))
+            copy(id = repository.saveCategory(this)!!)
         }
-        val sub = ContentUris.parseId(repository.saveCategory(Category(label = "Sub", parentId = expenseCategory.id))!!)
+        val sub = repository.saveCategory(Category(label = "Sub", parentId = expenseCategory.id))!!
         assertThat(contentResolver.update(ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, sub), ContentValues().apply {
             put(DatabaseConstants.KEY_TYPE, FLAG_INCOME.toInt())
         }, null, null)).isEqualTo(1)

@@ -94,7 +94,7 @@ class ExportTest: BaseTestWithRepository() {
     val expect: Expect = Expect.create()
 
     private fun writeCategory(label: String, parentId: Long? = null) =
-        ContentUris.parseId(repository.saveCategory(Category(label = label, parentId = parentId))!!)
+        repository.saveCategory(Category(label = label, parentId = parentId))!!
 
     private fun insertData1(): Account {
         val tag1Id = repository.writeTag("Tag One")

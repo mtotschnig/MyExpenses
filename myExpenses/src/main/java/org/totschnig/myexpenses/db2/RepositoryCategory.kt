@@ -7,6 +7,7 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
 import android.net.Uri
+import android.os.Bundle
 import androidx.annotation.VisibleForTesting
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
@@ -15,6 +16,7 @@ import arrow.core.Tuple6
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED
@@ -23,6 +25,14 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY
+import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY_EXPORT
+import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY_INFO
+import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
+import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_ENSURE_CATEGORY
+import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_ENSURE_CATEGORY_TREE
+import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SAVE_CATEGORY
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.sync.json.CategoryExport
@@ -43,34 +53,11 @@ const val DEFAULT_CATEGORY_PATH_SEPARATOR = " > "
 val Boolean.asCategoryType: Byte
     get() = if (this) FLAG_INCOME else FLAG_EXPENSE
 
-fun Repository.saveCategory(category: Category): Uri? {
-    val initialValues = ContentValues().apply {
-        put(KEY_LABEL, category.label.trim())
-        put(KEY_LABEL_NORMALIZED, Utils.normalize(category.label))
-        category.color.takeIf { it != 0 }?.let {
-            put(KEY_COLOR, it)
-        }
-        put(KEY_ICON, category.icon)
-        if (category.id == 0L) {
-            put(KEY_PARENTID, category.parentId)
-        }
-        if (category.parentId == null) {
-            put(KEY_TYPE, (category.typeFlags ?: FLAG_NEUTRAL).toInt())
-        }
-    }
-    return try {
-        if (category.id == 0L) {
-            initialValues.put(KEY_UUID, category.uuid ?: UUID.randomUUID().toString())
-            contentResolver.insert(TransactionProvider.CATEGORIES_URI, initialValues)
-        } else {
-            TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(category.id.toString()).build().let {
-                if (contentResolver.update(it, initialValues, null, null) == 0)
-                    null else it
-            }
-        }
-    } catch (e: SQLiteConstraintException) {
-        null
-    }
+fun Repository.saveCategory(category: Category): Long? {
+    val result = contentResolver.call(DUAL_URI, METHOD_SAVE_CATEGORY, null, Bundle().apply {
+        putParcelable(KEY_CATEGORY, category)
+    })!!
+    return if (result.containsKey(KEY_ROWID)) result.getLong(KEY_ROWID) else null
 }
 
 fun Repository.moveCategory(source: Long, target: Long?) = try {
@@ -127,153 +114,16 @@ fun Repository.findCategory(label: String, parentId: Long? = null): Long {
 }
 
 fun Repository.ensureCategoryTree(categoryExport: CategoryExport, parentId: Long?): Int {
-    check(categoryExport.uuid.isNotEmpty())
-    val (nextParent, created) = ensureCategory(categoryExport, parentId)
-    var count = if (created) 1 else 0
-    categoryExport.children.forEach {
-        count += ensureCategoryTree(it, nextParent)
-    }
-    return count
+    return contentResolver.call(DUAL_URI, METHOD_ENSURE_CATEGORY_TREE, null, Bundle().apply {
+        putParcelable(KEY_CATEGORY_EXPORT, categoryExport)
+    })!!.getInt(KEY_COUNT)
 }
 
-/**
- * 1 if the category with provided uuid exists,
- *  1.1 if target (a category with the provided label and parent) does not exist: update label, parent, icon, color and return category
- *  1.2 if target exists: move all usages of the source category into target category; delete source category and continue with 2.1
- * 2. otherwise
- * 2.1 if target exists, (update icon), append uuid and return it
- * 2.2 otherwise create category with label and uuid and return it
- *
- * @return pair of category id and boolean that is true if a new category has been created
- */
-fun Repository.ensureCategory(categoryInfo: ICategoryInfo, parentId: Long?): Pair<Long, Boolean> {
-    val stripped = categoryInfo.label.trim()
-    val uuids = categoryInfo.uuid.split(Repository.UUID_SEPARATOR)
-
-    val sourceBasedOnUuid = contentResolver.query(
-        TransactionProvider.CATEGORIES_URI,
-        arrayOf(
-            KEY_ROWID,
-            KEY_LABEL,
-            KEY_PARENTID,
-            KEY_ICON,
-            KEY_COLOR,
-            KEY_TYPE
-        ),
-        Array(uuids.size) { "instr($KEY_UUID, ?) > 0" }.joinToString(" OR "),
-        uuids.toTypedArray(),
-        null
-    )?.use {
-        if (it.moveToFirst()) {
-            Tuple6(
-                it.getLong(0),
-                it.getString(1),
-                it.getLongOrNull(2),
-                it.getStringOrNull(3),
-                it.getIntOrNull(4),
-                it.getInt(5)
-            )
-        } else null
-    }
-
-    val (parentSelection, parentSelectionArgs) = if (parentId == null) {
-        "$KEY_PARENTID is null" to emptyArray()
-    } else {
-        "$KEY_PARENTID = ?" to arrayOf(parentId.toString())
-    }
-
-    val target = contentResolver.query(
-        TransactionProvider.CATEGORIES_URI,
-        arrayOf(KEY_ROWID, KEY_UUID),
-        "$KEY_LABEL = ? AND $parentSelection",
-        arrayOf(stripped) + parentSelectionArgs,
-        null
-    )?.use {
-        if (it.moveToFirst()) {
-            it.getLong(0) to it.getString(1)
-        } else null
-    }
-
-    val operations = ArrayList<ContentProviderOperation>()
-
-    if (sourceBasedOnUuid != null) {
-        if (target == null || target.first == sourceBasedOnUuid.first) {
-            val categoryId = sourceBasedOnUuid.first
-            val contentValues = ContentValues().apply {
-                if (sourceBasedOnUuid.second != categoryInfo.label) {
-                    put(KEY_LABEL, categoryInfo.label)
-                }
-                if (sourceBasedOnUuid.third != parentId) {
-                    put(KEY_PARENTID, parentId)
-                }
-                if (sourceBasedOnUuid.fourth != categoryInfo.icon) {
-                    put(KEY_ICON, categoryInfo.icon)
-                }
-                if (sourceBasedOnUuid.fifth != categoryInfo.color) {
-                    put(KEY_COLOR, categoryInfo.color)
-                }
-                if (parentId == null && categoryInfo.type != null && sourceBasedOnUuid.sixth != categoryInfo.type) {
-                    put(KEY_TYPE, categoryInfo.type)
-                }
-            }
-            if (contentValues.size() > 0) {
-                contentResolver.update(
-                    ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, categoryId),
-                    contentValues,
-                    null, null
-                )
-            }
-            return categoryId to false
-        } else {
-            val contentValues = ContentValues(1).apply {
-                put(KEY_CATID, target.first)
-            }
-            val selection = "$KEY_CATID = ?"
-            val selectionArgs = arrayOf(sourceBasedOnUuid.first.toString())
-            operations.add(newUpdate(TransactionProvider.TRANSACTIONS_URI).withValues(contentValues).withSelection(selection, selectionArgs).build())
-            operations.add(newUpdate(TransactionProvider.TEMPLATES_URI).withValues(contentValues).withSelection(selection, selectionArgs).build())
-            operations.add(newUpdate(TransactionProvider.CHANGES_URI).withValues(contentValues).withSelection(selection, selectionArgs).build())
-            operations.add(newUpdate(TransactionProvider.BUDGET_ALLOCATIONS_URI).withValues(contentValues).withSelection(selection, selectionArgs).build())
-            operations.add(newDelete(ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, sourceBasedOnUuid.first)).build())
-            //Ideally, we would also need to update filters
-        }
-    }
-
-    if (target != null) {
-        val newUuids = (uuids + target.second.split(Repository.UUID_SEPARATOR))
-            .distinct()
-            .joinToString(Repository.UUID_SEPARATOR)
-
-        operations.add(
-            newUpdate(ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, target.first))
-            .withValues(
-                ContentValues().apply {
-                    put(KEY_UUID, newUuids)
-                    put(KEY_ICON, categoryInfo.icon)
-                    put(KEY_COLOR, categoryInfo.color)
-                    if (parentId == null && categoryInfo.type != null) {
-                        put(KEY_TYPE, categoryInfo.type)
-                    }
-                }
-            ).build()
-        )
-        contentResolver.applyBatch(TransactionProvider.AUTHORITY, operations)
-
-        return target.first to false
-    }
-
-    return saveCategory(
-        Category(
-            label = categoryInfo.label,
-            parentId = parentId,
-            icon = categoryInfo.icon,
-            uuid = categoryInfo.uuid,
-            color = categoryInfo.color,
-            typeFlags = if (parentId == null) categoryInfo.type?.toByte() ?: FLAG_NEUTRAL else null
-        )
-    )?.let { ContentUris.parseId(it) to true }
-        ?: throw IOException("Saving category failed")
-}
+fun Repository.ensureCategory(categoryInfo: ICategoryInfo, parentId: Long?) =
+    contentResolver.call(DUAL_URI, METHOD_ENSURE_CATEGORY, null, Bundle().apply {
+        putParcelable(KEY_CATEGORY_INFO, categoryInfo)
+        parentId?.let { putLong(KEY_PARENTID, it) }
+    })!!.getSerializable(KEY_RESULT) as Pair<Long, Boolean>
 
 fun Repository.getCategoryPath(id: Long)= contentResolver.query(
     ContentUris.withAppendedId(BaseTransactionProvider.CATEGORY_TREE_URI, id),

@@ -32,9 +32,9 @@ class RepositoryTest : BaseTestWithRepository() {
     @Test
     fun saveCategoryHierarchy() {
         val parent = Category(label = "Main")
-        val parentId = ContentUris.parseId(repository.saveCategory(parent)!!)
+        val parentId = repository.saveCategory(parent)!!
         val sub = Category(label = "Sub", parentId = parentId)
-        val subId = ContentUris.parseId(repository.saveCategory(sub)!!)
+        val subId = repository.saveCategory(sub)!!
         val subsub = Category(label = "SubSub", parentId = subId)
         repository.saveCategory(subsub)
         assertThat(repository.findCategory(parent.label)).isGreaterThan(0)
@@ -45,9 +45,9 @@ class RepositoryTest : BaseTestWithRepository() {
     @Test
     fun transformMainToSub() {
         val cat1 = Category(label = "Main1")
-        val catId1 = ContentUris.parseId(repository.saveCategory(cat1)!!)
+        val catId1 = repository.saveCategory(cat1)!!
         val cat2 = Category(label = "Main2")
-        val catId2 = ContentUris.parseId(repository.saveCategory(cat2)!!)
+        val catId2 = repository.saveCategory(cat2)!!
         repository.moveCategory(catId2, catId1)
         with(repository.loadCategory(catId2)!!) {
             assertThat(parentId).isEqualTo(catId1)
@@ -58,9 +58,9 @@ class RepositoryTest : BaseTestWithRepository() {
     @Test
     fun transformSubToMain() {
         val cat1 = Category(label = "Main1")
-        val catId1 = ContentUris.parseId(repository.saveCategory(cat1)!!)
+        val catId1 = repository.saveCategory(cat1)!!
         val cat2 = Category(label = "Main2", parentId = catId1)
-        val catId2 = ContentUris.parseId(repository.saveCategory(cat2)!!)
+        val catId2 = repository.saveCategory(cat2)!!
         repository.moveCategory(catId2, null)
         with(repository.loadCategory(catId2)!!) {
             assertThat(parentId).isNull()
@@ -71,14 +71,14 @@ class RepositoryTest : BaseTestWithRepository() {
     @Test
     fun saveCategoryData() {
         val category = Category(label = "Main", icon = "food", color = Color.RED)
-        val id = ContentUris.parseId(repository.saveCategory(category)!!)
+        val id = repository.saveCategory(category)!!
         with(repository.loadCategory(id)!!) {
             assertThat(label).isEqualTo("Main")
             assertThat(icon).isEqualTo("food")
             assertThat(color).isEqualTo(Color.RED)
         }
         val sub = Category(label = "Sub", icon = "bread", parentId = id)
-        val subId = ContentUris.parseId(repository.saveCategory(sub)!!)
+        val subId = repository.saveCategory(sub)!!
         with(repository.loadCategory(subId)!!) {
             assertThat(label).isEqualTo("Sub")
             assertThat(icon).isEqualTo("bread")
@@ -103,7 +103,7 @@ class RepositoryTest : BaseTestWithRepository() {
     @Test
     fun ensureCategoryExisting() {
         val category = Category(label = "Main", icon = "food", uuid = "uuid")
-        val existing = ContentUris.parseId(repository.saveCategory(category)!!)
+        val existing = repository.saveCategory(category)!!
         val categoryInfo =
             CategoryInfo(label = "Main", icon = "food", uuid = "uuid", color = Color.RED)
         val (id, created) = repository.ensureCategory(categoryInfo, null)
@@ -114,7 +114,7 @@ class RepositoryTest : BaseTestWithRepository() {
     @Test
     fun ensureCategoryUpdate() {
         val category = Category(label = "Main", icon = "food", uuid = "uuid")
-        val existing = ContentUris.parseId(repository.saveCategory(category)!!)
+        val existing = repository.saveCategory(category)!!
         val categoryInfo =
             CategoryInfo(label = "New", icon = "apple", uuid = "uuid", color = Color.RED)
         val (id, created) = repository.ensureCategory(categoryInfo, null)
@@ -131,7 +131,7 @@ class RepositoryTest : BaseTestWithRepository() {
     @Test
     fun ensureCategoryAppendUuid() {
         val category = Category(label = "Main", icon = "food", uuid = "uuid1")
-        val existing = ContentUris.parseId(repository.saveCategory(category)!!)
+        val existing = repository.saveCategory(category)!!
         val categoryInfo =
             CategoryInfo(label = "Main", icon = "food", uuid = "uuid2", color = Color.RED)
         val (id, created) = repository.ensureCategory(categoryInfo, null)
@@ -145,7 +145,7 @@ class RepositoryTest : BaseTestWithRepository() {
     @Test
     fun ensureCategoryMultipleUuidsInDatabase() {
         val category = Category(label = "Main", icon = "food", uuid = "uuid1:uuid2")
-        val existing = ContentUris.parseId(repository.saveCategory(category)!!)
+        val existing = repository.saveCategory(category)!!
         val categoryInfo =
             CategoryInfo(label = "Main", icon = "food", uuid = "uuid1", color = Color.RED)
         val (id, created) = repository.ensureCategory(categoryInfo, null)
@@ -159,7 +159,7 @@ class RepositoryTest : BaseTestWithRepository() {
     @Test
     fun ensureCategoryMultipleUuidsInUpdate() {
         val category = Category(label = "Main", icon = "food", uuid = "uuid1")
-        val existing = ContentUris.parseId(repository.saveCategory(category)!!)
+        val existing = repository.saveCategory(category)!!
         val categoryInfo =
             CategoryInfo(label = "Main", icon = "food", uuid = "uuid1:uuid2", color = Color.RED)
         val (id, created) = repository.ensureCategory(categoryInfo, null)
@@ -173,7 +173,7 @@ class RepositoryTest : BaseTestWithRepository() {
     @Test
     fun ensureCategoryMultipleUuidsInDatabaseAndUpdate() {
         val category = Category(label = "Main", icon = "food", uuid = "uuid2:uuid1")
-        val existing = ContentUris.parseId(repository.saveCategory(category)!!)
+        val existing = repository.saveCategory(category)!!
         val categoryInfo =
             CategoryInfo(label = "Main", icon = "food", uuid = "uuid1:uuid2", color = Color.RED)
         val (id, created) = repository.ensureCategory(categoryInfo, null)
@@ -193,9 +193,9 @@ class RepositoryTest : BaseTestWithRepository() {
     @Test
     fun labelOfRenamedCategoryAlreadyExistsOnTarget() {
         val category1 = Category(label = "Test1", icon = null, uuid = "uuid1")
-        val existing1 = ContentUris.parseId(repository.saveCategory(category1)!!)
+        val existing1 = repository.saveCategory(category1)!!
         val category2 = Category(label = "Test2", icon = null, uuid = "uuid2")
-        val existing2 = ContentUris.parseId(repository.saveCategory(category2)!!)
+        val existing2 = repository.saveCategory(category2)!!
         val categoryInfo =
             CategoryInfo(label = "Test2", icon = null, uuid = "uuid1", color = null)
         repository.ensureCategory(categoryInfo, null)

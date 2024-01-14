@@ -10,12 +10,17 @@ import android.database.sqlite.SQLiteConstraintException
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import androidx.core.database.getIntOrNull
+import androidx.core.database.getLongOrNull
+import androidx.core.database.getStringOrNull
+import androidx.core.os.BundleCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
+import arrow.core.Tuple6
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.totschnig.myexpenses.BuildConfig
@@ -26,6 +31,7 @@ import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
+import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.DataModule
 import org.totschnig.myexpenses.model.*
@@ -39,19 +45,28 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_DIRECTIO
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils.aggregateFunction
 import org.totschnig.myexpenses.provider.DbUtils.typeWithFallBack
+import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY
+import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY_EXPORT
+import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY_INFO
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CALLER_IS_IN_BULK
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_SORT_DIRECTION
+import org.totschnig.myexpenses.sync.json.CategoryExport
+import org.totschnig.myexpenses.sync.json.ICategoryInfo
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ResultUnit
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
+import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
 import java.io.File
+import java.io.IOException
 import java.time.Duration
 import java.time.Instant
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Provider
@@ -1284,4 +1299,246 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
         return id
     }
+
+    fun ensureCategoryTree(db: SupportSQLiteDatabase, extras: Bundle): Bundle {
+        db.beginTransaction()
+        try {
+            val result = Bundle(1).apply {
+                putInt(
+                    KEY_COUNT, ensureCategoryTreeInternal(
+                        db,
+                        BundleCompat.getParcelable(
+                            extras,
+                            KEY_CATEGORY_EXPORT,
+                            CategoryExport::class.java
+                        )!!,
+                        null
+                    )
+                )
+            }
+            db.setTransactionSuccessful()
+            return result
+        } finally {
+            db.endTransaction()
+        }
+    }
+
+    private fun ensureCategoryTreeInternal(
+        db: SupportSQLiteDatabase,
+        categoryExport: CategoryExport,
+        parentId: Long?
+    ): Int {
+        check(categoryExport.uuid.isNotEmpty())
+        val (nextParent, created) = ensureCategoryInternal(db, categoryExport, parentId)
+        var count = if (created) 1 else 0
+        categoryExport.children.forEach {
+            count += ensureCategoryTreeInternal(db, it, nextParent)
+        }
+        return count
+    }
+
+    fun ensureCategory(db: SupportSQLiteDatabase, extras: Bundle): Bundle {
+        db.beginTransaction()
+        try {
+            val result = Bundle(1).apply {
+                putSerializable(
+                    KEY_RESULT,
+                    ensureCategoryInternal(
+                        helper.writableDatabase,
+                        BundleCompat.getParcelable(
+                            extras,
+                            KEY_CATEGORY_INFO,
+                            ICategoryInfo::class.java
+                        )!!,
+                        if (extras.containsKey(KEY_PARENTID)) extras.getLong(KEY_PARENTID) else null
+                    )
+                )
+            }
+            db.setTransactionSuccessful()
+            return result
+        } finally {
+            db.endTransaction()
+        }
+    }
+
+    /**
+     * 1 if the category with provided uuid exists,
+     *  1.1 if target (a category with the provided label and parent) does not exist: update label, parent, icon, color and return category
+     *  1.2 if target exists: move all usages of the source category into target category; delete source category and continue with 2.1
+     * 2. otherwise
+     * 2.1 if target exists, (update icon), append uuid and return it
+     * 2.2 otherwise create category with label and uuid and return it
+     *
+     * @return pair of category id and boolean that is true if a new category has been created
+     */
+    private fun ensureCategoryInternal(
+        db: SupportSQLiteDatabase,
+        categoryInfo: ICategoryInfo,
+        parentId: Long?
+    ): Pair<Long, Boolean> {
+
+        val stripped = categoryInfo.label.trim()
+        val uuids = categoryInfo.uuid.split(Repository.UUID_SEPARATOR)
+
+        val sourceBasedOnUuid = db.query(
+            TABLE_CATEGORIES,
+            arrayOf(
+                KEY_ROWID,
+                KEY_LABEL,
+                KEY_PARENTID,
+                KEY_ICON,
+                KEY_COLOR,
+                KEY_TYPE
+            ),
+            Array(uuids.size) { "instr($KEY_UUID, ?) > 0" }.joinToString(" OR "),
+            uuids.toTypedArray(),
+            null
+        ).use {
+            if (it.moveToFirst()) {
+                Tuple6(
+                    it.getLong(0),
+                    it.getString(1),
+                    it.getLongOrNull(2),
+                    it.getStringOrNull(3),
+                    it.getIntOrNull(4),
+                    it.getInt(5)
+                )
+            } else null
+        }
+
+        val (parentSelection, parentSelectionArgs) = if (parentId == null) {
+            "$KEY_PARENTID is null" to emptyArray()
+        } else {
+            "$KEY_PARENTID = ?" to arrayOf(parentId.toString())
+        }
+
+        val target = db.query(
+            TABLE_CATEGORIES,
+            arrayOf(KEY_ROWID, KEY_UUID),
+            "$KEY_LABEL = ? AND $parentSelection",
+            arrayOf(stripped, *parentSelectionArgs),
+            null
+        ).use {
+            if (it.moveToFirst()) {
+                it.getLong(0) to it.getString(1)
+            } else null
+        }
+
+        if (sourceBasedOnUuid != null) {
+            if (target == null || target.first == sourceBasedOnUuid.first) {
+                val categoryId = sourceBasedOnUuid.first
+                val contentValues = ContentValues().apply {
+                    if (sourceBasedOnUuid.second != categoryInfo.label) {
+                        put(KEY_LABEL, categoryInfo.label)
+                    }
+                    if (sourceBasedOnUuid.third != parentId) {
+                        put(KEY_PARENTID, parentId)
+                    }
+                    if (sourceBasedOnUuid.fourth != categoryInfo.icon) {
+                        put(KEY_ICON, categoryInfo.icon)
+                    }
+                    if (sourceBasedOnUuid.fifth != categoryInfo.color) {
+                        put(KEY_COLOR, categoryInfo.color)
+                    }
+                    if (parentId == null && categoryInfo.type != null && sourceBasedOnUuid.sixth != categoryInfo.type) {
+                        put(KEY_TYPE, categoryInfo.type)
+                    }
+                }
+                if (contentValues.size() > 0) {
+                    db.update(
+                        TABLE_CATEGORIES,
+                        contentValues,
+                        "$KEY_ROWID = ?", arrayOf(categoryId)
+                    )
+                }
+                return categoryId to false
+            } else {
+                val contentValues = ContentValues(1).apply {
+                    put(KEY_CATID, target.first)
+                }
+                val selection = "$KEY_CATID = ?"
+                val selectionArgs = arrayOf<Any>(sourceBasedOnUuid.first)
+                db.update(TABLE_TRANSACTIONS, contentValues, selection, selectionArgs)
+                db.update(TABLE_TEMPLATES, contentValues, selection, selectionArgs)
+                db.update(TABLE_CHANGES, contentValues, selection, selectionArgs)
+                db.update(TABLE_BUDGET_ALLOCATIONS, contentValues, selection, selectionArgs)
+                db.delete(TABLE_CATEGORIES, "$KEY_ROWID = ?", arrayOf(sourceBasedOnUuid.first))
+                //Ideally, we would also need to update filters
+            }
+        }
+
+        if (target != null) {
+            val newUuids = (uuids + target.second.split(Repository.UUID_SEPARATOR))
+                .distinct()
+                .joinToString(Repository.UUID_SEPARATOR)
+            db.update(TABLE_CATEGORIES, ContentValues().apply {
+                put(KEY_UUID, newUuids)
+                put(KEY_ICON, categoryInfo.icon)
+                put(KEY_COLOR, categoryInfo.color)
+                if (parentId == null && categoryInfo.type != null) {
+                    put(KEY_TYPE, categoryInfo.type)
+                }
+            }, "$KEY_ROWID = ?", arrayOf(target.first))
+
+            return target.first to false
+        }
+
+        return saveCategory(
+            db,
+            Category(
+                label = categoryInfo.label,
+                parentId = parentId,
+                icon = categoryInfo.icon,
+                uuid = categoryInfo.uuid,
+                color = categoryInfo.color,
+                typeFlags = if (parentId == null) categoryInfo.type?.toByte()
+                    ?: FLAG_NEUTRAL else null
+            )
+        )?.let { it to true }
+            ?: throw IOException("Saving category failed")
+    }
+
+    fun saveCategory(db: SupportSQLiteDatabase, extras: Bundle) = Bundle(1).apply {
+        saveCategory(
+            db,
+            BundleCompat.getParcelable(extras, KEY_CATEGORY, Category::class.java)!!
+        )?.let {
+            putLong(KEY_ROWID, it)
+        }
+    }
+
+    fun saveCategory(db: SupportSQLiteDatabase, category: Category): Long? {
+        val initialValues = ContentValues().apply {
+            put(KEY_LABEL, category.label.trim())
+            put(KEY_LABEL_NORMALIZED, Utils.normalize(category.label))
+            category.color.takeIf { it != 0 }?.let {
+                put(KEY_COLOR, it)
+            }
+            put(KEY_ICON, category.icon)
+            if (category.id == 0L) {
+                put(KEY_PARENTID, category.parentId)
+            }
+            if (category.parentId == null) {
+                put(KEY_TYPE, (category.typeFlags ?: FLAG_NEUTRAL).toInt())
+            }
+        }
+        return try {
+            if (category.id == 0L) {
+                initialValues.put(KEY_UUID, category.uuid ?: UUID.randomUUID().toString())
+                db.insert(TABLE_CATEGORIES, initialValues)
+            } else {
+                if (db.update(
+                        TABLE_CATEGORIES,
+                        initialValues,
+                        "$KEY_ROWID = ?",
+                        arrayOf(category.id)
+                    ) == 0
+                )
+                    null else category.id
+            }
+        } catch (e: SQLiteConstraintException) {
+            null
+        }
+    }
+
 }

@@ -1,8 +1,10 @@
 package org.totschnig.myexpenses.sync.json
 
+import android.os.Parcelable
 import androidx.annotation.Keep
+import kotlinx.parcelize.Parcelize
 
-interface ICategoryInfo {
+interface ICategoryInfo: Parcelable {
     val uuid: String
     val label: String
     val icon: String?
@@ -11,6 +13,7 @@ interface ICategoryInfo {
 }
 
 @Keep
+@Parcelize
 data class CategoryInfo(
     override val uuid: String,
     override val label: String,
@@ -20,6 +23,7 @@ data class CategoryInfo(
 ) : ICategoryInfo
 
 @Keep
+@Parcelize
 data class CategoryExport(
     override val uuid: String,
     override val label: String,

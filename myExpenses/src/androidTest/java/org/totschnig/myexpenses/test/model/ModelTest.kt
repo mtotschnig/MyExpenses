@@ -9,5 +9,5 @@ import org.totschnig.myexpenses.viewmodel.data.Category
 abstract class ModelTest : BaseProviderTest() {
 
     fun writeCategory(label: String, parentId: Long?) =
-        ContentUris.parseId(repository.saveCategory(Category(label = label, parentId = parentId))!!)
+        repository.saveCategory(Category(label = label, parentId = parentId))!!
 }

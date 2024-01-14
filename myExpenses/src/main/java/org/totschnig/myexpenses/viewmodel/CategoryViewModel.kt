@@ -454,7 +454,11 @@ open class CategoryViewModel(
                 .flatMap { it.categories }
                 .fold(
                     onSuccess = { list ->
-                        "Imported ${list.sumOf { repository.ensureCategoryTree(it, null) }} categories"
+                        try {
+                            "Imported ${list.sumOf { repository.ensureCategoryTree(it, null) }} categories"
+                        } catch (e: Exception) {
+                            e.safeMessage
+                        }
                                 },
                     onFailure = {
                         if (it !is FileNotFoundException) {

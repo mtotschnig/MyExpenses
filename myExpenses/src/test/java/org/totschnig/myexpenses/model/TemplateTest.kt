@@ -43,7 +43,7 @@ class TemplateTest: BaseTestWithRepository() {
     private var payeeId: Long = 0
 
     private fun writeCategory(label: String, parentId: Long?) =
-        ContentUris.parseId(repository.saveCategory(Category(label = label, parentId = parentId))!!)
+        repository.saveCategory(Category(label = label, parentId = parentId))!!
 
     @Before
     fun setUp() {

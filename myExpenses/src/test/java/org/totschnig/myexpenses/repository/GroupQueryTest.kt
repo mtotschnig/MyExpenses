@@ -33,19 +33,17 @@ import java.util.Date
 class GroupQueryTest : BaseTestWithRepository() {
 
     private var testAccountId: Long = 0
-    private var neutralCategoryId : Long = 0
-    private var expenseCategoryId : Long = 0
-    private var incomeCategoryId  : Long = 0
+    private var neutralCategoryId: Long = 0
+    private var expenseCategoryId: Long = 0
+    private var incomeCategoryId: Long = 0
     private var transferCategoryId: Long = 0
 
-    private fun insertCategory(label: String, typeFlags: Byte) = ContentUris.parseId(
-        repository.saveCategory(
-            Category(
-                label = label,
-                typeFlags = typeFlags
-            )
-        )!!
-    )
+    private fun insertCategory(label: String, typeFlags: Byte) = repository.saveCategory(
+        Category(
+            label = label,
+            typeFlags = typeFlags
+        )
+    )!!
 
     private fun insertTransaction(amount: Long, categoryId: Long) {
         contentResolver.insert(
@@ -68,8 +66,8 @@ class GroupQueryTest : BaseTestWithRepository() {
         )
         neutralCategoryId = insertCategory("Neutral", FLAG_NEUTRAL)
         expenseCategoryId = insertCategory("Expense", FLAG_EXPENSE)
-        incomeCategoryId  = insertCategory("Income", FLAG_INCOME)
-        transferCategoryId =insertCategory("Transfer", FLAG_TRANSFER)
+        incomeCategoryId = insertCategory("Income", FLAG_INCOME)
+        transferCategoryId = insertCategory("Transfer", FLAG_TRANSFER)
     }
 
     private fun insertTransactions() {
@@ -115,7 +113,7 @@ class GroupQueryTest : BaseTestWithRepository() {
         val filter = WhereFilter(
             listOf(
                 AmountCriterion.create(
-                    WhereFilter.Operation.EQ, "EUR",  true, 400L, null
+                    WhereFilter.Operation.EQ, "EUR", true, 400L, null
                 )
             )
         )
@@ -180,7 +178,12 @@ class GroupQueryTest : BaseTestWithRepository() {
             TransactionProvider.TRANSACTIONS_URI, TransactionInfo(
                 accountId = testAccountId,
                 amount = 12345,
-                date = Date.from(ZonedDateTime.of(LocalDateTime.of(2024, 1, 1,12, 0), ZoneId.systemDefault()).toInstant()),
+                date = Date.from(
+                    ZonedDateTime.of(
+                        LocalDateTime.of(2024, 1, 1, 12, 0),
+                        ZoneId.systemDefault()
+                    ).toInstant()
+                ),
                 crStatus = CrStatus.VOID
             ).contentValues
         )

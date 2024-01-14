@@ -365,6 +365,13 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   public static final String METHOD_DELETE_ATTACHMENTS = "deleteAttachments";
 
+  public static final String METHOD_SAVE_CATEGORY = "saveCategory";
+  public static final String KEY_CATEGORY = "category";
+  public static final String METHOD_ENSURE_CATEGORY = "ensureCategory";
+  public static final String KEY_CATEGORY_INFO = "categoryInfo";
+  public static final String METHOD_ENSURE_CATEGORY_TREE = "ensureCategoryTree";
+  public static final String KEY_CATEGORY_EXPORT = "categoryExport";
+
   public static final String KEY_RESULT = "result";
 
   private static final UriMatcher URI_MATCHER;
@@ -1630,6 +1637,21 @@ public class TransactionProvider extends BaseTransactionProvider {
         Bundle result = new Bundle(1);
         result.putBoolean(KEY_RESULT, deleteAttachments(getHelper().getWritableDatabase(), extras.getLong(KEY_TRANSACTIONID), Arrays.asList(extras.getStringArray(KEY_URI_LIST))));
         return result;
+      }
+      case METHOD_SAVE_CATEGORY ->  {
+        Bundle bundle = saveCategory(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
+        notifyChange(CATEGORIES_URI, false);
+        return bundle;
+      }
+      case METHOD_ENSURE_CATEGORY -> {
+        Bundle bundle = ensureCategory(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
+        notifyChange(CATEGORIES_URI, false);
+        return bundle;
+      }
+      case METHOD_ENSURE_CATEGORY_TREE -> {
+        Bundle bundle = ensureCategoryTree(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
+        notifyChange(CATEGORIES_URI, false);
+        return bundle;
       }
     }
     return null;

@@ -208,7 +208,7 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
     }
 
     protected fun writeCategory(label: String, parentId: Long? = null) =
-        ContentUris.parseId(repository.saveCategory(Category(label = label, parentId = parentId))!!)
+        repository.saveCategory(Category(label = label, parentId = parentId))!!
 
     fun unlock() {
         (app.appComponent.licenceHandler() as MockLicenceHandler).setLockState(false)

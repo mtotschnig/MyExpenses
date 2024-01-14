@@ -42,7 +42,7 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
     private var categoryId: Long = 0
 
     private fun writeCategory(label: String, parentId: Long?) =
-        ContentUris.parseId(repository.saveCategory(Category(label = label, parentId = parentId))!!)
+        repository.saveCategory(Category(label = label, parentId = parentId))!!
 
     private fun insertData() {
         account1 = Account(label = "Account 1", openingBalance = openingBalance, currency = CurrencyUnit.DebugInstance.code)
