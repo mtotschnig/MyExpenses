@@ -1420,7 +1420,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             null
         ).use {
             if (it.moveToFirst()) {
-                it.getLong(0) to it.getString(1)
+                it.getLong(0) to it.getStringOrNull(1)
             } else null
         }
 
@@ -1468,7 +1468,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
 
         if (target != null) {
-            val newUuids = (uuids + target.second.split(Repository.UUID_SEPARATOR))
+            val newUuids = (uuids + (target.second?.split(Repository.UUID_SEPARATOR) ?: emptyList()))
                 .distinct()
                 .joinToString(Repository.UUID_SEPARATOR)
             db.update(TABLE_CATEGORIES, ContentValues().apply {
