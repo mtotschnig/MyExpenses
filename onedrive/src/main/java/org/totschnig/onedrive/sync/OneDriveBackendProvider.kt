@@ -266,8 +266,7 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
     ) ?: Result.failure(IOException("No metaDatafile"))
 
     override fun getCollection(collectionName: String, require: Boolean): DriveItem? {
-        return getFolderRequestBuilder(basePath, collectionName, require).buildRequest()
-            .get()
+        return getFolderRequestBuilder(basePath, collectionName, require).saveGet()
     }
 
     override fun isCollection(resource: DriveItem) =
