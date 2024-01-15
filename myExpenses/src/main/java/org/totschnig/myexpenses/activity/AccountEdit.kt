@@ -49,6 +49,7 @@ import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountN
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.ui.SpinnerHelper
+import org.totschnig.myexpenses.util.calculateRawExchangeRate
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.ui.addChipsBulk
 import org.totschnig.myexpenses.util.calculateRealExchangeRate
@@ -290,7 +291,9 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             criterion = Money(currencyUnit, binding.Criterion.typedValue).amountMinor,
             excludeFromTotals = excludeFromTotals,
             exchangeRate = (if (homeCurrencyProvider.homeCurrencyString != currency) {
-                binding.ERR.ExchangeRate.getRate(false)?.toDouble()
+                binding.ERR.ExchangeRate.getRate(false)?.toDouble()?.let {
+                    calculateRawExchangeRate(it, currencyUnit, homeCurrency)
+                }
             } else null) ?: 1.0
         )
         viewModel.save(account).observe(this) { result ->

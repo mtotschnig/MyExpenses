@@ -36,12 +36,9 @@ class AccountEditViewModel(application: Application, savedStateHandle: SavedStat
             repository.saveActiveTagsForAccount(tagsLiveData.value, account.id)
             val homeCurrency = homeCurrencyProvider.homeCurrencyUnit
             if (account.currency != homeCurrency.code) {
-                repository.storeExchangeRate(account.id,
-                    calculateRawExchangeRate(
-                        account.exchangeRate,
-                        currencyContext[account.currency],
-                        homeCurrency
-                    ),
+                repository.storeExchangeRate(
+                    account.id,
+                    account.exchangeRate,
                     account.currency,
                     homeCurrency.code
                 )
