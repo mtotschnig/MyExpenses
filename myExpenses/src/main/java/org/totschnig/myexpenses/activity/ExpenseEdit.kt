@@ -15,6 +15,7 @@
 package org.totschnig.myexpenses.activity
 
 import android.app.NotificationManager
+import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.ContentUris
 import android.content.Context
@@ -521,7 +522,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 ).split(',').map { it.trim() }.toTypedArray()
                 when (item.itemId) {
                     R.id.PHOTO_COMMAND -> startMediaChooserDo()
-                    R.id.ATTACH_COMMAND -> pickAttachment.launch(types)
+                    R.id.ATTACH_COMMAND -> try {
+                        pickAttachment.launch(types)
+                    } catch (e: ActivityNotFoundException) {
+                        showSnackBar(e.safeMessage)
+                    }
                 }
                 true
             }
