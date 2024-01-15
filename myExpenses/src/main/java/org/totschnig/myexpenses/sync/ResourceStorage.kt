@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.sync
 import org.totschnig.myexpenses.util.io.getFileExtension
 import org.totschnig.myexpenses.util.io.getNameWithoutExtension
 import timber.log.Timber
+import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStream
 import java.util.regex.Pattern
@@ -16,7 +17,8 @@ interface ResourceStorage<Res> {
 
     fun getCollection(collectionName: String, require: Boolean): Res?
 
-    fun requireCollection(collectionName: String): Res = getCollection(collectionName, true) ?: throw IOException()
+    fun requireCollection(collectionName: String): Res = getCollection(collectionName, true)
+        ?: throw FileNotFoundException("${this::class.java}.getCollection(require = true) returned null")
 
     fun getInputStream(resource: Res): InputStream
 

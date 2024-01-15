@@ -183,7 +183,7 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         if (require) {
             requireFolder(path)
         }
-        return metadata(path) ?: (if (require) throw FileNotFoundException() else null)
+        return metadata(path)
     }
 
 
