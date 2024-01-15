@@ -73,12 +73,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
     protected fun doSave(accountIn: Account) {
         val account = repository.createAccount(accountIn)
         val homeCurrency = homeCurrencyProvider.homeCurrencyUnit
-        val rawExchangeRate = calculateRawExchangeRate(
-            account.exchangeRate,
-            currencyContext[account.currency],
-            homeCurrency
-        )
-        repository.storeExchangeRate(account.id, rawExchangeRate, account.currency, homeCurrency.code)
+        repository.storeExchangeRate(account.id, account.exchangeRate, account.currency, homeCurrency.code)
         licenceHandler.updateNewAccountEnabled()
         updateTransferShortcut()
     }

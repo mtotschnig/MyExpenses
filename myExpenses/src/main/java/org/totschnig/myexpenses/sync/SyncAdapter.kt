@@ -522,12 +522,10 @@ class SyncAdapter @JvmOverloads constructor(
                 ContentUris.appendId(TransactionProvider.ACCOUNT_EXCHANGE_RATE_URI.buildUpon(), id)
                     .appendEncodedPath(currency)
                     .appendEncodedPath(homeCurrency).build()
-            val minorUnitDelta =
-                homeCurrencyProvider.homeCurrencyUnit.fractionDigits - currencyContext[currency].fractionDigits
             ops.add(
                 ContentProviderOperation.newInsert(uri).withValue(
                     KEY_EXCHANGE_RATE,
-                    exchangeRate * 10.0.pow(minorUnitDelta.toDouble())
+                    exchangeRate
                 ).build()
             )
         }
