@@ -19,6 +19,6 @@
             android:layout_marginHorizontal="@dimen/margin_list"
             android:layout_weight="1" />
 
-        <include layout="@layout/floating_action_button" />
+        <include android:id="@+id/fab" layout="@layout/floating_action_button" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>

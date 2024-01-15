@@ -13,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.evernote.android.state.State
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
@@ -370,6 +371,9 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
     }
 
     override val fabActionName = "SAVE_BUDGET"
+
+    override val _floatingActionButton: FloatingActionButton
+        get() = binding.fab.CREATECOMMAND
 
     override fun onFabClicked() {
         super.onFabClicked()

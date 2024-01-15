@@ -5,6 +5,7 @@ import android.text.Editable
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.flow.filterNotNull
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -44,6 +45,9 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host, ExchangeRateEdit.Host {
     }
 
     override val fabActionName = "SAVE_DEBT"
+
+    override val _floatingActionButton: FloatingActionButton
+        get() = binding.fab.CREATECOMMAND
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)

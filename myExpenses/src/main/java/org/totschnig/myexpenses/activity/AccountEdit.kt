@@ -26,6 +26,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.evernote.android.state.State
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.color.SimpleColorDialog
 import org.apache.commons.lang3.ArrayUtils
@@ -367,6 +368,9 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
     }
 
     override val fabActionName = "SAVE_ACCOUNT"
+
+    override val _floatingActionButton: FloatingActionButton
+        get() = binding.fab.CREATECOMMAND
 
     override fun dispatchCommand(command: Int, tag: Any?): Boolean {
         if (super.dispatchCommand(command, tag)) {

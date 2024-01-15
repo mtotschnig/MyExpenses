@@ -25,6 +25,7 @@ import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.evernote.android.state.State
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.OneMethodBinding
@@ -83,6 +84,9 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener, OnIco
         setupListeners()
         configureIcon()
     }
+
+    override val _floatingActionButton: FloatingActionButton
+        get() = binding.fab.CREATECOMMAND
 
     override val fabActionName = "SAVE_METHOD"
 
