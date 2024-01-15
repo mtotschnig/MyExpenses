@@ -30,6 +30,7 @@ import okhttp3.Request
 import org.acra.util.StreamReader
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.sync.AbstractSyncBackendProvider
+import org.totschnig.myexpenses.sync.SyncBackendProvider
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.onedrive.R
 import org.totschnig.onedrive.getAll
@@ -62,23 +63,29 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
                             application.getAccount(
                                 accountManager.getUserData(account, KEY_MICROSOFT_ACCOUNT),
                                 object : GetAccountCallback {
-                                    override fun onTaskCompleted(result: IAccount) {
-                                        application.acquireTokenSilentAsync(
-                                            AcquireTokenSilentParameters.Builder()
-                                                .withScopes(listOf("Files.ReadWrite.All"))
-                                                .fromAuthority("https://login.microsoftonline.com/common")
-                                                .forAccount(result)
-                                                .withCallback(object: SilentAuthenticationCallback {
-                                                    override fun onSuccess(authenticationResult: IAuthenticationResult) {
-                                                        cont.resume(authenticationResult.accessToken)
-                                                    }
+                                    override fun onTaskCompleted(result: IAccount?) {
+                                        if (result == null) {
+                                            cont.resumeWithException(SyncBackendProvider.SyncParseException(
+                                                "Unable to retrieve Microsoft Account. Remove backend and add again."
+                                            ))
+                                        } else {
+                                            application.acquireTokenSilentAsync(
+                                                AcquireTokenSilentParameters.Builder()
+                                                    .withScopes(listOf("Files.ReadWrite.All"))
+                                                    .fromAuthority("https://login.microsoftonline.com/common")
+                                                    .forAccount(result)
+                                                    .withCallback(object: SilentAuthenticationCallback {
+                                                        override fun onSuccess(authenticationResult: IAuthenticationResult) {
+                                                            cont.resume(authenticationResult.accessToken)
+                                                        }
 
-                                                    override fun onError(exception: MsalException) {
-                                                        cont.resumeWithException(exception)
-                                                    }
-                                                })
-                                                .build()
-                                        )
+                                                        override fun onError(exception: MsalException) {
+                                                            cont.resumeWithException(exception)
+                                                        }
+                                                    })
+                                                    .build()
+                                            )
+                                        }
                                     }
 
                                     override fun onError(exception: MsalException) {
@@ -258,9 +265,9 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
         itemWithPath(getResourcePath(accountMetadataFilename))
     ) ?: Result.failure(IOException("No metaDatafile"))
 
-    override fun getCollection(collectionName: String, require: Boolean): DriveItem {
+    override fun getCollection(collectionName: String, require: Boolean): DriveItem? {
         return getFolderRequestBuilder(basePath, collectionName, require).buildRequest()
-            .get()!!
+            .get()
     }
 
     override fun isCollection(resource: DriveItem) =
