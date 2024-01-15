@@ -740,7 +740,7 @@
     <string name="pref_news_title">Aktualności</string>
     <string name="title_scan_receipt_feature">Zeskanuj paragon</string>
     <string name="debt_managment">Zarządzanie długiem</string>
-    <string name="ui_refinement">Dopracowanie interfejsu użytkownika</string>
+    <string name="ui_refinement">Udoskonalenie interfejsu użytkownika</string>
     <string name="dialog_title_purge_backups">Wyczyść stare kopie zapasowe</string>
     <plurals name="dialog_title_warning_delete_account">
         <item quantity="one">Usunąć konto\?</item>
@@ -748,7 +748,7 @@
         <item quantity="many">Usunąć %1$d kont\?</item>
         <item quantity="other">Usunąć %1$d kont\?</item>
     </plurals>
-    <string name="menu_reconfigure">Przekonfiguruj</string>
+    <string name="menu_reconfigure">Rekonfiguracja</string>
     <string name="add_shortcut">Dodaj subskrypcję</string>
     <string name="dialog_contrib_trial_info">Aktualny stan licencji (%1$s) pozwala na wypróbowanie %2$s przez %3$d dni (do %4$s).</string>
     <string name="one_time_payment">Płatność jednorazowa</string>
@@ -756,32 +756,32 @@
     <string name="dialog_contrib_subscription_info_play">Ta subskrypcja zaczyna obowiązywać natychmiast, jest rozliczana miesięcznie lub rocznie i można ją anulować w dowolnym momencie.</string>
     <string name="menu_edit_tag">Edytuj tag</string>
     <string name="upgrade_info_557">Jak Wam się podoba nowy design? Daj nam znać. Wariant bliższy staremu projektowi można aktywować w Ustawieniach (%1$s -&gt; %2$s).</string>
-    <string name="sub_budget_exceeded_error_1_2">Cała kwota przeznaczona na kategorię główną została przydzielona do innych podkategorii.</string>
+    <string name="sub_budget_exceeded_error_1_2">Całość kwoty przeznaczonej na kategorię główną została przeznaczona na pozostałe podkategorie.</string>
     <string name="pref_unmapped_transaction_as_transfer_title">Niezmapowane transakcje</string>
     <string name="warning_party_delete_debt">W przypadku usunięcia tej strony usunięte zostaną również zdefiniowane dla niej długi.</string>
     <string name="sub_budget_exceeded_error_1_1">Całość kwoty przydzielonej do kategorii głównej z wyjątkiem %s została przydzielona do innych podkategorii.</string>
     <string name="pref_security_export_passphrase_summary">Kopie zapasowe będą szyfrowane za pomocą tego hasła</string>
     <string name="github_sponsors">Klucze licencyjne są również dostarczane do &lt;a href=%s&gt;Github Sponsors&lt;/a&gt;.</string>
-    <string name="pref_ocr_total_indicators_title">Wskaźniki dotyczące łącznej kwoty</string>
+    <string name="pref_ocr_total_indicators_title">Wskaźniki dla kwoty całkowitej</string>
     <string name="budget_date_end_after_start">Data końcowa budżetu musi przypadać po dacie jego rozpoczęcia.</string>
     <string name="dialog_multi_tag_clear">Wszystkie tagi zostaną usunięte z wybranych transakcji.</string>
     <string name="budget_filter_all_methods">Wszystkie metody</string>
-    <string name="exchange_rate_not_supported">Skonfigurowany dostawca kursów wymiany nie udostępnia %1$s kursu : %2$s. Możesz spróbować wybrać inny w ustawieniach.</string>
+    <string name="exchange_rate_not_supported">Skonfigurowany dostawca kursów wymiany nie udostępnia %1$s kursu : %2$s. Możesz spróbować wybrać innego w ustawieniach.</string>
     <string name="dialog_title_warning_delete_budget">Usunąć budżet?</string>
     <plurals name="debt_mapped_transactions">
         <item quantity="one">Dłużna %1$s ma %2$d zmapowaną transakcję.</item>
-        <item quantity="few"/>
+        <item quantity="few"></item>
         <item quantity="many">Dług %1$s ma %2$d zmapowanych transakcji.</item>
         <item quantity="other">Dług %1$s ma %2$d zmapowanych transakcji.</item>
     </plurals>
-    <string name="input_label_passphrase">Hasło</string>
+    <string name="input_label_passphrase">Hasło dostępu</string>
     <string name="no_budgets">Zdefiniuj swój pierwszy budżet, dotykając przycisku +.</string>
     <string name="sync_backend_is_not_encrypted">Zdalny backend nie jest szyfrowany.</string>
-    <string name="request_for_invoice">Prośba o fakturę</string>
+    <string name="request_for_invoice">Wniosek o wystawienie faktury</string>
     <string name="select_template">Wybierz szablon</string>
     <string name="budget_only_current_period">Ustaw tylko dla %s</string>
     <string name="scan_result_no_amount">Nie znaleziono kwoty</string>
-    <string name="select_payee">Wybierz płatnika/odbiorcę</string>
+    <string name="select_payee">Wybierz płatnika/odbiorcę płatności</string>
     <string name="title_activity_debt_overview">Przegląd zadłużenia</string>
     <string name="button_relink_keep_date">Połącz ponownie, ale zachowaj datę</string>
     <string name="pref_criterion_future_current">Aktualny czas</string>
@@ -794,7 +794,7 @@
     <string name="pref_exchange_rates_api_key_summary">Zarejestruj bezpłatne konto na %s i podaj swój identyfikator aplikacji</string>
     <string name="confirmation_load_template_discard_data">Istniejące dane formularza zostaną odrzucone.</string>
     <string name="orphaned_transaction_relink">Transakcję można ponownie połączyć z instancją zdarzenia w systemie %s.</string>
-    <string name="plan_automatic_without_amount_hint">Plan bez kwoty nie powinien być zapisywany przy automatycznej realizacji planu</string>
+    <string name="plan_automatic_without_amount_hint">Plan bez kwoty nie powinien być zapisywany przy automatycznym wykonaniu planu</string>
     <string name="menu_aggregate_neutral_categories">Zagregowane kategorie neutralne</string>
     <string name="passphrase_for_synchronization">Wprowadź hasło, jeśli chcesz, aby dane synchronizacji na tym zapleczu były szyfrowane.</string>
     <string name="setup_completed">Konfiguracja zakończona</string>
@@ -806,7 +806,7 @@
     <string name="notifications_permission_required_auto_backup">Przyznając uprawnienia do wysyłania powiadomień, będziesz informowany o automatycznych kopiach zapasowych.</string>
     <string name="roadmap_vote">Głosowanie na plan działania</string>
     <string name="encrypt_database">Zaszyfruj bazę danych</string>
-    <string name="pref_warning_only_one_protection">Aby można było korzystać z ochrony za pomocą %1$s, należy wyłączyć ochronę za pomocą %2$s.</string>
+    <string name="pref_warning_only_one_protection">Zanim będziesz mógł skorzystać z ochrony %1$s, musisz wyłączyć ochronę %2$s.</string>
     <string name="dialog_confirm_rollover_delete">Wszystkie kwoty rolowania za ten okres zostaną usunięte.</string>
     <string name="merge_parties_strategy_delete">Duplikaty są usuwane.</string>
     <string name="dialog_multi_tag_append">Dodawanie nowych tagów do istniejących tagów</string>
@@ -821,9 +821,9 @@
     <string name="warning_link_transfer">Dwie wybrane transakcje zostaną połączone jako transfer. Informacje o odbiorcy/płatniku i kategorii zostaną usunięte.</string>
     <string name="object_sealed_debt">Przedmiot odnosi się do zamkniętego długu.</string>
     <string name="pref_ocr_time_formats_title">Formaty czasu</string>
-    <string name="notifications_channel_required">Włącz kanał %s.</string>
+    <string name="notifications_channel_required">Proszę włączyć kanał %s.</string>
     <string name="debt_paid_off_other">Dług %szostaje spłacony.</string>
-    <string name="pref_unmapped_transaction_as_transfer_summary_on">są liczone jako przelew</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_on">są liczone jako transfer</string>
     <string name="warning_delete_default_transfer_category">Kategoria %s jest skonfigurowana jako domyślna kategoria transferu i nie powinna być usuwana.</string>
     <string name="pref_exchange_rate_provider_summary">Wybierz dostawcę, aby pobrać kursy wymiany walut</string>
     <string name="notifications_permission_required_webui">Przyznając uprawnienie do wysyłania powiadomień, możesz kontrolować stan serwera WWW.</string>
@@ -837,21 +837,21 @@
     <string name="button_relink_update_date">Data ponownego połączenia i aktualizacji</string>
     <string name="file_format">Format pliku</string>
     <string name="warning_account_for_transaction_is_closed">Nie można edytować co najmniej jednej z wybranych transakcji:</string>
-    <string name="content_description_dates_are_not_linked">Data rezerwacji i data waluty nie są aktualizowane razem</string>
-    <string name="auto_fill_account_from_aggregate_only">Tylko wtedy, gdy zaczynasz od konta zbiorczego.</string>
+    <string name="content_description_dates_are_not_linked">Data rezerwacji i data wartości nie są aktualizowane razem</string>
+    <string name="auto_fill_account_from_aggregate_only">Tylko w przypadku uruchomienia z konta zbiorczego.</string>
     <string name="widget_title_budget">Mój budżet</string>
-    <string name="split_transaction_not_possible">Tylko transakcje, które mają to samo konto, odbiorcę i status, można zgrupować w jedną transakcję podzieloną.</string>
+    <string name="split_transaction_not_possible">Tylko transakcje z tym samym kontem, odbiorcą i statusem mogą zostać zgrupowane w jedną podzieloną transakcję.</string>
     <string name="pref_ocr_engine_title">Silnik rozpoznawania tekstu</string>
     <string name="pref_mlkit_script_title">Skrypt dla MlKita</string>
     <string name="pref_feature_uninstall_summary">Sklep Play próbuje ostatecznie usunąć te moduły w tle.</string>
     <string name="title_webui">Sieciowy interfejs użytkownika</string>
-    <string name="content_description_dates_are_linked">Data rezerwacji i data waluty są aktualizowane razem</string>
+    <string name="content_description_dates_are_linked">Data rezerwacji i data wartości są aktualizowane razem</string>
     <string name="pref_copy_attachments_summary_on">Pliki zostaną skopiowane do folderu aplikacji.</string>
     <string name="database_is_encrypted">Baza danych jest szyfrowana.</string>
     <string name="budget_filter_all_parties">Wszystkie strony</string>
     <string name="pref_purge_backup_require_confirmation_summary">Pokaż monit o potwierdzenie przed usunięciem plików</string>
-    <string name="auto_fill_focus">Ustaw fokus na odbiorcy płatności</string>
-    <string name="debt">Dług</string>
+    <string name="auto_fill_focus">Skoncentruj się na odbiorcy płatności</string>
+    <string name="debt">Zadłużenie</string>
     <string name="budget_onetime">Jeden raz</string>
     <string name="attachments">Załączniki</string>
     <string name="warning_synced_account_cannot_be_closed">Nie można zamknąć konta połączonego z zapleczem synchronizacji</string>
@@ -859,7 +859,7 @@
     <string name="select_package">Wybierz pakiet licencji.</string>
     <plurals name="purge_backup_success">
         <item quantity="one">Jeden stary plik kopii zapasowej został wyczyszczony.</item>
-        <item quantity="few"/>
+        <item quantity="few"></item>
         <item quantity="many">%d stare pliki kopii zapasowych zostały usunięte.</item>
         <item quantity="other">%d stare pliki kopii zapasowych zostały usunięte.</item>
     </plurals>
@@ -880,7 +880,7 @@
     <string name="dialog_multi_tag_replace">Zastępowanie istniejących tagów nowymi tagami</string>
     <plurals name="purge_backup_failure">
         <item quantity="one">Nie można usunąć jednego starego pliku kopii zapasowej.</item>
-        <item quantity="few"/>
+        <item quantity="few"></item>
         <item quantity="many">Nie można usunąć %d starych plików kopii zapasowych.</item>
         <item quantity="other">Nie można usunąć %d starych plików kopii zapasowych.</item>
     </plurals>
@@ -888,12 +888,12 @@
     <string name="pref_criterion_future_end_of_day">Koniec dnia</string>
     <string name="pref_csv_export_split_date_time_summary">Używanie oddzielnych kolumn dla daty i godziny</string>
     <string name="scan_result_no_data">Brak danych</string>
-    <string name="budget_table_header_overspent">Przekroczone</string>
+    <string name="budget_table_header_overspent">Przekroczenie wydatków</string>
     <string name="remap_method">Wszystkie wybrane transakcje zostaną zmapowane do metody %s.</string>
     <string name="pref_clone_with_current_date_title">Data sklonowanych transakcji</string>
     <plurals name="warning_delete_tag">
         <item quantity="one">Tag %1$s jest mapowany na jedną transakcję. Czy należy go usunąć?</item>
-        <item quantity="few"/>
+        <item quantity="few"></item>
         <item quantity="many">Tag %1$s jest mapowany na %2$d transakcje. Czy należy go usunąć?</item>
         <item quantity="other">Tag %1$s jest mapowany na %2$d transakcje. Czy należy go usunąć?</item>
     </plurals>
@@ -909,7 +909,7 @@
     <string name="ocr_recognition_info">Uruchamianie rozpoznawania tekstu za pomocą %s</string>
     <string name="pref_csv_export_split_categories_summary">Używanie oddzielnych kolumn dla każdego poziomu hierarchii kategorii</string>
     <string name="purge_backups">Następujące stare pliki kopii zapasowych zostaną usunięte:</string>
-    <string name="pref_feature_uninstall_title">Poproś o dezinstalację funkcji i języków</string>
+    <string name="pref_feature_uninstall_title">Poproś o odinstalowanie funkcji i języków</string>
     <string name="image_optimize_quality_summary">Jakość 0 oznacza kompres dla najmniejszego rozmiaru. 100 oznacza kompresję, aby uzyskać maksymalną jakość wizualną.</string>
     <string name="template_default_action_without_amount_hint">Szablon bez kwoty należy zapisać z domyślną akcją „Edytuj”</string>
     <string name="debt_borrow_additional">Pożyczam %s.</string>
@@ -917,8 +917,8 @@
     <string name="required">Wymagana</string>
     <string name="notifications_permission_required_sync">Udzielając zgody na wysyłanie powiadomień, możesz monitorować postęp operacji synchronizacji.</string>
     <string name="content_description_attachment">Załącznik</string>
-    <string name="debt_lend_additional">Pożyczam %s.</string>
-    <string name="reset_equivalent_amounts_success">Równoważne kwoty zostały zresetowane</string>
+    <string name="debt_lend_additional">Udzielam pożyczki %s.</string>
+    <string name="reset_equivalent_amounts_success">Równoważne kwoty zostały wyzerowane</string>
     <string name="sub_budget_under_allocated_error">%s zostało już przydzielonych do podkategorii. Jeśli nie usuniesz od nich pieniędzy, musisz przynajmniej przeznaczyć tę kwotę na kategorię główną.</string>
     <string name="default_transfer_category">Domyślna kategoria transferu</string>
     <string name="rollover_edit_invalid">Suma kumulacji przypisanej do kategorii i kumulacji przypisanych do podkategorii nie może przekroczyć pozostałej kwoty.</string>
@@ -927,8 +927,8 @@
     <string name="pref_ocr_date_formats_title">Formaty daty</string>
     <string name="budget_filter_all_accounts">Wszystkie konta</string>
     <string name="optimize_image_file_size">Zoptymalizuj rozmiar pliku obrazu</string>
-    <string name="orphaned_transaction_info">Transakcja jest połączona z planem dla tej daty, ale w tym dniu nie istnieje żadne wystąpienie zdarzenia.</string>
-    <string name="sync_backend_is_encrypted">Zdalny backend jest szyfrowany. Musisz określić hasło.</string>
+    <string name="orphaned_transaction_info">Transakcja jest połączona z planem na tę datę, ale w tej dacie nie istnieje żadna instancja zdarzenia.</string>
+    <string name="sync_backend_is_encrypted">Zdalny backend jest szyfrowany. Konieczne jest podanie hasła.</string>
     <string name="dialog_title_warning_delete_party">Usunąć przyjęcie?</string>
     <string name="orphaned_transaction_align_date">Opcjonalnie data przechowywana w transakcji może być również wyrównana z datą wystąpienia.</string>
     <string name="stability_improvements" tools:ignore="UnusedResources">Poprawa stabilności</string>
@@ -952,22 +952,22 @@
     <string name="synchronization_select_folder_dialog_title">Wybierz istniejący folder lub utwórz nowy</string>
     <string name="pref_csv_export_split_amount_summary">Użyj oddzielnych kolumn dla przychodów i wydatków</string>
     <string name="split_transaction_group_success">%1$d transakcje zostały pomyślnie pogrupowane w jedną podzieloną transakcję.</string>
-    <string name="value_date">Data waluty</string>
+    <string name="value_date">Data ustalenia wartości</string>
     <string name="clone_and_remap_result">Wybrane transakcje zostały sklonowane i ponownie zmapowane.</string>
     <string name="debt_balance_i_owe">Jestem teraz %swinien.</string>
     <string name="menu_remap">Ponowne mapowanie</string>
     <string name="template_shortcut">Skrót do szablonu</string>
     <string name="cb_label_merge_accounts">Scalanie kont</string>
-    <string name="pref_plan_executor_time_title">Czas powiadamiania planisty</string>
+    <string name="pref_plan_executor_time_title">Czas powiadamiania terminarza</string>
     <string name="pref_criterion_futur_title">Kryterium dla przyszłych transakcji</string>
     <string name="merge_parties_strategy_group">Duplikaty są grupowane jako zależne.</string>
     <string name="pref_tesseract_language_title">Język dla Tesseract</string>
     <string name="encrypt_database_info">Baza danych zostanie zaszyfrowana hasłem, którego nie można wyodrębnić z tego urządzenia. W związku z tym nie zostanie utworzona kopia zapasowa przez usługę tworzenia kopii zapasowych urządzenia.</string>
     <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Użyj tego przycisku przełącznika, aby zarejestrować dochód.</string>
     <string name="debt_I_owe">Jestem winien %s</string>
-    <string name="search_account">Szukaj konta</string>
+    <string name="search_account">Wyszukiwanie konta</string>
     <string name="single_feature_info">Alternatywnie możesz kupić nieograniczony dostęp tylko do tej funkcji.</string>
-    <string name="pref_planner_manual_time_current">Czas stosowania</string>
+    <string name="pref_planner_manual_time_current">Godzina złożenia wniosku</string>
     <string name="pref_purge_backup_keep_title">Maksymalna liczba najnowszych plików kopii zapasowych do zachowania</string>
     <string name="pref_copy_attachments_summary_off">Pliki nie są kopiowane, przechowywane jest tylko odniesienie.</string>
     <string name="dialog_title_delete_debt">Usunąć dług?</string>
@@ -978,7 +978,7 @@
     <string name="merge_parties_select">Wybierz nazwę scalonej strony</string>
     <string name="tesseract_download_confirmation">Czy chcesz pobrać dane rozpoznawania tekstu dla %s ?</string>
     <string name="scan_result_multiple_candidates_dialog_title">Znaleziono wielu kandydatów. Proszę wybrać:</string>
-    <string name="ungroup_split_transaction_success">Transakcja podziału została pomyślnie rozgrupowana.</string>
+    <string name="ungroup_split_transaction_success">Podzielona transakcja została pomyślnie rozgrupowana.</string>
     <string name="backup_is_encrypted">Plik kopii zapasowej jest zaszyfrowany. Aby go odszyfrować, musisz podać jego hasło.</string>
     <string name="performance_enhancement" tools:ignore="UnusedResources">Zwiększenie wydajności</string>
     <string name="onboarding_privacy_intro">Twoje dane finansowe nie są przesyłane na żaden serwer, ani obsługiwany przez nas, ani przez żadną stronę trzecią.</string>
@@ -987,11 +987,11 @@
     <string name="dialog_title_confirm_remap">Zmienić mapowanie (%s) ?</string>
     <string name="budget_exceeded_error_1_1">Całość budżetu z wyjątkiem %s została przydzielona do innych kategorii.</string>
     <string name="remap_empty_list">Nie znaleziono pozycji, którą można przypisać do wszystkich wybranych transakcji.</string>
-    <string name="menu_new_debt">Nowy dług</string>
+    <string name="menu_new_debt">Nowe zadłużenie</string>
     <string name="move_category_failure">Jedna kategoria nie została przeniesiona, ponieważ ta sama etykieta już istnieje w miejscu docelowym.</string>
     <plurals name="import_categories_icons_updated">
         <item quantity="one">Jedna kategoria została zaktualizowana o ikonę.</item>
-        <item quantity="few"/>
+        <item quantity="few"></item>
         <item quantity="many">%1$d kategorie zostały zaktualizowane o ikony.</item>
         <item quantity="other">%1$d kategorie zostały zaktualizowane o ikony.</item>
     </plurals>

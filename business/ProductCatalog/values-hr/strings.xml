@@ -3,7 +3,7 @@
     <string name="history_title">Dijagram povijesti</string>
     <string name="history_description">Saznaj kako se tvoja financijska situacija mijenja tijekom vremena</string>
     <string name="budget_description">Odredi koliko namjeravaš trošiti u godišnjim, mjesečnim ili tjednim proračunima</string>
-    <string name="ocr_title">Uslikaj račun</string>
+    <string name="ocr_title">Snimi račun</string>
     <string name="ocr_description">Automatski izdvoji iznos, datum i primaoca</string>
     <string name="webui_title">Internetsko korisničko sučelje</string>
     <string name="categorytree_title">Stablo kategorija</string>
