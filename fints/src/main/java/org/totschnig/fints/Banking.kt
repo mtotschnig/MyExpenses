@@ -112,6 +112,7 @@ class Banking : ProtectedFragmentActivity() {
                     rememberSaveable { mutableStateOf(BankingCredentials.EMPTY) }
                 val tanRequested = viewModel.tanRequested.observeAsState()
                 val tanMediumRequested = viewModel.tanMediumRequested.observeAsState()
+                val pushTanRequested = viewModel.pushTanRequested.observeAsState()
                 val workState = viewModel.workState.collectAsState()
                 LaunchedEffect(workState.value) {
                     when (workState.value) {
@@ -215,6 +216,7 @@ class Banking : ProtectedFragmentActivity() {
                 }
                 TanDialog(tanRequest = tanRequested.value, submitTan = viewModel::submitTan)
                 TanMediaDialog(options = tanMediumRequested.value, submitMedia = viewModel::submitTanMedium)
+                PushTanDialog(msg = pushTanRequested.value, confirmPushTan = viewModel::confirmPushTan)
             }
         }
     }

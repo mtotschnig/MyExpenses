@@ -123,6 +123,10 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
 
     val tanMediumRequested: LiveData<List<String>?> = _tanMediumRequested
 
+    private val _pushTanRequested = MutableLiveData<String?>(null)
+
+    val pushTanRequested: LiveData<String?> = _pushTanRequested
+
     private val _workState: MutableStateFlow<WorkState> =
         MutableStateFlow(WorkState.Initial)
     val workState: StateFlow<WorkState> = _workState
@@ -165,6 +169,10 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
     fun submitTanMedium(selection: Pair<String, Boolean>?) {
         tanMediumFuture.complete(selection)
         _tanMediumRequested.postValue(null)
+    }
+
+    fun confirmPushTan() {
+        _pushTanRequested.postValue(null)
     }
 
     private fun log(msg: String) {
@@ -643,6 +651,10 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                                 ?: throw HBCI_Exception("TAN media selection cancelled")
                         }
                     )
+                }
+
+                NEED_PT_DECOUPLED -> {
+                    _pushTanRequested.postValue(msg)
                 }
 
                 HAVE_ERROR -> Timber.e(msg)

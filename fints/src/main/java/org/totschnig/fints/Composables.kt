@@ -125,6 +125,32 @@ fun ColumnScope.BankingCredentials(
 }
 
 @Composable
+fun PushTanDialog(
+    msg: String?,
+    confirmPushTan: () -> Unit
+    ) {
+    msg?.let {
+        AlertDialog(
+            onDismissRequest = {  },
+            confirmButton = {
+                Button(onClick = {
+                    confirmPushTan()
+                }) {
+                    Text(stringResource(id = android.R.string.ok))
+                }
+            },
+            text = {
+                Column {
+                    Text(msg)
+                    Text(stringResource(id = R.string.pushtan_dialog))
+                }
+            }
+
+        )
+    }
+}
+
+@Composable
 fun TanDialog(
     tanRequest: TanRequest?,
     submitTan: (String?) -> Unit

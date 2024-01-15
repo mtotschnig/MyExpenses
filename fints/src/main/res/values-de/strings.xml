@@ -45,4 +45,5 @@
     <string name="fints_intro_2">Von den Einstellungen aus können weitere Bankzugänge konfiguriert werden.</string>
     <string name="tan_medium_selection_prompt">Bitte wählen Sie die Bezeichnung des gewünschten TAN-Mediums aus:</string>
     <string name="checkbox_should_save_selection_label">Auswahl speichern</string>
+    <string name="pushtan_dialog">Bitte bestätigen Sie mit OK, sobald Sie den Auftrag mit der pushTAN App bestätigt haben.</string>
 </resources>
