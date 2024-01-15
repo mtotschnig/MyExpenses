@@ -15,12 +15,10 @@ object TestDataModule: DataModule() {
 
     override val databaseName: String = randomDataName
 
-    @Provides
     override fun providePrefHandler(context: MyApplication, sharedPreferences: SharedPreferences): PrefHandler {
         return TestPrefHandler(context, sharedPreferences, randomDataName)
     }
 
-    @Provides
     override fun provideSharedPreferences(application: MyApplication): SharedPreferences =
             application.getSharedPreferences(randomDataName, Context.MODE_PRIVATE)
 

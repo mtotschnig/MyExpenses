@@ -26,7 +26,6 @@ import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 
 object TestViewModelModule : ViewModelModule() {
-    @Provides
     override fun provideSyncBackendViewModelClass(): Class<out AbstractSyncBackendViewModel> =
         FakeSyncBackendViewModel::class.java
 
