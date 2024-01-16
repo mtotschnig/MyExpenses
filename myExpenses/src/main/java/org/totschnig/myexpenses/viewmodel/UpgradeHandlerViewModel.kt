@@ -186,7 +186,7 @@ class UpgradeHandlerViewModel(application: Application) :
                                 prefHandler.putString(key, new)
                             }
                         } catch (e: Exception) {
-                            Timber.e(e)
+                            CrashHandler.report(e)
                             prefHandler.remove(key)
                         }
                     }

@@ -11,6 +11,7 @@
 package org.totschnig.fints;
 
 import org.apache.commons.lang3.StringUtils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -298,8 +299,8 @@ public class VerwendungszweckUtil
     }
     catch (Exception e)
     {
-      Timber.e(e, "unable to parse line: %s", line);
-      e.printStackTrace();
+      Timber.w("unable to parse line: %s", line);
+      CrashHandler.report(e);
     }
     return result;
   }

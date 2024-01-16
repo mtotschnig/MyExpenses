@@ -280,7 +280,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         try {
             work(info, passport, handle)
         } catch (e: Exception) {
-            Timber.e(e)
+            CrashHandler.report(e)
             onError(e)
         } finally {
             handle.close()
@@ -657,7 +657,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                 NEED_PT_TAN -> {
                     val flicker = retData.toString()
                     if (flicker.isNotEmpty()) {
-                        Timber.e("Flicker not yet implemented")
+                        CrashHandler.report(Exception("Flicker not yet implemented"))
                     } else {
                         _tanRequested.postValue(TanRequest(msg, null))
                         retData.replace(0, retData.length, runBlocking {

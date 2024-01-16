@@ -7,8 +7,8 @@ import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.feature.OcrFeature
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
-import timber.log.Timber
 import java.time.LocalDateTime
 import java.time.ZoneId
 import javax.inject.Singleton
@@ -54,7 +54,7 @@ open class FeatureModule {
                 .newInstance(prefHandler) as FeatureManager
     } catch (e: Exception) {
         if (DistributionHelper.distribution != DistributionHelper.Distribution.GITHUB) {
-            Timber.e(e)
+            CrashHandler.report(e)
         }
         object : FeatureManager() {}
     }

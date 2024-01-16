@@ -1756,7 +1756,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
                 updated = true;
               } catch (Exception e) {
                 //since this setting is not critical, we can live with failure of migration
-                Timber.e(e);
+                CrashHandler.report(e);
               }
             }
             c.moveToNext();
@@ -1809,7 +1809,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         } catch (SQLException e) {
           // We got one report where this failed, because there were already multiple budgets for
           // account /grouping pairs. At the moment, we silently live without the index.
-          Timber.e(e);
+          CrashHandler.report(e);
         }
       }
 
@@ -2210,7 +2210,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     try {
       repairWithSealedAccounts(db, () -> db.execSQL("update transactions set uuid = (select uuid from transactions peer where peer._id=transactions.transfer_peer) where uuid is null and transfer_peer is not null;"));
     } catch (SQLException e) {
-      Timber.e(e);
+      CrashHandler.report(e);
     }
   }
 

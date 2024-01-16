@@ -441,7 +441,7 @@ open class CategoryViewModel(
                 }.fold(
                     onSuccess = { it },
                     onFailure = {
-                        Timber.e(it)
+                        CrashHandler.report(it)
                         getString(R.string.write_fail_reason_cannot_write) + ": " + it.message
                     }
                 )?.let { message -> _syncResult.update { message } }
@@ -462,7 +462,7 @@ open class CategoryViewModel(
                                 },
                     onFailure = {
                         if (it !is FileNotFoundException) {
-                            Timber.e(it)
+                            CrashHandler.report(it)
                         }
                         it.safeMessage
                     }

@@ -52,7 +52,7 @@ class StaleImagesViewModel(application: Application) : ContentResolvingAndroidVi
                                 Timber.d("Successfully copied file %s", imageFileUri.toString())
                                 contentResolver.delete(imageFileUri, null, null) > 0
                             } catch (e: IOException) {
-                                Timber.e(e)
+                                CrashHandler.report(e)
                                 false
                             }
                         } ?: run {

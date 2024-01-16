@@ -324,7 +324,7 @@ public class WebDavClient {
               .getCertificates()
               .get(0);
         } catch (Exception e2) {
-          Timber.e(e2, "Error extracting certificate..");
+          CrashHandler.report(e2);
         }
 
         if (cert != null) {

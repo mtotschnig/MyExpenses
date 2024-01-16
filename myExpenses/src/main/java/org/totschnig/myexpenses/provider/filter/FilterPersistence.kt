@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import timber.log.Timber
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.time.format.DateTimeParseException
 
 const val KEY_FILTER = "filter"
@@ -72,7 +72,7 @@ class FilterPersistence(
             try {
                 DateCriterion.fromStringExtra(it)
             } catch (e: DateTimeParseException) {
-                Timber.e(e)
+                CrashHandler.report(e)
                 null
             }
         }

@@ -23,10 +23,10 @@ import org.totschnig.myexpenses.retrofit.OpenExchangeRates
 import org.totschnig.myexpenses.retrofit.RoadmapService
 import org.totschnig.myexpenses.room.ExchangeRateDatabase.Companion.getDatabase
 import org.totschnig.myexpenses.util.DelegatingSocketFactory
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.repository.RoadmapRepository.Companion.ROADMAP_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import timber.log.Timber
 import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.Proxy
@@ -78,7 +78,7 @@ open class NetworkModule {
                         ioe: IOException
                     ) {
                         super.connectFailed(call, inetSocketAddress, proxy, protocol, ioe)
-                        Timber.e(ioe, "Connect failed")
+                        CrashHandler.report(ioe)
                     }
                 })
             }

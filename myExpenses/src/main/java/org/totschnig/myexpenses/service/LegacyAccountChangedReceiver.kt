@@ -7,6 +7,7 @@ import android.content.Intent
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.checkSyncAccounts
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 
 class LegacyAccountChangedReceiver : BroadcastReceiver() {
@@ -19,7 +20,7 @@ class LegacyAccountChangedReceiver : BroadcastReceiver() {
                     checkSyncAccounts(context)
                 }
             } catch (e: Exception) {
-                Timber.e(e)
+                CrashHandler.report(e)
             }
         }
     }

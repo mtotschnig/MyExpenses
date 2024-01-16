@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.sync.GenericAccountService
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.doAsync
 import timber.log.Timber
 
@@ -33,7 +34,7 @@ class AccountRemovedReceiver : BroadcastReceiver() {
                         where, arrayOf(intent.getStringExtra(KEY_ACCOUNT_NAME))
                     )
                 } catch (e: Exception) {
-                    Timber.e(e)
+                    CrashHandler.report(e)
                 }
             }
         }

@@ -5,7 +5,7 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
-import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,8 +13,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import timber.log.Timber;
 
 public class FileCopyUtils {
 
@@ -25,7 +23,7 @@ public class FileCopyUtils {
           srcStream.getChannel().size());
       return true;
     } catch (IOException e) {
-      Timber.e(e);
+      CrashHandler.report(e);
       return false;
     }
   }
@@ -37,10 +35,10 @@ public class FileCopyUtils {
     try (InputStream input = contentResolver.openInputStream(src);
          OutputStream output = contentResolver.openOutputStream(dest)) {
       if (input == null) {
-        throw new IOException("Could not open InputStream " + src.toString());
+        throw new IOException("Could not open InputStream " + src);
       }
       if (output == null) {
-        throw new IOException("Could not open OutputStream " + dest.toString());
+        throw new IOException("Could not open OutputStream " + dest);
       }
       copy(input, output);
     }

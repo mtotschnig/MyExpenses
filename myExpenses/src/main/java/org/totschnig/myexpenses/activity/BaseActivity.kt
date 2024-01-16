@@ -233,7 +233,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                     ?.setPrimaryClip(ClipData.newPlainText(null, text))
                 "${getString(R.string.toast_text_copied)}: $text"
             } catch (e: RuntimeException) {
-                Timber.e(e)
+                report(e)
                 e.safeMessage
             }
         )

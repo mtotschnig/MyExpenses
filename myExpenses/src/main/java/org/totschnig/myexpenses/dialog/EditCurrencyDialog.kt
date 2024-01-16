@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.viewmodel.data.Currency
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.abs
+import kotlin.math.pow
 
 class EditCurrencyDialog : DialogViewBinding<EditCurrencyBinding>() {
     @Inject
@@ -92,7 +93,7 @@ class EditCurrencyDialog : DialogViewBinding<EditCurrencyBinding>() {
                         val delta = oldValue - newValue
                         message += " " + getString(
                             if (delta > 0) R.string.warning_change_fraction_digits_2_multiplied else R.string.warning_change_fraction_digits_2_divided,
-                            Utils.pow(10, abs(delta))
+                            10.0.pow(abs(delta))
                         )
                         if (delta > 0) {
                             message += " " + getString(R.string.warning_change_fraction_digits_3)

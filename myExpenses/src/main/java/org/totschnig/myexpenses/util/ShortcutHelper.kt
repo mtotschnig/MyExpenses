@@ -16,10 +16,10 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Template.Action
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.TemplateInfo
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET_DATA_ENTRY
-import timber.log.Timber
 
 object ShortcutHelper {
     const val ID_TRANSACTION = "transaction"
@@ -66,7 +66,7 @@ object ShortcutHelper {
         try {
             ShortcutManagerCompat.pushDynamicShortcut(context, shortcut)
         } catch (e: Exception) {
-            Timber.e(e)
+            CrashHandler.report(e)
         }
     }
 
@@ -89,7 +89,7 @@ object ShortcutHelper {
         try {
             ShortcutManagerCompat.pushDynamicShortcut(context, shortcut)
         } catch (e: Exception) {
-            Timber.e(e)
+            CrashHandler.report(e)
         }
     }
 

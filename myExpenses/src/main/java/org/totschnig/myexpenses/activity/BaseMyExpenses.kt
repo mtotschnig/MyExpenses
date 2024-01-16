@@ -137,6 +137,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.util.configureSortDirectionMenu
 import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.distrib.ReviewManager
 import org.totschnig.myexpenses.util.formatMoney
@@ -1199,7 +1200,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 )
             }
         }.onFailure {
-            Timber.e(it)
+            CrashHandler.report(it)
             Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
         }
     }

@@ -169,7 +169,7 @@ public class TaskExecutionFragment<T> extends Fragment {
           new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))
               .execute((T[]) args.getSerializable(KEY_OBJECT_IDS));
         } catch (ClassCastException e) {
-          Timber.e(e);
+          CrashHandler.report(e);
         }
     }
   }

@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.util.CategoryTree;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,7 +22,6 @@ import java.util.ArrayList;
 
 import androidx.core.util.Pair;
 import androidx.fragment.app.FragmentActivity;
-import timber.log.Timber;
 
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
 
@@ -89,7 +89,7 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
         try {
           catXML.close();
         } catch (IOException e) {
-          Timber.e(e);
+          CrashHandler.report(e);
         }
       }
     }

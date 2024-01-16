@@ -85,8 +85,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import timber.log.Timber;
-
 /**
  * Util class with helper methods
  *
@@ -144,7 +142,7 @@ public class Utils {
         eventType = xpp.next();
       }
     } catch (Exception e) {
-      Timber.e(e);
+      CrashHandler.report(e);
     }
   }
 
@@ -305,7 +303,7 @@ public class Utils {
       return hexString.toString();
 
     } catch (NoSuchAlgorithmException e) {
-      Timber.e(e);
+      CrashHandler.report(e);
     }
     return "";
   }
@@ -327,7 +325,7 @@ public class Utils {
       try {
         return new SimpleDateFormat(custom, localeFromContext(context));
       } catch (Exception e) {
-        Timber.e(e);
+        CrashHandler.report(e);
       }
     }
     return getFrameworkDateFormatSafe(context);
@@ -484,38 +482,6 @@ public class Utils {
       manager.restartLoader(loaderId, args, callback);
     } else {
       manager.initLoader(loaderId, args, callback);
-    }
-  }
-
-  public static int pow(int b, int k) {
-    switch (b) {
-      case 0:
-        return (k == 0) ? 1 : 0;
-      case 1:
-        return 1;
-      case (-1):
-        return ((k & 1) == 0) ? 1 : -1;
-      case 2:
-        return (k < Integer.SIZE) ? (1 << k) : 0;
-      case (-2):
-        if (k < Integer.SIZE) {
-          return ((k & 1) == 0) ? (1 << k) : -(1 << k);
-        } else {
-          return 0;
-        }
-      default:
-        // continue below to handle the general case
-    }
-    for (int accum = 1; ; k >>= 1) {
-      switch (k) {
-        case 0:
-          return accum;
-        case 1:
-          return b * accum;
-        default:
-          accum *= ((k & 1) == 0) ? 1 : b;
-          b *= b;
-      }
     }
   }
 

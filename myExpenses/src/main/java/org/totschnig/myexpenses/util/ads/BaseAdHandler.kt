@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.tracking.Tracker
-import timber.log.Timber
 
 @Suppress("SameParameterValue")
 abstract class BaseAdHandler protected constructor(
@@ -30,7 +30,7 @@ abstract class BaseAdHandler protected constructor(
                 startBannerInternal()
             }
         } catch (e: Exception) {
-            Timber.e(e)
+            CrashHandler.report(e)
         }
     }
 
@@ -86,7 +86,7 @@ abstract class BaseAdHandler protected constructor(
                 return maybeShowInterstitial()
             }
         } catch (e: Exception) {
-            Timber.e(e)
+            CrashHandler.report(e)
         }
         return false
     }

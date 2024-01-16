@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.withContext
-import timber.log.Timber
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 fun <T> Flow<Query>.mapToListWithExtra(
     dispatcher: CoroutineDispatcher = Dispatchers.IO,
@@ -40,7 +40,7 @@ fun <T> Flow<Query>.mapToListCatchingWithExtra(
                 }
             }?.let { Result.success(it) }
         } catch (e: SQLiteException) {
-            Timber.e(e)
+            CrashHandler.report(e)
             Result.failure(e)
         }
     }?.let { emit(it) }
