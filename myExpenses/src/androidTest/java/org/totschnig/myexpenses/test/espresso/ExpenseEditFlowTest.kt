@@ -51,7 +51,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         onView(ViewMatchers.withId(R.id.Category))
             .perform(click())
         androidx.test.espresso.Espresso.pressBack()
-        onView(ViewMatchers.withId(R.id.CREATE_COMMAND))
+        onView(ViewMatchers.withId(R.id.fab))
             .perform(click())
         assertFinishing()
     }

@@ -30,7 +30,7 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
         Espresso.onView(ViewMatchers.withId(R.id.Currency)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withId(R.id.Currency)).perform(wait(withListSize(Matchers.greaterThan(0)), 1000))
         Espresso.onView(ViewMatchers.withId(R.id.Label)).perform(ViewActions.typeText(LABEL), closeSoftKeyboard())
-        Espresso.onView(ViewMatchers.withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.fab)).perform(ViewActions.click())
         assertFinishing()
         assertThat(repository.findAnyOpenByLabel(LABEL)).isNotNull
     }
@@ -44,7 +44,7 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
             putExtra(DatabaseConstants.KEY_ROWID, id)
         }
         testScenario = ActivityScenario.launchActivityForResult(i)
-        Espresso.onView(ViewMatchers.withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.fab)).perform(ViewActions.click())
         assertThat(repository.getUuidForAccount(id)).isEqualTo(uuid)
     }
 

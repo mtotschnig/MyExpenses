@@ -80,7 +80,7 @@ class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
         onView(withId(R.id.list))
             .perform(RecyclerViewActions.actionOnItem<PartiesList.ViewHolder>(
                 hasDescendant(withText(payee)), clickOnViewChild(R.id.checkBox)))
-        onView(withId(R.id.CREATE_COMMAND)).perform(click())
+        onView(withId(R.id.fab)).perform(click())
     }
 
     private fun filterOff(payee: String) {
