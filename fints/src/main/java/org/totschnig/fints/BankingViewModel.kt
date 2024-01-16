@@ -83,6 +83,16 @@ import org.totschnig.fints.R as RF
 
 data class TanRequest(val message: String, val bitmap: Bitmap?)
 
+data class SecMech(val id: String, val name: String) {
+    companion object {
+        fun parse(input: String) = input.split("|").map { option ->
+            option.split(':').let {
+                SecMech(it[0], it[1])
+            }
+        }
+    }
+}
+
 val SUPPORTED_HBCI_VERSIONS =
     arrayOf(HBCIVersion.HBCI_300, HBCIVersion.HBCI_220, HBCIVersion.HBCI_210, HBCIVersion.HBCI_201)
 
@@ -104,6 +114,12 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
             savedStateHandle["selectedTanMedium"] = value
         }
 
+    var selectedSecMech: String?
+        get() = savedStateHandle["selectedSecMech"]
+        set(value) {
+            savedStateHandle["selectedSecMech"] = value
+        }
+
     private val hbciProperties = Properties().also {
         it["client.product.name"] = "02F84CA8EC793B72255C747B4"
         if (BuildConfig.DEBUG) {
@@ -112,20 +128,21 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
     }
 
     private val tanFuture: CompletableDeferred<String?> = CompletableDeferred()
-
     private val _tanRequested = MutableLiveData<TanRequest?>(null)
-
     val tanRequested: LiveData<TanRequest?> = _tanRequested
 
     private val tanMediumFuture: CompletableDeferred<Pair<String, Boolean>?> = CompletableDeferred()
-
     private val _tanMediumRequested = MutableLiveData<List<String>?>(null)
-
     val tanMediumRequested: LiveData<List<String>?> = _tanMediumRequested
 
+    private val pushTanFuture: CompletableDeferred<Unit> = CompletableDeferred()
     private val _pushTanRequested = MutableLiveData<String?>(null)
-
     val pushTanRequested: LiveData<String?> = _pushTanRequested
+
+    private val secMechFuture: CompletableDeferred<Pair<String, Boolean>?> = CompletableDeferred()
+    private val _secMechRequested = MutableLiveData<List<SecMech>?>(null)
+    val secMechRequested: LiveData<List<SecMech>?> = _secMechRequested
+
 
     private val _workState: MutableStateFlow<WorkState> =
         MutableStateFlow(WorkState.Initial)
@@ -171,7 +188,13 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         _tanMediumRequested.postValue(null)
     }
 
+    fun submitSecMech(selection: Pair<String, Boolean>?) {
+        secMechFuture.complete(selection)
+        _secMechRequested.postValue(null)
+    }
+
     fun confirmPushTan() {
+        pushTanFuture.complete(Unit)
         _pushTanRequested.postValue(null)
     }
 
@@ -546,10 +569,13 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         AbstractHBCICallback() {
         private val keySelectedTanMedium: String
             get() = "selectedTanMedium_${bankingCredentials.bank?.id}"
+        private val keySelectedSecMech: String
+            get() = "selectedSecMech_${bankingCredentials.bank?.id}"
 
         init {
             if (bankingCredentials.bank != null) {
                 selectedTanMedium = prefHandler.getString(keySelectedTanMedium)
+                selectedSecMech = prefHandler.getString(keySelectedSecMech)
             }
         }
 
@@ -557,6 +583,9 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
             prefHandler.putString(keySelectedTanMedium, selectedTanMedium)
         }
 
+        private fun persistSelectedSecMech() {
+            prefHandler.putString(keySelectedSecMech, selectedSecMech)
+        }
 
         override fun log(msg: String, level: Int, date: Date, trace: StackTraceElement) {
             log(msg)
@@ -609,18 +638,19 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                     }
 
                 NEED_PT_SECMECH -> {
-                    val options = retData.toString().split("|")
-                    if (options.size > 1) {
-                        Timber.e(
-                            "SecMech Selection Dialog not yet implemented (%s).",
-                            retData.toString()
-                        )
-                    }
-                    val firstOption = options[0]
-                    retData.replace(
-                        0,
-                        retData.length,
-                        firstOption.substring(0, firstOption.indexOf(":"))
+                    val options = SecMech.parse(retData.toString())
+                    retData.replace(0, retData.length,
+                        if (options.size == 1) {
+                            options[0].id
+                        } else selectedSecMech.takeIf { pref -> options.any { it.id == pref } } ?: runBlocking {
+                            _secMechRequested.postValue(options)
+                            secMechFuture.await()?.let { (secMec, shouldPersist) ->
+                                selectedSecMech = secMec
+                                if (shouldPersist) persistSelectedSecMech()
+                                secMec
+                            }
+                                ?: throw HBCI_Exception("Security mechanism selection cancelled")
+                        }
                     )
                 }
 
@@ -641,7 +671,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                     retData.replace(0, retData.length,
                         if (options.size == 1) {
                             options[0]
-                        } else selectedTanMedium ?: runBlocking {
+                        } else selectedTanMedium.takeIf { options.contains(it) } ?: runBlocking {
                             _tanMediumRequested.postValue(options)
                             tanMediumFuture.await()?.let { (medium, shouldPersist) ->
                                 selectedTanMedium = medium
@@ -655,6 +685,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
 
                 NEED_PT_DECOUPLED -> {
                     _pushTanRequested.postValue(msg)
+                    runBlocking { pushTanFuture.await() }
                 }
 
                 HAVE_ERROR -> Timber.e(msg)

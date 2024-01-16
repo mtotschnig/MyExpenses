@@ -128,10 +128,10 @@ fun ColumnScope.BankingCredentials(
 fun PushTanDialog(
     msg: String?,
     confirmPushTan: () -> Unit
-    ) {
+) {
     msg?.let {
         AlertDialog(
-            onDismissRequest = {  },
+            onDismissRequest = { },
             confirmButton = {
                 Button(onClick = {
                     confirmPushTan()
@@ -188,60 +188,78 @@ fun TanDialog(
 }
 
 @Composable
+fun SecMechDialog(
+    options: List<SecMech>?,
+    submitSecMech: (Pair<String, Boolean>?) -> Unit
+) {
+    options?.let {
+        SelectionDialog(options = options.map { it.id to it.name }, submit = submitSecMech)
+    }
+}
+
+@Composable
 fun TanMediaDialog(
     options: List<String>?,
     submitMedia: (Pair<String, Boolean>?) -> Unit
 ) {
     options?.let {
-        val (selectedOption, onOptionSelected) = remember { mutableStateOf(options[0]) }
-        val (shouldSaveSelection, onShouldSaveSelectionChanged) = remember { mutableStateOf(true) }
-        AlertDialog(
-            onDismissRequest = {
-                submitMedia(null)
-            },
-            confirmButton = {
-                Button(onClick = {
-                    submitMedia(selectedOption to shouldSaveSelection)
-                }) {
-                    Text(stringResource(id = android.R.string.ok))
-                }
-            },
-            text = {
-                Column(Modifier.selectableGroup()) {
-                    Text(stringResource(R.string.tan_medium_selection_prompt))
-                    options.forEach { text ->
-                        Row(
-                            Modifier
-                                .fillMaxWidth()
-                                .selectable(
-                                    selected = text == selectedOption,
-                                    onClick = { onOptionSelected(text) },
-                                    role = Role.RadioButton
-                                ),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            RadioButton(
-                                modifier = Modifier.minimumInteractiveComponentSize(),
-                                selected = text == selectedOption,
-                                onClick = null
-                            )
-                            Text(
-                                text = text,
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                        }
-                    }
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Checkbox(
-                            checked = shouldSaveSelection,
-                            onCheckedChange = onShouldSaveSelectionChanged
+        SelectionDialog(options = options.map { it to it }, submit = submitMedia)
+    }
+}
+
+@Composable
+private fun SelectionDialog(
+    options: List<Pair<String, String>>,
+    submit: (Pair<String, Boolean>?) -> Unit
+) {
+    val (selectedOption, onOptionSelected) = rememberSaveable { mutableStateOf(options[0]) }
+    val (shouldSaveSelection, onShouldSaveSelectionChanged) = rememberSaveable { mutableStateOf(true) }
+    AlertDialog(
+        onDismissRequest = {
+            submit(null)
+        },
+        confirmButton = {
+            Button(onClick = {
+                submit(selectedOption.first to shouldSaveSelection)
+            }) {
+                Text(stringResource(id = android.R.string.ok))
+            }
+        },
+        text = {
+            Column(Modifier.selectableGroup()) {
+                Text(stringResource(R.string.tan_medium_selection_prompt))
+                options.forEach { option ->
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .selectable(
+                                selected = option == selectedOption,
+                                onClick = { onOptionSelected(option) },
+                                role = Role.RadioButton
+                            ),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RadioButton(
+                            modifier = Modifier.minimumInteractiveComponentSize(),
+                            selected = option == selectedOption,
+                            onClick = null
                         )
-                        Text(text = stringResource(id = R.string.checkbox_should_save_selection_label))
+                        Text(
+                            text = option.second,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
                     }
+                }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(
+                        checked = shouldSaveSelection,
+                        onCheckedChange = onShouldSaveSelectionChanged
+                    )
+                    Text(text = stringResource(id = R.string.checkbox_should_save_selection_label))
                 }
             }
-        )
-    }
+        }
+    )
 }
 
 @Composable

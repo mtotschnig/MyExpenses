@@ -46,4 +46,5 @@
     <string name="tan_medium_selection_prompt">Bitte wählen Sie die Bezeichnung des gewünschten TAN-Mediums aus:</string>
     <string name="checkbox_should_save_selection_label">Auswahl speichern</string>
     <string name="pushtan_dialog">Bitte bestätigen Sie mit OK, sobald Sie den Auftrag mit der pushTAN App bestätigt haben.</string>
+    <string name="sec_mech_selection_prompt">Bitte wählen Sie das gewünschte PIN/TAN-Verfahren:</string>
 </resources>
