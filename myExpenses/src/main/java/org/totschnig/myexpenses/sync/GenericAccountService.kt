@@ -66,7 +66,10 @@ class GenericAccountService : Service() {
 
         override fun addAccount(
             accountAuthenticatorResponse: AccountAuthenticatorResponse,
-            s: String, s2: String, strings: Array<String>, bundle: Bundle
+            accountType: String,
+            authTokenType: String?,
+            requiredFeatures: Array<String>?,
+            options: Bundle
         ): Bundle {
             return createManageSyncBackendIntentBundle()
         }
