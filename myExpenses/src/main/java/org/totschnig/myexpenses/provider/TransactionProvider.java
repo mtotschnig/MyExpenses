@@ -928,6 +928,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         newUri = TEMPLATES_URI + "/" + id;
       }
       case CATEGORIES -> {
+        CrashHandler.report(new Exception("Legacy CATEGORIES insert called. Consider migration to METHOD_SAVE_CATEGORY"));
         Long parentId = values.getAsLong(KEY_PARENTID);
         if (parentId == null && !values.containsKey(KEY_COLOR)) {
           values.put(KEY_COLOR, suggestNewCategoryColor(db));
@@ -1280,6 +1281,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case CATEGORIES ->
               throw new UnsupportedOperationException("Bulk update of categories is not supported");
       case CATEGORY_ID -> {
+        CrashHandler.report(new Exception("Legacy CATEGORY_ID update called. Consider migration to METHOD_SAVE_CATEGORY"));
         if (values.containsKey(KEY_PARENTID)) {
           Long parentId = values.getAsLong(KEY_PARENTID);
           if (parentId == null && !values.containsKey(KEY_COLOR)) {

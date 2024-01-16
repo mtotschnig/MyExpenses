@@ -1511,8 +1511,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val initialValues = ContentValues().apply {
             put(KEY_LABEL, category.label.trim())
             put(KEY_LABEL_NORMALIZED, Utils.normalize(category.label))
-            category.color.takeIf { it != 0 }?.let {
-                put(KEY_COLOR, it)
+            if (category.parentId != null) {
+                putNull(KEY_COLOR)
+            } else {
+                put(KEY_COLOR, category.color.takeIf { it != 0 } ?: suggestNewCategoryColor(db))
             }
             put(KEY_ICON, category.icon)
             if (category.id == 0L) {
