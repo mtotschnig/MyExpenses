@@ -11,6 +11,7 @@ android {
         minSdk 21
         consumerProguardFiles("consumer-rules.txt")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        resourceConfigurations = resConfig
     }
     compileOptions {
         coreLibraryDesugaringEnabled true
