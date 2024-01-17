@@ -27,16 +27,10 @@ class OcrHandlerImpl @Inject constructor(prefHandler: PrefHandler, application: 
         fun availableEngines(): List<Engine> = listOfNotNull(getEngine(Feature.TESSERACT), getEngine(Feature.MLKIT))
 
         fun getEngine(context: Context, prefHandler: PrefHandler) =
-                with (availableEngines()) {
-                    when(size) {
-                        0 -> null
-                        1 -> get(0)
-                        else -> find { it.javaClass.`package`?.name?.contains(getUserConfiguredOcrEngine(context, prefHandler).moduleName) == true  }
-                    }
-                }
+            getEngine(getUserConfiguredOcrEngine(context, prefHandler)) ?: availableEngines().firstOrNull()
 
-        fun getEngine(engine: Feature) = try {
-            Class.forName("org.totschnig.${engine.moduleName}.Engine").kotlin.objectInstance as Engine
+        fun getEngine(feature: Feature.OcrEngine): Engine? = try {
+            Class.forName(feature.engineClassName).kotlin.objectInstance as Engine
         } catch (e: Exception) {
             null
         }

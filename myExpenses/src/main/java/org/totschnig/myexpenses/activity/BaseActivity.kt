@@ -71,6 +71,7 @@ import org.totschnig.myexpenses.dialog.DialogUtils.PasswordDialogUnlockedCallbac
 import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
+import org.totschnig.myexpenses.feature.Module
 import org.totschnig.myexpenses.feature.values
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
@@ -103,7 +104,6 @@ import org.totschnig.myexpenses.viewmodel.OcrViewModel
 import org.totschnig.myexpenses.viewmodel.ShareViewModel
 import org.totschnig.myexpenses.viewmodel.data.EventObserver
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET_DATA_ENTRY
-import timber.log.Timber
 import java.io.Serializable
 import java.math.BigDecimal
 import java.util.*
@@ -404,13 +404,16 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 )
 
                 is FeatureViewModel.FeatureState.FeatureAvailable -> {
-                    Feature.values.find { featureState.modules.contains(it.moduleName) }?.also {
-                        showSnackBar(
-                            getString(
-                                R.string.feature_downloaded,
-                                getString(it.labelResId)
-                            )
-                        )
+                    showSnackBar(
+                        featureState.modules.map { Module.from(it).labelResId }
+                            .joinToString(" ") {
+                                getString(
+                                    R.string.feature_downloaded,
+                                    getString(it)
+                                )
+                            }
+                    )
+                    Feature.values.find { featureState.modules.contains(it.mainModule.moduleName) }?.also {
                         //after the dynamic feature module has been installed, we need to check if data needed by the module (e.g. Tesseract) has been downloaded
                         if (!featureViewModel.isFeatureAvailable(this, it)) {
                             featureViewModel.requestFeature(this, it)
@@ -418,6 +421,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                             onFeatureAvailable(it)
                         }
                     } ?: run { report(Throwable("No feature found for ${featureState.modules.joinToString()}")) }
+
                 }
 
                 is FeatureViewModel.FeatureState.Error -> {
@@ -1209,8 +1213,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 )
             }
             CropImage.activity()
-                .setCameraOnly(!prefHandler.getBoolean(PrefKey.CAMERA_CHOOSER,  false))
-                .setCameraPackage(prefHandler.getString(PrefKey.CAMERA_APP)?.takeIf { it.isNotEmpty() })
+                .setCameraOnly(!prefHandler.getBoolean(PrefKey.CAMERA_CHOOSER, false))
+                .setCameraPackage(
+                    prefHandler.getString(PrefKey.CAMERA_APP)?.takeIf { it.isNotEmpty() })
                 .setAllowFlipping(false)
                 .setCaptureImageOutputUri(uris.first)
                 .setOutputUri(uris.second)

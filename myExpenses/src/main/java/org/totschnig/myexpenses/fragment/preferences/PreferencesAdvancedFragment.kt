@@ -15,7 +15,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.SelectDefaultTransferCategoryDialogFragment
 import org.totschnig.myexpenses.dialog.SelectDefaultTransferCategoryDialogFragment.Companion.SELECT_CATEGORY_REQUEST
-import org.totschnig.myexpenses.feature.Feature
+import org.totschnig.myexpenses.feature.Module
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference
 import org.totschnig.myexpenses.preference.PrefKey
@@ -157,18 +157,15 @@ class PreferencesAdvancedFragment : BasePreferenceFragment(),
     private fun configureUninstallPrefs() {
         configureMultiSelectListPref(
             PrefKey.FEATURE_UNINSTALL_FEATURES,
-            featureManager.installedFeatures(requireContext(), prefHandler),
-            featureManager::uninstallFeatures
-        ) { module ->
-            Feature.fromModuleName(module)?.let { getString(it.labelResId) } ?: module
-        }
+            featureManager.installedModules(requireContext(), prefHandler),
+            featureManager::uninstallModules
+        ) { getString( Module.from(it).labelResId) }
+
         configureMultiSelectListPref(
             PrefKey.FEATURE_UNINSTALL_LANGUAGES,
-            featureManager.installedLanguages(),
+            featureManager.installedLanguages() - "en",
             featureManager::uninstallLanguages
-        ) { language ->
-            Locale(language).let { it.getDisplayName(it) }
-        }
+        ) { language -> Locale(language).let { it.getDisplayName(it) } }
     }
 
     private fun configureMultiSelectListPref(

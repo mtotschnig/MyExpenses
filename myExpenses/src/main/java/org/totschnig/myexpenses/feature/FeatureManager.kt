@@ -15,18 +15,52 @@ import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.Utils
 import java.util.*
 
-sealed class Feature(@StringRes val labelResId: Int, val moduleName: String) {
+enum class Module(@StringRes val labelResId: Int) {
+    OCR(R.string.title_scan_receipt_feature),
+    WEBUI(R.string.title_webui),
+    TESSERACT(R.string.title_tesseract),
+    MLKIT(R.string.title_mlkit),
+    MLKIT_DEVA(R.string.title_mlkit_deva),
+    MLKIT_HAN(R.string.title_mlkit_han),
+    MLKIT_JPAN(R.string.title_mlkit_jpan),
+    MLKIT_KORE(R.string.title_mlkit_kore),
+    MLKIT_LATN(R.string.title_mlkit_latn),
+    DRIVE(R.string.title_drive),
+    DROPBOX(R.string.title_dropbox),
+    WEBDAV(R.string.title_webdav),
+    ONEDRIVE(R.string.title_onedrive),
+    SQLCRYPT(R.string.title_sqlcrypt),
+    FINTS(R.string.title_fints),
+    JACKSON(R.string.title_jackson);
+
+    val moduleName: String
+        get() = name.lowercase(Locale.ROOT)
+
+    companion object {
+        fun from(moduleName: String) = valueOf(moduleName.uppercase(Locale.ROOT))
+    }
+}
+
+sealed class Feature(vararg val requiredModules: Module) {
+
+    val labelResId: Int = mainModule.labelResId
+
+    val mainModule
+        get() = requiredModules.first()
 
     open fun canUninstall(context: Context, prefHandler: PrefHandler) = false
 
     @GenSealedEnum
     companion object {
-        fun fromModuleName(moduleName: String) = Feature.values.find { it.moduleName == moduleName }
+        fun dependentFeatures(moduleName: String) = Feature.values
+            .filter {
+                it.requiredModules.contains(Module.from(moduleName))
+            }
 
     }
 
-    sealed class SyncBackend(labelResId: Int, moduleName: String) :
-        Feature(labelResId, moduleName) {
+    sealed class SyncBackend(vararg requiredModules: Module) :
+        Feature(*requiredModules) {
         override fun canUninstall(context: Context, prefHandler: PrefHandler) =
             GenericAccountService.getAccountNames(context).none { account ->
                 account.startsWith(
@@ -35,66 +69,78 @@ sealed class Feature(@StringRes val labelResId: Int, val moduleName: String) {
             }
     }
 
-    data object OCR : Feature(R.string.title_scan_receipt_feature, "ocr") {
+    data object OCR : Feature(Module.OCR) {
         override fun canUninstall(context: Context, prefHandler: PrefHandler) =
             !prefHandler.getBoolean(PrefKey.OCR, false)
     }
 
-    sealed class OcrEngine(labelResId: Int, moduleName: String) :
-        Feature(labelResId, moduleName) {
+    sealed class OcrEngine(val engineClassName: String, vararg requiredModules: Module) :
+        Feature(*requiredModules) {
         override fun canUninstall(context: Context, prefHandler: PrefHandler) =
             OCR.canUninstall(context, prefHandler) ||
                     getUserConfiguredOcrEngine(context, prefHandler) != this
     }
 
-    sealed class MlkitProcessor(labelResId: Int, moduleName: String) :
-        Feature(labelResId, moduleName) {
+    sealed class MlkitProcessor(vararg requiredModules: Module) :
+        Feature(*requiredModules) {
         override fun canUninstall(context: Context, prefHandler: PrefHandler) =
             OCR.canUninstall(context, prefHandler) ||
                     MLKIT.canUninstall(context, prefHandler) ||
                     getUserConfiguredMlkitScriptModule(context, prefHandler) != this
     }
 
-    data object WEBUI : Feature(R.string.title_webui, "webui") {
+    data object WEBUI : Feature(Module.WEBUI) {
         override fun canUninstall(context: Context, prefHandler: PrefHandler) =
             !prefHandler.getBoolean(PrefKey.UI_WEB, false)
     }
 
-    data object TESSERACT : OcrEngine(R.string.title_tesseract, "tesseract")
-    data object MLKIT : OcrEngine(R.string.title_mlkit, "mlkit")
-    data object DEVA : MlkitProcessor(R.string.title_mlkit_deva, "mlkit_deva")
-    data object HAN : MlkitProcessor(R.string.title_mlkit_han, "mlkit_han")
-    data object JPAN : MlkitProcessor(R.string.title_mlkit_jpan, "mlkit_jpan")
-    data object KORE : MlkitProcessor(R.string.title_mlkit_kore, "mlkit_kore")
-    data object LATN : MlkitProcessor(R.string.title_mlkit_latn, "mlkit_latn")
-    data object DRIVE : SyncBackend(R.string.title_drive, "drive")
-    data object DROPBOX : SyncBackend(R.string.title_dropbox, "dropbox")
-    data object WEBDAV : SyncBackend(R.string.title_webdav, "webdav")
-    data object ONEDRIVE : SyncBackend(R.string.title_onedrive, "onedrive")
-    data object SQLCRYPT: Feature(R.string.title_sqlcrypt, "sqlcrypt") {
+    data object TESSERACT : OcrEngine(
+        "org.totschnig.tesseract.Engine",
+        Module.TESSERACT
+    )
+    data object MLKIT : OcrEngine(
+        "org.totschnig.mlkit.Engine",
+        Module.MLKIT
+    )
+    data object DEVA : MlkitProcessor(Module.MLKIT_DEVA)
+    data object HAN : MlkitProcessor(Module.MLKIT_HAN)
+    data object JPAN : MlkitProcessor(Module.MLKIT_JPAN)
+    data object KORE : MlkitProcessor(Module.MLKIT_KORE)
+    data object LATN : MlkitProcessor(Module.MLKIT_LATN)
+    data object DRIVE : SyncBackend(Module.DRIVE)
+    data object DROPBOX : SyncBackend(Module.DROPBOX, Module.JACKSON)
+    data object WEBDAV : SyncBackend(Module.WEBDAV)
+    data object ONEDRIVE : SyncBackend(Module.ONEDRIVE, Module.JACKSON)
+    data object SQLCRYPT: Feature(Module.SQLCRYPT) {
         override fun canUninstall(context: Context, prefHandler: PrefHandler): Boolean {
             return !prefHandler.encryptDatabase
         }
     }
-    data object FINTS: Feature(R.string.title_fints, "fints")
+    data object FINTS: Feature(Module.FINTS)
 }
 
 enum class Script {
     Latn, Han, Deva, Jpan, Kore
 }
 
-fun getUserConfiguredOcrEngine(context: Context, prefHandler: PrefHandler) =
-    prefHandler.getString(PrefKey.OCR_ENGINE, null)?.let { Feature.fromModuleName(it) }
+fun getUserConfiguredOcrEngine(context: Context, prefHandler: PrefHandler): Feature.OcrEngine =
+    prefHandler.getString(PrefKey.OCR_ENGINE, null)?.let {
+        when(it) {
+            "tesseract" -> Feature.TESSERACT
+            "mlkit" -> Feature.MLKIT
+            else -> null
+        }
+    }
         ?: getDefaultOcrEngine(context)
 
-fun getUserConfiguredMlkitScriptModule(context: Context, prefHandler: PrefHandler) =
-    Feature.fromModuleName(
-        "mlkit_${
-            getUserConfiguredMlkitScript(context, prefHandler).name.lowercase(
-                Locale.ROOT
-            )
-        }"
-    )!!
+fun getUserConfiguredMlkitScriptModule(context: Context, prefHandler: PrefHandler): Feature =
+    when( getUserConfiguredMlkitScript(context, prefHandler)) {
+        Script.Latn -> Feature.LATN
+        Script.Han -> Feature.HAN
+        Script.Deva -> Feature.DEVA
+        Script.Jpan -> Feature.JPAN
+        Script.Kore -> Feature.KORE
+    }
 
 fun getUserConfiguredMlkitScript(context: Context, prefHandler: PrefHandler) =
     prefHandler.enumValueOrDefault(PrefKey.MLKIT_SCRIPT, defaultScript(context))
@@ -111,7 +157,7 @@ private fun defaultScript(context: Context) =
 /**
  * check if language is unsupported by MlKit, but supported by Tesseract
  */
-fun getDefaultOcrEngine(context: Context) =
+fun getDefaultOcrEngine(context: Context): Feature.OcrEngine =
     if (getLocaleForUserCountry(context).language in arrayOf(
             "am", "ar", "as", "be", "bn", "bo", "bg", "dz", "el", "fa", "gu", "iw",
             "iu", "jv", "kn", "ka", "kk", "km", "ky", "lo", "ml", "mn", "my", "ne", "or",
@@ -171,14 +217,14 @@ abstract class FeatureManager {
     }
 
     open fun allowsUninstall() = false
-    open fun installedFeatures(
+    open fun installedModules(
         context: Context,
         prefHandler: PrefHandler,
         onlyUninstallable: Boolean = true
     ): Set<String> = emptySet()
 
     open fun installedLanguages(): Set<String> = emptySet()
-    open fun uninstallFeatures(features: Set<String>) {}
+    open fun uninstallModules(features: Set<String>) {}
     open fun uninstallLanguages(languages: Set<String>) {}
 }
 

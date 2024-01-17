@@ -11,8 +11,10 @@ class FeatureTest {
         assertThat(allFeatures).containsExactlyElementsIn(
             getAllObjectInstances(Feature::class)
         )
-        allFeatures.forEach {
-            assertThat(Feature.fromModuleName(it.moduleName)).isEqualTo(it)
+        allFeatures.forEach { feature ->
+            feature.requiredModules.forEach { module ->
+                assertThat(Feature.dependentFeatures(module.moduleName)).contains(feature)
+            }
         }
     }
 }
