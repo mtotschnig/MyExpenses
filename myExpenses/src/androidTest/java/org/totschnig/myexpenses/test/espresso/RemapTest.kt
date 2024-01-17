@@ -30,7 +30,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
-import org.totschnig.myexpenses.testutils.childAtPosition
 import java.time.ZonedDateTime
 
 class RemapTest : BaseMyExpensesTest() {
@@ -99,7 +98,7 @@ class RemapTest : BaseMyExpensesTest() {
         writeCategory(catLabel)
         launch(account1.id)
         openCab(R.id.REMAP_PARENT)
-        onView(allOf(withText(R.string.category))).perform(click())
+        onView(withText(R.string.category)).perform(click())
         composeTestRule.onNodeWithText(catLabel).performClick()
         confirmRemap(doClone)
         verifyCatIdsForTransfers()
@@ -124,7 +123,7 @@ class RemapTest : BaseMyExpensesTest() {
     private fun doRemapAccount(accountId: Long, target: String, doClone: Boolean = false) {
         launch(accountId)
         openCab(R.id.REMAP_PARENT)
-        onView(allOf(withText(R.string.account))).perform(click())
+        onView(withText(R.string.account)).perform(click())
         composeTestRule.onAllNodesWithText(target)
             .filterToOne(hasAnyAncestor(hasTestTag(TEST_TAG_SELECT_DIALOG)))
             .performClick()
@@ -132,14 +131,8 @@ class RemapTest : BaseMyExpensesTest() {
 
         onView(
             allOf(
-                withId(android.R.id.button1), withText(android.R.string.ok),
-                childAtPosition(
-                    childAtPosition(
-                        withId(androidx.appcompat.R.id.buttonPanel),
-                        0
-                    ),
-                    3
-                )
+                withId(android.R.id.button1),
+                withText(android.R.string.ok)
             )
         ).perform(ViewActions.scrollTo(), click())
         confirmRemap(doClone)
@@ -153,13 +146,6 @@ class RemapTest : BaseMyExpensesTest() {
             allOf(
                 withId(android.R.id.button1),
                 withText(if (doClone) R.string.button_label_clone_and_remap else R.string.menu_remap),
-                childAtPosition(
-                    childAtPosition(
-                        withId(androidx.appcompat.R.id.buttonPanel),
-                        0
-                    ),
-                    3
-                )
             )
         ).inRoot(isDialog()).perform(ViewActions.scrollTo(), click())
     }
