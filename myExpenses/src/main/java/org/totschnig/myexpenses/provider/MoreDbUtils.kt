@@ -9,6 +9,7 @@ import android.content.res.Resources
 import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase
+import android.os.Build
 import android.provider.CalendarContract
 import android.provider.CalendarContract.Calendars
 import androidx.sqlite.db.SimpleSQLiteQuery
@@ -495,6 +496,18 @@ fun backup(backupDir: File, context: Context, prefHandler: PrefHandler): Result<
     }
 }
 
+fun Context.maybeRepairRequerySchema(prefHandler: PrefHandler) {
+    if (!prefHandler.encryptDatabase && Build.VERSION.SDK_INT == 30 && prefHandler.getInt(
+            PrefKey.CURRENT_VERSION,
+            -1
+        ) in 557..588
+    ) {
+        maybeRepairRequerySchema(getDatabasePath("data").path)
+        prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, false)
+    }
+}
+
+
 fun maybeRepairRequerySchema(path: String) {
     val version = io.requery.android.database.sqlite.SQLiteDatabase.openDatabase(
         path,
@@ -509,7 +522,6 @@ fun maybeRepairRequerySchema(path: String) {
 }
 
 fun doRepairRequerySchema(path: String) {
-    Timber.w("Dropping views with requery")
     io.requery.android.database.sqlite.SQLiteDatabase.openDatabase(
         path,
         null,
@@ -526,6 +538,7 @@ fun doRepairRequerySchema(path: String) {
         db.execSQL("DROP VIEW IF EXISTS $VIEW_TEMPLATES_EXTENDED")
         db.execSQL("DROP VIEW IF EXISTS $VIEW_TEMPLATES_UNCOMMITTED")
     }
+    CrashHandler.report(Throwable("Requery repair done"))
 }
 
 fun checkSyncAccounts(context: Context) {

@@ -339,14 +339,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     open fun maybeRepairRequerySchema() {
-        if (!prefHandler.encryptDatabase && Build.VERSION.SDK_INT == 30 && prefHandler.getInt(
-                PrefKey.CURRENT_VERSION,
-                -1
-            ) in 557..588
-        ) {
-            maybeRepairRequerySchema(getDatabasePath("data").path)
-            prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, false)
-        }
+        maybeRepairRequerySchema(prefHandler)
     }
 
     fun harmonizeColors() {

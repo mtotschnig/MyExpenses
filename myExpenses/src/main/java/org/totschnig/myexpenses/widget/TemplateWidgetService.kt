@@ -39,8 +39,6 @@ class TemplateRemoteViewsFactory(
     val context: Context,
     intent: Intent
 ) : AbstractRemoteViewsFactory(context, intent) {
-    @Inject
-    lateinit var prefHandler: PrefHandler
 
     init {
         context.injector.inject(this)

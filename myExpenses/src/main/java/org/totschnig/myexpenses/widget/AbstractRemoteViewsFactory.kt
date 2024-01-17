@@ -10,15 +10,21 @@ import android.widget.RemoteViewsService
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.view.ContextThemeWrapper
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.maybeRepairRequerySchema
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import javax.inject.Inject
 import kotlin.math.sign
 
 abstract class AbstractRemoteViewsFactory(
     private val context: Context,
     intent: Intent
 ) : RemoteViewsService.RemoteViewsFactory {
+
+    @Inject
+    lateinit var prefHandler: PrefHandler
 
     protected var cursor: Cursor? = null
     protected val width: Int = intent.getIntExtra(KEY_WIDTH, Int.MAX_VALUE)
@@ -44,6 +50,7 @@ abstract class AbstractRemoteViewsFactory(
     }
 
     override fun onDataSetChanged() {
+        context.maybeRepairRequerySchema(prefHandler)
         cursor?.close()
         val token = Binder.clearCallingIdentity()
         try {
