@@ -47,6 +47,6 @@
     <string name="fints_intro_2">From the Settings screen, additional bank connections can be configured.</string>
     <string name="tan_medium_selection_prompt">Please select one of the available TAN media:</string>
     <string name="checkbox_should_save_selection_label">Save selection</string>
-    <string name="pushtan_dialog">Please click on OK, once you have confirmed the request using the pushTAN app.</string>
+    <string name="pushtan_dialog">Please confirm the request on your smartphone.</string>
     <string name="sec_mech_selection_prompt">Please select the desired PIN/TAN mechanism:</string>
 </resources>
