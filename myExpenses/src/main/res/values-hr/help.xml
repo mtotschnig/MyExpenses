@@ -79,7 +79,7 @@
     <string name="cab_link_help_text">Trošak na jednom računu može se povezati s prihodom na drugom računu. Ako računi imaju istu valutu, obje transakcije moraju imati identične iznose.</string>
     <string name="help_ManageMethods_info">Ovaj ekran prikazuje popis unaprijed definiranih načina plaćanja (ček, kreditna kartica, polog, izravno terećenje) i omogućuje definiranje novih. Koristi plutajući gumb radnje za otvaranje obrasca za stvaranje novog načina plaćanja.</string>
     <string name="help_ManageParties_select_mapping_info">Odaberi stranku dodirom.</string>
-    <string name="help_ManageParties_select_filter_info">Dodirni stranku za filtriranje popisa transakcija. Dodirni dugo za biranje više stranaka.</string>
+    <string name="help_ManageParties_select_filter_info">Dodirni stranke za filtriranje popisa transakcija.</string>
     <string name="help_ManageParties_floating_action_button">Koristi plutajući gumb radnji za dodavanje novog unosa.</string>
     <string name="menu_merge_help_text">Ako se ista stranka u popisu pojavljuje više puta u različitim varijantama pisanja, možeš ih spojiti.</string>
     <string name="help_ManageParties_mergeMode_info_2">Morat ćeš odlučiti koju varijantu želiš zadržati.</string>
@@ -133,4 +133,8 @@
     <string name="form_plan_help_text">Kada stvoriš plan za predložak, on se dodaje u privatni kalendar kojim upravlja tvoja aplikacija Kalendar. Plan možeš definirati kao jednokratni događaj ili kao dnevno, tjedno, mjesečno ili godišnje ponavljajući događaj.</string>
     <string name="menu_templates_help_text">Otvori izbornik s popisom svih predložaka koji omogućuje njihovo brzo učitavanje u obrazac.</string>
     <string name="form_plan_help_text_advanced">Nakon što spremiš predložak, možeš konfigurirati naprednije vrste ponavljanja koristeći svoju aplikaciju kalendara.</string>
+    <string name="menu_original_amount_help_text">Prikaži polje koje omogućuje definiranje dodatnog iznosa. Na primjer, ako plaćaš svojom kreditnom karticom u stranoj valuti, možeš zapamtiti izvornu cijenu dodatno iznosu terećenja tvoje kartice. Izvorni iznos se zanemaruje za izračunavanje ukupnih iznosa.</string>
+    <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Ako su valute računa „Od” i „U” različite, navedi iznos samo za jednu od njih. Drugi račun će se izračunati kada stvoriš instance iz predloška.</string>
+    <string name="help_ManageParties_floating_action_button_2">Koristi plutajući gumb radnje za potvrđivanje odabira.</string>
+    <string name="help_ManageParties_mergeMode_info_1">Odaberi duple stranke koje želiš sjediniti.</string>
 </resources>

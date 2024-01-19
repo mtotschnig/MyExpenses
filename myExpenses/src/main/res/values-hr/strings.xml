@@ -145,7 +145,7 @@
     <string name="menu_edit_template">Uredi predložak</string>
     <string name="menu_edit_transaction">Uredi transakciju</string>
     <string name="menu_edit_transfer">Uredi prijenos</string>
-    <string name="menu_exclude_from_totals">Isključi iz ukupnog iznosa</string>
+    <string name="menu_exclude_from_totals">Isključi iz ukupnih iznosa</string>
     <string name="menu_forward">Naprijed</string>
     <string name="menu_grouping">Grupiranje</string>
     <string name="menu_help">Pomoć</string>
@@ -322,8 +322,8 @@
     <string name="total_reconciled">Usklađeno ukupno</string>
     <string name="transaction">Transakcija</string>
     <string name="transfer">Prijenos</string>
-    <string name="transfer_from_account">Šalje</string>
-    <string name="transfer_to_account">Prima</string>
+    <string name="transfer_from_account">Od</string>
+    <string name="transfer_to_account">U</string>
     <!-- Type refers to the type of an account, eg. Cash account, bank account -->
     <string name="type">Vrsta</string>
     <string name="unsplit_amount">Nepodijeljen iznos</string>
