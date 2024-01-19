@@ -69,3 +69,5 @@
 -dontwarn com.google.j2objc.annotations.Weak
 
 -keep class javax.xml.datatype.Duration { *; }
+
+-dontwarn com.microsoft.device.display.DisplayMask
