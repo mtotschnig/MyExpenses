@@ -52,6 +52,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CALLER_IS_IN_BULK
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_SORT_DIRECTION
 import org.totschnig.myexpenses.sync.json.CategoryExport
+import org.totschnig.myexpenses.sync.json.CategoryInfo
 import org.totschnig.myexpenses.sync.json.ICategoryInfo
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ResultUnit
@@ -1303,6 +1304,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     fun ensureCategoryTree(db: SupportSQLiteDatabase, extras: Bundle): Bundle {
         db.beginTransaction()
         try {
+            extras.classLoader = javaClass.classLoader
             val result = Bundle(1).apply {
                 putInt(
                     KEY_COUNT, ensureCategoryTreeInternal(
@@ -1340,6 +1342,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     fun ensureCategory(db: SupportSQLiteDatabase, extras: Bundle): Bundle {
         db.beginTransaction()
         try {
+            extras.classLoader = javaClass.classLoader
             val result = Bundle(1).apply {
                 putSerializable(
                     KEY_RESULT,
@@ -1348,7 +1351,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         BundleCompat.getParcelable(
                             extras,
                             KEY_CATEGORY_INFO,
-                            ICategoryInfo::class.java
+                            CategoryInfo::class.java
                         )!!,
                         if (extras.containsKey(KEY_PARENTID)) extras.getLong(KEY_PARENTID) else null
                     )

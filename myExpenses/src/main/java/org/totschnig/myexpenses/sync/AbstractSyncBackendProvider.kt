@@ -211,6 +211,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         sequenceNumber: SequenceNumber,
         inputStream: InputStream
     ): ChangeSet {
+        log().i("getChangeSetFromInputStream for $sequenceNumber")
         val changes: MutableList<TransactionChange>? =
             BufferedReader(InputStreamReader(maybeDecrypt(inputStream))).use { reader ->
                 getChanges(gson, reader)
@@ -548,7 +549,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         private const val KEY_OWNED_BY_US = "ownedByUs"
         private const val KEY_TIMESTAMP = "timestamp"
         private val LOCK_TIMEOUT_MILLIS =
-            TimeUnit.MINUTES.toMillis(SyncAdapter.LOCK_TIMEOUT_MINUTES.toLong())
+            TimeUnit.MINUTES.toMillis(SyncAdapter.LOCK_TIMEOUT_MINUTES)
         const val ENCRYPTION_TOKEN_FILE_NAME = "ENCRYPTION_TOKEN"
     }
 

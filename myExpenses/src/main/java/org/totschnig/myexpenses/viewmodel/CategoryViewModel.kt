@@ -455,7 +455,7 @@ open class CategoryViewModel(
                 .fold(
                     onSuccess = { list ->
                         try {
-                            "Imported ${list.sumOf { repository.ensureCategoryTree(it, null) }} categories"
+                            "Imported ${list.sumOf { repository.ensureCategoryTree(it) }} categories"
                         } catch (e: Exception) {
                             e.safeMessage
                         }

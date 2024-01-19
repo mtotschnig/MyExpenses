@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.db2
 
-import android.content.ContentUris
 import android.graphics.Color
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat

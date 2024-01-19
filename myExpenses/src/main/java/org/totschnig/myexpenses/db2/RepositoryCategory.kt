@@ -1,25 +1,17 @@
 package org.totschnig.myexpenses.db2
 
-import android.content.ContentProviderOperation
-import android.content.ContentProviderOperation.newDelete
-import android.content.ContentProviderOperation.newUpdate
 import android.content.ContentUris
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
-import android.net.Uri
 import android.os.Bundle
 import androidx.annotation.VisibleForTesting
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
-import androidx.core.database.getStringOrNull
-import arrow.core.Tuple6
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
@@ -36,11 +28,9 @@ import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SAVE_CATEGOR
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.sync.json.CategoryExport
+import org.totschnig.myexpenses.sync.json.CategoryInfo
 import org.totschnig.myexpenses.sync.json.ICategoryInfo
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.data.Category
-import java.io.IOException
-import java.util.UUID
 import kotlin.experimental.or
 
 const val FLAG_TRANSFER: Byte = 0
@@ -113,13 +103,13 @@ fun Repository.findCategory(label: String, parentId: Long? = null): Long {
     } ?: -1
 }
 
-fun Repository.ensureCategoryTree(categoryExport: CategoryExport, parentId: Long?): Int {
+fun Repository.ensureCategoryTree(categoryExport: CategoryExport): Int {
     return contentResolver.call(DUAL_URI, METHOD_ENSURE_CATEGORY_TREE, null, Bundle().apply {
         putParcelable(KEY_CATEGORY_EXPORT, categoryExport)
     })!!.getInt(KEY_COUNT)
 }
 
-fun Repository.ensureCategory(categoryInfo: ICategoryInfo, parentId: Long?) =
+fun Repository.ensureCategory(categoryInfo: CategoryInfo, parentId: Long?) =
     contentResolver.call(DUAL_URI, METHOD_ENSURE_CATEGORY, null, Bundle().apply {
         putParcelable(KEY_CATEGORY_INFO, categoryInfo)
         parentId?.let { putLong(KEY_PARENTID, it) }
