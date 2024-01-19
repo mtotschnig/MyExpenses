@@ -96,7 +96,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 
-const val DATABASE_VERSION = 158
+const val DATABASE_VERSION = 159
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -773,6 +773,12 @@ abstract class BaseTransactionDatabase(
     fun SupportSQLiteDatabase.upgradeTo158() {
         prefHandler.defaultTransferCategory?.let {
             execSQL("UPDATE categories SET uuid = '$DEFAULT_TRANSFER_CATEGORY_UUID' WHERE _id = $it")
+        }
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo159() {
+        prefHandler.defaultTransferCategory?.let {
+            execSQL("UPDATE templates SET cat_id = $it WHERE cat_id IS NULL AND transfer_account is not null")
         }
     }
 
