@@ -10,7 +10,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.getProjectionExtended
 import org.totschnig.myexpenses.provider.DatabaseConstants.getProjectionExtendedAggregate
 import org.totschnig.myexpenses.provider.DatabaseConstants.getProjectionExtendedHome
-import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_SORT_DIRECTION
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 
 /**
@@ -55,12 +54,9 @@ abstract class DataBaseAccount : IAccount {
         val args = filter?.getSelectionArgs(true)
         return Triple(
             groupingUriBuilder(grouping).apply {
-                if (id > 0) {
-                    appendQueryParameter(KEY_ACCOUNTID, id.toString())
-                } else if (!isHomeAggregate(id)) {
-                    appendQueryParameter(KEY_CURRENCY, currency)
+                queryParameter?.let {
+                    appendQueryParameter(it.first, it.second)
                 }
-                appendQueryParameter(QUERY_PARAMETER_SORT_DIRECTION, sortDirection.name)
             }.build(),
             selection,
             args

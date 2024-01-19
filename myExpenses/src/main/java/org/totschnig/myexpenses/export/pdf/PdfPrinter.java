@@ -21,10 +21,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
@@ -33,7 +29,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_WEEK_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.convAmount;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
 
@@ -82,6 +77,8 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.io.DocumentFileExtensionKt;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 import org.totschnig.myexpenses.viewmodel.data.DateInfo;
+import org.totschnig.myexpenses.viewmodel.data.HeaderData;
+import org.totschnig.myexpenses.viewmodel.data.HeaderRow;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -89,6 +86,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -213,10 +211,14 @@ public class PdfPrinter {
     Triple<Uri, String, String[]> groupingQuery = account.groupingQuery(filter);
     Cursor groupCursor = context.getContentResolver().query(groupingQuery.getFirst(), null,
             groupingQuery.getSecond(), groupingQuery.getThird(), null);
+    Map<Integer, HeaderRow> integerHeaderRowMap = HeaderData.Companion.fromSequence(
+            account.getOpeningBalance(),
+            account.getGrouping(),
+            currencyUnit(),
+            CursorExtKt.getAsSequence(groupCursor)
+    );
+    groupCursor.close();
 
-    int columnIndexGroupSumIncome = groupCursor.getColumnIndex(KEY_SUM_INCOME);
-    int columnIndexGroupSumExpense = groupCursor.getColumnIndex(KEY_SUM_EXPENSES);
-    int columnIndexGroupSumTransfer = groupCursor.getColumnIndex(KEY_SUM_TRANSFERS);
     int columnIndexRowId = transactionCursor.getColumnIndex(KEY_ROWID);
     int columnIndexYear = transactionCursor.getColumnIndex(KEY_YEAR);
     int columnIndexYearOfWeekStart = transactionCursor.getColumnIndex(KEY_YEAR_OF_WEEK_START);
@@ -246,8 +248,6 @@ public class PdfPrinter {
     int prevHeaderId = 0, currentHeaderId;
 
     transactionCursor.moveToFirst();
-    groupCursor.moveToFirst();
-    long previousBalance = account.getOpeningBalance();
 
     while (transactionCursor.getPosition() < transactionCursor.getCount()) {
       int year = transactionCursor.getInt(account.getGrouping().equals(Grouping.WEEK) ? columnIndexYearOfWeekStart : columnIndexYear);
@@ -278,38 +278,31 @@ public class PdfPrinter {
                 DateInfo.Companion.fromCursor(transactionCursor), getLocalDateIfExists(transactionCursor, KEY_WEEK_START), false), //TODO
                 FontType.HEADER);
         table.addCell(cell);
-        if (groupCursor.isAfterLast()) {
-          Timber.w("Account: %s, currentHeaderId; %d, prevHeaderId: %d, filter: %s",
-                  account, currentHeaderId, prevHeaderId, filter);
-          throw new IllegalStateException();
-        }
-        long sumExpense = groupCursor.getLong(columnIndexGroupSumExpense);
-        long sumIncome = groupCursor.getLong(columnIndexGroupSumIncome);
-        long sumTransfer = groupCursor.getLong(columnIndexGroupSumTransfer);
-        long delta = sumIncome + sumExpense + sumTransfer;
-        long interimBalance = previousBalance + delta;
-        String formattedDelta = String.format("%s %s", Long.signum(delta) > -1 ? "+" : "-",
-            convAmount(currencyFormatter, Math.abs(delta), currencyUnit()));
+        HeaderRow headerRow = integerHeaderRowMap.get(currentHeaderId);
+        Money sumExpense = headerRow.getExpenseSum();
+        Money sumIncome = headerRow.getIncomeSum();
+        Money sumTransfer = headerRow.getTransferSum();
+        Money delta = headerRow.getDelta();
+        Money interimBalance = headerRow.getInterimBalance();
+        String formattedDelta = String.format("%s %s", Long.signum(delta.getAmountMinor()) > -1 ? "+" : "-",
+            convAmount(currencyFormatter, Math.abs(delta.getAmountMinor()), currencyUnit()));
         cell = helper.printToCell(
             filter.isEmpty() ? String.format("%s %s = %s",
-                convAmount(currencyFormatter, previousBalance, currencyUnit()), formattedDelta,
-                convAmount(currencyFormatter, interimBalance, currencyUnit())) :
+                formatMoney(currencyFormatter, headerRow.getPreviousBalance()), formattedDelta,
+                formatMoney(currencyFormatter, interimBalance)) :
                 formattedDelta, FontType.HEADER);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(cell);
         document.add(table);
         table = helper.newTable(3);
         table.setWidthPercentage(100f);
-        cell = helper.printToCell("+ " + convAmount(currencyFormatter, sumIncome,
-            currencyUnit()), FontType.NORMAL);
+        cell = helper.printToCell("+ " + formatMoney(currencyFormatter, sumIncome), FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
-        cell = helper.printToCell("- " + convAmount(currencyFormatter, -sumExpense,
-            currencyUnit()), FontType.NORMAL);
+        cell = helper.printToCell("- " + formatMoney(currencyFormatter, sumExpense.negate()), FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
-        cell = helper.printToCell(Transfer.BI_ARROW + " " + convAmount(currencyFormatter, sumTransfer,
-            currencyUnit()), FontType.NORMAL);
+        cell = helper.printToCell(Transfer.BI_ARROW + " " + formatMoney(currencyFormatter, sumTransfer), FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
         table.setSpacingAfter(2f);
@@ -363,8 +356,6 @@ public class PdfPrinter {
         table.setSpacingAfter(2f);
         table.setWidthPercentage(100f);
         prevHeaderId = currentHeaderId;
-        groupCursor.moveToNext();
-        previousBalance = interimBalance;
       }
       long amount = transactionCursor.getLong(columnIndexAmount);
       boolean isVoid = false;

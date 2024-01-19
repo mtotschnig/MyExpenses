@@ -216,20 +216,27 @@ open class MyExpensesViewModel(
                         CrashHandler.report(e)
                         null
                     }?.use { cursor ->
-                        HeaderData.fromSequence(account, cursor.asSequence)
+                        HeaderData.fromSequence(
+                            account.openingBalance,
+                            account.grouping,
+                            account.currencyUnit,
+                            cursor.asSequence
+                        )
                     }
                 }
             }.combine(dateInfo) { headerData, dateInfo ->
-                headerData?.let { HeaderData(account, it, dateInfo, !filter.isEmpty)  } ?: HeaderDataError(account)
+                headerData?.let { HeaderData(account, it, dateInfo, !filter.isEmpty) }
+                    ?: HeaderDataError(account)
             }
         }.stateIn(viewModelScope, SharingStarted.Lazily, HeaderDataEmpty(account))
     }
 
-    private val pagingSourceFactories: Map<PageAccount, ClearingLastPagingSourceFactory<Int, Transaction2>> = lazyMap {
-        ClearingLastPagingSourceFactory {
-            buildTransactionPagingSource(it)
+    private val pagingSourceFactories: Map<PageAccount, ClearingLastPagingSourceFactory<Int, Transaction2>> =
+        lazyMap {
+            ClearingLastPagingSourceFactory {
+                buildTransactionPagingSource(it)
+            }
         }
-    }
 
     open fun buildTransactionPagingSource(account: PageAccount) =
         TransactionPagingSource(
@@ -306,7 +313,7 @@ open class MyExpensesViewModel(
                 }
         } else emptyFlow()
 
-    fun sumInfo(account: PageAccount)= sums.getValue(account)
+    fun sumInfo(account: PageAccount) = sums.getValue(account)
 
     fun persistGrouping(accountId: Long, grouping: Grouping) {
         viewModelScope.launch(context = coroutineContext()) {
@@ -343,8 +350,8 @@ open class MyExpensesViewModel(
     }
 
     private fun persistSortDirectionHomeAggregate(sort: Pair<String, SortDirection>) {
-        prefHandler.putString(SORT_BY_AGGREGATE,sort.first)
-        prefHandler.putString(SORT_DIRECTION_AGGREGATE,sort.second.name)
+        prefHandler.putString(SORT_BY_AGGREGATE, sort.first)
+        prefHandler.putString(SORT_DIRECTION_AGGREGATE, sort.second.name)
         triggerAccountListRefresh()
     }
 
@@ -473,9 +480,13 @@ open class MyExpensesViewModel(
             var successCount = 0
             var failureCount = 0
             for (id in transactionIds) {
-                val transaction = Transaction.getInstanceFromDb(contentResolver, id, homeCurrencyProvider.homeCurrencyUnit)
+                val transaction = Transaction.getInstanceFromDb(
+                    contentResolver,
+                    id,
+                    homeCurrencyProvider.homeCurrencyUnit
+                )
                 transaction.prepareForEdit(contentResolver, true, false)
-                val ops = transaction.buildSaveOperations(contentResolver,true)
+                val ops = transaction.buildSaveOperations(contentResolver, true)
                 val newUpdate =
                     ContentProviderOperation.newUpdate(TRANSACTIONS_URI).withValue(column, rowId)
                 if (transaction.isSplit) {
@@ -490,7 +501,10 @@ open class MyExpensesViewModel(
                     if (isCategoryUpdate) {
                         selection += " OR $KEY_TRANSFER_PEER = ?"
                     }
-                    newUpdate.withSelection(selection, arrayOfNulls(if (isCategoryUpdate) 2 else 1))//replaced by back reference
+                    newUpdate.withSelection(
+                        selection,
+                        arrayOfNulls(if (isCategoryUpdate) 2 else 1)
+                    )//replaced by back reference
                         .withSelectionBackReference(0, 0)
                     if (isCategoryUpdate) {
                         newUpdate.withSelectionBackReference(1, 0)
@@ -583,7 +597,7 @@ open class MyExpensesViewModel(
                 .build(),
             projection, null, null, null
         )?.use { cursor ->
-            emit(when(cursor.count) {
+            emit(when (cursor.count) {
                 1 -> {
                     cursor.moveToFirst()
                     val accountId = cursor.getLong(KEY_ACCOUNTID)
@@ -595,8 +609,16 @@ open class MyExpensesViewModel(
                     val payeeId = cursor.getLongOrNull(KEY_PAYEEID)
                     val date = cursor.getLong(KEY_DATE)
                     val crStatus =
-                        enumValueOrDefault(cursor.getString(KEY_CR_STATUS), CrStatus.UNRECONCILED)
-                    val parent = SplitTransaction.getNewInstance(contentResolver, accountId, currencyUnit, false).also {
+                        enumValueOrDefault(
+                            cursor.getString(KEY_CR_STATUS),
+                            CrStatus.UNRECONCILED
+                        )
+                    val parent = SplitTransaction.getNewInstance(
+                        contentResolver,
+                        accountId,
+                        currencyUnit,
+                        false
+                    ).also {
                         it.amount = amount
                         it.date = date
                         it.payeeId = payeeId
@@ -620,11 +642,14 @@ open class MyExpensesViewModel(
                     contentResolver.applyBatch(AUTHORITY, operations)
                     Result.success(true)
                 }
+
                 0 -> Result.failure(IllegalStateException().also {
                     CrashHandler.report(it)
                 })
+
                 else -> Result.success(false)
-            })
+            }
+            )
         }
     }
 

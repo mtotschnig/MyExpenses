@@ -50,7 +50,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY_EXPORT
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY_INFO
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CALLER_IS_IN_BULK
-import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_SORT_DIRECTION
 import org.totschnig.myexpenses.sync.json.CategoryExport
 import org.totschnig.myexpenses.sync.json.CategoryInfo
 import org.totschnig.myexpenses.sync.json.ICategoryInfo
@@ -1085,13 +1084,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
             else -> "$KEY_YEAR,$KEY_SECOND_GROUP"
         }
 
-        val orderBy = uri.getQueryParameter(QUERY_PARAMETER_SORT_DIRECTION)?.let { direction ->
-            when (group) {
-                Grouping.NONE -> null
-                Grouping.YEAR -> "$KEY_YEAR $direction"
-                else -> "$KEY_YEAR $direction,$KEY_SECOND_GROUP $direction"
-            }
-        }
         val secondDef = when (group) {
             Grouping.NONE -> "1"
             Grouping.DAY -> DAY
@@ -1153,7 +1145,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     .columns(projection)
                     .selection(null, finalArgs)
                     .groupBy(groupBy)
-                    .orderBy(orderBy)
                     .create()
                     .sql
         return db.measureAndLogQuery(uri, sql, selection, finalArgs)

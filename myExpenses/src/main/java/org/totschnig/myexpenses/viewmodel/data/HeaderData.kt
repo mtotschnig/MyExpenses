@@ -32,12 +32,12 @@ data class HeaderData(
 ): HeaderDataResult {
 
     companion object {
-        fun fromSequence(account: PageAccount, sequence: Sequence<Cursor>): Map<Int, HeaderRow> =
+        fun fromSequence(openingBalance: Long, grouping: Grouping, currency: CurrencyUnit, sequence: Sequence<Cursor>): Map<Int, HeaderRow> =
             buildMap {
-                var previousBalance = account.openingBalance
+                var previousBalance = openingBalance
                 for (cursor in sequence) {
-                    val value = HeaderRow.rowFromCursor(previousBalance, account.currencyUnit, cursor)
-                    put(account.grouping.calculateGroupId(value.year, value.second), value)
+                    val value = HeaderRow.rowFromCursor(previousBalance, currency, cursor)
+                    put(grouping.calculateGroupId(value.year, value.second), value)
                     previousBalance = value.interimBalance.amountMinor
                 }
             }
