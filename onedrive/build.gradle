@@ -38,6 +38,7 @@ dependencies {
 
     implementation("com.microsoft.identity.client:msal:4.10.0") {
         exclude(group : "io.opentelemetry")
+        exclude group: 'com.microsoft.device.display'
     }
     implementation("io.opentelemetry:opentelemetry-api:1.18.0")
     implementation("io.opentelemetry:opentelemetry-context:1.18.0")
