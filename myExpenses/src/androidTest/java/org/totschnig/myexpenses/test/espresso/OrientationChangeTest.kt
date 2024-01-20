@@ -1,17 +1,22 @@
 package org.totschnig.myexpenses.test.espresso
 
 import android.content.Intent
+import androidx.core.widget.NestedScrollView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onIdle
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.adevinta.android.barista.interaction.BaristaScrollInteractions
+import com.adevinta.android.barista.interaction.BaristaSpinnerInteractions
 import com.adevinta.android.barista.internal.viewaction.NestedEnabledScrollToAction.nestedScrollToAction
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
@@ -110,9 +115,11 @@ class OrientationChangeTest : BaseExpenseEditTest() {
         val i = Intent(targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
         testScenario = ActivityScenario.launch(i)
-        //Thread.sleep(100) //unfortunately needed if test starts in landscape
         closeSoftKeyboard()
-        onView(withId(R.id.Status)).perform(nestedScrollToAction(), click())
+        //onView(withId(R.id.Status)).perform(nestedScrollToAction(), click()) leads to Status spinner
+        //being overlayed by Floating Action Button on phone landscape
+        onView(isAssignableFrom(NestedScrollView::class.java)).perform(swipeUp())
+        onView(withId(R.id.Status)).perform(click())
         onData(
             allOf(
                 instanceOf(CrStatus::class.java),

@@ -5,7 +5,9 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -62,7 +64,7 @@ class ForeignTransferTemplateTest : BaseExpenseEditTest() {
     }
 
     private fun setDefaultAction(defaultAction: Action) {
-        onView(withId(R.id.DefaultAction)).perform(ViewActions.click())
+        onView(withId(R.id.DefaultAction)).perform(scrollTo(), click())
         Espresso.onData(
             CoreMatchers.allOf(
                 CoreMatchers.instanceOf(String::class.java),
@@ -71,7 +73,7 @@ class ForeignTransferTemplateTest : BaseExpenseEditTest() {
                     Action.EDIT -> getString(R.string.menu_edit)
                 })
             )
-        ).perform(ViewActions.click())
+        ).perform(click())
     }
 
     private fun runTheTest(

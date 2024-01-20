@@ -69,7 +69,7 @@ abstract class BaseExpenseEditTest: BaseUiTest<TestExpenseEdit>() {
     }
 
     fun setStoredPayee(payee: String) {
-        onView(withId(R.id.Payee)).perform(typeText(payee.first().toString()))
+        typeToAndCloseKeyBoard(R.id.Payee, payee.first().toString())
         onView(withText(payee))
             .inRoot(RootMatchers.isPlatformPopup())
             .perform(click())

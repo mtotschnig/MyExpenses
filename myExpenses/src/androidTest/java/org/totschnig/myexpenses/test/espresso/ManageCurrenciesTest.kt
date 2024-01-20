@@ -1,12 +1,18 @@
 package org.totschnig.myexpenses.test.espresso
 
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onData
+import androidx.test.espresso.Espresso.onIdle
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.adevinta.android.barista.assertion.BaristaCheckedAssertions
+import com.adevinta.android.barista.interaction.BaristaCheckboxInteractions
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.containsString
@@ -22,7 +28,9 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseUiTest
+import org.totschnig.myexpenses.testutils.DialogFragmentIdlingResource
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
+
 
 class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
     @get:Rule
@@ -61,9 +69,10 @@ class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
         onData(Matchers.`is`(currency))
             .inAdapterView(withId(android.R.id.list)).perform(click())
         onView(withId(R.id.edt_currency_fraction_digits))
-            .perform(replaceText("3"), closeSoftKeyboard())
+            .perform(replaceText("3"))
         if (withUpdate) {
-            onView(withId(R.id.checkBox)).perform(click())
+            onView(withId(R.id.checkBox)).perform(scrollTo())
+            BaristaCheckboxInteractions.check(R.id.checkBox)
         }
         onView(withId(android.R.id.button1)).perform(click())
         onData(Matchers.`is`(currency))
