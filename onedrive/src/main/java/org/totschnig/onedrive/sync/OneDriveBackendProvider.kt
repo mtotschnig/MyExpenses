@@ -342,7 +342,9 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
     }
 
     override fun deleteLockTokenFile() {
-        itemWithPath(getResourcePath(LOCK_FILE)).buildRequest().delete()
+        itemWithPath(getResourcePath(LOCK_FILE)).safeWrite {
+            delete()
+        }
     }
 
     companion object {
