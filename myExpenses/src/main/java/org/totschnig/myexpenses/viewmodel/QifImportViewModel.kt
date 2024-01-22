@@ -86,7 +86,7 @@ class QifImportViewModel(application: Application) : ImportDataViewModel(applica
             )
         }
         if (withCategories) {
-            val totalCategories = insertCategories(parser.categories)
+            val totalCategories = insertCategories(parser.categories, true)
             publishProgress(
                 if (totalCategories == 0) getString(R.string.import_categories_none) else getString(
                     R.string.import_categories_success,

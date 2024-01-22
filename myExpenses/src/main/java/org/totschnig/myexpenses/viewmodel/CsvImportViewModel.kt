@@ -5,7 +5,6 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.liveData
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVRecord
@@ -95,7 +94,7 @@ class CsvImportViewModel(application: Application, val savedStateHandle: SavedSt
 
             insertPayees(parser.payees)
             repository.extractTagIds(parser.tags, tagToId)
-            insertCategories(parser.categories)
+            insertCategories(parser.categories, false)
 
             val count = insertTransactions(accounts, currencyUnit, autoFill)
 
