@@ -119,6 +119,7 @@ import static org.totschnig.myexpenses.provider.DbConstantsKt.getAccountSelector
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getPayeeWithDuplicatesCTE;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getTemplateQuerySelector;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getTransactionQuerySelector;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.grandTotalAccountKeepTransferPartCriterion;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionMappedObjectQuery;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionSumQuery;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.computeWhere;
@@ -438,7 +439,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         if (mergeTransfers != null) {
           String keepTransferPartCriterion = mergeTransfers.equals("1") ?
                   "NOT(" + IS_SAME_CURRENCY + ") OR " + KEY_AMOUNT + " < 0" :
-                  IS_SAME_CURRENCY + " AND " + KEY_AMOUNT + " < 0 OR (NOT(" + IS_SAME_CURRENCY + ") AND " + KEY_CURRENCY  + "='" + getHomeCurrency() + "')"  ;
+                  grandTotalAccountKeepTransferPartCriterion(getHomeCurrency());
           String mergeTransferSelection = KEY_TRANSFER_PEER + " IS NULL OR " + keepTransferPartCriterion;
           selection += " AND (" + mergeTransferSelection + ")";
         }

@@ -626,3 +626,10 @@ AND ($KEY_CATID IS NOT $SPLIT_CATID AND $KEY_CR_STATUS != 'VOID' AND $selection)
     SELECT ${columns.joinToString()}"""
     }
 }
+
+//when either both sides are homeCurrency, or both sides are foreign currency, we select based on amount
+//otherwise we only select the part from the homeCurrency
+fun grandTotalAccountKeepTransferPartCriterion(homeCurrency: String) = """
+CASE WHEN ($KEY_CURRENCY = '$homeCurrency') = ((SELECT $KEY_CURRENCY FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_TRANSFER_ACCOUNT) = '$homeCurrency') 
+THEN $KEY_AMOUNT < 0 ELSE $KEY_CURRENCY = '$homeCurrency' END
+"""
