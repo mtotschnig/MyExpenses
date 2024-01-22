@@ -169,6 +169,15 @@ fun Repository.updateAccount(accountId: Long, builder: ContentValues.() -> Unit)
     updateAccount(accountId, ContentValues().also { it.builder() })
 }
 
+fun Repository.setGrouping(accountId: Long, grouping: Grouping) {
+    contentResolver.update(
+        ContentUris.withAppendedId(TransactionProvider.ACCOUNT_GROUPINGS_URI, accountId)
+            .buildUpon()
+            .appendPath(grouping.name).build(),
+        null, null, null
+    )
+}
+
 fun Repository.storeExchangeRate(
     accountId: Long,
     exchangeRate: Double,

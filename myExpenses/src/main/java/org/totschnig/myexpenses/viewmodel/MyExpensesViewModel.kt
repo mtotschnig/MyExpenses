@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.compose.unselect
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.db2.loadBanks
+import org.totschnig.myexpenses.db2.setGrouping
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Bank
@@ -321,12 +322,7 @@ open class MyExpensesViewModel(
                 prefHandler.putString(GROUPING_AGGREGATE, grouping.name)
                 triggerAccountListRefresh()
             } else {
-                contentResolver.update(
-                    ContentUris.withAppendedId(ACCOUNT_GROUPINGS_URI, accountId)
-                        .buildUpon()
-                        .appendPath(grouping.name).build(),
-                    null, null, null
-                )
+                repository.setGrouping(accountId, grouping)
             }
         }
     }

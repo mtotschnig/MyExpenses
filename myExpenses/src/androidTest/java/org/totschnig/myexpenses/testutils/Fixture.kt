@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.addAttachments
 import org.totschnig.myexpenses.db2.findCategory
+import org.totschnig.myexpenses.db2.setGrouping
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.myApplication
@@ -78,12 +79,7 @@ class Fixture(inst: Instrumentation) {
             description = appContext.getString(R.string.testData_account1Description),
             syncAccountName = syncAccount1
         ).createIn(repository)
-        contentResolver.update(
-            ContentUris.withAppendedId(TransactionProvider.ACCOUNT_GROUPINGS_URI, account1.id)
-                .buildUpon()
-                .appendPath(Grouping.WEEK.name).build(),
-            null, null, null
-        )
+        repository.setGrouping(account1.id, Grouping.WEEK)
         val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")
         account2 = Account(
             label = appContext.getString(R.string.testData_account2Label),

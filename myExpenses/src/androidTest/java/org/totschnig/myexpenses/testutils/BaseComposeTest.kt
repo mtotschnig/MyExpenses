@@ -8,6 +8,7 @@ import org.junit.Rule
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.amountProperty
+import org.totschnig.myexpenses.compose.headerProperty
 
 abstract class BaseComposeTest<A: ProtectedFragmentActivity>: BaseUiTest<A>() {
     abstract val listNode: SemanticsNodeInteraction
@@ -33,6 +34,8 @@ abstract class BaseComposeTest<A: ProtectedFragmentActivity>: BaseUiTest<A>() {
     fun hasColumnCount(expectedColumnCount: Int) = hasCollectionInfo(expectedColumnCount, 1)
 
     fun hasAmount(amount: Long) = SemanticsMatcher.expectValue(amountProperty, amount)
+
+    fun hasHeaderId(headerId: Int) = SemanticsMatcher.expectValue(headerProperty, headerId)
 
     fun clickContextItem(
         @StringRes resId: Int,

@@ -95,7 +95,7 @@ fun ColoredAmountText(
     Text(
         modifier = modifier
             .conditional(withBorder) { amountBorder(color) }
-            .amountSemantics(money.amountMinor),
+            .amountSemantics(money),
         fontWeight = fontWeight,
         textAlign = textAlign,
         style = style,

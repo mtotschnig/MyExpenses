@@ -16,7 +16,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -318,14 +317,18 @@ fun HeaderData(
                 )
             )
         FlowRow(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.testTag(TEST_TAG_GROUP_SUMMARY).fillMaxWidth(),
             horizontalArrangement = if (alignStart) Arrangement.Start else Arrangement.Center
         ) {
             if (!showOnlyDelta) {
-                Text(amountFormatter.formatMoney(headerRow.previousBalance))
+                Text(
+                    modifier = Modifier.amountSemantics(headerRow.previousBalance),
+                    text = amountFormatter.formatMoney(headerRow.previousBalance)
+                )
             }
             Text(
                 modifier = Modifier
+                    .amountSemantics(headerRow.delta)
                     .padding(horizontal = 6.dp)
                     .clickable {
                         updateShowSumDetails(!showSumDetails)
@@ -333,16 +336,19 @@ fun HeaderData(
                 text = delta
             )
             if (!showOnlyDelta) {
-                Text(" = " + amountFormatter.formatMoney(headerRow.interimBalance))
+                Text(
+                    modifier = Modifier.amountSemantics(headerRow.interimBalance),
+                    text = " = " + amountFormatter.formatMoney(headerRow.interimBalance))
             }
         }
         if (showSumDetails) {
             FlowRow(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.testTag(TEST_TAG_GROUP_SUMS).fillMaxWidth(),
                 horizontalArrangement = if (alignStart) Arrangement.Start else Arrangement.Center
             ) {
                 Text(
-                    "⊕ " + amountFormatter.formatMoney(headerRow.incomeSum),
+                    modifier = Modifier.amountSemantics(headerRow.incomeSum),
+                    text = "⊕ " + amountFormatter.formatMoney(headerRow.incomeSum),
                     color = LocalColors.current.income
                 )
                 val configureExpenseSum: (DecimalFormat) -> Unit = remember {
@@ -352,7 +358,8 @@ fun HeaderData(
                     }
                 }
                 Text(
-                    modifier = Modifier.padding(horizontal = generalPadding),
+                    modifier = Modifier.amountSemantics(headerRow.expenseSum)
+                        .padding(horizontal = generalPadding),
                     text = "⊖ " + amountFormatter.formatMoney(
                         headerRow.expenseSum,
                         configureExpenseSum
@@ -360,7 +367,8 @@ fun HeaderData(
                     color = LocalColors.current.expense
                 )
                 Text(
-                    Transfer.BI_ARROW + " " + amountFormatter.formatMoney(headerRow.transferSum),
+                    modifier = Modifier.amountSemantics(headerRow.transferSum),
+                    text = Transfer.BI_ARROW + " " + amountFormatter.formatMoney(headerRow.transferSum),
                     color = LocalColors.current.transfer
                 )
             }
@@ -383,7 +391,10 @@ fun HeaderRenderer(
     updateShowSumDetails: (Boolean) -> Unit = {}
 ) {
 
-    Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+    Box(modifier = Modifier
+        .headerSemantics(headerId)
+        .background(MaterialTheme.colorScheme.background)
+    ) {
         GroupDivider()
         toggle?.let {
             ExpansionHandle(
