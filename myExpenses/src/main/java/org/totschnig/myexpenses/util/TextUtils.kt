@@ -63,7 +63,7 @@ object TextUtils {
             }
 
     fun getContribFeatureLabelsAsList(ctx: Context, type: LicenceStatus) =
-        ContribFeature.values().filter { feature: ContribFeature -> feature.licenceStatus === type }
+        ContribFeature.entries.filter { feature: ContribFeature -> feature.licenceStatus === type }
             .map { feature: ContribFeature -> ctx.getText(feature.labelResId) }
 }
 
