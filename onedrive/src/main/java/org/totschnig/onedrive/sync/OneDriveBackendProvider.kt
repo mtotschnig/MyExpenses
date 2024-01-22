@@ -10,8 +10,11 @@ import com.microsoft.graph.logger.DefaultLogger
 import com.microsoft.graph.logger.LoggerLevel
 import com.microsoft.graph.models.DriveItem
 import com.microsoft.graph.models.Folder
+import com.microsoft.graph.requests.DriveItemCollectionRequest
 import com.microsoft.graph.requests.DriveItemCollectionRequestBuilder
+import com.microsoft.graph.requests.DriveItemContentStreamRequest
 import com.microsoft.graph.requests.DriveItemContentStreamRequestBuilder
+import com.microsoft.graph.requests.DriveItemRequest
 import com.microsoft.graph.requests.DriveItemRequestBuilder
 import com.microsoft.graph.requests.DriveRequestBuilder
 import com.microsoft.graph.requests.GraphServiceClient
@@ -32,6 +35,7 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.sync.AbstractSyncBackendProvider
 import org.totschnig.myexpenses.sync.SyncBackendProvider
 import org.totschnig.myexpenses.sync.json.AccountMetaData
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.onedrive.R
 import org.totschnig.onedrive.getAll
 import java.io.IOException
@@ -133,28 +137,61 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
         get() = itemWithPath(accountPath).buildRequest().get()!!
     override val sharedPreferencesName = "oneDrive"
     override val isEmpty: Boolean
-        get() = baseFolder.children().buildRequest().get()?.currentPage?.isEmpty() == true
+        get() = baseFolder.children().safeGet()?.currentPage?.isEmpty() == true
 
-    private fun DriveItemRequestBuilder.saveGet() = try {
-        buildRequest().get()
-    } catch (e: GraphServiceException) {
-        null
+    private fun Exception.asIO() = if (this is IOException) this else
+        IOException(this.also { CrashHandler.report(it)  })
+
+    private fun DriveItemRequestBuilder.safeWrite(
+        block: DriveItemRequest.() -> DriveItem?
+    ) = try {
+        buildRequest().block()
+    } catch (e: Exception) {
+        throw e.asIO()
     }
 
-    private fun DriveItemCollectionRequestBuilder.saveGet() = try {
-        buildRequest().get()
-    } catch (e: GraphServiceException) {
-        null
+    private fun DriveItemContentStreamRequestBuilder.safeWrite(
+        block: DriveItemContentStreamRequest.() -> DriveItem?
+    ) = try {
+        buildRequest().block()
+    } catch (e: Exception) {
+        throw e.asIO()
     }
 
-    private fun DriveItemContentStreamRequestBuilder.saveGet() = try {
+    private fun DriveItemCollectionRequestBuilder.safeWrite(
+        block: DriveItemCollectionRequest.() -> DriveItem?
+    ) = try {
+        buildRequest().block()
+    } catch (e: Exception) {
+        throw e.asIO()
+    }
+
+    private fun DriveItemRequestBuilder.safeGet() = try {
         buildRequest().get()
     } catch (e: GraphServiceException) {
         null
+    } catch (e: Exception) {
+        throw e.asIO()
+    }
+
+    private fun DriveItemCollectionRequestBuilder.safeGet() = try {
+        buildRequest().get()
+    } catch (e: GraphServiceException) {
+        null
+    } catch (e: Exception) {
+        throw e.asIO()
+    }
+
+    private fun DriveItemContentStreamRequestBuilder.safeGet() = try {
+        buildRequest().get()
+    } catch (e: GraphServiceException) {
+        null
+    } catch (e: Exception) {
+        throw e.asIO()
     }
 
     override fun getResInAccountDir(resourceName: String) =
-        itemWithPath(accountPath.appendPath(resourceName)).saveGet()
+        itemWithPath(accountPath.appendPath(resourceName)).safeGet()
 
     override fun saveFileContents(
         toAccountDir: Boolean,
@@ -181,7 +218,7 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
         require: Boolean
     ): DriveItemRequestBuilder {
         val result = itemWithPath(parentPath.appendPath(folder))
-        if (require && result.saveGet() == null) {
+        if (require && result.safeGet() == null) {
             itemWithPath(parentPath).createFolder(folder)
         }
         return result
@@ -189,7 +226,9 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
 
     private fun saveInputStream(driveFolder: DriveItemRequestBuilder, inputStream: InputStream) {
         inputStream.use {
-            driveFolder.content().buildRequest().put(it.readBytes())
+            driveFolder.content().safeWrite {
+                put(it.readBytes())
+            }
         }
     }
 
@@ -199,21 +238,22 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
         maybeDecrypt: Boolean
     ) = itemWithPath((if (fromAccountDir) accountPath else basePath).appendPath(fileName))
         .content()
-        .saveGet()
+        .safeGet()
         ?.use { StreamReader(maybeDecrypt(it, maybeDecrypt)).read() }
 
     @Throws(IOException::class)
     private fun getExistingAccountFolder(uuid: String) =
-        itemWithPath(basePath.appendPath(uuid)).saveGet()
+        itemWithPath(basePath.appendPath(uuid)).safeGet()
 
 
     private fun DriveItemRequestBuilder.createFolder(folderName: String): DriveItem {
         return children()
-            .buildRequest()
-            .post(DriveItem().apply {
-                name = folderName
-                folder = Folder()
-            })
+            .safeWrite {
+                post(DriveItem().apply {
+                    name = folderName
+                    folder = Folder()
+                })
+            }!!
     }
 
     override fun writeAccount(account: Account, update: Boolean) {
@@ -240,12 +280,13 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
     }
 
     override fun resetAccountData(uuid: String) {
-        itemWithPath(basePath.appendPath(uuid)).buildRequest().delete()
+        itemWithPath(basePath.appendPath(uuid)).safeWrite {
+            delete()
+        }
     }
 
     override val remoteAccountList: List<Result<AccountMetaData>>
-        get() = itemWithPath(basePath).children().buildRequest()
-            .get()
+        get() = itemWithPath(basePath).children().safeGet()
             ?.getAll()?.filter { it.folder != null && verifyRemoteAccountFolderName(it.name) }
             ?.mapNotNull {
                 getAccountMetaDataFromDriveItem(
@@ -257,7 +298,7 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
             ?: emptyList()
 
     private fun getAccountMetaDataFromDriveItem(driveItem: DriveItemRequestBuilder) =
-        driveItem.content().saveGet()?.let { getAccountMetaDataFromInputStream(it) }
+        driveItem.content().safeGet()?.let { getAccountMetaDataFromInputStream(it) }
 
     private fun getResourcePath(resource: String) = accountPath.appendPath(resource)
 
@@ -266,7 +307,7 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
     ) ?: Result.failure(IOException("No metaDatafile"))
 
     override fun getCollection(collectionName: String, require: Boolean): DriveItem? {
-        return getFolderRequestBuilder(basePath, collectionName, require).saveGet()
+        return getFolderRequestBuilder(basePath, collectionName, require).safeGet()
     }
 
     override fun isCollection(resource: DriveItem) =
@@ -277,12 +318,12 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
 
     override fun childrenForCollection(folder: DriveItem?): Collection<DriveItem> {
         return (folder ?: accountRes).let {
-            itemWithId(it.id!!).children().saveGet()?.getAll()
+            itemWithId(it.id!!).children().safeGet()?.getAll()
         } ?: emptyList()
     }
 
     override fun getInputStream(resource: DriveItem) =
-        itemWithId(resource.id!!).content().saveGet() ?: throw IOException()
+        itemWithId(resource.id!!).content().safeGet() ?: throw IOException()
 
     override fun saveUriToCollection(
         fileName: String,
