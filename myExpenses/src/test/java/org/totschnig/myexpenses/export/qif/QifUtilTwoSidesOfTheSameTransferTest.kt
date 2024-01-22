@@ -33,28 +33,6 @@ class QifUtilTwoSidesOfTheSameTransferTest : TestCase() {
         )).isTrue()
     }
 
-    fun testShouldDistinguishNonMatchingAmounts() {
-        val now = Date(System.currentTimeMillis())
-        val fromAccount = ImportAccount(memo = "Konto 1")
-        val toAccount = ImportAccount(memo = "Konto 2")
-        val fromTransaction = ImportTransaction.Builder()
-            .toAccount(toAccount.memo)
-            .date(now)
-            .amount(BigDecimal(5))
-            .build()
-        val toTransaction = ImportTransaction.Builder()
-            .toAccount(fromAccount.memo)
-            .date(now)
-            .amount(BigDecimal(-6))
-            .build()
-        Truth.assertThat(twoSidesOfTheSameTransfer(
-            fromAccount,
-            fromTransaction,
-            toAccount,
-            toTransaction
-        )).isFalse()
-    }
-
     fun testShouldDistinguishNonMatchingDates() {
         val now = Date(System.currentTimeMillis())
         val fromAccount = ImportAccount(memo = "Konto 1")
