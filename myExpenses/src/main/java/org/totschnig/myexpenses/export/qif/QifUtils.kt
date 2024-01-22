@@ -187,8 +187,7 @@ object QifUtils {
     ) = toTransaction.isTransfer &&
             toTransaction.toAccount == fromAccount.memo &&
             fromTransaction.toAccount == toAccount.memo &&
-            fromTransaction.date == toTransaction.date &&
-            fromTransaction.amount == toTransaction.amount.negate()
+            fromTransaction.date == toTransaction.date
 
     /**
      * first we transform all transfers without counterpart into normal transactions
@@ -198,7 +197,7 @@ object QifUtils {
         accounts: List<ImportAccount>
     ) = accounts
         .map { it.copy(transactions = transformUnknownTransfers(it, it.transactions, accounts)) }
-        .map { it.copy(transactions = reduceTransfers(it, it.transactions, accounts)) }
+        .map { it.copy(transactions = reduceTransfers(it, accounts)) }
 
     /**
      * We remove one side of the transfer (either the one that is not part of a split or the one
@@ -206,25 +205,52 @@ object QifUtils {
      */
     private fun reduceTransfers(
         fromAccount: ImportAccount,
-        transactions: List<ImportTransaction>,
         allAccounts: List<ImportAccount>
     ): List<ImportTransaction> {
-        return transactions.mapNotNull { fromTransaction ->
+        return fromAccount.transactions.mapNotNull { fromTransaction ->
             if (fromTransaction.isTransfer) {
-                var shouldReduce = false
                 if (fromTransaction.toAccount != fromAccount.memo) {
                     allAccounts.find { it.memo == fromTransaction.toAccount }?.let { toAccount ->
-                        shouldReduce = toAccount.transactions.any { toTransaction ->
-                            (fromTransaction.amount.signum() == -1 && twoSidesOfTheSameTransfer(fromAccount, fromTransaction, toAccount, toTransaction)) ||
-                                    toTransaction.splits?.any { split ->
-                                        twoSidesOfTheSameTransfer(fromAccount, fromTransaction, toAccount, split)
-                                    } == true
-                        }
+                        val transferPeer = toAccount.transactions.firstOrNull { toTransaction ->
+                            twoSidesOfTheSameTransfer(fromAccount, fromTransaction, toAccount, toTransaction)
+                        }?.let { it to false } ?:
+                        (toAccount.transactions.firstNotNullOfOrNull { toTransaction ->
+                            toTransaction.splits?.firstOrNull { split ->
+                                twoSidesOfTheSameTransfer(
+                                    fromAccount,
+                                    fromTransaction,
+                                    toAccount,
+                                    split
+                                )
+                            }
+                        })?.let { it to true }
+                        if (transferPeer == null) fromTransaction
+                        else if (fromTransaction.amount.signum() == 1 && !transferPeer.second) fromTransaction.copy(
+                            toAmount = transferPeer.first.amount
+                        ) else null
                     }
-                }
-                if (shouldReduce) return@mapNotNull null
+                } else fromTransaction
             }
-            fromTransaction
+            else if (fromTransaction.isTransfer) {
+                fromTransaction.copy(splits = fromTransaction.splits?.mapNotNull { split ->
+                    if (split.isTransfer) {
+                        if (split.toAccount != fromAccount.memo) {
+                            allAccounts.find { it.memo == fromTransaction.toAccount }?.let { toAccount ->
+                                val transferPeer = toAccount.transactions.firstOrNull { toTransaction ->
+                                    twoSidesOfTheSameTransfer(
+                                        fromAccount,
+                                        split,
+                                        toAccount,
+                                        toTransaction
+                                    )
+                                }
+                                if (transferPeer == null) split else split.copy(toAmount = transferPeer.amount)
+                            }
+                        } else split
+                    } else split
+                })
+            }
+            else fromTransaction
         }
     }
 

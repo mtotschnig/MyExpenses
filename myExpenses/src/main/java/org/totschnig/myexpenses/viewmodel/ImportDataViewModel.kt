@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.io.ImportAccount
 import org.totschnig.myexpenses.io.ImportTransaction
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -173,8 +174,11 @@ abstract class ImportDataViewModel(application: Application) :
 
     private fun findToAccount(transaction: ImportTransaction, t: Transaction) {
         if (transaction.isTransfer) {
-            accountTitleToAccount[transaction.toAccount]?.let {
-                t.transferAccountId = it.id
+            accountTitleToAccount[transaction.toAccount]?.let { transferAccount ->
+                t.transferAccountId = transferAccount.id
+                transaction.toAmount?.let {
+                    t.transferAmount = Money(currencyContext.get(transferAccount.currency), transaction.toAmount)
+                }
             }
         }
     }

@@ -64,6 +64,7 @@ data class ImportTransaction(
     val category: String?,
     val categoryClass: String?,
     val toAccount: String?,
+    val toAmount: BigDecimal?,
     val status: String?,
     val number: String?,
     val method: String?,
@@ -79,6 +80,7 @@ data class ImportTransaction(
         var category: String? = null
         var categoryClass: String? = null
         var toAccount: String? = null
+        var toAmount: BigDecimal? = null
         private var status: String? = null
         private var number: String? = null
         private var method: String? = null
@@ -113,6 +115,7 @@ data class ImportTransaction(
             category,
             categoryClass,
             toAccount,
+            toAmount,
             status,
             number,
             method,
@@ -123,9 +126,9 @@ data class ImportTransaction(
 
     val isSplit get() = splits != null
 
-    fun toTransaction(a: Account, currencyUnit: CurrencyUnit?): Transaction {
+    fun toTransaction(a: Account, currencyUnit: CurrencyUnit): Transaction {
         val t: Transaction
-        val m = Money(currencyUnit!!, amount)
+        val m = Money(currencyUnit, amount)
         t = if (isSplit) {
             SplitTransaction(a.id, m)
         } else if (isTransfer) {
