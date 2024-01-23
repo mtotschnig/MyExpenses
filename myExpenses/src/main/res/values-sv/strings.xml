@@ -68,7 +68,7 @@
     <string name="dialog_remind_rate_yes">Betygssätt nu</string>
     <string name="confirmation_dialog_dont_show_again">Visa inte igen</string>
     <string name="date_format">Datumformat</string>
-    <string name="dialog_security_answer">Svar</string>
+    <string name="dialog_security_answer">Svara</string>
     <string name="dialog_security_question">Fråga</string>
     <string name="dialog_password_change_password">Byt lösenord</string>
     <string name="app_name">Mina utgifter</string>
@@ -77,9 +77,9 @@
     <string name="grouping_this_week">Den här veckan</string>
     <plurals name="dialog_title_warning_delete_account">
         <item quantity="one">Ta bort kontot?</item>
-        <item quantity="other">Ta bort konton?</item>
+        <item quantity="other">Ta bort %1$d-konton?</item>
     </plurals>
-    <string name="contrib_feature_plans_unlimited_label">Obegränsat antal abbonemang</string>
+    <string name="contrib_feature_plans_unlimited_label">Obegränsat antalet abbonemang</string>
     <string name="dialog_password_new_password">Nytt lösenord</string>
     <string name="menu_open">Öppna</string>
     <string name="licence_validation_failure">Kunde inte bekräfta licensnyckeln.</string>
@@ -111,14 +111,14 @@
     <string name="menu_manage_plans">Mallar och abbonemang</string>
     <string name="menu_contrib">Bidra</string>
     <string name="export_sdcard_failure">Exporteringen till filen \"%1$s\" misslyckades: %2$s</string>
-    <string name="grouping_none">Ej grupperad</string>
+    <string name="grouping_none">Ogrupperad</string>
     <string name="menu_save">Spara</string>
     <string name="menu_share">Berätta för en vän</string>
     <string name="menu_reset_plan_instance">Återställ</string>
     <string name="dialog_password_activate_protection">Aktivera lösenordsskydd</string>
     <string name="account_type_cash_plural">Kontantkonton</string>
     <string name="account_type_cash">Kontantkonto</string>
-    <string name="account_type_asset">Tillgångskonto</string>
+    <string name="account_type_asset">Konto för tillgångar</string>
     <string name="pref_shortcut_not_added">Ingen Hemskärm tillgänglig som accepterar genvägar.</string>
     <string name="help_heading_credits">Medverkande</string>
     <string name="pref_visit_website_summary">Ändringslogg och FAQ</string>
@@ -149,14 +149,14 @@
     <string name="restore_preferences_success">Egenskaper har återställts från säkerhetskopia.</string>
     <string name="payer">Betalare</string>
     <string name="plan">Abonnemang</string>
-    <string name="menu_balance">Kontosaldo</string>
-    <string name="dialog_export_not_yet_exported">Exportera endast transaktioner som inte redan har exporterats</string>
+    <string name="menu_balance">Saldo för kontot</string>
+    <string name="dialog_export_not_yet_exported">Exportera endast överföringar som inte redan har exporterats.</string>
     <string name="contrib_key">Contrib-nyckel</string>
     <string name="select_category">Välj kategori</string>
     <string name="pref_import_summary">Importera transaktioner, kategorier och parter från %s-fil</string>
     <string name="password_prompt">Fyll i ditt lösenord</string>
     <string name="pref_more_info_dialog_title">Licens &amp; Medverkande</string>
-    <string name="menu_backup">Säkerhetskopia</string>
+    <string name="menu_backup">Säkerhetskopiering</string>
     <string name="pm_deposit">Sätt in</string>
     <string name="pref_enter_licence_title">Fyll i nyckel</string>
     <string name="dialog_title_contrib_feature">Premium-funktion</string>
@@ -167,17 +167,17 @@
     <string name="transfer_from_account">Från</string>
     <string name="type">Typ</string>
     <string name="progress_dialog_printing">Genererar %s</string>
-    <string name="dialog_contrib_trial_info_play">Den här prövotiden kommer inte att konvertera till någon form av prenumeration.</string>
+    <string name="dialog_contrib_trial_info_play">Den här gratisperioden kommer inte att konvertera till någon typ av prenumeration.</string>
     <string name="pref_import_from_grisbi_title">Importera från Grisbi</string>
-    <string name="menu_edit_method">Redigera betalningsmetod</string>
+    <string name="menu_edit_method">Rwdigera betalningsmetod</string>
     <string name="no_exportable_expenses">Det finns inga transaktioner som inte redan har exporterats.</string>
-    <string name="export_sdcard_success">Exportering av datan till filen \"%1$s\" lyckades</string>
+    <string name="export_sdcard_success">Exporteringen av datan till filen \"%1$s\" lyckades</string>
     <string name="payee">Betalningsmottagare</string>
     <string name="no_templates">Inga mallar.</string>
     <string name="dialog_contrib_subscription_info_play">Den här prenumerationen får effekt direkt, faktureras varje månad eller årligen och kan avbrytas när som helst.</string>
     <string name="pm_type_neutral">Neutral</string>
     <string name="plan_calendar_name">{app_name}-planerare</string>
-    <string name="dialog_contrib_trial_info" tools:ignore="PluralsCandidate">Din nuvarande licensstatus (%1$s) tillåter dig att prova %2$s för %3$d dagar (till %4$s).</string>
+    <string name="dialog_contrib_trial_info" tools:ignore="PluralsCandidate">Din aktuella licensstatus (%1$s) tillåter dig att prova %2$s under %3$d dagar (till %4$s).</string>
     <string name="move_category_success">Flyttningen av en kategori lyckades.</string>
     <string name="transfer_to_account">Till</string>
     <string name="menu_forward">Vidarebefordra</string>
@@ -204,7 +204,7 @@
     <string name="continue_confirmation">Vill du fortsätta?</string>
     <string name="warning_password_protected">Appen är lösenordsskyddad.</string>
     <string name="password_not_valid">Ogiltigt lösenord. Försök igen!</string>
-    <string name="menu_create_template_for_transaction">Ny mall för transaktion</string>
+    <string name="menu_create_template_for_transaction">Ny mall för överföring</string>
     <string name="no_calendar_app_installed">Ingen app hittades för redigering av kalender-händelser.</string>
     <string name="dialog_contrib_reminder_remove_limitation">Ta bort den här begränsningen och kom åt fler funktioner genom att uppgradera <i>{app_name}</i>.</string>
     <string name="pref_custom_currency_title">Anpassa valutor</string>
@@ -215,7 +215,7 @@
     <string name="select">Välj</string>
     <string name="reference_number">Referensnummer</string>
     <string name="menu_grouping">Gruppering</string>
-    <string name="dialog_title_warning_delete_party">Ta bort parten?</string>
+    <string name="dialog_title_warning_delete_party">Ta bort parti?</string>
     <string name="payer_or_payee">Betalningsmottagare/Betalare</string>
     <string name="warning_widget_disabled">Du behöver aktivera den här widgeten i appens inställningar.</string>
     <string name="save_transaction_error">Kunde inte spara nya transaktionen från mallen.</string>
@@ -227,7 +227,7 @@
     <string name="password_disabled_reenable">Lösenordsskyddet har stängts av. Du kan återaktivera den i inställningarna.</string>
     <string name="pref_security_question_title">Säkerhetsfråga</string>
     <string name="subcategory">Underkategori</string>
-    <string name="ftp_uri_malformed">Felaktigt formaterad URI %1$s</string>
+    <string name="ftp_uri_malformed">Felutformad URI %1$s</string>
     <string name="no_parties">Inga parter.</string>
     <string name="pref_checkbox_disabled">Inaktiverad</string>
     <string name="pref_ui_theme_title">Tema</string>
@@ -264,4 +264,23 @@
     <string name="pref_auto_fill_summary">Fyll i datan från senaste transaktionen från samma betalningsmottagare/betalare</string>
     <string name="planner_notification_channel_name">Planerare</string>
     <string name="thank_you">Tack för ditt stöd!</string>
+    <string name="pref_manage_methods_summary">Skapa och redigera betalningsmetoder och associera dem med kontotyper.</string>
+    <string name="account_type_asset_plural">Kontosaldon</string>
+    <string name="pref_export_format_title">Dataformat</string>
+    <string name="pm_type_debit">Skuld</string>
+    <string name="pref_import_from_grisbi_summary">Importera kategorier och parter från Grisbi XML-fil</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_on">Tillåts utan lösenord.</string>
+    <string name="dialog_command_disabled_insert_transfer">Överföring av transaktioner kräver ett till konto.</string>
+    <string name="dialog_remind_rate_1">Vänligen ta en stund för att betygsätta och granska {app_name}.</string>
+    <string name="dialog_remind_rate_1_suggest_improvement">Vänligen ta en stund för att skicka dina förbättringsförslag till oss.</string>
+    <string name="menu_create_split">Ny uppdelning</string>
+    <string name="pm_directdebit">Autogiro</string>
+    <string name="pref_contrib_purchase_title_upgrade">Uppgradera nyckeln</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_off">Lösenordet krävs.</string>
+    <string name="share_sending">Skicka exporteringsfil</string>
+    <string name="contrib_feature_split_template_label">Obegränsat antal delningsmallar</string>
+    <string name="menu_exclude_from_totals">Exkludera från totalen</string>
+    <string name="no_mapped_transactions">Inga transaktioner har kartlagts till kategorier under den här perioden.</string>
+    <string name="pref_import_title">%s-importer</string>
+    <string name="transfer">Överför</string>
 </resources>
