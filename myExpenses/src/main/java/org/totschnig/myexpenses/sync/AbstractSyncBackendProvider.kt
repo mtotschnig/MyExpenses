@@ -9,6 +9,7 @@ import android.net.Uri
 import android.provider.Settings
 import android.text.TextUtils
 import android.util.Base64
+import androidx.annotation.CallSuper
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -39,8 +40,8 @@ import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.io.MIME_TYPE_OCTET_STREAM
 import org.totschnig.myexpenses.util.io.getFileExtension
 import org.totschnig.myexpenses.util.io.getNameWithoutExtension
-import timber.log.Timber
 import java.io.*
+import java.lang.IllegalArgumentException
 import java.security.GeneralSecurityException
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -50,8 +51,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     /**
      * this holds the uuid of the db account which data is currently synced
      */
-    @JvmField
-    protected var accountUuid: String? = null
+    lateinit var accountUuid: String
     val sharedPreferences: SharedPreferences by lazy {
         context.getSharedPreferences("${sharedPreferencesName}_sync", 0)
     }
@@ -74,7 +74,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     abstract val accountRes: Res
 
     fun setAccountUuid(account: Account) {
-        accountUuid = account.uuid
+        accountUuid = account.uuid ?: throw IllegalArgumentException("uuid is null")
     }
 
     protected abstract val sharedPreferencesName: String
@@ -142,16 +142,9 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         throw IllegalStateException("Should be handled by implementation")
     }
 
-    @get:Throws(IOException::class)
-    open var lockToken: String?
-        get() = readFileContents(true, LOCK_FILE)
-        set(value) {
-            if (value == null) {
-                deleteLockTokenFile()
-            } else {
-                saveFileContents(true, null, LOCK_FILE, value, "text/plain", false)
-            }
-        }
+    private fun getLockToken() = readFileContents(true, LOCK_FILE)
+    open fun setLockToken(lockToken: String) : Res =
+        saveFileContents(true, null, LOCK_FILE, lockToken, "text/plain", false)
 
     @Throws(GeneralSecurityException::class)
     protected fun encrypt(plain: ByteArray?): String {
@@ -418,7 +411,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         fileContents: String,
         mimeType: String,
         maybeEncrypt: Boolean
-    )
+    ): Res
 
     protected abstract fun readFileContents(
         fromAccountDir: Boolean,
@@ -481,16 +474,21 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
                 ?: throw FileNotFoundException(context.getString(R.string.not_exist_file_desc) + ": " + categoriesFilename)
         }
 
+    @CallSuper
+    override fun withAccount(account: Account) {
+        setAccountUuid(account)
+    }
+
     @Throws(IOException::class)
     protected abstract fun writeAccount(account: Account, update: Boolean)
 
     @Throws(IOException::class)
     override fun lock() {
-        val existingLockToken = lockToken
+        val existingLockToken = getLockToken()
         log().i("ExistingLockToken: %s", existingLockToken)
         if (TextUtils.isEmpty(existingLockToken) || shouldOverrideLock(existingLockToken)) {
             val newLockToken = Model.generateUuid()
-            lockToken = newLockToken
+            setLockToken(newLockToken)
             saveLockTokenToPreferences(newLockToken, System.currentTimeMillis(), true)
         } else {
             throw IOException("Backend cannot be locked")
@@ -498,7 +496,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     }
 
     override fun unlock() {
-        lockToken = null
+        deleteLockTokenFile()
     }
 
     private fun shouldOverrideLock(lockToken: String?): Boolean {

@@ -4,20 +4,22 @@ import android.accounts.AccountManager
 import android.content.Context
 import android.net.Uri
 import android.os.Build
+import android.provider.OpenableColumns
 import androidx.annotation.RequiresApi
 import com.microsoft.graph.http.GraphServiceException
 import com.microsoft.graph.logger.DefaultLogger
 import com.microsoft.graph.logger.LoggerLevel
 import com.microsoft.graph.models.DriveItem
+import com.microsoft.graph.models.DriveItemCreateUploadSessionParameterSet
+import com.microsoft.graph.models.DriveItemUploadableProperties
 import com.microsoft.graph.models.Folder
-import com.microsoft.graph.requests.DriveItemCollectionRequest
 import com.microsoft.graph.requests.DriveItemCollectionRequestBuilder
-import com.microsoft.graph.requests.DriveItemContentStreamRequest
 import com.microsoft.graph.requests.DriveItemContentStreamRequestBuilder
-import com.microsoft.graph.requests.DriveItemRequest
 import com.microsoft.graph.requests.DriveItemRequestBuilder
 import com.microsoft.graph.requests.DriveRequestBuilder
 import com.microsoft.graph.requests.GraphServiceClient
+import com.microsoft.graph.tasks.IProgressCallback
+import com.microsoft.graph.tasks.LargeFileUploadTask
 import com.microsoft.identity.client.AcquireTokenSilentParameters
 import com.microsoft.identity.client.IAccount
 import com.microsoft.identity.client.IAuthenticationResult
@@ -32,12 +34,14 @@ import kotlinx.coroutines.withContext
 import okhttp3.Request
 import org.acra.util.StreamReader
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.sync.AbstractSyncBackendProvider
 import org.totschnig.myexpenses.sync.SyncBackendProvider
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.onedrive.R
 import org.totschnig.onedrive.getAll
+import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStream
 import java.util.concurrent.CompletableFuture
@@ -69,16 +73,19 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
                                 object : GetAccountCallback {
                                     override fun onTaskCompleted(result: IAccount?) {
                                         if (result == null) {
-                                            cont.resumeWithException(SyncBackendProvider.SyncParseException(
-                                                "Unable to retrieve Microsoft Account. Remove backend and add again."
-                                            ))
+                                            cont.resumeWithException(
+                                                SyncBackendProvider.SyncParseException(
+                                                    "Unable to retrieve Microsoft Account. Remove backend and add again."
+                                                )
+                                            )
                                         } else {
                                             application.acquireTokenSilentAsync(
                                                 AcquireTokenSilentParameters.Builder()
                                                     .withScopes(listOf("Files.ReadWrite.All"))
                                                     .fromAuthority("https://login.microsoftonline.com/common")
                                                     .forAccount(result)
-                                                    .withCallback(object: SilentAuthenticationCallback {
+                                                    .withCallback(object :
+                                                        SilentAuthenticationCallback {
                                                         override fun onSuccess(authenticationResult: IAuthenticationResult) {
                                                             cont.resume(authenticationResult.accessToken)
                                                         }
@@ -129,66 +136,39 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
         get() = itemWithPath(basePath)
 
     private val accountPath: String
-        get() = basePath.appendPath(accountUuid!!)
+        get() = basePath.appendPath(accountUuid)
 
     private fun String.appendPath(segment: String) = "$this/$segment"
 
     override val accountRes: DriveItem
-        get() = itemWithPath(accountPath).buildRequest().get()!!
+        get() = itemWithPath(accountPath).buildRequest().get()
+            ?: throw FileNotFoundException("accountRes not found")
     override val sharedPreferencesName = "oneDrive"
     override val isEmpty: Boolean
         get() = baseFolder.children().safeGet()?.currentPage?.isEmpty() == true
 
     private fun Exception.asIO() = if (this is IOException) this else
-        IOException(this.also { CrashHandler.report(it)  })
+        IOException(this.also { CrashHandler.report(it) })
 
-    private fun DriveItemRequestBuilder.safeWrite(
-        block: DriveItemRequest.() -> DriveItem?
-    ) = try {
-        buildRequest().block()
+    private fun <T> safeWrite(write: () -> T): T = try {
+        write()
     } catch (e: Exception) {
         throw e.asIO()
     }
 
-    private fun DriveItemContentStreamRequestBuilder.safeWrite(
-        block: DriveItemContentStreamRequest.() -> DriveItem?
-    ) = try {
-        buildRequest().block()
-    } catch (e: Exception) {
-        throw e.asIO()
-    }
-
-    private fun DriveItemCollectionRequestBuilder.safeWrite(
-        block: DriveItemCollectionRequest.() -> DriveItem?
-    ) = try {
-        buildRequest().block()
-    } catch (e: Exception) {
-        throw e.asIO()
-    }
-
-    private fun DriveItemRequestBuilder.safeGet() = try {
-        buildRequest().get()
+    private fun <T> safeRead(read: () -> T?): T? = try {
+        read()
     } catch (e: GraphServiceException) {
         null
     } catch (e: Exception) {
         throw e.asIO()
     }
 
-    private fun DriveItemCollectionRequestBuilder.safeGet() = try {
-        buildRequest().get()
-    } catch (e: GraphServiceException) {
-        null
-    } catch (e: Exception) {
-        throw e.asIO()
-    }
+    private fun DriveItemRequestBuilder.safeGet() = safeRead { buildRequest().get() }
 
-    private fun DriveItemContentStreamRequestBuilder.safeGet() = try {
-        buildRequest().get()
-    } catch (e: GraphServiceException) {
-        null
-    } catch (e: Exception) {
-        throw e.asIO()
-    }
+    private fun DriveItemCollectionRequestBuilder.safeGet() = safeRead { buildRequest().get() }
+
+    private fun DriveItemContentStreamRequestBuilder.safeGet() = safeRead { buildRequest().get() }
 
     override fun getResInAccountDir(resourceName: String) =
         itemWithPath(accountPath.appendPath(resourceName)).safeGet()
@@ -200,13 +180,13 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
         fileContents: String,
         mimeType: String,
         maybeEncrypt: Boolean
-    ) {
+    ): DriveItem {
         val base = if (toAccountDir) accountPath else basePath
         val driveFolder = if (folder == null) base else {
             getFolderRequestBuilder(base, folder, true)
             base.appendPath(folder)
         }
-        saveInputStream(
+        return saveInputStream(
             itemWithPath(driveFolder.appendPath(fileName)),
             toInputStream(fileContents, maybeEncrypt)
         )
@@ -224,11 +204,34 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
         return result
     }
 
-    private fun saveInputStream(driveFolder: DriveItemRequestBuilder, inputStream: InputStream) {
+    private fun saveInputStream(driveFolder: DriveItemRequestBuilder, inputStream: InputStream) =
         inputStream.use {
-            driveFolder.content().safeWrite {
-                put(it.readBytes())
+            safeWrite {
+                driveFolder.content().buildRequest().put(it.readBytes())
+                    ?: throw IOException("Upload failed")
             }
+        }
+
+    private fun largeFileUpload(
+        driveFolder: DriveItemRequestBuilder,
+        inputStream: InputStream,
+        streamSize: Long
+    ) {
+        inputStream.use {
+            val uploadParams = DriveItemCreateUploadSessionParameterSet
+                .newBuilder().withItem(DriveItemUploadableProperties()).build()
+            val uploadSession = safeWrite {
+                driveFolder.createUploadSession(uploadParams).buildRequest().post()
+            } ?: throw IOException("Could not create upload session")
+            val callback = IProgressCallback { current, max ->
+                log().i("Uploaded $current bytes of $max total bytes", current, max)
+            }
+
+            val largeFileUploadTask = LargeFileUploadTask(
+                uploadSession, graphClient, it, streamSize, DriveItem::class.java
+            )
+
+            largeFileUploadTask.upload(0, null, callback)
         }
     }
 
@@ -246,20 +249,18 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
         itemWithPath(basePath.appendPath(uuid)).safeGet()
 
 
-    private fun DriveItemRequestBuilder.createFolder(folderName: String): DriveItem {
-        return children()
-            .safeWrite {
-                post(DriveItem().apply {
-                    name = folderName
-                    folder = Folder()
-                })
-            }!!
-    }
+    private fun DriveItemRequestBuilder.createFolder(folderName: String) =
+        safeWrite {
+            children().buildRequest().post(DriveItem().apply {
+                name = folderName
+                folder = Folder()
+            })
+        }
 
     override fun writeAccount(account: Account, update: Boolean) {
-        val existingAccountFolder = getExistingAccountFolder(account.uuid!!)
+        val existingAccountFolder = getExistingAccountFolder(accountUuid)
         if (existingAccountFolder == null) {
-            baseFolder.createFolder(account.uuid!!)
+            baseFolder.createFolder(accountUuid)
             createWarningFile()
         }
         if (update || existingAccountFolder == null) {
@@ -275,13 +276,13 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
     }
 
     override fun withAccount(account: Account) {
-        setAccountUuid(account)
+        super.withAccount(account)
         writeAccount(account, false)
     }
 
     override fun resetAccountData(uuid: String) {
-        itemWithPath(basePath.appendPath(uuid)).safeWrite {
-            delete()
+        safeWrite {
+            itemWithPath(basePath.appendPath(uuid)).buildRequest().delete()
         }
     }
 
@@ -331,24 +332,31 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
         collection: DriveItem,
         maybeEncrypt: Boolean
     ) {
-        saveInputStream(
-            itemWithId(collection.id!!).itemWithPath(fileName),
-            maybeEncrypt(
-                context.contentResolver.openInputStream(uri)
-                    ?: throw IOException("Could not read $uri"),
-                maybeEncrypt
-            )
-        )
+        val fileSize = context.contentResolver.openAssetFileDescriptor(uri, "r")
+            ?.use { it.length }
+            ?: context.contentResolver.query(
+                uri, null, null, null, null
+            )?.use {
+                it.getLongOrNull(OpenableColumns.SIZE)
+            } ?: 0L
+        log().d("%s: %d", uri, fileSize)
+        val driveFolder = itemWithId(collection.id!!).itemWithPath(fileName)
+        val inputStream = (context.contentResolver.openInputStream(uri)
+            ?: throw IOException("Could not read $uri"))
+        if (!maybeEncrypt && fileSize > SIMPLE_FILE_UPLOAD_SIZE_LIMIT) {
+            largeFileUpload(driveFolder, inputStream, fileSize)
+        } else {
+            saveInputStream(driveFolder, maybeEncrypt(inputStream, maybeEncrypt))
+        }
     }
 
     override fun deleteLockTokenFile() {
-        itemWithPath(getResourcePath(LOCK_FILE)).safeWrite {
-            delete()
-        }
+        setLockToken("")
     }
 
     companion object {
         const val KEY_MICROSOFT_ACCOUNT = "microsoftAccount"
+        const val SIMPLE_FILE_UPLOAD_SIZE_LIMIT = 4194304 //4MB
     }
 
 }

@@ -43,7 +43,7 @@ dependencies {
     implementation("io.opentelemetry:opentelemetry-api:1.18.0")
     implementation("io.opentelemetry:opentelemetry-context:1.18.0")
 
-    implementation 'com.microsoft.graph:microsoft-graph:5.77.0'
+    implementation 'com.microsoft.graph:microsoft-graph:5.79.0'
 }
 
 configurations.configureEach {

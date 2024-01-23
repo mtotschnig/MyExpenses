@@ -91,7 +91,7 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
 
     @Throws(IOException::class)
     override fun withAccount(account: Account) {
-        setAccountUuid(account)
+        super.withAccount(account)
         requireFolder(accountPath)
         writeAccount(account, false)
     }
@@ -239,7 +239,7 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         fileContents: String,
         mimeType: String,
         maybeEncrypt: Boolean
-    ) {
+    ): Metadata {
         val base = if (toAccountDir) accountPath else basePath
         val path = if (folder == null) {
             base
@@ -248,17 +248,16 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
                 requireFolder(it)
             }
         }
-        saveInputStream("$path/$fileName", toInputStream(fileContents, maybeEncrypt))
+        return saveInputStream("$path/$fileName", toInputStream(fileContents, maybeEncrypt))
     }
 
     @Throws(IOException::class)
-    private fun saveInputStream(path: String, contents: InputStream) {
+    private fun saveInputStream(path: String, contents: InputStream) =
         tryWithWrappedException {
             mDbxClient.files().uploadBuilder(path)
                 .withMode(WriteMode.OVERWRITE)
                 .uploadAndFinish(contents)
         }
-    }
 
     override val remoteAccountList: List<Result<AccountMetaData>>
         get() = tryWithWrappedException {
