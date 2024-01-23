@@ -114,7 +114,7 @@ class GoogleDriveBackendProvider internal constructor(
         fileContents: String,
         mimeType: String,
         maybeEncrypt: Boolean
-    ) {
+    ): File {
         val base = if (toAccountDir) accountFolder else baseFolder
         val driveFolder = if (folder == null) base else {
             getResInAccountDir(folder) ?: driveServiceHelper.createFolder(
@@ -124,6 +124,7 @@ class GoogleDriveBackendProvider internal constructor(
             )
         }
         saveFileContents(driveFolder, fileName, fileContents, mimeType, maybeEncrypt)
+        return driveFolder
     }
 
     @Throws(IOException::class)
@@ -139,11 +140,15 @@ class GoogleDriveBackendProvider internal constructor(
         }
     }
 
-    override var lockToken: String?
-        get() = accountFolder.appProperties?.get(LOCK_TOKEN_KEY)
-        set(value) {
-            driveServiceHelper.setMetadataProperty(accountFolder.id, LOCK_TOKEN_KEY, value)
-        }
+    override fun getLockToken() = accountFolder.appProperties?.get(LOCK_TOKEN_KEY)
+
+    override fun setLockToken(lockToken: String) {
+        driveServiceHelper.setMetadataProperty(accountFolder.id, LOCK_TOKEN_KEY, lockToken)
+    }
+
+    override fun deleteLockTokenFile() {
+        driveServiceHelper.setMetadataProperty(accountFolder.id, LOCK_TOKEN_KEY, null)
+    }
 
     @Throws(IOException::class)
     private fun saveInputStream(
@@ -169,15 +174,15 @@ class GoogleDriveBackendProvider internal constructor(
 
     @Throws(IOException::class)
     override fun withAccount(account: org.totschnig.myexpenses.model2.Account) {
-        setAccountUuid(account)
+        super.withAccount(account)
         writeAccount(account, false)
     }
 
     @Throws(IOException::class)
     override fun writeAccount(account: org.totschnig.myexpenses.model2.Account, update: Boolean) {
-        val existingAccountFolder = getExistingAccountFolder(account.uuid!!)
+        val existingAccountFolder = getExistingAccountFolder(accountUuid)
         if (existingAccountFolder == null) {
-            accountFolder = driveServiceHelper.createFolder(baseFolder.id, accountUuid!!, null)
+            accountFolder = driveServiceHelper.createFolder(baseFolder.id, accountUuid, null)
             createWarningFile()
         } else {
             accountFolder = existingAccountFolder
@@ -246,9 +251,9 @@ class GoogleDriveBackendProvider internal constructor(
             .filter { verifyRemoteAccountFolderName(it.name) }
             .map(::getAccountMetaDataFromDriveMetadata)
 
-    private fun getAccountMetaDataFromDriveMetadata(metadata: File?): Result<AccountMetaData> {
+    private fun getAccountMetaDataFromDriveMetadata(metadata: File): Result<AccountMetaData> {
         val accountMetadata: File? = try {
-            driveServiceHelper.getFileByNameAndParent(metadata!!, accountMetadataFilename)
+            driveServiceHelper.getFileByNameAndParent(metadata, accountMetadataFilename)
         } catch (e: IOException) {
             return Result.failure(e)
         }

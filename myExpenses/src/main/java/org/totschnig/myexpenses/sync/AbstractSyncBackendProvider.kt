@@ -142,9 +142,10 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         throw IllegalStateException("Should be handled by implementation")
     }
 
-    private fun getLockToken() = readFileContents(true, LOCK_FILE)
-    open fun setLockToken(lockToken: String) : Res =
+    open fun getLockToken() = readFileContents(true, LOCK_FILE)
+    open fun setLockToken(lockToken: String) {
         saveFileContents(true, null, LOCK_FILE, lockToken, "text/plain", false)
+    }
 
     @Throws(GeneralSecurityException::class)
     protected fun encrypt(plain: ByteArray?): String {
