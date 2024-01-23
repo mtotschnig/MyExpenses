@@ -20,6 +20,7 @@ import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.platform.app.InstrumentationRegistry
 import com.adevinta.android.barista.interaction.BaristaEditTextInteractions
+import com.adevinta.android.barista.interaction.BaristaScrollInteractions
 import com.adevinta.android.barista.internal.matcher.HelperMatchers.menuIdMatcher
 import org.assertj.core.api.Assertions
 import org.junit.Before
@@ -94,6 +95,7 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
     }
 
     fun typeToAndCloseKeyBoard(@IdRes editTextId: Int, text: String) {
+        BaristaScrollInteractions.safelyScrollTo(editTextId)
         BaristaEditTextInteractions.typeTo(editTextId, text)
         closeSoftKeyboard()
     }
