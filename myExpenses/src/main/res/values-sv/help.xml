@@ -6,12 +6,12 @@
     <string name="popup_MyExpenses_toolbar_copy_text">Kopiera det aktuella saldot till klippbordet.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Beräkna skillnaden mellan det aktuella saldot och ett nytt värde.</string>
     <string name="help_menu_commands">Meny-kommandon</string>
-    <string name="help_MyExpenses_info">Den här skärmen listar alla transaktioner för det aktuella kontot. Använd den flytande åtgärdsknappen för att öppna formuläret för att skapa en ny transaktion.</string>
+    <string name="help_MyExpenses_info">Den här skärmen listar alla överföringar för det aktuella kontot. Använd den flytande åtgärdsknappen för att öppna formuläret för att skapa en ny överföring.</string>
     <string name="help_form_fields">Formulärfält</string>
     <string name="help_MyExpenses_fab_long_press">Att trycka länge på den flytande åtgärdsknappen öppnar en meny som tillåter förberedelsen av formuläret för överföring, uppdelning av överföringen eller inkomst.</string>
     <string name="help_ManageTemplates_plans_title">Planera kalendervy</string>
     <string name="menu_sort_direction_help_text">Transaktionerna kan sorteras i stigande (äldst överst) eller fallande (senaste överst) ordning.</string>
-    <string name="help_contextual_actions_help">Menyn för kontextuella åtgärder visas genom att trycka länge på en listpost.</string>
+    <string name="help_contextual_actions_help">Menyn för sammanhängande åtgärder visas genom att knacka länge på post i listan.</string>
     <string name="menu_status_handle_help_text">Överföringens status visas med en färglagd rektangel: grå för oförsonad, blå för redo, grön för försonad. Statusen ändras vid tryck på rektangeln.</string>
     <string name="menu_budget_help_text">Hantera dagliga, veckovisa, månatliga eller årliga budgetar för det konto som visas för tillfället.</string>
     <string name="help_MyExpenses_title">Lista över transaktioner</string>
@@ -20,4 +20,10 @@
     <string name="help_ManageParties_manage_info">Den här skärmen listar alla parter som används för automatisk komplettering för Betalare/Betalningsmottagare-fältet.</string>
     <string name="menu_scan_mode_help_text">Aktivera skanningsläge för att snabbt kunna skanna kvitton.</string>
     <string name="help_ManageParties_floating_action_button">Använd den flytande åtgärdsknappen för att lägga till en ny post.</string>
+    <string name="menu_grouping_help_text">Du kan gruppera transaktioner efter dag, vecka, månad eller år. För varje grupp beräknas och visas summan av intäkter, kostnader och överföringar. När du klickar på en grupprubrik så minskas gruppen av transaktioner och endast rubriken visas. Klicka igen för att expandera.</string>
+    <string name="menu_distribution_help_text">Visa distributionen för dina utgifter efter kategori. Du kan också trycka länge på grupprubriken för att inspektera distribueringen under en specifik tidsperiod.</string>
+    <string name="cab_split_help_text">Du kan redigera transaktionen senare för att skapa ytterligare delar efter behov.</string>
+    <string name="help_ManageParties_select_mapping_info">Välj en part genom att knacka på den.</string>
+    <string name="cab_create_template_from_transaction_help_text">Definiera en ny mall som baseras på den valda transaktionen. Kommer att uppmärksamma dig om mallens titel.</string>
+    <string name="menu_reset_help_text">Det här kommandot kommer att exportera alla transaktioner på det aktuella kontot till en fil på SD-kortet i QIF eller CSV-format. Du kan välja att ta bort de exporterade transaktionerna, i så fall justeras det ingående saldot automatiskt. Alternativt, om transaktionerna inte tas bort kommer de att markeras som exporterade. Mina utgifter kan dela filen direkt efter exporten via FTP, e-post eller någon annan fildelningsapp, om du konfigurerar den att göra det i Inställningarna. Om ett sökfilter är aktivt så kommer endast de transaktioner som kartlagts av detta filter att beaktas.</string>
 </resources>
