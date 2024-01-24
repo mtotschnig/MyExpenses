@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.viewmodel.data.Category.Companion.NO_CATEGORY_AS
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import kotlin.text.Typography.ellipsis
 
 val inlineIconPlaceholder = 13.sp
 val inlineIconSize = 12.sp
@@ -103,7 +104,9 @@ abstract class ItemRenderer(
             }
             comment?.takeIf { it.isNotEmpty() }?.let {
                 withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
-                    append(it)
+                    append(
+                        if (comment.length > 100) (comment.substring(0, 100) + ellipsis) else comment
+                    )
                 }
             }
             payee?.takeIf { it.isNotEmpty() }?.let {
