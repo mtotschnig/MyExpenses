@@ -29,11 +29,15 @@ abstract class AbstractSetupViewModel(val backendService: BackendService, applic
     }
 
     fun createFolder(label: String) {
-        viewModelScope.launch {
-            try {
-                folderCreateResult.postValue(createFolderBackground(label.trim()))
-            } catch (e: Exception) {
-                error.postValue(e)
+        if (folderList.value?.any { it.second == label } == true) {
+            error.postValue(Exception("A folder with this name already exists."))
+        } else {
+            viewModelScope.launch {
+                try {
+                    folderCreateResult.postValue(createFolderBackground(label.trim()))
+                } catch (e: Exception) {
+                    error.postValue(e)
+                }
             }
         }
     }
