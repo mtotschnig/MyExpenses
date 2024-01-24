@@ -294,7 +294,7 @@ class SyncAdapter @JvmOverloads constructor(
                                         R.string.sync_io_exception_setup_remote_account,
                                         account
                                     )
-                                    continue
+                                    break
                                 }
                                 try {
                                     backend.lock()
@@ -306,7 +306,7 @@ class SyncAdapter @JvmOverloads constructor(
                                     notifyIoException(R.string.sync_io_exception_locking, account)
                                     syncResult.stats.numIoExceptions++
                                     syncResult.delayUntil = getIoLockDelaySeconds(backend.suggestDelay(e))
-                                    continue
+                                    break
                                 }
                                 var completedWithoutError = false
                                 var successRemote2Local = 0
@@ -441,6 +441,7 @@ class SyncAdapter @JvmOverloads constructor(
                                     syncResult.stats.numIoExceptions++
                                     syncResult.delayUntil = getIoDelaySeconds(backend.suggestDelay(e))
                                     notifyIoException(R.string.sync_io_exception_syncing, account)
+                                    break
                                 } catch (e: RemoteException) {
                                     syncResult.databaseError = true
                                     notifyDatabaseError(e, account)
@@ -484,6 +485,7 @@ class SyncAdapter @JvmOverloads constructor(
                                             syncResult.stats.numIoExceptions++
                                             syncResult.delayUntil = getIoLockDelaySeconds(backend.suggestDelay(e))
                                         }
+                                        break
                                     }
                                 }
                             } while (cursor.moveToNext())
@@ -583,7 +585,7 @@ class SyncAdapter @JvmOverloads constructor(
                             context.getString(
                                 R.string.write_fail_reason_cannot_write,
                             )
-                                    + "(" + fileName + "): " + e.message, null, null
+                                    + "(" + fileName + "): " + e.message
                         )
                     }
                 }
@@ -628,7 +630,7 @@ class SyncAdapter @JvmOverloads constructor(
             notifyUser(
                 notificationTitle,
                 concat(contentBuilders),
-                account, null
+                account
             )
         }
     }
@@ -647,15 +649,15 @@ class SyncAdapter @JvmOverloads constructor(
 
     private fun maybeNotifyUser(title: String, content: String, account: Account?) {
         if (shouldNotify) {
-            notifyUser(title, content, account, null)
+            notifyUser(title, content, account)
         }
     }
 
     private fun notifyUser(
         title: String,
         content: CharSequence,
-        account: Account?,
-        intent: Intent?
+        account: Account? = null,
+        intent: Intent? = null
     ) {
         val builder = NotificationBuilderWrapper.bigTextStyleBuilder(
             context, NotificationBuilderWrapper.CHANNEL_ID_SYNC, title, content
@@ -868,6 +870,9 @@ class SyncAdapter @JvmOverloads constructor(
     }
 
     override fun onSyncCanceled() {
+        if (BuildConfig.DEBUG) {
+            notifyUser("Debug", "Sync canceled")
+        }
         report(Exception("Sync canceled"))
         super.onSyncCanceled()
     }
