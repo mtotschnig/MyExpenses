@@ -46,7 +46,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
 
     @Throws(IOException::class)
     override fun withAccount(account: org.totschnig.myexpenses.model2.Account) {
-        setAccountUuid(account)
+        super.withAccount(account)
         webDavClient.mkCol(accountUuid)
         writeAccount(account, false)
     }
