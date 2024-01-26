@@ -1493,6 +1493,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     fun saveCategory(db: SupportSQLiteDatabase, extras: Bundle) = Bundle(1).apply {
+        extras.classLoader = this@BaseTransactionProvider.javaClass.classLoader
         saveCategory(
             db,
             BundleCompat.getParcelable(extras, KEY_CATEGORY, Category::class.java)!!
