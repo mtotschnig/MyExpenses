@@ -138,8 +138,8 @@ class SyncDelegate(
         uuidsRequiringMerge.forEach { uuid: String ->
             mergesPerUuid[uuid] = mergeUpdates(updatesPerUuid[uuid]!!)
         }
-        firstResult = replaceByMerged(firstResult, mergesPerUuid)
-        secondResult = replaceByMerged(secondResult, mergesPerUuid)
+        firstResult = mergeChanges(replaceByMerged(firstResult, mergesPerUuid))
+        secondResult = mergeChanges(replaceByMerged(secondResult, mergesPerUuid))
         return Pair.create(firstResult, secondResult)
     }
 
@@ -160,8 +160,55 @@ class SyncDelegate(
         mergedMap: HashMap<String, TransactionChange>
     ): List<TransactionChange> {
         return input.map { change ->
-            change.takeIf { it.isCreateOrUpdate }?.let { mergedMap[change.uuid()] } ?: change
+            change.takeIf { it.isCreateOrUpdate }?.nullifyIfNeeded(mergedMap[change.uuid()]) ?: change
         }.distinct()
+    }
+
+    private fun TransactionChange.nullifyIfNeeded(from: TransactionChange?): TransactionChange {
+        return if (from == null) this
+        else toBuilder().apply {
+            if (comment() != null && from.comment() != null && from.comment() != comment()) {
+                setComment(null)
+            }
+            if (date() != null && from.date() != null) {
+                setDate(null)
+            }
+            if (valueDate() != null && from.valueDate() != null) {
+                setValueDate(null)
+            }
+            if (amount() != null && from.amount() != null && from.amount() != amount()) {
+                setAmount(null)
+            }
+            if ((label() != null || categoryInfo() != null) && (from.label() != null || from.categoryInfo() != null)) {
+                setLabel(null)
+                setCategoryInfo(null)
+            }
+            if (payeeName() != null && from.payeeName() != null) {
+                setPayeeName(null)
+            }
+            if (transferAccount() != null && from.transferAccount() != null) {
+                setTransferAccount(null)
+            }
+            if (methodLabel() != null && from.methodLabel() != null) {
+                setMethodLabel(null)
+            }
+            if (crStatus() != null && from.crStatus() != null) {
+                setCrStatus(null)
+            }
+            if (referenceNumber() != null && from.referenceNumber() != null) {
+                setReferenceNumber(null)
+            }
+            if ((pictureUri() != null || attachments() != null) && (from.pictureUri() != null || from.attachments() != null)) {
+                setPictureUri(null)
+                setAttachments(null)
+            }
+            if (splitParts() != null && from.splitParts() != null) {
+                setSplitParts(null)
+            }
+            if (tags() != null && from.tags() != null) {
+                setTags(null)
+            }
+        }.build()
     }
 
     private fun mergeChanges(input: List<TransactionChange>): List<TransactionChange> =
@@ -184,8 +231,9 @@ class SyncDelegate(
         initial: TransactionChange,
         change: TransactionChange
     ): TransactionChange {
-        check(change.isCreateOrUpdate && initial.isCreateOrUpdate) { "Can only merge creates and updates" }
         check(initial.uuid() == change.uuid()) { "Can only merge changes with same uuid" }
+        if (initial.isDelete) return initial
+        if (change.isDelete) return change
         val builder = initial.toBuilder()
         if (change.parentUuid() != null) {
             builder.setParentUuid(change.parentUuid())
@@ -290,7 +338,8 @@ class SyncDelegate(
                         )
                         val tagOps = saveTagLinks(tagIds, transactionId, null, true)
                         ops.addAll(tagOps)
-                        val attachmentOps = saveAttachmentLinks(change.attachments(), transactionId, null)
+                        val attachmentOps =
+                            saveAttachmentLinks(change.attachments(), transactionId, null)
                         ops.addAll(attachmentOps)
                         additionalOpsCount = tagOps.size + attachmentOps.size
                     } else {
@@ -300,7 +349,7 @@ class SyncDelegate(
                     }
                 } else {
                     ops.addAll(getContentProviderOperationsForCreate(change, offset, parentOffset))
-                    val tagOps= saveTagLinks(tagIds, null, offset, true)
+                    val tagOps = saveTagLinks(tagIds, null, offset, true)
                     ops.addAll(tagOps)
                     val attachmentOps = saveAttachmentLinks(change.attachments(), null, offset)
                     ops.addAll(attachmentOps)
@@ -336,7 +385,8 @@ class SyncDelegate(
                     }
                     val tagOps = saveTagLinks(tagIds, transactionId, null, true)
                     ops.addAll(tagOps)
-                    val attachmentOps = saveAttachmentLinks(change.attachments(), transactionId, null)
+                    val attachmentOps =
+                        saveAttachmentLinks(change.attachments(), transactionId, null)
                     ops.addAll(attachmentOps)
                     additionalOpsCount = tagOps.size + attachmentOps.size
                 }

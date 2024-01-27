@@ -1,68 +1,85 @@
 package org.totschnig.myexpenses.sync
 
-import org.junit.Assert
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.totschnig.myexpenses.sync.json.TransactionChange
 
 @RunWith(RobolectricTestRunner::class)
 class SyncAdapterMergeChangeSetsTest : SyncAdapterBaseTest() {
     @Test
-    fun noConflictsShouldBeReturnedIdentical() {
-        val first: MutableList<TransactionChange> = ArrayList()
-        first.add(buildCreated().setUuid("random1").build())
-        val second: MutableList<TransactionChange> = ArrayList()
-        second.add(buildCreated().setUuid("random2").build())
+    fun listsWithoutMatchingShouldBeReturnedIdentical() {
+        val first = buildList {
+            add(buildCreated().setUuid("random1").setAmount(123).build())
+        }
+        val second = buildList {
+            add(buildCreated().setUuid("random2").setComment("Commentary").build())
+        }
         val result = syncDelegate.mergeChangeSets(first, second)
-        Assert.assertEquals(first, result.first)
-        Assert.assertEquals(second, result.second)
+        assertThat(result.first).isEqualTo(first)
+        assertThat(result.second).isEqualTo(second)
+    }
+
+    @Test
+    fun listsWithMatchingWithoutConflictShouldBeReturnedIdentical() {
+        val first = buildList {
+            add(buildCreated().setUuid("random1").setAmount(123).build())
+        }
+        val second = buildList {
+            add(buildCreated().setUuid("random1").setComment("Commentary").build())
+        }
+        val result = syncDelegate.mergeChangeSets(first, second)
+        assertThat(result.first).isEqualTo(first)
+        assertThat(result.second).isEqualTo(second)
     }
 
     @Test
     fun deleteInSameSetShouldTriggerRemovalOfRelatedChanges() {
         val uuid = "random"
-        val first: MutableList<TransactionChange> = ArrayList()
-        first.add(buildCreated().setUuid(uuid).build())
-        first.add(buildDeleted().setUuid(uuid).build())
-        val second: List<TransactionChange> = ArrayList()
-        val result = syncDelegate.mergeChangeSets(first, second)
-        Assert.assertEquals(1, result.first.size.toLong())
-        Assert.assertEquals(result.first[0], first[1])
-        Assert.assertEquals(0, result.second.size.toLong())
+        val deleteChange = buildDeleted().setUuid(uuid).build()
+        val first = buildList {
+            add(buildCreated().setUuid(uuid).build())
+            add(deleteChange)
+        }
+        val result = syncDelegate.mergeChangeSets(first, emptyList())
+        assertThat(result.first).hasSize(1)
+        assertThat(result.first.first()).isEqualTo(deleteChange)
+        assertThat(result.second).isEmpty()
     }
 
     @Test
     fun deleteInDifferentSetShouldTriggerRemovalOfRelatedChanges() {
         val uuid = "random"
-        val first: MutableList<TransactionChange> = ArrayList()
-        first.add(buildUpdated().setUuid(uuid).build())
-        val second: MutableList<TransactionChange> = ArrayList()
-        second.add(buildDeleted().setUuid(uuid).build())
+        val first = buildList {
+            add(buildUpdated().setUuid(uuid).build())
+        }
+        val second = buildList {
+            add(buildDeleted().setUuid(uuid).build())
+        }
         val result = syncDelegate.mergeChangeSets(first, second)
-        Assert.assertEquals(0, result.first.size.toLong())
-        Assert.assertEquals(second, result.second)
+        assertThat(result.first).isEmpty()
+        assertThat(result.second).isEqualTo(second)
     }
 
     @Test
     fun updatesShouldBeMerged() {
         val uuid = "random"
-        val first: MutableList<TransactionChange> = ArrayList()
-        first.add(buildUpdated().setUuid(uuid).build())
-        first.add(buildUpdated().setUuid(uuid).build())
-        val second: List<TransactionChange> = ArrayList()
-        val result = syncDelegate.mergeChangeSets(first, second)
-        Assert.assertEquals(1, result.first.size.toLong())
+        val first = buildList {
+            add(buildUpdated().setUuid(uuid).build())
+            add(buildUpdated().setUuid(uuid).build())
+        }
+        val result = syncDelegate.mergeChangeSets(first, emptyList())
+        assertThat(result.first).hasSize(1)
     }
 
     @Test
     fun insertCanBeMergedWithUpdate() {
         val uuid = "random"
-        val first: MutableList<TransactionChange> = ArrayList()
-        first.add(buildCreated().setUuid(uuid).build())
-        first.add(buildUpdated().setUuid(uuid).build())
-        val second: List<TransactionChange> = ArrayList()
-        val result = syncDelegate.mergeChangeSets(first, second)
-        Assert.assertEquals(1, result.first.size.toLong())
+        val first = buildList {
+            add(buildCreated().setUuid(uuid).build())
+            add(buildUpdated().setUuid(uuid).build())
+        }
+        val result = syncDelegate.mergeChangeSets(first, emptyList())
+        assertThat(result.first).hasSize(1)
     }
 }
