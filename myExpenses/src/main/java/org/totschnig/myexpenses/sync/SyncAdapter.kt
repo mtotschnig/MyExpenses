@@ -452,6 +452,7 @@ class SyncAdapter @JvmOverloads constructor(
                                     syncResult.databaseError = true
                                     nonRecoverableError(account, e.safeMessage)
                                 } catch (e: Exception) {
+                                    if (e is InterruptedException) throw e
                                     appendToNotification(
                                         "ERROR (${e.javaClass.simpleName}): ${e.message} ",
                                         account, true
