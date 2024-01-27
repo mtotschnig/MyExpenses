@@ -169,42 +169,49 @@ class SyncDelegate(
             if (comment() != null && from.comment() != null && from.comment() != comment()) {
                 setComment(null)
             }
-            if (date() != null && from.date() != null) {
+            if (date() != null && from.date() != null && from.date() != date()) {
                 setDate(null)
             }
-            if (valueDate() != null && from.valueDate() != null) {
+            if (valueDate() != null && from.valueDate() != null && from.valueDate() != valueDate()) {
                 setValueDate(null)
             }
             if (amount() != null && from.amount() != null && from.amount() != amount()) {
                 setAmount(null)
             }
-            if ((label() != null || categoryInfo() != null) && (from.label() != null || from.categoryInfo() != null)) {
+            if ((label() != null || categoryInfo() != null) &&
+                (from.label() != null || from.categoryInfo() != null) &&
+                (from.label() != label() || from.categoryInfo() != categoryInfo())
+                ) {
                 setLabel(null)
                 setCategoryInfo(null)
             }
-            if (payeeName() != null && from.payeeName() != null) {
+            if (payeeName() != null && from.payeeName() != null && from.payeeName() != payeeName()) {
                 setPayeeName(null)
             }
-            if (transferAccount() != null && from.transferAccount() != null) {
+            if (transferAccount() != null && from.transferAccount() != null && from.transferAccount() != transferAccount()) {
                 setTransferAccount(null)
             }
-            if (methodLabel() != null && from.methodLabel() != null) {
+            if (methodLabel() != null && from.methodLabel() != null && from.methodLabel() != methodLabel()) {
                 setMethodLabel(null)
             }
-            if (crStatus() != null && from.crStatus() != null) {
+            if (crStatus() != null && from.crStatus() != null && from.crStatus() != crStatus()) {
                 setCrStatus(null)
             }
-            if (referenceNumber() != null && from.referenceNumber() != null) {
+            if (referenceNumber() != null && from.referenceNumber() != null && from.referenceNumber() != referenceNumber()) {
                 setReferenceNumber(null)
             }
-            if ((pictureUri() != null || attachments() != null) && (from.pictureUri() != null || from.attachments() != null)) {
+            if ((pictureUri() != null || attachments() != null) &&
+                (from.pictureUri() != null || from.attachments() != null) &&
+                (from.pictureUri() != pictureUri() || from.attachments() != attachments())
+
+                ) {
                 setPictureUri(null)
                 setAttachments(null)
             }
-            if (splitParts() != null && from.splitParts() != null) {
+            if (splitParts() != null && from.splitParts() != null && from.splitParts() != splitParts()) {
                 setSplitParts(null)
             }
-            if (tags() != null && from.tags() != null) {
+            if (tags() != null && from.tags() != null && from.tags() != tags()) {
                 setTags(null)
             }
         }.build()
