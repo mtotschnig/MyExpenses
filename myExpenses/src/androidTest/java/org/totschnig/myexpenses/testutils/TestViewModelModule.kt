@@ -2,13 +2,11 @@ package org.totschnig.myexpenses.testutils
 
 import android.app.Application
 import android.content.Context
-import androidx.core.util.Pair
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import androidx.test.espresso.idling.CountingIdlingResource
-import dagger.Provides
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import org.totschnig.myexpenses.MyApplication
@@ -57,9 +55,9 @@ class FakeSyncBackendViewModel(application: Application) :
     override fun getAccounts(context: Context): List<Pair<String, Boolean>> =
         with(getApplication<TestApp>().fixture) {
             listOf(
-                Pair.create(syncAccount1, true),
-                Pair.create(syncAccount2, false),
-                Pair.create(syncAccount3, false)
+                syncAccount1 to true,
+                syncAccount2 to false,
+                syncAccount3 to false
             )
         }
 

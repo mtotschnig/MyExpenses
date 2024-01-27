@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.db2
 
-import android.annotation.SuppressLint
 import android.content.ContentUris
 import android.content.ContentValues
 import app.cash.copper.flow.mapToList
@@ -73,7 +72,6 @@ data class AccountInformation(val number: String?, val subnumber: String?, val i
     }
 }
 
-@SuppressLint("Recycle")
 fun Repository.importedAccounts(bankId: Long): List<AccountInformation> =
     contentResolver.query(
         TransactionProvider.ACCOUNTS_ATTRIBUTES_URI,
