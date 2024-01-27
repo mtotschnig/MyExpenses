@@ -18,7 +18,6 @@ import android.widget.ExpandableListView.OnGroupExpandListener
 import android.widget.ExpandableListView.PACKED_POSITION_TYPE_CHILD
 import android.widget.ExpandableListView.getPackedPositionGroup
 import android.widget.ExpandableListView.getPackedPositionType
-import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope

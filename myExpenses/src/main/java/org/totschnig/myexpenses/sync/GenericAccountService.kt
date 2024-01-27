@@ -26,7 +26,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.IBinder
-import androidx.core.util.Pair
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.activity.ManageSyncBackends
 import org.totschnig.myexpenses.model.ContribFeature
@@ -200,10 +199,7 @@ class GenericAccountService : Service() {
         fun getAccountNamesWithEncryption(context: Context): List<Pair<String, Boolean>> {
             return getAccounts(context)
                 .map { account: Account ->
-                    Pair.create(
-                        account.name,
-                        AccountManager.get(context).getUserData(account, KEY_ENCRYPTED) != null
-                    )
+                    account.name to (AccountManager.get(context).getUserData(account, KEY_ENCRYPTED) != null)
                 }
         }
 

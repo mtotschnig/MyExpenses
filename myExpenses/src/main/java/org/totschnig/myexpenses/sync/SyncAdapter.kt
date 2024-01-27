@@ -14,7 +14,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.RemoteException
 import android.util.SparseArray
-import androidx.core.util.Pair
 import kotlinx.coroutines.runBlocking
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
@@ -46,7 +45,6 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Provider
-import kotlin.math.pow
 
 class SyncAdapter @JvmOverloads constructor(
     context: Context,

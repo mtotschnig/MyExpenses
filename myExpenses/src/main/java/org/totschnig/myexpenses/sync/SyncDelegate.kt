@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.sync
 import android.content.*
 import android.os.RemoteException
 import androidx.annotation.VisibleForTesting
-import androidx.core.util.Pair
 import org.apache.commons.collections4.ListUtils
 import org.totschnig.myexpenses.db2.*
 import org.totschnig.myexpenses.feature.Feature
@@ -140,7 +139,7 @@ class SyncDelegate(
         }
         firstResult = replaceByMerged(firstResult, mergesPerUuid)
         secondResult = replaceByMerged(secondResult, mergesPerUuid)
-        return Pair.create(firstResult, secondResult)
+        return firstResult to secondResult
     }
 
     private fun ensureList(
