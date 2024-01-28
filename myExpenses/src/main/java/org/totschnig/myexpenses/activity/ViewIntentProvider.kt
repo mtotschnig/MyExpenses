@@ -10,10 +10,10 @@ import org.totschnig.myexpenses.util.safeMessage
 import java.lang.Exception
 
 interface ViewIntentProvider {
-    fun getViewIntent(context: Context, uri: Uri): Intent
-    fun startViewAction(activity: Activity, uri: Uri) {
+    fun getViewIntent(context: Context, uri: Uri, type: String?): Intent
+    fun startViewAction(activity: Activity, uri: Uri, type: String?) {
         try {
-            activity.startActivity(getViewIntent(activity, uri))
+            activity.startActivity(getViewIntent(activity, uri, type))
         } catch (e: Exception) {
             CrashHandler.report(e, "uri", uri.toString())
             Toast.makeText(activity, e.safeMessage, Toast.LENGTH_LONG).show()

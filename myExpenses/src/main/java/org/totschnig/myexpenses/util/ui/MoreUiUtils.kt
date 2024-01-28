@@ -35,11 +35,11 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.ui.TimeButton
 import org.totschnig.myexpenses.ui.filter.ScrollingChip
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.io.getMimeType
 import org.totschnig.myexpenses.util.ui.UiUtils.DateMode
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.Companion.lazyMap
 import org.totschnig.myexpenses.viewmodel.data.AttachmentInfo
@@ -110,7 +110,7 @@ fun getDateMode(accountType: AccountType?, prefHandler: PrefHandler) = when {
 
 private fun timeFormatter(accountType: AccountType?, prefHandler: PrefHandler, context: Context) =
     if (getDateMode(accountType, prefHandler) == DateMode.DATE_TIME) {
-        android.text.format.DateFormat.getTimeFormat(context) as SimpleDateFormat
+        DateFormat.getTimeFormat(context) as SimpleDateFormat
     } else null
 
 val SimpleDateFormat.asDateTimeFormatter: DateTimeFormatter
@@ -126,7 +126,7 @@ fun dateTimeFormatterLegacy(account: PageAccount, prefHandler: PrefHandler, cont
     when (account.grouping) {
         Grouping.DAY -> {
             timeFormatter(account.type, prefHandler, context)?.let {
-                val is24HourFormat = android.text.format.DateFormat.is24HourFormat(context)
+                val is24HourFormat = DateFormat.is24HourFormat(context)
                 it to if (is24HourFormat) 3f else 4.6f
             }
         }
@@ -214,7 +214,7 @@ fun attachmentInfoMap(context: Context, withFile: Boolean = false): Map<Uri, Att
                             val size = UiUtils.dp2Px(48f, context.resources)
                             val cancellationSignal = CancellationSignal()
                             try {
-                                AttachmentInfo.of(
+                                AttachmentInfo.of(it,
                                     contentResolver.loadThumbnail(
                                         uri,
                                         Size(size, size),
@@ -225,26 +225,29 @@ fun attachmentInfoMap(context: Context, withFile: Boolean = false): Map<Uri, Att
                                 null
                             }
                         } else {
-                            AttachmentInfo.of(R.drawable.ic_menu_camera, file)
+                            AttachmentInfo.of(it, R.drawable.ic_menu_camera, file)
                         }
                     } else {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                             val icon = contentResolver.getTypeInfo(it).icon
-                            AttachmentInfo.of(icon, file)
+                            AttachmentInfo.of(it, icon, file)
                         } else {
-                            AttachmentInfo.of(R.drawable.ic_menu_template, file)
+                            AttachmentInfo.of(it, R.drawable.ic_menu_template, file)
                         }
                     }
                 }
             }
 
-            "file" -> if (uri.pathSegments.first() == "android_asset")
+            "file" -> if (uri.pathSegments.first() == "android_asset") {
+                val file = uri.pathSegments[1]
                 AttachmentInfo.of(
-                    context.assets.open(uri.pathSegments[1]).use(BitmapFactory::decodeStream), null
-                ) else null
+                    getMimeType(file),
+                    context.assets.open(file).use(BitmapFactory::decodeStream), null
+                )
+            } else null
 
             else -> null
-        } ?: AttachmentInfo.of(com.google.android.material.R.drawable.mtrl_ic_error, null)
+        } ?: AttachmentInfo.of(null, com.google.android.material.R.drawable.mtrl_ic_error, null)
     }
 }
 

@@ -96,10 +96,8 @@ class StaleImagesList : ContextualActionBarFragment(), LoaderManager.LoaderCallb
             return true
         }
         if (command == R.id.VIEW_COMMAND) {
-            viewIntentProvider.startViewAction(
-                requireActivity(),
-                uriAtPosition((info as AdapterView.AdapterContextMenuInfo?)!!.position)
-            )
+            val uri = uriAtPosition((info as AdapterView.AdapterContextMenuInfo?)!!.position)
+            viewIntentProvider.startViewAction(requireActivity(), uri, attachmentInfoMap!![uri]?.type)
         }
         return false
     }
