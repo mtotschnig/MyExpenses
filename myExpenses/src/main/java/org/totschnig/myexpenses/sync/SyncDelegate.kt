@@ -1,16 +1,51 @@
 package org.totschnig.myexpenses.sync
 
-import android.content.*
+import android.content.ContentProviderClient
+import android.content.ContentProviderOperation
+import android.content.ContentUris
+import android.content.ContentValues
+import android.content.Context
+import android.content.OperationApplicationException
 import android.os.RemoteException
 import androidx.annotation.VisibleForTesting
 import org.apache.commons.collections4.ListUtils
-import org.totschnig.myexpenses.db2.*
+import org.totschnig.myexpenses.db2.CategoryHelper
+import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.ensureCategory
+import org.totschnig.myexpenses.db2.extractTagIds
+import org.totschnig.myexpenses.db2.findAccountByUuid
+import org.totschnig.myexpenses.db2.findByAccountAndUuid
+import org.totschnig.myexpenses.db2.findPaymentMethod
+import org.totschnig.myexpenses.db2.requireParty
+import org.totschnig.myexpenses.db2.writePaymentMethod
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.SplitTransaction
+import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.model.saveTagLinks
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.sync.json.CategoryInfo
 import org.totschnig.myexpenses.sync.json.TransactionChange
@@ -38,15 +73,14 @@ class SyncDelegate(
         provider: ContentProviderClient,
         remoteChanges: List<TransactionChange>
     ) {
-        if (remoteChanges.isEmpty()) {
-            return
-        }
-        if (remoteChanges.size > SyncAdapter.BATCH_SIZE) {
-            for (part in ListUtils.partition(remoteChanges, SyncAdapter.BATCH_SIZE)) {
-                writeRemoteChangesToDbPart(provider, part)
+        if (remoteChanges.isNotEmpty()) {
+            if (remoteChanges.size > SyncAdapter.BATCH_SIZE) {
+                for (part in ListUtils.partition(remoteChanges, SyncAdapter.BATCH_SIZE)) {
+                    writeRemoteChangesToDbPart(provider, part)
+                }
+            } else {
+                writeRemoteChangesToDbPart(provider, remoteChanges)
             }
-        } else {
-            writeRemoteChangesToDbPart(provider, remoteChanges)
         }
     }
 
@@ -303,11 +337,11 @@ class SyncDelegate(
         attachments?.forEach { uuid ->
             val insert =
                 ContentProviderOperation.newInsert(TransactionProvider.TRANSACTIONS_ATTACHMENTS_URI)
-                    .withValue(DatabaseConstants.KEY_UUID, uuid)
+                    .withValue(KEY_UUID, uuid)
             transactionId?.let {
-                insert.withValue(DatabaseConstants.KEY_TRANSACTIONID, it)
+                insert.withValue(KEY_TRANSACTIONID, it)
             } ?: backReference?.let {
-                insert.withValueBackReference(DatabaseConstants.KEY_TRANSACTIONID, it)
+                insert.withValueBackReference(KEY_TRANSACTIONID, it)
             } ?: throw IllegalArgumentException("neither id nor backReference provided")
             add(insert.build())
         }
@@ -336,7 +370,7 @@ class SyncDelegate(
                             ContentProviderOperation.newUpdate(uri)
                                 .withValues(toContentValues(change))
                                 .withSelection(
-                                    DatabaseConstants.KEY_ROWID + " = ?",
+                                    "$KEY_ROWID = ?",
                                     arrayOf(transactionId.toString())
                                 )
                                 .withValueBackReference(KEY_PARENTID, parentOffset)
@@ -371,13 +405,13 @@ class SyncDelegate(
                         val builder = ContentProviderOperation.newUpdate(uri)
                         if (transactionId != -1L) {
                             builder.withSelection(
-                                DatabaseConstants.KEY_ROWID + " = ?",
+                                "$KEY_ROWID = ?",
                                 arrayOf(transactionId.toString())
                             )
                             //Make sure we set the parent, in case the change is caused by "Transform to split"
                         } else {
                             builder.withSelection(
-                                DatabaseConstants.KEY_UUID + " = ?",
+                                "$KEY_UUID = ?",
                                 arrayOf(change.uuid())
                             )
                         }
@@ -409,7 +443,7 @@ class SyncDelegate(
                             )
                         )
                             .withSelection(
-                                DatabaseConstants.KEY_UUID + " = ? AND " + DatabaseConstants.KEY_ACCOUNTID + " = ?",
+                                "$KEY_UUID = ? AND $KEY_ACCOUNTID = ?",
                                 arrayOf(change.uuid(), account.id.toString())
                             )
                             .build()
@@ -423,7 +457,7 @@ class SyncDelegate(
                         uri.buildUpon()
                             .appendPath(TransactionProvider.URI_SEGMENT_UNSPLIT).build()
                     )
-                        .withValue(DatabaseConstants.KEY_UUID, change.uuid())
+                        .withValue(KEY_UUID, change.uuid())
                         .build()
                 )
             }
@@ -435,7 +469,7 @@ class SyncDelegate(
                             .appendPath(TransactionProvider.URI_SEGMENT_LINK_TRANSFER)
                             .appendPath(change.uuid()).build()
                     )
-                        .withValue(DatabaseConstants.KEY_UUID, change.referenceNumber())
+                        .withValue(KEY_UUID, change.referenceNumber())
                         .build()
                 )
             }
@@ -470,26 +504,43 @@ class SyncDelegate(
 
     private fun toContentValues(change: TransactionChange): ContentValues {
         val values = ContentValues()
-        change.comment()?.let { values.put(DatabaseConstants.KEY_COMMENT, it) }
-        change.date()?.let { values.put(DatabaseConstants.KEY_DATE, it) }
-        change.valueDate()?.let { values.put(DatabaseConstants.KEY_VALUE_DATE, it) }
-        change.amount()?.let { values.put(DatabaseConstants.KEY_AMOUNT, it) }
-        change.extractCatId()?.let { values.put(DatabaseConstants.KEY_CATID, it) }
+        change.comment()?.let {
+            if (it.isEmpty()) {
+                values.putNull(KEY_COMMENT)
+            } else {
+                values.put(KEY_COMMENT, it)
+            }
+        }
+        change.date()?.let { values.put(KEY_DATE, it) }
+        change.valueDate()?.let { values.put(KEY_VALUE_DATE, it) }
+        change.amount()?.let { values.put(KEY_AMOUNT, it) }
+        if (change.categoryInfo()?.firstOrNull()?.uuid == "NULL") {
+          values.putNull(KEY_CATID)
+        } else {
+            change.extractCatId()?.let { values.put(KEY_CATID, it) }
+        }
         change.payeeName()?.let { name ->
-            values.put(DatabaseConstants.KEY_PAYEEID, extractParty(name))
+            values.put(KEY_PAYEEID, extractParty(name))
         }
         change.methodLabel()?.let { label ->
-            values.put(DatabaseConstants.KEY_METHODID, extractMethodId(label))
+            values.put(KEY_METHODID, extractMethodId(label))
         }
-        change.crStatus()?.let { values.put(DatabaseConstants.KEY_CR_STATUS, it) }
-        change.referenceNumber()?.let { values.put(DatabaseConstants.KEY_REFERENCE_NUMBER, it) }
+        change.crStatus()?.let { values.put(KEY_CR_STATUS, it) }
+        change.referenceNumber()?.let { values.put(KEY_REFERENCE_NUMBER, it) }
         if (change.originalAmount() != null && change.originalCurrency() != null) {
-            values.put(DatabaseConstants.KEY_ORIGINAL_AMOUNT, change.originalAmount())
-            values.put(DatabaseConstants.KEY_ORIGINAL_CURRENCY, change.originalCurrency())
+            if (change.originalAmount() == Long.MIN_VALUE) {
+                values.putNull(KEY_ORIGINAL_AMOUNT)
+                values.putNull(KEY_ORIGINAL_CURRENCY)
+            } else {
+                values.put(KEY_ORIGINAL_AMOUNT, change.originalAmount())
+                values.put(KEY_ORIGINAL_CURRENCY, change.originalCurrency())
+            }
         }
         if (change.equivalentAmount() != null && change.equivalentCurrency() != null) {
-            if (change.equivalentCurrency() == homeCurrency.code) {
-                values.put(DatabaseConstants.KEY_EQUIVALENT_AMOUNT, change.equivalentAmount())
+            if (change.equivalentAmount() == Long.MIN_VALUE || change.equivalentCurrency() != homeCurrency.code) {
+                values.putNull(KEY_EQUIVALENT_AMOUNT)
+            } else if (change.equivalentCurrency() == homeCurrency.code) {
+                values.put(KEY_EQUIVALENT_AMOUNT, change.equivalentAmount())
             }
         }
         return values

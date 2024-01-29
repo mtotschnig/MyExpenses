@@ -17,8 +17,8 @@ interface ICategoryInfo: Parcelable {
 data class CategoryInfo(
     override val uuid: String,
     override val label: String,
-    override val icon: String?,
-    override val color: Int?,
+    override val icon: String? = null,
+    override val color: Int? = null,
     override val type: Int? = null
 ) : ICategoryInfo
 

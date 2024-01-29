@@ -44,7 +44,7 @@ public abstract class TransactionChange {
       KEY_UUID,
       KEY_TIMESTAMP,
       KEY_PARENT_UUID,
-      "NULLIF(TRIM(" + KEY_COMMENT + "),'') AS " + KEY_COMMENT,
+      "TRIM(" + KEY_COMMENT + ") AS " + KEY_COMMENT,
       KEY_DATE,
       KEY_VALUE_DATE,
       KEY_AMOUNT,
@@ -56,7 +56,7 @@ public abstract class TransactionChange {
       KEY_CATID,
       KEY_METHOD_LABEL,
       KEY_CR_STATUS,
-      "NULLIF(TRIM(" + KEY_REFERENCE_NUMBER + "),'') AS " + KEY_REFERENCE_NUMBER
+      "TRIM(" + KEY_REFERENCE_NUMBER + ") AS " + KEY_REFERENCE_NUMBER
   };
 
   public static TransactionChange create(Cursor cursor) {

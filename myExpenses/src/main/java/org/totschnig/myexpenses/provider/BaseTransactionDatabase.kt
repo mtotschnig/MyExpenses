@@ -71,6 +71,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USER_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.NULL_ROW_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_ATTRIBUTES
@@ -350,6 +351,20 @@ const val SPLIT_PART_CR_STATUS_TRIGGER_CREATE =
  BEGIN UPDATE $TABLE_TRANSACTIONS SET $KEY_CR_STATUS = new.$KEY_CR_STATUS WHERE $KEY_PARENTID = new.$KEY_ROWID; END"""
 
 private const val DEFAULT_TRANSFER_CATEGORY_UUID = "9d84b522-4c8c-40bd-a8f8-18c8788ee59e"
+
+fun buildChangeTriggerDefinitionForColumnNotNull(column: String) =
+    "CASE WHEN old.$column = new.$column THEN NULL ELSE new.$column END"
+
+fun buildChangeTriggerDefinitionForTextColumn(column: String) =
+    "CASE WHEN old.$column = new.$column THEN NULL WHEN old.$column IS NOT NULL AND new.$column IS NULL THEN '' ELSE new.$column END"
+
+fun buildChangeTriggerDefinitionForIntegerColumn(column: String) =
+    "CASE WHEN old.$column = new.$column THEN NULL WHEN old.$column IS NOT NULL AND new.$column IS NULL THEN ${Long.MIN_VALUE} ELSE new.$column END"
+
+fun buildChangeTriggerDefinitionForReferenceColumn(column: String) =
+    "CASE WHEN old.$column = new.$column THEN NULL WHEN old.$column IS NOT NULL AND new.$column IS NULL THEN $NULL_ROW_ID ELSE new.$column END"
+fun buildChangeTriggerDefinitionForColumn(column: String) =
+    "CASE WHEN old.$column = new.$column THEN NULL ELSE new.$column END"
 
 abstract class BaseTransactionDatabase(
     val context: Context,
@@ -964,6 +979,18 @@ abstract class BaseTransactionDatabase(
                 }
             )
         )
+    }
+
+    fun insertNullRows(db: SupportSQLiteDatabase) {
+        //category that allows us to record changes where payee gets removed
+        db.insert(TABLE_PAYEES, SQLiteDatabase.CONFLICT_NONE, ContentValues().apply {
+            put(KEY_ROWID, DatabaseConstants.NULL_ROW_ID)
+            put(KEY_PAYEE_NAME, "__NULL__")
+        })
+        db.insert(TABLE_METHODS, SQLiteDatabase.CONFLICT_NONE, ContentValues().apply {
+            put(KEY_ROWID, DatabaseConstants.NULL_ROW_ID)
+            put(KEY_LABEL, "__NULL__")
+        })
     }
 }
 

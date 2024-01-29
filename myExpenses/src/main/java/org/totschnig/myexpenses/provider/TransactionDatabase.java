@@ -41,6 +41,11 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSA
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTION_ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSFER_SEALED_UPDATE_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.VIEW_WITH_ACCOUNT_DEFINITION;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForColumn;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForColumnNotNull;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForIntegerColumn;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForReferenceColumn;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForTextColumn;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.buildViewDefinition;
@@ -432,10 +437,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + " AND old." + KEY_STATUS + " != " + STATUS_UNCOMMITTED + " AND EXISTS (SELECT 1 FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = old." + KEY_ACCOUNTID + ")"
           + DELETE_TRIGGER_ACTION;
 
-  private static String buildChangeTriggerDefinitionForColumn(String column) {
-    return "CASE WHEN old." + column + " = new." + column + " THEN NULL ELSE new." + column + " END";
-  }
-
   private static final String TRANSACTIONS_UPDATE_TRIGGER_CREATE =
       "CREATE TRIGGER update_change_log "
           + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
@@ -469,19 +470,19 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + "new." + KEY_UUID + ", "
           + "new." + KEY_ACCOUNTID + ", "
           + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "new") + ", "
-          + buildChangeTriggerDefinitionForColumn(KEY_COMMENT) + ", "
-          + buildChangeTriggerDefinitionForColumn(KEY_DATE) + ", "
-          + buildChangeTriggerDefinitionForColumn(KEY_VALUE_DATE) + ", "
-          + buildChangeTriggerDefinitionForColumn(KEY_AMOUNT) + ", "
-          + buildChangeTriggerDefinitionForColumn(KEY_ORIGINAL_AMOUNT) + ", "
-          + buildChangeTriggerDefinitionForColumn(KEY_ORIGINAL_CURRENCY) + ", "
-          + buildChangeTriggerDefinitionForColumn(KEY_EQUIVALENT_AMOUNT) + ", "
-          + buildChangeTriggerDefinitionForColumn(KEY_CATID) + ", "
-          + buildChangeTriggerDefinitionForColumn(KEY_PAYEEID) + ", "
-          + buildChangeTriggerDefinitionForColumn(KEY_TRANSFER_ACCOUNT) + ", "
-          + buildChangeTriggerDefinitionForColumn(KEY_METHODID) + ", "
-          + buildChangeTriggerDefinitionForColumn(KEY_CR_STATUS) + ", "
-          + buildChangeTriggerDefinitionForColumn(KEY_REFERENCE_NUMBER) + "); END;";
+          + buildChangeTriggerDefinitionForTextColumn(KEY_COMMENT) + ", "
+          + buildChangeTriggerDefinitionForColumnNotNull(KEY_DATE) + ", "
+          + buildChangeTriggerDefinitionForColumnNotNull(KEY_VALUE_DATE) + ", "
+          + buildChangeTriggerDefinitionForColumnNotNull(KEY_AMOUNT) + ", "
+          + buildChangeTriggerDefinitionForIntegerColumn(KEY_ORIGINAL_AMOUNT) + ", "
+          + buildChangeTriggerDefinitionForTextColumn(KEY_ORIGINAL_CURRENCY) + ", "
+          + buildChangeTriggerDefinitionForIntegerColumn(KEY_EQUIVALENT_AMOUNT) + ", "
+          + buildChangeTriggerDefinitionForReferenceColumn(KEY_CATID) + ", "
+          + buildChangeTriggerDefinitionForReferenceColumn(KEY_PAYEEID) + ", "
+          + buildChangeTriggerDefinitionForIntegerColumn(KEY_TRANSFER_ACCOUNT) + ", "
+          + buildChangeTriggerDefinitionForReferenceColumn(KEY_METHODID) + ", "
+          + buildChangeTriggerDefinitionForColumnNotNull(KEY_CR_STATUS) + ", "
+          + buildChangeTriggerDefinitionForTextColumn(KEY_REFERENCE_NUMBER) + "); END;";
 
 
   private static final String UPDATE_ACCOUNT_SYNC_NULL_TRIGGER = "CREATE TRIGGER update_account_sync_null "
@@ -675,6 +676,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
     createOrRefreshViews(db);
     //insertTestData(db, 50, 50);
+
+    insertNullRows(db);
     super.onCreate(db);
   }
 

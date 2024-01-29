@@ -375,7 +375,7 @@ class SyncAdapter @JvmOverloads constructor(
                                             localChanges =
                                                 syncDelegate.collectSplits(localChanges).toMutableList()
                                         }
-                                        val localChangesWasNotEmpty = localChanges.size > 0
+                                        val localChangesWasNotEmpty = localChanges.isNotEmpty()
                                         val remoteChangesWasNotEmpty = remoteChanges.isNotEmpty()
                                         val mergeResult: Pair<List<TransactionChange>, List<TransactionChange>> =
                                             syncDelegate.mergeChangeSets(localChanges, remoteChanges)
@@ -780,21 +780,27 @@ class SyncAdapter @JvmOverloads constructor(
                                         transactionChange.toBuilder().setAttachments(attachments).build()
                                 }
                         }
-                        changesCursor.getLongOrNull(KEY_CATID)?.takeIf { it > 0 }?.let { catId ->
-                            provider.query(ContentUris.withAppendedId(BaseTransactionProvider.CATEGORY_TREE_URI, catId),
-                                null, null, null, null
-                            )?.use { cursor ->
+                        changesCursor.getLongOrNull(KEY_CATID)?.let { catId ->
+                            if (catId == NULL_ROW_ID)  {
                                 transactionChange = transactionChange.toBuilder().setCategoryInfo(
-                                    cursor.asSequence.map {
-                                        CategoryInfo(
-                                            it.getString(KEY_UUID),
-                                            it.getString(KEY_LABEL),
-                                            it.getStringOrNull(KEY_ICON),
-                                            it.getIntOrNull(KEY_COLOR),
-                                            if (it.getLongOrNull(KEY_PARENTID) == null)
-                                                it.getInt(KEY_TYPE) else null
-                                        ) }.toList().asReversed()
+                                    listOf(CategoryInfo("NULL", "NULL"))
                                 ).build()
+                            } else {
+                                provider.query(ContentUris.withAppendedId(BaseTransactionProvider.CATEGORY_TREE_URI, catId),
+                                    null, null, null, null
+                                )?.use { cursor ->
+                                    transactionChange = transactionChange.toBuilder().setCategoryInfo(
+                                        cursor.asSequence.map {
+                                            CategoryInfo(
+                                                it.getString(KEY_UUID),
+                                                it.getString(KEY_LABEL),
+                                                it.getStringOrNull(KEY_ICON),
+                                                it.getIntOrNull(KEY_COLOR),
+                                                if (it.getLongOrNull(KEY_PARENTID) == null)
+                                                    it.getInt(KEY_TYPE) else null
+                                            ) }.toList().asReversed()
+                                    ).build()
+                                }
                             }
                         }
                         result.add(transactionChange)
