@@ -72,4 +72,5 @@
     <string name="action_move_down">"Eraman behera"</string>
     <string name="action_move_up">"Eraman gora"</string>
     <string name="default_camera_app_title">"Kamera-aplikazioa"</string>
+    <string name="help_and_feedback">"Laguntza eta iritziak"</string>
 </resources>

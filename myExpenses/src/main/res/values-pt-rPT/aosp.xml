@@ -35,4 +35,5 @@
     <string name="calendar_delete">Eliminar calendário</string>
     <string name="preferences_calendar_delete_message">Pretende realmente eliminar este calendário?</string>
     <string name="default_camera_app_title">"App de câmara"</string>
+    <string name="help_and_feedback">"Ajuda e comentários"</string>
 </resources>

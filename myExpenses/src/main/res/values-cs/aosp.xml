@@ -76,4 +76,5 @@
     <string name="calendar_delete">Odstranit kalendář</string>
     <string name="preferences_calendar_delete_message">Opravdu si přejete odstranit tento kalendář?</string>
     <string name="default_camera_app_title">"Aplikace kfocení anatáčení"</string>
+    <string name="help_and_feedback">"Nápověda a zpětná vazba"</string>
 </resources>

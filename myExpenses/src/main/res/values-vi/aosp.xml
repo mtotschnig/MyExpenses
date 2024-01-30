@@ -72,4 +72,5 @@
     <string name="calendar_delete">Xóa lịch</string>
     <string name="preferences_calendar_delete_message">Bạn có thực sự muốn xóa lịch này không?</string>
     <string name="default_camera_app_title">"Ứng dụng máy ảnh"</string>
+    <string name="help_and_feedback">"Trợ giúp và phản hồi"</string>
 </resources>

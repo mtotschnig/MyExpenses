@@ -6,4 +6,5 @@
     <string name="action_move_down">"Төмен қарай жылжыту"</string>
     <string name="action_move_up">"Жоғары қарай жылжыту"</string>
     <string name="default_camera_app_title">"Камера қолданбасы"</string>
+    <string name="help_and_feedback">"Анықтама және пікір"</string>
 </resources>

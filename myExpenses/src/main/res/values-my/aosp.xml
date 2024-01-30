@@ -6,4 +6,5 @@
     <string name="action_move_down">"အောက်သို့ရွှေ့ပါ"</string>
     <string name="action_move_up">"အပေါ်သို့ရွှေ့ပါ"</string>
     <string name="default_camera_app_title">"ကင်မရာအက်ပ်"</string>
+    <string name="help_and_feedback">"အကူအညီနှင့် အကြံပြုချက်"</string>
 </resources>

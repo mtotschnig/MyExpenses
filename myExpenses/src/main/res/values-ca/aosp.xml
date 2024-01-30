@@ -74,4 +74,5 @@
     <string name="calendar_delete">Suprimeix el calendari</string>
     <string name="preferences_calendar_delete_message">Vols suprimir aquest calendari?</string>
     <string name="default_camera_app_title">"Aplicació de càmera"</string>
+    <string name="help_and_feedback">"Ajuda i suggeriments"</string>
 </resources>

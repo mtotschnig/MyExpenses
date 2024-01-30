@@ -6,4 +6,5 @@
     <string name="action_move_down">"Премести надолу"</string>
     <string name="action_move_up">"Премести нагоре"</string>
     <string name="default_camera_app_title">"Апликација за камера"</string>
+    <string name="help_and_feedback">"Помош и повратни информации"</string>
 </resources>

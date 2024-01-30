@@ -68,4 +68,5 @@
     <string name="action_move_down">"පහළට ගෙන යන්න"</string>
     <string name="action_move_up">"ඉහළට ගෙන යන්න"</string>
     <string name="default_camera_app_title">"කැමරා යෙදුම"</string>
+    <string name="help_and_feedback">"උදවු සහ ප්‍රතිපෝෂණ"</string>
 </resources>
