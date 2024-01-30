@@ -78,4 +78,5 @@
     <string name="calendar_delete">حذف التقويم</string>
     <string name="preferences_calendar_delete_message">أمتأكد من حذف هذا التقويم؟</string>
     <string name="default_camera_app_title">تطبيق الكاميرا</string>
+    <string name="help_and_feedback">"المساعدة والتعليقات"</string>
 </resources>

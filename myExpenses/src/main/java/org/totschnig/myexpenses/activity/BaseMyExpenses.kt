@@ -21,7 +21,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CallSplit
 import androidx.compose.material.icons.filled.ContentCopy
@@ -756,8 +756,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         toolbar.subtitle = null
                     }
                 }
-                val pagerState = remember { PagerState(initialPage = currentPage) }
-                // 1.6 val pagerState = rememberPagerState { accountData.count() }
+                val pagerState = rememberPagerState { accountData.count() }
                 if (accountData.isNotEmpty()) {
                     LaunchedEffect(viewModel.selectedAccountId) {
                         if (pagerState.currentPage != currentPage) {
@@ -776,8 +775,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             },
                         verticalAlignment = Alignment.Top,
                         state = pagerState,
-                        //remove next line when upgrading to 1.6
-                        pageCount = accountData.count(),
                         pageSpacing = 10.dp,
                         key = { accountData[it].id }
                     ) {

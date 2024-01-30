@@ -73,4 +73,5 @@
     <string name="calendar_delete">Takvimi sil</string>
     <string name="preferences_calendar_delete_message">Bu takvimi gerçekten silmek istiyor musunuz?</string>
     <string name="default_camera_app_title">"Kamera uygulaması"</string>
+    <string name="help_and_feedback">"Yardım ve geri bildirim"</string>
 </resources>

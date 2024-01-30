@@ -6,4 +6,5 @@
     <string name="action_move_down">"নিচে সরান"</string>
     <string name="action_move_up">"উপরে সরান"</string>
     <string name="default_camera_app_title">"ক্যামেরা অ্যাপ"</string>
+    <string name="help_and_feedback">"সহায়তা ও মতামত"</string>
 </resources>

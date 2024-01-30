@@ -562,7 +562,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     showPicturePopupMenu(it, R.menu.picture) { item ->
                         when (item.itemId) {
                             R.id.VIEW_COMMAND ->
-                                viewIntentProvider.startViewAction(this@ExpenseEdit, uri)
+                                viewIntentProvider.startViewAction(this@ExpenseEdit, uri, info.type)
 
                             R.id.DELETE_COMMAND -> {
                                 setDirty()

@@ -8,4 +8,5 @@
     <string name="calendar_delete">Vymazať kalendár</string>
     <string name="preferences_calendar_delete_message">Naozaj chcete vymazať tento kalendár?</string>
     <string name="default_camera_app_title">"Kamerová aplikácia"</string>
+    <string name="help_and_feedback">"Pomocník a spätná väzba"</string>
 </resources>

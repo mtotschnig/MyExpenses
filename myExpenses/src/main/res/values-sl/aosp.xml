@@ -8,4 +8,5 @@
     <string name="calendar_delete">Izbriši koledar</string>
     <string name="preferences_calendar_delete_message">Ste prepričani, da želite izbrisati ta koledar?</string>
     <string name="default_camera_app_title">"Fotografska aplikacija"</string>
+    <string name="help_and_feedback">"Pomoč in povratne informacije"</string>
 </resources>

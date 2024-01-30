@@ -116,14 +116,13 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                     ).root.apply {
                         binding.AttachmentGroup.addView(this)
                         lifecycleScope.launch {
-                            setAttachmentInfo(withContext(Dispatchers.IO) {
-                                attachmentInfoMap!!.getValue(
-                                    uri
-                                )
-                            })
-                        }
-                        setOnClickListener {
-                            viewIntentProvider.startViewAction(requireActivity(), uri)
+                            val info = withContext(Dispatchers.IO) {
+                                attachmentInfoMap!!.getValue(uri)
+                            }
+                            setAttachmentInfo(info)
+                            setOnClickListener {
+                                viewIntentProvider.startViewAction(requireActivity(), uri, info.type)
+                            }
                         }
                     }
                 }

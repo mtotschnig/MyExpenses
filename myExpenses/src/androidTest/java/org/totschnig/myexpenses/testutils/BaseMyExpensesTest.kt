@@ -51,11 +51,7 @@ abstract class BaseMyExpensesTest : BaseComposeTest<TestMyExpenses>() {
     }
 
     override val listNode: SemanticsNodeInteraction
-        get() = composeTestRule.onNodeWithTag(TEST_TAG_PAGER)
-            .onChildren()
-            .onFirst()
-            .onChildren()
-            .filter(hasTestTag(TEST_TAG_LIST)).onFirst()
+        get() = composeTestRule.onNodeWithTag(TEST_TAG_LIST)
 
     fun openCab(@IdRes command: Int?) {
         listNode.onChildren().onFirst()

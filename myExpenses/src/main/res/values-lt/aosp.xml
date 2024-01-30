@@ -6,4 +6,5 @@
     <string name="action_move_down">"Perkelti žemyn"</string>
     <string name="action_move_up">"Perkelti aukštyn"</string>
     <string name="default_camera_app_title">"Fotoaparato programa"</string>
+    <string name="help_and_feedback">"Pagalba ir atsiliepimai"</string>
 </resources>
