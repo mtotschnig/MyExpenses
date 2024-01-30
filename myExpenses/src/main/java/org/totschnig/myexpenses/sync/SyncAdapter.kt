@@ -783,7 +783,7 @@ class SyncAdapter @JvmOverloads constructor(
                         changesCursor.getLongOrNull(KEY_CATID)?.let { catId ->
                             if (catId == NULL_ROW_ID)  {
                                 transactionChange = transactionChange.toBuilder().setCategoryInfo(
-                                    listOf(CategoryInfo("NULL", "NULL"))
+                                    listOf(CategoryInfo(NULL_CHANGE_INDICATOR, ""))
                                 ).build()
                             } else {
                                 provider.query(ContentUris.withAppendedId(BaseTransactionProvider.CATEGORY_TREE_URI, catId),

@@ -46,6 +46,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.NULL_CHANGE_INDICATOR
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.sync.json.CategoryInfo
 import org.totschnig.myexpenses.sync.json.TransactionChange
@@ -514,16 +515,24 @@ class SyncDelegate(
         change.date()?.let { values.put(KEY_DATE, it) }
         change.valueDate()?.let { values.put(KEY_VALUE_DATE, it) }
         change.amount()?.let { values.put(KEY_AMOUNT, it) }
-        if (change.categoryInfo()?.firstOrNull()?.uuid == "NULL") {
+        if (change.categoryInfo()?.firstOrNull()?.uuid == NULL_CHANGE_INDICATOR) {
           values.putNull(KEY_CATID)
         } else {
             change.extractCatId()?.let { values.put(KEY_CATID, it) }
         }
-        change.payeeName()?.let { name ->
-            values.put(KEY_PAYEEID, extractParty(name))
+        if (change.payeeName() == NULL_CHANGE_INDICATOR) {
+            values.putNull(KEY_PAYEEID)
+        } else {
+            change.payeeName()?.let { name ->
+                values.put(KEY_PAYEEID, extractParty(name))
+            }
         }
-        change.methodLabel()?.let { label ->
-            values.put(KEY_METHODID, extractMethodId(label))
+        if (change.methodLabel()== NULL_CHANGE_INDICATOR) {
+            values.putNull(KEY_METHODID)
+        } else {
+            change.methodLabel()?.let { label ->
+                values.put(KEY_METHODID, extractMethodId(label))
+            }
         }
         change.crStatus()?.let { values.put(KEY_CR_STATUS, it) }
         change.referenceNumber()?.let { values.put(KEY_REFERENCE_NUMBER, it) }
@@ -595,7 +604,8 @@ class SyncDelegate(
                 }?.let { Transfer(account.id, money, it) }
             } ?: Transaction(account.id, money).apply {
                 if (change.transferAccount() == null) {
-                    catId = change.extractCatId()
+                    if (change.categoryInfo()?.firstOrNull()?.uuid != NULL_CHANGE_INDICATOR)
+                        catId = change.extractCatId()
                 }
             }
         }
@@ -603,10 +613,10 @@ class SyncDelegate(
         change.comment()?.let { t.comment = it }
         change.date()?.let { t.date = it }
         t.valueDate = change.valueDate() ?: t.date
-        change.payeeName()?.let { name ->
+        change.payeeName()?.takeIf { it != NULL_CHANGE_INDICATOR }?.let { name ->
             t.payeeId = extractParty(name)
         }
-        change.methodLabel()?.let { label ->
+        change.methodLabel()?.takeIf { it != NULL_CHANGE_INDICATOR }?.let { label ->
             t.methodId = extractMethodId(label)
         }
         change.crStatus()?.let { t.crStatus = CrStatus.valueOf(it) }

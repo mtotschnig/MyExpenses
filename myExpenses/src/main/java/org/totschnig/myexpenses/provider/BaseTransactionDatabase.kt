@@ -71,6 +71,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USER_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.NULL_CHANGE_INDICATOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.NULL_ROW_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
@@ -984,12 +985,12 @@ abstract class BaseTransactionDatabase(
     fun insertNullRows(db: SupportSQLiteDatabase) {
         //category that allows us to record changes where payee gets removed
         db.insert(TABLE_PAYEES, SQLiteDatabase.CONFLICT_NONE, ContentValues().apply {
-            put(KEY_ROWID, DatabaseConstants.NULL_ROW_ID)
-            put(KEY_PAYEE_NAME, "__NULL__")
+            put(KEY_ROWID, NULL_ROW_ID)
+            put(KEY_PAYEE_NAME, NULL_CHANGE_INDICATOR)
         })
         db.insert(TABLE_METHODS, SQLiteDatabase.CONFLICT_NONE, ContentValues().apply {
-            put(KEY_ROWID, DatabaseConstants.NULL_ROW_ID)
-            put(KEY_LABEL, "__NULL__")
+            put(KEY_ROWID, NULL_ROW_ID)
+            put(KEY_LABEL, NULL_CHANGE_INDICATOR)
         })
     }
 }
