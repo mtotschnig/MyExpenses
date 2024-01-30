@@ -41,7 +41,6 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSA
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTION_ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSFER_SEALED_UPDATE_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.VIEW_WITH_ACCOUNT_DEFINITION;
-import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForColumn;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForColumnNotNull;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForIntegerColumn;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForReferenceColumn;
@@ -2205,6 +2204,11 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
       if (oldVersion < 159) {
         upgradeTo159(db);
+      }
+      if (oldVersion < 160) {
+        insertNullRows(db);
+        db.execSQL("DROP TRIGGER IF EXISTS update_change_log");
+        db.execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE);
       }
 
       TransactionProvider.resumeChangeTrigger(db);

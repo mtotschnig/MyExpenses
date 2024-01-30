@@ -98,7 +98,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 
-const val DATABASE_VERSION = 159
+const val DATABASE_VERSION = 160
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -364,8 +364,6 @@ fun buildChangeTriggerDefinitionForIntegerColumn(column: String) =
 
 fun buildChangeTriggerDefinitionForReferenceColumn(column: String) =
     "CASE WHEN old.$column = new.$column THEN NULL WHEN old.$column IS NOT NULL AND new.$column IS NULL THEN $NULL_ROW_ID ELSE new.$column END"
-fun buildChangeTriggerDefinitionForColumn(column: String) =
-    "CASE WHEN old.$column = new.$column THEN NULL ELSE new.$column END"
 
 abstract class BaseTransactionDatabase(
     val context: Context,
