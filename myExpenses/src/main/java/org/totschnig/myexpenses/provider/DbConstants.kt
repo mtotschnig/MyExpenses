@@ -320,7 +320,7 @@ fun getPayeeWithDuplicatesCTE(selection: String?, collate: String) = """
     WITH cte AS (SELECT ${
     BaseTransactionProvider.payeeProjection(TABLE_PAYEES).joinToString(",")
 }, 1 AS $KEY_LEVEL FROM $TABLE_PAYEES 
-    WHERE $KEY_PARENTID IS NULL ${selection?.let { " AND $it" } ?: ""}
+    WHERE $KEY_PARENTID IS NULL AND $KEY_ROWID != $NULL_ROW_ID ${selection?.let { " AND $it" } ?: ""}
     UNION ALL
     SELECT ${
     BaseTransactionProvider.payeeProjection("dups").joinToString(",")

@@ -72,6 +72,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI_LIST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.NULL_ROW_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS_TAGS;
@@ -578,6 +579,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         if (projection == null)
           projection = Companion.payeeProjection(TABLE_PAYEES);
+        additionalWhere.append(KEY_ROWID + "!=" + NULL_ROW_ID);
         break;
       case MAPPED_TRANSFER_ACCOUNTS:
         qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_TRANSFER_ACCOUNT + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + ")");
@@ -598,6 +600,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         if (sortOrder == null) {
           sortOrder = RepositoryPaymentMethodKt.localizedLabelSqlColumn(getWrappedContext(), KEY_LABEL) + " COLLATE " + getCollate();
         }
+        additionalWhere.append(KEY_ROWID + "!=" + NULL_ROW_ID);
         break;
       case MAPPED_METHODS:
         String localizedLabel = RepositoryPaymentMethodKt.localizedLabelSqlColumn(getWrappedContext(), KEY_LABEL);
