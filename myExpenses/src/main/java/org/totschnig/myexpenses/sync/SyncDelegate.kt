@@ -333,7 +333,7 @@ class SyncDelegate(
     }
 
     private fun saveAttachmentLinks(
-        attachments: MutableList<String>?,
+        attachments: Set<String>?,
         transactionId: Long?,
         backReference: Int?
     ) = buildList {

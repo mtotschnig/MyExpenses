@@ -740,24 +740,6 @@ class SyncAdapter @JvmOverloads constructor(
                 if (changesCursor.moveToFirst()) {
                     do {
                         var transactionChange = TransactionChange.create(changesCursor)
-                        if (transactionChange.type() == TransactionChange.Type.created || transactionChange.type() == TransactionChange.Type.updated) {
-                            //noinspection Recycle
-                            provider.query(
-                                TransactionProvider.ATTACHMENTS_URI
-                                    .buildUpon()
-                                    .appendQueryParameter(KEY_UUID, transactionChange.uuid())
-                                    .build(),
-                                arrayOf(KEY_UUID),
-                                null,
-                                arrayOf(transactionChange.uuid()),
-                                null
-                            )?.useAndMap { it.getString(0) }
-                                ?.takeIf { it.isNotEmpty() }
-                                ?.let { attachments ->
-                                    transactionChange =
-                                        transactionChange.toBuilder().setAttachments(attachments).build()
-                                }
-                        }
                         changesCursor.getLongOrNull(KEY_CATID)?.let { catId ->
                             if (catId == NULL_ROW_ID)  {
                                 transactionChange = transactionChange.toBuilder().setCategoryInfo(
@@ -781,27 +763,39 @@ class SyncAdapter @JvmOverloads constructor(
                                 }
                             }
                         }
-                        result.add(if (transactionChange.type() == TransactionChange.Type.tags) {
-                            transactionChange.toBuilder()
-                                .setType(TransactionChange.Type.updated)
-                                .setTags(
-                                    //noinspection Recycle
-                                    provider.query(
-                                        TransactionProvider.TRANSACTIONS_TAGS_URI,
-                                        null,
-                                        String.format(
-                                            "%s = (SELECT %s FROM %s WHERE %s = ?)",
-                                            KEY_TRANSACTIONID,
-                                            KEY_ROWID,
-                                            TABLE_TRANSACTIONS,
-                                            KEY_UUID
-                                        ),
-                                        arrayOf(transactionChange.uuid()),
-                                        null
-                                    )?.useAndMap2 { it.getString(KEY_LABEL) } ?: emptySet()
-                                )
-                                .build()
-                        } else transactionChange
+                        result.add(
+                            when (transactionChange.type()) {
+                                 TransactionChange.Type.tags-> transactionChange.toBuilder()
+                                     .setType(TransactionChange.Type.updated)
+                                     .setTags(
+                                         //noinspection Recycle
+                                         provider.query(
+                                             TransactionProvider.TRANSACTIONS_TAGS_URI,
+                                             null,
+                                             "$KEY_TRANSACTIONID = (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)",
+                                             arrayOf(transactionChange.uuid()),
+                                             null
+                                         )?.useAndMap2 { it.getString(KEY_LABEL) } ?: emptySet()
+                                     )
+                                     .build()
+                                TransactionChange.Type.attachments -> transactionChange.toBuilder()
+                                    .setType(TransactionChange.Type.updated)
+                                    .setAttachments(
+                                        //noinspection Recycle
+                                        provider.query(
+                                            TransactionProvider.ATTACHMENTS_URI
+                                                .buildUpon()
+                                                .appendQueryParameter(KEY_UUID, transactionChange.uuid())
+                                                .build(),
+                                            arrayOf(KEY_UUID),
+                                            null,
+                                            arrayOf(transactionChange.uuid()),
+                                            null
+                                        )?.useAndMap2 { it.getString(0) } ?: emptySet()
+                                    )
+                                    .build()
+                                else -> transactionChange
+                            }
                         )
                     } while (changesCursor.moveToNext())
                 }

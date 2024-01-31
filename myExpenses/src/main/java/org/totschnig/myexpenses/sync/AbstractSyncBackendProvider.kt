@@ -226,7 +226,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
                         CrashHandler.report(IllegalStateException("found attachments and legacy pictureUri together"))
                     } else {
                         iterator.set(transactionChange.toBuilder().setAttachments(
-                            listOf(mapLegacyPictureDuringRead(it))
+                            setOf(mapLegacyPictureDuringRead(it))
                         ).build())
                     }
                 }

@@ -45,6 +45,8 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildC
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForIntegerColumn;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForReferenceColumn;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForTextColumn;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.getATTACHMENTS_TRIGGER_DELETE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.getATTACHMENTS_TRIGGER_INSERT;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.getTAGS_TRIGGER_DELETE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.getTAGS_TRIGGER_INSERT;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.sequenceNumberTemplate;
@@ -2263,6 +2265,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE);
     db.execSQL(getTAGS_TRIGGER_INSERT());
     db.execSQL(getTAGS_TRIGGER_DELETE());
+    db.execSQL(getATTACHMENTS_TRIGGER_INSERT());
+    db.execSQL(getATTACHMENTS_TRIGGER_DELETE());
 
     createOrRefreshTransactionSealedTriggers(db);
 
