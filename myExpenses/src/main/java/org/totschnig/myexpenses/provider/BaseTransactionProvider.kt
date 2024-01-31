@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.provider.DbUtils.typeWithFallBack
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY_EXPORT
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY_INFO
+import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RELACE
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CALLER_IS_IN_BULK
 import org.totschnig.myexpenses.sync.json.CategoryExport
@@ -1462,9 +1463,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
 
         if (target != null) {
-            val newUuids = (uuids + (target.second?.split(Repository.UUID_SEPARATOR) ?: emptyList()))
-                .distinct()
-                .joinToString(Repository.UUID_SEPARATOR)
+            val newUuids =
+                (uuids + (target.second?.split(Repository.UUID_SEPARATOR) ?: emptyList()))
+                    .distinct()
+                    .joinToString(Repository.UUID_SEPARATOR)
             db.update(TABLE_CATEGORIES, ContentValues().apply {
                 put(KEY_UUID, newUuids)
                 put(KEY_ICON, categoryInfo.icon)
@@ -1538,4 +1540,37 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
     }
 
+    fun saveTransactionTags(db: SupportSQLiteDatabase, extras: Bundle) {
+        val transactionId = extras.getLong(KEY_TRANSACTIONID)
+        val tagIds = extras.getLongArray(KEY_TAGLIST)!!.toSet()
+        val selection = "$KEY_TRANSACTIONID = ?"
+        val selectionArgs: Array<Any> = arrayOf(transactionId)
+        val currentTags = db.query(
+            TABLE_TRANSACTIONS_TAGS,
+            arrayOf(KEY_TAGID),
+            selection,
+            selectionArgs
+        ).useAndMap2 { it.getLong(0) }
+        val new = tagIds - currentTags
+        val deleted = if(extras.getBoolean(KEY_RELACE, true)) currentTags - tagIds else emptySet()
+        if (new.isNotEmpty() || deleted.isNotEmpty()) {
+            db.beginTransaction()
+            try {
+                if (deleted.isNotEmpty()) {
+                    db.delete(TABLE_TRANSACTIONS_TAGS, "$selection AND $KEY_TAGID IN (${deleted.joinToString()})", selectionArgs)
+                }
+                if (new.isNotEmpty()) {
+                    val values = ContentValues(2)
+                    values.put(KEY_TRANSACTIONID, transactionId)
+                    new.forEach {
+                        values.put(KEY_TAGID, it)
+                        db.insert(TABLE_TRANSACTIONS_TAGS, values)
+                    }
+                }
+                db.setTransactionSuccessful()
+            } finally {
+                db.endTransaction()
+            }
+        }
+    }
 }

@@ -30,7 +30,8 @@ fun saveTags(linkUri: Uri, column: String, tags: List<Tag>?, id: Long, contentRe
     tags?.forEach {
         ops.add(ContentProviderOperation.newInsert(linkUri)
             .withValue(column, id)
-            .withValue(DatabaseConstants.KEY_TAGID, it.id).build())
+            .withValue(DatabaseConstants.KEY_TAGID, it.id)
+            .build())
     }
 
     return contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops).size == ops.size

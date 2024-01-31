@@ -236,9 +236,8 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                     )
                                     t.originPlanInstanceId = instanceId
                                     t.date = dateSeconds
-                                    if (t.save(contentResolver, true) != null &&
+                                    if (t.save(contentResolver, true) != null) {
                                         t.saveTags(contentResolver, second)
-                                        ) {
                                         val displayIntent: Intent =
                                             Intent(applicationContext, MyExpenses::class.java)
                                                 .putExtra(

@@ -13,6 +13,11 @@ fun <T> Cursor.useAndMap(mapper: (Cursor) -> T) =
         it.asSequence.map(mapper).toList()
     }
 
+fun <T> Cursor.useAndMap2(mapper: (Cursor) -> T) =
+    use {
+        it.asSequence.map(mapper).toSet()
+    }
+
 /**
  * requires the Cursor to be positioned BEFORE first row
  */

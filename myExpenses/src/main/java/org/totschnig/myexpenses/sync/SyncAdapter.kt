@@ -730,10 +730,7 @@ class SyncAdapter @JvmOverloads constructor(
             //in case of failed syncs due to non-available backends, sequence number might already be higher than nextSequence
             //we must take care to not decrease it here
             provider.update(
-                TransactionProvider.ACCOUNTS_URI.buildUpon()
-                    .appendBooleanQueryParameter(
-                        TransactionProvider.QUERY_PARAMETER_CALLER_IS_SYNCADAPTER
-                    ).build(),
+                TransactionProvider.ACCOUNTS_URI.fromSyncAdapter(),
                 currentSyncIncrease,
                 "$KEY_ROWID = ? AND $KEY_SYNC_SEQUENCE_LOCAL < ?",
                 arrayOf(accountId.toString(), nextSequence.toString())
@@ -744,25 +741,6 @@ class SyncAdapter @JvmOverloads constructor(
                     do {
                         var transactionChange = TransactionChange.create(changesCursor)
                         if (transactionChange.type() == TransactionChange.Type.created || transactionChange.type() == TransactionChange.Type.updated) {
-                            //noinspection Recycle
-                            provider.query(
-                                TransactionProvider.TRANSACTIONS_TAGS_URI,
-                                null,
-                                String.format(
-                                    "%s = (SELECT %s FROM %s WHERE %s = ?)",
-                                    KEY_TRANSACTIONID,
-                                    KEY_ROWID,
-                                    TABLE_TRANSACTIONS,
-                                    KEY_UUID
-                                ),
-                                arrayOf(transactionChange.uuid()),
-                                null
-                            )?.useAndMap { it.getString(KEY_LABEL) }
-                                ?.takeIf { it.isNotEmpty() }
-                                ?.let { tags ->
-                                    transactionChange =
-                                        transactionChange.toBuilder().setTags(tags).build()
-                                }
                             //noinspection Recycle
                             provider.query(
                                 TransactionProvider.ATTACHMENTS_URI
@@ -803,7 +781,28 @@ class SyncAdapter @JvmOverloads constructor(
                                 }
                             }
                         }
-                        result.add(transactionChange)
+                        result.add(if (transactionChange.type() == TransactionChange.Type.tags) {
+                            transactionChange.toBuilder()
+                                .setType(TransactionChange.Type.updated)
+                                .setTags(
+                                    //noinspection Recycle
+                                    provider.query(
+                                        TransactionProvider.TRANSACTIONS_TAGS_URI,
+                                        null,
+                                        String.format(
+                                            "%s = (SELECT %s FROM %s WHERE %s = ?)",
+                                            KEY_TRANSACTIONID,
+                                            KEY_ROWID,
+                                            TABLE_TRANSACTIONS,
+                                            KEY_UUID
+                                        ),
+                                        arrayOf(transactionChange.uuid()),
+                                        null
+                                    )?.useAndMap2 { it.getString(KEY_LABEL) } ?: emptySet()
+                                )
+                                .build()
+                        } else transactionChange
+                        )
                     } while (changesCursor.moveToNext())
                 }
             }

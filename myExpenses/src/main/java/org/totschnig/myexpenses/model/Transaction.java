@@ -85,9 +85,11 @@ import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.db2.RepositoryPartyKt;
+import org.totschnig.myexpenses.db2.RepositoryTagsKt;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.PlannerUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.UriExtKt;
 import org.totschnig.myexpenses.util.ICurrencyFormatter;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.viewmodel.data.Tag;
@@ -158,8 +160,7 @@ public class Transaction extends Model implements ITransaction {
   private int status = 0;
 
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
-  public static final Uri CALLER_IS_SYNC_ADAPTER_URI = CONTENT_URI.buildUpon()
-      .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_CALLER_IS_SYNCADAPTER, "1").build();
+  public static final Uri CALLER_IS_SYNC_ADAPTER_URI = UriExtKt.fromSyncAdapter(CONTENT_URI);
 
   public Money getAmount() {
     return amount;
@@ -546,8 +547,8 @@ public class Transaction extends Model implements ITransaction {
   }
 
   @Override
-  public boolean saveTags(@NotNull ContentResolver contentResolver, @org.jetbrains.annotations.Nullable List<Tag> tags) {
-    return ModelWithLinkedTagsKt.saveTags(linkedTagsUri(), linkColumn(), tags, getId(), contentResolver);
+  public void saveTags(@NotNull ContentResolver contentResolver,@NotNull  List<Tag> tags) {
+    RepositoryTagsKt.saveTagsForTransaction(contentResolver, tags.stream().mapToLong(Tag::getId).toArray(), getId());
   }
 
   /**

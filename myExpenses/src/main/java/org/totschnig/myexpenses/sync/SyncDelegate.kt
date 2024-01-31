@@ -198,55 +198,60 @@ class SyncDelegate(
         }.distinct()
     }
 
-    private fun TransactionChange.nullifyIfNeeded(from: TransactionChange?): TransactionChange {
-        return if (from == null) this
+    /**
+     * For all fields in a give change log entry, we compare if the final merged change has a different
+     * non-null value, in which case we set the field to null. This prevents a value that has already
+     * been overwritten from being written again either remotely or locally
+     */
+    private fun TransactionChange.nullifyIfNeeded(merged: TransactionChange?): TransactionChange {
+        return if (merged == null) this
         else toBuilder().apply {
-            if (comment() != null && from.comment() != null && from.comment() != comment()) {
+            if (comment() != null && merged.comment() != null && merged.comment() != comment()) {
                 setComment(null)
             }
-            if (date() != null && from.date() != null && from.date() != date()) {
+            if (date() != null && merged.date() != null && merged.date() != date()) {
                 setDate(null)
             }
-            if (valueDate() != null && from.valueDate() != null && from.valueDate() != valueDate()) {
+            if (valueDate() != null && merged.valueDate() != null && merged.valueDate() != valueDate()) {
                 setValueDate(null)
             }
-            if (amount() != null && from.amount() != null && from.amount() != amount()) {
+            if (amount() != null && merged.amount() != null && merged.amount() != amount()) {
                 setAmount(null)
             }
             if ((label() != null || categoryInfo() != null) &&
-                (from.label() != null || from.categoryInfo() != null) &&
-                (from.label() != label() || from.categoryInfo() != categoryInfo())
+                (merged.label() != null || merged.categoryInfo() != null) &&
+                (merged.label() != label() || merged.categoryInfo() != categoryInfo())
                 ) {
                 setLabel(null)
                 setCategoryInfo(null)
             }
-            if (payeeName() != null && from.payeeName() != null && from.payeeName() != payeeName()) {
+            if (payeeName() != null && merged.payeeName() != null && merged.payeeName() != payeeName()) {
                 setPayeeName(null)
             }
-            if (transferAccount() != null && from.transferAccount() != null && from.transferAccount() != transferAccount()) {
+            if (transferAccount() != null && merged.transferAccount() != null && merged.transferAccount() != transferAccount()) {
                 setTransferAccount(null)
             }
-            if (methodLabel() != null && from.methodLabel() != null && from.methodLabel() != methodLabel()) {
+            if (methodLabel() != null && merged.methodLabel() != null && merged.methodLabel() != methodLabel()) {
                 setMethodLabel(null)
             }
-            if (crStatus() != null && from.crStatus() != null && from.crStatus() != crStatus()) {
+            if (crStatus() != null && merged.crStatus() != null && merged.crStatus() != crStatus()) {
                 setCrStatus(null)
             }
-            if (referenceNumber() != null && from.referenceNumber() != null && from.referenceNumber() != referenceNumber()) {
+            if (referenceNumber() != null && merged.referenceNumber() != null && merged.referenceNumber() != referenceNumber()) {
                 setReferenceNumber(null)
             }
             if ((pictureUri() != null || attachments() != null) &&
-                (from.pictureUri() != null || from.attachments() != null) &&
-                (from.pictureUri() != pictureUri() || from.attachments() != attachments())
+                (merged.pictureUri() != null || merged.attachments() != null) &&
+                (merged.pictureUri() != pictureUri() || merged.attachments() != attachments())
 
                 ) {
                 setPictureUri(null)
                 setAttachments(null)
             }
-            if (splitParts() != null && from.splitParts() != null && from.splitParts() != splitParts()) {
+            if (splitParts() != null && merged.splitParts() != null && merged.splitParts() != splitParts()) {
                 setSplitParts(null)
             }
-            if (tags() != null && from.tags() != null && from.tags() != tags()) {
+            if (tags() != null && merged.tags() != null && merged.tags() != tags()) {
                 setTags(null)
             }
         }.build()
@@ -377,12 +382,13 @@ class SyncDelegate(
                                 .withValueBackReference(KEY_PARENTID, parentOffset)
                                 .build()
                         )
-                        val tagOps = saveTagLinks(tagIds, transactionId, null, true)
-                        ops.addAll(tagOps)
+                        val tagOpsSize = tagIds?.let { saveTagLinks(it, transactionId) }?.also {
+                            ops.addAll(it)
+                        }?.size ?: 0
                         val attachmentOps =
                             saveAttachmentLinks(change.attachments(), transactionId, null)
                         ops.addAll(attachmentOps)
-                        additionalOpsCount = tagOps.size + attachmentOps.size
+                        additionalOpsCount = tagOpsSize + attachmentOps.size
                     } else {
                         skipped = true
                         SyncAdapter.log()
@@ -390,11 +396,12 @@ class SyncDelegate(
                     }
                 } else {
                     ops.addAll(getContentProviderOperationsForCreate(change, offset, parentOffset))
-                    val tagOps = saveTagLinks(tagIds, null, offset, true)
-                    ops.addAll(tagOps)
+                    val tagOpsSize = tagIds?.let { saveTagLinks(it, null, offset) }?.also {
+                        ops.addAll(it)
+                    }?.size ?: 0
                     val attachmentOps = saveAttachmentLinks(change.attachments(), null, offset)
                     ops.addAll(attachmentOps)
-                    additionalOpsCount = tagOps.size + attachmentOps.size
+                    additionalOpsCount = tagOpsSize + attachmentOps.size
                 }
             }
 
@@ -424,12 +431,13 @@ class SyncDelegate(
                         }
                         ops.add(builder.build())
                     }
-                    val tagOps = saveTagLinks(tagIds, transactionId, null, true)
-                    ops.addAll(tagOps)
+                    val tagOpsSize = tagIds?.let { saveTagLinks(it, transactionId) }?.also {
+                        ops.addAll(it)
+                    }?.size ?: 0
                     val attachmentOps =
                         saveAttachmentLinks(change.attachments(), transactionId, null)
                     ops.addAll(attachmentOps)
-                    additionalOpsCount = tagOps.size + attachmentOps.size
+                    additionalOpsCount = tagOpsSize + attachmentOps.size
                 }
             }
 

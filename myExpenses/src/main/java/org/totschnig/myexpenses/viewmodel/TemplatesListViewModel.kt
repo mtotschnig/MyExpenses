@@ -82,7 +82,10 @@ class TemplatesListViewModel(application: Application) :
                         t.originPlanInstanceId = plan.instanceId
                     }
                     t.status = STATUS_NONE
-                    t.save(contentResolver, true) != null && t.saveTags(contentResolver, tagList)
+                    if (t.save(contentResolver, true) != null) {
+                        t.saveTags(contentResolver, tagList)
+                        true
+                    } else false
                 }
             }.sumBy { if (it == true) 1 else 0 })
         }

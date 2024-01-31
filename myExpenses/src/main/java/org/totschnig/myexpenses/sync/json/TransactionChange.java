@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.TextUtils;
 
 import java.util.List;
+import java.util.Set;
 
 @AutoValue
 public abstract class TransactionChange {
@@ -61,17 +62,18 @@ public abstract class TransactionChange {
 
   public static TransactionChange create(Cursor cursor) {
     final AutoValue_TransactionChange fromCursor = AutoValue_TransactionChange.createFromCursor(cursor);
-    if (fromCursor.equivalentAmount() == null) {
+    if (fromCursor.equivalentAmount() != null) {
+      final String homeCurrency = PrefKey.HOME_CURRENCY.getString(null);
+      final Builder builder = fromCursor.toBuilder();
+      if (homeCurrency != null) {
+        builder.setEquivalentCurrency(homeCurrency);
+      } else {
+        builder.setEquivalentAmount(null);
+      }
+      return builder.setEquivalentCurrency(homeCurrency).build();
+    } else {
       return fromCursor;
     }
-    final String homeCurrency = PrefKey.HOME_CURRENCY.getString(null);
-    final Builder builder = fromCursor.toBuilder();
-    if (homeCurrency != null) {
-      builder.setEquivalentCurrency(homeCurrency);
-    } else {
-      builder.setEquivalentAmount(null);
-    }
-    return builder.setEquivalentCurrency(homeCurrency).build();
   }
 
   public static TypeAdapter<TransactionChange> typeAdapter(Gson gson) {
@@ -160,7 +162,7 @@ public abstract class TransactionChange {
   public abstract String pictureUri();
 
   @Nullable
-  public abstract List<String> tags();
+  public abstract Set<String> tags();
 
   @Nullable
   public abstract List<String> attachments();
@@ -182,7 +184,7 @@ public abstract class TransactionChange {
   }
 
   public enum Type {
-    created, updated, deleted, unsplit, metadata, link;
+    created, updated, deleted, unsplit, metadata, link, tags, attachments;
 
     public static final String JOIN;
 
@@ -253,7 +255,7 @@ public abstract class TransactionChange {
 
     public abstract Builder setSplitParts(List<TransactionChange> value);
 
-    public abstract Builder setTags(List<String> value);
+    public abstract Builder setTags(Set<String> value);
 
     public abstract Builder setAttachments(List<String> value);
 

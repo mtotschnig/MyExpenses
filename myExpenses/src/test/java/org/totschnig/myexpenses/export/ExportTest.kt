@@ -14,7 +14,6 @@
  */
 package org.totschnig.myexpenses.export
 
-import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
@@ -31,16 +30,16 @@ import org.mockito.kotlin.any
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.addAttachments
 import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.markAsExported
-import org.totschnig.myexpenses.db2.addAttachments
 import org.totschnig.myexpenses.db2.saveCategory
+import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.writeTag
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.io.BufferedReader
 import java.io.File
@@ -113,10 +112,7 @@ class ExportTest: BaseTestWithRepository() {
         op.date = baseSinceEpoch
         op.save(contentResolver)
         uuidList.add(op.uuid!!)
-        context.contentResolver.applyBatch(
-            TransactionProvider.AUTHORITY,
-            ArrayList(saveTagLinks(listOf(tag1Id, tag2Id), op.id, null, true))
-        )
+        contentResolver.saveTagsForTransaction(longArrayOf(tag1Id, tag2Id), op.id)
         op.amount = (Money(CurrencyUnit.DebugInstance, expense2))
         op.catId = cat1Id
         op.payee = "N.N."
@@ -166,10 +162,7 @@ class ExportTest: BaseTestWithRepository() {
         part.catId = cat4Id
         part.saveAsNew(contentResolver)
         uuidList.add(part.uuid!!)
-        context.contentResolver.applyBatch(
-            TransactionProvider.AUTHORITY,
-            ArrayList(saveTagLinks(listOf(tag1Id, tag2Id), part.id, null, true))
-        )
+        contentResolver.saveTagsForTransaction(longArrayOf(tag1Id, tag2Id), part.id)
         split.status = DatabaseConstants.STATUS_NONE
         split.save(contentResolver, true)
         uuidList.add(split.uuid!!)

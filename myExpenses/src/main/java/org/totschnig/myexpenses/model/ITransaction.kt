@@ -40,5 +40,5 @@ interface ITransaction: IModel {
     fun setInitialPlan(initialPlan: Triple<String?, Recurrence, LocalDate>)
     fun save(contentResolver: ContentResolver, plannerUtils: PlannerUtils, withCommit: Boolean): Uri?
 
-    fun saveTags(contentResolver: ContentResolver, tags: List<Tag>?): Boolean
+    fun saveTags(contentResolver: ContentResolver, tags: List<Tag>)
 }

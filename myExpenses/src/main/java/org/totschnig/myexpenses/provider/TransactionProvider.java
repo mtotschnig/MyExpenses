@@ -374,6 +374,10 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String METHOD_ENSURE_CATEGORY_TREE = "ensureCategoryTree";
   public static final String KEY_CATEGORY_EXPORT = "categoryExport";
 
+  public static final String METHOD_SAVE_TRANSACTION_TAGS = "saveTransactionTags";
+
+  public static final String KEY_RELACE = "replace";
+
   public static final String KEY_RESULT = "result";
 
   private static final UriMatcher URI_MATCHER;
@@ -999,6 +1003,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         newUri = TAGS_URI + "/" + id;
       }
       case TRANSACTIONS_TAGS -> {
+        if (callerIsNotSyncAdapter(uri)) throw new IllegalArgumentException("Can only be called from sync adapter");
         db.insert(TABLE_TRANSACTIONS_TAGS, CONFLICT_IGNORE, values);
         //the table does not have primary ids, we return the base uri
         notifyChange(uri, callerIsNotSyncAdapter(uri));
@@ -1188,6 +1193,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
       }
       case TRANSACTIONS_TAGS -> {
+        if (callerIsNotSyncAdapter(uri)) throw new IllegalArgumentException("Can only be called from sync adapter");
         count = db.delete(TABLE_TRANSACTIONS_TAGS, where, whereArgs);
       }
       case TEMPLATES_TAGS -> {
@@ -1658,6 +1664,9 @@ public class TransactionProvider extends BaseTransactionProvider {
         Bundle bundle = ensureCategoryTree(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
         notifyChange(CATEGORIES_URI, false);
         return bundle;
+      }
+      case METHOD_SAVE_TRANSACTION_TAGS ->  {
+        saveTransactionTags(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
       }
     }
     return null;
