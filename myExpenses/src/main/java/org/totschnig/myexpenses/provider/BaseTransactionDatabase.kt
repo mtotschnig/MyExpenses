@@ -853,6 +853,24 @@ abstract class BaseTransactionDatabase(
         }
     }
 
+    fun SupportSQLiteDatabase.upgradeTo161() {
+        execSQL("DROP VIEW IF EXISTS $VIEW_CHANGES_EXTENDED")
+        //add new change type
+        execSQL("ALTER TABLE changes RENAME to changes_old")
+        execSQL(
+            "CREATE TABLE changes (account_id integer not null references accounts(_id) ON DELETE CASCADE, type text not null check (type in ('created','updated','deleted','unsplit','metadata','link','tags','attachments')), sync_sequence_local integer, uuid text not null,timestamp datetime DEFAULT (strftime('%s','now')), parent_uuid text, comment text, date datetime, value_date datetime, amount integer, original_amount integer, original_currency text, equivalent_amount integer, cat_id integer references categories(_id) ON DELETE SET NULL, payee_id integer references payee(_id) ON DELETE SET NULL, transfer_account integer references accounts(_id) ON DELETE SET NULL, method_id integer references paymentmethods(_id) ON DELETE SET NULL, cr_status text check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')), number text,picture_id text)"
+        )
+        execSQL(
+            "INSERT INTO changes SELECT * FROM changes_old"
+        )
+        execSQL("DROP TABLE changes_old")
+        execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
+        execSQL(linkedTableTrigger("INSERT", TABLE_TRANSACTIONS_TAGS))
+        execSQL(linkedTableTrigger("DELETE", TABLE_TRANSACTIONS_TAGS))
+        execSQL(linkedTableTrigger("INSERT", TABLE_TRANSACTION_ATTACHMENTS))
+        execSQL(linkedTableTrigger("DELETE", TABLE_TRANSACTION_ATTACHMENTS))
+    }
+
     override fun onCreate(db: SupportSQLiteDatabase) {
         prefHandler.putInt(PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION, DATABASE_VERSION)
     }

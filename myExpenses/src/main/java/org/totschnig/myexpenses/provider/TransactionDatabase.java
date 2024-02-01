@@ -2210,10 +2210,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
 
       if (oldVersion < 161) {
-        db.execSQL(linkedTableTrigger("INSERT", TABLE_TRANSACTIONS_TAGS));
-        db.execSQL(linkedTableTrigger("DELETE", TABLE_TRANSACTIONS_TAGS));
-        db.execSQL(linkedTableTrigger("INSERT", TABLE_TRANSACTION_ATTACHMENTS));
-        db.execSQL(linkedTableTrigger("DELETE", TABLE_TRANSACTION_ATTACHMENTS));
+        upgradeTo161(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);
