@@ -49,6 +49,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENT_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
@@ -371,61 +372,51 @@ fun buildChangeTriggerDefinitionForIntegerColumn(column: String) =
 fun buildChangeTriggerDefinitionForReferenceColumn(column: String) =
     "CASE WHEN old.$column = new.$column THEN NULL WHEN old.$column IS NOT NULL AND new.$column IS NULL THEN $NULL_ROW_ID ELSE new.$column END"
 
-val TAGS_TRIGGER_INSERT =
-    "CREATE TRIGGER TAGS_INSERT_TRIGGER AFTER INSERT ON $TABLE_TRANSACTIONS_TAGS ${
-        insertChangeForTags("new")
-    }"
-val TAGS_TRIGGER_DELETE =
-    "CREATE TRIGGER TAGS_DELETE_TRIGGER AFTER DELETE ON $TABLE_TRANSACTIONS_TAGS ${
-        insertChangeForTags("old")
-    }"
-
-val ATTACHMENTS_TRIGGER_INSERT =
-    "CREATE TRIGGER ATTACHMENTS_INSERT_TRIGGER AFTER INSERT ON $TABLE_TRANSACTION_ATTACHMENTS ${
-        insertChangeForAttachments("new")
-    }"
-val ATTACHMENTS_TRIGGER_DELETE =
-    "CREATE TRIGGER ATTACHMENTS_DELETE_TRIGGER AFTER DELETE ON $TABLE_TRANSACTION_ATTACHMENTS ${
-        insertChangeForAttachments("old")
-    }"
-
-private fun insertChangeForTags(reference: String) =
-    insertChangeForLinkedTable(reference, TABLE_TRANSACTIONS_TAGS, TransactionChange.Type.tags)
-
-private fun insertChangeForAttachments(reference: String) =
-    insertChangeForLinkedTable(reference, TABLE_TRANSACTION_ATTACHMENTS, TransactionChange.Type.attachments)
-
-private fun insertChangeForLinkedTable(reference: String, table: String, type: TransactionChange.Type) = """
+fun linkedTableTrigger(
+    operation: String,
+    table: String
+): String {
+    val reference = when(operation) {
+        "INSERT" -> "new"
+        "DELETE" -> "old"
+        else -> throw IllegalArgumentException()
+    }
+    val type = when(table) {
+        TABLE_TRANSACTIONS_TAGS -> TransactionChange.Type.tags
+        TABLE_TRANSACTION_ATTACHMENTS -> TransactionChange.Type.attachments
+        else -> throw IllegalArgumentException()
+    }
+    return """
+    CREATE TRIGGER ${table}_${operation}_TRIGGER AFTER $operation ON $table
     WHEN ${shouldWriteChangeTemplate(reference, table)}
-        BEGIN INSERT INTO $TABLE_CHANGES ($KEY_TYPE, $KEY_UUID, $KEY_ACCOUNTID, $KEY_SYNC_SEQUENCE_LOCAL)
+        BEGIN INSERT INTO $TABLE_CHANGES ($KEY_TYPE, $KEY_UUID, $KEY_PARENT_UUID, $KEY_ACCOUNTID, $KEY_SYNC_SEQUENCE_LOCAL)
         VALUES ('${type.name}', (SELECT $KEY_UUID FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $reference.$KEY_TRANSACTIONID),
+        ${parentUuidTemplate(reference, table)},
         (SELECT $KEY_ACCOUNTID FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $reference.$KEY_TRANSACTIONID), 
         ${sequenceNumberTemplate(reference, table)}); END
 """
+}
 
 @JvmOverloads
-fun shouldWriteChangeTemplate(reference: String, table: String = TABLE_TRANSACTIONS) = """
-EXISTS (SELECT 1 FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = ${
-    accountReferenceForTable(
-        reference,
-        table
-    )
+fun shouldWriteChangeTemplate(reference: String, table: String = TABLE_TRANSACTIONS) =
+    """EXISTS (SELECT 1 FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = ${
+    referenceForTable(reference, table, KEY_ACCOUNTID)
 } AND $KEY_SYNC_ACCOUNT_NAME IS NOT NULL AND $KEY_SYNC_SEQUENCE_LOCAL > 0) AND NOT EXISTS (SELECT 1 FROM $TABLE_SYNC_STATE)"""
 
-private fun accountReferenceForTable(reference: String, table: String) = when (table) {
-    TABLE_TRANSACTIONS -> "$reference.$KEY_ACCOUNTID"
-    TABLE_TRANSACTIONS_TAGS, TABLE_TRANSACTION_ATTACHMENTS -> "(SELECT $KEY_ACCOUNTID FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $reference.$KEY_TRANSACTIONID)"
+private fun referenceForTable(reference: String, table: String, column: String) = when (table) {
+    TABLE_TRANSACTIONS -> "$reference.$column"
+    TABLE_TRANSACTIONS_TAGS, TABLE_TRANSACTION_ATTACHMENTS -> "(SELECT $column FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $reference.$KEY_TRANSACTIONID)"
     else -> throw IllegalArgumentException()
 }
 
 @JvmOverloads
 fun sequenceNumberTemplate(reference: String, table: String = TABLE_TRANSACTIONS) =
     "(SELECT $KEY_SYNC_SEQUENCE_LOCAL FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = ${
-        accountReferenceForTable(
-            reference,
-            table
-        )
+        referenceForTable(reference, table, KEY_ACCOUNTID)
     })"
+@JvmOverloads
+fun parentUuidTemplate(reference: String, table: String = TABLE_TRANSACTIONS) =
+    "CASE WHEN ${referenceForTable(reference, table, KEY_PARENTID)} IS NULL THEN NULL ELSE (SELECT $KEY_UUID from $TABLE_TRANSACTIONS where $KEY_ROWID = ${referenceForTable(reference, table, KEY_PARENTID)}) END"
 
 
 abstract class BaseTransactionDatabase(

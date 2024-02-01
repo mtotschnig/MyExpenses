@@ -45,10 +45,8 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildC
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForIntegerColumn;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForReferenceColumn;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForTextColumn;
-import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.getATTACHMENTS_TRIGGER_DELETE;
-import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.getATTACHMENTS_TRIGGER_INSERT;
-import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.getTAGS_TRIGGER_DELETE;
-import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.getTAGS_TRIGGER_INSERT;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.linkedTableTrigger;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.parentUuidTemplate;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.sequenceNumberTemplate;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.shouldWriteChangeTemplate;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
@@ -346,10 +344,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_ONE_TIME + " boolean default 0, "
           + "primary key (" + KEY_BUDGETID + "," + KEY_CATID + "," + KEY_YEAR + "," + KEY_SECOND_GROUP + "));";
 
-
-  private static final String SELECT_SEQUENCE_NUMBER_TEMPLATE = "(SELECT " + KEY_SYNC_SEQUENCE_LOCAL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID + ")";
-  private static final String SELECT_PARENT_UUID_TEMPLATE = "CASE WHEN %1$s." + KEY_PARENTID + " IS NULL THEN NULL ELSE (SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " where " + KEY_ROWID + " = %1$s." + KEY_PARENTID + ") END";
-
   private static final String INSERT_TRIGGER_ACTION = " BEGIN INSERT INTO " + TABLE_CHANGES + "("
       + KEY_TYPE + ","
       + KEY_SYNC_SEQUENCE_LOCAL + ", "
@@ -371,7 +365,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       + KEY_REFERENCE_NUMBER + ") VALUES ('" + TransactionChange.Type.created + "', "
       + sequenceNumberTemplate("new") + ", "
       + "new." + KEY_UUID + ", "
-      + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "new") + ", "
+      + parentUuidTemplate("new") + ", "
       + "new." + KEY_COMMENT + ", "
       + "new." + KEY_DATE + ", "
       + "new." + KEY_VALUE_DATE + ", "
@@ -396,7 +390,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       + sequenceNumberTemplate("old") + ", "
       + "old." + KEY_ACCOUNTID + ", "
       + "old." + KEY_UUID + ", "
-      + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "old") + "); END;";
+      + parentUuidTemplate("old") + "); END;";
 
   private static final String DELETE_TRIGGER_ACTION_AFTER_TRANSFER_UPDATE = " BEGIN INSERT INTO " + TABLE_CHANGES + "("
       + KEY_TYPE + ","
@@ -407,7 +401,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       + sequenceNumberTemplate("old") + ", "
       + "old." + KEY_ACCOUNTID + ", "
       + "new." + KEY_UUID + ", "
-      + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "old") + "); END;";
+      + parentUuidTemplate("old") + "); END;";
 
   private static final String TRANSACTIONS_INSERT_TRIGGER_CREATE =
       "CREATE TRIGGER insert_change_log "
@@ -470,7 +464,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + sequenceNumberTemplate("old") + ", "
           + "new." + KEY_UUID + ", "
           + "new." + KEY_ACCOUNTID + ", "
-          + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "new") + ", "
+          + parentUuidTemplate("new") + ", "
           + buildChangeTriggerDefinitionForTextColumn(KEY_COMMENT) + ", "
           + buildChangeTriggerDefinitionForColumnNotNull(KEY_DATE) + ", "
           + buildChangeTriggerDefinitionForColumnNotNull(KEY_VALUE_DATE) + ", "
@@ -2263,10 +2257,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(TRANSACTIONS_DELETE_AFTER_UPDATE_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_DELETE_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE);
-    db.execSQL(getTAGS_TRIGGER_INSERT());
-    db.execSQL(getTAGS_TRIGGER_DELETE());
-    db.execSQL(getATTACHMENTS_TRIGGER_INSERT());
-    db.execSQL(getATTACHMENTS_TRIGGER_DELETE());
+    db.execSQL(linkedTableTrigger("INSERT", TABLE_TRANSACTIONS_TAGS));
+    db.execSQL(linkedTableTrigger("DELETE", TABLE_TRANSACTIONS_TAGS));
+    db.execSQL(linkedTableTrigger("INSERT", TABLE_TRANSACTION_ATTACHMENTS));
+    db.execSQL(linkedTableTrigger("DELETE", TABLE_TRANSACTION_ATTACHMENTS));
 
     createOrRefreshTransactionSealedTriggers(db);
 
