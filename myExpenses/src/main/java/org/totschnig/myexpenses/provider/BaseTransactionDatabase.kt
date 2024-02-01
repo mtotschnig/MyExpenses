@@ -391,9 +391,9 @@ fun linkedTableTrigger(
     WHEN ${shouldWriteChangeTemplate(reference, table)}
         BEGIN INSERT INTO $TABLE_CHANGES ($KEY_TYPE, $KEY_UUID, $KEY_PARENT_UUID, $KEY_ACCOUNTID, $KEY_SYNC_SEQUENCE_LOCAL)
         VALUES ('${type.name}', (SELECT $KEY_UUID FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $reference.$KEY_TRANSACTIONID),
-        ${parentUuidTemplate(reference, table)},
+        ${parentUuidExpression(reference, table)},
         (SELECT $KEY_ACCOUNTID FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $reference.$KEY_TRANSACTIONID), 
-        ${sequenceNumberTemplate(reference, table)}); END
+        ${sequenceNumberSelect(reference, table)}); END
 """
 }
 
@@ -410,13 +410,13 @@ private fun referenceForTable(reference: String, table: String, column: String) 
 }
 
 @JvmOverloads
-fun sequenceNumberTemplate(reference: String, table: String = TABLE_TRANSACTIONS) =
+fun sequenceNumberSelect(reference: String, table: String = TABLE_TRANSACTIONS) =
     "(SELECT $KEY_SYNC_SEQUENCE_LOCAL FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = ${
         referenceForTable(reference, table, KEY_ACCOUNTID)
     })"
 @JvmOverloads
-fun parentUuidTemplate(reference: String, table: String = TABLE_TRANSACTIONS) =
-    "CASE WHEN ${referenceForTable(reference, table, KEY_PARENTID)} IS NULL THEN NULL ELSE (SELECT $KEY_UUID from $TABLE_TRANSACTIONS where $KEY_ROWID = ${referenceForTable(reference, table, KEY_PARENTID)}) END"
+fun parentUuidExpression(reference: String, table: String = TABLE_TRANSACTIONS) =
+    "CASE WHEN ${referenceForTable(reference, table, KEY_PARENTID)} IS NULL THEN NULL ELSE (SELECT $KEY_UUID from $TABLE_TRANSACTIONS parent where $KEY_ROWID = ${referenceForTable(reference, table, KEY_PARENTID)}) END"
 
 
 abstract class BaseTransactionDatabase(

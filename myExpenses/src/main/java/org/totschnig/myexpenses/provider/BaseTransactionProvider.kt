@@ -54,10 +54,12 @@ import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CAL
 import org.totschnig.myexpenses.sync.json.CategoryExport
 import org.totschnig.myexpenses.sync.json.CategoryInfo
 import org.totschnig.myexpenses.sync.json.ICategoryInfo
+import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
@@ -1571,6 +1573,60 @@ abstract class BaseTransactionProvider : ContentProvider() {
             } finally {
                 db.endTransaction()
             }
+        }
+    }
+
+    fun initChangeLog(db: SupportSQLiteDatabase, accountId: String) {
+        val accountIdBindArgs: Array<Any> = arrayOf(accountId)
+        db.beginTransaction()
+        try {
+            db.delete(TABLE_CHANGES, "$KEY_ACCOUNTID = ?", accountIdBindArgs)
+            db.query(
+                SupportSQLiteQueryBuilder.builder(TABLE_TRANSACTIONS)
+                    .columns(arrayOf(KEY_ROWID))
+                    .selection(
+                        "(" + KEY_UUID + " IS NULL OR (" + KEY_TRANSFER_PEER + " IS NOT NULL AND (SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " peer where " + KEY_TRANSFER_PEER + " = " + TABLE_TRANSACTIONS + "." + KEY_ROWID + ") is null )) AND ("
+                                + KEY_TRANSFER_PEER + " IS NULL OR " + KEY_ROWID + " < " + KEY_TRANSFER_PEER + ")",
+                        null
+                    )
+                    .create()
+            ).use {
+                if (it.moveToFirst()) {
+                    safeUpdateWithSealed(db) {
+                        while (!it.isAfterLast) {
+                            val idString: String = it.getString(0)
+                            db.execSQL(
+                                "UPDATE $TABLE_TRANSACTIONS SET $KEY_UUID = ? WHERE $KEY_ROWID = ? OR $KEY_TRANSFER_PEER = ?",
+                                arrayOf(Model.generateUuid(), idString, idString)
+                            )
+                            it.moveToNext()
+                        }
+                    }
+                }
+            }
+            val parentUUidTemplate = parentUuidExpression(TABLE_TRANSACTIONS, TABLE_TRANSACTIONS)
+            db.execSQL(
+                """INSERT INTO $TABLE_CHANGES($KEY_TYPE, $KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_PARENT_UUID, $KEY_COMMENT, $KEY_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID,$KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID,$KEY_CR_STATUS, $KEY_REFERENCE_NUMBER) 
+                    SELECT '${TransactionChange.Type.created.name}',  1, $KEY_UUID, $parentUUidTemplate, $KEY_COMMENT, $KEY_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID,$KEY_CR_STATUS, $KEY_REFERENCE_NUMBER FROM $TABLE_TRANSACTIONS WHERE $KEY_ACCOUNTID = ?""",
+                accountIdBindArgs
+            )
+            db.execSQL("""INSERT INTO $TABLE_CHANGES($KEY_TYPE, $KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_PARENT_UUID, $KEY_ACCOUNTID)
+               SELECT '${TransactionChange.Type.tags.name}', 1, $KEY_UUID, $parentUUidTemplate, $KEY_ACCOUNTID FROM $TABLE_TRANSACTIONS WHERE $KEY_ACCOUNTID = ? AND EXISTS (SELECT 1 FROM $TABLE_TRANSACTIONS_TAGS WHERE $KEY_TRANSACTIONID = $KEY_ROWID)""",
+                accountIdBindArgs
+            )
+            db.execSQL("""INSERT INTO $TABLE_CHANGES($KEY_TYPE, $KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_PARENT_UUID, $KEY_ACCOUNTID)
+               SELECT '${TransactionChange.Type.attachments.name}', 1, $KEY_UUID, $parentUUidTemplate, $KEY_ACCOUNTID FROM $TABLE_TRANSACTIONS WHERE $KEY_ACCOUNTID = ? AND EXISTS (SELECT 1 FROM $TABLE_TRANSACTION_ATTACHMENTS WHERE $KEY_TRANSACTIONID = $KEY_ROWID)""",
+                accountIdBindArgs
+            )
+            val currentSyncIncrease = ContentValues(1)
+            currentSyncIncrease.put(KEY_SYNC_SEQUENCE_LOCAL, 1)
+            db.update(TABLE_ACCOUNTS, currentSyncIncrease, "$KEY_ROWID = ?", accountIdBindArgs)
+            db.setTransactionSuccessful()
+        } catch (e: java.lang.Exception) {
+            report(e, TAG)
+            throw e
+        } finally {
+            db.endTransaction()
         }
     }
 }

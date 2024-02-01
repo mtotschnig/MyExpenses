@@ -46,8 +46,8 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildC
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForReferenceColumn;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForTextColumn;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.linkedTableTrigger;
-import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.parentUuidTemplate;
-import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.sequenceNumberTemplate;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.parentUuidExpression;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.sequenceNumberSelect;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.shouldWriteChangeTemplate;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
@@ -363,9 +363,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       + KEY_METHODID + ","
       + KEY_CR_STATUS + ", "
       + KEY_REFERENCE_NUMBER + ") VALUES ('" + TransactionChange.Type.created + "', "
-      + sequenceNumberTemplate("new") + ", "
+      + sequenceNumberSelect("new") + ", "
       + "new." + KEY_UUID + ", "
-      + parentUuidTemplate("new") + ", "
+      + parentUuidExpression("new") + ", "
       + "new." + KEY_COMMENT + ", "
       + "new." + KEY_DATE + ", "
       + "new." + KEY_VALUE_DATE + ", "
@@ -387,10 +387,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       + KEY_ACCOUNTID + ","
       + KEY_UUID + ","
       + KEY_PARENT_UUID + ") VALUES ('" + TransactionChange.Type.deleted + "', "
-      + sequenceNumberTemplate("old") + ", "
+      + sequenceNumberSelect("old") + ", "
       + "old." + KEY_ACCOUNTID + ", "
       + "old." + KEY_UUID + ", "
-      + parentUuidTemplate("old") + "); END;";
+      + parentUuidExpression("old") + "); END;";
 
   private static final String DELETE_TRIGGER_ACTION_AFTER_TRANSFER_UPDATE = " BEGIN INSERT INTO " + TABLE_CHANGES + "("
       + KEY_TYPE + ","
@@ -398,10 +398,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       + KEY_ACCOUNTID + ","
       + KEY_UUID + ","
       + KEY_PARENT_UUID + ") VALUES ('" + TransactionChange.Type.deleted + "', "
-      + sequenceNumberTemplate("old") + ", "
+      + sequenceNumberSelect("old") + ", "
       + "old." + KEY_ACCOUNTID + ", "
       + "new." + KEY_UUID + ", "
-      + parentUuidTemplate("old") + "); END;";
+      + parentUuidExpression("old") + "); END;";
 
   private static final String TRANSACTIONS_INSERT_TRIGGER_CREATE =
       "CREATE TRIGGER insert_change_log "
@@ -461,10 +461,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_METHODID + ", "
           + KEY_CR_STATUS + ", "
           + KEY_REFERENCE_NUMBER + ") VALUES ('" + TransactionChange.Type.updated + "', "
-          + sequenceNumberTemplate("old") + ", "
+          + sequenceNumberSelect("old") + ", "
           + "new." + KEY_UUID + ", "
           + "new." + KEY_ACCOUNTID + ", "
-          + parentUuidTemplate("new") + ", "
+          + parentUuidExpression("new") + ", "
           + buildChangeTriggerDefinitionForTextColumn(KEY_COMMENT) + ", "
           + buildChangeTriggerDefinitionForColumnNotNull(KEY_DATE) + ", "
           + buildChangeTriggerDefinitionForColumnNotNull(KEY_VALUE_DATE) + ", "
@@ -502,7 +502,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + " BEGIN INSERT INTO %3$s (%4$s, %5$s, %6$s, %7$s) VALUES ('metadata', '_ignored_', new.%6$s, %8$s); END;",
       TABLE_ACCOUNT_EXCHANGE_RATES,
       shouldWriteChangeTemplate("new"),
-      TABLE_CHANGES, KEY_TYPE, KEY_UUID, KEY_ACCOUNTID, KEY_SYNC_SEQUENCE_LOCAL, sequenceNumberTemplate("old"));
+      TABLE_CHANGES, KEY_TYPE, KEY_UUID, KEY_ACCOUNTID, KEY_SYNC_SEQUENCE_LOCAL, sequenceNumberSelect("old"));
 
   private static final String SETTINGS_CREATE =
       "CREATE TABLE " + TABLE_SETTINGS + " ("
