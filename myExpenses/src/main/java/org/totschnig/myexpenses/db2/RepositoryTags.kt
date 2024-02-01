@@ -7,12 +7,17 @@ import android.content.ContentValues
 import android.net.Uri
 import android.os.Bundle
 import androidx.annotation.VisibleForTesting
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
-import org.totschnig.myexpenses.provider.useAndMap
+import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.io.IOException
 
@@ -49,7 +54,7 @@ fun Repository.saveTagsForTemplate(tags: List<Tag>?, templateId: Long) =
 
 private fun Repository.loadTags(linkUri: Uri, column: String, id: Long): List<Tag> =
     //noinspection Recycle
-    contentResolver.query(linkUri, null, "$column = ?", arrayOf(id.toString()), null)!!.useAndMap {
+    contentResolver.query(linkUri, null, "$column = ?", arrayOf(id.toString()), null)!!.useAndMapToList {
         Tag(
             id = it.getLong(KEY_ROWID),
             label = it.getString(KEY_LABEL),

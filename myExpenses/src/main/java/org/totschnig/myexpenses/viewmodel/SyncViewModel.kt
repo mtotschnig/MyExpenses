@@ -21,7 +21,7 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.provider.useAndMap
+import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.KEY_SYNC_PROVIDER_URL
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.KEY_SYNC_PROVIDER_USERNAME
@@ -32,7 +32,6 @@ import org.totschnig.myexpenses.sync.SyncBackendProvider
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.util.ResultUnit
-import org.totschnig.myexpenses.util.calculateRawExchangeRate
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.IOException
 
@@ -197,7 +196,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
             TransactionProvider.ACCOUNTS_URI,
             arrayOf(KEY_ROWID, KEY_LABEL, KEY_UUID, "$KEY_SYNC_ACCOUNT_NAME IS NULL", KEY_SEALED),
             null, null, null
-        )?.useAndMap {
+        )?.useAndMapToList {
                 val uuid = it.getString(2)
                 if (uuid == null) {
                     CrashHandler.report(Exception("Account with null uuid"))

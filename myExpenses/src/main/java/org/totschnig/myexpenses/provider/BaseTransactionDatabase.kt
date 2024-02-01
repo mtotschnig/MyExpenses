@@ -695,7 +695,7 @@ abstract class BaseTransactionDatabase(
             "transactions",
             arrayOf("_id", "picture_id"),
             "picture_id is not null"
-        ).useAndMap { cursor ->
+        ).useAndMapToList { cursor ->
             cursor.getLong(0) to cursor.getString(1)
         }.groupBy({ it.second }, { it.first }).forEach { (uri, transactionIds) ->
             attachmentValues.clear()
@@ -1069,7 +1069,7 @@ abstract class BaseTransactionDatabase(
     }
 
     fun insertNullRows(db: SupportSQLiteDatabase) {
-        //category that allows us to record changes where payee gets removed
+        //rows that allow us to record changes where payee or method gets set to null
         db.insert(TABLE_PAYEES, SQLiteDatabase.CONFLICT_NONE, ContentValues().apply {
             put(KEY_ROWID, NULL_ROW_ID)
             put(KEY_PAYEE_NAME, NULL_CHANGE_INDICATOR)

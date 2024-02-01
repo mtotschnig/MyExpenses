@@ -65,7 +65,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.useAndMap
+import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
@@ -453,7 +453,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
             arrayOf(KEY_AMOUNT, KEY_DATE),
             "(select $KEY_VALUE from $TABLE_TRANSACTION_ATTRIBUTES left join $TABLE_ATTRIBUTES on $KEY_ATTRIBUTE_ID = $TABLE_ATTRIBUTES.$KEY_ROWID WHERE $KEY_ATTRIBUTE_NAME = ? and $KEY_TRANSACTIONID = $VIEW_COMMITTED.$KEY_ROWID) = ? ",
             arrayOf(FinTsAttribute.CHECKSUM.name, checkSum), null
-        )?.useAndMap {
+        )?.useAndMapToList {
             it.getLong(0) == transaction.amount.amountMinor && it.getLong(1) == transaction.date
         }?.any { it } == true
     }

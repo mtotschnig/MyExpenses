@@ -8,12 +8,12 @@ import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.enumValueOrNull
 import java.time.LocalDate
 
-fun <T> Cursor.useAndMap(mapper: (Cursor) -> T) =
+fun <T> Cursor.useAndMapToList(mapper: (Cursor) -> T) =
     use {
         it.asSequence.map(mapper).toList()
     }
 
-fun <T> Cursor.useAndMap2(mapper: (Cursor) -> T) =
+fun <T> Cursor.useAndMapToSet(mapper: (Cursor) -> T) =
     use {
         it.asSequence.map(mapper).toSet()
     }

@@ -7,13 +7,13 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
-import org.totschnig.myexpenses.provider.useAndMap
+import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 @Deprecated("Use methods in RepositoryTags")
 fun loadTags(linkUri: Uri, column: String, id: Long, contentResolver: ContentResolver): List<Tag> =
         //noinspection Recycle
-        contentResolver.query(linkUri, null, "$column = ?", arrayOf(id.toString()), null)!!.useAndMap {
+        contentResolver.query(linkUri, null, "$column = ?", arrayOf(id.toString()), null)!!.useAndMapToList {
                 Tag(
                     id = it.getLong(DatabaseConstants.KEY_ROWID),
                     label = it.getString(DatabaseConstants.KEY_LABEL),

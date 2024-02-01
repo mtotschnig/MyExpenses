@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.db2
 
-import android.annotation.SuppressLint
 import android.content.ContentProviderOperation
 import android.net.Uri
 import android.os.Bundle
@@ -13,9 +12,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_DELETE_ATTACHMENTS
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_ATTACHMENTS_URI
-import org.totschnig.myexpenses.provider.asSequence
-import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.provider.useAndMap
+import org.totschnig.myexpenses.provider.useAndMapToList
 import java.io.IOException
 
 fun Repository.addAttachments(transactionId: Long, attachments: List<Uri>) {
@@ -45,10 +42,10 @@ fun Repository.deleteAttachments(transactionId: Long, attachments: List<Uri>) {
 fun Repository.loadAttachmentIds(transactionId: Long) = contentResolver.query(
     TRANSACTIONS_ATTACHMENTS_URI,
     arrayOf(KEY_ATTACHMENT_ID), "$KEY_TRANSACTIONID = ?", arrayOf(transactionId.toString()), null
-)?.useAndMap { it.getLong(0) } ?: emptyList()
+)?.useAndMapToList { it.getLong(0) } ?: emptyList()
 
 //noinspection Recycle
 fun Repository.loadAttachments(transactionId: Long) = contentResolver.query(
     TRANSACTIONS_ATTACHMENTS_URI,
     arrayOf(KEY_URI), "$KEY_TRANSACTIONID = ?", arrayOf(transactionId.toString()), null
-)?.useAndMap { Uri.parse(it.getString(0)) } ?: emptyList()
+)?.useAndMapToList { Uri.parse(it.getString(0)) } ?: emptyList()

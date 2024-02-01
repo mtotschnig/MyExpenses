@@ -546,7 +546,7 @@ open class MyExpensesViewModel(
         viewModelScope.launch(coroutineDispatcher) {
             for (id in transactionIds) {
                 contentResolver.call(DUAL_URI, METHOD_SAVE_TRANSACTION_TAGS, null, Bundle().apply {
-                    putBoolean(KEY_RELACE, replace)
+                    putBoolean(KEY_REPLACE, replace)
                     putLong(KEY_TRANSACTIONID, id)
                     putLongArray(KEY_TAGLIST, tagIds.toLongArray())
                 })

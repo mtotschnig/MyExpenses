@@ -367,10 +367,8 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String KEY_CATEGORY_INFO = "categoryInfo";
   public static final String METHOD_ENSURE_CATEGORY_TREE = "ensureCategoryTree";
   public static final String KEY_CATEGORY_EXPORT = "categoryExport";
-
   public static final String METHOD_SAVE_TRANSACTION_TAGS = "saveTransactionTags";
-
-  public static final String KEY_RELACE = "replace";
+  public static final String KEY_REPLACE = "replace";
 
   public static final String KEY_RESULT = "result";
 

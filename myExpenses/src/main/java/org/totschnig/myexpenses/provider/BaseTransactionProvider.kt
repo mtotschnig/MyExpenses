@@ -48,7 +48,7 @@ import org.totschnig.myexpenses.provider.DbUtils.typeWithFallBack
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY_EXPORT
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY_INFO
-import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RELACE
+import org.totschnig.myexpenses.provider.TransactionProvider.KEY_REPLACE
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CALLER_IS_IN_BULK
 import org.totschnig.myexpenses.sync.json.CategoryExport
@@ -810,7 +810,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         putLongArray(
             KEY_RESULT, helper.readableDatabase.query(
                 "select distinct transactions.parent_id from transactions left join transactions parent on transactions.parent_id = parent._id where transactions.parent_id is not null and parent.account_id != transactions.account_id",
-            ).useAndMap { it.getLong(0) }.toLongArray()
+            ).useAndMapToList { it.getLong(0) }.toLongArray()
         )
     }
 
@@ -1551,9 +1551,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
             arrayOf(KEY_TAGID),
             selection,
             selectionArgs
-        ).useAndMap2 { it.getLong(0) }
+        ).useAndMapToSet { it.getLong(0) }
         val new = tagIds - currentTags
-        val deleted = if(extras.getBoolean(KEY_RELACE, true)) currentTags - tagIds else emptySet()
+        val deleted = if(extras.getBoolean(KEY_REPLACE, true)) currentTags - tagIds else emptySet()
         if (new.isNotEmpty() || deleted.isNotEmpty()) {
             db.beginTransaction()
             try {

@@ -775,7 +775,7 @@ class SyncAdapter @JvmOverloads constructor(
                                              "$KEY_TRANSACTIONID = (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)",
                                              arrayOf(transactionChange.uuid()),
                                              null
-                                         )?.useAndMap2 { it.getString(KEY_LABEL) } ?: emptySet()
+                                         )?.useAndMapToSet { it.getString(KEY_LABEL) } ?: emptySet()
                                      )
                                      .build()
                                 TransactionChange.Type.attachments -> transactionChange.toBuilder()
@@ -791,7 +791,7 @@ class SyncAdapter @JvmOverloads constructor(
                                             null,
                                             arrayOf(transactionChange.uuid()),
                                             null
-                                        )?.useAndMap2 { it.getString(0) } ?: emptySet()
+                                        )?.useAndMapToSet { it.getString(0) } ?: emptySet()
                                     )
                                     .build()
                                 else -> transactionChange

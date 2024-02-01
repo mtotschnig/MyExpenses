@@ -80,7 +80,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
-import org.totschnig.myexpenses.provider.useAndMap
+import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_WEB_UI
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -364,7 +364,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                     ).build(),
                 arrayOf(KEY_ROWID, KEY_PARENTID, KEY_LABEL, KEY_LEVEL),
                 null, null, null
-            )?.useAndMap {
+            )?.useAndMapToList {
                 mapOf(
                     "id" to it.getLong(0),
                     "parent" to it.getLongOrNull(1),
@@ -378,7 +378,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                     TransactionProvider.ACCOUNTS_BASE_URI,
                     arrayOf(KEY_ROWID, KEY_LABEL, KEY_TYPE, KEY_CURRENCY),
                     "$KEY_SEALED = 0", null, null
-                )?.useAndMap {
+                )?.useAndMapToList {
                     mapOf(
                         "id" to it.getLong(0),
                         "label" to it.getString(1),
@@ -391,7 +391,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                     TransactionProvider.PAYEES_URI,
                     arrayOf(KEY_ROWID, KEY_PAYEE_NAME),
                     "$KEY_PARENTID IS  NULL", null, null
-                )?.useAndMap {
+                )?.useAndMapToList {
                     mapOf(
                         "id" to it.getLong(0),
                         "name" to it.getString(1)
@@ -403,7 +403,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                     TransactionProvider.TAGS_URI,
                     arrayOf(KEY_ROWID, KEY_LABEL),
                     null, null, null
-                )?.useAndMap {
+                )?.useAndMapToList {
                     mapOf(
                         "id" to it.getLong(0),
                         "label" to it.getString(1)
@@ -420,7 +420,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                         KEY_ACCOUNT_TPYE_LIST
                     ),
                     null, null, null
-                )?.useAndMap {
+                )?.useAndMapToList {
                     mapOf(
                         "id" to it.getLong(0),
                         "label" to it.getString(1),

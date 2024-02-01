@@ -226,7 +226,7 @@ class UpgradeHandlerViewModel(application: Application) :
                     try {
                         contentResolver.query(
                             TEMPLATES_URI, null, "$KEY_PLANID is not null", null, null
-                        )?.useAndMap { Template(it) }?.forEach {
+                        )?.useAndMapToList { Template(it) }?.forEach {
                             Plan.updateDescription(
                                 it.planId,
                                 it.compileDescription(getApplication()),
@@ -284,7 +284,7 @@ class UpgradeHandlerViewModel(application: Application) :
                         BUDGETS_URI,
                         arrayOf("$TABLE_BUDGETS.$KEY_ROWID"),
                         null, null, null
-                    )?.useAndMap { it.getLong(0) }?.toList() ?: emptyList()
+                    )?.useAndMapToList { it.getLong(0) }?.toList() ?: emptyList()
                     val defaultBudgetKeys =
                         settings.all.entries.map { it.key }
                             .filter { it.startsWith("defaultBudget") }

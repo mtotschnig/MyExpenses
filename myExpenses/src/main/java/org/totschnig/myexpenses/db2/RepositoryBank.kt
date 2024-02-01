@@ -19,7 +19,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
-import org.totschnig.myexpenses.provider.useAndMap
+import org.totschnig.myexpenses.provider.useAndMapToList
 import java.time.LocalDate
 
 fun Repository.loadBanks(): Flow<List<Bank>> {
@@ -93,6 +93,6 @@ fun Repository.accountInformation(accountId: Long): AccountInformation? = conten
     "$KEY_ACCOUNTID = ? AND $KEY_CONTEXT = '${BankingAttribute.CONTEXT}'",
     arrayOf(accountId.toString()),
     null
-)?.useAndMap { cursor -> Attribute.from(cursor) }?.let {
+)?.useAndMapToList { cursor -> Attribute.from(cursor) }?.let {
     AccountInformation.fromMap(it.toMap())
 }

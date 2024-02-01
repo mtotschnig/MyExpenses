@@ -20,11 +20,10 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
-import org.totschnig.myexpenses.provider.useAndMap
+import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
-import org.totschnig.myexpenses.util.joinArrays
 import timber.log.Timber
 import java.io.IOException
 import java.io.OutputStreamWriter
@@ -149,7 +148,7 @@ abstract class AbstractExporter
                 "$KEY_TRANSACTIONID = ?",
                 arrayOf(rowId.toString()),
                 null
-            )?.useAndMap { it.getString(0) }?.takeIf { it.isNotEmpty() }
+            )?.useAndMapToList { it.getString(0) }?.takeIf { it.isNotEmpty() }
 
             //noinspection Recycle
             val attachmentList = context.contentResolver.query(
@@ -157,7 +156,7 @@ abstract class AbstractExporter
                 arrayOf(KEY_URI),
                 "$KEY_TRANSACTIONID = ?", arrayOf(rowId.toString()),
                 null
-            )?.useAndMap {
+            )?.useAndMapToList {
                 val uri = Uri.parse(it.getString(0))
                 //We should only see file uri from unit test
                 if (uri.scheme == "file") uri.toFile().name else uri.fileName(context)
