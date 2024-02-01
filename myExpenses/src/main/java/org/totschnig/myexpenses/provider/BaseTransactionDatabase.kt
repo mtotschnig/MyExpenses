@@ -376,12 +376,12 @@ fun linkedTableTrigger(
     operation: String,
     table: String
 ): String {
-    val reference = when(operation) {
+    val reference = when (operation) {
         "INSERT" -> "new"
         "DELETE" -> "old"
         else -> throw IllegalArgumentException()
     }
-    val type = when(table) {
+    val type = when (table) {
         TABLE_TRANSACTIONS_TAGS -> TransactionChange.Type.tags
         TABLE_TRANSACTION_ATTACHMENTS -> TransactionChange.Type.attachments
         else -> throw IllegalArgumentException()
@@ -403,8 +403,8 @@ fun triggerName(operation: String, table: String) =
 @JvmOverloads
 fun shouldWriteChangeTemplate(reference: String, table: String = TABLE_TRANSACTIONS) =
     """EXISTS (SELECT 1 FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = ${
-    referenceForTable(reference, table, KEY_ACCOUNTID)
-} AND $KEY_SYNC_ACCOUNT_NAME IS NOT NULL AND $KEY_SYNC_SEQUENCE_LOCAL > 0) AND NOT EXISTS (SELECT 1 FROM $TABLE_SYNC_STATE)"""
+        referenceForTable(reference, table, KEY_ACCOUNTID)
+    } AND $KEY_SYNC_ACCOUNT_NAME IS NOT NULL AND $KEY_SYNC_SEQUENCE_LOCAL > 0) AND NOT EXISTS (SELECT 1 FROM $TABLE_SYNC_STATE)"""
 
 private fun referenceForTable(reference: String, table: String, column: String) = when (table) {
     TABLE_TRANSACTIONS -> "$reference.$column"
@@ -417,9 +417,22 @@ fun sequenceNumberSelect(reference: String, table: String = TABLE_TRANSACTIONS) 
     "(SELECT $KEY_SYNC_SEQUENCE_LOCAL FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = ${
         referenceForTable(reference, table, KEY_ACCOUNTID)
     })"
+
 @JvmOverloads
 fun parentUuidExpression(reference: String, table: String = TABLE_TRANSACTIONS) =
-    "CASE WHEN ${referenceForTable(reference, table, KEY_PARENTID)} IS NULL THEN NULL ELSE (SELECT $KEY_UUID from $TABLE_TRANSACTIONS parent where $KEY_ROWID = ${referenceForTable(reference, table, KEY_PARENTID)}) END"
+    "CASE WHEN ${
+        referenceForTable(
+            reference,
+            table,
+            KEY_PARENTID
+        )
+    } IS NULL THEN NULL ELSE (SELECT $KEY_UUID from $TABLE_TRANSACTIONS parent where $KEY_ROWID = ${
+        referenceForTable(
+            reference,
+            table,
+            KEY_PARENTID
+        )
+    }) END"
 
 
 abstract class BaseTransactionDatabase(
@@ -858,7 +871,7 @@ abstract class BaseTransactionDatabase(
         //add new change type
         execSQL("ALTER TABLE changes RENAME to changes_old")
         execSQL(
-            "CREATE TABLE changes (account_id integer not null references accounts(_id) ON DELETE CASCADE, type text not null check (type in ('created','updated','deleted','unsplit','metadata','link','tags','attachments')), sync_sequence_local integer, uuid text not null,timestamp datetime DEFAULT (strftime('%s','now')), parent_uuid text, comment text, date datetime, value_date datetime, amount integer, original_amount integer, original_currency text, equivalent_amount integer, cat_id integer references categories(_id) ON DELETE SET NULL, payee_id integer references payee(_id) ON DELETE SET NULL, transfer_account integer references accounts(_id) ON DELETE SET NULL, method_id integer references paymentmethods(_id) ON DELETE SET NULL, cr_status text check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')), number text,picture_id text)"
+            "CREATE TABLE changes (account_id integer not null references accounts(_id) ON DELETE CASCADE,type text not null check (type in ('created','updated','deleted','unsplit','metadata','link','tags','attachments')), sync_sequence_local integer, uuid text not null, timestamp datetime DEFAULT (strftime('%s','now')), parent_uuid text, comment text, date datetime, value_date datetime, amount integer, original_amount integer, original_currency text, equivalent_amount integer, cat_id integer references categories(_id) ON DELETE SET NULL, payee_id integer references payee(_id) ON DELETE SET NULL, transfer_account integer references accounts(_id) ON DELETE SET NULL,method_id integer references paymentmethods(_id) ON DELETE SET NULL,cr_status text check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')),number text)"
         )
         execSQL(
             "INSERT INTO changes SELECT * FROM changes_old"
