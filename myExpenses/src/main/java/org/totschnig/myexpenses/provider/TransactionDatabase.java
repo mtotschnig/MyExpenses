@@ -49,6 +49,7 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.linked
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.parentUuidExpression;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.sequenceNumberSelect;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.shouldWriteChangeTemplate;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.triggerName;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.buildViewDefinition;
@@ -1984,8 +1985,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         //db.execSQL(VIEW_WITH_ACCOUNT_DEFINITION);
       }
       if (oldVersion < 106) {
-        db.execSQL("DROP TRIGGER IF EXISTS update_change_log");
-        db.execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE);
+        //db.execSQL("DROP TRIGGER IF EXISTS update_change_log");
+        //db.execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE);
       }
       if (oldVersion < 107) {
         repairSplitPartDates(db);
@@ -2201,10 +2202,18 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 159) {
         upgradeTo159(db);
       }
+
       if (oldVersion < 160) {
         insertNullRows(db);
         db.execSQL("DROP TRIGGER IF EXISTS update_change_log");
         db.execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE);
+      }
+
+      if (oldVersion < 161) {
+        db.execSQL(linkedTableTrigger("INSERT", TABLE_TRANSACTIONS_TAGS));
+        db.execSQL(linkedTableTrigger("DELETE", TABLE_TRANSACTIONS_TAGS));
+        db.execSQL(linkedTableTrigger("INSERT", TABLE_TRANSACTION_ATTACHMENTS));
+        db.execSQL(linkedTableTrigger("DELETE", TABLE_TRANSACTION_ATTACHMENTS));
       }
 
       TransactionProvider.resumeChangeTrigger(db);
@@ -2251,6 +2260,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL("DROP TRIGGER IF EXISTS delete_after_update_change_log");
     db.execSQL("DROP TRIGGER IF EXISTS delete_change_log");
     db.execSQL("DROP TRIGGER IF EXISTS update_change_log");
+    db.execSQL("DROP TRIGGER IF EXISTS " + triggerName("INSERT", TABLE_TRANSACTIONS_TAGS));
+    db.execSQL("DROP TRIGGER IF EXISTS " + triggerName("DELETE", TABLE_TRANSACTIONS_TAGS));
+    db.execSQL("DROP TRIGGER IF EXISTS " + triggerName("INSERT", TABLE_TRANSACTION_ATTACHMENTS));
+    db.execSQL("DROP TRIGGER IF EXISTS " + triggerName("DELETE", TABLE_TRANSACTION_ATTACHMENTS));
 
     db.execSQL(TRANSACTIONS_INSERT_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_INSERT_AFTER_UPDATE_TRIGGER_CREATE);

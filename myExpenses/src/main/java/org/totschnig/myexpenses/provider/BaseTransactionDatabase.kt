@@ -105,7 +105,7 @@ import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 
-const val DATABASE_VERSION = 160
+const val DATABASE_VERSION = 161
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -387,7 +387,7 @@ fun linkedTableTrigger(
         else -> throw IllegalArgumentException()
     }
     return """
-    CREATE TRIGGER ${table}_${operation}_TRIGGER AFTER $operation ON $table
+    CREATE TRIGGER ${triggerName(operation, table)} AFTER $operation ON $table
     WHEN ${shouldWriteChangeTemplate(reference, table)}
         BEGIN INSERT INTO $TABLE_CHANGES ($KEY_TYPE, $KEY_UUID, $KEY_PARENT_UUID, $KEY_ACCOUNTID, $KEY_SYNC_SEQUENCE_LOCAL)
         VALUES ('${type.name}', (SELECT $KEY_UUID FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $reference.$KEY_TRANSACTIONID),
@@ -396,6 +396,9 @@ fun linkedTableTrigger(
         ${sequenceNumberSelect(reference, table)}); END
 """
 }
+
+fun triggerName(operation: String, table: String) =
+    "${operation.lowercase()}_change_log_${table.substringAfter('_')}"
 
 @JvmOverloads
 fun shouldWriteChangeTemplate(reference: String, table: String = TABLE_TRANSACTIONS) =

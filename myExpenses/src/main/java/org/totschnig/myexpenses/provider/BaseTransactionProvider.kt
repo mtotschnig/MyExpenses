@@ -58,7 +58,6 @@ import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.io.FileCopyUtils
@@ -1005,7 +1004,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     } else block()
 
     fun report(e: String) {
-        CrashHandler.report(Exception(e), TAG)
+        report(Exception(e), TAG)
     }
 
     override fun onCreate(): Boolean {
@@ -1268,7 +1267,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             )
         } catch (e: SecurityException) {
             //we had a URI without a permission. This should not happen
-            CrashHandler.report(e)
+            report(e)
         }
     }
 
