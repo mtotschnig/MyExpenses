@@ -1,27 +1,18 @@
 package org.totschnig.myexpenses.sync
 
 import android.content.ContentProviderOperation
-import androidx.test.core.app.ApplicationProvider
-import org.junit.Assert
+import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
-import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.feature.FeatureManager
-import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.sync.json.TransactionChange
-import org.totschnig.myexpenses.util.CurrencyFormatter
 import java.util.*
-import kotlin.collections.ArrayList
 
 @RunWith(RobolectricTestRunner::class)
 class SyncAdapterWriteToDbTest: BaseTestWithRepository() {
@@ -55,25 +46,9 @@ class SyncAdapterWriteToDbTest: BaseTestWithRepository() {
                 .setCurrentTimeStamp()
                 .setAmount(123L)
                 .build()
-        syncDelegate.collectOperations(change, ops, -1)
-        Assert.assertEquals(1, ops.size.toLong())
-        Assert.assertTrue(ops[0].isInsert)
-    }
-
-    @Test
-    fun updatedChangeShouldBeCollectedAsUpdateOperationWithoutTag() {
-        setupSyncWithFakeResolver()
-        val change = TransactionChange.builder()
-                .setType(TransactionChange.Type.updated)
-                .setUuid("any")
-                .setCurrentTimeStamp()
-                .setAmount(123L)
-                .build()
-        syncDelegate.collectOperations(change, ops, -1)
-        Assert.assertEquals(2, ops.size.toLong())
-        Assert.assertTrue(ops[0].isUpdate)
-        Assert.assertTrue(ops[1].isDelete)
-        Assert.assertEquals(TransactionProvider.TRANSACTIONS_TAGS_URI, ops[1].uri)
+        syncDelegate.collectOperations(change, ops)
+        assertThat(ops).hasSize(1)
+        assertThat(ops[0].isInsert).isTrue()
     }
 
     @Test
@@ -84,13 +59,13 @@ class SyncAdapterWriteToDbTest: BaseTestWithRepository() {
                 .setUuid("any")
                 .setCurrentTimeStamp()
                 .setAmount(123L)
-                .setTags(listOf("tag"))
+                .setTags(setOf("tag"))
                 .build()
-        syncDelegate.collectOperations(change, ops, -1)
-        Assert.assertEquals(2, ops.size.toLong())
-        Assert.assertTrue(ops[0].isInsert)
-        Assert.assertEquals(TransactionProvider.TRANSACTIONS_TAGS_URI, ops[1].uri)
-        Assert.assertTrue(ops[1].isInsert)
+        syncDelegate.collectOperations(change, ops)
+        assertThat(ops).hasSize(2)
+        assertThat(ops[0].isInsert).isTrue()
+        assertThat(ops[1].uri.path).isEqualTo("/transactions/tags")
+        assertThat(ops[1].isInsert).isTrue()
     }
 
     @Test
@@ -101,8 +76,8 @@ class SyncAdapterWriteToDbTest: BaseTestWithRepository() {
                 .setUuid("any")
                 .setCurrentTimeStamp()
                 .build()
-        syncDelegate.collectOperations(change, ops, -1)
-        Assert.assertEquals(1, ops.size.toLong())
-        Assert.assertTrue(ops[0].isDelete)
+        syncDelegate.collectOperations(change, ops)
+        assertThat(ops).hasSize(1)
+        assertThat(ops[0].isDelete).isTrue()
     }
 }

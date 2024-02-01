@@ -93,7 +93,7 @@ class SyncDelegate(
     ) {
         val ops = ArrayList<ContentProviderOperation>()
         ops.add(TransactionProvider.pauseChangeTrigger())
-        remoteChanges.forEach { change: TransactionChange -> collectOperations(change, ops, -1) }
+        remoteChanges.forEach { change: TransactionChange -> collectOperations(change, ops) }
         ops.add(TransactionProvider.resumeChangeTrigger())
         val contentProviderResults = provider.applyBatch(ops)
         val opsSize = ops.size
@@ -379,7 +379,7 @@ class SyncDelegate(
     fun collectOperations(
         change: TransactionChange,
         ops: ArrayList<ContentProviderOperation>,
-        parentOffset: Int
+        parentOffset: Int = -1
     ) {
         val uri = Transaction.CALLER_IS_SYNC_ADAPTER_URI
         var skipped = false
