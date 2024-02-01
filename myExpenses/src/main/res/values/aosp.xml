@@ -122,6 +122,6 @@
     <string name="preferences_calendar_delete_message">Do you really want to delete this calendar?</string>
     <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri default_camera_app_title |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper  -->
     <string name="default_camera_app_title">Camera app</string>
-
+    <!-- /opt/extra/AOSP/packages/inputmethods/LatinIME/java grep -ri help_and_feedback |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="help_and_feedback">Help &amp; feedback</string>
 </resources>
