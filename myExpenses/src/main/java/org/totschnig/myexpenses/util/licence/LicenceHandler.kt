@@ -93,11 +93,14 @@ open class LicenceHandler(
             addOnFeatures.clear()
         }
         addFeatures(features)
+        persistAddonFeatures()
     }
+
+    val hasAnyLicence: Boolean
+        get() = licenceStatus != null || addOnFeatures.isNotEmpty()
 
     private fun addFeatures(features: List<ContribFeature>) {
         addOnFeatures.addAll(features)
-        persistAddonFeatures()
     }
 
     //called from PlayStoreLicenceHandler
@@ -196,8 +199,9 @@ open class LicenceHandler(
         } else {
             licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY)
         }
-        licenseStatusPrefs.commit()
         addFeatures(licence.featureList)
+        persistAddonFeatures()
+        licenseStatusPrefs.commit()
         this.licenceStatus = licence.type
         licenceStatusUpdated()
         update()
@@ -463,13 +467,7 @@ open class LicenceHandler(
     ) {
         AppTheme {
             key(licenceStatusFlow.collectAsState().value) {
-                if (licenceStatus == null) {
-                    Button(
-                        modifier = Modifier.wrapContentSize(),
-                        onClick = { contribBuyDo(null) }) {
-                        Text(stringResource(id = R.string.menu_contrib))
-                    }
-                } else {
+                if (hasAnyLicence) {
                     val isPro = licenceStatus == LicenceStatus.PROFESSIONAL
                     Column(
                         modifier = Modifier.padding(
@@ -519,6 +517,12 @@ open class LicenceHandler(
                                 Text(stringResource(id = R.string.pref_category_title_manage))
                             }
                         }
+                    }
+                } else {
+                    Button(
+                        modifier = Modifier.wrapContentSize(),
+                        onClick = { contribBuyDo(null) }) {
+                        Text(stringResource(id = R.string.menu_contrib))
                     }
                 }
             }

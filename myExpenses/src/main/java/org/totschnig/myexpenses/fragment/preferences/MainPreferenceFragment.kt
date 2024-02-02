@@ -174,7 +174,7 @@ class MainPreferenceFragment : BasePreferenceFragment(),
         }
 
     override fun onPreferenceTreeClick(preference: Preference) = when {
-        matches(preference, PrefKey.CONTRIB_PURCHASE) && !licenceHandler.isContribEnabled -> {
+        matches(preference, PrefKey.CONTRIB_PURCHASE) && !licenceHandler.hasAnyLicence -> {
             preferenceActivity.dispatchCommand(R.id.CONTRIB_INFO_COMMAND, null)
             true
         }
