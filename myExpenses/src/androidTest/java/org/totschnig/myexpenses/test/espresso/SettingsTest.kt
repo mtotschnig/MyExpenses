@@ -117,7 +117,7 @@ class SettingsTest : BaseUiTest<PreferenceActivity>() {
 
     @Test
     fun roadmap() {
-        navigateTo(R.string.feedback, R.string.roadmap_vote)
+        navigateTo(R.string.help_and_feedback, R.string.roadmap_vote)
         intended(RoadmapVoteActivity::class)
     }
 
