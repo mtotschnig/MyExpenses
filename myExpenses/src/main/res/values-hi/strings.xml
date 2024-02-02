@@ -426,4 +426,8 @@
     <string name="split_parts_heading">भागों को विभाजित करें</string>
     <string name="share_scheme_not_supported">स्कीम %1$s समर्थित नहीं है</string>
     <string name="move_category_failure">एक श्रेणी को स्थानांतरित नहीं किया गया, क्योंकि लक्ष्य पर वही लेबल पहले से मौजूद है।</string>
+    <string name="status_cleared">क्लियर्ड</string>
+    <string name="pref_qif_export_file_encoding_title">कैरेक्टर एन्कोडिंग</string>
+    <string name="pref_ui_language_default">सिस्टम डिफाल्ट</string>
+    <string name="share_sending">एक्सपोर्ट फाइल भेजें</string>
 </resources>
