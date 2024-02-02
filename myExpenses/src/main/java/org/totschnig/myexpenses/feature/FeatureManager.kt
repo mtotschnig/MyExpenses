@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.util.*
 
 enum class Module(@StringRes val labelResId: Int) {
@@ -37,7 +38,14 @@ enum class Module(@StringRes val labelResId: Int) {
         get() = name.lowercase(Locale.ROOT)
 
     companion object {
-        fun from(moduleName: String) = valueOf(moduleName.uppercase(Locale.ROOT))
+        fun from(moduleName: String) = valueOf(moduleName.uppercase())
+
+        fun print(context: Context, moduleName: String) = try {
+            context.getString(from(moduleName).labelResId)
+        } catch (e: IllegalArgumentException) {
+            CrashHandler.report(Throwable("Unknown module: $moduleName"))
+            moduleName
+        }
     }
 }
 

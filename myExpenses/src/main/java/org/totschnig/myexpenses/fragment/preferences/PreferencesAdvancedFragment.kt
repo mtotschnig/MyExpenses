@@ -159,7 +159,7 @@ class PreferencesAdvancedFragment : BasePreferenceFragment(),
             PrefKey.FEATURE_UNINSTALL_FEATURES,
             featureManager.installedModules(requireContext(), prefHandler),
             featureManager::uninstallModules
-        ) { getString( Module.from(it).labelResId) }
+        ) { Module.print(requireContext(), it) }
 
         configureMultiSelectListPref(
             PrefKey.FEATURE_UNINSTALL_LANGUAGES,

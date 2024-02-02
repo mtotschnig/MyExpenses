@@ -398,12 +398,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
                 is FeatureViewModel.FeatureState.FeatureAvailable -> {
                     showSnackBar(
-                        featureState.modules.map { Module.from(it).labelResId }
+                        featureState.modules.map { Module.print(this, it) }
                             .joinToString(" ") {
-                                getString(
-                                    R.string.feature_downloaded,
-                                    getString(it)
-                                )
+                                getString(R.string.feature_downloaded, it)
                             }
                     )
                     Feature.values.find { featureState.modules.contains(it.mainModule.moduleName) }?.also {
