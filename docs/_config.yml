@@ -28,7 +28,6 @@ contrib:
   - ad_free
 extended:
   - csv_import
-  - auto_backup
   - cloud_sync
 professional:
   - split_template
