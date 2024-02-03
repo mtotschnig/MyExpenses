@@ -225,7 +225,7 @@ open class CategoryViewModel(
         viewModelScope.launch(context = coroutineContext()) {
             (dialogState as? Show)?.takeIf { !it.saving }?.let {
                 val category = org.totschnig.myexpenses.model2.Category(
-                    id = it.category?.id ?: 0,
+                    id = it.category?.id?.takeIf { it != 0L },
                     label = label,
                     icon = icon,
                     parentId = it.parent?.id,

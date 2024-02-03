@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
 import com.google.common.truth.Truth.assertThat
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
+import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
@@ -18,7 +19,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SAVE_CATEGOR
 import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.testutils.BaseDbTest
 import org.totschnig.myexpenses.util.ColorUtils
-import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.shared_test.CursorSubject.Companion.assertThat
 
 class CategoryTest : BaseDbTest() {
@@ -136,8 +136,9 @@ class CategoryTest : BaseDbTest() {
             putParcelable(TransactionProvider.KEY_CATEGORY, Category(
                 label = categoryInfo.label,
                 parentId = categoryInfo.parentId,
-                typeFlags = categoryInfo.type.toByte()
-            ))
+                type = categoryInfo.type.toByte()
+            )
+            )
         })?.takeIf { it.containsKey(KEY_ROWID) }?.getLong(KEY_ROWID)
 
     fun testInserts() {

@@ -15,7 +15,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.adevinta.android.barista.internal.matcher.HelperMatchers
-import org.assertj.core.api.Assertions.assertThat
+import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.Matchers
 import org.junit.Test
@@ -23,7 +23,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.Action
 import org.totschnig.myexpenses.activity.ManageCategories
 import org.totschnig.myexpenses.compose.TEST_TAG_EDIT_TEXT
-import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.TEST_TAG_POSITIVE_BUTTON
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
@@ -174,8 +173,5 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
 
     private fun onContextMenu(@StringRes menuItemId: Int) =
         composeTestRule.onNodeWithText(getString(menuItemId)).performClick()
-
-    override val listNode: SemanticsNodeInteraction
-        get() = composeTestRule.onNodeWithTag(TEST_TAG_LIST)
 
 }

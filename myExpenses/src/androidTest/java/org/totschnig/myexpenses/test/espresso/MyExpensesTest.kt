@@ -76,7 +76,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
 
     @Test
     fun floatingActionButtonOpensForm() {
-        onView(withId(R.id.fab)).perform(click())
+        clickFab()
         Intents.intended(
             hasComponent(
                 ExpenseEdit::class.java.name
@@ -150,7 +150,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
             typeText("A"),
             closeSoftKeyboard()
         )
-        onView(withId(R.id.fab)).perform(click())
+        clickFab()
         checkTitle()
     }
 

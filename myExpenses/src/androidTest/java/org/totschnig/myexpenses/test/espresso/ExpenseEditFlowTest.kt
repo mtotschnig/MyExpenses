@@ -48,11 +48,9 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         setAmount(10)
         toggleType()
         closeSoftKeyboard()
-        onView(ViewMatchers.withId(R.id.Category))
-            .perform(click())
+        onView(ViewMatchers.withId(R.id.Category)).perform(click())
         androidx.test.espresso.Espresso.pressBack()
-        onView(ViewMatchers.withId(R.id.fab))
-            .perform(click())
+        clickFab()
         assertFinishing()
     }
 

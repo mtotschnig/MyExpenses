@@ -100,7 +100,7 @@ class SelectAccountTest : BaseMyExpensesTest() {
             )
         )
             .check(matches(ViewMatchers.isDisplayed()))
-        onView(withId(R.id.fab)).perform(click())
+        clickFab()
         onView(withId(R.id.Account)).check(matches(withSpinnerText(`is`(accountForForm.label))))
     }
 }

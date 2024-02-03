@@ -90,7 +90,7 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
 
     protected fun closeKeyboardAndSave() {
         closeSoftKeyboard()
-        onView(ViewMatchers.withId(R.id.fab)).perform(ViewActions.click())
+        clickFab()
     }
 
     fun typeToAndCloseKeyBoard(@IdRes editTextId: Int, text: String) {
@@ -234,5 +234,9 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
             part.saveAsNew(contentResolver)
             id
         }
+    }
+
+    fun clickFab() {
+        onView(ViewMatchers.withId(R.id.fab)).perform(ViewActions.click())
     }
 }

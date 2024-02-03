@@ -88,7 +88,7 @@ class SplitEditTest : BaseExpenseEditTest() {
                 withAccount(account2.label)
             )
         ).perform(click())
-        onView(withId(R.id.fab)).perform(click())//save part
+        clickFab()//save part
         onView(withId(R.id.Account)).perform(scrollTo(), click())
         onData(
             allOf(
@@ -165,7 +165,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         createParts(5)
         verifyTypeToggle(true)
         verifyTypeToggle(false)
-        onView(withId(R.id.fab)).perform(click())
+        clickFab()
         assertFinishing()
     }
 
@@ -173,7 +173,7 @@ class SplitEditTest : BaseExpenseEditTest() {
     fun withAccountExcludedFromTotalsCreateNewSplit() {
         launch(excludeFromTotals = true)
         createParts(1)
-        onView(withId(R.id.fab)).perform(click())
+        clickFab()
         assertFinishing()
     }
 
@@ -198,7 +198,7 @@ class SplitEditTest : BaseExpenseEditTest() {
                 toggleType()
             }
             setAmount(amount)
-            onView(withId(R.id.fab)).perform(click())//save part
+            clickFab()//save part
             onView(withId(R.id.list)).check(matches(hasChildCount(initialChildCount + it + 1)))
         }
     }
@@ -220,8 +220,8 @@ class SplitEditTest : BaseExpenseEditTest() {
         setAmount(150)
         onView(withId(R.id.MANAGE_TEMPLATES_COMMAND)).check(doesNotExist())
         onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
-        onView(withId(R.id.fab)).perform(click())//save part
-        onView(withId(R.id.fab)).perform(click())//save parent succeeds
+        clickFab()//save part
+        clickFab()//save parent succeeds
         assertFinishing()
     }
 
@@ -230,7 +230,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         launch()
         createParts(1)
         clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, false) //toggle save and new on
-        onView(withId(R.id.fab)).perform(click())
+        clickFab()
         onView(withId(com.google.android.material.R.id.snackbar_text))
             .check(matches(withText(R.string.save_transaction_and_new_success)))
         waitForSnackbarDismissed()

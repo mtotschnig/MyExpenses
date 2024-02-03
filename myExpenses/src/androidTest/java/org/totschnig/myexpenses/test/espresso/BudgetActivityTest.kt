@@ -34,9 +34,6 @@ import java.time.LocalDate
 
 class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
 
-    override val listNode: SemanticsNodeInteraction
-        get() = composeTestRule.onNodeWithTag(TEST_TAG_LIST)
-
     fun setup(withFilter: Boolean) {
         val account = buildAccount("Account")
         //we write first a category to force category's id to be different from account id

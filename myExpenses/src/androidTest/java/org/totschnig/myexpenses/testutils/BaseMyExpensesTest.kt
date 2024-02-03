@@ -9,7 +9,6 @@ import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.idling.CountingIdlingResource
 import org.junit.After
 import org.totschnig.myexpenses.activity.TestMyExpenses
-import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
@@ -49,9 +48,6 @@ abstract class BaseMyExpensesTest : BaseComposeTest<TestMyExpenses>() {
         }
         listNode.assert(hasRowCount(expectedSize))
     }
-
-    override val listNode: SemanticsNodeInteraction
-        get() = composeTestRule.onNodeWithTag(TEST_TAG_LIST)
 
     fun openCab(@IdRes command: Int?) {
         listNode.onChildren().onFirst()

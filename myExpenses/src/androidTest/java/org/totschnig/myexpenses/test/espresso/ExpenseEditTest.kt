@@ -166,7 +166,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, false) //toggle save and new on
             for (j in 0 until times) {
                 setAmount(amount)
-                onView(withId(R.id.fab)).perform(click())
+                clickFab()
                 onView(withText(success)).check(matches(isDisplayed()))
             }
             //we assume two fraction digits
@@ -190,7 +190,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
         }).use {
             val amount = 2
             setAmount(amount)
-            onView(withId(R.id.fab)).perform(click())
+            clickFab()
             val restored = Template.getInstanceFromDb(contentResolver, template.id)
             assertEquals(Transactions.TYPE_TRANSFER, restored!!.operationType())
             assertEquals((-amount * 100).toLong(), restored.amount.amountMinor)

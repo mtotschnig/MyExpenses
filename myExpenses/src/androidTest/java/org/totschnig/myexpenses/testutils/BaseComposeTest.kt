@@ -11,7 +11,8 @@ import org.totschnig.myexpenses.compose.amountProperty
 import org.totschnig.myexpenses.compose.headerProperty
 
 abstract class BaseComposeTest<A: ProtectedFragmentActivity>: BaseUiTest<A>() {
-    abstract val listNode: SemanticsNodeInteraction
+    val listNode: SemanticsNodeInteraction
+        get() = composeTestRule.onNodeWithTag(TEST_TAG_LIST)
 
     @get:Rule
     val composeTestRule = createEmptyComposeRule()

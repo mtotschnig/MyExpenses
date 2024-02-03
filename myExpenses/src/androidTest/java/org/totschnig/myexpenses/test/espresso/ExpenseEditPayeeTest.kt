@@ -40,7 +40,7 @@ class ExpenseEditPayeeTest: BaseExpenseEditTest() {
         fixture(withIban)
         setStoredPayee("John")
         setAmount(101)
-        onView(ViewMatchers.withId(R.id.fab)).perform(click())
+        clickFab()
         onIdle()
         assertThat(repository.loadTransactions(account1.id).first().party).isEqualTo(party.id)
     }

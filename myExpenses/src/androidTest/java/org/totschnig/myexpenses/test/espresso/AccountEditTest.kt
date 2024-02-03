@@ -2,13 +2,14 @@ package org.totschnig.myexpenses.test.espresso
 
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import org.assertj.core.api.Assertions.assertThat
-import org.hamcrest.Matchers
+import org.hamcrest.Matchers.greaterThan
 import org.junit.After
 import org.junit.Test
 import org.totschnig.myexpenses.R
@@ -27,10 +28,10 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
     fun saveAccount() {
         val i = Intent(targetContext, AccountEdit::class.java)
         testScenario = ActivityScenario.launchActivityForResult(i)
-        Espresso.onView(ViewMatchers.withId(R.id.Currency)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.Currency)).perform(wait(withListSize(Matchers.greaterThan(0)), 1000))
-        Espresso.onView(ViewMatchers.withId(R.id.Label)).perform(ViewActions.typeText(LABEL), closeSoftKeyboard())
-        Espresso.onView(ViewMatchers.withId(R.id.fab)).perform(ViewActions.click())
+        onView(withId(R.id.Currency)).check(matches(isDisplayed()))
+        onView(withId(R.id.Currency)).perform(wait(withListSize(greaterThan(0)), 1000))
+        onView(withId(R.id.Label)).perform(ViewActions.typeText(LABEL), closeSoftKeyboard())
+        clickFab()
         assertFinishing()
         assertThat(repository.findAnyOpenByLabel(LABEL)).isNotNull
     }
@@ -44,7 +45,7 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
             putExtra(DatabaseConstants.KEY_ROWID, id)
         }
         testScenario = ActivityScenario.launchActivityForResult(i)
-        Espresso.onView(ViewMatchers.withId(R.id.fab)).perform(ViewActions.click())
+        clickFab()
         assertThat(repository.getUuidForAccount(id)).isEqualTo(uuid)
     }
 
