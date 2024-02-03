@@ -1021,4 +1021,5 @@
     <string name="pref_copy_attachments_summary_off">Dosyalar kopyalanmaz, yalnızca bir referans kaydedilir.</string>
     <string name="show_duplicates">Yinelenenleri Göster</string>
     <string name="default_transfer_category">Öntanımlı transfer kategorisi</string>
+    <string name="contact_us">Bize ulaşın</string>
 </resources>
