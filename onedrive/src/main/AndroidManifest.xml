@@ -21,9 +21,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.yubico.yubikit.android.ui.OtpActivity" tools:node="remove" />
+            android:name="com.yubico.yubikit.android.ui.OtpActivity" tools:node="remove"
+            tools:ignore="MissingClass" />
         <activity
-            android:name="com.yubico.yubikit.android.ui.YubiKeyPromptActivity" tools:node="remove" />
+            android:name="com.yubico.yubikit.android.ui.YubiKeyPromptActivity" tools:node="remove"
+            tools:ignore="MissingClass" />
     </application>
 
     <dist:module
