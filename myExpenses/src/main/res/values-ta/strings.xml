@@ -935,6 +935,12 @@
     <string name="setup_completed">அமைப்பு நிறைவடைந்தது</string>
     <string name="icons_for_categories">வகைகளுக்கான ஐகான்கள்</string>
     <string name="one_time_payment">ஒரு முறை கட்டணம்</string>
-    <string name="dialog_contrib_trial_info" tools:ignore="PluralsCandidate">"உங்கள் தற்போதைய உரிம நிலை (%1$s), %3$d நாட்களுக்கு %2$s  பரிசோதிக்க தங்களை அனுமதிக்கிறது (%4$s வரை)."</string>
+    <string name="dialog_contrib_trial_info" tools:ignore="PluralsCandidate">உங்கள் தற்போதைய உரிம நிலை (%1$s), %3$d நாட்களுக்கு %2$s பரிசோதிக்க தங்களை அனுமதிக்கிறது (%4$s வரை).</string>
     <string name="dialog_contrib_trial_info_play">இந்த இலவச சோதனை எந்த வகை சந்தாவாகவும் மாற்றப்படாது.</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">உங்களின் தற்போதைய உரிம நிலையுடன் (%1$s), இந்த உரையாடல் பெட்டி ஒவ்வொரு பயன்பாட்டிலும் காட்டப்படும்.</string>
+    <string name="dialog_contrib_subscription_info_play">இந்தச் சந்தா உடனடியாக அமலுக்கு வரும், மாதாந்திரமாக அல்லது ஆண்டுதோறும் பில் செய்யப்படும், எந்த நேரத்திலும் ரத்துசெய்து கொள்ளலாம்.</string>
+    <string name="content_description_remove_icon">சின்னத்தை நீக்கு</string>
+    <string name="budget_deleted">வரவு செலவுத் திட்டம் அழிக்கப்பட்டது</string>
+    <string name="search_account">கணக்கைத் தேடு</string>
+    <string name="budget_table_header_overspent">வரம்பு மீறிய செலவு</string>
 </resources>
