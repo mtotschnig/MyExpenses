@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.DataModule
 import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
@@ -51,9 +52,9 @@ import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY_INFO
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_REPLACE
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CALLER_IS_IN_BULK
-import org.totschnig.myexpenses.sync.json.CategoryExport
-import org.totschnig.myexpenses.sync.json.CategoryInfo
-import org.totschnig.myexpenses.sync.json.ICategoryInfo
+import org.totschnig.myexpenses.model2.CategoryExport
+import org.totschnig.myexpenses.model2.CategoryInfo
+import org.totschnig.myexpenses.model2.ICategoryInfo
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ResultUnit
@@ -62,7 +63,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.repor
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
-import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
@@ -1488,8 +1488,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 icon = categoryInfo.icon,
                 uuid = categoryInfo.uuid,
                 color = categoryInfo.color,
-                typeFlags = if (parentId == null) categoryInfo.type?.toByte()
-                    ?: FLAG_NEUTRAL else null
+                type = if (parentId == null) categoryInfo.type?.toByte() ?: FLAG_NEUTRAL else null
             )
         )?.let { it to true }
             ?: throw IOException("Saving category failed")
@@ -1515,15 +1514,15 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 put(KEY_COLOR, category.color.takeIf { it != 0 } ?: suggestNewCategoryColor(db))
             }
             put(KEY_ICON, category.icon)
-            if (category.id == 0L) {
+            if (category.id == null) {
                 put(KEY_PARENTID, category.parentId)
             }
             if (category.parentId == null) {
-                put(KEY_TYPE, (category.typeFlags ?: FLAG_NEUTRAL).toInt())
+                put(KEY_TYPE, (category.type ?: FLAG_NEUTRAL))
             }
         }
         return try {
-            if (category.id == 0L) {
+            if (category.id == null) {
                 initialValues.put(KEY_UUID, category.uuid ?: UUID.randomUUID().toString())
                 db.insert(TABLE_CATEGORIES, initialValues)
             } else {

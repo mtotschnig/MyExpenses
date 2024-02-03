@@ -7,7 +7,7 @@ import android.net.Uri
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.sync.json.AccountMetaData
-import org.totschnig.myexpenses.sync.json.CategoryExport
+import org.totschnig.myexpenses.model2.CategoryExport
 import org.totschnig.myexpenses.sync.json.ChangeSet
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import java.io.IOException

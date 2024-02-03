@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.model2.CategoryExport
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID

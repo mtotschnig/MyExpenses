@@ -39,8 +39,8 @@ import org.totschnig.myexpenses.db2.writeTag
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.viewmodel.data.Category
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileInputStream
@@ -91,9 +91,6 @@ class ExportTest: BaseTestWithRepository() {
 
     @get:Rule
     val expect: Expect = Expect.create()
-
-    private fun writeCategory(label: String, parentId: Long? = null) =
-        repository.saveCategory(Category(label = label, parentId = parentId))!!
 
     private fun insertData1(): Account {
         val tag1Id = repository.writeTag("Tag One")

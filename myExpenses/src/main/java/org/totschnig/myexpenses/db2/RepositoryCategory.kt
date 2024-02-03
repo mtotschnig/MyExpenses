@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.annotation.VisibleForTesting
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
+import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
@@ -27,10 +28,8 @@ import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_ENSURE_CATEG
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SAVE_CATEGORY
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.getString
-import org.totschnig.myexpenses.sync.json.CategoryExport
-import org.totschnig.myexpenses.sync.json.CategoryInfo
-import org.totschnig.myexpenses.sync.json.ICategoryInfo
-import org.totschnig.myexpenses.viewmodel.data.Category
+import org.totschnig.myexpenses.model2.CategoryExport
+import org.totschnig.myexpenses.model2.CategoryInfo
 import kotlin.experimental.or
 
 const val FLAG_TRANSFER: Byte = 0
@@ -145,6 +144,6 @@ fun Repository.loadCategory(id: Long): Category? = contentResolver.query(
             color = it.getIntOrNull(2),
             icon = it.getString(3),
             uuid = it.getString(4),
-            typeFlags = it.getInt(5).toByte()
+            type = it.getInt(5).toByte()
         ) else null
 }

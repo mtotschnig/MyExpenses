@@ -1,8 +1,7 @@
 package org.totschnig.myexpenses.db2
 
-import android.content.ContentUris
 import org.apache.commons.text.translate.UnicodeUnescaper
-import org.totschnig.myexpenses.viewmodel.data.Category
+import org.totschnig.myexpenses.model2.Category
 
 object CategoryHelper {
     private val unicodeEscaper = UnicodeUnescaper()
@@ -78,7 +77,7 @@ object CategoryHelper {
                 Category(
                     label = unescaped,
                     parentId = parentId,
-                    typeFlags = typeFlags
+                    type = typeFlags
                 )
             ) ?: -1
             if (id != -1L) countInserted++

@@ -1,31 +1,25 @@
-/*
- * Copyright (C) 2010 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.totschnig.myexpenses.test.provider
 
 import android.content.ContentUris
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
-import androidx.core.database.getLongOrNull
+import android.os.Bundle
+import com.google.common.truth.Truth.assertThat
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.CATEGORIES_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SAVE_CATEGORY
 import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.testutils.BaseDbTest
 import org.totschnig.myexpenses.util.ColorUtils
+import org.totschnig.myexpenses.viewmodel.data.Category
+import org.totschnig.shared_test.CursorSubject.Companion.assertThat
 
 class CategoryTest : BaseDbTest() {
     private lateinit var testCategories: List<Pair<Long, CategoryInfo>>
@@ -38,10 +32,10 @@ class CategoryTest : BaseDbTest() {
             CategoryInfo("Main Income", type = FLAG_EXPENSE.toInt()).let {
                 add(mDb.insert(TABLE_CATEGORIES, it.contentValues) to it)
             }
-            CategoryInfo("Sub 1", main1Id).let {
+            CategoryInfo("Sub 1", parentId = main1Id).let {
                 add(mDb.insert(TABLE_CATEGORIES, it.contentValues) to it)
             }
-            CategoryInfo("Sub 2", main1Id).let {
+            CategoryInfo("Sub 2", parentId = main1Id).let {
                 add(mDb.insert(TABLE_CATEGORIES, it.contentValues) to it)
             }
         }
@@ -49,77 +43,78 @@ class CategoryTest : BaseDbTest() {
 
     fun testQueriesOnCategoriesUri() {
         val testProjection = arrayOf(
-            DatabaseConstants.KEY_LABEL, DatabaseConstants.KEY_PARENTID
+            KEY_LABEL, KEY_PARENTID
         )
-        val labelSelection = DatabaseConstants.KEY_LABEL + " = " + "?"
+        val labelSelection = "$KEY_LABEL = ?"
         val selectionColumns = "$labelSelection OR $labelSelection OR $labelSelection"
         val selectionArgs = arrayOf("Main Expense", "Main Income", "Sub 1")
-        val sortOrder = DatabaseConstants.KEY_LABEL + " ASC"
+        val sortOrder = "$KEY_LABEL ASC"
 
-        val origSize = repository.count(TransactionProvider.CATEGORIES_URI)
+        val origSize = repository.count(CATEGORIES_URI)
         insertData()
 
         mockContentResolver.query(
-            TransactionProvider.CATEGORIES_URI,
+            CATEGORIES_URI,
             null,
             null,
             null,
             null
         )!!.use {
-            assertEquals(origSize + testCategories.size, it.count)
+            assertThat(it).hasCount(origSize + testCategories.size)
         }
 
         mockContentResolver.query(
-            TransactionProvider.CATEGORIES_URI,
+            CATEGORIES_URI,
             testProjection,
             null,
             null,
             null
         )!!.use {
-            assertEquals(testProjection.size, it.columnCount)
-            assertEquals(testProjection[0], it.getColumnName(0))
-            assertEquals(testProjection[1], it.getColumnName(1))
+            with(assertThat(it)) {
+                hasColumnCount(testProjection.size)
+                hasColumns(*testProjection)
+            }
         }
 
         mockContentResolver.query(
-            TransactionProvider.CATEGORIES_URI,
+            CATEGORIES_URI,
             testProjection,
             selectionColumns,
             selectionArgs,
             sortOrder
         )!!.use {
-            assertEquals(selectionArgs.size, it.count)
-            var index = 0
-            while (it.moveToNext()) {
-                assertEquals(selectionArgs[index], it.getString(0))
-                index++
+            with(assertThat(it)) {
+                hasCount(selectionArgs.size)
+                var index = 0
+                while (it.moveToNext()) {
+                    hasString(0, selectionArgs[index])
+                    index++
+                }
             }
-            assertEquals(selectionArgs.size, index)
         }
     }
 
     fun testQueriesOnCategoryIdUri() {
-        val selectionColumns = DatabaseConstants.KEY_LABEL + " = " + "?"
+        val selectionColumns = "$KEY_LABEL = ?"
         val selectionArgs = arrayOf("Main Expense")
-        val projection = arrayOf(
-            DatabaseConstants.KEY_ROWID,
-            DatabaseConstants.KEY_LABEL
-        )
+        val projection = arrayOf(KEY_ROWID, KEY_LABEL)
         insertData()
 
         val inputCategoryId = mockContentResolver.query(
-            TransactionProvider.CATEGORIES_URI,
+            CATEGORIES_URI,
             projection,
             selectionColumns,
             selectionArgs,
             null
         )!!.use {
-            assertEquals(1, it.count)
-            assertTrue(it.moveToFirst())
+            with(assertThat(it)) {
+                hasCount(1)
+                movesToFirst()
+            }
             it.getInt(0)
         }
         val categoryIdUri =
-            ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, inputCategoryId.toLong())
+            ContentUris.withAppendedId(CATEGORIES_URI, inputCategoryId.toLong())
 
         mockContentResolver.query(
             categoryIdUri,
@@ -128,74 +123,66 @@ class CategoryTest : BaseDbTest() {
             selectionArgs,
             null
         )!!.use {
-            assertEquals(1, it.count)
-            assertTrue(it.moveToFirst())
-            assertEquals(inputCategoryId, it.getInt(0))
+            with(assertThat(it)) {
+                hasCount(1)
+                movesToFirst()
+                hasInt(0, inputCategoryId)
+            }
         }
     }
 
+    private fun insertCategory(categoryInfo: CategoryInfo) = mockContentResolver.call(
+        DUAL_URI, METHOD_SAVE_CATEGORY, null, Bundle(1).apply {
+            putParcelable(TransactionProvider.KEY_CATEGORY, Category(
+                label = categoryInfo.label,
+                parentId = categoryInfo.parentId,
+                typeFlags = categoryInfo.type.toByte()
+            ))
+        })?.takeIf { it.containsKey(KEY_ROWID) }?.getLong(KEY_ROWID)
+
     fun testInserts() {
-        val origSize = repository.count(TransactionProvider.CATEGORIES_URI)
-        val transaction = CategoryInfo("Main 3")
-        val rowUri = mockContentResolver.insert(
-            TransactionProvider.CATEGORIES_URI,
-            transaction.contentValues
-        )
-        val categoryId = ContentUris.parseId(rowUri!!)
+        val origSize = repository.count(CATEGORIES_URI)
+        val categoryInfo = CategoryInfo("Main 3")
+        assertThat(insertCategory(categoryInfo)).isNotNull()
 
         mockContentResolver.query(
-            TransactionProvider.CATEGORIES_URI,
+            CATEGORIES_URI,
             null,
             null,
             null,
             null
         )!!.use {
-            assertEquals(origSize + 1, it.count)
-            assertTrue(it.moveToFirst())
-            val labelIndex = it.getColumnIndex(DatabaseConstants.KEY_LABEL)
-            val parentIdIndex = it.getColumnIndex(DatabaseConstants.KEY_PARENTID)
-            assertEquals(transaction.parentId, it.getLongOrNull(parentIdIndex))
-            assertEquals(transaction.label, it.getString(labelIndex))
+            with(assertThat(it)) {
+                hasCount(origSize + 1)
+                movesToFirst()
+                isNull(KEY_PARENTID)
+                hasString(KEY_LABEL, categoryInfo.label)
+            }
         }
-
-        val values = transaction.contentValues
-        values.put(DatabaseConstants.KEY_ROWID, categoryId)
-        try {
-            mockContentResolver.insert(TransactionProvider.CATEGORIES_URI, values)
-            fail("Expected insert failure for existing record but insert succeeded.")
-        } catch (_: Exception) {
-        }
-        values.remove(DatabaseConstants.KEY_ROWID)
-        values.put(DatabaseConstants.KEY_PARENTID, 100)
-        try {
-            mockContentResolver.insert(TransactionProvider.CATEGORIES_URI, values)
-            fail("Expected insert failure for link to non-existing parent but insert succeeded.")
-        } catch (_: Exception) {
-        }
+        assertThat(insertCategory(categoryInfo.copy(parentId = 100))).isNull()
     }
 
     fun testDeleteCascades() {
-        val selectionColumns = DatabaseConstants.KEY_LABEL + " IN (?,?)"
+        val selectionColumns = "$KEY_LABEL IN (?,?)"
         val selectionArgsMain = arrayOf("Main Expense", "Main Income")
         val selectionArgsSub = arrayOf("Sub 1", "Sub 2")
         insertData()
-        val rowsDeleted = mockContentResolver.delete(
-            TransactionProvider.CATEGORIES_URI,
+        assertThat(mockContentResolver.delete(
+            CATEGORIES_URI,
             selectionColumns,
             selectionArgsMain
-        )
-        assertEquals(2, rowsDeleted)
+        )).isEqualTo(2)
         mockContentResolver.query(
-            TransactionProvider.CATEGORIES_URI,
+            CATEGORIES_URI,
             null,
             selectionColumns,
             selectionArgsMain,
             null
         )!!.use {
-            assertEquals(0, it.count)
+            assertThat(it).hasCount(0)
         }
         mockContentResolver.query(
-            TransactionProvider.CATEGORIES_URI,
+            CATEGORIES_URI,
             null,
             selectionColumns,
             selectionArgsSub,
@@ -206,13 +193,13 @@ class CategoryTest : BaseDbTest() {
     }
 
     fun testUpdates() {
-        val selectionColumns = DatabaseConstants.KEY_LABEL + " = " + "?"
+        val selectionColumns = "$KEY_LABEL = ?"
         val selectionArgs = arrayOf("Main Expense")
         try {
             mockContentResolver.update(
-                TransactionProvider.CATEGORIES_URI,
+                CATEGORIES_URI,
                 ContentValues().apply {
-                    put(DatabaseConstants.KEY_LABEL, "Testing an update with this string")
+                    put(KEY_LABEL, "Testing an update with this string")
                 },
                 selectionColumns,
                 selectionArgs
@@ -224,30 +211,14 @@ class CategoryTest : BaseDbTest() {
 
     fun testUniqueConstraintsCreateMain() {
         insertData()
-        val category = CategoryInfo("Main Expense")
-        try {
-            mockContentResolver.insert(
-                TransactionProvider.CATEGORIES_URI,
-                category.contentValues
-            )
-            fail("Expected unique constraint to prevent main category from being created.")
-        } catch (_: SQLiteConstraintException) {
-        }
+        assertThat(insertCategory(CategoryInfo("Main Expense"))).isNull()
     }
 
     fun testUniqueConstraintsCreateSub() {
         insertData()
-        val category = CategoryInfo(
-            "Sub 1", testCategories[0].first
-        )
-        try {
-            mockContentResolver.insert(
-                TransactionProvider.CATEGORIES_URI,
-                category.contentValues
-            )
-            fail("Expected unique constraint to prevent sub category from being created.")
-        } catch (_: SQLiteConstraintException) {
-        }
+        assertThat(insertCategory(
+            CategoryInfo("Sub 1", parentId = testCategories[0].first)
+        )).isNull()
     }
 
     fun testUniqueConstraintsUpdateMain() {
@@ -256,11 +227,11 @@ class CategoryTest : BaseDbTest() {
         //we try to set the name of Main Income to Main Expense
         try {
             mockContentResolver.update(
-                TransactionProvider.CATEGORIES_URI.buildUpon()
+                CATEGORIES_URI.buildUpon()
                     .appendPath(testCategories[1].first.toString())
                     .build(),
                 ContentValues().apply {
-                    put(DatabaseConstants.KEY_LABEL, "Main Expense")
+                    put(KEY_LABEL, "Main Expense")
                 }, null, null
             )
             fail("Expected unique constraint to prevent main category from being updated.")
@@ -273,11 +244,11 @@ class CategoryTest : BaseDbTest() {
         insertData()
         try {
             mockContentResolver.update(
-                TransactionProvider.CATEGORIES_URI.buildUpon()
+                CATEGORIES_URI.buildUpon()
                     .appendPath(testCategories[3].first.toString())
                     .build(),
                 ContentValues().apply {
-                    put(DatabaseConstants.KEY_LABEL, "Sub 1")
+                    put(KEY_LABEL, "Sub 1")
                 }, null, null
             )
             fail("Expected unique constraint to prevent sub category from being created.")
@@ -290,15 +261,15 @@ class CategoryTest : BaseDbTest() {
         val testColor = ColorUtils.MAIN_COLORS[0]
         testCategories.forEach { pair ->
             val categoryIdUri =
-                TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(pair.first.toString()).build()
+                CATEGORIES_URI.buildUpon().appendPath(pair.first.toString()).build()
             mockContentResolver.update(
                 categoryIdUri,
                 ContentValues().apply {
-                    put(DatabaseConstants.KEY_COLOR, testColor)
+                    put(KEY_COLOR, testColor)
                 }, null, null
             )
             val projection = arrayOf(
-                DatabaseConstants.KEY_COLOR
+                KEY_COLOR
             )
             mockContentResolver.query(
                 categoryIdUri,
@@ -316,11 +287,11 @@ class CategoryTest : BaseDbTest() {
 
     fun testAutomaticInsertOfColorForMainCategories() {
         val projection = arrayOf(
-            DatabaseConstants.KEY_PARENTID,
-            DatabaseConstants.KEY_COLOR
+            KEY_PARENTID,
+            KEY_COLOR
         )
         mockContentResolver.query(
-            TransactionProvider.CATEGORIES_URI,
+            CATEGORIES_URI,
             projection,
             null,
             null,
@@ -341,17 +312,17 @@ class CategoryTest : BaseDbTest() {
         insertData()
         //Main Income can be moved to Sub 1
         val sub1Id = testCategories[2].first
-        val categoryIdUri = TransactionProvider.CATEGORIES_URI.buildUpon()
+        val categoryIdUri = CATEGORIES_URI.buildUpon()
             .appendPath(testCategories[1].first.toString())
             .build()
         assertEquals(1, mockContentResolver.update(
             categoryIdUri,
             ContentValues().apply {
-                put(DatabaseConstants.KEY_PARENTID, sub1Id)
+                put(KEY_PARENTID, sub1Id)
             }, null, null
         ))
         val projection = arrayOf(
-            DatabaseConstants.KEY_PARENTID
+            KEY_PARENTID
         )
         mockContentResolver.query(
             categoryIdUri,
@@ -370,14 +341,14 @@ class CategoryTest : BaseDbTest() {
         insertData()
         //Main Expense can not be moved to itself
         val main1Id = testCategories[0].first
-        val categoryIdUri = TransactionProvider.CATEGORIES_URI.buildUpon()
+        val categoryIdUri = CATEGORIES_URI.buildUpon()
             .appendPath(main1Id.toString())
             .build()
         try {
             mockContentResolver.update(
                 categoryIdUri,
                 ContentValues().apply {
-                    put(DatabaseConstants.KEY_PARENTID, main1Id)
+                    put(KEY_PARENTID, main1Id)
                 }, null, null
             )
             fail("Row with parentId equal to _id must not be allowed")
@@ -391,14 +362,14 @@ class CategoryTest : BaseDbTest() {
         //Main Expense can not be moved to its own child Sub 1
         val main1Id = testCategories[0].first
         val sub1Id = testCategories[2].first
-        val categoryIdUri = TransactionProvider.CATEGORIES_URI.buildUpon()
+        val categoryIdUri = CATEGORIES_URI.buildUpon()
             .appendPath(main1Id.toString())
             .build()
         try {
             mockContentResolver.update(
                 categoryIdUri,
                 ContentValues().apply {
-                    put(DatabaseConstants.KEY_PARENTID, sub1Id)
+                    put(KEY_PARENTID, sub1Id)
                 }, null, null
             )
             fail("Moving a category to its own descendant must be blocked.")

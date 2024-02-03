@@ -49,7 +49,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.NULL_CHANGE_INDICATOR
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.fromSyncAdapter
-import org.totschnig.myexpenses.sync.json.CategoryInfo
+import org.totschnig.myexpenses.model2.CategoryInfo
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.IOException

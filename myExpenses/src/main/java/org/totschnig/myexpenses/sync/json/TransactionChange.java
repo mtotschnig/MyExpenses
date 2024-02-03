@@ -31,6 +31,7 @@ import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 
+import org.totschnig.myexpenses.model2.CategoryInfo;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.TextUtils;
 

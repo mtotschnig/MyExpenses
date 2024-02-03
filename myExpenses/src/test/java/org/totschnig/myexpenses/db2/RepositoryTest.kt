@@ -7,8 +7,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.db2.Repository.Companion.UUID_SEPARATOR
-import org.totschnig.myexpenses.sync.json.CategoryInfo
-import org.totschnig.myexpenses.viewmodel.data.Category
+import org.totschnig.myexpenses.model2.Category
+import org.totschnig.myexpenses.model2.CategoryInfo
 
 @RunWith(AndroidJUnit4::class)
 class RepositoryTest : BaseTestWithRepository() {

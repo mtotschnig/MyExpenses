@@ -47,7 +47,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.sync.GenericAccountService
-import org.totschnig.myexpenses.sync.json.CategoryExport
+import org.totschnig.myexpenses.model2.CategoryExport
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.failure
@@ -224,12 +224,12 @@ open class CategoryViewModel(
     fun saveCategory(label: String, icon: String?, typeFlags: Byte) {
         viewModelScope.launch(context = coroutineContext()) {
             (dialogState as? Show)?.takeIf { !it.saving }?.let {
-                val category = Category(
+                val category = org.totschnig.myexpenses.model2.Category(
                     id = it.category?.id ?: 0,
                     label = label,
                     icon = icon,
                     parentId = it.parent?.id,
-                    typeFlags = typeFlags
+                    type = typeFlags
                 )
                 dialogState = it.copy(saving = true)
                 dialogState = if (repository.saveCategory(category) == null) {

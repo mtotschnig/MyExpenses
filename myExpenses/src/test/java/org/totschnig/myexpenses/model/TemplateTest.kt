@@ -28,10 +28,10 @@ import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.requireParty
 import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.shared_test.CursorSubject
 
 @RunWith(RobolectricTestRunner::class)
@@ -41,9 +41,6 @@ class TemplateTest: BaseTestWithRepository() {
     private lateinit var mAccount2: Account
     private var categoryId: Long = 0
     private var payeeId: Long = 0
-
-    private fun writeCategory(label: String, parentId: Long?) =
-        repository.saveCategory(Category(label = label, parentId = parentId))!!
 
     @Before
     fun setUp() {

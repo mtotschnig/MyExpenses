@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.provider.AccountInfo
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
@@ -22,7 +23,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.shared_test.CursorSubject.Companion.assertThat
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -39,10 +39,7 @@ class GroupQueryTest : BaseTestWithRepository() {
     private var transferCategoryId: Long = 0
 
     private fun insertCategory(label: String, typeFlags: Byte) = repository.saveCategory(
-        Category(
-            label = label,
-            typeFlags = typeFlags
-        )
+        Category(label = label, type = typeFlags)
     )!!
 
     private fun insertTransaction(amount: Long, categoryId: Long) {

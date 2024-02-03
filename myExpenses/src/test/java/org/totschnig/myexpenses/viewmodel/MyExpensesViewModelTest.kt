@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.viewmodel
 
-import android.content.ContentUris
 import androidx.lifecycle.SavedStateHandle
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -14,6 +13,7 @@ import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
@@ -21,7 +21,6 @@ import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_CREATE_HELPER
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
-import org.totschnig.myexpenses.viewmodel.data.Category
 
 @RunWith(AndroidJUnit4::class)
 class MyExpensesViewModelTest: BaseViewModelTest() {
@@ -40,9 +39,6 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
     private val transferP = 50L
     private val transferN = 60L
     private var categoryId: Long = 0
-
-    private fun writeCategory(label: String, parentId: Long?) =
-        repository.saveCategory(Category(label = label, parentId = parentId))!!
 
     private fun insertData() {
         account1 = Account(label = "Account 1", openingBalance = openingBalance, currency = CurrencyUnit.DebugInstance.code)

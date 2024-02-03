@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.sync.json
+package org.totschnig.myexpenses.model2
 
 import android.os.Parcelable
 import androidx.annotation.Keep
@@ -11,6 +11,18 @@ interface ICategoryInfo: Parcelable {
     val color: Int?
     val type: Int?
 }
+
+@Keep
+@Parcelize
+data class Category(
+    val id: Long? = null,
+    val parentId: Long? = null,
+    val uuid: String? = null,
+    val label: String = "",
+    val icon: String? = null,
+    val color: Int? = null,
+    val type: Byte? = null
+) : Parcelable
 
 @Keep
 @Parcelize

@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.activity
 
-import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import androidx.annotation.StringRes
@@ -31,8 +30,8 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.viewmodel.data.Category
 import java.util.*
 
 @Ignore("Robolectric does not seem to be able interact with Compose Popups, we run this connected at the moment")

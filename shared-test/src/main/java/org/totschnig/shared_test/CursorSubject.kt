@@ -54,6 +54,10 @@ class CursorSubject private constructor(
         check("isNull").that(actual.isNull(columnIndex)).isTrue()
     }
 
+    fun isNull(columnName: String) {
+        check("isNull").that(actual.isNull(actual.getColumnIndexOrThrow(columnName))).isTrue()
+    }
+
     private fun count(): IntegerSubject = check("count").that(actual.count)
 
     private fun columnCount(): IntegerSubject = check("columnCount").that(actual.columnCount)

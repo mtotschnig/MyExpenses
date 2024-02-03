@@ -13,23 +13,23 @@ import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.loadCategory
 import org.totschnig.myexpenses.db2.moveCategory
 import org.totschnig.myexpenses.db2.saveCategory
+import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.viewmodel.data.Category
 
 @RunWith(RobolectricTestRunner::class)
 class CategoryTest: BaseTestWithRepository() {
 
     @Test
     fun subCategoryShouldInheritTypeOnInsert() {
-        val parent = repository.saveCategory(Category(label = "Main", typeFlags = FLAG_EXPENSE))!!
+        val parent = repository.saveCategory(Category(label = "Main", type = FLAG_EXPENSE))!!
         val sub = repository.saveCategory(Category(label = "Sub", parentId = parent))!!
-        assertThat(repository.loadCategory(sub)!!.typeFlags).isEqualTo(FLAG_EXPENSE)
+        assertThat(repository.loadCategory(sub)!!.type).isEqualTo(FLAG_EXPENSE)
     }
 
     @Test
     fun subCategoryShouldInheritTypeAfterUpdateOfType() {
-        val mainCategory = Category(label = "Main", typeFlags = FLAG_EXPENSE).run {
+        val mainCategory = Category(label = "Main", type = FLAG_EXPENSE).run {
             copy(id = repository.saveCategory(this)!!)
         }
         //we first create sub1 and sub2 under main, and then move sub1 to sub2, in order to
@@ -37,18 +37,18 @@ class CategoryTest: BaseTestWithRepository() {
         val sub1 = repository.saveCategory(Category(label = "Sub", parentId = mainCategory.id))!!
         val sub2 = repository.saveCategory(Category(label = "SubSub", parentId = mainCategory.id))!!
         repository.moveCategory(sub1, sub2)
-        repository.saveCategory(mainCategory.copy(typeFlags = FLAG_INCOME))
-        assertThat(repository.loadCategory(mainCategory.id)!!.typeFlags).isEqualTo(FLAG_INCOME)
-        assertThat(repository.loadCategory(sub1)!!.typeFlags).isEqualTo(FLAG_INCOME)
-        assertThat(repository.loadCategory(sub2)!!.typeFlags).isEqualTo(FLAG_INCOME)
+        repository.saveCategory(mainCategory.copy(type = FLAG_INCOME))
+        assertThat(repository.loadCategory(mainCategory.id!!)!!.type).isEqualTo(FLAG_INCOME)
+        assertThat(repository.loadCategory(sub1)!!.type).isEqualTo(FLAG_INCOME)
+        assertThat(repository.loadCategory(sub2)!!.type).isEqualTo(FLAG_INCOME)
     }
 
     @Test
     fun subCategoryShouldInheritTypeMoveSubCategoryToOtherParent() {
-        val expenseCategory = Category(label = "Expense", typeFlags = FLAG_EXPENSE).run {
+        val expenseCategory = Category(label = "Expense", type = FLAG_EXPENSE).run {
             copy(id = repository.saveCategory(this)!!)
         }
-        val incomeCategory = Category(label = "Income", typeFlags = FLAG_INCOME).run {
+        val incomeCategory = Category(label = "Income", type = FLAG_INCOME).run {
             copy(id = repository.saveCategory(this)!!)
         }
         val sub = repository.saveCategory(Category(label = "Sub", parentId = expenseCategory.id))!!
@@ -56,29 +56,29 @@ class CategoryTest: BaseTestWithRepository() {
         repository.moveCategory(sub, incomeCategory.id)
         val subCategory = repository.loadCategory(sub)!!
         assertThat(subCategory.parentId).isEqualTo(incomeCategory.id)
-        assertThat(subCategory.typeFlags).isEqualTo(FLAG_INCOME)
-        assertThat(repository.loadCategory(subSub)!!.typeFlags).isEqualTo(FLAG_INCOME)
+        assertThat(subCategory.type).isEqualTo(FLAG_INCOME)
+        assertThat(repository.loadCategory(subSub)!!.type).isEqualTo(FLAG_INCOME)
     }
 
     @Test
     fun subCategoryShouldInheritTypeMoveMainCategoryToOtherParent() {
-        val expenseCategory = Category(label = "Expense", typeFlags = FLAG_EXPENSE).run {
+        val expenseCategory = Category(label = "Expense", type = FLAG_EXPENSE).run {
             copy(id = repository.saveCategory(this)!!)
         }
         val sub = repository.saveCategory(Category(label = "Sub", parentId = expenseCategory.id))!!
-        val incomeCategory = Category(label = "Income", typeFlags = FLAG_INCOME).run {
+        val incomeCategory = Category(label = "Income", type = FLAG_INCOME).run {
             copy(id = repository.saveCategory(this)!!)
         }
-        repository.moveCategory(expenseCategory.id, incomeCategory.id)
-        val new = repository.loadCategory(expenseCategory.id)!!
+        repository.moveCategory(expenseCategory.id!!, incomeCategory.id)
+        val new = repository.loadCategory(expenseCategory.id!!)!!
         assertThat(new.parentId).isEqualTo(incomeCategory.id)
-        assertThat(new.typeFlags).isEqualTo(FLAG_INCOME)
-        assertThat(repository.loadCategory(sub)!!.typeFlags).isEqualTo(FLAG_INCOME)
+        assertThat(new.type).isEqualTo(FLAG_INCOME)
+        assertThat(repository.loadCategory(sub)!!.type).isEqualTo(FLAG_INCOME)
     }
 
     @Test
     fun shouldKeepTypeTransformSubIntoMain() {
-        val expenseCategory = Category(label = "Expense", typeFlags = FLAG_EXPENSE).run {
+        val expenseCategory = Category(label = "Expense", type = FLAG_EXPENSE).run {
             copy(id = repository.saveCategory(this)!!)
         }
         val sub = repository.saveCategory(Category(label = "Sub", parentId = expenseCategory.id))!!
@@ -86,13 +86,13 @@ class CategoryTest: BaseTestWithRepository() {
         repository.moveCategory(sub, null)
         val subCategory = repository.loadCategory(sub)!!
         assertThat(subCategory.parentId).isNull()
-        assertThat(subCategory.typeFlags).isEqualTo(FLAG_EXPENSE)
-        assertThat(repository.loadCategory(subSub)!!.typeFlags).isEqualTo(FLAG_EXPENSE)
+        assertThat(subCategory.type).isEqualTo(FLAG_EXPENSE)
+        assertThat(repository.loadCategory(subSub)!!.type).isEqualTo(FLAG_EXPENSE)
     }
 
     @Test(expected = SQLiteConstraintException::class)
     fun shouldNotAllowUpdateOfTypeForSubCategory() {
-        val expenseCategory = Category(label = "Expense", typeFlags = FLAG_EXPENSE).run {
+        val expenseCategory = Category(label = "Expense", type = FLAG_EXPENSE).run {
             copy(id = repository.saveCategory(this)!!)
         }
         val sub = repository.saveCategory(Category(label = "Sub", parentId = expenseCategory.id))!!
