@@ -20,33 +20,26 @@ import org.totschnig.myexpenses.export.JSONExporter
 import org.totschnig.myexpenses.export.QifExporter
 import org.totschnig.myexpenses.export.createFileFailure
 import org.totschnig.myexpenses.model.ExportFormat
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
-import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.getLong
-import org.totschnig.myexpenses.provider.useAndMap
+import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.displayName
-import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import kotlin.math.abs
 
 class ExportViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     companion object {
@@ -110,7 +103,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                             selection,
                             selectionArgs,
                             null
-                        )?.useAndMap {
+                        )?.useAndMapToList {
                             it.getLong(KEY_ROWID)
                         } ?: throw IOException("Cursor was null")
                     }

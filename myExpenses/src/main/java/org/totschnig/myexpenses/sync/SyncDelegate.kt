@@ -1,17 +1,54 @@
 package org.totschnig.myexpenses.sync
 
-import android.content.*
+import android.content.ContentProviderClient
+import android.content.ContentProviderOperation
+import android.content.ContentUris
+import android.content.ContentValues
+import android.content.Context
+import android.content.OperationApplicationException
 import android.os.RemoteException
 import androidx.annotation.VisibleForTesting
 import org.apache.commons.collections4.ListUtils
-import org.totschnig.myexpenses.db2.*
+import org.totschnig.myexpenses.db2.CategoryHelper
+import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.ensureCategory
+import org.totschnig.myexpenses.db2.extractTagIds
+import org.totschnig.myexpenses.db2.findAccountByUuid
+import org.totschnig.myexpenses.db2.findByAccountAndUuid
+import org.totschnig.myexpenses.db2.findPaymentMethod
+import org.totschnig.myexpenses.db2.requireParty
+import org.totschnig.myexpenses.db2.writePaymentMethod
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.SplitTransaction
+import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.NULL_CHANGE_INDICATOR
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.fromSyncAdapter
 import org.totschnig.myexpenses.sync.json.CategoryInfo
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -38,15 +75,14 @@ class SyncDelegate(
         provider: ContentProviderClient,
         remoteChanges: List<TransactionChange>
     ) {
-        if (remoteChanges.isEmpty()) {
-            return
-        }
-        if (remoteChanges.size > SyncAdapter.BATCH_SIZE) {
-            for (part in ListUtils.partition(remoteChanges, SyncAdapter.BATCH_SIZE)) {
-                writeRemoteChangesToDbPart(provider, part)
+        if (remoteChanges.isNotEmpty()) {
+            if (remoteChanges.size > SyncAdapter.BATCH_SIZE) {
+                for (part in ListUtils.partition(remoteChanges, SyncAdapter.BATCH_SIZE)) {
+                    writeRemoteChangesToDbPart(provider, part)
+                }
+            } else {
+                writeRemoteChangesToDbPart(provider, remoteChanges)
             }
-        } else {
-            writeRemoteChangesToDbPart(provider, remoteChanges)
         }
     }
 
@@ -57,7 +93,7 @@ class SyncDelegate(
     ) {
         val ops = ArrayList<ContentProviderOperation>()
         ops.add(TransactionProvider.pauseChangeTrigger())
-        remoteChanges.forEach { change: TransactionChange -> collectOperations(change, ops, -1) }
+        remoteChanges.forEach { change: TransactionChange -> collectOperations(change, ops) }
         ops.add(TransactionProvider.resumeChangeTrigger())
         val contentProviderResults = provider.applyBatch(ops)
         val opsSize = ops.size
@@ -85,7 +121,7 @@ class SyncDelegate(
                 i.remove()
             }
         }
-        val splitsPerUuidFiltered = HashMap<String, List<TransactionChange>>()
+
         //When a split transaction is changed, we do not necessarily have an entry for the parent, so we
         //create one here
         splitsPerUuid.keys.forEach { uuid: String ->
@@ -95,7 +131,6 @@ class SyncDelegate(
                         TransactionChange.builder().setType(TransactionChange.Type.updated)
                             .setTimeStamp(list[0].timeStamp()).setUuid(uuid).build()
                     )
-                    splitsPerUuidFiltered[uuid] = filterDeleted(list, findDeletedUuids(list))
                 }
             }
         }
@@ -137,8 +172,8 @@ class SyncDelegate(
         uuidsRequiringMerge.forEach { uuid: String ->
             mergesPerUuid[uuid] = mergeUpdates(updatesPerUuid[uuid]!!)
         }
-        firstResult = replaceByMerged(firstResult, mergesPerUuid)
-        secondResult = replaceByMerged(secondResult, mergesPerUuid)
+        firstResult = mergeChanges(replaceByMerged(firstResult, mergesPerUuid))
+        secondResult = mergeChanges(replaceByMerged(secondResult, mergesPerUuid))
         return firstResult to secondResult
     }
 
@@ -159,8 +194,67 @@ class SyncDelegate(
         mergedMap: HashMap<String, TransactionChange>
     ): List<TransactionChange> {
         return input.map { change ->
-            change.takeIf { it.isCreateOrUpdate }?.let { mergedMap[change.uuid()] } ?: change
+            change.takeIf { it.isCreateOrUpdate }?.nullifyIfNeeded(mergedMap[change.uuid()]) ?: change
         }.distinct()
+    }
+
+    /**
+     * For all fields in a give change log entry, we compare if the final merged change has a different
+     * non-null value, in which case we set the field to null. This prevents a value that has already
+     * been overwritten from being written again either remotely or locally
+     */
+    private fun TransactionChange.nullifyIfNeeded(merged: TransactionChange?): TransactionChange {
+        return if (merged == null) this
+        else toBuilder().apply {
+            if (comment() != null && merged.comment() != null && merged.comment() != comment()) {
+                setComment(null)
+            }
+            if (date() != null && merged.date() != null && merged.date() != date()) {
+                setDate(null)
+            }
+            if (valueDate() != null && merged.valueDate() != null && merged.valueDate() != valueDate()) {
+                setValueDate(null)
+            }
+            if (amount() != null && merged.amount() != null && merged.amount() != amount()) {
+                setAmount(null)
+            }
+            if ((label() != null || categoryInfo() != null) &&
+                (merged.label() != null || merged.categoryInfo() != null) &&
+                (merged.label() != label() || merged.categoryInfo() != categoryInfo())
+                ) {
+                setLabel(null)
+                setCategoryInfo(null)
+            }
+            if (payeeName() != null && merged.payeeName() != null && merged.payeeName() != payeeName()) {
+                setPayeeName(null)
+            }
+            if (transferAccount() != null && merged.transferAccount() != null && merged.transferAccount() != transferAccount()) {
+                setTransferAccount(null)
+            }
+            if (methodLabel() != null && merged.methodLabel() != null && merged.methodLabel() != methodLabel()) {
+                setMethodLabel(null)
+            }
+            if (crStatus() != null && merged.crStatus() != null && merged.crStatus() != crStatus()) {
+                setCrStatus(null)
+            }
+            if (referenceNumber() != null && merged.referenceNumber() != null && merged.referenceNumber() != referenceNumber()) {
+                setReferenceNumber(null)
+            }
+            if ((pictureUri() != null || attachments() != null) &&
+                (merged.pictureUri() != null || merged.attachments() != null) &&
+                (merged.pictureUri() != pictureUri() || merged.attachments() != attachments())
+
+                ) {
+                setPictureUri(null)
+                setAttachments(null)
+            }
+            if (splitParts() != null && merged.splitParts() != null && merged.splitParts() != splitParts()) {
+                setSplitParts(null)
+            }
+            if (tags() != null && merged.tags() != null && merged.tags() != tags()) {
+                setTags(null)
+            }
+        }.build()
     }
 
     private fun mergeChanges(input: List<TransactionChange>): List<TransactionChange> =
@@ -170,7 +264,7 @@ class SyncDelegate(
     fun mergeUpdates(changeList: List<TransactionChange>): TransactionChange {
         check(changeList.isNotEmpty()) { "nothing to merge" }
         return changeList
-            .sortedBy { obj: TransactionChange -> obj.timeStamp() }
+            .sortedBy { if (it.isCreate) 0L else it.timeStamp() }
             .reduce { initial: TransactionChange, change: TransactionChange ->
                 mergeUpdate(
                     initial,
@@ -183,8 +277,9 @@ class SyncDelegate(
         initial: TransactionChange,
         change: TransactionChange
     ): TransactionChange {
-        check(change.isCreateOrUpdate && initial.isCreateOrUpdate) { "Can only merge creates and updates" }
         check(initial.uuid() == change.uuid()) { "Can only merge changes with same uuid" }
+        if (initial.isDelete) return initial
+        if (change.isDelete) return change
         val builder = initial.toBuilder()
         if (change.parentUuid() != null) {
             builder.setParentUuid(change.parentUuid())
@@ -238,21 +333,43 @@ class SyncDelegate(
     }
 
     private fun saveAttachmentLinks(
-        attachments: MutableList<String>?,
+        attachments: Set<String>,
         transactionId: Long?,
         backReference: Int?
     ) = buildList {
-        //we are not deleting attachments that might have been removed on another device, because
-        //we would need to compare existing attachments with the new list, which would only be doable
-        //via a method call but ContentProviderOperation.newCall is not available below API 30
-        attachments?.forEach { uuid ->
+        attachments.forEach { uuid ->
             val insert =
                 ContentProviderOperation.newInsert(TransactionProvider.TRANSACTIONS_ATTACHMENTS_URI)
-                    .withValue(DatabaseConstants.KEY_UUID, uuid)
+                    .withValue(KEY_UUID, uuid)
             transactionId?.let {
-                insert.withValue(DatabaseConstants.KEY_TRANSACTIONID, it)
+                insert.withValue(KEY_TRANSACTIONID, it)
             } ?: backReference?.let {
-                insert.withValueBackReference(DatabaseConstants.KEY_TRANSACTIONID, it)
+                insert.withValueBackReference(KEY_TRANSACTIONID, it)
+            } ?: throw IllegalArgumentException("neither id nor backReference provided")
+            add(insert.build())
+        }
+    }
+
+    private fun saveTagLinks(
+        tagIds: List<Long>,
+        transactionId: Long?,
+        backReference: Int? = null
+    ) = buildList {
+        val uri = TransactionProvider.TRANSACTIONS_TAGS_URI.fromSyncAdapter()
+        transactionId?.let {
+            add(
+                ContentProviderOperation.newDelete(uri)
+                    .withSelection("$KEY_TRANSACTIONID = ?", arrayOf(it.toString())).build()
+            )
+        }
+        tagIds.forEach { tagId ->
+            val insert =
+                ContentProviderOperation.newInsert(uri)
+                    .withValue(DatabaseConstants.KEY_TAGID, tagId)
+            transactionId?.let {
+                insert.withValue(KEY_TRANSACTIONID, it)
+            } ?: backReference?.let {
+                insert.withValueBackReference(KEY_TRANSACTIONID, it)
             } ?: throw IllegalArgumentException("neither id nor backReference provided")
             add(insert.build())
         }
@@ -262,7 +379,7 @@ class SyncDelegate(
     fun collectOperations(
         change: TransactionChange,
         ops: ArrayList<ContentProviderOperation>,
-        parentOffset: Int
+        parentOffset: Int = -1
     ) {
         val uri = Transaction.CALLER_IS_SYNC_ADAPTER_URI
         var skipped = false
@@ -281,17 +398,23 @@ class SyncDelegate(
                             ContentProviderOperation.newUpdate(uri)
                                 .withValues(toContentValues(change))
                                 .withSelection(
-                                    DatabaseConstants.KEY_ROWID + " = ?",
+                                    "$KEY_ROWID = ?",
                                     arrayOf(transactionId.toString())
                                 )
                                 .withValueBackReference(KEY_PARENTID, parentOffset)
                                 .build()
                         )
-                        val tagOps = saveTagLinks(tagIds, transactionId, null, true)
-                        ops.addAll(tagOps)
-                        val attachmentOps = saveAttachmentLinks(change.attachments(), transactionId, null)
-                        ops.addAll(attachmentOps)
-                        additionalOpsCount = tagOps.size + attachmentOps.size
+                        val tagOpsSize = tagIds
+                            ?.let { saveTagLinks(it, transactionId) }
+                            ?.also { ops.addAll(it) }
+                            ?.size
+                            ?: 0
+                        val attachmentOpsSize = change.attachments()
+                            ?.let { saveAttachmentLinks(it, transactionId, null) }
+                            ?.also { ops.addAll(it) }
+                            ?.size
+                            ?: 0
+                        additionalOpsCount = tagOpsSize + attachmentOpsSize
                     } else {
                         skipped = true
                         SyncAdapter.log()
@@ -299,11 +422,17 @@ class SyncDelegate(
                     }
                 } else {
                     ops.addAll(getContentProviderOperationsForCreate(change, offset, parentOffset))
-                    val tagOps= saveTagLinks(tagIds, null, offset, true)
-                    ops.addAll(tagOps)
-                    val attachmentOps = saveAttachmentLinks(change.attachments(), null, offset)
-                    ops.addAll(attachmentOps)
-                    additionalOpsCount = tagOps.size + attachmentOps.size
+                    val tagOpsSize = tagIds
+                        ?.let { saveTagLinks(it, null, offset) }
+                        ?.also { ops.addAll(it) }
+                        ?.size
+                        ?: 0
+                    val attachmentOpsSize = change.attachments()
+                        ?.let { saveAttachmentLinks(it, null, offset) }
+                        ?.also { ops.addAll(it) }
+                        ?.size
+                        ?: 0
+                    additionalOpsCount = tagOpsSize + attachmentOpsSize
                 }
             }
 
@@ -315,13 +444,13 @@ class SyncDelegate(
                         val builder = ContentProviderOperation.newUpdate(uri)
                         if (transactionId != -1L) {
                             builder.withSelection(
-                                DatabaseConstants.KEY_ROWID + " = ?",
+                                "$KEY_ROWID = ?",
                                 arrayOf(transactionId.toString())
                             )
                             //Make sure we set the parent, in case the change is caused by "Transform to split"
                         } else {
                             builder.withSelection(
-                                DatabaseConstants.KEY_UUID + " = ?",
+                                "$KEY_UUID = ?",
                                 arrayOf(change.uuid())
                             )
                         }
@@ -333,11 +462,17 @@ class SyncDelegate(
                         }
                         ops.add(builder.build())
                     }
-                    val tagOps = saveTagLinks(tagIds, transactionId, null, true)
-                    ops.addAll(tagOps)
-                    val attachmentOps = saveAttachmentLinks(change.attachments(), transactionId, null)
-                    ops.addAll(attachmentOps)
-                    additionalOpsCount = tagOps.size + attachmentOps.size
+                    val tagOpsSize = tagIds
+                        ?.let { saveTagLinks(it, transactionId) }
+                        ?.also { ops.addAll(it) }
+                        ?.size
+                        ?: 0
+                    val attachmentOpsSize = change.attachments()
+                        ?.let { saveAttachmentLinks(it, transactionId, null) }
+                        ?.also { ops.addAll(it) }
+                        ?.size
+                        ?: 0
+                    additionalOpsCount = tagOpsSize + attachmentOpsSize
                 }
             }
 
@@ -352,7 +487,7 @@ class SyncDelegate(
                             )
                         )
                             .withSelection(
-                                DatabaseConstants.KEY_UUID + " = ? AND " + DatabaseConstants.KEY_ACCOUNTID + " = ?",
+                                "$KEY_UUID = ? AND $KEY_ACCOUNTID = ?",
                                 arrayOf(change.uuid(), account.id.toString())
                             )
                             .build()
@@ -366,7 +501,7 @@ class SyncDelegate(
                         uri.buildUpon()
                             .appendPath(TransactionProvider.URI_SEGMENT_UNSPLIT).build()
                     )
-                        .withValue(DatabaseConstants.KEY_UUID, change.uuid())
+                        .withValue(KEY_UUID, change.uuid())
                         .build()
                 )
             }
@@ -378,7 +513,7 @@ class SyncDelegate(
                             .appendPath(TransactionProvider.URI_SEGMENT_LINK_TRANSFER)
                             .appendPath(change.uuid()).build()
                     )
-                        .withValue(DatabaseConstants.KEY_UUID, change.referenceNumber())
+                        .withValue(KEY_UUID, change.referenceNumber())
                         .build()
                 )
             }
@@ -413,26 +548,51 @@ class SyncDelegate(
 
     private fun toContentValues(change: TransactionChange): ContentValues {
         val values = ContentValues()
-        change.comment()?.let { values.put(DatabaseConstants.KEY_COMMENT, it) }
-        change.date()?.let { values.put(DatabaseConstants.KEY_DATE, it) }
-        change.valueDate()?.let { values.put(DatabaseConstants.KEY_VALUE_DATE, it) }
-        change.amount()?.let { values.put(DatabaseConstants.KEY_AMOUNT, it) }
-        change.extractCatId()?.let { values.put(DatabaseConstants.KEY_CATID, it) }
-        change.payeeName()?.let { name ->
-            values.put(DatabaseConstants.KEY_PAYEEID, extractParty(name))
+        change.comment()?.let {
+            if (it.isEmpty()) {
+                values.putNull(KEY_COMMENT)
+            } else {
+                values.put(KEY_COMMENT, it)
+            }
         }
-        change.methodLabel()?.let { label ->
-            values.put(DatabaseConstants.KEY_METHODID, extractMethodId(label))
+        change.date()?.let { values.put(KEY_DATE, it) }
+        change.valueDate()?.let { values.put(KEY_VALUE_DATE, it) }
+        change.amount()?.let { values.put(KEY_AMOUNT, it) }
+        if (change.categoryInfo()?.firstOrNull()?.uuid == NULL_CHANGE_INDICATOR) {
+          values.putNull(KEY_CATID)
+        } else {
+            change.extractCatId()?.let { values.put(KEY_CATID, it) }
         }
-        change.crStatus()?.let { values.put(DatabaseConstants.KEY_CR_STATUS, it) }
-        change.referenceNumber()?.let { values.put(DatabaseConstants.KEY_REFERENCE_NUMBER, it) }
+        if (change.payeeName() == NULL_CHANGE_INDICATOR) {
+            values.putNull(KEY_PAYEEID)
+        } else {
+            change.payeeName()?.let { name ->
+                values.put(KEY_PAYEEID, extractParty(name))
+            }
+        }
+        if (change.methodLabel()== NULL_CHANGE_INDICATOR) {
+            values.putNull(KEY_METHODID)
+        } else {
+            change.methodLabel()?.let { label ->
+                values.put(KEY_METHODID, extractMethodId(label))
+            }
+        }
+        change.crStatus()?.let { values.put(KEY_CR_STATUS, it) }
+        change.referenceNumber()?.let { values.put(KEY_REFERENCE_NUMBER, it) }
         if (change.originalAmount() != null && change.originalCurrency() != null) {
-            values.put(DatabaseConstants.KEY_ORIGINAL_AMOUNT, change.originalAmount())
-            values.put(DatabaseConstants.KEY_ORIGINAL_CURRENCY, change.originalCurrency())
+            if (change.originalAmount() == Long.MIN_VALUE) {
+                values.putNull(KEY_ORIGINAL_AMOUNT)
+                values.putNull(KEY_ORIGINAL_CURRENCY)
+            } else {
+                values.put(KEY_ORIGINAL_AMOUNT, change.originalAmount())
+                values.put(KEY_ORIGINAL_CURRENCY, change.originalCurrency())
+            }
         }
         if (change.equivalentAmount() != null && change.equivalentCurrency() != null) {
-            if (change.equivalentCurrency() == homeCurrency.code) {
-                values.put(DatabaseConstants.KEY_EQUIVALENT_AMOUNT, change.equivalentAmount())
+            if (change.equivalentAmount() == Long.MIN_VALUE || change.equivalentCurrency() != homeCurrency.code) {
+                values.putNull(KEY_EQUIVALENT_AMOUNT)
+            } else if (change.equivalentCurrency() == homeCurrency.code) {
+                values.put(KEY_EQUIVALENT_AMOUNT, change.equivalentAmount())
             }
         }
         return values
@@ -487,7 +647,8 @@ class SyncDelegate(
                 }?.let { Transfer(account.id, money, it) }
             } ?: Transaction(account.id, money).apply {
                 if (change.transferAccount() == null) {
-                    catId = change.extractCatId()
+                    if (change.categoryInfo()?.firstOrNull()?.uuid != NULL_CHANGE_INDICATOR)
+                        catId = change.extractCatId()
                 }
             }
         }
@@ -495,10 +656,10 @@ class SyncDelegate(
         change.comment()?.let { t.comment = it }
         change.date()?.let { t.date = it }
         t.valueDate = change.valueDate() ?: t.date
-        change.payeeName()?.let { name ->
+        change.payeeName()?.takeIf { it != NULL_CHANGE_INDICATOR }?.let { name ->
             t.payeeId = extractParty(name)
         }
-        change.methodLabel()?.let { label ->
+        change.methodLabel()?.takeIf { it != NULL_CHANGE_INDICATOR }?.let { label ->
             t.methodId = extractMethodId(label)
         }
         change.crStatus()?.let { t.crStatus = CrStatus.valueOf(it) }

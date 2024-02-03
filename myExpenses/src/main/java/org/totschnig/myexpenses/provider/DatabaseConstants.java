@@ -473,7 +473,8 @@ public class DatabaseConstants {
           " END AS " + KEY_ICON;
 
   public static final Long SPLIT_CATID = 0L;
-
+  public static final long NULL_ROW_ID = 0L;
+  public static final String NULL_CHANGE_INDICATOR = "__NULL__";
   public static final String WHERE_NOT_SPLIT =
       KEY_CATID + " IS NOT " + SPLIT_CATID;
   public static final String WHERE_NOT_SPLIT_PART =

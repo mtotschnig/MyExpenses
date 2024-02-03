@@ -34,7 +34,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.getLong
-import org.totschnig.myexpenses.provider.useAndMap
+import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.joinArrays
 import org.totschnig.myexpenses.util.localDate2Epoch
@@ -136,7 +136,7 @@ fun Repository.loadTransactions(accountId: Long): List<Transaction> {
         filter?.let { arrayOf(accountId.toString(), *it.second) }
             ?: arrayOf(accountId.toString()),
         null
-    )!!.useAndMap { cursor ->
+    )!!.useAndMapToList { cursor ->
         Transaction.fromCursor(
             context,
             cursor,
@@ -152,7 +152,7 @@ fun Repository.loadTransactions(accountId: Long): List<Transaction> {
                 "$KEY_TRANSACTIONID = ?",
                 arrayOf(cursor.getLong(KEY_ROWID).toString()),
                 null
-            )?.useAndMap { it.getLong(0) } ?: emptyList()
+            )?.useAndMapToList { it.getLong(0) } ?: emptyList()
         )
     }
 

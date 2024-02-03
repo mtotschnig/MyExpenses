@@ -17,7 +17,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_ATTRIBUTES
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_ATTRIBUTES_URI
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.insert
-import org.totschnig.myexpenses.provider.useAndMap
+import org.totschnig.myexpenses.provider.useAndMapToList
 import java.util.EnumSet
 
 interface Attribute {
@@ -121,5 +121,5 @@ fun Repository.loadAttributes(transactionId: Long): List<Pair<Attribute, String>
     return contentResolver.query(
         TRANSACTIONS_ATTRIBUTES_URI, null,
         "$KEY_TRANSACTIONID = ?", arrayOf(transactionId.toString()), null
-    )?.useAndMap { Attribute.from(it) } ?: emptyList()
+    )?.useAndMapToList { Attribute.from(it) } ?: emptyList()
 }

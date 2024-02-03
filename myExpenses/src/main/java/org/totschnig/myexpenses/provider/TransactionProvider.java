@@ -27,7 +27,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
@@ -43,13 +42,9 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERE
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENT_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
@@ -72,6 +67,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI_LIST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.NULL_ROW_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS_TAGS;
@@ -155,7 +151,6 @@ import androidx.sqlite.db.SupportSQLiteQueryBuilder;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.db2.RepositoryPaymentMethodKt;
 import org.totschnig.myexpenses.model.CrStatus;
-import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -372,6 +367,8 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String KEY_CATEGORY_INFO = "categoryInfo";
   public static final String METHOD_ENSURE_CATEGORY_TREE = "ensureCategoryTree";
   public static final String KEY_CATEGORY_EXPORT = "categoryExport";
+  public static final String METHOD_SAVE_TRANSACTION_TAGS = "saveTransactionTags";
+  public static final String KEY_REPLACE = "replace";
 
   public static final String KEY_RESULT = "result";
 
@@ -578,6 +575,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         if (projection == null)
           projection = Companion.payeeProjection(TABLE_PAYEES);
+        additionalWhere.append(KEY_ROWID + "!=" + NULL_ROW_ID);
         break;
       case MAPPED_TRANSFER_ACCOUNTS:
         qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_TRANSFER_ACCOUNT + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + ")");
@@ -598,6 +596,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         if (sortOrder == null) {
           sortOrder = RepositoryPaymentMethodKt.localizedLabelSqlColumn(getWrappedContext(), KEY_LABEL) + " COLLATE " + getCollate();
         }
+        additionalWhere.append(KEY_ROWID + "!=" + NULL_ROW_ID);
         break;
       case MAPPED_METHODS:
         String localizedLabel = RepositoryPaymentMethodKt.localizedLabelSqlColumn(getWrappedContext(), KEY_LABEL);
@@ -987,6 +986,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         newUri = TAGS_URI + "/" + id;
       }
       case TRANSACTIONS_TAGS -> {
+        if (callerIsNotSyncAdapter(uri)) throw new IllegalArgumentException("Can only be called from sync adapter");
         db.insert(TABLE_TRANSACTIONS_TAGS, CONFLICT_IGNORE, values);
         //the table does not have primary ids, we return the base uri
         notifyChange(uri, callerIsNotSyncAdapter(uri));
@@ -1176,6 +1176,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
       }
       case TRANSACTIONS_TAGS -> {
+        if (callerIsNotSyncAdapter(uri)) throw new IllegalArgumentException("Can only be called from sync adapter");
         count = db.delete(TABLE_TRANSACTIONS_TAGS, where, whereArgs);
       }
       case TEMPLATES_TAGS -> {
@@ -1348,77 +1349,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case CHANGES -> {
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_INIT, false)) {
-          String[] accountIdBindArgs = {uri.getQueryParameter(KEY_ACCOUNTID)};
-          db.beginTransaction();
-          try {
-            db.delete(TABLE_CHANGES, KEY_ACCOUNTID + " = ?", accountIdBindArgs);
-            c = db.query(SupportSQLiteQueryBuilder.builder(TABLE_TRANSACTIONS)
-                    .columns(new String[]{KEY_ROWID})
-                    .selection("(" + KEY_UUID + " IS NULL OR (" + KEY_TRANSFER_PEER + " IS NOT NULL AND (SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " peer where " + KEY_TRANSFER_PEER + " = " + TABLE_TRANSACTIONS + "." + KEY_ROWID + ") is null )) AND ("
-                            + KEY_TRANSFER_PEER + " IS NULL OR " + KEY_ROWID + " < " + KEY_TRANSFER_PEER + ")", new Object[]{})
-                    .create()
-            );
-            if (c.moveToFirst()) {
-              MoreDbUtilsKt.safeUpdateWithSealed(db, () -> {
-                while (!c.isAfterLast()) {
-                  String idString = c.getString(0);
-                  db.execSQL("UPDATE " + TABLE_TRANSACTIONS + " SET " + KEY_UUID + " = ? WHERE " + KEY_ROWID + " = ? OR " + KEY_TRANSFER_PEER + " = ?",
-                          new String[]{Model.generateUuid(), idString, idString});
-                  c.moveToNext();
-                }
-              });
-            }
-            c.close();
-            db.execSQL("INSERT INTO " + TABLE_CHANGES + "("
-                            + KEY_TYPE + ", "
-                            + KEY_SYNC_SEQUENCE_LOCAL + ", "
-                            + KEY_UUID + ", "
-                            + KEY_PARENT_UUID + ", "
-                            + KEY_COMMENT + ", "
-                            + KEY_DATE + ", "
-                            + KEY_AMOUNT + ", "
-                            + KEY_ORIGINAL_AMOUNT + ", "
-                            + KEY_ORIGINAL_CURRENCY + ", "
-                            + KEY_EQUIVALENT_AMOUNT + ", "
-                            + KEY_CATID + ", "
-                            + KEY_ACCOUNTID + ","
-                            + KEY_PAYEEID + ", "
-                            + KEY_TRANSFER_ACCOUNT + ", "
-                            + KEY_METHODID + ","
-                            + KEY_CR_STATUS + ", "
-                            + KEY_REFERENCE_NUMBER
-                            + ") SELECT "
-                            + "'" + TransactionChange.Type.created.name() + "', "
-                            + " 1, "
-                            + KEY_UUID + ", "
-                            + "CASE WHEN " + KEY_PARENTID + " IS NULL THEN NULL ELSE " +
-                            "(SELECT " + KEY_UUID + " FROM " + TABLE_TRANSACTIONS + " parent where "
-                            + KEY_ROWID + " = " + TABLE_TRANSACTIONS + "." + KEY_PARENTID + ") END, "
-                            + KEY_COMMENT + ", "
-                            + KEY_DATE + ", "
-                            + KEY_AMOUNT + ", "
-                            + KEY_ORIGINAL_AMOUNT + ", "
-                            + KEY_ORIGINAL_CURRENCY + ", "
-                            + KEY_EQUIVALENT_AMOUNT + ", "
-                            + KEY_CATID + ", "
-                            + KEY_ACCOUNTID + ", "
-                            + KEY_PAYEEID + ", "
-                            + KEY_TRANSFER_ACCOUNT + ", "
-                            + KEY_METHODID + ","
-                            + KEY_CR_STATUS + ", "
-                            + KEY_REFERENCE_NUMBER
-                            + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?",
-                    accountIdBindArgs);
-            ContentValues currentSyncIncrease = new ContentValues(1);
-            currentSyncIncrease.put(KEY_SYNC_SEQUENCE_LOCAL, 1);
-            MoreDbUtilsKt.update(db, TABLE_ACCOUNTS, currentSyncIncrease, KEY_ROWID + " = ?", accountIdBindArgs);
-            db.setTransactionSuccessful();
-          } catch (Exception e) {
-            CrashHandler.report(e, TAG);
-            throw e;
-          } finally {
-            db.endTransaction();
-          }
+          initChangeLog(db, uri.getQueryParameter(KEY_ACCOUNTID));
           count = 1;
         } else {
           count = MoreDbUtilsKt.update(db, TABLE_CHANGES, values, where, whereArgs);
@@ -1646,6 +1577,9 @@ public class TransactionProvider extends BaseTransactionProvider {
         Bundle bundle = ensureCategoryTree(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
         notifyChange(CATEGORIES_URI, false);
         return bundle;
+      }
+      case METHOD_SAVE_TRANSACTION_TAGS ->  {
+        saveTransactionTags(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
       }
     }
     return null;

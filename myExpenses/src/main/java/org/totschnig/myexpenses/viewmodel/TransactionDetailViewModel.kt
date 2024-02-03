@@ -8,7 +8,7 @@ import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.loadAttributes
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.useAndMap
+import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.Transaction.Companion.readTransaction
 import org.totschnig.myexpenses.viewmodel.data.Transaction.Companion.projection
@@ -26,7 +26,7 @@ class TransactionDetailViewModel(application: Application) :
                 null,
                 null,
                 "$KEY_PARENTID IS NULL DESC"
-            )?.useAndMap {
+            )?.useAndMapToList {
                 it.readTransaction(
                     getApplication(),
                     currencyContext,
@@ -43,7 +43,7 @@ class TransactionDetailViewModel(application: Application) :
             "$KEY_TRANSACTIONID = ?",
             arrayOf(id.toString()),
             null
-        )?.useAndMap {
+        )?.useAndMapToList {
             Tag(
                 it.getLong(it.getColumnIndexOrThrow(KEY_ROWID)), it.getString(
                     it.getColumnIndexOrThrow(

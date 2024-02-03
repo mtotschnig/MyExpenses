@@ -22,3 +22,7 @@ fun Uri.withLimit(limit: Int, offset: Int? = null): Uri = buildUpon()
     }.build()
 
 fun Uri.fileName(context: Context) = DocumentFile.fromSingleUri(context, this)!!.name ?: lastPathSegment!!
+
+fun Uri.fromSyncAdapter() = buildUpon()
+    .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_CALLER_IS_SYNCADAPTER, "1")
+    .build()

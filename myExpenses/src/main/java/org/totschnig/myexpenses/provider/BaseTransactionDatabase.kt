@@ -49,6 +49,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENT_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
@@ -58,6 +59,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
@@ -71,6 +74,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USER_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.NULL_CHANGE_INDICATOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.NULL_ROW_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_ATTRIBUTES
@@ -78,10 +84,12 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTACHMENTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BANKS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SYNC_STATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TAGS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS
@@ -93,10 +101,11 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
+import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 
-const val DATABASE_VERSION = 159
+const val DATABASE_VERSION = 161
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -279,7 +288,7 @@ private const val INCREASE_CATEGORY_USAGE_ACTION =
     " BEGIN UPDATE $TABLE_CATEGORIES SET $KEY_USAGES = $KEY_USAGES + 1, $KEY_LAST_USED = strftime('%s', 'now')  WHERE $KEY_ROWID IN (new.$KEY_CATID , (SELECT $KEY_PARENTID FROM $TABLE_CATEGORIES WHERE $KEY_ROWID = new.$KEY_CATID)); END;"
 
 private val INCREASE_CATEGORY_USAGE_INSERT_TRIGGER =
-    "CREATE TRIGGER insert_increase_category_usage AFTER INSERT ON $TABLE_TRANSACTIONS WHEN new.$KEY_CATID IS NOT NULL AND new.$KEY_CATID != ${DatabaseConstants.SPLIT_CATID}$INCREASE_CATEGORY_USAGE_ACTION"
+    "CREATE TRIGGER insert_increase_category_usage AFTER INSERT ON $TABLE_TRANSACTIONS WHEN new.$KEY_CATID IS NOT NULL AND new.$KEY_CATID != $SPLIT_CATID$INCREASE_CATEGORY_USAGE_ACTION"
 
 private const val INCREASE_CATEGORY_USAGE_UPDATE_TRIGGER =
     "CREATE TRIGGER update_increase_category_usage AFTER UPDATE ON $TABLE_TRANSACTIONS WHEN new.$KEY_CATID IS NOT NULL AND (old.$KEY_CATID IS NULL OR new.$KEY_CATID != old.$KEY_CATID)$INCREASE_CATEGORY_USAGE_ACTION"
@@ -350,6 +359,81 @@ const val SPLIT_PART_CR_STATUS_TRIGGER_CREATE =
  BEGIN UPDATE $TABLE_TRANSACTIONS SET $KEY_CR_STATUS = new.$KEY_CR_STATUS WHERE $KEY_PARENTID = new.$KEY_ROWID; END"""
 
 private const val DEFAULT_TRANSFER_CATEGORY_UUID = "9d84b522-4c8c-40bd-a8f8-18c8788ee59e"
+
+fun buildChangeTriggerDefinitionForColumnNotNull(column: String) =
+    "CASE WHEN old.$column = new.$column THEN NULL ELSE new.$column END"
+
+fun buildChangeTriggerDefinitionForTextColumn(column: String) =
+    "CASE WHEN old.$column = new.$column THEN NULL WHEN old.$column IS NOT NULL AND new.$column IS NULL THEN '' ELSE new.$column END"
+
+fun buildChangeTriggerDefinitionForIntegerColumn(column: String) =
+    "CASE WHEN old.$column = new.$column THEN NULL WHEN old.$column IS NOT NULL AND new.$column IS NULL THEN ${Long.MIN_VALUE} ELSE new.$column END"
+
+fun buildChangeTriggerDefinitionForReferenceColumn(column: String) =
+    "CASE WHEN old.$column = new.$column THEN NULL WHEN old.$column IS NOT NULL AND new.$column IS NULL THEN $NULL_ROW_ID ELSE new.$column END"
+
+fun linkedTableTrigger(
+    operation: String,
+    table: String
+): String {
+    val reference = when (operation) {
+        "INSERT" -> "new"
+        "DELETE" -> "old"
+        else -> throw IllegalArgumentException()
+    }
+    val type = when (table) {
+        TABLE_TRANSACTIONS_TAGS -> TransactionChange.Type.tags
+        TABLE_TRANSACTION_ATTACHMENTS -> TransactionChange.Type.attachments
+        else -> throw IllegalArgumentException()
+    }
+    return """
+    CREATE TRIGGER ${triggerName(operation, table)} AFTER $operation ON $table
+    WHEN ${shouldWriteChangeTemplate(reference, table)}
+        BEGIN INSERT INTO $TABLE_CHANGES ($KEY_TYPE, $KEY_UUID, $KEY_PARENT_UUID, $KEY_ACCOUNTID, $KEY_SYNC_SEQUENCE_LOCAL)
+        VALUES ('${type.name}', (SELECT $KEY_UUID FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $reference.$KEY_TRANSACTIONID),
+        ${parentUuidExpression(reference, table)},
+        (SELECT $KEY_ACCOUNTID FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $reference.$KEY_TRANSACTIONID), 
+        ${sequenceNumberSelect(reference, table)}); END
+"""
+}
+
+fun triggerName(operation: String, table: String) =
+    "${operation.lowercase()}_change_log_${table.substringAfter('_')}"
+
+@JvmOverloads
+fun shouldWriteChangeTemplate(reference: String, table: String = TABLE_TRANSACTIONS) =
+    """EXISTS (SELECT 1 FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = ${
+        referenceForTable(reference, table, KEY_ACCOUNTID)
+    } AND $KEY_SYNC_ACCOUNT_NAME IS NOT NULL AND $KEY_SYNC_SEQUENCE_LOCAL > 0) AND NOT EXISTS (SELECT 1 FROM $TABLE_SYNC_STATE)"""
+
+private fun referenceForTable(reference: String, table: String, column: String) = when (table) {
+    TABLE_TRANSACTIONS -> "$reference.$column"
+    TABLE_TRANSACTIONS_TAGS, TABLE_TRANSACTION_ATTACHMENTS -> "(SELECT $column FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $reference.$KEY_TRANSACTIONID)"
+    else -> throw IllegalArgumentException()
+}
+
+@JvmOverloads
+fun sequenceNumberSelect(reference: String, table: String = TABLE_TRANSACTIONS) =
+    "(SELECT $KEY_SYNC_SEQUENCE_LOCAL FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = ${
+        referenceForTable(reference, table, KEY_ACCOUNTID)
+    })"
+
+@JvmOverloads
+fun parentUuidExpression(reference: String, table: String = TABLE_TRANSACTIONS) =
+    "CASE WHEN ${
+        referenceForTable(
+            reference,
+            table,
+            KEY_PARENTID
+        )
+    } IS NULL THEN NULL ELSE (SELECT $KEY_UUID from $TABLE_TRANSACTIONS parent where $KEY_ROWID = ${
+        referenceForTable(
+            reference,
+            table,
+            KEY_PARENTID
+        )
+    }) END"
+
 
 abstract class BaseTransactionDatabase(
     val context: Context,
@@ -611,7 +695,7 @@ abstract class BaseTransactionDatabase(
             "transactions",
             arrayOf("_id", "picture_id"),
             "picture_id is not null"
-        ).useAndMap { cursor ->
+        ).useAndMapToList { cursor ->
             cursor.getLong(0) to cursor.getString(1)
         }.groupBy({ it.second }, { it.first }).forEach { (uri, transactionIds) ->
             attachmentValues.clear()
@@ -782,6 +866,24 @@ abstract class BaseTransactionDatabase(
         }
     }
 
+    fun SupportSQLiteDatabase.upgradeTo161() {
+        execSQL("DROP VIEW IF EXISTS $VIEW_CHANGES_EXTENDED")
+        //add new change type
+        execSQL("ALTER TABLE changes RENAME to changes_old")
+        execSQL(
+            "CREATE TABLE changes (account_id integer not null references accounts(_id) ON DELETE CASCADE,type text not null check (type in ('created','updated','deleted','unsplit','metadata','link','tags','attachments')), sync_sequence_local integer, uuid text not null, timestamp datetime DEFAULT (strftime('%s','now')), parent_uuid text, comment text, date datetime, value_date datetime, amount integer, original_amount integer, original_currency text, equivalent_amount integer, cat_id integer references categories(_id) ON DELETE SET NULL, payee_id integer references payee(_id) ON DELETE SET NULL, transfer_account integer references accounts(_id) ON DELETE SET NULL,method_id integer references paymentmethods(_id) ON DELETE SET NULL,cr_status text check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')),number text)"
+        )
+        execSQL(
+            "INSERT INTO changes SELECT * FROM changes_old"
+        )
+        execSQL("DROP TABLE changes_old")
+        execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
+        execSQL(linkedTableTrigger("INSERT", TABLE_TRANSACTIONS_TAGS))
+        execSQL(linkedTableTrigger("DELETE", TABLE_TRANSACTIONS_TAGS))
+        execSQL(linkedTableTrigger("INSERT", TABLE_TRANSACTION_ATTACHMENTS))
+        execSQL(linkedTableTrigger("DELETE", TABLE_TRANSACTION_ATTACHMENTS))
+    }
+
     override fun onCreate(db: SupportSQLiteDatabase) {
         prefHandler.putInt(PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION, DATABASE_VERSION)
     }
@@ -891,7 +993,7 @@ abstract class BaseTransactionDatabase(
 
     fun buildViewDefinitionExtended(tableName: String) = buildString {
         append(" AS ")
-        if (tableName != DatabaseConstants.TABLE_CHANGES) {
+        if (tableName != TABLE_CHANGES) {
             append(getCategoryTreeForView())
         }
         if (tableName == TABLE_TRANSACTIONS) {
@@ -927,7 +1029,7 @@ abstract class BaseTransactionDatabase(
         append(" SELECT $tableName.*, coalesce($TABLE_PAYEES.$KEY_SHORT_NAME,$TABLE_PAYEES.$KEY_PAYEE_NAME) AS $KEY_PAYEE_NAME, ")
         append("$TABLE_METHODS.$KEY_LABEL AS $KEY_METHOD_LABEL, ")
         append("$TABLE_METHODS.$KEY_ICON AS $KEY_METHOD_ICON")
-        if (tableName != DatabaseConstants.TABLE_CHANGES) {
+        if (tableName != TABLE_CHANGES) {
             append(", Tree.$KEY_PATH, Tree.$KEY_ICON, Tree.$KEY_TYPE, $KEY_COLOR, $KEY_CURRENCY, $KEY_SEALED, $KEY_EXCLUDE_FROM_TOTALS, ")
             append("$TABLE_ACCOUNTS.$KEY_TYPE AS $KEY_ACCOUNT_TYPE, ")
             append("$TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL")
@@ -941,7 +1043,7 @@ abstract class BaseTransactionDatabase(
         append(" FROM $tableName")
         append(" LEFT JOIN $TABLE_PAYEES ON $KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID")
         append(" LEFT JOIN $TABLE_METHODS ON $KEY_METHODID = $TABLE_METHODS.$KEY_ROWID")
-        if (tableName != DatabaseConstants.TABLE_CHANGES) {
+        if (tableName != TABLE_CHANGES) {
             append(" LEFT JOIN $TABLE_ACCOUNTS ON $KEY_ACCOUNTID = $TABLE_ACCOUNTS.$KEY_ROWID")
             append(" LEFT JOIN Tree ON $KEY_CATID = TREE.$KEY_ROWID")
         }
@@ -964,6 +1066,18 @@ abstract class BaseTransactionDatabase(
                 }
             )
         )
+    }
+
+    fun insertNullRows(db: SupportSQLiteDatabase) {
+        //rows that allow us to record changes where payee or method gets set to null
+        db.insert(TABLE_PAYEES, SQLiteDatabase.CONFLICT_NONE, ContentValues().apply {
+            put(KEY_ROWID, NULL_ROW_ID)
+            put(KEY_PAYEE_NAME, NULL_CHANGE_INDICATOR)
+        })
+        db.insert(TABLE_METHODS, SQLiteDatabase.CONFLICT_NONE, ContentValues().apply {
+            put(KEY_ROWID, NULL_ROW_ID)
+            put(KEY_LABEL, NULL_CHANGE_INDICATOR)
+        })
     }
 }
 

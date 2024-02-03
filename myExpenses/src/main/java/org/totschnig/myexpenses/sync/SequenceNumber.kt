@@ -16,7 +16,7 @@ data class SequenceNumber(val shard: Int, val number: Int) {
     }
 
     companion object {
-        private val LIMIT = if (BuildConfig.DEBUG) 2 else 100
+        private const val LIMIT = 100
         @JvmStatic
         fun max(first: SequenceNumber, second: SequenceNumber): SequenceNumber {
             return when (first.shard.compareTo(second.shard)) {

@@ -544,11 +544,13 @@ open class MyExpensesViewModel(
     fun tag(transactionIds: List<Long>, tagList: ArrayList<Tag>, replace: Boolean) {
         val tagIds = tagList.map { tag -> tag.id }
         viewModelScope.launch(coroutineDispatcher) {
-            val ops = ArrayList<ContentProviderOperation>()
             for (id in transactionIds) {
-                ops.addAll(saveTagLinks(tagIds, id, null, replace))
+                contentResolver.call(DUAL_URI, METHOD_SAVE_TRANSACTION_TAGS, null, Bundle().apply {
+                    putBoolean(KEY_REPLACE, replace)
+                    putLong(KEY_TRANSACTIONID, id)
+                    putLongArray(KEY_TAGLIST, tagIds.toLongArray())
+                })
             }
-            contentResolver.applyBatch(AUTHORITY, ops)
         }
     }
 

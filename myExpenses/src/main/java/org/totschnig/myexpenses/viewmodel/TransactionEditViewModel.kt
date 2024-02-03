@@ -201,11 +201,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                         )
                     }
                 }
-                if (!transaction.saveTags(
-                        contentResolver,
-                        tagsLiveData.value
-                    )
-                ) throw Throwable("Error while saving tags")
+                tagsLiveData.value?.let { transaction.saveTags(contentResolver, it) }
                 (originalUris - attachmentUris.value.toSet()).takeIf { it.isNotEmpty() }?.let {
                     repository.deleteAttachments(transaction.id, it)
                 }

@@ -26,7 +26,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.fileName
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.provider.useAndMap
+import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.encrypted
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.notEncrypted
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.wrongPassphrase
@@ -226,7 +226,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
                         CrashHandler.report(IllegalStateException("found attachments and legacy pictureUri together"))
                     } else {
                         iterator.set(transactionChange.toBuilder().setAttachments(
-                            listOf(mapLegacyPictureDuringRead(it))
+                            setOf(mapLegacyPictureDuringRead(it))
                         ).build())
                     }
                 }
@@ -277,7 +277,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
             "$KEY_UUID ${WhereFilter.Operation.IN.getOp(attachments.size)}",
             attachments.toTypedArray(),
             null
-        )?.useAndMap { it.getString(0) } ?: emptyList()
+        )?.useAndMapToList { it.getString(0) } ?: emptyList()
         log().w("ensureAttachmentsOnRead: found %s", existing.joinToString())
         (attachments - existing.toSet()).forEach { uuid ->
             val (fileName, inputStream) = getAttachment(uuid)

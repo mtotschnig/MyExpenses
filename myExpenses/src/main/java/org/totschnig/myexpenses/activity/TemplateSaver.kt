@@ -16,10 +16,11 @@ class TemplateSaver : Activity() {
         Toast.makeText(
             this,
             if (instance == null) getString(R.string.save_transaction_template_deleted) else
-                if (instance.first.save(contentResolver, true) != null && instance.first.saveTags(
+                if (instance.first.save(contentResolver, true) != null) {
+                    instance.first.saveTags(
                         contentResolver,
                         instance.second
-                    )) {
+                    )
                     resources.getQuantityString(
                         R.plurals.save_transaction_from_template_success,
                         1,

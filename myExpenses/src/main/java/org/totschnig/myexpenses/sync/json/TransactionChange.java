@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.TextUtils;
 
 import java.util.List;
+import java.util.Set;
 
 @AutoValue
 public abstract class TransactionChange {
@@ -44,7 +45,7 @@ public abstract class TransactionChange {
       KEY_UUID,
       KEY_TIMESTAMP,
       KEY_PARENT_UUID,
-      "NULLIF(TRIM(" + KEY_COMMENT + "),'') AS " + KEY_COMMENT,
+      "TRIM(" + KEY_COMMENT + ") AS " + KEY_COMMENT,
       KEY_DATE,
       KEY_VALUE_DATE,
       KEY_AMOUNT,
@@ -56,22 +57,23 @@ public abstract class TransactionChange {
       KEY_CATID,
       KEY_METHOD_LABEL,
       KEY_CR_STATUS,
-      "NULLIF(TRIM(" + KEY_REFERENCE_NUMBER + "),'') AS " + KEY_REFERENCE_NUMBER
+      "TRIM(" + KEY_REFERENCE_NUMBER + ") AS " + KEY_REFERENCE_NUMBER
   };
 
   public static TransactionChange create(Cursor cursor) {
     final AutoValue_TransactionChange fromCursor = AutoValue_TransactionChange.createFromCursor(cursor);
-    if (fromCursor.equivalentAmount() == null) {
+    if (fromCursor.equivalentAmount() != null) {
+      final String homeCurrency = PrefKey.HOME_CURRENCY.getString(null);
+      final Builder builder = fromCursor.toBuilder();
+      if (homeCurrency != null) {
+        builder.setEquivalentCurrency(homeCurrency);
+      } else {
+        builder.setEquivalentAmount(null);
+      }
+      return builder.setEquivalentCurrency(homeCurrency).build();
+    } else {
       return fromCursor;
     }
-    final String homeCurrency = PrefKey.HOME_CURRENCY.getString(null);
-    final Builder builder = fromCursor.toBuilder();
-    if (homeCurrency != null) {
-      builder.setEquivalentCurrency(homeCurrency);
-    } else {
-      builder.setEquivalentAmount(null);
-    }
-    return builder.setEquivalentCurrency(homeCurrency).build();
   }
 
   public static TypeAdapter<TransactionChange> typeAdapter(Gson gson) {
@@ -160,10 +162,10 @@ public abstract class TransactionChange {
   public abstract String pictureUri();
 
   @Nullable
-  public abstract List<String> tags();
+  public abstract Set<String> tags();
 
   @Nullable
-  public abstract List<String> attachments();
+  public abstract Set<String> attachments();
 
   @Nullable
   public abstract List<TransactionChange> splitParts();
@@ -177,12 +179,12 @@ public abstract class TransactionChange {
         label() == null && payeeName() == null && transferAccount() == null && methodLabel() == null &&
         crStatus() == null && referenceNumber() == null && pictureUri() == null && splitParts() == null
         && originalAmount() == null && (equivalentAmount == null || equivalentAmount == 0L)
-        && parentUuid() == null && tags() == null && categoryInfo() == null;
+        && parentUuid() == null && tags() == null && categoryInfo() == null && attachments() == null;
         //we ignore changes of equivalent amount which result from change of home currency
   }
 
   public enum Type {
-    created, updated, deleted, unsplit, metadata, link;
+    created, updated, deleted, unsplit, metadata, link, tags, attachments;
 
     public static final String JOIN;
 
@@ -253,9 +255,9 @@ public abstract class TransactionChange {
 
     public abstract Builder setSplitParts(List<TransactionChange> value);
 
-    public abstract Builder setTags(List<String> value);
+    public abstract Builder setTags(Set<String> value);
 
-    public abstract Builder setAttachments(List<String> value);
+    public abstract Builder setAttachments(Set<String> value);
 
     public abstract Builder setCategoryInfo(List<CategoryInfo> value);
 
