@@ -32,6 +32,13 @@ class OneDriveSetup : AbstractSyncSetup<OneDriveSetupViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        /*
+        for debugging add this block to msal_config
+          "logging" :  {
+    "log_level": "VERBOSE",
+    "logcat_enabled" : true
+  }
+         */
         PublicClientApplication.createMultipleAccountPublicClientApplication(
             applicationContext,
             R.raw.msal_config,
