@@ -36,19 +36,17 @@ dependencies {
     implementation 'com.evernote:android-state:1.4.1'
     kapt 'com.evernote:android-state-processor:1.4.1'
 
-    implementation("com.microsoft.identity.client:msal:4.10.0") {
+    implementation("com.microsoft.identity.client:msal:5.0.1") {
         exclude(group : "io.opentelemetry")
         exclude group: 'com.microsoft.device.display'
     }
     implementation("io.opentelemetry:opentelemetry-api:1.18.0")
     implementation("io.opentelemetry:opentelemetry-context:1.18.0")
 
-    implementation 'com.microsoft.graph:microsoft-graph:5.79.0'
+    implementation 'com.microsoft.graph:microsoft-graph:5.80.0'
 }
 
 configurations.configureEach {
-    exclude group:"com.yubico.yubikit", module:"android"
-    exclude group:"com.yubico.yubikit", module:"piv"
     exclude group:"com.google.guava", module:"guava"
 
     resolutionStrategy {

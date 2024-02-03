@@ -20,6 +20,10 @@
                     android:scheme="msauth" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.yubico.yubikit.android.ui.OtpActivity" tools:node="remove" />
+        <activity
+            android:name="com.yubico.yubikit.android.ui.YubiKeyPromptActivity" tools:node="remove" />
     </application>
 
     <dist:module
