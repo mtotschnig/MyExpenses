@@ -85,6 +85,10 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
             "372" -> arrayOf(
                 "${t(R.string.synchronization)}: Microsoft OneDrive"
             )
+            "373" -> arrayOf(
+                "${t(R.string.synchronization)}: ${t(R.string.stability_improvements)}",
+                "${t(R.string.help_MyExpenses_title)}: ${t(R.string.ui_refinement)}"
+            )
             else -> {
                 //noinspection DiscouragedApi
                 val resId = res.getIdentifier(
