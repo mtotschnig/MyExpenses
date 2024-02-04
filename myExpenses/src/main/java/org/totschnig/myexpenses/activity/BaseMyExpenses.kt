@@ -858,6 +858,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 val bulkDeleteState = viewModel.bulkDeleteState.collectAsState(initial = null)
                 val modificationAllowed =
                     !account.sealed && bulkDeleteState.value !is DeleteProgress
+                val colorSource = viewModel.colorSource.collectAsState(initial = ColorSource.TYPE).value
                 TransactionList(
                     modifier = Modifier.weight(1f),
                     lazyPagingItems = lazyPagingItems,
@@ -936,6 +937,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             NewTransactionRenderer(
                                 dateTimeFormatter(account, prefHandler, this@BaseMyExpenses),
                                 withCategoryIcon,
+                                colorSource,
                                 onToggleCrStatus
                             )
                         }
@@ -955,6 +957,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                     )
                                 },
                                 withCategoryIcon,
+                                colorSource,
                                 onToggleCrStatus
                             )
                         }

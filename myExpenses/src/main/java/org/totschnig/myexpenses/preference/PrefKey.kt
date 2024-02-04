@@ -185,7 +185,8 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     TIME_PICKER_INPUT_MODE("timePickerInputMode"),
     DATE_PICKER_INPUT_MODE("datePickerInputMode"),
     CAMERA_APP(R.string.pref_camera_app_key),
-    CAMERA_CHOOSER(R.string.pref_camera_chooser_key)
+    CAMERA_CHOOSER(R.string.pref_camera_chooser_key),
+    TRANSACTION_AMOUNT_COLOR_SOURCE(R.string.pref_transaction_amount_color_source_key),
     ;
 
     @Deprecated("")

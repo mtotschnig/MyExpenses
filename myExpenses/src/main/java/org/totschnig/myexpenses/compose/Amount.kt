@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
@@ -84,13 +85,13 @@ fun ColoredAmountText(
     withBorder: Boolean = false,
     prefix: String = "",
     postfix: String = "",
-    type: Byte? = when(money.amountMinor.sign) {
+    type: Byte? = null
+) {
+    val color = (type ?: when(money.amountMinor.sign) {
         1 -> FLAG_INCOME
         -1 -> FLAG_EXPENSE
-        else -> null
-    }
-) {
-    val color = type.asColor
+        else -> FLAG_NEUTRAL
+    }).asColor
 
     Text(
         modifier = modifier

@@ -5,12 +5,17 @@ import android.content.Intent
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.DrawableRes
 import androidx.annotation.Keep
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.content.res.ResourcesCompat.getColor
+import androidx.core.text.buildSpannedString
+import androidx.core.text.color
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -67,6 +72,37 @@ class PreferenceUiFragment : BasePreferenceFragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 preferenceDataStore.handleList(requirePreference(PrefKey.CRITERION_FUTURE))
+            }
+        }
+
+        val colorSourcePreference = requirePreference<ListPreference>(PrefKey.TRANSACTION_AMOUNT_COLOR_SOURCE)
+        colorSourcePreference.entries = arrayOf(
+            buildSpannedString {
+                color(getColor(resources, R.color.colorExpense, null)) {
+                    append(getString(R.string.expense))
+                }
+                append(" / ")
+                color(getColor(resources, R.color.colorIncome, null)) {
+                    append(getString(R.string.income))
+                }
+                append(" / ")
+                color(getColor(resources, R.color.colorTransfer, null)) {
+                    append(getString(R.string.transfer))
+                }
+            },
+            buildSpannedString {
+                color(getColor(resources, R.color.colorExpense, null)) {
+                    append(getString(R.string.pm_type_debit))
+                }
+                append(" / ")
+                color(getColor(resources, R.color.colorIncome, null)) {
+                    append(getString(R.string.pm_type_credit))
+                }
+            }
+        )
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                preferenceDataStore.handleList(colorSourcePreference)
             }
         }
 

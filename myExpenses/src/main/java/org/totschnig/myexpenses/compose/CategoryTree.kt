@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.toggle
@@ -241,7 +242,7 @@ fun CategoryRenderer(
         Text(
             text = category.label,
             modifier = Modifier.weight(1f),
-            color = if (withTypeColors) category.typeFlags.asColor else Color.Unspecified
+            color = category.typeFlags?.takeIf { withTypeColors }.asColor
         )
 
         sumCurrency?.let {

@@ -1064,4 +1064,6 @@
     <string name="warning_delete_default_transfer_category">Category %s is configured as default transfer category and should not be deleted.</string>
     <string name="default_transfer_category">Default transfer category</string>
     <string name="contact_us">Contact us</string>
+    <!-- This is the title of a preference that allows user to decide if amounts should be shown in colors based on the category of the transaction, or on the sign (positive/negative) of the amount -->
+    <string name="pref_transaction_amount_color_source_title">Colors for amounts</string>
 </resources>

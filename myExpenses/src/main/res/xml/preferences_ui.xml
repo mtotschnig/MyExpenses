@@ -96,7 +96,7 @@
     <PreferenceCategory
         android:key="category_transaction_list"
         android:title="@string/help_MyExpenses_title"
-        my:initialExpandedChildrenCount="2">
+        my:initialExpandedChildrenCount="3">
 
         <SwitchPreferenceCompat
             android:defaultValue="false"
@@ -108,6 +108,14 @@
             android:key="@string/pref_ui_item_renderer_category_icon_key"
             android:persistent="false"
             android:title="@string/icons_for_categories" />
+
+        <ListPreference
+            android:defaultValue="Type"
+            android:entryValues="@array/pref_transaction_amount_color_source_values"
+            android:key="@string/pref_transaction_amount_color_source_key"
+            android:persistent="false"
+            android:title="@string/pref_transaction_amount_color_source_title"
+            my:useSimpleSummaryProvider="true" />
 
         <SwitchPreferenceCompat
             android:defaultValue="false"

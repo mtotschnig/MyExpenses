@@ -1,14 +1,38 @@
 package org.totschnig.myexpenses.compose
 
 import android.content.Context
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CallSplit
-import androidx.compose.material3.*
+import androidx.compose.material.icons.automirrored.filled.CallSplit
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,11 +48,17 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.*
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.Placeholder
+import androidx.compose.ui.text.PlaceholderVerticalAlign
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
@@ -36,7 +66,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.viewmodel.data.Category.Companion.NO_CATEGORY_ASSIGNED_LABEL
@@ -47,9 +82,12 @@ import kotlin.text.Typography.ellipsis
 
 val inlineIconPlaceholder = 13.sp
 val inlineIconSize = 12.sp
+enum class ColorSource { TYPE, SIGN }
+
 
 abstract class ItemRenderer(
     private val withCategoryIcon: Boolean,
+    private val colorSource: ColorSource,
     private val onToggleCrStatus: ((Long) -> Unit)?
 ) {
 
@@ -228,7 +266,7 @@ abstract class ItemRenderer(
             Box(modifier = Modifier.size(30.sp), contentAlignment = Alignment.Center) {
                 when {
                     isSplit -> Icon(
-                        imageVector = Icons.Filled.CallSplit,
+                        imageVector = Icons.AutoMirrored.Filled.CallSplit,
                         contentDescription = stringResource(id = R.string.split_transaction),
                         modifier = Modifier.fillMaxSize()
                     )
@@ -250,11 +288,11 @@ abstract class ItemRenderer(
     @Composable
     protected fun Transaction2.AccountColor() {
         color?.let {
-            Divider(
-                color = Color(it),
+            HorizontalDivider(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .width(2.dp)
+                    .width(2.dp),
+                color = Color(it)
             )
             Spacer(modifier = Modifier.width(5.dp))
         }
@@ -290,7 +328,10 @@ abstract class ItemRenderer(
         ColoredAmountText(
             money = if (isTransferAggregate) amount.negate() else amount,
             style = style,
-            type = if (isTransferAggregate) null else type
+            type = if (isTransferAggregate) FLAG_NEUTRAL else when (colorSource) {
+                ColorSource.TYPE -> type
+                ColorSource.SIGN -> null
+            }
         )
     }
 }
@@ -298,8 +339,9 @@ abstract class ItemRenderer(
 class CompactTransactionRenderer(
     private val dateTimeFormatInfo: Pair<DateTimeFormatter, Dp>?,
     withCategoryIcon: Boolean = true,
+    colorSource: ColorSource = ColorSource.TYPE,
     onToggleCrStatus: ((Long) -> Unit)? = null
-) : ItemRenderer(withCategoryIcon, onToggleCrStatus) {
+) : ItemRenderer(withCategoryIcon, colorSource, onToggleCrStatus) {
 
     @Composable
     override fun RowScope.RenderInner(transaction: Transaction2) {
@@ -339,8 +381,9 @@ class CompactTransactionRenderer(
 class NewTransactionRenderer(
     private val dateTimeFormatter: DateTimeFormatter?,
     withCategoryIcon: Boolean = true,
+    colorSource: ColorSource = ColorSource.TYPE,
     onToggleCrStatus: ((Long) -> Unit)? = null
-) : ItemRenderer(withCategoryIcon, onToggleCrStatus) {
+) : ItemRenderer(withCategoryIcon, colorSource, onToggleCrStatus) {
     @OptIn(ExperimentalLayoutApi::class)
     @Composable
     override fun RowScope.RenderInner(transaction: Transaction2) {
