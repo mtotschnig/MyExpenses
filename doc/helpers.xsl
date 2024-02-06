@@ -230,7 +230,6 @@
                 <xsl:text>&#032;</xsl:text>
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='template_shortcut']" />
-                <xsl:value-of select="$separator" />
             </xsl:when>
             <xsl:when test="$version = '3.5.9'">
                 <xsl:if test="$itemize">
@@ -306,6 +305,22 @@
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='synchronization']" />
                 <xsl:text>:&#032;Microsoft OneDrive</xsl:text>
+            </xsl:when>
+            <xsl:when test="$version = '3.7.3'">
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='synchronization']" />
+                <xsl:text>:&#032;</xsl:text>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='stability_improvements']" />
+                <xsl:value-of select="$separator" />
+                <xsl:apply-templates mode="unescape"
+                    select="document($help)/resources/string[@name='help_MyExpenses_title']" />
+                <xsl:text>:&#032;</xsl:text>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='ui_refinement']" />
             </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
