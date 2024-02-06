@@ -62,7 +62,6 @@ import static org.totschnig.myexpenses.provider.DbConstantsKt.checkSealedWithAli
 import static org.totschnig.myexpenses.provider.CursorExtKt.getLongOrNull;
 import static org.totschnig.myexpenses.provider.CursorExtKt.getString;
 import static org.totschnig.myexpenses.provider.CursorExtKt.getStringOrNull;
-import static org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI;
 import static org.totschnig.myexpenses.provider.TransactionProvider.UNCOMMITTED_URI;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
 
@@ -543,7 +542,7 @@ public class Transaction extends Model implements ITransaction {
 
   @Nullable
   public List<Tag> loadTags(ContentResolver contentResolver) {
-    return ModelWithLinkedTagsKt.loadTags(linkedTagsUri(), linkColumn(), getId(), contentResolver);
+    return RepositoryTagsKt.loadTagsForTransaction(contentResolver, getId());
   }
 
   @Override
@@ -1007,16 +1006,6 @@ public class Transaction extends Model implements ITransaction {
     result = 31 * result + this.status;
     result = 31 * result + this.crStatus.hashCode();
     return result;
-  }
-
-  @NonNull
-  public Uri linkedTagsUri() {
-    return TRANSACTIONS_TAGS_URI;
-  }
-
-  @NonNull
-  public String linkColumn() {
-    return KEY_TRANSACTIONID;
   }
 
   static void cleanupCanceledEdit(ContentResolver contentResolver, Long id, Uri contentUri, String partOrPeerSelect) {

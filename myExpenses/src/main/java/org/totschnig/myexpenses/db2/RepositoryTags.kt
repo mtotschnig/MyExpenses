@@ -22,16 +22,16 @@ import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.io.IOException
 
 fun Repository.loadActiveTagsForAccount(accountId: Long) =
-    loadTags(TransactionProvider.ACCOUNTS_TAGS_URI, KEY_ACCOUNTID, accountId)
+    contentResolver.loadTags(TransactionProvider.ACCOUNTS_TAGS_URI, KEY_ACCOUNTID, accountId)
 
-fun Repository.loadTagsForTransaction(transactionId: Long) =
+fun ContentResolver.loadTagsForTransaction(transactionId: Long) =
     loadTags(TransactionProvider.TRANSACTIONS_TAGS_URI, KEY_TRANSACTIONID, transactionId)
 
-fun Repository.loadTagsForTemplate(templateId: Long) =
+fun ContentResolver.loadTagsForTemplate(templateId: Long) =
     loadTags(TransactionProvider.TEMPLATES_TAGS_URI, KEY_TEMPLATEID, templateId)
 
 fun Repository.saveActiveTagsForAccount(tags: List<Tag>?, accountId: Long) =
-    saveTags(TransactionProvider.ACCOUNTS_TAGS_URI, KEY_ACCOUNTID, tags, accountId)
+    contentResolver.saveTags(TransactionProvider.ACCOUNTS_TAGS_URI, KEY_ACCOUNTID, tags, accountId)
 
 fun Repository.saveTagsForTransaction(tags: List<Tag>, transactionId: Long) {
     contentResolver.saveTagsForTransaction(tags.map { it.id }.toLongArray(), transactionId)
@@ -49,12 +49,12 @@ fun ContentResolver.saveTagsForTransaction(tags: LongArray, transactionId: Long)
     )
 }
 
-fun Repository.saveTagsForTemplate(tags: List<Tag>?, templateId: Long) =
+fun ContentResolver.saveTagsForTemplate(tags: List<Tag>?, templateId: Long) =
     saveTags(TransactionProvider.TEMPLATES_TAGS_URI, KEY_TEMPLATEID, tags, templateId)
 
-private fun Repository.loadTags(linkUri: Uri, column: String, id: Long): List<Tag> =
+private fun ContentResolver.loadTags(linkUri: Uri, column: String, id: Long): List<Tag> =
     //noinspection Recycle
-    contentResolver.query(linkUri, null, "$column = ?", arrayOf(id.toString()), null)!!.useAndMapToList {
+    query(linkUri, null, "$column = ?", arrayOf(id.toString()), null)!!.useAndMapToList {
         Tag(
             id = it.getLong(KEY_ROWID),
             label = it.getString(KEY_LABEL),
@@ -62,7 +62,7 @@ private fun Repository.loadTags(linkUri: Uri, column: String, id: Long): List<Ta
         )
     }
 
-private fun Repository.saveTags(linkUri: Uri, column: String, tags: List<Tag>?, id: Long) {
+private fun ContentResolver.saveTags(linkUri: Uri, column: String, tags: List<Tag>?, id: Long) {
     val ops = ArrayList<ContentProviderOperation>()
     ops.add(
         ContentProviderOperation.newDelete(linkUri)
@@ -76,7 +76,7 @@ private fun Repository.saveTags(linkUri: Uri, column: String, tags: List<Tag>?, 
             .build())
     }
 
-   if (contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops).size != ops.size) {
+   if (applyBatch(TransactionProvider.AUTHORITY, ops).size != ops.size) {
        throw IOException("Saving tags failed")
    }
 }

@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.db2
 
-import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
@@ -21,7 +20,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
@@ -30,7 +28,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
 import org.totschnig.myexpenses.provider.DbUtils
-import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.getLong
@@ -66,54 +65,22 @@ private fun Repository.toContentValues(transaction: Transaction) = with(transact
     }
 }
 
-fun Repository.updateTransaction(id: String, transaction: Transaction): Int {
-    val ops = ArrayList<ContentProviderOperation>()
-    ops.add(
-        ContentProviderOperation.newUpdate(
-            TransactionProvider.TRANSACTIONS_URI.buildUpon().appendEncodedPath(id).build())
-            .withValues(toContentValues(transaction))
-            .build()
-    )
-    ops.add(
-        ContentProviderOperation.newDelete(TransactionProvider.TRANSACTIONS_TAGS_URI)
-            .withSelection("$KEY_TRANSACTIONID = ?", arrayOf(id))
-            .build()
-    )
-    for (tag in transaction.tags) {
-        ops.add(
-            ContentProviderOperation.newInsert(TransactionProvider.TRANSACTIONS_TAGS_URI)
-                .withValue(KEY_TRANSACTIONID, id)
-                .withValue(KEY_TAGID, tag).build()
-        )
-    }
-    val results = contentResolver.applyBatch(
-        TransactionProvider.AUTHORITY,
-        ops
-    )
-    return results[0].count ?: 0
+fun Repository.updateTransaction(id: Long, transaction: Transaction): Boolean {
+    if (contentResolver.update(
+            ContentUris.withAppendedId(TRANSACTIONS_URI, id),
+            toContentValues(transaction),
+        null, null
+        ) != 1) return false
+    contentResolver.saveTagsForTransaction(transaction.tags.toLongArray(), id)
+    return true
 }
 
 fun Repository.createTransaction(transaction: Transaction): Long {
-    val values = toContentValues(transaction).apply {
+    val id = ContentUris.parseId(contentResolver.insert(TRANSACTIONS_URI, toContentValues(transaction).apply {
         put(KEY_UUID, Model.generateUuid())
-    }
-    val ops = ArrayList<ContentProviderOperation>().apply {
-        add(
-            ContentProviderOperation.newInsert(TransactionProvider.TRANSACTIONS_URI)
-                .withValues(values)
-                .build()
-        )
-        for (tag in transaction.tags) {
-            add(
-                ContentProviderOperation.newInsert(TransactionProvider.TRANSACTIONS_TAGS_URI)
-                    .withValueBackReference(KEY_TRANSACTIONID, 0)
-                    .withValue(KEY_TAGID, tag).build()
-            )
-        }
-    }
-    return contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)[0].uri!!.let {
-        ContentUris.parseId(it)
-    }
+    })!!)
+    contentResolver.saveTagsForTransaction(transaction.tags.toLongArray(), id)
+    return id
 }
 
 fun Repository.loadTransactions(accountId: Long): List<Transaction> {
@@ -147,7 +114,7 @@ fun Repository.loadTransactions(accountId: Long): List<Transaction> {
         ).copy(
             //noinspection Recycle
             tags = contentResolver.query(
-                TransactionProvider.TRANSACTIONS_TAGS_URI,
+                TRANSACTIONS_TAGS_URI,
                 arrayOf(KEY_ROWID),
                 "$KEY_TRANSACTIONID = ?",
                 arrayOf(cursor.getLong(KEY_ROWID).toString()),
@@ -167,7 +134,7 @@ fun Repository.getTransactionSum(accountId: Long, filter: WhereFilter? = null): 
         selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false))
     }
     return contentResolver.query(
-        TransactionProvider.TRANSACTIONS_URI,
+        TRANSACTIONS_URI,
         arrayOf("${DbUtils.aggregateFunction(prefHandler)}($KEY_AMOUNT)"),
         selection,
         selectionArgs,

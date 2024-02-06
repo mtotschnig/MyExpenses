@@ -67,9 +67,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 
+import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.db2.Repository;
 import org.totschnig.myexpenses.db2.RepositoryPartyKt;
+import org.totschnig.myexpenses.db2.RepositoryTagsKt;
 import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -126,17 +128,17 @@ public class Template extends Transaction implements ITransfer, ISplit {
 
   public static final Uri CONTENT_URI = TransactionProvider.TEMPLATES_URI;
 
-  @NonNull
+  @Nullable
   @Override
-  public Uri linkedTagsUri() {
-    return TransactionProvider.TEMPLATES_TAGS_URI;
+  public List<Tag> loadTags(ContentResolver contentResolver) {
+    return RepositoryTagsKt.loadTagsForTemplate(contentResolver, getId());
   }
 
-  @NonNull
   @Override
-  public String linkColumn() {
-    return KEY_TEMPLATEID;
+  public void saveTags(@NotNull ContentResolver contentResolver, @NotNull List<Tag> tags) {
+    RepositoryTagsKt.saveTagsForTemplate(contentResolver, tags, getId());
   }
+
 
   public static final String[] PROJECTION_BASE, PROJECTION_EXTENDED;
 

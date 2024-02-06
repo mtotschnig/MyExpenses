@@ -480,8 +480,8 @@ class WebInputService : LifecycleService(), IWebInputService {
 
         put("/transactions/{id}") {
             val transaction = call.receive<Transaction>()
-            val updated = repository.updateTransaction(call.parameters["id"]!!, transaction)
-            if (updated > 0) {
+            val updated = repository.updateTransaction(call.parameters["id"]!!.toLong(), transaction)
+            if (updated) {
                 call.respond(
                     HttpStatusCode.OK,
                     getString(R.string.save_transaction_and_new_success)
