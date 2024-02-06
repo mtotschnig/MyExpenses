@@ -123,13 +123,13 @@ class SettingsTest : BaseUiTest<PreferenceActivity>() {
 
     @Test
     fun manageCurrencies() {
-        navigateTo(androidx.preference.R.string.expand_button_title, R.string.pref_custom_currency_title)
+        navigateTo(R.string.data, R.string.pref_custom_currency_title)
         intended(ManageCurrencies::class)
     }
 
     @Test
     fun exchangeRates() {
-        navigateTo(R.string.pref_category_exchange_rates, R.string.pref_exchange_rate_provider_title)
+        navigateTo(R.string.data, R.string.pref_exchange_rate_provider_title)
     }
 
     companion object {
