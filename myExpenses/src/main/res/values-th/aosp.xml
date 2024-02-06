@@ -9,4 +9,5 @@
     <string name="preferences_calendar_delete_message">คุณต้องการลบปฏิทินนี้หรือไม่</string>
     <string name="default_camera_app_title">"แอปกล้องถ่ายรูป"</string>
     <string name="help_and_feedback">"ความช่วยเหลือและความคิดเห็น"</string>
+    <string name="currencies_exchange">"สกุลเงินและการแลกเปลี่ยนเงินตราต่างประเทศ"</string>
 </resources>

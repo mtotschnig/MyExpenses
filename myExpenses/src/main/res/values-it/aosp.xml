@@ -74,4 +74,5 @@
     <string name="preferences_calendar_delete_message">Vuoi davvero eliminare questo calendario?</string>
     <string name="default_camera_app_title">"App fotocamera"</string>
     <string name="help_and_feedback">"Guida e feedback"</string>
+    <string name="currencies_exchange">"Cambio valute e valuta estera"</string>
 </resources>

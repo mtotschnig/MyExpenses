@@ -45,10 +45,6 @@
 
     <PreferenceCategory android:title="@string/pref_category_title_features">
         <Preference
-            android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesExchangeRateFragment"
-            android:key="exchange_rates"
-            android:title="@string/pref_category_exchange_rates" />
-        <Preference
             android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesOcrFragment"
             android:key="ocr"
             android:title="@string/title_scan_receipt_feature" />

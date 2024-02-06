@@ -76,4 +76,5 @@
     <string name="preferences_calendar_delete_message">Sigur vreţi sa ştergeţi acest calendar?</string>
     <string name="default_camera_app_title">"Aplicația Cameră foto"</string>
     <string name="help_and_feedback">"Ajutor și feedback"</string>
+    <string name="currencies_exchange">"Valute și schimb valutar"</string>
 </resources>

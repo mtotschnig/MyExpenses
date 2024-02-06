@@ -73,4 +73,5 @@
     <string name="preferences_calendar_delete_message">您是否想删除此日历？</string>
     <string name="default_camera_app_title">"相机应用"</string>
     <string name="help_and_feedback">"帮助和反馈"</string>
+    <string name="currencies_exchange">"货币与外汇"</string>
 </resources>

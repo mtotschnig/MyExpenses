@@ -7,4 +7,5 @@
     <string name="action_move_up">"Дээш зөөх"</string>
     <string name="default_camera_app_title">"Камерын апп"</string>
     <string name="help_and_feedback">"Тусламж &amp; санал хүсэлт"</string>
+    <string name="currencies_exchange">"Мөнгөн тэмдэгт &amp; гадаад валютын арилжаа"</string>
 </resources>

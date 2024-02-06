@@ -75,4 +75,5 @@
     <string name="action_move_up">"Premještanje gore"</string>
     <string name="default_camera_app_title">"Aplikacija kamere"</string>
     <string name="help_and_feedback">"Pomoć i povratne informacije"</string>
+    <string name="currencies_exchange">"Valute i strani tečajevi"</string>
 </resources>

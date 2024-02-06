@@ -7,4 +7,5 @@
     <string name="action_move_up">"انتقال به بالا"</string>
     <string name="default_camera_app_title">"برنامه دوربین"</string>
     <string name="help_and_feedback">"راهنما و بازخورد"</string>
+    <string name="currencies_exchange">"تبادل خارجی و ارز"</string>
 </resources>

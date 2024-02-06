@@ -75,4 +75,5 @@
     <string name="preferences_calendar_delete_message">Sikker på, at du vil slette denne kalender?</string>
     <string name="default_camera_app_title">"Kameraapp"</string>
     <string name="help_and_feedback">"Hjælp og feedback"</string>
+    <string name="currencies_exchange">"Valutaer og valutakurser"</string>
 </resources>

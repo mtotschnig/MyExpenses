@@ -73,4 +73,5 @@
     <string name="action_move_up">"Eraman gora"</string>
     <string name="default_camera_app_title">"Kamera-aplikazioa"</string>
     <string name="help_and_feedback">"Laguntza eta iritziak"</string>
+    <string name="currencies_exchange">"Monetak eta trukea"</string>
 </resources>

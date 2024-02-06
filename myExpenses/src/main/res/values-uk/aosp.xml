@@ -76,4 +76,5 @@
     <string name="calendar_delete">Видалити календар</string>
     <string name="default_camera_app_title">"Додаток для камери"</string>
     <string name="help_and_feedback">"Довідка й відгуки"</string>
+    <string name="currencies_exchange">"Валюти й курси валют"</string>
 </resources>

@@ -5,13 +5,6 @@
     android:title="@string/expand_button_title">
     <org.totschnig.myexpenses.preference.HeaderPreference />
 
-    <Preference
-        android:title="@string/pref_custom_currency_title">
-        <intent
-            android:targetClass="org.totschnig.myexpenses.activity.ManageCurrencies"
-            android:targetPackage="@string/application_id" />
-    </Preference>
-
     <org.totschnig.myexpenses.preference.NumberFormatPreference
         android:key="@string/pref_custom_decimal_format_key"
         android:summary="@string/pref_custom_decimal_format_summary"

@@ -43,11 +43,6 @@
             android:targetClass="org.totschnig.myexpenses.activity.ManageStaleImages"
             android:targetPackage="@string/application_id" />
     </Preference>
-    <ListPreference
-        android:enabled="false"
-        android:key="@string/pref_home_currency_key"
-        android:title="@string/pref_home_currency_title"
-        my:useSimpleSummaryProvider="true" />
     <Preference
         android:key="manage_tags"
         android:summary="@string/pref_manage_tags_summary"
@@ -63,4 +58,33 @@
         android:title="@string/pref_unmapped_transaction_as_transfer_title"
         android:summaryOff="@string/pref_unmapped_transaction_as_transfer_summary_off"
         android:summaryOn="@string/pref_unmapped_transaction_as_transfer_summary_on" />
+    <PreferenceCategory android:title="@string/currencies_exchange">
+        <Preference
+            android:title="@string/pref_custom_currency_title">
+            <intent
+                android:targetClass="org.totschnig.myexpenses.activity.ManageCurrencies"
+                android:targetPackage="@string/application_id" />
+        </Preference>
+        <ListPreference
+            android:enabled="false"
+            android:key="@string/pref_home_currency_key"
+            android:title="@string/pref_home_currency_title"
+            my:useSimpleSummaryProvider="true" />
+        <ListPreference
+            android:defaultValue="FRANKFURTER"
+            android:key="@string/pref_exchange_rate_provider_key"
+            android:summary="@string/pref_exchange_rate_provider_summary"
+            android:title="@string/pref_exchange_rate_provider_title" />
+        <EditTextPreference
+            android:key="@string/pref_openexchangerates_app_id_key"
+            android:title="OpenExchangeRates App ID"
+            my:isPreferenceVisible="false" />
+        <EditTextPreference
+            android:key="@string/pref_coin_api_api_key_key"
+            android:title="CoinApi API Key"
+            my:isPreferenceVisible="false" />
+        <Preference
+            android:key="@string/pref_exchange_rates_clear_cache_key"
+            android:title="@string/clear_cache" />
+    </PreferenceCategory>
 </PreferenceScreen> 

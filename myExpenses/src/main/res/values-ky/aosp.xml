@@ -7,4 +7,5 @@
     <string name="action_move_up">"Жогору жылдыруу"</string>
     <string name="default_camera_app_title">"Камера колдонмосу"</string>
     <string name="help_and_feedback">"Жардам жана пикир билдирүү"</string>
+    <string name="currencies_exchange">"Валюталар"</string>
 </resources>

@@ -124,4 +124,6 @@
     <string name="default_camera_app_title">Camera app</string>
     <!-- /opt/extra/AOSP/packages/inputmethods/LatinIME/java grep -ri help_and_feedback |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="help_and_feedback">Help &amp; feedback</string>
+
+    <string name="currencies_exchange">Currencies &amp; Foreign Exchange</string>
 </resources>
