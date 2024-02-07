@@ -119,10 +119,6 @@ class WebInputService : LifecycleService(), IWebInputService {
 
     private var port: Int = 0
 
-    private val useHttps: Boolean by lazy {
-        prefHandler.getBoolean(PrefKey.WEBUI_HTTPS, false)
-    }
-
     class LocalBinder(private val webInputService: WeakReference<WebInputService>) : WebUiBinder() {
         override fun getService() = webInputService.get()
     }
@@ -141,8 +137,7 @@ class WebInputService : LifecycleService(), IWebInputService {
 
     private var server: ApplicationEngine? = null
 
-    private val serverAddress: String?
-        get() = if (server != null) address else null
+    private var serverAddress: String? = null
 
     override fun registerObserver(serverStateObserver: ServerStateObserver) {
         this.serverStateObserver = serverStateObserver
@@ -153,11 +148,9 @@ class WebInputService : LifecycleService(), IWebInputService {
         this.serverStateObserver = null
     }
 
-    private val protocol: String
-        get() = if (useHttps) "https" else "http"
+    private fun getProtocol(useHttps: Boolean): String = if (useHttps) "https" else "http"
 
-    private val address: String
-        get() = "$protocol://${getWifiIpAddress(this)}:$port"
+    private fun getAddress(useHttps: Boolean): String = "${getProtocol(useHttps)}://${getWifiIpAddress(this)}:$port"
 
 
     private fun readTextFromAssets(fileName: String) = assets.open(fileName).bufferedReader()
@@ -196,6 +189,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                     }.let { port = it; it != 0 }
                 ) {
                     try {
+                        val useHttps = prefHandler.getBoolean(PrefKey.WEBUI_HTTPS, false)
                         val environment = applicationEngineEnvironment {
                             if (useHttps) {
                                 val keystore = generateCertificate(keyAlias = "myKey")
@@ -320,28 +314,30 @@ class WebInputService : LifecycleService(), IWebInputService {
                         val stopIntent = Intent(this, WebInputService::class.java).apply {
                             action = STOP_CLICK_ACTION
                         }
-                        val notification: Notification =
-                            NotificationBuilderWrapper.defaultBigTextStyleBuilder(
-                                this,
-                                getString(R.string.title_webui),
-                                address
-                            )
-                                .addAction(
-                                    0,
-                                    0,
-                                    getString(R.string.stop),
-                                    //noinspection InlinedApi
-                                    PendingIntent.getService(
-                                        this,
-                                        0,
-                                        stopIntent,
-                                        FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
-                                    )
+                        serverAddress = getAddress(useHttps).also {
+                            val notification: Notification =
+                                NotificationBuilderWrapper.defaultBigTextStyleBuilder(
+                                    this,
+                                    getString(R.string.title_webui),
+                                    it
                                 )
-                                .build()
+                                    .addAction(
+                                        0,
+                                        0,
+                                        getString(R.string.stop),
+                                        //noinspection InlinedApi
+                                        PendingIntent.getService(
+                                            this,
+                                            0,
+                                            stopIntent,
+                                            FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
+                                        )
+                                    )
+                                    .build()
 
-                        startForeground(NOTIFICATION_WEB_UI, notification)
-                        serverStateObserver?.postAddress(address)
+                            startForeground(NOTIFICATION_WEB_UI, notification)
+                            serverStateObserver?.postAddress(it)
+                        }
                     } catch (e: Throwable) {
                         CrashHandler.report(e)
                         serverStateObserver?.postException(e)
@@ -539,6 +535,7 @@ class WebInputService : LifecycleService(), IWebInputService {
     private fun stopServer() = if (server != null) {
         server?.stop(0, 0)
         server = null
+        serverAddress = null
         stopForeground(true)
         true
     } else false
