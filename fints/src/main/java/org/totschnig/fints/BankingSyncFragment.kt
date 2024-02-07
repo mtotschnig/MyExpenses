@@ -18,13 +18,12 @@ import androidx.fragment.app.viewModels
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.ButtonRow
-import org.totschnig.myexpenses.dialog.ComposeBaseDialogFragment2
-import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.dialog.ComposeBaseDialogFragment
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_ID
 import org.totschnig.fints.R as RF
 
-class BankingSyncFragment : ComposeBaseDialogFragment2() {
+class BankingSyncFragment : ComposeBaseDialogFragment() {
     private val viewModel: BankingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
