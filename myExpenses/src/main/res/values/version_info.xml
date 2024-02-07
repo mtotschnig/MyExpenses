@@ -150,4 +150,7 @@
     <string-array name="whats_new_3731">
         <item>@string/bug_fixes</item>
     </string-array>
+    <string-array name="whats_new_3732">
+        <item>@string/bug_fixes</item>
+    </string-array>
 </resources>
