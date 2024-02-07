@@ -26,9 +26,9 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Checklist
 import androidx.compose.material.icons.filled.Link
 import androidx.compose.material3.AlertDialog
@@ -150,7 +150,7 @@ class Banking : ProtectedFragmentActivity() {
                                 navigationIcon = {
                                     IconButton(onClick = { finish() }) {
                                         Icon(
-                                            imageVector = Icons.Filled.ArrowBack,
+                                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                             contentDescription = stringResource(id = androidx.appcompat.R.string.abc_action_bar_up_description)
                                         )
                                     }
