@@ -7,6 +7,7 @@ import android.content.Intent
 import android.database.Cursor
 import android.database.CursorWrapper
 import android.database.sqlite.SQLiteConstraintException
+import android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -1564,7 +1565,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     values.put(KEY_TRANSACTIONID, transactionId)
                     new.forEach {
                         values.put(KEY_TAGID, it)
-                        db.insert(TABLE_TRANSACTIONS_TAGS, values)
+                        db.insert(TABLE_TRANSACTIONS_TAGS, CONFLICT_IGNORE, values)
                     }
                 }
                 db.setTransactionSuccessful()
