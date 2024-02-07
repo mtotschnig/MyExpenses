@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.retrofit
 
 import okhttp3.ResponseBody
-import org.jetbrains.annotations.NotNull
 import org.json.JSONObject
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
@@ -107,9 +106,9 @@ class MissingApiKeyException(val source: ExchangeRateSource.SourceWithApiKey) :
     java.lang.IllegalStateException("${source.prefKey.name} not configured")
 
 class ExchangeRateService(
-    private val frankfurter: @NotNull Frankfurter,
-    private val openExchangeRates: @NotNull OpenExchangeRates,
-    private val coinApi: @NotNull CoinApi
+    private val frankfurter: Frankfurter,
+    private val openExchangeRates:OpenExchangeRates,
+    private val coinApi: CoinApi
 ) {
     suspend fun getRate(
         source: ExchangeRateSource,

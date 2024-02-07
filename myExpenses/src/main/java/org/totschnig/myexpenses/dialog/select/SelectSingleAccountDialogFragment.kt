@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.dialog.select
 
 import android.net.Uri
-import org.jetbrains.annotations.NotNull
 import org.totschnig.myexpenses.activity.RemapHandler.Companion.MAP_ACCOUNT_REQUEST
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
@@ -18,8 +17,7 @@ class SelectSingleAccountDialogFragment : SelectSingleDialogFragment() {
 
     companion object {
         const val KEY_EXCLUDED_IDS = "excludedIds"
-        @JvmStatic
-        fun newInstance(dialogTitle: Int, emptyMessage: Int, excludedIds: List<Long>): @NotNull SelectSingleAccountDialogFragment = SelectSingleAccountDialogFragment().apply {
+        fun newInstance(dialogTitle: Int, emptyMessage: Int, excludedIds: List<Long>) = SelectSingleAccountDialogFragment().apply {
             arguments = buildArguments(dialogTitle, emptyMessage, MAP_ACCOUNT_REQUEST).apply {
                 putLongArray(KEY_EXCLUDED_IDS, excludedIds.toLongArray())
             }

@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.provider
 
-import org.jetbrains.annotations.NotNull
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.retrofit.ExchangeRateService
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
@@ -10,9 +9,9 @@ import java.io.IOException
 import java.time.LocalDate
 
 class ExchangeRateRepository(
-    private val dao: @NotNull ExchangeRateDao,
-    val prefHandler: @NotNull PrefHandler,
-    val service: @NotNull ExchangeRateService
+    private val dao: ExchangeRateDao,
+    val prefHandler: PrefHandler,
+    val service: ExchangeRateService
 ) {
     @Throws(IOException::class)
     suspend fun loadExchangeRate(other: String, base: String, date: LocalDate): Double {

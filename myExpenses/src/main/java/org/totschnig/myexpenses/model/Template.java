@@ -67,7 +67,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 
-import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.db2.Repository;
 import org.totschnig.myexpenses.db2.RepositoryPartyKt;
@@ -135,7 +134,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
   }
 
   @Override
-  public void saveTags(@NotNull ContentResolver contentResolver, @NotNull List<Tag> tags) {
+  public void saveTags(@NonNull ContentResolver contentResolver, @NonNull List<Tag> tags) {
     RepositoryTagsKt.saveTagsForTemplate(contentResolver, tags, getId());
   }
 

@@ -80,7 +80,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.db2.RepositoryPartyKt;
@@ -546,7 +545,7 @@ public class Transaction extends Model implements ITransaction {
   }
 
   @Override
-  public void saveTags(@NotNull ContentResolver contentResolver,@NotNull  List<Tag> tags) {
+  public void saveTags(@NonNull ContentResolver contentResolver, @NonNull  List<Tag> tags) {
     RepositoryTagsKt.saveTagsForTransaction(contentResolver, tags.stream().mapToLong(Tag::getId).toArray(), getId());
   }
 
