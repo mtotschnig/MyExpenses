@@ -45,11 +45,10 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildC
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForIntegerColumn;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForReferenceColumn;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForTextColumn;
-import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.linkedTableTrigger;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.createOrRefreshTransactionLinkedTableTriggers;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.parentUuidExpression;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.sequenceNumberSelect;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.shouldWriteChangeTemplate;
-import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.triggerName;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.buildViewDefinition;
@@ -642,6 +641,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
     // Triggers
     createOrRefreshTransactionTriggers(db);
+    createOrRefreshTransactionLinkedTableTriggers(db);
     createOrRefreshTransactionUsageTriggers(db);
     createOrRefreshAccountTriggers(db);
     createCategoryTypeTriggers(db);
@@ -2257,20 +2257,12 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL("DROP TRIGGER IF EXISTS delete_after_update_change_log");
     db.execSQL("DROP TRIGGER IF EXISTS delete_change_log");
     db.execSQL("DROP TRIGGER IF EXISTS update_change_log");
-    db.execSQL("DROP TRIGGER IF EXISTS " + triggerName("INSERT", TABLE_TRANSACTIONS_TAGS));
-    db.execSQL("DROP TRIGGER IF EXISTS " + triggerName("DELETE", TABLE_TRANSACTIONS_TAGS));
-    db.execSQL("DROP TRIGGER IF EXISTS " + triggerName("INSERT", TABLE_TRANSACTION_ATTACHMENTS));
-    db.execSQL("DROP TRIGGER IF EXISTS " + triggerName("DELETE", TABLE_TRANSACTION_ATTACHMENTS));
 
     db.execSQL(TRANSACTIONS_INSERT_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_INSERT_AFTER_UPDATE_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_DELETE_AFTER_UPDATE_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_DELETE_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE);
-    db.execSQL(linkedTableTrigger("INSERT", TABLE_TRANSACTIONS_TAGS));
-    db.execSQL(linkedTableTrigger("DELETE", TABLE_TRANSACTIONS_TAGS));
-    db.execSQL(linkedTableTrigger("INSERT", TABLE_TRANSACTION_ATTACHMENTS));
-    db.execSQL(linkedTableTrigger("DELETE", TABLE_TRANSACTION_ATTACHMENTS));
 
     createOrRefreshTransactionSealedTriggers(db);
 

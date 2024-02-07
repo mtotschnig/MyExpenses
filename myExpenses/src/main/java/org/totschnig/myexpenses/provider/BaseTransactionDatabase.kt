@@ -372,10 +372,18 @@ fun buildChangeTriggerDefinitionForIntegerColumn(column: String) =
 fun buildChangeTriggerDefinitionForReferenceColumn(column: String) =
     "CASE WHEN old.$column = new.$column THEN NULL WHEN old.$column IS NOT NULL AND new.$column IS NULL THEN $NULL_ROW_ID ELSE new.$column END"
 
-fun linkedTableTrigger(
+fun SupportSQLiteDatabase.createOrRefreshTransactionLinkedTableTriggers() {
+    linkedTableTrigger("INSERT", TABLE_TRANSACTIONS_TAGS)
+    linkedTableTrigger("DELETE", TABLE_TRANSACTIONS_TAGS)
+    linkedTableTrigger("INSERT", TABLE_TRANSACTION_ATTACHMENTS)
+    linkedTableTrigger("DELETE", TABLE_TRANSACTION_ATTACHMENTS)
+}
+
+
+fun SupportSQLiteDatabase.linkedTableTrigger(
     operation: String,
     table: String
-): String {
+) {
     val reference = when (operation) {
         "INSERT" -> "new"
         "DELETE" -> "old"
@@ -386,15 +394,17 @@ fun linkedTableTrigger(
         TABLE_TRANSACTION_ATTACHMENTS -> TransactionChange.Type.attachments
         else -> throw IllegalArgumentException()
     }
-    return """
-    CREATE TRIGGER ${triggerName(operation, table)} AFTER $operation ON $table
+    val triggerName = triggerName(operation, table)
+    execSQL("DROP TRIGGER IF EXISTS $triggerName")
+    execSQL("""
+    CREATE TRIGGER $triggerName AFTER $operation ON $table
     WHEN ${shouldWriteChangeTemplate(reference, table)}
         BEGIN INSERT INTO $TABLE_CHANGES ($KEY_TYPE, $KEY_UUID, $KEY_PARENT_UUID, $KEY_ACCOUNTID, $KEY_SYNC_SEQUENCE_LOCAL)
         VALUES ('${type.name}', (SELECT $KEY_UUID FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $reference.$KEY_TRANSACTIONID),
         ${parentUuidExpression(reference, table)},
         (SELECT $KEY_ACCOUNTID FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $reference.$KEY_TRANSACTIONID), 
         ${sequenceNumberSelect(reference, table)}); END
-"""
+""")
 }
 
 fun triggerName(operation: String, table: String) =
@@ -877,11 +887,8 @@ abstract class BaseTransactionDatabase(
             "INSERT INTO changes SELECT * FROM changes_old"
         )
         execSQL("DROP TABLE changes_old")
-        execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
-        execSQL(linkedTableTrigger("INSERT", TABLE_TRANSACTIONS_TAGS))
-        execSQL(linkedTableTrigger("DELETE", TABLE_TRANSACTIONS_TAGS))
-        execSQL(linkedTableTrigger("INSERT", TABLE_TRANSACTION_ATTACHMENTS))
-        execSQL(linkedTableTrigger("DELETE", TABLE_TRANSACTION_ATTACHMENTS))
+        execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES))
+        createOrRefreshTransactionLinkedTableTriggers()
     }
 
     override fun onCreate(db: SupportSQLiteDatabase) {
