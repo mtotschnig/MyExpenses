@@ -210,7 +210,8 @@ dependencies {
     api "com.squareup.picasso:picasso:$picassoVersion"
     implementation 'com.github.mtotschnig:MPAndroidChart:6fcf34d9d4'
     implementation 'com.github.mtotschnig:Caldroid:377d10a2a2'
-    api('com.github.eltos:simpledialogfragments:2c82864000')
+    //https://github.com/eltos/SimpleDialogFragments/issues/91#issuecomment-1934865433
+    api 'io.github.eltos:simpledialogfragments:3.7'
 
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.3'
 
