@@ -31,6 +31,7 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PARTY_
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.PAYEE_UNIQUE_INDEX;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.SPLIT_PART_CR_STATUS_TRIGGER_CREATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TAGS_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_ATTACHMENTS_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_CAT_ID_INDEX;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_PAYEE_ID_INDEX;
@@ -508,11 +509,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       "CREATE TABLE " + TABLE_SETTINGS + " ("
           + KEY_KEY + " text unique not null, "
           + KEY_VALUE + " text);";
-
-  private static final String TAGS_CREATE =
-      "CREATE TABLE " + TABLE_TAGS
-          + " (" + KEY_ROWID + " integer primary key autoincrement, " +
-          KEY_LABEL + " text UNIQUE not null);";
 
   private static final String TRANSACTIONS_TAGS_CREATE =
       "CREATE TABLE " + TABLE_TRANSACTIONS_TAGS

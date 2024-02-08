@@ -38,7 +38,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -82,6 +81,7 @@ import kotlin.text.Typography.ellipsis
 
 val inlineIconPlaceholder = 13.sp
 val inlineIconSize = 12.sp
+
 enum class ColorSource { TYPE, SIGN }
 
 
@@ -143,7 +143,10 @@ abstract class ItemRenderer(
             comment?.takeIf { it.isNotEmpty() }?.let {
                 withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
                     append(
-                        if (comment.length > 100) (comment.substring(0, 100) + ellipsis) else comment
+                        if (comment.length > 100) (comment.substring(
+                            0,
+                            100
+                        ) + ellipsis) else comment
                     )
                 }
             }
@@ -415,13 +418,7 @@ class NewTransactionRenderer(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     transaction.tagList.forEach {
-                        Text(
-                            text = it,
-                            modifier = Modifier
-                                .tagBorder()
-                                .padding(bottom = 2.dp),
-                            style = MaterialTheme.typography.bodySmall
-                        )
+                        InlineChip(text = it, color = Color.Red)
                     }
                 }
             }
@@ -447,16 +444,12 @@ enum class RenderType {
     Legacy, New
 }
 
-fun Modifier.tagBorder() = composed {
+fun Modifier.tagBorder(color: Color) =
     border(
-        border = BorderStroke(
-            1.dp,
-            MaterialTheme.colorScheme.onSurface
-        ),
+        border = BorderStroke(1.dp, color),
         shape = RoundedCornerShape(8.dp),
     )
         .padding(vertical = 4.dp, horizontal = 6.dp)
-}
 
 @Preview
 @Composable
@@ -473,10 +466,15 @@ fun RenderCompact(@PreviewParameter(SampleProvider::class) transaction: Transact
     ).Render(transaction)
 }
 
-@Preview
 @Composable
-fun Tag() {
-    Text(text = "TAG", modifier = Modifier.tagBorder())
+fun InlineChip(text: String, color: Color) {
+    Text(
+        text = text,
+        modifier = Modifier
+            .tagBorder(color)
+            .padding(bottom = 2.dp),
+        style = MaterialTheme.typography.bodySmall
+    )
 }
 
 class SampleProvider : PreviewParameterProvider<Transaction2> {

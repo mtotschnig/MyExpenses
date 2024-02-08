@@ -1,8 +1,8 @@
 package org.totschnig.myexpenses.fragment
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.KeyEvent
@@ -20,6 +20,9 @@ import com.google.android.material.chip.Chip
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE
+import eltos.simpledialogfragment.form.ColorField
+import eltos.simpledialogfragment.form.Input
+import eltos.simpledialogfragment.form.SimpleFormDialog
 import eltos.simpledialogfragment.input.SimpleInputDialog
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -28,6 +31,9 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.activity.asAction
 import org.totschnig.myexpenses.databinding.TagListBinding
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.util.ui.setColor
 import org.totschnig.myexpenses.viewmodel.TagBaseViewModel.Companion.KEY_DELETED_IDS
 import org.totschnig.myexpenses.viewmodel.TagListViewModel
 import org.totschnig.myexpenses.viewmodel.TagListViewModel.Companion.KEY_SELECTED_IDS
@@ -88,10 +94,13 @@ class TagList : Fragment(), OnDialogResultListener {
         }
 
         val longClickFunction: (Tag) -> Unit = { tag ->
-            SimpleInputDialog.build()
+            SimpleFormDialog.build()
                 .title(R.string.menu_edit_tag)
                 .cancelable(false)
-                .text(tag.label)
+                .fields(
+                    Input.plain(KEY_LABEL).text(tag.label),
+                    ColorField.picker(KEY_COLOR)
+                )
                 .pos(R.string.menu_save)
                 .neut()
                 .extra(Bundle().apply { putParcelable(KEY_TAG, tag) })
@@ -225,6 +234,7 @@ class TagList : Fragment(), OnDialogResultListener {
             (holder.itemView as Chip).apply {
                 val tag = getItem(position)
                 text = tag.label
+                tag.color?.let { setColor(it) }
                 isChecked = viewModel.selectedTagIds.contains(tag.id)
                 setOnClickListener {
                     viewModel.toggleSelectedTagId(tag.id)
@@ -255,7 +265,7 @@ class TagList : Fragment(), OnDialogResultListener {
                     removeTag(tag)
                 }
                 EDIT_TAG_DIALOG -> {
-                    val newLabel = extras.getString(SimpleInputDialog.TEXT)!!
+                    val newLabel = extras.getString(KEY_LABEL)!!
                     viewModel.updateTag(tag, newLabel).observe(viewLifecycleOwner) {
                         if (!it) {
                             (context as? ProtectedFragmentActivity)?.showSnackBar(

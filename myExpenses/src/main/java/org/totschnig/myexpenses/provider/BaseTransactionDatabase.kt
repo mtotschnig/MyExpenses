@@ -241,6 +241,12 @@ const val PAYEE_UNIQUE_INDEX = """
 CREATE UNIQUE INDEX payee_name ON $TABLE_PAYEES($KEY_PAYEE_NAME) WHERE $KEY_IBAN IS NULL;
 """
 
+const val TAGS_CREATE =
+    """CREATE TABLE $TABLE_TAGS (
+        $KEY_ROWID integer primary key autoincrement,
+        $KEY_LABEL text UNIQUE not null,
+        $KEY_COLOR integer default null);"""
+
 const val ATTRIBUTES_CREATE = """
 CREATE TABLE $TABLE_ATTRIBUTES (
     $KEY_ROWID integer primary key autoincrement,

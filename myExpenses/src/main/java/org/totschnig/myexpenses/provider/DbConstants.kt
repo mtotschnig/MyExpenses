@@ -492,7 +492,7 @@ with data as
        exists(select 1 from data where $KEY_TAGID is not null) AS $KEY_MAPPED_TAGS
 """.trimIndent()
 
-const val TAG_LIST_EXPRESSION = "group_concat($TABLE_TAGS.$KEY_LABEL,'') AS $KEY_TAGLIST"
+const val TAG_LIST_EXPRESSION = "group_concat($TABLE_TAGS.$KEY_ROWID,'') AS $KEY_TAGLIST"
 
 fun tagJoin(mainTable: String): String {
     val (joinTable, referenceColumn) = when (mainTable) {

@@ -1,21 +1,30 @@
 package org.totschnig.myexpenses.ui.filter
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.HorizontalScrollView
+import androidx.annotation.ColorInt
+import androidx.core.graphics.ColorUtils
 import com.google.android.material.chip.Chip
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.util.ui.setColor
 
 class ScrollingChip @JvmOverloads constructor(
-        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : HorizontalScrollView(context, attrs, defStyleAttr) {
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) : HorizontalScrollView(context, attrs, defStyleAttr) {
     fun setOnCloseIconClickListener(removeFilter: (View) -> Unit) {
         chip.setOnCloseIconClickListener(removeFilter)
     }
 
     override fun setOnClickListener(l: OnClickListener?) {
         chip.setOnClickListener(l)
+    }
+
+    fun setColor(@ColorInt color: Int) {
+        chip.setColor(color)
     }
 
     var isCloseIconVisible: Boolean
@@ -30,7 +39,8 @@ class ScrollingChip @JvmOverloads constructor(
             chip.text = value
         }
 
-    private var chip: Chip = LayoutInflater.from(context).inflate(R.layout.chip, this, false) as Chip
+    private var chip: Chip =
+        LayoutInflater.from(context).inflate(R.layout.chip, this, false) as Chip
 
     init {
         addView(chip)

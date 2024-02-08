@@ -20,10 +20,14 @@ import android.widget.PopupWindow
 import android.widget.ScrollView
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.ColorUtils.calculateContrast
 import androidx.core.widget.ImageViewCompat
+import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -57,6 +61,7 @@ fun <T> ChipGroup.addChipsBulk(
     for (chip in chips) {
         addView(ScrollingChip(context).also { scrollingChip ->
             scrollingChip.text = prettyPrint(chip)
+            scrollingChip.setColor(Color.RED)
             closeFunction?.let {
                 scrollingChip.isCloseIconVisible = true
                 scrollingChip.setOnCloseIconClickListener {
@@ -66,6 +71,33 @@ fun <T> ChipGroup.addChipsBulk(
             }
         })
     }
+}
+
+fun Chip.setColor(@ColorInt color: Int) {
+    val harmonizeWithPrimary = MaterialColors.harmonizeWithPrimary(context, color)
+    val chipColor = ColorStateList(
+        arrayOf(
+            intArrayOf(android.R.attr.state_pressed),
+            intArrayOf(android.R.attr.state_enabled)
+        ), intArrayOf(
+            ColorUtils.setAlphaComponent(harmonizeWithPrimary, 128),
+            harmonizeWithPrimary
+        )
+    )
+    chipBackgroundColor = chipColor
+    val bestForeground = getBestForeground(harmonizeWithPrimary)
+    val foreground = ColorStateList.valueOf(bestForeground)
+    setTextColor(foreground)
+    checkedIconTint = foreground
+    closeIconTint = ColorStateList(
+        arrayOf(
+            intArrayOf(android.R.attr.state_pressed),
+            intArrayOf(android.R.attr.state_enabled)
+        ), intArrayOf(
+            ColorUtils.setAlphaComponent(bestForeground, 128),
+            bestForeground
+        )
+    )
 }
 
 fun ScrollView.postScrollToBottom() {
@@ -214,7 +246,8 @@ fun attachmentInfoMap(context: Context, withFile: Boolean = false): Map<Uri, Att
                             val size = UiUtils.dp2Px(48f, context.resources)
                             val cancellationSignal = CancellationSignal()
                             try {
-                                AttachmentInfo.of(it,
+                                AttachmentInfo.of(
+                                    it,
                                     contentResolver.loadThumbnail(
                                         uri,
                                         Size(size, size),
