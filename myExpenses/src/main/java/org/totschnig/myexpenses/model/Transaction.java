@@ -547,6 +547,9 @@ public class Transaction extends Model implements ITransaction {
   @Override
   public void saveTags(@NonNull ContentResolver contentResolver, @NonNull  List<Tag> tags) {
     RepositoryTagsKt.saveTagsForTransaction(contentResolver, tags.stream().mapToLong(Tag::getId).toArray(), getId());
+    if (originTemplateId != null) {
+      RepositoryTagsKt.saveTagsForTemplate(contentResolver, tags, originTemplateId);
+    }
   }
 
   /**
