@@ -906,4 +906,5 @@
     <string name="one_time_payment">Egyszeri fizetés</string>
     <string name="dialog_contrib_trial_info_play">Ez az ingyenes próbaverzió soha nem vált át semmilyen típusú előfizetésre.</string>
     <string name="dialog_contrib_subscription_info_play">Ez az előfizetés azonnal hatályba lép, havonta vagy évente kerül számlázásra, és bármikor lemondható.</string>
+    <string name="stability_improvements" tools:ignore="UnusedResources">Stabilitási fejlesztések</string>
 </resources>
