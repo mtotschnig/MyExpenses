@@ -27,9 +27,6 @@
                 android:data="https://mastodon.social/@myexpenses" />
         </org.totschnig.myexpenses.preference.SafePreference>
 
-        <Preference
-            android:key="@string/pref_more_info_dialog_key"
-            android:title="@string/pref_more_info_dialog_title" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/feedback">

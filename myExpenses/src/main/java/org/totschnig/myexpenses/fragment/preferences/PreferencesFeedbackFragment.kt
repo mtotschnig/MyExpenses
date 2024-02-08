@@ -51,10 +51,6 @@ class PreferencesFeedbackFragment : BasePreferenceFragment() {
             preferenceActivity.dispatchCommand(R.id.FEEDBACK_COMMAND, null)
             true
         }
-        matches(preference, PrefKey.MORE_INFO_DIALOG) -> {
-            MoreInfoDialogFragment().show(parentFragmentManager, "MORE_INFO")
-            true
-        }
         matches(preference, PrefKey.TRANLATION_IMPROVEMENT) -> {
             preferenceActivity.sendEmail(
                 "translations@myexpenses.mobi",

@@ -10,6 +10,7 @@ import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
+import org.totschnig.myexpenses.dialog.MoreInfoDialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.AppDirHelper
@@ -176,6 +177,11 @@ class MainPreferenceFragment : BasePreferenceFragment(),
     override fun onPreferenceTreeClick(preference: Preference) = when {
         matches(preference, PrefKey.CONTRIB_PURCHASE) && !licenceHandler.hasAnyLicence -> {
             preferenceActivity.dispatchCommand(R.id.CONTRIB_INFO_COMMAND, null)
+            true
+        }
+
+        matches(preference, PrefKey.MORE_INFO_DIALOG) -> {
+            MoreInfoDialogFragment().show(parentFragmentManager, "MORE_INFO")
             true
         }
 

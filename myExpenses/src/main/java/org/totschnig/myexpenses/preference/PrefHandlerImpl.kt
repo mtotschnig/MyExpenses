@@ -100,7 +100,6 @@ open class PrefHandlerImpl(
         setDefaultValues(context, R.xml.preferences_feedback)
         setDefaultValues(context, R.xml.preferences_backup_restore)
         setDefaultValues(context, R.xml.preferences_io)
-        setDefaultValues(context, R.xml.preferences_more_info)
         setDefaultValues(context, R.xml.preferences_ocr)
         setDefaultValues(context, R.xml.preferences_protection)
         setDefaultValues(context, R.xml.preferences_sync)
