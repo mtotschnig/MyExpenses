@@ -502,4 +502,5 @@
     <string name="one_time_payment">Plată unică</string>
     <string name="dialog_contrib_trial_info_play">Această încercare gratuită nu va niciodata converti la niciun tip de abonament.</string>
     <string name="dialog_contrib_subscription_info_play">Acest abonament are efect imediat, este facturat lunar sau anual și poate fi anulat oricând.</string>
+    <string name="stability_improvements" tools:ignore="UnusedResources">Îmbunătățiri ale stabilității</string>
 </resources>
