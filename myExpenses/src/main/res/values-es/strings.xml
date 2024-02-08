@@ -1034,4 +1034,6 @@
     <string name="dialog_contrib_subscription_info_play">Esta suscripción tiene efecto inmediato, se factura mensual o anualmente y puede cancelarse en cualquier momento.</string>
     <string name="warning_delete_default_transfer_category">La categoría %s está configurada como categoría de transferencia por defecto y no debe eliminarse.</string>
     <string name="default_transfer_category">Categoría de transferencia predeterminada</string>
+    <string name="contact_us">Contáctenos</string>
+    <string name="pref_transaction_amount_color_source_title">Colores por importes</string>
 </resources>
