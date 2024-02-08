@@ -79,6 +79,9 @@ class PreferencesProtectionFragment : BasePreferenceFragment() {
             isProtected
         requirePreference<Preference>(PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET).isEnabled =
             isProtected
+        with(requirePreference<PreferenceCategory>(PrefKey.CATEGORY_PROTECTION)) {
+            initialExpandedChildrenCount = preferenceCount - (if (isLegacy) 1 else 2)
+        }
     }
 
     override fun onPreferenceTreeClick(preference: Preference) = when {
