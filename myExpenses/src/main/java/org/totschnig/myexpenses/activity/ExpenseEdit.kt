@@ -269,10 +269,13 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         get() = intent.getBooleanExtra(KEY_CLONE, false)
 
     private val withAutoFill: Boolean
-        get() = newInstance && !isClone && !hasCreateFromTemplateAction
+        get() = newInstance && !isClone && !hasCreateFromTemplateAction && !hasCreateTemplateFromTransactionAction
 
     private val hasCreateFromTemplateAction
         get() = intent.action == ACTION_CREATE_FROM_TEMPLATE || planInstanceId > 0L
+
+    private val hasCreateTemplateFromTransactionAction
+        get() = intent.action == ACTION_CREATE_TEMPLATE_FROM_TRANSACTION
 
     private val planInstanceId: Long
         get() = intent.getLongExtra(KEY_INSTANCEID, 0L)
@@ -366,7 +369,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     }
                 }
             } else {
-                task = if (intent.getBooleanExtra(KEY_TEMPLATE_FROM_TRANSACTION, false)) {
+                task = if (hasCreateTemplateFromTransactionAction) {
                     isTemplate = true
                     TEMPLATE_FROM_TRANSACTION
                 } else {
@@ -1668,6 +1671,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         const val KEY_PARENT_ORIGINAL_AMOUNT_EXCHANGE_RATE = "parentOriginalAmountExchangeRate"
 
         const val ACTION_CREATE_FROM_TEMPLATE = "CREATE_FROM_TEMPLATE"
+        const val ACTION_CREATE_TEMPLATE_FROM_TRANSACTION= "TEMPLATE_FROM_TRANSACTION"
     }
 
     fun loadActiveTags(id: Long) {

@@ -1009,8 +1009,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 showContribDialog(ContribFeature.SPLIT_TEMPLATE, null)
             } else {
                 startActivity(Intent(this, ExpenseEdit::class.java).apply {
+                    action = ExpenseEdit.ACTION_CREATE_TEMPLATE_FROM_TRANSACTION
                     putExtra(KEY_ROWID, transaction.id)
-                    putExtra(ExpenseEdit.KEY_TEMPLATE_FROM_TRANSACTION, true)
                 })
             }
         }
