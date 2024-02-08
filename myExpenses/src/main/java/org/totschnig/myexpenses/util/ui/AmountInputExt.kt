@@ -21,12 +21,10 @@ fun AmountInput.validateAmountInput(
     currencyUnit: CurrencyUnit,
     showToUser: Boolean = true,
     ifPresent: Boolean = true
-): Result<Money?> {
-    val result = validateAmountInput(ifPresent = ifPresent, showToUser = showToUser)
-    return if (result == null) Result.success(null) else
-        runCatching {
+) = runCatching {
+        validateAmountInput(ifPresent = ifPresent, showToUser = showToUser)?.let {
             try {
-                Money(currencyUnit, result)
+                Money(currencyUnit, it)
             } catch (e: ArithmeticException) {
                 if (showToUser) {
                     setError("Number too large.")
@@ -34,7 +32,7 @@ fun AmountInput.validateAmountInput(
                 throw e
             }
         }
-}
+    }
 
 fun AmountEditText.validateAmountInput(currencyUnit: CurrencyUnit) = validate(true)?.let {
     try { Money(currencyUnit, it) }

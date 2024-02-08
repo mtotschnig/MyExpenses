@@ -161,7 +161,6 @@ public class Utils {
    * <a href="http://www.ibm.com/developerworks/java/library/j-numberformat/">
    * http://www.ibm.com/developerworks/java/library/j-numberformat/</a>
    *
-   * @param strFloat parsed as float with the number format defined in the locale
    * @return the float retrieved from the string or null if parse did not
    * succeed
    */

@@ -417,6 +417,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         transaction.originalAmount?.let {
             originalAmountVisible = true
             configureOriginalAmountVisibility()
+            viewBinding.OriginalAmount.setFractionDigits(it.currencyUnit.fractionDigits)
             viewBinding.OriginalAmount.setAmount(it.amountMajor)
             originalCurrencyCode = it.currencyUnit.code
         } ?: run {
@@ -427,6 +428,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         transaction.equivalentAmount?.let {
             if (transaction.equivalentAmount != null) {
                 equivalentAmountVisible = true
+                viewBinding.EquivalentAmount.setFractionDigits(it.currencyUnit.fractionDigits)
                 viewBinding.EquivalentAmount.setAmount(it.amountMajor.abs())
             }
         }
