@@ -1,0 +1,4 @@
+• Sincronizare: Îmbunătățiri ale stabilității
+• Lista tranzacţii: Perfecționarea interfeței cu utilizatorul
+
+https://github.com/mtotschnig/MyExpenses/projects/126#column-19752329

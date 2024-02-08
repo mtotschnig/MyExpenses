@@ -1,0 +1,4 @@
+• Synchronisation: Améliorations de la stabilité
+• Liste des opérations: Raffinement de l'interface utilisateur
+
+https://github.com/mtotschnig/MyExpenses/projects/126#column-19752329

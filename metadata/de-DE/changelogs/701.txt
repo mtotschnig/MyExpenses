@@ -1,0 +1,4 @@
+• Synchronisierung: Stabilitätsverbesserungen
+• Buchungsliste: Verfeinerung der Benutzeroberfläche
+
+https://github.com/mtotschnig/MyExpenses/projects/126#column-19752329

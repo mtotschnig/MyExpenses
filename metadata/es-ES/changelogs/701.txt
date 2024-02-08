@@ -1,0 +1,4 @@
+• Sincronización: Mejoras en la estabilidad
+• Lista de transacciones: Interfaz de usuario mejorada
+
+https://github.com/mtotschnig/MyExpenses/projects/126#column-19752329

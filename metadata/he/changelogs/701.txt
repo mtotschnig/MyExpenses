@@ -1,0 +1,4 @@
+• סנכרון: שיפורים ביציבות
+• רשימת עסקאות: חידוד ממשק המשתמש
+
+https://github.com/mtotschnig/MyExpenses/projects/126#column-19752329
