@@ -14,14 +14,10 @@ import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
-import org.totschnig.myexpenses.provider.getIntIfExists
-import org.totschnig.myexpenses.provider.getLong
-import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.util.toggle
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
@@ -60,15 +56,12 @@ class TagListViewModel(application: Application, savedStateHandle: SavedStateHan
                 selection = if (accountId == null) null else
                     (SelectFromMappedTableDialogFragment.accountSelection(accountId)
                         ?: ("$KEY_ACCOUNTID IS NOT NULL")),
-                selectionArgs = if (accountId == null) null else SelectFromMappedTableDialogFragment.accountSelectionArgs(accountId),
+                selectionArgs = if (accountId == null) null else SelectFromMappedTableDialogFragment.accountSelectionArgs(
+                    accountId
+                ),
                 notifyForDescendants = true
-            ).mapToList { cursor ->
-                Tag(
-                    id = cursor.getLong(KEY_ROWID),
-                    label = cursor.getString(KEY_LABEL),
-                    count = cursor.getIntIfExists(KEY_COUNT) ?: -1
-                )
-            }.collect(tagsInternal::postValue)
+            ).mapToList(mapper = Tag.Companion::fromCursor)
+                .collect(tagsInternal::postValue)
         }
     }
 
@@ -97,7 +90,7 @@ class TagListViewModel(application: Application, savedStateHandle: SavedStateHan
             }
         }
 
-    fun updateTag(tag: Tag, newLabel: String) =
+    fun updateTag(tag: Tag, newLabel: String, color: Int) =
         liveData(context = coroutineContext()) {
             val result = try {
                 contentResolver.update(
@@ -105,21 +98,17 @@ class TagListViewModel(application: Application, savedStateHandle: SavedStateHan
                         TransactionProvider.TAGS_URI,
                         tag.id
                     ),
-                    ContentValues().apply { put(KEY_LABEL, newLabel) }, null, null
+                    ContentValues().apply {
+                        put(KEY_LABEL, newLabel)
+                        if (color != 0) {
+                            put(KEY_COLOR, color)
+                        }
+                    }, null, null
                 )
             } catch (e: SQLiteConstraintException) {
                 0
             }
             val success = result == 1
-            if (success) {
-                tagsInternal.postValue(tagsInternal.value?.map {
-                    if (it == tag) Tag(
-                        tag.id,
-                        newLabel,
-                        tag.count
-                    ) else it
-                })
-            }
             emit(success)
         }
 

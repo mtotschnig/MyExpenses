@@ -24,6 +24,7 @@ import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.ColorUtils.calculateContrast
+import androidx.core.graphics.ColorUtils.calculateLuminance
 import androidx.core.widget.ImageViewCompat
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -52,16 +53,22 @@ import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
-fun <T> ChipGroup.addChipsBulk(
+interface Itag {
+    val label: String
+    @get:ColorInt
+    val color: Int?
+}
+
+
+fun <T: Itag> ChipGroup.addChipsBulk(
     chips: Iterable<T>,
-    closeFunction: ((T) -> Unit)? = null,
-    prettyPrint: (T) -> CharSequence = { it.toString() }
+    closeFunction: ((T) -> Unit)? = null
 ) {
     removeAllViews()
     for (chip in chips) {
         addView(ScrollingChip(context).also { scrollingChip ->
-            scrollingChip.text = prettyPrint(chip)
-            scrollingChip.setColor(Color.RED)
+            scrollingChip.text = chip.label
+            chip.color?.let { scrollingChip.setColor(it) }
             closeFunction?.let {
                 scrollingChip.isCloseIconVisible = true
                 scrollingChip.setOnCloseIconClickListener {
@@ -73,31 +80,31 @@ fun <T> ChipGroup.addChipsBulk(
     }
 }
 
-fun Chip.setColor(@ColorInt color: Int) {
-    val harmonizeWithPrimary = MaterialColors.harmonizeWithPrimary(context, color)
-    val chipColor = ColorStateList(
-        arrayOf(
-            intArrayOf(android.R.attr.state_pressed),
-            intArrayOf(android.R.attr.state_enabled)
-        ), intArrayOf(
-            ColorUtils.setAlphaComponent(harmonizeWithPrimary, 128),
-            harmonizeWithPrimary
-        )
+fun ChipGroup.addChipsBulk(chips: Iterable<String>) {
+    addChipsBulk(chips.map { object: Itag {
+        override val label: String = it
+        override val color: Int? = null
+    } })
+}
+
+fun colorWithPressedFeedback(@ColorInt base: Int) = ColorStateList(
+    arrayOf(
+        intArrayOf(android.R.attr.state_pressed),
+        intArrayOf(android.R.attr.state_enabled)
+    ), intArrayOf(
+        ColorUtils.setAlphaComponent(base, 128),
+        base
     )
+)
+
+fun Chip.setColor(@ColorInt color: Int) {
+    val chipColor = colorWithPressedFeedback(color)
     chipBackgroundColor = chipColor
-    val bestForeground = getBestForeground(harmonizeWithPrimary)
+    val bestForeground = getBestForeground(color)
     val foreground = ColorStateList.valueOf(bestForeground)
     setTextColor(foreground)
     checkedIconTint = foreground
-    closeIconTint = ColorStateList(
-        arrayOf(
-            intArrayOf(android.R.attr.state_pressed),
-            intArrayOf(android.R.attr.state_enabled)
-        ), intArrayOf(
-            ColorUtils.setAlphaComponent(bestForeground, 128),
-            bestForeground
-        )
-    )
+    closeIconTint = colorWithPressedFeedback(bestForeground)
 }
 
 fun ScrollView.postScrollToBottom() {
@@ -119,8 +126,7 @@ fun setNightMode(prefHandler: PrefHandler, context: Context) {
     )
 }
 
-fun getBestForeground(color: Int) =
-    arrayOf(Color.BLACK, Color.WHITE).maxByOrNull { calculateContrast(color, it) }!!
+fun getBestForeground(color: Int) =  if (calculateLuminance(color) > 0.5) Color.BLACK else Color.WHITE
 
 fun <T : View> findParentWithTypeRecursively(view: View, type: Class<T>): T? {
     if (type.isInstance(view)) {

@@ -89,7 +89,8 @@ class TransactionListViewModel(
             ).mapToList {
                 Transaction2.fromCursor(
                     it,
-                    currency
+                    currency,
+                    emptyMap() //TODO
                 )
             }
         }

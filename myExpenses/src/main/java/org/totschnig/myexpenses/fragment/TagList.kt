@@ -99,7 +99,7 @@ class TagList : Fragment(), OnDialogResultListener {
                 .cancelable(false)
                 .fields(
                     Input.plain(KEY_LABEL).text(tag.label),
-                    ColorField.picker(KEY_COLOR)
+                    ColorField.picker(KEY_COLOR).color(tag.color ?: ColorField.NONE).label(R.string.color)
                 )
                 .pos(R.string.menu_save)
                 .neut()
@@ -266,7 +266,7 @@ class TagList : Fragment(), OnDialogResultListener {
                 }
                 EDIT_TAG_DIALOG -> {
                     val newLabel = extras.getString(KEY_LABEL)!!
-                    viewModel.updateTag(tag, newLabel).observe(viewLifecycleOwner) {
+                    viewModel.updateTag(tag, newLabel, extras.getInt(KEY_COLOR)).observe(viewLifecycleOwner) {
                         if (!it) {
                             (context as? ProtectedFragmentActivity)?.showSnackBar(
                                 getString(

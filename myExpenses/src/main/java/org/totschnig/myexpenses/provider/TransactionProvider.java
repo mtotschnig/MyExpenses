@@ -800,13 +800,13 @@ public class TransactionProvider extends BaseTransactionProvider {
         String tableName;
         if (withCount) {
           tableName = TABLE_TAGS + " LEFT JOIN " + TABLE_TRANSACTIONS_TAGS + " ON (" + KEY_ROWID + " = " + KEY_TAGID + ")";
-          projection = new String[]{KEY_ROWID, KEY_LABEL, String.format("count(%s) AS %s", KEY_TAGID, KEY_COUNT)};
+          projection = new String[]{KEY_ROWID, KEY_LABEL, KEY_COLOR, String.format("count(%s) AS %s", KEY_TAGID, KEY_COUNT)};
           groupBy = KEY_ROWID;
         }
         else if (withFilter) {
           tableName = TABLE_TAGS + " LEFT JOIN " + TABLE_TRANSACTIONS_TAGS + " ON (" + TABLE_TAGS + "." + KEY_ROWID + " = " + KEY_TAGID + ") LEFT JOIN " +
                   TABLE_TRANSACTIONS + " ON (" + TABLE_TRANSACTIONS + "." + KEY_ROWID + " = " + KEY_TRANSACTIONID  + ")";
-          projection = new String[]{TABLE_TAGS + "." + KEY_ROWID, KEY_LABEL};
+          projection = new String[]{TABLE_TAGS + "." + KEY_ROWID, KEY_LABEL, KEY_COLOR };
           groupBy = TABLE_TAGS + "." + KEY_ROWID;
         } else {
           tableName = TABLE_TAGS;

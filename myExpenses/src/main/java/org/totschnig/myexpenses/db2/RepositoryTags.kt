@@ -54,13 +54,8 @@ fun ContentResolver.saveTagsForTemplate(tags: List<Tag>?, templateId: Long) =
 
 private fun ContentResolver.loadTags(linkUri: Uri, column: String, id: Long): List<Tag> =
     //noinspection Recycle
-    query(linkUri, null, "$column = ?", arrayOf(id.toString()), null)!!.useAndMapToList {
-        Tag(
-            id = it.getLong(KEY_ROWID),
-            label = it.getString(KEY_LABEL),
-            count = 0
-        )
-    }
+    query(linkUri, null, "$column = ?", arrayOf(id.toString()), null)!!
+        .useAndMapToList(Tag.Companion::fromCursor)
 
 private fun ContentResolver.saveTags(linkUri: Uri, column: String, tags: List<Tag>?, id: Long) {
     val ops = ArrayList<ContentProviderOperation>()

@@ -116,9 +116,9 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                                 update = { chipGroup ->
                                     chipGroup.addChipsBulk(buildList {
                                         add(budget.label(this@BudgetActivity))
-                                        whereFilter.criteria.map {
-                                            it.prettyPrint(this@BudgetActivity)
-                                        }.let { addAll(it) }
+                                        whereFilter.criteria.forEach {
+                                            add(it.prettyPrint(this@BudgetActivity))
+                                        }
                                     })
                                 }
 

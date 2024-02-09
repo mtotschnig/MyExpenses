@@ -44,13 +44,7 @@ class TransactionDetailViewModel(application: Application) :
             arrayOf(id.toString()),
             null
         )?.useAndMapToList {
-            Tag(
-                it.getLong(it.getColumnIndexOrThrow(KEY_ROWID)), it.getString(
-                    it.getColumnIndexOrThrow(
-                        KEY_LABEL
-                    )
-                )
-            )
+            Tag.fromCursor(it)
         }?.let { emit(it) }
     }
 

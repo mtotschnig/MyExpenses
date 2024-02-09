@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.View.OnFocusChangeListener
@@ -146,7 +147,7 @@ class OnboardingUiFragment : OnboardingFragment() {
                 month = 0,
                 day = 0,
                 week = 0,
-                tagList = listOf(stringResource(id = R.string.testData_tag_project))
+                tagList = listOf(stringResource(id = R.string.testData_tag_project) to Color.RED)
             )
             AppTheme {
                 Column {

@@ -104,7 +104,7 @@ data class Transaction2(
     val status: Int = STATUS_NONE,
     val accountLabel: String? = null,
     val accountType: AccountType? = AccountType.CASH,
-    val tagList: List<String> = emptyList(),
+    val tagList: List<Pair<String, Int?>> = emptyList(),
     val year: Int,
     val month: Int,
     val week: Int,
@@ -204,7 +204,8 @@ data class Transaction2(
 
         fun fromCursor(
             cursor: Cursor,
-            accountCurrency: CurrencyUnit
+            accountCurrency: CurrencyUnit,
+            tags: Map<String, Pair<String, Int?>>
         ): Transaction2 {
             val amountRaw = cursor.getLong(KEY_DISPLAY_AMOUNT)
             val money = Money(accountCurrency, amountRaw)
@@ -237,7 +238,9 @@ data class Transaction2(
                     cursor.getStringIfExists(KEY_ACCOUNT_TYPE),
                 ),
                 transferPeerParent = cursor.getLongIfExists(KEY_TRANSFER_PEER_PARENT),
-                tagList = cursor.splitStringList(KEY_TAGLIST),
+                tagList = cursor.splitStringList(KEY_TAGLIST).mapNotNull {
+                                 tags[it]
+                },
                 color = cursor.getIntIfExists(KEY_COLOR),
                 status = cursor.getInt(KEY_STATUS),
                 year = cursor.getInt(KEY_YEAR),

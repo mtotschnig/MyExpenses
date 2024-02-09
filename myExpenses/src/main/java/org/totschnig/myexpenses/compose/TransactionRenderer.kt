@@ -41,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
@@ -158,12 +159,27 @@ abstract class ItemRenderer(
                     append(it)
                 }
             }
-            tagList.takeIf { withTags && it.isNotEmpty() }?.let {
+            tagList.takeIf { withTags && it.isNotEmpty() }?.let { list ->
                 if (length > 0) {
                     append(COMMENT_SEPARATOR)
                 }
-                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append(it.joinToString())
+                list.forEachIndexed { index, pair ->
+                    if (pair.second == null) {
+                        append(pair.first)
+                    } else {
+                        val userColor = Color(pair.second!!)
+                        withStyle(
+                            style = SpanStyle(
+                                background = userColor,
+                                color = if (userColor.luminance() > 0.5) Color.Black else Color.White,
+                            )
+                        ) {
+                            append(pair.first)
+                        }
+                    }
+                    if (index < list.size -1) {
+                        append(" ")
+                    }
                 }
             }
             attachmentIcon?.let {
@@ -417,8 +433,8 @@ class NewTransactionRenderer(
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    transaction.tagList.forEach {
-                        InlineChip(text = it, color = Color.Red)
+                    transaction.tagList.forEach { (label, color) ->
+                        InlineChip(text = label, color = color?.let { Color(it) })
                     }
                 }
             }
@@ -446,7 +462,7 @@ enum class RenderType {
 
 fun Modifier.tagBorder(color: Color) =
     border(
-        border = BorderStroke(1.dp, color),
+        border = BorderStroke(1.5.dp, color),
         shape = RoundedCornerShape(8.dp),
     )
         .padding(vertical = 4.dp, horizontal = 6.dp)
@@ -467,11 +483,11 @@ fun RenderCompact(@PreviewParameter(SampleProvider::class) transaction: Transact
 }
 
 @Composable
-fun InlineChip(text: String, color: Color) {
+fun InlineChip(text: String, color: Color?) {
     Text(
         text = text,
         modifier = Modifier
-            .tagBorder(color)
+            .tagBorder(color ?: MaterialTheme.colorScheme.onSurface)
             .padding(bottom = 2.dp),
         style = MaterialTheme.typography.bodySmall
     )
@@ -495,7 +511,10 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
             month = 1,
             day = 1,
             week = 1,
-            tagList = listOf("Hund", "Katz")
+            tagList = listOf(
+                "Hund" to android.graphics.Color.RED,
+                "Katz" to android.graphics.Color.GREEN
+            )
         ),
         Transaction2(
             id = -1,
@@ -508,7 +527,10 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
             month = 1,
             day = 1,
             week = 1,
-            tagList = listOf("Hund", "Katz"),
+            tagList = listOf(
+                "Hund" to android.graphics.Color.RED,
+                "Katz" to android.graphics.Color.GREEN
+            ),
             accountType = AccountType.BANK
         )
     )

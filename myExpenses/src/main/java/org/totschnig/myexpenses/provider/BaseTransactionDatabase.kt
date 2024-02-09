@@ -61,7 +61,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
@@ -402,7 +401,8 @@ fun SupportSQLiteDatabase.linkedTableTrigger(
     }
     val triggerName = triggerName(operation, table)
     execSQL("DROP TRIGGER IF EXISTS $triggerName")
-    execSQL("""
+    execSQL(
+        """
     CREATE TRIGGER $triggerName AFTER $operation ON $table
     WHEN ${shouldWriteChangeTemplate(reference, table)}
         BEGIN INSERT INTO $TABLE_CHANGES ($KEY_TYPE, $KEY_UUID, $KEY_PARENT_UUID, $KEY_ACCOUNTID, $KEY_SYNC_SEQUENCE_LOCAL)
@@ -410,7 +410,8 @@ fun SupportSQLiteDatabase.linkedTableTrigger(
         ${parentUuidExpression(reference, table)},
         (SELECT $KEY_ACCOUNTID FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $reference.$KEY_TRANSACTIONID), 
         ${sequenceNumberSelect(reference, table)}); END
-""")
+"""
+    )
 }
 
 fun triggerName(operation: String, table: String) =
@@ -1010,32 +1011,33 @@ abstract class BaseTransactionDatabase(
             append(getCategoryTreeForView())
         }
         if (tableName == TABLE_TRANSACTIONS) {
-            fun cteTemplate(
+            fun associationCTE(
                 cte: String,
                 aggregateExpression: String,
-                associateTable: String,
-                table: String,
-                associateColumn: String
-            ) =
-                "$cte as (SELECT $KEY_TRANSACTIONID, $aggregateExpression FROM $associateTable LEFT JOIN $table ON $associateColumn = $table.$KEY_ROWID GROUP BY $KEY_TRANSACTIONID)"
+                associationTable: String,
+                associated: Pair<String, String>? = null
+            ): String {
+                return "$cte as (SELECT $KEY_TRANSACTIONID, $aggregateExpression FROM $associationTable " +
+                        (associated?.let { "LEFT JOIN ${it.first} ON ${it.second} = ${it.first}.$KEY_ROWID" }
+                            ?: "") +
+                        " GROUP BY $KEY_TRANSACTIONID)"
+            }
             append(",")
             append(
-                cteTemplate(
+                associationCTE(
                     "cte_tags",
                     TAG_LIST_EXPRESSION,
                     TABLE_TRANSACTIONS_TAGS,
-                    TABLE_TAGS,
-                    KEY_TAGID
+                    null
                 )
             )
             append(",")
             append(
-                cteTemplate(
+                associationCTE(
                     "cte_attachments",
                     "count($KEY_URI) AS $KEY_ATTACHMENT_COUNT",
                     TABLE_TRANSACTION_ATTACHMENTS,
-                    TABLE_ATTACHMENTS,
-                    KEY_ATTACHMENT_ID
+                    TABLE_ATTACHMENTS to KEY_ATTACHMENT_ID
                 )
             )
         }

@@ -153,7 +153,7 @@ class BudgetList : Fragment() {
                     budgetSummary.bind(budget, -spent, allocated, currencyFormatter)
 
                     filter.addChipsBulk(buildList {
-                        this.add(budget.label(requireContext()))
+                        add(budget.label(requireContext()))
                         FilterPersistence(
                             prefHandler,
                             BudgetViewModel.prefNameForCriteria(budget.id),
@@ -161,9 +161,7 @@ class BudgetList : Fragment() {
                             immediatePersist = false,
                             restoreFromPreferences = true
                         ).whereFilter.criteria.forEach { criterion ->
-                            this.add(
-                                criterion.prettyPrint(context)
-                            )
+                            add(criterion.prettyPrint(context))
                         }
                     })
 
