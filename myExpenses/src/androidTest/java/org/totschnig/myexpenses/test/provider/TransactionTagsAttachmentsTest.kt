@@ -31,12 +31,12 @@ class TransactionTagsAttachmentsTest: BaseDbTest() {
             ).contentValues
         )
         verifyAggregateJoinValuesHelper(null, 0)
-        insertTag("A", transactionId)
+        val tagA = insertTag("A", transactionId)
         insertAttachment("content:://one", transactionId)
-        verifyAggregateJoinValuesHelper("A", 1)
-        insertTag("B", transactionId)
+        verifyAggregateJoinValuesHelper(tagA.toString(), 1)
+        val tagB = insertTag("B", transactionId)
         insertAttachment("content:://two", transactionId)
-        verifyAggregateJoinValuesHelper("A\u001FB", 2)
+        verifyAggregateJoinValuesHelper("$tagA\u001F$tagB", 2)
     }
 
     private fun verifyAggregateJoinValuesHelper(
@@ -66,36 +66,32 @@ class TransactionTagsAttachmentsTest: BaseDbTest() {
         }
     }
 
-    private fun insertTag(tag: String, transactionId: Long) {
-        mDb.insert(
-            DatabaseConstants.TABLE_TRANSACTIONS_TAGS,
-            ContentValues(2).apply {
-                put(
-                    DatabaseConstants.KEY_TAGID, mDb.insert(
-                        DatabaseConstants.TABLE_TAGS,
-                    ContentValues(1).apply {
-                        put(DatabaseConstants.KEY_LABEL, tag)
-                    }
-                ))
-                put(DatabaseConstants.KEY_TRANSACTIONID, transactionId)
-            }
-        )
-    }
+    private fun insertTag(tag: String, transactionId: Long) = mDb.insert(
+        DatabaseConstants.TABLE_TRANSACTIONS_TAGS,
+        ContentValues(2).apply {
+            put(
+                DatabaseConstants.KEY_TAGID, mDb.insert(
+                    DatabaseConstants.TABLE_TAGS,
+                ContentValues(1).apply {
+                    put(DatabaseConstants.KEY_LABEL, tag)
+                }
+            ))
+            put(DatabaseConstants.KEY_TRANSACTIONID, transactionId)
+        }
+    )
 
-    private fun insertAttachment(uri: String, transactionId: Long) {
-        mDb.insert(
-            DatabaseConstants.TABLE_TRANSACTION_ATTACHMENTS,
-            ContentValues(2).apply {
-                put(
-                    DatabaseConstants.KEY_ATTACHMENT_ID, mDb.insert(
-                        DatabaseConstants.TABLE_ATTACHMENTS,
-                    ContentValues(1).apply {
-                        put(DatabaseConstants.KEY_URI, uri)
-                        put(DatabaseConstants.KEY_UUID, Model.generateUuid())
-                    }
-                ))
-                put(DatabaseConstants.KEY_TRANSACTIONID, transactionId)
-            }
-        )
-    }
+    private fun insertAttachment(uri: String, transactionId: Long) = mDb.insert(
+        DatabaseConstants.TABLE_TRANSACTION_ATTACHMENTS,
+        ContentValues(2).apply {
+            put(
+                DatabaseConstants.KEY_ATTACHMENT_ID, mDb.insert(
+                    DatabaseConstants.TABLE_ATTACHMENTS,
+                ContentValues(1).apply {
+                    put(DatabaseConstants.KEY_URI, uri)
+                    put(DatabaseConstants.KEY_UUID, Model.generateUuid())
+                }
+            ))
+            put(DatabaseConstants.KEY_TRANSACTIONID, transactionId)
+        }
+    )
 }
