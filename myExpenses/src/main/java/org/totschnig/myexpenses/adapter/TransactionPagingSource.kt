@@ -8,30 +8,24 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import androidx.paging.PagingState
-import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.BuildConfig
+import org.totschnig.myexpenses.db2.tagMap
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.provider.getIntOrNull
-import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.withLimit
 import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
@@ -56,24 +50,8 @@ open class TransactionPagingSource(
     private val uri: Uri
     private val projection: Array<String>
     private val observer: ContentObserver
-    private val tags =
-        contentResolver.observeQuery(TransactionProvider.TAGS_URI, notifyForDescendants = true).transform { query ->
-            val map = withContext(Dispatchers.IO) {
-                query.run()?.use { cursor ->
-                    buildMap {
-                        while (cursor.moveToNext()) {
-                            put(
-                                cursor.getString(KEY_ROWID),
-                                (cursor.getString(KEY_LABEL) to cursor.getIntOrNull(KEY_COLOR))
-                            )
-                        }
-                    }
-                }
-            }
-            if (map != null) {
-                emit(map)
-            }
-        }.stateIn(coroutineScope, SharingStarted.Eagerly, emptyMap())
+    private val tags = contentResolver.tagMap
+        .stateIn(coroutineScope, SharingStarted.Eagerly, emptyMap())
 
     init {
         account.loadingInfo(homeCurrencyProvider.homeCurrencyString, prefHandler).also {

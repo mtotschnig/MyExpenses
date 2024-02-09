@@ -7,6 +7,14 @@ import android.content.ContentValues
 import android.net.Uri
 import android.os.Bundle
 import androidx.annotation.VisibleForTesting
+import app.cash.copper.Query
+import app.cash.copper.flow.observeQuery
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.transform
+import kotlinx.coroutines.withContext
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
@@ -15,11 +23,12 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getIntOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.io.IOException
+
 
 fun Repository.loadActiveTagsForAccount(accountId: Long) =
     contentResolver.loadTags(TransactionProvider.ACCOUNTS_TAGS_URI, KEY_ACCOUNTID, accountId)
@@ -107,3 +116,27 @@ fun Repository.writeTag(label: String) =
     )?.let {
         ContentUris.parseId(it)
     } ?: -1
+
+/**
+ * Map of tag id to pair (label, color)
+ */
+val ContentResolver.tagMap: Flow<Map<String, Pair<String, Int?>>>
+    get() = observeQuery(TransactionProvider.TAGS_URI, notifyForDescendants = true)
+        .transform { query ->
+            val map = withContext(Dispatchers.IO) {
+                query.run()?.use { cursor ->
+                    buildMap {
+                        while (cursor.moveToNext()) {
+                            put(
+                                cursor.getString(KEY_ROWID),
+                                (cursor.getString(KEY_LABEL) to
+                                        cursor.getIntOrNull(DatabaseConstants.KEY_COLOR))
+                            )
+                        }
+                    }
+                }
+            }
+            if (map != null) {
+                emit(map)
+            }
+        }

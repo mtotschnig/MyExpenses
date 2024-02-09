@@ -3,13 +3,17 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.os.Parcelable
 import androidx.lifecycle.SavedStateHandle
-import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.asCategoryType
+import org.totschnig.myexpenses.db2.tagMap
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isHomeAggregate
@@ -72,27 +76,41 @@ class TransactionListViewModel(
             }
         }.build()
 
+
     val transactions: Flow<List<Transaction2>>
         get() = with(loadingInfo) {
             val (selection, selectionArgs) = selectionInfo
-            contentResolver.observeQuery(
-                transactionUri,
-                Transaction2.projection(
-                    accountId,
-                    Grouping.NONE,
-                    homeCurrencyProvider.homeCurrencyString,
-                    prefHandler,
-                    extended = false
-                ),
-                selection,
-                selectionArgs
-            ).mapToList {
-                Transaction2.fromCursor(
-                    it,
-                    currency,
-                    emptyMap() //TODO
+            combine(
+                flow = contentResolver.tagMap,
+                flow2 = contentResolver.observeQuery(
+                    transactionUri,
+                    Transaction2.projection(
+                        accountId,
+                        Grouping.NONE,
+                        homeCurrencyProvider.homeCurrencyString,
+                        prefHandler,
+                        extended = false
+                    ),
+                    selection,
+                    selectionArgs
                 )
-            }
+            ) { tags, query ->
+                withContext(Dispatchers.IO) {
+                    query.run()?.use { cursor ->
+                        buildList {
+                            while (cursor.moveToNext()) {
+                                add(
+                                    Transaction2.fromCursor(
+                                        cursor,
+                                        currency,
+                                        tags
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
+            }.filterNotNull()
         }
 
     private val amountCalculation: String
