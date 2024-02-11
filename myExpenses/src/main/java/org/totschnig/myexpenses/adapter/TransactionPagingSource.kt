@@ -10,14 +10,11 @@ import android.os.Looper
 import androidx.paging.PagingState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.BuildConfig
-import org.totschnig.myexpenses.db2.tagMap
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -39,6 +36,7 @@ open class TransactionPagingSource(
     val account: PageAccount,
     val whereFilter: StateFlow<WhereFilter>,
     val homeCurrencyProvider: HomeCurrencyProvider,
+    val tags: StateFlow<Map<String, Pair<String, Int?>>>,
     val currencyContext: CurrencyContext,
     coroutineScope: CoroutineScope,
     prefHandler: PrefHandler
@@ -50,8 +48,6 @@ open class TransactionPagingSource(
     private val uri: Uri
     private val projection: Array<String>
     private val observer: ContentObserver
-    private val tags = contentResolver.tagMap
-        .stateIn(coroutineScope, SharingStarted.Eagerly, emptyMap())
 
     init {
         account.loadingInfo(homeCurrencyProvider.homeCurrencyString, prefHandler).also {
@@ -77,7 +73,7 @@ open class TransactionPagingSource(
         }
         coroutineScope.launch {
             //drop initial value and first query observed
-            tags.drop(2).collect {
+            tags.drop(1).collect {
                 invalidate()
             }
         }
