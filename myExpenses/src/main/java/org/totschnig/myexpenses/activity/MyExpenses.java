@@ -169,10 +169,6 @@ public class MyExpenses extends BaseMyExpenses implements
     });
   }
 
-  /* (non-Javadoc)
-   * check if we should show one of the reminderDialogs
-   * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
-   */
   @Override
   protected void onActivityResult(int requestCode, int resultCode,
                                   Intent intent) {
@@ -185,6 +181,10 @@ public class MyExpenses extends BaseMyExpenses implements
         }
       }
     }
+    if (requestCode == CREATE_ACCOUNT_REQUEST && resultCode == RESULT_OK) {
+      setSelectedAccountId(intent.getLongExtra(KEY_ROWID, 0));
+    }
+
     if (requestCode == CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
       CropImage.ActivityResult activityResult = CropImage.getActivityResult(intent);
       if (resultCode == RESULT_OK) {
