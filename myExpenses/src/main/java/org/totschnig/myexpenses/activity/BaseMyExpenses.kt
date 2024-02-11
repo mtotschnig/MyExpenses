@@ -107,7 +107,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
@@ -125,7 +124,6 @@ import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.AppDirHelper
@@ -527,6 +525,40 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
             }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                exportViewModel.pdfResult.collect { result ->
+                    result?.let {
+                        dismissSnackBar()
+                        result.onSuccess { (uri, name) ->
+                            recordUsage(ContribFeature.PRINT)
+                            showMessage(
+                                getString(R.string.export_sdcard_success, name),
+                                MessageDialogFragment.Button(
+                                    R.string.menu_open,
+                                    R.id.OPEN_PDF_COMMAND,
+                                    uri.toString(),
+                                    true
+                                ),
+                                MessageDialogFragment.nullButton(R.string.button_label_close),
+                                MessageDialogFragment.Button(
+                                    R.string.button_label_share_file,
+                                    R.id.SHARE_PDF_COMMAND,
+                                    uri.toString(),
+                                    true
+                                ),
+                                false
+                            )
+                        }.onFailure {
+                            showSnackBar(it.safeMessage)
+                        }
+                        exportViewModel.pdfResultProcessed()
+                    }
+                }
+            }
+        }
+
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -1787,30 +1819,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
 
                 ContribFeature.PRINT -> {
-                    val args = Bundle().apply {
-                        addFilter()
-                        putLong(KEY_ROWID, selectedAccountId)
-                        putLong(KEY_CURRENT_BALANCE, currentAccount.currentBalance)
-                    }
-                    if (!supportFragmentManager.isStateSaved) {
-                        supportFragmentManager.beginTransaction()
-                            .add(
-                                TaskExecutionFragment.newInstanceWithBundle(
-                                    args,
-                                    TaskExecutionFragment.TASK_PRINT
-                                ), ASYNC_TAG
-                            )
-                            .add(
-                                ProgressDialogFragment.newInstance(
-                                    getString(
-                                        R.string.progress_dialog_printing,
-                                        "PDF"
-                                    )
-                                ),
-                                PROGRESS_TAG
-                            )
-                            .commit()
-                    }
+                    showProgressSnackBar(
+                        getString(R.string.progress_dialog_printing, "PDF")
+                    )
+                    exportViewModel.print(currentAccount, currentFilter.whereFilter)
                 }
 
                 ContribFeature.BUDGET -> {

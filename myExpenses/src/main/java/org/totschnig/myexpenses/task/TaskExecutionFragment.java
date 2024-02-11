@@ -48,14 +48,10 @@ public class TaskExecutionFragment<T> extends Fragment {
   private static final String KEY_TASKID = "taskId";
   public static final String KEY_WITH_PARTIES = "withParties";
   public static final String KEY_WITH_CATEGORIES = "withCategories";
-  public static final String KEY_WITH_TRANSACTIONS = "withTransactions";
   public static final String KEY_FILE_PATH = "filePath";
-  public static final String KEY_DATE_FORMAT = "dateFormat";
-  public static final String KEY_ENCODING = "encoding";
 
   public static final int TASK_INSTANTIATE_PLAN = 15;
   public static final int TASK_GRISBI_IMPORT = 19;
-  public static final int TASK_PRINT = 25;
   public static final int TASK_UPDATE_SORT_KEY = 27;
   public static final int TASK_SWAP_SORT_KEY = 39;
   public static final int TASK_REPAIR_PLAN = 41;
@@ -160,9 +156,6 @@ public class TaskExecutionFragment<T> extends Fragment {
     switch (taskId) {
       case TASK_GRISBI_IMPORT:
         new GrisbiImportTask(this, args).execute();
-        break;
-      case TASK_PRINT:
-        new PrintTask(this, args).execute();
         break;
       default:
         try {

@@ -19,16 +19,12 @@ import static com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUE
 import static org.totschnig.myexpenses.activity.ConstantsKt.CREATE_ACCOUNT_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.OCR_REQUEST;
-import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -44,7 +40,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectFilterDialog;
 import org.totschnig.myexpenses.dialog.select.SelectHiddenAccountDialogFragment;
@@ -52,7 +47,6 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.AppDirHelper;
-import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandler;
@@ -284,27 +278,6 @@ public class MyExpenses extends BaseMyExpenses implements
     if (extras != null) {
       setSelectedAccountId(extras.getLong(KEY_ROWID));
       showTransactionFromIntent(extras);
-    }
-  }
-
-  @Override
-  public void onPostExecute(int taskId, Object o) {
-    super.onPostExecute(taskId, o);
-    switch (taskId) {
-      case TASK_PRINT: {
-        Result<Uri> result = (Result<Uri>) o;
-        if (result.isSuccess()) {
-          recordUsage(ContribFeature.PRINT);
-          showMessage(result.print(this),
-              new MessageDialogFragment.Button(R.string.menu_open, R.id.OPEN_PDF_COMMAND, result.getExtra().toString(), true),
-              MessageDialogFragment.nullButton(R.string.button_label_close),
-              new MessageDialogFragment.Button(R.string.button_label_share_file, R.id.SHARE_PDF_COMMAND, result.getExtra().toString(), true),
-              false);
-        } else {
-          showSnackBar(result.print(this));
-        }
-        break;
-      }
     }
   }
 

@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.export.CsvExporter
 import org.totschnig.myexpenses.export.JSONExporter
 import org.totschnig.myexpenses.export.QifExporter
 import org.totschnig.myexpenses.export.createFileFailure
+import org.totschnig.myexpenses.export.pdf.PdfPrinter
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefKey
@@ -36,6 +37,7 @@ import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.displayName
+import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -62,8 +64,10 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
 
     private val _publishProgress: MutableSharedFlow<String?> = MutableSharedFlow()
     private val _result: MutableStateFlow<Pair<ExportFormat, List<Uri>>?> = MutableStateFlow(null)
+    private val _pdfResult: MutableStateFlow<Result<Pair<Uri, String>>?> = MutableStateFlow(null)
     val publishProgress: SharedFlow<String?> = _publishProgress
     val result: StateFlow<Pair<ExportFormat, List<Uri>>?> = _result
+    val pdfResult: StateFlow<Result<Pair<Uri, String>>?> = _pdfResult
 
     fun startExport(args: Bundle) {
         viewModelScope.launch(coroutineDispatcher) {
@@ -254,6 +258,12 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
         }
     }
 
+    fun pdfResultProcessed() {
+        _pdfResult.update {
+            null
+        }
+    }
+
     fun checkAppDir() = liveData(coroutineDispatcher) {
         emit(AppDirHelper.checkAppDir(getApplication()))
     }
@@ -268,6 +278,14 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
         )?.use {
             it.moveToFirst()
             emit(it.getLong(0) == 1L)
+        }
+    }
+
+    fun print(account: FullAccount, whereFilter: WhereFilter) {
+        _pdfResult.update {
+            AppDirHelper.checkAppDir(getApplication()).mapCatching {
+                PdfPrinter.print(localizedContext, account, it, whereFilter)
+            }
         }
     }
 }
