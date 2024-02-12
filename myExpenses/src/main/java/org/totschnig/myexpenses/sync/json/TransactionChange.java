@@ -166,6 +166,9 @@ public abstract class TransactionChange {
   public abstract Set<String> tags();
 
   @Nullable
+  public abstract Set<TagInfo> tagsV2();
+
+  @Nullable
   public abstract Set<String> attachments();
 
   @Nullable
@@ -180,7 +183,7 @@ public abstract class TransactionChange {
         label() == null && payeeName() == null && transferAccount() == null && methodLabel() == null &&
         crStatus() == null && referenceNumber() == null && pictureUri() == null && splitParts() == null
         && originalAmount() == null && (equivalentAmount == null || equivalentAmount == 0L)
-        && parentUuid() == null && tags() == null && categoryInfo() == null && attachments() == null;
+        && parentUuid() == null && tags() == null  && tagsV2() == null && categoryInfo() == null && attachments() == null;
         //we ignore changes of equivalent amount which result from change of home currency
   }
 
@@ -257,6 +260,8 @@ public abstract class TransactionChange {
     public abstract Builder setSplitParts(List<TransactionChange> value);
 
     public abstract Builder setTags(Set<String> value);
+
+    public abstract Builder setTagsV2(Set<TagInfo> value);
 
     public abstract Builder setAttachments(Set<String> value);
 

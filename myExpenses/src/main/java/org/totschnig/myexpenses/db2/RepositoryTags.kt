@@ -13,8 +13,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.withContext
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID
@@ -22,24 +22,31 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_TAGS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SAVE_TRANSACTION_TAGS
+import org.totschnig.myexpenses.provider.TransactionProvider.TAGS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_TAGS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI
 import org.totschnig.myexpenses.provider.getIntOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.useAndMapToList
+import org.totschnig.myexpenses.sync.json.TagInfo
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.io.IOException
 
 
 fun Repository.loadActiveTagsForAccount(accountId: Long) =
-    contentResolver.loadTags(TransactionProvider.ACCOUNTS_TAGS_URI, KEY_ACCOUNTID, accountId)
+    contentResolver.loadTags(ACCOUNTS_TAGS_URI, KEY_ACCOUNTID, accountId)
 
 fun ContentResolver.loadTagsForTransaction(transactionId: Long) =
-    loadTags(TransactionProvider.TRANSACTIONS_TAGS_URI, KEY_TRANSACTIONID, transactionId)
+    loadTags(TRANSACTIONS_TAGS_URI, KEY_TRANSACTIONID, transactionId)
 
 fun ContentResolver.loadTagsForTemplate(templateId: Long) =
-    loadTags(TransactionProvider.TEMPLATES_TAGS_URI, KEY_TEMPLATEID, templateId)
+    loadTags(TEMPLATES_TAGS_URI, KEY_TEMPLATEID, templateId)
 
 fun Repository.saveActiveTagsForAccount(tags: List<Tag>?, accountId: Long) =
-    contentResolver.saveTags(TransactionProvider.ACCOUNTS_TAGS_URI, KEY_ACCOUNTID, tags, accountId)
+    contentResolver.saveTags(ACCOUNTS_TAGS_URI, KEY_ACCOUNTID, tags, accountId)
 
 fun Repository.saveTagsForTransaction(tags: List<Tag>, transactionId: Long) {
     contentResolver.saveTagsForTransaction(tags.map { it.id }.toLongArray(), transactionId)
@@ -47,8 +54,8 @@ fun Repository.saveTagsForTransaction(tags: List<Tag>, transactionId: Long) {
 
 fun ContentResolver.saveTagsForTransaction(tags: LongArray, transactionId: Long) {
     call(
-        TransactionProvider.DUAL_URI,
-        TransactionProvider.METHOD_SAVE_TRANSACTION_TAGS,
+        DUAL_URI,
+        METHOD_SAVE_TRANSACTION_TAGS,
         null,
         Bundle().apply {
             putLong(KEY_TRANSACTIONID, transactionId)
@@ -58,7 +65,7 @@ fun ContentResolver.saveTagsForTransaction(tags: LongArray, transactionId: Long)
 }
 
 fun ContentResolver.saveTagsForTemplate(tags: List<Tag>?, templateId: Long) =
-    saveTags(TransactionProvider.TEMPLATES_TAGS_URI, KEY_TEMPLATEID, tags, templateId)
+    saveTags(TEMPLATES_TAGS_URI, KEY_TEMPLATEID, tags, templateId)
 
 private fun ContentResolver.loadTags(linkUri: Uri, column: String, id: Long): List<Tag> =
     //noinspection Recycle
@@ -91,8 +98,28 @@ fun Repository.extractTagIds(tags: Collection<String?>, tagToId: MutableMap<Stri
         tagToId[tag] ?: extractTagId(tag).also { tagToId[tag] = it }
     }
 
+fun Repository.extractTagIdsV2(tags: Collection<TagInfo>, tagToId: MutableMap<String, Long>) =
+    tags.map { tag ->
+        tagToId[tag.label] ?: extractTagId(tag).also { tagToId[tag.label] = it }
+    }
+
+fun Repository.extractTagId(tagInfo: TagInfo): Long {
+    val existingTag = find(tagInfo.label)
+    return if (existingTag != null) {
+        if (existingTag.second != tagInfo.color) {
+           contentResolver.update(ContentUris.withAppendedId(TAGS_URI, existingTag.first),
+               ContentValues(1).apply {
+                   put(KEY_COLOR, tagInfo.color)
+               }, null, null
+               )
+        }
+        existingTag.first
+    } else
+        writeTag(tagInfo.label, tagInfo.color)
+}
+
 private fun Repository.extractTagId(label: String) =
-    find(label).takeIf { it > -1 } ?: writeTag(label)
+    find(label)?.first ?: writeTag(label)
 
 /**
  * Looks for a tag with label
@@ -100,36 +127,34 @@ private fun Repository.extractTagId(label: String) =
  * @param label
  * @return id or -1 if not found
  */
-private fun Repository.find(label: String): Long {
-    val selection = "$KEY_LABEL = ?"
-    val selectionArgs = arrayOf(label.trim())
-    contentResolver.query(
-        TransactionProvider.TAGS_URI,
-        arrayOf(KEY_ROWID),
-        selection,
-        selectionArgs,
-        null
-    )?.use {
-        if (it.moveToFirst())
-            return it.getLong(0)
-    }
-    return -1
+private fun Repository.find(label: String) = contentResolver.query(
+    TAGS_URI,
+    arrayOf(KEY_ROWID, KEY_COLOR),
+    "$KEY_LABEL = ?",
+    arrayOf(label.trim()),
+    null
+)?.use {
+    if (it.moveToFirst())
+        it.getLong(0) to it.getInt(1) else null
 }
 
 @VisibleForTesting
-fun Repository.writeTag(label: String) =
-    contentResolver.insert(
-        TransactionProvider.TAGS_URI,
-        ContentValues().apply { put(KEY_LABEL, label.trim()) }
-    )?.let {
-        ContentUris.parseId(it)
-    } ?: -1
+fun Repository.writeTag(label: String, colorInt: Int? = null) =
+    ContentUris.parseId(contentResolver.insert(
+        TAGS_URI,
+        ContentValues().apply {
+            put(KEY_LABEL, label.trim())
+            colorInt?.let {
+                put(KEY_COLOR, it)
+            }
+        }
+    )!!)
 
 /**
  * Map of tag id to pair (label, color)
  */
 val ContentResolver.tagMapFlow: Flow<Map<String, Pair<String, Int?>>>
-    get() = observeQuery(TransactionProvider.TAGS_URI, notifyForDescendants = true)
+    get() = observeQuery(TAGS_URI, notifyForDescendants = true)
         .transform { query ->
             val map = withContext(Dispatchers.IO) {
                 query.run()?.use(Cursor::toTagMap)
@@ -140,15 +165,15 @@ val ContentResolver.tagMapFlow: Flow<Map<String, Pair<String, Int?>>>
         }
 
 val ContentResolver.tagMap: Map<String, Pair<String, Int?>>
-    get() = query(TransactionProvider.TAGS_URI, null, null, null, null)!!
-        .use(Cursor::toTagMap)
+    get() = query(TAGS_URI, null, null, null, null)!!
+        .use { it.toTagMap() }
 
 fun Cursor.toTagMap() = buildMap {
     while (moveToNext()) {
         put(
             getString(KEY_ROWID),
             (getString(KEY_LABEL) to
-                    getIntOrNull(DatabaseConstants.KEY_COLOR))
+                    getIntOrNull(KEY_COLOR))
         )
     }
 }

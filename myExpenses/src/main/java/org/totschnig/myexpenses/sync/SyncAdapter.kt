@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.sync.GenericAccountService.Companion.deactivateS
 import org.totschnig.myexpenses.sync.SequenceNumber.Companion.parse
 import org.totschnig.myexpenses.sync.SyncBackendProvider.*
 import org.totschnig.myexpenses.sync.json.AccountMetaData
+import org.totschnig.myexpenses.sync.json.TagInfo
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
@@ -250,7 +251,10 @@ class SyncAdapter @JvmOverloads constructor(
                                     ?: // might have been deleted by user in the meantime
                                     continue
                                 syncDelegate.account = instanceFromDb
-                                if (uuidFromExtras != null && extras.getBoolean(KEY_RESET_REMOTE_ACCOUNT)) {
+                                if (uuidFromExtras != null && extras.getBoolean(
+                                        KEY_RESET_REMOTE_ACCOUNT
+                                    )
+                                ) {
                                     try {
                                         backend.resetAccountData(uuidFromExtras)
                                         appendToNotification(
@@ -265,7 +269,8 @@ class SyncAdapter @JvmOverloads constructor(
                                             return@runBlocking
                                         }
                                         syncResult.stats.numIoExceptions++
-                                        syncResult.delayUntil = getIoDelaySeconds(backend.suggestDelay(e))
+                                        syncResult.delayUntil =
+                                            getIoDelaySeconds(backend.suggestDelay(e))
                                         notifyIoException(
                                             R.string.sync_io_exception_reset_account_data,
                                             account
@@ -287,7 +292,8 @@ class SyncAdapter @JvmOverloads constructor(
                                         return@runBlocking
                                     }
                                     syncResult.stats.numIoExceptions++
-                                    syncResult.delayUntil = getIoDelaySeconds(backend.suggestDelay(e))
+                                    syncResult.delayUntil =
+                                        getIoDelaySeconds(backend.suggestDelay(e))
                                     notifyIoException(
                                         R.string.sync_io_exception_setup_remote_account,
                                         account
@@ -303,7 +309,8 @@ class SyncAdapter @JvmOverloads constructor(
                                     }
                                     notifyIoException(R.string.sync_io_exception_locking, account)
                                     syncResult.stats.numIoExceptions++
-                                    syncResult.delayUntil = getIoLockDelaySeconds(backend.suggestDelay(e))
+                                    syncResult.delayUntil =
+                                        getIoLockDelaySeconds(backend.suggestDelay(e))
                                     break
                                 }
                                 var completedWithoutError = false
@@ -318,7 +325,8 @@ class SyncAdapter @JvmOverloads constructor(
                                             log().i("lastSyncedRemote: $lastSyncedRemote")
                                             changeSetSince.changes
                                         } else emptyList()
-                                    var localChanges: MutableList<TransactionChange> = mutableListOf()
+                                    var localChanges: MutableList<TransactionChange> =
+                                        mutableListOf()
                                     var sequenceToTest = lastSyncedLocal
                                     while (true) {
                                         sequenceToTest++
@@ -373,16 +381,23 @@ class SyncAdapter @JvmOverloads constructor(
                                         }
                                         if (localChanges.size > 0) {
                                             localChanges =
-                                                syncDelegate.collectSplits(localChanges).toMutableList()
+                                                syncDelegate.collectSplits(localChanges)
+                                                    .toMutableList()
                                         }
                                         val localChangesWasNotEmpty = localChanges.isNotEmpty()
                                         val remoteChangesWasNotEmpty = remoteChanges.isNotEmpty()
                                         val mergeResult: Pair<List<TransactionChange>, List<TransactionChange>> =
-                                            syncDelegate.mergeChangeSets(localChanges, remoteChanges)
+                                            syncDelegate.mergeChangeSets(
+                                                localChanges,
+                                                remoteChanges
+                                            )
                                         localChanges = mergeResult.first.toMutableList()
                                         remoteChanges = mergeResult.second
                                         if (remoteChanges.isNotEmpty()) {
-                                            syncDelegate.writeRemoteChangesToDb(provider, remoteChanges)
+                                            syncDelegate.writeRemoteChangesToDb(
+                                                provider,
+                                                remoteChanges
+                                            )
                                         }
                                         if (remoteChangesWasNotEmpty) {
                                             accountManager.setUserData(
@@ -437,7 +452,8 @@ class SyncAdapter @JvmOverloads constructor(
                                         return@runBlocking
                                     }
                                     syncResult.stats.numIoExceptions++
-                                    syncResult.delayUntil = getIoDelaySeconds(backend.suggestDelay(e))
+                                    syncResult.delayUntil =
+                                        getIoDelaySeconds(backend.suggestDelay(e))
                                     notifyIoException(R.string.sync_io_exception_syncing, account)
                                     break
                                 } catch (e: RemoteException) {
@@ -482,7 +498,8 @@ class SyncAdapter @JvmOverloads constructor(
                                                 account
                                             )
                                             syncResult.stats.numIoExceptions++
-                                            syncResult.delayUntil = getIoLockDelaySeconds(backend.suggestDelay(e))
+                                            syncResult.delayUntil =
+                                                getIoLockDelaySeconds(backend.suggestDelay(e))
                                         }
                                         break
                                     }
@@ -492,7 +509,8 @@ class SyncAdapter @JvmOverloads constructor(
                     }
                 }
             }
-        } catch (_: InterruptedException) { }
+        } catch (_: InterruptedException) {
+        }
     }
 
     @Throws(RemoteException::class, OperationApplicationException::class)
@@ -524,7 +542,7 @@ class SyncAdapter @JvmOverloads constructor(
                 )
             ).withValues(values).build()
         )
-        val homeCurrency = prefHandler.getString(PrefKey.HOME_CURRENCY,null)
+        val homeCurrency = prefHandler.getString(PrefKey.HOME_CURRENCY, null)
         val exchangeRate = accountMetaData.exchangeRate()
         if (exchangeRate != null && homeCurrency != null && homeCurrency == accountMetaData.exchangeRateOtherCurrency()) {
             val uri =
@@ -556,7 +574,8 @@ class SyncAdapter @JvmOverloads constructor(
     ) {
         val autoBackupFileUri = getStringSetting(provider, KEY_UPLOAD_AUTO_BACKUP_URI)
         if (autoBackupFileUri != null) {
-            val autoBackupCloud = getStringSetting(provider, prefHandler.getKey(PrefKey.AUTO_BACKUP_CLOUD))
+            val autoBackupCloud =
+                getStringSetting(provider, prefHandler.getKey(PrefKey.AUTO_BACKUP_CLOUD))
             if (autoBackupCloud != null && autoBackupCloud == account.name) {
                 var fileName = getStringSetting(provider, KEY_UPLOAD_AUTO_BACKUP_NAME)
                 try {
@@ -741,43 +760,55 @@ class SyncAdapter @JvmOverloads constructor(
                     do {
                         var transactionChange = TransactionChange.create(changesCursor)
                         changesCursor.getLongOrNull(KEY_CATID)?.let { catId ->
-                            if (catId == NULL_ROW_ID)  {
+                            if (catId == NULL_ROW_ID) {
                                 transactionChange = transactionChange.toBuilder().setCategoryInfo(
                                     listOf(CategoryInfo(NULL_CHANGE_INDICATOR, ""))
                                 ).build()
                             } else {
-                                provider.query(ContentUris.withAppendedId(BaseTransactionProvider.CATEGORY_TREE_URI, catId),
+                                provider.query(
+                                    ContentUris.withAppendedId(
+                                        BaseTransactionProvider.CATEGORY_TREE_URI,
+                                        catId
+                                    ),
                                     null, null, null, null
                                 )?.use { cursor ->
-                                    transactionChange = transactionChange.toBuilder().setCategoryInfo(
-                                        cursor.asSequence.map {
-                                            CategoryInfo(
-                                                it.getString(KEY_UUID),
-                                                it.getString(KEY_LABEL),
-                                                it.getStringOrNull(KEY_ICON),
-                                                it.getIntOrNull(KEY_COLOR),
-                                                if (it.getLongOrNull(KEY_PARENTID) == null)
-                                                    it.getInt(KEY_TYPE) else null
-                                            ) }.toList().asReversed()
-                                    ).build()
+                                    transactionChange =
+                                        transactionChange.toBuilder().setCategoryInfo(
+                                            cursor.asSequence.map {
+                                                CategoryInfo(
+                                                    it.getString(KEY_UUID),
+                                                    it.getString(KEY_LABEL),
+                                                    it.getStringOrNull(KEY_ICON),
+                                                    it.getIntOrNull(KEY_COLOR),
+                                                    if (it.getLongOrNull(KEY_PARENTID) == null)
+                                                        it.getInt(KEY_TYPE) else null
+                                                )
+                                            }.toList().asReversed()
+                                        ).build()
                                 }
                             }
                         }
                         result.add(
                             when (transactionChange.type()) {
-                                 TransactionChange.Type.tags-> transactionChange.toBuilder()
-                                     .setType(TransactionChange.Type.updated)
-                                     .setTags(
-                                         //noinspection Recycle
-                                         provider.query(
-                                             TransactionProvider.TRANSACTIONS_TAGS_URI,
-                                             null,
-                                             "$KEY_TRANSACTIONID = (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)",
-                                             arrayOf(transactionChange.uuid()),
-                                             null
-                                         )?.useAndMapToSet { it.getString(KEY_LABEL) } ?: emptySet()
-                                     )
-                                     .build()
+                                TransactionChange.Type.tags -> transactionChange.toBuilder()
+                                    .setType(TransactionChange.Type.updated)
+                                    .setTagsV2(
+                                        //noinspection Recycle
+                                        provider.query(
+                                            TransactionProvider.TRANSACTIONS_TAGS_URI,
+                                            null,
+                                            "$KEY_TRANSACTIONID = (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)",
+                                            arrayOf(transactionChange.uuid()),
+                                            null
+                                        )?.useAndMapToSet { cursor ->
+                                            TagInfo(
+                                                cursor.getString(KEY_LABEL),
+                                                cursor.getIntOrNull(KEY_COLOR)
+                                            )
+                                        } ?: emptySet()
+                                    )
+                                    .build()
+
                                 TransactionChange.Type.attachments -> transactionChange.toBuilder()
                                     .setType(TransactionChange.Type.updated)
                                     .setAttachments(
@@ -785,7 +816,10 @@ class SyncAdapter @JvmOverloads constructor(
                                         provider.query(
                                             TransactionProvider.ATTACHMENTS_URI
                                                 .buildUpon()
-                                                .appendQueryParameter(KEY_UUID, transactionChange.uuid())
+                                                .appendQueryParameter(
+                                                    KEY_UUID,
+                                                    transactionChange.uuid()
+                                                )
                                                 .build(),
                                             arrayOf(KEY_UUID),
                                             null,
@@ -794,6 +828,7 @@ class SyncAdapter @JvmOverloads constructor(
                                         )?.useAndMapToSet { it.getString(0) } ?: emptySet()
                                     )
                                     .build()
+
                                 else -> transactionChange
                             }
                         )
@@ -902,6 +937,7 @@ class SyncAdapter @JvmOverloads constructor(
 
         private fun getIoLockDelaySeconds(backOffMillis: Long? = null): Long =
             (System.currentTimeMillis() + (backOffMillis ?: IO_LOCK_DELAY_MILLIS)) / 1000
+
         private val featureLoadDelaySeconds: Long
             get() = System.currentTimeMillis() / 1000 + 60
 

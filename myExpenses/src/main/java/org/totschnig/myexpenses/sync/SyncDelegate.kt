@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.db2.CategoryHelper
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.ensureCategory
 import org.totschnig.myexpenses.db2.extractTagIds
+import org.totschnig.myexpenses.db2.extractTagIdsV2
 import org.totschnig.myexpenses.db2.findAccountByUuid
 import org.totschnig.myexpenses.db2.findByAccountAndUuid
 import org.totschnig.myexpenses.db2.findPaymentMethod
@@ -251,7 +252,9 @@ class SyncDelegate(
             if (splitParts() != null && merged.splitParts() != null && merged.splitParts() != splitParts()) {
                 setSplitParts(null)
             }
-            if (tags() != null && merged.tags() != null && merged.tags() != tags()) {
+            if ((tags() != null || tagsV2() != null) &&
+                (merged.tags() != null || merged.tagsV2() != null) &&
+                (merged.tags() != tags() || merged.tagsV2() != merged.tagsV2())) {
                 setTags(null)
             }
         }.build()
@@ -323,6 +326,9 @@ class SyncDelegate(
         if (change.tags() != null) {
             builder.setTags(change.tags())
         }
+        if (change.tagsV2() != null) {
+            builder.setTagsV2(change.tagsV2())
+        }
         if (change.attachments() != null) {
             builder.setAttachments(change.attachments())
         }
@@ -385,7 +391,10 @@ class SyncDelegate(
         var skipped = false
         val offset = ops.size
         var additionalOpsCount = 0
-        val tagIds = change.tags()?.let { repository.extractTagIds(it, tagToId) }
+        val tagIds: List<Long>? = buildList {
+            change.tags()?.let { addAll(repository.extractTagIds(it, tagToId)) }
+            change.tagsV2()?.let { addAll(repository.extractTagIdsV2(it, tagToId)) }
+        }.takeIf { it.isNotEmpty() }
         when (change.type()) {
             TransactionChange.Type.created -> {
                 val transactionId = resolver(account.id, change.uuid())
