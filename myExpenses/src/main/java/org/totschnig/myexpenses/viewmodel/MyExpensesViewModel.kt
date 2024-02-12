@@ -55,7 +55,7 @@ import org.totschnig.myexpenses.compose.unselect
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.db2.loadBanks
 import org.totschnig.myexpenses.db2.setGrouping
-import org.totschnig.myexpenses.db2.tagMap
+import org.totschnig.myexpenses.db2.tagMapFlow
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
@@ -329,7 +329,7 @@ open class MyExpensesViewModel(
             }
         }
 
-    protected val tags: StateFlow<Map<String, Pair<String, Int?>>> = contentResolver.tagMap
+    protected val tags: StateFlow<Map<String, Pair<String, Int?>>> = contentResolver.tagMapFlow
         .stateIn(viewModelScope, SharingStarted.Eagerly, emptyMap())
 
     open fun buildTransactionPagingSource(account: PageAccount) =

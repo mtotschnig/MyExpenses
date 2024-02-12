@@ -12,13 +12,7 @@ import java.time.LocalDate
 
 sealed interface HeaderDataResult {
     val account: PageAccount
-    fun calculateGroupId(transaction: Transaction2) = account.grouping.calculateGroupId(transaction.year, getSecond(transaction))
-    private fun getSecond(transaction: Transaction2) = when(account.grouping) {
-        Grouping.DAY -> transaction.day
-        Grouping.WEEK -> transaction.week
-        Grouping.MONTH -> transaction.month
-        else -> 0
-    }
+    fun calculateGroupId(transaction: Transaction2) = account.grouping.calculateGroupId(transaction)
 }
 
 data class HeaderDataEmpty(override val account: PageAccount): HeaderDataResult

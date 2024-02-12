@@ -99,6 +99,7 @@ public class DatabaseConstants {
   public static void buildProjection(Context context, String homeCurrency) {
     PROJECTION_BASE = new String[]{
             KEY_ROWID,
+            KEY_ACCOUNTID,
             KEY_DATE,
             KEY_VALUE_DATE,
             KEY_AMOUNT + " AS " + KEY_DISPLAY_AMOUNT,
@@ -144,10 +145,9 @@ public class DatabaseConstants {
 
     //extended for aggregate include is_same_currecny
     int extendedLength = PROJECTION_EXTENDED.length;
-    PROJECTION_EXTENDED_AGGREGATE = new String[extendedLength + 2];
+    PROJECTION_EXTENDED_AGGREGATE = new String[extendedLength + 1];
     System.arraycopy(PROJECTION_EXTENDED, 0, PROJECTION_EXTENDED_AGGREGATE, 0, extendedLength);
     PROJECTION_EXTENDED_AGGREGATE[extendedLength] = IS_SAME_CURRENCY + " AS " + KEY_IS_SAME_CURRENCY;
-    PROJECTION_EXTENDED_AGGREGATE[extendedLength + 1] = KEY_ACCOUNTID;
 
     int aggregateLength = PROJECTION_EXTENDED_AGGREGATE.length;
     PROJECTION_EXTENDED_HOME = new String[aggregateLength + 1];

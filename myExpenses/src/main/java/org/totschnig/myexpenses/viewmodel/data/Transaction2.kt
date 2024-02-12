@@ -5,6 +5,8 @@ import android.database.Cursor
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable
 import kotlinx.parcelize.Parcelize
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
+import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
@@ -64,6 +66,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
 import org.totschnig.myexpenses.provider.DbUtils.typeWithFallBack
 import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.effectiveTypeExpression
+import org.totschnig.myexpenses.provider.getBoolean
+import org.totschnig.myexpenses.provider.getBooleanIfExists
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getIntIfExists
 import org.totschnig.myexpenses.provider.getLong
@@ -111,7 +115,8 @@ data class Transaction2(
     val day: Int,
     val icon: String? = null,
     val attachmentCount: Int = 0,
-    val type: Byte = FLAG_NEUTRAL
+    val type: Byte = FLAG_NEUTRAL,
+    val isSameCurrency: Boolean = true
 ) : Parcelable {
 
     val currency: CurrencyUnit
@@ -146,13 +151,27 @@ data class Transaction2(
             prefHandler: PrefHandler,
             extended: Boolean = true
         ) = buildList {
-            addAll(projection(grouping, extended, DataBaseAccount.isHomeAggregate(accountId), homeCurrency, prefHandler))
+            addAll(
+                projection(
+                    grouping,
+                    extended,
+                    DataBaseAccount.isHomeAggregate(accountId),
+                    homeCurrency,
+                    prefHandler
+                )
+            )
             if (DataBaseAccount.isAggregate(accountId) && extended) {
                 addAll(additionalAggregateColumns)
             }
         }.toTypedArray()
 
-        private fun projection(grouping: Grouping, extended: Boolean, isHomeAggregate: Boolean, homeCurrency: String, prefHandler: PrefHandler): Array<String> =
+        private fun projection(
+            grouping: Grouping,
+            extended: Boolean,
+            isHomeAggregate: Boolean,
+            homeCurrency: String,
+            prefHandler: PrefHandler
+        ): Array<String> =
             listOf(
                 KEY_ROWID,
                 KEY_DATE,
@@ -160,7 +179,7 @@ data class Transaction2(
                 (if (isHomeAggregate) getAmountHomeEquivalent(
                     if (extended) VIEW_EXTENDED else VIEW_COMMITTED,
                     homeCurrency
-                ) else KEY_AMOUNT)  + " AS $KEY_DISPLAY_AMOUNT",
+                ) else KEY_AMOUNT) + " AS $KEY_DISPLAY_AMOUNT",
                 KEY_COMMENT,
                 KEY_CATID,
                 KEY_PATH,
@@ -205,7 +224,8 @@ data class Transaction2(
         fun fromCursor(
             cursor: Cursor,
             accountCurrency: CurrencyUnit,
-            tags: Map<String, Pair<String, Int?>>
+            tags: Map<String, Pair<String, Int?>>,
+            yearColum: String = KEY_YEAR
         ): Transaction2 {
             val amountRaw = cursor.getLong(KEY_DISPLAY_AMOUNT)
             val money = Money(accountCurrency, amountRaw)
@@ -221,11 +241,11 @@ data class Transaction2(
                 catId = cursor.getLongOrNull(KEY_CATID),
                 payee = cursor.getStringOrNull(KEY_PAYEE_NAME),
                 methodLabel = cursor.getStringOrNull(KEY_METHOD_LABEL),
-                methodIcon = cursor.getStringOrNull(KEY_METHOD_ICON),
+                methodIcon = cursor.getStringIfExists(KEY_METHOD_ICON),
                 categoryPath = cursor.getStringOrNull(KEY_PATH),
                 transferPeer = transferPeer,
                 transferAccount = cursor.getLongOrNull(KEY_TRANSFER_ACCOUNT),
-                transferAccountLabel =  cursor.getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL),
+                transferAccountLabel = cursor.getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL),
                 accountId = cursor.getLong(KEY_ACCOUNTID),
                 methodId = cursor.getLongOrNull(KEY_METHODID),
                 crStatus = enumValueOrDefault(
@@ -239,17 +259,19 @@ data class Transaction2(
                 ),
                 transferPeerParent = cursor.getLongIfExists(KEY_TRANSFER_PEER_PARENT),
                 tagList = cursor.splitStringList(KEY_TAGLIST).mapNotNull {
-                                 tags[it]
+                    tags[it]
                 },
                 color = cursor.getIntIfExists(KEY_COLOR),
                 status = cursor.getInt(KEY_STATUS),
-                year = cursor.getInt(KEY_YEAR),
+                year = cursor.getInt(yearColum),
                 month = cursor.getInt(KEY_MONTH),
                 week = cursor.getInt(KEY_WEEK),
                 day = cursor.getInt(KEY_DAY),
-                icon = cursor.getStringOrNull(KEY_ICON),
+                icon = cursor.getStringIfExists(KEY_ICON),
                 attachmentCount = cursor.getIntIfExists(KEY_ATTACHMENT_COUNT) ?: 0,
-                type = cursor.getInt(KEY_TYPE).toByte()
+                type = cursor.getIntIfExists(KEY_TYPE)?.toByte()
+                    ?: if (amountRaw > 0) FLAG_INCOME else FLAG_EXPENSE,
+                isSameCurrency = cursor.getBooleanIfExists(KEY_IS_SAME_CURRENCY) ?: true
             )
         }
     }

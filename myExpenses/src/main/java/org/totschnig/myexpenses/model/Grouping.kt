@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
+import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.YearMonth
@@ -32,7 +33,17 @@ enum class Grouping {
 
     open val minValue = 1
 
+    fun calculateGroupId(transaction: Transaction2) =
+        calculateGroupId(transaction.year, getSecond(transaction))
+
     fun calculateGroupId(year: Int, second: Int) = if (this == NONE) 1 else groupId(year, second)
+
+    fun getSecond(transaction: Transaction2) = when(this) {
+        DAY -> transaction.day
+        WEEK -> transaction.week
+        MONTH -> transaction.month
+        else -> 0
+    }
 
     /**
      * @param groupYear           the year of the group to display

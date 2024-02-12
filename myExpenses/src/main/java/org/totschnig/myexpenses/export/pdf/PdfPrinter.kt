@@ -17,6 +17,8 @@ import com.itextpdf.text.pdf.PdfPTableEvent
 import com.itextpdf.text.pdf.PdfWriter
 import com.itextpdf.text.pdf.draw.LineSeparator
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.tagMap
+import org.totschnig.myexpenses.export.createFileFailure
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -25,13 +27,15 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_MONTH_START
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_WEEK_START
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.provider.getLocalDateIfExists
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
-import org.totschnig.myexpenses.provider.splitStringList
 import org.totschnig.myexpenses.util.AppDirHelper.timeStampedFile
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.LazyFontSelector.FontType
@@ -44,7 +48,7 @@ import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.DateInfo.Companion.fromCursor
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderData.Companion.fromSequence
-import timber.log.Timber
+import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.io.IOException
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -64,11 +68,8 @@ object PdfPrinter {
         val currencyFormatter = context.injector.currencyFormatter()
         val currencyContext = context.injector.currencyContext()
         val currencyUnit = currencyContext[account.currency]
-        val start = System.currentTimeMillis()
-        Timber.d("Print start %d", start)
         val helper = PdfHelper()
-        Timber.d("Helper created %d", System.currentTimeMillis() - start)
-        var selection = DatabaseConstants.KEY_PARENTID + " is null"
+        var selection = "$KEY_PARENTID is null"
         val selectionArgs: Array<String>
         if (!filter.isEmpty) {
             selection += " AND " + filter.getSelectionForParents(
@@ -84,13 +85,7 @@ object PdfPrinter {
             destDir,
             fileName,
             "application/pdf", "pdf"
-        ) ?: throw Exception(
-            context.getString(
-                R.string.io_error_unable_to_create_file,
-                fileName,
-                destDir.displayName
-            )
-        )
+        ) ?: throw createFileFailure(context, destDir, fileName)
         val document = Document()
         val sortBy = if (DatabaseConstants.KEY_AMOUNT == account.sortBy) {
             "abs(" + DatabaseConstants.KEY_AMOUNT + ")"
@@ -107,7 +102,7 @@ object PdfPrinter {
             selection, selectionArgs, sortBy + " " + account.sortDirection
         )!!.use {
             if (it.count == 0) {
-                throw Exception(context.getString(R.string.no_exportable_expenses))
+                throw Exception("No data")
             }
 
             PdfWriter.getInstance(
@@ -115,25 +110,33 @@ object PdfPrinter {
                 context.contentResolver.openOutputStream(outputFile.uri)
             )
             document.open()
-            addMetaData(document, account.label)
-            addHeader(
-                document,
-                helper,
-                account.label,
-                context.getString(R.string.current_balance) + " : " +
-                        currencyFormatter.formatMoney(Money(currencyUnit, account.currentBalance))
-            )
-            addTransactionList(
-                document,
-                it,
-                helper,
-                context,
-                account,
-                filter,
-                currencyUnit,
-                currencyFormatter
-            )
-            document.close()
+            try {
+                addMetaData(document, account.label)
+                addHeader(
+                    document,
+                    helper,
+                    account.label,
+                    context.getString(R.string.current_balance) + " : " +
+                            currencyFormatter.formatMoney(
+                                Money(
+                                    currencyUnit,
+                                    account.currentBalance
+                                )
+                            )
+                )
+                addTransactionList(
+                    document,
+                    it,
+                    helper,
+                    context,
+                    account,
+                    filter,
+                    currencyUnit,
+                    currencyFormatter
+                )
+            } finally {
+                document.close()
+            }
             return outputFile.uri to outputFile.displayName
         }
     }
@@ -167,7 +170,7 @@ object PdfPrinter {
     @Throws(DocumentException::class, IOException::class)
     private fun addTransactionList(
         document: Document,
-        transactionCursor: Cursor?,
+        transactionCursor: Cursor,
         helper: PdfHelper,
         context: Context,
         account: FullAccount,
@@ -187,22 +190,7 @@ object PdfPrinter {
                 it.asSequence
             )
         }
-        val columnIndexRowId = transactionCursor!!.getColumnIndex(DatabaseConstants.KEY_ROWID)
-        val columnIndexYear = transactionCursor.getColumnIndex(DatabaseConstants.KEY_YEAR)
-        val columnIndexYearOfWeekStart =
-            transactionCursor.getColumnIndex(DatabaseConstants.KEY_YEAR_OF_WEEK_START)
-        val columnIndexMonth = transactionCursor.getColumnIndex(DatabaseConstants.KEY_MONTH)
-        val columnIndexWeek = transactionCursor.getColumnIndex(DatabaseConstants.KEY_WEEK)
-        val columnIndexDay = transactionCursor.getColumnIndex(DatabaseConstants.KEY_DAY)
-        val columnIndexAmount =
-            transactionCursor.getColumnIndex(DatabaseConstants.KEY_DISPLAY_AMOUNT)
-        val columnIndexPath = transactionCursor.getColumnIndex(DatabaseConstants.KEY_PATH)
-        val columnIndexComment = transactionCursor.getColumnIndex(DatabaseConstants.KEY_COMMENT)
-        val columnIndexReferenceNumber =
-            transactionCursor.getColumnIndex(DatabaseConstants.KEY_REFERENCE_NUMBER)
-        val columnIndexPayee = transactionCursor.getColumnIndex(DatabaseConstants.KEY_PAYEE_NAME)
-        val columnIndexDate = transactionCursor.getColumnIndex(DatabaseConstants.KEY_DATE)
-        val columnIndexCrStatus = transactionCursor.getColumnIndex(DatabaseConstants.KEY_CR_STATUS)
+
         val itemDateFormat = when (account.grouping) {
             Grouping.DAY -> android.text.format.DateFormat.getTimeFormat(context)
             Grouping.MONTH -> SimpleDateFormat("dd")
@@ -212,46 +200,44 @@ object PdfPrinter {
         var table: PdfPTable? = null
         var prevHeaderId = 0
         var currentHeaderId: Int
+        val tagMap = context.contentResolver.tagMap
         transactionCursor.moveToFirst()
         while (transactionCursor.position < transactionCursor.count) {
-            val year =
-                transactionCursor.getInt(if (account.grouping == Grouping.WEEK) columnIndexYearOfWeekStart else columnIndexYear)
-            val month = transactionCursor.getInt(columnIndexMonth)
-            val week = transactionCursor.getInt(columnIndexWeek)
-            val day = transactionCursor.getInt(columnIndexDay)
-            currentHeaderId = when (account.grouping) {
-                Grouping.DAY -> year * 1000 + day
-                Grouping.WEEK -> year * 1000 + week
-                Grouping.MONTH -> year * 1000 + month
-                Grouping.YEAR -> year * 1000
-                else -> 1
-            }
+            //could use /with/ scoping function with Kotlin 2.0.
+            val transaction =
+                Transaction2.fromCursor(
+                    cursor = transactionCursor,
+                    accountCurrency = account.currencyUnit,
+                    tags = tagMap,
+                    yearColum = when (account.grouping) {
+                        Grouping.WEEK -> KEY_YEAR_OF_WEEK_START
+                        Grouping.MONTH -> KEY_YEAR_OF_MONTH_START
+                        else -> KEY_YEAR
+                    }
+                )
+
+            currentHeaderId = account.grouping.calculateGroupId(transaction)
             if (currentHeaderId != prevHeaderId) {
                 if (table != null) {
                     document.add(table)
                 }
-                val second = when (account.grouping) {
-                    Grouping.DAY -> transactionCursor.getInt(columnIndexDay)
-                    Grouping.MONTH -> transactionCursor.getInt(columnIndexMonth)
-                    Grouping.WEEK -> transactionCursor.getInt(columnIndexWeek)
-                    else -> -1
-                }
+                val headerRow = integerHeaderRowMap[currentHeaderId]!!
                 table = helper.newTable(2)
                 table.widthPercentage = 100f
                 var cell = helper.printToCell(
                     account.grouping.getDisplayTitle(
                         context,
-                        year,
-                        second,
+                        transaction.year,
+                        headerRow.second,
                         fromCursor(transactionCursor),
-                        transactionCursor.getLocalDateIfExists(DatabaseConstants.KEY_WEEK_START),
+                        headerRow.weekStart,
                         false
                     ),  //TODO
                     FontType.HEADER
                 )
                 table.addCell(cell)
-                val headerRow = integerHeaderRowMap[currentHeaderId]
-                val sumExpense = headerRow!!.expenseSum
+
+                val sumExpense = headerRow.expenseSum
                 val sumIncome = headerRow.incomeSum
                 val sumTransfer = headerRow.transferSum
                 val (_, amountMinor) = headerRow.delta
@@ -356,17 +342,13 @@ object PdfPrinter {
                 table.widthPercentage = 100f
                 prevHeaderId = currentHeaderId
             }
-            val amount = transactionCursor.getLong(columnIndexAmount)
             var isVoid = false
             try {
-                isVoid =
-                    CrStatus.valueOf(transactionCursor.getString(columnIndexCrStatus)) == CrStatus.VOID
+                isVoid = transaction.crStatus == CrStatus.VOID
             } catch (ignored: IllegalArgumentException) {
             }
             var cell = helper.printToCell(
-                Utils.convDateTime(
-                    transactionCursor.getLong(columnIndexDate), itemDateFormat
-                ),
+                Utils.convDateTime(transaction._date, itemDateFormat),
                 FontType.NORMAL
             )
             table!!.addCell(cell)
@@ -376,91 +358,78 @@ object PdfPrinter {
             var catText = ""
             if (account.id < 0) {
                 //for aggregate accounts we need to indicate the account name
-                catText = (transactionCursor.getString(
-                    transactionCursor.getColumnIndexOrThrow(DatabaseConstants.KEY_ACCOUNT_LABEL)
-                )
-                        + " ")
+                catText = transaction.accountLabel + " "
             }
-            val catId = transactionCursor.getLongOrNull(DatabaseConstants.KEY_CATID)
+            val catId = transaction.catId
             if (DatabaseConstants.SPLIT_CATID == catId) {
-                val splits = context.contentResolver.query(
+                context.contentResolver.query(
                     Transaction.CONTENT_URI, null,
-                    DatabaseConstants.KEY_PARENTID + " = " + transactionCursor.getLong(
-                        columnIndexRowId
-                    ), null, null
-                )
-                splits!!.moveToFirst()
-                val catTextBuilder = StringBuilder()
-                while (splits.position < splits.count) {
-                    var splitText = splits.getString(DatabaseConstants.KEY_PATH)
-                    if (splitText.isNotEmpty()) {
-                        if (splits.getLongOrNull(DatabaseConstants.KEY_TRANSFER_PEER) != null) {
-                            splitText += " (" + Transfer.getIndicatorPrefixForLabel(amount) + splits.getStringOrNull(
-                                DatabaseConstants.KEY_TRANSFER_ACCOUNT_LABEL
-                            ) + ")"
+                    "$KEY_PARENTID = ${transaction.id}", null, null
+                )!!.use { splits ->
+                    splits.moveToFirst()
+                    val catTextBuilder = StringBuilder()
+                    while (splits.position < splits.count) {
+                        var splitText = splits.getString(DatabaseConstants.KEY_PATH)
+                        if (splitText.isNotEmpty()) {
+                            if (splits.getLongOrNull(DatabaseConstants.KEY_TRANSFER_PEER) != null) {
+                                splitText += " (" + Transfer.getIndicatorPrefixForLabel(transaction.amount.amountMinor) + splits.getStringOrNull(
+                                    DatabaseConstants.KEY_TRANSFER_ACCOUNT_LABEL
+                                ) + ")"
+                            }
+                        } else {
+                            splitText = Category.NO_CATEGORY_ASSIGNED_LABEL
                         }
-                    } else {
-                        splitText = Category.NO_CATEGORY_ASSIGNED_LABEL
+                        splitText += " " + currencyFormatter.convAmount(
+                            splits.getLong(
+                                splits.getColumnIndexOrThrow(DatabaseConstants.KEY_DISPLAY_AMOUNT)
+                            ), currencyUnit
+                        )
+                        val splitComment = splits.getString(DatabaseConstants.KEY_COMMENT)
+                        if (splitComment.isNotEmpty()) {
+                            splitText += " ($splitComment)"
+                        }
+                        catTextBuilder.append(splitText)
+                        if (splits.position != splits.count - 1) {
+                            catTextBuilder.append("; ")
+                        }
+                        splits.moveToNext()
                     }
-                    splitText += " " + currencyFormatter.convAmount(
-                        splits.getLong(
-                            splits.getColumnIndexOrThrow(DatabaseConstants.KEY_DISPLAY_AMOUNT)
-                        ), currencyUnit
-                    )
-                    val splitComment = splits.getString(DatabaseConstants.KEY_COMMENT)
-                    if (splitComment.isNotEmpty()) {
-                        splitText += " ($splitComment)"
-                    }
-                    catTextBuilder.append(splitText)
-                    if (splits.position != splits.count - 1) {
-                        catTextBuilder.append("; ")
-                    }
-                    splits.moveToNext()
+                    catText += catTextBuilder.toString()
                 }
-                catText += catTextBuilder.toString()
-                splits.close()
             } else {
                 catText += if (catId == null) {
                     Category.NO_CATEGORY_ASSIGNED_LABEL
                 } else {
-                    transactionCursor.getString(columnIndexPath)
+                    transaction.categoryPath
                 }
-                if (transactionCursor.getLongOrNull(DatabaseConstants.KEY_TRANSFER_PEER) != null) {
-                    catText += " (" + Transfer.getIndicatorPrefixForLabel(amount) + transactionCursor.getStringOrNull(
-                        DatabaseConstants.KEY_TRANSFER_ACCOUNT_LABEL
-                    ) + ")"
+                if (transaction.transferPeer != null) {
+                    catText += " (" + Transfer.getIndicatorPrefixForLabel(transaction.amount.amountMinor) + transaction.transferAccountLabel + ")"
                 }
             }
-            val referenceNumber = transactionCursor.getString(columnIndexReferenceNumber)
-            if (referenceNumber != null && referenceNumber.isNotEmpty()) catText =
-                "($referenceNumber) $catText"
+            if (!transaction.referenceNumber.isNullOrEmpty()) catText =
+                "(${transaction.referenceNumber}) $catText"
             cell = helper.printToCell(catText, FontType.NORMAL)
-            val payee = transactionCursor.getString(columnIndexPayee)
-            if (payee == null || payee.isEmpty()) {
+            if (transaction.payee.isNullOrEmpty()) {
                 cell.colspan = 2
             }
             table.addCell(cell)
-            if (payee != null && payee.isNotEmpty()) {
-                table.addCell(helper.printToCell(payee, FontType.UNDERLINE))
+            if (!transaction.payee.isNullOrEmpty()) {
+                table.addCell(helper.printToCell(transaction.payee, FontType.UNDERLINE))
             }
-            val t: FontType = if (account.id < 0 &&
-                transactionCursor.getInt(transactionCursor.getColumnIndexOrThrow(DatabaseConstants.KEY_IS_SAME_CURRENCY)) == 1
-            ) {
+            val t: FontType = if (account.id < 0 && transaction.isSameCurrency) {
                 FontType.NORMAL
             } else {
-                if (amount < 0) FontType.EXPENSE else FontType.INCOME
+                if (transaction.amount.amountMinor < 0) FontType.EXPENSE else FontType.INCOME
             }
-            cell = helper.printToCell(currencyFormatter.convAmount(amount, currencyUnit), t)
+            cell = helper.printToCell(currencyFormatter.formatMoney(transaction.amount), t)
             cell.horizontalAlignment = Element.ALIGN_RIGHT
             table.addCell(cell)
-            val comment = transactionCursor.getString(columnIndexComment)
-            val tagList = transactionCursor.splitStringList(DatabaseConstants.KEY_TAGLIST)
-            val hasComment = comment != null && comment.isNotEmpty()
-            val hasTags = tagList.isNotEmpty()
+            val hasComment = !transaction.comment.isNullOrEmpty()
+            val hasTags = transaction.tagList.isNotEmpty()
             if (hasComment || hasTags) {
                 table.addCell(helper.emptyCell())
                 if (hasComment) {
-                    cell = helper.printToCell(comment, FontType.ITALIC)
+                    cell = helper.printToCell(transaction.comment, FontType.ITALIC)
                     if (isVoid) {
                         cell.phrase.chunks[0].setGenericTag(VOID_MARKER)
                     }
@@ -470,9 +439,8 @@ object PdfPrinter {
                     table.addCell(cell)
                 }
                 if (hasTags) {
-                    //for the moment we stick with the result of java.util.AbstractCollection.toString
-                    //when we convert this to Kotlin, we will add more accurate rendering
-                    cell = helper.printToCell(tagList.toString(), FontType.BOLD)
+                    //TODO make use of color
+                    cell = helper.printToCell(transaction.tagList.joinToString { it.first }, FontType.BOLD)
                     if (isVoid) {
                         cell.phrase.chunks[0].setGenericTag(VOID_MARKER)
                     }

@@ -551,6 +551,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 false
                             )
                         }.onFailure {
+                            CrashHandler.report(it)
                             showSnackBar(it.safeMessage)
                         }
                         exportViewModel.pdfResultProcessed()

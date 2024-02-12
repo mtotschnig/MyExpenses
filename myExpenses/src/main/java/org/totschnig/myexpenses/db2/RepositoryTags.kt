@@ -4,12 +4,11 @@ import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
+import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import androidx.annotation.VisibleForTesting
-import app.cash.copper.Query
 import app.cash.copper.flow.observeQuery
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.transform
@@ -70,19 +69,21 @@ private fun ContentResolver.saveTags(linkUri: Uri, column: String, tags: List<Ta
     val ops = ArrayList<ContentProviderOperation>()
     ops.add(
         ContentProviderOperation.newDelete(linkUri)
-        .withSelection("$column = ?", arrayOf(id.toString()))
-        .build())
+            .withSelection("$column = ?", arrayOf(id.toString()))
+            .build()
+    )
     tags?.forEach {
         ops.add(
             ContentProviderOperation.newInsert(linkUri)
-            .withValue(column, id)
-            .withValue(KEY_TAGID, it.id)
-            .build())
+                .withValue(column, id)
+                .withValue(KEY_TAGID, it.id)
+                .build()
+        )
     }
 
-   if (applyBatch(TransactionProvider.AUTHORITY, ops).size != ops.size) {
-       throw IOException("Saving tags failed")
-   }
+    if (applyBatch(TransactionProvider.AUTHORITY, ops).size != ops.size) {
+        throw IOException("Saving tags failed")
+    }
 }
 
 fun Repository.extractTagIds(tags: Collection<String?>, tagToId: MutableMap<String, Long>) =
@@ -90,7 +91,8 @@ fun Repository.extractTagIds(tags: Collection<String?>, tagToId: MutableMap<Stri
         tagToId[tag] ?: extractTagId(tag).also { tagToId[tag] = it }
     }
 
-private fun Repository.extractTagId(label: String) = find(label).takeIf { it > -1 } ?: writeTag(label)
+private fun Repository.extractTagId(label: String) =
+    find(label).takeIf { it > -1 } ?: writeTag(label)
 
 /**
  * Looks for a tag with label
@@ -101,7 +103,13 @@ private fun Repository.extractTagId(label: String) = find(label).takeIf { it > -
 private fun Repository.find(label: String): Long {
     val selection = "$KEY_LABEL = ?"
     val selectionArgs = arrayOf(label.trim())
-    contentResolver.query(TransactionProvider.TAGS_URI, arrayOf(KEY_ROWID), selection, selectionArgs, null)?.use {
+    contentResolver.query(
+        TransactionProvider.TAGS_URI,
+        arrayOf(KEY_ROWID),
+        selection,
+        selectionArgs,
+        null
+    )?.use {
         if (it.moveToFirst())
             return it.getLong(0)
     }
@@ -120,23 +128,27 @@ fun Repository.writeTag(label: String) =
 /**
  * Map of tag id to pair (label, color)
  */
-val ContentResolver.tagMap: Flow<Map<String, Pair<String, Int?>>>
+val ContentResolver.tagMapFlow: Flow<Map<String, Pair<String, Int?>>>
     get() = observeQuery(TransactionProvider.TAGS_URI, notifyForDescendants = true)
         .transform { query ->
             val map = withContext(Dispatchers.IO) {
-                query.run()?.use { cursor ->
-                    buildMap {
-                        while (cursor.moveToNext()) {
-                            put(
-                                cursor.getString(KEY_ROWID),
-                                (cursor.getString(KEY_LABEL) to
-                                        cursor.getIntOrNull(DatabaseConstants.KEY_COLOR))
-                            )
-                        }
-                    }
-                }
+                query.run()?.use(Cursor::toTagMap)
             }
             if (map != null) {
                 emit(map)
             }
         }
+
+val ContentResolver.tagMap: Map<String, Pair<String, Int?>>
+    get() = query(TransactionProvider.TAGS_URI, null, null, null, null)!!
+        .use(Cursor::toTagMap)
+
+fun Cursor.toTagMap() = buildMap {
+    while (moveToNext()) {
+        put(
+            getString(KEY_ROWID),
+            (getString(KEY_LABEL) to
+                    getIntOrNull(DatabaseConstants.KEY_COLOR))
+        )
+    }
+}

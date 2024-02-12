@@ -49,13 +49,15 @@ fun Cursor.getLongIfExistsOr0(column: String) =
     getColumnIndex(column).takeIf { it != -1 }?.let { getLong(it) } ?: 0L
 
 fun Cursor.getStringIfExists(column: String) =
-    getColumnIndex(column).takeIf { it != -1 }?.let { getString(it) }
+    getColumnIndex(column).takeIf { it != -1 }?.let { getStringOrNull(it) }
 
 fun Cursor.getDoubleIfExists(column: String) =
     getColumnIndex(column).takeIf { it != -1 }?.let { getDouble(it) }
 
 fun Cursor.getBoolean(column: String) = getInt(column) == 1
 fun Cursor.getBoolean(columnIndex: Int) = getInt(columnIndex) == 1
+
+fun Cursor.getBooleanIfExists(column: String): Boolean? = getIntIfExists(column)?.equals(1)
 
 fun Cursor.isNull(column: String) = isNull(getColumnIndexOrThrow(column))
 

@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.asCategoryType
-import org.totschnig.myexpenses.db2.tagMap
+import org.totschnig.myexpenses.db2.tagMapFlow
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isHomeAggregate
@@ -81,7 +81,7 @@ class TransactionListViewModel(
         get() = with(loadingInfo) {
             val (selection, selectionArgs) = selectionInfo
             combine(
-                flow = contentResolver.tagMap,
+                flow = contentResolver.tagMapFlow,
                 flow2 = contentResolver.observeQuery(
                     transactionUri,
                     Transaction2.projection(
