@@ -11,6 +11,7 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
+import eltos.simpledialogfragment.form.ColorField
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -100,8 +101,10 @@ class TagListViewModel(application: Application, savedStateHandle: SavedStateHan
                     ),
                     ContentValues().apply {
                         put(KEY_LABEL, newLabel)
-                        if (color != 0) {
+                        if (color != ColorField.NONE) {
                             put(KEY_COLOR, color)
+                        } else {
+                            putNull(KEY_COLOR)
                         }
                     }, null, null
                 )
