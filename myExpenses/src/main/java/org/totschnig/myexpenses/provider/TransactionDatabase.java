@@ -2175,9 +2175,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         db.execSQL("UPDATE categories SET type = (SELECT type FROM categories parent WHERE parent._id = categories.parent_id) WHERE parent_id IN (SELECT _id FROM categories WHERE parent_id IS NULL)");
       }
 
-      if (oldVersion < 154) {
+/*      if (oldVersion < 154) {
         createOrRefreshViews(db);
-      }
+      }*/
 
       if (oldVersion < 155) {
         upgradeTo155(db);
@@ -2207,6 +2207,11 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
       if (oldVersion < 161) {
         upgradeTo161(db);
+      }
+
+      if (oldVersion < 162) {
+        db.execSQL("alter table tags add column color integer default null");
+        createOrRefreshViews(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);
