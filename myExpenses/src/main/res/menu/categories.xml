@@ -47,7 +47,7 @@
         </menu>
     </item>
     <item
-        android:id="@+id/SYNC_COMMAND"
+        android:id="@id/SYNC_COMMAND"
         app:showAsAction="never"
         android:title="@string/synchronization">
         <menu>

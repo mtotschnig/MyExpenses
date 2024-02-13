@@ -138,6 +138,7 @@
     <string name="pref_camera_app_key">camera_app</string>
     <string name="pref_camera_chooser_key">camera_chooser</string>
     <string name="pref_transaction_amount_color_source_key">transaction_amount_color_source</string>
+    <string name="pref_sync_now_all_key">sync_now_all</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
     <string-array name="additional_credits">

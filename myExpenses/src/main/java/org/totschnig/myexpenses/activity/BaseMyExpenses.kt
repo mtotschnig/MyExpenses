@@ -1490,7 +1490,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             }
 
             R.id.SYNC_COMMAND -> currentAccount?.takeIf { it.syncAccountName != null }?.let {
-                requestSync(accountName = it.syncAccountName!!, uuid = it.uuid)
+                requestSync(
+                    accountName = it.syncAccountName!!,
+                    uuid = if (prefHandler.getBoolean(PrefKey.SYNC_NOW_ALL, false)) null else it.uuid)
             }
 
             R.id.FINTS_SYNC_COMMAND -> currentAccount?.takeIf { it.bankId != null }?.let {

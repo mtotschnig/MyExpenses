@@ -188,6 +188,7 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     CAMERA_APP(R.string.pref_camera_app_key),
     CAMERA_CHOOSER(R.string.pref_camera_chooser_key),
     TRANSACTION_AMOUNT_COLOR_SOURCE(R.string.pref_transaction_amount_color_source_key),
+    SYNC_NOW_ALL(R.string.pref_sync_now_all_key)
     ;
 
     @Deprecated("")
