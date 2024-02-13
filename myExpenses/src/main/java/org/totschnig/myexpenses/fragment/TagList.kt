@@ -250,6 +250,9 @@ class TagList : Fragment(), OnDialogResultListener {
             return super.getItem(position)
         }
 
+        override fun getItemViewType(position: Int) =
+            if (getItem(position).color == null) 0 else 1
+
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             (holder.itemView as Chip).apply {
                 val tag = getItem(position)
