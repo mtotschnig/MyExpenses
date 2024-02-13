@@ -1023,4 +1023,5 @@
     <string name="default_transfer_category">Standardübertragungskategorie</string>
     <string name="contact_us">Kontaktieren Sie uns</string>
     <string name="pref_transaction_amount_color_source_title">Farben für Beträge</string>
+    <string name="pref_sync_now_all_summary">%s synchronisiert alle Konten für dasselbe Back-End</string>
 </resources>
