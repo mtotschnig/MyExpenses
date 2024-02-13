@@ -88,7 +88,7 @@
     <string name="menu_scan_mode_help_text">برای اسکن سریع رسیدها حالت اسکن را فعال کنید.</string>
     <string name="help_ManageParties_manage_info">این صفحه، طرف هایی را که برای تکمیل خودکار فیلد پرداخت کننده/ گیرنده وجه استفاده شده اند، فهرست می کند.</string>
     <string name="help_ManageParties_select_mapping_info">یک فرد را با ضربه زدن روی آن انتخاب کنید.</string>
-    <string name="help_ManageParties_select_filter_info">برای فیلتر کردن لیست تراکنش، روی نام فرد ضربه بزنید. برای انتخاب چندین فرد، ضربه بزنید و نگه دارید.</string>
+    <string name="help_ManageParties_select_filter_info"></string>
     <string name="help_ManageTemplates_planner_title">بازرخدادهای آتی</string>
     <string name="help_ManageTemplates_plans_intro">هر تاریخ برجسته شده نمونه ای از طرح را نشان می دهد.</string>
     <string name="form_attach_image_help_text">دکمه &lt;img src=android:ic_menu_camera&gt; به شما امکان می دهد یک تصویر (مثلاً از گالری یا دوربین) را به موضوع متصل کنید.</string>
