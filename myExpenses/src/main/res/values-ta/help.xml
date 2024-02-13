@@ -39,7 +39,7 @@
     <string name="cab_show_transactions_help_text">நடப்புக் கணக்கில் தேர்ந்தெடுக்கப்பட்ட வகைக்கு மேப் செய்யப்பட்ட அனைத்து பரிவர்த்தனைகளையும் பட்டியலிடும் உரையாடலைத் திறக்கவும்.</string>
     <string name="menu_back_help_text">முந்தைய குழுவிற்கு செல்லவும். இடமிருந்து வலமாக ஸ்வைப் சைகை மூலமாகவும் செய்யலாம்.</string>
     <string name="help_MyExpenses_fab_long_press">மிதக்கும் செயல் பொத்தானை நீண்ட நேரம் அழுத்தினால், பரிமாற்றம், பிளவு பரிவர்த்தனை அல்லது வருமானத்திற்கான படிவத்தைத் தயாரிக்க அனுமதிக்கும் மெனுவைத் திறக்கும்.</string>
-    <string name="help_ManageParties_select_filter_info">பரிவர்த்தனை பட்டியலை வடிகட்ட ஒரு கட்சியைத் தட்டவும். பல கட்சிகளைத் தேர்ந்தெடுக்க நீண்ட தட்டவும்.</string>
+    <string name="help_ManageParties_select_filter_info">பரிவர்த்தனை பட்டியலை வடிகட்ட நீங்கள் பயன்படுத்த விரும்பும் அனைத்து தரப்பினரையும் தேர்ந்தெடுக்கவும்.</string>
     <string name="cab_sync_unlink_help_text">தேர்ந்தெடுக்கப்பட்ட கணக்கு இனி பின்தளத்தில் ஒத்திசைக்கப்படாது</string>
     <string name="help_ManageBudgets_title">அனைத்து வரவு செலவுத் திட்டங்களின் பட்டியல்</string>
     <string name="help_ExpenseEdit_templateSplit_title">பிளவு வார்ப்புருக்கள் படிவம்</string>
