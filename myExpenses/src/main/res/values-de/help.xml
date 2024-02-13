@@ -31,7 +31,7 @@
     <string name="help_ManageMethods_info">Auf diesem Bildschirm wird die Liste der vordefinierten Zahlungsweisen angezeigt (Scheck, Kreditkarte, Einzahlung, Abbuchung) und Sie können hier auch neue Zahlungsweisen definieren. Verwenden Sie die schwebende Aktionsschaltfläche zum Öffnen des Formulars für die Schaffung einer neuen Zahlungsweise.</string>
     <string name="help_ManageParties_manage_info">Auf diesem Bildschirm wird die Liste der Parteien angezeigt, die für die automatische Komplettierung des Feldes Zahler/Empfänger verwendet wird.</string>
     <string name="help_ManageParties_select_mapping_info">Wählen Sie eine Partei aus, indem Sie darauf tippen.</string>
-    <string name="help_ManageParties_select_filter_info">Tippen Sie auf eine Partei, um die Buchungsliste zu filtern. Langes Tippen ermöglicht die Auswahl mehrerer Parteien.</string>
+    <string name="help_ManageParties_select_filter_info">Wählen Sie alle Parteien aus, die Sie zum Filtern der Transaktionsliste verwenden möchten.</string>
     <string name="help_ManageParties_floating_action_button">Verwenden Sie die schwebende Aktionsschaltfläche um einen Eintrag hinzuzufügen.</string>
     <string name="menu_merge_help_text">Wenn dieselbe Partei mehrmals in der Liste mit unterschiedlichen Rechtschreibvarianten angezeigt wird, können Sie diese zusammenführen.</string>
     <string name="help_ManageParties_mergeMode_info_2">Sie werden aufgefordert, die beizubehaltende Variante auszuwählen.</string>
@@ -207,4 +207,6 @@
     <string name="help_DebtOverview_info">Klicken Sie auf einen Eintrag, um ihn ein- oder auszublenden.</string>
     <string name="menu_type_filter_help_text">Wenn diese Option aktiviert ist, können Sie auswählen, ob nur Ausgaben-, Einkommen- oder Umbuchungskategorien angezeigt werden sollen.</string>
     <string name="menu_aggregate_neutral_categories_help_text">Buchungen, die Einkommenskategorien zugeordnet sind, werden immer als Einnahmen gezählt, Buchungen, die Ergebniskategorien zugeordnet sind, werden immer als Ausgaben gezählt. Mit dieser Option können Sie konfigurieren, wie Buchungen gezählt werden, die neutralen Kategorien zugeordnet sind: Wenn sie positiv sind, stellen sie standardmäßig ein Einkommen dar, wenn sie negativ sind, eine Ausgabe. Wenn diese Option jedoch aktiviert ist, sind sie immer sowohl in der Summe Ihrer Einnahmen als auch Ihrer Ausgaben enthalten.</string>
+    <string name="help_ManageParties_mergeMode_info_1">Wählen Sie die doppelten Parteien aus, die Sie zusammenführen möchten.</string>
+    <string name="help_ManageTags_context_menu_info">Tippen Sie auf das Symbol &lt;img src=more&gt;, um ein Schlagwort zu bearbeiten, ihm eine Farbe zuzuweisen oder es zu löschen.</string>
 </resources>
