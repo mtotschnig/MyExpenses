@@ -135,7 +135,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     }
 
     @Test
-    fun newAccountKeepPosition() {
+    fun newAccountShowNew() {
         openDrawer()
         onView(withId(R.id.expansionTrigger)).perform(click())
         onView(withText(R.string.menu_create_account))
@@ -151,7 +151,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
             closeSoftKeyboard()
         )
         clickFab()
-        checkTitle()
+        checkTitle("A")
     }
 
     private fun openDrawer() {
@@ -192,8 +192,8 @@ class MyExpensesTest : BaseMyExpensesTest() {
             )
         ).perform(click())
         assertDataSize(3)
-        //after deletetion of Account 1, Account 2 should still be selected
-        checkTitle()
+        //after deletion of Account 1, Account 2 should still be selected
+        checkTitle("Test account 2")
     }
 
     private val dialogTitleWarningDeleteAccount: String
@@ -258,19 +258,19 @@ class MyExpensesTest : BaseMyExpensesTest() {
 
     @Test
     fun titleAndSubtitleAreSetAndSurviveOrientationChange() {
-        checkTitle()
+        checkTitle("Test account 2")
         rotate()
-        checkTitle()
+        checkTitle("Test account 2")
     }
 
-    private fun checkTitle() {
+    private fun checkTitle(label: String) {
         val currencyFormatter = app.appComponent.currencyFormatter()
         val balance = currencyFormatter.formatMoney(Money(homeCurrency, 0))
         onView(
             allOf(
                 instanceOf(TextView::class.java),
                 withParent(withId(R.id.toolbar)),
-                withText("Test account 2")
+                withText(label)
             )
         ).check(matches(isDisplayed()))
         onView(
