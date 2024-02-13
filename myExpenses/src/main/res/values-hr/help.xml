@@ -135,6 +135,6 @@
     <string name="form_plan_help_text_advanced">Nakon što spremiš predložak, možeš konfigurirati naprednije vrste ponavljanja koristeći svoju aplikaciju kalendara.</string>
     <string name="menu_original_amount_help_text">Prikaži polje koje omogućuje definiranje dodatnog iznosa. Na primjer, ako plaćaš svojom kreditnom karticom u stranoj valuti, možeš zapamtiti izvornu cijenu dodatno iznosu terećenja tvoje kartice. Izvorni iznos se zanemaruje za izračunavanje ukupnih iznosa.</string>
     <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Ako su valute računa „Od” i „U” različite, navedi iznos samo za jednu od njih. Drugi račun će se izračunati kada stvoriš instance iz predloška.</string>
-    <string name="help_ManageParties_floating_action_button_2">Koristi plutajući gumb radnje za potvrđivanje odabira.</string>
+    <string name="help_fab_confirm_selection">Koristi plutajući gumb radnje za potvrđivanje odabira.</string>
     <string name="help_ManageParties_mergeMode_info_1">Odaberi duple stranke koje želiš sjediniti.</string>
 </resources>

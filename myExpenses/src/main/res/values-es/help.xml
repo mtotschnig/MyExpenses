@@ -172,7 +172,7 @@
     <string name="form_BudgetEdit_type_help_text">Un presupuesto se define como regular (diario, mensual, semanal, anual) o puntual. Para los presupuestos puntuales, especifique el comienzo y fin de su duración. Por otro lado, un presupuesto regular (no filtrado) puede configurarse por defecto: cada lista de transacción (si está configurada en grupo de datos por días, semanas, meses o años) mostrará el progreso de ese presupuesto para cada periodo.</string>
     <string name="cab_remap_help_text">Utilice los comandos de este submenú si quiere cambiar el atributo asignado (cuenta, categoría, ordenante/acreedor o método de pago) para todas las transacciones seleccionadas.</string>
     <string name="form_tags_help_text">El icono de \"+\" permite seleccionar etiquetas ya creadas o crear otras nuevas. El icono de \"x\" de cada etiqueta permite quitar la etiqueta asignada a la transacción.</string>
-    <string name="help_ManageTags_select_filter_info">Filtre la lista de transacciones seleccionando y de-seleccionando etiquetas al presionar sobre ellas. Use el botón de acción flotante para confirmar la selección.</string>
+    <string name="help_ManageTags_select_filter_info">Filtre la lista de transacciones seleccionando y de-seleccionando etiquetas al presionar sobre ellas.</string>
     <string name="help_ManageTags_manage_info">Cree nuevas etiquetas introduciéndolas en el campo de texto.</string>
     <string name="help_ManageTags_select_mapping_info">Asigne o elimine etiquetas presionando sobre ella. Use el botón de acción flotante para confirmar la asignación.</string>
     <string name="form_DebtEdit_amount_help_text">Introduzca el importe original de la deuda. Las transacciones vinculadas a la deuda disminuirán o aumentarán el saldo. Utilice el conmutador para distinguir entre las deudas que usted debe y las que se le deben a usted. Si selecciona una moneda distinta a la suya, la deuda sólo será visible en las cuentas con la misma moneda.</string>
@@ -207,5 +207,5 @@
     <string name="menu_type_filter_help_text">Cuando esta opción está activada, puede seleccionar que sólo se muestren las categorías de gastos, ingresos o transferencias.</string>
     <string name="menu_aggregate_neutral_categories_help_text">Las transacciones asignadas a las categorías de ingresos siempre se cuentan como ingresos, las transacciones asignadas a las categorías de gastos siempre se cuentan como gastos. Esta opción le permite configurar cómo se contabilizan las transacciones asignadas a las categorías neutrales: Por defecto si son positivas representan un ingreso, si son negativas un gasto. Pero si se activa esta opción, siempre se incluyen en ambas sumas de ingresos y gastos.</string>
     <string name="help_ManageParties_mergeMode_info_1">Seleccione las partidas duplicadas que desea fusionar.</string>
-    <string name="help_ManageParties_floating_action_button_2">Utilice el botón de acción flotante para confirmar la selección.</string>
+    <string name="help_fab_confirm_selection">Utilice el botón de acción flotante para confirmar la selección.</string>
 </resources>

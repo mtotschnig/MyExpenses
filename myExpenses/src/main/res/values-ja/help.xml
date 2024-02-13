@@ -157,7 +157,8 @@
   <string name="form_BudgetEdit_type_help_text">予算は、定期的（毎日、毎月、毎週、毎年）または１回限りとして定義されます。 １回限りの予算の場合は、期間の開始と終了を指定します。（フィルター処理されていない）通常の予算をデフォルトとして設定できます：これは、（日、週、月、または年ごとにデータをグループ化するように構成されている場合）取引リストが各期間のこの予算の進行状況を表示します。</string>
   <string name="cab_remap_help_text">選択したすべての取引の特定の属性（勘定、分類、支払元/支払先、または支払方法）を変更する場合は、このサブメニューのコマンドを使用します。</string>
   <string name="form_tags_help_text">+ のアイコンを使用すると、既存のタグを選択したり、新しいタグを作成したりできます。 各タグの x アイコンを使用すると、取引とタグの間の配置を削除できます。</string>
-  <string name="help_ManageTags_select_filter_info">タグをタップすると、タグを選択または選択解除して、取引の一覧をフィルタリングします。 フローティングアクションボタンを使用して、選択を確認します。</string>
+  <string name="help_ManageTags_select_filter_info">タグをタップすると、タグを選択または選択解除して、取引の一覧をフィルタリングします。</string>
+  <string name="help_fab_confirm_selection">フローティングアクションボタンを使用して、選択を確認します。</string>
   <string name="help_ManageTags_manage_info">テキストフィールドにタグを入力して、新しいタグを作成します。</string>
   <string name="help_ManageTags_select_mapping_info">タグをタップして、配置または配置の解除をします。 フローティングアクションボタンを使用して、配置を確認します。</string>
 </resources>

@@ -43,7 +43,8 @@
     <string name="cab_sync_unlink_help_text">தேர்ந்தெடுக்கப்பட்ட கணக்கு இனி பின்தளத்தில் ஒத்திசைக்கப்படாது</string>
     <string name="help_ManageBudgets_title">அனைத்து வரவு செலவுத் திட்டங்களின் பட்டியல்</string>
     <string name="help_ExpenseEdit_templateSplit_title">பிளவு வார்ப்புருக்கள் படிவம்</string>
-    <string name="help_ManageTags_select_filter_info">பரிவர்த்தனை பட்டியலை தட்டுவதன் மூலம் வடிகட்டுவதற்கான குறிச்சொற்களைத் தேர்ந்தெடுக்கவும் அல்லது தேர்வுநீக்கவும். தேர்வை உறுதிப்படுத்த மிதக்கும் செயல் பொத்தானைப் பயன்படுத்தவும்.</string>
+    <string name="help_ManageTags_select_filter_info">பரிவர்த்தனை பட்டியலை தட்டுவதன் மூலம் வடிகட்டுவதற்கான குறிச்சொற்களைத் தேர்ந்தெடுக்கவும் அல்லது தேர்வுநீக்கவும்.</string>
+    <string name="help_fab_confirm_selection">தேர்வை உறுதிப்படுத்த மிதக்கும் செயல் பொத்தானைப் பயன்படுத்தவும்.</string>
     <string name="menu_NavigationDrawer_sort_help_text_custom">\"தனிப்பயன்\" என்பதைக் கிளிக் செய்வதன் மூலம் ஒவ்வொரு கணக்கின் நிலையையும் சுதந்திரமாக உள்ளமைக்க உங்களை அனுமதிக்கிறது.</string>
     <string name="popup_MyExpenses_toolbar_copy_text">தற்போதைய இருப்பை கிளிப்போர்டுக்கு நகலெடுக்கவும்.</string>
     <string name="menu_NavigationDrawer_hidden_accounts_help_text">மறைக்கப்பட்ட அனைத்து கணக்குகளின் பட்டியலையும் காட்டுகிறது, அங்கு அவை மீண்டும் காணப்படலாம் அல்லது நீக்கப்படலாம்.</string>

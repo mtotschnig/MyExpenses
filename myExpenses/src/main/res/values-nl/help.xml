@@ -111,7 +111,8 @@
     <string name="help_BudgetEdit_info">Gebruik dit formulier om een nieuw budget aan te maken of een bestaand budget te bewerken.</string>
     <string name="form_BudgetEdit_type_help_text">Een budget wordt gedefinieerd als regulier (dagelijks, maandelijks, wekelijks, jaarlijks) of eenmalig. Voor eenmalige budgetten geef je het begin en het einde van de looptijd op. Een normaal budget (dat niet gefilterd is) kan standaard worden ingesteld: Dit betekent dat de transactielijst (indien geconfigureerd om gegevens per dag, week, maand of jaar te groeperen) de voortgang voor dit budget voor elke periode zal tonen.</string>
     <string name="form_tags_help_text">Met het +-icoon kun je bestaande tags selecteren en nieuwe tags aanmaken. Met het x-icoon op elke tag kun je de koppeling tussen de transactie en de tag verwijderen.</string>
-    <string name="help_ManageTags_select_filter_info">Selecteer of deselecteer de tags voor het filteren van de transactielijst door erop te tikken. Gebruik de zwevende actieknop om de selectie te bevestigen.</string>
+    <string name="help_ManageTags_select_filter_info">Selecteer of deselecteer de tags voor het filteren van de transactielijst door erop te tikken.</string>
+    <string name="help_fab_confirm_selection">Gebruik de zwevende actieknop om de selectie te bevestigen.</string>
     <string name="cab_remap_help_text">Maak gebruik van de opdrachten in dit submenu als je de gegeven eigenschap (rekening, categorie, betaler/begunstigde of betalingsmethode) voor alle geselecteerde transacties wilt wijzigen.</string>
     <string name="help_debt_managment">Koppel schulden aan partijen, inspecteer de lijst met transacties en bereken het resterende saldo.</string>
     <string name="form_DebtEdit_label_help_text">Met het label kun je de schuld op het transactieformulier selecteren, zodat je een transactie als aanbetaling kunt markeren.</string>

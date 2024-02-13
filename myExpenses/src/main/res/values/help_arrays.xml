@@ -482,6 +482,11 @@
         <item>help_ManageBudgets_info</item>
     </string-array>
 
+    <string-array name="help_ManageTags_select_filter_info">
+        <item>help_ManageTags_select_filter_info</item>
+        <item>help_fab_confirm_selection</item>
+    </string-array>
+
     <string-array name="help_ManageTags_manage_info">
         <item>help_ManageTags_manage_info</item>
         <item>help_ManageTags_context_menu_info</item>
@@ -505,12 +510,12 @@
 
     <string-array name="help_ManageParties_select_filter_info">
         <item>help_ManageParties_select_filter_info</item>
-        <item>help_ManageParties_floating_action_button_2</item>
+        <item>help_fab_confirm_selection</item>
     </string-array>
 
     <string-array name="help_ManageParties_mergeMode_info">
         <item>help_ManageParties_mergeMode_info_1</item>
-        <item>help_ManageParties_floating_action_button_2</item>
+        <item>help_fab_confirm_selection</item>
         <item>help_ManageParties_mergeMode_info_2</item>
     </string-array>
 

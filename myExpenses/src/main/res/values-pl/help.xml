@@ -197,10 +197,10 @@
     <string name="cab_debts_help_text">Podmenu to pozwala na zdefiniowanie nowych długów powiązanych z wybranym podmiotem oraz zarządzanie istniejącymi długami: wgląd w historię transakcji i pozostałe saldo oraz ich edycję, zamknięcie lub usunięcie.</string>
     <string name="menu_parent_category_selection_help_text">Za pomocą tej opcji można dostosować dotknięcie kategorii, która ma kategorie podrzędne: Jeśli jest zaznaczona, krótkie dotknięcie spowoduje wybranie kategorii; jeśli jest odznaczona, krótkie dotknięcie spowoduje rozwinięcie / zwinięcie kategorii. W tym drugim przypadku wybór jest dostępny z menu kontekstowego.</string>
     <string name="help_SetupSync_info">Ten ekran pozwala wybrać dane, które chcesz zsynchronizować między urządzeniem a zapleczem. Zawiera listę wszystkich kont na urządzeniu, które nie są jeszcze zsynchronizowane z innymi zapleczami, oraz wszystkich kont przechowywanych na zapleczu. Kliknięcie &lt;img src=ic_hchain_broken&gt; / &lt;img src=ic_hchain&gt; spowoduje zaznaczenie lub odznaczenie konto do synchronizacji. Jeśli wybierzesz konto, które już istnieje zarówno lokalnie, jak i zdalnie, musisz zdecydować, czy początkowo dane na urządzeniu powinny zastąpić istniejące dane na zapleczu, czy na odwrót.</string>
-    <string name="help_ManageParties_floating_action_button_2">Użyj pływającego przycisku akcji, aby potwierdzić wybór.</string>
+    <string name="help_fab_confirm_selection">Użyj pływającego przycisku akcji, aby potwierdzić wybór.</string>
     <string name="help_ManageParties_mergeMode_info_1">Wybierz zduplikowane strony, które chcesz scalić.</string>
     <string name="help_ManageParties_mergeMode_info_2">Zostaniesz poproszony o wybranie wariantu, który chcesz zachować.</string>
-    <string name="help_ManageTags_select_filter_info">Wybierz lub usuń zaznaczenie znaczników do filtrowania listy transakcji, dotykając ich. Użyj pływającego przycisku akcji, aby potwierdzić wybór.</string>
+    <string name="help_ManageTags_select_filter_info">Wybierz lub usuń zaznaczenie znaczników do filtrowania listy transakcji, dotykając ich.</string>
     <string name="help_ManageTags_manage_info">Twórz nowe tagi, wpisując je w polu tekstowym.</string>
     <string name="help_ManageTags_select_mapping_info">Mapuj lub anuluj mapowanie tagów, dotykając ich. Użyj pływającego przycisku akcji, aby potwierdzić mapowanie.</string>
     <string name="menu_show_all_help_text">Długi, które zostały zamknięte lub spłacone (ich saldo wynosi 0), będą wyświetlane tylko wtedy, gdy ta opcja jest zaznaczona.</string>
