@@ -77,6 +77,8 @@ class TagList : Fragment(), OnDialogResultListener {
         menuInfo: ContextMenu.ContextMenuInfo?
     ) {
         requireActivity().menuInflater.inflate(R.menu.tags, menu)
+        menu.findItem(R.id.EDIT_COMMAND).title =
+            "${getString(R.string.menu_edit)} / ${getString(R.string.color)}"
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
