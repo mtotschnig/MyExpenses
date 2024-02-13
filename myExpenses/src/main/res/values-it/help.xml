@@ -31,7 +31,7 @@
     <string name="help_ManageMethods_info">Questa schermata elenca i metodi di pagamento predefiniti (assegno, carta di credito, deposito, addebito diretto) e consente di definirne nuovi. Utilizzare il pulsante fluttuante per aprire il modulo per la creazione di un nuovo metodo.</string>
     <string name="help_ManageParties_manage_info">Questa schermata elenca i nomi utilizzati per il completamento automatico del campo Pagante / Beneficiario.</string>
     <string name="help_ManageParties_select_mapping_info">Seleziona una delle parti con un tocco.</string>
-    <string name="help_ManageParties_select_filter_info">Tocca una delle parti per filtrare la lista delle transazioni. Tieni premuto a lungo per selezionare più parti.</string>
+    <string name="help_ManageParties_select_filter_info">Selezionare tutte le entità che si desidera utilizzare per filtrare l\'elenco delle transazioni.</string>
     <string name="help_ManageParties_floating_action_button">Utilizzare il pulsante fluttuante per aggiungere una nuova voce.</string>
     <string name="menu_merge_help_text">Se lo stesso beneficiario / pagante compare più volte nell\'elenco con diverse varianti ortografiche, puoi raggrupparle.</string>
     <string name="help_ManageParties_mergeMode_info_2">Ti verrà chiesto di selezionare quale variante mantenere.</string>
