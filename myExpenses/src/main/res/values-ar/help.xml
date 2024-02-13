@@ -30,7 +30,7 @@
     <string name="help_ManageMethods_info">تسرد هذه الشاشة طرق الدفع المحددة مسبقًا (الشيك ، بطاقة الائتمان ، الإيداع ، الخصم المباشر) وتتيح لك تحديد طرق جديدة. استخدم زر الإجراء العائم لفتح النموذج لإنشاء طريقة جديدة.</string>
     <string name="help_ManageParties_manage_info">تسرد هذه الشاشة الأطراف المستخدمة للإكمال التلقائي لحقل الدافع / المدفوع لأمره.</string>
     <string name="help_ManageParties_select_mapping_info">حدد طرف من خلال النقر عليه.</string>
-    <string name="help_ManageParties_select_filter_info">اضغط على طرف لتصفية قائمة المعاملات. اضغط لفترة طويلة لتحديد أطراف متعددة.</string>
+    <string name="help_ManageParties_select_filter_info">حدد جميع الأطراف التي تريد استخدامها لتصفية قائمة المعاملات.</string>
     <string name="help_ManageParties_floating_action_button">استخدم زر الإجراء العائم لإضافة إدخال جديد.</string>
     <string name="help_ManageTemplates_plans_title">عرض تقويم الخطة</string>
     <string name="help_ManageTemplates_planner_title">التكرارات القادمة</string>
