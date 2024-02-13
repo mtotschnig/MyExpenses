@@ -129,7 +129,7 @@
     <string name="menu_exclude_from_totals_help_text">如果选中此选项，该账户将不会被纳入按币种进行的合计。</string>
     <string name="form_MethodEdit_type_help_text">通过某一方法的类型，您可以确定其是否适用于支出（借方）、收入（贷方）或两者（中性）。</string>
     <string name="menu_BudgetActivity_edit_help_text">更改预算的定义。</string>
-    <string name="help_ManageTags_manage_info">通过在文本字段中输入标签即可创建新标签。每个标签上的x图标可将标签从数据库中删除。长按标签可进行编辑。</string>
+    <string name="help_ManageTags_manage_info">通过在文本字段中输入标签即可创建新标签。</string>
     <string name="help_ManageTags_select_mapping_info">轻按标签进行映射或取消映射。使用浮动操作按钮确认映射。</string>
     <string name="help_ManageTemplates_templates_info">&lt;img src=ic_menu_template&gt;模板可以基于交易通过快捷菜单加以创建，此处您可以点击悬浮操作按钮，从头创建新的（交易或转账）模板。点击某一模板，即可创建基于该模板的实例。&lt;br&gt;&lt;img src=ic_event&gt;计划是指您在计划表日历中为之创建（单次或重复）事件的模板。点击某一计划，将会打开日历视图，显示某一计划的过去和即将到来的实例。</string>
     <string name="help_ManageCategories_distribution_info">此界面显示您的支出和收入在每个类别、账户中的所有交易或特定组中的分布。如果您在列表中展开一个主要类别，饼图将显示其子类别的分布。如果您在列表中选择一个类别，它将在饼图中突出显示，反之亦然。长按一个类别，可显示映射到该类别的交易的汇总列表。</string>

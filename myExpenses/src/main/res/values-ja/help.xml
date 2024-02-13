@@ -158,6 +158,6 @@
   <string name="cab_remap_help_text">選択したすべての取引の特定の属性（勘定、分類、支払元/支払先、または支払方法）を変更する場合は、このサブメニューのコマンドを使用します。</string>
   <string name="form_tags_help_text">+ のアイコンを使用すると、既存のタグを選択したり、新しいタグを作成したりできます。 各タグの x アイコンを使用すると、取引とタグの間の配置を削除できます。</string>
   <string name="help_ManageTags_select_filter_info">タグをタップすると、タグを選択または選択解除して、取引の一覧をフィルタリングします。 フローティングアクションボタンを使用して、選択を確認します。</string>
-  <string name="help_ManageTags_manage_info">テキストフィールドにタグを入力して、新しいタグを作成します。 各タグの x アイコンで、タグをデータベースから削除します。 タグを長押しすると編集することができます。</string>
+  <string name="help_ManageTags_manage_info">テキストフィールドにタグを入力して、新しいタグを作成します。</string>
   <string name="help_ManageTags_select_mapping_info">タグをタップして、配置または配置の解除をします。 フローティングアクションボタンを使用して、配置を確認します。</string>
 </resources>

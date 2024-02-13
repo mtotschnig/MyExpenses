@@ -173,7 +173,7 @@
     <string name="cab_remap_help_text">Utilice los comandos de este submenú si quiere cambiar el atributo asignado (cuenta, categoría, ordenante/acreedor o método de pago) para todas las transacciones seleccionadas.</string>
     <string name="form_tags_help_text">El icono de \"+\" permite seleccionar etiquetas ya creadas o crear otras nuevas. El icono de \"x\" de cada etiqueta permite quitar la etiqueta asignada a la transacción.</string>
     <string name="help_ManageTags_select_filter_info">Filtre la lista de transacciones seleccionando y de-seleccionando etiquetas al presionar sobre ellas. Use el botón de acción flotante para confirmar la selección.</string>
-    <string name="help_ManageTags_manage_info">Cree nuevas etiquetas introduciéndolas en el campo de texto. El icono de \"x\" de cada etiqueta la eliminará de la base de datos. Si mantiene presionado sobre una etiqueta, le permitirá editarla.</string>
+    <string name="help_ManageTags_manage_info">Cree nuevas etiquetas introduciéndolas en el campo de texto.</string>
     <string name="help_ManageTags_select_mapping_info">Asigne o elimine etiquetas presionando sobre ella. Use el botón de acción flotante para confirmar la asignación.</string>
     <string name="form_DebtEdit_amount_help_text">Introduzca el importe original de la deuda. Las transacciones vinculadas a la deuda disminuirán o aumentarán el saldo. Utilice el conmutador para distinguir entre las deudas que usted debe y las que se le deben a usted. Si selecciona una moneda distinta a la suya, la deuda sólo será visible en las cuentas con la misma moneda.</string>
     <string name="cab_debts_help_text">Este submenú permite definir nuevas deudas asociadas a la cuenta seleccionada, así como gestionar las deudas existentes.</string>

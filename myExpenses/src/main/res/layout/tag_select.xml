@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
-    app:closeIcon="@drawable/abc_ic_menu_overflow_material"
+    app:closeIcon="@drawable/more"
     android:gravity="center_horizontal"
     android:textAlignment="center"
     app:ensureMinTouchTargetSize="false" />

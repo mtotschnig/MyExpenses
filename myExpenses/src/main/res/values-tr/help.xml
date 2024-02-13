@@ -172,7 +172,7 @@
     <string name="cab_remap_help_text">Tüm seçili muameleler için belli bir özelliği (hesap, kategori, borçlu/alacaklı veya ödeme yöntemi) değiştirmek istiyorsanız bu alt menüdeki komutları kullanın.</string>
     <string name="form_tags_help_text">+ simgesi mevcut etiketleri seçmeye ve yeni etiket oluşturmaya imkân sağlar. Her bir etiket üzerindeki x simgesi ise muamele ve etiket arasındaki eşleştirmeyi kaldırmaya imkân verir.</string>
     <string name="help_ManageTags_select_filter_info">Üzerine dokunarak işlem listesini filtrelemek için etiketleri seçin veya seçimi kaldırın. Seçimi teyit etmek için kayan eylem düğmesini kullanın.</string>
-    <string name="help_ManageTags_manage_info">Metin alanına girerek yeni etiketler oluşturun. Etiketlerdeki x simgesi onu veri tabanından kaldırır. Bir etikete uzun süre dokunmak, onu düzenlemeye izin verir.</string>
+    <string name="help_ManageTags_manage_info">Metin alanına girerek yeni etiketler oluşturun.</string>
     <string name="help_ManageTags_select_mapping_info">Etiketleri eşleştirmek için veya eşleştirmeyi kaldırmak için etiketlere dokunun. Eşleştirmeyi teyit etmek için kayan eylem düğmesini kullanın.</string>
     <string name="form_DebtEdit_date_help_text">Borcun oluştuğu tarihi girin.</string>
     <string name="form_DebtEdit_amount_help_text">Borcun asıl tutarını girin. Borçla bağlantılı işlemler bakiyeyi azaltacak veya artıracaktır. Sizin borçlu olduklarınız ile size olan borçlar arasında ayrım yapmak için geçiş düğmesini kullanın. Kendi para biriminiz dışında bir para birimi seçerseniz, borç yalnızca aynı para birimine sahip hesaplarda görünecektir.</string>

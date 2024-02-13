@@ -172,7 +172,7 @@
     <string name="cab_remap_help_text">Use os comandos neste submenu, caso deseje alterar a propriedade fornecida (conta, categoria, pagador/beneficiário ou forma de pagamento) para todas as transações selecionadas.</string>
     <string name="form_tags_help_text">O ícone + seleciona etiquetas existentes e cria novas. O ícone x remove o mapeamento entre a transação e a etiqueta.</string>
     <string name="help_ManageTags_select_filter_info">Selecione ou desmarque as etiquetas para filtrar a lista de transações tocando nelas. Use o botão de ação flutuante para confirmar a seleção.</string>
-    <string name="help_ManageTags_manage_info">Crie novas etiquetas inserindo-as no campo de texto. O ícone x na etiqueta remove-a do banco de dados. Um toque longo em uma etiqueta permite editá-la.</string>
+    <string name="help_ManageTags_manage_info">Crie novas etiquetas inserindo-as no campo de texto.</string>
     <string name="help_ManageTags_select_mapping_info">Mapeie ou desfaça o mapeamento das etiquetas tocando nelas. Use o botão de ação flutuante para confirmar o mapeamento.</string>
     <string name="form_DebtEdit_date_help_text">Digite a data em que a dívida foi contraída.</string>
     <string name="form_DebtEdit_amount_help_text">Digite o montante original da dívida. As transações ligadas à dívida diminuirão ou aumentarão o saldo. Use o controle deslizante para distinguir entre o que você deve e o que lhe é devido. Caso você selecione uma moeda diferente da sua moeda de origem, a dívida só será visível em contas com a mesma moeda.</string>

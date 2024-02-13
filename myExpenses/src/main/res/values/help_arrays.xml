@@ -482,9 +482,15 @@
         <item>help_ManageBudgets_info</item>
     </string-array>
 
+    <string-array name="help_ManageTags_manage_info">
+        <item>help_ManageTags_manage_info</item>
+        <item>help_ManageTags_context_menu_info</item>
+    </string-array>
+
     <string-array name="help_ManageTags_select_mapping_info">
         <item>help_ManageTags_manage_info</item>
         <item>help_ManageTags_select_mapping_info</item>
+        <item>help_ManageTags_context_menu_info</item>
     </string-array>
 
     <string-array name="help_ManageParties_manage_info">

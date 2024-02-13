@@ -189,7 +189,7 @@
     <string name="help_ManageBudgets_title">Lijst met alle budgetten</string>
     <string name="form_BudgetEdit_amount_help_text">Hoeveel geld is er beschikbaar in het kader van deze begroting.</string>
     <string name="form_BudgetEdit_accounts_help_text">Een budget is beperkt tot één rekening; het dekt alle rekeningen met dezelfde valuta; of het verwijst naar het totale totaal van alle valuta\'s.</string>
-    <string name="help_ManageTags_manage_info">Maak nieuwe tags door ze in het tekstveld in te voeren. Met het x-icoon, op elke tag, wordt deze uit de database verwijderd. Lang tikken op een tag maakt het mogelijk om deze te bewerken.</string>
+    <string name="help_ManageTags_manage_info">Maak nieuwe tags door ze in het tekstveld in te voeren.</string>
     <string name="help_ManageTags_select_mapping_info">Wijs de tags toe of maak ze ongedaan door erop te tikken. Gebruik de zwevende actieknop om de toewijzing te bevestigen.</string>
     <string name="cab_debts_help_text">Dit submenu maakt het mogelijk om nieuwe schulden te definiëren die zijn gekoppeld aan de geselecteerde partij en om bestaande schulden te beheren.</string>
     <string name="form_DebtEdit_amount_help_text">Vul het oorspronkelijke bedrag van de schuld in. Transacties gekoppeld aan de schuld zullen het saldo verlagen of verhogen. Gebruik de schakelaar om onderscheid te maken tussen schulden die je verschuldigd bent en schulden die aan u verschuldigd zijn. Als je een andere valuta selecteert dan je eigen valuta, is de schuld alleen zichtbaar op rekeningen met dezelfde valuta.</string>

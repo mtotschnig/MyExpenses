@@ -172,7 +172,7 @@
     <string name="cab_remap_help_text">הפקודות בתפריט משנה זה יאפשרו לך לשנות את המאפיין הנתון (חשבון, קטגוריה, משלם / מוטב או אמצעי תשלום) עבור כל העסקאות שנבחרו.</string>
     <string name="form_tags_help_text">סמל + מאפשר לבחור תגיות קיימות וליצור תגיות חדשות. סמל ה־x בכל תגית מאפשר להסיר את המיפוי בין העסקה לתגית.</string>
     <string name="help_ManageTags_select_filter_info">בחר או בטל את בחירת התגים לסינון רשימת העסקאות על ידי הקשה עליהם. השתמש בלחצן הפעולה הצף כדי לאשר את הבחירה.</string>
-    <string name="help_ManageTags_manage_info">אפשר ליצור תגיות חדשות על ידי הזנתן לשדה הטקסט. סמל ה־x שבכל תגית מסיר אותה ממסד הנתונים. לחיצה ארוכה על תגית מאפשרת לערוך אותה.</string>
+    <string name="help_ManageTags_manage_info">אפשר ליצור תגיות חדשות על ידי הזנתן לשדה הטקסט.</string>
     <string name="help_ManageTags_select_mapping_info">אפשר למפות או לבטל את המיפוי של התגיות ע״י הקשה עליהן. לחיצה בלחצן הפעולה הצף מאפשרת לאשר את המיפוי המעודכן.</string>
     <string name="form_DebtEdit_label_help_text">התווית מאפשרת לבחור את החוב בטופס עסקה, כדי לסמן עסקה כמקדמה.</string>
     <string name="help_debt_managment">שיוך חובות לגופים מסוימים, חקירת רשימת העסקאות וחישוב היתרה.</string>

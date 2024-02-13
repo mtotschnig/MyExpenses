@@ -201,7 +201,7 @@
     <string name="help_ManageParties_mergeMode_info_1">Wybierz zduplikowane strony, które chcesz scalić.</string>
     <string name="help_ManageParties_mergeMode_info_2">Zostaniesz poproszony o wybranie wariantu, który chcesz zachować.</string>
     <string name="help_ManageTags_select_filter_info">Wybierz lub usuń zaznaczenie znaczników do filtrowania listy transakcji, dotykając ich. Użyj pływającego przycisku akcji, aby potwierdzić wybór.</string>
-    <string name="help_ManageTags_manage_info">Twórz nowe tagi, wpisując je w polu tekstowym. Ikona x na każdym tagu usuwa go z bazy danych. Długie dotknięcie tagu umożliwia jego edycję.</string>
+    <string name="help_ManageTags_manage_info">Twórz nowe tagi, wpisując je w polu tekstowym.</string>
     <string name="help_ManageTags_select_mapping_info">Mapuj lub anuluj mapowanie tagów, dotykając ich. Użyj pływającego przycisku akcji, aby potwierdzić mapowanie.</string>
     <string name="menu_show_all_help_text">Długi, które zostały zamknięte lub spłacone (ich saldo wynosi 0), będą wyświetlane tylko wtedy, gdy ta opcja jest zaznaczona.</string>
     <string name="form_BudgetEdit_filter_help_text">Budżety można filtrować według kategorii, stron, metod lub stanów. Uwzględniane są tylko transakcje dopasowane do tych filtrów.</string>
