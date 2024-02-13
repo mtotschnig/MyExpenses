@@ -25,7 +25,7 @@
     <string name="help_ManageMethods_info">На этом экране перечислены методы оплаты ( чек, кредитная карта, депозит, прямоe дебетование) и вы можете указать новые. Используйте floating action button, чтобы открыть форму для создания нового метода. </string>
     <string name="help_ManageParties_manage_info">Этот экран перечисляет участников, используюших для автозаполнения поля Плательщик / Получатель.</string>
     <string name="help_ManageParties_select_mapping_info">Выберите участника, нажав на него.</string>
-    <string name="help_ManageParties_select_filter_info">Нажмите на участника для фильтрации списка трансакций. Долгое нажатие выбирает нескольких участников.</string>
+    <string name="help_ManageParties_select_filter_info">Выберите всех сторон, которых вы хотите использовать для фильтрации списка транзакций.</string>
     <string name="help_ManageParties_floating_action_button">Используйте floating action button, чтобы добавить новую запись.</string>
     <string name="help_ManageTemplates_plans_title">Календарь планов</string>
     <string name="help_ManageTemplates_planner_title">Предстоящие повторения</string>
