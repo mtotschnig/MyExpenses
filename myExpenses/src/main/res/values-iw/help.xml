@@ -31,7 +31,7 @@
     <string name="help_ManageMethods_info">מסך זה מפרט את שיטות התשלום המוגדרות מראש (המחאה, כרטיס אשראי, הפקדה, הוראת קבע) ומאפשר לך להגדיר שיטות חדשות. לחצן הפעולה הצף משמש לפתיחת הטופס ליצירת שיטת תשלום חדשה.</string>
     <string name="help_ManageParties_manage_info">מסך זה מפרט את הצדדים המשמשים להשלמה האוטומטית של שדה משלם / מקבל התשלום.</string>
     <string name="help_ManageParties_select_mapping_info">בחירת צד על ידי הקשה עליו.</string>
-    <string name="help_ManageParties_select_filter_info">לחיצה על קבוצה תסנן את רשימת העסקאות. לחיצה ארוכה לבחירת מספר צדדים.</string>
+    <string name="help_ManageParties_select_filter_info">בחר את כל הצדדים שבהם ברצונך להשתמש לסינון רשימת העסקאות.</string>
     <string name="help_ManageParties_floating_action_button">לחצן הפעולה הצף משמש להוספת רשומה חדשה.</string>
     <string name="menu_merge_help_text">אם אותו צד מופיע מספר פעמים ברשימה עם הבדלי איות שונים, אפשר למזג אותם יחד.</string>
     <string name="help_ManageParties_mergeMode_info_2">צריך לבחור איזו גרסה תישמר.</string>
