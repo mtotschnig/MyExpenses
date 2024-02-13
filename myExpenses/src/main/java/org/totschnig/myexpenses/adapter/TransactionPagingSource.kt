@@ -72,7 +72,6 @@ open class TransactionPagingSource(
             }
         }
         coroutineScope.launch {
-            //drop initial value and first query observed
             tags.drop(1).collect {
                 invalidate()
             }

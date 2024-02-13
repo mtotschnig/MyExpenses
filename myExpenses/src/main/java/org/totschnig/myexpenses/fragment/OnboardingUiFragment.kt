@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -147,7 +148,9 @@ class OnboardingUiFragment : OnboardingFragment() {
                 month = 0,
                 day = 0,
                 week = 0,
-                tagList = listOf(stringResource(id = R.string.testData_tag_project) to Color.RED)
+                tagList = listOf(stringResource(id = R.string.testData_tag_project) to
+                        ResourcesCompat.getColor(resources, R.color.appDefault, null)
+                )
             )
             AppTheme {
                 Column {

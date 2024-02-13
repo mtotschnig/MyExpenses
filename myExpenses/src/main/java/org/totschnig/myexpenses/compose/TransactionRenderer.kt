@@ -144,10 +144,9 @@ abstract class ItemRenderer(
             comment?.takeIf { it.isNotEmpty() }?.let {
                 withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
                     append(
-                        if (comment.length > 100) (comment.substring(
-                            0,
-                            100
-                        ) + ellipsis) else comment
+                        if (comment.length > 100)
+                            comment.substring(0, 100) + ellipsis
+                        else comment
                     )
                 }
             }
@@ -177,7 +176,7 @@ abstract class ItemRenderer(
                             append(pair.first)
                         }
                     }
-                    if (index < list.size -1) {
+                    if (index < list.size - 1) {
                         append(" ")
                     }
                 }

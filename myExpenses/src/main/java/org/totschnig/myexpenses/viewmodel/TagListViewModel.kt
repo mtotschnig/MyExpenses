@@ -93,26 +93,26 @@ class TagListViewModel(application: Application, savedStateHandle: SavedStateHan
 
     fun updateTag(tag: Tag, newLabel: String, color: Int) =
         liveData(context = coroutineContext()) {
-            val result = try {
-                contentResolver.update(
-                    ContentUris.withAppendedId(
-                        TransactionProvider.TAGS_URI,
-                        tag.id
-                    ),
-                    ContentValues().apply {
-                        put(KEY_LABEL, newLabel)
-                        if (color != ColorField.NONE) {
-                            put(KEY_COLOR, color)
-                        } else {
-                            putNull(KEY_COLOR)
-                        }
-                    }, null, null
-                )
-            } catch (e: SQLiteConstraintException) {
-                0
-            }
-            val success = result == 1
-            emit(success)
+            emit(
+                try {
+                    contentResolver.update(
+                        ContentUris.withAppendedId(
+                            TransactionProvider.TAGS_URI,
+                            tag.id
+                        ),
+                        ContentValues().apply {
+                            put(KEY_LABEL, newLabel)
+                            if (color != ColorField.NONE) {
+                                put(KEY_COLOR, color)
+                            } else {
+                                putNull(KEY_COLOR)
+                            }
+                        }, null, null
+                    )
+                } catch (e: SQLiteConstraintException) {
+                    0
+                } == 1
+            )
         }
 
     companion object {
