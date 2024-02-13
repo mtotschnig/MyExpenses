@@ -1580,6 +1580,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case METHOD_SAVE_TRANSACTION_TAGS ->  {
         saveTransactionTags(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
+        notifyChange(TRANSACTIONS_URI, true);
       }
     }
     return null;
