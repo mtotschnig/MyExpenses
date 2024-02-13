@@ -2,10 +2,14 @@ package org.totschnig.myexpenses.util
 
 import android.content.Context
 import android.content.res.Resources
+import android.icu.util.LocaleData
+import android.icu.util.ULocale
+import android.os.Build
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import androidx.core.content.res.ResourcesCompat
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.licence.LicenceStatus
@@ -71,7 +75,18 @@ fun getDisplayNameForScript(context: Context, script: String) =
     getDisplayNameForScript(Utils.localeFromContext(context), script)
 
 fun getDisplayNameForScript(locale: Locale, script: String): String =
-    when(script) {
+    when (script) {
         "Han" -> Locale.CHINESE.getDisplayLanguage(locale)
         else -> Locale.Builder().setScript(script).build().getDisplayScript(locale)
     }
+
+val BaseActivity.quotationStart: String
+    get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+        LocaleData.getInstance(ULocale.forLocale(getLocale()))
+            .getDelimiter(LocaleData.QUOTATION_START) else "\""
+val BaseActivity.quotationEnd: String
+    get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+        LocaleData.getInstance(ULocale.forLocale(getLocale()))
+            .getDelimiter(LocaleData.QUOTATION_END) else "\""
+
+fun BaseActivity.localizedQuote(input: String) = "$quotationStart$input$quotationEnd"
