@@ -3,10 +3,19 @@ package org.totschnig.myexpenses.compose
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,6 +23,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -46,7 +56,15 @@ import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.localDateTime2Epoch
-import org.totschnig.myexpenses.viewmodel.data.*
+import org.totschnig.myexpenses.viewmodel.data.BudgetData
+import org.totschnig.myexpenses.viewmodel.data.DateInfo
+import org.totschnig.myexpenses.viewmodel.data.HeaderData
+import org.totschnig.myexpenses.viewmodel.data.HeaderDataEmpty
+import org.totschnig.myexpenses.viewmodel.data.HeaderDataError
+import org.totschnig.myexpenses.viewmodel.data.HeaderDataResult
+import org.totschnig.myexpenses.viewmodel.data.HeaderRow
+import org.totschnig.myexpenses.viewmodel.data.PageAccount
+import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
 import java.text.DecimalFormat
 import java.time.LocalDate
@@ -132,12 +150,12 @@ fun TransactionList(
             mutableStateOf(if (scrollToCurrentDate.value) 0 to 0 else null)
         }
         val scrollToCurrentDateResultIndex = remember {
-            mutableStateOf(0)
+            mutableIntStateOf(0)
         }
         LaunchedEffect(lazyPagingItems.loadState.append.endOfPaginationReached) {
             if (lazyPagingItems.loadState.append.endOfPaginationReached) {
                 scrollToCurrentDateStartIndex.value?.let {
-                    scrollToCurrentDateResultIndex.value = it.second
+                    scrollToCurrentDateResultIndex.intValue = it.second
                     scrollToCurrentDateStartIndex.value = null
                 }
             }
@@ -153,7 +171,7 @@ fun TransactionList(
                     )
                     scrollToCurrentDateStartIndex.value =
                         if (scrollCalculationResult.second || lazyPagingItems.loadState.append.endOfPaginationReached) {
-                            scrollToCurrentDateResultIndex.value =
+                            scrollToCurrentDateResultIndex.intValue =
                                 scrollCalculationResult.first?.second ?: 0
                             null
                         } else scrollCalculationResult.first
@@ -167,9 +185,9 @@ fun TransactionList(
                 LaunchedEffect(Unit) {
                     Timber.i(
                         "Scroll to current date result: %d",
-                        scrollToCurrentDateResultIndex.value
+                        scrollToCurrentDateResultIndex.intValue
                     )
-                    listState.scrollToItem(scrollToCurrentDateResultIndex.value, -headerCorrection)
+                    listState.scrollToItem(scrollToCurrentDateResultIndex.intValue, -headerCorrection)
                     scrollToCurrentDate.value = false
                 }
             }
@@ -220,7 +238,7 @@ fun TransactionList(
                                         ) {
                                             headersWithSumDetails[headerId] = it
                                         }
-                                        Divider()
+                                        HorizontalDivider()
                                     }
                                 }
 
@@ -247,7 +265,6 @@ fun TransactionList(
                                     renderer.Render(
                                         transaction = it,
                                         modifier = Modifier
-                                            .animateItemPlacement()
                                             .conditional(it.date >= futureCriterionDate) {
                                                 background(futureBackgroundColor)
                                             },
@@ -264,7 +281,7 @@ fun TransactionList(
                                         )
                                     )
                                 )
-                            } else Divider()
+                            } else HorizontalDivider()
                         }
                     }
 
@@ -441,7 +458,7 @@ fun HeaderRenderer(
 
 @Composable
 fun GroupDivider(modifier: Modifier = Modifier) {
-    Divider(modifier = modifier, color = colorResource(id = R.color.emphasis))
+    HorizontalDivider(modifier = modifier, color = colorResource(id = R.color.emphasis))
 }
 
 val mainScreenPadding
