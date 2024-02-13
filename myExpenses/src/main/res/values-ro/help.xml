@@ -25,7 +25,7 @@
     <string name="help_ManageMethods_info">Acest ecran listează metodele de plată predefinite (Cec, Card de credit, Depozit, Debit direct) și vă permite și să definiți altele noi. Folosiți butonul de acțiune flotant pentru a deschide formularul creări unei noi metode de plată.</string>
     <string name="help_ManageParties_manage_info">Acest ecran listează persoanele utilizate pentru completarea automată a câmpului Plătitor / Beneficiar.</string>
     <string name="help_ManageParties_select_mapping_info">Selectați o persoana apăsând pe ea.</string>
-    <string name="help_ManageParties_select_filter_info">Atingeți o persoana pentru filtrarea listei de tranzacții. Atingeți lung pentru a selecta mai multe persoane.</string>
+    <string name="help_ManageParties_select_filter_info">Selectați toate părțile pe care doriți să le utilizați pentru filtrarea listei de tranzacții.</string>
     <string name="help_ManageParties_floating_action_button">Utilizați butonul de acțiune flotant pentru a adăuga o nouă transacție.</string>
     <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Instanţiaţi şabloanele selectate şi salvaţi-le imediat.</string>
     <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Instanţiaţi  şablonul selectat şi introduceţi formularul de editare unde se pot modifica înainte de salvare.</string>
