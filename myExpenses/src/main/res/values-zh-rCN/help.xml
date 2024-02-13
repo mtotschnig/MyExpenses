@@ -84,7 +84,7 @@
     <string name="help_MethodEdit_title">支付方式表单</string>
     <string name="help_ManageSyncBackends_drive">选择你自己拥有或与您共享的文件夹。</string>
     <string name="help_ManageParties_floating_action_button">使用悬浮操作按钮添加一个新条目。</string>
-    <string name="help_ManageParties_select_filter_info">轻按某一交易方，以对交易清单进行筛选。长按可选择多个交易方。</string>
+    <string name="help_ManageParties_select_filter_info">选择要用于筛选交易列表的所有参与方。</string>
     <string name="help_ManageParties_manage_info">该界面列出了用以自动填写付款人/收款人字段的交易方。</string>
     <string name="help_ManageMethods_info">该界面列出了预定义的支付方式（支票、信用卡、转入银行账户、直接借记），您也可以在该界面自定义新的支付方式。通过悬浮操作按钮打开表单，以创建新的支付方法。</string>
     <string name="cab_link_help_text">一个账户内的支出可以与另一账户的收入建立关联。如果这两个账户的币种相同，则两项交易的金额必须一致。</string>
