@@ -6,6 +6,7 @@
     android:layout_margin="4dp"
     android:checkable="false"
     android:clickable="false"
+    app:closeIcon="@drawable/abc_ic_menu_overflow_material"
     android:gravity="center_horizontal"
     android:textAlignment="center"
     app:ensureMinTouchTargetSize="false" />

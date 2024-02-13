@@ -2,11 +2,12 @@ package org.totschnig.myexpenses.fragment
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.ContextMenu
 import android.view.KeyEvent
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -23,7 +24,6 @@ import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener.BUTTON_POS
 import eltos.simpledialogfragment.form.ColorField
 import eltos.simpledialogfragment.form.Input
 import eltos.simpledialogfragment.form.SimpleFormDialog
-import eltos.simpledialogfragment.input.SimpleInputDialog
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.Action
@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.databinding.TagListBinding
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.ui.ContextAwareRecyclerView
 import org.totschnig.myexpenses.util.ui.setColor
 import org.totschnig.myexpenses.viewmodel.TagBaseViewModel.Companion.KEY_DELETED_IDS
 import org.totschnig.myexpenses.viewmodel.TagListViewModel
@@ -64,54 +65,69 @@ class TagList : Fragment(), OnDialogResultListener {
     private val action
         get() = requireActivity().intent.asAction
 
-    private val shouldManage: Boolean
-        get() = action == Action.MANAGE
+    private val allowSelection: Boolean
+        get() = action != Action.MANAGE
 
     private val allowModifications: Boolean
         get() = action != Action.SELECT_FILTER
 
+    override fun onCreateContextMenu(
+        menu: ContextMenu,
+        v: View,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        requireActivity().menuInflater.inflate(R.menu.tags, menu)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        val tag = adapter.getItem(
+            (item.menuInfo as ContextAwareRecyclerView.RecyclerContextMenuInfo).position
+        )
+        return when (item.itemId) {
+            R.id.DELETE_COMMAND -> {
+                SimpleDialog.build()
+                    .title(R.string.dialog_title_warning_delete_tag)
+                    .extra(Bundle().apply {
+                        putParcelable(KEY_TAG, tag)
+                    })
+                    .msg(
+                        resources.getQuantityString(
+                            R.plurals.warning_delete_tag,
+                            tag.count,
+                            tag.label,
+                            tag.count
+                        )
+                    )
+                    .pos(R.string.menu_delete)
+                    .neg(android.R.string.cancel)
+                    .show(this, DELETE_TAG_DIALOG)
+                true
+            }
+
+            R.id.EDIT_COMMAND -> {
+                SimpleFormDialog.build()
+                    .title(R.string.menu_edit_tag)
+                    .cancelable(false)
+                    .fields(
+                        Input.plain(KEY_LABEL).text(tag.label),
+                        ColorField.picker(KEY_COLOR).color(tag.color ?: ColorField.NONE).label(R.string.color)
+                    )
+                    .pos(R.string.menu_save)
+                    .neut()
+                    .extra(Bundle().apply { putParcelable(KEY_TAG, tag) })
+                    .show(this, EDIT_TAG_DIALOG)
+                true
+            }
+
+            else -> false
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val selected = activity?.intent?.getLongArrayExtra(KEY_SELECTED_IDS)
-
-        val closeFunction: (Tag) -> Unit = { tag ->
-            SimpleDialog.build()
-                .title(R.string.dialog_title_warning_delete_tag)
-                .extra(Bundle().apply {
-                    putParcelable(KEY_TAG, tag)
-                })
-                .msg(
-                    resources.getQuantityString(
-                        R.plurals.warning_delete_tag,
-                        tag.count,
-                        tag.label,
-                        tag.count
-                    )
-                )
-                .pos(R.string.menu_delete)
-                .neg(android.R.string.cancel)
-                .show(this, DELETE_TAG_DIALOG)
-        }
-
-        val longClickFunction: (Tag) -> Unit = { tag ->
-            SimpleFormDialog.build()
-                .title(R.string.menu_edit_tag)
-                .cancelable(false)
-                .fields(
-                    Input.plain(KEY_LABEL).text(tag.label),
-                    ColorField.picker(KEY_COLOR).color(tag.color ?: ColorField.NONE).label(R.string.color)
-                )
-                .pos(R.string.menu_save)
-                .neut()
-                .extra(Bundle().apply { putParcelable(KEY_TAG, tag) })
-                .show(this, EDIT_TAG_DIALOG)
-        }
-
-        val itemLayoutResId = if (shouldManage) R.layout.tag_manage else R.layout.tag_select
-        adapter = Adapter(
-            itemLayoutResId, if (allowModifications) closeFunction else null,
-            if (allowModifications) longClickFunction else null
-        )
+        adapter = Adapter()
+        registerForContextMenu(binding.recyclerView)
         binding.recyclerView.adapter = adapter
         viewModel.tags.observe(viewLifecycleOwner) {
             adapter.submitList(it)
@@ -129,12 +145,14 @@ class TagList : Fragment(), OnDialogResultListener {
                             addTag()
                             true
                         }
+
                         EditorInfo.IME_NULL -> {
                             if (event == null || event.action == KeyEvent.ACTION_UP) {
                                 addTag()
                             }
                             true
                         }
+
                         else -> false
                     }
                 }
@@ -219,37 +237,31 @@ class TagList : Fragment(), OnDialogResultListener {
         backwardCanceledTags()
     }
 
-    private inner class Adapter(
-        val itemLayoutResId: Int,
-        val closeFunction: ((Tag) -> Unit)?,
-        val longClickFunction: ((Tag) -> Unit)?
-    ) : ListAdapter<Tag, ViewHolder>(DIFF_CALLBACK) {
+    private inner class Adapter : ListAdapter<Tag, ViewHolder>(DIFF_CALLBACK) {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-            ViewHolder(LayoutInflater.from(parent.context).inflate(itemLayoutResId, parent, false))
+            ViewHolder(LayoutInflater.from(parent.context).inflate(if (allowSelection) R.layout.tag_select else R.layout.tag_manage, parent, false))
 
         fun getPosition(label: String) = currentList.indexOfFirst { it.label == label }
+
+        public override fun getItem(position: Int): Tag {
+            return super.getItem(position)
+        }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             (holder.itemView as Chip).apply {
                 val tag = getItem(position)
                 text = tag.label
                 tag.color?.let { setColor(it) }
-                isChecked = viewModel.selectedTagIds.contains(tag.id)
-                setOnClickListener {
-                    viewModel.toggleSelectedTagId(tag.id)
-                }
-                isCloseIconVisible = closeFunction != null
-                closeFunction?.let {
-                    setOnCloseIconClickListener {
-                        it(tag)
+                if (allowSelection) {
+                    isChecked = viewModel.selectedTagIds.contains(tag.id)
+                    setOnClickListener {
+                        viewModel.toggleSelectedTagId(tag.id)
                     }
                 }
-                longClickFunction?.let {
-                    setOnLongClickListener {
-                        it(tag)
-                        true
-                    }
+                isCloseIconVisible = allowModifications
+                if (allowModifications) {
+                    setOnCloseIconClickListener(View::showContextMenu)
                 }
             }
         }
@@ -264,18 +276,20 @@ class TagList : Fragment(), OnDialogResultListener {
                 DELETE_TAG_DIALOG -> {
                     removeTag(tag)
                 }
+
                 EDIT_TAG_DIALOG -> {
                     val newLabel = extras.getString(KEY_LABEL)!!
-                    viewModel.updateTag(tag, newLabel, extras.getInt(KEY_COLOR)).observe(viewLifecycleOwner) {
-                        if (!it) {
-                            (context as? ProtectedFragmentActivity)?.showSnackBar(
-                                getString(
-                                    R.string.already_defined,
-                                    newLabel
+                    viewModel.updateTag(tag, newLabel, extras.getInt(KEY_COLOR))
+                        .observe(viewLifecycleOwner) {
+                            if (!it) {
+                                (context as? ProtectedFragmentActivity)?.showSnackBar(
+                                    getString(
+                                        R.string.already_defined,
+                                        newLabel
+                                    )
                                 )
-                            )
+                            }
                         }
-                    }
                 }
             }
             true
