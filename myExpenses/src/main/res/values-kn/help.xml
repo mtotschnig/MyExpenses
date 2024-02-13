@@ -25,7 +25,7 @@
     <string name="help_ManageMethods_info">ಈ ಪರದೆಯು ಪೂರ್ವನಿರ್ಧರಿತ ಪಾವತಿ ವಿಧಾನಗಳನ್ನು ಪಟ್ಟಿ ಮಾಡುತ್ತದೆ (ಚೆಕ್, ಕ್ರೆಡಿಟ್ ಕಾರ್ಡ್, ಠೇವಣಿ, ನೇರ ಡೆಬಿಟ್) ಮತ್ತು ಹೊಸದನ್ನು ವ್ಯಾಖ್ಯಾನಿಸಲು ನಿಮಗೆ ಅನುಮತಿಸುತ್ತದೆ. ಹೊಸ ವಿಧಾನವನ್ನು ರಚಿಸಲು ಫಾರ್ಮ್ ಅನ್ನು ತೆರೆಯಲು ಫ್ಲೋಟಿಂಗ್ ಆಕ್ಷನ್ ಬಟನ್ ಬಳಸಿ.</string>
     <string name="help_ManageParties_manage_info">ಈ ಪರದೆಯು ಪಾವತಿಸಿದವರು / ಪಾವತಿಸುವವರು ಕ್ಷೇತ್ರದ ಸ್ವಯಂ ಪೂರ್ಣಗೊಳಿಸುವಿಕೆಗೆ ಬಳಸುವ ಪಕ್ಷಗಳನ್ನು ಪಟ್ಟಿ ಮಾಡುತ್ತದೆ.</string>
     <string name="help_ManageParties_select_mapping_info">ಪಕ್ಷವನ್ನು ಟ್ಯಾಪ್ ಮಾಡುವ ಮೂಲಕ ಆಯ್ಕೆಮಾಡಿ.</string>
-    <string name="help_ManageParties_select_filter_info">ವಹಿವಾಟು ಪಟ್ಟಿಯನ್ನು ಫಿಲ್ಟರ್ ಮಾಡಲು ಪಕ್ಷವನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ. ಬಹು ಪಕ್ಷಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಲು ದೀರ್ಘ ಟ್ಯಾಪ್ ಮಾಡಿ.</string>
+    <string name="help_ManageParties_select_filter_info">ವಹಿವಾಟು ಪಟ್ಟಿಯನ್ನು ಫಿಲ್ಟರ್ ಮಾಡಲು ನೀವು ಬಳಸಲು ಬಯಸುವ ಎಲ್ಲಾ ಪಕ್ಷಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ.</string>
     <string name="help_ManageParties_floating_action_button">ಹೊಸ ನಮೂದನ್ನು ಸೇರಿಸಲು ಫ್ಲೋಟಿಂಗ್ ಆಕ್ಷನ್ ಬಟನ್ ಬಳಸಿ.</string>
     <string name="help_ManageTemplates_plans_title">ಕ್ಯಾಲೆಂಡರ್ ವೀಕ್ಷಣೆಯನ್ನು ಯೋಜಿಸಿ</string>
     <string name="help_ManageTemplates_planner_title">ಮುಂಬರುವ ಮರುಕಳಿಸುವಿಕೆಗಳು</string>
