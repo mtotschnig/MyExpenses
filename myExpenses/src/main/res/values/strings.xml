@@ -1066,6 +1066,6 @@
     <string name="contact_us">Contact us</string>
     <!-- This is the title of a preference that allows user to decide if amounts should be shown in colors based on the category of the transaction, or on the sign (positive/negative) of the amount -->
     <string name="pref_transaction_amount_color_source_title">Colors for amounts</string>
-    <!-- This is the summary of a preference that allows user to decide if "Sync now" should only sync the current account, or all accounts linked with the same backend ans the current account -->
-    <string name="pref_sync_now_all_summary"><i>Sync now</i> menu item syncs all accounts for the same back-end</string>
+    <!-- This is the summary of a preference that allows user to decide if "Sync now" should only sync the current account, or all accounts linked with the same backend ans the current account. %s will be replaced with quoted translation of "Sync now" -->
+    <string name="pref_sync_now_all_summary">%s syncs all accounts for the same back-end</string>
 </resources>
