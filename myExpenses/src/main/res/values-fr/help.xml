@@ -31,7 +31,7 @@
     <string name="help_ManageMethods_info">Cet écran répertorie les méthodes de paiement prédéfinies (chèque, carte de crédit, dépôt, prélèvement) et vous permet d\'en définir de nouvelles. Utilisez le bouton d\'action pour ouvrir le formulaire pour la création d\'un nouveau type.</string>
     <string name="help_ManageParties_manage_info">Cet écran répertorie les parties utilisées pour la complétion automatique du champ payeur/bénéficiaire.</string>
     <string name="help_ManageParties_select_mapping_info">Sélectionnez un tiers en appuyant dessus.</string>
-    <string name="help_ManageParties_select_filter_info">Appuyez sur un tiers pour filtrer la liste des opérations. Appuyez longuement pour sélectionner plusieurs tiers.</string>
+    <string name="help_ManageParties_select_filter_info">Sélectionnez tous les tiers que vous souhaitez utiliser pour filtrer la liste des transactions.</string>
     <string name="help_ManageParties_floating_action_button">Le bouton d\'action flottant permet d\'ajouter une nouvelle entrée.</string>
     <string name="menu_merge_help_text">Si le même tiers apparaît plusieurs fois dans la liste avec différentes variantes orthographiques, vous pouvez les fusionner.</string>
     <string name="help_ManageParties_mergeMode_info_2">Vous serez invité à sélectionner la variante à conserver.</string>
@@ -208,4 +208,7 @@
     <string name="menu_show_all_help_text">Les dettes qui ont été clôturées ou payées (leur solde est de 0) ne seront affichées que si cette option est cochée.</string>
     <string name="menu_type_filter_help_text">Lorsque cette option est activée, vous pouvez choisir de n’afficher que les catégories de dépenses, de revenus ou de transferts.</string>
     <string name="menu_aggregate_neutral_categories_help_text">Les opérations associées à des catégories de revenus sont toujours comptabilisées comme des revenus, tandis que les opérations associées à des catégories de dépenses sont toujours comptabilisées comme des dépenses. Cette option vous permet de configurer la façon dont les transactions mappées à des catégories neutres sont comptabilisées : par défaut, si elles sont positives, elles représentent un revenu, si elles sont négatives, une dépense. Mais si cette option est activée, ils sont toujours inclus à la fois dans la somme de vos revenus et de vos dépenses.</string>
+    <string name="help_ManageParties_floating_action_button_2">Utilisez le bouton d\'action flottant pour confirmer la sélection.</string>
+    <string name="help_ManageParties_mergeMode_info_1">Sélectionnez les parties en double que vous souhaitez fusionner.</string>
+    <string name="help_ManageTags_context_menu_info">Appuyez sur l\'icône &lt;img src=more&gt; pour modifier, attribuer une couleur à ou supprimer une balise.</string>
 </resources>
