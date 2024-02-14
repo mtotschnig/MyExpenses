@@ -208,4 +208,5 @@
     <string name="menu_aggregate_neutral_categories_help_text">Las transacciones asignadas a las categorías de ingresos siempre se cuentan como ingresos, las transacciones asignadas a las categorías de gastos siempre se cuentan como gastos. Esta opción le permite configurar cómo se contabilizan las transacciones asignadas a las categorías neutrales: Por defecto si son positivas representan un ingreso, si son negativas un gasto. Pero si se activa esta opción, siempre se incluyen en ambas sumas de ingresos y gastos.</string>
     <string name="help_ManageParties_mergeMode_info_1">Seleccione las partidas duplicadas que desea fusionar.</string>
     <string name="help_fab_confirm_selection">Utilice el botón de acción flotante para confirmar la selección.</string>
+    <string name="help_ManageTags_context_menu_info">Toque el ícono &lt;img src=more&gt; para editar, asignar un color o eliminar una etiqueta.</string>
 </resources>
