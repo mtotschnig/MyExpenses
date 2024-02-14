@@ -133,6 +133,131 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.7.4
+    - "2024-02-14"
+    -
+      ar: |
+        ألوان مخصصة للعلامات
+      bg: |
+        Цветове по избор за етикети
+      cs: |
+        Vlastní barvy pro štítky
+      de: |
+        Benutzerdefinierte Farben für Schlagwörter
+      el: |
+        Προσαρμοσμένα χρώματα για ετικέτες
+      es: |
+        Colores personalizados para etiquetas
+      fr: |
+        Couleurs personnalisées pour les étiquettes
+      hr: |
+        Prilagođene boje za oznake
+      hu: |
+        Egyedi színek a címkékhez
+      it: |
+        Colori personalizzati per i tag
+      iw: |
+        צבעי תגיות מותאמים אישית
+      nl: |
+        Aangepaste kleuren voor tags
+      pl: |
+        Niestandardowe kolory tagów
+      pt: |
+        Cores personalizadas para etiquetas
+      tr: |
+        Etiketler için özel renkler
+      en: |
+        Custom colors for tags
+    -
+      github: 129#column-19764415
+      mastodon: 111926553139061758
+  -
+    - 3.7.3
+    - "2024-02-06"
+    -
+      ar: |
+        التزامن: رفع مستوي ثبات البرنامج. قائمة العمليات: صقل واجهة المستخدم
+      bg: |
+        Синхронизиране: Подобрения на стабилността. Списък на транзакциите: Подобрения в потребителския интерфейс
+      cs: |
+        Synchronizace: . Seznam transakcí: Zdokonalení uživatelského rozhraní
+      de: |
+        Synchronisierung: Stabilitätsverbesserungen. Buchungsliste: Verfeinerung der Benutzeroberfläche
+      el: |
+        Συγχρονισμός: Βελτιώσεις σταθερότητας. Λίστα συναλλαγών: Βελτίωση του περιβάλλοντος εργασίας χρήστη
+      es: |
+        Sincronización: Mejoras en la estabilidad. Lista de transacciones: Interfaz de usuario mejorada
+      fr: |
+        Synchronisation: Améliorations de la stabilité. Liste des opérations: Raffinement de l'interface utilisateur
+      hr: |
+        Sinkronizacija: Poboljšanje stabilnosti. Popis transakcija: Poboljšanje korisničkog sučelja
+      hu: |
+        Szinkronizálás: Stabilitási fejlesztések. Tranzakciós lista: A felhasználói felület finomítása
+      it: |
+        Sincronizzazione: Miglioramenti della stabilità. Elenco delle transazioni: Miglioramento dell'interfaccia utente
+      iw: |
+        סנכרון: שיפורים ביציבות. רשימת עסקאות: חידוד ממשק המשתמש
+      nl: |
+        Synchronisatie: Stabiliteitsverbeteringen. Transactie lijst: Verfijning van de gebruikersinterface
+      pl: |
+        Synchronizacja: Poprawa stabilności. Lista transakcji: Udoskonalenie interfejsu użytkownika
+      pt: |
+        Sincronização: Melhorias de estabilidade. Lista de transações: Melhorias na interface do usuário
+      ro: |
+        Sincronizare: Îmbunătățiri ale stabilității. Lista tranzacţii: Perfecționarea interfeței cu utilizatorul
+      tr: |
+        Eşzamanla: Kararlılık geliştirmeleri. Muamele listesi: Kullanıcı arayüzü iyileştirildi
+      vi: |
+        Đồng bộ hóa: Cải thiện độ ổn định. Danh sách giao dịch: Cải tiến giao diện người dùng
+      en: |
+        Synchronization: Stability improvements. Transaction list: Refinement of the user interface
+    -
+      github: 126#column-19752329
+      mastodon: 111872528849271182
+  -
+    - 3.7.2
+    - "2024-01-18"
+    -
+      ar: |
+        التزامن: Microsoft OneDrive
+      bg: |
+        Синхронизиране: Microsoft OneDrive
+      cs: |
+        Synchronizace: Microsoft OneDrive
+      de: |
+        Synchronisierung: Microsoft OneDrive
+      el: |
+        Συγχρονισμός: Microsoft OneDrive
+      es: |
+        Sincronización: Microsoft OneDrive
+      fr: |
+        Synchronisation: Microsoft OneDrive
+      hr: |
+        Sinkronizacija: Microsoft OneDrive
+      hu: |
+        Szinkronizálás: Microsoft OneDrive
+      it: |
+        Sincronizzazione: Microsoft OneDrive
+      iw: |
+        סנכרון: Microsoft OneDrive
+      nl: |
+        Synchronisatie: Microsoft OneDrive
+      pl: |
+        Synchronizacja: Microsoft OneDrive
+      pt: |
+        Sincronização: Microsoft OneDrive
+      ro: |
+        Sincronizare: Microsoft OneDrive
+      tr: |
+        Eşzamanla: Microsoft OneDrive
+      vi: |
+        Đồng bộ hóa: Microsoft OneDrive
+      en: |
+        Synchronization: Microsoft OneDrive
+    -
+      github: 124#column-19721070
+      mastodon: 111767361607468268
+  -
     - 3.7.1
     - "2023-12-20"
     -
