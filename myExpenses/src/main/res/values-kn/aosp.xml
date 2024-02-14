@@ -74,4 +74,5 @@
     <string name="default_camera_app_title">"ಕ್ಯಾಮರಾ ಆ್ಯಪ್"</string>
     <string name="help_and_feedback">"ಸಹಾಯ ಮತ್ತು ಪ್ರತಿಕ್ರಿಯೆ"</string>
     <string name="currencies_exchange">"ಕರೆನ್ಸಿಗಳು &amp; ವಿದೇಶಿ ವಿನಿಮಯ"</string>
+    <string name="menu_sync_now">"ಈಗ ಸಿಂಕ್ ಮಾಡು"</string>
 </resources>

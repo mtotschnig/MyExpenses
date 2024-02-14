@@ -532,7 +532,6 @@
     <string name="menu_sync_unlink">Szinkronizálás leállítása</string>
     <string name="menu_sync_link">Szinkronizálás indítása</string>
     <string name="menu_sync_download">Letöltés és szinkronizálás</string>
-    <string name="menu_sync_now">Szinkronizálás most</string>
     <string name="pref_sync_frequency_title">Szinkronizálási frekvencia</string>
     <string name="pref_sync_frequency_summary">Milyen gyakran kell szinkronizálni az adatokat (órában)</string>
     <string name="dialog_confirm_sync_unlink">Ha leválasztja ezt a fiókot innen: %s, a szinkronizálási állapot elvész. A későbbi újbóli összekapcsoláshoz ismét teljes szinkronizálásra van szükség.</string>

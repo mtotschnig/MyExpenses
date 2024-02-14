@@ -10,4 +10,5 @@
     <string name="default_camera_app_title">"Fotografska aplikacija"</string>
     <string name="help_and_feedback">"Pomoč in povratne informacije"</string>
     <string name="currencies_exchange">"Valute in devizno poslovanje"</string>
+    <string name="menu_sync_now">"Sinhroniziraj"</string>
 </resources>

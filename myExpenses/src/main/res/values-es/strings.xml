@@ -539,7 +539,6 @@
     <string name="menu_sync_unlink">Parar sincronización</string>
     <string name="menu_sync_link">Comenzar sincronización</string>
     <string name="menu_sync_download">Descargar y sincronizar</string>
-    <string name="menu_sync_now">Sincronizar ahora</string>
     <string name="pref_sync_frequency_title">Frecuencia de sincronización</string>
     <string name="pref_sync_frequency_summary">Cada cuánto se debería sincronizar los datos (en horas)</string>
     <string name="dialog_confirm_sync_unlink">Si desliga esta cuenta de %s, el estado de sincronización será interrumpido. Si la vuelve a unir más adelante, requerirá una sincronización completa de nuevo.</string>

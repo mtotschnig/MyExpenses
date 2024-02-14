@@ -8,4 +8,5 @@
     <string name="default_camera_app_title">"Камера қолданбасы"</string>
     <string name="help_and_feedback">"Анықтама және пікір"</string>
     <string name="currencies_exchange">"Валюталар және шетелдік валюта бағамы"</string>
+    <string name="menu_sync_now">"Қазір синхрондау"</string>
 </resources>

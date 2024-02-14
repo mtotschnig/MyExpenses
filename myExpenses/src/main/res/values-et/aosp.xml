@@ -10,4 +10,5 @@
     <string name="default_camera_app_title">"Kaamerarakendus"</string>
     <string name="help_and_feedback">"Abi ja tagasiside"</string>
     <string name="currencies_exchange">"Valuutad ja välisbörsid"</string>
+    <string name="menu_sync_now">"Sünkrooni kohe"</string>
 </resources>

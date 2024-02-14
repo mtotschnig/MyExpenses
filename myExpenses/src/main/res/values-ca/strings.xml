@@ -554,7 +554,6 @@
     <string name="description_webdav_trust_certificate">La pàgina web utilitza un certificat que no figura al llistat de confiança d\'Android.</string>
     <string name="menu_create_sync_backend">Nou servei de sincronització</string>
     <string name="menu_sync_link">Arrenca la sincronització</string>
-    <string name="menu_sync_now">Sincronitza ara</string>
     <string name="validate_error_not_empty">No pot quedar buit</string>
     <string name="link_account_failure_2">Un compte amb el mateix UUID ja existeix al sistema de servei remot.</string>
     <string name="link_account_failure_3">El conflicte es pot resoldre manualment des del menú de context de l\'entrada.</string>

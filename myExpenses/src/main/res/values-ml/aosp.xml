@@ -8,4 +8,5 @@
     <string name="default_camera_app_title">"ക്യാമറാ ആപ്പ്"</string>
     <string name="help_and_feedback">"സഹായവും ഫീഡ്‌ബാക്കും"</string>
     <string name="currencies_exchange">"കറൻസികളും വിദേശ വിനിമയവും"</string>
+    <string name="menu_sync_now">"ഇപ്പോൾ സമന്വയിപ്പിക്കുക"</string>
 </resources>

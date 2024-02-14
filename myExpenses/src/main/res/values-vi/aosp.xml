@@ -74,4 +74,5 @@
     <string name="default_camera_app_title">"Ứng dụng máy ảnh"</string>
     <string name="help_and_feedback">"Trợ giúp và phản hồi"</string>
     <string name="currencies_exchange">"Tiền tệ &amp; Ngoại hối"</string>
+    <string name="menu_sync_now">"Đồng bộ hóa ngay bây giờ"</string>
 </resources>

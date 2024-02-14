@@ -74,4 +74,5 @@
     <string name="default_camera_app_title">"கேமரா ஆப்ஸ்"</string>
     <string name="help_and_feedback">"உதவி &amp; கருத்து"</string>
     <string name="currencies_exchange">"நாணயங்கள் &amp; வெளிநாட்டு நாணயப் பரிமாற்றம்"</string>
+    <string name="menu_sync_now">"இப்போது ஒத்திசை"</string>
 </resources>

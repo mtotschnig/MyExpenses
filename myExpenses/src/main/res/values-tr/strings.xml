@@ -532,7 +532,6 @@
     <string name="menu_sync_unlink">Eşzamanlamayı durdur</string>
     <string name="menu_sync_link">Eşzamanlamayı başlat</string>
     <string name="menu_sync_download">İndir ve eşzamanla</string>
-    <string name="menu_sync_now">Şimdi eşzamanla</string>
     <string name="pref_sync_frequency_title">Eşzamanlama sıklığı</string>
     <string name="pref_sync_frequency_summary">Verilerin hangi sıklıkla eşzamanlanacağı (saat olarak)</string>
     <string name="dialog_confirm_sync_unlink">Bu hesabın %s ile bağlantısını kaldırırsanız, eşzamanlama durumu kaybolur. Daha sonra bağlantıyı tekrar kurmak tam bir eşzamanlamanın tekrar yapılması gerekir.</string>

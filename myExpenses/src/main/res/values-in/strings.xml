@@ -94,7 +94,6 @@
     <string name="hint_password">Kata sandi</string>
     <string name="hint_user_name">Nama pengguna</string>
     <string name="pref_sync_frequency_title">Frekuensi sinkronisasi</string>
-    <string name="menu_sync_now">Sinkronkan sekarang</string>
     <string name="menu_sync_download">Unduh dan sinkronkan</string>
     <string name="menu_sync_link">Mulai menyinkronkan</string>
     <string name="menu_sync_unlink">Berhenti menyinkronkan</string>

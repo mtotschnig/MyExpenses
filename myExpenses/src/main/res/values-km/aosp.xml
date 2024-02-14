@@ -72,4 +72,5 @@
     <string name="default_camera_app_title">"កម្មវិធី​កាមេរ៉ា"</string>
     <string name="help_and_feedback">"ជំនួយ &amp; មតិ​ត្រឡប់"</string>
     <string name="currencies_exchange">"អត្រាប្ដូរប្រាក់បរទេស និង​រូបិយបណ្ណ"</string>
+    <string name="menu_sync_now">"ធ្វើ​សម​កាល​កម្ម​ឥឡូវ"</string>
 </resources>

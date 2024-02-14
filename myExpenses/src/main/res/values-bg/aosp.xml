@@ -77,4 +77,5 @@
     <string name="default_camera_app_title">"Приложение за камера"</string>
     <string name="help_and_feedback">"Помощ и отзиви"</string>
     <string name="currencies_exchange">"Валути и обмен на валута"</string>
+    <string name="menu_sync_now">"Синхрон сега"</string>
 </resources>

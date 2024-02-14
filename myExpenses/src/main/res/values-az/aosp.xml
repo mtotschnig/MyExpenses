@@ -10,4 +10,5 @@
     <string name="default_camera_app_title">"Kamera tətbiqi"</string>
     <string name="help_and_feedback">"Yardım və geri əlaqə"</string>
     <string name="currencies_exchange">"Valyuta &amp; Xarici Mübadilə"</string>
+    <string name="menu_sync_now">"İndi sinxronlaşdır"</string>
 </resources>

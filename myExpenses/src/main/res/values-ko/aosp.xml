@@ -75,4 +75,5 @@
     <string name="default_camera_app_title">"카메라 앱"</string>
     <string name="help_and_feedback">"고객센터"</string>
     <string name="currencies_exchange">"환거래 및 환전"</string>
+    <string name="menu_sync_now">"지금 동기화"</string>
 </resources>

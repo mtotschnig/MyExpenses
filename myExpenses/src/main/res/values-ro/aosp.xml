@@ -77,4 +77,5 @@
     <string name="default_camera_app_title">"Aplicația Cameră foto"</string>
     <string name="help_and_feedback">"Ajutor și feedback"</string>
     <string name="currencies_exchange">"Valute și schimb valutar"</string>
+    <string name="menu_sync_now">"Sincronizează acum"</string>
 </resources>

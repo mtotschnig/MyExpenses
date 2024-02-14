@@ -539,7 +539,6 @@
     <string name="menu_sync_unlink">הפסק סנכרון</string>
     <string name="menu_sync_link">התחל סנכרון</string>
     <string name="menu_sync_download">הורד וסנכרן</string>
-    <string name="menu_sync_now">סנכרן עכשיו</string>
     <string name="pref_sync_frequency_title">תדירות סינכרון</string>
     <string name="pref_sync_frequency_summary">באיזו תדירות יש לסנכרן נתונים (בשעות)</string>
     <string name="dialog_confirm_sync_unlink">אם תבטל את הקישור של חשבון זה מ- %s, מצב הסינכרון יאבד. קשר אותם שוב מאוחר יותר, נדרש לבצע שוב סנכרון מלא.</string>

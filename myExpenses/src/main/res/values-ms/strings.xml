@@ -520,7 +520,6 @@
     <string name="menu_sync_unlink">Henti menyegerak</string>
     <string name="menu_sync_link">Mula menyegerak</string>
     <string name="menu_sync_download">Muat turun dan segerak</string>
-    <string name="menu_sync_now">Segerak sekarang</string>
     <string name="pref_sync_frequency_title">Kekerapan penyegerakan</string>
     <string name="pref_sync_frequency_summary">Berapa kerapkah data disegerakkan (dalam jam)</string>
     <string name="dialog_confirm_sync_unlink">Jika anda menyahpaut akaun ini dari %s, status penyegerakan akan hilang. Memautnya kemudian, perlukan penyegerakan penuh dilakukaun sekali lagi.</string>

@@ -536,7 +536,6 @@
     <string name="menu_sync_unlink">Zatrzymaj synchronizację</string>
     <string name="menu_sync_link">Uruchom synchronizację</string>
     <string name="menu_sync_download">Pobierz i synchronizuj</string>
-    <string name="menu_sync_now">Synchronizuj teraz</string>
     <string name="pref_sync_frequency_title">Częstotliwość synchronizacji</string>
     <string name="pref_sync_frequency_summary">Jak często dane powinny być synchronizowane (w godzinach)</string>
     <string name="dialog_confirm_sync_unlink">Jeśli odłączysz to konto od %s, status synchronizacji zostanie utracony. Ponowne połączenie ich później wymaga ponownego wykonania pełnej synchronizacji.</string>

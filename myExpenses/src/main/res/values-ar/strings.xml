@@ -559,7 +559,6 @@
     <string name="menu_sync_unlink">أوقف المزامنة</string>
     <string name="menu_sync_link">إبدأ المزامنة</string>
     <string name="menu_sync_download">تحميل و منزامنة</string>
-    <string name="menu_sync_now">المزامنة الآن</string>
     <string name="pref_sync_frequency_title">تردد التزامن</string>
     <string name="pref_sync_frequency_summary">كم مرة يجب مزامنة البيانات (بالساعات)</string>
     <string name="dialog_confirm_sync_unlink">إذا قمت بإلغاء ربط هذا الحساب بـ%s، فستفقد حالة المزامنة. يتطلب ربطهما مرةً أخرى لاحقاً، مزامنةً كاملةً ليتم تنفيذها مرةً أخرى.</string>

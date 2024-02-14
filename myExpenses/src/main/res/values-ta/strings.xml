@@ -532,7 +532,6 @@
     <string name="menu_sync_unlink">ஒத்திசைவை நிறுத்து</string>
     <string name="menu_sync_link">ஒத்திசைவை தொடங்கு</string>
     <string name="menu_sync_download">பதிவிறக்கு மற்றும் ஒத்திசை</string>
-    <string name="menu_sync_now">இப்போது ஒத்திசை</string>
     <string name="pref_sync_frequency_title">ஒத்திசைவு கால இடைவெளி</string>
     <string name="pref_sync_frequency_summary">எவ்வளவு கால இடைவெளியில் (மணி நேரங்களில்) ஒத்திசைவு நிகழ வேண்டும்</string>
     <string name="dialog_confirm_sync_unlink">இந்த கணக்கை நீங்கள் %s இலிருந்து நீக்கினால், ஒத்திசைவு நிலை இழக்கப்படும். பின்னர் அவற்றை மீண்டும் இணைக்கும் போது, மீண்டும் முழு ஒத்திசைவு நிகழ்த்தப்பட வேண்டும்.</string>

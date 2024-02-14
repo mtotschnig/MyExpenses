@@ -80,4 +80,5 @@
     <string name="default_camera_app_title">تطبيق الكاميرا</string>
     <string name="help_and_feedback">"المساعدة والتعليقات"</string>
     <string name="currencies_exchange">"عملات وصرف أجنبي"</string>
+    <string name="menu_sync_now">"مزامنة الآن"</string>
 </resources>

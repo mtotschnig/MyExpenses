@@ -124,6 +124,8 @@
     <string name="default_camera_app_title">Camera app</string>
     <!-- /opt/extra/AOSP/packages/inputmethods/LatinIME/java grep -ri help_and_feedback |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="help_and_feedback">Help &amp; feedback</string>
-
+    <!-- /opt/extra/AOSP/packages/modules/AdServices/adservices/apk grep -ri topic10208 | sed 's/ msgid="[[:digit:]]*"//' | sed 's/topic10208/currencies_exchange/' | aosp_helper -->
     <string name="currencies_exchange">Currencies &amp; Foreign Exchange</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings grep -ri sync_menu_sync_now | sed 's/sync_menu/menu/' |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
+    <string name="menu_sync_now">"Sync now"</string>
 </resources>

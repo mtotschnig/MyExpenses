@@ -8,4 +8,5 @@
     <string name="default_camera_app_title">"Kameraapp"</string>
     <string name="help_and_feedback">"Hjelp og tilbakemelding"</string>
     <string name="currencies_exchange">"Valuta og veksling"</string>
+    <string name="menu_sync_now">"Synkroniser nå"</string>
 </resources>

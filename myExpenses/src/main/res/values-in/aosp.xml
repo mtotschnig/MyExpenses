@@ -10,4 +10,5 @@
     <string name="default_camera_app_title">"Aplikasi kamera"</string>
     <string name="help_and_feedback">"Bantuan &amp; masukan"</string>
     <string name="currencies_exchange">"Mata Uang Asing &amp; Kurs"</string>
+    <string name="menu_sync_now">"Sinkronkan sekarang"</string>
 </resources>

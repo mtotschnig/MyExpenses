@@ -527,7 +527,6 @@
     <string name="menu_sync_unlink">Gelditu sinkronizazioa</string>
     <string name="menu_sync_link">Hasi sinkronizazioa</string>
     <string name="menu_sync_download">Deskargatu eta sinkronizatu</string>
-    <string name="menu_sync_now">Sinkronizatu orain</string>
     <string name="pref_sync_frequency_title">Sinkronizazioaren maiztasuna</string>
     <string name="pref_sync_frequency_summary">Zenbat orduetan behin sinkronizatu behar litzateke datuak
 </string>

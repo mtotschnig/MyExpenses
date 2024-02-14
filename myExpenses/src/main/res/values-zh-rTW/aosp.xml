@@ -74,4 +74,5 @@
     <string name="default_camera_app_title">"相機應用程式"</string>
     <string name="help_and_feedback">"說明與意見回饋"</string>
     <string name="currencies_exchange">"貨幣和外匯交易"</string>
+    <string name="menu_sync_now">"立即進行同步處理"</string>
 </resources>

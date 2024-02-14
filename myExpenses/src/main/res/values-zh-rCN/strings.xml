@@ -525,7 +525,6 @@
     <string name="menu_sync_unlink">停止同步</string>
     <string name="menu_sync_link">开始同步</string>
     <string name="menu_sync_download">下载并同步</string>
-    <string name="menu_sync_now">立即同步</string>
     <string name="pref_sync_frequency_title">同步频率</string>
     <string name="pref_sync_frequency_summary">数据应多久同步一次（以小时为单位）</string>
     <string name="dialog_confirm_sync_unlink">如果您将该账户从%s取消链接，则同步状态将丢失。当您稍后再次链接它们时，则需要重新执行完整的同步。</string>

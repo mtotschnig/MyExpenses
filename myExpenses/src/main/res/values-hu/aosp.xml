@@ -77,4 +77,5 @@
     <string name="default_camera_app_title">"Kameraalkalmazás"</string>
     <string name="help_and_feedback">"Súgó és visszajelzés"</string>
     <string name="currencies_exchange">"Pénznemek és deviza"</string>
+    <string name="menu_sync_now">"Szinkronizálás most"</string>
 </resources>

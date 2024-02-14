@@ -686,7 +686,6 @@
     <string name="hint_user_name">Gebruikersnaam</string>
     <string name="menu_sync_download">Downloaden en synchroniseren</string>
     <string name="description_webdav_url">Voer de URL in naar een speciale map op je WebDAV-server. {app_name} slaat zijn gegevens op in deze map, daarbuiten raakt hij niets aan.</string>
-    <string name="menu_sync_now">Synchroniseer nu</string>
     <string name="menu_remove">Verwijderen</string>
     <string name="warning_trial_limit_reached">De proefperiode voor het testen van functie %s is afgelopen.</string>
     <string name="progress_dialog_checking_sync_backend">Backend verifiëren</string>

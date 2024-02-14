@@ -69,4 +69,5 @@
     <string name="default_camera_app_title">"کیمرا ایپ"</string>
     <string name="help_and_feedback">"مدد اور تاثرات"</string>
     <string name="currencies_exchange">"کرنسیاں اور غیر ملکی زر مبادلہ"</string>
+    <string name="menu_sync_now">"ابھی مطابقت پذیری کریں"</string>
 </resources>

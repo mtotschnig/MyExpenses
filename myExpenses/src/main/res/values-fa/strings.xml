@@ -399,7 +399,6 @@
     <string name="menu_sync_unlink">همگام‌سازی را متوقف کن</string>
     <string name="menu_sync_link">همگام‌سازی را شروع کن</string>
     <string name="menu_sync_download">بارگیری و همگام‌سازی</string>
-    <string name="menu_sync_now">الان همگام‌سازی کن</string>
     <string name="pref_sync_frequency_title">مرتباً همگام‌سازی کن</string>
     <string name="pref_sync_frequency_summary">چند بار داده‌ها باید همگام‌سازی شوند (در ساعت)</string>
     <string name="menu_remove">حذف</string>

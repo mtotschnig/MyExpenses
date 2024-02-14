@@ -8,4 +8,5 @@
     <string name="default_camera_app_title">"Kamera ilovasi"</string>
     <string name="help_and_feedback">"Yordam va fikr-mulohaza"</string>
     <string name="currencies_exchange">"Valyutalar va chet el valyutasi"</string>
+    <string name="menu_sync_now">"Hozir sinxronlash"</string>
 </resources>

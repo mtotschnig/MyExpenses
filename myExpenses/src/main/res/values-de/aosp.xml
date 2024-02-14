@@ -75,4 +75,5 @@
     <string name="default_camera_app_title">"Kamera-App"</string>
     <string name="help_and_feedback">"Hilfe &amp; Feedback"</string>
     <string name="currencies_exchange">"Währungen und Devisenkurse"</string>
+    <string name="menu_sync_now">"Jetzt synchronisieren"</string>
 </resources>

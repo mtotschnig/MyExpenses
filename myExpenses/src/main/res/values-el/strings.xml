@@ -526,7 +526,6 @@
     <string name="menu_sync_unlink">Διακοπή συγχρονισμού</string>
     <string name="menu_sync_link">Έναρξη συγχρονισμού</string>
     <string name="menu_sync_download">Λήψη και συγχρονισμός</string>
-    <string name="menu_sync_now">Συγχρονισμός τώρα</string>
     <string name="pref_sync_frequency_title">Συχνότητα συγχρονισμού</string>
     <string name="pref_sync_frequency_summary">Πόσο συχνά πρέπει να συγχρονίζονται τα δεδομένα (σε ώρες)</string>
     <string name="dialog_confirm_sync_unlink">Αν αποσυνδέσετε αυτόν τον λογαριασμό από το %s, η κατάσταση συγχρονισμού θα χαθεί. Η σύνδεσή τους ξανά αργότερα, απαιτεί ένα πλήρη συγχρονισμό να εκτελεστεί ξανά.</string>

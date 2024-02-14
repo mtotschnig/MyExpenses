@@ -531,7 +531,6 @@
     <string name="menu_sync_unlink">Зупинити синхронізацію</string>
     <string name="menu_sync_link">Почати синхронізацію</string>
     <string name="menu_sync_download">Завантажити та синхронізувати</string>
-    <string name="menu_sync_now">Синхронізувати зараз</string>
     <string name="pref_sync_frequency_title">Частота синхронізації</string>
     <string name="pref_sync_frequency_summary">Як часто потрібно синхронізувати дані (у годинах)</string>
     <string name="dialog_confirm_sync_unlink">Якщо ви відв\'яжете цей рахунок від %s, статус синхронізації втратиться. Зв\'завши їх знову пізніше, потрібно буде ще раз виконати повну синхронізацію.</string>

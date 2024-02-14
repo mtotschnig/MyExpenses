@@ -515,7 +515,6 @@
     <string name="menu_sync_unlink">Dừng đồng bộ hóa</string>
     <string name="menu_sync_link">Bắt đầu đồng bộ hóa</string>
     <string name="menu_sync_download">Tải xuống và đồng bộ hóa</string>
-    <string name="menu_sync_now">Đồng bộ hóa ngay bây giờ</string>
     <string name="pref_sync_frequency_title">Tần suất đồng bộ hóa</string>
     <string name="pref_sync_frequency_summary">Dữ liệu nên được đồng bộ hoá mỗi mấy giờ</string>
     <string name="dialog_confirm_sync_unlink">Nếu bạn bỏ liên kết từ tài khoản này tới %s, việc đồng bộ hoá sẽ bị ngưng. Việc liên kết lại chúng yêu cầu thực hiện một lần đồng bộ hoá đầy đủ.</string>

@@ -10,4 +10,5 @@
     <string name="default_camera_app_title">"Kamerasovellus"</string>
     <string name="help_and_feedback">"Ohje ja palaute"</string>
     <string name="currencies_exchange">"Valuutat ja valuutanvaihto"</string>
+    <string name="menu_sync_now">"Synkronoi nyt"</string>
 </resources>

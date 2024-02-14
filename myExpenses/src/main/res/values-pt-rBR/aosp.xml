@@ -73,4 +73,5 @@
     <string name="preferences_calendar_delete_message">Tem certeza de que deseja excluir este calendário?</string>
     <string name="default_camera_app_title">"App de câmera"</string>
     <string name="currencies_exchange">"Moedas e câmbio"</string>
+    <string name="menu_sync_now">"Sincronizar agora"</string>
 </resources>

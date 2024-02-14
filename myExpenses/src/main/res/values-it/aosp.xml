@@ -75,4 +75,5 @@
     <string name="default_camera_app_title">"App fotocamera"</string>
     <string name="help_and_feedback">"Guida e feedback"</string>
     <string name="currencies_exchange">"Cambio valute e valuta estera"</string>
+    <string name="menu_sync_now">"Sincronizza ora"</string>
 </resources>

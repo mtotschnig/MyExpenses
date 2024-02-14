@@ -8,4 +8,5 @@
     <string name="default_camera_app_title">"ক্যামেরা অ্যাপ"</string>
     <string name="help_and_feedback">"সহায়তা ও মতামত"</string>
     <string name="currencies_exchange">"মুদ্রা ও বৈদেশিক মুদ্রাবিনিময়"</string>
+    <string name="menu_sync_now">"এখন সিঙ্ক করুন"</string>
 </resources>

@@ -78,4 +78,5 @@
     <string name="default_camera_app_title">"Приложение камеры"</string>
     <string name="help_and_feedback">"Справка/отзыв"</string>
     <string name="currencies_exchange">"Валютный рынок"</string>
+    <string name="menu_sync_now">"Синхронизировать"</string>
 </resources>

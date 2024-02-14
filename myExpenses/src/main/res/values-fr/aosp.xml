@@ -76,4 +76,5 @@
     <string name="default_camera_app_title">"Appli d'appareil photo"</string>
     <string name="help_and_feedback">"Aide et commentaires"</string>
     <string name="currencies_exchange">"Change et devises"</string>
+    <string name="menu_sync_now">"Synchroniser maintenant"</string>
 </resources>

@@ -8,4 +8,5 @@
     <string name="default_camera_app_title">"कैमरा ऐप्लिकेशन"</string>
     <string name="help_and_feedback">"सहायता और फ़ीडबैक"</string>
     <string name="currencies_exchange">"करंसी और फ़ॉरेन एक्सचेंज"</string>
+    <string name="menu_sync_now">"अभी सिंक करें"</string>
 </resources>

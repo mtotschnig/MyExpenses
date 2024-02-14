@@ -8,4 +8,5 @@
     <string name="default_camera_app_title">"Fotoaparato programa"</string>
     <string name="help_and_feedback">"Pagalba ir atsiliepimai"</string>
     <string name="currencies_exchange">"Valiuta ir užsienio valiutos keitimas"</string>
+    <string name="menu_sync_now">"Sinchronizuoti dabar"</string>
 </resources>

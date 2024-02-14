@@ -532,7 +532,6 @@
     <string name="menu_sync_unlink">Synchronisierung stoppen</string>
     <string name="menu_sync_link">Synchronisierung starten</string>
     <string name="menu_sync_download">Herunterladen und synchronisieren</string>
-    <string name="menu_sync_now">Jetzt synchronisieren</string>
     <string name="pref_sync_frequency_title">Häufigkeit der Synchronisierung</string>
     <string name="pref_sync_frequency_summary">Wie oft sollten die Daten synchronisiert werden (in Stunden)</string>
     <string name="dialog_confirm_sync_unlink">Wenn Sie dieses Konto von %s entkoppeln, geht der Status der Synchronisierung verloren. Wenn Sie die Verknüpfung später wiederherstellen, erfordert dies eine erneute vollständige Synchronisierung.</string>

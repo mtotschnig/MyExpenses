@@ -78,4 +78,5 @@
     <string name="default_camera_app_title">"Aplikacja aparatu"</string>
     <string name="help_and_feedback">"Pomoc i opinie"</string>
     <string name="currencies_exchange">"Waluty i wymiana walut"</string>
+    <string name="menu_sync_now">"Synchronizuj teraz"</string>
 </resources>

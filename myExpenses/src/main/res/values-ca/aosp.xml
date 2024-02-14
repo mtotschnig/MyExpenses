@@ -76,4 +76,5 @@
     <string name="default_camera_app_title">"Aplicació de càmera"</string>
     <string name="help_and_feedback">"Ajuda i suggeriments"</string>
     <string name="currencies_exchange">"Monedes i canvi de divisa"</string>
+    <string name="menu_sync_now">"Sincronitza ara"</string>
 </resources>

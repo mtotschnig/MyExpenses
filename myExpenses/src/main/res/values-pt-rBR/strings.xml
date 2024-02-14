@@ -539,7 +539,6 @@
     <string name="menu_sync_unlink">Parar a sincronização</string>
     <string name="menu_sync_link">Parar a sincronização</string>
     <string name="menu_sync_download">Baixar e sincronizar</string>
-    <string name="menu_sync_now">Sincronizar agora</string>
     <string name="pref_sync_frequency_title">Frequência de sincronização</string>
     <string name="pref_sync_frequency_summary">Com que frequência os dados devem ser sincronizados (em horas)</string>
     <string name="dialog_confirm_sync_unlink">Se desassociar esta conta de %s, o estado da sincronização será perdido. Uma futura nova associação, exigirá que seja feita uma sincronização completa.</string>
