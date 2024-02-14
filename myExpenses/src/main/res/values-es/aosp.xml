@@ -77,4 +77,5 @@
     <string name="help_and_feedback">"Ayuda y sugerencias"</string>
     <string name="currencies_exchange">"Divisas y cambio de moneda extranjera"</string>
     <string name="menu_sync_now">"Sincronizar ahora"</string>
+  <string name="do_not_show_again">No volver a mostrar</string>
 </resources>

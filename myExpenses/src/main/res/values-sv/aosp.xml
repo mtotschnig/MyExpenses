@@ -11,4 +11,5 @@
     <string name="help_and_feedback">"Hjälp och feedback"</string>
     <string name="currencies_exchange">"Valutor och valutaväxling"</string>
     <string name="menu_sync_now">"Synkronisera nu"</string>
+  <string name="do_not_show_again">Visa inte igen</string>
 </resources>

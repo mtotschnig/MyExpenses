@@ -39,7 +39,6 @@
     <string name="category">Kategori</string>
     <string name="color">Renk</string>
     <string name="comment">Notlar</string>
-    <string name="confirmation_dialog_dont_show_again">Bir daha gösterme</string>
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Reklamsız</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Sınırsız sayıda hesap</string>
     <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Muameleye resim ekle</string>

@@ -29,7 +29,7 @@ import org.totschnig.myexpenses.R
  * This class presents a simple dialog asking user to confirm a message. Optionally the dialog can also
  * present a checkbox that allows user to provide some secondary decision. If the Bundle provided
  * in [.newInstance] provides an entry with key [.KEY_PREFKEY], the value of the
- * checkbox will be stored in a preference with this key, and R.string.confirmation_dialog_dont_show_again
+ * checkbox will be stored in a preference with this key, and R.string.do_not_show_again
  * will be set as text for the checkbox. If the Bundle provides [.KEY_CHECKBOX_LABEL], this will
  * be used as text for the checkbox label. In that case, the state of the checkbox will be communicated
  * in the second argument of [org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener.onPositive]
@@ -62,7 +62,7 @@ class ConfirmationDialogFragment : BaseDialogFragment(), DialogInterface.OnClick
         if (bundle.getString(KEY_PREFKEY) != null || checkboxLabel != null) {
             val cb = LayoutInflater.from(builder.context).inflate(R.layout.checkbox, null)
             checkBox = cb.findViewById<CheckBox?>(R.id.checkBox).apply {
-                text = checkboxLabel ?: getString(R.string.confirmation_dialog_dont_show_again)
+                text = checkboxLabel ?: getString(R.string.do_not_show_again)
                 isChecked = bundle.getBoolean(KEY_CHECKBOX_INITIALLY_CHECKED, false)
                 if (checkedLabel != 0) {
                     setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->

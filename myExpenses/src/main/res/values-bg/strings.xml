@@ -39,7 +39,6 @@
     <string name="category">Категория</string>
     <string name="color">Цвят</string>
     <string name="comment">Бележки</string>
-    <string name="confirmation_dialog_dont_show_again">Не показвай отново</string>
     <string name="contrib_feature_ad_free_label">Без реклами</string>
     <string name="contrib_feature_accounts_unlimited_label">Неограничен брой сметки</string>
     <string name="contrib_feature_attach_picture_label">Прикачане на изображение към транзакция</string>

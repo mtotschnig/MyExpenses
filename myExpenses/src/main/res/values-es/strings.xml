@@ -39,7 +39,6 @@
     <string name="category">Categoría</string>
     <string name="color">Color</string>
     <string name="comment">Notas</string>
-    <string name="confirmation_dialog_dont_show_again">No mostrar de nuevo</string>
     <string name="contrib_feature_ad_free_label">Sin anuncios</string>
     <string name="contrib_feature_accounts_unlimited_label">Número de cuentas ilimitadas</string>
     <string name="contrib_feature_attach_picture_label">Adjuntar imagen a la transacción</string>

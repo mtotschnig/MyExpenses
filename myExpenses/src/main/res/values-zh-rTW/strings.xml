@@ -39,7 +39,6 @@
     <string name="category">類別</string>
     <string name="color">顏色</string>
     <string name="comment">備註</string>
-    <string name="confirmation_dialog_dont_show_again">不再顯示</string>
     <string name="contrib_feature_ad_free_label">無廣告</string>
     <string name="contrib_feature_accounts_unlimited_label">無限數量的帳戶</string>
     <string name="contrib_feature_attach_picture_label">可附加交易圖片</string>

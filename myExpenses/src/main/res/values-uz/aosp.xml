@@ -9,4 +9,5 @@
     <string name="help_and_feedback">"Yordam va fikr-mulohaza"</string>
     <string name="currencies_exchange">"Valyutalar va chet el valyutasi"</string>
     <string name="menu_sync_now">"Hozir sinxronlash"</string>
+  <string name="do_not_show_again">Boshqa ko‘rsatilmasin</string>
 </resources>

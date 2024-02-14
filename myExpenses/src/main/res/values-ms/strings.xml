@@ -39,7 +39,6 @@
     <string name="category">Kategori</string>
     <string name="color">Warna</string>
     <string name="comment">Nota</string>
-    <string name="confirmation_dialog_dont_show_again">Jangan tunjuk lagi</string>
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Tanpa iklan</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Bilangan akaun tidak terhad</string>
     <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Lampir imej ke dalam transaksi</string>

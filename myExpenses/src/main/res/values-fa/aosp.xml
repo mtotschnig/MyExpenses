@@ -9,4 +9,5 @@
     <string name="help_and_feedback">"راهنما و بازخورد"</string>
     <string name="currencies_exchange">"تبادل خارجی و ارز"</string>
     <string name="menu_sync_now">"اکنون همگام‌سازی شود"</string>
+  <string name="do_not_show_again">دیگر نشان داده نشود</string>
 </resources>

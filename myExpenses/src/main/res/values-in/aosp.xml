@@ -11,4 +11,5 @@
     <string name="help_and_feedback">"Bantuan &amp; masukan"</string>
     <string name="currencies_exchange">"Mata Uang Asing &amp; Kurs"</string>
     <string name="menu_sync_now">"Sinkronkan sekarang"</string>
+  <string name="do_not_show_again">Jangan tampilkan lagi</string>
 </resources>

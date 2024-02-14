@@ -39,7 +39,6 @@
     <string name="category">دسته بندی</string>
     <string name="color">رنگ</string>
     <string name="comment">یادداشت</string>
-    <string name="confirmation_dialog_dont_show_again">دیگر نشان نده</string>
     <string name="contrib_feature_ad_free_label">بدون تبلیغ</string>
     <string name="contrib_feature_accounts_unlimited_label">تعداد نامحدود حساب ها</string>
     <string name="contrib_feature_attach_picture_label">تصویر را به تراکنش اضافه کنید</string>

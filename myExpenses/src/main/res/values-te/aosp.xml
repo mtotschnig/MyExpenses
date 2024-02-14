@@ -70,4 +70,5 @@
     <string name="help_and_feedback">"సహాయం &amp; అభిప్రాయం"</string>
     <string name="currencies_exchange">"కరెన్సీలు &amp; విదేశీ మారకం"</string>
     <string name="menu_sync_now">"ఇప్పుడే సింక్ చేయి"</string>
+  <string name="do_not_show_again">మళ్లీ చూపవద్దు</string>
 </resources>

@@ -39,7 +39,6 @@
     <string name="category">קטגוריה</string>
     <string name="color">צבע</string>
     <string name="comment">הערות</string>
-    <string name="confirmation_dialog_dont_show_again">אל תציג שוב</string>
     <string name="contrib_feature_ad_free_label">ללא פרסומות</string>
     <string name="contrib_feature_accounts_unlimited_label">מספר חשבונות בלתי מוגבל</string>
     <string name="contrib_feature_attach_picture_label">צרף תמונה לעסקה</string>

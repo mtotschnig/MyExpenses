@@ -564,7 +564,6 @@
     <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">లావాదేవీకి చిత్రాన్ని అటాచ్ చేయండి</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">అపరిమిత సంఖ్యలో ఖాతాలు</string>
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">ప్రకటనలు లేవు</string>
-    <string name="confirmation_dialog_dont_show_again">మళ్లీ చూపించకండి</string>
     <string name="comment">గమనికలు</string>
     <string name="color">రంగు</string>
     <string name="category">వర్గం</string>

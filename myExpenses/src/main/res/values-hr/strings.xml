@@ -37,7 +37,6 @@
     <string name="category">Kategorija</string>
     <string name="color">Boja</string>
     <string name="comment">Bilješke</string>
-    <string name="confirmation_dialog_dont_show_again">Ne prikazuj ponovo</string>
     <string name="contrib_feature_accounts_unlimited_label">Neograničen broj računa</string>
     <string name="contrib_feature_plans_unlimited_label">Neograničen broj planova</string>
     <string name="contrib_feature_print_label">Izvezi popis transakcija u PDF</string>

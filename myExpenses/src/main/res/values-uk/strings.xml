@@ -39,7 +39,6 @@
     <string name="category">Категорія</string>
     <string name="color">Колір</string>
     <string name="comment">Нотатки</string>
-    <string name="confirmation_dialog_dont_show_again">Не показувати знову</string>
     <string name="contrib_feature_ad_free_label">Без реклами</string>
     <string name="contrib_feature_accounts_unlimited_label">Необмежена кількість облікових записів</string>
     <string name="contrib_feature_attach_picture_label">Прикріпити зображення до операції</string>

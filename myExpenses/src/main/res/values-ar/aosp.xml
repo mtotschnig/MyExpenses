@@ -81,4 +81,5 @@
     <string name="help_and_feedback">"المساعدة والتعليقات"</string>
     <string name="currencies_exchange">"عملات وصرف أجنبي"</string>
     <string name="menu_sync_now">"مزامنة الآن"</string>
+  <string name="do_not_show_again">عدم عرض ذلك مجددًا</string>
 </resources>

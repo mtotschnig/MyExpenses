@@ -39,7 +39,6 @@
     <string name="category">Categorie</string>
     <string name="color">Culoare</string>
     <string name="comment">Note</string>
-    <string name="confirmation_dialog_dont_show_again">Nu arăta din nou</string>
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Fără reclame</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Număr nelimitat de conturi</string>
     <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Ataseaza imagine la tranzactie</string>

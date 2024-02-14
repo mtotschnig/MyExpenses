@@ -74,4 +74,5 @@
     <string name="default_camera_app_title">"App de câmera"</string>
     <string name="currencies_exchange">"Moedas e câmbio"</string>
     <string name="menu_sync_now">"Sincronizar agora"</string>
+  <string name="do_not_show_again">Não mostrar novamente</string>
 </resources>

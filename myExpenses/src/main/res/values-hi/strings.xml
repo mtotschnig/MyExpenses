@@ -38,7 +38,6 @@
     <string name="category"> श्रेणी</string>
     <string name="color">रंग</string>
     <string name="comment">टिप्पणियाँ</string>
-    <string name="confirmation_dialog_dont_show_again">पुनः न दिखाएँ</string>
     <string name="contrib_feature_ad_free_label">बिना विज्ञापन</string>
     <string name="contrib_feature_accounts_unlimited_label">असीमित खातों की संख्या</string>
     <string name="contrib_feature_attach_picture_label">लेन-देन से छवि जोड़ें</string>

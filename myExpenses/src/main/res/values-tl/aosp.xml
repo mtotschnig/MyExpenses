@@ -9,4 +9,5 @@
     <string name="help_and_feedback">"Tulong at feedback"</string>
     <string name="currencies_exchange">"Mga Currency at Foreign Exchange"</string>
     <string name="menu_sync_now">"I-sync ngayon"</string>
+  <string name="do_not_show_again">Huwag ipakitang muli</string>
 </resources>

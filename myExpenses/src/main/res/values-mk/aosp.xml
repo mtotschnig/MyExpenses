@@ -9,4 +9,5 @@
     <string name="help_and_feedback">"Помош и повратни информации"</string>
     <string name="currencies_exchange">"Валути и размена на пари"</string>
     <string name="menu_sync_now">"Синхронизирај сега"</string>
+  <string name="do_not_show_again">Не покажувај повторно</string>
 </resources>

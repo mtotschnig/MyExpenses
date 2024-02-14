@@ -39,7 +39,6 @@
     <string name="category">Kategorie</string>
     <string name="color">Farbe</string>
     <string name="comment">Notizen</string>
-    <string name="confirmation_dialog_dont_show_again">Nicht mehr anzeigen</string>
     <string name="contrib_feature_ad_free_label">Ohne Werbung</string>
     <string name="contrib_feature_accounts_unlimited_label">Unbegrenzte Anzahl von Konten</string>
     <string name="contrib_feature_attach_picture_label">Bildanhang für Buchung</string>

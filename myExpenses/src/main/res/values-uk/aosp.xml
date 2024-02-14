@@ -78,4 +78,5 @@
     <string name="help_and_feedback">"Довідка й відгуки"</string>
     <string name="currencies_exchange">"Валюти й курси валют"</string>
     <string name="menu_sync_now">"Синхронізувати зараз"</string>
+  <string name="do_not_show_again">Більше не показувати</string>
 </resources>

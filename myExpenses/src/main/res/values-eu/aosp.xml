@@ -75,4 +75,5 @@
     <string name="help_and_feedback">"Laguntza eta iritziak"</string>
     <string name="currencies_exchange">"Monetak eta trukea"</string>
     <string name="menu_sync_now">"Sinkronizatu"</string>
+  <string name="do_not_show_again">Ez erakutsi berriro</string>
 </resources>

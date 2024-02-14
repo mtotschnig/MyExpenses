@@ -75,4 +75,5 @@
     <string name="help_and_feedback">"உதவி &amp; கருத்து"</string>
     <string name="currencies_exchange">"நாணயங்கள் &amp; வெளிநாட்டு நாணயப் பரிமாற்றம்"</string>
     <string name="menu_sync_now">"இப்போது ஒத்திசை"</string>
+  <string name="do_not_show_again">மீண்டும் காட்டாதே</string>
 </resources>

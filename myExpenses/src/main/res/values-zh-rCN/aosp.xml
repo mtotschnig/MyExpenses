@@ -75,4 +75,5 @@
     <string name="help_and_feedback">"帮助和反馈"</string>
     <string name="currencies_exchange">"货币与外汇"</string>
     <string name="menu_sync_now">"立即同步"</string>
+  <string name="do_not_show_again">不再显示</string>
 </resources>

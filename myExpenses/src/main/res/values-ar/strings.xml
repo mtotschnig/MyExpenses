@@ -39,7 +39,6 @@
     <string name="category">التصنيف</string>
     <string name="color">اللون</string>
     <string name="comment">ملاحظات</string>
-    <string name="confirmation_dialog_dont_show_again">لا تظهر مرة أخرى</string>
     <string name="contrib_feature_ad_free_label">بدون إعلانات</string>
     <string name="contrib_feature_accounts_unlimited_label">عدد حسابات غير محدود</string>
     <string name="contrib_feature_attach_picture_label">إرفاق صورة إلى عملية</string>

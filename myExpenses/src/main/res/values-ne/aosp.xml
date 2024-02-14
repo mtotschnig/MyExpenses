@@ -9,4 +9,5 @@
     <string name="help_and_feedback">"मद्दत र प्रतिक्रिया"</string>
     <string name="currencies_exchange">"मुद्रा तथा विदेशी विनिमय"</string>
     <string name="menu_sync_now">"अहिले सिंक गर्नुहोस्"</string>
+  <string name="do_not_show_again">फेरि नदेखाउनुहोस्</string>
 </resources>

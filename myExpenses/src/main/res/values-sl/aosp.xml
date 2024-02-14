@@ -11,4 +11,5 @@
     <string name="help_and_feedback">"Pomoč in povratne informacije"</string>
     <string name="currencies_exchange">"Valute in devizno poslovanje"</string>
     <string name="menu_sync_now">"Sinhroniziraj"</string>
+  <string name="do_not_show_again">Ne prikaži več</string>
 </resources>

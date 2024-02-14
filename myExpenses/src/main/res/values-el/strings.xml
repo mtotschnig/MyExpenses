@@ -39,7 +39,6 @@
     <string name="category">Κατηγορία</string>
     <string name="color">Χρώμα</string>
     <string name="comment">Σημειώσεις</string>
-    <string name="confirmation_dialog_dont_show_again">Να μην εμφανιστεί ξανά</string>
     <string name="contrib_feature_ad_free_label">Χωρίς διαφημίσεις</string>
     <string name="contrib_feature_accounts_unlimited_label">Απεριόριστος αριθμός λογαριασμών</string>
     <string name="contrib_feature_attach_picture_label">Επισυνάψτε εικόνα στην συναλλαγή</string>

@@ -11,4 +11,5 @@
     <string name="help_and_feedback">"Ndihmë dhe komente"</string>
     <string name="currencies_exchange">"Valuta dhe këmbim valutor"</string>
     <string name="menu_sync_now">"Sinkronizo tani"</string>
+  <string name="do_not_show_again">Mos e shfaq përsëri</string>
 </resources>

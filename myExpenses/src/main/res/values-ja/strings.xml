@@ -39,7 +39,6 @@
     <string name="category">分類</string>
     <string name="color">色</string>
     <string name="comment">メモ</string>
-    <string name="confirmation_dialog_dont_show_again">今後表示しない</string>
     <string name="contrib_feature_ad_free_label">広告なし</string>
     <string name="contrib_feature_accounts_unlimited_label">無制限の勘定数</string>
     <string name="contrib_feature_attach_picture_label">取引に画像を添付</string>

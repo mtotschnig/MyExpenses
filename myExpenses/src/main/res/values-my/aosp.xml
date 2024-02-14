@@ -9,4 +9,5 @@
     <string name="help_and_feedback">"အကူအညီနှင့် အကြံပြုချက်"</string>
     <string name="currencies_exchange">"ငွေကြေးနှင့် နိုင်ငံခြားငွေလဲလှယ်ခြင်း"</string>
     <string name="menu_sync_now">"ယခု စင့်ခ်လုပ်ရန်"</string>
+  <string name="do_not_show_again">ထပ်မပြပါနှင့်</string>
 </resources>

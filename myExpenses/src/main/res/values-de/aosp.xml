@@ -76,4 +76,5 @@
     <string name="help_and_feedback">"Hilfe &amp; Feedback"</string>
     <string name="currencies_exchange">"Währungen und Devisenkurse"</string>
     <string name="menu_sync_now">"Jetzt synchronisieren"</string>
+  <string name="do_not_show_again">Nicht noch einmal anzeigen</string>
 </resources>

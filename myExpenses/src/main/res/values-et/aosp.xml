@@ -11,4 +11,5 @@
     <string name="help_and_feedback">"Abi ja tagasiside"</string>
     <string name="currencies_exchange">"Valuutad ja välisbörsid"</string>
     <string name="menu_sync_now">"Sünkrooni kohe"</string>
+  <string name="do_not_show_again">Ära enam kuva</string>
 </resources>

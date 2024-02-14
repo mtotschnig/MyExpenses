@@ -39,7 +39,6 @@
     <string name="category">வகை</string>
     <string name="color">நிறம்</string>
     <string name="comment">குறிப்புக்கள்</string>
-    <string name="confirmation_dialog_dont_show_again">மீண்டும் காட்ட வேண்டாம்</string>
     <string name="contrib_feature_ad_free_label">விளம்பரங்கள் இல்லை</string>
     <string name="contrib_feature_accounts_unlimited_label">கணக்குகளுக்கு வரம்பில்லை</string>
     <string name="contrib_feature_attach_picture_label">பரிவர்த்தனையுடன் படத்தை இணைக்கலாம்</string>

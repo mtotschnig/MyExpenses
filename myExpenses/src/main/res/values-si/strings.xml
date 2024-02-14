@@ -27,7 +27,6 @@
     <string name="category">ප්‍රවර්ගය</string>
     <string name="color">පාට </string>
     <string name="comment">සටහන් </string>
-    <string name="confirmation_dialog_dont_show_again">නැවත පෙන්වන්න එපා </string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">සීමා රහිත ගිණුම් ගණනක්</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">සීමා රහිත සැලසුම් ගණනක්</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">අ.වි.අ. (CSV) ආයාත කරන්න</string>

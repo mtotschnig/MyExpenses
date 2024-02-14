@@ -296,7 +296,6 @@
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Ubegrenset antall konti</string>
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Ingen reklamer</string>
     <string name="comment">Notater</string>
-    <string name="confirmation_dialog_dont_show_again">Ikke vis igjen</string>
     <string name="color">Farge</string>
     <string name="category">Kategori</string>
     <string name="app_name">Mine utgifter</string>

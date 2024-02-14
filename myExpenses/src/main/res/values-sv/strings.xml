@@ -66,7 +66,6 @@
     <string name="extended_key">Förlängd nyckel</string>
     <string name="account_type_bank_plural">Bankkonton</string>
     <string name="dialog_remind_rate_yes">Betygssätt nu</string>
-    <string name="confirmation_dialog_dont_show_again">Visa inte igen</string>
     <string name="date_format">Datumformat</string>
     <string name="dialog_security_answer">Svara</string>
     <string name="dialog_security_question">Fråga</string>
