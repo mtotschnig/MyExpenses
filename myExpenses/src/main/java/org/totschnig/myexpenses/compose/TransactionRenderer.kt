@@ -28,11 +28,11 @@ import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.CallSplit
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -306,10 +306,8 @@ abstract class ItemRenderer(
     @Composable
     protected fun Transaction2.AccountColor() {
         color?.let {
-            HorizontalDivider(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .width(2.dp),
+            VerticalDivider(
+                thickness = 2.dp,
                 color = Color(it)
             )
             Spacer(modifier = Modifier.width(5.dp))
