@@ -1034,4 +1034,5 @@
     <string name="default_transfer_category">Categoría de transferencia predeterminada</string>
     <string name="contact_us">Contáctenos</string>
     <string name="pref_transaction_amount_color_source_title">Colores por importes</string>
+    <string name="pref_sync_now_all_summary">%s sincroniza todas las cuentas para el mismo backend</string>
 </resources>
