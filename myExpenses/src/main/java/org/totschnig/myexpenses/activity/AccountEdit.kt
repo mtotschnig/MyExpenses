@@ -268,7 +268,6 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
      * (a valid float according to the format from the locale)
      */
     override fun saveState() {
-        super.saveState()
         if (!dataLoaded) return
         val label = binding.Label.text.toString()
         if (label == "") {
@@ -296,6 +295,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
                 }
             } else null) ?: 1.0
         )
+        super.saveState()
         viewModel.save(account).observe(this) { result ->
             result.onFailure {
                 CrashHandler.report(it)
