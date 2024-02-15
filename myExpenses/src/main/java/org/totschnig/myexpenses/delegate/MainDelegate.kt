@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ui.configurePopupAnchor
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.formatMoney
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.ui.validateAmountInput
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Debt
@@ -91,9 +92,9 @@ abstract class MainDelegate<T : ITransaction>(
 
     override fun configureType() {
         super.configureType()
-         if (viewBinding.Amount.typedValue.compareTo(BigDecimal.ZERO) != 0) {
-             onAmountChanged()
-         }
+        if (viewBinding.Amount.typedValue.compareTo(BigDecimal.ZERO) != 0) {
+            onAmountChanged()
+        }
     }
 
     open fun onAmountChanged() {
@@ -262,12 +263,19 @@ abstract class MainDelegate<T : ITransaction>(
     private fun updateDebtCheckBox(debt: Debt?) {
         val installment = debt?.let { calculateInstallment(it) }
         viewBinding.DebtCheckBox.text = debt?.let { formatDebt(it, installment) } ?: ""
-        viewBinding.DebtSummaryPopup.isVisible = installment != null
-        installment?.let {
-            val infoText = formatDebtHelp(debt, it)
+        val infoText = installment?.let {
+            try {
+                formatDebtHelp(debt, it)
+            } catch (e: Exception) {
+                null
+            }
+        }
+        viewBinding.DebtSummaryPopup.isVisible = if (infoText != null) {
             viewBinding.DebtSummaryPopup.contentDescription = infoText
             viewBinding.DebtSummaryPopup.configurePopupAnchor(infoText)
-        }
+            true
+        } else false
+
     }
 
     private fun calculateInstallment(debt: Debt) =
@@ -297,12 +305,14 @@ abstract class MainDelegate<T : ITransaction>(
                                 else -> R.string.debt_borrow_additional
                             }
                         }
+
                         -1 -> {
                             when (debtSign) {
                                 -1 -> R.string.debt_installment_pay
                                 else -> R.string.debt_lend_additional
                             }
                         }
+
                         else -> throw IllegalStateException()
                     },
                     currencyFormatter.formatMoney(Money(debt.currency, installment.abs()))
@@ -330,6 +340,7 @@ abstract class MainDelegate<T : ITransaction>(
                     debt.payeeName,
                     futureBalanceAbs
                 )
+
                 -1 -> context.getString(R.string.debt_balance_i_owe, futureBalanceAbs)
                 else -> null
             }?.let { add(it) }
@@ -350,7 +361,11 @@ abstract class MainDelegate<T : ITransaction>(
                 add(" ${Transfer.RIGHT_ARROW} ")
                 val futureBalance = money.amountMajor - it
                 add(
-                    currencyFormatter.formatMoney(Money(debt.currency, futureBalance))
+                    try {
+                        currencyFormatter.formatMoney(Money(debt.currency, futureBalance))
+                    } catch (e: ArithmeticException) {
+                        e.safeMessage
+                    }
                         .withAmountColor(
                             viewBinding.root.context.resources,
                             futureBalance.signum()
@@ -430,6 +445,7 @@ abstract class MainDelegate<T : ITransaction>(
                                 "Debt checked without applicable debt"
                             )
                         }
+
                         else -> {
                             singleDebtForPayee(debts)?.also {
                                 setDebt(it)
