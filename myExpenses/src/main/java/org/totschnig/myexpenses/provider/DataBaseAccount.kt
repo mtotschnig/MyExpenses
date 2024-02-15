@@ -7,9 +7,6 @@ import org.totschnig.myexpenses.model2.IAccount
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.groupingUriBuilder
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.getProjectionExtended
-import org.totschnig.myexpenses.provider.DatabaseConstants.getProjectionExtendedAggregate
-import org.totschnig.myexpenses.provider.DatabaseConstants.getProjectionExtendedHome
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 
 /**
@@ -40,13 +37,6 @@ abstract class DataBaseAccount : IAccount {
         extended: Boolean = true
     ) =
         uriBuilderForTransactionList(id, currency, mergeTransfers, shortenComment, extended)
-
-    val extendedProjectionForTransactionList: Array<String>
-        get() = when {
-            !isAggregate -> getProjectionExtended()
-            isHomeAggregate -> getProjectionExtendedHome()
-            else -> getProjectionExtendedAggregate()
-        }
 
     fun groupingQuery(whereFilter: WhereFilter): Triple<Uri, String?, Array<String>?> {
         val filter = whereFilter.takeIf { !it.isEmpty }

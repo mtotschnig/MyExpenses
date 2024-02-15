@@ -357,7 +357,6 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
             contentResolver,
             DataBaseAccount.AGGREGATE_HOME_CURRENCY_CODE
         )
-        DatabaseConstants.buildProjection(this, newValue)
         contentResolver.notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false)
     }
 

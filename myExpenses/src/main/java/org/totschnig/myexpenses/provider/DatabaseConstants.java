@@ -50,7 +50,7 @@ public class DatabaseConstants {
   //in sqlite julian days are calculated from noon, in order to make sure that the returned julian day matches the day we need, we set the time to noon.
   private static final String JULIAN_DAY_OFFSET = "'start of day','+12 hours'";
 
-  private static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_EXTENDED_AGGREGATE, PROJECTION_EXTENDED_HOME;
+  private static String[] PROJECTION_BASE, PROJECTION_EXTENDED;
 
   private DatabaseConstants() {
   }
@@ -60,12 +60,11 @@ public class DatabaseConstants {
     buildLocalized(
             locale,
             myApplication,
-            appComponent.prefHandler(),
-            appComponent.homeCurrencyProvider().getHomeCurrencyString()
+            appComponent.prefHandler()
     );
   }
 
-  public static void buildLocalized(Locale locale, Context context, PrefHandler prefHandler, String homeCurrency) {
+  public static void buildLocalized(Locale locale, Context context, PrefHandler prefHandler) {
     weekStartsOn = prefHandler.weekStartWithFallback(locale);
     monthStartsOn = prefHandler.getMonthStart();
     int monthDelta = monthStartsOn - 1;
@@ -92,11 +91,11 @@ public class DatabaseConstants {
         "' ,'+%d day')";
     WEEK_START_JULIAN = "julianday(date,'unixepoch','localtime'," + JULIAN_DAY_OFFSET + ",'weekday " + nextWeekEndSqlite + "', '-6 day')";
     WEEK_MAX= "CAST((strftime('%%j','%d-12-31','weekday " + nextWeekEndSqlite + "', '-6 day') - 1) / 7 + 1 AS integer)";
-    buildProjection(context, homeCurrency);
+    buildProjection(context);
     isLocalized = true;
   }
 
-  public static void buildProjection(Context context, String homeCurrency) {
+  public static void buildProjection(Context context) {
     PROJECTION_BASE = new String[]{
             KEY_ROWID,
             KEY_ACCOUNTID,
@@ -143,18 +142,6 @@ public class DatabaseConstants {
     PROJECTION_EXTENDED[baseLength + 5] = KEY_TAGLIST;
     PROJECTION_EXTENDED[baseLength + 6] = KEY_PARENTID;
 
-    //extended for aggregate include is_same_currecny
-    int extendedLength = PROJECTION_EXTENDED.length;
-    PROJECTION_EXTENDED_AGGREGATE = new String[extendedLength + 1];
-    System.arraycopy(PROJECTION_EXTENDED, 0, PROJECTION_EXTENDED_AGGREGATE, 0, extendedLength);
-    PROJECTION_EXTENDED_AGGREGATE[extendedLength] = IS_SAME_CURRENCY + " AS " + KEY_IS_SAME_CURRENCY;
-
-    int aggregateLength = PROJECTION_EXTENDED_AGGREGATE.length;
-    PROJECTION_EXTENDED_HOME = new String[aggregateLength + 1];
-    System.arraycopy(PROJECTION_EXTENDED_AGGREGATE, 0, PROJECTION_EXTENDED_HOME, 0, aggregateLength);
-    PROJECTION_EXTENDED_HOME[aggregateLength] = KEY_CURRENCY;
-    //magic number we override amount column
-    PROJECTION_EXTENDED_HOME[3] = DatabaseConstants.getAmountHomeEquivalent(DatabaseConstants.VIEW_EXTENDED, homeCurrency) + " AS " + KEY_DISPLAY_AMOUNT;
   }
 
 
@@ -568,16 +555,6 @@ public class DatabaseConstants {
     ensureLocalized();
     return PROJECTION_EXTENDED;
   }
-  public static String[] getProjectionExtendedAggregate() {
-    ensureLocalized();
-    return PROJECTION_EXTENDED_AGGREGATE;
-  }
-
-  public static String[] getProjectionExtendedHome() {
-    ensureLocalized();
-    return PROJECTION_EXTENDED_HOME;
-  }
-
 
   public static String getAmountHomeEquivalent(String forTable, String homeCurrency) {
     return "cast(coalesce(" + calcEquivalentAmountForSplitParts(forTable) + "," +
