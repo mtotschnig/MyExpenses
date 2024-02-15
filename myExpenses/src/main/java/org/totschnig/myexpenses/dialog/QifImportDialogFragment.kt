@@ -87,17 +87,22 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
             maybePersistUri()
             prefHandler.putString(PREF_KEY_IMPORT_ENCODING, encoding)
             prefHandler.putString(PREF_KEY_IMPORT_DATE_FORMAT, format.name)
-            (activity as QifImport?)!!.onSourceSelected(
-                mUri!!,
-                format,
-                accountSpinner.selectedItemId,
-                (currencySpinner.selectedItem as Currency).code,
-                mImportTransactions.isChecked,
-                mImportCategories.isChecked,
-                mImportParties.isChecked,
-                encoding,
-                autoFillCategories.isChecked
-            )
+            val currency = currencySpinner.selectedItem as? Currency
+            if (currency != null) {
+                (activity as QifImport).onSourceSelected(
+                    mUri!!,
+                    format,
+                    accountSpinner.selectedItemId,
+                    currency.code,
+                    mImportTransactions.isChecked,
+                    mImportCategories.isChecked,
+                    mImportParties.isChecked,
+                    encoding,
+                    autoFillCategories.isChecked
+                )
+            } else {
+                showSnackBar("Currency is null")
+            }
         } else {
             super.onClick(dialog, id)
         }
