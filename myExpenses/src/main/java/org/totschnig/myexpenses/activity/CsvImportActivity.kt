@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.fragment.CsvImportParseFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.ContribFeatureNotAvailableException
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.AccountConfiguration
 import org.totschnig.myexpenses.viewmodel.CsvImportViewModel
@@ -168,7 +169,9 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
                         )
                     )
                 }.onFailure {
-                    CrashHandler.report(it)
+                    if (it !is ContribFeatureNotAvailableException) {
+                        CrashHandler.report(it)
+                    }
                     showSnackBar(it.message ?: it.javaClass.simpleName)
                 }
             }

@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.export.qif.QifUtils.reduceTransfers
 import org.totschnig.myexpenses.io.ImportAccount
 import org.totschnig.myexpenses.io.ImportTransaction
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.ContribFeatureNotAvailableException
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
@@ -77,7 +78,7 @@ abstract class ImportDataViewModel(application: Application) :
                     if (!hasUnlimitedAccounts &&
                         nrOfAccounts + importCount > ContribFeature.FREE_ACCOUNTS
                     ) {
-                        throw Exception(
+                        throw ContribFeatureNotAvailableException(
                             localizedContext.getString(
                                 R.string.qif_parse_failure_found_multiple_accounts,
                                 format
