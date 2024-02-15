@@ -492,7 +492,12 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                         umsatzJob.setParam("my", konto)
                         startDate?.let { umsatzJob.setStartParam(startDate) }
 
-                        umsatzJob.addToQueue()
+                        try {
+                            umsatzJob.addToQueue()
+                        } catch (e: Exception) {
+                            error(e.safeMessage)
+                            return@doHBCI
+                        }
 
                         val status: HBCIExecStatus = handle.execute()
 
