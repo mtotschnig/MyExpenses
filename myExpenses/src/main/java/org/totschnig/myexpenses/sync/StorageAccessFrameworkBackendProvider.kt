@@ -178,7 +178,7 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
 
     init {
         if (!baseDir.isDirectory) {
-            throw RuntimeException("No directory $uri")
+            throw SyncBackendProvider.SyncParseException("No directory $uri")
         }
     }
 }

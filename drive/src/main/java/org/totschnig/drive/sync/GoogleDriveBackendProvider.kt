@@ -5,6 +5,7 @@ import android.accounts.AccountManager
 import android.content.Context
 import android.net.Uri
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException
+import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.google.api.services.drive.model.File
 import org.acra.util.StreamReader
 import org.totschnig.myexpenses.injector
@@ -364,7 +365,13 @@ class GoogleDriveBackendProvider internal constructor(
 
     @Throws(IOException::class)
     private fun requireBaseFolder() {
-        baseFolder = driveServiceHelper.getFile(folderId)
+        try {
+            baseFolder = driveServiceHelper.getFile(folderId)
+        } catch (e: GoogleJsonResponseException) {
+            throw if (e.statusCode == 404) {
+                SyncParseException(e)
+            } else e
+        }
     }
 
     companion object {

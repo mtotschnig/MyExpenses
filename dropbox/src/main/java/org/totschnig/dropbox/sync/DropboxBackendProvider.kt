@@ -48,6 +48,9 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
     ) {
         this.accountName = account.name
         setupClient(accountManager, account)
+        if (!exists(basePath)) {
+            throw SyncBackendProvider.SyncParseException("No directory $basePath")
+        }
         super.setUp(accountManager, account, encryptionPassword, create)
     }
 
@@ -289,4 +292,5 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
     }
 
     override fun suggestDelay(e: IOException) = (e.cause as? RetryException)?.backoffMillis
+
 }
