@@ -345,7 +345,7 @@
             android:exported="false" />
 
         <service android:name=".service.PlanNotificationClickHandler" />
-        <service android:name=".service.SyncNotificationDismissHandler" />
+        <service android:name=".service.SyncNotificationDismissHandler" android:process=":sync" />
 
         <activity
             android:name=".activity.SimpleToastActivity"
