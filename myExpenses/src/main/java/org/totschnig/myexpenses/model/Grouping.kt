@@ -38,7 +38,7 @@ enum class Grouping {
 
     fun calculateGroupId(year: Int, second: Int) = if (this == NONE) 1 else groupId(year, second)
 
-    fun getSecond(transaction: Transaction2) = when(this) {
+    fun getSecond(transaction: Transaction2) = when (this) {
         DAY -> transaction.day
         WEEK -> transaction.week
         MONTH -> transaction.month
@@ -66,15 +66,18 @@ enum class Grouping {
                 DAY -> {
                     val today = LocalDate.ofYearDay(dateInfo.year, dateInfo.day)
                     val day = LocalDate.ofYearDay(groupYear, groupSecond)
-                    when (ChronoUnit.DAYS.between(day, today)) {
+                    val closeReference = when (ChronoUnit.DAYS.between(day, today)) {
                         1L -> R.string.yesterday
                         0L -> R.string.today
                         -1L -> R.string.tomorrow
                         else -> null
                     }?.let { ctx.getString(it) }
-                        ?: DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
-                            .withLocale(locale)
-                            .format(day)
+                    val formatStyle =
+                        if (closeReference == null) FormatStyle.FULL else FormatStyle.LONG
+                    val dateFormatted = DateTimeFormatter.ofLocalizedDate(formatStyle)
+                        .withLocale(locale)
+                        .format(day)
+                    if (closeReference == null) dateFormatted else "$closeReference ($dateFormatted)"
                 }
 
                 WEEK -> {
@@ -120,7 +123,7 @@ enum class Grouping {
         }
     }
 
-    val queryArgumentForThisSecond : String
+    val queryArgumentForThisSecond: String
         get() = when (this) {
             DAY -> DatabaseConstants.THIS_DAY
             WEEK -> DatabaseConstants.getThisWeek()
