@@ -52,7 +52,6 @@ class SyncAdapter @JvmOverloads constructor(
     autoInitialize: Boolean,
     allowParallelSyncs: Boolean = false
 ) : AbstractThreadedSyncAdapter(context, autoInitialize, allowParallelSyncs) {
-    private val notificationContent = SparseArray<MutableList<StringBuilder>?>()
     private var shouldNotify = true
 
     @Inject
@@ -83,13 +82,6 @@ class SyncAdapter @JvmOverloads constructor(
     ) {
         val syncDelegate = syncDelegateProvider.get()
         log().i("onPerformSync %s", extras)
-        if (extras.getBoolean(KEY_NOTIFICATION_CANCELLED, false)) {
-            if (ContentResolver.isSyncPending(account, authority)) {
-                ContentResolver.cancelSync(account, authority)
-            }
-            notificationContent.remove(account.hashCode())
-            return
-        }
         val uuidFromExtras = extras.getString(KEY_UUID)
         val notificationId = account.hashCode()
         if (notificationContent[notificationId] == null) {
@@ -943,6 +935,12 @@ class SyncAdapter @JvmOverloads constructor(
 
         fun log(): Timber.Tree {
             return Timber.tag(TAG)
+        }
+
+        private val notificationContent = SparseArray<MutableList<StringBuilder>?>()
+
+        fun clearNotificationContent(account: Account) {
+            notificationContent.remove(account.hashCode())
         }
     }
 }
