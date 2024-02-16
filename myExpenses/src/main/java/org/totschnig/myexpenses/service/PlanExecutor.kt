@@ -51,7 +51,7 @@ import javax.inject.Inject
 
 
 class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
-    BaseWorker(context, workerParameters) {
+    NotifyingBaseWorker(context, workerParameters) {
     @Inject
     lateinit var currencyFormatter: ICurrencyFormatter
     @Inject

@@ -18,14 +18,16 @@ import org.totschnig.myexpenses.viewmodel.BackupViewModel
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
-abstract class BaseAutoBackupWorker(context: Context, workerParameters: WorkerParameters): BaseWorker(context, workerParameters) {
+abstract class BaseAutoBackupWorker(context: Context, workerParameters: WorkerParameters) :
+    NotifyingBaseWorker(context, workerParameters) {
 
     override val notificationId = NotificationBuilderWrapper.NOTIFICATION_AUTO_BACKUP
     override val channelId: String = NotificationBuilderWrapper.CHANNEL_ID_AUTO_BACKUP
     override val notificationTitleResId = R.string.contrib_feature_auto_backup_label
 }
 
-class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) : BaseAutoBackupWorker(context, workerParameters) {
+class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) :
+    BaseAutoBackupWorker(context, workerParameters) {
 
     companion object {
         const val ACTION_BACKUP_PURGE_CANCEL = "BACKUP_PURGE_CANCEL"
@@ -45,6 +47,7 @@ class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) : B
                     }.build()
             )
         }
+
         private const val WORK_NAME = "AutoBackupService"
         fun enqueueOrCancel(context: Context, prefHandler: PrefHandler) {
             val workManager = WorkManager.getInstance(context)
@@ -53,15 +56,18 @@ class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) : B
             ) {
                 workManager.enqueue(
                     TimePreference.getScheduledTime(
-                    prefHandler, PrefKey.AUTO_BACKUP_TIME
-                ))
+                        prefHandler, PrefKey.AUTO_BACKUP_TIME
+                    )
+                )
             } else {
                 workManager.cancelWork()
             }
         }
+
         fun cancel(context: Context) {
             WorkManager.getInstance(context).cancelWork()
         }
+
         fun enqueue(context: Context) {
             WorkManager.getInstance(context).enqueue(null)
         }
@@ -142,7 +148,8 @@ class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) : B
     }
 }
 
-class BackupPurgeWorker(context: Context, workerParameters: WorkerParameters) : BaseAutoBackupWorker(context, workerParameters) {
+class BackupPurgeWorker(context: Context, workerParameters: WorkerParameters) :
+    BaseAutoBackupWorker(context, workerParameters) {
     override suspend fun doWork(): Result {
         AppDirHelper.getAppDir(applicationContext).onSuccess { appDir ->
             notify(
