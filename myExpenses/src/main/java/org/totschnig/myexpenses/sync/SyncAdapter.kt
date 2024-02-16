@@ -580,7 +580,11 @@ class SyncAdapter @JvmOverloads constructor(
                         ), null
                     )
                 } catch (e: Exception) {
-                    report(e)
+                    if (e is IOException) {
+                        log().i(e, "Error storing backup")
+                    } else {
+                        report(e)
+                    }
                     if (!handleAuthException(e, account)) {
                         notifyUser(
                             context.getString(R.string.pref_auto_backup_title),

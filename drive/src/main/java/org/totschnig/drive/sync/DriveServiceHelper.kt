@@ -51,15 +51,18 @@ class DriveServiceHelper(context: Context, accountName: String) {
 
     init {
         val credential = GoogleAccountCredential.usingOAuth2(
-                context, setOf(DriveScopes.DRIVE_FILE))
+            context, setOf(DriveScopes.DRIVE_FILE)
+        )
         credential.selectedAccount = Account(accountName, "com.google")
         mDriveService = Drive.Builder(
-                NetHttpTransport(),
-                AndroidJsonFactory(),
-                credential)
-                .setApplicationName(context.getString(R.string.app_name))
-                .build()
-        DaggerDriveComponent.builder().appComponent(MyApplication.instance.appComponent).build().inject(this);
+            NetHttpTransport(),
+            AndroidJsonFactory(),
+            credential
+        )
+            .setApplicationName(context.getString(R.string.app_name))
+            .build()
+        DaggerDriveComponent.builder().appComponent(MyApplication.instance.appComponent).build()
+            .inject(this);
 
     }
 
@@ -74,15 +77,20 @@ class DriveServiceHelper(context: Context, accountName: String) {
      * Creates a text file in the user's My Drive folder and returns its file ID.
      */
     @Throws(IOException::class)
-    fun createFile(parent: String, name: String, mimeType: String, properties: Map<String, String>?): File {
+    fun createFile(
+        parent: String,
+        name: String,
+        mimeType: String,
+        properties: Map<String, String>?
+    ): File {
         val metadata = File()
-                .setParents(listOf(parent))
-                .setMimeType(mimeType)
-                .setAppProperties(properties)
-                .setName(name)
+            .setParents(listOf(parent))
+            .setMimeType(mimeType)
+            .setAppProperties(properties)
+            .setName(name)
 
         return mDriveService.files().create(metadata).execute()
-                ?: throw IOException("Null result when requesting file creation.")
+            ?: throw IOException("Null result when requesting file creation.")
     }
 
     /**
@@ -97,8 +105,11 @@ class DriveServiceHelper(context: Context, accountName: String) {
         try {
             mDriveService.files().update(fileId, null, contentStream).execute()
         } catch (e: GoogleJsonResponseException) {
-            crashHandler.putCustomData("GoogleJsonResponseException", e.details?.message ?: "ERROR")
-            throw e
+            throw if (e.statusCode != 403 && e.details?.errors?.getOrNull(0)?.reason == "storageQuotaExceeded") {
+                IOException(e.details.message, e)
+            } else e.also {
+                CrashHandler.report(it)
+            }
         }
     }
 
@@ -111,8 +122,10 @@ class DriveServiceHelper(context: Context, accountName: String) {
     }
 
     @Throws(IOException::class)
-    fun listFolders(parent: File? = null, vararg queries: String) = search(parent?.id,
-            *queries, "mimeType = 'application/vnd.google-apps.folder'")
+    fun listFolders(parent: File? = null, vararg queries: String) = search(
+        parent?.id,
+        *queries, "mimeType = 'application/vnd.google-apps.folder'"
+    )
 
     @Throws(IOException::class)
     fun listChildren(parent: File) = search(parent.id)
