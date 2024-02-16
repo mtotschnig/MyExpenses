@@ -14,6 +14,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.RemoteException
 import android.util.SparseArray
+import androidx.annotation.StringRes
 import kotlinx.coroutines.runBlocking
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
@@ -256,16 +257,12 @@ class SyncAdapter @JvmOverloads constructor(
                                             ), account, true
                                         )
                                     } catch (e: IOException) {
-                                        log().w(e)
-                                        if (handleAuthException(e, account)) {
-                                            return@runBlocking
-                                        }
-                                        syncResult.stats.numIoExceptions++
-                                        syncResult.delayUntil =
-                                            getIoDelaySeconds(backend.suggestDelay(e))
-                                        notifyIoException(
-                                            R.string.sync_io_exception_reset_account_data,
-                                            account
+                                        handleIoException(
+                                            e,
+                                            account,
+                                            backend,
+                                            syncResult,
+                                            R.string.sync_io_exception_reset_account_data
                                         )
                                     }
                                     break
@@ -279,30 +276,27 @@ class SyncAdapter @JvmOverloads constructor(
                                 try {
                                     backend.withAccount(instanceFromDb)
                                 } catch (e: IOException) {
-                                    log().w(e)
-                                    if (handleAuthException(e, account)) {
-                                        return@runBlocking
-                                    }
-                                    syncResult.stats.numIoExceptions++
-                                    syncResult.delayUntil =
-                                        getIoDelaySeconds(backend.suggestDelay(e))
-                                    notifyIoException(
-                                        R.string.sync_io_exception_setup_remote_account,
-                                        account
+                                    handleIoException(
+                                        e,
+                                        account,
+                                        backend,
+                                        syncResult,
+                                        R.string.sync_io_exception_setup_remote_account
                                     )
                                     break
                                 }
                                 try {
                                     backend.lock()
                                 } catch (e: IOException) {
+                                    handleIoException(
+                                        e,
+                                        account,
+                                        backend,
+                                        syncResult,
+                                        R.string.sync_io_exception_locking,
+                                        IO_LOCK_DELAY_MILLIS
+                                    )
                                     log().w(e)
-                                    if (handleAuthException(e, account)) {
-                                        return@runBlocking
-                                    }
-                                    notifyIoException(R.string.sync_io_exception_locking, account)
-                                    syncResult.stats.numIoExceptions++
-                                    syncResult.delayUntil =
-                                        getIoLockDelaySeconds(backend.suggestDelay(e))
                                     break
                                 }
                                 var completedWithoutError = false
@@ -439,14 +433,14 @@ class SyncAdapter @JvmOverloads constructor(
                                     }
                                     completedWithoutError = true
                                 } catch (e: IOException) {
+                                    handleIoException(
+                                        e,
+                                        account,
+                                        backend,
+                                        syncResult,
+                                        R.string.sync_io_exception_syncing
+                                    )
                                     log().w(e)
-                                    if (handleAuthException(e, account)) {
-                                        return@runBlocking
-                                    }
-                                    syncResult.stats.numIoExceptions++
-                                    syncResult.delayUntil =
-                                        getIoDelaySeconds(backend.suggestDelay(e))
-                                    notifyIoException(R.string.sync_io_exception_syncing, account)
                                     break
                                 } catch (e: RemoteException) {
                                     syncResult.databaseError = true
@@ -483,16 +477,14 @@ class SyncAdapter @JvmOverloads constructor(
                                     try {
                                         backend.unlock()
                                     } catch (e: IOException) {
-                                        log().w(e)
-                                        if (!handleAuthException(e, account)) {
-                                            notifyIoException(
-                                                R.string.sync_io_exception_unlocking,
-                                                account
-                                            )
-                                            syncResult.stats.numIoExceptions++
-                                            syncResult.delayUntil =
-                                                getIoLockDelaySeconds(backend.suggestDelay(e))
-                                        }
+                                        handleIoException(
+                                            e,
+                                            account,
+                                            backend,
+                                            syncResult,
+                                            R.string.sync_io_exception_unlocking,
+                                            IO_LOCK_DELAY_MILLIS
+                                        )
                                         break
                                     }
                                 }
@@ -603,6 +595,22 @@ class SyncAdapter @JvmOverloads constructor(
         }
     }
 
+    private fun handleIoException(
+        ioException: IOException,
+        account: Account,
+        backend: SyncBackendProvider,
+        syncResult: SyncResult,
+        @StringRes resId: Int,
+        defaultDelay: Long = IO_DEFAULT_DELAY_MILLIS
+    ) {
+        log().w(ioException)
+        if (!handleAuthException(ioException, account)) {
+            syncResult.stats.numIoExceptions++
+            syncResult.delayUntil = getIoDelaySeconds(backend.suggestDelay(ioException, defaultDelay))
+            notifyIoException(resId, account)
+        }
+    }
+
     private fun handleAuthException(e: Throwable, account: Account): Boolean {
         if (e is AuthException) {
             val resolution = e.resolution
@@ -701,7 +709,7 @@ class SyncAdapter @JvmOverloads constructor(
         )
     }
 
-    private fun notifyIoException(resId: Int, account: Account) {
+    private fun notifyIoException(@StringRes resId: Int, account: Account) {
         appendToNotification(context.getString(resId), account, true)
     }
 
@@ -908,10 +916,9 @@ class SyncAdapter @JvmOverloads constructor(
         const val KEY_UPLOAD_AUTO_BACKUP_URI = "upload_auto_backup_uri"
         const val KEY_UPLOAD_AUTO_BACKUP_NAME = "upload_auto_backup_name"
 
-        const val KEY_NOTIFICATION_CANCELLED = "notification_cancelled"
-        val LOCK_TIMEOUT_MINUTES = if (BuildConfig.DEBUG) 1L else 5L
+        private val LOCK_TIMEOUT_MINUTES = if (BuildConfig.DEBUG) 1L else 5L
         private val IO_DEFAULT_DELAY_MILLIS = TimeUnit.MINUTES.toMillis(5)
-        private val IO_LOCK_DELAY_MILLIS = TimeUnit.MINUTES.toMillis(LOCK_TIMEOUT_MINUTES)
+        val IO_LOCK_DELAY_MILLIS = TimeUnit.MINUTES.toMillis(LOCK_TIMEOUT_MINUTES)
         const val TAG = "SyncAdapter"
 
         @JvmStatic
@@ -924,11 +931,9 @@ class SyncAdapter @JvmOverloads constructor(
             return "last_synced_local_$accountId"
         }
 
-        private fun getIoDelaySeconds(backOffMillis: Long? = null): Long =
-            (System.currentTimeMillis() + (backOffMillis ?: IO_DEFAULT_DELAY_MILLIS)) / 1000
-
-        private fun getIoLockDelaySeconds(backOffMillis: Long? = null): Long =
-            (System.currentTimeMillis() + (backOffMillis ?: IO_LOCK_DELAY_MILLIS)) / 1000
+        private fun getIoDelaySeconds(
+            backOffMillis: Long = IO_DEFAULT_DELAY_MILLIS,
+        ) = (System.currentTimeMillis() + backOffMillis) / 1000
 
         private val featureLoadDelaySeconds: Long
             get() = System.currentTimeMillis() / 1000 + 60

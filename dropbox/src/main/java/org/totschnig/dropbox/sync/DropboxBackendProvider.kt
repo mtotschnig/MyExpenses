@@ -291,6 +291,7 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         putExtra(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, accountName)
     }
 
-    override fun suggestDelay(e: IOException) = (e.cause as? RetryException)?.backoffMillis
+    override fun suggestDelay(e: IOException, defaultDelay: Long): Long =
+        (e.cause as? RetryException)?.backoffMillis ?: defaultDelay
 
 }

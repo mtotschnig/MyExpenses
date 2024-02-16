@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.fileName
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.useAndMapToList
+import org.totschnig.myexpenses.sync.SyncAdapter.Companion.IO_LOCK_DELAY_MILLIS
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.encrypted
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.notEncrypted
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.wrongPassphrase
@@ -510,7 +511,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         val since = now - timestamp
         log().i("Stored: %s, ownedByUs : %b, since: %d", storedLockToken, ownedByUs, since)
         if (lockToken == storedLockToken) {
-            result = ownedByUs || since > LOCK_TIMEOUT_MILLIS
+            result = ownedByUs || since > IO_LOCK_DELAY_MILLIS
             log().i("tokens are equal, result: %b", result)
         } else {
             saveLockTokenToPreferences(lockToken, now, false)
@@ -548,8 +549,6 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         private const val CATEGORIES_FILENAME = "categories"
         private const val KEY_OWNED_BY_US = "ownedByUs"
         private const val KEY_TIMESTAMP = "timestamp"
-        private val LOCK_TIMEOUT_MILLIS =
-            TimeUnit.MINUTES.toMillis(SyncAdapter.LOCK_TIMEOUT_MINUTES)
         const val ENCRYPTION_TOKEN_FILE_NAME = "ENCRYPTION_TOKEN"
     }
 

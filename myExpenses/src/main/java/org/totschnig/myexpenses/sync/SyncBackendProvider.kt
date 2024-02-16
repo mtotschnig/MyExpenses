@@ -67,7 +67,7 @@ interface SyncBackendProvider {
 
     fun writeCategories(categories: List<CategoryExport>): String
 
-    fun suggestDelay(e: IOException): Long? = null
+    fun suggestDelay(e: IOException, defaultDelay: Long): Long = defaultDelay
 
     val categories: Result<List<CategoryExport>>
 
