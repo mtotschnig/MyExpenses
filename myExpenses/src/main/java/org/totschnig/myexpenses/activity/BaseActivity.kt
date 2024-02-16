@@ -978,8 +978,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         DatabaseConstants.buildLocalized(
             getLocale(),
             this,
-            prefHandler,
-            homeCurrencyProvider.homeCurrencyString
+            prefHandler
         )
     }
 
