@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
@@ -33,7 +33,10 @@ import androidx.core.content.edit
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.service.BudgetWidgetUpdateWorker
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
+import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.widget.BudgetWidget
 
 
@@ -46,7 +49,7 @@ class BudgetWidgetConfigure : BaseWidgetConfigure() {
         injector.inject(viewModel)
         setContent {
             AppTheme {
-                var selectedItem by remember { mutableStateOf<Long?>(null) }
+                var selectedItemPosition by remember { mutableStateOf<Int?>(null) }
                 val horizontalPadding = dimensionResource(id = R.dimen.padding_dialog_side)
                 val verticalPadding = dimensionResource(id = R.dimen.padding_dialog_content_top)
                 Column(
@@ -64,13 +67,13 @@ class BudgetWidgetConfigure : BaseWidgetConfigure() {
                         Text(stringResource(id = R.string.no_budgets))
                     } else {
                         LazyColumn(modifier = Modifier.padding(16.dp)) {
-                            items(data) { item ->
+                            itemsIndexed(data) { index, item ->
                                 Row(
-                                    modifier = Modifier.clickable { selectedItem = item.id },
+                                    modifier = Modifier.clickable { selectedItemPosition = index },
                                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                                 ) {
                                     RadioButton(
-                                        selected = selectedItem == item.id,
+                                        selected = selectedItemPosition == index,
                                         onClick = null
                                     )
                                     Text(
@@ -94,10 +97,12 @@ class BudgetWidgetConfigure : BaseWidgetConfigure() {
                                     )
                                 )
                             } else {
-                                selectedItem?.let { item ->
+                                selectedItemPosition?.let { position ->
                                     appWidgetId?.let { widget ->
-                                        saveSelectionPref(this@BudgetWidgetConfigure, widget, item)
+                                        val budget = data!![position]
+                                        saveSelectionPref(this@BudgetWidgetConfigure, widget, budget)
                                         apply(BudgetWidget::class.java)
+                                        BudgetWidgetUpdateWorker.enqueueSelf(applicationContext, budget.grouping)
                                     }
                                 } ?: run {
                                     finish()
@@ -112,7 +117,7 @@ class BudgetWidgetConfigure : BaseWidgetConfigure() {
                         } else {
                             Text(
                                 stringResource(
-                                    id = if (selectedItem == null)
+                                    id = if (selectedItemPosition == null)
                                         android.R.string.cancel
                                     else
                                         R.string.add_widget
@@ -128,16 +133,21 @@ class BudgetWidgetConfigure : BaseWidgetConfigure() {
     companion object {
         private const val PREFS_NAME = "budget_widget"
 
-        fun saveSelectionPref(context: Context, appWidgetId: Int, id: Long) {
+        fun saveSelectionPref(context: Context, appWidgetId: Int, budget: Budget) {
             sharedPreferences(context).edit {
-                putLong(selectionKey(appWidgetId), id)
+                putLong(selectionKey(appWidgetId), budget.id)
+                putString(selectionKeyGrouping(appWidgetId), budget.grouping.name)
             }
         }
 
         fun loadSelectionPref(context: Context, appWidgetId: Int) =
-            sharedPreferences(context).getLong(selectionKey(appWidgetId), Long.MAX_VALUE)
+            with(sharedPreferences(context)) {
+                getLong(selectionKey(appWidgetId), Long.MAX_VALUE) to getString(selectionKeyGrouping(appWidgetId), Grouping.NONE.name)
+            }
 
         private fun selectionKey(appWidgetId: Int) = "BUDGET_WIDGET_SELECTION_$appWidgetId"
+        private fun selectionKeyGrouping(appWidgetId: Int) = "BUDGET_WIDGET_GROUPING_$appWidgetId"
+
 
         private fun sharedPreferences(context: Context) =
             context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -145,6 +155,7 @@ class BudgetWidgetConfigure : BaseWidgetConfigure() {
         fun clearPreferences(context: Context, appWidgetId: Int) {
             sharedPreferences(context).edit {
                 remove(selectionKey(appWidgetId))
+                remove(selectionKeyGrouping(appWidgetId))
             }
         }
     }

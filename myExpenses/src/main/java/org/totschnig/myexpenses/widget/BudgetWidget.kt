@@ -64,7 +64,7 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
             val availableWidth =
                 availableWidth(context, appWidgetManager, appWidgetId) - horizontalPadding
             val availableHeight = availableHeight(context, appWidgetManager, appWidgetId)
-            val budgetId = BudgetWidgetConfigure.loadSelectionPref(context, appWidgetId)
+            val budgetId = BudgetWidgetConfigure.loadSelectionPref(context, appWidgetId).first
             val budgetInfo = repository.loadBudgetProgress(budgetId)
                 ?: throw NoDataException(context.getString(R.string.budget_deleted))
             val progress = budgetInfo.spent / budgetInfo.allocated.toFloat()
