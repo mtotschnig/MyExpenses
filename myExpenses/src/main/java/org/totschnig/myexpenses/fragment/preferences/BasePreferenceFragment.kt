@@ -194,7 +194,7 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
     }
 
     fun matches(preference: Preference, vararg prefKey: PrefKey) =
-        prefHandler.matches(preference.key, *prefKey)
+        preference.key?.let { prefHandler.matches(it, *prefKey) } == true
 
     fun getKey(prefKey: PrefKey) = prefHandler.getKey(prefKey)
 
