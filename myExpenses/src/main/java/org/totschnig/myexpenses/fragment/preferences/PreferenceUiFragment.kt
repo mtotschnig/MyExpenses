@@ -5,13 +5,11 @@ import android.content.Intent
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.DrawableRes
 import androidx.annotation.Keep
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.content.res.ResourcesCompat.getColor
 import androidx.core.text.buildSpannedString
@@ -147,7 +145,7 @@ class PreferenceUiFragment : BasePreferenceFragment() {
                 (Calendar.SATURDAY).toString()
             )
             if (!prefHandler.isSet(PrefKey.GROUP_WEEK_STARTS)) {
-                value = (Utils.getFirstDayOfWeek(locale)).toString()
+                value = Utils.getFirstDayOfWeek(locale).toString()
             }
         }
 

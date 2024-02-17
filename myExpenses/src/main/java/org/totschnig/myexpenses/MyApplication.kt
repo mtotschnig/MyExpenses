@@ -46,15 +46,16 @@ import org.totschnig.myexpenses.feature.RESTART_ACTION
 import org.totschnig.myexpenses.feature.START_ACTION
 import org.totschnig.myexpenses.feature.STOP_ACTION
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DataBaseAccount
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.service.AutoBackupWorker.Companion.enqueueOrCancel
+import org.totschnig.myexpenses.service.BudgetWidgetUpdateWorker
 import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.ui.ContextHelper
@@ -299,25 +300,33 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
         sharedPreferences: SharedPreferences,
         key: String?
     ) {
+        if (key == null) return
         if (key != prefHandler.getKey(PrefKey.AUTO_BACKUP_DIRTY)) {
             markDataDirty()
         }
-        if (key == prefHandler.getKey(PrefKey.DEBUG_LOGGING)) {
-            setupLogging()
-        } else if (key == prefHandler.getKey(PrefKey.UI_WEB) || key == prefHandler.getKey(
-                PrefKey.WEBUI_PASSWORD
-            ) || key == prefHandler.getKey(PrefKey.WEBUI_HTTPS)
-        ) {
-            val webUiRunning =
-                sharedPreferences.getBoolean(prefHandler.getKey(PrefKey.UI_WEB), false)
-            //If user configures https or password, while the web ui is not running, there is nothing to do
-            if (key == prefHandler.getKey(PrefKey.UI_WEB) || webUiRunning) {
-                controlWebUi(if (webUiRunning) RESTART_ACTION else STOP_ACTION)
+        when {
+            prefHandler.matches(key, PrefKey.DEBUG_LOGGING) -> {
+                setupLogging()
             }
-        } else if (key == prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID)) {
-            plannerUtils.onPlannerCalendarIdChanged(
-                sharedPreferences.getString(key, INVALID_CALENDAR_ID)!!
-            )
+            prefHandler.matches(key, PrefKey.UI_WEB, PrefKey.WEBUI_PASSWORD, PrefKey.WEBUI_HTTPS) -> {
+                val webUiRunning =
+                    sharedPreferences.getBoolean(prefHandler.getKey(PrefKey.UI_WEB), false)
+                //If user configures https or password, while the web ui is not running, there is nothing to do
+                if (key == prefHandler.getKey(PrefKey.UI_WEB) || webUiRunning) {
+                    controlWebUi(if (webUiRunning) RESTART_ACTION else STOP_ACTION)
+                }
+            }
+            prefHandler.matches(key, PrefKey.PLANNER_CALENDAR_ID) -> {
+                plannerUtils.onPlannerCalendarIdChanged(
+                    sharedPreferences.getString(key, INVALID_CALENDAR_ID)!!
+                )
+            }
+            prefHandler.matches(key, PrefKey.GROUP_WEEK_STARTS) -> {
+                BudgetWidgetUpdateWorker.enqueueSelf(this, Grouping.WEEK, true)
+            }
+            prefHandler.matches(key, PrefKey.GROUP_MONTH_STARTS) -> {
+                BudgetWidgetUpdateWorker.enqueueSelf(this, Grouping.MONTH, true)
+            }
         }
     }
 
@@ -351,7 +360,7 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
         StrictMode.setVmPolicy(vmPolicyBuilder.build())
     }
 
-    fun invalidateHomeCurrency(newValue: String?) {
+    fun invalidateHomeCurrency() {
         currencyContext.invalidateHomeCurrency()
         currencyFormatter.invalidate(
             contentResolver,

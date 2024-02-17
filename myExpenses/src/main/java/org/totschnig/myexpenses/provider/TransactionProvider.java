@@ -767,6 +767,10 @@ public class TransactionProvider extends BaseTransactionProvider {
       case BUDGETS:
         qb = SupportSQLiteQueryBuilder.builder(getBudgetTableJoin());
         break;
+      case BUDGET_ID:
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_BUDGETS);
+        additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
+        break;
       case ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS: {
         qb = SupportSQLiteQueryBuilder.builder(TABLE_BUDGET_ALLOCATIONS);
         Long budgetId = budgetDefaultSelect(db, uri);

@@ -387,7 +387,7 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
             args.putBoolean(KEY_READ_ONLY, readOnly)
             args.putInt(
                 START_DAY_OF_WEEK,
-                prefHandler.weekStartWithFallback(Locale.getDefault())
+                prefHandler.weekStartWithFallback()
             )
             f.arguments = args
             return f

@@ -100,9 +100,16 @@ class BudgetWidgetConfigure : BaseWidgetConfigure() {
                                 selectedItemPosition?.let { position ->
                                     appWidgetId?.let { widget ->
                                         val budget = data!![position]
-                                        saveSelectionPref(this@BudgetWidgetConfigure, widget, budget)
+                                        saveSelectionPref(
+                                            this@BudgetWidgetConfigure,
+                                            widget,
+                                            budget
+                                        )
                                         apply(BudgetWidget::class.java)
-                                        BudgetWidgetUpdateWorker.enqueueSelf(applicationContext, budget.grouping)
+                                        BudgetWidgetUpdateWorker.enqueueSelf(
+                                            applicationContext,
+                                            budget.grouping,
+                                        )
                                     }
                                 } ?: run {
                                     finish()
@@ -134,15 +141,24 @@ class BudgetWidgetConfigure : BaseWidgetConfigure() {
         private const val PREFS_NAME = "budget_widget"
 
         fun saveSelectionPref(context: Context, appWidgetId: Int, budget: Budget) {
+            saveSelectionPref(context, appWidgetId, budget.id, budget.grouping)
+        }
+
+        fun saveSelectionPref(context: Context, appWidgetId: Int, id: Long, grouping: Grouping) {
             sharedPreferences(context).edit {
-                putLong(selectionKey(appWidgetId), budget.id)
-                putString(selectionKeyGrouping(appWidgetId), budget.grouping.name)
+                putLong(selectionKey(appWidgetId), id)
+                putString(selectionKeyGrouping(appWidgetId), grouping.name)
             }
         }
 
+        //pre version 3.7.4.1
+        fun loadSelectionPrefLegacy(context: Context, appWidgetId: Int) =
+            sharedPreferences(context).getLong(selectionKey(appWidgetId), Long.MAX_VALUE)
+
         fun loadSelectionPref(context: Context, appWidgetId: Int) =
             with(sharedPreferences(context)) {
-                getLong(selectionKey(appWidgetId), Long.MAX_VALUE) to getString(selectionKeyGrouping(appWidgetId), Grouping.NONE.name)
+                getLong(selectionKey(appWidgetId), Long.MAX_VALUE) to
+                        getString(selectionKeyGrouping(appWidgetId), Grouping.NONE.name)!!
             }
 
         private fun selectionKey(appWidgetId: Int) = "BUDGET_WIDGET_SELECTION_$appWidgetId"
@@ -153,6 +169,10 @@ class BudgetWidgetConfigure : BaseWidgetConfigure() {
             context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
         fun clearPreferences(context: Context, appWidgetId: Int) {
+            BudgetWidgetUpdateWorker.enqueueSelf(
+                context,
+                Grouping.valueOf(loadSelectionPref(context, appWidgetId).second)
+            )
             sharedPreferences(context).edit {
                 remove(selectionKey(appWidgetId))
                 remove(selectionKeyGrouping(appWidgetId))

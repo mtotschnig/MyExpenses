@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.SharedPreferences
@@ -22,7 +24,9 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
+import org.totschnig.myexpenses.activity.BudgetWidgetConfigure
 import org.totschnig.myexpenses.compose.FutureCriterion
+import org.totschnig.myexpenses.db2.getGrouping
 import org.totschnig.myexpenses.db2.preDefinedName
 import org.totschnig.myexpenses.fragment.preferences.PreferenceUiFragment.Companion.compactItemRendererTitle
 import org.totschnig.myexpenses.model.*
@@ -35,6 +39,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider.*
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.DateCriterion
+import org.totschnig.myexpenses.service.BudgetWidgetUpdateWorker
 import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.ui.DiscoveryHelper
@@ -42,6 +47,7 @@ import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.util.validateDateFormat
+import org.totschnig.myexpenses.widget.BudgetWidget
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -162,7 +168,7 @@ class UpgradeHandlerViewModel(application: Application) :
                 if (fromVersion < 316) {
                     val homeCurrency = homeCurrencyProvider.homeCurrencyString
                     prefHandler.putString(PrefKey.HOME_CURRENCY, homeCurrency)
-                    getApplication<MyApplication>().invalidateHomeCurrency(homeCurrency)
+                    getApplication<MyApplication>().invalidateHomeCurrency()
                 }
 
                 if (fromVersion < 354 && GenericAccountService.getAccounts(getApplication())
@@ -416,6 +422,7 @@ class UpgradeHandlerViewModel(application: Application) :
                             prefHandler.remove(key)
                         }
                 }
+
                 if (fromVersion in 558..567) {
                     val key =
                         booleanPreferencesKey(prefHandler.getKey(PrefKey.UI_ITEM_RENDERER_LEGACY))
@@ -426,6 +433,7 @@ class UpgradeHandlerViewModel(application: Application) :
                         }
                     }
                 }
+
                 if (fromVersion < 576) {
                     GenericAccountService.migratePasswords(getApplication())
                 }
@@ -437,6 +445,7 @@ class UpgradeHandlerViewModel(application: Application) :
                 ) {
                     PlanExecutor.enqueueSelf(getApplication(), prefHandler, true)
                 }
+
                 if (fromVersion < 586) {
                     crashHandler.setEnabled(
                         prefHandler.getBoolean(
@@ -446,6 +455,7 @@ class UpgradeHandlerViewModel(application: Application) :
                     )
                     tracker.setEnabled(prefHandler.getBoolean(PrefKey.TRACKING, false))
                 }
+
                 if (fromVersion < 604) {
                     prefHandler.getString(PrefKey.UI_LANGUAGE)
                         .takeIf { it != MyApplication.DEFAULT_LANGUAGE }
@@ -458,15 +468,18 @@ class UpgradeHandlerViewModel(application: Application) :
                         }
                     prefHandler.remove(PrefKey.UI_LANGUAGE)
                 }
+
                 if (fromVersion < 615) {
                     // For existing installations, we keep the previous prefix in order to keep the
                     // purge backup feature running without interruption
                     prefHandler.putString(PrefKey.BACKUP_FILE_PREFIX, "backup")
                 }
+
                 if (fromVersion < 617) {
                     //For existing installations, we keep JPEG, new installations will use WEBP
                     prefHandler.putString(PrefKey.OPTIMIZE_PICTURE_FORMAT, "JPEG")
                 }
+
                 if (fromVersion < 627) {
                     contentResolver.query(
                         METHODS_URI,
@@ -487,6 +500,7 @@ class UpgradeHandlerViewModel(application: Application) :
                         }
                     }
                 }
+
                 if (fromVersion < 637) {
                     if (prefHandler.getBoolean(PrefKey.AUTO_BACKUP, false)) {
                         withContext(Dispatchers.Main) {
@@ -494,6 +508,7 @@ class UpgradeHandlerViewModel(application: Application) :
                         }
                     }
                 }
+
                 if (fromVersion < 666) {
                     if (prefHandler.isSet(PrefKey.DISTRIBUTION_AGGREGATE_TYPES)) {
                         dataStore.edit {
@@ -501,6 +516,25 @@ class UpgradeHandlerViewModel(application: Application) :
                                 prefHandler.getBoolean(PrefKey.DISTRIBUTION_AGGREGATE_TYPES, false)
                         }
                     }
+                }
+
+                if (fromVersion < 705) {
+                    val context = getApplication<MyApplication>()
+                    AppWidgetManager.getInstance(context)
+                        .getAppWidgetIds(ComponentName(context, BudgetWidget::class.java))
+                        .map { widgetId ->
+                            val id = BudgetWidgetConfigure.loadSelectionPrefLegacy(context, widgetId)
+                            repository.getGrouping(id)?.takeIf { it != Grouping.NONE }?.let {
+                                Triple(widgetId, id, it)
+                            }
+                        }.filterNotNull()
+                        .groupBy({ it.third }, { it.first to it.second }).forEach { (grouping, list) ->
+                            Timber.i("got %d widgets with grouping %s", list.size, grouping)
+                            list.forEach {
+                                BudgetWidgetConfigure.saveSelectionPref(context, it.first, it.second, grouping)
+                            }
+                            BudgetWidgetUpdateWorker.enqueueSelf(context, grouping)
+                        }
                 }
 
             } catch (e: Exception) {
