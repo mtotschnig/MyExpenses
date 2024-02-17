@@ -322,12 +322,16 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
                 )
             }
             prefHandler.matches(key, PrefKey.GROUP_WEEK_STARTS) -> {
-                BudgetWidgetUpdateWorker.enqueueSelf(this, Grouping.WEEK, true)
+                onGroupingStartChanged(Grouping.WEEK)
             }
             prefHandler.matches(key, PrefKey.GROUP_MONTH_STARTS) -> {
-                BudgetWidgetUpdateWorker.enqueueSelf(this, Grouping.MONTH, true)
+                onGroupingStartChanged(Grouping.MONTH)
             }
         }
+    }
+
+    private fun onGroupingStartChanged(grouping: Grouping) {
+        BudgetWidgetUpdateWorker.enqueueSelf(this, grouping, true)
     }
 
     val memoryClass: Int

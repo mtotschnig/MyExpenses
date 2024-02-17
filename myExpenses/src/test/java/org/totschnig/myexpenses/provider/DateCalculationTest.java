@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.test.core.app.ApplicationProvider;
+import androidx.work.testing.WorkManagerTestInitHelper;
 
 import org.junit.After;
 import org.junit.Before;
@@ -44,6 +45,7 @@ public class DateCalculationTest {
   @Before
   public void setUp() {
     final Context targetContext = RuntimeEnvironment.getApplication();
+    WorkManagerTestInitHelper.initializeTestWorkManager(targetContext);
     mDb = new MyDbHelper(targetContext).getWritableDatabase();
     ContentValues v = new ContentValues();
     for (int year = 2020; year < 2032; year++) {
