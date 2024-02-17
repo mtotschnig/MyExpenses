@@ -7,7 +7,7 @@ interface OnIconSelectedListener {
     fun onIconSelected(icon: String)
 }
 
-class IconSelectorDialogFragment : ComposeBaseDialogFragment() {
+class IconSelectorDialogFragment : ComposeBaseDialogFragment2() {
     @Composable
     override fun BuildContent() {
         IconSelector(onIconSelected = {
