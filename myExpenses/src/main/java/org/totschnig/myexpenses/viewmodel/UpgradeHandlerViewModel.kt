@@ -523,15 +523,17 @@ class UpgradeHandlerViewModel(application: Application) :
                     AppWidgetManager.getInstance(context)
                         .getAppWidgetIds(ComponentName(context, BudgetWidget::class.java))
                         .map { widgetId ->
-                            val id = BudgetWidgetConfigure.loadSelectionPrefLegacy(context, widgetId)
-                            repository.getGrouping(id)?.takeIf { it != Grouping.NONE }?.let {
-                                Triple(widgetId, id, it)
-                            }
+                            repository.getGrouping(
+                                BudgetWidgetConfigure.loadSelectionPrefLegacy(
+                                    context,
+                                    widgetId
+                                )
+                            )?.let { widgetId to it }
                         }.filterNotNull()
-                        .groupBy({ it.third }, { it.first to it.second }).forEach { (grouping, list) ->
+                        .groupBy({ it.second }, { it.first }).forEach { (grouping, list) ->
                             Timber.i("got %d widgets with grouping %s", list.size, grouping)
                             list.forEach {
-                                BudgetWidgetConfigure.saveSelectionPref(context, it.first, it.second, grouping)
+                                BudgetWidgetConfigure.saveGrouping(context, it, grouping)
                             }
                             BudgetWidgetUpdateWorker.enqueueSelf(context, grouping)
                         }

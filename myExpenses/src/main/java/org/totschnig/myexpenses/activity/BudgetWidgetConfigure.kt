@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.activity
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -141,23 +142,32 @@ class BudgetWidgetConfigure : BaseWidgetConfigure() {
         private const val PREFS_NAME = "budget_widget"
 
         fun saveSelectionPref(context: Context, appWidgetId: Int, budget: Budget) {
-            saveSelectionPref(context, appWidgetId, budget.id, budget.grouping)
+            sharedPreferences(context).edit {
+                putLong(selectionKey(appWidgetId), budget.id)
+                saveGrouping(appWidgetId, budget.grouping)
+            }
         }
 
-        fun saveSelectionPref(context: Context, appWidgetId: Int, id: Long, grouping: Grouping) {
+        fun saveGrouping(context: Context, appWidgetId: Int, grouping: Grouping) {
             sharedPreferences(context).edit {
-                putLong(selectionKey(appWidgetId), id)
-                putString(selectionKeyGrouping(appWidgetId), grouping.name)
+                saveGrouping(appWidgetId, grouping)
             }
+        }
+
+        private fun SharedPreferences.Editor.saveGrouping(appWidgetId: Int, grouping: Grouping) {
+            putString(selectionKeyGrouping(appWidgetId), grouping.name)
         }
 
         //pre version 3.7.4.1
         fun loadSelectionPrefLegacy(context: Context, appWidgetId: Int) =
-            sharedPreferences(context).getLong(selectionKey(appWidgetId), Long.MAX_VALUE)
+            sharedPreferences(context).budgetId(appWidgetId)
+
+        private fun SharedPreferences.budgetId(appWidgetId: Int) =
+            getLong(selectionKey(appWidgetId), Long.MAX_VALUE)
 
         fun loadSelectionPref(context: Context, appWidgetId: Int) =
             with(sharedPreferences(context)) {
-                getLong(selectionKey(appWidgetId), Long.MAX_VALUE) to
+                budgetId(appWidgetId) to
                         getString(selectionKeyGrouping(appWidgetId), Grouping.NONE.name)!!
             }
 

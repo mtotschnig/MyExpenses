@@ -111,7 +111,10 @@ private fun buildDateFilterClause(budget: Budget): String {
 fun Repository.getGrouping(budgetId: Long): Grouping? = contentResolver.query(
     ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId),
     arrayOf(KEY_GROUPING), null, null, null
-)?.use { it.getEnumOrNull<Grouping>(0) }
+)?.use {
+    it.moveToFirst()
+    it.getEnumOrNull<Grouping>(0)
+}
 
 suspend fun Repository.loadBudgetProgress(budgetId: Long): BudgetProgress? = contentResolver.query(
     TransactionProvider.BUDGETS_URI,
