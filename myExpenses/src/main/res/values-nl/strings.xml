@@ -113,7 +113,7 @@
     <string name="dialog_password_activate_protection">Activeer wachtwoordbeveiliging</string>
     <string name="dialog_password_change_password">Wijzig wachtwoord</string>
     <string name="dialog_remind_rate_1">Neem even de tijd om {app_name} te beoordelen.</string>
-    <string name="dialog_remind_rate_2">Dankzij uw opmerkingen kunnen wij voortdurend verbeteringen en uitbreidingen aanbrengen.</string>
+    <string name="dialog_remind_rate_2">Dankzij jouw opmerkingen kunnen wij voortdurend verbeteringen en uitbreidingen aanbrengen.</string>
     <string name="dialog_remind_rate_yes">Beoordeel nu</string>
     <string name="dialog_security_answer">Antwoord</string>
     <string name="dialog_security_question">Vraag</string>
@@ -920,4 +920,7 @@
     <string name="debt_paid_off_self">Mijn schuld is afbetaald.</string>
     <string name="content_description_remove_icon">Verwijder icoon</string>
     <string name="debt_installment_receive">Ik ontvang een termijn van %s.</string>
+    <string name="contact_us">Neem contact op</string>
+    <string name="pref_transaction_amount_color_source_title">Kleuren voor bedragen</string>
+    <string name="pref_sync_now_all_summary">%s synchroniseert alle rekeningen voor hetzelfde backend</string>
 </resources>
