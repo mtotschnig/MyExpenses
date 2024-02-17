@@ -29,7 +29,9 @@ fun onConfigurationChanged(context: Context) {
 }
 
 fun updateWidgets(
-    context: Context, provider: Class<out AppWidgetProvider?>, action: String,
+    context: Context,
+    provider: Class<out AppWidgetProvider?>,
+    action: String,
     appWidgetIds: IntArray = AppWidgetManager.getInstance(context)
         .getAppWidgetIds(ComponentName(context, provider))
 ) =

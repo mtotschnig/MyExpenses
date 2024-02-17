@@ -1283,7 +1283,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             BankingFeature {}
 
     protected open fun restartAfterRestore() {
-        (application as MyApplication).invalidateHomeCurrency(homeCurrencyProvider.homeCurrencyString)
+        (application as MyApplication).invalidateHomeCurrency()
         if (!isFinishing) {
             finishAffinity()
             startActivity(Intent(this, MyExpenses::class.java).apply {

@@ -2,16 +2,15 @@ package org.totschnig.myexpenses.db2
 
 import android.content.ContentUris
 import android.net.Uri
-import androidx.datastore.preferences.core.booleanPreferencesKey
 import kotlinx.coroutines.flow.first
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
 import org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfMonthStart
@@ -21,8 +20,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
 import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.getEnumOrNull
 import org.totschnig.myexpenses.provider.getLocalDate
-import org.totschnig.myexpenses.util.toDayOfWeek
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2.Companion.aggregateNeutralPrefKey
 import org.totschnig.myexpenses.viewmodel.DistributionViewModelBase
@@ -33,7 +32,6 @@ import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalAdjusters
-import java.util.Locale
 
 
 class BudgetDuration(val start: LocalDate, val end: LocalDate)
@@ -110,6 +108,13 @@ private fun buildDateFilterClause(budget: Budget): String {
     }
 }
 
+fun Repository.getGrouping(budgetId: Long): Grouping? = contentResolver.query(
+    ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId),
+    arrayOf(KEY_GROUPING), null, null, null
+)?.use {
+    it.moveToFirst()
+    it.getEnumOrNull<Grouping>(0)
+}
 
 suspend fun Repository.loadBudgetProgress(budgetId: Long): BudgetProgress? = contentResolver.query(
     TransactionProvider.BUDGETS_URI,
@@ -146,8 +151,7 @@ suspend fun Repository.loadBudgetProgress(budgetId: Long): BudgetProgress? = con
         ).use { dateInfoCursor ->
             if (dateInfoCursor?.moveToFirst() != true) return null
             with(DateInfo.fromCursor(dateInfoCursor)) {
-                val weekStartDay =
-                    prefHandler.weekStartWithFallback(Locale.getDefault()).toDayOfWeek
+                val weekStartDay = prefHandler.weekStartAsDayOfWeek
                 val today = LocalDate.ofYearDay(year, day)
                 val weekStart = today.with(TemporalAdjusters.previousOrSame(weekStartDay))
                 val year = when (grouping) {

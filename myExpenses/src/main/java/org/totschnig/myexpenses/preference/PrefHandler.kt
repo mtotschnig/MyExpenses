@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.dialog.valueOf
 import org.totschnig.myexpenses.dialog.values
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.toDayOfWeek
 import java.util.Calendar
 import java.util.Locale
 
@@ -75,7 +76,10 @@ interface PrefHandler {
             null
         }.takeIf { it in Calendar.SUNDAY..Calendar.SATURDAY }
 
-    fun weekStartWithFallback(locale: Locale) = weekStart ?: Utils.getFirstDayOfWeek(locale)
+    fun weekStartWithFallback(locale: Locale = Locale.getDefault()) = weekStart ?: Utils.getFirstDayOfWeek(locale)
+
+    val weekStartAsDayOfWeek
+        get() = weekStartWithFallback().toDayOfWeek
 
     fun uiMode(context: Context) = getString(
         PrefKey.UI_THEME_KEY,

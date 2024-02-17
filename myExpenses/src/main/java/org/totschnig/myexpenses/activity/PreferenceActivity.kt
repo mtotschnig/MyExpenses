@@ -129,7 +129,7 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
                 } else {
                     prefHandler.putString(PrefKey.HOME_CURRENCY, currencyCode)
                 }
-                requireApplication().invalidateHomeCurrency(currencyCode)
+                requireApplication().invalidateHomeCurrency()
                 showSnackBarIndefinite(R.string.saving)
                 viewModel?.resetEquivalentAmounts()?.observe(this) { integer ->
                     dismissSnackBar()
