@@ -224,8 +224,7 @@ data class Transaction2(
         fun fromCursor(
             cursor: Cursor,
             accountCurrency: CurrencyUnit,
-            tags: Map<String, Pair<String, Int?>>,
-            yearColum: String = KEY_YEAR
+            tags: Map<String, Pair<String, Int?>>
         ): Transaction2 {
             val amountRaw = cursor.getLong(KEY_DISPLAY_AMOUNT)
             val money = Money(accountCurrency, amountRaw)
@@ -263,7 +262,7 @@ data class Transaction2(
                 },
                 color = cursor.getIntIfExists(KEY_COLOR),
                 status = cursor.getInt(KEY_STATUS),
-                year = cursor.getInt(yearColum),
+                year = cursor.getInt(KEY_YEAR),
                 month = cursor.getInt(KEY_MONTH),
                 week = cursor.getInt(KEY_WEEK),
                 day = cursor.getInt(KEY_DAY),

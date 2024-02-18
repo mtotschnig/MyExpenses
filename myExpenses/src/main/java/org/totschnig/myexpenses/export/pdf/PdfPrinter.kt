@@ -210,12 +210,7 @@ object PdfPrinter {
                 Transaction2.fromCursor(
                     cursor = transactionCursor,
                     accountCurrency = account.currencyUnit,
-                    tags = tagMap,
-                    yearColum = when (account.grouping) {
-                        Grouping.WEEK -> KEY_YEAR_OF_WEEK_START
-                        Grouping.MONTH -> KEY_YEAR_OF_MONTH_START
-                        else -> KEY_YEAR
-                    }
+                    tags = tagMap
                 )
 
             currentHeaderId = account.grouping.calculateGroupId(transaction)
