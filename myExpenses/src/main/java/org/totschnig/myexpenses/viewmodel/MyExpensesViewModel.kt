@@ -92,6 +92,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
@@ -458,6 +459,20 @@ open class MyExpensesViewModel(
                     .build(), ContentValues(1).apply {
                     put(KEY_UUID, repository.getUuidForTransaction(itemIds[1]))
                 }, null, null
+            )
+        }
+    }
+
+    fun unlinkTransfer(itemId: Long) {
+        viewModelScope.launch(context = coroutineContext()) {
+            contentResolver.update(
+                TRANSACTIONS_URI,
+                ContentValues(2).apply {
+                    putNull(KEY_TRANSFER_PEER)
+                    putNull(KEY_TRANSFER_ACCOUNT)
+                },
+                "$KEY_ROWID = ? OR $KEY_TRANSFER_PEER = ?",
+                Array(2) { itemId.toString() }
             )
         }
     }
