@@ -86,7 +86,7 @@ class SyncAdapter @JvmOverloads constructor(
         val uuidFromExtras = extras.getString(KEY_UUID)
         val notificationId = account.hashCode()
         if (notificationContent[notificationId] == null) {
-            notificationContent.put(notificationId, ArrayList())
+            notificationContent.put(notificationId, mutableListOf())
         }
         if (!prefHandler.encryptDatabase && Build.VERSION.SDK_INT == 30 && prefHandler.getInt(
                 PrefKey.CURRENT_VERSION,
@@ -949,7 +949,7 @@ class SyncAdapter @JvmOverloads constructor(
         private val notificationContent = SparseArray<MutableList<StringBuilder>?>()
 
         fun clearNotificationContent(account: Account) {
-            notificationContent.remove(account.hashCode())
+            notificationContent[account.hashCode()]?.clear()
         }
     }
 }
