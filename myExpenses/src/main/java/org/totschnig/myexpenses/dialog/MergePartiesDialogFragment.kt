@@ -13,7 +13,7 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.OpenInNew
+import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -133,7 +133,7 @@ class MergePartiesDialogFragment : ComposeBaseDialogFragment() {
                         "https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Data#strategies-for-merging-duplicate-parties"
                     )
                 }) {
-                    Icon(imageVector = Icons.Filled.OpenInNew, contentDescription = null)
+                    Icon(imageVector = Icons.AutoMirrored.Filled.OpenInNew, contentDescription = null)
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(stringResource(id = R.string.menu_help))
                 }

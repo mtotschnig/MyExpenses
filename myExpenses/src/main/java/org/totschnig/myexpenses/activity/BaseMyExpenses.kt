@@ -23,7 +23,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CallSplit
+import androidx.compose.material.icons.automirrored.filled.CallSplit
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Loupe
 import androidx.compose.material.icons.filled.RestoreFromTrash
@@ -946,7 +946,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                         )
                                         if (transaction.isSplit) {
                                             add(MenuEntry(
-                                                icon = Icons.Filled.CallSplit,
+                                                icon = Icons.AutoMirrored.Filled.CallSplit,
                                                 label = R.string.menu_ungroup_split_transaction,
                                                 command = "UNGROUP_SPLIT"
                                             ) {

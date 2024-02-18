@@ -16,8 +16,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.PlaylistAdd
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.PlaylistAdd
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -257,7 +257,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                                             Button(onClick = { importCats() }) {
                                                 Column(horizontalAlignment = CenterHorizontally) {
                                                     Icon(
-                                                        imageVector = Icons.Filled.PlaylistAdd,
+                                                        imageVector = Icons.AutoMirrored.Filled.PlaylistAdd,
                                                         contentDescription = null
                                                     )
                                                     Text(text = stringResource(id = R.string.menu_categories_setup_default))
