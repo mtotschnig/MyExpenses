@@ -137,4 +137,17 @@
     <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Ako su valute računa „Od” i „U” različite, navedi iznos samo za jednu od njih. Drugi račun će se izračunati kada stvoriš instance iz predloška.</string>
     <string name="help_fab_confirm_selection">Koristi plutajući gumb radnje za potvrđivanje odabira.</string>
     <string name="help_ManageParties_mergeMode_info_1">Odaberi duple stranke koje želiš sjediniti.</string>
+    <string name="menu_HistoryActivity_history_show_balance_help_text">Uključi/Isključi prikaz salda.</string>
+    <string name="menu_NavigationDrawer_sort_help_text_custom">Pritiskom na „Prilagođeno” možeš slobodno konfigurirati poziciju za svaki račun.</string>
+    <string name="menu_NavigationDrawer_grouping_help_text">Popis računa se može prikazati grupiran prema vrsti računa, valuti ili negrupirano.</string>
+    <string name="menu_BudgetActivity_edit_help_text">Promijeni definiciju proračuna.</string>
+    <string name="menu_budget_allocated_only_help_text">Aktiviranjem ove opcije prikazuju se samo kategorije za koje je neki iznos alociran.</string>
+    <string name="menu_BudgetActivity_delete_help_text">Trenutačno prikazani proračun će se izbrisati.</string>
+    <string name="form_DebtEdit_date_help_text">Upiši datum nastanka duga.</string>
+    <string name="menu_type_filter_help_text">Kada je ova opcija aktivirana možeš odabrati prikaz samo kategorija troškova, prihoda ili prijenosa.</string>
+    <string name="menu_create_account_help_text">Stvori novi račun. Besplatna verzija je ograničena na pet računa.</string>
+    <string name="menu_NavigationDrawer_hidden_accounts_help_text">Prikazuje popis svih skrivenih računa gdje se mogu ponovo prikazati ili izbrisati.</string>
+    <string name="form_BudgetEdit_amount_help_text">Količina novca koji je dostupan u kontekstu ovog proračuna.</string>
+    <string name="help_ManageTags_manage_info">Stvori nove oznake upisivanjem u tekstualno polje.</string>
+    <string name="help_ManageTags_context_menu_info">Dodirni ikonu &lt;img src=more&gt; za uređivanje, dodjeljivanje boje ili brisanje oznake.</string>
 </resources>

@@ -958,4 +958,6 @@
     <string name="menu_aggregate_neutral_categories">Zbroji neutralne kategorije</string>
     <string name="warning_delete_default_transfer_category">Kategorija „%s” je konfigurirana kao zadana kategorija prijenosa i ne treba je brisati.</string>
     <string name="pref_unmapped_transaction_as_transfer_title">Nedodijeljene transakcije</string>
+    <string name="contact_us">Kontaktiraj nas</string>
+    <string name="pref_transaction_amount_color_source_title">Boje za iznose</string>
 </resources>
