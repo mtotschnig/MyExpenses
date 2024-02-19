@@ -104,7 +104,7 @@ import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 
-const val DATABASE_VERSION = 162
+const val DATABASE_VERSION = 163
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -450,7 +450,6 @@ fun parentUuidExpression(reference: String, table: String = TABLE_TRANSACTIONS) 
             KEY_PARENTID
         )
     }) END"
-
 
 abstract class BaseTransactionDatabase(
     val context: Context,
@@ -883,6 +882,12 @@ abstract class BaseTransactionDatabase(
         }
     }
 
+    fun SupportSQLiteDatabase.upgradeTo160() {
+        insertNullRows()
+        execSQL("DROP TRIGGER IF EXISTS update_change_log")
+        execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE)
+    }
+
     fun SupportSQLiteDatabase.upgradeTo161() {
         execSQL("DROP VIEW IF EXISTS $VIEW_CHANGES_EXTENDED")
         //add new change type
@@ -896,6 +901,10 @@ abstract class BaseTransactionDatabase(
         execSQL("DROP TABLE changes_old")
         execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES))
         createOrRefreshTransactionLinkedTableTriggers()
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo163() {
+        execSQL(TRANSACTIONS_UUID_UPDATE_TRIGGER_CREATE)
     }
 
     override fun onCreate(db: SupportSQLiteDatabase) {
@@ -1083,13 +1092,13 @@ abstract class BaseTransactionDatabase(
         )
     }
 
-    fun insertNullRows(db: SupportSQLiteDatabase) {
+    fun SupportSQLiteDatabase.insertNullRows() {
         //rows that allow us to record changes where payee or method gets set to null
-        db.insert(TABLE_PAYEES, SQLiteDatabase.CONFLICT_NONE, ContentValues().apply {
+        insert(TABLE_PAYEES, SQLiteDatabase.CONFLICT_NONE, ContentValues().apply {
             put(KEY_ROWID, NULL_ROW_ID)
             put(KEY_PAYEE_NAME, NULL_CHANGE_INDICATOR)
         })
-        db.insert(TABLE_METHODS, SQLiteDatabase.CONFLICT_NONE, ContentValues().apply {
+        insert(TABLE_METHODS, SQLiteDatabase.CONFLICT_NONE, ContentValues().apply {
             put(KEY_ROWID, NULL_ROW_ID)
             put(KEY_LABEL, NULL_CHANGE_INDICATOR)
         })

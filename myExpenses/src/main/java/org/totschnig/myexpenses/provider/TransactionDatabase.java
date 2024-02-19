@@ -42,14 +42,11 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSA
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTION_ATTRIBUTES_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSFER_SEALED_UPDATE_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.VIEW_WITH_ACCOUNT_DEFINITION;
-import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForColumnNotNull;
-import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForIntegerColumn;
-import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForReferenceColumn;
-import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.buildChangeTriggerDefinitionForTextColumn;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.createOrRefreshTransactionLinkedTableTriggers;
-import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.parentUuidExpression;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.sequenceNumberSelect;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.shouldWriteChangeTemplate;
+import static org.totschnig.myexpenses.provider.ChangeLogTriggersKt.createOrRefreshChangeLogTriggers;
+import static org.totschnig.myexpenses.provider.ChangeLogTriggersKt.getTRANSACTIONS_UPDATE_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.buildViewDefinition;
@@ -344,141 +341,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_BUDGET_ROLLOVER_NEXT + " integer, "
           + KEY_ONE_TIME + " boolean default 0, "
           + "primary key (" + KEY_BUDGETID + "," + KEY_CATID + "," + KEY_YEAR + "," + KEY_SECOND_GROUP + "));";
-
-  private static final String INSERT_TRIGGER_ACTION = " BEGIN INSERT INTO " + TABLE_CHANGES + "("
-      + KEY_TYPE + ","
-      + KEY_SYNC_SEQUENCE_LOCAL + ", "
-      + KEY_UUID + ", "
-      + KEY_PARENT_UUID + ", "
-      + KEY_COMMENT + ", "
-      + KEY_DATE + ", "
-      + KEY_VALUE_DATE + ", "
-      + KEY_AMOUNT + ", "
-      + KEY_ORIGINAL_AMOUNT + ", "
-      + KEY_ORIGINAL_CURRENCY + ", "
-      + KEY_EQUIVALENT_AMOUNT + ", "
-      + KEY_CATID + ", "
-      + KEY_ACCOUNTID + ","
-      + KEY_PAYEEID + ", "
-      + KEY_TRANSFER_ACCOUNT + ", "
-      + KEY_METHODID + ","
-      + KEY_CR_STATUS + ", "
-      + KEY_REFERENCE_NUMBER + ") VALUES ('" + TransactionChange.Type.created + "', "
-      + sequenceNumberSelect("new") + ", "
-      + "new." + KEY_UUID + ", "
-      + parentUuidExpression("new") + ", "
-      + "new." + KEY_COMMENT + ", "
-      + "new." + KEY_DATE + ", "
-      + "new." + KEY_VALUE_DATE + ", "
-      + "new." + KEY_AMOUNT + ", "
-      + "new." + KEY_ORIGINAL_AMOUNT + ", "
-      + "new." + KEY_ORIGINAL_CURRENCY + ", "
-      + "new." + KEY_EQUIVALENT_AMOUNT + ", "
-      + "new." + KEY_CATID + ", "
-      + "new." + KEY_ACCOUNTID + ", "
-      + "new." + KEY_PAYEEID + ", "
-      + "new." + KEY_TRANSFER_ACCOUNT + ", "
-      + "new." + KEY_METHODID + ", "
-      + "new." + KEY_CR_STATUS + ", "
-      + "new." + KEY_REFERENCE_NUMBER + "); END;";
-
-  private static final String DELETE_TRIGGER_ACTION = " BEGIN INSERT INTO " + TABLE_CHANGES + "("
-      + KEY_TYPE + ","
-      + KEY_SYNC_SEQUENCE_LOCAL + ", "
-      + KEY_ACCOUNTID + ","
-      + KEY_UUID + ","
-      + KEY_PARENT_UUID + ") VALUES ('" + TransactionChange.Type.deleted + "', "
-      + sequenceNumberSelect("old") + ", "
-      + "old." + KEY_ACCOUNTID + ", "
-      + "old." + KEY_UUID + ", "
-      + parentUuidExpression("old") + "); END;";
-
-  private static final String DELETE_TRIGGER_ACTION_AFTER_TRANSFER_UPDATE = " BEGIN INSERT INTO " + TABLE_CHANGES + "("
-      + KEY_TYPE + ","
-      + KEY_SYNC_SEQUENCE_LOCAL + ", "
-      + KEY_ACCOUNTID + ","
-      + KEY_UUID + ","
-      + KEY_PARENT_UUID + ") VALUES ('" + TransactionChange.Type.deleted + "', "
-      + sequenceNumberSelect("old") + ", "
-      + "old." + KEY_ACCOUNTID + ", "
-      + "new." + KEY_UUID + ", "
-      + parentUuidExpression("old") + "); END;";
-
-  private static final String TRANSACTIONS_INSERT_TRIGGER_CREATE =
-      "CREATE TRIGGER insert_change_log "
-          + "AFTER INSERT ON " + TABLE_TRANSACTIONS
-          + " WHEN " + shouldWriteChangeTemplate("new")
-          + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED
-          + INSERT_TRIGGER_ACTION;
-
-  private static final String TRANSACTIONS_INSERT_AFTER_UPDATE_TRIGGER_CREATE =
-      "CREATE TRIGGER insert_after_update_change_log "
-          + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
-          + " WHEN " + shouldWriteChangeTemplate("new")
-          + " AND ((old." + KEY_STATUS + " = " + STATUS_UNCOMMITTED + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ")"
-          + " OR (old." + KEY_ACCOUNTID + " != new." + KEY_ACCOUNTID + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED + "))"
-          + INSERT_TRIGGER_ACTION;
-
-  private static final String TRANSACTIONS_DELETE_AFTER_UPDATE_TRIGGER_CREATE =
-      "CREATE TRIGGER delete_after_update_change_log "
-          + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
-          + " WHEN " + shouldWriteChangeTemplate("old")
-          + " AND old." + KEY_ACCOUNTID + " != new." + KEY_ACCOUNTID + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED
-          + DELETE_TRIGGER_ACTION_AFTER_TRANSFER_UPDATE;
-
-  private static final String TRANSACTIONS_DELETE_TRIGGER_CREATE =
-      "CREATE TRIGGER delete_change_log "
-          + "AFTER DELETE ON " + TABLE_TRANSACTIONS
-          + " WHEN " + shouldWriteChangeTemplate("old")
-          + " AND old." + KEY_STATUS + " != " + STATUS_UNCOMMITTED + " AND EXISTS (SELECT 1 FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = old." + KEY_ACCOUNTID + ")"
-          + DELETE_TRIGGER_ACTION;
-
-  private static final String TRANSACTIONS_UPDATE_TRIGGER_CREATE =
-      "CREATE TRIGGER update_change_log "
-          + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
-          + " WHEN " + shouldWriteChangeTemplate("old")
-          + " AND old." + KEY_STATUS + " != " + STATUS_UNCOMMITTED
-          + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED
-          + " AND new." + KEY_STATUS + " = " + " old." + KEY_STATUS //we ignore setting of exported flag
-          + " AND new." + KEY_ACCOUNTID + " = old." + KEY_ACCOUNTID //if account is changed, we need to delete transaction from one account, and add it to the other
-          + " AND new." + KEY_TRANSFER_PEER + " IS old." + KEY_TRANSFER_PEER //if a new transfer is inserted, the first peer is updated, after second one is added, and we can skip this update here
-          + " AND new." + KEY_UUID + " IS NOT NULL "  //during transfer update, uuid is temporarily set to null, we need to skip this change here, otherwise we run into SQLiteConstraintException
-          + " BEGIN INSERT INTO " + TABLE_CHANGES + "("
-          + KEY_TYPE + ","
-          + KEY_SYNC_SEQUENCE_LOCAL + ", "
-          + KEY_UUID + ", "
-          + KEY_ACCOUNTID + ", "
-          + KEY_PARENT_UUID + ", "
-          + KEY_COMMENT + ", "
-          + KEY_DATE + ", "
-          + KEY_VALUE_DATE + ", "
-          + KEY_AMOUNT + ", "
-          + KEY_ORIGINAL_AMOUNT + ", "
-          + KEY_ORIGINAL_CURRENCY + ", "
-          + KEY_EQUIVALENT_AMOUNT + ", "
-          + KEY_CATID + ", "
-          + KEY_PAYEEID + ", "
-          + KEY_TRANSFER_ACCOUNT + ", "
-          + KEY_METHODID + ", "
-          + KEY_CR_STATUS + ", "
-          + KEY_REFERENCE_NUMBER + ") VALUES ('" + TransactionChange.Type.updated + "', "
-          + sequenceNumberSelect("old") + ", "
-          + "new." + KEY_UUID + ", "
-          + "new." + KEY_ACCOUNTID + ", "
-          + parentUuidExpression("new") + ", "
-          + buildChangeTriggerDefinitionForTextColumn(KEY_COMMENT) + ", "
-          + buildChangeTriggerDefinitionForColumnNotNull(KEY_DATE) + ", "
-          + buildChangeTriggerDefinitionForColumnNotNull(KEY_VALUE_DATE) + ", "
-          + buildChangeTriggerDefinitionForColumnNotNull(KEY_AMOUNT) + ", "
-          + buildChangeTriggerDefinitionForIntegerColumn(KEY_ORIGINAL_AMOUNT) + ", "
-          + buildChangeTriggerDefinitionForTextColumn(KEY_ORIGINAL_CURRENCY) + ", "
-          + buildChangeTriggerDefinitionForIntegerColumn(KEY_EQUIVALENT_AMOUNT) + ", "
-          + buildChangeTriggerDefinitionForReferenceColumn(KEY_CATID) + ", "
-          + buildChangeTriggerDefinitionForReferenceColumn(KEY_PAYEEID) + ", "
-          + buildChangeTriggerDefinitionForIntegerColumn(KEY_TRANSFER_ACCOUNT) + ", "
-          + buildChangeTriggerDefinitionForReferenceColumn(KEY_METHODID) + ", "
-          + buildChangeTriggerDefinitionForColumnNotNull(KEY_CR_STATUS) + ", "
-          + buildChangeTriggerDefinitionForTextColumn(KEY_REFERENCE_NUMBER) + "); END;";
 
 
   private static final String UPDATE_ACCOUNT_SYNC_NULL_TRIGGER = "CREATE TRIGGER update_account_sync_null "
@@ -2039,7 +1901,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
             "SELECT account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, value_date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id FROM changes_old");
         db.execSQL("DROP TABLE changes_old");
         //db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
-        createOrRefreshTransactionTriggers(db);
+        //createOrRefreshTransactionTriggers(db);
         createOrRefreshAccountTriggers(db);
         createOrRefreshAccountMetadataTrigger(db);
       }
@@ -2200,9 +2062,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
 
       if (oldVersion < 160) {
-        insertNullRows(db);
-        db.execSQL("DROP TRIGGER IF EXISTS update_change_log");
-        db.execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE);
+        upgradeTo160(db);
       }
 
       if (oldVersion < 161) {
@@ -2212,6 +2072,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 162) {
         db.execSQL("alter table tags add column color integer default null");
         createOrRefreshViews(db);
+      }
+
+      if (oldVersion < 163) {
+        upgradeTo163(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);
@@ -2253,20 +2117,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
   }
 
   private void createOrRefreshTransactionTriggers(SupportSQLiteDatabase db) {
-    db.execSQL("DROP TRIGGER IF EXISTS insert_change_log");
-    db.execSQL("DROP TRIGGER IF EXISTS insert_after_update_change_log");
-    db.execSQL("DROP TRIGGER IF EXISTS delete_after_update_change_log");
-    db.execSQL("DROP TRIGGER IF EXISTS delete_change_log");
-    db.execSQL("DROP TRIGGER IF EXISTS update_change_log");
-
-    db.execSQL(TRANSACTIONS_INSERT_TRIGGER_CREATE);
-    db.execSQL(TRANSACTIONS_INSERT_AFTER_UPDATE_TRIGGER_CREATE);
-    db.execSQL(TRANSACTIONS_DELETE_AFTER_UPDATE_TRIGGER_CREATE);
-    db.execSQL(TRANSACTIONS_DELETE_TRIGGER_CREATE);
-    db.execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE);
-
+    createOrRefreshChangeLogTriggers(db);
     createOrRefreshTransactionSealedTriggers(db);
-
   }
 
 

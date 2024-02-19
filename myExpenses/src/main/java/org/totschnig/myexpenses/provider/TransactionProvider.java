@@ -295,6 +295,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS = "defaultBudgetAllocations";
   public static final String URI_SEGMENT_UNSPLIT = "unsplit";
   public static final String URI_SEGMENT_LINK_TRANSFER = "link_transfer";
+  public static final String URI_SEGMENT_UNLINK_TRANSFER = "unlink_transfer";
 
   //"1" merge all currency aggregates, < 0 only return one specific aggregate
   public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
@@ -1420,6 +1421,9 @@ public class TransactionProvider extends BaseTransactionProvider {
       case TRANSACTION_LINK_TRANSFER -> {
         count = MoreDbUtilsKt.linkTransfers(db, uri.getPathSegments().get(2), values.getAsString(KEY_UUID), callerIsNotSyncAdapter(uri));
       }
+      case TRANSACTION_UNLINK_TRANSFER -> {
+        count = MoreDbUtilsKt.unlinkTransfers(db, uri.getLastPathSegment());
+      }
       case DEBTS -> count = MoreDbUtilsKt.update(db, TABLE_DEBTS, values, where, whereArgs);
       case DEBT_ID -> {
         count = MoreDbUtilsKt.update(db, TABLE_DEBTS, values,
@@ -1437,7 +1441,8 @@ public class TransactionProvider extends BaseTransactionProvider {
     }
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID || uriMatch == ACCOUNTS || uriMatch == ACCOUNT_ID ||
         uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TRANSACTION_UNDELETE ||
-        uriMatch == TRANSACTION_MOVE || uriMatch == TRANSACTION_TOGGLE_CRSTATUS || uriMatch == TRANSACTION_LINK_TRANSFER) {
+        uriMatch == TRANSACTION_MOVE || uriMatch == TRANSACTION_TOGGLE_CRSTATUS ||
+        uriMatch == TRANSACTION_LINK_TRANSFER  || uriMatch == TRANSACTION_UNLINK_TRANSFER) {
       notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdapter(uri));
       notifyChange(ACCOUNTS_URI, false);
       notifyChange(DEBTS_URI, false);
@@ -1652,6 +1657,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "tags/#", TAG_ID);
     URI_MATCHER.addURI(AUTHORITY, "templates/tags", TEMPLATES_TAGS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_LINK_TRANSFER + "/*", TRANSACTION_LINK_TRANSFER);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_UNLINK_TRANSFER + "/*", TRANSACTION_UNLINK_TRANSFER);
     URI_MATCHER.addURI(AUTHORITY, "accounts/tags", ACCOUNTS_TAGS);
     URI_MATCHER.addURI(AUTHORITY, "debts", DEBTS);
     URI_MATCHER.addURI(AUTHORITY, "debts/#", DEBT_ID);

@@ -16,12 +16,12 @@ import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
 import androidx.sqlite.db.SupportSQLiteStatement
-import arrow.core.plus
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.localizedLabelSqlColumn
+import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -65,6 +65,30 @@ fun safeUpdateWithSealed(db: SupportSQLiteDatabase, runnable: Runnable) {
     }
 }
 
+fun unlinkTransfers(
+    db: SupportSQLiteDatabase,
+    id: String,
+): Int {
+    db.beginTransaction()
+    var count = 0
+    try {
+        count += db.update(TABLE_TRANSACTIONS, ContentValues().apply {
+            putNull(KEY_TRANSFER_PEER)
+            putNull(KEY_TRANSFER_ACCOUNT)
+            put(KEY_UUID, Model.generateUuid())
+        }, "$KEY_ROWID = ?", arrayOf(id))
+        count += db.update(TABLE_TRANSACTIONS, ContentValues().apply {
+            putNull(KEY_TRANSFER_PEER)
+            putNull(KEY_TRANSFER_ACCOUNT)
+            put(KEY_UUID, Model.generateUuid())
+        }, "$KEY_TRANSFER_PEER = ?", arrayOf(id))
+        db.setTransactionSuccessful()
+    } finally {
+        db.endTransaction()
+    }
+    return count
+}
+
 fun linkTransfers(
     db: SupportSQLiteDatabase,
     uuid1: String,
@@ -75,10 +99,13 @@ fun linkTransfers(
     var count = 0
     try {
         //both transactions get uuid from first transaction
-        val sql =
-            "UPDATE $TABLE_TRANSACTIONS SET $KEY_CATID = null, $KEY_PAYEEID = null, $KEY_UUID = ?," +
-                    "$KEY_TRANSFER_PEER = (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)," +
-                    "$KEY_TRANSFER_ACCOUNT = (SELECT $KEY_ACCOUNTID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?) WHERE $KEY_UUID = ? AND EXISTS (SELECT 1 FROM $TABLE_TRANSACTIONS where $KEY_UUID = ?)"
+        val sql = """UPDATE $TABLE_TRANSACTIONS SET
+            $KEY_CATID = null,
+            $KEY_PAYEEID = null,
+            $KEY_UUID = ?,
+            $KEY_TRANSFER_PEER = (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?),
+            $KEY_TRANSFER_ACCOUNT = (SELECT $KEY_ACCOUNTID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?) 
+            WHERE $KEY_UUID = ? AND EXISTS (SELECT 1 FROM $TABLE_TRANSACTIONS where $KEY_UUID = ?)"""
         db.compileStatement(sql).use {
             it.bindAllArgsAsStrings(listOf(uuid1, uuid2, uuid2, uuid1, uuid2))
             count += it.executeUpdateDelete()
