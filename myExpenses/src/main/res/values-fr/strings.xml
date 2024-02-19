@@ -1035,4 +1035,6 @@
     <string name="contact_us">Contactez-nous</string>
     <string name="pref_transaction_amount_color_source_title">Couleurs pour les montants</string>
     <string name="pref_sync_now_all_summary">%s synchronise tous les comptes du même back-end</string>
+    <string name="menu_unlink_transfer">Dissocier le transfert</string>
+    <string name="warning_unlink_transfer">Le transfert sélectionné sera dissocié : Il sera remplacé par des opérations normales dans les deux comptes.</string>
 </resources>

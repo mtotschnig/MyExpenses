@@ -1022,4 +1022,6 @@
     <string name="contact_us">Kontaktieren Sie uns</string>
     <string name="pref_transaction_amount_color_source_title">Farben für Beträge</string>
     <string name="pref_sync_now_all_summary">%s synchronisiert alle Konten für dasselbe Back-End</string>
+    <string name="warning_unlink_transfer">Die ausgewählte Umbuchung wird getrennt: Sie wird durch normale Buchungen in beiden Konten ersetzt.</string>
+    <string name="menu_unlink_transfer">Umbuchung trennen</string>
 </resources>
