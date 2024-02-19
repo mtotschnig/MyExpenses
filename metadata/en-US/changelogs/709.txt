@@ -1,0 +1,1 @@
+You can now unlink the two parts of a transfer, resulting in two distinct transactions in each account.

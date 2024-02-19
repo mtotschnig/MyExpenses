@@ -322,6 +322,13 @@
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='ui_refinement']" />
             </xsl:when>
+            <xsl:when test="$version = '3.7.5'">
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='menu_unlink_transfer']" />
+            </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
     </xsl:template>

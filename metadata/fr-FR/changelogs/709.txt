@@ -1,0 +1,1 @@
+Vous pouvez désormais dissocier les deux parties d'un virement, ce qui entraîne deux opérations distinctes sur chacun des deux comptes.
