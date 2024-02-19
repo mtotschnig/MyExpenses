@@ -61,7 +61,7 @@
     <string name="help_BudgetEdit_title">Obrazac za proračune</string>
     <string name="help_BudgetEdit_info">Koristi ovaj obrazac za izradu novog proračuna ili za uređivanje postojećeg.</string>
     <string name="form_BudgetEdit_title_help_text">Naslov proračuna pomaže prepoznati proračun u popisu proračuna.</string>
-    <string name="help_MethodEdit_title">Obrazac za način plaćanja</string>
+    <string name="help_MethodEdit_title">Obrazac za načine plaćanja</string>
     <string name="help_WebUI_info_1">Pozovi prikazani URL u podnaslovu putem web preglednika na tvom računalu.</string>
     <string name="cab_ManageCategories_create_sub_cat_help_text">Otvara dijalog za stvaranje nove potkategorije ispod odabrane kategorije. Potkategorije se mogu smjestiti na proizvoljnu razinu.</string>
     <string name="cab_ManageCategories_move_help_text">Bilo koja kategorija (zajedno sa svojim potkategorijama) može se premjestiti u novu nadređenu kategoriju. Potkategorije se mogu promijeniti u glavne kategorije.</string>
@@ -150,4 +150,14 @@
     <string name="form_BudgetEdit_amount_help_text">Količina novca koji je dostupan u kontekstu ovog proračuna.</string>
     <string name="help_ManageTags_manage_info">Stvori nove oznake upisivanjem u tekstualno polje.</string>
     <string name="help_ManageTags_context_menu_info">Dodirni ikonu &lt;img src=more&gt; za uređivanje, dodjeljivanje boje ili brisanje oznake.</string>
+    <string name="form_plan_help_text_mode">Plan se može postaviti na automatski ili ručno. Kada se pojavi instanca jednog automatskog plana, transakcija će se stvoriti, a ti ćeš primiti obavijest. Kada je plan postavljen ručno, također ćeš primiti obavijest s mogućnošću otkazivanja, izmjene ili primjene predloška.</string>
+    <string name="form_method_help_text">Ovo je polje dostupno samo ako je trenutačni račun povezan s bilo kojim načinom plaćanja. Standardno su samo bankovni računi povezani s načinima plaćanja (ček, kreditna kartica, depozit, izravno terećenje). Idi na Postavke -&gt; Upravljanje -&gt; Načini plaćanja za konfiguriranje veze između vrsta računa i načina plaćanja. Kada odabereš način koji je definiran kao numerirani, pojavit će se dodatno polje za unos broja reference.</string>
+    <string name="form_MethodEdit_type_help_text">Putem vrste načina određuješ je li primjenjivo za troškove (terećenje), prihod (potraživanje) ili oboje (neutralno).</string>
+    <string name="help_ManageCurrencies_symbol">Možeš konfigurirati oznaku valute koji se koristi kada se formatiraju iznosi u određenoj valuti.</string>
+    <string name="form_MethodEdit_numbered_help_text">Kada je način numeriran, transakcije koje su s njim povezane će imati dodatno polje za unos broja reference.</string>
+    <string name="cab_NavigationDrawer_close_reopen_help_text">Zatvaranjem računa možeš spriječiti sve vrste promjena (dodavanje, brisanje, uređivanje) njegovih podataka, ali i dalje dopustiti da se uzmu u obzir za sve statističke izračune.</string>
+    <string name="form_AccountEdit_type_help_text">Možeš odrediti vrstu računa kao gotovina, banka, imovina, obveze, kreditna kartica. Vrsta određuje dostupne načine plaćanja koje možeš konfigurirati u Postavke -&gt; Upravljanje -&gt; Načini plaćanja.</string>
+    <string name="form_MethodEdit_account_types_help_text">Odaberi vrste računa za koje se ovaj način primijenjuje.</string>
+    <string name="help_NavigationDrawer_info">Popis računa omogućuje jednostavnu navigaciju između računa pritiskom na unos.</string>
+    <string name="menu_NavigationDrawer_sort_help_text">Popis računa može se poredati po naslovu (abecednim redom), po učestalosti korištenja ili po zadnjem vremenu kada je za njega stvorena transakcija.</string>
 </resources>
