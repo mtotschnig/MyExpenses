@@ -112,6 +112,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.SORT_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_LINK_TRANSFER
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_TOGGLE_CRSTATUS
+import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_UNLINK_TRANSFER
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_UNSPLIT
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.asSequence
@@ -451,7 +452,7 @@ open class MyExpensesViewModel(
 
     fun linkTransfer(itemIds: LongArray) {
         viewModelScope.launch(context = coroutineContext()) {
-            contentResolver.update(
+            val count = contentResolver.update(
                 TRANSACTIONS_URI.buildUpon()
                     .appendPath(URI_SEGMENT_LINK_TRANSFER)
                     .appendPath(repository.getUuidForTransaction(itemIds[0]))
@@ -459,6 +460,24 @@ open class MyExpensesViewModel(
                     put(KEY_UUID, repository.getUuidForTransaction(itemIds[1]))
                 }, null, null
             )
+            if (count != 2) {
+                CrashHandler.report(IllegalStateException("linkTransfer: Unexpected result"))
+            }
+        }
+    }
+
+    fun unlinkTransfer(itemId: Long) {
+        viewModelScope.launch(context = coroutineContext()) {
+            val count = contentResolver.update(
+                ContentUris.appendId(
+                    TRANSACTIONS_URI.buildUpon()
+                        .appendPath(URI_SEGMENT_UNLINK_TRANSFER), itemId
+                )
+                    .build(), null, null, null
+            )
+            if (count != 2) {
+                CrashHandler.report(IllegalStateException("unlinkTransfer: Unexpected result"))
+            }
         }
     }
 

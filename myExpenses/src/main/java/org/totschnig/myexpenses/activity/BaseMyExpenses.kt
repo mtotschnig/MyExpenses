@@ -25,6 +25,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.CallSplit
 import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.LinkOff
 import androidx.compose.material.icons.filled.Loupe
 import androidx.compose.material.icons.filled.RestoreFromTrash
 import androidx.compose.material3.LocalTextStyle
@@ -953,6 +954,15 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                                 ungroupSplit(transaction)
                                             })
                                         }
+                                        if (transaction.isTransfer) {
+                                            add(MenuEntry(
+                                                icon = Icons.Filled.LinkOff,
+                                                label = R.string.menu_unlink_transfer,
+                                                command = "UNLINK_TRANSFER"
+                                            ) {
+                                                unlinkTransfer(transaction)
+                                            })
+                                        }
                                     }
                                 }
                             )
@@ -1010,26 +1020,47 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     private fun ungroupSplit(transaction: Transaction2) {
-        val b = Bundle()
-        b.putString(
-            ConfirmationDialogFragment.KEY_MESSAGE,
-            getString(R.string.warning_ungroup_split_transactions)
-        )
-        b.putInt(
-            ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-            R.id.UNGROUP_SPLIT_COMMAND
-        )
-        b.putInt(
-            ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
-            R.id.CANCEL_CALLBACK_COMMAND
-        )
-        b.putInt(
-            ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
-            R.string.menu_ungroup_split_transaction
-        )
-        b.putLong(KEY_ROWID, transaction.id)
-        showConfirmationDialog(b, "UNSPLIT_TRANSACTION")
+        showConfirmationDialog(Bundle().apply {
+            putString(
+                ConfirmationDialogFragment.KEY_MESSAGE,
+                getString(R.string.warning_ungroup_split_transactions)
+            )
+            putInt(
+                ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                R.id.UNGROUP_SPLIT_COMMAND
+            )
+            putInt(
+                ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
+                R.id.CANCEL_CALLBACK_COMMAND
+            )
+            putInt(
+                ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                R.string.menu_ungroup_split_transaction
+            )
+            putLong(KEY_ROWID, transaction.id)
+        }, "UNSPLIT_TRANSACTION")
+    }
 
+    private fun unlinkTransfer(transaction: Transaction2) {
+        showConfirmationDialog(Bundle().apply {
+            putString(
+                ConfirmationDialogFragment.KEY_MESSAGE,
+                getString(R.string.warning_unlink_transfer)
+            )
+            putInt(
+                ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                R.id.UNLINK_TRANSFER_COMMAND
+            )
+            putInt(
+                ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
+                R.id.CANCEL_CALLBACK_COMMAND
+            )
+            putInt(
+                ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                R.string.menu_unlink_transfer
+            )
+            putLong(KEY_ROWID, transaction.id)
+        }, "UNLINK_TRANSFER")
     }
 
     private fun createTemplate(transaction: Transaction2) {
@@ -2156,7 +2187,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             }
 
             R.id.UNGROUP_SPLIT_COMMAND -> {
-                finishActionMode()
                 viewModel.revokeSplit(args.getLong(KEY_ROWID)).observe(this) {
                     it.onSuccess {
                         showSnackBar(getString(R.string.ungroup_split_transaction_success))
@@ -2169,6 +2199,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             R.id.LINK_TRANSFER_COMMAND -> {
                 finishActionMode()
                 viewModel.linkTransfer(args.getLongArray(KEY_ROW_IDS)!!)
+            }
+
+            R.id.UNLINK_TRANSFER_COMMAND -> {
+                viewModel.unlinkTransfer(args.getLong(KEY_ROWID))
             }
         }
     }

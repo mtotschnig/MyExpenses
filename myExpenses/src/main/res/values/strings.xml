@@ -1066,4 +1066,7 @@
     <string name="pref_transaction_amount_color_source_title">Colors for amounts</string>
     <!-- This is the summary of a preference that allows user to decide if "Sync now" should only sync the current account, or all accounts linked with the same backend ans the current account. %s will be replaced with quoted translation of "Sync now" -->
     <string name="pref_sync_now_all_summary">%s syncs all accounts for the same back-end</string>
+    <!-- This is the label for the action that breaks up a transfer into its parts. -->
+    <string name="menu_unlink_transfer">Unlink transfer</string>
+    <string name="warning_unlink_transfer">The selected transfer will be unlinked: It will be replaced by normal transactions in both accounts.</string>
 </resources>
