@@ -1,1 +1,5 @@
-Sie können jetzt eine Umbuchung trennen, was zu zwei unterschiedlichen Buchungen in beiden Konten führt.
+• Benutzerdefinierte Farben für Schlagwörter
+• Sie können jetzt eine Umbuchung trennen, was zu zwei unterschiedlichen Buchungen in beiden Konten führt.
+
+https://github.com/mtotschnig/MyExpenses/projects/129#column-19764415
+https://github.com/mtotschnig/MyExpenses/projects/131#column-19777096

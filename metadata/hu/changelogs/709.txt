@@ -1,5 +1,4 @@
-• Custom colors for tags
-• You can now unlink the two parts of a transfer, resulting in two distinct transactions in each account.
+• Egyedi színek a címkékhez
 
 https://github.com/mtotschnig/MyExpenses/projects/129#column-19764415
 https://github.com/mtotschnig/MyExpenses/projects/131#column-19777096
