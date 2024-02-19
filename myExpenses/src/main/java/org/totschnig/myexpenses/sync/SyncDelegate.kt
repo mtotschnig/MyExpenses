@@ -644,7 +644,7 @@ class SyncDelegate(
         val t: Transaction = if (change.splitParts() != null) {
             SplitTransaction(account.id, money)
         } else {
-            change.transferAccount()?.let { transferAccount ->
+            (change.transferAccount()?.let { transferAccount ->
                 //if the account exists locally and the peer has already been synced
                 //we create a Transfer, the Transfer class will take care in buildSaveOperations
                 //of linking them together
@@ -654,10 +654,9 @@ class SyncDelegate(
                         change.uuid()
                     ) != -1L
                 }?.let { Transfer(account.id, money, it) }
-            } ?: Transaction(account.id, money).apply {
-                if (change.transferAccount() == null) {
-                    if (change.categoryInfo()?.firstOrNull()?.uuid != NULL_CHANGE_INDICATOR)
-                        catId = change.extractCatId()
+            } ?: Transaction(account.id, money)).apply {
+                if (change.categoryInfo()?.firstOrNull()?.uuid != NULL_CHANGE_INDICATOR) {
+                    catId = change.extractCatId()
                 }
             }
         }
