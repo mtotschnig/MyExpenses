@@ -2,18 +2,34 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.sync.BackendService
 
-abstract class AbstractSetupViewModel(val backendService: BackendService, application: Application) : AndroidViewModel(application) {
-    val folderList: MutableLiveData<List<Pair<String, String>>> by lazy {
-        MutableLiveData<List<Pair<String, String>>>()
+abstract class AbstractSetupViewModel(
+    val backendService: BackendService,
+    application: Application,
+    val savedStateHandle: SavedStateHandle
+) : AndroidViewModel(application) {
+
+    val loadFinished: Boolean
+        get() = folderList.isInitialized
+
+    val folderList: LiveData<List<Pair<String, String>>> = savedStateHandle.getLiveData("folderList")
+
+    private fun setFolderList(folderList: List<Pair<String, String>>) {
+        savedStateHandle["folderList"] = folderList
     }
-    val folderCreateResult: MutableLiveData<Pair<String, String>> by lazy {
-        MutableLiveData<Pair<String, String>>()
+
+    val folderCreateResult: LiveData<Pair<String, String>> = savedStateHandle.getLiveData("folderCreateResult")
+
+    private fun setCreateFolderResult(createFolderResult: Pair<String, String>) {
+        savedStateHandle["folderCreateResult"] = createFolderResult
     }
+
     val error: MutableLiveData<Exception> by lazy {
         MutableLiveData<Exception>()
     }
@@ -21,7 +37,7 @@ abstract class AbstractSetupViewModel(val backendService: BackendService, applic
     fun query() {
         viewModelScope.launch {
             try {
-                folderList.postValue(getFolders())
+                setFolderList(getFolders())
             } catch (e: Exception) {
                 error.postValue(e)
             }
@@ -34,7 +50,7 @@ abstract class AbstractSetupViewModel(val backendService: BackendService, applic
         } else {
             viewModelScope.launch {
                 try {
-                    folderCreateResult.postValue(createFolderBackground(label.trim()))
+                    setCreateFolderResult(createFolderBackground(label.trim()))
                 } catch (e: Exception) {
                     error.postValue(e)
                 }

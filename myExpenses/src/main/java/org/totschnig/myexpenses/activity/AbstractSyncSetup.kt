@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import com.evernote.android.state.State
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.input.SimpleInputDialog
 import eltos.simpledialogfragment.list.CustomListDialog
@@ -23,21 +22,16 @@ abstract class AbstractSyncSetup<T : AbstractSetupViewModel> : ProtectedFragment
     SimpleDialog.OnDialogResultListener {
     lateinit var viewModel: T
 
-    @State
-    var idList: ArrayList<String> = ArrayList()
-
-    @State
-    var loadFinished: Boolean = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = instantiateViewModel()
-        viewModel.folderList.observe(this) {
-            loadFinished = true
-            if (it.isNotEmpty()) {
-                showSelectFolderDialog(it)
-            } else {
-                showCreateFolderDialog()
+        if (savedInstanceState == null || !viewModel.folderList.isInitialized) {
+            viewModel.folderList.observe(this) {
+                if (it.isNotEmpty()) {
+                    showSelectFolderDialog(it)
+                } else {
+                    showCreateFolderDialog()
+                }
             }
         }
         viewModel.folderCreateResult.observe(this) {
@@ -71,8 +65,6 @@ abstract class AbstractSyncSetup<T : AbstractSetupViewModel> : ProtectedFragment
 
     private fun showSelectFolderDialog(pairs: List<Pair<String, String>>) {
         if (supportFragmentManager.findFragmentByTag(DIALOG_TAG_FOLDER_SELECT) == null) {
-            idList.clear()
-            idList.addAll(pairs.map { pair -> pair.first })
             SimpleListDialog.build().choiceMode(SINGLE_CHOICE)
                 .title(R.string.synchronization_select_folder_dialog_title)
                 .choiceMin(1)
@@ -107,11 +99,7 @@ abstract class AbstractSyncSetup<T : AbstractSetupViewModel> : ProtectedFragment
                     SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE -> {
                         extras.getString(SimpleListDialog.SELECTED_SINGLE_LABEL)?.let {
                             success(
-                                Pair(
-                                    idList[extras.getLong(CustomListDialog.SELECTED_SINGLE_ID)
-                                        .toInt()],
-                                    it
-                                )
+                                viewModel.folderList.value!![extras.getInt(CustomListDialog.SELECTED_SINGLE_POSITION)]
                             )
                         } ?: run {
                             Toast.makeText(

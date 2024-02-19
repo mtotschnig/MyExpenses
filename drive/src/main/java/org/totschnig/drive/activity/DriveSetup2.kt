@@ -5,17 +5,16 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import com.evernote.android.state.State
 import com.google.android.gms.auth.UserRecoverableAuthException
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.material.snackbar.Snackbar
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException
-import com.evernote.android.state.State
 import org.totschnig.drive.sync.GoogleDriveBackendProvider
 import org.totschnig.drive.viewmodel.DriveSetupViewModel
 import org.totschnig.myexpenses.activity.AbstractSyncSetup
 import org.totschnig.myexpenses.sync.GenericAccountService
-import java.util.*
 
 class DriveSetup2 : AbstractSyncSetup<DriveSetupViewModel>() {
 
@@ -42,14 +41,14 @@ class DriveSetup2 : AbstractSyncSetup<DriveSetupViewModel>() {
     override fun instantiateViewModel(): DriveSetupViewModel = ViewModelProvider(this)[DriveSetupViewModel::class.java]
 
     @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
-                REQUEST_ACCOUNT_PICKER -> if (resultData != null) {
-                    handleSignInResult(resultData)
+                REQUEST_ACCOUNT_PICKER -> if (data != null) {
+                    handleSignInResult(data)
                 }
                 REQUEST_RESOLUTION -> viewModel.query()
-                else -> super.onActivityResult(requestCode, resultCode, resultData)
+                else -> super.onActivityResult(requestCode, resultCode, data)
             }
         } else {
             abort()

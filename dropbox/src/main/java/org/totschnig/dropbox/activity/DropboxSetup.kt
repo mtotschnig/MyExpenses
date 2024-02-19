@@ -55,7 +55,7 @@ class DropboxSetup : AbstractSyncSetup<DropboxSetupViewModel>() {
                     finish()
                 } else {
                     viewModel.initWithCredentials(it)
-                    if (!loadFinished) {
+                    if (!viewModel.loadFinished) {
                         viewModel.query()
                     }
                 }

@@ -8,8 +8,8 @@ import org.totschnig.drive.sync.DriveServiceHelper
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.viewmodel.AbstractSetupViewModel
 
-class DriveSetupViewModel(application: Application) :
-    AbstractSetupViewModel(BackendService.DRIVE, application) {
+class DriveSetupViewModel(application: Application, savedStateHandle: SavedStateHandle) :
+    AbstractSetupViewModel(BackendService.DRIVE, application, savedStateHandle) {
 
     private var helper: DriveServiceHelper? = null
 

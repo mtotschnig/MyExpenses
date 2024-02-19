@@ -1,6 +1,7 @@
 package org.totschnig.dropbox.viewmodel
 
 import android.app.Application
+import androidx.lifecycle.SavedStateHandle
 import com.dropbox.core.DbxRequestConfig
 import com.dropbox.core.oauth.DbxCredential
 import com.dropbox.core.v2.DbxClientV2
@@ -9,15 +10,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.totschnig.dropbox.BuildConfig
 import org.totschnig.myexpenses.sync.BackendService
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.AbstractSetupViewModel
 import timber.log.Timber
-import java.io.IOException
 import java.util.*
 
 
-class DropboxSetupViewModel(application: Application) :
-    AbstractSetupViewModel(BackendService.DROPBOX, application) {
+class DropboxSetupViewModel(application: Application, savedStateHandle: SavedStateHandle) :
+    AbstractSetupViewModel(BackendService.DROPBOX, application, savedStateHandle) {
     private var mDbxClient: DbxClientV2? = null
 
     fun initWithCredentials(credentials: DbxCredential) {
