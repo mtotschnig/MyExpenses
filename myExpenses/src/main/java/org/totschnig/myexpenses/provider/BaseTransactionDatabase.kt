@@ -904,6 +904,7 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.upgradeTo163() {
+        execSQL("DROP TRIGGER IF EXISTS uuid_update_change_log")
         execSQL(TRANSACTIONS_UUID_UPDATE_TRIGGER_CREATE)
     }
 
