@@ -216,9 +216,9 @@
     <string name="pm_cheque">Ček</string>
     <string name="pm_creditcard">Kreditna kartica</string>
     <string name="pm_deposit">Polog</string>
-    <string name="pm_directdebit">Direktno dugovanje</string>
+    <string name="pm_directdebit">Izravno terećenje</string>
     <string name="pm_type_credit">Potraživanje</string>
-    <string name="pm_type_debit">Dugovanje</string>
+    <string name="pm_type_debit">Terećenje</string>
     <string name="pm_type_neutral">Neutralno</string>
     <string name="pref_app_dir_title">Mapa za sigurnosne kopije i izvoze</string>
     <string name="pref_backup_summary">Izradi sigurnosnu kopiju baze podataka i osobnih postavaka.</string>
@@ -283,7 +283,7 @@
     <string name="qif_parse_result">Obrađeno: %1$s računa; %2$s kategorije i %3$s stranke</string>
     <string name="qif_parse_failure_found_multiple_accounts">Pronađeno je više računa u %s datoteci.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Ne mogu se sjediniti u postojeći račun.</string>
-    <string name="reference_number">Referentni broj</string>
+    <string name="reference_number">Broj reference</string>
     <string name="restore_db_failure">Obnavljanje baze podataka nije uspjelo.</string>
     <string name="restore_db_success">Baza podataka je uspješno obnovljena iz sigurnosne kopije.</string>
     <string name="restore_preferences_failure">Obnavljanje osobnih postavaka nije uspjelo</string>
@@ -960,4 +960,7 @@
     <string name="pref_unmapped_transaction_as_transfer_title">Nedodijeljene transakcije</string>
     <string name="contact_us">Kontaktiraj nas</string>
     <string name="pref_transaction_amount_color_source_title">Boje za iznose</string>
+    <string name="pref_sync_now_all_summary">%s sinkronizira sve račune za isti pozadinski sustav</string>
+    <string name="menu_unlink_transfer">Rastavi prijenos na dijelove</string>
+    <string name="warning_unlink_transfer">Odabrani prijenos će se rastaviti na dijelove: zamijenit će se normalnim transakcijama na oba računa.</string>
 </resources>
