@@ -1011,7 +1011,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     override fun onCreate(): Boolean {
         MyApplication.instance.appComponent.inject(this)
-        shouldLog = prefHandler.getBoolean(PrefKey.DEBUG_LOGGING, BuildConfig.DEBUG)
+        shouldLog = prefHandler.shouldDebug
         return true
     }
 

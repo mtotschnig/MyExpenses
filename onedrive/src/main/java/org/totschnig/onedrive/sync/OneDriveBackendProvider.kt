@@ -33,6 +33,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.Request
 import org.acra.util.StreamReader
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.sync.AbstractSyncBackendProvider
@@ -113,10 +114,13 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
                 )
             }
         }
-        graphClient = GraphServiceClient.builder()
-            .logger(DefaultLogger().also {
-                it.loggingLevel = LoggerLevel.DEBUG
-            })
+        graphClient = GraphServiceClient.builder().also {
+            if (context.injector.prefHandler().shouldDebug) {
+                it.logger(DefaultLogger().also {
+                    it.loggingLevel = LoggerLevel.DEBUG
+                })
+            }
+        }
             .authenticationProvider {
                 CompletableFuture.supplyAsync { accessToken }
             }

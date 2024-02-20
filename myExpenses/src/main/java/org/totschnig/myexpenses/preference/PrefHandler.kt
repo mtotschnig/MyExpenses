@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.preference.PreferenceFragmentCompat
+import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.dialog.valueOf
@@ -106,6 +107,9 @@ interface PrefHandler {
                 }
             } }
             ?: MenuItem.defaultConfiguration
+
+    val shouldDebug: Boolean
+        get() = getBoolean(PrefKey.DEBUG_LOGGING, BuildConfig.DEBUG)
 }
 
 inline fun <reified T : Enum<T>> PrefHandler.enumValueOrDefault(prefKey: PrefKey, default: T): T =
