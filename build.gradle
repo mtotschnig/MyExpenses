@@ -58,7 +58,7 @@ ext {
     requery = "3.36.0"
     androidxSqlite = "2.4.0"
     barista = "4.3.0"
-    googleHttp = "1.43.3"
+    googleHttp = "1.44.1"
     //composeDevBom = "dev.chrisbanes.compose:compose-bom:2024.01.00-alpha01"
     composeBom = "androidx.compose:compose-bom:2024.02.00"
     activityCompose = "1.8.2"

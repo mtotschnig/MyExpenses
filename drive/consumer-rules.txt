@@ -1,0 +1,5 @@
+-keepclassmembers class * {
+  @com.google.api.client.util.Key <fields>;
+}
+#needed with r8
+#-keep class com.google.api.services.drive.model.** { *; }

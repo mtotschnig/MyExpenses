@@ -22,3 +22,6 @@
 -keep class org.kapott.hbci.comm.FilterBase64 { *; }
 -keep class org.kapott.hbci.GV.GVKUmsAll { *; }
 -keep class org.kapott.hbci.GV.GVTAN2Step { *; }
+
+# needed with R8
+#-dontwarn org.xmlpull.v1.**
