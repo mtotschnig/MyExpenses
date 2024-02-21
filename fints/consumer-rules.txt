@@ -23,5 +23,5 @@
 -keep class org.kapott.hbci.GV.GVKUmsAll { *; }
 -keep class org.kapott.hbci.GV.GVTAN2Step { *; }
 
-# needed with R8
+# needed with R8 full mode
 #-dontwarn org.xmlpull.v1.**
