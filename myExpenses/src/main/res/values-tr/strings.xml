@@ -1022,4 +1022,6 @@
     <string name="contact_us">Bize ulaşın</string>
     <string name="pref_transaction_amount_color_source_title">Miktarlar için renkler</string>
     <string name="pref_sync_now_all_summary">%s aynı arka uç için tüm hesapları eşzamanlar</string>
+    <string name="menu_unlink_transfer">Transfer bağlantısını kaldır</string>
+    <string name="warning_unlink_transfer">Seçilen transferin bağlantısı kaldırılacaktır: Her iki hesapta da normal muameleler ile değiştirilecektir.</string>
 </resources>
