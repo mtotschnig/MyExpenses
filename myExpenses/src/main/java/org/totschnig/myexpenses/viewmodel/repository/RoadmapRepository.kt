@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.viewmodel.repository
 
 import android.content.Context
+import android.content.pm.PackageManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
@@ -17,22 +18,31 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.retrofit.Issue
 import org.totschnig.myexpenses.retrofit.RoadmapService
 import org.totschnig.myexpenses.retrofit.Vote
+import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
+import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.FileInputStream
-import java.util.*
+import java.security.GeneralSecurityException
+import java.security.MessageDigest
+import java.security.cert.CertificateFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Suppress("BlockingMethodInNonBlockingContext")
 @Singleton
-class RoadmapRepository @Inject constructor(private val gson: Gson, private val prefHandler: PrefHandler, private val roadmapService: RoadmapService, private val context: Context) {
+class RoadmapRepository @Inject constructor(
+    private val gson: Gson,
+    private val prefHandler: PrefHandler,
+    private val roadmapService: RoadmapService,
+    private val context: Context
+) {
     companion object {
         const val ISSUE_CACHE = "issue_cache.json"
         const val ROADMAP_VOTE = "roadmap_vote.json"
-        private val isSandbox = BuildConfig.DEBUG
+        private val isSandbox = true
         val ROADMAP_URL = when {
             isSandbox -> "http://10.0.2.2:3000/"
             else -> "https://roadmap.myexpenses.mobi/"
@@ -54,9 +64,10 @@ class RoadmapRepository @Inject constructor(private val gson: Gson, private val 
 
     suspend fun loadData(forceRefresh: Boolean) {
         data.postValue(
-                (if (!forceRefresh) {
-                    readIssuesFromCache()
-                } else null) ?: readIssuesFromNetwork())
+            (if (!forceRefresh) {
+                readIssuesFromCache()
+            } else null) ?: readIssuesFromNetwork()
+        )
     }
 
     private suspend fun internalFile(fileName: String) = withContext(Dispatchers.IO) {
@@ -64,12 +75,13 @@ class RoadmapRepository @Inject constructor(private val gson: Gson, private val 
     }
 
     private suspend fun readIssuesFromCache(): List<Issue>? = withContext(Dispatchers.IO) {
-        internalFile(ISSUE_CACHE)?.takeIf { TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - it.lastModified()) < 30 }?.let { file ->
-            val listType = object : TypeToken<ArrayList<Issue>>() {}.type
-            gson.fromJson<ArrayList<Issue>>(readFromFile(file), listType)?.also {
-                Timber.i("Loaded %d issues from cache", it.size)
+        internalFile(ISSUE_CACHE)?.takeIf { TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - it.lastModified()) < 30 }
+            ?.let { file ->
+                val listType = object : TypeToken<ArrayList<Issue>>() {}.type
+                gson.fromJson<ArrayList<Issue>>(readFromFile(file), listType)?.also {
+                    Timber.i("Loaded %d issues from cache", it.size)
+                }
             }
-        }
     }
 
     private suspend fun readIssuesFromNetwork(): List<Issue>? = try {
@@ -89,15 +101,15 @@ class RoadmapRepository @Inject constructor(private val gson: Gson, private val 
         }
     } catch (ex: CancellationException) {
         throw ex // Must let the CancellationException propagate
-    }  catch (e: Exception) {
+    } catch (e: Exception) {
         CrashHandler.report(e)
         null
     }
 
     private suspend fun writeToFile(fileName: String, json: String) = withContext(Dispatchers.IO) {
-        val fos = context.openFileOutput(fileName, Context.MODE_PRIVATE)
-        fos.write(json.toByteArray())
-        fos.close()
+        context.openFileOutput(fileName, Context.MODE_PRIVATE).use {
+            it.write(json.toByteArray())
+        }
     }
 
     private suspend fun readFromFile(file: File) = withContext(Dispatchers.IO) {
@@ -110,24 +122,43 @@ class RoadmapRepository @Inject constructor(private val gson: Gson, private val 
         gson.fromJson(readFromFile(it), Vote::class.java)
     }
 
-    fun submitVote(vote: Vote): LiveData<Int> = liveData {
-        emit(try {
-            val voteResponse = roadmapService.createVote(vote)
-            when {
-                voteResponse.isSuccessful -> {
+    fun submitVote(vote: Vote): LiveData<Result<Unit>> = liveData {
+        emit(
+            runCatching {
+                val voteResponse = roadmapService.createVote(getFingerprint(), vote)
+                if (voteResponse.isSuccessful) {
                     writeToFile(ROADMAP_VOTE, gson.toJson(vote))
-                    R.string.roadmap_vote_success
+                } else {
+                    val code = voteResponse.code()
+                    throw Exception(
+                        if (code == 452)
+                            context.getString(R.string.roadmap_vote_outdated)
+                        else "Received unexpected response: $code"
+                    )
                 }
-                voteResponse.code() == 452 -> {
-                    R.string.roadmap_vote_outdated
-                }
-                else -> null
             }
-        } catch (ex: CancellationException) {
-            throw ex // Must let the CancellationException propagate
-        }  catch (e: Exception) {
-            CrashHandler.report(e)
-            null
-        } ?: R.string.roadmap_vote_failure)
+        )
+    }
+
+    private fun getFingerprint() = try {
+        val ce = context.packageManager.getPackageInfo(
+            context.packageName,
+            PackageManager.GET_SIGNATURES
+        ).signatures.first()
+        buildString {
+            MessageDigest.getInstance("SHA-1")
+                .digest(
+                    CertificateFactory.getInstance("X509")
+                        .generateCertificate(ByteArrayInputStream(ce.toByteArray()))
+                        .encoded
+                ).forEach {
+                    val appendString = Integer.toHexString(0xFF and it.toInt())
+                    if (appendString.length == 1) append("0")
+                    append(appendString)
+                }
+        }
+    } catch (e: GeneralSecurityException) {
+        CrashHandler.report(e)
+        throw e
     }
 }

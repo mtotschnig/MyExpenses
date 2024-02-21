@@ -2,8 +2,11 @@ package org.totschnig.myexpenses.retrofit
 
 import com.google.gson.annotations.SerializedName
 
-data class Vote(@field:SerializedName("key") val key: String,
-                @field:SerializedName("vote") val vote: Map<Int, Int>,
-                @field:SerializedName("pro") val isPro: Boolean,
-                @field:SerializedName("email") val email: String,
-                @SerializedName("version") val version: Int)
+data class Vote(
+    @SerializedName("key") val key: String?,
+    @SerializedName("vote") val vote: Map<Int, Int>,
+    @SerializedName("pro") val isPro: Boolean,
+    @SerializedName("email") val email: String,
+    @SerializedName("version") val version: Int,
+    @SerializedName("contact_consent") val contactConsent: Boolean
+)

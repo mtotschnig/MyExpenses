@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
+import eltos.simpledialogfragment.form.Check
 import eltos.simpledialogfragment.form.Input
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import org.totschnig.myexpenses.R
@@ -24,6 +25,7 @@ import org.totschnig.myexpenses.ui.ContextAwareRecyclerView.RecyclerContextMenuI
 import org.totschnig.myexpenses.ui.SimpleSeekBarDialog
 import org.totschnig.myexpenses.util.configureSearch
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel
 import org.totschnig.myexpenses.viewmodel.repository.RoadmapRepository.Companion.ROADMAP_URL
 import java.util.Locale
@@ -34,6 +36,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
     private var dataSetFiltered: List<Issue>? = null
     private lateinit var voteWeights: MutableMap<Int, Int>
     private var lastVote: Vote? = null
+    private var voteKey: String? = null
     private lateinit var roadmapAdapter: RoadmapAdapter
     private lateinit var roadmapViewModel: RoadmapViewModel
     private var isPro = false
@@ -43,7 +46,12 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
         super.onCreate(savedInstanceState)
         binding = RoadmapBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.myRecyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        binding.myRecyclerView.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                DividerItemDecoration.VERTICAL
+            )
+        )
         roadmapAdapter = RoadmapAdapter()
         binding.myRecyclerView.adapter = roadmapAdapter
         registerForContextMenu(binding.myRecyclerView)
@@ -56,7 +64,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
         voteWeights = roadmapViewModel.restoreWeights()
         roadmapViewModel.getData().observe(this) { data: List<Issue>? ->
             dataSet = data?.also {
-                publishResult(String.format(Locale.getDefault(), "%d issues found", it.size))
+                publishResult("${it.size} issues found")
             }
             if (dataSet == null) {
                 publishResult("Failure loading data")
@@ -64,8 +72,9 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
                 validateAndUpdateUi()
             }
         }
+        voteKey = licenceHandler.buildRoadmapVoteKey()
         roadmapViewModel.getLastVote().observe(this) { result: Vote? ->
-            if (result != null && result.isPro == isPro) {
+            if (result != null && result.key == voteKey) {
                 lastVote = result
                 if (voteWeights.isEmpty()) {
                     voteWeights.putAll(result.vote)
@@ -103,7 +112,8 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
 
     private fun validateWeights() {
         dataSet?.takeIf { voteWeights.isNotEmpty() }?.let { dataSet ->
-            voteWeights = voteWeights.filter { entry -> dataSet.any { it.number == entry.key } }.toMutableMap()
+            voteWeights = voteWeights.filter { entry -> dataSet.any { it.number == entry.key } }
+                .toMutableMap()
         }
     }
 
@@ -135,7 +145,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
         menu.findItem(R.id.ROADMAP_SUBMIT_VOTE)?.let {
             val currentTotalWeight = currentTotalWeight
             val enabled = currentTotalWeight == totalAvailableWeight
-            it.title = if (enabled) "Submit" else String.format(Locale.ROOT, "%d/%d", currentTotalWeight, totalAvailableWeight)
+            it.title = if (enabled) "Submit" else "$currentTotalWeight/$totalAvailableWeight"
             it.isEnabled = enabled
         }
         return true
@@ -150,9 +160,13 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
     private fun filterData() {
         dataSetFiltered = dataSet?.let { data ->
             query.takeIf { !it.isNullOrEmpty() }?.let {
-                data.filter { issue: Issue -> issue.title.lowercase(Locale.ROOT).contains(it.lowercase(
-                    Locale.ROOT
-                )) }
+                data.filter { issue: Issue ->
+                    issue.title.lowercase(Locale.ROOT).contains(
+                        it.lowercase(
+                            Locale.ROOT
+                        )
+                    )
+                }
             } ?: data
         }
         roadmapAdapter.notifyDataSetChanged()
@@ -167,11 +181,13 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
                 startActionView(ROADMAP_URL + "issues.html")
                 true
             }
+
             R.id.ROADMAP_CLEAR_COMMAND_DO -> {
                 voteWeights.clear()
                 validateAndUpdateUi()
                 true
             }
+
             R.id.ROADMAP_CLEAR_COMMAND -> {
                 ConfirmationDialogFragment.newInstance(Bundle().apply {
                     putString(
@@ -182,7 +198,10 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
                         ConfirmationDialogFragment.KEY_MESSAGE,
                         getString(R.string.menu_RoadmapVoteActivity_clear_help_text)
                     )
-                    putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.ROADMAP_CLEAR_COMMAND_DO)
+                    putInt(
+                        ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                        R.id.ROADMAP_CLEAR_COMMAND_DO
+                    )
                     putInt(
                         ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
                         R.string.menu_clear
@@ -191,43 +210,42 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
                     .show(supportFragmentManager, "Clear")
                 true
             }
+
             R.id.SYNC_COMMAND -> {
                 showIsLoading()
                 roadmapViewModel.loadData(true)
                 true
             }
+
             R.id.ROADMAP_SUBMIT_VOTE -> {
                 if (lastVote?.let { it.vote == voteWeights && it.version == versionFromPref } == true) {
                     showSnackBar("Modify your vote, before submitting it again.")
                 } else {
-                    val emailIsKnown = email != null
-                    val msg = if (emailIsKnown) {
+                    val msg = if (lastVote != null) {
                         getString(R.string.roadmap_update_confirmation)
                     } else {
-                        var rationale = getString(R.string.roadmap_email_rationale)
-                        if (isPro && DistributionHelper.isGithub) {
-                            rationale += " " + getString(R.string.roadmap_email_rationale_pro)
-                        }
-                        rationale
+                        getString(R.string.roadmap_email_rationale)
                     }
                     val simpleFormDialog = SimpleFormDialog.build().msg(msg)
-                    if (!emailIsKnown) {
-                        val emailInput = Input.email(KEY_EMAIL).required()
-                        if (isPro && DistributionHelper.isGithub) {
-                            emailInput.text(prefHandler.getString(PrefKey.LICENCE_EMAIL, null))
+                    val fields = buildList {
+                        if (lastVote == null) {
+                            add(Input.email(KEY_EMAIL).required().apply {
+                                if (isPro && DistributionHelper.isGithub) {
+                                    text(prefHandler.getString(PrefKey.LICENCE_EMAIL, null))
+                                }
+                            })
                         }
-                        simpleFormDialog.fields(emailInput)
-                    }
+                        add(Check.box(KEY_CONTACT_CONSENT).label("Consent to be contacted for sharing ideas on how issues you voted for should be implemented"))
+                    }.toTypedArray()
+                    simpleFormDialog.fields(*fields)
                     simpleFormDialog.show(this, DIALOG_TAG_SUBMIT_VOTE)
                 }
                 true
             }
+
             else -> false
         }
     }
-
-    private val email: String?
-        get() = lastVote?.email
 
     private val currentTotalWeight: Int
         get() {
@@ -257,12 +275,12 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
             }
             if (available > 0) {
                 val dialog = SimpleSeekBarDialog.build()
-                        .title(dataSetFiltered!![info.position].title)
-                        .max(available)
-                        .extra(Bundle(2).apply {
-                            putInt(DatabaseConstants.KEY_ROWID, info.id.toInt())
-                            putInt(KEY_POSITION, info.position)
-                        })
+                    .title(dataSetFiltered!![info.position].title)
+                    .max(available)
+                    .extra(Bundle(2).apply {
+                        putInt(DatabaseConstants.KEY_ROWID, info.id.toInt())
+                        putInt(KEY_POSITION, info.position)
+                    })
                 if (value != null) {
                     dialog.value(value.coerceAtMost(available))
                 }
@@ -290,18 +308,25 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
                     invalidateOptionsMenu()
                     return true
                 }
+
                 DIALOG_TAG_SUBMIT_VOTE -> {
                     showSnackBarIndefinite(R.string.roadmap_submitting)
                     isLoading = true
                     val vote = Vote(
-                            lastVote?.key ?: licenceHandler.buildRoadmapVoteKey(),
-                            HashMap(voteWeights),
-                            isPro,
-                            email ?: extras.getString(KEY_EMAIL)!!, versionFromPref)
-                    roadmapViewModel.submitVote(vote
-                    ).observe(this) { result ->
-                        lastVote = vote
-                        publishResult(getString(result))
+                        voteKey,
+                        HashMap(voteWeights),
+                        isPro,
+                        lastVote?.email ?: extras.getString(KEY_EMAIL)!!,
+                        versionFromPref,
+                        extras.getBoolean(KEY_CONTACT_CONSENT)
+                    )
+                    roadmapViewModel.submitVote(vote).observe(this) { result ->
+                        result.onSuccess {
+                            lastVote = vote
+                            publishResult(getString(R.string.roadmap_vote_success))
+                        }.onFailure {
+                            publishResult(it.safeMessage)
+                        }
                     }
                     return true
                 }
@@ -317,6 +342,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
         init {
             setHasStableIds(true)
         }
+
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val inflater = LayoutInflater.from(this@RoadmapVoteActivity)
             val row = inflater.inflate(R.layout.roadmap_list_item, parent, false)
@@ -352,5 +378,6 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
         private const val DIALOG_TAG_SUBMIT_VOTE = "ROADMAP_VOTE"
         private const val KEY_POSITION = "position"
         private const val KEY_EMAIL = "EMAIL"
+        private const val KEY_CONTACT_CONSENT = "CONTACT_CONSENT"
     }
 }
