@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -344,9 +343,12 @@ abstract class ItemRenderer(
         ColoredAmountText(
             money = if (isTransferAggregate) amount.negate() else amount,
             style = style,
-            type = if (isTransferAggregate) FLAG_NEUTRAL else when (colorSource) {
-                ColorSource.TYPE -> type
-                ColorSource.SIGN -> null
+            type = when {
+                isTransferAggregate -> FLAG_NEUTRAL
+
+                colorSource == ColorSource.TYPE -> type
+
+                else -> null
             }
         )
     }
