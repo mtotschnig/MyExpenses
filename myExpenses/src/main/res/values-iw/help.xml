@@ -31,7 +31,7 @@
     <string name="help_ManageMethods_info">מסך זה מפרט את שיטות התשלום המוגדרות מראש (המחאה, כרטיס אשראי, הפקדה, הוראת קבע) ומאפשר לך להגדיר שיטות חדשות. לחצן הפעולה הצף משמש לפתיחת הטופס ליצירת שיטת תשלום חדשה.</string>
     <string name="help_ManageParties_manage_info">מסך זה מפרט את הצדדים המשמשים להשלמה האוטומטית של שדה משלם / מקבל התשלום.</string>
     <string name="help_ManageParties_select_mapping_info">בחירת צד על ידי הקשה עליו.</string>
-    <string name="help_ManageParties_select_filter_info">בחר את כל הצדדים שבהם ברצונך להשתמש לסינון רשימת העסקאות.</string>
+    <string name="help_ManageParties_select_filter_info">נא לבחור את כל הצדדים לשימוש בסינון רשימת העסקאות.</string>
     <string name="help_ManageParties_floating_action_button">לחצן הפעולה הצף משמש להוספת רשומה חדשה.</string>
     <string name="menu_merge_help_text">אם אותו צד מופיע מספר פעמים ברשימה עם הבדלי איות שונים, אפשר למזג אותם יחד.</string>
     <string name="help_ManageParties_mergeMode_info_2">צריך לבחור איזו גרסה תישמר.</string>
@@ -207,4 +207,6 @@
     <string name="debt_help_overflow">בכל חוב, ניתן להשתמש בתפריט בפינה השמאלית העליונה כדי לערוך, לסגור, למחוק או לשתף אותו. ניתן להציג חובות במטבע זר עם המקבילה במטבע המקומי.</string>
     <string name="menu_type_filter_help_text">כאשר האפשרות הזו פעילה, ניתן לבחור להציג קטגוריות הוצאות, הכנסות או העברות בלבד.</string>
     <string name="menu_aggregate_neutral_categories_help_text">העברות שממופות לקטגוריות הכנסה נחשבות כהכנסה, קטגוריות שממופות לקטגוריות הוצאה תמיד נחשבות כהוצאה. ניתן להגדיר עם אפשרות זו כיצד העברות שממופות לקטגוריות נייטרליות נחשבות: כברירת מחדל אם הן חיוביות הן מייצגות הכנסה, אם הן שליליות הן מייצגות הוצאה. אך אם האפשרות הזאת מופעלת, הן תמיד נכללות בשני הסיכומים של ההכנסה וההוצאה שלך.</string>
+    <string name="help_ManageParties_mergeMode_info_1">נא לבחור את הגופים הכפולים למיזוג.</string>
+    <string name="help_ManageTags_context_menu_info">יש לגעת בסמל &lt;img src=more&gt; כדי לערוך, להקצות צבע או למחוק תגית.</string>
 </resources>
