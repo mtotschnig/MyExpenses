@@ -72,7 +72,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
                 validateAndUpdateUi()
             }
         }
-        voteKey = licenceHandler.buildRoadmapVoteKey()
+        voteKey = licenceHandler.buildRoadmapVoteKey
         roadmapViewModel.getLastVote().observe(this) { result: Vote? ->
             if (result != null && result.key == voteKey) {
                 lastVote = result
@@ -315,7 +315,6 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
                     val vote = Vote(
                         voteKey,
                         HashMap(voteWeights),
-                        isPro,
                         lastVote?.email ?: extras.getString(KEY_EMAIL)!!,
                         versionFromPref,
                         extras.getBoolean(KEY_CONTACT_CONSENT)

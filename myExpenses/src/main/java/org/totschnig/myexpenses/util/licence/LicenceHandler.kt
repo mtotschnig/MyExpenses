@@ -293,8 +293,8 @@ open class LicenceHandler(
     open val purchaseExtraInfo: String?
         get() = null
 
-    open fun buildRoadmapVoteKey() =
-        if (isProfessionalEnabled) prefHandler.getString(PrefKey.NEW_LICENCE) else null
+    open val buildRoadmapVoteKey
+        get() = if (isProfessionalEnabled) prefHandler.getString(PrefKey.NEW_LICENCE) else null
 
     /**
      * @return true if licenceStatus has been upEd

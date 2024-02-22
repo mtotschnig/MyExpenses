@@ -131,9 +131,11 @@ class RoadmapRepository @Inject constructor(
                 } else {
                     val code = voteResponse.code()
                     throw Exception(
-                        if (code == 452)
-                            context.getString(R.string.roadmap_vote_outdated)
-                        else "Received unexpected response: $code"
+                        when (code) {
+                            452 -> context.getString(R.string.roadmap_vote_outdated)
+                            453 -> context.getString(R.string.roadmap_vote_validation_failure)
+                            else -> "Received unexpected response: $code"
+                        }
                     )
                 }
             }
