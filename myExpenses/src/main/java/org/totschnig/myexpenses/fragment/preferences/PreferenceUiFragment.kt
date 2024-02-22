@@ -96,7 +96,20 @@ class PreferenceUiFragment : BasePreferenceFragment() {
                 color(getColor(resources, R.color.colorIncome, null)) {
                     append(getString(R.string.pm_type_credit))
                 }
-            }
+            },
+            buildSpannedString {
+                color(getColor(resources, R.color.colorExpense, null)) {
+                    append(getString(R.string.pm_type_debit))
+                }
+                append(" / ")
+                color(getColor(resources, R.color.colorIncome, null)) {
+                    append(getString(R.string.pm_type_credit))
+                }
+                append(" / ")
+                color(getColor(resources, R.color.colorTransfer, null)) {
+                    append(getString(R.string.transfer))
+                }
+            },
         )
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

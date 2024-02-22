@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -83,7 +82,7 @@ import kotlin.text.Typography.ellipsis
 val inlineIconPlaceholder = 13.sp
 val inlineIconSize = 12.sp
 
-enum class ColorSource { TYPE, SIGN }
+enum class ColorSource { TYPE, SIGN, TYPE_WITH_SIGN }
 
 
 abstract class ItemRenderer(
@@ -346,6 +345,7 @@ abstract class ItemRenderer(
             style = style,
             type = if (isTransferAggregate) FLAG_NEUTRAL else when (colorSource) {
                 ColorSource.TYPE -> type
+                ColorSource.TYPE_WITH_SIGN -> if(type == FLAG_NEUTRAL) type else null // Act the same as ColorSource.SIGN but when it's a transfer, we color it accordingly
                 ColorSource.SIGN -> null
             }
         )
