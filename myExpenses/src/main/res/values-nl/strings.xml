@@ -923,4 +923,6 @@
     <string name="contact_us">Neem contact op</string>
     <string name="pref_transaction_amount_color_source_title">Kleuren voor bedragen</string>
     <string name="pref_sync_now_all_summary">%s synchroniseert alle rekeningen voor hetzelfde backend</string>
+    <string name="menu_unlink_transfer">Overdracht ontkoppelen</string>
+    <string name="warning_unlink_transfer">De geselecteerde overboeking wordt ontkoppeld: deze wordt vervangen door normale transacties op beide rekeningen.</string>
 </resources>
