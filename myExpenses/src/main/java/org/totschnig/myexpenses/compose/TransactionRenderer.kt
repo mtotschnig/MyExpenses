@@ -66,6 +66,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
+import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -345,7 +346,7 @@ abstract class ItemRenderer(
             style = style,
             type = if (isTransferAggregate) FLAG_NEUTRAL else when (colorSource) {
                 ColorSource.TYPE -> type
-                ColorSource.TYPE_WITH_SIGN -> if(type == FLAG_NEUTRAL) type else null // Act the same as ColorSource.SIGN but when it's a transfer, we color it accordingly
+                ColorSource.TYPE_WITH_SIGN -> if(type == FLAG_TRANSFER) type else null
                 ColorSource.SIGN -> null
             }
         )
