@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.util.safeMessage
 import timber.log.Timber
 import java.io.IOException
 import java.text.SimpleDateFormat
+import java.time.LocalTime
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -54,6 +55,10 @@ class SyncAdapter @JvmOverloads constructor(
     allowParallelSyncs: Boolean = false
 ) : AbstractThreadedSyncAdapter(context, autoInitialize, allowParallelSyncs) {
     private var shouldNotify = true
+
+    private var lastSynStart = LocalTime.now()
+
+    lateinit var currentAccount: Account
 
     @Inject
     lateinit var prefHandler: PrefHandler
@@ -81,8 +86,10 @@ class SyncAdapter @JvmOverloads constructor(
         account: Account, extras: Bundle, authority: String,
         provider: ContentProviderClient, syncResult: SyncResult
     ) {
+        lastSynStart = LocalTime.now()
+        currentAccount = account
         val syncDelegate = syncDelegateProvider.get()
-        log().i("onPerformSync %s", extras)
+        log().i("onPerformSync for %s at %s with extras %s", currentAccount, lastSynStart, extras)
         val uuidFromExtras = extras.getString(KEY_UUID)
         val notificationId = account.hashCode()
         if (notificationContent[notificationId] == null) {
@@ -910,6 +917,7 @@ class SyncAdapter @JvmOverloads constructor(
         if (BuildConfig.DEBUG) {
             notifyUser("Debug", "Sync canceled")
         }
+        log().w("Sync for %s was started at %s", currentAccount, lastSynStart)
         report(Exception("Sync canceled"))
         super.onSyncCanceled()
     }
