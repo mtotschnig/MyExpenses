@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -67,6 +66,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
+import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -83,7 +83,7 @@ import kotlin.text.Typography.ellipsis
 val inlineIconPlaceholder = 13.sp
 val inlineIconSize = 12.sp
 
-enum class ColorSource { TYPE, SIGN }
+enum class ColorSource { TYPE, SIGN, TYPE_WITH_SIGN }
 
 
 abstract class ItemRenderer(
@@ -346,6 +346,7 @@ abstract class ItemRenderer(
             style = style,
             type = if (isTransferAggregate) FLAG_NEUTRAL else when (colorSource) {
                 ColorSource.TYPE -> type
+                ColorSource.TYPE_WITH_SIGN -> if(type == FLAG_TRANSFER) type else null
                 ColorSource.SIGN -> null
             }
         )
