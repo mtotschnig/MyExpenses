@@ -60,7 +60,7 @@ ext {
     barista = "4.3.0"
     googleHttp = "1.44.1"
     //composeDevBom = "dev.chrisbanes.compose:compose-bom:2024.01.00-alpha01"
-    composeBom = "androidx.compose:compose-bom:2024.02.00"
+    composeBom = "androidx.compose:compose-bom:2024.02.01"
     activityCompose = "1.8.2"
     workManager = "2.9.0"
 }
