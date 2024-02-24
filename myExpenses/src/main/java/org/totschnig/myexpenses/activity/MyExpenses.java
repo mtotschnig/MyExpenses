@@ -53,6 +53,7 @@ import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.distrib.DistributionHelper;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
+import org.totschnig.myexpenses.viewmodel.repository.RoadmapRepository;
 
 import eltos.simpledialogfragment.list.MenuDialog;
 
@@ -129,12 +130,12 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   private void voteReminderCheck() {
-    final String prefKey = "vote_reminder_shown_" + RoadmapViewModel.EXPECTED_MINIMAL_VERSION;
+    final String prefKey = "vote_reminder_shown_" + RoadmapRepository.VERSION;
     if (Utils.getDaysSinceUpdate(this) > 1 &&
         !prefHandler.getBoolean(prefKey, false)) {
       roadmapViewModel.getLastVote().observe(this, vote -> {
         boolean hasNotVoted = vote == null;
-        if (hasNotVoted || vote.getVersion() < RoadmapViewModel.EXPECTED_MINIMAL_VERSION) {
+        if (hasNotVoted) {
           Bundle bundle = new Bundle();
           bundle.putCharSequence(
               ConfirmationDialogFragment.KEY_MESSAGE, hasNotVoted ? getString(R.string.roadmap_intro) :

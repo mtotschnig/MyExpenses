@@ -53,7 +53,6 @@ class RoadmapViewModel(application: Application) : AndroidViewModel(application)
 
 
     companion object {
-        const val EXPECTED_MINIMAL_VERSION = 4
         const val VOTE_REMINDER_DAYS = 100L
     }
 

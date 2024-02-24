@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.util.configureSearch
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel
+import org.totschnig.myexpenses.viewmodel.repository.RoadmapRepository
 import org.totschnig.myexpenses.viewmodel.repository.RoadmapRepository.Companion.ROADMAP_URL
 import java.util.Locale
 
@@ -36,7 +37,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
     private var dataSetFiltered: List<Issue>? = null
     private lateinit var voteWeights: MutableMap<Int, Int>
     private var lastVote: Vote? = null
-    private var voteKey: String? = null
+    private var voteKey: Pair<String, String>? = null
     private lateinit var roadmapAdapter: RoadmapAdapter
     private lateinit var roadmapViewModel: RoadmapViewModel
     private var isPro = false
@@ -72,7 +73,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
                 validateAndUpdateUi()
             }
         }
-        voteKey = licenceHandler.buildRoadmapVoteKey
+        voteKey = licenceHandler.roadmapVoteKey
         roadmapViewModel.getLastVote().observe(this) { result: Vote? ->
             if (result != null && result.key == voteKey) {
                 lastVote = result
@@ -81,7 +82,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
                     validateAndUpdateUi()
                 }
             }
-            roadmapViewModel.loadData(RoadmapViewModel.EXPECTED_MINIMAL_VERSION > versionFromPref)
+            roadmapViewModel.loadData(RoadmapRepository.VERSION > versionFromPref)
         }
     }
 

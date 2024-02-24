@@ -24,6 +24,7 @@ import timber.log.Timber
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.FileInputStream
+import java.lang.System.currentTimeMillis
 import java.security.GeneralSecurityException
 import java.security.MessageDigest
 import java.security.cert.CertificateFactory
@@ -40,8 +41,10 @@ class RoadmapRepository @Inject constructor(
     private val context: Context
 ) {
     companion object {
+        const val VERSION = 4
         const val ISSUE_CACHE = "issue_cache.json"
-        const val ROADMAP_VOTE = "roadmap_vote.json"
+        const val ISSUE_CACHE_LIFE_TIME_DAYS = 30
+        const val ROADMAP_VOTE = "roadmap_vote_${VERSION}.json"
         private val isSandbox = true
         val ROADMAP_URL = when {
             isSandbox -> "http://10.0.2.2:3000/"
@@ -58,7 +61,9 @@ class RoadmapRepository @Inject constructor(
 
     fun getDaysPassedSinceLastVote(): LiveData<Long?> = liveData {
         emit(internalFile(ROADMAP_VOTE)?.let {
-            TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - withContext(Dispatchers.IO) { it.lastModified() })
+            TimeUnit.MILLISECONDS.toDays(
+                currentTimeMillis() - withContext(Dispatchers.IO) { it.lastModified() }
+            )
         })
     }
 
@@ -75,7 +80,12 @@ class RoadmapRepository @Inject constructor(
     }
 
     private suspend fun readIssuesFromCache(): List<Issue>? = withContext(Dispatchers.IO) {
-        internalFile(ISSUE_CACHE)?.takeIf { TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - it.lastModified()) < 30 }
+        internalFile(ISSUE_CACHE)
+            ?.takeIf {
+                TimeUnit.MILLISECONDS.toDays(
+                    currentTimeMillis() - it.lastModified()
+                ) < ISSUE_CACHE_LIFE_TIME_DAYS
+            }
             ?.let { file ->
                 val listType = object : TypeToken<ArrayList<Issue>>() {}.type
                 gson.fromJson<ArrayList<Issue>>(readFromFile(file), listType)?.also {
