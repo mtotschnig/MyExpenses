@@ -25,6 +25,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.ColorSource
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.dialog.CustomizeMenuDialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
@@ -74,43 +75,48 @@ class PreferenceUiFragment : BasePreferenceFragment() {
         }
 
         val colorSourcePreference = requirePreference<ListPreference>(PrefKey.TRANSACTION_AMOUNT_COLOR_SOURCE)
-        colorSourcePreference.entries = arrayOf(
-            buildSpannedString {
-                color(getColor(resources, R.color.colorExpense, null)) {
+        val expenseColor = getColor(resources, R.color.colorExpense, null)
+        val incomeColor = getColor(resources, R.color.colorIncome, null)
+        val transferColor = getColor(resources, R.color.colorTransfer, null)
+        val colorSources = arrayOf(
+            ColorSource.TYPE to buildSpannedString {
+                color(expenseColor) {
                     append(getString(R.string.expense))
                 }
                 append(" / ")
-                color(getColor(resources, R.color.colorIncome, null)) {
+                color(incomeColor) {
                     append(getString(R.string.income))
                 }
                 append(" / ")
-                color(getColor(resources, R.color.colorTransfer, null)) {
+                color(transferColor) {
                     append(getString(R.string.transfer))
                 }
             },
-            buildSpannedString {
-                color(getColor(resources, R.color.colorExpense, null)) {
+            ColorSource.SIGN to buildSpannedString {
+                color(expenseColor) {
                     append(getString(R.string.pm_type_debit))
                 }
                 append(" / ")
-                color(getColor(resources, R.color.colorIncome, null)) {
+                color(incomeColor) {
                     append(getString(R.string.pm_type_credit))
                 }
             },
-            buildSpannedString {
-                color(getColor(resources, R.color.colorExpense, null)) {
+            ColorSource.TYPE_WITH_SIGN to buildSpannedString {
+                color(expenseColor) {
                     append(getString(R.string.pm_type_debit))
                 }
                 append(" / ")
-                color(getColor(resources, R.color.colorIncome, null)) {
+                color(incomeColor) {
                     append(getString(R.string.pm_type_credit))
                 }
                 append(" / ")
-                color(getColor(resources, R.color.colorTransfer, null)) {
+                color(transferColor) {
                     append(getString(R.string.transfer))
                 }
-            },
+            }
         )
+        colorSourcePreference.entryValues = colorSources.map { it.first.name }.toTypedArray()
+        colorSourcePreference.entries = colorSources.map { it.second }.toTypedArray()
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 preferenceDataStore.handleList(colorSourcePreference)

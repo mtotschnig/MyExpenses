@@ -346,7 +346,7 @@ abstract class ItemRenderer(
             style = style,
             type = if (isTransferAggregate) FLAG_NEUTRAL else when (colorSource) {
                 ColorSource.TYPE -> type
-                ColorSource.TYPE_WITH_SIGN -> if(type == FLAG_TRANSFER) type else null
+                ColorSource.TYPE_WITH_SIGN -> type.takeIf { it == FLAG_TRANSFER }
                 ColorSource.SIGN -> null
             }
         )

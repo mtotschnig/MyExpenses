@@ -110,8 +110,7 @@
             android:title="@string/icons_for_categories" />
 
         <ListPreference
-            android:defaultValue="Type"
-            android:entryValues="@array/pref_transaction_amount_color_source_values"
+            android:defaultValue="TYPE"
             android:key="@string/pref_transaction_amount_color_source_key"
             android:persistent="false"
             android:title="@string/pref_transaction_amount_color_source_title"
