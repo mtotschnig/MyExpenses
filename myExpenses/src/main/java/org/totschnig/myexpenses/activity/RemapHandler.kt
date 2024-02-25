@@ -11,12 +11,15 @@ import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity.Companion.PROGRESS_TAG
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_CHECKBOX_LABEL
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_POSITIVE_BUTTON_CHECKED_LABEL
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_TITLE_STRING
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectSingleAccountDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectSingleMethodDialogFragment
 import org.totschnig.myexpenses.provider.CheckTransferAccountOfSplitPartsHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.util.safeMessage
 
 class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
@@ -36,7 +39,7 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
         activity.getString(resId, *formatArgs)
 
     fun parseResult(result: Bundle) =
-        result.getLong(DatabaseConstants.KEY_ROWID) to result.getString(DatabaseConstants.KEY_LABEL)!!
+        result.getLong(KEY_ROWID) to result.getString(DatabaseConstants.KEY_LABEL)!!
 
     override fun onFragmentResult(requestKey: String, result: Bundle) {
         onResult(requestKey, parseResult(result))
@@ -70,33 +73,20 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
             }
             else -> throw IllegalStateException("Unexpected value: $requestKey")
         }
-        activity.showConfirmationDialog(Bundle().apply {
+        activity.showConfirmationDialog("dialogRemap",
+            getString(confirmationStringResId, label) + " " + getString(R.string.continue_confirmation),
+            R.id.REMAP_COMMAND, R.string.menu_remap,
+            commandNegative = null
+        ) {
             putString(KEY_COLUMN, column)
-            putLong(DatabaseConstants.KEY_ROWID, rowId)
+            putLong(KEY_ROWID, rowId)
             putString(
-                ConfirmationDialogFragment.KEY_TITLE_STRING,
+                KEY_TITLE_STRING,
                 getString(R.string.dialog_title_confirm_remap, getString(columnStringResId))
             )
-            putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_remap)
-            putInt(
-                ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_CHECKED_LABEL,
-                R.string.button_label_clone_and_remap
-            )
-            putInt(
-                ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL,
-                android.R.string.cancel
-            )
-            putString(
-                ConfirmationDialogFragment.KEY_MESSAGE, getString(
-                    confirmationStringResId, label
-                ) + " " + getString(R.string.continue_confirmation)
-            )
-            putString(
-                ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
-                getString(R.string.menu_clone_transaction)
-            )
-            putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.REMAP_COMMAND)
-        }, "dialogRemap")
+            putInt(KEY_POSITIVE_BUTTON_CHECKED_LABEL, R.string.button_label_clone_and_remap)
+            putString(KEY_CHECKBOX_LABEL, getString(R.string.menu_clone_transaction))
+        }
     }
 
     fun remap(extras: Bundle, shouldClone: Boolean) {
@@ -115,10 +105,10 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
                 viewModel.cloneAndRemap(
                     checkedItemIds,
                     column,
-                    extras.getLong(DatabaseConstants.KEY_ROWID)
+                    extras.getLong(KEY_ROWID)
                 )
             } else {
-                viewModel.remap(checkedItemIds, column, extras.getLong(DatabaseConstants.KEY_ROWID))
+                viewModel.remap(checkedItemIds, column, extras.getLong(KEY_ROWID))
                     .observe(this) { result: Int ->
                         val message =
                             if (result > 0) getString(R.string.remapping_result) else "No transactions were mapped"
@@ -149,7 +139,7 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
     }
 
     private fun onResult(requestKey: String, result: Bundle) {
-        val rowId = result.getLong(DatabaseConstants.KEY_ROWID)
+        val rowId = result.getLong(KEY_ROWID)
         val label = result.getString(DatabaseConstants.KEY_LABEL)
         if (rowId != 0L && label != null) {
             onResult(requestKey, rowId to label)
@@ -167,13 +157,11 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
                 CheckTransferAccountOfSplitPartsHandler(contentResolver).check(splitIds) { result ->
                     lifecycleScope.launchWhenResumed {
                         result.onSuccess {
-                            val dialogFragment =
-                                SelectSingleAccountDialogFragment.newInstance(
-                                    R.string.menu_remap,
-                                    R.string.remap_empty_list,
-                                    excludedIds + it
-                                )
-                            dialogFragment.show(supportFragmentManager, "REMAP_ACCOUNT")
+                            SelectSingleAccountDialogFragment.newInstance(
+                                R.string.menu_remap,
+                                R.string.remap_empty_list,
+                                excludedIds + it
+                            ).show(supportFragmentManager, "REMAP_ACCOUNT")
                         }.onFailure {
                             showSnackBar(it.safeMessage)
                         }

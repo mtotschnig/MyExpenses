@@ -49,7 +49,7 @@ import org.totschnig.myexpenses.compose.ColorSource
 import org.totschnig.myexpenses.compose.ExpansionHandler
 import org.totschnig.myexpenses.compose.FutureCriterion
 import org.totschnig.myexpenses.compose.SelectionHandler
-import org.totschnig.myexpenses.compose.select
+import org.totschnig.myexpenses.compose.addToSelection
 import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.compose.unselect
 import org.totschnig.myexpenses.db2.loadAccount
@@ -112,6 +112,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.SORT_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_LINK_TRANSFER
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_TOGGLE_CRSTATUS
+import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_TRANSFORM_TO_TRANSFER
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_UNLINK_TRANSFER
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_UNSPLIT
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
@@ -229,7 +230,7 @@ open class MyExpensesViewModel(
             selectionState.value.contains(SelectionInfo(transaction))
 
         override fun select(transaction: Transaction2) {
-            selectionState.select(SelectionInfo(transaction))
+            selectionState.addToSelection(SelectionInfo(transaction))
         }
 
         override val selectionCount: Int
@@ -450,35 +451,46 @@ open class MyExpensesViewModel(
         contentResolver.notifyChange(ACCOUNTS_URI, null, false)
     }
 
-    fun linkTransfer(itemIds: LongArray) {
-        viewModelScope.launch(context = coroutineContext()) {
-            val count = contentResolver.update(
-                TRANSACTIONS_URI.buildUpon()
-                    .appendPath(URI_SEGMENT_LINK_TRANSFER)
-                    .appendPath(repository.getUuidForTransaction(itemIds[0]))
-                    .build(), ContentValues(1).apply {
-                    put(KEY_UUID, repository.getUuidForTransaction(itemIds[1]))
-                }, null, null
+    fun linkTransfer(itemIds: LongArray) = liveData(context = coroutineContext()) {
+        emit(runCatching {
+            check(
+                contentResolver.update(
+                    TRANSACTIONS_URI.buildUpon()
+                        .appendPath(URI_SEGMENT_LINK_TRANSFER)
+                        .appendPath(repository.getUuidForTransaction(itemIds[0]))
+                        .build(),
+                    ContentValues(1).apply {
+                        put(KEY_UUID, repository.getUuidForTransaction(itemIds[1]))
+                    }, null, null
+                ) == 2
             )
-            if (count != 2) {
-                CrashHandler.report(IllegalStateException("linkTransfer: Unexpected result"))
-            }
-        }
+        })
     }
 
-    fun unlinkTransfer(itemId: Long) {
-        viewModelScope.launch(context = coroutineContext()) {
-            val count = contentResolver.update(
-                ContentUris.appendId(
-                    TRANSACTIONS_URI.buildUpon()
-                        .appendPath(URI_SEGMENT_UNLINK_TRANSFER), itemId
-                )
-                    .build(), null, null, null
+    fun unlinkTransfer(itemId: Long) = liveData(context = coroutineContext()) {
+        emit(runCatching {
+            check(
+                contentResolver.update(
+                    ContentUris.appendId(
+                        TRANSACTIONS_URI.buildUpon().appendPath(URI_SEGMENT_UNLINK_TRANSFER),
+                        itemId
+                    ).build(), null, null, null
+                ) == 2
             )
-            if (count != 2) {
-                CrashHandler.report(IllegalStateException("unlinkTransfer: Unexpected result"))
-            }
-        }
+        })
+    }
+
+    fun transformToTransfer(transactionId: Long, transferAccount: Long) = liveData(context = coroutineContext()) {
+        emit(runCatching {
+            check(
+                contentResolver.update(
+                    ContentUris.appendId(
+                        ContentUris.appendId(TRANSACTIONS_URI.buildUpon(), transactionId)
+                            .appendPath(URI_SEGMENT_TRANSFORM_TO_TRANSFER), transferAccount)
+                        .build(), null, null, null
+                ) == 2
+            )
+        })
     }
 
     fun deleteAccounts(accountIds: LongArray): LiveData<Result<Unit>> =

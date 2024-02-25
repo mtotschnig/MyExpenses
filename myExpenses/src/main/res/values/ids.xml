@@ -223,4 +223,5 @@
     <item name="MANAGE_ACCOUNT_COMMAND" type="id" />
     <item name="DELETE_CALENDAR_COMMAND" type="id" />
     <item name="UNLINK_TRANSFER_COMMAND" type="id" />
+    <item name="TRANSFORM_TO_TRANSFER_COMMAND" type="id" />
 </resources>

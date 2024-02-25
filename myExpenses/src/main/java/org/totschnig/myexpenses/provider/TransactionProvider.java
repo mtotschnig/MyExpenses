@@ -296,6 +296,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String URI_SEGMENT_UNSPLIT = "unsplit";
   public static final String URI_SEGMENT_LINK_TRANSFER = "link_transfer";
   public static final String URI_SEGMENT_UNLINK_TRANSFER = "unlink_transfer";
+  public static final String URI_SEGMENT_TRANSFORM_TO_TRANSFER = "transform_to_transfer";
 
   //"1" merge all currency aggregates, < 0 only return one specific aggregate
   public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
@@ -1249,7 +1250,6 @@ public class TransactionProvider extends BaseTransactionProvider {
     int count;
     int uriMatch = URI_MATCHER.match(uri);
     maybeSetDirty(uriMatch);
-    Cursor c;
     log("UPDATE Uri: %s, values: %s", uri, values);
     switch (uriMatch) {
       case TRANSACTIONS, UNCOMMITTED ->
@@ -1360,12 +1360,8 @@ public class TransactionProvider extends BaseTransactionProvider {
           count = MoreDbUtilsKt.update(db, TABLE_CHANGES, values, where, whereArgs);
         }
       }
-      case ACCOUNT_ID_GROUPING -> {
-        count = handleAccountProperty(db, uri, KEY_GROUPING);
-      }
-      case ACCOUNT_ID_SORT -> {
-        count = handleAccountProperty(db, uri, KEY_SORT_BY, KEY_SORT_DIRECTION);
-      }
+      case ACCOUNT_ID_GROUPING -> count = handleAccountProperty(db, uri, KEY_GROUPING);
+      case ACCOUNT_ID_SORT -> count = handleAccountProperty(db, uri, KEY_SORT_BY, KEY_SORT_DIRECTION);
       case UNSPLIT -> {
         String uuid = values.getAsString(KEY_UUID);
         if (uuid == null) {
@@ -1399,44 +1395,27 @@ public class TransactionProvider extends BaseTransactionProvider {
           db.endTransaction();
         }
       }
-      case BUDGET_ID -> {
-        count = MoreDbUtilsKt.update(db, TABLE_BUDGETS, values,
-                KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
-      }
-      case BUDGET_CATEGORY -> {
-        count = budgetCategoryUpsert(db, uri, values);
-      }
-      case BUDGET_ALLOCATIONS -> {
-        count = MoreDbUtilsKt.update(db, TABLE_BUDGET_ALLOCATIONS, values, where, whereArgs);
-      }
+      case BUDGET_ID -> count = MoreDbUtilsKt.update(db, TABLE_BUDGETS, values,
+              KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+      case BUDGET_CATEGORY -> count = budgetCategoryUpsert(db, uri, values);
+      case BUDGET_ALLOCATIONS -> count = MoreDbUtilsKt.update(db, TABLE_BUDGET_ALLOCATIONS, values, where, whereArgs);
       case CURRENCIES_CODE -> {
         final String currency = uri.getLastPathSegment();
         count = MoreDbUtilsKt.update(db, TABLE_CURRENCIES, values, String.format("%s = '%s'%s", KEY_CODE,
                 currency, prefixAnd(where)), whereArgs);
       }
-      case TAG_ID -> {
-        count = MoreDbUtilsKt.update(db, TABLE_TAGS, values,
-                KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
-      }
-      case TRANSACTION_LINK_TRANSFER -> {
-        count = MoreDbUtilsKt.linkTransfers(db, uri.getPathSegments().get(2), values.getAsString(KEY_UUID), callerIsNotSyncAdapter(uri));
-      }
-      case TRANSACTION_UNLINK_TRANSFER -> {
-        count = MoreDbUtilsKt.unlinkTransfers(db, uri.getLastPathSegment());
-      }
+      case TAG_ID -> count = MoreDbUtilsKt.update(db, TABLE_TAGS, values,
+              KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+      case TRANSACTION_LINK_TRANSFER -> count = MoreDbUtilsKt.linkTransfers(db, uri.getPathSegments().get(2), values.getAsString(KEY_UUID), callerIsNotSyncAdapter(uri));
+      case TRANSACTION_UNLINK_TRANSFER -> count = MoreDbUtilsKt.unlinkTransfers(db, Objects.requireNonNull(uri.getLastPathSegment()));
+      case TRANSACTION_TRANSFORM_TO_TRANSFER -> count = MoreDbUtilsKt.transformToTransfer(db, uri, prefHandler.getDefaultTransferCategory());
       case DEBTS -> count = MoreDbUtilsKt.update(db, TABLE_DEBTS, values, where, whereArgs);
-      case DEBT_ID -> {
-        count = MoreDbUtilsKt.update(db, TABLE_DEBTS, values,
-                KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
-      }
-      case PLANINSTANCE_TRANSACTION_STATUS -> {
-        count = MoreDbUtilsKt.update(db, TABLE_PLAN_INSTANCE_STATUS, values, where, whereArgs);
-      }
+      case DEBT_ID -> count = MoreDbUtilsKt.update(db, TABLE_DEBTS, values,
+              KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+      case PLANINSTANCE_TRANSACTION_STATUS -> count = MoreDbUtilsKt.update(db, TABLE_PLAN_INSTANCE_STATUS, values, where, whereArgs);
 
       //used during restore
-      case ATTACHMENTS -> {
-        count = MoreDbUtilsKt.update(db, TABLE_ATTACHMENTS, values, where, whereArgs);
-      }
+      case ATTACHMENTS -> count = MoreDbUtilsKt.update(db, TABLE_ATTACHMENTS, values, where, whereArgs);
       default -> throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID || uriMatch == ACCOUNTS || uriMatch == ACCOUNT_ID ||
@@ -1658,6 +1637,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "templates/tags", TEMPLATES_TAGS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_LINK_TRANSFER + "/*", TRANSACTION_LINK_TRANSFER);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_UNLINK_TRANSFER + "/*", TRANSACTION_UNLINK_TRANSFER);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_TRANSFORM_TO_TRANSFER + "/#", TRANSACTION_TRANSFORM_TO_TRANSFER);
     URI_MATCHER.addURI(AUTHORITY, "accounts/tags", ACCOUNTS_TAGS);
     URI_MATCHER.addURI(AUTHORITY, "debts", DEBTS);
     URI_MATCHER.addURI(AUTHORITY, "debts/#", DEBT_ID);

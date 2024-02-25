@@ -21,7 +21,7 @@ abstract class SelectSingleDialogFragment : SelectFromTableDialogFragment(false)
     override val dialogTitle: Int
         get() = requireArguments().getInt(KEY_DIALOG_TITLE)
 
-    private fun buildExtras() = dataViewModel.selection?.getOrNull(0)?.let {
+    open fun buildExtras() = dataViewModel.selection?.getOrNull(0)?.let {
         Bundle().apply {
             putString(DatabaseConstants.KEY_LABEL, it.label)
             putLong(DatabaseConstants.KEY_ROWID, it.id)

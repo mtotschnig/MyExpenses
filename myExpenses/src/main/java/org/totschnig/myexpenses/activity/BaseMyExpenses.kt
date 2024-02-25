@@ -11,6 +11,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.IdRes
+import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.ActionMode
@@ -25,6 +27,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.CallSplit
 import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.LinkOff
 import androidx.compose.material.icons.filled.Loupe
 import androidx.compose.material.icons.filled.RestoreFromTrash
@@ -80,10 +83,16 @@ import org.totschnig.myexpenses.databinding.ActivityMainBinding
 import org.totschnig.myexpenses.db2.countAccounts
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_CHECKBOX_LABEL
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_NEGATIVE
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_POSITIVE
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_POSITIVE_BUTTON_LABEL
 import org.totschnig.myexpenses.dialog.ExportDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
+import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment
+import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment.Companion.TRANSFORM_TO_TRANSFER_REQUEST
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.OcrHost
 import org.totschnig.myexpenses.feature.OcrResult
@@ -116,6 +125,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
@@ -352,27 +362,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private fun linkTransfer() {
         val itemIds = selectionState.map { it.id }
         checkSealed(itemIds) {
-            showConfirmationDialog(Bundle().apply {
-                putString(
-                    ConfirmationDialogFragment.KEY_MESSAGE,
-                    getString(R.string.warning_link_transfer) + " " + getString(R.string.continue_confirmation)
-                )
-                putInt(
-                    ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                    R.id.LINK_TRANSFER_COMMAND
-                )
-                putInt(
-                    ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
-                    R.id.CANCEL_CALLBACK_COMMAND
-                )
-                putInt(
-                    ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
-                    R.string.menu_create_transfer
-                )
+            showConfirmationDialog(
+                "LINK_TRANSFER",
+                getString(R.string.warning_link_transfer) + " " + getString(R.string.continue_confirmation),
+                R.id.LINK_TRANSFER_COMMAND, R.string.menu_create_transfer
+            ) {
                 putLongArray(KEY_ROW_IDS, itemIds.toLongArray())
-            }, "LINK_TRANSFER")
+            }
         }
-
     }
 
     lateinit var remapHandler: RemapHandler
@@ -747,6 +744,18 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 drawer.addDrawerListener(it)
             }
         }
+        supportFragmentManager.setFragmentResultListener(
+            TRANSFORM_TO_TRANSFER_REQUEST,
+            this
+        ) { _, bundle ->
+            showConfirmationDialog(
+                "TRANSFORM_TRANSFER",
+                getString(R.string.warning_transform_to_transfer, currentAccount!!.label, bundle.getString(KEY_LABEL)),
+                R.id.TRANSFORM_TO_TRANSFER_COMMAND
+            ) {
+                putAll(bundle)
+            }
+        }
     }
 
     private fun editAccount(account: FullAccount) {
@@ -892,7 +901,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 val bulkDeleteState = viewModel.bulkDeleteState.collectAsState(initial = null)
                 val modificationAllowed =
                     !account.sealed && bulkDeleteState.value !is DeleteProgress
-                val colorSource = viewModel.colorSource.collectAsState(initial = ColorSource.TYPE).value
+                val colorSource =
+                    viewModel.colorSource.collectAsState(initial = ColorSource.TYPE).value
                 TransactionList(
                     modifier = Modifier.weight(1f),
                     lazyPagingItems = lazyPagingItems,
@@ -945,23 +955,39 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                                 )
                                             }
                                         )
-                                        if (transaction.isSplit) {
-                                            add(MenuEntry(
-                                                icon = Icons.AutoMirrored.Filled.CallSplit,
-                                                label = R.string.menu_ungroup_split_transaction,
-                                                command = "UNGROUP_SPLIT"
-                                            ) {
-                                                ungroupSplit(transaction)
-                                            })
-                                        }
-                                        if (transaction.isTransfer) {
-                                            add(MenuEntry(
-                                                icon = Icons.Filled.LinkOff,
-                                                label = R.string.menu_unlink_transfer,
-                                                command = "UNLINK_TRANSFER"
-                                            ) {
-                                                unlinkTransfer(transaction)
-                                            })
+                                        when {
+                                            transaction.isSplit -> {
+                                                add(MenuEntry(
+                                                    icon = Icons.AutoMirrored.Filled.CallSplit,
+                                                    label = R.string.menu_ungroup_split_transaction,
+                                                    command = "UNGROUP_SPLIT"
+                                                ) {
+                                                    ungroupSplit(transaction)
+                                                })
+                                            }
+
+                                            transaction.isTransfer -> {
+                                                add(MenuEntry(
+                                                    icon = Icons.Filled.LinkOff,
+                                                    label = R.string.menu_unlink_transfer,
+                                                    command = "UNLINK_TRANSFER"
+                                                ) {
+                                                    unlinkTransfer(transaction)
+                                                })
+                                            }
+
+                                            else -> {
+                                                if (accountCount >= 2) {
+                                                    add(MenuEntry(
+                                                        icon = Icons.Filled.Link,
+                                                        label = R.string.menu_transform_to_transfer,
+                                                        command = "TRANSFORM_TRANSFER"
+                                                    ) {
+                                                        transformToTransfer(transaction)
+                                                    }
+                                                    )
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -1020,47 +1046,29 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     private fun ungroupSplit(transaction: Transaction2) {
-        showConfirmationDialog(Bundle().apply {
-            putString(
-                ConfirmationDialogFragment.KEY_MESSAGE,
-                getString(R.string.warning_ungroup_split_transactions)
-            )
-            putInt(
-                ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                R.id.UNGROUP_SPLIT_COMMAND
-            )
-            putInt(
-                ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
-                R.id.CANCEL_CALLBACK_COMMAND
-            )
-            putInt(
-                ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
-                R.string.menu_ungroup_split_transaction
-            )
+        showConfirmationDialog(
+            "UNSPLIT_TRANSACTION",
+            getString(R.string.warning_ungroup_split_transactions),
+            R.id.UNGROUP_SPLIT_COMMAND, R.string.menu_ungroup_split_transaction
+        ) {
             putLong(KEY_ROWID, transaction.id)
-        }, "UNSPLIT_TRANSACTION")
+        }
     }
 
     private fun unlinkTransfer(transaction: Transaction2) {
-        showConfirmationDialog(Bundle().apply {
-            putString(
-                ConfirmationDialogFragment.KEY_MESSAGE,
-                getString(R.string.warning_unlink_transfer)
-            )
-            putInt(
-                ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                R.id.UNLINK_TRANSFER_COMMAND
-            )
-            putInt(
-                ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
-                R.id.CANCEL_CALLBACK_COMMAND
-            )
-            putInt(
-                ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
-                R.string.menu_unlink_transfer
-            )
+        showConfirmationDialog(
+            "UNLINK_TRANSFER",
+            getString(R.string.warning_unlink_transfer),
+            R.id.UNLINK_TRANSFER_COMMAND,
+            R.string.menu_unlink_transfer
+        ) {
             putLong(KEY_ROWID, transaction.id)
-        }, "UNLINK_TRANSFER")
+        }
+    }
+
+    private fun transformToTransfer(transaction: Transaction2) {
+        SelectTransformToTransferTargetDialogFragment.newInstance(transaction)
+            .show(supportFragmentManager, "SELECT_ACCOUNT")
     }
 
     private fun createTemplate(transaction: Transaction2) {
@@ -1122,33 +1130,45 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             if (hasReconciled) {
                 message += " " + getString(R.string.warning_delete_reconciled)
             }
-            val b = Bundle().apply {
+            showConfirmationDialog(
+                "DELETE_TRANSACTION",
+                message,
+                R.id.DELETE_COMMAND_DO,
+                R.string.menu_delete
+            ) {
                 putInt(
                     ConfirmationDialogFragment.KEY_TITLE,
                     R.string.dialog_title_warning_delete_transaction
                 )
-                putString(ConfirmationDialogFragment.KEY_MESSAGE, message)
-                putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.DELETE_COMMAND_DO)
-                putInt(
-                    ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
-                    R.id.CANCEL_CALLBACK_COMMAND
-                )
-                putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_delete)
                 if (hasNotVoid) {
                     putString(
-                        ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
+                        KEY_CHECKBOX_LABEL,
                         getString(R.string.mark_void_instead_of_delete)
                     )
                 }
                 putLongArray(KEY_ROW_IDS, itemIds.toLongArray())
             }
-            showConfirmationDialog(b, "DELETE_TRANSACTION")
         }
     }
 
-    fun showConfirmationDialog(bundle: Bundle, tag: String) {
+    fun showConfirmationDialog(
+        tag: String,
+        message: String,
+        @IdRes commandPositive: Int,
+        @StringRes commandPositiveLabel: Int = 0,
+        @IdRes commandNegative: Int? = R.id.CANCEL_CALLBACK_COMMAND,
+        prepareBundle: Bundle.() -> Unit
+    ) {
         lifecycleScope.launchWhenResumed {
-            ConfirmationDialogFragment.newInstance(bundle).show(supportFragmentManager, tag)
+            ConfirmationDialogFragment
+                .newInstance(Bundle().apply {
+                    putString(ConfirmationDialogFragment.KEY_MESSAGE, message)
+                    putInt(KEY_COMMAND_POSITIVE, commandPositive)
+                    putInt(KEY_POSITIVE_BUTTON_LABEL, commandPositiveLabel)
+                    commandNegative?.let { putInt(KEY_COMMAND_NEGATIVE, it) }
+                    prepareBundle()
+                })
+                .show(supportFragmentManager, tag)
         }
     }
 
@@ -1523,7 +1543,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             R.id.SYNC_COMMAND -> currentAccount?.takeIf { it.syncAccountName != null }?.let {
                 requestSync(
                     accountName = it.syncAccountName!!,
-                    uuid = if (prefHandler.getBoolean(PrefKey.SYNC_NOW_ALL, false)) null else it.uuid)
+                    uuid = if (prefHandler.getBoolean(
+                            PrefKey.SYNC_NOW_ALL,
+                            false
+                        )
+                    ) null else it.uuid
+                )
             }
 
             R.id.FINTS_SYNC_COMMAND -> currentAccount?.takeIf { it.bankId != null }?.let {
@@ -1590,7 +1615,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         prefHandler.mainMenu.forEach { menuItem ->
             if (menuItem.subMenu != null) {
-                val subMenu = menu.addSubMenu(Menu.NONE, menuItem.id, Menu.NONE, menuItem.getLabel(this))
+                val subMenu =
+                    menu.addSubMenu(Menu.NONE, menuItem.id, Menu.NONE, menuItem.getLabel(this))
                 menuInflater.inflate(menuItem.subMenu, subMenu)
                 subMenu.item
             } else {
@@ -1828,25 +1854,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
                 ContribFeature.SPLIT_TRANSACTION -> {
                     if (tag != null) {
-                        showConfirmationDialog(Bundle().apply {
-                            putString(
-                                ConfirmationDialogFragment.KEY_MESSAGE,
-                                getString(R.string.warning_split_transactions)
-                            )
-                            putInt(
-                                ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                                R.id.SPLIT_TRANSACTION_COMMAND
-                            )
-                            putInt(
-                                ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
-                                R.id.CANCEL_CALLBACK_COMMAND
-                            )
-                            putInt(
-                                ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
-                                R.string.menu_split_transaction
-                            )
+                        showConfirmationDialog(
+                            "SPLIT_TRANSACTION",
+                            getString(R.string.warning_split_transactions),
+                            R.id.SPLIT_TRANSACTION_COMMAND,
+                            R.string.menu_split_transaction
+                        ) {
                             putLongArray(KEY_ROW_IDS, tag as LongArray?)
-                        }, "SPLIT_TRANSACTION")
+                        }
                     } else {
                         createRowDo(Transactions.TYPE_SPLIT, false)
                     }
@@ -2143,13 +2158,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private fun clearFilter() {
         ConfirmationDialogFragment.newInstance(Bundle().apply {
             putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string.clear_all_filters))
-            putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.CLEAR_FILTER_COMMAND)
+            putInt(KEY_COMMAND_POSITIVE, R.id.CLEAR_FILTER_COMMAND)
         }).show(supportFragmentManager, "CLEAR_FILTER")
     }
 
     override fun onPositive(args: Bundle, checked: Boolean) {
         super.onPositive(args, checked)
-        when (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
+        when (args.getInt(KEY_COMMAND_POSITIVE)) {
             R.id.DELETE_COMMAND_DO -> {
                 finishActionMode()
                 viewModel.deleteTransactions(args.getLongArray(KEY_ROW_IDS)!!, checked)
@@ -2181,28 +2196,49 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                     )
                             } else getString(R.string.split_transaction_not_possible)
                         },
-                        onFailure = { it.safeMessage }
+                        onFailure = {
+                            CrashHandler.report(it)
+                            it.safeMessage
+                        }
                     ))
                 }
             }
 
             R.id.UNGROUP_SPLIT_COMMAND -> {
-                viewModel.revokeSplit(args.getLong(KEY_ROWID)).observe(this) {
-                    it.onSuccess {
+                viewModel.revokeSplit(args.getLong(KEY_ROWID)).observe(this) { result ->
+                    result.onSuccess {
                         showSnackBar(getString(R.string.ungroup_split_transaction_success))
                     }.onFailure {
-                        showSnackBar("ERROR")
+                        CrashHandler.report(it)
+                        showSnackBar(it.safeMessage)
                     }
                 }
             }
 
             R.id.LINK_TRANSFER_COMMAND -> {
                 finishActionMode()
-                viewModel.linkTransfer(args.getLongArray(KEY_ROW_IDS)!!)
+                viewModel.linkTransfer(args.getLongArray(KEY_ROW_IDS)!!).observe(this) { result ->
+                    result.onFailure {
+                        CrashHandler.report(it)
+                        showSnackBar(it.safeMessage)
+                    }
+                }
             }
 
             R.id.UNLINK_TRANSFER_COMMAND -> {
                 viewModel.unlinkTransfer(args.getLong(KEY_ROWID))
+            }
+
+            R.id.TRANSFORM_TO_TRANSFER_COMMAND -> {
+                viewModel.transformToTransfer(
+                    args.getLong(KEY_TRANSACTIONID),
+                    args.getLong(KEY_ROWID)
+                ).observe(this) { result ->
+                    result.onFailure {
+                        CrashHandler.report(it)
+                        showSnackBar(it.safeMessage)
+                    }
+                }
             }
         }
     }

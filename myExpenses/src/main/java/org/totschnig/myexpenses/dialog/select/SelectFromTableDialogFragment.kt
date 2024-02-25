@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.net.Uri
 import android.os.Bundle
 import android.widget.AbsListView
+import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.compose.TEST_TAG_SELECT_DIALOG
+import org.totschnig.myexpenses.compose.select
 import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.dialog.ComposeBaseDialogFragment
 import org.totschnig.myexpenses.viewmodel.LoadState
@@ -62,9 +64,13 @@ abstract class SelectFromTableDialogFragment(private val withNullItem: Boolean) 
 
     override fun initBuilder(): AlertDialog.Builder = super.initBuilder().apply {
         if (dialogTitle != 0) setTitle(dialogTitle)
-        setPositiveButton(positiveButton, null)
+        configurePositiveButton()
         if (neutralButton != 0) setNeutralButton(neutralButton, null)
         if (negativeButton != 0) setNegativeButton(negativeButton, null)
+    }
+
+    open fun AlertDialog.Builder.configurePositiveButton() {
+        setPositiveButton(positiveButton, null)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog =
@@ -82,6 +88,15 @@ abstract class SelectFromTableDialogFragment(private val withNullItem: Boolean) 
             }
         }
 
+    private fun onSelect(dataHolder: DataHolder) {
+        if (choiceMode == AbsListView.CHOICE_MODE_MULTIPLE) {
+            dataViewModel.selectionState.toggle(dataHolder)
+        } else {
+            dataViewModel.selectionState.select(dataHolder)
+        }
+        updateSubmitButton((dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE), dataHolder)
+    }
+
     @Composable
     override fun BuildContent() {
         when (val data = dataViewModel.data.value) {
@@ -96,26 +111,24 @@ abstract class SelectFromTableDialogFragment(private val withNullItem: Boolean) 
             }
             is LoadState.Result -> {
                 if (data.items.isNotEmpty()) {
-                    LazyColumn(modifier = Modifier.dialogPadding().testTag(TEST_TAG_SELECT_DIALOG)) {
+                    LazyColumn(modifier = Modifier
+                        .dialogPadding()
+                        .testTag(TEST_TAG_SELECT_DIALOG)) {
                         items(data.items.size) {
                             val dataHolder = data.items[it]
-                            fun toggle() {
-                                dataViewModel.selectionState.toggle(dataHolder)
-                                updateSubmitButton()
-                            }
                             Row(
                                 modifier = Modifier
                                     .height(48.dp)
-                                    .clickable(onClick = ::toggle),
+                                    .clickable(onClick = { onSelect(dataHolder) }),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(modifier = Modifier.weight(1f),
                                     text = dataHolder.label)
                                 val selected = dataViewModel.selectionState.value.contains(dataHolder)
                                 if (choiceMode == AbsListView.CHOICE_MODE_MULTIPLE) {
-                                    Checkbox(checked = selected, onCheckedChange = { toggle() })
+                                    Checkbox(checked = selected, onCheckedChange = { onSelect(dataHolder) })
                                 } else {
-                                    RadioButton(selected = selected, onClick = ::toggle)
+                                    RadioButton(selected = selected, onClick = { onSelect(dataHolder) })
                                 }
                             }
                         }
@@ -127,12 +140,11 @@ abstract class SelectFromTableDialogFragment(private val withNullItem: Boolean) 
         }
     }
 
-    private fun updateSubmitButton() {
-        (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE).isEnabled =
-            dataViewModel.selectionState.value.isNotEmpty()
+    open fun updateSubmitButton(button: Button, dataHolder: DataHolder) {
+        button.isEnabled = dataViewModel.selectionState.value.isNotEmpty()
     }
 
-    private fun Modifier.dialogPadding() = padding(start = 24.dp, end = 24.dp, top = 0.dp)
+    private fun Modifier.dialogPadding() = this.padding(start = 24.dp, end = 24.dp, top = 0.dp)
 
     abstract override fun onClick(dialog: DialogInterface, which: Int)
 

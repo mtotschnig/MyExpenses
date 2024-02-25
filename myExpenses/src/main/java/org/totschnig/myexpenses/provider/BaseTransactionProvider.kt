@@ -367,6 +367,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val ATTACHMENTS = 73
         protected const val TRANSACTION_ID_ATTACHMENT_ID = 74
         protected const val TRANSACTION_UNLINK_TRANSFER = 75
+        protected const val TRANSACTION_TRANSFORM_TO_TRANSFER = 76
     }
 
     val homeCurrency: String

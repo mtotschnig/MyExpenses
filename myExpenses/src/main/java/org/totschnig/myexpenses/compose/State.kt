@@ -51,10 +51,14 @@ fun <T> MutableState<List<T>>.toggle(element: T) = if (value.contains(element)) 
     true
 }
 
-fun <T> MutableState<List<T>>.select(element: T) {
+fun <T> MutableState<List<T>>.addToSelection(element: T) {
     if (!value.contains(element)) {
         value = value + element
     }
+}
+
+fun <T> MutableState<List<T>>.select(element: T) {
+    value =  listOf(element)
 }
 
 fun <T> MutableState<List<T>>.unselect(selector: (T) -> Boolean) {

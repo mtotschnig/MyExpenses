@@ -1069,4 +1069,6 @@
     <!-- This is the label for the action that breaks up a transfer into its parts. -->
     <string name="menu_unlink_transfer">Unlink transfer</string>
     <string name="warning_unlink_transfer">The selected transfer will be unlinked: It will be replaced by normal transactions in both accounts.</string>
+    <string name="menu_transform_to_transfer">Transform to transfer</string>
+    <string name="warning_transform_to_transfer">The selected transaction will be replaced by a transfer from %1$s to %2$s.</string>
 </resources>

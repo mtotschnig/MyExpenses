@@ -9,6 +9,7 @@ import android.content.res.Resources
 import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase
+import android.net.Uri
 import android.os.Build
 import android.provider.CalendarContract
 import android.provider.CalendarContract.Calendars
@@ -70,23 +71,28 @@ fun unlinkTransfers(
     id: String,
 ): Int {
     db.beginTransaction()
-    var count = 0
     try {
-        count += db.update(TABLE_TRANSACTIONS, ContentValues().apply {
+        val result1 = db.update(TABLE_TRANSACTIONS, ContentValues().apply {
             putNull(KEY_TRANSFER_PEER)
             putNull(KEY_TRANSFER_ACCOUNT)
             put(KEY_UUID, Model.generateUuid())
         }, "$KEY_ROWID = ?", arrayOf(id))
-        count += db.update(TABLE_TRANSACTIONS, ContentValues().apply {
+        check(result1 == 1) {
+            "Update by rowId yielded $result1 affected rows"
+        }
+        val result2 = db.update(TABLE_TRANSACTIONS, ContentValues().apply {
             putNull(KEY_TRANSFER_PEER)
             putNull(KEY_TRANSFER_ACCOUNT)
             put(KEY_UUID, Model.generateUuid())
         }, "$KEY_TRANSFER_PEER = ?", arrayOf(id))
+        check(result2 == 1) {
+            "Update by transferPeer yielded $result2 affected rows"
+        }
         db.setTransactionSuccessful()
     } finally {
         db.endTransaction()
     }
-    return count
+    return 2
 }
 
 fun linkTransfers(
@@ -96,7 +102,6 @@ fun linkTransfers(
     writeChange: Boolean
 ): Int {
     db.beginTransaction()
-    var count = 0
     try {
         //both transactions get uuid from first transaction
         val sql = """UPDATE $TABLE_TRANSACTIONS SET
@@ -108,9 +113,15 @@ fun linkTransfers(
             WHERE $KEY_UUID = ? AND EXISTS (SELECT 1 FROM $TABLE_TRANSACTIONS where $KEY_UUID = ?)"""
         db.compileStatement(sql).use {
             it.bindAllArgsAsStrings(listOf(uuid1, uuid2, uuid2, uuid1, uuid2))
-            count += it.executeUpdateDelete()
+            val result1 = it.executeUpdateDelete()
+            check(result1 == 1) {
+                "Update for $uuid1 yielded $result1 affected rows"
+            }
             it.bindAllArgsAsStrings(listOf(uuid1, uuid1, uuid1, uuid2, uuid1))
-            count += it.executeUpdateDelete()
+            val result2 = it.executeUpdateDelete()
+            check(result2 == 1) {
+                "Update for $uuid2 yielded $result2 affected rows"
+            }
         }
 
         if (writeChange) {
@@ -131,7 +142,53 @@ fun linkTransfers(
     } finally {
         db.endTransaction()
     }
-    return count
+    return 2
+}
+
+fun transformToTransfer(
+    db: SupportSQLiteDatabase,
+    uri: Uri,
+    defaultTransferCategory: Long?,
+): Int {
+    val (transactionId, transferAccountId) = with(uri.pathSegments) {
+        get(1) to get(3)
+    }
+    db.beginTransaction()
+    try {
+        //insert transfer peer into transfer account
+        val transferPeer = db.compileStatement(
+            """INSERT INTO $TABLE_TRANSACTIONS ($KEY_ACCOUNTID, $KEY_TRANSFER_ACCOUNT, $KEY_UUID, $KEY_TRANSFER_PEER, $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_CATID)
+            SELECT $transferAccountId, $KEY_ACCOUNTID, $KEY_UUID, $transactionId, $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, -$KEY_AMOUNT, coalesce($KEY_CATID, ?) FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = ?
+            """
+        ).use {
+            if (defaultTransferCategory != null) {
+                it.bindLong(1, defaultTransferCategory)
+            } else {
+                it.bindNull(1)
+            }
+            it.bindString(2, transactionId)
+            it.executeInsert()
+        }
+        //update original transaction
+        val updateCount = db.compileStatement(
+            """UPDATE $TABLE_TRANSACTIONS SET $KEY_TRANSFER_ACCOUNT = ?, $KEY_TRANSFER_PEER = ?, $KEY_METHODID = null, $KEY_CATID = coalesce($KEY_CATID, ?) WHERE $KEY_ROWID = ?"""
+        ).use {
+            it.bindString(1, transferAccountId)
+            it.bindLong(2, transferPeer)
+            if (defaultTransferCategory != null) {
+                it.bindLong(3, defaultTransferCategory)
+            } else {
+                it.bindNull(3)
+            }
+            it.bindString(4, transactionId)
+            it.executeUpdateDelete()
+        }
+        check(updateCount == 1)
+        db.setTransactionSuccessful()
+    } finally {
+        db.endTransaction()
+    }
+    return 2
 }
 
 fun SupportSQLiteStatement.bindAllArgsAsStrings(argsList: List<String>) {
@@ -226,7 +283,7 @@ val expenseCategories = arrayOf(
 private fun setupCategoriesInternal(
     database: SupportSQLiteDatabase,
     resources: Resources,
-    categoryDefinitions : Array<Triple<Int, Int, Int>>,
+    categoryDefinitions: Array<Triple<Int, Int, Int>>,
     typeFlag: Byte
 ): Pair<Int, Int> {
     var totalInserted = 0
