@@ -43,20 +43,10 @@ class TransferTemplateTest : BaseExpenseEditTest() {
         )
     }
 
-    private fun launch(i: Intent) = ActivityScenario.launch<TestExpenseEdit>(i).also {
-        testScenario = it
-    }
-
-
-    private fun setTitle() {
-        onView(withId(R.id.Title))
-            .perform(replaceText("Espresso template"))
-        Espresso.closeSoftKeyboard()
-    }
 
     private fun assertCorrectlySaved(expectedAccount: Long, expectedAmount: Long) {
         with(Template.getInstanceFromDb(contentResolver, 1)!!) {
-            assertThat(title).isEqualTo("Espresso template")
+            assertThat(title).isEqualTo(TEMPLATE_TITLE)
             assertThat(amount.amountMinor).isEqualTo(expectedAmount)
             assertThat(accountId).isEqualTo(expectedAccount)
         }

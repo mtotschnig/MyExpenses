@@ -1657,7 +1657,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     companion object {
         const val KEY_NEW_TEMPLATE = "newTemplate"
         const val KEY_CLONE = "clone"
-        const val KEY_TEMPLATE_FROM_TRANSACTION = "templateFromTransaction"
         private const val KEY_CACHED_DATA = "cachedData"
         const val KEY_CREATE_TEMPLATE = "createTemplate"
         const val KEY_AUTOFILL_MAY_SET_ACCOUNT = "autoFillMaySetAccount"

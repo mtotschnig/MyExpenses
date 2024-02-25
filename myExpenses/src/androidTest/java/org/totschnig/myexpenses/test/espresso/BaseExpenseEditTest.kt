@@ -2,13 +2,13 @@ package org.totschnig.myexpenses.test.espresso
 
 import android.content.Intent
 import android.widget.Button
+import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.scrollTo
-import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
@@ -16,6 +16,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isNotChecked
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matchers
@@ -23,13 +24,16 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.delegate.TransactionDelegate
+import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.Espresso.withIdAndParent
 import org.totschnig.myexpenses.testutils.withOperationType
 
-abstract class BaseExpenseEditTest: BaseUiTest<TestExpenseEdit>() {
+const val TEMPLATE_TITLE = "Espresso template"
+
+abstract class BaseExpenseEditTest : BaseUiTest<TestExpenseEdit>() {
     lateinit var account1: Account
 
     val intentForNewTransaction
@@ -65,7 +69,7 @@ abstract class BaseExpenseEditTest: BaseUiTest<TestExpenseEdit>() {
 
     fun checkType(checked: Boolean) {
         onView(withIdAndParent(R.id.TaType, R.id.Amount))
-            .check(matches(if(checked) isChecked() else isNotChecked()))
+            .check(matches(if (checked) isChecked() else isNotChecked()))
     }
 
     fun setStoredPayee(payee: String) {
@@ -92,4 +96,36 @@ abstract class BaseExpenseEditTest: BaseUiTest<TestExpenseEdit>() {
             )
         ).perform(click())
     }
+
+    protected fun setTitle() {
+        onView(withId(R.id.Title))
+            .perform(replaceText(TEMPLATE_TITLE))
+        closeSoftKeyboard()
+    }
+
+    protected fun assertTemplate(
+        templateId: Long,
+        expectedAccount: Long,
+        expectedAmount: Long,
+        templateTitle: String = TEMPLATE_TITLE,
+        expectedTags: List<String> = emptyList()
+    ) {
+        val (transaction, tags) = Template.getInstanceFromDbWithTags(contentResolver, templateId)!!
+        with(transaction as Template) {
+            assertThat(title).isEqualTo(templateTitle)
+            assertThat(amount.amountMinor).isEqualTo(expectedAmount)
+            assertThat(accountId).isEqualTo(expectedAccount)
+        }
+        assertThat(tags.map { it.label }).containsExactlyElementsIn(expectedTags)
+    }
+
+    protected fun launch(i: Intent): ActivityScenario<TestExpenseEdit> =
+        ActivityScenario.launch<TestExpenseEdit>(i).also {
+            testScenario = it
+        }
+
+    protected fun launchForResult(i: Intent): ActivityScenario<TestExpenseEdit> =
+        ActivityScenario.launchActivityForResult<TestExpenseEdit>(i).also {
+            testScenario = it
+        }
 }

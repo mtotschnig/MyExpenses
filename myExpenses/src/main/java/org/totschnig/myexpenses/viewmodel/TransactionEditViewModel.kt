@@ -205,6 +205,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 (originalUris - attachmentUris.value.toSet()).takeIf { it.isNotEmpty() }?.let {
                     repository.deleteAttachments(transaction.id, it)
                 }
+
                 repository.addAttachments(
                     transaction.id,
                     (attachmentUris.value - originalUris.toSet()).map(::prepareUriForSave)

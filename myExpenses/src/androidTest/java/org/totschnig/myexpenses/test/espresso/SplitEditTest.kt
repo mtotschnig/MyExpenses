@@ -60,9 +60,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         configureIntent: Intent.() -> Unit = {}
     ) {
         account1 = buildAccount(accountLabel1, excludeFromTotals = excludeFromTotals)
-        testScenario = ActivityScenario.launchActivityForResult(
-            baseIntent.apply(configureIntent)
-        )
+        launchForResult(baseIntent.apply(configureIntent))
     }
 
     private fun launchEdit(excludeFromTotals: Boolean = false) {

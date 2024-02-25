@@ -1,26 +1,19 @@
 package org.totschnig.myexpenses.test.espresso
 
-import android.content.Intent
-import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
-import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Template.Action
 import org.totschnig.myexpenses.model2.Account
 import java.util.Currency
@@ -42,25 +35,6 @@ class ForeignTransferTemplateTest : BaseExpenseEditTest() {
             accountLabel2,
             currency = currency2.code
         )
-    }
-
-    private fun launch(i: Intent) = ActivityScenario.launch<TestExpenseEdit>(i).also {
-        testScenario = it
-    }
-
-
-    private fun setTitle() {
-        onView(withId(R.id.Title))
-            .perform(replaceText("Espresso template"))
-        Espresso.closeSoftKeyboard()
-    }
-
-    private fun assertCorrectlySaved(expectedAccount: Long, expectedAmount: Long) {
-        with(Template.getInstanceFromDb(contentResolver, 1)!!) {
-            assertThat(title).isEqualTo("Espresso template")
-            assertThat(amount.amountMinor).isEqualTo(expectedAmount)
-            assertThat(accountId).isEqualTo(expectedAccount)
-        }
     }
 
     private fun setDefaultAction(defaultAction: Action) {
@@ -102,35 +76,35 @@ class ForeignTransferTemplateTest : BaseExpenseEditTest() {
     @Test
     fun withAmountOnFirstAccountSave() {
         runTheTest(Action.SAVE) {
-            assertCorrectlySaved(account1.id, -300000)
+            assertTemplate(1, account1.id, -300000)
         }
     }
 
     @Test
     fun withAmountOnFirstAccountEdit() {
         runTheTest(Action.EDIT) {
-            assertCorrectlySaved(account1.id, -300000)
+            assertTemplate(1, account1.id, -300000)
         }
     }
 
     @Test
     fun withAmountOnSecondAccountSave() {
         runTheTest(Action.SAVE, R.id.TransferAmount) {
-            assertCorrectlySaved(account2.id, 300000)
+            assertTemplate(1, account2.id, 300000)
         }
     }
 
     @Test
     fun withAmountOnSecondAccountEdit() {
         runTheTest(Action.EDIT, R.id.TransferAmount) {
-            assertCorrectlySaved(account2.id, 300000)
+            assertTemplate(1, account2.id, 300000)
         }
     }
 
     @Test
     fun withoutAmountEdit() {
         runTheTest(Action.EDIT, null) {
-            assertCorrectlySaved(account1.id, 0)
+            assertTemplate(1, account1.id, 0)
         }
     }
 

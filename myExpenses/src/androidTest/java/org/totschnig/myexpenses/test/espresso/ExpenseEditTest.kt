@@ -42,10 +42,6 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             Account(label = "Japan", currency = "JPY").createIn(repository)
     }
 
-    private fun launch(i: Intent) = ActivityScenario.launch<TestExpenseEdit>(i).also {
-        testScenario = it
-    }
-
     @Test
     fun formForTransactionIsPrepared() {
         launch(intentForNewTransaction.apply {
