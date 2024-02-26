@@ -20,7 +20,7 @@ fun <T> rememberMutableStateListOf(elements: List<T> = emptyList()) = rememberSa
 }
 
 @Composable
-fun <K, V> rememberMutableStateMapOf(vararg pairs: Pair<K, V>)  =
+fun <K, V> rememberMutableStateMapOf(vararg pairs: Pair<K, V>) =
     rememberSaveable(
         saver = listSaver(
             save = { it.toList() },
@@ -31,7 +31,7 @@ fun <K, V> rememberMutableStateMapOf(vararg pairs: Pair<K, V>)  =
     }
 
 @Composable
-fun <K, V> rememberMutableStateMapOf(defaultValue: V, vararg inputs: Any?)  =
+fun <K, V> rememberMutableStateMapOf(defaultValue: V, vararg inputs: Any?) =
     rememberSaveable(
         inputs = inputs,
         saver = listSaver(
@@ -58,7 +58,7 @@ fun <T> MutableState<List<T>>.addToSelection(element: T) {
 }
 
 fun <T> MutableState<List<T>>.select(element: T) {
-    value =  listOf(element)
+    value = listOf(element)
 }
 
 fun <T> MutableState<List<T>>.unselect(selector: (T) -> Boolean) {
