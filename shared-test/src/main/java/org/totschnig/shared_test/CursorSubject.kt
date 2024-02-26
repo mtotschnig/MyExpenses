@@ -6,10 +6,11 @@ import com.google.common.truth.IntegerSubject
 import com.google.common.truth.Subject
 import com.google.common.truth.Subject.Factory
 import com.google.common.truth.Truth
+import java.io.Closeable
 
 class CursorSubject private constructor(
     failureMetadata: FailureMetadata,
-    private val actual: Cursor
+    val actual: Cursor
 ) : Subject(failureMetadata, actual) {
     fun hasCount(expected: Int) {
         count().isEqualTo(expected)
@@ -63,6 +64,9 @@ class CursorSubject private constructor(
     private fun columnCount(): IntegerSubject = check("columnCount").that(actual.columnCount)
 
     companion object {
+        inline fun <R> Cursor?.useAndAssert(assertions: CursorSubject.() -> R) =
+            this!!.use { assertThat(it).assertions() }
+
         fun assertThat(cursor: Cursor): CursorSubject {
             return Truth.assertAbout(CURSOR_FACTORY).that(cursor)
         }

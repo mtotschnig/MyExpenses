@@ -1,5 +1,3 @@
-@file:Suppress("DEPRECATION")
-
 package org.totschnig.myexpenses.testutils
 
 import android.content.ContentResolver

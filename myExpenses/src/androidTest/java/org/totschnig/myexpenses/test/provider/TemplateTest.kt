@@ -5,6 +5,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.insert
 import org.totschnig.shared_test.CursorSubject
+import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 
 class TemplateTest : BaseTemplateTest() {
 
@@ -28,9 +29,7 @@ class TemplateTest : BaseTemplateTest() {
             KEY_PARENTID + " is null",
             null,
             null
-        )!!.use {
-            CursorSubject.assertThat(it).hasCount(4)
-        }
+        ).useAndAssert { hasCount(4) }
     }
 
     fun testTemplateQueryShouldReturnSplitParts() {
@@ -42,8 +41,6 @@ class TemplateTest : BaseTemplateTest() {
             null,
             arrayOf(),
             null
-        )!!.use {
-            CursorSubject.assertThat(it).hasCount(1)
-        }
+        ).useAndAssert { hasCount(1) }
     }
 }

@@ -483,12 +483,12 @@ open class MyExpensesViewModel(
     fun transformToTransfer(transactionId: Long, transferAccount: Long) = liveData(context = coroutineContext()) {
         emit(runCatching {
             check(
-                contentResolver.update(
+                contentResolver.insert(
                     ContentUris.appendId(
                         ContentUris.appendId(TRANSACTIONS_URI.buildUpon(), transactionId)
                             .appendPath(URI_SEGMENT_TRANSFORM_TO_TRANSFER), transferAccount)
-                        .build(), null, null, null
-                ) == 2
+                        .build(), null
+                ) != null
             )
         })
     }

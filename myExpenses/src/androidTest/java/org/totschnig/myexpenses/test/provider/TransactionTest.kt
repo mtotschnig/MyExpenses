@@ -25,7 +25,7 @@ import org.totschnig.myexpenses.provider.TransactionInfo
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.testutils.BaseDbTest
-import org.totschnig.shared_test.CursorSubject.Companion.assertThat
+import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 import java.util.Date
 
 class TransactionTest : BaseDbTest() {
@@ -78,9 +78,7 @@ class TransactionTest : BaseDbTest() {
             null,
             null,
             null
-        )!!.use {
-            assertThat(it).hasCount(0)
-        }
+        ).useAndAssert { hasCount(0) }
 
         insertData()
 
@@ -91,9 +89,7 @@ class TransactionTest : BaseDbTest() {
             null,
             null,
             null
-        )!!.use {
-            assertThat(it).hasCount(infos.size)
-        }
+        ).useAndAssert { hasCount(infos.size) }
 
         // Query subtest 3.
         // A query that uses a projection should return a cursor with the same number of columns
@@ -104,11 +100,9 @@ class TransactionTest : BaseDbTest() {
             null,
             null,
             null
-        )!!.use {
-            with(assertThat(it)) {
-                hasColumnCount(projection.size)
-                hasColumns(*projection)
-            }
+        ).useAndAssert {
+            hasColumnCount(projection.size)
+            hasColumns(*projection)
         }
 
         // Query subtest 4
@@ -120,14 +114,12 @@ class TransactionTest : BaseDbTest() {
             selectionColumns,
             selectionArgs,
             sortOrder
-        )!!.use {
-            with(assertThat(it)) {
-                hasCount(selectionArgs.size)
-                var index = 0
-                while (it.moveToNext()) {
-                    hasString(0, selectionArgs[index])
-                    index++
-                }
+        ).useAndAssert {
+            hasCount(selectionArgs.size)
+            var index = 0
+            while (actual.moveToNext()) {
+                hasString(0, selectionArgs[index])
+                index++
             }
         }
     }
@@ -155,9 +147,7 @@ class TransactionTest : BaseDbTest() {
             null,
             null,
             null
-        )!!.use {
-            assertThat(it).hasCount(0)
-        }
+        ).useAndAssert { hasCount(0) }
 
         insertData()
 
@@ -168,12 +158,10 @@ class TransactionTest : BaseDbTest() {
             selection,
             selectionArgs,
             null
-        )!!.use {
-            with(assertThat(it)) {
-                hasCount(1)
-                movesToFirst()
-            }
-            it.getInt(0)
+        ).useAndAssert {
+            hasCount(1)
+            movesToFirst()
+            actual.getInt(0)
         }
 
         // Builds a URI based on the provider's content ID URI base and the saved transaction ID.
@@ -190,12 +178,10 @@ class TransactionTest : BaseDbTest() {
             selection,
             selectionArgs,
             null
-        )!!.use {
-            with(assertThat(it)) {
-                hasCount(1)
-                movesToFirst()
-                hasInt(0, inputTransactionId)
-            }
+        ).useAndAssert {
+            hasCount(1)
+            movesToFirst()
+            hasInt(0, inputTransactionId)
         }
     }
 
@@ -226,15 +212,13 @@ class TransactionTest : BaseDbTest() {
             null,
             null,
             null
-        )!!.use {
-            with(assertThat(it)) {
-                hasCount(1)
-                movesToFirst()
-                hasString(KEY_COMMENT, transaction.comment)
-                hasLong(KEY_DATE, transaction.dateAsLong)
-                hasLong(KEY_DISPLAY_AMOUNT, transaction.amount)
-                hasString(KEY_PAYEE_NAME, payee)
-            }
+        ).useAndAssert {
+            hasCount(1)
+            movesToFirst()
+            hasString(KEY_COMMENT, transaction.comment)
+            hasLong(KEY_DATE, transaction.dateAsLong)
+            hasLong(KEY_DISPLAY_AMOUNT, transaction.amount)
+            hasString(KEY_PAYEE_NAME, payee)
         }
 
         // Insert subtest 2.
@@ -313,9 +297,7 @@ class TransactionTest : BaseDbTest() {
             selection,
             selectionArgs,
             null
-        )!!.use {
-            assertThat(it).hasCount(0)
-        }
+        ).useAndAssert { hasCount(0) }
     }
 
     /*
@@ -366,10 +348,10 @@ class TransactionTest : BaseDbTest() {
             null,
             null,
             null
-        )!!.use {
-            assertThat(it).movesToFirst()
-            assertThat(it).hasString(1, CrStatus.UNRECONCILED.name)
-            it.getInt(0)
+        ).useAndAssert {
+            movesToFirst()
+            hasString(1, CrStatus.UNRECONCILED.name)
+            actual.getInt(0)
         }
 
         val transactionIdUri = ContentUris.withAppendedId(
@@ -391,9 +373,9 @@ class TransactionTest : BaseDbTest() {
             null,
             null,
             null
-        )!!.use {
-            assertThat(it).movesToFirst()
-            assertThat(it).hasString(0, CrStatus.CLEARED.name)
+        ).useAndAssert {
+            movesToFirst()
+            hasString(0, CrStatus.CLEARED.name)
         }
 
         //toggle again, then should be unreconciled
@@ -409,9 +391,9 @@ class TransactionTest : BaseDbTest() {
             null,
             null,
             null
-        )!!.use {
-            assertThat(it).movesToFirst()
-            assertThat(it).hasString(0, CrStatus.UNRECONCILED.name)
+        ).useAndAssert {
+            movesToFirst()
+            hasString(0, CrStatus.UNRECONCILED.name)
         }
     }
 }

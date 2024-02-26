@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.shared_test.CursorSubject
+import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 
 @RunWith(RobolectricTestRunner::class)
 class TemplateTest: BaseTestWithRepository() {
@@ -122,12 +123,10 @@ class TemplateTest: BaseTestWithRepository() {
             "$KEY_PARENTID=?",
             arrayOf(transaction.id.toString()),
             null
-        )!!.use {
-            with(CursorSubject.assertThat(it)) {
-                hasCount(1)
-                movesToFirst()
-                hasLong(KEY_CATID, categoryId)
-            }
+        ).useAndAssert {
+            hasCount(1)
+            movesToFirst()
+            hasLong(KEY_CATID, categoryId)
         }
     }
 

@@ -26,7 +26,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.SORT_URI
-import org.totschnig.shared_test.CursorSubject.Companion.assertThat
+import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 
 class AccountTest {
     @get:Rule
@@ -103,8 +103,8 @@ class AccountTest {
             null,
             null,
             null
-        )!!.use {
-            assertThat(it).hasCount(0)
+        ).useAndAssert {
+            hasCount(0)
         }
         insertData()
 
@@ -114,8 +114,8 @@ class AccountTest {
             null,
             null,
             null
-        )!!.use {
-            assertThat(it).hasCount(testAccounts.size)
+        ).useAndAssert  {
+            hasCount(testAccounts.size)
         }
 
         resolver.query(
@@ -124,11 +124,9 @@ class AccountTest {
             null,
             null,
             null
-        )!!.use {
-            assertThat(it).hasColumnCount(testProjection.size)
-            testProjection.forEachIndexed { index, column ->
-                assertThat(it.getColumnName(index)).isEqualTo(column)
-            }
+        ).useAndAssert {
+            hasColumnCount(testProjection.size)
+            hasColumns(*testProjection)
         }
 
         resolver.query(
@@ -137,11 +135,11 @@ class AccountTest {
             selectionColumns,
             selectionArgs,
             sortOrder
-        )!!.use {
-            assertThat(it).hasCount(selectionArgs.size)
+        ).useAndAssert {
+            hasCount(selectionArgs.size)
             var index = 0
-            while (it.moveToNext()) {
-                assertThat(it.getString(0)).isEqualTo(selectionArgs[index])
+            while (actual.moveToNext()) {
+                hasString(0, selectionArgs[index])
                 index++
             }
         }
@@ -157,8 +155,8 @@ class AccountTest {
             null,
             null,
             null
-        )!!.use {
-            assertThat(it).hasCount(1)
+        ).useAndAssert {
+            hasCount(1)
         }
     }
 
@@ -178,12 +176,10 @@ class AccountTest {
             null,
             null,
             null
-        )!!.use {
-            with(assertThat(it)) {
-                hasCount(testAccounts.size)
-                movesToFirst()
-            }
-            it.getLong(0)
+        ).useAndAssert {
+            hasCount(testAccounts.size)
+            movesToFirst()
+            actual.getLong(0)
         }
         val uri = ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, inputAccountId)
 
@@ -192,12 +188,10 @@ class AccountTest {
             columns,
             args,
             null
-        )!!.use {
-            with(assertThat(it)) {
-                hasCount(1)
-                movesToFirst()
-                hasString(0, query)
-            }
+        ).useAndAssert {
+            hasCount(1)
+            movesToFirst()
+            hasString(0, query)
         }
     }
 
@@ -209,8 +203,8 @@ class AccountTest {
             null,
             null,
             null
-        )!!.use {
-            assertThat(it).hasCount(0)
+        ).useAndAssert {
+            hasCount(0)
         }
         val account = AccountInfo(
             "Account 4",
@@ -230,19 +224,17 @@ class AccountTest {
             null,
             null,
             null
-        )!!.use {
-            val descriptionIndex = it.getColumnIndex(KEY_DESCRIPTION)
-            val labelIndex = it.getColumnIndex(KEY_LABEL)
-            val balanceIndex = it.getColumnIndex(KEY_OPENING_BALANCE)
-            val currencyIndex = it.getColumnIndex(KEY_CURRENCY)
-            with(assertThat(it)) {
-                hasCount(1)
-                movesToFirst()
-                hasString(labelIndex, account.label)
-                hasString(descriptionIndex, account.description)
-                hasLong(balanceIndex, account.openingBalance)
-                hasString(currencyIndex, account.currency)
-            }
+        ).useAndAssert {
+            val descriptionIndex = actual.getColumnIndex(KEY_DESCRIPTION)
+            val labelIndex = actual.getColumnIndex(KEY_LABEL)
+            val balanceIndex = actual.getColumnIndex(KEY_OPENING_BALANCE)
+            val currencyIndex = actual.getColumnIndex(KEY_CURRENCY)
+            hasCount(1)
+            movesToFirst()
+            hasString(labelIndex, account.label)
+            hasString(descriptionIndex, account.description)
+            hasLong(balanceIndex, account.openingBalance)
+            hasString(currencyIndex, account.currency)
         }
         val values = account.contentValues
         values.put(KEY_ROWID, accountId)
@@ -276,8 +268,8 @@ class AccountTest {
             columns,
             args,
             null
-        )!!.use {
-            assertThat(it).hasCount(0)
+        ).useAndAssert {
+            hasCount(0)
         }
     }
 
@@ -321,13 +313,11 @@ class AccountTest {
             null,
             null,
             null
-        )!!.use {
-            with(assertThat(it)) {
-                hasCount(testAccounts.size)
-                movesToFirst()
-                hasString(1, Grouping.NONE.name)
-            }
-            it.getLong(0)
+        ).useAndAssert {
+            hasCount(testAccounts.size)
+            movesToFirst()
+            hasString(1, Grouping.NONE.name)
+            actual.getLong(0)
         }
         val uri = ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, id)
 
@@ -344,11 +334,9 @@ class AccountTest {
             null,
             null,
             null
-        )!!.use {
-            with(assertThat(it)) {
-                movesToFirst()
-                hasString(0, Grouping.YEAR.name)
-            }
+        ).useAndAssert {
+            movesToFirst()
+            hasString(0, Grouping.YEAR.name)
         }
     }
 
@@ -366,14 +354,12 @@ class AccountTest {
             null,
             null,
             null
-        )!!.use {
-            with(assertThat(it)) {
-                hasCount(testAccounts.size)
-                movesToFirst()
-                hasString(1, KEY_DATE)
-                hasString(2, SortDirection.DESC.name)
-            }
-            it.getLong(0)
+        ).useAndAssert {
+            hasCount(testAccounts.size)
+            movesToFirst()
+            hasString(1, KEY_DATE)
+            hasString(2, SortDirection.DESC.name)
+            actual.getLong(0)
         }
 
         val accountIdUri =
@@ -392,12 +378,10 @@ class AccountTest {
             null,
             null,
             null
-        )!!.use {
-            with(assertThat(it)) {
-                movesToFirst()
-                hasString(0, KEY_AMOUNT)
-                hasString(1, SortDirection.ASC.name)
-            }
+        ).useAndAssert {
+            movesToFirst()
+            hasString(0, KEY_AMOUNT)
+            hasString(1, SortDirection.ASC.name)
         }
     }
 
@@ -415,13 +399,11 @@ class AccountTest {
             "$KEY_ROWID = ?",
             arrayOf(id.toString()),
             null
-        )!!.use {
+        )!!.useAndAssert {
             //TODO insert transactions and test calculated sum
-            with(assertThat(it)) {
-                hasCount(1)
-                movesToFirst()
-                hasLong(it.getColumnIndex(KEY_SUM_EXPENSES), 0)
-            }
+            hasCount(1)
+            movesToFirst()
+            hasLong(KEY_SUM_EXPENSES, 0)
         }
     }
 }

@@ -1050,12 +1050,16 @@ public class TransactionProvider extends BaseTransactionProvider {
         db.insert(TABLE_TRANSACTION_ATTACHMENTS, CONFLICT_IGNORE, values);
         newUri = ATTACHMENTS_URI + "/" + id;
       }
+      case TRANSACTION_TRANSFORM_TO_TRANSFER -> {
+        id = MoreDbUtilsKt.transformToTransfer(db, uri, prefHandler.getDefaultTransferCategory());
+        newUri = TRANSACTIONS_URI + "/" +id;
+      }
       default -> throw unknownUri(uri);
     }
     notifyChange(uri, uriMatch == TRANSACTIONS && callerIsNotSyncAdapter(uri));
     //the accounts cursor contains aggregates about transactions
     //we need to notify it when transactions change
-    if (uriMatch == TRANSACTIONS) {
+    if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_TRANSFORM_TO_TRANSFER) {
       notifyChange(ACCOUNTS_URI, false);
       notifyChange(DEBTS_URI, false);
       //notifyChange(UNCOMMITTED_URI, false);
@@ -1408,7 +1412,6 @@ public class TransactionProvider extends BaseTransactionProvider {
               KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
       case TRANSACTION_LINK_TRANSFER -> count = MoreDbUtilsKt.linkTransfers(db, uri.getPathSegments().get(2), values.getAsString(KEY_UUID), callerIsNotSyncAdapter(uri));
       case TRANSACTION_UNLINK_TRANSFER -> count = MoreDbUtilsKt.unlinkTransfers(db, Objects.requireNonNull(uri.getLastPathSegment()));
-      case TRANSACTION_TRANSFORM_TO_TRANSFER -> count = MoreDbUtilsKt.transformToTransfer(db, uri, prefHandler.getDefaultTransferCategory());
       case DEBTS -> count = MoreDbUtilsKt.update(db, TABLE_DEBTS, values, where, whereArgs);
       case DEBT_ID -> count = MoreDbUtilsKt.update(db, TABLE_DEBTS, values,
               KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);

@@ -2,10 +2,8 @@ package org.totschnig.myexpenses.test.provider
 
 import android.content.ContentUris
 import org.totschnig.myexpenses.db2.findPaymentMethod
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.TransactionInfo
@@ -13,7 +11,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.testutils.BaseDbTest
 import org.totschnig.shared_test.CursorSubject
-import org.totschnig.shared_test.CursorSubject.Companion.assertThat
+import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 import java.util.Date
 
 class AutoFillTest : BaseDbTest() {
@@ -114,13 +112,11 @@ class AutoFillTest : BaseDbTest() {
             null,
             null,
             null
-        )!!.use {
-            with(assertThat(it)) {
-                if (transaction != null) {
-                    reportsTransaction(transaction)
-                } else {
-                    hasCount(0)
-                }
+        ).useAndAssert {
+            if (transaction != null) {
+                reportsTransaction(transaction)
+            } else {
+                hasCount(0)
             }
         }
     }

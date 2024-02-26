@@ -23,7 +23,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.shared_test.CursorSubject.Companion.assertThat
+import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -42,16 +42,6 @@ class GroupQueryTest : BaseTestWithRepository() {
         Category(label = label, type = typeFlags)
     )!!
 
-    private fun insertTransaction(amount: Long, categoryId: Long) {
-        contentResolver.insert(
-            TransactionProvider.TRANSACTIONS_URI, TransactionInfo(
-                accountId = testAccountId,
-                amount = amount,
-                catId = categoryId
-            ).contentValues
-        )
-    }
-
     @Before
     fun setup() {
         val testAccount = AccountInfo("Test account", AccountType.CASH, 0, "USD")
@@ -68,10 +58,10 @@ class GroupQueryTest : BaseTestWithRepository() {
     }
 
     private fun insertTransactions() {
-        insertTransaction(100, neutralCategoryId)
-        insertTransaction(-200, expenseCategoryId)
-        insertTransaction(400, incomeCategoryId)
-        insertTransaction(800, transferCategoryId)
+        insertTransaction(testAccountId, 100, neutralCategoryId)
+        insertTransaction(testAccountId,-200, expenseCategoryId)
+        insertTransaction(testAccountId,400, incomeCategoryId)
+        insertTransaction(testAccountId,800, transferCategoryId)
     }
 
     @Test
@@ -84,23 +74,21 @@ class GroupQueryTest : BaseTestWithRepository() {
             filter.getSelectionForParts(VIEW_WITH_ACCOUNT),
             filter.getSelectionArgs(true),
             null
-        )?.use {
-            with(assertThat(it)) {
-                hasCount(1)
-                hasColumns(
-                    KEY_YEAR,
-                    KEY_SECOND_GROUP,
-                    KEY_SUM_EXPENSES,
-                    KEY_SUM_INCOME,
-                    KEY_SUM_TRANSFERS
-                )
-                movesToFirst()
-                hasInt(0, 1)
-                hasInt(1, 1)
-                hasLong(2, 0)
-                hasLong(3, 100)
-                hasLong(4, 0)
-            }
+        ).useAndAssert {
+            hasCount(1)
+            hasColumns(
+                KEY_YEAR,
+                KEY_SECOND_GROUP,
+                KEY_SUM_EXPENSES,
+                KEY_SUM_INCOME,
+                KEY_SUM_TRANSFERS
+            )
+            movesToFirst()
+            hasInt(0, 1)
+            hasInt(1, 1)
+            hasLong(2, 0)
+            hasLong(3, 100)
+            hasLong(4, 0)
         }
     }
 
@@ -120,23 +108,21 @@ class GroupQueryTest : BaseTestWithRepository() {
             filter.getSelectionForParts(VIEW_WITH_ACCOUNT),
             filter.getSelectionArgs(true),
             null
-        )?.use {
-            with(assertThat(it)) {
-                hasCount(1)
-                hasColumns(
-                    KEY_YEAR,
-                    KEY_SECOND_GROUP,
-                    KEY_SUM_EXPENSES,
-                    KEY_SUM_INCOME,
-                    KEY_SUM_TRANSFERS
-                )
-                movesToFirst()
-                hasInt(0, 1)
-                hasInt(1, 1)
-                hasLong(2, 0)
-                hasLong(3, 400)
-                hasLong(4, 0)
-            }
+        ).useAndAssert {
+            hasCount(1)
+            hasColumns(
+                KEY_YEAR,
+                KEY_SECOND_GROUP,
+                KEY_SUM_EXPENSES,
+                KEY_SUM_INCOME,
+                KEY_SUM_TRANSFERS
+            )
+            movesToFirst()
+            hasInt(0, 1)
+            hasInt(1, 1)
+            hasLong(2, 0)
+            hasLong(3, 400)
+            hasLong(4, 0)
         }
     }
 
@@ -149,23 +135,21 @@ class GroupQueryTest : BaseTestWithRepository() {
             null,
             null,
             null
-        )?.use {
-            with(assertThat(it)) {
-                hasCount(1)
-                hasColumns(
-                    KEY_YEAR,
-                    KEY_SECOND_GROUP,
-                    KEY_SUM_EXPENSES,
-                    KEY_SUM_INCOME,
-                    KEY_SUM_TRANSFERS
-                )
-                movesToFirst()
-                hasInt(0, 1)
-                hasInt(1, 1)
-                hasLong(2, -200)
-                hasLong(3, 500)
-                hasLong(4, 800)
-            }
+        ).useAndAssert {
+            hasCount(1)
+            hasColumns(
+                KEY_YEAR,
+                KEY_SECOND_GROUP,
+                KEY_SUM_EXPENSES,
+                KEY_SUM_INCOME,
+                KEY_SUM_TRANSFERS
+            )
+            movesToFirst()
+            hasInt(0, 1)
+            hasInt(1, 1)
+            hasLong(2, -200)
+            hasLong(3, 500)
+            hasLong(4, 800)
         }
     }
 
@@ -191,23 +175,21 @@ class GroupQueryTest : BaseTestWithRepository() {
             null,
             null,
             null
-        )?.use {
-            with(assertThat(it)) {
-                hasCount(1)
-                hasColumns(
-                    KEY_YEAR,
-                    KEY_SECOND_GROUP,
-                    KEY_SUM_EXPENSES,
-                    KEY_SUM_INCOME,
-                    KEY_SUM_TRANSFERS
-                )
-                movesToFirst()
-                hasInt(0, 2024)
-                hasInt(1, 1)
-                hasLong(2, 0)
-                hasLong(3, 0)
-                hasLong(4, 0)
-            }
+        ).useAndAssert {
+            hasCount(1)
+            hasColumns(
+                KEY_YEAR,
+                KEY_SECOND_GROUP,
+                KEY_SUM_EXPENSES,
+                KEY_SUM_INCOME,
+                KEY_SUM_TRANSFERS
+            )
+            movesToFirst()
+            hasInt(0, 2024)
+            hasInt(1, 1)
+            hasLong(2, 0)
+            hasLong(3, 0)
+            hasLong(4, 0)
         }
     }
 }

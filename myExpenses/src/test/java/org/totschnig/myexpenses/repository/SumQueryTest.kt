@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.shared_test.CursorSubject
+import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 
 /**
  * For the moment, this tests if the queries are valid,
@@ -90,13 +91,11 @@ class SumQueryTest : BaseTestWithRepository() {
         contentResolver.query(
             uriBuilder(accountInfo, aggregateNeutral).build(),
             projection, null, null, null
-        )!!.use {
-            with(CursorSubject.assertThat(it)) {
-                movesToFirst()
-                hasColumnCount(projection.size)
-                isNull(0)
-                isNull(1)
-            }
+        ).useAndAssert {
+            movesToFirst()
+            hasColumnCount(projection.size)
+            isNull(0)
+            isNull(1)
         }
     }
 }

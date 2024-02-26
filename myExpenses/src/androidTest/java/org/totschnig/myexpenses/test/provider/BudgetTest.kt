@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseDbTest
 import org.totschnig.shared_test.CursorSubject
+import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 
 class BudgetTest : BaseDbTest() {
 
@@ -57,12 +58,10 @@ class BudgetTest : BaseDbTest() {
             null,
             null,
             null
-        )!!.use {
-            with(CursorSubject.assertThat(it)) {
-                movesToFirst()
-                hasLong(KEY_BUDGET, budgetAmount)
-                hasLong(KEY_BUDGET_ROLLOVER_PREVIOUS, rollOver)
-            }
+        ).useAndAssert {
+            movesToFirst()
+            hasLong(KEY_BUDGET, budgetAmount)
+            hasLong(KEY_BUDGET_ROLLOVER_PREVIOUS, rollOver)
         }
     }
 

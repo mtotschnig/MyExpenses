@@ -10,8 +10,8 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
-import org.totschnig.shared_test.CursorSubject.Companion.assertThat
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 
 //TODO test grouping
 @RunWith(Parameterized::class)
@@ -62,14 +62,12 @@ class AccountSortOrderTest(private val sortOrder: String, private val expectedDa
             null,
             null,
             sortOrder
-        )!!.use { cursor ->
-            val columnIndexLabel = cursor.getColumnIndex(KEY_LABEL)
-            with(assertThat(cursor)) {
-                hasCount(4)
-                expectedData.forEach {
-                    cursor.moveToNext()
-                    hasString(columnIndexLabel, it)
-                }
+        )!!.useAndAssert {
+            val columnIndexLabel = actual.getColumnIndex(KEY_LABEL)
+            hasCount(4)
+            expectedData.forEach {
+                actual.moveToNext()
+                hasString(columnIndexLabel, it)
             }
         }
     }

@@ -19,7 +19,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.STALE_IMAGES_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_ATTACHMENTS_URI
 import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.testutils.BaseDbTest
-import org.totschnig.shared_test.CursorSubject.Companion.assertThat
+import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 import java.util.Date
 
 class AttachmentTest : BaseDbTest() {
@@ -46,23 +46,21 @@ class AttachmentTest : BaseDbTest() {
     }
 
     private fun expectStaleUris(expected: Int) {
-        contentResolver.query(STALE_IMAGES_URI, null, null, null, null)!!.use {
-            assertThat(it).hasCount(expected)
+        contentResolver.query(STALE_IMAGES_URI, null, null, null, null).useAndAssert {
+            hasCount(expected)
         }
     }
 
     private fun expectLinkedAttachment(expected: String?) {
         contentResolver.query(
             testUri, null, "$KEY_TRANSACTIONID = ?", arrayOf(transactionId.toString()), null
-        )!!.use {
-            with(assertThat(it)) {
-                if (expected == null) {
-                    hasCount(0)
-                } else {
-                    hasCount(1)
-                    movesToFirst()
-                    hasString(0, expected)
-                }
+        ).useAndAssert {
+            if (expected == null) {
+                hasCount(0)
+            } else {
+                hasCount(1)
+                movesToFirst()
+                hasString(0, expected)
             }
         }
     }
@@ -86,8 +84,8 @@ class AttachmentTest : BaseDbTest() {
     }
 
     private fun expectNoAttachments() {
-        contentResolver.query(ATTACHMENTS_URI, null, null, null, null)!!.use {
-            assertThat(it).hasCount(0)
+        contentResolver.query(ATTACHMENTS_URI, null, null, null, null).useAndAssert {
+            hasCount(0)
         }
     }
 

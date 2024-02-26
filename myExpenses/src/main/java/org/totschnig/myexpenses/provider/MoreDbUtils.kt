@@ -149,12 +149,12 @@ fun transformToTransfer(
     db: SupportSQLiteDatabase,
     uri: Uri,
     defaultTransferCategory: Long?,
-): Int {
+): Long {
     val (transactionId, transferAccountId) = with(uri.pathSegments) {
         get(1) to get(3)
     }
     db.beginTransaction()
-    try {
+    return try {
         //insert transfer peer into transfer account
         val transferPeer = db.compileStatement(
             """INSERT INTO $TABLE_TRANSACTIONS ($KEY_ACCOUNTID, $KEY_TRANSFER_ACCOUNT, $KEY_UUID, $KEY_TRANSFER_PEER, $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_CATID)
@@ -185,10 +185,10 @@ fun transformToTransfer(
         }
         check(updateCount == 1)
         db.setTransactionSuccessful()
+        transferPeer
     } finally {
         db.endTransaction()
     }
-    return 2
 }
 
 fun SupportSQLiteStatement.bindAllArgsAsStrings(argsList: List<String>) {

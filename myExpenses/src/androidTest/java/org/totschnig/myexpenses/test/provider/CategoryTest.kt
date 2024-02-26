@@ -19,7 +19,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SAVE_CATEGOR
 import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.testutils.BaseDbTest
 import org.totschnig.myexpenses.util.ColorUtils
-import org.totschnig.shared_test.CursorSubject.Companion.assertThat
+import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 
 class CategoryTest : BaseDbTest() {
     private lateinit var testCategories: List<Pair<Long, CategoryInfo>>
@@ -59,9 +59,7 @@ class CategoryTest : BaseDbTest() {
             null,
             null,
             null
-        )!!.use {
-            assertThat(it).hasCount(origSize + testCategories.size)
-        }
+        ).useAndAssert { hasCount(origSize + testCategories.size) }
 
         mockContentResolver.query(
             CATEGORIES_URI,
@@ -69,11 +67,9 @@ class CategoryTest : BaseDbTest() {
             null,
             null,
             null
-        )!!.use {
-            with(assertThat(it)) {
-                hasColumnCount(testProjection.size)
-                hasColumns(*testProjection)
-            }
+        ).useAndAssert {
+            hasColumnCount(testProjection.size)
+            hasColumns(*testProjection)
         }
 
         mockContentResolver.query(
@@ -82,14 +78,12 @@ class CategoryTest : BaseDbTest() {
             selectionColumns,
             selectionArgs,
             sortOrder
-        )!!.use {
-            with(assertThat(it)) {
-                hasCount(selectionArgs.size)
-                var index = 0
-                while (it.moveToNext()) {
-                    hasString(0, selectionArgs[index])
-                    index++
-                }
+        ).useAndAssert {
+            hasCount(selectionArgs.size)
+            var index = 0
+            while (actual.moveToNext()) {
+                hasString(0, selectionArgs[index])
+                index++
             }
         }
     }
@@ -106,12 +100,10 @@ class CategoryTest : BaseDbTest() {
             selectionColumns,
             selectionArgs,
             null
-        )!!.use {
-            with(assertThat(it)) {
-                hasCount(1)
-                movesToFirst()
-            }
-            it.getInt(0)
+        ).useAndAssert {
+            hasCount(1)
+            movesToFirst()
+            actual.getInt(0)
         }
         val categoryIdUri =
             ContentUris.withAppendedId(CATEGORIES_URI, inputCategoryId.toLong())
@@ -122,12 +114,10 @@ class CategoryTest : BaseDbTest() {
             selectionColumns,
             selectionArgs,
             null
-        )!!.use {
-            with(assertThat(it)) {
-                hasCount(1)
-                movesToFirst()
-                hasInt(0, inputCategoryId)
-            }
+        ).useAndAssert {
+            hasCount(1)
+            movesToFirst()
+            hasInt(0, inputCategoryId)
         }
     }
 
@@ -152,13 +142,11 @@ class CategoryTest : BaseDbTest() {
             null,
             null,
             null
-        )!!.use {
-            with(assertThat(it)) {
-                hasCount(origSize + 1)
-                movesToFirst()
-                isNull(KEY_PARENTID)
-                hasString(KEY_LABEL, categoryInfo.label)
-            }
+        ).useAndAssert {
+            hasCount(origSize + 1)
+            movesToFirst()
+            isNull(KEY_PARENTID)
+            hasString(KEY_LABEL, categoryInfo.label)
         }
         assertThat(insertCategory(categoryInfo.copy(parentId = 100))).isNull()
     }
@@ -179,18 +167,14 @@ class CategoryTest : BaseDbTest() {
             selectionColumns,
             selectionArgsMain,
             null
-        )!!.use {
-            assertThat(it).hasCount(0)
-        }
+        ).useAndAssert { hasCount(0) }
         mockContentResolver.query(
             CATEGORIES_URI,
             null,
             selectionColumns,
             selectionArgsSub,
             null
-        )!!.use {
-            assertEquals(0, it.count)
-        }
+        ).useAndAssert { hasCount(0) }
     }
 
     fun testUpdates() {
