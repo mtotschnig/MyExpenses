@@ -18,6 +18,10 @@
     <PreferenceCategory
         android:layout="@layout/preference_category_empty">
 
+        <org.totschnig.myexpenses.preference.PopupMenuPreference
+            android:key="@string/pref_app_dir_key"
+            android:title="@string/pref_app_dir_title" />
+
         <SwitchPreferenceCompat
             android:key="@string/pref_perform_share_key"
             android:summary="@string/pref_perform_share_title" />

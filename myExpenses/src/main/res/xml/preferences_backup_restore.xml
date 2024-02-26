@@ -18,39 +18,40 @@
     xmlns:my="http://schemas.android.com/apk/res-auto">
     <org.totschnig.myexpenses.preference.HeaderPreference />
 
-    <Preference
-        android:summary="@string/pref_backup_summary"
-        android:title="@string/menu_backup">
-        <intent
-            android:action="BACKUP"
-            android:targetClass="org.totschnig.myexpenses.activity.BackupRestoreActivity"
-            android:targetPackage="@string/application_id" />
-    </Preference>
+    <PreferenceCategory android:layout="@layout/preference_category_empty"
+        my:allowDividerAbove="false"
+        my:initialExpandedChildrenCount="2">
+        <Preference
+            android:summary="@string/pref_backup_summary"
+            android:title="@string/menu_backup">
+            <intent
+                android:action="BACKUP"
+                android:targetClass="org.totschnig.myexpenses.activity.BackupRestoreActivity"
+                android:targetPackage="@string/application_id" />
+        </Preference>
 
-    <org.totschnig.myexpenses.preference.PopupMenuPreference
-        android:key="@string/pref_app_dir_key"
-        android:title="@string/pref_app_dir_title" />
+        <Preference
+            android:key="@string/pref_restore_key"
+            android:summary="@string/pref_restore_summary"
+            android:title="@string/pref_restore_title">
+            <intent
+                android:action="RESTORE"
+                android:targetClass="org.totschnig.myexpenses.activity.BackupRestoreActivity"
+                android:targetPackage="@string/application_id" />
+        </Preference>
 
-    <EditTextPreference
-        android:defaultValue="myexpenses-backup"
-        android:key="@string/pref_backup_file_prefix_key"
-        android:title="@string/pref_backup_file_prefix_title"
-        my:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:defaultValue="myexpenses-backup"
+            android:key="@string/pref_backup_file_prefix_key"
+            android:title="@string/pref_backup_file_prefix_title"
+            my:useSimpleSummaryProvider="true" />
 
-    <org.totschnig.myexpenses.preference.AccountPreference
-        android:key="@string/pref_auto_backup_cloud_key"
-        android:summary="@string/pref_backup_cloud_summary"
-        android:title="@string/pref_backup_cloud_title" />
+        <org.totschnig.myexpenses.preference.AccountPreference
+            android:key="@string/pref_auto_backup_cloud_key"
+            android:summary="@string/pref_backup_cloud_summary"
+            android:title="@string/pref_backup_cloud_title" />
 
-    <Preference
-        android:key="@string/pref_restore_key"
-        android:summary="@string/pref_restore_summary"
-        android:title="@string/pref_restore_title">
-        <intent
-            android:action="RESTORE"
-            android:targetClass="org.totschnig.myexpenses.activity.BackupRestoreActivity"
-            android:targetPackage="@string/application_id" />
-    </Preference>
+    </PreferenceCategory>
 
     <Preference
         android:key="@string/pref_auto_backup_unencrypted_info_key"
