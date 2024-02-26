@@ -8,7 +8,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 
 @Keep
-class PreferencesIOFragment: BasePreferenceFragment() {
+class PreferencesIOFragment: BasePreferenceIOBRFragment() {
 
     override val preferencesResId = R.xml.preferences_io
 
@@ -30,8 +30,11 @@ class PreferencesIOFragment: BasePreferenceFragment() {
             summary = getString(R.string.pref_import_summary, "CSV")
             title = getString(R.string.pref_import_title, "CSV")
         }
+
         requirePreference<Preference>(PrefKey.CSV_EXPORT).title =
             getString(R.string.export_to_format, "CSV")
+
+        configureShareTargetPreference()
     }
 
     override fun onPreferenceTreeClick(preference: Preference) = when {
