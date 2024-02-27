@@ -8,6 +8,7 @@ import androidx.core.app.ActivityCompat
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToOne
@@ -40,7 +41,10 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class SettingsViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+class SettingsViewModel(
+    application: Application,
+    val savedStateHandle: SavedStateHandle
+) : ContentResolvingAndroidViewModel(application) {
 
     @Inject
     lateinit var exchangeRateRepository: ExchangeRateRepository

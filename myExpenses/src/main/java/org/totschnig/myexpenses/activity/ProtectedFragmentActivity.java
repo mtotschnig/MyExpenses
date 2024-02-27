@@ -61,8 +61,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     TaskExecutionFragment.TaskCallbacks,
     ProgressDialogFragment.ProgressDialogListener {
 
-  public static final String SAVE_TAG = "SAVE_TASK";
-  public static final int RESULT_RESTORE_OK = RESULT_FIRST_USER + 1;
   public static final String EDIT_COLOR_DIALOG = "editColorDialog";
 
   protected ColorStateList textColorSecondary;

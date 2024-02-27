@@ -191,8 +191,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
-        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
-            enqueuePlanner(true)
+        when (requestCode) {
+            PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR -> enqueuePlanner(true)
+            PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI -> activateWebUi()
         }
     }
 
@@ -269,15 +270,37 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
-        if (feature == ContribFeature.BANKING) {
-            if (featureViewModel.isFeatureAvailable(this, Feature.FINTS)) {
-                startBanking()
-            } else {
-                featureViewModel.requestFeature(this, Feature.FINTS)
+        when (feature) {
+            ContribFeature.BANKING -> {
+                if (featureViewModel.isFeatureAvailable(this, Feature.FINTS)) {
+                    startBanking()
+                } else {
+                    featureViewModel.requestFeature(this, Feature.FINTS)
+                }
             }
+            ContribFeature.WEB_UI -> {
+                if (featureViewModel.isFeatureAvailable(this, Feature.WEBUI)) {
+                    activateWebUi()
+                } else {
+                    featureViewModel.requestFeature(this, Feature.WEBUI)
+                }
+            }
+            else -> {}
         }
-
     }
+
+    fun activateWebUi() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            !NotificationManagerCompat.from(this).areNotificationsEnabled()
+        ) {
+            requestNotificationPermission(PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI)
+        } else {
+            prefHandler.putBoolean(PrefKey.UI_WEB, true)
+            onWebUiActivated()
+        }
+    }
+
+    open fun onWebUiActivated() {}
 
     private fun onDownloadComplete() {
         downloadPending?.let {
@@ -338,7 +361,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     @CallSuper
     open fun onFeatureAvailable(feature: Feature) {
         featureManager.initActivity(this)
-        if (feature == Feature.FINTS) startBanking()
+        when (feature) {
+            Feature.FINTS -> startBanking()
+            Feature.WEBUI -> activateWebUi()
+            else -> {}
+        }
     }
 
     open fun maybeRepairRequerySchema() {
@@ -724,7 +751,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             }
 
             R.id.SETTINGS_COMMAND -> {
-                withRestoreOk.launch(PreferenceActivity.getIntent(this))
+                withResultCallbackLauncher.launch(PreferenceActivity.getIntent(this))
                 true
             }
 
@@ -1167,6 +1194,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                     this, requestCode, PermissionHelper.PermissionGroup.NOTIFICATION
                 )
             )
+        } else if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI) {
+            activateWebUi()
         }
     }
 
@@ -1271,10 +1300,13 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         false
     }
 
-    val withRestoreOk =
+    val withResultCallbackLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == ProtectedFragmentActivity.RESULT_RESTORE_OK) {
+            if (it.resultCode == RESULT_RESTORE_OK) {
                 restartAfterRestore()
+            }
+            if (it.resultCode == RESULT_INVALIDATE_OPTIONS_MENU) {
+                invalidateOptionsMenu()
             }
         }
     protected val calledFromOnboarding: Boolean
@@ -1322,5 +1354,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         const val ASYNC_TAG = "ASYNC_TASK"
         const val PROGRESS_TAG = "PROGRESS"
         private const val DIALOG_INACTIVE_BACKEND = "inactive_backend"
+        const val RESULT_RESTORE_OK = RESULT_FIRST_USER + 1
+        const val RESULT_INVALIDATE_OPTIONS_MENU = RESULT_FIRST_USER + 2
     }
 }

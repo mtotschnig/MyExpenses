@@ -5,7 +5,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.Keep
 import androidx.preference.Preference
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESULT_RESTORE_OK
+import org.totschnig.myexpenses.activity.BaseActivity.Companion.RESULT_RESTORE_OK
 import org.totschnig.myexpenses.preference.AccountPreference
 import org.totschnig.myexpenses.preference.PrefKey
 
@@ -53,8 +53,10 @@ class PreferencesBackupRestoreFragment: BasePreferenceIOBRFragment() {
 
     private val restore = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == RESULT_RESTORE_OK) {
-            requireActivity().setResult(RESULT_RESTORE_OK)
-            requireActivity().finish()
+            with(preferenceActivity) {
+                setResult(RESULT_RESTORE_OK)
+                finish()
+            }
         }
     }
 

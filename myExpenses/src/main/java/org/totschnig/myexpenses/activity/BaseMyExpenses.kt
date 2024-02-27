@@ -263,6 +263,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         actionMode?.finish()
     }
 
+    override fun onWebUiActivated() {
+        invalidateOptionsMenu()
+    }
+
     private val formattedSelectedTransactionSum
         get() = with(viewModel.selectedTransactionSum) {
             currencyFormatter.convAmount(this, currentAccount!!.currencyUnit)
@@ -400,26 +404,29 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
-        if (drawerToggle?.onOptionsItemSelected(item) == true) {
-            return true
-        }
-
-        if (item.itemId == R.id.SCAN_MODE_COMMAND) {
-            toggleScanMode()
-            return true
-        }
-        if (item.itemId == R.id.SHOW_STATUS_HANDLE_COMMAND) {
-            currentAccount?.let {
-                lifecycleScope.launch {
-                    viewModel.persistShowStatusHandle(!item.isChecked)
-                    invalidateOptionsMenu()
-                }
+        return (drawerToggle?.onOptionsItemSelected(item) == true) || when (item.itemId) {
+            R.id.SCAN_MODE_COMMAND -> {
+                toggleScanMode()
+                true
             }
+            R.id.SHOW_STATUS_HANDLE_COMMAND -> {
+                currentAccount?.let {
+                    lifecycleScope.launch {
+                        viewModel.persistShowStatusHandle(!item.isChecked)
+                        invalidateOptionsMenu()
+                    }
+                }
+                true
+            }
+            R.id.WEB_UI_COMMAND -> {
+                toggleWebUI()
+                true
+            }
+            else -> handleGrouping(item) ||
+                    handleSortDirection(item) ||
+                    filterHandler.handleFilter(item.itemId) ||
+                    super.onOptionsItemSelected(item)
         }
-        return handleGrouping(item) ||
-                handleSortDirection(item) ||
-                filterHandler.handleFilter(item.itemId) ||
-                super.onOptionsItemSelected(item)
     }
 
     protected open fun handleSortDirection(item: MenuItem) =
@@ -438,15 +445,22 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             true
         } ?: false
 
-    open fun toggleScanMode() {
-        val oldMode = prefHandler.getBoolean(PrefKey.OCR, false)
-        val newMode = !oldMode
-        if (newMode) {
-            contribFeatureRequested(ContribFeature.OCR, false)
-        } else {
+    private fun toggleScanMode() {
+        if (isScanMode()) {
             prefHandler.putBoolean(PrefKey.OCR, false)
             updateFab()
             invalidateOptionsMenu()
+        } else {
+            contribFeatureRequested(ContribFeature.OCR, false)
+        }
+    }
+
+    private fun toggleWebUI() {
+        if (prefHandler.getBoolean(PrefKey.UI_WEB, false)) {
+            prefHandler.putBoolean(PrefKey.UI_WEB, false)
+            invalidateOptionsMenu()
+        } else {
+            contribFeatureRequested(ContribFeature.WEB_UI, false)
         }
     }
 
@@ -1632,6 +1646,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.findItem(R.id.WEB_UI_COMMAND)?.let {
+            it.isChecked = isWebUiActive()
+            checkMenuIcon(it)
+        }
         if (accountData.isNotEmpty() && currentAccount != null) {
             menu.findItem(R.id.SCAN_MODE_COMMAND)?.let {
                 it.isChecked = isScanMode()
@@ -1818,7 +1836,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    fun isScanMode(): Boolean = prefHandler.getBoolean(PrefKey.OCR, false)
+    fun isScanMode() = prefHandler.getBoolean(PrefKey.OCR, false)
+    fun isWebUiActive() = prefHandler.getBoolean(PrefKey.UI_WEB, false)
 
     private fun activateOcrMode() {
         prefHandler.putBoolean(PrefKey.OCR, true)
@@ -1906,7 +1925,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     bankingFeature.startSyncFragment(bankId, accountId, supportFragmentManager)
                 }
 
-                else -> {}
+                else -> super.contribFeatureCalled(feature, tag)
             }
         } ?: run {
             showSnackBar(R.string.no_accounts)

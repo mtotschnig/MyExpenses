@@ -105,7 +105,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
     private fun onRestoreMenuItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.SetupFromLocal -> {
-                hostActivity.withRestoreOk.launch(
+                hostActivity.withResultCallbackLauncher.launch(
                     Intent(activity, BackupRestoreActivity::class.java).apply {
                         action = BackupRestoreActivity.ACTION_RESTORE
                     }

@@ -6,16 +6,15 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.Menu
 import androidx.activity.viewModels
-import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.preference.Preference
+import com.evernote.android.state.State
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
@@ -49,6 +48,10 @@ import org.totschnig.myexpenses.widget.updateWidgets
 import java.io.Serializable
 
 class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
+
+    @State
+    var resultCode: Int = RESULT_OK
+
     lateinit var binding: SettingsBinding
     val viewModel: SettingsViewModel?
         get() = twoPanePreference.getDetailFragment<BasePreferenceFragment>()
@@ -114,7 +117,10 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
         get() = binding.fragmentContainer.getFragment()
 
     override fun doHome() {
-        if (!twoPanePreference.doHome()) super.doHome()
+        if (!twoPanePreference.doHome()) {
+            setResult(resultCode)
+            finish()
+        }
     }
 
     override fun dispatchCommand(command: Int, tag: Any?) =
@@ -287,7 +293,6 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             }
             Feature.WEBUI -> {
                 twoPanePreference.getDetailFragment<PreferencesWebUiFragment>()?.bindToWebUiService()
-                activateWebUi()
             }
             else -> {}
         }
@@ -312,18 +317,8 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
 
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
         super.onPermissionsGranted(requestCode, perms)
-        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI) {
-            activateWebUi()
-        }
         if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
             initialPrefToShow = prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID)
-        }
-    }
-
-    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
-        super.onPermissionsDenied(requestCode, perms)
-        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI) {
-            activateWebUi()
         }
     }
 
@@ -335,28 +330,10 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
         }
     }
 
-    fun activateWebUi() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-            !NotificationManagerCompat.from(this).areNotificationsEnabled()
-        ) {
-            requestNotificationPermission(PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI)
-        } else {
-            prefHandler.putBoolean(PrefKey.UI_WEB, true)
-        }
-    }
-
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
         when (feature) {
             ContribFeature.CSV_IMPORT -> {
                 startActivity(Intent(this, CsvImportActivity::class.java))
-            }
-
-            ContribFeature.WEB_UI -> {
-                if (featureViewModel.isFeatureAvailable(this, Feature.WEBUI)) {
-                    activateWebUi()
-                } else {
-                    featureViewModel.requestFeature(this, Feature.WEBUI)
-                }
             }
             else -> super.contribFeatureCalled(feature, tag)
         }
@@ -413,6 +390,11 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             CrashHandler.report(IllegalStateException("onCreateDialog called with $id"))
             super.onCreateDialog(id)
         }
+    }
+
+    override fun onWebUiActivated() {
+        super.onWebUiActivated()
+        resultCode = RESULT_INVALIDATE_OPTIONS_MENU
     }
 
     companion object {

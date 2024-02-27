@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.dialog
 
 import android.content.Context
-import android.os.Bundle
 import android.os.Parcelable
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
@@ -10,7 +9,6 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,15 +18,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -43,7 +39,6 @@ import org.totschnig.myexpenses.compose.ButtonRow
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.TextUtils
-import timber.log.Timber
 import java.util.Collections
 
 @Parcelize
@@ -186,6 +181,14 @@ sealed class MenuItem(
     data object Backup: MenuItem(
         R.id.BACKUP_COMMAND,
         R.string.menu_backup,
+        R.drawable.ic_archive,
+        isEnabledByDefault = false
+    )
+
+    data object WebUI: MenuItem(
+        R.id.WEB_UI_COMMAND,
+        R.string.title_webui,
+        R.drawable.ic_computer,
         isEnabledByDefault = false
     )
 
@@ -196,13 +199,6 @@ sealed class MenuItem(
 }
 
 class CustomizeMenuDialogFragment : ComposeBaseDialogFragment() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        prefHandler.getStringSet(PrefKey.CUSTOMIZE_MAIN_MENU)?.forEach {
-            Timber.i(it)
-        }
-    }
 
     @Composable
     override fun BuildContent() {
@@ -241,7 +237,7 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment() {
                 }
                 if (activeItems.isNotEmpty() && inactiveItems.isNotEmpty()) {
                     item {
-                        Divider(thickness = 1.dp)
+                        HorizontalDivider(thickness = 1.dp)
                     }
                 }
                 items(inactiveItems) { item ->

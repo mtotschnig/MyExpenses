@@ -1,13 +1,11 @@
 package org.totschnig.myexpenses.fragment.preferences
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.Keep
 import androidx.fragment.app.viewModels
 import androidx.preference.Preference
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.Help
-import org.totschnig.myexpenses.dialog.HelpDialogFragment
+import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
@@ -60,6 +58,7 @@ class PreferencesWebUiFragment : BasePreferenceFragment() {
         matches(preference, PrefKey.UI_WEB) -> {
             if (serverIsRunning) {
                 prefHandler.putBoolean(PrefKey.UI_WEB, false)
+                preferenceActivity.resultCode = BaseActivity.RESULT_INVALIDATE_OPTIONS_MENU
             } else {
                 if (!isConnectedWifi(requireContext())) {
                     preferenceActivity.showSnackBar(getString(R.string.no_network) + " (WIFI)")
