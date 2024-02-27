@@ -20,4 +20,8 @@
     <string name="categorytree_title">Дерево категорий</string>
     <string name="distribution_title">Круговая диаграмма</string>
     <string name="plansunlimited_description">Разблокировать возможность создать более трёх планов для повторяющихся транзакций</string>
+    <string name="adfree_description">Без рекламы.</string>
+    <string name="csvimport_description">Сложный, настраиваемый импорт CSV (приложения для работы с эл. таблицами)</string>
+    <string name="ocr_description">Автоматически извлекать сумму, дату и получателя</string>
+    <string name="webui_description">Используйте браузер ПК для ввода данных</string>
 </resources>
