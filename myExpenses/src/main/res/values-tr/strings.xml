@@ -1024,4 +1024,7 @@
     <string name="pref_sync_now_all_summary">%s aynı arka uç için tüm hesapları eşzamanlar</string>
     <string name="menu_unlink_transfer">Transfer bağlantısını kaldır</string>
     <string name="warning_unlink_transfer">Seçilen transferin bağlantısı kaldırılacaktır: Her iki hesapta da normal muameleler ile değiştirilecektir.</string>
+    <string name="remap_date">Seçilen tüm muamelelerde tarih %s olarak ayarlanacak.</string>
+    <string name="menu_transform_to_transfer">Havaleye dönüştür</string>
+    <string name="warning_transform_to_transfer">Seçilen muamele %1$s\'den %2$s\'ye bir havale ile değiştirilecek.</string>
 </resources>
