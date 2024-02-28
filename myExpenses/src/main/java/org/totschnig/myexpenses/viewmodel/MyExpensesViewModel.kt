@@ -596,7 +596,7 @@ open class MyExpensesViewModel(
     val cloneAndRemapProgress: LiveData<Pair<Int, Int>>
         get() = cloneAndRemapProgressInternal
 
-    fun cloneAndRemap(transactionIds: List<Long>, column: String, rowId: Long) {
+    fun cloneAndRemap(transactionIds: List<Long>, column: String, value: Long) {
         viewModelScope.launch(coroutineDispatcher) {
             var successCount = 0
             var failureCount = 0
@@ -609,7 +609,7 @@ open class MyExpensesViewModel(
                 transaction.prepareForEdit(contentResolver, true, false)
                 val ops = transaction.buildSaveOperations(contentResolver, true)
                 val newUpdate =
-                    ContentProviderOperation.newUpdate(TRANSACTIONS_URI).withValue(column, rowId)
+                    ContentProviderOperation.newUpdate(TRANSACTIONS_URI).withValue(column, value)
                 if (transaction.isSplit) {
                     var selection = "$KEY_ROWID = ${transaction.id}"
                     if (column == KEY_ACCOUNTID) {
@@ -646,7 +646,7 @@ open class MyExpensesViewModel(
         }
     }
 
-    fun remap(transactionIds: List<Long>, column: String, rowId: Long): LiveData<Int> =
+    fun remap(transactionIds: List<Long>, column: String, value: Long): LiveData<Int> =
         liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
             emit(run {
                 val list = transactionIds.joinToString()
@@ -659,7 +659,7 @@ open class MyExpensesViewModel(
                 }
                 contentResolver.update(
                     TRANSACTIONS_URI,
-                    ContentValues().apply { put(column, rowId) },
+                    ContentValues().apply { put(column, value) },
                     selection,
                     null
                 )

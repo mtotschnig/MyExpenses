@@ -6,15 +6,15 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.core.widget.TextViewCompat
 import com.evernote.android.state.State
-import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.util.readThemeColor
+import org.totschnig.myexpenses.util.ui.UiUtils
+import org.totschnig.myexpenses.util.ui.preferredDatePickerBuilder
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -109,21 +109,10 @@ class DateButton @JvmOverloads constructor(
     override val fragmentTag: String
         get() = "date_button"
 
-    override fun buildDialog() = MaterialDatePicker.Builder.datePicker()
+    override fun buildDialog() = preferredDatePickerBuilder(context)
         .setSelection(
             ZonedDateTime.of(date.atStartOfDay(), ZoneId.of("UTC")).toEpochSecond() * 1000
-        ).apply {
-            with(context.injector.prefHandler()) {
-                weekStart?.let {
-                    setCalendarConstraints(
-                        CalendarConstraints.Builder().setFirstDayOfWeek(it).build()
-                    )
-                }
-                getInt(PrefKey.DATE_PICKER_INPUT_MODE, -1)
-                    .takeIf { it != -1 }
-                    ?.let { setInputMode(it) }
-            }
-        }
+        )
         .build()
 
     override fun attachListener(dialogFragment: MaterialDatePicker<Long>) {

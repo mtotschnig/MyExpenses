@@ -173,6 +173,7 @@
     <item name="REMAP_PAYEE_COMMAND" type="id" />
     <item name="REMAP_METHOD_COMMAND" type="id" />
     <item name="REMAP_ACCOUNT_COMMAND" type="id" />
+    <item name="REMAP_DATE_COMMAND" type="id" />
     <item name="REMAP_COMMAND" type="id" />
     <item name="MAP_TAG_COMMAND" type="id" />
     <item name="PLANNER_COMMAND" type="id" />

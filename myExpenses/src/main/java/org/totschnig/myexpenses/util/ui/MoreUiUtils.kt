@@ -23,12 +23,12 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.graphics.ColorUtils
-import androidx.core.graphics.ColorUtils.calculateContrast
 import androidx.core.graphics.ColorUtils.calculateLuminance
 import androidx.core.widget.ImageViewCompat
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.google.android.material.color.MaterialColors
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -299,4 +299,17 @@ fun preferredTimePickerBuilder(context: Context) = MaterialTimePicker.Builder()
         context.injector.prefHandler().getInt(PrefKey.TIME_PICKER_INPUT_MODE, -1)
             .takeIf { it != -1 }
             ?.let { setInputMode(it) }
+    }
+
+fun preferredDatePickerBuilder(context: Context) = MaterialDatePicker.Builder.datePicker().apply {
+        with(context.injector.prefHandler()) {
+            weekStart?.let {
+                setCalendarConstraints(
+                    CalendarConstraints.Builder().setFirstDayOfWeek(it).build()
+                )
+            }
+            getInt(PrefKey.DATE_PICKER_INPUT_MODE, -1)
+                .takeIf { it != -1 }
+                ?.let { setInputMode(it) }
+        }
     }
