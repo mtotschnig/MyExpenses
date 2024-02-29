@@ -28,9 +28,6 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_MONTH_START
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_WEEK_START
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.getLongOrNull

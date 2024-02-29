@@ -282,9 +282,11 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
     }
 
     fun print(account: FullAccount, whereFilter: WhereFilter) {
-        _pdfResult.update {
-            AppDirHelper.checkAppDir(getApplication()).mapCatching {
-                PdfPrinter.print(localizedContext, account, it, whereFilter)
+        viewModelScope.launch(coroutineContext()) {
+            _pdfResult.update {
+                AppDirHelper.checkAppDir(getApplication()).mapCatching {
+                    PdfPrinter.print(localizedContext, account, it, whereFilter)
+                }
             }
         }
     }
