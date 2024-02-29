@@ -298,13 +298,8 @@ class ManageCategories : ProtectedFragmentActivity(),
                                                         } else null,
                                                         edit("EDIT_CATEGORY") { editCat(it) },
                                                         delete("DELETE_CATEGORY") {
-                                                            val flatList = it.flatten()
-                                                            val defaultTransferCategory =
-                                                                flatList.find {
-                                                                    it.id == prefHandler.defaultTransferCategory
-                                                                }
                                                             when {
-                                                                flatList.map { it.id }
+                                                                it.flatten().map { it.id }
                                                                     .contains(protectionInfo?.id) -> {
                                                                     showSnackBar(
                                                                         resources.getQuantityString(
@@ -315,16 +310,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                                                                     )
                                                                 }
 
-                                                                defaultTransferCategory != null -> {
-                                                                    showSnackBar(
-                                                                        getString(
-                                                                            R.string.warning_delete_default_transfer_category,
-                                                                            defaultTransferCategory.path
-                                                                        )
-                                                                    )
-                                                                }
-
-                                                                else -> {
+                                                                checkDefaultTransferCategory(listOf(it)) -> {
                                                                     viewModel.deleteCategories(
                                                                         listOf(it)
                                                                     )
@@ -363,6 +349,24 @@ class ManageCategories : ProtectedFragmentActivity(),
                 }
             }
         }
+    }
+
+    /**
+     * @return true if default transfer category is not contained in any of the passed in category
+     * trees
+     */
+    private fun checkDefaultTransferCategory(categories: Collection<Category>): Boolean {
+        val defaultTransferCategory = prefHandler.defaultTransferCategory
+        return categories.firstNotNullOfOrNull { cat ->
+            cat.flatten().find { it.id == defaultTransferCategory }
+        }?.also {
+            showSnackBar(
+                getString(
+                    R.string.warning_delete_default_transfer_category,
+                    it.path
+                )
+            )
+        } == null
     }
 
     private fun doSingleSelection(category: Category) {
@@ -442,7 +446,9 @@ class ManageCategories : ProtectedFragmentActivity(),
                     item: MenuItem
                 ): Boolean = when (item.itemId) {
                     R.id.DELETE_COMMAND -> {
-                        viewModel.deleteCategories(selectionState)
+                        if (checkDefaultTransferCategory(selectionState)) {
+                            viewModel.deleteCategories(selectionState)
+                        }
                         true
                     }
 
