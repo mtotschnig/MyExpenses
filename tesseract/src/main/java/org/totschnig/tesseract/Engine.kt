@@ -37,7 +37,7 @@ object Engine : TesseractEngine {
     private var timer: Long = 0
     private fun initialize() {
         System.loadLibrary("jpeg")
-        System.loadLibrary("png")
+        System.loadLibrary("pngx")
         System.loadLibrary("leptonica")
         System.loadLibrary("tesseract")
     }
