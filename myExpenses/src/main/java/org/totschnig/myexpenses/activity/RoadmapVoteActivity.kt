@@ -236,7 +236,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
                                 }
                             })
                         }
-                        add(Check.box(KEY_CONTACT_CONSENT).label("Consent to be contacted for sharing ideas on how issues you voted for should be implemented"))
+                        add(Check.box(KEY_CONTACT_CONSENT).label(getString(R.string.roadmap_consent_checkbox)))
                     }.toTypedArray()
                     simpleFormDialog.fields(*fields)
                     simpleFormDialog.show(this, DIALOG_TAG_SUBMIT_VOTE)
