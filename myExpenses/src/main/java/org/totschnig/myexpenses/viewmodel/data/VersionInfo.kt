@@ -89,6 +89,13 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 "${t(R.string.synchronization)}: ${t(R.string.stability_improvements)}",
                 "${t(R.string.help_MyExpenses_title)}: ${t(R.string.ui_refinement)}"
             )
+            "376" -> arrayOf(
+                t(R.string.whats_new_376_1),
+                t(R.string.whats_new_376_2),
+                t(R.string.menu_transform_to_transfer),
+                "${ctx.getString(R.string.export_to_format, "CSV")}: MS Excel"
+
+            )
             else -> {
                 //noinspection DiscouragedApi
                 val resId = res.getIdentifier(
