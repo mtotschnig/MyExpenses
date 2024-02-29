@@ -73,7 +73,6 @@ abstract class AbstractExporter
         outputStream: Lazy<Result<DocumentFile>>,
         append: Boolean
     ): Result<DocumentFile> {
-        Timber.i("now starting export")
         context.contentResolver.query(
             TransactionProvider.CATEGORIES_URI,
             arrayOf(KEY_ROWID, KEY_LABEL, KEY_PARENTID), null, null, null
@@ -205,7 +204,10 @@ abstract class AbstractExporter
                 val output = outputStream.value.getOrThrow()
                 (context.contentResolver.openOutputStream(output.uri, if (append) "wa" else "w")
                     ?: throw IOException("openOutputStream returned null")).use { outputStream ->
-                    OutputStreamWriter(outputStream, encoding).use { out ->
+                    if (encoding == ENCODING_UTF_8_BOM) {
+                        outputStream.write(UTF_8_BOM)
+                    }
+                    OutputStreamWriter(outputStream, if (encoding == ENCODING_UTF_8_BOM) ENCODING_UTF_8 else encoding).use { out ->
                         cursor.moveToFirst()
                         header(context)?.let { out.write(it) }
                         while (cursor.position < cursor.count) {
@@ -231,6 +233,8 @@ abstract class AbstractExporter
 
     companion object {
         const val ENCODING_UTF_8 = "UTF-8"
+        const val ENCODING_UTF_8_BOM = "UTF-8-BOM"
         const val ENCODING_LATIN_1 = "ISO-8859-1"
+        val UTF_8_BOM = byteArrayOf(0xEF.toByte(), 0xBB.toByte(), 0xBF.toByte())
     }
 }

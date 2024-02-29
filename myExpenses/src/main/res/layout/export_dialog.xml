@@ -250,6 +250,13 @@
                             tools:ignore="HardcodedText" />
 
                         <Button
+                            android:visibility="gone"
+                            android:id="@+id/utf8_bom"
+                            style="@style/Widget.Material3.Button.OutlinedButton.Dense"
+                            android:text="UTF-8 (BOM, Windows, Excel)"
+                            tools:ignore="HardcodedText" />
+
+                        <Button
                             android:id="@+id/iso88591"
                             style="@style/Widget.Material3.Button.OutlinedButton.Dense"
                             android:text="ISO-8859-1"

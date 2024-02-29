@@ -33,26 +33,22 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.addAttachments
 import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.markAsExported
-import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.writeTag
+import org.totschnig.myexpenses.export.AbstractExporter.Companion.UTF_8_BOM
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import java.io.BufferedReader
 import java.io.File
-import java.io.FileInputStream
 import java.io.FileReader
 import java.io.IOException
-import java.io.InputStreamReader
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 @RunWith(RobolectricTestRunner::class)
-class ExportTest: BaseTestWithRepository() {
+class ExportTest : BaseTestWithRepository() {
     private val openingBalance = 100L
     private val expense1 = -10L
 
@@ -101,7 +97,8 @@ class ExportTest: BaseTestWithRepository() {
         val cat2Id = writeCategory("Sub", cat1Id)
         val cat3Id = writeCategory("Sub2", cat1Id)
         val cat4Id = writeCategory("Sub3", cat1Id)
-        val op = Transaction.getNewInstance(account1.id, CurrencyUnit.DebugInstance) ?: throw IllegalStateException()
+        val op = Transaction.getNewInstance(account1.id, CurrencyUnit.DebugInstance)
+            ?: throw IllegalStateException()
         op.amount = Money(CurrencyUnit.DebugInstance, expense1)
         op.methodId = cheque
         op.crStatus = CrStatus.CLEARED
@@ -144,7 +141,11 @@ class ExportTest: BaseTestWithRepository() {
         transfer.date = baseSinceEpoch + 5
         transfer.saveAsNew(contentResolver)
         uuidList.add(transfer.uuid!!)
-        val split = SplitTransaction.getNewInstance(contentResolver, account1.id, CurrencyUnit.DebugInstance) ?: throw IllegalStateException()
+        val split = SplitTransaction.getNewInstance(
+            contentResolver,
+            account1.id,
+            CurrencyUnit.DebugInstance
+        ) ?: throw IllegalStateException()
         split.amount = Money(CurrencyUnit.DebugInstance, split1)
         split.date = baseSinceEpoch + 6
         split.payee = "N.N."
@@ -167,7 +168,10 @@ class ExportTest: BaseTestWithRepository() {
     }
 
     private fun insertData2(account: Account) {
-        with(Transaction.getNewInstance(account.id, CurrencyUnit.DebugInstance) ?: throw IllegalStateException()) {
+        with(
+            Transaction.getNewInstance(account.id, CurrencyUnit.DebugInstance)
+                ?: throw IllegalStateException()
+        ) {
             amount = Money(CurrencyUnit.DebugInstance, expense3)
             methodId = cheque
             comment = "Expense inserted after first export"
@@ -231,7 +235,10 @@ class ExportTest: BaseTestWithRepository() {
         val cat1Id = writeCategory("A")
         val cat2Id = writeCategory("B", cat1Id)
         val cat3Id = writeCategory("C", cat2Id)
-        with(Transaction.getNewInstance(account.id, CurrencyUnit.DebugInstance) ?: throw IllegalStateException()) {
+        with(
+            Transaction.getNewInstance(account.id, CurrencyUnit.DebugInstance)
+                ?: throw IllegalStateException()
+        ) {
             amount = Money(CurrencyUnit.DebugInstance, income1)
             date = baseSinceEpoch
             catId = cat1Id
@@ -306,20 +313,16 @@ class ExportTest: BaseTestWithRepository() {
             "$0.30",
             "^"
         )
-        try {
-            expect.that(
-                exportAll(
-                    insertData1(),
-                    ExportFormat.QIF,
-                    notYetExportedP = false,
-                    append = false,
-                    withAccountColumn = false
-                ).isSuccess
-            ).isTrue()
-            compare(linesQIF)
-        } catch (e: IOException) {
-            expect.withMessage("Could not export expenses. Error: ${e.message}").fail()
-        }
+        expect.that(
+            exportAll(
+                insertData1(),
+                ExportFormat.QIF,
+                notYetExportedP = false,
+                append = false,
+                withAccountColumn = false
+            ).isSuccess
+        ).isTrue()
+        compare(linesQIF)
     }
 
     @Test
@@ -336,45 +339,53 @@ class ExportTest: BaseTestWithRepository() {
             """"-";"$date";"N.N.";"0.40";"0";"Main:Sub2";"";"";"";"";"";""""",
             """"-";"$date";"N.N.";"0.30";"0";"Main:Sub3";"";"";"";"";"";"Tag One, 'Tags, Tags, Tags'""""
         )
-        try {
-            expect.that(
-                exportAll(
-                    insertData1(),
-                    ExportFormat.CSV,
-                    notYetExportedP = false,
-                    append = false,
-                    withAccountColumn = false
-                ).isSuccess
-            ).isTrue()
-            compare(linesCSV)
-        } catch (e: IOException) {
-            expect.withMessage("Could not export expenses. Error: ${e.message}").fail()
-        }
+        expect.that(
+            exportAll(
+                insertData1(),
+                ExportFormat.CSV,
+                notYetExportedP = false,
+                append = false,
+                withAccountColumn = false
+            ).isSuccess
+        ).isTrue()
+        compare(linesCSV)
+    }
+
+    @Test
+    fun testExportCSVWithBOM() {
+        insertData2(buildAccount1())
+        expect.that(
+            exportAll(
+                insertData1(),
+                ExportFormat.CSV,
+                notYetExportedP = false,
+                append = false,
+                withAccountColumn = false,
+                AbstractExporter.ENCODING_UTF_8_BOM
+            ).isSuccess
+        ).isTrue()
+        outFile.useLines { it.first() }.startsWith(String(UTF_8_BOM))
     }
 
     @Test
     fun testExportJson() {
-        try {
-            val account = insertData1()
-            expect.that(
-                exportAll(
-                    account,
-                    ExportFormat.JSON,
-                    notYetExportedP = false,
-                    append = false,
-                    withAccountColumn = false
-                ).isSuccess
-            ).isTrue()
-            expect.that(JsonParser.parseReader(FileReader(outFile))).isEqualTo(
-                JsonParser.parseString(
-                    """
+        val account = insertData1()
+        expect.that(
+            exportAll(
+                account,
+                ExportFormat.JSON,
+                notYetExportedP = false,
+                append = false,
+                withAccountColumn = false
+            ).isSuccess
+        ).isTrue()
+        expect.that(JsonParser.parseReader(FileReader(outFile))).isEqualTo(
+            JsonParser.parseString(
+                """
 {"uuid":"${account.uuid}","label":"Account 1","currency":"${CurrencyUnit.DebugInstance.code}","openingBalance":1.00,"transactions":[{"uuid":"${uuidList[0]}","date":"15/12/2017","amount":-0.10,"methodLabel":"Cheque","status":"CLEARED","referenceNumber":"1","tags":["Tag One","Tags, Tags, Tags"]},{"uuid":"${uuidList[1]}","date":"15/12/2017","payee":"N.N.","amount":-0.20,"category":["Main"],"methodLabel":"Cheque","status":"UNRECONCILED","referenceNumber":"2"},{"uuid":"${uuidList[2]}","date":"15/12/2017","amount":0.30,"category":["Main","Sub"],"status":"UNRECONCILED","attachments":["picture.png"]},{"uuid":"${uuidList[3]}","date":"15/12/2017","amount":0.40,"category":["Main","Sub"],"comment":"Note for myself with \"quote\"","status":"UNRECONCILED"},{"uuid":"${uuidList[4]}","date":"15/12/2017","amount":0.50,"transferAccount":"Account 2","status":"RECONCILED"},{"uuid":"${uuidList[5]}","date":"15/12/2017","amount":-0.60,"transferAccount":"Account 2","status":"UNRECONCILED"},{"uuid":"${uuidList[8]}","date":"15/12/2017","payee":"N.N.","amount":0.70,"status":"UNRECONCILED","splits":[{"uuid":"${uuidList[6]}","date":"15/12/2017","amount":0.40,"category":["Main","Sub2"]},{"uuid":"${uuidList[7]}","date":"15/12/2017","amount":0.30,"category":["Main","Sub3"],"tags":["Tag One","Tags, Tags, Tags"]}]}]}
                          """
-                )
             )
-        } catch (e: IOException) {
-            expect.withMessage("Could not export expenses. Error: ${e.message}").fail()
-        }
+        )
     }
 
     @Test
@@ -392,30 +403,26 @@ class ExportTest: BaseTestWithRepository() {
             """"-","$date","N.N.","0,40","0","Main:Sub2","","","","","",""""",
             """"-","$date","N.N.","0,30","0","Main:Sub3","","","","","","Tag One, 'Tags, Tags, Tags'""""
         )
-        try {
-            expect.that(
-                CsvExporter(
-                    insertData1(),
-                    currencyContext,
-                    null,
-                    false,
-                    "M/d/yyyy",
-                    ',',
-                    "UTF-8",
-                    true,
-                    ',',
+        expect.that(
+            CsvExporter(
+                insertData1(),
+                currencyContext,
+                null,
+                false,
+                "M/d/yyyy",
+                ',',
+                "UTF-8",
+                true,
+                ',',
+                false
+            )
+                .export(
+                    context,
+                    lazy { Result.success(DocumentFile.fromFile(outFile)) },
                     false
-                )
-                    .export(
-                        context,
-                        lazy { Result.success(DocumentFile.fromFile(outFile)) },
-                        false
-                    ).isSuccess
-            ).isTrue()
-            compare(linesCSV)
-        } catch (e: IOException) {
-            expect.withMessage("Could not export expenses. Error: ${e.message}").fail()
-        }
+                ).isSuccess
+        ).isTrue()
+        compare(linesCSV)
     }
 
     @Test
@@ -436,26 +443,23 @@ class ExportTest: BaseTestWithRepository() {
         )
 
         val account = buildAccount1()
-        val op = Transaction.getNewInstance(account.id, CurrencyUnit.DebugInstance) ?: throw IllegalStateException()
+        val op = Transaction.getNewInstance(account.id, CurrencyUnit.DebugInstance)
+            ?: throw IllegalStateException()
         op.amount = Money(CurrencyUnit.DebugInstance, income2)
         op.catId = writeCategory("With/and:Sub", writeCategory("With/and:Main"))
         op.date = baseSinceEpoch
         op.save(contentResolver)
 
-        try {
-            expect.that(
-                exportAll(
-                    account,
-                    ExportFormat.QIF,
-                    notYetExportedP = false,
-                    append = false,
-                    withAccountColumn = false
-                ).isSuccess
-            ).isTrue()
-            compare(linesQIF)
-        } catch (e: IOException) {
-            expect.withMessage("Could not export expenses. Error: ${e.message}").fail()
-        }
+        expect.that(
+            exportAll(
+                account,
+                ExportFormat.QIF,
+                notYetExportedP = false,
+                append = false,
+                withAccountColumn = false
+            ).isSuccess
+        ).isTrue()
+        compare(linesQIF)
     }
 
     @Test
@@ -596,47 +600,41 @@ class ExportTest: BaseTestWithRepository() {
             "\"\";\"$date\";\"$time\";\"\";\"-0.10\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"\"",
             "\"\";\"$date\";\"$time\";\"\";\"0.50\";\"[Account 2]\";\"\";\"\";\"\";\"\";\"\";\"\";\"\";\"\""
         )
-        try {
-            expect.that(
-                CsvExporter(
-                    insertData4(),
-                    currencyContext,
-                    null,
-                    false,
-                    "dd/MM/yyyy",
-                    '.',
-                    "UTF-8",
-                    true,
-                    ';',
-                    false,
-                    splitCategoryLevels = true,
-                    splitAmount = false,
-                    timeFormat = "HH:mm"
-                )
-                    .export(
-                        context,
-                        lazy { Result.success(DocumentFile.fromFile(outFile)) },
-                        false
-                    ).isSuccess
-            ).isTrue()
-            compare(linesCSV)
-        } catch (e: IOException) {
-            expect.withMessage("Could not export expenses. Error: ${e.message}").fail()
-        }
+        expect.that(
+            CsvExporter(
+                insertData4(),
+                currencyContext,
+                null,
+                false,
+                "dd/MM/yyyy",
+                '.',
+                "UTF-8",
+                true,
+                ';',
+                false,
+                splitCategoryLevels = true,
+                splitAmount = false,
+                timeFormat = "HH:mm"
+            )
+                .export(
+                    context,
+                    lazy { Result.success(DocumentFile.fromFile(outFile)) },
+                    false
+                ).isSuccess
+        ).isTrue()
+        compare(linesCSV)
     }
 
     private fun compare(lines: Array<String>) {
-        FileInputStream(outFile).use { inputStream ->
-            BufferedReader(InputStreamReader(inputStream)).use { reader ->
-                var count = 0
-                while (reader.readLine()?.also { line ->
-                        //println("[$count]: $line")
-                        expect.withMessage("Lines do not match").that(line).isEqualTo(lines[count])
-                    } != null) {
-                    count++
-                }
-                expect.that(count).isEqualTo(lines.size)
+        outFile.bufferedReader().use { reader ->
+            var count = 0
+            while (reader.readLine()?.also { line ->
+                    //println("[$count]: $line")
+                    expect.withMessage("Lines do not match").that(line).isEqualTo(lines[count])
+                } != null) {
+                count++
             }
+            expect.that(count).isEqualTo(lines.size)
         }
     }
 
@@ -694,7 +692,8 @@ class ExportTest: BaseTestWithRepository() {
         format: ExportFormat,
         notYetExportedP: Boolean,
         append: Boolean,
-        withAccountColumn: Boolean
+        withAccountColumn: Boolean,
+        encoding: String = AbstractExporter.ENCODING_UTF_8
     ) = when (format) {
         ExportFormat.CSV -> CsvExporter(
             account,
@@ -703,11 +702,12 @@ class ExportTest: BaseTestWithRepository() {
             notYetExportedP,
             "dd/MM/yyyy",
             '.',
-            "UTF-8",
+            encoding,
             !append,
             ';',
             withAccountColumn
         )
+
         ExportFormat.QIF -> QifExporter(
             account,
             currencyContext,
@@ -715,8 +715,9 @@ class ExportTest: BaseTestWithRepository() {
             notYetExportedP,
             "dd/MM/yyyy",
             '.',
-            "UTF-8"
+            encoding
         )
+
         ExportFormat.JSON -> JSONExporter(
             account,
             currencyContext,
@@ -724,7 +725,7 @@ class ExportTest: BaseTestWithRepository() {
             notYetExportedP,
             "dd/MM/yyyy",
             '.',
-            "UTF-8"
+            encoding
         )
     }.export(
         context,

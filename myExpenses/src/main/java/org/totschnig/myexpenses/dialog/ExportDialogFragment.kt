@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.databinding.ExportDialogBinding
 import org.totschnig.myexpenses.export.AbstractExporter.Companion.ENCODING_LATIN_1
 import org.totschnig.myexpenses.export.AbstractExporter.Companion.ENCODING_UTF_8
+import org.totschnig.myexpenses.export.AbstractExporter.Companion.ENCODING_UTF_8_BOM
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
@@ -105,6 +106,10 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
         binding.format.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (checkedId == R.id.csv) {
                 binding.DelimiterRow.isVisible = isChecked
+                if (!isChecked && binding.Encoding.checkedButtonId == R.id.utf8_bom) {
+                    binding.Encoding.check(R.id.utf8)
+                }
+                binding.utf8Bom.isVisible = isChecked
                 configureDateTimeFormat()
             }
         }
@@ -198,7 +203,13 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
         )
 
         val encoding = prefHandler.getString(PREF_KEY_EXPORT_ENCODING, ENCODING_UTF_8)
-        binding.Encoding.check(if (encoding == ENCODING_UTF_8) R.id.utf8 else R.id.iso88591)
+        binding.Encoding.check(
+            when (encoding) {
+                ENCODING_UTF_8_BOM -> R.id.utf8_bom
+                ENCODING_LATIN_1 -> R.id.iso88591
+                else -> R.id.utf8
+            }
+        )
 
         val delimiter = prefHandler.getInt(KEY_DELIMITER, ','.code)
             .toChar()
@@ -307,7 +318,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             return
         }
         val accountInfo = requireArguments().getSerializable(KEY_DATA) as AccountInfo
-        val format = ExportFormat.values().find { it.resId == binding.format.checkedButtonId }
+        val format = ExportFormat.entries.find { it.resId == binding.format.checkedButtonId }
             ?: ExportFormat.QIF
         val dateFormat = binding.dateFormat.text.toString()
         val timeFormat = binding.timeFormat.text.toString()
@@ -334,7 +345,11 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
                 EXPORT_HANDLE_DELETED_DO_NOTHING
             }
         }
-        val encoding = if (binding.Encoding.checkedButtonId == R.id.utf8) ENCODING_UTF_8 else ENCODING_LATIN_1
+        val encoding = when (binding.Encoding.checkedButtonId) {
+            R.id.utf8_bom -> ENCODING_UTF_8
+            R.id.iso88591 -> ENCODING_LATIN_1
+            else -> ENCODING_UTF_8
+        }
         with(prefHandler) {
             putString(PrefKey.EXPORT_FORMAT, format.name)
             putString(PREF_KEY_EXPORT_DATE_FORMAT, dateFormat)
