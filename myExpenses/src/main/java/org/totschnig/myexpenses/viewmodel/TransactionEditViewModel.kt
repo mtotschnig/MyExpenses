@@ -230,12 +230,8 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
             if (isExternal && !shouldCopyExternalUris) uri else {
 
-                val type = contentResolver.getType(uri)
-
-                val result = if (type!!.startsWith("image") && prefHandler.getBoolean(
-                        PrefKey.OPTIMIZE_PICTURE,
-                        true
-                    )
+                val result = if (contentResolver.getType(uri)?.startsWith("image") == true &&
+                    prefHandler.getBoolean(PrefKey.OPTIMIZE_PICTURE, true)
                 ) {
                     val format = prefHandler.enumValueOrDefault(
                         PrefKey.OPTIMIZE_PICTURE_FORMAT,
