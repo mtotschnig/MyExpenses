@@ -329,6 +329,23 @@
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='menu_unlink_transfer']" />
             </xsl:when>
+            <xsl:when test="$version = '3.7.6'">
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
+                <xsl:apply-templates mode="unescape"
+                    select="document($upgrade)/resources/string[@name='whats_new_376_1']" />
+                <xsl:value-of select="$separator" />
+                <xsl:apply-templates mode="unescape"
+                    select="document($upgrade)/resources/string[@name='whats_new_376_2']" />
+                <xsl:value-of select="$separator" />
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='menu_transform_to_transfer']" />
+                <xsl:value-of select="$separator" />
+                <xsl:apply-templates mode="unescape"
+                    select="my:simpleFormatRes(document($strings)/resources/string[@name='export_to_format'], 'CSV')" />
+                <xsl:text>:&#032;MS Excel</xsl:text>
+            </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
     </xsl:template>
