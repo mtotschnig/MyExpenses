@@ -232,7 +232,8 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             "ManageParties_manage_cabitems",
             "ManageCategories_manage_cabitems",
             "ManageCategories_select_filter_cabitems",
-            "MyExpenses_cabitems"
+            "MyExpenses_cabitems",
+            "RoadmapVoteActivity_cabitems"
         )
             .contains(componentName)
 

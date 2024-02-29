@@ -40,7 +40,7 @@ class RoadmapViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun submitVote(vote: Vote): LiveData<Int> = roadmapRepository.submitVote(vote)
+    fun submitVote(vote: Vote): LiveData<Result<Unit>> = roadmapRepository.submitVote(vote)
 
     fun cacheWeights(voteWeights: Map<Int, Int>) {
         prefHandler.putString(PrefKey.ROADMAP_VOTE, gson.toJson(voteWeights))
@@ -53,7 +53,6 @@ class RoadmapViewModel(application: Application) : AndroidViewModel(application)
 
 
     companion object {
-        const val EXPECTED_MINIMAL_VERSION = 3
         const val VOTE_REMINDER_DAYS = 100L
     }
 

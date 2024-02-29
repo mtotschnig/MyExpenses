@@ -16,7 +16,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.google.android.vending.licensing.PreferenceObfuscator
@@ -42,6 +41,7 @@ import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.enumValueOrNull
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import timber.log.Timber
@@ -52,7 +52,6 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Date
 import java.util.Locale
-import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 open class LicenceHandler(
@@ -293,9 +292,12 @@ open class LicenceHandler(
     open val purchaseExtraInfo: String?
         get() = null
 
-    open fun buildRoadmapVoteKey(): String {
-        return UUID.randomUUID().toString()
-    }
+    open val roadmapVoteKey: Pair<String,String>?
+        get() = if (isProfessionalEnabled)
+            prefHandler.getString(PrefKey.NEW_LICENCE)?.let {
+                DistributionHelper.Distribution.GITHUB.name to it
+            }
+        else null
 
     /**
      * @return true if licenceStatus has been upEd
