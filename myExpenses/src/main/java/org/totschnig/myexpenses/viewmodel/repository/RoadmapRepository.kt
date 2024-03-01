@@ -32,7 +32,6 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Suppress("BlockingMethodInNonBlockingContext")
 @Singleton
 class RoadmapRepository @Inject constructor(
     private val gson: Gson,
@@ -45,7 +44,7 @@ class RoadmapRepository @Inject constructor(
         const val ISSUE_CACHE = "issue_cache.json"
         const val ISSUE_CACHE_LIFE_TIME_DAYS = 30
         const val ROADMAP_VOTE = "roadmap_vote_${VERSION}.json"
-        private val isSandbox = true
+        private val isSandbox = BuildConfig.DEBUG
         val ROADMAP_URL = when {
             isSandbox -> "http://10.0.2.2:3000/"
             else -> "https://roadmap.myexpenses.mobi/"
