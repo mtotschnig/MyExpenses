@@ -1027,4 +1027,5 @@
     <string name="orphaned_transaction_align_date">Facoltativamente, la data associata alla transazione può essere allineata alla data dell\'evento.</string>
     <string name="warning_delete_default_transfer_category">La categoria %s è configurata come categoria di bonifico predefinita e non deve essere eliminata.</string>
     <string name="default_transfer_category">Categoria di trasferimento predefinita</string>
+    <string name="menu_transform_to_transfer">Converti in trasferimento</string>
 </resources>
