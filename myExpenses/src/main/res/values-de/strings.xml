@@ -1024,4 +1024,7 @@
     <string name="pref_sync_now_all_summary">%s synchronisiert alle Konten für dasselbe Back-End</string>
     <string name="warning_unlink_transfer">Die ausgewählte Umbuchung wird getrennt: Sie wird durch normale Buchungen in beiden Konten ersetzt.</string>
     <string name="menu_unlink_transfer">Umbuchung trennen</string>
+    <string name="menu_transform_to_transfer">In Umbuchung umwandeln</string>
+    <string name="remap_date">Bei allen ausgewählten Buchungen wird das Datum auf %s gesetzt.</string>
+    <string name="warning_transform_to_transfer">Die ausgewählte Buchung wird durch eine Umbuchung von %1$s nach %2$s ersetzt.</string>
 </resources>
