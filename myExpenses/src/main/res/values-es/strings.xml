@@ -1037,7 +1037,7 @@
     <string name="pref_sync_now_all_summary">%s sincroniza todas las cuentas para el mismo backend</string>
     <string name="menu_unlink_transfer">Desvincular transferencia</string>
     <string name="warning_unlink_transfer">La transferencia seleccionada se desvinculará: será sustituida por transacciones normales en ambas cuentas.</string>
-    <string name="menu_transform_to_transfer">Transformar para transferir</string>
+    <string name="menu_transform_to_transfer">Convertir en transferencia</string>
     <string name="warning_transform_to_transfer">La transacción seleccionada será sustituida por una transferencia de %1$s a %2$s.</string>
     <string name="remap_date">En todas las transacciones seleccionadas, la fecha se establecerá en %s.</string>
 </resources>
