@@ -346,7 +346,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             }
         }
         val encoding = when (binding.Encoding.checkedButtonId) {
-            R.id.utf8_bom -> ENCODING_UTF_8
+            R.id.utf8_bom -> ENCODING_UTF_8_BOM
             R.id.iso88591 -> ENCODING_LATIN_1
             else -> ENCODING_UTF_8
         }
