@@ -98,7 +98,7 @@ fun ColumnScope.BankingCredentials(
     OutlinedTextField(
         modifier = Modifier
             .align(Alignment.CenterHorizontally)
-            .optional(focusRequester, ifPresent = { this.focusRequester(it) }),
+            .optional(focusRequester) { this.focusRequester(it) },
         visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password,

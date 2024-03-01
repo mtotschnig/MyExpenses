@@ -51,6 +51,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -2236,28 +2237,27 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
             R.id.LINK_TRANSFER_COMMAND -> {
                 finishActionMode()
-                viewModel.linkTransfer(args.getLongArray(KEY_ROW_IDS)!!).observe(this) { result ->
-                    result.onFailure {
-                        CrashHandler.report(it)
-                        showSnackBar(it.safeMessage)
-                    }
-                }
+                viewModel.linkTransfer(args.getLongArray(KEY_ROW_IDS)!!).observeAndReportFailure()
             }
 
             R.id.UNLINK_TRANSFER_COMMAND -> {
-                viewModel.unlinkTransfer(args.getLong(KEY_ROWID))
+                viewModel.unlinkTransfer(args.getLong(KEY_ROWID)).observeAndReportFailure()
             }
 
             R.id.TRANSFORM_TO_TRANSFER_COMMAND -> {
                 viewModel.transformToTransfer(
                     args.getLong(KEY_TRANSACTIONID),
                     args.getLong(KEY_ROWID)
-                ).observe(this) { result ->
-                    result.onFailure {
-                        CrashHandler.report(it)
-                        showSnackBar(it.safeMessage)
-                    }
-                }
+                ).observeAndReportFailure()
+            }
+        }
+    }
+
+    private fun LiveData<Result<Unit>>.observeAndReportFailure() {
+        observe(this@BaseMyExpenses) { result ->
+            result.onFailure {
+                CrashHandler.report(it)
+                showSnackBar(it.safeMessage)
             }
         }
     }

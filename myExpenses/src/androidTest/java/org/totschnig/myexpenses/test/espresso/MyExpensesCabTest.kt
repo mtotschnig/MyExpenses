@@ -8,6 +8,8 @@ import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
@@ -18,6 +20,7 @@ import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.google.common.truth.Truth.assertThat
 import org.hamcrest.Matchers
 import org.junit.Test
 import org.totschnig.myexpenses.R
@@ -27,22 +30,28 @@ import org.totschnig.myexpenses.db2.addAttachments
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 
 class MyExpensesCabTest : BaseMyExpensesTest() {
     private val origListSize = 6
     private lateinit var account: Account
+    private var op0Id: Long = 0
 
-    private fun launch(excludeFromTotals: Boolean = false) {
+    private fun launch(excludeFromTotals: Boolean = false, initialOpCount: Int = 6) {
         account = buildAccount("Test account 1", excludeFromTotals = excludeFromTotals)
         val op0 = Transaction.getNewInstance(account.id, homeCurrency)
         op0.amount = Money(homeCurrency, -100L)
         op0.save(contentResolver)
-        for (i in 2 until 7) {
+        op0Id =op0.id
+        for (i in 2 .. initialOpCount) {
             repository.addAttachments(op0.id, listOf(Uri.parse("file:///android_asset/screenshot.jpg")))
             op0.amount = Money(homeCurrency, -100L * i)
-            op0.date = op0.date - 10000
+            op0.date -= 10000
             op0.saveAsNew(contentResolver)
         }
         launch(account.id)
@@ -189,5 +198,64 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         onView(withId(androidx.appcompat.R.id.action_mode_bar)).check(doesNotExist())
         //context menu should only have the details entry
         composeTestRule.onNodeWithTag(TEST_TAG_CONTEXT_MENU).assert(hasChildCount(1))
+    }
+
+    @Test
+    fun transformToTransfer() {
+        launch(initialOpCount = 1)
+        val transferAccount = buildAccount("Test account 2")
+        clickContextItem(R.string.menu_transform_to_transfer)
+        composeTestRule.onNodeWithText("Test account 2").performClick()
+        onView(withId(android.R.id.button1)).perform(click())
+        onView(withId(android.R.id.button1)).perform(click())
+        val op = Transaction.getInstanceFromDb(contentResolver, op0Id, homeCurrency)
+        assertThat(op.isTransfer).isTrue()
+        assertThat(op.transferAccountId).isEqualTo(transferAccount.id)
+    }
+
+    @Test
+    fun unlinkTransfer() {
+        account = buildAccount("Test account 1")
+        val transferAccount = buildAccount("Test account 2")
+        val op0 = Transfer.getNewInstance(account.id, homeCurrency, transferAccount.id)
+        op0.amount = Money(homeCurrency, -100L)
+        op0.save(contentResolver)
+        op0Id = op0.id
+        val transferPeer = op0.transferPeer!!
+        launch(account.id)
+        clickContextItem(R.string.menu_unlink_transfer)
+        onView(withId(android.R.id.button1)).perform(click())
+        assertThat(Transaction.getInstanceFromDb(contentResolver, op0Id, homeCurrency).isTransfer).isFalse()
+        assertThat(Transaction.getInstanceFromDb(contentResolver, transferPeer, homeCurrency).isTransfer).isFalse()
+    }
+
+    @Test
+    fun linkTransfer() {
+        account = buildAccount("Test account 1")
+        val transferAccount = buildAccount("Test account 2")
+        val op0 = Transaction.getNewInstance(account.id, homeCurrency)
+        op0.amount = Money(homeCurrency, -100L)
+        op0.save(contentResolver)
+        op0Id = op0.id
+        val peer = Transaction.getNewInstance(transferAccount.id, homeCurrency)
+        peer.amount = Money(homeCurrency, 100L)
+        peer.save(contentResolver)
+        val currencyId = contentResolver.query(
+            TransactionProvider.CURRENCIES_URI.buildUpon().appendPath(homeCurrency.code).build(),
+            null, null, null, null
+        )!!.use {
+            it.moveToFirst()
+            it.getLong(DatabaseConstants.KEY_ROWID)
+        }
+        launch(-currencyId)
+        assertListSize(2)
+        openCab(null)
+        listNode.onChildren()[1].performClick()
+        clickMenuItem(R.id.LINK_TRANSFER_COMMAND, true)
+        onView(withId(android.R.id.button1)).perform(click())
+        val op = Transaction.getInstanceFromDb(contentResolver, op0Id, homeCurrency) as Transfer
+        assertThat(op.isTransfer).isTrue()
+        assertThat(op.transferAccountId).isEqualTo(transferAccount.id)
+        assertThat(op.transferPeer).isEqualTo(peer.id)
     }
 }

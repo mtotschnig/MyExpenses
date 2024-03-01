@@ -178,6 +178,9 @@ private fun EntryListRenderer(
         when (entry) {
             is IActionMenuEntry -> {
                 DropdownMenuItem(
+                    modifier = Modifier.optional(entry.command) {
+                        testTag(it)
+                    },
                     text = {
                         Row {
                             EntryContent(entry, offset)

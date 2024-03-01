@@ -751,6 +751,12 @@ public class TransactionProvider extends BaseTransactionProvider {
         qb = SupportSQLiteQueryBuilder.builder(TABLE_SETTINGS);
         break;
       }
+      case CURRENCIES_CODE: {
+        qb = SupportSQLiteQueryBuilder.builder(TABLE_CURRENCIES);
+        selection = KEY_CODE + " = ?";
+        selectionArgs = new String[]{uri.getPathSegments().get(1)};
+        break;
+      }
       case AUTOFILL:
         qb = SupportSQLiteQueryBuilder.builder(VIEW_EXTENDED);
         selection = KEY_ROWID + "= (SELECT max(" + KEY_ROWID + ") FROM " + TABLE_TRANSACTIONS

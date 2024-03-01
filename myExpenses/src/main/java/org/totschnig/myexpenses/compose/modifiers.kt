@@ -38,8 +38,8 @@ fun Modifier.conditional(
 
 fun <T> Modifier.optional(
     optional: T?,
-    ifPresent: Modifier.(T) -> Modifier,
-    ifAbsent: (Modifier.() -> Modifier)? = null
+    ifAbsent: (Modifier.() -> Modifier)? = null,
+    ifPresent: Modifier.(T) -> Modifier
 ) = optional?.let {
     then(ifPresent(Modifier, it))
 } ?: if (ifAbsent != null) {

@@ -251,9 +251,9 @@ fun TransactionRenderer(
     onTransactionClick: (() -> Unit)? = null
 ) {
     Row(
-        modifier = Modifier.optional(onTransactionClick, ifPresent = {
+        modifier = Modifier.optional(onTransactionClick) {
             clickable(onClick = it)
-        }),
+        },
         verticalAlignment = Alignment.CenterVertically
     ) {
 

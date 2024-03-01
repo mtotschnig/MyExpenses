@@ -49,4 +49,16 @@ abstract class BaseComposeTest<A: ProtectedFragmentActivity>: BaseUiTest<A>() {
         }
         composeTestRule.onNodeWithText(getString(resId)).performClick()
     }
+
+    fun clickContextItem(
+        command: String,
+        node: SemanticsNodeInteraction = listNode,
+        position: Int = 0,
+        onLongClick: Boolean = false
+    ) {
+        node.onChildren()[position].performTouchInput {
+            if (onLongClick) longClick() else click()
+        }
+        composeTestRule.onNodeWithTag(command).performClick()
+    }
 }
