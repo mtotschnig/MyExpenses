@@ -1037,4 +1037,7 @@
     <string name="pref_sync_now_all_summary">%s synchronise tous les comptes du même back-end</string>
     <string name="menu_unlink_transfer">Dissocier le transfert</string>
     <string name="warning_unlink_transfer">Le transfert sélectionné sera dissocié : Il sera remplacé par des opérations normales dans les deux comptes.</string>
+    <string name="warning_transform_to_transfer">L\'opération sélectionnée sera remplacée par un transfert de %1$s vers %2$s.</string>
+    <string name="remap_date">Sur toutes les opérations sélectionnées, la date sera fixée à %s.</string>
+    <string name="menu_transform_to_transfer">Transformer en transfert</string>
 </resources>
