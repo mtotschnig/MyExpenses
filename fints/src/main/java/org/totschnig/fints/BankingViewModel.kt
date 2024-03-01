@@ -221,8 +221,8 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         HBCIUtils.init(hbciProperties, MyHBCICallback(bankingCredentials))
         HBCIUtils.setParam("client.passport.default", "PinTan")
         HBCIUtils.setParam("client.passport.PinTan.init", "1")
-
         return HBCIUtils.getBankInfo(bankingCredentials.blz)
+            ?.takeIf { it.rdhAddress != null && it.pinTanAddress != null }
     }
 
     private fun buildPassportFile(info: BankInfo, user: String) =
