@@ -87,6 +87,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_CHECKBOX_LABEL
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_NEGATIVE
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_POSITIVE
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_MESSAGE
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_POSITIVE_BUTTON_LABEL
 import org.totschnig.myexpenses.dialog.ExportDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
@@ -136,6 +137,7 @@ import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.retrofit.Vote
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.AppDirHelper
@@ -163,6 +165,7 @@ import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.Delet
 import org.totschnig.myexpenses.viewmodel.ExportViewModel
 import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
+import org.totschnig.myexpenses.viewmodel.RoadmapViewModel
 import org.totschnig.myexpenses.viewmodel.SumInfo
 import org.totschnig.myexpenses.viewmodel.SumInfoLoaded
 import org.totschnig.myexpenses.viewmodel.SumInfoUnknown
@@ -170,6 +173,7 @@ import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
+import org.totschnig.myexpenses.viewmodel.repository.RoadmapRepository
 import timber.log.Timber
 import java.io.Serializable
 import java.math.BigDecimal
@@ -233,6 +237,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     lateinit var viewModel: MyExpensesViewModel
     private val upgradeHandlerViewModel: UpgradeHandlerViewModel by viewModels()
     private val exportViewModel: ExportViewModel by viewModels()
+    private val roadmapViewModel: RoadmapViewModel by viewModels()
 
     lateinit var binding: ActivityMainBinding
 
@@ -479,6 +484,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             inject(viewModel)
             inject(upgradeHandlerViewModel)
             inject(exportViewModel)
+            inject(roadmapViewModel)
         }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -1177,7 +1183,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         lifecycleScope.launchWhenResumed {
             ConfirmationDialogFragment
                 .newInstance(Bundle().apply {
-                    putString(ConfirmationDialogFragment.KEY_MESSAGE, message)
+                    putString(KEY_MESSAGE, message)
                     putInt(KEY_COMMAND_POSITIVE, commandPositive)
                     putInt(KEY_POSITIVE_BUTTON_LABEL, commandPositiveLabel)
                     commandNegative?.let { putInt(KEY_COMMAND_NEGATIVE, it) }
@@ -2177,7 +2183,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     private fun clearFilter() {
         ConfirmationDialogFragment.newInstance(Bundle().apply {
-            putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string.clear_all_filters))
+            putString(KEY_MESSAGE, getString(R.string.clear_all_filters))
             putInt(KEY_COMMAND_POSITIVE, R.id.CLEAR_FILTER_COMMAND)
         }).show(supportFragmentManager, "CLEAR_FILTER")
     }
@@ -2268,6 +2274,24 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             dispatchCommand(command, null)
         }
     }
+
+    protected fun voteReminderCheck() {
+        val prefKey = "vote_reminder_shown_${RoadmapRepository.VERSION}"
+        if (!prefHandler.getBoolean(prefKey, false) && Utils.getDaysSinceUpdate(this) > 1) {
+            roadmapViewModel.getLastVote().observe(this) { vote: Vote? ->
+                val hasNotVoted = vote == null
+                if (hasNotVoted) {
+                    ConfirmationDialogFragment.newInstance(Bundle().apply {
+                        putCharSequence(KEY_MESSAGE, getString(R.string.roadmap_intro))
+                        putInt(KEY_COMMAND_POSITIVE, R.id.ROADMAP_COMMAND)
+                        putString(ConfirmationDialogFragment.KEY_PREFKEY, prefKey)
+                        putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.roadmap_vote)
+                    }).show(supportFragmentManager, "ROAD_MAP_VOTE_REMINDER")
+                }
+            }
+        }
+    }
+
 
     companion object {
         const val MANAGE_HIDDEN_FRAGMENT_TAG = "MANAGE_HIDDEN"

@@ -47,7 +47,6 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.AppDirHelper;
-import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
@@ -66,8 +65,6 @@ public class MyExpenses extends BaseMyExpenses implements
     ConfirmationDialogListener, SortUtilityDialogFragment.OnConfirmListener, SelectFilterDialog.Host {
 
   private AdHandler adHandler;
-
-  private RoadmapViewModel roadmapViewModel;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -110,12 +107,10 @@ public class MyExpenses extends BaseMyExpenses implements
         showTransactionFromIntent(extras);
       }
     }
-    roadmapViewModel = new ViewModelProvider(this).get(RoadmapViewModel.class);
-    ((MyApplication) getApplicationContext()).getAppComponent().inject(roadmapViewModel);
+
     if (savedInstanceState == null) {
       newVersionCheck();
-      //voteReminderCheck();
-      //voteReminderCheck2();
+      voteReminderCheck();
     }
     reviewManager.init(this);
   }
@@ -129,29 +124,10 @@ public class MyExpenses extends BaseMyExpenses implements
     }
   }
 
-  private void voteReminderCheck() {
-    final String prefKey = "vote_reminder_shown_" + RoadmapRepository.VERSION;
-    if (Utils.getDaysSinceUpdate(this) > 1 &&
-        !prefHandler.getBoolean(prefKey, false)) {
-      roadmapViewModel.getLastVote().observe(this, vote -> {
-        boolean hasNotVoted = vote == null;
-        if (hasNotVoted) {
-          Bundle bundle = new Bundle();
-          bundle.putCharSequence(
-              ConfirmationDialogFragment.KEY_MESSAGE, hasNotVoted ? getString(R.string.roadmap_intro) :
-                  TextUtils.concatResStrings(MyExpenses.this, " ",
-                      R.string.roadmap_intro, R.string.roadmap_intro_update));
-          bundle.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.ROADMAP_COMMAND);
-          bundle.putString(ConfirmationDialogFragment.KEY_PREFKEY, prefKey);
-          bundle.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.roadmap_vote);
-          ConfirmationDialogFragment.newInstance(bundle).show(getSupportFragmentManager(),
-              "ROAD_MAP_VOTE_REMINDER");
-        }
-      });
-    }
-  }
-
-  private void voteReminderCheck2() {
+  /**
+   * Can be used to ask user who has already voted to update their vote. Currently not used
+   */
+/*  private void voteReminderCheck2() {
     roadmapViewModel.getShouldShowVoteReminder().observe(this, shouldShow -> {
       if (shouldShow) {
         prefHandler.putLong(PrefKey.VOTE_REMINDER_LAST_CHECK, System.currentTimeMillis());
@@ -162,7 +138,7 @@ public class MyExpenses extends BaseMyExpenses implements
         }));
       }
     });
-  }
+  }*/
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode,
