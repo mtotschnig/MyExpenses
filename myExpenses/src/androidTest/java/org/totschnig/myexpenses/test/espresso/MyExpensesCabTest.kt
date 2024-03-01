@@ -4,11 +4,13 @@ import android.net.Uri
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertContentDescriptionEquals
 import androidx.compose.ui.test.assertTextContains
+import androidx.compose.ui.test.hasAnyAncestor
 import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -26,6 +28,7 @@ import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.TEST_TAG_CONTEXT_MENU
 import org.totschnig.myexpenses.compose.TEST_TAG_LIST
+import org.totschnig.myexpenses.compose.TEST_TAG_SELECT_DIALOG
 import org.totschnig.myexpenses.db2.addAttachments
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Money
@@ -205,7 +208,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         launch(initialOpCount = 1)
         val transferAccount = buildAccount("Test account 2")
         clickContextItem(R.string.menu_transform_to_transfer)
-        composeTestRule.onNodeWithText("Test account 2").performClick()
+        composeTestRule.onNode(hasAnyAncestor(hasTestTag(TEST_TAG_SELECT_DIALOG)) and hasText("Test account 2")).performClick()
         onView(withId(android.R.id.button1)).perform(click())
         onView(withId(android.R.id.button1)).perform(click())
         val op = Transaction.getInstanceFromDb(contentResolver, op0Id, homeCurrency)
