@@ -331,8 +331,10 @@ open class MyExpensesViewModel(
             }
         }
 
-    protected val tags: StateFlow<Map<String, Pair<String, Int?>>> = contentResolver.tagMapFlow
+    protected val tags: StateFlow<Map<String, Pair<String, Int?>>> by lazy {
+        contentResolver.tagMapFlow
         .stateIn(viewModelScope, SharingStarted.Eagerly, emptyMap())
+    }
 
     open fun buildTransactionPagingSource(account: PageAccount) =
         TransactionPagingSource(
