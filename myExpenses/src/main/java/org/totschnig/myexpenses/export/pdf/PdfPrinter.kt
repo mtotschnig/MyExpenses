@@ -39,6 +39,7 @@ import org.totschnig.myexpenses.util.LazyFontSelector.FontType
 import org.totschnig.myexpenses.util.PdfHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.io.displayName
 import org.totschnig.myexpenses.viewmodel.data.Category
@@ -47,6 +48,7 @@ import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderData.Companion.fromSequence
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.io.IOException
+import java.lang.IllegalStateException
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -425,7 +427,11 @@ object PdfPrinter {
                 if (hasComment) {
                     cell = helper.printToCell(transaction.comment, FontType.ITALIC)
                     if (isVoid) {
-                        cell.phrase.chunks[0].setGenericTag(VOID_MARKER)
+                        cell.phrase.chunks.getOrNull(0)?.also {
+                            it.setGenericTag(VOID_MARKER)
+                        } ?: run {
+                            CrashHandler.report(IllegalStateException("Comment ${transaction.comment} considered not null or empty by Kotlin, but has length 0 for Java."))
+                        }
                     }
                     if (!hasTags) {
                         cell.colspan = 2
