@@ -124,7 +124,6 @@
     <string name="help_heading_whats_new">Τι νέο υπάρχει</string>
     <string name="import_select_transactions">Συναλλαγές</string>
     <string name="income">Εισόδημα</string>
-    <string name="invalid_number_format">Δεκαδική μορφή δεν αναγνωρίζεται από τις τοπικές σας ρυθμίσεις. Παρακαλούμε να χρησιμοποιήσετε το %1$s</string>
     <string name="label">Ετικέτα</string>
     <string name="licence_validation_failure">Δεν είναι δυνατή η επικύρωση κλειδιού αδειών.</string>
     <string name="licence_validation_success">Κλειδί αδειών επικυρώθηκε με επιτυχία :</string>

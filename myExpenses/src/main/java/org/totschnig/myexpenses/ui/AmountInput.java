@@ -274,7 +274,7 @@ public class AmountInput extends ConstraintLayout {
 
   @Nullable
   public BigDecimal validate(boolean showToUser) {
-    return amountEditText().validate(showToUser);
+    return amountEditText().validateLegacy(showToUser);
   }
 
   @NonNull

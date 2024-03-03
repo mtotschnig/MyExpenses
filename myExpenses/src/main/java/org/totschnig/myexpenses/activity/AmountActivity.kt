@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.fragment.TagList.Companion.KEY_TAG_LIST
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
+import org.totschnig.myexpenses.util.ui.validateAmountInput
 import org.totschnig.myexpenses.viewmodel.TagBaseViewModel
 import org.totschnig.myexpenses.viewmodel.TagHandlingViewModel
 import org.totschnig.myexpenses.viewmodel.TagListViewModel.Companion.KEY_SELECTED_IDS
@@ -50,7 +51,7 @@ abstract class AmountActivity<T: TagHandlingViewModel> : EditActivity() {
     protected open fun configureType() {}
 
     protected fun validateAmountInput(showToUser: Boolean, ifPresent: Boolean = true) =
-        validateAmountInput(amountInput, showToUser, ifPresent)
+        amountInput.validateAmountInput(showToUser, ifPresent)
 
     open fun setupListeners() {
         amountInput.addTextChangedListener(this)

@@ -126,7 +126,6 @@
     <string name="help_heading_whats_new">Co je nového</string>
     <string name="import_select_transactions">Transakce</string>
     <string name="income">Příjem</string>
-    <string name="invalid_number_format">Desítkový formát není rozpoznatelný vaším místním. Použijte %1$s</string>
     <string name="label">Popisek</string>
     <string name="licence_validation_failure">Nelze ověřit licenční klíč.</string>
     <string name="licence_validation_success">Licenční klíč úspěšně ověřen:</string>

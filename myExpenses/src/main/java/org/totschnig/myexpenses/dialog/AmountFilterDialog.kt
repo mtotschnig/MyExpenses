@@ -54,12 +54,12 @@ class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
     private fun onOkClick() {
         val ctx = activity as MyExpenses? ?: return
         val currency = this.currency
-        val amount1 = binding.amount1.validateAmountInput(currency) ?: return
+        val amount1 = binding.amount1.validateAmountInput(currency).getOrNull() ?: return
         val selectedOp =
             resources.getStringArray(R.array.comparison_operator_values)[binding.Operator.selectedItemPosition]
         val type = binding.type.checkedButtonId == R.id.income
         val amount2 = if (selectedOp == "BTW") {
-            binding.amount2.validateAmountInput(currency) ?: return
+            binding.amount2.validateAmountInput(currency).getOrNull() ?: return
         } else null
 
         ctx.addFilterCriterion(

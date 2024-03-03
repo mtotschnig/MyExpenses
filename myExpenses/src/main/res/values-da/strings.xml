@@ -101,7 +101,6 @@
     <string name="help_heading_whats_new">Hvad er nyt</string>
     <string name="import_select_transactions">Posteringer</string>
     <string name="income">Indkomst</string>
-    <string name="invalid_number_format">Tal format understøttes ikke af din landestandard/lokalinstillinger. Brug venligst %1$s</string>
     <string name="label">Betegnelse</string>
     <string name="licence_validation_failure">Licensnøglen kan ikke valideres.</string>
     <string name="licence_validation_success">Licensnøglen er valideret:</string>

@@ -128,7 +128,6 @@
     <string name="help_heading_whats_new">آخر الاخبار</string>
     <string name="import_select_transactions">العمليات</string>
     <string name="income">الدخل</string>
-    <string name="invalid_number_format">لا يمكن استخدام الاعداد العشرية. فضلا استخدم %1$s</string>
     <string name="label">عبارة توضيحية</string>
     <string name="licence_validation_failure">تعذر التحقق من صحة مفتاح الترخيص.</string>
     <string name="licence_validation_success">تم التحقق من صحة مفتاح الترخيص بنجاح:</string>

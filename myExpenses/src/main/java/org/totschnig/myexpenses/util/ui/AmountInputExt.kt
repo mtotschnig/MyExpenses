@@ -14,7 +14,7 @@ fun AmountInput.requireAmountInput(
 
 fun AmountInput.validateAmountInput(
     showToUser: Boolean,
-    ifPresent: Boolean
+    ifPresent: Boolean = true
 ): BigDecimal? = getTypedValue(ifPresent, showToUser)
 
 fun AmountInput.validateAmountInput(
@@ -22,22 +22,26 @@ fun AmountInput.validateAmountInput(
     showToUser: Boolean = true,
     ifPresent: Boolean = true
 ) = runCatching {
-        validateAmountInput(ifPresent = ifPresent, showToUser = showToUser)?.let {
+    validateAmountInput(ifPresent = ifPresent, showToUser = showToUser)?.let {
+        try {
+            Money(currencyUnit, it)
+        } catch (e: ArithmeticException) {
+            if (showToUser) {
+                setError("Number too large.")
+            }
+            throw e
+        }
+    }
+}
+
+fun AmountEditText.validateAmountInput(currencyUnit: CurrencyUnit) =
+    validate(true).mapCatching { amount ->
+        amount?.let {
             try {
                 Money(currencyUnit, it)
             } catch (e: ArithmeticException) {
-                if (showToUser) {
-                    setError("Number too large.")
-                }
+                error = "Number too large."
                 throw e
             }
         }
     }
-
-fun AmountEditText.validateAmountInput(currencyUnit: CurrencyUnit) = validate(true)?.let {
-    try { Money(currencyUnit, it) }
-    catch (e: ArithmeticException) {
-        error = "Number too large."
-        null
-    }
-}

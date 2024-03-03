@@ -124,7 +124,6 @@
     <string name="help_heading_whats_new">Újdonságok</string>
     <string name="import_select_transactions">Tranzakciók</string>
     <string name="income">Bevétel</string>
-    <string name="invalid_number_format">Tizedes formátum nem található az Ön nyelvén. Kérem használja ezt: %1$s</string>
     <string name="label">Címke</string>
     <string name="licence_validation_failure">Licensz kulcs ellenőrzése sikertelen</string>
     <string name="licence_validation_success">Licensz kulcs sikeresen ellenőrizve:</string>

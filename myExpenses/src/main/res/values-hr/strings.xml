@@ -99,7 +99,6 @@
     <string name="help_heading_whats_new">Što je novo</string>
     <string name="import_select_transactions">Transakcije</string>
     <string name="income">Prihod</string>
-    <string name="invalid_number_format">Decimalni format nije prepoznat. Koristi %1$s</string>
     <string name="label">Oznaka</string>
     <string name="licence_validation_failure">Neuspjela provjera valjanosti licensnog ključa.</string>
     <string name="licence_validation_success">Licencni ključ je uspješno provjeren:</string>

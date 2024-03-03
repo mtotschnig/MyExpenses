@@ -124,7 +124,6 @@
     <string name="help_heading_whats_new">ಹೊಸತೇನಿದೆ</string>
     <string name="import_select_transactions">ವ್ಯವಹಾರಗಳು</string>
     <string name="income">ಆದಾಯ</string>
-    <string name="invalid_number_format">ನಿಮ್ಮ ಸ್ಥಳದಿಂದ ದಶಮಾಂಶ ಸ್ವರೂಪವನ್ನು ಗುರುತಿಸಲಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು %1$s ಬಳಸಿ</string>
     <string name="label">ಲೇಬಲ್</string>
     <string name="licence_validation_failure">ಲೈಸೆನ್ಸ್ ಕೀಲಿಯನ್ನು ಮೌಲ್ಯೀಕರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.</string>
     <string name="licence_validation_success">ಲೈಸೆನ್ಸ್ ಕೀ ಯಶಸ್ವಿಯಾಗಿ ಮೌಲ್ಯೀಕರಿಸಲಾಗಿದೆ:</string>

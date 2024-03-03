@@ -125,7 +125,6 @@
     <string name="help_heading_whats_new">מה חדש</string>
     <string name="import_select_transactions">עסקאות</string>
     <string name="income">הכנסה</string>
-    <string name="invalid_number_format">תבנית עשרונית לא מזוהה לפי האזור שלך. השתמש ב- %1$s</string>
     <string name="label">תווית</string>
     <string name="licence_validation_failure">לא ניתן לאמת מפתח רישיון.</string>
     <string name="licence_validation_success">מפתח הרישיון אומת בהצלחה:</string>

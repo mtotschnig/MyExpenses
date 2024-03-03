@@ -125,7 +125,6 @@
     <string name="help_heading_whats_new">Novità</string>
     <string name="import_select_transactions">Operazioni</string>
     <string name="income">Entrate</string>
-    <string name="invalid_number_format">Formato decimale non riconosciuto dalla tua regione. Si prega di utilizzare %1$s</string>
     <string name="label">Etichetta</string>
     <string name="licence_validation_failure">Impossible convalidare la licenza.</string>
     <string name="licence_validation_success">Licenza convalidata con successo:</string>

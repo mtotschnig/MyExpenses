@@ -124,7 +124,6 @@
     <string name="help_heading_whats_new">Zer dago berri</string>
     <string name="import_select_transactions">Transakzioak</string>
     <string name="income">Diru-sarrera</string>
-    <string name="invalid_number_format">Formatu dezimala ezin da ulertu zure hizkuntzan. Erabili %1$s</string>
     <string name="label">Etiketa</string>
     <string name="licence_validation_failure">Ezin izan da lizentzia gakoa egiaztatu.</string>
     <string name="licence_validation_success">Lizentzia gakoa ondo egiaztatu da</string>

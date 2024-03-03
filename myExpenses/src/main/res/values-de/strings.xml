@@ -124,7 +124,6 @@
     <string name="help_heading_whats_new">Neue Funktionen</string>
     <string name="import_select_transactions">Buchungen</string>
     <string name="income">Einnahme</string>
-    <string name="invalid_number_format">Zahlenformat wird von Ihrer Locale nicht unterstützt. Bitte verwenden Sie %1$s</string>
     <string name="label">Bezeichnung</string>
     <string name="licence_validation_failure">Lizenz-Schlüssel konnte nicht validiert werden.</string>
     <string name="licence_validation_success">Lizenz-Schlüssel wurde erfolgreich validiert: </string>

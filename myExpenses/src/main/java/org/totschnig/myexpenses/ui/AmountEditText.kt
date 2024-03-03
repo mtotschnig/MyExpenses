@@ -11,6 +11,7 @@ import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -69,22 +70,25 @@ class AmountEditText(
         setText(numberFormat.format(amount))
     }
 
-    fun validate(showToUser: Boolean): BigDecimal? {
+    fun validateLegacy(showToUser: Boolean) = validate(showToUser).getOrNull()
+
+    fun validate(showToUser: Boolean) = runCatching {
         val strAmount = Objects.requireNonNull(text).toString()
         if (strAmount == "") {
             if (showToUser) error = context.getString(R.string.required)
-            return null
-        }
-        val amount = Utils.validateNumber(numberFormat, strAmount)
-        if (amount == null) {
-            if (showToUser) {
+            null
+        } else Utils.validateNumber(numberFormat, strAmount).also { amount ->
+            if (amount == null) {
                 val errorMessage =
-                    context.getString(R.string.invalid_number_format, numberFormat.format(11.11))
-                error = errorMessage
-                throw Exception(errorMessage)
+                    "Expected format ${numberFormat.toPattern()}, instead got $strAmount"
+                if (showToUser) {
+                    error = errorMessage
+                }
+                throw Exception(errorMessage).also {
+                    CrashHandler.report(it)
+                }
             }
         }
-        return amount
     }
 
     private fun configDecimalSeparator(decimalSeparator: Char, fractionDigits: Int) {

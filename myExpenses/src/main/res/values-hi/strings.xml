@@ -299,7 +299,6 @@
     <string name="dialog_contrib_usage_limit_with_dialog">आपकी वर्तमान लाइसेंस स्थिति (%1$s) के साथ, यह डायलॉग प्रत्येक उपयोग पर प्रदर्शित होगा।</string>
     <string name="dialog_remind_rate_1_suggest_improvement">सुधार के लिए हमें अपने सुझाव भेजने के लिए कृपया कुछ समय दें।</string>
     <string name="menu_edit_plan_instance">एकल योजना घटना संपादित करें</string>
-    <string name="invalid_number_format">दशमलव प्रारूप आपके स्थान द्वारा पहचाना नहीं गया। कृपया %1$s का उपयोग करें</string>
     <string name="menu_edit_split_part_category">श्रेणी विभाजित भाग संपादित करें</string>
     <string name="button_label_close">बंद करना</string>
     <string name="menu_edit_split_part_transfer">स्थानांतरण विभाजन भाग संपादित करें</string>

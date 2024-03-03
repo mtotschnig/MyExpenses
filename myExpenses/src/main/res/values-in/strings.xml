@@ -224,7 +224,6 @@
     <string name="licence_validation_success">Kunci lisensi berhasil divalidasi:</string>
     <string name="menu_balance">Saldo akun</string>
     <string name="menu_backup">Cadangkan</string>
-    <string name="invalid_number_format">Format desimal tidak dikenali oleh wilayah Anda. Silakan gunakan %1$s</string>
     <string name="menu_cancel_plan_instance">Batal</string>
     <string name="menu_clone_transaction">Klon</string>
     <string name="dialog_contrib_trial_info_play">Uji coba gratis ini tidak akan pernah berubah menjadi jenis langganan apa pun.</string>

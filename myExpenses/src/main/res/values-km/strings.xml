@@ -94,7 +94,6 @@
     <string name="help_heading_whats_new">អ្វីៗថ្មីៗ</string>
     <string name="import_select_transactions">ប្រតិបត្តិការ</string>
     <string name="income">ចំណូល</string>
-    <string name="invalid_number_format">ទម្រង់​ទសភាគ អត់​ស្គាល់តាមការកំណត់ភាសា​របស់​អ្នកទេ។ សូម​ប្រើ %1$s</string>
     <string name="label">ស្លាក</string>
     <string name="licence_validation_failure">មិនអាចបញ្ជាក់សុពលភាពអាជ្ញាប័ណ្ណ</string>
     <string name="menu_aggregates">សរុប</string>
