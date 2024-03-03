@@ -12,6 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.BuildConfig
@@ -72,7 +73,7 @@ open class TransactionPagingSource(
             }
         }
         coroutineScope.launch {
-            tags.drop(1).collect {
+            tags.filter { it.isNotEmpty() }.drop(1).collect {
                 invalidate()
             }
         }
@@ -94,7 +95,7 @@ open class TransactionPagingSource(
     @SuppressLint("InlinedApi")
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Transaction2> {
         val position = params.key ?: 0
-        //if the previous page was loaded from an offset between 0 and loadsize,
+        //if the previous page was loaded from an offset between 0 and loadSize,
         //we must take care to load only the missing items before the offset
         val loadSize = if (position < 0) params.loadSize + position else params.loadSize
         Timber.i("Requesting data for account %d at position %d", account.id, position)
@@ -126,15 +127,13 @@ open class TransactionPagingSource(
                     val duration = Duration.between(startTime, endTime)
                     Timber.i("Cursor delivered %d rows after %s", cursor.count, duration)
                 }
-                withContext(Dispatchers.Main) {
-                    cursor.asSequence.map {
-                        Transaction2.fromCursor(
-                            it,
-                            account.currencyUnit,
-                            tags.value
-                        )
-                    }.toList()
-                }
+                cursor.asSequence.map {
+                    Transaction2.fromCursor(
+                        it,
+                        account.currencyUnit,
+                        tags.value
+                    )
+                }.toList()
             } ?: emptyList()
         }
         onLoadFinished()
