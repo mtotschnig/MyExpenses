@@ -84,7 +84,7 @@ abstract class BaseExpenseEditTest : BaseUiTest<TestExpenseEdit>() {
                 withText(R.string.response_yes)
             )
         ).perform(click())
-        onView(withId(R.id.Payee)).check(matches(withText("John")))
+        onView(withId(R.id.Payee)).check(matches(withText(payee)))
     }
 
     fun setOperationType(@TransactionsContract.Transactions.TransactionType operationType: Int) {
