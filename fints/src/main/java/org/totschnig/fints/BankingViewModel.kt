@@ -392,14 +392,12 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                     }
 
                     val result = umsatzJob.jobResult as GVRKUms
-
+                    log(result.toString())
                     if (!result.isOK) {
                         error(result.toString())
-                        log(result.toString())
                         _workState.value = WorkState.Abort()
                         return@doHBCI
                     }
-
                     var importCount = 0
                     for (umsLine in result.flatData) {
                         log(umsLine.toString())
@@ -693,7 +691,13 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                     runBlocking { pushTanFuture.await() }
                 }
 
-                HAVE_ERROR -> Timber.e(msg)
+                HAVE_ERROR -> CrashHandler.report(Throwable(msg), BankingFeature.TAG)
+                CLOSE_CONNECTION -> {
+                    if (workState.value !is WorkState.Done) {
+                        _workState.value = WorkState.Abort()
+                    }
+                }
+
                 else -> {}
             }
         }
