@@ -1072,4 +1072,5 @@
     <string name="menu_transform_to_transfer">Convert to transfer</string>
     <string name="warning_transform_to_transfer">The selected transaction will be replaced by a transfer from %1$s to %2$s.</string>
     <string name="remap_date">On all selected transactions, date will be set to %s.</string>
+    <string name="roadmap_intro">The 2024 Roadmap Vote is now open! Vote for the features and improvements that matter most to you.</string>
 </resources>
