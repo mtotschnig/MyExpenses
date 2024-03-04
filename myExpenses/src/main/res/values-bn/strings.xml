@@ -1,2 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="account">হিসাব</string>
+    <string name="account_type_asset">সম্পদ হিসাব</string>
+    <string name="account_type_bank_plural">ব্যাংক অ্যাকাউন্টস</string>
+    <string name="account_type_asset_plural">সম্পদ অ্যাকাউন্ট সমূহ</string>
+    <string name="account_type_ccard">ক্রেডিট কার্ড</string>
+    <string name="account_type_ccard_plural">ক্রেডিট কার্ডস</string>
+    <string name="account_type_liability">দায় হিসাব</string>
+    <string name="account_type_liability_plural">দায় হিসাব সমূহ</string>
+    <string name="app_name">আমার খরচ</string>
+    <string name="color">রঙ</string>
+    <string name="comment">মন্তব্য</string>
+    <string name="contrib_feature_ad_free_label">অ্যাড বিহীন</string>
+    <string name="account_types">হিসাবের ধরণ</string>
+    <string name="account_type_bank">ব্যাংক অ্যাকাউন্ট</string>
+    <string name="account_type_cash">নগদ অ্যাকাউন্ট</string>
+    <string name="account_type_cash_plural">নগদ অ্যাকাউন্টস</string>
+    <string name="amount">পরিমাণ</string>
+    <string name="category">শ্রেণী</string>
+</resources>
