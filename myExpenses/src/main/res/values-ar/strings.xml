@@ -1058,4 +1058,5 @@
     <string name="one_time_payment">دفعة مالية لمرة واحدة</string>
     <string name="dialog_contrib_trial_info_play">لن يتم تحويل هذه النسخة التجريبية المجانية  أبدًا إلى أي نوع من الاشتراكات.</string>
     <string name="dialog_contrib_subscription_info_play">يسري هذا الاشتراك على الفور ، ويتم إصدار فاتورة شهرية أو سنوية ويمكن إلغاؤه في أي وقت.</string>
+    <string name="roadmap_intro">تصويت خارطة الطريق لعام 2024 مفتوح الآن! صوت للميزات والتحسينات الأكثر أهمية بالنسبة لك.</string>
 </resources>
