@@ -1026,4 +1026,5 @@
     <string name="menu_transform_to_transfer">In Umbuchung umwandeln</string>
     <string name="remap_date">Bei allen ausgewählten Buchungen wird das Datum auf %s gesetzt.</string>
     <string name="warning_transform_to_transfer">Die ausgewählte Buchung wird durch eine Umbuchung von %1$s nach %2$s ersetzt.</string>
+    <string name="roadmap_intro">Die Abstimmung über die Roadmap 2024 ist eröffnet! Stimmen Sie für die Funktionen und Verbesserungen ab, die Ihnen am wichtigsten sind.</string>
 </resources>
