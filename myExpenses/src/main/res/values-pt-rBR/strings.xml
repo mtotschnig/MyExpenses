@@ -125,7 +125,6 @@
     <string name="help_heading_whats_new">Novidades</string>
     <string name="import_select_transactions">Transações</string>
     <string name="income">Receita</string>
-    <string name="invalid_number_format">Formato decimal não reconhecido pela sua localidade. Por favor, use %1$s</string>
     <string name="label">Rótulo</string>
     <string name="licence_validation_failure">Não foi possível validar a chave da licença.</string>
     <string name="licence_validation_success">A chave da licença foi validada com sucesso:</string>

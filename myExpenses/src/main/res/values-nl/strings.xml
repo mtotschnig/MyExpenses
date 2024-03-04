@@ -142,7 +142,6 @@
     <string name="dialog_export_not_yet_exported">Exporteer alleen transacties die nog niet zijn geëxporteerd</string>
     <string name="dialog_remind_rate_1_suggest_improvement">Neem even de tijd om ons je suggesties voor verbeteringen te sturen.</string>
     <string name="grouping_last_week">Vorige week</string>
-    <string name="invalid_number_format">Decimaal formaat wordt niet herkend door je landinstelling. Gebruik %1$s</string>
     <string name="menu_create_method">Nieuwe betalingswijze</string>
     <string name="menu_create_split_part_category">Nieuw categorie gesplitst onderdeel</string>
     <string name="menu_create_party">Nieuwe partij</string>

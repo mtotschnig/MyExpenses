@@ -124,7 +124,6 @@
     <string name="help_heading_whats_new">Yenilikler</string>
     <string name="import_select_transactions">Muameleler</string>
     <string name="income">gelirler</string>
-    <string name="invalid_number_format">Yerel ayarlarınız ondalık biçimi tanımıyor. Lütfen şunu kullanınız: %1$s</string>
     <string name="label">Etiket</string>
     <string name="licence_validation_failure">Lisans anahtarı doğrulanamadı.</string>
     <string name="licence_validation_success">Lisans anahtarı başarıyla doğrulandı:</string>

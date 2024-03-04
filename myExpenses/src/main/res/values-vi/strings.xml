@@ -119,7 +119,6 @@
     <string name="help_heading_whats_new">Có gì mới</string>
     <string name="import_select_transactions">Các giao dịch</string>
     <string name="income">Thu</string>
-    <string name="invalid_number_format">Định dạng thập phân không được nhận diện bởi hệ thống ngôn ngữ của bạn. Xin sử dụng %1$s</string>
     <string name="label">Nhãn</string>
     <string name="licence_validation_failure">Không thể xác minh khóa bản quyền.</string>
     <string name="licence_validation_success">Khoá bản quyền đã được xác minh</string>

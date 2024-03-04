@@ -123,7 +123,6 @@
     <string name="help_heading_whats_new">最新資訊</string>
     <string name="import_select_transactions">交易項目</string>
     <string name="income">收入</string>
-    <string name="invalid_number_format">本機設備無法識別十進制格式。請使用%1$s</string>
     <string name="label">標籤</string>
     <string name="licence_validation_failure">無法驗證許可證金鑰</string>
     <string name="licence_validation_success">許可證金鑰已被驗證成功:</string>

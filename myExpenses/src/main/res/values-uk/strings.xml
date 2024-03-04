@@ -117,7 +117,6 @@
     <string name="help_heading_whats_new">Що нового</string>
     <string name="import_select_transactions">Банківські операції</string>
     <string name="income">Дохід</string>
-    <string name="invalid_number_format">Десятковий формат не визначено у вашій локалі. Будь-ласка, використовуйте %1$s</string>
     <string name="label">Помітка</string>
     <string name="licence_validation_failure">Не вдається перевірити ліцензійний ключ.</string>
     <string name="licence_validation_success">Ліцензійний ключ успішно підтверджено:</string>

@@ -126,7 +126,6 @@
     <string name="help_heading_whats_new">Что нового</string>
     <string name="import_select_transactions">Операция</string>
     <string name="income">Прибыль</string>
-    <string name="invalid_number_format">Десятичный формат не опознан в вашей локали. Пожалуйста, используйте %1$s</string>
     <string name="label">Метка</string>
     <string name="licence_validation_failure">Не удалось проверить лицензионный ключ.</string>
     <string name="licence_validation_success">Лицензионный ключ успешно проверен: </string>

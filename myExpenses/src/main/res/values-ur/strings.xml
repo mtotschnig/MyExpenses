@@ -75,7 +75,6 @@
     <string name="dialog_contrib_reminder_remove_limitation">اس حد کو ہٹائیں اور اپ گریڈ کرکے مزید خصوصیات تک رسائی حاصل کریں۔ <i>{app_name}</i>.</string>
     <string name="grouping_day">دن</string>
     <string name="grouping_this_week">اس ہفتے</string>
-    <string name="invalid_number_format">اعشاریہ فارمیٹ آپ کے لوکل سے نہیں پہچانا گیا ہے۔ براہ کرم %1$s استعمال کریں</string>
     <string name="grisbi_import_parties_loading">%1$s سے پارٹیاں لوڈ ہو رہی ہیں</string>
     <string name="help_heading_whats_new">نیا کیا ہے</string>
     <string name="menu_aggregates">کل</string>

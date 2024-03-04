@@ -124,7 +124,6 @@
     <string name="help_heading_whats_new">புதியது என்ன</string>
     <string name="import_select_transactions">பரிவர்த்தனைகள்</string>
     <string name="income">வருமானம்</string>
-    <string name="invalid_number_format">உங்கள் வட்டாரத்தால் வரையறுக்கப்படாத பதின்ம வடிவம். தயவுசெய்து %1$s ஐப் பயன்படுத்துக</string>
     <string name="label">விவரத்துணுக்கு</string>
     <string name="licence_validation_failure">உரிம திறவுகோலை சரிபார்க்க முடியவில்லை.</string>
     <string name="licence_validation_success">உரிம திறவுகோல் வெற்றிகரமாக சரிபார்க்கப்பட்டது:</string>

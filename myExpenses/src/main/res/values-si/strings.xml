@@ -75,7 +75,6 @@
     <string name="help_heading_whats_new">කුමක්ද අලුත් </string>
     <string name="import_select_transactions">ගනුදෙනු </string>
     <string name="income">ආදායම</string>
-    <string name="invalid_number_format">ලෝකලයට දශම අකාරය හඳුනාගත නොහැක. කරුණාකර  %1$s පාවිච්චි කරන්න </string>
     <string name="label">ලේබලය </string>
     <string name="licence_validation_failure">අවසර යතුර වලංගු කිරීමට නොහැකියි </string>
     <string name="licence_validation_success">බලපත්‍ර යතුර සාර්ථක ලෙස වලංගු කළේය. </string>

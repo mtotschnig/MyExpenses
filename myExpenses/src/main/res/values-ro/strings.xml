@@ -113,7 +113,6 @@
     <string name="help_heading_whats_new">Noutăţi</string>
     <string name="import_select_transactions">Tranzacţii</string>
     <string name="income">Venituri</string>
-    <string name="invalid_number_format">Format zecimal necunoscut de localizarea dvs. Utilizaţi %1$s</string>
     <string name="label">Eticheta</string>
     <string name="licence_validation_failure">Validare imposibilă a Chei licenţei.</string>
     <string name="licence_validation_success">Cheie Licenţă validată:</string>

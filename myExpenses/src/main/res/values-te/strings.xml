@@ -643,7 +643,6 @@
     <string name="menu_edit_account">ఖాతాను సవరించండి</string>
     <string name="menu_edit">సవరించండి</string>
     <string name="menu_distribution">పంపిణీ</string>
-    <string name="invalid_number_format">మీ లొకేల్ ద్వారా దశాంశ ఆకృతి గుర్తించబడలేదు. దయచేసి %1$s ఉపయోగించండి</string>
     <string name="grisbi_import_parties_loading">%1$s నుండి పార్టీలను లోడ్ చేస్తోంది</string>
     <string name="grisbi_import_categories_loading">%1$s నుండి వర్గాలను లోడ్ చేస్తోంది</string>
     <string name="ftp_uri_malformed">చెడ్డ URI %1$s</string>

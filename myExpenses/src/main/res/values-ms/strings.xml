@@ -123,7 +123,6 @@
     <string name="help_heading_whats_new">Apa yang terbaharu</string>
     <string name="import_select_transactions">Transaksi</string>
     <string name="income">Pendapatan</string>
-    <string name="invalid_number_format">Format perpuluhan tidak dikenali oleh lokal anda. Sila guna %1$s</string>
     <string name="label">Label</string>
     <string name="licence_validation_failure">Tidak boleh sahkan kunci lesen.</string>
     <string name="licence_validation_success">Kunci lesen berjaya disahkan:</string>
