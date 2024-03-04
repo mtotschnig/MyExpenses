@@ -1027,4 +1027,5 @@
     <string name="warning_delete_default_transfer_category">La categoria %s è configurata come categoria di bonifico predefinita e non deve essere eliminata.</string>
     <string name="default_transfer_category">Categoria di trasferimento predefinita</string>
     <string name="menu_transform_to_transfer">Converti in trasferimento</string>
+    <string name="roadmap_intro">La votazione sulla Roadmap 2024 è ora aperta! Vota per le funzionalità e i miglioramenti che più ti interessano.</string>
 </resources>
