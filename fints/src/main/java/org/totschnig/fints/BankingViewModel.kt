@@ -392,7 +392,6 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                     }
 
                     val result = umsatzJob.jobResult as GVRKUms
-                    log(result.toString())
                     if (!result.isOK) {
                         error(result.toString())
                         _workState.value = WorkState.Abort()
@@ -400,7 +399,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                     }
                     var importCount = 0
                     for (umsLine in result.flatData) {
-                        log(umsLine.toString())
+                        Timber.i(umsLine.toString())
                         with(converter) {
                             val (transaction, attributes: Map<out Attribute, String>) =
                                 umsLine.toTransaction(accountId, currencyContext)
@@ -508,7 +507,6 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                         if (!result.isOK) {
                             _workState.value = WorkState.Abort()
                             error(result.toString())
-                            log(result.toString())
                             return@doHBCI
                         }
 
@@ -526,7 +524,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                         repository.saveAccountAttributes(accountId, konto.asAttributes)
 
                         for (umsLine in result.flatData) {
-                            log(umsLine.toString())
+                            Timber.i(umsLine.toString())
                             with(converter) {
                                 val (transaction, transactionAttributes: Map<out Attribute, String>) = umsLine.toTransaction(
                                     accountId,
@@ -703,7 +701,6 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
 
         override fun status(passport: HBCIPassport, statusTag: Int, o: Array<Any?>?) {
             log("status:$statusTag")
-            o?.forEach { log(it.toString()) }
         }
     }
 
