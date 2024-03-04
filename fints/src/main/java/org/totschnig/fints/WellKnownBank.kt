@@ -13,7 +13,8 @@ enum class WellKnownBank(@DrawableRes val icon: Int, val color: Int) {
     VOLKSBANK(R.drawable.volksbank, Color.rgb(0, 101, 178)),
     SPARDA(R.drawable.sparda, Color.rgb(0, 92, 168)),
     TARGO(R.drawable.targo, Color.rgb(122, 156, 192)),
-    DEUTSCHE_BANK(R.drawable.deutsche_bank, Color.rgb(0, 24, 168))
+    DEUTSCHE_BANK(R.drawable.deutsche_bank, Color.rgb(0, 24, 168)),
+    POSTBANK(R.drawable.postbank, Color.rgb(255, 204, 0))
 }
 
 val Bank.asWellKnown: WellKnownBank?
@@ -24,6 +25,7 @@ val Bank.asWellKnown: WellKnownBank?
         blz == "50010517" -> WellKnownBank.ING
         blz.startsWith("200411") -> WellKnownBank.COMDIRECT
         bankName.contains("sparda", ignoreCase = true) -> WellKnownBank.SPARDA
+        bankName.contains("postbank", ignoreCase = true) -> WellKnownBank.POSTBANK
         blz[3] == '5' -> WellKnownBank.SPARKASSE
         blz[3] == '7' -> WellKnownBank.DEUTSCHE_BANK
         blz[3] == '9' || blz[3] == '6' -> WellKnownBank.VOLKSBANK
