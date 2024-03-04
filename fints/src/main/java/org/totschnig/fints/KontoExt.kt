@@ -18,9 +18,11 @@ fun Konto.toAccount(bank: Bank, openingBalance: Long) = Account(
 
 val Konto.asAttributes
     get() = buildMap {
+
         number?.let { put(BankingAttribute.NUMBER, it) }
         subnumber?.let { put(BankingAttribute.SUBNUMBER, it) }
         iban?.let { put(BankingAttribute.IBAN, it) }
+        blz?.let { put(BankingAttribute.BLZ, it) }
     }
 
 

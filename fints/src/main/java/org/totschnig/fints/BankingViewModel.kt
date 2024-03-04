@@ -373,7 +373,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                     umsatzJob.setParam("my",
                         Konto(
                             "DE",
-                            credentials.blz,
+                            accountInformation.blz ?: credentials.blz,
                             accountInformation.number,
                             accountInformation.subnumber
                         ).also {
@@ -473,7 +473,6 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         var successCount = 0
         viewModelScope.launch(context = coroutineContext()) {
             accounts.forEach { (konto, targetAccount) ->
-
                 doHBCI(
                     bankingCredentials,
                     work = { _, _, handle ->
@@ -484,9 +483,9 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                                 konto.iban
                             )
                         )
-
+                        Timber.i("importing : $konto")
                         val umsatzJob: HBCIJob = handle.newJob("KUmsAll")
-                        log("jobRestrictions : " + umsatzJob.jobRestrictions.toString())
+                        Timber.i("jobRestrictions : ${umsatzJob.jobRestrictions}")
                         umsatzJob.setParam("my", konto)
                         startDate?.let { umsatzJob.setStartParam(startDate) }
 

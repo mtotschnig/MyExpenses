@@ -104,7 +104,7 @@ import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 
-const val DATABASE_VERSION = 163
+const val DATABASE_VERSION = 164
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -685,11 +685,11 @@ abstract class BaseTransactionDatabase(
         execSQL("DROP TABLE payee_old")
         execSQL("CREATE TABLE attributes (_id integer primary key autoincrement,attribute_name text not null,context text not null, unique (attribute_name, context))")
         Attribute.initDatabaseInternal(
-            this@upgradeTo145, FinTsAttribute::class.java,
+            this, FinTsAttribute::class.java,
             "attributes", "attribute_name", "context"
         )
         Attribute.initDatabaseInternal(
-            this@upgradeTo145, BankingAttribute::class.java,
+            this, BankingAttribute::class.java,
             "attributes", "attribute_name", "context"
         )
         execSQL(
@@ -906,6 +906,13 @@ abstract class BaseTransactionDatabase(
     fun SupportSQLiteDatabase.upgradeTo163() {
         execSQL("DROP TRIGGER IF EXISTS uuid_update_change_log")
         execSQL(TRANSACTIONS_UUID_UPDATE_TRIGGER_CREATE)
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo164() {
+        insert("attributes", ContentValues().apply {
+            put("attribute_name", BankingAttribute.BLZ.name)
+            put("context", BankingAttribute.BLZ.context)
+        })
     }
 
     override fun onCreate(db: SupportSQLiteDatabase) {

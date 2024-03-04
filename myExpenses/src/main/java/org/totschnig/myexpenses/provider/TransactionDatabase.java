@@ -2077,6 +2077,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 163) {
         upgradeTo163(db);
       }
+      //If oldVersion < 145, then attribute is already configured on current enum values
+      if (oldVersion >= 145 && oldVersion < 164) {
+        upgradeTo164(db);
+      }
 
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
