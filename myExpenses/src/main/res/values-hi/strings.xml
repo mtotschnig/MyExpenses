@@ -429,4 +429,6 @@
     <string name="pref_qif_export_file_encoding_title">कैरेक्टर एन्कोडिंग</string>
     <string name="pref_ui_language_default">सिस्टम डिफाल्ट</string>
     <string name="share_sending">एक्सपोर्ट फाइल भेजें</string>
+    <string name="total_cleared">क्लियर्ड टोटल</string>
+    <string name="sum_transfer">ट्रांसफर्स</string>
 </resources>
