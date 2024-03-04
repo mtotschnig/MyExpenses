@@ -1039,4 +1039,5 @@
     <string name="warning_transform_to_transfer">L\'opération sélectionnée sera remplacée par un transfert de %1$s vers %2$s.</string>
     <string name="remap_date">Sur toutes les opérations sélectionnées, la date sera fixée à %s.</string>
     <string name="menu_transform_to_transfer">Transformer en transfert</string>
+    <string name="roadmap_intro">Le vote pour la feuille de route 2024 est maintenant ouvert ! Votez pour les fonctionnalités et les améliorations qui comptent le plus pour vous.</string>
 </resources>
