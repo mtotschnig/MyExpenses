@@ -1,0 +1,6 @@
+• Clonez plusieurs opérations avec une nouvelle date.
+• L'interface utilisateur Web peut être contrôlée depuis l'écran principal.
+• Transformer en transfert
+• Export au format CSV: MS Excel
+
+https://github.com/mtotschnig/MyExpenses/projects/132#column-19778148

@@ -1,0 +1,6 @@
+• Birden fazla muameleyi yeni tarihle klonla.
+• Web kullanıcı arayüzü ana ekrandan denetlenebilir.
+• Havaleye dönüştür
+• CSV olarak dışa aktar: MS Excel
+
+https://github.com/mtotschnig/MyExpenses/projects/132#column-19778148

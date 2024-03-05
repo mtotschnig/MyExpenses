@@ -1,0 +1,6 @@
+• Clone multiple transactions with new date.
+• Web user interface can be controlled from main screen.
+• Convert to transfer
+• Export to CSV: MS Excel
+
+https://github.com/mtotschnig/MyExpenses/projects/132#column-19778148

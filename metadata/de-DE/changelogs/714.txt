@@ -1,0 +1,6 @@
+• Klonen Sie mehrere Buchungen mit einem neuen Datum.
+• Die Web-Benutzeroberfläche kann vom Hauptbildschirm aus gesteuert werden.
+• In Umbuchung umwandeln
+• Export nach CSV: MS Excel
+
+https://github.com/mtotschnig/MyExpenses/projects/132#column-19778148
