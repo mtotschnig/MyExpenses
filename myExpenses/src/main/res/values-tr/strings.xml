@@ -1026,4 +1026,5 @@
     <string name="remap_date">Seçilen tüm muamelelerde tarih %s olarak ayarlanacak.</string>
     <string name="menu_transform_to_transfer">Havaleye dönüştür</string>
     <string name="warning_transform_to_transfer">Seçilen muamele %1$s\'den %2$s\'ye bir havale ile değiştirilecek.</string>
+    <string name="roadmap_intro">2024 Yol Haritası oylaması başladı! Sizin için en önemli olan özellikler ve iyileştirmeler için oy verin.</string>
 </resources>
