@@ -124,7 +124,8 @@ sealed class MenuItem(
     data object ShowStatusHandle: MenuItem(
         R.id.SHOW_STATUS_HANDLE_COMMAND,
         R.string.status,
-        R.drawable.ic_square
+        R.drawable.ic_square,
+        isCheckable = true
     )
 
     data object Balance : MenuItem(
