@@ -537,7 +537,7 @@
     <string name="menu_sync_download">Download e sincronizzazione</string>
     <string name="pref_sync_frequency_title">Frequenza di sincronizzazione</string>
     <string name="pref_sync_frequency_summary">Quanto spesso devono essere sincronizzati i dati (in ore)</string>
-    <string name="dialog_confirm_sync_unlink">Se si scollega questo account da %s, lo stato di sincronizzazione verrà perso. Collegandolo nuovamente in seguito, richiederà una sincronizzazione completa per essere eseguito di nuovo.</string>
+    <string name="dialog_confirm_sync_unlink">Se si rimuove il collegamento di questo account da %s, lo stato di sincronizzazione verrà perso. Collegandolo nuovamente in seguito, richiederà una sincronizzazione completa per essere eseguito di nuovo.</string>
     <string name="dialog_sync_link">Un conto con uuid %s è presente sia nel database locale che nel back-end remoto. Quando si collegano entrambi, è necessario decidere se si desidera caricare i dati locali sul back-end remoto o scaricare i dati remoti nel database locale.</string>
     <string name="dialog_command_sync_link_remote">Scaricare da remoto</string>
     <string name="dialog_command_sync_link_local">Caricare da locale</string>
@@ -1028,4 +1028,9 @@
     <string name="default_transfer_category">Categoria di trasferimento predefinita</string>
     <string name="menu_transform_to_transfer">Converti in trasferimento</string>
     <string name="roadmap_intro">La votazione sulla Roadmap 2024 è ora aperta! Vota per le funzionalità e i miglioramenti che più ti interessano.</string>
+    <string name="pref_sync_now_all_summary">%s sincronizza tutti i conti dello stesso back-end</string>
+    <string name="menu_unlink_transfer">Scorpora il trasferimento</string>
+    <string name="warning_unlink_transfer">Il trasferimento selezionato sarà scorporato: verrà sostituito da transazioni normali in entrambi i conti.</string>
+    <string name="contact_us">Contattaci</string>
+    <string name="pref_transaction_amount_color_source_title">Colori per gli importi</string>
 </resources>
