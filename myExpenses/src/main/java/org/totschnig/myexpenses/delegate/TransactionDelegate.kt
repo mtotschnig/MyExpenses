@@ -303,17 +303,12 @@ abstract class TransactionDelegate<T : ITransaction>(
         viewBinding.Amount.addTextChangedListener(object : MyTextWatcher() {
             override fun afterTextChanged(s: Editable) {
                 viewBinding.EquivalentAmount.setCompoundResultInput(
-                    viewBinding.Amount.validate(
-                        false
-                    )
+                    viewBinding.Amount.validate(false)
                 )
             }
         })
-        viewBinding.OriginalAmount.setCompoundResultOutListener { amount: BigDecimal ->
-            viewBinding.Amount.setAmount(
-                amount,
-                false
-            )
+        viewBinding.OriginalAmount.setCompoundResultOutListener {
+            viewBinding.Amount.setAmount(it, false)
         }
         if (isSplitPart) {
             disableAccountSpinner()
@@ -481,7 +476,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             appendCurrencyDescription(label.context, textResId, currencyUnit)
     }
 
-    fun setCurrencies(currencies: List<Currency?>?) {
+    fun setCurrencies(currencies: List<Currency>) {
         viewBinding.OriginalAmount.setCurrencies(currencies)
         populateOriginalCurrency()
     }
