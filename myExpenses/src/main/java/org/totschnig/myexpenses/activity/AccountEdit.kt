@@ -488,9 +488,8 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         return false
     }
 
-    override fun getDate(): LocalDate {
-        return LocalDate.now()
-    }
+    override val date: LocalDate
+        get() = LocalDate.now()
 
     override val amountLabel: TextView
         get() = binding.AmountLabel

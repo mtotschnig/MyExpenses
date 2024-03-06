@@ -11,7 +11,6 @@ import org.totschnig.myexpenses.model.ITransaction
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.shouldStartAutoFillWithFocus
-import org.totschnig.myexpenses.util.ui.validateAmountInput
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
 import org.totschnig.myexpenses.viewmodel.data.Account
 
@@ -84,9 +83,8 @@ class CategoryDelegate(
             viewBinding.Comment.setText(data.comment)
         }
 
-        if (viewBinding.Amount.validateAmountInput(
-                showToUser = false,
-                ifPresent = true
+        if (viewBinding.Amount.getAmount(
+                showToUser = false
             ) == null && data.amount != null
         ) {
             val beforeType = isIncome

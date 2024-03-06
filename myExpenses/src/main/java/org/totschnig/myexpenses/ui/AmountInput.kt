@@ -23,14 +23,12 @@ import org.totschnig.myexpenses.databinding.AmountInputAlternateBinding
 import org.totschnig.myexpenses.databinding.AmountInputBinding
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 import java.math.BigDecimal
 
-class AmountInput(
-    context: Context,
-    attrs: AttributeSet? = null
-) : ConstraintLayout(context, attrs) {
+class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(context, attrs) {
     fun typeButton(): CompoundButton {
         return (if (viewBinding is AmountInputAlternateBinding) (viewBinding as AmountInputAlternateBinding).TaType else (viewBinding as AmountInputBinding?)!!.TaType)
             .getRoot()
@@ -126,7 +124,9 @@ class AmountInput(
         } else {
             exchangeRateEdit().visibility = GONE
         }
-        calculator().setOnClickListener { host.showCalculator(validate(false), id) }
+        calculator().setOnClickListener {
+            host.showCalculator(getUntypedValue(false).getOrNull(), id)
+        }
         initialized = true
     }
 
@@ -197,7 +197,7 @@ class AmountInput(
 
     private fun onCompoundResultOutput() {
         if (compoundResultOutListener == null) return
-        val input = validate(false)
+        val input = getUntypedValue(false).getOrNull()
         val rate = exchangeRateEdit().getRate(false)
         if (input != null && rate != null) {
             compoundResultOutListener!!.onResultChanged(input.multiply(rate))
@@ -258,22 +258,31 @@ class AmountInput(
         amountEditText().setText("")
     }
 
-    fun validate(showToUser: Boolean): BigDecimal? {
-        return amountEditText().validateLegacy(showToUser)
-    }
+    fun getUntypedValue(showToUser: Boolean) = amountEditText().getAmount(showToUser)
 
     val typedValue: BigDecimal
-        get() = getTypedValue(ifPresent = false, showToUser = false)!!
+        get() = getTypedValue(showToUser = false).getOrNull() ?: BigDecimal.ZERO
 
-    fun getTypedValue(ifPresent: Boolean, showToUser: Boolean): BigDecimal? {
-        val bigDecimal = validate(showToUser)
-        if (bigDecimal == null) {
-            return if (ifPresent) null else BigDecimal.ZERO
-        } else if (!type) {
-            return bigDecimal.negate()
+    private fun getTypedValue(showToUser: Boolean) =
+        getUntypedValue(showToUser).map {
+            if (it != null && !type) it.negate() else it
         }
-        return bigDecimal
-    }
+
+    fun getAmount(showToUser: Boolean) = getTypedValue(showToUser).getOrNull()
+
+    fun getAmount(
+        currencyUnit: CurrencyUnit,
+        showToUser: Boolean = true
+    ): Result<Money?> = getTypedValue(showToUser).mapCatching { value ->
+            try {
+                value?.let { Money(currencyUnit, it) }
+            } catch (e: ArithmeticException) {
+                if (showToUser) {
+                    setError("Number too large.")
+                }
+                throw e
+            }
+        }
 
     var type: Boolean
         get() = !withTypeSwitch || typeButton().isChecked

@@ -8,7 +8,6 @@ import android.widget.AdapterView
 import androidx.core.view.isVisible
 import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.HELP_VARIANT_SPLIT_PART_TRANSFER
 import org.totschnig.myexpenses.activity.HELP_VARIANT_TEMPLATE_TRANSFER
 import org.totschnig.myexpenses.activity.HELP_VARIANT_TRANSFER
@@ -26,7 +25,6 @@ import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.ui.SpinnerHelper
-import org.totschnig.myexpenses.util.ui.validateAmountInput
 import org.totschnig.myexpenses.viewmodel.data.Account
 import java.math.BigDecimal
 
@@ -262,7 +260,7 @@ class TransferDelegate(
     }
 
     private fun applyExchangeRate(from: AmountInput, to: AmountInput, rate: BigDecimal?) {
-        val input = from.validateAmountInput(showToUser = false, ifPresent = true)
+        val input = from.getAmount(showToUser = false)
         to.setAmount(
             if (rate != null && input != null) input.multiply(rate) else BigDecimal(0),
             false
@@ -270,9 +268,9 @@ class TransferDelegate(
     }
 
     private fun updateExchangeRates() {
-        val amount = viewBinding.Amount.validateAmountInput(showToUser = false, ifPresent = true)
+        val amount = viewBinding.Amount.getAmount(showToUser = false)
         val transferAmount =
-            viewBinding.TransferAmount.validateAmountInput(showToUser = false, ifPresent = true)
+            viewBinding.TransferAmount.getAmount(showToUser = false)
         viewBinding.ERR.ExchangeRate.calculateAndSetRate(amount, transferAmount)
     }
 
@@ -287,7 +285,7 @@ class TransferDelegate(
         val transferAmount = if (isSame && amount != null) {
             amount.negate()
         } else {
-            viewBinding.TransferAmount.validateAmountInput(
+            viewBinding.TransferAmount.getAmount(
                 transferAccount.currency,
                 showToUser = forSave
             ).getOrNull()?.let {
