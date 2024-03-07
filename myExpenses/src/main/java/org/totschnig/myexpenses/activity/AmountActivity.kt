@@ -22,12 +22,10 @@ import org.totschnig.myexpenses.fragment.TagList.Companion.KEY_TAG_LIST
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
-import org.totschnig.myexpenses.util.ui.validateAmountInput
 import org.totschnig.myexpenses.viewmodel.TagBaseViewModel
 import org.totschnig.myexpenses.viewmodel.TagHandlingViewModel
 import org.totschnig.myexpenses.viewmodel.TagListViewModel.Companion.KEY_SELECTED_IDS
 import org.totschnig.myexpenses.viewmodel.data.Tag
-import java.math.BigDecimal
 
 abstract class AmountActivity<T: TagHandlingViewModel> : EditActivity() {
     abstract val amountLabel: TextView
@@ -50,8 +48,7 @@ abstract class AmountActivity<T: TagHandlingViewModel> : EditActivity() {
 
     protected open fun configureType() {}
 
-    protected fun validateAmountInput(showToUser: Boolean, ifPresent: Boolean = true) =
-        amountInput.validateAmountInput(showToUser, ifPresent)
+    protected fun validateAmountInput(showToUser: Boolean) = amountInput.getAmount(showToUser)
 
     open fun setupListeners() {
         amountInput.addTextChangedListener(this)

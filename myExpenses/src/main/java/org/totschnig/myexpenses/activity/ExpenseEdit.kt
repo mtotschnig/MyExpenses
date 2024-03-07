@@ -220,9 +220,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     private lateinit var currencyViewModel: CurrencyViewModel
 
     private lateinit var attachmentInfoMap: Map<Uri, AttachmentInfo>
-    override fun getDate(): LocalDate {
-        return dateEditBinding.DateButton.date
-    }
+
+    override val date: LocalDate
+        get() = dateEditBinding.DateButton.date
 
     @Inject
     lateinit var viewIntentProvider: ViewIntentProvider
@@ -1339,7 +1339,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     val amount: Money?
         get() = currentAccount?.let {
-            Money(it.currency, validateAmountInput(showToUser = false, ifPresent = false)!!)
+            Money(it.currency, validateAmountInput(showToUser = false) ?: BigDecimal.ZERO)
         }
 
     fun isValidType(type: Int): Boolean {

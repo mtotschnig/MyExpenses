@@ -10,6 +10,8 @@ import androidx.appcompat.widget.AppCompatEditText
 import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.math.BigDecimal
@@ -21,11 +23,13 @@ class AmountEditText(
     context: Context,
     attrs: AttributeSet? = null
 ) : AppCompatEditText(context, attrs) {
+
+    private val decimalSeparator: Char = Utils.getDefaultDecimalSeparator()
+
     @State
     var fractionDigits = -1
         set(value) {
             if (field != value) {
-                val decimalSeparator = Utils.getDefaultDecimalSeparator()
                 val symbols = DecimalFormatSymbols()
                 symbols.decimalSeparator = decimalSeparator
                 var pattern = "#0"
@@ -70,11 +74,9 @@ class AmountEditText(
         setText(numberFormat.format(amount))
     }
 
-    fun validateLegacy(showToUser: Boolean) = validate(showToUser).getOrNull()
-
-    fun validate(showToUser: Boolean) = runCatching {
+    fun getAmount(showToUser: Boolean) = runCatching {
         val strAmount = Objects.requireNonNull(text).toString()
-        if (strAmount == "") {
+        if (strAmount == "" || (strAmount.length == 1 && strAmount.first() == decimalSeparator))  {
             if (showToUser) error = context.getString(R.string.required)
             null
         } else Utils.validateNumber(numberFormat, strAmount).also { amount ->
@@ -83,13 +85,26 @@ class AmountEditText(
                     "Expected format ${numberFormat.toPattern()}, instead got $strAmount"
                 if (showToUser) {
                     error = errorMessage
-                }
-                throw Exception(errorMessage).also {
-                    CrashHandler.report(it)
+                    throw Exception(errorMessage).also {
+                        CrashHandler.report(it)
+                    }
                 }
             }
         }
     }
+
+    fun getAmount(currencyUnit: CurrencyUnit) =
+        getAmount(true).mapCatching { amount ->
+            amount?.let {
+                try {
+                    Money(currencyUnit, it)
+                } catch (e: ArithmeticException) {
+                    error = "Number too large."
+                    throw e
+                }
+            }
+        }
+
 
     private fun configDecimalSeparator(decimalSeparator: Char, fractionDigits: Int) {
         // TODO we should take into account the arab separator as well

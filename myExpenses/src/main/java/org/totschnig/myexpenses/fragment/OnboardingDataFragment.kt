@@ -28,7 +28,6 @@ import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountN
 import org.totschnig.myexpenses.ui.bindListener
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.ui.requireAmountInput
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.OnBoardingDataViewModel
@@ -82,7 +81,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
 
     override fun onNextButtonClicked() {
         hostActivity.doWithEncryptionCheck {
-            buildAccount().onSuccess {
+            buildAccount()?.let {
                 prefHandler.putString(PrefKey.HOME_CURRENCY, selectedCurrency.code)
                 viewModel.saveAccount(it)
             }
@@ -205,9 +204,9 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         get() = currencyContext[(binding.Currency.selectedItem as Currency).code]
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
-    private fun buildAccount(): Result<Account> {
+    private fun buildAccount(): Account? {
         val currency = selectedCurrency
-        return binding.Amount.requireAmountInput(currency).map { money ->
+        return binding.Amount.getAmount(currency, showToUser = true).getOrNull()?.let { money ->
             Account(
                 label = binding.Label.text.toString().takeIf { it.isNotEmpty() }
                     ?: getString(R.string.default_account_name),

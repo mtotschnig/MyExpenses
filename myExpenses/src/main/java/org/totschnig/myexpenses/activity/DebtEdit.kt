@@ -18,7 +18,6 @@ import org.totschnig.myexpenses.ui.ButtonWithDialog
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
-import org.totschnig.myexpenses.util.ui.validateAmountInput
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 import org.totschnig.myexpenses.viewmodel.data.Debt
@@ -118,9 +117,7 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host, ExchangeRateEdit.Host {
         binding.Amount.addTextChangedListener(object : MyTextWatcher() {
             override fun afterTextChanged(s: Editable) {
                 binding.EquivalentAmount.setCompoundResultInput(
-                    binding.Amount.validate(
-                        false
-                    )
+                    binding.Amount.getUntypedValue(false).getOrNull()
                 )
             }
         })
@@ -154,9 +151,9 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host, ExchangeRateEdit.Host {
         }
         binding.Amount.selectedCurrency?.let { currency ->
             val currencyUnit = currencyContext[currency.code]
-            binding.Amount.validateAmountInput(currencyUnit).getOrNull()?.let { amount ->
+            binding.Amount.getAmount(currencyUnit).getOrNull()?.let { amount ->
                 val equivalentAmount = if (currency.code == homeCurrency.code) null else
-                    (binding.EquivalentAmount.validateAmountInput(homeCurrency).getOrNull()
+                    (binding.EquivalentAmount.getAmount(homeCurrency).getOrNull()
                         ?: return).let {
                         if (amount.amountMinor.sign == -1) it.negate() else it
                     }
@@ -183,7 +180,7 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host, ExchangeRateEdit.Host {
         title = getString(if (signum) R.string.debt_owes_me else R.string.debt_I_owe, payeeName)
     }
 
-    override fun getDate(): LocalDate {
-        return binding.DateButton.date
-    }
+    override val date: LocalDate
+        get() = binding.DateButton.date
+
 }

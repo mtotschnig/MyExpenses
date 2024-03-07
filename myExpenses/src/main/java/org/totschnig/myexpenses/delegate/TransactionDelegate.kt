@@ -42,7 +42,6 @@ import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.ui.addChipsBulk
 import org.totschnig.myexpenses.util.ui.getDateMode
-import org.totschnig.myexpenses.util.ui.validateAmountInput
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
@@ -303,17 +302,12 @@ abstract class TransactionDelegate<T : ITransaction>(
         viewBinding.Amount.addTextChangedListener(object : MyTextWatcher() {
             override fun afterTextChanged(s: Editable) {
                 viewBinding.EquivalentAmount.setCompoundResultInput(
-                    viewBinding.Amount.validate(
-                        false
-                    )
+                    viewBinding.Amount.getUntypedValue(false).getOrNull()
                 )
             }
         })
-        viewBinding.OriginalAmount.setCompoundResultOutListener { amount: BigDecimal ->
-            viewBinding.Amount.setAmount(
-                amount,
-                false
-            )
+        viewBinding.OriginalAmount.setCompoundResultOutListener {
+            viewBinding.Amount.setAmount(it, false)
         }
         if (isSplitPart) {
             disableAccountSpinner()
@@ -454,9 +448,9 @@ abstract class TransactionDelegate<T : ITransaction>(
     private fun configureEquivalentAmountVisibility() {
         viewBinding.EquivalentAmountRow.isVisible = equivalentAmountVisible
         viewBinding.EquivalentAmount.setCompoundResultInput(
-            if (equivalentAmountVisible) viewBinding.Amount.validate(
-                false
-            ) else null
+            if (equivalentAmountVisible)
+                viewBinding.Amount.getUntypedValue(false).getOrNull()
+            else null
         )
     }
 
@@ -481,7 +475,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             appendCurrencyDescription(label.context, textResId, currencyUnit)
     }
 
-    fun setCurrencies(currencies: List<Currency?>?) {
+    fun setCurrencies(currencies: List<Currency>) {
         viewBinding.OriginalAmount.setCurrencies(currencies)
         populateOriginalCurrency()
     }
@@ -517,9 +511,8 @@ abstract class TransactionDelegate<T : ITransaction>(
         configureEquivalentAmountVisibility()
         if (equivalentAmountVisible) {
             currentAccount()?.let {
-                if (viewBinding.EquivalentAmount.validateAmountInput(
-                        showToUser = false,
-                        ifPresent = true
+                if (viewBinding.EquivalentAmount.getAmount(
+                        showToUser = false
                     ) == null
                 ) {
                     val rate = BigDecimal(it.exchangeRate)
@@ -923,13 +916,12 @@ abstract class TransactionDelegate<T : ITransaction>(
         } ?: Plan.Recurrence.NONE
 
     protected fun validateAmountInput(): BigDecimal? =
-        viewBinding.Amount.validateAmountInput(showToUser = false, ifPresent = false)
+        viewBinding.Amount.getAmount(showToUser = false)
 
     protected fun validateAmountInput(forSave: Boolean, currencyUnit: CurrencyUnit) =
-        viewBinding.Amount.validateAmountInput(
+        viewBinding.Amount.getAmount(
             currencyUnit,
-            showToUser = forSave,
-            ifPresent = forSave
+            showToUser = forSave
         )
 
     private fun configureAccountDependent(account: Account) {

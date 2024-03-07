@@ -44,7 +44,6 @@ import org.totschnig.myexpenses.util.ui.configurePopupAnchor
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.safeMessage
-import org.totschnig.myexpenses.util.ui.validateAmountInput
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import java.math.BigDecimal
@@ -121,7 +120,7 @@ abstract class MainDelegate<T : ITransaction>(
             val selectedItem = viewBinding.OriginalAmount.selectedCurrency
             if (selectedItem != null) {
                 val currency = selectedItem.code
-                val originalAmount = viewBinding.OriginalAmount.validateAmountInput(
+                val originalAmount = viewBinding.OriginalAmount.getAmount(
                     currencyContext[currency]
                 )
                 originalAmount.onFailure {
@@ -133,7 +132,7 @@ abstract class MainDelegate<T : ITransaction>(
             } else {
                 this.originalAmount = null
             }
-            val equivalentAmount = viewBinding.EquivalentAmount.validateAmountInput(homeCurrency)
+            val equivalentAmount = viewBinding.EquivalentAmount.getAmount(homeCurrency)
             equivalentAmount.onFailure {
                 return null
             }.onSuccess {
@@ -279,17 +278,15 @@ abstract class MainDelegate<T : ITransaction>(
     }
 
     private fun calculateInstallment(debt: Debt) =
-        (if (debt.currency != currentAccount()!!.currency)
+        if (debt.currency != currentAccount()!!.currency)
             with(
-                viewBinding.EquivalentAmount.validateAmountInput(
-                    showToUser = false,
-                    ifPresent = false
-                )
+                viewBinding.EquivalentAmount.getAmount(
+                    showToUser = false
+                ) ?: BigDecimal.ZERO
             ) {
-                if (isIncome) this else this?.negate()
+                if (isIncome) this else this.negate()
             }
-        else
-            validateAmountInput()).takeIf { it != BigDecimal.ZERO }
+        else validateAmountInput()
 
     private fun formatDebtHelp(debt: Debt, installment: BigDecimal) =
         TextUtils.concat(*buildList {

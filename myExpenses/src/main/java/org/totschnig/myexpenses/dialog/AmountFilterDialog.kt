@@ -13,7 +13,6 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.filter.AmountCriterion.Companion.create
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.util.ui.validateAmountInput
 import org.totschnig.myexpenses.util.ui.withOkClick
 
 class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
@@ -54,12 +53,12 @@ class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
     private fun onOkClick() {
         val ctx = activity as MyExpenses? ?: return
         val currency = this.currency
-        val amount1 = binding.amount1.validateAmountInput(currency).getOrNull() ?: return
+        val amount1 = binding.amount1.getAmount(currency).getOrNull() ?: return
         val selectedOp =
             resources.getStringArray(R.array.comparison_operator_values)[binding.Operator.selectedItemPosition]
         val type = binding.type.checkedButtonId == R.id.income
         val amount2 = if (selectedOp == "BTW") {
-            binding.amount2.validateAmountInput(currency).getOrNull() ?: return
+            binding.amount2.getAmount(currency).getOrNull() ?: return
         } else null
 
         ctx.addFilterCriterion(

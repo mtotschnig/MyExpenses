@@ -42,7 +42,6 @@ import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.ui.filter.ScrollingChip
-import org.totschnig.myexpenses.util.ui.validateAmountInput
 import org.totschnig.myexpenses.viewmodel.BudgetEditViewModel
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel.Companion.prefNameForCriteria
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
@@ -393,7 +392,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
         if (duration != null && duration.second < duration.first) {
             showDismissibleSnackBar(R.string.budget_date_end_after_start)
         } else {
-            val allocation = binding.Amount.validateAmountInput(budgetId == 0L)
+            val allocation = binding.Amount.getAmount(budgetId == 0L)
             if (allocation != null || budgetId != 0L) {
                 val account: AccountMinimal = selectedAccount()
                 val currencyUnit = currencyContext[account.currency]
