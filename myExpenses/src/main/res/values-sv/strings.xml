@@ -3,7 +3,6 @@
     <string name="new_version">Ny version</string>
     <string name="add_shortcut">Lägg till genväg</string>
     <string name="comment">Anteckningar</string>
-    <string name="dialog_command_disabled_reset_account">Inga överföringar att exportera.</string>
     <string name="dialog_title_warning_delete_category">Ta bort kategori?</string>
     <string name="grouping_month">Månad</string>
     <string name="account_type_ccard_plural">Kreditkort</string>

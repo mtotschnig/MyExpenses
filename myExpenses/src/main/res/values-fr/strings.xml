@@ -68,8 +68,6 @@
     <string name="dialog_confirm_discard_changes">Annuler les changements ?</string>
     <string name="dialog_command_disabled_balance">Aucune transaction à rapprocher.</string>
     <string name="dialog_command_disabled_insert_transfer">Les opérations de transfert requièrent un deuxième compte.</string>
-    <string name="dialog_command_disabled_reset_account">Aucune opération à exporter.</string>
-    <string name="dialog_command_disabled_distribution">Aucune opération n\'a été attribuée dans aucune catégorie pour ce compte.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">Essayer</string>
     <string name="dialog_contrib_reminder_remove_limitation">Enlevez cette limitation et accédez à plus de fonctions en passant <i>{app_name}</i> au niveau supérieur.</string>

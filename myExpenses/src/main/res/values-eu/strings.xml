@@ -68,8 +68,6 @@
     <string name="dialog_confirm_discard_changes">Baztertu aldaketak?</string>
     <string name="dialog_command_disabled_balance">Ez dago kitatutako transakziorik berdinkatzeko.</string>
     <string name="dialog_command_disabled_insert_transfer">Transferentzia transakzioek bigarren kontu bat behar dute</string>
-    <string name="dialog_command_disabled_reset_account">Ez dago transakziorik esportatzeko</string>
-    <string name="dialog_command_disabled_distribution">Ez da transakziorik lotu kategorietara kontu honetan.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">Probatu</string>
     <string name="dialog_contrib_reminder_remove_limitation">Kendu muga hau eta eskuratu eginbide gehiago <i>{app_name}</i> bertsio-berrituz.</string>

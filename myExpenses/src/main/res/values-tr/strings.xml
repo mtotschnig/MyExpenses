@@ -68,8 +68,6 @@
     <string name="dialog_confirm_discard_changes">Değişiklikler gözardı edilsin mi?</string>
     <string name="dialog_command_disabled_balance">Uzlaştırılacak hiçbir çözümlenmiş muamele yok.</string>
     <string name="dialog_command_disabled_insert_transfer">Transfer muameleleri ikinci bir hesap gerektirir.</string>
-    <string name="dialog_command_disabled_reset_account">Dışa aktarılacak hiçbir muamele yok.</string>
-    <string name="dialog_command_disabled_distribution">Bu hesapta hiçbir muamele kategorilendirilmemiştir.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">Dene</string>
     <string name="dialog_contrib_reminder_remove_limitation">Bu sınırlamayı kaldırıp daha fazla işleve erişmek için <i>{app_name}</i>\'ı yükseltin.</string>

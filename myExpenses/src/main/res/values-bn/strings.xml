@@ -27,8 +27,6 @@
     <string name="current_balance">বর্তমান ব্যালেন্স</string>
     <string name="default_account_name">বাজেট বই</string>
     <string name="dialog_confirm_discard_changes">পরিবর্তনগুলি বাতিল করবেন?</string>
-    <string name="dialog_command_disabled_reset_account">এক্সপোর্ট করার জন্য কোন লেনদেন নেই।</string>
-    <string name="dialog_command_disabled_distribution">কোন লেনদেন এই অ্যাকাউন্টে বিভাগ ম্যাপ করা হয়নি।</string>
     <string name="contrib_feature_split_template_label">আনলিমিটেড বিভক্ত টেমপ্লেট</string>
     <string name="contrib_feature_pro_support_label"><b>ইমেল সাপোর্ট</b>2 কার্যদিবসের মধ্যে পাল্টা জবাব এর গ্যারান্টি</string>
     <string name="contrib_feature_roadmap_voting_label">ভোট অধিকার &lt;b&gt;ডেভেলপমেন্ট রোডম্যাপে&lt;b&gt;</string>

@@ -181,9 +181,6 @@ public class MyExpenses extends BaseMyExpenses implements
     if (command == R.id.BUDGET_COMMAND) {
       contribFeatureRequested(ContribFeature.BUDGET, null);
       return true;
-    } else if (command == R.id.RESET_COMMAND) {
-      doReset();
-      return true;
     } else if (command == R.id.HELP_COMMAND_DRAWER) {
       i = new Intent(this, Help.class);
       i.putExtra(HelpDialogFragment.KEY_CONTEXT, "NavigationDrawer");

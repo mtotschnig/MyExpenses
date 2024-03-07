@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.view.View
 import androidx.annotation.IdRes
+import androidx.appcompat.widget.MenuPopupWindow.MenuDropDownListView
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.test.core.app.ActivityScenario
@@ -14,14 +15,18 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.platform.app.InstrumentationRegistry
 import com.adevinta.android.barista.interaction.BaristaEditTextInteractions
 import com.adevinta.android.barista.interaction.BaristaScrollInteractions
 import com.adevinta.android.barista.internal.matcher.HelperMatchers.menuIdMatcher
 import org.assertj.core.api.Assertions
+import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
@@ -59,7 +64,7 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
     val prefHandler: PrefHandler
         get() = app.appComponent.prefHandler()
 
-    val homeCurrencyProvider: HomeCurrencyProvider
+    private val homeCurrencyProvider: HomeCurrencyProvider
         get() = app.appComponent.homeCurrencyProvider()
 
     val plannerUtils: PlannerUtils
@@ -103,23 +108,45 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
      * @param menuItemId id of menu item rendered in CAB on Honeycomb and higher
      * Click on a menu item, that might be visible or hidden in overflow menu
      */
-    @JvmOverloads
     protected fun clickMenuItem(@IdRes menuItemId: Int, isCab: Boolean = false) {
         try {
-            val viewInteraction = onView(ViewMatchers.withId(menuItemId))
-            var searchInPlatformPopup = false
-            try {
-                searchInPlatformPopup = isCab && isLarge && app.packageManager.getActivityInfo(currentActivity!!.componentName, 0).themeResource == R.style.EditDialog
-            } catch (ignored: PackageManager.NameNotFoundException) {
-            }
-            if (searchInPlatformPopup) {
-                viewInteraction.inRoot(RootMatchers.isPlatformPopup())
-            }
-            viewInteraction.perform(ViewActions.click())
+            onView(ViewMatchers.withId(menuItemId)).apply {
+                if (try {
+                        isCab && isLarge && app.packageManager.getActivityInfo(
+                            currentActivity!!.componentName,
+                            0
+                        ).themeResource == R.style.EditDialog
+                    } catch (ignored: PackageManager.NameNotFoundException) {
+                        false
+                    }
+                ) {
+                    inRoot(RootMatchers.isPlatformPopup())
+                }
+            }.perform(ViewActions.click())
         } catch (e: NoMatchingViewException) {
             Espresso.openActionBarOverflowMenu(isCab)
             onData(menuIdMatcher(menuItemId)).inRoot(RootMatchers.isPlatformPopup()).perform(ViewActions.click())
         }
+    }
+
+    protected fun assertMenuItemHidden(@IdRes menuItemId: Int, isCab: Boolean = false) {
+        onView(ViewMatchers.withId(menuItemId)).apply {
+            if (try {
+                    isCab && isLarge && app.packageManager.getActivityInfo(
+                        currentActivity!!.componentName,
+                        0
+                    ).themeResource == R.style.EditDialog
+                } catch (ignored: PackageManager.NameNotFoundException) {
+                    false
+                }
+            ) {
+                inRoot(RootMatchers.isPlatformPopup())
+            }
+        }.check(doesNotExist())
+        Espresso.openActionBarOverflowMenu(isCab)
+        onView(isAssignableFrom(MenuDropDownListView::class.java))
+            .check(matches(not(withAdaptedData(menuIdMatcher(menuItemId)))))
+        pressBack()
     }
 
     //https://stackoverflow.com/a/41415288/1199911
@@ -139,7 +166,9 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
                 } catch (ignored: Exception) {
                 }
             }
-            onView(ViewMatchers.withSubstring(getString(R.string.dialog_title_contrib_feature))).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            onView(ViewMatchers.withSubstring(getString(R.string.dialog_title_contrib_feature))).check(
+                matches(isDisplayed())
+            )
             onView(ViewMatchers.withText(R.string.dialog_contrib_no)).perform(ViewActions.scrollTo(), ViewActions.click())
         }
     }
@@ -201,7 +230,7 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
         while (true) {
             try {
                 onView(ViewMatchers.withId(com.google.android.material.R.id.snackbar_text))
-                        .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+                        .check(matches(isDisplayed()))
             } catch (e: Exception) {
                 return
             }

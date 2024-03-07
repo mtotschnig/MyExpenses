@@ -79,8 +79,6 @@
     <string name="menu_create_main_cat">Nieuwe hoofdcategorie</string>
     <string name="dialog_command_disabled_balance">Geen goedgekeurde transacties die moeten worden verwerkt.</string>
     <string name="dialog_command_disabled_insert_transfer">Voor overdrachtstransacties is een tweede rekening vereist.</string>
-    <string name="dialog_command_disabled_reset_account">Geen transacties om te exporteren.</string>
-    <string name="dialog_command_disabled_distribution">In deze rekening zijn geen transacties aan categorieën toegewezen.</string>
     <string name="grouping_none">Niet gegroepeerd</string>
     <string name="grouping_week">Week</string>
     <string name="grouping_year">Jaar</string>

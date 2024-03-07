@@ -68,8 +68,6 @@
     <string name="dialog_confirm_discard_changes">Odrzucić zmiany?</string>
     <string name="dialog_command_disabled_balance">Brak rozliczonych transakcji do uzgodnienia.</string>
     <string name="dialog_command_disabled_insert_transfer">Transakcje transferowe wymagają drugiego konta.</string>
-    <string name="dialog_command_disabled_reset_account">Brak transakcji do eksportu</string>
-    <string name="dialog_command_disabled_distribution">Żadna z transakcji nie została zmapowana do kategorii na tym koncie.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">Próbuj</string>
     <string name="dialog_contrib_reminder_remove_limitation">Usuń to ograniczenie i uzyskaj dostęp do dodatkowych funkcji, aktualizując <i>{app_name} </i>.</string>

@@ -68,8 +68,6 @@
     <string name="dialog_confirm_discard_changes">Huỷ bỏ thay đổi?</string>
     <string name="dialog_command_disabled_balance">Không còn giao dịch nào chưa được thanh toán để khớp.</string>
     <string name="dialog_command_disabled_insert_transfer">Việc chuyển khoản yêu cầu một tài khoản khác.</string>
-    <string name="dialog_command_disabled_reset_account">Không có giao dịch để xuất.</string>
-    <string name="dialog_command_disabled_distribution">Không có giao dịch nào được cho phân loại trong tài khoản này.</string>
     <string name="dialog_contrib_reminder_remove_limitation">Loại bỏ sự giới hạn này và sử dụng nhiều tính năng hơn bằng cách nâng cấp <i>{app_name}</i></string>
     <string name="dialog_contrib_text_2">Xin hãy đóng góp bằng cách nâng cấp <i>{app_name}</i> và sử dụng không giới hạn các tính năng sau:</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Bản quyền hiện tại của bạn (%2$s) cho phép bạn tạo %1$d tài khoản.</string>

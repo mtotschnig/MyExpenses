@@ -68,8 +68,6 @@
     <string name="dialog_confirm_discard_changes">لغو تغییرات؟</string>
     <string name="dialog_command_disabled_balance">بدون تراکنش واضح برای وفق دادن.</string>
     <string name="dialog_command_disabled_insert_transfer">تراکنشهای انتقال نیاز به حساب دوم دارند</string>
-    <string name="dialog_command_disabled_reset_account">هیچ معاملهای برای صادرات وجود ندارد.</string>
-    <string name="dialog_command_disabled_distribution">هیچ تراکنشی به دسته‌بندیهای این حساب اضافه نشده است.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">امتحان کردن</string>
     <string name="dialog_contrib_reminder_remove_limitation">رفع این محدودیت و دسترسی به ویژگی‌های بیشتر از طریق ارتقاء <i>{app_name}</i></string>

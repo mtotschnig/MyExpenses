@@ -68,8 +68,6 @@
     <string name="dialog_confirm_discard_changes">تجاهل التغييرات؟</string>
     <string name="dialog_command_disabled_balance">لا توجد معاملات تمت تسويتها.</string>
     <string name="dialog_command_disabled_insert_transfer">تتطلب معاملات التحويل حساباً ثانياً.</string>
-    <string name="dialog_command_disabled_reset_account">لا يوجد عمليات لتصديرها.</string>
-    <string name="dialog_command_disabled_distribution">لا يوجد عمليات معينة للتصنيفات لهذا الحساب.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">للتجربة</string>
     <string name="dialog_contrib_reminder_remove_limitation">قم بإزالة هذا القيد والوصول إلى المزيد من الميزات عن طريق ترقية <i> {app_name}</i>.</string>

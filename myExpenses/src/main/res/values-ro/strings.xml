@@ -62,8 +62,6 @@
     <string name="dialog_balance_delete">Şterge tranzacţiile decontate</string>
     <string name="dialog_confirm_discard_changes">Renunțați la modificări?</string>
     <string name="dialog_command_disabled_balance">Nici o tranzacţie procesată de decontat</string>
-    <string name="dialog_command_disabled_reset_account">Nici o tranzacţie de exportat</string>
-    <string name="dialog_command_disabled_distribution">Nici o tranzacţie nu a fost atribuită în categoriile acestui cont</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">Încearcă</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> este oferit open source.</string>

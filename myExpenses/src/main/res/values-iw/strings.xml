@@ -68,8 +68,6 @@
     <string name="dialog_confirm_discard_changes">למחוק שינויים?</string>
     <string name="dialog_command_disabled_balance">אין עסקאות מסולקות cleared שיש ליישב reconciled.</string>
     <string name="dialog_command_disabled_insert_transfer">עסקאות העברה דורשות חשבון שני.</string>
-    <string name="dialog_command_disabled_reset_account">אין עסקאות לייצוא.</string>
-    <string name="dialog_command_disabled_distribution">לא בוצעו עסקאות ממופות לקטגוריות בחשבון זה.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">התנסות</string>
     <string name="dialog_contrib_reminder_remove_limitation">שדרוג <i>{app_name}</i> יסיר את המגבלה הזאת ויעניק גישה ליכולות נוספות.</string>

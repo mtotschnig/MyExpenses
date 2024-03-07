@@ -517,8 +517,6 @@
     <string name="dialog_contrib_text_1"><i> {app_name} </i> ఓపెన్ సోర్స్ అందించబడుతుంది.</string>
     <string name="dialog_contrib_reminder_remove_limitation"><i> {app_name} </i> ని అప్‌గ్రేడ్ చేయడం ద్వారా ఈ పరిమితిని తొలగించి మరిన్ని ఫీచర్‌లను యాక్సెస్ చేయండి.</string>
     <string name="dialog_contrib_no">ప్రయత్నించండి</string>
-    <string name="dialog_command_disabled_distribution">ఈ ఖాతాలోని వర్గాలకు లావాదేవీలు మ్యాప్ చేయబడలేదు.</string>
-    <string name="dialog_command_disabled_reset_account">ఎగుమతి చేయడానికి లావాదేవీలు లేవు.</string>
     <string name="dialog_command_disabled_insert_transfer">బదిలీ లావాదేవీలకు రెండవ ఖాతా అవసరం.</string>
     <string name="dialog_command_disabled_balance">రాజీపడటానికి క్లియర్ చేసిన లావాదేవీలు లేవు.</string>
     <string name="dialog_confirm_discard_changes">మార్పులను విస్మరించు\?</string>

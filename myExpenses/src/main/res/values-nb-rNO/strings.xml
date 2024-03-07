@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="dialog_command_disabled_reset_account">Ingen overføringer å eksportere.</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>E-poststøtte</b> med garantert svar innen 2 arbeidsdager</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Eksporter overføringsliste til PDF</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Ubegrenset antall planer</string>

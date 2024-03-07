@@ -68,8 +68,6 @@
     <string name="dialog_confirm_discard_changes">要放棄變更?</string>
     <string name="dialog_command_disabled_balance">沒有已結算或已入帳的交易需要去對帳</string>
     <string name="dialog_command_disabled_insert_transfer">需要建立第二個帳戶才可以互相轉帳。</string>
-    <string name="dialog_command_disabled_reset_account">沒有交易資料可以輸出</string>
-    <string name="dialog_command_disabled_distribution">此帳戶中，沒有交易對應到此類別。</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">試用</string>
     <string name="dialog_contrib_reminder_remove_limitation">升級版本後可以移除此限制與使用更多的功能<i>{app_name}</i></string>

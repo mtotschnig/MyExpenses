@@ -415,6 +415,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 toggleScanMode()
                 true
             }
+
             R.id.SHOW_STATUS_HANDLE_COMMAND -> {
                 currentAccount?.let {
                     lifecycleScope.launch {
@@ -424,10 +425,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
                 true
             }
+
             R.id.WEB_UI_COMMAND -> {
                 toggleWebUI()
                 true
             }
+
             else -> handleGrouping(item) ||
                     handleSortDirection(item) ||
                     filterHandler.handleFilter(item.itemId) ||
@@ -771,7 +774,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         ) { _, bundle ->
             showConfirmationDialog(
                 "TRANSFORM_TRANSFER",
-                getString(R.string.warning_transform_to_transfer, currentAccount!!.label, bundle.getString(KEY_LABEL)),
+                getString(
+                    R.string.warning_transform_to_transfer,
+                    currentAccount!!.label,
+                    bundle.getString(KEY_LABEL)
+                ),
                 R.id.TRANSFORM_TO_TRANSFER_COMMAND
             ) {
                 putAll(bundle)
@@ -1445,21 +1452,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 invalidateOptionsMenu()
             }
 
-            R.id.HISTORY_COMMAND -> {
-                if ((sumInfo as? SumInfoLoaded)?.hasItems == true) {
-                    contribFeatureRequested(ContribFeature.HISTORY)
-                } else {
-                    showSnackBar(R.string.no_expenses)
-                }
-            }
+            R.id.HISTORY_COMMAND -> contribFeatureRequested(ContribFeature.HISTORY)
 
-            R.id.DISTRIBUTION_COMMAND -> {
-                if ((sumInfo as? SumInfoLoaded)?.mappedCategories == true) {
-                    contribFeatureRequested(ContribFeature.DISTRIBUTION)
-                } else {
-                    showSnackBar(R.string.dialog_command_disabled_distribution)
-                }
-            }
+            R.id.DISTRIBUTION_COMMAND -> contribFeatureRequested(ContribFeature.DISTRIBUTION)
+
+            R.id.RESET_COMMAND -> doReset()
 
             R.id.GROUPING_ACCOUNTS_COMMAND -> {
                 MenuDialog.build()
@@ -1523,17 +1520,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
             }
 
-            R.id.PRINT_COMMAND -> {
-                if ((sumInfo as? SumInfoLoaded)?.hasItems == true) {
-                    AppDirHelper.checkAppDir(this).onSuccess {
-                        contribFeatureRequested(ContribFeature.PRINT)
-                    }.onFailure {
-                        showDismissibleSnackBar(it.safeMessage)
-                    }
-                } else {
-                    showExportDisabledCommand()
+            R.id.PRINT_COMMAND -> AppDirHelper.checkAppDir(this)
+                .onSuccess {
+                    contribFeatureRequested(ContribFeature.PRINT)
+                }.onFailure {
+                    showDismissibleSnackBar(it.safeMessage)
                 }
-            }
 
             R.id.BALANCE_COMMAND -> {
                 with(currentAccount!!) {
@@ -1713,8 +1705,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
             }
             menu.findItem(R.id.SEARCH_COMMAND)?.let {
-                filterHandler.configureSearchMenu(menu.findItem(R.id.SEARCH_COMMAND))
+                filterHandler.configureSearchMenu(it)
             }
+            menu.findItem(R.id.DISTRIBUTION_COMMAND)
+                ?.setEnabledAndVisible((sumInfo as? SumInfoLoaded)?.mappedCategories == true)
+            menu.findItem(R.id.HISTORY_COMMAND)?.setEnabledAndVisible(hasItems)
+            menu.findItem(R.id.RESET_COMMAND)?.setEnabledAndVisible(hasItems)
+            menu.findItem(R.id.PRINT_COMMAND)?.setEnabledAndVisible(hasItems)
         } else {
             for (item in listOf(
                 R.id.SEARCH_COMMAND,
@@ -1737,6 +1734,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
         return super.onPrepareOptionsMenu(menu)
     }
+
+    private val hasItems
+        get() = (sumInfo as? SumInfoLoaded)?.hasItems == true
 
     private fun setupToolbarPopupMenu() {
         toolbar.setOnClickListener {
@@ -2017,38 +2017,30 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         showSnackBar(TextUtils.concatResStrings(this, " ", *resIds.toIntArray()))
     }
 
-    fun doReset() {
-        if ((sumInfo as? SumInfoLoaded)?.hasItems == true) {
-            exportViewModel.checkAppDir().observe(this) { result ->
-                result.onSuccess {
-                    currentAccount?.let {
-                        with(it) {
-                            exportViewModel.hasExported(this)
-                                .observe(this@BaseMyExpenses) { hasExported ->
-                                    ExportDialogFragment.newInstance(
-                                        ExportDialogFragment.AccountInfo(
-                                            id,
-                                            label,
-                                            currency,
-                                            sealed,
-                                            hasExported,
-                                            !currentFilter.whereFilter.isEmpty
-                                        )
-                                    ).show(supportFragmentManager, "EXPORT")
-                                }
-                        }
+    private fun doReset() {
+        exportViewModel.checkAppDir().observe(this) { result ->
+            result.onSuccess {
+                currentAccount?.let {
+                    with(it) {
+                        exportViewModel.hasExported(this)
+                            .observe(this@BaseMyExpenses) { hasExported ->
+                                ExportDialogFragment.newInstance(
+                                    ExportDialogFragment.AccountInfo(
+                                        id,
+                                        label,
+                                        currency,
+                                        sealed,
+                                        hasExported,
+                                        !currentFilter.whereFilter.isEmpty
+                                    )
+                                ).show(supportFragmentManager, "EXPORT")
+                            }
                     }
-                }.onFailure {
-                    showDismissibleSnackBar(it.safeMessage)
                 }
+            }.onFailure {
+                showDismissibleSnackBar(it.safeMessage)
             }
-        } else {
-            showExportDisabledCommand()
         }
-    }
-
-    private fun showExportDisabledCommand() {
-        showSnackBar(R.string.dialog_command_disabled_reset_account)
     }
 
     /**

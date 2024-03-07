@@ -68,8 +68,6 @@
     <string name="dialog_confirm_discard_changes">மாற்றங்களை கைவிடவா?</string>
     <string name="dialog_command_disabled_balance">ஒப்புக்கொள்ளப்பட்ட பரிவர்த்தனைகள் எதுவும் நல்லிணக்கம் செய்யப்பட வேண்டியதில்லை.</string>
     <string name="dialog_command_disabled_insert_transfer">பரிமாற்ற பரிவர்த்தனைக்கு இரண்டாவது கணக்கு தேவை.</string>
-    <string name="dialog_command_disabled_reset_account">ஏற்றுமதி செய்ய பரிவர்த்தனைகள் ஏதும் இல்லை.</string>
-    <string name="dialog_command_disabled_distribution">இந்த கணக்கில் எந்தவொரு பரிவர்த்தனையும் வகைப்படுத்தப்படவில்லை.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">முயற்சி செய்</string>
     <string name="dialog_contrib_reminder_remove_limitation"><i>{app_name}</i> ஐ மேம்படுத்துவதன் மூலம் இந்த வரம்பை நீக்கி கூடுதல் அம்சங்களை பெறலாம்.</string>

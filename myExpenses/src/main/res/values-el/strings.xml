@@ -68,8 +68,6 @@
     <string name="dialog_confirm_discard_changes">Απόρριψη αλλαγών;</string>
     <string name="dialog_command_disabled_balance">Δεν υπάρχουν εκκαθαρισμένες συναλλαγές που πρέπει να διακανονιστούν.</string>
     <string name="dialog_command_disabled_insert_transfer">Οι συναλλαγές μεταφοράς απαιτούν ένα δεύτερο λογαριασμό.</string>
-    <string name="dialog_command_disabled_reset_account">Συναλλαγές για την εξαγωγή.</string>
-    <string name="dialog_command_disabled_distribution">Συναλλαγές δεν έχουν καταχωρηθεί σε κατηγορίες σε αυτό το λογαριασμό.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">Δοκιμή</string>
     <string name="dialog_contrib_reminder_remove_limitation">Αφαιρέστε αυτόν τον περιορισμό και αποκτήστε πρόσβαση σε περισσότερες δυνατότητες αναβαθμίζοντας το <i>{app_name}</i>.</string>

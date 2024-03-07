@@ -63,8 +63,6 @@
     <string name="dialog_balance_delete">수지 결산을 맞춘 거래 내역 삭제</string>
     <string name="dialog_confirm_discard_changes">변경 사항을 취소할까요?</string>
     <string name="dialog_command_disabled_balance">삭제된 거래 내역이 없습니다.</string>
-    <string name="dialog_command_disabled_reset_account">내보낼 거래 내역이 없습니다.</string>
-    <string name="dialog_command_disabled_distribution">이 계좌의 카테고리에 배치할 거래 내역이 없습니다.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> 소스 코드가 공개되어 있습니다.</string>
     <string name="dialog_contrib_text_2"><i>{app_name}</i> 을(를) 업그레이드하여 기여하고 다음 기능에 제한없이 액세스하십시오:</string>
     <string name="dialog_export_delete">내보낸 거래 내역 삭제</string>

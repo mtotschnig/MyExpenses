@@ -68,8 +68,6 @@
     <string name="dialog_confirm_discard_changes">Änderungen verwerfen?</string>
     <string name="dialog_command_disabled_balance">Keine verrechneten Buchungen zum Abstimmen.</string>
     <string name="dialog_command_disabled_insert_transfer">Umbuchungen benötigen ein zweites Konto.</string>
-    <string name="dialog_command_disabled_reset_account">Keine exportierbaren Buchungen vorhanden.</string>
-    <string name="dialog_command_disabled_distribution">In diesem Konto wurden keine Buchungen Kategorien zugeordnet.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">Ausprobieren</string>
     <string name="dialog_contrib_reminder_remove_limitation">Entfernen Sie diese Einschränkung und erhalten Sie Zugriff auf mehr Funktionen, indem Sie <i>{app_name}</i> upgraden.</string>

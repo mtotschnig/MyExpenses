@@ -61,7 +61,6 @@
     <string name="dialog_balance_delete">मिलान किए गए लेन-देन हटाएं</string>
     <string name="dialog_confirm_discard_changes">परिवर्तन छोड़ें?</string>
     <string name="dialog_command_disabled_insert_transfer">स्थानांतरण लेन-देन के लिए एक दूसरा खाता आवशयक है.</string>
-    <string name="dialog_command_disabled_reset_account">निर्यात करने के लिए कोई लेन-देन नहीं।</string>
     <string name="dialog_export_delete">निर्यात किए गए लेन-देन हटाएं</string>
     <string name="dialog_export_not_yet_exported">केवल वही लेन-देन निर्यात करे जो अभी तक निर्यात नहीं किए गए है</string>
     <string name="dialog_password_activate_protection">पासवर्ड सुरक्षा को सक्रिय करें</string>
@@ -291,7 +290,6 @@
         <item quantity="one">चयनित वस्तु को लेन-देन के लिए मैप किया गया है और इसे हटाया नहीं जा सकता है।</item>
         <item quantity="other">%1$d ऑब्जेक्ट लेन-देन के लिए मैप किए गए हैं और हटाए नहीं जा सकते।</item>
     </plurals>
-    <string name="dialog_command_disabled_distribution">इस खाते में श्रेणियों के लिए कोई लेन-देन मैप नहीं किया गया है।</string>
     <string name="dialog_contrib_reminder_remove_limitation"><i>{app_name}</i> को अपग्रेड करके इस सीमा को हटाएं और अधिक सुविधाओं तक पहुंचें।</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> को खुला स्रोत पेश किया जाता है।</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">आपकी वर्तमान लाइसेंस स्थिति (%2$s) आपको %1$d खाते बनाने की अनुमति देती है।</string>

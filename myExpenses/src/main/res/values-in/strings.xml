@@ -65,7 +65,6 @@
     <string name="account_type_bank">Akun Bank</string>
     <string name="account_type_ccard_plural">Kartu kredit</string>
     <string name="account_type_ccard">Kartu kredit</string>
-    <string name="dialog_command_disabled_reset_account">Tidak ada transaksi untuk diekspor.</string>
     <string name="extended_key">Kunci Diperpanjang</string>
     <string name="contrib_key">Kunci Contrib</string>
     <string name="contrib_feature_print_label">Ekspor daftar transaksi ke PDF</string>
@@ -177,7 +176,6 @@
     <string name="pref_criterion_futur_title">Kriteria untuk transaksi di masa mendatang</string>
     <string name="title_scan_receipt_feature">Pindai tanda terima</string>
     <string name="menu_parent_category_selection">Pilih kategori induk dengan ketukan singkat</string>
-    <string name="dialog_command_disabled_distribution">Tidak ada transaksi yang dipetakan ke kategori di akun ini.</string>
     <string name="dialog_contrib_text_2">Silakan berkontribusi dengan meng-upgrade <i>{nama_aplikasi}</i> dan dapatkan akses tak terbatas ke fitur-fitur berikut:</string>
     <string name="dialog_contrib_usage_limit_split_templates">Status lisensi Anda saat ini (%1$s) memungkinkan Anda untuk membuat 1 templat terpisah.</string>
     <string name="contrib_feature_synchronization_label">Sinkronisasi Cloud</string>

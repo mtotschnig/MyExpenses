@@ -54,8 +54,6 @@
     <string name="description">Descripció</string>
     <string name="dialog_balance_delete">Elimina les transaccions conciliades</string>
     <string name="dialog_command_disabled_balance">No hi ha operacions eliminades a reconciliar .</string>
-    <string name="dialog_command_disabled_reset_account">No hi ha cap operació per a exportar.</string>
-    <string name="dialog_command_disabled_distribution">En aquest compte no hi ha cap operació assignada a cap categoria.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> és de codi obert.</string>
     <string name="dialog_export_delete">Suprimeix les operacions exportades</string>
     <string name="dialog_export_not_yet_exported">Exporta només les operacions que encara no s\'han exportat</string>

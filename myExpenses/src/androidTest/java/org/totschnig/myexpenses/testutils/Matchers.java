@@ -38,33 +38,6 @@ public class Matchers {
     };
   }
 
-  //https://google.github.io/android-testing-support-library/docs/espresso/advanced/#asserting-that-a-data-item-is-not-in-an-adapter
-  public static Matcher<View> withAdaptedData(final Matcher<Object> dataMatcher) {
-    return new TypeSafeMatcher<View>() {
-
-      @Override
-      public void describeTo(Description description) {
-        description.appendText("with class name: ");
-        dataMatcher.describeTo(description);
-      }
-
-      @Override
-      public boolean matchesSafely(View view) {
-        if (!(view instanceof AdapterView)) {
-          return false;
-        }
-        @SuppressWarnings("rawtypes")
-        Adapter adapter = ((AdapterView) view).getAdapter();
-        for (int i = 0; i < adapter.getCount(); i++) {
-          if (dataMatcher.matches(adapter.getItem(i))) {
-            return true;
-          }
-        }
-        return false;
-      }
-    };
-  }
-
   public static <T> Matcher<T> first(final Matcher<T> matcher) {
     return new BaseMatcher<T>() {
       boolean isFirst = true;

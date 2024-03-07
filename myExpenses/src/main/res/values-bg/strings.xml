@@ -68,8 +68,6 @@
     <string name="dialog_confirm_discard_changes">Да отхвърля ли промените?</string>
     <string name="dialog_command_disabled_balance">Няма изчистени транзакции, които да бъдат изравнени.</string>
     <string name="dialog_command_disabled_insert_transfer">Транзакциите превод изискват втора сметка.</string>
-    <string name="dialog_command_disabled_reset_account">Няма транзакции за експорт.</string>
-    <string name="dialog_command_disabled_distribution">В тази сметка няма транзакции, отнесени към категорията.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">Опитай</string>
     <string name="dialog_contrib_reminder_remove_limitation">Премахнете ограниченията и получете повече възможности чрез надстройка на <i>{app_name}</i>.</string>

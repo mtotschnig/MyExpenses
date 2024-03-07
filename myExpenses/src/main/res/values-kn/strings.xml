@@ -68,8 +68,6 @@
     <string name="dialog_confirm_discard_changes">ಬದಲಾವಣೆಗಳನ್ನು ತ್ಯಜಿಸುತ್ತದೆ?</string>
     <string name="dialog_command_disabled_balance">ಯಾವುದೇ ತೆರವುಗೊಳಿಸಿದ ವಹಿವಾಟುಗಳನ್ನು ರಾಜಿ ಮಾಡಿಕೊಳ್ಳಲಾಗುವುದಿಲ್ಲ.</string>
     <string name="dialog_command_disabled_insert_transfer">ವರ್ಗಾವಣೆ ವಹಿವಾಟುಗಳಿಗೆ ಎರಡನೇ ಖಾತೆಯ ಅಗತ್ಯವಿದೆ.</string>
-    <string name="dialog_command_disabled_reset_account">ರಫ್ತು ಮಾಡಲು ಯಾವುದೇ ವಹಿವಾಟು ಇಲ್ಲ.</string>
-    <string name="dialog_command_disabled_distribution">ಈ ಖಾತೆಯಲ್ಲಿನ ವರ್ಗಗಳಿಗೆ ಯಾವುದೇ ವಹಿವಾಟುಗಳನ್ನು ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿಲ್ಲ.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">ಪ್ರಯತ್ನಿಸಿ</string>
     <string name="dialog_contrib_reminder_remove_limitation"><i>{app_name}</i> ಅನ್ನು ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡುವ ಮೂಲಕ ಈ ಮಿತಿಯನ್ನು ತೆಗೆದುಹಾಕಿ ಮತ್ತು ಹೆಚ್ಚಿನ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಪ್ರವೇಶಿಸಿ.</string>

@@ -30,8 +30,7 @@ import org.totschnig.myexpenses.viewmodel.data.Tag
 class FilterHandler(private val activity: BaseMyExpenses) {
     fun configureSearchMenu(searchMenu: MenuItem) {
         with(activity) {
-            val sumInfoIsLoaded = sumInfo is SumInfoLoaded
-            searchMenu.setEnabledAndVisible(sumInfoIsLoaded)
+            searchMenu.setEnabledAndVisible((sumInfo as? SumInfoLoaded)?.hasItems == true)
             (sumInfo as? SumInfoLoaded)?.let { sumInfo ->
                 val whereFilter = currentFilter.whereFilter
                 searchMenu.isChecked = !whereFilter.isEmpty

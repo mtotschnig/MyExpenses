@@ -68,8 +68,6 @@
     <string name="dialog_confirm_discard_changes">Отменить изменения\?</string>
     <string name="dialog_command_disabled_balance">Отсутствуют подтвержденные операций для согласования.</string>
     <string name="dialog_command_disabled_insert_transfer">Для переводов требуется второй счет.</string>
-    <string name="dialog_command_disabled_reset_account">Нет операций для экспорта.</string>
-    <string name="dialog_command_disabled_distribution">Нет операций, сопоставленных с категориями в этом счёте.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">Испытать</string>
     <string name="dialog_contrib_reminder_remove_limitation">Снимите это ограничение, а также получите больше возможностей расширив <i>{app_name}</i>.</string>

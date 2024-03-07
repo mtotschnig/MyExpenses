@@ -39,8 +39,6 @@
     <string name="date_format">日期格式</string>
     <string name="date_format_illegal">日期格式錯誤</string>
     <string name="description">描述</string>
-    <string name="dialog_command_disabled_reset_account">沒有交易可被匯出。</string>
-    <string name="dialog_command_disabled_distribution">在此帳戶，沒有交易被對應到類別中。</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i>是開源的。</string>
     <string name="dialog_export_delete">刪除已匯出的交易</string>
     <string name="dialog_export_not_yet_exported">只匯出尚未匯出的交易</string>

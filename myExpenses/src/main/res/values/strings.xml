@@ -70,8 +70,6 @@
     <string name="dialog_confirm_discard_changes">Discard changes?</string>
     <string name="dialog_command_disabled_balance">No cleared transactions to be reconciled.</string>
     <string name="dialog_command_disabled_insert_transfer">Transfer transactions require a second account.</string>
-    <string name="dialog_command_disabled_reset_account">No transactions to export.</string>
-    <string name="dialog_command_disabled_distribution">No transactions have been mapped to categories in this account.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">Try</string>
     <string name="dialog_contrib_reminder_remove_limitation">Remove this limitation and access more features by upgrading <i>{app_name}</i>.</string>

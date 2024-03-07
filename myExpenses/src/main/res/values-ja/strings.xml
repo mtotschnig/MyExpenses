@@ -68,8 +68,6 @@
     <string name="dialog_confirm_discard_changes">変更を破棄しますか?</string>
     <string name="dialog_command_disabled_balance">照合すべき消込された取引はありません。</string>
     <string name="dialog_command_disabled_insert_transfer">取引の振替には、2番目の勘定が必要です。</string>
-    <string name="dialog_command_disabled_reset_account">エクスポートする取引がありません。</string>
-    <string name="dialog_command_disabled_distribution">この勘定の分類に配置する取引はありません。</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">試してみる</string>
     <string name="dialog_contrib_reminder_remove_limitation"><i>{app_name}</i> をアップグレードすると、この制限を取り除き、より多くの機能にアクセスすることができます</string>

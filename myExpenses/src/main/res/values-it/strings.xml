@@ -68,8 +68,6 @@
     <string name="dialog_confirm_discard_changes">Annullare le modifiche?</string>
     <string name="dialog_command_disabled_balance">Nessuna transazione liquidata di riconciliarsi.</string>
     <string name="dialog_command_disabled_insert_transfer">Le operazioni di bonifico richiedono un secondo conto.</string>
-    <string name="dialog_command_disabled_reset_account">Nessuna transazione da esportare.</string>
-    <string name="dialog_command_disabled_distribution">Nessuna transazione è stata assegnata a categorie in questo conto.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">Prova</string>
     <string name="dialog_contrib_reminder_remove_limitation">Rimuovere questa limitazione e accedere ad altre funzionalità aggiornando <i>{app_name}</i>.</string>

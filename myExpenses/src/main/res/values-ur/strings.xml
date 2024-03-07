@@ -46,7 +46,6 @@
     <string name="dialog_confirm_discard_changes">تبدیلیاں مسترد کریں؟</string>
     <string name="dialog_command_disabled_balance">مصالحت کے لیے کوئی کلیئر شدہ لین دین نہیں۔</string>
     <string name="dialog_command_disabled_insert_transfer">ٹرانسفر ٹرانزیکشنز کے لیے دوسرا اکاؤنٹ درکار ہوتا ہے۔</string>
-    <string name="dialog_command_disabled_reset_account">برآمد کرنے کے لیے کوئی لین دین نہیں۔</string>
     <string name="dialog_contrib_no">کوشش کریں</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> کو اوپن سورس پیش کیا جاتا ہے۔</string>
     <string name="dialog_contrib_text_2">براہ کرم <i>{app_name}</i> کو اپ گریڈ کرکے تعاون کریں اور درج ذیل خصوصیات تک غیر محدود رسائی حاصل کریں:</string>
@@ -71,7 +70,6 @@
     <string name="backup_success">ڈیٹا بیس اور ترجیحات کامیابی کے ساتھ\" %1$s\" میں لکھی گئیں۔</string>
     <string name="number_format_illegal">غیر قانونی نمبر فارمیٹ</string>
     <string name="default_account_name">بجٹ کی کتاب</string>
-    <string name="dialog_command_disabled_distribution">اس اکاؤنٹ میں کسی بھی لین دین کو زمرہ جات میں میپ نہیں کیا گیا ہے۔</string>
     <string name="dialog_contrib_reminder_remove_limitation">اس حد کو ہٹائیں اور اپ گریڈ کرکے مزید خصوصیات تک رسائی حاصل کریں۔ <i>{app_name}</i>.</string>
     <string name="grouping_day">دن</string>
     <string name="grouping_this_week">اس ہفتے</string>

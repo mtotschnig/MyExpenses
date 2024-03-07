@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.testutils
 
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.TextView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
@@ -92,6 +93,32 @@ fun childAtPosition(
             val parent = view.parent
             return parent is ViewGroup && parentMatcher.matches(parent)
                     && view == parent.getChildAt(position)
+        }
+    }
+}
+
+//https://google.github.io/android-testing-support-library/docs/espresso/advanced/#asserting-that-a-data-item-is-not-in-an-adapter
+fun withAdaptedData(dataMatcher: Matcher<out Any>): Matcher<View> {
+    return object : TypeSafeMatcher<View>() {
+
+        override fun describeTo(description: Description) {
+            description.appendText("with class name: ")
+            dataMatcher.describeTo(description)
+        }
+
+        public override fun matchesSafely(view: View) : Boolean {
+            if (view !is AdapterView<*>) {
+                return false
+            }
+
+            val adapter = view.adapter
+            for (i in 0 until adapter.count) {
+                if (dataMatcher.matches(adapter.getItem(i))) {
+                    return true
+                }
+            }
+
+            return false
         }
     }
 }

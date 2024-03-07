@@ -68,8 +68,6 @@
     <string name="dialog_confirm_discard_changes">Відхилити змніи?</string>
     <string name="dialog_command_disabled_balance">Немає підтверджених операцій для узгодження.</string>
     <string name="dialog_command_disabled_insert_transfer">Операції переказу вимагають наявності другого рахунку.</string>
-    <string name="dialog_command_disabled_reset_account">Немає операцій для експорту.</string>
-    <string name="dialog_command_disabled_distribution">Жодній операцій в цьому рахунку не було присвоєно категорію.</string>
     <string name="dialog_contrib_reminder_remove_limitation">Усуньте це обмеження та отримайте доступ до додаткових функцій, модернізувавши <i>{app_name}</i> до преміум-версії.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> надається з відкритим програмним кодом.</string>
     <string name="dialog_contrib_text_2">Будь ласка, підтримайте проект, модернізувавши <i>{app_name}</i>, та отримайте необмежений доступ до таких функцій:</string>

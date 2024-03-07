@@ -68,8 +68,6 @@
     <string name="dialog_confirm_discard_changes">Elveti a változásokat?</string>
     <string name="dialog_command_disabled_balance">Nincs kiegyenlíthető törölt tranzakció.</string>
     <string name="dialog_command_disabled_insert_transfer">Az átutalási tranzakciókhoz egy második fiók szükséges.</string>
-    <string name="dialog_command_disabled_reset_account">Nincs exportálható tranzakció</string>
-    <string name="dialog_command_disabled_distribution">Ebben a számlában nincs kategóriához rendelt tranzakció</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">Kipróbálás</string>
     <string name="dialog_contrib_reminder_remove_limitation">A(z) <i>{app_name}</i> alkalmazás előfizetésének bővítésével megszüntetheti ezt a korlátozást, és több funkciót használhat.</string>

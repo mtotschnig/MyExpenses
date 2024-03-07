@@ -50,12 +50,13 @@ class MyExpensesTest : BaseMyExpensesTest() {
     private lateinit var account1: Account
     private lateinit var account2: Account
     private lateinit var account3: Account
+
     @Before
     fun fixture() {
         prefHandler.putBoolean(PrefKey.ACCOUNT_PANEL_VISIBLE, true)
-        account1 =  buildAccount("Test account 1")
-        account2 =  buildAccount("Test account 2")
-        account3 =  buildAccount("Test account 3")
+        account1 = buildAccount("Test account 1")
+        account2 = buildAccount("Test account 2")
+        account3 = buildAccount("Test account 3")
         launch(account2.id)
         Intents.init()
     }
@@ -110,28 +111,10 @@ class MyExpensesTest : BaseMyExpensesTest() {
     }
 
     @Test
-    fun inActiveItemsOpenDialog() {
-        testInActiveItemHelper(
-            R.id.RESET_COMMAND,
-            R.string.dialog_command_disabled_reset_account
-        )
-        testInActiveItemHelper(
-            R.id.DISTRIBUTION_COMMAND,
-            R.string.dialog_command_disabled_distribution
-        )
-        testInActiveItemHelper(
-            R.id.PRINT_COMMAND,
-            R.string.dialog_command_disabled_reset_account
-        )
-    }
-
-    /**
-     * Call a menu item and verify that a message is shown in dialog
-     */
-    private fun testInActiveItemHelper(menuItemId: Int, messageResId: Int) {
-        clickMenuItem(menuItemId)
-        onView(withText(messageResId))
-            .check(matches(isDisplayed()))
+    fun inActiveItemsAreHidden() {
+        assertMenuItemHidden(R.id.RESET_COMMAND)
+        assertMenuItemHidden(R.id.DISTRIBUTION_COMMAND)
+        assertMenuItemHidden(R.id.PRINT_COMMAND)
     }
 
     @Test
@@ -162,7 +145,12 @@ class MyExpensesTest : BaseMyExpensesTest() {
     }
 
     private fun clickContextItem(@StringRes resId: Int, position: Int = 1) {
-        clickContextItem(resId, composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNTS), position, onLongClick = true)
+        clickContextItem(
+            resId,
+            composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNTS),
+            position,
+            onLongClick = true
+        )
     }
 
     @Test
@@ -225,10 +213,12 @@ class MyExpensesTest : BaseMyExpensesTest() {
         //we try to delete account 1
         openDrawer()
         //we select  label2, but call context on label 1 and make sure the correct account is deleted
-        composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNTS).onChildren().filter(hasText(label2)).onFirst().performClick()
-        composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNTS).onChildren().filter(hasText(label1)).onFirst().performTouchInput {
-            longClick()
-        }
+        composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNTS).onChildren().filter(hasText(label2))
+            .onFirst().performClick()
+        composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNTS).onChildren().filter(hasText(label1))
+            .onFirst().performTouchInput {
+                longClick()
+            }
         composeTestRule.onNodeWithText(getString(R.string.menu_delete)).performClick()
         onView(
             ViewMatchers.withSubstring(

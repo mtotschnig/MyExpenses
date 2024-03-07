@@ -68,8 +68,6 @@
     <string name="dialog_confirm_discard_changes">Zrušit změny?</string>
     <string name="dialog_command_disabled_balance">Žádné zúčtované transakce k odsouhlasení.</string>
     <string name="dialog_command_disabled_insert_transfer">Odeslání transakce vyžaduje druhý účet.</string>
-    <string name="dialog_command_disabled_reset_account">Žádné transakce k export.</string>
-    <string name="dialog_command_disabled_distribution">Transakce na tomto účtu nebyly přiřazené do kategorií.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">Vyzkoušet</string>
     <string name="dialog_contrib_reminder_remove_limitation">Užívejte více funkcí a bez omezení. Stačí provést upgrade <i>{app_name}</i>.</string>
