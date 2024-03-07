@@ -7,11 +7,12 @@
 
     <EditText
         android:id="@+id/tag_edit"
-        android:hint="@string/new_tag_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:imeOptions="actionDone"
+        android:hint="@string/new_tag_hint"
         android:imeActionLabel="Add"
+        android:imeOptions="actionDone"
+        android:importantForAutofill="no"
         android:inputType="textCapWords" />
 
     <org.totschnig.myexpenses.ui.ContextAwareRecyclerView
@@ -21,5 +22,13 @@
         android:layout_weight="1"
         android:orientation="horizontal"
         app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager" />
+
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="@string/help_ManageTags_manage_info" />
 
 </LinearLayout>

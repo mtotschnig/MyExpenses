@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -133,6 +134,7 @@ class TagList : Fragment(), OnDialogResultListener {
         binding.recyclerView.adapter = adapter
         viewModel.tags.observe(viewLifecycleOwner) {
             adapter.submitList(it)
+            binding.emptyView.isVisible = it.isEmpty()
         }
 
         selected?.let { viewModel.selectedTagIds = it.toHashSet() }
