@@ -20,8 +20,11 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
@@ -31,8 +34,10 @@ import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.LinkOff
 import androidx.compose.material.icons.filled.Loupe
 import androidx.compose.material.icons.filled.RestoreFromTrash
+import androidx.compose.material3.Button
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -43,9 +48,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.CollectionInfo
 import androidx.compose.ui.semantics.collectionInfo
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -799,11 +807,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private fun MainContent() {
 
         LaunchedEffect(currentAccount) {
-            setCurrentAccount()?.let { account ->
-                finishActionMode()
-                sumInfo = SumInfoUnknown
-                viewModel.sumInfo(account.toPageAccount).collect {
-                    sumInfo = it
+            with(currentAccount) {
+                configureUiWithCurrentAccount(this)
+                if (this != null) {
+                    finishActionMode()
+                    sumInfo = SumInfoUnknown
+                    viewModel.sumInfo(toPageAccount).collect {
+                        sumInfo = it
+                    }
                 }
             }
         }
@@ -821,7 +832,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 }
                             }
                         }
-                        setCurrentAccount()
+                        configureUiWithCurrentAccount(currentAccount)
                     } else {
                         setTitle(R.string.app_name)
                         toolbar.subtitle = null
@@ -851,6 +862,23 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     ) {
                         Timber.i("Rendering page $it")
                         Page(account = accountData[it].toPageAccount)
+                    }
+                } else {
+                    Column(
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .padding(dimensionResource(id = R.dimen.padding_main_screen)),
+                        verticalArrangement = Arrangement.spacedBy(5.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            modifier = Modifier.wrapContentSize(),
+                            textAlign = TextAlign.Center,
+                            text = stringResource(id = R.string.warning_no_account)
+                        )
+                        Button(onClick = { createAccountDo()}) {
+                            Text(text = stringResource(id = R.string.menu_create_account))
+                        }
                     }
                 }
             }
@@ -1424,6 +1452,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         )
     }
 
+    private fun createAccountDo(currency: String? = null) {
+        startActivityForResult(Intent(this, AccountEdit::class.java).apply {
+            if (currency != null) putExtra(KEY_CURRENCY, currency)
+            putExtra(KEY_COLOR, DEFAULT_COLOR)
+        }, CREATE_ACCOUNT_REQUEST)
+    }
+
     override fun dispatchCommand(command: Int, tag: Any?): Boolean {
         if (super.dispatchCommand(command, tag)) {
             return true
@@ -1433,10 +1468,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     || accountCount + viewModel.hasHiddenAccounts.value < ContribFeature.FREE_ACCOUNTS
                 ) {
                     closeDrawer()
-                    startActivityForResult(Intent(this, AccountEdit::class.java).apply {
-                        if (tag != null) putExtra(KEY_CURRENCY, tag as String?)
-                        putExtra(KEY_COLOR, DEFAULT_COLOR)
-                    }, CREATE_ACCOUNT_REQUEST)
+                    createAccountDo(tag as? String)
                 } else {
                     showContribDialog(ContribFeature.ACCOUNTS_UNLIMITED, null)
                 }
@@ -1793,14 +1825,15 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
      * adapt UI to currently selected account
      * @return currently selected account
      */
-    private fun setCurrentAccount() =
-        currentAccount?.also { account ->
+    private fun configureUiWithCurrentAccount(account: FullAccount?) {
+        if (account != null) {
             prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, account.id)
             tintSystemUiAndFab(account.color(resources))
             setBalance(account)
-            updateFab()
-            invalidateOptionsMenu()
         }
+        updateFab()
+        invalidateOptionsMenu()
+    }
 
     private fun setBalance(account: FullAccount) {
         val isHome = account.id == HOME_AGGREGATE_ID
@@ -1819,26 +1852,30 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         val scanMode = isScanMode()
         val sealed = currentAccount?.sealed == true
         with(floatingActionButton) {
-            show()
-            isEnabled = !sealed
-            alpha = if (sealed) 0.5f else 1f
-            setImageResource(
-                when {
-                    sealed -> R.drawable.ic_lock
-                    scanMode -> R.drawable.ic_scan
-                    else -> R.drawable.ic_menu_add_fab
-                }
-            )
-            contentDescription = when {
-                sealed -> getString(R.string.content_description_closed)
-                scanMode -> getString(R.string.contrib_feature_ocr_label)
-                else -> TextUtils.concatResStrings(
-                    this@BaseMyExpenses,
-                    ". ",
-                    R.string.menu_create_transaction,
-                    R.string.menu_create_transfer,
-                    R.string.menu_create_split
+            if (accountCount == 0) {
+                hide()
+            } else {
+                show()
+                isEnabled = !sealed
+                alpha = if (sealed) 0.5f else 1f
+                setImageResource(
+                    when {
+                        sealed -> R.drawable.ic_lock
+                        scanMode -> R.drawable.ic_scan
+                        else -> R.drawable.ic_menu_add_fab
+                    }
                 )
+                contentDescription = when {
+                    sealed -> getString(R.string.content_description_closed)
+                    scanMode -> getString(R.string.contrib_feature_ocr_label)
+                    else -> TextUtils.concatResStrings(
+                        this@BaseMyExpenses,
+                        ". ",
+                        R.string.menu_create_transaction,
+                        R.string.menu_create_transfer,
+                        R.string.menu_create_split
+                    )
+                }
             }
         }
     }
