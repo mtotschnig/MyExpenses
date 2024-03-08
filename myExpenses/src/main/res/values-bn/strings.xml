@@ -42,4 +42,6 @@
     <string name="dialog_balance_delete">মিলিত লেনদেন মুছুন</string>
     <string name="dialog_command_disabled_insert_transfer">ট্রান্সফার লেনদেনের জন্য একটি দ্বিতীয় অ্যাকাউন্ট প্রয়োজন।</string>
     <string name="dialog_command_disabled_balance">মিটমাট করার জন্য কোন ক্লিয়ার করা লেনদেন নেই।</string>
+    <string name="already_defined">%1$sইতিমধ্যে সংজ্ঞায়িত</string>
+    <string name="backup_success">ডাটাবেস এবং পছন্দগুলি সফলভাবে লেখা হয়েছে \"%1$s\"।</string>
 </resources>
