@@ -6,6 +6,7 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
@@ -119,6 +120,7 @@ enum class Grouping {
                 YEAR -> groupYear.toString()
             }
         } catch (e: Exception) {
+            CrashHandler.report(e)
             "Error while generating title: ${e.safeMessage}"
         }
     }

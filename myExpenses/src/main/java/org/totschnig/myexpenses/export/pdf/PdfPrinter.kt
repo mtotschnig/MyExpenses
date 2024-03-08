@@ -43,7 +43,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.io.displayName
 import org.totschnig.myexpenses.viewmodel.data.Category
-import org.totschnig.myexpenses.viewmodel.data.DateInfo.Companion.fromCursor
+import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderData.Companion.fromSequence
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
@@ -179,10 +179,9 @@ object PdfPrinter {
         currencyUnit: CurrencyUnit,
         currencyFormatter: ICurrencyFormatter
     ) {
-        val (first, second1, third) = account.groupingQuery(filter)
+        val (uri, selection, selectionArgs) = account.groupingQuery(filter)
         val integerHeaderRowMap = context.contentResolver.query(
-            first, null,
-            second1, third, null
+            uri, null, selection, selectionArgs, null
         )!!.use {
             fromSequence(
                 account.openingBalance,
@@ -225,7 +224,7 @@ object PdfPrinter {
                         context,
                         transaction.year,
                         headerRow.second,
-                        fromCursor(transactionCursor),
+                        DateInfo.load(context.contentResolver),
                         headerRow.weekStart,
                         false
                     ),  //TODO

@@ -47,6 +47,7 @@ import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDL
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
+import org.totschnig.myexpenses.viewmodel.data.DateInfo.Companion.dateInfoQuery
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import javax.inject.Inject
 import kotlin.collections.set
@@ -105,18 +106,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
     }
 
     val dateInfo: Flow<DateInfo> = flow {
-        contentResolver.query(
-            DUAL_URI,
-            arrayOf(
-                "${getThisYearOfWeekStart()} AS $KEY_THIS_YEAR_OF_WEEK_START",
-                "${getThisYearOfMonthStart()} AS $KEY_THIS_YEAR_OF_MONTH_START",
-                "$THIS_YEAR AS $KEY_THIS_YEAR",
-                "${getThisMonth()} AS $KEY_THIS_MONTH",
-                "${getThisWeek()} AS $KEY_THIS_WEEK",
-                "$THIS_DAY AS $KEY_THIS_DAY"
-            ),
-            null, null, null, null
-        )?.use { cursor ->
+        contentResolver.dateInfoQuery?.use { cursor ->
             cursor.moveToFirst()
             emit(DateInfo.fromCursor(cursor))
         }
