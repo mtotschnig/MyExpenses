@@ -21,7 +21,10 @@ import android.text.Editable
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -35,7 +38,6 @@ import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.databinding.OneAccountBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
-import org.totschnig.myexpenses.ui.bindListener
 import org.totschnig.myexpenses.dialog.buildColorDialog
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountType
@@ -43,18 +45,19 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.ui.SpinnerHelper
+import org.totschnig.myexpenses.ui.bindListener
 import org.totschnig.myexpenses.util.calculateRawExchangeRate
-import org.totschnig.myexpenses.util.ui.UiUtils
-import org.totschnig.myexpenses.util.ui.addChipsBulk
 import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
+import org.totschnig.myexpenses.util.ui.UiUtils
+import org.totschnig.myexpenses.util.ui.addChipsBulk
 import org.totschnig.myexpenses.viewmodel.AccountEditViewModel
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.SyncBackendViewModel
@@ -99,7 +102,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
     var uuid: String? = null
 
     val rowId: Long
-        get() = intent.getLongExtra(DatabaseConstants.KEY_ROWID, 0)
+        get() = intent.getLongExtra(KEY_ROWID, 0)
 
     @SuppressLint("InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -304,8 +307,9 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
                         uuid = uuid
                     )
                 }
-                intent.putExtra(DatabaseConstants.KEY_ROWID, id)
-                setResult(RESULT_OK, intent)
+                setResult(RESULT_OK, Intent().apply {
+                    putExtra(KEY_ROWID, id)
+                })
                 currencyContext.ensureFractionDigitsAreCached(currencyUnit)
                 finish()
             }

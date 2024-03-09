@@ -1461,7 +1461,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private val createAccount =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
-                selectedAccountId = intent.getLongExtra(KEY_ROWID, 0)
+                selectedAccountId = it.data!!.getLongExtra(KEY_ROWID, 0)
             }
         }
 
