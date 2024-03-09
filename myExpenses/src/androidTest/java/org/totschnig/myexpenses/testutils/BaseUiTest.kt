@@ -44,7 +44,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.util.DebugCurrencyFormatter
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
-import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import java.util.*
 import java.util.concurrent.TimeoutException
 import org.totschnig.myexpenses.test.R as RT
@@ -64,13 +63,14 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
     val prefHandler: PrefHandler
         get() = app.appComponent.prefHandler()
 
-    private val homeCurrencyProvider: HomeCurrencyProvider
-        get() = app.appComponent.homeCurrencyProvider()
-
     val plannerUtils: PlannerUtils
         get() = app.appComponent.plannerUtils()
 
-    val homeCurrency: CurrencyUnit by lazy { homeCurrencyProvider.homeCurrencyUnit }
+    private val currencyContext: CurrencyContext
+        get() = app.appComponent.currencyContext()
+
+
+    val homeCurrency: CurrencyUnit by lazy { currencyContext.homeCurrencyUnit }
 
     @JvmOverloads
     fun buildAccount(
@@ -206,19 +206,12 @@ abstract class BaseUiTest<A: ProtectedFragmentActivity> {
         return result!!
     }
 
-    private val currencyContext: CurrencyContext = Mockito.mock(CurrencyContext::class.java).also { currencyContext ->
-        Mockito.`when`(currencyContext.get(ArgumentMatchers.anyString())).thenAnswer {
-            CurrencyUnit(Currency.getInstance(it.getArgument(0) as String))
-        }
-    }
-
     protected val repository: Repository
         get() = Repository(
             ApplicationProvider.getApplicationContext<MyApplication>(),
             currencyContext,
             DebugCurrencyFormatter,
             prefHandler,
-            homeCurrencyProvider,
             Mockito.mock(DataStore::class.java) as DataStore<Preferences>
         )
 

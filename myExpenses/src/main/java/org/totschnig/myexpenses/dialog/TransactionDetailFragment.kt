@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -75,7 +76,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
     lateinit var currencyFormatter: ICurrencyFormatter
 
     @Inject
-    lateinit var homeCurrencyProvider: HomeCurrencyProvider
+    lateinit var currencyContext: CurrencyContext
 
     private var attachmentInfoMap: Map<Uri, AttachmentInfo>? = null
 
@@ -260,7 +261,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                     binding.OriginalAmountRow.visibility = View.VISIBLE
                     binding.OriginalAmount.text = formatCurrencyAbs(it)
                 }
-                if (!transaction.isTransfer && transaction.amount.currencyUnit.code != homeCurrencyProvider.homeCurrencyUnit.code) {
+                if (!transaction.isTransfer && transaction.amount.currencyUnit.code != currencyContext.homeCurrencyUnit.code) {
                     binding.EquivalentAmountRow.visibility = View.VISIBLE
                     binding.EquivalentAmount.text = formatCurrencyAbs(transaction.equivalentAmount)
                 }

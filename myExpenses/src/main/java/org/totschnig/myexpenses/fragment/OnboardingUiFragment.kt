@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.compose.NewTransactionRenderer
 import org.totschnig.myexpenses.compose.RenderType
 import org.totschnig.myexpenses.databinding.OnboardingThemeSelectionBinding
 import org.totschnig.myexpenses.databinding.OnboardingWizzardUiBinding
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference
 import org.totschnig.myexpenses.preference.PrefKey
@@ -57,7 +58,7 @@ class OnboardingUiFragment : OnboardingFragment() {
     private val themeSelectionBinding get() = _themeSelectionBinding!!
 
     @Inject
-    lateinit var homeCurrencyProvider: HomeCurrencyProvider
+    lateinit var currencyContext: CurrencyContext
 
     private val viewModel: OnBoardingUiViewModel by viewModels()
 
@@ -136,7 +137,7 @@ class OnboardingUiFragment : OnboardingFragment() {
             val demo = Transaction2(
                 id = -1,
                 _date = System.currentTimeMillis() / 1000,
-                amount = Money(homeCurrencyProvider.homeCurrencyUnit, -7000),
+                amount = Money(currencyContext.homeCurrencyUnit, -7000),
                 methodLabel = "CHEQUE",
                 referenceNumber = "1",
                 accountId = -1,

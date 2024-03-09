@@ -17,7 +17,6 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.sync.json.AccountMetaData
-import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.viewmodel.AbstractSyncBackendViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
@@ -42,7 +41,6 @@ class DecoratingMyExpensesViewModel(application: Application,
             getApplication(),
             account,
             filterPersistence.getValue(account.id).whereFilterAsFlow,
-            homeCurrencyProvider,
             tags,
             currencyContext,
             viewModelScope,
@@ -74,7 +72,7 @@ class FakeSyncBackendViewModel(application: Application) :
                 else -> throw IllegalStateException()
             }
         }
-        emit(Result.success(listOf(Result.success(AccountMetaData.from(syncedAccount, getApplication<MyApplication>().appComponent.homeCurrencyProvider().homeCurrencyString)))))
+        emit(Result.success(listOf(Result.success(AccountMetaData.from(syncedAccount, getApplication<MyApplication>().appComponent.currencyContext().homeCurrencyString)))))
     }
 }
 
@@ -82,7 +80,6 @@ class DecoratedTransactionPagingSource(
     context: Context,
     account: PageAccount,
     whereFilter: StateFlow<WhereFilter>,
-    homeCurrencyProvider: HomeCurrencyProvider,
     tags: StateFlow<Map<String, Pair<String, Int?>>>,
     currencyContext: CurrencyContext,
     coroutineScope: CoroutineScope,
@@ -92,7 +89,6 @@ class DecoratedTransactionPagingSource(
     context,
     account,
     whereFilter,
-    homeCurrencyProvider,
     tags,
     currencyContext,
     coroutineScope,

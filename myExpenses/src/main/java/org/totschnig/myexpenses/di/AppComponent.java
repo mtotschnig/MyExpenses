@@ -151,8 +151,6 @@ public interface AppComponent {
 
   ExchangeRateService exchangeRateService();
 
-  HomeCurrencyProvider homeCurrencyProvider();
-
   Picasso picasso();
 
   MyApplication myApplication();

@@ -26,7 +26,7 @@ fun AppTheme(
                 expense = colorResource(id = R.color.colorExpense),
                 transfer = colorResource(id = R.color.colorTransfer),
             ),
-            LocalHomeCurrency provides injector.homeCurrencyProvider().homeCurrencyUnit,
+            LocalHomeCurrency provides injector.currencyContext().homeCurrencyUnit,
             LocalTracker provides injector.tracker()
         ) {
             ProvideTextStyle(value = MaterialTheme.typography.bodyMedium, content = content)

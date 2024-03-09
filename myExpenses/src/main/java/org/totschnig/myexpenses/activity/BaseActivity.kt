@@ -338,11 +338,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     @Inject
     lateinit var adHandlerFactory: AdHandlerFactory
 
-    @Inject
-    lateinit var homeCurrencyProvider: HomeCurrencyProvider
-
     val homeCurrency by lazy {
-        homeCurrencyProvider.homeCurrencyUnit
+        currencyContext.homeCurrencyUnit
     }
 
     val ocrViewModel: OcrViewModel by viewModels()

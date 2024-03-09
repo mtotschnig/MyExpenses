@@ -15,7 +15,6 @@ class SyncModule {
     fun provideSyncDelegate(
         currencyContext: CurrencyContext,
         featureManager: FeatureManager,
-        repository: Repository,
-        homeCurrencyProvider: HomeCurrencyProvider,
-    ) = SyncDelegate(currencyContext, featureManager, repository, homeCurrencyProvider.homeCurrencyUnit)
+        repository: Repository
+    ) = SyncDelegate(currencyContext, featureManager, repository, currencyContext.homeCurrencyUnit)
 }

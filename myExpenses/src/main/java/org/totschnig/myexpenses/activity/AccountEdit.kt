@@ -289,7 +289,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             syncAccountName =  if (syncSpinner.selectedItemPosition > 0) syncSpinner.selectedItem as String else null,
             criterion = Money(currencyUnit, binding.Criterion.typedValue).amountMinor,
             excludeFromTotals = excludeFromTotals,
-            exchangeRate = (if (homeCurrencyProvider.homeCurrencyString != currency) {
+            exchangeRate = (if (currencyContext.homeCurrencyString != currency) {
                 binding.ERR.ExchangeRate.getRate(false)?.toDouble()?.let {
                     calculateRawExchangeRate(it, currencyUnit, homeCurrency)
                 }

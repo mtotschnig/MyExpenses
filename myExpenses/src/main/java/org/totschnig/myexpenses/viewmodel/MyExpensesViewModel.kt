@@ -341,7 +341,6 @@ open class MyExpensesViewModel(
             getApplication(),
             account,
             filterPersistence.getValue(account.id).whereFilterAsFlow,
-            homeCurrencyProvider,
             tags,
             currencyContext,
             viewModelScope,
@@ -606,7 +605,7 @@ open class MyExpensesViewModel(
                 val transaction = Transaction.getInstanceFromDb(
                     contentResolver,
                     id,
-                    homeCurrencyProvider.homeCurrencyUnit
+                    currencyContext.homeCurrencyUnit
                 )
                 transaction.prepareForEdit(contentResolver, true, false)
                 val ops = transaction.buildSaveOperations(contentResolver, true)

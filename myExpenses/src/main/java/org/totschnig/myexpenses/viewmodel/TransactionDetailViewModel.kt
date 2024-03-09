@@ -22,7 +22,7 @@ class TransactionDetailViewModel(application: Application) :
         liveData(context = coroutineContext()) {
             contentResolver.query(
                 TransactionProvider.EXTENDED_URI.buildUpon().appendQueryParameter(KEY_TRANSACTIONID, transactionId.toString()).build(),
-                projection(localizedContext, homeCurrencyProvider.homeCurrencyString),
+                projection(localizedContext, currencyContext.homeCurrencyString),
                 null,
                 null,
                 "$KEY_PARENTID IS NULL DESC"
@@ -30,7 +30,7 @@ class TransactionDetailViewModel(application: Application) :
                 it.readTransaction(
                     getApplication(),
                     currencyContext,
-                    homeCurrencyProvider.homeCurrencyUnit
+                    currencyContext.homeCurrencyUnit
                 )
             }?.let { emit(it) }
         }

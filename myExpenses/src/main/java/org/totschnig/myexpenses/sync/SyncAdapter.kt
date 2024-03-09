@@ -64,9 +64,6 @@ class SyncAdapter @JvmOverloads constructor(
     lateinit var prefHandler: PrefHandler
 
     @Inject
-    lateinit var homeCurrencyProvider: HomeCurrencyProvider
-
-    @Inject
     lateinit var currencyContext: CurrencyContext
 
     @Inject

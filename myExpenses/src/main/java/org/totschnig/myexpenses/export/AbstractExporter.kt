@@ -24,7 +24,6 @@ import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
-import timber.log.Timber
 import java.io.IOException
 import java.io.OutputStreamWriter
 import java.time.format.DateTimeFormatter
@@ -48,7 +47,7 @@ abstract class AbstractExporter
     private val encoding: String
 ) {
 
-    val currencyUnit = currencyContext.get(account.currency)
+    val currencyUnit = currencyContext[account.currency]
 
     val openingBalance = Money(currencyUnit, account.openingBalance).amountMajor
 
@@ -84,7 +83,7 @@ abstract class AbstractExporter
         //first we check if there are any exportable transactions
         var selection = "$KEY_PARENTID is null"
         if (notYetExportedP) selection += " AND $KEY_STATUS = $STATUS_NONE"
-        var selectionArgs = if (filter != null && !filter.isEmpty) {
+        val selectionArgs = if (filter != null && !filter.isEmpty) {
             selection += " AND " + filter.getSelectionForParents(VIEW_EXTENDED, true)
             filter.getSelectionArgs(false)
         } else null
@@ -102,7 +101,10 @@ abstract class AbstractExporter
             ) + " AS " + KEY_METHOD_LABEL,
             KEY_CR_STATUS,
             KEY_REFERENCE_NUMBER,
-            TRANSFER_ACCOUNT_LABEL
+            TRANSFER_ACCOUNT_LABEL,
+            KEY_EQUIVALENT_AMOUNT,
+            KEY_ORIGINAL_CURRENCY,
+            KEY_ORIGINAL_AMOUNT
         )
 
         fun Cursor.ingestCategoryPaths() {
@@ -161,31 +163,40 @@ abstract class AbstractExporter
                 if (uri.scheme == "file") uri.toFile().name else uri.fileName(context)
             }?.takeIf { it.isNotEmpty() }?.filterNotNull()
 
+            val originalCurrency = getStringOrNull(KEY_ORIGINAL_CURRENCY)
+
             val transactionDTO = TransactionDTO(
-                getString(KEY_UUID),
-                epoch2ZonedDateTime(getLong(getColumnIndexOrThrow(KEY_DATE))),
-                getStringOrNull(KEY_PAYEE_NAME),
-                Money(currencyUnit, getLong(getColumnIndexOrThrow(KEY_AMOUNT))).amountMajor,
-                readCat.getLongOrNull(KEY_CATID),
-                readCat.getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL),
-                getStringOrNull(KEY_COMMENT)?.takeIf { it.isNotEmpty() },
-                if (isPart) null else getString(getColumnIndexOrThrow(KEY_METHOD_LABEL)),
-                if (isPart) null else
+                uuid = getString(KEY_UUID),
+                date = epoch2ZonedDateTime(getLong(getColumnIndexOrThrow(KEY_DATE))),
+                payee = getStringOrNull(KEY_PAYEE_NAME),
+                amount = Money(currencyUnit, getLong(getColumnIndexOrThrow(KEY_AMOUNT))).amountMajor,
+                catId = readCat.getLongOrNull(KEY_CATID),
+                transferAccount = readCat.getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL),
+                comment = getStringOrNull(KEY_COMMENT)?.takeIf { it.isNotEmpty() },
+                methodLabel = if (isPart) null else getString(getColumnIndexOrThrow(KEY_METHOD_LABEL)),
+                status = if (isPart) null else
                     enumValueOrDefault(
                         getString(getColumnIndexOrThrow(KEY_CR_STATUS)),
                         CrStatus.UNRECONCILED
                     ),
-                if (isPart) null else getStringOrNull(KEY_REFERENCE_NUMBER)
+                referenceNumber = if (isPart) null else getStringOrNull(KEY_REFERENCE_NUMBER)
                     ?.takeIf { it.isNotEmpty() },
-                attachmentList,
-                tagList,
-                splitCursor?.let { splits ->
+                attachmentFileNames = attachmentList,
+                tagList = tagList,
+                splits = splitCursor?.let { splits ->
                     splits.moveToPosition(-1)
                     splits.ingestCategoryPaths()
                     splits.moveToPosition(-1)
                     splits.asSequence.map {
                         it.toDTO(isPart = true)
                     }.toList()
+                },
+                originalCurrency = originalCurrency,
+                originalAmount = originalCurrency?.let {
+                    Money(currencyContext[originalCurrency], getLong(getColumnIndexOrThrow(KEY_AMOUNT))).amountMajor
+                },
+                equivalentAmount = getLongOrNull(KEY_EQUIVALENT_AMOUNT)?.let {
+                    Money(currencyContext.homeCurrencyUnit, getLong(getColumnIndexOrThrow(KEY_AMOUNT))).amountMajor
                 }
             )
             splitCursor?.close()

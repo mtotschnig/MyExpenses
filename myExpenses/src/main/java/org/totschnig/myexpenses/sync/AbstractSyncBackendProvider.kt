@@ -43,10 +43,8 @@ import org.totschnig.myexpenses.util.io.MIME_TYPE_OCTET_STREAM
 import org.totschnig.myexpenses.util.io.getFileExtension
 import org.totschnig.myexpenses.util.io.getNameWithoutExtension
 import java.io.*
-import java.lang.IllegalArgumentException
 import java.security.GeneralSecurityException
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) :
     SyncBackendProvider, ResourceStorage<Res> {
@@ -394,7 +392,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         return gson.toJson(
             AccountMetaData.from(
                 account,
-                context.injector.homeCurrencyProvider().homeCurrencyString
+                context.injector.currencyContext().homeCurrencyString
             )
         )
     }

@@ -166,7 +166,7 @@ class UpgradeHandlerViewModel(application: Application) :
                     prefHandler.remove(PrefKey.AUTO_FILL_LEGACY)
                 }
                 if (fromVersion < 316) {
-                    val homeCurrency = homeCurrencyProvider.homeCurrencyString
+                    val homeCurrency = currencyContext.homeCurrencyString
                     prefHandler.putString(PrefKey.HOME_CURRENCY, homeCurrency)
                     getApplication<MyApplication>().invalidateHomeCurrency()
                 }

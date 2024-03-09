@@ -290,7 +290,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     private fun adjustExchangeRate(raw: Double, currencyUnit: CurrencyUnit): Double {
         val minorUnitDelta: Int =
-            currencyUnit.fractionDigits - homeCurrencyProvider.homeCurrencyUnit.fractionDigits
+            currencyUnit.fractionDigits - currencyContext.homeCurrencyUnit.fractionDigits
         return raw * 10.0.pow(minorUnitDelta.toDouble())
     }
 
@@ -441,7 +441,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             InstantiationTask.TRANSACTION -> Transaction.getInstanceFromDbWithTags(
                 contentResolver,
                 transactionId,
-                homeCurrencyProvider.homeCurrencyUnit
+                currencyContext.homeCurrencyUnit
             )
 
             InstantiationTask.FROM_INTENT_EXTRAS -> Pair(
@@ -453,7 +453,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
             InstantiationTask.TEMPLATE_FROM_TRANSACTION -> with(
                 Transaction.getInstanceFromDb(
-                    contentResolver, transactionId, homeCurrencyProvider.homeCurrencyUnit
+                    contentResolver, transactionId, currencyContext.homeCurrencyUnit
                 )
             ) {
                 Pair(

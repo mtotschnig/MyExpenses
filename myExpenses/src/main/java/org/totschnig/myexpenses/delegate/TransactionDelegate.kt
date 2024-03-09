@@ -79,11 +79,8 @@ abstract class TransactionDelegate<T : ITransaction>(
     @Inject
     lateinit var currencyContext: CurrencyContext
 
-    @Inject
-    lateinit var homeCurrencyProvider: HomeCurrencyProvider
-
     val homeCurrency by lazy {
-        homeCurrencyProvider.homeCurrencyUnit
+        currencyContext.homeCurrencyUnit
     }
 
     private val methodSpinner = SpinnerHelper(methodRowBinding.Method.MethodSpinner)

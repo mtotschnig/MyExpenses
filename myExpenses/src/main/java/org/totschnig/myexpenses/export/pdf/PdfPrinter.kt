@@ -67,7 +67,6 @@ object PdfPrinter {
         val currencyFormatter = context.injector.currencyFormatter()
         val currencyContext = context.injector.currencyContext()
         val currencyUnit = currencyContext[account.currency]
-        val homeCurrency = context.injector.homeCurrencyProvider().homeCurrencyString
         val prefHandler = context.injector.prefHandler()
         val helper = PdfHelper()
         var selection = "$KEY_PARENTID is null"
@@ -99,7 +98,12 @@ object PdfPrinter {
                 shortenComment = false,
                 extended = true
             ),
-            Transaction2.projection(account.id, account.grouping, homeCurrency, prefHandler),
+            Transaction2.projection(
+                account.id,
+                account.grouping,
+                currencyContext.homeCurrencyString,
+                prefHandler
+            ),
             selection, selectionArgs, sortBy + " " + account.sortDirection
         )!!.use {
             if (it.count == 0) {

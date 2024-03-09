@@ -2,7 +2,6 @@ package org.totschnig.myexpenses
 
 import android.content.ContentResolver
 import android.content.ContentUris
-import android.net.Uri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.test.core.app.ApplicationProvider
@@ -18,7 +17,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionInfo
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.CurrencyFormatter
-import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import java.util.*
 
 open class BaseTestWithRepository {
@@ -33,7 +31,6 @@ open class BaseTestWithRepository {
         currencyContext,
         Mockito.mock(CurrencyFormatter::class.java),
         Mockito.mock(PrefHandler::class.java),
-        Mockito.mock(HomeCurrencyProvider::class.java),
         Mockito.mock(DataStore::class.java) as DataStore<Preferences>
     )
 

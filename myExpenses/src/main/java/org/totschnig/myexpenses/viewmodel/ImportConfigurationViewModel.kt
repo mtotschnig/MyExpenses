@@ -24,7 +24,7 @@ open class ImportConfigurationViewModel(application: Application, val savedState
                 add(
                     AccountMinimal(
                         0, getString(R.string.menu_create_account) + " / " + getString(R.string.read_from_data),
-                        homeCurrencyProvider.homeCurrencyString,
+                        currencyContext.homeCurrencyString,
                         AccountType.CASH
                     )
                 )

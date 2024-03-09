@@ -42,7 +42,6 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.joinArrays
 import org.totschnig.myexpenses.util.licence.LicenceHandler
-import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_CREATE_HELPER
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
@@ -70,9 +69,6 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
 
     @Inject
     lateinit var dataStore: DataStore<Preferences>
-
-    @Inject
-    lateinit var homeCurrencyProvider: HomeCurrencyProvider
 
     @Inject
     lateinit var licenceHandler: LicenceHandler

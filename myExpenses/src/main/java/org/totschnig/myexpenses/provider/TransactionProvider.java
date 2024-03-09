@@ -482,7 +482,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           String sql = withSum ?
                   categoryTreeWithSum(
                           aggregateFunction,
-                          homeCurrencyProvider.getHomeCurrencyString(),
+                          currencyContext.getHomeCurrencyString(),
                           sortOrder,
                           selection,
                           projection,

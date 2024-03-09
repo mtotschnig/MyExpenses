@@ -71,7 +71,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
 
     protected fun doSave(accountIn: Account) {
         val account = repository.createAccount(accountIn)
-        val homeCurrency = homeCurrencyProvider.homeCurrencyUnit
+        val homeCurrency = currencyContext.homeCurrencyUnit
         repository.storeExchangeRate(account.id, account.exchangeRate, account.currency, homeCurrency.code)
         licenceHandler.updateNewAccountEnabled()
         updateTransferShortcut()
@@ -260,7 +260,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
                             .filter { accountMetaData -> accountUuids.contains(accountMetaData.uuid()) }
                             .map { accountMetaData ->
                                 accountMetaData.toAccount(
-                                    homeCurrencyProvider.homeCurrencyString,
+                                    currencyContext.homeCurrencyString,
                                     accountName
                                 )
                             }

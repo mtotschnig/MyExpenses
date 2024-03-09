@@ -112,9 +112,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
     lateinit var provideDatabaseName: (Boolean) -> String
 
     @Inject
-    lateinit var homeCurrencyProvider: HomeCurrencyProvider
-
-    @Inject
     lateinit var prefHandler: PrefHandler
 
     @Inject
@@ -371,7 +368,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     }
 
     val homeCurrency: String
-        get() = homeCurrencyProvider.homeCurrencyString
+        get() = currencyContext.homeCurrencyString
 
     val accountsWithExchangeRate: String
         get() = exchangeRateJoin(TABLE_ACCOUNTS, KEY_ROWID, homeCurrency)

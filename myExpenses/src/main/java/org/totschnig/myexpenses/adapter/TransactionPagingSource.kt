@@ -25,7 +25,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.withLimit
-import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
@@ -36,7 +35,6 @@ open class TransactionPagingSource(
     val context: Context,
     val account: PageAccount,
     val whereFilter: StateFlow<WhereFilter>,
-    val homeCurrencyProvider: HomeCurrencyProvider,
     val tags: StateFlow<Map<String, Pair<String, Int?>>>,
     val currencyContext: CurrencyContext,
     coroutineScope: CoroutineScope,
@@ -51,7 +49,7 @@ open class TransactionPagingSource(
     private val observer: ContentObserver
 
     init {
-        account.loadingInfo(homeCurrencyProvider.homeCurrencyString, prefHandler).also {
+        account.loadingInfo(currencyContext.homeCurrencyString, prefHandler).also {
             uri = it.first
             projection = it.second
         }

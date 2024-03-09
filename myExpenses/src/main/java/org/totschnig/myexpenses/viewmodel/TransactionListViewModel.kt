@@ -87,7 +87,7 @@ class TransactionListViewModel(
                     Transaction2.projection(
                         accountId,
                         Grouping.NONE,
-                        homeCurrencyProvider.homeCurrencyString,
+                        currencyContext.homeCurrencyString,
                         prefHandler,
                         extended = false
                     ),
@@ -115,7 +115,7 @@ class TransactionListViewModel(
 
     private val amountCalculation: String
         get() = if (isHomeAggregate(loadingInfo.accountId))
-            getAmountHomeEquivalent(VIEW_COMMITTED, homeCurrencyProvider.homeCurrencyString)
+            getAmountHomeEquivalent(VIEW_COMMITTED, currencyContext.homeCurrencyString)
         else KEY_AMOUNT
 
     private val selectionInfo: Pair<String, Array<String>>

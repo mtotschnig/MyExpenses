@@ -32,7 +32,6 @@ import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.ICurrencyFormatter
-import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import javax.inject.Inject
@@ -44,7 +43,6 @@ open class Repository @Inject constructor(
     val currencyContext: CurrencyContext,
     val currencyFormatter: ICurrencyFormatter,
     val prefHandler: PrefHandler,
-    val homeCurrencyProvider: HomeCurrencyProvider,
     val dataStore: DataStore<Preferences>
 ) {
     companion object {
@@ -130,7 +128,7 @@ open class Repository @Inject constructor(
     val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
         val currency = cursor.getString(DatabaseConstants.KEY_CURRENCY)
         val currencyUnit = if (currency == DataBaseAccount.AGGREGATE_HOME_CURRENCY_CODE)
-            homeCurrencyProvider.homeCurrencyUnit else currencyContext.get(currency)
+            currencyContext.homeCurrencyUnit else currencyContext[currency]
         val budgetId = cursor.getLong(DatabaseConstants.KEY_ROWID)
         val accountId = cursor.getLong(KEY_ACCOUNTID)
         val grouping = cursor.getEnum(DatabaseConstants.KEY_GROUPING, Grouping.NONE)

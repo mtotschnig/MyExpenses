@@ -16,7 +16,10 @@ data class TransactionDTO(
     val referenceNumber: String?,
     val attachmentFileNames: List<String>?,
     val tagList: List<String>?,
-    val splits: List<TransactionDTO>?
+    val splits: List<TransactionDTO>?,
+    val equivalentAmount: BigDecimal? = null,
+    val originalCurrency: String? = null,
+    val originalAmount: BigDecimal? = null
 ) {
 
     fun fullLabel(categoryPaths: Map<Long, List<String>>) =

@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -66,7 +67,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener,
     lateinit var licenceHandler: LicenceHandler
 
     @Inject
-    lateinit var homeCurrencyProvider: HomeCurrencyProvider
+    lateinit var currencyContext: CurrencyContext
 
     @State
     var resolutionPendingForGroup = -1
@@ -99,7 +100,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener,
         savedInstanceState: Bundle?
     ): View {
         _binding = SyncBackendsListBinding.inflate(inflater, container, false)
-        syncBackendAdapter = SyncBackendAdapter(requireContext(), homeCurrencyProvider.homeCurrencyString, accountList)
+        syncBackendAdapter = SyncBackendAdapter(requireContext(), currencyContext.homeCurrencyString, accountList)
         binding.list.setAdapter(syncBackendAdapter)
         binding.list.emptyView = binding.empty
         binding.list.setOnGroupExpandListener(this)
