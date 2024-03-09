@@ -275,7 +275,7 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
         showToUser: Boolean = true
     ): Result<Money?> = getTypedValue(showToUser).mapCatching { value ->
             try {
-                value?.let { Money(currencyUnit, it) }
+                (value ?: BigDecimal.ZERO.takeIf { !showToUser })?.let { Money(currencyUnit, it) }
             } catch (e: ArithmeticException) {
                 if (showToUser) {
                     setError("Number too large.")
