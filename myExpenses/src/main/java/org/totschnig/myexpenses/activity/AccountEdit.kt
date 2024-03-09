@@ -117,7 +117,6 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             inject(currencyViewModel)
             inject(syncViewModel)
         }
-        val extras = intent.extras
         currencySpinner = SpinnerHelper(binding.Currency)
         currencyAdapter = CurrencyAdapter(this, android.R.layout.simple_spinner_item)
         currencySpinner.adapter = currencyAdapter
@@ -140,9 +139,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
                 viewModel.loadTags(rowId)
             } else {
                 populateFields(
-                    Account(
-                        currency = extras?.getString(DatabaseConstants.KEY_CURRENCY) ?: currencyViewModel.default.code
-                    )
+                    Account(currency = currencyViewModel.default.code)
                 )
             }
         } else {
