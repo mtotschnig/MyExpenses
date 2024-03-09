@@ -11,7 +11,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DISPLAY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID

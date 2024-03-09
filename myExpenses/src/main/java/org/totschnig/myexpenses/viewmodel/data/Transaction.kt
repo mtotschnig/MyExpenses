@@ -54,6 +54,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_PEER_PARENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.DatabaseConstants.getExchangeRate
 import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.calculateEquivalentAmount
 import org.totschnig.myexpenses.provider.checkSealedWithAlias
 import org.totschnig.myexpenses.provider.getDouble
 import org.totschnig.myexpenses.provider.getInt
@@ -138,7 +139,11 @@ data class Transaction(
             KEY_EQUIVALENT_AMOUNT,
             KEY_ICON,
             checkSealedWithAlias(VIEW_EXTENDED, TABLE_TRANSACTIONS),
-            getExchangeRate(VIEW_EXTENDED, KEY_ACCOUNTID, homeCurrency) + " AS " + KEY_EXCHANGE_RATE,
+            getExchangeRate(
+                VIEW_EXTENDED,
+                KEY_ACCOUNTID,
+                homeCurrency
+            ) + " AS " + KEY_EXCHANGE_RATE,
             KEY_ACCOUNT_LABEL,
             KEY_ACCOUNT_TYPE,
             DEBT_LABEL_EXPRESSION,
@@ -151,8 +156,7 @@ data class Transaction(
             currencyContext: CurrencyContext,
             homeCurrency: CurrencyUnit
         ): Transaction {
-            val currencyUnit =
-                currencyContext.get(getString(KEY_CURRENCY))
+            val currencyUnit = currencyContext[getString(KEY_CURRENCY)]
             val amountRaw = getLong(KEY_AMOUNT)
             val money = Money(currencyUnit, amountRaw)
             val transferAccountId = getLongOrNull(KEY_TRANSFER_ACCOUNT)
@@ -174,35 +178,15 @@ data class Transaction(
                 transferAccount = getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL),
                 transferPeer = transferPeer,
                 transferAmount = transferAccountId?.let {
-                    val transferCurrencyUnit =
-                        currencyContext.get(
-                            getString(KEY_TRANSFER_CURRENCY)
-                        )
                     Money(
-                        transferCurrencyUnit,
+                        currencyContext[getString(KEY_TRANSFER_CURRENCY)],
                         getLong(KEY_TRANSFER_AMOUNT)
                     )
                 },
                 originalAmount = getLongOrNull(KEY_ORIGINAL_AMOUNT)?.let {
-                    Money(
-                        currencyContext.get(
-                            getString(KEY_ORIGINAL_CURRENCY)
-                        ), it
-                    )
+                    Money(currencyContext[getString(KEY_ORIGINAL_CURRENCY)], it)
                 },
-                equivalentAmount = getLongOrNull(KEY_EQUIVALENT_AMOUNT)?.let {
-                    Money(homeCurrency, it)
-                }
-                    ?: Money(
-                        homeCurrency, money.amountMajor.multiply(
-                            BigDecimal(
-                                calculateRealExchangeRate(
-                                    getDouble(KEY_EXCHANGE_RATE),
-                                    currencyUnit, homeCurrency
-                                )
-                            )
-                        )
-                    ),
+                equivalentAmount = calculateEquivalentAmount(homeCurrency, money),
                 crStatus = enumValueOrDefault(
                     getStringOrNull(KEY_CR_STATUS),
                     CrStatus.UNRECONCILED

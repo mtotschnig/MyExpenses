@@ -22,7 +22,9 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.localizedLabelSqlColumn
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -36,9 +38,11 @@ import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.ColorUtils
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import java.io.File
+import java.math.BigDecimal
 
 fun safeUpdateWithSealed(db: SupportSQLiteDatabase, runnable: Runnable) {
     db.beginTransaction()
@@ -655,3 +659,15 @@ fun insertEventAndUpdatePlan(
     )
     return updated > 0
 }
+
+fun Cursor.calculateEquivalentAmount(homeCurrency: CurrencyUnit, baseAmount: Money) =
+    getLongOrNull(KEY_EQUIVALENT_AMOUNT)?.let { Money(homeCurrency, it) } ?: Money(
+        homeCurrency, baseAmount.amountMajor.multiply(
+            BigDecimal(
+                calculateRealExchangeRate(
+                    getDouble(KEY_EXCHANGE_RATE),
+                    baseAmount.currencyUnit, homeCurrency
+                )
+            )
+        )
+    )

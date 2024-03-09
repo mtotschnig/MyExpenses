@@ -90,6 +90,11 @@ class CsvExporter(
             add(context.getString(R.string.reference_number))
             add(context.getString(R.string.picture))
             add(context.getString(R.string.tags))
+            add(context.getString(R.string.menu_original_amount))
+            add(context.getString(R.string.menu_original_amount) + " (" + context.getString(R.string.currency) + ")")
+            if (withEquivalentAmount) {
+                add(context.getString(R.string.menu_equivalent_amount))
+            }
         }
         StringBuilder().apply {
             if (withAccountColumn) {
@@ -188,6 +193,19 @@ class CsvExporter(
             handleList(attachmentFileNames)
             append(delimiter)
             handleList(tagList)
+            append(delimiter)
+            if (originalCurrency != null) {
+                appendQ(nfFormats.getValue(currencyContext[originalCurrency]).format(originalAmount))
+                append(delimiter)
+                appendQ(originalCurrency)
+            }
+            if (withEquivalentAmount) {
+                append(delimiter)
+                equivalentAmount?.let {
+                    appendQ(nfFormats.getValue(currencyContext.homeCurrencyUnit).format(it))
+                }
+            }
+
             splits?.forEach {
                 append("\n")
                 if (withAccountColumn) {

@@ -15,8 +15,10 @@ import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_ATTACHMENTS_URI
 import org.totschnig.myexpenses.provider.asSequence
+import org.totschnig.myexpenses.provider.calculateEquivalentAmount
 import org.totschnig.myexpenses.provider.fileName
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
@@ -24,8 +26,10 @@ import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
+import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.Companion.lazyMap
 import java.io.IOException
 import java.io.OutputStreamWriter
+import java.text.DecimalFormat
 import java.time.format.DateTimeFormatter
 
 abstract class AbstractExporter
@@ -51,11 +55,18 @@ abstract class AbstractExporter
 
     val openingBalance = Money(currencyUnit, account.openingBalance).amountMajor
 
-    val nfFormat = Utils.getDecimalFormat(currencyUnit, decimalSeparator)
+    val nfFormats: Map<CurrencyUnit, DecimalFormat> = lazyMap {
+        Utils.getDecimalFormat(it, decimalSeparator)
+    }
+
+    val nfFormat = nfFormats.getValue(currencyUnit)
 
     val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern(dateFormat)
 
     abstract val format: ExportFormat
+
+    val withEquivalentAmount: Boolean
+        get() = account.currency != currencyContext.homeCurrencyString
 
     abstract fun header(context: Context): String?
 
@@ -104,7 +115,12 @@ abstract class AbstractExporter
             TRANSFER_ACCOUNT_LABEL,
             KEY_EQUIVALENT_AMOUNT,
             KEY_ORIGINAL_CURRENCY,
-            KEY_ORIGINAL_AMOUNT
+            KEY_ORIGINAL_AMOUNT,
+            getExchangeRate(
+                VIEW_EXTENDED,
+                KEY_ACCOUNTID,
+                currencyContext.homeCurrencyString
+            ) + " AS " + KEY_EXCHANGE_RATE
         )
 
         fun Cursor.ingestCategoryPaths() {
@@ -129,11 +145,11 @@ abstract class AbstractExporter
         }
 
         fun Cursor.toDTO(isPart: Boolean = false): TransactionDTO {
-            val rowId = getLong(getColumnIndexOrThrow(KEY_ROWID))
+            val rowId = getLong(KEY_ROWID)
             val catId = getLongOrNull(KEY_CATID)
             val isSplit = SPLIT_CATID == catId
             val splitCursor = if (isSplit) context.contentResolver.query(
-                Transaction.CONTENT_URI,
+                TransactionProvider.EXTENDED_URI,
                 projection,
                 "$KEY_PARENTID = ?",
                 arrayOf(rowId.toString()),
@@ -165,18 +181,19 @@ abstract class AbstractExporter
 
             val originalCurrency = getStringOrNull(KEY_ORIGINAL_CURRENCY)
 
+            val money = Money(currencyUnit, getLong(KEY_AMOUNT))
             val transactionDTO = TransactionDTO(
                 uuid = getString(KEY_UUID),
-                date = epoch2ZonedDateTime(getLong(getColumnIndexOrThrow(KEY_DATE))),
+                date = epoch2ZonedDateTime(getLong(KEY_DATE)),
                 payee = getStringOrNull(KEY_PAYEE_NAME),
-                amount = Money(currencyUnit, getLong(getColumnIndexOrThrow(KEY_AMOUNT))).amountMajor,
+                amount = money.amountMajor,
                 catId = readCat.getLongOrNull(KEY_CATID),
                 transferAccount = readCat.getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL),
                 comment = getStringOrNull(KEY_COMMENT)?.takeIf { it.isNotEmpty() },
-                methodLabel = if (isPart) null else getString(getColumnIndexOrThrow(KEY_METHOD_LABEL)),
+                methodLabel = if (isPart) null else getStringOrNull(KEY_METHOD_LABEL),
                 status = if (isPart) null else
                     enumValueOrDefault(
-                        getString(getColumnIndexOrThrow(KEY_CR_STATUS)),
+                        getStringOrNull(KEY_CR_STATUS),
                         CrStatus.UNRECONCILED
                     ),
                 referenceNumber = if (isPart) null else getStringOrNull(KEY_REFERENCE_NUMBER)
@@ -193,11 +210,12 @@ abstract class AbstractExporter
                 },
                 originalCurrency = originalCurrency,
                 originalAmount = originalCurrency?.let {
-                    Money(currencyContext[originalCurrency], getLong(getColumnIndexOrThrow(KEY_AMOUNT))).amountMajor
+                    Money(currencyContext[originalCurrency],
+                        getLong(KEY_ORIGINAL_AMOUNT)).amountMajor
                 },
-                equivalentAmount = getLongOrNull(KEY_EQUIVALENT_AMOUNT)?.let {
-                    Money(currencyContext.homeCurrencyUnit, getLong(getColumnIndexOrThrow(KEY_AMOUNT))).amountMajor
-                }
+                equivalentAmount = if (withEquivalentAmount)
+                    calculateEquivalentAmount(currencyContext.homeCurrencyUnit, money).amountMajor
+                else null
             )
             splitCursor?.close()
             return transactionDTO
