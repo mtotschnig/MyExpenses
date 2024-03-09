@@ -715,8 +715,13 @@ abstract class TransactionDelegate<T : ITransaction>(
                 val newType =
                     (operationTypeSpinner.getItemAtPosition(position) as OperationType).type
                 if (host.isValidType(newType)) {
-                    if (newType == TYPE_TRANSFER && !checkTransferEnabled()) { //reset to previous
-                        resetOperationType()
+                    if (newType == TYPE_TRANSFER) {
+                        if (checkTransferEnabled()) {
+                            host.restartWithType(newType)
+                        } else {
+                            host.showTransferAccountMissingMessage()
+                            resetOperationType()
+                        }
                     } else if (newType == TYPE_SPLIT) {
                         resetOperationType()
                         if (isTemplate) {
@@ -742,13 +747,10 @@ abstract class TransactionDelegate<T : ITransaction>(
         }
     }
 
-    private fun checkTransferEnabled(): Boolean {
-        if (currentAccount() == null) return false
-        if (mAccounts.size <= 1) {
-            (context as ExpenseEdit).showSnackBar(R.string.dialog_command_disabled_insert_transfer)
-            return false
-        }
-        return true
+    private fun checkTransferEnabled() = when {
+        currentAccount() == null -> false
+        mAccounts.size <= 1 -> false
+        else -> true
     }
 
     private fun showCustomRecurrenceInfo() {

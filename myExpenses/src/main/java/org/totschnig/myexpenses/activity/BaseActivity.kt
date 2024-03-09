@@ -24,6 +24,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.*
@@ -75,6 +76,7 @@ import org.totschnig.myexpenses.feature.Module
 import org.totschnig.myexpenses.feature.values
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
@@ -1347,6 +1349,23 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
             adHandlerFactory.gdprConsent(this@BaseActivity, forceShow)
         }
+    }
+
+    val createAccountIntent
+        get() = Intent(this, AccountEdit::class.java).apply {
+            putExtra(KEY_COLOR, Account.DEFAULT_COLOR)
+        }
+
+    fun showTransferAccountMissingMessage() {
+        showMessage(
+            getString(R.string.dialog_command_disabled_insert_transfer),
+            neutral = MessageDialogFragment.Button(
+                R.string.menu_create_account,
+                R.id.CREATE_ACCOUNT_FOR_TRANSFER_COMMAND,
+                null,
+                false
+            )
+        )
     }
 
 

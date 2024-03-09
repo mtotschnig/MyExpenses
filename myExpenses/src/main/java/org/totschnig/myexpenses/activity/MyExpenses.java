@@ -16,7 +16,6 @@
 package org.totschnig.myexpenses.activity;
 
 import static com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE;
-import static org.totschnig.myexpenses.activity.ConstantsKt.CREATE_ACCOUNT_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.OCR_REQUEST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
@@ -30,29 +29,21 @@ import android.view.ViewTreeObserver;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.theartofdev.edmodo.cropper.CropImage;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectFilterDialog;
 import org.totschnig.myexpenses.dialog.select.SelectHiddenAccountDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.distrib.DistributionHelper;
-import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
-import org.totschnig.myexpenses.viewmodel.repository.RoadmapRepository;
 
 import eltos.simpledialogfragment.list.MenuDialog;
 
@@ -152,10 +143,6 @@ public class MyExpenses extends BaseMyExpenses implements
         }
       }
     }
-    if (requestCode == CREATE_ACCOUNT_REQUEST && resultCode == RESULT_OK) {
-      setSelectedAccountId(intent.getLongExtra(KEY_ROWID, 0));
-    }
-
     if (requestCode == CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
       CropImage.ActivityResult activityResult = CropImage.getActivityResult(intent);
       if (resultCode == RESULT_OK) {

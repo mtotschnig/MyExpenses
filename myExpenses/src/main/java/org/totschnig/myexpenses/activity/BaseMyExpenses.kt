@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
@@ -88,6 +89,9 @@ import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.select
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TransactionType
 import org.totschnig.myexpenses.databinding.ActivityMainBinding
 import org.totschnig.myexpenses.db2.countAccounts
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment
@@ -876,7 +880,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             textAlign = TextAlign.Center,
                             text = stringResource(id = R.string.warning_no_account)
                         )
-                        Button(onClick = { createAccountDo()}) {
+                        Button(onClick = { createAccountDo() }) {
                             Text(text = stringResource(id = R.string.menu_create_account))
                         }
                     }
@@ -1367,9 +1371,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             null
         }
 
-    private fun createRow(type: Int, isIncome: Boolean) {
-        if (type == Transactions.TYPE_SPLIT) {
+    private fun createRow(type: Int, isIncome: Boolean = false) {
+        if (type == TYPE_SPLIT) {
             contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION)
+        } else if (type == TYPE_TRANSFER && accountCount == 1) {
+            showTransferAccountMissingMessage()
         } else {
             createRowDo(type, isIncome)
         }
@@ -1452,11 +1458,22 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         )
     }
 
-    private fun createAccountDo(currency: String? = null) {
-        startActivityForResult(Intent(this, AccountEdit::class.java).apply {
-            if (currency != null) putExtra(KEY_CURRENCY, currency)
-            putExtra(KEY_COLOR, DEFAULT_COLOR)
-        }, CREATE_ACCOUNT_REQUEST)
+    private val createAccount =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK) {
+                selectedAccountId = intent.getLongExtra(KEY_ROWID, 0)
+            }
+        }
+
+    private val createAccountForTransfer =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK) {
+                createRow(TYPE_TRANSFER)
+            }
+        }
+
+    private fun createAccountDo() {
+        createAccount.launch(createAccountIntent)
     }
 
     override fun dispatchCommand(command: Int, tag: Any?): Boolean {
@@ -1468,10 +1485,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     || accountCount + viewModel.hasHiddenAccounts.value < ContribFeature.FREE_ACCOUNTS
                 ) {
                     closeDrawer()
-                    createAccountDo(tag as? String)
+                    createAccountDo()
                 } else {
                     showContribDialog(ContribFeature.ACCOUNTS_UNLIMITED, null)
                 }
+            }
+            R.id.CREATE_ACCOUNT_FOR_TRANSFER_COMMAND -> {
+                createAccountForTransfer.launch(createAccountIntent)
             }
 
             R.id.SAFE_MODE_COMMAND -> {
@@ -1626,8 +1646,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 trackCommand(item.itemId)
                 createRow(
                     when (item.itemId) {
-                        R.string.split_transaction -> Transactions.TYPE_SPLIT
-                        R.string.transfer -> Transactions.TYPE_TRANSFER
+                        R.string.split_transaction -> TYPE_SPLIT
+                        R.string.transfer -> TYPE_TRANSFER
                         else -> Transactions.TYPE_TRANSACTION
                     }, item.itemId == R.string.income
                 )
@@ -1926,7 +1946,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             putLongArray(KEY_ROW_IDS, tag as LongArray?)
                         }
                     } else {
-                        createRowDo(Transactions.TYPE_SPLIT, false)
+                        createRowDo(TYPE_SPLIT, false)
                     }
                 }
 

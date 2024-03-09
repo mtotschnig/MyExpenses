@@ -303,6 +303,13 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
+    private val createAccountForTransfer =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK) {
+                restartWithType(TYPE_TRANSFER)
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         maybeRepairRequerySchema()
@@ -1170,6 +1177,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     invalidateOptionsMenu()
                     return true
                 }
+            }
+            R.id.CREATE_ACCOUNT_FOR_TRANSFER_COMMAND -> {
+                createAccountForTransfer.launch(createAccountIntent)
             }
         }
         return false
