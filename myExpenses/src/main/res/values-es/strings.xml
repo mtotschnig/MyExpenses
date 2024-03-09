@@ -1037,5 +1037,5 @@
     <string name="menu_transform_to_transfer">Convertir en transferencia</string>
     <string name="warning_transform_to_transfer">La transacción seleccionada será sustituida por una transferencia de %1$s a %2$s.</string>
     <string name="remap_date">En todas las transacciones seleccionadas, la fecha se establecerá en %s.</string>
-    <string name="roadmap_intro">¡La votación de la Hoja de Ruta 2024 ya está abierta! Vote por las funciones y mejoras que más le interesen.</string>
+    <string name="roadmap_intro">¡La votación de la Hoja de Ruta 2024 ya está abierta! Vota por las características y mejoras que más te importan.</string>
 </resources>
