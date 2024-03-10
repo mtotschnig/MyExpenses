@@ -80,7 +80,7 @@ class ExportTest : BaseTestWithRepository() {
     @Before
     fun setUp() {
         outFile = File(context.cacheDir, FILE_NAME)
-        Mockito.`when`(currencyContext.get(any())).thenReturn(CurrencyUnit.DebugInstance)
+        Mockito.`when`(currencyContext[any()]).thenReturn(CurrencyUnit.DebugInstance)
     }
 
     private val context: Context = ApplicationProvider.getApplicationContext()
@@ -520,16 +520,11 @@ class ExportTest : BaseTestWithRepository() {
     @Throws(IOException::class)
     fun testExportMultipleAccountsToOneFileCSV() {
         val (account1, account2) = insertData3()
+        val cheque = context.getString(R.string.pm_cheque)
         val linesCSV = arrayOf(
             csvHeader(';', true),
-            "\"" + account1.label + "\";\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"" + context.getString(
-                R.string.pm_cheque
-            )
-                    + "\";\"*\";\"1\";\"\";\"\"",
-            "\"" + account2.label + "\";\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"" + context.getString(
-                R.string.pm_cheque
-            )
-                    + "\";\"*\";\"1\";\"\";\"\""
+            """"${account1.label}";"";"$date";"";"0";"0.10";"";"";"$cheque";"*";"1";"";""""",
+            """"${account2.label}";"";"$date";"";"0";"0.10";"";"";"$cheque";"*";"1";"";"""""
         )
         expect.that(
             exportAll(
@@ -651,7 +646,7 @@ class ExportTest : BaseTestWithRepository() {
             var count = 0
             while (reader.readLine()?.also { line ->
                     //println("[$count]: $line")
-                    expect.withMessage("Lines do not match").that(line).isEqualTo(lines[count])
+                    expect.withMessage("Line $count does not match").that(line).isEqualTo(lines[count])
                 } != null) {
                 count++
             }

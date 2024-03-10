@@ -8,7 +8,6 @@ import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.localizedLabelSqlColumn
 import org.totschnig.myexpenses.model.*
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
@@ -65,9 +64,6 @@ abstract class AbstractExporter
 
     abstract val format: ExportFormat
 
-    val withEquivalentAmount: Boolean
-        get() = account.currency != currencyContext.homeCurrencyString
-
     abstract fun header(context: Context): String?
 
     abstract fun TransactionDTO.marshall(categoryPaths: Map<Long, List<String>>): String
@@ -76,6 +72,8 @@ abstract class AbstractExporter
 
     private val categoryTree: MutableMap<Long, Pair<String, Long>> = mutableMapOf()
     val categoryPaths: MutableMap<Long, List<String>> = mutableMapOf()
+
+    open val withEquivalentAmount = false
 
     @Throws(IOException::class)
     open fun export(
@@ -153,7 +151,7 @@ abstract class AbstractExporter
                 projection,
                 "$KEY_PARENTID = ?",
                 arrayOf(rowId.toString()),
-                null
+                KEY_ROWID
             ) else null
             val readCat =
                 splitCursor?.takeIf { useCategoryOfFirstPartForParent && it.moveToFirst() } ?: this

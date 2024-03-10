@@ -34,6 +34,9 @@ class PreferencesIOFragment: BasePreferenceIOBRFragment() {
         requirePreference<Preference>(PrefKey.CSV_EXPORT).title =
             getString(R.string.export_to_format, "CSV")
 
+        requirePreference<Preference>(PrefKey.CSV_EXPORT_ORIGINAL_EQUIVALENT_AMOUNTS).summary =
+            getString(R.string.menu_original_amount) + " / " + getString(R.string.menu_equivalent_amount)
+
         configureShareTargetPreference()
     }
 

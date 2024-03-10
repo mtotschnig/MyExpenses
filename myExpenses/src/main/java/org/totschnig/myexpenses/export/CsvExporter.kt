@@ -36,7 +36,8 @@ class CsvExporter(
     private val withAccountColumn: Boolean,
     private val splitCategoryLevels: Boolean = false,
     private val splitAmount: Boolean = true,
-    timeFormat: String? = null
+    timeFormat: String? = null,
+    private val withOriginalAndEquivalentAmounts: Boolean = false
 ) :
     AbstractExporter(
         account, currencyContext, filter, notYetExportedP, dateFormat,
@@ -61,6 +62,9 @@ class CsvExporter(
         } ?: numberOfCategoryColumns
         return super.export(context, outputStream, append)
     }
+
+    override val withEquivalentAmount: Boolean
+        get() = withOriginalAndEquivalentAmounts && account.currency != currencyContext.homeCurrencyString
 
     override val format = ExportFormat.CSV
     override fun header(context: Context) = if (withHeader) {
@@ -90,8 +94,10 @@ class CsvExporter(
             add(context.getString(R.string.reference_number))
             add(context.getString(R.string.picture))
             add(context.getString(R.string.tags))
-            add(context.getString(R.string.menu_original_amount))
-            add(context.getString(R.string.menu_original_amount) + " (" + context.getString(R.string.currency) + ")")
+            if (withOriginalAndEquivalentAmounts) {
+                add(context.getString(R.string.menu_original_amount))
+                add(context.getString(R.string.menu_original_amount) + " (" + context.getString(R.string.currency) + ")")
+            }
             if (withEquivalentAmount) {
                 add(context.getString(R.string.menu_equivalent_amount))
             }
@@ -193,11 +199,17 @@ class CsvExporter(
             handleList(attachmentFileNames)
             append(delimiter)
             handleList(tagList)
-            append(delimiter)
-            if (originalCurrency != null) {
-                appendQ(nfFormats.getValue(currencyContext[originalCurrency]).format(originalAmount))
+            if (withOriginalAndEquivalentAmounts) {
                 append(delimiter)
-                appendQ(originalCurrency)
+                if (originalCurrency != null) {
+                    appendQ(
+                        nfFormats.getValue(currencyContext[originalCurrency]).format(originalAmount)
+                    )
+                }
+                append(delimiter)
+                if (originalCurrency != null) {
+                    appendQ(originalCurrency)
+                }
             }
             if (withEquivalentAmount) {
                 append(delimiter)

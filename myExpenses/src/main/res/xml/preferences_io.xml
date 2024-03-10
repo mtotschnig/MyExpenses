@@ -44,5 +44,8 @@
             android:defaultValue="false"
             android:key="@string/pref_csv_export_split_date_time_key"
             android:summary="@string/pref_csv_export_split_date_time_summary" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_csv_export_original_equivalent_amounts_key" />
     </PreferenceCategory>
 </PreferenceScreen>
