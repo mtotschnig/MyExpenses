@@ -11,10 +11,12 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
+import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.DrawerActions
 import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey
 import androidx.test.espresso.matcher.ViewMatchers
@@ -44,6 +46,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowMenu
+import org.totschnig.myexpenses.testutils.Espresso.withIdAndParent
 import org.totschnig.myexpenses.util.formatMoney
 
 class MyExpensesTest : BaseMyExpensesTest() {
@@ -78,11 +81,21 @@ class MyExpensesTest : BaseMyExpensesTest() {
     @Test
     fun floatingActionButtonOpensForm() {
         clickFab()
-        Intents.intended(
-            hasComponent(
-                ExpenseEdit::class.java.name
+        intended(hasComponent(ExpenseEdit::class.java.name))
+    }
+
+    @Test
+    fun newBalanceOpensForm() {
+        onView(withId(R.id.toolbar)).perform(click())
+        onView(withText(R.string.new_balance)).perform(click())
+        onView(
+            withIdAndParent(
+                R.id.AmountEditText,
+                R.id.amount
             )
-        )
+        ).perform(click(), replaceText("1000"))
+        onView(withId(android.R.id.button1)).perform(click())
+        intended(hasComponent(ExpenseEdit::class.java.name))
     }
 
     @Test
@@ -105,7 +118,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
         openActionBarOverflowMenu()
         onData(hasToString(getString(R.string.settings_label)))
             .perform(click())
-        Intents.intended(
+        intended(
             hasComponent(PreferenceActivity::class.java.name)
         )
     }
@@ -123,7 +136,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
         onView(withId(R.id.expansionTrigger)).perform(click())
         onView(withText(R.string.menu_create_account))
             .perform(click())
-        Intents.intended(
+        intended(
             allOf(
                 hasComponent(AccountEdit::class.java.name),
                 not(hasExtraWithKey(DatabaseConstants.KEY_ROWID))
@@ -157,7 +170,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     fun editAccountFormIsOpened() {
         openDrawer()
         clickContextItem(R.string.menu_edit)
-        Intents.intended(
+        intended(
             allOf(
                 hasComponent(
                     AccountEdit::class.java.name
@@ -241,7 +254,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     @Test
     fun templateScreenIsOpened() {
         clickMenuItem(R.id.MANAGE_TEMPLATES_COMMAND)
-        Intents.intended(
+        intended(
             hasComponent(ManageTemplates::class.java.name)
         )
     }

@@ -76,7 +76,7 @@ fun withPositionInParent(parentViewId: Int, position: Int): Matcher<View> {
     return allOf(withParent(withId(parentViewId)), withParentIndex(position))
 }
 
-fun toolbarTitle(): ViewInteraction = onView(allOf(instanceOf(TextView::class.java), withParent(ViewMatchers.withId(R.id.toolbar))))
+fun toolbarTitle(): ViewInteraction = onView(allOf(instanceOf(TextView::class.java), withParent(withId(R.id.toolbar))))
 
 //Espresso recorder
 fun childAtPosition(

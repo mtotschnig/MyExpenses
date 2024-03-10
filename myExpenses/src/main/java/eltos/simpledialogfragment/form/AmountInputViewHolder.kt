@@ -21,21 +21,21 @@ internal class AmountInputViewHolder(field: AmountInput) : FormElementViewHolder
     override fun setUpView(
         view: View,
         context: Context,
-        savedInstanceState: Bundle,
+        savedInstanceState: Bundle?,
         actions: DialogActions
     ) {
         inputLayout = view.findViewById(R.id.inputLayout)
         amountInput = view.findViewById(R.id.amount)
         inputLayout.hint = field.getText(context)
         amountInput.setFractionDigits(field.fractionDigits)
-        if (field.withTypeSwitch == null) {
-            amountInput.setWithTypeSwitch(false)
-        } else {
+        field.withTypeSwitch?.also {
             amountInput.setWithTypeSwitch(true)
-            amountInput.type = field.withTypeSwitch!!
+            amountInput.type = it
+        } ?: run {
+            amountInput.setWithTypeSwitch(false)
         }
-        if (field.amount != null) {
-            amountInput.setAmount(field.amount!!)
+        field.amount?.let {
+            amountInput.setAmount(it)
         }
         // Positive button state for single element forms
         if (actions.isOnlyFocusableElement) {

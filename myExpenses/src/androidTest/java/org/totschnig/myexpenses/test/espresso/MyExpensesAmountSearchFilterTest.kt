@@ -26,7 +26,7 @@ class MyExpensesAmountSearchFilterTest : BaseMyExpensesTest() {
         op.amount =  Money(currency, amount1)
         op.save(contentResolver)
         op.amount = Money(currency, amount2)
-        op.date = op.date - 10000
+        op.date -= 10000
         op.saveAsNew(contentResolver)
         launch(account.id)
     }
