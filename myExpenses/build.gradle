@@ -295,7 +295,7 @@ dependencies {
 
     implementation 'de.cketti.mailto:email-intent-builder:2.0.0'
 
-    implementation 'androidx.browser:browser:1.7.0'
+    implementation 'androidx.browser:browser:1.8.0'
 
     implementation("com.github.livefront.sealed-enum:runtime:0.7.0")
     ksp("com.github.livefront.sealed-enum:ksp:0.7.0")
