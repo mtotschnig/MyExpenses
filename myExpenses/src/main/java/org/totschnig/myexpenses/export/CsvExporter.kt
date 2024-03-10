@@ -67,6 +67,11 @@ class CsvExporter(
         get() = withOriginalAndEquivalentAmounts && account.currency != currencyContext.homeCurrencyString
 
     override val format = ExportFormat.CSV
+
+    override val categoryPathSeparator = " > "
+
+    override fun sanitizeCategoryLabel(label: String) = label
+
     override fun header(context: Context) = if (withHeader) {
         val columns = buildList {
             add(context.getString(R.string.split_transaction))

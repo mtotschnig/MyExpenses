@@ -258,6 +258,18 @@ abstract class AbstractExporter
 
     open fun footer(): String? = null
 
+    fun TransactionDTO.fullLabel(categoryPaths: Map<Long, List<String>>) =
+        transferAccount?.let { "[$it]" } ?: categoryPath(categoryPaths)
+
+    open val categoryPathSeparator = ":"
+
+    open fun sanitizeCategoryLabel(label: String) =
+        label.replace("/","\\u002F").replace(":","\\u003A")
+
+    private fun TransactionDTO.categoryPath(categoryPaths: Map<Long, List<String>>) = catId?.let { cat ->
+        categoryPaths[cat]?.joinToString(categoryPathSeparator, transform = ::sanitizeCategoryLabel)
+    }
+
     companion object {
         const val ENCODING_UTF_8 = "UTF-8"
         const val ENCODING_UTF_8_BOM = "UTF-8-BOM"
