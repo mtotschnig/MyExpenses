@@ -34,7 +34,7 @@ object TestViewModelModule : ViewModelModule() {
 class DecoratingMyExpensesViewModel(application: Application,
                                     savedStateHandle: SavedStateHandle
 ) : MyExpensesViewModel(application, savedStateHandle) {
-    val countingResource = CountingIdlingResource("TransactionPaging")
+    val countingResource = CountingIdlingResource("TransactionPaging", true)
 
     override fun buildTransactionPagingSource(account: PageAccount) =
         DecoratedTransactionPagingSource(

@@ -41,10 +41,10 @@ class MyExpensesCategorySearchFilterTest : BaseMyExpensesTest() {
         op.catId = categoryId1
         id1Main = ContentUris.parseId(op.save(contentResolver)!!)
         op.catId = categoryId2
-        op.date = op.date - 10000
+        op.date -= 10000
         id2Main = ContentUris.parseId(op.saveAsNew(contentResolver))
         op.catId = categoryId1Sub
-        op.date = op.date - 10000
+        op.date -= 10000
         id1Sub = ContentUris.parseId(op.saveAsNew(contentResolver))
         launch(account.id)
         allLabelsAreDisplayed()

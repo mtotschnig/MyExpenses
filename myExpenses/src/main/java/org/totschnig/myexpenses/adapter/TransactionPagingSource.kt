@@ -71,7 +71,7 @@ open class TransactionPagingSource(
             }
         }
         coroutineScope.launch {
-            tags.filter { it.isNotEmpty() }.drop(1).collect {
+            tags.drop(1).collect {
                 invalidate()
             }
         }
@@ -92,58 +92,61 @@ open class TransactionPagingSource(
 
     @SuppressLint("InlinedApi")
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Transaction2> {
-        val position = params.key ?: 0
-        //if the previous page was loaded from an offset between 0 and loadSize,
-        //we must take care to load only the missing items before the offset
-        val loadSize = if (position < 0) params.loadSize + position else params.loadSize
-        Timber.i("Requesting data for account %d at position %d", account.id, position)
-        var selection = "$KEY_PARENTID is null"
-        var selectionArgs: Array<String>? = null
-        if (!whereFilter.value.isEmpty) {
-            val selectionForParents =
-                whereFilter.value.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED)
-            if (selectionForParents.isNotEmpty()) {
-                selection += " AND $selectionForParents"
-                selectionArgs = whereFilter.value.getSelectionArgsIfNotEmpty(false)
-            }
-        }
-        val startTime = if (BuildConfig.DEBUG) Instant.now() else null
-        val sortBy = when (account.sortBy) {
-            KEY_AMOUNT -> "abs($KEY_AMOUNT)"
-            else -> account.sortBy
-        }
-        val data = withContext(Dispatchers.IO) {
-            contentResolver.query(
-                uri.withLimit(loadSize, position.coerceAtLeast(0)),
-                projection,
-                selection,
-                selectionArgs,
-                "$sortBy ${account.sortDirection}", null
-            )?.use { cursor ->
-                if (BuildConfig.DEBUG) {
-                    val endTime = Instant.now()
-                    val duration = Duration.between(startTime, endTime)
-                    Timber.i("Cursor delivered %d rows after %s", cursor.count, duration)
+        try {
+            val position = params.key ?: 0
+            //if the previous page was loaded from an offset between 0 and loadSize,
+            //we must take care to load only the missing items before the offset
+            val loadSize = if (position < 0) params.loadSize + position else params.loadSize
+            Timber.i("Requesting data for account %d at position %d", account.id, position)
+            var selection = "$KEY_PARENTID is null"
+            var selectionArgs: Array<String>? = null
+            if (!whereFilter.value.isEmpty) {
+                val selectionForParents =
+                    whereFilter.value.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED)
+                if (selectionForParents.isNotEmpty()) {
+                    selection += " AND $selectionForParents"
+                    selectionArgs = whereFilter.value.getSelectionArgsIfNotEmpty(false)
                 }
-                cursor.asSequence.map {
-                    Transaction2.fromCursor(
-                        it,
-                        account.currencyUnit,
-                        tags.value
-                    )
-                }.toList()
-            } ?: emptyList()
+            }
+            val startTime = if (BuildConfig.DEBUG) Instant.now() else null
+            val sortBy = when (account.sortBy) {
+                KEY_AMOUNT -> "abs($KEY_AMOUNT)"
+                else -> account.sortBy
+            }
+            val data = withContext(Dispatchers.IO) {
+                contentResolver.query(
+                    uri.withLimit(loadSize, position.coerceAtLeast(0)),
+                    projection,
+                    selection,
+                    selectionArgs,
+                    "$sortBy ${account.sortDirection}", null
+                )?.use { cursor ->
+                    if (BuildConfig.DEBUG) {
+                        val endTime = Instant.now()
+                        val duration = Duration.between(startTime, endTime)
+                        Timber.i("Cursor delivered %d rows after %s", cursor.count, duration)
+                    }
+                    cursor.asSequence.map {
+                        Transaction2.fromCursor(
+                            it,
+                            account.currencyUnit,
+                            tags.value
+                        )
+                    }.toList()
+                } ?: emptyList()
+            }
+            val prevKey = if (position > 0) (position - params.loadSize) else null
+            val nextKey = if (data.size < params.loadSize) null else position + params.loadSize
+            Timber.i("Setting prevKey %d, nextKey %d", prevKey, nextKey)
+            return LoadResult.Page(
+                data = data,
+                prevKey = prevKey,
+                nextKey = nextKey,
+                itemsBefore = position.coerceAtLeast(0)
+            )
+        } finally {
+            onLoadFinished()
         }
-        onLoadFinished()
-        val prevKey = if (position > 0) (position - params.loadSize) else null
-        val nextKey = if (data.size < params.loadSize) null else position + params.loadSize
-        Timber.i("Setting prevKey %d, nextKey %d", prevKey, nextKey)
-        return LoadResult.Page(
-            data = data,
-            prevKey = prevKey,
-            nextKey = nextKey,
-            itemsBefore = position.coerceAtLeast(0)
-        )
     }
 
     open fun onLoadFinished() {}
