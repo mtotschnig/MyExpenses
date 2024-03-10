@@ -6,7 +6,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.test.core.app.ApplicationProvider
 import org.mockito.ArgumentMatchers
-import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.`when`
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -17,21 +18,22 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionInfo
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.CurrencyFormatter
-import java.util.*
+import java.util.Currency
 
 open class BaseTestWithRepository {
     val currencyContext: CurrencyContext =
-        Mockito.mock(CurrencyContext::class.java).also { currencyContext ->
-            Mockito.`when`(currencyContext.get(ArgumentMatchers.anyString())).thenAnswer {
+        mock(CurrencyContext::class.java).also { currencyContext ->
+            `when`(currencyContext[ArgumentMatchers.anyString()]).thenAnswer {
                 CurrencyUnit(Currency.getInstance(it.getArgument(0) as String))
             }
+            `when`(currencyContext.homeCurrencyString).thenReturn("EUR")
         }
     val repository: Repository = Repository(
         ApplicationProvider.getApplicationContext<MyApplication>(),
         currencyContext,
-        Mockito.mock(CurrencyFormatter::class.java),
-        Mockito.mock(PrefHandler::class.java),
-        Mockito.mock(DataStore::class.java) as DataStore<Preferences>
+        mock(CurrencyFormatter::class.java),
+        mock(PrefHandler::class.java),
+        mock(DataStore::class.java) as DataStore<Preferences>
     )
 
     val contentResolver: ContentResolver = repository.contentResolver

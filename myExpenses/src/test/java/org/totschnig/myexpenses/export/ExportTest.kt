@@ -353,18 +353,39 @@ class ExportTest : BaseTestWithRepository() {
 
     @Test
     fun testExportCSVWithBOM() {
-        insertData2(buildAccount1())
+        val (account1, account2) = insertData3()
         expect.that(
             exportAll(
-                insertData1(),
+                account1,
                 ExportFormat.CSV,
                 notYetExportedP = false,
                 append = false,
-                withAccountColumn = false,
+                withAccountColumn = true,
                 AbstractExporter.ENCODING_UTF_8_BOM
             ).isSuccess
         ).isTrue()
-        outFile.useLines { it.first() }.startsWith(String(UTF_8_BOM))
+        expect.that(
+            exportAll(
+                account2,
+                ExportFormat.CSV,
+                notYetExportedP = false,
+                append = true,
+                withAccountColumn = true,
+                AbstractExporter.ENCODING_UTF_8_BOM
+            ).isSuccess
+        ).isTrue()
+        outFile.useLines {
+            it.forEachIndexed { index, line ->
+                val startsWithBOM = line.startsWith(String(UTF_8_BOM))
+                if (index == 0) {
+                    expect.withMessage("BOM is missing on first line")
+                        .that(startsWithBOM).isTrue()
+                } else {
+                    expect.withMessage("Unexpected BOM at line $index")
+                        .that(startsWithBOM).isFalse()
+                }
+            }
+        }
     }
 
     @Test

@@ -233,7 +233,7 @@ abstract class AbstractExporter
                 val output = outputStream.value.getOrThrow()
                 (context.contentResolver.openOutputStream(output.uri, if (append) "wa" else "w")
                     ?: throw IOException("openOutputStream returned null")).use { outputStream ->
-                    if (encoding == ENCODING_UTF_8_BOM) {
+                    if (encoding == ENCODING_UTF_8_BOM && !append) {
                         outputStream.write(UTF_8_BOM)
                     }
                     OutputStreamWriter(outputStream, if (encoding == ENCODING_UTF_8_BOM) ENCODING_UTF_8 else encoding).use { out ->
