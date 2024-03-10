@@ -331,13 +331,13 @@ class ExportTest : BaseTestWithRepository() {
             csvHeader(';', false),
             """"";"$date";"";"0";"0.10";"";"";"${context.getString(R.string.pm_cheque)}";"*";"1";"";"Tag One, 'Tags, Tags, Tags'"""",
             """"";"$date";"N.N.";"0";"0.20";"Main";"";"${context.getString(R.string.pm_cheque)}";"";"2";"";""""",
-            """"";"$date";"";"0.30";"0";"Main:Sub";"";"";"";"";"picture.png";""""",
-            "\"\";\"$date\";\"\";\"0.40\";\"0\";\"Main:Sub\";\"Note for myself with \"\"quote\"\"\";\"\";\"\";\"\";\"\";\"\"",
+            """"";"$date";"";"0.30";"0";"Main > Sub";"";"";"";"";"picture.png";""""",
+            "\"\";\"$date\";\"\";\"0.40\";\"0\";\"Main > Sub\";\"Note for myself with \"\"quote\"\"\";\"\";\"\";\"\";\"\";\"\"",
             """"";"$date";"";"0.50";"0";"[Account 2]";"";"";"X";"";"";""""",
             """"";"$date";"";"0";"0.60";"[Account 2]";"";"";"";"";"";""""",
             """"*";"$date";"N.N.";"0.70";"0";"";"";"";"";"";"";""""",
-            """"-";"$date";"N.N.";"0.40";"0";"Main:Sub2";"";"";"";"";"";""""",
-            """"-";"$date";"N.N.";"0.30";"0";"Main:Sub3";"";"";"";"";"";"Tag One, 'Tags, Tags, Tags'""""
+            """"-";"$date";"N.N.";"0.40";"0";"Main > Sub2";"";"";"";"";"";""""",
+            """"-";"$date";"N.N.";"0.30";"0";"Main > Sub3";"";"";"";"";"";"Tag One, 'Tags, Tags, Tags'""""
         )
         expect.that(
             exportAll(
@@ -416,13 +416,13 @@ class ExportTest : BaseTestWithRepository() {
             csvHeader(',', false),
             """"","$date","","0","0,10","","","${context.getString(R.string.pm_cheque)}","*","1","","Tag One, 'Tags, Tags, Tags'"""",
             """"","$date","N.N.","0","0,20","Main","","${context.getString(R.string.pm_cheque)}","","2","",""""",
-            """"","$date","","0,30","0","Main:Sub","","","","","picture.png",""""",
-            "\"\",\"$date\",\"\",\"0,40\",\"0\",\"Main:Sub\",\"Note for myself with \"\"quote\"\"\",\"\",\"\",\"\",\"\",\"\"",
+            """"","$date","","0,30","0","Main > Sub","","","","","picture.png",""""",
+            "\"\",\"$date\",\"\",\"0,40\",\"0\",\"Main > Sub\",\"Note for myself with \"\"quote\"\"\",\"\",\"\",\"\",\"\",\"\"",
             """"","$date","","0,50","0","[Account 2]","","","X","","",""""",
             """"","$date","","0","0,60","[Account 2]","","","","","",""""",
             """"*","$date","N.N.","0,70","0","","","","","","",""""",
-            """"-","$date","N.N.","0,40","0","Main:Sub2","","","","","",""""",
-            """"-","$date","N.N.","0,30","0","Main:Sub3","","","","","","Tag One, 'Tags, Tags, Tags'""""
+            """"-","$date","N.N.","0,40","0","Main > Sub2","","","","","",""""",
+            """"-","$date","N.N.","0,30","0","Main > Sub3","","","","","","Tag One, 'Tags, Tags, Tags'""""
         )
         expect.that(
             CsvExporter(
