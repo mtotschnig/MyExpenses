@@ -317,7 +317,7 @@ class GoogleDriveBackendProvider internal constructor(
     }
 
     private val homeCurrency: String
-        get() = context.injector.homeCurrencyProvider().homeCurrencyString
+        get() = context.injector.currencyContext().homeCurrencyString
 
     private fun getPropertyWithDefault(
         metadata: Map<String, String>,
