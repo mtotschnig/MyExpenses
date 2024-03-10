@@ -922,4 +922,8 @@
     <string name="pref_sync_now_all_summary">%s synchroniseert alle rekeningen voor hetzelfde backend</string>
     <string name="menu_unlink_transfer">Overdracht ontkoppelen</string>
     <string name="warning_unlink_transfer">De geselecteerde overboeking wordt ontkoppeld: deze wordt vervangen door normale transacties op beide rekeningen.</string>
+    <string name="menu_transform_to_transfer">Converteren naar overdracht</string>
+    <string name="warning_transform_to_transfer">De geselecteerde transactie wordt vervangen door een overdracht van %1$s naar %2$s.</string>
+    <string name="remap_date">Bij alle geselecteerde transacties wordt de datum ingesteld op %s.</string>
+    <string name="roadmap_intro">De stemming over de routekaart 2024 is nu geopend! Stem op de functies en verbeteringen die jij het belangrijkst vindt.</string>
 </resources>
