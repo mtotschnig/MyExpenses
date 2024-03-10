@@ -50,12 +50,14 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationComplete
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationPending
 import org.totschnig.myexpenses.viewmodel.LoadingState
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.io.Serializable
+import java.lang.IllegalArgumentException
 
 class ManageCategories : ProtectedFragmentActivity(),
     ContribIFace {
@@ -234,9 +236,11 @@ class ManageCategories : ProtectedFragmentActivity(),
                                 onCheckedChange = { viewModel.typeFilter = it }
                             )
                         }
-                        Box(modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f)) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                        ) {
                             when (state) {
                                 LoadingState.Loading -> {
                                     CircularProgressIndicator(
@@ -310,7 +314,9 @@ class ManageCategories : ProtectedFragmentActivity(),
                                                                     )
                                                                 }
 
-                                                                checkDefaultTransferCategory(listOf(it)) -> {
+                                                                checkDefaultTransferCategory(
+                                                                    listOf(it)
+                                                                ) -> {
                                                                     viewModel.deleteCategories(
                                                                         listOf(it)
                                                                     )
@@ -383,15 +389,23 @@ class ManageCategories : ProtectedFragmentActivity(),
     fun doMultiSelection() {
         val selected = (choiceMode as ChoiceMode.MultiChoiceMode).selectionState
         if (selected.size == 1 || !selected.any { it.id == NULL_ITEM_ID }) {
-            val label = (viewModel.categoryTree.value as LoadingState.Data).data.flatten()
-                .filter { selected.any { category -> category.id == it.id } }
-                .joinToString(separator = ",") { it.label }
-            setResult(RESULT_FIRST_USER, Intent().apply {
-                putExtra(KEY_ACCOUNTID, intent.getLongExtra(KEY_ACCOUNTID, 0))
-                putExtra(KEY_ROWID, selected.map { it.id }.toLongArray())
-                putExtra(KEY_LABEL, label)
-            })
-            finish()
+            (viewModel.categoryTree.value as? LoadingState.Data)?.also {
+                val label = it.data.flatten()
+                    .filter { selected.any { category -> category.id == it.id } }
+                    .joinToString(separator = ",") { it.label }
+                setResult(RESULT_FIRST_USER, Intent().apply {
+                    putExtra(KEY_ACCOUNTID, intent.getLongExtra(KEY_ACCOUNTID, 0))
+                    putExtra(KEY_ROWID, selected.map { it.id }.toLongArray())
+                    putExtra(KEY_LABEL, label)
+                })
+                finish()
+            } ?: run {
+                CrashHandler.report(
+                    IllegalStateException(
+                        "called doMultiSelection without data, found ${viewModel.categoryTree.value::class.simpleName}"
+                    )
+                )
+            }
         } else {
             showSnackBar(R.string.unmapped_filter_only_single)
         }
