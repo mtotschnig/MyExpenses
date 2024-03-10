@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="versions">
-        <item>714;3.7.6.1</item>
+        <item>715;3.7.7</item>
         <item>713;3.7.6</item>
         <item>709;3.7.5</item>
         <item>704;3.7.4</item>
@@ -77,6 +77,7 @@
     <string name="version_more_info_374">111926553139061758</string>
     <string name="version_more_info_375">111957697846289706</string>
     <string name="version_more_info_376">112014211218623273</string>
+    <string name="version_more_info_377">112072181909903986</string>
 
     <!-- Github -->
     <string name="project_board_341">69#column-18649612</string>
@@ -115,7 +116,7 @@
     <string name="project_board_374">129#column-19764415</string>
     <string name="project_board_375">131#column-19777096</string>
     <string name="project_board_376">132#column-19778148</string>
-    <string name="project_board_3761">133#column-19792745</string>
+    <string name="project_board_377">134#column-19796759</string>
 
     <string-array name="whats_new_355">
         <item>@string/whats_new_355</item>
@@ -159,8 +160,5 @@
     </string-array>
     <string-array name="whats_new_375">
         <item>@string/menu_unlink_transfer</item>
-    </string-array>
-    <string-array name="whats_new_3761">
-        <item>@string/bug_fixes</item>
     </string-array>
 </resources>
