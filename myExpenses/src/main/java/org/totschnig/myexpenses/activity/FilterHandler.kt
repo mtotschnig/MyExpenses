@@ -78,7 +78,7 @@ class FilterHandler(private val activity: BaseMyExpenses) {
         with(activity) {
             if (accountCount == 0) return false
             if (removeFilter(itemId)) return true
-            val accountId = currentAccount!!.id
+            val accountId = currentAccount?.id ?: return false
             when (itemId) {
                 R.id.FILTER_CATEGORY_COMMAND -> getCategory.launch(accountId)
                 R.id.FILTER_PAYEE_COMMAND -> getPayee.launch(accountId)
