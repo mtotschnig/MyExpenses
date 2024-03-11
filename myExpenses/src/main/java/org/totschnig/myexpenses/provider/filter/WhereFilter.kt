@@ -19,8 +19,7 @@ package org.totschnig.myexpenses.provider.filter
 
 import androidx.annotation.CheckResult
 
-data class WhereFilter(val criteria: List<Criterion<*>>) {
-    constructor(): this(emptyList())
+data class WhereFilter(val criteria: List<Criterion<*>> = emptyList()) {
 
     fun getSelectionForParents(tableName: String, forExport: Boolean = false) =
         criteria.joinToString(" AND ") { it.getSelectionForParents(tableName, forExport) }

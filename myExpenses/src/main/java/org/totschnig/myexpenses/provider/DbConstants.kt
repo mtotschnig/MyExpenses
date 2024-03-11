@@ -10,7 +10,95 @@ import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.db2.asCategoryType
 import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_OTHER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_SELF
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DISPLAY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_DESCENDANTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_FUTURE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_TRANSFERS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LEVEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_BUDGETS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_CATEGORIES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_METHODS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_PAYEES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TAGS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TEMPLATES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIONS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MATCHES_FILTER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
+import org.totschnig.myexpenses.provider.DatabaseConstants.NULL_ROW_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_EXCHANGE_RATES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGET_ALLOCATIONS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TAGS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES_TAGS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TREE_CATEGORIES
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT
+import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
+import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountCalculation
+import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountHomeEquivalent
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_AGGREGATE_NEUTRAL
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ALLOCATED_ONLY
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_TRANSACTION_ID_LIST
@@ -69,10 +157,10 @@ val Uri.accountSelector: String
                             )
                 )
 
-fun Uri.amountCalculation(tableName: String, homeCurrency: String, withAlias: Boolean = false): String =
-    if (getQueryParameter(KEY_ACCOUNTID) != null || getQueryParameter(KEY_CURRENCY) != null)
-        KEY_AMOUNT else getAmountHomeEquivalent(tableName, homeCurrency) +
-            if(withAlias) " AS $KEY_AMOUNT" else ""
+fun Uri.amountCalculation(tableName: String, homeCurrency: String): String =
+    (if (getQueryParameter(KEY_ACCOUNTID) != null || getQueryParameter(KEY_CURRENCY) != null)
+        KEY_AMOUNT else getAmountHomeEquivalent(tableName, homeCurrency)) +
+                    " AS $KEY_DISPLAY_AMOUNT"
 
 fun checkSealedWithAlias(baseTable: String, innerTable: String) =
     "max(" + checkForSealedAccount(
@@ -175,10 +263,10 @@ fun categoryTreeWithSum(
     val map = projection.map {
         when (it) {
             KEY_SUM -> buildString {
-                val amountStatement = if (aggregateNeutral) KEY_AMOUNT else
+                val amountStatement = if (aggregateNeutral) KEY_DISPLAY_AMOUNT else
                     //the ELSE in the CASE statement is FLAG_NEUTRAL because the categoryTreeCTE
                     // returns categories which are either the requested type or neutral
-                    "CASE $KEY_TYPE WHEN $type THEN $KEY_AMOUNT ELSE ${if (incomeType) "max" else "min"}($KEY_AMOUNT, 0) END"
+                    "CASE $KEY_TYPE WHEN $type THEN $KEY_DISPLAY_AMOUNT ELSE ${if (incomeType) "max" else "min"}($KEY_DISPLAY_AMOUNT, 0) END"
                 append("(SELECT $aggregateFunction($amountStatement) FROM amounts ")
                 append(") AS $KEY_SUM")
             }
@@ -197,7 +285,7 @@ fun categoryTreeWithSum(
                 type = type
             )
         )
-        val amountCalculation = uri.amountCalculation(VIEW_WITH_ACCOUNT, homeCurrency, true)
+        val amountCalculation = uri.amountCalculation(VIEW_WITH_ACCOUNT, homeCurrency)
         append(", amounts as (select $amountCalculation from $VIEW_WITH_ACCOUNT WHERE ")
         append(WHERE_NOT_VOID)
         append(" AND +$accountSelector")
@@ -597,6 +685,8 @@ fun transactionSumQuery(
         if (TextUtils.isEmpty(selectionIn)) accountSelector else "$selectionIn AND $accountSelector"
     val aggregateNeutral = uri.getBooleanQueryParameter(QUERY_PARAMETER_AGGREGATE_NEUTRAL, false)
 
+    val sumExpression = "$aggregateFunction($KEY_DISPLAY_AMOUNT)"
+
     return if (aggregateNeutral) {
         require(projection.size == 1)
         val column = projection.first()
@@ -605,13 +695,9 @@ fun transactionSumQuery(
             KEY_SUM_EXPENSES -> FLAG_EXPENSE
             else -> throw IllegalArgumentException()
         }
-        val sumExpression =
-            "$aggregateFunction(${uri.amountCalculation(VIEW_WITH_ACCOUNT, homeCurrency, false)})"
         """SELECT $sumExpression AS $column FROM $VIEW_WITH_ACCOUNT WHERE $typeWithFallBack IN ($type, $FLAG_NEUTRAL)
 AND ($KEY_CATID IS NOT $SPLIT_CATID AND $KEY_CR_STATUS != 'VOID' AND $selection)"""
     } else {
-        val sumExpression =
-            "$aggregateFunction(${uri.amountCalculation(CTE_TRANSACTION_AMOUNTS, homeCurrency, false)})"
         val columns = projection.map {
             when (it) {
                 KEY_SUM_EXPENSES -> "(SELECT $sumExpression FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_TYPE = $FLAG_EXPENSE) AS $KEY_SUM_EXPENSES"
@@ -621,7 +707,10 @@ AND ($KEY_CATID IS NOT $SPLIT_CATID AND $KEY_CR_STATUS != 'VOID' AND $selection)
         }
         require(columns.isNotEmpty())
         """WITH $CTE_TRANSACTION_AMOUNTS AS (
-    SELECT ${effectiveTypeExpression(typeWithFallBack)} AS $KEY_TYPE, $KEY_AMOUNT, $KEY_PARENTID, $KEY_ACCOUNTID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT FROM $VIEW_WITH_ACCOUNT
+    SELECT ${effectiveTypeExpression(typeWithFallBack)} AS $KEY_TYPE, ${uri.amountCalculation(
+            VIEW_WITH_ACCOUNT,
+            homeCurrency
+        )}, $KEY_PARENTID, $KEY_ACCOUNTID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT FROM $VIEW_WITH_ACCOUNT
     WHERE ($KEY_CATID IS NOT $SPLIT_CATID AND $KEY_CR_STATUS != 'VOID' AND $selection))
     SELECT ${columns.joinToString()}"""
     }
