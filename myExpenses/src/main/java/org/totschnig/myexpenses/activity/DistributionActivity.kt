@@ -4,18 +4,37 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.SparseArray
-import android.view.*
+import android.view.GestureDetector
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.Menu
+import android.view.MenuItem
+import android.view.MotionEvent
 import androidx.activity.viewModels
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Palette
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,7 +64,12 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.compose.*
+import org.totschnig.myexpenses.compose.AppTheme
+import org.totschnig.myexpenses.compose.Category
+import org.totschnig.myexpenses.compose.ChoiceMode
+import org.totschnig.myexpenses.compose.ExpansionMode
+import org.totschnig.myexpenses.compose.LocalCurrencyFormatter
+import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
@@ -53,8 +77,14 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.KEY_FILTER
+import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.ui.SelectivePieChartRenderer
-import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.util.ColorUtils
+import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 import org.totschnig.myexpenses.viewmodel.data.Category
@@ -180,7 +210,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
 
         viewModel.initWithAccount(
             intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0),
-            enumValueOrDefault(intent.getStringExtra(KEY_GROUPING), Grouping.NONE)
+            enumValueOrDefault(intent.getStringExtra(KEY_GROUPING), Grouping.NONE),
+            intent.getParcelableArrayListExtra<Criterion<*>>(KEY_FILTER)?.let { WhereFilter(it) }
         )
 
         lifecycleScope.launch {
