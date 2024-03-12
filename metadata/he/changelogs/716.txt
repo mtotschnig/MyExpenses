@@ -1,0 +1,4 @@
+• יצא ל- CSV: סכום מקורי, סכום שווה ערך
+• חידוד ממשק המשתמש
+
+https://github.com/mtotschnig/MyExpenses/projects/134#column-19796759

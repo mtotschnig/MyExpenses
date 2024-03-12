@@ -1,0 +1,4 @@
+• Esportazione in formato CSV: Importo originario, Importo equivalente
+• Miglioramento dell'interfaccia utente
+
+https://github.com/mtotschnig/MyExpenses/projects/134#column-19796759

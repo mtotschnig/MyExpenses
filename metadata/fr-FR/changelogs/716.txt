@@ -1,0 +1,4 @@
+• Export au format CSV: Montant original, Montant équivalent
+• Raffinement de l'interface utilisateur
+
+https://github.com/mtotschnig/MyExpenses/projects/134#column-19796759

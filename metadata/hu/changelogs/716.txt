@@ -1,0 +1,4 @@
+• Exportálás CSV-be : Eredeti összeg, Egyenértékű összeg
+• A felhasználói felület finomítása
+
+https://github.com/mtotschnig/MyExpenses/projects/134#column-19796759

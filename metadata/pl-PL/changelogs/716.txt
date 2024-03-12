@@ -1,0 +1,4 @@
+• Eksport do CSV: Pierwotna kwota, Kwota równoważna
+• Udoskonalenie interfejsu użytkownika
+
+https://github.com/mtotschnig/MyExpenses/projects/134#column-19796759
