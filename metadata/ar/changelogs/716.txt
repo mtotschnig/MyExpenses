@@ -1,0 +1,4 @@
+• تصدير لصيغة CSV: المبلغ الأصلي, المبلغ المعادل
+• صقل واجهة المستخدم
+
+https://github.com/mtotschnig/MyExpenses/projects/134#column-19796759

@@ -1,0 +1,4 @@
+• CSV olarak dışa aktar: Orijinal meblağ, Eşdeğer meblağ
+• Kullanıcı arayüzü iyileştirildi
+
+https://github.com/mtotschnig/MyExpenses/projects/134#column-19796759

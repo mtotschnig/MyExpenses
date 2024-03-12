@@ -62,6 +62,12 @@ if [ -z "$PRICE" ]
      exit 1
 fi
 
+if [ -z "$ADDRESS" ]
+  then
+     echo "provide ADDRESS in environment"
+     exit 1
+fi
+
 if [ -z "$KEY" ] || [ -z "$COUNTRY" ] || [ -z "$KUNDE" ]
   then
      show_help

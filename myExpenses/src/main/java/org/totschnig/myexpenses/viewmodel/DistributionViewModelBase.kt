@@ -215,7 +215,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
     ) { groupingInfo, dateInfo, dateInfoExtra ->
         if (groupingInfo.grouping == Grouping.NONE) {
             defaultDisplayTitle
-        } else if (dateInfoExtra != null) {
+        } else if (dateInfoExtra != null && (groupingInfo.grouping != Grouping.WEEK || dateInfoExtra.weekStart != null)) {
             groupingInfo.grouping.getDisplayTitle(
                 localizedContext,
                 groupingInfo.year,
@@ -319,7 +319,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
 
     private val sumProjection by lazy {
         if (withIncomeSum) arrayOf(KEY_SUM_EXPENSES, KEY_SUM_INCOME) else
-        arrayOf(KEY_SUM_EXPENSES)
+            arrayOf(KEY_SUM_EXPENSES)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

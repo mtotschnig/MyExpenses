@@ -1,0 +1,4 @@
+• Exportação para CSV: Quantia original, Quantia equivalente
+• Melhorias na interface do usuário
+
+https://github.com/mtotschnig/MyExpenses/projects/134#column-19796759
