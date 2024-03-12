@@ -22,7 +22,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
@@ -46,7 +45,11 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
     private fun getGroupingPrefKey(accountId: Long) =
         stringPreferencesKey("distributionGrouping_$accountId")
 
-    fun initWithAccount(accountId: Long, defaultGrouping: Grouping) {
+    fun initWithAccount(
+        accountId: Long,
+        defaultGrouping: Grouping,
+        whereFilter: WhereFilter?
+    ) {
         val isAggregate = accountId < 0
         val base =
             if (isAggregate) TransactionProvider.ACCOUNTS_AGGREGATE_URI else TransactionProvider.ACCOUNTS_URI
@@ -77,6 +80,8 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
                 setGrouping(it)
             }
         }
+
+        _whereFilter.update { whereFilter ?: WhereFilter.empty() }
     }
 
     fun persistGrouping(grouping: Grouping) {
@@ -112,7 +117,7 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
             incomeType,
             aggregateNeutral,
             groupingInfoFlow.filterNotNull(),
-            whereFilter
+            _whereFilter
         ) { accountInfo, incomeType, aggregateNeutral, grouping, whereFilter ->
             Tuple5(accountInfo, incomeType, aggregateNeutral, grouping, whereFilter)
         }.flatMapLatest { (accountInfo, incomeType, aggregateNeutral, grouping, whereFilter) ->
