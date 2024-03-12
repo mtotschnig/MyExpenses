@@ -37,16 +37,14 @@ class CsvImportViewModel(application: Application, val savedStateHandle: SavedSt
 
     fun parseFile(uri: Uri, delimiter: Char, encoding: String): LiveData<Result<Unit>> =
         liveData(context = coroutineContext()) {
-            contentResolver.openInputStream(uri)?.use {
-                try {
-                    contentResolver.openInputStream(uri)?.use {
-                        data = CSVFormat.DEFAULT.withDelimiter(delimiter)
-                            .parse(InputStreamReader(it, encoding)).records
-                        emit(ResultUnit)
-                    } ?: throw java.lang.Exception("OpenInputStream returned null")
-                } catch (e: Exception) {
-                    emit(Result.failure(e))
-                }
+            try {
+                contentResolver.openInputStream(uri)?.use {
+                    data = CSVFormat.DEFAULT.withDelimiter(delimiter)
+                        .parse(InputStreamReader(it, encoding)).records
+                    emit(ResultUnit)
+                } ?: throw java.lang.Exception("OpenInputStream returned null")
+            } catch (e: Exception) {
+                emit(Result.failure(e))
             }
         }
 
@@ -60,7 +58,7 @@ class CsvImportViewModel(application: Application, val savedStateHandle: SavedSt
     ): LiveData<Result<List<ImportResult>>> = liveData(context = coroutineContext()) {
 
         emit(runCatching {
-            val currencyUnit = currencyContext.get(accountConfiguration.currency)
+            val currencyUnit = currencyContext[accountConfiguration.currency]
             val parser = CSVParser(
                 localizedContext,
                 data,
