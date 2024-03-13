@@ -1,11 +1,19 @@
 package org.totschnig.myexpenses.compose
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,7 +30,7 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun FilterCard(whereFilter: WhereFilter?, clearFilter: () -> Unit) {
+fun FilterCard(whereFilter: WhereFilter, clearFilter: (() -> Unit)? = null) {
     Row(
         modifier = Modifier
             .background(color = colorResource(id = R.color.cardBackground))
@@ -40,7 +48,7 @@ fun FilterCard(whereFilter: WhereFilter?, clearFilter: () -> Unit) {
                 .padding(start = 12.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            whereFilter?.criteria?.forEach {
+            whereFilter.criteria?.forEach {
                 FilterChip(
                     selected = true,
                     onClick = { },
@@ -50,11 +58,13 @@ fun FilterCard(whereFilter: WhereFilter?, clearFilter: () -> Unit) {
                 )
             }
         }
-        IconButton(onClick = clearFilter) {
-            Icon(
-                imageVector = Icons.Filled.Close,
-                contentDescription = stringResource(R.string.clear_all_filters)
-            )
+        if (clearFilter != null) {
+            IconButton(onClick = clearFilter) {
+                Icon(
+                    imageVector = Icons.Filled.Close,
+                    contentDescription = stringResource(R.string.clear_all_filters)
+                )
+            }
         }
     }
 }

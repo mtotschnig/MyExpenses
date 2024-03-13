@@ -1914,23 +1914,28 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         putExtra(KEY_SECOND_GROUP, groupingSecond)
     }
 
+    private fun Intent.forwardCurrentConfiguration(currentAccount: FullAccount) {
+        putExtra(KEY_ACCOUNTID, currentAccount.id)
+        putExtra(KEY_GROUPING, currentAccount.grouping)
+        if (!currentFilter.whereFilter.isEmpty) {
+            putParcelableArrayListExtra(KEY_FILTER, ArrayList(currentFilter.whereFilter.criteria))
+        }
+    }
+
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
         currentAccount?.also { currentAccount ->
             when (feature) {
                 ContribFeature.DISTRIBUTION -> {
                     recordUsage(feature)
                     startActivity(Intent(this, DistributionActivity::class.java).apply {
-                        putExtra(KEY_ACCOUNTID, selectedAccountId)
-                        putExtra(KEY_GROUPING, currentAccount.grouping.name)
-                        putParcelableArrayListExtra(KEY_FILTER, ArrayList(currentFilter.whereFilter.criteria))
+                        forwardCurrentConfiguration(currentAccount)
                     })
                 }
 
                 ContribFeature.HISTORY -> {
                     recordUsage(feature)
                     startActivity(Intent(this, HistoryActivity::class.java).apply {
-                        putExtra(KEY_ACCOUNTID, selectedAccountId)
-                        putExtra(KEY_GROUPING, currentAccount.grouping)
+                        forwardCurrentConfiguration(currentAccount)
                     })
                 }
 

@@ -20,10 +20,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -68,6 +68,7 @@ import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.Category
 import org.totschnig.myexpenses.compose.ChoiceMode
 import org.totschnig.myexpenses.compose.ExpansionMode
+import org.totschnig.myexpenses.compose.FilterCard
 import org.totschnig.myexpenses.compose.LocalCurrencyFormatter
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.injector
@@ -84,7 +85,6 @@ import org.totschnig.myexpenses.ui.SelectivePieChartRenderer
 import org.totschnig.myexpenses.util.ColorUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.convAmount
-import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 import org.totschnig.myexpenses.viewmodel.data.Category
@@ -208,10 +208,13 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         showChart.value = prefHandler.getBoolean(PrefKey.DISTRIBUTION_SHOW_CHART, true)
         injector.inject(viewModel)
 
+        val whereFilter = intent.getParcelableArrayListExtra<Criterion<*>>(KEY_FILTER)?.let {
+            WhereFilter(it)
+        }
         viewModel.initWithAccount(
             intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0),
-            enumValueOrDefault(intent.getStringExtra(KEY_GROUPING), Grouping.NONE),
-            intent.getParcelableArrayListExtra<Criterion<*>>(KEY_FILTER)?.let { WhereFilter(it) }
+            intent.getSerializableExtra(KEY_GROUPING) as Grouping,
+            whereFilter
         )
 
         lifecycleScope.launch {
@@ -317,6 +320,9 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                             when (configuration.orientation) {
                                 Configuration.ORIENTATION_LANDSCAPE -> {
                                     Column {
+                                        if (whereFilter != null) {
+                                            FilterCard(whereFilter)
+                                        }
                                         Row(modifier = Modifier.weight(1f)) {
                                             RenderTree(
                                                 modifier = Modifier.weight(0.5f),
@@ -338,6 +344,9 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
 
                                 else -> {
                                     Column {
+                                        if (whereFilter != null) {
+                                            FilterCard(whereFilter)
+                                        }
                                         RenderTree(
                                             modifier = Modifier.weight(0.5f),
                                             tree = categoryTree.value,
@@ -426,7 +435,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                             if (accountInfo != null) {
                                 add(
                                     MenuEntry(
-                                        Icons.Filled.List,
+                                        Icons.AutoMirrored.Filled.List,
                                         R.string.menu_show_transactions,
                                         "SHOW_TRANSACTIONS"
                                     ) {
@@ -471,10 +480,10 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             val accountFormatter = LocalCurrencyFormatter.current
             val income = Money(accountInfo.currencyUnit, sums.first)
             val expense = Money(accountInfo.currencyUnit, sums.second)
-            Divider(
+            HorizontalDivider(
                 modifier = Modifier.padding(top = 4.dp),
-                color = MaterialTheme.colorScheme.onSurface,
-                thickness = 1.dp
+                thickness = 1.dp,
+                color = MaterialTheme.colorScheme.onSurface
             )
             Row(modifier = Modifier
                 .padding(horizontal = dimensionResource(id = eltos.simpledialogfragment.R.dimen.activity_horizontal_margin))
@@ -548,7 +557,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                     }
                 }
             }
-            Divider(color = Color(account.color), thickness = 4.dp)
+            HorizontalDivider(thickness = 4.dp, color = Color(account.color))
         }
     }
 
