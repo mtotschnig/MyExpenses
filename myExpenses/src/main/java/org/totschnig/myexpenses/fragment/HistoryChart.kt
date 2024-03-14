@@ -40,6 +40,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
+import org.totschnig.myexpenses.compose.FilterCard
 import org.totschnig.myexpenses.databinding.HistoryChartBinding
 import org.totschnig.myexpenses.dialog.TransactionListComposeDialogFragment
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -47,17 +48,17 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.groupingUriBuilder
-import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
+import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.ui.ExactStackedBarHighlighter
 import org.totschnig.myexpenses.util.ICurrencyFormatter
-import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.viewmodel.HistoryViewModel
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel
 import org.totschnig.myexpenses.viewmodel.data.HistoryAccountInfo
@@ -77,7 +78,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
 
     val grouping: Grouping
         get() = viewModel.grouping.value
-    private val filter = WhereFilter.empty()
+    private var filter = WhereFilter.empty()
     private var valueTextSize = 10f
 
     @ColorInt
@@ -150,8 +151,10 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                     accountInfo = HistoryAccountInfo(
                         it.id,
                         it.getLabelForScreenTitle(requireActivity()),
-                        currency, it.color,
-                        Money(currency, it.openingBalance)
+                        currency,
+                        it.color,
+                        Money(currency, it.openingBalance),
+                        grouping
                     )
                     (requireActivity() as ProtectedFragmentActivity).supportActionBar?.title =
                         accountInfo.label
@@ -159,6 +162,9 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                         .initLoader(GROUPING_CURSOR, null, this@HistoryChart)
                 }
             }
+        }
+        requireActivity().intent.getParcelableArrayListExtra<Criterion<*>>(KEY_FILTER)?.let {
+            filter = WhereFilter(it)
         }
         showBalance = prefHandler.getBoolean(PrefKey.HISTORY_SHOW_BALANCE, showBalance)
         includeTransfers =
@@ -184,8 +190,8 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                     if (h.stackIndex > -1) {
                         TransactionListComposeDialogFragment.newInstance(
                             TransactionListViewModel.LoadingInfo(
-                                accountId = accountInfo.id,
-                                currency = accountInfo.currency,
+                                accountId = accountInfo.accountId,
+                                currency = accountInfo.currencyUnit,
                                 grouping = grouping,
                                 groupingClause = buildGroupingClause(e.x.toInt()),
                                 label = formatXValue(e.x),
@@ -198,6 +204,11 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
 
                 override fun onNothingSelected() {}
             })
+        }
+        if (!filter.isEmpty) {
+            binding.filterCard.setContent {
+                FilterCard(filter)
+            }
         }
         return binding.root
     }
@@ -300,29 +311,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor?> {
         if (id == GROUPING_CURSOR) {
-            var selection: String? = null
-            var selectionArgs: Array<String>? = null
-            val builder = groupingUriBuilder(grouping)
-            if (!filter.isEmpty) {
-                selection =
-                    filter.getSelectionForParts(DatabaseConstants.VIEW_EXTENDED) //GROUP query uses extended view
-                if (selection != "") {
-                    selectionArgs = filter.getSelectionArgs(true)
-                }
-            }
-            if (!DataBaseAccount.isHomeAggregate(accountInfo.id)) {
-                if (DataBaseAccount.isAggregate(accountInfo.id)) {
-                    builder.appendQueryParameter(
-                        DatabaseConstants.KEY_CURRENCY,
-                        accountInfo.currency.code
-                    )
-                } else {
-                    builder.appendQueryParameter(
-                        DatabaseConstants.KEY_ACCOUNTID,
-                        accountInfo.id.toString()
-                    )
-                }
-            }
+            val (builder, selection, selectionArgs) = accountInfo.groupingQuery(filter)
             if (shouldUseGroupStart()) {
                 builder.appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_JULIAN_START)
             }
@@ -448,9 +437,8 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
             IAxisValueFormatter { value: Float, _: AxisBase? -> convertAmount(value) }
     }
 
-    private fun convertAmount(value: Float): String {
-        return currencyFormatter.convAmount(value.toLong(), accountInfo.currency)
-    }
+    private fun convertAmount(value: Float) =
+        currencyFormatter.convAmount(value.toLong(), accountInfo.currencyUnit)
 
     override fun onLoaderReset(loader: Loader<Cursor?>) {
         binding.historyChart.clear()

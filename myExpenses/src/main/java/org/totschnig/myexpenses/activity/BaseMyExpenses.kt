@@ -91,7 +91,6 @@ import org.totschnig.myexpenses.compose.MenuEntry.Companion.select
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
-import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TransactionType
 import org.totschnig.myexpenses.databinding.ActivityMainBinding
 import org.totschnig.myexpenses.db2.countAccounts
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment
@@ -121,7 +120,6 @@ import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Sort.Companion.fromCommandId
-import org.totschnig.myexpenses.model2.Account.Companion.DEFAULT_COLOR
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
@@ -1916,22 +1914,28 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         putExtra(KEY_SECOND_GROUP, groupingSecond)
     }
 
+    private fun Intent.forwardCurrentConfiguration(currentAccount: FullAccount) {
+        putExtra(KEY_ACCOUNTID, currentAccount.id)
+        putExtra(KEY_GROUPING, currentAccount.grouping)
+        if (!currentFilter.whereFilter.isEmpty) {
+            putParcelableArrayListExtra(KEY_FILTER, ArrayList(currentFilter.whereFilter.criteria))
+        }
+    }
+
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
         currentAccount?.also { currentAccount ->
             when (feature) {
                 ContribFeature.DISTRIBUTION -> {
                     recordUsage(feature)
                     startActivity(Intent(this, DistributionActivity::class.java).apply {
-                        putExtra(KEY_ACCOUNTID, selectedAccountId)
-                        putExtra(KEY_GROUPING, currentAccount.grouping.name)
+                        forwardCurrentConfiguration(currentAccount)
                     })
                 }
 
                 ContribFeature.HISTORY -> {
                     recordUsage(feature)
                     startActivity(Intent(this, HistoryActivity::class.java).apply {
-                        putExtra(KEY_ACCOUNTID, selectedAccountId)
-                        putExtra(KEY_GROUPING, currentAccount.grouping)
+                        forwardCurrentConfiguration(currentAccount)
                     })
                 }
 

@@ -3,19 +3,17 @@ package org.totschnig.myexpenses.provider
 import android.net.Uri
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.SortDirection
-import org.totschnig.myexpenses.model2.IAccount
-import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.groupingUriBuilder
+import org.totschnig.myexpenses.model2.AccountInfoWithGrouping
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.filter.WhereFilter
 
 /**
  * groups databaseSpecific information
  */
-abstract class DataBaseAccount : IAccount {
+abstract class DataBaseAccount : AccountInfoWithGrouping {
     abstract val id: Long
     abstract override val currency: String
-    abstract val grouping: Grouping
+    abstract override val grouping: Grouping
     abstract val sortDirection: SortDirection
 
     override val accountId: Long
@@ -35,23 +33,7 @@ abstract class DataBaseAccount : IAccount {
         mergeTransfers: Boolean = true,
         shortenComment: Boolean = false,
         extended: Boolean = true
-    ) =
-        uriBuilderForTransactionList(id, currency, mergeTransfers, shortenComment, extended)
-
-    fun groupingQuery(whereFilter: WhereFilter): Triple<Uri, String?, Array<String>?> {
-        val filter = whereFilter.takeIf { !it.isEmpty }
-        val selection = filter?.getSelectionForParts(DatabaseConstants.VIEW_WITH_ACCOUNT)
-        val args = filter?.getSelectionArgs(true)
-        return Triple(
-            groupingUriBuilder(grouping).apply {
-                queryParameter?.let {
-                    appendQueryParameter(it.first, it.second)
-                }
-            }.build(),
-            selection,
-            args
-        )
-    }
+    ) = uriBuilderForTransactionList(id, currency, mergeTransfers, shortenComment, extended)
 
     companion object {
 

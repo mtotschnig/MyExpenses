@@ -48,7 +48,6 @@ import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderData.Companion.fromSequence
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.io.IOException
-import java.lang.IllegalStateException
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -183,9 +182,9 @@ object PdfPrinter {
         currencyUnit: CurrencyUnit,
         currencyFormatter: ICurrencyFormatter
     ) {
-        val (uri, selection, selectionArgs) = account.groupingQuery(filter)
+        val (builder, selection, selectionArgs) = account.groupingQuery(filter)
         val integerHeaderRowMap = context.contentResolver.query(
-            uri, null, selection, selectionArgs, null
+            builder.build(), null, selection, selectionArgs, null
         )!!.use {
             fromSequence(
                 account.openingBalance,

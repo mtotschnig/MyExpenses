@@ -8,19 +8,21 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import arrow.core.Tuple4
+import arrow.core.Tuple5
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 
@@ -43,7 +45,11 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
     private fun getGroupingPrefKey(accountId: Long) =
         stringPreferencesKey("distributionGrouping_$accountId")
 
-    fun initWithAccount(accountId: Long, defaultGrouping: Grouping) {
+    fun initWithAccount(
+        accountId: Long,
+        defaultGrouping: Grouping,
+        whereFilter: WhereFilter?
+    ) {
         val isAggregate = accountId < 0
         val base =
             if (isAggregate) TransactionProvider.ACCOUNTS_AGGREGATE_URI else TransactionProvider.ACCOUNTS_URI
@@ -62,7 +68,7 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
                     val label = it.getString(0)
                     override val accountId = accountId
                     override fun label(context: Context) = label
-                    override val currencyUnit = currencyContext.get(it.getString(1))
+                    override val currencyUnit = currencyContext[it.getString(1)]
                     override val color = if (isAggregate) -1 else it.getInt(2)
                 })
             }
@@ -74,6 +80,8 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
                 setGrouping(it)
             }
         }
+
+        _whereFilter.update { whereFilter ?: WhereFilter.empty() }
     }
 
     fun persistGrouping(grouping: Grouping) {
@@ -108,16 +116,18 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
             _accountInfo.filterNotNull(),
             incomeType,
             aggregateNeutral,
-            groupingInfoFlow.filterNotNull()
-        ) { accountInfo, incomeType, aggregateNeutral, grouping ->
-            Tuple4(accountInfo, incomeType, aggregateNeutral, grouping)
-        }.flatMapLatest { (accountInfo, incomeType, aggregateNeutral, grouping) ->
+            groupingInfoFlow.filterNotNull(),
+            _whereFilter
+        ) { accountInfo, incomeType, aggregateNeutral, grouping, whereFilter ->
+            Tuple5(accountInfo, incomeType, aggregateNeutral, grouping, whereFilter)
+        }.flatMapLatest { (accountInfo, incomeType, aggregateNeutral, grouping, whereFilter) ->
             categoryTreeWithSum(
                 accountInfo = accountInfo,
                 incomeType = incomeType,
                 aggregateNeutral = aggregateNeutral,
                 groupingInfo = grouping,
-                keepCriteria = { it.sum != 0L }
+                keepCriteria = { it.sum != 0L },
+                whereFilter = whereFilter
             )
         }.map { it.sortChildrenBySumRecursive() }
     }

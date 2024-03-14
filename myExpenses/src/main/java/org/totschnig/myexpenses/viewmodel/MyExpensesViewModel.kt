@@ -298,7 +298,7 @@ open class MyExpensesViewModel(
         filterPersistence.getValue(account.id).whereFilterAsFlow.flatMapLatest { filter ->
             val groupingQuery = account.groupingQuery(filter)
             contentResolver.observeQuery(
-                uri = groupingQuery.first,
+                uri = groupingQuery.first.build(),
                 selection = groupingQuery.second,
                 selectionArgs = groupingQuery.third
             ).map { query ->
