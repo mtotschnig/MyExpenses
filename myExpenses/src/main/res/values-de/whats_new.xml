@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="whats_new_355">Der Name der Sicherungsdatei ist jetzt konfigurierbar.</string>
@@ -16,4 +17,5 @@
     <string name="whats_new_374">Benutzerdefinierte Farben für Schlagwörter</string>
     <string name="whats_new_376_1">Klonen Sie mehrere Buchungen mit einem neuen Datum.</string>
     <string name="whats_new_376_2">Die Web-Benutzeroberfläche kann vom Hauptbildschirm aus gesteuert werden.</string>
+    <string name="whats_new_378">Charts honour search filter</string>
 </resources>
