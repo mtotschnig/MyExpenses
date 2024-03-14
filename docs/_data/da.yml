@@ -39,3 +39,6 @@ da:
     feature:
       csv_import: Sofistikeret, brugerdefinerbar <b>CSV import</b> (regnearksprogrammer)
       accounts_unlimited: Lås op for muligheden for at oprette mere end fem konti
+  privacy_policy_heading: Privatlivspolitik
+  imprint_text: Ansvarlig for indholdet på denne hjemmeside og for udvikling, vedligeholdelse
+    og distribution af <i>{app_name}</i>
