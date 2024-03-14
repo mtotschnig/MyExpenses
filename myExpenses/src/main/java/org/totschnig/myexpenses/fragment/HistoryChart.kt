@@ -151,7 +151,8 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                     accountInfo = HistoryAccountInfo(
                         it.id,
                         it.getLabelForScreenTitle(requireActivity()),
-                        currency, it.color,
+                        currency,
+                        it.color,
                         Money(currency, it.openingBalance),
                         grouping
                     )

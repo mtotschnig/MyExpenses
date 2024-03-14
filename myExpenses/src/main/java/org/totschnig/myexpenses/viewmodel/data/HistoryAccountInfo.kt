@@ -9,7 +9,7 @@ data class HistoryAccountInfo(
     override val accountId: Long,
     val label: String,
     val currencyUnit: CurrencyUnit,
-    val color: Int = -1,
+    val color: Int,
     val openingBalance: Money,
     override val grouping: Grouping
 ): AccountInfoWithGrouping {
