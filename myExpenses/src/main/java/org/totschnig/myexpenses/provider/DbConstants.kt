@@ -685,8 +685,6 @@ fun transactionSumQuery(
         if (TextUtils.isEmpty(selectionIn)) accountSelector else "$selectionIn AND $accountSelector"
     val aggregateNeutral = uri.getBooleanQueryParameter(QUERY_PARAMETER_AGGREGATE_NEUTRAL, false)
 
-    val sumExpression = "$aggregateFunction($KEY_DISPLAY_AMOUNT)"
-
     return if (aggregateNeutral) {
         require(projection.size == 1)
         val column = projection.first()
@@ -695,9 +693,10 @@ fun transactionSumQuery(
             KEY_SUM_EXPENSES -> FLAG_EXPENSE
             else -> throw IllegalArgumentException()
         }
-        """SELECT $sumExpression AS $column FROM $VIEW_WITH_ACCOUNT WHERE $typeWithFallBack IN ($type, $FLAG_NEUTRAL)
+        """SELECT $aggregateFunction($KEY_AMOUNT) AS $column FROM $VIEW_WITH_ACCOUNT WHERE $typeWithFallBack IN ($type, $FLAG_NEUTRAL)
 AND ($KEY_CATID IS NOT $SPLIT_CATID AND $KEY_CR_STATUS != 'VOID' AND $selection)"""
     } else {
+        val sumExpression = "$aggregateFunction($KEY_DISPLAY_AMOUNT)"
         val columns = projection.map {
             when (it) {
                 KEY_SUM_EXPENSES -> "(SELECT $sumExpression FROM $CTE_TRANSACTION_AMOUNTS WHERE $KEY_TYPE = $FLAG_EXPENSE) AS $KEY_SUM_EXPENSES"

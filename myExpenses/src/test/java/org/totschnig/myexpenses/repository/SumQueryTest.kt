@@ -14,7 +14,6 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGAT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.shared_test.CursorSubject
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 
 /**
@@ -56,7 +55,7 @@ class SumQueryTest : BaseTestWithRepository() {
         }.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_AGGREGATE_NEUTRAL, aggregateNeutral.toString())
 
     @Test
-    fun testSumQueriesAcount() {
+    fun testSumQueriesAccount() {
         runAndVerifyQuery(account, false)
     }
 

@@ -326,7 +326,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
     val sums: Flow<Pair<Long, Long>> by lazy {
         combine(
             _accountInfo.filterNotNull(),
-            //if we ask for both sums and income, aggregateNeutral does not make sense, since
+            //if we ask for both expense and income, aggregateNeutral does not make sense, since
             //then transactions from neutral categories would appear on both sides, giving meaningless results
             if (withIncomeSum) flowOf(false) else aggregateNeutral,
             groupingInfoFlow,

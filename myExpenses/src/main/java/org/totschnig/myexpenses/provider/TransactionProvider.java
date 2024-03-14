@@ -223,10 +223,14 @@ public class TransactionProvider extends BaseTransactionProvider {
             .build();
   }
 
+  public static final String URI_SEGMENT_SORT = "sortBy";
+  public static final String URI_SEGMENT_GROUPING = "accountGrouping";
+  public static final String URI_SEGMENT_SUMS_FOR_ACCOUNTS = "sumsForAccounts";
+
   public static final Uri CURRENCIES_URI =
       Uri.parse("content://" + AUTHORITY + "/currencies");
   public static final Uri TRANSACTIONS_SUM_URI =
-      Uri.parse("content://" + AUTHORITY + "/transactions/sumsForAccounts");
+      Uri.parse("content://" + AUTHORITY + "/transactions/" + URI_SEGMENT_SUMS_FOR_ACCOUNTS);
   public static final Uri EVENT_CACHE_URI =
       Uri.parse("content://" + AUTHORITY + "/eventcache");
   public static final Uri DEBUG_SCHEMA_URI =
@@ -250,8 +254,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final Uri ACCOUNT_EXCHANGE_RATE_URI =
       Uri.parse("content://" + AUTHORITY + "/account_exchangerates");
 
-  public static final String URI_SEGMENT_SORT = "sortBy";
-  public static final String URI_SEGMENT_GROUPING = "accountGrouping";
 
   public static final Uri SORT_URI =
           Uri.parse("content://" + AUTHORITY + "/" + URI_SEGMENT_SORT);
@@ -1588,7 +1590,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions", TRANSACTIONS);
     URI_MATCHER.addURI(AUTHORITY, "transactionsUncommitted/", UNCOMMITTED);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_GROUPS + "/*", TRANSACTIONS_GROUPS);
-    URI_MATCHER.addURI(AUTHORITY, "transactions/sumsForAccounts", TRANSACTIONS_SUMS);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_SUMS_FOR_ACCOUNTS, TRANSACTIONS_SUMS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_LAST_EXCHANGE + "/*/*", TRANSACTIONS_LASTEXCHANGE);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTION_ID);
     URI_MATCHER.addURI(AUTHORITY, "transactionsUncommitted/#", UNCOMMITTED_ID);

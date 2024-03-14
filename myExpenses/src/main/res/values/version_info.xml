@@ -163,4 +163,7 @@
     <string-array name="whats_new_375">
         <item>@string/menu_unlink_transfer</item>
     </string-array>
+    <string-array name="whats_new_378">
+        <item>@string/whats_new_378</item>
+    </string-array>
 </resources>
