@@ -706,11 +706,14 @@ AND ($KEY_CATID IS NOT $SPLIT_CATID AND $KEY_CR_STATUS != 'VOID' AND $selection)
             }
         }
         require(columns.isNotEmpty())
-        """WITH $CTE_TRANSACTION_AMOUNTS AS (
-    SELECT ${effectiveTypeExpression(typeWithFallBack)} AS $KEY_TYPE, ${uri.amountCalculation(
-            VIEW_WITH_ACCOUNT,
-            homeCurrency
-        )}, $KEY_PARENTID, $KEY_ACCOUNTID, $KEY_CURRENCY, $KEY_EQUIVALENT_AMOUNT FROM $VIEW_WITH_ACCOUNT
+        """WITH $CTE_TRANSACTION_AMOUNTS AS (SELECT
+     ${effectiveTypeExpression(typeWithFallBack)} AS $KEY_TYPE,
+     ${uri.amountCalculation(VIEW_WITH_ACCOUNT, homeCurrency)},
+     $KEY_PARENTID,
+     $KEY_ACCOUNTID,
+     $KEY_CURRENCY,
+     $KEY_EQUIVALENT_AMOUNT
+    FROM $VIEW_WITH_ACCOUNT
     WHERE ($KEY_CATID IS NOT $SPLIT_CATID AND $KEY_CR_STATUS != 'VOID' AND $selection))
     SELECT ${columns.joinToString()}"""
     }
