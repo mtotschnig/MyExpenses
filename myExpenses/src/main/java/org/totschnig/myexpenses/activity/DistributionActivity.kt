@@ -213,7 +213,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         }
         viewModel.initWithAccount(
             intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0),
-            intent.getSerializableExtra(KEY_GROUPING) as Grouping,
+            intent.getSerializableExtra(KEY_GROUPING) as? Grouping ?: Grouping.NONE,
             whereFilter
         )
 
