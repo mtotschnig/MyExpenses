@@ -8,6 +8,7 @@ import androidx.annotation.StringRes
 import androidx.compose.ui.test.*
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
@@ -82,6 +83,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     fun floatingActionButtonOpensForm() {
         clickFab()
         intended(hasComponent(ExpenseEdit::class.java.name))
+        pressBack()
     }
 
     @Test
@@ -96,6 +98,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
         ).perform(click(), replaceText("1000"))
         onView(withId(android.R.id.button1)).perform(click())
         intended(hasComponent(ExpenseEdit::class.java.name))
+        pressBack()
     }
 
     @Test
@@ -264,6 +267,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
         checkTitle("Test account 2")
         rotate()
         checkTitle("Test account 2")
+        rotate()
     }
 
     private fun checkTitle(label: String) {
