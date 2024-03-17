@@ -125,16 +125,16 @@ fun Repository.loadTransactions(accountId: Long): List<Transaction> {
 
 }
 
-fun Repository.getTransactionSum(accountId: Long, filter: WhereFilter? = null): Long {
+fun Repository.getTransactionSum(account: DataBaseAccount, filter: WhereFilter? = null): Long {
     var selection =
         "$KEY_ACCOUNTID = ? AND $WHERE_NOT_SPLIT_PART AND $WHERE_NOT_VOID"
-    var selectionArgs: Array<String>? = arrayOf(accountId.toString())
+    var selectionArgs: Array<String>? = arrayOf(account.id.toString())
     if (filter != null && !filter.isEmpty) {
         selection += " AND " + filter.getSelectionForParents(VIEW_COMMITTED)
         selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false))
     }
     return contentResolver.query(
-        TRANSACTIONS_URI,
+        account.uriForTransactionList(extended = false, mergeTransfers = false),
         arrayOf("${DbUtils.aggregateFunction(prefHandler)}($KEY_AMOUNT)"),
         selection,
         selectionArgs,

@@ -47,19 +47,24 @@ class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
         testHelper(false)
     }
 
-    private fun getTotalAccountBalance(accountId: Long) =
-        repository.loadAccount(accountId)!!.openingBalance + repository.getTransactionSum(accountId)
+    private fun getTotalAccountBalance(account: Account) =
+        repository.loadAccount(account.id)!!.openingBalance + repository.getTransactionSum(account)
 
     private fun testHelper(withUpdate: Boolean) {
         val appComponent = app.appComponent
         val currencyContext = appComponent.currencyContext()
         val currencyUnit = currencyContext[CURRENCY_CODE]
-        val account = Account(label = "TEST ACCOUNT", openingBalance = 5000L, currency = CURRENCY_CODE)
-        val accountId = repository.createAccount(account).id
-        val op = Transaction.getNewInstance(accountId, currencyUnit)
+        val account = repository.createAccount(
+            Account(
+                label = "TEST ACCOUNT",
+                openingBalance = 5000L,
+                currency = CURRENCY_CODE
+            )
+        )
+        val op = Transaction.getNewInstance(account.id, currencyUnit)
         op.amount = Money(currencyUnit, -1200L)
         op.save(contentResolver)
-        val before = getTotalAccountBalance(accountId)
+        val before = getTotalAccountBalance(account)
         assertThat(before).isEqualTo(3800)
         val currency = create(CURRENCY_CODE, targetContext)
         onData(Matchers.`is`(currency))
@@ -73,7 +78,7 @@ class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
         onView(withId(android.R.id.button1)).perform(click())
         onData(Matchers.`is`(currency))
             .inAdapterView(withId(android.R.id.list)).check(matches(withText(containsString("3"))))
-        val after = getTotalAccountBalance(accountId)
+        val after = getTotalAccountBalance(account)
         if (withUpdate) {
             assertThat(after).isEqualTo(before * 10)
         } else {

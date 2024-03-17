@@ -1,19 +1,16 @@
 package org.totschnig.myexpenses.test.espresso
 
-import android.content.Intent
-import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
-import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.model.AccountType
@@ -21,8 +18,9 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.testutils.Espresso.*
-import java.util.*
+import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
+import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible
+import java.util.Currency
 
 class ExpenseEditTest : BaseExpenseEditTest() {
     private lateinit var account2: Account
@@ -168,7 +166,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             //we assume two fraction digits
             assertEquals(
                 "Transaction sum does not match saved transactions",
-                repository.getTransactionSum(account1.id),
+                repository.getTransactionSum(account1),
                 (-amount * times * 100).toLong()
             )
         }

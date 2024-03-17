@@ -10,11 +10,17 @@ import org.junit.runner.RunWith
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.loadAccount
-import org.totschnig.myexpenses.db2.saveCategory
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.model2.Category
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
@@ -73,48 +79,48 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
         application.appComponent.inject(viewModel)
     }
 
-    private fun getTotalAccountBalance(accountId: Long) =
-        repository.loadAccount(accountId)!!.openingBalance +
-                repository.getTransactionSum(accountId)
+    private fun getTotalAccountBalance(account: Account) =
+        repository.loadAccount(account.id)!!.openingBalance +
+                repository.getTransactionSum(account)
 
-    private fun getReconciledAccountBalance(accountId: Long) =
-        repository.loadAccount(accountId)!!.openingBalance +
-                repository.getTransactionSum(accountId,
+    private fun getReconciledAccountBalance(account: Account) =
+        repository.loadAccount(account.id)!!.openingBalance +
+                repository.getTransactionSum(account,
                     WhereFilter.empty().put(CrStatusCriterion(arrayOf(CrStatus.RECONCILED)))
                 )
 
-    private fun getClearedAccountBalance(accountId: Long) =
-        repository.loadAccount(accountId)!!.openingBalance +
-                repository.getTransactionSum(accountId,
+    private fun getClearedAccountBalance(account: Account) =
+        repository.loadAccount(account.id)!!.openingBalance +
+                repository.getTransactionSum(account,
                     WhereFilter.empty().put(CrStatusCriterion(arrayOf(CrStatus.CLEARED)))
                 )
 
     @Test
     fun testReset() {
         insertData()
-        val initialTotalBalance = getTotalAccountBalance(account1.id)
+        val initialTotalBalance = getTotalAccountBalance(account1)
         assertThat(count()).isEqualTo(6)
         viewModel.reset(account1,null, EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null)
         assertThat(count()).isEqualTo(0)
-        assertThat(getTotalAccountBalance(account1.id)).isEqualTo(initialTotalBalance)
+        assertThat(getTotalAccountBalance(account1)).isEqualTo(initialTotalBalance)
     }
 
 
     @Test
     fun testResetWithFilterUpdateBalance() {
         insertData()
-        val initialTotalBalance = getTotalAccountBalance(account1.id)
+        val initialTotalBalance = getTotalAccountBalance(account1)
         assertThat(count()).isEqualTo(6)
         val filter = WhereFilter.empty().put(CategoryCriterion(TEST_CAT, categoryId))
         viewModel.reset(account1, filter, EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null)
         assertThat(count()).isEqualTo(5) //1 Transaction deleted
-        assertThat(getTotalAccountBalance(account1.id)).isEqualTo(initialTotalBalance)
+        assertThat(getTotalAccountBalance(account1)).isEqualTo(initialTotalBalance)
     }
 
     @Test
     fun testResetWithFilterCreateHelper() {
         insertData()
-        val initialTotalBalance = getTotalAccountBalance(account1.id)
+        val initialTotalBalance = getTotalAccountBalance(account1)
         assertThat(count()).isEqualTo(6)
         assertThat(count(condition = "$KEY_CATID=$categoryId")).isEqualTo(1)
         assertThat(count(condition = "$KEY_STATUS=$STATUS_HELPER")).isEqualTo(0)
@@ -125,32 +131,32 @@ class MyExpensesViewModelTest: BaseViewModelTest() {
         assertThat(count()).isEqualTo(6) //-1 Transaction deleted;+1 helper
         assertThat(count(condition = "$KEY_CATID=$categoryId")).isEqualTo(0)
         assertThat(count(condition = "$KEY_STATUS=$STATUS_HELPER")).isEqualTo(1)
-        assertThat(getTotalAccountBalance(account1.id)).isEqualTo(initialTotalBalance)
+        assertThat(getTotalAccountBalance(account1)).isEqualTo(initialTotalBalance)
     }
 
     @Test
     fun testBalanceWithoutReset() {
         insertData()
-        val initialCleared = getClearedAccountBalance(account1.id)
-        assertThat(initialCleared).isNotEqualTo(getReconciledAccountBalance(account1.id))
+        val initialCleared = getClearedAccountBalance(account1)
+        assertThat(initialCleared).isNotEqualTo(getReconciledAccountBalance(account1))
         assertThat(count(condition = "$KEY_CR_STATUS = '${CrStatus.CLEARED.name}'")).isEqualTo(4)
         assertThat(count(condition = "$KEY_CR_STATUS = '${CrStatus.RECONCILED.name}'")).isEqualTo(0)
         assertThat(viewModel.balanceAccount(account1.id, false).getOrAwaitValue().isSuccess).isTrue()
         assertThat(count(condition = "$KEY_CR_STATUS = '${CrStatus.CLEARED.name}'")).isEqualTo(0)
         assertThat(count(condition = "$KEY_CR_STATUS = '${CrStatus.RECONCILED.name}'")).isEqualTo(4)
-        assertThat(getReconciledAccountBalance(account1.id)).isEqualTo(initialCleared)
+        assertThat(getReconciledAccountBalance(account1)).isEqualTo(initialCleared)
     }
 
     @Test
     fun testBalanceWithReset() {
         insertData()
-        val initialCleared = getClearedAccountBalance(account1.id)
+        val initialCleared = getClearedAccountBalance(account1)
         assertThat(count(condition = "$KEY_CR_STATUS = '${CrStatus.CLEARED.name}'")).isEqualTo(4)
         assertThat(count(condition = "$KEY_CR_STATUS = '${CrStatus.RECONCILED.name}'")).isEqualTo(0)
         assertThat(viewModel.balanceAccount(account1.id, true).getOrAwaitValue().isSuccess).isTrue()
         assertThat(count(condition = "$KEY_CR_STATUS != '${CrStatus.UNRECONCILED.name}'")).isEqualTo(0)
         assertThat(count(condition = "$KEY_CR_STATUS = '${CrStatus.UNRECONCILED.name}'")).isEqualTo(2)
-        assertThat(getReconciledAccountBalance(account1.id)).isEqualTo(initialCleared)
+        assertThat(getReconciledAccountBalance(account1)).isEqualTo(initialCleared)
     }
 
     private fun count(id: Long = account1.id, condition: String? = null): Int {

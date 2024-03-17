@@ -26,13 +26,10 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.requireParty
-import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.shared_test.CursorSubject
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 
 @RunWith(RobolectricTestRunner::class)
@@ -63,18 +60,18 @@ class TemplateTest: BaseTestWithRepository() {
 
     @Test
     fun testTemplateFromTransaction() {
-        val start = repository.getTransactionSum(mAccount1.id)
+        val start = repository.getTransactionSum(mAccount1)
         val amount = 100.toLong()
         val op1 = Transaction.getNewInstance(mAccount1.id, CurrencyUnit.DebugInstance)!!
         op1.amount = Money(CurrencyUnit.DebugInstance, amount)
         op1.comment = "test transaction"
         op1.save(contentResolver)
-        assertThat(repository.getTransactionSum(mAccount1.id)).isEqualTo(start + amount)
+        assertThat(repository.getTransactionSum(mAccount1)).isEqualTo(start + amount)
         val t = Template(contentResolver, op1, "Template")
         t.save(contentResolver)
         val op2: Transaction = Transaction.getInstanceFromTemplate(contentResolver, t.id)
         op2.save(contentResolver)
-        assertThat(repository.getTransactionSum(mAccount1.id)).isEqualTo(start + 2 * amount)
+        assertThat(repository.getTransactionSum(mAccount1)).isEqualTo(start + 2 * amount)
         val restored: Template? = Template.getInstanceFromDb(contentResolver, t.id)
         assertThat(restored).isEqualTo(t)
         Template.delete(contentResolver, t.id, false)
