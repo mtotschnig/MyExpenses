@@ -21,7 +21,6 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -848,10 +847,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                             pagerState.scrollToPage(currentPage)
                         }
                     }
-                    val isDragged = pagerState.interactionSource.collectIsDraggedAsState().value
-                    LaunchedEffect(pagerState.currentPage) {
-                        if (isDragged) {
-                            selectedAccountId = accountData[pagerState.currentPage].id
+                    LaunchedEffect(pagerState.settledPage) {
+                        if (true) {
+                            selectedAccountId = accountData[pagerState.settledPage].id
                         }
                     }
                     HorizontalPager(

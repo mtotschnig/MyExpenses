@@ -53,4 +53,4 @@ data class Money(val currencyUnit: CurrencyUnit, val amountMinor: Long) : Parcel
     }
 }
 
-fun Money?.isNullOr0() = this == null || this.amountMinor === 0L
+fun Money?.isNullOr0() = this == null || this.amountMinor == 0L
