@@ -750,7 +750,6 @@
     <string name="dialog_contrib_trial_info_play">Ta bezpłatna wersja próbna nigdy nie zostanie przekształcona w żaden rodzaj subskrypcji.</string>
     <string name="dialog_contrib_subscription_info_play">Ta subskrypcja zaczyna obowiązywać natychmiast, jest rozliczana miesięcznie lub rocznie i można ją anulować w dowolnym momencie.</string>
     <string name="menu_edit_tag">Edytuj tag</string>
-    <string name="upgrade_info_557">Jak Wam się podoba nowy design? Daj nam znać. Wariant bliższy staremu projektowi można aktywować w Ustawieniach (%1$s -&gt; %2$s).</string>
     <string name="sub_budget_exceeded_error_1_2">Całość kwoty przeznaczonej na kategorię główną została przeznaczona na pozostałe podkategorie.</string>
     <string name="pref_unmapped_transaction_as_transfer_title">Niezmapowane transakcje</string>
     <string name="warning_party_delete_debt">W przypadku usunięcia tej strony usunięte zostaną również zdefiniowane dla niej długi.</string>

@@ -832,7 +832,6 @@
     <string name="object_sealed_debt">Object verwijst naar een afgesloten schuld.</string>
     <string name="menu_parent_category_selection">Selecteer de bovenliggende categorie met een korte tik</string>
     <string name="account_widget_configuration_sum_total">Inclusief toekomstige transacties</string>
-    <string name="upgrade_info_557">Wat vind jij van het nieuwe ontwerp? Laat het ons weten. Een variant die dichter bij het oude ontwerp ligt, kan worden geactiveerd in de Instellingen (%1$s -&gt; %2$s).</string>
     <string name="plan_instance_state_cancelled">geannuleerd</string>
     <string name="dialog_confirm_sync_link_remote">Lokale gegevens voor deze rekening worden verwijderd.</string>
     <string name="synchronization_end_success_none">Geen wijzigingen om te synchroniseren.</string>

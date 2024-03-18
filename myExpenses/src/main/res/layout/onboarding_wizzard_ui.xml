@@ -46,7 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:labelFor="@id/font_size"
-        android:text="Transaction List Design" />
+        android:text="@string/help_MyExpenses_title" />
 
     <androidx.compose.ui.platform.ComposeView
         android:layout_marginHorizontal="-40dp"

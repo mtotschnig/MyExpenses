@@ -820,7 +820,6 @@
     <string name="purge_backups">درج ذیل پرانی بیک اپ فائلیں حذف ہو جائیں گی:</string>
     <string name="pref_csv_export_split_date_time_summary">تاریخ اور وقت کے لیے علیحدہ کالم استعمال کریں</string>
     <string name="budget_only_current_period">صرف %s کے لیے سیٹ کریں</string>
-    <string name="upgrade_info_557">آپ کو نیا ڈیزائن کیسا لگا؟ براہ کرم ہمیں بتائیں. سیٹنگز (%1$s -&gt; %2$s) میں پرانے ڈیزائن کے قریب ایک ویرینٹ کو چالو کیا جا سکتا ہے.</string>
     <plurals name="import_categories_icons_updated">
         <item quantity="one">ایک زمرہ کو آئیکن کے ساتھ اپ ڈیٹ کیا گیا تھا.</item>
         <item quantity="other">%1$d زمروں کو شبیہیں کے ساتھ اپ ڈیٹ کیا گیا تھا.</item>
