@@ -270,7 +270,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
     ) {
         val ops = ArrayList<ContentProviderOperation>()
         var handleDeleteOperation: ContentProviderOperation? = null
-        val sum = repository.getTransactionSum(account.id, filter)
+        val sum = repository.getTransactionSum(account, filter)
         if (handleDelete == EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
             val currentBalance: Long = account.openingBalance + sum
             handleDeleteOperation = ContentProviderOperation.newUpdate(

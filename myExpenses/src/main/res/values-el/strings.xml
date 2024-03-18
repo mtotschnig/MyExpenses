@@ -896,7 +896,6 @@
     <string name="sub_budget_exceeded_error_2">Αυξήστε το ποσό που διατίθεται στην κύρια κατηγορία ή αφαιρέστε χρήματα από άλλες υποκατηγορίες.</string>
     <string name="account_widget_configuration_sum_total">Συμπεριλάβετε μελλοντικές συναλλαγές</string>
     <string name="new_balance">Νέα ισορροπία</string>
-    <string name="upgrade_info_557">Πώς σας αρέσει το νέο σχέδιο; Παρακαλώ ενημερώστε μας. Μια παραλλαγή πιο κοντά στον παλιό σχεδιασμό μπορεί να ενεργοποιηθεί στις ρυθμίσεις (%1$s -&gt; %2$s).</string>
     <string name="pref_unmapped_transaction_as_transfer_title">Μη κατανεμημένες συναλλαγές</string>
     <string name="github_sponsors">Κλειδιά άδειας χρήσης παρέχονται επίσης στο &lt;a href=%s&gt;Github Sponsors&lt;/a&gt;.</string>
     <string name="select_template">Επιλέξτε πρότυπο</string>

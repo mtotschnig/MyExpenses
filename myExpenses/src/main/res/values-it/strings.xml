@@ -955,7 +955,6 @@
         <item quantity="many">Non è stato possibile eliminare %d vecchi file di backup.</item>
         <item quantity="other">Non è stato possibile eliminare %d vecchi file di backup.</item>
     </plurals>
-    <string name="upgrade_info_557">Ti piace il nuovo design\? Per favore faccelo sapere. Una variante più simile al vecchio design può essere attivata nelle Impostazioni (%1$s - %2$s).</string>
     <string name="budget_table_header_rollover">Resto</string>
     <plurals name="purge_backup_success">
         <item quantity="one">Un vecchio file di backup è stato eliminato.</item>
