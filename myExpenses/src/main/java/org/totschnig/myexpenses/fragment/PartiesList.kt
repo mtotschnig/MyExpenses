@@ -20,7 +20,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.text.TextUtils
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
@@ -40,7 +45,8 @@ import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener.BUTTON_POS
 import eltos.simpledialogfragment.form.Input
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.*
+import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.Action
 import org.totschnig.myexpenses.activity.DebtEdit
 import org.totschnig.myexpenses.activity.DebtOverview
@@ -55,7 +61,12 @@ import org.totschnig.myexpenses.dialog.MergePartiesDialogFragment.Companion.KEY_
 import org.totschnig.myexpenses.dialog.MergePartiesDialogFragment.Companion.KEY_STRATEGY
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
@@ -101,7 +112,15 @@ class PartiesList : Fragment(), OnDialogResultListener {
                     }
                 }
             }
-            binding.Debt.visibility = if (party.hasOpenDebts()) View.VISIBLE else View.GONE
+            with(binding.groupIndicator) {
+                if (hasSelectMultiple() || party.duplicates.isEmpty()) {
+                    isVisible = false
+                } else {
+                    isVisible = true
+                    setImageResource(if (viewModel.expandedItem == party.id) R.drawable.ic_expand_less else R.drawable.ic_expand_more)
+                }
+            }
+            binding.Debt.isVisible = party.hasOpenDebts()
             with(binding.BankDetails) {
                 val hasBankDetails = party.iban != null || party.bic != null
                 isVisible = hasBankDetails
