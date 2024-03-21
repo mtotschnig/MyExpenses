@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
+import androidx.core.text.color
 import androidx.core.text.italic
 import androidx.core.text.underline
 import androidx.recyclerview.widget.DiffUtil
@@ -21,6 +22,7 @@ import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
+import org.totschnig.myexpenses.viewmodel.data.Tag
 
 class SplitPartRVAdapter(
     context: Context,
@@ -93,10 +95,21 @@ class SplitPartRVAdapter(
                         append(it)
                     }
                 }
-                transaction.tagList.takeIf { !it.isNullOrBlank() }?.let {
+                transaction.tagList.takeIf { it.isNotEmpty() }?.let {
                     append(" / ")
                     bold {
-                        append(it)
+                        it.forEachIndexed { index, tag ->
+                            tag.color?.also { color ->
+                                color(color) {
+                                    append(tag.label)
+                                }
+                            } ?: run {
+                                append(tag.label)
+                            }
+                            if (index < it.size - 1) {
+                                append(", ")
+                            }
+                        }
                     }
                 }
             }
@@ -122,7 +135,7 @@ class SplitPartRVAdapter(
         val id: Long
         val amountRaw: Long
         val debtLabel: String?
-        val tagList: String?
+        val tagList: List<Tag>
         val icon: String?
 
         val isTransfer

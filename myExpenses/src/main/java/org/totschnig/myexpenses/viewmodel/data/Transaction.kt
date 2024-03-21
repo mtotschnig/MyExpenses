@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.viewmodel.data
 import android.content.Context
 import android.database.Cursor
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
+import org.totschnig.myexpenses.db2.loadTagsForTransaction
 import org.totschnig.myexpenses.db2.localizedLabelSqlColumn
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
@@ -56,18 +57,14 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.getExchangeRate
 import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.calculateEquivalentAmount
 import org.totschnig.myexpenses.provider.checkSealedWithAlias
-import org.totschnig.myexpenses.provider.getDouble
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.provider.requireLong
-import org.totschnig.myexpenses.provider.splitStringList
-import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
-import java.math.BigDecimal
 import java.time.ZonedDateTime
 
 
@@ -96,7 +93,7 @@ data class Transaction(
     val accountLabel: String,
     val accountType: AccountType,
     override val debtLabel: String?,
-    override val tagList: String? = null,
+    override val tagList: List<Tag>,
     override val icon: String? = null,
     val iban: String? = null
 ) : SplitPartRVAdapter.ITransaction {
@@ -147,7 +144,6 @@ data class Transaction(
             KEY_ACCOUNT_LABEL,
             KEY_ACCOUNT_TYPE,
             DEBT_LABEL_EXPRESSION,
-            KEY_TAGLIST,
             KEY_IBAN
         )
 
@@ -162,9 +158,10 @@ data class Transaction(
             val transferAccountId = getLongOrNull(KEY_TRANSFER_ACCOUNT)
             val date: Long = getLong(KEY_DATE)
             val transferPeer = getLongOrNull(KEY_TRANSFER_PEER)
+            val id = requireLong(KEY_ROWID)
 
             return Transaction(
-                id = requireLong(KEY_ROWID),
+                id = id,
                 accountId = getLong(KEY_ACCOUNTID),
                 amountRaw = amountRaw,
                 amount = money,
@@ -203,7 +200,7 @@ data class Transaction(
                 ),
                 hasTransferPeerParent = getLongOrNull(KEY_TRANSFER_PEER_PARENT) != null,
                 debtLabel = getStringOrNull(KEY_DEBT_LABEL),
-                tagList = splitStringList(KEY_TAGLIST).joinToString(),
+                tagList = context.contentResolver.loadTagsForTransaction(id),
                 icon = getStringOrNull(KEY_ICON),
                 iban = getStringOrNull(KEY_IBAN)
             )
