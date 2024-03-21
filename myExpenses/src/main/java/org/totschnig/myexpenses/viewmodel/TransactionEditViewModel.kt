@@ -27,7 +27,6 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.db2.addAttachments
 import org.totschnig.myexpenses.db2.deleteAttachments
 import org.totschnig.myexpenses.db2.getCategoryPath
@@ -40,7 +39,6 @@ import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
-import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.KEY_DEBT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.CATEGORY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.CAT_AS_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -63,7 +61,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
 import org.totschnig.myexpenses.provider.PlannerUtils
@@ -72,12 +69,9 @@ import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
 import org.totschnig.myexpenses.provider.fileName
-import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongIfExists
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
-import org.totschnig.myexpenses.provider.getStringOrNull
-import org.totschnig.myexpenses.provider.splitStringList
 import org.totschnig.myexpenses.util.ImageOptimizer
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.ShortcutHelper
@@ -87,6 +81,7 @@ import org.totschnig.myexpenses.util.io.getFileExtension
 import org.totschnig.myexpenses.util.io.getNameWithoutExtension
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
+import org.totschnig.myexpenses.viewmodel.data.SplitPart
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
@@ -371,8 +366,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val splitParts = splitPartLoader.filterNotNull().flatMapLatest {
-        val (parentId, parentIsTemplate) = it
+    val splitParts = splitPartLoader.filterNotNull().flatMapLatest { (parentId, parentIsTemplate) ->
         contentResolver.observeQuery(
             uri = if (parentIsTemplate) TransactionProvider.TEMPLATES_UNCOMMITTED_URI
             else TransactionProvider.UNCOMMITTED_URI,
@@ -389,7 +383,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             ).toTypedArray(),
             selection = "$KEY_PARENTID = ?",
             selectionArgs = arrayOf(parentId.toString())
-        ).mapToList(mapper = SplitPart.Companion::fromCursor)
+        ).mapToList { SplitPart.fromCursor(it, contentResolver) }
     }
 
     fun moveUnCommittedSplitParts(transactionId: Long, accountId: Long, isTemplate: Boolean) {
@@ -584,32 +578,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 accountId = cursor.getLongIfExists(KEY_ACCOUNTID),
                 debtId = cursor.getLongIfExists(KEY_DEBT_ID)
             )
-        }
-    }
-
-    data class SplitPart(
-        override val id: Long,
-        override val amountRaw: Long,
-        override val comment: String?,
-        override val categoryPath: String?,
-        override val transferAccount: String?,
-        override val debtLabel: String?,
-        override val tagList: String?,
-        override val icon: String?
-    ) : SplitPartRVAdapter.ITransaction {
-        companion object {
-            fun fromCursor(cursor: Cursor) = with(cursor) {
-                SplitPart(
-                    getLong(KEY_ROWID),
-                    getLong(KEY_AMOUNT),
-                    getStringOrNull(KEY_COMMENT),
-                    getStringOrNull(KEY_PATH),
-                    getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL),
-                    getStringIfExists(KEY_DEBT_LABEL),
-                    splitStringList(KEY_TAGLIST).joinToString(),
-                    getStringOrNull(KEY_ICON)
-                )
-            }
         }
     }
 

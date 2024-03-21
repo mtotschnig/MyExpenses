@@ -35,19 +35,6 @@ class TransactionDetailViewModel(application: Application) :
             }?.let { emit(it) }
         }
 
-    @SuppressLint("Recycle")
-    fun tags(id: Long): LiveData<List<Tag>> = liveData(context = coroutineContext()) {
-        contentResolver.query(
-            TransactionProvider.TRANSACTIONS_TAGS_URI,
-            null,
-            "$KEY_TRANSACTIONID = ?",
-            arrayOf(id.toString()),
-            null
-        )?.useAndMapToList {
-            Tag.fromCursor(it)
-        }?.let { emit(it) }
-    }
-
     fun attributes(id: Long) = liveData(context = coroutineContext()) {
         emit(repository.loadAttributes(id).groupBy { it.first.context })
     }

@@ -98,13 +98,6 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
         injector.inject(viewModel)
         val rowId = requireArguments().getLong(DatabaseConstants.KEY_ROWID)
         viewModel.transaction(rowId).observe(this) { o -> fillData(o) }
-        viewModel.tags(rowId).observe(this) { tags ->
-            if (tags.isNotEmpty()) {
-                binding.TagGroup.addChipsBulk(tags)
-            } else {
-                binding.TagRow.visibility = View.GONE
-            }
-        }
         viewModel.attachments(rowId).observe(this) { attachments ->
             if (attachments.isEmpty()) {
                 binding.AttachmentsRow.visibility = View.GONE
@@ -328,6 +321,13 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
                         Plan.prettyTimeInfo(requireContext(), it.rRule, it.dtStart)
                     } ?: getString(R.string.plan_event_deleted)
                 }
+
+                if (transaction.tagList.isNotEmpty()) {
+                    binding.TagGroup.addChipsBulk(transaction.tagList)
+                } else {
+                    binding.TagRow.visibility = View.GONE
+                }
+
                 dlg.setTitle(title)
             } else {
                 binding.error.visibility = View.VISIBLE
