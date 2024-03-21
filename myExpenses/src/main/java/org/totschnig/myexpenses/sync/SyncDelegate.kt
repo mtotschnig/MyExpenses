@@ -195,7 +195,8 @@ class SyncDelegate(
         mergedMap: HashMap<String, TransactionChange>
     ): List<TransactionChange> {
         return input.map { change ->
-            change.takeIf { it.isCreateOrUpdate }?.nullifyIfNeeded(mergedMap[change.uuid()]) ?: change
+            change.takeIf { it.isCreateOrUpdate }?.nullifyIfNeeded(mergedMap[change.uuid()])
+                ?: change
         }.distinct()
     }
 
@@ -222,7 +223,7 @@ class SyncDelegate(
             if ((label() != null || categoryInfo() != null) &&
                 (merged.label() != null || merged.categoryInfo() != null) &&
                 (merged.label() != label() || merged.categoryInfo() != categoryInfo())
-                ) {
+            ) {
                 setLabel(null)
                 setCategoryInfo(null)
             }
@@ -245,7 +246,7 @@ class SyncDelegate(
                 (merged.pictureUri() != null || merged.attachments() != null) &&
                 (merged.pictureUri() != pictureUri() || merged.attachments() != attachments())
 
-                ) {
+            ) {
                 setPictureUri(null)
                 setAttachments(null)
             }
@@ -254,7 +255,8 @@ class SyncDelegate(
             }
             if ((tags() != null || tagsV2() != null) &&
                 (merged.tags() != null || merged.tagsV2() != null) &&
-                (merged.tags() != tags() || merged.tagsV2() != merged.tagsV2())) {
+                (merged.tags() != tags() || merged.tagsV2() != merged.tagsV2())
+            ) {
                 setTags(null)
             }
         }.build()
@@ -472,12 +474,23 @@ class SyncDelegate(
                         ops.add(builder.build())
                     }
                     val tagOpsSize = tagIds
-                        ?.let { saveTagLinks(it, transactionId) }
+                        ?.let { list ->
+                            saveTagLinks(
+                                list,
+                                transactionId.takeIf { it != -1L },
+                                parentOffset.takeIf { it != -1 })
+                        }
                         ?.also { ops.addAll(it) }
                         ?.size
                         ?: 0
                     val attachmentOpsSize = change.attachments()
-                        ?.let { saveAttachmentLinks(it, transactionId, null) }
+                        ?.let { set ->
+                            saveAttachmentLinks(
+                                set,
+                                transactionId.takeIf { it != -1L },
+                                parentOffset.takeIf { it != -1 }
+                            )
+                        }
                         ?.also { ops.addAll(it) }
                         ?.size
                         ?: 0
@@ -568,7 +581,7 @@ class SyncDelegate(
         change.valueDate()?.let { values.put(KEY_VALUE_DATE, it) }
         change.amount()?.let { values.put(KEY_AMOUNT, it) }
         if (change.categoryInfo()?.firstOrNull()?.uuid == NULL_CHANGE_INDICATOR) {
-          values.putNull(KEY_CATID)
+            values.putNull(KEY_CATID)
         } else {
             change.extractCatId()?.let { values.put(KEY_CATID, it) }
         }
@@ -579,7 +592,7 @@ class SyncDelegate(
                 values.put(KEY_PAYEEID, extractParty(name))
             }
         }
-        if (change.methodLabel()== NULL_CHANGE_INDICATOR) {
+        if (change.methodLabel() == NULL_CHANGE_INDICATOR) {
             values.putNull(KEY_METHODID)
         } else {
             change.methodLabel()?.let { label ->
