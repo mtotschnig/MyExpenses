@@ -199,7 +199,7 @@ dependencies {
     kapt 'com.ryanharter.auto.value:auto-value-parcel:0.2.8'
 
     implementation project(':PlayLicensingOrig')
-    implementation 'com.itextpdf:itextpdf:5.5.13.1'
+    implementation 'com.itextpdf:itextpdf:5.5.13.3'
     api "ch.acra:acra-core:$acraVersion"
     implementation "ch.acra:acra-mail:$acraVersion"
     implementation "ch.acra:acra-dialog:$acraVersion"

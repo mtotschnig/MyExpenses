@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.asSequence
@@ -138,7 +139,8 @@ object PdfPrinter {
                     filter,
                     currencyUnit,
                     currencyFormatter,
-                    currencyContext
+                    currencyContext,
+                    prefHandler.getBoolean(PrefKey.UI_ITEM_RENDERER_ORIGINAL_AMOUNT, false)
                 )
             } finally {
                 document.close()
@@ -183,7 +185,8 @@ object PdfPrinter {
         filter: WhereFilter,
         currencyUnit: CurrencyUnit,
         currencyFormatter: ICurrencyFormatter,
-        currencyContext: CurrencyContext
+        currencyContext: CurrencyContext,
+        withOriginalAmount: Boolean
     ) {
         val (builder, selection, selectionArgs) = account.groupingQuery(filter)
         val integerHeaderRowMap = context.contentResolver.query(
@@ -210,13 +213,12 @@ object PdfPrinter {
         transactionCursor.moveToFirst()
         while (transactionCursor.position < transactionCursor.count) {
             //could use /with/ scoping function with Kotlin 2.0.
-            val transaction =
-                Transaction2.fromCursor(
-                    currencyContext = currencyContext,
-                    cursor = transactionCursor,
-                    accountCurrency = account.currencyUnit,
-                    tags = tagMap
-                )
+            val transaction = Transaction2.fromCursor(
+                currencyContext = currencyContext,
+                cursor = transactionCursor,
+                accountCurrency = account.currencyUnit,
+                tags = tagMap
+            )
 
             currentHeaderId = account.grouping.calculateGroupId(transaction)
             if (currentHeaderId != prevHeaderId) {
@@ -285,7 +287,7 @@ object PdfPrinter {
                 document.add(table)
                 val sep = LineSeparator()
                 document.add(sep)
-                table = helper.newTable(4)
+                table = helper.newTable(if (withOriginalAmount) 5 else 4)
                 table.tableEvent = object : PdfPTableEvent {
                     private fun findFirstChunkGenericTag(row: PdfPRow): Any? {
                         for (cell in row.cells) {
@@ -331,14 +333,14 @@ object PdfPrinter {
                         }
                     }
                 }
-                table.setWidths(
-                    if (table.runDirection == PdfWriter.RUN_DIRECTION_RTL) intArrayOf(
-                        2,
-                        3,
-                        5,
-                        1
-                    ) else intArrayOf(1, 5, 3, 2)
-                )
+                var widths = intArrayOf(1, 5, 3, 2)
+                if (withOriginalAmount) {
+                    widths += 2
+                }
+                if (table.runDirection == PdfWriter.RUN_DIRECTION_RTL) {
+                    widths.reverse()
+                }
+                table.setWidths(widths)
                 table.spacingBefore = 2f
                 table.spacingAfter = 2f
                 table.widthPercentage = 100f
@@ -418,18 +420,25 @@ object PdfPrinter {
             if (!transaction.payee.isNullOrEmpty()) {
                 table.addCell(helper.printToCell(transaction.payee, FontType.UNDERLINE))
             }
-            val t: FontType = if (account.id < 0 && transaction.isSameCurrency) {
-                FontType.NORMAL
-            } else {
+
+            val fontType = if (account.id < 0 && transaction.isSameCurrency) FontType.NORMAL else
                 if (transaction.amount.amountMinor < 0) FontType.EXPENSE else FontType.INCOME
-            }
-            cell = helper.printToCell(currencyFormatter.formatMoney(transaction.amount), t)
+
+            cell = helper.printToCell(currencyFormatter.formatMoney(transaction.amount), fontType)
             cell.horizontalAlignment = Element.ALIGN_RIGHT
             table.addCell(cell)
+            val emptyCell = helper.emptyCell()
+            if (withOriginalAmount) {
+                table.addCell(
+                    transaction.originalAmount?.let {
+                        helper.printToCell(currencyFormatter.formatMoney(it), fontType)
+                    }?.apply { horizontalAlignment = Element.ALIGN_RIGHT } ?: emptyCell
+                )
+            }
             val hasComment = !transaction.comment.isNullOrEmpty()
             val hasTags = transaction.tagList.isNotEmpty()
             if (hasComment || hasTags) {
-                table.addCell(helper.emptyCell())
+                table.addCell(emptyCell)
                 if (hasComment) {
                     cell = helper.printToCell(transaction.comment, FontType.ITALIC)
                     if (isVoid) {
@@ -446,7 +455,10 @@ object PdfPrinter {
                 }
                 if (hasTags) {
                     //TODO make use of color
-                    cell = helper.printToCell(transaction.tagList.joinToString { it.first }, FontType.BOLD)
+                    cell = helper.printToCell(
+                        transaction.tagList.joinToString { it.first },
+                        FontType.BOLD
+                    )
                     if (isVoid) {
                         cell.phrase.chunks[0].setGenericTag(VOID_MARKER)
                     }
@@ -455,7 +467,10 @@ object PdfPrinter {
                     }
                     table.addCell(cell)
                 }
-                table.addCell(helper.emptyCell())
+                table.addCell(emptyCell)
+                if (withOriginalAmount) {
+                    table.addCell(emptyCell)
+                }
             }
             transactionCursor.moveToNext()
         }
