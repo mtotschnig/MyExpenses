@@ -135,6 +135,112 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.7.8
+    - "2024-03-20"
+    -
+      de: |
+        Diagramme berücksichtigen Suchfilter.
+      es: |
+        Los gráficos coinciden con el filtro de búsqueda.
+      fr: |
+        Les graphiques honorent le filtre de recherche.
+      nl: |
+        Grafieken voldoen aan het zoekfilter.
+      tr: |
+        Grafikler arama filtresine uyuyor.
+      en: |
+        Charts honour search filter.
+    -
+      github: 135#column-19800457
+      mastodon: 112127011143087984
+  -
+    - 3.7.7
+    - "2024-03-11"
+    -
+      ar: |
+        تصدير لصيغة CSV: المبلغ الأصلي, المبلغ المعادل. صقل واجهة المستخدم
+      bg: |
+        Експорт в CSV: Оригинална сума, Еквивалентна сума. Подобрения в потребителския интерфейс
+      cs: |
+        Exportovat do souboru CSV: Původní částka, Ekvivalentní částka. Zdokonalení uživatelského rozhraní
+      de: |
+        Export nach CSV: Originalbetrag, Gleichwertiger Betrag. Verfeinerung der Benutzeroberfläche
+      el: |
+        Εξαγωγή σε CSV: Αρχικό ποσό, Ισοδύναμο ποσό. Βελτίωση του περιβάλλοντος εργασίας χρήστη
+      es: |
+        Exportar a CSV: Cantidad original, Cantidad equivalente. Interfaz de usuario mejorada
+      fr: |
+        Export au format CSV: Montant original, Montant équivalent. Raffinement de l'interface utilisateur
+      hr: |
+        Izvezi u CSV: Izvorni iznos, Jednaki iznos. Poboljšanje korisničkog sučelja
+      hu: |
+        Exportálás CSV-be : Eredeti összeg, Egyenértékű összeg. A felhasználói felület finomítása
+      it: |
+        Esportazione in formato CSV: Importo originario, Importo equivalente. Miglioramento dell'interfaccia utente
+      iw: |
+        יצא ל- CSV: סכום מקורי, סכום שווה ערך. חידוד ממשק המשתמש
+      nl: |
+        Exporteer naar CSV: Oorspronkelijk bedrag, Gelijkwaardig bedrag. Verfijning van de gebruikersinterface
+      pl: |
+        Eksport do CSV: Pierwotna kwota, Kwota równoważna. Udoskonalenie interfejsu użytkownika
+      pt: |
+        Exportação para CSV: Quantia original, Quantia equivalente. Melhorias na interface do usuário
+      ro: |
+        Export ca CSV: , . Perfecționarea interfeței cu utilizatorul
+      tr: |
+        CSV olarak dışa aktar: Orijinal meblağ, Eşdeğer meblağ. Kullanıcı arayüzü iyileştirildi
+      vi: |
+        Xuất ra dạng CSV: Khoản gốc, Khoản tương đương. Cải tiến giao diện người dùng
+      en: |
+        Export to CSV: Original amount, Equivalent amount. Refinement of the user interface
+    -
+      github: 134#column-19796759
+      mastodon: 112072181909903986
+  -
+    - 3.7.6
+    - "2024-03-01"
+    -
+      de: |
+        Klonen Sie mehrere Buchungen mit einem neuen Datum. Die Web-Benutzeroberfläche kann vom Hauptbildschirm aus gesteuert werden. In Umbuchung umwandeln. Export nach CSV: MS Excel
+      es: |
+        Clonar múltiples transacciones con fecha nueva. La interfaz del usuario puede controlarse desde la pantalla principal. Convertir en transferencia. Exportar a CSV: MS Excel
+      fr: |
+        Clonez plusieurs opérations avec une nouvelle date. L'interface utilisateur Web peut être contrôlée depuis l'écran principal. Transformer en transfert. Export au format CSV: MS Excel
+      it: |
+        Clona più transazioni con una nuova data. L'interfaccia utente Web può essere controllata dalla schermata principale. Converti in trasferimento. Esportazione in formato CSV: MS Excel
+      nl: |
+        Kloon meerdere transacties met een nieuwe datum. De webgebruikersinterface kan worden bediend vanaf het hoofdscherm. Converteren naar overdracht. Exporteer naar CSV: MS Excel
+      tr: |
+        Birden fazla muameleyi yeni tarihle klonla. Web kullanıcı arayüzü ana ekrandan denetlenebilir. Havaleye dönüştür. CSV olarak dışa aktar: MS Excel
+      en: |
+        Clone multiple transactions with new date. Web user interface can be controlled from main screen. Convert to transfer. Export to CSV: MS Excel
+    -
+      github: 132#column-19778148
+      mastodon: 112014211218623273
+  -
+    - 3.7.5
+    - "2024-02-19"
+    -
+      de: |
+        Umbuchung trennen
+      es: |
+        Desvincular transferencia
+      fr: |
+        Dissocier le transfert
+      hr: |
+        Rastavi prijenos na dijelove
+      it: |
+        Scorpora il trasferimento
+      nl: |
+        Overdracht ontkoppelen
+      tr: |
+        Transfer bağlantısını kaldır
+      en: |
+        Unlink transfer
+    -
+      github: 131#column-19777096
+      mastodon: 111957697846289706
+  -
     - 3.7.4
     - "2024-02-14"
     -
@@ -1719,17 +1825,17 @@ versions:
       hr: |
         Polje za bilješke dopušta više redaka. Popravci grešaka: Sinkronizacija
       iw: |
-        שדות ההערות מאפשרים ריבוי שורות.. תיקוני באגים: סנכרון
+        שדות ההערות מאפשרים ריבוי שורות. תיקוני באגים: סנכרון
       kn: |
-        ಟಿಪ್ಪಣಿಗಳ ಕ್ಷೇತ್ರವು ಬಹು ಸಾಲುಗಳನ್ನು ಅನುಮತಿಸುತ್ತದೆ.. ದೋಷ ಪರಿಹಾರಗಳನ್ನು: ಸಿಂಕ್ರೊನೈಸೇಶನ್
+        ಟಿಪ್ಪಣಿಗಳ ಕ್ಷೇತ್ರವು ಬಹು ಸಾಲುಗಳನ್ನು ಅನುಮತಿಸುತ್ತದೆ. ದೋಷ ಪರಿಹಾರಗಳನ್ನು: ಸಿಂಕ್ರೊನೈಸೇಶನ್
       pt: |
-        Campos de anotação permitem múltiplas linhas.. Correções de erros: Sincronização
+        Campos de anotação permitem múltiplas linhas. Correções de erros: Sincronização
       tr: |
-        Notlar alanı birden çok satıra izin verir.. Hata düzeltmeleri: Eşzamanla
+        Notlar alanı birden çok satıra izin verir. Hata düzeltmeleri: Eşzamanla
       zh: |
         支持多行备注. 错误修复: 同步
       en: |
-        Notes field allows multiple lines.. Bug fixes: Synchronization
+        Notes field allows multiple lines. Bug fixes: Synchronization
     -
       github: 70#column-18752877
       mastodon: 108345073884573364
@@ -2157,7 +2263,7 @@ versions:
       iw: |
         תרגום: טלוגו. מטבע: חידוד ממשק המשתמש.
       pt: |
-        Tradução: télugo. Moeda: Refinamento da interface do usuário..
+        Tradução: télugo. Moeda: Refinamento da interface do usuário.
       tr: |
         Çeviri: Telugu dili. Döviz: Kullanıcı arayüzü iyileştirildi.
       en: |
@@ -2183,7 +2289,7 @@ versions:
       iw: |
         הגדרות - מילוי אוטומטי: חידוד ממשק המשתמש.
       pt: |
-        Configurações - Preenchimento automático: Refinamento da interface do usuário..
+        Configurações - Preenchimento automático: Refinamento da interface do usuário.
       tr: |
         Ayarlar - Otomatik Doldur: Kullanıcı arayüzü iyileştirildi.
       en: |
@@ -2712,7 +2818,7 @@ versions:
       es: |
         Las transacciones pueden asignarse a varias etiquetas.
       tr: |
-        Muameleler çoklu etiketlerle eşleştirilebilir..
+        Muameleler çoklu etiketlerle eşleştirilebilir.
       bg: |
         Транзакциите може да бъдат отбелязани с множество маркери.
       ja: |
@@ -2800,7 +2906,7 @@ versions:
       ja: |
         複数の勘定を1つのファイルにエクスポートできるようになりました. 勘定のメタデータが同期されるようになりました. ホーム画面ウィジェットの改善.
       pt: |
-        Múltiplas contas agora podem ser exportadas para um único arquivo.. Os metadados da conta agora são sincronizados.. Widgets da tela inicial aprimorados.
+        Múltiplas contas agora podem ser exportadas para um único arquivo. Os metadados da conta agora são sincronizados. Widgets da tela inicial aprimorados.
       ta: |
         பல கணக்குகளை இப்போது ஒரே கோப்பில் ஏற்றுமதி செய்யலாம். கணக்கு மெட்டாடேட்டா இப்போது ஒத்திசைக்கப்படுகிறது. மேம்படுத்தப்பட்ட முகப்புத் திரை நிரல் பலகைகள்.
       tr: |
@@ -2828,7 +2934,7 @@ versions:
       ja: |
         一括編集.
       pt: |
-        Edição em massa..
+        Edição em massa.
       ta: |
         மொத்த திருத்தம்.
       tr: |
@@ -2892,7 +2998,7 @@ versions:
       ms: |
         Perlaksanan baharu untuk penyegerakan melalui Dropbox dan Drive.
       pt: |
-        Nova implementação da sincronização via Dropbox e Drive..
+        Nova implementação da sincronização via Dropbox e Drive.
       ta: |
         டிராப்பாக்ஸ் மற்றும் டிரைவ் வழியாக ஒத்திசைக்க புதிய செயலாக்கம்.
       tr: |
@@ -2922,7 +3028,7 @@ versions:
       ms: |
         Muat turun kadar pertukaran.
       pt: |
-        Obtenção de taxas de câmbio..
+        Obtenção de taxas de câmbio.
       ru: |
         Скачать курсы валют.
       ta: |
@@ -2954,7 +3060,7 @@ versions:
       ms: |
         Terjemahan bahasa Tamil. Butang segerak sekarang dalam menu utama. Penyegerakan serta-merta selepas perubahan setempat dilumpuhkan.
       pt: |
-        Tradução para tâmil. Botão Sincronizar agora no menu principal.. A sincronização imediata após alterações locais pode ser desativada..
+        Tradução para tâmil. Botão Sincronizar agora no menu principal. A sincronização imediata após alterações locais pode ser desativada.
       ru: |
         Тамильский перевод. Кнопка Синхронизировать сейчас в главном меню. Немедленная синхронизация после локальных изменений может быть отключена.
       ta: |
@@ -3002,7 +3108,7 @@ versions:
       ar: |
         يمكن أن تكون الحسابات مغلقة أو مخفية.
       bg: |
-        Сметките могат да бъдат затворени и/или скрити..
+        Сметките могат да бъдат затворени и/или скрити.
       de: |
         Konten können geschlossen und / oder verborgen werden.
       es: |
@@ -3018,7 +3124,7 @@ versions:
       ms: |
         Akaun boleh ditutup dan/atau disembunyikan.
       pt: |
-        As contas podem ser encerradas e/ou ocultadas..
+        As contas podem ser encerradas e/ou ocultadas.
       ru: |
         Аккаунт может быть закрыт и/или скрыт.
       ta: |
@@ -3052,7 +3158,7 @@ versions:
       pl: |
         Tłumaczenie na ukraiński. Eksport CSV: Konfigurowalny separator pól.
       pt: |
-        Tradução para ucraniano.. Exportação de CSV: o delimitador agora é configurável..
+        Tradução para ucraniano. Exportação de CSV: o delimitador agora é configurável.
       ru: |
         Перевод на украинский. Экспорт в CSV: настраиваемый разделитель.
       ta: |
@@ -3336,7 +3442,7 @@ versions:
       en: |
         Multiple transactions can be grouped into one split transaction. Split transaction can be ungrouped.
       fr: |
-        Plusieurs opérations peuvent être regroupées en une seule opération ventilée.. L'opération ventilée peut être dissociée..
+        Plusieurs opérations peuvent être regroupées en une seule opération ventilée. L'opération ventilée peut être dissociée.
       de: |
         Mehrere Buchungen können zu einer mehrteiligen Buchung zusammengefasst werden. Die Gruppierung einer mehrteiligen Buchung kann aufgelöst werden.
       it: |
@@ -3350,7 +3456,7 @@ versions:
       bg: |
         Няколко транзакции могат да бъдат групирани в една разпределена транзакция. Разпределена транзакция може да се раздели на отделни транзакции.
       ru: |
-        Несколько операций могут быть сгруппированы в одну дробную операцию.. Дробные операции могут быть разгруппированы.
+        Несколько операций могут быть сгруппированы в одну дробную операцию. Дробные операции могут быть разгруппированы.
       ms: |
         Transaksi berbilang boleh dikumpulkan menjadi satu transaksi pengasingan. Transaksi pengasingan boleh dinyahkumpulkan.
       ja: |
@@ -3834,7 +3940,7 @@ versions:
       fr: |
         Problèmes avec les échéances sur les appareils Samsung sont résolus. Modifier les opérations à partir de l’écran de distribution.
       de: |
-        Probleme mit Plänen auf Samsung-Geräten behoben. Buchungen können von der Verteilungsansicht aus bearbeitet werden..
+        Probleme mit Plänen auf Samsung-Geräten behoben. Buchungen können von der Verteilungsansicht aus bearbeitet werden.
       it: |
         Risolti i problemi con i programmi su dispositivi Samsung. Modifica transazioni dalla schermata di distribuzione.
       es: |
@@ -3914,7 +4020,7 @@ versions:
       eu: |
         Transakzioaren formularioak errepikakortasuna zuzenean sortzea baimentzen du.
       bg: |
-        Повтаряне на транзакцията може да се зададе директно от формата при създаването й..
+        Повтаряне на транзакцията може да се зададе директно от формата при създаването й.
       ru: |
         Форма операции позволяет повторить ее.
       ms: |
@@ -4116,7 +4222,7 @@ versions:
       eu: |
         Transferentziak moneta desberdineko kontuen artean.
       bg: |
-        Преводи между сметки с различни валути..
+        Преводи между сметки с различни валути.
       ru: |
         Переводы между счетами в различных валютах.
       ms: |
@@ -4150,7 +4256,7 @@ versions:
       eu: |
         Astea eta hilabetearen hasierako eguna konfiguratu daiteke.
       bg: |
-        Възможност да настроите ден от седмицата и дата от месеца за период на групирне на транзакциите..
+        Възможност да настроите ден от седмицата и дата от месеца за период на групирне на транзакциите.
       ru: |
         Можно настроить дни начала недели и месяца.
       ms: |
@@ -4186,7 +4292,7 @@ versions:
       eu: |
         Kategoriak mugitu daitezke.
       bg: |
-        Местене на категориите - под-категории от една в друга главна, преобразуване на под-категория в главна и обратно..
+        Местене на категориите - под-категории от една в друга главна, преобразуване на под-категория в главна и обратно.
       ru: |
         Категории могут быть перемещены.
       ms: |
@@ -4834,7 +4940,7 @@ versions:
       it: |
         Personalizzabile numero di cifre della frazione per valute. Consenti di escludere gli conti da totali.
       es: |
-        Personaliza la cantidad de dígitos de fracción por moneda.. Ahora se pueden excluir las cuentas de los totales.
+        Personaliza la cantidad de dígitos de fracción por moneda. Ahora se pueden excluir las cuentas de los totales.
       pt: |
         Personalizável número de dígitos de fração para moedas. Permitir excluir contas de totais.
       tr: |
@@ -4916,7 +5022,7 @@ versions:
       hr: |
         Ispis u PDF-u sada podržava nezapadnjačko pismo. Malezijski prijevod.
       ms: |
-        Cetak ke PDF kini menyokong skrip non-Western. Terjemahan Bahasa Melayu... yay.
+        Cetak ke PDF kini menyokong skrip non-Western. Terjemahan Bahasa Melayu.. yay.
       ja: |
         PDF に印刷が、非西欧のスクリプトをサポートするようになりました. マラヤ翻訳.
       ro: |
@@ -5393,7 +5499,7 @@ versions:
       fr: |
         La liste des opérations et la répartition statistique peuvent être affichées pour un ensemble de comptes.
       de: |
-        Buchungsliste und statistische Verteilung können jetzt auf mehrere Konten gleichzeitig angewendet werden..
+        Buchungsliste und statistische Verteilung können jetzt auf mehrere Konten gleichzeitig angewendet werden.
       it: |
         Visualizza la lista delle transazioni e la distribuzione statistica per gli aggregati di più conti.
       es: |
@@ -5497,7 +5603,7 @@ versions:
       en: |
         Current balance is displayed more prominently again and show main buttons at bottom, when device orientation is portrait. Bug fixes: Issues #71,#91,#92,#93.
       fr: |
-        Le solde courant est de nouveau mis plus en évidence et les boutons principaux sont apparents en bas, lorsque l'orientation de l'appareil est en mode portrait.. Corrections des bogues n° 71, 91, 92 et 93.
+        Le solde courant est de nouveau mis plus en évidence et les boutons principaux sont apparents en bas, lorsque l'orientation de l'appareil est en mode portrait. Corrections des bogues n° 71, 91, 92 et 93.
       de: |
         Kontostand wird wieder deutlicher angezeigt; die wichtigsten Schaltflächen werden im Porträt-Modus am unteren Bildschirmrand angezeigt. Bugs #71,#91,#92,#93 behoben.
       it: |
@@ -5511,7 +5617,7 @@ versions:
       ca: |
         Ara el saldo actual es torna a mostrar de forma més destacada i mostra els botons principals a la part inferior, quan el dispositiu està en orientació vertical. Correccions: Problemes #71,#91,#92,#93.
       cs: |
-        Aktuální zůstatek je zobrazen více nápadně a hlavní tlačítka jsou zobrazena dole, pokud je zařízení orientováno horizontálně.. Opravy chyb: otázky #71, #91, #92, #93.
+        Aktuální zůstatek je zobrazen více nápadně a hlavní tlačítka jsou zobrazena dole, pokud je zařízení orientováno horizontálně. Opravy chyb: otázky #71, #91, #92, #93.
       pl: |
         Bieżący balans jest wyświetlany bardziej widoczny ponownie i wyświetla główne przyciski na dole, kiedy orientacja urządzenia jest ustawiona pionowo. Poprawki błędów: Issues #71,#91,#92,#93.
       ru: |
@@ -5545,7 +5651,7 @@ versions:
       tr: |
         Muamele listesi gruplandığında, grup başlığında her dönem için ara bakiyeyi göster. Hata düzeltmesi: Hata #90.
       hu: |
-        A tranzakcós listán csoportosított kiválasztás során az aktuális egyenleg megjelenik a kiválasztás időszakra vonatkozóan a fejlécben.. Bug fix: #90-es ügy.
+        A tranzakcós listán csoportosított kiválasztás során az aktuális egyenleg megjelenik a kiválasztás időszakra vonatkozóan a fejlécben. Bug fix: #90-es ügy.
       ca: |
         Quan la llista d'operacions està agrupada, mostra el balanç intermedi per a cada període a la capçalera del grup. Correcció: Problema #90.
       cs: |
