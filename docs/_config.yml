@@ -37,6 +37,8 @@ professional:
   - budgeting
   - scan_receipt
   - webui
+  - category_tree
+  - banking
 extra:
   cloud_sync: "(Webdav, Dropbox, Google Drive)"
 extra_fdroid:
