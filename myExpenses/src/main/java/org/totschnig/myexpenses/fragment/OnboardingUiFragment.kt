@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.fragment
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.View.OnFocusChangeListener
@@ -42,7 +41,6 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
-import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.util.ui.setNightMode
 import org.totschnig.myexpenses.viewmodel.OnBoardingUiViewModel
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
@@ -79,7 +77,7 @@ class OnboardingUiFragment : OnboardingFragment() {
     }
 
     override fun configureView(savedInstanceState: Bundle?) {
-        fontScale = prefHandler.getInt(PrefKey.UI_FONTSIZE, 0)
+        fontScale = prefHandler.getInt(PrefKey.UI_FONT_SIZE, 0)
         binding.fontSize.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 updateFontSizeDisplayName(progress)
@@ -108,7 +106,7 @@ class OnboardingUiFragment : OnboardingFragment() {
             setContentDescriptionToThemeSwitch(it, isLight)
             it.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
                 prefHandler.putString(
-                    PrefKey.UI_THEME_KEY,
+                    PrefKey.UI_THEME,
                     (if (isChecked) ProtectedFragmentActivity.ThemeType.light else ProtectedFragmentActivity.ThemeType.dark).name
                 )
                 setNightMode(prefHandler, requireContext())
@@ -124,7 +122,7 @@ class OnboardingUiFragment : OnboardingFragment() {
                     position: Int,
                     id: Long
                 ) {
-                    prefHandler.putString(PrefKey.UI_THEME_KEY, themeValues[position])
+                    prefHandler.putString(PrefKey.UI_THEME, themeValues[position])
                     setNightMode(prefHandler, requireContext())
                 }
 
@@ -215,7 +213,7 @@ class OnboardingUiFragment : OnboardingFragment() {
     private fun onFontSizeSet() {
         val newValue = binding.fontSize.progress
         if (fontScale != newValue) {
-            prefHandler.putInt(PrefKey.UI_FONTSIZE, newValue)
+            prefHandler.putInt(PrefKey.UI_FONT_SIZE, newValue)
             recreate()
         }
     }

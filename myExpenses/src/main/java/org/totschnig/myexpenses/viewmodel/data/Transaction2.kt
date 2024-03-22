@@ -10,11 +10,13 @@ import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.IS_SAME_CURRENCY
@@ -37,6 +39,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
@@ -66,7 +70,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
 import org.totschnig.myexpenses.provider.DbUtils.typeWithFallBack
 import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.effectiveTypeExpression
-import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getBooleanIfExists
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getIntIfExists
@@ -89,6 +92,7 @@ data class Transaction2(
     val _date: Long,
     val _valueDate: Long = _date,
     val amount: Money,
+    val originalAmount: Money? = null,
     val parentId: Long? = null,
     val comment: String? = null,
     val catId: Long? = null,
@@ -160,6 +164,10 @@ data class Transaction2(
                     prefHandler
                 )
             )
+            if (prefHandler.getBoolean(PrefKey.UI_ITEM_RENDERER_ORIGINAL_AMOUNT, false)) {
+                add(KEY_ORIGINAL_CURRENCY)
+                add(KEY_ORIGINAL_AMOUNT)
+            }
             if (DataBaseAccount.isAggregate(accountId) && extended) {
                 addAll(additionalAggregateColumns)
             }
@@ -222,6 +230,7 @@ data class Transaction2(
         )
 
         fun fromCursor(
+            currencyContext: CurrencyContext,
             cursor: Cursor,
             accountCurrency: CurrencyUnit,
             tags: Map<String, Pair<String, Int?>>
@@ -270,7 +279,10 @@ data class Transaction2(
                 attachmentCount = cursor.getIntIfExists(KEY_ATTACHMENT_COUNT) ?: 0,
                 type = cursor.getIntIfExists(KEY_TYPE)?.toByte()
                     ?: if (amountRaw > 0) FLAG_INCOME else FLAG_EXPENSE,
-                isSameCurrency = cursor.getBooleanIfExists(KEY_IS_SAME_CURRENCY) ?: true
+                isSameCurrency = cursor.getBooleanIfExists(KEY_IS_SAME_CURRENCY) ?: true,
+                originalAmount = cursor.getStringIfExists(KEY_ORIGINAL_CURRENCY)?.let {
+                    Money(currencyContext[it], cursor.getLong(KEY_ORIGINAL_AMOUNT))
+                }
             )
         }
     }

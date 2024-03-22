@@ -16,8 +16,8 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     PERFORM_SHARE(R.string.pref_perform_share_key),
     HELP(R.string.pref_help_key),
     SHARE_TARGET(R.string.pref_share_target_key),
-    UI_THEME_KEY(R.string.pref_ui_theme_key),
-    UI_FONTSIZE(R.string.pref_ui_fontsize_key),
+    UI_THEME(R.string.pref_ui_theme_key),
+    UI_FONT_SIZE(R.string.pref_ui_fontsize_key),
     RESTORE(R.string.pref_restore_key),
     IMPORT_QIF(R.string.pref_import_qif_key),
     IMPORT_CSV(R.string.pref_import_csv_key),
@@ -189,7 +189,8 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     CAMERA_APP(R.string.pref_camera_app_key),
     CAMERA_CHOOSER(R.string.pref_camera_chooser_key),
     TRANSACTION_AMOUNT_COLOR_SOURCE(R.string.pref_transaction_amount_color_source_key),
-    SYNC_NOW_ALL(R.string.pref_sync_now_all_key)
+    SYNC_NOW_ALL(R.string.pref_sync_now_all_key),
+    UI_ITEM_RENDERER_ORIGINAL_AMOUNT(R.string.pref_ui_item_renderer_original_amount_key)
     ;
 
     @Deprecated("")

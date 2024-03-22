@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.db2.tagMap
 import org.totschnig.myexpenses.export.createFileFailure
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
@@ -136,7 +137,8 @@ object PdfPrinter {
                     account,
                     filter,
                     currencyUnit,
-                    currencyFormatter
+                    currencyFormatter,
+                    currencyContext
                 )
             } finally {
                 document.close()
@@ -180,7 +182,8 @@ object PdfPrinter {
         account: FullAccount,
         filter: WhereFilter,
         currencyUnit: CurrencyUnit,
-        currencyFormatter: ICurrencyFormatter
+        currencyFormatter: ICurrencyFormatter,
+        currencyContext: CurrencyContext
     ) {
         val (builder, selection, selectionArgs) = account.groupingQuery(filter)
         val integerHeaderRowMap = context.contentResolver.query(
@@ -209,6 +212,7 @@ object PdfPrinter {
             //could use /with/ scoping function with Kotlin 2.0.
             val transaction =
                 Transaction2.fromCursor(
+                    currencyContext = currencyContext,
                     cursor = transactionCursor,
                     accountCurrency = account.currencyUnit,
                     tags = tagMap

@@ -1086,6 +1086,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                     )
                                 },
                                 withCategoryIcon,
+                                prefHandler.getBoolean(PrefKey.UI_ITEM_RENDERER_ORIGINAL_AMOUNT, false),
                                 colorSource,
                                 onToggleCrStatus
                             )
@@ -1901,7 +1902,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     fun isScanMode() = prefHandler.getBoolean(PrefKey.OCR, false)
-    fun isWebUiActive() = prefHandler.getBoolean(PrefKey.UI_WEB, false)
+    private fun isWebUiActive() = prefHandler.getBoolean(PrefKey.UI_WEB, false)
 
     private fun activateOcrMode() {
         prefHandler.putBoolean(PrefKey.OCR, true)

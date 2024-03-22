@@ -27,6 +27,7 @@
     <string name="pref_ui_theme_key">pref_ui_theme</string>
     <string name="pref_ui_item_renderer_legacy_key">ui_item_renderer_legacy</string>
     <string name="pref_ui_item_renderer_category_icon_key">ui_item_renderer_category_icon</string>
+    <string name="pref_ui_item_renderer_original_amount_key">ui_item_renderer_original_amount</string>
     <string name="pref_ui_fontsize_key">pref_ui_fontsize</string>
     <string name="pref_auto_backup_key">auto_backup</string>
     <string name="pref_auto_backup_time_key">auto_backup_time</string>

@@ -247,7 +247,7 @@ class UpgradeHandlerViewModel(application: Application) :
                 }
 
                 if (fromVersion < 429 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    prefHandler.putString(PrefKey.UI_THEME_KEY, "default")
+                    prefHandler.putString(PrefKey.UI_THEME, "default")
                 }
 
                 if (fromVersion < 486) {

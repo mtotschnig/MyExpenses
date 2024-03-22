@@ -24,7 +24,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.*
@@ -97,7 +96,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.repor
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.marketSelfUri
 import org.totschnig.myexpenses.util.licence.LicenceHandler
-import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.ui.setBackgroundTintList
@@ -639,8 +637,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 PrefKey.PROTECTION_ALLOW_SCREENSHOT,
                 PrefKey.PROTECTION_DEVICE_LOCK_SCREEN,
                 PrefKey.PROTECTION_LEGACY,
-                PrefKey.UI_FONTSIZE,
-                PrefKey.CUSTOMIZE_MAIN_MENU
+                PrefKey.UI_FONT_SIZE,
+                PrefKey.CUSTOMIZE_MAIN_MENU,
+                PrefKey.UI_ITEM_RENDERER_ORIGINAL_AMOUNT
             )
         ) {
             scheduledRestart = true
@@ -1251,7 +1250,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     val canUseContentColor: Boolean by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (prefHandler.getInt(PrefKey.UI_FONTSIZE, 0) == 0) true else {
+            if (prefHandler.getInt(PrefKey.UI_FONT_SIZE, 0) == 0) true else {
                 val uiModeFromPref = prefHandler.uiMode(this)
                 if (uiModeFromPref == "default") true else {
                     val ourUiMode = if (uiModeFromPref == "dark")

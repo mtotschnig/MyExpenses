@@ -195,12 +195,12 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
-            getKey(PrefKey.UI_THEME_KEY) -> {
+            getKey(PrefKey.UI_THEME) -> {
                 setNightMode(prefHandler, this)
                 updateAllWidgets()
             }
 
-            getKey(PrefKey.UI_FONTSIZE) -> {
+            getKey(PrefKey.UI_FONT_SIZE) -> {
                 updateAllWidgets()
                 recreate()
             }

@@ -104,6 +104,12 @@
             android:persistent="false" />
 
         <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:title="@string/menu_original_amount"
+            android:dependency="@string/pref_ui_item_renderer_legacy_key"
+            android:key="@string/pref_ui_item_renderer_original_amount_key" />
+
+        <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="@string/pref_ui_item_renderer_category_icon_key"
             android:persistent="false"
