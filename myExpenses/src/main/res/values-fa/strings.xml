@@ -37,8 +37,6 @@
     <string name="app_name">My Expenses</string>
     <string name="backup_success">پایگاه داده و ترجیحات به صورت موفقیت آمیز روی %1$s نوشته شده است</string>
     <string name="category">دسته بندی</string>
-    <string name="color">رنگ</string>
-    <string name="comment">یادداشت</string>
     <string name="contrib_feature_ad_free_label">بدون تبلیغ</string>
     <string name="contrib_feature_accounts_unlimited_label">تعداد نامحدود حساب ها</string>
     <string name="contrib_feature_attach_picture_label">تصویر را به تراکنش اضافه کنید</string>

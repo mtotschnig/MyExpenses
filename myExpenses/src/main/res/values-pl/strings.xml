@@ -37,8 +37,6 @@
     <string name="app_name">Moje Wydatki</string>
     <string name="backup_success">Baza danych oraz preferencje zostały zapisane na kartę pamięci pomyślnie (%1$s).</string>
     <string name="category">Kategoria</string>
-    <string name="color">Kolor</string>
-    <string name="comment">Notatki</string>
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Brak reklam</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Nieskończona ilość kont</string>
     <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Dopinanie obrazów do transakcji</string>

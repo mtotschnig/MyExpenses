@@ -9,5 +9,7 @@
     <string name="help_and_feedback">"मदत आणि अभिप्राय"</string>
     <string name="currencies_exchange">"चलने आणि परकीय विनिमय"</string>
     <string name="menu_sync_now">"आता सिंक करा"</string>
-  <string name="do_not_show_again">परत दाखवू नका</string>
+    <string name="do_not_show_again">परत दाखवू नका</string>
+    <string name="color">"रंग"</string>
+    <string name="notes">"टिपा"</string>
 </resources>

@@ -77,5 +77,7 @@
     <string name="help_and_feedback">"Hjælp og feedback"</string>
     <string name="currencies_exchange">"Valutaer og valutakurser"</string>
     <string name="menu_sync_now">"Synkroniser nu"</string>
-  <string name="do_not_show_again">Vis ikke igen</string>
+    <string name="do_not_show_again">Vis ikke igen</string>
+    <string name="color">"Farve"</string>
+    <string name="notes">"Noter"</string>
 </resources>

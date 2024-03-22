@@ -37,8 +37,6 @@
     <string name="app_name">எனது செலவுகள்</string>
     <string name="backup_success">தரவுத்தளம் மற்றும் விருப்பத்தேர்வுகள் \"%1$s\" க்கு வெற்றிகரமாக எழுதப்பட்டது.</string>
     <string name="category">வகை</string>
-    <string name="color">நிறம்</string>
-    <string name="comment">குறிப்புக்கள்</string>
     <string name="contrib_feature_ad_free_label">விளம்பரங்கள் இல்லை</string>
     <string name="contrib_feature_accounts_unlimited_label">கணக்குகளுக்கு வரம்பில்லை</string>
     <string name="contrib_feature_attach_picture_label">பரிவர்த்தனையுடன் படத்தை இணைக்கலாம்</string>

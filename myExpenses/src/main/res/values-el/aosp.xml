@@ -77,4 +77,6 @@
     <string name="currencies_exchange">"Νομίσματα και συνάλλαγμα"</string>
     <string name="menu_sync_now">"Συγχρονισμός τώρα"</string>
     <string name="do_not_show_again">Να μην εμφανιστεί ξανά</string>
+    <string name="color">"Χρώμα"</string>
+    <string name="notes">"Σημειώσεις"</string>
 </resources>

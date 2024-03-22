@@ -37,8 +37,6 @@
     <string name="app_name">مصروفاتي</string>
     <string name="backup_success">تم حفظ قاعدة البيانات والتفضيلات في الذاكرة بنجاح (%1$s).</string>
     <string name="category">التصنيف</string>
-    <string name="color">اللون</string>
-    <string name="comment">ملاحظات</string>
     <string name="contrib_feature_ad_free_label">بدون إعلانات</string>
     <string name="contrib_feature_accounts_unlimited_label">عدد حسابات غير محدود</string>
     <string name="contrib_feature_attach_picture_label">إرفاق صورة إلى عملية</string>

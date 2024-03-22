@@ -371,7 +371,7 @@
                             android:id="@+id/CommentLabel"
                             style="@style/FormLabel"
                             android:labelFor="@+id/Comment"
-                            android:text="@string/comment" />
+                            android:text="@string/notes" />
 
                         <LinearLayout
                             style="@style/FormField"

@@ -37,8 +37,6 @@
     <string name="app_name">My Expenses</string>
     <string name="backup_success">Database and preferences successfully written to \"%1$s\".</string>
     <string name="category">Category</string>
-    <string name="color">Color</string>
-    <string name="comment">Notes</string>
     <string name="contrib_feature_ad_free_label">No ads</string>
     <string name="contrib_feature_accounts_unlimited_label">Unlimited number of accounts</string>
     <string name="contrib_feature_attach_picture_label">Attach image to transaction</string>

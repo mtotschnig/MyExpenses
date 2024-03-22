@@ -37,8 +37,6 @@
     <string name="app_name">Le mie spese</string>
     <string name="backup_success">Il database e le impostazioni sono stati salvati correttamente su «%1$s».</string>
     <string name="category">Categoria</string>
-    <string name="color">Colore</string>
-    <string name="comment">Note</string>
     <string name="contrib_feature_ad_free_label">Nessun annuncio</string>
     <string name="contrib_feature_accounts_unlimited_label">Numero illimitato di conti</string>
     <string name="contrib_feature_attach_picture_label">Allega un\'immagine alla transazione</string>

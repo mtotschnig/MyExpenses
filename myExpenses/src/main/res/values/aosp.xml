@@ -130,4 +130,8 @@
     <string name="menu_sync_now">"Sync now"</string>
     <!--/opt/extra/AOSP/packages/apps/Dialer/java/com/android/incallui/video/impl$ grep -ri do_not_show_again | aosp_helper -->
     <string name="do_not_show_again">Do not show again</string>
+    <!-- /opt/extra/AOSP/packages/apps/ThemePicker$ grep -ri preview_name_color | sed 's/ msgid="[[:digit:]]*"//' | sed 's/preview_name_//' | aosp_helper -->
+    <string name="color">Color</string>
+    <!-- /opt/extra/AOSP/packages/apps/Contacts$ grep -ri label_notes | sed 's/ msgid="[[:digit:]]*"//' | sed 's/label_//' | aosp_helper -->
+    <string name="notes">"Notes"</string>
 </resources>

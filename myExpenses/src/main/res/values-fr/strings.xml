@@ -37,8 +37,6 @@
     <string name="app_name">Mes dépenses</string>
     <string name="backup_success">La base de données et les paramètres ont été sauvegardés sur « %1$s ».</string>
     <string name="category">Catégorie</string>
-    <string name="color">Couleur</string>
-    <string name="comment">Remarques</string>
     <string name="contrib_feature_ad_free_label">Sans publicité</string>
     <string name="contrib_feature_accounts_unlimited_label">Nombre illimité de comptes</string>
     <string name="contrib_feature_attach_picture_label">Lier une image avec une transaction</string>

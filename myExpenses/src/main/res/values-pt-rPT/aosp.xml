@@ -38,5 +38,7 @@
     <string name="help_and_feedback">"Ajuda e comentários"</string>
     <string name="currencies_exchange">"Câmbios e moedas estrangeiras"</string>
     <string name="menu_sync_now">"Sincronizar agora"</string>
-  <string name="do_not_show_again">Não mostrar novamente</string>
+    <string name="do_not_show_again">Não mostrar novamente</string>
+    <string name="color">"Cor"</string>
+    <string name="notes">"Notas"</string>
 </resources>

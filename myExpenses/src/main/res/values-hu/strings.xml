@@ -37,8 +37,6 @@
     <string name="app_name">Kiadásaim</string>
     <string name="backup_success">Az adatbázis és beállítások sikeresen az SD-kártyára mentve (%1$s).</string>
     <string name="category">Kategória</string>
-    <string name="color">Szín</string>
-    <string name="comment">Megjegyzés</string>
     <string name="contrib_feature_ad_free_label">Hirdetések kikapcsolása</string>
     <string name="contrib_feature_accounts_unlimited_label">Korlátlan számú számla</string>
     <string name="contrib_feature_attach_picture_label">Kép csatolása a tranzakcióhoz</string>

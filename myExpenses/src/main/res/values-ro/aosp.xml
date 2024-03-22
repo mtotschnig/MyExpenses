@@ -78,5 +78,7 @@
     <string name="help_and_feedback">"Ajutor și feedback"</string>
     <string name="currencies_exchange">"Valute și schimb valutar"</string>
     <string name="menu_sync_now">"Sincronizează acum"</string>
-  <string name="do_not_show_again">Nu mai afișa</string>
+    <string name="do_not_show_again">Nu mai afișa</string>
+    <string name="color">"Culoare"</string>
+    <string name="notes">"Note"</string>
 </resources>

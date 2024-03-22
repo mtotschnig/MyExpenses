@@ -37,8 +37,6 @@
     <string name="app_name">ההוצאות שלי</string>
     <string name="backup_success">מסד הנתונים וההעדפות נכתבו בהצלחה ל־„%1$s”.</string>
     <string name="category">קטגוריה</string>
-    <string name="color">צבע</string>
-    <string name="comment">הערות</string>
     <string name="contrib_feature_ad_free_label">ללא פרסומות</string>
     <string name="contrib_feature_accounts_unlimited_label">מספר חשבונות בלתי מוגבל</string>
     <string name="contrib_feature_attach_picture_label">צרף תמונה לעסקה</string>

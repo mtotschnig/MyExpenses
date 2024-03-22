@@ -75,5 +75,7 @@
     <string name="help_and_feedback">"ಸಹಾಯ ಮತ್ತು ಪ್ರತಿಕ್ರಿಯೆ"</string>
     <string name="currencies_exchange">"ಕರೆನ್ಸಿಗಳು &amp; ವಿದೇಶಿ ವಿನಿಮಯ"</string>
     <string name="menu_sync_now">"ಈಗ ಸಿಂಕ್ ಮಾಡು"</string>
-  <string name="do_not_show_again">ಪುನಃ ತೋರಿಸಬೇಡಿ</string>
+    <string name="do_not_show_again">ಪುನಃ ತೋರಿಸಬೇಡಿ</string>
+    <string name="color">"ಬಣ್ಣ"</string>
+    <string name="notes">"ಟಿಪ್ಪಣಿಗಳು"</string>
 </resources>

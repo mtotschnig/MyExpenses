@@ -11,5 +11,7 @@
     <string name="help_and_feedback">"Axuda e suxerencias"</string>
     <string name="currencies_exchange">"Divisas e cambio de moeda estranxeira"</string>
     <string name="menu_sync_now">"Vincular agora"</string>
-  <string name="do_not_show_again">Non mostrar de novo</string>
+    <string name="do_not_show_again">Non mostrar de novo</string>
+    <string name="color">"Cor"</string>
+    <string name="notes">"Notas"</string>
 </resources>

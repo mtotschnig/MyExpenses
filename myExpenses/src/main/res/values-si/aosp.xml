@@ -71,5 +71,7 @@
     <string name="help_and_feedback">"උදවු සහ ප්‍රතිපෝෂණ"</string>
     <string name="currencies_exchange">"මුදල් වර්ග සහ විදේශ විනිමය"</string>
     <string name="menu_sync_now">"දැන් සමමුහුර්ත කරන්න"</string>
-  <string name="do_not_show_again">නැවත පෙන්වන්න එපා</string>
+    <string name="do_not_show_again">නැවත පෙන්වන්න එපා</string>
+    <string name="color">"වර්ණය"</string>
+    <string name="notes">"සටහන්"</string>
 </resources>

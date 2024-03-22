@@ -34,8 +34,6 @@
     <string name="app_name">Mijn Uitgaven</string>
     <string name="backup_success">Database en voorkeuren succesvol geschreven naar \"%1$s\".</string>
     <string name="category">Categorie</string>
-    <string name="color">Kleur</string>
-    <string name="comment">Notities</string>
     <string name="contrib_feature_ad_free_label">Geen advertenties</string>
     <string name="contrib_feature_accounts_unlimited_label">Onbeperkt aantal rekeningen</string>
     <string name="contrib_feature_attach_picture_label">Voeg afbeelding toe aan transactie</string>

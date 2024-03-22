@@ -37,8 +37,6 @@
     <string name="app_name">Minhas Despesas</string>
     <string name="backup_success">O banco de dados e as preferências foram gravados com sucesso em \"%1$s\".</string>
     <string name="category">Categoria</string>
-    <string name="color">Cor</string>
-    <string name="comment">Notas</string>
     <string name="contrib_feature_ad_free_label">Sem anúncios</string>
     <string name="contrib_feature_accounts_unlimited_label">Número ilimitado de contas</string>
     <string name="contrib_feature_attach_picture_label">Anexar imagem à transação</string>

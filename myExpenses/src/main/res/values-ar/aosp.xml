@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
 -->
@@ -81,5 +80,7 @@
     <string name="help_and_feedback">"المساعدة والتعليقات"</string>
     <string name="currencies_exchange">"عملات وصرف أجنبي"</string>
     <string name="menu_sync_now">"مزامنة الآن"</string>
-  <string name="do_not_show_again">عدم عرض ذلك مجددًا</string>
+    <string name="do_not_show_again">عدم عرض ذلك مجددًا</string>
+    <string name="color">"اللون"</string>
+    <string name="notes">"ملاحظات"</string>
 </resources>

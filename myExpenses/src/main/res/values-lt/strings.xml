@@ -36,8 +36,6 @@
     <string name="app_name">Mano išlaidos</string>
     <string name="backup_success">Duomenų bazė bei nustatymai sėkmingai įrašyti į \"%1$s\".</string>
     <string name="category">Kategorija</string>
-    <string name="color">Spalva</string>
-    <string name="comment">Pastabos</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Neribotas sąskaitų kiekis</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Neribotas planų kiekis</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Eksportuoti operacijų sąrašą į PDF dokumentą</string>

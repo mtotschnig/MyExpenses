@@ -73,5 +73,7 @@
     <string name="help_and_feedback">"Bantuan &amp; m/balas"</string>
     <string name="currencies_exchange">"Pertukaran Mata Wang Asing"</string>
     <string name="menu_sync_now">"Segerakkan sekarang"</string>
-  <string name="do_not_show_again">Jangan tunjukkan lagi</string>
+    <string name="do_not_show_again">Jangan tunjukkan lagi</string>
+    <string name="color">"Warna"</string>
+    <string name="notes">"Nota"</string>
 </resources>

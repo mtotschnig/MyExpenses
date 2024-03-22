@@ -37,8 +37,6 @@
     <string name="app_name">Mis Gastos</string>
     <string name="backup_success">La base de datos y las configuraciones han sido escritas en «%1$s» correctamente.</string>
     <string name="category">Categoría</string>
-    <string name="color">Color</string>
-    <string name="comment">Notas</string>
     <string name="contrib_feature_ad_free_label">Sin anuncios</string>
     <string name="contrib_feature_accounts_unlimited_label">Número de cuentas ilimitadas</string>
     <string name="contrib_feature_attach_picture_label">Adjuntar imagen a la transacción</string>

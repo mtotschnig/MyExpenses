@@ -37,8 +37,6 @@
     <string name="app_name">Мои расходы</string>
     <string name="backup_success">БД и настройки успешно сохранены в \"%1$s\".</string>
     <string name="category">Категория</string>
-    <string name="color">Цвет</string>
-    <string name="comment">Заметки</string>
     <string name="contrib_feature_ad_free_label">Без рекламы</string>
     <string name="contrib_feature_accounts_unlimited_label">Неограниченное количество счетов</string>
     <string name="contrib_feature_attach_picture_label">Присоединение изображения к операции</string>

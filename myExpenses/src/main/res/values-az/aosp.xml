@@ -11,5 +11,7 @@
     <string name="help_and_feedback">"Yardım və geri əlaqə"</string>
     <string name="currencies_exchange">"Valyuta &amp; Xarici Mübadilə"</string>
     <string name="menu_sync_now">"İndi sinxronlaşdır"</string>
-  <string name="do_not_show_again">Yenidən göstərməyin</string>
+    <string name="do_not_show_again">Yenidən göstərməyin</string>
+    <string name="color">"Rəng"</string>
+    <string name="notes">"Qeydlər"</string>
 </resources>

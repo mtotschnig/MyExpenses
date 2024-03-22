@@ -17,8 +17,6 @@
     <string name="already_defined">%1$sپہلے ہی بیان کیا گیا ہے</string>
     <string name="amount">رقم</string>
     <string name="category">قسم</string>
-    <string name="color">رنگ</string>
-    <string name="comment">نوٹس</string>
     <string name="contrib_feature_ad_free_label">کوئی اشتہار نہیں</string>
     <string name="contrib_feature_accounts_unlimited_label">اکاؤنٹس کی لامحدود تعداد</string>
     <string name="contrib_feature_attach_picture_label">لین دین میں تصویر منسلک کریں</string>

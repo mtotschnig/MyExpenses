@@ -36,8 +36,6 @@
     <string name="amount">राशि</string>
     <string name="app_name">मेरे खर्च</string>
     <string name="category"> श्रेणी</string>
-    <string name="color">रंग</string>
-    <string name="comment">टिप्पणियाँ</string>
     <string name="contrib_feature_ad_free_label">बिना विज्ञापन</string>
     <string name="contrib_feature_accounts_unlimited_label">असीमित खातों की संख्या</string>
     <string name="contrib_feature_attach_picture_label">लेन-देन से छवि जोड़ें</string>

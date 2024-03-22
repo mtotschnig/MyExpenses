@@ -9,8 +9,6 @@
     <string name="account_type_liability">দায় হিসাব</string>
     <string name="account_type_liability_plural">দায় হিসাব সমূহ</string>
     <string name="app_name">আমার খরচ</string>
-    <string name="color">রঙ</string>
-    <string name="comment">মন্তব্য</string>
     <string name="contrib_feature_ad_free_label">অ্যাড বিহীন</string>
     <string name="account_types">হিসাবের ধরণ</string>
     <string name="account_type_bank">ব্যাংক অ্যাকাউন্ট</string>

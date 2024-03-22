@@ -23,8 +23,6 @@
     <string name="contrib_feature_csv_import_label">Impor CSV</string>
     <string name="backup_success">Basis data dan preferensi berhasil ditulis ke \"%1$s\".</string>
     <string name="contrib_feature_ad_free_label">Tanpa iklan</string>
-    <string name="comment">Catatan</string>
-    <string name="color">Warna</string>
     <string name="category">Kategori</string>
     <string name="amount">Jumlah</string>
     <string name="new_version">Versi terbaru</string>

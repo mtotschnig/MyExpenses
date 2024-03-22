@@ -77,5 +77,7 @@
     <string name="help_and_feedback">"Aide et commentaires"</string>
     <string name="currencies_exchange">"Change et devises"</string>
     <string name="menu_sync_now">"Synchroniser maintenant"</string>
-  <string name="do_not_show_again">Ne plus afficher</string>
+    <string name="do_not_show_again">Ne plus afficher</string>
+    <string name="color">"Couleur"</string>
+    <string name="notes">"Notes"</string>
 </resources>

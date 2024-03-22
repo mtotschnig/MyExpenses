@@ -35,8 +35,6 @@
     <string name="app_name">ការចំណាយរបស់ខ្ញុំ</string>
     <string name="backup_success">មូលដ្ឋានទិន្នន័យ និងចំណង់ចំណូលចិត្ត​ បានស្តុក ដោយជោគជ័យទៅ sdcard ។ (%1$s)</string>
     <string name="category">ចំណាត់ថ្នាក់</string>
-    <string name="color">ពណ៌</string>
-    <string name="comment">សម្គាល់</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">ចំនួន​គណនី​គ្មាន​ដែន​កំណត់</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">ចំនួន​ផែនការគ្មានដែន​កំណត់​</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">ការនាំចូលស៊ីអេសវី</string>

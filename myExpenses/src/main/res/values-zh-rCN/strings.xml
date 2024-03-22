@@ -37,8 +37,6 @@
     <string name="app_name">开支助手</string>
     <string name="backup_success">数据库与首选项已成功写入“%1$s”</string>
     <string name="category">类别</string>
-    <string name="color">颜色</string>
-    <string name="comment">备注</string>
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">无广告</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">无限数量的账户</string>
     <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">可附加交易图片</string>

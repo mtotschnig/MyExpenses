@@ -37,8 +37,6 @@
     <string name="app_name">내 지출</string>
     <string name="backup_success">\"%1$s\"에 데이터베이스 및 환경설정을 성공적으로 기록했습니다.</string>
     <string name="category">카테고리</string>
-    <string name="color">색상</string>
-    <string name="comment">메모</string>
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">광고 없음</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">개수 제한 없는 계좌</string>
     <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">거래 내역에 이미지 첨부</string>

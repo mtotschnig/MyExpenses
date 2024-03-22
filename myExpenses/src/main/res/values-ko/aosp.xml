@@ -76,5 +76,7 @@
     <string name="help_and_feedback">"고객센터"</string>
     <string name="currencies_exchange">"환거래 및 환전"</string>
     <string name="menu_sync_now">"지금 동기화"</string>
-  <string name="do_not_show_again">다시 표시 안 함</string>
+    <string name="do_not_show_again">다시 표시 안 함</string>
+    <string name="color">"색상"</string>
+    <string name="notes">"메모"</string>
 </resources>

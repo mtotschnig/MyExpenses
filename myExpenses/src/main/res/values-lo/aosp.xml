@@ -9,5 +9,7 @@
     <string name="help_and_feedback">"ຊ່ວຍ​ເຫຼືອ &amp; ຄຳ​ຕິ​ຊົມ"</string>
     <string name="currencies_exchange">"ສະກຸນເງິນ ແລະ ການແລກປ່ຽນເງິນຕາຕ່າງປະເທດ"</string>
     <string name="menu_sync_now">"ຊິ້ງຂໍ້ມູນດຽວນີ້"</string>
-  <string name="do_not_show_again">ບໍ່ຕ້ອງສະແດງອີກ</string>
+    <string name="do_not_show_again">ບໍ່ຕ້ອງສະແດງອີກ</string>
+    <string name="color">"ສີ"</string>
+    <string name="notes">"ໝາຍເຫດ"</string>
 </resources>

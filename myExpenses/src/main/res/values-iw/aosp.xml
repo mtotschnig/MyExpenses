@@ -76,5 +76,7 @@
     <string name="help_and_feedback">"עזרה ומשוב"</string>
     <string name="currencies_exchange">"מטבעות והמרת מטבע זר"</string>
     <string name="menu_sync_now">"סנכרן כעת"</string>
-  <string name="do_not_show_again">הבנתי, לא צריך להציג את זה שוב</string>
+    <string name="do_not_show_again">הבנתי, לא צריך להציג את זה שוב</string>
+    <string name="color">"צבע"</string>
+    <string name="notes">"הערות"</string>
 </resources>

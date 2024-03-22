@@ -76,5 +76,7 @@
     <string name="help_and_feedback">"ヘルプとフィードバック"</string>
     <string name="currencies_exchange">"通貨、為替"</string>
     <string name="menu_sync_now">"今すぐ同期"</string>
-  <string name="do_not_show_again">今後表示しない</string>
+    <string name="do_not_show_again">今後表示しない</string>
+    <string name="color">"色"</string>
+    <string name="notes">"メモ"</string>
 </resources>

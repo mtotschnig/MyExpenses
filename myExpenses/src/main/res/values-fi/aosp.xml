@@ -11,5 +11,7 @@
     <string name="help_and_feedback">"Ohje ja palaute"</string>
     <string name="currencies_exchange">"Valuutat ja valuutanvaihto"</string>
     <string name="menu_sync_now">"Synkronoi nyt"</string>
-  <string name="do_not_show_again">Älä näytä uudelleen</string>
+    <string name="do_not_show_again">Älä näytä uudelleen</string>
+    <string name="color">"Väri"</string>
+    <string name="notes">"Muistiinpanot"</string>
 </resources>

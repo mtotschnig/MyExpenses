@@ -37,8 +37,6 @@
     <string name="app_name">My Expenses</string>
     <string name="backup_success">Đã ghi dữ liệu về cơ sở dữ liệu và tùy biến thành công vào \"%1$s\".</string>
     <string name="category">Phân loại</string>
-    <string name="color">Màu sắc</string>
-    <string name="comment">Ghi chú</string>
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Không quảng cáo</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Số lượng không giới hạn các tài khoản</string>
     <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Chèn ảnh vào giao dịch</string>

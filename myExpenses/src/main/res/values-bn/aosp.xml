@@ -9,5 +9,7 @@
     <string name="help_and_feedback">"সহায়তা ও মতামত"</string>
     <string name="currencies_exchange">"মুদ্রা ও বৈদেশিক মুদ্রাবিনিময়"</string>
     <string name="menu_sync_now">"এখন সিঙ্ক করুন"</string>
-  <string name="do_not_show_again">আর দেখতে চাই না</string>
+    <string name="do_not_show_again">আর দেখতে চাই না</string>
+    <string name="color">"রঙ"</string>
+    <string name="notes">"নোটগুলি"</string>
 </resources>

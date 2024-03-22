@@ -11,5 +11,7 @@
     <string name="help_and_feedback">"დახმარება და უკუკავშირი"</string>
     <string name="currencies_exchange">"უცხოური ვალუტა"</string>
     <string name="menu_sync_now">"სინქრონიზაცია ახლავე"</string>
-  <string name="do_not_show_again">აღარ მაჩვენო</string>
+    <string name="do_not_show_again">აღარ მაჩვენო</string>
+    <string name="color">"ფერი"</string>
+    <string name="notes">"შენიშვნები"</string>
 </resources>

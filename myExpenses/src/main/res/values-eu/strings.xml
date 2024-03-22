@@ -37,8 +37,6 @@
     <string name="app_name">Nire gastuak</string>
     <string name="backup_success">Datu-basea eta hobespenak ondo idatzi dira \"%1$s\"-ra.</string>
     <string name="category">Kategoria</string>
-    <string name="color">Kolorea</string>
-    <string name="comment">Oharrak</string>
     <string name="contrib_feature_ad_free_label">Iragarkirik gabe</string>
     <string name="contrib_feature_accounts_unlimited_label">Kontu kopuru mugagabea</string>
     <string name="contrib_feature_attach_picture_label">Erantsi irudia transakzioari</string>

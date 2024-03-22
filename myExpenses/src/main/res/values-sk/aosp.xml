@@ -11,5 +11,7 @@
     <string name="help_and_feedback">"Pomocník a spätná väzba"</string>
     <string name="currencies_exchange">"Meny a zmenáreň"</string>
     <string name="menu_sync_now">"Synchronizovať"</string>
-  <string name="do_not_show_again">Nabudúce nezobrazovať</string>
+    <string name="do_not_show_again">Nabudúce nezobrazovať</string>
+    <string name="color">"Farba"</string>
+    <string name="notes">"Poznámky"</string>
 </resources>

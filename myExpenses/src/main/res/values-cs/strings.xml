@@ -37,8 +37,6 @@
     <string name="app_name">Moje výdaje</string>
     <string name="backup_success">Databáze a předvolby úspěšně zapsány do \"%1$s\".</string>
     <string name="category">Kategorie</string>
-    <string name="color">Barva</string>
-    <string name="comment">Poznámky</string>
     <string name="contrib_feature_ad_free_label">Bez reklam</string>
     <string name="contrib_feature_accounts_unlimited_label">Neomezený počet účtů</string>
     <string name="contrib_feature_attach_picture_label">Připojte obrázek k transakci</string>

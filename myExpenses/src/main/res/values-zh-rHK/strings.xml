@@ -25,8 +25,6 @@
     <string name="app_name">開支助手</string>
     <string name="backup_success">數據庫及喜好設定成功寫入到SD卡 (%1$s)。</string>
     <string name="category">類別</string>
-    <string name="color">顏色</string>
-    <string name="comment">附註</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">帳戶數量不限</string>
     <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">將圖像附加到交易項目</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">計劃數量不限</string>

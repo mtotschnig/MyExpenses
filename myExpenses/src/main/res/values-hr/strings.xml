@@ -35,8 +35,6 @@
     <string name="app_name">Moji troškovi</string>
     <string name="backup_success">Baza podataka i osobne postavke uspješno su zapisani u „%1$s”.</string>
     <string name="category">Kategorija</string>
-    <string name="color">Boja</string>
-    <string name="comment">Bilješke</string>
     <string name="contrib_feature_accounts_unlimited_label">Neograničen broj računa</string>
     <string name="contrib_feature_plans_unlimited_label">Neograničen broj planova</string>
     <string name="contrib_feature_print_label">Izvezi popis transakcija u PDF</string>

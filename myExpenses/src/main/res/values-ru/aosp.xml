@@ -79,5 +79,7 @@
     <string name="help_and_feedback">"Справка/отзыв"</string>
     <string name="currencies_exchange">"Валютный рынок"</string>
     <string name="menu_sync_now">"Синхронизировать"</string>
-  <string name="do_not_show_again">Больше не показывать</string>
+    <string name="do_not_show_again">Больше не показывать</string>
+    <string name="color">"Цвет"</string>
+    <string name="notes">"Примечания"</string>
 </resources>
