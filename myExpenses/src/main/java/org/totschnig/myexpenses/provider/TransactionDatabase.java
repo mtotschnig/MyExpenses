@@ -46,7 +46,6 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.create
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.sequenceNumberSelect;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.shouldWriteChangeTemplate;
 import static org.totschnig.myexpenses.provider.ChangeLogTriggersKt.createOrRefreshChangeLogTriggers;
-import static org.totschnig.myexpenses.provider.ChangeLogTriggersKt.getTRANSACTIONS_UPDATE_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.buildViewDefinition;
@@ -241,6 +240,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_STATUS + " integer default 0, "
           + KEY_PLAN_EXECUTION_ADVANCE + " integer default 0, "
           + KEY_DEFAULT_ACTION + " text not null check (" + KEY_DEFAULT_ACTION + " in (" + Template.Action.JOIN + ")) default '" + Template.Action.SAVE.name() + "', "
+          + KEY_ORIGINAL_AMOUNT + " integer, "
+          + KEY_ORIGINAL_CURRENCY + " text, "
           + KEY_DEBT_ID + " integer references " + TABLE_DEBTS + "(" + KEY_ROWID + ") ON DELETE SET NULL);";
 
   private static final String EVENT_CACHE_CREATE =
@@ -2080,6 +2081,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       //If oldVersion < 145, then attribute is already configured on current enum values
       if (oldVersion >= 145 && oldVersion < 164) {
         upgradeTo164(db);
+      }
+
+      if (oldVersion < 165) {
+        upgradeTo165(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);

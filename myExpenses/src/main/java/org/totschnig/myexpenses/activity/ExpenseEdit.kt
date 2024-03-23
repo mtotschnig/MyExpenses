@@ -1040,21 +1040,23 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 .setIcon(R.drawable.ic_menu_move)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
             menu.add(Menu.NONE, R.id.CATEGORY_COMMAND, 0 , R.string.category).isCheckable = true
-        } else if (isMainTransaction) {
-            menu.add(
-                Menu.NONE,
-                R.id.ORIGINAL_AMOUNT_COMMAND,
-                0,
-                R.string.menu_original_amount
-            ).isCheckable =
-                true
-            menu.add(
-                Menu.NONE,
-                R.id.EQUIVALENT_AMOUNT_COMMAND,
-                0,
-                R.string.menu_equivalent_amount
-            ).isCheckable =
-                true
+        } else {
+            if (!isSplitPart) {
+                menu.add(
+                    Menu.NONE,
+                    R.id.ORIGINAL_AMOUNT_COMMAND,
+                    0,
+                    R.string.menu_original_amount
+                ).isCheckable = true
+            }
+            if (!isSplitPartOrTemplate) {
+                menu.add(
+                    Menu.NONE,
+                    R.id.EQUIVALENT_AMOUNT_COMMAND,
+                    0,
+                    R.string.menu_equivalent_amount
+                ).isCheckable = true
+            }
         }
         return true
     }
