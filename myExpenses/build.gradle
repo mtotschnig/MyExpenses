@@ -66,14 +66,16 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-project.txt'
             //signingConfig signingConfigs.release
-            manifestPlaceholders = [appName: "@string/app_name", debug: "false"]
+            manifestPlaceholders["appName"] = "@string/app_name"
+            manifestPlaceholders["debug"] = "false"
             applicationIdSuffix ""
             //ndk.debugSymbolLevel = 'FULL'
             buildConfigField "java.time.LocalDateTime", "BUILD_DATE", getDate()
         }
         debug {
             applicationIdSuffix ".debug"
-            manifestPlaceholders = [appName: "My Expenses Debug", debug: "true"]
+            manifestPlaceholders["appName"] = "My Expenses Debug"
+            manifestPlaceholders["debug"] = "true"
             buildConfigField "int", "TEST_SCENARIO", getPropertyIfDefined('testScenario', "1")
             buildConfigField "java.time.LocalDateTime", "BUILD_DATE", "java.time.LocalDateTime.now()"
             buildConfigField "String", "OPEN_EXCHANGE_RATES_API_KEY", "\"" + getPropertyIfDefined('OPEN_EXCHANGE_RATES_API_KEY', "") + "\""
@@ -150,12 +152,12 @@ android {
     }*/
 }
 
-kotlin.sourceSets.all {
+kotlin.sourceSets.configureEach {
     languageSettings.optIn("kotlin.RequiresOptIn")
 }
 
 //uncomment if you want to have Android log in stdout
-tasks.withType(Test) {
+tasks.withType(Test).configureEach {
     systemProperty "robolectric.logging", "stdout"
 }
 
@@ -218,8 +220,8 @@ dependencies {
 
     api "com.jakewharton.timber:timber:$timberVersion"
 
-    implementation 'org.slf4j:slf4j-api:1.7.36'
-    implementation 'com.github.tony19:logback-android:2.0.0'
+    implementation 'org.slf4j:slf4j-api:2.0.12'
+    implementation 'com.github.tony19:logback-android:3.0.0'
 
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
