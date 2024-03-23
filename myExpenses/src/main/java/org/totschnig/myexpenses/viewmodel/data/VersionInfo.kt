@@ -99,6 +99,9 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 "${ctx.getString(R.string.export_to_format, "CSV")}: ${t(R.string.menu_original_amount)}, ${t(R.string.menu_equivalent_amount)}",
                 t(R.string.ui_refinement)
             )
+            "379" -> arrayOf(
+                "${t(R.string.menu_original_amount)}: ${t(R.string.ui_refinement)}"
+            )
             else -> {
                 //noinspection DiscouragedApi
                 val resId = res.getIdentifier(
