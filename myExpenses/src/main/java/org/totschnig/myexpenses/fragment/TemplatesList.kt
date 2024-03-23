@@ -194,7 +194,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         _binding = TemplatesListBinding.inflate(inflater, container, false)
         mManager = LoaderManager.getInstance(this)
         mManager.initLoader(SORTABLE_CURSOR, null, this)
-        mAdapter = MyAdapter(ctx, R.layout.template_row, null, 0)
+        mAdapter = MyAdapter(ctx)
         binding.list.adapter = mAdapter
         binding.list.emptyView = binding.empty
         binding.list.setOnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, id: Long ->
@@ -644,9 +644,8 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     private val plannerFragment: PlannerFragment?
         get() = childFragmentManager.findFragmentByTag(PLANNER_FRAGMENT_TAG) as PlannerFragment?
 
-    private inner class MyAdapter(
-        context: Context, layout: Int, c: Cursor?, flags: Int
-    ) : SimpleCursorAdapter(context, layout, c, emptyArray(), intArrayOf(), flags) {
+    private inner class MyAdapter(context: Context) :
+        SimpleCursorAdapter(context, R.layout.template_row, null, emptyArray(), intArrayOf(), 0) {
         private val colorExpense: Int =
             ResourcesCompat.getColor(resources, R.color.colorExpense, null)
         private val colorIncome: Int =
