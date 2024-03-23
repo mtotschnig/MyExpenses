@@ -728,7 +728,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                 isVisible = cursor.getStringOrNull(KEY_ORIGINAL_CURRENCY)?.let {
                     text = currencyFormatter.convAmount(
                         cursor.getLong(KEY_ORIGINAL_AMOUNT),
-                        currencyContext[cursor.getString(KEY_CURRENCY)]
+                        currencyContext[it]
                     )
                     setTextColor(amountColor)
                     true
