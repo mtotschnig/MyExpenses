@@ -14,6 +14,7 @@
  */
 package org.totschnig.myexpenses.fragment
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -653,6 +654,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         private val colorTransfer: Int =
             ResourcesCompat.getColor(resources, R.color.colorTransfer, null)
 
+        @SuppressLint("SetTextI18n")
         override fun bindView(view: View, context: Context, cursor: Cursor) {
             val isSealed = cursor.getInt(KEY_SEALED) != 0
             val doesHavePlan = !cursor.isNull(KEY_PLANID)
@@ -704,18 +706,19 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                 catText = TextUtils.concat(catText, commentSeparator, ssb)
             }
             tv2.text = catText
-            if (doesHavePlan) {
-                var planInfo: CharSequence? = cursor.getStringIfExists(KEY_PLAN_INFO)
-                if (planInfo == null) {
-                    planInfo = if (isCalendarPermissionGranted) {
-                        getString(R.string.plan_event_deleted)
-                    } else {
-                        Utils.getTextWithAppName(context, R.string.calendar_permission_required)
-                    }
-                }
-                (view.findViewById<View>(R.id.title) as TextView).text =
-                    "${cursor.getString(KEY_TITLE)} ($planInfo)"
-            }
+            view.findViewById<TextView>(R.id.Title).text = cursor.getString(KEY_TITLE) +
+                    if (doesHavePlan)
+                        " (" + (cursor.getStringIfExists(KEY_PLAN_INFO)
+                            ?: if (isCalendarPermissionGranted) {
+                                getString(R.string.plan_event_deleted)
+                            } else {
+                                Utils.getTextWithAppName(
+                                    context,
+                                    R.string.calendar_permission_required
+                                )
+                            }) + ")"
+                    else ""
+
             val planImage = view.findViewById<ImageView>(R.id.Plan)
             planImage.setImageResource(
                 if (isSealed) R.drawable.ic_lock else if (doesHavePlan) R.drawable.ic_event else R.drawable.ic_menu_template
@@ -723,7 +726,6 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
             planImage.contentDescription =
                 getString(if (doesHavePlan) R.string.plan else R.string.template)
 
-            view.findViewById<TextView>(R.id.Title).text = cursor.getString(KEY_TITLE)
             with(view.findViewById<TextView>(R.id.OriginalAmount)) {
                 isVisible = cursor.getStringOrNull(KEY_ORIGINAL_CURRENCY)?.let {
                     text = currencyFormatter.convAmount(
