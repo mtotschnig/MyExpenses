@@ -142,25 +142,25 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
     ): View {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.account(
+                viewModel.accountInfo(
                     requireActivity().intent.getLongExtra(
                         DatabaseConstants.KEY_ACCOUNTID,
                         0
                     )
-                ).collect {
-                    val currency = currencyContext[it.currency]
+                ).collect { (account, grouping) ->
+                    val currency = currencyContext[account.currency]
                     accountInfo = HistoryAccountInfo(
-                        it.id,
-                        it.getLabelForScreenTitle(requireActivity()),
+                        account.id,
+                        account.getLabelForScreenTitle(requireActivity()),
                         currency,
-                        it.color,
-                        Money(currency, it.openingBalance),
+                        account.color,
+                        Money(currency, account.openingBalance),
                         grouping
                     )
                     (requireActivity() as ProtectedFragmentActivity).supportActionBar?.title =
                         accountInfo.label
-                    LoaderManager.getInstance(this@HistoryChart)
-                        .initLoader(GROUPING_CURSOR, null, this@HistoryChart)
+                    requireActivity().invalidateOptionsMenu()
+                    reset()
                 }
             }
         }
