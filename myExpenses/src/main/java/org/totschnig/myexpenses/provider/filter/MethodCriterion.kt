@@ -37,9 +37,7 @@ class MethodCriterion(
     @IgnoredOnParcel
     override val column = DatabaseConstants.KEY_METHODID
 
-    override fun shouldApplyToParts(): Boolean {
-        return false
-    }
+    override val shouldApplyToParts get() = false
 
     companion object {
         fun fromStringExtra(extra: String) =

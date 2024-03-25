@@ -49,6 +49,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.filter.Criterion
@@ -193,7 +194,11 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                                 accountId = accountInfo.accountId,
                                 currency = accountInfo.currencyUnit,
                                 grouping = grouping,
-                                groupingClause = buildGroupingClause(e.x.toInt()),
+                                groupingClause = listOfNotNull(
+                                    buildGroupingClause(e.x.toInt()),
+                                    filter.getSelectionForParts(VIEW_COMMITTED).takeIf { it.isNotEmpty() }
+                                ).joinToString(" AND "),
+                                groupingArgs = filter.getSelectionArgsList(true),
                                 label = formatXValue(e.x),
                                 type = h.stackIndex == 1,//expense is first entry, income second
                                 withTransfers = includeTransfers

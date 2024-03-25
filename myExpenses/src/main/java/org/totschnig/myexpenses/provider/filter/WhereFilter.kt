@@ -24,13 +24,12 @@ data class WhereFilter(val criteria: List<Criterion<*>> = emptyList()) {
     fun getSelectionForParents(tableName: String, forExport: Boolean = false) =
         criteria.joinToString(" AND ") { it.getSelectionForParents(tableName, forExport) }
 
-    fun getSelectionForParts(tableName: String)=
+    fun getSelectionForParts(tableName: String) =
         criteria.joinToString(" AND ") { it.getSelectionForParts(tableName) }
 
     fun getSelectionArgsList(queryParts: Boolean) = criteria.flatMap {
-        if (queryParts || it.shouldApplyToParts()) {
-            listOf(*(it.selectionArgs + it.selectionArgs))
-        } else listOf(*it.selectionArgs)
+        (if (queryParts || it.shouldApplyToParts) it.selectionArgs + it.selectionArgs else it.selectionArgs)
+            .asList()
     }
 
     fun getSelectionArgs(queryParts: Boolean) = getSelectionArgsList(queryParts).toTypedArray()
@@ -40,7 +39,7 @@ data class WhereFilter(val criteria: List<Criterion<*>> = emptyList()) {
 
     operator fun get(id: Int): Criterion<*>? = criteria.find { it.id == id }
 
-    operator fun get(column: String)= criteria.find { it.column == column }
+    operator fun get(column: String) = criteria.find { it.column == column }
 
     /**
      * returns a new filter with criterion added
