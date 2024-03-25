@@ -34,6 +34,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -259,7 +260,7 @@ open class MyExpensesViewModel(
                 it[prefHandler.getStringPreferencesKey(PrefKey.CRITERION_FUTURE)],
                 FutureCriterion.EndOfDay
             )
-        }.also {
+        }.distinctUntilChanged().also {
             viewModelScope.launch {
                 it.drop(1).collect {
                     triggerAccountListRefresh()
