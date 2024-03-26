@@ -107,7 +107,7 @@
     <string name="menu_back">Tilbage</string>
     <string name="menu_backup">Sikkerhedskopi</string>
     <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
-    <string name="menu_balance">Saldo-konto</string>
+    <string name="menu_balance">Saldokonto</string>
     <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
     <string name="menu_cancel_plan_instance">Annullér</string>
     <string name="menu_clone_transaction">Klon</string>
@@ -124,14 +124,14 @@
     <string name="menu_create_sub_cat">Ny underkategori</string>
     <string name="menu_create_template">Nyt skabelon</string>
     <string name="menu_create_template_from_transaction">Gem som skabelon</string>
-    <string name="menu_create_template_for_transaction">Ny transaktion skabelon</string>
-    <string name="menu_create_template_for_transfer">Ny overførsel skabelon</string>
-    <string name="menu_create_transaction">Ny postering</string>
-    <string name="menu_create_transfer">Ny Overførsel</string>
+    <string name="menu_create_template_for_transaction">Ny transaktionsskabelon</string>
+    <string name="menu_create_template_for_transfer">Ny overførselsskabelon</string>
+    <string name="menu_create_transaction">Ny transaktion</string>
+    <string name="menu_create_transfer">Ny overførsel</string>
     <string name="menu_delete">Slet</string>
     <string name="menu_distribution">Distribution</string>
     <string name="menu_edit">Redigér</string>
-    <string name="menu_edit_account">Redigér Konto</string>
+    <string name="menu_edit_account">Redigér konto</string>
     <string name="menu_edit_cat">Redigér kategori</string>
     <string name="menu_edit_method">Redigér betalingsmetode</string>
     <string name="menu_edit_party">Redigér part</string>
@@ -139,9 +139,9 @@
     <string name="menu_edit_split">Rediger splitpostering</string>
     <string name="menu_edit_split_part_category">Rediger splittet delbeløb (kategori)</string>
     <string name="menu_edit_split_part_transfer">Rediger splittet delbeløb (overførsel)</string>
-    <string name="menu_edit_template">Redigér Skabelon</string>
-    <string name="menu_edit_transaction">Rediger postering</string>
-    <string name="menu_edit_transfer">Redigér Overførsel</string>
+    <string name="menu_edit_template">Redigér skabelon</string>
+    <string name="menu_edit_transaction">Redigér transaktion</string>
+    <string name="menu_edit_transfer">Redigér overførsel</string>
     <string name="menu_exclude_from_totals">Ekskludér fra totaler</string>
     <string name="menu_forward">Frem</string>
     <string name="menu_grouping">Gruppering</string>
@@ -167,28 +167,28 @@
     <string name="no_app_handling_pdf_available">Ingen app til håndtering af PDF-filer.</string>
     <string name="no_categories">Ingen kategorier.</string>
     <string name="no_expenses">Ingen udgifter endnu!</string>
-    <string name="no_exportable_expenses">Der findes ingen posteringer, der ikke allerede blev eksporteret.</string>
+    <string name="no_exportable_expenses">Der er ingen transaktioner, der endnu ikke er blevet eksporteret.</string>
     <string name="no_filemanager_installed">Ingen filhåndtering installeret</string>
-    <string name="no_mapped_transactions">Ingen posteringer blev knyttet til kategorier i denne periode.</string>
+    <string name="no_mapped_transactions">Ingen transaktioner blev knyttet til kategorier i denne periode.</string>
     <string name="no_methods">Ingen betalingsmetoder.</string>
     <string name="no_parties">Ingen parter.</string>
     <string name="no_split_parts">Ingen split dele.</string>
     <string name="no_templates">Ingen skabeloner.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">Det valgte objekt er knyttet til en transaktion og kan ikke slettes.</item>
-        <item quantity="other">%1$d valgte objekter er knyttet til posteringer og kan ikke slettes.</item>
+        <item quantity="other">%1$d valgte objekter er knyttet til transaktioner og kan ikke slettes.</item>
     </plurals>
     <plurals name="not_deletable_mapped_templates">
         <item quantity="one">Det valgte objekt er knyttet til en skabelon og kan ikke slettes.</item>
         <item quantity="other">%1$d valgte objekter er knyttet til skabeloner og kan ikke slettes.</item>
     </plurals>
     <string name="numbered">nummereret</string>
-    <string name="opening_balance">Åbningsbalance</string>
+    <string name="opening_balance">Startsaldo</string>
     <string name="parse_error_file_not_found">Kunne ikke finde filen %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">Ikke-understøttet Grisbi-filversion: %1$s</string>
     <string name="parse_error_no_data_found">Ingen data i filen kan importeres.</string>
     <string name="parse_error_other_exception">Der opstod en fejl: %1$s</string>
-    <string name="parse_error_parse_exception">Kunne ikke parse fil</string>
+    <string name="parse_error_parse_exception">Kunne ikke analysere fil</string>
     <string name="password_disabled_reenable">Adgangskodebeskyttelse er deaktiveret. Du kan genaktivere den i indstillingerne.</string>
     <string name="password_lost">Glemt adgangskode</string>
     <string name="password_not_valid">Ugyldig adgangskode. Prøv igen!</string>
@@ -204,7 +204,7 @@
     <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
     <string name="plan_calendar_name">{app_name} planlægger</string>
     <string name="planner_notification_channel_name">Planlægger</string>
-    <string name="plan_event_deleted">Planen, der er knyttet til dette skabelon, er blevet slettet fra kalenderen.</string>
+    <string name="plan_event_deleted">Planen, der er knyttet til denne skabelon, er blevet slettet fra kalenderen.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Udførelsen af planen annulleret</string>
     <string name="planner_create_calendar_failure">Lokal kalender kunne ikke oprettes</string>
@@ -215,10 +215,10 @@
     <string name="pm_deposit">Depositum</string>
     <string name="pm_directdebit">Direkte debitering</string>
     <string name="pm_type_credit">Kredit</string>
-    <string name="pm_type_debit">Debet</string>
+    <string name="pm_type_debit">Debit</string>
     <string name="pm_type_neutral">Neutral</string>
     <string name="pref_app_dir_title">Mappe til sikkerhedskopier og eksport</string>
-    <string name="pref_backup_summary">Opret en sikkerhedskopi af databasen og præferencerne.</string>
+    <string name="pref_backup_summary">Opret en sikkerhedskopi af databasen og indstillingerne.</string>
     <string name="pref_category_title_export">Eksportér</string>
     <string name="pref_category_title_import">Importér</string>
     <string name="pref_category_title_manage">Administrér</string>
@@ -233,7 +233,7 @@
     <string name="pref_import_from_grisbi_summary">Importér kategorier og parterne fra Grisbi XML-fil</string>
     <string name="pref_import_from_grisbi_title">Importér fra Grisbi</string>
     <!-- %s is replaced with QIF or CSV -->
-    <string name="pref_import_summary">Importér posteringer, kategorier og parter fra %s fil</string>
+    <string name="pref_import_summary">Importér transaktioner, kategorier og parter fra %s-fil</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s-import</string>
     <string name="pref_manage_accounts_title">Konti</string>
@@ -244,7 +244,7 @@
     <string name="pref_manage_parties_summary">Tilføj, redigér, slet parter (betalere og modtagere).</string>
     <string name="pref_manage_parties_title">Parter</string>
     <string name="pref_manage_sync_backends_title">Synkronisering backends</string>
-    <string name="pref_more_info_dialog_title">Licens &amp; Credits</string>
+    <string name="pref_more_info_dialog_title">Licens &amp; Kredit</string>
     <string name="pref_password_not_equal">Adgangskoderne er ikke ens</string>
     <string name="pref_perform_share_title">Del eksport og sikkerhedskopier</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
@@ -256,14 +256,14 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Adgang uden adgangskode.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Adgangskode er påkrævet.</string>
     <string name="pref_qif_export_file_encoding_title">Tegnsæt</string>
-    <string name="pref_restore_summary">Vælg en sikkerhedskopi til gendannelse af database og præferencer.</string>
+    <string name="pref_restore_summary">Vælg en sikkerhedskopi til gendannelse af database og indstillinger.</string>
     <string name="pref_restore_title">Gendan</string>
     <string name="pref_security_question_summary">Lader dig oplåse app\'en, hvis du har glemt din adgangskode.</string>
     <string name="pref_security_question_title">Sikkerhedsspørgsmål</string>
     <string name="pref_send_feedback_title">Send feedback</string>
     <string name="pref_share_target_summary">Lad den være tom, hvis du vil vælge mellem passende apps (e-mail, Dropbox, Google Docs, ...), eller angiv URL i et af de understøttede skemaer</string>
     <string name="pref_share_target_title">Upload URL</string>
-    <string name="pref_shortcut_added">Genvej til startskærmen blev tilføjet </string>
+    <string name="pref_shortcut_added">Genvej til Startskærm blev tilføjet</string>
     <string name="pref_shortcut_not_added">Ingen Startskærm tilgængelig, der accepterer genveje.</string>
     <string name="pref_shortcut_summary">Føj genvej til Startskærm.</string>
     <string name="pref_ui_fontsize_title">Skriftstørrelse</string>
@@ -286,21 +286,21 @@
     <string name="restore_db_success">Database blev gendannet fra sikkerhedskopi.</string>
     <string name="restore_preferences_failure">Gendannelse af indstillinger mislykkedes</string>
     <string name="restore_backup_file_not_found">Der findes ingen fil %1$s i arkivet \"%2$s\"</string>
-    <string name="restore_preferences_success">Indstillingerne blev gendannet fra backup.</string>
-    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d planer blev gendannet fra backup</string>
+    <string name="restore_preferences_success">Indstillinger blev gendannet fra sikkerhedskopi.</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d planer blev gendannet fra sikkerhedskopi</string>
     <string name="save_transaction_and_new_success">Gemt</string>
-    <string name="save_transaction_error">Kunne ikke gemme nye postering fra skabelonen.</string>
+    <string name="save_transaction_error">Kunne ikke gemme ny transaktion fra skabelon.</string>
     <plurals name="save_transaction_from_template_success">
-        <item quantity="one">Ny transaktion gemt fra skabelonen.</item>
+        <item quantity="one">Ny transaktion blev gemt fra skabelon.</item>
         <item quantity="other">%1$d nye transaktioner blev gemt fra skabeloner.</item>
     </plurals>
-    <string name="save_transaction_template_deleted">Skabelonen blev slettet</string>
+    <string name="save_transaction_template_deleted">Skabelon blev slettet</string>
     <string name="select">Vælg</string>
     <string name="select_category">Vælg kategori</string>
     <string name="share_scheme_not_supported">Skema %1$s understøttes ikke</string>
-    <string name="share_sending">Send eksportfilen</string>
+    <string name="share_sending">Send eksportfil</string>
     <string name="split_parts_heading">Splittede delbeløb</string>
-    <string name="split_transaction">Splittede postering</string>
+    <string name="split_transaction">Opdel transaktion</string>
     <string name="status">Status</string>
     <string name="status_cleared">afregnet</string>
     <string name="status_reconciled">afstemt</string>
@@ -311,26 +311,26 @@
     <string name="sum_income">Indkomst</string>
     <string name="sum_transfer">Overførsler</string>
     <!-- platform is replaced with Android or Blackberry -->
-    <string name="tell_a_friend_message">Tjek {app_name}, Personal Finance Manager for {platform}, fra {website}</string>
+    <string name="tell_a_friend_message">Tjek {app_name}, Privatøkonomistyring til {platform}, fra {website}</string>
     <string name="thank_you">Tak for din støtte!</string>
     <string name="time">Tid</string>
     <string name="title">Titel</string>
-    <string name="total_cleared">I alt afregnet</string>
-    <string name="total_reconciled">i alt afstemt</string>
-    <string name="transaction">Postering</string>
+    <string name="total_cleared">Afregnet i alt</string>
+    <string name="total_reconciled">Afstemt i alt</string>
+    <string name="transaction">Transaktion</string>
     <string name="transfer">Overførsel</string>
     <string name="transfer_from_account">Fra</string>
     <string name="transfer_to_account">Til</string>
     <!-- Type refers to the type of an account, eg. Cash account, bank account -->
     <string name="type">Type</string>
-    <string name="unsplit_amount">Ikke splittede beløb</string>
-    <string name="unsplit_amount_greater_than_zero">Der er stadig nogle beløb der ikke blev splitted</string>
-    <string name="warning_backup">Databasen og indstillingerne gemmes \"%1$s\".</string>
+    <string name="unsplit_amount">Uopdelt beløb</string>
+    <string name="unsplit_amount_greater_than_zero">Der er stadig nogle beløb tilbage, som ikke er delt op.</string>
+    <string name="warning_backup">Database og indstillinger gemmes på \"%1$s\".</string>
     <string name="continue_confirmation">Vil du fortsætte?</string>
-    <string name="warning_delete_account">Kontoen \"%1$s\" vil blive slettet med alle posteringer.</string>
+    <string name="warning_delete_account">Kontoen \"%1$s\" vil blive slettet med alle transaktioner.</string>
     <plurals name="warning_delete_main_category">
-        <item quantity="one">Valgte kategori har underkategorier, der vil blive slettet så godt.</item>
-        <item quantity="other">%1$d valgt kategorier har underkategorier, der også vil blive slettet.</item>
+        <item quantity="one">En valgt kategori har underkategorier, som også vil blive slettet.</item>
+        <item quantity="other">%1$d valgte kategorier har underkategorier, som også vil blive slettet.</item>
     </plurals>
     <plurals name="warning_delete_template">
         <item quantity="one">Den valgte skabelon vil blive slettet.</item>
@@ -338,7 +338,7 @@
     </plurals>
     <plurals name="warning_delete_transaction">
         <item quantity="one">Den valgte transaktion vil blive slettet.</item>
-        <item quantity="other">%1$d valgte posteringer vil blive slettet.</item>
+        <item quantity="other">%1$d valgte transaktioner vil blive slettet.</item>
     </plurals>
     <string name="warning_delete_reconciled">Hvis du sletter afstemte posteringer kan din bogføring afvige fra bankens kontoudtog.</string>
     <string name="warning_balance_account">Sammenlign I alt afregnet med Saldo i dit kontoudtog. Hvis du fortsætter vil afregnede posteringer blive markeret som afstemt.</string>
@@ -480,4 +480,9 @@
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Din nuværende licensstatus (%2$s) lader dig oprette %1$d planer.</string>
     <string name="contrib_feature_pro_support_label"><b>E-mail support</b> med garanteret svar inden for 2 bankdage</string>
     <string name="dialog_contrib_reminder_remove_limitation">Fjern denne begrænsning og få adgang til flere funktioner ved at opgradere <i>{app_name}</i>.</string>
+    <string name="select_payee">Vælg betaler/modtager</string>
+    <string name="move_category_success">Én kategori blev flyttet.</string>
+    <string name="warning_delete_category_with_budget">For mindst én valgt kategori er der budgetfordelinger, som også vil blive slettet.</string>
+    <string name="all_extended_key_features">Alle funktioner i Udvidet Nøgle</string>
+    <string name="all_contrib_key_features">Alle funktioner i Contrib Nøgle</string>
 </resources>
