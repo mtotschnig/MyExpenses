@@ -294,7 +294,6 @@
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV-import</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Ubegrenset antall konti</string>
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Ingen reklamer</string>
-    <string name="color">Farge</string>
     <string name="category">Kategori</string>
     <string name="app_name">Mine utgifter</string>
     <string name="amount">Beløp</string>
