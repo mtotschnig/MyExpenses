@@ -5,6 +5,9 @@ import android.os.Bundle
 import org.totschnig.myexpenses.viewmodel.data.Account
 
 class TestExpenseEdit: ExpenseEdit() {
+
+    override val helpContext = "ExpenseEdit"
+
     private var activityIsRecreated = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

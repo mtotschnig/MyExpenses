@@ -4,8 +4,7 @@ import org.totschnig.myexpenses.provider.CheckSealedHandler
 
 class TestMyExpenses: MyExpenses() {
 
-    override val helpContext: String
-        get() = "MyExpenses"
+    override val helpContext = "MyExpenses"
 
     lateinit var decoratedCheckSealedHandler: CheckSealedHandler
 
