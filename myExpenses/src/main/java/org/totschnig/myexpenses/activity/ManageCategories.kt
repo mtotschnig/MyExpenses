@@ -439,6 +439,12 @@ class ManageCategories : ProtectedFragmentActivity(),
                             0,
                             R.string.menu_delete
                         ).setIcon(R.drawable.ic_menu_delete)
+                        menu.add(
+                            Menu.NONE,
+                            R.id.MERGE_COMMAND,
+                            0,
+                            R.string.menu_merge
+                        ).setIcon(R.drawable.ic_menu_split_transaction)
                     } else if (action == Action.SELECT_FILTER) {
                         menu.add(
                             Menu.NONE,
@@ -453,7 +459,11 @@ class ManageCategories : ProtectedFragmentActivity(),
                 override fun onPrepareActionMode(
                     mode: ActionMode,
                     menu: Menu
-                ): Boolean = true
+                ): Boolean {
+                    menu.findItem(R.id.MERGE_COMMAND)?.isVisible = selectionState.size >=2 &&
+                            selectionState.all { it.typeFlags == selectionState.first().typeFlags }
+                    return true
+                }
 
                 override fun onActionItemClicked(
                     mode: ActionMode,
@@ -471,6 +481,11 @@ class ManageCategories : ProtectedFragmentActivity(),
                         true
                     }
 
+                    R.id.MERGE_COMMAND -> {
+
+                        true
+                    }
+
                     else -> false
                 }
 
@@ -480,7 +495,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                 }
 
             })
-        }
+        } else actionMode?.invalidate()
     }
 
     private fun MutableList<String>.mapToMessage(quantity: Int, @PluralsRes resId: Int) {
