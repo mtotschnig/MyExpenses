@@ -340,7 +340,7 @@
         <item quantity="one">Den valgte transaktion vil blive slettet.</item>
         <item quantity="other">%1$d valgte transaktioner vil blive slettet.</item>
     </plurals>
-    <string name="warning_delete_reconciled">Hvis du sletter afstemte posteringer kan din bogføring afvige fra bankens kontoudtog.</string>
+    <string name="warning_delete_reconciled">Hvis du sletter afstemte transaktioner, kan din bogføring afvige fra bankens kontoudtog.</string>
     <string name="warning_balance_account">Sammenlign I alt afregnet med Saldo i dit kontoudtog. Hvis du fortsætter vil afregnede posteringer blive markeret som afstemt.</string>
     <string name="warning_password_protected">App er beskyttet med adgangskode.</string>
     <string name="warning_widget_disabled">Du skal aktivere denne widget i indstillingerne i appen.</string>
