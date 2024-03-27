@@ -56,6 +56,8 @@ import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CAL
 import org.totschnig.myexpenses.model2.CategoryExport
 import org.totschnig.myexpenses.model2.CategoryInfo
 import org.totschnig.myexpenses.model2.ICategoryInfo
+import org.totschnig.myexpenses.provider.TransactionProvider.KEY_MERGE_SOURCE
+import org.totschnig.myexpenses.provider.TransactionProvider.KEY_MERGE_TARGET
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ResultUnit
@@ -1552,12 +1554,16 @@ abstract class BaseTransactionProvider : ContentProvider() {
             selectionArgs
         ).useAndMapToSet { it.getLong(0) }
         val new = tagIds - currentTags
-        val deleted = if(extras.getBoolean(KEY_REPLACE, true)) currentTags - tagIds else emptySet()
+        val deleted = if (extras.getBoolean(KEY_REPLACE, true)) currentTags - tagIds else emptySet()
         if (new.isNotEmpty() || deleted.isNotEmpty()) {
             db.beginTransaction()
             try {
                 if (deleted.isNotEmpty()) {
-                    db.delete(TABLE_TRANSACTIONS_TAGS, "$selection AND $KEY_TAGID IN (${deleted.joinToString()})", selectionArgs)
+                    db.delete(
+                        TABLE_TRANSACTIONS_TAGS,
+                        "$selection AND $KEY_TAGID IN (${deleted.joinToString()})",
+                        selectionArgs
+                    )
                 }
                 if (new.isNotEmpty()) {
                     val values = ContentValues(2)
@@ -1573,6 +1579,53 @@ abstract class BaseTransactionProvider : ContentProvider() {
             }
         }
     }
+
+    fun mergeCategories(db: SupportSQLiteDatabase, extras: Bundle) {
+        val source = extras.getLongArray(KEY_MERGE_SOURCE)!!
+        val target = extras.getLong(KEY_MERGE_TARGET)
+        db.beginTransaction()
+        try {
+            source.forEach {
+                db.mergeCategory(it, target)
+            }
+            db.setTransactionSuccessful()
+        } finally {
+            db.endTransaction()
+        }
+    }
+
+    private fun SupportSQLiteDatabase.mergeCategory(source: Long, target: Long) {
+        val whereArgs: Array<Any> = arrayOf(source)
+        query(
+            "SELECT $KEY_ROWID, (SELECT $KEY_ROWID FROM $TABLE_CATEGORIES target WHERE target.$KEY_PARENTID = ? AND target.$KEY_LABEL = $TABLE_CATEGORIES.$KEY_LABEL) AS peer FROM $TABLE_CATEGORIES WHERE $KEY_PARENTID = ? AND peer IS NOT NULL",
+            arrayOf(target, source)
+        ).use {
+            while (it.moveToNext()) {
+                mergeCategory(it.getLong(0), it.getLong(1))
+            }
+        }
+        fun update(table: String, column: String = KEY_CATID) {
+            update(
+                table,
+                ContentValues(1).apply {
+                    put(column, target)
+                },
+                "$column = ?",
+                whereArgs
+            )
+        }
+        update(TABLE_TRANSACTIONS)
+        update(TABLE_TEMPLATES)
+        update(TABLE_CHANGES)
+        update(TABLE_BUDGET_ALLOCATIONS)
+        update(TABLE_CATEGORIES, KEY_PARENTID)
+        delete(
+            TABLE_CATEGORIES,
+            "$KEY_ROWID = ?",
+            whereArgs
+        )
+    }
+
 
     fun initChangeLog(db: SupportSQLiteDatabase, accountId: String) {
         val accountIdBindArgs: Array<Any> = arrayOf(accountId)
@@ -1608,11 +1661,13 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     SELECT '${TransactionChange.Type.created.name}',  1, $KEY_UUID, $parentUUidTemplate, $KEY_COMMENT, $KEY_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_EQUIVALENT_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID,$KEY_CR_STATUS, $KEY_REFERENCE_NUMBER FROM $TABLE_TRANSACTIONS WHERE $KEY_ACCOUNTID = ?""",
                 accountIdBindArgs
             )
-            db.execSQL("""INSERT INTO $TABLE_CHANGES($KEY_TYPE, $KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_PARENT_UUID, $KEY_ACCOUNTID)
+            db.execSQL(
+                """INSERT INTO $TABLE_CHANGES($KEY_TYPE, $KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_PARENT_UUID, $KEY_ACCOUNTID)
                SELECT '${TransactionChange.Type.tags.name}', 1, $KEY_UUID, $parentUUidTemplate, $KEY_ACCOUNTID FROM $TABLE_TRANSACTIONS WHERE $KEY_ACCOUNTID = ? AND EXISTS (SELECT 1 FROM $TABLE_TRANSACTIONS_TAGS WHERE $KEY_TRANSACTIONID = $KEY_ROWID)""",
                 accountIdBindArgs
             )
-            db.execSQL("""INSERT INTO $TABLE_CHANGES($KEY_TYPE, $KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_PARENT_UUID, $KEY_ACCOUNTID)
+            db.execSQL(
+                """INSERT INTO $TABLE_CHANGES($KEY_TYPE, $KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_PARENT_UUID, $KEY_ACCOUNTID)
                SELECT '${TransactionChange.Type.attachments.name}', 1, $KEY_UUID, $parentUUidTemplate, $KEY_ACCOUNTID FROM $TABLE_TRANSACTIONS WHERE $KEY_ACCOUNTID = ? AND EXISTS (SELECT 1 FROM $TABLE_TRANSACTION_ATTACHMENTS WHERE $KEY_TRANSACTIONID = $KEY_ROWID)""",
                 accountIdBindArgs
             )

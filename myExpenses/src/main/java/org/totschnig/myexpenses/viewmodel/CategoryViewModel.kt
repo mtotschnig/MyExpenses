@@ -36,18 +36,50 @@ import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.deleteCategory
 import org.totschnig.myexpenses.db2.ensureCategoryTree
 import org.totschnig.myexpenses.db2.getCategoryPath
+import org.totschnig.myexpenses.db2.mergeCategories
 import org.totschnig.myexpenses.db2.moveCategory
 import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.export.CategoryExporter
 import org.totschnig.myexpenses.export.createFileFailure
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.Sort
-import org.totschnig.myexpenses.provider.*
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.model2.CategoryExport
+import org.totschnig.myexpenses.provider.BaseTransactionProvider
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_DESCENDANTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LEVEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_BUDGETS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TEMPLATES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIONS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MATCHES_FILTER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getIntIfExistsOr0
+import org.totschnig.myexpenses.provider.getIntOrNull
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getLongIfExistsOr0
+import org.totschnig.myexpenses.provider.getLongOrNull
+import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.sync.GenericAccountService
-import org.totschnig.myexpenses.model2.CategoryExport
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.failure
@@ -77,16 +109,20 @@ open class CategoryViewModel(
     private val _importResult: MutableStateFlow<Pair<Int, Int>?> = MutableStateFlow(null)
     private val _exportResult: MutableStateFlow<Result<Pair<Uri, String>>?> = MutableStateFlow(null)
     private val _syncResult: MutableStateFlow<String?> = MutableStateFlow(null)
+    private val _mergeResult: MutableStateFlow<Unit?> = MutableStateFlow(null)
     val deleteResult: StateFlow<Result<DeleteResult>?> = _deleteResult.asStateFlow()
     val moveResult: StateFlow<Boolean?> = _moveResult.asStateFlow()
     val importResult: StateFlow<Pair<Int, Int>?> = _importResult.asStateFlow()
     val exportResult: StateFlow<Result<Pair<Uri, String>>?> = _exportResult.asStateFlow()
     val syncResult: Flow<String> = _syncResult.asStateFlow().filterNotNull()
+    val mergeResult: Flow<Unit?> = _mergeResult.asStateFlow()
     val defaultSort = Sort.USAGES
 
     sealed class DialogState : java.io.Serializable
+
     data object NoShow : DialogState()
-    data class Show(
+
+    data class Edit(
         val category: Category? = null,
         val parent: Category? = null,
         val saving: Boolean = false,
@@ -95,6 +131,10 @@ open class CategoryViewModel(
         val isNew: Boolean
             get() = category == null || category.id == 0L
     }
+    data class Merge(
+        val categories: List<Category>,
+        val saving: Boolean = false
+    ): DialogState()
 
     @OptIn(SavedStateHandleSaveableApi::class)
     var dialogState: DialogState by savedStateHandle.saveable { mutableStateOf(NoShow) }
@@ -223,7 +263,7 @@ open class CategoryViewModel(
 
     fun saveCategory(label: String, icon: String?, typeFlags: Byte) {
         viewModelScope.launch(context = coroutineContext()) {
-            (dialogState as? Show)?.takeIf { !it.saving }?.let {
+            (dialogState as? Edit)?.takeIf { !it.saving }?.let {
                 val category = org.totschnig.myexpenses.model2.Category(
                     id = it.category?.id?.takeIf { it != 0L },
                     label = label,
@@ -237,6 +277,19 @@ open class CategoryViewModel(
                 } else {
                     NoShow
                 }
+            }
+        }
+    }
+
+    fun mergeCategories(keepIndex: Int) {
+        viewModelScope.launch(context = coroutineContext()) {
+            (dialogState as? Merge)?.takeIf { !it.saving }?.let { merge ->
+                dialogState = merge.copy(saving = true)
+                val idList = merge.categories.map { it.id }.toMutableList()
+                val kept = idList.removeAt(keepIndex)
+                repository.mergeCategories(idList, kept)
+                dialogState = NoShow
+                _mergeResult.update { }
             }
         }
     }
@@ -334,18 +387,11 @@ open class CategoryViewModel(
     }
 
     fun messageShown() {
-        _deleteResult.update {
-            null
-        }
-        _moveResult.update {
-            null
-        }
-        _importResult.update {
-            null
-        }
-        _syncResult.update {
-            null
-        }
+        _deleteResult.update { null }
+        _moveResult.update { null }
+        _importResult.update { null }
+        _syncResult.update { null }
+        _mergeResult.update { null }
     }
 
     fun moveCategory(source: Long, target: Long?) {

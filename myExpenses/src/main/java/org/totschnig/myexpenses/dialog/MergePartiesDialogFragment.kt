@@ -27,6 +27,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -52,7 +53,7 @@ class MergePartiesDialogFragment : ComposeBaseDialogFragment() {
     override fun BuildContent() {
         val options = requireArguments().getStringArray(KEY_PARTY_LIST)!!
         var expanded by remember { mutableStateOf(false) }
-        var selectedPartyIndex by rememberSaveable { mutableStateOf(0) }
+        var selectedPartyIndex by rememberSaveable { mutableIntStateOf(0) }
         var selectedMergeStrategy by rememberSaveable { mutableStateOf(MergeStrategy.DELETE) }
         val shape = if (expanded) RoundedCornerShape(8.dp).copy(
             bottomEnd = CornerSize(0.dp),
@@ -85,7 +86,6 @@ class MergePartiesDialogFragment : ComposeBaseDialogFragment() {
                     )
                 )
                 ExposedDropdownMenu(
-                    modifier = Modifier.fillMaxWidth(),
                     expanded = expanded,
                     onDismissRequest = { expanded = false },
                 ) {

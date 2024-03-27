@@ -57,7 +57,6 @@ import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.Operati
 import org.totschnig.myexpenses.viewmodel.LoadingState
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.io.Serializable
-import java.lang.IllegalArgumentException
 
 class ManageCategories : ProtectedFragmentActivity(),
     ContribIFace {
@@ -182,6 +181,7 @@ class ManageCategories : ProtectedFragmentActivity(),
         observeImportResult()
         observeExportResult()
         observeSyncResult()
+        observeMergeResult()
         binding.composeView.setContent {
             AppTheme {
                 choiceMode = when (action) {
@@ -217,12 +217,19 @@ class ManageCategories : ProtectedFragmentActivity(),
                         ChoiceMode.MultiChoiceMode(selectionState, true)
                     }
                 }
-                (viewModel.dialogState as? CategoryViewModel.Show)?.let {
-                    CategoryEdit(
-                        dialogState = it,
+                when(viewModel.dialogState) {
+                    is CategoryViewModel.Edit -> CategoryEdit(
+                        dialogState = viewModel.dialogState as CategoryViewModel.Edit,
                         onDismissRequest = { viewModel.dialogState = CategoryViewModel.NoShow },
                         onSave = viewModel::saveCategory
                     )
+
+                    is CategoryViewModel.Merge -> CategoryMerge(
+                        dialogState = viewModel.dialogState as CategoryViewModel.Merge,
+                        onDismissRequest = { viewModel.dialogState = CategoryViewModel.NoShow },
+                        onMerge = viewModel::mergeCategories
+                    )
+                    else -> {}
                 }
                 viewModel.categoryTree.collectAsState(initial = Category.LOADING).value.let { state ->
                     val typeFlags = viewModel.typeFilterLiveData.observeAsState(null).value
@@ -482,7 +489,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                     }
 
                     R.id.MERGE_COMMAND -> {
-
+                        viewModel.dialogState = CategoryViewModel.Merge(selectionState)
                         true
                     }
 
@@ -668,6 +675,17 @@ class ManageCategories : ProtectedFragmentActivity(),
         }
     }
 
+    private fun observeMergeResult() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.mergeResult.collect {
+                    finishActionMode()
+                    viewModel.messageShown()
+                }
+            }
+        }
+    }
+
     override val fabActionName = "CREATE_CATEGORY"
 
     override fun onFabClicked() {
@@ -740,7 +758,7 @@ class ManageCategories : ProtectedFragmentActivity(),
      * if label is already used, shows an error
      */
     private fun createCat(parent: Category?) {
-        viewModel.dialogState = CategoryViewModel.Show(
+        viewModel.dialogState = CategoryViewModel.Edit(
             parent = parent,
             category = if (parent == null) Category(
                 typeFlags = viewModel.typeFilter
@@ -753,7 +771,7 @@ class ManageCategories : ProtectedFragmentActivity(),
      */
     private fun editCat(category: Category) {
         viewModel.dialogState =
-            CategoryViewModel.Show(category = category)
+            CategoryViewModel.Edit(category = category)
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
