@@ -1,44 +1,125 @@
 da:
   imprint: Impressum/Kontakt
-  hero_main: "Din personlig økonomiplaner"
+  hero_main: "Personlig økonomistyring til Android"
   hero_sub:
-    use: "Nemt og brugervenlig"
+    use: "Nem at bruge"
     functionality: "Mange funktioner"
     source: "Open Source"
   menu_title:
     more_information: Flere oplysninger
   sections:
     features: Funktioner
-    premium: Go Premium
-    participate: Deltager
+    premium: Bliv Premium
+    participate: Deltag
     faq: FAQ
     versionlist: Ændringer
-    credits: Credits
+    credits: Kredit
     licence: Licens
     sourcecode: Kildekode
     links: Links
   permissions:
     internet:
-      explanation_crash_reporting: Fejlrapporter
-      explanation_cloud_sync: Cloud synkronisering
+      explanation_crash_reporting: Nedbrudsrapporter
+      explanation_cloud_sync: Cloud-synkronisering
+      explanation_key_validation: Validering af licensnøgle
+      label: Internet
+      explanation_usage_tracking: Anonym sporing af brug
     accounts:
       label: Konti
+      explanation: Synkronisering på tværs af enheder via cloud-tjenester.
+    heading: <i>{app_name}</i> kræver de følgende <u>tilladelser</u>
+    calendar:
+      label: Kalender
+      explanation: Planer for fremtidige og tilbagevendende transaktioner gemmes enten
+        i en særlig lokal kalender eller i en hvilken som helst anden kalender, du
+        tildeler.
   contrib-key: Contrib Nøgle
-  extended-key: Nøgle til udvidet version
-  professional-key: Professionel nøgle
+  extended-key: Udvidet Nøgle
+  professional-key: Professionel Nøgle
   screenshot_titles:
-    group: Grupper efter år, måned eller uge
-    summarize: Resumér alle dine konti
+    group: Gruppér efter år, måned eller uge
+    summarize: Opsummér alle dine konti
     budget: Årlige, månedlige og ugentlige budgetter
-    split: Del op til flere kategorier
+    split: Opdel i flere kategorier
     distribution: Cirkeldiagram
     history: Historik om din økonomiske situation
-    export: Eksport til PDF, QIF og CSV
-    sync: Cloud synkronisering
+    export: Eksportér til PDF, QIF og CSV
+    sync: Cloud-synkronisering
   contrib:
     feature:
-      csv_import: Sofistikeret, brugerdefinerbar <b>CSV import</b> (regnearksprogrammer)
+      csv_import: Sofistikeret, brugerdefinerbar <b>CSV-import</b> (regnearksprogrammer)
       accounts_unlimited: Lås op for muligheden for at oprette mere end fem konti
+      plans_unlimited: Lås op for muligheden for at oprette mere end tre planer for
+        gentagne transaktioner
+      distribution: '<b>Cirkeldiagram</b>: Visualisér den statistiske fordeling af
+        transaktioner pr. kategori over forskellige perioder (år, måneder, uger, dage)'
+      split_transaction: '<b>Opdel transaktion</b>: En enkel transaktion kan deles
+        op i flere stykker (kategorier og overførsler)'
+      print: <b>Udskriv</b> transaktionslisten til en PDF-fil
+      auto_backup: Daglig <b>automatiseret sikkerhedskopiering</b> med valgfri upload
+        til cloud-lagring
+      cloud_sync: '<b>Cloud-synkronisering</b>: Data kan synkroniseres mellem flere
+        enheder'
+      split_template: Ubegrænset antal <b>skabeloner og planer for opdelte transaktioner</b>
+      email_support: <b>E-mail support</b> med garanteret svar inden for 2 bankdage
+      budgeting: '<b>Budgettering</b>: Sammenlign dit forbrug med de grænser, du sætter
+        pr. kategori på daglig, ugentlig, månedlig eller årlig basis.'
+      ad_free: <b>Ingen reklamer</b>
+      roadmap_voting: Stemmeret på <b>udviklingskortet</b>
+      history_chart: <b>Historikdiagram</b> (Pengestrøm)
+      scan_receipt: '<b>Scan kvitteringer</b>: Udtræk automatisk beløb, dato og modtager'
+      webui: <b>Webbrugergrænseflade</b>
+      banking: Hent transaktioner fra banker i Tyskland (<b>FinTS</b>)
+      category_tree: Ubegrænset dybde af <b>kategoritræ</b>
+    thank_you: "Dit bidrag støtter den fortsatte udvikling af Mine Udgifter. Tak!\n"
+    feature-list-title: 'Bidrag venligst ved at opgradere <i>{app_name}</i> og få
+      ubegrænset adgang til de følgende funktioner:'
+    one-time-payment: Engangsbetaling
+    subscription: Abonnement
   privacy_policy_heading: Privatlivspolitik
   imprint_text: Ansvarlig for indholdet på denne hjemmeside og for udvikling, vedligeholdelse
     og distribution af <i>{app_name}</i>
+  screenshots:
+    group: Gruppér dine transaktioner pr. dag, uge, måned og år
+    summarize: Opsummér alle dine konti (sofistikeret håndtering af valutakurser pr.
+      konto og pr. transaktion)
+    budget: Definér, hvor meget du har tænkt dig at bruge i årlige, månedlige eller
+      ugentlige budgetter
+    split: Opdel én transaktion i flere kategorier
+    distribution: Visualisér fordelingen pr. kategori
+    history: Forstå hvordan din økonomiske situation udvikler sig over tid
+    export: Udskriv til PDF og udveksl via QIF og CSV.
+    sync: Synkronisér krypterede kontodata på flere enheder via private eller offentlige
+      cloud-tjenester.
+  features:
+    plans: Ubegrænset antal <b>skabeloner</b> og op til tre planer for <b>gentagne</b>
+      transaktioner
+    export: <b>Eksportér</b> til QIF og CSV. <b>Importér</b> fra QIF
+    password: Data kan beskyttes med <b>adgangskode</b> eller enhedens <b>låseskærm</b>
+    light_theme: <b>Tema</b> (mørkt eller lyst) og <b>skriftstørrelse</b> kan tilpasses
+    manage_accounts: Op til fem konti med <b>overførsler</b> (også mellem forskellige
+      valutaer)
+    homescreen: <b>Widget</b> til startskærm og <b>genveje</b> til hurtig dataindtastning
+    reconciliation: '<b>Afstemning</b>: Sammenlign nemt transaktionsstatus med dine
+      bankudskrifter'
+  privacy_policy_text: <i>{app_name}</i> har ikke adgang til andre data på din enhed
+    end sin egen database, sin egen mappe på SD-kortet. Hvis du bruger funktionen
+    med planer for fremtidige og tilbagevendende transaktioner, tildeler du den kalender,
+    hvor disse planer er gemt.
+  store:
+    full_description_intro: '{app_name} holder styr på dine udgifter og indkomster
+      direkte på din telefon eller tablet.'
+    highlight_1: Hold styr på dine udgifter og indkomster med adskillige konti, skabeloner
+      og kategorier
+    highlight_3: Opsummér din økonomiske situation pr. dag, uge, måned eller år
+    short_description: 'Brugervenlig privatøkonomistyring: mange funktioner og Open
+      Source'
+    full_description_contrib: 'Premiumfunktioner låses op ved at købe en af de følgende
+      licensnøgler:'
+    full_description_contrib_amazon: 'Mange ekstra funktioner låses op ved køb af
+      en af licensnøglerne, f.eks:'
+    highlight_2: Del dine data mellem flere telefoner og tablets via WebDAV og Google
+      Drev
+  all_contrib_key_features: Alle funktioner i Contrib Nøgle
+  all_extended_key_features: Alle funktioner i Udvidet Nøgle
+  customer_support: Kundeservice
