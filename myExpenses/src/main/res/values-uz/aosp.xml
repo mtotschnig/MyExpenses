@@ -12,4 +12,5 @@
     <string name="do_not_show_again">Boshqa ko‘rsatilmasin</string>
     <string name="color">"Rang"</string>
     <string name="notes">"Izohlar"</string>
+    <string name="cannot_be_undone">"Ushbu amalni bekor qilib bo‘lmaydi."</string>
 </resources>

@@ -82,4 +82,5 @@
     <string name="do_not_show_again">Nie pokazuj ponownie</string>
     <string name="color">"Kolor"</string>
     <string name="notes">"Notatki"</string>
+    <string name="cannot_be_undone">"Nie można tego cofnąć."</string>
 </resources>

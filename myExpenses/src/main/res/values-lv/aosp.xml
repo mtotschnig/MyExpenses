@@ -12,4 +12,5 @@
     <string name="do_not_show_again">Vairs nerādīt</string>
     <string name="color">"Krāsa"</string>
     <string name="notes">"Piezīmes"</string>
+    <string name="cannot_be_undone">"Šo darbību nevar atsaukt."</string>
 </resources>

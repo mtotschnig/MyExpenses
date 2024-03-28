@@ -14,4 +14,5 @@
     <string name="do_not_show_again">Jangan tampilkan lagi</string>
     <string name="color">"Warna"</string>
     <string name="notes">"Catatan"</string>
+    <string name="cannot_be_undone">"Tindakan ini tidak dapat diurungkan."</string>
 </resources>

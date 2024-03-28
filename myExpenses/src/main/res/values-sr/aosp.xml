@@ -2,4 +2,5 @@
 <resources>
     <string name="color">"Боја"</string>
     <string name="notes">"Белешке"</string>
+    <string name="cannot_be_undone">"Ова радња не може да се опозове."</string>
 </resources>

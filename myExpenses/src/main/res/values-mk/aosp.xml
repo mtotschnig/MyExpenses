@@ -12,4 +12,5 @@
     <string name="do_not_show_again">Не покажувај повторно</string>
     <string name="color">"Боја"</string>
     <string name="notes">"Белешки"</string>
+    <string name="cannot_be_undone">"Дејството не може да се врати."</string>
 </resources>

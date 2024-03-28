@@ -12,4 +12,5 @@
     <string name="do_not_show_again">Ikke vis dette igjen</string>
     <string name="color">"Farge"</string>
     <string name="notes">"Notater"</string>
+    <string name="cannot_be_undone">"Denne handlingen kan ikke angres."</string>
 </resources>

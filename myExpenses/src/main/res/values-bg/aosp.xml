@@ -81,4 +81,5 @@
     <string name="do_not_show_again">Да не се показва отново</string>
     <string name="color">"Цвят"</string>
     <string name="notes">"Бележки"</string>
+    <string name="cannot_be_undone">"Това действие не може да се отмени."</string>
 </resources>

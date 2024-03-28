@@ -12,4 +12,5 @@
     <string name="do_not_show_again">ထပ်မပြပါနှင့်</string>
     <string name="color">"အရောင်"</string>
     <string name="notes">"မှတ်စုများ"</string>
+    <string name="cannot_be_undone">"ဒီလုပ်ဆောင်ချက်ကို ြပန်ဖျက်မရနိုင်ပါ။"</string>
 </resources>

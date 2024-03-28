@@ -83,4 +83,5 @@
     <string name="do_not_show_again">عدم عرض ذلك مجددًا</string>
     <string name="color">"اللون"</string>
     <string name="notes">"ملاحظات"</string>
+    <string name="cannot_be_undone">"لا يمكن التراجع عن هذا الإجراء."</string>
 </resources>

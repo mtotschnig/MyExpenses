@@ -78,4 +78,5 @@
     <string name="do_not_show_again">不再显示</string>
     <string name="color">"颜色"</string>
     <string name="notes">"备注"</string>
+    <string name="cannot_be_undone">"该操作无法撤消。"</string>
 </resources>

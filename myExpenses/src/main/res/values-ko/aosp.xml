@@ -79,4 +79,5 @@
     <string name="do_not_show_again">다시 표시 안 함</string>
     <string name="color">"색상"</string>
     <string name="notes">"메모"</string>
+    <string name="cannot_be_undone">"이 작업은 취소할 수 없습니다."</string>
 </resources>

@@ -73,4 +73,5 @@
     <string name="do_not_show_again">دوبارہ نہ دکھائیں</string>
     <string name="color">"رنگ"</string>
     <string name="notes">"نوٹس"</string>
+    <string name="cannot_be_undone">"اس عمل کو کالعدم نہیں کیا جاسکتا۔"</string>
 </resources>

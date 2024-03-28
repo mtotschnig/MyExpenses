@@ -79,4 +79,5 @@
     <string name="do_not_show_again">Bir daha gösterme</string>
     <string name="color">"Renk"</string>
     <string name="notes">"Notlar"</string>
+    <string name="cannot_be_undone">"Bu işlem geri alınamaz."</string>
 </resources>

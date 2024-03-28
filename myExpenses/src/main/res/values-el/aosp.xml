@@ -79,4 +79,5 @@
     <string name="do_not_show_again">Να μην εμφανιστεί ξανά</string>
     <string name="color">"Χρώμα"</string>
     <string name="notes">"Σημειώσεις"</string>
+    <string name="cannot_be_undone">"Δεν είναι δυνατή η αναίρεση αυτής της ενέργειας."</string>
 </resources>

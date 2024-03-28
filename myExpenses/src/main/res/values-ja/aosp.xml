@@ -79,4 +79,5 @@
     <string name="do_not_show_again">今後表示しない</string>
     <string name="color">"色"</string>
     <string name="notes">"メモ"</string>
+    <string name="cannot_be_undone">"この操作は元に戻せません。"</string>
 </resources>

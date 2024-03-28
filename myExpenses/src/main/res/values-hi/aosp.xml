@@ -12,4 +12,5 @@
   <string name="do_not_show_again">दोबारा न दिखाएं</string>
     <string name="color">"रंग"</string>
     <string name="notes">"नोट"</string>
+    <string name="cannot_be_undone">"इस क्रिया को पूर्ववत नहीं किया जा सकता."</string>
 </resources>

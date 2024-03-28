@@ -78,4 +78,5 @@
     <string name="do_not_show_again">不要再顯示</string>
     <string name="color">"顏色"</string>
     <string name="notes">"附註"</string>
+    <string name="cannot_be_undone">"這項操作無法復原。"</string>
 </resources>

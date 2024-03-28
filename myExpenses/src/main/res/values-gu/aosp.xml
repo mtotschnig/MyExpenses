@@ -12,4 +12,5 @@
     <string name="do_not_show_again">ફરી બતાવશો નહીં</string>
     <string name="color">"રંગ"</string>
     <string name="notes">"નોંધ"</string>
+    <string name="cannot_be_undone">"આ ક્રિયા પૂર્વવત્ કરી શકાતી નથી."</string>
 </resources>

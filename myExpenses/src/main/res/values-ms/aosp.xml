@@ -76,4 +76,5 @@
     <string name="do_not_show_again">Jangan tunjukkan lagi</string>
     <string name="color">"Warna"</string>
     <string name="notes">"Nota"</string>
+    <string name="cannot_be_undone">"Tindakan ini tidak boleh dibuat asal."</string>
 </resources>

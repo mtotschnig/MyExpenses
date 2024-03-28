@@ -74,4 +74,5 @@
     <string name="do_not_show_again">නැවත පෙන්වන්න එපා</string>
     <string name="color">"වර්ණය"</string>
     <string name="notes">"සටහන්"</string>
+    <string name="cannot_be_undone">"මෙම ක්‍රියාව අවසන් කිරීම කළ නොහැක."</string>
 </resources>

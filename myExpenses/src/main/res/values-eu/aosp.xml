@@ -78,4 +78,5 @@
     <string name="do_not_show_again">Ez erakutsi berriro</string>
     <string name="color">"Kolorea"</string>
     <string name="notes">"Oharrak"</string>
+    <string name="cannot_be_undone">"Ezin da ekintza hori desegin."</string>
 </resources>

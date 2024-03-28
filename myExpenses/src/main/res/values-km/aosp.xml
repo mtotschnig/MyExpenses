@@ -76,4 +76,5 @@
     <string name="do_not_show_again">កុំ​បង្ហាញ​ទៀត</string>
     <string name="color">"ពណ៌"</string>
     <string name="notes">"ចំណាំ"</string>
+    <string name="cannot_be_undone">"សកម្មភាព​នេះ​មិន​អាច​ធ្វើ​វិញ​បាន​ទេ។"</string>
 </resources>

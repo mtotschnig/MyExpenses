@@ -73,4 +73,5 @@
     <string name="do_not_show_again">మళ్లీ చూపవద్దు</string>
     <string name="color">"రంగు"</string>
     <string name="notes">"గమనికలు"</string>
+    <string name="cannot_be_undone">"ఈ చర్య రద్దు చేయబడదు."</string>
 </resources>

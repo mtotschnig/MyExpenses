@@ -81,4 +81,5 @@
     <string name="do_not_show_again">Більше не показувати</string>
     <string name="color">"Колір"</string>
     <string name="notes">"Примітки"</string>
+    <string name="cannot_be_undone">"Цю дію не можна скасувати."</string>
 </resources>

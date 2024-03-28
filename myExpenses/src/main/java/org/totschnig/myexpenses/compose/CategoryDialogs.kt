@@ -199,12 +199,12 @@ fun CategoryMerge(
             }
         }
         Text(
-            text = "If any of the merged categories have subcategories with the same label, those will be merged first, recursively.",
+            text = stringResource(R.string.subcategories_merged_recursively),
             modifier = Modifier.padding(top = 8.dp)
         )
         Text(
             color = MaterialTheme.colorScheme.error,
-            text = "This action cannot be undone.",
+            text = stringResource(id = R.string.cannot_be_undone),
             modifier = Modifier.padding(top = 8.dp)
         )
     }

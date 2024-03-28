@@ -12,4 +12,5 @@
     <string name="do_not_show_again">Дахин бүү үзүүл</string>
     <string name="color">"Өнгө"</string>
     <string name="notes">"Тэмдэглэл"</string>
+    <string name="cannot_be_undone">"Энэ үйлдлийг буцаах боломжгүй."</string>
 </resources>

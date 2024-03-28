@@ -134,4 +134,6 @@
     <string name="color">Color</string>
     <!-- /opt/extra/AOSP/packages/apps/Contacts$ grep -ri label_notes | sed 's/ msgid="[[:digit:]]*"//' | sed 's/label_//' | aosp_helper -->
     <string name="notes">"Notes"</string>
+    <!-- grep -ri delete_message_confirmation_dialog_text | sed 's/ msgid="[[:digit:]]*"//' | sed 's/delete_message_confirmation_dialog_text/cannot_be_undone/' | aosp_helpe -->
+    <string name="cannot_be_undone">"This action cannot be undone."</string>
 </resources>

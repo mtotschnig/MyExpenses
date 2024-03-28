@@ -14,4 +14,5 @@
     <string name="do_not_show_again">აღარ მაჩვენო</string>
     <string name="color">"ფერი"</string>
     <string name="notes">"შენიშვნები"</string>
+    <string name="cannot_be_undone">"ამ ქმედებას ვერ გააუქმებთ."</string>
 </resources>

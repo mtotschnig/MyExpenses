@@ -12,4 +12,5 @@
     <string name="do_not_show_again">Huwag ipakitang muli</string>
     <string name="color">"Kulay"</string>
     <string name="notes">"Mga Tala"</string>
+    <string name="cannot_be_undone">"Hindi maaaring bawiin ang pagkilos na ito."</string>
 </resources>

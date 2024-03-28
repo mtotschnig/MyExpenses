@@ -14,4 +14,5 @@
     <string name="do_not_show_again">ไม่ต้องแสดงอีก</string>
     <string name="color">"สี"</string>
     <string name="notes">"หมายเหตุ"</string>
+    <string name="cannot_be_undone">"การดำเนินการนี้ไม่สามารถยกเลิกได้"</string>
 </resources>

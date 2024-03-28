@@ -80,4 +80,5 @@
     <string name="do_not_show_again">No ho tornis a mostrar</string>
     <string name="color">"Color"</string>
     <string name="notes">"Notes"</string>
+    <string name="cannot_be_undone">"Aquesta acció no es pot desfer."</string>
 </resources>

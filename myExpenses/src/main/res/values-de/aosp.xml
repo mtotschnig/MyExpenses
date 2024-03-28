@@ -79,4 +79,5 @@
     <string name="do_not_show_again">Nicht noch einmal anzeigen</string>
     <string name="color">"Farbe"</string>
     <string name="notes">"Notizen"</string>
+    <string name="cannot_be_undone">"Diese Aktion kann nicht rückgängig gemacht werden."</string>
 </resources>

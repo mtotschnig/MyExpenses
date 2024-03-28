@@ -12,4 +12,5 @@
     <string name="do_not_show_again">फेरि नदेखाउनुहोस्</string>
     <string name="color">"रङ्ग"</string>
     <string name="notes">"टिप्पणीहरू"</string>
+    <string name="cannot_be_undone">"यो कार्य पूर्ववत् पार्न सकिँदैन।"</string>
 </resources>

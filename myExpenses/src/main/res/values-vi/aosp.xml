@@ -78,4 +78,5 @@
     <string name="do_not_show_again">Không hiển thị lại</string>
     <string name="color">"Màu"</string>
     <string name="notes">"Ghi chú"</string>
+    <string name="cannot_be_undone">"Không thể hoàn tác tác vụ này."</string>
 </resources>
