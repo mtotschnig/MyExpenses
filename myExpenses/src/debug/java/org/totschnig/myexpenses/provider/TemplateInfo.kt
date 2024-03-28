@@ -2,43 +2,32 @@ package org.totschnig.myexpenses.provider
 
 import android.content.ContentValues
 import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
-import java.util.Date
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 
-data class TransactionInfo(
+data class TemplateInfo(
     val accountId: Long,
     val amount: Long,
-    val date: Date = Date(),
+    val title: String,
     val comment: String = "",
     val payeeId: Long? = null,
     val debtId: Long? = null,
     val catId: Long? = null,
-    val methodId: Long? = null,
-    val crStatus: CrStatus = CrStatus.UNRECONCILED
+    val methodId: Long? = null
 ) {
-    val dateAsLong: Long
-        get() = date.time / 1000
     val contentValues: ContentValues
         get() = ContentValues().apply {
             put(KEY_COMMENT, comment)
-            put(KEY_DATE, dateAsLong)
-            put(KEY_VALUE_DATE, dateAsLong)
             put(KEY_AMOUNT, amount)
             put(KEY_PAYEEID, payeeId)
             put(KEY_ACCOUNTID, accountId)
-            put(KEY_CR_STATUS, crStatus.name)
-            put(KEY_UUID, Model.generateUuid())
+            put(KEY_TITLE, title)
             put(KEY_DEBT_ID, debtId)
             put(KEY_CATID, catId)
             put(KEY_METHODID, methodId)

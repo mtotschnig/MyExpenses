@@ -58,6 +58,7 @@ import org.totschnig.myexpenses.model2.CategoryInfo
 import org.totschnig.myexpenses.model2.ICategoryInfo
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_MERGE_SOURCE
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_MERGE_TARGET
+import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ResultUnit
@@ -1583,6 +1584,12 @@ abstract class BaseTransactionProvider : ContentProvider() {
     fun mergeCategories(db: SupportSQLiteDatabase, extras: Bundle) {
         val source = extras.getLongArray(KEY_MERGE_SOURCE)!!
         val target = extras.getLong(KEY_MERGE_TARGET)
+        require(db.query(
+            TABLE_CATEGORIES,
+            arrayOf(KEY_TYPE),
+            "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(source.size + 1)}",
+            arrayOf(*source.toTypedArray(), target)
+        ).useAndMapToSet { it.getInt(0) }.size == 1)
         db.beginTransaction()
         try {
             source.forEach {
