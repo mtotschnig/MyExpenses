@@ -21,9 +21,9 @@
     <string name="account_type_bank">Bankkonto</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
     <string name="account_type_bank_plural">Bankkonti</string>
-    <string name="account_type_cash">Kontanter</string>
+    <string name="account_type_cash">Kontantkonto</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
-    <string name="account_type_cash_plural">Kontanter</string>
+    <string name="account_type_cash_plural">Kontantkonti</string>
     <string name="account_type_ccard">Kreditkort</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
     <string name="account_type_ccard_plural">Kreditkort</string>
@@ -41,8 +41,8 @@
     <string name="contrib_feature_plans_unlimited_label">Ubegrænset antal planer</string>
     <string name="contrib_feature_print_label">Eksportér transaktionsliste til PDF</string>
     <string name="contrib_feature_csv_import_label">CSV-import</string>
-    <string name="contrib_key">Contrib Nøgle</string>
-    <string name="extended_key">Nøgle til udvidet version</string>
+    <string name="contrib_key">Bidragsnøgle</string>
+    <string name="extended_key">Udvidet Nøgle</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
     <string name="contrib_key_requires">Kræver %1$s.</string>
     <string name="currency">Valuta</string>
@@ -54,16 +54,16 @@
     <string name="default_account_name">Budgetbog</string>
     <string name="description">Beskrivelse</string>
     <string name="dialog_balance_delete">Slet afstemte transaktioner</string>
-    <string name="dialog_command_disabled_balance">Ingen afregnede transaktioner, der skal afstemmes.</string>
-    <string name="dialog_contrib_text_1"><i>{app_name}</i> er tilbudt open source.</string>
+    <string name="dialog_command_disabled_balance">Ingen transaktioner til afstemning.</string>
+    <string name="dialog_contrib_text_1"><i>{app_name}</i> tilbydes open source.</string>
     <string name="dialog_export_delete">Slet eksporterede transaktioner</string>
     <string name="dialog_export_not_yet_exported">Eksportér kun transaktioner, der endnu ikke er eksporteret</string>
     <string name="dialog_password_activate_protection">Aktivér adgangskodebeskyttelse</string>
     <string name="dialog_password_change_password">Skift adgangskode</string>
     <string name="dialog_password_new_password">Ny adgangskode</string>
-    <string name="dialog_password_new_password_confirmation">Bekræftelse af ny adgangskode</string>
+    <string name="dialog_password_new_password_confirmation">Ny adgangskode (bekræftelse)</string>
     <string name="dialog_remind_later">Senere</string>
-    <string name="dialog_remind_rate_how_many_stars">Hvor mange stjerner vil du give til {app_name}?</string>
+    <string name="dialog_remind_rate_how_many_stars">Hvor mange stjerner vil du give {app_name}?</string>
     <string name="dialog_remind_rate_1">Brug venligst et øjeblik på at bedømme {app_name}.</string>
     <string name="dialog_remind_rate_2">Dine kommentarer hjælper os med at tilføje løbende forbedringer.</string>
     <string name="dialog_remind_rate_1_suggest_improvement">Brug venligst et øjeblik på at sende os dine forslag til forbedringer.</string>
@@ -99,7 +99,7 @@
     <string name="income">Indkomst</string>
     <string name="label">Etiket</string>
     <string name="licence_validation_failure">Kan ikke validere licensnøgle.</string>
-    <string name="licence_validation_success">Licensnøglen er valideret:</string>
+    <string name="licence_validation_success">Licensnøgle blev valideret:</string>
     <string name="licence_validation_premium">Premiumfunktioner blev låst op.</string>
     <string name="menu_aggregates">I alt</string>
     <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
@@ -122,12 +122,12 @@
     <string name="menu_create_split_part_category">Ny kategori splittet part</string>
     <string name="menu_create_split_part_transfer">Ny overførsel splittet part</string>
     <string name="menu_create_sub_cat">Ny underkategori</string>
-    <string name="menu_create_template">Nyt skabelon</string>
+    <string name="menu_create_template">Ny skabelon</string>
     <string name="menu_create_template_from_transaction">Gem som skabelon</string>
     <string name="menu_create_template_for_transaction">Ny transaktionsskabelon</string>
     <string name="menu_create_template_for_transfer">Ny overførselsskabelon</string>
-    <string name="menu_create_transaction">Ny transaktion</string>
-    <string name="menu_create_transfer">Ny overførsel</string>
+    <string name="menu_create_transaction">Ny Transaktion</string>
+    <string name="menu_create_transfer">Ny Overførsel</string>
     <string name="menu_delete">Slet</string>
     <string name="menu_distribution">Distribution</string>
     <string name="menu_edit">Redigér</string>
@@ -135,7 +135,7 @@
     <string name="menu_edit_cat">Redigér kategori</string>
     <string name="menu_edit_method">Redigér betalingsmetode</string>
     <string name="menu_edit_party">Redigér part</string>
-    <string name="menu_edit_plan_instance">Redigér enkelt hændelse</string>
+    <string name="menu_edit_plan_instance">Redigér en enkelt planforekomst</string>
     <string name="menu_edit_split">Rediger splitpostering</string>
     <string name="menu_edit_split_part_category">Rediger splittet delbeløb (kategori)</string>
     <string name="menu_edit_split_part_transfer">Rediger splittet delbeløb (overførsel)</string>
@@ -478,11 +478,19 @@
     <string name="dialog_contrib_subscription_info_play">Dette abonnement træder i kraft med det samme, faktureres månedligt eller årligt og kan opsiges når som helst.</string>
     <string name="dialog_title_warning_delete_category">Slet kategori?</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Din nuværende licensstatus (%2$s) lader dig oprette %1$d planer.</string>
-    <string name="contrib_feature_pro_support_label"><b>E-mail support</b> med garanteret svar inden for 2 bankdage</string>
+    <string name="contrib_feature_pro_support_label"><b>E-mail support</b> med garanteret svar inden for 2 arbejdsdage</string>
     <string name="dialog_contrib_reminder_remove_limitation">Fjern denne begrænsning og få adgang til flere funktioner ved at opgradere <i>{app_name}</i>.</string>
     <string name="select_payee">Vælg betaler/modtager</string>
     <string name="move_category_success">Én kategori blev flyttet.</string>
     <string name="warning_delete_category_with_budget">For mindst én valgt kategori er der budgetfordelinger, som også vil blive slettet.</string>
     <string name="all_extended_key_features">Alle funktioner i Udvidet Nøgle</string>
     <string name="all_contrib_key_features">Alle funktioner i Contrib Nøgle</string>
+    <string name="contrib_feature_category_tree_label">Kategoritræ</string>
+    <string name="number_format_illegal">Ugyldigt talformat</string>
+    <string name="move_category_failure">En kategori blev ikke flyttet, fordi den samme etiket allerede eksisterer ved målet.</string>
+    <string name="warning_change_fraction_digits_3">Hvis beløbene opdateres, mister du oplysningerne om dets brøkdel.</string>
+    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Hvis beløbene ikke opdateres, vil de vises som ganget med %d efter ændringen.</string>
+    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Hvis beløbene ikke opdateres, vil de vises som divideret med %d efter ændringen.</string>
+    <string name="contrib_feature_history_label">Historikdiagram</string>
+    <string name="licence_status_free">Gratis</string>
 </resources>
