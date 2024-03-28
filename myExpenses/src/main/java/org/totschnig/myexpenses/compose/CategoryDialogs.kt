@@ -152,7 +152,7 @@ fun CategoryMerge(
         bottomStart = CornerSize(0.dp)
     ) else RoundedCornerShape(8.dp)
     DialogFrame(
-        title = "Merge Categories",
+        title = stringResource(R.string.merge_categories_dialog_title),
         onDismissRequest = onDismissRequest,
         cancelEnabled = !dialogState.saving,
         positiveButton = Triple(
@@ -161,7 +161,7 @@ fun CategoryMerge(
         ) { onMerge(selectedIndex) }
     ) {
         Text(
-            text = "Select the category that you want to keep",
+            text = stringResource(R.string.merge_categories_prompt),
             modifier = Modifier.padding(bottom = 8.dp)
         )
         ExposedDropdownMenuBox(
