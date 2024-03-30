@@ -160,6 +160,9 @@ abstract class TransactionDelegate<T : ITransaction>(
     var methodId: Long? = null
 
     @State
+    var methodsLoaded: Boolean = false
+
+    @State
     var methodLabel: String? = null
 
     @State
@@ -528,6 +531,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     fun setMethodSelection() {
+        if (!methodsLoaded) return
         if (methodId != null) {
             var found = false
             for (i in 0 until methodsAdapter.count) {
@@ -647,6 +651,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     fun setMethods(paymentMethods: List<PaymentMethod>?) {
+        methodsLoaded = true
         if (paymentMethods.isNullOrEmpty()) {
             methodId = null
             methodRowBinding.MethodRow.visibility = View.GONE

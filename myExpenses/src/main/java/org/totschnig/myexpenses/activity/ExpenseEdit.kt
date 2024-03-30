@@ -1360,6 +1360,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     fun loadMethods(account: Account?) {
         if (account != null) {
+            delegate.methodsLoaded = false
             viewModel.loadMethods(isIncome, account.type)
         }
     }
