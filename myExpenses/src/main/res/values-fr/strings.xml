@@ -1035,4 +1035,7 @@
     <string name="remap_date">Sur toutes les opérations sélectionnées, la date sera fixée à %s.</string>
     <string name="menu_transform_to_transfer">Transformer en transfert</string>
     <string name="roadmap_intro">Le vote pour la feuille de route 2024 est maintenant ouvert ! Votez pour les fonctionnalités et les améliorations qui comptent le plus pour vous.</string>
+    <string name="merge_categories_prompt">Sélectionnez la catégorie que vous souhaitez conserver</string>
+    <string name="merge_categories_dialog_title">Fusionner les catégories</string>
+    <string name="subcategories_merged_recursively">Si l’une des catégories fusionnées a des sous-catégories avec le même label, celles-ci seront fusionnées en premier, récursivement.</string>
 </resources>
