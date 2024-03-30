@@ -1022,4 +1022,7 @@
     <string name="menu_transform_to_transfer">Havaleye dönüştür</string>
     <string name="warning_transform_to_transfer">Seçilen muamele %1$s\'den %2$s\'ye bir havale ile değiştirilecek.</string>
     <string name="roadmap_intro">2024 Yol Haritası oylaması başladı! Sizin için en önemli olan özellikler ve iyileştirmeler için oy verin.</string>
+    <string name="merge_categories_prompt">Tutmak istediğiniz kategoriyi seçin</string>
+    <string name="merge_categories_dialog_title">Kategorileri Birleştir</string>
+    <string name="subcategories_merged_recursively">Birleştirilen kategorilerden herhangi birinin aynı etikete sahip alt kategorileri varsa, bunlar önce özyinelemeli olarak birleştirilecektir.</string>
 </resources>
