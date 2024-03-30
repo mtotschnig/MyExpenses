@@ -372,6 +372,13 @@
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='ui_refinement']" />
             </xsl:when>
+            <xsl:when test="$version = '3.8.0'">
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='merge_categories_dialog_title']" />
+            </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
     </xsl:template>
