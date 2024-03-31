@@ -1037,4 +1037,5 @@
     <string name="merge_categories_dialog_title">Fusionar categorías</string>
     <string name="merge_categories_prompt">Seleccione la categoría que desea conservar</string>
     <string name="subcategories_merged_recursively">Si alguna de las categorías fusionadas tiene subcategorías con la misma etiqueta, éstas se fusionarán primero, de forma recursiva.</string>
+    <string name="pref_csv_export_category_separator_summary">Separador entre los niveles de la jerarquía de las categorías</string>
 </resources>
