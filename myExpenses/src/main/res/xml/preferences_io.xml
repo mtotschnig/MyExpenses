@@ -34,8 +34,14 @@
     <PreferenceCategory android:key="@string/pref_csv_export_key">
         <SwitchPreferenceCompat
             android:defaultValue="false"
+            android:disableDependentsState="true"
             android:key="@string/pref_csv_export_split_categories_key"
             android:summary="@string/pref_csv_export_split_categories_summary" />
+        <EditTextPreference
+            android:dependency="@string/pref_csv_export_split_categories_key"
+            android:defaultValue=" > "
+            android:key="@string/pref_csv_export_category_separator_key"
+            android:summary="@string/pref_csv_export_category_separator_summary" />
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="@string/pref_csv_export_split_amount_key"

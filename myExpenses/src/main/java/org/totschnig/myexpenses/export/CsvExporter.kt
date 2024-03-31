@@ -37,7 +37,8 @@ class CsvExporter(
     private val splitCategoryLevels: Boolean = false,
     private val splitAmount: Boolean = true,
     timeFormat: String? = null,
-    private val withOriginalAndEquivalentAmounts: Boolean = false
+    private val withOriginalAndEquivalentAmounts: Boolean = false,
+    override val categoryPathSeparator: String = " > "
 ) :
     AbstractExporter(
         account, currencyContext, filter, notYetExportedP, dateFormat,
@@ -67,8 +68,6 @@ class CsvExporter(
         get() = withOriginalAndEquivalentAmounts && account.currency != currencyContext.homeCurrencyString
 
     override val format = ExportFormat.CSV
-
-    override val categoryPathSeparator = " > "
 
     override fun sanitizeCategoryLabel(label: String) = label
 

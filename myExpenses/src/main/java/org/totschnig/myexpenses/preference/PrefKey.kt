@@ -157,6 +157,7 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     WEBUI_PASSWORD(R.string.pref_web_ui_password_key),
     CSV_EXPORT(R.string.pref_csv_export_key),
     CSV_EXPORT_SPLIT_CATEGORIES(R.string.pref_csv_export_split_categories_key),
+    CSV_EXPORT_CATEGORY_SEPARATOR(R.string.pref_csv_export_category_separator_key),
     CSV_EXPORT_SPLIT_AMOUNT(R.string.pref_csv_export_split_amount_key),
     CSV_EXPORT_SPLIT_DATE_TIME(R.string.pref_csv_export_split_date_time_key),
     CSV_EXPORT_ORIGINAL_EQUIVALENT_AMOUNTS(R.string.pref_csv_export_original_equivalent_amounts_key),

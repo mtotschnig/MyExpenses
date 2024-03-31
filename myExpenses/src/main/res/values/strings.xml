@@ -1070,4 +1070,5 @@
     <string name="merge_categories_dialog_title">Merge Categories</string>
     <string name="subcategories_merged_recursively">If any of the merged categories have subcategories with the same label, those will be merged first, recursively.</string>
     <string name="merge_categories_prompt">Select the category that you want to keep</string>
+    <string name="pref_csv_export_category_separator_summary">Separator between levels of category hierarchy</string>
 </resources>
