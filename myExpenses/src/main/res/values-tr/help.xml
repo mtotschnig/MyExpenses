@@ -209,4 +209,5 @@
     <string name="help_fab_confirm_selection">Seçimi onaylamak için kayan eylem düğmesini kullanın.</string>
     <string name="help_ManageParties_mergeMode_info_1">Birleştirmek istediğiniz yinelenen tarafları seçin.</string>
     <string name="help_ManageTags_context_menu_info">Bir etiketi düzenlemek, renk atamak veya silmek için &lt;img src=more&gt; simgesine dokunun.</string>
+    <string name="cab_ManageCategories_merge_help_text">Aynı türdeki kategoriler birleştirilebilir.</string>
 </resources>
