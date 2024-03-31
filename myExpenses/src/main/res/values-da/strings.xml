@@ -387,7 +387,7 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">efter</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Køb mislykkedes eller blev annulleret.</string>
-    <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d konti med valuta %2$s blev opdaterede.</string>
+    <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d konti med valuta %2$s blev opdateret.</string>
     <string name="import_source_file">Fil</string>
     <string name="restore_calendar_handling">Kalenderdatahåndtering</string>
     <string name="restore_calendar_handling_configured">Gendan planer til den aktuelt konfigureret kalender</string>
@@ -484,26 +484,26 @@
     <string name="move_category_success">Én kategori blev flyttet.</string>
     <string name="warning_delete_category_with_budget">For mindst én valgt kategori er der budgetfordelinger, som også slettes.</string>
     <string name="all_extended_key_features">Alle funktioner i Udvidet Nøgle</string>
-    <string name="all_contrib_key_features">Alle funktioner i Contrib Nøgle</string>
+    <string name="all_contrib_key_features">Alle funktioner i Bidragsnøgle</string>
     <string name="contrib_feature_category_tree_label">Kategoritræ</string>
     <string name="number_format_illegal">Ugyldigt talformat</string>
     <string name="move_category_failure">Én kategori blev ikke flyttet, fordi den samme etiket allerede eksisterer ved målet.</string>
-    <string name="warning_change_fraction_digits_3">Hvis beløbene opdateres, mister du oplysningerne om dets brøkdel.</string>
-    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Hvis beløbene ikke opdateres, vil de vises som ganget med %d efter ændringen.</string>
-    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Hvis beløbene ikke opdateres, vil de vises som divideret med %d efter ændringen.</string>
+    <string name="warning_change_fraction_digits_3">Hvis beløb opdateres, mister du oplysningerne om deres decimaldel.</string>
+    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Hvis beløb ikke opdateres, vil de vises som ganget med %d efter ændringen.</string>
+    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Hvis beløb ikke opdateres, vil de vises som divideret med %d efter ændringen.</string>
     <string name="contrib_feature_history_label">Historikdiagram</string>
     <string name="licence_status_free">Gratis</string>
-    <string name="dialog_command_sync_link_remote">Hent fra den eksterne</string>
+    <string name="dialog_command_sync_link_remote">Hent fra ekstern</string>
     <string name="dialog_confirm_sync_unlink">Hvis du fjerner denne konto fra %s, går synkroniseringsstatus tabt. Hvis du senere forbinder dem igen, kræver det en fuld synkronisering igen.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Opdatér beløb i database</string>
     <string name="plan_instance_state_cancelled">annulleret</string>
     <string name="preferences_month_start_date_title">Måneden starter på</string>
     <string name="validate_error_webdav_404">URL\'en eksisterer ikke på serveren.</string>
-    <string name="dialog_command_sync_link_local">Upload fra den lokale</string>
+    <string name="dialog_command_sync_link_local">Upload fra lokal</string>
     <string name="pref_auto_backup_time_title">Auto-sikkerhedskopieringstid</string>
     <string name="exchange_rate">Valutakurs</string>
     <string name="menu_sync_link">Start synkronisering</string>
-    <string name="warning_change_fraction_digits_1">Beløbene i databasen skal opdateres, så de passer til det nye antal brøkcifre.</string>
+    <string name="warning_change_fraction_digits_1">Beløb i databasen skal opdateres for at matche det nye antal decimaler.</string>
     <string name="app_dir_not_compatible_with_nougat">Den aktuelt konfigurerede URI til sikkerhedskopiering og eksport (%1$s) understøttes ikke i Android Nougat. Vælg venligst en mappe igen.</string>
     <string name="pref_custom_decimal_format_title">Talformat</string>
     <string name="pref_auto_backup_title">Auto-sikkerhedskopiér</string>
@@ -555,5 +555,148 @@
     <string name="account_deleted">Konto blev slettet</string>
     <string name="calendar_permission_required"><i>{app_name}</i> har brug for tilladelse til at få adgang til din kalender for at oprette planer for fremtidige og tilbagevendende transaktioner.</string>
     <string name="warning_cannot_move_split_transaction">Denne opdelte transaktion kan ikke flyttes til kontoen %1$s, fordi der er overførselsdele, der henviser til denne konto.</string>
-    <string name="dialog_sync_link">En konto med UUID\'en %s findes både i den lokale database og på den eksterne backend. Når du forbinder begge, skal du beslutte, om du først vil uploade lokale data til den eksterne backend eller hente eksterne data til den lokale database.</string>
+    <string name="dialog_sync_link">En konto med UUID\'en %s findes både i den lokale database og på den eksterne backend. Når du forbinder begge, skal du beslutte, om du først vil uploade lokale data til den eksterne backend eller hente fjerndata til den lokale database.</string>
+    <string name="auto_fill_account_from_aggregate_only">Kun ved start fra en samlet konto.</string>
+    <string name="always">altid</string>
+    <string name="sync_io_exception_syncing">Fejl under synkronisering af ændringer med serveren.</string>
+    <string name="synchronization_end_success_none">Ingen ændringer at synkronisere.</string>
+    <string name="gdpr_consent_button_no">Betal for den reklamefri version</string>
+    <string name="budget_allocated_amount">Tildelt beløb</string>
+    <string name="synchronization_end_success" tools:ignore="PluralsCandidate">%1$d fjernændringer blev skrevet til den lokale database. %2$d lokale ændringer blev skrevet til ekstern backend.</string>
+    <string name="pref_debug_logging_summary">Skriv fejlfindingsoplysninger i systemloggen</string>
+    <string name="donate_button_invoice">Faktura</string>
+    <string name="menu_sort_direction">Sorteringsretning</string>
+    <string name="history_chart_in_label">Indkomst</string>
+    <string name="warning_trial_limit_reached">Prøveperioden for at teste funktionen %s er udløbet.</string>
+    <string name="n_months" tools:ignore="PluralsCandidate">%d måneder</string>
+    <string name="menu_original_amount">Oprindeligt beløb</string>
+    <string name="switch_to_monthly" tools:ignore="UnusedResources">Skift til månedligt abonnement</string>
+    <string name="budget_table_header_budgeted">Budgetteret</string>
+    <string name="menu_create_template_for_split">Ny opdelingsskabelon</string>
+    <string name="picture">Billede</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Gå til \'Indstillinger -&gt; Sikkerhed -&gt; Skærmlås\' for at konfigurere en låseskærm.</string>
+    <string name="credit_limit">Kreditgrænse</string>
+    <string name="content_description_expand">Udvid</string>
+    <string name="goal_or_limit">Mål / Grænse</string>
+    <string name="split_transaction_one_success">Transaktion blev omdannet til en opdeling.</string>
+    <string name="clear_all_filters">Ryd alle filtre</string>
+    <string name="currency_symbol">Valutasymbol</string>
+    <string name="switch_to_yearly" tools:ignore="UnusedResources">Skift til årligt abonnement</string>
+    <string name="dialog_confirm_sync_link_remote">Lokale data for denne konto slettes.</string>
+    <string name="template">Skabelon</string>
+    <string name="currency_still_used">Valutaen er i brug og kan ikke slettes.</string>
+    <string name="pref_tracking_summary">Lad os indsamle anonyme data om brugsmønstre, som hjælper os med at planlægge forbedringer.</string>
+    <string name="sync_io_exception_setup_remote_account">Fejl under opsætning af fjernkonto.</string>
+    <string name="onboarding_get_started">Kom i gang</string>
+    <string name="licence_validation_error_expired">Licens er udløbet</string>
+    <string name="progress_dialog_fetching_data_from_sync_backend">Henter data fra ekstern backend. Dette kan tage noget tid.</string>
+    <string name="never">aldrig</string>
+    <string name="sync_auth_exception">Godkendelse mislykkedes.</string>
+    <string name="warning_device_lock_screen_not_set_up_1">En sikker enhedslåseskærm er ikke blevet konfigureret.</string>
+    <string name="menu_history_totals">Vis totaler</string>
+    <string name="licence_expires_today">Din professionelle nøgle udløber i dag.</string>
+    <string name="dialog_title_edit_budget">Redigér budget</string>
+    <string name="budget_table_header_spent">Brugt</string>
+    <string name="dialog_confirm_sync_link_local">Fjerndata for denne konto slettes. Sørg for, at ingen andre enheder er forbundet til den.</string>
+    <string name="warning_synchronization_folder_usage">Denne mappe bruges til at synkronisere data mellem installationer af {app_name} på forskellige enheder. Vær venlig ikke at ændre indholdet manuelt.</string>
+    <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Den valgte mappe svarer til en konto på en eksisterende backend. Du skal vælge dens overordnede mappe for at genbruge denne backend.</string>
+    <string name="link_account_failure_2">En konto med samme UUID eksisterer allerede på den eksterne backend.</string>
+    <string name="progress_dialog_checking_sync_backend">Bekræfter backend</string>
+    <string name="upgrade_now">Opgradér</string>
+    <string name="pref_backup_cloud_title">Gem på synkroniseringsbackend</string>
+    <string name="pref_backup_cloud_summary">Ud over lokal lagring på enheden kan sikkerhedskopifilen kopieres til en ekstern backend.</string>
+    <string name="auto_backup_cloud_success">Sikkerhedskopifilen %1$s blev gemt på backenden %2$s.</string>
+    <string name="number_of_fraction_digits">Antal decimaler</string>
+    <string name="warning_auto_backup_deactivated">Auto-sikkerhedskopiering blev deaktiveret. Du kan slå det til igen fra indstillingerne, når du har løst problemet (f.eks ved at vælge en anden mappe til sikkerhedskopier).</string>
+    <string name="pref_tracking_title">Indsamling af brugsdata</string>
+    <string name="sync_database_error">En databasefejl opstod under synkronisering.</string>
+    <string name="sync_io_error_cannot_connect">Kan ikke oprette forbindelse til synkroniseringsbackend.</string>
+    <string name="sync_error_will_try_again_later">Prøver igen senere.</string>
+    <string name="sync_io_exception_unlocking">Fejl under fjernelse af lås fra ekstern backend.</string>
+    <string name="sync_io_exception_locking">Ekstern backend er låst eller kan ikke låses.</string>
+    <string name="synchronization_start">Starter synkronisering for konto %s.</string>
+    <string name="pref_webdav_timeout_title">WebDAV Timeout (i sekunder)</string>
+    <string name="sync_state_restored" tools:ignore="PluralsCandidate">Synkroniseringsstatus blev gendannet for %d konti.</string>
+    <string name="sync_state_could_not_be_restored" tools:ignore="PluralsCandidate">Synkroniseringsstatus kunne ikke gendannes for %d konti.</string>
+    <string name="onboarding_ui_title">{app_name} tilpasser sig dine præferencer</string>
+    <string name="onboarding_data_title">Lad os opsætte din første konto</string>
+    <string name="onboarding_more_options">Flere Valgmuligheder</string>
+    <string name="onboarding_restore_from_cloud_backup">Sikkerhedskopier</string>
+    <string name="licence_validation_error_device_limit_exceeded">Enhedsgrænse overskredet. Fjern venligst licensen fra en anden enhed.</string>
+    <string name="button_validate">Bekræft</string>
+    <string name="licence_removal_information" tools:ignore="PluralsCandidate">Hvis du ikke længere har brug for premiumfunktioner på denne enhed, kan du fjerne licensnøglen. Dette frigøre nøglen til aktivering på en anden enhed. Nøglen kan aktiveres på op til %d enheder.</string>
+    <string name="progress_removing_licence">Fjerner licens</string>
+    <string name="extend_until">Forlæng indtil %1$s for %2$s</string>
+    <string name="extended_upgrade_goodie_github" tools:ignore="PluralsCandidate">Yderligere %d måneder gives én gang til brugere, der allerede ejer den Udvidet Licens</string>
+    <string name="extend_validity">Forlæng gyldighedsperioden</string>
+    <string name="sync_login_again">Log venligst ind igen.</string>
+    <string name="feature_deprecated">Forældet</string>
+    <string name="pref_protection_device_lock_screen_title">Enhedslåseskærm</string>
+    <string name="menu_history_show_balance">Vis saldo</string>
+    <string name="menu_history_transfers">Inkludér overførsler</string>
+    <string name="history_chart_out_label">Udgift</string>
+    <string name="pref_home_currency_title">Hjemmevaluta</string>
+    <string name="home_currency_change_warning">Hvis du ændrer din hjemmevaluta, vil tilsvarende beløb og valutakurser gå tabt og skal angives igen.</string>
+    <string name="warning_ungroup_split_transactions">De valgte opdelte transaktioner skilles ad, dvs. deres opdelte dele bliver til normale transaktioner.</string>
+    <string name="split_transaction_not_possible">Kun transaktioner, der har samme konto, modtager og status kan grupperes i én opdelt transaktion.</string>
+    <string name="pref_transaction_time_summary">Tillad at angive præcis transaktionstid.</string>
+    <string name="value_date">Værdidato</string>
+    <string name="licence_expires_n_days" tools:ignore="PluralsCandidate">Din professionelle nøgle udløber om %d dage.</string>
+    <string name="licence_expires_tomorrow">Din professionelle nøgle udløber i morgen.</string>
+    <string name="licence_expired_yesterday">Din professionelle nøgle udløb i går.</string>
+    <string name="pref_category_title_privacy">Privatliv</string>
+    <string name="sort_order">Sorteringsrækkefølge</string>
+    <string name="navigation_drawer_accounts_title">Administrér konti</string>
+    <string name="pref_sync_wifi_only_summary">Synkronisér kun på Wi-Fi</string>
+    <string name="pref_sync_changes_immediately_summary">Skriv lokale ændringer med det samme til backend</string>
+    <string name="wifi_not_connected">Enheden er ikke forbundet til Wi-Fi. Synkronisering er udskudt.</string>
+    <string name="content_description_collapse">Minimér</string>
+    <string name="saving_goal">Sparemål</string>
+    <string name="pref_scroll_to_current_date_summary">Ved opstart af appen skal transaktionslisten rulles til den aktuelle dato</string>
+    <string name="budget_table_header_allocated">Tildelt</string>
+    <string name="budget_exceeded_error_1_1">Alle undtagen %s af dit budget er blevet tildelt andre kategorier.</string>
+    <string name="budget_exceeded_error_1_2">Hele dit budget er blevet tildelt andre kategorier.</string>
+    <string name="sub_budget_exceeded_error_1_2">Hele beløbet tildelt hovedkategorien er blevet tildelt andre underkategorier.</string>
+    <string name="content_description_clear_method">Ryd metode</string>
+    <string name="content_description_remove_icon">Fjern ikon</string>
+    <string name="currency_code">Kode</string>
+    <string name="dialog_title_new_currency">Ny valuta</string>
+    <string name="unmapped">Ikke tilknyttet</string>
+    <string name="upgrade_information_cloud_sync_storage_format">Med version 2.9.8 er måden, data gemmes på synkroniseringsbackends, blevet ændret. Opgradér venligst til denne version på alle synkroniserede enheder, før du indtaster nye poster på nogen af dem.</string>
+    <string name="licence_has_expired_n_days" tools:ignore="PluralsCandidate">Din professionelle nøgle udløb %d dage siden.</string>
+    <string name="link_account_failure_3">Konflikten kan løses manuelt fra postens genvejsmenu.</string>
+    <string name="progress_validating_licence">Bekræfter licens</string>
+    <string name="licence_key">Licensnøgle</string>
+    <string name="licence_removal_success">Licensnøglen blev frigjort fra denne enhed.</string>
+    <string name="grand_total">Samlet sum</string>
+    <string name="menu_equivalent_amount">Tilsvarende beløb</string>
+    <string name="budget_table_header_overspent">Overskredet</string>
+    <string name="budget_exceeded_error_2">Øg det budgetterede beløb, eller fjern penge fra andre kategorier.</string>
+    <string name="sub_budget_exceeded_error_1_1">Alle undtagen %s af beløbet tildelt hovedkategorien er blevet tildelt andre underkategorier.</string>
+    <string name="sub_budget_exceeded_error_2">Øg beløbet tildelt hovedkategorien, eller fjern penge fra andre underkategorier.</string>
+    <string name="content_description_clear_category">Ryd kategori</string>
+    <string name="currency_code_already_definded">Valutakode er allerede angivet.</string>
+    <string name="contributed_by">Bidraget af %s</string>
+    <string name="pref_sync_notification_summary">Underret om synkroniseringsfremskridt</string>
+    <string name="onboarding_restore_from_local">Gendan lokal sikkerhedskopifil</string>
+    <plurals name="delete_success">
+        <item quantity="one">Ét objekt blev slettet.</item>
+        <item quantity="other">%d objekter blev slettet.</item>
+    </plurals>
+    <string name="sync_io_exception_reset_account_data">Fejl under nulstilling af fjernkonto.</string>
+    <string name="sync_success_reset_account_data">Fjerndata for kontoen %s blev slettet.</string>
+    <string name="onboarding_restore_from_cloud">Gendan fra cloud-synkronisering</string>
+    <string name="plan_custom_recurrence_info">Gem venligst skabelonen først. Planen åbnes derefter i kalenderappen, hvor du kan angive en tilpasset gentagelse.</string>
+    <string name="pref_warning_only_one_protection">Før du kan bruge beskyttelse af %1$s, skal du slå beskyttelse af %2$s fra.</string>
+    <string name="menu_history">Historik</string>
+    <string name="warning_split_transactions">De valgte transaktioner grupperes i én opdelt transaktion. Deres datoinformation vil gå tabt, dvs. erstattet af deres gennemsnit.</string>
+    <string name="eu_vat_info">For beboere i Den Europæiske Union vises priserne uden moms.</string>
+    <string name="valid_until">Indtil %s</string>
+    <string name="split_transaction_group_success" tools:ignore="PluralsCandidate">%1$d transaktioner blev grupperet i én opdelt transaktion.</string>
+    <string name="pref_value_date_summary">Tillad at angive værdidato ud over bogføringsdatoen. Transaktionstiden vil være skjult. Denne indstilling gælder ikke for kontanter.</string>
+    <string name="booking_date">Bogføringsdato</string>
+    <string name="professional_key_fallback_info">Et abonnement på den Professionelle Nøgle, der har været aktiv i mindst et år og ikke fornyes, ændres automatisk til en ubegrænset Udvidet Nøgle.</string>
+    <string name="budget_under_allocated_error">%s er allerede blevet tildelt kategorier. Medmindre du fjerner penge fra dem, skal du mindst budgettere det beløb.</string>
+    <string name="sub_budget_under_allocated_error">%s er allerede blevet tildelt andre underkategorier. Medmindre du fjerner penge fra dem, skal du mindst tildele det beløb til hovedkategorien.</string>
+    <string name="unmapped_filter_only_single">\'Ikke tilknyttet\'-filteret kan ikke inkluderes i flervalg</string>
 </resources>
