@@ -716,7 +716,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">Filtr „Nezmapované“ nelze zahrnout do vícenásobného výběru</string>
-    <string name="upgrade_information_cloud_sync_storage_format">S verzí 2.9.8 se změnil způsob ukládání dat na synchronizačních back-endech. Aktualizujte prosím na tuto verzi na všech synchronizovaných zařízeních, než na jakémkoliv z nich zadáte jakékoliv nové záznamy.</string>
     <string name="pref_security_export_passphrase_title">Přístupová fráze pro zálohování</string>
     <string name="pref_security_export_passphrase_summary">Zálohy budou šifrovány touto přístupovou frází</string>
     <string name="backup_is_encrypted">Soubor zálohy je šifrovaný. Chcete-li ho dešifrovat, je nutné zadat jeho přístupovou frázi.</string>

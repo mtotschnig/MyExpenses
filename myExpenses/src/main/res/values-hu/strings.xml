@@ -702,7 +702,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">A \"nem társított\" szűrő nem szerepelhet többszörös kijelölésben</string>
-    <string name="upgrade_information_cloud_sync_storage_format">A 2.9.8-as verzióval megváltozott az adatok szinkronizálási háttérrendszeren történő tárolásának módja. Frissítsen erre a verzióra minden szinkronizált készüléken, mielőtt bármelyikről új adatot vinne be.</string>
     <string name="pref_security_export_passphrase_title">Biztonsági mentések jelszava</string>
     <string name="pref_security_export_passphrase_summary">A biztonsági másolatokat ezzel a jelszóval titkosítják</string>
     <string name="backup_is_encrypted">A biztonsági fájl titkosított. A titkosítás feloldásához meg kell adnia a jelszavát.</string>

@@ -708,7 +708,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">Um filtro \'não mapeado\' não pode ser incluído em uma seleção múltipla</string>
-    <string name="upgrade_information_cloud_sync_storage_format">A partir da versão 2.9.8, a forma como os dados são armazenados nos destinos de sincronização mudou. Atualize para esta versão em todos os aparelhos sincronizados, antes de inserir novos registros em qualquer um deles.</string>
     <string name="pref_security_export_passphrase_title">Senha para backups</string>
     <string name="pref_security_export_passphrase_summary">Os backups serão criptografados com essa senha</string>
     <string name="backup_is_encrypted">O ficheiro de backup está criptografado. Para descriptografá-lo é necessário fornecer sua senha.</string>

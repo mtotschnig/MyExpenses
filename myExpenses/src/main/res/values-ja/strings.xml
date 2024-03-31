@@ -689,7 +689,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">\'未配置\' フィルターは複数選択に含めることはできません</string>
-    <string name="upgrade_information_cloud_sync_storage_format">バージョン2.9.8で、同期バックエンドにデータが格納される方法が変更されました。 新しいレコードを入力する前に、すべての同期されるデバイスでこのバージョンにアップグレードしてください。</string>
     <string name="pref_security_export_passphrase_title">バックアップのパスフレーズ</string>
     <string name="pref_security_export_passphrase_summary">このパスフレーズでバックアップが暗号化されます</string>
     <string name="backup_is_encrypted">バックアップファイルが暗号化されます。復号化するには、パスフレーズを指定する必要があります。</string>

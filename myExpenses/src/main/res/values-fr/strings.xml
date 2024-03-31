@@ -708,7 +708,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">Le filtre « Sans liaison » ne peut pas être inclus dans une sélection multiple</string>
-    <string name="upgrade_information_cloud_sync_storage_format">Avec la version 2.9.8, la façon dont les données sont stockées dans les backends de synchronisation a été modifiée. Veuillez mettre à niveau cette version sur tous les appareils synchronisés avant de saisir de nouveaux enregistrements sur l\'un d\'entre eux.</string>
     <string name="pref_security_export_passphrase_title">Phrase secrète pour les sauvegardes</string>
     <string name="pref_security_export_passphrase_summary">Les sauvegardes seront cryptées avec cette phrase secrète</string>
     <string name="backup_is_encrypted">Le fichier de sauvegarde est crypté. Pour le déchiffrer, vous devez spécifier sa phrase secrète.</string>

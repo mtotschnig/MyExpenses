@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="upgrade_information_cloud_sync_storage_format">With version 2.9.8, the way data is stored on synchronization backends has changed. Please upgrade to this version on all synced devices, before entering any new records on any of them.</string>
     <string name="upgrade_info_557">How do you like the new design? Please let us know. A variant closer to the old design can be activated in the Settings (%1$s -> %2$s).</string>
 </resources>

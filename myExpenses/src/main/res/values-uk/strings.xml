@@ -696,7 +696,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">Фільтр \"Незв\'язані\" не можна включити до множинного вибору</string>
-    <string name="upgrade_information_cloud_sync_storage_format">У версії 2.9.8 змінено спосіб зберігання даних на серверах синхронізації. Будь ласка, оновіться до цієї версії на всіх синхронізованих пристроях, перш ніж вводити нові записи на будь-якому з них.</string>
     <string name="pref_security_export_passphrase_title">Фраза-пароль для резервних копій</string>
     <string name="pref_security_export_passphrase_summary">Резервні копії будуть зашифровані за допомогою цієї фрази</string>
     <string name="backup_is_encrypted">Файл резервної копії зашифровано. Для розшифрування, потрібно ввести фразу-пароль.</string>

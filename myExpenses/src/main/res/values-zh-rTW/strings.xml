@@ -693,7 +693,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">“未分類項目”只能被單獨篩選，不能包含在多個篩選條件中</string>
-    <string name="upgrade_information_cloud_sync_storage_format">在版本2.9.8中，同步後端上的資料儲存方式已變更。請將所有同步裝置升級到該版本後，才能在其中的裝置上輸入任何新記錄。</string>
     <string name="pref_security_export_passphrase_title">設定備份的複雜密碼(Passphrase)</string>
     <string name="pref_security_export_passphrase_summary">備份檔案將用此複雜密碼(Passphrase)加密</string>
     <string name="backup_is_encrypted">備份檔案已加密。為了解密它，您需要輸入它的複雜密碼(Passphrase)。</string>

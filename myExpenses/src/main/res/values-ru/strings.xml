@@ -714,7 +714,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">Фильтр «ненанесенный на карту » не может быть включен в множественный выбор</string>
-    <string name="upgrade_information_cloud_sync_storage_format">В версии 2.9.8, был изменен способ хранения данных на серверах синхронизации. Пожалуйста обновите эту версию на всех синхронизированных устройствах, прежде чем вводить какие-либо новые записи на любом из них.</string>
     <string name="pref_security_export_passphrase_title">Парольная фраза для резервных копий</string>
     <string name="pref_security_export_passphrase_summary">Резервные копии будут зашифрованы этой парольной фразой</string>
     <string name="backup_is_encrypted">Файл резервной копии зашифрован. Чтобы расшифровать его, вам нужно указать его парольную фразу. </string>

@@ -698,7 +698,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">\'ಅನ್ಮ್ಯಾಪ್ಡ್\' ಫಿಲ್ಟರ್ ಅನ್ನು ಬಹು ಆಯ್ಕೆಯಲ್ಲಿ ಸೇರಿಸಲಾಗುವುದಿಲ್ಲ</string>
-    <string name="upgrade_information_cloud_sync_storage_format">ಆವೃತ್ತಿ 2.9.8 ರೊಂದಿಗೆ, ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್‌ಗಳಲ್ಲಿ ಡೇಟಾವನ್ನು ಸಂಗ್ರಹಿಸುವ ವಿಧಾನವು ಬದಲಾಗಿದೆ. ಯಾವುದೇ ಹೊಸ ದಾಖಲೆಗಳನ್ನು ನಮೂದಿಸುವ ಮೊದಲು ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಸಿಂಕ್ ಮಾಡಿದ ಸಾಧನಗಳಲ್ಲಿ ಈ ಆವೃತ್ತಿಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ.</string>
     <string name="pref_security_export_passphrase_title">ಬ್ಯಾಕಪ್‌ಗಳಿಗಾಗಿ ಪಾಸ್‌ಫ್ರೇಸ್</string>
     <string name="pref_security_export_passphrase_summary">ಈ ಪಾಸ್‌ಫ್ರೇಸ್‌ನೊಂದಿಗೆ ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗುತ್ತದೆ</string>
     <string name="backup_is_encrypted">ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅನ್ನು ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗಿದೆ. ಅದನ್ನು ಡೀಕ್ರಿಪ್ಟ್ ಮಾಡಲು, ನೀವು ಅದರ ಪಾಸ್‌ಫ್ರೇಸ್ ಅನ್ನು ನಿರ್ದಿಷ್ಟಪಡಿಸಬೇಕು.</string>

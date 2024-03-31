@@ -710,7 +710,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">מסנן \'לא ממופה\' אינו יכול להיכלל בבחירה מרובה</string>
-    <string name="upgrade_information_cloud_sync_storage_format">עם גרסה 2.9.8,  האופן שבו הנתונים מאוחסנים על backends מסונכרן השתנה. שדרג לגרסה זו בכל המכשירים המסונכרנים, לפני הזנת רשומות חדשות בכל אחת מהן.</string>
     <string name="pref_security_export_passphrase_title">ביטוי סיסמה לגיבויים</string>
     <string name="pref_security_export_passphrase_summary">גיבויים יוצפנו בסיסמה זו</string>
     <string name="backup_is_encrypted">קובץ הגיבוי מוצפן. כדי לפענח את זה, אתה צריך לציין את  הסיסמה שלו.</string>

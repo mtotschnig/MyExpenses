@@ -662,7 +662,6 @@
     <string name="currency_code">Kode</string>
     <string name="dialog_title_new_currency">Ny valuta</string>
     <string name="unmapped">Ikke tilknyttet</string>
-    <string name="upgrade_information_cloud_sync_storage_format">Med version 2.9.8 er måden, data gemmes på synkroniseringsbackends, blevet ændret. Opgradér venligst til denne version på alle synkroniserede enheder, før du indtaster nye poster på nogen af dem.</string>
     <string name="licence_has_expired_n_days" tools:ignore="PluralsCandidate">Din professionelle nøgle udløb %d dage siden.</string>
     <string name="link_account_failure_3">Konflikten kan løses manuelt fra postens genvejsmenu.</string>
     <string name="progress_validating_licence">Bekræfter licens</string>

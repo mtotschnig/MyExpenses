@@ -29,7 +29,6 @@
     <string name="backup_is_encrypted">బ్యాకప్ ఫైల్ గుప్తీకరించబడింది. దీన్ని డీక్రిప్ట్ చేయడానికి, మీరు దాని పాస్‌ఫ్రేజ్‌ని పేర్కొనాలి.</string>
     <string name="pref_security_export_passphrase_summary">ఈ పాస్‌ఫ్రేజ్‌తో బ్యాకప్‌లు గుప్తీకరించబడతాయి</string>
     <string name="pref_security_export_passphrase_title">బ్యాకప్‌ల కోసం పాస్‌ఫ్రేజ్</string>
-    <string name="upgrade_information_cloud_sync_storage_format">సంస్కరణ 2.9.8 తో, సింక్రొనైజేషన్ బ్యాకెండ్లలో డేటా నిల్వ చేయబడిన విధానం మార్చబడింది. ఏవైనా సమకాలీకరించిన పరికరాల్లో ఈ సంస్కరణకు అప్‌గ్రేడ్ చేయండి.</string>
     <string name="unmapped_filter_only_single">\'అన్‌మ్యాప్డ్\' ఫిల్టర్‌ను బహుళ ఎంపికలో చేర్చలేరు</string>
     <string name="unmapped">అన్‌మ్యాప్ చేయబడింది</string>
     <string name="currency_still_used">కరెన్సీ వాడుకలో ఉంది, తొలగించబడదు.</string>

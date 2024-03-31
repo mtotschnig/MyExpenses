@@ -760,7 +760,6 @@
     <string name="backup_is_encrypted">Datoteka sigurnosne kopije je šifrirana. Za dešifriranje navedi njenu dugačku lozinku.</string>
     <string name="pref_security_export_passphrase_summary">Sigurnosne kopije će se šifrirati pomoću ove dugačke lozinke</string>
     <string name="pref_security_export_passphrase_title">Dugačka lozinka za sigurnosne kopije</string>
-    <string name="upgrade_information_cloud_sync_storage_format">S verzijom 2.9.8 promijenjen je način spremanja podataka u pozadinskom sustavu sinkronizacije. Nadogradi na ovu verziju na svim sinkroniziranim uređajima prije nego što uneseš nove zapise na bilo uređaju.</string>
     <string name="unmapped_filter_only_single">Filtar „Nepovezano” se ne može uključiti u višestruki odabir</string>
     <string name="unmapped">Nepovezano</string>
     <string name="currency_still_used">Valuta se koristi, ne može se izbrisati.</string>

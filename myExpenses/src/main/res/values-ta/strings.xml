@@ -700,7 +700,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">\'தொடற்பு படுத்தப்படாதது\' வடிப்பானை பல தேர்வுகளில் சேர்க்க முடியாது</string>
-    <string name="upgrade_information_cloud_sync_storage_format">பதிப்பு 2.9.8 உடன், ஒத்திசைவு பின்தளத்தில் தரவு சேமிக்ககும் விதம் மாற்றப்பட்டது. எந்தவொரு புதிய பதிவையும் உள்ளிடுவதற்கு முன், ஒத்திசைக்கப்பட்ட எல்லா கருவிகளையும் இந்த பதிப்பிற்கு மேம்படுத்தவும்.</string>
     <string name="pref_security_export_passphrase_title">காப்புப்பிரதிகளுக்கான கடவுச்சொற்றொடர்</string>
     <string name="pref_security_export_passphrase_summary">இந்த கடவுச்சொற்றொடரை கொண்டு காப்புப்பிரதிகள் மறையாக்கம் செய்யப்படும்</string>
     <string name="backup_is_encrypted">காப்புப்பிரதி கோப்பு மறையாக்கப்பட்டுள்ளது. அதை மறையீடு நீக்க, நீங்கள் அதன் கடவுச்சொற்றொடரை குறிப்பிட வேண்டும்.</string>

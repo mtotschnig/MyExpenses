@@ -707,7 +707,6 @@
     <string name="no_budgets">Defineixi el seu primer pressupost tocant el botó +.</string>
     <string name="currency_still_used">Divisa utilitzada actualment, no es pot eliminar.</string>
     <string name="unmapped">Sense assignar</string>
-    <string name="upgrade_information_cloud_sync_storage_format">Amb la versió 2.9.8, la manera d\'emmagatzemar dades sincronitzades al sistema de servei ha canviat. Siusplau abans d\'entrar nous registres a cap dispositiu sincronitzat, actualitzi a aquesta versió tots els dispositius sincrotnitzats.</string>
     <string name="object_sealed">L\'objecte es refereix a un compte tancat.</string>
     <string name="sub_budget_exceeded_error_2">Incrementi la quantitat assignada a la categoria princpial, o retiri diners d\'altres subcategories.</string>
     <string name="currency_code">Codi</string>

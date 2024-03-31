@@ -850,7 +850,6 @@
     <string name="sync_backend_wrong_passphrase">Το απομακρυσμένο backend φαίνεται κρυπτογραφημένο με διαφορετική φράση πρόσβασης.</string>
     <string name="new_tag_hint">Εισάγετε τη νέα ετικέτα</string>
     <string name="template_default_action_without_amount_hint">Το πρότυπο χωρίς ποσό πρέπει να αποθηκευτεί με την προεπιλεγμένη ενέργεια \"Επεξεργασία\"</string>
-    <string name="upgrade_information_cloud_sync_storage_format">Με την έκδοση 2.9.8, ο τρόπος αποθήκευσης των δεδομένων στο backend συγχρονισμού έχει αλλάξει. Αναβαθμίστε σε αυτήν την έκδοση σε όλες τις συγχρονισμένες συσκευές, προτού εισαγάγετε νέες εγγραφές σε οποιαδήποτε από αυτές.</string>
     <string name="language_download_requested">Ζητούνται μεταφράσεις για τη γλώσσα %s από το Play Store</string>
     <string name="reset_equivalent_amounts_success">Έγινε επαναφορά των αντίστοιχων ποσών</string>
     <string name="sub_budget_under_allocated_error">%s έχουν ήδη διατεθεί σε υποκατηγορίες. Εάν δεν αφαιρέσετε χρήματα από αυτά, πρέπει τουλάχιστον να διαθέσετε αυτό το ποσό στην κύρια κατηγορία.</string>

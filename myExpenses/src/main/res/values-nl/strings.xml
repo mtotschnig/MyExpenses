@@ -494,7 +494,6 @@
     <string name="sub_budget_exceeded_error_1_1">Op %s na is het aan de hoofdcategorie toegewezen bedrag volledig toegewezen aan andere subcategorieën.</string>
     <string name="content_description_clear_category">Duidelijke categorie</string>
     <string name="currency_still_used">Valuta is in gebruik, kan niet worden verwijderd.</string>
-    <string name="upgrade_information_cloud_sync_storage_format">Met versie 2.9.8 is de manier waarop gegevens worden opgeslagen op synchronisatie-backends veranderd. Upgrade naar deze versie op alle gesynchroniseerde apparaten voordat je nieuwe records op een van deze apparaten invoert.</string>
     <string name="pref_security_export_passphrase_summary">Back-ups worden versleuteld met deze wachtwoordzin</string>
     <string name="backup_wrong_password">Het back-upbestand lijkt versleuteld met een andere wachtwoordzin.</string>
     <string name="sync_backend_is_encrypted">Externe backend is versleuteld. Je moet een wachtwoordzin opgeven.</string>

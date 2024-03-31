@@ -700,7 +700,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">\'Eşlenmemiş\' filtresi çoklu seçime dahil edilemez</string>
-    <string name="upgrade_information_cloud_sync_storage_format">2.9.8 sürümünden beri verilerin eşzamanlama arka uçlarına yazılma yöntemi değişmiştir. Eşzamanlama yapılan tüm aygıtlarda yeni kayıt girmeden önce lütfen bu sürüme yükseltme yapın.</string>
     <string name="pref_security_export_passphrase_title">Yedeklemeler için parola</string>
     <string name="pref_security_export_passphrase_summary">Yedeklemeler bu parola ile şifrelenecektir</string>
     <string name="backup_is_encrypted">Yedekleme dosyası şifrelenmiştir. Şifrelemeyi çözmek için parolayı girmeniz gerekir.</string>

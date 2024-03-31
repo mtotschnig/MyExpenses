@@ -731,7 +731,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">لا يمكن تضمين فلتر \"غير المعين\" في تحديدات متعددة</string>
-    <string name="upgrade_information_cloud_sync_storage_format">مع الإصدار 2.9.8، تغيرت طريقة تخزين البيانات على خلفيات المزامنة. يُرجى الترقية إلى هذا الإصدار على جميع الأجهزة المتزامنة، قبل إدخال أي سجلات جديدة على أي منها.</string>
     <string name="pref_security_export_passphrase_title">عبارة المرور للنسخ الاحتياطية</string>
     <string name="pref_security_export_passphrase_summary">سيتم تشفير النسخ الاحتياطية بعبارة المرور هذه</string>
     <string name="backup_is_encrypted">ملف النسخ الاحتياطي مشفر. لفك تشفيره، تحتاج إلى تحديد عبارة المرور الخاصة به.</string>
