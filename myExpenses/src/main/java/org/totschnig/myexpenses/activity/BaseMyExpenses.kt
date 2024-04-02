@@ -848,9 +848,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         }
                     }
                     LaunchedEffect(pagerState.settledPage) {
-                        if (true) {
-                            selectedAccountId = accountData[pagerState.settledPage].id
-                        }
+                        selectedAccountId = accountData[pagerState.settledPage].id
                     }
                     HorizontalPager(
                         modifier = Modifier
