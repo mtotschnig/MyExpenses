@@ -3,7 +3,9 @@ package org.totschnig.myexpenses.model
 import androidx.annotation.VisibleForTesting
 import java.io.Serializable
 import java.util.*
+import javax.annotation.concurrent.Immutable
 
+@Immutable
 data class CurrencyUnit(
     val code: String,
     val symbol: String,

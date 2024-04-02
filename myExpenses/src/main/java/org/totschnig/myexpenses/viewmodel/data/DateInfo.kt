@@ -15,7 +15,9 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getIntIfExistsOr0
 import org.totschnig.myexpenses.provider.getLocalDateIfExists
 import java.time.LocalDate
+import javax.annotation.concurrent.Immutable
 
+@Immutable
 data class DateInfo(
     val day: Int, val week: Int, val month: Int, val year: Int,
     val yearOfWeekStart: Int, val yearOfMonthStart: Int
@@ -55,6 +57,7 @@ data class DateInfo(
     }
 }
 
+@Immutable
 data class DateInfoExtra(
     val maxValue: Int, val weekStart: LocalDate?,
 ) {

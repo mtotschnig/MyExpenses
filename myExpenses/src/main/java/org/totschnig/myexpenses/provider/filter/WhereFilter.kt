@@ -18,7 +18,9 @@
 package org.totschnig.myexpenses.provider.filter
 
 import androidx.annotation.CheckResult
+import androidx.compose.runtime.Immutable
 
+@Immutable
 data class WhereFilter(val criteria: List<Criterion<*>> = emptyList()) {
 
     fun getSelectionForParents(tableName: String, forExport: Boolean = false) =

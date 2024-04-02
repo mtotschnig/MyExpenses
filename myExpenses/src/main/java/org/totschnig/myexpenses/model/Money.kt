@@ -18,9 +18,11 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import java.math.BigDecimal
 import java.math.RoundingMode
+import javax.annotation.concurrent.Immutable
 import kotlin.math.pow
 
 @Parcelize
+@Immutable
 data class Money(val currencyUnit: CurrencyUnit, val amountMinor: Long) : Parcelable {
 
     @Throws(ArithmeticException::class)
