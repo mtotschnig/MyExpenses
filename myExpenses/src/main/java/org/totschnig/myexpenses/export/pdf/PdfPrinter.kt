@@ -106,8 +106,8 @@ object PdfPrinter {
                 prefHandler
             ),
             selection, selectionArgs, sortBy + " " + account.sortDirection
-        )!!.use {
-            if (it.count == 0) {
+        )!!.use { cursor ->
+            if (cursor.count == 0) {
                 throw Exception("No data")
             }
 
@@ -128,11 +128,14 @@ object PdfPrinter {
                                     currencyUnit,
                                     account.currentBalance
                                 )
-                            )
+                            ),
+                    filter.takeIf { !it.isEmpty }?.let { whereFilter ->
+                        whereFilter.criteria.joinToString { it.prettyPrint(context) }
+                    }
                 )
                 addTransactionList(
                     document,
-                    it,
+                    cursor,
                     helper,
                     context,
                     account,
@@ -159,16 +162,15 @@ object PdfPrinter {
         document: Document,
         helper: PdfHelper,
         title: String,
-        subTitle: String
+        subTitle: String,
+        subTitle2: String?
     ) {
         val preface = PdfPTable(1)
         preface.addCell(helper.printToCell(title, FontType.TITLE))
-        preface.addCell(
-            helper.printToCell(
-                DateFormat.getDateInstance(DateFormat.FULL).format(Date()), FontType.BOLD
-            )
-        )
         preface.addCell(helper.printToCell(subTitle, FontType.BOLD))
+        subTitle2?.let {
+            preface.addCell(helper.printToCell(it, FontType.BOLD))
+        }
         document.add(preface)
         val empty = Paragraph()
         addEmptyLine(empty, 1)
