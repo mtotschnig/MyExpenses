@@ -435,9 +435,9 @@
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Funktioner</string>
     <string name="pref_translation_title">Oversættelse</string>
-    <string name="crash_reports_user_info">Hvis app\'en går ned vil {app_name} rapporter fejlen automatisk til udvikleren, så at problemet kan afhjælpes hurtigt.</string>
-    <string name="pref_category_title_crash_reports">Fejlrapporter</string>
-    <string name="pref_enable_acra">Tillad automatisk rapportering af fejl</string>
+    <string name="crash_reports_user_info">Hvis appen går ned, vil {app_name} rapportere fejlen automatisk til udvikleren, så problemet kan afhjælpes hurtigt.</string>
+    <string name="pref_category_title_crash_reports">Nedbrudsrapporter</string>
+    <string name="pref_enable_acra">Tillad automatisk rapportering af nedbrud</string>
     <string name="pref_acra_user_email">Fejlrapporten skal indeholde brugerens e-mail.</string>
     <string name="pref_acra_user_email_summary">Hvis du gerne vil hjælpe os ved debugging og er indforstået med at vi  tager kontakt til dig, skal du indtaste din e-mail adresse.</string>
     <string name="new_version">Ny version</string>
@@ -814,4 +814,9 @@
     <string name="ocr_download_info">Tekstgenkendelsesfunktionen leveres af en ekstern applikation.</string>
     <string name="pref_group_header_show_details_summary">Vis detaljerede totaler i gruppeoverskriften</string>
     <string name="recurrence_last_day_of_month">Sidste dag</string>
+    <string name="request_for_invoice">Anmodning om Faktura</string>
+    <string name="active_tags">Aktive Etiketter</string>
+    <string name="budget_widget_configuration">Vælg budget</string>
+    <string name="account_widget_configuration_sum_total">Inkludér fremtidige transaktioner</string>
+    <string name="warning_plan_instance_delete">Transaktionen oprettet for den valgte dato slettes.</string>
 </resources>
