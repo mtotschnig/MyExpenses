@@ -10,15 +10,22 @@ import com.itextpdf.text.Document
 import com.itextpdf.text.DocumentException
 import com.itextpdf.text.Element
 import com.itextpdf.text.Paragraph
+import com.itextpdf.text.pdf.ColumnText
 import com.itextpdf.text.pdf.PdfContentByte
 import com.itextpdf.text.pdf.PdfPRow
 import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfPTableEvent
+import com.itextpdf.text.pdf.PdfPageEventHelper
 import com.itextpdf.text.pdf.PdfWriter
 import com.itextpdf.text.pdf.draw.LineSeparator
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.tagMap
 import org.totschnig.myexpenses.export.createFileFailure
+import org.totschnig.myexpenses.export.pdf.PdfPrinter.HorizontalPosition.CENTER
+import org.totschnig.myexpenses.export.pdf.PdfPrinter.HorizontalPosition.LEFT
+import org.totschnig.myexpenses.export.pdf.PdfPrinter.HorizontalPosition.RIGHT
+import org.totschnig.myexpenses.export.pdf.PdfPrinter.VerticalPosition.BOTTOM
+import org.totschnig.myexpenses.export.pdf.PdfPrinter.VerticalPosition.TOP
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -50,13 +57,23 @@ import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderData.Companion.fromSequence
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.io.IOException
-import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import kotlin.math.abs
+
 
 object PdfPrinter {
     private const val VOID_MARKER = "void"
+
+    enum class HorizontalPosition {
+        LEFT, CENTER, RIGHT;
+    }
+
+    enum class VerticalPosition {
+        TOP, BOTTOM;
+    }
 
     @Throws(IOException::class, DocumentException::class)
     fun print(
@@ -114,7 +131,53 @@ object PdfPrinter {
             PdfWriter.getInstance(
                 document,
                 context.contentResolver.openOutputStream(outputFile.uri)
-            )
+            ).pageEvent = object : PdfPageEventHelper() {
+
+
+                override fun onEndPage(writer: PdfWriter, document: Document) {
+                    val cb = writer.getDirectContent()
+                    fun print(
+                        cb: PdfContentByte,
+                        content: PrefKey,
+                        horizontalPosition: HorizontalPosition,
+                        verticalPosition: VerticalPosition
+                    ) {
+                        prefHandler.getString(content)?.let {
+                            val text = it
+                                .replace("{generator}", context.getString(R.string.app_name))
+                                .replace("{page}", document.pageNumber.toString())
+                                .replace(
+                                    "{date}", LocalDate.now().format(
+                                        DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
+                                    )
+                                )
+                            val x = when (horizontalPosition) {
+                                LEFT -> document.left()
+                                CENTER -> (document.right() - document.left()) / 2 + document.leftMargin()
+                                RIGHT -> document.right()
+                            }
+                            val y = when (verticalPosition) {
+                                TOP -> document.top() + 10
+                                BOTTOM -> document.bottom() - 10
+                            }
+                            val alignment = when (horizontalPosition) {
+                                LEFT -> Element.ALIGN_LEFT
+                                CENTER -> Element.ALIGN_CENTER
+                                RIGHT -> Element.ALIGN_RIGHT
+                            }
+                            ColumnText.showTextAligned(
+                                cb, alignment, helper.print(text, FontType.NORMAL), x, y, 0F
+                            )
+                        }
+                    }
+                    print(cb, PrefKey.PRINT_HEADER_LEFT, LEFT, TOP)
+                    print(cb, PrefKey.PRINT_HEADER_CENTER, CENTER, TOP)
+                    print(cb, PrefKey.PRINT_HEADER_RIGHT, RIGHT, TOP)
+                    print(cb, PrefKey.PRINT_FOOTER_LEFT, LEFT, BOTTOM)
+                    print(cb, PrefKey.PRINT_FOOTER_CENTER, CENTER, BOTTOM)
+                    print(cb, PrefKey.PRINT_FOOTER_RIGHT, RIGHT, BOTTOM)
+                }
+            }
             document.open()
             try {
                 addMetaData(document, account.label)

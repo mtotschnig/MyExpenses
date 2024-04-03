@@ -191,7 +191,13 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     CAMERA_CHOOSER(R.string.pref_camera_chooser_key),
     TRANSACTION_AMOUNT_COLOR_SOURCE(R.string.pref_transaction_amount_color_source_key),
     SYNC_NOW_ALL(R.string.pref_sync_now_all_key),
-    UI_ITEM_RENDERER_ORIGINAL_AMOUNT(R.string.pref_ui_item_renderer_original_amount_key)
+    UI_ITEM_RENDERER_ORIGINAL_AMOUNT(R.string.pref_ui_item_renderer_original_amount_key),
+    PRINT_HEADER_LEFT(R.string.pref_print_header_left_key),
+    PRINT_HEADER_CENTER(R.string.pref_print_header_center_key),
+    PRINT_HEADER_RIGHT(R.string.pref_print_header_right_key),
+    PRINT_FOOTER_LEFT(R.string.pref_print_footer_left_key),
+    PRINT_FOOTER_CENTER(R.string.pref_print_footer_center_key),
+    PRINT_FOOTER_RIGHT(R.string.pref_print_footer_right_key)
     ;
 
     @Deprecated("")

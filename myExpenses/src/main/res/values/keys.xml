@@ -289,4 +289,10 @@
     <string name="pref_help_key">help</string>
     <string name="pref_customize_main_menu_key">customize_main_menu</string>
     <string name="pref_remove_local_calendar_key">remove_local_calendar</string>
+    <string name="pref_print_header_left_key">print_header_left</string>
+    <string name="pref_print_header_center_key">print_header_center</string>
+    <string name="pref_print_header_right_key">print_header_right</string>
+    <string name="pref_print_footer_left_key">print_footer_left</string>
+    <string name="pref_print_footer_center_key">print_footer_center</string>
+    <string name="pref_print_footer_right_key">print_footer_right</string>
 </resources>

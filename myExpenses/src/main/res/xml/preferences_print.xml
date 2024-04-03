@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--suppress AndroidElementNotAllowed -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:my="http://schemas.android.com/apk/res-auto" android:title="@string/menu_print">
+    <org.totschnig.myexpenses.preference.HeaderPreference />
+    <PreferenceCategory android:title="Header / Footer">
+        <EditTextPreference
+            android:key="@string/pref_print_header_left_key"
+            android:title="Header Left"
+            my:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:defaultValue="{date}"
+            android:key="@string/pref_print_header_center_key"
+            android:title="Header Center"
+            my:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="@string/pref_print_header_right_key"
+            android:title="Header Right"
+            my:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:defaultValue="{generator}"
+            android:key="@string/pref_print_footer_left_key"
+            android:title="Footer Left"
+            my:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="@string/pref_print_footer_center_key"
+            android:title="Footer Center"
+            my:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:defaultValue="{@page}"
+            android:key="@string/pref_print_footer_right_key"
+            android:title="Footer Right"
+            my:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -61,6 +61,10 @@
             android:key="attach_picture"
             android:title="@string/contrib_feature_attach_picture_label" />
         <Preference
+            android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesPrintFragment"
+            android:key="print"
+            android:title="@string/menu_print" />
+        <Preference
             my:isPreferenceVisible="@bool/is26"
             android:key="@string/pref_banking_fints_key"
             android:title="Multibanking" />
