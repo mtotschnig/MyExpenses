@@ -439,11 +439,11 @@
     <string name="pref_category_title_crash_reports">Nedbrudsrapporter</string>
     <string name="pref_enable_acra">Tillad automatisk rapportering af nedbrud</string>
     <string name="pref_acra_user_email">Fejlrapporten skal indeholde brugerens e-mail.</string>
-    <string name="pref_acra_user_email_summary">Hvis du gerne vil hjælpe os ved debugging og er indforstået med at vi  tager kontakt til dig, skal du indtaste din e-mail adresse.</string>
+    <string name="pref_acra_user_email_summary">Indtast venligst din e-mailadresse, hvis du vil hjælpe med fejlfinding og lade os kontakte dig.</string>
     <string name="new_version">Ny version</string>
     <string name="pref_news_title">Nyheder</string>
     <string name="title_scan_receipt_feature">Scan kvittering</string>
-    <string name="debt_managment">Forvaltning af gæld</string>
+    <string name="debt_managment">Gældshåndtering</string>
     <string name="synchronization">Synkronisering</string>
     <string name="ui_refinement">Forbedring af brugergrænsefladen</string>
     <string name="menu_budget">Budgettering</string>
@@ -819,4 +819,27 @@
     <string name="budget_widget_configuration">Vælg budget</string>
     <string name="account_widget_configuration_sum_total">Inkludér fremtidige transaktioner</string>
     <string name="warning_plan_instance_delete">Transaktionen oprettet for den valgte dato slettes.</string>
+    <string name="debt">Gæld</string>
+    <string name="stability_improvements" tools:ignore="UnusedResources">Forbedringer af stabiliteten</string>
+    <string name="menu_new_debt">Ny gæld</string>
+    <string name="setup_completed">Opsætning fuldført</string>
+    <string name="performance_enhancement" tools:ignore="UnusedResources">Forbedring af ydeevne</string>
+    <string name="backup_save_to_sync_backend">Gem på %s</string>
+    <string name="object_sealed_debt">Objekt henviser til en lukket gæld.</string>
+    <plurals name="debt_mapped_transactions">
+        <item quantity="one">Gælden %1$s har %2$d tilknyttet transaktion.</item>
+        <item quantity="other">Gælden %1$s har %2$d tilknyttede transaktioner.</item>
+    </plurals>
+    <plurals name="import_categories_icons_updated">
+        <item quantity="one">Én kategori blev opdateret med ikon.</item>
+        <item quantity="other">%1$d kategorier blev opdateret med ikoner.</item>
+    </plurals>
+    <string name="debt_owes_me">%s skylder mig</string>
+    <string name="debt_I_owe">Jeg skylder %s</string>
+    <string name="debts">Gæld</string>
+    <string name="warning_party_delete_debt">Når denne part slettes, vil den gæld, der er angivet for den, også slettes.</string>
+    <string name="dialog_title_delete_debt">Slet gæld?</string>
+    <string name="title_activity_debt_overview">Gældsoversigt</string>
+    <string name="cb_label_merge_accounts">Flet konti</string>
+    <string name="pref_mlkit_script_title">Script til MlKit</string>
 </resources>
