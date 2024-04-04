@@ -74,4 +74,5 @@
     <string name="color">"రంగు"</string>
     <string name="notes">"గమనికలు"</string>
     <string name="cannot_be_undone">"ఈ చర్య రద్దు చేయబడదు."</string>
+    <string name="paper_format">"కాగిత ఫార్మాట్"</string>
 </resources>

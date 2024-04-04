@@ -88,4 +88,5 @@
     <string name="bottom_left">"En bas à gauche"</string>
     <string name="bottom_center">"En bas au centre"</string>
     <string name="bottom_right">"En bas à droite"</string>
+    <string name="paper_format">"Format de papier"</string>
 </resources>

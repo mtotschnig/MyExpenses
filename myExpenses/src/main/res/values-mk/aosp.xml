@@ -13,4 +13,5 @@
     <string name="color">"Боја"</string>
     <string name="notes">"Белешки"</string>
     <string name="cannot_be_undone">"Дејството не може да се врати."</string>
+    <string name="paper_format">"Формат на страница"</string>
 </resources>

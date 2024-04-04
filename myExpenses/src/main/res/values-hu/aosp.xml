@@ -89,4 +89,5 @@
     <string name="bottom_left">"Balra lent"</string>
     <string name="bottom_center">"Középen lent"</string>
     <string name="bottom_right">"Jobbra lent"</string>
+    <string name="paper_format">"Papírformátum"</string>
 </resources>

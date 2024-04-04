@@ -22,4 +22,5 @@
     <string name="bottom_left">"Inferior esquerda"</string>
     <string name="bottom_center">"Inferior centro"</string>
     <string name="bottom_right">"Inferior dereita"</string>
+    <string name="paper_format">"Formato do papel"</string>
 </resources>

@@ -22,4 +22,5 @@
     <string name="bottom_left">"Vľavo dolu"</string>
     <string name="bottom_center">"V strede dolu"</string>
     <string name="bottom_right">"Vpravo dolu"</string>
+    <string name="paper_format">"Formát papiera"</string>
 </resources>

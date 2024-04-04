@@ -88,4 +88,5 @@
     <string name="bottom_left">"Nederst til venstre"</string>
     <string name="bottom_center">"Nederst centreret"</string>
     <string name="bottom_right">"Nederst til hæjre"</string>
+    <string name="paper_format">"Papirformat"</string>
 </resources>

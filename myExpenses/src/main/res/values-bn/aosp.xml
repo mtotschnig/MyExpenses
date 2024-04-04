@@ -13,4 +13,5 @@
     <string name="color">"রঙ"</string>
     <string name="notes">"নোটগুলি"</string>
     <string name="cannot_be_undone">"এই কাজটিকে পূর্বাবস্থায় ফেরানো যাবে না৷"</string>
+    <string name="paper_format">Paper Format"</string>
 </resources>

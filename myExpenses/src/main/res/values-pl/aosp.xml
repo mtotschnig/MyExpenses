@@ -90,4 +90,5 @@
     <string name="bottom_left">"Lewa dolna"</string>
     <string name="bottom_center">"Dolna środkowa"</string>
     <string name="bottom_right">"Prawa dolna"</string>
+    <string name="paper_format">"Format papieru"</string>
 </resources>

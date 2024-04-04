@@ -86,4 +86,5 @@
     <string name="bottom_left">"左下"</string>
     <string name="bottom_center">"中下"</string>
     <string name="bottom_right">"右下"</string>
+    <string name="paper_format">"纸张格式"</string>
 </resources>

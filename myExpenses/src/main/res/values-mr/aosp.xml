@@ -13,4 +13,5 @@
     <string name="color">"रंग"</string>
     <string name="notes">"टिपा"</string>
     <string name="cannot_be_undone">"ही क्रिया पूर्ववत केली जाणे शक्य नाही."</string>
+    <string name="paper_format">"पेपर रूपण"</string>
 </resources>

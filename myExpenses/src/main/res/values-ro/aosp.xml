@@ -82,4 +82,5 @@
     <string name="color">"Culoare"</string>
     <string name="notes">"Note"</string>
     <string name="cannot_be_undone">"Această acțiune nu poate fi anulată."</string>
+    <string name="paper_format">"Format de hârtie"</string>
 </resources>

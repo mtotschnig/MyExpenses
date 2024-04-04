@@ -79,4 +79,5 @@
     <string name="color">"ಬಣ್ಣ"</string>
     <string name="notes">"ಟಿಪ್ಪಣಿಗಳು"</string>
     <string name="cannot_be_undone">"ಈ ಕ್ರಿಯೆಯನ್ನು ರದ್ದುಪಡಿಸಲಾಗುವುದಿಲ್ಲ"</string>
+    <string name="paper_format">"ಕಾಗದದ ವಿನ್ಯಾಸ"</string>
 </resources>

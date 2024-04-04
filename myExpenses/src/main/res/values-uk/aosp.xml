@@ -89,4 +89,5 @@
     <string name="bottom_left">"Ліворуч внизу"</string>
     <string name="bottom_center">"Нижче центру"</string>
     <string name="bottom_right">"Праворуч внизу"</string>
+    <string name="paper_format">"Формат паперу"</string>
 </resources>

@@ -4,4 +4,5 @@
     <string name="notes">"Белешке"</string>
     <string name="cannot_be_undone">"Ова радња не може да се опозове."</string>
     <string name="header_footer">"Заглавље и подножје"</string>
+    <string name="paper_format">"Формат папира"</string>
 </resources>

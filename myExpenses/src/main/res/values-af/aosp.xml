@@ -20,4 +20,5 @@
     <string name="bottom_left">"Onder Links"</string>
     <string name="bottom_center">"Onder Middel"</string>
     <string name="bottom_right">"Onder Regs"</string>
+    <string name="paper_format">"Bladsyformaat"</string>
 </resources>

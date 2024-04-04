@@ -20,4 +20,5 @@
     <string name="bottom_left">"Ներքև ձախ"</string>
     <string name="bottom_center">"Ներքև Կենտրոն"</string>
     <string name="bottom_right">"Ներքև աջ"</string>
+    <string name="paper_format">"Թղթի ձևաչափ"</string>
 </resources>

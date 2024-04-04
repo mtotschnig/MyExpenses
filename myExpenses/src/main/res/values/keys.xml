@@ -295,4 +295,5 @@
     <string name="pref_print_footer_left_key">print_footer_left</string>
     <string name="pref_print_footer_center_key">print_footer_center</string>
     <string name="pref_print_footer_right_key">print_footer_right</string>
+    <string name="pref_print_paper_format_key">print_paper_format</string>
 </resources>

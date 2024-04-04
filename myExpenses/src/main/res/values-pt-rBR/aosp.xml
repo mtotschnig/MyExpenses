@@ -84,4 +84,5 @@
     <string name="bottom_left">"Embaixo à esquerda"</string>
     <string name="bottom_center">"Embaixo no centro"</string>
     <string name="bottom_right">"Embaixo à direita"</string>
+    <string name="paper_format">"Formato do papel"</string>
 </resources>

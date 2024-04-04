@@ -20,4 +20,5 @@
     <string name="bottom_left">"Bunn Venstre"</string>
     <string name="bottom_center">"Bunn Senter"</string>
     <string name="bottom_right">"Bunn Høyre"</string>
+    <string name="paper_format">"Papirformat"</string>
 </resources>

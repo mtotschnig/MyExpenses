@@ -197,7 +197,8 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     PRINT_HEADER_RIGHT(R.string.pref_print_header_right_key),
     PRINT_FOOTER_LEFT(R.string.pref_print_footer_left_key),
     PRINT_FOOTER_CENTER(R.string.pref_print_footer_center_key),
-    PRINT_FOOTER_RIGHT(R.string.pref_print_footer_right_key)
+    PRINT_FOOTER_RIGHT(R.string.pref_print_footer_right_key),
+    PRINT_PAPER_FORMAT(R.string.pref_print_paper_format_key)
     ;
 
     @Deprecated("")

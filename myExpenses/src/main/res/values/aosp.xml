@@ -150,4 +150,6 @@
     <string name="bottom_center">"Bottom Center"</string>
     <!-- LibreOffice cui/messages.po D5Uwp -->
     <string name="bottom_right">"Bottom Right"</string>
+    <!-- LibreOffice cui/messages.po u8DFb -->
+    <string name="paper_format">"Paper format"</string>
 </resources>

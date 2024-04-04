@@ -22,4 +22,5 @@
     <string name="bottom_left">"Neðst til vinstri"</string>
     <string name="bottom_center">"Neðst fyrir miðju"</string>
     <string name="bottom_right">"Neðst til hægri"</string>
+    <string name="paper_format">"Pappírssnið"</string>
 </resources>

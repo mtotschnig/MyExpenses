@@ -91,4 +91,5 @@
     <string name="bottom_left">"أسفل يسار"</string>
     <string name="bottom_center">"أسفل وسط"</string>
     <string name="bottom_right">"أسفل يمين"</string>
+    <string name="paper_format">"تنسيق الورق"</string>
 </resources>

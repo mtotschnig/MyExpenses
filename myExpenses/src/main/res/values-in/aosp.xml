@@ -22,4 +22,5 @@
     <string name="bottom_left">"Kiri Bawah"</string>
     <string name="bottom_center">"Tengah Bawah"</string>
     <string name="bottom_right">"Kanan Bawah"</string>
+    <string name="paper_format">"Format Kertas"</string>
 </resources>

@@ -75,4 +75,5 @@
     <string name="color">"වර්ණය"</string>
     <string name="notes">"සටහන්"</string>
     <string name="cannot_be_undone">"මෙම ක්‍රියාව අවසන් කිරීම කළ නොහැක."</string>
+    <string name="paper_format">"කඩදාසි හැඩතලය"</string>
 </resources>
