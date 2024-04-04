@@ -81,4 +81,11 @@
     <string name="color">"Color"</string>
     <string name="notes">"Notas"</string>
     <string name="cannot_be_undone">"Esta acción no se puede deshacer."</string>
+    <string name="header_footer">"Cabecera y pie"</string>
+    <string name="top_left">"Arriba a la izquierda"</string>
+    <string name="top_center">"Arriba al centro"</string>
+    <string name="top_right">"Arriba a la derecha"</string>
+    <string name="bottom_left">"Abajo a la izquierda"</string>
+    <string name="bottom_center">"Abajo al centro"</string>
+    <string name="bottom_right">"Abajo a la derecha"</string>
 </resources>

@@ -80,4 +80,5 @@
     <string name="color">"צבע"</string>
     <string name="notes">"הערות"</string>
     <string name="cannot_be_undone">"פעולה זו אינה הפיכה."</string>
+    <string name="header_footer">"כותרת עליונה ותחתונה"</string>
 </resources>

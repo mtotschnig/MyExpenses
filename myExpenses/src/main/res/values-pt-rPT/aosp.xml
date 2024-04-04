@@ -42,4 +42,11 @@
     <string name="color">"Cor"</string>
     <string name="notes">"Notas"</string>
     <string name="cannot_be_undone">"Esta ação não pode ser anulada."</string>
+    <string name="header_footer">"Cabeçalho e rodapé"</string>
+    <string name="top_left">"Esquerda superior"</string>
+    <string name="top_center">"Centro superior"</string>
+    <string name="top_right">"Direita superior"</string>
+    <string name="bottom_left">"Esquerda inferior"</string>
+    <string name="bottom_center">"Centro inferior"</string>
+    <string name="bottom_right">"Direita inferior"</string>
 </resources>

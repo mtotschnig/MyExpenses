@@ -80,4 +80,11 @@
     <string name="color">"Renk"</string>
     <string name="notes">"Notlar"</string>
     <string name="cannot_be_undone">"Bu işlem geri alınamaz."</string>
+    <string name="header_footer">"Üst ve alt bilgi"</string>
+    <string name="top_left">"Sol Üst"</string>
+    <string name="top_center">"Üst Orta"</string>
+    <string name="top_right">"Sağ Üst"</string>
+    <string name="bottom_left">"Alt Sol"</string>
+    <string name="bottom_center">"Alt Orta"</string>
+    <string name="bottom_right">"Alt Sağ"</string>
 </resources>

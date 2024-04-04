@@ -13,4 +13,11 @@
     <string name="color">"ቀለም"</string>
     <string name="notes">"ማስታወሻዎች"</string>
     <string name="cannot_be_undone">"ይህ እርምጃ ሊቀለበስ አይችልም።"</string>
+    <string name="header_footer">"ራስጌ እና ግርጌ"</string>
+    <string name="top_left">"ከ ላይ በ ግራ"</string>
+    <string name="top_center">"ከ ላይ መሀከል"</string>
+    <string name="top_right">"ከ ላይ በ ቀኝ"</string>
+    <string name="bottom_left">"ከ ታች በ ግራ"</string>
+    <string name="bottom_center">"ከ ታች መሀከል"</string>
+    <string name="bottom_right">"ከ ታች በ ቀኝ"</string>
 </resources>

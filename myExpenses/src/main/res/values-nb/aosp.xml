@@ -13,4 +13,11 @@
     <string name="color">"Farge"</string>
     <string name="notes">"Notater"</string>
     <string name="cannot_be_undone">"Denne handlingen kan ikke angres."</string>
+    <string name="header_footer">"Topp og bunntekst"</string>
+    <string name="top_left">"Topp venstre"</string>
+    <string name="top_center">"Topp Senter"</string>
+    <string name="top_right">"Topp Høyre"</string>
+    <string name="bottom_left">"Bunn Venstre"</string>
+    <string name="bottom_center">"Bunn Senter"</string>
+    <string name="bottom_right">"Bunn Høyre"</string>
 </resources>

@@ -80,4 +80,11 @@
     <string name="color">"色"</string>
     <string name="notes">"メモ"</string>
     <string name="cannot_be_undone">"この操作は元に戻せません。"</string>
+    <string name="header_footer">"ヘッダーとフッター"</string>
+    <string name="top_left">"左上"</string>
+    <string name="top_center">"上中央"</string>
+    <string name="top_right">"右上"</string>
+    <string name="bottom_left">"左下"</string>
+    <string name="bottom_center">"下中央"</string>
+    <string name="bottom_right">"右下"</string>
 </resources>

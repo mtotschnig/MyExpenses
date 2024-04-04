@@ -81,4 +81,11 @@
     <string name="color">"Color"</string>
     <string name="notes">"Notes"</string>
     <string name="cannot_be_undone">"Aquesta acció no es pot desfer."</string>
+    <string name="header_footer">"Capçalera i peu"</string>
+    <string name="top_left">"A dalt i a l'esquerra"</string>
+    <string name="top_center">"A dalt i al centre"</string>
+    <string name="top_right">"A dalt i a la dreta"</string>
+    <string name="bottom_left">"A baix i a l'esquerra"</string>
+    <string name="bottom_center">"A baix i al centre"</string>
+    <string name="bottom_right">"A baix i a la dreta"</string>
 </resources>

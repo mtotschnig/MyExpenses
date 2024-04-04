@@ -13,4 +13,5 @@
     <string name="color">"Өнгө"</string>
     <string name="notes">"Тэмдэглэл"</string>
     <string name="cannot_be_undone">"Энэ үйлдлийг буцаах боломжгүй."</string>
+    <string name="header_footer">"Толгой ба хөл хэсэг"</string>
 </resources>

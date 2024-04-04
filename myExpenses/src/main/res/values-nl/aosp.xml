@@ -77,4 +77,11 @@
     <string name="color">"Kleur"</string>
     <string name="notes">"Opmerkingen"</string>
     <string name="cannot_be_undone">"Deze actie kan niet ongedaan worden gemaakt."</string>
+    <string name="header_footer">"Kop- en voettekst"</string>
+    <string name="top_left">"Linksboven"</string>
+    <string name="top_center">"Middenboven"</string>
+    <string name="top_right">"Rechtsboven"</string>
+    <string name="bottom_left">"Linksonder"</string>
+    <string name="bottom_center">"Middenonder"</string>
+    <string name="bottom_right">"Rechtsmidden"</string>
 </resources>

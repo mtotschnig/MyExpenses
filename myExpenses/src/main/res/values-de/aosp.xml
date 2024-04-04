@@ -80,4 +80,11 @@
     <string name="color">"Farbe"</string>
     <string name="notes">"Notizen"</string>
     <string name="cannot_be_undone">"Diese Aktion kann nicht rückgängig gemacht werden."</string>
+    <string name="header_footer">"Kopf- und Fußzeile"</string>
+    <string name="top_left">"Oben links"</string>
+    <string name="top_center">"Oben zentriert"</string>
+    <string name="top_right">"Oben rechts"</string>
+    <string name="bottom_left">"Unten links"</string>
+    <string name="bottom_center">"Unten zentriert"</string>
+    <string name="bottom_right">"Unten rechts"</string>
 </resources>

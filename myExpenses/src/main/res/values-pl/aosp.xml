@@ -83,4 +83,11 @@
     <string name="color">"Kolor"</string>
     <string name="notes">"Notatki"</string>
     <string name="cannot_be_undone">"Nie można tego cofnąć."</string>
+    <string name="header_footer">"Główka i stopka"</string>
+    <string name="top_left">"Lewa górna"</string>
+    <string name="top_center">"Górna środkowa"</string>
+    <string name="top_right">"Prawa górna"</string>
+    <string name="bottom_left">"Lewa dolna"</string>
+    <string name="bottom_center">"Dolna środkowa"</string>
+    <string name="bottom_right">"Prawa dolna"</string>
 </resources>

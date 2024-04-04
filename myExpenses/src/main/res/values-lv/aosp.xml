@@ -13,4 +13,5 @@
     <string name="color">"Krāsa"</string>
     <string name="notes">"Piezīmes"</string>
     <string name="cannot_be_undone">"Šo darbību nevar atsaukt."</string>
+    <string name="header_footer">"Galvene un kājene"</string>
 </resources>

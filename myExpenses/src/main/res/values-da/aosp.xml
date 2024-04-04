@@ -81,4 +81,11 @@
     <string name="color">"Farve"</string>
     <string name="notes">"Noter"</string>
     <string name="cannot_be_undone">"Denne handling kan ikke fortrydes."</string>
+    <string name="header_footer">"Sidehoved og sidefod"</string>
+    <string name="top_left">"Øverst til venstre"</string>
+    <string name="top_center">"Øverst centreret"</string>
+    <string name="top_right">"Øverst til højre"</string>
+    <string name="bottom_left">"Nederst til venstre"</string>
+    <string name="bottom_center">"Nederst centreret"</string>
+    <string name="bottom_right">"Nederst til hæjre"</string>
 </resources>

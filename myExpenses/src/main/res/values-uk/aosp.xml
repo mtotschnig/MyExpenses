@@ -82,4 +82,11 @@
     <string name="color">"Колір"</string>
     <string name="notes">"Примітки"</string>
     <string name="cannot_be_undone">"Цю дію не можна скасувати."</string>
+    <string name="header_footer">"Верхній і нижній колонтитули"</string>
+    <string name="top_left">"Зверху зліва"</string>
+    <string name="top_center">"Зверху в центрі"</string>
+    <string name="top_right">"Вгорі праворуч"</string>
+    <string name="bottom_left">"Ліворуч внизу"</string>
+    <string name="bottom_center">"Нижче центру"</string>
+    <string name="bottom_right">"Праворуч внизу"</string>
 </resources>

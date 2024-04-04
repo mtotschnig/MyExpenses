@@ -13,4 +13,5 @@
     <string name="color">"رنگ"</string>
     <string name="notes">"یادداشت‌ها"</string>
     <string name="cannot_be_undone">"این عملکرد قابل واگرد نیست."</string>
+    <string name="header_footer">"سربرگ و ته‌برگ"</string>
 </resources>

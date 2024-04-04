@@ -15,4 +15,11 @@
     <string name="color">"สี"</string>
     <string name="notes">"หมายเหตุ"</string>
     <string name="cannot_be_undone">"การดำเนินการนี้ไม่สามารถยกเลิกได้"</string>
+    <string name="header_footer">"หัวกระดาษและท้ายกระดาษ"</string>
+    <string name="top_left">"บนซ้าย"</string>
+    <string name="top_center">"บนกลาง"</string>
+    <string name="top_right">"บนขวา"</string>
+    <string name="bottom_left">"ล่างซ้าย"</string>
+    <string name="bottom_center">"ล่างกลาง"</string>
+    <string name="bottom_right">"ล่างขวา"</string>
 </resources>

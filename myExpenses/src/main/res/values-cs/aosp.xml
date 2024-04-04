@@ -83,4 +83,11 @@
     <string name="color">"Barva"</string>
     <string name="notes">"Poznámky"</string>
     <string name="cannot_be_undone">"Tuto akci nelze vrátit zpět."</string>
+    <string name="header_footer">"Záhlaví a zápatí"</string>
+    <string name="top_left">"Vlevo nahoře"</string>
+    <string name="top_center">"Uprostřed nahoře"</string>
+    <string name="top_right">"Vpravo nahoře"</string>
+    <string name="bottom_left">"Vlevo dole"</string>
+    <string name="bottom_center">"Uprostřed dole"</string>
+    <string name="bottom_right">"Vpravo dole"</string>
 </resources>

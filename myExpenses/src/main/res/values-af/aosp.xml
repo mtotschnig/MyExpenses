@@ -13,4 +13,11 @@
     <string name="color">"Kleur"</string>
     <string name="notes">"Notas"</string>
     <string name="cannot_be_undone">"Hierdie handeling kan nie ontdoen word nie."</string>
+    <string name="header_footer">"Kopstuk en voetstuk"</string>
+    <string name="top_left">"Bo Links"</string>
+    <string name="top_center">"Bo Middel"</string>
+    <string name="top_right">"Bo Regs"</string>
+    <string name="bottom_left">"Onder Links"</string>
+    <string name="bottom_center">"Onder Middel"</string>
+    <string name="bottom_right">"Onder Regs"</string>
 </resources>

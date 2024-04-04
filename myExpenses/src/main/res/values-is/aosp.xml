@@ -15,4 +15,11 @@
     <string name="color">"Litur"</string>
     <string name="notes">"Glósur"</string>
     <string name="cannot_be_undone">"Ekki er hægt að afturkalla þessa aðgerð."</string>
+    <string name="header_footer">"Haus og fótur"</string>
+    <string name="top_left">"Efst til vinstri"</string>
+    <string name="top_center">"Efst fyrir miðju"</string>
+    <string name="top_right">"Efst til hægri"</string>
+    <string name="bottom_left">"Neðst til vinstri"</string>
+    <string name="bottom_center">"Neðst fyrir miðju"</string>
+    <string name="bottom_right">"Neðst til hægri"</string>
 </resources>

@@ -13,4 +13,11 @@
     <string name="color">"Түс"</string>
     <string name="notes">"Ескертпелер"</string>
     <string name="cannot_be_undone">"Бұл әрекетті болдырмау мүмкін емес."</string>
+    <string name="header_footer">"Жоғарғы және төменгі колонтитулдар"</string>
+    <string name="top_left">"Жоғары сол жақ"</string>
+    <string name="top_center">"Жоғары ортасымен"</string>
+    <string name="top_right">"Жоғары оң жақ"</string>
+    <string name="bottom_left">"Төменгі сол жақ"</string>
+    <string name="bottom_center">"Төменгі ортасымен"</string>
+    <string name="bottom_right">"Төменгі оң жақ"</string>
 </resources>

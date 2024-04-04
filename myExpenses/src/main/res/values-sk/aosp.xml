@@ -15,4 +15,11 @@
     <string name="color">"Farba"</string>
     <string name="notes">"Poznámky"</string>
     <string name="cannot_be_undone">"Táto akcia sa nedá vrátiť späť."</string>
+    <string name="header_footer">"Hlavička a päta"</string>
+    <string name="top_left">"Vľavo hore"</string>
+    <string name="top_center">"V strede hore"</string>
+    <string name="top_right">"Vpravo hore"</string>
+    <string name="bottom_left">"Vľavo dolu"</string>
+    <string name="bottom_center">"V strede dolu"</string>
+    <string name="bottom_right">"Vpravo dolu"</string>
 </resources>

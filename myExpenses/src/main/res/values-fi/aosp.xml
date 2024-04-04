@@ -15,4 +15,11 @@
     <string name="color">"Väri"</string>
     <string name="notes">"Muistiinpanot"</string>
     <string name="cannot_be_undone">"Tätä toimintoa ei voi kumota."</string>
+    <string name="header_footer">"Ylä- ja alatunniste"</string>
+    <string name="top_left">"Ylävasemmalla"</string>
+    <string name="top_center">"Ylhäällä keskellä"</string>
+    <string name="top_right">"Yläoikealla"</string>
+    <string name="bottom_left">"Alavasemmalla"</string>
+    <string name="bottom_center">"Alhaalla keskellä"</string>
+    <string name="bottom_right">"Alaoikealla"</string>
 </resources>

@@ -79,4 +79,10 @@
     <string name="color">"Màu"</string>
     <string name="notes">"Ghi chú"</string>
     <string name="cannot_be_undone">"Không thể hoàn tác tác vụ này."</string>
+    <string name="top_left">"Trên cùng bên trái"</string>
+    <string name="top_center">"Trên cùng trung tâm"</string>
+    <string name="top_right">"Trên cùng bên phải"</string>
+    <string name="bottom_left">"Dưới cùng bên trái"</string>
+    <string name="bottom_center">"Dưới cùng trung tâm"</string>
+    <string name="bottom_right">"Dưới cùng bên phải"</string>
 </resources>

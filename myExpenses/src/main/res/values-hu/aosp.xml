@@ -82,4 +82,11 @@
     <string name="color">"Szín"</string>
     <string name="notes">"Jegyzetek"</string>
     <string name="cannot_be_undone">"Ez a művelet nem vonható vissza."</string>
+    <string name="header_footer">"Élőfej és élőláb"</string>
+    <string name="top_left">"Balra fent"</string>
+    <string name="top_center">"Középen fent"</string>
+    <string name="top_right">"Jobbra fent"</string>
+    <string name="bottom_left">"Balra lent"</string>
+    <string name="bottom_center">"Középen lent"</string>
+    <string name="bottom_right">"Jobbra lent"</string>
 </resources>

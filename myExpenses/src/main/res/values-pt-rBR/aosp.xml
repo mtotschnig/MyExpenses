@@ -77,4 +77,11 @@
     <string name="do_not_show_again">Não mostrar novamente</string>
     <string name="color">"Cor"</string>
     <string name="notes">"Observações"</string>
+    <string name="header_footer">"Cabeçalho e Rodapé"</string>
+    <string name="top_left">"Em cima à esquerda"</string>
+    <string name="top_center">"Em cima no centro"</string>
+    <string name="top_right">"Em cima à direita"</string>
+    <string name="bottom_left">"Embaixo à esquerda"</string>
+    <string name="bottom_center">"Embaixo no centro"</string>
+    <string name="bottom_right">"Embaixo à direita"</string>
 </resources>

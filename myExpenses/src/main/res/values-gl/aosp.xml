@@ -15,4 +15,11 @@
     <string name="color">"Cor"</string>
     <string name="notes">"Notas"</string>
     <string name="cannot_be_undone">"Esta acción non se pode desfacer."</string>
+    <string name="header_footer">"Cabeceira e rodapé"</string>
+    <string name="top_left">"Superior esquerda"</string>
+    <string name="top_center">"Superior centro"</string>
+    <string name="top_right">"Superior dereita"</string>
+    <string name="bottom_left">"Inferior esquerda"</string>
+    <string name="bottom_center">"Inferior centro"</string>
+    <string name="bottom_right">"Inferior dereita"</string>
 </resources>

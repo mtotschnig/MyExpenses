@@ -79,4 +79,11 @@
     <string name="color">"Kolorea"</string>
     <string name="notes">"Oharrak"</string>
     <string name="cannot_be_undone">"Ezin da ekintza hori desegin."</string>
+    <string name="header_footer">"Goiburukoa eta orri-oina"</string>
+    <string name="top_left">"Goian ezkerrean"</string>
+    <string name="top_center">"Goian erdian"</string>
+    <string name="top_right">"Goian eskuinean"</string>
+    <string name="bottom_left">"Behean ezkerrean"</string>
+    <string name="bottom_center">"Behean erdian"</string>
+    <string name="bottom_right">"Behean eskuinean"</string>
 </resources>

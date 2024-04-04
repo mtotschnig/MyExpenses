@@ -81,4 +81,11 @@
     <string name="color">"Couleur"</string>
     <string name="notes">"Notes"</string>
     <string name="cannot_be_undone">"Cette action est irréversible."</string>
+    <string name="header_footer">"En-tête et pied de page"</string>
+    <string name="top_left">"En haut à gauche"</string>
+    <string name="top_center">"En haut au centre"</string>
+    <string name="top_right">"En haut à droite"</string>
+    <string name="bottom_left">"En bas à gauche"</string>
+    <string name="bottom_center">"En bas au centre"</string>
+    <string name="bottom_right">"En bas à droite"</string>
 </resources>

@@ -82,4 +82,11 @@
     <string name="color">"Цвят"</string>
     <string name="notes">"Бележки"</string>
     <string name="cannot_be_undone">"Това действие не може да се отмени."</string>
+    <string name="header_footer">"Колонтитули"</string>
+    <string name="top_left">"Горе вляво"</string>
+    <string name="top_center">"Горе, центрирано"</string>
+    <string name="top_right">"Горе вдясно"</string>
+    <string name="bottom_left">"Долу вляво"</string>
+    <string name="bottom_center">"Долу, центрирано"</string>
+    <string name="bottom_right">"Долу вдясно"</string>
 </resources>

@@ -13,4 +13,11 @@
     <string name="color">"Գույն"</string>
     <string name="notes">"Գրառումներ"</string>
     <string name="cannot_be_undone">"Այս գործողությունը չի կարող հետարկվել:"</string>
+    <string name="header_footer">"Տողատակ և Վերնախորագիր"</string>
+    <string name="top_left">"Վերև ձախ"</string>
+    <string name="top_center">"Վերև կենտրոն"</string>
+    <string name="top_right">"Վերև աջ"</string>
+    <string name="bottom_left">"Ներքև ձախ"</string>
+    <string name="bottom_center">"Ներքև Կենտրոն"</string>
+    <string name="bottom_right">"Ներքև աջ"</string>
 </resources>

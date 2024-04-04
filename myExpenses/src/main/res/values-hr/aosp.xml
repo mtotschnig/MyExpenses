@@ -81,4 +81,5 @@
     <string name="color">"Boja"</string>
     <string name="notes">"Bilješke"</string>
     <string name="cannot_be_undone">"Tu radnju nije moguće poništiti."</string>
+    <string name="header_footer">"Zaglavlje i podnožje"</string>
 </resources>

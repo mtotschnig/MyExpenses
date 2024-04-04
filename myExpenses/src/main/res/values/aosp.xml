@@ -136,4 +136,18 @@
     <string name="notes">"Notes"</string>
     <!-- grep -ri delete_message_confirmation_dialog_text | sed 's/ msgid="[[:digit:]]*"//' | sed 's/delete_message_confirmation_dialog_text/cannot_be_undone/' | aosp_helpe -->
     <string name="cannot_be_undone">"This action cannot be undone."</string>
+    <!-- LibreOffice sw/messages.po DB3VN -->
+    <string name="header_footer">"Header and Footer"</string>
+    <!-- LibreOffice cui/messages.po G5a9F -->
+    <string name="top_left">"Top Left"</string>
+    <!-- LibreOffice cui/messages.po PubBY -->
+    <string name="top_center">"Top Center"</string>
+    <!-- LibreOffice cui/messages.po jDChg -->
+    <string name="top_right">"Top Right"</string>
+    <!-- LibreOffice cui/messages.po 2Ds63 -->
+    <string name="bottom_left">"Bottom Left"</string>
+    <!-- LibreOffice cui/messages.po G34X6 -->
+    <string name="bottom_center">"Bottom Center"</string>
+    <!-- LibreOffice cui/messages.po D5Uwp -->
+    <string name="bottom_right">"Bottom Right"</string>
 </resources>

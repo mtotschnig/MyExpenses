@@ -80,4 +80,11 @@
     <string name="color">"Χρώμα"</string>
     <string name="notes">"Σημειώσεις"</string>
     <string name="cannot_be_undone">"Δεν είναι δυνατή η αναίρεση αυτής της ενέργειας."</string>
+    <string name="header_footer">"Κεφαλίδα και υποσέλιδο"</string>
+    <string name="top_left">"Πάνω αριστερά"</string>
+    <string name="top_center">"Πάνω στο κέντρο"</string>
+    <string name="top_right">"Πάνω δεξιά"</string>
+    <string name="bottom_left">"Κάτω αριστερά"</string>
+    <string name="bottom_center">"Κάτω στο κέντρο"</string>
+    <string name="bottom_right">"Κάτω δεξιά"</string>
 </resources>

@@ -79,4 +79,11 @@
     <string name="color">"颜色"</string>
     <string name="notes">"备注"</string>
     <string name="cannot_be_undone">"该操作无法撤消。"</string>
+    <string name="header_footer">"页眉与页脚"</string>
+    <string name="top_left">"左上"</string>
+    <string name="top_center">"中上"</string>
+    <string name="top_right">"右上"</string>
+    <string name="bottom_left">"左下"</string>
+    <string name="bottom_center">"中下"</string>
+    <string name="bottom_right">"右下"</string>
 </resources>

@@ -13,4 +13,5 @@
     <string name="color">"Spalva"</string>
     <string name="notes">"Pastabos"</string>
     <string name="cannot_be_undone">"Šio veiksmo anuliuoti negalima."</string>
+    <string name="header_footer">"Puslapinė antraštė ir poraštė"</string>
 </resources>

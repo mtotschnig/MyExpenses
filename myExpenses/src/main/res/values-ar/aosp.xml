@@ -84,4 +84,11 @@
     <string name="color">"اللون"</string>
     <string name="notes">"ملاحظات"</string>
     <string name="cannot_be_undone">"لا يمكن التراجع عن هذا الإجراء."</string>
+    <string name="header_footer">"ترويسة وتذييل"</string>
+    <string name="top_left">"أعلى اليسار"</string>
+    <string name="top_center">"أعلى وسط"</string>
+    <string name="top_right">"أعلى يمين"</string>
+    <string name="bottom_left">"أسفل يسار"</string>
+    <string name="bottom_center">"أسفل وسط"</string>
+    <string name="bottom_right">"أسفل يمين"</string>
 </resources>

@@ -15,4 +15,11 @@
     <string name="color">"Warna"</string>
     <string name="notes">"Catatan"</string>
     <string name="cannot_be_undone">"Tindakan ini tidak dapat diurungkan."</string>
+    <string name="header_footer">"Kepala dan Kaki"</string>
+    <string name="top_left">"Kiri Atas"</string>
+    <string name="top_center">"Tengah Atas"</string>
+    <string name="top_right">"Kanan Atas"</string>
+    <string name="bottom_left">"Kiri Bawah"</string>
+    <string name="bottom_center">"Tengah Bawah"</string>
+    <string name="bottom_right">"Kanan Bawah"</string>
 </resources>

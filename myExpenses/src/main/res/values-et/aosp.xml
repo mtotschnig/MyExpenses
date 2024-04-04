@@ -15,4 +15,11 @@
     <string name="color">"Värv"</string>
     <string name="notes">"Märkused"</string>
     <string name="cannot_be_undone">"Seda toimingut ei saa tagasi võtta."</string>
+    <string name="header_footer">"Päis ja jalus"</string>
+    <string name="top_left">"Üleval vasakul"</string>
+    <string name="top_center">"Üleval keskel"</string>
+    <string name="top_right">"Üleval paremal"</string>
+    <string name="bottom_left">"All vasakul"</string>
+    <string name="bottom_center">"All keskel"</string>
+    <string name="bottom_right">"All paremal"</string>
 </resources>
