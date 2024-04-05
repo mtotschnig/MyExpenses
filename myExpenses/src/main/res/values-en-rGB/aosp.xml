@@ -9,4 +9,5 @@
     <string name="color">"Colour"</string>
     <string name="notes">"Notes"</string>
     <string name="cannot_be_undone">"This action cannot be undone."</string>
+    <string name="configuration">"Configuration"</string>
 </resources>

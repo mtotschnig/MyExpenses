@@ -85,4 +85,5 @@
     <string name="bottom_center">"Middenonder"</string>
     <string name="bottom_right">"Rechtsmidden"</string>
     <string name="paper_format">"Papierinstellingen"</string>
+    <string name="configuration">"Configuratie"</string>
 </resources>

@@ -134,7 +134,7 @@
     <string name="color">Color</string>
     <!-- /opt/extra/AOSP/packages/apps/Contacts$ grep -ri label_notes | sed 's/ msgid="[[:digit:]]*"//' | sed 's/label_//' | aosp_helper -->
     <string name="notes">"Notes"</string>
-    <!-- grep -ri delete_message_confirmation_dialog_text | sed 's/ msgid="[[:digit:]]*"//' | sed 's/delete_message_confirmation_dialog_text/cannot_be_undone/' | aosp_helpe -->
+    <!-- grep -ri delete_message_confirmation_dialog_text | sed 's/ msgid="[[:digit:]]*"//' | sed 's/delete_message_confirmation_dialog_text/cannot_be_undone/' | aosp_helper -->
     <string name="cannot_be_undone">"This action cannot be undone."</string>
     <!-- LibreOffice sw/messages.po DB3VN -->
     <string name="header_footer">"Header and Footer"</string>
@@ -152,4 +152,6 @@
     <string name="bottom_right">"Bottom Right"</string>
     <!-- LibreOffice cui/messages.po u8DFb -->
     <string name="paper_format">"Paper format"</string>
+    <!--/opt/extra/AOSP/packages/apps/TvSettings/Settings$  grep -ri system_accessibility_config | sed 's/ msgid="[[:digit:]]*"//' | sed 's/system_accessibility_config/configuration/' | aosp_helper -->
+    <string name="configuration">"Configuration"</string>
 </resources>

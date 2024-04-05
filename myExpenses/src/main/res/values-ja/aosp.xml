@@ -88,4 +88,5 @@
     <string name="bottom_center">"下中央"</string>
     <string name="bottom_right">"右下"</string>
     <string name="paper_format">"用紙サイズ"</string>
+    <string name="configuration">"設定"</string>
 </resources>

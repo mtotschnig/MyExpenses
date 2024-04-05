@@ -14,4 +14,5 @@
     <string name="notes">"မှတ်စုများ"</string>
     <string name="cannot_be_undone">"ဒီလုပ်ဆောင်ချက်ကို ြပန်ဖျက်မရနိုင်ပါ။"</string>
     <string name="paper_format">"စာရွက် စီစဉ် ဖွဲ့စည်းမှု ပုံစံ"</string>
+    <string name="configuration">"စီစဉ်သတ်မှတ်ချက်"</string>
 </resources>

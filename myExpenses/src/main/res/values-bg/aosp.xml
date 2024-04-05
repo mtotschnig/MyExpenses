@@ -90,4 +90,5 @@
     <string name="bottom_center">"Долу, центрирано"</string>
     <string name="bottom_right">"Долу вдясно"</string>
     <string name="paper_format">"Формат на хартията"</string>
+    <string name="configuration">"Конфигурация"</string>
 </resources>

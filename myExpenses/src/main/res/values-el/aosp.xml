@@ -88,4 +88,5 @@
     <string name="bottom_center">"Κάτω στο κέντρο"</string>
     <string name="bottom_right">"Κάτω δεξιά"</string>
     <string name="paper_format">"Μορφή χαρτιού"</string>
+    <string name="configuration">"Διαμόρφωση"</string>
 </resources>

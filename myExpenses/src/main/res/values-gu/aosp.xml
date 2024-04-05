@@ -14,4 +14,5 @@
     <string name="notes">"નોંધ"</string>
     <string name="cannot_be_undone">"આ ક્રિયા પૂર્વવત્ કરી શકાતી નથી."</string>
     <string name="paper_format">પાનાનું બંધારણ</string>
+    <string name="configuration">"ગોઠવણી"</string>
 </resources>

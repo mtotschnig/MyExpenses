@@ -80,4 +80,5 @@
     <string name="notes">"குறிப்புகள்"</string>
     <string name="cannot_be_undone">"இந்தச் செயலை பின்னர் செயல்தவிர்க்க முடியாது."</string>
     <string name="paper_format">"காகித வடிவம்"</string>
+    <string name="configuration">"உள்ளமைவு"</string>
 </resources>

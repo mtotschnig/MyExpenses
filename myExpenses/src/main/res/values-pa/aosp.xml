@@ -13,4 +13,5 @@
     <string name="color">"ਰੰਗ"</string>
     <string name="notes">"ਨੋਟ-ਕਥਨ"</string>
     <string name="cannot_be_undone">"ਇਹ ਕਿਰਿਆ ਨਸ਼ਟ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕਦੀ।"</string>
+    <string name="configuration">"ਸੰਰੂਪਣ"</string>
 </resources>

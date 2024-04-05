@@ -77,4 +77,5 @@
     <string name="color">"顏色"</string>
     <string name="notes">"備註"</string>
     <string name="cannot_be_undone">"此操作將無法復原。"</string>
+    <string name="configuration">"設定"</string>
 </resources>

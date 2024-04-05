@@ -88,4 +88,5 @@
     <string name="bottom_center">"Alt Orta"</string>
     <string name="bottom_right">"Alt Sağ"</string>
     <string name="paper_format">"Sayfa Biçimi"</string>
+    <string name="configuration">"Yapılandırma"</string>
 </resources>

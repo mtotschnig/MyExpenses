@@ -89,4 +89,5 @@
     <string name="bottom_center">"Abajo al centro"</string>
     <string name="bottom_right">"Abajo a la derecha"</string>
     <string name="paper_format">"Formato de papel"</string>
+    <string name="configuration">"Ajustes"</string>
 </resources>

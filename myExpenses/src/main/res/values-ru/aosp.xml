@@ -91,4 +91,5 @@
     <string name="bottom_center">"Вниз по центру"</string>
     <string name="bottom_right">"Вниз и вправо"</string>
     <string name="paper_format">"Формат бумаги"</string>
+    <string name="configuration">"Конфигурация"</string>
 </resources>

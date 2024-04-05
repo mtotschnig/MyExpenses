@@ -15,4 +15,5 @@
     <string name="cannot_be_undone">"Šo darbību nevar atsaukt."</string>
     <string name="header_footer">"Galvene un kājene"</string>
     <string name="paper_format">"Papīra formāts"</string>
+    <string name="configuration">"Konfigurācija"</string>
 </resources>

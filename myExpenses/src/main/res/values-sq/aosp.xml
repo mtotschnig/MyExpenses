@@ -16,4 +16,5 @@
     <string name="notes">"Shënimet"</string>
     <string name="cannot_be_undone">"Ky veprim nuk mund të zhbëhet."</string>
     <string name="paper_format">"Formati i fletës"</string>
+    <string name="configuration">"Konfigurimi"</string>
 </resources>

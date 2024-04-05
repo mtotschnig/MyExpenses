@@ -81,4 +81,5 @@
     <string name="notes">"메모"</string>
     <string name="cannot_be_undone">"이 작업은 취소할 수 없습니다."</string>
     <string name="paper_format">"용지 형식"</string>
+    <string name="configuration">"설정"</string>
 </resources>

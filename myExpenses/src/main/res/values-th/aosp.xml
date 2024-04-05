@@ -23,4 +23,5 @@
     <string name="bottom_center">"ล่างกลาง"</string>
     <string name="bottom_right">"ล่างขวา"</string>
     <string name="paper_format">"รูปแบบกระดาษ"</string>
+    <string name="configuration">"การกำหนดค่า"</string>
 </resources>

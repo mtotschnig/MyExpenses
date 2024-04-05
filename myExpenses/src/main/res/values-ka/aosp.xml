@@ -16,4 +16,5 @@
     <string name="notes">"შენიშვნები"</string>
     <string name="cannot_be_undone">"ამ ქმედებას ვერ გააუქმებთ."</string>
     <string name="paper_format">"ფურცლის ზომა"</string>
+    <string name="configuration">"კონფიგურაცია"</string>
 </resources>

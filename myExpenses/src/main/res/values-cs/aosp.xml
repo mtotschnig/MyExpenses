@@ -91,4 +91,5 @@
     <string name="bottom_center">"Uprostřed dole"</string>
     <string name="bottom_right">"Vpravo dole"</string>
     <string name="paper_format">"Formát papíru"</string>
+    <string name="configuration">"Konfigurace"</string>
 </resources>

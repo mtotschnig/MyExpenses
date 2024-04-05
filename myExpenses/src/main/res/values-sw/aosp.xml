@@ -13,4 +13,5 @@
     <string name="color">"Rangi"</string>
     <string name="notes">"Kidokezo"</string>
     <string name="cannot_be_undone">"Kitendo hiki hakiwezi kutenduliwa."</string>
+    <string name="configuration">"Kuweka mipangilio"</string>
 </resources>

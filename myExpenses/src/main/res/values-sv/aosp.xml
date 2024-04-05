@@ -23,4 +23,5 @@
     <string name="bottom_center">"Längst ner i mitten"</string>
     <string name="bottom_right">"Längst ner till höger"</string>
     <string name="paper_format">"Pappersformat"</string>
+    <string name="configuration">"Konfiguration"</string>
 </resources>

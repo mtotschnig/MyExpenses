@@ -23,4 +23,5 @@
     <string name="bottom_center">"Alhaalla keskellä"</string>
     <string name="bottom_right">"Alaoikealla"</string>
     <string name="paper_format">"Paperikoko"</string>
+    <string name="configuration">"Määritykset"</string>
 </resources>

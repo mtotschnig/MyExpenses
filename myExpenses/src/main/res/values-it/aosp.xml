@@ -88,4 +88,5 @@
     <string name="bottom_center">"In basso al centro"</string>
     <string name="bottom_right">"In basso a destra"</string>
     <string name="paper_format">"Formato foglio"</string>
+    <string name="configuration">"Configurazione"</string>
 </resources>

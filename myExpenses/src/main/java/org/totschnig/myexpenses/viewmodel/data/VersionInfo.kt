@@ -102,6 +102,9 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
             "379" -> arrayOf(
                 "${t(R.string.menu_original_amount)}: ${t(R.string.ui_refinement)}"
             )
+            "381" -> arrayOf(
+                "${t(R.string.menu_print)}: ${t(R.string.configuration)} (${t(R.string.paper_format)}, ${t(R.string.header_footer)})"
+            )
             else -> {
                 //noinspection DiscouragedApi
                 val resId = res.getIdentifier(

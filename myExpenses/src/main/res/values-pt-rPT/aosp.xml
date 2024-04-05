@@ -50,4 +50,5 @@
     <string name="bottom_center">"Centro inferior"</string>
     <string name="bottom_right">"Direita inferior"</string>
     <string name="paper_format">"Formato do papel"</string>
+    <string name="configuration">"Configuração"</string>
 </resources>

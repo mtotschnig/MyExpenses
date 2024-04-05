@@ -15,4 +15,5 @@
     <string name="cannot_be_undone">"Šio veiksmo anuliuoti negalima."</string>
     <string name="header_footer">"Puslapinė antraštė ir poraštė"</string>
     <string name="paper_format">"Lapo formatas"</string>
+    <string name="configuration">"Konfigūracija"</string>
 </resources>
