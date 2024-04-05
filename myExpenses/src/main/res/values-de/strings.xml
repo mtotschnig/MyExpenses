@@ -1024,4 +1024,5 @@
     <string name="merge_categories_dialog_title">Kategorien zusammenführen</string>
     <string name="subcategories_merged_recursively">Wenn eine der zusammengeführten Kategorien Unterkategorien mit derselben Bezeichnung hat, werden diese zuerst rekursiv zusammengeführt.</string>
     <string name="merge_categories_prompt">Wählen Sie die Kategorie aus, die Sie beibehalten möchten</string>
+    <string name="pref_csv_export_category_separator_summary">Trennzeichen zwischen den Ebenen der Kategoriehierarchie</string>
 </resources>
