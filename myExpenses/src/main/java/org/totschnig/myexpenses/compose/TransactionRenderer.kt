@@ -80,8 +80,7 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import kotlin.text.Typography.ellipsis
 
-val inlineIconPlaceholder = 13.sp
-val inlineIconSize = 12.sp
+val inlineIconSize = 13.sp
 
 enum class ColorSource { TYPE, SIGN, TYPE_WITH_SIGN }
 
@@ -329,8 +328,8 @@ abstract class ItemRenderer(
 
     private fun inlineIcon(icon: String) = InlineTextContent(
         Placeholder(
-            width = inlineIconPlaceholder,
-            height = inlineIconPlaceholder,
+            width = inlineIconSize,
+            height = inlineIconSize,
             placeholderVerticalAlign = PlaceholderVerticalAlign.TextCenter
         )
     ) {
