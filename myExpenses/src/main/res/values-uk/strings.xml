@@ -865,4 +865,5 @@
     <string name="dialog_multi_tag">Усі вибрані транзакції будуть позначені міткою %s.</string>
     <string name="pref_ocr_total_indicators_summary">Список рядків, які визначають загальну вартість у квитанції. Помістіть кожне значення в новий рядок. Залиште порожнім, щоб відновити значення за замовчуванням.</string>
     <string name="budget_table_header_overspent">Перевитрачено</string>
+    <string name="pref_planner_manual_time_title">Час для запланованої транзакції, застосованої вручну</string>
 </resources>
