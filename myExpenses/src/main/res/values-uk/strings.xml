@@ -910,4 +910,29 @@
         <item quantity="many">%d старих файлів резервних копій не вдалося видалити.</item>
         <item quantity="other">%d старих файлів резервних копій не вдалося видалити.</item>
     </plurals>
+    <string name="menu_reconfigure">Переналаштувати</string>
+    <string name="debt_borrow_additional">Я позичаю %s.</string>
+    <string name="debt_balance_i_owe">Тепер я винен %s.</string>
+    <string name="debt_lend_additional">Я позичаю %s.</string>
+    <string name="debt_paid_off_other">Борг %s погашено.</string>
+    <string name="encrypt_database">Зашифрувати базу даних</string>
+    <string name="maximum_size">Максимальний розмір</string>
+    <string name="orphaned_transaction_info">Транзакція пов’язана з планом на цю дату, але на цю дату не існує події.</string>
+    <string name="notifications_channel_required">Будь ласка, увімкніть канал %s.</string>
+    <string name="template_shortcut">Ярлик шаблону</string>
+    <string name="content_description_attachment">Вкладення</string>
+    <string name="notifications_permission_required_sync">Надавши дозвіл на надсилання сповіщень, ви можете контролювати хід виконання синхронізації.</string>
+    <string name="notifications_permission_required_auto_backup">Надавши дозвіл на надсилання сповіщень, ви будете проінформовані про автоматичне резервне копіювання.</string>
+    <string name="file_format">Формат файлу</string>
+    <string name="pref_backup_file_prefix_title">Префікс файлу</string>
+    <string name="optimize_image_file_size">Оптимізація розміру файлу зображення</string>
+    <string name="redesign">Редизайн</string>
+    <string name="image_optimize_quality">Якість</string>
+    <string name="debt_paid_off_self">Мій борг погашено.</string>
+    <string name="debt_installment_pay">Я сплачую розстрочку %s.</string>
+    <string name="debt_installment_receive">Я отримую розстрочку %s.</string>
+    <string name="debt_balance_they_owe">%1$s тепер винен %2$s.</string>
+    <string name="select_template">Оберіть шаблон</string>
+    <string name="orphaned_transaction_relink">Транзакцію можна повторно пов’язати з події на %s.</string>
+    <string name="select_all_list_too_large">Команда %s недоступна, оскільки список завантажено лише частково. Скористайтеся функцією пошуку, щоб зменшити розмір списку.</string>
 </resources>
