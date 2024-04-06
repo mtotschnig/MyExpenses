@@ -135,6 +135,155 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.8.1
+    - "2024-04-06"
+    -
+      ar: |
+        طباعة: الإعداد (تنسيق الورق, ترويسة وتذييل)
+      bg: |
+        Печат: Конфигурация (Формат на хартията, Колонтитули)
+      ca: |
+        Imprimeix: Configuració (Format del paper, Capçalera i peu)
+      cs: |
+        Tisk: Konfigurace (Formát papíru, Záhlaví a zápatí)
+      da: |
+        Udskriv: Konfiguration (Papirformat, Sidehoved og sidefod)
+      de: |
+        Drucken: Konfiguration (Papierformat, Kopf- und Fußzeile)
+      el: |
+        Εκτύπωση: Διαμόρφωση (Μορφή χαρτιού, Κεφαλίδα και υποσέλιδο)
+      es: |
+        Imprimir: Ajustes (Formato de papel, Cabecera y pie)
+      eu: |
+        Inprimatu: Konfigurazioa (Paper-formatua, Goiburukoa eta orri-oina)
+      fr: |
+        Imprimer: Configuration (Format de papier, En-tête et pied de page)
+      hr: |
+        Ispis: Konfiguracija (Oblik papira, Zaglavlje i podnožje)
+      hu: |
+        Nyomtatás: Beállítások (Papírformátum, Élőfej és élőláb)
+      it: |
+        Stampa: Configurazione (Formato foglio, Intestazione e piè di pagina)
+      iw: |
+        הדפס: תצורה (עיצוב הדף, כותרת עליונה ותחתונה)
+      ja: |
+        印刷: 設定 (用紙サイズ, ヘッダーとフッター)
+      kn: |
+        ಮುದ್ರಿಸು: ಕಾನ್ಫಿಗರೇಶನ್‌ (ಕಾಗದದ ವಿನ್ಯಾಸ)
+      ko: |
+        인쇄: 설정 (용지 형식)
+      km: |
+        បោះពុម្ព: ការ​កំណត់​រចនា​សម្ព័ន្ធ (ទ្រង់ទ្រាយ​ក្រដាស)
+      ms: |
+        Cetak: Konfigurasi
+      nl: |
+        Afdrukken: Configuratie (Papierinstellingen, Kop- en voettekst)
+      pl: |
+        Drukuj: Konfiguracja (Format papieru, Główka i stopka)
+      pt: |
+        Imprimir: Configuração (Formato do papel, Cabeçalho e Rodapé)
+      ro: |
+        Printați: Configurare (Format de hârtie)
+      ru: |
+        Печать: Конфигурация (Формат бумаги, Колонтитул)
+      si: |
+        මුද්‍රණ කරන්න: වින්‍යාසය (කඩදාසි හැඩතලය)
+      ta: |
+        அச்சிடு: உள்ளமைவு (காகித வடிவம்)
+      te: |
+        ముద్రించు: కాన్ఫిగరేషన్ (కాగిత ఫార్మాట్)
+      tr: |
+        Yazdır: Yapılandırma (Sayfa Biçimi, Üst ve alt bilgi)
+      vi: |
+        In: Cấu hình (Định dạng giấy)
+      zh: |
+        打印: 配置 (纸张格式, 页眉与页脚)
+      zh-TW: |
+        列印: 設定 (紙張格式, 頁首與頁尾)
+      en: |
+        Print: Configuration (Paper format, Header and Footer)
+    -
+      github: 138#column-19833828
+      mastodon: 112219195196862569
+  -
+    - 3.8.0
+    - "2024-04-01"
+    -
+      de: |
+        Kategorien zusammenführen
+      es: |
+        Fusionar categorías
+      fr: |
+        Fusionner les catégories
+      tr: |
+        Kategorileri Birleştir
+      en: |
+        Merge Categories
+    -
+      github: 137#column-19814542
+      mastodon: 112191054511340968
+  -
+    - 3.7.9
+    - "2024-03-25"
+    -
+      ar: |
+        المبلغ الأصلي: صقل واجهة المستخدم
+      bg: |
+        Оригинална сума: Подобрения в потребителския интерфейс
+      ca: |
+        Quantitat original: Refinament de la interfície d'usuari
+      cs: |
+        Původní částka: Zdokonalení uživatelského rozhraní
+      da: |
+        Oprindeligt beløb: Forbedring af brugergrænsefladen
+      de: |
+        Originalbetrag: Verfeinerung der Benutzeroberfläche
+      el: |
+        Αρχικό ποσό: Βελτίωση του περιβάλλοντος εργασίας χρήστη
+      es: |
+        Cantidad original: Interfaz de usuario mejorada
+      fr: |
+        Montant original: Raffinement de l'interface utilisateur
+      hr: |
+        Izvorni iznos: Poboljšanje korisničkog sučelja
+      hu: |
+        Eredeti összeg: A felhasználói felület finomítása
+      it: |
+        Importo originario: Miglioramento dell'interfaccia utente
+      iw: |
+        סכום מקורי: חידוד ממשק המשתמש
+      ja: |
+        当初金額: ユーザーインターフェースの洗練
+      kn: |
+        ಮೂಲ ಮೊತ್ತ: ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್ನ ಪರಿಷ್ಕರಣೆ
+      ms: |
+        Amaun asal: Penghalusan antaramuka pengguna
+      nl: |
+        Oorspronkelijk bedrag: Verfijning van de gebruikersinterface
+      pl: |
+        Pierwotna kwota: Udoskonalenie interfejsu użytkownika
+      pt: |
+        Quantia original: Melhorias na interface do usuário
+      ru: |
+        Начальный баланс: Усовершенствование пользовательского интерфейса
+      ta: |
+        அசல் தொகை: பயனர் இடைமுகத்தை மெருகேற்றுதல்
+      te: |
+        అసలు మొత్తం: వినియోగదారు ఇంటర్ఫేస్ యొక్క శుద్ధీకరణ
+      tr: |
+        Orijinal meblağ: Kullanıcı arayüzü iyileştirildi
+      vi: |
+        Khoản gốc: Cải tiến giao diện người dùng
+      zh: |
+        原始金额: 用户界面的改进
+      zh-TW: |
+        原始金額: 完善用户界面
+      en: |
+        Original amount: Refinement of the user interface
+    -
+      github: 136#column-19813734
+      mastodon: 112145667108731321
+  -
     - 3.7.8
     - "2024-03-20"
     -
