@@ -499,8 +499,6 @@
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">WebDAV サーバー上の、このアカウントデータ用の特別なフォルダーの URL を入力してください。 {app_name}はこのフォルダの中にデータを保存し、それ以外には触れません。</string>
     <string name="description_webdav_trust_certificate">このウェブサイトは Android で信頼されていない証明書を使用しています。</string>
-    <string name="hint_user_name">ユーザー名</string>
-    <string name="hint_password">パスワード</string>
     <string name="label_trust_certificate">この証明書を信頼する</string>
     <string name="no_sync_backends">同期バックエンドはありません</string>
     <string name="menu_create_sync_backend">新しい同期バックエンド</string>

@@ -9,4 +9,6 @@
     <string name="menu_open">"Отвори"</string>
     <string name="menu_print">"Штампај"</string>
     <string name="share">"Дели"</string>
+    <string name="username">"Корисничко име"</string>
+    <string name="password">"Лозинка"</string>
 </resources>

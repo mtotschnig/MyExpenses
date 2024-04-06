@@ -502,8 +502,6 @@
     <string name="hint_url">网址</string>
     <string name="description_webdav_url">请输入WebDAV服务器上特殊文件夹的网址。 {app_name}会将其数据存储在此文件夹中，不会触及其外的任何内容。</string>
     <string name="description_webdav_trust_certificate">该网站使用的证书不受Android信任。</string>
-    <string name="hint_user_name">用户名</string>
-    <string name="hint_password">密码</string>
     <string name="label_trust_certificate">信任此证书</string>
     <string name="no_sync_backends">没有同步后端</string>
     <string name="menu_create_sync_backend">新建同步后端</string>

@@ -525,8 +525,6 @@
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">Please enter the URL to a special folder on your WebDAV server. {app_name} will store its data inside this folder, it won\'t touch anything outside of it.</string>
     <string name="description_webdav_trust_certificate">The website uses a certificate, which is not trusted by Android.</string>
-    <string name="hint_user_name">User name</string>
-    <string name="hint_password">Password</string>
     <string name="label_trust_certificate">Trust this certificate</string>
     <string name="no_sync_backends">No synchronization backends</string>
     <string name="menu_create_sync_backend">New synchronization backend</string>

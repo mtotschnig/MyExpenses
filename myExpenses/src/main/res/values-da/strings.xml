@@ -540,8 +540,6 @@
     <string name="budget_deleted">Budget blev slettet</string>
     <string name="search_account">Søg efter konto</string>
     <string name="description_webdav_url">Indtast venligst URL\'en til en særlig mappe på din WebDAV-server. {app_name} gemmer sine data i denne mappe og rører ikke ved noget uden for den.</string>
-    <string name="hint_user_name">Brugernavn</string>
-    <string name="hint_password">Adgangskode</string>
     <string name="label_trust_certificate">Stol på dette certifikat</string>
     <string name="validate_error_webdav_invalid_certificate">Certifikatet kunne ikke stoles på. Det virker ugyldigt.</string>
     <string name="validate_error_not_empty">Må ikke være tomt</string>

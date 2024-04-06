@@ -84,4 +84,6 @@
     <string name="menu_open">"ತೆರೆ"</string>
     <string name="menu_print">"ಮುದ್ರಿಸು"</string>
     <string name="share">ಹಂಚಿಕೊಳ್ಳಿ</string>
+    <string name="username">"ಬಳಕೆದಾರರಹೆಸರು"</string>
+    <string name="password">"ಪಾಸ್‌ವರ್ಡ್"</string>
 </resources>

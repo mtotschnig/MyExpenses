@@ -24,4 +24,6 @@
     <string name="configuration">"Конфигурация"</string>
     <string name="menu_open">"Ашу"</string>
     <string name="menu_print">"Басып шығару"</string>
+    <string name="username">"Пайдаланушы аты"</string>
+    <string name="password">"Құпия сөз"</string>
 </resources>

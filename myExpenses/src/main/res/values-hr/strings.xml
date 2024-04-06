@@ -542,8 +542,6 @@
     <string name="menu_create_sync_backend">Novi pozadinski sustav sinkronizacije</string>
     <string name="no_sync_backends">Bez pozadinskog sustava sinkronizacije</string>
     <string name="label_trust_certificate">Vjeruj ovom crtifikatu</string>
-    <string name="hint_password">Lozinka</string>
-    <string name="hint_user_name">Korisničko ime</string>
     <string name="description_webdav_trust_certificate">Web stranica koristi certifikat kojem Android ne vjeruje.</string>
     <string name="description_webdav_url">Upiši URL posebne mape na tvom WebDAV poslužitelju. {app_name} će spremiti svoje podatke unutar ove mape i neće mijenjati ništa izvan nje.</string>
     <string name="hint_url">URL</string>

@@ -94,4 +94,6 @@
     <string name="menu_open">"Megnyitás"</string>
     <string name="menu_print">"Nyomtatás"</string>
     <string name="share">"Megosztás"</string>
+    <string name="username">"Felhasználónév"</string>
+    <string name="password">"Jelszó"</string>
 </resources>

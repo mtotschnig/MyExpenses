@@ -79,4 +79,6 @@
     <string name="menu_open">"తెరువు"</string>
     <string name="menu_print">"ముద్రించు"</string>
     <string name="share">"షేర్ చేయండి"</string>
+    <string name="username">"యూజర్ పేరు"</string>
+    <string name="password">"పాస్‌వర్డ్"</string>
 </resources>

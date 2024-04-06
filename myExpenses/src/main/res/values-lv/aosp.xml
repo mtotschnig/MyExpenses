@@ -19,4 +19,6 @@
     <string name="menu_open">"Atvērt"</string>
     <string name="menu_print">"Drukāt"</string>
     <string name="share">"Dalies"</string>
+    <string name="username">"Lietotājvārds"</string>
+    <string name="password">"Parole"</string>
 </resources>

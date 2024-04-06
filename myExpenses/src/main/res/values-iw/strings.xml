@@ -516,8 +516,6 @@
     <string name="hint_url">כתובת אתר</string>
     <string name="description_webdav_url">הזן את כתובת האתר לתיקיה מיוחדת בשרת WebDAV.  האפליקציה {app_name}  תאחסןאת הנתונים שלה בתוך התיקיה הזו, היא לא תיגע בשום דבר מחוץ לה.</string>
     <string name="description_webdav_trust_certificate">האתר משתמש בתעודה  certificate , שאינה מהימנה על ידי Android.</string>
-    <string name="hint_user_name">שם משתמש</string>
-    <string name="hint_password">סיסמה</string>
     <string name="label_trust_certificate">סמוך על תעודת אישור זו</string>
     <string name="no_sync_backends">אין סינכרון backends</string>
     <string name="menu_create_sync_backend">סינכרון חדש backend</string>

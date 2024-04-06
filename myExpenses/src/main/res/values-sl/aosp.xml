@@ -19,4 +19,6 @@
     <string name="menu_open">"Odpri"</string>
     <string name="menu_print">"Natisni"</string>
     <string name="share">"Skupna raba"</string>
+    <string name="username">"Uporabniško ime"</string>
+    <string name="password">"Geslo"</string>
 </resources>

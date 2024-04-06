@@ -17,4 +17,6 @@
     <string name="menu_open">"Buksan"</string>
     <string name="menu_print">"I-print"</string>
     <string name="share">"Ibahagi"</string>
+    <string name="username">"Username"</string>
+    <string name="password">"Password"</string>
 </resources>

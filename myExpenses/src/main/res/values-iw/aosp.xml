@@ -86,4 +86,6 @@
     <string name="menu_open">"פתיחה"</string>
     <string name="menu_print">"הדפס"</string>
     <string name="share">"שיתוף"</string>
+    <string name="username">"שם משתמש"</string>
+    <string name="password">"סיסמה"</string>
 </resources>

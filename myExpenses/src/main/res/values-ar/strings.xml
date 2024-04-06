@@ -536,8 +536,6 @@
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">يُرجى إدخال URL إلى مجلد خاص على خادم WebDAV الخاص بك. سيخزن {app_name} بياناته داخل هذا المجلد، ولن يمس أي شيء خارجه.</string>
     <string name="description_webdav_trust_certificate">يستخدم الموقع شهادة غير موثوق بها من قبل Android.</string>
-    <string name="hint_user_name">اسم المستخدم</string>
-    <string name="hint_password">كلمة المرور</string>
     <string name="label_trust_certificate">ثق بهذه الشهادة</string>
     <string name="no_sync_backends">لا يوجد تزامن خلفيات </string>
     <string name="menu_create_sync_backend">خلفية مزامنة جديدة</string>

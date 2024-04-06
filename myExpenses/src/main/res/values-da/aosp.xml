@@ -93,4 +93,6 @@
     <string name="menu_open">"Åbn"</string>
     <string name="menu_print">"Udskriv"</string>
     <string name="share">"Del"</string>
+    <string name="username">"Brugernavn"</string>
+    <string name="password">"Adgangskode"</string>
 </resources>

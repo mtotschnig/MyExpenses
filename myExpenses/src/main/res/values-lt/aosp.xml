@@ -19,4 +19,6 @@
     <string name="menu_open">"Atidaryti"</string>
     <string name="menu_print">"Spausdinti"</string>
     <string name="share">"Bendrinti"</string>
+    <string name="username">"Naudotojo vardas"</string>
+    <string name="password">"Slaptažodis"</string>
 </resources>

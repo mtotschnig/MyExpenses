@@ -514,8 +514,6 @@
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">Inserisci l\'URL a una cartella speciale sul server WebDAV. {app_name} memorizzerà i dati all\'interno di questa cartella, non toccherà nulla di fuori di essa.</string>
     <string name="description_webdav_trust_certificate">Il sito utilizza un certificato che non è attendibile per Android.</string>
-    <string name="hint_user_name">Nome utente</string>
-    <string name="hint_password">Password</string>
     <string name="label_trust_certificate">Questo certificato è attendibile</string>
     <string name="no_sync_backends">Nessuna sincronizzazione back-end</string>
     <string name="menu_create_sync_backend">Nuova sincronizzazione back-end</string>

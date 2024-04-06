@@ -18,4 +18,6 @@
     <string name="menu_open">"खोल्नुहोस्"</string>
     <string name="menu_print">"प्रिन्ट गर्नुहोस्"</string>
     <string name="share">"साझेदारी गर्नुहोस्"</string>
+    <string name="username">"एक-पटके टेक्स्ट म्यासेज"</string>
+    <string name="password">"पासवर्ड:"</string>
 </resources>

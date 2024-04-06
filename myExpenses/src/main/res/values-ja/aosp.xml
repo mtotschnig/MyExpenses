@@ -92,4 +92,6 @@
     <string name="menu_open">"開く"</string>
     <string name="menu_print">"印刷"</string>
     <string name="share">"共有"</string>
+    <string name="username">"ユーザー名"</string>
+    <string name="password">"パスワード"</string>
 </resources>

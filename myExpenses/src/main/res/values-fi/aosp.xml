@@ -27,4 +27,6 @@
     <string name="menu_open">"Avaa"</string>
     <string name="menu_print">"Tulosta"</string>
     <string name="share">"Jaa"</string>
+    <string name="username">"Käyttäjätunnus"</string>
+    <string name="password">"Salasana"</string>
 </resources>

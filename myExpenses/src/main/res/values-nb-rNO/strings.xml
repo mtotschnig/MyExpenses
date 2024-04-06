@@ -71,8 +71,6 @@
     <string name="menu_sync_unlink">Stopp synkronisering</string>
     <string name="url_not_valid">Nettadressen er ikke gyldig</string>
     <string name="validate_error_not_empty">Kan ikke være tom</string>
-    <string name="hint_password">Passord</string>
-    <string name="hint_user_name">Brukernavn</string>
     <string name="hint_url">Nettadresse</string>
     <string name="synchronization_none">Ingen synkronisering</string>
     <string name="synchronization">Synkronisering</string>

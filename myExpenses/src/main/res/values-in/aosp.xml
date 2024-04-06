@@ -27,4 +27,6 @@
     <string name="menu_open">"Buka"</string>
     <string name="menu_print">"Cetak"</string>
     <string name="share">"Bagikan"</string>
+    <string name="username">"Nama pengguna"</string>
+    <string name="password">"Sandi"</string>
 </resources>

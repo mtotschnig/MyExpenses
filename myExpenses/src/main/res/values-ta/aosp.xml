@@ -84,4 +84,6 @@
     <string name="menu_open">"திற"</string>
     <string name="menu_print">"அச்சிடு"</string>
     <string name="share">பகிர்</string>
+    <string name="username">"பயனர்பெயர்"</string>
+    <string name="password">"கடவுச்சொல்"</string>
 </resources>

@@ -20,4 +20,6 @@
     <string name="menu_open">"გახსნა"</string>
     <string name="menu_print">"ამობეჭდვა"</string>
     <string name="share">"გაზიარება"</string>
+    <string name="username">"მომხმარებლის სახელი"</string>
+    <string name="password">"პაროლი"</string>
 </resources>

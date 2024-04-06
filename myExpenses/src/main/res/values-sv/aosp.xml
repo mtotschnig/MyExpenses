@@ -27,4 +27,6 @@
     <string name="menu_open">"Öppna"</string>
     <string name="menu_print">"Skriv ut"</string>
     <string name="share">"Dela"</string>
+    <string name="username">"Användarnamn"</string>
+    <string name="password">"Lösenord"</string>
 </resources>

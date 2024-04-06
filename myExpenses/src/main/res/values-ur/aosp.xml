@@ -78,4 +78,6 @@
     <string name="menu_open">"کھولیں"</string>
     <string name="menu_print">"پرنٹ کریں"</string>
     <string name="share">شیئر کریں</string>
+    <string name="username">"صارف نام"</string>
+    <string name="password">"پاس ورڈ"</string>
 </resources>

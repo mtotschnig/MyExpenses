@@ -87,4 +87,6 @@
     <string name="menu_open">"Deschide"</string>
     <string name="menu_print">"Printați"</string>
     <string name="share">"Distribuiţi"</string>
+    <string name="username">"Nume de utilizator"</string>
+    <string name="password">"Parolă"</string>
 </resources>

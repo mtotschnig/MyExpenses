@@ -14,4 +14,6 @@
     <string name="paper_format">Paper Format"</string>
     <string name="configuration">"Konfiguracija"</string>
     <string name="menu_open">"Otvori"</string>
+    <string name="username">"Korisničko ime"</string>
+    <string name="password">"Lozinka"</string>
 </resources>

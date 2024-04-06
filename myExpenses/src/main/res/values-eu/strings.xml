@@ -504,8 +504,6 @@
     <string name="hint_url">URLa</string>
     <string name="description_webdav_url">Idatzi mesedez zure WebDAV zerbitzariko karpeta berezi baten URLa. {app_name} bere datuak karpeta honetan gordeko ditu, ez du hortik kanpoko ezer ikutuko.</string>
     <string name="description_webdav_trust_certificate">Webguneak ziurtagiri bat darabil, zeina Androidek ez duen fidagarritzat jotzen.</string>
-    <string name="hint_user_name">Erabiltzaile-izena</string>
-    <string name="hint_password">Pasahitza</string>
     <string name="label_trust_certificate">Fidatu ziurtagiri honetan</string>
     <string name="no_sync_backends">Sinkronizazio atzealdekorik ez</string>
     <string name="menu_create_sync_backend">Sinkronizazio atzealdeko berria</string>

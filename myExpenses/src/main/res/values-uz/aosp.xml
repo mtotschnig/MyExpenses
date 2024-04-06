@@ -17,4 +17,6 @@
     <string name="configuration">"Konfiguratsiya"</string>
     <string name="menu_open">"Ochish"</string>
     <string name="menu_print">"Chop qilish"</string>
+    <string name="username">"Foydalanuvchi nomi"</string>
+    <string name="password">"Parol"</string>
 </resources>

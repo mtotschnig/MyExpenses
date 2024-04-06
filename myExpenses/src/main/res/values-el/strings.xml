@@ -505,8 +505,6 @@
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">Παρακαλώ εισάγετε τη διεύθυνση URL σε ένα ειδικό φάκελο στο WebDAV διακομιστή σας. Το {app_name} θα αποθηκεύσει τα δεδομένα του μέσα σε αυτό το φάκελο, δεν θα αγγίξει τίποτα έξω από αυτό.</string>
     <string name="description_webdav_trust_certificate">Η ιστοσελίδα χρησιμοποιεί ένα πιστοποιητικό, το οποίο δεν είναι έμπιστο από το Android.</string>
-    <string name="hint_user_name">Ονομα χρήστη</string>
-    <string name="hint_password">Κωδικός πρόσβασης</string>
     <string name="label_trust_certificate">Εμπιστευθείτε αυτό το πιστοποιητικό</string>
     <string name="validate_error_not_empty">Δεν πρέπει να είναι κενό</string>
     <string name="validate_error_webdav_invalid_certificate">Το πιστοποιητικό δεν μπορεί να επαληθευτεί. Φαίνεται άκυρο.</string>

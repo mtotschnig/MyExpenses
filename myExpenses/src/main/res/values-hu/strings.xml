@@ -509,8 +509,6 @@
     <string name="hint_url">URL-cím</string>
     <string name="description_webdav_url">Írja be a különleges mappájának URL-címét a WebDAV szerveren. A(z) {app_name} ebben a mappában fogja tárolni az adatokat, a mappán kívül semmihez nem fog hozzáférni.</string>
     <string name="description_webdav_trust_certificate">A honlap egy olyan tanúsítványt használ, amelyet az Android nem tart megbízhatónak.</string>
-    <string name="hint_user_name">Felhasználó neve</string>
-    <string name="hint_password">Jelszó</string>
     <string name="label_trust_certificate">Bízzon ebben a tanúsítványban</string>
     <string name="no_sync_backends">Nincs szinkronizálási háttérrendszer</string>
     <string name="menu_create_sync_backend">Új szinkronizálási háttérrendszer</string>

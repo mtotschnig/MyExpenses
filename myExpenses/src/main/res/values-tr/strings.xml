@@ -509,8 +509,6 @@
     <string name="hint_url">Bağlantı</string>
     <string name="description_webdav_url">Lütfen WebDAV sunucunuzdaki özel bir klasör için bağlantı girin. {app_name} verilerini bu klasör içinde saklayacak ve dışında hiçbir şeye dokunmayacaktır.</string>
     <string name="description_webdav_trust_certificate">Ağ sitesi Android tarafından güvenilmeyen bir sertifika kullanmaktadır.</string>
-    <string name="hint_user_name">Kullanıcı ismi</string>
-    <string name="hint_password">Parola</string>
     <string name="label_trust_certificate">Bu sertifikaya güven</string>
     <string name="no_sync_backends">Eşzamanlama arka ucu yok</string>
     <string name="menu_create_sync_backend">Yeni eşzamanlama arka ucu</string>

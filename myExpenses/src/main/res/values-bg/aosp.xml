@@ -94,4 +94,6 @@
     <string name="menu_open">"Отваряне"</string>
     <string name="menu_print">"Печат"</string>
     <string name="share">"Споделяне"</string>
+    <string name="username">"Потребителско име"</string>
+    <string name="password">"Парола"</string>
 </resources>

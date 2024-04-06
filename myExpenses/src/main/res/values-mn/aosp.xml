@@ -19,4 +19,6 @@
     <string name="menu_open">"Нээх"</string>
     <string name="menu_print">"Хэвлэх"</string>
     <string name="share">"Хуваалцах"</string>
+    <string name="username">"Хэрэглэгчийн нэр"</string>
+    <string name="password">"Нууц үг"</string>
 </resources>

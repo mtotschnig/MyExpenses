@@ -92,4 +92,6 @@
     <string name="menu_open">"Aç"</string>
     <string name="menu_print">"Yazdır"</string>
     <string name="share">"Paylaş"</string>
+    <string name="username">"Kullanıcı adı"</string>
+    <string name="password">"Şifre"</string>
 </resources>

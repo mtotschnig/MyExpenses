@@ -160,4 +160,8 @@
     <string name="menu_print">"Print"</string>
     <!-- /opt/extra/AOSP/packages/apps/Gallery2$ grep -ri "\"share\"" | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="share">"Share"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri "\"vpn_username\"" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/vpn_//' | aosp_helper -->
+    <string name="username">"Username"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri "\"vpn_password\"" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/vpn_//' | aosp_helper -->
+    <string name="password">"Password"</string>
 </resources>

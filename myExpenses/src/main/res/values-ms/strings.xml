@@ -497,8 +497,6 @@
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">Sila masukkan URL ke folder khas dalam pelayan WebDAV anda. {app_name} akan menyimpan datanya di dalam folder ini, ia tidak akan menyentuh apa-apa diluarnya.</string>
     <string name="description_webdav_trust_certificate">Laman sesawang menggunakan sijil, yang mana tidak dipercayai oleh Android.</string>
-    <string name="hint_user_name">Nama pengguna</string>
-    <string name="hint_password">Kata laluan</string>
     <string name="label_trust_certificate">Percayai sijil ini</string>
     <string name="no_sync_backends">Tiada bahagian belakang penyegerakan</string>
     <string name="menu_create_sync_backend">Bahagian belakang penyegerakan baharu</string>

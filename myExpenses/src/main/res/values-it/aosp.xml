@@ -92,4 +92,6 @@
     <string name="menu_open">"Apri"</string>
     <string name="menu_print">"Stampa"</string>
     <string name="share">"Condividi"</string>
+    <string name="username">"Nome utente"</string>
+    <string name="password">"Password"</string>
 </resources>

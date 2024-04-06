@@ -420,8 +420,6 @@
     <string name="crash_dialog_comment_prompt">Pot afegir comentaris sobre el problema aquí:</string>
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">Siusplau introdueixi URL per al fitxer especial al seu servidor WebDAV. {app_name} desarà dades a l\'interior de la carpeta, però no tocarà res fora de la mateixa.</string>
-    <string name="hint_user_name">Nom d\'usuari</string>
-    <string name="hint_password">Contrasenya</string>
     <string name="label_trust_certificate">Confia en aquest certificat</string>
     <string name="no_sync_backends">Sense serveis de sincronització</string>
     <string name="validate_error_webdav_invalid_certificate">No es pot confiar en el certificat. Sembla invàlid.</string>

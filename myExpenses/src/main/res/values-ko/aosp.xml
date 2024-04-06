@@ -85,4 +85,6 @@
     <string name="menu_open">"열기"</string>
     <string name="menu_print">"인쇄"</string>
     <string name="share">"공유"</string>
+    <string name="username">"사용자 이름"</string>
+    <string name="password">"비밀번호"</string>
 </resources>

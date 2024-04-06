@@ -14,4 +14,6 @@
     <string name="paper_format">"Фармат паперы"</string>
     <string name="configuration">"Канфігурацыя"</string>
     <string name="menu_open">"Адкрыць"</string>
+    <string name="username">"Імя карыстальніка"</string>
+    <string name="password">"Пароль"</string>
 </resources>

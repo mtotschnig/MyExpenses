@@ -507,8 +507,6 @@
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">ದಯವಿಟ್ಟು ನಿಮ್ಮ ವೆಬ್‌ಡ್ಯಾವ್ ಸರ್ವರ್‌ನಲ್ಲಿ ವಿಶೇಷ ಫೋಲ್ಡರ್‌ಗೆ URL ಅನ್ನು ನಮೂದಿಸಿ. {app_name} ತನ್ನ ಡೇಟಾವನ್ನು ಈ ಫೋಲ್ಡರ್ ಒಳಗೆ ಸಂಗ್ರಹಿಸುತ್ತದೆ, ಅದು ಅದರ ಹೊರಗೆ ಯಾವುದನ್ನೂ ಮುಟ್ಟುವುದಿಲ್ಲ.</string>
     <string name="description_webdav_trust_certificate">ವೆಬ್‌ಸೈಟ್ ಪ್ರಮಾಣಪತ್ರವನ್ನು ಬಳಸುತ್ತದೆ, ಅದನ್ನು ಆಂಡ್ರಾಯ್ಡ್ ನಂಬುವುದಿಲ್ಲ.</string>
-    <string name="hint_user_name">ಬಳಕೆದಾರ ಹೆಸರು</string>
-    <string name="hint_password">ಗುಪ್ತಪದ</string>
     <string name="label_trust_certificate">ಈ ಪ್ರಮಾಣಪತ್ರವನ್ನು ನಂಬಿರಿ</string>
     <string name="no_sync_backends">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್‌ಗಳು ಇಲ್ಲ</string>
     <string name="menu_create_sync_backend">ಹೊಸ ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್</string>

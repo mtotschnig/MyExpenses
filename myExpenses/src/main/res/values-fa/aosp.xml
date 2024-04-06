@@ -19,4 +19,6 @@
     <string name="menu_open">"باز"</string>
     <string name="menu_print">"چاپ"</string>
     <string name="share">"اشتراک‌گذاری"</string>
+    <string name="username">"نام کاربری"</string>
+    <string name="password">"گذرواژه"</string>
 </resources>

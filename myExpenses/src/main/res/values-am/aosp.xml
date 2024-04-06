@@ -25,4 +25,6 @@
     <string name="menu_open">"ክፈት"</string>
     <string name="menu_print">"አትም"</string>
     <string name="share">"አጋራ"</string>
+    <string name="username">"የተጠቃሚ ስም"</string>
+    <string name="password">"የይለፍ ቃል"</string>
 </resources>

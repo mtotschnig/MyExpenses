@@ -423,8 +423,6 @@
     <string name="synchronization">ہم وقت سازی</string>
     <string name="synchronization_none">کوئی مطابقت پذیری نہیں ہے</string>
     <string name="description_webdav_trust_certificate">ویب سائٹ ایک سرٹیفکیٹ استعمال کرتی ہے، جس پر اینڈرائیڈ کو بھروسہ نہیں ہے۔</string>
-    <string name="hint_user_name">صارف کا نام</string>
-    <string name="hint_password">پاس ورڈ</string>
     <string name="label_trust_certificate">اس سند پر بھروسہ کریں</string>
     <string name="menu_sync_download">ڈاؤن لوڈ اور مطابقت پذیری کریں</string>
     <string name="pref_sync_frequency_summary">ڈیٹا کتنی بار مطابقت پذیر ہونا چاہئے (گھنٹوں میں)</string>

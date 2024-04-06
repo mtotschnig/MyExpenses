@@ -17,4 +17,6 @@
     <string name="configuration">"কনফিগারেশন"</string>
     <string name="menu_open">"খুলুন"</string>
     <string name="menu_print">"মুদ্রণ"</string>
+    <string name="username">"ইউজারনেম"</string>
+    <string name="password">"পাসওয়ার্ড"</string>
 </resources>

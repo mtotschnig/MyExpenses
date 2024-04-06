@@ -82,4 +82,6 @@
     <string name="menu_open">"បើក"</string>
     <string name="menu_print">"បោះពុម្ព"</string>
     <string name="share">"ចែក​រំលែក"</string>
+    <string name="username">"ឈ្មោះ​អ្នក​ប្រើ​"</string>
+    <string name="password">"ពាក្យសម្ងាត់​"</string>
 </resources>

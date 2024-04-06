@@ -18,4 +18,6 @@
     <string name="menu_open">"Vula"</string>
     <string name="menu_print">"Phrinta"</string>
     <string name="share">"Yabelana"</string>
+    <string name="username">"Igama lomsebenzisi"</string>
+    <string name="password">"Iphasiwedi"</string>
 </resources>

@@ -81,4 +81,6 @@
     <string name="menu_open">"Buka"</string>
     <string name="menu_print">"Cetak"</string>
     <string name="share">"Kongsi"</string>
+    <string name="username">"Nama pengguna"</string>
+    <string name="password">"Kata laluan"</string>
 </resources>

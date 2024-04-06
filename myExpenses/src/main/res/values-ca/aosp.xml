@@ -93,4 +93,6 @@
     <string name="menu_open">"Obre"</string>
     <string name="menu_print">"Imprimeix"</string>
     <string name="share">"Comparteix"</string>
+    <string name="username">"Nom d'usuari"</string>
+    <string name="password">"Contrasenya"</string>
 </resources>

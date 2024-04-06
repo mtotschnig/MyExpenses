@@ -523,8 +523,6 @@
     <string name="hint_url">Adresa URL</string>
     <string name="description_webdav_url">Zadejte adresu URL speciální složky na serveru WebDAV. Aplikace {app_name} uloží svá data do této složky, ale nebude zasahovat do ničeho mimo složku.</string>
     <string name="description_webdav_trust_certificate">Web používá certifikát, který Android nepovažuje za důvěryhodný.</string>
-    <string name="hint_user_name">Uživatelské jméno</string>
-    <string name="hint_password">Heslo</string>
     <string name="label_trust_certificate">Důvěřovat tomuto certifikátu</string>
     <string name="no_sync_backends">Žádné synchronizační back-endy</string>
     <string name="menu_create_sync_backend">Nové synchronizační rozhraní backend</string>

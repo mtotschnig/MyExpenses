@@ -17,4 +17,6 @@
     <string name="configuration">"စီစဉ်သတ်မှတ်ချက်"</string>
     <string name="menu_open">"ဖွင့်ပါ"</string>
     <string name="menu_print">"ပရင့် ထုတ်ယူရန်"</string>
+    <string name="username">"သုံးသူအမည်"</string>
+    <string name="password">"စကားဝှက်"</string>
 </resources>

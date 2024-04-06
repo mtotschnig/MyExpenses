@@ -15,4 +15,6 @@
     <string name="cannot_be_undone">"ਇਹ ਕਿਰਿਆ ਨਸ਼ਟ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕਦੀ।"</string>
     <string name="configuration">"ਸੰਰੂਪਣ"</string>
     <string name="menu_open">"ਖੋਲ੍ਹੋ"</string>
+    <string name="username">"ਵਰਤੋਂਕਾਰ ਨਾਮ"</string>
+    <string name="password">"ਪਾਸਵਰਡ"</string>
 </resources>

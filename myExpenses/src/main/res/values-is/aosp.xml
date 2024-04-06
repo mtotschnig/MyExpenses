@@ -26,4 +26,6 @@
     <string name="configuration">"Grunnstilling"</string>
     <string name="menu_open">"Opna"</string>
     <string name="menu_print">"Prenta"</string>
+    <string name="username">"Notandanafn"</string>
+    <string name="password">"Aðgangsorð"</string>
 </resources>

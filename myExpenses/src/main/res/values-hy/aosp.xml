@@ -25,4 +25,6 @@
     <string name="menu_open">"Բացել"</string>
     <string name="menu_print">"Տպել"</string>
     <string name="share">"Կիսվել"</string>
+    <string name="username">"Օգտանուն"</string>
+    <string name="password">"Գաղտնաբառ"</string>
 </resources>

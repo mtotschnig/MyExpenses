@@ -16,4 +16,6 @@
     <string name="configuration">"Конфигурация"</string>
     <string name="menu_open">"Ачуу"</string>
     <string name="menu_print">"Басып чыгаруу"</string>
+    <string name="username">"Колдонуучунун аты"</string>
+    <string name="password">"Сырсөз"</string>
 </resources>

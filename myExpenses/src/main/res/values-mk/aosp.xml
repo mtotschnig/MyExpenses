@@ -17,4 +17,6 @@
     <string name="configuration">"Конфигурација"</string>
     <string name="menu_open">"Отвори"</string>
     <string name="menu_print">"Печати"</string>
+    <string name="username">"Корисничко име"</string>
+    <string name="password">"Лозинка"</string>
 </resources>

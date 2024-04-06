@@ -17,4 +17,6 @@
     <string name="menu_open">"Fungua"</string>
     <string name="menu_print">"Chapisha"</string>
     <string name="share">"Shiriki"</string>
+    <string name="username">"Jina la mtumiaji"</string>
+    <string name="password">"Nenosiri"</string>
 </resources>

@@ -379,8 +379,6 @@
     <string name="crash_dialog_title">{app_name} بسته شد</string>
     <string name="crash_dialog_comment_prompt">اگر مایلید نظرتان را راجع به مشکل در زیر بیان کنید:</string>
     <string name="synchronization">همگام‌سازی</string>
-    <string name="hint_user_name">نام کاربری</string>
-    <string name="hint_password">گذرواژه</string>
     <string name="label_trust_certificate">اعتماد کردن به این گواهی</string>
     <string name="validate_error_not_empty">نباید خالی باشد</string>
     <string name="validate_error_webdav_invalid_certificate">به گواهی نمی‌شود اعتماد کرد. به‌نظر نامعتبر است.</string>

@@ -27,4 +27,6 @@
     <string name="menu_open">"เปิด"</string>
     <string name="menu_print">"พิมพ์"</string>
     <string name="share">"แบ่งปัน"</string>
+    <string name="username">"ชื่อผู้ใช้"</string>
+    <string name="password">"รหัสผ่าน"</string>
 </resources>

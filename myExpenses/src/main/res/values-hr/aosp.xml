@@ -87,4 +87,6 @@
     <string name="menu_open">"Otvori"</string>
     <string name="menu_print">"Ispis"</string>
     <string name="share">"Podijeli"</string>
+    <string name="username">"Korisničko ime"</string>
+    <string name="password">"Zaporka"</string>
 </resources>

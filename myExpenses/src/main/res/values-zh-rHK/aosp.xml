@@ -81,4 +81,6 @@
     <string name="menu_open">"開啟"</string>
     <string name="menu_print">"列印"</string>
     <string name="share">"分享"</string>
+    <string name="username">"使用者名稱"</string>
+    <string name="password">"密碼"</string>
 </resources>

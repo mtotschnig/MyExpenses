@@ -516,8 +516,6 @@
     <string name="hint_url">Dirección web</string>
     <string name="description_webdav_url">Por favor, introduzca la dirección web a la carpeta de su servidor WebDAV. {app_name} guardará la información en esta carpeta, sin tocar nada fuera de la misma.</string>
     <string name="description_webdav_trust_certificate">La página web utiliza un certificado, pudiendo no en la lista de certificados de confianza de Android.</string>
-    <string name="hint_user_name">Nombre de usuario</string>
-    <string name="hint_password">Contraseña</string>
     <string name="label_trust_certificate">Confiar en este certificado</string>
     <string name="no_sync_backends">Sin servicios de sincronización</string>
     <string name="menu_create_sync_backend">Nuevo servicio de sincronización</string>

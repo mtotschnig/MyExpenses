@@ -508,8 +508,6 @@
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">Введіть URL-адресу до спеціальної теки на сервері WebDAV. {app_name} зберігатиме свої дані всередині цієї теки, та не доступатиметься до даних поза нею.</string>
     <string name="description_webdav_trust_certificate">Веб-сайт використовує сертифікат, якому не довіряє Android.</string>
-    <string name="hint_user_name">Ім\'я користувача</string>
-    <string name="hint_password">Пароль</string>
     <string name="label_trust_certificate">Довіряти цьому сертифікату</string>
     <string name="no_sync_backends">Немає серверів синхронізації</string>
     <string name="menu_create_sync_backend">Новий сервер синхронізації</string>

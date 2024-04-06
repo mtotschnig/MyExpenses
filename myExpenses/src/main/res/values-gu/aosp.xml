@@ -17,4 +17,6 @@
     <string name="configuration">"ગોઠવણી"</string>
     <string name="menu_open">"ખોલો"</string>
     <string name="menu_print">"છાપો"</string>
+    <string name="username">"વપરાશકર્તાનું નામ"</string>
+    <string name="password">"પાસવર્ડ"</string>
 </resources>

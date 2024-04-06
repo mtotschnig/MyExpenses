@@ -27,4 +27,6 @@
     <string name="menu_open">"Otvoriť"</string>
     <string name="menu_print">"Tlačiť"</string>
     <string name="share">"Zdieľať"</string>
+    <string name="username">"Používateľské meno"</string>
+    <string name="password">"Heslo"</string>
 </resources>

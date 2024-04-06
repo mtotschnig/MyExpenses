@@ -509,8 +509,6 @@
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">Въведете URL на специална папка от WebDAV сървър. {app_name} ще запази данните си в тази папка и няма да пипа нищо извън нея.</string>
     <string name="description_webdav_trust_certificate">Сайтът използва сертификат, който не е доверен за Android.</string>
-    <string name="hint_user_name">Име на потребител</string>
-    <string name="hint_password">Парола</string>
     <string name="label_trust_certificate">Довери се на този сертификат</string>
     <string name="no_sync_backends">Няма отдалечено хранилище, с което да се прави синхронизация</string>
     <string name="menu_create_sync_backend">Ново отдалечено хранилище, с което да се прави синхронизация</string>

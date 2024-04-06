@@ -26,4 +26,6 @@
     <string name="configuration">"Configuración"</string>
     <string name="menu_open">"Abrir"</string>
     <string name="menu_print">"Imprimir"</string>
+    <string name="username">"Nome de usuario"</string>
+    <string name="password">"Contrasinal"</string>
 </resources>

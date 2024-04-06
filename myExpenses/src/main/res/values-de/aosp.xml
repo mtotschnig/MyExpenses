@@ -92,4 +92,6 @@
     <string name="menu_open">"Öffnen"</string>
     <string name="menu_print">"Drucken"</string>
     <string name="share">"Teilen"</string>
+    <string name="username">"Nutzername"</string>
+    <string name="password">"Passwort"</string>
 </resources>

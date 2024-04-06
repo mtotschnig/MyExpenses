@@ -94,4 +94,6 @@
     <string name="menu_open">"Відкрити"</string>
     <string name="menu_print">"Друк"</string>
     <string name="share">"Поділитися"</string>
+    <string name="username">"Ім’я користувача"</string>
+    <string name="password">"Пароль"</string>
 </resources>

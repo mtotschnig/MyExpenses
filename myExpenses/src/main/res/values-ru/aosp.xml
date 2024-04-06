@@ -95,4 +95,6 @@
     <string name="menu_open">"Открыть"</string>
     <string name="menu_print">"Печать"</string>
     <string name="share">"Отправить"</string>
+    <string name="username">"Имя пользователя"</string>
+    <string name="password">"Пароль"</string>
 </resources>

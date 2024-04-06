@@ -18,4 +18,6 @@
     <string name="paper_format">"Formati i fletës"</string>
     <string name="configuration">"Konfigurimi"</string>
     <string name="menu_open">"Hap"</string>
+    <string name="username">"Emri i përdoruesit"</string>
+    <string name="password">"Fjalëkalimi"</string>
 </resources>

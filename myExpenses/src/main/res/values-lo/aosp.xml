@@ -18,4 +18,6 @@
     <string name="menu_open">"ເປີດ"</string>
     <string name="menu_print">"ພິມ"</string>
     <string name="share">"ແບ່ງປັນ"</string>
+    <string name="username">"ຊື່ຜູ້ໃຊ້"</string>
+    <string name="password">"ລະຫັດຜ່ານ"</string>
 </resources>

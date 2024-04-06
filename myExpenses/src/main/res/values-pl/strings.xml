@@ -513,8 +513,6 @@
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">Wprowadź adres URL do specjalnego folderu na serwerze WebDAV. {app_name} będzie przechowywać swoje dane w tym folderze, nie dotknie niczego poza nim.</string>
     <string name="description_webdav_trust_certificate">Witryna korzysta z certyfikatu, który nie jest zaufany przez Androida.</string>
-    <string name="hint_user_name">Nazwa użytkownika</string>
-    <string name="hint_password">Hasło</string>
     <string name="label_trust_certificate">Zaufaj temu certyfikatowi</string>
     <string name="no_sync_backends">Brak serwerów synchronizacji</string>
     <string name="menu_create_sync_backend">Nowy serwer synchronizacji</string>

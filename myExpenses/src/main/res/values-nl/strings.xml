@@ -434,7 +434,6 @@
     <string name="crash_dialog_comment_prompt">Je kunt hieronder je opmerkingen over het probleem toevoegen:</string>
     <string name="synchronization">Synchronisatie</string>
     <string name="description_webdav_trust_certificate">De website gebruikt een certificaat, dat niet wordt vertrouwd door Android.</string>
-    <string name="hint_password">Wachtwoord</string>
     <string name="label_trust_certificate">Vertrouw dit certificaat</string>
     <string name="no_sync_backends">Geen synchronisatie-backends</string>
     <string name="menu_create_sync_backend">Nieuwe synchronisatie-backend</string>
@@ -673,7 +672,6 @@
     <string name="pref_sort_order_next_instance">Volgende instantie</string>
     <string name="crash_dialog_title">{app_name} is gecrasht</string>
     <string name="crash_dialog_text">Er is een onverwachte fout opgetreden waardoor de toepassing moest stoppen. Help ons dit op te lossen door ons foutgegevens te sturen. Je hoeft alleen maar op OK te klikken.</string>
-    <string name="hint_user_name">Gebruikersnaam</string>
     <string name="menu_sync_download">Downloaden en synchroniseren</string>
     <string name="description_webdav_url">Voer de URL in naar een speciale map op je WebDAV-server. {app_name} slaat zijn gegevens op in deze map, daarbuiten raakt hij niets aan.</string>
     <string name="menu_remove">Verwijderen</string>

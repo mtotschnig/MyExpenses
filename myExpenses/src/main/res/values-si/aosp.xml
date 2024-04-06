@@ -80,4 +80,6 @@
     <string name="menu_open">"විවෘත කරන්න"</string>
     <string name="menu_print">"මුද්‍රණ කරන්න"</string>
     <string name="share">"බෙදාගන්න"</string>
+    <string name="username">"පරිශීලක නාමය"</string>
+    <string name="password">"මුරපදය"</string>
 </resources>
