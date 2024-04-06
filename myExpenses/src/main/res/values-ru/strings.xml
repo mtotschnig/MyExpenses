@@ -175,7 +175,6 @@
     <string name="menu_invert_transfer">Инвертировать</string>
     <string name="menu_manage_plans">Шаблоны и планы</string>
     <string name="menu_import">Импорт</string>
-    <string name="menu_print">Печать</string>
     <string name="menu_reset">Экспорт и сброс</string>
     <string name="menu_reset_all">Экспортировать и сбросить все</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

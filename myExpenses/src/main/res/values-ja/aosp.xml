@@ -90,4 +90,5 @@
     <string name="paper_format">"用紙サイズ"</string>
     <string name="configuration">"設定"</string>
     <string name="menu_open">"開く"</string>
+    <string name="menu_print">"印刷"</string>
 </resources>

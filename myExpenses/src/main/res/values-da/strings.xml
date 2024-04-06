@@ -150,7 +150,6 @@
     <string name="menu_invert_transfer">Invertér</string>
     <string name="menu_manage_plans">Skabeloner og planer</string>
     <string name="menu_import">Import</string>
-    <string name="menu_print">Udskriv</string>
     <string name="menu_reset">Eksportér og nulstil</string>
     <string name="menu_reset_all">Eksportér og nulstil alt</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

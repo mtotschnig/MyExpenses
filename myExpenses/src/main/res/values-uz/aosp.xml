@@ -16,4 +16,5 @@
     <string name="paper_format">"Sahifaning formati"</string>
     <string name="configuration">"Konfiguratsiya"</string>
     <string name="menu_open">"Ochish"</string>
+    <string name="menu_print">"Chop qilish"</string>
 </resources>

@@ -77,4 +77,5 @@
     <string name="paper_format">"కాగిత ఫార్మాట్"</string>
     <string name="configuration">"కాన్ఫిగరేషన్"</string>
     <string name="menu_open">"తెరువు"</string>
+    <string name="menu_print">"ముద్రించు"</string>
 </resources>

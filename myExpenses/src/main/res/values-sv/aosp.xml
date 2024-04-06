@@ -25,4 +25,5 @@
     <string name="paper_format">"Pappersformat"</string>
     <string name="configuration">"Konfiguration"</string>
     <string name="menu_open">"Öppna"</string>
+    <string name="menu_print">"Skriv ut"</string>
 </resources>

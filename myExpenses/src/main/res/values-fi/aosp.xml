@@ -25,4 +25,5 @@
     <string name="paper_format">"Paperikoko"</string>
     <string name="configuration">"Määritykset"</string>
     <string name="menu_open">"Avaa"</string>
+    <string name="menu_print">"Tulosta"</string>
 </resources>

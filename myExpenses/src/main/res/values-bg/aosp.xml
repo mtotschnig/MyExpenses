@@ -92,4 +92,5 @@
     <string name="paper_format">"Формат на хартията"</string>
     <string name="configuration">"Конфигурация"</string>
     <string name="menu_open">"Отваряне"</string>
+    <string name="menu_print">"Печат"</string>
 </resources>

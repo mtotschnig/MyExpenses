@@ -89,4 +89,5 @@
     <string name="paper_format">"紙張格式"</string>
     <string name="configuration">"設定"</string>
     <string name="menu_open">"開啟"</string>
+    <string name="menu_print">"列印"</string>
 </resources>

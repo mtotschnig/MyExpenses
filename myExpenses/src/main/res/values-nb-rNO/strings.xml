@@ -218,7 +218,6 @@
     <string name="menu_reset_plan_instance">Tilbakestill</string>
     <string name="menu_reset_all">Eksporter og tilbakestill alt</string>
     <string name="menu_reset">Eksporter og tilbakestill</string>
-    <string name="menu_print">Skriv ut</string>
     <string name="menu_import">Importer</string>
     <string name="menu_manage_plans">Maler og planer</string>
     <string name="menu_invert_transfer">Inverter</string>

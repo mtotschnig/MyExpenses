@@ -17,4 +17,5 @@
     <string name="paper_format">"Цаасны хэмжээ"</string>
     <string name="configuration">"Тохируулга"</string>
     <string name="menu_open">"Нээх"</string>
+    <string name="menu_print">"Хэвлэх"</string>
 </resources>

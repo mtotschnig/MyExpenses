@@ -16,4 +16,5 @@
     <string name="paper_format">"Umumo Wekhasi"</string>
     <string name="configuration">"Ukucushwa"</string>
     <string name="menu_open">"Vula"</string>
+    <string name="menu_print">"Phrinta"</string>
 </resources>

@@ -78,4 +78,5 @@
     <string name="paper_format">"කඩදාසි හැඩතලය"</string>
     <string name="configuration">"වින්‍යාසය"</string>
     <string name="menu_open">"විවෘත කරන්න"</string>
+    <string name="menu_print">"මුද්‍රණ කරන්න"</string>
 </resources>

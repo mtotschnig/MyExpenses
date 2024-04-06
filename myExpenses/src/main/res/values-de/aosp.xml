@@ -90,4 +90,5 @@
     <string name="paper_format">"Papierformat"</string>
     <string name="configuration">"Konfiguration"</string>
     <string name="menu_open">"Öffnen"</string>
+    <string name="menu_print">"Drucken"</string>
 </resources>

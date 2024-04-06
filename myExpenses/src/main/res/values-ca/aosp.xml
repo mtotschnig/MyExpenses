@@ -91,4 +91,5 @@
     <string name="paper_format">"Format del paper"</string>
     <string name="configuration">"Configuració"</string>
     <string name="menu_open">"Obre"</string>
+    <string name="menu_print">"Imprimeix"</string>
 </resources>

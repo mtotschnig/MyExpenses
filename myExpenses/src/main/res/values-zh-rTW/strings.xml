@@ -172,7 +172,6 @@
     <string name="menu_invert_transfer">兩者反轉</string>
     <string name="menu_manage_plans">範本與收支計畫</string>
     <string name="menu_import">匯入</string>
-    <string name="menu_print">列印</string>
     <string name="menu_reset">匯出並重設</string>
     <string name="menu_reset_all">匯出檔案並全部重置</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

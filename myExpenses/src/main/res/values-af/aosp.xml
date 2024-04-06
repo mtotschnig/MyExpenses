@@ -23,4 +23,5 @@
     <string name="paper_format">"Bladsyformaat"</string>
     <string name="configuration">"Opstelling"</string>
     <string name="menu_open">"Maak oop"</string>
+    <string name="menu_print">"Druk uit"</string>
 </resources>

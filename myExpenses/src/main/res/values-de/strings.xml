@@ -173,7 +173,6 @@
     <string name="menu_invert_transfer">Umkehren</string>
     <string name="menu_manage_plans">Vorlagen und Pläne</string>
     <string name="menu_import">Import</string>
-    <string name="menu_print">Drucken</string>
     <string name="menu_reset">Exportieren und zurücksetzen</string>
     <string name="menu_reset_all">Alle exportieren und zurücksetzen</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

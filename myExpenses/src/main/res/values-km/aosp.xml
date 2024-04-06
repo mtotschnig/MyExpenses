@@ -80,4 +80,5 @@
     <string name="paper_format">"ទ្រង់ទ្រាយ​ក្រដាស"</string>
     <string name="configuration">"ការ​កំណត់​រចនា​សម្ព័ន្ធ"</string>
     <string name="menu_open">"បើក"</string>
+    <string name="menu_print">"បោះពុម្ព"</string>
 </resources>

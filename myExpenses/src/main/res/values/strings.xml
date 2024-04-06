@@ -181,7 +181,6 @@
     <string name="menu_invert_transfer">Invert</string>
     <string name="menu_manage_plans">Templates and plans</string>
     <string name="menu_import">Import</string>
-    <string name="menu_print">Print</string>
     <string name="menu_reset">Export and reset</string>
     <string name="menu_reset_all">Export and reset all</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

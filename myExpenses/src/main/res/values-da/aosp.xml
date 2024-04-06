@@ -91,4 +91,5 @@
     <string name="paper_format">"Papirformat"</string>
     <string name="configuration">"Konfiguration"</string>
     <string name="menu_open">"Åbn"</string>
+    <string name="menu_print">"Udskriv"</string>
 </resources>

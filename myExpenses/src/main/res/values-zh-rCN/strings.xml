@@ -172,7 +172,6 @@
     <string name="menu_invert_transfer">倒置</string>
     <string name="menu_manage_plans">模板与计划</string>
     <string name="menu_import">导入</string>
-    <string name="menu_print">打印</string>
     <string name="menu_reset">导出和重置</string>
     <string name="menu_reset_all">导出和重置所有</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

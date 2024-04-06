@@ -173,7 +173,6 @@
     <string name="menu_invert_transfer">ತಲೆಕೆಳಗು</string>
     <string name="menu_manage_plans">ಟೆಂಪ್ಲೇಟ್‌ಗಳು ಮತ್ತು ಯೋಜನೆಗಳು</string>
     <string name="menu_import">ಆಮದು</string>
-    <string name="menu_print">ಮುದ್ರಿಸಿ</string>
     <string name="menu_reset">ರಫ್ತು ಮತ್ತು ಮರುಹೊಂದಿಸಿ</string>
     <string name="menu_reset_all">ಎಲ್ಲವನ್ನೂ ರಫ್ತು ಮಾಡಿ ಮತ್ತು ಮರುಹೊಂದಿಸಿ</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

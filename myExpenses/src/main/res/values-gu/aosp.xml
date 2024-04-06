@@ -16,4 +16,5 @@
     <string name="paper_format">પાનાનું બંધારણ</string>
     <string name="configuration">"ગોઠવણી"</string>
     <string name="menu_open">"ખોલો"</string>
+    <string name="menu_print">"છાપો"</string>
 </resources>

@@ -79,4 +79,5 @@
     <string name="cannot_be_undone">"Tindakan ini tidak boleh dibuat asal."</string>
     <string name="configuration">"Konfigurasi"</string>
     <string name="menu_open">"Buka"</string>
+    <string name="menu_print">"Cetak"</string>
 </resources>

@@ -17,4 +17,5 @@
     <string name="paper_format">"Papīra formāts"</string>
     <string name="configuration">"Konfigurācija"</string>
     <string name="menu_open">"Atvērt"</string>
+    <string name="menu_print">"Drukāt"</string>
 </resources>

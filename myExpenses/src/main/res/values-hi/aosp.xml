@@ -16,4 +16,5 @@
     <string name="paper_format">कागज प्रारूप</string>
     <string name="configuration">"कॉन्फ़िगरेशन"</string>
     <string name="menu_open">"खोलें"</string>
+    <string name="menu_print">"प्रिंट करें"</string>
 </resources>

@@ -16,4 +16,5 @@
     <string name="paper_format">"पेपर रूपण"</string>
     <string name="configuration">"कॉंफिगरेशन"</string>
     <string name="menu_open">"उघडा"</string>
+    <string name="menu_print">"मुद्रण करा"</string>
 </resources>

@@ -82,4 +82,5 @@
     <string name="paper_format">"காகித வடிவம்"</string>
     <string name="configuration">"உள்ளமைவு"</string>
     <string name="menu_open">"திற"</string>
+    <string name="menu_print">"அச்சிடு"</string>
 </resources>

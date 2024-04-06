@@ -154,4 +154,8 @@
     <string name="paper_format">"Paper format"</string>
     <!--/opt/extra/AOSP/packages/apps/TvSettings/Settings$  grep -ri system_accessibility_config | sed 's/ msgid="[[:digit:]]*"//' | sed 's/system_accessibility_config/configuration/' | aosp_helper -->
     <string name="configuration">"Configuration"</string>
+    <!-- /opt/extra/AOSP/packages/apps/DocumentsUI grep -ri menu_open\" | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
+    <string name="menu_open">"Open"</string>
+    <!-- /opt/extra/AOSP/packages/apps/UnifiedEmail$ grep -ri "\"print\"" | sed 's/ msgid="[[:digit:]]*"//' |sed 's/print/menu_print/' | aosp_helper -->
+    <string name="menu_print">"Print"</string>
 </resources>

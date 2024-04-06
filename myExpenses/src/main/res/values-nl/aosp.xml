@@ -87,4 +87,5 @@
     <string name="paper_format">"Papierinstellingen"</string>
     <string name="configuration">"Configuratie"</string>
     <string name="menu_open">"Openen"</string>
+    <string name="menu_print">"Afdrukken"</string>
 </resources>

@@ -16,4 +16,5 @@
     <string name="paper_format">"പേപ്പര്‍ ശൈലി"</string>
     <string name="configuration">"കോൺഫിഗറേഷൻ"</string>
     <string name="menu_open">"തുറക്കുക"</string>
+    <string name="menu_print">"പ്രിന്റുചെയ്യുക"</string>
 </resources>

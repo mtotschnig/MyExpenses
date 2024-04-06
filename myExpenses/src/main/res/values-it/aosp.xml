@@ -90,4 +90,5 @@
     <string name="paper_format">"Formato foglio"</string>
     <string name="configuration">"Configurazione"</string>
     <string name="menu_open">"Apri"</string>
+    <string name="menu_print">"Stampa"</string>
 </resources>

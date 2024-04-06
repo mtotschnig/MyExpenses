@@ -82,4 +82,5 @@
     <string name="paper_format">"ಕಾಗದದ ವಿನ್ಯಾಸ"</string>
     <string name="configuration">"ಕಾನ್ಫಿಗರೇಶನ್‌"</string>
     <string name="menu_open">"ತೆರೆ"</string>
+    <string name="menu_print">"ಮುದ್ರಿಸು"</string>
 </resources>

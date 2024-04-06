@@ -16,4 +16,5 @@
     <string name="paper_format">Paper Format"</string>
     <string name="configuration">"কনফিগারেশন"</string>
     <string name="menu_open">"খুলুন"</string>
+    <string name="menu_print">"মুদ্রণ"</string>
 </resources>

@@ -92,4 +92,5 @@
     <string name="paper_format">"Формат паперу"</string>
     <string name="configuration">"Конфігурація"</string>
     <string name="menu_open">"Відкрити"</string>
+    <string name="menu_print">"Друк"</string>
 </resources>

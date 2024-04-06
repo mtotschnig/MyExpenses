@@ -177,7 +177,6 @@
     <string name="menu_invert_transfer">عكس</string>
     <string name="menu_manage_plans">النماذج والخطط</string>
     <string name="menu_import">استيراد</string>
-    <string name="menu_print">طباعة</string>
     <string name="menu_reset">تصدير وإعادة تعيين</string>
     <string name="menu_reset_all">تصدير وإعادة تعيين الكل</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

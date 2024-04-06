@@ -85,4 +85,5 @@
     <string name="paper_format">"Oblik papira"</string>
     <string name="configuration">"Konfiguracija"</string>
     <string name="menu_open">"Otvori"</string>
+    <string name="menu_print">"Ispis"</string>
 </resources>

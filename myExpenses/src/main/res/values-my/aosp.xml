@@ -16,4 +16,5 @@
     <string name="paper_format">"စာရွက် စီစဉ် ဖွဲ့စည်းမှု ပုံစံ"</string>
     <string name="configuration">"စီစဉ်သတ်မှတ်ချက်"</string>
     <string name="menu_open">"ဖွင့်ပါ"</string>
+    <string name="menu_print">"ပရင့် ထုတ်ယူရန်"</string>
 </resources>

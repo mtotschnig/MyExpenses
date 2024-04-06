@@ -92,4 +92,5 @@
     <string name="paper_format">"Papírformátum"</string>
     <string name="configuration">"Beállítások"</string>
     <string name="menu_open">"Megnyitás"</string>
+    <string name="menu_print">"Nyomtatás"</string>
 </resources>

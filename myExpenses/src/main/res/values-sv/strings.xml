@@ -56,7 +56,6 @@
     <string name="menu_create_method">Ny betalningsmetod</string>
     <string name="current_balance">Nuvarande saldo</string>
     <string name="dialog_title_information">Information</string>
-    <string name="menu_print">Skriv ut</string>
     <string name="menu_edit_cat">Redigera kategori</string>
     <string name="menu_create_instance_save">Verkställ och spara</string>
     <string name="label">Etikett</string>

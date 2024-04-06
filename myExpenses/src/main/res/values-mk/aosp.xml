@@ -16,4 +16,5 @@
     <string name="paper_format">"Формат на страница"</string>
     <string name="configuration">"Конфигурација"</string>
     <string name="menu_open">"Отвори"</string>
+    <string name="menu_print">"Печати"</string>
 </resources>

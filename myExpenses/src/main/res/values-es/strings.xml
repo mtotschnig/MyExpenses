@@ -174,7 +174,6 @@
     <string name="menu_invert_transfer">Invertir</string>
     <string name="menu_manage_plans">Plantillas y proyectos</string>
     <string name="menu_import">Importar</string>
-    <string name="menu_print">Imprimir</string>
     <string name="menu_reset">Exportar y reiniciar</string>
     <string name="menu_reset_all">Exportar y reiniciar todo</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

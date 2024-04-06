@@ -84,4 +84,5 @@
     <string name="paper_format">"עיצוב הדף"</string>
     <string name="configuration">"תצורה"</string>
     <string name="menu_open">"פתיחה"</string>
+    <string name="menu_print">"הדפס"</string>
 </resources>

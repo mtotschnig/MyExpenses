@@ -25,4 +25,5 @@
     <string name="paper_format">"Formato do papel"</string>
     <string name="configuration">"Configuración"</string>
     <string name="menu_open">"Abrir"</string>
+    <string name="menu_print">"Imprimir"</string>
 </resources>

@@ -17,4 +17,5 @@
     <string name="paper_format">قالب صفحه</string>
     <string name="configuration">"پیکربندی"</string>
     <string name="menu_open">"باز"</string>
+    <string name="menu_print">"چاپ"</string>
 </resources>

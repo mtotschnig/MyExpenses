@@ -15,4 +15,5 @@
     <string name="cannot_be_undone">"Kitendo hiki hakiwezi kutenduliwa."</string>
     <string name="configuration">"Kuweka mipangilio"</string>
     <string name="menu_open">"Fungua"</string>
+    <string name="menu_print">"Chapisha"</string>
 </resources>

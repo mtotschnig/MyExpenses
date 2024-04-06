@@ -174,7 +174,6 @@
     <string name="menu_invert_transfer">הפוך</string>
     <string name="menu_manage_plans">תבניות ותוכניות</string>
     <string name="menu_import">יבא</string>
-    <string name="menu_print">הדפס</string>
     <string name="menu_reset">יצא ואפס</string>
     <string name="menu_reset_all">יצא ואפס הכול</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

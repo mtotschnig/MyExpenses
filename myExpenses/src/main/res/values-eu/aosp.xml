@@ -89,4 +89,5 @@
     <string name="paper_format">"Paper-formatua"</string>
     <string name="configuration">"Konfigurazioa"</string>
     <string name="menu_open">"Ireki"</string>
+    <string name="menu_print">"Inprimatu"</string>
 </resources>

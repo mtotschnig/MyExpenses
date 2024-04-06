@@ -175,7 +175,6 @@
     <string name="menu_invert_transfer">Invertovat</string>
     <string name="menu_manage_plans">Šablony a plány</string>
     <string name="menu_import">Importovat</string>
-    <string name="menu_print">Tisk</string>
     <string name="menu_reset">Exportovat a resetovat</string>
     <string name="menu_reset_all">Exportovat a obnovit vše</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

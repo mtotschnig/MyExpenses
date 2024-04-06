@@ -90,4 +90,5 @@
     <string name="paper_format">"Sayfa Biçimi"</string>
     <string name="configuration">"Yapılandırma"</string>
     <string name="menu_open">"Aç"</string>
+    <string name="menu_print">"Yazdır"</string>
 </resources>

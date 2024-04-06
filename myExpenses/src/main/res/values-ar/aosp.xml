@@ -94,4 +94,5 @@
     <string name="paper_format">"تنسيق الورق"</string>
     <string name="configuration">"الإعداد"</string>
     <string name="menu_open">"فتح"</string>
+    <string name="menu_print">"طباعة"</string>
 </resources>

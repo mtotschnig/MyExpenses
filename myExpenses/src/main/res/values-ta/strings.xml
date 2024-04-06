@@ -173,7 +173,6 @@
     <string name="menu_invert_transfer">புரட்டு</string>
     <string name="menu_manage_plans">வார்ப்புரு மற்றும் திட்டங்கள்</string>
     <string name="menu_import">இறக்குமதி</string>
-    <string name="menu_print">அச்சிடு</string>
     <string name="menu_reset">ஏற்றுமதி செய் மற்றும் நிலை கொணர்</string>
     <string name="menu_reset_all">அனைத்தையும் ஏற்றுமதி செய் மற்றும்  நிலை கொணர்</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

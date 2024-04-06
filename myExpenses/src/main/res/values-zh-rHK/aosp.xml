@@ -79,4 +79,5 @@
     <string name="cannot_be_undone">"此操作將無法復原。"</string>
     <string name="configuration">"設定"</string>
     <string name="menu_open">"開啟"</string>
+    <string name="menu_print">"列印"</string>
 </resources>

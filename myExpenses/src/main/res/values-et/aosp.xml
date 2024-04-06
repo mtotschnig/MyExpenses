@@ -25,4 +25,5 @@
     <string name="paper_format">"Paberi formaat"</string>
     <string name="configuration">"Konfiguratsioon"</string>
     <string name="menu_open">"Ava"</string>
+    <string name="menu_print">"Printimine"</string>
 </resources>

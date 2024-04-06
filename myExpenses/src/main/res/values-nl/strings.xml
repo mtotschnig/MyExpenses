@@ -316,7 +316,6 @@
     <string name="warning_delete_category_with_budget">Voor ten minste één geselecteerde categorie zijn er budgettoewijzingen, die eveneens worden verwijderd.</string>
     <string name="menu_edit_transaction">Bewerk Transactie</string>
     <string name="menu_edit_template">Bewerk Sjabloon</string>
-    <string name="menu_print">Afdrukken</string>
     <string name="menu_reset">Exporteren en opnieuw instellen</string>
     <string name="menu_reset_all">Alles exporteren en opnieuw instellen</string>
     <string name="menu_reset_plan_instance">Opnieuw instellen</string>

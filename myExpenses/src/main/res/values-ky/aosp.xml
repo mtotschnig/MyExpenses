@@ -15,4 +15,5 @@
     <string name="cannot_be_undone">"Бул аракетти артка кайтаруу мүмкүн эмес."</string>
     <string name="configuration">"Конфигурация"</string>
     <string name="menu_open">"Ачуу"</string>
+    <string name="menu_print">"Басып чыгаруу"</string>
 </resources>
