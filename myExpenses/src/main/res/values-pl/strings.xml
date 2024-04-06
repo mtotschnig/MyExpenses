@@ -176,7 +176,6 @@
     <string name="menu_save">Zapisz</string>
     <string name="menu_save_and_new">Zapisz i utwórz nowy</string>
     <string name="menu_share">Poleć znajomemu</string>
-    <string name="button_label_share_file">Podziel się</string>
     <string name="button_label_close">Zamknij</string>
     <string name="menu_split_transaction">Zamień w podział</string>
     <string name="method">Metoda płatności</string>

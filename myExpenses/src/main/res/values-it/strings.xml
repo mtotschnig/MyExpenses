@@ -181,7 +181,6 @@
     <string name="menu_save">Salva</string>
     <string name="menu_save_and_new">Salva e nuova</string>
     <string name="menu_share">Invita un amico</string>
-    <string name="button_label_share_file">Condividere</string>
     <string name="button_label_close">Chiudere</string>
     <string name="menu_split_transaction">Frazionare</string>
     <string name="method">Metodo di pagamento</string>

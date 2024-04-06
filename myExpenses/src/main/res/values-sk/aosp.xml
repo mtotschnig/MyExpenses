@@ -26,4 +26,5 @@
     <string name="configuration">"Konfigurácia"</string>
     <string name="menu_open">"Otvoriť"</string>
     <string name="menu_print">"Tlačiť"</string>
+    <string name="share">"Zdieľať"</string>
 </resources>

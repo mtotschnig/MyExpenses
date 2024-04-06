@@ -86,4 +86,5 @@
     <string name="configuration">"Konfiguracija"</string>
     <string name="menu_open">"Otvori"</string>
     <string name="menu_print">"Ispis"</string>
+    <string name="share">"Podijeli"</string>
 </resources>

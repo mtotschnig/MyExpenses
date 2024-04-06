@@ -90,4 +90,5 @@
     <string name="configuration">"Konfigurazioa"</string>
     <string name="menu_open">"Ireki"</string>
     <string name="menu_print">"Inprimatu"</string>
+    <string name="share">Partekatu</string>
 </resources>

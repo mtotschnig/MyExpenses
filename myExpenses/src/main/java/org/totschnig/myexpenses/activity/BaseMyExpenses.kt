@@ -575,7 +575,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 ),
                                 MessageDialogFragment.nullButton(R.string.button_label_close),
                                 MessageDialogFragment.Button(
-                                    R.string.button_label_share_file,
+                                    R.string.share,
                                     R.id.SHARE_PDF_COMMAND,
                                     uri.toString(),
                                     true

@@ -180,7 +180,6 @@
     <string name="menu_save">Speichern</string>
     <string name="menu_save_and_new">Speichern und neu</string>
     <string name="menu_share">Weiterempfehlen</string>
-    <string name="button_label_share_file">Teilen</string>
     <string name="button_label_close">Schließen</string>
     <string name="menu_split_transaction">Zu mehrteiliger Buchung zusammenfassen</string>
     <string name="method">Zahlungsweise</string>

@@ -181,7 +181,6 @@
     <string name="menu_save">שמור</string>
     <string name="menu_save_and_new">שמור וחדש</string>
     <string name="menu_share">ספר לחבר</string>
-    <string name="button_label_share_file">שתף</string>
     <string name="button_label_close">סגור</string>
     <string name="menu_split_transaction">הפוך למפוצל</string>
     <string name="method">אמצעי תשלום</string>

@@ -18,4 +18,5 @@
     <string name="configuration">"Konfigurācija"</string>
     <string name="menu_open">"Atvērt"</string>
     <string name="menu_print">"Drukāt"</string>
+    <string name="share">"Dalies"</string>
 </resources>

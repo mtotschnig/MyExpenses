@@ -92,4 +92,5 @@
     <string name="configuration">"Ajustes"</string>
     <string name="menu_open">"Abrir"</string>
     <string name="menu_print">"Imprimir"</string>
+    <string name="share">"Compartir"</string>
 </resources>

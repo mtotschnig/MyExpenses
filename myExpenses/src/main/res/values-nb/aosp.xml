@@ -24,4 +24,5 @@
     <string name="configuration">"Konfigurasjon"</string>
     <string name="menu_open">"Åpne"</string>
     <string name="menu_print">"Skriv ut"</string>
+    <string name="share">"Del"</string>
 </resources>

@@ -179,7 +179,6 @@
     <string name="menu_save">Simpan</string>
     <string name="menu_save_and_new">Simpan dan baharu</string>
     <string name="menu_share">Beritahu rakan</string>
-    <string name="button_label_share_file">Kongsi</string>
     <string name="button_label_close">Tutup</string>
     <string name="menu_split_transaction">Ubah untuk diasingkan</string>
     <string name="method">Kaedah pembayaran</string>

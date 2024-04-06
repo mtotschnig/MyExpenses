@@ -175,7 +175,6 @@
     <string name="menu_save">Lưu</string>
     <string name="menu_save_and_new">Lưu và tạo mới</string>
     <string name="menu_share">Chia sẻ</string>
-    <string name="button_label_share_file">Chia sẻ</string>
     <string name="button_label_close">Đóng</string>
     <string name="menu_split_transaction">Chuyển thành dạng phân tách</string>
     <string name="method">Phương thức thanh toán</string>

@@ -181,7 +181,6 @@
     <string name="menu_save">Enregistrer</string>
     <string name="menu_save_and_new">Enregistrer et nouveau</string>
     <string name="menu_share">Recommander</string>
-    <string name="button_label_share_file">Partager</string>
     <string name="button_label_close">Fermer</string>
     <string name="menu_split_transaction">Ventiler</string>
     <string name="method">Mode de paiement</string>

@@ -89,4 +89,5 @@
     <string name="configuration">"Cấu hình"</string>
     <string name="menu_open">"Mở"</string>
     <string name="menu_print">"In"</string>
+    <string name="share">"Chia sẻ"</string>
 </resources>

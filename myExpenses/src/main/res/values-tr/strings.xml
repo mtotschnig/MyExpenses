@@ -180,7 +180,6 @@
     <string name="menu_save">Kaydet</string>
     <string name="menu_save_and_new">Kaydet ve yenisini aç</string>
     <string name="menu_share">Bir arkadaşa bahset</string>
-    <string name="button_label_share_file">Paylaş</string>
     <string name="button_label_close">Kapat</string>
     <string name="menu_split_transaction">Bölünmüşe dönüştür</string>
     <string name="method">Ödeme yöntemi</string>

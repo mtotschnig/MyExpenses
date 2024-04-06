@@ -153,7 +153,6 @@
     <string name="menu_save">محفوظ کریں</string>
     <string name="menu_save_and_new">محفوظ کریں اور نیا</string>
     <string name="menu_share">کسی دوست کو بتائیں</string>
-    <string name="button_label_share_file">شیئر کریں</string>
     <string name="button_label_close">بند کریں</string>
     <string name="menu_split_transaction">تقسیم میں تبدیل کریں</string>
     <string name="method">ادائیگی کا طریقہ</string>

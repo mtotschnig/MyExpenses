@@ -188,7 +188,6 @@
     <string name="menu_save">Save</string>
     <string name="menu_save_and_new">Save and new</string>
     <string name="menu_share">Tell a friend</string>
-    <string name="button_label_share_file">Share</string>
     <string name="button_label_close">Close</string>
     <string name="menu_split_transaction">Transform to split</string>
     <string name="method">Payment method</string>

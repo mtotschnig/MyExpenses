@@ -180,7 +180,6 @@
     <string name="menu_save">சேமி</string>
     <string name="menu_save_and_new">சேமி மற்றும் புதியதை தொடங்கு</string>
     <string name="menu_share">நண்பனிடம் கூறு</string>
-    <string name="button_label_share_file">பகிர்</string>
     <string name="button_label_close">மூடு</string>
     <string name="menu_split_transaction">பிரிவாக மாற்று</string>
     <string name="method">கட்டணம் செலுத்தும் முறை</string>

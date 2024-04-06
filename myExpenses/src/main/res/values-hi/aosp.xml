@@ -17,4 +17,5 @@
     <string name="configuration">"कॉन्फ़िगरेशन"</string>
     <string name="menu_open">"खोलें"</string>
     <string name="menu_print">"प्रिंट करें"</string>
+    <string name="share">"साझा करें"</string>
 </resources>

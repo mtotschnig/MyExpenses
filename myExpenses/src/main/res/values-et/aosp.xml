@@ -26,4 +26,5 @@
     <string name="configuration">"Konfiguratsioon"</string>
     <string name="menu_open">"Ava"</string>
     <string name="menu_print">"Printimine"</string>
+    <string name="share">"Jaga"</string>
 </resources>

@@ -39,7 +39,7 @@
         android:key="@string/pref_export_manage_files_key"
         android:negativeButtonText="@string/menu_delete"
         android:persistent="false"
-        android:positiveButtonText="@string/button_label_share_file"
+        android:positiveButtonText="@string/share"
         android:title="@string/files_label"
         my:isPreferenceVisible="false" />
 

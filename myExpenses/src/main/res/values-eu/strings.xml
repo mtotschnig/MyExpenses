@@ -180,7 +180,6 @@
     <string name="menu_save">Gorde</string>
     <string name="menu_save_and_new">Gorde eta berria</string>
     <string name="menu_share">Esan lagun bati</string>
-    <string name="button_label_share_file">Partekatu</string>
     <string name="button_label_close">Itxi</string>
     <string name="menu_split_transaction">Bihurtu banaketara</string>
     <string name="method">Ordainketa metodoa</string>

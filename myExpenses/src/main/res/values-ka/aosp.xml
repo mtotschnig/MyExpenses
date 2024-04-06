@@ -19,4 +19,5 @@
     <string name="configuration">"კონფიგურაცია"</string>
     <string name="menu_open">"გახსნა"</string>
     <string name="menu_print">"ამობეჭდვა"</string>
+    <string name="share">"გაზიარება"</string>
 </resources>

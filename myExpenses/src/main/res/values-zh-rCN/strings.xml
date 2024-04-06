@@ -179,7 +179,6 @@
     <string name="menu_save">保存</string>
     <string name="menu_save_and_new">保存并新建</string>
     <string name="menu_share">分享给朋友</string>
-    <string name="button_label_share_file">分享</string>
     <string name="button_label_close">关闭</string>
     <string name="menu_split_transaction">转换为拆分款项</string>
     <string name="method">付款方法</string>

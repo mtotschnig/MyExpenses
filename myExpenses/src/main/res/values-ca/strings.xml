@@ -364,7 +364,6 @@
     <string name="dialog_title_warning_delete_party">Suprimir grup\?</string>
     <string name="menu_balance">Conciliar compte</string>
     <string name="menu_exclude_from_totals">Excloure dels totals</string>
-    <string name="button_label_share_file">Comparteix</string>
     <string name="menu_split_transaction">Divideix</string>
     <string name="no_app_handling_pdf_available">No hi ha cap aplicació que gestioni fitxers PDF disponible.</string>
     <string name="no_calendar_app_installed">No hi ha cap aplicació que editi esdeveniments al calendari disponible.</string>

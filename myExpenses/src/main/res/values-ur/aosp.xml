@@ -77,4 +77,5 @@
     <string name="configuration">"کنفیگریشن"</string>
     <string name="menu_open">"کھولیں"</string>
     <string name="menu_print">"پرنٹ کریں"</string>
+    <string name="share">شیئر کریں</string>
 </resources>

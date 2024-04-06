@@ -561,7 +561,6 @@
     <string name="no_accounts">Não há contas.</string>
     <string name="image_capture_not_installed">Não foi encontrado nenhum app para tirar fotos.</string>
     <string name="button_label_close">Fechar</string>
-    <string name="button_label_share_file">Compartilhar</string>
     <string name="dialog_title_warning_delete_category">Excluir a categoria\?</string>
     <plurals name="dialog_title_warning_delete_account">
         <item quantity="one">Excluir a conta\?</item>

@@ -26,4 +26,5 @@
     <string name="configuration">"การกำหนดค่า"</string>
     <string name="menu_open">"เปิด"</string>
     <string name="menu_print">"พิมพ์"</string>
+    <string name="share">"แบ่งปัน"</string>
 </resources>

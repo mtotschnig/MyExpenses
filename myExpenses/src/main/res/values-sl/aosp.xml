@@ -18,4 +18,5 @@
     <string name="configuration">"Konfiguracija"</string>
     <string name="menu_open">"Odpri"</string>
     <string name="menu_print">"Natisni"</string>
+    <string name="share">"Skupna raba"</string>
 </resources>

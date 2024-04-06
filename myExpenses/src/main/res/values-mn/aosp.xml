@@ -18,4 +18,5 @@
     <string name="configuration">"Тохируулга"</string>
     <string name="menu_open">"Нээх"</string>
     <string name="menu_print">"Хэвлэх"</string>
+    <string name="share">"Хуваалцах"</string>
 </resources>

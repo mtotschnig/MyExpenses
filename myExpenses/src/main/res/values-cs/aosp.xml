@@ -94,4 +94,5 @@
     <string name="configuration">"Konfigurace"</string>
     <string name="menu_open">"Otevřít"</string>
     <string name="menu_print">"Tisk"</string>
+    <string name="share">"Sdílet"</string>
 </resources>

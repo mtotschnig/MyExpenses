@@ -180,7 +180,6 @@
     <string name="menu_save">Αποθήκευση</string>
     <string name="menu_save_and_new">Αποθήκευση και δημιουργία</string>
     <string name="menu_share">Πες το σε ένα φίλο</string>
-    <string name="button_label_share_file">Μοιραστείτε</string>
     <string name="button_label_close">Κλείσιμο</string>
     <string name="menu_split_transaction">Μετασχηματισμός για να διαιρεθεί</string>
     <string name="method">Μέθοδος πληρωμής</string>

@@ -178,7 +178,6 @@
     <string name="menu_save">保存</string>
     <string name="menu_save_and_new">保存および新規</string>
     <string name="menu_share">友達に教える</string>
-    <string name="button_label_share_file">共有</string>
     <string name="button_label_close">閉じる</string>
     <string name="menu_split_transaction">変換して分割</string>
     <string name="method">支払方法</string>

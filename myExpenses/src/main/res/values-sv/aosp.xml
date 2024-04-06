@@ -26,4 +26,5 @@
     <string name="configuration">"Konfiguration"</string>
     <string name="menu_open">"Öppna"</string>
     <string name="menu_print">"Skriv ut"</string>
+    <string name="share">"Dela"</string>
 </resources>

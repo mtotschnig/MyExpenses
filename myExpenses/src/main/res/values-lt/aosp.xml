@@ -18,4 +18,5 @@
     <string name="configuration">"Konfigūracija"</string>
     <string name="menu_open">"Atidaryti"</string>
     <string name="menu_print">"Spausdinti"</string>
+    <string name="share">"Bendrinti"</string>
 </resources>

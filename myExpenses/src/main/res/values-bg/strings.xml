@@ -180,7 +180,6 @@
     <string name="menu_save">Запамети</string>
     <string name="menu_save_and_new">Запамети и нов</string>
     <string name="menu_share">Кажи на приятел</string>
-    <string name="button_label_share_file">Сподели</string>
     <string name="button_label_close">Затвори</string>
     <string name="menu_split_transaction">Преобразувай в разпределена</string>
     <string name="method">Начин на плащане</string>

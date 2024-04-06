@@ -24,4 +24,5 @@
     <string name="configuration">"Opstelling"</string>
     <string name="menu_open">"Maak oop"</string>
     <string name="menu_print">"Druk uit"</string>
+    <string name="share">"Deling"</string>
 </resources>

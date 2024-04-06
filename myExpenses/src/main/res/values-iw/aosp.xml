@@ -85,4 +85,5 @@
     <string name="configuration">"תצורה"</string>
     <string name="menu_open">"פתיחה"</string>
     <string name="menu_print">"הדפס"</string>
+    <string name="share">"שיתוף"</string>
 </resources>

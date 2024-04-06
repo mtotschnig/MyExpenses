@@ -182,7 +182,6 @@
     <string name="menu_save">Сохранить</string>
     <string name="menu_save_and_new">Сохранить и создать</string>
     <string name="menu_share">Рассказать другу</string>
-    <string name="button_label_share_file">Поделиться</string>
     <string name="button_label_close">Закрыть</string>
     <string name="menu_split_transaction">Разделить</string>
     <string name="method">Способ оплаты</string>

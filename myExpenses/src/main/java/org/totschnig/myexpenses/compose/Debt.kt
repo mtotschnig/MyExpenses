@@ -213,7 +213,7 @@ fun DebtRenderer(
                         add(
                             SubMenuEntry(
                                 icon = Icons.Filled.Share,
-                                label = R.string.button_label_share_file,
+                                label = R.string.share,
                                 subMenu = Menu(
                                     DebtViewModel.ExportFormat.entries.map { format ->
                                         MenuEntry(label = format.resId, command = "SHARE_DEBT_$format") {

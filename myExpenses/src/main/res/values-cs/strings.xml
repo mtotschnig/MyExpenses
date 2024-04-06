@@ -182,7 +182,6 @@
     <string name="menu_save">Uložit</string>
     <string name="menu_save_and_new">Uložit a nový</string>
     <string name="menu_share">Oznámit příteli</string>
-    <string name="button_label_share_file">Sdílet</string>
     <string name="button_label_close">Zavřít</string>
     <string name="menu_split_transaction">Převést na rozdělení</string>
     <string name="method">Způsob platby</string>

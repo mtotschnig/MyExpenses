@@ -184,7 +184,6 @@
     <string name="menu_save">حفظ</string>
     <string name="menu_save_and_new">حفظ وجديد</string>
     <string name="menu_share">اخبر صديق</string>
-    <string name="button_label_share_file">مشاركة</string>
     <string name="button_label_close">إغلاق</string>
     <string name="menu_split_transaction">التحويل إلى معاملة مجزأة</string>
     <string name="method">طريقة الدفع او السداد</string>
