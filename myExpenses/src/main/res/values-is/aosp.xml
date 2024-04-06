@@ -24,4 +24,5 @@
     <string name="bottom_right">"Neðst til hægri"</string>
     <string name="paper_format">"Pappírssnið"</string>
     <string name="configuration">"Grunnstilling"</string>
+    <string name="menu_open">"Opna"</string>
 </resources>

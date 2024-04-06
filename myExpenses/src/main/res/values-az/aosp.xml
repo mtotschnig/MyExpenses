@@ -16,4 +16,5 @@
     <string name="notes">"Qeydlər"</string>
     <string name="cannot_be_undone">"Bu əməliyyat geri qaytarıla bilməz."</string>
     <string name="configuration">"Konfiqurasiya"</string>
+    <string name="menu_open">"Açın"</string>
 </resources>

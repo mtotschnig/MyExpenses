@@ -16,4 +16,5 @@
     <string name="header_footer">"Толгой ба хөл хэсэг"</string>
     <string name="paper_format">"Цаасны хэмжээ"</string>
     <string name="configuration">"Тохируулга"</string>
+    <string name="menu_open">"Нээх"</string>
 </resources>

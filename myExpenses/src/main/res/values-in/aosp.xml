@@ -24,4 +24,5 @@
     <string name="bottom_right">"Kanan Bawah"</string>
     <string name="paper_format">"Format Kertas"</string>
     <string name="configuration">"Konfigurasi"</string>
+    <string name="menu_open">"Buka"</string>
 </resources>

@@ -90,4 +90,5 @@
     <string name="bottom_right">"A baix i a la dreta"</string>
     <string name="paper_format">"Format del paper"</string>
     <string name="configuration">"Configuració"</string>
+    <string name="menu_open">"Obre"</string>
 </resources>

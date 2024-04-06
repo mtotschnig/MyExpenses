@@ -84,4 +84,5 @@
     <string name="cannot_be_undone">"Această acțiune nu poate fi anulată."</string>
     <string name="paper_format">"Format de hârtie"</string>
     <string name="configuration">"Configurare"</string>
+    <string name="menu_open">"Deschide"</string>
 </resources>

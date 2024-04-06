@@ -77,4 +77,5 @@
     <string name="cannot_be_undone">"මෙම ක්‍රියාව අවසන් කිරීම කළ නොහැක."</string>
     <string name="paper_format">"කඩදාසි හැඩතලය"</string>
     <string name="configuration">"වින්‍යාසය"</string>
+    <string name="menu_open">"විවෘත කරන්න"</string>
 </resources>

@@ -51,4 +51,5 @@
     <string name="bottom_right">"Direita inferior"</string>
     <string name="paper_format">"Formato do papel"</string>
     <string name="configuration">"Configuração"</string>
+    <string name="menu_open">"Abrir"</string>
 </resources>

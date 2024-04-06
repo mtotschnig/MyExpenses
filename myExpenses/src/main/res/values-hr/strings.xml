@@ -146,8 +146,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Preokreni smjer</string>
     <string name="menu_manage_plans">Predlošci i planovi</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Otvori</string>
     <string name="menu_import">Uvezi</string>
     <string name="menu_print">Ispiši</string>
     <string name="menu_reset">Izvezi i obnovi</string>

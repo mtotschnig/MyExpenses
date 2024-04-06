@@ -75,4 +75,5 @@
     <string name="notes">"نوٹس"</string>
     <string name="cannot_be_undone">"اس عمل کو کالعدم نہیں کیا جاسکتا۔"</string>
     <string name="configuration">"کنفیگریشن"</string>
+    <string name="menu_open">"کھولیں"</string>
 </resources>

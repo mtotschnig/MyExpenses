@@ -24,4 +24,5 @@
     <string name="bottom_right">"Vpravo dolu"</string>
     <string name="paper_format">"Formát papiera"</string>
     <string name="configuration">"Konfigurácia"</string>
+    <string name="menu_open">"Otvoriť"</string>
 </resources>

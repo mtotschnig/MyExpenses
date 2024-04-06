@@ -16,4 +16,5 @@
     <string name="header_footer">"Puslapinė antraštė ir poraštė"</string>
     <string name="paper_format">"Lapo formatas"</string>
     <string name="configuration">"Konfigūracija"</string>
+    <string name="menu_open">"Atidaryti"</string>
 </resources>

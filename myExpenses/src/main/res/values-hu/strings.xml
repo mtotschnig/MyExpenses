@@ -172,8 +172,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Inverz</string>
     <string name="menu_manage_plans">Sablonok és tervek</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Megnyitás</string>
     <string name="menu_import">Import</string>
     <string name="menu_print">Nyomtatás</string>
     <string name="menu_reset">Export és alap állapotra visszaállítás</string>

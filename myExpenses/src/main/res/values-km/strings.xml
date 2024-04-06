@@ -139,8 +139,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">ត្រឡប់មកវិញ</string>
     <string name="menu_manage_plans">ទិន្នន័យ​គំរូ និងផែនការ</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">បើក</string>
     <string name="menu_import">នាំចូល</string>
     <string name="menu_print">ព្រីន</string>
     <string name="menu_reset">ការនាំចេញនិងការកំណត់ឡើងវិញ</string>

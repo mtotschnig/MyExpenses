@@ -172,8 +172,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Alderantzikatu</string>
     <string name="menu_manage_plans">Txantiloiak eta planak</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Ireki</string>
     <string name="menu_import">Inportatu</string>
     <string name="menu_print">Inprimatu</string>
     <string name="menu_reset">Esportatu eta berrezarri</string>

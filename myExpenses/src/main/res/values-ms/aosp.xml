@@ -78,4 +78,5 @@
     <string name="notes">"Nota"</string>
     <string name="cannot_be_undone">"Tindakan ini tidak boleh dibuat asal."</string>
     <string name="configuration">"Konfigurasi"</string>
+    <string name="menu_open">"Buka"</string>
 </resources>

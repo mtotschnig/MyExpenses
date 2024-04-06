@@ -15,4 +15,5 @@
     <string name="cannot_be_undone">"ഈ പ്രവർത്തനം പഴയപടിയാക്കാനാകില്ല."</string>
     <string name="paper_format">"പേപ്പര്‍ ശൈലി"</string>
     <string name="configuration">"കോൺഫിഗറേഷൻ"</string>
+    <string name="menu_open">"തുറക്കുക"</string>
 </resources>

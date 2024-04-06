@@ -172,8 +172,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Размяна</string>
     <string name="menu_manage_plans">Шаблони и планове</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Отвори</string>
     <string name="menu_import">Внасяне на данни</string>
     <string name="menu_print">Разпечатай</string>
     <string name="menu_reset">Експорт и нулиране</string>

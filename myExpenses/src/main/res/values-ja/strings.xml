@@ -170,8 +170,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">反転</string>
     <string name="menu_manage_plans">テンプレートと計画</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">開く</string>
     <string name="menu_import">インポート</string>
     <string name="menu_print">印刷</string>
     <string name="menu_reset">エクスポートおよびリセット</string>

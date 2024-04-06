@@ -172,8 +172,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">ತಲೆಕೆಳಗು</string>
     <string name="menu_manage_plans">ಟೆಂಪ್ಲೇಟ್‌ಗಳು ಮತ್ತು ಯೋಜನೆಗಳು</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">ತೆರೆಯಿರಿ</string>
     <string name="menu_import">ಆಮದು</string>
     <string name="menu_print">ಮುದ್ರಿಸಿ</string>
     <string name="menu_reset">ರಫ್ತು ಮತ್ತು ಮರುಹೊಂದಿಸಿ</string>

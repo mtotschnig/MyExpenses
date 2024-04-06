@@ -87,8 +87,6 @@
     <string name="menu_edit_template">Keisti šabloną</string>
     <string name="menu_edit_transaction">Keisti operaciją</string>
     <string name="menu_help">Pagalba</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Atverti</string>
     <string name="menu_print">Spausdinti</string>
     <string name="menu_save">Įrašyti</string>
     <string name="no_methods">Nėra mokėjimo būdų.</string>

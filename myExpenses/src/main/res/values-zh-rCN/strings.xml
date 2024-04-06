@@ -171,8 +171,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">倒置</string>
     <string name="menu_manage_plans">模板与计划</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">打开</string>
     <string name="menu_import">导入</string>
     <string name="menu_print">打印</string>
     <string name="menu_reset">导出和重置</string>

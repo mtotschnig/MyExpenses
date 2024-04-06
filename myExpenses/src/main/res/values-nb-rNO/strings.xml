@@ -220,7 +220,6 @@
     <string name="menu_reset">Eksporter og tilbakestill</string>
     <string name="menu_print">Skriv ut</string>
     <string name="menu_import">Importer</string>
-    <string name="menu_open">Åpne</string>
     <string name="menu_manage_plans">Maler og planer</string>
     <string name="menu_invert_transfer">Inverter</string>
     <string name="menu_help">Hjelp</string>

@@ -79,4 +79,5 @@
     <string name="cannot_be_undone">"សកម្មភាព​នេះ​មិន​អាច​ធ្វើ​វិញ​បាន​ទេ។"</string>
     <string name="paper_format">"ទ្រង់ទ្រាយ​ក្រដាស"</string>
     <string name="configuration">"ការ​កំណត់​រចនា​សម្ព័ន្ធ"</string>
+    <string name="menu_open">"បើក"</string>
 </resources>

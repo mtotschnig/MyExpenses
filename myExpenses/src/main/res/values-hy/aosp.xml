@@ -22,4 +22,5 @@
     <string name="bottom_right">"Ներքև աջ"</string>
     <string name="paper_format">"Թղթի ձևաչափ"</string>
     <string name="configuration">"Կարգավորում"</string>
+    <string name="menu_open">"Բացել"</string>
 </resources>

@@ -173,8 +173,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Inverti</string>
     <string name="menu_manage_plans">Modelli e piani</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Apri</string>
     <string name="menu_import">Importa</string>
     <string name="menu_print">Stampa</string>
     <string name="menu_reset">Esporta e reinizializza</string>

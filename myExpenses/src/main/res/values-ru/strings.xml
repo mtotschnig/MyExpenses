@@ -174,8 +174,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Инвертировать</string>
     <string name="menu_manage_plans">Шаблоны и планы</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Открыть</string>
     <string name="menu_import">Импорт</string>
     <string name="menu_print">Печать</string>
     <string name="menu_reset">Экспорт и сброс</string>

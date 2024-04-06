@@ -92,4 +92,5 @@
     <string name="bottom_right">"Prawa dolna"</string>
     <string name="paper_format">"Format papieru"</string>
     <string name="configuration">"Konfiguracja"</string>
+    <string name="menu_open">"Otwórz"</string>
 </resources>

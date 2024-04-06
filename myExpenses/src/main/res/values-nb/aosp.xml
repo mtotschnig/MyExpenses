@@ -22,4 +22,5 @@
     <string name="bottom_right">"Bunn Høyre"</string>
     <string name="paper_format">"Papirformat"</string>
     <string name="configuration">"Konfigurasjon"</string>
+    <string name="menu_open">"Åpne"</string>
 </resources>

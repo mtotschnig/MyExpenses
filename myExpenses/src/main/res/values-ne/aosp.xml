@@ -15,4 +15,5 @@
     <string name="cannot_be_undone">"यो कार्य पूर्ववत् पार्न सकिँदैन।"</string>
     <string name="paper_format">"पृष्ठ ढाँचा"</string>
     <string name="configuration">"कन्फिगरेसन"</string>
+    <string name="menu_open">"खोल्नुहोस्"</string>
 </resources>

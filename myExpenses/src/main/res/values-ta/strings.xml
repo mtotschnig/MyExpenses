@@ -172,8 +172,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">புரட்டு</string>
     <string name="menu_manage_plans">வார்ப்புரு மற்றும் திட்டங்கள்</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">திற</string>
     <string name="menu_import">இறக்குமதி</string>
     <string name="menu_print">அச்சிடு</string>
     <string name="menu_reset">ஏற்றுமதி செய் மற்றும் நிலை கொணர்</string>

@@ -13,4 +13,5 @@
     <string name="notes">"Bilješke"</string>
     <string name="paper_format">Format papira</string>
     <string name="configuration">"Konfiguracija"</string>
+    <string name="menu_open">"Otvori"</string>
 </resources>

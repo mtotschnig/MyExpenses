@@ -161,8 +161,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Inversează</string>
     <string name="menu_manage_plans">Şabloane şi scadenţe</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Deschis</string>
     <string name="menu_import">Import</string>
     <string name="menu_print">Printează</string>
     <string name="menu_reset">Export şi resetare</string>

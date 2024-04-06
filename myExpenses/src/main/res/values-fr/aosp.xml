@@ -90,4 +90,5 @@
     <string name="bottom_right">"En bas à droite"</string>
     <string name="paper_format">"Format de papier"</string>
     <string name="configuration">"Configuration"</string>
+    <string name="menu_open">"Ouvrir"</string>
 </resources>

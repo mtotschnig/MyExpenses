@@ -171,8 +171,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">兩者反轉</string>
     <string name="menu_manage_plans">範本與收支計畫</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">開啟檔案</string>
     <string name="menu_import">匯入</string>
     <string name="menu_print">列印</string>
     <string name="menu_reset">匯出並重設</string>

@@ -93,4 +93,5 @@
     <string name="bottom_right">"أسفل يمين"</string>
     <string name="paper_format">"تنسيق الورق"</string>
     <string name="configuration">"الإعداد"</string>
+    <string name="menu_open">"فتح"</string>
 </resources>

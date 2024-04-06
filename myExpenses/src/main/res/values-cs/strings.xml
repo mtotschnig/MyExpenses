@@ -174,8 +174,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Invertovat</string>
     <string name="menu_manage_plans">Šablony a plány</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Otevřít</string>
     <string name="menu_import">Importovat</string>
     <string name="menu_print">Tisk</string>
     <string name="menu_reset">Exportovat a resetovat</string>

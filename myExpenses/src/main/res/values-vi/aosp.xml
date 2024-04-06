@@ -87,4 +87,5 @@
     <string name="bottom_right">"Dưới cùng bên phải"</string>
     <string name="paper_format">"Định dạng giấy"</string>
     <string name="configuration">"Cấu hình"</string>
+    <string name="menu_open">"Mở"</string>
 </resources>

@@ -16,4 +16,5 @@
     <string name="notes">"Opombe"</string>
     <string name="cannot_be_undone">"Tega dejanja ni mogoče razveljaviti."</string>
     <string name="configuration">"Konfiguracija"</string>
+    <string name="menu_open">"Odpri"</string>
 </resources>

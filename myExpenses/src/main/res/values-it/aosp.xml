@@ -89,4 +89,5 @@
     <string name="bottom_right">"In basso a destra"</string>
     <string name="paper_format">"Formato foglio"</string>
     <string name="configuration">"Configurazione"</string>
+    <string name="menu_open">"Apri"</string>
 </resources>

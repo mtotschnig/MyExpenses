@@ -17,4 +17,5 @@
     <string name="cannot_be_undone">"ამ ქმედებას ვერ გააუქმებთ."</string>
     <string name="paper_format">"ფურცლის ზომა"</string>
     <string name="configuration">"კონფიგურაცია"</string>
+    <string name="menu_open">"გახსნა"</string>
 </resources>

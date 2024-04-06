@@ -16,4 +16,5 @@
     <string name="header_footer">"Galvene un kājene"</string>
     <string name="paper_format">"Papīra formāts"</string>
     <string name="configuration">"Konfigurācija"</string>
+    <string name="menu_open">"Atvērt"</string>
 </resources>

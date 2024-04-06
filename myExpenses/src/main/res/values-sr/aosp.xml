@@ -6,4 +6,5 @@
     <string name="header_footer">"Заглавље и подножје"</string>
     <string name="paper_format">"Формат папира"</string>
     <string name="configuration">"Конфигурација"</string>
+    <string name="menu_open">"Отвори"</string>
 </resources>

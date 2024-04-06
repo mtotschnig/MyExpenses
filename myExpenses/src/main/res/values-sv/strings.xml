@@ -78,7 +78,6 @@
     </plurals>
     <string name="contrib_feature_plans_unlimited_label">Obegränsat antalet abbonemang</string>
     <string name="dialog_password_new_password">Nytt lösenord</string>
-    <string name="menu_open">Öppna</string>
     <string name="licence_validation_failure">Kunde inte bekräfta licensnyckeln.</string>
     <string name="menu_back">Bakåt</string>
     <string name="dialog_balance_delete">Ta bort avstämda överföringar</string>

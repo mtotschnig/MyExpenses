@@ -92,4 +92,5 @@
     <string name="bottom_right">"Вниз и вправо"</string>
     <string name="paper_format">"Формат бумаги"</string>
     <string name="configuration">"Конфигурация"</string>
+    <string name="menu_open">"Открыть"</string>
 </resources>

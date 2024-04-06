@@ -172,8 +172,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Ters Çevir</string>
     <string name="menu_manage_plans">Şablonlar ve planlar</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Aç</string>
     <string name="menu_import">İçe aktar</string>
     <string name="menu_print">Yazdır</string>
     <string name="menu_reset">Dışa aktar ve sıfırla</string>

@@ -172,8 +172,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">\"Αντιστροφή\"</string>
     <string name="menu_manage_plans">Πρότυπα και σχέδια</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Άνοιγμα</string>
     <string name="menu_import">Εισαγωγή</string>
     <string name="menu_print">Εκτύπωση</string>
     <string name="menu_reset">Εξαγωγή και επαναφορά</string>

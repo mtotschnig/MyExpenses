@@ -173,8 +173,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">הפוך</string>
     <string name="menu_manage_plans">תבניות ותוכניות</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">פתח</string>
     <string name="menu_import">יבא</string>
     <string name="menu_print">הדפס</string>
     <string name="menu_reset">יצא ואפס</string>

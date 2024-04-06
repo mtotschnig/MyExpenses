@@ -160,8 +160,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">معکوس</string>
     <string name="menu_manage_plans">قالب‌ها به‌عنوان برنامه‌ها</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">باز کردن</string>
     <string name="menu_import">درون‌ریزی</string>
     <string name="menu_print">چاپ</string>
     <string name="menu_reset">استخراج و تنظیم مجدد</string>

@@ -92,4 +92,5 @@
     <string name="bottom_right">"Vpravo dole"</string>
     <string name="paper_format">"Formát papíru"</string>
     <string name="configuration">"Konfigurace"</string>
+    <string name="menu_open">"Otevřít"</string>
 </resources>

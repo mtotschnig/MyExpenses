@@ -14,4 +14,5 @@
     <string name="notes">"Mga Tala"</string>
     <string name="cannot_be_undone">"Hindi maaaring bawiin ang pagkilos na ito."</string>
     <string name="configuration">"Configuration"</string>
+    <string name="menu_open">"Buksan"</string>
 </resources>

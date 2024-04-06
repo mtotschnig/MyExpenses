@@ -171,8 +171,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Songsang</string>
     <string name="menu_manage_plans">Templat dan plan</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Buka</string>
     <string name="menu_import">Import</string>
     <string name="menu_print">Cetak</string>
     <string name="menu_reset">Eksport dan tetap semula</string>

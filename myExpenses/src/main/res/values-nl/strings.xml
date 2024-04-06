@@ -320,7 +320,6 @@
     <string name="menu_reset">Exporteren en opnieuw instellen</string>
     <string name="menu_reset_all">Alles exporteren en opnieuw instellen</string>
     <string name="menu_reset_plan_instance">Opnieuw instellen</string>
-    <string name="menu_open">Open</string>
     <string name="menu_import">Importeren</string>
     <string name="plan_automatic">automatisch</string>
     <string name="plan_calendar_name">{app_name} planner</string>
