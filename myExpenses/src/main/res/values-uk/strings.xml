@@ -310,7 +310,7 @@
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Не вдається об\'єднати їх у існуючий рахунок.</string>
     <string name="reference_number">Номер посилання</string>
     <string name="restore_db_failure">Не вдалося відновити базу даних.</string>
-    <string name="restore_db_success">База даних була відновлена ​​з резервної копії.</string>
+    <string name="restore_db_success">База даних відновлена з резервної копії.</string>
     <string name="restore_preferences_failure">Помилка відновлення налаштувань</string>
     <string name="restore_backup_file_not_found">Не знайдено файлу %1$s в архіві \"%2$s\"</string>
     <string name="restore_preferences_success">Налаштування відновлено з резервної копії.</string>
@@ -727,7 +727,7 @@
     <string name="pref_category_title_crash_reports">Звіти про помилки</string>
     <string name="pref_enable_acra">Дозволити автоматичне надсилання звітів про помилки</string>
     <string name="pref_acra_user_email">Емейл користувача буде включено у звіт про помилки</string>
-    <string name="pref_acra_user_email_summary">Будь ласка, вкажіть свій емейл, якщо Ви хочете допомогти у виправленні помилок і даєте згоду на контакт з Вами</string>
+    <string name="pref_acra_user_email_summary">Будь ласка, вкажіть свій ел-пошту, якщо ви хочете допомогти у виправленні помилок і даєте згоду на контакт з вами.</string>
     <string name="bug_fixes">Виправлення помилок</string>
     <string name="performance_enhancement">Покращення швидкодії</string>
     <string name="stability_improvements">Покращення стабільності</string>
@@ -866,4 +866,48 @@
     <string name="pref_ocr_total_indicators_summary">Список рядків, які визначають загальну вартість у квитанції. Помістіть кожне значення в новий рядок. Залиште порожнім, щоб відновити значення за замовчуванням.</string>
     <string name="budget_table_header_overspent">Перевитрачено</string>
     <string name="pref_planner_manual_time_title">Час для запланованої транзакції, застосованої вручну</string>
+    <string name="title_activity_debt_overview">Огляд заборгованості</string>
+    <string name="setup_completed">Налаштування завершено</string>
+    <string name="purge_backups">Наступні старі файли резервних копій будуть видалені:</string>
+    <string name="new_balance">Новий баланс</string>
+    <string name="advance_exexcution_in_days">Дострокове виконання (у днях)</string>
+    <string name="pref_clone_with_current_date_title">Дата клонованих транзакцій</string>
+    <string name="single_feature_info">Крім того, ви можете придбати необмежений доступ тільки до цієї функції.</string>
+    <string name="cb_label_merge_accounts">Обʼєднати рахунки</string>
+    <string name="pref_mlkit_script_title">Сценарій для MlKit</string>
+    <string name="warning_party_delete_debt">При видаленні цієї сторони також видаляються визначені для неї борги.</string>
+    <string name="menu_parent_category_selection">Виберіть головну категорію коротким дотиком</string>
+    <string name="template_default_action_without_amount_hint">Шаблон без суми слід зберігати з дією за замовчуванням \"Редагувати</string>
+    <string name="title_webui">Веб-інтерфейс</string>
+    <string name="warning_balance_account_delete">Якщо ви продовжите, всі звірені транзакції цього рахунку будуть видалені з бази даних, і ви не зможете їх відновити.</string>
+    <string name="confirmation_load_template_discard_data">Існуючі дані форми будуть відкинуті.</string>
+    <string name="ocr_download_info">Можливість розпізнавання тексту забезпечується зовнішньою програмою.</string>
+    <string name="plan_automatic_without_amount_hint">План без суми не повинен зберігатися при автоматичному виконанні плану</string>
+    <string name="content_description_edit_plan">Редагувати план у програмі календаря</string>
+    <string name="pref_group_header_show_details_summary">Показувати детальні суми в заголовку групи</string>
+    <string name="recurrence_last_day_of_month">Останній день</string>
+    <string name="warning_link_transfer">Дві вибрані транзакції будуть пов’язані як переказ. Інформація про одержувача/платника та категорію буде вилучено.</string>
+    <string name="account_widget_configuration">Налаштування віджету рахунку</string>
+    <string name="budget_widget_configuration">Виберіть бюджет</string>
+    <string name="request_for_invoice">Запит на отримання рахунку-фактури</string>
+    <string name="object_sealed_debt">Об\'єкт відноситься до закритого боргу.</string>
+    <string name="warning_unencrypted_backup">Хоча ваші дані захищені від несанкціонованого доступу на цьому пристрої, резервні копії створюються без шифрування, якщо ви не налаштуєте %s.</string>
+    <string name="pref_purge_backup_keep_title">Максимальна кількість файлів останніх резервних копій для збереження</string>
+    <string name="webui_warning_move_transaction">Операцію буде перенесено до рахунку {account}.</string>
+    <string name="pref_csv_export_split_categories_summary">Використовуйте окремі стовпці для кожного рівня ієрархії категорій</string>
+    <string name="pref_purge_backup_require_confirmation_summary">Показати підтвердження перед видаленням файлів</string>
+    <string name="pref_csv_export_split_amount_summary">Використовувати окремі колонки для доходів і витрат</string>
+    <string name="pref_debug_logging_share_summary">Поділитись файлами журналів</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="one">Мітка %1$s зіставлено з однією транзакцією. Чи потрібно його видалити?</item>
+        <item quantity="few">Мітка %1$s зіставлено з %2$d транзакціями. Чи потрібно його видалити?</item>
+        <item quantity="many">Мітка %1$s зіставлено з %2$d транзакціями. Чи потрібно його видалити?</item>
+        <item quantity="other">Мітка %1$s зіставлено з %2$d транзакціями. Чи потрібно його видалити?</item>
+    </plurals>
+    <plurals name="purge_backup_failure">
+        <item quantity="one">Один старий файл резервної копії не вдалося видалити.</item>
+        <item quantity="few">%d старі файли резервних копій не вдалося видалити.</item>
+        <item quantity="many">%d старих файлів резервних копій не вдалося видалити.</item>
+        <item quantity="other">%d старих файлів резервних копій не вдалося видалити.</item>
+    </plurals>
 </resources>
