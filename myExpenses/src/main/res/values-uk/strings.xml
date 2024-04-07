@@ -871,7 +871,7 @@
     <string name="pref_mlkit_script_title">Сценарій для MlKit</string>
     <string name="warning_party_delete_debt">При видаленні цієї сторони також видаляються визначені для неї борги.</string>
     <string name="menu_parent_category_selection">Виберіть головну категорію коротким дотиком</string>
-    <string name="template_default_action_without_amount_hint">Шаблон без суми слід зберігати з дією за замовчуванням \"Редагувати</string>
+    <string name="template_default_action_without_amount_hint">Шаблон без суми може бути збережиним за замовчуванням \"Редагувати\"</string>
     <string name="title_webui">Веб-інтерфейс</string>
     <string name="warning_balance_account_delete">Якщо ви продовжите, всі звірені транзакції цього рахунку будуть видалені з бази даних, і ви не зможете їх відновити.</string>
     <string name="confirmation_load_template_discard_data">Існуючі дані форми будуть відкинуті.</string>
@@ -905,9 +905,9 @@
         <item quantity="other">%d старих файлів резервних копій не вдалося видалити.</item>
     </plurals>
     <string name="menu_reconfigure">Переналаштувати</string>
-    <string name="debt_borrow_additional">Я позичаю %s.</string>
+    <string name="debt_borrow_additional">Я заборгував %s.</string>
     <string name="debt_balance_i_owe">Тепер я винен %s.</string>
-    <string name="debt_lend_additional">Я позичаю %s.</string>
+    <string name="debt_lend_additional">Я даю в борг %s.</string>
     <string name="debt_paid_off_other">Борг %s погашено.</string>
     <string name="encrypt_database">Зашифрувати базу даних</string>
     <string name="maximum_size">Максимальний розмір</string>
@@ -923,10 +923,77 @@
     <string name="redesign">Редизайн</string>
     <string name="image_optimize_quality">Якість</string>
     <string name="debt_paid_off_self">Мій борг погашено.</string>
-    <string name="debt_installment_pay">Я сплачую розстрочку %s.</string>
+    <string name="debt_installment_pay">Я сплачую розтермінування в розмірі %s.</string>
     <string name="debt_installment_receive">Я отримую розстрочку %s.</string>
     <string name="debt_balance_they_owe">%1$s тепер винен %2$s.</string>
     <string name="select_template">Оберіть шаблон</string>
     <string name="orphaned_transaction_relink">Транзакцію можна повторно пов’язати з події на %s.</string>
     <string name="select_all_list_too_large">Команда %s недоступна, оскільки список завантажено лише частково. Скористайтеся функцією пошуку, щоб зменшити розмір списку.</string>
+    <plurals name="purge_backup_success">
+        <item quantity="one">Видалено один файл старої резервної копії.</item>
+        <item quantity="few">Видалено %d файли старих резервних копій.</item>
+        <item quantity="many">Видалено %d файлів старих резервних копій.</item>
+        <item quantity="other">Видалено %d файлів старих резервних копій.</item>
+    </plurals>
+    <string name="contact_us">Звʼяжіться з нами</string>
+    <string name="budget_onetime">Одноразова</string>
+    <string name="remap_date">Для всіх вибраних транзакцій буде встановлено дату %s.</string>
+    <string name="warning_transform_to_transfer">Обрана транзакція буде замінена переказом з %1$s на %2$s.</string>
+    <string name="button_relink_update_date">Перепривʼязати та оновити дату</string>
+    <string name="show_duplicates">Показати дублікати</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_on">зараховуються як переказ</string>
+    <string name="warning_delete_default_transfer_category">Категорія %s налаштована як категорія передачі за замовчуванням і не повинна видалятися.</string>
+    <string name="pref_transaction_amount_color_source_title">Кольори для сум</string>
+    <string name="pref_sync_now_all_summary">%s синхронізує всі рахунки для одного сервера</string>
+    <string name="roadmap_vote">Голосування за дорожню карту</string>
+    <string name="icons_for_categories">Значки для категорій</string>
+    <string name="merge_parties_strategy_group">Дублікати групуються як залежні.</string>
+    <string name="widget_title_budget">Мій бюджет</string>
+    <string name="merge_parties_strategy_delete">Дублікати видаляються.</string>
+    <string name="roadmap_intro">Голосування за дорожню карту 2024 року відкрито! Голосуйте за функції та покращення, які для вас найважливіші.</string>
+    <string name="menu_unlink_transfer">Від\'єднати переказ</string>
+    <string name="warning_unlink_transfer">Вибраний переказ буде від’єднано: його замінять звичайні транзакції в обох рахунках.</string>
+    <string name="menu_transform_to_transfer">Перетворити на переказ</string>
+    <string name="required">Обов\'язково</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_off">враховуються як витрати/доходи</string>
+    <string name="dialog_title_purge_backups">Очистити старі резервні копії</string>
+    <string name="read_from_data">Читати з даних</string>
+    <string name="attachments">Вкладення</string>
+    <string name="pref_copy_attachments_summary_on">Файли скопійовані до папки додатка.</string>
+    <string name="pref_copy_attachments_summary_off">Файли не копіюються, зберігаються тільки посилання.</string>
+    <string name="one_time_payment">Одноразовий платіж</string>
+    <string name="default_transfer_category">Категорія переказу за замовчуванням</string>
+    <string name="pref_copy_attachments_title">Копіювати вкладення в папку програми</string>
+    <string name="menu_aggregate_neutral_categories">Сукупні нейтральні категорії</string>
+    <string name="merge_categories_dialog_title">Об\'єднання категорій</string>
+    <string name="merge_categories_prompt">Виберіть категорію, яку ви хочете зберегти</string>
+    <string name="pref_attachment_mime_types_title">Дозволені типи MIME для вкладень</string>
+    <string name="pref_unmapped_transaction_as_transfer_title">Незіставлені транзакції</string>
+    <string name="pref_csv_export_category_separator_summary">Роздільник між рівнями ієрархії категорій</string>
+    <plurals name="debt_mapped_transactions">
+        <item quantity="one">Борг %1$s має %2$d зіставлену транзакцію.</item>
+        <item quantity="few">Борг %1$s має %2$d зіставлені транзакції.</item>
+        <item quantity="many">Борг %1$s має %2$d зіставлених транзакцій.</item>
+        <item quantity="other">Борг %1$s має %2$d зіставлених транзакцій.</item>
+    </plurals>
+    <plurals name="import_categories_icons_updated">
+        <item quantity="one">Значок однієї категрійї був оновлений.</item>
+        <item quantity="few">Значки %1$d категорій було оновлено.</item>
+        <item quantity="many">Значки %1$d категорій було оновлено.</item>
+        <item quantity="other">Значки %1$d категорій було оновлено.</item>
+    </plurals>
+    <string name="remove_from_group">Видалити з групи</string>
+    <string name="pref_csv_export_split_date_time_summary">Використовувати окремі стовпці для дати та часу</string>
+    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Натисніть і утримуйте плаваючу кнопку дії, щоб безпосередньо відкрити форму для переказів, розділених транзакцій або доходу.</string>
+    <string name="subcategories_merged_recursively">Якщо будь-яка з об’єднаних категорій має підкатегорії з однаковою міткою, їх буде об’єднано першими, рекурсивно.</string>
+    <string name="budget_only_current_period">Використовувати тільки для %s</string>
+    <string name="github_sponsors">Ліцензійні ключі також надаються &lt;a href=%s&gt;Спонсорам Github&lt;/a&gt;.</string>
+    <string name="notifications_permission_required_webui">Надавши дозвіл на надсилання сповіщень, ви можете контролювати стан веб-сервера.</string>
+    <string name="image_optimize_quality_summary">Якість 0 означає стиснення до найменшого розміру. 100 означає стиснення до максимальної візуальної якості.</string>
+    <string name="button_relink_keep_date">Перепривʼязати, але зберегти дату</string>
+    <string name="database_is_encrypted">База даних зашифрована.</string>
+    <string name="notifications_permission_required_planner"><i>{app_name}</i> потребує дозволу, щоб надсилати вам сповіщення про майбутні транзакції.</string>
+    <string name="encrypt_database_info">Базу даних буде зашифровано за допомогою парольної фрази, яку неможливо отримати з цього пристрою. Тому служба резервного копіювання вашого пристрою не створюватиме резервні копії.</string>
+    <string name="budget_table_header_rollover">Перенесення бюджету</string>
+    <string name="orphaned_transaction_align_date">За бажанням дату, збережену в транзакції, також можна узгодити з датою екземпляра.</string>
 </resources>

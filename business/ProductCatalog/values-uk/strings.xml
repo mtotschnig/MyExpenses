@@ -24,4 +24,11 @@
     <string name="categorytree_description">Довільна глибока ієрархія категорій</string>
     <string name="webui_title">Веб-інтерфейс</string>
     <string name="budget_description">Вкажіть скільки плануєте витратити за рік, місяць чи тиждень</string>
+    <string name="plansunlimited_description">Розблокуйте можливість створювати більше трьох планів для повторюваних транзакцій.</string>
+    <string name="print_description">Друк списку транзакцій у PDF файл</string>
+    <string name="splittransaction_description">Одну транзакцію можна розділити на кілька частин (категорії та перекази).</string>
+    <string name="professional_benefit_1">Розблокуйте всі преміум-функції</string>
+    <string name="distribution_title">Кругова діаграма</string>
+    <string name="synchronization_description">Дані можна синхронізувати між кількома пристроями.</string>
+    <string name="distribution_description">Візуалізувати статистичний розподіл транзакцій по категоріях за різними періодами (роки, місяці, тижні, дні)</string>
 </resources>
