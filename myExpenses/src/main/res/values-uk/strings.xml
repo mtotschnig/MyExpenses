@@ -999,4 +999,6 @@
     <string name="encrypt_database_info">Базу даних буде зашифровано за допомогою парольної фрази, яку неможливо отримати з цього пристрою. Тому служба резервного копіювання вашого пристрою не створюватиме резервні копії.</string>
     <string name="budget_table_header_rollover">Перенесення бюджету</string>
     <string name="orphaned_transaction_align_date">За бажанням дату, збережену в транзакції, також можна узгодити з датою екземпляра.</string>
+    <string name="rollover_edit_invalid">Сума переказу певної категорії, і переказів, відповідних підкатегорій, не може перевищувати залишку.</string>
+    <string name="dialog_confirm_rollover_delete">Уся сума переказів за цей період буде видалена.</string>
 </resources>
