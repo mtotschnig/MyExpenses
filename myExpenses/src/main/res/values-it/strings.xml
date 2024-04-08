@@ -1022,4 +1022,9 @@
     <string name="contact_us">Contattaci</string>
     <string name="pref_transaction_amount_color_source_title">Colori per gli importi</string>
     <string name="merge_categories_dialog_title">Unisci categorie</string>
+    <string name="subcategories_merged_recursively">Se una qualsiasi delle categorie unite ha sottocategorie con la stessa etichetta, queste verranno unite per prime, in modo ricorsivo.</string>
+    <string name="merge_categories_prompt">Seleziona la categoria che desideri mantenere</string>
+    <string name="pref_csv_export_category_separator_summary">Separatore tra i livelli della gerarchia delle categorie</string>
+    <string name="warning_transform_to_transfer">La transazione selezionata verrà sostituita da un trasferimento da %1$s a %2$s.</string>
+    <string name="remap_date">Su tutte le transazioni selezionate, la data verrà impostata su %s.</string>
 </resources>
