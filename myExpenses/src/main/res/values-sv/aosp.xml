@@ -30,4 +30,5 @@
     <string name="username">"Användarnamn"</string>
     <string name="password">"Lösenord"</string>
     <string name="pixels">"bildpunkter"</string>
+    <string name="frequency">"Frekvens"</string>
 </resources>

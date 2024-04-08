@@ -20,4 +20,5 @@
     <string name="username">"वापरकर्ता नाव"</string>
     <string name="password">"पासवर्ड"</string>
     <string name="pixels">"पिक्सेल्स्"</string>
+    <string name="frequency">"फ्रीक्वेन्सी"</string>
 </resources>

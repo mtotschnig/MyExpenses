@@ -496,7 +496,6 @@
     <string name="menu_sync_unlink">Parar a sincronização</string>
     <string name="menu_sync_link">Parar a sincronização</string>
     <string name="menu_sync_download">Baixar e sincronizar</string>
-    <string name="pref_sync_frequency_title">Frequência de sincronização</string>
     <string name="pref_sync_frequency_summary">Com que frequência os dados devem ser sincronizados (em horas)</string>
     <string name="dialog_confirm_sync_unlink">Se desassociar esta conta de %s, o status da sincronização será perdido. Uma futura nova associação, exigirá que seja feita uma sincronização completa.</string>
     <string name="dialog_sync_link">Existe uma conta com o uuid %s tanto na base de dados local quanto no destino remoto. Ao associá-las, você deverá decidir se, inicialmente, os dados locais serão enviados para o destino remoto ou os dados remotos serão baixados para o banco de dados local.</string>

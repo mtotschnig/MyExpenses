@@ -536,7 +536,6 @@
     <string name="menu_sync_unlink">Stop syncing</string>
     <string name="menu_sync_link">Start syncing</string>
     <string name="menu_sync_download">Download and sync</string>
-    <string name="pref_sync_frequency_title">Synchronization frequency</string>
     <string name="pref_sync_frequency_summary">How often should data be synchronized (in hours)</string>
     <string name="dialog_confirm_sync_unlink">If you unlink this account from %s, the synchronization status gets lost. Linking them again later, requires a full synchronization to be executed again.</string>
     <string name="dialog_sync_link">An account with uuid %s exists both in the local database and on the remote backend. When you link both, you need to decide, if, initially, you want to upload local data to the remote backend or download remote data to the local database.</string>

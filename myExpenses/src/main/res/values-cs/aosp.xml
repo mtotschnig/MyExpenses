@@ -98,4 +98,5 @@
     <string name="username">"Uživatelské jméno"</string>
     <string name="password">"Heslo"</string>
     <string name="pixels">"pixelů"</string>
+    <string name="frequency">"Frekvence"</string>
 </resources>

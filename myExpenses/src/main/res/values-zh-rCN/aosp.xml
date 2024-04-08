@@ -94,4 +94,5 @@
     <string name="username">"用户名"</string>
     <string name="password">"密码"</string>
     <string name="pixels">"像素"</string>
+    <string name="frequency">"频率"</string>
 </resources>

@@ -57,4 +57,5 @@
     <string name="username">"Nome de utilizador"</string>
     <string name="password">"Palavra-passe"</string>
     <string name="pixels">"pixeis"</string>
+    <string name="frequency">"Frequência"</string>
 </resources>

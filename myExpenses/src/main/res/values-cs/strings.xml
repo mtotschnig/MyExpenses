@@ -534,7 +534,6 @@
     <string name="menu_sync_unlink">Zastavit synchronizaci</string>
     <string name="menu_sync_link">Zahájit synchronizaci</string>
     <string name="menu_sync_download">Stáhnout a synchronizovat</string>
-    <string name="pref_sync_frequency_title">Frekvence synchronizace</string>
     <string name="pref_sync_frequency_summary">Jak často by mělo docházet k synchronizaci dat (v řádu hodin)</string>
     <string name="dialog_confirm_sync_unlink">Pokud tento účet odpojíte od %s, stav synchronizace bude ztracen. Jejich pozdější propojení vyžaduje opětovné provedení celé synchronizace.</string>
     <string name="dialog_sync_link">Účet s UUID %s existuje jak v místní databázi, tak ve vzdáleném backendu. Když oba propojíte, budete se muset rozhodnout, zda zpočátku nahrát místní data do vzdáleného backendu nebo stáhnout vzdálená data do místní databáze.</string>

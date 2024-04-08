@@ -17,4 +17,5 @@
     <string name="username">"Korisničko ime"</string>
     <string name="password">"Lozinka"</string>
     <string name="pixels">"pikseli"</string>
+    <string name="frequency">"Frekvencija"</string>
 </resources>

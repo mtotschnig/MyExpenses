@@ -30,4 +30,5 @@
     <string name="username">"ชื่อผู้ใช้"</string>
     <string name="password">"รหัสผ่าน"</string>
     <string name="pixels">"พิกเซล"</string>
+    <string name="frequency">"ความถี่"</string>
 </resources>

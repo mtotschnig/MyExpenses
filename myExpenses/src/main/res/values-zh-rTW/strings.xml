@@ -514,7 +514,6 @@
     <string name="menu_sync_unlink">停止同步</string>
     <string name="menu_sync_link">開始同步</string>
     <string name="menu_sync_download">下載並同步</string>
-    <string name="pref_sync_frequency_title">同步頻率</string>
     <string name="pref_sync_frequency_summary">資料應多久同步一次（以小時為單位）</string>
     <string name="dialog_confirm_sync_unlink">如果您將該帳戶從%s取消連結，同步狀態將會失效。當您稍後再次連結它們時，則需要重新執行完整的同步。</string>
     <string name="dialog_sync_link">具有通用唯一識別碼UUID %s的帳戶在本機資料庫和遠程後端中都存在的情況下。當您連結兩者時，首先要確認是要將本機資料上傳到遠程後端，還是要將遠端資料下載到本機資料庫。</string>

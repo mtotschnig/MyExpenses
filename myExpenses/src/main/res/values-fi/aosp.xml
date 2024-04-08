@@ -30,4 +30,5 @@
     <string name="username">"Käyttäjätunnus"</string>
     <string name="password">"Salasana"</string>
     <string name="pixels">"kuvapistettä"</string>
+    <string name="frequency">"Toistuvuus"</string>
 </resources>

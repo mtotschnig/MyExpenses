@@ -527,7 +527,6 @@
     <string name="menu_sync_unlink">הפסק סנכרון</string>
     <string name="menu_sync_link">התחל סנכרון</string>
     <string name="menu_sync_download">הורד וסנכרן</string>
-    <string name="pref_sync_frequency_title">תדירות סינכרון</string>
     <string name="pref_sync_frequency_summary">באיזו תדירות יש לסנכרן נתונים (בשעות)</string>
     <string name="dialog_confirm_sync_unlink">אם תבטל את הקישור של חשבון זה מ- %s, מצב הסינכרון יאבד. קשר אותם שוב מאוחר יותר, נדרש לבצע שוב סנכרון מלא.</string>
     <string name="dialog_sync_link">חשבון עם %s קיים הן במסד הנתונים המקומי והן ב- backend המרוחק. כאשר אתה מקשר את שניהם, אתה צריך להחליט, אם, בתחילה, אתה רוצה להעלות נתונים מקומיים על backend המרוחק או להוריד נתונים מרוחקים למסד הנתונים המקומי.</string>

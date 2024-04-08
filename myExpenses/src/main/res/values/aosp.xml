@@ -166,4 +166,6 @@
     <string name="password">"Password"</string>
     <!-- LibreOffice vcl/message.po z2hxz -->
     <string name="pixels">"pixels"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri "\"running_frequency\"" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/running_//' | aosp_helper -->
+    <string name="frequency">"Frequency"</string>
 </resources>

@@ -22,4 +22,5 @@
     <string name="username">"Lietotājvārds"</string>
     <string name="password">"Parole"</string>
     <string name="pixels">"pikseļi"</string>
+    <string name="frequency">"Biežums"</string>
 </resources>

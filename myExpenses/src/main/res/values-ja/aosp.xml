@@ -95,4 +95,5 @@
     <string name="username">"ユーザー名"</string>
     <string name="password">"パスワード"</string>
     <string name="pixels">"ピクセル"</string>
+    <string name="frequency">"頻度"</string>
 </resources>

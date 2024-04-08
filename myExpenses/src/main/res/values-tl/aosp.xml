@@ -19,4 +19,5 @@
     <string name="share">"Ibahagi"</string>
     <string name="username">"Username"</string>
     <string name="password">"Password"</string>
+    <string name="frequency">"Frequency"</string>
 </resources>

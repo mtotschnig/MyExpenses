@@ -441,7 +441,6 @@
     <string name="validate_error_webdav_invalid_certificate">Het certificaat kon niet worden vertrouwd. Het lijkt ongeldig.</string>
     <string name="menu_sync_unlink">Stop met synchroniseren</string>
     <string name="menu_sync_link">Begin met synchroniseren</string>
-    <string name="pref_sync_frequency_title">Synchronisatie frequentie</string>
     <string name="dialog_command_sync_link_local">Uploaden van lokaal</string>
     <string name="dialog_synced_to_other">Een rekening met uuid %s bestaat al in de lokale database en is gekoppeld aan een andere externe backend.</string>
     <string name="dialog_confirm_sync_link_local">Externe gegevens voor deze rekening worden verwijderd. Zorg ervoor dat er geen andere apparaten aan gekoppeld zijn.</string>

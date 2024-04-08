@@ -22,4 +22,5 @@
     <string name="username">"Naudotojo vardas"</string>
     <string name="password">"Slaptažodis"</string>
     <string name="pixels">"tšk."</string>
+    <string name="frequency">"Dažnis"</string>
 </resources>

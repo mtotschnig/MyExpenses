@@ -20,4 +20,5 @@
     <string name="username">"ইউজারনেম"</string>
     <string name="password">"পাসওয়ার্ড"</string>
     <string name="pixels">"পিক্সেল"</string>
+    <string name="frequency">"পুনরাবৃত্তির হার"</string>
 </resources>

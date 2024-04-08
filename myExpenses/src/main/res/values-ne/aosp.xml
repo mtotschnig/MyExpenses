@@ -21,4 +21,5 @@
     <string name="username">"एक-पटके टेक्स्ट म्यासेज"</string>
     <string name="password">"पासवर्ड:"</string>
     <string name="pixels">"पिक्सेल"</string>
+    <string name="frequency">"आवृत्ति"</string>
 </resources>

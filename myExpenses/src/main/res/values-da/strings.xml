@@ -524,7 +524,6 @@
     <string name="url_not_valid">Ugyldigt URL</string>
     <string name="menu_sync_unlink">Stop synkronisering</string>
     <string name="menu_sync_download">Hent og synkronisér</string>
-    <string name="pref_sync_frequency_title">Synkroniseringsfrekvens</string>
     <string name="pref_sync_frequency_summary">Hvor ofte data skal synkroniseres (i timer)</string>
     <string name="menu_remove">Fjern</string>
     <string name="dialog_confirm_sync_remove_backend">Den eksterne backend %s fjernes. Dette påvirker ikke data, der er gemt lokalt eller eksternt, men synkroniseringsstatus går tabt.</string>

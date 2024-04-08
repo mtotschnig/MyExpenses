@@ -96,4 +96,5 @@
     <string name="username">"Nom d'usuari"</string>
     <string name="password">"Contrasenya"</string>
     <string name="pixels">"píxels"</string>
+    <string name="frequency">"Freqüència"</string>
 </resources>

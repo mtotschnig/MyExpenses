@@ -65,7 +65,6 @@
     <string name="template">Mal</string>
     <string name="progress_dialog_checking_sync_backend">Bekrefter bakende</string>
     <string name="menu_remove">Fjern</string>
-    <string name="pref_sync_frequency_title">Synkroniseringshyppighet</string>
     <string name="menu_sync_download">Last ned og synkroniser</string>
     <string name="menu_sync_link">Start synkronisering</string>
     <string name="menu_sync_unlink">Stopp synkronisering</string>

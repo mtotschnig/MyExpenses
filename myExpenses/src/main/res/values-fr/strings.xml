@@ -527,7 +527,6 @@
     <string name="menu_sync_unlink">Arrêter la synchronisation </string>
     <string name="menu_sync_link">Démarrer la synchronisation</string>
     <string name="menu_sync_download">Télécharger et synchroniser</string>
-    <string name="pref_sync_frequency_title">Fréquence de synchronisation</string>
     <string name="pref_sync_frequency_summary">À quelle fréquence les données devraient être synchronisés (en heures)</string>
     <string name="dialog_confirm_sync_unlink">Si vous supprimez le lien de ce compte de %s, l’état de synchronisation se perdra. Pour les relier à nouveau plus tard, il sera nécessaire de faire une synchronisation complète pour être de nouveau exécutée.</string>
     <string name="dialog_sync_link">Un compte avec l’uuid %s existe dans la base de données locale et sur le serveur distant. Lorsque vous liez les deux, vous devez décider, si, au départ, vous souhaitez télécharger les données locales au serveur distant ou télécharger des données distantes à la base de données locale.</string>

@@ -28,4 +28,5 @@
     <string name="username">"Օգտանուն"</string>
     <string name="password">"Գաղտնաբառ"</string>
     <string name="pixels">"պիքսելներ"</string>
+    <string name="frequency">"Հաճախականություն"</string>
 </resources>

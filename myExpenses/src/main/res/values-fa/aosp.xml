@@ -22,4 +22,5 @@
     <string name="username">"نام کاربری"</string>
     <string name="password">"گذرواژه"</string>
     <string name="pixels">"نقطه"</string>
+    <string name="frequency">"تعداد دفعات اجرا"</string>
 </resources>

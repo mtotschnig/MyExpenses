@@ -98,4 +98,5 @@
     <string name="username">"Имя пользователя"</string>
     <string name="password">"Пароль"</string>
     <string name="pixels">"пикс."</string>
+    <string name="frequency">"Как часто используется"</string>
 </resources>

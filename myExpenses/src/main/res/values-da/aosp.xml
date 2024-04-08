@@ -96,4 +96,5 @@
     <string name="username">"Brugernavn"</string>
     <string name="password">"Adgangskode"</string>
     <string name="pixels">"billedpunkter"</string>
+    <string name="frequency">"Hyppighed"</string>
 </resources>

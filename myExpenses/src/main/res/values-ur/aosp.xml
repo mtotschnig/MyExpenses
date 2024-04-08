@@ -80,4 +80,5 @@
     <string name="share">شیئر کریں</string>
     <string name="username">"صارف نام"</string>
     <string name="password">"پاس ورڈ"</string>
+    <string name="frequency">"فریکوئنسی"</string>
 </resources>

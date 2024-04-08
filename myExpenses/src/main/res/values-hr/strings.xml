@@ -530,7 +530,6 @@
     <string name="dialog_sync_link">Račun s uuid oznakom %s postoji u lokalnoj bazi podataka kao i na udaljenom pozadinskom sustavu. Kad oboje povežeš, moraš odlučiti želiš li prenijeti lokalne podatke na udaljeni pozadinski sustav ili preuzeti udaljene podatke u lokalnu bazu podataka.</string>
     <string name="dialog_confirm_sync_unlink">Ako prekineš vezu ovog računa sa %s, stanje sinkronizacije će se izgubiti. Kasnije ponovno povezivanje zahtijeva ponovno izvođenje potpune sinkronizacije.</string>
     <string name="pref_sync_frequency_summary">Kako često sinkronizirati podatke (u satima)</string>
-    <string name="pref_sync_frequency_title">Učestalost sinkronizacije</string>
     <string name="menu_sync_download">Preuzmi i sinkroniziraj</string>
     <string name="menu_sync_link">Pokreni sinkronizaciju</string>
     <string name="menu_sync_unlink">Prekini sinkronizaciju</string>

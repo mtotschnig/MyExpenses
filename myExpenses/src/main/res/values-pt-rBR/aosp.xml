@@ -92,4 +92,5 @@
     <string name="username">"Nome de usuário"</string>
     <string name="password">"Senha"</string>
     <string name="pixels">"pixels"</string>
+    <string name="frequency">"Frequência"</string>
 </resources>
