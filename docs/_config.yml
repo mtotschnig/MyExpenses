@@ -215,6 +215,8 @@ versions:
         Fusionar categorías
       fr: |
         Fusionner les catégories
+      ja: |
+        カテゴリのマージ
       tr: |
         Kategorileri Birleştir
       en: |
@@ -293,6 +295,8 @@ versions:
         Los gráficos coinciden con el filtro de búsqueda.
       fr: |
         Les graphiques honorent le filtre de recherche.
+      ja: |
+        チャートは検索フィルターに従います。
       nl: |
         Grafieken voldoen aan het zoekfilter.
       tr: |
@@ -415,6 +419,8 @@ versions:
         Colori personalizzati per i tag
       iw: |
         צבעי תגיות מותאמים אישית
+      ja: |
+        タグのカスタム色
       nl: |
         Aangepaste kleuren voor tags
       pl: |
@@ -454,6 +460,8 @@ versions:
         Sincronizzazione: Miglioramenti della stabilità. Elenco delle transazioni: Miglioramento dell'interfaccia utente
       iw: |
         סנכרון: שיפורים ביציבות. רשימת עסקאות: חידוד ממשק המשתמש
+      ja: |
+        同期: 安定性の向上. 取引リスト: ユーザーインターフェースの洗練
       nl: |
         Synchronisatie: Stabiliteitsverbeteringen. Transactie lijst: Verfijning van de gebruikersinterface
       pl: |
@@ -479,14 +487,20 @@ versions:
         التزامن: Microsoft OneDrive
       bg: |
         Синхронизиране: Microsoft OneDrive
+      ca: |
+        Sincronització: Microsoft OneDrive
       cs: |
         Synchronizace: Microsoft OneDrive
+      da: |
+        Synkronisering: Microsoft OneDrive
       de: |
         Synchronisierung: Microsoft OneDrive
       el: |
         Συγχρονισμός: Microsoft OneDrive
       es: |
         Sincronización: Microsoft OneDrive
+      eu: |
+        Sinkronizazioa: Microsoft OneDrive
       fr: |
         Synchronisation: Microsoft OneDrive
       hr: |
@@ -497,6 +511,16 @@ versions:
         Sincronizzazione: Microsoft OneDrive
       iw: |
         סנכרון: Microsoft OneDrive
+      ja: |
+        同期: Microsoft OneDrive
+      kn: |
+        ಸಿಂಕ್ರೊನೈಸೇಶನ್: Microsoft OneDrive
+      ko: |
+        동기화: Microsoft OneDrive
+      km: |
+        ការធ្វើសមកាលកម្ម: Microsoft OneDrive
+      ms: |
+        Penyegerakan: Microsoft OneDrive
       nl: |
         Synchronisatie: Microsoft OneDrive
       pl: |
@@ -505,10 +529,22 @@ versions:
         Sincronização: Microsoft OneDrive
       ro: |
         Sincronizare: Microsoft OneDrive
+      ru: |
+        Синхронизация: Microsoft OneDrive
+      si: |
+        සමමුහුර්තකරණය: Microsoft OneDrive
+      ta: |
+        ஒத்திசைவு: Microsoft OneDrive
+      te: |
+        సమకాలీకరణ: Microsoft OneDrive
       tr: |
         Eşzamanla: Microsoft OneDrive
       vi: |
         Đồng bộ hóa: Microsoft OneDrive
+      zh: |
+        同步: Microsoft OneDrive
+      zh-TW: |
+        同步化: Microsoft OneDrive
       en: |
         Synchronization: Microsoft OneDrive
     -
