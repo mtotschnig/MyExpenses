@@ -1021,4 +1021,5 @@
     <string name="warning_unlink_transfer">Il trasferimento selezionato sarà scorporato: verrà sostituito da transazioni normali in entrambi i conti.</string>
     <string name="contact_us">Contattaci</string>
     <string name="pref_transaction_amount_color_source_title">Colori per gli importi</string>
+    <string name="merge_categories_dialog_title">Unisci categorie</string>
 </resources>
