@@ -89,4 +89,5 @@
     <string name="share">"Podijeli"</string>
     <string name="username">"Korisničko ime"</string>
     <string name="password">"Zaporka"</string>
+    <string name="pixels">"pikseli"</string>
 </resources>

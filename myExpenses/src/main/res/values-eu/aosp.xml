@@ -93,4 +93,5 @@
     <string name="share">Partekatu</string>
     <string name="username">"Erabiltzaile-izena"</string>
     <string name="password">"Pasahitza"</string>
+    <string name="pixels">"pixel"</string>
 </resources>

@@ -96,4 +96,5 @@
     <string name="share">"Megosztás"</string>
     <string name="username">"Felhasználónév"</string>
     <string name="password">"Jelszó"</string>
+    <string name="pixels">"képpont"</string>
 </resources>

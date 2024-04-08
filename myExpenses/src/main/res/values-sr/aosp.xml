@@ -11,4 +11,5 @@
     <string name="share">"Дели"</string>
     <string name="username">"Корисничко име"</string>
     <string name="password">"Лозинка"</string>
+    <string name="pixels">pixels"</string>
 </resources>

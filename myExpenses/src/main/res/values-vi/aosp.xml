@@ -92,4 +92,5 @@
     <string name="share">"Chia sẻ"</string>
     <string name="username">"Tên người dùng"</string>
     <string name="password">"Mật khẩu"</string>
+    <string name="pixels">"Điểm ảnh"</string>
 </resources>

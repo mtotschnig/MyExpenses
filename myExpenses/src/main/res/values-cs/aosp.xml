@@ -97,4 +97,5 @@
     <string name="share">"Sdílet"</string>
     <string name="username">"Uživatelské jméno"</string>
     <string name="password">"Heslo"</string>
+    <string name="pixels">"pixelů"</string>
 </resources>

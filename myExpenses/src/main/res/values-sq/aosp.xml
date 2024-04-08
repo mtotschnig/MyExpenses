@@ -20,4 +20,5 @@
     <string name="menu_open">"Hap"</string>
     <string name="username">"Emri i përdoruesit"</string>
     <string name="password">"Fjalëkalimi"</string>
+    <string name="pixels">"piksel"</string>
 </resources>

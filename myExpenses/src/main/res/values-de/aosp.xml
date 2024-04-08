@@ -94,4 +94,5 @@
     <string name="share">"Teilen"</string>
     <string name="username">"Nutzername"</string>
     <string name="password">"Passwort"</string>
+    <string name="pixels">"Pixel"</string>
 </resources>

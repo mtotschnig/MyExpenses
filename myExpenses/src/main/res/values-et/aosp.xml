@@ -29,4 +29,5 @@
     <string name="share">"Jaga"</string>
     <string name="username">"Kasutajanimi"</string>
     <string name="password">"Parool"</string>
+    <string name="pixels">"pikslit"</string>
 </resources>

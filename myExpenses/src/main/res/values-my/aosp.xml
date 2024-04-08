@@ -19,4 +19,5 @@
     <string name="menu_print">"ပရင့် ထုတ်ယူရန်"</string>
     <string name="username">"သုံးသူအမည်"</string>
     <string name="password">"စကားဝှက်"</string>
+    <string name="pixels">"ပုံရိပ်အစက်မှတ်များ"</string>
 </resources>

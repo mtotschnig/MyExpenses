@@ -20,4 +20,5 @@
     <string name="share">"साझा करें"</string>
     <string name="username">"उपयोगकर्ता का नाम"</string>
     <string name="password">"पासवर्ड"</string>
+    <string name="pixels">"पिक्सेल्स"</string>
 </resources>

@@ -22,4 +22,5 @@
     <string name="share">"გაზიარება"</string>
     <string name="username">"მომხმარებლის სახელი"</string>
     <string name="password">"პაროლი"</string>
+    <string name="pixels">"პიქსელები"</string>
 </resources>

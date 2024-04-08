@@ -29,4 +29,5 @@
     <string name="share">"แบ่งปัน"</string>
     <string name="username">"ชื่อผู้ใช้"</string>
     <string name="password">"รหัสผ่าน"</string>
+    <string name="pixels">"พิกเซล"</string>
 </resources>

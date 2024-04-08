@@ -87,4 +87,5 @@
     <string name="share">"공유"</string>
     <string name="username">"사용자 이름"</string>
     <string name="password">"비밀번호"</string>
+    <string name="pixels">"픽셀"</string>
 </resources>

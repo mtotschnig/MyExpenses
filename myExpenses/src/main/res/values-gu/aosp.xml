@@ -19,4 +19,5 @@
     <string name="menu_print">"છાપો"</string>
     <string name="username">"વપરાશકર્તાનું નામ"</string>
     <string name="password">"પાસવર્ડ"</string>
+    <string name="pixels">"પિક્સેલ"</string>
 </resources>

@@ -29,4 +29,5 @@
     <string name="share">"Zdieľať"</string>
     <string name="username">"Používateľské meno"</string>
     <string name="password">"Heslo"</string>
+    <string name="pixels">"pixely"</string>
 </resources>

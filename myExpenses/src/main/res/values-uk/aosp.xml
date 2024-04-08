@@ -96,4 +96,5 @@
     <string name="share">"Поділитися"</string>
     <string name="username">"Ім’я користувача"</string>
     <string name="password">"Пароль"</string>
+    <string name="pixels">"пікселів"</string>
 </resources>

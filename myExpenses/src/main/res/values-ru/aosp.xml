@@ -97,4 +97,5 @@
     <string name="share">"Отправить"</string>
     <string name="username">"Имя пользователя"</string>
     <string name="password">"Пароль"</string>
+    <string name="pixels">"пикс."</string>
 </resources>

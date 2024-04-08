@@ -27,4 +27,5 @@
     <string name="share">"Del"</string>
     <string name="username">"Brukernavn"</string>
     <string name="password">"Passord"</string>
+    <string name="pixels">"bildepunkter"</string>
 </resources>

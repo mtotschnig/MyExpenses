@@ -16,4 +16,5 @@
     <string name="menu_open">"Адкрыць"</string>
     <string name="username">"Імя карыстальніка"</string>
     <string name="password">"Пароль"</string>
+    <string name="pixels">"пікселі"</string>
 </resources>

@@ -94,4 +94,5 @@
     <string name="share">"Κοινοποίηση"</string>
     <string name="username">"Όνομα χρήστη"</string>
     <string name="password">"Κωδικός πρόσβασης"</string>
+    <string name="pixels">"εικονοστοιχεία"</string>
 </resources>
