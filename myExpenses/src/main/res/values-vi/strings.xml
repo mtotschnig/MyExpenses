@@ -492,8 +492,6 @@
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">Vui lòng nhập URL dẫn tới một thư mục đặc biệt trên máy chủ WebDAV của bạn. {app_name} sẽ lưu trữ dữ liệu bên trong thư mục này, nó sẽ không gây ảnh hưởng tới bất cứ thứ gì bên ngoài thư mục đó.</string>
     <string name="description_webdav_trust_certificate">Trang web này sử dụng một chứng chỉ mà Android không tin cậy.</string>
-    <string name="hint_user_name">Tên người dùng</string>
-    <string name="hint_password">Mật khẩu</string>
     <string name="label_trust_certificate">Tin cậy chứng chỉ này</string>
     <string name="no_sync_backends">Không có phụ trợ đồng bộ hóa</string>
     <string name="menu_create_sync_backend">Phụ trợ đồng bộ hóa mới</string>
