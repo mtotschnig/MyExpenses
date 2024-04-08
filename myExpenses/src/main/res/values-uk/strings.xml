@@ -816,7 +816,7 @@
     <string name="dialog_contrib_trial_info">Ваш поточний статус ліцензії (%1$s) дозволяє пробувати %2$s протягом %3$d днів (до %4$s).</string>
     <string name="warning_delete_category_with_budget">Принаймні для однієї обраної категорії є бютжет виділення, які також будуть видалені.</string>
     <string name="pref_manage_tags_summary">Додати, редагувати, видаляти мітки.</string>
-    <string name="remapping_result">Вибрані транзакції були зіставлені.</string>
+    <string name="remapping_result">Вибрані транзакції були перепризначені.</string>
     <string name="warning_no_account">Принаймні одна рахунок має бути видимою та відкритою, щоб створювати нові транзакції.</string>
     <string name="scan_result_multiple_candidates_dialog_title">Знайдено кілька кандидатів. Будь ласка, виберіть:</string>
     <string name="scan_result_no_date">Дата не знайдена</string>
@@ -846,15 +846,15 @@
     <string name="tags_create_or_select">Створіть або виберіть мітки</string>
     <string name="menu_tag">Мітка</string>
     <string name="search_account">Пошук по рахунку</string>
-    <string name="content_description_dates_are_linked">Дата бронювання та дата валютування оновлюються разом</string>
+    <string name="content_description_dates_are_linked">Дата бронювання та дата зарахування коштів на рахунок оновлені разом</string>
     <string name="select_package">Будь ласка, оберіть пакет ліцензій.</string>
     <string name="dialog_multi_tag_clear">Усі мітки буде вилучено з вибраних транзакцій.</string>
-    <string name="content_description_dates_are_not_linked">Дата бронювання та дата валютування не оновлюються разом</string>
+    <string name="content_description_dates_are_not_linked">Дата бронювання та дата зарахування коштів на рахунок не оновлені разом</string>
     <string name="dialog_contrib_subscription_info_play">Ця підписка набуває чинності негайно, рахунок виставляється щомісяця або щороку та може бути скасований будь-коли.</string>
     <string name="synchronization_select_folder_dialog_title">Виберіть наявну папку або створіть нову</string>
     <string name="menu_budget_allocated_only">Показувати тільки категорії з виділенням</string>
     <string name="remap_method">Усі вибрані транзакції буде зіставлено з методом %s.</string>
-    <string name="clone_and_remap_result">Вибрані транзакції клоновані та повторно зіставлені.</string>
+    <string name="clone_and_remap_result">Вибрані транзакції клоновані та перепризначені.</string>
     <string name="button_label_clone_and_remap">Клонувати та перепризначати</string>
     <string name="dialog_multi_tag">Усі вибрані транзакції будуть позначені міткою %s.</string>
     <string name="pref_ocr_total_indicators_summary">Список рядків, які визначають загальну вартість у квитанції. Помістіть кожне значення в новий рядок. Залиште порожнім, щоб відновити значення за замовчуванням.</string>
@@ -953,7 +953,7 @@
     <string name="roadmap_intro">Голосування за дорожню карту 2024 року відкрито! Голосуйте за функції та покращення, які для вас найважливіші.</string>
     <string name="menu_unlink_transfer">Від\'єднати переказ</string>
     <string name="warning_unlink_transfer">Вибраний переказ буде від’єднано: його замінять звичайні транзакції в обох рахунках.</string>
-    <string name="menu_transform_to_transfer">Перетворити на переказ</string>
+    <string name="menu_transform_to_transfer">Перетворити в переказ</string>
     <string name="required">Обов\'язково</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">враховуються як витрати/доходи</string>
     <string name="dialog_title_purge_backups">Очистити старі резервні копії</string>
@@ -996,6 +996,6 @@
     <string name="encrypt_database_info">Базу даних буде зашифровано за допомогою парольної фрази, яку неможливо отримати з цього пристрою. Тому служба резервного копіювання вашого пристрою не створюватиме резервні копії.</string>
     <string name="budget_table_header_rollover">Перенесення бюджету</string>
     <string name="orphaned_transaction_align_date">За бажанням дату, збережену в транзакції, також можна узгодити з датою екземпляра.</string>
-    <string name="rollover_edit_invalid">Сума переказу певної категорії, і переказів, відповідних підкатегорій, не може перевищувати залишку.</string>
-    <string name="dialog_confirm_rollover_delete">Уся сума переказів за цей період буде видалена.</string>
+    <string name="rollover_edit_invalid">Сума перенесення, запланована для категорії, та суми перенесення, заплановані для підкатегорій, не можуть перевищувати залишок.</string>
+    <string name="dialog_confirm_rollover_delete">Усі суми перенесення на цей період будуть видалені.</string>
 </resources>
