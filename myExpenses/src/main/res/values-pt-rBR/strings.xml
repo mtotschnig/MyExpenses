@@ -1020,4 +1020,16 @@
     <string name="default_transfer_category">Categoria de transferência padrão</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">são contabilizados como despesa/receita</string>
     <string name="roadmap_intro">A votação do roteiro para 2024 já está aberta! Vote nos recursos e melhorias que são mais importantes para você.</string>
+    <string name="pref_sync_now_all_summary">%s sincroniza todas as contas para o mesmo back-end</string>
+    <string name="warning_unlink_transfer">A transferência selecionada será desvinculada: será substituída por transações normais em ambas as contas.</string>
+    <string name="menu_transform_to_transfer">Converter em transferência</string>
+    <string name="merge_categories_prompt">Selecione a categoria que você deseja manter</string>
+    <string name="pref_csv_export_category_separator_summary">Separador entre níveis de hierarquia de categoria</string>
+    <string name="merge_categories_dialog_title">Mesclar categorias</string>
+    <string name="pref_transaction_amount_color_source_title">Cores para quantidades</string>
+    <string name="subcategories_merged_recursively">Se alguma das categorias mescladas tiver subcategorias com o mesmo rótulo, elas serão mescladas primeiro, de forma recursiva.</string>
+    <string name="contact_us">Fale conosco</string>
+    <string name="warning_transform_to_transfer">A transação selecionada será substituída por uma transferência de %1$s para %2$s.</string>
+    <string name="remap_date">Em todas as transações selecionadas, a data será definida como %s.</string>
+    <string name="menu_unlink_transfer">Desvincular transferência</string>
 </resources>
