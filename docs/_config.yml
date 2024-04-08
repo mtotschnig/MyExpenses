@@ -217,6 +217,8 @@ versions:
         Fusionner les catégories
       ja: |
         カテゴリのマージ
+      pt: |
+        Mesclar categorias
       tr: |
         Kategorileri Birleştir
       en: |
@@ -299,6 +301,8 @@ versions:
         チャートは検索フィルターに従います。
       nl: |
         Grafieken voldoen aan het zoekfilter.
+      pt: |
+        Os gráficos respeitam o filtro de pesquisa.
       tr: |
         Grafikler arama filtresine uyuyor.
       en: |
@@ -363,6 +367,8 @@ versions:
         Clona più transazioni con una nuova data. L'interfaccia utente Web può essere controllata dalla schermata principale. Converti in trasferimento. Esportazione in formato CSV: MS Excel
       nl: |
         Kloon meerdere transacties met een nieuwe datum. De webgebruikersinterface kan worden bediend vanaf het hoofdscherm. Converteren naar overdracht. Exporteer naar CSV: MS Excel
+      pt: |
+        Clone várias transações com nova data. A interface do usuário da Web pode ser controlada na tela principal. Converter em transferência. Exportação para CSV: MS Excel
       tr: |
         Birden fazla muameleyi yeni tarihle klonla. Web kullanıcı arayüzü ana ekrandan denetlenebilir. Havaleye dönüştür. CSV olarak dışa aktar: MS Excel
       en: |
@@ -386,6 +392,8 @@ versions:
         Scorpora il trasferimento
       nl: |
         Overdracht ontkoppelen
+      pt: |
+        Desvincular transferência
       tr: |
         Transfer bağlantısını kaldır
       en: |
