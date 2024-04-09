@@ -59,4 +59,5 @@
     <string name="pixels">"pixeis"</string>
     <string name="frequency">"Frequência"</string>
     <string name="required">"Necessário"</string>
+    <string name="file_format">"Formato de ficheiro"</string>
 </resources>

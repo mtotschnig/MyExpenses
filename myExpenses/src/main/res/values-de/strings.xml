@@ -964,7 +964,6 @@
     <string name="pref_backup_file_prefix_title">Präfix der Datei</string>
     <string name="optimize_image_file_size">Optimieren der Bilddateigröße</string>
     <string name="maximum_size">Maximale Größe</string>
-    <string name="file_format">Dateiformat</string>
     <string name="image_optimize_quality">Qualität</string>
     <string name="image_optimize_quality_summary">Qualität von 0 bedeutet Komprimierung für die kleinste Größe. 100 bedeutet Komprimierung für maximale visuelle Qualität.</string>
     <string name="add_shortcut">Verknüpfung hinzufügen</string>

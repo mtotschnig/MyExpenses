@@ -98,4 +98,5 @@
     <string name="pixels">"píxels"</string>
     <string name="frequency">"Freqüència"</string>
     <string name="required">"Necessari"</string>
+    <string name="file_format">"Format del fitxer"</string>
 </resources>

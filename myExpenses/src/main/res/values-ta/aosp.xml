@@ -89,4 +89,5 @@
     <string name="pixels">"படத்துணுக்குகள்"</string>
     <string name="frequency">"அலைவரிசை"</string>
     <string name="required">"தேவை"</string>
+    <string name="file_format">"கோப்பு வடிவூட்டம்"</string>
 </resources>

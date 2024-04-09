@@ -872,7 +872,6 @@
     <string name="notifications_permission_required_webui">Door toestemming te geven om notificaties te versturen, kun je de status van de webserver controleren.</string>
     <string name="pref_attachment_mime_types_title">Toegestane MIME-typen voor bijlagen</string>
     <string name="button_relink_update_date">Opnieuw koppelen en datum bijwerken</string>
-    <string name="file_format">Bestandsformaat</string>
     <string name="widget_title_budget">Mijn budget</string>
     <string name="pref_copy_attachments_summary_on">Bestanden worden gekopieerd naar de toepassingsmap.</string>
     <string name="attachments">Bijlagen</string>

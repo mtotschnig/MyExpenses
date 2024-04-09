@@ -990,7 +990,6 @@
     <string name="notifications_permission_required_webui">من خلال منح الإذن بإرسال الإشعارات، يمكنك التحكم في حالة خادم الويب.</string>
     <string name="pref_attachment_mime_types_title">أنواع MIME المسموح بها للمرفقات</string>
     <string name="button_relink_update_date">إعادة الارتباط وتحديث التاريخ</string>
-    <string name="file_format">تنسيق الملف</string>
     <string name="widget_title_budget">ميزانيتي</string>
     <string name="pref_copy_attachments_summary_on">يتم نسخ الملفات إلى مجلد التطبيق.</string>
     <string name="database_is_encrypted">قاعدة البيانات مشفرة.</string>

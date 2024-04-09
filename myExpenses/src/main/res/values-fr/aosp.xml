@@ -98,4 +98,5 @@
     <string name="pixels">"pixels"</string>
     <string name="frequency">"Fréquence"</string>
     <string name="required">"Requis"</string>
+    <string name="file_format">"Format de fichier"</string>
 </resources>

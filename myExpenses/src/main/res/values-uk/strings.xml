@@ -914,7 +914,6 @@
     <string name="content_description_attachment">Вкладення</string>
     <string name="notifications_permission_required_sync">Надавши дозвіл на надсилання сповіщень, ви можете контролювати хід виконання синхронізації.</string>
     <string name="notifications_permission_required_auto_backup">Надавши дозвіл на надсилання сповіщень, ви будете проінформовані про автоматичне резервне копіювання.</string>
-    <string name="file_format">Формат файлу</string>
     <string name="pref_backup_file_prefix_title">Префікс файлу</string>
     <string name="optimize_image_file_size">Оптимізація розміру файлу зображення</string>
     <string name="redesign">Редизайн</string>

@@ -819,7 +819,6 @@
     <string name="pref_sync_changes_immediately_summary">Zapisuj lokalne zmiany natychmiast w zapleczu</string>
     <string name="scan_result_no_date">Nie znaleziono daty</string>
     <string name="button_relink_update_date">Data ponownego połączenia i aktualizacji</string>
-    <string name="file_format">Format pliku</string>
     <string name="warning_account_for_transaction_is_closed">Nie można edytować co najmniej jednej z wybranych transakcji:</string>
     <string name="content_description_dates_are_not_linked">Data rezerwacji i data wartości nie są aktualizowane razem</string>
     <string name="auto_fill_account_from_aggregate_only">Tylko w przypadku uruchomienia z konta zbiorczego.</string>

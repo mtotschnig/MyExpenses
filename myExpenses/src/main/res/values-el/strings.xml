@@ -910,7 +910,6 @@
     <string name="notifications_permission_required_webui">Χορηγώντας την άδεια αποστολής ειδοποιήσεων, μπορείτε να ελέγξετε την κατάσταση του διακομιστή ιστού.</string>
     <string name="pref_attachment_mime_types_title">Επιτρεπόμενοι τύποι MIME για συνημμένα</string>
     <string name="button_relink_update_date">Επανασύνδεση και ενημέρωση ημερομηνίας</string>
-    <string name="file_format">Μορφή Αρχείου</string>
     <string name="widget_title_budget">Ο προϋπολογισμός μου</string>
     <string name="pref_mlkit_script_title">Δέσμη ενεργειών για το MlKit</string>
     <string name="pref_copy_attachments_summary_on">Τα αρχεία αντιγράφονται στο φάκελο της εφαρμογής.</string>

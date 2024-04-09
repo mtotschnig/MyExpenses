@@ -886,7 +886,6 @@
     <string name="budget_only_current_period">Indstil kun til %s</string>
     <string name="budget_table_header_rollover">Fremførsel</string>
     <string name="rollover_edit_invalid">Summen af fremførslen, der er tildelt en kategori, og de fremførsler, der er tildelt underkategorier, kan ikke overstige restbeløbet.</string>
-    <string name="file_format">Filformat</string>
     <string name="debt_paid_off_self">Min gæld er afbetalt.</string>
     <string name="passphrase_for_synchronization">Indtast en adgangssætning, hvis synkroniseringsdata på denne backend skal være krypteret.</string>
     <string name="account_widget_configuration_sum">Type af vist sum</string>

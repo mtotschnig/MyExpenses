@@ -170,4 +170,6 @@
     <string name="frequency">"Frequency"</string>
     <!-- LibreOffice extensions/message.po JFffE -->
     <string name="required">"Required"</string>
+    <!-- LibreOffice helpcontent2/source/text/swriter/01.po WEPwT -->
+    <string name="file_format">File Format</string>
 </resources>
