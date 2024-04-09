@@ -82,6 +82,8 @@ it:
       scan_receipt: "<b>Scansiona gli scontrini</b> : estrai automaticamente l'importo,
         la data ed il beneficiario"
       webui: <b>Interfaccia utente Web</b>
+      banking: Scarica le transazioni dalle banche in Germania (<b>FinTS</b>)
+      category_tree: Profondità illimitata dell <b>albero delle categorie</b>
     one-time-payment: Pagamento unico
     subscription: Sottoscrizione
   store:
