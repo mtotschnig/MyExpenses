@@ -23,4 +23,6 @@
     <string name="password">"Parole"</string>
     <string name="pixels">"pikseļi"</string>
     <string name="frequency">"Biežums"</string>
+    <string name="required">"Pieprasīts"</string>
+    <string name="quality">"Kvalitāte"</string>
 </resources>

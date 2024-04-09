@@ -18,4 +18,6 @@
     <string name="password">"Пароль"</string>
     <string name="pixels">"пікселі"</string>
     <string name="frequency">"Частата"</string>
+    <string name="required">"Патрабуецца"</string>
+    <string name="quality">"Якасць"</string>
 </resources>

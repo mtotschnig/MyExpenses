@@ -481,7 +481,6 @@
     <string name="image_capture_not_installed">هیچ برنامه‌ای برای گرفتن عکس پیدا نشد.</string>
     <string name="no_mapped_transactions">در طول این دوره هیچ تراکنشی برای دسته ها انجام نشده است.</string>
     <string name="no_parties">طرف معامله وجود ندارد.</string>
-    <string name="dialog_title_warning_delete_party">شخص حذف شود؟</string>
     <plurals name="not_deletable_mapped_templates">
         <item quantity="one">مورد انتخاب شده به یک الگو نگاشت می شود و نمی توان آن را حذف کرد.</item>
         <item quantity="other">%1$d ‍مورد به چندین الگو نگاشت می شوند و نمی توان آن ها را حذف کرد.</item>

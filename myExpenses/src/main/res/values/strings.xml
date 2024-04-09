@@ -106,7 +106,6 @@
     <string name="dialog_title_warning_delete_category">Delete category?</string>
     <string name="dialog_title_warning_delete_template">Delete template?</string>
     <string name="dialog_title_warning_delete_transaction">Delete transaction?</string>
-    <string name="dialog_title_warning_delete_party">Delete party?</string>
     <string name="expense">Expense</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">Export to file \"%1$s\" failed: %2$s</string>
@@ -928,7 +927,6 @@
     <string name="debts">Debts</string>
     <!-- When user want to delete a party for which debts are defined, we ask for confirmation. -->
     <string name="warning_party_delete_debt">When deleting this party, debts defined for it will be deleted as well.</string>
-    <string name="dialog_title_delete_debt">Delete debt?</string>
     <plurals name="debt_mapped_transactions">
         <item quantity="one">Debt "%1$s" has %2$d mapped transaction.</item>
         <item quantity="other">Debt "%1$s" has %2$d mapped transactions.</item>
@@ -969,8 +967,6 @@
     <string name="pref_csv_export_split_date_time_summary">Use separate columns for date and time</string>
     <!-- New feature in version 3.4.4 -->
     <string name="icons_for_categories">Icons for categories</string>
-    <!-- Shown after validation of a form below a required text field if user did not provide value -->
-    <string name="required">Required</string>
     <!-- This is the label for a checkbox allowing to modify a budget only for one period (year, month, week, day). %s will be replaced by the description of the period, e.g. August 2022 -->
     <string name="budget_only_current_period">Set only for %s</string>
     <!-- Rollover refers to the rollover of a budget from one period to the next, e.g. for a monthly budget from one month to the next. -->
@@ -1010,8 +1006,6 @@
     <string name="pref_backup_file_prefix_title">File prefix</string>
     <string name="optimize_image_file_size">Optimize image file size</string>
     <string name="maximum_size">Maximum size</string>
-    <string name="file_format">File Format</string>
-    <string name="image_optimize_quality">Quality</string>
     <string name="image_optimize_quality_summary">Quality of 0 means compress for the smallest size. 100 means compress for maximum visual quality.</string>
     <!-- Label in the launcher's widget selection for adding a shortcut for a single template  -->
     <string name="template_shortcut">Template shortcut</string>

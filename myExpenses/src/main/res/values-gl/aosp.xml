@@ -30,4 +30,7 @@
     <string name="password">"Contrasinal"</string>
     <string name="pixels">"píxeles"</string>
     <string name="frequency">"Frecuencia"</string>
+    <string name="required">"Necesario"</string>
+    <string name="file_format">"Formato de ficheiro"</string>
+    <string name="quality">"Calidade"</string>
 </resources>

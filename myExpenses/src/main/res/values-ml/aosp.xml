@@ -21,4 +21,6 @@
     <string name="password">"പാസ്‌വേഡ്"</string>
     <string name="pixels">"പിക്സലുകള്‍"</string>
     <string name="frequency">"ഫ്രീക്വൻസി"</string>
+    <string name="required">"ആവശ്യമായ"</string>
+    <string name="quality">"നിലവാരം"</string>
 </resources>

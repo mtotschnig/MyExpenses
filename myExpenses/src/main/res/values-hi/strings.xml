@@ -270,7 +270,6 @@
     <string name="pref_app_dir_title">बैकअप और निर्यात के लिए फ़ोल्डर</string>
     <string name="parse_error_grisbi_version_not_supported">असमर्थित ग्रिस्बी फ़ाइल संस्करण: %1$s</string>
     <string name="image_capture_not_installed">तस्वीर लेने के लिए कोई ऐप नहीं मिला।</string>
-    <string name="dialog_title_warning_delete_party">पार्टी हटाएं\?</string>
     <string name="no_mapped_transactions">इस अवधि के दौरान श्रेणियों के लिए कोई लेन-देन मैप नहीं किया गया है।</string>
     <string name="parse_error_parse_exception">फ़ाइल पार्स नहीं कर सका</string>
     <string name="plan_execution_canceled">योजना का क्रियान्वयन रद्द कर दिया गया</string>

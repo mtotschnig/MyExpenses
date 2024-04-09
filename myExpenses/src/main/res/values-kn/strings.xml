@@ -870,13 +870,11 @@
         <item quantity="one">%1$s ಸಾಲವು %2$d ಮ್ಯಾಪ್ ಮಾಡಿದ ವಹಿವಾಟನ್ನು ಹೊಂದಿದೆ.</item>
         <item quantity="other">%1$s ಸಾಲವು %2$d ಮ್ಯಾಪ್ ಮಾಡಿದ ವಹಿವಾಟುಗಳನ್ನು ಹೊಂದಿದೆ.</item>
     </plurals>
-    <string name="dialog_title_delete_debt">ಸಾಲವನ್ನು ಅಳಿಸುವುದೇ\?</string>
     <string name="warning_party_delete_debt">ಈ ಪಕ್ಷವನ್ನು ಅಳಿಸುವಾಗ, ಅದಕ್ಕೆ ವ್ಯಾಖ್ಯಾನಿಸಲಾದ ಸಾಲಗಳನ್ನು ಸಹ ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
     <string name="debts">ಸಾಲಗಳು</string>
     <string name="debt_I_owe">ನಾನು %s ಗೆ ಣಿಯಾಗಿದ್ದೇನೆ</string>
     <string name="debt_owes_me">%s ನನಗೆ ಣಿಯಾಗಿದೆ</string>
     <string name="menu_new_debt">ಹೊಸ ಸಾಲ</string>
-    <string name="dialog_title_warning_delete_party">ಪಾರ್ಟಿಯನ್ನು ಅಳಿಸುವುದೇ\?</string>
     <string name="cb_label_merge_accounts">ಖಾತೆಗಳನ್ನು ವಿಲೀನಗೊಳಿಸಿ</string>
     <string name="debt">ಸಾಲ</string>
     <string name="pref_mlkit_script_title">MlKit ಗಾಗಿ ಸ್ಕ್ರಿಪ್ಟ್</string>
@@ -903,7 +901,6 @@
     <string name="pref_debug_logging_share_summary">ಲಾಗ್ ಫೈಲ್‌ಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಿ</string>
     <string name="menu_parent_category_selection">ಶಾರ್ಟ್ ಟ್ಯಾಪ್‌ನಲ್ಲಿ ಪೋಷಕ ವರ್ಗವನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
     <string name="icons_for_categories">ವರ್ಗಗಳಿಗೆ ಚಿಹ್ನೆಗಳು</string>
-    <string name="required">ಅಗತ್ಯವಿದೆ</string>
     <string name="pref_csv_export_split_categories_summary">ವರ್ಗ ಶ್ರೇಣಿಯ ಪ್ರತಿ ಹಂತಕ್ಕೆ ಪ್ರತ್ಯೇಕ ಕಾಲಮ್‌ಗಳನ್ನು ಬಳಸಿ</string>
     <string name="pref_csv_export_split_amount_summary">ಆದಾಯ ಮತ್ತು ವೆಚ್ಚಗಳಿಗಾಗಿ ಪ್ರತ್ಯೇಕ ಕಾಲಮ್ಗಳನ್ನು ಬಳಸಿ</string>
     <string name="pref_csv_export_split_date_time_summary">ದಿನಾಂಕ ಮತ್ತು ಸಮಯಕ್ಕಾಗಿ ಪ್ರತ್ಯೇಕ ಕಾಲಮ್‌ಗಳನ್ನು ಬಳಸಿ</string>

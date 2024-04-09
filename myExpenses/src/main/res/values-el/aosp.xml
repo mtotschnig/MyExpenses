@@ -96,4 +96,7 @@
     <string name="password">"Κωδικός πρόσβασης"</string>
     <string name="pixels">"εικονοστοιχεία"</string>
     <string name="frequency">"Συχνότητα"</string>
+    <string name="required">"Απαιτείται"</string>
+    <string name="file_format">"Μορφή αρχείου"</string>
+    <string name="quality">"Ποιότητα"</string>
 </resources>

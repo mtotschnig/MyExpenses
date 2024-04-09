@@ -95,4 +95,6 @@
     <string name="password">"密碼"</string>
     <string name="pixels">"像素"</string>
     <string name="frequency">"頻率"</string>
+    <string name="required">"必要"</string>
+    <string name="quality">"品質"</string>
 </resources>

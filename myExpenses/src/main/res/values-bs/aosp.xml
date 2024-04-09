@@ -18,4 +18,6 @@
     <string name="password">"Lozinka"</string>
     <string name="pixels">"pikseli"</string>
     <string name="frequency">"Frekvencija"</string>
+    <string name="required">"Zahtijevano"</string>
+    <string name="quality">"Kvalitet"</string>
 </resources>

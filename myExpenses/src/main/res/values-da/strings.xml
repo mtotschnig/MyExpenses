@@ -456,7 +456,6 @@
     <string name="dialog_confirm_discard_changes">Kassér ændringer?</string>
     <string name="dialog_contrib_text_2">Bidrag venligst ved at opgradere <i>{app_name}</i>, og få ubegrænset adgang til følgende funktioner:</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Din nuværende licensstatus (%2$s) lader dig oprette %1$d konti.</string>
-    <string name="dialog_title_warning_delete_party">Slet parti?</string>
     <string name="image_capture_not_installed">Ingen app til at tage billeder.</string>
     <string name="pref_auto_fill_summary">Udfyld data fra sidste transaktion for samme modtager/betaler</string>
     <string name="pref_manage_sync_backends_summary">Føj backends til synkronisering af konti (%s).</string>
@@ -831,7 +830,6 @@
     <string name="debt_I_owe">Jeg skylder %s</string>
     <string name="debts">Gæld</string>
     <string name="warning_party_delete_debt">Når dette parti slettes, vil den gæld, der er angivet for den, også slettes.</string>
-    <string name="dialog_title_delete_debt">Slet gæld?</string>
     <string name="title_activity_debt_overview">Gældsoversigt</string>
     <string name="cb_label_merge_accounts">Flet konti</string>
     <string name="pref_mlkit_script_title">Script til MlKit</string>
@@ -876,9 +874,7 @@
     <string name="pref_csv_export_split_categories_summary">Brug separate kolonner for hvert niveau i kategorihierarkiet</string>
     <string name="default_transfer_category">Standard overførselskategori</string>
     <string name="icons_for_categories">Ikoner til kategorier</string>
-    <string name="required">Påkrævet</string>
     <string name="dialog_confirm_rollover_delete">Alle beløb for fremførsel for denne periode slettes.</string>
-    <string name="image_optimize_quality">Kvalitet</string>
     <string name="image_optimize_quality_summary">Kvalitet på 0 betyder komprimering til den mindste størrelse. 100 betyder komprimering til maksimal visuel kvalitet.</string>
     <string name="template_shortcut">Genvej til skabelon</string>
     <string name="notifications_permission_required_webui">Ved at give tilladelse til at sende notifikationer kan du kontrollere webserverens status.</string>
@@ -889,7 +885,6 @@
     <string name="budget_only_current_period">Indstil kun til %s</string>
     <string name="budget_table_header_rollover">Fremførsel</string>
     <string name="rollover_edit_invalid">Summen af fremførslen, der er tildelt en kategori, og de fremførsler, der er tildelt underkategorier, kan ikke overstige restbeløbet.</string>
-    <string name="file_format">Filformat</string>
     <string name="debt_paid_off_self">Min gæld er afbetalt.</string>
     <string name="passphrase_for_synchronization">Indtast en adgangssætning, hvis synkroniseringsdata på denne backend skal være krypteret.</string>
     <string name="account_widget_configuration_sum">Type af vist sum</string>

@@ -819,7 +819,6 @@
     <string name="pref_sync_changes_immediately_summary">Zapisuj lokalne zmiany natychmiast w zapleczu</string>
     <string name="scan_result_no_date">Nie znaleziono daty</string>
     <string name="button_relink_update_date">Data ponownego połączenia i aktualizacji</string>
-    <string name="file_format">Format pliku</string>
     <string name="warning_account_for_transaction_is_closed">Nie można edytować co najmniej jednej z wybranych transakcji:</string>
     <string name="content_description_dates_are_not_linked">Data rezerwacji i data wartości nie są aktualizowane razem</string>
     <string name="auto_fill_account_from_aggregate_only">Tylko w przypadku uruchomienia z konta zbiorczego.</string>
@@ -898,7 +897,6 @@
     <string name="template_default_action_without_amount_hint">Szablon bez kwoty należy zapisać z domyślną akcją „Edytuj”</string>
     <string name="debt_borrow_additional">Pożyczam %s.</string>
     <string name="language_download_requested">Tłumaczenia dla języka %s są wymagane w Sklepie Play</string>
-    <string name="required">Wymagana</string>
     <string name="notifications_permission_required_sync">Udzielając zgody na wysyłanie powiadomień, możesz monitorować postęp operacji synchronizacji.</string>
     <string name="content_description_attachment">Załącznik</string>
     <string name="debt_lend_additional">Udzielam pożyczki %s.</string>
@@ -913,7 +911,6 @@
     <string name="optimize_image_file_size">Zoptymalizuj rozmiar pliku obrazu</string>
     <string name="orphaned_transaction_info">Transakcja jest połączona z planem na tę datę, ale w tej dacie nie istnieje żadna instancja zdarzenia.</string>
     <string name="sync_backend_is_encrypted">Zdalny backend jest szyfrowany. Konieczne jest podanie hasła.</string>
-    <string name="dialog_title_warning_delete_party">Usunąć przyjęcie?</string>
     <string name="orphaned_transaction_align_date">Opcjonalnie data przechowywana w transakcji może być również wyrównana z datą wystąpienia.</string>
     <string name="stability_improvements" tools:ignore="UnusedResources">Poprawa stabilności</string>
     <string name="debt_balance_they_owe">%1$s teraz jest winien %2$s.</string>
@@ -927,7 +924,6 @@
     <string name="menu_tag">Tag</string>
     <string name="warning_delete_category_with_budget">Dla co najmniej jednej wybranej kategorii istnieją przydziały budżetowe, które również zostaną usunięte.</string>
     <string name="backup_save_to_sync_backend">Zapisz w %s</string>
-    <string name="image_optimize_quality">Jakość</string>
     <string name="budget_filter_all_states">Wszystkie statusy</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Przy aktualnym stanie licencji (%1$s) to okno dialogowe będzie wyświetlane przy każdym użyciu.</string>
     <string name="dialog_title_warning_delete_tag">Usunąć tag?</string>
@@ -954,7 +950,6 @@
     <string name="pref_planner_manual_time_current">Godzina złożenia wniosku</string>
     <string name="pref_purge_backup_keep_title">Maksymalna liczba najnowszych plików kopii zapasowych do zachowania</string>
     <string name="pref_copy_attachments_summary_off">Pliki nie są kopiowane, przechowywane jest tylko odniesienie.</string>
-    <string name="dialog_title_delete_debt">Usunąć dług?</string>
     <string name="webui_warning_move_transaction">Transakcja zostanie przeniesiona na konto {account}.</string>
     <string name="contrib_feature_category_tree_label">Drzewo kategorii</string>
     <string name="show_duplicates">Pokaż duplikaty</string>

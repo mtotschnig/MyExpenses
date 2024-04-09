@@ -96,4 +96,7 @@
     <string name="password">"Şifre"</string>
     <string name="pixels">"piksel"</string>
     <string name="frequency">"Sıklık"</string>
+    <string name="required">"Gerekli"</string>
+    <string name="file_format">"Dosya biçimi"</string>
+    <string name="quality">"Kalite"</string>
 </resources>

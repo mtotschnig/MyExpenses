@@ -225,7 +225,6 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                 manageParties.showSnackBar(message)
                             } else if (party.mappedDebts) {
                                 SimpleDialog.build()
-                                    .title(R.string.dialog_title_warning_delete_party)
                                     .extra(Bundle().apply {
                                         putLong(KEY_ROWID, party.id)
                                     })

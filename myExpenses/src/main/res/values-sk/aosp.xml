@@ -31,4 +31,6 @@
     <string name="password">"Heslo"</string>
     <string name="pixels">"pixely"</string>
     <string name="frequency">"Frekvencia"</string>
+    <string name="required">"Požadované"</string>
+    <string name="quality">"Kvalita"</string>
 </resources>

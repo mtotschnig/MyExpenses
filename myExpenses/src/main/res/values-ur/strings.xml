@@ -82,7 +82,6 @@
     </plurals>
     <string name="dialog_title_warning_delete_template">ٹیمپلیٹ کو حذف کریں؟</string>
     <string name="dialog_title_warning_delete_transaction">ٹرانزیکشن حذف کریں؟</string>
-    <string name="dialog_title_warning_delete_party">پارٹی کو حذف کریں؟</string>
     <string name="expense">خرچہ</string>
     <string name="export_sdcard_failure">فائل \"%1$s\" میں ایکسپورٹ ناکام ہو گیا: %2$s</string>
     <string name="export_sdcard_success">ڈیٹا کامیابی کے ساتھ فائل \"%1$s\" میں برآمد ہو گیا</string>
@@ -585,7 +584,6 @@
     <string name="debt_owes_me">%s میرا مقروض ہے</string>
     <string name="debt_I_owe">میں %s کا مقروض ہوں</string>
     <string name="debt">قرضہ</string>
-    <string name="dialog_title_delete_debt">قرض کو حذف کریں؟</string>
     <plurals name="debt_mapped_transactions">
         <item quantity="one">قرض %1$s میں %2$d میپ شدہ ٹرانزیکشن ہے.</item>
         <item quantity="other">قرض %1$s میں %2$d میپ شدہ ٹرانزیکشنز ہیں.</item>
@@ -745,7 +743,6 @@
     <string name="active_tags">ایکٹو ٹیگز</string>
     <string name="request_for_invoice">انوائس کی درخواست</string>
     <string name="auto_fill_focus">وصول کنندہ پر توجہ مرکوز کریں</string>
-    <string name="required">درکار ہے</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">آپ نے جو فولڈر منتخب کیا ہے وہ موجودہ بیک اینڈ کے ایک اکاؤنٹ سے مساوی ہے. اس بیک اینڈ کو دوبارہ استعمال کرنے کے لیے آپ کو اس کا پیرنٹ فولڈر منتخب کرنا ہوگا.</string>
     <string name="sync_io_exception_reset_account_data">ریموٹ اکاؤنٹ کو ری سیٹ کرتے وقت خرابی.</string>
     <string name="sync_io_exception_setup_remote_account">ریموٹ اکاؤنٹ ترتیب دیتے وقت خرابی.</string>

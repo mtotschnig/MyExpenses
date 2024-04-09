@@ -31,4 +31,6 @@
     <string name="password">"Salasana"</string>
     <string name="pixels">"kuvapistettä"</string>
     <string name="frequency">"Toistuvuus"</string>
+    <string name="required">"Vaadittu"</string>
+    <string name="quality">"Laatu"</string>
 </resources>

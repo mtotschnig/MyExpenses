@@ -58,4 +58,7 @@
     <string name="password">"Palavra-passe"</string>
     <string name="pixels">"pixeis"</string>
     <string name="frequency">"Frequência"</string>
+    <string name="required">"Necessário"</string>
+    <string name="file_format">"Formato de ficheiro"</string>
+    <string name="quality">"Qualidade"</string>
 </resources>

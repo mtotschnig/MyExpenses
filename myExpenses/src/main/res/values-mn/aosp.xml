@@ -23,4 +23,6 @@
     <string name="password">"Нууц үг"</string>
     <string name="pixels">"пиксел"</string>
     <string name="frequency">"Давтамж"</string>
+    <string name="required">"Шаардлагатай"</string>
+    <string name="quality">"Чанар"</string>
 </resources>

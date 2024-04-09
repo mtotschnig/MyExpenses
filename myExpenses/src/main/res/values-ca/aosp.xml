@@ -97,4 +97,7 @@
     <string name="password">"Contrasenya"</string>
     <string name="pixels">"píxels"</string>
     <string name="frequency">"Freqüència"</string>
+    <string name="required">"Necessari"</string>
+    <string name="file_format">"Format del fitxer"</string>
+    <string name="quality">"Qualitat"</string>
 </resources>

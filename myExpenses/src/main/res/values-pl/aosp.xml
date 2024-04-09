@@ -99,4 +99,7 @@
     <string name="password">"Hasło"</string>
     <string name="pixels">"piksele"</string>
     <string name="frequency">"Częstotliwość"</string>
+    <string name="required">"Wymagane"</string>
+    <string name="file_format">"Format pliku"</string>
+    <string name="quality">"Jakość"</string>
 </resources>

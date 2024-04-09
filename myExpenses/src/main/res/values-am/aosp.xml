@@ -29,4 +29,7 @@
     <string name="password">"የይለፍ ቃል"</string>
     <string name="pixels">"ፒክስሎች"</string>
     <string name="frequency">"ድግግሞሽ"</string>
+    <string name="required">"ያስፈልጋል"</string>
+    <string name="file_format">"የ ፋይል አቀራረብ"</string>
+    <string name="quality">"ጥራት"</string>
 </resources>

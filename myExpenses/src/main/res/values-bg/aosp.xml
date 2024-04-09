@@ -98,4 +98,7 @@
     <string name="password">"Парола"</string>
     <string name="pixels">"пиксела"</string>
     <string name="frequency">"Честота"</string>
+    <string name="required">"Задължителен"</string>
+    <string name="file_format">"Файлов формат"</string>
+    <string name="quality">"Качество"</string>
 </resources>

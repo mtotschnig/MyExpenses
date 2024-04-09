@@ -20,4 +20,6 @@
     <string name="username">"Корисничко име"</string>
     <string name="password">"Лозинка"</string>
     <string name="frequency">"Зачестеност"</string>
+    <string name="required">"Потребно"</string>
+    <string name="quality">"Квалитет"</string>
 </resources>

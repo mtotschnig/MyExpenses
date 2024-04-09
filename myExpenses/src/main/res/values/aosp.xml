@@ -168,4 +168,10 @@
     <string name="pixels">"pixels"</string>
     <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri "\"running_frequency\"" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/running_//' | aosp_helper -->
     <string name="frequency">"Frequency"</string>
+    <!-- LibreOffice extensions/message.po JFffE -->
+    <string name="required">"Required"</string>
+    <!-- LibreOffice helpcontent2/source/text/swriter/01.po WEPwT -->
+    <string name="file_format">File Format</string>
+    <!-- LibreOffice sd/messages.po PUgsP -->
+    <string name="quality">"Qualität"</string>
 </resources>

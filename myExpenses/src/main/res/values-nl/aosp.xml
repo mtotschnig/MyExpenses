@@ -93,4 +93,7 @@
     <string name="password">"Wachtwoord"</string>
     <string name="pixels">"pixels"</string>
     <string name="frequency">"Frequentie"</string>
+    <string name="required">"Vereist"</string>
+    <string name="file_format">"Bestandsformaat"</string>
+    <string name="quality">"Kwaliteit"</string>
 </resources>

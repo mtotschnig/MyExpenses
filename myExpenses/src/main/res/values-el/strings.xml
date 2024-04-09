@@ -742,7 +742,6 @@
     <string name="object_sealed_debt">Το αντικείμενο αναφέρεται σε κλειστό χρέος.</string>
     <string name="debt_I_owe">Χρωστάω %s</string>
     <string name="debts">Χρέη</string>
-    <string name="dialog_title_delete_debt">Διαγραφή χρέους;</string>
     <string name="warning_delete_category_with_budget">Για τουλάχιστον μία επιλεγμένη κατηγορία, υπάρχουν πιστώσεις προϋπολογισμού, οι οποίες θα διαγραφούν επίσης.</string>
     <string name="onboarding_ui_title">Το {app_name} προσαρμόζεται στις προτιμήσεις σας</string>
     <string name="split_transaction_not_possible">Μόνο οι συναλλαγές που έχουν τον ίδιο λογαριασμό, δικαιούχο πληρωμής και κατάσταση μπορούν να ομαδοποιηθούν σε μία συναλλαγή διαίρεσης.</string>
@@ -911,7 +910,6 @@
     <string name="notifications_permission_required_webui">Χορηγώντας την άδεια αποστολής ειδοποιήσεων, μπορείτε να ελέγξετε την κατάσταση του διακομιστή ιστού.</string>
     <string name="pref_attachment_mime_types_title">Επιτρεπόμενοι τύποι MIME για συνημμένα</string>
     <string name="button_relink_update_date">Επανασύνδεση και ενημέρωση ημερομηνίας</string>
-    <string name="file_format">Μορφή Αρχείου</string>
     <string name="widget_title_budget">Ο προϋπολογισμός μου</string>
     <string name="pref_mlkit_script_title">Δέσμη ενεργειών για το MlKit</string>
     <string name="pref_copy_attachments_summary_on">Τα αρχεία αντιγράφονται στο φάκελο της εφαρμογής.</string>
@@ -939,7 +937,6 @@
     <string name="purge_backups">Τα ακόλουθα παλιά αρχεία αντιγράφων ασφαλείας θα διαγραφούν:</string>
     <string name="image_optimize_quality_summary">Ποιότητα 0 σημαίνει συμπίεση για το μικρότερο μέγεθος. 100 σημαίνει συμπίεση για μέγιστη οπτική ποιότητα.</string>
     <string name="debt_borrow_additional">Δανείζομαι %s.</string>
-    <string name="required">Απαιτείται</string>
     <string name="notifications_permission_required_sync">Χορηγώντας την άδεια αποστολής ειδοποιήσεων, μπορείτε να παρακολουθείτε την πρόοδο των λειτουργιών συγχρονισμού.</string>
     <string name="content_description_attachment">Συνημμένο</string>
     <string name="debt_lend_additional">Δανείζω %s.</string>
@@ -947,13 +944,11 @@
     <string name="rollover_edit_invalid">Το άθροισμα των μετακυλίσεων που αντιστοιχούν σε μια κατηγορία και των μετακυλίσεων που αντιστοιχούν σε υποκατηγορίες δεν μπορεί να υπερβαίνει το υπόλοιπο.</string>
     <string name="optimize_image_file_size">Βελτιστοποίηση μεγέθους αρχείου εικόνας</string>
     <string name="orphaned_transaction_info">Μια συναλλαγή συνδέεται με το πρόγραμμα για αυτήν την ημερομηνία, αλλά δεν υπάρχει συμβάν σε αυτή την ημερομηνία.</string>
-    <string name="dialog_title_warning_delete_party">Διαγραφή μέρους;</string>
     <string name="orphaned_transaction_align_date">Προαιρετικά, η ημερομηνία που είναι αποθηκευμένη για τη συναλλαγή μπορεί επίσης να ευθυγραμμιστεί με την ημερομηνία του συμβάντος.</string>
     <string name="debt_balance_they_owe">Ο/Η %1$s τώρα χρωστάει %2$s.</string>
     <string name="pref_debug_logging_share_summary">Κοινή χρήση αρχείων καταγραφής</string>
     <string name="debt_installment_pay">Πληρώνω μια δόση ύψους %s.</string>
     <string name="notifications_permission_required_planner">Το <i>{app_name}</i> χρειάζεται άδεια για να σας στέλνει ειδοποιήσεις, όταν θα δημοσιεύονται μελλοντικές συναλλαγές.</string>
-    <string name="image_optimize_quality">Ποιότητα</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Με την τρέχουσα κατάσταση της άδειάς σας (%1$s), αυτός ο διάλογος θα εμφανίζεται σε κάθε χρήση.</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">υπολογίζονται ως έξοδα / έσοδα</string>
     <string name="pref_csv_export_split_amount_summary">Χρήση ξεχωριστών στηλών για έσοδα και έξοδα</string>

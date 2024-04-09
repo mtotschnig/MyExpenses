@@ -902,13 +902,11 @@
         <item quantity="one">Задължението %1$s има %2$d отнесена транзакция.</item>
         <item quantity="other">Задължението %1$s има %2$d отнесени транзакции.</item>
     </plurals>
-    <string name="dialog_title_delete_debt">Да се изтрие ли задължението\?</string>
     <string name="warning_party_delete_debt">При изтриване на страна, задълженията дефинирани към нея също ще бъдат изтрити.</string>
     <string name="debts">Задължения</string>
     <string name="debt_owes_me">%s ми се длъжат</string>
     <string name="debt_I_owe">Дължа %s</string>
     <string name="menu_new_debt">Ново задължение</string>
-    <string name="dialog_title_warning_delete_party">Да изтрия ли тази страна\?</string>
     <string name="debt">Дълг</string>
     <string name="title_activity_debt_overview">Преглед на дълга</string>
     <string name="cb_label_merge_accounts">Всичко в една сметка</string>
@@ -943,7 +941,6 @@
     <string name="budget_table_header_rollover">Пренасяне на суми</string>
     <string name="dialog_confirm_rollover_delete">Всички суми за пренасяне за тоси период ще бъдат изтрити.</string>
     <string name="rollover_edit_invalid">Сборът от сумите за пренасяне, зададени по категория и подкатегории, не може да надвишава остатъка.</string>
-    <string name="required">Задължително</string>
     <string name="content_description_attachment">Прикачено</string>
     <string name="redesign">Редизайн</string>
     <string name="select_all_list_too_large">Командата %s не е достъпна, защото списъка е зареден частично. Моля, използвайте функциите за Търсене, за да намалите размера на списъка.</string>
@@ -966,8 +963,6 @@
     <string name="debt_balance_they_owe">%1$s сега дължи %2$s.</string>
     <string name="pref_backup_file_prefix_title">Префикс на името</string>
     <string name="image_optimize_quality_summary">Качество 0 означава компресиране до минимален размер. 100 е компресиране с максимално видимо качество.</string>
-    <string name="file_format">Формат на файла</string>
-    <string name="image_optimize_quality">Качество</string>
     <string name="maximum_size">Максимален размер</string>
     <string name="optimize_image_file_size">Оптимизиране размера на файла на изображение</string>
     <string name="select_template">Избор на шаблон</string>

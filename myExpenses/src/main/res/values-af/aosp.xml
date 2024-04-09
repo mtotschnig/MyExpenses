@@ -29,4 +29,6 @@
     <string name="password">"Wagwoord"</string>
     <string name="pixels">"pixels"</string>
     <string name="frequency">"Frekwensie"</string>
+    <string name="required">"Vereis"</string>
+    <string name="quality">"Gehalte"</string>
 </resources>

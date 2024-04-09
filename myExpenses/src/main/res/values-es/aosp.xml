@@ -97,4 +97,7 @@
     <string name="password">"Contraseña"</string>
     <string name="pixels">"píxeles"</string>
     <string name="frequency">"Frecuencia"</string>
+    <string name="required">"Requerido"</string>
+    <string name="file_format">"Formato de archivo"</string>
+    <string name="quality">"Calidad"</string>
 </resources>

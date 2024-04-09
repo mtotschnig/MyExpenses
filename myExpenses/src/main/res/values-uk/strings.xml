@@ -284,7 +284,7 @@
     <string name="pref_security_question_summary">Дозволяє розблокувати програму, якщо ви забули свій пароль.</string>
     <string name="pref_security_question_title">Контрольне запитання</string>
     <string name="pref_send_feedback_title">Надіслати відгук</string>
-    <string name="pref_share_target_summary">Залиште порожнім, якщо потрібно вибрати між відповідними програми (Email, Dropbox, Google Docs, ...) або вкажіть URL-адресу з однією із підтримуваних схем</string>
+    <string name="pref_share_target_summary">Залиште порожнім, якщо потрібно вибрати між відповідними програми (Email, Dropbox, Google Docs, …) або вкажіть URL-адресу з однією із підтримуваних схем</string>
     <string name="pref_share_target_title">URL для завантаження</string>
     <string name="pref_shortcut_added">Ярлик було додано до Головного Екрана</string>
     <string name="pref_shortcut_not_added">Немає Головного Екрану, який би підтримув ярлики.</string>
@@ -784,7 +784,6 @@
     <string name="pref_ocr_time_formats_title">Формати часу</string>
     <string name="pref_criterion_future_current">Поточний час</string>
     <string name="dialog_contrib_usage_limit_with_dialog">З вашим поточним статусом ліцензії (%1$s) цей діалог відображатиметься під час кожного використання.</string>
-    <string name="dialog_title_warning_delete_party">Видалити партію\?</string>
     <string name="contrib_feature_category_tree_label">Дерево категорıй</string>
     <string name="dialog_title_warning_delete_category">Видалити категорію\?</string>
     <string name="select_payee">Виберіть платника/отримувача</string>
@@ -803,7 +802,6 @@
     <string name="menu_reopen">Перевідкрити</string>
     <string name="menu_new_debt">Новий борг</string>
     <string name="debt_I_owe">Я винен %s</string>
-    <string name="dialog_title_delete_debt">Видалити борг\?</string>
     <string name="debts">Борги</string>
     <string name="content_description_closed">Зачинено</string>
     <string name="translated_by">Переклали</string>
@@ -916,11 +914,9 @@
     <string name="content_description_attachment">Вкладення</string>
     <string name="notifications_permission_required_sync">Надавши дозвіл на надсилання сповіщень, ви можете контролювати хід виконання синхронізації.</string>
     <string name="notifications_permission_required_auto_backup">Надавши дозвіл на надсилання сповіщень, ви будете проінформовані про автоматичне резервне копіювання.</string>
-    <string name="file_format">Формат файлу</string>
     <string name="pref_backup_file_prefix_title">Префікс файлу</string>
     <string name="optimize_image_file_size">Оптимізація розміру файлу зображення</string>
     <string name="redesign">Редизайн</string>
-    <string name="image_optimize_quality">Якість</string>
     <string name="debt_paid_off_self">Мій борг погашено.</string>
     <string name="debt_installment_pay">Я сплачую розтермінування в розмірі %s.</string>
     <string name="debt_installment_receive">Я отримую розстрочку %s.</string>
@@ -953,7 +949,6 @@
     <string name="menu_unlink_transfer">Від\'єднати переказ</string>
     <string name="warning_unlink_transfer">Вибраний переказ буде від’єднано: його замінять звичайні транзакції в обох рахунках.</string>
     <string name="menu_transform_to_transfer">Перетворити в переказ</string>
-    <string name="required">Обов\'язково</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">враховуються як витрати/доходи</string>
     <string name="dialog_title_purge_backups">Очистити старі резервні копії</string>
     <string name="read_from_data">Читати з даних</string>

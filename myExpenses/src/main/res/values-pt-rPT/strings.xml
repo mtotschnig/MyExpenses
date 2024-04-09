@@ -827,7 +827,6 @@
     </plurals>
     <string name="pref_purge_backup_require_confirmation_summary">Exibir mensagem de confirmação antes de purgar ficheiros</string>
     <string name="pref_purge_backup_keep_title">Quantidade máxima de backups recentes a serem preservados</string>
-    <string name="dialog_title_warning_delete_party">Apagar parceiro\?</string>
     <string name="warning_link_transfer">As duas transações selecionadas serão vinculadas como uma transferência. As informações de beneficiário/pagador e da categoria serão descartadas.</string>
     <string name="account_widget_configuration_sum_total">Incluir transações futuras</string>
     <string name="account_widget_configuration">Configuração do widget de conta</string>
@@ -839,7 +838,6 @@
     <string name="backup_save_to_sync_backend">Gravar em %s</string>
     <string name="stability_improvements" tools:ignore="UnusedResources">Melhorias de estabilidade</string>
     <string name="debt">Dívida</string>
-    <string name="dialog_title_delete_debt">Apagar a dívida\?</string>
     <string name="object_sealed_debt">O objeto refere-se a uma dívida encerrada.</string>
     <string name="debt_managment">Gestão de dívidas</string>
     <string name="title_activity_debt_overview">Visão geral da dívida</string>
@@ -859,7 +857,6 @@
     <string name="pref_csv_export_split_categories_summary">Usa colunas separadas para cada nível da hierarquia de categoria</string>
     <string name="pref_csv_export_split_amount_summary">Usa colunas separadas para receitas e despesas</string>
     <string name="pref_csv_export_split_date_time_summary">Usa colunas separadas para data e hora</string>
-    <string name="required">Obrigatório</string>
     <string name="budget_only_current_period">Definido somente para %s</string>
     <string name="budget_table_header_rollover">Prorrogar</string>
     <string name="rollover_edit_invalid">A soma da prorrogação atribuída a uma categoria e das prorrogações atribuídas às subcategorias não pode exceder o restante.</string>

@@ -99,4 +99,7 @@
     <string name="password">"Пароль"</string>
     <string name="pixels">"пикс."</string>
     <string name="frequency">"Как часто используется"</string>
+    <string name="required">"Необходимо"</string>
+    <string name="file_format">"Формат файла"</string>
+    <string name="quality">"Качество"</string>
 </resources>

@@ -912,13 +912,11 @@
         <item quantity="many">La dette %1$s a %2$d transactions mappées.</item>
         <item quantity="other">La dette %1$s a %2$d transactions mappées.</item>
     </plurals>
-    <string name="dialog_title_delete_debt">Supprimer la dette \?</string>
     <string name="warning_party_delete_debt">En supprimant cette partie, les dettes définies pour elle seront également supprimées.</string>
     <string name="debts">Dettes</string>
     <string name="debt_I_owe">Je dois à %s</string>
     <string name="debt_owes_me">%s me doit</string>
     <string name="menu_new_debt">Nouvelle dette</string>
-    <string name="dialog_title_warning_delete_party">Supprimer la partie \?</string>
     <string name="debt">Dette</string>
     <string name="title_activity_debt_overview">Aperçu de la dette</string>
     <string name="cb_label_merge_accounts">Fusionner les comptes</string>
@@ -952,7 +950,6 @@
     <string name="pref_csv_export_split_amount_summary">Utiliser des colonnes distinctes pour les revenus et les dépenses</string>
     <string name="pref_csv_export_split_date_time_summary">Utiliser des colonnes distinctes pour la date et l\'heure</string>
     <string name="icons_for_categories">Icônes pour les catégories</string>
-    <string name="required">Obligatoire</string>
     <string name="rollover_edit_invalid">La somme du report attribué à une catégorie et des reports attribués aux sous-catégories ne peut pas dépasser le reliquat.</string>
     <string name="budget_only_current_period">Définir uniquement pour %s</string>
     <string name="budget_table_header_rollover">Report</string>
@@ -980,8 +977,6 @@
     <string name="pref_backup_file_prefix_title">Préfixe du fichier</string>
     <string name="optimize_image_file_size">Optimiser la taille du fichier image</string>
     <string name="maximum_size">Taille maximale</string>
-    <string name="file_format">Format de fichier</string>
-    <string name="image_optimize_quality">Qualité</string>
     <string name="image_optimize_quality_summary">Une qualité de 0 signifie qu\'il faut compresser pour obtenir la taille la plus petite possible. 100 signifie qu\'il faut compresser pour obtenir une qualité visuelle maximale.</string>
     <string name="add_shortcut">Ajouter le raccourci</string>
     <string name="template_shortcut">Raccourci Modèle</string>

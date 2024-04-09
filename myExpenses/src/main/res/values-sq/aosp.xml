@@ -22,4 +22,6 @@
     <string name="password">"Fjalëkalimi"</string>
     <string name="pixels">"piksel"</string>
     <string name="frequency">"Frekuenca"</string>
+    <string name="required">"Kërkohet"</string>
+    <string name="quality">"Cilësia"</string>
 </resources>

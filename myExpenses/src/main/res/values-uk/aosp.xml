@@ -98,4 +98,7 @@
     <string name="password">"Пароль"</string>
     <string name="pixels">"пікселів"</string>
     <string name="frequency">"Як часто працює додаток"</string>
+    <string name="required">"Необхідно"</string>
+    <string name="file_format">"Формат файлу"</string>
+    <string name="quality">"Якість"</string>
 </resources>

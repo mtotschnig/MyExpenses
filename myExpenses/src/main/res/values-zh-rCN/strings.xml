@@ -884,7 +884,6 @@
     <string name="pref_news_title">新闻</string>
     <string name="debt_managment">债务管理</string>
     <string name="dialog_title_purge_backups">清除旧备份</string>
-    <string name="dialog_title_delete_debt">删除债务？</string>
     <string name="debt">债务</string>
     <string name="debts">债务</string>
     <plurals name="import_categories_icons_updated">
@@ -910,7 +909,6 @@
     <string name="pref_debug_logging_share_summary">分享日志文件</string>
     <string name="contrib_feature_category_tree_label" tools:ignore="UnusedResources">类别树</string>
     <string name="dialog_contrib_usage_limit_with_dialog">当前的许可证状态（%1$s）下，每次使用都将显示此对话框。</string>
-    <string name="dialog_title_warning_delete_party">删除交易对象？</string>
     <string name="menu_parent_category_selection">短按选择父类别</string>
     <string name="object_sealed_debt">对象是指已关闭的债务。</string>
     <string name="title_activity_debt_overview">债务概览</string>
@@ -922,7 +920,6 @@
     <string name="budget_only_current_period">仅为“%s”设置</string>
     <string name="rollover_edit_invalid">分配给一个类别的展期数额和分配给子类别的展期数额之和不能超过余额。</string>
     <string name="budget_table_header_rollover">展期</string>
-    <string name="required">必填</string>
     <string name="dialog_confirm_rollover_delete">此期间的所有展期金额将被删除。</string>
     <string name="icons_for_categories">类别图标</string>
     <string name="pref_csv_export_split_categories_summary">每个类别层次结构级别单独一列</string>

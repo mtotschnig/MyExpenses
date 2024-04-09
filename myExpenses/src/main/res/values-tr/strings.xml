@@ -902,13 +902,11 @@
     </plurals>
     <string name="debt_managment">Borç yönetimi</string>
     <string name="object_sealed_debt">Nesne kapalı bir borca atıfta bulunmaktadır.</string>
-    <string name="dialog_title_delete_debt">Borç silinsin mi\?</string>
     <string name="warning_party_delete_debt">Bu taraf silinirken kendisine tanımlanan borçlar da silinecektir.</string>
     <string name="debts">Borçlar</string>
     <string name="debt_I_owe">%s\'e borcum var</string>
     <string name="debt_owes_me">%s bana borçlu</string>
     <string name="menu_new_debt">Yeni borç</string>
-    <string name="dialog_title_warning_delete_party">Taraf silinsin mi\?</string>
     <string name="debt">Borç</string>
     <string name="title_activity_debt_overview">Borç Genel Görünümü</string>
     <string name="pref_mlkit_script_title">MlKit için alfabe</string>
@@ -939,7 +937,6 @@
     <string name="pref_csv_export_split_categories_summary">Kategori hiyerarşisinin her seviyesi için ayrı sütunlar kullanın</string>
     <string name="pref_csv_export_split_date_time_summary">Tarih ve saat için ayrı sütunlar kullanın</string>
     <string name="icons_for_categories">Kategoriler için simgeler</string>
-    <string name="required">Gerekli</string>
     <string name="rollover_edit_invalid">Bir kategoriye atanan devreden ile alt kategorilere atanan devredenlerin toplamı kalanı geçemez.</string>
     <string name="dialog_confirm_rollover_delete">Bu dönem için tüm devreden tutarları silinecektir.</string>
     <string name="budget_only_current_period">Yalnızca %s için ayarla</string>
@@ -965,10 +962,8 @@
     <string name="debt_paid_off_self">Borcum ödendi.</string>
     <string name="debt_balance_they_owe">%1$s şimdi %2$s borçlu.</string>
     <string name="pref_backup_file_prefix_title">Dosya ön eki</string>
-    <string name="file_format">Dosya Biçimi</string>
     <string name="image_optimize_quality_summary">Niteliğin 0 olması, en küçük boyut için sıkıştırma anlamına gelir. 100 en yüksek görsel kalite için sıkıştırma anlamına gelir.</string>
     <string name="maximum_size">Azami boyut</string>
-    <string name="image_optimize_quality">Nitelik</string>
     <string name="optimize_image_file_size">Resim dosyası boyutunu iyileştir</string>
     <string name="add_shortcut">Kısayol ekle</string>
     <string name="select_template">Şablon seç</string>

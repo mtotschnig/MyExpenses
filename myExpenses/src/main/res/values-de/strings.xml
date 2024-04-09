@@ -902,13 +902,11 @@
         <item quantity="one">Schuld %1$s hat %2$d zugeordnete Buchung.</item>
         <item quantity="other">Schuld %1$s hat %2$d zugeordnete Buchungen.</item>
     </plurals>
-    <string name="dialog_title_delete_debt">Schulden löschen\?</string>
     <string name="warning_party_delete_debt">Wenn Sie diese Partei löschen, werden auch die für sie definierten Schulden gelöscht.</string>
     <string name="debts">Schulden</string>
     <string name="debt_I_owe">Ich schulde %s</string>
     <string name="debt_owes_me">%s schuldet mir</string>
     <string name="menu_new_debt">Neue Schuld</string>
-    <string name="dialog_title_warning_delete_party">Partei löschen\?</string>
     <string name="debt">Schuld</string>
     <string name="title_activity_debt_overview">Schuldenübersicht</string>
     <string name="pref_mlkit_script_title">Skript für MlKit</string>
@@ -939,7 +937,6 @@
     <string name="pref_csv_export_split_date_time_summary">Verwendung getrennter Spalten für Datum und Zeit</string>
     <string name="webui_warning_move_transaction">Die Buchung wird in das Konto {Konto} verschoben.</string>
     <string name="icons_for_categories">Symbole für Kategorien</string>
-    <string name="required">Erforderlich</string>
     <string name="budget_table_header_rollover">Übertrag</string>
     <string name="dialog_confirm_rollover_delete">Für diesen Zeitraum werden alle Überträge gelöscht.</string>
     <string name="budget_only_current_period">Nur für %s einstellen</string>
@@ -967,8 +964,6 @@
     <string name="pref_backup_file_prefix_title">Präfix der Datei</string>
     <string name="optimize_image_file_size">Optimieren der Bilddateigröße</string>
     <string name="maximum_size">Maximale Größe</string>
-    <string name="file_format">Dateiformat</string>
-    <string name="image_optimize_quality">Qualität</string>
     <string name="image_optimize_quality_summary">Qualität von 0 bedeutet Komprimierung für die kleinste Größe. 100 bedeutet Komprimierung für maximale visuelle Qualität.</string>
     <string name="add_shortcut">Verknüpfung hinzufügen</string>
     <string name="template_shortcut">Vorlagen-Verknüpfung</string>

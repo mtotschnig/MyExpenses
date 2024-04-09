@@ -22,4 +22,6 @@
     <string name="password">"Iphasiwedi"</string>
     <string name="pixels">"Ama-pixel"</string>
     <string name="frequency">"Imvamisa"</string>
+    <string name="required">"Okudingekayo"</string>
+    <string name="quality">"Ikhethelo"</string>
 </resources>

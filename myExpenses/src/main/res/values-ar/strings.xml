@@ -959,12 +959,10 @@
     </plurals>
     <string name="budget_table_header_overspent">إسراف في الإنفاق</string>
     <string name="purge_backups">سيتم حذف ملفات النسخ الاحتياطي القديمة التالية:</string>
-    <string name="dialog_title_warning_delete_party">حذف الطرف ؟</string>
     <string name="debts">ديون</string>
     <string name="dialog_contrib_usage_limit_with_dialog">مع حالة الترخيص الحالية (%1$s)، سيتم عرض هذا الحوار عند كل استخدام.</string>
     <string name="cb_label_merge_accounts">دمج الحسابات</string>
     <string name="debt_I_owe">أنا مدين %s</string>
-    <string name="dialog_title_delete_debt">حذف الدين ؟</string>
     <string name="menu_new_debt">دين جديد</string>
     <plurals name="import_categories_icons_updated">
         <item quantity="zero">تم تحديث فئة واحدة بالأيقونة</item>
@@ -992,7 +990,6 @@
     <string name="notifications_permission_required_webui">من خلال منح الإذن بإرسال الإشعارات، يمكنك التحكم في حالة خادم الويب.</string>
     <string name="pref_attachment_mime_types_title">أنواع MIME المسموح بها للمرفقات</string>
     <string name="button_relink_update_date">إعادة الارتباط وتحديث التاريخ</string>
-    <string name="file_format">تنسيق الملف</string>
     <string name="widget_title_budget">ميزانيتي</string>
     <string name="pref_copy_attachments_summary_on">يتم نسخ الملفات إلى مجلد التطبيق.</string>
     <string name="database_is_encrypted">قاعدة البيانات مشفرة.</string>
@@ -1015,7 +1012,6 @@
     <string name="pref_csv_export_split_categories_summary">استخدم أعمدة منفصلة لكل مستوى من مستويات التسلسل الهرمي للفئة</string>
     <string name="image_optimize_quality_summary">الجودة 0 تعني الضغط لأصغر حجم , 100 يعني الضغط للحصول على أقصى جودة بصرية.</string>
     <string name="debt_borrow_additional">أنا أقترض %s.</string>
-    <string name="required">مطلوب</string>
     <string name="notifications_permission_required_sync">ومن خلال منح الإذن بإرسال الإشعارات، يمكنك مراقبة تقدم عمليات المزامنة.</string>
     <string name="content_description_attachment">مرفق</string>
     <string name="debt_lend_additional">أنا أقرض %s.</string>
@@ -1027,7 +1023,6 @@
     <string name="pref_debug_logging_share_summary">توضيح المطالبة قبل حذف الملفات</string>
     <string name="debt_installment_pay">أدفع قسطًا قدره %s.</string>
     <string name="notifications_permission_required_planner">يحتاج <i>{app_name}</i> إلى إذن لإرسال إشعارات إليك عند نشر المعاملات المستقبلية.</string>
-    <string name="image_optimize_quality">النوعية</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">يتم احتسابها كمصروفات / دخل</string>
     <string name="pref_csv_export_split_amount_summary">استخدام أعمدة منفصلة للدخل والنفقات</string>
     <string name="debt_balance_i_owe">أنا مدين الآن بـ %s.</string>

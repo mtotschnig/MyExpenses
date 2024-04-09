@@ -30,4 +30,6 @@
     <string name="password">"Aðgangsorð"</string>
     <string name="pixels">"mynddílar"</string>
     <string name="frequency">"Tíðni"</string>
+    <string name="required">"Nauðsynlegt"</string>
+    <string name="quality">"Gæði"</string>
 </resources>

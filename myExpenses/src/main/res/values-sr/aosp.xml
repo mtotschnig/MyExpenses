@@ -13,4 +13,5 @@
     <string name="password">"Лозинка"</string>
     <string name="pixels">pixels"</string>
     <string name="frequency">"Учесталост"</string>
+    <string name="required">"Потребан"</string>
 </resources>

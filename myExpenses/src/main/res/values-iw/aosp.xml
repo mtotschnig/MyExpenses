@@ -90,4 +90,6 @@
     <string name="password">"סיסמה"</string>
     <string name="pixels">"פיקסלים"</string>
     <string name="frequency">"תדירות"</string>
+    <string name="required">"נדרש"</string>
+    <string name="quality">"איכות"</string>
 </resources>

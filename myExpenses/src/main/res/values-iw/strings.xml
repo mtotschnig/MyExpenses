@@ -913,10 +913,8 @@
         <item quantity="other">לחוב %1$s יש %2$d העברות ממופות.</item>
     </plurals>
     <string name="warning_party_delete_debt">מחיקת הגוף תוביל גם למחיקת החובות שמוגדרים מולו.</string>
-    <string name="dialog_title_warning_delete_party">למחוק גוף\?</string>
     <string name="debt_managment">ניהול חובות</string>
     <string name="object_sealed_debt">הפריט מתייחס לחוב שנסגר.</string>
-    <string name="dialog_title_delete_debt">למחוק חוב\?</string>
     <string name="debts">חובות</string>
     <string name="debt_I_owe">חוב ממני לטובת %s</string>
     <string name="debt_owes_me">חוב כלפי מצד %s</string>
@@ -954,7 +952,6 @@
     <string name="pref_csv_export_split_amount_summary">להשתמש בעמודות נפרדות להכנסות והוצאות</string>
     <string name="pref_csv_export_split_date_time_summary">להשתמש בעמודות נפרדות לתאריך ולשעה</string>
     <string name="icons_for_categories">סמלים לקטגוריות</string>
-    <string name="required">חובה</string>
     <string name="budget_only_current_period">להגדיר רק עבור %s</string>
     <string name="budget_table_header_rollover">גלגול</string>
     <string name="dialog_confirm_rollover_delete">כל סכומי הגלגול לתקופה זו יימחקו.</string>
@@ -982,7 +979,6 @@
     <string name="pref_backup_file_prefix_title">קידומת קובץ</string>
     <string name="optimize_image_file_size">מיטוב גודל קובץ התמונה</string>
     <string name="file_format">סוג קובץ</string>
-    <string name="image_optimize_quality">איכות</string>
     <string name="image_optimize_quality_summary">איכות 0 זה למעשה דחיסה לגודל המזערי ביותר. 100 זאת דחיסה לאיכות החזותית הגבוהה ביותר.</string>
     <string name="maximum_size">גודל מרבי</string>
     <string name="add_shortcut">הוספת קיצור דרך</string>

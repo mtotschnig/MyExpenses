@@ -95,4 +95,7 @@
     <string name="password">"Pasahitza"</string>
     <string name="pixels">"pixel"</string>
     <string name="frequency">"Maiztasuna"</string>
+    <string name="required">"Beharrezkoa"</string>
+    <string name="file_format">"Fitxategi-formatua"</string>
+    <string name="quality">"Kalitatea"</string>
 </resources>
