@@ -959,7 +959,6 @@
     </plurals>
     <string name="budget_table_header_overspent">إسراف في الإنفاق</string>
     <string name="purge_backups">سيتم حذف ملفات النسخ الاحتياطي القديمة التالية:</string>
-    <string name="dialog_title_warning_delete_party">حذف الطرف ؟</string>
     <string name="debts">ديون</string>
     <string name="dialog_contrib_usage_limit_with_dialog">مع حالة الترخيص الحالية (%1$s)، سيتم عرض هذا الحوار عند كل استخدام.</string>
     <string name="cb_label_merge_accounts">دمج الحسابات</string>

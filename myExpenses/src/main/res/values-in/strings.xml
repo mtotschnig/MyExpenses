@@ -186,7 +186,6 @@
     <string name="dialog_remind_rate_2">Komentar Anda memungkinkan kami untuk terus menambahkan perbaikan dan peningkatan.</string>
     <string name="expense">Pengeluaran</string>
     <string name="dialog_title_warning_delete_template">Hapus template\?</string>
-    <string name="dialog_title_warning_delete_party">Hapus pesta\?</string>
     <string name="dialog_remind_rate_1_suggest_improvement">Mohon luangkan waktu sejenak untuk mengirimkan saran Anda untuk perbaikan.</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Dengan status lisensi Anda saat ini (%1$s), dialog ini akan ditampilkan pada setiap penggunaan.</string>
     <string name="dialog_title_information">Informasi</string>

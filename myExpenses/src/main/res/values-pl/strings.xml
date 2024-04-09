@@ -913,7 +913,6 @@
     <string name="optimize_image_file_size">Zoptymalizuj rozmiar pliku obrazu</string>
     <string name="orphaned_transaction_info">Transakcja jest połączona z planem na tę datę, ale w tej dacie nie istnieje żadna instancja zdarzenia.</string>
     <string name="sync_backend_is_encrypted">Zdalny backend jest szyfrowany. Konieczne jest podanie hasła.</string>
-    <string name="dialog_title_warning_delete_party">Usunąć przyjęcie?</string>
     <string name="orphaned_transaction_align_date">Opcjonalnie data przechowywana w transakcji może być również wyrównana z datą wystąpienia.</string>
     <string name="stability_improvements" tools:ignore="UnusedResources">Poprawa stabilności</string>
     <string name="debt_balance_they_owe">%1$s teraz jest winien %2$s.</string>

@@ -908,7 +908,6 @@
     <string name="debt_owes_me">%s ми се длъжат</string>
     <string name="debt_I_owe">Дължа %s</string>
     <string name="menu_new_debt">Ново задължение</string>
-    <string name="dialog_title_warning_delete_party">Да изтрия ли тази страна\?</string>
     <string name="debt">Дълг</string>
     <string name="title_activity_debt_overview">Преглед на дълга</string>
     <string name="cb_label_merge_accounts">Всичко в една сметка</string>

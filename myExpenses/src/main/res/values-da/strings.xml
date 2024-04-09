@@ -456,7 +456,6 @@
     <string name="dialog_confirm_discard_changes">Kassér ændringer?</string>
     <string name="dialog_contrib_text_2">Bidrag venligst ved at opgradere <i>{app_name}</i>, og få ubegrænset adgang til følgende funktioner:</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Din nuværende licensstatus (%2$s) lader dig oprette %1$d konti.</string>
-    <string name="dialog_title_warning_delete_party">Slet parti?</string>
     <string name="image_capture_not_installed">Ingen app til at tage billeder.</string>
     <string name="pref_auto_fill_summary">Udfyld data fra sidste transaktion for samme modtager/betaler</string>
     <string name="pref_manage_sync_backends_summary">Føj backends til synkronisering af konti (%s).</string>

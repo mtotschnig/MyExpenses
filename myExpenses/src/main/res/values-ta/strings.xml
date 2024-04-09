@@ -907,7 +907,6 @@
     <string name="object_sealed_debt">பொருள் ஒரு மூடப்பட்ட கணக்கைக் குறிக்கிறது.</string>
     <string name="title_activity_debt_overview">கடன் கண்ணோட்டம்</string>
     <string name="cb_label_merge_accounts">கணக்குகளை ஒன்றிணை</string>
-    <string name="dialog_title_warning_delete_party">தரப்பை நீக்கவா\?</string>
     <string name="menu_new_debt">புதிய கடன்</string>
     <string name="debts">கடன்கள்</string>
     <string name="debt_I_owe">நான் %s-க்கு கடன்பட்டிருக்கிறேன்</string>

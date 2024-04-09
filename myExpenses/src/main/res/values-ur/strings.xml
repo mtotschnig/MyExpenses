@@ -82,7 +82,6 @@
     </plurals>
     <string name="dialog_title_warning_delete_template">ٹیمپلیٹ کو حذف کریں؟</string>
     <string name="dialog_title_warning_delete_transaction">ٹرانزیکشن حذف کریں؟</string>
-    <string name="dialog_title_warning_delete_party">پارٹی کو حذف کریں؟</string>
     <string name="expense">خرچہ</string>
     <string name="export_sdcard_failure">فائل \"%1$s\" میں ایکسپورٹ ناکام ہو گیا: %2$s</string>
     <string name="export_sdcard_success">ڈیٹا کامیابی کے ساتھ فائل \"%1$s\" میں برآمد ہو گیا</string>

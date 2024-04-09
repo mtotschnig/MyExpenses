@@ -947,7 +947,6 @@
     <string name="rollover_edit_invalid">Το άθροισμα των μετακυλίσεων που αντιστοιχούν σε μια κατηγορία και των μετακυλίσεων που αντιστοιχούν σε υποκατηγορίες δεν μπορεί να υπερβαίνει το υπόλοιπο.</string>
     <string name="optimize_image_file_size">Βελτιστοποίηση μεγέθους αρχείου εικόνας</string>
     <string name="orphaned_transaction_info">Μια συναλλαγή συνδέεται με το πρόγραμμα για αυτήν την ημερομηνία, αλλά δεν υπάρχει συμβάν σε αυτή την ημερομηνία.</string>
-    <string name="dialog_title_warning_delete_party">Διαγραφή μέρους;</string>
     <string name="orphaned_transaction_align_date">Προαιρετικά, η ημερομηνία που είναι αποθηκευμένη για τη συναλλαγή μπορεί επίσης να ευθυγραμμιστεί με την ημερομηνία του συμβάντος.</string>
     <string name="debt_balance_they_owe">Ο/Η %1$s τώρα χρωστάει %2$s.</string>
     <string name="pref_debug_logging_share_summary">Κοινή χρήση αρχείων καταγραφής</string>

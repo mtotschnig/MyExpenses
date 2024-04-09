@@ -106,7 +106,6 @@
     <string name="dialog_title_warning_delete_category">Delete category?</string>
     <string name="dialog_title_warning_delete_template">Delete template?</string>
     <string name="dialog_title_warning_delete_transaction">Delete transaction?</string>
-    <string name="dialog_title_warning_delete_party">Delete party?</string>
     <string name="expense">Expense</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">Export to file \"%1$s\" failed: %2$s</string>

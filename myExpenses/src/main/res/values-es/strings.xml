@@ -927,7 +927,6 @@
     <string name="cb_label_merge_accounts">Combinar cuentas</string>
     <string name="debts">Deudas</string>
     <string name="pref_mlkit_script_title">Guion para MlKit</string>
-    <string name="dialog_title_warning_delete_party">¿Borrar cuenta\?</string>
     <string name="dialog_title_purge_backups">Purgar copias de seguridad antiguas</string>
     <string name="pref_purge_backup_keep_title">Número máximo de copias de seguridad recientes a conservar</string>
     <plurals name="purge_backup_success">

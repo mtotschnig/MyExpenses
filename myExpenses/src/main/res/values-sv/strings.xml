@@ -208,7 +208,6 @@
     <string name="select">Välj</string>
     <string name="reference_number">Referensnummer</string>
     <string name="menu_grouping">Gruppering</string>
-    <string name="dialog_title_warning_delete_party">Ta bort parti?</string>
     <string name="payer_or_payee">Betalningsmottagare/Betalare</string>
     <string name="warning_widget_disabled">Du behöver aktivera den här widgeten i appens inställningar.</string>
     <string name="save_transaction_error">Kunde inte spara nya transaktionen från mallen.</string>

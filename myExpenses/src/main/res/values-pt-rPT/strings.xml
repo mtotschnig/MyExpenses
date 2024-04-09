@@ -827,7 +827,6 @@
     </plurals>
     <string name="pref_purge_backup_require_confirmation_summary">Exibir mensagem de confirmação antes de purgar ficheiros</string>
     <string name="pref_purge_backup_keep_title">Quantidade máxima de backups recentes a serem preservados</string>
-    <string name="dialog_title_warning_delete_party">Apagar parceiro\?</string>
     <string name="warning_link_transfer">As duas transações selecionadas serão vinculadas como uma transferência. As informações de beneficiário/pagador e da categoria serão descartadas.</string>
     <string name="account_widget_configuration_sum_total">Incluir transações futuras</string>
     <string name="account_widget_configuration">Configuração do widget de conta</string>
