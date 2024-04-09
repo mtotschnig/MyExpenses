@@ -915,7 +915,6 @@
     <string name="warning_party_delete_debt">מחיקת הגוף תוביל גם למחיקת החובות שמוגדרים מולו.</string>
     <string name="debt_managment">ניהול חובות</string>
     <string name="object_sealed_debt">הפריט מתייחס לחוב שנסגר.</string>
-    <string name="dialog_title_delete_debt">למחוק חוב\?</string>
     <string name="debts">חובות</string>
     <string name="debt_I_owe">חוב ממני לטובת %s</string>
     <string name="debt_owes_me">חוב כלפי מצד %s</string>

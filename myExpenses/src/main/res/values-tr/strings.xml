@@ -902,7 +902,6 @@
     </plurals>
     <string name="debt_managment">Borç yönetimi</string>
     <string name="object_sealed_debt">Nesne kapalı bir borca atıfta bulunmaktadır.</string>
-    <string name="dialog_title_delete_debt">Borç silinsin mi\?</string>
     <string name="warning_party_delete_debt">Bu taraf silinirken kendisine tanımlanan borçlar da silinecektir.</string>
     <string name="debts">Borçlar</string>
     <string name="debt_I_owe">%s\'e borcum var</string>

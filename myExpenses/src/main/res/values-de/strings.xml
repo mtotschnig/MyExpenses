@@ -902,7 +902,6 @@
         <item quantity="one">Schuld %1$s hat %2$d zugeordnete Buchung.</item>
         <item quantity="other">Schuld %1$s hat %2$d zugeordnete Buchungen.</item>
     </plurals>
-    <string name="dialog_title_delete_debt">Schulden löschen\?</string>
     <string name="warning_party_delete_debt">Wenn Sie diese Partei löschen, werden auch die für sie definierten Schulden gelöscht.</string>
     <string name="debts">Schulden</string>
     <string name="debt_I_owe">Ich schulde %s</string>

@@ -838,7 +838,6 @@
         <item quantity="few">Dug %1$s ima %2$d mapirane transakcije.</item>
         <item quantity="other">Dug %1$s ima %2$d mapiranih transakcija.</item>
     </plurals>
-    <string name="dialog_title_delete_debt">Izbrisati dug\?</string>
     <string name="debts">Dugovi</string>
     <string name="debt_I_owe">Ja dugujem %s</string>
     <string name="debt_owes_me">%s mi duguje</string>

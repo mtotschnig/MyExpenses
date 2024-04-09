@@ -883,7 +883,6 @@
     <string name="account_widget_configuration">Настройка виджета счета</string>
     <string name="debt_managment">Управление долгом</string>
     <string name="object_sealed_debt">Объект относится к закрытому долгу.</string>
-    <string name="dialog_title_delete_debt">Удалить долг\?</string>
     <string name="debts">Долги</string>
     <string name="debt_I_owe">Я должен %s</string>
     <string name="debt_owes_me">%s должен мне</string>

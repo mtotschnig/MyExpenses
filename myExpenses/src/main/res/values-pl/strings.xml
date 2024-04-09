@@ -953,7 +953,6 @@
     <string name="pref_planner_manual_time_current">Godzina złożenia wniosku</string>
     <string name="pref_purge_backup_keep_title">Maksymalna liczba najnowszych plików kopii zapasowych do zachowania</string>
     <string name="pref_copy_attachments_summary_off">Pliki nie są kopiowane, przechowywane jest tylko odniesienie.</string>
-    <string name="dialog_title_delete_debt">Usunąć dług?</string>
     <string name="webui_warning_move_transaction">Transakcja zostanie przeniesiona na konto {account}.</string>
     <string name="contrib_feature_category_tree_label">Drzewo kategorii</string>
     <string name="show_duplicates">Pokaż duplikaty</string>

@@ -785,7 +785,6 @@
         <item quantity="one">%1$s రుణానికి %2$d మ్యాప్ చేసిన లావాదేవీ ఉంది.</item>
         <item quantity="other">%1$s రుణానికి %2$d మ్యాప్ చేయబడిన లావాదేవీలు ఉన్నాయి.</item>
     </plurals>
-    <string name="dialog_title_delete_debt">రుణాన్ని తొలగించాలా\?</string>
     <string name="warning_party_delete_debt">ఈ పార్టీని తొలగించేటప్పుడు, దాని కోసం నిర్వచించబడిన అప్పులు కూడా తొలగించబడతాయి.</string>
     <string name="debts">అప్పులు</string>
     <string name="debt_I_owe">నేను %s కి రుణపడి ఉన్నాను</string>

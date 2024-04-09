@@ -838,7 +838,6 @@
     <string name="backup_save_to_sync_backend">Gravar em %s</string>
     <string name="stability_improvements" tools:ignore="UnusedResources">Melhorias de estabilidade</string>
     <string name="debt">Dívida</string>
-    <string name="dialog_title_delete_debt">Apagar a dívida\?</string>
     <string name="object_sealed_debt">O objeto refere-se a uma dívida encerrada.</string>
     <string name="debt_managment">Gestão de dívidas</string>
     <string name="title_activity_debt_overview">Visão geral da dívida</string>

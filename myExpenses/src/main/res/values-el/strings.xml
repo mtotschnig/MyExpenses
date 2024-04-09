@@ -742,7 +742,6 @@
     <string name="object_sealed_debt">Το αντικείμενο αναφέρεται σε κλειστό χρέος.</string>
     <string name="debt_I_owe">Χρωστάω %s</string>
     <string name="debts">Χρέη</string>
-    <string name="dialog_title_delete_debt">Διαγραφή χρέους;</string>
     <string name="warning_delete_category_with_budget">Για τουλάχιστον μία επιλεγμένη κατηγορία, υπάρχουν πιστώσεις προϋπολογισμού, οι οποίες θα διαγραφούν επίσης.</string>
     <string name="onboarding_ui_title">Το {app_name} προσαρμόζεται στις προτιμήσεις σας</string>
     <string name="split_transaction_not_possible">Μόνο οι συναλλαγές που έχουν τον ίδιο λογαριασμό, δικαιούχο πληρωμής και κατάσταση μπορούν να ομαδοποιηθούν σε μία συναλλαγή διαίρεσης.</string>

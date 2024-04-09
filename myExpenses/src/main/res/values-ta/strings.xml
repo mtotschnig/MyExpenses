@@ -896,7 +896,6 @@
     <string name="debt_managment">கடன் மேலாண்மை</string>
     <string name="debt">கடன்</string>
     <string name="warning_party_delete_debt">இந்த தரப்பை நீக்கும்போது, அவருடன் தொடர்புடைய கடன்களும் நீக்கப்படும்.</string>
-    <string name="dialog_title_delete_debt">கடனை நீக்கவா\?</string>
     <string name="pref_mlkit_script_title">MlKit க்கான ஸ்கிரிப்ட்</string>
     <plurals name="import_categories_icons_updated">
         <item quantity="one">ஒரு வகை சின்னத்துடன் புதுப்பிக்கப்பட்டது.</item>

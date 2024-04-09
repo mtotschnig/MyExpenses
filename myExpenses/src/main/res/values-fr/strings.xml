@@ -912,7 +912,6 @@
         <item quantity="many">La dette %1$s a %2$d transactions mappées.</item>
         <item quantity="other">La dette %1$s a %2$d transactions mappées.</item>
     </plurals>
-    <string name="dialog_title_delete_debt">Supprimer la dette \?</string>
     <string name="warning_party_delete_debt">En supprimant cette partie, les dettes définies pour elle seront également supprimées.</string>
     <string name="debts">Dettes</string>
     <string name="debt_I_owe">Je dois à %s</string>

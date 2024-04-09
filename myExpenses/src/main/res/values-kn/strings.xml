@@ -870,7 +870,6 @@
         <item quantity="one">%1$s ಸಾಲವು %2$d ಮ್ಯಾಪ್ ಮಾಡಿದ ವಹಿವಾಟನ್ನು ಹೊಂದಿದೆ.</item>
         <item quantity="other">%1$s ಸಾಲವು %2$d ಮ್ಯಾಪ್ ಮಾಡಿದ ವಹಿವಾಟುಗಳನ್ನು ಹೊಂದಿದೆ.</item>
     </plurals>
-    <string name="dialog_title_delete_debt">ಸಾಲವನ್ನು ಅಳಿಸುವುದೇ\?</string>
     <string name="warning_party_delete_debt">ಈ ಪಕ್ಷವನ್ನು ಅಳಿಸುವಾಗ, ಅದಕ್ಕೆ ವ್ಯಾಖ್ಯಾನಿಸಲಾದ ಸಾಲಗಳನ್ನು ಸಹ ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
     <string name="debts">ಸಾಲಗಳು</string>
     <string name="debt_I_owe">ನಾನು %s ಗೆ ಣಿಯಾಗಿದ್ದೇನೆ</string>

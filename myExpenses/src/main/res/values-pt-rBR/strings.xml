@@ -914,7 +914,6 @@
         <item quantity="many">A dívida %1$s tem %2$d transações mapeadas.</item>
         <item quantity="other">A dívida %1$s tem %2$d transações mapeadas.</item>
     </plurals>
-    <string name="dialog_title_delete_debt">Excluir a dívida\?</string>
     <string name="warning_party_delete_debt">Ao excluir esse parceiro, as dívidas associadas a ele serão excluídas também.</string>
     <string name="debts">Dívidas</string>
     <string name="debt_I_owe">Eu devo para %s</string>

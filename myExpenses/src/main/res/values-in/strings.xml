@@ -104,7 +104,6 @@
     <string name="synchronization">Sinkronisasi</string>
     <string name="hint_url">URL</string>
     <string name="synchronization_none">Tidak ada sinkronisasi</string>
-    <string name="dialog_title_delete_debt">Hapus utang\?</string>
     <string name="debts">Utang</string>
     <string name="debt_I_owe">Saya berutang %s</string>
     <string name="debt_owes_me">%s berutang padaku</string>

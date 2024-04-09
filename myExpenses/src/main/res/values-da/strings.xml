@@ -830,7 +830,6 @@
     <string name="debt_I_owe">Jeg skylder %s</string>
     <string name="debts">Gæld</string>
     <string name="warning_party_delete_debt">Når dette parti slettes, vil den gæld, der er angivet for den, også slettes.</string>
-    <string name="dialog_title_delete_debt">Slet gæld?</string>
     <string name="title_activity_debt_overview">Gældsoversigt</string>
     <string name="cb_label_merge_accounts">Flet konti</string>
     <string name="pref_mlkit_script_title">Script til MlKit</string>

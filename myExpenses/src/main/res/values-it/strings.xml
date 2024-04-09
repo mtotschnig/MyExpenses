@@ -908,7 +908,6 @@
         <item quantity="one">Il debito %1$s ha una transazione mappata %2$d.</item>
         <item quantity="other">Il debito %1$s ha %2$d transazioni mappate.</item>
     </plurals>
-    <string name="dialog_title_delete_debt">Cancellare il debito\?</string>
     <string name="warning_party_delete_debt">Quando si elimina questa parte, anche i debiti definiti per essa saranno eliminati.</string>
     <string name="debts">Debiti</string>
     <string name="debt_I_owe">Devo %s</string>

@@ -909,7 +909,6 @@
     <string name="debt_I_owe">Yo debo %s</string>
     <string name="debt_owes_me">Me deben %s</string>
     <string name="debt">Deuda</string>
-    <string name="dialog_title_delete_debt">¿Eliminar deuda\?</string>
     <plurals name="debt_mapped_transactions">
         <item quantity="one">La deuda %1$s tiene %2$d transacciones asignadas.</item>
         <item quantity="many">Las deudas %1$s tienen %2$d transacciones asignadas.</item>

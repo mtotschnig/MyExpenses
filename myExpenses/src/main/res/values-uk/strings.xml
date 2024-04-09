@@ -802,7 +802,6 @@
     <string name="menu_reopen">Перевідкрити</string>
     <string name="menu_new_debt">Новий борг</string>
     <string name="debt_I_owe">Я винен %s</string>
-    <string name="dialog_title_delete_debt">Видалити борг\?</string>
     <string name="debts">Борги</string>
     <string name="content_description_closed">Зачинено</string>
     <string name="translated_by">Переклали</string>

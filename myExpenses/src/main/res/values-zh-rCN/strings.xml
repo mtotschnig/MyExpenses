@@ -884,7 +884,6 @@
     <string name="pref_news_title">新闻</string>
     <string name="debt_managment">债务管理</string>
     <string name="dialog_title_purge_backups">清除旧备份</string>
-    <string name="dialog_title_delete_debt">删除债务？</string>
     <string name="debt">债务</string>
     <string name="debts">债务</string>
     <plurals name="import_categories_icons_updated">
