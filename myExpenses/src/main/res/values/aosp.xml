@@ -172,4 +172,6 @@
     <string name="required">"Required"</string>
     <!-- LibreOffice helpcontent2/source/text/swriter/01.po WEPwT -->
     <string name="file_format">File Format</string>
+    <!-- LibreOffice sd/messages.po PUgsP -->
+    <string name="quality">"Qualität"</string>
 </resources>

@@ -924,7 +924,6 @@
     <string name="menu_tag">Tag</string>
     <string name="warning_delete_category_with_budget">Dla co najmniej jednej wybranej kategorii istnieją przydziały budżetowe, które również zostaną usunięte.</string>
     <string name="backup_save_to_sync_backend">Zapisz w %s</string>
-    <string name="image_optimize_quality">Jakość</string>
     <string name="budget_filter_all_states">Wszystkie statusy</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Przy aktualnym stanie licencji (%1$s) to okno dialogowe będzie wyświetlane przy każdym użyciu.</string>
     <string name="dialog_title_warning_delete_tag">Usunąć tag?</string>

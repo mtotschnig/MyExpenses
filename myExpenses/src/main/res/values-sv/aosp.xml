@@ -33,4 +33,5 @@
     <string name="frequency">"Frekvens"</string>
     <string name="required">"Obligatoriskt"</string>
     <string name="file_format">"Filformat"</string>
+    <string name="quality">"Kvalité"</string>
 </resources>

@@ -917,7 +917,6 @@
     <string name="pref_backup_file_prefix_title">Префікс файлу</string>
     <string name="optimize_image_file_size">Оптимізація розміру файлу зображення</string>
     <string name="redesign">Редизайн</string>
-    <string name="image_optimize_quality">Якість</string>
     <string name="debt_paid_off_self">Мій борг погашено.</string>
     <string name="debt_installment_pay">Я сплачую розтермінування в розмірі %s.</string>
     <string name="debt_installment_receive">Я отримую розстрочку %s.</string>

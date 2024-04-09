@@ -91,4 +91,5 @@
     <string name="frequency">"빈도"</string>
     <string name="required">"필요"</string>
     <string name="file_format">"파일 형식"</string>
+    <string name="quality">"품질"</string>
 </resources>

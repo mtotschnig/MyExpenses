@@ -22,4 +22,5 @@
     <string name="password">"ລະຫັດຜ່ານ"</string>
     <string name="frequency">"ຄວາມຖີ່"</string>
     <string name="required">"ຕ້ອງການ"</string>
+    <string name="quality">"ຄວາມລະອຽດ"</string>
 </resources>

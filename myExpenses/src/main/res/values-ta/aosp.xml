@@ -90,4 +90,5 @@
     <string name="frequency">"அலைவரிசை"</string>
     <string name="required">"தேவை"</string>
     <string name="file_format">"கோப்பு வடிவூட்டம்"</string>
+    <string name="quality">"தரம்"</string>
 </resources>

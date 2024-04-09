@@ -908,7 +908,6 @@
     <string name="pref_backup_file_prefix_title">Prefiks datoteke</string>
     <string name="content_description_remove_icon">Ukloni ikonu</string>
     <string name="file_format">Datotečni format</string>
-    <string name="image_optimize_quality">Kvaliteta</string>
     <string name="maximum_size">Maksimalna veličina</string>
     <string name="orphaned_transaction_align_date">S transakcijom spremljeni datum se opcionalno može uskladiti i s datumom instance.</string>
     <string name="orphaned_transaction_info">Transakcija je povezana s planom za ovaj datum, ali na ovaj datum ne postoji nijedna instanca događaja.</string>

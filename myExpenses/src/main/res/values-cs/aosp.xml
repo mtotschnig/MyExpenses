@@ -101,4 +101,5 @@
     <string name="frequency">"Frekvence"</string>
     <string name="required">"Vyžadováno"</string>
     <string name="file_format">"Formát souboru"</string>
+    <string name="quality">"Kvalita"</string>
 </resources>

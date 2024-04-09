@@ -1006,7 +1006,6 @@
     <string name="pref_backup_file_prefix_title">File prefix</string>
     <string name="optimize_image_file_size">Optimize image file size</string>
     <string name="maximum_size">Maximum size</string>
-    <string name="image_optimize_quality">Quality</string>
     <string name="image_optimize_quality_summary">Quality of 0 means compress for the smallest size. 100 means compress for maximum visual quality.</string>
     <!-- Label in the launcher's widget selection for adding a shortcut for a single template  -->
     <string name="template_shortcut">Template shortcut</string>

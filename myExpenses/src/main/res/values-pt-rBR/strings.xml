@@ -978,7 +978,6 @@
     <string name="notifications_permission_required_planner"><i>{app_name}</i> necessita da sua permissão para enviar notificações, quando futuras transações forem publicadas.</string>
     <string name="notifications_permission_required_webui">Ao conceder a permissão para enviar notificações, você pode controlar o status do servidor web.</string>
     <string name="notifications_permission_required_sync">Ao conceder a permissão para enviar notificações, você pode monitorar o andamento das operações de sincronização.</string>
-    <string name="image_optimize_quality">Qualidade</string>
     <string name="optimize_image_file_size">Otimizar o tamanho do arquivo de imagem</string>
     <string name="maximum_size">Tamanho máximo</string>
     <string name="select_template">Seleção do modelo</string>

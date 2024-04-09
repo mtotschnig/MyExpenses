@@ -102,4 +102,5 @@
     <string name="frequency">"معدل الاستخدام"</string>
     <string name="required">"مطلوب"</string>
     <string name="file_format">تنسيق الملف</string>
+    <string name="quality">"الجودة"</string>
 </resources>

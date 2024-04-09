@@ -949,7 +949,6 @@
     <string name="pref_debug_logging_share_summary">Κοινή χρήση αρχείων καταγραφής</string>
     <string name="debt_installment_pay">Πληρώνω μια δόση ύψους %s.</string>
     <string name="notifications_permission_required_planner">Το <i>{app_name}</i> χρειάζεται άδεια για να σας στέλνει ειδοποιήσεις, όταν θα δημοσιεύονται μελλοντικές συναλλαγές.</string>
-    <string name="image_optimize_quality">Ποιότητα</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Με την τρέχουσα κατάσταση της άδειάς σας (%1$s), αυτός ο διάλογος θα εμφανίζεται σε κάθε χρήση.</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">υπολογίζονται ως έξοδα / έσοδα</string>
     <string name="pref_csv_export_split_amount_summary">Χρήση ξεχωριστών στηλών για έσοδα και έξοδα</string>

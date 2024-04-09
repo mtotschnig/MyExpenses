@@ -875,7 +875,6 @@
     <string name="default_transfer_category">Standard overførselskategori</string>
     <string name="icons_for_categories">Ikoner til kategorier</string>
     <string name="dialog_confirm_rollover_delete">Alle beløb for fremførsel for denne periode slettes.</string>
-    <string name="image_optimize_quality">Kvalitet</string>
     <string name="image_optimize_quality_summary">Kvalitet på 0 betyder komprimering til den mindste størrelse. 100 betyder komprimering til maksimal visuel kvalitet.</string>
     <string name="template_shortcut">Genvej til skabelon</string>
     <string name="notifications_permission_required_webui">Ved at give tilladelse til at sende notifikationer kan du kontrollere webserverens status.</string>

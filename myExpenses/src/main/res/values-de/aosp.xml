@@ -98,4 +98,5 @@
     <string name="frequency">"Häufigkeit"</string>
     <string name="required">"Erforderlich"</string>
     <string name="file_format">"Dateiformat"</string>
+    <string name="quality">"Qualität"</string>
 </resources>

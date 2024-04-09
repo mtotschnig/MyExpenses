@@ -25,4 +25,5 @@
     <string name="frequency">"Dažnis"</string>
     <string name="required">"Reikalinga"</string>
     <string name="file_format">"Failo formatas"</string>
+    <string name="quality">"Spalva"</string>
 </resources>

@@ -33,4 +33,5 @@
     <string name="frequency">"Frekuensi"</string>
     <string name="required">"Diperlukan"</string>
     <string name="file_format">"Format berkas"</string>
+    <string name="quality">"Kualitas"</string>
 </resources>

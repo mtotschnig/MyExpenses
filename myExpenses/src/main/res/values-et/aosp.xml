@@ -33,4 +33,5 @@
     <string name="frequency">"Sagedus"</string>
     <string name="required">"Nõutav"</string>
     <string name="file_format">"Failivorming"</string>
+    <string name="quality">"Kvaliteet"</string>
 </resources>

@@ -99,4 +99,5 @@
     <string name="frequency">"Hyppighed"</string>
     <string name="required">"Nødvendig"</string>
     <string name="file_format">"Filformat"</string>
+    <string name="quality">"Kvalitet"</string>
 </resources>
