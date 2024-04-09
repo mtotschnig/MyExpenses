@@ -26,4 +26,11 @@
     <string name="cab_create_template_from_transaction_help_text">Angiv en ny skabelon baseret på den valgte transaktion. Vil bede dig om titlen på skabelonen.</string>
     <string name="cab_clone_transaction_help_text">De valgte transaktioner klones med den aktuelle dato og klokkeslæt. Du kan foretage ændringer, før du gemmer kopien.</string>
     <string name="cab_link_help_text">En udgift på en konto kan forbindes med en indtægt på en anden konto. Hvis kontiene har samme valuta, skal de to transaktioner have identiske beløb.</string>
+    <string name="help_ManageParties_mergeMode_info_2">Du bliver bedt om at vælge, hvilken variant du vil beholde.</string>
+    <string name="help_ManageParties_select_mapping_info">Vælg et parti ved at trykke på det.</string>
+    <string name="help_ManageParties_floating_action_button">Brug den flydende handlingsknap til at tilføje en ny post.</string>
+    <string name="help_ManageParties_select_filter_info">Vælg alle de partier, du vil bruge til at filtrere transaktionslisten.</string>
+    <string name="help_fab_confirm_selection">Brug den flydende handlingsknap til at bekræfte valget.</string>
+    <string name="menu_merge_help_text">Hvis det samme parti optræder flere gange på listen med forskellige stavevarianter, kan du flette dem.</string>
+    <string name="help_ManageParties_mergeMode_info_1">Vælg de duplikerede partier, du vil flette.</string>
 </resources>
