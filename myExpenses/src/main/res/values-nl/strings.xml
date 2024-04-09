@@ -539,7 +539,6 @@
     </plurals>
     <string name="webui_warning_move_transaction">De transactie wordt verplaatst naar rekening {rekening}.</string>
     <string name="pref_csv_export_split_amount_summary">Gebruik aparte kolommen voor inkomsten en uitgaven</string>
-    <string name="required">Vereist</string>
     <string name="budget_table_header_rollover">Omrollen</string>
     <string name="redesign">Herontwerp</string>
     <string name="select_all_list_too_large">De opdracht %s is niet beschikbaar omdat de lijst slechts gedeeltelijk is geladen. Gebruik de zoekfunctie om de lijstgrootte te verkleinen.</string>

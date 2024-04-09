@@ -98,4 +98,5 @@
     <string name="password">"Jelszó"</string>
     <string name="pixels">"képpont"</string>
     <string name="frequency">"Gyakoriság"</string>
+    <string name="required">"Szükséges"</string>
 </resources>

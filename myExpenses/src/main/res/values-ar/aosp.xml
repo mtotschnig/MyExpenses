@@ -100,4 +100,5 @@
     <string name="password">"كلمة المرور"</string>
     <string name="pixels">"بكسل"</string>
     <string name="frequency">"معدل الاستخدام"</string>
+    <string name="required">"مطلوب"</string>
 </resources>

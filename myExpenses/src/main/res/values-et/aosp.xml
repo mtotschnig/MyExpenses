@@ -31,4 +31,5 @@
     <string name="password">"Parool"</string>
     <string name="pixels">"pikslit"</string>
     <string name="frequency">"Sagedus"</string>
+    <string name="required">"Nõutav"</string>
 </resources>

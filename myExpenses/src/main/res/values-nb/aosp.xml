@@ -29,4 +29,5 @@
     <string name="password">"Passord"</string>
     <string name="pixels">"bildepunkter"</string>
     <string name="frequency">"Frekvens"</string>
+    <string name="required">"Nødvendig"</string>
 </resources>

@@ -874,7 +874,6 @@
     <string name="pref_csv_export_split_categories_summary">Brug separate kolonner for hvert niveau i kategorihierarkiet</string>
     <string name="default_transfer_category">Standard overførselskategori</string>
     <string name="icons_for_categories">Ikoner til kategorier</string>
-    <string name="required">Påkrævet</string>
     <string name="dialog_confirm_rollover_delete">Alle beløb for fremførsel for denne periode slettes.</string>
     <string name="image_optimize_quality">Kvalitet</string>
     <string name="image_optimize_quality_summary">Kvalitet på 0 betyder komprimering til den mindste størrelse. 100 betyder komprimering til maksimal visuel kvalitet.</string>

@@ -94,4 +94,5 @@
     <string name="password">"Mật khẩu"</string>
     <string name="pixels">"Điểm ảnh"</string>
     <string name="frequency">"Tần suất"</string>
+    <string name="required">"Cần thiết"</string>
 </resources>

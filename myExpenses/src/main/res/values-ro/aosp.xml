@@ -91,4 +91,5 @@
     <string name="password">"Parolă"</string>
     <string name="pixels">"pixeli"</string>
     <string name="frequency">"Frecvență"</string>
+    <string name="required">"Necesar"</string>
 </resources>

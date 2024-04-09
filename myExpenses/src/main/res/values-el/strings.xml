@@ -938,7 +938,6 @@
     <string name="purge_backups">Τα ακόλουθα παλιά αρχεία αντιγράφων ασφαλείας θα διαγραφούν:</string>
     <string name="image_optimize_quality_summary">Ποιότητα 0 σημαίνει συμπίεση για το μικρότερο μέγεθος. 100 σημαίνει συμπίεση για μέγιστη οπτική ποιότητα.</string>
     <string name="debt_borrow_additional">Δανείζομαι %s.</string>
-    <string name="required">Απαιτείται</string>
     <string name="notifications_permission_required_sync">Χορηγώντας την άδεια αποστολής ειδοποιήσεων, μπορείτε να παρακολουθείτε την πρόοδο των λειτουργιών συγχρονισμού.</string>
     <string name="content_description_attachment">Συνημμένο</string>
     <string name="debt_lend_additional">Δανείζω %s.</string>

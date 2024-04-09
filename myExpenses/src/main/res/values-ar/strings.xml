@@ -1013,7 +1013,6 @@
     <string name="pref_csv_export_split_categories_summary">استخدم أعمدة منفصلة لكل مستوى من مستويات التسلسل الهرمي للفئة</string>
     <string name="image_optimize_quality_summary">الجودة 0 تعني الضغط لأصغر حجم , 100 يعني الضغط للحصول على أقصى جودة بصرية.</string>
     <string name="debt_borrow_additional">أنا أقترض %s.</string>
-    <string name="required">مطلوب</string>
     <string name="notifications_permission_required_sync">ومن خلال منح الإذن بإرسال الإشعارات، يمكنك مراقبة تقدم عمليات المزامنة.</string>
     <string name="content_description_attachment">مرفق</string>
     <string name="debt_lend_additional">أنا أقرض %s.</string>

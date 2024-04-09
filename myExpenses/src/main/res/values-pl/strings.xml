@@ -898,7 +898,6 @@
     <string name="template_default_action_without_amount_hint">Szablon bez kwoty należy zapisać z domyślną akcją „Edytuj”</string>
     <string name="debt_borrow_additional">Pożyczam %s.</string>
     <string name="language_download_requested">Tłumaczenia dla języka %s są wymagane w Sklepie Play</string>
-    <string name="required">Wymagana</string>
     <string name="notifications_permission_required_sync">Udzielając zgody na wysyłanie powiadomień, możesz monitorować postęp operacji synchronizacji.</string>
     <string name="content_description_attachment">Załącznik</string>
     <string name="debt_lend_additional">Udzielam pożyczki %s.</string>

@@ -91,4 +91,5 @@
     <string name="password">"Zaporka"</string>
     <string name="pixels">"pikseli"</string>
     <string name="frequency">"Učestalost"</string>
+    <string name="required">"Potrebno"</string>
 </resources>

@@ -951,7 +951,6 @@
     <string name="menu_unlink_transfer">Від\'єднати переказ</string>
     <string name="warning_unlink_transfer">Вибраний переказ буде від’єднано: його замінять звичайні транзакції в обох рахунках.</string>
     <string name="menu_transform_to_transfer">Перетворити на переказ</string>
-    <string name="required">Обов\'язково</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">враховуються як витрати/доходи</string>
     <string name="dialog_title_purge_backups">Очистити старі резервні копії</string>
     <string name="read_from_data">Читати з даних</string>

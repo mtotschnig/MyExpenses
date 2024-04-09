@@ -96,4 +96,5 @@
     <string name="password">"Passwort"</string>
     <string name="pixels">"Pixel"</string>
     <string name="frequency">"Häufigkeit"</string>
+    <string name="required">"Erforderlich"</string>
 </resources>

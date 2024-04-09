@@ -95,4 +95,5 @@
     <string name="password">"Pasahitza"</string>
     <string name="pixels">"pixel"</string>
     <string name="frequency">"Maiztasuna"</string>
+    <string name="required">"Beharrezkoa"</string>
 </resources>

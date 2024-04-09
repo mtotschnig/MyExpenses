@@ -24,4 +24,5 @@
     <string name="password">"პაროლი"</string>
     <string name="pixels">"პიქსელები"</string>
     <string name="frequency">"სიხშირე"</string>
+    <string name="required">"სავალდებულოა"</string>
 </resources>

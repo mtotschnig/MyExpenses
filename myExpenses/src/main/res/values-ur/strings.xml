@@ -743,7 +743,6 @@
     <string name="active_tags">ایکٹو ٹیگز</string>
     <string name="request_for_invoice">انوائس کی درخواست</string>
     <string name="auto_fill_focus">وصول کنندہ پر توجہ مرکوز کریں</string>
-    <string name="required">درکار ہے</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">آپ نے جو فولڈر منتخب کیا ہے وہ موجودہ بیک اینڈ کے ایک اکاؤنٹ سے مساوی ہے. اس بیک اینڈ کو دوبارہ استعمال کرنے کے لیے آپ کو اس کا پیرنٹ فولڈر منتخب کرنا ہوگا.</string>
     <string name="sync_io_exception_reset_account_data">ریموٹ اکاؤنٹ کو ری سیٹ کرتے وقت خرابی.</string>
     <string name="sync_io_exception_setup_remote_account">ریموٹ اکاؤنٹ ترتیب دیتے وقت خرابی.</string>

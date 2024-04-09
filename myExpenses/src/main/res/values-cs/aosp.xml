@@ -99,4 +99,5 @@
     <string name="password">"Heslo"</string>
     <string name="pixels">"pixelů"</string>
     <string name="frequency">"Frekvence"</string>
+    <string name="required">"Vyžadováno"</string>
 </resources>

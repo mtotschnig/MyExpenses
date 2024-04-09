@@ -88,4 +88,5 @@
     <string name="password">"கடவுச்சொல்"</string>
     <string name="pixels">"படத்துணுக்குகள்"</string>
     <string name="frequency">"அலைவரிசை"</string>
+    <string name="required">"தேவை"</string>
 </resources>

@@ -927,7 +927,6 @@
     <string name="dialog_title_purge_backups">Elimina i vecchi backup</string>
     <string name="icons_for_categories">Icone per le categorie</string>
     <string name="content_description_attachment">Allegato</string>
-    <string name="required">Campo obbligatorio</string>
     <string name="redesign">Redesign</string>
     <string name="purge_backups">I seguenti vecchi backup saranno eliminati:</string>
     <string name="pref_csv_export_split_categories_summary">Utilizza colonne separate per ogni livello di gerarchia delle categorie</string>

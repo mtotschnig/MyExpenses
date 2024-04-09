@@ -950,7 +950,6 @@
     <string name="pref_csv_export_split_date_time_summary">Utilizar columnas separadas para fecha y hora</string>
     <string name="webui_warning_move_transaction">La transacción será trasladada a la cuenta {cuenta}.</string>
     <string name="icons_for_categories">Iconos por categorías</string>
-    <string name="required">Requerido</string>
     <string name="content_description_attachment">Archivo adjunto</string>
     <string name="redesign">Rediseño</string>
     <string name="budget_only_current_period">Establecer solo para %s</string>

@@ -95,4 +95,5 @@
     <string name="password">"密码"</string>
     <string name="pixels">"像素"</string>
     <string name="frequency">"频率"</string>
+    <string name="required">"必填"</string>
 </resources>

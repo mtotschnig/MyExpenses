@@ -20,4 +20,5 @@
     <string name="username">"Foydalanuvchi nomi"</string>
     <string name="password">"Parol"</string>
     <string name="frequency">"Yuz berish oralig‘i"</string>
+    <string name="required">"Talab qilinadi"</string>
 </resources>

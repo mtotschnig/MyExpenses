@@ -22,4 +22,5 @@
     <string name="password">"पासवर्ड"</string>
     <string name="pixels">"पिक्सेल्स"</string>
     <string name="frequency">"फ़्रीक्वेंसी"</string>
+    <string name="required">"आवश्यक"</string>
 </resources>

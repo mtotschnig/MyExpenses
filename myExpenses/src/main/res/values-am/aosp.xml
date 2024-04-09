@@ -29,4 +29,5 @@
     <string name="password">"የይለፍ ቃል"</string>
     <string name="pixels">"ፒክስሎች"</string>
     <string name="frequency">"ድግግሞሽ"</string>
+    <string name="required">"ያስፈልጋል"</string>
 </resources>

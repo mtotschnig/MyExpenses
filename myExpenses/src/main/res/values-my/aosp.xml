@@ -21,4 +21,5 @@
     <string name="password">"စကားဝှက်"</string>
     <string name="pixels">"ပုံရိပ်အစက်မှတ်များ"</string>
     <string name="frequency">"လှိုင်းနှုန်း"</string>
+    <string name="required">"လိုအပ်သည်"</string>
 </resources>

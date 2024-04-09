@@ -31,4 +31,5 @@
     <string name="password">"รหัสผ่าน"</string>
     <string name="pixels">"พิกเซล"</string>
     <string name="frequency">"ความถี่"</string>
+    <string name="required">"จำเป็น"</string>
 </resources>

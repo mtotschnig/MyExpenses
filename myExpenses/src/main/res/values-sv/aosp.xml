@@ -31,4 +31,5 @@
     <string name="password">"Lösenord"</string>
     <string name="pixels">"bildpunkter"</string>
     <string name="frequency">"Frekvens"</string>
+    <string name="required">"Obligatoriskt"</string>
 </resources>
