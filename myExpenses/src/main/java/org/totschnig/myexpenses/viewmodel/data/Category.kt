@@ -63,9 +63,9 @@ data class Category(
             it.sortChildrenByBudgetRecursive()
         })
 
-    fun recursiveUnselectChildren(selectionState: SnapshotStateList<Category>) {
+    fun recursiveUnselectChildren(selectionState: SnapshotStateList<Long>) {
         children.forEach {
-            selectionState.remove(it)
+            selectionState.remove(it.id)
             it.recursiveUnselectChildren(selectionState)
         }
     }

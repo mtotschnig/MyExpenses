@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.KEY_SELECTION
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
@@ -74,15 +75,29 @@ class FilterHandler(private val activity: BaseMyExpenses) {
         }
     }
 
+    fun editFilter(itemId: Int) {
+        with(activity) {
+            val accountId = currentAccount?.id ?: return
+            currentFilter.whereFilter.criteria.find { it.id == itemId }?.let {
+                when (itemId) {
+                    R.id.FILTER_CATEGORY_COMMAND -> getCategory.launch(
+                        accountId to (it as CategoryCriterion).values.toLongArray()
+                    )
+                    else -> TODO()
+                }
+            }
+        }
+    }
+
     fun handleFilter(itemId: Int): Boolean {
         with(activity) {
             if (accountCount == 0) return false
             if (removeFilter(itemId)) return true
             val accountId = currentAccount?.id ?: return false
             when (itemId) {
-                R.id.FILTER_CATEGORY_COMMAND -> getCategory.launch(accountId)
-                R.id.FILTER_PAYEE_COMMAND -> getPayee.launch(accountId)
-                R.id.FILTER_TAG_COMMAND -> getTags.launch(accountId)
+                R.id.FILTER_CATEGORY_COMMAND -> getCategory.launch(accountId to null)
+                R.id.FILTER_PAYEE_COMMAND -> getPayee.launch(accountId to null)
+                R.id.FILTER_TAG_COMMAND -> getTags.launch(accountId to null)
                 R.id.FILTER_AMOUNT_COMMAND -> AmountFilterDialog.newInstance(currentAccount!!.currencyUnit)
                     .show(supportFragmentManager, "AMOUNT_FILTER")
                 R.id.FILTER_DATE_COMMAND -> DateFilterDialog.newInstance()
@@ -117,8 +132,8 @@ class FilterHandler(private val activity: BaseMyExpenses) {
         activity.registerForActivityResult(PickObjectContract(FILTER_TAGS_REQUEST)) {}
 
     private inner class PickObjectContract(private val requestKey: String) :
-        ActivityResultContract<Long, Unit>() {
-        override fun createIntent(context: Context, input: Long) =
+        ActivityResultContract<Pair<Long, LongArray?>, Unit>() {
+        override fun createIntent(context: Context, input: Pair<Long, LongArray?>) =
             Intent(
                 context, when (requestKey) {
                     FILTER_CATEGORY_REQUEST -> ManageCategories::class.java
@@ -128,7 +143,8 @@ class FilterHandler(private val activity: BaseMyExpenses) {
                 }
             ).apply {
                 action = Action.SELECT_FILTER.name
-                putExtra(KEY_ACCOUNTID, input)
+                putExtra(KEY_ACCOUNTID, input.first)
+                putExtra(KEY_SELECTION, input.second)
             }
 
         override fun parseResult(resultCode: Int, intent: Intent?) {
