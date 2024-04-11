@@ -211,8 +211,9 @@ open class CategoryViewModel(
     }
         .stateIn(viewModelScope, SharingStarted.Lazily, LoadingState.Loading)
 
-    val categoryTreeForSelect: Flow<LoadingState>
-        get() = categoryTree(sortOrder = sortOrder.value.toOrderByWithDefault(defaultSort, collate))
+    val categoryTreeForSelect: Flow<LoadingState> by lazy {
+        categoryTree(sortOrder = sortOrder.value.toOrderByWithDefault(defaultSort, collate))
+    }
 
     fun categoryTree(
         selection: String? = null,
