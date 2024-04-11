@@ -12,6 +12,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.ui.UiUtils
@@ -31,7 +32,7 @@ abstract class BaseDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (requireActivity().application as MyApplication).appComponent.inject(this)
+        injector.inject(this)
     }
 
     @SuppressLint("UseGetLayoutInflater")
@@ -72,7 +73,7 @@ abstract class BaseDialogFragment : DialogFragment() {
     }
 
     protected fun showSnackBar(resId: Int, duration: Int = Snackbar.LENGTH_LONG) {
-        showSnackBar(getString(resId))
+        showSnackBar(getString(resId), duration)
     }
 
     fun showSnackBar(

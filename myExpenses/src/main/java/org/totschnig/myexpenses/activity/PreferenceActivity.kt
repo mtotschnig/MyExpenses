@@ -76,7 +76,7 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 licenceValidationViewModel.result.collect { result ->
                     result?.let {
-                        showDismissibleSnackBar(it, dismissCallback)
+                        showDismissibleSnackBar(it.second, dismissCallback)
                     }
                 }
             }

@@ -15,9 +15,9 @@ import org.totschnig.myexpenses.compose.AppTheme
  * variant of [ComposeBaseDialogFragment] which is not affected by https://issuetracker.google.com/issues/194754697
  * We live without the material dialogue styling for the moment.
  */
-abstract class ComposeBaseDialogFragment2: DialogFragment() {
+abstract class ComposeBaseDialogFragment2: BaseDialogFragment() {
 
-    val dialogPadding = 16.dp
+    val dialogPadding = 24.dp
 
     @Composable
     abstract fun BuildContent()
