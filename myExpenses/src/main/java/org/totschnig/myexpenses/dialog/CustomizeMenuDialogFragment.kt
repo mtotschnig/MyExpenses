@@ -8,6 +8,7 @@ import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -49,7 +50,7 @@ sealed class MenuItem(
     @MenuRes val subMenu: Int? = null,
     val isCheckable: Boolean = false,
     val isEnabledByDefault: Boolean = true
-): Parcelable {
+) : Parcelable {
     open fun getLabel(context: Context) = context.getString(labelRes)
 
     data object Search : MenuItem(
@@ -59,6 +60,7 @@ sealed class MenuItem(
         R.menu.main_search,
         true
     )
+
     data object Templates : MenuItem(
         R.id.MANAGE_TEMPLATES_COMMAND,
         R.string.menu_templates,
@@ -93,7 +95,7 @@ sealed class MenuItem(
         )
     }
 
-    data object ScanMode: MenuItem(
+    data object ScanMode : MenuItem(
         R.id.SCAN_MODE_COMMAND,
         R.string.menu_scan_mode,
         R.drawable.ic_scan,
@@ -121,7 +123,7 @@ sealed class MenuItem(
             (context as? BaseActivity)?.bankingFeature?.syncMenuTitle(context) ?: "FinTS"
     }
 
-    data object ShowStatusHandle: MenuItem(
+    data object ShowStatusHandle : MenuItem(
         R.id.SHOW_STATUS_HANDLE_COMMAND,
         R.string.status,
         R.drawable.ic_square,
@@ -141,7 +143,7 @@ sealed class MenuItem(
         R.menu.main_sort
     )
 
-    data object Grouping: MenuItem(
+    data object Grouping : MenuItem(
         R.id.GROUPING_COMMAND,
         R.string.menu_grouping,
         R.drawable.ic_action_group,
@@ -173,20 +175,20 @@ sealed class MenuItem(
         R.drawable.ic_settings
     )
 
-    data object Help: MenuItem(
+    data object Help : MenuItem(
         R.id.HELP_COMMAND,
         R.string.menu_help,
         R.drawable.ic_menu_help
     )
 
-    data object Backup: MenuItem(
+    data object Backup : MenuItem(
         R.id.BACKUP_COMMAND,
         R.string.menu_backup,
         R.drawable.ic_archive,
         isEnabledByDefault = false
     )
 
-    data object WebUI: MenuItem(
+    data object WebUI : MenuItem(
         R.id.WEB_UI_COMMAND,
         R.string.title_webui,
         R.drawable.ic_computer,
@@ -199,82 +201,70 @@ sealed class MenuItem(
     }
 }
 
-class CustomizeMenuDialogFragment : ComposeBaseDialogFragment() {
+class CustomizeMenuDialogFragment : ComposeBaseDialogFragment3() {
+
+    override val title: CharSequence
+        get() = TextUtils.concatResStrings(
+            requireContext(),
+            " : ",
+            R.string.menu,
+            R.string.customize
+        )
 
     @Composable
-    override fun BuildContent() {
+    override fun ColumnScope.MainContent() {
         val activeItems = rememberMutableStateListOf(prefHandler.mainMenu)
         val inactiveItems = rememberMutableStateListOf(MenuItem.values - activeItems)
 
-        Column {
-            Text(
-                modifier = Modifier.padding(top = dialogPadding, start = dialogPadding),
-                style = MaterialTheme.typography.titleLarge,
-                text = TextUtils.concatResStrings(
-                    LocalContext.current,
-                    " : ",
-                    R.string.menu,
-                    R.string.customize
+        LazyColumn(modifier = Modifier.weight(1f)) {
+            itemsIndexed(activeItems) { index, item ->
+                ItemRow(item, true,
+                    onCheckedChange = if (item != MenuItem.Settings) {
+                        {
+                            activeItems.remove(item)
+                            inactiveItems.add(item)
+                        }
+                    } else null,
+                    onUp = if (index == 0) null else {
+                        { Collections.swap(activeItems, index - 1, index) }
+                    },
+                    onDown = if (index < activeItems.lastIndex) {
+                        { Collections.swap(activeItems, index, index + 1) }
+                    } else null
                 )
-            )
-            LazyColumn(modifier = Modifier
-                .padding(dialogPadding)
-                .weight(1f)) {
-                itemsIndexed(activeItems) { index, item ->
-                    ItemRow(item, true,
-                        onCheckedChange = if (item != MenuItem.Settings) {
-                            {
-                                activeItems.remove(item)
-                                inactiveItems.add(item)
-                            }
-                        } else null,
-                        onUp = if (index == 0) null else {
-                            { Collections.swap(activeItems, index - 1, index) }
-                        },
-                        onDown = if (index < activeItems.lastIndex) {
-                            { Collections.swap(activeItems, index, index + 1) }
-                        } else null
-                    )
-                }
-                if (activeItems.isNotEmpty() && inactiveItems.isNotEmpty()) {
-                    item {
-                        HorizontalDivider(thickness = 1.dp)
-                    }
-                }
-                items(inactiveItems) { item ->
-                    ItemRow(item, false, onCheckedChange = {
-                        activeItems.add(item)
-                        inactiveItems.remove(item)
-                    })
+            }
+            if (activeItems.isNotEmpty() && inactiveItems.isNotEmpty()) {
+                item {
+                    HorizontalDivider(thickness = 1.dp)
                 }
             }
-            ButtonRow(
-                modifier = Modifier.padding(
-                    bottom = dialogPadding,
-                    start = dialogPadding,
-                    end = dialogPadding
+            items(inactiveItems) { item ->
+                ItemRow(item, false, onCheckedChange = {
+                    activeItems.add(item)
+                    inactiveItems.remove(item)
+                })
+            }
+        }
+        ButtonRow {
+            TextButton(onClick = { dismiss() }) {
+                Text(stringResource(id = android.R.string.cancel))
+            }
+            TextButton(onClick = {
+                inactiveItems.clear()
+                activeItems.clear()
+                activeItems.addAll(MenuItem.defaultConfiguration)
+                inactiveItems.addAll(MenuItem.values - activeItems)
+            }) {
+                Text(stringResource(id = R.string.menu_reset_plan_instance))
+            }
+            TextButton(onClick = {
+                prefHandler.putStringSet(
+                    PrefKey.CUSTOMIZE_MAIN_MENU,
+                    LinkedHashSet(activeItems.map { it.name })
                 )
-            ) {
-                TextButton(onClick = { dismiss() }) {
-                    Text(stringResource(id = android.R.string.cancel))
-                }
-                TextButton(onClick = {
-                    inactiveItems.clear()
-                    activeItems.clear()
-                    activeItems.addAll(MenuItem.defaultConfiguration)
-                    inactiveItems.addAll(MenuItem.values - activeItems)
-                }) {
-                    Text(stringResource(id = R.string.menu_reset_plan_instance))
-                }
-                TextButton(onClick = {
-                    prefHandler.putStringSet(
-                        PrefKey.CUSTOMIZE_MAIN_MENU,
-                        LinkedHashSet(activeItems.map { it.name })
-                    )
-                    dismiss()
-                }) {
-                    Text(stringResource(id = R.string.confirm))
-                }
+                dismiss()
+            }) {
+                Text(stringResource(id = R.string.confirm))
             }
         }
     }
@@ -291,10 +281,12 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment() {
             Checkbox(checked = checked, enabled = onCheckedChange != null, onCheckedChange = {
                 onCheckedChange?.invoke()
             })
-            item.icon?.let { Icon(
-                modifier = Modifier.padding(end = 8.dp),
-                painter = painterResource(id = it),
-                contentDescription = null)
+            item.icon?.let {
+                Icon(
+                    modifier = Modifier.padding(end = 8.dp),
+                    painter = painterResource(id = it),
+                    contentDescription = null
+                )
             }
             Text(text = item.getLabel(LocalContext.current), modifier = Modifier.weight(1f))
             if (onUp != null || onDown != null) {

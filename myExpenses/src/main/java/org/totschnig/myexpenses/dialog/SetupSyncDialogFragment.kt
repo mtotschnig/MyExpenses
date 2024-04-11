@@ -160,11 +160,11 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                 when (progress.value) {
                     SetupProgress.NOT_STARTED -> {
                         ButtonRow(modifier = Modifier.padding(top = 8.dp)) {
-                            Button(onClick = { dismiss() }) {
+                            TextButton(onClick = { dismiss() }) {
                                 Text(stringResource(id = android.R.string.cancel))
                             }
                             if (viewModel.dialogState.values.any { it != null }) {
-                                Button(onClick = {
+                                TextButton(onClick = {
                                     progress.value = SetupProgress.RUNNING
                                     viewModel.setupSynchronization(
                                         accountName = data.accountName,
