@@ -49,6 +49,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.KEY_SELECTION
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
+import org.totschnig.myexpenses.provider.filter.preSelected
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -183,7 +184,7 @@ class ManageCategories : ProtectedFragmentActivity(),
         observeExportResult()
         observeSyncResult()
         observeMergeResult()
-        val preSelected = intent.getLongArrayExtra(KEY_SELECTION)?.toList()
+        val preSelected = this.preSelected
         binding.composeView.setContent {
             val selectionState = rememberMutableStateListOf(preSelected ?: emptyList())
             AppTheme {

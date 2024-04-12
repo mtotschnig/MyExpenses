@@ -83,6 +83,8 @@ class FilterHandler(private val activity: BaseMyExpenses) {
                     R.id.FILTER_CATEGORY_COMMAND -> getCategory.launch(
                         accountId to (it as CategoryCriterion).values.toLongArray()
                     )
+                    R.id.FILTER_PAYEE_COMMAND -> getPayee.launch(
+                        accountId to (it as PayeeCriterion).values.toLongArray())
                     else -> TODO()
                 }
             }
