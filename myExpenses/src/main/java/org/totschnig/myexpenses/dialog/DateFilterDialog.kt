@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.databinding.FilterDateBinding
 import org.totschnig.myexpenses.provider.filter.DateCriterion
 import org.totschnig.myexpenses.provider.filter.KEY_CRITERION
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.criterion
 import java.time.LocalDate
 
 class DateFilterDialog : DialogViewBinding<FilterDateBinding>(), DialogInterface.OnClickListener {
@@ -38,14 +39,13 @@ class DateFilterDialog : DialogViewBinding<FilterDateBinding>(), DialogInterface
         (binding.Operator.adapter as ArrayAdapter<*>)
             .setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
 
-        BundleCompat.getParcelable(requireArguments(), KEY_CRITERION, DateCriterion::class.java)
-            ?.let { criterion ->
-                binding.Operator.setSelection(operations.indexOf(criterion.operation.name))
-                binding.date1.selectedDate = criterion.values[0]
-                criterion.values.getOrNull(1)?.let {
-                    binding.date2.selectedDate = it
-                }
+        requireArguments().criterion(DateCriterion::class.java)?.let { criterion ->
+            binding.Operator.setSelection(operations.indexOf(criterion.operation.name))
+            binding.date1.selectedDate = criterion.values[0]
+            criterion.values.getOrNull(1)?.let {
+                binding.date2.selectedDate = it
             }
+        }
 
         return builder
             .setTitle(R.string.search_date)
@@ -57,7 +57,7 @@ class DateFilterDialog : DialogViewBinding<FilterDateBinding>(), DialogInterface
     private var DatePicker.selectedDate
         get() = LocalDate.of(year, month + 1, dayOfMonth)
         set(value) {
-            updateDate(value.year, value.monthValue -1, dayOfMonth)
+            updateDate(value.year, value.monthValue - 1, dayOfMonth)
         }
 
     private val operations

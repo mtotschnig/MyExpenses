@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.R.layout.support_simple_spinner_dropdown_item
-import androidx.core.os.BundleCompat
 import androidx.core.view.isVisible
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpenses
@@ -18,6 +17,7 @@ import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.AmountCriterion.Companion.create
 import org.totschnig.myexpenses.provider.filter.KEY_CRITERION
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.filter.criterion
 import org.totschnig.myexpenses.util.ui.withOkClick
 
 class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
@@ -50,17 +50,16 @@ class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
         val fractionDigits = currency.fractionDigits
         binding.amount1.fractionDigits = fractionDigits
         binding.amount2.fractionDigits = fractionDigits
-        BundleCompat.getParcelable(requireArguments(), KEY_CRITERION, AmountCriterion::class.java)
-            ?.let { criterion ->
-                if (criterion.type) {
-                    binding.type.check(R.id.income)
-                }
-                binding.Operator.setSelection(operations.indexOf(criterion.operation.name))
-                binding.amount1.setAmount(Money(currency, criterion.values[0]).amountMajor)
-                criterion.values.getOrNull(1)?.let {
-                    binding.amount2.setAmount(Money(currency, it).amountMajor)
-                }
+        requireArguments().criterion(AmountCriterion::class.java)?.let { criterion ->
+            if (criterion.type) {
+                binding.type.check(R.id.income)
             }
+            binding.Operator.setSelection(operations.indexOf(criterion.operation.name))
+            binding.amount1.setAmount(Money(currency, criterion.values[0]).amountMajor)
+            criterion.values.getOrNull(1)?.let {
+                binding.amount2.setAmount(Money(currency, it).amountMajor)
+            }
+        }
         return builder
             .setTitle(R.string.search_amount)
             .setPositiveButton(android.R.string.ok, null)

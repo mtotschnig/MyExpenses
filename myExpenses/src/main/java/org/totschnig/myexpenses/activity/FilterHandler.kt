@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
+import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.DateCriterion
 import org.totschnig.myexpenses.provider.filter.KEY_SELECTION
@@ -105,8 +106,9 @@ class FilterHandler(private val activity: BaseMyExpenses) {
                     .text((edit as? CommentCriterion)?.searchString)
                     .neut()
                     .show(this, FILTER_COMMENT_DIALOG)
-                R.id.FILTER_STATUS_COMMAND -> SelectCrStatusDialogFragment.newInstance()
-                    .show(supportFragmentManager, "STATUS_FILTER")
+                R.id.FILTER_STATUS_COMMAND -> SelectCrStatusDialogFragment.newInstance(
+                    edit as? CrStatusCriterion
+                ).show(supportFragmentManager, "STATUS_FILTER")
                 R.id.FILTER_METHOD_COMMAND -> SelectMethodDialogFragment.newInstance(accountId)
                     .show(supportFragmentManager, "METHOD_FILTER")
                 R.id.FILTER_TRANSFER_COMMAND -> SelectTransferAccountDialogFragment.newInstance(

@@ -146,7 +146,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
             }
 
             R.id.FILTER_STATUS_COMMAND -> {
-                SelectCrStatusDialogFragment.newInstance(false)
+                SelectCrStatusDialogFragment.newInstance(null, false)
                     .show(supportFragmentManager, "STATUS_FILTER")
             }
 
