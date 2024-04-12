@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
+import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.DateCriterion
 import org.totschnig.myexpenses.provider.filter.KEY_SELECTION
@@ -101,6 +102,7 @@ class FilterHandler(private val activity: BaseMyExpenses) {
                 R.id.FILTER_COMMENT_COMMAND -> SimpleInputDialog.build()
                     .title(R.string.search_comment)
                     .pos(R.string.menu_search)
+                    .text((edit as? CommentCriterion)?.searchString)
                     .neut()
                     .show(this, FILTER_COMMENT_DIALOG)
                 R.id.FILTER_STATUS_COMMAND -> SelectCrStatusDialogFragment.newInstance()
