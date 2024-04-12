@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.DateCriterion
 import org.totschnig.myexpenses.provider.filter.KEY_SELECTION
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
@@ -92,10 +93,11 @@ class FilterHandler(private val activity: BaseMyExpenses) {
                     accountId to (edit as? TagCriterion)?.values
                 )
                 R.id.FILTER_AMOUNT_COMMAND -> AmountFilterDialog.newInstance(
-                    currentAccount!!.currencyUnit, (edit as? AmountCriterion)
+                    currentAccount!!.currencyUnit, edit as? AmountCriterion
                 ).show(supportFragmentManager, "AMOUNT_FILTER")
-                R.id.FILTER_DATE_COMMAND -> DateFilterDialog.newInstance()
-                    .show(supportFragmentManager, "DATE_FILTER")
+                R.id.FILTER_DATE_COMMAND -> DateFilterDialog.newInstance(
+                    edit as? DateCriterion
+                ).show(supportFragmentManager, "DATE_FILTER")
                 R.id.FILTER_COMMENT_COMMAND -> SimpleInputDialog.build()
                     .title(R.string.search_comment)
                     .pos(R.string.menu_search)
