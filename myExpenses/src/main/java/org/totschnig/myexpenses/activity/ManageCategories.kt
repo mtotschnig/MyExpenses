@@ -183,7 +183,9 @@ class ManageCategories : ProtectedFragmentActivity(),
         observeExportResult()
         observeSyncResult()
         observeMergeResult()
+        val preSelected = intent.getLongArrayExtra(KEY_SELECTION)?.toList()
         binding.composeView.setContent {
+            val selectionState = rememberMutableStateListOf(preSelected ?: emptyList())
             AppTheme {
                 choiceMode = when (action) {
                     Action.SELECT_MAPPING -> {
@@ -206,15 +208,6 @@ class ManageCategories : ProtectedFragmentActivity(),
                     }
 
                     Action.MANAGE, Action.SELECT_FILTER -> {
-                        val selectionState = rememberMutableStateListOf(intent.getLongArrayExtra(KEY_SELECTION)?.toList() ?: emptyList())
-                        LaunchedEffect(selectionState.size) {
-                            if (selectionState.isNotEmpty()) {
-                                startActionMode(selectionState)
-                                updateActionModeTitle(selectionState.size)
-                            } else {
-                                finishActionMode()
-                            }
-                        }
                         ChoiceMode.MultiChoiceMode(selectionState, true)
                     }
                 }
@@ -280,7 +273,18 @@ class ManageCategories : ProtectedFragmentActivity(),
                                 }
 
                                 is LoadingState.Data -> {
-
+                                    LaunchedEffect(selectionState.size) {
+                                        if (selectionState.isNotEmpty()) {
+                                            startActionMode(selectionState)
+                                            updateActionModeTitle(selectionState.size)
+                                        } else {
+                                            finishActionMode()
+                                        }
+                                    }
+                                    val preExpanded = remember {
+                                        if (preSelected?.isEmpty() == false)
+                                        state.data.getExpandedForSelected(preSelected) else emptyList()
+                                    }
                                     Category(
                                         category = if (action == Action.SELECT_FILTER)
                                             state.data.copy(children = buildList {
@@ -295,7 +299,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                                             })
                                         else state.data,
                                         expansionMode = ExpansionMode.DefaultCollapsed(
-                                            rememberMutableStateListOf()
+                                            rememberMutableStateListOf(preExpanded)
                                         ),
                                         menuGenerator = remember {
                                             {

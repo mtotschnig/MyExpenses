@@ -54,6 +54,37 @@ class CategoryTreeTest {
     }
 
     @Test
+    fun testGetExpandedForSelected() {
+        val category = Category(
+            label = "ROOT", children = listOf(
+                Category(
+                    id = 1,
+                    label = "1", children = listOf(
+                        Category(
+                            id = 2,
+                            label = "1.1", children = listOf(
+                                Category(id =3, label = "1.1.1")
+                            )
+                        )
+                    )
+                ),
+                Category(
+                    id = 4,
+                    label = "2", children = listOf(
+                        Category(
+                            id = 5,
+                            label = "2.1", children = listOf(
+                                Category(id = 6, label = "2.1.1")
+                            )
+                        )
+                    )
+                )
+            )
+        )
+        assertThat(category.getExpandedForSelected(listOf(1,6))).containsExactly(4L,5L)
+    }
+
+    @Test
     fun shouldRemoveNonMatchingChildren() {
         val category = Category(
             label = "ROOT", children = listOf(
