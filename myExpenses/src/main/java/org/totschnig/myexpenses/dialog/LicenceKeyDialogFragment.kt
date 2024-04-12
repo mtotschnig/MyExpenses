@@ -107,13 +107,15 @@ class LicenceKeyDialogFragment : ComposeBaseDialogFragment2() {
                     if (showProgressIndicator) {
                         CircularProgressIndicator()
                     }
-                    TextButton(onClick = {
-                        viewModel.messageShown()
-                        prefHandler.putString(PrefKey.NEW_LICENCE, licenceKey.trim())
-                        prefHandler.putString(PrefKey.LICENCE_EMAIL, licenceEmail.trim())
-                        showProgressIndicator = true
-                        viewModel.validateLicence()
-                    }) {
+                    TextButton(
+                        enabled = licenceKey.isNotEmpty() && licenceEmail.isNotEmpty(),
+                        onClick = {
+                            viewModel.messageShown()
+                            prefHandler.putString(PrefKey.NEW_LICENCE, licenceKey.trim())
+                            prefHandler.putString(PrefKey.LICENCE_EMAIL, licenceEmail.trim())
+                            showProgressIndicator = true
+                            viewModel.validateLicence()
+                        }) {
                         Text(stringResource(id = R.string.button_validate))
                     }
                 }
