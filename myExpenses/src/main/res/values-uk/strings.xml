@@ -633,9 +633,9 @@
     <string name="split_transaction_group_success">%1$d операції були успішно згруповані в одну поділену операцію.</string>
     <string name="split_transaction_not_possible">Тільки операції з тим самим рахунком, одержувачем платежу та статусом можуть бути об\'єднані в одну поділену операцію.</string>
     <string name="pref_transaction_time_summary">Дозволяти вказувати точний час операції.</string>
-    <string name="pref_value_date_summary">Дозволити встановити дату валютування на додачу до дати створення замовлення. Час операції буде приховано. Цей параметр не застосовується до грошових рахунків.</string>
+    <string name="pref_value_date_summary">Дозволити встановити дату валютування на додачу до дати бронювання. Час операції буде приховано. Цей параметр не застосовується до грошових рахунків.</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
-    <string name="booking_date">Дата створення операції</string>
+    <string name="booking_date">Дата бронювання</string>
     <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->
     <string name="value_date">Дата проведення операції</string>
     <string name="licence_expires_n_days">Ваша підписка на Професійну версію закінчиться через %d днів.</string>
