@@ -21,7 +21,8 @@ import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 
 class SelectMethodDialogFragment : SelectFromMappedTableDialogFragment<MethodCriterion>(
-    true, MethodCriterion::class.java) {
+    true, MethodCriterion::class.java
+) {
     override val dialogTitle: Int
         get() = R.string.search_method
     override val uri: Uri
