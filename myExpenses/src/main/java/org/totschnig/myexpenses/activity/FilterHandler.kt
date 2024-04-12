@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.DateCriterion
+import org.totschnig.myexpenses.provider.filter.IdCriterion
 import org.totschnig.myexpenses.provider.filter.KEY_SELECTION
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
@@ -89,13 +90,13 @@ class FilterHandler(private val activity: BaseMyExpenses) {
             val accountId = currentAccount?.id ?: return false
             when (itemId) {
                 R.id.FILTER_CATEGORY_COMMAND -> getCategory.launch(
-                    accountId to (edit as? CategoryCriterion)?.values
+                    accountId to edit as? CategoryCriterion
                     )
                 R.id.FILTER_PAYEE_COMMAND -> getPayee.launch(
-                    accountId to (edit as? PayeeCriterion)?.values
+                    accountId to edit as? PayeeCriterion
                 )
                 R.id.FILTER_TAG_COMMAND -> getTags.launch(
-                    accountId to (edit as? TagCriterion)?.values
+                    accountId to edit as? TagCriterion
                 )
                 R.id.FILTER_AMOUNT_COMMAND -> AmountFilterDialog.newInstance(
                     currentAccount!!.currencyUnit, edit as? AmountCriterion
@@ -129,15 +130,15 @@ class FilterHandler(private val activity: BaseMyExpenses) {
     }
 
     private val getCategory =
-        activity.registerForActivityResult(PickObjectContract(FILTER_CATEGORY_REQUEST)) {}
+        activity.registerForActivityResult(PickObjectContract<CategoryCriterion>(FILTER_CATEGORY_REQUEST)) {}
     private val getPayee =
-        activity.registerForActivityResult(PickObjectContract(FILTER_PAYEE_REQUEST)) {}
+        activity.registerForActivityResult(PickObjectContract<PayeeCriterion>(FILTER_PAYEE_REQUEST)) {}
     private val getTags =
-        activity.registerForActivityResult(PickObjectContract(FILTER_TAGS_REQUEST)) {}
+        activity.registerForActivityResult(PickObjectContract<TagCriterion>(FILTER_TAGS_REQUEST)) {}
 
-    private inner class PickObjectContract(private val requestKey: String) :
-        ActivityResultContract<Pair<Long, Array<Long>?>, Unit>() {
-        override fun createIntent(context: Context, input: Pair<Long, Array<Long>?>) =
+    private inner class PickObjectContract<T: IdCriterion>(private val requestKey: String) :
+        ActivityResultContract<Pair<Long, T?>, Unit>() {
+        override fun createIntent(context: Context, input: Pair<Long, T?>) =
             Intent(
                 context, when (requestKey) {
                     FILTER_CATEGORY_REQUEST -> ManageCategories::class.java
@@ -148,7 +149,7 @@ class FilterHandler(private val activity: BaseMyExpenses) {
             ).apply {
                 action = Action.SELECT_FILTER.name
                 putExtra(KEY_ACCOUNTID, input.first)
-                putExtra(KEY_SELECTION, input.second?.toLongArray())
+                putExtra(KEY_SELECTION, input.second?.values?.toLongArray())
             }
 
         override fun parseResult(resultCode: Int, intent: Intent?) {
