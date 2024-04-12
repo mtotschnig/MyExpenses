@@ -33,7 +33,7 @@ class AmountCriterion(
     override val operation: Operation,
     override val values: Array<Long>,
     private val currency: String,
-    private val type: Boolean,
+    val type: Boolean,
 ) : Criterion<Long>() {
 
     @IgnoredOnParcel

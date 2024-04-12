@@ -17,6 +17,7 @@ import org.totschnig.myexpenses.fragment.TagList.Companion.KEY_TAG_LIST
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.KEY_SELECTION
@@ -75,33 +76,24 @@ class FilterHandler(private val activity: BaseMyExpenses) {
         }
     }
 
-    fun editFilter(itemId: Int) {
-        with(activity) {
-            val accountId = currentAccount?.id ?: return
-            currentFilter.whereFilter.criteria.find { it.id == itemId }?.let {
-                when (itemId) {
-                    R.id.FILTER_CATEGORY_COMMAND -> getCategory.launch(
-                        accountId to (it as CategoryCriterion).values.toLongArray()
-                    )
-                    R.id.FILTER_PAYEE_COMMAND -> getPayee.launch(
-                        accountId to (it as PayeeCriterion).values.toLongArray())
-                    else -> TODO()
-                }
-            }
-        }
-    }
-
-    fun handleFilter(itemId: Int): Boolean {
+    fun handleFilter(itemId: Int, edit: Criterion<*>? = null): Boolean {
         with(activity) {
             if (accountCount == 0) return false
-            if (removeFilter(itemId)) return true
+            if (edit == null && removeFilter(itemId)) return true
             val accountId = currentAccount?.id ?: return false
             when (itemId) {
-                R.id.FILTER_CATEGORY_COMMAND -> getCategory.launch(accountId to null)
-                R.id.FILTER_PAYEE_COMMAND -> getPayee.launch(accountId to null)
-                R.id.FILTER_TAG_COMMAND -> getTags.launch(accountId to null)
-                R.id.FILTER_AMOUNT_COMMAND -> AmountFilterDialog.newInstance(currentAccount!!.currencyUnit)
-                    .show(supportFragmentManager, "AMOUNT_FILTER")
+                R.id.FILTER_CATEGORY_COMMAND -> getCategory.launch(
+                    accountId to (edit as? CategoryCriterion)?.values
+                    )
+                R.id.FILTER_PAYEE_COMMAND -> getPayee.launch(
+                    accountId to (edit as? PayeeCriterion)?.values
+                )
+                R.id.FILTER_TAG_COMMAND -> getTags.launch(
+                    accountId to (edit as? TagCriterion)?.values
+                )
+                R.id.FILTER_AMOUNT_COMMAND -> AmountFilterDialog.newInstance(
+                    currentAccount!!.currencyUnit, (edit as? AmountCriterion)
+                ).show(supportFragmentManager, "AMOUNT_FILTER")
                 R.id.FILTER_DATE_COMMAND -> DateFilterDialog.newInstance()
                     .show(supportFragmentManager, "DATE_FILTER")
                 R.id.FILTER_COMMENT_COMMAND -> SimpleInputDialog.build()
@@ -134,8 +126,8 @@ class FilterHandler(private val activity: BaseMyExpenses) {
         activity.registerForActivityResult(PickObjectContract(FILTER_TAGS_REQUEST)) {}
 
     private inner class PickObjectContract(private val requestKey: String) :
-        ActivityResultContract<Pair<Long, LongArray?>, Unit>() {
-        override fun createIntent(context: Context, input: Pair<Long, LongArray?>) =
+        ActivityResultContract<Pair<Long, Array<Long>?>, Unit>() {
+        override fun createIntent(context: Context, input: Pair<Long, Array<Long>?>) =
             Intent(
                 context, when (requestKey) {
                     FILTER_CATEGORY_REQUEST -> ManageCategories::class.java
@@ -146,7 +138,7 @@ class FilterHandler(private val activity: BaseMyExpenses) {
             ).apply {
                 action = Action.SELECT_FILTER.name
                 putExtra(KEY_ACCOUNTID, input.first)
-                putExtra(KEY_SELECTION, input.second)
+                putExtra(KEY_SELECTION, input.second?.toLongArray())
             }
 
         override fun parseResult(resultCode: Int, intent: Intent?) {

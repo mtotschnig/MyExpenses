@@ -2243,7 +2243,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     private fun editFilter(itemId: Int) {
-        filterHandler.editFilter(itemId)
+        filterHandler.handleFilter(itemId, currentFilter.whereFilter.criteria.find { it.id == itemId })
     }
 
     override fun onPositive(args: Bundle, checked: Boolean) {
