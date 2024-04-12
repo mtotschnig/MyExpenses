@@ -15,8 +15,6 @@
 package org.totschnig.myexpenses.dialog.select
 
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
-import org.totschnig.myexpenses.compose.addToSelection
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -27,14 +25,12 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
 import org.totschnig.myexpenses.provider.filter.IdCriterion
 import org.totschnig.myexpenses.provider.filter.KEY_CRITERION
-import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
-import org.totschnig.myexpenses.provider.filter.criterion
 import kotlin.math.abs
 
 abstract class SelectFromMappedTableDialogFragment<T : IdCriterion>(
     withNullItem: Boolean,
-    private val typeParameterClass: Class<T>
-) : SelectFilterDialog<T>(withNullItem) {
+    typeParameterClass: Class<T>
+) : SelectFilterDialog<T>(withNullItem, typeParameterClass) {
     override val column: String
         get() = DatabaseConstants.KEY_LABEL
     override val selection: String?
@@ -47,19 +43,6 @@ abstract class SelectFromMappedTableDialogFragment<T : IdCriterion>(
             putLong(KEY_ROWID, rowId)
             putParcelable(KEY_CRITERION, criterion)
         }
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog {
-        requireArguments().criterion(typeParameterClass)?.let { criterion ->
-            if (criterion.values.isEmpty()) {
-                dataViewModel.selectionState.addToSelection(NULL_ITEM_ID)
-            } else {
-                criterion.values.forEach {
-                    dataViewModel.selectionState.addToSelection(it)
-                }
-            }
-        }
-        return super.onCreateDialog(savedInstanceState)
     }
 
     companion object {

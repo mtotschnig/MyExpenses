@@ -151,7 +151,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
             }
 
             R.id.FILTER_ACCOUNT_COMMAND -> {
-                SelectMultipleAccountDialogFragment.newInstance(selectedAccount().currency)
+                SelectMultipleAccountDialogFragment.newInstance(selectedAccount().currency, null)
                     .show(supportFragmentManager, "ACCOUNT_FILTER")
             }
         }

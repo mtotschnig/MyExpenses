@@ -17,6 +17,7 @@ import org.totschnig.myexpenses.fragment.TagList.Companion.KEY_TAG_LIST
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.filter.AccountCriterion
 import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
@@ -118,7 +119,7 @@ class FilterHandler(private val activity: BaseMyExpenses) {
                     accountId, edit as? TransferCriterion
                 ).show(supportFragmentManager, "TRANSFER_FILTER")
                 R.id.FILTER_ACCOUNT_COMMAND -> SelectMultipleAccountDialogFragment.newInstance(
-                    currentAccount!!.currency
+                    currentAccount!!.currency, edit as? AccountCriterion
                 )
                     .show(supportFragmentManager, "ACCOUNT_FILTER")
                 else -> return false
