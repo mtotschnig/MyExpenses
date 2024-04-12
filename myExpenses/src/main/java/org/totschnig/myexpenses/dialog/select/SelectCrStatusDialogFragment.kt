@@ -61,12 +61,10 @@ class SelectCrStatusDialogFragment : BaseDialogFragment(), DialogInterface.OnCli
         private const val KEY_WITH_VOID = "withVoid"
         fun newInstance(
             criterion: CrStatusCriterion?, withVoid: Boolean = true
-        ): SelectCrStatusDialogFragment {
-            return SelectCrStatusDialogFragment().apply {
-                arguments = Bundle(1).apply {
-                    putBoolean(KEY_WITH_VOID, withVoid)
-                    putParcelable(KEY_CRITERION, criterion)
-                }
+        ) = SelectCrStatusDialogFragment().apply {
+            arguments = Bundle(1).apply {
+                putBoolean(KEY_WITH_VOID, withVoid)
+                putParcelable(KEY_CRITERION, criterion)
             }
         }
     }

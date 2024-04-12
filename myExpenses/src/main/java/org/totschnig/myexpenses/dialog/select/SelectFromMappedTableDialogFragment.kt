@@ -15,37 +15,61 @@
 package org.totschnig.myexpenses.dialog.select
 
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
+import org.totschnig.myexpenses.compose.addToSelection
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
+import org.totschnig.myexpenses.provider.filter.IdCriterion
+import org.totschnig.myexpenses.provider.filter.KEY_CRITERION
+import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
+import org.totschnig.myexpenses.provider.filter.criterion
 import kotlin.math.abs
 
-abstract class SelectFromMappedTableDialogFragment<T : Criterion<*>> protected constructor(withNullItem: Boolean) :
-    SelectFilterDialog<T>(withNullItem) {
+abstract class SelectFromMappedTableDialogFragment<T : IdCriterion>(
+    withNullItem: Boolean,
+    private val typeParameterClass: Class<T>
+) : SelectFilterDialog<T>(withNullItem) {
     override val column: String
         get() = DatabaseConstants.KEY_LABEL
     override val selection: String?
-        get() = accountSelection(requireArguments().getLong(DatabaseConstants.KEY_ROWID))
+        get() = accountSelection(requireArguments().getLong(KEY_ROWID))
     override val selectionArgs: Array<String>?
-        get() = accountSelectionArgs(requireArguments().getLong(DatabaseConstants.KEY_ROWID))
+        get() = accountSelectionArgs(requireArguments().getLong(KEY_ROWID))
 
-    protected fun setArguments(rowId: Long) {
-        val args = Bundle(1)
-        args.putLong(DatabaseConstants.KEY_ROWID, rowId)
-        arguments = args
+    protected fun configureArguments(rowId: Long, criterion: T?) {
+        arguments = Bundle(1).apply {
+            putLong(KEY_ROWID, rowId)
+            putParcelable(KEY_CRITERION, criterion)
+        }
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog {
+        requireArguments().criterion(typeParameterClass)?.let { criterion ->
+            if (criterion.values.isEmpty()) {
+                dataViewModel.selectionState.addToSelection(NULL_ITEM_ID)
+            } else {
+                criterion.values.forEach {
+                    dataViewModel.selectionState.addToSelection(it)
+                }
+            }
+        }
+        return super.onCreateDialog(savedInstanceState)
     }
 
     companion object {
-        fun accountSelection(accountId: Long): String? {
-            if (accountId > 0) {
-                return DatabaseConstants.KEY_ACCOUNTID + " = ?"
-            } else if (accountId != HOME_AGGREGATE_ID) {
-                return DatabaseConstants.KEY_ACCOUNTID + " IN " +
-                        "(SELECT " + DatabaseConstants.KEY_ROWID + " FROM " + DatabaseConstants.TABLE_ACCOUNTS + " WHERE " + DatabaseConstants.KEY_CURRENCY +
-                        " = (SELECT " + DatabaseConstants.KEY_CODE + " FROM " + DatabaseConstants.TABLE_CURRENCIES + " WHERE " + DatabaseConstants.KEY_ROWID + " = ?))"
-            }
-            return null
-        }
+        fun accountSelection(accountId: Long) =
+            if (accountId > 0) "$KEY_ACCOUNTID = ?"
+            else if (accountId != HOME_AGGREGATE_ID) {
+                KEY_ACCOUNTID + " IN " +
+                        "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY +
+                        " = (SELECT " + KEY_CODE + " FROM " + TABLE_CURRENCIES + " WHERE " + KEY_ROWID + " = ?))"
+            } else null
 
         fun accountSelectionArgs(accountId: Long): Array<String>? {
             return if (accountId == HOME_AGGREGATE_ID) null else arrayOf(

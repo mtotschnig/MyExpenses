@@ -24,9 +24,11 @@ import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.DateCriterion
 import org.totschnig.myexpenses.provider.filter.KEY_SELECTION
+import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
+import org.totschnig.myexpenses.provider.filter.TransferCriterion
 import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.viewmodel.SumInfoLoaded
@@ -109,10 +111,11 @@ class FilterHandler(private val activity: BaseMyExpenses) {
                 R.id.FILTER_STATUS_COMMAND -> SelectCrStatusDialogFragment.newInstance(
                     edit as? CrStatusCriterion
                 ).show(supportFragmentManager, "STATUS_FILTER")
-                R.id.FILTER_METHOD_COMMAND -> SelectMethodDialogFragment.newInstance(accountId)
-                    .show(supportFragmentManager, "METHOD_FILTER")
+                R.id.FILTER_METHOD_COMMAND -> SelectMethodDialogFragment.newInstance(
+                    accountId, edit as? MethodCriterion
+                ).show(supportFragmentManager, "METHOD_FILTER")
                 R.id.FILTER_TRANSFER_COMMAND -> SelectTransferAccountDialogFragment.newInstance(
-                    accountId
+                    accountId, edit as? TransferCriterion
                 ).show(supportFragmentManager, "TRANSFER_FILTER")
                 R.id.FILTER_ACCOUNT_COMMAND -> SelectMultipleAccountDialogFragment.newInstance(
                     currentAccount!!.currency
