@@ -47,7 +47,9 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.filter.KEY_SELECTION
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
+import org.totschnig.myexpenses.provider.filter.preSelected
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -182,7 +184,9 @@ class ManageCategories : ProtectedFragmentActivity(),
         observeExportResult()
         observeSyncResult()
         observeMergeResult()
+        val preSelected = this.preSelected
         binding.composeView.setContent {
+            val selectionState = rememberMutableStateListOf(preSelected ?: emptyList())
             AppTheme {
                 choiceMode = when (action) {
                     Action.SELECT_MAPPING -> {
@@ -205,15 +209,6 @@ class ManageCategories : ProtectedFragmentActivity(),
                     }
 
                     Action.MANAGE, Action.SELECT_FILTER -> {
-                        val selectionState = rememberMutableStateListOf<Category>()
-                        LaunchedEffect(selectionState.size) {
-                            if (selectionState.isNotEmpty()) {
-                                startActionMode(selectionState)
-                                updateActionModeTitle(selectionState)
-                            } else {
-                                finishActionMode()
-                            }
-                        }
                         ChoiceMode.MultiChoiceMode(selectionState, true)
                     }
                 }
@@ -279,7 +274,18 @@ class ManageCategories : ProtectedFragmentActivity(),
                                 }
 
                                 is LoadingState.Data -> {
-
+                                    LaunchedEffect(selectionState.size) {
+                                        if (selectionState.isNotEmpty()) {
+                                            startActionMode(selectionState)
+                                            updateActionModeTitle(selectionState.size)
+                                        } else {
+                                            finishActionMode()
+                                        }
+                                    }
+                                    val preExpanded = remember {
+                                        if (preSelected?.isEmpty() == false)
+                                        state.data.getExpandedForSelected(preSelected) else emptyList()
+                                    }
                                     Category(
                                         category = if (action == Action.SELECT_FILTER)
                                             state.data.copy(children = buildList {
@@ -294,7 +300,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                                             })
                                         else state.data,
                                         expansionMode = ExpansionMode.DefaultCollapsed(
-                                            rememberMutableStateListOf()
+                                            rememberMutableStateListOf(preExpanded)
                                         ),
                                         menuGenerator = remember {
                                             {
@@ -395,14 +401,14 @@ class ManageCategories : ProtectedFragmentActivity(),
 
     fun doMultiSelection() {
         val selected = (choiceMode as ChoiceMode.MultiChoiceMode).selectionState
-        if (selected.size == 1 || !selected.any { it.id == NULL_ITEM_ID }) {
-            (viewModel.categoryTree.value as? LoadingState.Data)?.also {
-                val label = it.data.flatten()
-                    .filter { selected.any { category -> category.id == it.id } }
+        if (selected.size == 1 || !selected.contains(NULL_ITEM_ID)) {
+            (viewModel.categoryTree.value as? LoadingState.Data)?.also { data ->
+                val label = data.data.flatten()
+                    .filter { selected.contains(it.id) }
                     .joinToString(separator = ",") { it.label }
                 setResult(RESULT_FIRST_USER, Intent().apply {
                     putExtra(KEY_ACCOUNTID, intent.getLongExtra(KEY_ACCOUNTID, 0))
-                    putExtra(KEY_ROWID, selected.map { it.id }.toLongArray())
+                    putExtra(KEY_ROWID, selected.toLongArray())
                     putExtra(KEY_LABEL, label)
                 })
                 finish()
@@ -427,11 +433,14 @@ class ManageCategories : ProtectedFragmentActivity(),
         actionMode?.finish()
     }
 
-    private fun updateActionModeTitle(selectionState: SnapshotStateList<Category>) {
-        actionMode?.title = "${selectionState.size}"
+    private fun updateActionModeTitle(size: Int) {
+        actionMode?.title = size.toString()
     }
 
-    private fun startActionMode(selectionState: SnapshotStateList<Category>) {
+    private fun startActionMode(selectionState: SnapshotStateList<Long>) {
+        val selectedCategories = (viewModel.categoryTree.value as? LoadingState.Data)?.let {
+            it.data.flatten().filter { selectionState.contains(it.id) }
+        } ?: return
         if (actionMode == null) {
             actionMode = startSupportActionMode(object : ActionMode.Callback {
                 override fun onCreateActionMode(
@@ -467,8 +476,8 @@ class ManageCategories : ProtectedFragmentActivity(),
                     mode: ActionMode,
                     menu: Menu
                 ): Boolean {
-                    menu.findItem(R.id.MERGE_COMMAND)?.isVisible = selectionState.size >=2 &&
-                            selectionState.all { it.typeFlags == selectionState.first().typeFlags }
+                    menu.findItem(R.id.MERGE_COMMAND)?.isVisible = selectedCategories.size >=2 &&
+                            selectedCategories.all { it.typeFlags == selectedCategories.first().typeFlags }
                     return true
                 }
 
@@ -477,8 +486,8 @@ class ManageCategories : ProtectedFragmentActivity(),
                     item: MenuItem
                 ): Boolean = when (item.itemId) {
                     R.id.DELETE_COMMAND -> {
-                        if (checkDefaultTransferCategory(selectionState)) {
-                            viewModel.deleteCategories(selectionState)
+                        if (checkDefaultTransferCategory(selectedCategories)) {
+                            viewModel.deleteCategories(selectedCategories)
                         }
                         true
                     }
@@ -489,7 +498,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                     }
 
                     R.id.MERGE_COMMAND -> {
-                        viewModel.dialogState = CategoryViewModel.Merge(selectionState)
+                        viewModel.dialogState = CategoryViewModel.Merge(selectedCategories)
                         true
                     }
 

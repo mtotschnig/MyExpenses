@@ -37,8 +37,20 @@ data class Category(
         addAll(children.flatMap { it.flatten() })
     }
 
-    fun pruneNonMatching(_criteria: ((Category) -> Boolean)? = null): Category? {
-        val criteria = _criteria ?: { it.isMatching }
+    fun getExpandedForSelected(selected: List<Long>): List<Long> =
+        buildList {
+            val expandedChildren = children.filter { !selected.contains(it.id) }.flatMap {
+                it.getExpandedForSelected(selected)
+            }
+            if (id != 0L && (children.any { selected.contains(it.id) } || expandedChildren.isNotEmpty())) {
+                add(id)
+            }
+            addAll(expandedChildren)
+        }
+
+
+    fun pruneNonMatching(function: ((Category) -> Boolean)? = null): Category? {
+        val criteria = function ?: { it.isMatching }
         val prunedChildren = children.mapNotNull { it.pruneNonMatching(criteria) }
         return if (criteria(this) || prunedChildren.isNotEmpty()) {
             copy(children = prunedChildren)
@@ -63,9 +75,9 @@ data class Category(
             it.sortChildrenByBudgetRecursive()
         })
 
-    fun recursiveUnselectChildren(selectionState: SnapshotStateList<Category>) {
+    fun recursiveUnselectChildren(selectionState: SnapshotStateList<Long>) {
         children.forEach {
-            selectionState.remove(it)
+            selectionState.remove(it.id)
             it.recursiveUnselectChildren(selectionState)
         }
     }

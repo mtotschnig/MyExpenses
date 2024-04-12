@@ -30,11 +30,11 @@ class SelectFromTableViewModel(application: Application, savedStateHandle: Saved
 
     val selection: List<DataHolder>?
         get() = (data.value as? LoadState.Result)?.items?.filter {
-            selectionState.value.contains(it)
+            selectionState.value.contains(it.id)
         }
 
     @OptIn(SavedStateHandleSaveableApi::class)
-    val selectionState: MutableState<List<DataHolder>> =
+    val selectionState: MutableState<List<Long>> =
         savedStateHandle.saveable("selectionState") { mutableStateOf(emptyList()) }
 
     fun loadData(
@@ -52,7 +52,7 @@ class SelectFromTableViewModel(application: Application, savedStateHandle: Saved
                     contentResolver.query(uri, projection, selection, selectionArgs, null)
                         ?.use {
                             it.asSequence.forEach { cursor ->
-                                add(DataHolder(cursor.getLong(0), cursor.getString(1)))
+                                add(DataHolder.fromCursor(cursor,  column))
                             }
                         }
                 }

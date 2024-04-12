@@ -924,7 +924,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 .collectAsState(WhereFilter.empty())
                 .value
                 .takeIf { !it.isEmpty }?.let {
-                    FilterCard(it, ::clearFilter)
+                    FilterCard(it, ::clearFilter, ::editFilter)
                 }
             headerData.collectAsState().value.let { headerData ->
                 val withCategoryIcon =
@@ -2240,6 +2240,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             putString(KEY_MESSAGE, getString(R.string.clear_all_filters))
             putInt(KEY_COMMAND_POSITIVE, R.id.CLEAR_FILTER_COMMAND)
         }).show(supportFragmentManager, "CLEAR_FILTER")
+    }
+
+    private fun editFilter(itemId: Int) {
+        filterHandler.handleFilter(itemId, currentFilter.whereFilter.criteria.find { it.id == itemId })
     }
 
     override fun onPositive(args: Bundle, checked: Boolean) {

@@ -8,7 +8,8 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 
-class SelectMethodsAllDialogFragment : SelectFilterDialog<MethodCriterion>(true) {
+class SelectMethodsAllDialogFragment :
+    SelectFilterDialog<MethodCriterion>(true, MethodCriterion::class.java) {
     override fun makeCriteria(label: String, vararg ids: Long): MethodCriterion =
         if (ids.size == 1 && ids[0] == NULL_ITEM_ID) MethodCriterion() else MethodCriterion(
             label,

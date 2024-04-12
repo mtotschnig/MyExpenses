@@ -17,11 +17,20 @@ import org.totschnig.myexpenses.fragment.TagList.Companion.KEY_TAG_LIST
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.filter.AccountCriterion
+import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
+import org.totschnig.myexpenses.provider.filter.CommentCriterion
+import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.filter.DateCriterion
+import org.totschnig.myexpenses.provider.filter.IdCriterion
+import org.totschnig.myexpenses.provider.filter.KEY_SELECTION
+import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
+import org.totschnig.myexpenses.provider.filter.TransferCriterion
 import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.viewmodel.SumInfoLoaded
@@ -74,33 +83,44 @@ class FilterHandler(private val activity: BaseMyExpenses) {
         }
     }
 
-    fun handleFilter(itemId: Int): Boolean {
+    fun handleFilter(itemId: Int, edit: Criterion<*>? = null): Boolean {
         with(activity) {
             if (accountCount == 0) return false
-            if (removeFilter(itemId)) return true
+            if (edit == null && removeFilter(itemId)) return true
             val accountId = currentAccount?.id ?: return false
             when (itemId) {
-                R.id.FILTER_CATEGORY_COMMAND -> getCategory.launch(accountId)
-                R.id.FILTER_PAYEE_COMMAND -> getPayee.launch(accountId)
-                R.id.FILTER_TAG_COMMAND -> getTags.launch(accountId)
-                R.id.FILTER_AMOUNT_COMMAND -> AmountFilterDialog.newInstance(currentAccount!!.currencyUnit)
-                    .show(supportFragmentManager, "AMOUNT_FILTER")
-                R.id.FILTER_DATE_COMMAND -> DateFilterDialog.newInstance()
-                    .show(supportFragmentManager, "DATE_FILTER")
+                R.id.FILTER_CATEGORY_COMMAND -> getCategory.launch(
+                    accountId to edit as? CategoryCriterion
+                    )
+                R.id.FILTER_PAYEE_COMMAND -> getPayee.launch(
+                    accountId to edit as? PayeeCriterion
+                )
+                R.id.FILTER_TAG_COMMAND -> getTags.launch(
+                    accountId to edit as? TagCriterion
+                )
+                R.id.FILTER_AMOUNT_COMMAND -> AmountFilterDialog.newInstance(
+                    currentAccount!!.currencyUnit, edit as? AmountCriterion
+                ).show(supportFragmentManager, "AMOUNT_FILTER")
+                R.id.FILTER_DATE_COMMAND -> DateFilterDialog.newInstance(
+                    edit as? DateCriterion
+                ).show(supportFragmentManager, "DATE_FILTER")
                 R.id.FILTER_COMMENT_COMMAND -> SimpleInputDialog.build()
                     .title(R.string.search_comment)
                     .pos(R.string.menu_search)
+                    .text((edit as? CommentCriterion)?.searchString)
                     .neut()
                     .show(this, FILTER_COMMENT_DIALOG)
-                R.id.FILTER_STATUS_COMMAND -> SelectCrStatusDialogFragment.newInstance()
-                    .show(supportFragmentManager, "STATUS_FILTER")
-                R.id.FILTER_METHOD_COMMAND -> SelectMethodDialogFragment.newInstance(accountId)
-                    .show(supportFragmentManager, "METHOD_FILTER")
+                R.id.FILTER_STATUS_COMMAND -> SelectCrStatusDialogFragment.newInstance(
+                    edit as? CrStatusCriterion
+                ).show(supportFragmentManager, "STATUS_FILTER")
+                R.id.FILTER_METHOD_COMMAND -> SelectMethodDialogFragment.newInstance(
+                    accountId, edit as? MethodCriterion
+                ).show(supportFragmentManager, "METHOD_FILTER")
                 R.id.FILTER_TRANSFER_COMMAND -> SelectTransferAccountDialogFragment.newInstance(
-                    accountId
+                    accountId, edit as? TransferCriterion
                 ).show(supportFragmentManager, "TRANSFER_FILTER")
                 R.id.FILTER_ACCOUNT_COMMAND -> SelectMultipleAccountDialogFragment.newInstance(
-                    currentAccount!!.currency
+                    currentAccount!!.currency, edit as? AccountCriterion
                 )
                     .show(supportFragmentManager, "ACCOUNT_FILTER")
                 else -> return false
@@ -110,15 +130,15 @@ class FilterHandler(private val activity: BaseMyExpenses) {
     }
 
     private val getCategory =
-        activity.registerForActivityResult(PickObjectContract(FILTER_CATEGORY_REQUEST)) {}
+        activity.registerForActivityResult(PickObjectContract<CategoryCriterion>(FILTER_CATEGORY_REQUEST)) {}
     private val getPayee =
-        activity.registerForActivityResult(PickObjectContract(FILTER_PAYEE_REQUEST)) {}
+        activity.registerForActivityResult(PickObjectContract<PayeeCriterion>(FILTER_PAYEE_REQUEST)) {}
     private val getTags =
-        activity.registerForActivityResult(PickObjectContract(FILTER_TAGS_REQUEST)) {}
+        activity.registerForActivityResult(PickObjectContract<TagCriterion>(FILTER_TAGS_REQUEST)) {}
 
-    private inner class PickObjectContract(private val requestKey: String) :
-        ActivityResultContract<Long, Unit>() {
-        override fun createIntent(context: Context, input: Long) =
+    private inner class PickObjectContract<T: IdCriterion>(private val requestKey: String) :
+        ActivityResultContract<Pair<Long, T?>, Unit>() {
+        override fun createIntent(context: Context, input: Pair<Long, T?>) =
             Intent(
                 context, when (requestKey) {
                     FILTER_CATEGORY_REQUEST -> ManageCategories::class.java
@@ -128,7 +148,8 @@ class FilterHandler(private val activity: BaseMyExpenses) {
                 }
             ).apply {
                 action = Action.SELECT_FILTER.name
-                putExtra(KEY_ACCOUNTID, input)
+                putExtra(KEY_ACCOUNTID, input.first)
+                putExtra(KEY_SELECTION, input.second?.values?.toLongArray())
             }
 
         override fun parseResult(resultCode: Int, intent: Intent?) {

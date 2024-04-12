@@ -29,7 +29,11 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun FilterCard(whereFilter: WhereFilter, clearFilter: (() -> Unit)? = null) {
+fun FilterCard(
+    whereFilter: WhereFilter,
+    clearFilter: (() -> Unit)? = null,
+    editFilter: ((Int) -> Unit)? = null
+) {
     Row(
         modifier = Modifier
             .background(color = colorResource(id = R.color.cardBackground))
@@ -50,7 +54,7 @@ fun FilterCard(whereFilter: WhereFilter, clearFilter: (() -> Unit)? = null) {
             whereFilter.criteria.forEach {
                 FilterChip(
                     selected = true,
-                    onClick = { },
+                    onClick = { editFilter?.invoke(it.id) },
                     label = {
                         Text(it.prettyPrint(LocalContext.current), maxLines = integerResource(id = R.integer.filter_chip_max_lines), overflow = TextOverflow.Ellipsis)
                     }

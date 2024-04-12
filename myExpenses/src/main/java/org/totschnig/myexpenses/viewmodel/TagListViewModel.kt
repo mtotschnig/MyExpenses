@@ -29,13 +29,13 @@ class TagListViewModel(application: Application, savedStateHandle: SavedStateHan
     val tags: LiveData<List<Tag>> = tagsInternal
 
     fun toggleSelectedTagId(tagId: Long) {
-        savedStateHandle[KEY_SELECTED_IDS] = selectedTagIds.toMutableSet().apply {
+        savedStateHandle[KEY_SELECTED_IDS] = selectedTagIds.apply {
             toggle(tagId)
         }
     }
 
-    var selectedTagIds: HashSet<Long>
-        get() = savedStateHandle[KEY_SELECTED_IDS] ?: HashSet()
+    var selectedTagIds: MutableSet<Long>
+        get() = savedStateHandle[KEY_SELECTED_IDS] ?: mutableSetOf()
         set(value) {
             savedStateHandle[KEY_SELECTED_IDS] = value
         }

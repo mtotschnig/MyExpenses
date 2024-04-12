@@ -8,8 +8,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.AccountCriterion
+import org.totschnig.myexpenses.provider.filter.KEY_CRITERION
 
-class SelectMultipleAccountDialogFragment : SelectFilterDialog<AccountCriterion>(false) {
+class SelectMultipleAccountDialogFragment :
+    SelectFilterDialog<AccountCriterion>(false, AccountCriterion::class.java) {
     override fun makeCriteria(label: String, vararg ids: Long) = AccountCriterion(label, *ids)
     override val uri: Uri = TransactionProvider.ACCOUNTS_BASE_URI
     override val column: String = KEY_LABEL
@@ -23,12 +25,14 @@ class SelectMultipleAccountDialogFragment : SelectFilterDialog<AccountCriterion>
 
 
     companion object {
-        fun newInstance(currencyCode: String) = SelectMultipleAccountDialogFragment().apply {
-            if (currencyCode != AGGREGATE_HOME_CURRENCY_CODE) {
-                arguments = Bundle(1).apply {
-                    putString(KEY_CURRENCY, currencyCode)
+        fun newInstance(currencyCode: String, criterion: AccountCriterion?) =
+            SelectMultipleAccountDialogFragment().apply {
+                if (currencyCode != AGGREGATE_HOME_CURRENCY_CODE) {
+                    arguments = Bundle(1).apply {
+                        putString(KEY_CURRENCY, currencyCode)
+                        putParcelable(KEY_CRITERION, criterion)
+                    }
                 }
             }
-        }
     }
 }
