@@ -20,7 +20,7 @@ class SortUtilityDialogFragment : BaseDialogFragment(), OnStartDragListener,
     private lateinit var adapter: RecyclerListAdapter
 
     interface OnConfirmListener {
-        fun onSortOrderConfirmed(sortedIds: LongArray?)
+        fun onSortOrderConfirmed(sortedIds: LongArray)
     }
 
     override fun onAttach(context: Context) {
@@ -72,7 +72,7 @@ class SortUtilityDialogFragment : BaseDialogFragment(), OnStartDragListener,
     companion object {
         private const val KEY_ITEMS = "items"
         @JvmStatic
-        fun newInstance(items: ArrayList<AbstractMap.SimpleEntry<Long?, String?>?>?): SortUtilityDialogFragment {
+        fun newInstance(items: ArrayList<AbstractMap.SimpleEntry<Long, String>>): SortUtilityDialogFragment {
             val fragment = SortUtilityDialogFragment()
             val args = Bundle(1)
             args.putSerializable(KEY_ITEMS, items)

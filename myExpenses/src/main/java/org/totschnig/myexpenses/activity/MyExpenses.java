@@ -35,7 +35,6 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
-import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectFilterDialog;
 import org.totschnig.myexpenses.dialog.select.SelectHiddenAccountDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -53,7 +52,7 @@ import eltos.simpledialogfragment.list.MenuDialog;
  * are called
  */
 public class MyExpenses extends BaseMyExpenses implements
-    ConfirmationDialogListener, SortUtilityDialogFragment.OnConfirmListener, SelectFilterDialog.Host {
+    ConfirmationDialogListener, SelectFilterDialog.Host {
 
   private AdHandler adHandler;
 
@@ -267,10 +266,4 @@ public class MyExpenses extends BaseMyExpenses implements
       super.onBackPressed();
     }
   }
-
-  @Override
-  public void onSortOrderConfirmed(long[] sortedIds) {
-    getViewModel().sortAccounts(sortedIds);
-  }
-
 }

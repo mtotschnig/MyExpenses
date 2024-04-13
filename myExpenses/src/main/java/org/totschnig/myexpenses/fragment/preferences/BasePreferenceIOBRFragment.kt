@@ -17,7 +17,7 @@ import org.totschnig.myexpenses.viewmodel.ShareViewModel
 /**
  * Common functionality for IO and BackupRestore fragments
  */
-abstract class BasePreferenceIOBRFragment: BasePreferenceFragment() {
+abstract class BasePreferenceIOBRFragment : BasePreferenceFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,29 +34,32 @@ abstract class BasePreferenceIOBRFragment: BasePreferenceFragment() {
             }
         }
     }
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
         loadAppDirSummary()
     }
 
-    override fun onPreferenceTreeClick(preference: Preference)= when {
+    override fun onPreferenceTreeClick(preference: Preference) = when {
         super.onPreferenceTreeClick(preference) -> true
         matches(preference, PrefKey.APP_DIR) -> {
             val appDirInfo = viewModel.appDirInfo.value?.getOrNull()
             if (appDirInfo?.isDefault == false) {
                 (preference as PopupMenuPreference).showPopupMenu(
                     {
-                        when(it.itemId) {
+                        when (it.itemId) {
                             0 -> {
                                 prefHandler.putString(PrefKey.APP_DIR, null)
                                 loadAppDirSummary()
                                 viewModel.loadAppData()
                                 true
                             }
+
                             1 -> {
                                 pickAppDir(appDirInfo)
                                 true
                             }
+
                             else -> false
                         }
                     }, getString(R.string.checkbox_is_default), getString(R.string.select)
@@ -66,6 +69,7 @@ abstract class BasePreferenceIOBRFragment: BasePreferenceFragment() {
             }
             true
         }
+
         else -> false
     }
 
@@ -75,7 +79,8 @@ abstract class BasePreferenceIOBRFragment: BasePreferenceFragment() {
 
     private val pickFolder = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) {
         if (it != null) {
-            requireContext().contentResolver.takePersistableUriPermission(it,
+            requireContext().contentResolver.takePersistableUriPermission(
+                it,
                 Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
             )
             prefHandler.putString(PrefKey.APP_DIR, it.toString())
@@ -127,7 +132,8 @@ abstract class BasePreferenceIOBRFragment: BasePreferenceFragment() {
                                 requireActivity(),
                                 Intent(Intent.ACTION_SENDTO).apply {
                                     data = Uri.parse(target)
-                                })) {
+                                })
+                        ) {
                             preferenceActivity.showDialog(R.id.FTP_DIALOG)
                         }
                     }
