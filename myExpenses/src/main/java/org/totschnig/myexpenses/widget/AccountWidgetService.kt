@@ -56,11 +56,22 @@ class AccountRemoteViewsFactory(
     )
     private val accountId = accountId(context, appWidgetId)
     private val sumColumn = sumColumn(context, appWidgetId)
+    private val buttons = buttons(context, appWidgetId)
 
     override fun buildCursor() = buildCursor(context, accountId)
 
     override fun RemoteViews.populate(cursor: Cursor) {
-        populate(context, currencyContext, currencyFormatter, this, cursor, sumColumn, width, null)
+        populate(
+            context,
+            currencyContext,
+            currencyFormatter,
+            this,
+            cursor,
+            sumColumn,
+            width,
+            null,
+            buttons
+        )
     }
 
     companion object {
@@ -75,12 +86,13 @@ class AccountRemoteViewsFactory(
             )
                 KEY_CURRENT_BALANCE else KEY_TOTAL
 
+        fun buttons(context: Context, appWidgetId: Int) =
+            AccountWidgetConfigurationFragment.loadButtons(context, appWidgetId)
+
         private fun RemoteViews.configureButton(
             context: Context,
             buttonId: Int,
-            drawableResId: Int,
-            action: String,
-            contentDescriptionResId: Int,
+            button: AccountWidgetConfigurationFragment.Button,
             account: Account,
             availableWidth: Int,
             position: Int,
@@ -90,12 +102,12 @@ class AccountRemoteViewsFactory(
                 setViewVisibility(buttonId, View.GONE)
             } else {
                 setViewVisibility(buttonId, View.VISIBLE)
-                setImageViewResource(buttonId, drawableResId)
-                setContentDescription(buttonId, context.getString(contentDescriptionResId))
+                setImageViewResource(buttonId, button.icon)
+                setContentDescription(buttonId, context.getString(button.label))
                 val block: Intent.() -> Unit = {
                     putExtra(KEY_ROWID, account.id)
                     putExtra(KEY_CURRENCY, account.currency)
-                    putExtra(KEY_CLICK_ACTION, action)
+                    putExtra(KEY_CLICK_ACTION, button.name)
                 }
                 if (clickInfo == null) {
                     setOnClickFillInIntent(buttonId, Intent().apply(block))
@@ -103,7 +115,8 @@ class AccountRemoteViewsFactory(
                     //noinspection InlinedApi
                     setOnClickPendingIntent(
                         buttonId, PendingIntent.getBroadcast(
-                            context, clickInfo.first, clickInfo.second.apply(block).apply {
+                            context, clickInfo.first, clickInfo.second.apply {
+                                block()
                                 data = Uri.parse(this.toUri(Intent.URI_INTENT_SCHEME))
                             }, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
                         )
@@ -124,7 +137,8 @@ class AccountRemoteViewsFactory(
             cursor: Cursor,
             sumColumn: String,
             availableWidth: Int,
-            clickInfo: Pair<Int, Intent>?
+            clickInfo: Pair<Int, Intent>?,
+            buttons: List<AccountWidgetConfigurationFragment.Button>
         ) {
             with(remoteViews) {
                 val account = Account.fromCursor(cursor)
@@ -157,39 +171,18 @@ class AccountRemoteViewsFactory(
                         )
                     )
                 }
-                configureButton(
-                    context,
-                    R.id.command1,
-                    R.drawable.ic_menu_add,
-                    CLICK_ACTION_NEW_TRANSACTION,
-                    R.string.menu_create_transaction,
-                    account,
-                    availableWidth,
-                    1,
-                    clickInfo
-                )
-                configureButton(
-                    context,
-                    R.id.command2,
-                    R.drawable.ic_menu_forward,
-                    CLICK_ACTION_NEW_TRANSFER,
-                    R.string.menu_create_transfer,
-                    account,
-                    availableWidth,
-                    2,
-                    clickInfo
-                )
-                configureButton(
-                    context,
-                    R.id.command3,
-                    R.drawable.ic_menu_split,
-                    CLICK_ACTION_NEW_SPLIT,
-                    R.string.menu_create_split,
-                    account,
-                    availableWidth,
-                    3,
-                    clickInfo
-                )
+                buttons.zip(listOf(R.id.command1, R.id.command2, R.id.command3))
+                    .forEachIndexed { index, (button, command) ->
+                        configureButton(
+                            context,
+                            command,
+                            button,
+                            account,
+                            availableWidth,
+                            index + 1,
+                            clickInfo
+                        )
+                    }
             }
         }
 

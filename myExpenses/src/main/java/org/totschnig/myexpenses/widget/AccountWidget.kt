@@ -7,16 +7,17 @@ import android.widget.RemoteViews
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.MyExpenses
-import org.totschnig.myexpenses.contract.TransactionsContract
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE
 import org.totschnig.myexpenses.fragment.AccountWidgetConfigurationFragment
+import org.totschnig.myexpenses.fragment.AccountWidgetConfigurationFragment.Button
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.doAsync
-
-const val CLICK_ACTION_NEW_TRANSACTION = "newTransaction"
-const val CLICK_ACTION_NEW_TRANSFER = "newTransfer"
-const val CLICK_ACTION_NEW_SPLIT = "newSplit"
+import org.totschnig.myexpenses.widget.AccountRemoteViewsFactory.Companion.buttons
+import org.totschnig.myexpenses.widget.AccountRemoteViewsFactory.Companion.sumColumn
 
 class AccountWidget :
     AbstractListWidget(AccountWidgetService::class.java, PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET) {
@@ -65,16 +66,14 @@ class AccountWidget :
                             currencyFormatter = currencyFormatter,
                             remoteViews = widget,
                             cursor = cursor,
-                            sumColumn = AccountRemoteViewsFactory.sumColumn(
-                                context,
-                                appWidgetId
-                            ),
+                            sumColumn = sumColumn(context, appWidgetId),
                             availableWidth = availableWidthForButtons(
                                 context,
                                 appWidgetManager,
                                 appWidgetId
                             ),
-                            clickInfo = Pair(appWidgetId, clickBaseIntent(context))
+                            clickInfo = Pair(appWidgetId, clickBaseIntent(context)),
+                            buttons = buttons(context, appWidgetId)
                         )
                     }
                 } else {
@@ -99,33 +98,26 @@ class AccountWidget :
     }
 
     override fun handleWidgetClick(context: Context, intent: Intent) {
-        val accountId = intent.getLongExtra(DatabaseConstants.KEY_ROWID, 0)
+        val accountId = intent.getLongExtra(KEY_ROWID, 0)
         context.startActivity(when (val clickAction = intent.getStringExtra(KEY_CLICK_ACTION)) {
             null -> Intent(context, MyExpenses::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                putExtra(DatabaseConstants.KEY_ROWID, accountId)
+                putExtra(KEY_ROWID, accountId)
             }
 
             else -> Intent(context, ExpenseEdit::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                 if (accountId < 0) {
                     putExtra(
-                        DatabaseConstants.KEY_CURRENCY,
-                        intent.getStringExtra(DatabaseConstants.KEY_CURRENCY)
+                        KEY_CURRENCY,
+                        intent.getStringExtra(KEY_CURRENCY)
                     )
                 } else {
-                    putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId)
+                    putExtra(KEY_ACCOUNTID, accountId)
                 }
                 putExtra(EXTRA_START_FROM_WIDGET, true)
                 putExtra(EXTRA_START_FROM_WIDGET_DATA_ENTRY, true)
-                putExtra(
-                    TransactionsContract.Transactions.OPERATION_TYPE, when (clickAction) {
-                        CLICK_ACTION_NEW_TRANSACTION -> TransactionsContract.Transactions.TYPE_TRANSACTION
-                        CLICK_ACTION_NEW_TRANSFER -> TransactionsContract.Transactions.TYPE_TRANSFER
-                        CLICK_ACTION_NEW_SPLIT -> TransactionsContract.Transactions.TYPE_SPLIT
-                        else -> throw IllegalArgumentException()
-                    }
-                )
+                putExtra(OPERATION_TYPE, Button.valueOf(clickAction).type)
             }
         })
     }
