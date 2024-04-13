@@ -243,10 +243,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     m.executePendingTransactions();
   }
 
-  public void recordUsage(ContribFeature f) {
-    licenceHandler.recordUsage(f);
-  }
-
   @Override
   protected void onActivityResult(int requestCode, int resultCode,
                                   Intent intent) {

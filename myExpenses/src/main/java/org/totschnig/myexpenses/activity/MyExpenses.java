@@ -142,18 +142,6 @@ public class MyExpenses extends BaseMyExpenses implements
         }
       }
     }
-    if (requestCode == CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-      CropImage.ActivityResult activityResult = CropImage.getActivityResult(intent);
-      if (resultCode == RESULT_OK) {
-        viewModel.cleanupOrigFile(activityResult);
-        getOcrViewModel().startOcrFeature(activityResult.getUri(), getSupportFragmentManager());
-      } else {
-        processImageCaptureError(resultCode, activityResult);
-      }
-    }
-    if (requestCode == OCR_REQUEST) {
-      getOcrViewModel().handleOcrData(intent, getSupportFragmentManager());
-    }
   }
 
   /**

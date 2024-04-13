@@ -1265,6 +1265,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
+    override fun onCropResultOK(result: CropImage.ActivityResult) {
+        viewModel.addAttachmentUris(result.uri)
+        setDirty()
+    }
+
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
@@ -1276,17 +1281,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     intent.getLongExtra(KEY_ROWID, 0)
                 )
                 setDirty()
-            }
-
-            CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
-                val result = CropImage.getActivityResult(intent)
-                if (resultCode == RESULT_OK) {
-                    viewModel.addAttachmentUris(result.uri)
-                    setDirty()
-                    viewModel.cleanupOrigFile(result)
-                } else {
-                    processImageCaptureError(resultCode, result)
-                }
             }
 
             PLAN_REQUEST -> finish()

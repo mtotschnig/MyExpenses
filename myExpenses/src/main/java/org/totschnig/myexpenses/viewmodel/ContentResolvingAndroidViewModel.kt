@@ -359,14 +359,6 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
         })
     }*/
 
-    fun cleanupOrigFile(result: CropImage.ActivityResult) {
-        if (result.originalUri.authority == getFileProviderAuthority(getApplication())) {
-            viewModelScope.launch(coroutineContext()) {
-                contentResolver.delete(result.originalUri, null, null)
-            }
-        }
-    }
-
     companion object {
         fun <K, V> lazyMap(initializer: (K) -> V): Map<K, V> {
             val map = mutableMapOf<K, V>()

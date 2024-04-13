@@ -47,7 +47,6 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.filter.KEY_SELECTION
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 import org.totschnig.myexpenses.provider.filter.preSelected
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -628,7 +627,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                             )
                         )
                         if (prefHandler.getBoolean(PrefKey.PERFORM_SHARE, false)) {
-                            shareViewModel.share(
+                            baseViewModel.share(
                                 this@ManageCategories, listOf(pair.first),
                                 prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim(),
                                 "text/qif"

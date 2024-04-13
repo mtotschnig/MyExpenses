@@ -8,7 +8,7 @@ import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.totschnig.myexpenses.util.AppDirHelper
-import org.totschnig.myexpenses.viewmodel.ShareViewModel
+import org.totschnig.myexpenses.viewmodel.BaseFunctionalityViewModel
 
 @RunWith(AndroidJUnit4::class)
 class ShareUtilsTest {
@@ -20,7 +20,7 @@ class ShareUtilsTest {
             .createFile(mimeType, "testFile")!!.uri
         assertFileScheme(testFileUri)
         val fileUris = listOf(testFileUri)
-        val intent = ShareViewModel.buildIntent(context, fileUris, mimeType, null)
+        val intent = BaseFunctionalityViewModel.buildIntent(context, fileUris, mimeType, null)
         val sharedUri = intent.getParcelableArrayListExtra<Uri>(Intent.EXTRA_STREAM)!!
         assertContentScheme(sharedUri.first())
     }
@@ -34,7 +34,7 @@ class ShareUtilsTest {
         val testFile2Uri = appDir.createFile(mimeType, "testFile1")!!.uri
         val fileUris = listOf(testFile1Uri, testFile2Uri)
         fileUris.forEach { uri: Uri -> assertFileScheme(uri) }
-        val intent = ShareViewModel.buildIntent(context, fileUris, mimeType, null)
+        val intent = BaseFunctionalityViewModel.buildIntent(context, fileUris, mimeType, null)
         val sharedUris: List<Uri> = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM)!!
         sharedUris.forEach { uri: Uri -> assertContentScheme(uri) }
     }
