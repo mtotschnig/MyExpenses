@@ -173,7 +173,7 @@ class AccountRemoteViewsFactory(
                         )
                     )
                 }
-                buttons.zip(listOf(R.id.command1, R.id.command2, R.id.command3))
+                buttons.zip(listOf(R.id.command1, R.id.command2, R.id.command3, R.id.command4))
                     .forEachIndexed { index, (button, command) ->
                         configureButton(
                             context,

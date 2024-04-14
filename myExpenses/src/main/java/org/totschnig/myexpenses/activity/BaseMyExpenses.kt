@@ -68,13 +68,9 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
-import com.theartofdev.edmodo.cropper.CropImage
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.AmountInput
 import eltos.simpledialogfragment.form.AmountInputHostDialog
-import eltos.simpledialogfragment.form.Hint
-import eltos.simpledialogfragment.form.SimpleFormDialog
-import eltos.simpledialogfragment.form.Spinner
 import eltos.simpledialogfragment.input.SimpleInputDialog
 import eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID
 import eltos.simpledialogfragment.list.MenuDialog
@@ -110,10 +106,7 @@ import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment.OnConfirmListen
 import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment.Companion.TRANSFORM_TO_TRANSFER_REQUEST
 import org.totschnig.myexpenses.feature.Feature
-import org.totschnig.myexpenses.feature.OcrHost
 import org.totschnig.myexpenses.feature.OcrResult
-import org.totschnig.myexpenses.feature.OcrResultFlat
-import org.totschnig.myexpenses.feature.Payee
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
@@ -191,9 +184,6 @@ import timber.log.Timber
 import java.io.Serializable
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalTime
-import java.util.AbstractMap
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.sign
@@ -2246,7 +2236,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     }
 
     override fun onNegative(args: Bundle) {
-        val command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE)
+        val command = args.getInt(KEY_COMMAND_NEGATIVE)
         if (command != 0) {
             dispatchCommand(command, null)
         }
