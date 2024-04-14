@@ -26,7 +26,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
 import org.totschnig.myexpenses.util.formatMoney
-import kotlin.math.abs
+import kotlin.math.absoluteValue
 
 @Parcelize
 class AmountCriterion(
@@ -52,20 +52,21 @@ class AmountCriterion(
         val currencyFormatter = context.injector.currencyFormatter()
         val currencyContext = context.injector.currencyContext()
         val currencyUnit = currencyContext[currency]
-        val amount1 = currencyFormatter.formatMoney(Money(currencyUnit, abs(values[0])))
-        return context.getString(if (type) R.string.income else R.string.expense) + " " + when (operation) {
-            Operation.EQ -> "= $amount1"
-            Operation.GTE, Operation.LTE -> "≥ $amount1"
-            Operation.BTW -> {
-                if (values[1] == 0L) {
-                    "<= $amount1"
-                } else {
-                    val amount2 = currencyFormatter.formatMoney(Money(currencyUnit, abs(values[1])))
-                    if (values[0] == 0L) "<=  $amount2" else context.getString(R.string.between_and, amount1, amount2)
+        val transformed = transformForUi()
+        val amount1 = currencyFormatter.formatMoney(Money(currencyUnit, transformed.second[0]))
+        return context.getString(if (type) R.string.income else R.string.expense) + " " +
+                when (transformed.first) {
+                    Operation.EQ -> "= $amount1"
+                    Operation.GTE -> "≥ $amount1"
+                    Operation.LTE -> "<= $amount1"
+                    Operation.BTW -> context.getString(
+                        R.string.between_and,
+                        amount1,
+                        currencyFormatter.formatMoney(Money(currencyUnit, transformed.second[1]))
+                    )
+
+                    else -> throw IllegalArgumentException()
                 }
-            }
-            else -> throw IllegalArgumentException()
-        }
     }
 
     override fun toString(): String {
@@ -77,6 +78,27 @@ class AmountCriterion(
         return result
     }
 
+    fun transformForUi(): Pair<Operation, Array<Long>> {
+        val value1 = values[0].absoluteValue
+        val value2 = values.getOrNull(1)?.absoluteValue
+        return when (operation) {
+            Operation.EQ, Operation.GTE -> operation to arrayOf(value1)
+            Operation.LTE -> if (!type) Operation.GTE to arrayOf(value1)
+            else throw IllegalStateException("LTE for income not expected")
+
+            Operation.BTW -> when {
+                value1 == 0L -> Operation.LTE to arrayOf(value2!!)
+                value2 == 0L -> Operation.LTE to arrayOf(value1)
+                else -> operation to if (type) arrayOf(value1, value2!!) else arrayOf(
+                    value2!!,
+                    value1
+                )
+            }
+
+            else -> throw IllegalStateException("Operator not expected: " + operation.name)
+        }
+    }
+
     companion object {
 
         fun create(
@@ -86,19 +108,16 @@ class AmountCriterion(
             value1: Long,
             value2: Long?
         ): AmountCriterion {
-            val criteriaInfo = transformCriteria(operation, type, value1, value2)
+            val criteriaInfo = transformForStorage(operation, type, value1, value2)
             return AmountCriterion(criteriaInfo.first, criteriaInfo.second, currency, type)
         }
 
-        private fun transformCriteria(
+        private fun transformForStorage(
             operation: Operation,
             type: Boolean,
             value1: Long,
             value2: Long?
         ): Pair<Operation, Array<Long>> {
-            if (operation !in listOf(Operation.BTW, Operation.EQ, Operation.GTE, Operation.LTE))
-                throw UnsupportedOperationException("Operator not supported: " + operation.name)
-
             val longAmount1: Long = if (type) value1 else -value1
             return when (operation) {
                 Operation.BTW -> {
@@ -112,14 +131,16 @@ class AmountCriterion(
                         if (needSwap) longAmount1 else longAmount2
                     )
                 }
-                Operation.LTE -> {
+
+                Operation.LTE ->
                     Operation.BTW to if (type) arrayOf(0, longAmount1) else arrayOf(longAmount1, 0)
+
+                Operation.GTE -> {
+                    (if (type) Operation.GTE else Operation.LTE) to arrayOf(longAmount1)
                 }
-                else -> {
-                    (if (!type && operation == Operation.GTE) Operation.LTE else operation) to arrayOf(
-                        longAmount1
-                    )
-                }
+
+                Operation.EQ -> operation to arrayOf(longAmount1)
+                else -> throw UnsupportedOperationException("Operator not supported: " + operation.name)
             }
         }
 

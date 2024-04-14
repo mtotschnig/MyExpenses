@@ -54,9 +54,10 @@ class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
             if (criterion.type) {
                 binding.type.check(R.id.income)
             }
-            binding.Operator.setSelection(operations.indexOf(criterion.operation.name))
-            binding.amount1.setAmount(Money(currency, criterion.values[0]).amountMajor)
-            criterion.values.getOrNull(1)?.let {
+            val transformed = criterion.transformForUi()
+            binding.Operator.setSelection(operations.indexOf(transformed.first.name))
+            binding.amount1.setAmount(Money(currency, transformed.second[0]).amountMajor)
+            transformed.second.getOrNull(1)?.let {
                 binding.amount2.setAmount(Money(currency, it).amountMajor)
             }
         }
