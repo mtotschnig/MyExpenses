@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.AccountWidgetConfigure
+import org.totschnig.myexpenses.adapter.SortableItem
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
@@ -29,7 +30,6 @@ import org.totschnig.myexpenses.fragment.AccountWidgetConfigurationFragment.Butt
 import org.totschnig.myexpenses.preference.SimpleValuePreference
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.viewmodel.AccountWidgetConfigurationViewModel
-import java.util.AbstractMap
 
 @Suppress("unused")
 class AccountWidgetConfigurationFragment : PreferenceFragmentCompat() {
@@ -95,7 +95,7 @@ class AccountWidgetConfigurationFragment : PreferenceFragmentCompat() {
             SortUtilityDialogFragment.newInstance(
                 ArrayList(
                     unmarshall((preference as SimpleValuePreference).value).map {
-                        AbstractMap.SimpleEntry(it.ordinal.toLong(), getString(it.label))
+                        SortableItem(it.ordinal.toLong(), getString(it.label), it.icon)
                     }
                 )
             ).show(childFragmentManager, "SORT_ACCOUNTS")

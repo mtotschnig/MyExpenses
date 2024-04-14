@@ -4,11 +4,13 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import androidx.core.os.BundleCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.RecyclerListAdapter
+import org.totschnig.myexpenses.adapter.SortableItem
 import org.totschnig.myexpenses.adapter.helper.OnStartDragListener
 import org.totschnig.myexpenses.adapter.helper.SimpleItemTouchHelperCallback
 import java.util.*
@@ -40,7 +42,7 @@ class SortUtilityDialogFragment : BaseDialogFragment(), OnStartDragListener,
         val args = savedInstanceState ?: requireArguments()
         adapter = RecyclerListAdapter(
             this,
-            args.getSerializable(KEY_ITEMS) as ArrayList<AbstractMap.SimpleEntry<Long?, String?>?>?
+            BundleCompat.getParcelableArrayList(args, KEY_ITEMS, SortableItem::class.java)!!
         )
         val recyclerView = RecyclerView(builder.context)
         recyclerView.setHasFixedSize(true)
@@ -61,21 +63,21 @@ class SortUtilityDialogFragment : BaseDialogFragment(), OnStartDragListener,
     }
 
     override fun onClick(dialog: DialogInterface, which: Int) {
-        callback.onSortOrderConfirmed(adapter.items.map { it.key }.toLongArray())
+        callback.onSortOrderConfirmed(adapter.items.map { it.id }.toLongArray())
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putSerializable(KEY_ITEMS, adapter.items)
+        outState.putParcelableArrayList(KEY_ITEMS, adapter.items)
     }
 
     companion object {
         private const val KEY_ITEMS = "items"
         @JvmStatic
-        fun newInstance(items: ArrayList<AbstractMap.SimpleEntry<Long, String>>): SortUtilityDialogFragment {
+        fun newInstance(items: ArrayList<SortableItem>): SortUtilityDialogFragment {
             val fragment = SortUtilityDialogFragment()
             val args = Bundle(1)
-            args.putSerializable(KEY_ITEMS, items)
+            args.putParcelableArrayList(KEY_ITEMS, items)
             fragment.arguments = args
             return fragment
         }

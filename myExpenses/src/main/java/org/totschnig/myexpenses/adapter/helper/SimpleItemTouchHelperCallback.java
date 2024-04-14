@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.adapter.helper;
 
 import android.graphics.Canvas;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,31 +53,28 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
   }
 
   @Override
-  public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+  public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
     final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
     final int swipeFlags = 0;
     return makeMovementFlags(dragFlags, swipeFlags);
   }
 
   @Override
-  public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder source, RecyclerView.ViewHolder target) {
+  public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder source, RecyclerView.ViewHolder target) {
     if (source.getItemViewType() != target.getItemViewType()) {
       return false;
     }
 
     // Notify the adapter of the move
-    mAdapter.onItemMove(source.getAdapterPosition(), target.getAdapterPosition());
+    mAdapter.onItemMove(source.getBindingAdapterPosition(), target.getBindingAdapterPosition());
     return true;
   }
 
   @Override
-  public void onSwiped(RecyclerView.ViewHolder viewHolder, int i) {
-    // Notify the adapter of the dismissal
-    mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
-  }
+  public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {}
 
   @Override
-  public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+  public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
     if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
       // Fade out the view as it is swiped out of the parent's bounds
       final float alpha = ALPHA_FULL - Math.abs(dX) / (float) viewHolder.itemView.getWidth();
@@ -91,9 +89,8 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
   public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
     // We only want the active item to change
     if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
-      if (viewHolder instanceof ItemTouchHelperViewHolder) {
+      if (viewHolder instanceof ItemTouchHelperViewHolder itemViewHolder) {
         // Let the view holder know that this item is being moved or dragged
-        ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;
         itemViewHolder.onItemSelected();
       }
     }
@@ -102,14 +99,13 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
   }
 
   @Override
-  public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+  public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
     super.clearView(recyclerView, viewHolder);
 
     viewHolder.itemView.setAlpha(ALPHA_FULL);
 
-    if (viewHolder instanceof ItemTouchHelperViewHolder) {
+    if (viewHolder instanceof ItemTouchHelperViewHolder itemViewHolder) {
       // Tell the view holder it's time to restore the idle state
-      ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;
       itemViewHolder.onItemClear();
     }
 

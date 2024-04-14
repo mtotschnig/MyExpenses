@@ -85,6 +85,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
 import org.totschnig.myexpenses.activity.FilterHandler.Companion.FILTER_COMMENT_DIALOG
+import org.totschnig.myexpenses.adapter.SortableItem
 import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
@@ -2128,7 +2129,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 SortUtilityDialogFragment.newInstance(
                     ArrayList(accountData
                         .filter { it.id > 0 }
-                        .map { AbstractMap.SimpleEntry(it.id, it.label) }
+                        .map { SortableItem(it.id, it.label) }
                     ))
                     .show(supportFragmentManager, "SORT_ACCOUNTS")
             }
