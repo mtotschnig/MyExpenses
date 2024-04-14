@@ -99,4 +99,5 @@
     <string name="required">"Απαιτείται"</string>
     <string name="file_format">"Μορφή αρχείου"</string>
     <string name="quality">"Ποιότητα"</string>
+    <string name="buttons">"Πλήκτρα"</string>
 </resources>

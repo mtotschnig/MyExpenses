@@ -173,5 +173,7 @@
     <!-- LibreOffice helpcontent2/source/text/swriter/01.po WEPwT -->
     <string name="file_format">File Format</string>
     <!-- LibreOffice sd/messages.po PUgsP -->
-    <string name="quality">"Qualität"</string>
+    <string name="quality">"Quality"</string>
+    <!-- LibreOffice helpcontent2/source/text/sdatabase.po -->
+    <string name="buttons">"Buttons"</string>
 </resources>

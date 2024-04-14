@@ -101,4 +101,5 @@
     <string name="required">"Задължителен"</string>
     <string name="file_format">"Файлов формат"</string>
     <string name="quality">"Качество"</string>
+    <string name="buttons">"Бутони"</string>
 </resources>

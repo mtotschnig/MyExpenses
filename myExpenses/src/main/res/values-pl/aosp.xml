@@ -102,4 +102,5 @@
     <string name="required">"Wymagane"</string>
     <string name="file_format">"Format pliku"</string>
     <string name="quality">"Jakość"</string>
+    <string name="buttons">"Przyciski"</string>
 </resources>
