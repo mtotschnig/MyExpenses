@@ -157,6 +157,7 @@ class AccountWidgetConfigurationFragment : PreferenceFragmentCompat() {
             sharedPreferences(context).edit {
                 remove(selectionKey(appWidgetId))
                 remove(sumKey(appWidgetId))
+                remove(buttonsKey(appWidgetId))
             }
         }
     }
