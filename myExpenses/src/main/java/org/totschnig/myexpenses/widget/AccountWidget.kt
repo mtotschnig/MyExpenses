@@ -7,11 +7,13 @@ import android.widget.RemoteViews
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.MyExpenses
+import org.totschnig.myexpenses.activity.OcrLauncher
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE
 import org.totschnig.myexpenses.fragment.AccountWidgetConfigurationFragment
 import org.totschnig.myexpenses.fragment.AccountWidgetConfigurationFragment.Button
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -99,27 +101,34 @@ class AccountWidget :
 
     override fun handleWidgetClick(context: Context, intent: Intent) {
         val accountId = intent.getLongExtra(KEY_ROWID, 0)
-        context.startActivity(when (val clickAction = intent.getStringExtra(KEY_CLICK_ACTION)) {
-            null -> Intent(context, MyExpenses::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                putExtra(KEY_ROWID, accountId)
+        val startIntent = when (val clickAction = intent.getStringExtra(KEY_CLICK_ACTION)) {
+            null -> {
+                Intent(context, MyExpenses::class.java).apply {
+                    putExtra(KEY_ROWID, accountId)
+                }
             }
 
-            else -> Intent(context, ExpenseEdit::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                if (accountId < 0) {
-                    putExtra(
-                        KEY_CURRENCY,
-                        intent.getStringExtra(KEY_CURRENCY)
-                    )
-                } else {
-                    putExtra(KEY_ACCOUNTID, accountId)
+            else -> {
+                (if (clickAction == "SCAN") Intent(context, OcrLauncher::class.java)
+                else Intent(context, ExpenseEdit::class.java).apply {
+                    putExtra(EXTRA_START_FROM_WIDGET, true)
+                    putExtra(EXTRA_START_FROM_WIDGET_DATA_ENTRY, true)
+                    putExtra(OPERATION_TYPE, Button.valueOf(clickAction).type)
+                }).apply {
+                    if (accountId < 0) {
+                        putExtra(
+                            KEY_CURRENCY, intent.getStringExtra(KEY_CURRENCY)
+                        )
+                    } else {
+                        putExtra(KEY_ACCOUNTID, accountId)
+                    }
+                    putExtra(KEY_COLOR, intent.getIntExtra(KEY_COLOR, 0))
                 }
-                putExtra(EXTRA_START_FROM_WIDGET, true)
-                putExtra(EXTRA_START_FROM_WIDGET_DATA_ENTRY, true)
-                putExtra(OPERATION_TYPE, Button.valueOf(clickAction).type)
             }
-        })
+        }.apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+        context.startActivity(startIntent)
     }
 
     override fun onDeleted(context: Context, appWidgetIds: IntArray) {

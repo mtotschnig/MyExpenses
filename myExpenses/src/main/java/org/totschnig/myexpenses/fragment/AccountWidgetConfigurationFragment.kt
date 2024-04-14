@@ -72,12 +72,12 @@ class AccountWidgetConfigurationFragment : PreferenceFragmentCompat() {
     enum class Button(
         @StringRes val label: Int,
         @DrawableRes val icon: Int,
-        @TransactionType val type: Int
+        @TransactionType val type: Int?
     ) {
         TRANSACTION(R.string.menu_create_transaction, R.drawable.ic_menu_add, TYPE_TRANSACTION),
         TRANSFER(R.string.menu_create_transfer, R.drawable.ic_menu_forward, TYPE_TRANSFER),
-        SPLIT(R.string.menu_create_split, R.drawable.ic_menu_split, TYPE_SPLIT)
-        /*SCAN(R.string.button_scan)*/;
+        SPLIT(R.string.menu_create_split, R.drawable.ic_menu_split, TYPE_SPLIT),
+        SCAN(R.string.button_scan, R.drawable.ic_scan, null);
 
         companion object {
 

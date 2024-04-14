@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
@@ -107,6 +108,7 @@ class AccountRemoteViewsFactory(
                 val block: Intent.() -> Unit = {
                     putExtra(KEY_ROWID, account.id)
                     putExtra(KEY_CURRENCY, account.currency)
+                    putExtra(KEY_COLOR, account.color)
                     putExtra(KEY_CLICK_ACTION, button.name)
                 }
                 if (clickInfo == null) {
