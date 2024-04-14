@@ -47,7 +47,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.os.ConfigurationCompat
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Lifecycle
@@ -79,7 +78,6 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity.Companion.getIntentFor
-import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.dialog.DialogUtils
@@ -123,6 +121,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.marketSelfUri
+import org.totschnig.myexpenses.util.getLocale
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.readPrimaryTextColor
 import org.totschnig.myexpenses.util.safeMessage
@@ -138,7 +137,6 @@ import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalTime
-import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.sign
 
@@ -1054,9 +1052,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             R.string.warning_unencrypted_backup,
             getString(R.string.pref_security_export_passphrase_title)
         )
-
-    fun getLocale(): Locale =
-        ConfigurationCompat.getLocales(resources.configuration).get(0) ?: Locale.getDefault()
 
     override fun onMessageDialogDismissOrCancel() {}
 

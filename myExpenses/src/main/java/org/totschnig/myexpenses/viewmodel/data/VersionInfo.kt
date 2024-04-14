@@ -7,6 +7,7 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.localizedQuote
 import java.util.Locale
 
 @Parcelize
@@ -104,6 +105,12 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
             )
             "381" -> arrayOf(
                 "${t(R.string.menu_print)}: ${t(R.string.configuration)} (${t(R.string.paper_format)}, ${t(R.string.header_footer)})"
+            )
+            "382" -> arrayOf(
+                "${t(R.string.menu_search)}: ${t(R.string.ui_refinement)}",
+                "${t(R.string.account_widget_configuration)}: ${t(R.string.buttons)}",
+                ctx.getString(R.string.whats_new_382, ctx.localizedQuote(t(R.string.title_scan_receipt_feature))),
+
             )
             else -> {
                 //noinspection DiscouragedApi
