@@ -68,6 +68,6 @@ class TagFilterFileLoggingTree(context: Context, private val tag: String) : Timb
             start()
         })
         // print any status messages (warnings, etc) encountered in logback config
-        StatusPrinter.print(loggerContext)
+        //StatusPrinter.print(loggerContext)
     }
 }
