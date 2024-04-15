@@ -12,7 +12,6 @@ import ch.qos.logback.core.rolling.RollingFileAppender
 import ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy
 import ch.qos.logback.core.util.FileSize
-import ch.qos.logback.core.util.StatusPrinter
 import org.slf4j.LoggerFactory
 import timber.log.Timber
 import java.nio.charset.StandardCharsets

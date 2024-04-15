@@ -148,7 +148,8 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 "${t(R.string.account_widget_configuration)}: ${t(R.string.buttons)}",
                 ctx.getString(
                     R.string.whats_new_382,
-                    ctx.localizedQuote(t(R.string.title_scan_receipt_feature))
+                    ctx.localizedQuote(t(R.string.title_scan_receipt_feature)),
+                    ctx.localizedQuote(t(R.string.widget_title_accounts))
                 ),
 
                 )

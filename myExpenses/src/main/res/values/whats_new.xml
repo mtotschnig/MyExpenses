@@ -17,6 +17,6 @@
     <string name="whats_new_376_1">Clone multiple transactions with new date.</string>
     <string name="whats_new_376_2">Web user interface can be controlled from main screen.</string>
     <string name="whats_new_378">Charts honour search filter.</string>
-    <!-- %s will be replaced with quoted label for "Scan receipt functionality. -->
-    <string name="whats_new_382">%s feature can be called from account widget.</string>
+    <!-- %1$s will be replaced with quoted label for "Scan receipt" functionality. %2$s will be replaced with quoted label for "My accounts widget-->
+    <string name="whats_new_382">%1$s feature can be called from widget %2$s.</string>
 </resources>
