@@ -549,9 +549,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         AppCompatDelegate.setApplicationLocales(
             if (language == MyApplication.DEFAULT_LANGUAGE)
                 LocaleListCompat.getEmptyLocaleList() else
-                LocaleListCompat.forLanguageTags(
-                    language
-                )
+                LocaleListCompat.forLanguageTags(language)
         )
     }
 

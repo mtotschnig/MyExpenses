@@ -344,6 +344,7 @@ dependencies {
     testImplementation "androidx.test.ext:junit:$androidxTextExtJunit"
     testImplementation(project(":shared-test"))
     testImplementation "androidx.work:work-testing:$workManager"
+    testImplementation 'org.yaml:snakeyaml:2.2'
 }
 
 static def getDate() {
