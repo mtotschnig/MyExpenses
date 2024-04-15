@@ -29,9 +29,7 @@ class VersionInfoTest {
         val context = ApplicationProvider.getApplicationContext<Application>()
         val versions = context.resources.getStringArray(R.array.versions)
         versions.forEach {
-            val parts = it.split(';')
-            Truth.assertThat(parts.size).isEqualTo(2)
-            Truth.assertWithMessage("No changes for version $it").that(VersionInfo(parts[0].toInt(), parts[1]).getChanges(context)).isNotNull()
+            Truth.assertWithMessage("No changes for version $it").that(VersionInfo(it).getChanges(context)).isNotNull()
         }
     }
 
