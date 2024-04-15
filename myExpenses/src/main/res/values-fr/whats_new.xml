@@ -17,4 +17,5 @@
     <string name="whats_new_376_1">Clonez plusieurs opérations avec une nouvelle date.</string>
     <string name="whats_new_376_2">L\'interface utilisateur Web peut être contrôlée depuis l\'écran principal.</string>
     <string name="whats_new_378">Les graphiques honorent le filtre de recherche.</string>
+    <string name="whats_new_382">La fonctionnalité %1$s peut être appelée à partir du widget %2$s.</string>
 </resources>
