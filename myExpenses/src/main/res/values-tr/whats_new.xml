@@ -17,4 +17,5 @@
     <string name="whats_new_376_1">Birden fazla muameleyi yeni tarihle klonla.</string>
     <string name="whats_new_376_2">Web kullanıcı arayüzü ana ekrandan denetlenebilir.</string>
     <string name="whats_new_378">Grafikler arama filtresine uyuyor.</string>
+    <string name="whats_new_382">%s özelliği hesap widget\'ından çağrılabilir.</string>
 </resources>
