@@ -205,7 +205,6 @@
     <string name="opening_balance">Baki mula</string>
     <string name="parse_error_file_not_found">Tidak dapat cari fail %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">Veris Fail Grisbi Tidak Disokong: %1$s</string>
-    <string name="parse_error_no_data_found">Tiada data boleh import ditemui dalam fail.</string>
     <string name="parse_error_other_exception">Satu ralat berlaku: %1$s</string>
     <string name="parse_error_parse_exception">Tidak dapat hurai fail</string>
     <string name="password_disabled_reenable">Perlindungan kata laluan telah dilumpuhkan. Anda boleh benarkan semula ia di dalam tetapan.</string>

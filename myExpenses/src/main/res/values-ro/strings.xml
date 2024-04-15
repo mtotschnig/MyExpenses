@@ -198,7 +198,6 @@
     <string name="opening_balance">Sold deschidere</string>
     <string name="parse_error_file_not_found">Fişierul %1$s nu există</string>
     <string name="parse_error_grisbi_version_not_supported">Versiunea de fișier Grisbi neacceptat : %1$s</string>
-    <string name="parse_error_no_data_found">Fişierul nu detine date importabile.</string>
     <string name="parse_error_other_exception">O eroare a apărut: %1$s</string>
     <string name="parse_error_parse_exception">Fişierul nu poate fi analizat</string>
     <string name="password_disabled_reenable">Protecţia prin parolă a fost dezactivată. O puteţi rreactiva în setări.</string>

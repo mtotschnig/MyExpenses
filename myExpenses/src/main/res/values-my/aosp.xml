@@ -23,4 +23,5 @@
     <string name="frequency">"လှိုင်းနှုန်း"</string>
     <string name="required">"လိုအပ်သည်"</string>
     <string name="quality">"အရည်အသွေး"</string>
+    <string name="no_data">"ဒေတာမရှိပါ"</string>
 </resources>

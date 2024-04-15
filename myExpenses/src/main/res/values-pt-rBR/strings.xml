@@ -213,7 +213,6 @@
     <string name="opening_balance">Saldo inicial</string>
     <string name="parse_error_file_not_found">Não foi possível localizar o ficheiro %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">Versão de ficheiro Grisbi sem suporte: %1$s</string>
-    <string name="parse_error_no_data_found">Não foi encontrado nenhum dado importável no ficheiro.</string>
     <string name="parse_error_other_exception">Ocorreu um erro: %1$s</string>
     <string name="parse_error_parse_exception">Não foi possível analisar o ficheiro</string>
     <string name="password_disabled_reenable">A proteção por palavra-passe foi desativada. Pode reativá-la nas configurações.</string>
@@ -831,7 +830,6 @@
     <string name="pref_criterion_future_current">Hora atual</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Características</string>
-    <string name="scan_result_no_data">Sem dados</string>
     <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">Foram encontrados vários candidatos. Por favor selecione:</string>
     <string name="scan_result_no_amount">Não foi encontrada nenhuma quantia</string>

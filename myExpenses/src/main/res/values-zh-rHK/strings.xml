@@ -135,7 +135,6 @@
     <string name="opening_balance">金額</string>
     <string name="parse_error_file_not_found">未能找到檔案 %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">不支援 Grisbi 文檔版本： %1$s</string>
-    <string name="parse_error_no_data_found">文件中沒有可匯入的數據。</string>
     <string name="parse_error_other_exception">遇到錯誤: %1$s</string>
     <string name="parse_error_parse_exception">無法分析的文件</string>
     <string name="password_disabled_reenable">密碼保護已被停用。您可以在設定中重新啟用它。</string>

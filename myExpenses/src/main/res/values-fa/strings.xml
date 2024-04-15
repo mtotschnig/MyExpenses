@@ -183,7 +183,6 @@
     <string name="opening_balance">تراز باز</string>
     <string name="parse_error_file_not_found">فایل %1$s پیدا نشد</string>
     <string name="parse_error_grisbi_version_not_supported">نسخه فایل Grisbi پشتیبانی نشده است: %1$s</string>
-    <string name="parse_error_no_data_found">هیچ دادهٔ قابل واردکردنی درفایل پیدا نشد.</string>
     <string name="parse_error_other_exception">یک خطا رخ داد : %1$s</string>
     <string name="parse_error_parse_exception">فایل تجزیه نشد</string>
     <string name="password_disabled_reenable">حفاظت از طریق گذرواژه غیرفعال شد. شما می‌توانید آن را در تنظیمات، مجدد فعال کنید.</string>

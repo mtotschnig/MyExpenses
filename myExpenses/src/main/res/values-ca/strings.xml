@@ -167,7 +167,6 @@
     <string name="opening_balance">Saldo inicial</string>
     <string name="parse_error_file_not_found">No ha estat possible trobar el fitxer %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">La versió  %1$s del fitxer Grisbi no està permesa</string>
-    <string name="parse_error_no_data_found">No hi ha dades importables en el fitxer.</string>
     <string name="parse_error_other_exception">S\'ha produït un error: %1$s</string>
     <string name="parse_error_parse_exception">No ha estat possible analitzar el fitxer</string>
     <string name="password_disabled_reenable">La protecció per contrasenya ha estat desactivada. Podeu tornar-la a activar a la configuració.</string>

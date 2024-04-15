@@ -224,7 +224,6 @@
     <string name="pref_checkbox_disabled">Inaktiverad</string>
     <string name="pref_ui_theme_title">Tema</string>
     <string name="restore_preferences_failure">Återställning av egenskaper misslyckades</string>
-    <string name="parse_error_no_data_found">Ingen importeringsbar data hittades i filen.</string>
     <string name="pref_share_target_title">URL för uppladdning</string>
     <string name="menu_create_template_for_transfer">Ny mall för överföring</string>
     <string name="pref_manage_categories_title">Kategorier</string>

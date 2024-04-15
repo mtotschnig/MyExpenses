@@ -20,4 +20,5 @@
     <string name="frequency">"Частата"</string>
     <string name="required">"Патрабуецца"</string>
     <string name="quality">"Якасць"</string>
+    <string name="no_data">"Няма даных"</string>
 </resources>

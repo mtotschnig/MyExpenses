@@ -173,7 +173,6 @@
     <string name="numbered">نمبر شدہ</string>
     <string name="opening_balance">اوپننگ بیلنس</string>
     <string name="parse_error_file_not_found">فائل %1$s نہیں مل سکی</string>
-    <string name="parse_error_no_data_found">فائل میں کوئی درآمدی ڈیٹا نہیں ملا.</string>
     <string name="parse_error_other_exception">ایک خرابی پیش آگئی: %1$s</string>
     <plurals name="not_deletable_mapped_templates">
         <item quantity="one">منتخب آبجیکٹ کو ٹیمپلیٹ میں میپ کیا گیا ہے اور اسے حذف نہیں کیا جا سکتا.</item>
@@ -727,7 +726,6 @@
     <string name="pref_planner_manual_time_noon">12 بجے (دوپہر)</string>
     <string name="feature_downloaded">فیچر %s انسٹال ہو گیا ہے.</string>
     <string name="pref_ocr_total_indicators_title">کل رقم کے اشارے</string>
-    <string name="scan_result_no_data">کوئی مواد نہیں</string>
     <string name="pref_criterion_futur_title">مستقبل کے لین دین کے لیے معیار</string>
     <string name="pref_group_header_show_details_summary">گروپ ہیڈر میں تفصیلی رقم دکھائیں</string>
     <string name="new_balance">نیا بیلنس</string>

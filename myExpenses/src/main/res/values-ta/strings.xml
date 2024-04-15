@@ -210,7 +210,6 @@
     <string name="opening_balance">ஆரம்ப இருப்பு</string>
     <string name="parse_error_file_not_found">கோப்பு %1$s -ஐ கண்டுபிடிக்க முடியவில்லை</string>
     <string name="parse_error_grisbi_version_not_supported">ஆதரிக்கப்படாத Grisbi கோப்பு பதிப்பு: %1$s</string>
-    <string name="parse_error_no_data_found">இறக்குமதி செய்யக்கூடிய தரவு ஏதும் கோப்பில் இல்லை.</string>
     <string name="parse_error_other_exception">ஒரு பிழை ஏற்பட்டது: %1$s</string>
     <string name="parse_error_parse_exception">கோப்பை பாகுபடுத்த முடியவில்லை</string>
     <string name="password_disabled_reenable">கடவுச்சொல் பாதுகாப்பு முடக்கப்பட்டுள்ளது. நீங்கள் அமைப்புகளில் இதை மீண்டும் இயக்கலாம்.</string>
@@ -822,7 +821,6 @@
     <string name="pref_criterion_future_current">தற்போதைய நேரம்</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">அம்சங்கள்</string>
-    <string name="scan_result_no_data">தகவல் இல்லை</string>
     <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">பல வேட்புகள் கண்டறியப்பட்டன. தயவு செய்து தேர்வு செய்யவும்:</string>
     <string name="scan_result_no_amount">தொகை எதுவும் கிடைக்கவில்லை</string>

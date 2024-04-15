@@ -34,4 +34,5 @@
     <string name="required">"Obligatoriskt"</string>
     <string name="file_format">"Filformat"</string>
     <string name="quality">"Kvalité"</string>
+    <string name="no_data">"Ingen data"</string>
 </resources>

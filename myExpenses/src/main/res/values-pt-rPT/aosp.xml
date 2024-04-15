@@ -61,4 +61,5 @@
     <string name="required">"Necessário"</string>
     <string name="file_format">"Formato de ficheiro"</string>
     <string name="quality">"Qualidade"</string>
+    <string name="no_data">"Sem dados"</string>
 </resources>

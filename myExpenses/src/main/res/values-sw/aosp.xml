@@ -20,4 +20,5 @@
     <string name="username">"Jina la mtumiaji"</string>
     <string name="password">"Nenosiri"</string>
     <string name="frequency">"Masafa"</string>
+    <string name="no_data">"Hakuna data"</string>
 </resources>

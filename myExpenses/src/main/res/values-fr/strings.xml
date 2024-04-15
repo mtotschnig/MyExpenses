@@ -213,7 +213,6 @@
     <string name="opening_balance">Solde initial</string>
     <string name="parse_error_file_not_found">Le fichier %1$s n\'existe pas</string>
     <string name="parse_error_grisbi_version_not_supported">La version du fichier Grisbi n\'est pas prise en charge : %1$s</string>
-    <string name="parse_error_no_data_found">Le fichier ne contient pas de données importables.</string>
     <string name="parse_error_other_exception">Une erreur s\'est produite : %1$s</string>
     <string name="parse_error_parse_exception">Le fichier ne peut pas être analysé</string>
     <string name="password_disabled_reenable">La protection par mot de passe a été désactivée. Vous pouvez la réactiver dans les paramètres.</string>
@@ -831,7 +830,6 @@
     <string name="pref_criterion_future_current">Heure actuelle</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Fonctions</string>
-    <string name="scan_result_no_data">Pas de données</string>
     <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">Plusieurs candidats trouvés. Veuillez sélectionner :</string>
     <string name="scan_result_no_amount">Aucun montant trouvé</string>

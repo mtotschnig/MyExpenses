@@ -152,7 +152,6 @@
     <string name="opening_balance">ආරම්භක ශේෂය </string>
     <string name="parse_error_file_not_found">ලිපිගොනුව සොයගත නොහැක %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">සහාය නොමැති ග්රිස්බි ලිපිගොනු වර්ගයක් %1$s</string>
-    <string name="parse_error_no_data_found">ආනයනය කළහැකි දත්ත ලිපිගොනුවේ සොයාගත නොහැක </string>
     <string name="parse_error_other_exception">වරදක් හටගන්නා ලදී %1$s</string>
     <string name="parse_error_parse_exception">ලිපිගොනුවෙහි ව්‍යාකරණ විග්‍රහය කිරමට නොහැකි විය </string>
     <string name="password_disabled_reenable">මුරපද ආරක්ෂාව අක්‍රිය කර ඇත.ඔබට එය නැවත කට්ටල අංග තුලින් සක්‍රිය කල හැක </string>

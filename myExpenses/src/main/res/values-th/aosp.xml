@@ -33,4 +33,5 @@
     <string name="frequency">"ความถี่"</string>
     <string name="required">"จำเป็น"</string>
     <string name="quality">"คุณภาพ"</string>
+    <string name="no_data">"ไม่มีข้อมูล"</string>
 </resources>

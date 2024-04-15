@@ -22,4 +22,5 @@
     <string name="username">"Uporabniško ime"</string>
     <string name="password">"Geslo"</string>
     <string name="frequency">"Frekvenca"</string>
+    <string name="no_data">"Ni podatkov"</string>
 </resources>

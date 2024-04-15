@@ -23,4 +23,5 @@
     <string name="frequency">"ഫ്രീക്വൻസി"</string>
     <string name="required">"ആവശ്യമായ"</string>
     <string name="quality">"നിലവാരം"</string>
+    <string name="no_data">"ഡാറ്റയൊന്നുമില്ല"</string>
 </resources>

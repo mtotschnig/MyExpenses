@@ -210,7 +210,6 @@
     <string name="opening_balance">Bilans otwarcia</string>
     <string name="parse_error_file_not_found">Nie można znaleźć pliku %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">Niewspierana wersja pliku Grisbi: %1$s</string>
-    <string name="parse_error_no_data_found">Nie znaleziono danych możliwych do importu w pliku.</string>
     <string name="parse_error_other_exception">Wystąpił błąd: %1$s</string>
     <string name="parse_error_parse_exception">Nie można zanalizować pliku </string>
     <string name="password_disabled_reenable">Zabezpieczenie hasłem zostało wyłączone. Możesz je włączyć ponownie w ustawieniach.</string>
@@ -870,7 +869,6 @@
     <string name="menu_budget_allocated_only">Pokaż tylko kategorie z alokacją</string>
     <string name="pref_criterion_future_end_of_day">Koniec dnia</string>
     <string name="pref_csv_export_split_date_time_summary">Używanie oddzielnych kolumn dla daty i godziny</string>
-    <string name="scan_result_no_data">Brak danych</string>
     <string name="budget_table_header_overspent">Przekroczenie wydatków</string>
     <string name="remap_method">Wszystkie wybrane transakcje zostaną zmapowane do metody %s.</string>
     <string name="pref_clone_with_current_date_title">Data sklonowanych transakcji</string>

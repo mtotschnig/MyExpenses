@@ -22,4 +22,5 @@
     <string name="username">"İstifadəçi adı"</string>
     <string name="password">"Parol"</string>
     <string name="frequency">"Tezlik"</string>
+    <string name="no_data">"Məlumat yoxdur"</string>
 </resources>

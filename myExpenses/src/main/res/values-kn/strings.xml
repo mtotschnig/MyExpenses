@@ -209,7 +209,6 @@
     <string name="opening_balance">ಆರಂಭ ಶಿಲ್ಕು</string>
     <string name="parse_error_file_not_found">%1$s ಫೈಲ್ ಅನ್ನು ಕಂಡುಹಿಡಿಯಲಾಗಲಿಲ್ಲ</string>
     <string name="parse_error_grisbi_version_not_supported">ಬೆಂಬಲಿಸದ ಗ್ರಿಸ್ಬಿ ಫೈಲ್ ಆವೃತ್ತಿ: %1$s</string>
-    <string name="parse_error_no_data_found">ಫೈಲ್‌ನಲ್ಲಿ ಯಾವುದೇ ಆಮದು ಮಾಡಬಹುದಾದ ಡೇಟಾ ಕಂಡುಬಂದಿಲ್ಲ.</string>
     <string name="parse_error_other_exception">ದೋಷ ಸಂಭವಿಸಿದೆ: %1$s</string>
     <string name="parse_error_parse_exception">ಫೈಲ್ ಅನ್ನು ಪಾರ್ಸ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ</string>
     <string name="password_disabled_reenable">ಪಾಸ್ವರ್ಡ್ ರಕ್ಷಣೆಯನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ. ನೀವು ಅದನ್ನು ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಪುನಃ ಸಕ್ರಿಯಗೊಳಿಸಬಹುದು.</string>
@@ -807,7 +806,6 @@
     <string name="scan_result_no_date">ಯಾವುದೇ ದಿನಾಂಕ ಕಂಡುಬಂದಿಲ್ಲ</string>
     <string name="scan_result_no_amount">ಯಾವುದೇ ಮೊತ್ತ ಕಂಡುಬಂದಿಲ್ಲ</string>
     <string name="scan_result_multiple_candidates_dialog_title">ಬಹು ಅಭ್ಯರ್ಥಿಗಳು ಕಂಡುಬಂದಿದ್ದಾರೆ. ದಯವಿಟ್ಟು ಆಯ್ಕೆ ಮಾಡು:</string>
-    <string name="scan_result_no_data">ಮಾಹಿತಿ ಇಲ್ಲ</string>
     <string name="pref_criterion_future_current">ಪ್ರಸ್ತುತ ಸಮಯ</string>
     <string name="pref_criterion_future_end_of_day">ದಿನದ ಅಂತ್ಯ</string>
     <string name="pref_criterion_futur_title">ಭವಿಷ್ಯದ ವಹಿವಾಟುಗಳಿಗೆ ಮಾನದಂಡ</string>

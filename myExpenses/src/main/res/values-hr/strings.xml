@@ -181,7 +181,6 @@
     <string name="opening_balance">Početni saldo</string>
     <string name="parse_error_file_not_found">Dokument %1$s nije pronađen</string>
     <string name="parse_error_grisbi_version_not_supported">Nepodržana verzija Grisbi datoteke: %1$s</string>
-    <string name="parse_error_no_data_found">U datoteci nisu pronađeni uvezivi podaci.</string>
     <string name="parse_error_other_exception">Dogodila se greška: %1$s</string>
     <string name="parse_error_parse_exception">Nije bilo moguće analizirati dokument</string>
     <string name="password_disabled_reenable">Zaštita putem lozinke je deaktivirana. Može se ponovo aktivirati u postavkama.</string>
@@ -655,7 +654,6 @@
     <string name="scan_result_no_date">Nijedan datum nije pronađen</string>
     <string name="scan_result_no_amount">Nijedan iznos nije pronađen</string>
     <string name="scan_result_multiple_candidates_dialog_title">Pronađeno je više kandidata. Odaberi:</string>
-    <string name="scan_result_no_data">Nema podataka</string>
     <string name="pref_criterion_future_current">Trenutačno vrijeme</string>
     <string name="pref_criterion_future_end_of_day">Kraj dana</string>
     <string name="pref_criterion_futur_title">Kriterij za buduće transakcije</string>

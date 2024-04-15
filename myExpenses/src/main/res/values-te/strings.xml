@@ -576,7 +576,6 @@
     <string name="account_type_asset">ఆస్తి ఖాతా</string>
     <string name="account">ఖాతా</string>
     <string name="parse_error_grisbi_version_not_supported">మద్దతు లేని గ్రిస్బీ ఫైల్ వెర్షన్: %1$s</string>
-    <string name="parse_error_no_data_found">ఫైల్‌లో దిగుమతి చేయదగిన డేటా కనుగొనబడలేదు.</string>
     <string name="parse_error_file_not_found">%1$s ఫైల్ కనుగొనబడలేదు</string>
     <string name="opening_balance">ప్రారంభ నిల్వ</string>
     <string name="numbered">సంఖ్య</string>
@@ -692,7 +691,6 @@
     <string name="scan_result_no_date">తేదీ కనుగొనబడలేదు</string>
     <string name="scan_result_no_amount">మొత్తం కనుగొనబడలేదు</string>
     <string name="scan_result_multiple_candidates_dialog_title">బహుళ అభ్యర్థులు కనుగొనబడ్డారు. దయచేసి ఎంచుకోండి:</string>
-    <string name="scan_result_no_data">సమాచారం లేదు</string>
     <string name="pref_category_title_features">లక్షణాలు</string>
     <string name="pref_criterion_future_current">ప్రస్తుత సమయం</string>
     <string name="pref_criterion_future_end_of_day">రోజు ముగింపు</string>

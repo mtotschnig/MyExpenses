@@ -350,7 +350,6 @@
     <string name="menu_edit_transfer">Bewerk Overdracht</string>
     <string name="numbered">genummerd</string>
     <string name="parse_error_grisbi_version_not_supported">Niet-ondersteunde Grisbi-bestandsversie: %1$s</string>
-    <string name="parse_error_no_data_found">Geen importeerbare gegevens gevonden in bestand.</string>
     <string name="pm_directdebit">Domiciliëring</string>
     <string name="pref_manage_sync_backends_title">Synchronisatie-backends</string>
     <plurals name="not_deletable_mapped_transactions">
@@ -579,7 +578,6 @@
     <string name="menu_scan_mode">Scanmodus</string>
     <string name="pref_ocr_total_indicators_summary">Een lijst met tekenreeksen die de totale waarde in een ontvangstbewijs identificeren. Zet elke waarde op een nieuwe regel. Laat leeg om de standaardwaarde te herstellen.</string>
     <string name="pref_criterion_futur_title">Criterium voor toekomstige transacties</string>
-    <string name="scan_result_no_data">Geen gegevens</string>
     <string name="scan_result_no_amount">Geen bedrag gevonden</string>
     <string name="pref_feature_uninstall_languages_title">Talen</string>
     <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Houd de zwevende actieknop ingedrukt om het formulier voor overschrijvingen, gesplitste transacties of inkomsten direct te openen.</string>

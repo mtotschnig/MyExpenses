@@ -210,7 +210,6 @@
     <string name="opening_balance">Απογραφή Υπολοίπου </string>
     <string name="parse_error_file_not_found">Δεν μπορούσε να βρει το αρχείο %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">Μη ΥΠΟΣΤΗΡΙΖΟΜΕΝΟΣ Grisbi File έκδοση: %1$s</string>
-    <string name="parse_error_no_data_found">Καμία δυνατότητα εισαγωγής δεδομένων που βρέθηκαν στο αρχείο.</string>
     <string name="parse_error_other_exception">Παρουσιάστηκε σφάλμα: %1$s</string>
     <string name="parse_error_parse_exception">Δεν ήταν δυνατό να αναλυθεί αρχείο</string>
     <string name="password_disabled_reenable">Έχει απενεργοποιηθεί η προστασία κωδικού πρόσβασης. Μπορείτε να την ενεργοποιήσετε ξανά στις ρυθμίσεις.</string>
@@ -697,7 +696,6 @@
     <string name="pref_ocr_time_formats_title">Μορφές ώρας</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Χαρακτηριστικά</string>
-    <string name="scan_result_no_data">Δεν υπάρχουν δεδομένα</string>
     <string name="pref_feature_uninstall_languages_title">Γλώσσες</string>
     <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
     <string name="pref_ocr_engine_title">Μηχανή αναγνώρισης κειμένου</string>

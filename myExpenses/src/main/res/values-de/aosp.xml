@@ -100,4 +100,5 @@
     <string name="file_format">"Dateiformat"</string>
     <string name="quality">"Qualität"</string>
     <string name="buttons">"Schaltflächen"</string>
+    <string name="no_data">"Keine Daten"</string>
 </resources>

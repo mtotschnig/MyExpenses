@@ -205,7 +205,6 @@
     <string name="opening_balance">期首残高</string>
     <string name="parse_error_file_not_found">ファイル %1$s が見つかりません</string>
     <string name="parse_error_grisbi_version_not_supported">サポートされない Grisbi ファイル バージョン: %1$s</string>
-    <string name="parse_error_no_data_found">ファイルにインポート可能なデータが見つかりません。</string>
     <string name="parse_error_other_exception">エラーが発生しました: %1$s</string>
     <string name="parse_error_parse_exception">ファイルを解析できません</string>
     <string name="password_disabled_reenable">パスワード保護が無効になっています。設定で再度有効にすることができます。</string>

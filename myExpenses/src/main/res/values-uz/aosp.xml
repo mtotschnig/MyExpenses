@@ -21,4 +21,5 @@
     <string name="password">"Parol"</string>
     <string name="frequency">"Yuz berish oralig‘i"</string>
     <string name="required">"Talab qilinadi"</string>
+    <string name="no_data">"Hech narsa topilmadi"</string>
 </resources>

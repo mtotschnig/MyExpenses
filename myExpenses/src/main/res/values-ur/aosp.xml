@@ -82,4 +82,5 @@
     <string name="password">"پاس ورڈ"</string>
     <string name="frequency">"فریکوئنسی"</string>
     <string name="required">"مطلوب ہے"</string>
+    <string name="no_data">"کوئی ڈیٹا نہیں ہے"</string>
 </resources>

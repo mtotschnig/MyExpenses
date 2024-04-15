@@ -161,7 +161,6 @@
     <string name="numbered">क्रमांकित</string>
     <string name="opening_balance">प्रारंभिक रकम</string>
     <string name="parse_error_file_not_found">%1$s फ़ाइल नहीं मिली</string>
-    <string name="parse_error_no_data_found">फाइल में निर्यात योग्य डाटा नहीं</string>
     <string name="parse_error_other_exception">एक त्रुटि हुई: %1$s</string>
     <string name="password_disabled_reenable">पासवर्ड सुरक्षा अक्षम कर दी गई है। आप सेटिंग्स में इसे फिर से सक्षम कर सकते हैं</string>
     <string name="password_lost">पासवर्ड खो गया</string>

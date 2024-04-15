@@ -101,4 +101,5 @@
     <string name="required">"Необхідно"</string>
     <string name="file_format">"Формат файлу"</string>
     <string name="quality">"Якість"</string>
+    <string name="no_data">"Немає даних"</string>
 </resources>

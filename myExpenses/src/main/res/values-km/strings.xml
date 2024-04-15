@@ -169,7 +169,6 @@
     <string name="opening_balance">បើក​សមតុល្យ</string>
     <string name="parse_error_file_not_found">មិនអាច​រកឯកសារ %1$s ឃើញទេ</string>
     <string name="parse_error_grisbi_version_not_supported">មិនគាំទ្រ ឯកសារ Grisbi កំណែ៖ %1$s</string>
-    <string name="parse_error_no_data_found">គ្មានទិន្នន័យសំខាន់​ក្នុងឯកសារទេ។</string>
     <string name="parse_error_other_exception">មានកំហុស​កើតឡើង៖ %1$s</string>
     <string name="parse_error_parse_exception">មិនអាចអាន​ញែកឯកសារនេះទេ។</string>
     <string name="password_disabled_reenable">ការការពារពាក្យ​សម្ងាត់ត្រូវ​បានបិទ។ អ្នកអាចបើក​វានៅក្នុងការកំណត់។</string>

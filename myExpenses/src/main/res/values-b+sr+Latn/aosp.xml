@@ -19,4 +19,5 @@
     <string name="pixels">pixels"</string>
     <string name="frequency">"Učestalost"</string>
     <string name="required">"Potreban"</string>
+    <string name="no_data">"Nema podataka"</string>
 </resources>

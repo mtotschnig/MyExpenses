@@ -24,4 +24,5 @@
     <string name="pixels">"نقطه"</string>
     <string name="frequency">"تعداد دفعات اجرا"</string>
     <string name="quality">"کیفیت"</string>
+    <string name="no_data">"داده‌ای وجود ندارد"</string>
 </resources>

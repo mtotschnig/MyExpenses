@@ -209,7 +209,6 @@
     <string name="opening_balance">Irekiera saldoa</string>
     <string name="parse_error_file_not_found">Ezin izan da %1$s fitxategia aurkitu</string>
     <string name="parse_error_grisbi_version_not_supported">Euskarririk gabeko Grisbi fitxategi bertsioa:  %1$s</string>
-    <string name="parse_error_no_data_found">Ez da inportatu daiteken daturik aurkitu fitxategian.</string>
     <string name="parse_error_other_exception">Errore bat gertatu da: %1$s</string>
     <string name="parse_error_parse_exception">Ezin izan da fitxategia aztertu</string>
     <string name="password_disabled_reenable">Pasahitz bidezko babesa ezgaitu da. Berriro gaitu dezakezu ezarpenetan.</string>

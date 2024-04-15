@@ -25,4 +25,5 @@
     <string name="frequency">"Давтамж"</string>
     <string name="required">"Шаардлагатай"</string>
     <string name="quality">"Чанар"</string>
+    <string name="no_data">"Өгөгдөл байхгүй байна"</string>
 </resources>

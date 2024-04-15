@@ -93,4 +93,5 @@
     <string name="frequency">"Učestalost"</string>
     <string name="required">"Potrebno"</string>
     <string name="quality">"Kvaliteta"</string>
+    <string name="no_data">"Nema podataka"</string>
 </resources>

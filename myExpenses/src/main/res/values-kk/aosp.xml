@@ -30,4 +30,5 @@
     <string name="frequency">"Жиілік"</string>
     <string name="required">"Қажет"</string>
     <string name="quality">"Сапасы"</string>
+    <string name="no_data">"Ешқандай дерек жоқ."</string>
 </resources>

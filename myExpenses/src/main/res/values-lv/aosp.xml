@@ -25,4 +25,5 @@
     <string name="frequency">"Biežums"</string>
     <string name="required">"Pieprasīts"</string>
     <string name="quality">"Kvalitāte"</string>
+    <string name="no_data">"Nav datu"</string>
 </resources>

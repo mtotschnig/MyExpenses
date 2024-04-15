@@ -176,4 +176,6 @@
     <string name="quality">"Quality"</string>
     <!-- LibreOffice helpcontent2/source/text/sdatabase.po -->
     <string name="buttons">"Buttons"</string>
+    <!-- /opt/extra/AOSP/packages/modules/HealthFitness/apk$ grep -ri "\"no_data\"" | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
+    <string name="no_data">"No data"</string>
 </resources>

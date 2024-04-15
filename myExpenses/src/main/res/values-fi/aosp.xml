@@ -33,4 +33,5 @@
     <string name="frequency">"Toistuvuus"</string>
     <string name="required">"Vaadittu"</string>
     <string name="quality">"Laatu"</string>
+    <string name="no_data">"Ei dataa"</string>
 </resources>

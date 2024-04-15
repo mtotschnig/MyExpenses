@@ -215,7 +215,6 @@
     <string name="opening_balance">Начальный баланс</string>
     <string name="parse_error_file_not_found">Не найден файл %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">Не поддерживаемая версия файла Grisbi: %1$s</string>
-    <string name="parse_error_no_data_found">Нет импортируемых данных в файле.</string>
     <string name="parse_error_other_exception">Возникла ошибка: %1$s</string>
     <string name="parse_error_parse_exception">Невозможно обработать файл</string>
     <string name="password_disabled_reenable">Защита паролем была отключена. Вы можете включить её в настройках.</string>
@@ -848,7 +847,6 @@
     <string name="scan_result_no_payee">Получатель платежа не найден</string>
     <string name="scan_result_no_date">Дата не найдена</string>
     <string name="scan_result_multiple_candidates_dialog_title">Найдено несколько кандидатов. Пожалуйста, выберите:</string>
-    <string name="scan_result_no_data">Нет данных</string>
     <string name="pref_criterion_future_current">Текущее время</string>
     <string name="pref_criterion_future_end_of_day">Конец дня</string>
     <string name="pref_criterion_futur_title">Критерий для будущих транзакций</string>

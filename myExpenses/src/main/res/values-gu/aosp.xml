@@ -23,4 +23,5 @@
     <string name="frequency">"આવર્તન"</string>
     <string name="required">"જરુરી"</string>
     <string name="quality">"ગુણવત્તા"</string>
+    <string name="no_data">"કોઈ ડેટા નથી"</string>
 </resources>

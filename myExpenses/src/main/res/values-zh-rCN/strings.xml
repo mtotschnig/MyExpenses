@@ -207,7 +207,6 @@
     <string name="opening_balance">起始余额</string>
     <string name="parse_error_file_not_found">未能找到文件 %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">不支持的Grisbi文件版本：%1$s</string>
-    <string name="parse_error_no_data_found">文件中没有可导入的数据。</string>
     <string name="parse_error_other_exception">遇到错误: %1$s</string>
     <string name="parse_error_parse_exception">无法分析的文件</string>
     <string name="password_disabled_reenable">密码保护已被停用。您可以在设置中重新启用它。</string>
@@ -813,7 +812,6 @@
     <string name="pref_criterion_future_current">当前时间</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">功能</string>
-    <string name="scan_result_no_data">没有数据</string>
     <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">找到多种待选项目。请选择：</string>
     <string name="scan_result_no_amount">找不到金额</string>

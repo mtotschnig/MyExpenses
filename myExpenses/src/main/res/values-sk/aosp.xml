@@ -33,4 +33,5 @@
     <string name="frequency">"Frekvencia"</string>
     <string name="required">"Požadované"</string>
     <string name="quality">"Kvalita"</string>
+    <string name="no_data">"Žiadne údaje"</string>
 </resources>

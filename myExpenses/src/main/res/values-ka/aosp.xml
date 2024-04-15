@@ -26,4 +26,5 @@
     <string name="frequency">"სიხშირე"</string>
     <string name="required">"სავალდებულოა"</string>
     <string name="quality">"ხ~არისხი"</string>
+    <string name="no_data">"მონაცემები არ არის"</string>
 </resources>

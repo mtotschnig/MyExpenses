@@ -33,4 +33,5 @@
     <string name="file_format">"Filformat"</string>
     <string name="quality">"Kvalitet"</string>
     <string name="buttons">"Knapper"</string>
+    <string name="no_data">"Ingen data"</string>
 </resources>

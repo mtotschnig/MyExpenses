@@ -99,4 +99,5 @@
     <string name="required">"Gerekli"</string>
     <string name="file_format">"Dosya biçimi"</string>
     <string name="quality">"Kalite"</string>
+    <string name="no_data">"Veri yok"</string>
 </resources>

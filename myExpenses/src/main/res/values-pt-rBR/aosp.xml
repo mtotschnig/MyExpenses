@@ -97,4 +97,5 @@
     <string name="file_format">"Formato do arquivo"</string>
     <string name="quality">"Qualidade"</string>
     <string name="buttons">"Botões"</string>
+    <string name="no_data">"Sem dados"</string>
 </resources>

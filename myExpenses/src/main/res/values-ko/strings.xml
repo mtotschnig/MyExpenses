@@ -189,7 +189,6 @@
     <string name="opening_balance">개시 잔고</string>
     <string name="parse_error_file_not_found">%1$s 파일을 찾을 수 없습니다</string>
     <string name="parse_error_grisbi_version_not_supported">지원하지 않는 Grisbi 파일 버전: %1$s</string>
-    <string name="parse_error_no_data_found">가져올 수 있는 자료가 파일에는 없습니다.</string>
     <string name="parse_error_other_exception">오류 발생: %1$s</string>
     <string name="parse_error_parse_exception">파일을 분석할 수 없습니다</string>
     <string name="password_disabled_reenable">암호 보안이 해제되었습니다. 설정 화면에서 다시 활성화할 수 있습니다.</string>

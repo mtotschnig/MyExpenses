@@ -201,7 +201,6 @@
     <string name="opening_balance">Số dư ban đầu</string>
     <string name="parse_error_file_not_found">Không thể tìm thấy tập tin %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">Không hỗ trợ phiên bản tập tin Grisbi: %1$s</string>
-    <string name="parse_error_no_data_found">Không tìm thấy dữ liệu có thể nhập vào từ tập tin.</string>
     <string name="parse_error_other_exception">Xảy ra lỗi: %1$s</string>
     <string name="parse_error_parse_exception">Không thể phân tích tập tin</string>
     <string name="password_disabled_reenable">Phần bảo vệ mật khẩu hiện đã bị vô hiệu hóa. Bạn có thể bật lại tính năng này trong phần Thiết Lập.</string>

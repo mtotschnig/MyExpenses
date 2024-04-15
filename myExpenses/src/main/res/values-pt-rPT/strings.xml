@@ -194,7 +194,6 @@
     <string name="opening_balance">Saldo inicial</string>
     <string name="parse_error_file_not_found">Não foi possível localizar o ficheiro %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">Versão de ficheiro Grisbi sem suporte: %1$s</string>
-    <string name="parse_error_no_data_found">Não foi encontrado nenhum dado importável no ficheiro.</string>
     <string name="parse_error_other_exception">Ocorreu um erro: %1$s</string>
     <string name="parse_error_parse_exception">Não foi possível analisar o ficheiro</string>
     <string name="password_disabled_reenable">A proteção por palavra-passe foi desativada. Pode reativá-la nas configurações.</string>
@@ -592,7 +591,6 @@
     <string name="scan_result_no_date">Não foi encontrada nenhuma data</string>
     <string name="scan_result_no_amount">Não foi encontrada nenhuma quantia</string>
     <string name="scan_result_multiple_candidates_dialog_title">Foram encontrados vários candidatos. Por favor selecione:</string>
-    <string name="scan_result_no_data">Sem dados</string>
     <string name="pref_criterion_future_current">Hora atual</string>
     <string name="pref_criterion_future_end_of_day">Fim do dia</string>
     <string name="pref_criterion_futur_title">Critério para transações futuras</string>

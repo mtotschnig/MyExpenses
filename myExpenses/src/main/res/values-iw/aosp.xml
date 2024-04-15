@@ -92,4 +92,5 @@
     <string name="frequency">"תדירות"</string>
     <string name="required">"נדרש"</string>
     <string name="quality">"איכות"</string>
+    <string name="no_data">"אין נתונים"</string>
 </resources>

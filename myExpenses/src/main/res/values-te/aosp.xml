@@ -85,4 +85,5 @@
     <string name="frequency">"తరచుదనం"</string>
     <string name="required">"అవరసమైనది"</string>
     <string name="quality">"గుణమును"</string>
+    <string name="no_data">"డేటా లేదు"</string>
 </resources>

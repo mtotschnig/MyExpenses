@@ -31,4 +31,5 @@
     <string name="frequency">"Հաճախականություն"</string>
     <string name="required">"Պահանջված"</string>
     <string name="quality">"Որակ"</string>
+    <string name="no_data">"Տվյալներ չկան"</string>
 </resources>

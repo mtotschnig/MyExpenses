@@ -222,7 +222,6 @@
     <string name="opening_balance">الرصيد الافتتاحي</string>
     <string name="parse_error_file_not_found">لم يتم العثور على الملف %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">نسخة ملف Grisbi غير مدعومة: %1$s</string>
-    <string name="parse_error_no_data_found">لا يوجد بيانات قابلة للاستيراد في الملف.</string>
     <string name="parse_error_other_exception">خطأ: %1$s</string>
     <string name="parse_error_parse_exception">لا يمكن فتح الملف</string>
     <string name="password_disabled_reenable">تم تعطيل كلمة المرور. يمكنك تمكينه من جديد عن طريق الاعدادات.</string>
@@ -857,7 +856,6 @@
     <string name="pref_criterion_future_current">الوقت الحالي</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">الخصائص</string>
-    <string name="scan_result_no_data">لا توجد بيانات</string>
     <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">تم العثور على عدة مرشحين. يُرجى تحديد:</string>
     <string name="scan_result_no_amount">لم يتم العثور على مبلغ</string>

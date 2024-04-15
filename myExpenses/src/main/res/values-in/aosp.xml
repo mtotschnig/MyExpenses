@@ -34,4 +34,5 @@
     <string name="required">"Diperlukan"</string>
     <string name="file_format">"Format berkas"</string>
     <string name="quality">"Kualitas"</string>
+    <string name="no_data">"Tidak ada data"</string>
 </resources>

@@ -96,4 +96,5 @@
     <string name="frequency">"Tần suất"</string>
     <string name="required">"Cần thiết"</string>
     <string name="quality">"Chất lượng"</string>
+    <string name="no_data">"Không có dữ liệu"</string>
 </resources>

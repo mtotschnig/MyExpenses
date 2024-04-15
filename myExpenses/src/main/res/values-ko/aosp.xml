@@ -92,4 +92,5 @@
     <string name="required">"필요"</string>
     <string name="file_format">"파일 형식"</string>
     <string name="quality">"품질"</string>
+    <string name="no_data">"데이터 없음"</string>
 </resources>

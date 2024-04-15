@@ -183,7 +183,6 @@
     <string name="opening_balance">Startsaldo</string>
     <string name="parse_error_file_not_found">Kunne ikke finde filen %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">Ikke-understøttet Grisbi-filversion: %1$s</string>
-    <string name="parse_error_no_data_found">Ingen data i filen kan importeres.</string>
     <string name="parse_error_other_exception">En fejl opstod: %1$s</string>
     <string name="parse_error_parse_exception">Kunne ikke analysere fil</string>
     <string name="password_disabled_reenable">Adgangskodebeskyttelse er deaktiveret. Du kan genaktivere den i indstillingerne.</string>
@@ -749,7 +748,6 @@
     <string name="dialog_multi_tag_replace">Erstat eksisterende etiketter med nye etiketter</string>
     <string name="pref_criterion_future_current">Nuværende tid</string>
     <string name="pref_ocr_total_indicators_summary">En liste over strenge, der angiver det samlede beløb på en kvittering. Placér hvert beløb på en ny linje. Lad det være tomt for at gendanne standardværdien.</string>
-    <string name="scan_result_no_data">Ingen data</string>
     <string name="select_package">Vælg venligst en licenspakke.</string>
     <string name="plan_automatic_without_amount_hint">Planer uden beløb bør ikke gemmes med automatisk planudførelse</string>
     <string name="reset_equivalent_amounts_success">Tilsvarende beløb blev nulstillet</string>

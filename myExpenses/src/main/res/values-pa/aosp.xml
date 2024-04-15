@@ -18,4 +18,5 @@
     <string name="username">"ਵਰਤੋਂਕਾਰ ਨਾਮ"</string>
     <string name="password">"ਪਾਸਵਰਡ"</string>
     <string name="frequency">"ਵਾਰਵਾਰਤਾ"</string>
+    <string name="no_data">"ਕੋਈ ਡਾਟਾ ਨਹੀਂ"</string>
 </resources>

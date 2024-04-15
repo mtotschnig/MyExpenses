@@ -31,4 +31,5 @@
     <string name="frequency">"Frekwensie"</string>
     <string name="required">"Vereis"</string>
     <string name="quality">"Gehalte"</string>
+    <string name="no_data">"Geen data nie"</string>
 </resources>

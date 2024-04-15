@@ -806,7 +806,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
         intent.getParcelableExtra<OcrResultFlat>(KEY_OCR_RESULT)?.let { ocrResultFlat ->
             if (ocrResultFlat.isEmpty) {
-                showSnackBar(R.string.scan_result_no_data)
+                showSnackBar(R.string.no_data)
             } else {
                 ocrResultFlat.amount?.let { amountInput.setRaw(it) }
                 ocrResultFlat.date?.let { pair ->

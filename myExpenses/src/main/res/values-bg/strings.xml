@@ -210,7 +210,6 @@
     <string name="opening_balance">Начално салдо</string>
     <string name="parse_error_file_not_found">Не е намерен файл %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">Неподдържана версия на Grisbi файл: %1$s</string>
-    <string name="parse_error_no_data_found">Във файла няма данни за внасяне.</string>
     <string name="parse_error_other_exception">Възникна грешка: %1$s</string>
     <string name="parse_error_parse_exception">Не мога да анализирам файлa</string>
     <string name="password_disabled_reenable">Защитатa с парола е прекратена. Може да я възстановите в Настройки.</string>
@@ -822,7 +821,6 @@
     <string name="pref_criterion_future_current">Текущо време</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Функции</string>
-    <string name="scan_result_no_data">Няма данни</string>
     <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">Намерени са няколко кандидати. Моля изберете:</string>
     <string name="scan_result_no_amount">Не е намерена сума</string>

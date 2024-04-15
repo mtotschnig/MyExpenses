@@ -103,4 +103,5 @@
     <string name="required">"مطلوب"</string>
     <string name="file_format">تنسيق الملف</string>
     <string name="quality">"الجودة"</string>
+    <string name="no_data">"ما مِن بيانات"</string>
 </resources>

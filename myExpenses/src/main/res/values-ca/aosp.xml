@@ -101,4 +101,5 @@
     <string name="file_format">"Format del fitxer"</string>
     <string name="quality">"Qualitat"</string>
     <string name="buttons">"Botons"</string>
+    <string name="no_data">"No hi ha dades"</string>
 </resources>

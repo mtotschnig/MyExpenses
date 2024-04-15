@@ -213,7 +213,6 @@
     <string name="opening_balance">מאזן פתיחה</string>
     <string name="parse_error_file_not_found">לא ניתן למצוא את הקובץ%1$s</string>
     <string name="parse_error_grisbi_version_not_supported">גירסת קובץ Grisbi לא נתמכת:%1$s</string>
-    <string name="parse_error_no_data_found">לא נמצאו נתונים הניתנים לייבוא בקובץ.</string>
     <string name="parse_error_other_exception">אירעה שגיעה: %1$s</string>
     <string name="parse_error_parse_exception">לא ניתן לנתח את הקובץ</string>
     <string name="password_disabled_reenable">הגנת הסיסמה הושבתה. תוכל להפעיל אותה מחדש בהגדרות.</string>
@@ -833,7 +832,6 @@
     <string name="pref_criterion_future_current">זמן נוכחי</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">מאפיינים</string>
-    <string name="scan_result_no_data">אין מידע</string>
     <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">נמצאו מספר מועמדים. בבקשה תבחר:</string>
     <string name="scan_result_no_amount">לא נמצא סכום</string>
