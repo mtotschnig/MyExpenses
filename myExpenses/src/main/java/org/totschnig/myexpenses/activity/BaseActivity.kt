@@ -1486,16 +1486,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                     .show(this, DIALOG_TAG_OCR_DISAMBIGUATE)
             } else {
                 startEditFromOcrResult(
-                    if (it.isEmpty()) {
-                        Toast.makeText(
-                            this,
-                            getString(R.string.scan_result_no_data),
-                            Toast.LENGTH_LONG
-                        ).show()
-                        null
-                    } else {
-                        it.selectCandidates()
-                    },
+                    it.selectCandidates(),
                     scanUri
                 )
             }

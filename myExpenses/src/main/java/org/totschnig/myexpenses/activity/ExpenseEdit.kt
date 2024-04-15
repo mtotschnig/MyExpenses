@@ -805,14 +805,18 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             return
         }
         intent.getParcelableExtra<OcrResultFlat>(KEY_OCR_RESULT)?.let { ocrResultFlat ->
-            ocrResultFlat.amount?.let { amountInput.setRaw(it) }
-            ocrResultFlat.date?.let { pair ->
-                dateEditBinding.DateButton.setDate(pair.first)
-                pair.second?.let { dateEditBinding.TimeButton.setTime(it) }
-            }
-            ocrResultFlat.payee?.let {
-                rootBinding.Payee.setText(it.name)
-                startAutoFill(it.id, true)
+            if (ocrResultFlat.isEmpty) {
+                showSnackBar(R.string.scan_result_no_data)
+            } else {
+                ocrResultFlat.amount?.let { amountInput.setRaw(it) }
+                ocrResultFlat.date?.let { pair ->
+                    dateEditBinding.DateButton.setDate(pair.first)
+                    pair.second?.let { dateEditBinding.TimeButton.setTime(it) }
+                }
+                ocrResultFlat.payee?.let {
+                    rootBinding.Payee.setText(it.name)
+                    startAutoFill(it.id, true)
+                }
             }
         }
         intent.getParcelableExtra<Uri>(KEY_URI)?.let {
