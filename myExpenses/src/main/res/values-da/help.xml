@@ -37,4 +37,5 @@
     <string name="help_ManageParties_manage_info">Denne skærm viser de parter, der bruges til automatisk udfyldelse af Betaler/Modtager-feltet.</string>
     <string name="cab_ManageTemplates_delete_help_text">Slet de valgte skabeloner og alle tilknyttede planer.</string>
     <string name="cab_ManageTemplates_edit_help_text">Redigér det valgte skabelon, og opret eller redigér en tilknyttet plan.</string>
+    <string name="help_ManageCategories_manage_context">Klik på en post for at vise dens kontekstmenu. Hold nede for at starte multivalg.</string>
 </resources>
