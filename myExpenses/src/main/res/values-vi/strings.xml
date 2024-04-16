@@ -37,8 +37,6 @@
     <string name="app_name">My Expenses</string>
     <string name="backup_success">Đã ghi dữ liệu về cơ sở dữ liệu và tùy biến thành công vào \"%1$s\".</string>
     <string name="category">Phân loại</string>
-    <string name="color">Màu sắc</string>
-    <string name="comment">Ghi chú</string>
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Không quảng cáo</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Số lượng không giới hạn các tài khoản</string>
     <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Chèn ảnh vào giao dịch</string>
@@ -169,10 +167,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Đảo lại</string>
     <string name="menu_manage_plans">Bản mẫu và kế hoạch</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Mở</string>
     <string name="menu_import">Nhập dữ liệu</string>
-    <string name="menu_print">In</string>
     <string name="menu_reset">Xuất dữ liệu và cài đặt lại</string>
     <string name="menu_reset_all">Xuất dữ liệu và cài đặt lại tất cả</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -180,7 +175,6 @@
     <string name="menu_save">Lưu</string>
     <string name="menu_save_and_new">Lưu và tạo mới</string>
     <string name="menu_share">Chia sẻ</string>
-    <string name="button_label_share_file">Chia sẻ</string>
     <string name="button_label_close">Đóng</string>
     <string name="menu_split_transaction">Chuyển thành dạng phân tách</string>
     <string name="method">Phương thức thanh toán</string>
@@ -207,7 +201,6 @@
     <string name="opening_balance">Số dư ban đầu</string>
     <string name="parse_error_file_not_found">Không thể tìm thấy tập tin %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">Không hỗ trợ phiên bản tập tin Grisbi: %1$s</string>
-    <string name="parse_error_no_data_found">Không tìm thấy dữ liệu có thể nhập vào từ tập tin.</string>
     <string name="parse_error_other_exception">Xảy ra lỗi: %1$s</string>
     <string name="parse_error_parse_exception">Không thể phân tích tập tin</string>
     <string name="password_disabled_reenable">Phần bảo vệ mật khẩu hiện đã bị vô hiệu hóa. Bạn có thể bật lại tính năng này trong phần Thiết Lập.</string>
@@ -498,8 +491,6 @@
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">Vui lòng nhập URL dẫn tới một thư mục đặc biệt trên máy chủ WebDAV của bạn. {app_name} sẽ lưu trữ dữ liệu bên trong thư mục này, nó sẽ không gây ảnh hưởng tới bất cứ thứ gì bên ngoài thư mục đó.</string>
     <string name="description_webdav_trust_certificate">Trang web này sử dụng một chứng chỉ mà Android không tin cậy.</string>
-    <string name="hint_user_name">Tên người dùng</string>
-    <string name="hint_password">Mật khẩu</string>
     <string name="label_trust_certificate">Tin cậy chứng chỉ này</string>
     <string name="no_sync_backends">Không có phụ trợ đồng bộ hóa</string>
     <string name="menu_create_sync_backend">Phụ trợ đồng bộ hóa mới</string>
@@ -511,7 +502,6 @@
     <string name="menu_sync_unlink">Dừng đồng bộ hóa</string>
     <string name="menu_sync_link">Bắt đầu đồng bộ hóa</string>
     <string name="menu_sync_download">Tải xuống và đồng bộ hóa</string>
-    <string name="pref_sync_frequency_title">Tần suất đồng bộ hóa</string>
     <string name="pref_sync_frequency_summary">Dữ liệu nên được đồng bộ hoá mỗi mấy giờ</string>
     <string name="dialog_confirm_sync_unlink">Nếu bạn bỏ liên kết từ tài khoản này tới %s, việc đồng bộ hoá sẽ bị ngưng. Việc liên kết lại chúng yêu cầu thực hiện một lần đồng bộ hoá đầy đủ.</string>
     <string name="dialog_sync_link">Một tài khoản với UUID %s tồn tại cả ở trong cơ sở dữ liệu nội bộ và ở backend từ xa. Khi bạn liên kết cả hai, bạn cần quyết định rằng có muốn tải lên dữ liệu trong máy tới backend từ xa hay là tải dữ liệu từ bên ngoài vào CSDL trong máy.</string>

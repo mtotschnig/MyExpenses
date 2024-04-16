@@ -73,5 +73,20 @@
     <string name="help_and_feedback">"ជំនួយ &amp; មតិ​ត្រឡប់"</string>
     <string name="currencies_exchange">"អត្រាប្ដូរប្រាក់បរទេស និង​រូបិយបណ្ណ"</string>
     <string name="menu_sync_now">"ធ្វើ​សម​កាល​កម្ម​ឥឡូវ"</string>
-  <string name="do_not_show_again">កុំ​បង្ហាញ​ទៀត</string>
+    <string name="do_not_show_again">កុំ​បង្ហាញ​ទៀត</string>
+    <string name="color">"ពណ៌"</string>
+    <string name="notes">"ចំណាំ"</string>
+    <string name="cannot_be_undone">"សកម្មភាព​នេះ​មិន​អាច​ធ្វើ​វិញ​បាន​ទេ។"</string>
+    <string name="paper_format">"ទ្រង់ទ្រាយ​ក្រដាស"</string>
+    <string name="configuration">"ការ​កំណត់​រចនា​សម្ព័ន្ធ"</string>
+    <string name="menu_open">"បើក"</string>
+    <string name="menu_print">"បោះពុម្ព"</string>
+    <string name="share">"ចែក​រំលែក"</string>
+    <string name="username">"ឈ្មោះ​អ្នក​ប្រើ​"</string>
+    <string name="password">"ពាក្យសម្ងាត់​"</string>
+    <string name="pixels">"ភីកសែល​"</string>
+    <string name="frequency">"ប្រេកង់"</string>
+    <string name="required">"ទាមទារ"</string>
+    <string name="quality">"គុណភាព"</string>
+    <string name="no_data">"គ្មាន​ទិន្នន័យទេ"</string>
 </resources>

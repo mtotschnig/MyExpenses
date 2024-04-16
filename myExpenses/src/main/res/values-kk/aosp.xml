@@ -9,5 +9,26 @@
     <string name="help_and_feedback">"Анықтама және пікір"</string>
     <string name="currencies_exchange">"Валюталар және шетелдік валюта бағамы"</string>
     <string name="menu_sync_now">"Қазір синхрондау"</string>
-  <string name="do_not_show_again">Қайта көрсету қажет емес</string>
+    <string name="do_not_show_again">Қайта көрсету қажет емес</string>
+    <string name="color">"Түс"</string>
+    <string name="notes">"Ескертпелер"</string>
+    <string name="cannot_be_undone">"Бұл әрекетті болдырмау мүмкін емес."</string>
+    <string name="header_footer">"Жоғарғы және төменгі колонтитулдар"</string>
+    <string name="top_left">"Жоғары сол жақ"</string>
+    <string name="top_center">"Жоғары ортасымен"</string>
+    <string name="top_right">"Жоғары оң жақ"</string>
+    <string name="bottom_left">"Төменгі сол жақ"</string>
+    <string name="bottom_center">"Төменгі ортасымен"</string>
+    <string name="bottom_right">"Төменгі оң жақ"</string>
+    <string name="paper_format">"Қағаз пішімі"</string>
+    <string name="configuration">"Конфигурация"</string>
+    <string name="menu_open">"Ашу"</string>
+    <string name="menu_print">"Басып шығару"</string>
+    <string name="username">"Пайдаланушы аты"</string>
+    <string name="password">"Құпия сөз"</string>
+    <string name="pixels">"пикс."</string>
+    <string name="frequency">"Жиілік"</string>
+    <string name="required">"Қажет"</string>
+    <string name="quality">"Сапасы"</string>
+    <string name="no_data">"Ешқандай дерек жоқ."</string>
 </resources>

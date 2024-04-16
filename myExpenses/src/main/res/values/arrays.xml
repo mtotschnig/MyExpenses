@@ -316,4 +316,9 @@
         <item>WEBP</item>
         <item>PNG</item>
     </string-array>
+
+    <string-array name="pref_print_paper_size_entries">
+        <item>A4</item>
+        <item>LETTER</item>
+    </string-array>
 </resources>

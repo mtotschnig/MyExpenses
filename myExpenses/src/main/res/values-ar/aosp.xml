@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
 -->
@@ -81,5 +80,28 @@
     <string name="help_and_feedback">"المساعدة والتعليقات"</string>
     <string name="currencies_exchange">"عملات وصرف أجنبي"</string>
     <string name="menu_sync_now">"مزامنة الآن"</string>
-  <string name="do_not_show_again">عدم عرض ذلك مجددًا</string>
+    <string name="do_not_show_again">عدم عرض ذلك مجددًا</string>
+    <string name="color">"اللون"</string>
+    <string name="notes">"ملاحظات"</string>
+    <string name="cannot_be_undone">"لا يمكن التراجع عن هذا الإجراء."</string>
+    <string name="header_footer">"ترويسة وتذييل"</string>
+    <string name="top_left">"أعلى اليسار"</string>
+    <string name="top_center">"أعلى وسط"</string>
+    <string name="top_right">"أعلى يمين"</string>
+    <string name="bottom_left">"أسفل يسار"</string>
+    <string name="bottom_center">"أسفل وسط"</string>
+    <string name="bottom_right">"أسفل يمين"</string>
+    <string name="paper_format">"تنسيق الورق"</string>
+    <string name="configuration">"الإعداد"</string>
+    <string name="menu_open">"فتح"</string>
+    <string name="menu_print">"طباعة"</string>
+    <string name="share">"مشاركة"</string>
+    <string name="username">"اسم المستخدم"</string>
+    <string name="password">"كلمة المرور"</string>
+    <string name="pixels">"بكسل"</string>
+    <string name="frequency">"معدل الاستخدام"</string>
+    <string name="required">"مطلوب"</string>
+    <string name="file_format">تنسيق الملف</string>
+    <string name="quality">"الجودة"</string>
+    <string name="no_data">"ما مِن بيانات"</string>
 </resources>

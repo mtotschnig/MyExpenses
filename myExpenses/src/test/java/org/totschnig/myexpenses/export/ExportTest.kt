@@ -681,7 +681,7 @@ class ExportTest : BaseTestWithRepository() {
             } else {
                 add(context.getString(R.string.category))
             }
-            add(context.getString(R.string.comment))
+            add(context.getString(R.string.notes))
             add(context.getString(R.string.method))
             add(context.getString(R.string.status))
             add(context.getString(R.string.reference_number))

@@ -14,4 +14,7 @@
     <string name="whats_new_369_2">Quando o bloqueio de tela estiver ativado, permita cancelar a desativação de capturas de tela.</string>
     <string name="whats_new_367">As categorias agora podem ser configuradas como categorias de despesa ou receita, o que afetará a forma como as somas de despesas e receitas são calculadas.</string>
     <string name="whats_new_374">Cores personalizadas para etiquetas</string>
+    <string name="whats_new_376_2">A interface do usuário da Web pode ser controlada na tela principal.</string>
+    <string name="whats_new_376_1">Clone várias transações com nova data.</string>
+    <string name="whats_new_378">Os gráficos respeitam o filtro de pesquisa.</string>
 </resources>

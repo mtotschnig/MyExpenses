@@ -1,15 +1,14 @@
-package org.totschnig.myexpenses.test.provider
+package org.totschnig.myexpenses.provider
 
 import android.content.ContentValues
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.provider.DatabaseConstants
 
 data class BudgetInfo(
     val accountId: Long,
     val title: String,
-    val description: String?,
     val amount: Long,
     val grouping: Grouping,
+    val description: String = "",
     val start: String? = null,
     val end: String? = null
 ) {

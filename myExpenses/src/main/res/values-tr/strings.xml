@@ -37,8 +37,6 @@
     <string name="app_name">Harcamalarım</string>
     <string name="backup_success">Veri tabanı ve tercihler \"%1$s\" konumuna başarıyla yazıldı.</string>
     <string name="category">Kategori</string>
-    <string name="color">Renk</string>
-    <string name="comment">Notlar</string>
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Reklamsız</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Sınırsız sayıda hesap</string>
     <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Muameleye resim ekle</string>
@@ -174,10 +172,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Ters Çevir</string>
     <string name="menu_manage_plans">Şablonlar ve planlar</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Aç</string>
     <string name="menu_import">İçe aktar</string>
-    <string name="menu_print">Yazdır</string>
     <string name="menu_reset">Dışa aktar ve sıfırla</string>
     <string name="menu_reset_all">Tümünü dışa aktar ve sıfırla</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -185,7 +180,6 @@
     <string name="menu_save">Kaydet</string>
     <string name="menu_save_and_new">Kaydet ve yenisini aç</string>
     <string name="menu_share">Bir arkadaşa bahset</string>
-    <string name="button_label_share_file">Paylaş</string>
     <string name="button_label_close">Kapat</string>
     <string name="menu_split_transaction">Bölünmüşe dönüştür</string>
     <string name="method">Ödeme yöntemi</string>
@@ -216,7 +210,6 @@
     <string name="opening_balance">Açılış bakiyesi</string>
     <string name="parse_error_file_not_found">%1$s dosyası bulunamadı</string>
     <string name="parse_error_grisbi_version_not_supported">Desteklenmeyen Grisbi dosya sürümü: %1$s</string>
-    <string name="parse_error_no_data_found">Dosyada içe aktarılabilecek hiçbir veri bulunamadı.</string>
     <string name="parse_error_other_exception">Bir hata meydana geldi: %1$s</string>
     <string name="parse_error_parse_exception">Dosya ayrıştırılamadı</string>
     <string name="password_disabled_reenable">Parola ile koruma devre dışı bırakıldı. Ayarlarda tekrar etkinleştirebilirsiniz.</string>
@@ -515,8 +508,6 @@
     <string name="hint_url">Bağlantı</string>
     <string name="description_webdav_url">Lütfen WebDAV sunucunuzdaki özel bir klasör için bağlantı girin. {app_name} verilerini bu klasör içinde saklayacak ve dışında hiçbir şeye dokunmayacaktır.</string>
     <string name="description_webdav_trust_certificate">Ağ sitesi Android tarafından güvenilmeyen bir sertifika kullanmaktadır.</string>
-    <string name="hint_user_name">Kullanıcı ismi</string>
-    <string name="hint_password">Parola</string>
     <string name="label_trust_certificate">Bu sertifikaya güven</string>
     <string name="no_sync_backends">Eşzamanlama arka ucu yok</string>
     <string name="menu_create_sync_backend">Yeni eşzamanlama arka ucu</string>
@@ -528,7 +519,6 @@
     <string name="menu_sync_unlink">Eşzamanlamayı durdur</string>
     <string name="menu_sync_link">Eşzamanlamayı başlat</string>
     <string name="menu_sync_download">İndir ve eşzamanla</string>
-    <string name="pref_sync_frequency_title">Eşzamanlama sıklığı</string>
     <string name="pref_sync_frequency_summary">Verilerin hangi sıklıkla eşzamanlanacağı (saat olarak)</string>
     <string name="dialog_confirm_sync_unlink">Bu hesabın %s ile bağlantısını kaldırırsanız, eşzamanlama durumu kaybolur. Daha sonra bağlantıyı tekrar kurmak tam bir eşzamanlamanın tekrar yapılması gerekir.</string>
     <string name="dialog_sync_link">uuid %s ile bir hesap hem yerel veri tabanında hem de uzaktaki arka uçta mevcuttur. Bu ikisini ilişkilendirdiğinizde, ilk olarak yerel verileri uzaktaki arka uca mı yükleyeceğinize ya da uzaktan yerel veri tabanına mı indireceğinize karar vermeniz gerekir.</string>
@@ -702,7 +692,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">\'Eşlenmemiş\' filtresi çoklu seçime dahil edilemez</string>
-    <string name="upgrade_information_cloud_sync_storage_format">2.9.8 sürümünden beri verilerin eşzamanlama arka uçlarına yazılma yöntemi değişmiştir. Eşzamanlama yapılan tüm aygıtlarda yeni kayıt girmeden önce lütfen bu sürüme yükseltme yapın.</string>
     <string name="pref_security_export_passphrase_title">Yedeklemeler için parola</string>
     <string name="pref_security_export_passphrase_summary">Yedeklemeler bu parola ile şifrelenecektir</string>
     <string name="backup_is_encrypted">Yedekleme dosyası şifrelenmiştir. Şifrelemeyi çözmek için parolayı girmeniz gerekir.</string>
@@ -832,7 +821,6 @@
     <string name="pref_criterion_future_current">Şimdiki zaman</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Özellikler</string>
-    <string name="scan_result_no_data">Veri yok</string>
     <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">Birden çok aday bulundu. Lütfen seçin:</string>
     <string name="scan_result_no_amount">Hiçbir meblağ bulunamadı</string>
@@ -912,13 +900,11 @@
     </plurals>
     <string name="debt_managment">Borç yönetimi</string>
     <string name="object_sealed_debt">Nesne kapalı bir borca atıfta bulunmaktadır.</string>
-    <string name="dialog_title_delete_debt">Borç silinsin mi\?</string>
     <string name="warning_party_delete_debt">Bu taraf silinirken kendisine tanımlanan borçlar da silinecektir.</string>
     <string name="debts">Borçlar</string>
     <string name="debt_I_owe">%s\'e borcum var</string>
     <string name="debt_owes_me">%s bana borçlu</string>
     <string name="menu_new_debt">Yeni borç</string>
-    <string name="dialog_title_warning_delete_party">Taraf silinsin mi\?</string>
     <string name="debt">Borç</string>
     <string name="title_activity_debt_overview">Borç Genel Görünümü</string>
     <string name="pref_mlkit_script_title">MlKit için alfabe</string>
@@ -949,7 +935,6 @@
     <string name="pref_csv_export_split_categories_summary">Kategori hiyerarşisinin her seviyesi için ayrı sütunlar kullanın</string>
     <string name="pref_csv_export_split_date_time_summary">Tarih ve saat için ayrı sütunlar kullanın</string>
     <string name="icons_for_categories">Kategoriler için simgeler</string>
-    <string name="required">Gerekli</string>
     <string name="rollover_edit_invalid">Bir kategoriye atanan devreden ile alt kategorilere atanan devredenlerin toplamı kalanı geçemez.</string>
     <string name="dialog_confirm_rollover_delete">Bu dönem için tüm devreden tutarları silinecektir.</string>
     <string name="budget_only_current_period">Yalnızca %s için ayarla</string>
@@ -975,10 +960,8 @@
     <string name="debt_paid_off_self">Borcum ödendi.</string>
     <string name="debt_balance_they_owe">%1$s şimdi %2$s borçlu.</string>
     <string name="pref_backup_file_prefix_title">Dosya ön eki</string>
-    <string name="file_format">Dosya Biçimi</string>
     <string name="image_optimize_quality_summary">Niteliğin 0 olması, en küçük boyut için sıkıştırma anlamına gelir. 100 en yüksek görsel kalite için sıkıştırma anlamına gelir.</string>
     <string name="maximum_size">Azami boyut</string>
-    <string name="image_optimize_quality">Nitelik</string>
     <string name="optimize_image_file_size">Resim dosyası boyutunu iyileştir</string>
     <string name="add_shortcut">Kısayol ekle</string>
     <string name="select_template">Şablon seç</string>
@@ -1024,4 +1007,8 @@
     <string name="menu_transform_to_transfer">Havaleye dönüştür</string>
     <string name="warning_transform_to_transfer">Seçilen muamele %1$s\'den %2$s\'ye bir havale ile değiştirilecek.</string>
     <string name="roadmap_intro">2024 Yol Haritası oylaması başladı! Sizin için en önemli olan özellikler ve iyileştirmeler için oy verin.</string>
+    <string name="merge_categories_prompt">Tutmak istediğiniz kategoriyi seçin</string>
+    <string name="merge_categories_dialog_title">Kategorileri Birleştir</string>
+    <string name="subcategories_merged_recursively">Birleştirilen kategorilerden herhangi birinin aynı etikete sahip alt kategorileri varsa, bunlar önce özyinelemeli olarak birleştirilecektir.</string>
+    <string name="pref_csv_export_category_separator_summary">Kategori hiyerarşisinin seviyeleri arasındaki ayırıcı</string>
 </resources>

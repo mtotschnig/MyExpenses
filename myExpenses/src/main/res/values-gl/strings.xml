@@ -28,8 +28,6 @@
     <string name="amount">Importe</string>
     <string name="app_name">Os meus gastos</string>
     <string name="category">Categoría</string>
-    <string name="color">Cor</string>
-    <string name="comment">Notas</string>
     <string name="contrib_feature_ad_free_label">Sen anuncios</string>
     <string name="contrib_feature_accounts_unlimited_label">Número ilimitado de contas</string>
     <string name="contrib_feature_attach_picture_label">Anexar imaxe á transacción</string>
@@ -111,10 +109,7 @@
     <string name="menu_exclude_from_totals">Excluír dos totais</string>
     <string name="menu_help">Axuda</string>
     <string name="menu_manage_plans">Modelos e plans</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Abrir</string>
     <string name="menu_import">Importar</string>
-    <string name="menu_print">Imprimir</string>
     <string name="menu_reset">Exportar e restablecer</string>
     <string name="menu_reset_all">Exportar e restablecer todo</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->

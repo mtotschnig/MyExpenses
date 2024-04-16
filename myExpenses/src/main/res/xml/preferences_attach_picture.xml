@@ -28,7 +28,7 @@
         android:key="@string/pref_optimize_picture_quality_key"
         android:max="100"
         android:summary="@string/image_optimize_quality_summary"
-        android:title="@string/image_optimize_quality"
+        android:title="@string/quality"
         my:min="0"
         my:showSeekBarValue="true"
         my:updatesContinuously="true" />

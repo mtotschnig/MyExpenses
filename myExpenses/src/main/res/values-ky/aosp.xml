@@ -10,4 +10,14 @@
     <string name="currencies_exchange">"Валюталар"</string>
     <string name="menu_sync_now">"Азыр шайкештирүү"</string>
   <string name="do_not_show_again">Экинчи көрсөтүлбөсүн</string>
+    <string name="color">"Түс"</string>
+    <string name="notes">"Эскертүүлөр"</string>
+    <string name="cannot_be_undone">"Бул аракетти артка кайтаруу мүмкүн эмес."</string>
+    <string name="configuration">"Конфигурация"</string>
+    <string name="menu_open">"Ачуу"</string>
+    <string name="menu_print">"Басып чыгаруу"</string>
+    <string name="username">"Колдонуучунун аты"</string>
+    <string name="password">"Сырсөз"</string>
+    <string name="frequency">"Жыштык"</string>
+    <string name="no_data">"Эч нерсе жок"</string>
 </resources>

@@ -3,7 +3,18 @@ package org.totschnig.myexpenses.provider
 import android.content.ContentValues
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Model
-import java.util.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
+import java.util.Date
 
 data class TransactionInfo(
     val accountId: Long,
@@ -20,16 +31,16 @@ data class TransactionInfo(
         get() = date.time / 1000
     val contentValues: ContentValues
         get() = ContentValues().apply {
-            put(DatabaseConstants.KEY_COMMENT, comment)
-            put(DatabaseConstants.KEY_DATE, dateAsLong)
-            put(DatabaseConstants.KEY_VALUE_DATE, dateAsLong)
-            put(DatabaseConstants.KEY_AMOUNT, amount)
-            put(DatabaseConstants.KEY_PAYEEID, payeeId)
-            put(DatabaseConstants.KEY_ACCOUNTID, accountId)
-            put(DatabaseConstants.KEY_CR_STATUS, crStatus.name)
-            put(DatabaseConstants.KEY_UUID, Model.generateUuid())
-            put(DatabaseConstants.KEY_DEBT_ID, debtId)
-            put(DatabaseConstants.KEY_CATID, catId)
-            put(DatabaseConstants.KEY_METHODID, methodId)
+            put(KEY_COMMENT, comment)
+            put(KEY_DATE, dateAsLong)
+            put(KEY_VALUE_DATE, dateAsLong)
+            put(KEY_AMOUNT, amount)
+            put(KEY_PAYEEID, payeeId)
+            put(KEY_ACCOUNTID, accountId)
+            put(KEY_CR_STATUS, crStatus.name)
+            put(KEY_UUID, Model.generateUuid())
+            put(KEY_DEBT_ID, debtId)
+            put(KEY_CATID, catId)
+            put(KEY_METHODID, methodId)
         }
 }

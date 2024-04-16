@@ -85,7 +85,7 @@ public class GrisbiImportTest extends InstrumentationTestCase {
   public void testGrisbiEmpty() {
     Result result = analyze(R.raw.grisbi_empty);
     Assert.assertEquals(false, result.isSuccess());
-    Assert.assertEquals(org.totschnig.myexpenses.R.string.parse_error_no_data_found, result.getMessage());
+    Assert.assertEquals(org.totschnig.myexpenses.R.string.no_data, result.getMessage());
   }
   /*
   *these tests are commented out since the large XML files are not added to git

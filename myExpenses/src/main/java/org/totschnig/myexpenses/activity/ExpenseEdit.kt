@@ -805,14 +805,18 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             return
         }
         intent.getParcelableExtra<OcrResultFlat>(KEY_OCR_RESULT)?.let { ocrResultFlat ->
-            ocrResultFlat.amount?.let { amountInput.setRaw(it) }
-            ocrResultFlat.date?.let { pair ->
-                dateEditBinding.DateButton.setDate(pair.first)
-                pair.second?.let { dateEditBinding.TimeButton.setTime(it) }
-            }
-            ocrResultFlat.payee?.let {
-                rootBinding.Payee.setText(it.name)
-                startAutoFill(it.id, true)
+            if (ocrResultFlat.isEmpty) {
+                showSnackBar(R.string.no_data)
+            } else {
+                ocrResultFlat.amount?.let { amountInput.setRaw(it) }
+                ocrResultFlat.date?.let { pair ->
+                    dateEditBinding.DateButton.setDate(pair.first)
+                    pair.second?.let { dateEditBinding.TimeButton.setTime(it) }
+                }
+                ocrResultFlat.payee?.let {
+                    rootBinding.Payee.setText(it.name)
+                    startAutoFill(it.id, true)
+                }
             }
         }
         intent.getParcelableExtra<Uri>(KEY_URI)?.let {
@@ -1040,21 +1044,23 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 .setIcon(R.drawable.ic_menu_move)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
             menu.add(Menu.NONE, R.id.CATEGORY_COMMAND, 0 , R.string.category).isCheckable = true
-        } else if (isMainTransaction) {
-            menu.add(
-                Menu.NONE,
-                R.id.ORIGINAL_AMOUNT_COMMAND,
-                0,
-                R.string.menu_original_amount
-            ).isCheckable =
-                true
-            menu.add(
-                Menu.NONE,
-                R.id.EQUIVALENT_AMOUNT_COMMAND,
-                0,
-                R.string.menu_equivalent_amount
-            ).isCheckable =
-                true
+        } else {
+            if (!isSplitPart) {
+                menu.add(
+                    Menu.NONE,
+                    R.id.ORIGINAL_AMOUNT_COMMAND,
+                    0,
+                    R.string.menu_original_amount
+                ).isCheckable = true
+            }
+            if (!isSplitPartOrTemplate) {
+                menu.add(
+                    Menu.NONE,
+                    R.id.EQUIVALENT_AMOUNT_COMMAND,
+                    0,
+                    R.string.menu_equivalent_amount
+                ).isCheckable = true
+            }
         }
         return true
     }
@@ -1263,6 +1269,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
+    override fun onCropResultOK(result: CropImage.ActivityResult) {
+        viewModel.addAttachmentUris(result.uri)
+        setDirty()
+    }
+
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
@@ -1274,17 +1285,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     intent.getLongExtra(KEY_ROWID, 0)
                 )
                 setDirty()
-            }
-
-            CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
-                val result = CropImage.getActivityResult(intent)
-                if (resultCode == RESULT_OK) {
-                    viewModel.addAttachmentUris(result.uri)
-                    setDirty()
-                    viewModel.cleanupOrigFile(result)
-                } else {
-                    processImageCaptureError(resultCode, result)
-                }
             }
 
             PLAN_REQUEST -> finish()
@@ -1358,6 +1358,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     fun loadMethods(account: Account?) {
         if (account != null) {
+            delegate.methodsLoaded = false
             viewModel.loadMethods(isIncome, account.type)
         }
     }

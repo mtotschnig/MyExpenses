@@ -36,35 +36,74 @@ import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.deleteCategory
 import org.totschnig.myexpenses.db2.ensureCategoryTree
 import org.totschnig.myexpenses.db2.getCategoryPath
+import org.totschnig.myexpenses.db2.mergeCategories
 import org.totschnig.myexpenses.db2.moveCategory
 import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.export.CategoryExporter
 import org.totschnig.myexpenses.export.createFileFailure
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.Sort
-import org.totschnig.myexpenses.provider.*
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.model2.CategoryExport
+import org.totschnig.myexpenses.provider.BaseTransactionProvider
+import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_DESCENDANTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LEVEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_BUDGETS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TEMPLATES
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIONS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MATCHES_FILTER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS
+import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.BUDGETS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.CATEGORIES_URI
+import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getIntIfExistsOr0
+import org.totschnig.myexpenses.provider.getIntOrNull
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getLongIfExistsOr0
+import org.totschnig.myexpenses.provider.getLongOrNull
+import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.sync.GenericAccountService
-import org.totschnig.myexpenses.model2.CategoryExport
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.failure
 import org.totschnig.myexpenses.util.io.displayName
+import org.totschnig.myexpenses.util.replace
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
 import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
 import java.io.FileNotFoundException
+import java.util.Locale
 
 sealed class LoadingState {
-    data object Loading: LoadingState()
+    data object Loading : LoadingState()
 
-    sealed class Result: LoadingState()
-    class Data(val data: Category): Result()
+    sealed class Result : LoadingState()
+    class Data(val data: Category) : Result()
 
-    class Empty(val hasUnfiltered: Boolean): Result()
+    class Empty(val hasUnfiltered: Boolean) : Result()
 }
 
 open class CategoryViewModel(
@@ -77,16 +116,20 @@ open class CategoryViewModel(
     private val _importResult: MutableStateFlow<Pair<Int, Int>?> = MutableStateFlow(null)
     private val _exportResult: MutableStateFlow<Result<Pair<Uri, String>>?> = MutableStateFlow(null)
     private val _syncResult: MutableStateFlow<String?> = MutableStateFlow(null)
+    private val _mergeResult: MutableStateFlow<Unit?> = MutableStateFlow(null)
     val deleteResult: StateFlow<Result<DeleteResult>?> = _deleteResult.asStateFlow()
     val moveResult: StateFlow<Boolean?> = _moveResult.asStateFlow()
     val importResult: StateFlow<Pair<Int, Int>?> = _importResult.asStateFlow()
     val exportResult: StateFlow<Result<Pair<Uri, String>>?> = _exportResult.asStateFlow()
     val syncResult: Flow<String> = _syncResult.asStateFlow().filterNotNull()
+    val mergeResult: Flow<Unit?> = _mergeResult.asStateFlow()
     val defaultSort = Sort.USAGES
 
     sealed class DialogState : java.io.Serializable
+
     data object NoShow : DialogState()
-    data class Show(
+
+    data class Edit(
         val category: Category? = null,
         val parent: Category? = null,
         val saving: Boolean = false,
@@ -95,6 +138,11 @@ open class CategoryViewModel(
         val isNew: Boolean
             get() = category == null || category.id == 0L
     }
+
+    data class Merge(
+        val categories: List<Category>,
+        val saving: Boolean = false
+    ) : DialogState()
 
     @OptIn(SavedStateHandleSaveableApi::class)
     var dialogState: DialogState by savedStateHandle.saveable { mutableStateOf(NoShow) }
@@ -163,8 +211,9 @@ open class CategoryViewModel(
     }
         .stateIn(viewModelScope, SharingStarted.Lazily, LoadingState.Loading)
 
-    val categoryTreeForSelect: Flow<LoadingState>
-        get() = categoryTree(sortOrder = sortOrder.value.toOrderByWithDefault(defaultSort, collate))
+    val categoryTreeForSelect: Flow<LoadingState> by lazy {
+        categoryTree(sortOrder = sortOrder.value.toOrderByWithDefault(defaultSort, collate))
+    }
 
     fun categoryTree(
         selection: String? = null,
@@ -223,21 +272,102 @@ open class CategoryViewModel(
 
     fun saveCategory(label: String, icon: String?, typeFlags: Byte) {
         viewModelScope.launch(context = coroutineContext()) {
-            (dialogState as? Show)?.takeIf { !it.saving }?.let {
+            (dialogState as? Edit)?.takeIf { !it.saving }?.let { edit ->
                 val category = org.totschnig.myexpenses.model2.Category(
-                    id = it.category?.id?.takeIf { it != 0L },
+                    id = edit.category?.id?.takeIf { it != 0L },
                     label = label,
                     icon = icon,
-                    parentId = it.parent?.id,
+                    parentId = edit.parent?.id,
                     type = typeFlags
                 )
-                dialogState = it.copy(saving = true)
+                dialogState = edit.copy(saving = true)
                 dialogState = if (repository.saveCategory(category) == null) {
-                    it.copy(error = true)
+                    edit.copy(error = true)
                 } else {
                     NoShow
                 }
             }
+        }
+    }
+
+    fun mergeCategories(keepIndex: Int) {
+        viewModelScope.launch(context = coroutineContext()) {
+            (dialogState as? Merge)?.takeIf { !it.saving }?.let { merge ->
+                dialogState = merge.copy(saving = true)
+                val idList = merge.categories.map { it.id }.toMutableList()
+                val kept = idList.removeAt(keepIndex)
+                repository.mergeCategories(idList, kept)
+                updateCategoryFilters(idList.toSet(), kept)
+                updateCategoryBudgets(idList.toSet(), kept)
+                dialogState = NoShow
+                _mergeResult.update { }
+            }
+        }
+    }
+
+    private fun updateCategoryFilters(old: Set<Long>, new: Long) {
+        contentResolver.query(ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES, null, null, null, null)
+            ?.use { cursor ->
+                updateFilterHelper(old, new, cursor, MyExpensesViewModel::prefNameForCriteria)
+            }
+    }
+
+
+    private fun updateCategoryBudgets(old: Set<Long>, new: Long) {
+        contentResolver.query(
+            BUDGETS_URI,
+            arrayOf("$TABLE_BUDGETS.$KEY_ROWID"),
+            null,
+            null,
+            null
+        )?.use { cursor ->
+            updateFilterHelper(old, new, cursor, BudgetViewModel::prefNameForCriteria)
+        }
+    }
+
+    private fun updateFilterHelper(
+        old: Set<Long>,
+        new: Long,
+        cursor: Cursor,
+        prefNameCreator: (Long) -> String
+    ) {
+        cursor.moveToFirst()
+        while (!cursor.isAfterLast) {
+            val filterKey = prefNameCreator(cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID)))
+                .format(Locale.ROOT, KEY_CATID)
+            val oldFilterValue = prefHandler.getString(filterKey, null)
+            val oldCriteria = oldFilterValue?.let {
+                CategoryCriterion.fromStringExtra(it)
+            }
+            if (oldCriteria != null) {
+                val oldSet = oldCriteria.values.toSet()
+                val newSet: Set<Long> = oldSet.replace(old, new)
+                if (oldSet != newSet) {
+                    val labelList = mutableListOf<String>()
+                    contentResolver.query(
+                        CATEGORIES_URI, arrayOf(KEY_LABEL),
+                        "$KEY_ROWID IN (${newSet.joinToString()})", null, null
+                    )?.use {
+                        it.moveToFirst()
+                        while (!it.isAfterLast) {
+                            labelList.add(it.getString(0))
+                            it.moveToNext()
+                        }
+                    }
+                    val newFilterValue = CategoryCriterion(
+                        labelList.joinToString(","),
+                        *newSet.toLongArray()
+                    ).toString()
+                    Timber.d(
+                        "Updating %s (%s -> %s",
+                        filterKey,
+                        oldFilterValue,
+                        newFilterValue
+                    )
+                    prefHandler.putString(filterKey, newFilterValue)
+                }
+            }
+            cursor.moveToNext()
         }
     }
 
@@ -265,7 +395,7 @@ open class CategoryViewModel(
 
     private fun mappedObjectQuery(projection: Array<String>, ids: List<Long>, aggregate: Boolean) =
         contentResolver.query(
-            TransactionProvider.CATEGORIES_URI.buildUpon()
+            CATEGORIES_URI.buildUpon()
                 .appendQueryParameter(
                     TransactionProvider.QUERY_PARAMETER_MAPPED_OBJECTS,
                     if (aggregate) "2" else "1"
@@ -334,18 +464,11 @@ open class CategoryViewModel(
     }
 
     fun messageShown() {
-        _deleteResult.update {
-            null
-        }
-        _moveResult.update {
-            null
-        }
-        _importResult.update {
-            null
-        }
-        _syncResult.update {
-            null
-        }
+        _deleteResult.update { null }
+        _moveResult.update { null }
+        _importResult.update { null }
+        _syncResult.update { null }
+        _mergeResult.update { null }
     }
 
     fun moveCategory(source: Long, target: Long?) {
@@ -386,7 +509,7 @@ open class CategoryViewModel(
                             } ?: Result.failure(createFileFailure(context, destDir, fileName))
                         }
                     ).getOrThrow()
-                }. mapCatching {
+                }.mapCatching {
                     it.uri to it.displayName
                 }
             }
@@ -416,7 +539,8 @@ open class CategoryViewModel(
                                     val nextColor = cursor.getIntOrNull(KEY_COLOR)
                                     val nextIcon = cursor.getStringOrNull(KEY_ICON)
                                     val nextUuid = cursor.getString(KEY_UUID)
-                                    val nextType = if (parentId == null) cursor.getIntOrNull(KEY_TYPE) else null
+                                    val nextType =
+                                        if (parentId == null) cursor.getIntOrNull(KEY_TYPE) else null
                                     if (nextParent == parentId) {
                                         cursor.moveToNext()
                                         add(
@@ -459,7 +583,7 @@ open class CategoryViewModel(
                         } catch (e: Exception) {
                             e.safeMessage
                         }
-                                },
+                    },
                     onFailure = {
                         if (it !is FileNotFoundException) {
                             CrashHandler.report(it)

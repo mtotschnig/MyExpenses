@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.model;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
+import static org.totschnig.myexpenses.provider.CursorExtKt.getStringOrNull;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
@@ -30,6 +31,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEFAULT_AC
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
@@ -161,7 +164,9 @@ public class Template extends Transaction implements ITransfer, ISplit {
         KEY_PARENTID,
         KEY_PLAN_EXECUTION_ADVANCE,
         KEY_DEFAULT_ACTION,
-        KEY_DEBT_ID
+        KEY_DEBT_ID,
+        KEY_ORIGINAL_CURRENCY,
+        KEY_ORIGINAL_AMOUNT
     };
     int baseLength = PROJECTION_BASE.length;
     PROJECTION_EXTENDED = new String[baseLength + 3];
@@ -360,6 +365,13 @@ public class Template extends Transaction implements ITransfer, ISplit {
       defaultAction = Action.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_DEFAULT_ACTION)));
     } catch (IllegalArgumentException ignored) {}
     setDebtId(getLongOrNull(c, KEY_DEBT_ID));
+    String originalCurrency = getStringOrNull(c, KEY_ORIGINAL_CURRENCY);
+    if (originalCurrency != null) {
+      setOriginalAmount(
+        new Money(currencyContext.get(originalCurrency),
+        c.getLong(c.getColumnIndexOrThrow(KEY_ORIGINAL_AMOUNT)))
+      );
+    }
   }
 
   public Template(
@@ -538,6 +550,8 @@ public class Template extends Transaction implements ITransfer, ISplit {
     initialValues.put(KEY_DEFAULT_ACTION, defaultAction.name());
     initialValues.put(KEY_ACCOUNTID, getAccountId());
     initialValues.put(KEY_DEBT_ID, getDebtId());
+    initialValues.put(KEY_ORIGINAL_AMOUNT, getOriginalAmount() == null ? null : getOriginalAmount().getAmountMinor());
+    initialValues.put(KEY_ORIGINAL_CURRENCY, getOriginalAmount() == null ? null : getOriginalAmount().getCurrencyUnit().getCode());
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     if (getId() == 0) {
       initialValues.put(KEY_UUID, requireUuid());

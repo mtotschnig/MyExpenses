@@ -9,5 +9,20 @@
     <string name="help_and_feedback">"Usizo nempendulo"</string>
     <string name="currencies_exchange">"Uhlobo Lwezimali Nokushintshisana Ngezimali Zakwamanye Amazwe"</string>
     <string name="menu_sync_now">"Vumelanisa manje"</string>
-  <string name="do_not_show_again">Ungabonisi futhi</string>
+    <string name="do_not_show_again">Ungabonisi futhi</string>
+    <string name="color">"Umbala"</string>
+    <string name="notes">"Imibhalo"</string>
+    <string name="cannot_be_undone">"Lesi senzo asikwazi ukuhlehliswa."</string>
+    <string name="paper_format">"Umumo Wekhasi"</string>
+    <string name="configuration">"Ukucushwa"</string>
+    <string name="menu_open">"Vula"</string>
+    <string name="menu_print">"Phrinta"</string>
+    <string name="share">"Yabelana"</string>
+    <string name="username">"Igama lomsebenzisi"</string>
+    <string name="password">"Iphasiwedi"</string>
+    <string name="pixels">"Ama-pixel"</string>
+    <string name="frequency">"Imvamisa"</string>
+    <string name="required">"Okudingekayo"</string>
+    <string name="quality">"Ikhethelo"</string>
+    <string name="no_data">"Ayikho idatha"</string>
 </resources>

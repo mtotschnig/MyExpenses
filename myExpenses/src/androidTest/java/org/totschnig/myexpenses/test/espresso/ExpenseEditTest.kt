@@ -1,11 +1,16 @@
 package org.totschnig.myexpenses.test.espresso
 
+import android.widget.Button
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.containsString
+import org.hamcrest.Matchers.`is`
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -82,6 +87,21 @@ class ExpenseEditTest : BaseExpenseEditTest() {
         }).use {
             setAmount(100)
         }
+    }
+
+    @Test
+    fun helpDialogIsOpened() {
+        launch(intentForNewTransaction)
+        clickMenuItem(R.id.HELP_COMMAND)
+        onView(withText(containsString(getString(R.string.help_ExpenseEdit_transaction_title))))
+            .check(matches(isDisplayed()))
+        onView(
+            allOf(
+                isAssignableFrom(Button::class.java),
+                withText(`is`(app.getString(android.R.string.ok)))
+            )
+        )
+            .check(matches(isDisplayed()))
     }
 
     @Test

@@ -37,8 +37,6 @@
     <string name="app_name">Nire gastuak</string>
     <string name="backup_success">Datu-basea eta hobespenak ondo idatzi dira \"%1$s\"-ra.</string>
     <string name="category">Kategoria</string>
-    <string name="color">Kolorea</string>
-    <string name="comment">Oharrak</string>
     <string name="contrib_feature_ad_free_label">Iragarkirik gabe</string>
     <string name="contrib_feature_accounts_unlimited_label">Kontu kopuru mugagabea</string>
     <string name="contrib_feature_attach_picture_label">Erantsi irudia transakzioari</string>
@@ -174,10 +172,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Alderantzikatu</string>
     <string name="menu_manage_plans">Txantiloiak eta planak</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Ireki</string>
     <string name="menu_import">Inportatu</string>
-    <string name="menu_print">Inprimatu</string>
     <string name="menu_reset">Esportatu eta berrezarri</string>
     <string name="menu_reset_all">Esportatu eta berrezarri guztiak </string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -185,7 +180,6 @@
     <string name="menu_save">Gorde</string>
     <string name="menu_save_and_new">Gorde eta berria</string>
     <string name="menu_share">Esan lagun bati</string>
-    <string name="button_label_share_file">Partekatu</string>
     <string name="button_label_close">Itxi</string>
     <string name="menu_split_transaction">Bihurtu banaketara</string>
     <string name="method">Ordainketa metodoa</string>
@@ -215,7 +209,6 @@
     <string name="opening_balance">Irekiera saldoa</string>
     <string name="parse_error_file_not_found">Ezin izan da %1$s fitxategia aurkitu</string>
     <string name="parse_error_grisbi_version_not_supported">Euskarririk gabeko Grisbi fitxategi bertsioa:  %1$s</string>
-    <string name="parse_error_no_data_found">Ez da inportatu daiteken daturik aurkitu fitxategian.</string>
     <string name="parse_error_other_exception">Errore bat gertatu da: %1$s</string>
     <string name="parse_error_parse_exception">Ezin izan da fitxategia aztertu</string>
     <string name="password_disabled_reenable">Pasahitz bidezko babesa ezgaitu da. Berriro gaitu dezakezu ezarpenetan.</string>
@@ -510,8 +503,6 @@
     <string name="hint_url">URLa</string>
     <string name="description_webdav_url">Idatzi mesedez zure WebDAV zerbitzariko karpeta berezi baten URLa. {app_name} bere datuak karpeta honetan gordeko ditu, ez du hortik kanpoko ezer ikutuko.</string>
     <string name="description_webdav_trust_certificate">Webguneak ziurtagiri bat darabil, zeina Androidek ez duen fidagarritzat jotzen.</string>
-    <string name="hint_user_name">Erabiltzaile-izena</string>
-    <string name="hint_password">Pasahitza</string>
     <string name="label_trust_certificate">Fidatu ziurtagiri honetan</string>
     <string name="no_sync_backends">Sinkronizazio atzealdekorik ez</string>
     <string name="menu_create_sync_backend">Sinkronizazio atzealdeko berria</string>
@@ -523,7 +514,6 @@
     <string name="menu_sync_unlink">Gelditu sinkronizazioa</string>
     <string name="menu_sync_link">Hasi sinkronizazioa</string>
     <string name="menu_sync_download">Deskargatu eta sinkronizatu</string>
-    <string name="pref_sync_frequency_title">Sinkronizazioaren maiztasuna</string>
     <string name="pref_sync_frequency_summary">Zenbat orduetan behin sinkronizatu behar litzateke datuak
 </string>
     <string name="dialog_confirm_sync_unlink">Kontu hau %s-(e)tik desestekatzen baduzu, sinkronizazioaren egoera galdu egingo da. Beraiek aurrerago berriro estekatzeko sinkronizazio oso bat exekutatu beharko da berriro.</string>

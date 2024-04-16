@@ -37,8 +37,6 @@
     <string name="app_name">Minhas Despesas</string>
     <string name="backup_success">O banco de dados e as preferências foram gravados com sucesso em \"%1$s\".</string>
     <string name="category">Categoria</string>
-    <string name="color">Cor</string>
-    <string name="comment">Notas</string>
     <string name="contrib_feature_ad_free_label">Sem anúncios</string>
     <string name="contrib_feature_accounts_unlimited_label">Número ilimitado de contas</string>
     <string name="contrib_feature_attach_picture_label">Anexar imagem à transação</string>
@@ -161,10 +159,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Inverter</string>
     <string name="menu_manage_plans">Modelos e planos</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Abrir</string>
     <string name="menu_import">Importar</string>
-    <string name="menu_print">Imprimir</string>
     <string name="menu_reset">Exportar e redefinir</string>
     <string name="menu_reset_all">Exportar e redefinir tudo</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -199,7 +194,6 @@
     <string name="opening_balance">Saldo inicial</string>
     <string name="parse_error_file_not_found">Não foi possível localizar o ficheiro %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">Versão de ficheiro Grisbi sem suporte: %1$s</string>
-    <string name="parse_error_no_data_found">Não foi encontrado nenhum dado importável no ficheiro.</string>
     <string name="parse_error_other_exception">Ocorreu um erro: %1$s</string>
     <string name="parse_error_parse_exception">Não foi possível analisar o ficheiro</string>
     <string name="password_disabled_reenable">A proteção por palavra-passe foi desativada. Pode reativá-la nas configurações.</string>
@@ -490,8 +484,6 @@
     <string name="synchronization_none">Sem sincronização</string>
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">Por favor digite a URL de uma pasta especial no seu servidor WebDAV. {app_name} guardará os dados dentro desta pasta, não tocando em nada fora dela.</string>
-    <string name="hint_user_name">Nome de utilizador</string>
-    <string name="hint_password">Senha</string>
     <string name="label_trust_certificate">Confiar neste certificado</string>
     <string name="no_sync_backends">Sem destinos de sincronização</string>
     <string name="menu_create_sync_backend">Novo destino de sincronização</string>
@@ -503,7 +495,6 @@
     <string name="menu_sync_unlink">Parar a sincronização</string>
     <string name="menu_sync_link">Parar a sincronização</string>
     <string name="menu_sync_download">Baixar e sincronizar</string>
-    <string name="pref_sync_frequency_title">Frequência de sincronização</string>
     <string name="pref_sync_frequency_summary">Com que frequência os dados devem ser sincronizados (em horas)</string>
     <string name="dialog_confirm_sync_unlink">Se desassociar esta conta de %s, o status da sincronização será perdido. Uma futura nova associação, exigirá que seja feita uma sincronização completa.</string>
     <string name="dialog_sync_link">Existe uma conta com o uuid %s tanto na base de dados local quanto no destino remoto. Ao associá-las, você deverá decidir se, inicialmente, os dados locais serão enviados para o destino remoto ou os dados remotos serão baixados para o banco de dados local.</string>
@@ -566,7 +557,6 @@
     <string name="no_accounts">Não há contas.</string>
     <string name="image_capture_not_installed">Não foi encontrado nenhum app para tirar fotos.</string>
     <string name="button_label_close">Fechar</string>
-    <string name="button_label_share_file">Compartilhar</string>
     <string name="dialog_title_warning_delete_category">Excluir a categoria\?</string>
     <plurals name="dialog_title_warning_delete_account">
         <item quantity="one">Excluir a conta\?</item>
@@ -601,7 +591,6 @@
     <string name="scan_result_no_date">Não foi encontrada nenhuma data</string>
     <string name="scan_result_no_amount">Não foi encontrada nenhuma quantia</string>
     <string name="scan_result_multiple_candidates_dialog_title">Foram encontrados vários candidatos. Por favor selecione:</string>
-    <string name="scan_result_no_data">Sem dados</string>
     <string name="pref_criterion_future_current">Hora atual</string>
     <string name="pref_criterion_future_end_of_day">Fim do dia</string>
     <string name="pref_criterion_futur_title">Critério para transações futuras</string>
@@ -701,7 +690,6 @@
     <string name="backup_is_encrypted">O ficheiro de backup está criptografado. Para descriptografá-lo é necessário fornecer sua senha.</string>
     <string name="pref_security_export_passphrase_summary">Os backups serão criptografados com essa senha</string>
     <string name="pref_security_export_passphrase_title">Senha para backups</string>
-    <string name="upgrade_information_cloud_sync_storage_format">A partir da versão 2.9.8, a forma como os dados são armazenados nos destinos de sincronização mudou. Atualize para esta versão em todos os dispositivos sincronizados, antes de inserir novos registros em qualquer um deles.</string>
     <string name="unmapped_filter_only_single">Um filtro \'não mapeado\' não pode ser incluído em uma seleção múltipla</string>
     <string name="unmapped">Não mapeado</string>
     <string name="currency_still_used">Essa moeda está em uso, não pode ser excluída.</string>
@@ -837,7 +825,6 @@
     </plurals>
     <string name="pref_purge_backup_require_confirmation_summary">Exibir mensagem de confirmação antes de purgar ficheiros</string>
     <string name="pref_purge_backup_keep_title">Quantidade máxima de backups recentes a serem preservados</string>
-    <string name="dialog_title_warning_delete_party">Apagar parceiro\?</string>
     <string name="warning_link_transfer">As duas transações selecionadas serão vinculadas como uma transferência. As informações de beneficiário/pagador e da categoria serão descartadas.</string>
     <string name="account_widget_configuration_sum_total">Incluir transações futuras</string>
     <string name="account_widget_configuration">Configuração do widget de conta</string>
@@ -849,7 +836,6 @@
     <string name="backup_save_to_sync_backend">Gravar em %s</string>
     <string name="stability_improvements" tools:ignore="UnusedResources">Melhorias de estabilidade</string>
     <string name="debt">Dívida</string>
-    <string name="dialog_title_delete_debt">Apagar a dívida\?</string>
     <string name="object_sealed_debt">O objeto refere-se a uma dívida encerrada.</string>
     <string name="debt_managment">Gestão de dívidas</string>
     <string name="title_activity_debt_overview">Visão geral da dívida</string>
@@ -869,7 +855,6 @@
     <string name="pref_csv_export_split_categories_summary">Usa colunas separadas para cada nível da hierarquia de categoria</string>
     <string name="pref_csv_export_split_amount_summary">Usa colunas separadas para receitas e despesas</string>
     <string name="pref_csv_export_split_date_time_summary">Usa colunas separadas para data e hora</string>
-    <string name="required">Obrigatório</string>
     <string name="budget_only_current_period">Definido somente para %s</string>
     <string name="budget_table_header_rollover">Prorrogar</string>
     <string name="rollover_edit_invalid">A soma da prorrogação atribuída a uma categoria e das prorrogações atribuídas às subcategorias não pode exceder o restante.</string>

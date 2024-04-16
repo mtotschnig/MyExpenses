@@ -11,5 +11,18 @@
     <string name="help_and_feedback">"Ndihmë dhe komente"</string>
     <string name="currencies_exchange">"Valuta dhe këmbim valutor"</string>
     <string name="menu_sync_now">"Sinkronizo tani"</string>
-  <string name="do_not_show_again">Mos e shfaq përsëri</string>
+    <string name="do_not_show_again">Mos e shfaq përsëri</string>
+    <string name="color">"Ngjyra"</string>
+    <string name="notes">"Shënimet"</string>
+    <string name="cannot_be_undone">"Ky veprim nuk mund të zhbëhet."</string>
+    <string name="paper_format">"Formati i fletës"</string>
+    <string name="configuration">"Konfigurimi"</string>
+    <string name="menu_open">"Hap"</string>
+    <string name="username">"Emri i përdoruesit"</string>
+    <string name="password">"Fjalëkalimi"</string>
+    <string name="pixels">"piksel"</string>
+    <string name="frequency">"Frekuenca"</string>
+    <string name="required">"Kërkohet"</string>
+    <string name="quality">"Cilësia"</string>
+    <string name="no_data">"Nuk ka të dhëna"</string>
 </resources>

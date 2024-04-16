@@ -1,10 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
 -->
 <resources>
     <string name="customize">Customise</string>
     <string name="license_title">"Licence"</string>
-  <string name="do_not_show_again">Do not show this again</string>
+    <string name="do_not_show_again">Do not show this again</string>
+    <string name="color">"Colour"</string>
+    <string name="frequency">"Frequency"</string>
+    <string name="no_data">"No data"</string>
 </resources>

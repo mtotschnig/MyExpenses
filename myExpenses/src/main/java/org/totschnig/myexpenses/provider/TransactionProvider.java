@@ -376,6 +376,10 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   public static final String KEY_RESULT = "result";
 
+  public static final String METHOD_MERGE_CATEGORIES = "mergeCategories";
+  public static final String KEY_MERGE_SOURCE = "mergeSource";
+  public static final String KEY_MERGE_TARGET = "mergeTarget";
+
   private static final UriMatcher URI_MATCHER;
 
   @Override
@@ -1565,21 +1569,30 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHOD_SAVE_CATEGORY ->  {
         Bundle bundle = saveCategory(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
         notifyChange(CATEGORIES_URI, false);
+        notifyChange(TRANSACTIONS_URI, false);
         return bundle;
       }
       case METHOD_ENSURE_CATEGORY -> {
         Bundle bundle = ensureCategory(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
         notifyChange(CATEGORIES_URI, false);
+        notifyChange(TRANSACTIONS_URI, false);
         return bundle;
       }
       case METHOD_ENSURE_CATEGORY_TREE -> {
         Bundle bundle = ensureCategoryTree(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
         notifyChange(CATEGORIES_URI, false);
+        notifyChange(TRANSACTIONS_URI, false);
         return bundle;
       }
       case METHOD_SAVE_TRANSACTION_TAGS ->  {
         saveTransactionTags(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
         notifyChange(TRANSACTIONS_URI, true);
+      }
+      case METHOD_MERGE_CATEGORIES -> {
+        mergeCategories(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
+        notifyChange(CATEGORIES_URI, false);
+        notifyChange(TRANSACTIONS_URI, false);
+        return null;
       }
     }
     return null;

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
+import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -33,7 +34,7 @@ import javax.inject.Inject
 import kotlin.Result.Companion.failure
 import kotlin.Result.Companion.success
 
-class ShareViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+class BaseFunctionalityViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     enum class Scheme { FTP, MAILTO, HTTP, HTTPS; }
 
     @Inject
@@ -226,4 +227,13 @@ class ShareViewModel(application: Application) : ContentResolvingAndroidViewMode
             putExtra(Intent.EXTRA_SUBJECT, ctx.getString(R.string.app_name))
         }
     }
+
+    fun cleanupOrigFile(result: CropImage.ActivityResult) {
+        if (result.originalUri.authority == AppDirHelper.getFileProviderAuthority(getApplication())) {
+            viewModelScope.launch(coroutineContext()) {
+                contentResolver.delete(result.originalUri, null, null)
+            }
+        }
+    }
+
 }

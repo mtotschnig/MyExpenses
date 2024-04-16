@@ -75,5 +75,20 @@
     <string name="help_and_feedback">"ಸಹಾಯ ಮತ್ತು ಪ್ರತಿಕ್ರಿಯೆ"</string>
     <string name="currencies_exchange">"ಕರೆನ್ಸಿಗಳು &amp; ವಿದೇಶಿ ವಿನಿಮಯ"</string>
     <string name="menu_sync_now">"ಈಗ ಸಿಂಕ್ ಮಾಡು"</string>
-  <string name="do_not_show_again">ಪುನಃ ತೋರಿಸಬೇಡಿ</string>
+    <string name="do_not_show_again">ಪುನಃ ತೋರಿಸಬೇಡಿ</string>
+    <string name="color">"ಬಣ್ಣ"</string>
+    <string name="notes">"ಟಿಪ್ಪಣಿಗಳು"</string>
+    <string name="cannot_be_undone">"ಈ ಕ್ರಿಯೆಯನ್ನು ರದ್ದುಪಡಿಸಲಾಗುವುದಿಲ್ಲ"</string>
+    <string name="paper_format">"ಕಾಗದದ ವಿನ್ಯಾಸ"</string>
+    <string name="configuration">"ಕಾನ್ಫಿಗರೇಶನ್‌"</string>
+    <string name="menu_open">"ತೆರೆ"</string>
+    <string name="menu_print">"ಮುದ್ರಿಸು"</string>
+    <string name="share">ಹಂಚಿಕೊಳ್ಳಿ</string>
+    <string name="username">"ಬಳಕೆದಾರರಹೆಸರು"</string>
+    <string name="password">"ಪಾಸ್‌ವರ್ಡ್"</string>
+    <string name="pixels">"ಪಿಕ್ಸೆಲ್‌ಗಳು"</string>
+    <string name="frequency">"ಫ್ರೀಕ್ವೆನ್ಸಿ"</string>
+    <string name="required">"ಅಗತ್ಯವಾದ"</string>
+    <string name="quality">"ಗುಣಮಟ್ಟ"</string>
+    <string name="no_data">"ಡೇಟಾ ಇಲ್ಲ"</string>
 </resources>

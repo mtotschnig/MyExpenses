@@ -37,8 +37,6 @@
     <string name="app_name">내 지출</string>
     <string name="backup_success">\"%1$s\"에 데이터베이스 및 환경설정을 성공적으로 기록했습니다.</string>
     <string name="category">카테고리</string>
-    <string name="color">색상</string>
-    <string name="comment">메모</string>
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">광고 없음</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">개수 제한 없는 계좌</string>
     <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">거래 내역에 이미지 첨부</string>
@@ -158,10 +156,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">반전</string>
     <string name="menu_manage_plans">템플릿과 재무 계획</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">열기</string>
     <string name="menu_import">가져오기</string>
-    <string name="menu_print">인쇄</string>
     <string name="menu_reset">내보내기 및 초기화</string>
     <string name="menu_reset_all">내보내기 및 전체 초기화</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -194,7 +189,6 @@
     <string name="opening_balance">개시 잔고</string>
     <string name="parse_error_file_not_found">%1$s 파일을 찾을 수 없습니다</string>
     <string name="parse_error_grisbi_version_not_supported">지원하지 않는 Grisbi 파일 버전: %1$s</string>
-    <string name="parse_error_no_data_found">가져올 수 있는 자료가 파일에는 없습니다.</string>
     <string name="parse_error_other_exception">오류 발생: %1$s</string>
     <string name="parse_error_parse_exception">파일을 분석할 수 없습니다</string>
     <string name="password_disabled_reenable">암호 보안이 해제되었습니다. 설정 화면에서 다시 활성화할 수 있습니다.</string>

@@ -2,13 +2,12 @@ package org.totschnig.myexpenses.testutils
 
 import android.content.Context
 import android.content.SharedPreferences
-import dagger.Provides
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.di.DataModule
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper
 import org.totschnig.myexpenses.util.ResultUnit
-import java.util.*
+import java.util.UUID
 
 object TestDataModule: DataModule() {
     private val randomDataName: String = UUID.randomUUID().toString()

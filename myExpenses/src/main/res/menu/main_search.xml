@@ -23,7 +23,7 @@
             android:title="@string/amount" />
         <item
             android:id="@id/FILTER_COMMENT_COMMAND"
-            android:title="@string/comment" />
+            android:title="@string/notes" />
         <item
             android:id="@id/FILTER_STATUS_COMMAND"
             android:enabled="false"

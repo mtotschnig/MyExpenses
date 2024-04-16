@@ -9,5 +9,21 @@
     <string name="help_and_feedback">"Тусламж &amp; санал хүсэлт"</string>
     <string name="currencies_exchange">"Мөнгөн тэмдэгт &amp; гадаад валютын арилжаа"</string>
     <string name="menu_sync_now">"Одоо синк хийх"</string>
-  <string name="do_not_show_again">Дахин бүү үзүүл</string>
+    <string name="do_not_show_again">Дахин бүү үзүүл</string>
+    <string name="color">"Өнгө"</string>
+    <string name="notes">"Тэмдэглэл"</string>
+    <string name="cannot_be_undone">"Энэ үйлдлийг буцаах боломжгүй."</string>
+    <string name="header_footer">"Толгой ба хөл хэсэг"</string>
+    <string name="paper_format">"Цаасны хэмжээ"</string>
+    <string name="configuration">"Тохируулга"</string>
+    <string name="menu_open">"Нээх"</string>
+    <string name="menu_print">"Хэвлэх"</string>
+    <string name="share">"Хуваалцах"</string>
+    <string name="username">"Хэрэглэгчийн нэр"</string>
+    <string name="password">"Нууц үг"</string>
+    <string name="pixels">"пиксел"</string>
+    <string name="frequency">"Давтамж"</string>
+    <string name="required">"Шаардлагатай"</string>
+    <string name="quality">"Чанар"</string>
+    <string name="no_data">"Өгөгдөл байхгүй байна"</string>
 </resources>

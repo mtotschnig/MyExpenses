@@ -2,43 +2,46 @@ pt-br:
   contrib:
     feature-list-title: 'Por favor, contribua, fazendo um upgrade do <i>{app_name}</i>
       e ganhe acesso irrestrito aos seguintes recursos:'
-    thank_you: "Sua contribuição apoia a continuidade do desenvolvimento do Minhas Despesas.\
-      \ Obrigado!\n"
+    thank_you: "Sua contribuição apoia a continuidade do desenvolvimento do Minhas
+      Despesas. Obrigado!\n"
     feature:
       history_chart: <b>Diagrama histórico</b> (Fluxo de caixa)
       roadmap_voting: Direito de voto no <b>roteiro de desenvolvimento</b>
       email_support: <b>Suporte por e-mail</b> com garantia de resposta em até 2 dias
         úteis
       split_template: Número ilimitado de <b>modelos e planos para divisão de transações</b>
-      cloud_sync: '<b>Sincronização na nuvem</b>: os dados podem ser sincronizados entre
-        vários dispositivos'
+      cloud_sync: '<b>Sincronização na nuvem</b>: os dados podem ser sincronizados
+        entre vários dispositivos'
       auto_backup: <b>Backup automático</b> diário com envio opcional para armazenamento
         em nuvem
       csv_import: <b>Importação de CSV</b> sofisticada e personalizável (aplicativos
         de planilha)
       ad_free: <b>Sem anúncios</b>
       print: <b>Imprima</b> a lista de transações em um arquivo PDF
-      split_transaction: '<b>Transação dividida</b>: uma transação única pode ser dividida
-        em várias partes (categorias e transferências)'
-      distribution: '<b>Gráfico de pizza</b>: visualize a distribuição estatística de
-        transações por categoria em diferentes períodos (anos, meses, semanas, dias)'
-      plans_unlimited: Desbloqueie a habilidade de criar mais de três planos para transações
-        recorrentes
+      split_transaction: '<b>Transação dividida</b>: uma transação única pode ser
+        dividida em várias partes (categorias e transferências)'
+      distribution: '<b>Gráfico de pizza</b>: visualize a distribuição estatística
+        de transações por categoria em diferentes períodos (anos, meses, semanas,
+        dias)'
+      plans_unlimited: Desbloqueie a habilidade de criar mais de três planos para
+        transações recorrentes
       accounts_unlimited: Desbloqueie a habilidade de criar mais de cinco contas
-      budgeting: '<b>Orçamento</b> : compare seus gastos com os limites definidos por
-        categoria em uma base diária, semanal, mensal ou anual.'
+      budgeting: '<b>Orçamento</b> : compare seus gastos com os limites definidos
+        por categoria em uma base diária, semanal, mensal ou anual.'
       webui: <b>Interface web do usuário</b>
       scan_receipt: '<b>Digitalização de recibos</b>: extraia automaticamente a quantia,
         a data e o beneficiário'
+      banking: Baixe transações de bancos na Alemanha (<b>FinTS</b>)
+      category_tree: Profundidade ilimitada de <b>árvore de categorias</b>
     subscription: Assinatura
     one-time-payment: Pagamento único
   features:
-    homescreen: <b>Widget</b> da tela inicial e <b>atalhos</b> para entrada rápida de
-      dados.
+    homescreen: <b>Widget</b> da tela inicial e <b>atalhos</b> para entrada rápida
+      de dados.
     reconciliation: '<b>Reconciliação</b>: compare facilmente o status da transação
       com seus extratos bancários.'
-    light_theme: <b>O tema</b> (escuro e claro) e o <b>tamanho da fonte</b> podem ser
-      personalizados.
+    light_theme: <b>O tema</b> (escuro e claro) e o <b>tamanho da fonte</b> podem
+      ser personalizados.
     password: Os dados podem ser protegidos por <b>senha</b> ou pela <b>tela de bloqueio</b>
       do dispositivo.
     export: <b>Exportação</b> para QIF e CSV. <b>Importação</b> do QIF.
@@ -51,9 +54,10 @@ pt-br:
     history: Entenda como sua situação financeira evolui ao longo do tempo
     distribution: Visualize a distribuição por categoria
     split: Divida uma transação em várias categorias
-    budget: Defina o quanto você pretende gastar em orçamentos anuais, mensais ou semanais
-    summarize: Some todas as suas contas (tratando, de forma sofisticada, taxas de câmbio
-      por conta e por transação)
+    budget: Defina o quanto você pretende gastar em orçamentos anuais, mensais ou
+      semanais
+    summarize: Some todas as suas contas (tratando, de forma sofisticada, taxas de
+      câmbio por conta e por transação)
     group: Agrupe suas transações por dia, semana, mês e ano
     export: Imprima em PDF e transfira via QIF e CSV.
   sections:
@@ -74,10 +78,10 @@ pt-br:
     functionality: Repleto de funcionalidades
     use: Fácil de usar
   hero_main: Gerenciador de finanças pessoais para o Android
-  privacy_policy_text: <i>{app_name}</i> não acessa nenhum dado em seu dispositivo além
-    de seu próprio banco de dados e sua própria pasta no cartão SD. Se você usar o recurso
-    de planos para transações futuras e recorrentes, você associará também o calendário,
-    onde esses planos são armazenados.
+  privacy_policy_text: <i>{app_name}</i> não acessa nenhum dado em seu dispositivo
+    além de seu próprio banco de dados e sua própria pasta no cartão SD. Se você usar
+    o recurso de planos para transações futuras e recorrentes, você associará também
+    o calendário, onde esses planos são armazenados.
   privacy_policy_heading: Política de privacidade
   imprint_text: Responsável pelo conteúdo deste site e pelo desenvolvimento, manutenção
     e distribuição do <i> {app_name} </i>
@@ -107,20 +111,21 @@ pt-br:
       explanation_usage_tracking: Rastreamento anônimo de uso
       label: Internet
     calendar:
-      explanation: Os planos para transações futuras e recorrentes são armazenados em
-        uma agenda local especial ou em qualquer outra agenda que você escolher.
+      explanation: Os planos para transações futuras e recorrentes são armazenados
+        em uma agenda local especial ou em qualquer outra agenda que você escolher.
       label: Agenda
     heading: <i>{app_name}</i> requer as seguintes <u>permissões</u>
   store:
     highlight_3: Resuma sua situação financeira por dia, semana, mês ou ano
     highlight_2: Compartilhe seus dados entre vários telefones e tablets via WebDAV
       e Google Drive
-    highlight_1: Acompanhe suas despesas e receitas, com várias contas, modelos e categorias
-    full_description_contrib_amazon: 'Vários recursos adicionais são desbloqueados pela
-      compra de uma das chaves de licença, como, por exemplo:'
+    highlight_1: Acompanhe suas despesas e receitas, com várias contas, modelos e
+      categorias
+    full_description_contrib_amazon: 'Vários recursos adicionais são desbloqueados
+      pela compra de uma das chaves de licença, como, por exemplo:'
     full_description_contrib: 'Os recursos premium são desbloqueados pela compra de
       uma das seguintes chaves de licença:'
     full_description_intro: '{app_name} mantém o controle de suas despesas e de sua
       receita, diretamente no seu smartphone e/ou tablet.'
-    short_description: 'Finanças pessoais: fácil de usar, rico em funcionalidades e
-      código aberto'
+    short_description: 'Finanças pessoais: fácil de usar, rico em funcionalidades
+      e código aberto'

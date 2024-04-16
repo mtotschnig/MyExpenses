@@ -27,6 +27,7 @@
     <string name="pref_ui_theme_key">pref_ui_theme</string>
     <string name="pref_ui_item_renderer_legacy_key">ui_item_renderer_legacy</string>
     <string name="pref_ui_item_renderer_category_icon_key">ui_item_renderer_category_icon</string>
+    <string name="pref_ui_item_renderer_original_amount_key">ui_item_renderer_original_amount</string>
     <string name="pref_ui_fontsize_key">pref_ui_fontsize</string>
     <string name="pref_auto_backup_key">auto_backup</string>
     <string name="pref_auto_backup_time_key">auto_backup_time</string>
@@ -204,7 +205,7 @@
     <string name="website">https://www.myexpenses.mobi</string>
 
     <string name="instant_plan" tools:ignore="UnusedResources">@string/plan</string>
-    <string name="pref_protection_password_title">@string/hint_password</string>
+    <string name="pref_protection_password_title">@string/password</string>
 
     <string name="io_error_appdir_null">Application directory not found</string>
     <string name="io_error_backupdir_null">Could not create folder for storing backup</string>
@@ -269,6 +270,7 @@
     <string name="pref_debug_repair_987_key">debug_repair_987</string>
     <string name="pref_csv_export_key">csv_export</string>
     <string name="pref_csv_export_split_categories_key">csv_export_split_categories</string>
+    <string name="pref_csv_export_category_separator_key">csv_export_category_separator</string>
     <string name="pref_csv_export_split_amount_key">csv_export_split_amount</string>
     <string name="pref_csv_export_split_date_time_key">csv_export_split_date_time</string>
     <string name="pref_csv_export_original_equivalent_amounts_key">csv_export_original_equivalent_amounts</string>
@@ -287,4 +289,11 @@
     <string name="pref_help_key">help</string>
     <string name="pref_customize_main_menu_key">customize_main_menu</string>
     <string name="pref_remove_local_calendar_key">remove_local_calendar</string>
+    <string name="pref_print_header_left_key">print_header_left</string>
+    <string name="pref_print_header_center_key">print_header_center</string>
+    <string name="pref_print_header_right_key">print_header_right</string>
+    <string name="pref_print_footer_left_key">print_footer_left</string>
+    <string name="pref_print_footer_center_key">print_footer_center</string>
+    <string name="pref_print_footer_right_key">print_footer_right</string>
+    <string name="pref_print_paper_format_key">print_paper_format</string>
 </resources>

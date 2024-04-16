@@ -34,8 +34,6 @@
     <string name="app_name">Mijn Uitgaven</string>
     <string name="backup_success">Database en voorkeuren succesvol geschreven naar \"%1$s\".</string>
     <string name="category">Categorie</string>
-    <string name="color">Kleur</string>
-    <string name="comment">Notities</string>
     <string name="contrib_feature_ad_free_label">Geen advertenties</string>
     <string name="contrib_feature_accounts_unlimited_label">Onbeperkt aantal rekeningen</string>
     <string name="contrib_feature_attach_picture_label">Voeg afbeelding toe aan transactie</string>
@@ -120,7 +118,6 @@
     <string name="dialog_title_contrib_feature">Premium-functie</string>
     <string name="dialog_title_warning_delete_template">Sjabloon verwijderen\?</string>
     <string name="dialog_title_warning_delete_transaction">Transactie verwijderen\?</string>
-    <string name="dialog_title_warning_delete_party">Verwijder tegenpartij\?</string>
     <string name="export_sdcard_success">Gegevens succesvol geëxporteerd naar bestand \"%1$s\"</string>
     <string name="feedback">Feedback</string>
     <string name="ftp_uri_malformed">Onjuist opgemaakte URI %1$s</string>
@@ -148,7 +145,6 @@
     <string name="menu_edit">Bewerken</string>
     <string name="menu_create_template_for_transaction">Nieuw transactiesjabloon</string>
     <string name="menu_edit_split_part_category">Categorie gesplitst deel bewerken</string>
-    <string name="button_label_share_file">Delen</string>
     <string name="no_app_handling_ftp_available">Geen app-afhandeling ftp beschikbaar. <i>Verzenden met FTP</i> installeren\?</string>
     <string name="no_app_handling_pdf_available">Geen app die PDF-bestanden verwerkt beschikbaar.</string>
     <string name="image_capture_not_installed">Geen app gevonden voor het maken van foto\'s.</string>
@@ -318,11 +314,9 @@
     <string name="warning_delete_category_with_budget">Voor ten minste één geselecteerde categorie zijn er budgettoewijzingen, die eveneens worden verwijderd.</string>
     <string name="menu_edit_transaction">Bewerk Transactie</string>
     <string name="menu_edit_template">Bewerk Sjabloon</string>
-    <string name="menu_print">Afdrukken</string>
     <string name="menu_reset">Exporteren en opnieuw instellen</string>
     <string name="menu_reset_all">Alles exporteren en opnieuw instellen</string>
     <string name="menu_reset_plan_instance">Opnieuw instellen</string>
-    <string name="menu_open">Open</string>
     <string name="menu_import">Importeren</string>
     <string name="plan_automatic">automatisch</string>
     <string name="plan_calendar_name">{app_name} planner</string>
@@ -356,7 +350,6 @@
     <string name="menu_edit_transfer">Bewerk Overdracht</string>
     <string name="numbered">genummerd</string>
     <string name="parse_error_grisbi_version_not_supported">Niet-ondersteunde Grisbi-bestandsversie: %1$s</string>
-    <string name="parse_error_no_data_found">Geen importeerbare gegevens gevonden in bestand.</string>
     <string name="pm_directdebit">Domiciliëring</string>
     <string name="pref_manage_sync_backends_title">Synchronisatie-backends</string>
     <plurals name="not_deletable_mapped_transactions">
@@ -439,7 +432,6 @@
     <string name="crash_dialog_comment_prompt">Je kunt hieronder je opmerkingen over het probleem toevoegen:</string>
     <string name="synchronization">Synchronisatie</string>
     <string name="description_webdav_trust_certificate">De website gebruikt een certificaat, dat niet wordt vertrouwd door Android.</string>
-    <string name="hint_password">Wachtwoord</string>
     <string name="label_trust_certificate">Vertrouw dit certificaat</string>
     <string name="no_sync_backends">Geen synchronisatie-backends</string>
     <string name="menu_create_sync_backend">Nieuwe synchronisatie-backend</string>
@@ -447,7 +439,6 @@
     <string name="validate_error_webdav_invalid_certificate">Het certificaat kon niet worden vertrouwd. Het lijkt ongeldig.</string>
     <string name="menu_sync_unlink">Stop met synchroniseren</string>
     <string name="menu_sync_link">Begin met synchroniseren</string>
-    <string name="pref_sync_frequency_title">Synchronisatie frequentie</string>
     <string name="dialog_command_sync_link_local">Uploaden van lokaal</string>
     <string name="dialog_synced_to_other">Een rekening met uuid %s bestaat al in de lokale database en is gekoppeld aan een andere externe backend.</string>
     <string name="dialog_confirm_sync_link_local">Externe gegevens voor deze rekening worden verwijderd. Zorg ervoor dat er geen andere apparaten aan gekoppeld zijn.</string>
@@ -496,7 +487,6 @@
     <string name="sub_budget_exceeded_error_1_1">Op %s na is het aan de hoofdcategorie toegewezen bedrag volledig toegewezen aan andere subcategorieën.</string>
     <string name="content_description_clear_category">Duidelijke categorie</string>
     <string name="currency_still_used">Valuta is in gebruik, kan niet worden verwijderd.</string>
-    <string name="upgrade_information_cloud_sync_storage_format">Met versie 2.9.8 is de manier waarop gegevens worden opgeslagen op synchronisatie-backends veranderd. Upgrade naar deze versie op alle gesynchroniseerde apparaten voordat je nieuwe records op een van deze apparaten invoert.</string>
     <string name="pref_security_export_passphrase_summary">Back-ups worden versleuteld met deze wachtwoordzin</string>
     <string name="backup_wrong_password">Het back-upbestand lijkt versleuteld met een andere wachtwoordzin.</string>
     <string name="sync_backend_is_encrypted">Externe backend is versleuteld. Je moet een wachtwoordzin opgeven.</string>
@@ -540,7 +530,6 @@
     <string name="ui_refinement">Verfijning van de gebruikersinterface</string>
     <string name="stability_improvements" tools:ignore="UnusedResources">Stabiliteitsverbeteringen</string>
     <string name="debt">Schuld</string>
-    <string name="dialog_title_delete_debt">Schuld verwijderen\?</string>
     <string name="pref_debug_logging_share_summary">Deel logbestanden</string>
     <string name="cb_label_merge_accounts">Voeg rekeningen samen</string>
     <plurals name="purge_backup_success">
@@ -549,7 +538,6 @@
     </plurals>
     <string name="webui_warning_move_transaction">De transactie wordt verplaatst naar rekening {rekening}.</string>
     <string name="pref_csv_export_split_amount_summary">Gebruik aparte kolommen voor inkomsten en uitgaven</string>
-    <string name="required">Vereist</string>
     <string name="budget_table_header_rollover">Omrollen</string>
     <string name="redesign">Herontwerp</string>
     <string name="select_all_list_too_large">De opdracht %s is niet beschikbaar omdat de lijst slechts gedeeltelijk is geladen. Gebruik de zoekfunctie om de lijstgrootte te verkleinen.</string>
@@ -590,7 +578,6 @@
     <string name="menu_scan_mode">Scanmodus</string>
     <string name="pref_ocr_total_indicators_summary">Een lijst met tekenreeksen die de totale waarde in een ontvangstbewijs identificeren. Zet elke waarde op een nieuwe regel. Laat leeg om de standaardwaarde te herstellen.</string>
     <string name="pref_criterion_futur_title">Criterium voor toekomstige transacties</string>
-    <string name="scan_result_no_data">Geen gegevens</string>
     <string name="scan_result_no_amount">Geen bedrag gevonden</string>
     <string name="pref_feature_uninstall_languages_title">Talen</string>
     <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Houd de zwevende actieknop ingedrukt om het formulier voor overschrijvingen, gesplitste transacties of inkomsten direct te openen.</string>
@@ -679,7 +666,6 @@
     <string name="pref_sort_order_next_instance">Volgende instantie</string>
     <string name="crash_dialog_title">{app_name} is gecrasht</string>
     <string name="crash_dialog_text">Er is een onverwachte fout opgetreden waardoor de toepassing moest stoppen. Help ons dit op te lossen door ons foutgegevens te sturen. Je hoeft alleen maar op OK te klikken.</string>
-    <string name="hint_user_name">Gebruikersnaam</string>
     <string name="menu_sync_download">Downloaden en synchroniseren</string>
     <string name="description_webdav_url">Voer de URL in naar een speciale map op je WebDAV-server. {app_name} slaat zijn gegevens op in deze map, daarbuiten raakt hij niets aan.</string>
     <string name="menu_remove">Verwijderen</string>
@@ -884,7 +870,6 @@
     <string name="notifications_permission_required_webui">Door toestemming te geven om notificaties te versturen, kun je de status van de webserver controleren.</string>
     <string name="pref_attachment_mime_types_title">Toegestane MIME-typen voor bijlagen</string>
     <string name="button_relink_update_date">Opnieuw koppelen en datum bijwerken</string>
-    <string name="file_format">Bestandsformaat</string>
     <string name="widget_title_budget">Mijn budget</string>
     <string name="pref_copy_attachments_summary_on">Bestanden worden gekopieerd naar de toepassingsmap.</string>
     <string name="attachments">Bijlagen</string>
@@ -905,7 +890,6 @@
     <string name="debt_balance_they_owe">%1$s is nu %2$s verschuldigd.</string>
     <string name="debt_installment_pay">Ik betaal een termijn van %s.</string>
     <string name="notifications_permission_required_planner"><i>{app_name}</i> heeft toestemming nodig om je meldingen te sturen wanneer toekomstige transacties worden gepost.</string>
-    <string name="image_optimize_quality">Kwaliteit</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">worden als kosten/inkomsten geteld</string>
     <string name="debt_balance_i_owe">Ik ben nu %s schuldig.</string>
     <string name="template_shortcut">Snelkoppeling sjabloon</string>
@@ -925,4 +909,5 @@
     <string name="warning_transform_to_transfer">De geselecteerde transactie wordt vervangen door een overdracht van %1$s naar %2$s.</string>
     <string name="remap_date">Bij alle geselecteerde transacties wordt de datum ingesteld op %s.</string>
     <string name="roadmap_intro">De stemming over de routekaart 2024 is nu geopend! Stem op de functies en verbeteringen die jij het belangrijkst vindt.</string>
+    <string name="merge_categories_dialog_title">Categorieën samenvoegen</string>
 </resources>

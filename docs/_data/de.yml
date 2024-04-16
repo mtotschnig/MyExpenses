@@ -3,10 +3,10 @@ de:
   imprint_text: Verantwortlich für den Inhalt dieser Website und für die Entwicklung,
     Wartung und Vertrieb von <i>{app_name}</i>
   privacy_policy_heading: Datenschutzerklärung
-  privacy_policy_text: "<i>{app_name}</i> greift auf keinerlei Daten auf Ihrem Gerät\
-    \ zu mit Ausnahme seiner eigenen Datenbank und seines eigenen Ordners auf der\
-    \ SD Karte. Falls Sie die Funktion der Planung von zukünftigen und wiederkehrenden\
-    \ Buchungen verwenden, bestimmen Sie, in welchem Kalender diese gespeichert werden."
+  privacy_policy_text: "<i>{app_name}</i> greift auf keinerlei Daten auf Ihrem Gerät
+    zu mit Ausnahme seiner eigenen Datenbank und seines eigenen Ordners auf der SD
+    Karte. Falls Sie die Funktion der Planung von zukünftigen und wiederkehrenden
+    Buchungen verwenden, bestimmen Sie, in welchem Kalender diese gespeichert werden."
   hero_main: "Persönliches Finanz-Management für Android"
   hero_sub:
     use: "Einfach zu bedienen"
@@ -47,61 +47,63 @@ de:
       Gerätes</b> geschützt werden
     light_theme: <b>Stil</b> (dunkel und hell) und <b>Schriftgröße</b> können angepasst
       werden
-    reconciliation: "<b>Abstimmung</b>: Einfacher Vergleich des Status der Buchungen\
-      \ mit Ihren Kontoauszügen"
+    reconciliation: "<b>Abstimmung</b>: Einfacher Vergleich des Status der Buchungen
+      mit Ihren Kontoauszügen"
     homescreen: <b>Widget</b> und <b>Verknüpfungen</b> für den Startbildschirm zur
       schnellen Dateneingabe
   contrib:
     thank_you: |
       Mit Ihrem Beitrag unterstützen Sie die Weiterentwicklung von Meine Ausgaben. Danke!
-    feature-list-title: "Bitte leisten Sie einen Beitrag durch ein Upgrade von <i>{app_name}</i>\
-      \ und erhalten Sie uneingeschränkten Zugriff auf die folgenden Funktionen:"
+    feature-list-title: "Bitte leisten Sie einen Beitrag durch ein Upgrade von <i>{app_name}</i>
+      und erhalten Sie uneingeschränkten Zugriff auf die folgenden Funktionen:"
     feature:
       accounts_unlimited: Schalten Sie die Möglichkeit frei, mehr als fünf Konten
         zu erstellen
       plans_unlimited: Schalten Sie die Möglichkeit frei, mehr als drei Pläne für
         wiederkehrende Buchungen zu erstellen
-      distribution: "<b>Kreisdiagramm</b>: Visualisieren Sie die statistische Verteilung\
-        \ der Buchungen pro Kategorie über verschiedene Perioden (Jahre, Monate, Wochen,\
-        \ Tage)"
-      split_transaction: "<b>Mehrteilige Buchung</b>: Eine einzelne Buchung kann in\
-        \ mehrere Teile (Kategorien und Umbuchungen) aufgeteilt werden"
+      distribution: "<b>Kreisdiagramm</b>: Visualisieren Sie die statistische Verteilung
+        der Buchungen pro Kategorie über verschiedene Perioden (Jahre, Monate, Wochen,
+        Tage)"
+      split_transaction: "<b>Mehrteilige Buchung</b>: Eine einzelne Buchung kann in
+        mehrere Teile (Kategorien und Umbuchungen) aufgeteilt werden"
       print: <b>Drucken</b> der Buchungsliste in eine PDF-Datei
       ad_free: <b>Keine Werbung</b>
       csv_import: Ausgefeilter, anpassbarer <b>CSV-Import</b> (Tabellenkalkulationsanwendungen)
       auto_backup: Tägliche <b>automatische Sicherung</b> mit optionalem Upload in
         den Cloud-Speicher
-      cloud_sync: "<b>Cloud-Synchronisierung</b>: Daten können zwischen mehreren Geräten\
-        \ synchronisiert werden"
+      cloud_sync: "<b>Cloud-Synchronisierung</b>: Daten können zwischen mehreren Geräten
+        synchronisiert werden"
       split_template: Unbegrenzte Anzahl von <b>Vorlagen und Plänen für mehrteilige
         Buchungen</b>
       email_support: <b>E-Mail-Support</b> mit garantierter Antwort innerhalb von
         2 Werktagen
       roadmap_voting: Stimmrecht zum <b>Entwicklungsfahrplan</b>
       history_chart: <b>Verlaufsdiagramm</b> (Cashflow)
-      budgeting: "<b>Budgetierung</b>: Vergleichen Sie Ihre Ausgaben mit den von Ihnen\
-        \ festgelegten Grenzwerten pro Kategorie, täglich, wöchentlich, monatlich\
-        \ oder jährlich."
-      scan_receipt: "<b>Quittungen scannen</b> : Betrag, Datum und Zahlungsempfänger\
-        \ automatisch extrahieren"
+      budgeting: "<b>Budgetierung</b>: Vergleichen Sie Ihre Ausgaben mit den von Ihnen
+        festgelegten Grenzwerten pro Kategorie, täglich, wöchentlich, monatlich oder
+        jährlich."
+      scan_receipt: "<b>Quittungen scannen</b> : Betrag, Datum und Zahlungsempfänger
+        automatisch extrahieren"
       webui: <b>Web-Benutzeroberfläche</b>
+      banking: Laden Sie Buchungen von Banken in Deutschland herunter (<b>FinTS</b>)
+      category_tree: Unbegrenzte Tiefe des <b>Kategoriebaums</b>
     one-time-payment: Einmalige Zahlung
     subscription: Abonnement
   store:
-    short_description: "Persönliches Finanz-Management: einfach zu bedienen und Open\
-      \ Source"
-    full_description_intro: "{app_name} ist Ihr Haushaltsbuch: Verfolgen Sie Ihre\
-      \ Ausgaben und Einnahmen direkt auf Ihrem Smartphone und auf Ihrem Tablet."
-    full_description_contrib: "Premium-Funktionen werden durch den Kauf eines der\
-      \ folgenden Lizenzschlüssel freigeschaltet:"
-    full_description_contrib_amazon: "Viele zusätzliche Funktionen werden durch den\
-      \ Kauf eines der Lizenzschlüssel freigeschaltet, z.B.:"
-    highlight_1: "Verfolgen Sie Ihre Ausgaben und Einnahmen mit mehreren Konten, Vorlagen\
-      \ und Kategorien"
-    highlight_2: "Teilen Sie Ihre Daten über WebDAV und Google Drive zwischen mehreren\
-      \ Telefonen und Tablets"
-    highlight_3: "Fassen Sie Ihre finanzielle Situation pro Tag, Woche, Monat oder\
-      \ Jahr zusammen"
+    short_description: "Persönliches Finanz-Management: einfach zu bedienen und Open
+      Source"
+    full_description_intro: "{app_name} ist Ihr Haushaltsbuch: Verfolgen Sie Ihre
+      Ausgaben und Einnahmen direkt auf Ihrem Smartphone und auf Ihrem Tablet."
+    full_description_contrib: "Premium-Funktionen werden durch den Kauf eines der
+      folgenden Lizenzschlüssel freigeschaltet:"
+    full_description_contrib_amazon: "Viele zusätzliche Funktionen werden durch den
+      Kauf eines der Lizenzschlüssel freigeschaltet, z.B.:"
+    highlight_1: "Verfolgen Sie Ihre Ausgaben und Einnahmen mit mehreren Konten, Vorlagen
+      und Kategorien"
+    highlight_2: "Teilen Sie Ihre Daten über WebDAV und Google Drive zwischen mehreren
+      Telefonen und Tablets"
+    highlight_3: "Fassen Sie Ihre finanzielle Situation pro Tag, Woche, Monat oder
+      Jahr zusammen"
   permissions:
     heading: <i>{app_name}</i> verwendet folgende <u>Berechtigungen</u>
     calendar:

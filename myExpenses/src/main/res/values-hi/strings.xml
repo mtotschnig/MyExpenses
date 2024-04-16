@@ -36,8 +36,6 @@
     <string name="amount">राशि</string>
     <string name="app_name">मेरे खर्च</string>
     <string name="category"> श्रेणी</string>
-    <string name="color">रंग</string>
-    <string name="comment">टिप्पणियाँ</string>
     <string name="contrib_feature_ad_free_label">बिना विज्ञापन</string>
     <string name="contrib_feature_accounts_unlimited_label">असीमित खातों की संख्या</string>
     <string name="contrib_feature_attach_picture_label">लेन-देन से छवि जोड़ें</string>
@@ -143,10 +141,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">उलटें</string>
     <string name="menu_manage_plans">टेम्पलेट और योजनाएं</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">खोलें</string>
     <string name="menu_import">आयात</string>
-    <string name="menu_print">प्रिंट</string>
     <string name="menu_reset">निर्यात और रीसेट करें</string>
     <string name="menu_reset_all">सभी को निर्यात और रीसेट करें</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -166,7 +161,6 @@
     <string name="numbered">क्रमांकित</string>
     <string name="opening_balance">प्रारंभिक रकम</string>
     <string name="parse_error_file_not_found">%1$s फ़ाइल नहीं मिली</string>
-    <string name="parse_error_no_data_found">फाइल में निर्यात योग्य डाटा नहीं</string>
     <string name="parse_error_other_exception">एक त्रुटि हुई: %1$s</string>
     <string name="password_disabled_reenable">पासवर्ड सुरक्षा अक्षम कर दी गई है। आप सेटिंग्स में इसे फिर से सक्षम कर सकते हैं</string>
     <string name="password_lost">पासवर्ड खो गया</string>
@@ -262,7 +256,6 @@
     <string name="contrib_feature_split_template_label">विभाजित टेम्पलेट्स की असीमित संख्या</string>
     <string name="menu_create_split_part_category">नई श्रेणी विभाजित भाग</string>
     <string name="menu_create_split_part_transfer">नया ट्रांसफर विभाजित भाग</string>
-    <string name="button_label_share_file">बांटो</string>
     <string name="method">भुगतान विधि</string>
     <string name="no_app_handling_ftp_available">कोई ऐप हैंडलिंग ftp उपलब्ध नहीं है। स्थापित करना <i>Send With FTP</i>\?</string>
     <string name="contrib_feature_pro_support_label"><b>ईमेल समर्थन</b> 2 कार्य दिवसों के भीतर गारंटीशुदा प्रतिक्रिया के साथ</string>
@@ -276,7 +269,6 @@
     <string name="pref_app_dir_title">बैकअप और निर्यात के लिए फ़ोल्डर</string>
     <string name="parse_error_grisbi_version_not_supported">असमर्थित ग्रिस्बी फ़ाइल संस्करण: %1$s</string>
     <string name="image_capture_not_installed">तस्वीर लेने के लिए कोई ऐप नहीं मिला।</string>
-    <string name="dialog_title_warning_delete_party">पार्टी हटाएं\?</string>
     <string name="no_mapped_transactions">इस अवधि के दौरान श्रेणियों के लिए कोई लेन-देन मैप नहीं किया गया है।</string>
     <string name="parse_error_parse_exception">फ़ाइल पार्स नहीं कर सका</string>
     <string name="plan_execution_canceled">योजना का क्रियान्वयन रद्द कर दिया गया</string>

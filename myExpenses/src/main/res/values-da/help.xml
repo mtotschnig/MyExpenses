@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="help_menu_commands">Menukommandoer</string>
+    <string name="help_contextual_actions">Kontekstuelle handlinger</string>
+    <string name="help_form_fields">Formularfelter</string>
+    <string name="cab_delete_help_text">Slet de valgte elementer.</string>
+    <string name="cab_edit_help_text">Redigér det valgte element.</string>
+    <string name="help_MyExpenses_title">Transaktionsliste</string>
+    <string name="help_MyExpenses_fab_long_press">Et langt tryk på den flydende handlingsknap åbner en menu, der lader dig forberede formularen til overførsel, delt transaktion eller indkomst.</string>
+    <string name="menu_distribution_help_text">Vis fordelingen af dine udgifter pr. kategori. Du kan også klikke længe på en gruppeoverskrift for at se fordelingen for en bestemt tidsperiode.</string>
+    <string name="menu_print_help_text">Genererer en udskrivelig visning af de aktuelt viste transaktioner.</string>
+    <string name="menu_search_help_text">Denne post åbner en undermenu, som lader dig definere søgekriterier baseret på kategori, beløb, kommentar, status, betaler/modtager og betalingsmetode. Når et søgefilter er aktivt, kan du blot klikke på dets post i undermenuen for at deaktivere det.</string>
+    <string name="cab_split_help_text">Du kan senere redigere transaktionen for at oprette yderligere dele efter behov.</string>
+    <string name="menu_scan_mode_help_text">Aktivér scan-tilstand for hurtigt at scanne kvitteringer.</string>
+    <string name="help_contextual_actions_help">Menuen til kontekstuelle handlinger vises ved at trykke længe på en listepost.</string>
+    <string name="help_MyExpenses_info">Denne skærm viser alle transaktioner for den aktuelle konto. Brug den flydende handlingsknap der åbner formularen til at oprette en ny transaktion.</string>
+    <string name="popup_MyExpenses_toolbar_copy_text">Kopiér den aktuelle saldo til udklipsholderen.</string>
+    <string name="popup_MyExpenses_toolbar_new_balance">Beregn forskellen mellem den aktuelle saldo og en ny værdi.</string>
+    <string name="menu_reset_help_text">Denne kommando eksporterer alle transaktioner på den aktuelle konto til en fil på SD-kortet i QIF- eller CSV-format. Du kan vælge at slette de eksporterede transaktioner, i så fald justeres startsaldoen automatisk. Hvis transaktioner ikke slettes, markeres de i stedet som eksporterede. Mine Udgifter kan dele filen straks efter eksporten via FTP, e-mail eller en anden fildelingsapp, hvis du konfigurerer den til det i Indstillinger. Hvis et søgefilter er aktivt, vil kun de transaktioner, der er tilknyttet dette filter, tages i betragtning.</string>
+    <string name="menu_grouping_help_text">Du kan gruppere transaktioner efter dag, uge, måned eller år. For hver gruppe beregnes og vises summen af indkomst, udgifter og overførsler. Når du klikker på en gruppeoverskrift, foldes gruppen af transaktioner sammen, og kun overskriften vises. Klik igen for at udvide.</string>
+    <string name="menu_sort_direction_help_text">Transaktioner kan sorteres i stigende (ældste øverst) eller faldende (nyeste øverst) retning.</string>
+    <string name="menu_budget_help_text">Administrér daglige, ugentlige, månedlige eller årlige budgetter for den aktuelt viste konto.</string>
+    <string name="menu_history_help_text">Vis et pengestrømsdiagram: Hvordan har dine udgifter og indkomst udviklet sig over dage, uger, måneder eller år?</string>
+    <string name="menu_manage_plans_help_text">Åbner listen over skabeloner og planer, hvor du kan anvende, redigere eller slette dem, samt angive planer for fremtidige og gentagne transaktioner.</string>
+    <string name="menu_balance_help_text">Denne kommando åbner en dialog, der viser den sidst afstemte saldo og den udlignede saldo. Du kan sammenligne sidstnævnte med dit kontoudtog og markere alle udlignede transaktioner som afstemte. Du kan også vælge at slette afstemte transaktioner.</string>
+    <string name="cab_create_template_from_transaction_help_text">Angiv en ny skabelon baseret på den valgte transaktion. Vil bede dig om titlen på skabelonen.</string>
+    <string name="cab_clone_transaction_help_text">De valgte transaktioner klones med den aktuelle dato og klokkeslæt. Du kan foretage ændringer, før du gemmer kopien.</string>
+    <string name="cab_link_help_text">En udgift på en konto kan forbindes med en indtægt på en anden konto. Hvis kontiene har samme valuta, skal de to transaktioner have identiske beløb.</string>
+    <string name="help_ManageParties_mergeMode_info_2">Du bliver bedt om at vælge, hvilken variant du vil beholde.</string>
+    <string name="help_ManageParties_select_mapping_info">Vælg et parti ved at trykke på det.</string>
+    <string name="help_ManageParties_floating_action_button">Brug den flydende handlingsknap til at tilføje en ny post.</string>
+    <string name="help_ManageParties_select_filter_info">Vælg alle de partier, du vil bruge til at filtrere transaktionslisten.</string>
+    <string name="help_fab_confirm_selection">Brug den flydende handlingsknap til at bekræfte valget.</string>
+    <string name="menu_merge_help_text">Hvis det samme parti optræder flere gange på listen med forskellige stavevarianter, kan du flette dem.</string>
+    <string name="help_ManageParties_mergeMode_info_1">Vælg de duplikerede partier, du vil flette.</string>
+</resources>

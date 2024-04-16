@@ -8,7 +8,6 @@ import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.dialog.valueOf
-import org.totschnig.myexpenses.dialog.values
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.toDayOfWeek
 import java.util.Calendar
@@ -83,7 +82,7 @@ interface PrefHandler {
         get() = weekStartWithFallback().toDayOfWeek
 
     fun uiMode(context: Context) = getString(
-        PrefKey.UI_THEME_KEY,
+        PrefKey.UI_THEME,
         context.getString(R.string.pref_ui_theme_default)
     )
 

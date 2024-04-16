@@ -8,5 +8,17 @@
     <string name="help_and_feedback">"Даведка і водгукі"</string>
     <string name="currencies_exchange">"Абмен валют"</string>
     <string name="menu_sync_now">"Сінхранізаваць зараз"</string>
-  <string name="do_not_show_again">Больш не паказваць</string>
+    <string name="do_not_show_again">Больш не паказваць</string>
+    <string name="color">"Колер"</string>
+    <string name="notes">"Нататкі"</string>
+    <string name="paper_format">"Фармат паперы"</string>
+    <string name="configuration">"Канфігурацыя"</string>
+    <string name="menu_open">"Адкрыць"</string>
+    <string name="username">"Імя карыстальніка"</string>
+    <string name="password">"Пароль"</string>
+    <string name="pixels">"пікселі"</string>
+    <string name="frequency">"Частата"</string>
+    <string name="required">"Патрабуецца"</string>
+    <string name="quality">"Якасць"</string>
+    <string name="no_data">"Няма даных"</string>
 </resources>

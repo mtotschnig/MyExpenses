@@ -14,7 +14,6 @@
 */
 package org.totschnig.myexpenses.dialog.select
 
-import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
@@ -23,6 +22,8 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.BaseDialogFragment
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
+import org.totschnig.myexpenses.provider.filter.KEY_CRITERION
+import org.totschnig.myexpenses.provider.filter.criterion
 
 class SelectCrStatusDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListener {
     val items: List<CrStatus>
@@ -33,19 +34,16 @@ class SelectCrStatusDialogFragment : BaseDialogFragment(), DialogInterface.OnCli
             if (requireArguments().getBoolean(KEY_WITH_VOID)) add(CrStatus.VOID)
         }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-
-        return MaterialAlertDialogBuilder(requireActivity())
-            .setTitle(R.string.search_status)
+    override fun onCreateDialog(savedInstanceState: Bundle?) =
+        MaterialAlertDialogBuilder(requireActivity()).setTitle(R.string.search_status)
             .setMultiChoiceItems(
                 items.map { getString(it.toStringRes()) }.toTypedArray(),
-                null,
+                requireArguments().criterion(CrStatusCriterion::class.java)?.let { criterion ->
+                    items.map { criterion.values.contains(it) }.toBooleanArray()
+                },
                 null
-            )
-            .setPositiveButton(android.R.string.ok, this)
-            .setNegativeButton(android.R.string.cancel, null)
-            .create()
-    }
+            ).setPositiveButton(android.R.string.ok, this)
+            .setNegativeButton(android.R.string.cancel, null).create()
 
     override fun onClick(dialog: DialogInterface, which: Int) {
         val result = items.filterIndexed { index, _ ->
@@ -61,11 +59,12 @@ class SelectCrStatusDialogFragment : BaseDialogFragment(), DialogInterface.OnCli
 
     companion object {
         private const val KEY_WITH_VOID = "withVoid"
-        fun newInstance(withVoid: Boolean = true): SelectCrStatusDialogFragment {
-            return SelectCrStatusDialogFragment().apply {
-                arguments = Bundle(1).apply {
-                    putBoolean(KEY_WITH_VOID, withVoid)
-                }
+        fun newInstance(
+            criterion: CrStatusCriterion?, withVoid: Boolean = true
+        ) = SelectCrStatusDialogFragment().apply {
+            arguments = Bundle(1).apply {
+                putBoolean(KEY_WITH_VOID, withVoid)
+                putParcelable(KEY_CRITERION, criterion)
             }
         }
     }

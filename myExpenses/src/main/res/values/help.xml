@@ -81,6 +81,7 @@
     <string name="menu_forward_help_text">Navigate to the next group. Can also be done through swipe gesture from right to left.</string>
     <string name="cab_ManageCategories_create_sub_cat_help_text">Opens the dialog for creating a new sub-category below the selected category. Sub-categories can be nested with arbitrary depth.</string>
     <string name="cab_ManageCategories_move_help_text">Any category (together with its sub-categories) can be moved to a new parent category. Sub-categories can be transformed to main categories.</string>
+    <string name="cab_ManageCategories_merge_help_text">Categories of the same type can be merged.</string>
     <string name="menu_categories_setup_default_help_text">A set of default categories will be imported.</string>
     <string name="menu_categories_export_help_text">Categories will be exported to QIF file.</string>
     <string name="menu_distribution_show_pie_char_help_text">Toggle the visibility of the pie chart.</string>

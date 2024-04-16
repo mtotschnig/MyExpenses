@@ -20,11 +20,11 @@ import android.widget.TextView
 import org.totschnig.myexpenses.databinding.TagRowBinding
 import org.totschnig.myexpenses.fragment.TagList.Companion.KEY_TAG_LIST
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.filter.KEY_SELECTION
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.viewmodel.TagBaseViewModel
 import org.totschnig.myexpenses.viewmodel.TagHandlingViewModel
-import org.totschnig.myexpenses.viewmodel.TagListViewModel.Companion.KEY_SELECTED_IDS
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 abstract class AmountActivity<T: TagHandlingViewModel> : EditActivity() {
@@ -60,7 +60,7 @@ abstract class AmountActivity<T: TagHandlingViewModel> : EditActivity() {
             val i = Intent(this@AmountActivity, ManageTags::class.java).apply {
                 forwardDataEntryFromWidget(this)
                 viewModel.tagsLiveData.value?.let { tagList ->
-                    putExtra(KEY_SELECTED_IDS, tagList.map { it.id }.toLongArray())
+                    putExtra(KEY_SELECTION, tagList.map { it.id }.toLongArray())
                 }
                 putExtra(DatabaseConstants.KEY_COLOR, color)
             }

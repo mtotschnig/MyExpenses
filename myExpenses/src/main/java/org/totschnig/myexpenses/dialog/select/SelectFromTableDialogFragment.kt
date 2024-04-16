@@ -90,9 +90,9 @@ abstract class SelectFromTableDialogFragment(private val withNullItem: Boolean) 
 
     private fun onSelect(dataHolder: DataHolder) {
         if (choiceMode == AbsListView.CHOICE_MODE_MULTIPLE) {
-            dataViewModel.selectionState.toggle(dataHolder)
+            dataViewModel.selectionState.toggle(dataHolder.id)
         } else {
-            dataViewModel.selectionState.select(dataHolder)
+            dataViewModel.selectionState.select(dataHolder.id)
         }
         updateSubmitButton((dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE), dataHolder)
     }
@@ -124,7 +124,7 @@ abstract class SelectFromTableDialogFragment(private val withNullItem: Boolean) 
                             ) {
                                 Text(modifier = Modifier.weight(1f),
                                     text = dataHolder.label)
-                                val selected = dataViewModel.selectionState.value.contains(dataHolder)
+                                val selected = dataViewModel.selectionState.value.contains(dataHolder.id)
                                 if (choiceMode == AbsListView.CHOICE_MODE_MULTIPLE) {
                                     Checkbox(checked = selected, onCheckedChange = { onSelect(dataHolder) })
                                 } else {

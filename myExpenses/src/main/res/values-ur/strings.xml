@@ -17,8 +17,6 @@
     <string name="already_defined">%1$sپہلے ہی بیان کیا گیا ہے</string>
     <string name="amount">رقم</string>
     <string name="category">قسم</string>
-    <string name="color">رنگ</string>
-    <string name="comment">نوٹس</string>
     <string name="contrib_feature_ad_free_label">کوئی اشتہار نہیں</string>
     <string name="contrib_feature_accounts_unlimited_label">اکاؤنٹس کی لامحدود تعداد</string>
     <string name="contrib_feature_attach_picture_label">لین دین میں تصویر منسلک کریں</string>
@@ -84,7 +82,6 @@
     </plurals>
     <string name="dialog_title_warning_delete_template">ٹیمپلیٹ کو حذف کریں؟</string>
     <string name="dialog_title_warning_delete_transaction">ٹرانزیکشن حذف کریں؟</string>
-    <string name="dialog_title_warning_delete_party">پارٹی کو حذف کریں؟</string>
     <string name="expense">خرچہ</string>
     <string name="export_sdcard_failure">فائل \"%1$s\" میں ایکسپورٹ ناکام ہو گیا: %2$s</string>
     <string name="export_sdcard_success">ڈیٹا کامیابی کے ساتھ فائل \"%1$s\" میں برآمد ہو گیا</string>
@@ -148,16 +145,13 @@
     <string name="menu_edit_method">ادائیگی کے طریقہ کار میں ترمیم کریں</string>
     <string name="menu_invert_transfer">الٹا</string>
     <string name="menu_manage_plans">ٹیمپلیٹس اور منصوبے</string>
-    <string name="menu_open">کھولیں</string>
     <string name="menu_import">درآمد کریں</string>
-    <string name="menu_print">پرنٹ کریں</string>
     <string name="menu_reset">ایکسپورٹ اور ری سیٹ کریں</string>
     <string name="menu_reset_all">سب کو ایکسپورٹ اور ری سیٹ کریں</string>
     <string name="menu_reset_plan_instance">دوبارہ ترتیب دیں</string>
     <string name="menu_save">محفوظ کریں</string>
     <string name="menu_save_and_new">محفوظ کریں اور نیا</string>
     <string name="menu_share">کسی دوست کو بتائیں</string>
-    <string name="button_label_share_file">شیئر کریں</string>
     <string name="button_label_close">بند کریں</string>
     <string name="menu_split_transaction">تقسیم میں تبدیل کریں</string>
     <string name="method">ادائیگی کا طریقہ</string>
@@ -179,7 +173,6 @@
     <string name="numbered">نمبر شدہ</string>
     <string name="opening_balance">اوپننگ بیلنس</string>
     <string name="parse_error_file_not_found">فائل %1$s نہیں مل سکی</string>
-    <string name="parse_error_no_data_found">فائل میں کوئی درآمدی ڈیٹا نہیں ملا.</string>
     <string name="parse_error_other_exception">ایک خرابی پیش آگئی: %1$s</string>
     <plurals name="not_deletable_mapped_templates">
         <item quantity="one">منتخب آبجیکٹ کو ٹیمپلیٹ میں میپ کیا گیا ہے اور اسے حذف نہیں کیا جا سکتا.</item>
@@ -428,8 +421,6 @@
     <string name="synchronization">ہم وقت سازی</string>
     <string name="synchronization_none">کوئی مطابقت پذیری نہیں ہے</string>
     <string name="description_webdav_trust_certificate">ویب سائٹ ایک سرٹیفکیٹ استعمال کرتی ہے، جس پر اینڈرائیڈ کو بھروسہ نہیں ہے۔</string>
-    <string name="hint_user_name">صارف کا نام</string>
-    <string name="hint_password">پاس ورڈ</string>
     <string name="label_trust_certificate">اس سند پر بھروسہ کریں</string>
     <string name="menu_sync_download">ڈاؤن لوڈ اور مطابقت پذیری کریں</string>
     <string name="pref_sync_frequency_summary">ڈیٹا کتنی بار مطابقت پذیر ہونا چاہئے (گھنٹوں میں)</string>
@@ -592,7 +583,6 @@
     <string name="debt_owes_me">%s میرا مقروض ہے</string>
     <string name="debt_I_owe">میں %s کا مقروض ہوں</string>
     <string name="debt">قرضہ</string>
-    <string name="dialog_title_delete_debt">قرض کو حذف کریں؟</string>
     <plurals name="debt_mapped_transactions">
         <item quantity="one">قرض %1$s میں %2$d میپ شدہ ٹرانزیکشن ہے.</item>
         <item quantity="other">قرض %1$s میں %2$d میپ شدہ ٹرانزیکشنز ہیں.</item>
@@ -712,7 +702,6 @@
     <string name="currency_still_used">‬کرنسی استعمال میں ہے، حذف نہیں کی جا سکتی.</string>
     <string name="unmapped">ان میپ شدہ</string>
     <string name="unmapped_filter_only_single">\'غیر میپ شدہ\' فلٹر کو متعدد انتخاب میں شامل نہیں کیا جا سکتا</string>
-    <string name="upgrade_information_cloud_sync_storage_format">ورژن 2.9.8 کے ساتھ، ہم وقت سازی کے بیک اینڈ پر ڈیٹا کو ذخیرہ کرنے کا طریقہ بدل گیا ہے. ان میں سے کسی پر کوئی نیا ریکارڈ داخل کرنے سے پہلے، براہ کرم سبھی مطابقت پذیر آلات پر اس ورژن میں اپ گریڈ کریں.</string>
     <string name="pref_security_export_passphrase_summary">اس پاس فریز کے ساتھ بیک اپ کو انکرپٹ کیا جائے گا</string>
     <string name="sync_backend_is_not_encrypted">ریموٹ بیک اینڈ کو خفیہ نہیں کیا گیا ہے.</string>
     <string name="currency_code_already_definded">کرنسی کوڈ پہلے ہی بیان کیا گیا ہے.</string>
@@ -737,7 +726,6 @@
     <string name="pref_planner_manual_time_noon">12 بجے (دوپہر)</string>
     <string name="feature_downloaded">فیچر %s انسٹال ہو گیا ہے.</string>
     <string name="pref_ocr_total_indicators_title">کل رقم کے اشارے</string>
-    <string name="scan_result_no_data">کوئی مواد نہیں</string>
     <string name="pref_criterion_futur_title">مستقبل کے لین دین کے لیے معیار</string>
     <string name="pref_group_header_show_details_summary">گروپ ہیڈر میں تفصیلی رقم دکھائیں</string>
     <string name="new_balance">نیا بیلنس</string>
@@ -753,7 +741,6 @@
     <string name="active_tags">ایکٹو ٹیگز</string>
     <string name="request_for_invoice">انوائس کی درخواست</string>
     <string name="auto_fill_focus">وصول کنندہ پر توجہ مرکوز کریں</string>
-    <string name="required">درکار ہے</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">آپ نے جو فولڈر منتخب کیا ہے وہ موجودہ بیک اینڈ کے ایک اکاؤنٹ سے مساوی ہے. اس بیک اینڈ کو دوبارہ استعمال کرنے کے لیے آپ کو اس کا پیرنٹ فولڈر منتخب کرنا ہوگا.</string>
     <string name="sync_io_exception_reset_account_data">ریموٹ اکاؤنٹ کو ری سیٹ کرتے وقت خرابی.</string>
     <string name="sync_io_exception_setup_remote_account">ریموٹ اکاؤنٹ ترتیب دیتے وقت خرابی.</string>
@@ -836,7 +823,6 @@
     <string name="calendar_permission_required"><i>{app_name}</i> کو آپ کے کیلنڈر تک رسائی حاصل کرنے کے لیے اجازت درکار ہے، تاکہ مستقبل اور اعادی لین دین کے لیے منصوبے بنائے جائیں.</string>
     <string name="paypal_callback_info">آپ کا لین دین مکمل ہو گیا، اور آپ کی خریداری کی آپ کو ای میل کر دی گئی۔ اس ٹرانزیکشن کی تفصیلات دیکھنے کے لیے آپ www.paypal.com پر اپنے اکاؤنٹ میں لاگ ان کر سکتے ہیں۔</string>
     <string name="description_webdav_url">براہ کرم اپنے WebDAV سرور پر ایک خاص فولڈر میں URL درج کریں۔ {app_name} اس فولڈر کے اندر اپنا ڈیٹا اسٹور کرے گا، یہ اس کے باہر کسی چیز کو نہیں چھوئے گا.</string>
-    <string name="pref_sync_frequency_title">ہم وقت سازی کی فریکوئنسی</string>
     <string name="dialog_confirm_sync_unlink">اگر آپ اس اکاؤنٹ کو %s سے ان لنک کرتے ہیں تو ہم آہنگی کی حیثیت ختم ہو جاتی ہے۔ انہیں بعد میں دوبارہ لنک کرنے کے لیے، دوبارہ عمل میں لانے کے لیے مکمل ہم وقت سازی کی ضرورت ہوتی ہے.</string>
     <string name="dialog_sync_link">uuid %s کے ساتھ ایک اکاؤنٹ مقامی ڈیٹا بیس اور ریموٹ بیک اینڈ دونوں پر موجود ہے۔ جب آپ دونوں کو لنک کرتے ہیں، تو آپ کو یہ فیصلہ کرنے کی ضرورت ہے، اگر، ابتدائی طور پر، آپ مقامی ڈیٹا کو ریموٹ بیک اینڈ پر اپ لوڈ کرنا چاہتے ہیں یا ریموٹ ڈیٹا کو مقامی ڈیٹا بیس میں ڈاؤن لوڈ کرنا چاہتے ہیں.</string>
     <string name="menu_reconfigure">دوبارہ ترتیب دیں</string>

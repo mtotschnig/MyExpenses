@@ -9,5 +9,17 @@
     <string name="help_and_feedback">"Yordam va fikr-mulohaza"</string>
     <string name="currencies_exchange">"Valyutalar va chet el valyutasi"</string>
     <string name="menu_sync_now">"Hozir sinxronlash"</string>
-  <string name="do_not_show_again">Boshqa ko‘rsatilmasin</string>
+    <string name="do_not_show_again">Boshqa ko‘rsatilmasin</string>
+    <string name="color">"Rang"</string>
+    <string name="notes">"Izohlar"</string>
+    <string name="cannot_be_undone">"Ushbu amalni bekor qilib bo‘lmaydi."</string>
+    <string name="paper_format">"Sahifaning formati"</string>
+    <string name="configuration">"Konfiguratsiya"</string>
+    <string name="menu_open">"Ochish"</string>
+    <string name="menu_print">"Chop qilish"</string>
+    <string name="username">"Foydalanuvchi nomi"</string>
+    <string name="password">"Parol"</string>
+    <string name="frequency">"Yuz berish oralig‘i"</string>
+    <string name="required">"Talab qilinadi"</string>
+    <string name="no_data">"Hech narsa topilmadi"</string>
 </resources>

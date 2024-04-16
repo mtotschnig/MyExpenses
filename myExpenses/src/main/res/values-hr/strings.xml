@@ -35,8 +35,6 @@
     <string name="app_name">Moji troškovi</string>
     <string name="backup_success">Baza podataka i osobne postavke uspješno su zapisani u „%1$s”.</string>
     <string name="category">Kategorija</string>
-    <string name="color">Boja</string>
-    <string name="comment">Bilješke</string>
     <string name="contrib_feature_accounts_unlimited_label">Neograničen broj računa</string>
     <string name="contrib_feature_plans_unlimited_label">Neograničen broj planova</string>
     <string name="contrib_feature_print_label">Izvezi popis transakcija u PDF</string>
@@ -148,10 +146,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Preokreni smjer</string>
     <string name="menu_manage_plans">Predlošci i planovi</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Otvori</string>
     <string name="menu_import">Uvezi</string>
-    <string name="menu_print">Ispiši</string>
     <string name="menu_reset">Izvezi i obnovi</string>
     <string name="menu_reset_all">Izvezi i obnovi sve</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -186,7 +181,6 @@
     <string name="opening_balance">Početni saldo</string>
     <string name="parse_error_file_not_found">Dokument %1$s nije pronađen</string>
     <string name="parse_error_grisbi_version_not_supported">Nepodržana verzija Grisbi datoteke: %1$s</string>
-    <string name="parse_error_no_data_found">U datoteci nisu pronađeni uvezivi podaci.</string>
     <string name="parse_error_other_exception">Dogodila se greška: %1$s</string>
     <string name="parse_error_parse_exception">Nije bilo moguće analizirati dokument</string>
     <string name="password_disabled_reenable">Zaštita putem lozinke je deaktivirana. Može se ponovo aktivirati u postavkama.</string>
@@ -535,7 +529,6 @@
     <string name="dialog_sync_link">Račun s uuid oznakom %s postoji u lokalnoj bazi podataka kao i na udaljenom pozadinskom sustavu. Kad oboje povežeš, moraš odlučiti želiš li prenijeti lokalne podatke na udaljeni pozadinski sustav ili preuzeti udaljene podatke u lokalnu bazu podataka.</string>
     <string name="dialog_confirm_sync_unlink">Ako prekineš vezu ovog računa sa %s, stanje sinkronizacije će se izgubiti. Kasnije ponovno povezivanje zahtijeva ponovno izvođenje potpune sinkronizacije.</string>
     <string name="pref_sync_frequency_summary">Kako često sinkronizirati podatke (u satima)</string>
-    <string name="pref_sync_frequency_title">Učestalost sinkronizacije</string>
     <string name="menu_sync_download">Preuzmi i sinkroniziraj</string>
     <string name="menu_sync_link">Pokreni sinkronizaciju</string>
     <string name="menu_sync_unlink">Prekini sinkronizaciju</string>
@@ -547,8 +540,6 @@
     <string name="menu_create_sync_backend">Novi pozadinski sustav sinkronizacije</string>
     <string name="no_sync_backends">Bez pozadinskog sustava sinkronizacije</string>
     <string name="label_trust_certificate">Vjeruj ovom crtifikatu</string>
-    <string name="hint_password">Lozinka</string>
-    <string name="hint_user_name">Korisničko ime</string>
     <string name="description_webdav_trust_certificate">Web stranica koristi certifikat kojem Android ne vjeruje.</string>
     <string name="description_webdav_url">Upiši URL posebne mape na tvom WebDAV poslužitelju. {app_name} će spremiti svoje podatke unutar ove mape i neće mijenjati ništa izvan nje.</string>
     <string name="hint_url">URL</string>
@@ -663,7 +654,6 @@
     <string name="scan_result_no_date">Nijedan datum nije pronađen</string>
     <string name="scan_result_no_amount">Nijedan iznos nije pronađen</string>
     <string name="scan_result_multiple_candidates_dialog_title">Pronađeno je više kandidata. Odaberi:</string>
-    <string name="scan_result_no_data">Nema podataka</string>
     <string name="pref_criterion_future_current">Trenutačno vrijeme</string>
     <string name="pref_criterion_future_end_of_day">Kraj dana</string>
     <string name="pref_criterion_futur_title">Kriterij za buduće transakcije</string>
@@ -762,7 +752,6 @@
     <string name="backup_is_encrypted">Datoteka sigurnosne kopije je šifrirana. Za dešifriranje navedi njenu dugačku lozinku.</string>
     <string name="pref_security_export_passphrase_summary">Sigurnosne kopije će se šifrirati pomoću ove dugačke lozinke</string>
     <string name="pref_security_export_passphrase_title">Dugačka lozinka za sigurnosne kopije</string>
-    <string name="upgrade_information_cloud_sync_storage_format">S verzijom 2.9.8 promijenjen je način spremanja podataka u pozadinskom sustavu sinkronizacije. Nadogradi na ovu verziju na svim sinkroniziranim uređajima prije nego što uneseš nove zapise na bilo uređaju.</string>
     <string name="unmapped_filter_only_single">Filtar „Nepovezano” se ne može uključiti u višestruki odabir</string>
     <string name="unmapped">Nepovezano</string>
     <string name="currency_still_used">Valuta se koristi, ne može se izbrisati.</string>
@@ -828,7 +817,6 @@
     <string name="no_calendar_app_installed">Nijedan program za uređivanje kalendarskog događaja nije pronađen.</string>
     <string name="menu_split_transaction">Pretvori u višedjelnu transakciju</string>
     <string name="button_label_close">Zatvori</string>
-    <string name="button_label_share_file">Dijeli</string>
     <string name="crash_reports_user_info">{app_name} automatski šalje izvještaje o prestanku rada programa svojim programerima kako bi brže ispravili greške.</string>
     <string name="pref_category_title_crash_reports">Izvještaji o prekidu rada programa</string>
     <string name="pref_enable_acra">Dozvoli automatsko slanje izvještaja o prekidu rada programa</string>
@@ -848,12 +836,10 @@
         <item quantity="few">Dug %1$s ima %2$d mapirane transakcije.</item>
         <item quantity="other">Dug %1$s ima %2$d mapiranih transakcija.</item>
     </plurals>
-    <string name="dialog_title_delete_debt">Izbrisati dug\?</string>
     <string name="debts">Dugovi</string>
     <string name="debt_I_owe">Ja dugujem %s</string>
     <string name="debt_owes_me">%s mi duguje</string>
     <string name="menu_new_debt">Novi dug</string>
-    <string name="dialog_title_warning_delete_party">Izbrisati stranku\?</string>
     <string name="warning_party_delete_debt">Brisanjem ove strane brišu se i za nju definirani dugovi.</string>
     <string name="debt">Dug</string>
     <string name="title_activity_debt_overview">Pregled dugova</string>
@@ -888,7 +874,6 @@
     <string name="pref_csv_export_split_amount_summary">Koristi zasebne stupce za prihod i troškove</string>
     <string name="pref_csv_export_split_date_time_summary">Koristi zasebne stupce za datum i vrijeme</string>
     <string name="icons_for_categories">Ikone za kategorije</string>
-    <string name="required">Obavezno</string>
     <string name="budget_only_current_period">Postavi samo za %s</string>
     <string name="budget_table_header_rollover">Iznos prijenosa</string>
     <string name="dialog_confirm_rollover_delete">Svi iznosi prijenosa za ovo razdoblje će se izbrisati.</string>
@@ -920,8 +905,6 @@
     <string name="template_shortcut">Prečac predloška</string>
     <string name="pref_backup_file_prefix_title">Prefiks datoteke</string>
     <string name="content_description_remove_icon">Ukloni ikonu</string>
-    <string name="file_format">Datotečni format</string>
-    <string name="image_optimize_quality">Kvaliteta</string>
     <string name="maximum_size">Maksimalna veličina</string>
     <string name="orphaned_transaction_align_date">S transakcijom spremljeni datum se opcionalno može uskladiti i s datumom instance.</string>
     <string name="orphaned_transaction_info">Transakcija je povezana s planom za ovaj datum, ali na ovaj datum ne postoji nijedna instanca događaja.</string>

@@ -9,5 +9,19 @@
     <string name="help_and_feedback">"സഹായവും ഫീഡ്‌ബാക്കും"</string>
     <string name="currencies_exchange">"കറൻസികളും വിദേശ വിനിമയവും"</string>
     <string name="menu_sync_now">"ഇപ്പോൾ സമന്വയിപ്പിക്കുക"</string>
-  <string name="do_not_show_again">വീണ്ടും കാണിക്കരുത്</string>
+    <string name="do_not_show_again">വീണ്ടും കാണിക്കരുത്</string>
+    <string name="color">"വർണം"</string>
+    <string name="notes">"കുറിപ്പുകള്‍"</string>
+    <string name="cannot_be_undone">"ഈ പ്രവർത്തനം പഴയപടിയാക്കാനാകില്ല."</string>
+    <string name="paper_format">"പേപ്പര്‍ ശൈലി"</string>
+    <string name="configuration">"കോൺഫിഗറേഷൻ"</string>
+    <string name="menu_open">"തുറക്കുക"</string>
+    <string name="menu_print">"പ്രിന്റുചെയ്യുക"</string>
+    <string name="username">"ഉപയോക്താവിന്റെ പേര്"</string>
+    <string name="password">"പാസ്‌വേഡ്"</string>
+    <string name="pixels">"പിക്സലുകള്‍"</string>
+    <string name="frequency">"ഫ്രീക്വൻസി"</string>
+    <string name="required">"ആവശ്യമായ"</string>
+    <string name="quality">"നിലവാരം"</string>
+    <string name="no_data">"ഡാറ്റയൊന്നുമില്ല"</string>
 </resources>

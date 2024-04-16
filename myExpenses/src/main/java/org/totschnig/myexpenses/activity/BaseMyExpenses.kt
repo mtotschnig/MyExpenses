@@ -71,9 +71,6 @@ import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.AmountInput
 import eltos.simpledialogfragment.form.AmountInputHostDialog
-import eltos.simpledialogfragment.form.Hint
-import eltos.simpledialogfragment.form.SimpleFormDialog
-import eltos.simpledialogfragment.form.Spinner
 import eltos.simpledialogfragment.input.SimpleInputDialog
 import eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID
 import eltos.simpledialogfragment.list.MenuDialog
@@ -84,6 +81,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
 import org.totschnig.myexpenses.activity.FilterHandler.Companion.FILTER_COMMENT_DIALOG
+import org.totschnig.myexpenses.adapter.SortableItem
 import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
@@ -104,13 +102,11 @@ import org.totschnig.myexpenses.dialog.ExportDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
+import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment.OnConfirmListener
 import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment.Companion.TRANSFORM_TO_TRANSFER_REQUEST
 import org.totschnig.myexpenses.feature.Feature
-import org.totschnig.myexpenses.feature.OcrHost
 import org.totschnig.myexpenses.feature.OcrResult
-import org.totschnig.myexpenses.feature.OcrResultFlat
-import org.totschnig.myexpenses.feature.Payee
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
@@ -188,9 +184,6 @@ import timber.log.Timber
 import java.io.Serializable
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalTime
-import java.util.AbstractMap
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.sign
@@ -199,7 +192,8 @@ const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
 const val DIALOG_TAG_NEW_BALANCE = "NEW_BALANCE"
 
 @OptIn(ExperimentalFoundationApi::class)
-abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListener, ContribIFace {
+abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
+    OnConfirmListener {
 
     override val fabActionName = "CREATE_TRANSACTION"
 
@@ -575,7 +569,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 ),
                                 MessageDialogFragment.nullButton(R.string.button_label_close),
                                 MessageDialogFragment.Button(
-                                    R.string.button_label_share_file,
+                                    R.string.share,
                                     R.id.SHARE_PDF_COMMAND,
                                     uri.toString(),
                                     true
@@ -848,9 +842,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         }
                     }
                     LaunchedEffect(pagerState.settledPage) {
-                        if (true) {
-                            selectedAccountId = accountData[pagerState.settledPage].id
-                        }
+                        selectedAccountId = accountData[pagerState.settledPage].id
                     }
                     HorizontalPager(
                         modifier = Modifier
@@ -926,7 +918,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 .collectAsState(WhereFilter.empty())
                 .value
                 .takeIf { !it.isEmpty }?.let {
-                    FilterCard(it, ::clearFilter)
+                    FilterCard(it, ::clearFilter, ::editFilter)
                 }
             headerData.collectAsState().value.let { headerData ->
                 val withCategoryIcon =
@@ -1086,6 +1078,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                     )
                                 },
                                 withCategoryIcon,
+                                prefHandler.getBoolean(
+                                    PrefKey.UI_ITEM_RENDERER_ORIGINAL_AMOUNT,
+                                    false
+                                ),
                                 colorSource,
                                 onToggleCrStatus
                             )
@@ -1265,99 +1261,18 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    private fun displayDateCandidate(pair: Pair<LocalDate, LocalTime?>) =
-        (pair.second?.let { pair.first.atTime(pair.second) } ?: pair.first).toString()
-
-    override fun processOcrResult(result: Result<OcrResult>, scanUri: Uri) {
-        result.onSuccess {
-            if (it.needsDisambiguation()) {
-                SimpleFormDialog.build()
-                    .cancelable(false)
-                    .autofocus(false)
-                    .neg(android.R.string.cancel)
-                    .extra(Bundle().apply {
-                        putParcelable(KEY_OCR_RESULT, it)
-                        putParcelable(KEY_URI, scanUri)
-                    })
-                    .title(getString(R.string.scan_result_multiple_candidates_dialog_title))
-                    .fields(
-                        when (it.amountCandidates.size) {
-                            0 -> Hint.plain(getString(R.string.scan_result_no_amount))
-                            1 -> Hint.plain(
-                                "%s: %s".format(
-                                    getString(R.string.amount),
-                                    it.amountCandidates[0]
-                                )
-                            )
-
-                            else -> Spinner.plain(KEY_AMOUNT)
-                                .placeholder(R.string.amount)
-                                .items(*it.amountCandidates.toTypedArray())
-                                .preset(0)
-                        },
-                        when (it.dateCandidates.size) {
-                            0 -> Hint.plain(getString(R.string.scan_result_no_date))
-                            1 -> Hint.plain(
-                                "%s: %s".format(
-                                    getString(R.string.date),
-                                    displayDateCandidate(it.dateCandidates[0])
-                                )
-                            )
-
-                            else -> Spinner.plain(KEY_DATE)
-                                .placeholder(R.string.date)
-                                .items(
-                                    *it.dateCandidates.map(this::displayDateCandidate)
-                                        .toTypedArray()
-                                )
-                                .preset(0)
-                        },
-                        when (it.payeeCandidates.size) {
-                            0 -> Hint.plain(getString(R.string.scan_result_no_payee))
-                            1 -> Hint.plain(
-                                "%s: %s".format(
-                                    getString(R.string.payee),
-                                    it.payeeCandidates[0].name
-                                )
-                            )
-
-                            else -> Spinner.plain(KEY_PAYEE_NAME)
-                                .placeholder(R.string.payee)
-                                .items(*it.payeeCandidates.map(Payee::name).toTypedArray())
-                                .preset(0)
-                        }
-                    )
-                    .show(this, DIALOG_TAG_OCR_DISAMBIGUATE)
-            } else {
-                startEditFromOcrResult(
-                    if (it.isEmpty()) {
-                        Toast.makeText(
-                            this,
-                            getString(R.string.scan_result_no_data),
-                            Toast.LENGTH_LONG
-                        ).show()
-                        null
-                    } else {
-                        it.selectCandidates()
-                    },
-                    scanUri
-                )
-            }
-        }.onFailure {
-            CrashHandler.report(it)
-            Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
-        }
-    }
-
     /**
      * start ExpenseEdit Activity for a new transaction/transfer/split
      * Originally the form for transaction is rendered, user can change from spinner in toolbar
      */
-    open fun createRowIntent(type: Int, isIncome: Boolean) =
-        accountForNewTransaction?.let {
-            Intent(this, ExpenseEdit::class.java).apply {
-                putExtra(Transactions.OPERATION_TYPE, type)
-                putExtra(ExpenseEdit.KEY_INCOME, isIncome)
+    open fun createRowIntent(type: Int, isIncome: Boolean) = editIntent?.apply {
+        putExtra(Transactions.OPERATION_TYPE, type)
+        putExtra(ExpenseEdit.KEY_INCOME, isIncome)
+    }
+
+    override val editIntent: Intent?
+        get() = accountForNewTransaction?.let {
+            super.editIntent!!.apply {
                 putExtra(KEY_ACCOUNTID, it.id)
                 putExtra(KEY_CURRENCY, it.currency)
                 putExtra(KEY_COLOR, it._color)
@@ -1385,19 +1300,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         createRowIntent(type, isIncome)?.let { startEdit(it) }
     }
 
-    private fun startEdit(intent: Intent) {
+    override fun startEdit(intent: Intent) {
         floatingActionButton.hide()
-        startActivityForResult(intent, EDIT_REQUEST)
-    }
-
-    private fun startEditFromOcrResult(result: OcrResultFlat?, scanUri: Uri) {
-        recordUsage(ContribFeature.OCR)
-        createRowIntent(Transactions.TYPE_TRANSACTION, false)?.apply {
-            putExtra(KEY_OCR_RESULT, result)
-            putExtra(KEY_URI, scanUri)
-        }?.let {
-            startEdit(it)
-        }
+        super.startEdit(intent)
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean =
@@ -1451,7 +1356,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         get() = prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim { it <= ' ' }
 
     private fun shareExport(format: ExportFormat, uriList: List<Uri>) {
-        shareViewModel.share(
+        baseViewModel.share(
             this, uriList,
             shareTarget,
             "text/" + format.name.lowercase(Locale.US)
@@ -1490,6 +1395,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     showContribDialog(ContribFeature.ACCOUNTS_UNLIMITED, null)
                 }
             }
+
             R.id.CREATE_ACCOUNT_FOR_TRANSFER_COMMAND -> {
                 createAccountForTransfer.launch(createAccountIntent)
             }
@@ -1519,7 +1425,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             }
 
             R.id.SHARE_PDF_COMMAND -> {
-                shareViewModel.share(
+                baseViewModel.share(
                     this, listOf(ensureContentUri(Uri.parse(tag as String?), this)),
                     shareTarget,
                     "application/pdf"
@@ -1901,7 +1807,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     fun isScanMode() = prefHandler.getBoolean(PrefKey.OCR, false)
-    fun isWebUiActive() = prefHandler.getBoolean(PrefKey.UI_WEB, false)
+    private fun isWebUiActive() = prefHandler.getBoolean(PrefKey.UI_WEB, false)
 
     private fun activateOcrMode() {
         prefHandler.putBoolean(PrefKey.OCR, true)
@@ -2213,7 +2119,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 SortUtilityDialogFragment.newInstance(
                     ArrayList(accountData
                         .filter { it.id > 0 }
-                        .map { AbstractMap.SimpleEntry(it.id, it.label) }
+                        .map { SortableItem(it.id, it.label) }
                     ))
                     .show(supportFragmentManager, "SORT_ACCOUNTS")
             }
@@ -2241,6 +2147,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             putString(KEY_MESSAGE, getString(R.string.clear_all_filters))
             putInt(KEY_COMMAND_POSITIVE, R.id.CLEAR_FILTER_COMMAND)
         }).show(supportFragmentManager, "CLEAR_FILTER")
+    }
+
+    private fun editFilter(itemId: Int) {
+        filterHandler.handleFilter(
+            itemId,
+            currentFilter.whereFilter.criteria.find { it.id == itemId })
     }
 
     override fun onPositive(args: Bundle, checked: Boolean) {
@@ -2324,7 +2236,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     override fun onNegative(args: Bundle) {
-        val command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE)
+        val command = args.getInt(KEY_COMMAND_NEGATIVE)
         if (command != 0) {
             dispatchCommand(command, null)
         }
@@ -2347,6 +2259,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
+    override fun onSortOrderConfirmed(sortedIds: LongArray) {
+        viewModel.sortAccounts(sortedIds)
+    }
 
     companion object {
         const val MANAGE_HIDDEN_FRAGMENT_TAG = "MANAGE_HIDDEN"

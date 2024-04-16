@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,9 +27,13 @@ import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun FilterCard(whereFilter: WhereFilter, clearFilter: (() -> Unit)? = null) {
+fun FilterCard(
+    whereFilter: WhereFilter,
+    clearFilter: (() -> Unit)? = null,
+    editFilter: ((Int) -> Unit)? = null
+) {
     Row(
         modifier = Modifier
             .background(color = colorResource(id = R.color.cardBackground))
@@ -48,10 +51,10 @@ fun FilterCard(whereFilter: WhereFilter, clearFilter: (() -> Unit)? = null) {
                 .padding(start = 12.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            whereFilter.criteria?.forEach {
+            whereFilter.criteria.forEach {
                 FilterChip(
                     selected = true,
-                    onClick = { },
+                    onClick = { editFilter?.invoke(it.id) },
                     label = {
                         Text(it.prettyPrint(LocalContext.current), maxLines = integerResource(id = R.integer.filter_chip_max_lines), overflow = TextOverflow.Ellipsis)
                     }

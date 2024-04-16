@@ -11,5 +11,16 @@
     <string name="help_and_feedback">"Yardım və geri əlaqə"</string>
     <string name="currencies_exchange">"Valyuta &amp; Xarici Mübadilə"</string>
     <string name="menu_sync_now">"İndi sinxronlaşdır"</string>
-  <string name="do_not_show_again">Yenidən göstərməyin</string>
+    <string name="do_not_show_again">Yenidən göstərməyin</string>
+    <string name="color">"Rəng"</string>
+    <string name="notes">"Qeydlər"</string>
+    <string name="cannot_be_undone">"Bu əməliyyat geri qaytarıla bilməz."</string>
+    <string name="configuration">"Konfiqurasiya"</string>
+    <string name="menu_open">"Açın"</string>
+    <string name="menu_print">"Çap"</string>
+    <string name="share">"Paylaşın"</string>
+    <string name="username">"İstifadəçi adı"</string>
+    <string name="password">"Parol"</string>
+    <string name="frequency">"Tezlik"</string>
+    <string name="no_data">"Məlumat yoxdur"</string>
 </resources>

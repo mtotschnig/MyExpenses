@@ -20,7 +20,9 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 
-class SelectMethodDialogFragment : SelectFromMappedTableDialogFragment<MethodCriterion>(true) {
+class SelectMethodDialogFragment : SelectFromMappedTableDialogFragment<MethodCriterion>(
+    true, MethodCriterion::class.java
+) {
     override val dialogTitle: Int
         get() = R.string.search_method
     override val uri: Uri
@@ -34,10 +36,9 @@ class SelectMethodDialogFragment : SelectFromMappedTableDialogFragment<MethodCri
     }
 
     companion object {
-        fun newInstance(rowId: Long): SelectMethodDialogFragment {
-            val dialogFragment = SelectMethodDialogFragment()
-            dialogFragment.setArguments(rowId)
-            return dialogFragment
-        }
+        fun newInstance(rowId: Long, methodCriterion: MethodCriterion?) =
+            SelectMethodDialogFragment().apply {
+                configureArguments(rowId, methodCriterion)
+            }
     }
 }

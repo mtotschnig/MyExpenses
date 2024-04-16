@@ -77,5 +77,21 @@
     <string name="help_and_feedback">"Pomoć i povratne informacije"</string>
     <string name="currencies_exchange">"Valute i strani tečajevi"</string>
     <string name="menu_sync_now">"Sinkroniziraj sada"</string>
-  <string name="do_not_show_again">Ne prikazuj ponovo</string>
+    <string name="do_not_show_again">Ne prikazuj ponovo</string>
+    <string name="color">"Boja"</string>
+    <string name="notes">"Bilješke"</string>
+    <string name="cannot_be_undone">"Tu radnju nije moguće poništiti."</string>
+    <string name="header_footer">"Zaglavlje i podnožje"</string>
+    <string name="paper_format">"Oblik papira"</string>
+    <string name="configuration">"Konfiguracija"</string>
+    <string name="menu_open">"Otvori"</string>
+    <string name="menu_print">"Ispis"</string>
+    <string name="share">"Podijeli"</string>
+    <string name="username">"Korisničko ime"</string>
+    <string name="password">"Zaporka"</string>
+    <string name="pixels">"pikseli"</string>
+    <string name="frequency">"Učestalost"</string>
+    <string name="required">"Potrebno"</string>
+    <string name="quality">"Kvaliteta"</string>
+    <string name="no_data">"Nema podataka"</string>
 </resources>

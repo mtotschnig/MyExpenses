@@ -101,6 +101,7 @@ class TransactionListViewModel(
                             while (cursor.moveToNext()) {
                                 add(
                                     Transaction2.fromCursor(
+                                        currencyContext,
                                         cursor,
                                         currency,
                                         tags

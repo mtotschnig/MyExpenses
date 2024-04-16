@@ -113,7 +113,7 @@ fun ColumnScope.BankingCredentials(
         onValueChange = {
             bankingCredentials.value = credentials.copy(password = it.trim())
         },
-        label = { Text(text = stringResource(id = RB.string.hint_password)) },
+        label = { Text(text = stringResource(id = RB.string.password)) },
         singleLine = true
     )
     // Not using supportingText parameter of OutlinedTextField, because of

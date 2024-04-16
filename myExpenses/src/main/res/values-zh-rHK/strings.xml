@@ -25,8 +25,6 @@
     <string name="app_name">開支助手</string>
     <string name="backup_success">數據庫及喜好設定成功寫入到SD卡 (%1$s)。</string>
     <string name="category">類別</string>
-    <string name="color">顏色</string>
-    <string name="comment">附註</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">帳戶數量不限</string>
     <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">將圖像附加到交易項目</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">計劃數量不限</string>
@@ -137,7 +135,6 @@
     <string name="opening_balance">金額</string>
     <string name="parse_error_file_not_found">未能找到檔案 %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">不支援 Grisbi 文檔版本： %1$s</string>
-    <string name="parse_error_no_data_found">文件中沒有可匯入的數據。</string>
     <string name="parse_error_other_exception">遇到錯誤: %1$s</string>
     <string name="parse_error_parse_exception">無法分析的文件</string>
     <string name="password_disabled_reenable">密碼保護已被停用。您可以在設定中重新啟用它。</string>

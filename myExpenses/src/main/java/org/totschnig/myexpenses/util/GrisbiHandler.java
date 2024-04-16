@@ -41,7 +41,7 @@ public class GrisbiHandler extends DefaultHandler {
     if (catTree.getTotal() > 0 || !partiesList.isEmpty()) {
       return Result.ofSuccess(0, Pair.create(catTree, partiesList));
     } else {
-      return Result.ofFailure(R.string.parse_error_no_data_found);
+      return Result.ofFailure(R.string.no_data);
     }
   }
 

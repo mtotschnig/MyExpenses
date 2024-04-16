@@ -362,12 +362,12 @@ sealed class ChoiceMode(
 
     abstract fun toggleSelection(selectedAncestor: Category?, category: Category)
 
-    class MultiChoiceMode(val selectionState: SnapshotStateList<Category>, selectTree: Boolean) :
+    class MultiChoiceMode(val selectionState: SnapshotStateList<Long>, selectTree: Boolean) :
         ChoiceMode(selectTree) {
-        override fun isSelected(id: Long) = selectionState.any { it.id == id }
+        override fun isSelected(id: Long) = selectionState.contains(id)
         override fun toggleSelection(selectedAncestor: Category?, category: Category) {
             (selectedAncestor ?: category).let {
-                if (selectionState.toggle(it)) {
+                if (selectionState.toggle(it.id)) {
                     //when we select a category, children are implicitly selected, so we remove
                     //them from the explicit selection
                     it.recursiveUnselectChildren(selectionState)

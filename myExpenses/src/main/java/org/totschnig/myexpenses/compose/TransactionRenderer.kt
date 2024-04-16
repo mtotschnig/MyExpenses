@@ -80,8 +80,7 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import kotlin.text.Typography.ellipsis
 
-val inlineIconPlaceholder = 13.sp
-val inlineIconSize = 12.sp
+val inlineIconSize = 13.sp
 
 enum class ColorSource { TYPE, SIGN, TYPE_WITH_SIGN }
 
@@ -329,8 +328,8 @@ abstract class ItemRenderer(
 
     private fun inlineIcon(icon: String) = InlineTextContent(
         Placeholder(
-            width = inlineIconPlaceholder,
-            height = inlineIconPlaceholder,
+            width = inlineIconSize,
+            height = inlineIconSize,
             placeholderVerticalAlign = PlaceholderVerticalAlign.TextCenter
         )
     ) {
@@ -340,9 +339,11 @@ abstract class ItemRenderer(
     @Composable
     fun Transaction2.ColoredAmountText(
         style: TextStyle = LocalTextStyle.current,
+        showOriginalAmount: Boolean = false
     ) {
+        val displayAmount = if(showOriginalAmount) originalAmount!! else amount
         ColoredAmountText(
-            money = if (isTransferAggregate) amount.negate() else amount,
+            money = if (isTransferAggregate) displayAmount.negate() else displayAmount,
             style = style,
             type = if (isTransferAggregate) FLAG_NEUTRAL else when (colorSource) {
                 ColorSource.TYPE -> type
@@ -356,6 +357,7 @@ abstract class ItemRenderer(
 class CompactTransactionRenderer(
     private val dateTimeFormatInfo: Pair<DateTimeFormatter, Dp>?,
     withCategoryIcon: Boolean = true,
+    private val withOriginalAmount: Boolean = false,
     colorSource: ColorSource = ColorSource.TYPE,
     onToggleCrStatus: ((Long) -> Unit)? = null
 ) : ItemRenderer(withCategoryIcon, colorSource, onToggleCrStatus) {
@@ -389,7 +391,14 @@ class CompactTransactionRenderer(
             text = description,
             icons = secondaryInfo.second
         )
-        transaction.ColoredAmountText()
+        if (withOriginalAmount && transaction.originalAmount != null) {
+            Column(horizontalAlignment = Alignment.End) {
+                transaction.ColoredAmountText(showOriginalAmount = true)
+                transaction.ColoredAmountText()
+            }
+        } else {
+            transaction.ColoredAmountText()
+        }
     }
 
     override fun Modifier.height() = this.height(IntrinsicSize.Min)
@@ -476,7 +485,8 @@ fun RenderNew(@PreviewParameter(SampleProvider::class) transaction: Transaction2
 @Composable
 fun RenderCompact(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
     CompactTransactionRenderer(
-        DateTimeFormatter.ofPattern("EEE") to 40.dp
+        DateTimeFormatter.ofPattern("EEE") to 40.dp,
+        withOriginalAmount = true
     ).Render(transaction)
 }
 
@@ -492,11 +502,13 @@ fun InlineChip(text: String, color: Color?) {
 }
 
 class SampleProvider : PreviewParameterProvider<Transaction2> {
+    private val originalCurrency = CurrencyUnit("TRY", "₺", 2)
     override val values = sequenceOf(
         Transaction2(
             id = -1,
             _date = System.currentTimeMillis() / 1000,
             amount = Money(CurrencyUnit.DebugInstance, 7000),
+            originalAmount = Money(originalCurrency, 1234500),
             methodLabel = "CHEQUE",
             methodIcon = "credit-card",
             referenceNumber = "1",
@@ -518,6 +530,7 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
             id = -1,
             _date = System.currentTimeMillis() / 1000,
             amount = Money(CurrencyUnit.DebugInstance, 7000),
+            originalAmount = Money(originalCurrency, 2345600),
             accountId = -1,
             catId = SPLIT_CATID,
             payee = "Erika Musterfrau",

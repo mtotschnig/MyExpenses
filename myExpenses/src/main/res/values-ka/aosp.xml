@@ -11,5 +11,20 @@
     <string name="help_and_feedback">"დახმარება და უკუკავშირი"</string>
     <string name="currencies_exchange">"უცხოური ვალუტა"</string>
     <string name="menu_sync_now">"სინქრონიზაცია ახლავე"</string>
-  <string name="do_not_show_again">აღარ მაჩვენო</string>
+    <string name="do_not_show_again">აღარ მაჩვენო</string>
+    <string name="color">"ფერი"</string>
+    <string name="notes">"შენიშვნები"</string>
+    <string name="cannot_be_undone">"ამ ქმედებას ვერ გააუქმებთ."</string>
+    <string name="paper_format">"ფურცლის ზომა"</string>
+    <string name="configuration">"კონფიგურაცია"</string>
+    <string name="menu_open">"გახსნა"</string>
+    <string name="menu_print">"ამობეჭდვა"</string>
+    <string name="share">"გაზიარება"</string>
+    <string name="username">"მომხმარებლის სახელი"</string>
+    <string name="password">"პაროლი"</string>
+    <string name="pixels">"პიქსელები"</string>
+    <string name="frequency">"სიხშირე"</string>
+    <string name="required">"სავალდებულოა"</string>
+    <string name="quality">"ხ~არისხი"</string>
+    <string name="no_data">"მონაცემები არ არის"</string>
 </resources>

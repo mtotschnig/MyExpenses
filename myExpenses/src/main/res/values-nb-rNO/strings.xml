@@ -65,14 +65,11 @@
     <string name="template">Mal</string>
     <string name="progress_dialog_checking_sync_backend">Bekrefter bakende</string>
     <string name="menu_remove">Fjern</string>
-    <string name="pref_sync_frequency_title">Synkroniseringshyppighet</string>
     <string name="menu_sync_download">Last ned og synkroniser</string>
     <string name="menu_sync_link">Start synkronisering</string>
     <string name="menu_sync_unlink">Stopp synkronisering</string>
     <string name="url_not_valid">Nettadressen er ikke gyldig</string>
     <string name="validate_error_not_empty">Kan ikke være tom</string>
-    <string name="hint_password">Passord</string>
-    <string name="hint_user_name">Brukernavn</string>
     <string name="hint_url">Nettadresse</string>
     <string name="synchronization_none">Ingen synkronisering</string>
     <string name="synchronization">Synkronisering</string>
@@ -212,15 +209,12 @@
     <string name="no_expenses">Ingen utgifter enda.</string>
     <string name="method">Betalingsmetode</string>
     <string name="button_label_close">Lukk</string>
-    <string name="button_label_share_file">Del</string>
     <string name="menu_save_and_new">Lagre og ny</string>
     <string name="menu_save">Lagre</string>
     <string name="menu_reset_plan_instance">Tilbakestill</string>
     <string name="menu_reset_all">Eksporter og tilbakestill alt</string>
     <string name="menu_reset">Eksporter og tilbakestill</string>
-    <string name="menu_print">Skriv ut</string>
     <string name="menu_import">Importer</string>
-    <string name="menu_open">Åpne</string>
     <string name="menu_manage_plans">Maler og planer</string>
     <string name="menu_invert_transfer">Inverter</string>
     <string name="menu_help">Hjelp</string>
@@ -294,8 +288,6 @@
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV-import</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Ubegrenset antall konti</string>
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Ingen reklamer</string>
-    <string name="comment">Notater</string>
-    <string name="color">Farge</string>
     <string name="category">Kategori</string>
     <string name="app_name">Mine utgifter</string>
     <string name="amount">Beløp</string>

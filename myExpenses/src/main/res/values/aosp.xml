@@ -130,4 +130,52 @@
     <string name="menu_sync_now">"Sync now"</string>
     <!--/opt/extra/AOSP/packages/apps/Dialer/java/com/android/incallui/video/impl$ grep -ri do_not_show_again | aosp_helper -->
     <string name="do_not_show_again">Do not show again</string>
+    <!-- /opt/extra/AOSP/packages/apps/ThemePicker$ grep -ri preview_name_color | sed 's/ msgid="[[:digit:]]*"//' | sed 's/preview_name_//' | aosp_helper -->
+    <string name="color">Color</string>
+    <!-- /opt/extra/AOSP/packages/apps/Contacts$ grep -ri label_notes | sed 's/ msgid="[[:digit:]]*"//' | sed 's/label_//' | aosp_helper -->
+    <string name="notes">"Notes"</string>
+    <!-- grep -ri delete_message_confirmation_dialog_text | sed 's/ msgid="[[:digit:]]*"//' | sed 's/delete_message_confirmation_dialog_text/cannot_be_undone/' | aosp_helper -->
+    <string name="cannot_be_undone">"This action cannot be undone."</string>
+    <!-- LibreOffice sw/messages.po DB3VN -->
+    <string name="header_footer">"Header and Footer"</string>
+    <!-- LibreOffice cui/messages.po G5a9F -->
+    <string name="top_left">"Top Left"</string>
+    <!-- LibreOffice cui/messages.po PubBY -->
+    <string name="top_center">"Top Center"</string>
+    <!-- LibreOffice cui/messages.po jDChg -->
+    <string name="top_right">"Top Right"</string>
+    <!-- LibreOffice cui/messages.po 2Ds63 -->
+    <string name="bottom_left">"Bottom Left"</string>
+    <!-- LibreOffice cui/messages.po G34X6 -->
+    <string name="bottom_center">"Bottom Center"</string>
+    <!-- LibreOffice cui/messages.po D5Uwp -->
+    <string name="bottom_right">"Bottom Right"</string>
+    <!-- LibreOffice cui/messages.po u8DFb -->
+    <string name="paper_format">"Paper format"</string>
+    <!--/opt/extra/AOSP/packages/apps/TvSettings/Settings$  grep -ri system_accessibility_config | sed 's/ msgid="[[:digit:]]*"//' | sed 's/system_accessibility_config/configuration/' | aosp_helper -->
+    <string name="configuration">"Configuration"</string>
+    <!-- /opt/extra/AOSP/packages/apps/DocumentsUI grep -ri menu_open\" | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
+    <string name="menu_open">"Open"</string>
+    <!-- /opt/extra/AOSP/packages/apps/UnifiedEmail$ grep -ri "\"print\"" | sed 's/ msgid="[[:digit:]]*"//' |sed 's/print/menu_print/' | aosp_helper -->
+    <string name="menu_print">"Print"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Gallery2$ grep -ri "\"share\"" | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
+    <string name="share">"Share"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri "\"vpn_username\"" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/vpn_//' | aosp_helper -->
+    <string name="username">"Username"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri "\"vpn_password\"" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/vpn_//' | aosp_helper -->
+    <string name="password">"Password"</string>
+    <!-- LibreOffice vcl/message.po z2hxz -->
+    <string name="pixels">"pixels"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri "\"running_frequency\"" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/running_//' | aosp_helper -->
+    <string name="frequency">"Frequency"</string>
+    <!-- LibreOffice extensions/message.po JFffE -->
+    <string name="required">"Required"</string>
+    <!-- LibreOffice helpcontent2/source/text/swriter/01.po WEPwT -->
+    <string name="file_format">File Format</string>
+    <!-- LibreOffice sd/messages.po PUgsP -->
+    <string name="quality">"Quality"</string>
+    <!-- LibreOffice helpcontent2/source/text/sdatabase.po -->
+    <string name="buttons">"Buttons"</string>
+    <!-- /opt/extra/AOSP/packages/modules/HealthFitness/apk$ grep -ri "\"no_data\"" | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
+    <string name="no_data">"No data"</string>
 </resources>

@@ -93,7 +93,7 @@ class CsvParserTest {
             R.string.income,
             R.string.expense,
             R.string.category,
-            R.string.comment
+            R.string.notes
         )
     ): List<ImportAccount> {
         val reader = InputStreamReader(

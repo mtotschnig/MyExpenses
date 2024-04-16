@@ -76,5 +76,21 @@
     <string name="help_and_feedback">"עזרה ומשוב"</string>
     <string name="currencies_exchange">"מטבעות והמרת מטבע זר"</string>
     <string name="menu_sync_now">"סנכרן כעת"</string>
-  <string name="do_not_show_again">הבנתי, לא צריך להציג את זה שוב</string>
+    <string name="do_not_show_again">הבנתי, לא צריך להציג את זה שוב</string>
+    <string name="color">"צבע"</string>
+    <string name="notes">"הערות"</string>
+    <string name="cannot_be_undone">"פעולה זו אינה הפיכה."</string>
+    <string name="header_footer">"כותרת עליונה ותחתונה"</string>
+    <string name="paper_format">"עיצוב הדף"</string>
+    <string name="configuration">"תצורה"</string>
+    <string name="menu_open">"פתיחה"</string>
+    <string name="menu_print">"הדפס"</string>
+    <string name="share">"שיתוף"</string>
+    <string name="username">"שם משתמש"</string>
+    <string name="password">"סיסמה"</string>
+    <string name="pixels">"פיקסלים"</string>
+    <string name="frequency">"תדירות"</string>
+    <string name="required">"נדרש"</string>
+    <string name="quality">"איכות"</string>
+    <string name="no_data">"אין נתונים"</string>
 </resources>

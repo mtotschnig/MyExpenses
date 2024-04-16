@@ -35,8 +35,6 @@
     <string name="app_name">Les meves despeses</string>
     <string name="backup_success">La base de dades i les preferències s\'han desat a \"%1$s\".</string>
     <string name="category">Categoria</string>
-    <string name="color">Color</string>
-    <string name="comment">Notes</string>
     <string name="contrib_feature_accounts_unlimited_label">Nombre il·limitat de comptes</string>
     <string name="contrib_feature_plans_unlimited_label">Nombre de planificacions il·limitat</string>
     <string name="contrib_feature_print_label">Exporta la llista de transaccions en PDF</string>
@@ -169,7 +167,6 @@
     <string name="opening_balance">Saldo inicial</string>
     <string name="parse_error_file_not_found">No ha estat possible trobar el fitxer %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">La versió  %1$s del fitxer Grisbi no està permesa</string>
-    <string name="parse_error_no_data_found">No hi ha dades importables en el fitxer.</string>
     <string name="parse_error_other_exception">S\'ha produït un error: %1$s</string>
     <string name="parse_error_parse_exception">No ha estat possible analitzar el fitxer</string>
     <string name="password_disabled_reenable">La protecció per contrasenya ha estat desactivada. Podeu tornar-la a activar a la configuració.</string>
@@ -363,12 +360,8 @@
     <string name="pref_checkbox_disabled">Desactivat</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">No es pot fusionar amb el compte existent.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Autoritzar sense contrasenya.</string>
-    <string name="dialog_title_warning_delete_party">Suprimir grup\?</string>
     <string name="menu_balance">Conciliar compte</string>
     <string name="menu_exclude_from_totals">Excloure dels totals</string>
-    <string name="menu_open">Obre</string>
-    <string name="menu_print">Imprimeix</string>
-    <string name="button_label_share_file">Comparteix</string>
     <string name="menu_split_transaction">Divideix</string>
     <string name="no_app_handling_pdf_available">No hi ha cap aplicació que gestioni fitxers PDF disponible.</string>
     <string name="no_calendar_app_installed">No hi ha cap aplicació que editi esdeveniments al calendari disponible.</string>
@@ -425,15 +418,12 @@
     <string name="crash_dialog_comment_prompt">Pot afegir comentaris sobre el problema aquí:</string>
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">Siusplau introdueixi URL per al fitxer especial al seu servidor WebDAV. {app_name} desarà dades a l\'interior de la carpeta, però no tocarà res fora de la mateixa.</string>
-    <string name="hint_user_name">Nom d\'usuari</string>
-    <string name="hint_password">Contrasenya</string>
     <string name="label_trust_certificate">Confia en aquest certificat</string>
     <string name="no_sync_backends">Sense serveis de sincronització</string>
     <string name="validate_error_webdav_invalid_certificate">No es pot confiar en el certificat. Sembla invàlid.</string>
     <string name="validate_error_webdav_404">L\'URL no existeix al servidor.</string>
     <string name="url_not_valid">ULR invàlida</string>
     <string name="menu_sync_download">Descarrega i sincronitza</string>
-    <string name="pref_sync_frequency_title">Freqüència de sincronització</string>
     <string name="pref_sync_frequency_summary">Cada quant s\'han de sincronitzar les dades (en hores)</string>
     <string name="dialog_command_sync_link_remote">Descarrega del remot</string>
     <string name="dialog_confirm_sync_link_local">Les dades remotes d\'aquest compte s\'eliminaran. Assegureu-vos que no hi ha connectats altres dispostius.</string>
@@ -709,7 +699,6 @@
     <string name="no_budgets">Defineixi el seu primer pressupost tocant el botó +.</string>
     <string name="currency_still_used">Divisa utilitzada actualment, no es pot eliminar.</string>
     <string name="unmapped">Sense assignar</string>
-    <string name="upgrade_information_cloud_sync_storage_format">Amb la versió 2.9.8, la manera d\'emmagatzemar dades sincronitzades al sistema de servei ha canviat. Siusplau abans d\'entrar nous registres a cap dispositiu sincronitzat, actualitzi a aquesta versió tots els dispositius sincrotnitzats.</string>
     <string name="object_sealed">L\'objecte es refereix a un compte tancat.</string>
     <string name="sub_budget_exceeded_error_2">Incrementi la quantitat assignada a la categoria princpial, o retiri diners d\'altres subcategories.</string>
     <string name="currency_code">Codi</string>

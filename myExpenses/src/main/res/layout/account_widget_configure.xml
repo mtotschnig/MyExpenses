@@ -10,7 +10,7 @@
         android:name="org.totschnig.myexpenses.fragment.AccountWidgetConfigurationFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/general_padding"
+        android:layout_marginHorizontal="8dp"
         app:layout_constraintBottom_toTopOf="@id/btn_apply"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -19,6 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
+        android:layout_marginVertical="12dp"
         android:text="@string/add_widget"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

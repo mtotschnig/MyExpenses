@@ -38,6 +38,7 @@ import org.totschnig.myexpenses.service.AutoBackupWorker
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.getLocale
 import org.totschnig.myexpenses.util.ui.setNightMode
 import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
@@ -76,7 +77,7 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 licenceValidationViewModel.result.collect { result ->
                     result?.let {
-                        showDismissibleSnackBar(it, dismissCallback)
+                        showDismissibleSnackBar(it.second, dismissCallback)
                     }
                 }
             }
@@ -195,12 +196,12 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
-            getKey(PrefKey.UI_THEME_KEY) -> {
+            getKey(PrefKey.UI_THEME) -> {
                 setNightMode(prefHandler, this)
                 updateAllWidgets()
             }
 
-            getKey(PrefKey.UI_FONTSIZE) -> {
+            getKey(PrefKey.UI_FONT_SIZE) -> {
                 updateAllWidgets()
                 recreate()
             }

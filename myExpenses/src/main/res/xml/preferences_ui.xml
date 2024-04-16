@@ -66,7 +66,7 @@
             android:defaultValue="true"
             android:dependency="@string/pref_auto_fill_key"
             android:key="@string/pref_auto_fill_comment_key"
-            android:title="@string/comment" />
+            android:title="@string/notes" />
         <ListPreference
             android:defaultValue="aggregate"
             android:dependency="@string/pref_auto_fill_key"
@@ -102,6 +102,12 @@
             android:defaultValue="false"
             android:key="@string/pref_ui_item_renderer_legacy_key"
             android:persistent="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:title="@string/menu_original_amount"
+            android:dependency="@string/pref_ui_item_renderer_legacy_key"
+            android:key="@string/pref_ui_item_renderer_original_amount_key" />
 
         <SwitchPreferenceCompat
             android:defaultValue="true"

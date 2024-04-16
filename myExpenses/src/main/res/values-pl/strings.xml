@@ -37,8 +37,6 @@
     <string name="app_name">Moje Wydatki</string>
     <string name="backup_success">Baza danych oraz preferencje zostały zapisane na kartę pamięci pomyślnie (%1$s).</string>
     <string name="category">Kategoria</string>
-    <string name="color">Kolor</string>
-    <string name="comment">Notatki</string>
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Brak reklam</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Nieskończona ilość kont</string>
     <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Dopinanie obrazów do transakcji</string>
@@ -170,10 +168,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Odwróć</string>
     <string name="menu_manage_plans">Szablony i plany</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Otwórz</string>
     <string name="menu_import">Import</string>
-    <string name="menu_print">Drukuj</string>
     <string name="menu_reset">Eksportuj i zresetuj</string>
     <string name="menu_reset_all">Eksportuj i zresetuj wszystko</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -181,7 +176,6 @@
     <string name="menu_save">Zapisz</string>
     <string name="menu_save_and_new">Zapisz i utwórz nowy</string>
     <string name="menu_share">Poleć znajomemu</string>
-    <string name="button_label_share_file">Podziel się</string>
     <string name="button_label_close">Zamknij</string>
     <string name="menu_split_transaction">Zamień w podział</string>
     <string name="method">Metoda płatności</string>
@@ -216,7 +210,6 @@
     <string name="opening_balance">Bilans otwarcia</string>
     <string name="parse_error_file_not_found">Nie można znaleźć pliku %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">Niewspierana wersja pliku Grisbi: %1$s</string>
-    <string name="parse_error_no_data_found">Nie znaleziono danych możliwych do importu w pliku.</string>
     <string name="parse_error_other_exception">Wystąpił błąd: %1$s</string>
     <string name="parse_error_parse_exception">Nie można zanalizować pliku </string>
     <string name="password_disabled_reenable">Zabezpieczenie hasłem zostało wyłączone. Możesz je włączyć ponownie w ustawieniach.</string>
@@ -519,8 +512,6 @@
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">Wprowadź adres URL do specjalnego folderu na serwerze WebDAV. {app_name} będzie przechowywać swoje dane w tym folderze, nie dotknie niczego poza nim.</string>
     <string name="description_webdav_trust_certificate">Witryna korzysta z certyfikatu, który nie jest zaufany przez Androida.</string>
-    <string name="hint_user_name">Nazwa użytkownika</string>
-    <string name="hint_password">Hasło</string>
     <string name="label_trust_certificate">Zaufaj temu certyfikatowi</string>
     <string name="no_sync_backends">Brak serwerów synchronizacji</string>
     <string name="menu_create_sync_backend">Nowy serwer synchronizacji</string>
@@ -532,7 +523,6 @@
     <string name="menu_sync_unlink">Zatrzymaj synchronizację</string>
     <string name="menu_sync_link">Uruchom synchronizację</string>
     <string name="menu_sync_download">Pobierz i synchronizuj</string>
-    <string name="pref_sync_frequency_title">Częstotliwość synchronizacji</string>
     <string name="pref_sync_frequency_summary">Jak często dane powinny być synchronizowane (w godzinach)</string>
     <string name="dialog_confirm_sync_unlink">Jeśli odłączysz to konto od %s, status synchronizacji zostanie utracony. Ponowne połączenie ich później wymaga ponownego wykonania pełnej synchronizacji.</string>
     <string name="dialog_sync_link">Konto z uuid %s istnieje zarówno w lokalnej bazie danych, jak i na zdalnym zapleczu. Po połączeniu obydwu musisz zdecydować, czy na początku chcesz przesłać dane lokalne do zdalnego serwera lub pobrać zdalne dane do lokalnej bazy danych.</string>
@@ -692,7 +682,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">Filtr \'Bez mapowania\' nie może być użyty przy wielokrotnym wyborze.</string>
-    <string name="upgrade_information_cloud_sync_storage_format">Wraz z wersją 2.9.8 zmienił się sposób przechowywania danych zdalnych. Proszę wykonać aktualizację na wszystkich urządzeniach korzystających z synchronizacji przed dodaniem nowych rekordów na tych urządzeniach.</string>
     <string name="dialog_title_backup_protected">Backup (zaszyfrowany)</string>
     <string name="button_label_no_encryption">Bez szyfrowania</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
@@ -829,7 +818,6 @@
     <string name="pref_sync_changes_immediately_summary">Zapisuj lokalne zmiany natychmiast w zapleczu</string>
     <string name="scan_result_no_date">Nie znaleziono daty</string>
     <string name="button_relink_update_date">Data ponownego połączenia i aktualizacji</string>
-    <string name="file_format">Format pliku</string>
     <string name="warning_account_for_transaction_is_closed">Nie można edytować co najmniej jednej z wybranych transakcji:</string>
     <string name="content_description_dates_are_not_linked">Data rezerwacji i data wartości nie są aktualizowane razem</string>
     <string name="auto_fill_account_from_aggregate_only">Tylko w przypadku uruchomienia z konta zbiorczego.</string>
@@ -881,7 +869,6 @@
     <string name="menu_budget_allocated_only">Pokaż tylko kategorie z alokacją</string>
     <string name="pref_criterion_future_end_of_day">Koniec dnia</string>
     <string name="pref_csv_export_split_date_time_summary">Używanie oddzielnych kolumn dla daty i godziny</string>
-    <string name="scan_result_no_data">Brak danych</string>
     <string name="budget_table_header_overspent">Przekroczenie wydatków</string>
     <string name="remap_method">Wszystkie wybrane transakcje zostaną zmapowane do metody %s.</string>
     <string name="pref_clone_with_current_date_title">Data sklonowanych transakcji</string>
@@ -908,7 +895,6 @@
     <string name="template_default_action_without_amount_hint">Szablon bez kwoty należy zapisać z domyślną akcją „Edytuj”</string>
     <string name="debt_borrow_additional">Pożyczam %s.</string>
     <string name="language_download_requested">Tłumaczenia dla języka %s są wymagane w Sklepie Play</string>
-    <string name="required">Wymagana</string>
     <string name="notifications_permission_required_sync">Udzielając zgody na wysyłanie powiadomień, możesz monitorować postęp operacji synchronizacji.</string>
     <string name="content_description_attachment">Załącznik</string>
     <string name="debt_lend_additional">Udzielam pożyczki %s.</string>
@@ -923,7 +909,6 @@
     <string name="optimize_image_file_size">Zoptymalizuj rozmiar pliku obrazu</string>
     <string name="orphaned_transaction_info">Transakcja jest połączona z planem na tę datę, ale w tej dacie nie istnieje żadna instancja zdarzenia.</string>
     <string name="sync_backend_is_encrypted">Zdalny backend jest szyfrowany. Konieczne jest podanie hasła.</string>
-    <string name="dialog_title_warning_delete_party">Usunąć przyjęcie?</string>
     <string name="orphaned_transaction_align_date">Opcjonalnie data przechowywana w transakcji może być również wyrównana z datą wystąpienia.</string>
     <string name="stability_improvements" tools:ignore="UnusedResources">Poprawa stabilności</string>
     <string name="debt_balance_they_owe">%1$s teraz jest winien %2$s.</string>
@@ -937,7 +922,6 @@
     <string name="menu_tag">Tag</string>
     <string name="warning_delete_category_with_budget">Dla co najmniej jednej wybranej kategorii istnieją przydziały budżetowe, które również zostaną usunięte.</string>
     <string name="backup_save_to_sync_backend">Zapisz w %s</string>
-    <string name="image_optimize_quality">Jakość</string>
     <string name="budget_filter_all_states">Wszystkie statusy</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Przy aktualnym stanie licencji (%1$s) to okno dialogowe będzie wyświetlane przy każdym użyciu.</string>
     <string name="dialog_title_warning_delete_tag">Usunąć tag?</string>
@@ -964,7 +948,6 @@
     <string name="pref_planner_manual_time_current">Godzina złożenia wniosku</string>
     <string name="pref_purge_backup_keep_title">Maksymalna liczba najnowszych plików kopii zapasowych do zachowania</string>
     <string name="pref_copy_attachments_summary_off">Pliki nie są kopiowane, przechowywane jest tylko odniesienie.</string>
-    <string name="dialog_title_delete_debt">Usunąć dług?</string>
     <string name="webui_warning_move_transaction">Transakcja zostanie przeniesiona na konto {account}.</string>
     <string name="contrib_feature_category_tree_label">Drzewo kategorii</string>
     <string name="show_duplicates">Pokaż duplikaty</string>

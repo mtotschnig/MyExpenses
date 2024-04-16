@@ -1,12 +1,10 @@
 package org.totschnig.myexpenses.delegate
 
 import android.os.Bundle
-import android.text.Editable
 import android.view.View
 import androidx.core.view.isVisible
 import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.HELP_VARIANT_SPLIT
 import org.totschnig.myexpenses.activity.HELP_VARIANT_TEMPLATE_SPLIT
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
@@ -16,11 +14,10 @@ import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.formatMoney
-import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
 import org.totschnig.myexpenses.viewmodel.data.Account
+import org.totschnig.myexpenses.viewmodel.data.SplitPart
 
 class SplitDelegate(
     viewBinding: OneExpenseBinding,
@@ -217,7 +214,7 @@ class SplitDelegate(
 
     override fun missingRecurrenceFeature() = missingRecurrenceFeature
 
-    fun showSplits(transactions: List<TransactionEditViewModel.SplitPart>) {
+    fun showSplits(transactions: List<SplitPart>) {
         adapter.submitList(transactions)
         viewBinding.empty.visibility = if (transactions.isEmpty()) View.VISIBLE else View.GONE
         viewBinding.list.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
