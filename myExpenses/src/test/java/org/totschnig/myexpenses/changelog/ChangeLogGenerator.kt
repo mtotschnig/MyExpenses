@@ -31,7 +31,7 @@ class ChangeLogGenerator {
     fun generateChangeLogPlay() {
         val context = ApplicationProvider.getApplicationContext<Application>()
         val allLanguages = arrayOf(
-            "en",
+            "en-US",
             "ar",
             "bg",
             "ca",
@@ -48,7 +48,7 @@ class ChangeLogGenerator {
             "iw-IL",
             "ja-JP",
             "km-KH",
-            "kn.IN",
+            "kn-IN",
             "ko-KR",
             "ms",
             "nl-NL",
