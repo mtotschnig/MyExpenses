@@ -33,4 +33,5 @@
     <string name="help_fab_confirm_selection">Brug den flydende handlingsknap til at bekræfte valget.</string>
     <string name="menu_merge_help_text">Hvis det samme parti optræder flere gange på listen med forskellige stavevarianter, kan du flette dem.</string>
     <string name="help_ManageParties_mergeMode_info_1">Vælg de duplikerede partier, du vil flette.</string>
+    <string name="help_ManageMethods_info">Denne skærm viser de foruddefinerede betalingsmetoder (check, kreditkort, indbetaling, direkte debitering) og lader dig definere nye. Brug den flydende handlingsknap for at åbne formularen til oprettelse af en ny metode.</string>
 </resources>
