@@ -31,30 +31,45 @@ class ChangeLogGenerator {
     fun generateChangeLogPlay() {
         val context = ApplicationProvider.getApplicationContext<Application>()
         val allLanguages = arrayOf(
+            "en",
             "ar",
             "bg",
-            "cs",
-            "de",
-            "el",
-            "es",
-            "fr",
+            "ca",
+            "cs-CZ",
+            "da-DK",
+            "de-DE",
+            "el-GR",
+            "es-ES",
+            "eu-ES",
+            "fr-FR",
             "hr",
-            "hu",
-            "it",
-            "iw",
-            "nl",
-            "pl",
-            "pt",
+            "hu-HU",
+            "it-IT",
+            "iw-IL",
+            "ja-JP",
+            "km-KH",
+            "kn.IN",
+            "ko-KR",
+            "ms",
+            "nl-NL",
+            "pl-PL",
+            "pt-BR",
+            "pt-PT",
             "ro",
-            "tr",
+            "ru-RU",
+            "si-LK",
+            "ta-IN",
+            "te-IN",
+            "tr-TR",
             "vi",
-            "en"
+            "zh-CN",
+            "zh-TW"
         )
         print(
             buildString {
                 allLanguages.forEach { language ->
                     appendLine("<$language>")
-                    versionInfo.getChanges(wrap(context, Locale(language)))!!.forEach {
+                    versionInfo.getChanges(wrap(context, Locale.forLanguageTag(language)))!!.forEach {
                         appendLine("• $it")
                     }
                     appendLine("</$language>")
@@ -94,7 +109,7 @@ class ChangeLogGenerator {
             ).bufferedWriter().use { writer ->
                 writer.write(
                     buildString {
-                        versionInfo.getChanges(wrap(context, Locale(language)))!!.forEach {
+                        versionInfo.getChanges(wrap(context, Locale.forLanguageTag(language)))!!.forEach {
                             appendLine("• $it")
                         }
                         appendLine()
