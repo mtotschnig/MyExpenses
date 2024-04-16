@@ -84,7 +84,7 @@
     <string name="feedback">Feedback</string>
     <string name="ftp_uri_malformed">Ugyldig URI %1$s</string>
     <string name="grisbi_import_categories_loading">Indlæser kategorier fra %1$s</string>
-    <string name="grisbi_import_parties_loading">Indlæser partier fra %1$s</string>
+    <string name="grisbi_import_parties_loading">Indlæser parter fra %1$s</string>
     <string name="grouping_day">Dag</string>
     <string name="grouping_last_week">Sidste uge</string>
     <string name="grouping_month">Måned</string>
@@ -117,7 +117,7 @@
     <string name="menu_create_instance_save">Anvend og gem</string>
     <string name="menu_create_main_cat">Ny hovedkategori</string>
     <string name="menu_create_method">Ny betalingsmetode</string>
-    <string name="menu_create_party">Nyt parti</string>
+    <string name="menu_create_party">Ny part</string>
     <string name="menu_create_split">Ny opdeling</string>
     <string name="menu_create_split_part_category">Ny kategoriopdelt del</string>
     <string name="menu_create_split_part_transfer">Ny overførselsopdelt del</string>
@@ -357,7 +357,7 @@
     <string name="import_categories_none">Ingen kategorier importerede</string>
     <string name="import_parties_none">Ingen partier importerede</string>
     <string name="import_transactions_none">Ingen transaktioner importerede til konto %1$s</string>
-    <string name="import_source_select_error">Angiv en fil af typen %1$s</string>
+    <string name="import_source_select_error">Angiv venligst en fil af typen %1$s</string>
     <string name="menu_categories_setup_default">Opsæt standardkategorier</string>
     <string name="menu_create_folder">Ny mappe</string>
     <string name="widget_title_accounts">Mine konti</string>
@@ -778,7 +778,7 @@
     <string name="no_budgets">Angiv dit første budget ved at trykke på + knappen.</string>
     <string name="budget_date_end_after_start">Budgettets slutdato skal ligge efter dets startdato.</string>
     <string name="budget_filter_all_methods">Alle metoder</string>
-    <string name="budget_filter_all_states">Alle status</string>
+    <string name="budget_filter_all_states">Alle statusser</string>
     <string name="budget_filter_all_accounts">Alle konti</string>
     <string name="dialog_title_warning_delete_budget">Slet budget?</string>
     <string name="app_restart_required">Ny konfiguration kræver app-genstart for at træde i kraft.</string>
@@ -834,7 +834,7 @@
     <string name="github_sponsors">Licensnøgler udleveres også til &lt;a href=%s&gt;Github-sponsorer&lt;/a&gt;.</string>
     <string name="pref_backup_file_prefix_title">Filpræfiks</string>
     <string name="select_template">Vælg skabelon</string>
-    <string name="search_tag">Søg efter etiketter</string>
+    <string name="search_tag">Søg efter etiket</string>
     <string name="menu_ungroup_split_transaction">Afgruppér opdeling</string>
     <string name="contact_us">Kontakt os</string>
     <string name="pref_security_export_passphrase_summary">Sikkerhedskopier krypteres med denne adgangssætning</string>
