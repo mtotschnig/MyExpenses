@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.changelog
 import android.app.Application
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -23,6 +24,7 @@ const val VERSION_DATE = "2014-04-15"
 val versionInfo = VersionInfo(CURRENT_VERSION)
 
 @RunWith(RobolectricTestRunner::class)
+@Ignore("This is only run on demand in order to generate ChangeLog!")
 class ChangeLogGenerator {
 
     @Test
