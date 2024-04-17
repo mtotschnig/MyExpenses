@@ -1,0 +1,5 @@
+• Pesquisar: Melhorias na interface do utilizador
+• Configuração do widget de conta: Botões
+• O recurso «Digitalizar recibo» pode ser chamado a partir do widget «Minhas contas».
+
+https://github.com/mtotschnig/MyExpenses/projects/139#column-19841847
