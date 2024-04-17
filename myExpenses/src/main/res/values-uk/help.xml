@@ -1,2 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="help_contextual_actions_help">Меню контекстних дій відображається при довгому натисканні на пункт списку.</string>
+    <string name="cab_edit_help_text">Редагувати вибраний елемент.</string>
+    <string name="help_MyExpenses_title">Список транзакцій</string>
+    <string name="help_MyExpenses_fab_long_press">Довге натискання на плаваючу кнопку дії відкриває меню, яке дозволяє підготувати форму для переказу, розділити транзакцію або дохід.</string>
+    <string name="popup_MyExpenses_toolbar_copy_text">Скопіюйте поточний баланс у буфер обміну.</string>
+    <string name="menu_status_handle_help_text">Статус транзакції вказує кольоровий прямокутник: сірий для незвірених, синій для чітких, зелений для узгоджених. Натискання на прямокутник змінює статус.</string>
+    <string name="popup_MyExpenses_toolbar_intro">Натискання на панелі інструментів (заголовок рахунку або поточного балансу) відкриває меню з такими пунктами:</string>
+    <string name="popup_MyExpenses_toolbar_new_balance">Обчисліть різницю між поточним балансом і новим значенням.</string>
+    <string name="help_contextual_actions">Контекстні дії</string>
+    <string name="help_menu_commands">Меню команд</string>
+    <string name="help_form_fields">Поля форми</string>
+    <string name="cab_delete_help_text">Видалити вибрані елементи.</string>
+    <string name="help_MyExpenses_info">На цьому екрані перераховані всі операції для поточного рахунку. Використовуйте плаваючу кнопку дії, щоб відкрити форму для створення нової операції.</string>
+</resources>
