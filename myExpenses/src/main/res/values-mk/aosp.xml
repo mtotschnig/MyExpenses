@@ -23,4 +23,5 @@
     <string name="required">"Потребно"</string>
     <string name="quality">"Квалитет"</string>
     <string name="no_data">"Нема податоци"</string>
+    <string name="color_component_title">"Изберете боја"</string>
 </resources>

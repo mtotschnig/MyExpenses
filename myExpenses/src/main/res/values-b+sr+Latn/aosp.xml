@@ -20,4 +20,5 @@
     <string name="frequency">"Učestalost"</string>
     <string name="required">"Potreban"</string>
     <string name="no_data">"Nema podataka"</string>
+    <string name="color_component_title">"Odaberite boju"</string>
 </resources>

@@ -24,4 +24,5 @@
     <string name="required">"ആവശ്യമായ"</string>
     <string name="quality">"നിലവാരം"</string>
     <string name="no_data">"ഡാറ്റയൊന്നുമില്ല"</string>
+    <string name="color_component_title">"വര്‍ണം തിരഞ്ഞെടുക്കുക"</string>
 </resources>

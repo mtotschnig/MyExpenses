@@ -24,4 +24,5 @@
     <string name="required">"ຕ້ອງການ"</string>
     <string name="quality">"ຄວາມລະອຽດ"</string>
     <string name="no_data">"ບໍ່ມີຂໍ້ມູນ"</string>
+    <string name="color_component_title">"ເລືອກ​ສີ"</string>
 </resources>

@@ -92,4 +92,5 @@
     <string name="file_format">"கோப்பு வடிவூட்டம்"</string>
     <string name="quality">"தரம்"</string>
     <string name="no_data">"தரவு எதுவும் இல்லை"</string>
+    <string name="color_component_title">"தீம் வண்ணத்தை தேர்ந்தெடுத்தல்"</string>
 </resources>

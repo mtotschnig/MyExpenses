@@ -22,4 +22,5 @@
     <string name="frequency">"Yuz berish oralig‘i"</string>
     <string name="required">"Talab qilinadi"</string>
     <string name="no_data">"Hech narsa topilmadi"</string>
+    <string name="color_component_title">"Rang tanlang"</string>
 </resources>

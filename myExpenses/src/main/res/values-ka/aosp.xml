@@ -27,4 +27,5 @@
     <string name="required">"სავალდებულოა"</string>
     <string name="quality">"ხ~არისხი"</string>
     <string name="no_data">"მონაცემები არ არის"</string>
+    <string name="color_component_title">"აირჩიეთ ფერი"</string>
 </resources>

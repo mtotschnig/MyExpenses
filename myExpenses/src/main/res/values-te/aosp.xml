@@ -86,4 +86,5 @@
     <string name="required">"అవరసమైనది"</string>
     <string name="quality">"గుణమును"</string>
     <string name="no_data">"డేటా లేదు"</string>
+    <string name="color_component_title">"రంగును ఎంచుకోండి"</string>
 </resources>

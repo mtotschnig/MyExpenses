@@ -178,4 +178,6 @@
     <string name="buttons">"Buttons"</string>
     <!-- /opt/extra/AOSP/packages/modules/HealthFitness/apk$ grep -ri "\"no_data\"" | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="no_data">"No data"</string>
+    <!-- /opt/extra/AOSP/packages/apps/ThemePicker$ grep -ri "\"color_component_title\"" | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
+    <string name="color_component_title">"Choose color"</string>
 </resources>

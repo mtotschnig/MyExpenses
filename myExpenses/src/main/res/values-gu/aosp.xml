@@ -24,4 +24,5 @@
     <string name="required">"જરુરી"</string>
     <string name="quality">"ગુણવત્તા"</string>
     <string name="no_data">"કોઈ ડેટા નથી"</string>
+    <string name="color_component_title">"રંગ પસંદ કરો"</string>
 </resources>

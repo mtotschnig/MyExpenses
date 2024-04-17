@@ -99,4 +99,5 @@
     <string name="required">"必須"</string>
     <string name="quality">"印刷画像品質"</string>
     <string name="no_data">"データがありません"</string>
+    <string name="color_component_title">"色の選択"</string>
 </resources>

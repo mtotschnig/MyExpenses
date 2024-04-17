@@ -25,4 +25,5 @@
     <string name="frequency">"تعداد دفعات اجرا"</string>
     <string name="quality">"کیفیت"</string>
     <string name="no_data">"داده‌ای وجود ندارد"</string>
+    <string name="color_component_title">"انتخاب رنگ"</string>
 </resources>

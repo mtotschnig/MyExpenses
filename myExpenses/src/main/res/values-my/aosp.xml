@@ -24,4 +24,5 @@
     <string name="required">"လိုအပ်သည်"</string>
     <string name="quality">"အရည်အသွေး"</string>
     <string name="no_data">"ဒေတာမရှိပါ"</string>
+    <string name="color_component_title">"အရောင်ရွေးပါ"</string>
 </resources>

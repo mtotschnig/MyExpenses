@@ -19,4 +19,5 @@
     <string name="password">"ਪਾਸਵਰਡ"</string>
     <string name="frequency">"ਵਾਰਵਾਰਤਾ"</string>
     <string name="no_data">"ਕੋਈ ਡਾਟਾ ਨਹੀਂ"</string>
+    <string name="color_component_title">"ਰੰਗ ਚੁਣੋ"</string>
 </resources>

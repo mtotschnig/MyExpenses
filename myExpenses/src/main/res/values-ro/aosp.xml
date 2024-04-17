@@ -94,4 +94,5 @@
     <string name="required">"Necesar"</string>
     <string name="quality">"Calitate"</string>
     <string name="no_data">"Fără date"</string>
+    <string name="color_component_title">"Alege culoarea"</string>
 </resources>

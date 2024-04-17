@@ -25,4 +25,5 @@
     <string name="required">"Okudingekayo"</string>
     <string name="quality">"Ikhethelo"</string>
     <string name="no_data">"Ayikho idatha"</string>
+    <string name="color_component_title">"Khetha umbala"</string>
 </resources>

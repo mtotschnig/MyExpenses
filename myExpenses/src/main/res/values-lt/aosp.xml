@@ -27,4 +27,5 @@
     <string name="file_format">"Failo formatas"</string>
     <string name="quality">"Spalva"</string>
     <string name="no_data">"Nėra jokių duomenų"</string>
+    <string name="color_component_title">"Pasirinkite spalvą"</string>
 </resources>

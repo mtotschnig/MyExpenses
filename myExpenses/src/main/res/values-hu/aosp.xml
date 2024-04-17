@@ -103,4 +103,5 @@
     <string name="quality">"Minőség"</string>
     <string name="buttons">"Gombok"</string>
     <string name="no_data">"Nincs adat"</string>
+    <string name="color_component_title">"Színválasztás"</string>
 </resources>

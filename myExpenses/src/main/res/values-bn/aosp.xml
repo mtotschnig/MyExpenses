@@ -23,4 +23,5 @@
     <string name="frequency">"পুনরাবৃত্তির হার"</string>
     <string name="required">"প্রয়োজনীয়"</string>
     <string name="no_data">"কোনও ডেটা নেই"</string>
+    <string name="color_component_title">"রঙ বেছে নিন"</string>
 </resources>

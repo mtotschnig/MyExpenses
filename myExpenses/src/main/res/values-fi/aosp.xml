@@ -34,4 +34,5 @@
     <string name="required">"Vaadittu"</string>
     <string name="quality">"Laatu"</string>
     <string name="no_data">"Ei dataa"</string>
+    <string name="color_component_title">"Valitse väri"</string>
 </resources>

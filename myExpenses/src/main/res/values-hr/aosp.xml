@@ -94,4 +94,5 @@
     <string name="required">"Potrebno"</string>
     <string name="quality">"Kvaliteta"</string>
     <string name="no_data">"Nema podataka"</string>
+    <string name="color_component_title">"Odaberite boju"</string>
 </resources>

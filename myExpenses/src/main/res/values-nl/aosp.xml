@@ -98,4 +98,5 @@
     <string name="quality">"Kwaliteit"</string>
     <string name="buttons">"Knoppen"</string>
     <string name="no_data">"Geen gegevens"</string>
+    <string name="color_component_title">"Kleur kiezen"</string>
 </resources>

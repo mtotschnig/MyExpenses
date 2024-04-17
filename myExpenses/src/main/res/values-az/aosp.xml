@@ -23,4 +23,5 @@
     <string name="password">"Parol"</string>
     <string name="frequency">"Tezlik"</string>
     <string name="no_data">"Məlumat yoxdur"</string>
+    <string name="color_component_title">"Rəng seçin"</string>
 </resources>

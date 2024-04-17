@@ -101,4 +101,5 @@
     <string name="quality">"Qualità"</string>
     <string name="buttons">"Pulsanti"</string>
     <string name="no_data">"Nessun dato"</string>
+    <string name="color_component_title">"Scegli colore"</string>
 </resources>

@@ -20,4 +20,5 @@
     <string name="password">"Сырсөз"</string>
     <string name="frequency">"Жыштык"</string>
     <string name="no_data">"Эч нерсе жок"</string>
+    <string name="color_component_title">"Түс тандоо"</string>
 </resources>
