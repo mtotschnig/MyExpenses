@@ -34,4 +34,8 @@
     <string name="menu_merge_help_text">Hvis det samme parti optræder flere gange på listen med forskellige stavevarianter, kan du flette dem.</string>
     <string name="help_ManageParties_mergeMode_info_1">Vælg de duplikerede partier, du vil flette.</string>
     <string name="help_ManageMethods_info">Denne skærm viser de foruddefinerede betalingsmetoder (check, kreditkort, indbetaling, direkte debitering) og lader dig definere nye. Brug den flydende handlingsknap for at åbne formularen til oprettelse af en ny metode.</string>
+    <string name="help_ManageParties_manage_info">Denne skærm viser de parter, der bruges til automatisk udfyldelse af Betaler/Modtager-feltet.</string>
+    <string name="cab_ManageTemplates_delete_help_text">Slet de valgte skabeloner og alle tilknyttede planer.</string>
+    <string name="cab_ManageTemplates_edit_help_text">Redigér det valgte skabelon, og opret eller redigér en tilknyttet plan.</string>
+    <string name="help_ManageCategories_manage_context">Klik på en post for at vise dens kontekstmenu. Hold nede for at starte multivalg.</string>
 </resources>

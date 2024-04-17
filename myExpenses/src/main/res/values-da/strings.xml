@@ -134,7 +134,7 @@
     <string name="menu_edit_account">Redigér konto</string>
     <string name="menu_edit_cat">Redigér kategori</string>
     <string name="menu_edit_method">Redigér betalingsmetode</string>
-    <string name="menu_edit_party">Redigér parti</string>
+    <string name="menu_edit_party">Redigér part</string>
     <string name="menu_edit_plan_instance">Redigér enkelt planforekomst</string>
     <string name="menu_edit_split">Redigér opdeling</string>
     <string name="menu_edit_split_part_category">Redigér kategoriopdelt del</string>
@@ -168,7 +168,7 @@
     <string name="no_filemanager_installed">Ingen filhåndtering installeret</string>
     <string name="no_mapped_transactions">Ingen transaktioner blev knyttet til kategorier i denne periode.</string>
     <string name="no_methods">Ingen betalingsmetoder.</string>
-    <string name="no_parties">Ingen partier.</string>
+    <string name="no_parties">Ingen parter.</string>
     <string name="no_split_parts">Ingen opdelte dele.</string>
     <string name="no_templates">Ingen skabeloner.</string>
     <plurals name="not_deletable_mapped_transactions">
@@ -226,10 +226,10 @@
     <string name="pref_custom_currency_title">Tilpas valutaer</string>
     <string name="pref_enter_licence_title">Indtast nøgle</string>
     <string name="pref_export_format_title">Dataformat</string>
-    <string name="pref_import_from_grisbi_summary">Importér kategorier og partierne fra Grisbi XML-fil</string>
+    <string name="pref_import_from_grisbi_summary">Importér kategorier og parter fra Grisbi XML-fil</string>
     <string name="pref_import_from_grisbi_title">Importér fra Grisbi</string>
     <!-- %s is replaced with QIF or CSV -->
-    <string name="pref_import_summary">Importér transaktioner, kategorier og partier fra %s-fil</string>
+    <string name="pref_import_summary">Importér transaktioner, kategorier og parter fra %s-fil</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s-import</string>
     <string name="pref_manage_accounts_title">Konti</string>
@@ -237,8 +237,8 @@
     <string name="pref_manage_categories_title">Kategorier</string>
     <string name="pref_manage_methods_summary">Opret og redigér betalingsmetoder og knyt dem til kontotyper.</string>
     <string name="pref_manage_methods_title">Betalingsmetoder</string>
-    <string name="pref_manage_parties_summary">Tilføj, redigér, slet partier (betalere og modtagere).</string>
-    <string name="pref_manage_parties_title">Partier</string>
+    <string name="pref_manage_parties_summary">Tilføj, redigér, slet parter (betalere og modtagere).</string>
+    <string name="pref_manage_parties_title">Parter</string>
     <string name="pref_manage_sync_backends_title">Synkroniseringsbackends</string>
     <string name="pref_more_info_dialog_title">Licens &amp; Kredit</string>
     <string name="pref_password_not_equal">Adgangskoderne er ikke ens</string>
@@ -274,7 +274,7 @@
     <string name="pref_visit_website_title">Besøg Hjemmeside</string>
     <string name="progress_dialog_deleting">Sletter objekter</string>
     <string name="progress_dialog_printing">Genererer %s</string>
-    <string name="qif_parse_result">Analyserede: %1$s konti; %2$s kategorier og %3$s partier</string>
+    <string name="qif_parse_result">Analyserede: %1$s konti; %2$s kategorier og %3$s parter</string>
     <string name="qif_parse_failure_found_multiple_accounts">Flere konti blev fundet i %s-filen.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Kan ikke flette dem ind i eksisterende konto.</string>
     <string name="reference_number">Referencenummer</string>
@@ -350,12 +350,12 @@
     <string name="warning_splitpartcategory_context">Overførsler, der er en del af en opdeling, kan kun redigeres i forbindelse med opdelingen.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Angiv venligst et tal mellem %1$d og %2$d</string>
     <string name="import_categories_success">%1$d kategorier importeret.</string>
-    <string name="import_parties_success">%1$d partier importeret.</string>
+    <string name="import_parties_success">%1$d parter importeret.</string>
     <string name="import_accounts_success">%1$d konti importeret.</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transaktioner blev importeret til konto %2$s</string>
-    <string name="import_accounts_none">Ingen konti importerede</string>
-    <string name="import_categories_none">Ingen kategorier importerede</string>
-    <string name="import_parties_none">Ingen partier importerede</string>
+    <string name="import_accounts_none">Ingen konti importeret</string>
+    <string name="import_categories_none">Ingen kategorier importeret</string>
+    <string name="import_parties_none">Ingen parter importeret</string>
     <string name="import_transactions_none">Ingen transaktioner importerede til konto %1$s</string>
     <string name="import_source_select_error">Angiv venligst en fil af typen %1$s</string>
     <string name="menu_categories_setup_default">Opsæt standardkategorier</string>
@@ -769,7 +769,7 @@
     </plurals>
     <string name="dialog_contrib_usage_limit_split_templates">Din nuværende licensstatus (%1$s) lader dig oprette 1 opdelingsskabelon.</string>
     <string name="menu_budget_allocated_only">Vis kun kategorier med tildeling</string>
-    <string name="budget_filter_all_parties">Alle partier</string>
+    <string name="budget_filter_all_parties">Alle parter</string>
     <string name="contrib_feature_split_template_label">Ubegrænset antal opdelingsskabeloner</string>
     <string name="menu_reopen">Genåbn</string>
     <string name="menu_hidden_accounts">Skjulte konti</string>
@@ -827,7 +827,7 @@
     <string name="debt_owes_me">%s skylder mig</string>
     <string name="debt_I_owe">Jeg skylder %s</string>
     <string name="debts">Gæld</string>
-    <string name="warning_party_delete_debt">Når dette parti slettes, vil den gæld, der er angivet for den, også slettes.</string>
+    <string name="warning_party_delete_debt">Når denne part slettes, vil gælden, der er angivet for den, også slettes.</string>
     <string name="title_activity_debt_overview">Gældsoversigt</string>
     <string name="cb_label_merge_accounts">Flet konti</string>
     <string name="pref_mlkit_script_title">Script til MlKit</string>
@@ -888,7 +888,7 @@
     <string name="account_widget_configuration_sum">Type af vist sum</string>
     <string name="debt_borrow_additional">Jeg låner %s.</string>
     <string name="remove_from_group">Fjern fra gruppe</string>
-    <string name="merge_parties_select">Vælg navn på flettet parti</string>
+    <string name="merge_parties_select">Vælg navn på flettet part</string>
     <string name="no_sync_backends">Ingen synkroniseringsbackends</string>
     <string name="menu_create_sync_backend">Ny synkroniseringsbackend</string>
     <plurals name="purge_backup_success">
