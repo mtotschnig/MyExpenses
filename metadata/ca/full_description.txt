@@ -1,0 +1,27 @@
+<i>Les meves despeses</i> és la vostra eina definitiva per fer un seguiment de despeses i una gestió financera sense esforç, al vostre abast!
+
+Característiques clau:
+
+     • <b>Seguiment de despeses sense esforç</b>: feu un seguiment de les vostres despeses i ingressos sense problemes, tant si esteu al vostre telèfon intel·ligent o a la tauleta.
+     • <b>Gestió de comptes flexible</b>: gestioneu sense esforç diversos comptes, incloses les transferències entre diferents monedes.
+     • <b>Planificació financera simplificada</b>: configureu fàcilment plans per a transaccions recurrents.
+     • <b>Gestió de dades perfecta</b>: exporteu i importeu dades amb facilitat mitjançant els formats QIF i CSV.
+     • <b>Seguretat millorada</b>: protegiu les vostres dades amb una contrasenya o amb la seguretat de la pantalla de bloqueig del dispositiu.
+     • <b>Experiència personalitzable</b>: adapteu l'aplicació a les vostres preferències amb temes i mides de lletra personalitzables.
+     • <b>Conciliació d'extractes bancaris</b>: compareu fàcilment l'estat de la transacció amb els vostres extractes bancaris per fer un seguiment financer precís.
+     • <b>Entrada ràpida de dades</b>: gaudeix d'un accés còmode amb ginys i dreceres de la pantalla d'inici.
+     • <b>Anàlisi de dades potent</b>: filtreu les vostres dades en funció de diversos criteris i visualitzeu la distribució i les tendències històriques amb gràfics dinàmics.
+
+Desbloqueja les funcions premium:
+
+     • <i>Clau del Contribuïdor</i>: digueu adéu als anuncis i desbloquegeu comptes il·limitats, plans de transaccions recurrents i molt més.
+     • <i>Clau ampliada</i>: gaudeix de la sincronització al núvol, les còpies de seguretat automàtiques i les importacions CSV sofisticades.
+     • <i>Clau professional</i>: porteu la vostra gestió financera al següent nivell amb eines de pressupostos, escaneig de rebuts i assistència per correu electrònic.
+
+<i>Les meves despeses</i> requereix els <u>permisos</u> següents:
+
+     • <i>Calendari</i>: els plans per a transaccions futures i recurrents s'emmagatzemen en un calendari local especial o en qualsevol altre calendari que assigneu.
+     • <i>Internet</i>: seguiment anònim d'ús, informes d'error, sincronització al núvol.
+     • <i>Comptes</i>: sincronització entre dispositius mitjançant serveis al núvol.
+
+Preneu el control de les vostres finances com mai abans utilitzant <i>Les meves despeses</i>!

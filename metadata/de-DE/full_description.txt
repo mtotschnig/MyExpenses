@@ -1,45 +1,27 @@
-Meine Ausgaben ist Ihr Haushaltsbuch: Verfolgen Sie Ihre Ausgaben und Einnahmen direkt auf Ihrem Smartphone und auf Ihrem Tablet.
+<i>Meine Ausgaben</i> ist Ihr ultimatives Tool für die mühelose Kostenverfolgung und Finanzverwaltung, direkt zur Hand!
 
-- Bis zu fünf Konten mit <b>Umbuchungen</b> (auch zwischen verschiedenen Währungen)
-- Unbegrenzte Anzahl von <b>Vorlagen</b> und bis zu drei Pläne für <b>wiederkehrende</b> Buchungen
-- <b>Exportieren</b> nach QIF und CSV. <b>Importieren</b> von QIF
-- Daten können durch ein <b>Passwort</b> oder den <b>Sperrbildschirm des Gerätes</b> geschützt werden
-- <b>Stil</b> (dunkel und hell) und <b>Schriftgröße</b> können angepasst werden
-- <b>Abstimmung</b>: Einfacher Vergleich des Status der Buchungen mit Ihren Kontoauszügen
-- <b>Widget</b> und <b>Verknüpfungen</b> für den Startbildschirm zur schnellen Dateneingabe
+Hauptmerkmale:
 
-Premium-Funktionen werden durch den Kauf eines der folgenden Lizenzschlüssel freigeschaltet:
+     • <b>Mühelose Ausgabenverfolgung</b>: Behalten Sie Ihre Ausgaben und Einnahmen nahtlos im Auge, egal ob Sie auf Ihrem Smartphone oder Tablet sind.
+     • <b>Flexible Kontoverwaltung</b>: Verwalten Sie mühelos mehrere Konten, einschließlich Überweisungen zwischen verschiedenen Währungen.
+     • <b>Optimierte Finanzplanung</b>: Erstellen Sie ganz einfach Pläne für wiederkehrende Transaktionen.
+     • <b>Nahtloses Datenmanagement</b>: Einfaches Exportieren und Importieren von Daten mithilfe der Formate QIF und CSV.
+     • <b>Erhöhte Sicherheit</b>: Schützen Sie Ihre Daten mit Passwort oder Gerätesperrbildschirmsicherheit.
+     • <b>Anpassbares Erlebnis</b>: Passen Sie die App mit anpassbaren Themen und Schriftgrößen an Ihre Vorlieben an.
+     • <b>Kontoauszugsabstimmung</b>: Vergleichen Sie den Transaktionsstatus ganz einfach mit Ihren Kontoauszügen, um eine genaue Finanzverfolgung zu ermöglichen.
+     • <b>Schnelle Dateneingabe</b>: Genießen Sie bequemen Zugriff mit Startbildschirm-Widgets und Verknüpfungen.
+     • <b>Leistungsstarke Datenanalyse</b>: Filtern Sie Ihre Daten anhand verschiedener Kriterien und visualisieren Sie Verteilung und historische Trends mit dynamischen Diagrammen.
 
-<b>Contrib-Schlüssel</b>
+Premium-Funktionen freischalten:
 
-- <b>Keine Werbung</b>
-- Unbegrenzte Anzahl von <b>Konten</b>
-- Unbegrenzte Anzahl von Plänen für <b>wiederkehrende</b> Buchungen
-- <b>Kreisdiagramm</b>: Visualisieren Sie die statistische Verteilung der Buchungen pro Kategorie über verschiedene Perioden (Jahre, Monate, Wochen, Tage)
-- <b>Mehrteilige Buchung</b>: Eine einzelne Buchung kann in mehrere Teile (Kategorien und Umbuchungen) aufgeteilt werden
-- <b>Drucken</b> der Buchungsliste in eine PDF-Datei
-- <b>Bildanhang</b>: Mit der Kamera aufnehmen oder aus der Galerie auswählen
+     • <i>Contrib-Schlüssel</i>: Verabschieden Sie sich von Werbung und schalten Sie unbegrenzte Konten, wiederkehrende Transaktionspläne und mehr frei.
+     • <i>Erweiterter Schlüssel</i>: Genießen Sie Cloud-Synchronisierung, automatisierte Backups und anspruchsvolle CSV-Importe.
+     • <i>Professioneller Schlüssel</i>: Bringen Sie Ihr Finanzmanagement mit Budgetierungstools, Belegscannen und E-Mail-Support auf die nächste Stufe.
 
-<b>Erweiterungsschlüssel</b>
+Für <i>Meine Ausgaben</i> sind die folgenden <u>Berechtigungen</u> erforderlich:
 
-- Alle Funktionen des Contrib Schlüssels
-- <b>Cloud-Synchronisierung</b>: Daten können zwischen mehreren Geräten synchronisiert werden (Webdav, Dropbox)
-- Tägliche <b>automatische Sicherung</b> mit optionalem Upload in den Cloud-Speicher
-- Ausgefeilter, anpassbarer <b>CSV-Import</b>(Tabellenkalkulationsanwendungen)
+     • <i>Kalender</i>: Pläne für zukünftige und wiederkehrende Transaktionen werden entweder in einem speziellen lokalen Kalender oder in einem anderen von Ihnen zugewiesenen Kalender gespeichert.
+     • <i>Internet</i>: Anonyme Nutzungsverfolgung, Absturzberichte, Cloud-Synchronisierung.
+     • <i>Konten</i>: Synchronisierung zwischen Geräten über Cloud-Dienste.
 
-<b>Professioneller Schlüssel</b>
-
-- Alle Funktionen des erweiterten Schlüssels
-- <b>Budgetierung</b>: Vergleichen Sie Ihre Ausgaben mit den von Ihnen festgelegten Grenzwerten pro Kategorie, täglich, wöchentlich, monatlich oder jährlich.
-- <b>Verlaufsdiagramm</b> (Cashflow)
-- <b>Quittungen scannen</b> : Betrag, Datum und Zahlungsempfänger automatisch extrahieren
-- <b>Web-Benutzeroberfläche</b>
-- Unbegrenzte Anzahl von <b>Vorlagen und Plänen für mehrteilige Buchungen</b>
-- <b>E-Mail-Support</b> mit garantierter Antwort innerhalb von 2 Werktagen
-- Stimmrecht zum <b>Entwicklungsfahrplan</b>
-
-<i>Meine Ausgaben</i> verwendet folgende <u>Berechtigungen</u>:
-
-- <i>Kalender</i>: Pläne für zukünftige und wiederkehrenden Transaktionen werden entweder in einem speziellen lokalen Kalender oder in einem anderen Kalender, den Sie zuweisen, gespeichert.
-- <i>Internet</i>: Lizenzschlüssel-Validierung, Cloud-Synchronisierung.
-- <i>Konten</i>: Synchronisierung zwischen mehreren Geräten über Cloud-Dienste.
+Übernehmen Sie mit <i>Meine Ausgaben</i> die Kontrolle über Ihre Finanzen wie nie zuvor!

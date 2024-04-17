@@ -1,0 +1,27 @@
+<i>Nire gastuak</i> gastuen jarraipena egiteko eta finantza kudeaketarako zure azken tresna da zure eskura!
+
+Ezaugarri nagusiak:
+
+     • <b>Esfortzurik gabeko gastuen jarraipena</b>: jarraitu zure gastuak eta diru-sarreren fitxak ezin hobeto, zure telefonoan edo tabletan egon.
+     • <b>Kontuen kudeaketa malgua</b>: kudeatu esfortzurik gabe hainbat kontu, moneta ezberdinen arteko transferentziak barne.
+     • <b>Finantza-plangintza erraztua</b>: konfiguratu erraz errepikatzen diren transakzioetarako planak.
+     • <b>Datuen kudeaketa integrala</b>: esportatu eta inportatu datuak erraztasunez QIF eta CSV formatuak erabiliz.
+     • <b>Segurtasun hobetua</b>: babestu zure datuak pasahitzarekin edo gailuaren blokeo-pantailaren segurtasunarekin.
+     • <b>Esperientzia pertsonalizagarria</b>: egokitu aplikazioa zure hobespenetara gai eta letra-tamaina pertsonalizagarriekin.
+     • <b>Banku-adierazpenen bateratzea</b>: konparatu erraz transakzio-egoera zure banku-adierazpenekin finantza-jarraipen zehatza lortzeko.
+     • <b>Datuen sarrera azkarra</b>: Gozatu sarbide erosoa hasierako pantailako widgetekin eta lasterbideekin.
+     • <b>Datuen analisi indartsua</b>: iragazi zure datuak hainbat irizpideren arabera eta ikusi banaketa eta joera historikoak grafiko dinamikoekin.
+
+Desblokeatu Premium Ezaugarriak:
+
+     • <i>Contrib-gakoa</i>: esan agur iragarkiei eta desblokeatu mugarik gabeko kontuak, errepikatzen diren transakzio-planak eta abar.
+     • <i>Gako hedatua</i>: gozatu hodeiko sinkronizazioaz, babeskopia automatizatuetan eta CSV inportazio sofistikatuekin.
+     • <i>Gako profesionala</i>: eraman zure finantza-kudeaketa hurrengo mailara aurrekontu-tresnekin, ordainagirien eskaneatu eta posta elektroniko bidezko laguntzarekin.
+
+<i>Nire gastuak</i> honako <u>baimenak</u> hauek behar ditu:
+
+     • <i>Egutegia</i>: etorkizuneko eta ohiko transakzioen planak tokiko egutegi berezi batean edo zuk esleitutako beste edozein egutegitan gordetzen dira.
+     • <i>Internet</i>: erabileraren jarraipena anonimoa, hutsegite txostenak, hodeiaren sinkronizazioa.
+     • <i>Kontuak</i>: gailuen sinkronizazioa hodeiko zerbitzuen bidez.
+
+Hartu zure finantzak inoiz ez bezala kontrolatu <i>Nire gastuak</i> erabiliz!

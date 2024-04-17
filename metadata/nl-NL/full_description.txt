@@ -1,0 +1,27 @@
+<i>Mijn uitgaven</i> is uw ultieme hulpmiddel voor moeiteloos bijhouden van uitgaven en financieel beheer, binnen handbereik!
+
+Belangrijkste kenmerken:
+
+     • <b>Moeiteloos onkosten bijhouden</b>: houd uw uitgaven en inkomsten naadloos in de gaten, of u nu op uw smartphone of tablet werkt.
+     • <b>Flexibel accountbeheer</b>: beheer moeiteloos meerdere accounts, inclusief overboekingen tussen verschillende valuta's.
+     • <b>Gestroomlijnde financiële planning</b>: stel eenvoudig plannen in voor terugkerende transacties.
+     • <b>Naadloos gegevensbeheer</b>: exporteer en importeer gegevens eenvoudig met behulp van QIF- en CSV-formaten.
+     • <b>Verbeterde beveiliging</b>: bescherm uw gegevens met wachtwoord- of apparaatvergrendelingsschermbeveiliging.
+     • <b>Aanpasbare ervaring</b>: pas de app aan uw voorkeuren aan met aanpasbare thema's en lettergroottes.
+     • <b>Afstemming van bankafschriften</b>: vergelijk eenvoudig de transactiestatus met uw bankafschriften voor nauwkeurige financiële tracking.
+     • <b>Snelle gegevensinvoer</b>: geniet van gemakkelijke toegang met widgets en snelkoppelingen op het startscherm.
+     • <b>Krachtige gegevensanalyse</b>: filter uw gegevens op basis van verschillende criteria en visualiseer distributie en historische trends met dynamische grafieken.
+
+Ontgrendel premiumfuncties:
+
+     • <i>Bijdragen Sleutel</i>: zeg vaarwel tegen advertenties en ontgrendel onbeperkte accounts, terugkerende transactieplannen en meer.
+     • <i>Uitgebreide Sleutel</i>: Geniet van cloudsynchronisatie, geautomatiseerde back-ups en geavanceerde CSV-imports.
+     • <i>Professionele sleutel</i>: breng uw financieel beheer naar een hoger niveau met budgetteringstools, scannen van bonnen en e-mailondersteuning.
+
+Voor <i>Mijn uitgaven</i> zijn de volgende <u>rechten</u> vereist:
+
+     • <i>Kalender</i>: Plannen voor toekomstige en terugkerende transacties worden opgeslagen in een speciale lokale agenda of in een andere agenda die u toewijst.
+     • <i>Internet</i>: anoniem gebruik volgen, crashrapporten, cloudsynchronisatie.
+     • <i>Accounts</i>: synchronisatie tussen apparaten via cloudservices.
+
+Beheer uw financiën als nooit tevoren met <i>Mijn uitgaven</i>!

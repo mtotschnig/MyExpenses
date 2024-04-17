@@ -1,45 +1,27 @@
-Cheltuielile Mele vă ține evidența cheltuielilor și a veniturilor, direct pe smartphone și pe tabletă.
+<i>Cheltuielile mele</i> este instrumentul tău suprem pentru urmărirea fără efort a cheltuielilor și gestionarea financiară, chiar la îndemâna ta!
 
-- Până la cinci conturi cu <b>transferuri</b> (și între diferite valute)
-- Număr nelimitat de <b>teme</b> și până la trei planuri pentru tranzacții <b>recurrente</b>
-- <b>Export</b> în QIF și CSV. <b>Import</b> din QIF
-- Datele pot fi protejate de <b>parolă</b> sau de dispozitivul <b>ecran de blocare</b>
-- <b>Theme</b> (întunecat și deschis) și <b>font size</b> pot fi personalizate
-- <b>Reconciliere</b>: Comparați cu ușurință starea tranzacțiilor cu extrasele bancare
-- Ecranul de pornire <b>widget</b> și <b>shortcut-uri</b> pentru introducerea rapidă a datelor
+Caracteristici cheie:
 
-Funcțiile premium sunt deblocate prin achiziționarea uneia dintre următoarele chei de licență:
+     • <b>Urmărire fără efort</b>: urmăriți fără probleme cheltuielile și veniturile, indiferent dacă sunteți pe smartphone sau pe tabletă.
+     • <b>Gestionarea flexibilă a conturilor</b>: gestionați fără efort mai multe conturi, inclusiv transferurile între diferite valute.
+     • <b>Planificare financiară simplificată</b>: configurați cu ușurință planuri pentru tranzacțiile recurente.
+     • <b>Gestionarea fără întreruperi a datelor</b>: exportați și importați datele cu ușurință folosind formatele QIF și CSV.
+     • <b>Securitate îmbunătățită</b>: protejați-vă datele cu parolă sau cu securitatea ecranului de blocare a dispozitivului.
+     • <b>Experiență personalizabilă</b>: adaptați aplicația la preferințele dvs. cu teme personalizabile și dimensiuni de font.
+     • <b>Reconciliere extras de cont</b>: comparați cu ușurință starea tranzacției cu extrasele dvs. bancare pentru o urmărire financiară precisă.
+     • <b>Introducere rapidă a datelor</b>: Bucurați-vă de acces convenabil cu widget-urile și comenzile rapide de pe ecranul de pornire.
+     • <b>Analiză puternică a datelor</b>: filtrați datele pe baza diferitelor criterii și vizualizați distribuția și tendințele istorice cu grafice dinamice.
 
-<b>Cheie Contrib</b>
+Deblocați funcții premium:
 
-- <b>Nici o reclamă</b>
-- Număr nelimitat de <b>conturi</b>
-- Număr nelimitat de planuri pentru tranzacții <b>recurrente</b>
-- <b>Graficul de plăcintă</b>: Vizualizați distribuția statistică a tranzacțiilor pe categorii pe diferite perioade (ani, luni, săptămâni, zile)
-- <b>Split transaction</b>: O singură tranzacție poate fi divizată în mai multe părți (categorii și transferuri)
-- <b>Imprimați</b> lista de tranzacții într-un fișier PDF
-- <b>Arhivă atașată</b>: Capturați prin intermediul aparatului foto sau selectați din galerie
+     • <i>Cheie Contrib</i>: spuneți la revedere reclamelor și deblocați conturi nelimitate, planuri de tranzacții recurente și multe altele.
+     • <i>Tasta extinsă</i>: Bucurați-vă de sincronizarea în cloud, backup-uri automate și importuri CSV sofisticate.
+     • <i>Cheie profesională</i>: duceți-vă managementul financiar la nivelul următor cu instrumente de bugetare, scanare chitanțe și asistență prin e-mail.
 
-<b>Cheie Extinse</b>
+<i>Cheltuielile mele</i> necesită următoarele <u>permisiuni</u>:
 
-- Toate caracteristicile Contrib Cheie
-- <b>Sincronizare în cloud</b>: Datele pot fi sincronizate între mai multe dispozitive (Webdav, Dropbox)
-- Copie de rezervă zilnică <b>automată</b> cu încărcare opțională în cloud storage
-- Import sofisticat și personalizabil <b>CSV</b> (aplicații de foi de calcul)
+     • <i>Calendar</i>: planurile pentru tranzacțiile viitoare și recurente sunt stocate fie într-un calendar local special, fie în orice alt calendar pe care îl atribuiți.
+     • <i>Internet</i>: urmărire anonimă a utilizării, rapoarte de blocare, sincronizare în cloud.
+     • <i>Conturi</i>: sincronizare între dispozitive prin servicii cloud.
 
-<b>Cheie profesională</b>
-
-- Toate caracteristicile Cheii Extinse
-- <b>Bugetare</b>: Comparați cheltuielile dvs. cu limitele pe care le-ați stabilit pentru fiecare categorie în parte, zilnic, săptămânal, lunar sau anual.
-- <b>Grafic istoric</b> (Flux de numerar)
-- <b>Scanează chitanțele</b>: Extrageți automat suma, data și beneficiarul plății
-- <b>Interfață utilizator web</b>
-- Număr nelimitat de <b>șabloane și planuri pentru tranzacții divizate</b>
-- <b>Suport prin e-mail</b> cu răspuns garantat în 2 zile lucrătoare
-- Votul de dreapta pe <b>foaia de dezvoltare</b>
-
-<i>Cheltuielile Mele</i> necesită următoarele <u>permisiuni</u>:
-
-- <i>Calendar</i>: Planurile pentru tranzacțiile viitoare și recurente sunt stocate fie într-un calendar local special, fie în orice alt calendar pe care îl atribuiți.
-- <i>Internet</i>: Validarea cheii de licență, Sincronizare în cloud.
-- <i>Conturi</i>: Sincronizare între dispozitive prin intermediul serviciilor cloud.
+Preluați controlul asupra finanțelor dvs. ca niciodată folosind <i>Cheltuielile mele</i>!

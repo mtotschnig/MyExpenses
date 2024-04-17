@@ -34,7 +34,7 @@
     <string name="account_type_liability_plural">Nợ</string>
     <string name="already_defined">%1$s đã được tạo trước đó</string>
     <string name="amount">Số lượng</string>
-    <string name="app_name">My Expenses</string>
+    <string name="app_name">Quản lý chi tiêu</string>
     <string name="backup_success">Đã ghi dữ liệu về cơ sở dữ liệu và tùy biến thành công vào \"%1$s\".</string>
     <string name="category">Phân loại</string>
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Không quảng cáo</string>
@@ -49,8 +49,8 @@
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Có quyền bầu chọn đối với <b>quá trình phát triển ứng dụng</b></string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Biểu đồ thời gian</string>
     <string name="licence_status_free">Miễn phí</string>
-    <string name="contrib_key">Bản Contrib</string>
-    <string name="extended_key">Bản Extended</string>
+    <string name="contrib_key">Khóa đóng góp</string>
+    <string name="extended_key">Khóa mở rộng</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
     <string name="contrib_key_requires">Yêu cầu %1$s.</string>
     <string name="currency">Tiền tệ</string>
@@ -563,7 +563,7 @@
     <string name="licence_removal_information">Nếu bạn không còn cần tính năng trả phí trên thiết bị này, bạn có thể gỡ bỏ khoá bản quyền. Điều này sẽ cho phép bạn đăng ký bản quyền cho một thiết bị khác. Khoá này có thể được dùng để kích hoạt tới %d thiết bị.</string>
     <string name="progress_removing_licence">Đang gỡ bỏ bản quyền</string>
     <string name="licence_removal_success">Khoá bản quyền đã được xoá khỏi thiết bị này.</string>
-    <string name="professional_key">Khoá Cao cấp</string>
+    <string name="professional_key">Chìa khóa chuyên nghiệp</string>
     <string name="n_months">%d tháng</string>
     <string name="eu_vat_info">Đối với những người cư trú tại Liên minh châu Âu, số tiền hiển thị không bao gồm thuế giá trị gia tăng.</string>
     <string name="valid_until">Cho tới %s</string>

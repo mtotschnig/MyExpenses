@@ -1,45 +1,27 @@
-Mes dépenses enregistre vos dépenses et vos revenus, directement sur votre smartphone et sur votre tablette.
+<i>Mes dépenses</i> est votre outil ultime pour un suivi des dépenses et une gestion financière sans effort, à portée de main !
 
-- Jusqu'à cinq comptes avec <b>virements</b> (également entre différentes monnaies)
-- Nombre illimité de <b>modèles</b> et échéancier avec jusqu'à trois échéances pour les opérations <b>périodiques</b>
-- <b>Export</b> vers QIF et CSV. <b>Import</b> à partir de QIF
-- Les données peuvent être protégées par <b>mot de passe</b> ou par <b>l'écran de verrouillage</b> de l'appareil
-- <b>Thème</b> (sombre et clair) et <b>taille de police</b> peuvent être personnalisés
-- <b>Rapprochement</b> : comparez facilement l'état des opérations avec vos relevés bancaires
-- Sur l'écran d'accueil, <b>widget</b> et <b>raccourcis</b> permettent une saisie rapide des données
+Principales caractéristiques:
 
-Les fonctions Premium sont déverrouillées en achetant l'une des clés de licence suivantes :
+     • <b>Suivi des dépenses sans effort</b> : gardez un œil sur vos dépenses et vos revenus en toute transparence, que vous soyez sur votre smartphone ou votre tablette.
+     • <b>Gestion de compte flexible</b> : gérez sans effort plusieurs comptes, y compris les virements entre différentes devises.
+     • <b>Planification financière simplifiée</b> : établissez facilement des plans pour les transactions récurrentes.
+     • <b>Gestion transparente des données</b> : exportez et importez facilement des données à l'aide des formats QIF et CSV.
+     • <b>Sécurité améliorée</b> : protégez vos données avec un mot de passe ou une sécurité de l'écran de verrouillage de l'appareil.
+     • <b>Expérience personnalisable</b> : adaptez l'application à vos préférences avec des thèmes et des tailles de police personnalisables.
+     • <b>Rapprochement des relevés bancaires</b> : comparez facilement le statut des transactions avec vos relevés bancaires pour un suivi financier précis.
+     • <b>Saisie rapide des données</b> : bénéficiez d'un accès pratique grâce aux widgets et aux raccourcis de l'écran d'accueil.
+     • <b>Analyse de données puissante</b> : filtrez vos données en fonction de divers critères et visualisez la distribution et les tendances historiques avec des graphiques dynamiques.
 
-<b>Clé Contrib</b>
+Débloquez les fonctionnalités Premium :
 
-- <b>Sans publicité</b>
-- Nombre illimité de <b>comptes</b>
-- Nombre illimité d'échéances dans l'échéancier pour les opérations <b>périodiques</b>
-- <b>Diagramme circulaire</b> : Visualisez la distribution statistique des opérations par catégorie sur différentes périodes (années, mois, semaines, jours)
-- <b>Opération ventilée</b> : une seule opération peut être divisée en plusieurs parties (catégories et transferts)
-- <b>Imprimer</b> la liste des opérations dans un fichier PDF
-- <b>Image jointe</b> : Capture par caméra ou sélection dans la galerie
+     • <i>Clé Contrib</i> : dites adieu aux publicités et débloquez des comptes illimités, des plans de transactions récurrents et bien plus encore.
+     • <i>Clé étendue</i> : profitez de la synchronisation dans le cloud, des sauvegardes automatisées et des importations CSV sophistiquées.
+     • <i>Clé professionnelle</i> : faites passer votre gestion financière au niveau supérieur grâce aux outils de budgétisation, à la numérisation des reçus et à l'assistance par e-mail.
 
-<b>Clé étendue</b>
+<i>Mes dépenses</i> nécessite les <u>autorisations</u> suivantes :
 
-- Toutes les fonctions de la Clé Contrib
-- <b>Synchronisation dans le cloud</b> : les données peuvent être synchronisées entre plusieurs appareils (Webdav, Dropbox)
-- <b>Sauvegarde automatique</b> quotidienne avec téléchargement facultatif vers le stockage dans le cloud
-- <b>Import CSV</b> sophistiqué et personnalisable (applications tableur)
+     • <i>Calendrier</i> : les plans pour les transactions futures et récurrentes sont stockés soit dans un calendrier local spécial, soit dans tout autre calendrier que vous attribuez.
+     • <i>Internet</i> : Suivi d'utilisation anonyme, Rapports de crash, Synchronisation Cloud.
+     • <i>Comptes</i> : synchronisation entre les appareils via les services cloud.
 
-<b>Clé professionnelle</b>
-
-- Toutes les fonctions de la Clé Étendue
-- <b>Budgétisation</b> : comparez vos dépenses aux limites que vous définissez par catégorie sur une base quotidienne, hebdomadaire, mensuelle ou annuelle.
-- <b>Graphique historique</b> (flux de trésorerie)
-- <b>Numériser les reçus</b> : extraire automatiquement le montant, la date et le bénéficiaire
-- <b>Interface utilisateur Web</b>
-- Nombre illimité <b>de modèles et d'échéances pour les opérations ventilées</b>
-- <b>Assistance par e-mail</b> avec réponse garantie sous 2 jours ouvrables
-- Voter sur la <b>feuille de route pour le développement</b>
-
-<i>Mes dépenses</i> demande les <u>permissions</u> suivantes:
-
-- <i>Agenda</i>: Les échéances d'opérations futures et périodiques seront stockées dans un calendrier local spécial ou dans celui que vous lui préciserez.
-- <i>Internet</i>: Validation de clé de licence, Synchronisation dans le cloud.
-- <i>Comptes</i>: Synchronisation entre les appareils via les services cloud.
+Prenez le contrôle de vos finances comme jamais auparavant en utilisant <i>Mes dépenses</i> !

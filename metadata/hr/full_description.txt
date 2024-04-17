@@ -1,0 +1,27 @@
+<i>Moji troškovi</i> vaš je vrhunski alat za jednostavno praćenje troškova i upravljanje financijama, nadohvat ruke!
+
+Glavne značajke:
+
+     • <b>Praćenje troškova bez napora</b>: Neometano pratite svoje troškove i prihode, bilo da koristite pametni telefon ili tablet.
+     • <b>Fleksibilno upravljanje računom</b>: Upravljajte s višestrukim računima bez napora, uključujući prijenose između različitih valuta.
+     • <b>Pojednostavljeno financijsko planiranje</b>: jednostavno postavite planove za ponavljajuće transakcije.
+     • <b>Besprijekorno upravljanje podacima</b>: Izvoz i uvoz podataka s lakoćom pomoću QIF i CSV formata.
+     • <b>Poboljšana sigurnost</b>: Zaštitite svoje podatke lozinkom ili sigurnošću zaključanog zaslona uređaja.
+     • <b>Prilagodljivo iskustvo</b>: Prilagodite aplikaciju svojim željama pomoću prilagodljivih tema i veličina fonta.
+     • <b>Usklađivanje bankovnih izvoda</b>: Jednostavno usporedite status transakcije sa svojim bankovnim izvodima za točno financijsko praćenje.
+     • <b>Brzi unos podataka</b>: Uživajte u praktičnom pristupu pomoću widgeta i prečaca na početnom zaslonu.
+     • <b>Moćna analiza podataka</b>: filtrirajte svoje podatke na temelju različitih kriterija i vizualizirajte distribuciju i povijesne trendove pomoću dinamičkih grafikona.
+
+Otključajte Premium značajke:
+
+     • <i>Ključ doprinositelja</i>: Recite zbogom oglasima i otključajte neograničen broj računa, planove ponavljajućih transakcija i više.
+     • <i>Prošireni ključ</i>: Uživajte u sinkronizaciji u oblaku, automatiziranim sigurnosnim kopijama i sofisticiranom CSV uvozu.
+     • <i>Profesionalni ključ</i>: Podignite svoje financijsko upravljanje na višu razinu s alatima za proračun, skeniranjem računa i podrškom putem e-pošte.
+
+<i>Moji troškovi</i> zahtijevaju sljedeće <u>dozvole</u>:
+
+     • <i>Kalendar</i>: Planovi za buduće i ponavljajuće transakcije pohranjuju se ili u poseban lokalni kalendar ili u bilo koji drugi kalendar koji dodijelite.
+     • <i>Internet</i>: Anonimno praćenje korištenja, izvješća o rušenju programa, sinkronizacija u oblaku.
+     • <i>Računi</i>: Sinkronizacija između uređaja putem usluga u oblaku.
+
+Preuzmite kontrolu nad svojim financijama kao nikada prije koristeći <i>Moje troškove</i>!

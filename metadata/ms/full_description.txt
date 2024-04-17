@@ -1,45 +1,27 @@
-Perbelanjaan Saya menyimpan jejak perbelanjaan dan pendapatan anda, secara langsung dalam telefon pintar dan tablet anda.
+<i>Perbelanjaan Saya</i> ialah alat muktamad anda untuk penjejakan perbelanjaan dan pengurusan kewangan yang mudah, di hujung jari anda!
 
-- Sehingga lima akaun dengan <b>pemindahan</b> (juga merentasi matawang berbeza)
-- Bilangan <b>templat</b> tanpa had dan sehingga tiga plan untuk transaksi <b>berulang</b>
-- <b>Eksport</b> ke QIF dan CSV. <b>Import</b> dari QIF
-- Data boleh dilindungi dengan <b>kata laluan</b> atau <b>skrin kunci</b> peranti
-- <b>Tema</b> (gelap dan cerah) serta <b>saiz fon</b> boleh disuaikan
-- <b>Penyesuaian</b>: Bandingkan status transaksi secara mudah dengan penyata bank anda
-- <b>Widget</b> skrin rumah dan <b>pintasan</b> untuk masukan data secara pantas
+Ciri-ciri utama:
 
-Fitur Premium berikut boleh dibuka dengan membeli salah satu kunci lesen berikut:
+     • <b>Penjejakan Perbelanjaan yang Mudah</b>: Pantau perbelanjaan dan pendapatan anda dengan lancar, sama ada anda menggunakan telefon pintar atau tablet anda.
+     • <b>Pengurusan Akaun Fleksibel</b>: Urus berbilang akaun dengan mudah, termasuk pemindahan antara mata wang yang berbeza.
+     • <b>Perancangan Kewangan Diperkemas</b>: Sediakan pelan untuk transaksi berulang dengan mudah.
+     • <b>Pengurusan Data Lancar</b>: Eksport dan import data dengan mudah menggunakan format QIF dan CSV.
+     • <b>Keselamatan Dipertingkat</b>: Lindungi data anda dengan kata laluan atau keselamatan skrin kunci peranti.
+     • <b>Pengalaman Boleh Disesuaikan</b>: Sesuaikan apl mengikut keutamaan anda dengan tema dan saiz fon yang boleh disesuaikan.
+     • <b>Penyesuaian Penyata Bank</b>: Bandingkan status transaksi dengan mudah dengan penyata bank anda untuk penjejakan kewangan yang tepat.
+     • <b>Entri Data Pantas</b>: Nikmati akses mudah dengan widget skrin utama dan pintasan.
+     • <b>Analisis Data Berkuasa</b>: Tapis data anda berdasarkan pelbagai kriteria dan visualisasikan pengedaran dan aliran sejarah dengan graf dinamik.
 
-<b>Kunci Contrib</b>
+Buka kunci Ciri Premium:
 
-- <b>Tanpa iklan</b>
-- Bilangan <b>akaun</b> tanpa had
-- Bilangan plan tanpa had untuk transaksi <b>berulang</b>
-- <b>Carta pai</b>: Visualikan agihan berstatistik bagi transaksi per kategori mengikut tempoh berbeza (tahun, bulan, minggu atau hari)
-- <b>Pengasingan transaksi</b>: Satu transaksi boleh diasingkan menjadi berbilang bahagian (kategori dan pemindahan)
-- <b>Cetak</b> senarai transaksi ke dalam fail PDF
-- <b>Lampiran imej</b>: Tangkap gambar melalui kamera atau pilih dari galeri
+     • <i>Kunci Sumbang</i>: Ucapkan selamat tinggal kepada iklan dan buka kunci akaun tanpa had, pelan transaksi berulang dan banyak lagi.
+     • <i>Kunci Lanjutan</i>: Nikmati penyegerakan awan, sandaran automatik dan import CSV yang canggih.
+     • <i>Kunci Profesional</i>: Bawa pengurusan kewangan anda ke peringkat seterusnya dengan alat belanjawan, pengimbasan resit dan sokongan e-mel.
 
-<b>Kunci Lanjutan</b>
+<i>Perbelanjaan Saya</i> memerlukan <u>kebenaran</u> berikut:
 
-- Semua fitur Kunci Contrib
-- <b>Penyegerakan awan</b>: Data boleh disegerakkan dalam kalangan peranti (Webdav, Dropbox)
-- <b>Sandar berautomatik</b> harian dengan muat naik pilihan ke storan awan
-- <b>Import CSV import</b> (spreadsheet applications) yang canggih dan boleh disuaikan.
+     • <i>Kalendar</i>: Pelan untuk urus niaga masa hadapan dan berulang disimpan sama ada dalam kalendar tempatan khas atau dalam mana-mana kalendar lain yang anda tetapkan.
+     • <i>Internet</i>: Penjejakan penggunaan tanpa nama, Laporan ranap sistem, penyegerakan Awan.
+     • <i>Akaun</i>: Penyegerakan merentas peranti melalui perkhidmatan awan.
 
-<b>Kunci profesional</b>
-
-- Semua fitur Kunci Lanjutan
-- <b>Belanjawan</b>: Bandingkan perbelanjaan anda untuk anda hadkan per kategori mengikut harian, mingguan, bulanan atau tahunan.
-- <b>Carta sejarah</b> (Aliran tunai)
-- <b>Imbas resit</b> : Ekstrak jumlah, tarikh dan penerima secara automatik
-- <b>Antara Muka Pengguna Web</b>
-- Bilangan <b>templat dan plan tanpa had untuk transaksi berasingan</b>
-- <b>Sokongan emel</b> dengan maklumbalas dijamin selepas 2 hari bekerja
-- Hak mengundi dalam </b>peta jalan pembangunan</b>
-
-<i>Perbelanjaan Saya</i> memerlukan <u>keizinan</u> berikut:
-
-- <i>Kalendar</i>: Plan untuk transaksi akan datang dan semasa disimpan sama ada dalam kalendar setempat khas atau dalam mana-mana  kalendar lain yang anda umpukkan.
-- <i>Internet</i>: Pengesahan kunci lesen, Penyegerakan awan.
-- <i>Akaun</i>: Penyegerakan merentasi peranti melalui perkhidmatan awan.
+Kawal kewangan anda tidak seperti sebelum ini menggunakan <i>Perbelanjaan Saya</i>!

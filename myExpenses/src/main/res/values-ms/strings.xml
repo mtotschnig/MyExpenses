@@ -49,7 +49,7 @@
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Hak mengundi dalam <b>peta jalan pembangunan</b></string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Carta sejarah</string>
     <string name="licence_status_free">Percuma</string>
-    <string name="contrib_key">Kunci Contrib</string>
+    <string name="contrib_key">Kunci Sumbang</string>
     <string name="extended_key">Kunci Lanjutan</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
     <string name="contrib_key_requires">Perlukan %s.</string>
