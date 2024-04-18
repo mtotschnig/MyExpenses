@@ -37,4 +37,5 @@
     <string name="color_component_title">"Velg farge"</string>
     <string name="backups">"Sikkerhetskopier"</string>
     <string name="filter">"Filter"</string>
+    <string name="tags">"Etiketter"</string>
 </resources>

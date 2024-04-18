@@ -675,7 +675,6 @@
     <string name="budget_filter_all_tags">Όλες οι ετικέτες</string>
     <string name="menu_edit_budget">Επεξεργασία προϋπολογισμού</string>
     <string name="tags_create_or_select">Δημιουργία ή επιλογή ετικετών</string>
-    <string name="tags">Ετικέτες</string>
     <string name="pref_manage_tags_summary">Προσθήκη, επεξεργασία, διαγραφή ετικετών.</string>
     <string name="dialog_title_warning_delete_tag">Διαγραφή ετικέτας;</string>
     <string name="menu_edit_tag">Επεξεργασία ετικέτας</string>

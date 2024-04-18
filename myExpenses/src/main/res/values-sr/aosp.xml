@@ -18,4 +18,5 @@
     <string name="color_component_title">"Одаберите боју"</string>
     <string name="backups">"Резервне копије"</string>
     <string name="filter">"Филтер"</string>
+    <string name="tags">"Ознаке"</string>
 </resources>

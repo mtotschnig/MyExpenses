@@ -28,4 +28,5 @@
     <string name="color_component_title">"रङ्ग छनौट गर्नुहोस्"</string>
     <string name="backups">"ब्याकअपहरू"</string>
     <string name="filter">"फिल्टर"</string>
+    <string name="tags">"ट्यागहरू"</string>
 </resources>

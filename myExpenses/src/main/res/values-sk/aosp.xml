@@ -37,4 +37,5 @@
     <string name="color_component_title">"Vyberte farbu"</string>
     <string name="backups">"Zálohy"</string>
     <string name="filter">"Filtrujte"</string>
+    <string name="tags">"Značky"</string>
 </resources>

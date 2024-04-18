@@ -37,4 +37,5 @@
     <string name="color_component_title">"Valitse väri"</string>
     <string name="backups">"Varmuuskopiot"</string>
     <string name="filter">"Suodatin"</string>
+    <string name="tags">"Tunnisteet"</string>
 </resources>

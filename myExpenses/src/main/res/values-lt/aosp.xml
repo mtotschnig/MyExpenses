@@ -30,4 +30,5 @@
     <string name="color_component_title">"Pasirinkite spalvą"</string>
     <string name="backups">"Atsarginės kopijos"</string>
     <string name="filter">"Filtruoti"</string>
+    <string name="tags">"Žymos"</string>
 </resources>

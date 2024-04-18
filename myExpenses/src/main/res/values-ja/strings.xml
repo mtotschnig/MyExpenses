@@ -763,7 +763,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">複製された取引は元の日付になります</string>
     <string name="tags_create_or_select">タグの作成または選択</string>
-    <string name="tags">タグ</string>
     <string name="pref_manage_tags_summary">タグの追加、編集、削除。</string>
     <string name="dialog_title_warning_delete_tag">タグを削除しますか?</string>
     <string name="menu_edit_tag">タグを編集</string>

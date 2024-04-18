@@ -96,4 +96,5 @@
     <string name="color_component_title">"בחירת צבע"</string>
     <string name="backups">"גיבויים"</string>
     <string name="filter">"סינון"</string>
+    <string name="tags">"תגים"</string>
 </resources>

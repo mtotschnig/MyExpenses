@@ -703,7 +703,6 @@
     <string name="warning_delete_budget">Budgettet \"%1$s\" slettes.</string>
     <string name="dialog_multi_tag_clear">Alle etiketter fjernes fra de valgte transaktioner.</string>
     <string name="scan_result_no_payee">Ingen modtager fundet</string>
-    <string name="tags">Etiketter</string>
     <string name="menu_edit_tag">Redigér etiket</string>
     <string name="pref_planner_manual_time_title">Tidspunkt for manuelt anvendt planlagt transaktion</string>
     <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Tryk og hold på den flydende handlingsknap for direkte at åbne formularen for overførsler, opdelte transaktioner eller indkomst.</string>

@@ -30,4 +30,5 @@
     <string name="color_component_title">"აირჩიეთ ფერი"</string>
     <string name="backups">"სამარქაფო ასლები"</string>
     <string name="filter">"ფილტრი"</string>
+    <string name="tags">"თეგები"</string>
 </resources>

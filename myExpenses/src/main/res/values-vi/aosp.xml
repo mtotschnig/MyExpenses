@@ -100,4 +100,5 @@
     <string name="color_component_title">"Chọn màu"</string>
     <string name="backups">"Bản sao lưu"</string>
     <string name="filter">"Bộ lọc"</string>
+    <string name="tags">"Thẻ"</string>
 </resources>

@@ -86,4 +86,5 @@
     <string name="color_component_title">"رنگ منتخب کریں"</string>
     <string name="backups">"محفوظ نقل (متبادل)"</string>
     <string name="filter">"فلٹر"</string>
+    <string name="tags">ٹیگز</string>
 </resources>

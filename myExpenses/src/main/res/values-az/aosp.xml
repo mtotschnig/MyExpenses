@@ -25,4 +25,5 @@
     <string name="no_data">"Məlumat yoxdur"</string>
     <string name="color_component_title">"Rəng seçin"</string>
     <string name="filter">"Filtr"</string>
+    <string name="tags">"Teqlər"</string>
 </resources>

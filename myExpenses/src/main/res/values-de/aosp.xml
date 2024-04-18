@@ -104,4 +104,5 @@
     <string name="color_component_title">"Farbe wählen"</string>
     <string name="backups">"Sicherungskopien"</string>
     <string name="filter">"Filter"</string>
+    <string name="tags">"Schlagwörter"</string>
 </resources>

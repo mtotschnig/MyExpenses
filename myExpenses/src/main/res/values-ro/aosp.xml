@@ -97,4 +97,5 @@
     <string name="color_component_title">"Alege culoarea"</string>
     <string name="backups">"Copii de siguranță"</string>
     <string name="filter">"Filtru"</string>
+    <string name="tags">"Etichete"</string>
 </resources>

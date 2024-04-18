@@ -37,4 +37,5 @@
     <string name="color_component_title">"เลือกสี"</string>
     <string name="backups">"สำรอง"</string>
     <string name="filter">"ตัวกรอง"</string>
+    <string name="tags">"แท็ก"</string>
 </resources>

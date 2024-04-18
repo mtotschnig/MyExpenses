@@ -105,4 +105,5 @@
     <string name="color_component_title">"Виберіть колір"</string>
     <string name="backups">"Резервні копії"</string>
     <string name="filter">"Фільтр"</string>
+    <string name="tags">Мітки</string>
 </resources>

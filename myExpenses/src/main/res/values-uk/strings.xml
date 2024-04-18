@@ -830,7 +830,6 @@
     <string name="budget_deleted">Бюджет видалено</string>
     <string name="menu_edit_tag">Редагувати мітку</string>
     <string name="dialog_title_warning_delete_tag">Видалити мітку?</string>
-    <string name="tags">Мітки</string>
     <string name="budget_filter_all_parties">Всі сторони</string>
     <string name="scan_result_no_amount">Сума не знайдена</string>
     <string name="pref_feature_uninstall_title">Запит на видалення функцій і мов</string>

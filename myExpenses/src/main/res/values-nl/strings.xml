@@ -787,7 +787,6 @@
     <string name="remapping_result">De geselecteerde transacties zijn opnieuw toegewezen.</string>
     <string name="remap_account">Alle geselecteerde transacties worden toegewezen aan rekening %s.</string>
     <string name="pref_manage_tags_summary">Tags toevoegen, bewerken en verwijderen.</string>
-    <string name="tags">Tags</string>
     <string name="dialog_title_warning_delete_tag">Tag verwijderen\?</string>
     <string name="menu_edit_tag">Tag bewerken</string>
     <string name="pref_planner_manual_time_title">Tijd voor handmatig toegepaste geplande transactie</string>

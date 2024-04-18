@@ -768,7 +768,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">複製的交易保留原本日期</string>
     <string name="tags_create_or_select">新建或選擇標籤</string>
-    <string name="tags">標籤</string>
     <string name="pref_manage_tags_summary">新增、編輯或刪除標籤。</string>
     <string name="dialog_title_warning_delete_tag">確定刪除標籤？</string>
     <string name="menu_edit_tag">編輯標籤</string>

@@ -25,4 +25,5 @@
     <string name="no_data">"Ni podatkov"</string>
     <string name="color_component_title">"Izbira barve"</string>
     <string name="filter">"Filtriranje"</string>
+    <string name="tags">"Oznake"</string>
 </resources>
