@@ -36,7 +36,6 @@
     <string name="cab_RoadmapVoteActivity_learn_more_help_text">Learn more about the ticket by reading its page on Github.</string>
     <string name="cab_RoadmapVoteActivity_set_weight_help_text">Select the amount of points that corresponds to how relevant the issue is for you.</string>
     <string name="accounts">@string/pref_manage_accounts_title</string>
-    <string name="filter">@string/filter</string>
     <string name="help_ManageTags_manage_title">@string/tags</string>
     <string name="help_ManageTags_select_mapping_title">@string/tags_create_or_select</string>
     <string name="help_ManageTags_select_filter_title">@string/search_tag</string>

@@ -1028,7 +1028,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case BANKS -> {
         id = MoreDbUtilsKt.insert(db, TABLE_BANKS, values);
-        newUri = DEBTS_URI + "/" + id;
+        newUri = BANKS_URI + "/" + id;
       }
       // Currently not needed, until we implement Custom attributes
 /*      case ATTRIBUTES -> {
