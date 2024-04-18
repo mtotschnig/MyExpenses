@@ -750,7 +750,6 @@
     <string name="budget_filter_all_states">Всички държави</string>
     <string name="budget_filter_all_tags">Всички маркери</string>
     <string name="budget_filter_all_accounts">Всички сметки</string>
-    <string name="budget_form_label_filter">Филтър</string>
     <string name="dialog_title_warning_delete_budget">Да се изтрие ли бюджетът?</string>
     <string name="warning_delete_budget">Бюджетът „%1$s“ ще бъде изтрит.</string>
     <string name="menu_edit_budget">Редактиране на бюджет</string>

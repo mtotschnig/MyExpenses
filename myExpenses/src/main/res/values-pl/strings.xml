@@ -973,7 +973,6 @@
     <string name="hint_auto_fill">Czy dane powinny być wypełniane automatycznie od ostatniej transakcji dla tego samego odbiorcy/płatnika? Zawsze możesz zmienić to zachowanie w ustawieniach.</string>
     <string name="feature_downloaded">Funkcja %s została zainstalowana.</string>
     <string name="select_all_list_too_large">Polecenie %s jest niedostępne, ponieważ lista jest tylko częściowo załadowana. Użyj funkcji wyszukiwania, aby zmniejszyć rozmiar listy.</string>
-    <string name="budget_form_label_filter">Filtr</string>
     <string name="button_scan">Skanowanie</string>
     <string name="pref_exchange_rate_provider_title">Dostawca kursów wymiany walut</string>
     <string name="content_description_remove_icon">Usuń ikonę</string>

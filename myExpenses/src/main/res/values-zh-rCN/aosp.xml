@@ -101,4 +101,5 @@
     <string name="no_data">"无数据"</string>
     <string name="color_component_title">"选择颜色"</string>
     <string name="backups">"备份"</string>
+    <string name="filter">"过滤器"</string>
 </resources>

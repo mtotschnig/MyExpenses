@@ -534,7 +534,6 @@
     <string name="budget_filter_all_states">تمام حیثیت</string>
     <string name="budget_filter_all_tags">تمام ٹیگز</string>
     <string name="budget_filter_all_accounts">تمام اکاؤنٹس</string>
-    <string name="budget_form_label_filter">فلٹر</string>
     <string name="dialog_title_warning_delete_budget">بجٹ حذف کریں؟</string>
     <string name="warning_delete_budget">بجٹ \"%1$s\" حذف کر دیا جائے گا.</string>
     <string name="menu_edit_budget">بجٹ میں ترمیم کریں</string>

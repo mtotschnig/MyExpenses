@@ -105,4 +105,5 @@
     <string name="no_data">"Нет данных."</string>
     <string name="color_component_title">"Выберите цвет"</string>
     <string name="backups">"Резервные копии"</string>
+    <string name="filter">"Фильтр"</string>
 </resources>

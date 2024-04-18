@@ -743,7 +743,6 @@
     <string name="budget_filter_all_states">所有的狀態</string>
     <string name="budget_filter_all_tags">所有的標籤</string>
     <string name="budget_filter_all_accounts">所有帳戶</string>
-    <string name="budget_form_label_filter">篩選條件</string>
     <string name="dialog_title_warning_delete_budget">刪除預算？</string>
     <string name="warning_delete_budget">預算“ %1$s”將被刪除。</string>
     <string name="menu_edit_budget">編輯預算</string>

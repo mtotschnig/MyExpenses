@@ -750,7 +750,6 @@
     <string name="budget_filter_all_states">அனைத்து நிலைகள்</string>
     <string name="budget_filter_all_tags">அனைத்து குறிச்சொற்களும்</string>
     <string name="budget_filter_all_accounts">அனைத்து கணக்குகளும்</string>
-    <string name="budget_form_label_filter">வடிப்பான்</string>
     <string name="dialog_title_warning_delete_budget">வரவு செலவுத் திட்டத்தை நீக்கவா?</string>
     <string name="warning_delete_budget">வரவு செலவுத் திட்டம் \"%1$s\" நீக்கப்படும்.</string>
     <string name="menu_edit_budget">வரவு செலவுத் திட்டத்தை தொகு</string>

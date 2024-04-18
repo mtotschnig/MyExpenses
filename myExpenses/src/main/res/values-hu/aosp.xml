@@ -105,4 +105,5 @@
     <string name="no_data">"Nincs adat"</string>
     <string name="color_component_title">"Színválasztás"</string>
     <string name="backups">"Biztonsági mentések"</string>
+    <string name="filter">"Szűrő"</string>
 </resources>

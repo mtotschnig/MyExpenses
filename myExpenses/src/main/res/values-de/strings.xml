@@ -750,7 +750,6 @@
     <string name="budget_filter_all_states">Alle Status</string>
     <string name="budget_filter_all_tags">Alle Schlagwörter</string>
     <string name="budget_filter_all_accounts">Alle Konten</string>
-    <string name="budget_form_label_filter">Filter</string>
     <string name="dialog_title_warning_delete_budget">Budget löschen?</string>
     <string name="warning_delete_budget">Budget „%1$s“ wird gelöscht.</string>
     <string name="menu_edit_budget">Budget bearbeiten</string>

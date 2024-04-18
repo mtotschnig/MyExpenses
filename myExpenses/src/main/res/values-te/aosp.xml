@@ -88,4 +88,5 @@
     <string name="no_data">"డేటా లేదు"</string>
     <string name="color_component_title">"రంగును ఎంచుకోండి"</string>
     <string name="backups">"దాచిపెట్టు"</string>
+    <string name="filter">"ఫిల్టర్ చేయి"</string>
 </resources>

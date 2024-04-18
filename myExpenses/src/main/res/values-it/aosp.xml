@@ -103,4 +103,5 @@
     <string name="no_data">"Nessun dato"</string>
     <string name="color_component_title">"Scegli colore"</string>
     <string name="backups">"Copie di sicurezza"</string>
+    <string name="filter">"Filtra"</string>
 </resources>

@@ -10,4 +10,5 @@
     <string name="frequency">"Frequency"</string>
     <string name="no_data">"No data"</string>
     <string name="color_component_title">"Choose colour"</string>
+    <string name="filter">"Filter"</string>
 </resources>

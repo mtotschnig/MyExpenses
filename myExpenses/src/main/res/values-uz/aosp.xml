@@ -24,4 +24,5 @@
     <string name="no_data">"Hech narsa topilmadi"</string>
     <string name="color_component_title">"Rang tanlang"</string>
     <string name="backups">"Zahira nusxalar"</string>
+    <string name="filter">"Saralash"</string>
 </resources>

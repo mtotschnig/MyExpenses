@@ -101,4 +101,5 @@
     <string name="no_data">"データがありません"</string>
     <string name="color_component_title">"色の選択"</string>
     <string name="backups">"バックアップ"</string>
+    <string name="filter">"フィルタ"</string>
 </resources>

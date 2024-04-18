@@ -85,4 +85,5 @@
     <string name="no_data">"کوئی ڈیٹا نہیں ہے"</string>
     <string name="color_component_title">"رنگ منتخب کریں"</string>
     <string name="backups">"محفوظ نقل (متبادل)"</string>
+    <string name="filter">"فلٹر"</string>
 </resources>

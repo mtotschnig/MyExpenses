@@ -182,4 +182,6 @@
     <string name="color_component_title">"Choose color"</string>
     <!-- LibreOffice cui/messages.po shiKT -->
     <string name="backups">"Backups"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Launcher3$ grep -ri "\"developer_options_filter_hint\"" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/developer_options_filter_hint/filter/' | aosp_helper -->
+    <string name="filter">Filter</string>
 </resources>

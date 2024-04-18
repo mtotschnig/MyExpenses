@@ -106,4 +106,5 @@
     <string name="no_data">"Žádná data"</string>
     <string name="color_component_title">"Vybrat barvu"</string>
     <string name="backups">"Zálohy"</string>
+    <string name="filter">"Filtr"</string>
 </resources>

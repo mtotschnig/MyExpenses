@@ -758,7 +758,6 @@
     <string name="budget_filter_all_states">Todos los estados</string>
     <string name="budget_filter_all_tags">Todas las etiquetas</string>
     <string name="budget_filter_all_accounts">Todas las cuentas</string>
-    <string name="budget_form_label_filter">Filtro</string>
     <string name="dialog_title_warning_delete_budget">¿Borrar presupuesto?</string>
     <string name="warning_delete_budget">El presupuesto «%1$s» será eliminado.</string>
     <string name="menu_edit_budget">Editar presupuesto</string>

@@ -34,4 +34,5 @@
     <string name="no_data">"Geen data nie"</string>
     <string name="color_component_title">"Kies kleur"</string>
     <string name="backups">"Rugsteunkopieë"</string>
+    <string name="filter">"Filter"</string>
 </resources>

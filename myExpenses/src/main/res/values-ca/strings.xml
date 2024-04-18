@@ -724,7 +724,6 @@
     <string name="remap_category">S\'assignaran a la categoria %s totes les transaccions seleccionades.</string>
     <string name="dialog_title_confirm_remap">Canviar assignació (%s) \?</string>
     <string name="menu_budget_allocated_only">Mostra només categories amb assignació</string>
-    <string name="budget_form_label_filter">Filtre</string>
     <string name="remap_payee">Totes les transaccions seleccionades s\'assginaran al pagador/beneficiari %s.</string>
     <string name="remap_account">Totes les transaccions seleccionades s\'assignaran al compte %s.</string>
     <string name="budget_filter_all_categories">Totes les categories</string>

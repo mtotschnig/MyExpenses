@@ -100,4 +100,5 @@
     <string name="no_data">"沒有資料"</string>
     <string name="color_component_title">"選擇顏色"</string>
     <string name="backups">"備份"</string>
+    <string name="filter">"篩選器"</string>
 </resources>

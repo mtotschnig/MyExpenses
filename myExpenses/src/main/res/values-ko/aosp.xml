@@ -95,4 +95,5 @@
     <string name="no_data">"데이터 없음"</string>
     <string name="color_component_title">"색상 선택"</string>
     <string name="backups">"백업"</string>
+    <string name="filter">"필터"</string>
 </resources>

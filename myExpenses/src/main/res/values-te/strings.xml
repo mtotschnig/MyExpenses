@@ -735,7 +735,6 @@
     <string name="menu_edit_budget">బడ్జెట్‌ను సవరించండి</string>
     <string name="warning_delete_budget">బడ్జెట్ \"%1$s\" తొలగించబడుతుంది.</string>
     <string name="dialog_title_warning_delete_budget">బడ్జెట్‌ను తొలగించాలా\?</string>
-    <string name="budget_form_label_filter">వడియగట్టు</string>
     <string name="budget_filter_all_accounts">అన్ని ఖాతాలు</string>
     <string name="budget_filter_all_tags">అన్ని ట్యాగ్‌లు</string>
     <string name="budget_filter_all_states">అన్ని స్థితి</string>

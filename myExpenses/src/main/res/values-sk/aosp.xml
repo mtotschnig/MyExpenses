@@ -36,4 +36,5 @@
     <string name="no_data">"Žiadne údaje"</string>
     <string name="color_component_title">"Vyberte farbu"</string>
     <string name="backups">"Zálohy"</string>
+    <string name="filter">"Filtrujte"</string>
 </resources>

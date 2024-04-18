@@ -809,7 +809,6 @@
     <string name="licence_key">Licentiesleutel</string>
     <string name="dialog_title_new_currency">Nieuwe munteenheid</string>
     <string name="currency_code_already_definded">Valutacode is al gedefinieerd.</string>
-    <string name="budget_form_label_filter">Filteren</string>
     <string name="remap_category">Alle geselecteerde transacties worden toegewezen aan categorie %s.</string>
     <string name="plan_automatic_without_amount_hint">Plan zonder bedrag mag niet worden opgeslagen met automatische planuitvoering</string>
     <string name="menu_save_and_new_content_description">Sla de gegevens op, laat het formulier openstaan voor het aanmaken van een nieuwe transactie met dezelfde gegevens.</string>

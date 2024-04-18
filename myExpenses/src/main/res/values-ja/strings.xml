@@ -738,7 +738,6 @@
     <string name="budget_filter_all_methods">すべての方法</string>
     <string name="budget_filter_all_states">すべての状態</string>
     <string name="budget_filter_all_tags">すべてのタグ</string>
-    <string name="budget_form_label_filter">フィルター</string>
     <string name="dialog_title_warning_delete_budget">予算を削除しますか?</string>
     <string name="warning_delete_budget">予算 \"%1$s\" が削除されます。</string>
     <string name="menu_edit_budget">予算を編集</string>

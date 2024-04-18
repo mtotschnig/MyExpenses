@@ -100,4 +100,5 @@
     <string name="no_data">"Geen gegevens"</string>
     <string name="color_component_title">"Kleur kiezen"</string>
     <string name="backups">"Reservekopieën"</string>
+    <string name="filter">"Filteren"</string>
 </resources>

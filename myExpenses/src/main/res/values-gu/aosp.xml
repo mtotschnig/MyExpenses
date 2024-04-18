@@ -26,4 +26,5 @@
     <string name="no_data">"કોઈ ડેટા નથી"</string>
     <string name="color_component_title">"રંગ પસંદ કરો"</string>
     <string name="backups">"બૅકઅપ"</string>
+    <string name="filter">"ફિલ્ટર કરો"</string>
 </resources>

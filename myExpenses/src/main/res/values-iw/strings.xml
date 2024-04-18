@@ -760,7 +760,6 @@
     <string name="budget_filter_all_states">כל המדינות</string>
     <string name="budget_filter_all_tags">כל התגים</string>
     <string name="budget_filter_all_accounts">כל החשבונות</string>
-    <string name="budget_form_label_filter">מסנן</string>
     <string name="dialog_title_warning_delete_budget">האם למחוק חשבון?</string>
     <string name="warning_delete_budget">התקציב „%1$s” יימחק.</string>
     <string name="menu_edit_budget">עריכת תקציב</string>

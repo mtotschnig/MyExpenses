@@ -746,7 +746,6 @@
     <string name="budget_filter_all_methods">ಎಲ್ಲಾ ವಿಧಾನಗಳು</string>
     <string name="budget_filter_all_states">ಎಲ್ಲಾ ಸ್ಥಿತಿ</string>
     <string name="budget_filter_all_tags">ಎಲ್ಲಾ ಟ್ಯಾಗ್‌ಗಳು</string>
-    <string name="budget_form_label_filter">ಫಿಲ್ಟರ್ ಮಾಡಿ</string>
     <string name="dialog_title_warning_delete_budget">ಬಜೆಟ್ ಅಳಿಸುವುದೇ?</string>
     <string name="warning_delete_budget">ಬಜೆಟ್ \"%1$s\" ಅನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
     <string name="menu_edit_budget">ಬಜೆಟ್ ಸಂಪಾದಿಸಿ</string>

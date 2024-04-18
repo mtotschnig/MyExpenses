@@ -750,7 +750,6 @@
     <string name="budget_filter_all_states">Tüm durumlar</string>
     <string name="budget_filter_all_tags">Tüm etiketler</string>
     <string name="budget_filter_all_accounts">Tüm hesaplar</string>
-    <string name="budget_form_label_filter">Filtre</string>
     <string name="dialog_title_warning_delete_budget">Bütçe silinsin mi?</string>
     <string name="warning_delete_budget">\"%1$s\" bütçesi silinecek.</string>
     <string name="menu_edit_budget">Bütçeyi düzenle</string>

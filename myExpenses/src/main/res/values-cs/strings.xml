@@ -766,7 +766,6 @@
     <string name="budget_filter_all_states">Status vše</string>
     <string name="budget_filter_all_tags">Všechny štítky</string>
     <string name="budget_filter_all_accounts">Všechny účty</string>
-    <string name="budget_form_label_filter">Filtr</string>
     <string name="dialog_title_warning_delete_budget">Chcete odstranit rozpočet?</string>
     <string name="warning_delete_budget">Rozpočet „%1$s“ bude smazán.</string>
     <string name="menu_edit_budget">Upravit rozpočet</string>

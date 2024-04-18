@@ -640,7 +640,6 @@
     <string name="menu_edit_budget">Editar o orçamento</string>
     <string name="warning_delete_budget">O orçamento \"%1$s\" será excluído.</string>
     <string name="dialog_title_warning_delete_budget">Excluir o orçamento\?</string>
-    <string name="budget_form_label_filter">Filtrar</string>
     <string name="budget_filter_all_accounts">Todas as contas</string>
     <string name="budget_filter_all_tags">Todas as etiquetas</string>
     <string name="budget_filter_all_states">Todos os status</string>

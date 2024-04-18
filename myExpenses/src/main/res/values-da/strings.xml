@@ -897,7 +897,6 @@
     <string name="merge_categories_dialog_title">Flet kategorier</string>
     <string name="subcategories_merged_recursively">Hvis nogen af de flettede kategorier har underkategorier med samme etiket, vil de flettes først, rekursivt.</string>
     <string name="merge_categories_prompt">Vælg den kategori, du vil beholde</string>
-    <string name="budget_form_label_filter">Filter</string>
     <string name="pref_purge_backup_keep_title">Maks. antal seneste sikkerhedskopifiler, der skal beholdes</string>
     <string name="pref_debug_logging_share_summary">Del logfiler</string>
     <string name="pref_csv_export_split_amount_summary">Brug separate kolonner til indkomst og udgifter</string>

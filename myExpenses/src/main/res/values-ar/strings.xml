@@ -781,7 +781,6 @@
     <string name="budget_filter_all_states">الحالة الكلية</string>
     <string name="budget_filter_all_tags">كل العلامات</string>
     <string name="budget_filter_all_accounts">كافة الحسابات</string>
-    <string name="budget_form_label_filter">فلتر</string>
     <string name="dialog_title_warning_delete_budget">هل تودّ حذف الميزانية؟</string>
     <string name="warning_delete_budget">سيتم حذف الميزانية \"%1$s\".</string>
     <string name="menu_edit_budget">تحرير الميزانية</string>

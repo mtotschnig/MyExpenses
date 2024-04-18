@@ -22,4 +22,5 @@
     <string name="frequency">"Frequency"</string>
     <string name="no_data">"Walang data"</string>
     <string name="color_component_title">"Pumili ng kulay"</string>
+    <string name="filter">"Filter"</string>
 </resources>

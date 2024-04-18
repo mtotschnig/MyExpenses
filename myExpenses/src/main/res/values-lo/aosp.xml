@@ -26,4 +26,5 @@
     <string name="no_data">"ບໍ່ມີຂໍ້ມູນ"</string>
     <string name="color_component_title">"ເລືອກ​ສີ"</string>
     <string name="backups">"ສຳຮອງ"</string>
+    <string name="filter">"ກັ່ນຕອງ"</string>
 </resources>

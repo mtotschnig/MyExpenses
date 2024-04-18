@@ -28,4 +28,5 @@
     <string name="no_data">"Nav datu"</string>
     <string name="color_component_title">"Krāsas izvēle"</string>
     <string name="backups">"Rezerves kopijas"</string>
+    <string name="filter">"Filtrs"</string>
 </resources>

@@ -763,7 +763,6 @@
     <string name="budget_filter_all_methods">Все методы</string>
     <string name="budget_filter_all_states">Все статусы</string>
     <string name="budget_filter_all_tags">Все теги</string>
-    <string name="budget_form_label_filter">Фильтр</string>
     <string name="dialog_title_warning_delete_budget">Удалить бюджет?</string>
     <string name="warning_delete_budget">Бюджет \"%1$s\" будет удален.</string>
     <string name="menu_edit_budget">Изменить бюджет</string>

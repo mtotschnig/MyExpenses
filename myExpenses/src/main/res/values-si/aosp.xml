@@ -89,4 +89,5 @@
     <string name="no_data">"දත්ත නැත"</string>
     <string name="color_component_title">"වර්ණය තෝරා ගන්න"</string>
     <string name="backups">"උපස්ථ කිරීම්"</string>
+    <string name="filter">"පෙරහන"</string>
 </resources>

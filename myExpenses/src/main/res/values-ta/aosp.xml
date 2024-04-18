@@ -94,4 +94,5 @@
     <string name="no_data">"தரவு எதுவும் இல்லை"</string>
     <string name="color_component_title">"தீம் வண்ணத்தை தேர்ந்தெடுத்தல்"</string>
     <string name="backups">"காப்புநகல்கள்"</string>
+    <string name="filter">"வடிப்பான்"</string>
 </resources>

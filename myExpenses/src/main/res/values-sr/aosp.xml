@@ -17,4 +17,5 @@
     <string name="no_data">"Нема података"</string>
     <string name="color_component_title">"Одаберите боју"</string>
     <string name="backups">"Резервне копије"</string>
+    <string name="filter">"Филтер"</string>
 </resources>

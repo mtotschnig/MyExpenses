@@ -748,7 +748,6 @@
     </plurals>
     <string name="icon">Значок</string>
     <string name="budget_filter_all_accounts">Усі рахунки</string>
-    <string name="budget_form_label_filter">Фільтр</string>
     <string name="app_restart_required">Нова конфігурація вимагає перезапуску програми, щоб вступити в силу.</string>
     <string name="menu_save_and_new_content_description">Збережіть дані, залиште форму відкритою для створення нової транзакції з тими самими даними.</string>
     <string name="pref_ocr_engine_title">Двигун для розпізнавання тексту</string>

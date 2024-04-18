@@ -34,4 +34,5 @@
     <string name="no_data">"Տվյալներ չկան"</string>
     <string name="color_component_title">"Ընտրեք գույնը"</string>
     <string name="backups">"Պահուստային պատճեններ"</string>
+    <string name="filter">"Զտեք"</string>
 </resources>

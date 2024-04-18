@@ -95,4 +95,5 @@
     <string name="no_data">"אין נתונים"</string>
     <string name="color_component_title">"בחירת צבע"</string>
     <string name="backups">"גיבויים"</string>
+    <string name="filter">"סינון"</string>
 </resources>
