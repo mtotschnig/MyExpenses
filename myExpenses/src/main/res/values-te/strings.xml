@@ -683,7 +683,6 @@
     <string name="advance_exexcution_in_days">ముందస్తు అమలు (రోజుల్లో)</string>
     <string name="discover_feature_fab_long_press">బదిలీలు, విభజన లావాదేవీలు లేదా ఆదాయం కోసం ఫారమ్‌ను నేరుగా తెరవడానికి ఫ్లోటింగ్ యాక్షన్ బటన్‌ని నొక్కి పట్టుకోండి.</string>
     <string name="select_package">దయచేసి లైసెన్స్ ప్యాకేజీని ఎంచుకోండి.</string>
-    <string name="pref_feature_uninstall_languages_title">భాషలు</string>
     <string name="pref_feature_uninstall_summary">ప్లే స్టోర్ చివరికి ఆ మాడ్యూళ్ళను నేపథ్యంలో తొలగించడానికి ప్రయత్నిస్తుంది.</string>
     <string name="pref_feature_uninstall_title">లక్షణాలు మరియు భాషల తొలగింపును అభ్యర్థించండి</string>
     <string name="scan_result_no_payee">చెల్లింపుదారుడు కనుగొనబడలేదు</string>

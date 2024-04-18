@@ -37,4 +37,5 @@
     <string name="color_component_title">"Escoller cor"</string>
     <string name="backups">"Copias de seguranza"</string>
     <string name="filter">"Filtra"</string>
+    <string name="languages">"Idiomas"</string>
 </resources>

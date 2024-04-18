@@ -24,4 +24,5 @@
     <string name="color_component_title">"Odaberite boju"</string>
     <string name="backups">"Sigurnosne kopije"</string>
     <string name="filter">"Filtrirajte"</string>
+    <string name="languages">"Jezici"</string>
 </resources>

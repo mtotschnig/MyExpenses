@@ -790,7 +790,6 @@
     <string name="scan_result_multiple_candidates_dialog_title">Flere kandidater fundet. Vælg venligst:</string>
     <string name="scan_result_no_date">Ingen dato fundet</string>
     <string name="pref_feature_uninstall_summary">Play Butik forsøger med tiden at fjerne disse moduler i baggrunden.</string>
-    <string name="pref_feature_uninstall_languages_title">Sprog</string>
     <string name="advance_exexcution_in_days">Udførsel forud (i dage)</string>
     <string name="warning_balance_account_delete">Hvis du fortsætter, slettes alle afstemte transaktioner for denne konto fra databasen, og du ville ikke kunne gendanne dem.</string>
     <string name="confirmation_load_template_discard_data">Eksisterende formulardata kasseres.</string>

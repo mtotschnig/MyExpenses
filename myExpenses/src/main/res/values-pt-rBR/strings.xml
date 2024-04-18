@@ -833,7 +833,6 @@
     <string name="scan_result_no_payee">Não foi encontrado nenhum beneficiário</string>
     <string name="pref_feature_uninstall_title">Solicitar desinstalação de recursos e idiomas</string>
     <string name="pref_feature_uninstall_summary">A Play Store, eventualmente, tenta remover esses módulos em segundo plano.</string>
-    <string name="pref_feature_uninstall_languages_title">idiomas</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Por favor, selecione uma licença.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->

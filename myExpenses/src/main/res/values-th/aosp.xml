@@ -38,4 +38,5 @@
     <string name="backups">"สำรอง"</string>
     <string name="filter">"ตัวกรอง"</string>
     <string name="tags">"แท็ก"</string>
+    <string name="languages">"ภาษา"</string>
 </resources>

@@ -39,4 +39,5 @@
     <string name="backups">"Varukoopiad"</string>
     <string name="filter">"Filter"</string>
     <string name="tags">"Märgendid"</string>
+    <string name="languages">"Keeled"</string>
 </resources>

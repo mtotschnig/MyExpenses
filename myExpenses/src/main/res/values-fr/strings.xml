@@ -833,7 +833,6 @@
     <string name="scan_result_no_payee">Aucun tiers trouvé</string>
     <string name="pref_feature_uninstall_title">Demander la désinstallation des fonctionnalités et des langues</string>
     <string name="pref_feature_uninstall_summary">Play Store essaie finalement de supprimer ces modules en arrière-plan.</string>
-    <string name="pref_feature_uninstall_languages_title">Langues</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Veuillez sélectionner un package de licence.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->

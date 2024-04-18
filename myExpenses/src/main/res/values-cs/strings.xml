@@ -842,7 +842,6 @@
     <string name="scan_result_no_payee">Příjemce platby nenalezen</string>
     <string name="pref_feature_uninstall_title">Požádat o odinstalování funkcí a jazyků</string>
     <string name="pref_feature_uninstall_summary">Obchod Play se nakonec pokusí tyto moduly odebrat na pozadí.</string>
-    <string name="pref_feature_uninstall_languages_title">Jazyky</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Vyberte prosím licenční balíček.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->

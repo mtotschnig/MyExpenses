@@ -106,4 +106,5 @@
     <string name="backups">"Sauvegardes"</string>
     <string name="filter">"Filtre"</string>
     <string name="tags">Étiquettes</string>
+    <string name="languages">"Langues"</string>
 </resources>

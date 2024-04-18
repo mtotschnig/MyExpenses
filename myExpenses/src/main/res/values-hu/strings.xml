@@ -826,7 +826,6 @@
     <string name="scan_result_no_payee">Nincs kedvezményezett</string>
     <string name="pref_feature_uninstall_title">Kérje a funkciók és a nyelvek eltávolítását</string>
     <string name="pref_feature_uninstall_summary">A Play Store végül megpróbálja eltávolítani ezeket a modulokat a háttérből.</string>
-    <string name="pref_feature_uninstall_languages_title">Nyelvek</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Válasszon egy licenccsomagot.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->

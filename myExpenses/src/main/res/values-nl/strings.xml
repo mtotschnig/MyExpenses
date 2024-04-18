@@ -579,7 +579,6 @@
     <string name="pref_ocr_total_indicators_summary">Een lijst met tekenreeksen die de totale waarde in een ontvangstbewijs identificeren. Zet elke waarde op een nieuwe regel. Laat leeg om de standaardwaarde te herstellen.</string>
     <string name="pref_criterion_futur_title">Criterium voor toekomstige transacties</string>
     <string name="scan_result_no_amount">Geen bedrag gevonden</string>
-    <string name="pref_feature_uninstall_languages_title">Talen</string>
     <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Houd de zwevende actieknop ingedrukt om het formulier voor overschrijvingen, gesplitste transacties of inkomsten direct te openen.</string>
     <string name="pref_tesseract_language_title">Taal voor Tesseract</string>
     <string name="account_widget_configuration_sum">Type getoonde som</string>

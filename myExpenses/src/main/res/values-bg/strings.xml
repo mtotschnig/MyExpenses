@@ -825,7 +825,6 @@
     <string name="scan_result_no_payee">Не е намерен получател/платец</string>
     <string name="pref_feature_uninstall_title">Заявка за деинсталиране на функции и езици</string>
     <string name="pref_feature_uninstall_summary">Play Store се опитва евентуално да премахне тези модули във фонов режим.</string>
-    <string name="pref_feature_uninstall_languages_title">Езици</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Моля, изберете лицензен пакет.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->

@@ -26,4 +26,5 @@
     <string name="color_component_title">"Rəng seçin"</string>
     <string name="filter">"Filtr"</string>
     <string name="tags">"Teqlər"</string>
+    <string name="languages">"Dillər"</string>
 </resources>

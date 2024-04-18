@@ -835,7 +835,6 @@
     <string name="scan_result_no_payee">לא נמצא מקבל תשלום</string>
     <string name="pref_feature_uninstall_title">בקשת הסרה של יכולות ושפות</string>
     <string name="pref_feature_uninstall_summary">חנות Play מנסה בסופו של דבר להסיר את המודולים האלה ברקע.</string>
-    <string name="pref_feature_uninstall_languages_title">שפות</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">אנא בחר חבילת רישיון.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->

@@ -39,4 +39,5 @@
     <string name="backups">"Säkerhetskopior"</string>
     <string name="filter">"Filter"</string>
     <string name="tags">"Taggar"</string>
+    <string name="languages">"Språk"</string>
 </resources>

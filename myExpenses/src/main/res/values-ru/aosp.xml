@@ -107,4 +107,5 @@
     <string name="backups">"Резервные копии"</string>
     <string name="filter">"Фильтр"</string>
     <string name="tags">"Теги"</string>
+    <string name="languages">"Языки"</string>
 </resources>

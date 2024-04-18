@@ -88,4 +88,5 @@
     <string name="color_component_title">"選擇顏色"</string>
     <string name="filter">"篩選器"</string>
     <string name="tags">"標籤"</string>
+    <string name="languages">"語言"</string>
 </resources>

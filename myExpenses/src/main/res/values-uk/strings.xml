@@ -833,7 +833,6 @@
     <string name="budget_filter_all_parties">Всі сторони</string>
     <string name="scan_result_no_amount">Сума не знайдена</string>
     <string name="pref_feature_uninstall_title">Запит на видалення функцій і мов</string>
-    <string name="pref_feature_uninstall_languages_title">Мови</string>
     <string name="remap_payee">Усі вибрані транзакції буде зіставлено з платником/одержувачем %s.</string>
     <string name="tags_create_or_select">Створіть або виберіть мітки</string>
     <string name="menu_tag">Мітка</string>

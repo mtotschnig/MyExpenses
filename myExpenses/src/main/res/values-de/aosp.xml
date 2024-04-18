@@ -105,4 +105,5 @@
     <string name="backups">"Sicherungskopien"</string>
     <string name="filter">"Filter"</string>
     <string name="tags">"Schlagwörter"</string>
+    <string name="languages">"Sprachen"</string>
 </resources>

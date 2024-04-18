@@ -824,7 +824,6 @@
     <string name="scan_result_no_payee">பணம் பெறுபவர் எவரும் கிடைக்கவில்லை</string>
     <string name="pref_feature_uninstall_title">அம்சங்கள் மற்றும் மொழிகளை நீக்குவதற்கு கோரு</string>
     <string name="pref_feature_uninstall_summary">பின்னணியில் அந்த நிரல்கூறுகளை அகற்ற Play ஸ்டோர் முயற்சிக்கிறது.</string>
-    <string name="pref_feature_uninstall_languages_title">மொழிகள்</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">உரிமத் தொகுப்பு ஒன்றைத் தேர்ந்தெடுக்கவும்.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->

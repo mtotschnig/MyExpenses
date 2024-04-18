@@ -815,7 +815,6 @@
     <string name="scan_result_no_payee">找不到收款人</string>
     <string name="pref_feature_uninstall_title">要求卸载\"功能\"和\"语言\"</string>
     <string name="pref_feature_uninstall_summary">Google Play 商店 尝试在后台删除这些模块。</string>
-    <string name="pref_feature_uninstall_languages_title">语言</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">请选择一个许可证包。</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->

@@ -12,4 +12,5 @@
     <string name="color_component_title">"Choose colour"</string>
     <string name="filter">"Filter"</string>
     <string name="tags">"Tags"</string>
+    <string name="languages">"Languages"</string>
 </resources>

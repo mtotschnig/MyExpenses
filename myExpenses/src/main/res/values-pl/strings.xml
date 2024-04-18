@@ -846,7 +846,6 @@
     <string name="maximum_size">Maksymalna wielkość</string>
     <string name="pref_ocr_total_indicators_summary">Lista ciągów, które identyfikują łączną wartość na paragonie. Umieść każdą wartość w nowym wierszu. Pozostaw puste, aby przywrócić wartość domyślną.</string>
     <string name="menu_reopen">Otwórz ponownie</string>
-    <string name="pref_feature_uninstall_languages_title">Języki</string>
     <string name="pref_clone_with_current_date_summary_on">Sklonowane transakcje mają bieżącą datę</string>
     <string name="content_description_closed">Zamknięte</string>
     <string name="tags_create_or_select">Tworzenie lub wybieranie tagów</string>

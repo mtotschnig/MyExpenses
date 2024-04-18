@@ -859,7 +859,6 @@
     <string name="scan_result_no_payee">لم يتم العثور على المستفيد</string>
     <string name="pref_feature_uninstall_title">قم بطلب إلغاء تثبيت الميزات واللغات</string>
     <string name="pref_feature_uninstall_summary">يحاول متجر جوجل بلاي في النهاية إزالة هذه الوحدات في الخلفية.</string>
-    <string name="pref_feature_uninstall_languages_title">اللغات</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">يُرجى تحديد حزمة الترخيص.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->

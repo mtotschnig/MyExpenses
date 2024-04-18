@@ -122,7 +122,6 @@
     <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Diagram lingkaran (Distribusi per kategori)</string>
     <string name="title_activity_debt_overview">Ringkasan Utang</string>
     <string name="feature_download_requested">Fitur %s diminta dari Play Store.</string>
-    <string name="pref_feature_uninstall_languages_title">Bahasa</string>
     <string name="select_package">Silakan piliih lisensi paket.</string>
     <string name="download_completed">Download (%s) telah selesai.</string>
     <string name="pref_category_title_crash_reports">Laporan crash</string>
