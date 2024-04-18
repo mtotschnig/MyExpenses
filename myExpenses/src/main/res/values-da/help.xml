@@ -38,4 +38,36 @@
     <string name="cab_ManageTemplates_delete_help_text">Slet de valgte skabeloner og alle tilknyttede planer.</string>
     <string name="cab_ManageTemplates_edit_help_text">Redigér det valgte skabelon, og opret eller redigér en tilknyttet plan.</string>
     <string name="help_ManageCategories_manage_context">Klik på en post for at vise dens kontekstmenu. Hold nede for at starte multivalg.</string>
+    <string name="help_ManageCategories_select_filter_info">Klik på en post for at starte multivalg.</string>
+    <string name="menu_ManageCategories_distribution_grouping_help_text">Indstil typen af gruppering, og vis fordelingen pr. dag, måned, uge eller år.</string>
+    <string name="menu_back_help_text">Navigér til den forrige gruppe. Kan også gøres ved at stryge fra venstre til højre.</string>
+    <string name="menu_forward_help_text">Navigér til den næste gruppe. Kan også gøres ved at stryge fra højre til venstre.</string>
+    <string name="cab_ManageCategories_create_sub_cat_help_text">Åbner dialogen til oprettelse af en ny underkategori under den valgte kategori. Underkategorier kan indlejres med arbitrær dybde.</string>
+    <string name="cab_ManageCategories_move_help_text">Enhver kategori (sammen med dens underkategorier) kan flyttes til en ny overordnet kategori. Underkategorier kan omdannes til hovedkategorier.</string>
+    <string name="cab_ManageCategories_merge_help_text">Kategorier af samme type kan flettes.</string>
+    <string name="menu_categories_setup_default_help_text">Et sæt standardkategorier importeres.</string>
+    <string name="menu_categories_export_help_text">Kategorier eksporteres til en QIF-fil.</string>
+    <string name="menu_distribution_show_pie_char_help_text">Slå synligheden af cirkeldiagrammet til/fra.</string>
+    <string name="menu_ManageCategories_search_help_text">Kun hoved- og underkategorier, der matcher din forespørgsel, vises.</string>
+    <string name="menu_ManageCategories_sort_help_text">Kategorilisten kan sorteres efter titel (alfabetisk), hyppighed af brug eller sidste gang, en transaktion blev knyttet til den.</string>
+    <string name="help_ExpenseEdit_transaction_title">Formular til transaktioner</string>
+    <string name="help_ExpenseEdit_transfer_title">Formular til overførsler</string>
+    <string name="help_ExpenseEdit_split_title">Formular til opdelinger</string>
+    <string name="help_ExpenseEdit_splitPartCategory_title">Formular til kategoriopdelte dele</string>
+    <string name="help_ExpenseEdit_splitPartTransfer_title">Formular til overførselsopdelte dele</string>
+    <string name="help_ExpenseEdit_templateCategory_title">Formular til transaktionsskabeloner</string>
+    <string name="help_ExpenseEdit_templateTransfer_title">Formular til overførselsskabeloner</string>
+    <string name="help_ExpenseEdit_templateSplit_title">Formular til opdelingsskabeloner</string>
+    <string name="form_account_help_text">Vælg den konto, som transaktionen hører til.</string>
+    <string name="form_date_time_help_text">Indtast dato og klokkeslæt, hvor transaktionen fandt sted.</string>
+    <string name="form_date_time_help_text_link">Hvis &lt;img src=ic_hchain&gt;/&lt;img src=ic_hchain_broken&gt; er i den forbundne tilstand, vil indstilling af enten værdi- eller bogføringsdato også opdatere den anden dato.</string>
+    <string name="help_ManageCategories_distribution_info">Denne skærm viser fordelingen af dine udgifter og indtægter pr. kategori for alle transaktioner på en konto eller for en bestemt gruppe. Hvis du udvider en hovedkategori på listen, viser cirkeldiagrammet fordelingen af dens underkategorier. Hvis du vælger en kategori på listen, fremhæves den i cirkeldiagrammet og vice versa. Tryk længe på en kategori for at få vist en samlet liste over transaktionerne, der er knyttet til den.</string>
+    <string name="help_ManageCategories_manage_info">Denne skærm lader dig oprette, redigere og slette kategorier. Som standard er det primære sorteringskriterium i kategorilisten det antal gange, du bruger en kategori (det sekundære kriterium er alfabetisk rækkefølge). Det giver dig hurtig adgang til de kategorier, du bruger oftest.</string>
+    <string name="help_ManageCategories_select_mapping_info">Ud over de handlinger, du kan udføre, når du administrerer kategorier fra skærmen Præferencer (oprette, redigere, slette), kan du på denne skærm knytte en transaktion til en valgt kategori ved blot at klikke på den.</string>
+    <string name="help_ExpenseEdit_transaction_info">Brug denne formular til at indtaste en ny transaktion eller redigere en eksisterende. Brug rullemenuen i handlingslinjen til at skifte til formularen for at tilføje en ny overførsel eller opdelt transaktion.</string>
+    <string name="cab_ManageCategories_select_filter_select_help_text">De valgte kategorier bruges til at filtrere transaktionslisten.</string>
+    <string name="help_ExpenseEdit_split_info">En opdelt transaktion er en enkelt transaktion, der er delt op i dele, hvor hver del kan tildeles en anden kategori eller overføres til en anden konto.</string>
+    <string name="cab_ManageCategories_color_help_text">Du kan tildele en farve til hovedkategorier. Denne farve bruges til at repræsentere kategorien i diagrammer. Underkategorier bruger nuancer af deres hovedkategoris farve.</string>
+    <string name="help_ExpenseEdit_templateCategory_info">Brug denne formular til at indtaste en ny skabelon eller redigere en eksisterende. Brug rullemenuen i handlingslinjen til at skifte mellem skabeloner for transaktioner, overførsler og opdelinger.</string>
+    <string name="form_date_time_help_text_configuration">I indstillingerne kan du deaktivere indtastning af klokkeslæt og aktivere skelnen mellem bogførings- og værdidato.</string>
 </resources>
