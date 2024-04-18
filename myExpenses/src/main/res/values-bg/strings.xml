@@ -775,7 +775,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">Клонирай транзакциите с първоначалната им дата</string>
     <string name="tags_create_or_select">Създаване или избор на маркери</string>
-    <string name="tags">Маркери</string>
     <string name="pref_manage_tags_summary">Добавяне, редактиране, изтриване на маркери.</string>
     <string name="dialog_title_warning_delete_tag">Да се изтрие ли маркерът?</string>
     <string name="menu_edit_tag">Редактиране на маркер</string>
