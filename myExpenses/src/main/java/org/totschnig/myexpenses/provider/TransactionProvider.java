@@ -1244,6 +1244,8 @@ public class TransactionProvider extends BaseTransactionProvider {
         notifyChange(DEBTS_URI, false);
       } else if (uriMatch == TRANSACTION_ID_ATTACHMENT_ID) {
         notifyChange(TRANSACTIONS_URI, false);
+      } else if (uriMatch == BANK_ID) {
+        notifyChange(ACCOUNTS_URI, false);
       }
       notifyChange(uri, uriMatch == TRANSACTION_ID);
     }
