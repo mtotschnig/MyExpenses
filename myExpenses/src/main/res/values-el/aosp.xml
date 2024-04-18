@@ -102,4 +102,5 @@
     <string name="buttons">"Πλήκτρα"</string>
     <string name="no_data">"Δεν υπάρχουν δεδομένα"</string>
     <string name="color_component_title">"Επιλογή χρώματος"</string>
+    <string name="backups">"Αντίγραφα ασφαλείας"</string>
 </resources>

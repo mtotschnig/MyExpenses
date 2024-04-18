@@ -748,7 +748,6 @@
     <string name="pref_backup_cloud_summary">ڈیوائس پر مقامی اسٹوریج کے علاوہ، بیک اپ فائل کو ریموٹ بیک اینڈ پر کاپی کیا جا سکتا ہے.</string>
     <string name="warning_synchronization_folder_usage">یہ فولڈر مختلف آلات پر {app_name} کی تنصیبات کے درمیان ڈیٹا کو ہم آہنگ کرنے کے لیے استعمال ہوتا ہے. براہ کرم اس کے کسی بھی مواد کو دستی طور پر تبدیل نہ کریں.</string>
     <string name="synchronization_end_success">%1$d ریموٹ تبدیلیاں مقامی ڈیٹا بیس میں لکھی گئیں. %2$d مقامی تبدیلیاں ریموٹ بیک اینڈ پر لکھی گئیں.</string>
-    <string name="onboarding_restore_from_cloud_backup">بیک اپس</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">کلاؤڈ سنکرونائزیشن</string>
     <string name="all_extended_key_features">توسیعی کلید کی تمام خصوصیات</string>
     <string name="warning_auto_backup_deactivated">آٹو بیک اپ کو غیر فعال کر دیا گیا ہے. آپ مسئلہ کو حل کرنے کے بعد سیٹنگز سے اسے دوبارہ آن کر سکتے ہیں (مثلاً بیک اپ کے لیے ایک مختلف فولڈر کا انتخاب کرنا).</string>

@@ -25,4 +25,5 @@
     <string name="quality">"दर्जा"</string>
     <string name="no_data">"कोणताही डेटा नाही"</string>
     <string name="color_component_title">"रंग निवडा"</string>
+    <string name="backups">"संचित प्रतिलिपि"</string>
 </resources>

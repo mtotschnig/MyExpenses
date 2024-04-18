@@ -104,4 +104,5 @@
     <string name="buttons">"Бутони"</string>
     <string name="no_data">"Няма данни"</string>
     <string name="color_component_title">"Изберете цвят"</string>
+    <string name="backups">"Резервни копия"</string>
 </resources>

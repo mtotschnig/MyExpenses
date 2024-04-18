@@ -122,7 +122,6 @@
     <string name="pref_sync_notification_summary">సమకాలీకరణ పురోగతి గురించి తెలియజేయండి</string>
     <string name="contributed_by">%s తోడ్పడింది</string>
     <string name="onboarding_restore_from_local">స్థానిక బ్యాకప్ ఫైల్‌ను పునరుద్ధరించండి</string>
-    <string name="onboarding_restore_from_cloud_backup">బ్యాకప్</string>
     <string name="onboarding_restore_from_cloud">క్లౌడ్ సమకాలీకరణ నుండి పునరుద్ధరించండి</string>
     <string name="onboarding_more_options">మరిన్ని ఎంపికలు</string>
     <string name="onboarding_get_started">ప్రారంభించడానికి</string>

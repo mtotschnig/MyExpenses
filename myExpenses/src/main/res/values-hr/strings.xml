@@ -481,7 +481,6 @@
     <string name="pref_sync_notification_summary">Obavijesti o napretku sinkronizacije</string>
     <string name="contributed_by">Doprinositelj: %s</string>
     <string name="onboarding_restore_from_local">Obnovi lokalnu datoteku sigurnosne kopije</string>
-    <string name="onboarding_restore_from_cloud_backup">Sigurnosne kopije</string>
     <string name="onboarding_restore_from_cloud">Obnovi putem sinkronizacije iz oblaka</string>
     <string name="onboarding_more_options">Daljnje opcije</string>
     <string name="onboarding_get_started">Započni</string>

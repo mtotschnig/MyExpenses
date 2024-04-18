@@ -95,4 +95,5 @@
     <string name="quality">"Calitate"</string>
     <string name="no_data">"Fără date"</string>
     <string name="color_component_title">"Alege culoarea"</string>
+    <string name="backups">"Copii de siguranță"</string>
 </resources>

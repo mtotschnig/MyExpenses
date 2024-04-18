@@ -795,7 +795,6 @@
     <string name="pref_debug_logging_summary">Escreva informações de depuração no registro do sistema</string>
     <string name="pref_sync_notification_summary">Notificar sobre o progresso da sincronização</string>
     <string name="contributed_by">Contribuído por %s</string>
-    <string name="onboarding_restore_from_cloud_backup">Backup</string>
     <string name="pref_webdav_timeout_title">Limite de tempo para o WebDAV (em segundos)</string>
     <string name="sync_success_reset_account_data">Os dados remotos para a conta %s foram excluídos.</string>
     <string name="sync_error_will_try_again_later">Tentarei novamente mais tarde.</string>

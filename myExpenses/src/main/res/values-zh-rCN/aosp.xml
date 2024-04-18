@@ -100,4 +100,5 @@
     <string name="quality">"质量"</string>
     <string name="no_data">"无数据"</string>
     <string name="color_component_title">"选择颜色"</string>
+    <string name="backups">"备份"</string>
 </resources>

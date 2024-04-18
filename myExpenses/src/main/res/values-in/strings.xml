@@ -48,7 +48,6 @@
     <string name="pref_sync_notification_summary">Beri tahu tentang kemajuan sinkronisasi</string>
     <string name="contributed_by">Dikontribusikan oleh %s</string>
     <string name="onboarding_restore_from_local">Pulihkan file cadangan lokal</string>
-    <string name="onboarding_restore_from_cloud_backup">Cadangan</string>
     <string name="onboarding_restore_from_cloud">Pulihkan dari sinkronisasi cloud</string>
     <string name="onboarding_more_options">Opsi Lainnya</string>
     <string name="onboarding_get_started">Mulai</string>

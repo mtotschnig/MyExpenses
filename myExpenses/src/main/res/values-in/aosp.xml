@@ -36,4 +36,5 @@
     <string name="quality">"Kualitas"</string>
     <string name="no_data">"Tidak ada data"</string>
     <string name="color_component_title">"Pilih warna"</string>
+    <string name="backups">"Cadangan"</string>
 </resources>

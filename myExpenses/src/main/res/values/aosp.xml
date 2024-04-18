@@ -180,4 +180,6 @@
     <string name="no_data">"No data"</string>
     <!-- /opt/extra/AOSP/packages/apps/ThemePicker$ grep -ri "\"color_component_title\"" | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="color_component_title">"Choose color"</string>
+    <!-- LibreOffice cui/messages.po shiKT -->
+    <string name="backups">"Backups"</string>
 </resources>

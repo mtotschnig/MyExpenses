@@ -596,8 +596,6 @@
     <string name="onboarding_get_started">البدء</string>
     <string name="onboarding_more_options">المزيد من الخيارات</string>
     <string name="onboarding_restore_from_cloud">استعادة من المزامنة السحابية</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">النسخ الاحتياطية</string>
     <string name="onboarding_restore_from_local">استعادة ملف النسخ الاحتياطي المحلي</string>
     <string name="contributed_by">تمت المساهمة بواسطة %s</string>
     <string name="pref_sync_notification_summary">قم بالإخطار حول تقدم المزامنة المُحرز</string>

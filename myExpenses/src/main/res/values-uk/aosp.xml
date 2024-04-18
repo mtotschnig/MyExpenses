@@ -103,4 +103,5 @@
     <string name="quality">"Якість"</string>
     <string name="no_data">"Немає даних"</string>
     <string name="color_component_title">"Виберіть колір"</string>
+    <string name="backups">"Резервні копії"</string>
 </resources>

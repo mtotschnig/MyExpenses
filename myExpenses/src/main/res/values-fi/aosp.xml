@@ -35,4 +35,5 @@
     <string name="quality">"Laatu"</string>
     <string name="no_data">"Ei dataa"</string>
     <string name="color_component_title">"Valitse väri"</string>
+    <string name="backups">"Varmuuskopiot"</string>
 </resources>

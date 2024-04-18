@@ -567,8 +567,6 @@
     <string name="onboarding_get_started">ಪ್ರಾರಂಭಿಸಿ</string>
     <string name="onboarding_more_options">ಹೆಚ್ಚಿನ ಆಯ್ಕೆಗಳು</string>
     <string name="onboarding_restore_from_cloud">ಮೋಡದ ಸಿಂಕ್ರೊನೈಸೇಶನ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಿ</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">ಬ್ಯಾಕಪ್‌ಗಳು</string>
     <string name="onboarding_restore_from_local">ಸ್ಥಳೀಯ ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅನ್ನು ಮರುಸ್ಥಾಪಿಸಿ</string>
     <string name="contributed_by">%s ಕೊಡುಗೆ ನೀಡಿದೆ</string>
     <string name="pref_sync_notification_summary">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಪ್ರಗತಿಯ ಬಗ್ಗೆ ತಿಳಿಸಿ</string>

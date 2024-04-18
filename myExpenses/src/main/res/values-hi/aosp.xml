@@ -26,4 +26,5 @@
     <string name="quality">"गुणवत्ता"</string>
     <string name="no_data">"कोई डेटा उपलब्ध नहीं है"</string>
     <string name="color_component_title">"रंग चुनें"</string>
+    <string name="backups">"बैकअप"</string>
 </resources>

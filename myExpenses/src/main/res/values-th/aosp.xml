@@ -35,4 +35,5 @@
     <string name="quality">"คุณภาพ"</string>
     <string name="no_data">"ไม่มีข้อมูล"</string>
     <string name="color_component_title">"เลือกสี"</string>
+    <string name="backups">"สำรอง"</string>
 </resources>

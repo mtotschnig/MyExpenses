@@ -105,4 +105,5 @@
     <string name="buttons">"Przyciski"</string>
     <string name="no_data">"Brak danych"</string>
     <string name="color_component_title">"Wybierz kolor"</string>
+    <string name="backups">"Kopie zapasowe"</string>
 </resources>

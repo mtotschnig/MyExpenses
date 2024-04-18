@@ -95,4 +95,5 @@
     <string name="quality">"Kvaliteta"</string>
     <string name="no_data">"Nema podataka"</string>
     <string name="color_component_title">"Odaberite boju"</string>
+    <string name="backups">"Sigurnosne kopije"</string>
 </resources>

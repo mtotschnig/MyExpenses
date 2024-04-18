@@ -27,4 +27,5 @@
     <string name="quality">"Чанар"</string>
     <string name="no_data">"Өгөгдөл байхгүй байна"</string>
     <string name="color_component_title">"Өнгө сонгох"</string>
+    <string name="backups">"Нөөцүүд"</string>
 </resources>

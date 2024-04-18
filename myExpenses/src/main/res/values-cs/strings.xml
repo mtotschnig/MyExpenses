@@ -583,8 +583,6 @@
     <string name="onboarding_get_started">Začít</string>
     <string name="onboarding_more_options">Další možnosti</string>
     <string name="onboarding_restore_from_cloud">Obnovit z cloudové synchronizace</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">Zálohy</string>
     <string name="onboarding_restore_from_local">Obnovit místní zálohovací soubor</string>
     <string name="contributed_by">Přispěno %s</string>
     <string name="pref_sync_notification_summary">Upozornit na průběh synchronizace</string>

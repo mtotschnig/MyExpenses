@@ -32,4 +32,5 @@
     <string name="quality">"Сапасы"</string>
     <string name="no_data">"Ешқандай дерек жоқ."</string>
     <string name="color_component_title">"Түс таңдау"</string>
+    <string name="backups">"Қор көшірмелері"</string>
 </resources>

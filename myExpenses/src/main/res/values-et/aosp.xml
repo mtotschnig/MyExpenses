@@ -36,4 +36,5 @@
     <string name="quality">"Kvaliteet"</string>
     <string name="no_data">"Andmed puuduvad"</string>
     <string name="color_component_title">"Värvi valimine"</string>
+    <string name="backups">"Varukoopiad"</string>
 </resources>

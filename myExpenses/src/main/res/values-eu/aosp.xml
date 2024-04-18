@@ -101,4 +101,5 @@
     <string name="buttons">"Botoiak"</string>
     <string name="no_data">"Ez dago daturik"</string>
     <string name="color_component_title">"Aukeratu kolorea"</string>
+    <string name="backups">"Babeskopiak"</string>
 </resources>

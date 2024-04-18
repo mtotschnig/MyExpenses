@@ -761,7 +761,6 @@
     <string name="language_download_requested">Переклади для мови %s запитуються в Play Store</string>
     <string name="dialog_multi_tag_replace">Замініть існуючі теги на нові</string>
     <string name="pref_planner_manual_time_noon">12:00 (о півночі)</string>
-    <string name="onboarding_restore_from_cloud_backup">Резервні копії</string>
     <string name="dialog_title_confirm_remap">Змінити відображення (%s) \?</string>
     <string name="menu_remap">Перепризначити</string>
     <string name="onboarding_privacy_intro">Ваші фінансові дані не надсилаються на жоден сервер, який не належить нам або третім особам.</string>

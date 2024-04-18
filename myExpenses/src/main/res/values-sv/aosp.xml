@@ -36,4 +36,5 @@
     <string name="quality">"Kvalité"</string>
     <string name="no_data">"Ingen data"</string>
     <string name="color_component_title">"Välj färg"</string>
+    <string name="backups">"Säkerhetskopior"</string>
 </resources>

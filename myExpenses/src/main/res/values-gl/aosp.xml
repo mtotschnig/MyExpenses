@@ -35,4 +35,5 @@
     <string name="quality">"Calidade"</string>
     <string name="no_data">"Sen datos"</string>
     <string name="color_component_title">"Escoller cor"</string>
+    <string name="backups">"Copias de seguranza"</string>
 </resources>

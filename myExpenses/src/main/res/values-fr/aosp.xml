@@ -103,4 +103,5 @@
     <string name="buttons">"Boutons"</string>
     <string name="no_data">"Aucune donnée"</string>
     <string name="color_component_title">"Choisir une couleur"</string>
+    <string name="backups">"Sauvegardes"</string>
 </resources>
