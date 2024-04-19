@@ -495,7 +495,7 @@
     <string name="warning_cannot_move_split_transaction">Ця розділена транзакція не може бути переміщена до рахунку %1$s, оскільки є частини переказу, які стосуються поточного рахунку.</string>
     <string name="content_description_calculator_clear_button">Скинути все</string>
     <string name="content_description_calculator_delete_button">Видалити останню цифру</string>
-    <string name="paypal_callback_info">Ваша операція була успішно завершена, а квитанція про вашу покупку була надіслана вам електронною поштою. Ви можете увійти до свого облікового запису на сайті www.paypal.com, щоб переглянути деталі цієї покупки.</string>
+    <string name="paypal_callback_info">Ваша транзакція була успішно завершена, а квитанція про вашу покупку була надіслана вам електронною поштою. Ви можете увійти до свого облікового запису на сайті www.paypal.com, щоб переглянути деталі цієї покупки.</string>
     <string name="search_transfer">Шукати переказ</string>
     <!-- Sort plans (recurring transactions) by the next instance  -->
     <string name="pref_sort_order_next_instance">Наступний екземпляр</string>
@@ -623,20 +623,20 @@
     <string name="menu_original_amount">Оригінальна сума</string>
     <string name="menu_equivalent_amount">Еквівалентна сума</string>
     <string name="home_currency_change_warning">Якщо Ви зміните свою домашню валюту, еквівалентні суми та курси обміну будуть втрачені, і їх потрібно буде знову визначити.</string>
-    <string name="warning_split_transactions">Вибрані операції будуть згруповані в одну поділену операцію. Їх інформація про дату буде втрачена, тобто замінена на середнє значення.</string>
-    <string name="warning_ungroup_split_transactions">Вибрані поділені операції будуть розгруповані, тобто їх частини поділу стануть звичайними операціями.</string>
+    <string name="warning_split_transactions">Вибрані транзакції будуть згруповані в одну поділену транзакцію. Їх інформація про дату буде втрачена, тобто замінена на середнє значення.</string>
+    <string name="warning_ungroup_split_transactions">Вибрані розділені транзакції будуть розгруповані, тобто їх частини поділу стануть звичайними транзакціями.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">Розгрупувати поділ</string>
-    <string name="ungroup_split_transaction_success">Поділену операцію було успішно розгруповано.</string>
-    <string name="split_transaction_one_success">Операцію успішно перетворено у поділ.</string>
-    <string name="split_transaction_group_success">%1$d операції були успішно згруповані в одну поділену операцію.</string>
-    <string name="split_transaction_not_possible">Тільки операції з тим самим рахунком, одержувачем платежу та статусом можуть бути об\'єднані в одну поділену операцію.</string>
-    <string name="pref_transaction_time_summary">Дозволяти вказувати точний час операції.</string>
-    <string name="pref_value_date_summary">Дозволити встановити дату валютування на додачу до дати бронювання. Час операції буде приховано. Цей параметр не застосовується до грошових рахунків.</string>
+    <string name="ungroup_split_transaction_success">Розділену транзакцію було успішно розгруповано.</string>
+    <string name="split_transaction_one_success">Транзакцію успішно перетворено у розділену.</string>
+    <string name="split_transaction_group_success">%1$d транзакції були успішно згруповані в одну розділену транзакцію.</string>
+    <string name="split_transaction_not_possible">Тільки транзакції з тим самим рахунком, одержувачем платежу та статусом можуть бути об\'єднані в одну розділену транзакцію.</string>
+    <string name="pref_transaction_time_summary">Дозволяти вказувати точний час транзакції.</string>
+    <string name="pref_value_date_summary">Дозволити встановити дату валютування на додачу до дати бронювання. Час транзакції буде приховано. Цей параметр не застосовується до готівкових рахунків.</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
     <string name="booking_date">Дата бронювання</string>
     <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->
-    <string name="value_date">Дата проведення операції</string>
+    <string name="value_date">Дата проведення транзакції</string>
     <string name="licence_expires_n_days">Ваша підписка на Професійну версію закінчиться через %d днів.</string>
     <string name="licence_expires_tomorrow">Ваша підписка на Професійну версію закінчиться завтра.</string>
     <string name="licence_expires_today">Ваша підписка на Професійну версію закінчується сьогодні.</string>
@@ -659,7 +659,7 @@
     <string name="saving_goal">Ціль заощадження</string>
     <string name="credit_limit">Кредитний ліміт</string>
     <string name="clear_all_filters">Очистити всі фільтри</string>
-    <string name="pref_scroll_to_current_date_summary">Після запуску програми прокручувати список операцій до поточної дати</string>
+    <string name="pref_scroll_to_current_date_summary">Після запуску програми прокручувати список транзакцій до поточної дати</string>
     <string name="professional_key_fallback_info">Підписку на Професійну версію, яка була активною протягом принаймні одного року та не була поновлена, буде автоматично перетворено в необмежену Розширену версію.</string>
     <string name="menu_budget">Бюджетування</string>
     <string name="dialog_title_edit_budget">Редагувати бюджет</string>
@@ -820,7 +820,7 @@
     <string name="remap_account">Усі вибрані транзакції буде зіставлено з рахунком %s.</string>
     <string name="pref_clone_with_current_date_summary_on">Клоновані транзакції мають поточну дату</string>
     <string name="remap_empty_list">Не знайдено жодного елемента, який можна було б зіставити з усіма вибраними транзакціями.</string>
-    <string name="pref_criterion_futur_title">Критерій майбутніх операцій</string>
+    <string name="pref_criterion_futur_title">Критерій майбутніх транзакцій</string>
     <string name="pref_sync_changes_immediately_summary">Негайно записати локальні зміни у серверну частину</string>
     <string name="warning_synced_account_cannot_be_closed">Не можна закрити рахунок, пов\'язану з модулем синхронізації</string>
     <string name="pref_clone_with_current_date_summary_off">Клоновані транзакції зберігають оригінальну дату</string>
@@ -878,7 +878,7 @@
     <string name="object_sealed_debt">Об\'єкт відноситься до закритого боргу.</string>
     <string name="warning_unencrypted_backup">Хоча ваші дані захищені від несанкціонованого доступу на цьому пристрої, резервні копії створюються без шифрування, якщо ви не налаштуєте %s.</string>
     <string name="pref_purge_backup_keep_title">Максимальна кількість файлів останніх резервних копій для збереження</string>
-    <string name="webui_warning_move_transaction">Операцію буде перенесено до рахунку {account}.</string>
+    <string name="webui_warning_move_transaction">Транзакцію буде перенесено до рахунку {account}.</string>
     <string name="pref_csv_export_split_categories_summary">Використовуйте окремі стовпці для кожного рівня ієрархії категорій</string>
     <string name="pref_purge_backup_require_confirmation_summary">Показати підтвердження перед видаленням файлів</string>
     <string name="pref_csv_export_split_amount_summary">Використовувати окремі колонки для доходів і витрат</string>
