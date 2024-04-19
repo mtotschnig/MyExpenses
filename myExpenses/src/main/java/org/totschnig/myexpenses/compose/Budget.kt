@@ -50,8 +50,8 @@ fun Budget(
     editRollOver: SnapshotStateMap<Long, Pair<Long, Boolean>>?
 ) {
     Column(
-        modifier = modifier.conditionalComposed(category.level == 0) {
-            conditionalComposed(narrowScreen) {
+        modifier = modifier.conditional(category.level == 0) {
+            conditional(narrowScreen) {
                 horizontalScroll(rememberScrollState())
             }.padding(horizontal = dimensionResource(id = eltos.simpledialogfragment.R.dimen.activity_horizontal_margin))
         }

@@ -1,51 +1,73 @@
 package org.totschnig.myexpenses.compose
 
-import android.annotation.SuppressLint
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
 
-fun Modifier.conditional(condition : Boolean, block : Modifier.() -> Modifier) = if (condition) {
-        then(block(Modifier))
-    } else {
-        this
-    }
-
-@SuppressLint("UnnecessaryComposedModifier")
-fun Modifier.conditionalComposed(condition : Boolean, block : @Composable Modifier.() -> Modifier)  =
-    composed {
-        if (condition) {
-            then(block(Modifier))
-        } else {
-            this
-        }
-    }
-
-fun Modifier.conditional(
+inline fun Modifier.conditional(
     condition: Boolean,
     ifTrue: Modifier.() -> Modifier,
-    ifFalse: (Modifier.() -> Modifier)? = null
-) = if (condition) {
-    then(ifTrue(Modifier))
-} else if (ifFalse != null) {
-    then(ifFalse(Modifier))
-} else {
-    this
-}
+) =  if (condition) ifTrue() else this
 
-fun <T> Modifier.optional(
+inline fun <T> Modifier.optional(
     optional: T?,
-    ifAbsent: (Modifier.() -> Modifier)? = null,
+    ifAbsent: (Modifier.() -> Modifier) = { this },
     ifPresent: Modifier.(T) -> Modifier
-) = optional?.let {
-    then(ifPresent(Modifier, it))
-} ?: if (ifAbsent != null) {
-    then(ifAbsent(Modifier))
-} else {
-    this
+) = if (optional != null) ifPresent(optional) else ifAbsent()
+
+fun Modifier.size(spSize: TextUnit) =
+    composed { this.size(with(LocalDensity.current) { spSize.toDp() }) }
+
+@Preview
+@Composable
+fun OptionalAbsentTest() {
+    val value: Color? = null
+    Box(
+        Modifier
+            .size(50.dp)
+            .tagBorder(Color.Red)
+            .optional(value, ifPresent = {
+                background(it)
+            })
+    )
 }
 
-fun Modifier.size(spSize: TextUnit) = composed { this.size(with(LocalDensity.current) { spSize.toDp() }) }
+@Preview
+@Composable
+fun OptionalPresentTest() {
+    val value: Color = Color.Green
+    Box(
+        Modifier
+            .size(50.dp)
+            .tagBorder(Color.Red)
+            .optional(value, ifPresent = {
+                background(it)
+            })
+    )
+}
+
+@Preview
+@Composable
+fun ConditionalTest() {
+    Text(
+        modifier = Modifier
+            .padding(15.dp)
+            .border(width = 2.dp, color = Color.Green)
+            .conditional(true, ifTrue = {
+                background(Color.Red)
+            })
+            .padding(16.dp),
+        text = "Text"
+    )
+}
