@@ -79,7 +79,6 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
 import org.totschnig.myexpenses.activity.FilterHandler.Companion.FILTER_COMMENT_DIALOG
 import org.totschnig.myexpenses.adapter.SortableItem
 import org.totschnig.myexpenses.compose.*
@@ -106,7 +105,6 @@ import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment.OnConfirmListen
 import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment.Companion.TRANSFORM_TO_TRANSFER_REQUEST
 import org.totschnig.myexpenses.feature.Feature
-import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
@@ -128,13 +126,11 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
@@ -1320,17 +1316,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     handleAccountsGrouping(extras.getLong(SELECTED_SINGLE_ID).toInt())
 
                 DIALOG_TAG_SORTING -> handleSortOption(extras.getLong(SELECTED_SINGLE_ID).toInt())
-                DIALOG_TAG_OCR_DISAMBIGUATE -> {
-                    startEditFromOcrResult(
-                        extras.getParcelable<OcrResult>(KEY_OCR_RESULT)!!.selectCandidates(
-                            extras.getInt(KEY_AMOUNT),
-                            extras.getInt(KEY_DATE),
-                            extras.getInt(KEY_PAYEE_NAME)
-                        ),
-                        extras.getParcelable(KEY_URI)!!
-                    )
-                    true
-                }
 
                 DIALOG_TAG_NEW_BALANCE -> {
                     createRowIntent(Transactions.TYPE_TRANSACTION, false)?.apply {
