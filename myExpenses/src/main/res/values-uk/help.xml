@@ -62,4 +62,20 @@
     <string name="help_ManageCategories_select_filter_info">Натисніть на пункт для запуску багато елементного вибору.</string>
     <string name="help_ManageCategories_expand_collapse">Торкніться &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt; значка, щоб розгорнути або згорнути категорію.</string>
     <string name="help_ManageCategories_manage_context">Натисніть на пункт, щоб відобразити контекстне меню. Тривале натискання, щоб почати вибір кількох елементів.</string>
+    <string name="cab_ManageCategories_move_help_text">Будь-яку категорію (разом з її підкатегоріями) можна перемістити до нової батьківської категорії. Підкатегорії можуть бути перетворені в основні категорії.</string>
+    <string name="menu_categories_setup_default_help_text">Буде імпортовано набір категорій за замовчуванням.</string>
+    <string name="menu_categories_export_help_text">Категорії буде експортовано до QIF файла.</string>
+    <string name="cab_ManageCategories_select_filter_select_help_text">Вибрані категорії будуть використані для фільтрації списку транзакцій.</string>
+    <string name="menu_ManageCategories_sort_help_text">Список категорій можна відсортувати за назвою (в алфавітному порядку), за частотою використання або за часом останнього зіставлення транзакції з ним.</string>
+    <string name="help_ExpenseEdit_transfer_title">Форма переказів</string>
+    <string name="help_ExpenseEdit_transaction_title">Форма транзакцій</string>
+    <string name="help_ExpenseEdit_split_title">Форма роділення</string>
+    <string name="menu_back_help_text">Перейти до попередньої групи. Це також можна зробити за допомогою жесту зліва направо.</string>
+    <string name="menu_forward_help_text">Перейдіть до наступної групи. Це також можна зробити за допомогою жесту справа наліво.</string>
+    <string name="cab_ManageCategories_create_sub_cat_help_text">Відкриває діалогове вікно для створення нової підкатегорії під вибраною категорією. Підкатегорії можуть бути вкладені з довільною глибиною.</string>
+    <string name="cab_ManageCategories_merge_help_text">Категорії одного типу можна об’єднувати.</string>
+    <string name="menu_ManageCategories_distribution_grouping_help_text">Встановіть тип групування та відобразіть розподіл на день, місяць, тиждень або рік.</string>
+    <string name="menu_distribution_show_pie_char_help_text">Перемикання видимості секторної діаграми.</string>
+    <string name="menu_ManageCategories_search_help_text">Будуть відображені тільки основні та підкатегорії, які відповідають вашому запиту.</string>
+    <string name="help_ExpenseEdit_splitPartCategory_title">Форма поділу категорій</string>
 </resources>
