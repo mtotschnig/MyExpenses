@@ -747,4 +747,11 @@
     <string name="add_shortcut">Afegeix drecera</string>
     <string name="dialog_contrib_trial_info">L\'estat actual de la llicència (%1$s) us permet provar %2$s durant %3$d dies (fins a %4$s).</string>
     <string name="one_time_payment">Pagament únic</string>
+    <string name="search_account">Cerca un compte</string>
+    <string name="dialog_contrib_trial_info_play">Finalitzada la prova gratuïta, no es convertirà en una subscripció.</string>
+    <string name="dialog_contrib_subscription_info_play">Aquesta subscripció té efectes immediats, es factura mensualment o anual, pot ser cancel·lada en qualsevol moment.</string>
+    <string name="remap_empty_list">No s\'ha trobat cap element, que es pugui assignar a totes les operacions seleccionades.</string>
+    <string name="content_description_remove_icon">Suprimeix la icona</string>
+    <string name="budget_deleted">Pressupost suprimit</string>
+    <string name="budget_table_header_overspent">Despesa excessiva</string>
 </resources>
