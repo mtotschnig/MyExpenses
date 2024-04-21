@@ -98,10 +98,12 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_MESSAGE
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_POSITIVE_BUTTON_LABEL
 import org.totschnig.myexpenses.dialog.ExportDialogFragment
+import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment.OnConfirmListener
+import org.totschnig.myexpenses.dialog.select.SelectHiddenAccountDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment.Companion.TRANSFORM_TO_TRANSFER_REQUEST
 import org.totschnig.myexpenses.feature.Feature
@@ -247,7 +249,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
     private val accountGrouping: MutableState<AccountGrouping> =
         mutableStateOf(AccountGrouping.TYPE)
 
-    lateinit var accountSort: Sort
+    private lateinit var accountSort: Sort
 
     private var actionMode: ActionMode? = null
 
@@ -1292,7 +1294,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         }
     }
 
-    fun createRowDo(type: Int, isIncome: Boolean) {
+    private fun createRowDo(type: Int, isIncome: Boolean) {
         createRowIntent(type, isIncome)?.let { startEdit(it) }
     }
 
@@ -1519,6 +1521,50 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
             R.id.TOGGLE_SEALED_COMMAND -> currentAccount?.let { toggleAccountSealed(it) }
             R.id.EXCLUDE_FROM_TOTALS_COMMAND -> currentAccount?.let { toggleExcludeFromTotals(it) }
+            R.id.BUDGET_COMMAND -> contribFeatureRequested(ContribFeature.BUDGET, null)
+            R.id.HELP_COMMAND_DRAWER -> startActivity(Intent(this, Help::class.java).apply {
+                putExtra(HelpDialogFragment.KEY_CONTEXT, "NavigationDrawer")
+            })
+
+            R.id.MANAGE_TEMPLATES_COMMAND -> startActivity(
+                Intent(
+                    this,
+                    ManageTemplates::class.java
+                )
+            )
+
+            R.id.SHARE_COMMAND -> startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
+                putExtra(
+                    Intent.EXTRA_TEXT,
+                    Utils.getTellAFriendMessage(this@BaseMyExpenses).toString()
+                )
+                setType("text/plain")
+            }, getResources().getText(R.string.menu_share)))
+
+            R.id.CANCEL_CALLBACK_COMMAND -> finishActionMode()
+            R.id.OPEN_PDF_COMMAND -> startActivity(Intent(Intent.ACTION_VIEW).apply {
+                setDataAndType(
+                    ensureContentUri(Uri.parse(tag as String), this@BaseMyExpenses),
+                    "application/pdf"
+                )
+                setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            })
+            R.id.SORT_COMMAND -> MenuDialog.build()
+                .menu(this, R.menu.accounts_sort)
+                .choiceIdPreset(accountSort.commandId.toLong())
+                .title(R.string.display_options_sort_list_by)
+                .show(this, DIALOG_TAG_SORTING)
+            R.id.ROADMAP_COMMAND -> startActivity(Intent(this, RoadmapVoteActivity::class.java))
+            R.id.HIDDEN_ACCOUNTS_COMMAND -> SelectHiddenAccountDialogFragment.newInstance().show(
+                supportFragmentManager, MANAGE_HIDDEN_FRAGMENT_TAG
+            )
+            R.id.OCR_FAQ_COMMAND -> startActionView("https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-OCR")
+            R.id.BACKUP_COMMAND -> startActivity(Intent(this, BackupRestoreActivity::class.java).apply {
+                setAction(BackupRestoreActivity.ACTION_BACKUP)
+            })
+            R.id.MANAGE_PARTIES_COMMAND -> startActivity(Intent(this, ManageParties::class.java).apply {
+                setAction(Action.MANAGE.name)
+            })
             else -> return false
         }
         return true
