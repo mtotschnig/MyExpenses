@@ -46,6 +46,8 @@ hr:
       plans_unlimited: Otključaj mogućnosti stvaranja više od tri tarifa za ponavljajuće
         transakcije
       accounts_unlimited: Otključaj mogućnosti stvaranja više od pet računa
+      category_tree: Neograničena dubina <b>stabla kategorija</b>
+      banking: Preuzmi transakcije iz banaka u Njemačkoj (<b>FinTS</b>)
     subscription: Pretplata
     one-time-payment: Jednokratno plaćanje
     feature-list-title: 'Doprinesi nadogradnjom programa <i>{app_name}</i> i dobij
