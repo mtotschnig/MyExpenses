@@ -1514,14 +1514,19 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             }
 
             R.id.EDIT_ACCOUNT_COMMAND -> currentAccount?.let { editAccount(it) }
+
             R.id.DELETE_ACCOUNT_COMMAND -> currentAccount?.let { confirmAccountDelete(it) }
+
             R.id.HIDE_ACCOUNT_COMMAND -> currentAccount?.let {
                 viewModel.setAccountVisibility(true, it.id)
             }
 
             R.id.TOGGLE_SEALED_COMMAND -> currentAccount?.let { toggleAccountSealed(it) }
+
             R.id.EXCLUDE_FROM_TOTALS_COMMAND -> currentAccount?.let { toggleExcludeFromTotals(it) }
+
             R.id.BUDGET_COMMAND -> contribFeatureRequested(ContribFeature.BUDGET, null)
+
             R.id.HELP_COMMAND_DRAWER -> startActivity(Intent(this, Help::class.java).apply {
                 putExtra(HelpDialogFragment.KEY_CONTEXT, "NavigationDrawer")
             })
@@ -1542,6 +1547,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             }, getResources().getText(R.string.menu_share)))
 
             R.id.CANCEL_CALLBACK_COMMAND -> finishActionMode()
+
             R.id.OPEN_PDF_COMMAND -> startActivity(Intent(Intent.ACTION_VIEW).apply {
                 setDataAndType(
                     ensureContentUri(Uri.parse(tag as String), this@BaseMyExpenses),
@@ -1549,22 +1555,46 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                 )
                 setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             })
+
             R.id.SORT_COMMAND -> MenuDialog.build()
                 .menu(this, R.menu.accounts_sort)
                 .choiceIdPreset(accountSort.commandId.toLong())
                 .title(R.string.display_options_sort_list_by)
                 .show(this, DIALOG_TAG_SORTING)
+
             R.id.ROADMAP_COMMAND -> startActivity(Intent(this, RoadmapVoteActivity::class.java))
+
             R.id.HIDDEN_ACCOUNTS_COMMAND -> SelectHiddenAccountDialogFragment.newInstance().show(
                 supportFragmentManager, MANAGE_HIDDEN_FRAGMENT_TAG
             )
+
             R.id.OCR_FAQ_COMMAND -> startActionView("https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-OCR")
-            R.id.BACKUP_COMMAND -> startActivity(Intent(this, BackupRestoreActivity::class.java).apply {
-                setAction(BackupRestoreActivity.ACTION_BACKUP)
-            })
-            R.id.MANAGE_PARTIES_COMMAND -> startActivity(Intent(this, ManageParties::class.java).apply {
-                setAction(Action.MANAGE.name)
-            })
+
+            R.id.BACKUP_COMMAND -> startActivity(
+                Intent(
+                    this,
+                    BackupRestoreActivity::class.java
+                ).apply {
+                    setAction(BackupRestoreActivity.ACTION_BACKUP)
+                })
+
+
+            R.id.RESTORE_COMMAND -> startActivity(
+                Intent(
+                    this,
+                    BackupRestoreActivity::class.java
+                ).apply {
+                    setAction(BackupRestoreActivity.ACTION_RESTORE)
+                })
+
+            R.id.MANAGE_PARTIES_COMMAND -> startActivity(
+                Intent(
+                    this,
+                    ManageParties::class.java
+                ).apply {
+                    setAction(Action.MANAGE.name)
+                })
+
             else -> return false
         }
         return true
