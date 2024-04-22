@@ -135,7 +135,7 @@ class TagList : Fragment(), OnDialogResultListener {
         binding.recyclerView.adapter = adapter
         viewModel.tags.observe(viewLifecycleOwner) {
             adapter.submitList(it)
-            binding.emptyView.isVisible = it.isEmpty()
+            binding.emptyView.isVisible = it.isEmpty() && allowModifications
         }
 
         selected?.let { viewModel.selectedTagIds = it.toHashSet() }
