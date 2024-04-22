@@ -45,7 +45,7 @@
     <item
         android:checkable="true"
         android:id="@id/AGGREGATE_COMMAND"
-        android:title="Aggregate neutral categories" />
+        android:title="@string/menu_aggregate_neutral_categories" />
     <item
         android:id="@id/BUDGET_ALLOCATED_ONLY"
         android:checkable="true"
