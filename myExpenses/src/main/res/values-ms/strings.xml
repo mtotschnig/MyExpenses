@@ -729,4 +729,21 @@
     <string name="ui_refinement">Penghalusan antaramuka pengguna</string>
     <string name="icons_for_categories">Ikon-ikon untuk kategori-kategori</string>
     <string name="one_time_payment">Pembayaran sekali sahaja</string>
+    <string name="budget_under_allocated_error">%s telah diperuntukkan kepada kategori. Melainkan anda mengalih keluar wang daripada kategori tersebut, anda mesti sekurang-kurangnya bajet jumlah tersebut.</string>
+    <string name="contrib_feature_category_tree_label">Pokok kategori</string>
+    <string name="sub_budget_exceeded_error_1_1">Semua kecuali %s daripada jumlah yang diperuntukkan kepada kategori utama telah diperuntukkan kepada subkategori lain.</string>
+    <string name="content_description_remove_icon">Buang ikon</string>
+    <string name="no_accounts">Tiada akaun.</string>
+    <string name="select_payee">Pilih pembayar/penerima bayaran</string>
+    <string name="account_deleted">Akaun telah dipadam</string>
+    <string name="search_account">Cari akaun</string>
+    <string name="image_capture_not_installed">Tiada apl ditemui untuk mengambil gambar.</string>
+    <string name="budget_exceeded_error_1_1">Semua kecuali %s daripada bajet anda telah diperuntukkan kepada kategori lain.</string>
+    <string name="budget_deleted">Bajet telah dipadamkan</string>
+    <string name="dialog_contrib_trial_info_play">Percubaan percuma ini tidak akan ditukar kepada sebarang jenis langganan.</string>
+    <string name="dialog_contrib_subscription_info_play">Langganan ini berkuat kuasa serta-merta, dibilkan setiap bulan atau tahunan dan boleh dibatalkan pada bila-bila masa.</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">Dengan status lesen semasa anda (%1$s), dialog ini akan dipaparkan pada setiap penggunaan.</string>
+    <string name="search_tag">Cari tag</string>
+    <string name="dialog_contrib_trial_info" tools:ignore="PluralsCandidate">Status lesen semasa Anda (%1$s) membolehkan Anda mencuba %2$s selama %3$d hari (hingga %4$s).</string>
+    <string name="budget_table_header_overspent">Terlebih berbelanja</string>
 </resources>
