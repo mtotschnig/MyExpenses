@@ -3,10 +3,10 @@ package org.totschnig.myexpenses.changelog
 import android.app.Application
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.VersionDialogFragment.Companion.resolveMoreInfo
 import org.totschnig.myexpenses.ui.ContextHelper.wrap
 import org.totschnig.myexpenses.viewmodel.data.VersionInfo
@@ -17,19 +17,18 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.Locale
 
-
-const val CURRENT_VERSION = "728;3.8.2"
-const val VERSION_DATE = "2014-04-15"
-
-val versionInfo = VersionInfo(CURRENT_VERSION)
-
 @RunWith(RobolectricTestRunner::class)
-@Ignore("This is only run on demand in order to generate ChangeLog!")
+//@Ignore("This is only run on demand in order to generate ChangeLog!")
 class ChangeLogGenerator {
+
+    val context: Application
+        get() = ApplicationProvider.getApplicationContext()
+
+    private val versionInfo: VersionInfo
+        get() = VersionInfo(context.resources.getStringArray(R.array.versions).first())
 
     @Test
     fun generateChangeLogPlay() {
-        val context = ApplicationProvider.getApplicationContext<Application>()
         val allLanguages = arrayOf(
             "en-US",
             "ar",
@@ -130,6 +129,7 @@ class ChangeLogGenerator {
 
     @Test
     fun generateChangeLogYaml() {
+        val versionDate = "2014-04-15"
         val context = ApplicationProvider.getApplicationContext<Application>()
         val allLanguages = arrayOf(
             "bg",
@@ -161,7 +161,7 @@ class ChangeLogGenerator {
 
         val data = listOf(listOf(
             versionInfo.name,
-            VERSION_DATE,
+            versionDate,
             buildMap {
                 allLanguages.forEach { language ->
                     put(
