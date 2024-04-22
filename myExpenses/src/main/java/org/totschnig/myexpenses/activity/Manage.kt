@@ -78,6 +78,7 @@ class PickTagContract : PickObjectContract<TagCriterion>() {
         .takeIf { resultCode == RESULT_OK }
         ?.let { bundle ->
             BundleCompat.getParcelableArrayList(bundle, KEY_TAG_LIST, Tag::class.java)
+                ?.takeIf { it.isNotEmpty() }
                 ?.let { tagList ->
                     TagCriterion(
                         tagList.joinToString { it.label },
