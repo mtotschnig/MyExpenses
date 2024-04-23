@@ -107,4 +107,5 @@
     <string name="filter">"Filter"</string>
     <string name="tags">Etiketter</string>
     <string name="languages">"Sprog"</string>
+    <string name="chart">"Diagram"</string>
 </resources>

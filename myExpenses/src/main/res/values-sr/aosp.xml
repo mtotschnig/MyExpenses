@@ -20,4 +20,5 @@
     <string name="filter">"Филтер"</string>
     <string name="tags">"Ознаке"</string>
     <string name="languages">"Језици"</string>
+    <string name="chart">"График"</string>
 </resources>

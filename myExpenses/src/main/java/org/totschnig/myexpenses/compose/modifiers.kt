@@ -20,6 +20,12 @@ inline fun Modifier.conditional(
     ifTrue: Modifier.() -> Modifier,
 ) =  if (condition) ifTrue() else this
 
+inline fun Modifier.conditional(
+    condition: Boolean,
+    ifTrue: Modifier.() -> Modifier,
+    ifFalse: (Modifier.() -> Modifier) = { this }
+) =  if (condition) ifTrue() else ifFalse()
+
 inline fun <T> Modifier.optional(
     optional: T?,
     ifAbsent: (Modifier.() -> Modifier) = { this },
@@ -67,6 +73,26 @@ fun ConditionalTest() {
             .conditional(true, ifTrue = {
                 background(Color.Red)
             })
+            .padding(16.dp),
+        text = "Text"
+    )
+}
+
+@Preview
+@Composable
+fun ConditionalTest2() {
+    Text(
+        modifier = Modifier
+            .padding(15.dp)
+            .border(width = 2.dp, color = Color.Green)
+            .conditional(
+                condition = false,
+                ifTrue = {
+                background(Color.Red)
+            }, ifFalse = {
+                background(Color.Blue)
+                }
+            )
             .padding(16.dp),
         text = "Text"
     )

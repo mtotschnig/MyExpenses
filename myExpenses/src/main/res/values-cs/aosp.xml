@@ -109,4 +109,5 @@
     <string name="filter">"Filtr"</string>
     <string name="tags">Štítky</string>
     <string name="languages">"Jazyky"</string>
+    <string name="chart">"Graf"</string>
 </resources>

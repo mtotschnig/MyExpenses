@@ -40,4 +40,5 @@
     <string name="filter">"Filter"</string>
     <string name="tags">"Tag"</string>
     <string name="languages">"Bahasa"</string>
+    <string name="chart">"Bagan"</string>
 </resources>

@@ -405,7 +405,6 @@
     <string name="pref_value_date_summary">Dozvoli postavljanje datuma vrijednosti uz datuma uknjiženja. Vrijeme transakcije će se sakriti. Ova se postavka ne primjenjuje na gotovinske račune.</string>
     <string name="roadmap_vote">Glas u planu razvoja</string>
     <string name="contrib_feature_roadmap_voting_label">Pravo glasanja u <b>planiranju razvoja</b></string>
-    <string name="menu_distribution_show_pie_char">Prikaži kružni dijagram</string>
     <string name="contrib_feature_distribution_label">Kružni dijagram (distribucija po kategorijama)</string>
     <string name="discover_feature_fab_long_press">Dodirni i drži plutajući gumb radnje pritisnutim za izravno otvaranje obrasca za prijenose, višedjelne transakcije ili prihod.</string>
     <string name="currency_code_already_definded">Valuta je već definirana.</string>

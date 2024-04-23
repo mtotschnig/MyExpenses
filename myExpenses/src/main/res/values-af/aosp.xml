@@ -37,4 +37,5 @@
     <string name="filter">"Filter"</string>
     <string name="tags">"Merkers"</string>
     <string name="languages">"Tale"</string>
+    <string name="chart">"Grafiek"</string>
 </resources>

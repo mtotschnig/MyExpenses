@@ -408,7 +408,6 @@
     <string name="search_status">Cerca estat</string>
     <string name="comparison_operator_between">entre</string>
     <string name="account_deleted">Compte eliminat</string>
-    <string name="menu_distribution_show_pie_char">Mostra gràfic de sectors</string>
     <string name="mark_void_instead_of_delete">No eliminis la transacció, marca-la com a invàlida.</string>
     <string name="pref_grouping_periods">Períodes d\'agrupació</string>
     <string name="date_format_minute">Minut</string>

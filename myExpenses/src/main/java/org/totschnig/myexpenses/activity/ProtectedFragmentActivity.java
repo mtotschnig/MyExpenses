@@ -80,6 +80,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     settings.registerOnSharedPreferenceChangeListener(this);
     TypedArray themeArray = getTheme().obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
     textColorSecondary = themeArray.getColorStateList(0);
+    themeArray.recycle();
   }
 
   @Override

@@ -109,4 +109,5 @@
     <string name="filter">"Filtruj"</string>
     <string name="tags">"Tagi"</string>
     <string name="languages">"Języki"</string>
+    <string name="chart">"Wykres"</string>
 </resources>

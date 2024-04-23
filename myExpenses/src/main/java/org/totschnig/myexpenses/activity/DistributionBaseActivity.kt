@@ -1,7 +1,15 @@
 package org.totschnig.myexpenses.activity
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Menu
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -11,6 +19,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.dialog.TransactionListComposeDialogFragment
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.viewmodel.DistributionViewModelBase
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel
@@ -22,12 +31,17 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
     val expansionState
         get() = viewModel.expansionState
 
+    protected val showChart = mutableStateOf(false)
+
+    abstract val showChartPrefKey: PrefKey
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        showChart.value = prefHandler.getBoolean(showChartPrefKey, true)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.displaySubTitle.collect {
-                supportActionBar?.subtitle = it
+                    supportActionBar?.subtitle = it
                 }
             }
         }
@@ -46,6 +60,9 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
         val grouped = viewModel.grouping != Grouping.NONE
         menu.findItem(R.id.FORWARD_COMMAND).setEnabledAndVisible(grouped)
         menu.findItem(R.id.BACK_COMMAND).setEnabledAndVisible(grouped)
+        menu.findItem(R.id.TOGGLE_CHART_COMMAND)?.let {
+            it.isChecked = showChart.value
+        }
         return true
     }
 
@@ -63,12 +80,20 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
                 viewModel.forward()
                 true
             }
-            R.id.AGGREGATE_COMMAND ->{
+
+            R.id.AGGREGATE_COMMAND -> {
                 lifecycleScope.launch {
                     viewModel.persistAggregateNeutral(tag as Boolean)
                     invalidateOptionsMenu()
                     reset()
                 }
+                true
+            }
+
+            R.id.TOGGLE_CHART_COMMAND -> {
+                showChart.value = tag as Boolean
+                prefHandler.putBoolean(showChartPrefKey, showChart.value)
+                invalidateOptionsMenu()
                 true
             }
 
@@ -96,6 +121,29 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
                 )
             )
                 .show(supportFragmentManager, "List")
+        }
+    }
+
+    @Composable
+    fun ColumnScope.LayoutHelper(
+        data: @Composable (Modifier) -> Unit,
+        chart: @Composable (Modifier) -> Unit
+    ) {
+        when (LocalConfiguration.current.orientation) {
+            Configuration.ORIENTATION_LANDSCAPE -> {
+                Row(modifier = Modifier.weight(1f)) {
+                    data(Modifier.weight(0.6f))
+                    if (showChart.value) {
+                        chart(Modifier.weight(0.4f).fillMaxSize())
+                    }
+                }
+            }
+            else -> {
+                data(Modifier.weight(0.5f))
+                if (showChart.value) {
+                    chart(Modifier.weight(0.5f).fillMaxSize())
+                }
+            }
         }
     }
 }

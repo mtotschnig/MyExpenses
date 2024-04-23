@@ -71,6 +71,7 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     TEMPLATE_CLICK_DEFAULT(R.string.pref_template_click_default_key),
     NEXT_REMINDER_RATE("nextReminderRate"),
     DISTRIBUTION_SHOW_CHART("distributionShowChart"),
+    BUDGEt_SHOW_CHART("budgethowChart"),
     DISTRIBUTION_AGGREGATE_TYPES("distributionAggregateTypes"),
     MANAGE_STALE_IMAGES(R.string.pref_manage_stale_images_key),
     CSV_IMPORT_HEADER_TO_FIELD_MAP(R.string.pref_import_csv_header_to_field_map_key),

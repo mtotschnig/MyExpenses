@@ -107,4 +107,5 @@
     <string name="filter">"Фільтр"</string>
     <string name="tags">Мітки</string>
     <string name="languages">"Мови"</string>
+    <string name="chart">"Діаграма"</string>
 </resources>

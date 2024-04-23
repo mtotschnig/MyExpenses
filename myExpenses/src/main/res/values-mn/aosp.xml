@@ -31,4 +31,5 @@
     <string name="filter">"Шүүлтүүр"</string>
     <string name="tags">"Шошго"</string>
     <string name="languages">"Хэл"</string>
+    <string name="chart">"Диаграмм"</string>
 </resources>

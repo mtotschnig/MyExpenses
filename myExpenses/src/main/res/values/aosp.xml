@@ -188,4 +188,6 @@
     <string name="tags">"Tags"</string>
     <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri "\"languages_settings\"" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/_settings//' | aosp_helper -->
     <string name="languages">"Languages"</string>
+    <!-- LibreOffice svx/messages.po gYFV6 -->
+    <string name="chart">"Chart"</string>
 </resources>

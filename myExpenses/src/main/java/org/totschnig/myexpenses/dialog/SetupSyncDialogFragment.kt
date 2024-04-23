@@ -149,11 +149,11 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                     Spacer(modifier = cell(2))
                     Text(modifier = cell(3), text = "Remote", fontWeight = FontWeight.Bold)
                 }
-                Divider()
+                HorizontalDivider()
             }
             items(accountRows) {
                 Account(item = it)
-                Divider()
+                HorizontalDivider()
             }
 
             item {

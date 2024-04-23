@@ -108,4 +108,5 @@
     <string name="filter">"Szűrő"</string>
     <string name="tags">"Címkék"</string>
     <string name="languages">"Nyelvek"</string>
+    <string name="chart">"Diagram"</string>
 </resources>

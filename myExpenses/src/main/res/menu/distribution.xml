@@ -58,5 +58,5 @@
         android:id="@id/TOGGLE_CHART_COMMAND"
         app:showAsAction="never"
         android:checkable="true"
-        android:title="@string/menu_distribution_show_pie_char"/>
+        android:title="@string/chart"/>
 </menu>

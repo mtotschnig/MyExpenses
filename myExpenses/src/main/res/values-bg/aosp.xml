@@ -108,4 +108,5 @@
     <string name="filter">"Филтър"</string>
     <string name="tags">"Маркери"</string>
     <string name="languages">"Езици"</string>
+    <string name="chart">"Диаграма"</string>
 </resources>

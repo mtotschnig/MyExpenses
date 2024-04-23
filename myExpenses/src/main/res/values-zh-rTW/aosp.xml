@@ -103,4 +103,5 @@
     <string name="filter">"篩選器"</string>
     <string name="tags">"標記"</string>
     <string name="languages">"語言"</string>
+    <string name="chart">"圖表"</string>
 </resources>

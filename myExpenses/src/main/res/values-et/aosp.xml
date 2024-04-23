@@ -40,4 +40,5 @@
     <string name="filter">"Filter"</string>
     <string name="tags">"Märgendid"</string>
     <string name="languages">"Keeled"</string>
+    <string name="chart">"Diagramm"</string>
 </resources>

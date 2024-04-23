@@ -1,25 +1,33 @@
 package org.totschnig.myexpenses.compose
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
@@ -29,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
@@ -47,8 +56,11 @@ fun Budget(
     onBudgetEdit: (category: Category, parent: Category?) -> Unit,
     onShowTransactions: (category: Category) -> Unit,
     hasRolloverNext: Boolean,
-    editRollOver: SnapshotStateMap<Long, Pair<Long, Boolean>>?
+    editRollOver: SnapshotStateMap<Long, Pair<Long, Boolean>>?,
+    narrowScreen: Boolean,
+    showChart: Boolean = false
 ) {
+
     Column(
         modifier = modifier.conditional(category.level == 0) {
             conditional(narrowScreen) {
@@ -67,7 +79,8 @@ fun Budget(
                 onBudgetEdit = doEdit,
                 onShowTransactions = doShow,
                 hasRolloverNext = hasRolloverNext,
-                editRollOver = editRollOver
+                editRollOver = editRollOver,
+                narrowScreen = narrowScreen
             )
             AnimatedVisibility(visible = expansionMode.isExpanded(category.id)) {
                 Column(
@@ -83,14 +96,19 @@ fun Budget(
                             onBudgetEdit = onBudgetEdit,
                             onShowTransactions = onShowTransactions,
                             hasRolloverNext = hasRolloverNext,
-                            editRollOver = editRollOver
+                            editRollOver = editRollOver,
+                            narrowScreen = narrowScreen
                         )
                     }
                 }
             }
         } else {
-            Header(withRollOverColumn = hasRolloverNext || editRollOver != null)
-            Divider(modifier = if (narrowScreen) Modifier.width(tableWidth) else Modifier)
+            Header(
+                withRollOverColumn = hasRolloverNext || editRollOver != null,
+                narrowScreen = narrowScreen,
+                showChart = showChart
+            )
+            HorizontalDivider(modifier = if (narrowScreen) Modifier.width(tableWidth) else Modifier)
             LazyColumn(
                 modifier = Modifier.testTag(TEST_TAG_LIST),
                 verticalArrangement = Arrangement.Center
@@ -102,22 +120,24 @@ fun Budget(
                         doEdit,
                         doShow,
                         hasRolloverNext,
-                        editRollOver
+                        editRollOver,
+                        narrowScreen
                     )
-                    Divider(modifier = if (narrowScreen) Modifier.width(tableWidth) else Modifier)
+                    HorizontalDivider(modifier = if (narrowScreen) Modifier.width(tableWidth) else Modifier)
                 }
                 category.children.forEach { model ->
                     item {
                         Budget(
                             modifier = Modifier.testTag(TEST_TAG_ROW),
                             category = model,
-                            parent = category,
                             expansionMode = expansionMode,
                             currency = currency,
+                            parent = category,
                             onBudgetEdit = onBudgetEdit,
                             onShowTransactions = onShowTransactions,
                             hasRolloverNext = hasRolloverNext,
-                            editRollOver = editRollOver
+                            editRollOver = editRollOver,
+                            narrowScreen = narrowScreen
                         )
                     }
                 }
@@ -133,7 +153,8 @@ private fun Summary(
     onBudgetEdit: () -> Unit,
     onShowTransactions: () -> Unit,
     hasRolloverNext: Boolean,
-    editRollOver: SnapshotStateMap<Long, Pair<Long, Boolean>>?
+    editRollOver: SnapshotStateMap<Long, Pair<Long, Boolean>>?,
+    narrowScreen: Boolean
 ) {
     Row(
         modifier = Modifier.testTag(TEST_TAG_HEADER),
@@ -141,7 +162,7 @@ private fun Summary(
     ) {
         Text(
             modifier = Modifier
-                .labelColumn(this),
+                .labelColumn(this, narrowScreen),
             fontWeight = FontWeight.Bold,
             text = stringResource(id = R.string.menu_aggregates)
         )
@@ -152,18 +173,15 @@ private fun Summary(
             onBudgetEdit,
             onShowTransactions,
             hasRolloverNext,
-            editRollOver
+            editRollOver,
+            narrowScreen
         )
     }
 }
 
 @Composable
 private fun VerticalDivider() {
-    Divider(
-        modifier = Modifier
-            .height(48.dp)
-            .width(1.dp)
-    )
+    androidx.compose.material3.VerticalDivider(Modifier.height(48.dp))
 }
 
 val breakPoint = 600.dp
@@ -172,40 +190,55 @@ const val numberFraction = 0.2f
 val verticalDividerWidth = 1.dp
 val tableWidth = breakPoint * (labelFraction + 3 * numberFraction) + verticalDividerWidth * 3
 
-val narrowScreen: Boolean
-    @Composable get() = LocalConfiguration.current.screenWidthDp < breakPoint.value
+private fun Modifier.labelColumn(scope: RowScope, narrowScreen: Boolean) =
+    conditional(
+        narrowScreen,
+        ifTrue = { width(breakPoint * 0.35f) },
+        ifFalse = { with(scope) { weight(2f) } }
+    ).padding(end = 8.dp)
 
-private fun Modifier.labelColumn(scope: RowScope): Modifier =
-    composed { this.then(if (narrowScreen) width(breakPoint * 0.35f) else with(scope) { weight(2f) }) }.padding(
-        end = 8.dp
-    )
-
-private fun Modifier.numberColumn(scope: RowScope): Modifier =
-    composed { this.then(if (narrowScreen) width(breakPoint * 0.2f) else with(scope) { weight(1f) }) }
-        .padding(horizontal = 8.dp)
+private fun Modifier.numberColumn(scope: RowScope, narrowScreen: Boolean): Modifier =
+    conditional(
+        narrowScreen,
+        ifTrue = { width(breakPoint * 0.2f) },
+        ifFalse = { with(scope) { weight(1f) } }
+    ).padding(horizontal = 8.dp)
 
 @Composable
-private fun Header(withRollOverColumn: Boolean) {
+private fun Header(withRollOverColumn: Boolean, narrowScreen: Boolean, showChart: Boolean) {
     @Composable
-    fun RowScope.HeaderCell(stringRes: Int) {
-        Text(
-            modifier = Modifier
-                .numberColumn(this),
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold,
-            text = stringResource(id = stringRes)
-        )
+    fun RowScope.HeaderCell(stringRes: Int, color: Color? = null) {
+        Row(
+            modifier = Modifier.numberColumn(this, narrowScreen),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            color?.let {
+                Box(modifier = Modifier
+                    .size(12.sp)
+                    .background(it)
+                    .padding(end = 4.dp))
+            }
+            Text(
+                modifier = Modifier.weight(1f),
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold,
+                text = stringResource(id = stringRes),
+            )
+        }
     }
 
     Row(modifier = Modifier.height(36.dp), verticalAlignment = Alignment.CenterVertically) {
         Spacer(
-            modifier = Modifier
-                .labelColumn(this)
+            modifier = Modifier.labelColumn(this, narrowScreen)
         )
         VerticalDivider()
-        HeaderCell(R.string.budget_table_header_allocated)
+        HeaderCell(
+            R.string.budget_table_header_allocated,
+            LocalColors.current.income.takeIf { showChart })
         VerticalDivider()
-        HeaderCell(R.string.budget_table_header_spent)
+        HeaderCell(
+            R.string.budget_table_header_spent,
+            LocalColors.current.expense.takeIf { showChart })
         VerticalDivider()
         HeaderCell(R.string.available)
         if (withRollOverColumn) {
@@ -224,14 +257,15 @@ private fun BudgetCategoryRenderer(
     onBudgetEdit: () -> Unit,
     onShowTransactions: () -> Unit,
     hasRolloverNext: Boolean,
-    editRollOver: SnapshotStateMap<Long, Pair<Long, Boolean>>?
+    editRollOver: SnapshotStateMap<Long, Pair<Long, Boolean>>?,
+    narrowScreen: Boolean
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Row(
             modifier = Modifier
-                .labelColumn(this)
+                .labelColumn(this, narrowScreen)
                 .padding(start = startPadding),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -257,7 +291,8 @@ private fun BudgetCategoryRenderer(
             onBudgetEdit,
             onShowTransactions,
             hasRolloverNext,
-            editRollOver
+            editRollOver,
+            narrowScreen
         )
     }
 }
@@ -269,16 +304,18 @@ private fun RowScope.BudgetNumbers(
     onBudgetEdit: () -> Unit,
     onShowTransactions: () -> Unit,
     hasRolloverNext: Boolean,
-    editRollOver: SnapshotStateMap<Long, Pair<Long, Boolean>>?
+    editRollOver: SnapshotStateMap<Long, Pair<Long, Boolean>>?,
+    narrowScreen: Boolean
 ) {
     val totalBudget = category.budget.budget + category.budget.rollOverPrevious
     //Allocation
     val allocation =
         if (category.children.isEmpty()) totalBudget else
             category.children.sumOf { it.budget.budget }
-    Column(modifier = Modifier.numberColumn(this)) {
+    Column(modifier = Modifier.numberColumn(this, narrowScreen)) {
         AmountText(
-            modifier = Modifier.testTag(TEST_TAG_BUDGET_BUDGET)
+            modifier = Modifier
+                .testTag(TEST_TAG_BUDGET_BUDGET)
                 .clickable(onClick = onBudgetEdit)
                 .fillMaxWidth(),
             amount = category.budget.budget,
@@ -306,7 +343,8 @@ private fun RowScope.BudgetNumbers(
             val isError = allocation > category.budget.totalAllocated
             val errorIndication = if (isError) "!" else ""
             AmountText(
-                modifier = Modifier.testTag(TEST_TAG_BUDGET_ALLOCATION)
+                modifier = Modifier
+                    .testTag(TEST_TAG_BUDGET_ALLOCATION)
                     .fillMaxWidth(),
                 prefix = "$errorIndication(",
                 postfix = ")$errorIndication",
@@ -324,8 +362,9 @@ private fun RowScope.BudgetNumbers(
     //Spent
     val aggregateSum = category.aggregateSum
     AmountText(
-        modifier = Modifier.testTag(TEST_TAG_BUDGET_SPENT)
-            .numberColumn(this)
+        modifier = Modifier
+            .testTag(TEST_TAG_BUDGET_SPENT)
+            .numberColumn(this, narrowScreen)
             .clickable(onClick = onShowTransactions),
         amount = aggregateSum,
         currency = currency,
@@ -338,7 +377,7 @@ private fun RowScope.BudgetNumbers(
     //Remainder
     val remainder = category.budget.totalAllocated + aggregateSum
     ColoredAmountText(
-        modifier = Modifier.numberColumn(this),
+        modifier = Modifier.numberColumn(this, narrowScreen),
         amount = remainder,
         currency = currency,
         textAlign = TextAlign.End,
@@ -351,7 +390,7 @@ private fun RowScope.BudgetNumbers(
         val rollOverFromChildren =
             category.aggregateRollOverNext(editRollOver?.mapValues { it.value.first })
         Column(
-            modifier = Modifier.numberColumn(this),
+            modifier = Modifier.numberColumn(this, narrowScreen),
             horizontalAlignment = Alignment.End
         ) {
             if (editRollOver != null && (remainder != 0L)) {

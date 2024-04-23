@@ -39,4 +39,5 @@
     <string name="filter">"Filter"</string>
     <string name="tags">"Etiketter"</string>
     <string name="languages">"Språk"</string>
+    <string name="chart">"Diagram"</string>
 </resources>

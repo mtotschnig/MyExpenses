@@ -33,7 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.themeadapter.material3.Mdc3Theme
-import org.totschnig.myexpenses.viewmodel.data.FontAwesomeIcons
+import org.totschnig.myexpenses.viewmodel.data.ExtraIcons
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 import org.totschnig.myexpenses.viewmodel.data.IconCategory
 import org.totschnig.myexpenses.viewmodel.data.values
@@ -126,7 +126,7 @@ fun Preview() {
         Surface {
             IconSelector(
                 iconsForCategory = { _, _ ->
-                    FontAwesomeIcons
+                    ExtraIcons
                 },
                 iconsForSearch = { _, _ ->
                     emptyMap()

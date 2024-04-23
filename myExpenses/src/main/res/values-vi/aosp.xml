@@ -102,4 +102,5 @@
     <string name="filter">"Bộ lọc"</string>
     <string name="tags">"Thẻ"</string>
     <string name="languages">"Ngôn ngữ"</string>
+    <string name="chart">"Đồ thị"</string>
 </resources>

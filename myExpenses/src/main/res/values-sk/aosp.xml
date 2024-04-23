@@ -39,4 +39,5 @@
     <string name="filter">"Filtrujte"</string>
     <string name="tags">"Značky"</string>
     <string name="languages">"Jazyky"</string>
+    <string name="chart">"Graf"</string>
 </resources>

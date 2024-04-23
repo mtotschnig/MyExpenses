@@ -1,16 +1,26 @@
 package org.totschnig.myexpenses.activity
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -18,11 +28,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.charts.RadarChart
+import com.github.mikephil.charting.data.RadarData
+import com.github.mikephil.charting.data.RadarDataSet
+import com.github.mikephil.charting.data.RadarEntry
+import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.google.android.material.chip.ChipGroup
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
@@ -36,6 +54,7 @@ import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.Budget
 import org.totschnig.myexpenses.compose.ExpansionMode
 import org.totschnig.myexpenses.compose.TEST_TAG_BUDGET_ROOT
+import org.totschnig.myexpenses.compose.breakPoint
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
@@ -46,12 +65,16 @@ import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
-import org.totschnig.myexpenses.util.ui.addChipsBulk
 import org.totschnig.myexpenses.util.buildAmountField
 import org.totschnig.myexpenses.util.setEnabledAndVisible
+import org.totschnig.myexpenses.util.ui.addChipsBulk
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2
+import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Category
+import timber.log.Timber
 import java.math.BigDecimal
+import kotlin.math.pow
+
 
 class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogResultListener {
     companion object {
@@ -63,6 +86,9 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
     override val viewModel: BudgetViewModel2 by viewModels()
     private lateinit var sortDelegate: SortDelegate
     private var hasRollovers: Boolean? = null
+    private lateinit var chart: RadarChart
+
+    override val showChartPrefKey = PrefKey.BUDGEt_SHOW_CHART
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,8 +124,6 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 val category =
                     viewModel.categoryTreeForBudget.collectAsState(initial = Category.LOADING).value
                 val budget = viewModel.accountInfo.collectAsState(null).value
-                val sort = viewModel.sortOrder.collectAsState()
-                val whereFilter = viewModel.whereFilter.collectAsState().value
                 Box(modifier = Modifier.fillMaxSize()) {
                     if (category === Category.LOADING || budget == null) {
                         CircularProgressIndicator(
@@ -108,57 +132,18 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                                 .align(Alignment.Center)
                         )
                     } else {
+                        LaunchedEffect(category) {
+                            setChartData(category, budget.currencyUnit.fractionDigits)
+                        }
                         hasRollovers = category.hasRolloverNext
-                        Column {
-                            AndroidView(
-                                modifier = Modifier.padding(horizontal = dimensionResource(id = eltos.simpledialogfragment.R.dimen.activity_horizontal_margin)),
-                                factory = { ChipGroup(it) },
-                                update = { chipGroup ->
-                                    chipGroup.addChipsBulk(buildList {
-                                        add(budget.label(this@BudgetActivity))
-                                        whereFilter.criteria.forEach {
-                                            add(it.prettyPrint(this@BudgetActivity))
-                                        }
-                                    })
-                                }
-
-                            )
-
-                            Budget(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .testTag(TEST_TAG_BUDGET_ROOT),
-                                category = category.copy(
-                                    sum = viewModel.sum.collectAsState().value,
-                                ).let {
-                                    when (sort.value) {
-                                        Sort.SPENT -> it.sortChildrenBySumRecursive()
-                                        Sort.ALLOCATED -> it.sortChildrenByBudgetRecursive()
-                                        else -> it
-                                    }
-                                },
-                                expansionMode = ExpansionMode.DefaultCollapsed(
-                                    rememberMutableStateListOf()
-                                ),
-                                currency = budget.currencyUnit,
-                                onBudgetEdit = { cat, parent ->
-                                    showEditBudgetDialog(
-                                        cat,
-                                        parent,
-                                        budget.currencyUnit,
-                                        budget.grouping != Grouping.NONE
-                                    )
-                                },
-                                onShowTransactions = {
-                                    lifecycleScope.launch {
-                                        showTransactions(it)
-                                    }
-                                },
-                                hasRolloverNext = category.hasRolloverNext,
-                                editRollOver = if (viewModel.duringRollOverEdit) {
-                                    viewModel.editRollOverMap
-                                } else null
-                            )
+                        Column(verticalArrangement = Arrangement.Center) {
+                            RenderFilters(budget)
+                            LayoutHelper(
+                                data = {
+                                    RenderBudget(it, category, budget)
+                                }, chart = {
+                                    RenderChart(it, category, budget.currencyUnit.fractionDigits)
+                                })
                             val editRollOverInValid = viewModel.editRollOverInValid
                             LaunchedEffect(editRollOverInValid) {
                                 invalidateOptionsMenu()
@@ -179,6 +164,118 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 false
             )
         )
+    }
+
+    private fun requireChart(context: Context) = RadarChart(context).also { chart = it }
+
+    @Composable
+    fun RenderFilters(budget: Budget) {
+        val whereFilter = viewModel.whereFilter.collectAsState().value
+        AndroidView(
+            modifier = Modifier.padding(horizontal = dimensionResource(id = eltos.simpledialogfragment.R.dimen.activity_horizontal_margin)),
+            factory = { ChipGroup(it) },
+            update = { chipGroup ->
+                chipGroup.addChipsBulk(buildList {
+                    add(budget.label(this@BudgetActivity))
+                    whereFilter.criteria.forEach {
+                        add(it.prettyPrint(this@BudgetActivity))
+                    }
+                })
+            }
+        )
+    }
+
+    @Composable
+    fun RenderBudget(
+        modifier: Modifier,
+        category: Category,
+        budget: Budget
+    ) {
+        val sort = viewModel.sortOrder.collectAsState()
+        BoxWithConstraints(modifier = modifier.testTag(TEST_TAG_BUDGET_ROOT)) {
+            val narrowScreen = maxWidth.value < breakPoint.value
+            Timber.d("narrowScreen : %b (%f)", narrowScreen, maxWidth.value)
+
+            Budget(
+                category = category.copy(
+                    sum = viewModel.sum.collectAsState().value,
+                ).let {
+                    when (sort.value) {
+                        Sort.SPENT -> it.sortChildrenBySumRecursive()
+                        Sort.ALLOCATED -> it.sortChildrenByBudgetRecursive()
+                        else -> it
+                    }
+                },
+                expansionMode = ExpansionMode.DefaultCollapsed(
+                    rememberMutableStateListOf()
+                ),
+                currency = budget.currencyUnit,
+                onBudgetEdit = { cat, parent ->
+                    showEditBudgetDialog(
+                        cat,
+                        parent,
+                        budget.currencyUnit,
+                        budget.grouping != Grouping.NONE
+                    )
+                },
+                onShowTransactions = {
+                    lifecycleScope.launch {
+                        showTransactions(it)
+                    }
+                },
+                hasRolloverNext = category.hasRolloverNext,
+                editRollOver = if (viewModel.duringRollOverEdit) {
+                    viewModel.editRollOverMap
+                } else null,
+                narrowScreen = narrowScreen,
+                showChart = showChart.value
+            )
+        }
+    }
+
+    @Composable
+    fun RenderChart(modifier: Modifier, category: Category, fractionDigits: Int) {
+        if (category.children.count { it.budget.totalAllocated > 0 } >= 3)
+            AndroidView(
+                modifier = modifier,
+                factory = { ctx ->
+                    requireChart(ctx).apply {
+
+                        description.isEnabled = false
+
+                        webLineWidth = 1f
+                        webColor = Color.LTGRAY
+                        webLineWidthInner = 1f
+                        webColorInner = Color.LTGRAY
+
+                        animateXY(1400, 1400, Easing.EaseInOutQuad)
+
+                        with(xAxis) {
+                            //typeface = tfLight
+                            setTextSize(9f)
+                            yOffset = 0f
+                            xOffset = 0f
+                            textColor = textColorSecondary.defaultColor
+                        }
+
+
+                        with(yAxis) {
+                            //typeface = tfLight
+                            setLabelCount(5, false)
+                            setTextSize(9f)
+                            textColor = textColorSecondary.defaultColor
+                        }
+                        legend.isEnabled = false
+                        setChartData(category, fractionDigits)
+                    }
+                }
+            )
+        else
+            Text(
+                "Not enough data",
+                modifier.wrapContentHeight(),
+                textAlign = TextAlign.Center
+            )
     }
 
     private fun showEditBudgetDialog(
@@ -426,4 +523,63 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             viewModel.setSortOrder(sortDelegate.currentSortOrder)
             true
         } else super.onOptionsItemSelected(item)
+
+    private fun setChartData(category: Category, fractionDigits: Int) {
+        if ((::chart.isInitialized)) {
+            val factor = 10.0.pow(fractionDigits).toFloat()
+            val labels = mutableListOf<String>()
+            val allocated = mutableListOf<RadarEntry>()
+            val spent = mutableListOf<RadarEntry>()
+            val categories = category.children.filter {
+                it.budget.totalAllocated > 0
+            }
+            if (categories.size < 3) return
+            categories.forEach {
+                labels.add(it.label)
+                allocated.add(RadarEntry(it.budget.totalAllocated / factor))
+                spent.add(RadarEntry(-it.aggregateSum.toFloat() / factor))
+            }
+            with(chart) {
+                xAxis.valueFormatter = IAxisValueFormatter { value, _ ->
+                    labels[value.toInt() % labels.size]
+                }
+                setData(RadarData(buildList<RadarDataSet> {
+                    add(
+                        RadarDataSet(
+                            allocated,
+                            getString(R.string.budget_table_header_allocated)
+                        ).apply {
+                            setColor(ResourcesCompat.getColor(resources, R.color.colorIncome, null))
+                            setLineWidth(2f)
+                            isDrawHighlightCircleEnabled = true
+                            setDrawHighlightIndicators(false)
+                        })
+                    add(RadarDataSet(spent, getString(R.string.budget_table_header_spent)).apply {
+                        setColor(ResourcesCompat.getColor(resources, R.color.colorExpense, null))
+                        setLineWidth(2f)
+                        isDrawHighlightCircleEnabled = true
+                        setDrawHighlightIndicators(false)
+                    })
+                }).apply {
+                    setValueTextSize(8f)
+                    setDrawValues(false)
+                    setValueTextColor(Color.WHITE)
+                })
+                invalidate()
+            }
+        }
+    }
 }
+
+/*
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun RadarChart() {
+    Mdc3Theme {
+        Surface(modifier = Modifier.size(200.dp)) {
+            RenderChart(modifier = Modifier)
+        }
+    }
+}
+*/

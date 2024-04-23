@@ -373,7 +373,6 @@
     <string name="import_source_file">Bestand</string>
     <string name="restore_calendar_handling">Verwerking van kalendergegevens</string>
     <string name="restore_calendar_handling_configured">Herstel plannen naar de momenteel geconfigureerde kalender</string>
-    <string name="menu_distribution_show_pie_char">Toon cirkeldiagram</string>
     <string name="pref_auto_backup_title">Automatische back-up</string>
     <string name="pref_sort_order_last_used">Laatst gebruikt</string>
     <string name="validate_error_webdav_not_compliant">De URL verwijst niet naar een WebDAV-bron.</string>

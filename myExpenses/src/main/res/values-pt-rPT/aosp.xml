@@ -67,4 +67,5 @@
     <string name="filter">"Filtrar"</string>
     <string name="tags">"Etiquetas"</string>
     <string name="languages">"Idiomas"</string>
+    <string name="chart">"Gráfico"</string>
 </resources>

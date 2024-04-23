@@ -58,4 +58,9 @@
         app:showAsAction="never"
         android:title="@string/menu_delete">
     </item>
+    <item
+        android:id="@id/TOGGLE_CHART_COMMAND"
+        app:showAsAction="never"
+        android:checkable="true"
+        android:title="@string/chart"/>
 </menu>
