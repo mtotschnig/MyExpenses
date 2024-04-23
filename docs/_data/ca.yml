@@ -48,6 +48,8 @@ ca_ES:
         al vostre núvol d'emmagatzematge
       split_transaction: '<b>Reparteixi transacció</b>: Una sola transacció pot ser
         repartida en diferents parts (categories i transferències)'
+      banking: Baixa les transaccions dels bancs d'Alemanya (<b>FinTS</b>)
+      category_tree: Profunditat il·limitada de <b>arbre de categories</b>
     feature-list-title: 'Si us plau contribïu millorant <i>{app_name}</i> i obtenint
       accés a sense límit a les funcions següents:'
     one-time-payment: Pagament únic
@@ -105,8 +107,8 @@ ca_ES:
     password: Les dades es poden protegir amb <b>contrassenya</b> del disposistiu
       o <b>bloqueig de pantalla</b>
     light_theme: <b>Tema</b> (fosc i clar) i <b>mida de lletra</b> es poden personalitzar
-    reconciliation: "<b>Reconciliacions</b>: Compari fàcilment l'estat de les transaccions\
-      \ i els teus extractes bancaris"
+    reconciliation: "<b>Reconciliacions</b>: Compari fàcilment l'estat de les transaccions
+      i els teus extractes bancaris"
     homescreen: A la pantalla inicial, <b>widget</b> i <b>dreceres</b> permeten entrar
       dades ràpidament
   store:
