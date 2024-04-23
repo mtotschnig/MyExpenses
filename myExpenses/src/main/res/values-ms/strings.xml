@@ -60,7 +60,7 @@
     <string name="date_format_illegal">Format tarikh tidak sah</string>
     <string name="number_format_illegal">Format nombor tidak sah</string>
     <string name="decimal_separator">Pemisah perpuluhan</string>
-    <string name="default_account_name">Buku Bajet</string>
+    <string name="default_account_name">Buku Belanjawan</string>
     <string name="description">Keterangan</string>
     <string name="dialog_balance_delete">Padam transaksi tersesuai</string>
     <string name="dialog_confirm_discard_changes">Singkir perubahan?</string>
@@ -212,7 +212,7 @@
     <string name="password_not_valid">Kata laluan tidak sah. Cuba lagi!</string>
     <string name="password_prompt">Masukkan kata laluan anda</string>
     <string name="password_security_answer_not_valid">Jawapan salah. Cuba lagi!</string>
-    <string name="payee">Penerima</string>
+    <string name="payee">Penerima bayaran</string>
     <string name="payer">Pembayar</string>
     <string name="payer_or_payee">Penerima/Pembayar</string>
     <!-- Plan for future and recurring transactions -->
@@ -236,7 +236,7 @@
     <string name="pm_type_debit">Debit</string>
     <string name="pm_type_neutral">Neutral</string>
     <string name="pref_app_dir_title">Folder untuk sandar dan eksport</string>
-    <string name="pref_auto_fill_summary">Isi data dari transaksi terakhir untuk penerima/pembayar</string>
+    <string name="pref_auto_fill_summary">Isikan data dari transaksi terakhir untuk penerima/pembayar yang sama</string>
     <string name="pref_backup_summary">Cipta sandar pangkalan data dan keutamaan.</string>
     <string name="pref_sort_order_usages">Kiraan penggunaan</string>
     <string name="pref_category_title_export">Eksport</string>
@@ -261,7 +261,7 @@
     <string name="pref_manage_categories_title">Kategori</string>
     <string name="pref_manage_methods_summary">Cipta dan sunting kaedah pembayaran dan kaitkan ia dengan jenis akaun.</string>
     <string name="pref_manage_methods_title">Kaedah pembayaran</string>
-    <string name="pref_manage_parties_summary">Tambah,sunting pihak (pembayar dan penerima).</string>
+    <string name="pref_manage_parties_summary">Tambah, edit, padam pihak (pembayar dan penerima).</string>
     <string name="pref_manage_parties_title">Pihak</string>
     <string name="pref_manage_sync_backends_title">Penyegerakan bahagian belakang</string>
     <!-- %s will be replaced with list of backends -->
@@ -399,7 +399,7 @@
     <string name="search_comment">Gelintar nota</string>
     <string name="search_date">Gelintar tarikh</string>
     <string name="search_status">Gelintar status</string>
-    <string name="search_payee">Gelintar penerima/pembayar</string>
+    <string name="search_payee">Cari penerima/pembayar</string>
     <string name="search_method">Gelintar kaedah</string>
     <string name="and">dan</string>
     <string name="between_and">diantara %1$s hingga %2$s</string>
@@ -415,7 +415,7 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">selepas</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Pembelian gagal atau dibatalkan.</string>
-    <string name="hint_auto_fill">Sepatutnya data terisi secara automatik dari transaksi terakhir bagi penerima/pembayar yang sama? Tetapi anda boleh ubah kelakuan ini melalui tetapan.</string>
+    <string name="hint_auto_fill">Patutkah data diisi secara automatik dari transaksi terakhir untuk penerima/pembayar yang sama? Anda sentiasa boleh menukar tingkah laku ini daripada tetapan.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d akaun dengan matawang %2$s telah dikemaskini.</string>
     <string name="import_source_file">Fail</string>
     <string name="restore_calendar_handling">Pengendalian data kalendar</string>
@@ -618,7 +618,7 @@
     <string name="ungroup_split_transaction_success">Transaksi pengasingan 1 berjaya dinyakumpulkan.</string>
     <string name="split_transaction_one_success">Transaksi berjaya diubah untuk diasingkan.</string>
     <string name="split_transaction_group_success">Transaki %1$d berjaya dikumpulkan menjadi satu transaksi pengasingan.</string>
-    <string name="split_transaction_not_possible">Hanya transaksi yang mempunyai akaun, pembayar, dan status yang sama boleh dikumpulkan menjadi satu transaksi pengasingan.</string>
+    <string name="split_transaction_not_possible">Hanya transaksi yang mempunyai akaun, penerima dan status yang sama boleh dikumpulkan ke dalam satu transaksi berpecah.</string>
     <string name="pref_transaction_time_summary">Benarkan penetapan waktu transaksi.</string>
     <string name="pref_value_date_summary">Benarkan penetapan tarikh nilai selain dari tarikh tempahan. Waktu transaksi akan disembunyikan. Tetapan ini tidak dilaksanakan pada akaun tunai.</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
@@ -708,10 +708,10 @@
     <string name="pref_exchange_rate_provider_title">Penyedia Kadar Pertukaran</string>
     <string name="pref_exchange_rates_api_key_summary">Sila daftar satu akaun percuma pada %s dan sediakan ID Apl anda</string>
     <string name="pref_plan_executor_time_title">Masa pemberitahuan perancang</string>
-    <string name="menu_create_budget">Bajet baharu</string>
+    <string name="menu_create_budget">Belanjawan baharu</string>
     <string name="budget_duration_from">Dari</string>
     <string name="budget_duration_to">Sehingga</string>
-    <string name="menu_edit_budget">Sunting bajet</string>
+    <string name="menu_edit_budget">Edit belanjawan</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Fitur</string>
     <string name="menu_save_and_new_content_description">Simpan data, biarkan borang terbuka untuk mencipta transaksi baharu dengan data yang sama.</string>
@@ -734,7 +734,7 @@
     <string name="sub_budget_exceeded_error_1_1">Semua kecuali %s daripada jumlah yang diperuntukkan kepada kategori utama telah diperuntukkan kepada subkategori lain.</string>
     <string name="content_description_remove_icon">Buang ikon</string>
     <string name="no_accounts">Tiada akaun.</string>
-    <string name="select_payee">Pilih pembayar/penerima bayaran</string>
+    <string name="select_payee">Pilih pembayar/penerima</string>
     <string name="account_deleted">Akaun telah dipadam</string>
     <string name="search_account">Cari akaun</string>
     <string name="image_capture_not_installed">Tiada apl ditemui untuk mengambil gambar.</string>
@@ -756,10 +756,10 @@
     <string name="new_version">Versi baharu</string>
     <string name="content_description_edit_plan">Edit pelan dalam apl kalendar</string>
     <string name="contact_us">Hubungi kami</string>
-    <string name="no_budgets">Tentukan bajet pertama anda dengan mengetik butang +.</string>
+    <string name="no_budgets">Tentukan belanjawan pertama anda dengan mengetik butang +.</string>
     <string name="budget_filter_all_categories">Semua kategori</string>
     <string name="button_scan">Imbas</string>
-    <string name="auto_fill_focus">Tetapkan Fokus pada Penerima Bayaran</string>
+    <string name="auto_fill_focus">Tetapkan Fokus pada Penerima</string>
     <string name="template_shortcut">Pintasan templat</string>
     <plurals name="debt_mapped_transactions">
         <item quantity="other">Hutang %1$s mempunyai %2$d transaksi yang dipetakan.</item>
@@ -778,11 +778,11 @@
     <string name="active_tags">Tag Aktif</string>
     <string name="menu_new_debt">Hutang baharu</string>
     <string name="title_activity_debt_overview">Ringkasan Hutang</string>
-    <string name="budget_table_header_rollover">Pusingan</string>
+    <string name="budget_table_header_rollover">Peralihan</string>
     <string name="content_description_attachment">Lampiran</string>
     <string name="remap_method">Semua transaksi yang dipilih akan dipetakan kepada kaedah %s.</string>
     <string name="budget_filter_all_tags">Semua tag</string>
-    <string name="dialog_title_warning_delete_budget">Padam bajet?</string>
+    <string name="dialog_title_warning_delete_budget">Padam belanjawan?</string>
     <string name="clone_and_remap_result">Transaksi yang dipilih telah diklon dan dipetakan semula.</string>
     <string name="menu_unlink_transfer">Nyahpaut pemindahan</string>
     <string name="pref_planner_manual_time_noon">12 tengah hari</string>
@@ -790,7 +790,7 @@
     <string name="scan_result_no_amount">Tiada jumlah ditemui</string>
     <string name="scan_result_no_date">Tiada tarikh ditemui</string>
     <string name="pref_tesseract_language_title">Bahasa untuk Tesseract</string>
-    <string name="widget_title_budget">Bajet saya</string>
+    <string name="widget_title_budget">Belanjawan saya</string>
     <string name="remap_category">Semua transaksi yang dipilih akan dipetakan ke kategori %s.</string>
     <string name="recurrence_last_day_of_month">Hari terakhir</string>
     <string name="debt">Hutang</string>
@@ -821,7 +821,7 @@
     <string name="pref_copy_attachments_title">Salin lampiran ke folder aplikasi</string>
     <string name="attachments">Lampiran</string>
     <string name="feature_download_requested">Ciri %s diminta daripada Gedung Play.</string>
-    <string name="scan_result_no_payee">Tiada penerima bayaran ditemui</string>
+    <string name="scan_result_no_payee">Tiada penerima ditemui</string>
     <string name="debt_owes_me">%s berhutang dengan saya</string>
     <string name="debt_paid_off_other">Hutang %s telah dijelaskan.</string>
     <string name="add_shortcut">Tambah Pintasan</string>
@@ -849,7 +849,7 @@
     <string name="request_for_invoice">Permintaan untuk Invois</string>
     <string name="remove_from_group">Keluarkan dari kumpulan</string>
     <string name="sync_backend_is_not_encrypted">Bahagian belakang jauh tidak disulitkan.</string>
-    <string name="warning_delete_budget">Bajet \"%1$s\" akan dipadamkan.</string>
+    <string name="warning_delete_budget">Belanjawan \"%1$s\" akan dipadamkan.</string>
     <string name="merge_categories_dialog_title">Gabungkan Kategori</string>
     <string name="merge_categories_prompt">Pilih kategori yang anda ingin kekalkan</string>
     <string name="select_package">Sila pilih pakej lesen.</string>
@@ -903,7 +903,51 @@
     <string name="webui_warning_move_transaction">Transaksi akan dipindahkan ke akaun {account}.</string>
     <string name="pref_sync_now_all_summary">%s menyegerakkan semua akaun untuk bahagian belakang yang sama</string>
     <string name="synchronization_select_folder_dialog_title">Pilih folder sedia ada atau buat yang baharu</string>
-    <string name="remap_payee">Semua transaksi yang dipilih akan dipetakan kepada pembayar / penerima bayaran %s.</string>
+    <string name="remap_payee">Semua transaksi yang dipilih akan dipetakan kepada pembayar / penerima %s.</string>
     <string name="dialog_multi_tag_clear">Semua tag akan dikeluarkan daripada transaksi yang dipilih.</string>
     <string name="language_download_requested">Terjemahan untuk bahasa %s diminta daripada Gedung Play</string>
+    <string name="sub_budget_under_allocated_error">%s telah pun diperuntukkan kepada subkategori. Melainkan anda mengeluarkan wang daripadanya, anda mesti sekurang-kurangnya memperuntukkan jumlah itu kepada kategori utama.</string>
+    <string name="rollover_edit_invalid">Jumlah peralihan yang diperuntukkan kepada kategori dan peralihan yang diperuntukkan kepada subkategori tidak boleh melebihi baki.</string>
+    <string name="warning_unlink_transfer">Pemindahan yang dipilih akan dinyahpautkan: Ia akan digantikan dengan transaksi biasa dalam kedua-dua akaun.</string>
+    <string name="plan_automatic_without_amount_hint">Pelan tanpa jumlah tidak boleh disimpan dengan pelaksanaan pelan automatik</string>
+    <string name="encrypt_database_info">Pangkalan data akan disulitkan dengan frasa laluan yang tidak boleh diekstrak daripada peranti ini. Oleh itu, ia tidak akan disandarkan oleh perkhidmatan sandaran peranti anda.</string>
+    <string name="pref_ocr_total_indicators_summary">Senarai rentetan, yang mengenal pasti jumlah nilai dalam resit. Letakkan setiap nilai pada baris baharu. Biarkan kosong untuk memulihkan nilai lalai.</string>
+    <string name="budget_date_end_after_start">Tarikh tamat belanjawan mesti datang selepas tarikh mulanya.</string>
+    <string name="warning_balance_account_delete">Jika anda meneruskan, semua transaksi yang diselaraskan bagi akaun ini akan dipadamkan daripada pangkalan data dan anda tidak akan dapat memulihkannya.</string>
+    <string name="warning_link_transfer">Kedua-dua transaksi yang dipilih akan dipautkan sebagai pemindahan. Maklumat Penerima Bayaran/Pembayar dan kategori akan digugurkan.</string>
+    <string name="warning_party_delete_debt">Apabila memadamkan pihak ini, hutang yang ditentukan untuknya akan dipadamkan juga.</string>
+    <string name="orphaned_transaction_info">Transaksi dipautkan kepada pelan untuk tarikh ini, tetapi tiada kejadian peristiwa berlaku pada tarikh ini.</string>
+    <string name="warning_delete_default_transfer_category">Kategori %s dikonfigurasikan sebagai kategori pemindahan lalai dan tidak boleh dipadamkan.</string>
+    <string name="select_all_list_too_large">Perintah %s tidak tersedia kerana hanya sebahagian senarai dimuatkan. Sila gunakan fungsi Carian untuk mengurangkan saiz senarai.</string>
+    <string name="pref_copy_attachments_summary_off">Fail tidak disalin, hanya rujukan disimpan.</string>
+    <string name="pref_feature_uninstall_summary">Gedung Play cuba untuk akhirnya mengalih keluar modul tersebut di latar belakang.</string>
+    <string name="github_sponsors">Kunci lesen juga diberikan kepada &lt;a href=%s&gt;Penaja Github&lt;/a&gt;.</string>
+    <string name="roadmap_intro">Undian Pelan Hala Tuju 2024 kini dibuka! Undi untuk ciri dan penambahbaikan yang paling penting kepada anda.</string>
+    <string name="subcategories_merged_recursively">Jika mana-mana kategori yang digabungkan mempunyai subkategori dengan label yang sama, kategori tersebut akan digabungkan terlebih dahulu, secara rekursif.</string>
+    <string name="notifications_permission_required_auto_backup">Dengan memberikan kebenaran untuk menghantar pemberitahuan, anda akan dimaklumkan tentang auto-sandar.</string>
+    <string name="exchange_rate_not_supported">Pembekal kadar pertukaran yang dikonfigurasikan tidak memberikan kadar %1$s : %2$s. Anda boleh cuba memilih yang lain dalam tetapan.</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="other">Tag %1$s dipetakan pada transaksi %2$d . Patutkah ia dipadamkan?</item>
+    </plurals>
+    <string name="sub_budget_exceeded_error_1_2">Semua jumlah yang diperuntukkan kepada kategori utama telah diperuntukkan kepada subkategori lain.</string>
+    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Ketik dan tahan butang tindakan terapung untuk membuka terus borang untuk pemindahan, transaksi berpecah atau pendapatan.</string>
+    <string name="warning_unencrypted_backup">Walaupun data anda dilindungi daripada akses tanpa kebenaran pada peranti ini, sandaran dibuat tanpa penyulitan, melainkan anda mengkonfigurasi %s.</string>
+    <string name="pref_purge_backup_keep_title">Bilangan maksimum fail sandaran terbaharu untuk disimpan</string>
+    <string name="pref_csv_export_split_categories_summary">Gunakan lajur berasingan untuk setiap peringkat hierarki kategori</string>
+    <string name="dialog_confirm_rollover_delete">Semua jumlah peralihan untuk tempoh ini akan dipadamkan.</string>
+    <string name="notifications_permission_required_planner"><i>[app_name}</i> memerlukan kebenaran untuk menghantar pemberitahuan kepada anda, apabila transaksi akan datang disiarkan.</string>
+    <string name="notifications_permission_required_webui">Dengan memberikan kebenaran untuk menghantar pemberitahuan, anda boleh mengawal status pelayan web.</string>
+    <string name="notifications_permission_required_sync">Dengan memberikan kebenaran untuk menghantar pemberitahuan, anda boleh memantau kemajuan operasi penyegerakan.</string>
+    <string name="image_optimize_quality_summary">Kualiti 0 bermakna memampatkan untuk saiz terkecil. 100 bermaksud memampatkan untuk kualiti visual yang maksimum.</string>
+    <string name="remap_date">Pada semua transaksi yang dipilih, tarikh akan ditetapkan kepada %s.</string>
+    <string name="warning_transform_to_transfer">Transaksi yang dipilih akan digantikan dengan pemindahan daripada %1$s ke %2$s.</string>
+    <string name="template_default_action_without_amount_hint">Templat tanpa jumlah hendaklah disimpan dengan tindakan lalai \'Edit\'</string>
+    <string name="single_feature_info">Sebagai alternatif, anda boleh membeli akses tanpa had untuk ciri ini sahaja.</string>
+    <string name="warning_plan_instance_delete">Transaksi yang dibuat untuk tarikh yang dipilih akan dipadamkan.</string>
+    <string name="tesseract_download_confirmation">Adakah anda ingin memuat turun data pengecaman teks untuk %s ?</string>
+    <string name="orphaned_transaction_relink">Transaksi boleh dipautkan semula dengan kejadian peristiwa pada %s.</string>
+    <string name="sub_budget_exceeded_error_2">Tingkatkan jumlah yang diperuntukkan kepada kategori utama, atau alih keluar wang daripada subkategori lain.</string>
+    <string name="remap_empty_list">Tiada item ditemui, yang boleh dipetakan pada semua transaksi yang dipilih.</string>
+    <string name="orphaned_transaction_align_date">Secara pilihan, tarikh yang disimpan dengan transaksi juga boleh diselaraskan dengan tarikh kejadian.</string>
+    <string name="onboarding_privacy_intro">Data kewangan anda tidak dihantar ke mana-mana pelayan, tidak dikendalikan oleh kami mahupun oleh mana-mana pihak ketiga.</string>
 </resources>
