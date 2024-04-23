@@ -1,2 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="splittemplate_title">Divideix la plantilla</string>
+    <string name="history_title">Diagrama d\'històric</string>
+    <string name="history_description">Entén com evoluciona la teva situació finançera</string>
+    <string name="budget_title">Pressupostar</string>
+    <string name="ocr_title">Escaneja el rebut</string>
+    <string name="ocr_description">Extreu automàticament l\'import, la data i el beneficiari</string>
+    <string name="webui_title">Interfície d\'usuari web</string>
+    <string name="categorytree_title">Arbre de categories</string>
+    <string name="categorytree_description">Jerarquia de categories molt profunda</string>
+    <string name="accountsunlimited_title">Nombre il·limitat de comptes</string>
+    <string name="accountsunlimited_description">Desbloqueja la capacitat de crear més de cinc comptes.</string>
+    <string name="adfree_title">Sense anuncis</string>
+    <string name="adfree_description">Sense anuncis.</string>
+    <string name="csvimport_title">Importa CSV</string>
+    <string name="csvimport_description">Importació CSV sofisticada i personalitzable (aplicacions de full de càlcul)</string>
+    <string name="distribution_description">Visualitzar la distribució estadística de les transaccions per categoria en diferents períodes (anys, mesos, setmanes, dies)</string>
+    <string name="plansunlimited_title">Nombre il·limitat de plans</string>
+    <string name="print_title">Imprimeix</string>
+    <string name="splittransaction_title">Divideix l\'operació</string>
+    <string name="splittransaction_description">Una única transacció es pot dividir en múltiples parts (categories i transferències).</string>
+    <string name="synchronization_title">Sincronització al núvol</string>
+    <string name="synchronization_description">Les dades es poden sincronitzar entre diversos dispositius.</string>
+    <string name="professional_benefit_1">Desbloqueja totes les funcions prèmium</string>
+    <string name="professional_benefit_2">Suport per correu electrònic</string>
+    <string name="professional_benefit_3">Participar en el full de ruta de desenvolupament</string>
+    <string name="splittemplate_description">Nombre il·limitat de plantilles i plans per a les operacions desglossades</string>
+    <string name="budget_description">Defineix quin pressupsot vols gastar anualment, mensual o setmanal</string>
+    <string name="distribution_title">Diagrama circular</string>
+    <string name="webui_description">Empreu el navegador de l\'escriptori per a l\'entrada de dades</string>
+    <string name="plansunlimited_description">Desbloqueja la capacitat de crear més de tres plans per a operacions recurrents.</string>
+    <string name="print_description">Imprimeix la llista d\'operacions a un fitxer PDF</string>
+</resources>
