@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.changelog
 import android.app.Application
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -18,7 +19,7 @@ import java.nio.file.Paths
 import java.util.Locale
 
 @RunWith(RobolectricTestRunner::class)
-//@Ignore("This is only run on demand in order to generate ChangeLog!")
+@Ignore("This is only run on demand in order to generate ChangeLog!")
 class ChangeLogGenerator {
 
     val context: Application
