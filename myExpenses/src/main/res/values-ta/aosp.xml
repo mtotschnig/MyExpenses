@@ -98,4 +98,5 @@
     <string name="tags">குறிச்சொற்கள்</string>
     <string name="languages">"மொழிகள்"</string>
     <string name="chart">"விளக்கப்படம்"</string>
+    <string name="full_screen">"முழுத்திரை"</string>
 </resources>

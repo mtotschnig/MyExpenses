@@ -103,4 +103,5 @@
     <string name="tags">Etiquetas</string>
     <string name="languages">"Idiomas"</string>
     <string name="chart">"Gráfico"</string>
+    <string name="full_screen">"Tela cheia"</string>
 </resources>

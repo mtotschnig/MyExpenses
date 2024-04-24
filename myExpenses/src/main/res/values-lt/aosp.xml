@@ -33,4 +33,5 @@
     <string name="tags">"Žymos"</string>
     <string name="languages">"Kalbos"</string>
     <string name="chart">"Diagrama"</string>
+    <string name="full_screen">"Visas ekranas"</string>
 </resources>

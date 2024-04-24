@@ -104,4 +104,5 @@
     <string name="tags">"標記"</string>
     <string name="languages">"語言"</string>
     <string name="chart">"圖表"</string>
+    <string name="full_screen">"整個螢幕"</string>
 </resources>

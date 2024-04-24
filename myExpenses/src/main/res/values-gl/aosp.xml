@@ -39,4 +39,5 @@
     <string name="filter">"Filtra"</string>
     <string name="languages">"Idiomas"</string>
     <string name="chart">"Gráfica"</string>
+    <string name="full_screen">"Pantalla completa"</string>
 </resources>

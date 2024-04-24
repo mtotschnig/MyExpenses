@@ -227,4 +227,5 @@
     <item name="UNLINK_TRANSFER_COMMAND" type="id" />
     <item name="TRANSFORM_TO_TRANSFER_COMMAND" type="id" />
     <item name="WEB_UI_COMMAND" type="id" />
+    <item name="FULL_SCREEN_COMMAND" type="id" />
 </resources>

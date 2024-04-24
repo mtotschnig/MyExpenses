@@ -108,4 +108,5 @@
     <string name="tags">Étiquettes</string>
     <string name="languages">"Langues"</string>
     <string name="chart">"Diagramme"</string>
+    <string name="full_screen">"Tout l'écran"</string>
 </resources>

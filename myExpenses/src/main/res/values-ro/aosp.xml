@@ -100,4 +100,5 @@
     <string name="tags">"Etichete"</string>
     <string name="languages">"Limbi"</string>
     <string name="chart">"Diagramă"</string>
+    <string name="full_screen">"Ecran complet"</string>
 </resources>

@@ -110,4 +110,5 @@
     <string name="tags">Štítky</string>
     <string name="languages">"Jazyky"</string>
     <string name="chart">"Graf"</string>
+    <string name="full_screen">"Celá obrazovka"</string>
 </resources>

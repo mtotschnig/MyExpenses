@@ -107,4 +107,5 @@
     <string name="tags">"Schlagwörter"</string>
     <string name="languages">"Sprachen"</string>
     <string name="chart">"Diagramm"</string>
+    <string name="full_screen">"Ganzer Bildschirm"</string>
 </resources>

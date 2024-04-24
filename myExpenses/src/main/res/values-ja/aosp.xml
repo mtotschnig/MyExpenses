@@ -105,4 +105,5 @@
     <string name="tags">"タグ"</string>
     <string name="languages">"言語"</string>
     <string name="chart">"グラフ"</string>
+    <string name="full_screen">"全画面"</string>
 </resources>

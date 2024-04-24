@@ -99,4 +99,5 @@
     <string name="tags">"태그"</string>
     <string name="languages">"언어"</string>
     <string name="chart">"차트"</string>
+    <string name="full_screen">"전체 화면"</string>
 </resources>

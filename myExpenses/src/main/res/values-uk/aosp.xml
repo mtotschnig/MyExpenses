@@ -108,4 +108,5 @@
     <string name="tags">Мітки</string>
     <string name="languages">"Мови"</string>
     <string name="chart">"Діаграма"</string>
+    <string name="full_screen">"На весь екран"</string>
 </resources>

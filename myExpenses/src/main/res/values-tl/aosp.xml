@@ -25,4 +25,5 @@
     <string name="filter">"Filter"</string>
     <string name="tags">"Mga Tag"</string>
     <string name="languages">"Mga Wika"</string>
+    <string name="full_screen">"Full screen"</string>
 </resources>

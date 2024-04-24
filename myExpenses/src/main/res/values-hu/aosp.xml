@@ -109,4 +109,5 @@
     <string name="tags">"Címkék"</string>
     <string name="languages">"Nyelvek"</string>
     <string name="chart">"Diagram"</string>
+    <string name="full_screen">"Teljes képernyő"</string>
 </resources>

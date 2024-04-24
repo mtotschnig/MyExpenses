@@ -100,4 +100,5 @@
     <string name="tags">"Oznake"</string>
     <string name="languages">"Jezici"</string>
     <string name="chart">"Grafikon"</string>
+    <string name="full_screen">"Cijeli zaslon"</string>
 </resources>

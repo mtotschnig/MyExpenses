@@ -107,4 +107,5 @@
     <string name="tags">"Tag"</string>
     <string name="languages">"Lingue"</string>
     <string name="chart">"Grafico"</string>
+    <string name="full_screen">"Schermo intero"</string>
 </resources>

@@ -110,4 +110,5 @@
     <string name="tags">"Tagi"</string>
     <string name="languages">"Języki"</string>
     <string name="chart">"Wykres"</string>
+    <string name="full_screen">"Pełny ekran"</string>
 </resources>

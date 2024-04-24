@@ -41,4 +41,5 @@
     <string name="tags">"Taggar"</string>
     <string name="languages">"Språk"</string>
     <string name="chart">"Diagram"</string>
+    <string name="full_screen">"Hela skärmen"</string>
 </resources>

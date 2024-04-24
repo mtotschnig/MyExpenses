@@ -23,4 +23,5 @@
     <string name="color_component_title">"Түс тандоо"</string>
     <string name="filter">"Чыпкалоо"</string>
     <string name="languages">"Тилдер"</string>
+    <string name="full_screen">"Толук экран"</string>
 </resources>

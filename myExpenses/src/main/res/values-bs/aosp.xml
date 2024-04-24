@@ -26,4 +26,5 @@
     <string name="filter">"Filtrirajte"</string>
     <string name="languages">"Jezici"</string>
     <string name="chart">"Grafik"</string>
+    <string name="full_screen">"Cijeli ekran"</string>
 </resources>

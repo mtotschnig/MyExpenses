@@ -89,4 +89,5 @@
     <string name="filter">"篩選器"</string>
     <string name="tags">"標籤"</string>
     <string name="languages">"語言"</string>
+    <string name="full_screen">"全螢幕"</string>
 </resources>

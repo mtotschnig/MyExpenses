@@ -109,4 +109,5 @@
     <string name="tags">"Теги"</string>
     <string name="languages">"Языки"</string>
     <string name="chart">"Диаграмма"</string>
+    <string name="full_screen">"Весь экран"</string>
 </resources>

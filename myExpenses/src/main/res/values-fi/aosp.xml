@@ -40,4 +40,5 @@
     <string name="tags">"Tunnisteet"</string>
     <string name="languages">"Kielet"</string>
     <string name="chart">"Kaavio"</string>
+    <string name="full_screen">"Koko näyttö"</string>
 </resources>

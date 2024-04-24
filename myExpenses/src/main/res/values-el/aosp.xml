@@ -107,4 +107,5 @@
     <string name="tags">"Ετικέτες"</string>
     <string name="languages">"Γλώσσες"</string>
     <string name="chart">"Διάγραμμα"</string>
+    <string name="full_screen">"Πλήρης οθόνη"</string>
 </resources>

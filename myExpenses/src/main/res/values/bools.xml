@@ -5,4 +5,5 @@
     <bool name="isBelow26">true</bool>
     <bool name="pin_shortcut_support">true</bool>
     <bool name="fints">false</bool>
+    <bool name="allowFullScreen">false</bool>
 </resources>

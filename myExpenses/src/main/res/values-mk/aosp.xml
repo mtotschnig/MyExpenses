@@ -28,4 +28,5 @@
     <string name="filter">"Филтер"</string>
     <string name="languages">"Јазици"</string>
     <string name="chart">"Графикон"</string>
+    <string name="full_screen">"Цел екран"</string>
 </resources>

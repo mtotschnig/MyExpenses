@@ -109,4 +109,5 @@
     <string name="tags">"Маркери"</string>
     <string name="languages">"Езици"</string>
     <string name="chart">"Диаграма"</string>
+    <string name="full_screen">"Цял екран"</string>
 </resources>

@@ -32,4 +32,5 @@
     <string name="tags">"Atzīmes"</string>
     <string name="languages">"Valodas"</string>
     <string name="chart">"Diagramma"</string>
+    <string name="full_screen">"Pilnekrāna režīms"</string>
 </resources>

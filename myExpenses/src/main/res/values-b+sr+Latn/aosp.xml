@@ -25,4 +25,5 @@
     <string name="filter">"Filter"</string>
     <string name="languages">"Jezici"</string>
     <string name="chart">"Grafik"</string>
+    <string name="full_screen">"Ceo ekran"</string>
 </resources>

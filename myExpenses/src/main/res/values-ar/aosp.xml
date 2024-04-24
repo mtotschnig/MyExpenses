@@ -110,4 +110,5 @@
     <string name="tags">"العلامات"</string>
     <string name="languages">"اللغات"</string>
     <string name="chart">"المخطط البياني"</string>
+    <string name="full_screen">"ملء الشاشة"</string>
 </resources>
