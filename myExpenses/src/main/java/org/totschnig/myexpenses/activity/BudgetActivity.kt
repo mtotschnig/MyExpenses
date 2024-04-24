@@ -251,7 +251,6 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                         animateXY(1400, 1400, Easing.EaseInOutQuad)
 
                         with(xAxis) {
-                            //typeface = tfLight
                             setTextSize(9f)
                             yOffset = 0f
                             xOffset = 0f
@@ -260,10 +259,10 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
 
 
                         with(yAxis) {
-                            //typeface = tfLight
                             setLabelCount(5, false)
                             setTextSize(9f)
                             textColor = textColorSecondary.defaultColor
+                            setAxisMinimum(0f)
                         }
                         legend.isEnabled = false
                         setChartData(category, fractionDigits)
@@ -272,7 +271,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             )
         else
             Text(
-                "Not enough data",
+                stringResource(R.string.not_enough_data),
                 modifier.wrapContentHeight(),
                 textAlign = TextAlign.Center
             )
