@@ -52,7 +52,7 @@
     <string name="contrib_key">Kunci Sumbang</string>
     <string name="extended_key">Kunci Lanjutan</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
-    <string name="contrib_key_requires">Perlukan %s.</string>
+    <string name="contrib_key_requires">Perlukan %1$s.</string>
     <string name="currency">Matawang</string>
     <string name="current_balance">Baki semasa</string>
     <string name="date">Tarikh</string>
@@ -73,7 +73,7 @@
     <string name="dialog_contrib_text_2">Berilah sumbangan dalam bentuk derma dengan menatar <i>{app_name}</i> dan peroleh capaian tanpa had fitur-fitur berikut:</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Status lesen semasa anda (%2$s) membolehkan anda cipta sehingga %1$d akaun.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Status lesen semasa anda (%2$s) membolehkan anda cipta sehingga %1$d plan.</string>
-    <string name="dialog_contrib_usage_limit_split_templates">Status lesen semasa anda (%1$s) membolehkan anda cipta 1 templat pengasingan</string>
+    <string name="dialog_contrib_usage_limit_split_templates">Status lesen semasa anda (%1$s) membolehkan anda cipta 1 templat pengasingan.</string>
     <string name="dialog_export_delete">Padam transaksi dieksport</string>
     <string name="dialog_export_not_yet_exported">Hanya eksport transaksi yang belum dieksport</string>
     <string name="dialog_password_activate_protection">Aktifkan perlindungan kata laluan</string>
