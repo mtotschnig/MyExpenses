@@ -100,6 +100,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
 
     override val showChartPrefKey = PrefKey.DISTRIBUTION_SHOW_CHART
 
+    override val showChartDefault = true
+
     private val subColorMap = SparseArray<List<Int>>()
 
     private fun getSubColors(color: Int, isDark: Boolean): List<Int> {

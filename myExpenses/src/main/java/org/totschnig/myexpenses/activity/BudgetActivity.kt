@@ -23,6 +23,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -90,6 +93,10 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
 
     override val showChartPrefKey = PrefKey.BUDGEt_SHOW_CHART
 
+    override val showChartDefault = false
+
+    private val showFilter = mutableStateOf(true)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!licenceHandler.hasTrialAccessTo(ContribFeature.BUDGET)) {
@@ -121,6 +128,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         }
         binding.composeView.setContent {
             AppTheme {
+                val sort = viewModel.sortOrder.collectAsState()
                 val category =
                     viewModel.categoryTreeForBudget.collectAsState(initial = Category.LOADING).value
                 val budget = viewModel.accountInfo.collectAsState(null).value
@@ -132,17 +140,24 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                                 .align(Alignment.Center)
                         )
                     } else {
-                        LaunchedEffect(category) {
-                            setChartData(category, budget.currencyUnit.fractionDigits)
+                        val sortedData = remember { derivedStateOf {
+                            when (sort.value) {
+                                Sort.SPENT -> category.sortChildrenBySumRecursive()
+                                Sort.ALLOCATED -> category.sortChildrenByBudgetRecursive()
+                                else -> category
+                            }
+                        } }
+                        LaunchedEffect(sortedData.value) {
+                            setChartData(sortedData.value, budget.currencyUnit.fractionDigits)
                         }
                         hasRollovers = category.hasRolloverNext
                         Column(verticalArrangement = Arrangement.Center) {
                             RenderFilters(budget)
                             LayoutHelper(
                                 data = {
-                                    RenderBudget(it, category, budget)
+                                    RenderBudget(it, sortedData.value, budget)
                                 }, chart = {
-                                    RenderChart(it, category, budget.currencyUnit.fractionDigits)
+                                    RenderChart(it, sortedData.value, budget.currencyUnit.fractionDigits)
                                 })
                             val editRollOverInValid = viewModel.editRollOverInValid
                             LaunchedEffect(editRollOverInValid) {
@@ -166,23 +181,30 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         )
     }
 
+    override fun onToggleFullScreen(fullScreen: Boolean) {
+        super.onToggleFullScreen(fullScreen)
+        showFilter.value = !fullScreen
+    }
+
     private fun requireChart(context: Context) = RadarChart(context).also { chart = it }
 
     @Composable
     fun RenderFilters(budget: Budget) {
-        val whereFilter = viewModel.whereFilter.collectAsState().value
-        AndroidView(
-            modifier = Modifier.padding(horizontal = dimensionResource(id = eltos.simpledialogfragment.R.dimen.activity_horizontal_margin)),
-            factory = { ChipGroup(it) },
-            update = { chipGroup ->
-                chipGroup.addChipsBulk(buildList {
-                    add(budget.label(this@BudgetActivity))
-                    whereFilter.criteria.forEach {
-                        add(it.prettyPrint(this@BudgetActivity))
-                    }
-                })
-            }
-        )
+        if (showFilter.value) {
+            val whereFilter = viewModel.whereFilter.collectAsState().value
+            AndroidView(
+                modifier = Modifier.padding(horizontal = dimensionResource(id = eltos.simpledialogfragment.R.dimen.activity_horizontal_margin)),
+                factory = { ChipGroup(it) },
+                update = { chipGroup ->
+                    chipGroup.addChipsBulk(buildList {
+                        add(budget.label(this@BudgetActivity))
+                        whereFilter.criteria.forEach {
+                            add(it.prettyPrint(this@BudgetActivity))
+                        }
+                    })
+                }
+            )
+        }
     }
 
     @Composable
@@ -191,7 +213,6 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         category: Category,
         budget: Budget
     ) {
-        val sort = viewModel.sortOrder.collectAsState()
         BoxWithConstraints(modifier = modifier.testTag(TEST_TAG_BUDGET_ROOT)) {
             val narrowScreen = maxWidth.value < breakPoint.value
             Timber.d("narrowScreen : %b (%f)", narrowScreen, maxWidth.value)
@@ -199,13 +220,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             Budget(
                 category = category.copy(
                     sum = viewModel.sum.collectAsState().value,
-                ).let {
-                    when (sort.value) {
-                        Sort.SPENT -> it.sortChildrenBySumRecursive()
-                        Sort.ALLOCATED -> it.sortChildrenByBudgetRecursive()
-                        else -> it
-                    }
-                },
+                ),
                 expansionMode = ExpansionMode.DefaultCollapsed(
                     rememberMutableStateListOf()
                 ),
@@ -265,7 +280,6 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                             setAxisMinimum(0f)
                         }
                         legend.isEnabled = false
-                        setChartData(category, fractionDigits)
                     }
                 }
             )
@@ -346,7 +360,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 EDIT_BUDGET_DIALOG -> {
                     val amount = Money(
                         budget.currencyUnit,
-                        (extras.getSerializable(DatabaseConstants.KEY_AMOUNT) as BigDecimal)
+                        extras.getSerializable(DatabaseConstants.KEY_AMOUNT) as BigDecimal
                     )
                     viewModel.updateBudget(
                         budget.id,

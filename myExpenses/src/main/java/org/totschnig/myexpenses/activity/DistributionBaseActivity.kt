@@ -42,9 +42,11 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
 
     abstract val showChartPrefKey: PrefKey
 
+    abstract val showChartDefault: Boolean
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        showChart.value = prefHandler.getBoolean(showChartPrefKey, true)
+        showChart.value = prefHandler.getBoolean(showChartPrefKey, showChartDefault)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.displaySubTitle.collect {
