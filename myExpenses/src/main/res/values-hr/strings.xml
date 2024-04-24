@@ -937,4 +937,12 @@
     <string name="pref_sync_now_all_summary">%s sinkronizira sve račune za isti pozadinski sustav</string>
     <string name="menu_unlink_transfer">Rastavi prijenos na dijelove</string>
     <string name="warning_unlink_transfer">Odabrani prijenos će se rastaviti na dijelove: zamijenit će se normalnim transakcijama na oba računa.</string>
+    <string name="subcategories_merged_recursively">Ako bilo koja od sjedinjenih kategorija ima potkategorije s istom oznakom, one će se najprije sjediniti, rekurzivno.</string>
+    <string name="merge_categories_dialog_title">Sjedini kategorije</string>
+    <string name="warning_transform_to_transfer">Odabrana transakcija će se zamijenti prijenosom od %1$s na %2$s.</string>
+    <string name="merge_categories_prompt">Odaberi kategoriju koju želiš zadržati</string>
+    <string name="pref_csv_export_category_separator_summary">Znak odjeljivanja razina hijerarhije kategorija</string>
+    <string name="remap_date">Za sve odabrane transakcije će se datum postaviti na %s.</string>
+    <string name="menu_transform_to_transfer">Konvertiraj u prijenos</string>
+    <string name="roadmap_intro">Glasanje za plan razvoja aplikacije za 2024. je sada otvoreno! Glasaj za funkcije i poboljšanja koja su za tebe najvažnija.</string>
 </resources>

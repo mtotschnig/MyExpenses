@@ -1,1 +1,14 @@
-{}
+imprint: ইমপ্রিন্টিং
+imprint_text: এই ওয়েবসাইটের বিষয়বস্তুর উন্নয়ন, রক্ষণাবেক্ষণ এবং বিতরণের জন্য দায়ী<i>{app_name}</i>
+hero_main: অ্যান্ড্রয়েড এর জন্য ব্যক্তিগত অর্থ ব্যবস্থাপক
+hero_sub:
+  source: ওপেন সোর্স
+  functionality: বর্ধিত সুবিধা
+  use: ব্যবহার করা সহজ
+sections:
+  features: বৈশিষ্ট্যসমূহ
+  premium: প্রিমিয়াম নিন
+  participate: অংশগ্রহণ
+privacy_policy_heading: গোপনীয়তার নীতি
+menu_title:
+  more_information: আরও তথ্য

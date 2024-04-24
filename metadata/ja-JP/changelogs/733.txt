@@ -1,0 +1,4 @@
+• バグ修正
+• FinTS: 安定性の向上
+
+https://github.com/mtotschnig/MyExpenses/projects/141#column-19856783

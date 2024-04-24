@@ -101,4 +101,11 @@
     <string name="help_ManageTemplates_templates_info">&lt;img src=ic_menu_template&gt;Selvom skabeloner kan udvindes fra transaktioner via deres kontekstmenu, kan du her oprette nye skabeloner fra bunden (til transaktioner eller overførsler) ved at klikke på den flydende handlingsknap. Når du klikker på en skabelon, oprettes der en forekomst af den.&lt;br&gt;&lt;img src=ic_event&gt;En plan er en skabelon, som du har oprettet en begivenhed til (engangs eller tilbagevendende) i planlæggerens kalender. Ved at klikke på en plan åbnes en kalendervisning, som viser tidligere og kommende forekomster af en plan.</string>
     <string name="help_ManageTemplates_planner_intro">Et langt tryk på en åben forekomst starter multiudvælgelse. Ved at trykke på starten eller slutningen af datointervallet kan man udvide intervallet til fortiden eller fremtiden.</string>
     <string name="help_ManageTemplates_plans_info_header">En forekomsts tilstand vises med følgende ikoner:</string>
+    <string name="help_ManageTemplates_plans_info_open">Forekomsten er endnu ikke blevet anvendt.</string>
+    <string name="help_ManageTemplates_plans_info_applied">Forekomsten er blevet anvendt.</string>
+    <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Opret transaktioner på tidspunktet for de valgte begivenhedsforekomster, og gem dem øjeblikkeligt.</string>
+    <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Opret en transaktion på tidspunktet for den valgte begivenhedsforekomst, og gå ind i redigeringsformularen, hvor du kan ændre den, før du gemmer den.</string>
+    <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Angiv, at der ikke skal oprettes transaktioner for de valgte begivenhedsforekomster. Hvis der er oprettet transaktioner for de valgte begivenhedsforekomster, slettes de.</string>
+    <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Hvis der er oprettet transaktioner for de valgte begivenhedsforekomster, slettes de, og hvis de er blevet markeret som annullerede, fjernes markeringerne.</string>
+    <string name="help_AccountEdit_title">Formular til konti</string>
 </resources>
