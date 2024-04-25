@@ -156,19 +156,27 @@ class HelpDialogHelperTest(private val activity: Class<out ProtectedFragmentActi
         }
     }
 
-    private fun getHelpVariants(clazz: Class<out ProtectedFragmentActivity>): List<String> = when (clazz) {
-        ExpenseEdit::class.java -> listOf(
-            HELP_VARIANT_TRANSACTION, HELP_VARIANT_TRANSFER, HELP_VARIANT_SPLIT,
-            HELP_VARIANT_TEMPLATE_CATEGORY, HELP_VARIANT_TEMPLATE_TRANSFER,
-            HELP_VARIANT_TEMPLATE_SPLIT, HELP_VARIANT_SPLIT_PART_CATEGORY,
-            HELP_VARIANT_SPLIT_PART_TRANSFER
-        )
-        ManageCategories::class.java, ManageParties::class.java, ManageTags::class.java -> listOf(
-            HELP_VARIANT_MANGE, HELP_VARIANT_SELECT_FILTER, HELP_VARIANT_SELECT_MAPPING
-        )
-        ManageTemplates::class.java -> listOf(HELP_VARIANT_TEMPLATES, HELP_VARIANT_PLANS, HELP_VARIANT_PLANNER)
-        else -> emptyList()
-    }
+    private fun getHelpVariants(clazz: Class<out ProtectedFragmentActivity>): List<String> =
+        when (clazz) {
+            ExpenseEdit::class.java -> listOf(
+                HELP_VARIANT_TRANSACTION, HELP_VARIANT_TRANSFER, HELP_VARIANT_SPLIT,
+                HELP_VARIANT_TEMPLATE_CATEGORY, HELP_VARIANT_TEMPLATE_TRANSFER,
+                HELP_VARIANT_TEMPLATE_SPLIT, HELP_VARIANT_SPLIT_PART_CATEGORY,
+                HELP_VARIANT_SPLIT_PART_TRANSFER
+            )
+
+            ManageCategories::class.java, ManageParties::class.java, ManageTags::class.java -> listOf(
+                HELP_VARIANT_MANGE, HELP_VARIANT_SELECT_FILTER, HELP_VARIANT_SELECT_MAPPING
+            )
+
+            ManageTemplates::class.java -> listOf(
+                HELP_VARIANT_TEMPLATES,
+                HELP_VARIANT_PLANS,
+                HELP_VARIANT_PLANNER
+            )
+
+            else -> emptyList()
+        }
 
     private fun testMenuItems(
         activityName: String,
@@ -177,28 +185,21 @@ class HelpDialogHelperTest(private val activity: Class<out ProtectedFragmentActi
         prefix: String
     ) {
         for (item in menuItems) {
-            Truth.assertWithMessage(
-                "title not found for %s-%s-%s-%s",
-                activityName,
-                variant,
-                prefix,
-                item
-            ).that(helper.resolveTitle(item, prefix)).isNotEmpty()
-            if (!resolveStringOrArray(prefix + "_" + activityName + "_" + variant + "_" + item + "_help_text")) {
-                if (!resolveStringOrArray(prefix + "_" + activityName + "_" + item + "_help_text")) {
-                    Truth.assertWithMessage(
-                        "help text not found for %s-%s-%s-%s",
-                        activityName,
-                        variant,
-                        prefix,
-                        item
-                    ).that(resolveStringOrArray(prefix + "_" + item + "_help_text")).isTrue()
-                }
-            }
+            val description =
+                "Activity: $activityName, variant: $variant, prefix: $prefix, item: $item"
+            Truth.assertWithMessage("title not found for $description")
+                .that(helper.resolveTitle(item, prefix)).isNotEmpty()
+            Truth.assertWithMessage("help text not found for $description")
+                .that(
+                    variant?.let {
+                        resolveStringOrArray(prefix + "_" + activityName + "_" + variant + "_" + item + "_help_text")
+                    }
+                        ?: resolveStringOrArray(prefix + "_" + activityName + "_" + item + "_help_text")
+                        ?: resolveStringOrArray(prefix + "_" + item + "_help_text")
+                ).isNotNull()
         }
     }
 
-    private fun resolveStringOrArray(resString: String): Boolean {
-        return !helper.resolveStringOrArray(resString, false).isNullOrEmpty()
-    }
+    private fun resolveStringOrArray(resString: String) =
+        helper.resolveStringOrArray(resString, false)?.takeIf { it.isNotEmpty() }
 }
