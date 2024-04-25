@@ -2,26 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@id/SORT_COMMAND"
-        android:icon="@drawable/ic_menu_sort"
-        android:orderInCategory="6"
-        android:title="@string/display_options_sort_list_by"
-        app:showAsAction="ifRoom">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item
-                    android:id="@id/SORT_LABEL_COMMAND"
-                    android:title="@string/label" />
-                <item
-                    android:id="@id/SORT_ALLOCATED_COMMAND"
-                    android:title="@string/budget_table_header_allocated" />
-                <item
-                    android:id="@id/SORT_SPENT_COMMAND"
-                    android:title="@string/budget_table_header_spent" />
-            </group>
-        </menu>
-    </item>
-    <item
         android:id="@id/EDIT_COMMAND"
         android:icon="@drawable/ic_menu_edit"
         android:orderInCategory="7"

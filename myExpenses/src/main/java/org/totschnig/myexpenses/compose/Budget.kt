@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDownward
+import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.HorizontalDivider
@@ -41,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.viewmodel.data.Category
 import kotlin.math.absoluteValue
 import kotlin.math.sign
@@ -58,7 +61,9 @@ fun Budget(
     hasRolloverNext: Boolean,
     editRollOver: SnapshotStateMap<Long, Pair<Long, Boolean>>?,
     narrowScreen: Boolean,
-    showChart: Boolean = false
+    showChart: Boolean = false,
+    currentSort: Sort? = null,
+    onChangeSort: ((Sort) -> Unit)? = null
 ) {
 
     Column(
@@ -97,16 +102,20 @@ fun Budget(
                             onShowTransactions = onShowTransactions,
                             hasRolloverNext = hasRolloverNext,
                             editRollOver = editRollOver,
-                            narrowScreen = narrowScreen
+                            narrowScreen = narrowScreen,
+                            currentSort = currentSort,
+                            onChangeSort = onChangeSort
                         )
                     }
                 }
             }
         } else {
             Header(
-                withRollOverColumn = hasRolloverNext || editRollOver != null,
-                narrowScreen = narrowScreen,
-                showChart = showChart
+                hasRolloverNext || editRollOver != null,
+                narrowScreen,
+                showChart,
+                currentSort!!,
+                onChangeSort!!
             )
             HorizontalDivider(modifier = if (narrowScreen) Modifier.width(tableWidth) else Modifier)
             LazyColumn(
@@ -205,18 +214,40 @@ private fun Modifier.numberColumn(scope: RowScope, narrowScreen: Boolean): Modif
     ).padding(horizontal = 8.dp)
 
 @Composable
-private fun Header(withRollOverColumn: Boolean, narrowScreen: Boolean, showChart: Boolean) {
+private fun Header(
+    withRollOverColumn: Boolean,
+    narrowScreen: Boolean,
+    showChart: Boolean,
+    currentSort: Sort,
+    onChangeSort: (Sort) -> Unit
+) {
     @Composable
-    fun RowScope.HeaderCell(stringRes: Int, color: Color? = null) {
+    fun RowScope.HeaderCell(
+        stringRes: Int,
+        sort: Sort? = null,
+        color: Color? = null,
+        isNumberColumn: Boolean = true
+    ) {
         Row(
-            modifier = Modifier.numberColumn(this, narrowScreen),
+            modifier = Modifier
+                .fillMaxHeight()
+                .optional(sort.takeIf { it != currentSort }) {
+                    clickable { onChangeSort(it) }
+                }
+                .conditional(
+                    isNumberColumn,
+                    ifTrue = { numberColumn(this@HeaderCell, narrowScreen) },
+                    ifFalse = { labelColumn(this@HeaderCell, narrowScreen) }
+                ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             color?.let {
-                Box(modifier = Modifier
-                    .size(12.sp)
-                    .background(it)
-                    .padding(end = 4.dp))
+                Box(
+                    modifier = Modifier
+                        .size(12.sp)
+                        .background(it)
+                        .padding(end = 4.dp)
+                )
             }
             Text(
                 modifier = Modifier.weight(1f),
@@ -224,23 +255,32 @@ private fun Header(withRollOverColumn: Boolean, narrowScreen: Boolean, showChart
                 fontWeight = FontWeight.Bold,
                 text = stringResource(id = stringRes),
             )
+            if (currentSort == sort) {
+                Icon(
+                    imageVector = if (sort.isDescending) Icons.Default.ArrowDownward
+                    else Icons.Default.ArrowUpward,
+                    contentDescription = null
+                )
+            }
         }
     }
 
     Row(modifier = Modifier.height(36.dp), verticalAlignment = Alignment.CenterVertically) {
-        Spacer(
-            modifier = Modifier.labelColumn(this, narrowScreen)
-        )
+        HeaderCell(R.string.label, Sort.LABEL, isNumberColumn = false)
         VerticalDivider()
         HeaderCell(
             R.string.budget_table_header_allocated,
-            LocalColors.current.income.takeIf { showChart })
+            Sort.ALLOCATED,
+            color = LocalColors.current.income.takeIf { showChart }
+        )
         VerticalDivider()
         HeaderCell(
             R.string.budget_table_header_spent,
-            LocalColors.current.expense.takeIf { showChart })
+            Sort.SPENT,
+            color = LocalColors.current.expense.takeIf { showChart }
+        )
         VerticalDivider()
-        HeaderCell(R.string.available)
+        HeaderCell(R.string.available, Sort.AVAILABLE)
         if (withRollOverColumn) {
             VerticalDivider()
             HeaderCell(R.string.budget_table_header_rollover)

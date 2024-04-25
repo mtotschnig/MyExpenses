@@ -109,7 +109,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         sortDelegate = SortDelegate(
             defaultSortOrder = Sort.ALLOCATED,
             prefKey = PrefKey.SORT_ORDER_BUDGET_CATEGORIES,
-            options = arrayOf(Sort.LABEL, Sort.ALLOCATED, Sort.SPENT),
+            options = arrayOf(Sort.LABEL, Sort.ALLOCATED, Sort.SPENT, Sort.AVAILABLE),
             prefHandler = prefHandler,
             collate = collate
         )
@@ -145,6 +145,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                                 when (sort.value) {
                                     Sort.SPENT -> category.value.sortChildrenBySumRecursive()
                                     Sort.ALLOCATED -> category.value.sortChildrenByBudgetRecursive()
+                                    Sort.AVAILABLE -> category.value.sortChildrenByAvailableRecursive()
                                     else -> category.value
                                 }
                             }
@@ -157,12 +158,11 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                             RenderFilters(budget)
                             LayoutHelper(
                                 data = {
-                                    RenderBudget(it, sortedData.value, budget)
+                                    RenderBudget(it, sortedData.value, budget, sort.value)
                                 }, chart = {
                                     RenderChart(
                                         it,
-                                        sortedData.value,
-                                        budget.currencyUnit.fractionDigits
+                                        sortedData.value
                                     )
                                 })
                             val editRollOverInValid = viewModel.editRollOverInValid
@@ -217,7 +217,8 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
     fun RenderBudget(
         modifier: Modifier,
         category: Category,
-        budget: Budget
+        budget: Budget,
+        sort: Sort
     ) {
         BoxWithConstraints(modifier = modifier.testTag(TEST_TAG_BUDGET_ROOT)) {
             val narrowScreen = maxWidth.value < breakPoint.value
@@ -249,13 +250,18 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                     viewModel.editRollOverMap
                 } else null,
                 narrowScreen = narrowScreen,
-                showChart = showChart.value
+                showChart = showChart.value,
+                currentSort = sort,
+                onChangeSort = {
+                    prefHandler.putString(sortDelegate.prefKey, it.name)
+                    viewModel.setSortOrder(it)
+                }
             )
         }
     }
 
     @Composable
-    fun RenderChart(modifier: Modifier, category: Category, fractionDigits: Int) {
+    fun RenderChart(modifier: Modifier, category: Category) {
         if (category.children.count { it.budget.totalAllocated > 0 } >= 3)
             AndroidView(
                 modifier = modifier,
@@ -517,7 +523,6 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         if (viewModel.duringRollOverEdit) {
             menu.findItem(R.id.ROLLOVER_EDIT_SAVE).isEnabled = !viewModel.editRollOverInValid
         } else {
-            sortDelegate.onPrepareOptionsMenu(menu)
             super.onPrepareOptionsMenu(menu)
             menu.findItem(R.id.BUDGET_ALLOCATED_ONLY)?.let {
                 it.isChecked = viewModel.allocatedOnly
@@ -535,13 +540,6 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         }
         return true
     }
-
-    override fun onOptionsItemSelected(item: MenuItem) =
-        if (sortDelegate.onOptionsItemSelected(item)) {
-            invalidateOptionsMenu()
-            viewModel.setSortOrder(sortDelegate.currentSortOrder)
-            true
-        } else super.onOptionsItemSelected(item)
 
     private fun setChartData(category: Category, fractionDigits: Int) {
         if ((::chart.isInitialized)) {
