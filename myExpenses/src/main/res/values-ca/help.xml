@@ -53,7 +53,6 @@
     <string name="cab_ManageCategories_move_help_text">Qualsevol categoria (juntament amb les seves subcategories) pot ser moguda a una nova categoria. Les subcategories es poden transormar en categories principals.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">Les categories triades seran utilitzades per filtrar el llistat de transaccions.</string>
     <string name="menu_categories_export_help_text">S\'exportaran les categories a un fitxer QIF.</string>
-    <string name="menu_distribution_show_pie_char_help_text">Activa/desactiva la visualització de la gràfica de sectors.</string>
     <string name="help_ManageCategories_distribution_info">En aquesta pantalla es mostra la distribució de despeses i ingressos per categories, per a totes les transaccions d\'un compte o d\'un grup específic. Si expandeix una categoria principal de la llista, se us mostrarà una gràfica de sectors amb la distribució de les seves subcategories. Si selecciona una categoria de la llista, es ressaltarà a la gràfica i viceversa. Toqui una categoria prolongadament per tal de mostar un llistat de les transaccions d\'aquesta.</string>
     <string name="help_contextual_actions_help">El menú d\'accions contextuals es deplega tocant prolongadament una entrada de la llista.</string>
     <string name="help_MyExpenses_info">Aquesta pantalla detalla totes les transaccions del compte actual. Utilitza el botó d\'acció flotant per obrir un formulari i crear una nova transaccció.</string>

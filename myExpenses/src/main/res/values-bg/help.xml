@@ -61,7 +61,6 @@
     <string name="menu_forward_help_text">Напред до следваща група. Може да се направи и с жест - плъзгане от дясно на ляво.</string>
     <string name="menu_categories_setup_default_help_text">Импорт на комплект предварително подготвени категории.</string>
     <string name="menu_categories_export_help_text">Категориите ще бъдат експортирани във файл тип QIF.</string>
-    <string name="menu_distribution_show_pie_char_help_text">Включва / изключва показването на графиката.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">Избраните категории ще се използват за филтриране на списъка с транзакции.</string>
     <string name="menu_ManageCategories_search_help_text">Ще бъдат показани само категориите (главна и подкатегория), съответстващи на заявката за търсене.</string>
     <string name="menu_ManageCategories_sort_help_text">Списъка на категориите може да е подреден по име (в азбучен ред), по честота на използване или по последно използвана категория.</string>

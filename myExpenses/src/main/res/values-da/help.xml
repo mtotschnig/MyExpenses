@@ -47,7 +47,6 @@
     <string name="cab_ManageCategories_merge_help_text">Kategorier af samme type kan flettes.</string>
     <string name="menu_categories_setup_default_help_text">Et sæt standardkategorier importeres.</string>
     <string name="menu_categories_export_help_text">Kategorier eksporteres til en QIF-fil.</string>
-    <string name="menu_distribution_show_pie_char_help_text">Slå synligheden af cirkeldiagrammet til/fra.</string>
     <string name="menu_ManageCategories_search_help_text">Kun hoved- og underkategorier, der matcher din forespørgsel, vises.</string>
     <string name="menu_ManageCategories_sort_help_text">Kategorilisten kan sorteres efter titel (alfabetisk), hyppighed af brug eller sidste gang, en transaktion blev knyttet til den.</string>
     <string name="help_ExpenseEdit_transaction_title">Formular til transaktioner</string>

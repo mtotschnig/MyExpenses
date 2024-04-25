@@ -62,7 +62,6 @@
     <string name="menu_forward_help_text">Ir al siguiente grupo. También se puede realizar mediante un gesto de desplazamiento de derecha a izquierda.</string>
     <string name="menu_categories_setup_default_help_text">Se importarán un conjunto de categorías por defecto.</string>
     <string name="menu_categories_export_help_text">Las categorías se exportarán a un archivo QIF.</string>
-    <string name="menu_distribution_show_pie_char_help_text">Alternar la visibilidad de los gráficos de sectores.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">Las categorías seleccionadas se utilizarán para filtrar la lista de transacciones.</string>
     <string name="menu_ManageCategories_search_help_text">Sólo se mostrarán las categorías principales y las subcategorías que coinciden con su consulta.</string>
     <string name="menu_ManageCategories_sort_help_text">La lista de categorías puede ordenarse por título (alfabéticamente), por la frecuencia de uso o por la última vez en que se le asignó una transacción.</string>

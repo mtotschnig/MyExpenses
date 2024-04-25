@@ -53,7 +53,6 @@
     <string name="menu_forward_help_text">次のグループに移動します。右から左にスワイプのジェスチャーをして移動することもできます。</string>
     <string name="menu_categories_setup_default_help_text">デフォルトの分類のセットがインポートされます。</string>
     <string name="menu_categories_export_help_text">分類を QIF ファイルにエクスポートします。</string>
-    <string name="menu_distribution_show_pie_char_help_text">円グラフの表示を切り替えます。</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">選択したカテゴリは、トランザクションリストのフィルタリングに使用されます。</string>
     <string name="menu_ManageCategories_search_help_text">クエリに一致するメインとサブカテゴリーのみ表示されます。</string>
     <string name="menu_ManageCategories_sort_help_text">分類リストは、タイトル (アルファベット順)、使用頻度、または取引がマップされた最後の時間によってソートすることができます。</string>

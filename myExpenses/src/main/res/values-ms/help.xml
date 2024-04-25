@@ -50,7 +50,6 @@
   <string name="menu_forward_help_text">Navigasi ke kumpulan berikutnya. Boleh juga dibuat melalui gerak isyarat seret dari kanan ke kiri.</string>
   <string name="menu_categories_setup_default_help_text">Satu set kategori lalai akan diimport.</string>
   <string name="menu_categories_export_help_text">Kategori akan dieksport ke fail QIF.</string>
-  <string name="menu_distribution_show_pie_char_help_text">Togol ketampakan carta pai.</string>
   <string name="cab_ManageCategories_select_filter_select_help_text">Kategori yang dipilih akan digunakan untuk menapis senarai transaksi.</string>
   <string name="menu_ManageCategories_search_help_text">Hanya kategori utama dan sub-kategori yang sepadan dengan pertanyaan anda akan dipaparkan.</string>
   <string name="menu_ManageCategories_sort_help_text">Senarai kategori boleh diisih mengikut tajuk (secara berabjad), mengikut kekerapan penggunaan, atau mengikut kali terakhir transaksi dipetakan.</string>

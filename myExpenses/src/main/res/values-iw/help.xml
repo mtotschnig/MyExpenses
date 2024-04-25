@@ -62,7 +62,6 @@
     <string name="menu_forward_help_text">ניווט אל הקבוצה הבאה. ניתן לעשות זאת גם באמצעות תנועת החלקה מימין לשמאל.</string>
     <string name="menu_categories_setup_default_help_text">קבוצה של קטגוריות ברירת מחדל תיובא.</string>
     <string name="menu_categories_export_help_text">הקטגוריות יוצאו לקובץ QIF.</string>
-    <string name="menu_distribution_show_pie_char_help_text">החלף את הנראות של תרשים העוגה.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">הקטגוריות שנבחרו ישמשו לסינון רשימת העסקאות.</string>
     <string name="menu_ManageCategories_search_help_text">רק קטגוריות עיקריות ותת־קטגוריות התואמות את השאילתה שלך תוצגנה.</string>
     <string name="menu_ManageCategories_sort_help_text">ניתן לסווג את רשימת הקטגוריות לפי כותרת (בסדר אלפביתי), לפי תדירות השימוש, או לפי הפעם האחרונה ששויכה לעסקה.</string>

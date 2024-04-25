@@ -60,4 +60,5 @@
     <string name="menu_show_all">@string/show_all</string>
     <string name="menu_type_filter">@string/type</string>
     <string name="comment">@string/notes</string>
+    <string name="menu_chart">@string/chart</string>
 </resources>

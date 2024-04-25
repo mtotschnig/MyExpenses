@@ -84,7 +84,7 @@
     <string name="cab_ManageCategories_merge_help_text">Categories of the same type can be merged.</string>
     <string name="menu_categories_setup_default_help_text">A set of default categories will be imported.</string>
     <string name="menu_categories_export_help_text">Categories will be exported to QIF file.</string>
-    <string name="menu_distribution_show_pie_char_help_text">Toggle the visibility of the pie chart.</string>
+    <string name="menu_chart_help_text">Toggle the visibility of the chart.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">The selected categories will be used for filtering the transaction list.</string>
     <string name="menu_ManageCategories_search_help_text">Only main and sub categories which match your query will be displayed.</string>
     <string name="menu_ManageCategories_sort_help_text">The category list can be sorted by title (alphabetically), by frequency of usages, or by the last time a transaction was mapped to it.</string>

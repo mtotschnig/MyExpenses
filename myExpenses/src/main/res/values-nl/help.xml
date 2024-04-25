@@ -62,7 +62,6 @@
     <string name="cab_ManageCategories_move_help_text">Elke categorie (samen met de bijbehorende subcategorieën) kan worden verplaatst naar een nieuwe bovenliggende categorie. Subcategorieën kunnen worden omgezet in hoofdcategorieën.</string>
     <string name="menu_categories_setup_default_help_text">Er wordt een set standaardcategorieën geïmporteerd.</string>
     <string name="menu_categories_export_help_text">Categorieën worden geëxporteerd naar het QIF-bestand.</string>
-    <string name="menu_distribution_show_pie_char_help_text">Schakel de zichtbaarheid van het cirkeldiagram in.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">De geselecteerde categorieën worden gebruikt voor het filteren van de transactielijst.</string>
     <string name="menu_ManageCategories_search_help_text">Alleen hoofd- en subcategorieën die overeenkomen met je zoekopdracht worden weergegeven.</string>
     <string name="menu_ManageCategories_sort_help_text">De categorielijst kan worden gesorteerd op titel (alfabetisch), op gebruiksfrequentie of op de laatste keer dat een transactie eraan is toegewezen.</string>

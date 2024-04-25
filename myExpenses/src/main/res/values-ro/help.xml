@@ -44,7 +44,7 @@
     <string name="menu_forward_help_text">Navigaţi la grupul următor. Se poate face şi printr-un gest de deplasare al degetului de la dreapta la stânga.</string>
     <string name="menu_categories_setup_default_help_text">Un set de categorii implicite va fi importat.</string>
     <string name="menu_categories_export_help_text">Categoriile vor fi exportate într-un fisier QIF.</string>
-    <string name="menu_distribution_show_pie_char_help_text">Comutați vizibilitatea graficului.</string>
+    <string name="menu_chart_help_text">Comutați vizibilitatea graficului.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">Categoriile selectate vor fi folosite pentru filtrarea listei de tranzacții.</string>
     <string name="menu_ManageCategories_search_help_text">Vor fi afișate doar categoriile principale și sub-categorii care se potrivesc interogării dvs.</string>
     <string name="menu_ManageCategories_sort_help_text">Lista de categorii poate fi sortată după titlu (alfabetic), în funcție de frecvența de utilizare sau de ultima dată când a fost mapată o tranzacție.</string>

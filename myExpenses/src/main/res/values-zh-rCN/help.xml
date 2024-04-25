@@ -114,7 +114,6 @@
     <string name="menu_save_and_new_help_text">如果勾选此项，保存数据后会使用相同的数据创建一个新的交易。</string>
     <string name="form_attach_image_help_text">&lt;img src=android:ic_menu_camera&gt; 此按钮可以给对象添加图片(例如：从相册选择或者使用相机) 。</string>
     <string name="help_ExpenseEdit_transaction_info">使用此表单录入一个新的交易或者编辑已有交易。使用操作栏的下拉菜单可在添加新的转账和拆分交易的表单之间进行切换。</string>
-    <string name="menu_distribution_show_pie_char_help_text">切换为饼图。</string>
     <string name="menu_forward_help_text">导航到下一组。也可以通过从右到左的滑动手势来实现。</string>
     <string name="menu_ManageCategories_distribution_grouping_help_text">设置分组类型，并以每天、每月、每周或每年为单位显示分布情况。</string>
     <string name="help_ExpenseEdit_splitPartTransfer_title">转账拆分部分的表单</string>
