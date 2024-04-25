@@ -130,34 +130,40 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             AppTheme {
                 val sort = viewModel.sortOrder.collectAsState()
                 val category =
-                    viewModel.categoryTreeForBudget.collectAsState(initial = Category.LOADING).value
+                    viewModel.categoryTreeForBudget.collectAsState(initial = Category.LOADING)
                 val budget = viewModel.accountInfo.collectAsState(null).value
                 Box(modifier = Modifier.fillMaxSize()) {
-                    if (category === Category.LOADING || budget == null) {
+                    if (category.value === Category.LOADING || budget == null) {
                         CircularProgressIndicator(
                             modifier = Modifier
                                 .size(96.dp)
                                 .align(Alignment.Center)
                         )
                     } else {
-                        val sortedData = remember { derivedStateOf {
-                            when (sort.value) {
-                                Sort.SPENT -> category.sortChildrenBySumRecursive()
-                                Sort.ALLOCATED -> category.sortChildrenByBudgetRecursive()
-                                else -> category
+                        val sortedData = remember {
+                            derivedStateOf {
+                                when (sort.value) {
+                                    Sort.SPENT -> category.value.sortChildrenBySumRecursive()
+                                    Sort.ALLOCATED -> category.value.sortChildrenByBudgetRecursive()
+                                    else -> category.value
+                                }
                             }
-                        } }
+                        }
                         LaunchedEffect(sortedData.value) {
                             setChartData(sortedData.value, budget.currencyUnit.fractionDigits)
                         }
-                        hasRollovers = category.hasRolloverNext
+                        hasRollovers = category.value.hasRolloverNext
                         Column(verticalArrangement = Arrangement.Center) {
                             RenderFilters(budget)
                             LayoutHelper(
                                 data = {
                                     RenderBudget(it, sortedData.value, budget)
                                 }, chart = {
-                                    RenderChart(it, sortedData.value, budget.currencyUnit.fractionDigits)
+                                    RenderChart(
+                                        it,
+                                        sortedData.value,
+                                        budget.currencyUnit.fractionDigits
+                                    )
                                 })
                             val editRollOverInValid = viewModel.editRollOverInValid
                             LaunchedEffect(editRollOverInValid) {
