@@ -1,11 +1,12 @@
 package org.totschnig.myexpenses.viewmodel.data
 
+import org.totschnig.myexpenses.db2.BudgetPeriod
 import org.totschnig.myexpenses.model.CurrencyUnit
 
 data class BudgetProgress(
     val title: String,
     val currency: CurrencyUnit,
-    val groupInfo: String,
+    val groupInfo: BudgetPeriod,
     val allocated: Long,
     val spent: Long,
     val totalDays: Long,

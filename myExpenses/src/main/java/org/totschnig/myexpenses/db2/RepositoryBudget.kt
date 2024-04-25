@@ -22,9 +22,10 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.getEnumOrNull
 import org.totschnig.myexpenses.provider.getLocalDate
+import org.totschnig.myexpenses.util.GroupingInfo
+import org.totschnig.myexpenses.util.GroupingNavigator
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2.Companion.aggregateNeutralPrefKey
-import org.totschnig.myexpenses.viewmodel.DistributionViewModelBase
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
 import org.totschnig.myexpenses.viewmodel.data.BudgetProgress
@@ -53,7 +54,7 @@ fun budgetAllocationUri(budgetId: Long, categoryId: Long) = ContentUris.withAppe
 fun budgetAllocationQueryUri(
     budgetId: Long,
     categoryId: Long,
-    groupingInfo: DistributionViewModelBase.GroupingInfo
+    groupingInfo: GroupingInfo
 ): Uri = budgetAllocationQueryUri(
     budgetId,
     categoryId,
@@ -139,24 +140,16 @@ suspend fun Repository.loadBudgetProgress(budgetId: Long): BudgetProgress? = con
             end = cursor.getLocalDate(KEY_END)
         ),
         description = budget.durationPrettyPrint()
-    ) else with(DateInfo.load(contentResolver)) {
+    ) else {
+        val dateInfo = DateInfo.load(contentResolver)
+        val info = GroupingNavigator.current(grouping, dateInfo)
         val weekStartDay = prefHandler.weekStartAsDayOfWeek
-        val today = LocalDate.ofYearDay(year, day)
+        val today = LocalDate.ofYearDay(dateInfo.year, dateInfo.day)
         val weekStart = today.with(TemporalAdjusters.previousOrSame(weekStartDay))
-        val year = when (grouping) {
-            Grouping.WEEK -> yearOfWeekStart
-            Grouping.MONTH -> yearOfMonthStart
-            else -> year
-        }
-        val second = when (grouping) {
-            Grouping.DAY -> day
-            Grouping.WEEK -> week
-            Grouping.MONTH -> month
-            else -> 0
-        }
+
         BudgetPeriod(
-            year = year,
-            second = second,
+            year = info.year,
+            second = info.second,
             duration = when (grouping) {
                 Grouping.DAY -> {
                     today.dayOfWeek
@@ -174,8 +167,8 @@ suspend fun Repository.loadBudgetProgress(budgetId: Long): BudgetProgress? = con
 
                 Grouping.MONTH -> with(
                     Grouping.getMonthRange(
-                        yearOfMonthStart,
-                        month,
+                        info.year,
+                        info.second,
                         prefHandler.monthStart
                     )
                 ) {
@@ -183,17 +176,17 @@ suspend fun Repository.loadBudgetProgress(budgetId: Long): BudgetProgress? = con
                 }
 
                 Grouping.YEAR -> BudgetDuration(
-                    LocalDate.ofYearDay(year, 1),
-                    LocalDate.of(year, 12, 31)
+                    LocalDate.ofYearDay(info.year, 1),
+                    LocalDate.of(info.year, 12, 31)
                 )
 
                 else -> throw IllegalStateException()
             },
             description = grouping.getDisplayTitle(
                 context,
-                year,
-                second,
-                this,
+                info.year,
+                info.second,
+                dateInfo,
                 weekStart,
                 true
             )
@@ -224,7 +217,7 @@ suspend fun Repository.loadBudgetProgress(budgetId: Long): BudgetProgress? = con
     BudgetProgress(
         budget.title,
         budget.currencyUnit,
-        groupingInfo.description,
+        groupingInfo,
         allocated,
         -spent,
         totalDays,

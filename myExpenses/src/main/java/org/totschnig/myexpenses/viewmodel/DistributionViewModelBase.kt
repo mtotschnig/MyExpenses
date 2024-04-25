@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import android.os.Parcelable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -29,7 +28,6 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.updateCategoryColor
 import org.totschnig.myexpenses.model.Grouping
@@ -56,6 +54,8 @@ import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.provider.getLongIfExistsOr0
+import org.totschnig.myexpenses.util.GroupingInfo
+import org.totschnig.myexpenses.util.GroupingNavigator
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.DateInfoExtra
@@ -97,52 +97,21 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             groupingInfo = GroupingInfo(grouping, 0, 0)
         } else {
             viewModelScope.launch {
-                groupingInfo = with(dateInfo.first()) {
-                    GroupingInfo(
-                        grouping = grouping,
-                        year = when (grouping) {
-                            Grouping.WEEK -> yearOfWeekStart
-                            Grouping.MONTH -> yearOfMonthStart
-                            else -> year
-                        },
-                        second = when (grouping) {
-                            Grouping.DAY -> day
-                            Grouping.WEEK -> week
-                            Grouping.MONTH -> month
-                            else -> 0
-                        }
-                    )
-                }
+                groupingInfo = GroupingNavigator.current(grouping,dateInfo.first())
             }
         }
-    }
-
-    fun GroupingInfo.next(dateInfo: DateInfoExtra): GroupingInfo {
-        val nextSecond = second + 1
-        val overflow = nextSecond > dateInfo.maxValue
-        return copy(
-            year = if (overflow) year + 1 else year,
-            second = if (overflow) grouping.minValue else nextSecond
-        )
-    }
-
-    fun GroupingInfo.previous(dateInfo: DateInfoExtra): GroupingInfo {
-        val nextSecond = second - 1
-        val underflow = nextSecond < grouping.minValue
-        return copy(
-            year = if (underflow) year - 1 else year,
-            second = if (underflow) dateInfo.maxValue else nextSecond
-        )
     }
 
     fun forward() {
         groupingInfo?.let { info ->
             if (info.grouping == Grouping.YEAR) {
-                groupingInfo = info.copy(year = info.year + 1)
+                groupingInfo = GroupingNavigator.nextYear(info)
             } else {
                 viewModelScope.launch {
-                    val dateInfo = dateInfoExtra.filterNotNull().first()
-                    groupingInfo = info.next(dateInfo)
+                    groupingInfo = GroupingNavigator.next(
+                        info,
+                        dateInfoExtra.filterNotNull().first()
+                    )
                 }
             }
         }
@@ -151,11 +120,13 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
     fun backward() {
         groupingInfo?.let { info ->
             if (info.grouping == Grouping.YEAR) {
-                groupingInfo = info.copy(year = info.year - 1)
+                groupingInfo = GroupingNavigator.previousYear(info)
             } else {
                 viewModelScope.launch {
-                    val dateInfo = dateInfoExtra.filterNotNull().first()
-                    groupingInfo = info.previous(dateInfo)
+                    groupingInfo = GroupingNavigator.previous(
+                        info,
+                        dateInfoExtra.filterNotNull().first()
+                    )
                 }
             }
         }
@@ -375,11 +346,4 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             preference[aggregateNeutralPrefKey] = aggregateNeutral
         }
     }
-
-    @Parcelize
-    data class GroupingInfo(
-        val grouping: Grouping = Grouping.NONE,
-        val year: Int = -1,
-        val second: Int = -1
-    ) : Parcelable
 }

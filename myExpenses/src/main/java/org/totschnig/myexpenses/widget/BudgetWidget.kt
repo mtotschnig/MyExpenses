@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.util.LayoutDirection
 import android.util.TypedValue
@@ -29,6 +30,9 @@ import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.absoluteValue
 
+const val CLICK_ACTION_BACK = "back"
+const val CLICK_ACTION_FORWARD = "forward"
+
 enum class ProgressState(@IdRes val progressBarId: Int) {
     InBudget(R.id.budget_progress_green),
     OverDayBudget(R.id.budget_progress_yellow),
@@ -49,6 +53,14 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
                     ?.forEach { appWidgetId ->
                         updateWidgetDo(context, AppWidgetManager.getInstance(context), appWidgetId)
                     }
+            }
+        }
+    }
+
+    override fun handleWidgetClick(context: Context, intent: Intent) {
+        when (val clickAction = intent.getStringExtra(KEY_CLICK_ACTION)) {
+            CLICK_ACTION_BACK, CLICK_ACTION_FORWARD -> {
+                Timber.i("$KEY_CLICK_ACTION: $clickAction")
             }
         }
     }
@@ -91,7 +103,7 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
                 setViewVisibility(R.id.remainderLine, summaryVisibility)
                 setViewVisibility(R.id.summarySpacer, summaryVisibility)
                 setTextViewText(R.id.title, budgetInfo.title)
-                setTextViewText(R.id.groupInfo, budgetInfo.groupInfo)
+                setTextViewText(R.id.groupInfo, budgetInfo.groupInfo.description)
                 setProgressBarVisibility(R.id.budget_progress_green)
                 setProgressBarVisibility(R.id.budget_progress_yellow)
                 setProgressBarVisibility(R.id.budget_progress_red)
@@ -184,6 +196,7 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
                         if (daysRemain && withinBudget) amountFormatted(remainingBudget / remainingDays) else ""
                     )
                 }
+
                 setOnClickPendingIntent(
                     R.id.layout,
                     PendingIntent.getActivity(
@@ -195,6 +208,32 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
                         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
                     )
                 )
+
+                fun configureNavigationButton(command: Int, action: String) {
+                    setOnClickPendingIntent(
+                        command, PendingIntent.getBroadcast(
+                            context, appWidgetId, clickBaseIntent(context).apply {
+                                putExtra(KEY_CLICK_ACTION, action)
+                                data = Uri.parse(this.toUri(Intent.URI_INTENT_SCHEME))
+                            }, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+                        )
+                    )
+                }
+
+                if (budgetInfo.groupInfo.year == 0 && budgetInfo.groupInfo.second == 0) {
+                    setViewVisibility(R.id.BACK_COMMAND, View.GONE)
+                    setViewVisibility(R.id.FORWARD_COMMAND, View.GONE)
+                    val padding = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        16f,
+                        context.resources.displayMetrics
+                    ).toInt()
+                    //TODO RTL?
+                    setViewPadding(R.id.groupInfo, 0, 0, padding, 0)
+                } else {
+                    configureNavigationButton(R.id.BACK_COMMAND, CLICK_ACTION_BACK)
+                    configureNavigationButton(R.id.FORWARD_COMMAND, CLICK_ACTION_FORWARD)
+                }
             }
         }.getOrElse { errorView(context, it) }
         appWidgetManager.updateAppWidget(appWidgetId, widget)
