@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.activity.Action
 import org.totschnig.myexpenses.activity.DebtEdit
 import org.totschnig.myexpenses.activity.DebtOverview
 import org.totschnig.myexpenses.activity.HELP_VARIANT_MANGE
+import org.totschnig.myexpenses.activity.HELP_VARIANT_MERGE_MODE
 import org.totschnig.myexpenses.activity.ManageParties
 import org.totschnig.myexpenses.activity.asAction
 import org.totschnig.myexpenses.databinding.PartiesListBinding
@@ -429,7 +430,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
             invalidateOptionsMenu()
             configureFloatingActionButton()
             setFabEnabled(!mergeMode)
-            setHelpVariant(if(mergeMode) "mergeMode" else HELP_VARIANT_MANGE)
+            setHelpVariant(if(mergeMode) HELP_VARIANT_MERGE_MODE else HELP_VARIANT_MANGE)
         }
     }
 

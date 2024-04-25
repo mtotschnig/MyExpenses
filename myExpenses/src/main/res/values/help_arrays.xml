@@ -522,7 +522,7 @@
     </string-array>
 
     <string-array name="help_ManageParties_mergeMode_info">
-        <item>help_ManageParties_mergeMode_info_1</item>
+        <item tools:ignore="Typos">help_ManageParties_mergeMode_info_1</item>
         <item>help_fab_confirm_selection</item>
         <item>help_ManageParties_mergeMode_info_2</item>
     </string-array>
