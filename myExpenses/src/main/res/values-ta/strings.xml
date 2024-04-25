@@ -919,4 +919,6 @@
     <string name="budget_deleted">வரவு செலவுத் திட்டம் அழிக்கப்பட்டது</string>
     <string name="search_account">கணக்கைத் தேடு</string>
     <string name="budget_table_header_overspent">வரம்பு மீறிய செலவு</string>
+    <string name="contrib_feature_category_tree_label">வகைக் கிளைப்படம்</string>
+    <string name="budget_widget_configuration">வரவு செலவு திட்டத்தை தேர்வு செய்யவும்</string>
 </resources>
