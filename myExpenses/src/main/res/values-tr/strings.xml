@@ -1005,4 +1005,5 @@
     <string name="merge_categories_dialog_title">Kategorileri Birleştir</string>
     <string name="subcategories_merged_recursively">Birleştirilen kategorilerden herhangi birinin aynı etikete sahip alt kategorileri varsa, bunlar önce özyinelemeli olarak birleştirilecektir.</string>
     <string name="pref_csv_export_category_separator_summary">Kategori hiyerarşisinin seviyeleri arasındaki ayırıcı</string>
+    <string name="not_enough_data">Yeterli veri yok</string>
 </resources>
