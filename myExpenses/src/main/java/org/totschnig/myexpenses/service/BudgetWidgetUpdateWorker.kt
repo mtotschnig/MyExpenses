@@ -71,7 +71,7 @@ class BudgetWidgetUpdateWorker(context: Context, workerParameters: WorkerParamet
             val widgetIds = AppWidgetManager.getInstance(context)
                 .getAppWidgetIds(ComponentName(context, BudgetWidget::class.java))
                 .filter {
-                    BudgetWidgetConfigure.loadSelectionPref(context, it).second == grouping.name
+                    BudgetWidgetConfigure.loadGroupingString(context, it) == grouping.name
                 }.toIntArray()
             if (widgetIds.isEmpty()) {
                 manager.cancelUniqueWork(workName)

@@ -193,16 +193,12 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
         )
     }
 
-    private suspend fun nextGrouping() =
-        GroupingNavigator.next(groupingInfo!!, dateInfoExtra.filterNotNull().first())
-
-
     fun rollOverClear() {
         viewModelScope.launch(context = coroutineContext()) {
             val budget = accountInfo.value!!
             val selection =
                 "${DatabaseConstants.KEY_BUDGETID} = ? AND ${DatabaseConstants.KEY_YEAR} = ? AND ${DatabaseConstants.KEY_SECOND_GROUP} = ?"
-            val nextGrouping = nextGrouping()
+            val nextGrouping = nextGrouping()!!
             val ops = arrayListOf(
                 ContentProviderOperation.newUpdate(TransactionProvider.BUDGET_ALLOCATIONS_URI)
                     .withSelection(
@@ -233,7 +229,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
 
     private suspend fun saveRollOverList(rollOverList: List<Pair<Long, Long>>) {
         val budget = accountInfo.value!!
-        val nextGrouping = nextGrouping()
+        val nextGrouping = nextGrouping()!!
         val ops = ArrayList<ContentProviderOperation>()
         rollOverList.forEach {
             val (categoryId, rollOver) = it

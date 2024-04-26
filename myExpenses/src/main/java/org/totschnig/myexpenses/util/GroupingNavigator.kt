@@ -7,6 +7,7 @@ import org.totschnig.myexpenses.model.Grouping.DAY
 import org.totschnig.myexpenses.model.Grouping.MONTH
 import org.totschnig.myexpenses.model.Grouping.NONE
 import org.totschnig.myexpenses.model.Grouping.WEEK
+import org.totschnig.myexpenses.model.Grouping.YEAR
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import org.totschnig.myexpenses.viewmodel.data.DateInfoExtra
 
@@ -35,25 +36,31 @@ object GroupingNavigator {
         )
     }
 
-    fun nextYear(groupingInfo: GroupingInfo) = groupingInfo.copy(year = groupingInfo.year + 1)
+    suspend fun next(groupingInfo: GroupingInfo, dateInfo: suspend () -> DateInfoExtra) =
+        when(groupingInfo.grouping) {
+            NONE -> throw IllegalArgumentException()
+            YEAR -> groupingInfo.copy(year = groupingInfo.year + 1)
+            else -> {
+                val nextSecond = groupingInfo.second + 1
+                val overflow = nextSecond > dateInfo().maxValue
+                groupingInfo.copy(
+                    year = if (overflow) groupingInfo.year + 1 else groupingInfo.year,
+                    second = if (overflow) groupingInfo.grouping.minValue else nextSecond
+                )
+            }
+        }
 
-    fun next(groupingInfo: GroupingInfo, dateInfo: DateInfoExtra): GroupingInfo {
-        val nextSecond = groupingInfo.second + 1
-        val overflow = nextSecond > dateInfo.maxValue
-        return groupingInfo.copy(
-            year = if (overflow) groupingInfo.year + 1 else groupingInfo.year,
-            second = if (overflow) groupingInfo.grouping.minValue else nextSecond
-        )
-    }
-
-    fun previousYear(groupingInfo: GroupingInfo) = groupingInfo.copy(year = groupingInfo.year - 1)
-
-    fun previous(groupingInfo: GroupingInfo, dateInfo: DateInfoExtra): GroupingInfo {
-        val nextSecond = groupingInfo.second - 1
-        val underflow = nextSecond < groupingInfo.grouping.minValue
-        return groupingInfo.copy(
-            year = if (underflow) groupingInfo.year - 1 else groupingInfo.year,
-            second = if (underflow) dateInfo.maxValue else nextSecond
-        )
-    }
+    suspend fun previous(groupingInfo: GroupingInfo, dateInfo: suspend () -> DateInfoExtra) =
+        when(groupingInfo.grouping) {
+            NONE -> throw IllegalArgumentException()
+            YEAR -> groupingInfo.copy(year = groupingInfo.year - 1)
+            else -> {
+                val nextSecond = groupingInfo.second - 1
+                val underflow = nextSecond < groupingInfo.grouping.minValue
+                groupingInfo.copy(
+                    year = if (underflow) groupingInfo.year - 1 else groupingInfo.year,
+                    second = if (underflow) dateInfo().maxValue else nextSecond
+                )
+            }
+        }
 }

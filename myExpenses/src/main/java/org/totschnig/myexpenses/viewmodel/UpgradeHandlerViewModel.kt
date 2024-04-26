@@ -524,7 +524,7 @@ class UpgradeHandlerViewModel(application: Application) :
                         .getAppWidgetIds(ComponentName(context, BudgetWidget::class.java))
                         .map { widgetId ->
                             repository.getGrouping(
-                                BudgetWidgetConfigure.loadSelectionPrefLegacy(
+                                BudgetWidgetConfigure.loadBudgetId(
                                     context,
                                     widgetId
                                 )

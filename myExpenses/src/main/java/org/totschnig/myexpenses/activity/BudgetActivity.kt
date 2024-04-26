@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
@@ -66,7 +65,12 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.buildAmountField
 import org.totschnig.myexpenses.util.setEnabledAndVisible
@@ -114,9 +118,9 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             collate = collate
         )
         viewModel.setSortOrder(sortDelegate.currentSortOrder)
-        val budgetId: Long = intent.getLongExtra(DatabaseConstants.KEY_ROWID, 0)
-        val groupingYear = intent.getIntExtra(DatabaseConstants.KEY_YEAR, 0)
-        val groupingSecond = intent.getIntExtra(DatabaseConstants.KEY_SECOND_GROUP, 0)
+        val budgetId: Long = intent.getLongExtra(KEY_ROWID, 0)
+        val groupingYear = intent.getIntExtra(KEY_YEAR, 0)
+        val groupingSecond = intent.getIntExtra(KEY_SECOND_GROUP, 0)
         viewModel.initWithBudget(budgetId, groupingYear, groupingSecond)
 
         lifecycleScope.launch {
@@ -318,7 +322,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             category.children.sumOf { it.budget.totalAllocated } - category.budget.rollOverPrevious
         val max = if (category.level > 0) {
             val bundle = Bundle(1).apply {
-                putLong(DatabaseConstants.KEY_CATID, category.id)
+                putLong(KEY_CATID, category.id)
             }
             simpleFormDialog.extra(bundle)
             val allocated: Long = parentItem?.children?.sumOf { it.budget.totalAllocated }
@@ -351,7 +355,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                     )
                     if (withOneTimeCheck)
                         add(
-                            Check.box(DatabaseConstants.KEY_ONE_TIME)
+                            Check.box(KEY_ONE_TIME)
                                 .label(
                                     getString(
                                         R.string.budget_only_current_period,
@@ -372,13 +376,13 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 EDIT_BUDGET_DIALOG -> {
                     val amount = Money(
                         budget.currencyUnit,
-                        extras.getSerializable(DatabaseConstants.KEY_AMOUNT) as BigDecimal
+                        extras.getSerializable(KEY_AMOUNT) as BigDecimal
                     )
                     viewModel.updateBudget(
                         budget.id,
-                        extras.getLong(DatabaseConstants.KEY_CATID),
+                        extras.getLong(KEY_CATID),
                         amount,
-                        extras.getBoolean(DatabaseConstants.KEY_ONE_TIME)
+                        extras.getBoolean(KEY_ONE_TIME)
                     )
                     return true
                 }
@@ -431,7 +435,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             R.id.EDIT_COMMAND -> {
                 viewModel.accountInfo.value?.let {
                     startActivity(Intent(this, BudgetEdit::class.java).apply {
-                        putExtra(DatabaseConstants.KEY_ROWID, it.id)
+                        putExtra(KEY_ROWID, it.id)
                     })
                 }
                 true
