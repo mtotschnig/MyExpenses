@@ -108,7 +108,7 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
     override suspend fun updateWidgetDo(
         context: Context,
         appWidgetManager: AppWidgetManager,
-        appWidgetId: Int,
+        appWidgetId: Int
     ) {
         val widget = runCatching {
             val horizontalPadding = 32
