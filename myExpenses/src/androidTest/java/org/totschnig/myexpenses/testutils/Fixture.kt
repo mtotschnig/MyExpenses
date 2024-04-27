@@ -15,10 +15,24 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.addAttachments
 import org.totschnig.myexpenses.db2.findCategory
 import org.totschnig.myexpenses.db2.setGrouping
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Plan
+import org.totschnig.myexpenses.model.SplitTransaction
+import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.myApplication
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -27,7 +41,7 @@ import org.totschnig.myexpenses.viewmodel.data.Tag
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Date
 import java.util.concurrent.ThreadLocalRandom
 import org.totschnig.myexpenses.test.R as RT
 
@@ -233,7 +247,7 @@ class Fixture(inst: Instrumentation) {
         //Transaction 8: Split
         val split: Transaction = SplitTransaction.getNewInstance(contentResolver, account1.id, defaultCurrency, true)
         split.amount = Money(defaultCurrency, -8967L)
-        split.status  = DatabaseConstants.STATUS_NONE
+        split.status  = STATUS_NONE
         split.save(contentResolver, true)
         val label = appContext.getString(R.string.testData_tag_project)
         val tagList = listOf(Tag(saveTag(label), label, 0))
@@ -318,15 +332,19 @@ class Fixture(inst: Instrumentation) {
     }
 
     private fun setCategoryBudget(budgetId: Long, categoryId: Long, amount: Long) {
-        val contentValues = ContentValues(1)
-        contentValues.put(DatabaseConstants.KEY_BUDGET, amount)
-        val now = LocalDate.now()
-        contentValues.put(DatabaseConstants.KEY_YEAR, now.year)
-        contentValues.put(DatabaseConstants.KEY_SECOND_GROUP, now.monthValue - 1)
-        val budgetUri = ContentUris.withAppendedId(TransactionProvider.BUDGETS_URI, budgetId)
         val result = appContext.contentResolver.update(
-            ContentUris.withAppendedId(budgetUri, categoryId),
-            contentValues, null, null
+            ContentUris.withAppendedId(
+                ContentUris.withAppendedId(
+                    TransactionProvider.BUDGETS_URI,
+                    budgetId
+                ), categoryId
+            ),
+            ContentValues().apply {
+                put(KEY_BUDGET, amount)
+                put(KEY_YEAR, LocalDate.now().year)
+                put(KEY_SECOND_GROUP, 0)
+                put(KEY_ONE_TIME, 0)
+            }, null, null
         )
         Timber.d("Insert category budget: %d", result)
     }
@@ -416,7 +434,7 @@ class Fixture(inst: Instrumentation) {
 
     private fun saveTag(label: String?): Long {
         val values = ContentValues()
-        values.put(DatabaseConstants.KEY_LABEL, label)
+        values.put(KEY_LABEL, label)
         val uri = appContext.contentResolver.insert(TransactionProvider.TAGS_URI, values)
         return ContentUris.parseId(uri!!)
     }
