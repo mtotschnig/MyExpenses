@@ -154,7 +154,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                                 }
                             }
                         }
-                        LaunchedEffect(sortedData.value) {
+                        LaunchedEffect(sortedData.value, showChart.value) {
                             setChartData(sortedData.value, budget.currencyUnit.fractionDigits)
                         }
                         hasRollovers = category.value.hasRolloverNext
