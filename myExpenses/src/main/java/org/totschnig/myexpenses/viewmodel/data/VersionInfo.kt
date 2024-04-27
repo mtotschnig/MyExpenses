@@ -151,10 +151,10 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                     ctx.localizedQuote(t(R.string.title_scan_receipt_feature)),
                     ctx.localizedQuote(t(R.string.widget_title_accounts))
                 )
-                )
-            "3821" -> arrayOf(
-                t(R.string.bug_fixes),
-                "FinTS: ${t(R.string.stability_improvements)}",
+            )
+
+            "383" -> arrayOf(
+                "${t(R.string.menu_budget)}: 4.0"
             )
 
             else -> {

@@ -89,6 +89,7 @@
     <string name="version_more_info_380">112191054511340968</string>
     <string name="version_more_info_381">112219195196862569</string>
     <string name="version_more_info_382">112277216301034271</string>
+    <string name="version_more_info_383">112343594355860132</string>
 
     <!-- Github -->
     <string name="project_board_341">69#column-18649612</string>
@@ -133,7 +134,7 @@
     <string name="project_board_380">137#column-19814542</string>
     <string name="project_board_381">138#column-19833828</string>
     <string name="project_board_382">139#column-19841847</string>
-    <string name="project_board_3821">141#column-19856783</string>
+    <string name="project_board_383">140#column-19850840</string>
 
     <string-array name="whats_new_355">
         <item>@string/whats_new_355</item>
