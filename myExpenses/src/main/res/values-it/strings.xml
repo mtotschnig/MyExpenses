@@ -1013,4 +1013,5 @@
     <string name="pref_csv_export_category_separator_summary">Separatore tra i livelli della gerarchia delle categorie</string>
     <string name="warning_transform_to_transfer">La transazione selezionata verrà sostituita da un trasferimento da %1$s a %2$s.</string>
     <string name="remap_date">Su tutte le transazioni selezionate, la data verrà impostata su %s.</string>
+    <string name="not_enough_data">Dati insufficienti</string>
 </resources>
