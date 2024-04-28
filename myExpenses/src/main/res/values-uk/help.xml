@@ -5,7 +5,7 @@
     <string name="help_MyExpenses_title">Список транзакцій</string>
     <string name="help_MyExpenses_fab_long_press">Довге натискання на плаваючу кнопку дії відкриває меню, яке дозволяє підготувати форму для переказу, розділити транзакцію або дохід.</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Скопіюйте поточний баланс у буфер обміну.</string>
-    <string name="menu_status_handle_help_text">Статус транзакції вказує кольоровий прямокутник: сірий для незвірених, синій для чітких, зелений для узгоджених. Натискання на прямокутник змінює статус.</string>
+    <string name="menu_status_handle_help_text">Статус транзакції вказує кольоровий прямокутник: сірий для незвірених, синій для точних, зелений для узгоджених. Натискання на прямокутник змінює статус.</string>
     <string name="popup_MyExpenses_toolbar_intro">Натискання на панелі інструментів (заголовок рахунку або поточного балансу) відкриває меню з такими пунктами:</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Обчисліть різницю між поточним балансом і новим значенням.</string>
     <string name="help_contextual_actions">Контекстні дії</string>
@@ -40,7 +40,7 @@
     <string name="help_ManageParties_manage_info">На цьому екрані перелічено сторони, які використовуються для автозаповнення поля Платник/Одержувач.</string>
     <string name="help_ManageParties_select_mapping_info">Виберіть учасника, торкнувшись його.</string>
     <string name="help_ManageParties_mergeMode_info_1">Виберіть повторюваних учасників, яких потрібно об’єднати.</string>
-    <string name="help_ManageTemplates_planner_intro">Довге натискання відкритого екземпляра запускає багаторазовий вибір. Натискання на початок або кінець діапазону дат дозволяє розширити діапазон у минуле чи майбутнє.</string>
+    <string name="help_ManageTemplates_planner_intro">Довге натискання відкритого екземпляра запускає мульти-вибір. Натискання на початок або кінець діапазону дат дозволяє розширити діапазон у минуле чи майбутнє.</string>
     <string name="help_ManageTemplates_plans_title">Перегляд планів у календарі</string>
     <string name="help_ManageTemplates_plans_intro">Кожна виділена дата представляє екземпляр плану.</string>
     <string name="help_ManageTemplates_plans_info_open">Екземпляр ще не застосований.</string>
@@ -48,7 +48,7 @@
     <string name="cab_ManageTemplates_edit_help_text">Редагуйте вибраний шаблон і створіть чи редагуйте пов’язаний план.</string>
     <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Створіть екземпляр вибраного шаблону та ввійдіть в його форму редагування, де ви можете змінити його перед збереженням.</string>
     <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Створіть транзакцію під час вибраного екземпляра події та ввійдіть в її форму редагування, де ви можете змінити її перед збереженням.</string>
-    <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Якщо транзакції були створені для вибраних екземплярів подій, вони будуть видалені, якщо вони були позначені як скасовані, прапорці буде видалено.</string>
+    <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Якщо транзакції були створені для вибраних подій екземпляра, вони будуть видалені, якщо вони були позначені як скасовані, прапорці буде видалено.</string>
     <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Відредагуйте транзакцію, створену для вибраного екземпляра плану.</string>
     <string name="menu_ManageTemplates_templates_sort_help_text">Список шаблонів можна відсортувати за назвою (в алфавітному порядку), за сумою, за частотою використання або за часом останнього екземпляра транзакції з нього.</string>
     <string name="help_ManageCategories_distribution_info">На цьому екрані відображається розподіл ваших витрат і доходів по категоріях, для всіх транзакцій на рахунку або для певної групи. Якщо розгорнути основну категорію в списку, секторна діаграма відобразить розподіл її підкатегорій. Якщо вибрати категорію зі списку, вона буде виділена на круговій діаграмі, і навпаки. Натисніть і утримуйте категорію, щоб відобразити зведений список трансакцій, пов’язаних із нею.</string>
