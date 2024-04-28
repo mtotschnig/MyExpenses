@@ -209,4 +209,5 @@
     <string name="help_fab_confirm_selection">Utilice el botón de acción flotante para confirmar la selección.</string>
     <string name="help_ManageTags_context_menu_info">Toque el ícono &lt;img src=more&gt; para editar, asignar un color o eliminar una etiqueta.</string>
     <string name="cab_ManageCategories_merge_help_text">Se pueden fusionar categorías del mismo tipo.</string>
+    <string name="menu_chart_help_text">Cambia la visibilidad del gráfico.</string>
 </resources>
