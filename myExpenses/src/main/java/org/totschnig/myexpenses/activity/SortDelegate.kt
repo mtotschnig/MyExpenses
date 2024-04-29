@@ -26,14 +26,6 @@ class SortDelegate(
         true
     } ?: false
 
-    val sortOrder: String?
-        get() {
-            val configuredOrDefault = currentSortOrder
-            val orderBy = configuredOrDefault.toOrderBy(collate)
-            return if (orderBy == null || configuredOrDefault == defaultSortOrder) orderBy else
-                orderBy + ", " + defaultSortOrder.toOrderBy(collate)
-        }
-
     val currentSortOrder: Sort
         get() = enumValueOrNull<Sort>(
             prefHandler.requireString(
