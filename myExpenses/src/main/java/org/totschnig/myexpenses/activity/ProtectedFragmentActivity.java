@@ -18,7 +18,7 @@ package org.totschnig.myexpenses.activity;
 import static org.totschnig.myexpenses.activity.ConstantsKt.CALCULATOR_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.CONTRIB_REQUEST;
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
-import static org.totschnig.myexpenses.preference.PrefKey.UI_FONTSIZE;
+import static org.totschnig.myexpenses.preference.PrefKey.UI_FONT_SIZE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
 import android.content.ContentResolver;
@@ -80,13 +80,14 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     settings.registerOnSharedPreferenceChangeListener(this);
     TypedArray themeArray = getTheme().obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
     textColorSecondary = themeArray.getColorStateList(0);
+    themeArray.recycle();
   }
 
   @Override
   protected void attachBaseContext(Context newBase) {
     super.attachBaseContext(newBase);
     final MyApplication application = MyApplication.Companion.getInstance();
-    final int customFontScale = application.getAppComponent().prefHandler().getInt(UI_FONTSIZE, 0);
+    final int customFontScale = application.getAppComponent().prefHandler().getInt(UI_FONT_SIZE, 0);
     if (customFontScale > 0) {
       Configuration config = new Configuration();
       config.fontScale = getFontScale(customFontScale, application.getContentResolver());
@@ -241,10 +242,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     t.commitAllowingStateLoss();
     //we might want to call a new task immediately after executing the last one
     m.executePendingTransactions();
-  }
-
-  public void recordUsage(ContribFeature f) {
-    licenceHandler.recordUsage(f);
   }
 
   @Override

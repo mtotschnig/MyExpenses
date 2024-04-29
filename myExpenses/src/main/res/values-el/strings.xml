@@ -37,8 +37,6 @@
     <string name="app_name">Έξοδα μου</string>
     <string name="backup_success">Βάση δεδομένων και προτιμήσεις εγγεγραμένα με επιτυχία να sdcard (%1$s).</string>
     <string name="category">Κατηγορία</string>
-    <string name="color">Χρώμα</string>
-    <string name="comment">Σημειώσεις</string>
     <string name="contrib_feature_ad_free_label">Χωρίς διαφημίσεις</string>
     <string name="contrib_feature_accounts_unlimited_label">Απεριόριστος αριθμός λογαριασμών</string>
     <string name="contrib_feature_attach_picture_label">Επισυνάψτε εικόνα στην συναλλαγή</string>
@@ -174,10 +172,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">\"Αντιστροφή\"</string>
     <string name="menu_manage_plans">Πρότυπα και σχέδια</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Άνοιγμα</string>
     <string name="menu_import">Εισαγωγή</string>
-    <string name="menu_print">Εκτύπωση</string>
     <string name="menu_reset">Εξαγωγή και επαναφορά</string>
     <string name="menu_reset_all">Εξαγωγή και επαναφορά όλων</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -185,7 +180,6 @@
     <string name="menu_save">Αποθήκευση</string>
     <string name="menu_save_and_new">Αποθήκευση και δημιουργία</string>
     <string name="menu_share">Πες το σε ένα φίλο</string>
-    <string name="button_label_share_file">Μοιραστείτε</string>
     <string name="button_label_close">Κλείσιμο</string>
     <string name="menu_split_transaction">Μετασχηματισμός για να διαιρεθεί</string>
     <string name="method">Μέθοδος πληρωμής</string>
@@ -216,7 +210,6 @@
     <string name="opening_balance">Απογραφή Υπολοίπου </string>
     <string name="parse_error_file_not_found">Δεν μπορούσε να βρει το αρχείο %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">Μη ΥΠΟΣΤΗΡΙΖΟΜΕΝΟΣ Grisbi File έκδοση: %1$s</string>
-    <string name="parse_error_no_data_found">Καμία δυνατότητα εισαγωγής δεδομένων που βρέθηκαν στο αρχείο.</string>
     <string name="parse_error_other_exception">Παρουσιάστηκε σφάλμα: %1$s</string>
     <string name="parse_error_parse_exception">Δεν ήταν δυνατό να αναλυθεί αρχείο</string>
     <string name="password_disabled_reenable">Έχει απενεργοποιηθεί η προστασία κωδικού πρόσβασης. Μπορείτε να την ενεργοποιήσετε ξανά στις ρυθμίσεις.</string>
@@ -439,7 +432,6 @@
     <string name="restore_calendar_handling_ignore">Μην επαναφέρεις τα σχέδια</string>
     <string name="restore_not_possible_target_calendar_missing">Το ημερολόγιο %s που ρυθμίστηκε στην αρχειοθήκη αντιγράφων ασφαλείας δεν υπάρχει τοπικά. Η επαναφορά ματαιώθηκε.</string>
     <string name="restore_not_possible_local_calendar_missing">Το τρέχον ημερολόγιο προγραμματισμού δεν είναι διαθέσιμο.</string>
-    <string name="menu_distribution_show_pie_char">Εμφάνιση γράφημα πίτας</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Παλαιές εικόνες</string>
     <string name="pref_manage_stale_images_summary">Διαχείριση εικόνων που έχουν απομείνει από διαγραμμένες συναλλαγές</string>
@@ -511,8 +503,6 @@
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">Παρακαλώ εισάγετε τη διεύθυνση URL σε ένα ειδικό φάκελο στο WebDAV διακομιστή σας. Το {app_name} θα αποθηκεύσει τα δεδομένα του μέσα σε αυτό το φάκελο, δεν θα αγγίξει τίποτα έξω από αυτό.</string>
     <string name="description_webdav_trust_certificate">Η ιστοσελίδα χρησιμοποιεί ένα πιστοποιητικό, το οποίο δεν είναι έμπιστο από το Android.</string>
-    <string name="hint_user_name">Ονομα χρήστη</string>
-    <string name="hint_password">Κωδικός πρόσβασης</string>
     <string name="label_trust_certificate">Εμπιστευθείτε αυτό το πιστοποιητικό</string>
     <string name="validate_error_not_empty">Δεν πρέπει να είναι κενό</string>
     <string name="validate_error_webdav_invalid_certificate">Το πιστοποιητικό δεν μπορεί να επαληθευτεί. Φαίνεται άκυρο.</string>
@@ -522,7 +512,6 @@
     <string name="menu_sync_unlink">Διακοπή συγχρονισμού</string>
     <string name="menu_sync_link">Έναρξη συγχρονισμού</string>
     <string name="menu_sync_download">Λήψη και συγχρονισμός</string>
-    <string name="pref_sync_frequency_title">Συχνότητα συγχρονισμού</string>
     <string name="pref_sync_frequency_summary">Πόσο συχνά πρέπει να συγχρονίζονται τα δεδομένα (σε ώρες)</string>
     <string name="dialog_confirm_sync_unlink">Αν αποσυνδέσετε αυτόν τον λογαριασμό από το %s, η κατάσταση συγχρονισμού θα χαθεί. Η σύνδεσή τους ξανά αργότερα, απαιτεί ένα πλήρη συγχρονισμό να εκτελεστεί ξανά.</string>
     <string name="dialog_command_sync_link_remote">Λήψη από απομακρυσμένο</string>
@@ -559,8 +548,6 @@
     <string name="onboarding_get_started">Ξεκινήστε</string>
     <string name="onboarding_more_options">Περισσότερες Επιλογές</string>
     <string name="onboarding_restore_from_cloud">Επαναφορά από συγχρονισμό με το σύννεφο</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">Αντίγραφα ασφαλείας</string>
     <string name="onboarding_restore_from_local">Επαναφορά τοπικού αντιγράφου ασφαλείας</string>
     <string name="pref_sync_notification_summary">Ειδοποίηση σχετικά με την πρόοδο του συγχρονισμού</string>
     <string name="pref_debug_logging_summary">Εγγραφή πληροφοριών εντοπισμού σφαλμάτων στο αρχείο καταγραφής συστήματος</string>
@@ -685,10 +672,8 @@
     <string name="budget_filter_all_categories">Όλες οι κατηγορίες</string>
     <string name="budget_filter_all_methods">Όλοι οι μέθοδοι</string>
     <string name="budget_filter_all_tags">Όλες οι ετικέτες</string>
-    <string name="budget_form_label_filter">Φίλτρο</string>
     <string name="menu_edit_budget">Επεξεργασία προϋπολογισμού</string>
     <string name="tags_create_or_select">Δημιουργία ή επιλογή ετικετών</string>
-    <string name="tags">Ετικέτες</string>
     <string name="pref_manage_tags_summary">Προσθήκη, επεξεργασία, διαγραφή ετικετών.</string>
     <string name="dialog_title_warning_delete_tag">Διαγραφή ετικέτας;</string>
     <string name="menu_edit_tag">Επεξεργασία ετικέτας</string>
@@ -706,8 +691,6 @@
     <string name="pref_ocr_time_formats_title">Μορφές ώρας</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Χαρακτηριστικά</string>
-    <string name="scan_result_no_data">Δεν υπάρχουν δεδομένα</string>
-    <string name="pref_feature_uninstall_languages_title">Γλώσσες</string>
     <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
     <string name="pref_ocr_engine_title">Μηχανή αναγνώρισης κειμένου</string>
     <!-- Title of a preference where user can select language for text recognition with Tesseract -->
@@ -751,7 +734,6 @@
     <string name="object_sealed_debt">Το αντικείμενο αναφέρεται σε κλειστό χρέος.</string>
     <string name="debt_I_owe">Χρωστάω %s</string>
     <string name="debts">Χρέη</string>
-    <string name="dialog_title_delete_debt">Διαγραφή χρέους;</string>
     <string name="warning_delete_category_with_budget">Για τουλάχιστον μία επιλεγμένη κατηγορία, υπάρχουν πιστώσεις προϋπολογισμού, οι οποίες θα διαγραφούν επίσης.</string>
     <string name="onboarding_ui_title">Το {app_name} προσαρμόζεται στις προτιμήσεις σας</string>
     <string name="split_transaction_not_possible">Μόνο οι συναλλαγές που έχουν τον ίδιο λογαριασμό, δικαιούχο πληρωμής και κατάσταση μπορούν να ομαδοποιηθούν σε μία συναλλαγή διαίρεσης.</string>
@@ -852,7 +834,6 @@
     <string name="sync_backend_wrong_passphrase">Το απομακρυσμένο backend φαίνεται κρυπτογραφημένο με διαφορετική φράση πρόσβασης.</string>
     <string name="new_tag_hint">Εισάγετε τη νέα ετικέτα</string>
     <string name="template_default_action_without_amount_hint">Το πρότυπο χωρίς ποσό πρέπει να αποθηκευτεί με την προεπιλεγμένη ενέργεια \"Επεξεργασία\"</string>
-    <string name="upgrade_information_cloud_sync_storage_format">Με την έκδοση 2.9.8, ο τρόπος αποθήκευσης των δεδομένων στο backend συγχρονισμού έχει αλλάξει. Αναβαθμίστε σε αυτήν την έκδοση σε όλες τις συγχρονισμένες συσκευές, προτού εισαγάγετε νέες εγγραφές σε οποιαδήποτε από αυτές.</string>
     <string name="language_download_requested">Ζητούνται μεταφράσεις για τη γλώσσα %s από το Play Store</string>
     <string name="reset_equivalent_amounts_success">Έγινε επαναφορά των αντίστοιχων ποσών</string>
     <string name="sub_budget_under_allocated_error">%s έχουν ήδη διατεθεί σε υποκατηγορίες. Εάν δεν αφαιρέσετε χρήματα από αυτά, πρέπει τουλάχιστον να διαθέσετε αυτό το ποσό στην κύρια κατηγορία.</string>
@@ -921,7 +902,6 @@
     <string name="notifications_permission_required_webui">Χορηγώντας την άδεια αποστολής ειδοποιήσεων, μπορείτε να ελέγξετε την κατάσταση του διακομιστή ιστού.</string>
     <string name="pref_attachment_mime_types_title">Επιτρεπόμενοι τύποι MIME για συνημμένα</string>
     <string name="button_relink_update_date">Επανασύνδεση και ενημέρωση ημερομηνίας</string>
-    <string name="file_format">Μορφή Αρχείου</string>
     <string name="widget_title_budget">Ο προϋπολογισμός μου</string>
     <string name="pref_mlkit_script_title">Δέσμη ενεργειών για το MlKit</string>
     <string name="pref_copy_attachments_summary_on">Τα αρχεία αντιγράφονται στο φάκελο της εφαρμογής.</string>
@@ -949,7 +929,6 @@
     <string name="purge_backups">Τα ακόλουθα παλιά αρχεία αντιγράφων ασφαλείας θα διαγραφούν:</string>
     <string name="image_optimize_quality_summary">Ποιότητα 0 σημαίνει συμπίεση για το μικρότερο μέγεθος. 100 σημαίνει συμπίεση για μέγιστη οπτική ποιότητα.</string>
     <string name="debt_borrow_additional">Δανείζομαι %s.</string>
-    <string name="required">Απαιτείται</string>
     <string name="notifications_permission_required_sync">Χορηγώντας την άδεια αποστολής ειδοποιήσεων, μπορείτε να παρακολουθείτε την πρόοδο των λειτουργιών συγχρονισμού.</string>
     <string name="content_description_attachment">Συνημμένο</string>
     <string name="debt_lend_additional">Δανείζω %s.</string>
@@ -957,13 +936,11 @@
     <string name="rollover_edit_invalid">Το άθροισμα των μετακυλίσεων που αντιστοιχούν σε μια κατηγορία και των μετακυλίσεων που αντιστοιχούν σε υποκατηγορίες δεν μπορεί να υπερβαίνει το υπόλοιπο.</string>
     <string name="optimize_image_file_size">Βελτιστοποίηση μεγέθους αρχείου εικόνας</string>
     <string name="orphaned_transaction_info">Μια συναλλαγή συνδέεται με το πρόγραμμα για αυτήν την ημερομηνία, αλλά δεν υπάρχει συμβάν σε αυτή την ημερομηνία.</string>
-    <string name="dialog_title_warning_delete_party">Διαγραφή μέρους;</string>
     <string name="orphaned_transaction_align_date">Προαιρετικά, η ημερομηνία που είναι αποθηκευμένη για τη συναλλαγή μπορεί επίσης να ευθυγραμμιστεί με την ημερομηνία του συμβάντος.</string>
     <string name="debt_balance_they_owe">Ο/Η %1$s τώρα χρωστάει %2$s.</string>
     <string name="pref_debug_logging_share_summary">Κοινή χρήση αρχείων καταγραφής</string>
     <string name="debt_installment_pay">Πληρώνω μια δόση ύψους %s.</string>
     <string name="notifications_permission_required_planner">Το <i>{app_name}</i> χρειάζεται άδεια για να σας στέλνει ειδοποιήσεις, όταν θα δημοσιεύονται μελλοντικές συναλλαγές.</string>
-    <string name="image_optimize_quality">Ποιότητα</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Με την τρέχουσα κατάσταση της άδειάς σας (%1$s), αυτός ο διάλογος θα εμφανίζεται σε κάθε χρήση.</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">υπολογίζονται ως έξοδα / έσοδα</string>
     <string name="pref_csv_export_split_amount_summary">Χρήση ξεχωριστών στηλών για έσοδα και έξοδα</string>

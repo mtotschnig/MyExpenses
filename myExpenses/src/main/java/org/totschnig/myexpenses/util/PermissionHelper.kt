@@ -20,6 +20,7 @@ object PermissionHelper {
         PERMISSIONS_REQUEST_NOTIFICATIONS_SYNC, PERMISSIONS_REQUEST_NOTIFICATIONS_PLANNER,
         PERMISSIONS_REQUEST_NOTIFICATIONS_AUTO_BACKUP
     )
+    @Retention(AnnotationRetention.SOURCE)
     annotation class PermissionRequestCode
 
     const val PERMISSIONS_REQUEST_WRITE_CALENDAR = 1

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:my="http://schemas.android.com/apk/res-auto">
     <ListPreference
         android:title="@string/accounts"
@@ -10,4 +10,5 @@
         android:entryValues="@array/account_widget_configuration_sum_values"
         android:title="@string/account_widget_configuration_sum"
         my:useSimpleSummaryProvider="true" />
-</PreferenceScreen>
+    <org.totschnig.myexpenses.preference.SimpleValuePreference />
+</androidx.preference.PreferenceScreen>

@@ -9,5 +9,26 @@
     <string name="help_and_feedback">"ຊ່ວຍ​ເຫຼືອ &amp; ຄຳ​ຕິ​ຊົມ"</string>
     <string name="currencies_exchange">"ສະກຸນເງິນ ແລະ ການແລກປ່ຽນເງິນຕາຕ່າງປະເທດ"</string>
     <string name="menu_sync_now">"ຊິ້ງຂໍ້ມູນດຽວນີ້"</string>
-  <string name="do_not_show_again">ບໍ່ຕ້ອງສະແດງອີກ</string>
+    <string name="do_not_show_again">ບໍ່ຕ້ອງສະແດງອີກ</string>
+    <string name="color">"ສີ"</string>
+    <string name="notes">"ໝາຍເຫດ"</string>
+    <string name="cannot_be_undone">"​ການ​ກະ​ທຳ​ນີ້ຈະ​ບໍ່​ສາ​ມາດ​ກູ້​ຄືນ​ໄດ້."</string>
+    <string name="paper_format">"ຮູບແບບໜ້າ"</string>
+    <string name="configuration">"ການ​ປັບ​ແຕ່ງ​ຄ່າ"</string>
+    <string name="menu_open">"ເປີດ"</string>
+    <string name="menu_print">"ພິມ"</string>
+    <string name="share">"ແບ່ງປັນ"</string>
+    <string name="username">"ຊື່ຜູ້ໃຊ້"</string>
+    <string name="password">"ລະຫັດຜ່ານ"</string>
+    <string name="frequency">"ຄວາມຖີ່"</string>
+    <string name="required">"ຕ້ອງການ"</string>
+    <string name="quality">"ຄວາມລະອຽດ"</string>
+    <string name="no_data">"ບໍ່ມີຂໍ້ມູນ"</string>
+    <string name="color_component_title">"ເລືອກ​ສີ"</string>
+    <string name="backups">"ສຳຮອງ"</string>
+    <string name="filter">"ກັ່ນຕອງ"</string>
+    <string name="tags">"ແທັກ"</string>
+    <string name="languages">"ພາສາ"</string>
+    <string name="chart">"ແຜນວາດ"</string>
+    <string name="full_screen">"ເຕັມຈໍ"</string>
 </resources>

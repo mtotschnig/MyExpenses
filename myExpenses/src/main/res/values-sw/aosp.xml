@@ -9,5 +9,21 @@
     <string name="help_and_feedback">"Usaidizi na maoni"</string>
     <string name="currencies_exchange">"Sarafu na Fedha za Kigeni"</string>
     <string name="menu_sync_now">"Sawazisha sasa"</string>
-  <string name="do_not_show_again">Usionyeshe tena</string>
+    <string name="do_not_show_again">Usionyeshe tena</string>
+    <string name="color">"Rangi"</string>
+    <string name="notes">"Kidokezo"</string>
+    <string name="cannot_be_undone">"Kitendo hiki hakiwezi kutenduliwa."</string>
+    <string name="configuration">"Kuweka mipangilio"</string>
+    <string name="menu_open">"Fungua"</string>
+    <string name="menu_print">"Chapisha"</string>
+    <string name="share">"Shiriki"</string>
+    <string name="username">"Jina la mtumiaji"</string>
+    <string name="password">"Nenosiri"</string>
+    <string name="frequency">"Masafa"</string>
+    <string name="no_data">"Hakuna data"</string>
+    <string name="color_component_title">"Chagua rangi"</string>
+    <string name="filter">"Kichujio"</string>
+    <string name="tags">"Lebo"</string>
+    <string name="languages">"Lugha"</string>
+    <string name="full_screen">"Skrini nzima"</string>
 </resources>

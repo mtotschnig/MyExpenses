@@ -37,8 +37,6 @@
     <string name="app_name">எனது செலவுகள்</string>
     <string name="backup_success">தரவுத்தளம் மற்றும் விருப்பத்தேர்வுகள் \"%1$s\" க்கு வெற்றிகரமாக எழுதப்பட்டது.</string>
     <string name="category">வகை</string>
-    <string name="color">நிறம்</string>
-    <string name="comment">குறிப்புக்கள்</string>
     <string name="contrib_feature_ad_free_label">விளம்பரங்கள் இல்லை</string>
     <string name="contrib_feature_accounts_unlimited_label">கணக்குகளுக்கு வரம்பில்லை</string>
     <string name="contrib_feature_attach_picture_label">பரிவர்த்தனையுடன் படத்தை இணைக்கலாம்</string>
@@ -174,10 +172,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">புரட்டு</string>
     <string name="menu_manage_plans">வார்ப்புரு மற்றும் திட்டங்கள்</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">திற</string>
     <string name="menu_import">இறக்குமதி</string>
-    <string name="menu_print">அச்சிடு</string>
     <string name="menu_reset">ஏற்றுமதி செய் மற்றும் நிலை கொணர்</string>
     <string name="menu_reset_all">அனைத்தையும் ஏற்றுமதி செய் மற்றும்  நிலை கொணர்</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -185,7 +180,6 @@
     <string name="menu_save">சேமி</string>
     <string name="menu_save_and_new">சேமி மற்றும் புதியதை தொடங்கு</string>
     <string name="menu_share">நண்பனிடம் கூறு</string>
-    <string name="button_label_share_file">பகிர்</string>
     <string name="button_label_close">மூடு</string>
     <string name="menu_split_transaction">பிரிவாக மாற்று</string>
     <string name="method">கட்டணம் செலுத்தும் முறை</string>
@@ -216,7 +210,6 @@
     <string name="opening_balance">ஆரம்ப இருப்பு</string>
     <string name="parse_error_file_not_found">கோப்பு %1$s -ஐ கண்டுபிடிக்க முடியவில்லை</string>
     <string name="parse_error_grisbi_version_not_supported">ஆதரிக்கப்படாத Grisbi கோப்பு பதிப்பு: %1$s</string>
-    <string name="parse_error_no_data_found">இறக்குமதி செய்யக்கூடிய தரவு ஏதும் கோப்பில் இல்லை.</string>
     <string name="parse_error_other_exception">ஒரு பிழை ஏற்பட்டது: %1$s</string>
     <string name="parse_error_parse_exception">கோப்பை பாகுபடுத்த முடியவில்லை</string>
     <string name="password_disabled_reenable">கடவுச்சொல் பாதுகாப்பு முடக்கப்பட்டுள்ளது. நீங்கள் அமைப்புகளில் இதை மீண்டும் இயக்கலாம்.</string>
@@ -442,7 +435,6 @@
     <string name="restore_calendar_handling_ignore">திட்டங்களை மீட்டமைக்க வேண்டாம்</string>
     <string name="restore_not_possible_target_calendar_missing">காப்புப்பிரதியில் அமைக்கப்பட்டுள்ள நாட்காட்டி %s கருவியில் இல்லை. மீட்டெடுப்பு ரத்து செய்யப்பட்டது.</string>
     <string name="restore_not_possible_local_calendar_missing">தற்போதைய திட்டமிடல் நாட்காட்டி கிடைக்கவில்லை.</string>
-    <string name="menu_distribution_show_pie_char">பை விளக்கப்படத்தை காட்டு</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">நாள்பட்ட படங்கள்</string>
     <string name="pref_manage_stale_images_summary">நீக்கப்பட்ட பரிவர்த்தனைகளில் இருந்து மீதமுள்ள படங்களை நிர்வகிக்கவும்</string>
@@ -515,8 +507,6 @@
     <string name="hint_url">உரலி</string>
     <string name="description_webdav_url">உங்கள் WebDAV சேவையகத்தில் ஒரு பிரத்யேக கோப்புறைக்கான உரலியை உள்ளிடுக. {app_name} இந்த கோப்புறையினுள் அதன் தரவைச் சேமிக்கும், அதற்கு வெளியே அது எதையுமே தொடுவதில்லை.</string>
     <string name="description_webdav_trust_certificate">வலைத்தளம் ஆண்ட்ராய்டின் நம்பகத்தன்மையற்ற சான்றிதழைப் பயன்படுத்துகிறது.</string>
-    <string name="hint_user_name">பயனர் பெயர்</string>
-    <string name="hint_password">கடவுச்சொல்</string>
     <string name="label_trust_certificate">இந்த சான்றிதழை நம்புங்கள்</string>
     <string name="no_sync_backends">ஒத்திசைவு பின்தளங்கள் இல்லை</string>
     <string name="menu_create_sync_backend">புதிய ஒத்திசைவு பின்தளம்</string>
@@ -528,7 +518,6 @@
     <string name="menu_sync_unlink">ஒத்திசைவை நிறுத்து</string>
     <string name="menu_sync_link">ஒத்திசைவை தொடங்கு</string>
     <string name="menu_sync_download">பதிவிறக்கு மற்றும் ஒத்திசை</string>
-    <string name="pref_sync_frequency_title">ஒத்திசைவு கால இடைவெளி</string>
     <string name="pref_sync_frequency_summary">எவ்வளவு கால இடைவெளியில் (மணி நேரங்களில்) ஒத்திசைவு நிகழ வேண்டும்</string>
     <string name="dialog_confirm_sync_unlink">இந்த கணக்கை நீங்கள் %s இலிருந்து நீக்கினால், ஒத்திசைவு நிலை இழக்கப்படும். பின்னர் அவற்றை மீண்டும் இணைக்கும் போது, மீண்டும் முழு ஒத்திசைவு நிகழ்த்தப்பட வேண்டும்.</string>
     <string name="dialog_sync_link">%s uuid கொண்ட ஒரு கணக்கு உள் தரவுத்தளம் மற்றும் தொலைநிலை பின்தளம் இரண்டிலும் உள்ளது. நீங்கள் இரண்டையும் இணைக்கும் போது, தொடக்கத்தில், உள் தரவுதளத்தில் உள்ள தரவைத் தொலைநிலை பின்தளத்திற்கு பதிவேற்ற வேண்டுமா அல்லது தொலைநிலை பின்தளத்தில் இருக்கும் தரவை உள் தரவுத்தளத்திற்கு பதிவிறக்க வேண்டுமா என்பதை நீங்கள் முடிவு செய்ய வேண்டும்.</string>
@@ -579,8 +568,6 @@
     <string name="onboarding_get_started">தொடங்குக</string>
     <string name="onboarding_more_options">மேலும் விருப்பங்கள்</string>
     <string name="onboarding_restore_from_cloud">மேகக்கணினி ஒத்திசைவிலிருந்து மீட்டமை</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">காப்புப்பிரதிகள்</string>
     <string name="onboarding_restore_from_local">உள் காப்புப்பிரதி கோப்பை மீட்டமை</string>
     <string name="contributed_by">%s-ஆல் பங்களிக்கப்பட்டது</string>
     <string name="pref_sync_notification_summary">ஒத்திசைவின் முன்னேற்றம் பற்றி தெரிவிக்கவும்</string>
@@ -702,7 +689,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">\'தொடற்பு படுத்தப்படாதது\' வடிப்பானை பல தேர்வுகளில் சேர்க்க முடியாது</string>
-    <string name="upgrade_information_cloud_sync_storage_format">பதிப்பு 2.9.8 உடன், ஒத்திசைவு பின்தளத்தில் தரவு சேமிக்ககும் விதம் மாற்றப்பட்டது. எந்தவொரு புதிய பதிவையும் உள்ளிடுவதற்கு முன், ஒத்திசைக்கப்பட்ட எல்லா கருவிகளையும் இந்த பதிப்பிற்கு மேம்படுத்தவும்.</string>
     <string name="pref_security_export_passphrase_title">காப்புப்பிரதிகளுக்கான கடவுச்சொற்றொடர்</string>
     <string name="pref_security_export_passphrase_summary">இந்த கடவுச்சொற்றொடரை கொண்டு காப்புப்பிரதிகள் மறையாக்கம் செய்யப்படும்</string>
     <string name="backup_is_encrypted">காப்புப்பிரதி கோப்பு மறையாக்கப்பட்டுள்ளது. அதை மறையீடு நீக்க, நீங்கள் அதன் கடவுச்சொற்றொடரை குறிப்பிட வேண்டும்.</string>
@@ -763,7 +749,6 @@
     <string name="budget_filter_all_states">அனைத்து நிலைகள்</string>
     <string name="budget_filter_all_tags">அனைத்து குறிச்சொற்களும்</string>
     <string name="budget_filter_all_accounts">அனைத்து கணக்குகளும்</string>
-    <string name="budget_form_label_filter">வடிப்பான்</string>
     <string name="dialog_title_warning_delete_budget">வரவு செலவுத் திட்டத்தை நீக்கவா?</string>
     <string name="warning_delete_budget">வரவு செலவுத் திட்டம் \"%1$s\" நீக்கப்படும்.</string>
     <string name="menu_edit_budget">வரவு செலவுத் திட்டத்தை தொகு</string>
@@ -789,7 +774,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">நகல் எடுக்கப்படும் பரிவர்த்தனைகள் அசல் தேதியை தக்கவைத்துக் கொள்ளும்</string>
     <string name="tags_create_or_select">குறிச்சொற்களை உருவாக்கவும் அல்லது தேர்ந்தெடுக்கவும்</string>
-    <string name="tags">குறிச்சொற்கள்</string>
     <string name="pref_manage_tags_summary">குறிச்சொற்களைச் சேர்க்கவும், திருத்தவும், நீக்கவும்.</string>
     <string name="dialog_title_warning_delete_tag">குறிச்சொல்லை நீக்கவா?</string>
     <string name="menu_edit_tag">குறிச்சொல்லைத் திருத்து</string>
@@ -832,7 +816,6 @@
     <string name="pref_criterion_future_current">தற்போதைய நேரம்</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">அம்சங்கள்</string>
-    <string name="scan_result_no_data">தகவல் இல்லை</string>
     <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">பல வேட்புகள் கண்டறியப்பட்டன. தயவு செய்து தேர்வு செய்யவும்:</string>
     <string name="scan_result_no_amount">தொகை எதுவும் கிடைக்கவில்லை</string>
@@ -840,7 +823,6 @@
     <string name="scan_result_no_payee">பணம் பெறுபவர் எவரும் கிடைக்கவில்லை</string>
     <string name="pref_feature_uninstall_title">அம்சங்கள் மற்றும் மொழிகளை நீக்குவதற்கு கோரு</string>
     <string name="pref_feature_uninstall_summary">பின்னணியில் அந்த நிரல்கூறுகளை அகற்ற Play ஸ்டோர் முயற்சிக்கிறது.</string>
-    <string name="pref_feature_uninstall_languages_title">மொழிகள்</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">உரிமத் தொகுப்பு ஒன்றைத் தேர்ந்தெடுக்கவும்.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
@@ -906,7 +888,6 @@
     <string name="debt_managment">கடன் மேலாண்மை</string>
     <string name="debt">கடன்</string>
     <string name="warning_party_delete_debt">இந்த தரப்பை நீக்கும்போது, அவருடன் தொடர்புடைய கடன்களும் நீக்கப்படும்.</string>
-    <string name="dialog_title_delete_debt">கடனை நீக்கவா\?</string>
     <string name="pref_mlkit_script_title">MlKit க்கான ஸ்கிரிப்ட்</string>
     <plurals name="import_categories_icons_updated">
         <item quantity="one">ஒரு வகை சின்னத்துடன் புதுப்பிக்கப்பட்டது.</item>
@@ -917,7 +898,6 @@
     <string name="object_sealed_debt">பொருள் ஒரு மூடப்பட்ட கணக்கைக் குறிக்கிறது.</string>
     <string name="title_activity_debt_overview">கடன் கண்ணோட்டம்</string>
     <string name="cb_label_merge_accounts">கணக்குகளை ஒன்றிணை</string>
-    <string name="dialog_title_warning_delete_party">தரப்பை நீக்கவா\?</string>
     <string name="menu_new_debt">புதிய கடன்</string>
     <string name="debts">கடன்கள்</string>
     <string name="debt_I_owe">நான் %s-க்கு கடன்பட்டிருக்கிறேன்</string>
@@ -938,4 +918,6 @@
     <string name="budget_deleted">வரவு செலவுத் திட்டம் அழிக்கப்பட்டது</string>
     <string name="search_account">கணக்கைத் தேடு</string>
     <string name="budget_table_header_overspent">வரம்பு மீறிய செலவு</string>
+    <string name="contrib_feature_category_tree_label">வகைக் கிளைப்படம்</string>
+    <string name="budget_widget_configuration">வரவு செலவு திட்டத்தை தேர்வு செய்யவும்</string>
 </resources>

@@ -31,7 +31,6 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDi
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.preference.AccountPreference
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.displayName
 import org.totschnig.myexpenses.util.safeMessage
@@ -129,7 +128,7 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
                         if (prefHandler.getBoolean(PrefKey.PERFORM_SHARE, false)) {
                             val uris = ArrayList<Uri>()
                             uris.add(file.uri)
-                            shareViewModel.share(
+                            baseViewModel.share(
                                 this, uris,
                                 prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim(),
                                 "application/zip"

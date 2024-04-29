@@ -37,8 +37,6 @@
     <string name="app_name">مصروفاتي</string>
     <string name="backup_success">تم حفظ قاعدة البيانات والتفضيلات في الذاكرة بنجاح (%1$s).</string>
     <string name="category">التصنيف</string>
-    <string name="color">اللون</string>
-    <string name="comment">ملاحظات</string>
     <string name="contrib_feature_ad_free_label">بدون إعلانات</string>
     <string name="contrib_feature_accounts_unlimited_label">عدد حسابات غير محدود</string>
     <string name="contrib_feature_attach_picture_label">إرفاق صورة إلى عملية</string>
@@ -178,10 +176,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">عكس</string>
     <string name="menu_manage_plans">النماذج والخطط</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">فتح</string>
     <string name="menu_import">استيراد</string>
-    <string name="menu_print">طباعة</string>
     <string name="menu_reset">تصدير وإعادة تعيين</string>
     <string name="menu_reset_all">تصدير وإعادة تعيين الكل</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -189,7 +184,6 @@
     <string name="menu_save">حفظ</string>
     <string name="menu_save_and_new">حفظ وجديد</string>
     <string name="menu_share">اخبر صديق</string>
-    <string name="button_label_share_file">مشاركة</string>
     <string name="button_label_close">إغلاق</string>
     <string name="menu_split_transaction">التحويل إلى معاملة مجزأة</string>
     <string name="method">طريقة الدفع او السداد</string>
@@ -228,7 +222,6 @@
     <string name="opening_balance">الرصيد الافتتاحي</string>
     <string name="parse_error_file_not_found">لم يتم العثور على الملف %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">نسخة ملف Grisbi غير مدعومة: %1$s</string>
-    <string name="parse_error_no_data_found">لا يوجد بيانات قابلة للاستيراد في الملف.</string>
     <string name="parse_error_other_exception">خطأ: %1$s</string>
     <string name="parse_error_parse_exception">لا يمكن فتح الملف</string>
     <string name="password_disabled_reenable">تم تعطيل كلمة المرور. يمكنك تمكينه من جديد عن طريق الاعدادات.</string>
@@ -470,7 +463,6 @@
     <string name="restore_calendar_handling_ignore">لا تستعيد الخطط</string>
     <string name="restore_not_possible_target_calendar_missing">التقويم %s المعين في أرشيف النسخ الاحتياطي غير موجود محلياً. تم إحباط عملية الاستعادة.</string>
     <string name="restore_not_possible_local_calendar_missing">تقويم التخطيط الحالي غير متاح.</string>
-    <string name="menu_distribution_show_pie_char">أظهر التخطيط البياني</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">صور قديمة</string>
     <string name="pref_manage_stale_images_summary">إدارة الصور المتبقية من المعاملات المحذوفة</string>
@@ -542,8 +534,6 @@
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">يُرجى إدخال URL إلى مجلد خاص على خادم WebDAV الخاص بك. سيخزن {app_name} بياناته داخل هذا المجلد، ولن يمس أي شيء خارجه.</string>
     <string name="description_webdav_trust_certificate">يستخدم الموقع شهادة غير موثوق بها من قبل Android.</string>
-    <string name="hint_user_name">اسم المستخدم</string>
-    <string name="hint_password">كلمة المرور</string>
     <string name="label_trust_certificate">ثق بهذه الشهادة</string>
     <string name="no_sync_backends">لا يوجد تزامن خلفيات </string>
     <string name="menu_create_sync_backend">خلفية مزامنة جديدة</string>
@@ -555,7 +545,6 @@
     <string name="menu_sync_unlink">أوقف المزامنة</string>
     <string name="menu_sync_link">إبدأ المزامنة</string>
     <string name="menu_sync_download">تحميل و منزامنة</string>
-    <string name="pref_sync_frequency_title">تردد التزامن</string>
     <string name="pref_sync_frequency_summary">كم مرة يجب مزامنة البيانات (بالساعات)</string>
     <string name="dialog_confirm_sync_unlink">إذا قمت بإلغاء ربط هذا الحساب بـ%s، فستفقد حالة المزامنة. يتطلب ربطهما مرةً أخرى لاحقاً، مزامنةً كاملةً ليتم تنفيذها مرةً أخرى.</string>
     <string name="dialog_sync_link">يوجد حساب بمعرف فريد عالمي %s في قاعدة البيانات المحلية والواجهة الخلفية البعيدة. عند ربط كليهما، عليك أن تقرر، في البداية، ما إذا كنت تريد تحميل البيانات المحلية إلى الواجهة الخلفية البعيدة أو تنزيل البيانات البعيدة إلى قاعدة البيانات المحلية.</string>
@@ -606,8 +595,6 @@
     <string name="onboarding_get_started">البدء</string>
     <string name="onboarding_more_options">المزيد من الخيارات</string>
     <string name="onboarding_restore_from_cloud">استعادة من المزامنة السحابية</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">النسخ الاحتياطية</string>
     <string name="onboarding_restore_from_local">استعادة ملف النسخ الاحتياطي المحلي</string>
     <string name="contributed_by">تمت المساهمة بواسطة %s</string>
     <string name="pref_sync_notification_summary">قم بالإخطار حول تقدم المزامنة المُحرز</string>
@@ -733,7 +720,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">لا يمكن تضمين فلتر \"غير المعين\" في تحديدات متعددة</string>
-    <string name="upgrade_information_cloud_sync_storage_format">مع الإصدار 2.9.8، تغيرت طريقة تخزين البيانات على خلفيات المزامنة. يُرجى الترقية إلى هذا الإصدار على جميع الأجهزة المتزامنة، قبل إدخال أي سجلات جديدة على أي منها.</string>
     <string name="pref_security_export_passphrase_title">عبارة المرور للنسخ الاحتياطية</string>
     <string name="pref_security_export_passphrase_summary">سيتم تشفير النسخ الاحتياطية بعبارة المرور هذه</string>
     <string name="backup_is_encrypted">ملف النسخ الاحتياطي مشفر. لفك تشفيره، تحتاج إلى تحديد عبارة المرور الخاصة به.</string>
@@ -794,7 +780,6 @@
     <string name="budget_filter_all_states">الحالة الكلية</string>
     <string name="budget_filter_all_tags">كل العلامات</string>
     <string name="budget_filter_all_accounts">كافة الحسابات</string>
-    <string name="budget_form_label_filter">فلتر</string>
     <string name="dialog_title_warning_delete_budget">هل تودّ حذف الميزانية؟</string>
     <string name="warning_delete_budget">سيتم حذف الميزانية \"%1$s\".</string>
     <string name="menu_edit_budget">تحرير الميزانية</string>
@@ -820,7 +805,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">تحافظ المعاملات المستنسخة على التاريخ الأصلي</string>
     <string name="tags_create_or_select">إنشاء أو تحديد العلامات</string>
-    <string name="tags">العلامات</string>
     <string name="pref_manage_tags_summary">إضافة وتحرير وحذف العلامات.</string>
     <string name="dialog_title_warning_delete_tag">هل تودّ حذف العلامة؟</string>
     <string name="menu_edit_tag">تحرير العلامة</string>
@@ -867,7 +851,6 @@
     <string name="pref_criterion_future_current">الوقت الحالي</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">الخصائص</string>
-    <string name="scan_result_no_data">لا توجد بيانات</string>
     <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">تم العثور على عدة مرشحين. يُرجى تحديد:</string>
     <string name="scan_result_no_amount">لم يتم العثور على مبلغ</string>
@@ -875,7 +858,6 @@
     <string name="scan_result_no_payee">لم يتم العثور على المستفيد</string>
     <string name="pref_feature_uninstall_title">قم بطلب إلغاء تثبيت الميزات واللغات</string>
     <string name="pref_feature_uninstall_summary">يحاول متجر جوجل بلاي في النهاية إزالة هذه الوحدات في الخلفية.</string>
-    <string name="pref_feature_uninstall_languages_title">اللغات</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">يُرجى تحديد حزمة الترخيص.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
@@ -969,12 +951,10 @@
     </plurals>
     <string name="budget_table_header_overspent">إسراف في الإنفاق</string>
     <string name="purge_backups">سيتم حذف ملفات النسخ الاحتياطي القديمة التالية:</string>
-    <string name="dialog_title_warning_delete_party">حذف الطرف ؟</string>
     <string name="debts">ديون</string>
     <string name="dialog_contrib_usage_limit_with_dialog">مع حالة الترخيص الحالية (%1$s)، سيتم عرض هذا الحوار عند كل استخدام.</string>
     <string name="cb_label_merge_accounts">دمج الحسابات</string>
     <string name="debt_I_owe">أنا مدين %s</string>
-    <string name="dialog_title_delete_debt">حذف الدين ؟</string>
     <string name="menu_new_debt">دين جديد</string>
     <plurals name="import_categories_icons_updated">
         <item quantity="zero">تم تحديث فئة واحدة بالأيقونة</item>
@@ -1002,7 +982,6 @@
     <string name="notifications_permission_required_webui">من خلال منح الإذن بإرسال الإشعارات، يمكنك التحكم في حالة خادم الويب.</string>
     <string name="pref_attachment_mime_types_title">أنواع MIME المسموح بها للمرفقات</string>
     <string name="button_relink_update_date">إعادة الارتباط وتحديث التاريخ</string>
-    <string name="file_format">تنسيق الملف</string>
     <string name="widget_title_budget">ميزانيتي</string>
     <string name="pref_copy_attachments_summary_on">يتم نسخ الملفات إلى مجلد التطبيق.</string>
     <string name="database_is_encrypted">قاعدة البيانات مشفرة.</string>
@@ -1025,7 +1004,6 @@
     <string name="pref_csv_export_split_categories_summary">استخدم أعمدة منفصلة لكل مستوى من مستويات التسلسل الهرمي للفئة</string>
     <string name="image_optimize_quality_summary">الجودة 0 تعني الضغط لأصغر حجم , 100 يعني الضغط للحصول على أقصى جودة بصرية.</string>
     <string name="debt_borrow_additional">أنا أقترض %s.</string>
-    <string name="required">مطلوب</string>
     <string name="notifications_permission_required_sync">ومن خلال منح الإذن بإرسال الإشعارات، يمكنك مراقبة تقدم عمليات المزامنة.</string>
     <string name="content_description_attachment">مرفق</string>
     <string name="debt_lend_additional">أنا أقرض %s.</string>
@@ -1037,7 +1015,6 @@
     <string name="pref_debug_logging_share_summary">توضيح المطالبة قبل حذف الملفات</string>
     <string name="debt_installment_pay">أدفع قسطًا قدره %s.</string>
     <string name="notifications_permission_required_planner">يحتاج <i>{app_name}</i> إلى إذن لإرسال إشعارات إليك عند نشر المعاملات المستقبلية.</string>
-    <string name="image_optimize_quality">النوعية</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">يتم احتسابها كمصروفات / دخل</string>
     <string name="pref_csv_export_split_amount_summary">استخدام أعمدة منفصلة للدخل والنفقات</string>
     <string name="debt_balance_i_owe">أنا مدين الآن بـ %s.</string>

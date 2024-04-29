@@ -9,5 +9,25 @@
     <string name="help_and_feedback">"အကူအညီနှင့် အကြံပြုချက်"</string>
     <string name="currencies_exchange">"ငွေကြေးနှင့် နိုင်ငံခြားငွေလဲလှယ်ခြင်း"</string>
     <string name="menu_sync_now">"ယခု စင့်ခ်လုပ်ရန်"</string>
-  <string name="do_not_show_again">ထပ်မပြပါနှင့်</string>
+    <string name="do_not_show_again">ထပ်မပြပါနှင့်</string>
+    <string name="color">"အရောင်"</string>
+    <string name="notes">"မှတ်စုများ"</string>
+    <string name="cannot_be_undone">"ဒီလုပ်ဆောင်ချက်ကို ြပန်ဖျက်မရနိုင်ပါ။"</string>
+    <string name="paper_format">"စာရွက် စီစဉ် ဖွဲ့စည်းမှု ပုံစံ"</string>
+    <string name="configuration">"စီစဉ်သတ်မှတ်ချက်"</string>
+    <string name="menu_open">"ဖွင့်ပါ"</string>
+    <string name="menu_print">"ပရင့် ထုတ်ယူရန်"</string>
+    <string name="username">"သုံးသူအမည်"</string>
+    <string name="password">"စကားဝှက်"</string>
+    <string name="pixels">"ပုံရိပ်အစက်မှတ်များ"</string>
+    <string name="frequency">"လှိုင်းနှုန်း"</string>
+    <string name="required">"လိုအပ်သည်"</string>
+    <string name="quality">"အရည်အသွေး"</string>
+    <string name="no_data">"ဒေတာမရှိပါ"</string>
+    <string name="color_component_title">"အရောင်ရွေးပါ"</string>
+    <string name="backups">"အရံသင့် ပွားထားခြင်းများ"</string>
+    <string name="filter">"စစ်ထုတ်ရန်"</string>
+    <string name="languages">"ဘာသာစကားများ"</string>
+    <string name="chart">"ပုံစံကားချပ်"</string>
+    <string name="full_screen">"ဖန်သားပြင်အပြည့်"</string>
 </resources>

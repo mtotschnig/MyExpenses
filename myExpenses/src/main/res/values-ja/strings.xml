@@ -37,8 +37,6 @@
     <string name="app_name">マイ エクスペンス</string>
     <string name="backup_success">データベースとプリファレンスを \"%1$s\" に書き込みました。</string>
     <string name="category">分類</string>
-    <string name="color">色</string>
-    <string name="comment">メモ</string>
     <string name="contrib_feature_ad_free_label">広告なし</string>
     <string name="contrib_feature_accounts_unlimited_label">無制限の勘定数</string>
     <string name="contrib_feature_attach_picture_label">取引に画像を添付</string>
@@ -172,10 +170,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">反転</string>
     <string name="menu_manage_plans">テンプレートと計画</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">開く</string>
     <string name="menu_import">インポート</string>
-    <string name="menu_print">印刷</string>
     <string name="menu_reset">エクスポートおよびリセット</string>
     <string name="menu_reset_all">エクスポートおよびすべてリセット</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -183,7 +178,6 @@
     <string name="menu_save">保存</string>
     <string name="menu_save_and_new">保存および新規</string>
     <string name="menu_share">友達に教える</string>
-    <string name="button_label_share_file">共有</string>
     <string name="button_label_close">閉じる</string>
     <string name="menu_split_transaction">変換して分割</string>
     <string name="method">支払方法</string>
@@ -211,7 +205,6 @@
     <string name="opening_balance">期首残高</string>
     <string name="parse_error_file_not_found">ファイル %1$s が見つかりません</string>
     <string name="parse_error_grisbi_version_not_supported">サポートされない Grisbi ファイル バージョン: %1$s</string>
-    <string name="parse_error_no_data_found">ファイルにインポート可能なデータが見つかりません。</string>
     <string name="parse_error_other_exception">エラーが発生しました: %1$s</string>
     <string name="parse_error_parse_exception">ファイルを解析できません</string>
     <string name="password_disabled_reenable">パスワード保護が無効になっています。設定で再度有効にすることができます。</string>
@@ -433,7 +426,6 @@
     <string name="restore_calendar_handling_ignore">計画を復元しない</string>
     <string name="restore_not_possible_target_calendar_missing">バックアップアーカイブに設定されたカレンダー %s はローカルに存在しません。復元を中止しました。</string>
     <string name="restore_not_possible_local_calendar_missing">現在のプランニング カレンダーが利用できません。</string>
-    <string name="menu_distribution_show_pie_char">パイチャートを表示</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">古くなった画像</string>
     <string name="pref_manage_stale_images_summary">削除された取引から残っている写真を管理します</string>
@@ -505,8 +497,6 @@
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">WebDAV サーバー上の、このアカウントデータ用の特別なフォルダーの URL を入力してください。 {app_name}はこのフォルダの中にデータを保存し、それ以外には触れません。</string>
     <string name="description_webdav_trust_certificate">このウェブサイトは Android で信頼されていない証明書を使用しています。</string>
-    <string name="hint_user_name">ユーザー名</string>
-    <string name="hint_password">パスワード</string>
     <string name="label_trust_certificate">この証明書を信頼する</string>
     <string name="no_sync_backends">同期バックエンドはありません</string>
     <string name="menu_create_sync_backend">新しい同期バックエンド</string>
@@ -518,7 +508,6 @@
     <string name="menu_sync_unlink">同期を停止</string>
     <string name="menu_sync_link">同期を開始</string>
     <string name="menu_sync_download">ダウンロードと同期</string>
-    <string name="pref_sync_frequency_title">同期の周期</string>
     <string name="pref_sync_frequency_summary">データを同期する頻度 (時間単位)</string>
     <string name="dialog_confirm_sync_unlink">%s からこのアカウントのリンクを解除すると、同期ステータスが失われます。 後で再度リンクするには、完全な同期を再度実行する必要があります。</string>
     <string name="dialog_sync_link">uuid %s のアカウントが、ローカルデータベースとリモートバックエンドの両方に存在します。 両方をリンクするときは、最初にローカルデータをリモートバックエンドにアップロードするか、リモートデータをローカルデータベースにダウンロードするかどうかを決定する必要があります。</string>
@@ -569,8 +558,6 @@
     <string name="onboarding_get_started">始めましょう</string>
     <string name="onboarding_more_options">他のオプション</string>
     <string name="onboarding_restore_from_cloud">クラウド同期から復元</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">バックアップ</string>
     <string name="onboarding_restore_from_local">ローカルのバックアップファイルを復元</string>
     <string name="contributed_by">貢献者 %s</string>
     <string name="pref_sync_notification_summary">同期の進行状況を通知する</string>
@@ -691,7 +678,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">\'未配置\' フィルターは複数選択に含めることはできません</string>
-    <string name="upgrade_information_cloud_sync_storage_format">バージョン2.9.8で、同期バックエンドにデータが格納される方法が変更されました。 新しいレコードを入力する前に、すべての同期されるデバイスでこのバージョンにアップグレードしてください。</string>
     <string name="pref_security_export_passphrase_title">バックアップのパスフレーズ</string>
     <string name="pref_security_export_passphrase_summary">このパスフレーズでバックアップが暗号化されます</string>
     <string name="backup_is_encrypted">バックアップファイルが暗号化されます。復号化するには、パスフレーズを指定する必要があります。</string>
@@ -751,7 +737,6 @@
     <string name="budget_filter_all_methods">すべての方法</string>
     <string name="budget_filter_all_states">すべての状態</string>
     <string name="budget_filter_all_tags">すべてのタグ</string>
-    <string name="budget_form_label_filter">フィルター</string>
     <string name="dialog_title_warning_delete_budget">予算を削除しますか?</string>
     <string name="warning_delete_budget">予算 \"%1$s\" が削除されます。</string>
     <string name="menu_edit_budget">予算を編集</string>
@@ -777,7 +762,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">複製された取引は元の日付になります</string>
     <string name="tags_create_or_select">タグの作成または選択</string>
-    <string name="tags">タグ</string>
     <string name="pref_manage_tags_summary">タグの追加、編集、削除。</string>
     <string name="dialog_title_warning_delete_tag">タグを削除しますか?</string>
     <string name="menu_edit_tag">タグを編集</string>
@@ -821,4 +805,5 @@
     <string name="redesign">デザイン</string>
     <string name="add_shortcut">ショートカットを追加</string>
     <string name="one_time_payment">１回限りの課金</string>
+    <string name="merge_categories_dialog_title">カテゴリのマージ</string>
 </resources>

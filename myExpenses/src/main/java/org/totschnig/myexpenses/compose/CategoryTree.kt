@@ -5,11 +5,20 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -23,14 +32,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.semantics.*
+import androidx.compose.ui.semantics.CollectionInfo
+import androidx.compose.ui.semantics.collapse
+import androidx.compose.ui.semantics.collectionInfo
+import androidx.compose.ui.semantics.expand
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
-import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.toggle
@@ -131,7 +143,7 @@ fun Category(
                         withTypeColors = withTypeColors
                     )
                     if (index < filteredChildren.lastIndex) {
-                        Divider()
+                        HorizontalDivider()
                     }
                 }
             }
@@ -362,12 +374,12 @@ sealed class ChoiceMode(
 
     abstract fun toggleSelection(selectedAncestor: Category?, category: Category)
 
-    class MultiChoiceMode(val selectionState: SnapshotStateList<Category>, selectTree: Boolean) :
+    class MultiChoiceMode(val selectionState: SnapshotStateList<Long>, selectTree: Boolean) :
         ChoiceMode(selectTree) {
-        override fun isSelected(id: Long) = selectionState.any { it.id == id }
+        override fun isSelected(id: Long) = selectionState.contains(id)
         override fun toggleSelection(selectedAncestor: Category?, category: Category) {
             (selectedAncestor ?: category).let {
-                if (selectionState.toggle(it)) {
+                if (selectionState.toggle(it.id)) {
                     //when we select a category, children are implicitly selected, so we remove
                     //them from the explicit selection
                     it.recursiveUnselectChildren(selectionState)

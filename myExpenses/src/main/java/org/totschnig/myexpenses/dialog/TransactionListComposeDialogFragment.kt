@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
@@ -19,6 +20,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.compose.CompactTransactionRenderer
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
@@ -72,7 +74,8 @@ class TransactionListComposeDialogFragment: ComposeBaseDialogFragment() {
                     LocalTextStyle.current.fontSize.toDp()
                 } * 4.6f
             ),
-            withCategoryIcon = false
+            withCategoryIcon = false,
+            withOriginalAmount = prefHandler.getBoolean(PrefKey.UI_ITEM_RENDERER_ORIGINAL_AMOUNT, false)
         )
         LazyColumn(modifier = Modifier.padding(top = dialogPadding, start = dialogPadding, end = dialogPadding)) {
             data.value.forEach {
@@ -81,7 +84,8 @@ class TransactionListComposeDialogFragment: ComposeBaseDialogFragment() {
                         .padding(horizontal = 4.dp)
                         .clickable {
                             showDetails(it.parentId ?: it.id)
-                        }
+                        },
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         with(renderer) {
                             RenderInner(transaction = it)

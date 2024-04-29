@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
+import org.totschnig.myexpenses.provider.filter.preSelected
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -57,7 +58,6 @@ import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.Operati
 import org.totschnig.myexpenses.viewmodel.LoadingState
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.io.Serializable
-import java.lang.IllegalArgumentException
 
 class ManageCategories : ProtectedFragmentActivity(),
     ContribIFace {
@@ -182,7 +182,10 @@ class ManageCategories : ProtectedFragmentActivity(),
         observeImportResult()
         observeExportResult()
         observeSyncResult()
+        observeMergeResult()
+        val preSelected = this.preSelected
         binding.composeView.setContent {
+            val selectionState = rememberMutableStateListOf(preSelected ?: emptyList())
             AppTheme {
                 choiceMode = when (action) {
                     Action.SELECT_MAPPING -> {
@@ -205,24 +208,22 @@ class ManageCategories : ProtectedFragmentActivity(),
                     }
 
                     Action.MANAGE, Action.SELECT_FILTER -> {
-                        val selectionState = rememberMutableStateListOf<Category>()
-                        LaunchedEffect(selectionState.size) {
-                            if (selectionState.isNotEmpty()) {
-                                startActionMode(selectionState)
-                                updateActionModeTitle(selectionState)
-                            } else {
-                                finishActionMode()
-                            }
-                        }
                         ChoiceMode.MultiChoiceMode(selectionState, true)
                     }
                 }
-                (viewModel.dialogState as? CategoryViewModel.Show)?.let {
-                    CategoryEdit(
-                        dialogState = it,
+                when(viewModel.dialogState) {
+                    is CategoryViewModel.Edit -> CategoryEdit(
+                        dialogState = viewModel.dialogState as CategoryViewModel.Edit,
                         onDismissRequest = { viewModel.dialogState = CategoryViewModel.NoShow },
                         onSave = viewModel::saveCategory
                     )
+
+                    is CategoryViewModel.Merge -> CategoryMerge(
+                        dialogState = viewModel.dialogState as CategoryViewModel.Merge,
+                        onDismissRequest = { viewModel.dialogState = CategoryViewModel.NoShow },
+                        onMerge = viewModel::mergeCategories
+                    )
+                    else -> {}
                 }
                 viewModel.categoryTree.collectAsState(initial = Category.LOADING).value.let { state ->
                     val typeFlags = viewModel.typeFilterLiveData.observeAsState(null).value
@@ -272,7 +273,18 @@ class ManageCategories : ProtectedFragmentActivity(),
                                 }
 
                                 is LoadingState.Data -> {
-
+                                    LaunchedEffect(selectionState.size) {
+                                        if (selectionState.isNotEmpty()) {
+                                            startActionMode(selectionState)
+                                            updateActionModeTitle(selectionState.size)
+                                        } else {
+                                            finishActionMode()
+                                        }
+                                    }
+                                    val preExpanded = remember {
+                                        if (preSelected?.isEmpty() == false)
+                                        state.data.getExpandedForSelected(preSelected) else emptyList()
+                                    }
                                     Category(
                                         category = if (action == Action.SELECT_FILTER)
                                             state.data.copy(children = buildList {
@@ -287,7 +299,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                                             })
                                         else state.data,
                                         expansionMode = ExpansionMode.DefaultCollapsed(
-                                            rememberMutableStateListOf()
+                                            rememberMutableStateListOf(preExpanded)
                                         ),
                                         menuGenerator = remember {
                                             {
@@ -388,14 +400,14 @@ class ManageCategories : ProtectedFragmentActivity(),
 
     fun doMultiSelection() {
         val selected = (choiceMode as ChoiceMode.MultiChoiceMode).selectionState
-        if (selected.size == 1 || !selected.any { it.id == NULL_ITEM_ID }) {
-            (viewModel.categoryTree.value as? LoadingState.Data)?.also {
-                val label = it.data.flatten()
-                    .filter { selected.any { category -> category.id == it.id } }
+        if (selected.size == 1 || !selected.contains(NULL_ITEM_ID)) {
+            (viewModel.categoryTree.value as? LoadingState.Data)?.also { data ->
+                val label = data.data.flatten()
+                    .filter { selected.contains(it.id) }
                     .joinToString(separator = ",") { it.label }
                 setResult(RESULT_FIRST_USER, Intent().apply {
                     putExtra(KEY_ACCOUNTID, intent.getLongExtra(KEY_ACCOUNTID, 0))
-                    putExtra(KEY_ROWID, selected.map { it.id }.toLongArray())
+                    putExtra(KEY_ROWID, selected.toLongArray())
                     putExtra(KEY_LABEL, label)
                 })
                 finish()
@@ -420,11 +432,14 @@ class ManageCategories : ProtectedFragmentActivity(),
         actionMode?.finish()
     }
 
-    private fun updateActionModeTitle(selectionState: SnapshotStateList<Category>) {
-        actionMode?.title = "${selectionState.size}"
+    private fun updateActionModeTitle(size: Int) {
+        actionMode?.title = size.toString()
     }
 
-    private fun startActionMode(selectionState: SnapshotStateList<Category>) {
+    private fun startActionMode(selectionState: SnapshotStateList<Long>) {
+        val selectedCategories = (viewModel.categoryTree.value as? LoadingState.Data)?.let {
+            it.data.flatten().filter { selectionState.contains(it.id) }
+        } ?: return
         if (actionMode == null) {
             actionMode = startSupportActionMode(object : ActionMode.Callback {
                 override fun onCreateActionMode(
@@ -439,6 +454,12 @@ class ManageCategories : ProtectedFragmentActivity(),
                             0,
                             R.string.menu_delete
                         ).setIcon(R.drawable.ic_menu_delete)
+                        menu.add(
+                            Menu.NONE,
+                            R.id.MERGE_COMMAND,
+                            0,
+                            R.string.menu_merge
+                        ).setIcon(R.drawable.ic_menu_split_transaction)
                     } else if (action == Action.SELECT_FILTER) {
                         menu.add(
                             Menu.NONE,
@@ -453,21 +474,30 @@ class ManageCategories : ProtectedFragmentActivity(),
                 override fun onPrepareActionMode(
                     mode: ActionMode,
                     menu: Menu
-                ): Boolean = true
+                ): Boolean {
+                    menu.findItem(R.id.MERGE_COMMAND)?.isVisible = selectedCategories.size >=2 &&
+                            selectedCategories.all { it.typeFlags == selectedCategories.first().typeFlags }
+                    return true
+                }
 
                 override fun onActionItemClicked(
                     mode: ActionMode,
                     item: MenuItem
                 ): Boolean = when (item.itemId) {
                     R.id.DELETE_COMMAND -> {
-                        if (checkDefaultTransferCategory(selectionState)) {
-                            viewModel.deleteCategories(selectionState)
+                        if (checkDefaultTransferCategory(selectedCategories)) {
+                            viewModel.deleteCategories(selectedCategories)
                         }
                         true
                     }
 
                     R.id.SELECT_COMMAND -> {
                         doMultiSelection()
+                        true
+                    }
+
+                    R.id.MERGE_COMMAND -> {
+                        viewModel.dialogState = CategoryViewModel.Merge(selectedCategories)
                         true
                     }
 
@@ -480,7 +510,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                 }
 
             })
-        }
+        } else actionMode?.invalidate()
     }
 
     private fun MutableList<String>.mapToMessage(quantity: Int, @PluralsRes resId: Int) {
@@ -597,7 +627,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                             )
                         )
                         if (prefHandler.getBoolean(PrefKey.PERFORM_SHARE, false)) {
-                            shareViewModel.share(
+                            baseViewModel.share(
                                 this@ManageCategories, listOf(pair.first),
                                 prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim(),
                                 "text/qif"
@@ -648,6 +678,17 @@ class ManageCategories : ProtectedFragmentActivity(),
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.syncResult.collect {
                     showSnackBar(it, callback = dismissCallback)
+                }
+            }
+        }
+    }
+
+    private fun observeMergeResult() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.mergeResult.collect {
+                    finishActionMode()
+                    viewModel.messageShown()
                 }
             }
         }
@@ -725,7 +766,7 @@ class ManageCategories : ProtectedFragmentActivity(),
      * if label is already used, shows an error
      */
     private fun createCat(parent: Category?) {
-        viewModel.dialogState = CategoryViewModel.Show(
+        viewModel.dialogState = CategoryViewModel.Edit(
             parent = parent,
             category = if (parent == null) Category(
                 typeFlags = viewModel.typeFilter
@@ -738,7 +779,7 @@ class ManageCategories : ProtectedFragmentActivity(),
      */
     private fun editCat(category: Category) {
         viewModel.dialogState =
-            CategoryViewModel.Show(category = category)
+            CategoryViewModel.Edit(category = category)
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {

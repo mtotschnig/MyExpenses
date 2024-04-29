@@ -151,7 +151,8 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                                             prefHandler.getBoolean(PrefKey.CSV_EXPORT_SPLIT_CATEGORIES, false),
                                             prefHandler.getBoolean(PrefKey.CSV_EXPORT_SPLIT_AMOUNT, true),
                                             timeFormat,
-                                            prefHandler.getBoolean(PrefKey.CSV_EXPORT_ORIGINAL_EQUIVALENT_AMOUNTS, false)
+                                            prefHandler.getBoolean(PrefKey.CSV_EXPORT_ORIGINAL_EQUIVALENT_AMOUNTS, false),
+                                            prefHandler.requireString(PrefKey.CSV_EXPORT_CATEGORY_SEPARATOR, " > ")
                                         )
                                         ExportFormat.QIF -> QifExporter(
                                             account,

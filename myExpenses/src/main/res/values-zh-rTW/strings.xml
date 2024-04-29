@@ -37,8 +37,6 @@
     <string name="app_name">開支助手</string>
     <string name="backup_success">數據資料和偏好設定已經成功地寫入到\"%1$s\"中</string>
     <string name="category">類別</string>
-    <string name="color">顏色</string>
-    <string name="comment">備註</string>
     <string name="contrib_feature_ad_free_label">無廣告</string>
     <string name="contrib_feature_accounts_unlimited_label">無限數量的帳戶</string>
     <string name="contrib_feature_attach_picture_label">可附加交易圖片</string>
@@ -173,10 +171,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">兩者反轉</string>
     <string name="menu_manage_plans">範本與收支計畫</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">開啟檔案</string>
     <string name="menu_import">匯入</string>
-    <string name="menu_print">列印</string>
     <string name="menu_reset">匯出並重設</string>
     <string name="menu_reset_all">匯出檔案並全部重置</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -184,7 +179,6 @@
     <string name="menu_save">存檔</string>
     <string name="menu_save_and_new">儲存後新增</string>
     <string name="menu_share">推薦給朋友</string>
-    <string name="button_label_share_file">分享</string>
     <string name="button_label_close">關閉</string>
     <string name="menu_split_transaction">轉變成分割款項</string>
     <string name="method">付款方式</string>
@@ -213,7 +207,6 @@
     <string name="opening_balance">初始餘額</string>
     <string name="parse_error_file_not_found">找不到檔案%1$s</string>
     <string name="parse_error_grisbi_version_not_supported">無法支援的 Grisbi 檔案版本: %1$s</string>
-    <string name="parse_error_no_data_found">檔案中找不到可匯入的數據。</string>
     <string name="parse_error_other_exception">發生錯誤: %1$s</string>
     <string name="parse_error_parse_exception">無法解析檔案</string>
     <string name="password_disabled_reenable">密碼保護已被停用。您可以在\"程式設定\"中重新啟用它。</string>
@@ -436,7 +429,6 @@
     <string name="restore_calendar_handling_ignore">不要還原計畫</string>
     <string name="restore_not_possible_target_calendar_missing">備份中設定的日曆 %s 已經不存在於本機裝置。還原動作已被中止了。</string>
     <string name="restore_not_possible_local_calendar_missing">當前的收支計畫日曆無法使用。</string>
-    <string name="menu_distribution_show_pie_char">顯示圓餅統計圖</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">陳舊圖檔</string>
     <string name="pref_manage_stale_images_summary">管理已刪除的交易，所留下的圖片</string>
@@ -509,8 +501,6 @@
     <string name="hint_url">網址</string>
     <string name="description_webdav_url">請輸入WebDAV伺服器上指定檔案夾的網址。 {app_name}會將其資料儲存在此檔案夾中，它不會觸及其外的任何內容。</string>
     <string name="description_webdav_trust_certificate">該網站使用的證書不受Android信任。</string>
-    <string name="hint_user_name">使用者名稱</string>
-    <string name="hint_password">採用密碼保護程式</string>
     <string name="label_trust_certificate">信任此證書</string>
     <string name="no_sync_backends">沒有用來同步的後端設備</string>
     <string name="menu_create_sync_backend">新增同步後端裝備</string>
@@ -522,7 +512,6 @@
     <string name="menu_sync_unlink">停止同步</string>
     <string name="menu_sync_link">開始同步</string>
     <string name="menu_sync_download">下載並同步</string>
-    <string name="pref_sync_frequency_title">同步頻率</string>
     <string name="pref_sync_frequency_summary">資料應多久同步一次（以小時為單位）</string>
     <string name="dialog_confirm_sync_unlink">如果您將該帳戶從%s取消連結，同步狀態將會失效。當您稍後再次連結它們時，則需要重新執行完整的同步。</string>
     <string name="dialog_sync_link">具有通用唯一識別碼UUID %s的帳戶在本機資料庫和遠程後端中都存在的情況下。當您連結兩者時，首先要確認是要將本機資料上傳到遠程後端，還是要將遠端資料下載到本機資料庫。</string>
@@ -573,8 +562,6 @@
     <string name="onboarding_get_started">開始使用吧!</string>
     <string name="onboarding_more_options">更多的選擇</string>
     <string name="onboarding_restore_from_cloud">可從同步的雲端設備還原</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">備份檔案</string>
     <string name="onboarding_restore_from_local">從本機備份檔案來復原</string>
     <string name="contributed_by">由%s貢獻</string>
     <string name="pref_sync_notification_summary">通知有關同步的進度</string>
@@ -695,7 +682,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">“未分類項目”只能被單獨篩選，不能包含在多個篩選條件中</string>
-    <string name="upgrade_information_cloud_sync_storage_format">在版本2.9.8中，同步後端上的資料儲存方式已變更。請將所有同步裝置升級到該版本後，才能在其中的裝置上輸入任何新記錄。</string>
     <string name="pref_security_export_passphrase_title">設定備份的複雜密碼(Passphrase)</string>
     <string name="pref_security_export_passphrase_summary">備份檔案將用此複雜密碼(Passphrase)加密</string>
     <string name="backup_is_encrypted">備份檔案已加密。為了解密它，您需要輸入它的複雜密碼(Passphrase)。</string>
@@ -756,7 +742,6 @@
     <string name="budget_filter_all_states">所有的狀態</string>
     <string name="budget_filter_all_tags">所有的標籤</string>
     <string name="budget_filter_all_accounts">所有帳戶</string>
-    <string name="budget_form_label_filter">篩選條件</string>
     <string name="dialog_title_warning_delete_budget">刪除預算？</string>
     <string name="warning_delete_budget">預算“ %1$s”將被刪除。</string>
     <string name="menu_edit_budget">編輯預算</string>
@@ -782,7 +767,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">複製的交易保留原本日期</string>
     <string name="tags_create_or_select">新建或選擇標籤</string>
-    <string name="tags">標籤</string>
     <string name="pref_manage_tags_summary">新增、編輯或刪除標籤。</string>
     <string name="dialog_title_warning_delete_tag">確定刪除標籤？</string>
     <string name="menu_edit_tag">編輯標籤</string>
@@ -824,7 +808,6 @@
     <string name="pref_criterion_future_current">當前時間</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">特色功能</string>
-    <string name="scan_result_no_data">沒有數據</string>
     <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">找到多種待選項目。請選擇：</string>
     <string name="scan_result_no_amount">找不到金額</string>
@@ -832,7 +815,6 @@
     <string name="scan_result_no_payee">找不到收款人</string>
     <string name="pref_feature_uninstall_title">要求解除安裝\"功能\"和\"語言\"</string>
     <string name="pref_feature_uninstall_summary">Google Play商店嘗試在背景刪除這些組件。</string>
-    <string name="pref_feature_uninstall_languages_title">語言</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">請選擇一套許可證</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->

@@ -50,23 +50,27 @@ class EditNumberPreference(context: Context, attrs: AttributeSet) :
             }
     }
 
-    override fun getTitle(): CharSequence? {
-        val hasMin = min > 0
-        val hasMax = max < Integer.MAX_VALUE
-        return when {
-            hasMin && hasMax -> context.getString(
-                R.string.between_and,
-                min.toString(),
-                max.toString()
-            )
+    private val _title: CharSequence?
+        get() {
+            val hasMin = min > 0
+            val hasMax = max < Integer.MAX_VALUE
+            return when {
+                hasMin && hasMax -> context.getString(
+                    R.string.between_and,
+                    min.toString(),
+                    max.toString()
+                )
 
-            hasMin -> ">= $min"
-            hasMax -> "<= $max"
-            else -> null
-        }?.let {
-            TextUtils.concat(super.getTitle(), " (", it, ")")
-        } ?: super.getTitle()
-    }
+                hasMin -> ">= $min"
+                hasMax -> "<= $max"
+                else -> null
+            }?.let {
+                TextUtils.concat(super.getTitle(), " (", it, ")")
+            } ?: super.getTitle()
+        }
+
+    override fun getDialogTitle() = _title
+    override fun getTitle() = _title
 
     override fun getText() = value.toString()
 }

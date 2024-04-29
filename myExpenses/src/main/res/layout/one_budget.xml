@@ -112,7 +112,7 @@
                     <TextView
                         android:id="@+id/FilterLabel"
                         style="@style/FormLabel"
-                        android:text="@string/budget_form_label_filter" />
+                        android:text="@string/filter" />
 
                     <com.google.android.material.chip.ChipGroup
                         style="@style/FormField"

@@ -6,7 +6,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.enumValueOrNull
 
-enum class Sort(val commandId: Int, private val isDescending: Boolean = true) {
+enum class Sort(val commandId: Int, val isDescending: Boolean = true) {
     USAGES(R.id.SORT_USAGES_COMMAND),
     LAST_USED(R.id.SORT_LAST_USED_COMMAND),
     AMOUNT(R.id.SORT_AMOUNT_COMMAND),
@@ -14,8 +14,9 @@ enum class Sort(val commandId: Int, private val isDescending: Boolean = true) {
     LABEL(R.id.SORT_LABEL_COMMAND, false),
     CUSTOM(R.id.SORT_CUSTOM_COMMAND, false),
     NEXT_INSTANCE(R.id.SORT_NEXT_INSTANCE_COMMAND),
-    ALLOCATED(R.id.SORT_ALLOCATED_COMMAND),
-    SPENT(R.id.SORT_SPENT_COMMAND);
+    ALLOCATED(0),
+    SPENT(0),
+    AVAILABLE(0);
 
     private fun toDatabaseColumn(collate: String) = when (this) {
         USAGES -> DatabaseConstants.KEY_USAGES

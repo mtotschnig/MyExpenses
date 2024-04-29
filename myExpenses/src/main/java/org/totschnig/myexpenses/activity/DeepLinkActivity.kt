@@ -83,10 +83,10 @@ class DeepLinkActivity : ProtectedFragmentActivity() {
                         dismissSnackBar()
                         if (isPdt) {
                             startActivity(ContribInfoDialogActivity.getOnPurchaseCompleteIntent(
-                                this@DeepLinkActivity, it
+                                this@DeepLinkActivity, it.second
                             ))
                         } else {
-                            showMessageWithPayPalInfo(it)
+                            showMessageWithPayPalInfo(it.second)
                         }
                     }
                 }

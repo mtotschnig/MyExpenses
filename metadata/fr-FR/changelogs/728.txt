@@ -1,0 +1,5 @@
+• Recherche: Raffinement de l'interface utilisateur
+• Configuration du widget "Mes comptes": Boutons
+• La fonctionnalité «Scanner le reçu» peut être appelée à partir du widget «Mes comptes».
+
+https://github.com/mtotschnig/MyExpenses/projects/139#column-19841847

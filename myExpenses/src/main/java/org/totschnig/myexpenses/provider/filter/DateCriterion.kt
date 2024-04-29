@@ -90,9 +90,7 @@ class DateCriterion(
         return result
     }
 
-    override fun shouldApplyToParts(): Boolean {
-        return false
-    }
+    override val shouldApplyToParts get() = false
 
     companion object {
 

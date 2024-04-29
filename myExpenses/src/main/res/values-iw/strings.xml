@@ -37,8 +37,6 @@
     <string name="app_name">ההוצאות שלי</string>
     <string name="backup_success">מסד הנתונים וההעדפות נכתבו בהצלחה ל־„%1$s”.</string>
     <string name="category">קטגוריה</string>
-    <string name="color">צבע</string>
-    <string name="comment">הערות</string>
     <string name="contrib_feature_ad_free_label">ללא פרסומות</string>
     <string name="contrib_feature_accounts_unlimited_label">מספר חשבונות בלתי מוגבל</string>
     <string name="contrib_feature_attach_picture_label">צרף תמונה לעסקה</string>
@@ -175,10 +173,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">הפוך</string>
     <string name="menu_manage_plans">תבניות ותוכניות</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">פתח</string>
     <string name="menu_import">יבא</string>
-    <string name="menu_print">הדפס</string>
     <string name="menu_reset">יצא ואפס</string>
     <string name="menu_reset_all">יצא ואפס הכול</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -186,7 +181,6 @@
     <string name="menu_save">שמור</string>
     <string name="menu_save_and_new">שמור וחדש</string>
     <string name="menu_share">ספר לחבר</string>
-    <string name="button_label_share_file">שתף</string>
     <string name="button_label_close">סגור</string>
     <string name="menu_split_transaction">הפוך למפוצל</string>
     <string name="method">אמצעי תשלום</string>
@@ -219,7 +213,6 @@
     <string name="opening_balance">מאזן פתיחה</string>
     <string name="parse_error_file_not_found">לא ניתן למצוא את הקובץ%1$s</string>
     <string name="parse_error_grisbi_version_not_supported">גירסת קובץ Grisbi לא נתמכת:%1$s</string>
-    <string name="parse_error_no_data_found">לא נמצאו נתונים הניתנים לייבוא בקובץ.</string>
     <string name="parse_error_other_exception">אירעה שגיעה: %1$s</string>
     <string name="parse_error_parse_exception">לא ניתן לנתח את הקובץ</string>
     <string name="password_disabled_reenable">הגנת הסיסמה הושבתה. תוכל להפעיל אותה מחדש בהגדרות.</string>
@@ -449,7 +442,6 @@
     <string name="restore_calendar_handling_ignore">אל תשחזר תוכניות</string>
     <string name="restore_not_possible_target_calendar_missing">היומן %s המוגדר בארכיון הגיבוי אינו קיים באופן מקומי. השחזור בוטל.</string>
     <string name="restore_not_possible_local_calendar_missing">לוח התכנון הנוכחי אינו זמין.</string>
-    <string name="menu_distribution_show_pie_char">הצג תרשים עוגה</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">תמונות לא ברורות</string>
     <string name="pref_manage_stale_images_summary">ניהול תמונות שנותרו מעסקאות שנמחקו</string>
@@ -522,8 +514,6 @@
     <string name="hint_url">כתובת אתר</string>
     <string name="description_webdav_url">הזן את כתובת האתר לתיקיה מיוחדת בשרת WebDAV.  האפליקציה {app_name}  תאחסןאת הנתונים שלה בתוך התיקיה הזו, היא לא תיגע בשום דבר מחוץ לה.</string>
     <string name="description_webdav_trust_certificate">האתר משתמש בתעודה  certificate , שאינה מהימנה על ידי Android.</string>
-    <string name="hint_user_name">שם משתמש</string>
-    <string name="hint_password">סיסמה</string>
     <string name="label_trust_certificate">סמוך על תעודת אישור זו</string>
     <string name="no_sync_backends">אין סינכרון backends</string>
     <string name="menu_create_sync_backend">סינכרון חדש backend</string>
@@ -535,7 +525,6 @@
     <string name="menu_sync_unlink">הפסק סנכרון</string>
     <string name="menu_sync_link">התחל סנכרון</string>
     <string name="menu_sync_download">הורד וסנכרן</string>
-    <string name="pref_sync_frequency_title">תדירות סינכרון</string>
     <string name="pref_sync_frequency_summary">באיזו תדירות יש לסנכרן נתונים (בשעות)</string>
     <string name="dialog_confirm_sync_unlink">אם תבטל את הקישור של חשבון זה מ- %s, מצב הסינכרון יאבד. קשר אותם שוב מאוחר יותר, נדרש לבצע שוב סנכרון מלא.</string>
     <string name="dialog_sync_link">חשבון עם %s קיים הן במסד הנתונים המקומי והן ב- backend המרוחק. כאשר אתה מקשר את שניהם, אתה צריך להחליט, אם, בתחילה, אתה רוצה להעלות נתונים מקומיים על backend המרוחק או להוריד נתונים מרוחקים למסד הנתונים המקומי.</string>
@@ -586,8 +575,6 @@
     <string name="onboarding_get_started">להתחיל</string>
     <string name="onboarding_more_options">אפשרויות נוספות</string>
     <string name="onboarding_restore_from_cloud">שחזר מסנכרון ענן</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">גיבויים</string>
     <string name="onboarding_restore_from_local">שחזור קובץ גיבוי מקומי</string>
     <string name="contributed_by">נתרם על ידי %s</string>
     <string name="pref_sync_notification_summary">הודע על התקדמות הסנכרון</string>
@@ -712,7 +699,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">מסנן \'לא ממופה\' אינו יכול להיכלל בבחירה מרובה</string>
-    <string name="upgrade_information_cloud_sync_storage_format">עם גרסה 2.9.8,  האופן שבו הנתונים מאוחסנים על backends מסונכרן השתנה. שדרג לגרסה זו בכל המכשירים המסונכרנים, לפני הזנת רשומות חדשות בכל אחת מהן.</string>
     <string name="pref_security_export_passphrase_title">ביטוי סיסמה לגיבויים</string>
     <string name="pref_security_export_passphrase_summary">גיבויים יוצפנו בסיסמה זו</string>
     <string name="backup_is_encrypted">קובץ הגיבוי מוצפן. כדי לפענח את זה, אתה צריך לציין את  הסיסמה שלו.</string>
@@ -773,7 +759,6 @@
     <string name="budget_filter_all_states">כל המדינות</string>
     <string name="budget_filter_all_tags">כל התגים</string>
     <string name="budget_filter_all_accounts">כל החשבונות</string>
-    <string name="budget_form_label_filter">מסנן</string>
     <string name="dialog_title_warning_delete_budget">האם למחוק חשבון?</string>
     <string name="warning_delete_budget">התקציב „%1$s” יימחק.</string>
     <string name="menu_edit_budget">עריכת תקציב</string>
@@ -799,7 +784,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">עסקאות משובצות שומרות על התאריך המקורי</string>
     <string name="tags_create_or_select">צור או בחר תג</string>
-    <string name="tags">תגים</string>
     <string name="pref_manage_tags_summary">הוספה, עריכה, מחיקה של תגים.</string>
     <string name="dialog_title_warning_delete_tag">למחוק תג\?</string>
     <string name="menu_edit_tag">עריכת תג</string>
@@ -843,7 +827,6 @@
     <string name="pref_criterion_future_current">זמן נוכחי</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">מאפיינים</string>
-    <string name="scan_result_no_data">אין מידע</string>
     <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">נמצאו מספר מועמדים. בבקשה תבחר:</string>
     <string name="scan_result_no_amount">לא נמצא סכום</string>
@@ -851,7 +834,6 @@
     <string name="scan_result_no_payee">לא נמצא מקבל תשלום</string>
     <string name="pref_feature_uninstall_title">בקשת הסרה של יכולות ושפות</string>
     <string name="pref_feature_uninstall_summary">חנות Play מנסה בסופו של דבר להסיר את המודולים האלה ברקע.</string>
-    <string name="pref_feature_uninstall_languages_title">שפות</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">אנא בחר חבילת רישיון.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
@@ -923,10 +905,8 @@
         <item quantity="other">לחוב %1$s יש %2$d העברות ממופות.</item>
     </plurals>
     <string name="warning_party_delete_debt">מחיקת הגוף תוביל גם למחיקת החובות שמוגדרים מולו.</string>
-    <string name="dialog_title_warning_delete_party">למחוק גוף\?</string>
     <string name="debt_managment">ניהול חובות</string>
     <string name="object_sealed_debt">הפריט מתייחס לחוב שנסגר.</string>
-    <string name="dialog_title_delete_debt">למחוק חוב\?</string>
     <string name="debts">חובות</string>
     <string name="debt_I_owe">חוב ממני לטובת %s</string>
     <string name="debt_owes_me">חוב כלפי מצד %s</string>
@@ -964,7 +944,6 @@
     <string name="pref_csv_export_split_amount_summary">להשתמש בעמודות נפרדות להכנסות והוצאות</string>
     <string name="pref_csv_export_split_date_time_summary">להשתמש בעמודות נפרדות לתאריך ולשעה</string>
     <string name="icons_for_categories">סמלים לקטגוריות</string>
-    <string name="required">חובה</string>
     <string name="budget_only_current_period">להגדיר רק עבור %s</string>
     <string name="budget_table_header_rollover">גלגול</string>
     <string name="dialog_confirm_rollover_delete">כל סכומי הגלגול לתקופה זו יימחקו.</string>
@@ -991,8 +970,6 @@
     <string name="debt_balance_i_owe">החוב שלי הוא %s.</string>
     <string name="pref_backup_file_prefix_title">קידומת קובץ</string>
     <string name="optimize_image_file_size">מיטוב גודל קובץ התמונה</string>
-    <string name="file_format">סוג קובץ</string>
-    <string name="image_optimize_quality">איכות</string>
     <string name="image_optimize_quality_summary">איכות 0 זה למעשה דחיסה לגודל המזערי ביותר. 100 זאת דחיסה לאיכות החזותית הגבוהה ביותר.</string>
     <string name="maximum_size">גודל מרבי</string>
     <string name="add_shortcut">הוספת קיצור דרך</string>

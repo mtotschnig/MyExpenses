@@ -39,7 +39,7 @@
         android:key="@string/pref_export_manage_files_key"
         android:negativeButtonText="@string/menu_delete"
         android:persistent="false"
-        android:positiveButtonText="@string/button_label_share_file"
+        android:positiveButtonText="@string/share"
         android:title="@string/files_label"
         my:isPreferenceVisible="false" />
 
@@ -60,6 +60,10 @@
             android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesAttachPictureFragment"
             android:key="attach_picture"
             android:title="@string/contrib_feature_attach_picture_label" />
+        <Preference
+            android:fragment="org.totschnig.myexpenses.fragment.preferences.PreferencesPrintFragment"
+            android:key="print"
+            android:title="@string/menu_print" />
         <Preference
             my:isPreferenceVisible="@bool/is26"
             android:key="@string/pref_banking_fints_key"

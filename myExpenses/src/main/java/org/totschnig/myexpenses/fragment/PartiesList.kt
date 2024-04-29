@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.activity.Action
 import org.totschnig.myexpenses.activity.DebtEdit
 import org.totschnig.myexpenses.activity.DebtOverview
 import org.totschnig.myexpenses.activity.HELP_VARIANT_MANGE
+import org.totschnig.myexpenses.activity.HELP_VARIANT_MERGE_MODE
 import org.totschnig.myexpenses.activity.ManageParties
 import org.totschnig.myexpenses.activity.asAction
 import org.totschnig.myexpenses.databinding.PartiesListBinding
@@ -57,6 +58,7 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
+import org.totschnig.myexpenses.provider.filter.preSelected
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.configureSearch
@@ -225,7 +227,6 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                 manageParties.showSnackBar(message)
                             } else if (party.mappedDebts) {
                                 SimpleDialog.build()
-                                    .title(R.string.dialog_title_warning_delete_party)
                                     .extra(Bundle().apply {
                                         putLong(KEY_ROWID, party.id)
                                     })
@@ -288,6 +289,14 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 checkStates.remove(party.id)
             }
             updateFabEnabled()
+        }
+
+        fun check(id: Long) {
+            checkStates.add(id)
+        }
+
+        fun check(ids: List<Long>) {
+            checkStates.addAll(ids)
         }
 
         fun onSaveInstanceState(state: Bundle) {
@@ -421,7 +430,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
             invalidateOptionsMenu()
             configureFloatingActionButton()
             setFabEnabled(!mergeMode)
-            setHelpVariant(if(mergeMode) "mergeMode" else HELP_VARIANT_MANGE)
+            setHelpVariant(if(mergeMode) HELP_VARIANT_MERGE_MODE else HELP_VARIANT_MANGE)
         }
     }
 
@@ -469,7 +478,11 @@ class PartiesList : Fragment(), OnDialogResultListener {
     ): View {
         _binding = PartiesListBinding.inflate(inflater, container, false)
         adapter = PayeeAdapter()
-        savedInstanceState?.let { adapter.onRestoreInstanceState(it) }
+        if (savedInstanceState == null) {
+            requireActivity().preSelected?.let { adapter.check(it) }
+        } else {
+            adapter.onRestoreInstanceState(savedInstanceState)
+        }
         binding.list.adapter = adapter
         viewModel.loadDebts().observe(viewLifecycleOwner) {
             lifecycleScope.launch {

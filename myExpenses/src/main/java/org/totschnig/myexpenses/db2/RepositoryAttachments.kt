@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.provider.useAndMapToList
 import java.io.IOException
 
 fun Repository.addAttachments(transactionId: Long, attachments: List<Uri>) {
+    if (attachments.isEmpty()) return
     val ops = ArrayList<ContentProviderOperation>()
     attachments.forEach {
         ops.add(

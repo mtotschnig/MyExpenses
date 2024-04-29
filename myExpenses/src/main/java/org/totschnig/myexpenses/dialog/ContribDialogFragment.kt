@@ -35,12 +35,11 @@ import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import eltos.simpledialogfragment.SimpleDialog
-import eltos.simpledialogfragment.form.Input
-import eltos.simpledialogfragment.form.SimpleFormDialog
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.ContribDialogBinding
+import org.totschnig.myexpenses.dialog.LicenceKeyDialogFragment.Companion.VALIDATION_SUCCESS
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
@@ -93,7 +92,9 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
             feature = ContribFeature.valueOf(it)
         }
         injector.inject(this)
-
+        childFragmentManager.setFragmentResultListener(VALIDATION_SUCCESS, this) { _, _ ->
+            contribActivity?.finish(false)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -299,8 +300,11 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
     private fun getSinglePackage(): AddOnPackage =
         AddOnPackage.values.find { it.feature == feature } ?: throw IllegalStateException()
 
+    private val contribActivity: ContribInfoDialogActivity?
+        get() = activity as ContribInfoDialogActivity?
+
     private fun onPositiveButtonClicked() {
-        val ctx = activity as ContribInfoDialogActivity? ?: return
+        val ctx = contribActivity ?: return
         selectedPackage?.let {
             ctx.contribBuyDo(it)
             dismiss()
@@ -315,22 +319,7 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
     }
 
     private fun onNeutralButtonClicked() {
-        val licenceKey = prefHandler.getString(PrefKey.NEW_LICENCE, "")
-        val licenceEmail = prefHandler.getString(PrefKey.LICENCE_EMAIL, "")
-        SimpleFormDialog.build()
-            .title(R.string.pref_enter_licence_title)
-            .fields(
-                Input.email(KEY_EMAIL)
-                    .required().text(licenceEmail),
-                Input.plain(KEY_KEY).min(4)
-                    .required().hint(R.string.licence_key).text(licenceKey)
-            )
-            .pos(R.string.button_validate)
-            .neut()
-            .show(
-                this,
-                DIALOG_VALIDATE_LICENCE
-            )
+        LicenceKeyDialogFragment().show(childFragmentManager, "LICENCE_KEY")
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
@@ -344,7 +333,7 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
                     PrefKey.LICENCE_EMAIL,
                     extras.getString(KEY_EMAIL)!!.trim()
                 )
-                (activity as? ContribInfoDialogActivity)?.let {
+                contribActivity?.let {
                     it.setResult(Activity.RESULT_FIRST_USER)
                     it.finish()
                 }
@@ -354,10 +343,9 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
     }
 
     override fun onCancel(dialog: DialogInterface) {
-        val ctx = activity as ContribInfoDialogActivity?
-        if (ctx != null) {
-            ctx.logEvent(Tracker.EVENT_CONTRIB_DIALOG_CANCEL, null)
-            ctx.finish(true)
+        contribActivity?.let {
+            it.logEvent(Tracker.EVENT_CONTRIB_DIALOG_CANCEL, null)
+            it.finish(true)
         }
     }
 

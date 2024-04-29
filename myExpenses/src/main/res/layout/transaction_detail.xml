@@ -137,7 +137,7 @@
 
                 <TextView
                     style="@style/FormLabel.Condensed"
-                    android:text="@string/comment" />
+                    android:text="@string/notes" />
 
                 <TextView
                     android:id="@+id/Comment"

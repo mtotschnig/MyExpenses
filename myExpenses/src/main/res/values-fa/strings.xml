@@ -37,8 +37,6 @@
     <string name="app_name">My Expenses</string>
     <string name="backup_success">پایگاه داده و ترجیحات به صورت موفقیت آمیز روی %1$s نوشته شده است</string>
     <string name="category">دسته بندی</string>
-    <string name="color">رنگ</string>
-    <string name="comment">یادداشت</string>
     <string name="contrib_feature_ad_free_label">بدون تبلیغ</string>
     <string name="contrib_feature_accounts_unlimited_label">تعداد نامحدود حساب ها</string>
     <string name="contrib_feature_attach_picture_label">تصویر را به تراکنش اضافه کنید</string>
@@ -162,10 +160,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">معکوس</string>
     <string name="menu_manage_plans">قالب‌ها به‌عنوان برنامه‌ها</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">باز کردن</string>
     <string name="menu_import">درون‌ریزی</string>
-    <string name="menu_print">چاپ</string>
     <string name="menu_reset">استخراج و تنظیم مجدد</string>
     <string name="menu_reset_all">استخراج و تنظیم مجدد همه</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -173,7 +168,6 @@
     <string name="menu_save">ذخیره</string>
     <string name="menu_save_and_new">ذخیره و جدید</string>
     <string name="menu_share">گفتن به دوستان</string>
-    <string name="button_label_share_file">اشتراک گذاری</string>
     <string name="button_label_close">بستن</string>
     <string name="method">روش پرداخت</string>
     <string name="no_app_handling_email_available">هیچ اپلیکیشنی برای استفاده از ایمیل دردسترس نیست</string>
@@ -189,7 +183,6 @@
     <string name="opening_balance">تراز باز</string>
     <string name="parse_error_file_not_found">فایل %1$s پیدا نشد</string>
     <string name="parse_error_grisbi_version_not_supported">نسخه فایل Grisbi پشتیبانی نشده است: %1$s</string>
-    <string name="parse_error_no_data_found">هیچ دادهٔ قابل واردکردنی درفایل پیدا نشد.</string>
     <string name="parse_error_other_exception">یک خطا رخ داد : %1$s</string>
     <string name="parse_error_parse_exception">فایل تجزیه نشد</string>
     <string name="password_disabled_reenable">حفاظت از طریق گذرواژه غیرفعال شد. شما می‌توانید آن را در تنظیمات، مجدد فعال کنید.</string>
@@ -342,7 +335,6 @@
     <string name="import_source_file">فایل</string>
     <string name="restore_calendar_handling_ignore">برنامه‌ها را بازیابی نکن</string>
     <string name="restore_not_possible_local_calendar_missing">تقویم برنامه‌ریزی فعلی در دسترس نیست.</string>
-    <string name="menu_distribution_show_pie_char">نمایش نمودار دایره‌ای</string>
     <string name="image_deleted">تصویر حذف شده‌است</string>
     <string name="transaction_deleted">تراکنش حذف شده‌است</string>
     <string name="dialog_export_applied_to_filter">فقط تراکنش‌های مطابق با فیلتر فعلی درنظر گرفته خواهندشد.</string>
@@ -385,8 +377,6 @@
     <string name="crash_dialog_title">{app_name} بسته شد</string>
     <string name="crash_dialog_comment_prompt">اگر مایلید نظرتان را راجع به مشکل در زیر بیان کنید:</string>
     <string name="synchronization">همگام‌سازی</string>
-    <string name="hint_user_name">نام کاربری</string>
-    <string name="hint_password">گذرواژه</string>
     <string name="label_trust_certificate">اعتماد کردن به این گواهی</string>
     <string name="validate_error_not_empty">نباید خالی باشد</string>
     <string name="validate_error_webdav_invalid_certificate">به گواهی نمی‌شود اعتماد کرد. به‌نظر نامعتبر است.</string>
@@ -395,7 +385,6 @@
     <string name="menu_sync_unlink">همگام‌سازی را متوقف کن</string>
     <string name="menu_sync_link">همگام‌سازی را شروع کن</string>
     <string name="menu_sync_download">بارگیری و همگام‌سازی</string>
-    <string name="pref_sync_frequency_title">مرتباً همگام‌سازی کن</string>
     <string name="pref_sync_frequency_summary">چند بار داده‌ها باید همگام‌سازی شوند (در ساعت)</string>
     <string name="menu_remove">حذف</string>
     <string name="dialog_confirm_sync_link_remote">داده‌های محلی این حساب حذف خواهند شد.</string>
@@ -453,11 +442,9 @@
     <string name="content_description_download_exchange_rate">دانلود نرخ تبدیل</string>
     <string name="budget_duration_from">از</string>
     <string name="budget_duration_to">به</string>
-    <string name="budget_form_label_filter">فیلتر</string>
     <string name="dialog_title_warning_delete_budget">حذف بودجه؟</string>
     <string name="warning_delete_budget">بودجه \" %1$s \" حذف خواهد شد.</string>
     <string name="menu_edit_budget">ویرایش بودجه</string>
-    <string name="tags">برچسب</string>
     <!-- If this mode is active, the action button will open the camera for scanning a receipt  -->
     <string name="menu_scan_mode">حالت اسکن</string>
     <!-- Button that triggers the scan operation -->
@@ -490,7 +477,6 @@
     <string name="image_capture_not_installed">هیچ برنامه‌ای برای گرفتن عکس پیدا نشد.</string>
     <string name="no_mapped_transactions">در طول این دوره هیچ تراکنشی برای دسته ها انجام نشده است.</string>
     <string name="no_parties">طرف معامله وجود ندارد.</string>
-    <string name="dialog_title_warning_delete_party">شخص حذف شود؟</string>
     <plurals name="not_deletable_mapped_templates">
         <item quantity="one">مورد انتخاب شده به یک الگو نگاشت می شود و نمی توان آن را حذف کرد.</item>
         <item quantity="other">%1$d ‍مورد به چندین الگو نگاشت می شوند و نمی توان آن ها را حذف کرد.</item>
@@ -632,7 +618,6 @@
     <string name="pref_webdav_timeout_title">وقفه WebDAV (در ثانیه)</string>
     <string name="onboarding_restore_from_cloud">بازیابی از همگام سازی با سرور</string>
     <string name="link_account_failure_3">تناقض را می توان به صورت دستی از منوی زمینه ورودی حل کرد.</string>
-    <string name="onboarding_restore_from_cloud_backup">پشتیبان گیری</string>
     <string name="link_account_failure_2">یک حساب با uuid مشابه از قبل در سرور وجود دارد.</string>
     <string name="number_of_fraction_digits">تعداد ارقام کسری</string>
     <string name="warning_auto_backup_deactivated">پشتیبان گیری خودکار غیرفعال شده است. پس از حل مشکل (به عنوان مثال انتخاب پوشه دیگری برای پشتیبان گیری) می توانید آن را دوباره از تنظیمات روشن کنید.</string>

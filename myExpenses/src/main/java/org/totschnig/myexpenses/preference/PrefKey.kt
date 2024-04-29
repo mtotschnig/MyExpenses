@@ -16,8 +16,8 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     PERFORM_SHARE(R.string.pref_perform_share_key),
     HELP(R.string.pref_help_key),
     SHARE_TARGET(R.string.pref_share_target_key),
-    UI_THEME_KEY(R.string.pref_ui_theme_key),
-    UI_FONTSIZE(R.string.pref_ui_fontsize_key),
+    UI_THEME(R.string.pref_ui_theme_key),
+    UI_FONT_SIZE(R.string.pref_ui_fontsize_key),
     RESTORE(R.string.pref_restore_key),
     IMPORT_QIF(R.string.pref_import_qif_key),
     IMPORT_CSV(R.string.pref_import_csv_key),
@@ -71,6 +71,7 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     TEMPLATE_CLICK_DEFAULT(R.string.pref_template_click_default_key),
     NEXT_REMINDER_RATE("nextReminderRate"),
     DISTRIBUTION_SHOW_CHART("distributionShowChart"),
+    BUDGEt_SHOW_CHART("budgethowChart"),
     DISTRIBUTION_AGGREGATE_TYPES("distributionAggregateTypes"),
     MANAGE_STALE_IMAGES(R.string.pref_manage_stale_images_key),
     CSV_IMPORT_HEADER_TO_FIELD_MAP(R.string.pref_import_csv_header_to_field_map_key),
@@ -157,6 +158,7 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     WEBUI_PASSWORD(R.string.pref_web_ui_password_key),
     CSV_EXPORT(R.string.pref_csv_export_key),
     CSV_EXPORT_SPLIT_CATEGORIES(R.string.pref_csv_export_split_categories_key),
+    CSV_EXPORT_CATEGORY_SEPARATOR(R.string.pref_csv_export_category_separator_key),
     CSV_EXPORT_SPLIT_AMOUNT(R.string.pref_csv_export_split_amount_key),
     CSV_EXPORT_SPLIT_DATE_TIME(R.string.pref_csv_export_split_date_time_key),
     CSV_EXPORT_ORIGINAL_EQUIVALENT_AMOUNTS(R.string.pref_csv_export_original_equivalent_amounts_key),
@@ -189,7 +191,15 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     CAMERA_APP(R.string.pref_camera_app_key),
     CAMERA_CHOOSER(R.string.pref_camera_chooser_key),
     TRANSACTION_AMOUNT_COLOR_SOURCE(R.string.pref_transaction_amount_color_source_key),
-    SYNC_NOW_ALL(R.string.pref_sync_now_all_key)
+    SYNC_NOW_ALL(R.string.pref_sync_now_all_key),
+    UI_ITEM_RENDERER_ORIGINAL_AMOUNT(R.string.pref_ui_item_renderer_original_amount_key),
+    PRINT_HEADER_LEFT(R.string.pref_print_header_left_key),
+    PRINT_HEADER_CENTER(R.string.pref_print_header_center_key),
+    PRINT_HEADER_RIGHT(R.string.pref_print_header_right_key),
+    PRINT_FOOTER_LEFT(R.string.pref_print_footer_left_key),
+    PRINT_FOOTER_CENTER(R.string.pref_print_footer_center_key),
+    PRINT_FOOTER_RIGHT(R.string.pref_print_footer_right_key),
+    PRINT_PAPER_FORMAT(R.string.pref_print_paper_format_key)
     ;
 
     @Deprecated("")

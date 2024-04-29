@@ -14,28 +14,61 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
-import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.RenderType
-import org.totschnig.myexpenses.db2.*
+import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.countAccounts
+import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.getTransactionSum
+import org.totschnig.myexpenses.db2.loadAccountFlow
+import org.totschnig.myexpenses.db2.loadAggregateAccountFlow
+import org.totschnig.myexpenses.db2.updateTransferPeersForTransactionDelete
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.*
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.TransactionProvider.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
+import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_MINIMAL_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.AUTHORITY
+import org.totschnig.myexpenses.provider.TransactionProvider.DEBTS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.UNCOMMITTED_URI
+import org.totschnig.myexpenses.provider.buildTransactionRowSelect
+import org.totschnig.myexpenses.provider.checkForSealedDebt
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.SyncAdapter
-import org.totschnig.myexpenses.util.AppDirHelper.getFileProviderAuthority
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.Utils
@@ -46,7 +79,6 @@ import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDL
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
-import org.totschnig.myexpenses.viewmodel.data.DateInfo.Companion.dateInfoQuery
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import javax.inject.Inject
 import kotlin.collections.set
@@ -102,10 +134,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
     }
 
     val dateInfo: Flow<DateInfo> = flow {
-        contentResolver.dateInfoQuery?.use { cursor ->
-            cursor.moveToFirst()
-            emit(DateInfo.fromCursor(cursor))
-        }
+        emit(DateInfo.load(contentResolver))
     }.flowOn(Dispatchers.IO)
 
     fun accountsMinimal(query: String? = null, withAggregates: Boolean = true): Flow<List<AccountMinimal>> = contentResolver.observeQuery(
@@ -358,14 +387,6 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
             )
         })
     }*/
-
-    fun cleanupOrigFile(result: CropImage.ActivityResult) {
-        if (result.originalUri.authority == getFileProviderAuthority(getApplication())) {
-            viewModelScope.launch(coroutineContext()) {
-                contentResolver.delete(result.originalUri, null, null)
-            }
-        }
-    }
 
     companion object {
         fun <K, V> lazyMap(initializer: (K) -> V): Map<K, V> {

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?><!--suppress AndroidElementNotAllowed -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:my="http://schemas.android.com/apk/res-auto"
+    android:title="@string/menu_print">
+    <org.totschnig.myexpenses.preference.HeaderPreference />
+    <PreferenceCategory android:title="@string/header_footer">
+        <EditTextPreference
+            android:key="@string/pref_print_header_left_key"
+            android:title="@string/top_left"
+            my:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:defaultValue="{date}"
+            android:key="@string/pref_print_header_center_key"
+            android:title="@string/top_center"
+            my:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="@string/pref_print_header_right_key"
+            android:title="@string/top_right"
+            my:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:defaultValue="{generator}"
+            android:key="@string/pref_print_footer_left_key"
+            android:title="@string/bottom_left"
+            my:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="@string/pref_print_footer_center_key"
+            android:title="@string/bottom_center"
+            my:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:defaultValue="{@page}"
+            android:key="@string/pref_print_footer_right_key"
+            android:title="@string/bottom_right"
+            my:useSimpleSummaryProvider="true" />
+        <Preference
+            android:key="@string/pref_help_key"
+            android:summary="https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Import-Export#how-to-configure-header-and-footer-on-the-pdf-printout"
+            android:title="@string/menu_help" />
+    </PreferenceCategory>
+    <ListPreference
+        android:entries="@array/pref_print_paper_size_entries"
+        android:entryValues="@array/pref_print_paper_size_entries"
+        android:key="@string/pref_print_paper_format_key"
+        android:title="@string/paper_format"
+        my:allowDividerAbove="true"
+        my:useSimpleSummaryProvider="true" />
+</PreferenceScreen>

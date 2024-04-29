@@ -62,7 +62,7 @@
     <string name="menu_forward_help_text">Muda para o próximo grupo. Também pode ser feito deslizando o dedo da direita para a esquerda na tela.</string>
     <string name="menu_categories_setup_default_help_text">Um conjunto de categorias padrão será importado.</string>
     <string name="menu_categories_export_help_text">As categorias serão exportadas para o arquivo QIF.</string>
-    <string name="menu_distribution_show_pie_char_help_text">Alterna a visibilidade do gráfico de pizza.</string>
+    <string name="menu_chart_help_text">Alterna a visibilidade do gráfico.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">As categorias selecionadas serão usadas para filtrar a lista de transações.</string>
     <string name="menu_ManageCategories_search_help_text">Apenas as categorias principais e secundárias correspondentes à sua consulta serão exibidas.</string>
     <string name="menu_ManageCategories_sort_help_text">A lista de categorias pode ser ordenada pelo título (alfabeticamente), pela frequência de uso ou pela última vez em que uma transação foi mapeada para ela.</string>

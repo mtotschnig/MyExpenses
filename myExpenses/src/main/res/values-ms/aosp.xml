@@ -73,5 +73,21 @@
     <string name="help_and_feedback">"Bantuan &amp; m/balas"</string>
     <string name="currencies_exchange">"Pertukaran Mata Wang Asing"</string>
     <string name="menu_sync_now">"Segerakkan sekarang"</string>
-  <string name="do_not_show_again">Jangan tunjukkan lagi</string>
+    <string name="do_not_show_again">Jangan tunjukkan lagi</string>
+    <string name="color">"Warna"</string>
+    <string name="notes">"Nota"</string>
+    <string name="cannot_be_undone">"Tindakan ini tidak boleh dibuat asal."</string>
+    <string name="configuration">"Konfigurasi"</string>
+    <string name="menu_open">"Buka"</string>
+    <string name="menu_print">"Cetak"</string>
+    <string name="share">"Kongsi"</string>
+    <string name="username">"Nama pengguna"</string>
+    <string name="password">"Kata laluan"</string>
+    <string name="frequency">"Frekuensi"</string>
+    <string name="no_data">"Tiada data"</string>
+    <string name="color_component_title">"Pilih warna"</string>
+    <string name="filter">"Tapis"</string>
+    <string name="tags">"Tanda nama"</string>
+    <string name="languages">"Bahasa"</string>
+    <string name="full_screen">"Skrin penuh"</string>
 </resources>

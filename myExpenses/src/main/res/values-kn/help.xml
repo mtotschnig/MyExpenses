@@ -53,7 +53,6 @@
     <string name="menu_forward_help_text">ಮುಂದಿನ ಗುಂಪಿಗೆ ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ. ಬಲದಿಂದ ಎಡಕ್ಕೆ ಸ್ವೈಪ್ ಗೆಸ್ಚರ್ ಮೂಲಕವೂ ಮಾಡಬಹುದು.</string>
     <string name="menu_categories_setup_default_help_text">ಡೀಫಾಲ್ಟ್ ವರ್ಗಗಳ ಗುಂಪನ್ನು ಆಮದು ಮಾಡಲಾಗುವುದು.</string>
     <string name="menu_categories_export_help_text">ವರ್ಗಗಳನ್ನು QIF ಫೈಲ್‌ಗೆ ರಫ್ತು ಮಾಡಲಾಗುತ್ತದೆ.</string>
-    <string name="menu_distribution_show_pie_char_help_text">ಪೈ ಚಾರ್ಟ್ನ ಗೋಚರತೆಯನ್ನು ಟಾಗಲ್ ಮಾಡಿ.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">ವಹಿವಾಟು ಪಟ್ಟಿಯನ್ನು ಫಿಲ್ಟರ್ ಮಾಡಲು ಆಯ್ಕೆಮಾಡಿದ ವರ್ಗಗಳನ್ನು ಬಳಸಲಾಗುತ್ತದೆ.</string>
     <string name="menu_ManageCategories_search_help_text">ನಿಮ್ಮ ಪ್ರಶ್ನೆಗೆ ಹೊಂದಿಕೆಯಾಗುವ ಮುಖ್ಯ ಮತ್ತು ಉಪ ವಿಭಾಗಗಳನ್ನು ಮಾತ್ರ ಪ್ರದರ್ಶಿಸಲಾಗುತ್ತದೆ.</string>
     <string name="menu_ManageCategories_sort_help_text">ವರ್ಗದ ಪಟ್ಟಿಯನ್ನು ಶೀರ್ಷಿಕೆಯಿಂದ (ವರ್ಣಮಾಲೆಯಂತೆ), ಬಳಕೆಯ ಆವರ್ತನದ ಮೂಲಕ ಅಥವಾ ಕೊನೆಯ ಬಾರಿಗೆ ವಹಿವಾಟನ್ನು ಮ್ಯಾಪ್ ಮಾಡಿದ ನಂತರ ವಿಂಗಡಿಸಬಹುದು.</string>

@@ -37,8 +37,6 @@
     <string name="app_name">Мои расходы</string>
     <string name="backup_success">БД и настройки успешно сохранены в \"%1$s\".</string>
     <string name="category">Категория</string>
-    <string name="color">Цвет</string>
-    <string name="comment">Заметки</string>
     <string name="contrib_feature_ad_free_label">Без рекламы</string>
     <string name="contrib_feature_accounts_unlimited_label">Неограниченное количество счетов</string>
     <string name="contrib_feature_attach_picture_label">Присоединение изображения к операции</string>
@@ -176,10 +174,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Инвертировать</string>
     <string name="menu_manage_plans">Шаблоны и планы</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Открыть</string>
     <string name="menu_import">Импорт</string>
-    <string name="menu_print">Печать</string>
     <string name="menu_reset">Экспорт и сброс</string>
     <string name="menu_reset_all">Экспортировать и сбросить все</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -187,7 +182,6 @@
     <string name="menu_save">Сохранить</string>
     <string name="menu_save_and_new">Сохранить и создать</string>
     <string name="menu_share">Рассказать другу</string>
-    <string name="button_label_share_file">Поделиться</string>
     <string name="button_label_close">Закрыть</string>
     <string name="menu_split_transaction">Разделить</string>
     <string name="method">Способ оплаты</string>
@@ -221,7 +215,6 @@
     <string name="opening_balance">Начальный баланс</string>
     <string name="parse_error_file_not_found">Не найден файл %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">Не поддерживаемая версия файла Grisbi: %1$s</string>
-    <string name="parse_error_no_data_found">Нет импортируемых данных в файле.</string>
     <string name="parse_error_other_exception">Возникла ошибка: %1$s</string>
     <string name="parse_error_parse_exception">Невозможно обработать файл</string>
     <string name="password_disabled_reenable">Защита паролем была отключена. Вы можете включить её в настройках.</string>
@@ -455,7 +448,6 @@
     <string name="restore_calendar_handling_ignore">Не восстанавливайте планы </string>
     <string name="restore_not_possible_target_calendar_missing">Календарь %s, установленный в архиве резервных копий, не существует локально. Восстановление было прервано.</string>
     <string name="restore_not_possible_local_calendar_missing">Текущий календарь планирования недоступен.</string>
-    <string name="menu_distribution_show_pie_char">Показать круговую диаграмму</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Устаревшие изображения</string>
     <string name="pref_manage_stale_images_summary">Управляйте фотографиями, оставшимися от удаленных транзакций</string>
@@ -527,8 +519,6 @@
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">Пожалуйста, введите URL к отдельной папке на Вашем WebDAV сервере. {app_name} будет хранить данные в ней, не затрагивая ничего иного.</string>
     <string name="description_webdav_trust_certificate">Интернет-сайт использует сертификат, которому не доверяет Android.</string>
-    <string name="hint_user_name">Имя пользователя</string>
-    <string name="hint_password">Пароль</string>
     <string name="label_trust_certificate">Доверять этому сертификату</string>
     <string name="no_sync_backends">Нет серверов синхронизации</string>
     <string name="menu_create_sync_backend">Новый сервер синхронизации</string>
@@ -540,7 +530,6 @@
     <string name="menu_sync_unlink">Остановить синхронизацию</string>
     <string name="menu_sync_link">Начать синхронизацию</string>
     <string name="menu_sync_download">Скачать и синхронизировать</string>
-    <string name="pref_sync_frequency_title">Частота синхронизации</string>
     <string name="pref_sync_frequency_summary">Как часто данные должны синхронизироваться (в часах)</string>
     <string name="dialog_confirm_sync_unlink">Если вы отсоедините этот счет от %s, состояние синхронизации будет потеряно. Чтобы связать их позже, требуется полная синхронизация для повторного выполнения.</string>
     <string name="dialog_sync_link">Счет с uuid %s существует как в локальной базе данных, так и на удаленном сервере. Когда вы свяжете оба, вам нужно решить, сначала Вы хотите загрузить локальные данные на удаленный сервер, или загрузить удаленные данные в локальную базу данных.</string>
@@ -591,8 +580,6 @@
     <string name="onboarding_get_started">Начало</string>
     <string name="onboarding_more_options">Больше опций</string>
     <string name="onboarding_restore_from_cloud">Восстановить из облака</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">Резервные копии</string>
     <string name="onboarding_restore_from_local">Восстановить из локального файла</string>
     <string name="contributed_by">Вклад внесен %s</string>
     <string name="pref_sync_notification_summary">Уведомить о состоянии синхронизации</string>
@@ -716,7 +703,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">Фильтр «ненанесенный на карту » не может быть включен в множественный выбор</string>
-    <string name="upgrade_information_cloud_sync_storage_format">В версии 2.9.8, был изменен способ хранения данных на серверах синхронизации. Пожалуйста обновите эту версию на всех синхронизированных устройствах, прежде чем вводить какие-либо новые записи на любом из них.</string>
     <string name="pref_security_export_passphrase_title">Парольная фраза для резервных копий</string>
     <string name="pref_security_export_passphrase_summary">Резервные копии будут зашифрованы этой парольной фразой</string>
     <string name="backup_is_encrypted">Файл резервной копии зашифрован. Чтобы расшифровать его, вам нужно указать его парольную фразу. </string>
@@ -776,7 +762,6 @@
     <string name="budget_filter_all_methods">Все методы</string>
     <string name="budget_filter_all_states">Все статусы</string>
     <string name="budget_filter_all_tags">Все теги</string>
-    <string name="budget_form_label_filter">Фильтр</string>
     <string name="dialog_title_warning_delete_budget">Удалить бюджет?</string>
     <string name="warning_delete_budget">Бюджет \"%1$s\" будет удален.</string>
     <string name="menu_edit_budget">Изменить бюджет</string>
@@ -802,7 +787,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">Клонированные операции сохраняют исходную дату</string>
     <string name="tags_create_or_select">Создать или выбрать теги</string>
-    <string name="tags">Теги</string>
     <string name="pref_manage_tags_summary">Добавить, изменить, удалить теги.</string>
     <string name="dialog_title_warning_delete_tag">Удалить тег?</string>
     <string name="menu_edit_tag">Изменить тег</string>
@@ -854,11 +838,9 @@
     <string name="advance_exexcution_in_days">Досрочное исполнение (в днях)</string>
     <string name="discover_feature_fab_long_press">Нажмите и удерживайте плавающую кнопку действия, чтобы напрямую открыть форму для переводов, разделения транзакций или дохода.</string>
     <string name="select_package">Пожалуйста, выберите пакет лицензий.</string>
-    <string name="pref_feature_uninstall_languages_title">Языки</string>
     <string name="scan_result_no_payee">Получатель платежа не найден</string>
     <string name="scan_result_no_date">Дата не найдена</string>
     <string name="scan_result_multiple_candidates_dialog_title">Найдено несколько кандидатов. Пожалуйста, выберите:</string>
-    <string name="scan_result_no_data">Нет данных</string>
     <string name="pref_criterion_future_current">Текущее время</string>
     <string name="pref_criterion_future_end_of_day">Конец дня</string>
     <string name="pref_criterion_futur_title">Критерий для будущих транзакций</string>
@@ -891,10 +873,8 @@
     <string name="warning_party_delete_debt">При удалении этой стороны долги, определенные для нее, также будут удалены.</string>
     <string name="merge_parties_select">Выберите название объединенной стороны:</string>
     <string name="account_widget_configuration">Настройка виджета счета</string>
-    <string name="dialog_title_warning_delete_party">Удалить сторону\?</string>
     <string name="debt_managment">Управление долгом</string>
     <string name="object_sealed_debt">Объект относится к закрытому долгу.</string>
-    <string name="dialog_title_delete_debt">Удалить долг\?</string>
     <string name="debts">Долги</string>
     <string name="debt_I_owe">Я должен %s</string>
     <string name="debt_owes_me">%s должен мне</string>

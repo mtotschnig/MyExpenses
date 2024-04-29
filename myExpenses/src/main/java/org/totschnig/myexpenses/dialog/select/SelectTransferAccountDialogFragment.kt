@@ -19,8 +19,10 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.TransferCriterion
 
-class SelectTransferAccountDialogFragment :
-    SelectFromMappedTableDialogFragment<TransferCriterion>(false) {
+class SelectTransferAccountDialogFragment : SelectFromMappedTableDialogFragment<TransferCriterion>(
+    false,
+    TransferCriterion::class.java
+) {
     override val dialogTitle: Int
         get() = R.string.search_transfer
     override val uri: Uri
@@ -31,10 +33,9 @@ class SelectTransferAccountDialogFragment :
     }
 
     companion object {
-        fun newInstance(rowId: Long): SelectTransferAccountDialogFragment {
-            val dialogFragment = SelectTransferAccountDialogFragment()
-            dialogFragment.setArguments(rowId)
-            return dialogFragment
-        }
+        fun newInstance(rowId: Long, criterion: TransferCriterion?) =
+            SelectTransferAccountDialogFragment().apply {
+                configureArguments(rowId, criterion)
+            }
     }
 }

@@ -11,5 +11,21 @@
     <string name="help_and_feedback">"Pomoč in povratne informacije"</string>
     <string name="currencies_exchange">"Valute in devizno poslovanje"</string>
     <string name="menu_sync_now">"Sinhroniziraj"</string>
-  <string name="do_not_show_again">Ne prikaži več</string>
+    <string name="do_not_show_again">Ne prikaži več</string>
+    <string name="color">"Barva"</string>
+    <string name="notes">"Opombe"</string>
+    <string name="cannot_be_undone">"Tega dejanja ni mogoče razveljaviti."</string>
+    <string name="configuration">"Konfiguracija"</string>
+    <string name="menu_open">"Odpri"</string>
+    <string name="menu_print">"Natisni"</string>
+    <string name="share">"Skupna raba"</string>
+    <string name="username">"Uporabniško ime"</string>
+    <string name="password">"Geslo"</string>
+    <string name="frequency">"Frekvenca"</string>
+    <string name="no_data">"Ni podatkov"</string>
+    <string name="color_component_title">"Izbira barve"</string>
+    <string name="filter">"Filtriranje"</string>
+    <string name="tags">"Oznake"</string>
+    <string name="languages">"Jeziki"</string>
+    <string name="full_screen">"Celotni zaslon"</string>
 </resources>

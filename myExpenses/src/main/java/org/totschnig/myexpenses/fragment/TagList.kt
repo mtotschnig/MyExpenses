@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.databinding.TagListBinding
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.filter.KEY_SELECTION
 import org.totschnig.myexpenses.ui.ContextAwareRecyclerView
 import org.totschnig.myexpenses.util.ui.setColor
 import org.totschnig.myexpenses.viewmodel.TagBaseViewModel.Companion.KEY_DELETED_IDS
@@ -128,13 +129,13 @@ class TagList : Fragment(), OnDialogResultListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val selected = activity?.intent?.getLongArrayExtra(KEY_SELECTED_IDS)
+        val selected = activity?.intent?.getLongArrayExtra(KEY_SELECTION)
         adapter = Adapter()
         registerForContextMenu(binding.recyclerView)
         binding.recyclerView.adapter = adapter
         viewModel.tags.observe(viewLifecycleOwner) {
             adapter.submitList(it)
-            binding.emptyView.isVisible = it.isEmpty()
+            binding.emptyView.isVisible = it.isEmpty() && allowModifications
         }
 
         selected?.let { viewModel.selectedTagIds = it.toHashSet() }

@@ -8,5 +8,23 @@
     <string name="help_and_feedback">"Pomoć i povratne informacije"</string>
     <string name="currencies_exchange">"Valute i devize"</string>
     <string name="menu_sync_now">"Sinhroniziraj sada"</string>
-  <string name="do_not_show_again">Ne prikazuj ponovo</string>
+    <string name="do_not_show_again">Ne prikazuj ponovo</string>
+    <string name="color">"Boja"</string>
+    <string name="notes">"Bilješke"</string>
+    <string name="paper_format">Format papira</string>
+    <string name="configuration">"Konfiguracija"</string>
+    <string name="menu_open">"Otvori"</string>
+    <string name="username">"Korisničko ime"</string>
+    <string name="password">"Lozinka"</string>
+    <string name="pixels">"pikseli"</string>
+    <string name="frequency">"Frekvencija"</string>
+    <string name="required">"Zahtijevano"</string>
+    <string name="quality">"Kvalitet"</string>
+    <string name="no_data">"Nema podataka"</string>
+    <string name="color_component_title">"Odaberite boju"</string>
+    <string name="backups">"Sigurnosne kopije"</string>
+    <string name="filter">"Filtrirajte"</string>
+    <string name="languages">"Jezici"</string>
+    <string name="chart">"Grafik"</string>
+    <string name="full_screen">"Cijeli ekran"</string>
 </resources>

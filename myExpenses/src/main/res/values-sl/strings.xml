@@ -33,8 +33,6 @@
     <string name="account_type_liability_plural">Računi obveznosti</string>
     <string name="already_defined">%1$s že določeno</string>
     <string name="amount">Znesek</string>
-    <string name="color">Barva</string>
-    <string name="comment">Zabeležke</string>
     <string name="pm_creditcard">Kreditna kartica</string>
     <string name="new_version">Nova različica</string>
     <string name="add_shortcut">Dodaj bližnico</string>

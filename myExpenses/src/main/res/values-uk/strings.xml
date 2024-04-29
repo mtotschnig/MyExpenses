@@ -37,14 +37,12 @@
     <string name="app_name">Мої Витрати</string>
     <string name="backup_success">Бази даних та налаштування успішно записані на \"%1$s\".</string>
     <string name="category">Категорія</string>
-    <string name="color">Колір</string>
-    <string name="comment">Нотатки</string>
     <string name="contrib_feature_ad_free_label">Без реклами</string>
     <string name="contrib_feature_accounts_unlimited_label">Необмежена кількість облікових записів</string>
-    <string name="contrib_feature_attach_picture_label">Прикріпити зображення до операції</string>
+    <string name="contrib_feature_attach_picture_label">Прикріпити зображення до транзакції</string>
     <string name="contrib_feature_distribution_label">Секторна діаграма (розподіл за категоріями)</string>
     <string name="contrib_feature_plans_unlimited_label">Необмежена кількість планів</string>
-    <string name="contrib_feature_print_label">Експорт операцій в PDF</string>
+    <string name="contrib_feature_print_label">Експорт транзакцій в PDF</string>
     <string name="contrib_feature_csv_import_label">Імпортування CSV</string>
     <string name="contrib_feature_split_template_label">Необмежена кількість шаблонів поділу</string>
     <string name="contrib_feature_pro_support_label"><b>Сервіс підтримки</b> через електронну пошту з гарантованою відповіддю протягом 2 робочих днів</string>
@@ -64,18 +62,18 @@
     <string name="decimal_separator">Десятковий розділювач</string>
     <string name="default_account_name">Бюджет</string>
     <string name="description">Опис</string>
-    <string name="dialog_balance_delete">Видалити узгоджені операції</string>
+    <string name="dialog_balance_delete">Видалити узгоджені транзакції</string>
     <string name="dialog_confirm_discard_changes">Відхилити змніи?</string>
-    <string name="dialog_command_disabled_balance">Немає підтверджених операцій для узгодження.</string>
-    <string name="dialog_command_disabled_insert_transfer">Операції переказу вимагають наявності другого рахунку.</string>
+    <string name="dialog_command_disabled_balance">Немає підтверджених транзакцій для узгодження.</string>
+    <string name="dialog_command_disabled_insert_transfer">Транзакції переказу вимагають наявності другого рахунку.</string>
     <string name="dialog_contrib_reminder_remove_limitation">Усуньте це обмеження та отримайте доступ до додаткових функцій, модернізувавши <i>{app_name}</i> до преміум-версії.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> надається з відкритим програмним кодом.</string>
     <string name="dialog_contrib_text_2">Будь ласка, підтримайте проект, модернізувавши <i>{app_name}</i>, та отримайте необмежений доступ до таких функцій:</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Ваш поточний статус ліцензії (%2$s) дозволяє створювати %1$d рахунки.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Ваш поточний статус ліцензії (%2$s) дозволяє створювати %1$d плани.</string>
     <string name="dialog_contrib_usage_limit_split_templates">Ваш поточна ліцензія (%1$s) дозволяє створювати 1 шаблон поділу.</string>
-    <string name="dialog_export_delete">Видалити експортовані операції</string>
-    <string name="dialog_export_not_yet_exported">Експортувати ще неекспортовані операції</string>
+    <string name="dialog_export_delete">Видалити експортовані транзакції</string>
+    <string name="dialog_export_not_yet_exported">Експортувати ще неекспортовані транзакції</string>
     <string name="dialog_password_activate_protection">Активувати захист паролем</string>
     <string name="dialog_password_change_password">Змінити пароль</string>
     <string name="dialog_password_new_password">Новий пароль</string>
@@ -93,7 +91,7 @@
     <string name="dialog_title_balance_account">Баланс %1$s</string>
     <string name="dialog_title_contrib_feature">Преміум функція</string>
     <string name="dialog_title_warning_delete_template">Видалити шаблон?</string>
-    <string name="dialog_title_warning_delete_transaction">Видалити операцію?</string>
+    <string name="dialog_title_warning_delete_transaction">Видалити транзакцію?</string>
     <string name="expense">Витрати</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">Не вдалось експортувати витрати в \"%1$s\": %2$s</string>
@@ -113,7 +111,7 @@
     <string name="help_button_rate">Залишити відгук</string>
     <string name="help_heading_credits">Кредити</string>
     <string name="help_heading_whats_new">Що нового</string>
-    <string name="import_select_transactions">Банківські операції</string>
+    <string name="import_select_transactions">Транзакції</string>
     <string name="income">Дохід</string>
     <string name="label">Помітка</string>
     <string name="licence_validation_failure">Не вдається перевірити ліцензійний ключ.</string>
@@ -142,9 +140,9 @@
     <string name="menu_create_sub_cat">Нова підкатегорія</string>
     <string name="menu_create_template">Новий шаблон</string>
     <string name="menu_create_template_from_transaction">Зберегти як шаблон</string>
-    <string name="menu_create_template_for_transaction">Новий шаблон операції</string>
+    <string name="menu_create_template_for_transaction">Новий шаблон транзакції</string>
     <string name="menu_create_template_for_transfer">Новий шаблон переказу</string>
-    <string name="menu_create_transaction">Нова операція</string>
+    <string name="menu_create_transaction">Нова транзакція</string>
     <string name="menu_create_transfer">Новий переказ</string>
     <string name="menu_delete">Видалити</string>
     <string name="menu_distribution">Розподіл</string>
@@ -158,7 +156,7 @@
     <string name="menu_edit_split_part_category">Редагувати частину поділу категорії</string>
     <string name="menu_edit_split_part_transfer">Редагувати частину поділу переказу</string>
     <string name="menu_edit_template">Редагувати шаблон</string>
-    <string name="menu_edit_transaction">Редагувати операцію</string>
+    <string name="menu_edit_transaction">Редагувати транзакцію</string>
     <string name="menu_edit_transfer">Редагувати переказ</string>
     <string name="menu_exclude_from_totals">Виключити з суми</string>
     <string name="menu_forward">Вперед</string>
@@ -167,10 +165,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Інвертувати</string>
     <string name="menu_manage_plans">Шаблони та плани</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Відкрити</string>
     <string name="menu_import">Імпортувати</string>
-    <string name="menu_print">Друкувати</string>
     <string name="menu_reset">Експортувати та скинути</string>
     <string name="menu_reset_all">Експортувати та скинути все</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -178,7 +173,6 @@
     <string name="menu_save">Зберегти</string>
     <string name="menu_save_and_new">Зберегти і створити</string>
     <string name="menu_share">Розповісти другу</string>
-    <string name="button_label_share_file">Поділитися</string>
     <string name="button_label_close">Закрити</string>
     <string name="menu_split_transaction">Поділити</string>
     <string name="method">Спосіб оплати</string>
@@ -187,19 +181,19 @@
     <string name="no_app_handling_pdf_available">Відсутня програма для роботи з PDF-файлами.</string>
     <string name="no_categories">Немає категорій.</string>
     <string name="no_expenses">Ще немає витрат!</string>
-    <string name="no_exportable_expenses">Немає операцій, які ще не були експортовані.</string>
+    <string name="no_exportable_expenses">Немає транзакцій, які ще не були експортовані.</string>
     <string name="no_filemanager_installed">Немає встановленого файлового менеджера</string>
     <string name="no_calendar_app_installed">Відсутня програма для редагування подій календаря.</string>
-    <string name="no_mapped_transactions">Протягом цього періоду жодній операції не було присвоєно категорію.</string>
+    <string name="no_mapped_transactions">Протягом цього періоду жодній транзакції не було присвоєно категорію.</string>
     <string name="no_methods">Немає способів оплати.</string>
     <string name="no_parties">Немає учасників.</string>
     <string name="no_split_parts">Немає частин поділу.</string>
     <string name="no_templates">Немає шаблонів.</string>
     <plurals name="not_deletable_mapped_transactions">
-        <item quantity="one">Обраний об\'єкт не може бути видалено через наявність зв\'язку з операціями.</item>
-        <item quantity="few">%1$d об\'єкти не може бути видалено через наявність зв\'язку з операціями.</item>
-        <item quantity="many">%1$d об\'єктів не може бути видалено через наявність зв\'язку з операціями.</item>
-        <item quantity="other">%1$d об\'єкти не може бути видалено через наявність зв\'язку з операціями.</item>
+        <item quantity="one">Обраний об\'єкт не може бути видалено через наявність зв\'язку з транзакціями.</item>
+        <item quantity="few">%1$d об\'єкти не може бути видалено через наявність зв\'язку з транзакціями.</item>
+        <item quantity="many">%1$d об\'єктів не може бути видалено через наявність зв\'язку з транзакціями.</item>
+        <item quantity="other">%1$d об\'єктів не може бути видалено через наявність зв\'язку з транзакціями.</item>
     </plurals>
     <plurals name="not_deletable_mapped_templates">
         <item quantity="one">Обраний об\'єкт зв\'язаний з шаблоном і не може бути видалений.</item>
@@ -211,7 +205,6 @@
     <string name="opening_balance">Початковий баланс</string>
     <string name="parse_error_file_not_found">Не вдалося знайти файл %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">Непідтримувана версія файлу Grisbi: %1$s</string>
-    <string name="parse_error_no_data_found">У файлі не знайдено жодних імпортованих даних.</string>
     <string name="parse_error_other_exception">Виникла помилка: %1$s</string>
     <string name="parse_error_parse_exception">Не вдалося розпізнати файл</string>
     <string name="password_disabled_reenable">Захист паролів було вимкнено. Ви можете повторно увімкнути його в налаштуваннях.</string>
@@ -243,11 +236,11 @@
     <string name="pm_type_debit">Дебет</string>
     <string name="pm_type_neutral">Нейтральний</string>
     <string name="pref_app_dir_title">Тека для резервних копій та експорту</string>
-    <string name="pref_auto_fill_summary">Заповніть дані з останньої операції для того самого одержувача / платника</string>
+    <string name="pref_auto_fill_summary">Заповніть дані з останньої транзакції для того самого одержувача / платника</string>
     <string name="pref_backup_summary">Створення резервної копії бази даних та налаштувань.</string>
     <string name="pref_sort_order_usages">Кількість використань</string>
     <string name="pref_category_title_export">Експорт</string>
-    <string name="pref_category_title_import">Імпортувати</string>
+    <string name="pref_category_title_import">Імпорт</string>
     <string name="pref_category_title_manage">Керувати</string>
     <string name="pref_category_title_more_information">Додаткові відомості</string>
     <string name="pref_category_title_ui">Користувацький інтерфейс</string>
@@ -260,7 +253,7 @@
     <string name="pref_import_from_grisbi_summary">Імпортуйте категорії та учасників з XML-файлу Grisbi</string>
     <string name="pref_import_from_grisbi_title">Імпортувати з Grisbi</string>
     <!-- %s is replaced with QIF or CSV -->
-    <string name="pref_import_summary">Імпортуйте операції, категорії та учасників з файлу %s</string>
+    <string name="pref_import_summary">Імпортуйте транзакції, категорії та учасників з файлу %s</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">Імпорт %s</string>
     <string name="pref_manage_accounts_title">Рахунки</string>
@@ -278,7 +271,7 @@
     <string name="pref_perform_share_title">Поділитися експортом та резервними копіями</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Створити новий локальний календар планів</string>
-    <string name="pref_planning_calendar_summary">Виберіть календар, в якому зберігаються плани для майбутніх та повторюваних операцій</string>
+    <string name="pref_planning_calendar_summary">Виберіть календар, в якому зберігаються плани для майбутніх та повторюваних транзакцій</string>
     <string name="pref_protection_delay_seconds_summary">Чекати секунд до того, як програму буде заблоковано паролем.</string>
     <string name="pref_protection_delay_seconds_title">Затримка до захисту</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Введення даних із віджетів та ярликів</string>
@@ -290,7 +283,7 @@
     <string name="pref_security_question_summary">Дозволяє розблокувати програму, якщо ви забули свій пароль.</string>
     <string name="pref_security_question_title">Контрольне запитання</string>
     <string name="pref_send_feedback_title">Надіслати відгук</string>
-    <string name="pref_share_target_summary">Залиште порожнім, якщо потрібно вибрати між відповідними програми (Email, Dropbox, Google Docs, ...) або вкажіть URL-адресу з однією із підтримуваних схем</string>
+    <string name="pref_share_target_summary">Залиште порожнім, якщо потрібно вибрати між відповідними програми (Email, Dropbox, Google Docs, …) або вкажіть URL-адресу з однією із підтримуваних схем</string>
     <string name="pref_share_target_title">URL для завантаження</string>
     <string name="pref_shortcut_added">Ярлик було додано до Головного Екрана</string>
     <string name="pref_shortcut_not_added">Немає Головного Екрану, який би підтримув ярлики.</string>
@@ -312,18 +305,18 @@
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Не вдається об\'єднати їх у існуючий рахунок.</string>
     <string name="reference_number">Номер посилання</string>
     <string name="restore_db_failure">Не вдалося відновити базу даних.</string>
-    <string name="restore_db_success">База даних була відновлена ​​з резервної копії.</string>
+    <string name="restore_db_success">База даних відновлена з резервної копії.</string>
     <string name="restore_preferences_failure">Помилка відновлення налаштувань</string>
     <string name="restore_backup_file_not_found">Не знайдено файлу %1$s в архіві \"%2$s\"</string>
     <string name="restore_preferences_success">Налаштування відновлено з резервної копії.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d плани було відновлено з резервної копії</string>
     <string name="save_transaction_and_new_success">Успішно збережено</string>
-    <string name="save_transaction_error">Не вдалося зберегти нову операцію з шаблону.</string>
+    <string name="save_transaction_error">Не вдалося зберегти нову транзакцію з шаблону.</string>
     <plurals name="save_transaction_from_template_success">
-        <item quantity="one">Нова операція була успішно збережена з шаблону.</item>
-        <item quantity="few">%1$d нові операції було успішно збережено з шаблонів.</item>
-        <item quantity="many">%1$d нових операцій було успішно збережено з шаблонів.</item>
-        <item quantity="other">%1$d нові операції було успішно збережено з шаблонів.</item>
+        <item quantity="one">Нова транзакція була успішно збережена з шаблону.</item>
+        <item quantity="few">%1$d нові транзакції було успішно збережено з шаблонів.</item>
+        <item quantity="many">%1$d нових транзакцій було успішно збережено з шаблонів.</item>
+        <item quantity="other">%1$d нових транзакцій було успішно збережено з шаблонів.</item>
     </plurals>
     <string name="save_transaction_template_deleted">Шаблон видалено</string>
     <string name="select">Вибрати</string>
@@ -331,7 +324,7 @@
     <string name="share_scheme_not_supported">Схема %1$s не підтримується</string>
     <string name="share_sending">Надіслати експортний файл</string>
     <string name="split_parts_heading">Частини поділу</string>
-    <string name="split_transaction">Поділена операція</string>
+    <string name="split_transaction">Поділена транзакція</string>
     <string name="status">Статус</string>
     <string name="status_cleared">підтверджено</string>
     <string name="status_reconciled">узгоджено</string>
@@ -346,9 +339,9 @@
     <string name="thank_you">Дякуємо за Вашу підтримку!</string>
     <string name="time">Час</string>
     <string name="title">Назва</string>
-    <string name="total_cleared">Сума підтверджених операцій</string>
+    <string name="total_cleared">Сума підтверджених транзакцій</string>
     <string name="total_reconciled">Узгоджена сума</string>
-    <string name="transaction">Операція</string>
+    <string name="transaction">Транзакція</string>
     <string name="transfer">Переказ</string>
     <string name="transfer_from_account">Від</string>
     <string name="transfer_to_account">До</string>
@@ -358,7 +351,7 @@
     <string name="unsplit_amount_greater_than_zero">Частина суми все ще не поділена.</string>
     <string name="warning_backup">Базу даних та налаштування буде збережено в \"%1$s\".</string>
     <string name="continue_confirmation">Бажаєте продовжити?</string>
-    <string name="warning_delete_account">Рахунок \"%1$s\" буде видалено разом з усіма його операціями.</string>
+    <string name="warning_delete_account">Рахунок \"%1$s\" буде видалено разом з усіма його транзакціями.</string>
     <plurals name="warning_delete_main_category">
         <item quantity="one">У вибраної категорії є підкатегорії, які також буде видалено.</item>
         <item quantity="few">%1$d вибрані категорії мають підкатегорії, які також буде видалено.</item>
@@ -372,25 +365,25 @@
         <item quantity="other">%1$d вибрані шаблони буде видалено.</item>
     </plurals>
     <plurals name="warning_delete_transaction">
-        <item quantity="one">Вибрану операцію буде видалено.</item>
-        <item quantity="few">%1$d вибрані операції буде видалено.</item>
-        <item quantity="many">%1$d вибраних операцій буде видалено.</item>
-        <item quantity="other">%1$d вибрані операції буде видалено.</item>
+        <item quantity="one">Вибрану транзакцію буде видалено.</item>
+        <item quantity="few">%1$d вибрані транзакції буде видалено.</item>
+        <item quantity="many">%1$d вибраних транзакцій буде видалено.</item>
+        <item quantity="other">%1$d вибраних транзакцій буде видалено.</item>
     </plurals>
     <string name="move_category_success">Одну категорію було успішно переміщено.</string>
     <string name="move_category_failure">Одну категорію не було переміщено, оскільки така сама назва вже існує в місці призначення.</string>
-    <string name="warning_delete_reconciled">Видалення узгоджених операцій призведе до розбіжностей між записами та банківською випискою.</string>
-    <string name="warning_balance_account">Будь ласка, порівняйте суму підтверджених операцій з кінцевим балансом у виписці з банку. Якщо Ви продовжите, то підтверджені операції будуть позначені як узгоджені.</string>
+    <string name="warning_delete_reconciled">Видалення узгоджених транзакцій призведе до розбіжностей між записами та банківською випискою.</string>
+    <string name="warning_balance_account">Будь ласка, порівняйте суму підтверджених транзакцій з кінцевим балансом у виписці з банку. Якщо Ви продовжите, то підтверджені транзакції будуть позначені як узгоджені.</string>
     <string name="warning_password_protected">Програма захищена паролем.</string>
     <string name="warning_widget_disabled">Вам потрібно увімкнути цей віджет у налаштуваннях програми.</string>
     <string name="warning_instantiate_template_from_widget_password_protected">Швидке створення шаблонів з цього віджета працює, лише якщо Ви дозволите введення даних із віджетів без пароля в налаштуваннях програми.</string>
     <string name="warning_password_contrib">Встановлення контрольного запитання дозволяє розблокувати програму, якщо Ви забудете свій пароль.</string>
-    <string name="warning_reset_account">Якщо Ви продовжите, всі операції цього рахунку будуть видалені з бази даних, і більше не зможуть бути відновлені.</string>
+    <string name="warning_reset_account">Якщо ви продовжите, всі транзакції цього рахунку будуть видалені з бази даних, і більше не зможуть бути відновлені.</string>
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
-    <string name="warning_reset_account_all">Якщо продовжити, операції всіх рахунків %1$s будуть видалені з бази даних, і більше не зможуть бути відновлені.</string>
-    <string name="warning_reset_account_matched">Якщо ви продовжите, операції, які відповідають поточному фільтру, будуть видалені з бази даних, і більше не зможуть бути відновлені.</string>
+    <string name="warning_reset_account_all">Якщо продовжити, транзакції всіх рахунків %1$s будуть видалені з бази даних, і більше не зможуть бути відновлені.</string>
+    <string name="warning_reset_account_matched">Якщо ви продовжите, транзакції, які відповідають поточному фільтру, будуть видалені з бази даних, і більше не зможуть бути відновлені.</string>
     <string name="warning_restore">Базу даних та налаштування буде відновлено з файлу \"%1$s\". Поточні дані будуть видалені.</string>
-    <string name="warning_splitpartcategory_context">Операції, що є частиною поділу, можна редагувати лише в контексті поділу.</string>
+    <string name="warning_splitpartcategory_context">Транзакції, що є частиною поділу, можна редагувати лише в контексті поділу.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Будь ласка, вкажіть число між %1$d та %2$d</string>
     <string name="warning_change_fraction_digits_1">Суми в базі даних потрібно оновити, щоб вони відповідали новому налаштуванню кількості знаків після коми.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Якщо суми не оновити, після зміни вони відображатимуться як помножені на %d.</string>
@@ -400,11 +393,11 @@
     <string name="import_categories_success">Успішно імпортовано %1$d категорії.</string>
     <string name="import_parties_success">Успішно імпортовано %1$d учасників.</string>
     <string name="import_accounts_success">Успішно імпортовано %1$d рахунки.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d операцій успішно імпортовано до рахунку %2$s</string>
+    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$dтранзакцій успішно імпортовано до рахунку %2$s</string>
     <string name="import_accounts_none">Не було імпортовано жодних рахунків</string>
     <string name="import_categories_none">Не було імпортовано жодних категорій</string>
     <string name="import_parties_none">Не було імпортовано жодних учасників</string>
-    <string name="import_transactions_none">Не було імпортовано жодних операцій до рахунку %1$s</string>
+    <string name="import_transactions_none">Не було імпортовано жодних транзакцій до рахунку %1$s</string>
     <string name="import_source_select_error">Будь ласка, виберіть файл типу %1$s</string>
     <string name="menu_categories_setup_default">Налаштувати категорії за замовчуванням</string>
     <string name="menu_create_folder">Нова тека</string>
@@ -433,7 +426,7 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">після</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Покупка не вдалася або була скасована.</string>
-    <string name="hint_auto_fill">Чи повинні дані заповнюватися автоматично з останньої операції для того самого одержувача / платника? Ви завжди можете змінити цю поведінку в налаштуваннях.</string>
+    <string name="hint_auto_fill">Чи повинні дані заповнюватися автоматично з останньої транзакції для того самого одержувача / платника? Ви завжди можете змінити цю поведінку в налаштуваннях.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">Було оновлено %1$d рахунків з валютою %2$s.</string>
     <string name="import_source_file">Файл</string>
     <string name="restore_calendar_handling">Обробка даних календаря</string>
@@ -442,18 +435,17 @@
     <string name="restore_calendar_handling_ignore">Не відновлювати плани</string>
     <string name="restore_not_possible_target_calendar_missing">Календар %s, визначений в резервній копії, не існує локально. Відновлення було перервано.</string>
     <string name="restore_not_possible_local_calendar_missing">Поточний календар планування недоступний.</string>
-    <string name="menu_distribution_show_pie_char">Показати кругову діаграму</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Старі зображення</string>
-    <string name="pref_manage_stale_images_summary">Керування зображеннями, залишеними після видалених операцій</string>
+    <string name="pref_manage_stale_images_summary">Керування зображеннями, залишеними після видалених транзакцій</string>
     <string name="image_deleted">Зображення було видалено</string>
-    <string name="transaction_deleted">Операцію було видалено</string>
-    <string name="dialog_export_applied_to_filter">Буде розглянуто лише операції, які відповідають поточному фільтру.</string>
-    <string name="export_handle_deleted_create_helper">Створити допоміжну операцію</string>
+    <string name="transaction_deleted">Транзакцію було видалено</string>
+    <string name="dialog_export_applied_to_filter">Буде розглянуто лише транзакції, які відповідають поточному фільтру.</string>
+    <string name="export_handle_deleted_create_helper">Створити допоміжну транзакцію</string>
     <string name="export_handle_deleted_update_balance">Оновити початковий баланс</string>
     <string name="file_name">Назва файлу</string>
     <string name="folder_name">Назва теки</string>
-    <string name="mark_void_instead_of_delete">Не видаляти операцію, натомість позначати її як недійсну.</string>
+    <string name="mark_void_instead_of_delete">Не видаляти транзакцію, натомість позначати її як недійсну.</string>
     <string name="menu_undelete_transaction">Скасувати видалення</string>
     <string name="slash_forbidden_in_filename">Символ / заборонений в назвах файлів</string>
     <string name="io_error_unable_to_create_file">Не вдалось створити файл %1$s у теці %2$s</string>
@@ -469,13 +461,13 @@
     <string name="csv_import_delimiter_semicolon">Крапка з комою</string>
     <string name="csv_import_delimiter_tab">Табуляція</string>
     <string name="csv_import_no_mapping_found_for_amount">Будь-ласка, зв\'яжіть один стовпець з сумою, доходом або витратами.</string>
-    <string name="menu_show_transactions">Показати операції</string>
+    <string name="menu_show_transactions">Показати транзакції</string>
     <string name="pref_custom_decimal_format_title">Формат чисел</string>
     <string name="pref_custom_decimal_format_summary">Якщо Ви незадоволені форматом за замовчуванням для ваших регіональних налаштувань, Ви можете адаптувати його до ваших потреб. Залиште порожнім, щоб відновити системний формат.</string>
     <string name="pref_auto_backup_title">Автоматична резервна копія</string>
     <string name="pref_auto_backup_summary">Резервне копіювання бази даних щодня в зазначений час (тільки якщо дані змінилися).</string>
     <string name="pref_auto_backup_time_title">Час автоматичного резервного копіювання</string>
-    <string name="calendar_permission_required"><i>{app_name}</i> потрібен дозвіл на доступ до вашого календаря, щоб створювати плани для майбутніх та повторюваних операцій.</string>
+    <string name="calendar_permission_required"><i>{app_name}</i> потрібен дозвіл на доступ до вашого календаря, щоб створювати плани для майбутніх та повторюваних транзакцій.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Надати дозвіл</string>
     <string name="switch_on_text">Ввімкнено</string>
     <string name="switch_off_text">Вимкнено</string>
@@ -499,10 +491,10 @@
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">застосований</string>
     <string name="progress_dialog_updating_split_parts">Оновлення частин поділу</string>
-    <string name="warning_cannot_move_split_transaction">Ця поділена операція не може бути переміщена до рахунку %1$s, оскільки є частини переказу, які стосуються поточного рахунку.</string>
+    <string name="warning_cannot_move_split_transaction">Ця розділена транзакція не може бути переміщена до рахунку %1$s, оскільки є частини переказу, які стосуються поточного рахунку.</string>
     <string name="content_description_calculator_clear_button">Скинути все</string>
     <string name="content_description_calculator_delete_button">Видалити останню цифру</string>
-    <string name="paypal_callback_info">Ваша операція була успішно завершена, а квитанція про вашу покупку була надіслана вам електронною поштою. Ви можете увійти до свого облікового запису на сайті www.paypal.com, щоб переглянути деталі цієї покупки.</string>
+    <string name="paypal_callback_info">Ваша транзакція була успішно завершена, а квитанція про вашу покупку була надіслана вам електронною поштою. Ви можете увійти до свого облікового запису на сайті www.paypal.com, щоб переглянути деталі цієї покупки.</string>
     <string name="search_transfer">Шукати переказ</string>
     <!-- Sort plans (recurring transactions) by the next instance  -->
     <string name="pref_sort_order_next_instance">Наступний екземпляр</string>
@@ -514,8 +506,6 @@
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">Введіть URL-адресу до спеціальної теки на сервері WebDAV. {app_name} зберігатиме свої дані всередині цієї теки, та не доступатиметься до даних поза нею.</string>
     <string name="description_webdav_trust_certificate">Веб-сайт використовує сертифікат, якому не довіряє Android.</string>
-    <string name="hint_user_name">Ім\'я користувача</string>
-    <string name="hint_password">Пароль</string>
     <string name="label_trust_certificate">Довіряти цьому сертифікату</string>
     <string name="no_sync_backends">Немає серверів синхронізації</string>
     <string name="menu_create_sync_backend">Новий сервер синхронізації</string>
@@ -527,7 +517,6 @@
     <string name="menu_sync_unlink">Зупинити синхронізацію</string>
     <string name="menu_sync_link">Почати синхронізацію</string>
     <string name="menu_sync_download">Завантажити та синхронізувати</string>
-    <string name="pref_sync_frequency_title">Частота синхронізації</string>
     <string name="pref_sync_frequency_summary">Як часто потрібно синхронізувати дані (у годинах)</string>
     <string name="dialog_confirm_sync_unlink">Якщо ви відв\'яжете цей рахунок від %s, статус синхронізації втратиться. Зв\'завши їх знову пізніше, потрібно буде ще раз виконати повну синхронізацію.</string>
     <string name="dialog_sync_link">Рахунок з uuid %s існує як у локальній базі даних, так і на віддаленому сервері. Коли ви зв\'яжете обидва, вам потрібно вирішити, чи спочатку Ви хочете завантажити локальні дані на віддалений сервер, чи завантажити віддалені дані до локальної бази даних.</string>
@@ -633,20 +622,20 @@
     <string name="menu_original_amount">Оригінальна сума</string>
     <string name="menu_equivalent_amount">Еквівалентна сума</string>
     <string name="home_currency_change_warning">Якщо Ви зміните свою домашню валюту, еквівалентні суми та курси обміну будуть втрачені, і їх потрібно буде знову визначити.</string>
-    <string name="warning_split_transactions">Вибрані операції будуть згруповані в одну поділену операцію. Їх інформація про дату буде втрачена, тобто замінена на середнє значення.</string>
-    <string name="warning_ungroup_split_transactions">Вибрані поділені операції будуть розгруповані, тобто їх частини поділу стануть звичайними операціями.</string>
+    <string name="warning_split_transactions">Вибрані транзакції будуть згруповані в одну поділену транзакцію. Їх інформація про дату буде втрачена, тобто замінена на середнє значення.</string>
+    <string name="warning_ungroup_split_transactions">Вибрані розділені транзакції будуть розгруповані, тобто їх частини поділу стануть звичайними транзакціями.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">Розгрупувати поділ</string>
-    <string name="ungroup_split_transaction_success">Поділену операцію було успішно розгруповано.</string>
-    <string name="split_transaction_one_success">Операцію успішно перетворено у поділ.</string>
-    <string name="split_transaction_group_success">%1$d операції були успішно згруповані в одну поділену операцію.</string>
-    <string name="split_transaction_not_possible">Тільки операції з тим самим рахунком, одержувачем платежу та статусом можуть бути об\'єднані в одну поділену операцію.</string>
-    <string name="pref_transaction_time_summary">Дозволяти вказувати точний час операції.</string>
-    <string name="pref_value_date_summary">Дозволити встановити дату валютування на додачу до дати створення замовлення. Час операції буде приховано. Цей параметр не застосовується до грошових рахунків.</string>
+    <string name="ungroup_split_transaction_success">Розділену транзакцію було успішно розгруповано.</string>
+    <string name="split_transaction_one_success">Транзакцію успішно перетворено у розділену.</string>
+    <string name="split_transaction_group_success">%1$d транзакції були успішно згруповані в одну розділену транзакцію.</string>
+    <string name="split_transaction_not_possible">Тільки транзакції з тим самим рахунком, одержувачем платежу та статусом можуть бути об\'єднані в одну розділену транзакцію.</string>
+    <string name="pref_transaction_time_summary">Дозволяти вказувати точний час транзакції.</string>
+    <string name="pref_value_date_summary">Дозволити встановити дату валютування на додачу до дати бронювання. Час транзакції буде приховано. Цей параметр не застосовується до готівкових рахунків.</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
-    <string name="booking_date">Дата створення операції</string>
+    <string name="booking_date">Дата бронювання</string>
     <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->
-    <string name="value_date">Дата проведення операції</string>
+    <string name="value_date">Дата проведення транзакції</string>
     <string name="licence_expires_n_days">Ваша підписка на Професійну версію закінчиться через %d днів.</string>
     <string name="licence_expires_tomorrow">Ваша підписка на Професійну версію закінчиться завтра.</string>
     <string name="licence_expires_today">Ваша підписка на Професійну версію закінчується сьогодні.</string>
@@ -669,7 +658,7 @@
     <string name="saving_goal">Ціль заощадження</string>
     <string name="credit_limit">Кредитний ліміт</string>
     <string name="clear_all_filters">Очистити всі фільтри</string>
-    <string name="pref_scroll_to_current_date_summary">Після запуску програми прокручувати список операцій до поточної дати</string>
+    <string name="pref_scroll_to_current_date_summary">Після запуску програми прокручувати список транзакцій до поточної дати</string>
     <string name="professional_key_fallback_info">Підписку на Професійну версію, яка була активною протягом принаймні одного року та не була поновлена, буде автоматично перетворено в необмежену Розширену версію.</string>
     <string name="menu_budget">Бюджетування</string>
     <string name="dialog_title_edit_budget">Редагувати бюджет</string>
@@ -698,7 +687,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">Фільтр \"Незв\'язані\" не можна включити до множинного вибору</string>
-    <string name="upgrade_information_cloud_sync_storage_format">У версії 2.9.8 змінено спосіб зберігання даних на серверах синхронізації. Будь ласка, оновіться до цієї версії на всіх синхронізованих пристроях, перш ніж вводити нові записи на будь-якому з них.</string>
     <string name="pref_security_export_passphrase_title">Фраза-пароль для резервних копій</string>
     <string name="pref_security_export_passphrase_summary">Резервні копії будуть зашифровані за допомогою цієї фрази</string>
     <string name="backup_is_encrypted">Файл резервної копії зашифровано. Для розшифрування, потрібно ввести фразу-пароль.</string>
@@ -730,7 +718,7 @@
     <string name="pref_category_title_crash_reports">Звіти про помилки</string>
     <string name="pref_enable_acra">Дозволити автоматичне надсилання звітів про помилки</string>
     <string name="pref_acra_user_email">Емейл користувача буде включено у звіт про помилки</string>
-    <string name="pref_acra_user_email_summary">Будь ласка, вкажіть свій емейл, якщо Ви хочете допомогти у виправленні помилок і даєте згоду на контакт з Вами</string>
+    <string name="pref_acra_user_email_summary">Будь ласка, вкажіть свій ел-пошту, якщо ви хочете допомогти у виправленні помилок і даєте згоду на контакт з вами.</string>
     <string name="bug_fixes">Виправлення помилок</string>
     <string name="performance_enhancement">Покращення швидкодії</string>
     <string name="stability_improvements">Покращення стабільності</string>
@@ -759,7 +747,6 @@
     </plurals>
     <string name="icon">Значок</string>
     <string name="budget_filter_all_accounts">Усі рахунки</string>
-    <string name="budget_form_label_filter">Фільтр</string>
     <string name="app_restart_required">Нова конфігурація вимагає перезапуску програми, щоб вступити в силу.</string>
     <string name="menu_save_and_new_content_description">Збережіть дані, залиште форму відкритою для створення нової транзакції з тими самими даними.</string>
     <string name="pref_ocr_engine_title">Двигун для розпізнавання тексту</string>
@@ -772,8 +759,6 @@
     <string name="language_download_requested">Переклади для мови %s запитуються в Play Store</string>
     <string name="dialog_multi_tag_replace">Замініть існуючі теги на нові</string>
     <string name="pref_planner_manual_time_noon">12:00 (о півночі)</string>
-    <string name="scan_result_no_data">Нема даних</string>
-    <string name="onboarding_restore_from_cloud_backup">Резервні копії</string>
     <string name="dialog_title_confirm_remap">Змінити відображення (%s) \?</string>
     <string name="menu_remap">Перепризначити</string>
     <string name="onboarding_privacy_intro">Ваші фінансові дані не надсилаються на жоден сервер, який не належить нам або третім особам.</string>
@@ -794,7 +779,6 @@
     <string name="pref_ocr_time_formats_title">Формати часу</string>
     <string name="pref_criterion_future_current">Поточний час</string>
     <string name="dialog_contrib_usage_limit_with_dialog">З вашим поточним статусом ліцензії (%1$s) цей діалог відображатиметься під час кожного використання.</string>
-    <string name="dialog_title_warning_delete_party">Видалити партію\?</string>
     <string name="contrib_feature_category_tree_label">Дерево категорıй</string>
     <string name="dialog_title_warning_delete_category">Видалити категорію\?</string>
     <string name="select_payee">Виберіть платника/отримувача</string>
@@ -804,7 +788,7 @@
     <string name="auto_fill_focus">Зверніть увагу на одержувача</string>
     <string name="warning_plan_instance_delete">Транзакцію, створену на вибрану дату, буде видалено.</string>
     <string name="account_widget_configuration_sum_total">Включіть майбутні транзакції</string>
-    <string name="merge_parties_select">Виберіть назву об\'єднаної партії</string>
+    <string name="merge_parties_select">Виберіть назву об\'єднаного учасника</string>
     <string name="active_tags">Активні теги</string>
     <string name="backup_save_to_sync_backend">Зберегти до %s</string>
     <string name="debt">Борг</string>
@@ -813,7 +797,6 @@
     <string name="menu_reopen">Перевідкрити</string>
     <string name="menu_new_debt">Новий борг</string>
     <string name="debt_I_owe">Я винен %s</string>
-    <string name="dialog_title_delete_debt">Видалити борг\?</string>
     <string name="debts">Борги</string>
     <string name="content_description_closed">Зачинено</string>
     <string name="translated_by">Переклали</string>
@@ -823,4 +806,183 @@
     <string name="button_label_show">Показати</string>
     <string name="dialog_contrib_trial_info_play">Ця безкоштовна пробна версія ніколи не буде перетворена на будь-який тип підписки.</string>
     <string name="dialog_contrib_trial_info">Ваш поточний статус ліцензії (%1$s) дозволяє пробувати %2$s протягом %3$d днів (до %4$s).</string>
+    <string name="warning_delete_category_with_budget">Принаймні для однієї обраної категорії є бютжет виділення, які також будуть видалені.</string>
+    <string name="pref_manage_tags_summary">Додати, редагувати, видаляти мітки.</string>
+    <string name="remapping_result">Вибрані транзакції були перепризначені.</string>
+    <string name="warning_no_account">Принаймні одна рахунок має бути видимою та відкритою, щоб створювати нові транзакції.</string>
+    <string name="scan_result_multiple_candidates_dialog_title">Знайдено кілька кандидатів. Будь ласка, виберіть:</string>
+    <string name="scan_result_no_date">Дата не знайдена</string>
+    <string name="scan_result_no_payee">Одержувача не знайдено</string>
+    <string name="pref_plan_executor_time_title">Час сповіщення планувальника</string>
+    <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Використовуйте цю кнопку перемикача для запису доходів.</string>
+    <string name="pref_feature_uninstall_summary">Play Маркет намагається зрештою видалити ці модулі у фоновому режимі.</string>
+    <string name="remap_account">Усі вибрані транзакції буде зіставлено з рахунком %s.</string>
+    <string name="pref_clone_with_current_date_summary_on">Клоновані транзакції мають поточну дату</string>
+    <string name="remap_empty_list">Не знайдено жодного елемента, який можна було б зіставити з усіма вибраними транзакціями.</string>
+    <string name="pref_criterion_futur_title">Критерій майбутніх транзакцій</string>
+    <string name="pref_sync_changes_immediately_summary">Негайно записати локальні зміни у серверну частину</string>
+    <string name="warning_synced_account_cannot_be_closed">Не можна закрити рахунок, пов\'язану з модулем синхронізації</string>
+    <string name="pref_clone_with_current_date_summary_off">Клоновані транзакції зберігають оригінальну дату</string>
+    <string name="dialog_multi_tag_append">Додайте нові мітку до існуючих міток</string>
+    <string name="budget_date_end_after_start">Дата завершення бюджету має бути після дати його початку.</string>
+    <string name="no_budgets">Визначте свій перший бютжет, натиснувши кнопку +.</string>
+    <string name="budget_deleted">Бюджет видалено</string>
+    <string name="menu_edit_tag">Редагувати мітку</string>
+    <string name="dialog_title_warning_delete_tag">Видалити мітку?</string>
+    <string name="budget_filter_all_parties">Всі учасники</string>
+    <string name="scan_result_no_amount">Сума не знайдена</string>
+    <string name="pref_feature_uninstall_title">Запит на видалення функцій і мов</string>
+    <string name="remap_payee">Усі вибрані транзакції буде зіставлено з платником/одержувачем %s.</string>
+    <string name="tags_create_or_select">Створіть або виберіть мітки</string>
+    <string name="menu_tag">Мітка</string>
+    <string name="search_account">Пошук по рахунку</string>
+    <string name="content_description_dates_are_linked">Дата бронювання та дата зарахування коштів на рахунок оновлені разом</string>
+    <string name="select_package">Будь ласка, оберіть пакет ліцензій.</string>
+    <string name="dialog_multi_tag_clear">Усі мітки буде вилучено з вибраних транзакцій.</string>
+    <string name="content_description_dates_are_not_linked">Дата бронювання та дата зарахування коштів на рахунок не оновлені разом</string>
+    <string name="dialog_contrib_subscription_info_play">Ця підписка набуває чинності негайно, рахунок виставляється щомісяця або щороку та може бути скасований будь-коли.</string>
+    <string name="synchronization_select_folder_dialog_title">Виберіть наявну папку або створіть нову</string>
+    <string name="menu_budget_allocated_only">Показувати тільки категорії з виділенням</string>
+    <string name="remap_method">Усі вибрані транзакції буде зіставлено з методом %s.</string>
+    <string name="clone_and_remap_result">Вибрані транзакції клоновані та перепризначені.</string>
+    <string name="button_label_clone_and_remap">Клонувати та перепризначати</string>
+    <string name="dialog_multi_tag">Усі вибрані транзакції будуть позначені міткою %s.</string>
+    <string name="pref_ocr_total_indicators_summary">Список рядків, які визначають загальну вартість у квитанції. Помістіть кожне значення в новий рядок. Залиште порожнім, щоб відновити значення за замовчуванням.</string>
+    <string name="budget_table_header_overspent">Перевитрачено</string>
+    <string name="pref_planner_manual_time_title">Час для запланованої транзакції, застосованої вручну</string>
+    <string name="title_activity_debt_overview">Огляд заборгованості</string>
+    <string name="setup_completed">Налаштування завершено</string>
+    <string name="purge_backups">Наступні старі файли резервних копій будуть видалені:</string>
+    <string name="new_balance">Новий баланс</string>
+    <string name="advance_exexcution_in_days">Дострокове виконання (у днях)</string>
+    <string name="pref_clone_with_current_date_title">Дата клонованих транзакцій</string>
+    <string name="single_feature_info">Крім того, ви можете придбати необмежений доступ тільки до цієї функції.</string>
+    <string name="cb_label_merge_accounts">Обʼєднати рахунки</string>
+    <string name="pref_mlkit_script_title">Сценарій для MlKit</string>
+    <string name="warning_party_delete_debt">При видаленні цієї сторони також видаляються визначені для неї борги.</string>
+    <string name="menu_parent_category_selection">Виберіть головну категорію коротким дотиком</string>
+    <string name="template_default_action_without_amount_hint">Шаблон без суми може бути збережиним за замовчуванням \"Редагувати\"</string>
+    <string name="title_webui">Веб-інтерфейс</string>
+    <string name="warning_balance_account_delete">Якщо ви продовжите, всі звірені транзакції цього рахунку будуть видалені з бази даних, і ви не зможете їх відновити.</string>
+    <string name="confirmation_load_template_discard_data">Існуючі дані форми будуть відкинуті.</string>
+    <string name="ocr_download_info">Можливість розпізнавання тексту забезпечується зовнішньою програмою.</string>
+    <string name="plan_automatic_without_amount_hint">План без суми не повинен зберігатися при автоматичному виконанні плану</string>
+    <string name="content_description_edit_plan">Редагувати план у програмі календаря</string>
+    <string name="pref_group_header_show_details_summary">Показувати детальні суми в заголовку групи</string>
+    <string name="recurrence_last_day_of_month">Останній день</string>
+    <string name="warning_link_transfer">Дві вибрані транзакції будуть пов’язані як переказ. Інформація про одержувача/платника та категорію буде вилучено.</string>
+    <string name="account_widget_configuration">Налаштування віджету рахунку</string>
+    <string name="budget_widget_configuration">Виберіть бюджет</string>
+    <string name="request_for_invoice">Запит на отримання рахунку-фактури</string>
+    <string name="object_sealed_debt">Об\'єкт відноситься до закритого боргу.</string>
+    <string name="warning_unencrypted_backup">Хоча ваші дані захищені від несанкціонованого доступу на цьому пристрої, резервні копії створюються без шифрування, якщо ви не налаштуєте %s.</string>
+    <string name="pref_purge_backup_keep_title">Максимальна кількість файлів останніх резервних копій для збереження</string>
+    <string name="webui_warning_move_transaction">Транзакцію буде перенесено до рахунку {account}.</string>
+    <string name="pref_csv_export_split_categories_summary">Використовуйте окремі стовпці для кожного рівня ієрархії категорій</string>
+    <string name="pref_purge_backup_require_confirmation_summary">Показати підтвердження перед видаленням файлів</string>
+    <string name="pref_csv_export_split_amount_summary">Використовувати окремі колонки для доходів і витрат</string>
+    <string name="pref_debug_logging_share_summary">Поділитись файлами журналів</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="one">Мітка %1$s зіставлено з однією транзакцією. Чи потрібно його видалити?</item>
+        <item quantity="few">Мітка %1$s зіставлено з %2$d транзакціями. Чи потрібно його видалити?</item>
+        <item quantity="many">Мітка %1$s зіставлено з %2$d транзакціями. Чи потрібно його видалити?</item>
+        <item quantity="other">Мітка %1$s зіставлено з %2$d транзакціями. Чи потрібно його видалити?</item>
+    </plurals>
+    <plurals name="purge_backup_failure">
+        <item quantity="one">Один старий файл резервної копії не вдалося видалити.</item>
+        <item quantity="few">%d старі файли резервних копій не вдалося видалити.</item>
+        <item quantity="many">%d старих файлів резервних копій не вдалося видалити.</item>
+        <item quantity="other">%d старих файлів резервних копій не вдалося видалити.</item>
+    </plurals>
+    <string name="menu_reconfigure">Переналаштувати</string>
+    <string name="debt_borrow_additional">Я заборгував %s.</string>
+    <string name="debt_balance_i_owe">Тепер я винен %s.</string>
+    <string name="debt_lend_additional">Я даю в борг %s.</string>
+    <string name="debt_paid_off_other">Борг %s погашено.</string>
+    <string name="encrypt_database">Зашифрувати базу даних</string>
+    <string name="maximum_size">Максимальний розмір</string>
+    <string name="orphaned_transaction_info">Транзакція пов’язана з планом на цю дату, але на цю дату не існує події.</string>
+    <string name="notifications_channel_required">Будь ласка, увімкніть канал %s.</string>
+    <string name="template_shortcut">Ярлик шаблону</string>
+    <string name="content_description_attachment">Вкладення</string>
+    <string name="notifications_permission_required_sync">Надавши дозвіл на надсилання сповіщень, ви можете контролювати хід виконання синхронізації.</string>
+    <string name="notifications_permission_required_auto_backup">Надавши дозвіл на надсилання сповіщень, ви будете проінформовані про автоматичне резервне копіювання.</string>
+    <string name="pref_backup_file_prefix_title">Префікс файлу</string>
+    <string name="optimize_image_file_size">Оптимізація розміру файлу зображення</string>
+    <string name="redesign">Редизайн</string>
+    <string name="debt_paid_off_self">Мій борг погашено.</string>
+    <string name="debt_installment_pay">Я сплачую розтермінування в розмірі %s.</string>
+    <string name="debt_installment_receive">Я отримую розстрочку %s.</string>
+    <string name="debt_balance_they_owe">%1$s тепер винен %2$s.</string>
+    <string name="select_template">Оберіть шаблон</string>
+    <string name="orphaned_transaction_relink">Транзакцію можна повторно пов’язати з події на %s.</string>
+    <string name="select_all_list_too_large">Команда %s недоступна, оскільки список завантажено лише частково. Скористайтеся функцією пошуку, щоб зменшити розмір списку.</string>
+    <plurals name="purge_backup_success">
+        <item quantity="one">Видалено один файл старої резервної копії.</item>
+        <item quantity="few">Видалено %d файли старих резервних копій.</item>
+        <item quantity="many">Видалено %d файлів старих резервних копій.</item>
+        <item quantity="other">Видалено %d файлів старих резервних копій.</item>
+    </plurals>
+    <string name="contact_us">Звʼяжіться з нами</string>
+    <string name="budget_onetime">Одноразова</string>
+    <string name="remap_date">Для всіх вибраних транзакцій буде встановлено дату %s.</string>
+    <string name="warning_transform_to_transfer">Обрана транзакція буде замінена переказом з %1$s на %2$s.</string>
+    <string name="button_relink_update_date">Перепривʼязати та оновити дату</string>
+    <string name="show_duplicates">Показати дублікати</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_on">зараховуються як переказ</string>
+    <string name="warning_delete_default_transfer_category">Категорія %s налаштована як категорія передачі за замовчуванням і не повинна видалятися.</string>
+    <string name="pref_transaction_amount_color_source_title">Кольори для сум</string>
+    <string name="pref_sync_now_all_summary">%s синхронізує всі рахунки для одного сервера</string>
+    <string name="roadmap_vote">Голосування за дорожню карту</string>
+    <string name="icons_for_categories">Значки для категорій</string>
+    <string name="merge_parties_strategy_group">Дублікати групуються як залежні.</string>
+    <string name="widget_title_budget">Мій бюджет</string>
+    <string name="merge_parties_strategy_delete">Дублікати видаляються.</string>
+    <string name="roadmap_intro">Голосування за дорожню карту 2024 року відкрито! Голосуйте за функції та покращення, які для вас найважливіші.</string>
+    <string name="menu_unlink_transfer">Від\'єднати переказ</string>
+    <string name="warning_unlink_transfer">Вибраний переказ буде від’єднано: його замінять звичайні транзакції в обох рахунках.</string>
+    <string name="menu_transform_to_transfer">Перетворити в переказ</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_off">враховуються як витрати/доходи</string>
+    <string name="dialog_title_purge_backups">Очистити старі резервні копії</string>
+    <string name="read_from_data">Читати з даних</string>
+    <string name="attachments">Вкладення</string>
+    <string name="pref_copy_attachments_summary_on">Файли скопійовані до папки додатка.</string>
+    <string name="pref_copy_attachments_summary_off">Файли не копіюються, зберігаються тільки посилання.</string>
+    <string name="one_time_payment">Одноразовий платіж</string>
+    <string name="default_transfer_category">Категорія переказу за замовчуванням</string>
+    <string name="pref_copy_attachments_title">Копіювати вкладення в папку програми</string>
+    <string name="menu_aggregate_neutral_categories">Сукупні нейтральні категорії</string>
+    <string name="merge_categories_dialog_title">Об\'єднання категорій</string>
+    <string name="merge_categories_prompt">Виберіть категорію, яку ви хочете зберегти</string>
+    <string name="pref_attachment_mime_types_title">Дозволені типи MIME для вкладень</string>
+    <string name="pref_unmapped_transaction_as_transfer_title">Незіставлені транзакції</string>
+    <string name="pref_csv_export_category_separator_summary">Роздільник між рівнями ієрархії категорій</string>
+    <plurals name="debt_mapped_transactions">
+        <item quantity="one">Борг %1$s має %2$d зіставлену транзакцію.</item>
+        <item quantity="few">Борг %1$s має %2$d зіставлені транзакції.</item>
+        <item quantity="many">Борг %1$s має %2$d зіставлених транзакцій.</item>
+        <item quantity="other">Борг %1$s має %2$d зіставлених транзакцій.</item>
+    </plurals>
+    <plurals name="import_categories_icons_updated">
+        <item quantity="one">Значок однієї категрійї був оновлений.</item>
+        <item quantity="few">Значки %1$d категорій було оновлено.</item>
+        <item quantity="many">Значки %1$d категорій було оновлено.</item>
+        <item quantity="other">Значки %1$d категорій було оновлено.</item>
+    </plurals>
+    <string name="remove_from_group">Видалити з групи</string>
+    <string name="pref_csv_export_split_date_time_summary">Використовувати окремі стовпці для дати та часу</string>
+    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Натисніть і утримуйте плаваючу кнопку дії, щоб безпосередньо відкрити форму для переказів, розділених транзакцій або доходу.</string>
+    <string name="subcategories_merged_recursively">Якщо будь-яка з об’єднаних категорій має підкатегорії з однаковою міткою, їх буде об’єднано першими, рекурсивно.</string>
+    <string name="budget_only_current_period">Використовувати тільки для %s</string>
+    <string name="github_sponsors">Ліцензійні ключі також надаються &lt;a href=%s&gt;Спонсорам Github&lt;/a&gt;.</string>
+    <string name="notifications_permission_required_webui">Надавши дозвіл на надсилання сповіщень, ви можете контролювати стан веб-сервера.</string>
+    <string name="image_optimize_quality_summary">Якість 0 означає стиснення до найменшого розміру. 100 означає стиснення до максимальної візуальної якості.</string>
+    <string name="button_relink_keep_date">Перепривʼязати, але зберегти дату</string>
+    <string name="database_is_encrypted">База даних зашифрована.</string>
+    <string name="notifications_permission_required_planner"><i>{app_name}</i> потребує дозволу, щоб надсилати вам сповіщення про майбутні транзакції.</string>
+    <string name="encrypt_database_info">Базу даних буде зашифровано за допомогою парольної фрази, яку неможливо отримати з цього пристрою. Тому служба резервного копіювання вашого пристрою не створюватиме резервні копії.</string>
+    <string name="budget_table_header_rollover">Перенесення бюджету</string>
+    <string name="orphaned_transaction_align_date">За бажанням дату, збережену в транзакції, також можна узгодити з датою екземпляра.</string>
+    <string name="rollover_edit_invalid">Сума перенесення, запланована для категорії, та суми перенесення, заплановані для підкатегорій, не можуть перевищувати залишок.</string>
+    <string name="dialog_confirm_rollover_delete">Усі суми перенесення на цей період будуть видалені.</string>
 </resources>

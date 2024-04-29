@@ -63,7 +63,6 @@ import org.totschnig.myexpenses.util.ICurrencyFormatter;
 import org.totschnig.myexpenses.util.ads.BaseAdHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
-import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.BaseViewModel;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
@@ -83,7 +82,7 @@ import org.totschnig.myexpenses.viewmodel.PlannerViewModel;
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel;
-import org.totschnig.myexpenses.viewmodel.ShareViewModel;
+import org.totschnig.myexpenses.viewmodel.BaseFunctionalityViewModel;
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel;
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 import org.totschnig.myexpenses.widget.AbstractListWidget;
@@ -301,7 +300,7 @@ public interface AppComponent {
 
   void inject(LicenceValidationViewModel licenceValidationViewModel);
 
-  void inject(ShareViewModel shareViewModel);
+  void inject(BaseFunctionalityViewModel baseFunctionalityViewModel);
 
   void inject(SyncAdapter syncAdapter);
 

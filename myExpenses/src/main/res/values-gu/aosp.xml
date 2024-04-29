@@ -9,5 +9,25 @@
     <string name="help_and_feedback">"સહાય અને પ્રતિસાદ"</string>
     <string name="currencies_exchange">"ચલણ અને વિદેશી ચલણનો વિનિમય"</string>
     <string name="menu_sync_now">"હમણાં સિંક કરો"</string>
-  <string name="do_not_show_again">ફરી બતાવશો નહીં</string>
+    <string name="do_not_show_again">ફરી બતાવશો નહીં</string>
+    <string name="color">"રંગ"</string>
+    <string name="notes">"નોંધ"</string>
+    <string name="cannot_be_undone">"આ ક્રિયા પૂર્વવત્ કરી શકાતી નથી."</string>
+    <string name="paper_format">પાનાનું બંધારણ</string>
+    <string name="configuration">"ગોઠવણી"</string>
+    <string name="menu_open">"ખોલો"</string>
+    <string name="menu_print">"છાપો"</string>
+    <string name="username">"વપરાશકર્તાનું નામ"</string>
+    <string name="password">"પાસવર્ડ"</string>
+    <string name="pixels">"પિક્સેલ"</string>
+    <string name="frequency">"આવર્તન"</string>
+    <string name="required">"જરુરી"</string>
+    <string name="quality">"ગુણવત્તા"</string>
+    <string name="no_data">"કોઈ ડેટા નથી"</string>
+    <string name="color_component_title">"રંગ પસંદ કરો"</string>
+    <string name="backups">"બૅકઅપ"</string>
+    <string name="filter">"ફિલ્ટર કરો"</string>
+    <string name="languages">"ભાષાઓ"</string>
+    <string name="chart">"આલેખ"</string>
+    <string name="full_screen">"પૂર્ણ સ્ક્રીન"</string>
 </resources>

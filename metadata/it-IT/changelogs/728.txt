@@ -1,0 +1,5 @@
+• Ricerca: Miglioramento dell'interfaccia utente
+• Configurazione del widget del conto: Pulsanti
+• La funzione «Scansiona lo scontrino» può essere richiamata dal widget «I miei conti».
+
+https://github.com/mtotschnig/MyExpenses/projects/139#column-19841847

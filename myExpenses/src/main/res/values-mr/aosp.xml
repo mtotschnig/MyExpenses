@@ -9,5 +9,25 @@
     <string name="help_and_feedback">"मदत आणि अभिप्राय"</string>
     <string name="currencies_exchange">"चलने आणि परकीय विनिमय"</string>
     <string name="menu_sync_now">"आता सिंक करा"</string>
-  <string name="do_not_show_again">परत दाखवू नका</string>
+    <string name="do_not_show_again">परत दाखवू नका</string>
+    <string name="color">"रंग"</string>
+    <string name="notes">"टिपा"</string>
+    <string name="cannot_be_undone">"ही क्रिया पूर्ववत केली जाणे शक्य नाही."</string>
+    <string name="paper_format">"पेपर रूपण"</string>
+    <string name="configuration">"कॉंफिगरेशन"</string>
+    <string name="menu_open">"उघडा"</string>
+    <string name="menu_print">"मुद्रण करा"</string>
+    <string name="username">"वापरकर्ता नाव"</string>
+    <string name="password">"पासवर्ड"</string>
+    <string name="pixels">"पिक्सेल्स्"</string>
+    <string name="frequency">"फ्रीक्वेन्सी"</string>
+    <string name="required">"आवश्यक"</string>
+    <string name="quality">"दर्जा"</string>
+    <string name="no_data">"कोणताही डेटा नाही"</string>
+    <string name="color_component_title">"रंग निवडा"</string>
+    <string name="backups">"संचित प्रतिलिपि"</string>
+    <string name="filter">"फिल्टर"</string>
+    <string name="languages">"भाषा"</string>
+    <string name="chart">"तक्ता"</string>
+    <string name="full_screen">"फुल स्क्रीन"</string>
 </resources>

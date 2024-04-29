@@ -24,9 +24,12 @@ import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY_EXPORT
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY_INFO
+import org.totschnig.myexpenses.provider.TransactionProvider.KEY_MERGE_SOURCE
+import org.totschnig.myexpenses.provider.TransactionProvider.KEY_MERGE_TARGET
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_ENSURE_CATEGORY
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_ENSURE_CATEGORY_TREE
+import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_MERGE_CATEGORIES
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SAVE_CATEGORY
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.getString
@@ -61,6 +64,13 @@ fun Repository.moveCategory(source: Long, target: Long?) = try {
     ) > 0
 } catch (e: SQLiteConstraintException) {
     false
+}
+
+fun Repository.mergeCategories(source: List<Long>, target: Long) {
+    contentResolver.call(DUAL_URI, METHOD_MERGE_CATEGORIES, null, Bundle().apply {
+        putLongArray(KEY_MERGE_SOURCE, source.toLongArray())
+        putLong(KEY_MERGE_TARGET, target)
+    })
 }
 
 fun Repository.deleteCategory(id: Long) = contentResolver.delete(

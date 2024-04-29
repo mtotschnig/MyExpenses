@@ -8,6 +8,7 @@ import android.os.Build
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.os.ConfigurationCompat
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.model.ContribFeature
@@ -80,13 +81,16 @@ fun getDisplayNameForScript(locale: Locale, script: String): String =
         else -> Locale.Builder().setScript(script).build().getDisplayScript(locale)
     }
 
-val BaseActivity.quotationStart: String
+fun Context.getLocale(): Locale =
+    ConfigurationCompat.getLocales(resources.configuration).get(0) ?: Locale.getDefault()
+
+val Context.quotationStart: String
     get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
         LocaleData.getInstance(ULocale.forLocale(getLocale()))
             .getDelimiter(LocaleData.QUOTATION_START) else "\""
-val BaseActivity.quotationEnd: String
+val Context.quotationEnd: String
     get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
         LocaleData.getInstance(ULocale.forLocale(getLocale()))
             .getDelimiter(LocaleData.QUOTATION_END) else "\""
 
-fun BaseActivity.localizedQuote(input: String) = "$quotationStart$input$quotationEnd"
+fun Context.localizedQuote(input: String) = "$quotationStart$input$quotationEnd"

@@ -34,6 +34,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.util.GroupingInfo
+import org.totschnig.myexpenses.util.GroupingNavigator
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.BudgetAllocation
@@ -196,7 +198,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
             val budget = accountInfo.value!!
             val selection =
                 "${DatabaseConstants.KEY_BUDGETID} = ? AND ${DatabaseConstants.KEY_YEAR} = ? AND ${DatabaseConstants.KEY_SECOND_GROUP} = ?"
-            val nextGrouping = groupingInfo!!.next(dateInfoExtra.filterNotNull().first())
+            val nextGrouping = nextGrouping()!!
             val ops = arrayListOf(
                 ContentProviderOperation.newUpdate(TransactionProvider.BUDGET_ALLOCATIONS_URI)
                     .withSelection(
@@ -227,7 +229,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
 
     private suspend fun saveRollOverList(rollOverList: List<Pair<Long, Long>>) {
         val budget = accountInfo.value!!
-        val nextGrouping = groupingInfo!!.next(dateInfoExtra.filterNotNull().first())
+        val nextGrouping = nextGrouping()!!
         val ops = ArrayList<ContentProviderOperation>()
         rollOverList.forEach {
             val (categoryId, rollOver) = it

@@ -50,7 +50,7 @@ class CSVParser(
             ?: columnToFieldMap.indexOf(R.string.booking_date)
         val columnIndexValueDate = columnToFieldMap.indexOf(R.string.value_date)
         val columnIndexPayee = columnToFieldMap.indexOf(R.string.payer_or_payee)
-        val columnIndexNotes = columnToFieldMap.indexOf(R.string.comment)
+        val columnIndexNotes = columnToFieldMap.indexOf(R.string.notes)
         val columnIndexCategory = columnToFieldMap.indexOf(R.string.category)
         val columnIndexSubcategory = columnToFieldMap.indexOf(R.string.subcategory)
         val columnIndexMethod = columnToFieldMap.indexOf(R.string.method)

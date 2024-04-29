@@ -17,6 +17,8 @@ class PreferencesAttachPictureFragment : BasePreferenceFragment() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
         configureQualityPreference()
+        requirePreference<Preference>(PrefKey.OPTIMIZE_PICTURE_MAX_SIZE).title =
+            getString(R.string.maximum_size) + " (" + getString(R.string.pixels) + ")"
     }
 
     private fun configureQualityPreference() {

@@ -18,6 +18,7 @@ import okhttp3.internal.closeQuietly
 import okio.BufferedSink
 import okio.source
 import org.acra.util.StreamReader
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.sync.AbstractSyncBackendProvider
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.SyncBackendProvider.SyncParseException
@@ -214,7 +215,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
             }
         }
         try {
-            webDavClient.upload(finalFileName, requestBody, collection)
+            webDavClient.upload(finalFileName, requestBody, collection, false)
         } catch (e: HttpException) {
             throw IOException(e)
         }
@@ -316,7 +317,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
             }
         }
         webDavClient = try {
-            WebDavClient(url, userName, password, certificate, allowUnverified)
+            WebDavClient(context.injector, url, userName, password, certificate, allowUnverified)
         } catch (e: InvalidCertificateException) {
             throw SyncParseException(e)
         }

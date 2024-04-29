@@ -1,0 +1,4 @@
+• 错误修复
+• FinTS: 稳定性改进
+
+https://github.com/mtotschnig/MyExpenses/projects/141#column-19856783

@@ -16,5 +16,6 @@
     <string name="whats_new_374">Colores personalizados para etiquetas</string>
     <string name="whats_new_376_1">Clonar múltiples transacciones con fecha nueva.</string>
     <string name="whats_new_376_2">La interfaz del usuario puede controlarse desde la pantalla principal.</string>
-    <string name="whats_new_378">Los gráficos coinciden con el filtro de búsqueda</string>
+    <string name="whats_new_378">Los gráficos coinciden con el filtro de búsqueda.</string>
+    <string name="whats_new_382">La función %1$s puede llamar desde el widget %2$s.</string>
 </resources>

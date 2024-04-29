@@ -158,21 +158,47 @@ class BudgetWidgetConfigure : BaseWidgetConfigure() {
             putString(selectionKeyGrouping(appWidgetId), grouping.name)
         }
 
-        //pre version 3.7.4.1
-        fun loadSelectionPrefLegacy(context: Context, appWidgetId: Int) =
-            sharedPreferences(context).budgetId(appWidgetId)
+        fun savePeriod(context: Context, appWidgetId: Int, year: Int, second: Int) {
+            sharedPreferences(context).edit {
+                putInt(selectionKeyYear(appWidgetId), year)
+                putInt(selectionKeySecond(appWidgetId), second)
+            }
+        }
 
         private fun SharedPreferences.budgetId(appWidgetId: Int) =
             getLong(selectionKey(appWidgetId), Long.MAX_VALUE)
 
-        fun loadSelectionPref(context: Context, appWidgetId: Int) =
-            with(sharedPreferences(context)) {
-                budgetId(appWidgetId) to
-                        getString(selectionKeyGrouping(appWidgetId), Grouping.NONE.name)!!
+        fun loadBudgetId(context: Context, appWidgetId: Int) =
+            sharedPreferences(context).budgetId(appWidgetId)
+
+        fun loadGrouping(context: Context, appWidgetId: Int) =
+            Grouping.valueOf(loadGroupingString(context, appWidgetId))
+
+        fun loadGroupingString(context: Context, appWidgetId: Int) = sharedPreferences(context)
+            .getString(selectionKeyGrouping(appWidgetId), Grouping.NONE.name)!!
+
+        fun loadPeriod(context: Context, appWidgetId: Int) = with(sharedPreferences(context)) {
+            getInt(selectionKeyYear(appWidgetId), 0).takeIf { it > 0 }?.let {
+                it to getInt(selectionKeySecond(appWidgetId), 0)
             }
+        }
+
+        fun clearPeriod(context: Context, appWidgetId: Int) {
+            sharedPreferences(context).edit {
+                clearPeriod(appWidgetId)
+            }
+        }
+
+        private fun SharedPreferences.Editor.clearPeriod(appWidgetId: Int) {
+            remove(selectionKeyYear(appWidgetId))
+            remove(selectionKeySecond(appWidgetId))
+        }
 
         private fun selectionKey(appWidgetId: Int) = "BUDGET_WIDGET_SELECTION_$appWidgetId"
         private fun selectionKeyGrouping(appWidgetId: Int) = "BUDGET_WIDGET_GROUPING_$appWidgetId"
+
+        private fun selectionKeyYear(appWidgetId: Int) = "BUDGET_WIDGET_YEAR_$appWidgetId"
+        private fun selectionKeySecond(appWidgetId: Int) = "BUDGET_WIDGET_SECOND_$appWidgetId"
 
 
         private fun sharedPreferences(context: Context) =
@@ -181,11 +207,12 @@ class BudgetWidgetConfigure : BaseWidgetConfigure() {
         fun clearPreferences(context: Context, appWidgetId: Int) {
             BudgetWidgetUpdateWorker.enqueueSelf(
                 context,
-                Grouping.valueOf(loadSelectionPref(context, appWidgetId).second)
+                loadGrouping(context, appWidgetId)
             )
             sharedPreferences(context).edit {
                 remove(selectionKey(appWidgetId))
                 remove(selectionKeyGrouping(appWidgetId))
+                clearPeriod(appWidgetId)
             }
         }
     }

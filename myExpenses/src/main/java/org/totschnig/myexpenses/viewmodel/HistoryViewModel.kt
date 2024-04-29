@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -27,6 +28,10 @@ class HistoryViewModel(application: Application, val savedStateHandle: SavedStat
         dataStore.data.map {
             enumValueOrDefault(it[groupingPrefKey], defaultGrouping)
         }.stateIn(viewModelScope, SharingStarted.Companion.Lazily, defaultGrouping)
+    }
+
+    fun accountInfo(accountId: Long) = combine(account(accountId), grouping) {
+        account, grouping -> account to grouping
     }
 
     fun persistGrouping(grouping: Grouping) {

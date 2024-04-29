@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
     <!-- Main category -->
     <string name="Main_1">Andre indtægter</string>
@@ -49,7 +49,7 @@
     <!-- Subcategory under "Misc. income" -->
     <string name="Sub_5_2">Refundering</string>
     <!-- Subcategory under "Misc. income" -->
-    <string name="Sub_5_3">Second hand salg</string>
+    <string name="Sub_5_3">Salg af brugte ting</string>
     <!-- Main category -->
     <string name="Main_6">Mad</string>
     <!-- Subcategory under "Food" -->
@@ -61,7 +61,7 @@
     <!-- Subcategory under "Food" -->
     <string name="Sub_6_4">Slik</string>
     <!-- Subcategory under "Food" -->
-    <string name="Sub_6_5">Købmand</string>
+    <string name="Sub_6_5">Dagligvarer</string>
     <!-- Subcategory under "Food" -->
     <string name="Sub_6_6">Restaurant</string>
     <!-- Subcategory under "Food" -->
@@ -107,7 +107,7 @@
     <!-- Main category -->
     <string name="Main_11">Børn</string>
     <!-- Subcategory under "Children" -->
-    <string name="Sub_11_1">Børnepassning</string>
+    <string name="Sub_11_1">Børnepasning</string>
     <!-- Subcategory under "Children" -->
     <string name="Sub_11_2">Uddannelse</string>
     <!-- Main category -->
@@ -123,13 +123,13 @@
     <!-- Subcategory under "Financial expenses" -->
     <string name="Sub_13_1">Bankgebyrer</string>
     <!-- Subcategory under "Financial expenses" -->
-    <string name="Sub_13_2">Lån/pant</string>
+    <string name="Sub_13_2">Lån/Boliglån</string>
     <!-- Subcategory under "Financial expenses" -->
     <string name="Sub_13_3">Afgifter</string>
     <!-- Subcategory under "Financial expenses" -->
     <string name="Sub_13_4">Refundering</string>
     <!-- Main category -->
-    <string name="Main_14">Udgifter i forbindelse med mit arbejde</string>
+    <string name="Main_14">Udgifter mht. arbejde</string>
     <!-- Subcategory under "Professional expenses" -->
     <string name="Sub_14_1">Refunderes ikke</string>
     <!-- Subcategory under "Professional expenses" -->
@@ -139,11 +139,11 @@
     <!-- Subcategory under "Taxes" -->
     <string name="Sub_15_1">Indkomstskat</string>
     <!-- Subcategory under "Taxes" -->
-    <string name="Sub_15_2">Land skat</string>
+    <string name="Sub_15_2">Ejendomsskat</string>
     <!-- Subcategory under "Taxes" -->
     <string name="Sub_15_3">Moms</string>
     <!-- Main category -->
-    <string name="Main_16">Overnatning</string>
+    <string name="Main_16">Hus</string>
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_1">Hotel</string>
     <!-- Subcategory under "Housing" -->
@@ -205,9 +205,9 @@
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_13">Udstyr</string>
     <!-- Subcategory under "Leisures" -->
-    <string name="Sub_17_14">Museer/udstillinger</string>
+    <string name="Sub_17_14">Museer/Udstillinger</string>
     <!-- Main category -->
-    <string name="Main_18">Lån/pant</string>
+    <string name="Main_18">Lån/Boliglån</string>
     <!-- Subcategory under "Loan/Mortgage" -->
     <string name="Sub_18_1">Kapital</string>
     <!-- Main category -->
@@ -237,13 +237,13 @@
     <!-- Subcategory under "Care" -->
     <string name="Sub_20_2">Tøj</string>
     <!-- Main category -->
-    <string name="Main_21">Transport</string>
+    <string name="Main_21">Transit</string>
     <!-- Subcategory under "Transport" -->
     <string name="Sub_21_1">Bus</string>
     <!-- Subcategory under "Transport" -->
     <string name="Sub_21_2">Metro</string>
     <!-- Subcategory under "Transport" -->
-    <string name="Sub_21_3">Vejafgift</string>
+    <string name="Sub_21_3">Told</string>
     <!-- Subcategory under "Transport" -->
     <string name="Sub_21_4">Tog</string>
     <!-- Subcategory under "Transport" -->

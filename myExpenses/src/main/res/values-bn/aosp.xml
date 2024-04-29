@@ -9,5 +9,24 @@
     <string name="help_and_feedback">"সহায়তা ও মতামত"</string>
     <string name="currencies_exchange">"মুদ্রা ও বৈদেশিক মুদ্রাবিনিময়"</string>
     <string name="menu_sync_now">"এখন সিঙ্ক করুন"</string>
-  <string name="do_not_show_again">আর দেখতে চাই না</string>
+    <string name="do_not_show_again">আর দেখতে চাই না</string>
+    <string name="color">"রঙ"</string>
+    <string name="notes">"নোটগুলি"</string>
+    <string name="cannot_be_undone">"এই কাজটিকে পূর্বাবস্থায় ফেরানো যাবে না৷"</string>
+    <string name="paper_format">Paper Format"</string>
+    <string name="configuration">"কনফিগারেশন"</string>
+    <string name="menu_open">"খুলুন"</string>
+    <string name="menu_print">"মুদ্রণ"</string>
+    <string name="username">"ইউজারনেম"</string>
+    <string name="password">"পাসওয়ার্ড"</string>
+    <string name="pixels">"পিক্সেল"</string>
+    <string name="frequency">"পুনরাবৃত্তির হার"</string>
+    <string name="required">"প্রয়োজনীয়"</string>
+    <string name="no_data">"কোনও ডেটা নেই"</string>
+    <string name="color_component_title">"রঙ বেছে নিন"</string>
+    <string name="backups">"ব্যাকআপ"</string>
+    <string name="filter">"ফিল্টার"</string>
+    <string name="languages">"ভাষা"</string>
+    <string name="chart">"ছক"</string>
+    <string name="full_screen">"ফুল স্ক্রিন"</string>
 </resources>

@@ -1,45 +1,27 @@
-Moje Wydatki śledzi Twoje wydatki i dochody bezpośrednio na smartfonie i tablecie.
+<i>Moje Wydatki</i> to najlepsze narzędzie do łatwego śledzenia wydatków i zarządzania finansami, dostępne na wyciągnięcie ręki!
 
-- Do pięciu kont z <b>transferem</b> (również między różnymi walutami)
-- Nieograniczona liczba <b>szablonów</b> i do trzech planów dla <b>recurring</b> transakcji
-- <b>Eksportuj</b> do QIF i CSV. <b>Importuj</b> z QIF
-- Data can be protected by <b>password</b> or device <b>lock screen</b>
-- <b>Temat</b> (ciemny i jasny) i <b>rozmiary czcionek</b> można dostosować
-- <b>Porównanie</b>: Łatwe porównywanie statusu transakcji z wyciągami bankowymi
-- <b>Widżet</b> na ekranie głównym i <b>skróty</b> do szybkiego wprowadzania danych
+Kluczowe cechy:
 
-Funkcje premium są odblokowywane przez zakup jednego z następujących kluczy licencyjnych:
+     • <b>Łatwe śledzenie wydatków</b>: płynnie kontroluj swoje wydatki i dochody, niezależnie od tego, czy jesteś na smartfonie, czy na tablecie.
+     • <b>Elastyczne zarządzanie kontem</b>: Z łatwością zarządzaj wieloma kontami, w tym przelewami pomiędzy różnymi walutami.
+     • <b>Usprawnione planowanie finansowe</b>: łatwo konfiguruj plany transakcji cyklicznych.
+     • <b>Bezproblemowe zarządzanie danymi</b>: z łatwością eksportuj i importuj dane przy użyciu formatów QIF i CSV.
+     • <b>Większe bezpieczeństwo</b>: chroń swoje dane za pomocą hasła lub zabezpieczenia ekranu blokady urządzenia.
+     • <b>Możliwość dostosowania</b>: dostosuj aplikację do swoich preferencji dzięki dostosowywanym motywom i rozmiarom czcionek.
+     • <b>Uzgadnianie wyciągów bankowych</b>: łatwo porównuj status transakcji z wyciągami bankowymi, aby uzyskać dokładne śledzenie finansów.
+     • <b>Szybkie wprowadzanie danych</b>: ciesz się wygodnym dostępem dzięki widżetom i skrótom na ekranie głównym.
+     • <b>Zaawansowana analiza danych</b>: filtruj dane na podstawie różnych kryteriów i wizualizuj rozkład i trendy historyczne za pomocą dynamicznych wykresów.
 
-<b>Klucz Contrib</b>
+Odblokuj funkcje premium:
 
-- <b>Brak reklam</b>
-- Nielimitowana liczba <b>kont</b>
-- Nieograniczona liczba planów dla <b>powtarzających się</b> transakcji
-- <b>Wykres kołowy</b>: Wizualizuj rozkład statystyczny transakcji według kategorii w różnych okresach (lata, miesiące, tygodnie, dni)
-- <b>Rozdzielaj transakcje</b>: Pojedyncza transakcja może być podzielona na wiele części (kategorie i transfery)
-- <b>Drukuj</b> listę transakcji do pliku PDF
-- <b>Załącznik obrazu </b>: Przechwyć za pomocą kamery lub wybierz z galerii
-
-<b>Klucz Rozszerzony</b>
-
-- Wszystkie funkcje Contrib Key
-- <b>Cloud synchronization</b>: Data can be synced between multiple devices (Webdav, Dropbox)
-- Codziennie <b>automatyczna kopia</b> z opcjonalnym przesyłaniem do chmury
-- Wyrafinowany, dostosowywany <b>import CSV</b> (aplikacje do arkuszy kalkulacyjnych)
-
-<b>Profesjonalny Klucz</b>
-
-- Wszystkie funkcje Extended Key
-- <b>Budgeting</b>: Compare your spending to limits you set per category on a daily, weekly, monthly or yearly basis.
-- <b>History chart</b> (Cash flow)
-- <b>Scan receipts</b>: Automatically extract amount, date and payee
-- <b>Web User Interface</b>
-- Nieograniczona liczba <b>szablonów i planów podziału transakcji</b>
-- <b>Wysyłaj pocztę e-mail</b> z reakcją gwarantowaną po upływie 2 dni roboczych
-- Głosowanie bezpośrednio na mapie drogowej <b>rozwoju</b>
+     • <i>Klucz Contrib</i>: pożegnaj się z reklamami i odblokuj nieograniczoną liczbę kont, plany transakcji cyklicznych i nie tylko.
+     • <i>Klucz rozszerzony</i>: ciesz się synchronizacją w chmurze, automatycznymi kopiami zapasowymi i zaawansowanym importem CSV.
+     • <i>Klucz profesjonalny</i>: przenieś zarządzanie finansami na wyższy poziom dzięki narzędziom do budżetowania, skanowaniu paragonów i obsłudze e-mailowej.
 
 <i>Moje Wydatki</i> wymaga następujących <u>uprawnień</u>:
 
-- <i>Kalendarz</i>: Plany przyszłych i powtarzających się transakcji są przechowywane w specjalnym kalendarzu lokalnym lub w dowolnym innym kalendarzu, który przypisujesz.
-- <i>Internet</i>: Sprawdzenie klucza licencji, Synchronizacja w chmurze.
-- <i>Konta</i>: Synchronizacja między urządzeniami za pośrednictwem usług w chmurze.
+     • <i>Kalendarz</i>: plany przyszłych i powtarzających się transakcji są przechowywane w specjalnym kalendarzu lokalnym lub w dowolnym innym kalendarzu, który przydzielisz.
+     • <i>Internet</i>: anonimowe śledzenie użytkowania, raporty o awariach, synchronizacja z chmurą.
+     • <i>Konta</i>: synchronizacja między urządzeniami za pośrednictwem usług w chmurze.
+
+Przejmij kontrolę nad swoimi finansami jak nigdy dotąd, korzystając z opcji <i>Moje Wydatki</i>!

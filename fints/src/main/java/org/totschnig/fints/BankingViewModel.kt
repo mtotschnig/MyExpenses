@@ -153,7 +153,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
     val errorState: StateFlow<String?> = _errorState
 
     private val converter: HbciConverter
-        get() = HbciConverter(repository, currencyContext.get("EUR"))
+        get() = HbciConverter(repository, currencyContext["EUR"])
 
     sealed class WorkState {
 
@@ -173,7 +173,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
 
         abstract class Done : WorkState()
 
-        class Abort : Done()
+        data object Abort : Done()
 
         class Success(val message: String = "") : Done()
     }
@@ -280,7 +280,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         try {
             work(info, passport, handle)
         } catch (e: Exception) {
-            CrashHandler.report(e)
+            report(e)
             onError(e)
         } finally {
             handle.close()
@@ -300,6 +300,10 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
 
         if (bankingCredentials.isNew && banks.value.any { it.blz == bankingCredentials.blz && it.userId == bankingCredentials.user }) {
             error(getString(R.string.bank_already_added))
+            return
+        }
+        if (_workState.value is WorkState.Loading) {
+            log("Double click")
             return
         }
         _workState.value = WorkState.Loading()
@@ -331,6 +335,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                         }
                     if (accounts.isNullOrEmpty()) {
                         error("Keine Konten ermittelbar")
+                        _workState.value = WorkState.Abort
                     } else {
                         _workState.value = WorkState.AccountsLoaded(bank, accounts)
                     }
@@ -347,28 +352,30 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         credentials: BankingCredentials,
         accountId: Long
     ) {
+        if (_workState.value is WorkState.Loading) {
+            log("Double click")
+            return
+        }
+        _workState.value = WorkState.Loading()
         viewModelScope.launch(context = coroutineContext()) {
             _workState.value = WorkState.Loading()
             val accountInformation = repository.accountInformation(accountId)
             if (accountInformation == null) {
-                CrashHandler.report(Exception("Error while retrieving Information for account"))
+                report(Exception("Error while retrieving Information for account"))
                 error("Error while retrieving Information for account")
-                _workState.value = WorkState.Abort()
+                _workState.value = WorkState.Abort
                 return@launch
             }
             if (accountInformation.lastSynced == null) {
-                CrashHandler.report(Exception("Error while retrieving Information for account (lastSynced)"))
+                report(Exception("Error while retrieving Information for account (lastSynced)"))
                 error("Error while retrieving Information for account (lastSynced")
-                _workState.value = WorkState.Abort()
+                _workState.value = WorkState.Abort
                 return@launch
             }
 
             doHBCI(
                 credentials,
                 work = { _, _, handle ->
-
-                    _workState.value = WorkState.Loading()
-
                     val umsatzJob: HBCIJob = handle.newJob("KUmsAll")
                     umsatzJob.setParam("my",
                         Konto(
@@ -394,7 +401,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                     val result = umsatzJob.jobResult as GVRKUms
                     if (!result.isOK) {
                         error(result.toString())
-                        _workState.value = WorkState.Abort()
+                        _workState.value = WorkState.Abort
                         return@doHBCI
                     }
                     var importCount = 0
@@ -429,7 +436,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                 },
                 onError = {
                     error(it, credentials)
-                    _workState.value = WorkState.Abort()
+                    _workState.value = WorkState.Abort
                 }
             )
         }
@@ -468,6 +475,11 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         accounts: List<Pair<Konto, Long>>,
         startDate: LocalDate?
     ) {
+        if (_workState.value is WorkState.Loading) {
+            log("Double click")
+            return
+        }
+        _workState.value = WorkState.Loading()
         clearError()
         var successCount = 0
         viewModelScope.launch(context = coroutineContext()) {
@@ -505,7 +517,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                         val result = umsatzJob.jobResult as GVRKUms
 
                         if (!result.isOK) {
-                            _workState.value = WorkState.Abort()
+                            _workState.value = WorkState.Abort
                             error(result.toString())
                             return@doHBCI
                         }
@@ -540,7 +552,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                     },
                     onError = {
                         error(it, bankingCredentials)
-                        _workState.value = WorkState.Abort()
+                        _workState.value = WorkState.Abort
                     }
                 )
             }
@@ -657,7 +669,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                 NEED_PT_TAN -> {
                     val flicker = retData.toString()
                     if (flicker.isNotEmpty()) {
-                        CrashHandler.report(Exception("Flicker not yet implemented"))
+                        report(Exception("Flicker not yet implemented"))
                     } else {
                         _tanRequested.postValue(TanRequest(msg, null))
                         retData.replace(0, retData.length, runBlocking {
@@ -688,12 +700,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                     runBlocking { pushTanFuture.await() }
                 }
 
-                HAVE_ERROR -> CrashHandler.report(Throwable(msg), BankingFeature.TAG)
-                CLOSE_CONNECTION -> {
-                    if (workState.value !is WorkState.Done) {
-                        _workState.value = WorkState.Abort()
-                    }
-                }
+                HAVE_ERROR -> report(Throwable(msg))
 
                 else -> {}
             }
@@ -702,6 +709,10 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
         override fun status(passport: HBCIPassport, statusTag: Int, o: Array<Any?>?) {
             log("status:$statusTag")
         }
+    }
+
+    private fun report(throwable: Throwable) {
+        CrashHandler.report(throwable, BankingFeature.TAG)
     }
 
     val banks: StateFlow<List<Bank>> by lazy {

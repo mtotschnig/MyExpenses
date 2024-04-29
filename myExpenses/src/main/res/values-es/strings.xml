@@ -37,8 +37,6 @@
     <string name="app_name">Mis Gastos</string>
     <string name="backup_success">La base de datos y las configuraciones han sido escritas en «%1$s» correctamente.</string>
     <string name="category">Categoría</string>
-    <string name="color">Color</string>
-    <string name="comment">Notas</string>
     <string name="contrib_feature_ad_free_label">Sin anuncios</string>
     <string name="contrib_feature_accounts_unlimited_label">Número de cuentas ilimitadas</string>
     <string name="contrib_feature_attach_picture_label">Adjuntar imagen a la transacción</string>
@@ -175,10 +173,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Invertir</string>
     <string name="menu_manage_plans">Plantillas y proyectos</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Abrir</string>
     <string name="menu_import">Importar</string>
-    <string name="menu_print">Imprimir</string>
     <string name="menu_reset">Exportar y reiniciar</string>
     <string name="menu_reset_all">Exportar y reiniciar todo</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -186,7 +181,6 @@
     <string name="menu_save">Guardar</string>
     <string name="menu_save_and_new">Guardar y nuevo</string>
     <string name="menu_share">Contarle a un amigo/a</string>
-    <string name="button_label_share_file">Compartir</string>
     <string name="button_label_close">Cerrar</string>
     <string name="menu_split_transaction">Transformarlo en una división</string>
     <string name="method">Método de pago</string>
@@ -219,7 +213,6 @@
     <string name="opening_balance">Balance inicial</string>
     <string name="parse_error_file_not_found">No se ha podido encontrar el archivo %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">Versión del archivo Grisbi no válida: %1$s</string>
-    <string name="parse_error_no_data_found">No hay datos importables en el archivo.</string>
     <string name="parse_error_other_exception">Se ha producido un error: %1$s</string>
     <string name="parse_error_parse_exception">No se ha podido analizar el archivo</string>
     <string name="password_disabled_reenable">Se ha desactivado la protección por contraseña. Puede volver a activarla desde configuración.</string>
@@ -449,7 +442,6 @@
     <string name="restore_calendar_handling_ignore">No restaurar los proyectos</string>
     <string name="restore_not_possible_target_calendar_missing">El calendario %s configurado en la copia de seguridad no existe a nivel loca. La restauración ha sido cancelada.</string>
     <string name="restore_not_possible_local_calendar_missing">El actual calendario de planificación no está disponible.</string>
-    <string name="menu_distribution_show_pie_char">Mostrar el gráfico de sectores</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Antiguas imágenes</string>
     <string name="pref_manage_stale_images_summary">Administrar imágenes restantes de transacciones eliminadas</string>
@@ -522,8 +514,6 @@
     <string name="hint_url">Dirección web</string>
     <string name="description_webdav_url">Por favor, introduzca la dirección web a la carpeta de su servidor WebDAV. {app_name} guardará la información en esta carpeta, sin tocar nada fuera de la misma.</string>
     <string name="description_webdav_trust_certificate">La página web utiliza un certificado, pudiendo no en la lista de certificados de confianza de Android.</string>
-    <string name="hint_user_name">Nombre de usuario</string>
-    <string name="hint_password">Contraseña</string>
     <string name="label_trust_certificate">Confiar en este certificado</string>
     <string name="no_sync_backends">Sin servicios de sincronización</string>
     <string name="menu_create_sync_backend">Nuevo servicio de sincronización</string>
@@ -535,7 +525,6 @@
     <string name="menu_sync_unlink">Parar sincronización</string>
     <string name="menu_sync_link">Comenzar sincronización</string>
     <string name="menu_sync_download">Descargar y sincronizar</string>
-    <string name="pref_sync_frequency_title">Frecuencia de sincronización</string>
     <string name="pref_sync_frequency_summary">Cada cuánto se debería sincronizar los datos (en horas)</string>
     <string name="dialog_confirm_sync_unlink">Si desliga esta cuenta de %s, el estado de sincronización será interrumpido. Si la vuelve a unir más adelante, requerirá una sincronización completa de nuevo.</string>
     <string name="dialog_sync_link">La cuenta con UUID %s existe tanto en la base de datos local como en el servicio remoto. Cuando una las dos, necesitará decidir si, inicialmente, quiere subir los datos locales al servicio remoto o descargar los datos remotos en la base de datos local.</string>
@@ -586,8 +575,6 @@
     <string name="onboarding_get_started">Empecemos</string>
     <string name="onboarding_more_options">Más opciones</string>
     <string name="onboarding_restore_from_cloud">Restaurar desde la sincronización en la nube</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">Copias de seguridad</string>
     <string name="onboarding_restore_from_local">Restaurar desde copia de seguridad local</string>
     <string name="contributed_by">Contribución de %s</string>
     <string name="pref_sync_notification_summary">Notificar sobre progreso de sincronización</string>
@@ -710,7 +697,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">El filtro «sin asignar» no puede incluirse en selección múltiple</string>
-    <string name="upgrade_information_cloud_sync_storage_format">Con la versión 2.9.8, la manera en que los datos son almacenados en los servicios de sincronización ha cambiado. Por favor, actualice a esta versión en todos sus dispositivos sincronizados antes de introducir ninguna nueva entrada en cualquiera de ellos.</string>
     <string name="pref_security_export_passphrase_title">Frase de contraseña para copias de seguridad</string>
     <string name="pref_security_export_passphrase_summary">Las copias de seguridad se encriptarán con esta frase de contraseña</string>
     <string name="backup_is_encrypted">La copia de seguridad está encriptada. Para poder desencriptarla, necesitará especificar su frase de contraseña.</string>
@@ -771,7 +757,6 @@
     <string name="budget_filter_all_states">Todos los estados</string>
     <string name="budget_filter_all_tags">Todas las etiquetas</string>
     <string name="budget_filter_all_accounts">Todas las cuentas</string>
-    <string name="budget_form_label_filter">Filtro</string>
     <string name="dialog_title_warning_delete_budget">¿Borrar presupuesto?</string>
     <string name="warning_delete_budget">El presupuesto «%1$s» será eliminado.</string>
     <string name="menu_edit_budget">Editar presupuesto</string>
@@ -797,7 +782,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">Las transacciones clonadas mantendrán la fecha original</string>
     <string name="tags_create_or_select">Crear o seleccionar etiquetas</string>
-    <string name="tags">Etiquetas</string>
     <string name="pref_manage_tags_summary">Añadir, editar o eliminar etiquetas.</string>
     <string name="dialog_title_warning_delete_tag">¿Eliminar etiqueta?</string>
     <string name="menu_edit_tag">Editar etiqueta</string>
@@ -841,7 +825,6 @@
     <string name="pref_criterion_future_current">Hora actual</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Características</string>
-    <string name="scan_result_no_data">Sin información</string>
     <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">Se han encontrado varios candidatos. Por favor, seleccione uno:</string>
     <string name="scan_result_no_amount">No se ha encontrado esa cantidad</string>
@@ -849,7 +832,6 @@
     <string name="scan_result_no_payee">No se ha encontrado ese acreedor</string>
     <string name="pref_feature_uninstall_title">Solicitar la desinstalación de características e idiomas</string>
     <string name="pref_feature_uninstall_summary">Play Store trata de eliminar eventualmente esos módulos en segundo plano.</string>
-    <string name="pref_feature_uninstall_languages_title">Idiomas</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Por favor, seleccione un paquete de licencia.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
@@ -919,7 +901,6 @@
     <string name="debt_I_owe">Yo debo %s</string>
     <string name="debt_owes_me">Me deben %s</string>
     <string name="debt">Deuda</string>
-    <string name="dialog_title_delete_debt">¿Eliminar deuda\?</string>
     <plurals name="debt_mapped_transactions">
         <item quantity="one">La deuda %1$s tiene %2$d transacciones asignadas.</item>
         <item quantity="many">Las deudas %1$s tienen %2$d transacciones asignadas.</item>
@@ -937,7 +918,6 @@
     <string name="cb_label_merge_accounts">Combinar cuentas</string>
     <string name="debts">Deudas</string>
     <string name="pref_mlkit_script_title">Guion para MlKit</string>
-    <string name="dialog_title_warning_delete_party">¿Borrar cuenta\?</string>
     <string name="dialog_title_purge_backups">Purgar copias de seguridad antiguas</string>
     <string name="pref_purge_backup_keep_title">Número máximo de copias de seguridad recientes a conservar</string>
     <plurals name="purge_backup_success">
@@ -962,7 +942,6 @@
     <string name="pref_csv_export_split_date_time_summary">Utilizar columnas separadas para fecha y hora</string>
     <string name="webui_warning_move_transaction">La transacción será trasladada a la cuenta {cuenta}.</string>
     <string name="icons_for_categories">Iconos por categorías</string>
-    <string name="required">Requerido</string>
     <string name="content_description_attachment">Archivo adjunto</string>
     <string name="redesign">Rediseño</string>
     <string name="budget_only_current_period">Establecer solo para %s</string>
@@ -990,8 +969,6 @@
     <string name="pref_backup_file_prefix_title">Extensión del archivo</string>
     <string name="optimize_image_file_size">Optimización del tamaño del archivo de la imagen</string>
     <string name="maximum_size">Tamaño Máximo</string>
-    <string name="file_format">Formato del archivo</string>
-    <string name="image_optimize_quality">Calidad</string>
     <string name="image_optimize_quality_summary">Calidad 0 significa compresión al tamaño mínimo. 100 es la máxima compresión de calidad visible.</string>
     <string name="add_shortcut">Añadir ataj</string>
     <string name="template_shortcut">Acceso directo a la plantilla</string>
@@ -1037,4 +1014,9 @@
     <string name="warning_transform_to_transfer">La transacción seleccionada será sustituida por una transferencia de %1$s a %2$s.</string>
     <string name="remap_date">En todas las transacciones seleccionadas, la fecha se establecerá en %s.</string>
     <string name="roadmap_intro">¡La votación de la Hoja de Ruta 2024 ya está abierta! Vota por las características y mejoras que más te importan.</string>
+    <string name="merge_categories_dialog_title">Fusionar categorías</string>
+    <string name="merge_categories_prompt">Seleccione la categoría que desea conservar</string>
+    <string name="subcategories_merged_recursively">Si alguna de las categorías fusionadas tiene subcategorías con la misma etiqueta, éstas se fusionarán primero, de forma recursiva.</string>
+    <string name="pref_csv_export_category_separator_summary">Separador entre los niveles de la jerarquía de las categorías</string>
+    <string name="not_enough_data">No hay suficientes datos</string>
 </resources>

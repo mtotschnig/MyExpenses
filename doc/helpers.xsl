@@ -362,6 +362,40 @@
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='ui_refinement']" />
             </xsl:when>
+            <xsl:when test="$version = '3.7.9'">
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='menu_original_amount']" />
+                <xsl:text>:&#032;</xsl:text>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='ui_refinement']" />
+            </xsl:when>
+            <xsl:when test="$version = '3.8.0'">
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='merge_categories_dialog_title']" />
+            </xsl:when>
+            <xsl:when test="$version = '3.8.1'">
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
+                <xsl:apply-templates mode="unescape"
+                    select="document($aosp)/resources/string[@name='menu_print']" />
+                <xsl:text>:&#032;</xsl:text>
+                <xsl:apply-templates mode="unescape"
+                    select="document($aosp)/resources/string[@name='configuration']" />
+                <xsl:text> (</xsl:text>
+                <xsl:apply-templates mode="unescape"
+                    select="document($aosp)/resources/string[@name='paper_format']" />
+                <xsl:text>, </xsl:text>
+                <xsl:apply-templates mode="unescape"
+                    select="document($aosp)/resources/string[@name='header_footer']" />
+                <xsl:text>)</xsl:text>
+            </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
     </xsl:template>

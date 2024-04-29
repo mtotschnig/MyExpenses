@@ -1,45 +1,27 @@
-Harcamalarım harcamalarınızı ve gelirlerinizi doğrudan akıllı telefonunuzda ve tabletinizde takip eder.
+<i>Harcamalarım</i>, parmaklarınızın ucunda, zahmetsiz gider takibi ve mali yönetim için mükemmel bir araçtır!
 
-- <b>Havaleler</b> dahil olmak üzere 5 hesap desteği (değişik dövizler arasında da havale yapılabilir)
-- Sınırsız <b>şablon</b> sayısı ve <b>tekrarlanan</b> muameleler için üçe kadar planlama desteği
-- QIF ile CSV biçimlerinde <b>dışa aktarma</b>. QIF biçiminden <b>içe aktarma</b>
-- Veriler, <b>parola</b> veya <b>ekran kilidi</b> ile korunabilir
-- <b>Tema</b> (açık veya koyu) ile <b>yazıtipi boyutu</b> kişiselleştirilebilir
-- <b>Uzlaştıma</b>: muamele durumlarını kolayca banka dekontlarınız ile karşılaştırın
-- Çabuk veri girişi için ana ekran <b>widget'leri</b> ve <b>kısayolları</b>
+Ana Özellikler:
 
-Premium işlevlerin kilidi aşağıdaki lisans anahtarlarının satın alınmasıyla açılabilir:
+     • <b>Zahmetsiz Gider Takibi</b>: İster akıllı telefonunuzda ister tabletinizde olun, harcamalarınızı ve gelirinizi sorunsuz bir şekilde takip edin.
+     • <b>Esnek Hesap Yönetimi</b>: Farklı para birimleri arasındaki transferler de dahil olmak üzere birden fazla hesabı zahmetsizce yönetin.
+     • <b>Kolaylaştırılmış Finansal Planlama</b>: Yinelenen işlemler için kolayca planlar oluşturun.
+     • <b>Sorunsuz Veri Yönetimi</b>: QIF ve CSV formatlarını kullanarak verileri kolaylıkla dışa ve içe aktarın.
+     • <b>Gelişmiş Güvenlik</b>: Verilerinizi şifreyle veya cihaz kilit ekranı güvenliğiyle koruyun.
+     • <b>Özelleştirilebilir Deneyim</b>: Özelleştirilebilir temalar ve yazı tipi boyutlarıyla uygulamayı tercihlerinize göre uyarlayın.
+     • <b>Banka Ekstresi Mutabakatı</b>: Doğru mali takip için işlem durumunu banka ekstrelerinizle kolayca karşılaştırın.
+     • <b>Hızlı Veri Girişi</b>: Ana ekran widget'ları ve kısayollarıyla kolay erişimin keyfini çıkarın.
+     • <b>Güçlü Veri Analizi</b>: Verilerinizi çeşitli kriterlere göre filtreleyin ve dinamik grafiklerle dağılımı ve geçmiş eğilimleri görselleştirin.
 
-<b>Katkı Anahtarı</b>
+Premium Özelliklerin Kilidini Açın:
 
-- <b>Reklamsız</b>
-- Sınırsız sayıda <b>hesap</b>
-- <b>Tekrarlanan</b> muameleler için sınırsız planlama sayısı
-- <b>Yuvarlak diyagram</b>: değişik zaman dilimleri (sene, ay, hafta, gün) ile kategori başına muamelelerin istatistiki dağılımını görüntüleyin
-- <b>Bölünmüş muameleler</b>: tek bir muamele birden çok parçalara ayrılabilir (kategoriler ve havaleler)
-- Muamele listesini bir PDF dosyasına <b>yazdırma</b>
-- <b>Resim ekleme</b>: kamera ile çekme ya da galeriden seçme
+     • <i>Katkı Anahtarı</i>: Reklamlara veda edin ve sınırsız hesapların, yinelenen işlem planlarının ve daha fazlasının kilidini açın.
+     • <i>Genişletilmiş Anahtar</i>: Bulut senkronizasyonunun, otomatik yedeklemelerin ve gelişmiş CSV içe aktarmalarının keyfini çıkarın.
+     • <i>Profesyonel Anahtar</i>: Bütçeleme araçları, makbuz tarama ve e-posta desteğiyle mali yönetiminizi bir sonraki seviyeye taşıyın.
 
-<b>Genişletilmiş Anahtarı</b>
+<i>Harcamalarım</i> aşağıdaki <u>izinleri</u> gerektirir:
 
-- Katkı Anahtarının tüm işlevleri
-- <b>Bulut eşleştirmesi</b>: veriler birden çok cihaz vasıtasıyla eşleştirilebilir (Webdav, Dropbox)
-- Günlük <b>otomatik yedekleme</b> ve seçime bağlı bulut depolama alanına yükleme
-- Gelişmiş, özelleştirilebilen <b>CSV içe aktarma</b> (tablolama uygulamaları)
+     • <i>Takvim</i>: Gelecekteki ve yinelenen işlemlere ilişkin planlar, özel bir yerel takvimde veya atadığınız herhangi bir takvimde saklanır.
+     • <i>İnternet</i>: Anonim kullanım takibi, Kilitlenme raporları, Bulut senkronizasyonu.
+     • <i>Hesaplar</i>: Bulut hizmetleri aracılığıyla cihazlar arasında senkronizasyon.
 
-<b>Profesyonel Anahtar</b>
-
-- Genişletilmiş Anahtar'ın tüm işlevleri
-- <b>Bütçeleme</b>: Harcamalarınızı kategori başına günlük, haftalık, aylık veya senelik olarak belirlediğiniz sınırlarla karşılaştırın.
-- <b>Tarihçe grafiği</b> (Nakit akışı)
-- <b>Makbuz tarama</b>: Otomatik olarak meblağ, tarih ve alacaklı bilgilerini çıkar
-- <b>İnternet Kullanıcı Arayüzü</b>
-- Sınırsız sayıda <b>şablon ve bölünmüş muameleler için planlama</b>
-- 2 iş günü sonrasında cevap garantili <b>e-posta desteği</b>
-- <b>Geliştirme yol haritası</b> hakkında oy verme hakkı
-
-<i>Harcamalarım</i> aşağıdaki <u>izinlere</u> ihtiyaç duyar:
-
-- <i>Takvim</i>: Gelecekteki ve tekrar eden muameleler için planlar ya özel bir yerel takvimde ya da atadığınız herhangi başka bir takvimde saklanır.
-- <i>Internet</i>: Lisans anahtarı teyidi, Bulut eşleşmesi.
-- <i>Hesaplar</i>: Cihazlar arası bulut hizmetleri ile eşleşme.
+<i>Harcamalarım</i>'ı kullanarak mali durumunuzun kontrolünü daha önce hiç olmadığı kadar elinize alın!

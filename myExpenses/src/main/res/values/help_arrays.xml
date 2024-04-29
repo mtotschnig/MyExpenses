@@ -109,7 +109,7 @@
         <item>grouping</item>
         <item>back</item>
         <item>forward</item>
-        <item>distribution_show_pie_char</item><!-- sic! -->
+        <item>chart</item>
         <item>aggregate_neutral_categories</item>
     </string-array>
 
@@ -118,6 +118,13 @@
         <item>create_sub_cat</item>
         <item>delete</item>
         <item>move</item>
+        <item>merge</item>
+    </string-array>
+
+    <string-array name="cab_ManageCategories_merge_help_text">
+        <item>cab_ManageCategories_merge_help_text</item>
+        <item>subcategories_merged_recursively</item>
+        <item>help_ManageParties_mergeMode_info_2</item>
     </string-array>
 
     <string-array name="cab_ManageCategories_edit_help_text">
@@ -146,6 +153,7 @@
         <item>back.forward</item>
         <item>edit</item>
         <item>rollover</item>
+        <item>chart</item>
         <item>manage_categories</item>
         <item>budget_allocated_only</item>
         <item>delete</item>
@@ -514,7 +522,7 @@
     </string-array>
 
     <string-array name="help_ManageParties_mergeMode_info">
-        <item>help_ManageParties_mergeMode_info_1</item>
+        <item tools:ignore="Typos">help_ManageParties_mergeMode_info_1</item>
         <item>help_fab_confirm_selection</item>
         <item>help_ManageParties_mergeMode_info_2</item>
     </string-array>

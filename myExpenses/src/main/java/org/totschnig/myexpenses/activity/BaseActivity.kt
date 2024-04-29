@@ -4,7 +4,14 @@ import android.annotation.TargetApi
 import android.app.DownloadManager
 import android.app.KeyguardManager
 import android.app.NotificationManager
-import android.content.*
+import android.content.ActivityNotFoundException
+import android.content.BroadcastReceiver
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -24,10 +31,13 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.annotation.*
+import androidx.annotation.CallSuper
+import androidx.annotation.DrawableRes
+import androidx.annotation.IdRes
+import androidx.annotation.RequiresApi
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -37,7 +47,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.os.ConfigurationCompat
+import androidx.core.os.BundleCompat
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Lifecycle
@@ -60,19 +70,33 @@ import de.cketti.mailto.EmailIntentBuilder
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.AmountInputHostDialog
+import eltos.simpledialogfragment.form.Hint
+import eltos.simpledialogfragment.form.SimpleFormDialog
+import eltos.simpledialogfragment.form.Spinner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity.Companion.getIntentFor
-import org.totschnig.myexpenses.dialog.*
+import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
+import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.DialogUtils.PasswordDialogUnlockedCallback
+import org.totschnig.myexpenses.dialog.HelpDialogFragment
+import org.totschnig.myexpenses.dialog.MessageDialogFragment
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment
+import org.totschnig.myexpenses.dialog.TransactionDetailFragment
+import org.totschnig.myexpenses.dialog.VersionDialogFragment
 import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.feature.Module
+import org.totschnig.myexpenses.feature.OcrHost
+import org.totschnig.myexpenses.feature.OcrResult
+import org.totschnig.myexpenses.feature.OcrResultFlat
+import org.totschnig.myexpenses.feature.Payee
 import org.totschnig.myexpenses.feature.values
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
@@ -82,39 +106,46 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
 import org.totschnig.myexpenses.provider.maybeRepairRequerySchema
 import org.totschnig.myexpenses.service.PlanExecutor.Companion.enqueueSelf
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.SnackbarAction
-import org.totschnig.myexpenses.util.*
 import org.totschnig.myexpenses.util.ColorUtils.isBrightColor
+import org.totschnig.myexpenses.util.NotificationBuilderWrapper
+import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
+import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.marketSelfUri
+import org.totschnig.myexpenses.util.getLocale
 import org.totschnig.myexpenses.util.licence.LicenceHandler
-import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
+import org.totschnig.myexpenses.util.readPrimaryTextColor
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.ui.setBackgroundTintList
+import org.totschnig.myexpenses.viewmodel.BaseFunctionalityViewModel
 import org.totschnig.myexpenses.viewmodel.FeatureViewModel
 import org.totschnig.myexpenses.viewmodel.OcrViewModel
-import org.totschnig.myexpenses.viewmodel.ShareViewModel
 import org.totschnig.myexpenses.viewmodel.data.EventObserver
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET_DATA_ENTRY
 import java.io.Serializable
 import java.math.BigDecimal
-import java.util.*
+import java.time.LocalDate
+import java.time.LocalTime
 import javax.inject.Inject
 import kotlin.math.sign
 
 abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener,
     ConfirmationDialogListener, EasyPermissions.PermissionCallbacks, AmountInput.Host, ContribIFace,
-    OnDialogResultListener, OnSharedPreferenceChangeListener {
+    OnDialogResultListener, OnSharedPreferenceChangeListener, OcrHost {
     private var snackBar: Snackbar? = null
     private var pwDialog: AlertDialog? = null
 
@@ -280,6 +311,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                     featureViewModel.requestFeature(this, Feature.FINTS)
                 }
             }
+
             ContribFeature.WEB_UI -> {
                 if (featureViewModel.isFeatureAvailable(this, Feature.WEBUI)) {
                     activateWebUi()
@@ -287,6 +319,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                     featureViewModel.requestFeature(this, Feature.WEBUI)
                 }
             }
+
             else -> {}
         }
     }
@@ -344,7 +377,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     val ocrViewModel: OcrViewModel by viewModels()
     val featureViewModel: FeatureViewModel by viewModels()
-    val shareViewModel: ShareViewModel by viewModels()
+    val baseViewModel: BaseFunctionalityViewModel by viewModels()
 
     private var helpVariant: String? = null
 
@@ -400,7 +433,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         with(injector) {
             inject(ocrViewModel)
             inject(featureViewModel)
-            inject(shareViewModel)
+            inject(baseViewModel)
         }
 
         StateSaver.restoreInstanceState(this, savedInstanceState)
@@ -432,14 +465,16 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                                 getString(R.string.feature_downloaded, it)
                             }
                     )
-                    Feature.values.find { featureState.modules.contains(it.mainModule.moduleName) }?.also {
-                        //after the dynamic feature module has been installed, we need to check if data needed by the module (e.g. Tesseract) has been downloaded
-                        if (!featureViewModel.isFeatureAvailable(this, it)) {
-                            featureViewModel.requestFeature(this, it)
-                        } else {
-                            onFeatureAvailable(it)
+                    Feature.values.find { featureState.modules.contains(it.mainModule.moduleName) }
+                        ?.also {
+                            //after the dynamic feature module has been installed, we need to check if data needed by the module (e.g. Tesseract) has been downloaded
+                            if (!featureViewModel.isFeatureAvailable(this, it)) {
+                                featureViewModel.requestFeature(this, it)
+                            } else {
+                                onFeatureAvailable(it)
+                            }
                         }
-                    } ?: run { report(Throwable("No feature found for ${featureState.modules.joinToString()}")) }
+                        ?: run { report(Throwable("No feature found for ${featureState.modules.joinToString()}")) }
 
                 }
 
@@ -467,18 +502,18 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         tracker.init(this, licenceHandler.licenceStatus)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                shareViewModel.shareResult.collect { result ->
+                baseViewModel.shareResult.collect { result ->
                     val callback = object : Snackbar.Callback() {
                         override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                             if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION) {
-                                shareViewModel.messageShown()
+                                baseViewModel.messageShown()
                             }
                         }
                     }
                     result?.onFailure {
                         showDismissibleSnackBar(it.safeMessage, callback)
                     }?.onSuccess {
-                        if (it == ShareViewModel.Scheme.HTTP || it == ShareViewModel.Scheme.HTTPS) {
+                        if (it == BaseFunctionalityViewModel.Scheme.HTTP || it == BaseFunctionalityViewModel.Scheme.HTTPS) {
                             showDismissibleSnackBar("HTTP PUT completed successfully.", callback)
                         }
                     }
@@ -517,27 +552,43 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         AppCompatDelegate.setApplicationLocales(
             if (language == MyApplication.DEFAULT_LANGUAGE)
                 LocaleListCompat.getEmptyLocaleList() else
-                LocaleListCompat.forLanguageTags(
-                    language
-                )
+                LocaleListCompat.forLanguageTags(language)
         )
     }
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == CONFIRM_DEVICE_CREDENTIALS_UNLOCK_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                confirmCredentialResult = true
-                showWindow()
-                requireApplication().isLocked = false
-            } else {
-                confirmCredentialResult = false
+        when (requestCode) {
+            CONFIRM_DEVICE_CREDENTIALS_UNLOCK_REQUEST -> {
+                if (resultCode == RESULT_OK) {
+                    confirmCredentialResult = true
+                    showWindow()
+                    requireApplication().isLocked = false
+                } else {
+                    confirmCredentialResult = false
+                }
             }
+
+            CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
+                val result = CropImage.getActivityResult(data)
+                if (resultCode == RESULT_OK) {
+                    baseViewModel.cleanupOrigFile(result)
+                    onCropResultOK(result)
+                } else {
+                    processImageCaptureError(resultCode, result)
+                }
+            }
+
+            OCR_REQUEST -> ocrViewModel.handleOcrData(data, supportFragmentManager)
         }
     }
 
-    open fun requireApplication() = application as MyApplication
+    open fun onCropResultOK(result: CropImage.ActivityResult) {
+        ocrViewModel.startOcrFeature(result.uri, supportFragmentManager)
+    }
+
+    fun requireApplication() = application as MyApplication
 
     override fun onResume() {
         super.onResume()
@@ -566,13 +617,32 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
-        if (dialogTag == DIALOG_INACTIVE_BACKEND && which == OnDialogResultListener.BUTTON_POSITIVE) {
-            GenericAccountService.activateSync(
-                extras.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!,
-                prefHandler
-            )
-            true
-        } else false
+        when (dialogTag) {
+            DIALOG_INACTIVE_BACKEND -> {
+                if (which == OnDialogResultListener.BUTTON_POSITIVE) {
+                    GenericAccountService.activateSync(
+                        extras.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!,
+                        prefHandler
+                    )
+                }
+                true
+            }
+
+            DIALOG_TAG_OCR_DISAMBIGUATE -> {
+                startEditFromOcrResult(
+                    BundleCompat.getParcelable(extras, KEY_OCR_RESULT, OcrResult::class.java)!!
+                        .selectCandidates(
+                            extras.getInt(DatabaseConstants.KEY_AMOUNT),
+                            extras.getInt(DatabaseConstants.KEY_DATE),
+                            extras.getInt(DatabaseConstants.KEY_PAYEE_NAME)
+                        ),
+                    BundleCompat.getParcelable(extras, KEY_URI, Uri::class.java)!!
+                )
+                true
+            }
+
+            else -> false
+        }
 
     open fun hideWindow() {
         findViewById<View>(android.R.id.content).visibility = View.GONE
@@ -639,8 +709,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 PrefKey.PROTECTION_ALLOW_SCREENSHOT,
                 PrefKey.PROTECTION_DEVICE_LOCK_SCREEN,
                 PrefKey.PROTECTION_LEGACY,
-                PrefKey.UI_FONTSIZE,
-                PrefKey.CUSTOMIZE_MAIN_MENU
+                PrefKey.UI_FONT_SIZE,
+                PrefKey.CUSTOMIZE_MAIN_MENU,
+                PrefKey.UI_ITEM_RENDERER_ORIGINAL_AMOUNT
             )
         ) {
             scheduledRestart = true
@@ -813,13 +884,20 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         finish()
     }
 
-    fun processImageCaptureError(resultCode: Int, activityResult: CropImage.ActivityResult?) {
+    open val imageCaptureErrorDismissCallback: Snackbar.Callback? = null
+
+    open fun processImageCaptureError(resultCode: Int, activityResult: CropImage.ActivityResult?) =
         if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
             val throwable = activityResult?.error ?: Throwable("ERROR")
             report(throwable)
-            showSnackBar(if (throwable is ActivityNotFoundException) getString(R.string.image_capture_not_installed) else throwable.safeMessage)
-        }
-    }
+            showSnackBar(
+                if (throwable is ActivityNotFoundException)
+                    getString(R.string.image_capture_not_installed)
+                else throwable.safeMessage,
+                callback = imageCaptureErrorDismissCallback
+            )
+            true
+        } else false
 
     @JvmOverloads
     fun showDismissibleSnackBar(message: Int, callback: Snackbar.Callback? = null) {
@@ -994,9 +1072,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             R.string.warning_unencrypted_backup,
             getString(R.string.pref_security_export_passphrase_title)
         )
-
-    fun getLocale(): Locale =
-        ConfigurationCompat.getLocales(resources.configuration).get(0) ?: Locale.getDefault()
 
     override fun onMessageDialogDismissOrCancel() {}
 
@@ -1251,7 +1326,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     val canUseContentColor: Boolean by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (prefHandler.getInt(PrefKey.UI_FONTSIZE, 0) == 0) true else {
+            if (prefHandler.getInt(PrefKey.UI_FONT_SIZE, 0) == 0) true else {
                 val uiModeFromPref = prefHandler.uiMode(this)
                 if (uiModeFromPref == "default") true else {
                     val ourUiMode = if (uiModeFromPref == "dark")
@@ -1363,6 +1438,101 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 false
             )
         )
+    }
+
+    private fun displayDateCandidate(pair: Pair<LocalDate, LocalTime?>) =
+        (pair.second?.let { pair.first.atTime(pair.second) } ?: pair.first).toString()
+
+    override fun processOcrResult(result: Result<OcrResult>, scanUri: Uri) {
+
+        result.onSuccess {
+            if (it.needsDisambiguation()) {
+                SimpleFormDialog.build()
+                    .cancelable(false)
+                    .autofocus(false)
+                    .neg(android.R.string.cancel)
+                    .extra(Bundle().apply {
+                        putParcelable(ExpenseEdit.KEY_OCR_RESULT, it)
+                        putParcelable(DatabaseConstants.KEY_URI, scanUri)
+                    })
+                    .title(getString(R.string.scan_result_multiple_candidates_dialog_title))
+                    .fields(
+                        when (it.amountCandidates.size) {
+                            0 -> Hint.plain(getString(R.string.scan_result_no_amount))
+                            1 -> Hint.plain(
+                                "%s: %s".format(
+                                    getString(R.string.amount),
+                                    it.amountCandidates[0]
+                                )
+                            )
+
+                            else -> Spinner.plain(DatabaseConstants.KEY_AMOUNT)
+                                .placeholder(R.string.amount)
+                                .items(*it.amountCandidates.toTypedArray())
+                                .preset(0)
+                        },
+                        when (it.dateCandidates.size) {
+                            0 -> Hint.plain(getString(R.string.scan_result_no_date))
+                            1 -> Hint.plain(
+                                "%s: %s".format(
+                                    getString(R.string.date),
+                                    displayDateCandidate(it.dateCandidates[0])
+                                )
+                            )
+
+                            else -> Spinner.plain(DatabaseConstants.KEY_DATE)
+                                .placeholder(R.string.date)
+                                .items(
+                                    *it.dateCandidates.map(this::displayDateCandidate)
+                                        .toTypedArray()
+                                )
+                                .preset(0)
+                        },
+                        when (it.payeeCandidates.size) {
+                            0 -> Hint.plain(getString(R.string.scan_result_no_payee))
+                            1 -> Hint.plain(
+                                "%s: %s".format(
+                                    getString(R.string.payee),
+                                    it.payeeCandidates[0].name
+                                )
+                            )
+
+                            else -> Spinner.plain(DatabaseConstants.KEY_PAYEE_NAME)
+                                .placeholder(R.string.payee)
+                                .items(*it.payeeCandidates.map(Payee::name).toTypedArray())
+                                .preset(0)
+                        }
+                    )
+                    .show(this, DIALOG_TAG_OCR_DISAMBIGUATE)
+            } else {
+                startEditFromOcrResult(
+                    it.selectCandidates(),
+                    scanUri
+                )
+            }
+        }.onFailure {
+            report(it)
+            Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun recordUsage(f: ContribFeature) {
+        licenceHandler.recordUsage(f)
+    }
+
+    open fun startEditFromOcrResult(result: OcrResultFlat?, scanUri: Uri) {
+        recordUsage(ContribFeature.OCR)
+        editIntent?.apply {
+            putExtra(ExpenseEdit.KEY_OCR_RESULT, result)
+            putExtra(DatabaseConstants.KEY_URI, scanUri)
+        }?.let { startEdit(it) }
+    }
+
+    open val editIntent: Intent?
+        get() = Intent(this, ExpenseEdit::class.java)
+
+    open fun startEdit(intent: Intent) {
+        startActivityForResult(intent, EDIT_REQUEST)
     }
 
 

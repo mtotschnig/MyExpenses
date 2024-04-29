@@ -116,7 +116,7 @@ fun ScrollView.postScrollToBottom() {
 fun setNightMode(prefHandler: PrefHandler, context: Context) {
     AppCompatDelegate.setDefaultNightMode(
         when (prefHandler.getString(
-            PrefKey.UI_THEME_KEY,
+            PrefKey.UI_THEME,
             context.getString(R.string.pref_ui_theme_default)
         )) {
             "dark" -> AppCompatDelegate.MODE_NIGHT_YES

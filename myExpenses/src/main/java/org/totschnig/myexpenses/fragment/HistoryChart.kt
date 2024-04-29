@@ -49,6 +49,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.filter.Criterion
@@ -58,6 +59,7 @@ import org.totschnig.myexpenses.ui.ExactStackedBarHighlighter
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.util.getLocale
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.viewmodel.HistoryViewModel
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel
@@ -141,25 +143,25 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
     ): View {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.account(
+                viewModel.accountInfo(
                     requireActivity().intent.getLongExtra(
                         DatabaseConstants.KEY_ACCOUNTID,
                         0
                     )
-                ).collect {
-                    val currency = currencyContext[it.currency]
+                ).collect { (account, grouping) ->
+                    val currency = currencyContext[account.currency]
                     accountInfo = HistoryAccountInfo(
-                        it.id,
-                        it.getLabelForScreenTitle(requireActivity()),
+                        account.id,
+                        account.getLabelForScreenTitle(requireActivity()),
                         currency,
-                        it.color,
-                        Money(currency, it.openingBalance),
+                        account.color,
+                        Money(currency, account.openingBalance),
                         grouping
                     )
                     (requireActivity() as ProtectedFragmentActivity).supportActionBar?.title =
                         accountInfo.label
-                    LoaderManager.getInstance(this@HistoryChart)
-                        .initLoader(GROUPING_CURSOR, null, this@HistoryChart)
+                    requireActivity().invalidateOptionsMenu()
+                    reset()
                 }
             }
         }
@@ -193,7 +195,11 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                                 accountId = accountInfo.accountId,
                                 currency = accountInfo.currencyUnit,
                                 grouping = grouping,
-                                groupingClause = buildGroupingClause(e.x.toInt()),
+                                groupingClause = listOfNotNull(
+                                    buildGroupingClause(e.x.toInt()),
+                                    filter.getSelectionForParts(VIEW_COMMITTED).takeIf { it.isNotEmpty() }
+                                ).joinToString(" AND "),
+                                groupingArgs = filter.getSelectionArgsList(true),
                                 label = formatXValue(e.x),
                                 type = h.stackIndex == 1,//expense is first entry, income second
                                 withTransfers = includeTransfers
@@ -227,7 +233,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
             (value / MONTH_GROUPING_YEAR_X).toInt(),
             (value % MONTH_GROUPING_YEAR_X).toInt(),
             FormatStyle.SHORT,
-            (requireActivity() as BaseActivity).getLocale(),
+            requireActivity().getLocale(),
             prefHandler.monthStart
         )
 

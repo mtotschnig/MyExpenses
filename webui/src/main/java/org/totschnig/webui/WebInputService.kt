@@ -276,7 +276,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                                         ${i18nJson("payer_or_payee", R.string.payer_or_payee)},
                                         ${i18nJson("category", R.string.category)},
                                         ${i18nJson("tags", R.string.tags)},
-                                        ${i18nJson("comment", R.string.comment)},
+                                        ${i18nJson("comment", R.string.notes)},
                                         ${i18nJson("method", R.string.method)},
                                         ${i18nJson("menu_save", R.string.menu_save)},
                                         ${i18nJson("menu_create_transaction", R.string.menu_create_transaction)},

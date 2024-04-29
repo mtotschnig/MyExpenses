@@ -34,9 +34,13 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.filter.AccountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
+import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.filter.IdCriterion
+import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
@@ -118,41 +122,29 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
     }
 
     private fun startFilterDialog(id: Int) {
+        val edit = filterPersistence.whereFilter.criteria.find { it.id == id }
         when (id) {
-            R.id.FILTER_CATEGORY_COMMAND -> {
-                Intent(this, ManageCategories::class.java).apply {
-                    action = Action.SELECT_FILTER.name
-                    startActivityForResult(this, FILTER_CATEGORY_REQUEST)
-                }
-            }
+            R.id.FILTER_CATEGORY_COMMAND -> getCategory.launch(null to edit as? CategoryCriterion)
 
-            R.id.FILTER_TAG_COMMAND -> {
-                Intent(this, ManageTags::class.java).apply {
-                    action = Action.SELECT_FILTER.name
-                    startActivityForResult(this, FILTER_TAGS_REQUEST)
-                }
-            }
+            R.id.FILTER_TAG_COMMAND -> getTags.launch(null to edit as? TagCriterion)
 
-            R.id.FILTER_PAYEE_COMMAND -> {
-                Intent(this, ManageParties::class.java).apply {
-                    action = Action.SELECT_FILTER.name
-                    startActivityForResult(this, FILTER_PAYEE_REQUEST)
-                }
-            }
+            R.id.FILTER_PAYEE_COMMAND -> getPayee.launch(null to edit as? PayeeCriterion)
 
             R.id.FILTER_METHOD_COMMAND -> {
-                SelectMethodsAllDialogFragment()
+                SelectMethodsAllDialogFragment.newInstance(edit as? MethodCriterion)
                     .show(supportFragmentManager, "METHOD_FILTER")
             }
 
             R.id.FILTER_STATUS_COMMAND -> {
-                SelectCrStatusDialogFragment.newInstance(false)
+                SelectCrStatusDialogFragment.newInstance(edit as? CrStatusCriterion, false)
                     .show(supportFragmentManager, "STATUS_FILTER")
             }
 
             R.id.FILTER_ACCOUNT_COMMAND -> {
-                SelectMultipleAccountDialogFragment.newInstance(selectedAccount().currency)
-                    .show(supportFragmentManager, "ACCOUNT_FILTER")
+                SelectMultipleAccountDialogFragment.newInstance(
+                    selectedAccount().currency,
+                    edit as? AccountCriterion
+                ).show(supportFragmentManager, "ACCOUNT_FILTER")
             }
         }
     }
@@ -171,7 +163,11 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.accountsMinimal().take(1).collect { list ->
                     if (list.isEmpty()) {
-                        Toast.makeText(this@BudgetEdit, getString(R.string.no_accounts), Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            this@BudgetEdit,
+                            getString(R.string.no_accounts),
+                            Toast.LENGTH_LONG
+                        ).show()
                         finish()
                     } else {
                         accountSpinnerHelper.adapter = IdAdapter(this@BudgetEdit, list)
@@ -218,66 +214,15 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
         filterPersistence.onSaveInstanceState(outState)
     }
 
-    @Deprecated("Deprecated in Java")
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode != Activity.RESULT_CANCELED) {
-            when (requestCode) {
-                FILTER_CATEGORY_REQUEST -> {
-                    data?.getStringExtra(KEY_LABEL)?.let { label ->
-                        if (resultCode == Activity.RESULT_OK) {
-                            data.getLongExtra(KEY_ROWID, 0).takeIf { it > 0 }?.let {
-                                addCategoryFilter(label, it)
-                            }
-                        }
-                        if (resultCode == Activity.RESULT_FIRST_USER) {
-                            data.getLongArrayExtra(KEY_ROWID)?.let {
-                                addCategoryFilter(label, *it)
-                            }
-                        }
-                    }
-                }
-
-                FILTER_TAGS_REQUEST -> {
-                    data?.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST)?.takeIf { it.size > 0 }
-                        ?.let {
-                            val tagIds = it.map(Tag::id).toLongArray()
-                            val label = it.map(Tag::label).joinToString(", ")
-                            addFilterCriterion(TagCriterion(label, *tagIds))
-                        }
-                }
-
-                FILTER_PAYEE_REQUEST -> {
-                    data?.getStringExtra(KEY_LABEL)?.let { label ->
-                        if (resultCode == Activity.RESULT_OK) {
-                            data.getLongExtra(KEY_ROWID, 0).takeIf { it > 0 }?.let {
-                                addPayeeFilter(label, it)
-                            }
-                        }
-                        if (resultCode == Activity.RESULT_FIRST_USER) {
-                            data.getLongArrayExtra(KEY_ROWID)?.let {
-                                addPayeeFilter(label, *it)
-                            }
-                        }
-                    }
-                }
-            }
+    private inline fun <reified I : IdCriterion, C : PickObjectContract<I>>
+            buildLauncher(createContract: () -> C) =
+        registerForActivityResult(createContract()) { criterion ->
+            criterion?.let { addFilterCriterion(it) }
         }
-        super.onActivityResult(requestCode, resultCode, data)
-    }
 
-    private fun addCategoryFilter(label: String, vararg catIds: Long) {
-        (if (catIds.size == 1 && catIds[0] == NULL_ITEM_ID) CategoryCriterion()
-        else CategoryCriterion(label, *catIds)).let {
-            addFilterCriterion(it)
-        }
-    }
-
-    private fun addPayeeFilter(label: String, vararg payeeIds: Long) {
-        (if (payeeIds.size == 1 && payeeIds[0] == NULL_ITEM_ID) PayeeCriterion()
-        else PayeeCriterion(label, *payeeIds)).let {
-            addFilterCriterion(it)
-        }
-    }
+    private val getCategory = buildLauncher(::PickCategoryContract)
+    private val getPayee = buildLauncher(::PickPayeeContract)
+    private val getTags = buildLauncher(::PickTagContract)
 
     override fun addFilterCriterion(c: Criterion<*>) {
         setDirty()

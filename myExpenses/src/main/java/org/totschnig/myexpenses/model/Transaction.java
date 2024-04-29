@@ -493,6 +493,9 @@ public class Transaction extends Model implements ITransaction {
       default -> throw new IllegalStateException(
               String.format(Locale.ROOT, "Unknown type %d", te.operationType()));
     }
+    if (te.getOriginalAmount() != null) {
+      tr.setOriginalAmount(te.getOriginalAmount());
+    }
     tr.setComment(te.getComment());
     tr.setPayee(te.getPayee());
     tr.setPayeeId(te.getPayeeId());
@@ -915,7 +918,7 @@ public class Transaction extends Model implements ITransaction {
     }
     //comment
     if (!getComment().equals("")) {
-      sb.append(ctx.getString(R.string.comment));
+      sb.append(ctx.getString(R.string.notes));
       sb.append(" : ");
       sb.append(getComment());
       sb.append("\n");

@@ -36,8 +36,6 @@
     <string name="app_name">Mano išlaidos</string>
     <string name="backup_success">Duomenų bazė bei nustatymai sėkmingai įrašyti į \"%1$s\".</string>
     <string name="category">Kategorija</string>
-    <string name="color">Spalva</string>
-    <string name="comment">Pastabos</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Neribotas sąskaitų kiekis</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Neribotas planų kiekis</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Eksportuoti operacijų sąrašą į PDF dokumentą</string>
@@ -89,9 +87,6 @@
     <string name="menu_edit_template">Keisti šabloną</string>
     <string name="menu_edit_transaction">Keisti operaciją</string>
     <string name="menu_help">Pagalba</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Atverti</string>
-    <string name="menu_print">Spausdinti</string>
     <string name="menu_save">Įrašyti</string>
     <string name="no_methods">Nėra mokėjimo būdų.</string>
     <string name="password_prompt">Įveskite slaptažodį</string>

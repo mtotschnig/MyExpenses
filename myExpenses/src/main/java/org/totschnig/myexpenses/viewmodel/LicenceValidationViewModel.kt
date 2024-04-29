@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -38,8 +39,8 @@ class LicenceValidationViewModel(application: Application) : BaseViewModel(appli
     @Inject
     lateinit var prefHandler: PrefHandler
 
-    private val _result: MutableStateFlow<String?> = MutableStateFlow(null)
-    val result: StateFlow<String?> = _result
+    private val _result: MutableStateFlow<Pair<Boolean, String>?> = MutableStateFlow(null)
+    val result: StateFlow<Pair<Boolean, String>?> = _result
 
     private val licenceEmail: String
         get() = prefHandler.requireString(PrefKey.LICENCE_EMAIL,"")
@@ -68,7 +69,7 @@ class LicenceValidationViewModel(application: Application) : BaseViewModel(appli
         viewModelScope.launch(context = coroutineContext()) {
             _result.update {
                 if (licenceKey.isEmpty() || licenceEmail.isEmpty()) {
-                    "Email or Key Missing"
+                    false to "Email or Key Missing"
                 } else {
                     val licenceCall = service.removeLicence(licenceEmail, licenceKey, deviceId)
                     try {
@@ -77,12 +78,12 @@ class LicenceValidationViewModel(application: Application) : BaseViewModel(appli
                             prefHandler.remove(PrefKey.NEW_LICENCE)
                             prefHandler.remove(PrefKey.LICENCE_EMAIL)
                             licenceHandler.voidLicenceStatus(false)
-                            getString(R.string.licence_removal_success)
+                            true to getString(R.string.licence_removal_success)
                         } else {
-                            licenceResponse.code().toString()
+                            false to licenceResponse.code().toString()
                         }
                     } catch (e: IOException) {
-                        e.safeMessage
+                        false to e.safeMessage
                     }
                 }
             }
@@ -93,7 +94,7 @@ class LicenceValidationViewModel(application: Application) : BaseViewModel(appli
         viewModelScope.launch(context = coroutineContext()) {
             _result.update {
                 if (licenceKey.isEmpty() || licenceEmail.isEmpty()) {
-                    "Email or Key Missing"
+                    false to "Email or Key Missing"
                 } else {
                     val licenceCall = service.validateLicence(licenceEmail, licenceKey, deviceId)
                     try {
@@ -109,9 +110,9 @@ class LicenceValidationViewModel(application: Application) : BaseViewModel(appli
                                 ", ",
                                 *licence.featureListAsResIDs(localizedContext)
                             ) else " " + localizedContext.getString(type.resId)
-                            successMessage
+                            true to successMessage
                         } else {
-                            when (licenceResponse.code()) {
+                            false to when (licenceResponse.code()) {
                                 452 -> {
                                     licenceHandler.voidLicenceStatus(true)
                                     getString(R.string.licence_validation_error_expired)
@@ -128,7 +129,7 @@ class LicenceValidationViewModel(application: Application) : BaseViewModel(appli
                             }
                         }
                     } catch (e: IOException) {
-                        e.safeMessage
+                        false to e.safeMessage
                     }
                 }
             }

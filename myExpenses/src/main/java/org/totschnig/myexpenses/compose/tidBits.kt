@@ -154,18 +154,3 @@ fun TypeConfiguration(
         }
     }
 }
-
-@Preview
-@Composable
-fun ConditionalTest() {
-    Text(
-        modifier = Modifier
-            .padding(15.dp)
-            .border(width = 2.dp, color = Color.Blue)
-            .conditional(true) {
-                background(Color.Red)
-            }
-            .padding(16.dp),
-        text = "Text"
-    )
-}

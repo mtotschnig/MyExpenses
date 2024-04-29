@@ -63,7 +63,7 @@
     <string name="menu_forward_help_text">Naviguer vers le groupe suivant. Peut aussi être fait par le glissement de droite à gauche.</string>
     <string name="menu_categories_setup_default_help_text">Un ensemble de catégories par défaut sera importé.</string>
     <string name="menu_categories_export_help_text">Les catégories seront exportées vers le fichier QIF.</string>
-    <string name="menu_distribution_show_pie_char_help_text">Activer/désactiver la visibilité du graphique à secteurs.</string>
+    <string name="menu_chart_help_text">Activer/désactiver la visibilité du graphique.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">Les catégories sélectionnées seront utilisées pour filtrer la liste des transactions.</string>
     <string name="menu_ManageCategories_search_help_text">Seulement la catégorie principal et les sous catégories qui correspondent à votre requête seront affichées.</string>
     <string name="menu_ManageCategories_sort_help_text">La liste des catégories peut être triée par titre (ordre alphabétique), par la fréquence d\'utilisation ou de la date de dernière création d\'une transaction.</string>
@@ -210,4 +210,5 @@
     <string name="menu_aggregate_neutral_categories_help_text">Les opérations associées à des catégories de revenus sont toujours comptabilisées comme des revenus, tandis que les opérations associées à des catégories de dépenses sont toujours comptabilisées comme des dépenses. Cette option vous permet de configurer la façon dont les transactions mappées à des catégories neutres sont comptabilisées : par défaut, si elles sont positives, elles représentent un revenu, si elles sont négatives, une dépense. Mais si cette option est activée, ils sont toujours inclus à la fois dans la somme de vos revenus et de vos dépenses.</string>
     <string name="help_ManageParties_mergeMode_info_1">Sélectionnez les parties en double que vous souhaitez fusionner.</string>
     <string name="help_ManageTags_context_menu_info">Appuyez sur l\'icône &lt;img src=more&gt; pour modifier, attribuer une couleur à ou supprimer une balise.</string>
+    <string name="cab_ManageCategories_merge_help_text">Les catégories du même type peuvent être fusionnées.</string>
 </resources>

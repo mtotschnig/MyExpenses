@@ -33,7 +33,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -97,10 +96,14 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     OnDialogResultListener {
     override val viewModel: DistributionViewModel by viewModels()
     private lateinit var chart: PieChart
-    private val showChart = mutableStateOf(false)
     private var mDetector: GestureDetector? = null
 
+    override val showChartPrefKey = PrefKey.DISTRIBUTION_SHOW_CHART
+
+    override val showChartDefault = true
+
     private val subColorMap = SparseArray<List<Int>>()
+
     private fun getSubColors(color: Int, isDark: Boolean): List<Int> {
         return subColorMap.get(color)
             ?: (if (isDark) ColorUtils.getTints(color) else ColorUtils.getShades(color)).also {
@@ -109,9 +112,9 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.distribution, menu)
         menuInflater.inflate(R.menu.grouping, menu.findItem(R.id.GROUPING_COMMAND).subMenu)
-        super.onCreateOptionsMenu(menu)
         return true
     }
 
@@ -124,9 +127,6 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             menu.findItem(R.id.GROUPING_COMMAND).subMenu,
             viewModel.grouping
         )
-        menu.findItem(R.id.TOGGLE_CHART_COMMAND)?.let {
-            it.isChecked = showChart.value
-        }
         lifecycleScope.launch {
             val currentIncomeType = viewModel.incomeType.first()
             val typeMenu = menu.findItem(R.id.TYPE_FILTER_COMMAND).subMenu!!
@@ -166,20 +166,6 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         return false
     }
 
-    override fun dispatchCommand(command: Int, tag: Any?) =
-        if (super.dispatchCommand(command, tag)) {
-            true
-        } else when (command) {
-            R.id.TOGGLE_CHART_COMMAND -> {
-                showChart.value = tag as Boolean
-                prefHandler.putBoolean(PrefKey.DISTRIBUTION_SHOW_CHART, showChart.value)
-                invalidateOptionsMenu()
-                true
-            }
-
-            else -> false
-        }
-
     private fun setChartData(categories: List<Category>) {
         if ((::chart.isInitialized)) {
             chart.data = PieData(PieDataSet(categories.map { category ->
@@ -205,7 +191,6 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = setupView()
-        showChart.value = prefHandler.getBoolean(PrefKey.DISTRIBUTION_SHOW_CHART, true)
         injector.inject(viewModel)
 
         val whereFilter = intent.getParcelableArrayListExtra<Criterion<*>>(KEY_FILTER)?.let {
@@ -235,7 +220,6 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         binding.composeView.setContent {
             AppTheme {
                 val isDark = isSystemInDarkTheme()
-                val configuration = LocalConfiguration.current
                 val categoryState =
                     viewModel.categoryTreeForDistribution.collectAsState(initial = Category.LOADING)
                 val categoryTree = remember {
@@ -317,52 +301,27 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
 
                         else -> {
                             val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
-                            when (configuration.orientation) {
-                                Configuration.ORIENTATION_LANDSCAPE -> {
-                                    Column {
-                                        if (whereFilter != null) {
-                                            FilterCard(whereFilter)
-                                        }
-                                        Row(modifier = Modifier.weight(1f)) {
-                                            RenderTree(
-                                                modifier = Modifier.weight(0.5f),
-                                                tree = categoryTree.value,
-                                                choiceMode = choiceMode,
-                                                expansionMode = expansionMode,
-                                                accountInfo = accountInfo.value
-                                            )
-                                            RenderChart(
-                                                modifier = Modifier
-                                                    .weight(0.5f)
-                                                    .fillMaxHeight(),
-                                                categories = chartCategoryTree
-                                            )
-                                        }
-                                        RenderSumLine(accountInfo.value, sums)
-                                    }
+                            Column {
+                                if (whereFilter != null) {
+                                    FilterCard(whereFilter)
                                 }
-
-                                else -> {
-                                    Column {
-                                        if (whereFilter != null) {
-                                            FilterCard(whereFilter)
-                                        }
+                                LayoutHelper(
+                                    data = {
                                         RenderTree(
-                                            modifier = Modifier.weight(0.5f),
+                                            modifier = it,
                                             tree = categoryTree.value,
                                             choiceMode = choiceMode,
                                             expansionMode = expansionMode,
                                             accountInfo = accountInfo.value
                                         )
+                                }, chart = {
                                         RenderChart(
-                                            modifier = Modifier
-                                                .weight(0.5f)
-                                                .fillMaxSize(),
+                                            modifier = it,
                                             categories = chartCategoryTree
                                         )
-                                        RenderSumLine(accountInfo.value, sums)
                                     }
-                                }
+                                )
+                                RenderSumLine(accountInfo.value, sums)
                             }
                         }
                     }
@@ -566,52 +525,51 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         modifier: Modifier,
         categories: State<Category>
     ) {
-        if (showChart.value)
-            AndroidView(
-                modifier = modifier,
-                factory = { ctx ->
-                    requireChart(ctx)
-                    chart.apply {
-                        description.isEnabled = false
-                        setExtraOffsets(20f, 0f, 20f, 0f)
-                        renderer = SelectivePieChartRenderer(
-                            this,
-                            object : SelectivePieChartRenderer.Selector {
-                                var lastValueGreaterThanOne = true
-                                override fun shouldDrawEntry(
-                                    index: Int,
-                                    pieEntry: PieEntry,
-                                    value: Float
-                                ): Boolean {
-                                    val greaterThanOne = value > 1f
-                                    val shouldDraw = greaterThanOne || lastValueGreaterThanOne
-                                    lastValueGreaterThanOne = greaterThanOne
-                                    return shouldDraw
-                                }
-                            }).apply {
-                            paintEntryLabels.color = textColorSecondary.defaultColor
-                            paintEntryLabels.textSize =
-                                UiUtils.sp2Px(TEXT_SIZE_SMALL_SP, resources).toFloat()
-                        }
-                        setCenterTextSizePixels(
-                            UiUtils.sp2Px(TEXT_SIZE_MEDIUM_SP, resources).toFloat()
-                        )
-                        setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
-                            override fun onValueSelected(e: Entry, highlight: Highlight) {
-                                val index = highlight.x.toInt()
-                                selectionState.value = categories.value.children.getOrNull(index)
-                                this@apply.setCenterText(index)
+        AndroidView(
+            modifier = modifier,
+            factory = { ctx ->
+                requireChart(ctx)
+                chart.apply {
+                    description.isEnabled = false
+                    setExtraOffsets(20f, 0f, 20f, 0f)
+                    renderer = SelectivePieChartRenderer(
+                        this,
+                        object : SelectivePieChartRenderer.Selector {
+                            var lastValueGreaterThanOne = true
+                            override fun shouldDrawEntry(
+                                index: Int,
+                                pieEntry: PieEntry,
+                                value: Float
+                            ): Boolean {
+                                val greaterThanOne = value > 1f
+                                val shouldDraw = greaterThanOne || lastValueGreaterThanOne
+                                lastValueGreaterThanOne = greaterThanOne
+                                return shouldDraw
                             }
-
-                            override fun onNothingSelected() {
-                                selectionState.value = null
-                            }
-                        })
-                        setUsePercentValues(true)
-                        legend.isEnabled = false
-                        setChartData(categories.value.children)
+                        }).apply {
+                        paintEntryLabels.color = textColorSecondary.defaultColor
+                        paintEntryLabels.textSize =
+                            UiUtils.sp2Px(TEXT_SIZE_SMALL_SP, resources).toFloat()
                     }
-                })
+                    setCenterTextSizePixels(
+                        UiUtils.sp2Px(TEXT_SIZE_MEDIUM_SP, resources).toFloat()
+                    )
+                    setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+                        override fun onValueSelected(e: Entry, highlight: Highlight) {
+                            val index = highlight.x.toInt()
+                            selectionState.value = categories.value.children.getOrNull(index)
+                            this@apply.setCenterText(index)
+                        }
+
+                        override fun onNothingSelected() {
+                            selectionState.value = null
+                        }
+                    })
+                    setUsePercentValues(true)
+                    legend.isEnabled = false
+                    setChartData(categories.value.children)
+                }
+            })
     }
 
     private fun PieChart.setCenterText(position: Int) {

@@ -84,7 +84,7 @@ abstract class DebtActivity : ProtectedFragmentActivity() {
 
     fun deleteDebt(debt: Debt, count: Int) {
         MessageDialogFragment.newInstance(
-            getString(R.string.dialog_title_delete_debt),
+            null,
             "${
                 resources.getQuantityString(
                     R.plurals.debt_mapped_transactions,

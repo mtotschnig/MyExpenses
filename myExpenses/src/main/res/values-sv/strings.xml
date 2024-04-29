@@ -2,7 +2,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="new_version">Ny version</string>
     <string name="add_shortcut">Lägg till genväg</string>
-    <string name="comment">Anteckningar</string>
     <string name="dialog_title_warning_delete_category">Ta bort kategori?</string>
     <string name="grouping_month">Månad</string>
     <string name="account_type_ccard_plural">Kreditkort</string>
@@ -57,7 +56,6 @@
     <string name="menu_create_method">Ny betalningsmetod</string>
     <string name="current_balance">Nuvarande saldo</string>
     <string name="dialog_title_information">Information</string>
-    <string name="menu_print">Skriv ut</string>
     <string name="menu_edit_cat">Redigera kategori</string>
     <string name="menu_create_instance_save">Verkställ och spara</string>
     <string name="label">Etikett</string>
@@ -79,9 +77,7 @@
     </plurals>
     <string name="contrib_feature_plans_unlimited_label">Obegränsat antalet abbonemang</string>
     <string name="dialog_password_new_password">Nytt lösenord</string>
-    <string name="menu_open">Öppna</string>
     <string name="licence_validation_failure">Kunde inte bekräfta licensnyckeln.</string>
-    <string name="color">Färg</string>
     <string name="menu_back">Bakåt</string>
     <string name="dialog_balance_delete">Ta bort avstämda överföringar</string>
     <string name="contrib_feature_distribution_label">Cirkeldiagram (Distribution per kategori)</string>
@@ -93,7 +89,6 @@
     <string name="already_defined">%1$s är redan definierat</string>
     <string name="grisbi_import_parties_loading">Laddar parter från %1$s</string>
     <string name="menu_create_party">Ny part</string>
-    <string name="button_label_share_file">Dela</string>
     <string name="licence_validation_premium">Premium-funktioner har låsts upp.</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Din aktuella licens status (%2$s) tillåter dig att skapa %1$d konton.</string>
     <string name="menu_aggregates">Totalt</string>
@@ -213,7 +208,6 @@
     <string name="select">Välj</string>
     <string name="reference_number">Referensnummer</string>
     <string name="menu_grouping">Gruppering</string>
-    <string name="dialog_title_warning_delete_party">Ta bort parti?</string>
     <string name="payer_or_payee">Betalningsmottagare/Betalare</string>
     <string name="warning_widget_disabled">Du behöver aktivera den här widgeten i appens inställningar.</string>
     <string name="save_transaction_error">Kunde inte spara nya transaktionen från mallen.</string>
@@ -230,7 +224,6 @@
     <string name="pref_checkbox_disabled">Inaktiverad</string>
     <string name="pref_ui_theme_title">Tema</string>
     <string name="restore_preferences_failure">Återställning av egenskaper misslyckades</string>
-    <string name="parse_error_no_data_found">Ingen importeringsbar data hittades i filen.</string>
     <string name="pref_share_target_title">URL för uppladdning</string>
     <string name="menu_create_template_for_transfer">Ny mall för överföring</string>
     <string name="pref_manage_categories_title">Kategorier</string>

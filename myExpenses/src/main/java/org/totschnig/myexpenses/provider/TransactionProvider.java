@@ -376,6 +376,10 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   public static final String KEY_RESULT = "result";
 
+  public static final String METHOD_MERGE_CATEGORIES = "mergeCategories";
+  public static final String KEY_MERGE_SOURCE = "mergeSource";
+  public static final String KEY_MERGE_TARGET = "mergeTarget";
+
   private static final UriMatcher URI_MATCHER;
 
   @Override
@@ -1024,7 +1028,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case BANKS -> {
         id = MoreDbUtilsKt.insert(db, TABLE_BANKS, values);
-        newUri = DEBTS_URI + "/" + id;
+        newUri = BANKS_URI + "/" + id;
       }
       // Currently not needed, until we implement Custom attributes
 /*      case ATTRIBUTES -> {
@@ -1240,6 +1244,8 @@ public class TransactionProvider extends BaseTransactionProvider {
         notifyChange(DEBTS_URI, false);
       } else if (uriMatch == TRANSACTION_ID_ATTACHMENT_ID) {
         notifyChange(TRANSACTIONS_URI, false);
+      } else if (uriMatch == BANK_ID) {
+        notifyChange(ACCOUNTS_URI, false);
       }
       notifyChange(uri, uriMatch == TRANSACTION_ID);
     }
@@ -1565,21 +1571,30 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHOD_SAVE_CATEGORY ->  {
         Bundle bundle = saveCategory(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
         notifyChange(CATEGORIES_URI, false);
+        notifyChange(TRANSACTIONS_URI, false);
         return bundle;
       }
       case METHOD_ENSURE_CATEGORY -> {
         Bundle bundle = ensureCategory(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
         notifyChange(CATEGORIES_URI, false);
+        notifyChange(TRANSACTIONS_URI, false);
         return bundle;
       }
       case METHOD_ENSURE_CATEGORY_TREE -> {
         Bundle bundle = ensureCategoryTree(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
         notifyChange(CATEGORIES_URI, false);
+        notifyChange(TRANSACTIONS_URI, false);
         return bundle;
       }
       case METHOD_SAVE_TRANSACTION_TAGS ->  {
         saveTransactionTags(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
         notifyChange(TRANSACTIONS_URI, true);
+      }
+      case METHOD_MERGE_CATEGORIES -> {
+        mergeCategories(getHelper().getWritableDatabase(), Objects.requireNonNull(extras));
+        notifyChange(CATEGORIES_URI, false);
+        notifyChange(TRANSACTIONS_URI, false);
+        return null;
       }
     }
     return null;

@@ -1,0 +1,5 @@
+• Search: Refinement of the user interface
+• Account widget configuration: Buttons
+• “Scan receipt” feature can be called from widget “My accounts”.
+
+https://github.com/mtotschnig/MyExpenses/projects/139#column-19841847

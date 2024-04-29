@@ -37,8 +37,6 @@
     <string name="app_name">My Expenses</string>
     <string name="backup_success">Database and preferences successfully written to \"%1$s\".</string>
     <string name="category">Category</string>
-    <string name="color">Color</string>
-    <string name="comment">Notes</string>
     <string name="contrib_feature_ad_free_label">No ads</string>
     <string name="contrib_feature_accounts_unlimited_label">Unlimited number of accounts</string>
     <string name="contrib_feature_attach_picture_label">Attach image to transaction</string>
@@ -108,7 +106,6 @@
     <string name="dialog_title_warning_delete_category">Delete category?</string>
     <string name="dialog_title_warning_delete_template">Delete template?</string>
     <string name="dialog_title_warning_delete_transaction">Delete transaction?</string>
-    <string name="dialog_title_warning_delete_party">Delete party?</string>
     <string name="expense">Expense</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">Export to file \"%1$s\" failed: %2$s</string>
@@ -182,10 +179,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Invert</string>
     <string name="menu_manage_plans">Templates and plans</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Open</string>
     <string name="menu_import">Import</string>
-    <string name="menu_print">Print</string>
     <string name="menu_reset">Export and reset</string>
     <string name="menu_reset_all">Export and reset all</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -193,7 +187,6 @@
     <string name="menu_save">Save</string>
     <string name="menu_save_and_new">Save and new</string>
     <string name="menu_share">Tell a friend</string>
-    <string name="button_label_share_file">Share</string>
     <string name="button_label_close">Close</string>
     <string name="menu_split_transaction">Transform to split</string>
     <string name="method">Payment method</string>
@@ -224,7 +217,6 @@
     <string name="opening_balance">Opening balance</string>
     <string name="parse_error_file_not_found">Could not find file %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">Unsupported Grisbi File Version: %1$s</string>
-    <string name="parse_error_no_data_found">No importable data found in file.</string>
     <string name="parse_error_other_exception">An error occurred: %1$s</string>
     <string name="parse_error_parse_exception">Could not parse file</string>
     <string name="password_disabled_reenable">The password protection has been disabled. You can reenable it in the settings.</string>
@@ -455,7 +447,6 @@
     <string name="restore_calendar_handling_ignore">Do not restore plans</string>
     <string name="restore_not_possible_target_calendar_missing">The calendar %s set in the backup archive does not exist locally. Restore has been aborted.</string>
     <string name="restore_not_possible_local_calendar_missing">The current planning calendar is not available.</string>
-    <string name="menu_distribution_show_pie_char">Show pie chart</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Stale images</string>
     <string name="pref_manage_stale_images_summary">Manage pictures left over from deleted transactions</string>
@@ -531,8 +522,6 @@
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">Please enter the URL to a special folder on your WebDAV server. {app_name} will store its data inside this folder, it won\'t touch anything outside of it.</string>
     <string name="description_webdav_trust_certificate">The website uses a certificate, which is not trusted by Android.</string>
-    <string name="hint_user_name">User name</string>
-    <string name="hint_password">Password</string>
     <string name="label_trust_certificate">Trust this certificate</string>
     <string name="no_sync_backends">No synchronization backends</string>
     <string name="menu_create_sync_backend">New synchronization backend</string>
@@ -544,7 +533,6 @@
     <string name="menu_sync_unlink">Stop syncing</string>
     <string name="menu_sync_link">Start syncing</string>
     <string name="menu_sync_download">Download and sync</string>
-    <string name="pref_sync_frequency_title">Synchronization frequency</string>
     <string name="pref_sync_frequency_summary">How often should data be synchronized (in hours)</string>
     <string name="dialog_confirm_sync_unlink">If you unlink this account from %s, the synchronization status gets lost. Linking them again later, requires a full synchronization to be executed again.</string>
     <string name="dialog_sync_link">An account with uuid %s exists both in the local database and on the remote backend. When you link both, you need to decide, if, initially, you want to upload local data to the remote backend or download remote data to the local database.</string>
@@ -594,8 +582,6 @@
     <string name="onboarding_get_started">Get started</string>
     <string name="onboarding_more_options">More Options</string>
     <string name="onboarding_restore_from_cloud">Restore from cloud synchronization</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">Backups</string>
     <string name="onboarding_restore_from_local">Restore local backup file</string>
     <string name="contributed_by">Contributed by %s</string>
     <string name="pref_sync_notification_summary">Notify about synchronization progress</string>
@@ -720,7 +706,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">\'Unmapped\' filter cannot be included into multiple selection</string>
-    <string name="upgrade_information_cloud_sync_storage_format">With version 2.9.8, the way data is stored on synchronization backends has changed. Please upgrade to this version on all synced devices, before entering any new records on any of them.</string>
     <string name="pref_security_export_passphrase_title">Passphrase for backups</string>
     <string name="pref_security_export_passphrase_summary">Backups will be encrypted with this passphrase</string>
     <string name="backup_is_encrypted">The backup file is encrypted. In order to decrypt it, you need to specify its passphrase.</string>
@@ -782,7 +767,6 @@
     <string name="budget_filter_all_states">All status</string>
     <string name="budget_filter_all_tags">All tags</string>
     <string name="budget_filter_all_accounts">All accounts</string>
-    <string name="budget_form_label_filter">Filter</string>
     <string name="dialog_title_warning_delete_budget">Delete budget?</string>
     <string name="warning_delete_budget">Budget \"%1$s\" will be deleted.</string>
     <string name="menu_edit_budget">Edit budget</string>
@@ -808,7 +792,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">Cloned transactions keep original date</string>
     <string name="tags_create_or_select">Create or select tags</string>
-    <string name="tags">Tags</string>
     <string name="pref_manage_tags_summary">Add, edit, delete tags.</string>
     <string name="dialog_title_warning_delete_tag">Delete tag?</string>
     <string name="menu_edit_tag">Edit tag</string>
@@ -851,7 +834,6 @@
     <string name="pref_criterion_future_current">Current time</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Features</string>
-    <string name="scan_result_no_data">No data</string>
     <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">Multiple candidates found. Please select:</string>
     <string name="scan_result_no_amount">No amount found</string>
@@ -859,7 +841,6 @@
     <string name="scan_result_no_payee">No payee found</string>
     <string name="pref_feature_uninstall_title">Request deinstallation of features and languages</string>
     <string name="pref_feature_uninstall_summary">Play Store tries to eventually remove those modules in the background.</string>
-    <string name="pref_feature_uninstall_languages_title">Languages</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Please select a licence package.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
@@ -938,7 +919,6 @@
     <string name="debts">Debts</string>
     <!-- When user want to delete a party for which debts are defined, we ask for confirmation. -->
     <string name="warning_party_delete_debt">When deleting this party, debts defined for it will be deleted as well.</string>
-    <string name="dialog_title_delete_debt">Delete debt?</string>
     <plurals name="debt_mapped_transactions">
         <item quantity="one">Debt "%1$s" has %2$d mapped transaction.</item>
         <item quantity="other">Debt "%1$s" has %2$d mapped transactions.</item>
@@ -979,8 +959,6 @@
     <string name="pref_csv_export_split_date_time_summary">Use separate columns for date and time</string>
     <!-- New feature in version 3.4.4 -->
     <string name="icons_for_categories">Icons for categories</string>
-    <!-- Shown after validation of a form below a required text field if user did not provide value -->
-    <string name="required">Required</string>
     <!-- This is the label for a checkbox allowing to modify a budget only for one period (year, month, week, day). %s will be replaced by the description of the period, e.g. August 2022 -->
     <string name="budget_only_current_period">Set only for %s</string>
     <!-- Rollover refers to the rollover of a budget from one period to the next, e.g. for a monthly budget from one month to the next. -->
@@ -1020,8 +998,6 @@
     <string name="pref_backup_file_prefix_title">File prefix</string>
     <string name="optimize_image_file_size">Optimize image file size</string>
     <string name="maximum_size">Maximum size</string>
-    <string name="file_format">File Format</string>
-    <string name="image_optimize_quality">Quality</string>
     <string name="image_optimize_quality_summary">Quality of 0 means compress for the smallest size. 100 means compress for maximum visual quality.</string>
     <!-- Label in the launcher's widget selection for adding a shortcut for a single template  -->
     <string name="template_shortcut">Template shortcut</string>
@@ -1065,8 +1041,14 @@
     <string name="menu_unlink_transfer">Unlink transfer</string>
     <string name="warning_unlink_transfer">The selected transfer will be unlinked: It will be replaced by normal transactions in both accounts.</string>
     <!-- This is the label for the action that creates a transfer from a normal transaction. -->
-    <string name="menu_transform_to_transfer">Convert to transfer</string>
+    <string name="menu_transform_to_transfer">Convert into transfer</string>
     <string name="warning_transform_to_transfer">The selected transaction will be replaced by a transfer from %1$s to %2$s.</string>
     <string name="remap_date">On all selected transactions, date will be set to %s.</string>
     <string name="roadmap_intro">The 2024 Roadmap Vote is now open! Vote for the features and improvements that matter most to you.</string>
+    <string name="merge_categories_dialog_title">Merge Categories</string>
+    <string name="subcategories_merged_recursively">If any of the merged categories have subcategories with the same label, those will be merged first, recursively.</string>
+    <string name="merge_categories_prompt">Select the category that you want to keep</string>
+    <string name="pref_csv_export_category_separator_summary">Separator between levels of category hierarchy</string>
+    <!-- This message is shown on the Budget Screen, when there are not enough categories with allocated budgets for the selected time period. -->
+    <string name="not_enough_data">Not enough data</string>
 </resources>

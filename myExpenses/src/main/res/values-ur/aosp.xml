@@ -70,5 +70,23 @@
     <string name="help_and_feedback">"مدد اور تاثرات"</string>
     <string name="currencies_exchange">"کرنسیاں اور غیر ملکی زر مبادلہ"</string>
     <string name="menu_sync_now">"ابھی مطابقت پذیری کریں"</string>
-  <string name="do_not_show_again">دوبارہ نہ دکھائیں</string>
+    <string name="do_not_show_again">دوبارہ نہ دکھائیں</string>
+    <string name="color">"رنگ"</string>
+    <string name="notes">"نوٹس"</string>
+    <string name="cannot_be_undone">"اس عمل کو کالعدم نہیں کیا جاسکتا۔"</string>
+    <string name="configuration">"کنفیگریشن"</string>
+    <string name="menu_open">"کھولیں"</string>
+    <string name="menu_print">"پرنٹ کریں"</string>
+    <string name="share">شیئر کریں</string>
+    <string name="username">"صارف نام"</string>
+    <string name="password">"پاس ورڈ"</string>
+    <string name="frequency">"فریکوئنسی"</string>
+    <string name="required">"مطلوب ہے"</string>
+    <string name="no_data">"کوئی ڈیٹا نہیں ہے"</string>
+    <string name="color_component_title">"رنگ منتخب کریں"</string>
+    <string name="backups">"محفوظ نقل (متبادل)"</string>
+    <string name="filter">"فلٹر"</string>
+    <string name="tags">ٹیگز</string>
+    <string name="languages">"زبانیں"</string>
+    <string name="full_screen">"پوری اسکرین"</string>
 </resources>

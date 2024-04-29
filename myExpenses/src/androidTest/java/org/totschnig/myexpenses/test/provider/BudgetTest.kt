@@ -5,13 +5,13 @@ import android.content.ContentValues
 import org.totschnig.myexpenses.db2.budgetAllocationQueryUri
 import org.totschnig.myexpenses.db2.budgetAllocationUri
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.provider.BudgetInfo
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseDbTest
-import org.totschnig.shared_test.CursorSubject
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 
 class BudgetTest : BaseDbTest() {
@@ -22,9 +22,9 @@ class BudgetTest : BaseDbTest() {
             BudgetInfo(
                 setupTestAccount(),
                 "budget 1",
-                "description",
                 400,
                 Grouping.NONE,
+                "description",
                 "2023-12-01",
                 "2023-12-18"
             ).contentValues,
@@ -37,9 +37,9 @@ class BudgetTest : BaseDbTest() {
             BudgetInfo(
                 setupTestAccount(),
                 "budget 1",
-                "description",
                 400,
-                Grouping.MONTH
+                Grouping.MONTH,
+                "description"
             ).contentValues,
         )!!
     )

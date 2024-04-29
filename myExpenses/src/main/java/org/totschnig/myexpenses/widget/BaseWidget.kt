@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.RemoteViews
@@ -22,6 +23,7 @@ import javax.inject.Inject
 
 class NoDataException(message: String) : Exception(message)
 
+const val WIDGET_CLICK = "org.totschnig.myexpenses.WIDGET_CLICK"
 const val WIDGET_LIST_DATA_CHANGED = "org.totschnig.myexpenses.LIST_DATA_CHANGED"
 
 abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvider() {
@@ -37,6 +39,16 @@ abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvide
 
     protected open fun isProtected(context: Context) = prefHandler.isProtected &&
             !prefHandler.getBoolean(protectionKey, false)
+
+
+    abstract fun handleWidgetClick(context: Context, intent: Intent)
+
+    fun clickBaseIntent(context: Context) = Intent(WIDGET_CLICK, null, context, javaClass)
+
+    override fun onReceive(context: Context, intent: Intent) {
+        if (intent.action == WIDGET_CLICK) handleWidgetClick(context, intent)
+        else super.onReceive(context, intent)
+    }
 
     override fun onAppWidgetOptionsChanged(
         context: Context,

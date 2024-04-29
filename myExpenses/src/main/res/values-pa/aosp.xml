@@ -9,5 +9,18 @@
     <string name="help_and_feedback">"ਮਦਦ &amp; ਫੀਡਬੈਕ"</string>
     <string name="currencies_exchange">"ਮੁਦਰਾਵਾਂ ਅਤੇ ਵਿਦੇਸ਼ੀ ਮੁਦਰਾ ਵਟਾਂਦਰਾ"</string>
     <string name="menu_sync_now">"ਹੁਣ ਸਿੰਕ ਕਰੋ"</string>
-  <string name="do_not_show_again">ਦੁਬਾਰਾ ਨਾ ਦਿਖਾਓ</string>
+    <string name="do_not_show_again">ਦੁਬਾਰਾ ਨਾ ਦਿਖਾਓ</string>
+    <string name="color">"ਰੰਗ"</string>
+    <string name="notes">"ਨੋਟ-ਕਥਨ"</string>
+    <string name="cannot_be_undone">"ਇਹ ਕਿਰਿਆ ਨਸ਼ਟ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕਦੀ।"</string>
+    <string name="configuration">"ਸੰਰੂਪਣ"</string>
+    <string name="menu_open">"ਖੋਲ੍ਹੋ"</string>
+    <string name="username">"ਵਰਤੋਂਕਾਰ ਨਾਮ"</string>
+    <string name="password">"ਪਾਸਵਰਡ"</string>
+    <string name="frequency">"ਵਾਰਵਾਰਤਾ"</string>
+    <string name="no_data">"ਕੋਈ ਡਾਟਾ ਨਹੀਂ"</string>
+    <string name="color_component_title">"ਰੰਗ ਚੁਣੋ"</string>
+    <string name="filter">"ਫਿਲਟਰ"</string>
+    <string name="languages">"ਭਾਸ਼ਾਵਾਂ"</string>
+    <string name="full_screen">"ਪੂਰੀ ਸਕ੍ਰੀਨ"</string>
 </resources>

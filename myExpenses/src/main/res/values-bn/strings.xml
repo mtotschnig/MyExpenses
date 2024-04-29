@@ -9,8 +9,6 @@
     <string name="account_type_liability">দায় হিসাব</string>
     <string name="account_type_liability_plural">দায় হিসাব সমূহ</string>
     <string name="app_name">আমার খরচ</string>
-    <string name="color">রঙ</string>
-    <string name="comment">মন্তব্য</string>
     <string name="contrib_feature_ad_free_label">অ্যাড বিহীন</string>
     <string name="account_types">হিসাবের ধরণ</string>
     <string name="account_type_bank">ব্যাংক অ্যাকাউন্ট</string>
@@ -22,14 +20,14 @@
     <string name="contrib_feature_history_label">ইতিহাস চার্ট</string>
     <string name="contrib_feature_category_tree_label">ক্যাটাগরি ট্রি</string>
     <string name="contrib_feature_synchronization_label">ক্লাউড সিঙ্ক্রোনাইজেশন</string>
-    <string name="contrib_key">কট্রিব কী</string>
+    <string name="contrib_key">কনট্রিবিউশন কী</string>
     <string name="currency">মুদ্রা</string>
     <string name="current_balance">বর্তমান ব্যালেন্স</string>
     <string name="default_account_name">বাজেট বই</string>
     <string name="dialog_confirm_discard_changes">পরিবর্তনগুলি বাতিল করবেন?</string>
     <string name="contrib_feature_split_template_label">আনলিমিটেড বিভক্ত টেমপ্লেট</string>
     <string name="contrib_feature_pro_support_label"><b>ইমেল সাপোর্ট</b>2 কার্যদিবসের মধ্যে পাল্টা জবাব এর গ্যারান্টি</string>
-    <string name="contrib_feature_roadmap_voting_label">ভোট অধিকার &lt;b&gt;ডেভেলপমেন্ট রোডম্যাপে&lt;b&gt;</string>
+    <string name="contrib_feature_roadmap_voting_label">ভোট অধিকার <b>ডেভেলপমেন্ট রোডম্যাপে</b></string>
     <string name="licence_status_free">ফ্রী</string>
     <string name="extended_key">এক্সটেন্ডেড কী</string>
     <string name="contrib_key_requires">প্রয়োজন%1$s।</string>
@@ -44,4 +42,8 @@
     <string name="dialog_command_disabled_balance">মিটমাট করার জন্য কোন ক্লিয়ার করা লেনদেন নেই।</string>
     <string name="already_defined">%1$sইতিমধ্যে সংজ্ঞায়িত</string>
     <string name="backup_success">ডাটাবেস এবং পছন্দগুলি সফলভাবে লেখা হয়েছে \"%1$s\"।</string>
+    <string name="contrib_feature_accounts_unlimited_label">সীমাহীন সংখ্যক অ্যাকাউন্ট</string>
+    <string name="contrib_feature_attach_picture_label">লেনদেনের সাথে ছবি সংযুক্ত করুন</string>
+    <string name="contrib_feature_plans_unlimited_label">সীমাহীন সংখ্যক পরিকল্পনা</string>
+    <string name="contrib_feature_distribution_label">পাই চার্ট (বিভাগ প্রতি বন্টন)</string>
 </resources>

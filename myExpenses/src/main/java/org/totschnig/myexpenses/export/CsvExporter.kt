@@ -37,7 +37,8 @@ class CsvExporter(
     private val splitCategoryLevels: Boolean = false,
     private val splitAmount: Boolean = true,
     timeFormat: String? = null,
-    private val withOriginalAndEquivalentAmounts: Boolean = false
+    private val withOriginalAndEquivalentAmounts: Boolean = false,
+    override val categoryPathSeparator: String = " > "
 ) :
     AbstractExporter(
         account, currencyContext, filter, notYetExportedP, dateFormat,
@@ -68,8 +69,6 @@ class CsvExporter(
 
     override val format = ExportFormat.CSV
 
-    override val categoryPathSeparator = " > "
-
     override fun sanitizeCategoryLabel(label: String) = label
 
     override fun header(context: Context) = if (withHeader) {
@@ -93,7 +92,7 @@ class CsvExporter(
             } else {
                 add(context.getString(R.string.category))
             }
-            add(context.getString(R.string.comment))
+            add(context.getString(R.string.notes))
             add(context.getString(R.string.method))
             add(context.getString(R.string.status))
             add(context.getString(R.string.reference_number))

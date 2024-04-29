@@ -84,8 +84,7 @@ open class BudgetViewModel(application: Application) :
             }
         }.flattenMerge().map { (position, budget, aggregateNeutral) ->
             val (sumUri, sumSelection, sumSelectionArguments) = repository.sumLoaderForBudget(
-                budget,
-                aggregateNeutral
+                budget, aggregateNeutral, null
             )
 
             val allocationUri = budgetAllocationQueryUri(

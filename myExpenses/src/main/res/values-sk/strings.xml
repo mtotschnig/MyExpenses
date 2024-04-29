@@ -35,8 +35,6 @@
     <string name="app_name">Moje výdavky</string>
     <string name="backup_success">Databáza a nastavenia sa úspešne uložili do \"%1$s\".</string>
     <string name="category">Kategória</string>
-    <string name="color">Farba</string>
-    <string name="comment">Poznámky</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Neobmedzený počet účtov</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Neobmedzený počet plánov</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Exportovať zoznam transakcií do PDF</string>

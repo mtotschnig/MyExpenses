@@ -23,7 +23,6 @@ import java.time.format.FormatStyle
 import java.util.*
 import kotlin.math.absoluteValue
 
-@Suppress("CanBeParameter")
 abstract class AbstractOcrHandlerImpl(
     @Suppress("MemberVisibilityCanBePrivate") val prefHandler: PrefHandler,
     private val application: MyApplication
@@ -32,7 +31,6 @@ abstract class AbstractOcrHandlerImpl(
     private val dateFormatterList: List<DateTimeFormatter>
     private val timeFormatterList: List<DateTimeFormatter>
     private val totalIndicators: List<String>
-
 
     val locale: Locale
         get() = application.userPreferredLocale
@@ -73,10 +71,19 @@ abstract class AbstractOcrHandlerImpl(
                 DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)
             )
                 .map(withSystemLocale)
-        totalIndicators = (prefHandler.getString(PrefKey.OCR_TOTAL_INDICATORS, null)
-            .takeIf { !TextUtils.isEmpty(it) }
-            ?: application.wrappedContext.getString(R.string.pref_ocr_total_indicators_default)).lines()
+        totalIndicators = prefHandler.getString(PrefKey.OCR_TOTAL_INDICATORS, null)
+            ?.parseTotalIndicators()
+            ?: application.wrappedContext.getString(R.string.pref_ocr_total_indicators_default)
+                .parseTotalIndicators()
+                    ?: listOf("Total")
+        log("TotalIndicators: %s", totalIndicators.joinToString("\n"))
     }
+
+    private fun String.parseTotalIndicators() = lines()
+        .map { it.filter { c -> c.isLetter() } }
+        .filter { it.isNotEmpty() }
+        .distinct()
+        .takeIf { it.isNotEmpty() }
 
     private fun Rect?.bOr0() = this?.bottom ?: 0
     private fun Rect?.tOr0() = this?.top ?: 0

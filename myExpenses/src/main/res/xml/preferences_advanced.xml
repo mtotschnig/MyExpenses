@@ -137,6 +137,6 @@
             android:key="@string/pref_feature_uninstall_languages_key"
             android:persistent="false"
             android:positiveButtonText="@string/menu_remove"
-            android:title="@string/pref_feature_uninstall_languages_title" />
+            android:title="@string/languages" />
     </PreferenceCategory>
 </PreferenceScreen>

@@ -65,7 +65,7 @@ class CsvImportDataFragment : Fragment() {
         R.string.booking_date to "BOOKING_DATE",
         R.string.value_date to "VALUE_DATE",
         R.string.payer_or_payee to "PAYEE",
-        R.string.comment to "COMMENT",
+        R.string.notes to "COMMENT",
         R.string.category to "CATEGORY",
         R.string.subcategory to "SUB_CATEGORY",
         R.string.method to "METHOD",

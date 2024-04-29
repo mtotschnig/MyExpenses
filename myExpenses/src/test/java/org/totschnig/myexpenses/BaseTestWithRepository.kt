@@ -12,15 +12,18 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.provider.BudgetInfo
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.TemplateInfo
 import org.totschnig.myexpenses.provider.TransactionInfo
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import java.util.Currency
 
-open class BaseTestWithRepository {
+abstract class BaseTestWithRepository {
     val currencyContext: CurrencyContext =
         mock(CurrencyContext::class.java).also { currencyContext ->
             `when`(currencyContext[ArgumentMatchers.anyString()]).thenAnswer {
@@ -50,4 +53,31 @@ open class BaseTestWithRepository {
         val id = ContentUris.parseId(contentResolver.insert(TransactionProvider.TRANSACTIONS_URI, contentValues)!!)
         return id to contentValues.getAsString(DatabaseConstants.KEY_UUID)
     }
+
+    protected fun insertTemplate(
+        accountId: Long,
+        title: String,
+        amount: Long,
+        categoryId: Long? = null
+    ) = ContentUris.parseId(contentResolver.insert(
+        TransactionProvider.TEMPLATES_URI, TemplateInfo(
+            accountId = accountId,
+            amount = amount,
+            title = title,
+            catId = categoryId
+        ).contentValues
+    )!!)
+
+    protected fun insertBudget(
+        accountId: Long,
+        title: String,
+        amount: Long
+    ) = ContentUris.parseId(contentResolver.insert(
+        TransactionProvider.BUDGETS_URI, BudgetInfo(
+            accountId = accountId,
+            title = title,
+            amount = amount,
+            grouping = Grouping.MONTH
+        ).contentValues
+    )!!)
 }

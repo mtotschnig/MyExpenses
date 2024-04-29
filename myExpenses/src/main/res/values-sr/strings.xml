@@ -38,8 +38,6 @@
     <string name="app_name">Моји Трошкови</string>
     <string name="backup_success">База података и приоритета успешно уписана у \"%1$s\".</string>
     <string name="category">Категорија</string>
-    <string name="color">Боја</string>
-    <string name="comment">Нотес</string>
     <string name="income">Приход</string>
     <string name="pm_creditcard">Кредитна картица</string>
     <string name="sum_income">Приход</string>

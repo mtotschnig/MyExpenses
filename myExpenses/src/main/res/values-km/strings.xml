@@ -35,8 +35,6 @@
     <string name="app_name">ការចំណាយរបស់ខ្ញុំ</string>
     <string name="backup_success">មូលដ្ឋានទិន្នន័យ និងចំណង់ចំណូលចិត្ត​ បានស្តុក ដោយជោគជ័យទៅ sdcard ។ (%1$s)</string>
     <string name="category">ចំណាត់ថ្នាក់</string>
-    <string name="color">ពណ៌</string>
-    <string name="comment">សម្គាល់</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">ចំនួន​គណនី​គ្មាន​ដែន​កំណត់</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">ចំនួន​ផែនការគ្មានដែន​កំណត់​</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">ការនាំចូលស៊ីអេសវី</string>
@@ -141,10 +139,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">ត្រឡប់មកវិញ</string>
     <string name="menu_manage_plans">ទិន្នន័យ​គំរូ និងផែនការ</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">បើក</string>
     <string name="menu_import">នាំចូល</string>
-    <string name="menu_print">ព្រីន</string>
     <string name="menu_reset">ការនាំចេញនិងការកំណត់ឡើងវិញ</string>
     <string name="menu_reset_all">ការនាំចេញនិងការកំណត់ឡើងវិញទាំងអស់</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -174,7 +169,6 @@
     <string name="opening_balance">បើក​សមតុល្យ</string>
     <string name="parse_error_file_not_found">មិនអាច​រកឯកសារ %1$s ឃើញទេ</string>
     <string name="parse_error_grisbi_version_not_supported">មិនគាំទ្រ ឯកសារ Grisbi កំណែ៖ %1$s</string>
-    <string name="parse_error_no_data_found">គ្មានទិន្នន័យសំខាន់​ក្នុងឯកសារទេ។</string>
     <string name="parse_error_other_exception">មានកំហុស​កើតឡើង៖ %1$s</string>
     <string name="parse_error_parse_exception">មិនអាចអាន​ញែកឯកសារនេះទេ។</string>
     <string name="password_disabled_reenable">ការការពារពាក្យ​សម្ងាត់ត្រូវ​បានបិទ។ អ្នកអាចបើក​វានៅក្នុងការកំណត់។</string>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categorytree_description">Arbitrært dybt kategorihierarki</string>
+    <string name="accountsunlimited_title">Ubegrænset antal konti</string>
+    <string name="distribution_description">Visualisér den statistiske fordeling af transaktioner pr. kategori over forskellige perioder (år, måneder, uger, dage)</string>
+    <string name="plansunlimited_title">Ubegrænset antal planer</string>
+    <string name="plansunlimited_description">Oplås evnen til at oprette mere end tre planer for gentagne transaktioner.</string>
+    <string name="print_title">Udskriv</string>
+    <string name="print_description">Udskriv transaktionslisten til en PDF-fil</string>
+    <string name="splittransaction_title">Opdel transaktion</string>
+    <string name="synchronization_title">Cloud-synkronisering</string>
+    <string name="synchronization_description">Data kan synkroniseres mellem flere enheder.</string>
+    <string name="professional_benefit_1">Lås op for alle premiumfunktioner</string>
+    <string name="professional_benefit_3">Stemmeret på udviklingsplan</string>
+    <string name="professional_benefit_2">E-mail support</string>
+    <string name="splittemplate_title">Opdelingsskabelon</string>
+    <string name="splittemplate_description">Ubegrænset antal skabeloner og planer for opdelte transaktioner</string>
+    <string name="history_title">Historikdiagram</string>
+    <string name="history_description">Forstå, hvordan din økonomiske situation udvikler sig over tid</string>
+    <string name="budget_title">Budgettering</string>
+    <string name="budget_description">Angiv, hvor meget du vil bruge i årlige, månedlige eller ugentlige budgetter</string>
+    <string name="ocr_title">Scan kvittering</string>
+    <string name="ocr_description">Udtræk automatisk beløb, dato og modtager</string>
+    <string name="webui_title">Webbrugergrænseflade</string>
+    <string name="webui_description">Brug din computerbrowser til dataindtastning</string>
+    <string name="categorytree_title">Kategoritræ</string>
+    <string name="csvimport_title">CSV-import</string>
+    <string name="adfree_title">Ingen reklamer</string>
+    <string name="accountsunlimited_description">Oplås evnen til at oprette mere end fem konti.</string>
+    <string name="adfree_description">Ingen reklamer.</string>
+    <string name="csvimport_description">Sofistikeret, brugerdefinerbar CSV-import (regnearksprogrammer)</string>
+    <string name="distribution_title">Cirkeldiagram</string>
+    <string name="splittransaction_description">En enkelt transaktion kan opdeles i flere dele (kategorier og overførsler).</string>
+</resources>

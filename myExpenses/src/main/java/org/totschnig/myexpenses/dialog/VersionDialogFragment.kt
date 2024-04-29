@@ -15,6 +15,7 @@
 package org.totschnig.myexpenses.dialog
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
@@ -122,7 +123,7 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
         drawableRes: Int,
         contentDescription: String
     ) {
-        resolveMoreInfo(resPrefix, version)?.let {
+        requireContext().resolveMoreInfo(resPrefix, version)?.let {
             IconButton(
                 onClick = {
                     showMoreInfo(baseUri + getString(it))
@@ -149,14 +150,6 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
             )
         }
 
-    @SuppressLint("DiscouragedApi")
-    private fun resolveMoreInfo(resPrefix: String, version: VersionInfo) = resources.getIdentifier(
-        resPrefix + version.nameCondensed,
-        "string",
-        requireContext().packageName
-    ).takeIf { it != 0 }
-
-
     private fun showMoreInfo(uri: String?) {
         (requireActivity() as BaseActivity).startActionView(uri!!)
     }
@@ -177,5 +170,11 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
                 }
                 isCancelable = false
             }
+        @SuppressLint("DiscouragedApi")
+        fun Context.resolveMoreInfo(resPrefix: String, version: VersionInfo) = resources.getIdentifier(
+            resPrefix + version.nameCondensed,
+            "string",
+            packageName
+        ).takeIf { it != 0 }
     }
 }

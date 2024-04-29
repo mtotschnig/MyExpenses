@@ -19,10 +19,14 @@ package org.totschnig.myexpenses.provider.filter
 
 import android.content.Context
 import android.os.Parcelable
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation
 
-abstract class Criterion<T: Any> : Parcelable {
+abstract class Criterion<T : Any> : Parcelable {
     abstract val operation: Operation
     abstract val values: Array<T>
 
@@ -41,8 +45,9 @@ abstract class Criterion<T: Any> : Parcelable {
     val isNull: Boolean
         get() = operation == Operation.ISNULL
 
-    open fun getSelection(forExport: Boolean): String = (if (forExport) columnForExport else column) +
-            " " + operation.getOp(selectionArgs.size)
+    open fun getSelection(forExport: Boolean): String =
+        (if (forExport) columnForExport else column) +
+                " " + operation.getOp(selectionArgs.size)
 
     fun size(): Int = values.size
 
@@ -56,14 +61,9 @@ abstract class Criterion<T: Any> : Parcelable {
      * @return selection wrapped in a way that it also finds split transactions with parts
      * that are matched by the criteria
      */
-    private fun applyToSplitParts(selection: String, tableName: String): String {
-        return if (!shouldApplyToParts()) {
-            selection
-        } else "(" + selection + " OR (" + DatabaseConstants.KEY_CATID + " = " + DatabaseConstants.SPLIT_CATID +
-                " AND exists(select 1 from " + DatabaseConstants.TABLE_TRANSACTIONS + " children"+
-                " WHERE " + DatabaseConstants.KEY_PARENTID +
-                " = " + tableName + "." + DatabaseConstants.KEY_ROWID + " AND (" + selection + "))))"
-    }
+    private fun applyToSplitParts(selection: String, tableName: String) = if (shouldApplyToParts)
+        "($selection OR ($KEY_CATID = $SPLIT_CATID AND exists(select 1 from $TABLE_TRANSACTIONS children WHERE $KEY_PARENTID = $tableName.$KEY_ROWID AND ($selection))))"
+    else selection
 
     /**
      * the sums are calculated based on split parts, hence here we must take care to select parts
@@ -73,25 +73,23 @@ abstract class Criterion<T: Any> : Parcelable {
      * matched by the criteria
      */
     private fun applyToSplitParents(selection: String, tableName: String): String {
-        val selectParents = if (!shouldApplyToParts()) {
-            "(" + selection + " AND " + DatabaseConstants.KEY_PARENTID + " IS NULL)"
-        } else {
-            selection
-        }
-        return ("(" + selectParents + " OR  exists(select 1 from " + DatabaseConstants.TABLE_TRANSACTIONS + " parents"
-                + " WHERE " + DatabaseConstants.KEY_ROWID
-                + " = " + tableName + "." + DatabaseConstants.KEY_PARENTID + " AND (" + selection + ")))")
+        val selectParents = if (shouldApplyToParts) selection else
+            "($selection AND $KEY_PARENTID IS NULL)"
+        return "($selectParents OR exists(select 1 from $TABLE_TRANSACTIONS parents WHERE $KEY_ROWID = $tableName.$KEY_PARENTID AND ($selection)))"
     }
 
-    fun getSelectionForParts(tableName: String) = applyToSplitParents(getSelection(false), tableName)
+    fun getSelectionForParts(tableName: String) =
+        applyToSplitParents(getSelection(false), tableName)
 
-    fun getSelectionForParents(tableName: String, forExport: Boolean) = applyToSplitParts(getSelection(forExport), tableName)
+    fun getSelectionForParents(tableName: String, forExport: Boolean) =
+        applyToSplitParts(getSelection(forExport), tableName)
 
-    open fun shouldApplyToParts() = true
+    open val shouldApplyToParts get() = true
 
     companion object {
         const val EXTRA_SEPARATOR = ";"
         val EXTRA_SEPARATOR_ESCAPE_SAVE_REGEXP = "(?<!\\\\);".toRegex()
+
         @JvmStatic
         fun escapeSeparator(`in`: String): String {
             return `in`.replace(";", "\\;")

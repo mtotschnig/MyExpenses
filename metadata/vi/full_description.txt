@@ -1,0 +1,27 @@
+<i>Quản lý chi tiêu</i> là công cụ tối ưu để bạn theo dõi chi phí và quản lý tài chính một cách dễ dàng, ngay trong tầm tay bạn!
+
+Các tính năng chính:
+
+     • <b>Theo dõi chi phí dễ dàng</b>: Theo dõi chi phí và thu nhập của bạn một cách liền mạch, cho dù bạn đang sử dụng điện thoại thông minh hay máy tính bảng.
+     • <b>Quản lý tài khoản linh hoạt</b>: Quản lý nhiều tài khoản một cách dễ dàng, bao gồm cả chuyển khoản giữa các loại tiền tệ khác nhau.
+     • <b>Lập kế hoạch tài chính hợp lý</b>: Dễ dàng thiết lập kế hoạch cho các giao dịch định kỳ.
+     • <b>Quản lý dữ liệu liền mạch</b>: Xuất và nhập dữ liệu dễ dàng bằng định dạng QIF và CSV.
+     • <b>Bảo mật nâng cao</b>: Bảo vệ dữ liệu của bạn bằng mật khẩu hoặc bảo mật màn hình khóa thiết bị.
+     • <b>Trải nghiệm có thể tùy chỉnh</b>: Điều chỉnh ứng dụng theo sở thích của bạn bằng các chủ đề và kích thước phông chữ có thể tùy chỉnh.
+     • <b>Đối chiếu sao kê ngân hàng</b>: Dễ dàng so sánh trạng thái giao dịch với sao kê ngân hàng của bạn để theo dõi tài chính chính xác.
+     • <b>Nhập dữ liệu nhanh</b>: Tận hưởng khả năng truy cập thuận tiện với các tiện ích và phím tắt trên màn hình chính.
+     • <b>Phân tích dữ liệu mạnh mẽ</b>: Lọc dữ liệu của bạn dựa trên các tiêu chí khác nhau và trực quan hóa xu hướng phân phối và lịch sử bằng biểu đồ động.
+
+Mở khóa các tính năng cao cấp:
+
+     • <i>Khóa đóng góp</i>: Nói lời tạm biệt với quảng cáo và mở khóa số lượng tài khoản không giới hạn, gói giao dịch định kỳ, v.v.
+     • <i>Khóa mở rộng</i>: Tận hưởng đồng bộ hóa đám mây, sao lưu tự động và nhập CSV phức tạp.
+     • <i>Chìa khóa chuyên nghiệp</i>: Đưa việc quản lý tài chính của bạn lên một tầm cao mới bằng các công cụ lập ngân sách, quét biên lai và hỗ trợ qua email.
+
+<i>Quản lý chi tiêu</i> yêu cầu <u>quyền</u> sau:
+
+     • <i>Lịch</i>: Các kế hoạch cho các giao dịch trong tương lai và định kỳ được lưu trữ trong lịch địa phương đặc biệt hoặc trong bất kỳ lịch nào khác mà bạn chỉ định.
+     • <i>Internet</i>: Theo dõi sử dụng ẩn danh, Báo cáo sự cố, Đồng bộ hóa đám mây.
+     • <i>Tài khoản</i>: Đồng bộ hóa giữa các thiết bị thông qua dịch vụ đám mây.
+
+Kiểm soát tài chính của bạn hơn bao giờ hết bằng cách sử dụng <i>Quản lý chi tiêu</i>!

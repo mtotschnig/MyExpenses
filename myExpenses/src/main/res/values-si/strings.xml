@@ -25,8 +25,6 @@
     <string name="app_name">මාගේ වියදම්</string>
     <string name="backup_success">දත්ත සමූහය සහ අභිමත සාර්ථකව \"%1$s\" ට ලියන ලදි.</string>
     <string name="category">ප්‍රවර්ගය</string>
-    <string name="color">පාට </string>
-    <string name="comment">සටහන් </string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">සීමා රහිත ගිණුම් ගණනක්</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">සීමා රහිත සැලසුම් ගණනක්</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">අ.වි.අ. (CSV) ආයාත කරන්න</string>
@@ -154,7 +152,6 @@
     <string name="opening_balance">ආරම්භක ශේෂය </string>
     <string name="parse_error_file_not_found">ලිපිගොනුව සොයගත නොහැක %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">සහාය නොමැති ග්රිස්බි ලිපිගොනු වර්ගයක් %1$s</string>
-    <string name="parse_error_no_data_found">ආනයනය කළහැකි දත්ත ලිපිගොනුවේ සොයාගත නොහැක </string>
     <string name="parse_error_other_exception">වරදක් හටගන්නා ලදී %1$s</string>
     <string name="parse_error_parse_exception">ලිපිගොනුවෙහි ව්‍යාකරණ විග්‍රහය කිරමට නොහැකි විය </string>
     <string name="password_disabled_reenable">මුරපද ආරක්ෂාව අක්‍රිය කර ඇත.ඔබට එය නැවත කට්ටල අංග තුලින් සක්‍රිය කල හැක </string>

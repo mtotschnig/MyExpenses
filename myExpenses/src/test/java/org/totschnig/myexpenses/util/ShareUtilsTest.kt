@@ -5,7 +5,7 @@ import junitparams.Parameters
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.totschnig.myexpenses.viewmodel.ShareViewModel.Companion.parseUri
+import org.totschnig.myexpenses.viewmodel.BaseFunctionalityViewModel.Companion.parseUri
 
 @RunWith(JUnitParamsRunner::class)
 class ShareUtilsTest {

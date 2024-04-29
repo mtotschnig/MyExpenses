@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="color">"Боја"</string>
+    <string name="notes">"Белешке"</string>
+    <string name="cannot_be_undone">"Ова радња не може да се опозове."</string>
+    <string name="header_footer">"Заглавље и подножје"</string>
+    <string name="paper_format">"Формат папира"</string>
+    <string name="configuration">"Конфигурација"</string>
+    <string name="menu_open">"Отвори"</string>
+    <string name="menu_print">"Штампај"</string>
+    <string name="share">"Дели"</string>
+    <string name="username">"Корисничко име"</string>
+    <string name="password">"Лозинка"</string>
+    <string name="pixels">pixels"</string>
+    <string name="frequency">"Учесталост"</string>
+    <string name="required">"Потребан"</string>
+    <string name="no_data">"Нема података"</string>
+    <string name="color_component_title">"Одаберите боју"</string>
+    <string name="backups">"Резервне копије"</string>
+    <string name="filter">"Филтер"</string>
+    <string name="tags">"Ознаке"</string>
+    <string name="languages">"Језици"</string>
+    <string name="chart">"График"</string>
+    <string name="full_screen">"Цео екран"</string>
+</resources>

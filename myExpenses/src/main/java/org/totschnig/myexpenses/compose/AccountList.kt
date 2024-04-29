@@ -101,7 +101,10 @@ fun AccountList(
 
 @Composable
 private fun Header(header: String, onHeaderClick: () -> Unit) {
-    Divider(color = colorResource(id = androidx.appcompat.R.color.material_grey_300), thickness = 2.dp)
+    HorizontalDivider(
+        color = colorResource(id = androidx.appcompat.R.color.material_grey_300),
+        thickness = 2.dp
+    )
     Text(
         modifier = Modifier
             .fillMaxWidth()
@@ -136,12 +139,14 @@ private fun getHeader(
                     context.getString(if (account.id > 0) R.string.pref_manage_accounts_title else R.string.menu_aggregates)
                 id to title
             }
+
             AccountGrouping.TYPE -> {
                 val id = account.type?.ordinal ?: AccountType.entries.size
                 val title =
                     context.getString(account.type?.toStringResPlural() ?: R.string.menu_aggregates)
                 id.toString() to title
             }
+
             AccountGrouping.CURRENCY -> {
                 if (account.id == HOME_AGGREGATE_ID)
                     AGGREGATE_HOME_CURRENCY_CODE to context.getString(R.string.menu_aggregates)
@@ -226,7 +231,12 @@ fun AccountCard(
                 val contentColor = LocalContentColor.current
                 Icon(
                     modifier = Modifier.drawBehind {
-                        drawLine(contentColor, Offset(size.width/5,size.height/2), Offset(size.width/5*4, size.height/2), 5f)
+                        drawLine(
+                            contentColor,
+                            Offset(size.width / 5, size.height / 2),
+                            Offset(size.width / 5 * 4, size.height / 2),
+                            5f
+                        )
                     },
                     imageVector = Icons.Filled.Functions,
                     contentDescription = stringResource(
@@ -359,10 +369,12 @@ fun SumRow(label: Int, formattedAmount: String, modifier: Modifier = Modifier) {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(stringResource(label),
+        Text(
+            stringResource(label),
             Modifier
                 .weight(1f)
-                .basicMarquee(iterations = 1), maxLines = 1)
+                .basicMarquee(iterations = 1), maxLines = 1
+        )
         Text(formattedAmount, modifier)
     }
 }

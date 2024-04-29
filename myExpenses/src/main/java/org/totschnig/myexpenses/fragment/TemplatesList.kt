@@ -14,6 +14,7 @@
  */
 package org.totschnig.myexpenses.fragment
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -43,6 +44,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.loader.app.LoaderManager
@@ -68,7 +70,6 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Sort.Companion.preferredOrderByForTemplatesWithPlans
 import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model.Transfer.RIGHT_ARROW
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -81,6 +82,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEFAULT_ACTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
@@ -192,22 +195,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         _binding = TemplatesListBinding.inflate(inflater, container, false)
         mManager = LoaderManager.getInstance(this)
         mManager.initLoader(SORTABLE_CURSOR, null, this)
-        // Create an array to specify the fields we want to display in the list
-        val from = arrayOf(
-            KEY_TITLE,
-            KEY_PATH,
-            KEY_AMOUNT
-        )
-        // and an array of the fields we want to bind those fields to
-        val to = intArrayOf(R.id.title, R.id.category, R.id.amount)
-        mAdapter = MyAdapter(
-            ctx,
-            R.layout.template_row,
-            null,
-            from,
-            to,
-            0
-        )
+        mAdapter = MyAdapter(ctx)
         binding.list.adapter = mAdapter
         binding.list.emptyView = binding.empty
         binding.list.setOnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, id: Long ->
@@ -657,10 +645,8 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     private val plannerFragment: PlannerFragment?
         get() = childFragmentManager.findFragmentByTag(PLANNER_FRAGMENT_TAG) as PlannerFragment?
 
-    private inner class MyAdapter(
-        context: Context, layout: Int, c: Cursor?, from: Array<String>,
-        to: IntArray?, flags: Int
-    ) : SimpleCursorAdapter(context, layout, c, from, to, flags) {
+    private inner class MyAdapter(context: Context) :
+        SimpleCursorAdapter(context, R.layout.template_row, null, emptyArray(), intArrayOf(), 0) {
         private val colorExpense: Int =
             ResourcesCompat.getColor(resources, R.color.colorExpense, null)
         private val colorIncome: Int =
@@ -668,33 +654,30 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         private val colorTransfer: Int =
             ResourcesCompat.getColor(resources, R.color.colorTransfer, null)
 
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-            val convertView = super.getView(position, convertView, parent)
-            val c = cursor
-            c.moveToPosition(position)
-            val isSealed = c.getInt(KEY_SEALED) != 0
-            val doesHavePlan = !c.isNull(KEY_PLANID)
-            val isTransfer = !c.isNull(KEY_TRANSFER_ACCOUNT)
-            val tv1 = convertView.findViewById<TextView>(R.id.amount)
-            val amount = c.getLong(KEY_AMOUNT)
-            tv1.setTextColor(
-                when {
-                    isTransfer -> colorTransfer
-                    amount < 0 -> colorExpense
-                    else -> colorIncome
-                }
-            )
+        @SuppressLint("SetTextI18n")
+        override fun bindView(view: View, context: Context, cursor: Cursor) {
+            val isSealed = cursor.getInt(KEY_SEALED) != 0
+            val doesHavePlan = !cursor.isNull(KEY_PLANID)
+            val isTransfer = !cursor.isNull(KEY_TRANSFER_ACCOUNT)
+            val tv1 = view.findViewById<TextView>(R.id.Amount)
+            val amount = cursor.getLong(KEY_AMOUNT)
+            val amountColor = when {
+                isTransfer -> colorTransfer
+                amount < 0 -> colorExpense
+                else -> colorIncome
+            }
+            tv1.setTextColor(amountColor)
             tv1.text = currencyFormatter.convAmount(
                 if (isTransfer) amount.absoluteValue else amount,
-                currencyContext[c.getString(KEY_CURRENCY)]
+                currencyContext[cursor.getString(KEY_CURRENCY)]
             )
-            val color = c.getInt(KEY_COLOR)
-            convertView.findViewById<View>(R.id.colorAccount).setBackgroundColor(color)
-            val tv2 = convertView.findViewById<TextView>(R.id.category)
-            var catText = tv2.text
+            val color = cursor.getInt(KEY_COLOR)
+            view.findViewById<View>(R.id.colorAccount).setBackgroundColor(color)
+            val tv2 = view.findViewById<TextView>(R.id.Category)
+            var catText: CharSequence = cursor.getString(KEY_PATH)
             if (isTransfer) {
-                val account = c.getString(KEY_ACCOUNT_LABEL)
-                val transferAccount = c.getString(KEY_TRANSFER_ACCOUNT_LABEL)
+                val account = cursor.getString(KEY_ACCOUNT_LABEL)
+                val transferAccount = cursor.getString(KEY_TRANSFER_ACCOUNT_LABEL)
 
                 val transfer = if (amount < 0) "$account $RIGHT_ARROW $transferAccount"
                 else "$transferAccount $RIGHT_ARROW $account"
@@ -702,48 +685,58 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                 catText = if (catText.isEmpty()) transfer
                 else TextUtils.concat(catText, " (", transfer, ")")
             } else {
-                val catId = c.getLongOrNull(KEY_CATID)
+                val catId = cursor.getLongOrNull(KEY_CATID)
                 if (catId == null) {
                     catText = Category.NO_CATEGORY_ASSIGNED_LABEL
                 }
             }
             //TODO: simplify confer TemplateWidget
             var ssb: SpannableStringBuilder
-            val comment = c.getStringOrNull(KEY_COMMENT)
+            val comment = cursor.getStringOrNull(KEY_COMMENT)
             val commentSeparator = " / "
             if (!comment.isNullOrEmpty()) {
                 ssb = SpannableStringBuilder(comment)
                 ssb.setSpan(StyleSpan(Typeface.ITALIC), 0, comment.length, 0)
                 catText = TextUtils.concat(catText, commentSeparator, ssb)
             }
-            val payee = c.getStringOrNull(KEY_PAYEE_NAME)
+            val payee = cursor.getStringOrNull(KEY_PAYEE_NAME)
             if (!payee.isNullOrEmpty()) {
                 ssb = SpannableStringBuilder(payee)
                 ssb.setSpan(UnderlineSpan(), 0, payee.length, 0)
                 catText = TextUtils.concat(catText, commentSeparator, ssb)
             }
             tv2.text = catText
-            if (doesHavePlan) {
-                var planInfo: CharSequence? = c.getStringIfExists(KEY_PLAN_INFO)
-                if (planInfo == null) {
-                    planInfo = if (isCalendarPermissionGranted) {
-                        getString(R.string.plan_event_deleted)
-                    } else {
-                        Utils.getTextWithAppName(context, R.string.calendar_permission_required)
-                    }
-                }
-                (convertView.findViewById<View>(R.id.title) as TextView).text =
-                    "${c.getString(KEY_TITLE)} ($planInfo)"
-            }
-            val planImage = convertView.findViewById<ImageView>(R.id.Plan)
+            view.findViewById<TextView>(R.id.Title).text = cursor.getString(KEY_TITLE) +
+                    if (doesHavePlan)
+                        " (" + (cursor.getStringIfExists(KEY_PLAN_INFO)
+                            ?: if (isCalendarPermissionGranted) {
+                                getString(R.string.plan_event_deleted)
+                            } else {
+                                Utils.getTextWithAppName(
+                                    context,
+                                    R.string.calendar_permission_required
+                                )
+                            }) + ")"
+                    else ""
+
+            val planImage = view.findViewById<ImageView>(R.id.Plan)
             planImage.setImageResource(
                 if (isSealed) R.drawable.ic_lock else if (doesHavePlan) R.drawable.ic_event else R.drawable.ic_menu_template
             )
             planImage.contentDescription =
                 getString(if (doesHavePlan) R.string.plan else R.string.template)
-            return convertView
-        }
 
+            with(view.findViewById<TextView>(R.id.OriginalAmount)) {
+                isVisible = cursor.getStringOrNull(KEY_ORIGINAL_CURRENCY)?.let {
+                    text = currencyFormatter.convAmount(
+                        cursor.getLong(KEY_ORIGINAL_AMOUNT),
+                        currencyContext[it]
+                    )
+                    setTextColor(amountColor)
+                    true
+                } ?: false
+            }
+        }
     }
 
     override fun configureMenu(menu: Menu, lv: AbsListView) {

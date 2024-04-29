@@ -73,5 +73,21 @@
     <string name="help_and_feedback">"說明和意見反映"</string>
     <string name="currencies_exchange">"貨幣和外幣兌換"</string>
     <string name="menu_sync_now">"立即同步處理"</string>
-  <string name="do_not_show_again">不要再顯示</string>
+    <string name="do_not_show_again">不要再顯示</string>
+    <string name="color">"顏色"</string>
+    <string name="notes">"備註"</string>
+    <string name="cannot_be_undone">"此操作將無法復原。"</string>
+    <string name="configuration">"設定"</string>
+    <string name="menu_open">"開啟"</string>
+    <string name="menu_print">"列印"</string>
+    <string name="share">"分享"</string>
+    <string name="username">"使用者名稱"</string>
+    <string name="password">"密碼"</string>
+    <string name="frequency">"頻率"</string>
+    <string name="no_data">"沒有資料"</string>
+    <string name="color_component_title">"選擇顏色"</string>
+    <string name="filter">"篩選器"</string>
+    <string name="tags">"標籤"</string>
+    <string name="languages">"語言"</string>
+    <string name="full_screen">"全螢幕"</string>
 </resources>

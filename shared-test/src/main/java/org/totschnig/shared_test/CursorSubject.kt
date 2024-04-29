@@ -6,7 +6,6 @@ import com.google.common.truth.IntegerSubject
 import com.google.common.truth.Subject
 import com.google.common.truth.Subject.Factory
 import com.google.common.truth.Truth
-import java.io.Closeable
 
 class CursorSubject private constructor(
     failureMetadata: FailureMetadata,

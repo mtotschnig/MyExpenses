@@ -4,31 +4,49 @@
     tools:showIn="@layout/budget_widget">
 
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/widgetHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?colorPrimaryContainer"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="8dp">
+        android:paddingStart="16dp"
+        android:paddingEnd="3dp">
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingVertical="8dp"
             android:text="@string/testData_account1Description"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="?colorOnPrimaryContainer" />
+
+        <ImageView
+            android:id="@id/BACK_COMMAND"
+            style="@style/WidgetActionButton.Navigation"
+            android:contentDescription="@string/menu_back"
+            android:src="@drawable/ic_menu_back"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/groupInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_gravity="center_vertical"
+            android:paddingVertical="8dp"
             android:text="@string/grouping_this_week"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="?colorOnPrimaryContainer" />
-    </RelativeLayout>
+
+        <ImageView
+            android:id="@id/FORWARD_COMMAND"
+            style="@style/WidgetActionButton.Navigation"
+            android:contentDescription="@string/menu_forward"
+            android:src="@drawable/ic_menu_forward"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"

@@ -1,45 +1,27 @@
-Mis gastos permite el seguimiento de gastos e ingresos, directamente desde tu teléfono o tablet.
+<i>Mis Gastos</i> es su herramienta definitiva para realizar un seguimiento de gastos y una gestión financiera sin esfuerzo, ¡al alcance de su mano!
 
-- Hasta cinco cuentas con <b>transferencias</b> (también entre diferentes monedas)
-- Número ilimitado de <b>plantillas</b> y hasta tres proyectos para transacciones <b>recurrentes</b>
-- <b>Exportar</b> a QIF y CSV. <b>Importar</b> desde QIF
-- Se pueden proteger los datos con <b>contraseña</b> o un dispositivo de <b>bloqueo de pantalla</b>
-- Se puede personalizar el <b>tema</b> (oscuro y claro) y el <b>tipo de letra</b>
-- <b>Reconciliación</b>: compare fácilmente los estados de transacción con los recibos de banco
-- <b>Widgets</b> y <b>accesos directos</b> en su pantalla de inicio para introducir información rápidamente
+Características clave:
 
-Las características premium se desbloquean al comprar una de la siguientes llaves de licencia:
+     • <b>Seguimiento de gastos sin esfuerzo</b>: controle sus gastos e ingresos sin problemas, ya sea que esté en su teléfono inteligente o tableta.
+     • <b>Administración de cuentas flexible</b>: administre varias cuentas sin esfuerzo, incluidas transferencias entre diferentes monedas.
+     • <b>Planificación financiera optimizada</b>: configure fácilmente planes para transacciones recurrentes.
+     • <b>Gestión de datos perfecta</b>: exporte e importe datos con facilidad utilizando los formatos QIF y CSV.
+     • <b>Seguridad mejorada</b>: proteja sus datos con una contraseña o seguridad en la pantalla de bloqueo del dispositivo.
+     • <b>Experiencia personalizable</b>: adapte la aplicación a sus preferencias con temas y tamaños de fuente personalizables.
+     • <b>Conciliación de extractos bancarios</b>: compare fácilmente el estado de las transacciones con sus extractos bancarios para realizar un seguimiento financiero preciso.
+     • <b>Ingreso rápido de datos</b>: disfrute de un acceso conveniente con widgets y accesos directos en la pantalla de inicio.
+     • <b>Potente análisis de datos</b>: filtre sus datos según varios criterios y visualice la distribución y las tendencias históricas con gráficos dinámicos.
 
-<b>Clave Contrib</b>
+Desbloquear funciones premium:
 
-- <b>Sin anuncios</b>
-- Número de <b>cuentas</b> ilimitadas
-- Número de proyectos ilimitados para transacciones <b>recurrentes</b>
-- <b>Gráfico de sectores</b>: visualice la distribución estadística de transacciones por categoría entre diferentes periodos (años, meses, semanas, días)
-- <b>Transacción dividida</b>: una transacción puede separarse en diferentes partes (categorías y transferencias)
-- <b>Imprima</b> la lista de transacciones en un archivo PDF
-- <b>Adjuntar imagen</b>: tomada desde la cámara o seleccionada desde galería
-
-<b>Clave Extendida</b>
-
-- Todas las características de licencia Contrib
-- <b>Sincronización con la nube</b>: los datos pueden sincronizarse entre varios dispositivos (Webdav, Dropbox)
-- <b>Copia de seguridad automática</b> diaria con subida a almacenamiento en la nube opcional
-- Una sofisticada y personalizable <b>importación a CSV</b> (para aplicaciones de hojas de cálculo)
-
-<b>Llave Profesional</b>
-
-- Todas las características de la llave Extendida
-- <b>Presupuestar</b>: Compare sus gastos con los límites que establezca por categoría de forma diaria, semanal o anual.
-- <b>Gráfico del historial</b> (Flujo de efectivo)
-- <b>Escanear los recibos</b>: Extrae automáticamente el importe, la fecha y el acreedor
-- <b>Interfaz de usuario web</b>
-- Número ilimitado de <b>plantillas y proyectos para transacciones divididas</b>
-- <b>Soporte por correo electrónico</b> con respuesta garantizada en 2 días laborales
-- Derecho a participar en la <b>hoja de ruta de desarrollo</b>
+     • <i>Clave Contrib</i>: diga adiós a los anuncios y desbloquee cuentas ilimitadas, planes de transacciones recurrentes y más.
+     • <i>Clave Extendida</i>: disfrute de la sincronización en la nube, las copias de seguridad automatizadas y las sofisticadas importaciones de CSV.
+     • <i>Clave Profesional</i>: lleve su gestión financiera al siguiente nivel con herramientas de elaboración de presupuestos, escaneo de recibos y soporte por correo electrónico.
 
 <i>Mis gastos</i> requiere los siguientes <u>permisos</u>:
 
-- <i>Calendario</i>: Los proyectos para las transacciones futuras y recurrentes se almacenarán en un calendario local especial o en cualquier otro calendario que asigne.
-- <i>Internet</i>: Validación de la llave de licencia, Sincronización en la nube.
-- <i>Cuentas</i>: Sincronización entre varios dispositivos vía servicios en la nube.
+     • <i>Calendario</i>: los planes para transacciones futuras y recurrentes se almacenan en un calendario local especial o en cualquier otro calendario que usted asigne.
+     • <i>Internet</i>: seguimiento de uso anónimo, informes de fallos, sincronización en la nube.
+     • <i>Cuentas</i>: sincronización entre dispositivos a través de servicios en la nube.
+
+¡Toma el control de tus finanzas como nunca antes usando <i>Mis Gastos</i>!

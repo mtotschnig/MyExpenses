@@ -11,6 +11,7 @@ import org.junit.Test
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.SortDirection
+import org.totschnig.myexpenses.provider.BudgetInfo
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
@@ -73,8 +74,8 @@ class AccountTest {
                 null, null, null
             )
             val budgets = arrayOf(
-                BudgetInfo(it, "budget 1", "description", 400, grouping),
-                BudgetInfo(it, "budget 2", "description", 5000, grouping)
+                BudgetInfo(it, "budget 1", 400, grouping, "description"),
+                BudgetInfo(it, "budget 2", 5000, grouping, "description")
             )
             for (budgetInfo in budgets) {
                 resolver.insert(

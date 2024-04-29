@@ -37,8 +37,6 @@
     <string name="app_name">ಮೈ ಎಕ್ಸಪೆನ್ಸಸ್</string>
     <string name="backup_success">ಡೇಟಾಬೇಸ್ ಮತ್ತು ಪ್ರಾಶಸ್ತ್ಯಗಳನ್ನು \"%1$s\" ಗೆ ಯಶಸ್ವಿಯಾಗಿ ಬರೆಯಲಾಗಿದೆ.</string>
     <string name="category">ವರ್ಗ</string>
-    <string name="color">ಬಣ್ಣ</string>
-    <string name="comment">ಟಿಪ್ಪಣಿಗಳು</string>
     <string name="contrib_feature_ad_free_label">ಜಾಹೀರಾತುಗಳಿಲ್ಲ</string>
     <string name="contrib_feature_accounts_unlimited_label">ಅನಿಯಮಿತ ಸಂಖ್ಯೆಯ ಖಾತೆಗಳು</string>
     <string name="contrib_feature_attach_picture_label">ವ್ಯವಹಾರಕ್ಕೆ ಚಿತ್ರವನ್ನು ಲಗತ್ತಿಸಿ</string>
@@ -174,10 +172,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">ತಲೆಕೆಳಗು</string>
     <string name="menu_manage_plans">ಟೆಂಪ್ಲೇಟ್‌ಗಳು ಮತ್ತು ಯೋಜನೆಗಳು</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">ತೆರೆಯಿರಿ</string>
     <string name="menu_import">ಆಮದು</string>
-    <string name="menu_print">ಮುದ್ರಿಸಿ</string>
     <string name="menu_reset">ರಫ್ತು ಮತ್ತು ಮರುಹೊಂದಿಸಿ</string>
     <string name="menu_reset_all">ಎಲ್ಲವನ್ನೂ ರಫ್ತು ಮಾಡಿ ಮತ್ತು ಮರುಹೊಂದಿಸಿ</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -185,7 +180,6 @@
     <string name="menu_save">ಉಳಿಸಿ</string>
     <string name="menu_save_and_new">ಉಳಿಸಿ ಮತ್ತು ಹೊಸದು</string>
     <string name="menu_share">ಗೆಳೆಯನಿಗೆ ಹೇಳು</string>
-    <string name="button_label_share_file">ಹಂಚಿಕೊಳ್ಳಿ</string>
     <string name="button_label_close">ಮುಚ್ಚಿ</string>
     <string name="menu_split_transaction">ವಿಭಜನೆಗೆ ರೂಪಾಂತರ</string>
     <string name="method">ಪಾವತಿ ವಿಧಾನ</string>
@@ -215,7 +209,6 @@
     <string name="opening_balance">ಆರಂಭ ಶಿಲ್ಕು</string>
     <string name="parse_error_file_not_found">%1$s ಫೈಲ್ ಅನ್ನು ಕಂಡುಹಿಡಿಯಲಾಗಲಿಲ್ಲ</string>
     <string name="parse_error_grisbi_version_not_supported">ಬೆಂಬಲಿಸದ ಗ್ರಿಸ್ಬಿ ಫೈಲ್ ಆವೃತ್ತಿ: %1$s</string>
-    <string name="parse_error_no_data_found">ಫೈಲ್‌ನಲ್ಲಿ ಯಾವುದೇ ಆಮದು ಮಾಡಬಹುದಾದ ಡೇಟಾ ಕಂಡುಬಂದಿಲ್ಲ.</string>
     <string name="parse_error_other_exception">ದೋಷ ಸಂಭವಿಸಿದೆ: %1$s</string>
     <string name="parse_error_parse_exception">ಫೈಲ್ ಅನ್ನು ಪಾರ್ಸ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ</string>
     <string name="password_disabled_reenable">ಪಾಸ್ವರ್ಡ್ ರಕ್ಷಣೆಯನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ. ನೀವು ಅದನ್ನು ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಪುನಃ ಸಕ್ರಿಯಗೊಳಿಸಬಹುದು.</string>
@@ -441,7 +434,6 @@
     <string name="restore_calendar_handling_ignore">ಯೋಜನೆಗಳನ್ನು ಮರುಸ್ಥಾಪಿಸಬೇಡಿ</string>
     <string name="restore_not_possible_target_calendar_missing">ಬ್ಯಾಕಪ್ ಆರ್ಕೈವ್‌ನಲ್ಲಿ ಹೊಂದಿಸಲಾದ ಕ್ಯಾಲೆಂಡರ್ %s ಸ್ಥಳೀಯವಾಗಿ ಅಸ್ತಿತ್ವದಲ್ಲಿಲ್ಲ. ಮರುಸ್ಥಾಪನೆಯನ್ನು ಸ್ಥಗಿತಗೊಳಿಸಲಾಗಿದೆ.</string>
     <string name="restore_not_possible_local_calendar_missing">ಪ್ರಸ್ತುತ ಯೋಜನೆ ಕ್ಯಾಲೆಂಡರ್ ಲಭ್ಯವಿಲ್ಲ.</string>
-    <string name="menu_distribution_show_pie_char">ಪೈ ಚಾರ್ಟ್ ತೋರಿಸಿ</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">ಹಳೆಯ ಚಿತ್ರಗಳು</string>
     <string name="pref_manage_stale_images_summary">ಅಳಿಸಿದ ವಹಿವಾಟಿನಿಂದ ಉಳಿದಿರುವ ಚಿತ್ರಗಳನ್ನು ನಿರ್ವಹಿಸಿ</string>
@@ -513,8 +505,6 @@
     <string name="hint_url">URL</string>
     <string name="description_webdav_url">ದಯವಿಟ್ಟು ನಿಮ್ಮ ವೆಬ್‌ಡ್ಯಾವ್ ಸರ್ವರ್‌ನಲ್ಲಿ ವಿಶೇಷ ಫೋಲ್ಡರ್‌ಗೆ URL ಅನ್ನು ನಮೂದಿಸಿ. {app_name} ತನ್ನ ಡೇಟಾವನ್ನು ಈ ಫೋಲ್ಡರ್ ಒಳಗೆ ಸಂಗ್ರಹಿಸುತ್ತದೆ, ಅದು ಅದರ ಹೊರಗೆ ಯಾವುದನ್ನೂ ಮುಟ್ಟುವುದಿಲ್ಲ.</string>
     <string name="description_webdav_trust_certificate">ವೆಬ್‌ಸೈಟ್ ಪ್ರಮಾಣಪತ್ರವನ್ನು ಬಳಸುತ್ತದೆ, ಅದನ್ನು ಆಂಡ್ರಾಯ್ಡ್ ನಂಬುವುದಿಲ್ಲ.</string>
-    <string name="hint_user_name">ಬಳಕೆದಾರ ಹೆಸರು</string>
-    <string name="hint_password">ಗುಪ್ತಪದ</string>
     <string name="label_trust_certificate">ಈ ಪ್ರಮಾಣಪತ್ರವನ್ನು ನಂಬಿರಿ</string>
     <string name="no_sync_backends">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್‌ಗಳು ಇಲ್ಲ</string>
     <string name="menu_create_sync_backend">ಹೊಸ ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್</string>
@@ -526,7 +516,6 @@
     <string name="menu_sync_unlink">ಸಿಂಕ್ ಮಾಡುವುದನ್ನು ನಿಲ್ಲಿಸಿ</string>
     <string name="menu_sync_link">ಸಿಂಕ್ ಮಾಡಲು ಪ್ರಾರಂಭಿಸಿ</string>
     <string name="menu_sync_download">ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ ಮತ್ತು ಸಿಂಕ್ ಮಾಡಿ</string>
-    <string name="pref_sync_frequency_title">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಆವರ್ತನ</string>
     <string name="pref_sync_frequency_summary">ಡೇಟಾವನ್ನು ಎಷ್ಟು ಬಾರಿ ಸಿಂಕ್ರೊನೈಸ್ ಮಾಡಬೇಕು (ಗಂಟೆಗಳಲ್ಲಿ)</string>
     <string name="dialog_confirm_sync_unlink">ನೀವು ಈ ಖಾತೆಯನ್ನು %s ನಿಂದ ಅನ್ಲಿಂಕ್ ಮಾಡಿದರೆ, ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಸ್ಥಿತಿ ಕಳೆದುಹೋಗುತ್ತದೆ. ನಂತರ ಅವುಗಳನ್ನು ಮತ್ತೆ ಲಿಂಕ್ ಮಾಡಲು, ಪೂರ್ಣ ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಅನ್ನು ಮತ್ತೆ ಕಾರ್ಯಗತಗೊಳಿಸುವ ಅಗತ್ಯವಿದೆ.</string>
     <string name="dialog_sync_link">uuid %s ಯೊಂದಿಗಿನ ಖಾತೆಯು ಸ್ಥಳೀಯ ಡೇಟಾಬೇಸ್‌ನಲ್ಲಿ ಮತ್ತು ದೂರಸ್ಥ ಬ್ಯಾಕೆಂಡ್‌ನಲ್ಲಿ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ. ನೀವು ಎರಡನ್ನೂ ಲಿಂಕ್ ಮಾಡಿದಾಗ, ಆರಂಭದಲ್ಲಿ, ನೀವು ಸ್ಥಳೀಯ ಡೇಟಾವನ್ನು ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ಅಪ್‌ಲೋಡ್ ಮಾಡಲು ಅಥವಾ ಸ್ಥಳೀಯ ಡೇಟಾಬೇಸ್‌ಗೆ ರಿಮೋಟ್ ಡೇಟಾವನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ನೀವು ನಿರ್ಧರಿಸಬೇಕು.</string>
@@ -577,8 +566,6 @@
     <string name="onboarding_get_started">ಪ್ರಾರಂಭಿಸಿ</string>
     <string name="onboarding_more_options">ಹೆಚ್ಚಿನ ಆಯ್ಕೆಗಳು</string>
     <string name="onboarding_restore_from_cloud">ಮೋಡದ ಸಿಂಕ್ರೊನೈಸೇಶನ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಿ</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">ಬ್ಯಾಕಪ್‌ಗಳು</string>
     <string name="onboarding_restore_from_local">ಸ್ಥಳೀಯ ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅನ್ನು ಮರುಸ್ಥಾಪಿಸಿ</string>
     <string name="contributed_by">%s ಕೊಡುಗೆ ನೀಡಿದೆ</string>
     <string name="pref_sync_notification_summary">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಪ್ರಗತಿಯ ಬಗ್ಗೆ ತಿಳಿಸಿ</string>
@@ -700,7 +687,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">\'ಅನ್ಮ್ಯಾಪ್ಡ್\' ಫಿಲ್ಟರ್ ಅನ್ನು ಬಹು ಆಯ್ಕೆಯಲ್ಲಿ ಸೇರಿಸಲಾಗುವುದಿಲ್ಲ</string>
-    <string name="upgrade_information_cloud_sync_storage_format">ಆವೃತ್ತಿ 2.9.8 ರೊಂದಿಗೆ, ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್‌ಗಳಲ್ಲಿ ಡೇಟಾವನ್ನು ಸಂಗ್ರಹಿಸುವ ವಿಧಾನವು ಬದಲಾಗಿದೆ. ಯಾವುದೇ ಹೊಸ ದಾಖಲೆಗಳನ್ನು ನಮೂದಿಸುವ ಮೊದಲು ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಸಿಂಕ್ ಮಾಡಿದ ಸಾಧನಗಳಲ್ಲಿ ಈ ಆವೃತ್ತಿಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ.</string>
     <string name="pref_security_export_passphrase_title">ಬ್ಯಾಕಪ್‌ಗಳಿಗಾಗಿ ಪಾಸ್‌ಫ್ರೇಸ್</string>
     <string name="pref_security_export_passphrase_summary">ಈ ಪಾಸ್‌ಫ್ರೇಸ್‌ನೊಂದಿಗೆ ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗುತ್ತದೆ</string>
     <string name="backup_is_encrypted">ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅನ್ನು ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗಿದೆ. ಅದನ್ನು ಡೀಕ್ರಿಪ್ಟ್ ಮಾಡಲು, ನೀವು ಅದರ ಪಾಸ್‌ಫ್ರೇಸ್ ಅನ್ನು ನಿರ್ದಿಷ್ಟಪಡಿಸಬೇಕು.</string>
@@ -759,7 +745,6 @@
     <string name="budget_filter_all_methods">ಎಲ್ಲಾ ವಿಧಾನಗಳು</string>
     <string name="budget_filter_all_states">ಎಲ್ಲಾ ಸ್ಥಿತಿ</string>
     <string name="budget_filter_all_tags">ಎಲ್ಲಾ ಟ್ಯಾಗ್‌ಗಳು</string>
-    <string name="budget_form_label_filter">ಫಿಲ್ಟರ್ ಮಾಡಿ</string>
     <string name="dialog_title_warning_delete_budget">ಬಜೆಟ್ ಅಳಿಸುವುದೇ?</string>
     <string name="warning_delete_budget">ಬಜೆಟ್ \"%1$s\" ಅನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
     <string name="menu_edit_budget">ಬಜೆಟ್ ಸಂಪಾದಿಸಿ</string>
@@ -785,7 +770,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">ಅಬೀಜ ವಹಿವಾಟುಗಳು ಮೂಲ ದಿನಾಂಕವನ್ನು ಇಡುತ್ತವೆ</string>
     <string name="tags_create_or_select">ಟ್ಯಾಗ್‌ಗಳನ್ನು ರಚಿಸಿ ಅಥವಾ ಆಯ್ಕೆಮಾಡಿ</string>
-    <string name="tags">ಟ್ಯಾಗ್ಗಳು</string>
     <string name="pref_manage_tags_summary">ಟ್ಯಾಗ್‌ಗಳನ್ನು ಸೇರಿಸಿ, ಸಂಪಾದಿಸಿ, ಅಳಿಸಿ.</string>
     <string name="dialog_title_warning_delete_tag">ಟ್ಯಾಗ್ ಅಳಿಸುವುದೇ?</string>
     <string name="menu_edit_tag">ಟ್ಯಾಗ್ ಸಂಪಾದಿಸಿ</string>
@@ -809,7 +793,6 @@
     <string name="advance_exexcution_in_days">ಮುಂಗಡ ಮರಣದಂಡನೆ (ದಿನಗಳಲ್ಲಿ)</string>
     <string name="discover_feature_fab_long_press">ವರ್ಗಾವಣೆ, ವಿಭಜಿತ ವಹಿವಾಟು ಅಥವಾ ಆದಾಯಕ್ಕಾಗಿ ಫಾರ್ಮ್ ಅನ್ನು ನೇರವಾಗಿ ತೆರೆಯಲು ಫ್ಲೋಟಿಂಗ್ ಆಕ್ಷನ್ ಬಟನ್ ಅನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ ಮತ್ತು ಹಿಡಿದುಕೊಳ್ಳಿ.</string>
     <string name="select_package">ದಯವಿಟ್ಟು ಪರವಾನಗಿ ಪ್ಯಾಕೇಜ್ ಆಯ್ಕೆಮಾಡಿ.</string>
-    <string name="pref_feature_uninstall_languages_title">ಭಾಷೆಗಳು</string>
     <string name="pref_feature_uninstall_summary">ಪ್ಲೇ ಸ್ಟೋರ್ ಅಂತಿಮವಾಗಿ ಆ ಮಾಡ್ಯೂಲ್‌ಗಳನ್ನು ಹಿನ್ನೆಲೆಯಲ್ಲಿ ತೆಗೆದುಹಾಕಲು ಪ್ರಯತ್ನಿಸುತ್ತದೆ.</string>
     <string name="pref_ocr_time_formats_title">ಸಮಯ ಸ್ವರೂಪಗಳು</string>
     <string name="pref_feature_uninstall_title">ವೈಶಿಷ್ಟ್ಯಗಳು ಮತ್ತು ಭಾಷೆಗಳ ಅಸ್ಥಾಪನೆಯನ್ನು ವಿನಂತಿಸಿ</string>
@@ -817,7 +800,6 @@
     <string name="scan_result_no_date">ಯಾವುದೇ ದಿನಾಂಕ ಕಂಡುಬಂದಿಲ್ಲ</string>
     <string name="scan_result_no_amount">ಯಾವುದೇ ಮೊತ್ತ ಕಂಡುಬಂದಿಲ್ಲ</string>
     <string name="scan_result_multiple_candidates_dialog_title">ಬಹು ಅಭ್ಯರ್ಥಿಗಳು ಕಂಡುಬಂದಿದ್ದಾರೆ. ದಯವಿಟ್ಟು ಆಯ್ಕೆ ಮಾಡು:</string>
-    <string name="scan_result_no_data">ಮಾಹಿತಿ ಇಲ್ಲ</string>
     <string name="pref_criterion_future_current">ಪ್ರಸ್ತುತ ಸಮಯ</string>
     <string name="pref_criterion_future_end_of_day">ದಿನದ ಅಂತ್ಯ</string>
     <string name="pref_criterion_futur_title">ಭವಿಷ್ಯದ ವಹಿವಾಟುಗಳಿಗೆ ಮಾನದಂಡ</string>
@@ -880,13 +862,11 @@
         <item quantity="one">%1$s ಸಾಲವು %2$d ಮ್ಯಾಪ್ ಮಾಡಿದ ವಹಿವಾಟನ್ನು ಹೊಂದಿದೆ.</item>
         <item quantity="other">%1$s ಸಾಲವು %2$d ಮ್ಯಾಪ್ ಮಾಡಿದ ವಹಿವಾಟುಗಳನ್ನು ಹೊಂದಿದೆ.</item>
     </plurals>
-    <string name="dialog_title_delete_debt">ಸಾಲವನ್ನು ಅಳಿಸುವುದೇ\?</string>
     <string name="warning_party_delete_debt">ಈ ಪಕ್ಷವನ್ನು ಅಳಿಸುವಾಗ, ಅದಕ್ಕೆ ವ್ಯಾಖ್ಯಾನಿಸಲಾದ ಸಾಲಗಳನ್ನು ಸಹ ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
     <string name="debts">ಸಾಲಗಳು</string>
     <string name="debt_I_owe">ನಾನು %s ಗೆ ಣಿಯಾಗಿದ್ದೇನೆ</string>
     <string name="debt_owes_me">%s ನನಗೆ ಣಿಯಾಗಿದೆ</string>
     <string name="menu_new_debt">ಹೊಸ ಸಾಲ</string>
-    <string name="dialog_title_warning_delete_party">ಪಾರ್ಟಿಯನ್ನು ಅಳಿಸುವುದೇ\?</string>
     <string name="cb_label_merge_accounts">ಖಾತೆಗಳನ್ನು ವಿಲೀನಗೊಳಿಸಿ</string>
     <string name="debt">ಸಾಲ</string>
     <string name="pref_mlkit_script_title">MlKit ಗಾಗಿ ಸ್ಕ್ರಿಪ್ಟ್</string>
@@ -913,7 +893,6 @@
     <string name="pref_debug_logging_share_summary">ಲಾಗ್ ಫೈಲ್‌ಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಿ</string>
     <string name="menu_parent_category_selection">ಶಾರ್ಟ್ ಟ್ಯಾಪ್‌ನಲ್ಲಿ ಪೋಷಕ ವರ್ಗವನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
     <string name="icons_for_categories">ವರ್ಗಗಳಿಗೆ ಚಿಹ್ನೆಗಳು</string>
-    <string name="required">ಅಗತ್ಯವಿದೆ</string>
     <string name="pref_csv_export_split_categories_summary">ವರ್ಗ ಶ್ರೇಣಿಯ ಪ್ರತಿ ಹಂತಕ್ಕೆ ಪ್ರತ್ಯೇಕ ಕಾಲಮ್‌ಗಳನ್ನು ಬಳಸಿ</string>
     <string name="pref_csv_export_split_amount_summary">ಆದಾಯ ಮತ್ತು ವೆಚ್ಚಗಳಿಗಾಗಿ ಪ್ರತ್ಯೇಕ ಕಾಲಮ್ಗಳನ್ನು ಬಳಸಿ</string>
     <string name="pref_csv_export_split_date_time_summary">ದಿನಾಂಕ ಮತ್ತು ಸಮಯಕ್ಕಾಗಿ ಪ್ರತ್ಯೇಕ ಕಾಲಮ್‌ಗಳನ್ನು ಬಳಸಿ</string>

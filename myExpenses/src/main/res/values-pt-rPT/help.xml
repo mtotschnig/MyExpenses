@@ -80,7 +80,7 @@
     <string name="help_ManageCategories_manage_context">Toque numa entrada para exibir o menu de contexto dela. Um toque longo inicia a seleção múltipla.</string>
     <string name="menu_ManageCategories_distribution_grouping_help_text">Definir o tipo de agrupamento e exibir a distribuição por dia, mês, semana ou ano.</string>
     <string name="menu_categories_export_help_text">As categorias serão exportadas para um ficheiro QIF.</string>
-    <string name="menu_distribution_show_pie_char_help_text">Alternar a visibilidade do gráfico circular.</string>
+    <string name="menu_chart_help_text">Alternar a visibilidade do gráfico.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">As categorias selecionadas serão usadas para filtrar a lista de transações.</string>
     <string name="menu_ManageCategories_search_help_text">Apenas a categoria principal e as subcategorias que coincidem com a sua pesquisa serão exibidas.</string>
     <string name="menu_ManageCategories_sort_help_text">A lista de categorias pode ser ordenada por título (alfabeticamente), por frequência de usos, ou pela última categoria atribuída a uma transação.</string>

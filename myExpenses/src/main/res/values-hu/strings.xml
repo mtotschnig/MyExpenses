@@ -37,8 +37,6 @@
     <string name="app_name">Kiadásaim</string>
     <string name="backup_success">Az adatbázis és beállítások sikeresen az SD-kártyára mentve (%1$s).</string>
     <string name="category">Kategória</string>
-    <string name="color">Szín</string>
-    <string name="comment">Megjegyzés</string>
     <string name="contrib_feature_ad_free_label">Hirdetések kikapcsolása</string>
     <string name="contrib_feature_accounts_unlimited_label">Korlátlan számú számla</string>
     <string name="contrib_feature_attach_picture_label">Kép csatolása a tranzakcióhoz</string>
@@ -174,10 +172,7 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Inverz</string>
     <string name="menu_manage_plans">Sablonok és tervek</string>
-    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">Megnyitás</string>
     <string name="menu_import">Import</string>
-    <string name="menu_print">Nyomtatás</string>
     <string name="menu_reset">Export és alap állapotra visszaállítás</string>
     <string name="menu_reset_all">Export és teljes reset</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -185,7 +180,6 @@
     <string name="menu_save">Mentés</string>
     <string name="menu_save_and_new">Mentés és új</string>
     <string name="menu_share">Mondja el egy barátnak</string>
-    <string name="button_label_share_file">Megosztás</string>
     <string name="button_label_close">Bezár</string>
     <string name="menu_split_transaction">Átalakítás osztásra</string>
     <string name="method">Fizetési mód</string>
@@ -216,7 +210,6 @@
     <string name="opening_balance">Nyitó egyenleg</string>
     <string name="parse_error_file_not_found">%1$s állomány nem található</string>
     <string name="parse_error_grisbi_version_not_supported">Nem támogatott Grisbi fájl verzió: %1$s</string>
-    <string name="parse_error_no_data_found">Nincs importálható adat a megadott állományban.</string>
     <string name="parse_error_other_exception">Hiba történt: %1$s</string>
     <string name="parse_error_parse_exception">A fájl nem olvasható</string>
     <string name="password_disabled_reenable">A jelszavas védelem kikapcsolva. Újra engedélyezés a beállítások alatt.</string>
@@ -442,7 +435,6 @@
     <string name="restore_calendar_handling_ignore">Ne állítsa vissza a terveket</string>
     <string name="restore_not_possible_target_calendar_missing">A biztonsági mentési archívumban beállított %s naptár nem létezik helyileg. A visszaállítás megszakadt.</string>
     <string name="restore_not_possible_local_calendar_missing">A jelenlegi tervezőnaptár nem érhető el.</string>
-    <string name="menu_distribution_show_pie_char">Tortadiagram mutatása</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Elavult képek</string>
     <string name="pref_manage_stale_images_summary">A törölt tranzakciókból maradt képek kezelése</string>
@@ -515,8 +507,6 @@
     <string name="hint_url">URL-cím</string>
     <string name="description_webdav_url">Írja be a különleges mappájának URL-címét a WebDAV szerveren. A(z) {app_name} ebben a mappában fogja tárolni az adatokat, a mappán kívül semmihez nem fog hozzáférni.</string>
     <string name="description_webdav_trust_certificate">A honlap egy olyan tanúsítványt használ, amelyet az Android nem tart megbízhatónak.</string>
-    <string name="hint_user_name">Felhasználó neve</string>
-    <string name="hint_password">Jelszó</string>
     <string name="label_trust_certificate">Bízzon ebben a tanúsítványban</string>
     <string name="no_sync_backends">Nincs szinkronizálási háttérrendszer</string>
     <string name="menu_create_sync_backend">Új szinkronizálási háttérrendszer</string>
@@ -528,7 +518,6 @@
     <string name="menu_sync_unlink">Szinkronizálás leállítása</string>
     <string name="menu_sync_link">Szinkronizálás indítása</string>
     <string name="menu_sync_download">Letöltés és szinkronizálás</string>
-    <string name="pref_sync_frequency_title">Szinkronizálási frekvencia</string>
     <string name="pref_sync_frequency_summary">Milyen gyakran kell szinkronizálni az adatokat (órában)</string>
     <string name="dialog_confirm_sync_unlink">Ha leválasztja ezt a fiókot innen: %s, a szinkronizálási állapot elvész. A későbbi újbóli összekapcsoláshoz ismét teljes szinkronizálásra van szükség.</string>
     <string name="dialog_sync_link">Egy uuid %s-al rendelkező fiók létezik a helyi adatbázisban és a távoli háttérprogramban egyaránt. Amikor összekapcsolja mindkettőt, el kell döntenie, hogy kezdetben helyi adatokat kíván-e feltölteni a távoli háttérprogramba, vagy  távoli adatokat letölteni a helyi adatbázisba.</string>
@@ -579,8 +568,6 @@
     <string name="onboarding_get_started">Első lépések</string>
     <string name="onboarding_more_options">További lehetőségek</string>
     <string name="onboarding_restore_from_cloud">Visszaállítás a felhőalapú szinkronizálásból</string>
-    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">Biztonsági mentések</string>
     <string name="onboarding_restore_from_local">Helyi biztonsági mentés visszaállítása</string>
     <string name="contributed_by">%s közreműködésével</string>
     <string name="pref_sync_notification_summary">Értesítés a szinkronizálás állapotáról</string>
@@ -704,7 +691,6 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">A \"nem társított\" szűrő nem szerepelhet többszörös kijelölésben</string>
-    <string name="upgrade_information_cloud_sync_storage_format">A 2.9.8-as verzióval megváltozott az adatok szinkronizálási háttérrendszeren történő tárolásának módja. Frissítsen erre a verzióra minden szinkronizált készüléken, mielőtt bármelyikről új adatot vinne be.</string>
     <string name="pref_security_export_passphrase_title">Biztonsági mentések jelszava</string>
     <string name="pref_security_export_passphrase_summary">A biztonsági másolatokat ezzel a jelszóval titkosítják</string>
     <string name="backup_is_encrypted">A biztonsági fájl titkosított. A titkosítás feloldásához meg kell adnia a jelszavát.</string>
@@ -765,7 +751,6 @@
     <string name="budget_filter_all_states">Minden állapot</string>
     <string name="budget_filter_all_tags">Minden címke</string>
     <string name="budget_filter_all_accounts">Minden fiók</string>
-    <string name="budget_form_label_filter">Szűrés</string>
     <string name="dialog_title_warning_delete_budget">Törli a költségvetést?</string>
     <string name="warning_delete_budget">A(z) \"%1$s\" költségvetés törlődik.</string>
     <string name="menu_edit_budget">Költségvetés szerkesztése</string>
@@ -791,7 +776,6 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">A klónozott tranzakciók megtartják az eredeti dátumot.</string>
     <string name="tags_create_or_select">Címkék létrehozása vagy kiválasztása</string>
-    <string name="tags">Címkék</string>
     <string name="pref_manage_tags_summary">Adjon hozzá, módosítson, töröljön címkéket.</string>
     <string name="dialog_title_warning_delete_tag">Törli a címkét?</string>
     <string name="menu_edit_tag">Címke szerkesztése</string>
@@ -834,7 +818,6 @@
     <string name="pref_criterion_future_current">Aktuális idő</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Features</string>
-    <string name="scan_result_no_data">Nincsenek adatok</string>
     <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">Több jelölt is található. Válasszon:</string>
     <string name="scan_result_no_amount">Nem található összeg</string>
@@ -842,7 +825,6 @@
     <string name="scan_result_no_payee">Nincs kedvezményezett</string>
     <string name="pref_feature_uninstall_title">Kérje a funkciók és a nyelvek eltávolítását</string>
     <string name="pref_feature_uninstall_summary">A Play Store végül megpróbálja eltávolítani ezeket a modulokat a háttérből.</string>
-    <string name="pref_feature_uninstall_languages_title">Nyelvek</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Válasszon egy licenccsomagot.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
@@ -902,4 +884,123 @@
     <string name="dialog_contrib_trial_info_play">Ez az ingyenes próbaverzió soha nem vált át semmilyen típusú előfizetésre.</string>
     <string name="dialog_contrib_subscription_info_play">Ez az előfizetés azonnal hatályba lép, havonta vagy évente kerül számlázásra, és bármikor lemondható.</string>
     <string name="stability_improvements" tools:ignore="UnusedResources">Stabilitási fejlesztések</string>
+    <string name="notifications_permission_required_webui">Az értesítések küldésére vonatkozó engedély megadásával szabályozhatja a webkiszolgáló állapotát.</string>
+    <string name="auto_fill_focus">Fókusz beállítása a kedvezményezettre</string>
+    <string name="warning_plan_instance_delete">A kiválasztott dátumra létrehozott tranzakció törlődik.</string>
+    <string name="performance_enhancement" tools:ignore="UnusedResources">Teljesítménynövelés</string>
+    <string name="debt_owes_me">%s tartozik nekem</string>
+    <string name="debt_I_owe">Tartozom %s</string>
+    <string name="warning_party_delete_debt">A párt törlésekor a hozzá meghatározott tartozások is törlődnek.</string>
+    <string name="title_activity_debt_overview">Adósság áttekintése</string>
+    <string name="cb_label_merge_accounts">Fiókok egyesítése</string>
+    <string name="purge_backups">A következő régi biztonsági mentési fájlok törlődnek:</string>
+    <string name="pref_debug_logging_share_summary">Naplófájlok megosztása</string>
+    <string name="budget_table_header_rollover">Átütemezés</string>
+    <string name="notifications_permission_required_sync">Az értesítésküldési engedély megadásával nyomon követheti a szinkronizálási műveletek előrehaladását.</string>
+    <string name="notifications_permission_required_auto_backup">Az értesítések küldésére vonatkozó engedély megadásával tájékoztatást kap az automatikus biztonsági mentésekről.</string>
+    <string name="debt_installment_pay">%srészletet fizetek.</string>
+    <string name="debt_paid_off_other">%sadósságát kifizetik.</string>
+    <string name="debt_paid_off_self">Az adósságom ki van fizetve.</string>
+    <string name="debt_balance_i_owe">Most tartozom %s.</string>
+    <string name="optimize_image_file_size">Optimalizálja a képfájl méretét</string>
+    <string name="object_sealed_debt">Az objektum egy lezárt adósságra utal.</string>
+    <string name="debts">Adósságok</string>
+    <string name="maximum_size">Maximális méret</string>
+    <string name="pref_acra_user_email">A felhasználói e-mail-címet bele kell foglalni a hibajelentésbe</string>
+    <string name="pref_purge_backup_require_confirmation_summary">Megerősítő üzenet megjelenítése a fájlok törlése előtt</string>
+    <string name="crash_reports_user_info">{app_name} automatikusan jelentést küld az alkalmazások összeomlásáról a fejlesztőknek, ami lehetővé teszi számukra a problémák gyorsabb kijavítását.</string>
+    <string name="debt">Adósság</string>
+    <plurals name="import_categories_icons_updated">
+        <item quantity="one">Az egyik kategóriát ikonnal frissítették.</item>
+        <item quantity="other">%1$d kategóriákat ikonokkal frissítettük.</item>
+    </plurals>
+    <string name="rollover_edit_invalid">A kategóriához rendelt görgetés és az alkategóriákhoz rendelt görgetések összege nem haladhatja meg a fennmaradó összeget.</string>
+    <string name="notifications_channel_required">Kérjük, engedélyezze az %s csatornát.</string>
+    <string name="redesign">Újratervezés</string>
+    <string name="encrypt_database">Adatbázis titkosítása</string>
+    <string name="select_all_list_too_large">Az %s parancs nem érhető el, mert a lista csak részben töltődik be. Kérjük, használja a Keresés funkciót a lista méretének csökkentése érdekében.</string>
+    <string name="search_account">Fiók keresése</string>
+    <string name="budget_table_header_overspent">Túlköltekezés</string>
+    <string name="pref_category_title_crash_reports">Baleseti jelentések</string>
+    <string name="pref_acra_user_email_summary">Kérjük, adja meg e-mail címét, ha szeretne segíteni a hibakeresésben, és lehetővé teszi, hogy kapcsolatba léphessünk Önnel.</string>
+    <string name="menu_new_debt">Új adósság</string>
+    <string name="setup_completed">Beállítás sikerült.</string>
+    <string name="menu_parent_category_selection">Válassza ki a szülőkategóriát rövid érintéssel</string>
+    <string name="pref_purge_backup_keep_title">A megtartandó legutóbbi biztonsági mentési fájlok maximális száma</string>
+    <string name="pref_csv_export_split_categories_summary">Használjon külön oszlopokat a kategóriahierarchia minden szintjéhez</string>
+    <string name="budget_only_current_period">Csak az %s esetén van beállítva</string>
+    <string name="notifications_permission_required_planner"><i>{app_name} engedélyre van szüksége</i> ahhoz, hogy értesítéseket küldhessen Önnek a jövőbeli tranzakciók feladásakor.</string>
+    <string name="debt_installment_receive">%s részletet kapok.</string>
+    <string name="debt_borrow_additional">Kölcsönkérek %s.</string>
+    <plurals name="debt_mapped_transactions">
+        <item quantity="one">Az adósság %1$s %2$d leképezett tranzakcióval rendelkezik.</item>
+        <item quantity="other">Az adósság %1$s %2$d leképezett tranzakcióval rendelkezik.</item>
+    </plurals>
+    <string name="dialog_contrib_usage_limit_with_dialog">Az aktuális licencállapottal (%1$s) ez a párbeszédpanel minden használatkor megjelenik.</string>
+    <string name="budget_deleted">A költségvetést törölték</string>
+    <string name="pref_enable_acra">Összeomlási jelentések automatikus küldésének engedélyezése</string>
+    <string name="backup_save_to_sync_backend">Mentés ide: %s</string>
+    <plurals name="purge_backup_failure">
+        <item quantity="one">Egy régi biztonsági mentési fájlt nem lehetett törölni.</item>
+        <item quantity="other">%d régi biztonsági mentési fájlokat nem lehetett törölni.</item>
+    </plurals>
+    <string name="pref_csv_export_split_date_time_summary">Használjon külön oszlopokat a dátumhoz és az időhöz</string>
+    <string name="webui_warning_move_transaction">A tranzakció átkerül a(z) {account} fiókba.</string>
+    <string name="pref_mlkit_script_title">Parancsfájl az MlKit-hez</string>
+    <string name="content_description_attachment">Melléklet</string>
+    <string name="dialog_confirm_rollover_delete">Az erre az időszakra vonatkozó összes átgörgetési összeg törlődik.</string>
+    <string name="encrypt_database_info">Az adatbázis olyan jelszóval lesz titkosítva, amely nem nyerhető ki erről az eszközről. Következésképpen az eszköz biztonsági mentési szolgáltatása nem készít biztonsági másolatot.</string>
+    <string name="database_is_encrypted">Az adatbázis titkosítva van.</string>
+    <string name="contrib_feature_category_tree_label">Kategóriafa</string>
+    <string name="content_description_remove_icon">Ikon eltávolítása</string>
+    <string name="budget_widget_configuration">Költségkeret kiválasztása</string>
+    <string name="request_for_invoice">Számla kérése</string>
+    <string name="github_sponsors">A licenckulcsokat a &lt;a href=%s&gt;Github-szponzorok&lt;/a&gt; is megkapják.</string>
+    <string name="pref_csv_export_split_amount_summary">Használjon külön oszlopokat a bevételekhez és a kiadásokhoz</string>
+    <string name="icons_for_categories">Kategóriák ikonjai</string>
+    <string name="debt_lend_additional">Kölcsönadok %s.</string>
+    <string name="debt_balance_they_owe">%1$s most tartozik %2$s.</string>
+    <string name="pref_backup_file_prefix_title">Fájl előtag</string>
+    <plurals name="purge_backup_success">
+        <item quantity="one">Egy régi biztonságimásolat-fájl törölve lett.</item>
+        <item quantity="other">%d régi biztonsági mentési fájl törlődött.</item>
+    </plurals>
+    <string name="warning_delete_default_transfer_category">Az %s kategória alapértelmezett átviteli kategóriaként van beállítva, ezért nem szabad törölni.</string>
+    <string name="warning_unlink_transfer">A kiválasztott átutalás leválasztásra kerül: Mindkét számlán normál tranzakciók váltják fel.</string>
+    <string name="image_optimize_quality_summary">A 0 minőség a legkisebb méret tömörítését jelenti. A 100 tömörítést jelent a maximális vizuális minőség érdekében.</string>
+    <string name="pref_copy_attachments_title">Mellékletek másolása az alkalmazás mappájába</string>
+    <string name="contact_us">Kapcsolat</string>
+    <string name="pref_transaction_amount_color_source_title">Az összegek színei</string>
+    <string name="remap_date">Az összes kiválasztott tranzakció dátuma %slesz.</string>
+    <string name="merge_categories_dialog_title">Kategóriák egyesítése</string>
+    <string name="merge_categories_prompt">Válassza ki a megtartani kívánt kategóriát</string>
+    <string name="merge_parties_strategy_delete">Az ismétlődések törlődnek.</string>
+    <string name="show_duplicates">Ismétlődések megjelenítése</string>
+    <string name="pref_copy_attachments_summary_on">A fájlok az alkalmazás mappájába másolódnak.</string>
+    <string name="pref_copy_attachments_summary_off">A fájlok nem másolódnak, csak a hivatkozás kerül tárolásra.</string>
+    <string name="subcategories_merged_recursively">Ha az egyesített kategóriák bármelyike rendelkezik ugyanazzal a címkével rendelkező alkategóriákkal, akkor először ezeket egyesíti a rendszer, rekurzív módon.</string>
+    <string name="pref_csv_export_category_separator_summary">A kategóriahierarchia szintjei közötti elválasztó</string>
+    <string name="template_shortcut">Sablon parancsikonja</string>
+    <string name="select_template">Válasszon sablont</string>
+    <string name="orphaned_transaction_info">Egy tranzakció kapcsolódik a tervhez erre a dátumra, de ezen a napon nem létezik eseménypéldány.</string>
+    <string name="button_relink_keep_date">Újracsatolás, de a dátum megtartása</string>
+    <string name="button_relink_update_date">Újracsatolás és frissítés dátuma</string>
+    <string name="read_from_data">Adatokból olvasni</string>
+    <string name="merge_parties_strategy_group">A másolatok eltartottakként vannak csoportosítva.</string>
+    <string name="remove_from_group">Eltávolítás a csoportból</string>
+    <string name="attachments">Mellékletek</string>
+    <string name="default_transfer_category">Alapértelmezett átviteli kategória</string>
+    <string name="pref_sync_now_all_summary">%s szinkronizálja az ugyanahhoz a háttérhez tartozó összes fiókot</string>
+    <string name="warning_transform_to_transfer">A kiválasztott tranzakciót a %1$s -ről a %2$s-re történő átutalás váltja fel.</string>
+    <string name="roadmap_intro">Megkezdődött a szavazás a 2024-es ütemtervről! Szavazzon az Ön számára legfontosabb funkciókra és fejlesztésekre.</string>
+    <string name="menu_unlink_transfer">Az átvitel leválasztása</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_off">ráfordításként/bevételként számolják el</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_on">átutalásnak számítanak</string>
+    <string name="widget_title_budget">Saját költségkeret</string>
+    <string name="pref_unmapped_transaction_as_transfer_title">Nem leképezett tranzakciók</string>
+    <string name="menu_aggregate_neutral_categories">Összesített semleges kategóriák</string>
+    <string name="menu_transform_to_transfer">Konvertálás átvitelre</string>
+    <string name="orphaned_transaction_relink">A tranzakció újrakapcsolható az eseménypéldányhoz a %s.</string>
+    <string name="orphaned_transaction_align_date">Opcionálisan a tranzakcióval tárolt dátum is igazítható a példány dátumához.</string>
+    <string name="pref_attachment_mime_types_title">Mellékletekhez engedélyezett MIME-típusok</string>
 </resources>

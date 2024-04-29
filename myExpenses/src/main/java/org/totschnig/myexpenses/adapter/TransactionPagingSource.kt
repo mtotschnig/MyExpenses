@@ -12,7 +12,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.BuildConfig
@@ -128,6 +127,7 @@ open class TransactionPagingSource(
                     }
                     cursor.asSequence.map {
                         Transaction2.fromCursor(
+                            currencyContext,
                             it,
                             account.currencyUnit,
                             tags.value

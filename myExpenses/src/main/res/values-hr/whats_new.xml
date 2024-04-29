@@ -14,4 +14,8 @@
     <string name="whats_new_370">Izbornik u glavnom ekranu se može potpuno prilagoditi.</string>
     <string name="whats_new_367">Kategorije se sada mogu konfigurirati kao kategorije troškova ili prihoda, što će utjecati na način na koji se izračunavaju iznosi troškova i prihoda.</string>
     <string name="whats_new_374">Prilagođene boje za oznake</string>
+    <string name="whats_new_376_2">Korisničkim web sučeljem se može upravljati u glavnom ekranu.</string>
+    <string name="whats_new_382">Funkcija %1$s se može pozvati putem widgeta %2$s.</string>
+    <string name="whats_new_376_1">Kloniraj višestruke transakcije s novim datumom.</string>
+    <string name="whats_new_378">Grafikoni uzimaju u obzir filtar pretrage.</string>
 </resources>

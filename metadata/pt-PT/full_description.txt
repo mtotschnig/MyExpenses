@@ -1,45 +1,27 @@
-Minhas despesas mantém o controle de suas despesas e sua receita, diretamente no seu smartphone e no seu tablet.
+<i>Minhas Despesas</i> é a sua ferramenta definitiva para monitoramento de despesas e gerenciamento financeiro sem esforço, na ponta dos dedos!
 
-- Até cinco contas com <b>transferências</b> (também entre moedas diferentes)
-- Número ilimitado de <b>modelos</b> e até três planos para transações <b>recorrentes</b>
-- <b>Exportar</b> para QIF e CSV. <b>Importar</b> do QIF
-- Os dados podem ser protegidos por <b>senha</b> ou pela <b>tela de bloqueio</b> do dispositivo
-- <b>O tema</b> (escuro e claro) e o <b>tamanho da fonte</b> podem ser personalizados
-- <b>Reconciliação</b>: compare facilmente o status da transação com seus extratos bancários
-- <b>Widget da</b> tela inicial e <b>atalhos</b> para entrada rápida de dados
+Características principais:
 
-Os recursos premium são desbloqueados pela compra de uma das seguintes chaves de licença:
+     • <b>Acompanhamento de despesas sem esforço</b>: controle suas despesas e receitas de forma integrada, esteja você em seu smartphone ou tablet.
+     • <b>Gerenciamento de contas flexível</b>: gerencie facilmente diversas contas, incluindo transferências entre diferentes moedas.
+     • <b>Planejamento financeiro simplificado</b>: configure facilmente planos para transações recorrentes.
+     • <b>Gerenciamento de dados contínuo</b>: exporte e importe dados com facilidade usando os formatos QIF e CSV.
+     • <b>Segurança aprimorada</b>: proteja seus dados com senha ou segurança na tela de bloqueio do dispositivo.
+     • <b>Experiência personalizável</b>: personalize o aplicativo de acordo com suas preferências com temas e tamanhos de fonte personalizáveis.
+     • <b>Reconciliação de extratos bancários</b>: compare facilmente o status da transação com seus extratos bancários para obter um acompanhamento financeiro preciso.
+     • <b>Inserção rápida de dados</b>: aproveite o acesso conveniente com widgets e atalhos na tela inicial.
+     • <b>Análise de dados poderosa</b>: filtre seus dados com base em vários critérios e visualize a distribuição e tendências históricas com gráficos dinâmicos.
 
-<b>Chave de contribuição</b>
+Desbloquear recursos premium:
 
-- <b>Sem anúncios</b>
-- Número ilimitado de <b>contas</b>
-- Número ilimitado de planos para transações <b>recorrentes</b>
-- <b>Gráfico de pizza</b>: visualize a distribuição estatística de transações por categoria em diferentes períodos (anos, meses, semanas, dias)
-- <b>Transação dividida</b>: uma única transação pode ser dividida em várias partes (categorias e transferências)
-- <b>Imprime</b> a lista de transações em um arquivo PDF
-- <b>Anexo de imagem</b>: capturar via câmera ou selecionar da galeria
+     • <i>Chave de contribuição</i>: diga adeus aos anúncios e desbloqueie contas ilimitadas, planos de transações recorrentes e muito mais.
+     • <i>Chave estendida</i>: aproveite a sincronização na nuvem, backups automatizados e importações sofisticadas de CSV.
+     • <i>Chave Profissional</i>: leve seu gerenciamento financeiro para o próximo nível com ferramentas de orçamento, digitalização de recibos e suporte por e-mail.
 
-<b>Chave estendida</b>
+<i>Minhas Despesas</i> requer as seguintes <u>permissões</u>:
 
-- Todas os recursos da chave de contribuição
-- <b>Sincronização na nuvem</b>: os dados podem ser sincronizados entre vários dispositivos (Webdav, Dropbox)
-- <b>Backup automático</b> diário com envio opcional para armazenamento em nuvem
-- <b>Importação de CSV</b> sofisticada e personalizável (aplicativos de planilha)
+     • <i>Calendário</i>: Os planos para transações futuras e recorrentes são armazenados em um calendário local especial ou em qualquer outro calendário que você atribuir.
+     • <i>Internet</i>: Rastreamento de uso anônimo, Relatórios de falhas, Sincronização na nuvem.
+     • <i>Contas</i>: sincronização entre dispositivos por meio de serviços em nuvem.
 
-<b>Chave profissional</b>
-
-- Todos os recursos da chave estendida
-- <b>Orçamento</b> : compare seus gastos com os limites definidos por categoria em uma base diária, semanal, mensal ou anual.
-- <b>Diagrama histórico</b> (fluxo de caixa)
-- <b>Digitalizar recibos</b>: Extraia automaticamente a quantia, a data e o beneficiário
-- <b>Interface web do usuário</b>
-- Número ilimitado de <b>modelos e planos para transações divididas</b>
-- <b>Suporte por e-mail</b> com garantia de resposta em até 2 dias úteis
-- Direito de voto no <b>roteiro de desenvolvimento</b>
-
-<i>Minhas despesas</i> requer as seguintes <u>permissões</u>:
-
-- <i>Agenda</i>: Os planos para transações futuras e recorrentes são armazenados em uma agenda local especial ou em qualquer outra agenda que você escolher.
-- <i>Internet</i>: Validação da chave de licença, Sincronização na nuvem.
-- <i>Contas</i>: Sincronização entre dispositivos por meio de serviços em nuvem.
+Assuma o controle de suas finanças como nunca antes usando <i>Minhas Despesas</i>!

@@ -9,5 +9,24 @@
     <string name="help_and_feedback">"Помош и повратни информации"</string>
     <string name="currencies_exchange">"Валути и размена на пари"</string>
     <string name="menu_sync_now">"Синхронизирај сега"</string>
-  <string name="do_not_show_again">Не покажувај повторно</string>
+    <string name="do_not_show_again">Не покажувај повторно</string>
+    <string name="color">"Боја"</string>
+    <string name="notes">"Белешки"</string>
+    <string name="cannot_be_undone">"Дејството не може да се врати."</string>
+    <string name="paper_format">"Формат на страница"</string>
+    <string name="configuration">"Конфигурација"</string>
+    <string name="menu_open">"Отвори"</string>
+    <string name="menu_print">"Печати"</string>
+    <string name="username">"Корисничко име"</string>
+    <string name="password">"Лозинка"</string>
+    <string name="frequency">"Зачестеност"</string>
+    <string name="required">"Потребно"</string>
+    <string name="quality">"Квалитет"</string>
+    <string name="no_data">"Нема податоци"</string>
+    <string name="color_component_title">"Изберете боја"</string>
+    <string name="backups">"Резерви"</string>
+    <string name="filter">"Филтер"</string>
+    <string name="languages">"Јазици"</string>
+    <string name="chart">"Графикон"</string>
+    <string name="full_screen">"Цел екран"</string>
 </resources>

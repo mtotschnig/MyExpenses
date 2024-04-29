@@ -40,9 +40,7 @@ class CrStatusCriterion(override val values: Array<CrStatus>) : Criterion<CrStat
 
     override fun toString() = values.joinToString(EXTRA_SEPARATOR)
 
-    override fun shouldApplyToParts(): Boolean {
-        return false
-    }
+    override val shouldApplyToParts get() = false
 
     companion object {
 

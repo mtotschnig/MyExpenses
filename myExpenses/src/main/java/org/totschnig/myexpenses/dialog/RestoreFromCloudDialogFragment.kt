@@ -59,7 +59,7 @@ class RestoreFromCloudDialogFragment : DialogViewBinding<RestoreFromCloudBinding
                 calendarRestoreButtonCheckedChangeListener
             )
             binding.tabs.addTab(
-                binding.tabs.newTab().setText(R.string.onboarding_restore_from_cloud_backup)
+                binding.tabs.newTab().setText(R.string.backups)
                     .setTag(
                         binding.backupListContainer
                     )

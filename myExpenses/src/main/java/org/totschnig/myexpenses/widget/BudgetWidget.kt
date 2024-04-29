@@ -2,8 +2,10 @@ package org.totschnig.myexpenses.widget
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
+import android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_ID
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.util.LayoutDirection
 import android.util.TypedValue
@@ -17,17 +19,31 @@ import androidx.core.widget.RemoteViewsCompat.setViewTranslationXDimen
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BudgetActivity
 import org.totschnig.myexpenses.activity.BudgetWidgetConfigure
+import org.totschnig.myexpenses.activity.BudgetWidgetConfigure.Companion.clearPeriod
+import org.totschnig.myexpenses.activity.BudgetWidgetConfigure.Companion.loadBudgetId
+import org.totschnig.myexpenses.activity.BudgetWidgetConfigure.Companion.loadGrouping
+import org.totschnig.myexpenses.activity.BudgetWidgetConfigure.Companion.loadPeriod
+import org.totschnig.myexpenses.activity.BudgetWidgetConfigure.Companion.savePeriod
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.loadBudgetProgress
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.util.GroupingInfo
+import org.totschnig.myexpenses.util.GroupingNavigator
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.doAsync
+import org.totschnig.myexpenses.viewmodel.data.DateInfo
+import org.totschnig.myexpenses.viewmodel.data.DateInfoExtra
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.absoluteValue
+
+const val CLICK_ACTION_BACK = "back"
+const val CLICK_ACTION_FORWARD = "forward"
 
 enum class ProgressState(@IdRes val progressBarId: Int) {
     InBudget(R.id.budget_progress_green),
@@ -47,8 +63,44 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
             doAsync {
                 intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
                     ?.forEach { appWidgetId ->
-                        updateWidgetDo(context, AppWidgetManager.getInstance(context), appWidgetId)
+                        updateWidget(context, appWidgetId)
                     }
+            }
+        }
+    }
+
+    private suspend fun updateWidget(context: Context, appWidgetId: Int) {
+        updateWidgetDo(context, AppWidgetManager.getInstance(context), appWidgetId)
+    }
+
+    override fun handleWidgetClick(context: Context, intent: Intent) {
+        when (val clickAction = intent.getStringExtra(KEY_CLICK_ACTION)) {
+            CLICK_ACTION_BACK, CLICK_ACTION_FORWARD -> {
+                doAsync {
+                    val appWidgetId = intent.getIntExtra(EXTRA_APPWIDGET_ID, 0)
+                    val grouping = loadGrouping(context, appWidgetId)
+                    val current = GroupingNavigator.current(
+                        grouping,
+                        DateInfo.load(context.contentResolver)
+                    )
+                    val basis = loadPeriod(context, appWidgetId)?.let {
+                        GroupingInfo(grouping, it.first, it.second)
+                    } ?: current
+                    val dateInfoLoader: suspend () -> DateInfoExtra = {
+                        DateInfoExtra.load(context.contentResolver, basis)
+                    }
+                    val new = if (clickAction == CLICK_ACTION_FORWARD)
+                        GroupingNavigator.next(basis, dateInfoLoader) else
+                        GroupingNavigator.previous(basis, dateInfoLoader)
+                    if (new == current) {
+                        //if user navigates back to current period, we clear it from preference
+                        //so that he updates to next period when current ends
+                        clearPeriod(context, appWidgetId)
+                    } else {
+                        savePeriod(context, appWidgetId, new.year, new.second)
+                    }
+                    updateWidget(context, appWidgetId)
+                }
             }
         }
     }
@@ -64,8 +116,12 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
             val availableWidth =
                 availableWidth(context, appWidgetManager, appWidgetId) - horizontalPadding
             val availableHeight = availableHeight(context, appWidgetManager, appWidgetId)
-            val budgetId = BudgetWidgetConfigure.loadSelectionPref(context, appWidgetId).first
-            val budgetInfo = repository.loadBudgetProgress(budgetId)
+            val budgetId = loadBudgetId(context, appWidgetId)
+            val period = loadPeriod(context, appWidgetId)
+            val budgetInfo = repository.loadBudgetProgress(
+                budgetId,
+                period
+            )
                 ?: throw NoDataException(context.getString(R.string.budget_deleted))
             val progress = budgetInfo.spent / budgetInfo.allocated.toFloat()
             val todayPosition = budgetInfo.currentDay / budgetInfo.totalDays.toFloat()
@@ -91,7 +147,7 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
                 setViewVisibility(R.id.remainderLine, summaryVisibility)
                 setViewVisibility(R.id.summarySpacer, summaryVisibility)
                 setTextViewText(R.id.title, budgetInfo.title)
-                setTextViewText(R.id.groupInfo, budgetInfo.groupInfo)
+                setTextViewText(R.id.groupInfo, budgetInfo.groupInfo.description)
                 setProgressBarVisibility(R.id.budget_progress_green)
                 setProgressBarVisibility(R.id.budget_progress_yellow)
                 setProgressBarVisibility(R.id.budget_progress_red)
@@ -122,9 +178,8 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
                         )
                     }
                 }
-                val remainingBudget = budgetInfo.remainingBudget
-                val remainingDays = budgetInfo.remainingDays
                 if (showCurrentPosition) {
+                    setViewVisibility(R.id.todayMarkerContainer, View.VISIBLE)
                     val layoutDirection =
                         if (context.resources.configuration.layoutDirection == LayoutDirection.RTL) -1 else 1
                     val translation = (availableWidth * todayPosition *
@@ -151,7 +206,7 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
                     currencyFormatter.convAmount(amount, budgetInfo.currency)
                 if (summaryVisibility == View.VISIBLE) {
                     val perDayVisibility =
-                        if (budgetInfo.totalDays > 1 && budgetInfo.currentDay > 0) View.VISIBLE else View.GONE
+                        if (budgetInfo.totalDays > 1 && budgetInfo.currentDay != 0L) View.VISIBLE else View.GONE
                     setViewVisibility(R.id.headerPerDay, perDayVisibility)
                     setViewVisibility(R.id.allocatedDaily, perDayVisibility)
                     setViewVisibility(R.id.spentDaily, perDayVisibility)
@@ -164,15 +219,21 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
                         )
                         setTextViewText(
                             R.id.spentDaily,
-                            amountFormatted(budgetInfo.spent / budgetInfo.currentDay)
+                            if (budgetInfo.currentDay < 0) "-"
+                            else amountFormatted(
+                                budgetInfo.spent / budgetInfo.currentDay.coerceAtMost(
+                                    budgetInfo.totalDays
+                                )
+                            )
+
                         )
                     }
                     setTextViewText(R.id.spent, amountFormatted(budgetInfo.spent))
-                    val withinBudget: Boolean = remainingBudget >= 0
-                    val daysRemain = remainingDays > 0
+                    val withinBudget: Boolean = budgetInfo.remainingBudget >= 0
+                    val daysRemain = budgetInfo.remainingDays > 0
                     setTextViewText(
                         R.id.remainder,
-                        amountFormatted(remainingBudget.absoluteValue)
+                        amountFormatted(budgetInfo.remainingBudget.absoluteValue)
                     )
                     setTextViewText(
                         R.id.remainderCaption, context.getString(
@@ -181,20 +242,52 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
                     )
                     setTextViewText(
                         R.id.remainderDaily,
-                        if (daysRemain && withinBudget) amountFormatted(remainingBudget / remainingDays) else ""
+                        if (daysRemain && withinBudget) amountFormatted(budgetInfo.remainingBudget / budgetInfo.remainingDays) else "-"
                     )
                 }
+
                 setOnClickPendingIntent(
                     R.id.layout,
                     PendingIntent.getActivity(
                         context,
                         appWidgetId,
                         Intent(context, BudgetActivity::class.java).apply {
-                            putExtra(DatabaseConstants.KEY_ROWID, budgetId)
+                            putExtra(KEY_ROWID, budgetId)
+                            period?.let {
+                                putExtra(KEY_YEAR, it.first)
+                                putExtra(KEY_SECOND_GROUP, it.second)
+                            }
                         },
                         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
                     )
                 )
+
+                fun configureNavigationButton(command: Int, action: String) {
+                    setOnClickPendingIntent(
+                        command, PendingIntent.getBroadcast(
+                            context, appWidgetId, clickBaseIntent(context).apply {
+                                putExtra(KEY_CLICK_ACTION, action)
+                                putExtra(EXTRA_APPWIDGET_ID, appWidgetId)
+                                data = Uri.parse(this.toUri(Intent.URI_INTENT_SCHEME))
+                            }, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+                        )
+                    )
+                }
+
+                if (budgetInfo.groupInfo.year == 0 && budgetInfo.groupInfo.second == 0) {
+                    setViewVisibility(R.id.BACK_COMMAND, View.GONE)
+                    setViewVisibility(R.id.FORWARD_COMMAND, View.GONE)
+                    val padding = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        16f,
+                        context.resources.displayMetrics
+                    ).toInt()
+                    //TODO RTL?
+                    setViewPadding(R.id.groupInfo, 0, 0, padding, 0)
+                } else {
+                    configureNavigationButton(R.id.BACK_COMMAND, CLICK_ACTION_BACK)
+                    configureNavigationButton(R.id.FORWARD_COMMAND, CLICK_ACTION_FORWARD)
+                }
             }
         }.getOrElse { errorView(context, it) }
         appWidgetManager.updateAppWidget(appWidgetId, widget)

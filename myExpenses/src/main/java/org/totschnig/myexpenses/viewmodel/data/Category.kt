@@ -37,18 +37,25 @@ data class Category(
         addAll(children.flatMap { it.flatten() })
     }
 
-    fun pruneNonMatching(_criteria: ((Category) -> Boolean)? = null): Category? {
-        val criteria = _criteria ?: { it.isMatching }
+    fun getExpandedForSelected(selected: List<Long>): List<Long> =
+        buildList {
+            val expandedChildren = children.filter { !selected.contains(it.id) }.flatMap {
+                it.getExpandedForSelected(selected)
+            }
+            if (id != 0L && (children.any { selected.contains(it.id) } || expandedChildren.isNotEmpty())) {
+                add(id)
+            }
+            addAll(expandedChildren)
+        }
+
+
+    fun pruneNonMatching(function: ((Category) -> Boolean)? = null): Category? {
+        val criteria = function ?: { it.isMatching }
         val prunedChildren = children.mapNotNull { it.pruneNonMatching(criteria) }
         return if (criteria(this) || prunedChildren.isNotEmpty()) {
             copy(children = prunedChildren)
         } else null
     }
-
-    fun sortChildrenBySumRecursive(): Category = if (children.isEmpty()) this else
-        copy(children = children.sortedByDescending { it.aggregateSum.absoluteValue }.map {
-            it.sortChildrenBySumRecursive()
-        })
 
     fun withSubColors(subColorProvider: (Int) -> List<Int>): Category =
         if (children.isEmpty()) this else
@@ -58,14 +65,23 @@ data class Category(
             }).map { it.withSubColors(subColorProvider) })
 
 
-    fun sortChildrenByBudgetRecursive(): Category = if (children.isEmpty()) this else
-        copy(children = children.sortedByDescending { it.budget.totalAllocated }.map {
-            it.sortChildrenByBudgetRecursive()
-        })
+    fun sortChildrenByBudgetRecursive() = sortChildrenRecursive { it.budget.totalAllocated }
 
-    fun recursiveUnselectChildren(selectionState: SnapshotStateList<Category>) {
+    fun sortChildrenBySumRecursive() = sortChildrenRecursive { it.aggregateSum.absoluteValue }
+
+    fun sortChildrenByAvailableRecursive() = sortChildrenRecursive {
+        it.budget.totalAllocated + it.aggregateSum
+    }
+
+    private fun sortChildrenRecursive(selector: (Category) -> Long): Category =
+        if (children.isEmpty()) this else
+            copy(children = children.sortedByDescending(selector).map {
+                it.sortChildrenRecursive(selector)
+            })
+
+    fun recursiveUnselectChildren(selectionState: SnapshotStateList<Long>) {
         children.forEach {
-            selectionState.remove(it)
+            selectionState.remove(it.id)
             it.recursiveUnselectChildren(selectionState)
         }
     }

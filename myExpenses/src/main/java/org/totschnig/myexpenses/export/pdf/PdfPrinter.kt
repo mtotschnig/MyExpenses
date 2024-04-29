@@ -9,23 +9,34 @@ import com.itextpdf.text.Chunk
 import com.itextpdf.text.Document
 import com.itextpdf.text.DocumentException
 import com.itextpdf.text.Element
+import com.itextpdf.text.PageSize
 import com.itextpdf.text.Paragraph
+import com.itextpdf.text.pdf.ColumnText
 import com.itextpdf.text.pdf.PdfContentByte
 import com.itextpdf.text.pdf.PdfPRow
 import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfPTableEvent
+import com.itextpdf.text.pdf.PdfPageEventHelper
 import com.itextpdf.text.pdf.PdfWriter
 import com.itextpdf.text.pdf.draw.LineSeparator
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.tagMap
 import org.totschnig.myexpenses.export.createFileFailure
+import org.totschnig.myexpenses.export.pdf.PdfPrinter.HorizontalPosition.CENTER
+import org.totschnig.myexpenses.export.pdf.PdfPrinter.HorizontalPosition.LEFT
+import org.totschnig.myexpenses.export.pdf.PdfPrinter.HorizontalPosition.RIGHT
+import org.totschnig.myexpenses.export.pdf.PdfPrinter.VerticalPosition.BOTTOM
+import org.totschnig.myexpenses.export.pdf.PdfPrinter.VerticalPosition.TOP
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.asSequence
@@ -48,13 +59,31 @@ import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderData.Companion.fromSequence
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.io.IOException
-import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import kotlin.math.abs
+
 
 object PdfPrinter {
     private const val VOID_MARKER = "void"
+
+    enum class HorizontalPosition {
+        LEFT, CENTER, RIGHT;
+    }
+
+    enum class VerticalPosition {
+        TOP, BOTTOM;
+    }
+
+    private fun getPaperFormat(context: Context, prefHandler: PrefHandler) =
+        prefHandler.getString(PrefKey.PRINT_PAPER_FORMAT, null)?.let {
+            if (it == "A4") PageSize.A4 else PageSize.LETTER
+        } ?: when (Utils.getCountryFromTelephonyManager(context)) {
+            "ph", "us", "bz", "ca", "pr", "cl", "co", "cr", "gt", "mx", "ni", "pa", "sv", "ve" -> PageSize.LETTER
+            else -> PageSize.A4
+        }
 
     @Throws(IOException::class, DocumentException::class)
     fun print(
@@ -85,7 +114,7 @@ object PdfPrinter {
             fileName,
             "application/pdf", "pdf"
         ) ?: throw createFileFailure(context, destDir, fileName)
-        val document = Document()
+        val document = Document(getPaperFormat(context, prefHandler))
         val sortBy = if (DatabaseConstants.KEY_AMOUNT == account.sortBy) {
             "abs(" + DatabaseConstants.KEY_AMOUNT + ")"
         } else {
@@ -104,15 +133,61 @@ object PdfPrinter {
                 prefHandler
             ),
             selection, selectionArgs, sortBy + " " + account.sortDirection
-        )!!.use {
-            if (it.count == 0) {
+        )!!.use { cursor ->
+            if (cursor.count == 0) {
                 throw Exception("No data")
             }
 
             PdfWriter.getInstance(
                 document,
                 context.contentResolver.openOutputStream(outputFile.uri)
-            )
+            ).pageEvent = object : PdfPageEventHelper() {
+
+
+                override fun onEndPage(writer: PdfWriter, document: Document) {
+                    val cb = writer.getDirectContent()
+                    fun print(
+                        cb: PdfContentByte,
+                        content: PrefKey,
+                        horizontalPosition: HorizontalPosition,
+                        verticalPosition: VerticalPosition
+                    ) {
+                        prefHandler.getString(content)?.let {
+                            val text = it
+                                .replace("{generator}", context.getString(R.string.app_name))
+                                .replace("{page}", document.pageNumber.toString())
+                                .replace(
+                                    "{date}", LocalDate.now().format(
+                                        DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
+                                    )
+                                )
+                            val x = when (horizontalPosition) {
+                                LEFT -> document.left()
+                                CENTER -> (document.right() - document.left()) / 2 + document.leftMargin()
+                                RIGHT -> document.right()
+                            }
+                            val y = when (verticalPosition) {
+                                TOP -> document.top() + 10
+                                BOTTOM -> document.bottom() - 10
+                            }
+                            val alignment = when (horizontalPosition) {
+                                LEFT -> Element.ALIGN_LEFT
+                                CENTER -> Element.ALIGN_CENTER
+                                RIGHT -> Element.ALIGN_RIGHT
+                            }
+                            ColumnText.showTextAligned(
+                                cb, alignment, helper.print(text, FontType.NORMAL), x, y, 0F
+                            )
+                        }
+                    }
+                    print(cb, PrefKey.PRINT_HEADER_LEFT, LEFT, TOP)
+                    print(cb, PrefKey.PRINT_HEADER_CENTER, CENTER, TOP)
+                    print(cb, PrefKey.PRINT_HEADER_RIGHT, RIGHT, TOP)
+                    print(cb, PrefKey.PRINT_FOOTER_LEFT, LEFT, BOTTOM)
+                    print(cb, PrefKey.PRINT_FOOTER_CENTER, CENTER, BOTTOM)
+                    print(cb, PrefKey.PRINT_FOOTER_RIGHT, RIGHT, BOTTOM)
+                }
+            }
             document.open()
             try {
                 addMetaData(document, account.label)
@@ -126,17 +201,22 @@ object PdfPrinter {
                                     currencyUnit,
                                     account.currentBalance
                                 )
-                            )
+                            ),
+                    filter.takeIf { !it.isEmpty }?.let { whereFilter ->
+                        whereFilter.criteria.joinToString { it.prettyPrint(context) }
+                    }
                 )
                 addTransactionList(
                     document,
-                    it,
+                    cursor,
                     helper,
                     context,
                     account,
                     filter,
                     currencyUnit,
-                    currencyFormatter
+                    currencyFormatter,
+                    currencyContext,
+                    prefHandler.getBoolean(PrefKey.UI_ITEM_RENDERER_ORIGINAL_AMOUNT, false)
                 )
             } finally {
                 document.close()
@@ -155,16 +235,15 @@ object PdfPrinter {
         document: Document,
         helper: PdfHelper,
         title: String,
-        subTitle: String
+        subTitle: String,
+        subTitle2: String?
     ) {
         val preface = PdfPTable(1)
         preface.addCell(helper.printToCell(title, FontType.TITLE))
-        preface.addCell(
-            helper.printToCell(
-                DateFormat.getDateInstance(DateFormat.FULL).format(Date()), FontType.BOLD
-            )
-        )
         preface.addCell(helper.printToCell(subTitle, FontType.BOLD))
+        subTitle2?.let {
+            preface.addCell(helper.printToCell(it, FontType.BOLD))
+        }
         document.add(preface)
         val empty = Paragraph()
         addEmptyLine(empty, 1)
@@ -180,7 +259,9 @@ object PdfPrinter {
         account: FullAccount,
         filter: WhereFilter,
         currencyUnit: CurrencyUnit,
-        currencyFormatter: ICurrencyFormatter
+        currencyFormatter: ICurrencyFormatter,
+        currencyContext: CurrencyContext,
+        withOriginalAmount: Boolean
     ) {
         val (builder, selection, selectionArgs) = account.groupingQuery(filter)
         val integerHeaderRowMap = context.contentResolver.query(
@@ -207,12 +288,12 @@ object PdfPrinter {
         transactionCursor.moveToFirst()
         while (transactionCursor.position < transactionCursor.count) {
             //could use /with/ scoping function with Kotlin 2.0.
-            val transaction =
-                Transaction2.fromCursor(
-                    cursor = transactionCursor,
-                    accountCurrency = account.currencyUnit,
-                    tags = tagMap
-                )
+            val transaction = Transaction2.fromCursor(
+                currencyContext = currencyContext,
+                cursor = transactionCursor,
+                accountCurrency = account.currencyUnit,
+                tags = tagMap
+            )
 
             currentHeaderId = account.grouping.calculateGroupId(transaction)
             if (currentHeaderId != prevHeaderId) {
@@ -281,7 +362,7 @@ object PdfPrinter {
                 document.add(table)
                 val sep = LineSeparator()
                 document.add(sep)
-                table = helper.newTable(4)
+                table = helper.newTable(if (withOriginalAmount) 5 else 4)
                 table.tableEvent = object : PdfPTableEvent {
                     private fun findFirstChunkGenericTag(row: PdfPRow): Any? {
                         for (cell in row.cells) {
@@ -327,14 +408,14 @@ object PdfPrinter {
                         }
                     }
                 }
-                table.setWidths(
-                    if (table.runDirection == PdfWriter.RUN_DIRECTION_RTL) intArrayOf(
-                        2,
-                        3,
-                        5,
-                        1
-                    ) else intArrayOf(1, 5, 3, 2)
-                )
+                var widths = intArrayOf(1, 5, 3, 2)
+                if (withOriginalAmount) {
+                    widths += 2
+                }
+                if (table.runDirection == PdfWriter.RUN_DIRECTION_RTL) {
+                    widths.reverse()
+                }
+                table.setWidths(widths)
                 table.spacingBefore = 2f
                 table.spacingAfter = 2f
                 table.widthPercentage = 100f
@@ -414,18 +495,25 @@ object PdfPrinter {
             if (!transaction.payee.isNullOrEmpty()) {
                 table.addCell(helper.printToCell(transaction.payee, FontType.UNDERLINE))
             }
-            val t: FontType = if (account.id < 0 && transaction.isSameCurrency) {
-                FontType.NORMAL
-            } else {
+
+            val fontType = if (account.id < 0 && transaction.isSameCurrency) FontType.NORMAL else
                 if (transaction.amount.amountMinor < 0) FontType.EXPENSE else FontType.INCOME
-            }
-            cell = helper.printToCell(currencyFormatter.formatMoney(transaction.amount), t)
+
+            cell = helper.printToCell(currencyFormatter.formatMoney(transaction.amount), fontType)
             cell.horizontalAlignment = Element.ALIGN_RIGHT
             table.addCell(cell)
+            val emptyCell = helper.emptyCell()
+            if (withOriginalAmount) {
+                table.addCell(
+                    transaction.originalAmount?.let {
+                        helper.printToCell(currencyFormatter.formatMoney(it), fontType)
+                    }?.apply { horizontalAlignment = Element.ALIGN_RIGHT } ?: emptyCell
+                )
+            }
             val hasComment = !transaction.comment.isNullOrEmpty()
             val hasTags = transaction.tagList.isNotEmpty()
             if (hasComment || hasTags) {
-                table.addCell(helper.emptyCell())
+                table.addCell(emptyCell)
                 if (hasComment) {
                     cell = helper.printToCell(transaction.comment, FontType.ITALIC)
                     if (isVoid) {
@@ -442,7 +530,10 @@ object PdfPrinter {
                 }
                 if (hasTags) {
                     //TODO make use of color
-                    cell = helper.printToCell(transaction.tagList.joinToString { it.first }, FontType.BOLD)
+                    cell = helper.printToCell(
+                        transaction.tagList.joinToString { it.first },
+                        FontType.BOLD
+                    )
                     if (isVoid) {
                         cell.phrase.chunks[0].setGenericTag(VOID_MARKER)
                     }
@@ -451,7 +542,10 @@ object PdfPrinter {
                     }
                     table.addCell(cell)
                 }
-                table.addCell(helper.emptyCell())
+                table.addCell(emptyCell)
+                if (withOriginalAmount) {
+                    table.addCell(emptyCell)
+                }
             }
             transactionCursor.moveToNext()
         }
