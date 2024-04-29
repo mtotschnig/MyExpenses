@@ -112,12 +112,9 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
             val a1Abs = amount1.abs()
             exchangeRate = a2Abs.divide(a1Abs, MathContext.DECIMAL32)
             inverseExchangeRate = a1Abs.divide(a2Abs, MathContext.DECIMAL32)
-        } else {
-            exchangeRate = nullValue
-            inverseExchangeRate = nullValue
+            rate1Edit.setAmount(exchangeRate)
+            rate2Edit.setAmount(inverseExchangeRate)
         }
-        rate1Edit.setAmount(exchangeRate)
-        rate2Edit.setAmount(inverseExchangeRate)
         blockWatcher = false
     }
 

@@ -5,7 +5,11 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.CompoundButton
+import android.widget.SeekBar
+import android.widget.TextView
 import androidx.core.view.isVisible
 import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
@@ -25,8 +29,15 @@ import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.di.AppComponent
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.ITransaction
+import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
+import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
@@ -35,10 +46,11 @@ import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.DateButton
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.ui.SpinnerHelper
-import org.totschnig.myexpenses.util.*
+import org.totschnig.myexpenses.util.ICurrencyFormatter
+import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.TextUtils.appendCurrencyDescription
 import org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol
-import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
+import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.ui.addChipsBulk
 import org.totschnig.myexpenses.util.ui.getDateMode
@@ -299,16 +311,6 @@ abstract class TransactionDelegate<T : ITransaction>(
         configurePlan((transaction as? Template)?.plan, false)
         configureLastDayButton()
 
-        viewBinding.Amount.addTextChangedListener(object : MyTextWatcher() {
-            override fun afterTextChanged(s: Editable) {
-                viewBinding.EquivalentAmount.setCompoundResultInput(
-                    viewBinding.Amount.getUntypedValue(false).getOrNull()
-                )
-            }
-        })
-        viewBinding.OriginalAmount.setCompoundResultOutListener {
-            viewBinding.Amount.setAmount(it, false)
-        }
         if (isSplitPart) {
             disableAccountSpinner()
             host.parentOriginalAmountExchangeRate?.let {
@@ -407,7 +409,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         } else {
             methodRowBinding.Number.setText(transaction.referenceNumber)
         }
-        fillAmount(transaction.amount.amountMajor)
+
         transaction.originalAmount?.let {
             originalAmountVisible = true
             configureOriginalAmountVisibility()
@@ -417,13 +419,16 @@ abstract class TransactionDelegate<T : ITransaction>(
         } ?: run {
             originalCurrencyCode = prefHandler.getString(PrefKey.LAST_ORIGINAL_CURRENCY, null)
         }
-
         populateOriginalCurrency()
+        fillAmount(transaction.amount.amountMajor)
         transaction.equivalentAmount?.let {
             if (transaction.equivalentAmount != null) {
                 equivalentAmountVisible = true
                 viewBinding.EquivalentAmount.setFractionDigits(it.currencyUnit.fractionDigits)
-                viewBinding.EquivalentAmount.setAmount(it.amountMajor.abs())
+                viewBinding.EquivalentAmount.post {
+                    viewBinding.EquivalentAmount.setAmount(it.amountMajor.abs())
+                }
+
             }
         }
         if (withAutoFill && isMainTemplate) {
@@ -438,7 +443,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     fun fillAmount(amount: BigDecimal) {
         with(viewBinding.Amount) {
             if (amount.signum() != 0) {
-                setAmount(amount)
+                post { setAmount(amount) }
             }
             requestFocus()
             selectAll()
@@ -447,11 +452,6 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     private fun configureEquivalentAmountVisibility() {
         viewBinding.EquivalentAmountRow.isVisible = equivalentAmountVisible
-        viewBinding.EquivalentAmount.setCompoundResultInput(
-            if (equivalentAmountVisible)
-                viewBinding.Amount.getUntypedValue(false).getOrNull()
-            else null
-        )
     }
 
     private fun configureOriginalAmountVisibility() {
