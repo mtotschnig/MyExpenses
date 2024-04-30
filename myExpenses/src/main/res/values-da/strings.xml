@@ -425,8 +425,6 @@
     <string name="professional_key">Professionel Nøgle</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">Krypteret</string>
-    <string name="budget_duration_from">Fra</string>
-    <string name="budget_duration_to">Til</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Funktioner</string>
     <string name="pref_translation_title">Oversættelse</string>

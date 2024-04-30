@@ -104,4 +104,6 @@
     <string name="languages">"Ngôn ngữ"</string>
     <string name="chart">"Đồ thị"</string>
     <string name="full_screen">"Toàn màn hình"</string>
+    <string name="start_date">"Ngày bắt đầu"</string>
+    <string name="end_date">"Ngày kết thúc"</string>
 </resources>

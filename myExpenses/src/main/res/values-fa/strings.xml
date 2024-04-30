@@ -440,8 +440,6 @@
     <string name="pref_debug_title">اشکال‌زدایی</string>
     <string name="warning_account_for_transaction_is_closed">دست کم یکی از تراکنش‌های انتخاب‌شده نمی‌توانند ویراش شوند:</string>
     <string name="content_description_download_exchange_rate">دانلود نرخ تبدیل</string>
-    <string name="budget_duration_from">از</string>
-    <string name="budget_duration_to">به</string>
     <string name="dialog_title_warning_delete_budget">حذف بودجه؟</string>
     <string name="warning_delete_budget">بودجه \" %1$s \" حذف خواهد شد.</string>
     <string name="menu_edit_budget">ویرایش بودجه</string>

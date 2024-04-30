@@ -664,8 +664,6 @@
     <string name="content_description_closed">Đã đóng</string>
     <string name="translated_by">Dịch bởi </string>
     <string name="menu_create_budget">Quỹ mới</string>
-    <string name="budget_duration_from">Từ</string>
-    <string name="budget_duration_to">Đến</string>
     <string name="menu_edit_budget">Sửa quỹ</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Tính năng</string>

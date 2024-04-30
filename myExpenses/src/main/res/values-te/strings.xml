@@ -741,8 +741,6 @@
     <string name="menu_budget_allocated_only">కేటాయింపులతో వర్గాలను మాత్రమే చూపించు</string>
     <string name="budget_date_end_after_start">బడ్జెట్ ముగింపు తేదీ ప్రారంభ తేదీ తర్వాత తప్పక రావాలి.</string>
     <string name="no_budgets">+ బటన్‌ను నొక్కడం ద్వారా మీ మొదటి బడ్జెట్‌ను నిర్వచించండి.</string>
-    <string name="budget_duration_to">వరకు</string>
-    <string name="budget_duration_from">నుండి</string>
     <string name="budget_onetime">ఒక్కసారి</string>
     <string name="menu_create_budget">కొత్త బడ్జెట్</string>
     <string name="discover_feature_expense_income_switch">ఆదాయాన్ని రికార్డ్ చేయడానికి ఈ స్విచ్ బటన్‌ను ఉపయోగించండి.</string>

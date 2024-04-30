@@ -442,8 +442,6 @@
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">암호화</string>
     <string name="translated_by">번역</string>
-    <string name="budget_duration_from">From</string>
-    <string name="budget_duration_to">To</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">기능들</string>
     <string name="pref_translation_title">번역</string>

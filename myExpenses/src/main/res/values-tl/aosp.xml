@@ -26,4 +26,6 @@
     <string name="tags">"Mga Tag"</string>
     <string name="languages">"Mga Wika"</string>
     <string name="full_screen">"Full screen"</string>
+    <string name="start_date">"Petsa ng pagsisimula"</string>
+    <string name="end_date">"Petsa ng pagtatapos"</string>
 </resources>

@@ -306,8 +306,6 @@
     <string name="content_description_encrypted">Xifrat</string>
     <string name="translated_by">Traducció de </string>
     <string name="pref_category_exchange_rates">Taxes de canvi</string>
-    <string name="budget_duration_from">Des de</string>
-    <string name="budget_duration_to">Al</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Característiques</string>
     <string name="menu_save_and_new_content_description">Desa les dades, deixa la pantalla oberta per a una nova operació amb les mateixes dades.</string>

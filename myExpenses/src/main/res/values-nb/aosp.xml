@@ -41,4 +41,6 @@
     <string name="languages">"Språk"</string>
     <string name="chart">"Diagram"</string>
     <string name="full_screen">"Fullskjerm"</string>
+    <string name="start_date">"Startdato"</string>
+    <string name="end_date">"Sluttdato"</string>
 </resources>

@@ -90,4 +90,6 @@
     <string name="tags">"Tanda nama"</string>
     <string name="languages">"Bahasa"</string>
     <string name="full_screen">"Skrin penuh"</string>
+    <string name="start_date">"Tarikh mula"</string>
+    <string name="end_date">"Tarikh akhir"</string>
 </resources>

@@ -33,4 +33,6 @@
     <string name="languages">"Хэл"</string>
     <string name="chart">"Диаграмм"</string>
     <string name="full_screen">"Бүтэн дэлгэц"</string>
+    <string name="start_date">"Эхлэх огноо"</string>
+    <string name="end_date">"Дуусах огноо"</string>
 </resources>

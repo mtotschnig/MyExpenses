@@ -100,4 +100,6 @@
     <string name="languages">"언어"</string>
     <string name="chart">"차트"</string>
     <string name="full_screen">"전체 화면"</string>
+    <string name="start_date">"시작일"</string>
+    <string name="end_date">"종료일"</string>
 </resources>

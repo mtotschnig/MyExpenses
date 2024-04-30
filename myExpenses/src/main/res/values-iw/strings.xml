@@ -748,8 +748,6 @@
     <string name="discover_feature_expense_income_switch">השתמש בלחצן זה כדי לרשום הכנסה.</string>
     <string name="menu_create_budget">תקציב חדש</string>
     <string name="budget_onetime">חד פעמי</string>
-    <string name="budget_duration_from">מקור</string>
-    <string name="budget_duration_to">אל</string>
     <string name="no_budgets">הגדר את התקציב הראשון שלך על ידי לחיצה על כפתור +.</string>
     <string name="budget_date_end_after_start">תאריך הסיום של התקציב חייב להגיע לאחר תאריך ההתחלה שלו.</string>
     <string name="menu_budget_allocated_only">הצג רק קטגוריות עם הקצאה</string>

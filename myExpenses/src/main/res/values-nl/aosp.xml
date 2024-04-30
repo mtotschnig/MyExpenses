@@ -105,4 +105,6 @@
     <string name="languages">"Talen"</string>
     <string name="chart">"Diagram"</string>
     <string name="full_screen">"Volledig scherm"</string>
+    <string name="start_date">"Startdatum"</string>
+    <string name="end_date">"Einddatum"</string>
 </resources>

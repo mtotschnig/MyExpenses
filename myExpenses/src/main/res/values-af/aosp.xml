@@ -39,4 +39,6 @@
     <string name="languages">"Tale"</string>
     <string name="chart">"Grafiek"</string>
     <string name="full_screen">"Volskerm"</string>
+    <string name="start_date">"Begindatum"</string>
+    <string name="end_date">"Einddatum"</string>
 </resources>

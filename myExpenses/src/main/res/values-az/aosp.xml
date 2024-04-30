@@ -28,4 +28,6 @@
     <string name="tags">"Teqlər"</string>
     <string name="languages">"Dillər"</string>
     <string name="full_screen">"Tam ekran"</string>
+    <string name="start_date">"Başlama tarixi"</string>
+    <string name="end_date">"Bitmə tarixi"</string>
 </resources>

@@ -26,4 +26,6 @@
     <string name="tags">"Lebo"</string>
     <string name="languages">"Lugha"</string>
     <string name="full_screen">"Skrini nzima"</string>
+    <string name="start_date">"Tarehe ya kuanza"</string>
+    <string name="end_date">"Tarehe ya mwisho"</string>
 </resources>

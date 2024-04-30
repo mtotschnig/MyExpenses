@@ -32,4 +32,6 @@
     <string name="languages">"भाषाएं"</string>
     <string name="chart">"चार्ट"</string>
     <string name="full_screen">"फ़ुल स्क्रीन"</string>
+    <string name="start_date">"प्रारंभ तारीख"</string>
+    <string name="end_date">"समाप्ति तारीख"</string>
 </resources>

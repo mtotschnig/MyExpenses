@@ -34,4 +34,6 @@
     <string name="languages">"ენები"</string>
     <string name="chart">"გრაფიკები"</string>
     <string name="full_screen">"სრული ეკრანი"</string>
+    <string name="start_date">"დაწყების თარიღი"</string>
+    <string name="end_date">"თარიღის დამატება"</string>
 </resources>

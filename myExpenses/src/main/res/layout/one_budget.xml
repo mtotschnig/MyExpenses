@@ -189,7 +189,7 @@
                         android:id="@+id/DurationFromLabel"
                         style="@style/FormLabel"
                         android:labelFor="@+id/DurationFrom"
-                        android:text="@string/budget_duration_from" />
+                        android:text="@string/start_date" />
 
                     <DatePicker
                         android:id="@+id/DurationFrom"
@@ -207,7 +207,7 @@
                         android:id="@+id/DurationToLabel"
                         style="@style/FormLabel"
                         android:labelFor="@+id/DurationTo"
-                        android:text="@string/budget_duration_to" />
+                        android:text="@string/end_date" />
 
                     <DatePicker
                         android:id="@+id/DurationTo"

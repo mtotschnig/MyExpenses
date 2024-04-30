@@ -110,4 +110,6 @@
     <string name="languages">"Езици"</string>
     <string name="chart">"Диаграма"</string>
     <string name="full_screen">"Цял екран"</string>
+    <string name="start_date">"Начална дата"</string>
+    <string name="end_date">"Крайна дата"</string>
 </resources>

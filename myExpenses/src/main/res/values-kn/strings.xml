@@ -735,8 +735,6 @@
     <string name="discover_feature_expense_income_switch">ಆದಾಯವನ್ನು ದಾಖಲಿಸಲು ಈ ಸ್ವಿಚ್ ಬಟನ್ ಬಳಸಿ.</string>
     <string name="menu_create_budget">ಹೊಸ ಬಜೆಟ್</string>
     <string name="budget_onetime">ಒಂದು ಬಾರಿ</string>
-    <string name="budget_duration_from">ಇಂದ</string>
-    <string name="budget_duration_to">ಗೆ</string>
     <string name="no_budgets">+ ಬಟನ್ ಟ್ಯಾಪ್ ಮಾಡುವ ಮೂಲಕ ನಿಮ್ಮ ಮೊದಲ ಬಜೆಟ್ ಅನ್ನು ವಿವರಿಸಿ.</string>
     <string name="budget_date_end_after_start">ಬಜೆಟ್ನ ಅಂತಿಮ ದಿನಾಂಕವು ಅದರ ಪ್ರಾರಂಭದ ದಿನಾಂಕದ ನಂತರ ಬರಬೇಕು.</string>
     <string name="menu_budget_allocated_only">ಹಂಚಿಕೆಯೊಂದಿಗೆ ವರ್ಗಗಳನ್ನು ಮಾತ್ರ ತೋರಿಸಿ</string>

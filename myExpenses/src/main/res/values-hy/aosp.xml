@@ -39,4 +39,6 @@
     <string name="languages">"Լեզուներ"</string>
     <string name="chart">"Գծապատկեր"</string>
     <string name="full_screen">"Լիաէկրան"</string>
+    <string name="start_date">"Մեկնարկի ամսաթիվը"</string>
+    <string name="end_date">"Ավարտի ամսաթիվը"</string>
 </resources>

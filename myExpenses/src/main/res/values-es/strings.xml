@@ -746,8 +746,6 @@
     <string name="discover_feature_expense_income_switch">Utilizar este botón de intercambio para guardar ingresos.</string>
     <string name="menu_create_budget">Nuevo presupuesto</string>
     <string name="budget_onetime">Puntual</string>
-    <string name="budget_duration_from">De</string>
-    <string name="budget_duration_to">A</string>
     <string name="no_budgets">Defina su primer presupuesto pulsando la tecla +.</string>
     <string name="budget_date_end_after_start">La fecha final del presupuesto tiene que ser posterior a su fecha de inicio.</string>
     <string name="menu_budget_allocated_only">Mostrar sólo categorías con asignaciones</string>

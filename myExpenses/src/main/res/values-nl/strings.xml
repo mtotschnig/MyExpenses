@@ -500,7 +500,6 @@
     <string name="object_sealed">Object verwijst naar een afgesloten rekening.</string>
     <string name="pref_exchange_rate_provider_summary">Selecteer provider om wisselkoersen te downloaden</string>
     <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Gebruik deze schakelknop om inkomsten vast te leggen.</string>
-    <string name="budget_duration_to">Naar</string>
     <string name="budget_filter_all_states">Alle statussen</string>
     <string name="budget_filter_all_tags">Alle tags</string>
     <string name="warning_delete_budget">Budget \"%1$s\" wordt verwijderd.</string>
@@ -700,7 +699,6 @@
     <string name="translated_by">Vertaald door</string>
     <string name="pref_category_exchange_rates">Wisselkoersen</string>
     <string name="menu_create_budget">Nieuw budget</string>
-    <string name="budget_duration_from">Van</string>
     <string name="menu_budget_allocated_only">Toon alleen categorieën met toewijzing</string>
     <string name="budget_filter_all_methods">Alle methodes</string>
     <string name="menu_edit_budget">Budget bewerken</string>

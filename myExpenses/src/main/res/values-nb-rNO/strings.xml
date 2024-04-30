@@ -14,8 +14,6 @@
     <string name="budget_filter_all_methods">Alle metoder</string>
     <string name="budget_filter_all_parties">Alle parter</string>
     <string name="budget_filter_all_categories">Alle kategorier</string>
-    <string name="budget_duration_to">Til</string>
-    <string name="budget_duration_from">Fra</string>
     <string name="menu_create_budget">Nytt budsjett</string>
     <string name="icon">Ikon</string>
     <string name="translated_by">Oversatt av</string>

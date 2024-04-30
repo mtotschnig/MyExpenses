@@ -738,8 +738,6 @@
     <string name="discover_feature_expense_income_switch">Verwenden Sie diesen Schalter, um Einnahmen zu erfassen.</string>
     <string name="menu_create_budget">Neues Budget</string>
     <string name="budget_onetime">Einmalig</string>
-    <string name="budget_duration_from">Von</string>
-    <string name="budget_duration_to">Bis</string>
     <string name="no_budgets">Definieren Sie Ihr erstes Budget, indem Sie auf die Schaltfläche + tippen.</string>
     <string name="budget_date_end_after_start">Das Enddatum des Budgets muss nach dem Startdatum liegen.</string>
     <string name="menu_budget_allocated_only">Nur Kategorien mit Zuordnung anzeigen</string>

@@ -32,4 +32,6 @@
     <string name="languages">"زبان‌ها"</string>
     <string name="chart">"نمودار"</string>
     <string name="full_screen">"تمام‌صفحه"</string>
+    <string name="start_date">"تاریخ شروع"</string>
+    <string name="end_date">"تاریخ پایان"</string>
 </resources>

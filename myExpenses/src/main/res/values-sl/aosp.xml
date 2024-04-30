@@ -28,4 +28,6 @@
     <string name="tags">"Oznake"</string>
     <string name="languages">"Jeziki"</string>
     <string name="full_screen">"Celotni zaslon"</string>
+    <string name="start_date">"Datum začetka"</string>
+    <string name="end_date">"Datum zaključka"</string>
 </resources>

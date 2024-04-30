@@ -41,4 +41,6 @@
     <string name="languages">"Jazyky"</string>
     <string name="chart">"Graf"</string>
     <string name="full_screen">"Celá obrazovka"</string>
+    <string name="start_date">"Dátum začiatku"</string>
+    <string name="end_date">"Dátum ukončenia"</string>
 </resources>

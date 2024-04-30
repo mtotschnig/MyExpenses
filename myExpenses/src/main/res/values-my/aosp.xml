@@ -30,4 +30,6 @@
     <string name="languages">"ဘာသာစကားများ"</string>
     <string name="chart">"ပုံစံကားချပ်"</string>
     <string name="full_screen">"ဖန်သားပြင်အပြည့်"</string>
+    <string name="start_date">"စတင်မှု ရက်စွဲ"</string>
+    <string name="end_date">"ပြီးဆုံးမှု ရက်စွဲ"</string>
 </resources>

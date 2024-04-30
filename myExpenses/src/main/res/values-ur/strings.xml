@@ -525,8 +525,6 @@
     <string name="synchronization_select_folder_dialog_title">ایک موجودہ فولڈر منتخب کریں یا نیا بنائیں</string>
     <string name="budget_onetime">ایک بار</string>
     <string name="dialog_multi_tag_append">موجودہ ٹیگز میں نئے ٹیگز شامل کریں</string>
-    <string name="budget_duration_from">سے</string>
-    <string name="budget_duration_to">کو</string>
     <string name="budget_date_end_after_start">بجٹ کی اختتامی تاریخ اس کے آغاز کی تاریخ کے بعد آنی چاہیے.</string>
     <string name="menu_budget_allocated_only">مختص کے ساتھ صرف زمرے دکھائیں</string>
     <string name="budget_filter_all_categories">تمام زمرے</string>

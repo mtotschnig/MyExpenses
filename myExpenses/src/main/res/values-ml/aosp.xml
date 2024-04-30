@@ -30,4 +30,6 @@
     <string name="languages">"ഭാഷകൾ"</string>
     <string name="chart">"ചാര്‍ട്ട്"</string>
     <string name="full_screen">"പൂര്‍ണ്ണ സ്ക്രീന്‍"</string>
+    <string name="start_date">"ആരംഭിക്കുന്ന തീയതി"</string>
+    <string name="end_date">"അവസാനിക്കുന്ന തീയതി"</string>
 </resources>

@@ -192,4 +192,9 @@
     <string name="chart">"Chart"</string>
     <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri "\"accessibility_magnification_area_settings_full_screen_summary\"" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/accessibility_magnification_area_settings_full_screen_summary/full_screen/' | aosp_helper -->
     <string name="full_screen">"Full screen"</string>
+
+    <!-- /opt/extra/AOSP/packages/apps/Calendar$ grep -ri "\"accessibility_pick_start_date\"" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/accessibility_pick_//' | aosp_helper -->
+    <string name="start_date">"Start date"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Calendar$ grep -ri "\"accessibility_pick_end_date\"" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/accessibility_pick_//' | aosp_helper -->
+    <string name="end_date">"End date"</string>
 </resources>

@@ -740,8 +740,6 @@
     <string name="discover_feature_expense_income_switch">Ezzel a váltógombbal rögzítheti a jövedelmet.</string>
     <string name="menu_create_budget">Új költségvetés</string>
     <string name="budget_onetime">Egyszeri</string>
-    <string name="budget_duration_from">Tól től</string>
-    <string name="budget_duration_to">Amíg</string>
     <string name="no_budgets">Határozza meg első költségvetését a + gombra kattintva.</string>
     <string name="budget_date_end_after_start">A költségvetés lejárati dátuma a kezdési dátum után kell legyen.</string>
     <string name="menu_budget_allocated_only">Csak hozzárendeléses kategóriák mutatása</string>

@@ -39,4 +39,6 @@
     <string name="languages">"Tungumál"</string>
     <string name="chart">"Línurit"</string>
     <string name="full_screen">"Allur skjárinn"</string>
+    <string name="start_date">"Upphafsdagur"</string>
+    <string name="end_date">"Lokadagur"</string>
 </resources>

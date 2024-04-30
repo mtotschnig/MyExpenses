@@ -756,8 +756,6 @@
     <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Use this switch button to record income.</string>
     <string name="menu_create_budget">New budget</string>
     <string name="budget_onetime">One-time</string>
-    <string name="budget_duration_from">From</string>
-    <string name="budget_duration_to">To</string>
     <string name="no_budgets">Define your first budget by tapping the + button.</string>
     <string name="budget_date_end_after_start">The budget\'s end date must come after its start date.</string>
     <string name="menu_budget_allocated_only">Show only categories with allocation</string>

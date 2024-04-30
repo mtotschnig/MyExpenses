@@ -754,8 +754,6 @@
     <string name="discover_feature_expense_income_switch">Pro zaznamenání příjmu použijte tento přepínač.</string>
     <string name="menu_create_budget">Nový rozpočet</string>
     <string name="budget_onetime">Jednorázový</string>
-    <string name="budget_duration_from">Od</string>
-    <string name="budget_duration_to">Do</string>
     <string name="no_budgets">Definujte svůj první rozpočet klepnutím na tlačítko +.</string>
     <string name="budget_date_end_after_start">Datum konce rozpočtu musí být později, než datum jeho začátku.</string>
     <string name="menu_budget_allocated_only">Zobrazit pouze kategorie s přidělením</string>

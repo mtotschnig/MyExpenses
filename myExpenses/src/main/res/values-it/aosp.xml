@@ -108,4 +108,6 @@
     <string name="languages">"Lingue"</string>
     <string name="chart">"Grafico"</string>
     <string name="full_screen">"Schermo intero"</string>
+    <string name="start_date">"Data inizio"</string>
+    <string name="end_date">"Data fine"</string>
 </resources>

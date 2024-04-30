@@ -746,8 +746,6 @@
     <string name="discover_feature_expense_income_switch">Use este botão para registrar a receita.</string>
     <string name="menu_create_budget">Novo orçamento</string>
     <string name="budget_onetime">Único</string>
-    <string name="budget_duration_from">De</string>
-    <string name="budget_duration_to">Até</string>
     <string name="no_budgets">Defina seu primeiro orçamento tocando no botão +.</string>
     <string name="budget_date_end_after_start">A data de término do orçamento deve ser posterior à data de início.</string>
     <string name="menu_budget_allocated_only">Exibir apenas categorias com alocação</string>

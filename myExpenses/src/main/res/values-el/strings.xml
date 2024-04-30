@@ -667,8 +667,6 @@
     <string name="icon">Εικονίδιο</string>
     <string name="pref_debug_title">Εντοπισμός σφαλμάτων</string>
     <string name="pref_category_exchange_rates">Συναλλαγματικές ισοτιμίες</string>
-    <string name="budget_duration_from">Από</string>
-    <string name="budget_duration_to">Στις</string>
     <string name="budget_filter_all_categories">Όλες οι κατηγορίες</string>
     <string name="budget_filter_all_methods">Όλοι οι μέθοδοι</string>
     <string name="budget_filter_all_tags">Όλες οι ετικέτες</string>

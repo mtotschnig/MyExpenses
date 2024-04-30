@@ -110,4 +110,6 @@
     <string name="languages">"Nyelvek"</string>
     <string name="chart">"Diagram"</string>
     <string name="full_screen">"Teljes képernyő"</string>
+    <string name="start_date">"Kezdés dátuma"</string>
+    <string name="end_date">"Befejezés dátuma"</string>
 </resources>

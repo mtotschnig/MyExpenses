@@ -94,4 +94,6 @@
     <string name="languages">"භාෂා"</string>
     <string name="chart">"ප්‍රස්තාරය"</string>
     <string name="full_screen">"පූර්ණ තිරය"</string>
+    <string name="start_date">"ආරම්භක දිනය"</string>
+    <string name="end_date">"අවසන් වන දිනය"</string>
 </resources>

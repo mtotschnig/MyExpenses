@@ -108,4 +108,6 @@
     <string name="languages">"Sprachen"</string>
     <string name="chart">"Diagramm"</string>
     <string name="full_screen">"Ganzer Bildschirm"</string>
+    <string name="start_date">"Startdatum"</string>
+    <string name="end_date">"Enddatum"</string>
 </resources>

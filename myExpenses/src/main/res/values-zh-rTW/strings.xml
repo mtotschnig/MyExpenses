@@ -731,8 +731,6 @@
     <string name="discover_feature_expense_income_switch">可以使用此轉換鈕記錄收入。</string>
     <string name="menu_create_budget">新增預算</string>
     <string name="budget_onetime">單次</string>
-    <string name="budget_duration_from">從</string>
-    <string name="budget_duration_to">到</string>
     <string name="no_budgets">點擊 + 按鈕定義您的第一筆預算。</string>
     <string name="budget_date_end_after_start">預算的結束日期必須晚於開始日期。</string>
     <string name="menu_budget_allocated_only">僅顯示有配置的類別</string>

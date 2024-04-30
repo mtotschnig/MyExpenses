@@ -32,4 +32,6 @@
     <string name="languages">"Izilimi"</string>
     <string name="chart">"Ishathi"</string>
     <string name="full_screen">"Iskrini esigcwele"</string>
+    <string name="start_date">"Qala idethi"</string>
+    <string name="end_date">"Idethi yokugcina"</string>
 </resources>

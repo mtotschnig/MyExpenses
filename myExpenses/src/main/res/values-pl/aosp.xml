@@ -111,4 +111,6 @@
     <string name="languages">"Języki"</string>
     <string name="chart">"Wykres"</string>
     <string name="full_screen">"Pełny ekran"</string>
+    <string name="start_date">"Data rozpoczęcia"</string>
+    <string name="end_date">"Data zakończenia"</string>
 </resources>

@@ -93,4 +93,6 @@
     <string name="languages">"భాషలు"</string>
     <string name="chart">"పటము"</string>
     <string name="full_screen">"ఫుల్ స్క్రీన్"</string>
+    <string name="start_date">"ప్రారంభ తేదీ"</string>
+    <string name="end_date">"ముగింపు తేదీ"</string>
 </resources>

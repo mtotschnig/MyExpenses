@@ -108,4 +108,6 @@
     <string name="languages">"Γλώσσες"</string>
     <string name="chart">"Διάγραμμα"</string>
     <string name="full_screen">"Πλήρης οθόνη"</string>
+    <string name="start_date">"Ημερομηνία έναρξης"</string>
+    <string name="end_date">"Ημερομηνία λήξης"</string>
 </resources>

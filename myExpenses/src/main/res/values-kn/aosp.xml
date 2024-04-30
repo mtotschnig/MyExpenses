@@ -98,4 +98,6 @@
     <string name="languages">"ಭಾಷೆಗಳು"</string>
     <string name="chart">"ನಕ್ಷೆ"</string>
     <string name="full_screen">"ಪೂರ್ಣ ಸ್ಕ್ರೀನ್"</string>
+    <string name="start_date">"ಆರಂಭ ದಿನಾಂಕ"</string>
+    <string name="end_date">"ಕೊನೆಯ ದಿನಾಂಕ"</string>
 </resources>

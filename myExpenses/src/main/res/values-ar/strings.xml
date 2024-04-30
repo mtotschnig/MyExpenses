@@ -769,8 +769,6 @@
     <string name="discover_feature_expense_income_switch">استخدم زر التبديل هذا لتسجيل الدخل.</string>
     <string name="menu_create_budget">ميزانية جديدة</string>
     <string name="budget_onetime">مرة واحدة</string>
-    <string name="budget_duration_from">من</string>
-    <string name="budget_duration_to">إلى</string>
     <string name="no_budgets">حدد ميزانيتك الأولى بالضغط على زر +.</string>
     <string name="budget_date_end_after_start">يجب أن يأتي تاريخ انتهاء الميزانية بعد تاريخ بدئها.</string>
     <string name="menu_budget_allocated_only">إظهار الفئات ذات التخصيص فقط</string>

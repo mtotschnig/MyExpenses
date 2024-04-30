@@ -40,4 +40,6 @@
     <string name="languages">"ቋንቋዎች"</string>
     <string name="chart">"ቻርት"</string>
     <string name="full_screen">"ሙሉ ማያ ገጽ"</string>
+    <string name="start_date">"የመጀመሪያ ቀን"</string>
+    <string name="end_date">"የመጨረሻ ቀን"</string>
 </resources>
