@@ -103,4 +103,5 @@
     <string name="full_screen">"Cijeli zaslon"</string>
     <string name="start_date">"Datum početka"</string>
     <string name="end_date">"Datum završetka"</string>
+    <string name="cloud_storage">"Pohrana u oblaku"</string>
 </resources>

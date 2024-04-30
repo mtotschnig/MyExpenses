@@ -554,7 +554,6 @@
     <string name="all_extended_key_features">All features of Extended Key</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Upgrade</string>
-    <string name="pref_backup_cloud_title">Store on synchronization backend</string>
     <string name="pref_backup_cloud_summary">In addition to local storage on the device, the backup file can be copied to a remote backend.</string>
     <string name="auto_backup_cloud_success">Backup file %1$s has been successfully stored on backend %2$s.</string>
     <string name="currency_symbol">Currency symbol</string>

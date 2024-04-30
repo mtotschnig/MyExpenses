@@ -547,7 +547,6 @@
     <string name="all_extended_key_features">כל היכולות של מפתח מורחב</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">שדרג</string>
-    <string name="pref_backup_cloud_title">אחסן על סנכרון backend</string>
     <string name="pref_backup_cloud_summary">בנוסף לאחסון מקומי בהתקן, ניתן להעתיק את קובץ הגיבוי אל ממשק מרוחק.</string>
     <string name="auto_backup_cloud_success">קובץ גיבוי %1$sנשמר בהצלחה במערכת גיבוי %2$s.</string>
     <string name="currency_symbol">סמל המטבע</string>

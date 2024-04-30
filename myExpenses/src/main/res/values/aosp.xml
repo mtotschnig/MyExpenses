@@ -197,4 +197,6 @@
     <string name="start_date">"Start date"</string>
     <!-- /opt/extra/AOSP/packages/apps/Calendar$ grep -ri "\"accessibility_pick_end_date\"" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/accessibility_pick_//' | aosp_helper -->
     <string name="end_date">"End date"</string>
+    <!-- /opt/extra/AOSP/packages/modules/AdServices/adservices/apk$ grep -ri topic10290 | sed 's/ msgid="[[:digit:]]*"//' | sed 's/topic10290/cloud_storage/' | aosp_helper -->
+    <string name="cloud_storage">"Cloud storage"</string>
 </resources>

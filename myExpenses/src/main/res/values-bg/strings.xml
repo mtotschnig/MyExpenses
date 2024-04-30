@@ -540,7 +540,6 @@
     <string name="all_extended_key_features">Всички възможности на Разширен вариант</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Надстрой</string>
-    <string name="pref_backup_cloud_title">Запазване в отдалечено хранилище</string>
     <string name="pref_backup_cloud_summary">Освен локално - в това устройство, архивният файл може да бъде запазен и в отдалечено хранилище.</string>
     <string name="auto_backup_cloud_success">Файлът архив %1$s е съхранен успешно в хранилище %2$s.</string>
     <string name="currency_symbol">Знак за валута</string>

@@ -547,7 +547,6 @@
     <string name="all_extended_key_features">Toutes les fonctions de la Clé Étendue</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Mettre à jour</string>
-    <string name="pref_backup_cloud_title">Sauvegarde avec la fonction de synchronisation</string>
     <string name="pref_backup_cloud_summary">Outre le stockage local sur le périphérique, le fichier de sauvegarde peut être copié sur un serveur distant.</string>
     <string name="auto_backup_cloud_success">Le fichier de sauvegarde %1$s a été enregistré avec succès sur le backend %2$s.</string>
     <string name="currency_symbol">Symbole de devise</string>

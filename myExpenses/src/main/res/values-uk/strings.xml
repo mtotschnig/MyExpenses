@@ -537,7 +537,6 @@
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Хмарна синхронізація</string>
     <string name="all_contrib_key_features">Всі можливості платної версії</string>
     <string name="all_extended_key_features">Всі можливості розширеної версії</string>
-    <string name="pref_backup_cloud_title">Зберігати на сервері синхронізації</string>
     <string name="pref_backup_cloud_summary">На додаток до локального збереження на пристрої, файл резервної копії може бути скопійований на віддалений сервер.</string>
     <string name="auto_backup_cloud_success">Файл резервної копії %1$s було успішно збережено на сервері %2$s.</string>
     <string name="currency_symbol">Символ валюти</string>

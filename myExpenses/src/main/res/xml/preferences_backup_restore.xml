@@ -20,7 +20,7 @@
 
     <PreferenceCategory android:layout="@layout/preference_category_empty"
         my:allowDividerAbove="false"
-        my:initialExpandedChildrenCount="2">
+        my:initialExpandedChildrenCount="3">
         <Preference
             android:summary="@string/pref_backup_summary"
             android:title="@string/menu_backup">
@@ -40,16 +40,16 @@
                 android:targetPackage="@string/application_id" />
         </Preference>
 
+        <org.totschnig.myexpenses.preference.AccountPreference
+            android:key="@string/pref_auto_backup_cloud_key"
+            android:summary="@string/pref_backup_cloud_summary"
+            android:title="@string/cloud_storage" />
+
         <EditTextPreference
             android:defaultValue="myexpenses-backup"
             android:key="@string/pref_backup_file_prefix_key"
             android:title="@string/pref_backup_file_prefix_title"
             my:useSimpleSummaryProvider="true" />
-
-        <org.totschnig.myexpenses.preference.AccountPreference
-            android:key="@string/pref_auto_backup_cloud_key"
-            android:summary="@string/pref_backup_cloud_summary"
-            android:title="@string/pref_backup_cloud_title" />
 
     </PreferenceCategory>
 

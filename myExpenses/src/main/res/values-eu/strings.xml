@@ -536,7 +536,6 @@
     <string name="all_extended_key_features">Giltza hedatuaren ezaugarri guztiak</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Eguneratu</string>
-    <string name="pref_backup_cloud_title">Biltegiratu sinkronizazio atzealdekoan</string>
     <string name="pref_backup_cloud_summary">Gailuko biltegi lokalaz gain, babeskopia fitxategia urruneko atzealdeko batera kopiatu daiteke.</string>
     <string name="auto_backup_cloud_success"> %1$s babeskopia-fitxategia ondo gorde da %2$satzealdekoan.</string>
     <string name="currency_symbol">Moneta-ikurra</string>

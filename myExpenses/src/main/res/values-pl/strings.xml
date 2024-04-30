@@ -544,7 +544,6 @@
     <string name="all_extended_key_features">Wszystkie funkcje Extended Key</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Aktualizuj</string>
-    <string name="pref_backup_cloud_title">Przechowuj na serwerze synchronizacji</string>
     <string name="pref_backup_cloud_summary">Oprócz przechowywania lokalnego na urządzeniu, plik kopii zapasowej można skopiować do zdalnego serwera.</string>
     <string name="currency_symbol">Symbol waluty</string>
     <string name="number_of_fraction_digits">Liczba cyfr ułamkowych</string>

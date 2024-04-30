@@ -540,7 +540,6 @@
     <string name="all_extended_key_features">Alle Funktionen des erweiterten Schlüssels</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Lizenz kaufen</string>
-    <string name="pref_backup_cloud_title">Auf Synchronisierung-Backend speichern</string>
     <string name="pref_backup_cloud_summary">Zusätzlich zur lokalen Speicherung auf dem Gerät kann die Sicherungsdatei auf ein entferntes Backend kopiert werden.</string>
     <string name="auto_backup_cloud_success">Die Sicherungsdatei %1$s wurde erfolgreich im Backend %2$s gespeichert.</string>
     <string name="currency_symbol">Währungssymbol</string>

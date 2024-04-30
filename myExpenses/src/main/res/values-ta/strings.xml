@@ -540,7 +540,6 @@
     <string name="all_extended_key_features">விரிவாக்கப்பட்ட திறவுகோலின் அனைத்து அம்சங்கள்</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">மேம்படுத்து</string>
-    <string name="pref_backup_cloud_title">ஒத்திசைவு பின்தளத்தில் சேமிக்கவும்</string>
     <string name="pref_backup_cloud_summary">காப்புப்பிரதி கோப்பை, கருவியில் உள்ள உள்சேமிப்புக்கு கூடுதலாக ஒரு தொலை பின்தளத்திற்கு நகலெடுத்துக் கொள்ளலாம்.</string>
     <string name="auto_backup_cloud_success">காப்புப்பிரதி கோப்பு %1$s, %2$s எனும் பின்தளத்தில் வெற்றிகரமாக சேமிக்கப்பட்டது.</string>
     <string name="currency_symbol">நாணய சின்னம்</string>

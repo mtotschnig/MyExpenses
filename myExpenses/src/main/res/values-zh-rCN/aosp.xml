@@ -108,4 +108,5 @@
     <string name="full_screen">"全屏"</string>
     <string name="start_date">"开始日期"</string>
     <string name="end_date">"结束日期"</string>
+    <string name="cloud_storage">"云端存储"</string>
 </resources>

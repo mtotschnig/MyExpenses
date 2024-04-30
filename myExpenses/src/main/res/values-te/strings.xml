@@ -149,7 +149,6 @@
     <string name="currency_symbol">కరెన్సీ చిహ్నం</string>
     <string name="auto_backup_cloud_success">%1$s బ్యాకప్ ఫైల్ విజయవంతంగా బ్యాకెండ్ %2$s లో నిల్వ చేయబడింది.</string>
     <string name="pref_backup_cloud_summary">పరికరంలో స్థానిక నిల్వతో పాటు, బ్యాకప్ ఫైల్‌ను రిమోట్ బ్యాకెండ్‌కు కాపీ చేయవచ్చు.</string>
-    <string name="pref_backup_cloud_title">సింక్రొనైజేషన్ బ్యాకెండ్‌లో నిల్వ చేయండి</string>
     <string name="upgrade_now">అప్‌గ్రేడ్ చేయండి</string>
     <string name="all_extended_key_features">విస్తరించిన కీ యొక్క అన్ని లక్షణాలు</string>
     <string name="all_contrib_key_features">కాంట్రిబ్ కీ యొక్క అన్ని లక్షణాలు</string>

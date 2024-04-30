@@ -528,7 +528,6 @@
     <string name="all_extended_key_features">Semua fitur Kunci Lanjutan</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Tatar</string>
-    <string name="pref_backup_cloud_title">Simpan dalam bahagian belakang penyegerakan</string>
     <string name="pref_backup_cloud_summary">Selain dari storan setempat dalam peranti, fail sandar juga boleh disalin ke dalam bahagian belakang jauh.</string>
     <string name="auto_backup_cloud_success">Fail sandar %1$s berjaya disimpan dalam bahagian belakang %2$s.</string>
     <string name="currency_symbol">Simbol matawang</string>

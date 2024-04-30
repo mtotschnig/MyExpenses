@@ -540,7 +540,6 @@
     <string name="all_extended_key_features">Genişletilmiş Anahtar\'ın tüm işlevleri</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Yükselt</string>
-    <string name="pref_backup_cloud_title">Eşzamanlama arka ucunda sakla</string>
     <string name="pref_backup_cloud_summary">Aygıttaki yerel depolamaya ek olarak, yedekleme dosyası uzaktaki bir arka uca kopyalanabilir.</string>
     <string name="auto_backup_cloud_success">%1$s yedekleme dosyası başarılı bir şekilde %2$s arka ucunda kaydedildi.</string>
     <string name="currency_symbol">Para birimi sembolü</string>
