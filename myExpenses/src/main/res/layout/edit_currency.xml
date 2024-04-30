@@ -45,7 +45,6 @@
                 android:focusableInTouchMode="false"
                 android:hint="@string/currency_code"
                 android:inputType="textCapCharacters"
-                android:maxLength="3"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
