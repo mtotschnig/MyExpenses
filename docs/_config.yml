@@ -135,7 +135,7 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -   - 3.8.3
-      - '2014-04-15'
+      - '2014-04-29'
       - bg: Бюджетиране 4.0
         cs: Rozpočty 4.0
         de: Budgetierung 4.0
