@@ -109,4 +109,7 @@
     <string name="languages">"Мови"</string>
     <string name="chart">"Діаграма"</string>
     <string name="full_screen">"На весь екран"</string>
+    <string name="start_date">"Дата початку"</string>
+    <string name="end_date">"Дата завершення"</string>
+    <string name="cloud_storage">"Хмарні сховища"</string>
 </resources>

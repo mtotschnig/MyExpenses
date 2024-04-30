@@ -110,4 +110,7 @@
     <string name="languages">"Языки"</string>
     <string name="chart">"Диаграмма"</string>
     <string name="full_screen">"Весь экран"</string>
+    <string name="start_date">"Дата начала"</string>
+    <string name="end_date">"Дата окончания"</string>
+    <string name="cloud_storage">"Облачные хранилища"</string>
 </resources>

@@ -465,8 +465,6 @@
     <string name="content_description_encrypted">criptat</string>
     <string name="translated_by">Tradus de</string>
     <string name="pref_category_exchange_rates">Cursuri de schim</string>
-    <string name="budget_duration_from">De la</string>
-    <string name="budget_duration_to">Până la</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Funcţionalităţi</string>
     <string name="menu_save_and_new_content_description">Salvaţi datele, lăsaţi formularul deschis pentru a crea o nouă tranzacţie cu aceleaşi date.</string>

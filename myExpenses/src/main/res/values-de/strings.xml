@@ -540,7 +540,6 @@
     <string name="all_extended_key_features">Alle Funktionen des erweiterten Schlüssels</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Lizenz kaufen</string>
-    <string name="pref_backup_cloud_title">Auf Synchronisierung-Backend speichern</string>
     <string name="pref_backup_cloud_summary">Zusätzlich zur lokalen Speicherung auf dem Gerät kann die Sicherungsdatei auf ein entferntes Backend kopiert werden.</string>
     <string name="auto_backup_cloud_success">Die Sicherungsdatei %1$s wurde erfolgreich im Backend %2$s gespeichert.</string>
     <string name="currency_symbol">Währungssymbol</string>
@@ -738,8 +737,6 @@
     <string name="discover_feature_expense_income_switch">Verwenden Sie diesen Schalter, um Einnahmen zu erfassen.</string>
     <string name="menu_create_budget">Neues Budget</string>
     <string name="budget_onetime">Einmalig</string>
-    <string name="budget_duration_from">Von</string>
-    <string name="budget_duration_to">Bis</string>
     <string name="no_budgets">Definieren Sie Ihr erstes Budget, indem Sie auf die Schaltfläche + tippen.</string>
     <string name="budget_date_end_after_start">Das Enddatum des Budgets muss nach dem Startdatum liegen.</string>
     <string name="menu_budget_allocated_only">Nur Kategorien mit Zuordnung anzeigen</string>

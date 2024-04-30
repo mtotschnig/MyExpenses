@@ -544,7 +544,6 @@
     <string name="all_extended_key_features">Wszystkie funkcje Extended Key</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Aktualizuj</string>
-    <string name="pref_backup_cloud_title">Przechowuj na serwerze synchronizacji</string>
     <string name="pref_backup_cloud_summary">Oprócz przechowywania lokalnego na urządzeniu, plik kopii zapasowej można skopiować do zdalnego serwera.</string>
     <string name="currency_symbol">Symbol waluty</string>
     <string name="number_of_fraction_digits">Liczba cyfr ułamkowych</string>
@@ -696,8 +695,6 @@
     <string name="warning_no_account">Przynajmniej jedno konto musi zostać założone, aby móc dodać pierwszą transakcję.</string>
     <string name="pref_category_exchange_rates">Kursy wymiany</string>
     <string name="menu_create_budget">Nowy budżet</string>
-    <string name="budget_duration_from">Od</string>
-    <string name="budget_duration_to">Do</string>
     <string name="budget_filter_all_categories">Wszystkie kategorie</string>
     <string name="menu_edit_budget">Edycja budżetu</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->

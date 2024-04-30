@@ -14,4 +14,7 @@
     <string name="tags">"Tags"</string>
     <string name="languages">"Languages"</string>
     <string name="full_screen">"Full screen"</string>
+    <string name="start_date">"Start date"</string>
+    <string name="end_date">"End date"</string>
+    <string name="cloud_storage">"Cloud storage"</string>
 </resources>

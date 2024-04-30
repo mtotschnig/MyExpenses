@@ -100,4 +100,7 @@
     <string name="languages">"שפות"</string>
     <string name="chart">"תרשים"</string>
     <string name="full_screen">"מסך מלא"</string>
+    <string name="start_date">"תאריך התחלה"</string>
+    <string name="end_date">"תאריך סיום"</string>
+    <string name="cloud_storage">"אחסון בענן"</string>
 </resources>

@@ -32,4 +32,7 @@
     <string name="languages">"भाषाहरू"</string>
     <string name="chart">"चित्रपट"</string>
     <string name="full_screen">"फुल स्क्रिन"</string>
+    <string name="start_date">"सुरु हुने मिति"</string>
+    <string name="end_date">"समाप्त हुने मिति"</string>
+    <string name="cloud_storage">"क्लाउड भण्डारणमा उपलब्ध खाली ठाउँ"</string>
 </resources>

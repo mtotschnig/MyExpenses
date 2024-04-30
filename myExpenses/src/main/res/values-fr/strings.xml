@@ -547,7 +547,6 @@
     <string name="all_extended_key_features">Toutes les fonctions de la Clé Étendue</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Mettre à jour</string>
-    <string name="pref_backup_cloud_title">Sauvegarde avec la fonction de synchronisation</string>
     <string name="pref_backup_cloud_summary">Outre le stockage local sur le périphérique, le fichier de sauvegarde peut être copié sur un serveur distant.</string>
     <string name="auto_backup_cloud_success">Le fichier de sauvegarde %1$s a été enregistré avec succès sur le backend %2$s.</string>
     <string name="currency_symbol">Symbole de devise</string>
@@ -746,8 +745,6 @@
     <string name="discover_feature_expense_income_switch">Utilisez ce bouton pour enregistrer le revenu.</string>
     <string name="menu_create_budget">Nouveau budget</string>
     <string name="budget_onetime">Une fois</string>
-    <string name="budget_duration_from">À partir</string>
-    <string name="budget_duration_to">Au</string>
     <string name="no_budgets">Définissez votre premier budget en appuyant sur le bouton +.</string>
     <string name="budget_date_end_after_start">La date de fin du budget doit être postérieure à sa date de début.</string>
     <string name="menu_budget_allocated_only">Afficher uniquement les catégories avec allocation</string>

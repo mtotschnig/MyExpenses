@@ -42,4 +42,7 @@
     <string name="languages">"Bahasa"</string>
     <string name="chart">"Bagan"</string>
     <string name="full_screen">"Layar penuh"</string>
+    <string name="start_date">"Tanggal mulai"</string>
+    <string name="end_date">"Tanggal akhir"</string>
+    <string name="cloud_storage">"Penyimpanan Cloud"</string>
 </resources>

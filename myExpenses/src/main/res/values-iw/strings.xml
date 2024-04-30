@@ -547,7 +547,6 @@
     <string name="all_extended_key_features">כל היכולות של מפתח מורחב</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">שדרג</string>
-    <string name="pref_backup_cloud_title">אחסן על סנכרון backend</string>
     <string name="pref_backup_cloud_summary">בנוסף לאחסון מקומי בהתקן, ניתן להעתיק את קובץ הגיבוי אל ממשק מרוחק.</string>
     <string name="auto_backup_cloud_success">קובץ גיבוי %1$sנשמר בהצלחה במערכת גיבוי %2$s.</string>
     <string name="currency_symbol">סמל המטבע</string>
@@ -748,8 +747,6 @@
     <string name="discover_feature_expense_income_switch">השתמש בלחצן זה כדי לרשום הכנסה.</string>
     <string name="menu_create_budget">תקציב חדש</string>
     <string name="budget_onetime">חד פעמי</string>
-    <string name="budget_duration_from">מקור</string>
-    <string name="budget_duration_to">אל</string>
     <string name="no_budgets">הגדר את התקציב הראשון שלך על ידי לחיצה על כפתור +.</string>
     <string name="budget_date_end_after_start">תאריך הסיום של התקציב חייב להגיע לאחר תאריך ההתחלה שלו.</string>
     <string name="menu_budget_allocated_only">הצג רק קטגוריות עם הקצאה</string>

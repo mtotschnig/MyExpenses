@@ -22,4 +22,7 @@
     <string name="languages">"Језици"</string>
     <string name="chart">"График"</string>
     <string name="full_screen">"Цео екран"</string>
+    <string name="start_date">"Датум почетка"</string>
+    <string name="end_date">"Датум завршетка"</string>
+    <string name="cloud_storage">"Простор у клауду"</string>
 </resources>

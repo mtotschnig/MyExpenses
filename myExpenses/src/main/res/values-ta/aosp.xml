@@ -99,4 +99,7 @@
     <string name="languages">"மொழிகள்"</string>
     <string name="chart">"விளக்கப்படம்"</string>
     <string name="full_screen">"முழுத்திரை"</string>
+    <string name="start_date">"தொடக்கத் தேதி"</string>
+    <string name="end_date">"முடிவுத் தேதி"</string>
+    <string name="cloud_storage">"கிளவுடு சேமிப்பகம்"</string>
 </resources>

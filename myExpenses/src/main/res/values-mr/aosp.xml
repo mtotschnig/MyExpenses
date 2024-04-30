@@ -30,4 +30,7 @@
     <string name="languages">"भाषा"</string>
     <string name="chart">"तक्ता"</string>
     <string name="full_screen">"फुल स्क्रीन"</string>
+    <string name="start_date">"प्रारंभ तारीख"</string>
+    <string name="end_date">"समाप्ती तारीख"</string>
+    <string name="cloud_storage">"क्लाउड स्‍टोरेज"</string>
 </resources>

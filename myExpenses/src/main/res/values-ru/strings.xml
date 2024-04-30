@@ -552,7 +552,6 @@
     <string name="all_extended_key_features">Все возможности Extended-ключа</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Обновить</string>
-    <string name="pref_backup_cloud_title">Хранить на сервере синхронизации</string>
     <string name="pref_backup_cloud_summary">В дополнение к локальному хранению на устройстве, файл резервной копии может быть скопирован на удаленный сервер.</string>
     <string name="auto_backup_cloud_success">Файл резервной копии %1$s был успешно сохранен на сервере %2$s.</string>
     <string name="currency_symbol">Символ валюты</string>
@@ -752,8 +751,6 @@
     <string name="discover_feature_expense_income_switch">Используйте этот переключатель для записи поступлений.</string>
     <string name="menu_create_budget">Новый бюджет</string>
     <string name="budget_onetime">Одноразовый </string>
-    <string name="budget_duration_from">С</string>
-    <string name="budget_duration_to">До</string>
     <string name="no_budgets">Определите свой первый бюджет, нажав кнопку +.</string>
     <string name="budget_date_end_after_start">Дата окончания бюджета должна следовать после даты начала.</string>
     <string name="menu_budget_allocated_only">Показавать только категории с распределением</string>

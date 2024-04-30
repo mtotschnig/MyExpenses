@@ -554,7 +554,6 @@
     <string name="all_extended_key_features">All features of Extended Key</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Upgrade</string>
-    <string name="pref_backup_cloud_title">Store on synchronization backend</string>
     <string name="pref_backup_cloud_summary">In addition to local storage on the device, the backup file can be copied to a remote backend.</string>
     <string name="auto_backup_cloud_success">Backup file %1$s has been successfully stored on backend %2$s.</string>
     <string name="currency_symbol">Currency symbol</string>
@@ -756,8 +755,6 @@
     <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Use this switch button to record income.</string>
     <string name="menu_create_budget">New budget</string>
     <string name="budget_onetime">One-time</string>
-    <string name="budget_duration_from">From</string>
-    <string name="budget_duration_to">To</string>
     <string name="no_budgets">Define your first budget by tapping the + button.</string>
     <string name="budget_date_end_after_start">The budget\'s end date must come after its start date.</string>
     <string name="menu_budget_allocated_only">Show only categories with allocation</string>

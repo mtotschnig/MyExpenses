@@ -521,7 +521,6 @@
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Đồng bộ hoá đám mây</string>
     <string name="all_contrib_key_features">Tất cả các tính năng của Khóa đóng góp</string>
     <string name="all_extended_key_features">Tất cả tính năng trong bản Mở rộng</string>
-    <string name="pref_backup_cloud_title">Lưu trữ trên backend đồng bộ</string>
     <string name="pref_backup_cloud_summary">Cùng với bộ nhớ lưu trữ trên máy, tập tin sao lưu cũng có thể được sao chép tới một backend từ xa.</string>
     <string name="currency_symbol">Ký hiệu tiền tệ</string>
     <string name="number_of_fraction_digits">Số chữ số thập phân</string>
@@ -664,8 +663,6 @@
     <string name="content_description_closed">Đã đóng</string>
     <string name="translated_by">Dịch bởi </string>
     <string name="menu_create_budget">Quỹ mới</string>
-    <string name="budget_duration_from">Từ</string>
-    <string name="budget_duration_to">Đến</string>
     <string name="menu_edit_budget">Sửa quỹ</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Tính năng</string>

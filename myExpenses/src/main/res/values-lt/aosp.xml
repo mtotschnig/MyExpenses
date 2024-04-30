@@ -34,4 +34,7 @@
     <string name="languages">"Kalbos"</string>
     <string name="chart">"Diagrama"</string>
     <string name="full_screen">"Visas ekranas"</string>
+    <string name="start_date">"Pradžios data"</string>
+    <string name="end_date">"Pabaigos data"</string>
+    <string name="cloud_storage">"Saugykla debesyje"</string>
 </resources>

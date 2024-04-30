@@ -41,4 +41,7 @@
     <string name="languages">"ภาษา"</string>
     <string name="chart">"แผนภูมิ"</string>
     <string name="full_screen">"เต็มหน้าจอ"</string>
+    <string name="start_date">"วันที่เริ่มต้น"</string>
+    <string name="end_date">"วันที่สิ้นสุด"</string>
+    <string name="cloud_storage">"Cloud Storage"</string>
 </resources>

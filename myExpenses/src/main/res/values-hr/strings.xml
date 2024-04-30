@@ -393,8 +393,6 @@
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">Šifrirano</string>
     <string name="translated_by">Prijevod:</string>
-    <string name="budget_duration_from">Od</string>
-    <string name="budget_duration_to">Do</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Funkcije</string>
     <string name="pref_translation_title">Prijevod</string>
@@ -507,7 +505,6 @@
     <string name="currency_symbol">Oznaka valute</string>
     <string name="auto_backup_cloud_success">Datoteka sigurnosne kopije %1$s uspješno je spremljena na pozadinskom sustavu %2$s.</string>
     <string name="pref_backup_cloud_summary">Pored mogućnosti lokalnog spremanja na uređaju, datoteka sigurnosne kopije može se kopirati u udaljeni pozadinski sustav.</string>
-    <string name="pref_backup_cloud_title">Spremi na pozadinski sustav sinkronizacije</string>
     <string name="upgrade_now">Nadogradi</string>
     <string name="all_extended_key_features">Sve funkcije za prošireni ključ</string>
     <string name="all_contrib_key_features">Sve funkcije za ključ doprinositelja</string>

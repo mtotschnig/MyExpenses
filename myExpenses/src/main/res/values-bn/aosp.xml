@@ -29,4 +29,7 @@
     <string name="languages">"ভাষা"</string>
     <string name="chart">"ছক"</string>
     <string name="full_screen">"ফুল স্ক্রিন"</string>
+    <string name="start_date">"শুরুর তারিখ"</string>
+    <string name="end_date">"সমাপ্তির তারিখ"</string>
+    <string name="cloud_storage">"ক্লাউড স্টোরেজ"</string>
 </resources>

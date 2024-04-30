@@ -545,7 +545,6 @@
     <string name="all_extended_key_features">Tutte le funzionalità della Licenza Funzionalità Estese</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Acquista una licenza</string>
-    <string name="pref_backup_cloud_title">Salva sul back-end di sincronizzazione</string>
     <string name="pref_backup_cloud_summary">Oltre nella memoria locale del dispositivo, il file di backup può essere copiato su un back-end remoto.</string>
     <string name="auto_backup_cloud_success">Il file di backup %1$s è stato salvato correttamente sul back-end %2$s.</string>
     <string name="currency_symbol">Simbolo di valuta</string>
@@ -743,8 +742,6 @@
     <string name="discover_feature_expense_income_switch">Usa questo pulsante per registrare le entrate.</string>
     <string name="menu_create_budget">Nuovo budget</string>
     <string name="budget_onetime">Una tantum</string>
-    <string name="budget_duration_from">Dal</string>
-    <string name="budget_duration_to">Fino al</string>
     <string name="no_budgets">Definisci il tuo budget iniziale toccando il pulsante +.</string>
     <string name="budget_date_end_after_start">La data di termine del budget deve essere successiva alla data di inizio.</string>
     <string name="menu_budget_allocated_only">Mostra solo le categorie con allocazione</string>

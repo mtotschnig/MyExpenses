@@ -540,7 +540,6 @@
     <string name="all_extended_key_features">Genişletilmiş Anahtar\'ın tüm işlevleri</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Yükselt</string>
-    <string name="pref_backup_cloud_title">Eşzamanlama arka ucunda sakla</string>
     <string name="pref_backup_cloud_summary">Aygıttaki yerel depolamaya ek olarak, yedekleme dosyası uzaktaki bir arka uca kopyalanabilir.</string>
     <string name="auto_backup_cloud_success">%1$s yedekleme dosyası başarılı bir şekilde %2$s arka ucunda kaydedildi.</string>
     <string name="currency_symbol">Para birimi sembolü</string>
@@ -738,8 +737,6 @@
     <string name="discover_feature_expense_income_switch">Gelirleri kaydetmek için bu geçiş düğmesini kullanın.</string>
     <string name="menu_create_budget">Yeni bütçe</string>
     <string name="budget_onetime">Bir kerelik</string>
-    <string name="budget_duration_from">Şundan</string>
-    <string name="budget_duration_to">Şuna</string>
     <string name="no_budgets">İlk bütçenizi + düğmesine dokunarak tanımlayın.</string>
     <string name="budget_date_end_after_start">Bütçenin bitiş tarihi, başlangıç tarihinden sonra gelmelidir.</string>
     <string name="menu_budget_allocated_only">Sadece tahsisi bulunan kategorileri göster</string>

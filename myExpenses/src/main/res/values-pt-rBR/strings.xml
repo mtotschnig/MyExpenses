@@ -547,7 +547,6 @@
     <string name="all_extended_key_features">Todos os recursos da chave Estendida</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Atualizar</string>
-    <string name="pref_backup_cloud_title">Armazenar no destino de sincronização</string>
     <string name="pref_backup_cloud_summary">Além do armazenamento local no aparelho, o ficheiro de backup também pode ser copiado para um destino remoto.</string>
     <string name="auto_backup_cloud_success">O ficheiro de backup %1$s foi armazenado com sucesso no destino %2$s.</string>
     <string name="currency_symbol">Símbolo da moeda</string>
@@ -746,8 +745,6 @@
     <string name="discover_feature_expense_income_switch">Use este botão para registrar a receita.</string>
     <string name="menu_create_budget">Novo orçamento</string>
     <string name="budget_onetime">Único</string>
-    <string name="budget_duration_from">De</string>
-    <string name="budget_duration_to">Até</string>
     <string name="no_budgets">Defina seu primeiro orçamento tocando no botão +.</string>
     <string name="budget_date_end_after_start">A data de término do orçamento deve ser posterior à data de início.</string>
     <string name="menu_budget_allocated_only">Exibir apenas categorias com alocação</string>

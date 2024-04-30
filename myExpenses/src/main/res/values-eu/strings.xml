@@ -536,7 +536,6 @@
     <string name="all_extended_key_features">Giltza hedatuaren ezaugarri guztiak</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Eguneratu</string>
-    <string name="pref_backup_cloud_title">Biltegiratu sinkronizazio atzealdekoan</string>
     <string name="pref_backup_cloud_summary">Gailuko biltegi lokalaz gain, babeskopia fitxategia urruneko atzealdeko batera kopiatu daiteke.</string>
     <string name="auto_backup_cloud_success"> %1$s babeskopia-fitxategia ondo gorde da %2$satzealdekoan.</string>
     <string name="currency_symbol">Moneta-ikurra</string>
@@ -612,8 +611,6 @@
     <string name="menu_close">Itxi</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">enkriptatutako</string>
-    <string name="budget_duration_from">Nork</string>
-    <string name="budget_duration_to">Nori</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Ezaugarriak</string>
     <string name="menu_save_and_new_content_description">Gorde datuak, laga formularioa irekita beste transakzio bat sortzeko datu berberekin.</string>

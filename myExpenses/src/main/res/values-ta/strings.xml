@@ -540,7 +540,6 @@
     <string name="all_extended_key_features">விரிவாக்கப்பட்ட திறவுகோலின் அனைத்து அம்சங்கள்</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">மேம்படுத்து</string>
-    <string name="pref_backup_cloud_title">ஒத்திசைவு பின்தளத்தில் சேமிக்கவும்</string>
     <string name="pref_backup_cloud_summary">காப்புப்பிரதி கோப்பை, கருவியில் உள்ள உள்சேமிப்புக்கு கூடுதலாக ஒரு தொலை பின்தளத்திற்கு நகலெடுத்துக் கொள்ளலாம்.</string>
     <string name="auto_backup_cloud_success">காப்புப்பிரதி கோப்பு %1$s, %2$s எனும் பின்தளத்தில் வெற்றிகரமாக சேமிக்கப்பட்டது.</string>
     <string name="currency_symbol">நாணய சின்னம்</string>
@@ -738,8 +737,6 @@
     <string name="discover_feature_expense_income_switch">வருமானத்தை பதிவு செய்ய இந்த நிலைமாற்றியை பயன்படுத்தவும்.</string>
     <string name="menu_create_budget">புதிய வரவு செலவுத் திட்டம்</string>
     <string name="budget_onetime">ஒரு முறை</string>
-    <string name="budget_duration_from">இருந்து</string>
-    <string name="budget_duration_to">வரை</string>
     <string name="no_budgets">+ பொத்தானைத் தட்டுவதன் மூலம் உங்கள் முதல் வரவு செலவுத் திட்டத்தை வரையறுக்கவும்.</string>
     <string name="budget_date_end_after_start">பட்ஜெட்டின் இறுதி தேதி அதன் தொடக்க தேதிக்கு பின் வர வேண்டும்.</string>
     <string name="menu_budget_allocated_only">ஒதுக்கீட்டைக் கொண்ட வகைகளை மட்டும் காட்டு</string>

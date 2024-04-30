@@ -440,8 +440,6 @@
     <string name="pref_debug_title">اشکال‌زدایی</string>
     <string name="warning_account_for_transaction_is_closed">دست کم یکی از تراکنش‌های انتخاب‌شده نمی‌توانند ویراش شوند:</string>
     <string name="content_description_download_exchange_rate">دانلود نرخ تبدیل</string>
-    <string name="budget_duration_from">از</string>
-    <string name="budget_duration_to">به</string>
     <string name="dialog_title_warning_delete_budget">حذف بودجه؟</string>
     <string name="warning_delete_budget">بودجه \" %1$s \" حذف خواهد شد.</string>
     <string name="menu_edit_budget">ویرایش بودجه</string>
@@ -621,7 +619,6 @@
     <string name="link_account_failure_2">یک حساب با uuid مشابه از قبل در سرور وجود دارد.</string>
     <string name="number_of_fraction_digits">تعداد ارقام کسری</string>
     <string name="warning_auto_backup_deactivated">پشتیبان گیری خودکار غیرفعال شده است. پس از حل مشکل (به عنوان مثال انتخاب پوشه دیگری برای پشتیبان گیری) می توانید آن را دوباره از تنظیمات روشن کنید.</string>
-    <string name="pref_backup_cloud_title">ذخیره در همگام سازی سرور</string>
     <string name="pref_backup_cloud_summary">علاوه بر فضای ذخیره سازی محلی روی دستگاه، فایل پشتیبان را می توان در یک سرور کپی کرد.</string>
     <string name="auto_backup_cloud_success">فایل پشتیبان %1$s با موفقیت در سرور %2$s ذخیره شد.</string>
     <string name="onboarding_restore_from_local">فایل پشتیبان محلی را بازیابی کنید</string>

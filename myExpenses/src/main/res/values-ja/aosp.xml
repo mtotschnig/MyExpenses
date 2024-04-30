@@ -106,4 +106,7 @@
     <string name="languages">"言語"</string>
     <string name="chart">"グラフ"</string>
     <string name="full_screen">"全画面"</string>
+    <string name="start_date">"開始日"</string>
+    <string name="end_date">"終了日"</string>
+    <string name="cloud_storage">"クラウド ストレージ"</string>
 </resources>

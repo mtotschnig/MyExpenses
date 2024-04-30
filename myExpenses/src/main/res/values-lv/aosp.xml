@@ -33,4 +33,7 @@
     <string name="languages">"Valodas"</string>
     <string name="chart">"Diagramma"</string>
     <string name="full_screen">"Pilnekrāna režīms"</string>
+    <string name="start_date">"Sākuma datums"</string>
+    <string name="end_date">"Beigu datums"</string>
+    <string name="cloud_storage">"Mākoņa krātuves"</string>
 </resources>

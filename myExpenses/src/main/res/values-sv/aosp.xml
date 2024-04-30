@@ -42,4 +42,7 @@
     <string name="languages">"Språk"</string>
     <string name="chart">"Diagram"</string>
     <string name="full_screen">"Hela skärmen"</string>
+    <string name="start_date">"Startdatum"</string>
+    <string name="end_date">"Slutdatum"</string>
+    <string name="cloud_storage">"Molnlagring"</string>
 </resources>

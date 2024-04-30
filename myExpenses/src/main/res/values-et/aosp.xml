@@ -42,4 +42,7 @@
     <string name="languages">"Keeled"</string>
     <string name="chart">"Diagramm"</string>
     <string name="full_screen">"Täisekraan"</string>
+    <string name="start_date">"Alguskuupäev"</string>
+    <string name="end_date">"Lõppkuupäev"</string>
+    <string name="cloud_storage">"Pilvepõhine salvestusruum"</string>
 </resources>

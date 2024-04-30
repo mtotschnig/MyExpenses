@@ -27,4 +27,7 @@
     <string name="languages">"Мовы"</string>
     <string name="chart">"Дыяграма"</string>
     <string name="full_screen">"Поўнаэкранны рэжым"</string>
+    <string name="start_date">"Дата пачатку"</string>
+    <string name="end_date">"Дата заканчэння"</string>
+    <string name="cloud_storage">"Воблачнае сховішча"</string>
 </resources>

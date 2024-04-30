@@ -109,4 +109,7 @@
     <string name="languages">"Idiomes"</string>
     <string name="chart">"Diagrama"</string>
     <string name="full_screen">"Pantalla completa"</string>
+    <string name="start_date">"Data d'inici"</string>
+    <string name="end_date">"Data de finalització"</string>
+    <string name="cloud_storage">"Emmagatzematge al núvol"</string>
 </resources>

@@ -537,7 +537,6 @@
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Хмарна синхронізація</string>
     <string name="all_contrib_key_features">Всі можливості платної версії</string>
     <string name="all_extended_key_features">Всі можливості розширеної версії</string>
-    <string name="pref_backup_cloud_title">Зберігати на сервері синхронізації</string>
     <string name="pref_backup_cloud_summary">На додаток до локального збереження на пристрої, файл резервної копії може бути скопійований на віддалений сервер.</string>
     <string name="auto_backup_cloud_success">Файл резервної копії %1$s було успішно збережено на сервері %2$s.</string>
     <string name="currency_symbol">Символ валюти</string>
@@ -709,8 +708,6 @@
     <string name="pref_exchange_rate_provider_title">Постачальник курсів валют</string>
     <string name="pref_exchange_rates_api_key_summary">Будь ласка зареєструйте безкоштовний аккаунт в сервісі %s та введіть ваш App ID</string>
     <string name="menu_create_budget">Новий бюджет</string>
-    <string name="budget_duration_from">З</string>
-    <string name="budget_duration_to">До</string>
     <string name="menu_edit_budget">Редагувати бюджет</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Особливості</string>

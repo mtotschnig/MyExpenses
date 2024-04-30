@@ -107,4 +107,7 @@
     <string name="languages">"Diller"</string>
     <string name="chart">"Grafik"</string>
     <string name="full_screen">"Tam ekran"</string>
+    <string name="start_date">"Başlangıç tarihi"</string>
+    <string name="end_date">"Bitiş tarihi"</string>
+    <string name="cloud_storage">"Bulut Depolama"</string>
 </resources>

@@ -533,7 +533,6 @@
     <string name="all_extended_key_features">扩展版密钥的所有功能</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">升级</string>
-    <string name="pref_backup_cloud_title">存储在同步后端</string>
     <string name="pref_backup_cloud_summary">除了存储在本地设备之外，备份文件还可以复制到远程后端或云存储。</string>
     <string name="auto_backup_cloud_success">备份文件%1$s已成功存储在后端%2$s上。</string>
     <string name="currency_symbol">货币符号</string>
@@ -730,8 +729,6 @@
     <string name="discover_feature_expense_income_switch">可以使用此开关钮切换记录支出或收入。</string>
     <string name="menu_create_budget">新建预算</string>
     <string name="budget_onetime">一次性</string>
-    <string name="budget_duration_from">从</string>
-    <string name="budget_duration_to">到</string>
     <string name="no_budgets">点击 + 按钮定义您的第一笔预算。</string>
     <string name="budget_date_end_after_start">预算的结束日期必须晚于开始日期。</string>
     <string name="menu_budget_allocated_only">仅显示已分配的类别</string>

@@ -29,4 +29,5 @@
     <string name="languages">"Јазици"</string>
     <string name="chart">"Графикон"</string>
     <string name="full_screen">"Цел екран"</string>
+    <string name="cloud_storage">"Простор во облак"</string>
 </resources>

@@ -111,4 +111,7 @@
     <string name="languages">"Jazyky"</string>
     <string name="chart">"Graf"</string>
     <string name="full_screen">"Celá obrazovka"</string>
+    <string name="start_date">"Datum zahájení"</string>
+    <string name="end_date">"Datum ukončení"</string>
+    <string name="cloud_storage">"Cloudové úložiště"</string>
 </resources>

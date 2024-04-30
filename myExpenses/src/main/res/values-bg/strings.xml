@@ -540,7 +540,6 @@
     <string name="all_extended_key_features">Всички възможности на Разширен вариант</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Надстрой</string>
-    <string name="pref_backup_cloud_title">Запазване в отдалечено хранилище</string>
     <string name="pref_backup_cloud_summary">Освен локално - в това устройство, архивният файл може да бъде запазен и в отдалечено хранилище.</string>
     <string name="auto_backup_cloud_success">Файлът архив %1$s е съхранен успешно в хранилище %2$s.</string>
     <string name="currency_symbol">Знак за валута</string>
@@ -738,8 +737,6 @@
     <string name="discover_feature_expense_income_switch">Използвайте този превключвател, за да запишете приход.</string>
     <string name="menu_create_budget">Нов бюджет</string>
     <string name="budget_onetime">Еднократно</string>
-    <string name="budget_duration_from">От</string>
-    <string name="budget_duration_to">До</string>
     <string name="no_budgets">Дефинирайте първия си бюджет, като докоснете бутона +.</string>
     <string name="budget_date_end_after_start">Крайната дата на бюджета трябва да бъде след началната му дата.</string>
     <string name="menu_budget_allocated_only">Показвай само категории с разпределение</string>

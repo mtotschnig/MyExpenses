@@ -104,4 +104,5 @@
     <string name="languages">"Idiomas"</string>
     <string name="chart">"Gráfico"</string>
     <string name="full_screen">"Tela cheia"</string>
+    <string name="cloud_storage">"Armazenamento em nuvem"</string>
 </resources>

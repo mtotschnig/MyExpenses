@@ -530,7 +530,6 @@
     <string name="all_extended_key_features">拡張キーのすべての機能</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">アップグレード</string>
-    <string name="pref_backup_cloud_title">同期バックエンドに保存</string>
     <string name="pref_backup_cloud_summary">デバイスのローカルストレージに加えて、バックアップファイルをリモートバックエンドにコピーすることができます。</string>
     <string name="auto_backup_cloud_success">バックアップファイル %1$s はバックエンド %2$s に保存されました。</string>
     <string name="currency_symbol">通貨記号</string>
@@ -727,8 +726,6 @@
     <string name="discover_feature_expense_income_switch">この切り替えボタンを使用して収入を記録します。</string>
     <string name="menu_create_budget">新しい予算</string>
     <string name="budget_onetime">１回限り</string>
-    <string name="budget_duration_from">開始</string>
-    <string name="budget_duration_to">終了</string>
     <string name="no_budgets">+ ボタンをタップして最初の予算を定義します。</string>
     <string name="budget_date_end_after_start">予算の終了日は、開始日より後にする必要があります。</string>
     <string name="menu_budget_allocated_only">割り当てられた分類のみを表示</string>

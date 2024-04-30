@@ -31,4 +31,7 @@
     <string name="languages">"ພາສາ"</string>
     <string name="chart">"ແຜນວາດ"</string>
     <string name="full_screen">"ເຕັມຈໍ"</string>
+    <string name="start_date">"ເລີ່ມວັນທີ"</string>
+    <string name="end_date">"ມື້ສິ້ນສຸດ"</string>
+    <string name="cloud_storage">"ບ່ອນຈັດເກັບຂໍ້ມູນຄລາວ"</string>
 </resources>

@@ -96,4 +96,7 @@
     <string name="languages">"ភាសា"</string>
     <string name="chart">"គំនូស​តាង"</string>
     <string name="full_screen">"អេក្រង់ពេញ"</string>
+    <string name="start_date">"កាលបរិច្ឆេទ​ចាប់ផ្ដើម"</string>
+    <string name="end_date">"កាលបរិច្ឆេទ​បញ្ចប់"</string>
+    <string name="cloud_storage">"ទំហំ​ផ្ទុក​លើ​ពពក"</string>
 </resources>

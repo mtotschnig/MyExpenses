@@ -14,8 +14,6 @@
     <string name="budget_filter_all_methods">Alle metoder</string>
     <string name="budget_filter_all_parties">Alle parter</string>
     <string name="budget_filter_all_categories">Alle kategorier</string>
-    <string name="budget_duration_to">Til</string>
-    <string name="budget_duration_from">Fra</string>
     <string name="menu_create_budget">Nytt budsjett</string>
     <string name="icon">Ikon</string>
     <string name="translated_by">Oversatt av</string>
@@ -58,7 +56,6 @@
     <string name="pref_webdav_timeout_title">WebDAV-tidsavbrudd (i sekunder)</string>
     <string name="synchronization_end_success_none">Ingen endringer å synkronisere.</string>
     <string name="currency_symbol">Valutasymbol</string>
-    <string name="pref_backup_cloud_title">Lagre på synkroniserings-bakende</string>
     <string name="upgrade_now">Oppgrader</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sky-synkronisering</string>
     <string name="template">Mal</string>

@@ -242,8 +242,6 @@
     <string name="pref_auto_backup_title">ऑटो बैकअप</string>
     <string name="content_description_calculator">कैलकुलेटर</string>
     <string name="contrib_feature_synchronization_label">क्लाउड तुल्यकालन</string>
-    <string name="budget_duration_from">से</string>
-    <string name="budget_duration_to">को</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">विशेषताएं</string>
     <string name="pref_category_title_crash_reports">क्रैश रिपोर्टें</string>

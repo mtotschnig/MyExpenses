@@ -667,8 +667,6 @@
     <string name="icon">Εικονίδιο</string>
     <string name="pref_debug_title">Εντοπισμός σφαλμάτων</string>
     <string name="pref_category_exchange_rates">Συναλλαγματικές ισοτιμίες</string>
-    <string name="budget_duration_from">Από</string>
-    <string name="budget_duration_to">Στις</string>
     <string name="budget_filter_all_categories">Όλες οι κατηγορίες</string>
     <string name="budget_filter_all_methods">Όλοι οι μέθοδοι</string>
     <string name="budget_filter_all_tags">Όλες οι ετικέτες</string>
@@ -843,7 +841,6 @@
     <string name="sync_backend_is_encrypted">Το απομακρυσμένο backend είναι κρυπτογραφημένο. Πρέπει να καθορίσετε μια φράση πρόσβασης.</string>
     <string name="account_widget_configuration">Διαμόρφωση widget λογαριασμού</string>
     <string name="progress_dialog_checking_sync_backend">Επαλήθευση συστήματος υποστήριξης</string>
-    <string name="pref_backup_cloud_title">Αποθηκεύστε στο backend συγχρονισμού</string>
     <string name="app_restart_required">Η νέα διαμόρφωση απαιτεί την επανεκκίνηση της εφαρμογής για να τεθεί σε ισχύ.</string>
     <string name="warning_backup_protected">Το αρχείο θα προστατεύεται από τη φράση πρόσβασης.</string>
     <string name="pref_manage_sync_backends_summary">Προσθέστε backend για συγχρονισμό λογαριασμών (%s).</string>
