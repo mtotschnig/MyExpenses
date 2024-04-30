@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FormValidator {
-	private List<AbstractFormFieldValidator> fieldValidators = new ArrayList<>();
+	private final List<AbstractFormFieldValidator> fieldValidators = new ArrayList<>();
 
 	public FormValidator() {
 	}
