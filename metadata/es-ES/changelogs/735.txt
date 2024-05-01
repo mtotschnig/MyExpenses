@@ -1,0 +1,7 @@
+Presupuesto 4.0 - Nueva funcionalidad:
+* Visualice el desempeño de su presupuesto con un gráfico de radar;
+* Muestra tu tabla de presupuesto en pantalla completa;
+* Cambie rápidamente el orden de clasificación.
+El widget de presupuesto en la pantalla de inicio ahora le permite navegar entre el estado actual de su presupuesto y períodos de tiempo anteriores.
+
+https://github.com/mtotschnig/MyExpenses/projects/140#column-19850840

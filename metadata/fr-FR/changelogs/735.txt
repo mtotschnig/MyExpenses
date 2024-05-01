@@ -1,0 +1,7 @@
+Budgétisation 4.0 - Nouvelle fonctionnalité :
+* Visualisez la performance de votre budget avec un graphique radar ;
+* Affichez votre tableau budgétaire en plein écran ;
+* Modifiez rapidement l'ordre de tri.
+Le widget de budget sur l'écran de lancement vous permet désormais de naviguer entre l'état actuel de votre budget et les périodes passées.
+
+https://github.com/mtotschnig/MyExpenses/projects/140#column-19850840

@@ -1,0 +1,7 @@
+Orçamento 4.0 - Nova funcionalidade:
+* Visualize o desempenho do seu orçamento com um gráfico de radar;
+* Exiba sua tabela de orçamento em tela cheia;
+* Altere rapidamente a ordem de classificação.
+O widget de orçamento na tela inicial agora permite navegar entre o estado atual do seu orçamento e períodos anteriores.
+
+https://github.com/mtotschnig/MyExpenses/projects/140#column-19850840
