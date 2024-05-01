@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.activity.BaseMyExpenses;
 import org.totschnig.myexpenses.activity.CsvImportActivity;
 import org.totschnig.myexpenses.activity.DebtOverview;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.activity.PreferenceActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.db2.Repository;
 import org.totschnig.myexpenses.delegate.CategoryDelegate;
@@ -101,7 +102,7 @@ import okhttp3.OkHttpClient;
 @Singleton
 @Component(modules = {AppModule.class, UiModule.class, NetworkModule.class, LicenceModule.class,
     DataModule.class, CoroutineModule.class, ViewModelModule.class, FeatureModule.class,
-    CrashHandlerModule.class, SyncModule.class})
+    CrashHandlerModule.class, SyncModule.class, ConfigurationModule.class})
 public interface AppComponent {
   String USER_COUNTRY = "userCountry";
   String DATABASE_NAME = "databaseName";
@@ -180,7 +181,7 @@ public interface AppComponent {
 
   void inject(BaseMyExpenses myExpenses);
 
-  void inject(DebtOverview debtOverview);
+  void inject(PreferenceActivity preferenceActivity);
 
   void inject(ProtectedFragmentActivity protectedFragmentActivity);
 

@@ -37,6 +37,9 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.service.AutoBackupWorker
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.PermissionHelper
+import org.totschnig.myexpenses.util.config.Configurator
+import org.totschnig.myexpenses.util.config.Configurator.Configuration.USE_SET_DECOR_PADDING_WORKAROUND
+import org.totschnig.myexpenses.util.config.get
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.getLocale
 import org.totschnig.myexpenses.util.ui.setNightMode
@@ -46,9 +49,14 @@ import org.totschnig.myexpenses.widget.AccountWidget
 import org.totschnig.myexpenses.widget.TemplateWidget
 import org.totschnig.myexpenses.widget.WIDGET_CONTEXT_CHANGED
 import org.totschnig.myexpenses.widget.updateWidgets
+import timber.log.Timber
 import java.io.Serializable
+import javax.inject.Inject
 
 class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
+
+    @Inject
+    lateinit var configurator: Configurator
 
     @State
     var resultCode: Int = RESULT_OK
@@ -90,6 +98,10 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (configurator[USE_SET_DECOR_PADDING_WORKAROUND, false]) {
+            Timber.i("Using DECOR_PADDING_WORKAROUND")
+            window.decorView
+        }
         injector.inject(licenceValidationViewModel)
         super.onCreate(savedInstanceState)
         binding = SettingsBinding.inflate(layoutInflater)
@@ -106,6 +118,10 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
                 .commit()
         }
         observeLicenceApiResult()
+    }
+
+    override fun injectDependencies() {
+        injector.inject(this)
     }
 
     override fun setTitle(title: CharSequence?) {
