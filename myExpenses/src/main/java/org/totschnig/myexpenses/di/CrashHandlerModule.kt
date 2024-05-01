@@ -12,6 +12,6 @@ open class CrashHandlerModule {
     @Provides
     @Singleton
     open fun providesCrashHandler(prefHandler: PrefHandler): CrashHandler {
-        return AcraCrashHandler()
+        return AcraCrashHandler(prefHandler)
     }
 }
