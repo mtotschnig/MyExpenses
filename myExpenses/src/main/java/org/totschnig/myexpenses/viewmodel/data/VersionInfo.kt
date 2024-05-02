@@ -154,7 +154,7 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
             )
 
             "383" -> arrayOf(
-                "${t(R.string.menu_budget)}: 4.0"
+                "${t(R.string.menu_budget)} 4.0"
             )
 
             else -> {

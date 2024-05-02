@@ -20,6 +20,12 @@
         <attr name="withCurrencySelection" format="boolean" />
         <attr name="withExchangeRate" format="boolean" />
         <attr name="alternateLayout" format="boolean" />
+        <!-- When this value changes, the downstream dependency's value is updated (value * exchange rate).
+            When the downStreamDependency's value changes, the exchange rate is updated. -->
+        <attr name="downStreamDependency" format="reference" />
+        <!-- When the upStreamDependency's value changes, this value is updated (upStreamDependency * exchange rate).
+            When this value changes, the exchange rate is updated. -->
+        <attr name="upStreamDependency" format="reference" />
     </declare-styleable>
     <declare-styleable name="EditNumberPreference">
         <attr name="min" format="integer" />

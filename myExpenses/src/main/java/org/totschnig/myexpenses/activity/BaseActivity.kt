@@ -151,7 +151,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     private var _focusAfterRestoreInstanceState: Pair<Int, Int>? = null
 
-    var scheduledRestart = false
+    private var scheduledRestart = false
     private var confirmCredentialResult: Boolean? = null
 
     lateinit var toolbar: Toolbar

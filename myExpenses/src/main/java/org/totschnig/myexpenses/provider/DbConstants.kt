@@ -150,7 +150,6 @@ val Uri.accountSelector: String
                 }
                     ?: (" IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS=0 " +
                             (getQueryParameter(KEY_CURRENCY)?.let {
-                                require(it.matches("[A-Z]{3}".toRegex()))
                                 "AND $KEY_CURRENCY = '$it'"
                             } ?: "") +
                             ")"

@@ -114,13 +114,6 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host, ExchangeRateEdit.Host {
         binding.Amount.setTypeChangedListener {
             setTitle(it)
         }
-        binding.Amount.addTextChangedListener(object : MyTextWatcher() {
-            override fun afterTextChanged(s: Editable) {
-                binding.EquivalentAmount.setCompoundResultInput(
-                    binding.Amount.getUntypedValue(false).getOrNull()
-                )
-            }
-        })
         binding.EquivalentAmount.setFractionDigits(homeCurrency.fractionDigits)
     }
 

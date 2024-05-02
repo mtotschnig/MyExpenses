@@ -76,10 +76,6 @@ class DebtOverview : DebtActivity() {
         }
     }
 
-    override fun injectDependencies() {
-        injector.inject(this)
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.debt_overview, menu)

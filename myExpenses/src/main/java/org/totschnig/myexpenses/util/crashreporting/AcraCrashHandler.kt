@@ -9,9 +9,10 @@ import org.acra.ktx.initAcra
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.Utils
 
-class AcraCrashHandler : CrashHandler() {
+class AcraCrashHandler(prefHandler: PrefHandler) : BaseCrashHandler(prefHandler) {
     override fun onAttachBaseContext(application: MyApplication) {
         application.initAcra {
             buildConfigClass = BuildConfig::class.java
