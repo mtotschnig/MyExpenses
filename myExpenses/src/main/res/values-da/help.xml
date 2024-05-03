@@ -12,7 +12,7 @@
     <string name="menu_search_help_text">Denne post åbner en undermenu, der lader dig definere søgekriterier baseret på kategori, beløb, kommentar, status, betaler/modtager og betalingsmetode. Når et søgefilter er aktivt, kan du blot klikke på dets post i undermenuen for at deaktivere det.</string>
     <string name="cab_split_help_text">Du kan senere redigere transaktionen for at oprette yderligere dele efter behov.</string>
     <string name="menu_scan_mode_help_text">Aktivér scantilstand for hurtigt at scanne kvitteringer.</string>
-    <string name="help_contextual_actions_help">Menuen for kontekstuelle handlinger vises ved langt tryk på en listeindgang.</string>
+    <string name="help_contextual_actions_help">Menuen til kontekstuelle handlinger vises ved et langt tryk på en listepost.</string>
     <string name="help_MyExpenses_info">Denne skærm viser alle transaktioner for den nuværende konto. Brug den flydende handlingsknap til at åbne formularen for at oprette en ny transaktion.</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Kopiér den aktuelle saldo til udklipsholderen.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Beregn forskellen mellem den aktuelle saldo og en ny værdi.</string>
@@ -121,4 +121,13 @@
     <string name="form_goal_or_limit_help_text">Dette felt lader dig angive enten et positivt opsparingsmål eller en negativ kreditgrænse. I begge tilfælde visualiserer en fremskridtsindikator på kontolisten afstanden mellem den aktuelle saldo og målet eller grænsen.</string>
     <string name="form_description_help_text">Beskrivelsen har kun et informativt formål.</string>
     <string name="menu_create_template_from_transaction_help_text">Hvis dette er markeret, gemmes transaktionen også som skabelon. Du kan definere dens titel og eventuelt indstille en plan for automatisk gentagelse.</string>
+    <string name="form_AccountEdit_amount_switch_help_text">Brug knappen til at starte med en negativ startsaldo.</string>
+    <string name="form_currency_help_text">Vælg en valuta fra den medfølgende liste over alle aktuelle valutaer.</string>
+    <string name="form_AccountEdit_type_help_text">Du kan definere kontotypen som en af følgende: Kontant, Bank, Aktiv, Gæld, Kreditkort. Typen bestemmer de tilgængelige betalingsmetoder, som du kan konfigurere under Indstillinger -&gt; Administrér -&gt; Betalingsmetoder.</string>
+    <string name="form_synchronization_help_text_select">Vælg en backend til cloud-synkronisering.</string>
+    <string name="menu_exclude_from_totals_help_text">Hvis du markerer denne mulighed, inkluderes denne konto ikke i det samlede beløb pr. valuta.</string>
+    <string name="help_MethodEdit_title">Formular til betalingsmetoder</string>
+    <string name="form_color_help_text">På transaktionslisten for en konto bruges dens farve som primær brugergrænsefladefarve.</string>
+    <string name="form_synchronization_help_text_add">Backends kan tilføjes fra skærmen Indstillinger.</string>
+    <string name="form_AccountEdit_active_tags_help_text">Du kan knytte et eller flere aktive etiketter til hver konto. Når du opretter en ny transaktion, mærkes den automatisk med disse, baseret på den valgte konto.</string>
 </resources>
