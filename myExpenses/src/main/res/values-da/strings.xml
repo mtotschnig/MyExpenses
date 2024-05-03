@@ -932,4 +932,5 @@
     <string name="pref_csv_export_category_separator_summary">Separator mellem niveauer i kategorihierarkiet</string>
     <string name="orphaned_transaction_relink">Transaktionen kan linkes igen med begivenhedsforekomsten på %s.</string>
     <string name="orphaned_transaction_info">En transaktion er knyttet til planen for denne dato, men ingen begivenhedsforekomst eksisterer på denne dato.</string>
+    <string name="not_enough_data">Ikke nok data</string>
 </resources>
