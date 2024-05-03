@@ -942,4 +942,5 @@
     <string name="remap_date">Za sve odabrane transakcije će se datum postaviti na %s.</string>
     <string name="menu_transform_to_transfer">Konvertiraj u prijenos</string>
     <string name="roadmap_intro">Glasanje za plan razvoja aplikacije za 2024. je sada otvoreno! Glasaj za funkcije i poboljšanja koja su za tebe najvažnija.</string>
+    <string name="not_enough_data">Nema dovoljno podataka</string>
 </resources>
