@@ -1462,10 +1462,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                         when (it.amountCandidates.size) {
                             0 -> Hint.plain(getString(R.string.scan_result_no_amount))
                             1 -> Hint.plain(
-                                "%s: %s".format(
-                                    getString(R.string.amount),
-                                    it.amountCandidates[0]
-                                )
+                                "${getString(R.string.amount)}: ${it.amountCandidates[0]}"
                             )
 
                             else -> Spinner.plain(DatabaseConstants.KEY_AMOUNT)
@@ -1476,10 +1473,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                         when (it.dateCandidates.size) {
                             0 -> Hint.plain(getString(R.string.scan_result_no_date))
                             1 -> Hint.plain(
-                                "%s: %s".format(
-                                    getString(R.string.date),
-                                    displayDateCandidate(it.dateCandidates[0])
-                                )
+                                "${getString(R.string.date)}: ${it.dateCandidates[0]}"
                             )
 
                             else -> Spinner.plain(DatabaseConstants.KEY_DATE)
@@ -1493,10 +1487,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                         when (it.payeeCandidates.size) {
                             0 -> Hint.plain(getString(R.string.scan_result_no_payee))
                             1 -> Hint.plain(
-                                "%s: %s".format(
-                                    getString(R.string.payee),
-                                    it.payeeCandidates[0].name
-                                )
+                                "${getString(R.string.payee)}: ${it.payeeCandidates[0]}"
                             )
 
                             else -> Spinner.plain(DatabaseConstants.KEY_PAYEE_NAME)
