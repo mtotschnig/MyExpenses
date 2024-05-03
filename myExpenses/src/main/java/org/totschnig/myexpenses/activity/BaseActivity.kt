@@ -1418,8 +1418,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     open fun checkGdprConsent(forceShow: Boolean) {
-        if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
-            adHandlerFactory.gdprConsent(this@BaseActivity, forceShow)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                adHandlerFactory.gdprConsent(this@BaseActivity, forceShow)
+            }
         }
     }
 
