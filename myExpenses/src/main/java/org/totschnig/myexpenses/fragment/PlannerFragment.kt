@@ -42,12 +42,16 @@ import javax.inject.Inject
 
 fun configureMenuInternalPlanInstances(menu: Menu, state: PlanInstanceState) {
     //state open
-    menu.findItem(R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND).isVisible = state == PlanInstanceState.OPEN
-    menu.findItem(R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND).isVisible = state == PlanInstanceState.OPEN
+    menu.findItem(R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND).isVisible =
+        state == PlanInstanceState.OPEN
+    menu.findItem(R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND).isVisible =
+        state == PlanInstanceState.OPEN
     //state open or applied
-    menu.findItem(R.id.CANCEL_PLAN_INSTANCE_COMMAND).isVisible = state == PlanInstanceState.OPEN || state == PlanInstanceState.APPLIED
+    menu.findItem(R.id.CANCEL_PLAN_INSTANCE_COMMAND).isVisible =
+        state == PlanInstanceState.OPEN || state == PlanInstanceState.APPLIED
     //state cancelled or applied
-    menu.findItem(R.id.RESET_PLAN_INSTANCE_COMMAND).isVisible = state == PlanInstanceState.APPLIED || state == PlanInstanceState.CANCELLED
+    menu.findItem(R.id.RESET_PLAN_INSTANCE_COMMAND).isVisible =
+        state == PlanInstanceState.APPLIED || state == PlanInstanceState.CANCELLED
     //state applied
     menu.findItem(R.id.EDIT_PLAN_INSTANCE_COMMAND).isVisible = state == PlanInstanceState.APPLIED
 }
@@ -283,6 +287,7 @@ class PlannerFragment : DialogViewBinding<PlannerFragmentBinding>() {
                                 viewModel.applyBulk(listOf(planInstance))
                                 return@configureOnClickPopup true
                             }
+
                             R.id.EDIT_PLAN_INSTANCE_COMMAND ->
                                 instanceUriToUpdate =
                                     TransactionProvider.PLAN_INSTANCE_SINGLE_URI(
@@ -322,10 +327,8 @@ class PlannerFragment : DialogViewBinding<PlannerFragmentBinding>() {
         (dialog as? AlertDialog)?.getButton(AlertDialog.BUTTON_NEUTRAL)?.let {
             val enabled = selectedInstances.size > 0
             it.isEnabled = enabled
-            it.text = if (enabled) "%s (%d)".format(
-                getString(R.string.menu_create_instance_save),
-                selectedInstances.size
-            ) else ""
+            it.text =
+                if (enabled) "${getString(R.string.menu_create_instance_save)} (${selectedInstances.size})" else ""
         }
     }
 
