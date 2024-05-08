@@ -30,7 +30,7 @@
     <string name="account_type_liability">Gældskonto</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
     <string name="account_type_liability_plural">Gældskonti</string>
-    <string name="already_defined">%1$s allerede angivet</string>
+    <string name="already_defined">%1$s allerede defineret</string>
     <string name="amount">Beløb</string>
     <string name="app_name">Mine Udgifter</string>
     <string name="backup_success">Database og indstillinger blev gemt på \"%1$s\".</string>
@@ -88,7 +88,7 @@
     <string name="grouping_day">Dag</string>
     <string name="grouping_last_week">Sidste uge</string>
     <string name="grouping_month">Måned</string>
-    <string name="grouping_none">Ikke grupperet</string>
+    <string name="grouping_none">Ugrupperet</string>
     <string name="grouping_this_week">Denne uge</string>
     <string name="grouping_week">Uge</string>
     <string name="grouping_year">År</string>
@@ -96,7 +96,7 @@
     <string name="help_heading_credits">Kredit</string>
     <string name="help_heading_whats_new">Hvad er nyt</string>
     <string name="import_select_transactions">Transaktioner</string>
-    <string name="income">Indkomst</string>
+    <string name="income">Indtægt</string>
     <string name="label">Mærkat</string>
     <string name="licence_validation_failure">Kan ikke validere licensnøgle.</string>
     <string name="licence_validation_success">Licensnøgle blev valideret:</string>
@@ -184,7 +184,7 @@
     <string name="parse_error_file_not_found">Kunne ikke finde filen %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">Ikke-understøttet Grisbi-filversion: %1$s</string>
     <string name="parse_error_other_exception">En fejl opstod: %1$s</string>
-    <string name="parse_error_parse_exception">Kunne ikke analysere fil</string>
+    <string name="parse_error_parse_exception">Kunne ikke læse filen</string>
     <string name="password_disabled_reenable">Adgangskodebeskyttelse er deaktiveret. Du kan genaktivere den i indstillingerne.</string>
     <string name="password_lost">Glemt adgangskode</string>
     <string name="password_not_valid">Ugyldig adgangskode. Prøv igen!</string>
@@ -194,7 +194,7 @@
     <string name="payer">Betaler</string>
     <string name="payer_or_payee">Modtager/Betaler</string>
     <!-- Plan for future and recurring transactions -->
-    <string name="plan">Planlæg</string>
+    <string name="plan">Plan</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
     <string name="plan_automatic">automatisk</string>
     <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
@@ -208,10 +208,10 @@
     <!-- payment methods -->
     <string name="pm_cheque">Check</string>
     <string name="pm_creditcard">Kreditkort</string>
-    <string name="pm_deposit">Depositum</string>
+    <string name="pm_deposit">Indbetaling</string>
     <string name="pm_directdebit">Direkte debitering</string>
     <string name="pm_type_credit">Kredit</string>
-    <string name="pm_type_debit">Debit</string>
+    <string name="pm_type_debit">Debet</string>
     <string name="pm_type_neutral">Neutral</string>
     <string name="pref_app_dir_title">Mappe til sikkerhedskopier og eksport</string>
     <string name="pref_backup_summary">Opret en sikkerhedskopi af databasen og indstillingerne.</string>
@@ -249,7 +249,7 @@
     <string name="pref_protection_delay_seconds_summary">Antal sekunder uden aktivitet, før appen låses med adgangskode.</string>
     <string name="pref_protection_delay_seconds_title">Forsinkelse indtil beskyttelse</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Dataindtastning fra widgets og genveje</string>
-    <string name="pref_protection_enable_data_entry_from_widget_summary_on">Adgang uden adgangskode.</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_on">Tilladt uden adgangskode.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Adgangskode er påkrævet.</string>
     <string name="pref_qif_export_file_encoding_title">Tegnsæt</string>
     <string name="pref_restore_summary">Vælg en sikkerhedskopi til gendannelse af database og indstillinger.</string>
@@ -267,21 +267,21 @@
     <string name="pref_ui_language_default">Systemstandard</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Sprog</string>
-    <string name="pref_ui_theme_dark">Mørkt</string>
-    <string name="pref_ui_theme_light">Lyst</string>
+    <string name="pref_ui_theme_dark">Mørk</string>
+    <string name="pref_ui_theme_light">Lys</string>
     <string name="pref_ui_theme_title">Tema</string>
     <string name="pref_visit_website_summary">Ændringer og FAQ</string>
     <string name="pref_visit_website_title">Besøg Hjemmeside</string>
     <string name="progress_dialog_deleting">Sletter objekter</string>
     <string name="progress_dialog_printing">Genererer %s</string>
-    <string name="qif_parse_result">Analyserede: %1$s konti; %2$s kategorier og %3$s parter</string>
+    <string name="qif_parse_result">Læste: %1$s konti; %2$s kategorier og %3$s parter</string>
     <string name="qif_parse_failure_found_multiple_accounts">Flere konti blev fundet i %s-filen.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Kan ikke flette dem ind i eksisterende konto.</string>
     <string name="reference_number">Referencenummer</string>
     <string name="restore_db_failure">Gendannelse af database mislykkedes.</string>
     <string name="restore_db_success">Database blev gendannet fra sikkerhedskopi.</string>
     <string name="restore_preferences_failure">Gendannelse af indstillinger mislykkedes</string>
-    <string name="restore_backup_file_not_found">Der findes ingen fil %1$s i arkivet \"%2$s\"</string>
+    <string name="restore_backup_file_not_found">Ingen fil %1$s fundet i arkivet \"%2$s\"</string>
     <string name="restore_preferences_success">Indstillinger blev gendannet fra sikkerhedskopi.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d planer blev gendannet fra sikkerhedskopi</string>
     <string name="save_transaction_and_new_success">Gemt</string>
@@ -298,20 +298,20 @@
     <string name="split_parts_heading">Opdelte dele</string>
     <string name="split_transaction">Opdel transaktion</string>
     <string name="status">Status</string>
-    <string name="status_cleared">afregnet</string>
+    <string name="status_cleared">afklaret</string>
     <string name="status_reconciled">afstemt</string>
     <string name="status_unreconciled">ikke afstemt</string>
     <string name="status_void">ugyldig</string>
     <string name="subcategory">Underkategori</string>
     <string name="sum_expenses">Udgifter</string>
-    <string name="sum_income">Indkomst</string>
+    <string name="sum_income">Indtægt</string>
     <string name="sum_transfer">Overførsler</string>
     <!-- platform is replaced with Android or Blackberry -->
     <string name="tell_a_friend_message">Tjek {app_name}, Privatøkonomistyring til {platform}, fra {website}</string>
     <string name="thank_you">Tak for din støtte!</string>
     <string name="time">Tid</string>
     <string name="title">Titel</string>
-    <string name="total_cleared">Afregnet i alt</string>
+    <string name="total_cleared">Afklaret i alt</string>
     <string name="total_reconciled">Afstemt i alt</string>
     <string name="transaction">Transaktion</string>
     <string name="transfer">Overførsel</string>
@@ -320,7 +320,7 @@
     <!-- Type refers to the type of an account, eg. Cash account, bank account -->
     <string name="type">Type</string>
     <string name="unsplit_amount">Uopdelt beløb</string>
-    <string name="unsplit_amount_greater_than_zero">Der er stadig nogle beløb tilbage, som ikke er delt op.</string>
+    <string name="unsplit_amount_greater_than_zero">Der er stadig nogle beløb tilbage, som ikke er opdelt.</string>
     <string name="warning_backup">Database og indstillinger gemmes på \"%1$s\".</string>
     <string name="continue_confirmation">Vil du fortsætte?</string>
     <string name="warning_delete_account">Kontoen \"%1$s\" slettes med alle dens transaktioner.</string>
@@ -337,7 +337,7 @@
         <item quantity="other">%1$d valgte transaktioner slettes.</item>
     </plurals>
     <string name="warning_delete_reconciled">Hvis du sletter afstemte transaktioner, vil dine registreringer afvige fra kontoudtoget.</string>
-    <string name="warning_balance_account">Sammenlign venligst det afregnede beløb med slutsaldoen på dit kontoudtog. Hvis du fortsætter, markeres de afregnede transaktioner som afstemte.</string>
+    <string name="warning_balance_account">Sammenlign venligst det afklarede beløb med slutsaldoen på dit kontoudtog. Hvis du fortsætter, markeres de afklarede transaktioner som afstemte.</string>
     <string name="warning_password_protected">App er adgangskodebeskyttet.</string>
     <string name="warning_widget_disabled">Du skal aktivere denne widget i appindstillingerne.</string>
     <string name="warning_instantiate_template_from_widget_password_protected">Hurtig oprettelse af skabeloner fra denne widget virker kun, hvis du tillader dataindtastning fra widgets uden adgangskode i appindstillingerne.</string>
@@ -346,17 +346,17 @@
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Hvis du fortsætter, slettes alle transaktioner i alle konti %1$s fra databasen og kan ikke gendannes.</string>
     <string name="warning_reset_account_matched">Hvis du fortsætter, slettes alle transaktioner fra databasen, der svarer til det aktuelle filter, og kan ikke gendannes.</string>
-    <string name="warning_restore">Databasen og indstillinger gendannes fra filen \"%1$s\". De aktuelle data slettes.</string>
+    <string name="warning_restore">Databasen og indstillingerne gendannes fra filen \"%1$s\". De aktuelle data slettes.</string>
     <string name="warning_splitpartcategory_context">Overførsler, der er en del af en opdeling, kan kun redigeres i forbindelse med opdelingen.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Angiv venligst et tal mellem %1$d og %2$d</string>
-    <string name="import_categories_success">%1$d kategorier importeret.</string>
-    <string name="import_parties_success">%1$d parter importeret.</string>
-    <string name="import_accounts_success">%1$d konti importeret.</string>
+    <string name="import_categories_success">%1$d kategorier blev importeret.</string>
+    <string name="import_parties_success">%1$d parter blev importeret.</string>
+    <string name="import_accounts_success">%1$d konti blev importeret.</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transaktioner blev importeret til konto %2$s</string>
     <string name="import_accounts_none">Ingen konti importeret</string>
     <string name="import_categories_none">Ingen kategorier importeret</string>
     <string name="import_parties_none">Ingen parter importeret</string>
-    <string name="import_transactions_none">Ingen transaktioner importerede til konto %1$s</string>
+    <string name="import_transactions_none">Ingen transaktioner importeret til konto %1$s</string>
     <string name="import_source_select_error">Angiv venligst en fil af typen %1$s</string>
     <string name="menu_categories_setup_default">Opsæt standardkategorier</string>
     <string name="menu_create_folder">Ny mappe</string>
@@ -385,9 +385,9 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Køb mislykkedes eller blev annulleret.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d konti med valuta %2$s blev opdateret.</string>
     <string name="import_source_file">Fil</string>
-    <string name="restore_calendar_handling">Kalenderdatahåndtering</string>
+    <string name="restore_calendar_handling">Kalender datahåndtering</string>
     <string name="restore_calendar_handling_configured">Gendan planer til den aktuelt konfigureret kalender</string>
-    <string name="restore_calendar_handling_backup">Gendan planer til kalenderen i sikkerhedskopien, hvis den er tilgængelig</string>
+    <string name="restore_calendar_handling_backup">Gendan planer til kalenderen i sikkerhedskopien, hvis tilgængelig</string>
     <string name="restore_calendar_handling_ignore">Gendan ikke planer</string>
     <string name="restore_not_possible_target_calendar_missing">Kalenderen %s, som er angivet i sikkerhedskopiarkivet, findes ikke lokalt. Gendannelsen blev afbrudt.</string>
     <string name="restore_not_possible_local_calendar_missing">Den aktuelle planlægningskalender er ikke tilgængelig.</string>
@@ -395,12 +395,12 @@
     <string name="pref_manage_stale_images_title">Gamle billeder</string>
     <string name="pref_manage_stale_images_summary">Administrér restbilleder fra slettede transaktioner</string>
     <string name="image_deleted">Billede blev slettet</string>
-    <string name="dialog_export_applied_to_filter">Kun transaktioner, der passer med det aktuelle filter, tages i betragtning.</string>
+    <string name="dialog_export_applied_to_filter">Kun transaktioner, der passer med det aktuelle filter, medtages.</string>
     <string name="export_handle_deleted_create_helper">Opret hjælpetransaktion</string>
     <string name="export_handle_deleted_update_balance">Opdatér startsaldo</string>
     <string name="file_name">Filnavn</string>
     <string name="folder_name">Mappenavn</string>
-    <string name="mark_void_instead_of_delete">Slet ikke transaktion; markér den i stedet som ugyldig.</string>
+    <string name="mark_void_instead_of_delete">Slet ikke transaktion; markér som ugyldig i stedet.</string>
     <string name="menu_undelete_transaction">Gendan</string>
     <string name="slash_forbidden_in_filename">/ tegnet er ikke tilladt i filnavne</string>
     <string name="io_error_unable_to_create_file">Kunne ikke oprette filen %1$s i mappen %2$s</string>
@@ -478,10 +478,10 @@
     <string name="all_contrib_key_features">Alle funktioner i Bidragsnøgle</string>
     <string name="contrib_feature_category_tree_label">Kategoritræ</string>
     <string name="number_format_illegal">Ugyldigt talformat</string>
-    <string name="move_category_failure">Én kategori blev ikke flyttet, fordi den samme mærkat allerede eksisterer ved målet.</string>
+    <string name="move_category_failure">Én kategori blev ikke flyttet, fordi det samme mærkat allerede findes ved målet.</string>
     <string name="warning_change_fraction_digits_3">Hvis beløb opdateres, mister du oplysningerne om deres decimaldel.</string>
-    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Hvis beløb ikke opdateres, vil de vises som ganget med %d efter ændringen.</string>
-    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Hvis beløb ikke opdateres, vil de vises som divideret med %d efter ændringen.</string>
+    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Hvis beløb ikke opdateres, vises de som ganget med %d efter ændringen.</string>
+    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Hvis beløb ikke opdateres, vises de som divideret med %d efter ændringen.</string>
     <string name="contrib_feature_history_label">Historikdiagram</string>
     <string name="licence_status_free">Gratis</string>
     <string name="dialog_command_sync_link_remote">Hent fra ekstern</string>
@@ -495,7 +495,7 @@
     <string name="exchange_rate">Valutakurs</string>
     <string name="menu_sync_link">Start synkronisering</string>
     <string name="warning_change_fraction_digits_1">Beløb i databasen skal opdateres for at matche det nye antal decimaler.</string>
-    <string name="app_dir_not_compatible_with_nougat">Den aktuelt konfigurerede URI til sikkerhedskopiering og eksport (%1$s) understøttes ikke i Android Nougat. Vælg venligst en mappe igen.</string>
+    <string name="app_dir_not_compatible_with_nougat">Den aktuelt konfigurerede URI til sikkerhedskopier og eksport (%1$s) understøttes ikke i Android Nougat. Vælg venligst en mappe igen.</string>
     <string name="pref_custom_decimal_format_title">Talformat</string>
     <string name="pref_auto_backup_title">Auto-sikkerhedskopiér</string>
     <string name="pref_auto_backup_summary">Sikkerhedskopiér database dagligt på det angivne tidspunkt (kun hvis dato er ændret).</string>
@@ -538,7 +538,7 @@
     <string name="validate_error_webdav_invalid_certificate">Certifikatet kunne ikke stoles på. Det virker ugyldigt.</string>
     <string name="validate_error_not_empty">Må ikke være tomt</string>
     <string name="hint_url">URL</string>
-    <string name="app_dir_not_accessible">Den aktuelt valgte mappe til sikkerhedskopiering og eksport (%1$s) er ikke tilgængelig. Vælg venligst en anden.</string>
+    <string name="app_dir_not_accessible">Den aktuelt valgte mappe til sikkerhedskopier og eksport (%1$s) er ikke tilgængelig. Vælg venligst en anden.</string>
     <string name="hint_auto_fill">Skal data udfyldes automatisk fra sidste transaktion for samme modtager/betaler? Du kan altid ændre denne adfærd i indstillingerne.</string>
     <string name="account_deleted">Konto blev slettet</string>
     <string name="calendar_permission_required"><i>{app_name}</i> skal have tilladelse til at få adgang til din kalender for at oprette planer for fremtidige og tilbagevendende transaktioner.</string>
