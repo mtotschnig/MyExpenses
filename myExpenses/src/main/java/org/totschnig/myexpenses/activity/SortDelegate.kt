@@ -16,15 +16,18 @@ class SortDelegate(
     val collate: String
 ) {
     fun onPrepareOptionsMenu(menu: Menu) {
-        menu.findItem(R.id.SORT_COMMAND)?.subMenu?.findItem(currentSortOrder.commandId)?.isChecked = true
+        menu.findItem(R.id.SORT_COMMAND)?.subMenu?.findItem(currentSortOrder.commandId)?.isChecked =
+            true
     }
 
-    fun onOptionsItemSelected(item: MenuItem) = Sort.fromCommandId(item.itemId)?.let {
-        if (!item.isChecked) {
-            prefHandler.putString(prefKey, it.name)
-        }
-        true
-    } ?: false
+    fun onOptionsItemSelected(item: MenuItem) = Sort.fromCommandId(item.itemId)
+        ?.takeIf { options.contains(it) }
+        ?.let {
+            if (!item.isChecked) {
+                prefHandler.putString(prefKey, it.name)
+            }
+            true
+        } ?: false
 
     val currentSortOrder: Sort
         get() = enumValueOrNull<Sort>(
