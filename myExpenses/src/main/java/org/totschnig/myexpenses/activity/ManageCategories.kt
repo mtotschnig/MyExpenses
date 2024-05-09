@@ -189,11 +189,11 @@ class ManageCategories : ProtectedFragmentActivity(),
             AppTheme {
                 choiceMode = when (action) {
                     Action.SELECT_MAPPING -> {
-                        val selectionState: MutableState<Category?> = remember {
+                        val selectionStateForMapping: MutableState<Category?> = remember {
                             mutableStateOf(null)
                         }
-                        LaunchedEffect(selectionState.value) {
-                            selectionState.value?.let {
+                        LaunchedEffect(selectionStateForMapping.value) {
+                            selectionStateForMapping.value?.let {
                                 if (it.level > 2) {
                                     contribFeatureRequested(
                                         ContribFeature.CATEGORY_TREE,
@@ -204,7 +204,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                                 }
                             }
                         }
-                        ChoiceMode.SingleChoiceMode(selectionState, parentSelectionOnTap.value)
+                        ChoiceMode.SingleChoiceMode(selectionStateForMapping, parentSelectionOnTap.value)
                     }
 
                     Action.MANAGE, Action.SELECT_FILTER -> {
@@ -556,6 +556,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                         when (it) {
                             is OperationComplete -> {
                                 finishActionMode()
+                                //noinspection BuildListAdds
                                 val messages = buildList {
                                     mapToMessage(it.deleted, R.plurals.delete_success)
                                     mapToMessage(
