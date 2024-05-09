@@ -6,6 +6,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.testutils.MockLicenceModule
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
+import org.totschnig.myexpenses.util.config.Configurator
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import java.time.Clock
@@ -24,7 +25,8 @@ class TestMyApplication : MyApplication() {
                     application: MyApplication,
                     prefHandler: PrefHandler,
                     userCountry: String,
-                    licenceHandler: LicenceHandler
+                    licenceHandler: LicenceHandler,
+                    configurator: Configurator
                 ) = object : AdHandlerFactory {}
             })
             .crashHandlerModule(object: CrashHandlerModule() {
