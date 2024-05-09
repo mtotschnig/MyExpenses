@@ -81,6 +81,7 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     AUTO_BACKUP_TIME(R.string.pref_auto_backup_time_key),
     AUTO_BACKUP_DIRTY("auto_backup_dirty"),
     AUTO_BACKUP_CLOUD(R.string.pref_auto_backup_cloud_key),
+    AUTO_BACKUP_CLOUD_SETUP(R.string.pref_auto_backup_cloud_setup_key),
     GROUP_WEEK_STARTS(R.string.pref_group_week_starts_key),
     GROUP_MONTH_STARTS(R.string.pref_group_month_starts_key),
     NEW_PLAN_ENABLED("new_plan_enabled"),

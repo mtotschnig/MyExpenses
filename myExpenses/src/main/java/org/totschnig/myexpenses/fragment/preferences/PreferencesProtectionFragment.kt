@@ -51,7 +51,7 @@ class PreferencesProtectionFragment : BasePreferenceFragment() {
         requirePreference<PreferenceCategory>(PrefKey.CATEGORY_PRIVACY).isVisible =
             DistributionHelper.distribution.supportsTrackingAndCrashReporting
 
-        with(requirePreference<PreferenceCategory>(PrefKey.CATEGORY_ADS)) {
+/*        with(requirePreference<PreferenceCategory>(PrefKey.CATEGORY_ADS)) {
             if (adHandlerFactory.isAdDisabled)  {
                 isVisible = false
             } else {
@@ -60,7 +60,7 @@ class PreferencesProtectionFragment : BasePreferenceFragment() {
                         adHandlerFactory.isPrivacyOptionsRequired(requireActivity())
                 }
             }
-        }
+        }*/
 
         requirePreference<Preference>(PrefKey.ENCRYPT_DATABASE_INFO).isVisible =
             prefHandler.encryptDatabase

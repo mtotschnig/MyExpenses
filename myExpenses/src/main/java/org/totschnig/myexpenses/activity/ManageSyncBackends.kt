@@ -33,7 +33,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.extras?.let {
-                    viewModel.reconfigure(it).observe(this) { success ->
+                    syncViewModel.reconfigure(it).observe(this) { success ->
                         if (success) {
                             listFragment.reloadAccountList()
                         } else {
@@ -49,7 +49,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
             reconfigure.launch(
                 Intent(this, it.setupActivityClass).apply {
                     action = ACTION_RECONFIGURE
-                    putExtras(viewModel.getReconfigurationData(syncAccount))
+                    putExtras(syncViewModel.getReconfigurationData(syncAccount))
                 }
             )
         }
@@ -91,7 +91,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
             }
             R.id.SYNC_REMOVE_BACKEND_COMMAND -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    if (viewModel.removeBackend(args.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!)) {
+                    if (syncViewModel.removeBackend(args.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!)) {
                         listFragment.reloadAccountList()
                     }
                 } else {
@@ -100,7 +100,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
             }
             R.id.SYNC_LINK_COMMAND_LOCAL_DO -> {
                 val account = args.getSerializable(KEY_ACCOUNT) as Account
-                viewModel.syncLinkLocal(
+                syncViewModel.syncLinkLocal(
                     accountName = account.syncAccountName!!,
                     uuid = account.uuid!!
                 ).observe(this) { result ->
@@ -116,7 +116,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
                 if (account.uuid == intent.getStringExtra(DatabaseConstants.KEY_UUID)) {
                     incomingAccountDeleted = true
                 }
-                viewModel.syncLinkRemote(account).observe(this) { result ->
+                syncViewModel.syncLinkRemote(account).observe(this) { result ->
                     result.onFailure {
                         if (it is AccountSealedException) {
                             showSnackBar(R.string.object_sealed_debt)
@@ -224,7 +224,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
                 listFragment.getAccountForSync(
                     (item.menuInfo as ExpandableListContextMenuInfo).packedPosition
                 )?.let { account ->
-                    viewModel.save(account).observe(this) {
+                    syncViewModel.save(account).observe(this) {
                         it.onFailure {
                             showSnackBar(
                                 String.format(

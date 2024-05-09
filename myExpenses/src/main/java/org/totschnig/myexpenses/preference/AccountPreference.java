@@ -29,7 +29,8 @@ public class AccountPreference extends ListPreference {
 
   public void setData(Context context) {
     String[] accounts = GenericAccountService.getAccountNames(context);
-    setEntries(ArrayUtils.insert(0, accounts, context.getString(R.string.synchronization_none)));
+    setEntries(ArrayUtils.insert(0, accounts, context.getString(androidx.preference.R.string.not_set)));
     setEntryValues(ArrayUtils.insert(0, accounts, SYNCHRONIZATION_NONE));
+    notifyChanged();
   }
 }

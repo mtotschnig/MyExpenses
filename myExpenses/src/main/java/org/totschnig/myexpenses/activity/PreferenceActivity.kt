@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.fragment.TwoPanePreference.Companion.KEY_INITIAL
 import org.totschnig.myexpenses.fragment.preferences.BasePreferenceFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferenceDataFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferencesAdvancedFragment
+import org.totschnig.myexpenses.fragment.preferences.PreferencesBackupRestoreFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferencesBackupRestoreFragment.Companion.KEY_CHECKED_FILES
 import org.totschnig.myexpenses.fragment.preferences.PreferencesOcrFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferencesWebUiFragment
@@ -45,6 +46,7 @@ import org.totschnig.myexpenses.util.getLocale
 import org.totschnig.myexpenses.util.ui.setNightMode
 import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
+import org.totschnig.myexpenses.viewmodel.SyncViewModel
 import org.totschnig.myexpenses.widget.AccountWidget
 import org.totschnig.myexpenses.widget.TemplateWidget
 import org.totschnig.myexpenses.widget.WIDGET_CONTEXT_CHANGED
@@ -53,7 +55,7 @@ import timber.log.Timber
 import java.io.Serializable
 import javax.inject.Inject
 
-class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
+class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
 
     @Inject
     lateinit var configurator: Configurator
@@ -181,9 +183,10 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             R.id.DELETE_CALENDAR_COMMAND -> {
                 //noinspection MissingPermission
                 viewModel?.deleteLocalCalendar()?.observe(this) {
-                    when(it) {
+                    when (it) {
                         1 -> twoPanePreference.getDetailFragment<PreferencesAdvancedFragment>()
                             ?.configureDeleteCalendarPreference(false)
+
                         else -> {
                             val message = if (it == 0) "Deletion of local calendar failed" else
                                 "PANIC: DeleteLocalCalendar returned $it"
@@ -305,12 +308,14 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
     override fun onFeatureAvailable(feature: Feature) {
         super.onFeatureAvailable(feature)
         when (feature) {
-            Feature.OCR, Feature.MLKIT, Feature.TESSERACT -> {
-                twoPanePreference.getDetailFragment<PreferencesOcrFragment>()?.configureOcrEnginePrefs()
-            }
-            Feature.WEBUI -> {
-                twoPanePreference.getDetailFragment<PreferencesWebUiFragment>()?.bindToWebUiService()
-            }
+            Feature.OCR, Feature.MLKIT, Feature.TESSERACT ->
+                twoPanePreference.getDetailFragment<PreferencesOcrFragment>()
+                    ?.configureOcrEnginePrefs()
+
+            Feature.WEBUI ->
+                twoPanePreference.getDetailFragment<PreferencesWebUiFragment>()
+                    ?.bindToWebUiService()
+
             else -> {}
         }
     }
@@ -339,6 +344,12 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
         }
     }
 
+    override fun onReceiveSyncAccountData(data: SyncViewModel.SyncAccountData) {
+        prefHandler.putString(PrefKey.AUTO_BACKUP_CLOUD, data.accountName)
+        twoPanePreference.getDetailFragment<PreferencesBackupRestoreFragment>()
+            ?.loadSyncAccountData()
+    }
+
     override fun onResumeFragments() {
         super.onResumeFragments()
         initialPrefToShow?.let {
@@ -352,6 +363,7 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
             ContribFeature.CSV_IMPORT -> {
                 startActivity(Intent(this, CsvImportActivity::class.java))
             }
+
             else -> super.contribFeatureCalled(feature, tag)
         }
     }
@@ -413,6 +425,9 @@ class PreferenceActivity : ProtectedFragmentActivity(), ContribIFace {
         super.onWebUiActivated()
         resultCode = RESULT_INVALIDATE_OPTIONS_MENU
     }
+
+    override val createAccountTaskShouldQueryRemoteAccounts = false
+    override val offerEncryption = false
 
     companion object {
         fun getIntent(context: Context, initialScreen: String? = null) =

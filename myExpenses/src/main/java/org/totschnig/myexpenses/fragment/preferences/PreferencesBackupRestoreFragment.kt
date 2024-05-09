@@ -7,18 +7,25 @@ import androidx.preference.Preference
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity.Companion.RESULT_RESTORE_OK
 import org.totschnig.myexpenses.preference.AccountPreference
+import org.totschnig.myexpenses.preference.PopupMenuPreference
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.sync.BackendService
 
 @Keep
-class PreferencesBackupRestoreFragment: BasePreferenceIOBRFragment() {
+class PreferencesBackupRestoreFragment : BasePreferenceIOBRFragment() {
 
     override fun onResume() {
         super.onResume()
         loadSyncAccountData()
     }
 
-    private fun loadSyncAccountData() {
-        requirePreference<AccountPreference>(PrefKey.AUTO_BACKUP_CLOUD).setData(requireContext())
+    fun loadSyncAccountData() {
+        with(requirePreference<AccountPreference>(PrefKey.AUTO_BACKUP_CLOUD)) {
+            setData(requireContext())
+            val hasSyncBackends = entries.size >= 2
+            isVisible = hasSyncBackends
+            requirePreference<Preference>(PrefKey.AUTO_BACKUP_CLOUD_SETUP).isVisible = !hasSyncBackends
+        }
     }
 
     override val preferencesResId = R.xml.preferences_backup_restore
@@ -48,16 +55,35 @@ class PreferencesBackupRestoreFragment: BasePreferenceIOBRFragment() {
             restore.launch(preference.intent)
             true
         }
+
+        matches(preference, PrefKey.AUTO_BACKUP_CLOUD_SETUP) -> {
+            (preference as PopupMenuPreference).showPopupMenu({
+                BackendService.populateMenu(
+                    requireContext(),
+                    it
+                )
+            }) {
+                preferenceActivity.startSetup(it.itemId)
+                true
+            }
+            true
+        }
+
         else -> false
     }
 
-    private val restore = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == RESULT_RESTORE_OK) {
-            with(preferenceActivity) {
-                setResult(RESULT_RESTORE_OK)
-                finish()
+    private val restore =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_RESTORE_OK) {
+                with(preferenceActivity) {
+                    setResult(RESULT_RESTORE_OK)
+                    finish()
+                }
             }
         }
+
+    fun configureCloudBackupPreferences(prefValue: String?) {
+
     }
 
     companion object {

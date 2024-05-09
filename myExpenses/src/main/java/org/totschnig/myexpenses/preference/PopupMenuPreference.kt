@@ -16,13 +16,21 @@ class PopupMenuPreference(context: Context, attrs: AttributeSet) : Preference(co
         anchorView = holder.itemView
     }
 
-    fun showPopupMenu(listener: PopupMenu.OnMenuItemClickListener?, vararg items: String?) {
+    fun showPopupMenu(vararg items: String, listener: PopupMenu.OnMenuItemClickListener) {
         val popup = PopupMenu(context, anchorView)
         val popupMenu = popup.menu
         popup.setOnMenuItemClickListener(listener)
-        for (i in items.indices) {
-            popupMenu.add(Menu.NONE, i, Menu.NONE, items[i])
+        items.forEachIndexed { index, s ->
+            popupMenu.add(Menu.NONE, index, Menu.NONE, s)
         }
         popup.show()
+    }
+
+    fun showPopupMenu(populateMenu: (Menu) -> Unit, listener: PopupMenu.OnMenuItemClickListener) {
+        PopupMenu(context, anchorView).apply {
+            setOnMenuItemClickListener(listener)
+            populateMenu(menu)
+            show()
+        }
     }
 }

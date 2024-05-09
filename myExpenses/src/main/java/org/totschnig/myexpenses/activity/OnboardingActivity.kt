@@ -12,7 +12,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.OnboardingBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.RestoreFromCloudDialogFragment
-import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.fragment.OnBoardingPrivacyFragment
 import org.totschnig.myexpenses.fragment.OnboardingDataFragment
 import org.totschnig.myexpenses.fragment.OnboardingUiFragment
@@ -124,7 +123,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
     fun setupFromSyncAccounts(syncAccounts: List<AccountMetaData>) {
         doWithEncryptionCheck {
             showSnackBarIndefinite(R.string.progress_dialog_fetching_data_from_sync_backend)
-            viewModel.setupFromSyncAccounts(syncAccounts.map { it.uuid() }, accountName!!)
+            syncViewModel.setupFromSyncAccounts(syncAccounts.map { it.uuid() }, accountName!!)
                 .observe(this) { result ->
                     dismissSnackBar()
                     result.onSuccess {
