@@ -285,7 +285,7 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
 
     //Mlkit / Drive
-    //implementation "com.google.android.gms:play-services-base:18.1.0"
+    //implementation "com.google.android.gms:play-services-base:18.4.0"
     //implementation "com.google.mlkit:vision-interfaces:+"
     implementation("com.google.guava:guava:33.0.0-android")
 
