@@ -45,7 +45,9 @@ abstract class BasePreferenceIOBRFragment : BasePreferenceFragment() {
         matches(preference, PrefKey.APP_DIR) -> {
             val appDirInfo = viewModel.appDirInfo.value?.getOrNull()
             if (appDirInfo?.isDefault == false) {
-                (preference as PopupMenuPreference).showPopupMenu(getString(R.string.checkbox_is_default), getString(R.string.select)) {
+                (preference as PopupMenuPreference).showPopupMenu(
+                    getString(R.string.checkbox_is_default), getString(R.string.select)
+                ) {
                     when (it.itemId) {
                         0 -> {
                             prefHandler.putString(PrefKey.APP_DIR, null)

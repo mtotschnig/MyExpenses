@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.sync
 
 import android.content.Context
 import android.os.Build
-import android.view.Menu
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler

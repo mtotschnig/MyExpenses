@@ -9,7 +9,6 @@ import org.totschnig.myexpenses.activity.BaseActivity.Companion.RESULT_RESTORE_O
 import org.totschnig.myexpenses.preference.AccountPreference
 import org.totschnig.myexpenses.preference.PopupMenuPreference
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.sync.BackendService
 
 @Keep
 class PreferencesBackupRestoreFragment : BasePreferenceIOBRFragment() {
@@ -78,10 +77,6 @@ class PreferencesBackupRestoreFragment : BasePreferenceIOBRFragment() {
                 }
             }
         }
-
-    fun configureCloudBackupPreferences(prefValue: String?) {
-
-    }
 
     companion object {
         const val KEY_CHECKED_FILES = "checkedFiles"
