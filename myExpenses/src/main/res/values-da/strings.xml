@@ -407,15 +407,15 @@
     <string name="export_to_format">Eksportér til %s</string>
     <string name="pref_csv_import_delimiter">Adskiller</string>
     <string name="csv_import_preview">Forhåndsvisning</string>
-    <string name="menu_parse">Analysér</string>
+    <string name="menu_parse">Læs</string>
     <string name="csv_import_field_mapped_more_than_once">%s er knyttet til flere.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d registreringer blev kasseret.</string>
     <string name="csv_import_subcategory_requires_category">Hvis du tilknytter en underkategori, skal du også tilknytte kategorien.</string>
-    <string name="cvs_import_set_first_line_as_header">Skal den første linje bruges som overskriftslinje?</string>
+    <string name="cvs_import_set_first_line_as_header">Skal den første linje behandles som en overskriftslinje?</string>
     <string name="csv_import_delimiter_comma">Komma</string>
     <string name="csv_import_delimiter_semicolon">Semikolon</string>
     <string name="csv_import_delimiter_tab">Tabulator</string>
-    <string name="csv_import_no_mapping_found_for_amount">Knyt venligst en kolonne til enten beløb, indkomst eller udgift.</string>
+    <string name="csv_import_no_mapping_found_for_amount">Knyt venligst en kolonne til enten beløb, indtægt eller udgift.</string>
     <string name="menu_show_transactions">Vis transaktioner</string>
     <string name="switch_on_text">Til</string>
     <string name="switch_off_text">Fra</string>
@@ -498,7 +498,7 @@
     <string name="app_dir_not_compatible_with_nougat">Den aktuelt konfigurerede URI til sikkerhedskopier og eksport (%1$s) understøttes ikke i Android Nougat. Vælg venligst en mappe igen.</string>
     <string name="pref_custom_decimal_format_title">Talformat</string>
     <string name="pref_auto_backup_title">Auto-sikkerhedskopiér</string>
-    <string name="pref_auto_backup_summary">Sikkerhedskopiér database dagligt på det angivne tidspunkt (kun hvis dato er ændret).</string>
+    <string name="pref_auto_backup_summary">Sikkerhedskopiér databasen dagligt på det angivne tidspunkt (kun hvis data er ændret).</string>
     <string name="transform_subcategory_to_main">Omdan til hovedkategori</string>
     <string name="pref_grouping_periods">Grupperingsperioder</string>
     <string name="pref_sort_order_last_used">Sidst brugt</string>
@@ -509,7 +509,7 @@
     <string name="content_description_calculator_clear_button">Nulstil alt</string>
     <string name="content_description_calculator_delete_button">Slet sidste ciffer</string>
     <string name="paypal_callback_info">Din transaktion blev fuldført, og en kvittering for dit køb er blevet sendt til din e-mail. Du kan logge ind på din konto på www.paypal.com for at se detaljer om denne transaktion.</string>
-    <string name="search_transfer">Søg efter overførsler</string>
+    <string name="search_transfer">Søg efter overførsel</string>
     <string name="pref_sort_order_next_instance">Næste instans</string>
     <string name="crash_dialog_title">{app_name} gik ned</string>
     <string name="crash_dialog_text">Der opstod en uventet fejl, som tvang applikationen til at stoppe. Hjælp os med at rette dette ved at sende os fejldata. Du skal bare klikke OK.</string>
@@ -528,7 +528,7 @@
     <string name="dialog_title_select_target">Vælg mål</string>
     <string name="date_format_hour">Time</string>
     <string name="pref_custom_decimal_format_summary">Hvis du ikke er tilfreds med standardformatet for din region, så tilpas det efter dine behov. Efterlad det tomt for at genskabe standardformatet.</string>
-    <string name="button_request_calendar_access" tools:ignore="UnusedResources">Giv tilladelse</string>
+    <string name="button_request_calendar_access" tools:ignore="UnusedResources">Giv adgang</string>
     <string name="menu_move">Flyt</string>
     <string name="dialog_synced_to_other">En konto med UUID\'en %s findes allerede i den lokale database og er forbundet til en anden ekstern backend.</string>
     <string name="budget_deleted">Budget blev slettet</string>
@@ -562,7 +562,7 @@
     <string name="budget_table_header_budgeted">Budgetteret</string>
     <string name="menu_create_template_for_split">Ny opdelingsskabelon</string>
     <string name="picture">Billede</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Gå til \'Indstillinger -&gt; Sikkerhed -&gt; Skærmlås\' for at konfigurere en låseskærm.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Gå til \'Indstillinger -&gt; Sikkerhed -&gt; Skærmlås\' for at indstille en låseskærm.</string>
     <string name="credit_limit">Kreditgrænse</string>
     <string name="content_description_expand">Udvid</string>
     <string name="goal_or_limit">Mål / Grænse</string>
@@ -580,7 +580,7 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">Henter data fra ekstern backend. Dette kan tage noget tid.</string>
     <string name="never">aldrig</string>
     <string name="sync_auth_exception">Godkendelse mislykkedes.</string>
-    <string name="warning_device_lock_screen_not_set_up_1">En sikker enhedslåseskærm er ikke blevet konfigureret.</string>
+    <string name="warning_device_lock_screen_not_set_up_1">Sikker enhedslåseskærm er ikke indstillet.</string>
     <string name="menu_history_totals">Vis totaler</string>
     <string name="licence_expires_today">Din professionelle nøgle udløber i dag.</string>
     <string name="dialog_title_edit_budget">Redigér budget</string>
@@ -594,7 +594,7 @@
     <string name="pref_backup_cloud_summary">Ud over lokal lagring på enheden kan sikkerhedskopifilen kopieres til en ekstern backend.</string>
     <string name="auto_backup_cloud_success">Sikkerhedskopifilen %1$s blev gemt på backenden %2$s.</string>
     <string name="number_of_fraction_digits">Antal decimaler</string>
-    <string name="warning_auto_backup_deactivated">Auto-sikkerhedskopiering blev deaktiveret. Du kan slå det til igen fra indstillingerne, når du har løst problemet (f.eks ved at vælge en anden mappe til sikkerhedskopier).</string>
+    <string name="warning_auto_backup_deactivated">Auto-sikkerhedskopiering blev deaktiveret. Du kan slå det til igen fra indstillingerne, når du har løst problemet (fx ved at vælge en anden mappe til sikkerhedskopier).</string>
     <string name="pref_tracking_title">Indsamling af brugsdata</string>
     <string name="sync_database_error">En databasefejl opstod under synkronisering.</string>
     <string name="sync_io_error_cannot_connect">Kan ikke oprette forbindelse til synkroniseringsbackend.</string>
@@ -623,7 +623,7 @@
     <string name="history_chart_out_label">Forbrug</string>
     <string name="pref_home_currency_title">Hjemmevaluta</string>
     <string name="home_currency_change_warning">Hvis du ændrer din hjemmevaluta, vil tilsvarende beløb og valutakurser gå tabt og skal angives igen.</string>
-    <string name="warning_ungroup_split_transactions">De valgte opdelte transaktioner skilles ad, dvs. deres opdelte dele bliver til normale transaktioner.</string>
+    <string name="warning_ungroup_split_transactions">De valgte opdelte transaktioner skilles ad; dvs. deres opdelte dele bliver til normale transaktioner.</string>
     <string name="split_transaction_not_possible">Kun transaktioner, der har samme konto, modtager og status kan grupperes i én opdelt transaktion.</string>
     <string name="pref_transaction_time_summary">Tillad at angive præcis transaktionstid.</string>
     <string name="value_date">Værdidato</string>
@@ -649,7 +649,7 @@
     <string name="dialog_title_new_currency">Ny valuta</string>
     <string name="unmapped">Ikke tilknyttet</string>
     <string name="licence_has_expired_n_days" tools:ignore="PluralsCandidate">Din professionelle nøgle udløb %d dage siden.</string>
-    <string name="link_account_failure_3">Konflikten kan løses manuelt fra postens genvejsmenu.</string>
+    <string name="link_account_failure_3">Konflikten kan løses manuelt fra postens kontekstmenu.</string>
     <string name="progress_validating_licence">Bekræfter licens</string>
     <string name="licence_key">Licensnøgle</string>
     <string name="licence_removal_success">Licensnøglen blev frigjort fra denne enhed.</string>
@@ -674,7 +674,7 @@
     <string name="plan_custom_recurrence_info">Gem venligst skabelonen først. Planen åbnes derefter i kalenderappen, hvor du kan angive en tilpasset gentagelse.</string>
     <string name="pref_warning_only_one_protection">Før du kan bruge beskyttelse af %1$s, skal du slå beskyttelse af %2$s fra.</string>
     <string name="menu_history">Historik</string>
-    <string name="warning_split_transactions">De valgte transaktioner grupperes i én opdelt transaktion. Deres datoinformation vil gå tabt, dvs. erstattet af deres gennemsnit.</string>
+    <string name="warning_split_transactions">De valgte transaktioner grupperes i én opdelt transaktion. Deres datoinformation går tabt; dvs. erstattet af deres gennemsnit.</string>
     <string name="eu_vat_info">For beboere i Den Europæiske Union vises priserne uden moms.</string>
     <string name="valid_until">Indtil %s</string>
     <string name="split_transaction_group_success" tools:ignore="PluralsCandidate">%1$d transaktioner blev grupperet i én opdelt transaktion.</string>
@@ -853,7 +853,7 @@
     <string name="warning_unlink_transfer">Den valgte overførsel frakobles: Den erstattes af normale transaktioner på begge konti.</string>
     <string name="remap_date">På alle valgte transaktioner vil datoen sættes til %s.</string>
     <string name="orphaned_transaction_align_date">Eventuelt kan den dato, der gemmes med transaktionen, også afstemmes med instansdatoen.</string>
-    <string name="ungroup_split_transaction_success">Opdelt Transaktion blev afgrupperet.</string>
+    <string name="ungroup_split_transaction_success">Opdelt transaktion blev afgrupperet.</string>
     <string name="backup_wrong_password">Sikkerhedskopifilen ser ud til at være krypteret med en anden adgangssætning.</string>
     <string name="pref_security_export_passphrase_title">Adgangssætning til sikkerhedskopier</string>
     <string name="backup_is_encrypted">Sikkerhedskopifilen er krypteret. For at dekryptere den skal du angive dens adgangssætning.</string>
