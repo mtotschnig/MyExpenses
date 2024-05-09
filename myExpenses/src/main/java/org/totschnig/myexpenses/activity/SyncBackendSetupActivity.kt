@@ -5,7 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.view.SubMenu
+import android.view.Menu
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.NotificationManagerCompat
@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.sync.BackendService
+import org.totschnig.myexpenses.sync.BackendService.Companion.allAvailable
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.util.PermissionHelper
@@ -91,8 +92,11 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
     }
 
     private fun startSetupDo() {
-        getBackendServiceById(selectedFactoryId)?.instantiate()
-            ?.getOrNull()?.setupActivityClass?.let {
+        getBackendServiceById(selectedFactoryId)
+            ?.instantiate()
+            ?.getOrNull()
+            ?.setupActivityClass
+            ?.let {
                 startSetup.launch(Intent(this, it))
             }
         selectedFactoryId = 0
@@ -132,9 +136,13 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
             putParcelable(AccountManager.KEY_USERDATA, bundle)
         }
         if (offerEncryption) {
-            SimpleFormDialog.build().msg(R.string.passphrase_for_synchronization)
+            SimpleFormDialog
+                .build()
+                .msg(R.string.passphrase_for_synchronization)
                 .fields(
-                    Input.password(GenericAccountService.KEY_PASSWORD_ENCRYPTION).required()
+                    Input
+                        .password(GenericAccountService.KEY_PASSWORD_ENCRYPTION)
+                        .required()
                         .hint(R.string.input_label_passphrase)
                 )
                 .extra(args)
@@ -199,8 +207,10 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
      */
     protected open val offerEncryption = true
 
-    fun addSyncProviderMenuEntries(subMenu: SubMenu) {
-        BackendService.populateMenu(this, subMenu)
+    fun addSyncProviderMenuEntries(subMenu: Menu) {
+        for (factory in allAvailable(this)) {
+            subMenu.add(Menu.NONE, factory.id, Menu.NONE, factory.label)
+        }
     }
 
     fun getBackendServiceById(id: Int) = try {
@@ -210,7 +220,7 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
     }
 
     @Throws(NoSuchElementException::class)
-    fun getBackendServiceByIdOrThrow(id: Int) = BackendService.getServiceByIdOrThrow(this, id)
+    fun getBackendServiceByIdOrThrow(id: Int) = allAvailable(this).first { it.id == id }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
         when {

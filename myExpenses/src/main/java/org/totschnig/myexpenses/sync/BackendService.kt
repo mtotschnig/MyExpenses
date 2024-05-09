@@ -80,14 +80,5 @@ enum class BackendService(
 
         fun allAvailable(context: Context) = entries.filter { it.isAvailable(context) }
 
-        fun populateMenu(context: Context, menu: Menu) {
-            for (factory in allAvailable(context)) {
-                menu.add(Menu.NONE, factory.id, Menu.NONE, factory.label)
-            }
-        }
-
-        @Throws(NoSuchElementException::class)
-        fun getServiceByIdOrThrow(context: Context, id: Int) =
-            allAvailable(context).first { it.id == id }
     }
 }

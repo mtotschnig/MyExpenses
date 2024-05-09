@@ -58,10 +58,7 @@ class PreferencesBackupRestoreFragment : BasePreferenceIOBRFragment() {
 
         matches(preference, PrefKey.AUTO_BACKUP_CLOUD_SETUP) -> {
             (preference as PopupMenuPreference).showPopupMenu({
-                BackendService.populateMenu(
-                    requireContext(),
-                    it
-                )
+                preferenceActivity.addSyncProviderMenuEntries(it)
             }) {
                 preferenceActivity.startSetup(it.itemId)
                 true
