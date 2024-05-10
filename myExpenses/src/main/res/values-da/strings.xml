@@ -54,7 +54,7 @@
     <string name="default_account_name">Budgetbog</string>
     <string name="description">Beskrivelse</string>
     <string name="dialog_balance_delete">Slet afstemte transaktioner</string>
-    <string name="dialog_command_disabled_balance">Ingen transaktioner til afstemning.</string>
+    <string name="dialog_command_disabled_balance">Ingen afklarede transaktioner at afstemme.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> tilbydes open source.</string>
     <string name="dialog_export_delete">Slet eksporterede transaktioner</string>
     <string name="dialog_export_not_yet_exported">Eksportér kun transaktioner, der endnu ikke er eksporteret</string>
@@ -660,7 +660,7 @@
     <string name="sub_budget_exceeded_error_1_1">Alle undtagen %s af beløbet tildelt hovedkategorien er blevet tildelt andre underkategorier.</string>
     <string name="sub_budget_exceeded_error_2">Øg beløbet tildelt hovedkategorien, eller fjern penge fra andre underkategorier.</string>
     <string name="content_description_clear_category">Ryd kategori</string>
-    <string name="currency_code_already_definded">Valutakode er allerede angivet.</string>
+    <string name="currency_code_already_definded">Valutakode er allerede defineret.</string>
     <string name="contributed_by">Bidraget af %s</string>
     <string name="pref_sync_notification_summary">Underret om synkroniseringsfremskridt</string>
     <string name="onboarding_restore_from_local">Gendan lokal sikkerhedskopifil</string>
@@ -678,7 +678,7 @@
     <string name="eu_vat_info">For beboere i Den Europæiske Union vises priserne uden moms.</string>
     <string name="valid_until">Indtil %s</string>
     <string name="split_transaction_group_success" tools:ignore="PluralsCandidate">%1$d transaktioner blev grupperet i én opdelt transaktion.</string>
-    <string name="pref_value_date_summary">Tillad at angive værdidato ud over bogføringsdatoen. Transaktionstiden vil være skjult. Denne indstilling gælder ikke for kontanter.</string>
+    <string name="pref_value_date_summary">Tillad at angive værdidato ud over bogføringsdatoen. Transaktionstiden vil være skjult. Denne indstilling gælder ikke for kontantkonti.</string>
     <string name="booking_date">Bogføringsdato</string>
     <string name="professional_key_fallback_info">Et abonnement på den Professionelle Nøgle, der har været aktiv i mindst et år og ikke fornyes, ændres automatisk til en ubegrænset Udvidet Nøgle.</string>
     <string name="budget_under_allocated_error">%s er allerede blevet tildelt kategorier. Medmindre du fjerner penge fra dem, skal du mindst budgettere det beløb.</string>
@@ -701,9 +701,9 @@
     <string name="scan_result_no_payee">Ingen modtager fundet</string>
     <string name="menu_edit_tag">Redigér etiket</string>
     <string name="pref_planner_manual_time_title">Tidspunkt for manuelt anvendt planlagt transaktion</string>
-    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Tryk og hold på den flydende handlingsknap for direkte at åbne formularen for overførsler, opdelte transaktioner eller indkomst.</string>
+    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Tryk og hold på den flydende handlingsknap for direkte at åbne formularen for overførsler, opdelte transaktioner eller indtægt.</string>
     <string name="pref_clone_with_current_date_title">Dato for klonede transaktioner</string>
-    <string name="template_default_action_without_amount_hint">Skabeloner uden beløb skal gemmes med standardhandlingen \'Redigér\'</string>
+    <string name="template_default_action_without_amount_hint">Skabeloner uden beløb bør gemmes med standardhandlingen \'Redigér\'</string>
     <string name="ocr_recognition_info">Kører tekstgenkendelse med %s</string>
     <string name="warning_unencrypted_backup">Selvom dine data er beskyttet mod uautoriseret adgang på denne enhed, oprettes sikkerhedskopier uden kryptering, medmindre du konfigurerer %s.</string>
     <string name="warning_link_transfer">De to valgte transaktioner tilknyttes som en overførsel. Information om modtager/betaler og kategori fjernes.</string>
@@ -832,7 +832,7 @@
     <string name="contact_us">Kontakt os</string>
     <string name="pref_security_export_passphrase_summary">Sikkerhedskopier krypteres med denne adgangssætning</string>
     <string name="notifications_permission_required_sync">Ved at give tilladelse til at sende notifikationer kan du overvåge forløbet af synkroniseringsoperationerne.</string>
-    <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Brug denne knap til at registrere indkomst.</string>
+    <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Brug denne knap til at registrere indtægt.</string>
     <string name="maximum_size">Maks. størrelse</string>
     <string name="optimize_image_file_size">Optimér billedfilens størrelse</string>
     <string name="pref_planner_manual_time_current">Tidspunkt for oprettelse</string>
@@ -846,7 +846,7 @@
     <string name="merge_parties_strategy_delete">Duplikater slettes.</string>
     <string name="merge_parties_strategy_group">Duplikater grupperes som tilhørende.</string>
     <string name="pref_copy_attachments_summary_off">Filer kopieres ikke; kun en reference gemmes.</string>
-    <string name="pref_unmapped_transaction_as_transfer_summary_off">tælles som udgift / indkomst</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_off">tælles som udgift / indtægt</string>
     <string name="one_time_payment">Engangsbetaling</string>
     <string name="warning_delete_default_transfer_category">Kategori %s er konfigureret som standard overførselskategori og bør ikke slettes.</string>
     <string name="pref_transaction_amount_color_source_title">Farver til beløb</string>
@@ -893,7 +893,7 @@
     <string name="merge_categories_prompt">Vælg den kategori, du vil beholde</string>
     <string name="pref_purge_backup_keep_title">Maks. antal seneste sikkerhedskopifiler, der skal beholdes</string>
     <string name="pref_debug_logging_share_summary">Del logfiler</string>
-    <string name="pref_csv_export_split_amount_summary">Brug separate kolonner til indkomst og udgifter</string>
+    <string name="pref_csv_export_split_amount_summary">Brug separate kolonner til indtægter og udgifter</string>
     <string name="redesign">Redesign</string>
     <string name="pref_debug_title">Fejlfinding</string>
     <string name="roadmap_vote">Udviklingsplan Afstemning</string>
@@ -930,7 +930,7 @@
     <string name="menu_transform_to_transfer">Konverter til overførsel</string>
     <string name="warning_transform_to_transfer">Den valgte transaktion erstattes af en overførsel fra %1$s til %2$s.</string>
     <string name="pref_csv_export_category_separator_summary">Separator mellem niveauer i kategorihierarkiet</string>
-    <string name="orphaned_transaction_relink">Transaktionen kan linkes igen med begivenhedsforekomsten på %s.</string>
-    <string name="orphaned_transaction_info">En transaktion er knyttet til planen for denne dato, men ingen begivenhedsforekomst eksisterer på denne dato.</string>
+    <string name="orphaned_transaction_relink">Transaktionen kan linkes igen med begivenhedsinstansen på %s.</string>
+    <string name="orphaned_transaction_info">En transaktion er knyttet til planen for denne dato, men ingen begivenhedsinstans eksisterer på denne dato.</string>
     <string name="not_enough_data">Ikke nok data</string>
 </resources>
