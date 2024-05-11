@@ -18,7 +18,7 @@ import java.io.File
 object PermissionHelper {
     @IntDef(PERMISSIONS_REQUEST_WRITE_CALENDAR, PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI,
         PERMISSIONS_REQUEST_NOTIFICATIONS_SYNC, PERMISSIONS_REQUEST_NOTIFICATIONS_PLANNER,
-        PERMISSIONS_REQUEST_NOTIFICATIONS_AUTO_BACKUP
+        PERMISSIONS_REQUEST_NOTIFICATIONS_AUTO_BACKUP, PERMISSIONS_REQUEST_STORAGE
     )
     @Retention(AnnotationRetention.SOURCE)
     annotation class PermissionRequestCode
@@ -28,6 +28,7 @@ object PermissionHelper {
     const val PERMISSIONS_REQUEST_NOTIFICATIONS_SYNC = 3
     const val PERMISSIONS_REQUEST_NOTIFICATIONS_PLANNER = 4
     const val PERMISSIONS_REQUEST_NOTIFICATIONS_AUTO_BACKUP = 5
+    const val PERMISSIONS_REQUEST_STORAGE = 6
 
     @JvmStatic
     fun hasCalendarPermission(context: Context) = PermissionGroup.CALENDAR.hasPermission(context)
@@ -57,6 +58,7 @@ object PermissionHelper {
                         context, when(it) {
                             PermissionGroup.CALENDAR -> R.string.calendar_permission_required
                             PermissionGroup.NOTIFICATION -> R.string.notifications_permission_required_planner
+                            else -> throw IllegalArgumentException()
                         }).toString()
                 }
             }
@@ -64,12 +66,16 @@ object PermissionHelper {
             PERMISSIONS_REQUEST_NOTIFICATIONS_SYNC -> context.getString(R.string.notifications_permission_required_sync)
             PERMISSIONS_REQUEST_NOTIFICATIONS_PLANNER -> Utils.getTextWithAppName(context, R.string.notifications_permission_required_planner).toString()
             PERMISSIONS_REQUEST_NOTIFICATIONS_AUTO_BACKUP -> context.getString(R.string.notifications_permission_required_auto_backup)
+            PERMISSIONS_REQUEST_STORAGE -> "In order to save images to external storage you must grant Storage Permission"
             else -> throw IllegalArgumentException()
         }
 
     enum class PermissionGroup(
         val androidPermissions: List<String>
     ) {
+        STORAGE(
+            listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        ),
         CALENDAR(
             listOf(Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR)
         ),

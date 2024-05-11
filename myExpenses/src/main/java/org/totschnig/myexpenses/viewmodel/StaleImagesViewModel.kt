@@ -2,23 +2,35 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.content.ContentValues
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.text.SpannableStringBuilder
+import androidx.core.text.color
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.FileCopyUtils
-import timber.log.Timber
+import org.totschnig.myexpenses.util.safeMessage
 import java.io.File
 import java.io.IOException
 
-class StaleImagesViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+class StaleImagesViewModel(application: Application) :
+    ContentResolvingAndroidViewModel(application) {
+
+    private val resultBuffer = SpannableStringBuilder()
+
+    private val _result: MutableStateFlow<CharSequence?> = MutableStateFlow(null)
+    val result: StateFlow<CharSequence?> = _result
 
     private fun buildArchiveUri(fileName: String, mimeType: String): Uri? {
-        return if (Build.VERSION.SDK_INT < 29) {
+        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
                 .takeIf { it.exists() || it.mkdir() }
                 ?.let { File(it, "MyExpenses.Attachments.Archive") }
@@ -28,10 +40,36 @@ class StaleImagesViewModel(application: Application) : ContentResolvingAndroidVi
             val contentValues = ContentValues().apply {
                 put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
                 put(MediaStore.MediaColumns.MIME_TYPE, mimeType)
-                put(MediaStore.MediaColumns.RELATIVE_PATH, "Documents/MyExpenses.Attachments.Archive")
+                put(
+                    MediaStore.MediaColumns.RELATIVE_PATH,
+                    "Documents/MyExpenses.Attachments.Archive"
+                )
             }
             contentResolver.insert(MediaStore.Files.getContentUri("external"), contentValues)
         }
+    }
+
+    private fun appendSuccess(result: String) {
+        appendSpacerIfNeeded()
+        resultBuffer.append(result)
+        postUpdate()
+    }
+
+    private fun onException(exception: Exception) {
+        appendSpacerIfNeeded()
+        resultBuffer.color(Color.RED) {
+            append(exception.safeMessage)
+        }
+        postUpdate()
+        CrashHandler.report(exception)
+    }
+
+    private fun appendSpacerIfNeeded() {
+        if (resultBuffer.isNotEmpty()) resultBuffer.append(" ")
+    }
+
+    private fun postUpdate() {
+        _result.update { resultBuffer }
     }
 
     fun saveImages(itemIds: LongArray) {
@@ -41,28 +79,30 @@ class StaleImagesViewModel(application: Application) : ContentResolvingAndroidVi
                 contentResolver.query(
                     staleImageUri,
                     null,
-                    null, null, null)?.use { cursor ->
+                    null, null, null
+                )?.use { cursor ->
                     if (cursor.moveToFirst()) {
                         val imageFileUri = Uri.parse(cursor.getString(0))
                         val success: Boolean = imageFileUri.lastPathSegment?.let { fileName ->
                             try {
-                                val mimeType = contentResolver.getType(imageFileUri) ?: throw IOException("Could not get MIME type")
-                                val archiveUri = buildArchiveUri(fileName, mimeType) ?: throw IOException("Could not get output URI")
+                                val mimeType = contentResolver.getType(imageFileUri)
+                                    ?: throw IOException("Could not get MIME type")
+                                val archiveUri = buildArchiveUri(fileName, mimeType)
+                                    ?: throw IOException("Could not get output URI")
                                 FileCopyUtils.copy(contentResolver, imageFileUri, archiveUri)
-                                Timber.d("Successfully copied file %s", imageFileUri.toString())
-                                contentResolver.delete(imageFileUri, null, null) > 0
-                            } catch (e: IOException) {
-                                CrashHandler.report(e)
+                                appendSuccess("Successfully copied file $imageFileUri to $archiveUri. ")
+                                if (contentResolver.delete(imageFileUri, null, null) == 0)
+                                    throw IOException("") else true
+                            } catch (e: Exception) {
+                                onException(e)
                                 false
                             }
                         } ?: run {
-                            Timber.d("%s not moved since image might still be in use", imageFileUri.toString())
+                            appendSuccess("$imageFileUri not moved since image might still be in use. ")
                             true //we do not move the file but remove its uri from the table
                         }
                         if (success) {
                             contentResolver.delete(staleImageUri, null, null)
-                        } else {
-                            CrashHandler.report(Exception("Unable to move file $imageFileUri"))
                         }
                     }
                 }
@@ -75,9 +115,10 @@ class StaleImagesViewModel(application: Application) : ContentResolvingAndroidVi
             itemIds.forEach { id ->
                 val staleImageUri = staleImageUri(id)
                 contentResolver.query(
-                        staleImageUri,
-                        null,
-                        null, null, null)?.use { cursor ->
+                    staleImageUri,
+                    null,
+                    null, null, null
+                )?.use { cursor ->
                     if (cursor.moveToFirst()) {
                         val imageFileUri = Uri.parse(cursor.getString(0))
                         val success = if (imageFileUri.scheme == "file") {
@@ -86,9 +127,9 @@ class StaleImagesViewModel(application: Application) : ContentResolvingAndroidVi
                             contentResolver.delete(imageFileUri, null, null) > 0
                         }
                         if (success) {
-                            Timber.d("Successfully deleted file %s", imageFileUri.toString())
+                            appendSuccess("Successfully deleted file $imageFileUri")
                         } else {
-                            CrashHandler.report(Exception("Unable to delete file $imageFileUri"))
+                            onException(Exception("Unable to delete file $imageFileUri"))
                         }
                         contentResolver.delete(staleImageUri, null, null)
                     }
@@ -97,5 +138,6 @@ class StaleImagesViewModel(application: Application) : ContentResolvingAndroidVi
         }
     }
 
-    private fun staleImageUri(id: Long) = TransactionProvider.STALE_IMAGES_URI.buildUpon().appendPath(id.toString()).build()
+    private fun staleImageUri(id: Long) =
+        TransactionProvider.STALE_IMAGES_URI.buildUpon().appendPath(id.toString()).build()
 }

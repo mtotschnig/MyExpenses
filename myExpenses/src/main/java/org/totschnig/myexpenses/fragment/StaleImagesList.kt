@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.fragment
 import android.annotation.SuppressLint
 import android.database.Cursor
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.SparseBooleanArray
 import android.view.ContextMenu
@@ -25,24 +26,29 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.GridView
 import android.widget.ImageView
 import android.widget.SimpleCursorAdapter
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
+import com.evernote.android.state.State
+import com.evernote.android.state.StateSaver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
-import org.totschnig.myexpenses.activity.ViewIntentProvider
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
+import org.totschnig.myexpenses.activity.ViewIntentProvider
+import org.totschnig.myexpenses.databinding.ImagesListBinding
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.ui.attachmentInfoMap
 import org.totschnig.myexpenses.util.ui.setAttachmentInfo
 import org.totschnig.myexpenses.viewmodel.StaleImagesViewModel
@@ -54,10 +60,16 @@ class StaleImagesList : ContextualActionBarFragment(), LoaderManager.LoaderCallb
     private var imagesCursor: Cursor? = null
     private val viewModel: StaleImagesViewModel by viewModels()
 
+    private var _binding: ImagesListBinding? = null
+    private val binding get() = _binding!!
+
     @Inject
     lateinit var viewIntentProvider: ViewIntentProvider
 
     private var attachmentInfoMap: Map<Uri, AttachmentInfo>? = null
+
+    @State
+    var selectedItemIds: LongArray? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,11 +77,25 @@ class StaleImagesList : ContextualActionBarFragment(), LoaderManager.LoaderCallb
         appComponent.inject(this)
         appComponent.inject(viewModel)
         attachmentInfoMap = attachmentInfoMap(requireContext(), true)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.result.collect { result ->
+                    binding.result.text = result
+                }
+            }
+        }
+        StateSaver.restoreInstanceState(this, savedInstanceState)
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        StateSaver.saveInstanceState(this, outState)
+     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         attachmentInfoMap = null
+        _binding = null
     }
 
     override fun dispatchCommandMultiple(
@@ -81,8 +107,15 @@ class StaleImagesList : ContextualActionBarFragment(), LoaderManager.LoaderCallb
         }
         val activity = requireActivity() as BaseActivity
         if (command == R.id.SAVE_COMMAND) {
-            activity.showSnackBar(R.string.saving)
-            viewModel.saveImages(itemIds)
+            selectedItemIds = itemIds
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                activity.requestPermission(
+                    PermissionHelper.PERMISSIONS_REQUEST_STORAGE,
+                    PermissionHelper.PermissionGroup.STORAGE
+                )
+            } else {
+                saveImageDo()
+            }
         } else if (command == R.id.DELETE_COMMAND) {
             activity.showSnackBar(R.string.progress_dialog_deleting)
             viewModel.deleteImages(itemIds)
@@ -91,13 +124,24 @@ class StaleImagesList : ContextualActionBarFragment(), LoaderManager.LoaderCallb
         return true
     }
 
+    fun saveImageDo() {
+        selectedItemIds?.let {
+            (requireActivity() as BaseActivity).showSnackBar(R.string.saving)
+            viewModel.saveImages(it)
+        }
+    }
+
     override fun dispatchCommandSingle(command: Int, info: ContextMenu.ContextMenuInfo?): Boolean {
         if (super.dispatchCommandSingle(command, info)) {
             return true
         }
         if (command == R.id.VIEW_COMMAND) {
             val uri = uriAtPosition((info as AdapterView.AdapterContextMenuInfo?)!!.position)
-            viewIntentProvider.startViewAction(requireActivity(), uri, attachmentInfoMap!![uri]?.type)
+            viewIntentProvider.startViewAction(
+                requireActivity(),
+                uri,
+                attachmentInfoMap!![uri]?.type
+            )
         }
         return false
     }
@@ -116,9 +160,8 @@ class StaleImagesList : ContextualActionBarFragment(), LoaderManager.LoaderCallb
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val v = inflater.inflate(R.layout.images_list, container, false)
-        val lv = v.findViewById<GridView>(R.id.grid)
+    ): View {
+        _binding = ImagesListBinding.inflate(inflater, container, false)
 
         // Create an array to specify the fields we want to display in the list
         val from = arrayOf(DatabaseConstants.KEY_URI)
@@ -141,13 +184,17 @@ class StaleImagesList : ContextualActionBarFragment(), LoaderManager.LoaderCallb
                     return
                 }
                 lifecycleScope.launch {
-                    v.setAttachmentInfo(withContext(Dispatchers.IO) { attachmentInfoMap!!.getValue(Uri.parse(value)) })
+                    v.setAttachmentInfo(withContext(Dispatchers.IO) {
+                        attachmentInfoMap!!.getValue(
+                            Uri.parse(value)
+                        )
+                    })
                 }
                 v.tag = value
                 v.contentDescription = value
             }
         }
-        lv.onItemClickListener =
+        binding.grid.onItemClickListener =
             AdapterView.OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
                 (requireActivity() as ProtectedFragmentActivity).showSnackBar(
                     uriAtPosition(position).let {
@@ -156,9 +203,9 @@ class StaleImagesList : ContextualActionBarFragment(), LoaderManager.LoaderCallb
                 )
             }
         LoaderManager.getInstance(this).initLoader(0, null, this)
-        lv.adapter = adapter
-        registerForContextualActionBar(lv)
-        return v
+        binding.grid.adapter = adapter
+        registerForContextualActionBar(binding.grid)
+        return binding.root
     }
 
     override fun onCreateLoader(arg0: Int, arg1: Bundle?): Loader<Cursor> {
