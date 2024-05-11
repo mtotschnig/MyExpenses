@@ -1,2 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="whats_new_361_2">Filer i applikationsmappen (sikkerhedskopier og eksport) kan deles eller slettes.</string>
+    <string name="whats_new_364_1">Import til flere konti fra én CSV-fil</string>
+    <string name="whats_new_364_2">Ny strategi for håndtering af duplikerede oplysninger om betaler/modtager</string>
+    <string name="whats_new_365">Vedhæft et vilkårligt antal billeder og dokumenter (PDF)</string>
+    <string name="whats_new_366">Startskærmswidget, der viser den aktuelle budgetstatus.</string>
+    <string name="whats_new_369_1">Overførsler kan knyttes til kategorier.</string>
+    <string name="whats_new_369_2">Når skærmlås er aktiveret, tillad at blokere for skærmbilleder.</string>
+    <string name="whats_new_370">Hovedskærmens menu kan tilpasses helt.</string>
+    <string name="whats_new_374">Tilpasset farver til etiketter</string>
+    <string name="whats_new_376_1">Klon flere transaktioner med ny dato.</string>
+    <string name="whats_new_376_2">Webbrugergrænseflade kan styres fra hovedskærmen.</string>
+    <string name="whats_new_378">Diagrammer ærer søgefilteret.</string>
+    <string name="whats_new_361_1">Transaktionslisten kan sorteres efter beløb.</string>
+    <string name="whats_new_367">Kategorier kan nu konfigureres som udgifts- eller indtægtskategorier, hvilket påvirker, hvordan udgifts- og indtægtssummerne beregnes.</string>
+    <string name="whats_new_355">Sikkerhedskopifilens navn kan nu konfigureres.</string>
+    <string name="whats_new_382">%1$s funktion kan kaldes fra widget %2$s.</string>
+    <string name="whats_new_358">Widget følger temaets konfiguration (lys/mørk).</string>
+    <string name="whats_new_359">Ikoner for betalingsmetoder kan tilpasses.</string>
+</resources>

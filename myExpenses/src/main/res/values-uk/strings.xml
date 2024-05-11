@@ -38,7 +38,7 @@
     <string name="backup_success">Бази даних та налаштування успішно записані на \"%1$s\".</string>
     <string name="category">Категорія</string>
     <string name="contrib_feature_ad_free_label">Без реклами</string>
-    <string name="contrib_feature_accounts_unlimited_label">Необмежена кількість облікових записів</string>
+    <string name="contrib_feature_accounts_unlimited_label">Необмежена кількість рахунків</string>
     <string name="contrib_feature_attach_picture_label">Прикріпити зображення до транзакції</string>
     <string name="contrib_feature_distribution_label">Секторна діаграма (розподіл за категоріями)</string>
     <string name="contrib_feature_plans_unlimited_label">Необмежена кількість планів</string>
@@ -121,7 +121,7 @@
     <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
     <string name="menu_apply_template">Застосувати</string>
     <string name="menu_back">Назад</string>
-    <string name="menu_backup">Резервне копіювання</string>
+    <string name="menu_backup">Резервна копія</string>
     <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
     <string name="menu_balance">Залишок на рахунку</string>
     <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
@@ -279,7 +279,7 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Пароль обовʼязковий.</string>
     <string name="pref_qif_export_file_encoding_title">Кодування символів</string>
     <string name="pref_restore_summary">Виберіть резервну копію для відновлення бази даних та налаштувань.</string>
-    <string name="pref_restore_title">Відновити</string>
+    <string name="pref_restore_title">Відновлення</string>
     <string name="pref_security_question_summary">Дозволяє розблокувати програму, якщо ви забули свій пароль.</string>
     <string name="pref_security_question_title">Контрольне запитання</string>
     <string name="pref_send_feedback_title">Надіслати відгук</string>
@@ -798,7 +798,7 @@
     <string name="content_description_closed">Зачинено</string>
     <string name="translated_by">Переклали</string>
     <string name="menu_hide">Приховати</string>
-    <string name="menu_hidden_accounts">Приховані облікові записи</string>
+    <string name="menu_hidden_accounts">Приховані рахунки</string>
     <string name="content_description_remove_icon">Видалити піктограму</string>
     <string name="button_label_show">Показати</string>
     <string name="dialog_contrib_trial_info_play">Ця безкоштовна пробна версія ніколи не буде перетворена на будь-який тип підписки.</string>
@@ -982,4 +982,5 @@
     <string name="orphaned_transaction_align_date">За бажанням дату, збережену в транзакції, також можна узгодити з датою екземпляра.</string>
     <string name="rollover_edit_invalid">Сума перенесення, запланована для категорії, та суми перенесення, заплановані для підкатегорій, не можуть перевищувати залишок.</string>
     <string name="dialog_confirm_rollover_delete">Усі суми перенесення на цей період будуть видалені.</string>
+    <string name="not_enough_data">Недостатньо даних</string>
 </resources>
