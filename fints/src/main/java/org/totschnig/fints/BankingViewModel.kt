@@ -406,13 +406,10 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                     }
                     var importCount = 0
                     for (umsLine in result.flatData) {
-                        Timber.i(umsLine.toString())
                         with(converter) {
                             val (transaction, attributes: Map<out Attribute, String>) =
                                 umsLine.toTransaction(accountId, currencyContext)
-                            if (isDuplicate(transaction, attributes[FinTsAttribute.CHECKSUM]!!)) {
-                                Timber.d("Found duplicate for $umsLine")
-                            } else {
+                            if (!isDuplicate(transaction, attributes[FinTsAttribute.CHECKSUM]!!)) {
                                 val id = ContentUris.parseId(transaction.save(contentResolver)!!)
                                 repository.saveTransactionAttributes(id, attributes)
 
@@ -494,9 +491,7 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                                 konto.iban
                             )
                         )
-                        Timber.i("importing : $konto")
                         val umsatzJob: HBCIJob = handle.newJob("KUmsAll")
-                        Timber.i("jobRestrictions : ${umsatzJob.jobRestrictions}")
                         umsatzJob.setParam("my", konto)
                         startDate?.let { umsatzJob.setStartParam(startDate) }
 
@@ -536,7 +531,6 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                         repository.saveAccountAttributes(accountId, konto.asAttributes)
 
                         for (umsLine in result.flatData) {
-                            Timber.i(umsLine.toString())
                             with(converter) {
                                 val (transaction, transactionAttributes: Map<out Attribute, String>) = umsLine.toTransaction(
                                     accountId,
