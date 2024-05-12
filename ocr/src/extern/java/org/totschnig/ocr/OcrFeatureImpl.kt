@@ -26,4 +26,6 @@ class OcrFeatureImpl(@Suppress("unused") val prefHandler: PrefHandler): OcrFeatu
     override fun handleData(intent: Intent?, fragmentManager: FragmentManager) {
         (fragmentManager.findFragmentByTag(FRAGMENT_TAG) as? ScanPreviewFragment)?.handleData(intent)
     }
+
+    override fun shouldShowEngineSelection() = false
 }

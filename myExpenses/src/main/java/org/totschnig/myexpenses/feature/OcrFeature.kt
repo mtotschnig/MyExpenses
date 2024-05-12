@@ -28,7 +28,7 @@ interface OcrFeature {
         tesseract.isVisible = false
         mlkit.isVisible = false
     }
-    fun shouldShowEngineSelection() = false
+    fun shouldShowEngineSelection() = true
 }
 
 @Parcelize
