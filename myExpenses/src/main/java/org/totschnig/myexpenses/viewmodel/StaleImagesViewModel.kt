@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.text.SpannableStringBuilder
+import android.text.TextUtils
 import androidx.core.text.color
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,8 +24,6 @@ import java.io.IOException
 
 class StaleImagesViewModel(application: Application) :
     ContentResolvingAndroidViewModel(application) {
-
-    private val resultBuffer = SpannableStringBuilder()
 
     private val _result: MutableStateFlow<CharSequence?> = MutableStateFlow(null)
     val result: StateFlow<CharSequence?> = _result
@@ -51,25 +50,27 @@ class StaleImagesViewModel(application: Application) :
 
     private fun appendSuccess(result: String) {
         appendSpacerIfNeeded()
-        resultBuffer.append(result)
-        postUpdate()
+        postUpdate(result)
     }
 
     private fun onException(exception: Exception) {
         appendSpacerIfNeeded()
-        resultBuffer.color(Color.RED) {
+        postUpdate(SpannableStringBuilder().color(Color.RED) {
             append(exception.safeMessage)
-        }
-        postUpdate()
+        })
         CrashHandler.report(exception)
     }
 
     private fun appendSpacerIfNeeded() {
-        if (resultBuffer.isNotEmpty()) resultBuffer.append(" ")
+        if (_result.value?.isNotEmpty() == true) postUpdate(" ")
     }
 
-    private fun postUpdate() {
-        _result.update { resultBuffer }
+    private fun postUpdate(result: CharSequence) {
+        _result.update {
+            _result.value?.let {
+                TextUtils.concat(it, result)
+            } ?: result
+        }
     }
 
     fun saveImages(itemIds: LongArray) {
