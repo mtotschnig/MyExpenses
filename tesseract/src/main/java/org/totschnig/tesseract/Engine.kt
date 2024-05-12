@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.annotation.Keep
 import androidx.core.content.ContextCompat
+import com.getkeepsafe.relinker.ReLinker
 import com.googlecode.tesseract.android.TessBaseAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -35,11 +36,11 @@ const val TESSERACT_DOWNLOAD_FOLDER = "tesseract4/fast/"
 @Keep
 object Engine : TesseractEngine {
     private var timer: Long = 0
-    private fun initialize() {
-        System.loadLibrary("jpeg")
-        System.loadLibrary("pngx")
-        System.loadLibrary("leptonica")
-        System.loadLibrary("tesseract")
+    private fun initialize(context: Context) {
+        ReLinker.loadLibrary(context, "jpeg")
+        ReLinker.loadLibrary(context, "pngx")
+        ReLinker.loadLibrary(context, "leptonica")
+        ReLinker.loadLibrary(context, "tesseract")
     }
 
     private fun language(context: Context, prefHandler: PrefHandler) =
@@ -142,7 +143,7 @@ object Engine : TesseractEngine {
 
     override suspend fun run(uri: Uri, context: Context, prefHandler: PrefHandler): Text =
         withContext(Dispatchers.Default) {
-            initialize()
+            initialize(context)
             with(TessBaseAPI()) {
                 timer = System.currentTimeMillis()
                 if (!init(
