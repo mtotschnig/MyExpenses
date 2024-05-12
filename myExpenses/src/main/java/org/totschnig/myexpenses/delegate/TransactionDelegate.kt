@@ -443,7 +443,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     fun fillAmount(amount: BigDecimal) {
         with(viewBinding.Amount) {
             if (amount.signum() != 0) {
-                post { setAmount(amount) }
+                setAmount(amount)
             }
             requestFocus()
             selectAll()

@@ -72,6 +72,7 @@ import org.totschnig.myexpenses.provider.fileName
 import org.totschnig.myexpenses.provider.getLongIfExists
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
+import org.totschnig.myexpenses.provider.isDebugAsset
 import org.totschnig.myexpenses.util.ImageOptimizer
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.ShortcutHelper
@@ -214,10 +215,8 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     private fun prepareUriForSave(uri: Uri): Uri {
         val pictureUriBase: String = PictureDirHelper.getPictureUriBase(false, getApplication())
-        return if (uri.toString().startsWith(pictureUriBase)) {
-            Timber.d("nothing todo: Internal")
-            uri
-        } else {
+        return if (uri.toString().startsWith(pictureUriBase) || uri.isDebugAsset) uri
+        else {
 
             val pictureUriTemp = PictureDirHelper.getPictureUriBase(true, getApplication())
             val isInTempFolder = uri.toString().startsWith(pictureUriTemp)
@@ -240,7 +239,8 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     )
                     try {
 
-                        val maxSize = prefHandler.getInt(PrefKey.OPTIMIZE_PICTURE_MAX_SIZE, 1000)
+                        val maxSize =
+                            prefHandler.getInt(PrefKey.OPTIMIZE_PICTURE_MAX_SIZE, 1000)
                         val quality = prefHandler.getInt(PrefKey.OPTIMIZE_PICTURE_QUALITY, 80)
                             .coerceAtLeast(0).coerceAtMost(100)
                         ImageOptimizer.optimize(
@@ -469,7 +469,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 val uriList = repository.loadAttachments(transactionId)
                 //If we clone a transaction the attachments need to be considered new for the clone in order to get saved
                 if (clone) {
-                   addAttachmentUris(*uriList.toTypedArray())
+                    addAttachmentUris(*uriList.toTypedArray())
                 } else {
                     originalUris = ArrayList(uriList)
                 }
