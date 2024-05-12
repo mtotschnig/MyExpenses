@@ -53,8 +53,12 @@ import org.totschnig.myexpenses.compose.SelectionHandler
 import org.totschnig.myexpenses.compose.addToSelection
 import org.totschnig.myexpenses.compose.toggle
 import org.totschnig.myexpenses.compose.unselect
+import org.totschnig.myexpenses.db2.addAttachments
 import org.totschnig.myexpenses.db2.loadAccount
+import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.loadBanks
+import org.totschnig.myexpenses.db2.loadTagsForTransaction
+import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.setGrouping
 import org.totschnig.myexpenses.db2.tagMapFlow
 import org.totschnig.myexpenses.model.AccountType
@@ -634,11 +638,18 @@ open class MyExpensesViewModel(
                     }
                 }
                 ops.add(newUpdate.build())
-                if (contentResolver.applyBatch(
-                        AUTHORITY,
-                        ops
-                    ).size == ops.size
+                val results = contentResolver.applyBatch(
+                    AUTHORITY,
+                    ops
+                )
+                if (results.size == ops.size
                 ) {
+                    transaction.updateFromResult(results)
+                    contentResolver.saveTagsForTransaction(
+                        contentResolver.loadTagsForTransaction(id).map { it.id }.toLongArray(),
+                        transaction.id
+                    )
+                    repository.addAttachments(transaction.id, repository.loadAttachments(id))
                     successCount++
                 } else {
                     failureCount++

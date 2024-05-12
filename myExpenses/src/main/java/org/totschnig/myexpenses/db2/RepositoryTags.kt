@@ -53,6 +53,7 @@ fun Repository.saveTagsForTransaction(tags: List<Tag>, transactionId: Long) {
 }
 
 fun ContentResolver.saveTagsForTransaction(tags: LongArray, transactionId: Long) {
+    if (tags.isEmpty()) return
     call(
         DUAL_URI,
         METHOD_SAVE_TRANSACTION_TAGS,
