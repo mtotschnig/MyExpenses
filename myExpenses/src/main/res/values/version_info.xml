@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="versions">
+        <item>736;3.8.4</item>
         <item>735;3.8.3</item>
         <item>731;3.8.2</item>
         <item>727;3.8.1</item>
@@ -135,6 +136,7 @@
     <string name="project_board_381">138#column-19833828</string>
     <string name="project_board_382">139#column-19841847</string>
     <string name="project_board_383">140#column-19850840</string>
+    <string name="project_board_384">142#column-19861846</string>
 
     <string-array name="whats_new_355">
         <item>@string/whats_new_355</item>
@@ -184,5 +186,8 @@
     </string-array>
     <string-array name="whats_new_380">
         <item>@string/merge_categories_dialog_title</item>
+    </string-array>
+    <string-array name="whats_new_384">
+        <item>@string/whats_new_384</item>
     </string-array>
 </resources>
