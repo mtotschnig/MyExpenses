@@ -466,7 +466,13 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             emit(pair.first)
             pair.second?.takeIf { it.size > 0 }?.let { updateTags(it, false) }
             if (task == InstantiationTask.TRANSACTION) {
-                originalUris = ArrayList(repository.loadAttachments(transactionId))
+                val uriList = repository.loadAttachments(transactionId)
+                //If we clone a transaction the attachments need to be considered new for the clone in order to get saved
+                if (clone) {
+                   addAttachmentUris(*uriList.toTypedArray())
+                } else {
+                    originalUris = ArrayList(uriList)
+                }
             }
         } ?: run {
             emit(null)
