@@ -1554,7 +1554,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     "application/pdf"
                 )
                 setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            })
+            }, R.string.no_app_handling_pdf_available)
 
             R.id.SORT_COMMAND -> MenuDialog.build()
                 .menu(this, R.menu.accounts_sort)
