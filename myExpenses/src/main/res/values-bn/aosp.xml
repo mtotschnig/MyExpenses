@@ -32,4 +32,5 @@
     <string name="start_date">"শুরুর তারিখ"</string>
     <string name="end_date">"সমাপ্তির তারিখ"</string>
     <string name="cloud_storage">"ক্লাউড স্টোরেজ"</string>
+    <string name="privacy_header">"গোপনীয়তা"</string>
 </resources>

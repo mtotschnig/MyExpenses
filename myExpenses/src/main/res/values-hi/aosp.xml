@@ -35,4 +35,5 @@
     <string name="start_date">"प्रारंभ तारीख"</string>
     <string name="end_date">"समाप्ति तारीख"</string>
     <string name="cloud_storage">"Cloud Storage"</string>
+    <string name="privacy_header">"निजता"</string>
 </resources>

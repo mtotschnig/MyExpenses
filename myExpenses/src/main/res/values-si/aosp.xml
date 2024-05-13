@@ -97,4 +97,5 @@
     <string name="start_date">"ආරම්භක දිනය"</string>
     <string name="end_date">"අවසන් වන දිනය"</string>
     <string name="cloud_storage">"ක්ලවුඩ් ආචයනය"</string>
+    <string name="privacy_header">"පෞද්ගලිකත්වය"</string>
 </resources>

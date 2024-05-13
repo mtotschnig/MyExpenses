@@ -637,7 +637,6 @@
     <string name="licence_expires_today">Profesyonel anahtarınızın geçerliliği bugün sona eriyor.</string>
     <string name="licence_expired_yesterday">Profesyonel anahtarınızın geçerliliği dün sona erdi.</string>
     <string name="licence_has_expired_n_days">Profesyonel anahtarınızın geçerliliği %d gün önce sona erdi.</string>
-    <string name="pref_category_title_privacy">Gizlilik</string>
     <string name="gdpr_consent_button_no">Reklamsız sürüm için ödeme yap</string>
     <string name="sort_order">Sıralama düzeni</string>
     <string name="navigation_drawer_accounts_title">Hesapları yönet</string>

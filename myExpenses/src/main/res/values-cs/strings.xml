@@ -653,7 +653,6 @@
     <string name="licence_expires_today">Váš profesionální klíč dnes vyprší.</string>
     <string name="licence_expired_yesterday">Váš profesionální klíč včera vypršel.</string>
     <string name="licence_has_expired_n_days">Platnost vašeho profesionálního klíče vypršela před %d dny.</string>
-    <string name="pref_category_title_privacy">Soukromí</string>
     <string name="gdpr_consent_button_no">Zaplaťte si verzi bez reklam</string>
     <string name="sort_order">Pořadí řazení</string>
     <string name="navigation_drawer_accounts_title">Spravovat účty</string>

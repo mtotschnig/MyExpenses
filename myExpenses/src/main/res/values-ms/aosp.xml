@@ -93,4 +93,5 @@
     <string name="start_date">"Tarikh mula"</string>
     <string name="end_date">"Tarikh akhir"</string>
     <string name="cloud_storage">"Storan Awan"</string>
+    <string name="privacy_header">"Privasi"</string>
 </resources>

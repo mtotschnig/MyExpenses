@@ -739,7 +739,6 @@
         <item quantity="other">%1$d κατηγορίες ενημερώθηκαν με τα εικονίδια.</item>
     </plurals>
     <string name="contributed_by">Συνεισφορά από %s</string>
-    <string name="pref_category_title_privacy">Προστασία δεδομένων</string>
     <string name="ui_refinement">Βελτίωση του περιβάλλοντος εργασίας χρήστη</string>
     <string name="performance_enhancement" tools:ignore="UnusedResources">Βελτίωση απόδοσης</string>
     <string name="stability_improvements" tools:ignore="UnusedResources">Βελτιώσεις σταθερότητας</string>

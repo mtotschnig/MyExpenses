@@ -42,4 +42,5 @@
     <string name="start_date">"Begindatum"</string>
     <string name="end_date">"Einddatum"</string>
     <string name="cloud_storage">"Wolkberging"</string>
+    <string name="privacy_header">"Privaatheid"</string>
 </resources>

@@ -626,7 +626,6 @@
     <string name="licence_expires_today">プロフェッショナルキーは今日期限切れです。</string>
     <string name="licence_expired_yesterday">プロフェッショナルキーは昨日期限が切れました。</string>
     <string name="licence_has_expired_n_days">プロフェッショナルキーは %d 日前に期限が切れています。</string>
-    <string name="pref_category_title_privacy">プライバシー</string>
     <string name="gdpr_consent_button_no">広告なしバージョンを購入します</string>
     <string name="sort_order">ソート順</string>
     <string name="navigation_drawer_accounts_title">勘定の管理</string>

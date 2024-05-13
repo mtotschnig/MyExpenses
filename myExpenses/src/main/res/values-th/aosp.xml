@@ -44,4 +44,5 @@
     <string name="start_date">"วันที่เริ่มต้น"</string>
     <string name="end_date">"วันที่สิ้นสุด"</string>
     <string name="cloud_storage">"Cloud Storage"</string>
+    <string name="privacy_header">"ความเป็นส่วนตัว"</string>
 </resources>

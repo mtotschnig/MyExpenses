@@ -638,7 +638,6 @@
     <string name="licence_expires_today">Az ön Professional kulcsa ma lejár.</string>
     <string name="licence_expired_yesterday">Professzionális kulcsa tegnap lejárt.</string>
     <string name="licence_has_expired_n_days">Professzionális kulcsa %d napja lejárt.</string>
-    <string name="pref_category_title_privacy">Adatvédelem</string>
     <string name="gdpr_consent_button_no">Fizessen a reklámmentes verzióért</string>
     <string name="sort_order">Rendezési sorrend</string>
     <string name="navigation_drawer_accounts_title">Fiókok kezelése</string>

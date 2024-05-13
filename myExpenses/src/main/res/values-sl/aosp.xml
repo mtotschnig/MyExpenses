@@ -31,4 +31,5 @@
     <string name="start_date">"Datum začetka"</string>
     <string name="end_date">"Datum zaključka"</string>
     <string name="cloud_storage">"Shramba v oblaku"</string>
+    <string name="privacy_header">"Zasebnost"</string>
 </resources>

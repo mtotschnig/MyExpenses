@@ -72,4 +72,5 @@
     <string name="start_date">"Data de início"</string>
     <string name="end_date">"Data de conclusão"</string>
     <string name="cloud_storage">"Armazenamento na nuvem"</string>
+    <string name="privacy_header">"Privacidade"</string>
 </resources>

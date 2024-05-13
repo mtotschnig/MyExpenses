@@ -105,4 +105,5 @@
     <string name="chart">"Gráfico"</string>
     <string name="full_screen">"Tela cheia"</string>
     <string name="cloud_storage">"Armazenamento em nuvem"</string>
+    <string name="privacy_header">"Privacidade"</string>
 </resources>

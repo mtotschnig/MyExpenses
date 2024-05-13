@@ -104,4 +104,5 @@
     <string name="start_date">"Dată de începere"</string>
     <string name="end_date">"Dată de încheiere"</string>
     <string name="cloud_storage">"Stocare în cloud"</string>
+    <string name="privacy_header">"Confidențialitate"</string>
 </resources>

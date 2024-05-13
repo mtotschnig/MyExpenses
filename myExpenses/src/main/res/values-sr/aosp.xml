@@ -25,4 +25,5 @@
     <string name="start_date">"Датум почетка"</string>
     <string name="end_date">"Датум завршетка"</string>
     <string name="cloud_storage">"Простор у клауду"</string>
+    <string name="privacy_header">"Приватност"</string>
 </resources>

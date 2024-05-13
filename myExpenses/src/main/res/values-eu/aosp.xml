@@ -109,4 +109,5 @@
     <string name="start_date">"Hasiera-data"</string>
     <string name="end_date">"Amaiera-data"</string>
     <string name="cloud_storage">"Hodeiko biltegiratzea"</string>
+    <string name="privacy_header">"Pribatutasuna"</string>
 </resources>

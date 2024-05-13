@@ -634,7 +634,6 @@
     <string name="licence_expires_today">Twój klucz profesjonalny wygasa dzisiaj.</string>
     <string name="licence_expired_yesterday">Twój klucz profesjonalny wygasł wczoraj.</string>
     <string name="licence_has_expired_n_days">Twój klucz profesjonalny wygasł %d dni temu.</string>
-    <string name="pref_category_title_privacy">Prywatność</string>
     <string name="gdpr_consent_button_no">Zapłać za wersję bez reklam</string>
     <string name="sort_order">Kolejność sortowania</string>
     <string name="navigation_drawer_accounts_title">Zarządzaj kontami</string>

@@ -44,4 +44,5 @@
     <string name="start_date">"Startdato"</string>
     <string name="end_date">"Sluttdato"</string>
     <string name="cloud_storage">"Nettskylagring"</string>
+    <string name="privacy_header">"Personvern"</string>
 </resources>

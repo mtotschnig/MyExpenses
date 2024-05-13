@@ -668,7 +668,6 @@
     <string name="licence_expires_today">تنتهي صلاحية مفتاحك المهني اليوم.</string>
     <string name="licence_expired_yesterday">انتهت صلاحية مفتاحك المهني أمس.</string>
     <string name="licence_has_expired_n_days">انتهت صلاحية مفتاحك المهني قبل %d يوم.</string>
-    <string name="pref_category_title_privacy">الخصوصية</string>
     <string name="gdpr_consent_button_no">ادفع مقابل النسخة الخالية من الإعلانات</string>
     <string name="sort_order">ترتيب الفرز</string>
     <string name="navigation_drawer_accounts_title">إدارة الحسابات</string>

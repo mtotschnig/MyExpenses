@@ -643,7 +643,6 @@
     <string name="clear_all_filters">پاک کردن تمام فیلترها</string>
     <string name="menu_create_template_for_split">قالب چند‌بخشی جدید</string>
     <string name="credit_limit">محدودیت اعتبار</string>
-    <string name="pref_category_title_privacy">حریم خصوصی</string>
     <string name="sort_order">ترتیب چینش</string>
     <string name="budget_exceeded_error_1_2">تمام بودجه شما به دسته‌های دیگر اختصاص یافته است.</string>
     <string name="pref_sync_changes_immediately_summary">ارسال تغییرات محلی بلافاصله به سرور</string>

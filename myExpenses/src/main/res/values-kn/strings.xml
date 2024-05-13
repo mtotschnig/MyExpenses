@@ -635,7 +635,6 @@
     <string name="licence_expires_today">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀಲಿಯು ಇಂದು ಮುಕ್ತಾಯಗೊಳ್ಳುತ್ತದೆ.</string>
     <string name="licence_expired_yesterday">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀ ನಿನ್ನೆ ಅವಧಿ ಮೀರಿದೆ.</string>
     <string name="licence_has_expired_n_days">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀಲಿಯು %d ದಿನಗಳ ಹಿಂದೆ ಅವಧಿ ಮೀರಿದೆ.</string>
-    <string name="pref_category_title_privacy">ಗೌಪ್ಯತೆ</string>
     <string name="gdpr_consent_button_no">ಜಾಹೀರಾತು-ಮುಕ್ತ ಆವೃತ್ತಿಗೆ ಪಾವತಿಸಿ</string>
     <string name="sort_order">ವಿಂಗಡಣೆ ಆದೇಶ</string>
     <string name="navigation_drawer_accounts_title">ಖಾತೆಗಳನ್ನು ನಿರ್ವಹಿಸಿ</string>

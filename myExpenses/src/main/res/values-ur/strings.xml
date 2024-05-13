@@ -486,7 +486,6 @@
     <string name="licence_expires_tomorrow">آپ کی پیشہ ورانہ کلید کل ختم ہو جائے گی.</string>
     <string name="licence_expires_today">آپ کی پیشہ ورانہ کلید آج ختم ہو رہی ہے.</string>
     <string name="licence_expired_yesterday">آپ کی پیشہ ورانہ کلید کل ختم ہو گئی ہے.</string>
-    <string name="pref_category_title_privacy">‍رازداری</string>
     <string name="dialog_title_edit_budget">بجٹ میں ترمیم کریں</string>
     <string name="budget_table_header_budgeted">بجٹ</string>
     <string name="budget_table_header_allocated">مختص</string>

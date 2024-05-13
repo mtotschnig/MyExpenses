@@ -29,4 +29,5 @@
     <string name="start_date">"Petsa ng pagsisimula"</string>
     <string name="end_date">"Petsa ng pagtatapos"</string>
     <string name="cloud_storage">"Cloud Storage"</string>
+    <string name="privacy_header">"Privacy"</string>
 </resources>

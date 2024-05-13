@@ -44,4 +44,5 @@
     <string name="start_date">"Dátum začiatku"</string>
     <string name="end_date">"Dátum ukončenia"</string>
     <string name="cloud_storage">"Cloudový priestor"</string>
+    <string name="privacy_header">"Ochrana súkromia"</string>
 </resources>

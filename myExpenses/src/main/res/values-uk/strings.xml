@@ -636,7 +636,6 @@
     <string name="licence_expires_today">Ваша підписка на Професійну версію закінчується сьогодні.</string>
     <string name="licence_expired_yesterday">Ваша підписка на Професійну версію закінчилась вчора.</string>
     <string name="licence_has_expired_n_days">Ваша підписка на Професійну версію закінчилась %d днів тому.</string>
-    <string name="pref_category_title_privacy">Конфіденційність</string>
     <string name="gdpr_consent_button_no">Сплатити за версію без реклами</string>
     <string name="sort_order">Порядок сортування</string>
     <string name="navigation_drawer_accounts_title">Керувати рахунками</string>

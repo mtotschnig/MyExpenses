@@ -43,4 +43,5 @@
     <string name="start_date">"የመጀመሪያ ቀን"</string>
     <string name="end_date">"የመጨረሻ ቀን"</string>
     <string name="cloud_storage">"የደመና ማከማቻ"</string>
+    <string name="privacy_header">"ግላዊነት"</string>
 </resources>

@@ -109,4 +109,5 @@
     <string name="start_date">"開始日"</string>
     <string name="end_date">"終了日"</string>
     <string name="cloud_storage">"クラウド ストレージ"</string>
+    <string name="privacy_header">"プライバシー"</string>
 </resources>

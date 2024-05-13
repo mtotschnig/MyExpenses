@@ -107,4 +107,5 @@
     <string name="start_date">"Ngày bắt đầu"</string>
     <string name="end_date">"Ngày kết thúc"</string>
     <string name="cloud_storage">"Bộ nhớ trên đám mây"</string>
+    <string name="privacy_header">"Quyền riêng tư"</string>
 </resources>

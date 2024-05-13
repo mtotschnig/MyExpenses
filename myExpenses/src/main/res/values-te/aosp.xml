@@ -96,4 +96,5 @@
     <string name="start_date">"ప్రారంభ తేదీ"</string>
     <string name="end_date">"ముగింపు తేదీ"</string>
     <string name="cloud_storage">"క్లౌడ్ స్టోరేజ్"</string>
+    <string name="privacy_header">"గోప్యత"</string>
 </resources>

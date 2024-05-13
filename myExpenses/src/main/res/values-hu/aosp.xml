@@ -113,4 +113,5 @@
     <string name="start_date">"Kezdés dátuma"</string>
     <string name="end_date">"Befejezés dátuma"</string>
     <string name="cloud_storage">"Cloud Storage"</string>
+    <string name="privacy_header">"Adatvédelem"</string>
 </resources>

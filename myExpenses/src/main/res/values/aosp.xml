@@ -199,4 +199,6 @@
     <string name="end_date">"End date"</string>
     <!-- /opt/extra/AOSP/packages/modules/AdServices/adservices/apk$ grep -ri topic10290 | sed 's/ msgid="[[:digit:]]*"//' | sed 's/topic10290/cloud_storage/' | aosp_helper -->
     <string name="cloud_storage">"Cloud storage"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri "\"privacy_header\"" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/vpn_//' | aosp_helper -->
+    <string name="privacy_header">"Privacy"</string>
 </resources>

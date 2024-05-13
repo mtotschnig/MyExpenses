@@ -29,4 +29,5 @@
     <string name="start_date">"Tarehe ya kuanza"</string>
     <string name="end_date">"Tarehe ya mwisho"</string>
     <string name="cloud_storage">"Hifadhi ya Wingu"</string>
+    <string name="privacy_header">"Faragha"</string>
 </resources>

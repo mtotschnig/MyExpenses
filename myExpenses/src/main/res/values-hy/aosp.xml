@@ -42,4 +42,5 @@
     <string name="start_date">"Մեկնարկի ամսաթիվը"</string>
     <string name="end_date">"Ավարտի ամսաթիվը"</string>
     <string name="cloud_storage">"Ամպային տարածք"</string>
+    <string name="privacy_header">"Գաղտնիություն"</string>
 </resources>

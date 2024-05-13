@@ -30,4 +30,5 @@
     <string name="start_date">"Дата пачатку"</string>
     <string name="end_date">"Дата заканчэння"</string>
     <string name="cloud_storage">"Воблачнае сховішча"</string>
+    <string name="privacy_header">"Прыватнасць"</string>
 </resources>

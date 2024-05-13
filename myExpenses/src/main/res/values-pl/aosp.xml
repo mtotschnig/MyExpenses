@@ -114,4 +114,5 @@
     <string name="start_date">"Data rozpoczęcia"</string>
     <string name="end_date">"Data zakończenia"</string>
     <string name="cloud_storage">"Przechowywanie w chmurze"</string>
+    <string name="privacy_header">"Prywatność"</string>
 </resources>

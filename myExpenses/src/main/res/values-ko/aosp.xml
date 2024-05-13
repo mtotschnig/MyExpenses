@@ -103,4 +103,5 @@
     <string name="start_date">"시작일"</string>
     <string name="end_date">"종료일"</string>
     <string name="cloud_storage">"클라우드 스토리지"</string>
+    <string name="privacy_header">"개인 정보 보호"</string>
 </resources>

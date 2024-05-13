@@ -110,4 +110,5 @@
     <string name="start_date">"Başlangıç tarihi"</string>
     <string name="end_date">"Bitiş tarihi"</string>
     <string name="cloud_storage">"Bulut Depolama"</string>
+    <string name="privacy_header">"Gizlilik"</string>
 </resources>

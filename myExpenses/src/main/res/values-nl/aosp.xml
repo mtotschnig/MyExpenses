@@ -108,4 +108,5 @@
     <string name="start_date">"Startdatum"</string>
     <string name="end_date">"Einddatum"</string>
     <string name="cloud_storage">"Cloudopslag"</string>
+    <string name="privacy_header">"Privacy"</string>
 </resources>

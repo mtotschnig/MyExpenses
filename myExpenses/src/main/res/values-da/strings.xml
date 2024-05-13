@@ -626,7 +626,6 @@
     <string name="licence_expires_n_days" tools:ignore="PluralsCandidate">Din professionelle nøgle udløber om %d dage.</string>
     <string name="licence_expires_tomorrow">Din professionelle nøgle udløber i morgen.</string>
     <string name="licence_expired_yesterday">Din professionelle nøgle udløb i går.</string>
-    <string name="pref_category_title_privacy">Privatliv</string>
     <string name="sort_order">Sorteringsrækkefølge</string>
     <string name="navigation_drawer_accounts_title">Administrér konti</string>
     <string name="pref_sync_wifi_only_summary">Synkronisér kun på Wi-Fi</string>

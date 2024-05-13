@@ -90,4 +90,5 @@
     <string name="languages">"زبانیں"</string>
     <string name="full_screen">"پوری اسکرین"</string>
     <string name="cloud_storage">"کلاؤڈ اسٹوریج"</string>
+    <string name="privacy_header">"رازداری"</string>
 </resources>

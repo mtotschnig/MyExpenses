@@ -113,4 +113,5 @@
     <string name="start_date">"Дата начала"</string>
     <string name="end_date">"Дата окончания"</string>
     <string name="cloud_storage">"Облачные хранилища"</string>
+    <string name="privacy_header">"Конфиденциальность"</string>
 </resources>

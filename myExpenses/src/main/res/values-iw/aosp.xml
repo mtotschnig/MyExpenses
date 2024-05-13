@@ -103,4 +103,5 @@
     <string name="start_date">"תאריך התחלה"</string>
     <string name="end_date">"תאריך סיום"</string>
     <string name="cloud_storage">"אחסון בענן"</string>
+    <string name="privacy_header">"פרטיות"</string>
 </resources>

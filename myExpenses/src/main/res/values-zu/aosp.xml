@@ -35,4 +35,5 @@
     <string name="start_date">"Qala idethi"</string>
     <string name="end_date">"Idethi yokugcina"</string>
     <string name="cloud_storage">"Isitoreji se-Cloud"</string>
+    <string name="privacy_header">"Ubumfihlo"</string>
 </resources>

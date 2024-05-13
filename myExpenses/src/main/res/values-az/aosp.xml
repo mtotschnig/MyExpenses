@@ -31,4 +31,5 @@
     <string name="start_date">"Başlama tarixi"</string>
     <string name="end_date">"Bitmə tarixi"</string>
     <string name="cloud_storage">"Bulud Yaddaşı"</string>
+    <string name="privacy_header">"Məxfilik"</string>
 </resources>

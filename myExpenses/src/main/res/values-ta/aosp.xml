@@ -102,4 +102,5 @@
     <string name="start_date">"தொடக்கத் தேதி"</string>
     <string name="end_date">"முடிவுத் தேதி"</string>
     <string name="cloud_storage">"கிளவுடு சேமிப்பகம்"</string>
+    <string name="privacy_header">"தனியுரிமை"</string>
 </resources>

@@ -44,4 +44,5 @@
     <string name="start_date">"Aloituspäivä"</string>
     <string name="end_date">"Päättymispäivä"</string>
     <string name="cloud_storage">"Pilvitallennus"</string>
+    <string name="privacy_header">"Yksityisyys"</string>
 </resources>

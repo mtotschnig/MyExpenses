@@ -45,4 +45,5 @@
     <string name="start_date">"Alguskuupäev"</string>
     <string name="end_date">"Lõppkuupäev"</string>
     <string name="cloud_storage">"Pilvepõhine salvestusruum"</string>
+    <string name="privacy_header">"Privaatsus"</string>
 </resources>

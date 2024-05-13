@@ -775,7 +775,6 @@
     <string name="navigation_drawer_accounts_title">Upravljaj računima</string>
     <string name="sort_order">Redoslijed razvrstavanja</string>
     <string name="gdpr_consent_button_no">Plati za verziju bez oglasa</string>
-    <string name="pref_category_title_privacy">Privatnost</string>
     <string name="hint_auto_fill">Da li za automatsko ispunjavanje koristiti podatke iz zadnje transakcije za istog primaoca/platišu\? Može se promijeniti u postavkama.</string>
     <string name="comparison_operator_date_after">nakon</string>
     <string name="comparison_operator_date_before">prije</string>

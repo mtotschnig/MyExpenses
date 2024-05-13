@@ -71,7 +71,7 @@
         my:allowDividerAbove="true" />
     <PreferenceCategory
         android:key="@string/pref_category_privacy_key"
-        android:title="@string/pref_category_title_privacy">
+        android:title="@string/privacy_header">
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="@string/pref_tracking_key"
@@ -96,7 +96,7 @@
         <Preference
             my:isPreferenceVisible="false"
             android:key="@string/pref_ad_consent_key"
-            android:title="@string/pref_category_title_privacy" />
+            android:title="@string/privacy_header" />
         <Preference
             android:key="@string/pref_no_ads_key"
             android:title="@string/gdpr_consent_button_no" />

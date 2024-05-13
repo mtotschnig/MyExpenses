@@ -36,4 +36,5 @@
     <string name="start_date">"Эхлэх огноо"</string>
     <string name="end_date">"Дуусах огноо"</string>
     <string name="cloud_storage">"Үүлэн хадгалах сан"</string>
+    <string name="privacy_header">"Нууцлал"</string>
 </resources>

@@ -37,4 +37,5 @@
     <string name="start_date">"დაწყების თარიღი"</string>
     <string name="end_date">"თარიღის დამატება"</string>
     <string name="cloud_storage">"ღრუბლოვანი საცავი"</string>
+    <string name="privacy_header">"კონფიდენციალურობა"</string>
 </resources>

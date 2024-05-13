@@ -642,7 +642,6 @@
     <string name="licence_expires_today">La tua Licenza Professionale scade oggi.</string>
     <string name="licence_expired_yesterday">La tua Licenza Professionale è scaduta ieri.</string>
     <string name="licence_has_expired_n_days">La tua Licenza Professionale è scaduta %d giorni fa.</string>
-    <string name="pref_category_title_privacy">Privacy</string>
     <string name="gdpr_consent_button_no">Paga per la versione senza pubblicità</string>
     <string name="sort_order">Ordinamento</string>
     <string name="navigation_drawer_accounts_title">Gestione dei conti</string>

@@ -29,4 +29,5 @@
     <string name="chart">"Diagramma"</string>
     <string name="full_screen">"Butun ekran"</string>
     <string name="cloud_storage">"Bulutdagi xotira"</string>
+    <string name="privacy_header">"Maxfiylik"</string>
 </resources>

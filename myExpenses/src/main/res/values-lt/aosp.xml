@@ -37,4 +37,5 @@
     <string name="start_date">"Pradžios data"</string>
     <string name="end_date">"Pabaigos data"</string>
     <string name="cloud_storage">"Saugykla debesyje"</string>
+    <string name="privacy_header">"Privatumas"</string>
 </resources>

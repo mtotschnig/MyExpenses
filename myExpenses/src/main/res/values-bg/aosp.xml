@@ -113,4 +113,5 @@
     <string name="start_date">"Начална дата"</string>
     <string name="end_date">"Крайна дата"</string>
     <string name="cloud_storage">"Хранилище в облака"</string>
+    <string name="privacy_header">"Поверителност"</string>
 </resources>

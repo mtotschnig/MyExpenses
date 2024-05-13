@@ -33,4 +33,5 @@
     <string name="start_date">"પ્રારંભ તારીખ"</string>
     <string name="end_date">"સમાપ્તિ તારીખ"</string>
     <string name="cloud_storage">"ક્લાઉડ સ્ટોરેજ"</string>
+    <string name="privacy_header">"પ્રાઇવસી"</string>
 </resources>

@@ -114,4 +114,5 @@
     <string name="start_date">"Datum zahájení"</string>
     <string name="end_date">"Datum ukončení"</string>
     <string name="cloud_storage">"Cloudové úložiště"</string>
+    <string name="privacy_header">"Ochrana soukromí"</string>
 </resources>

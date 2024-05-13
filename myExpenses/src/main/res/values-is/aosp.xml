@@ -42,4 +42,5 @@
     <string name="start_date">"Upphafsdagur"</string>
     <string name="end_date">"Lokadagur"</string>
     <string name="cloud_storage">"Skýjageymsla"</string>
+    <string name="privacy_header">"Persónuvernd"</string>
 </resources>

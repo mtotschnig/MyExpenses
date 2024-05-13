@@ -624,7 +624,6 @@
     <string name="licence_expires_today">Kunci profesional anda akan tamat tempoh hari ini.</string>
     <string name="licence_expired_yesterday">Kunci profesional anda akan tamat tempoh semalam.</string>
     <string name="licence_has_expired_n_days">Kunci profesional anda akan tamat tempoh %d hari yang lalu.</string>
-    <string name="pref_category_title_privacy">Kerahsiaan</string>
     <string name="gdpr_consent_button_no">Beli untuk versi tanpa-iklan</string>
     <string name="sort_order">Tertib isih</string>
     <string name="navigation_drawer_accounts_title">Urus akaun</string>

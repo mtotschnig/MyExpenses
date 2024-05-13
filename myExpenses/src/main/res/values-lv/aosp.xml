@@ -36,4 +36,5 @@
     <string name="start_date">"Sākuma datums"</string>
     <string name="end_date">"Beigu datums"</string>
     <string name="cloud_storage">"Mākoņa krātuves"</string>
+    <string name="privacy_header">"Konfidencialitāte"</string>
 </resources>

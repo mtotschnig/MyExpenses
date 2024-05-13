@@ -637,7 +637,6 @@
     <string name="licence_expires_today">உங்கள் நிபுணத்துவ திறவுகோல் இன்று காலாவதியாகிறது.</string>
     <string name="licence_expired_yesterday">உங்கள் நிபுணத்துவ திறவுகோல் நேற்று காலாவதியாகிவிட்டது.</string>
     <string name="licence_has_expired_n_days">உங்கள் நிபுணத்துவ திறவுகோல் %d நாட்களுக்கு முன்பு காலாவதியாகிவிட்டது.</string>
-    <string name="pref_category_title_privacy">தனியுரிமை</string>
     <string name="gdpr_consent_button_no">விளம்பரம் இல்லாத பதிப்பிற்கு பணம் செலுத்து</string>
     <string name="sort_order">வரிசைப்படுத்தும் முறை</string>
     <string name="navigation_drawer_accounts_title">கணக்குகளை நிர்வகி</string>

@@ -629,7 +629,6 @@
     <string name="licence_expires_today">您的\"专业版密钥(Professional Key)\"今天到期。</string>
     <string name="licence_expired_yesterday">您的\"专业版密钥(Professional Key)\"已在昨天过期。</string>
     <string name="licence_has_expired_n_days">您的\"专业版密钥(Professional Key)\"已在%d天前过期。</string>
-    <string name="pref_category_title_privacy">隐私</string>
     <string name="gdpr_consent_button_no">支付无广告版本</string>
     <string name="sort_order">排序顺序</string>
     <string name="navigation_drawer_accounts_title">管理账户</string>

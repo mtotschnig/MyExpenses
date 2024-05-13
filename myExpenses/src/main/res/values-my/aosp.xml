@@ -33,4 +33,5 @@
     <string name="start_date">"စတင်မှု ရက်စွဲ"</string>
     <string name="end_date">"ပြီးဆုံးမှု ရက်စွဲ"</string>
     <string name="cloud_storage">"Cloud သိုလှောင်ခန်း"</string>
+    <string name="privacy_header">"ကိုယ်ရေးဒေတာ"</string>
 </resources>

@@ -34,4 +34,5 @@
     <string name="start_date">"ເລີ່ມວັນທີ"</string>
     <string name="end_date">"ມື້ສິ້ນສຸດ"</string>
     <string name="cloud_storage">"ບ່ອນຈັດເກັບຂໍ້ມູນຄລາວ"</string>
+    <string name="privacy_header">"ຄວາມເປັນສ່ວນຕົວ"</string>
 </resources>

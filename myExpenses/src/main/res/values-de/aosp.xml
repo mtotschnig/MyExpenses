@@ -111,4 +111,5 @@
     <string name="start_date">"Startdatum"</string>
     <string name="end_date">"Enddatum"</string>
     <string name="cloud_storage">"Cloud Storage"</string>
+    <string name="privacy_header">"Datenschutz"</string>
 </resources>

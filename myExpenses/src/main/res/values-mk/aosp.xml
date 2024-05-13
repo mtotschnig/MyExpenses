@@ -30,4 +30,5 @@
     <string name="chart">"Графикон"</string>
     <string name="full_screen">"Цел екран"</string>
     <string name="cloud_storage">"Простор во облак"</string>
+    <string name="privacy_header">"Приватност"</string>
 </resources>

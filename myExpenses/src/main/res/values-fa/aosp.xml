@@ -35,4 +35,5 @@
     <string name="start_date">"تاریخ شروع"</string>
     <string name="end_date">"تاریخ پایان"</string>
     <string name="cloud_storage">"فضای ذخیره‌سازی ابری"</string>
+    <string name="privacy_header">"حریم خصوصی"</string>
 </resources>

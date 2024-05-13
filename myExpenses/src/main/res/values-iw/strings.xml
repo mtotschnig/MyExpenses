@@ -645,7 +645,6 @@
     <string name="licence_expires_today">המפתח המקצועי שלך יפוג היום.</string>
     <string name="licence_expired_yesterday">אתמןל פג תוקפו של המפתח המקצועי שלך.</string>
     <string name="licence_has_expired_n_days">המפתח המקצועי שלך פג לפני %d ימים.</string>
-    <string name="pref_category_title_privacy">פרטיות</string>
     <string name="gdpr_consent_button_no">שלם עבור הגרסה ללא מודעות</string>
     <string name="sort_order">סדר המיון</string>
     <string name="navigation_drawer_accounts_title">נהל חשבונות</string>

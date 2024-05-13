@@ -25,4 +25,5 @@
     <string name="languages">"Тилдер"</string>
     <string name="full_screen">"Толук экран"</string>
     <string name="cloud_storage">"Булуттагы сактагыч"</string>
+    <string name="privacy_header">"Купуялык"</string>
 </resources>

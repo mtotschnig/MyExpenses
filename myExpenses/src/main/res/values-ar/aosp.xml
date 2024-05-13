@@ -114,4 +114,5 @@
     <string name="start_date">"تاريخ البدء"</string>
     <string name="end_date">"تاريخ الانتهاء"</string>
     <string name="cloud_storage">"تخزين في السحابة الإلكترونية"</string>
+    <string name="privacy_header">"الخصوصية"</string>
 </resources>

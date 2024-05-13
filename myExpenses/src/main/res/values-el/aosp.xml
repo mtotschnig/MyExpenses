@@ -111,4 +111,5 @@
     <string name="start_date">"Ημερομηνία έναρξης"</string>
     <string name="end_date">"Ημερομηνία λήξης"</string>
     <string name="cloud_storage">"Αποθηκευτικός χώρος cloud"</string>
+    <string name="privacy_header">"Απόρρητο"</string>
 </resources>
