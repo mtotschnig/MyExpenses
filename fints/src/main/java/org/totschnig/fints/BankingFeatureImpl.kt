@@ -34,7 +34,7 @@ class BankingFeatureImpl: BankingFeature {
     override fun resolveAttributeLabel(context: Context, finTsAttribute: FinTsAttribute): String {
         return when(finTsAttribute) {
             FinTsAttribute.EREF -> R.string.eref_label
-            FinTsAttribute.KREF -> R.string.eref_label
+            FinTsAttribute.KREF -> R.string.kref_label
             FinTsAttribute.MREF -> R.string.mref_label
             FinTsAttribute.CRED -> R.string.cred_label
             FinTsAttribute.DBET -> R.string.dbet_label

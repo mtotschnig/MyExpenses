@@ -588,10 +588,7 @@
     <string name="paypal_callback_info">Je transactie is voltooid en er is een ontvangstbewijs voor je aankoop naar je gemaild. Je kunt inloggen op je rekening op www.paypal.com om de details van deze transactie te bekijken.</string>
     <string name="search_amount">Zoek op bedrag</string>
     <string name="csv_import_delimiter_semicolon">Puntkomma</string>
-    <string name="image_deleted">Afbeelding is verwijderd</string>
-    <string name="switch_off_text">Uit</string>
     <string name="donate_button_invoice">Factuur</string>
-    <string name="menu_sort_direction">Sorteer volgorde</string>
     <string name="pref_sync_changes_immediately_summary">Schrijf lokale wijzigingen onmiddellijk naar de backend</string>
     <string name="credit_limit">Kredietlimiet</string>
     <string name="sub_budget_exceeded_error_1_2">Het volledige bedrag dat is toegewezen aan de hoofdcategorie is toegewezen aan andere subcategorieën.</string>
@@ -728,7 +725,6 @@
     <string name="restore_calendar_handling_ignore">Plannen niet herstellen</string>
     <string name="restore_calendar_handling_backup">Herstel plannen naar de agenda die is ingesteld in de back-up, indien beschikbaar</string>
     <string name="transform_subcategory_to_main">Transformeer naar hoofdcategorie</string>
-    <string name="switch_on_text">Aan</string>
     <string name="pref_tracking_summary">Sta ons toe anonieme gegevens over gebruikspatronen te verzamelen die ons helpen bij het plannen van verbeteringen.</string>
     <string name="pref_tracking_title">Verzameling van gebruiksgegevens</string>
     <string name="unmapped">Niet toegewezen</string>

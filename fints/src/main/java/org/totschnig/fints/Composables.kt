@@ -1,5 +1,6 @@
 package org.totschnig.fints
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -193,7 +194,11 @@ fun SecMechDialog(
     submitSecMech: (Pair<String, Boolean>?) -> Unit
 ) {
     options?.let {
-        SelectionDialog(options = options.map { it.id to it.name }, submit = submitSecMech)
+        SelectionDialog(
+            title = R.string.sec_mech_selection_prompt,
+            options = options.map { it.id to it.name },
+            submit = submitSecMech
+        )
     }
 }
 
@@ -203,12 +208,17 @@ fun TanMediaDialog(
     submitMedia: (Pair<String, Boolean>?) -> Unit
 ) {
     options?.let {
-        SelectionDialog(options = options.map { it to it }, submit = submitMedia)
+        SelectionDialog(
+            title = R.string.tan_medium_selection_prompt,
+            options = options.map { it to it },
+            submit = submitMedia
+        )
     }
 }
 
 @Composable
 private fun SelectionDialog(
+    @StringRes title: Int,
     options: List<Pair<String, String>>,
     submit: (Pair<String, Boolean>?) -> Unit
 ) {

@@ -438,7 +438,6 @@
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Старі зображення</string>
     <string name="pref_manage_stale_images_summary">Керування зображеннями, залишеними після видалених транзакцій</string>
-    <string name="image_deleted">Зображення було видалено</string>
     <string name="transaction_deleted">Транзакцію було видалено</string>
     <string name="dialog_export_applied_to_filter">Буде розглянуто лише транзакції, які відповідають поточному фільтру.</string>
     <string name="export_handle_deleted_create_helper">Створити допоміжну транзакцію</string>
@@ -469,8 +468,6 @@
     <string name="pref_auto_backup_time_title">Час автоматичного резервного копіювання</string>
     <string name="calendar_permission_required"><i>{app_name}</i> потрібен дозвіл на доступ до вашого календаря, щоб створювати плани для майбутніх та повторюваних транзакцій.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Надати дозвіл</string>
-    <string name="switch_on_text">Ввімкнено</string>
-    <string name="switch_off_text">Вимкнено</string>
     <string name="menu_move">Перемістити</string>
     <string name="dialog_title_select_target">Виберіть місце призначення</string>
     <string name="transform_subcategory_to_main">Перетворити в основну категорію</string>
@@ -591,7 +588,6 @@
     <string name="extend_validity">Подовжити термін дії</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Отримання даних з віддаленого сервера. Це може зайняти деякий час.</string>
     <string name="donate_button_invoice">Рахунок (інвойс)</string>
-    <string name="menu_sort_direction">Напрямок сортування</string>
     <string name="never">ніколи</string>
     <string name="always">завжди</string>
     <string name="auto_fill_account_from_aggregate_only">Лише коли розпочатий з об\'єднаного рахунку.</string>

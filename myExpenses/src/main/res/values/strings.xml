@@ -450,7 +450,6 @@
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Stale images</string>
     <string name="pref_manage_stale_images_summary">Manage pictures left over from deleted transactions</string>
-    <string name="image_deleted">Picture has been deleted</string>
     <string name="transaction_deleted">Transaction has been deleted</string>
     <string name="account_deleted">Account has been deleted</string>
     <string name="budget_deleted">Budget has been deleted</string>
@@ -484,8 +483,6 @@
     <string name="pref_auto_backup_time_title">Auto-backup time</string>
     <string name="calendar_permission_required"><i>{app_name}</i> needs permission to access your calendar, in order to create plans for future and recurring transactions.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Grant access</string>
-    <string name="switch_on_text">On</string>
-    <string name="switch_off_text">Off</string>
     <string name="menu_move">Move</string>
     <string name="dialog_title_select_target">Select target</string>
     <string name="transform_subcategory_to_main">Transform to main category</string>
@@ -608,7 +605,6 @@
     <string name="extend_validity">Extend validity</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Fetching data from remote backend. This may take some time.</string>
     <string name="donate_button_invoice">Invoice</string>
-    <string name="menu_sort_direction">Sort direction</string>
     <string name="never">never</string>
     <string name="always">always</string>
     <string name="auto_fill_account_from_aggregate_only">Only when started from aggregate account.</string>

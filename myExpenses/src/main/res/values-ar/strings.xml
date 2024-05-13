@@ -466,7 +466,6 @@
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">صور قديمة</string>
     <string name="pref_manage_stale_images_summary">إدارة الصور المتبقية من المعاملات المحذوفة</string>
-    <string name="image_deleted">تم حدذف الصورة</string>
     <string name="transaction_deleted">لقد تم حذف المعاملة</string>
     <string name="dialog_export_applied_to_filter">سيتم النظر فقط في المعاملات المطابقة لعامل التصفية الحالي.</string>
     <string name="export_handle_deleted_create_helper">إنشاء مساعد معاملات</string>
@@ -497,8 +496,6 @@
     <string name="pref_auto_backup_time_title">وقت النسخ الاحتياطي الآلي</string>
     <string name="calendar_permission_required">يحتاج <i>{app_name}</i> إلى الأذن بالوصول إلى التقويم الخاص بك، من أجل وضع خطط للمعاملات المستقبلية والمتكررة.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">منح حق الوصول</string>
-    <string name="switch_on_text">تشغيل</string>
-    <string name="switch_off_text">إيقاف</string>
     <string name="menu_move">تحريك</string>
     <string name="dialog_title_select_target">حدد هدف</string>
     <string name="transform_subcategory_to_main">التحول إلى الفئة الرئيسية</string>
@@ -621,7 +618,6 @@
     <string name="extend_validity">مدد الصلاحية</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">جارِ إحضار البيانات من الخلفية البعيدة. هذا قد يستغرق بعض الوقت.</string>
     <string name="donate_button_invoice">فاتورة</string>
-    <string name="menu_sort_direction">اتجاه الترتيب</string>
     <string name="never">أبداً</string>
     <string name="always">دائماً</string>
     <string name="auto_fill_account_from_aggregate_only">فقط عندما تبدأ من الحساب الكلي.</string>

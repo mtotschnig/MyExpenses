@@ -438,7 +438,6 @@
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Eski resimler</string>
     <string name="pref_manage_stale_images_summary">Silinmiş muamelelerden kalan resimleri yönet</string>
-    <string name="image_deleted">Resim silinmiştir</string>
     <string name="transaction_deleted">Muamele silinmiştir</string>
     <string name="account_deleted">Hesap silindi</string>
     <string name="dialog_export_applied_to_filter">Sadece güncel filtre ile eşleşen muameleler dikkate alınacaktır.</string>
@@ -470,8 +469,6 @@
     <string name="pref_auto_backup_time_title">Otomatik yedekleme zamanı</string>
     <string name="calendar_permission_required">&lt;i&gt;{app_name}&lt;/i&gt;, gelecekteki ve yinelenen işlemlere yönelik planlar oluşturmak üzere takviminize erişmek için izne ihtiyaç duyuyor.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">İzin ver</string>
-    <string name="switch_on_text">Açık</string>
-    <string name="switch_off_text">Kapalı</string>
     <string name="menu_move">Taşı</string>
     <string name="dialog_title_select_target">Hedef seç</string>
     <string name="transform_subcategory_to_main">Ana kategoriye dönüştür</string>
@@ -594,7 +591,6 @@
     <string name="extend_validity">Geçerliliği uzat</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Uzak arka uçtan veri alınıyor. Bu biraz zaman alabilir.</string>
     <string name="donate_button_invoice">Fatura</string>
-    <string name="menu_sort_direction">Sıralama yönü</string>
     <string name="never">asla</string>
     <string name="always">daima</string>
     <string name="auto_fill_account_from_aggregate_only">Sadece toplam (agrega) hesaptan başlatıldığında.</string>

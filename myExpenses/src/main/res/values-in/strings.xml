@@ -68,8 +68,6 @@
     <string name="contrib_feature_plans_unlimited_label">Jumlah paket tidak terbatas</string>
     <string name="already_defined">%1$s sudah ditentukan</string>
     <string name="menu_show_transactions">Tampilkan transaksi</string>
-    <string name="switch_off_text">Mati</string>
-    <string name="switch_on_text">Nyala</string>
     <string name="csv_import_delimiter_tab">Tab</string>
     <string name="csv_import_delimiter_semicolon">Titik koma</string>
     <string name="csv_import_delimiter_comma">Koma</string>

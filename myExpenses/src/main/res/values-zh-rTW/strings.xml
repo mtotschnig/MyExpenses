@@ -432,7 +432,6 @@
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">陳舊圖檔</string>
     <string name="pref_manage_stale_images_summary">管理已刪除的交易，所留下的圖片</string>
-    <string name="image_deleted">圖片已被刪除</string>
     <string name="transaction_deleted">交易已刪除</string>
     <string name="account_deleted">帳戶已被刪除</string>
     <string name="dialog_export_applied_to_filter">僅與當前篩選器相符合的交易才會被考慮。</string>
@@ -464,8 +463,6 @@
     <string name="pref_auto_backup_time_title">自動備份的時間</string>
     <string name="calendar_permission_required"><i>{app_name}</i>此應用程式需要日曆的存取權限，才能新建未來交易計畫與定期交易計畫。</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">授予存取權限</string>
-    <string name="switch_on_text">開啟</string>
-    <string name="switch_off_text">關閉</string>
     <string name="menu_move">移動</string>
     <string name="dialog_title_select_target">選擇目標</string>
     <string name="transform_subcategory_to_main">轉換成主類別</string>
@@ -588,7 +585,6 @@
     <string name="extend_validity">延長有效期</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">從遠程後端獲取資料中。這可能要花點時間。</string>
     <string name="donate_button_invoice">發票</string>
-    <string name="menu_sort_direction">排序方式</string>
     <string name="never">永遠不</string>
     <string name="always">總是</string>
     <string name="auto_fill_account_from_aggregate_only">僅當從彙總帳戶啟動時。</string>

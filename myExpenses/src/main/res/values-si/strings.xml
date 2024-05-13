@@ -315,8 +315,6 @@
     <string name="menu_create_folder">නව ගොනුව </string>
     <string name="widget_title_accounts">මගේ ගිණුම් </string>
     <string name="widget_title_templates">මගේ අච්චු </string>
-    <string name="switch_on_text">සක්‍රියයි</string>
-    <string name="switch_off_text">අක්‍රියයි</string>
     <string name="preferences_week_start_day_title">සතිය ආරම්භ වන්නේ</string>
     <string name="content_description_calculator">ගණකයන්ත්‍රය</string>
     <string name="template">අච්චුව </string>

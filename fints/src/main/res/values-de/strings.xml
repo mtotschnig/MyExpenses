@@ -31,7 +31,7 @@
     <string name="bank_already_added">Bank wurde bereits hinzugefügt.</string>
     <string name="menu_sync_account">Umsätze abrufen</string>
     <string name="eref_label">Ende-zu-Ende Referenz</string>
-    <string name="kref_label">Customer Reference</string>
+    <string name="kref_label">Kundenreferenz</string>
     <string name="mref_label">Mandatsreferenz</string>
     <string name="cred_label">Gläubiger-Identifikationsnummer</string>
     <string name="dbet_label">Debitor-Identifikationsnummer</string>

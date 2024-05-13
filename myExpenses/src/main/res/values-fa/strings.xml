@@ -335,7 +335,6 @@
     <string name="import_source_file">فایل</string>
     <string name="restore_calendar_handling_ignore">برنامه‌ها را بازیابی نکن</string>
     <string name="restore_not_possible_local_calendar_missing">تقویم برنامه‌ریزی فعلی در دسترس نیست.</string>
-    <string name="image_deleted">تصویر حذف شده‌است</string>
     <string name="transaction_deleted">تراکنش حذف شده‌است</string>
     <string name="dialog_export_applied_to_filter">فقط تراکنش‌های مطابق با فیلتر فعلی درنظر گرفته خواهندشد.</string>
     <string name="export_handle_deleted_create_helper">ایجاد تراکنش کمک‌کننده</string>
@@ -355,8 +354,6 @@
     <string name="pref_auto_backup_title">بک‌آپ‌ گیری خودکار</string>
     <string name="pref_auto_backup_summary">از پایگاه داده روزانه و در زمان مشخص بک‌آپ بگیر (فقط در صورتی که داده‌ها تغییر یافته‌اند).</string>
     <string name="pref_auto_backup_time_title">زمان بک‌آپ خودکار</string>
-    <string name="switch_on_text">روشن</string>
-    <string name="switch_off_text">خاموش</string>
     <string name="menu_move">انتقال</string>
     <string name="dialog_title_select_target">انتخاب هدف</string>
     <string name="preferences_week_start_day_title">روز شروع هفته</string>
@@ -671,7 +668,6 @@
     <string name="menu_original_amount">مقدار اصلی</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">دریافت اطلاعات از سرور. ممکن است کمی طول بکشد.</string>
     <string name="licence_removal_success">لایسنس با موفقیت از این دستگاه حذف شد.</string>
-    <string name="menu_sort_direction">جهت مرتب سازی</string>
     <string name="pref_home_currency_title">ارز اصلی</string>
     <string name="warning_device_lock_screen_not_set_up_2">به «تنظیمات -&gt; امنیت -&gt; قفل صفحه» بروید و یک قفل تنظیم کنید</string>
     <plurals name="delete_success">

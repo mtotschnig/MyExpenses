@@ -61,7 +61,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_key">enable_data_entry_from_widget</string>
     <string name="pref_account_grouping_key">account_grouping</string>
     <string name="pref_manage_stale_images_key">manage_stale_images</string>
-    <string name="pref_screen_protection_key">screen_protection</string>
     <string name="pref_import_qif_key">import_qif</string>
     <string name="pref_import_csv_key">import_csv</string>
     <string name="pref_import_csv_header_to_field_map_key">import_csv_header_to_field_map</string>
@@ -77,10 +76,7 @@
     <string name="pref_debug_key">debug</string>
     <string name="pref_debug_logging_key">debug_logging</string>
     <string name="pref_debug_logging_share_key">debug_logging_share</string>
-    <string name="pref_crash_reports_key">crash_reports</string>
-    <string name="pre_acra_info_key">acra.info</string>
     <string name="pref_sync_notification_key">sync_notification</string>
-    <string name="pref_category_advanced_key">category_advanced</string>
     <string name="pref_category_privacy_key">category_privacy</string>
     <string name="pref_category_ads_key">category_ads</string>
     <string name="pref_auto_fill_amount_key">auto_fill_amount</string>
@@ -108,7 +104,6 @@
     <string name="pref_scroll_to_current_date_key">scroll_to_current_date</string>
     <string name="pref_security_export_password_key">security_export_password</string>
     <string name="pref_sync_changes_immediately_key">sync_changes_immediately</string>
-    <string name="pref_exchange_rates_key">exchange_rates</string>
     <string name="pref_exchange_rate_provider_key">exchange_rate_provider</string>
     <string name="pref_openexchangerates_app_id_key">openexchangerates_app_id</string>
     <string name="pref_coin_api_api_key_key">coin_api_api_key</string>
@@ -116,7 +111,6 @@
     <string name="pref_webdav_key">webdav</string>
     <string name="pref_webdav_allow_unverified_host_key">webdav_allow_unverified_host</string>
     <string name="pref_clone_with_current_date_key">clone_with_current_date</string>
-    <string name="pref_sync_key">sync</string>
     <string name="pref_feature_uninstall_key">feature_uninstall</string>
     <string name="pref_feature_uninstall_features_key">feature_uninstall_features</string>
     <string name="pref_feature_uninstall_languages_key">feature_uninstall_languages</string>
@@ -228,14 +222,14 @@
     <string name="menu_vote" tools:ignore="UnusedResources">\?/10</string>
     <string name="menu_refresh">Refresh</string>
     <string name="menu_learn_more">@string/learn_more</string>
-    <string name="vote_reminder_action">Vote</string>
+    <string name="vote_reminder_action" tools:ignore="UnusedResources">Vote</string>
     <string name="menu_set_weight">Set weight</string>
     <string name="menu_result">Result</string>
     <string name="menu_clear">Clear</string>
     <string name="menu_color" tools:ignore="UnusedResources">@string/color</string>
     <string name="menu_status_handle" tools:ignore="UnusedResources">@string/status</string>
     <string name="menu_rollover" tools:ignore="UnusedResources">@string/budget_table_header_rollover</string>
-    <string name="menu_sort">@string/display_options_sort_list_by</string>
+    <string name="menu_sort" tools:ignore="UnusedResources">@string/display_options_sort_list_by</string>
     <string name="roadmap_loading">Loading issues …</string>
     <string name="roadmap_submitting">Submitting vote …</string>
     <string name="db_error_cursor_null">Cursor is null</string>
@@ -244,11 +238,10 @@
     <string name="roadmap_update_confirmation">Your vote will be updated</string>
     <string name="roadmap_email_rationale">In order to guarantee fair participation, we require validation of your vote by email.</string>
     <string name="roadmap_vote_success">Your vote has been recorded. An email with a link for validation has been sent to you.</string>
-    <string name="roadmap_vote_failure">Failure while submitting your vote</string>
     <string name="roadmap_vote_outdated">Your vote cannot be recorded, because your locally cached issue list is outdated. Please select Refresh from the menu and submit your vote again.</string>
     <string name="roadmap_vote_validation_failure">Your vote was not recorded, because your professional licence status could not be validated. Please try again later, or contact support@myexpenses.mobi.</string>
     <string name="roadmap_consent_checkbox">Consent to be contacted for sharing ideas on how issues you voted for should be implemented</string>
-    <string name="reminder_vote_update">The list of issues on the roadmap might have changed since you last voted. You might want to update your vote.</string>
+    <string name="reminder_vote_update" tools:ignore="UnusedResources">The list of issues on the roadmap might have changed since you last voted. You might want to update your vote.</string>
     <!-- During onboarding, user can select to restore data from synchronized account-specific data . This is the title for the tab where the accounts are listed -->
     <string name="onboarding_restore_from_cloud_sync_accounts">@string/pref_manage_accounts_title</string>
     <string name="pref_planner_advanced_key">planner_advanced</string>
@@ -278,7 +271,6 @@
     <string name="date_format_a">am/pm</string>
     <string name="pref_web_ui_https_key">web_ui_https</string>
     <string name="pref_running_balance_key">running_balance</string>
-    <string name="title_requery">Requery SQLite</string>
     <string name="html">HTML</string>
     <string name="txt">TXT</string>
     <string name="support_email">support@myexpenses.mobi</string>

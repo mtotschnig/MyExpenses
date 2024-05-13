@@ -427,7 +427,6 @@
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Imej kaku</string>
     <string name="pref_manage_stale_images_summary">Urus gambar berbaki dari transaksi yang telah dipadam</string>
-    <string name="image_deleted">Gambar telah dipadamkan</string>
     <string name="transaction_deleted">Transaksi telah dipadamkan</string>
     <string name="dialog_export_applied_to_filter">Hanya transaksi yang sepadan dengan penapis semasa akan diambilkira.</string>
     <string name="export_handle_deleted_create_helper">Cipta transaksi pembantu</string>
@@ -458,8 +457,6 @@
     <string name="pref_auto_backup_time_title">Auto-sandar masa</string>
     <string name="calendar_permission_required"><i>{app_name}</i> memerlukan keizinan untuk mencapai kalendar anda, supaya dapat mencipta pelan untuk transaksi akan datang dan yang berulangan.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Beri capaian</string>
-    <string name="switch_on_text">Dihidupkan</string>
-    <string name="switch_off_text">Dimatikan</string>
     <string name="menu_move">Alih</string>
     <string name="dialog_title_select_target">Pilih sasaran</string>
     <string name="transform_subcategory_to_main">Ubah ke kategori utama</string>
@@ -582,7 +579,6 @@
     <string name="extend_validity">Lanjutkan pengesahan</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Mendapatkan data dari bahagian belakang jauh. Ia mengambil sedikit masa.</string>
     <string name="donate_button_invoice">Invois</string>
-    <string name="menu_sort_direction">Isih arah</string>
     <string name="never">tidak sesekali</string>
     <string name="always">sentiasa</string>
     <string name="auto_fill_account_from_aggregate_only">Hanya bermula dari akaun beragregat.</string>

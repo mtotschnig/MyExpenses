@@ -394,7 +394,6 @@
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Gamle billeder</string>
     <string name="pref_manage_stale_images_summary">Administrér restbilleder fra slettede transaktioner</string>
-    <string name="image_deleted">Billede blev slettet</string>
     <string name="dialog_export_applied_to_filter">Kun transaktioner, der passer med det aktuelle filter, medtages.</string>
     <string name="export_handle_deleted_create_helper">Opret hjælpetransaktion</string>
     <string name="export_handle_deleted_update_balance">Opdatér startsaldo</string>
@@ -417,8 +416,6 @@
     <string name="csv_import_delimiter_tab">Tabulator</string>
     <string name="csv_import_no_mapping_found_for_amount">Knyt venligst en kolonne til enten beløb, indtægt eller udgift.</string>
     <string name="menu_show_transactions">Vis transaktioner</string>
-    <string name="switch_on_text">Til</string>
-    <string name="switch_off_text">Fra</string>
     <string name="preferences_week_start_day_title">Ugen starter på</string>
     <string name="content_description_calculator">Lommeregner</string>
     <string name="contrib_feature_synchronization_label">Cloud-synkronisering</string>
@@ -553,7 +550,6 @@
     <string name="synchronization_end_success" tools:ignore="PluralsCandidate">%1$d fjernændringer blev skrevet til den lokale database. %2$d lokale ændringer blev skrevet til ekstern backend.</string>
     <string name="pref_debug_logging_summary">Skriv fejlfindingsoplysninger i systemloggen</string>
     <string name="donate_button_invoice">Faktura</string>
-    <string name="menu_sort_direction">Sorteringsretning</string>
     <string name="history_chart_in_label">Omsætning</string>
     <string name="warning_trial_limit_reached">Prøveperioden for at teste funktionen %s er udløbet.</string>
     <string name="n_months" tools:ignore="PluralsCandidate">%d måneder</string>

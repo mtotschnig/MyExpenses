@@ -435,7 +435,6 @@
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Παλαιές εικόνες</string>
     <string name="pref_manage_stale_images_summary">Διαχείριση εικόνων που έχουν απομείνει από διαγραμμένες συναλλαγές</string>
-    <string name="image_deleted">Η εικόνα έχει διαγραφεί</string>
     <string name="transaction_deleted">Η συναλλαγή έχει διαγραφεί</string>
     <string name="dialog_export_applied_to_filter">Μόνο συναλλαγές που ταιριάζουν με το τρέχων φίλτρο θα ληφθούν υπόψη.</string>
     <string name="export_handle_deleted_create_helper">Δημιουργία βοηθητικής συναλλαγής</string>
@@ -466,8 +465,6 @@
     <string name="pref_auto_backup_time_title">Χρόνος αυτόματης δημιουργίας του αντιγράφου ασφαλείας</string>
     <string name="calendar_permission_required"><i>{app_name}</i> χρειάζεται άδεια για πρόσβαση στο ημερολόγιό σας, προκειμένου να δημιουργήσει σχέδια για μελλοντικές και επαναλαμβανόμενες συναλλαγές.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Παραχώρηση πρόσβασης</string>
-    <string name="switch_on_text">Ενεργό</string>
-    <string name="switch_off_text">Ανενεργό</string>
     <string name="menu_move">Μετακίνηση</string>
     <string name="dialog_title_select_target">Επιλέξτε στόχο</string>
     <string name="transform_subcategory_to_main">Μεταμόρφωση στην κύρια κατηγορία</string>
@@ -574,7 +571,6 @@
     <string name="extend_validity">Επέκταση ισχύος</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Λήψη δεδομένων από απομακρυσμένο σύστημα υποστήριξης. Αυτό μπορεί να διαρκέσει λίγο.</string>
     <string name="donate_button_invoice">Τιμολόγιο</string>
-    <string name="menu_sort_direction">Κατεύθυνση ταξινόμησης</string>
     <string name="never">ποτέ</string>
     <string name="always">πάντα</string>
     <string name="auto_fill_account_from_aggregate_only">Μόνο όταν ξεκινούν από συνολικό λογαριασμό.</string>

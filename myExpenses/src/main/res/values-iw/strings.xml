@@ -445,7 +445,6 @@
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">תמונות לא ברורות</string>
     <string name="pref_manage_stale_images_summary">ניהול תמונות שנותרו מעסקאות שנמחקו</string>
-    <string name="image_deleted">תמונה נמחקה</string>
     <string name="transaction_deleted">עסקה נמחקה</string>
     <string name="account_deleted">החשבון נמחק</string>
     <string name="dialog_export_applied_to_filter">רק עסקאות התואמות את המסנן הנוכחי ייחשבו.</string>
@@ -477,8 +476,6 @@
     <string name="pref_auto_backup_time_title">זמן גיבוי אוטומטי</string>
     <string name="calendar_permission_required"><i>{app_name}</i> צרכה רשות לגשת ליומן שלך, על מנת ליצור תוכניות עבור עסקאות עתידיות חוזרות.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">זכה בגישה</string>
-    <string name="switch_on_text">פעיל</string>
-    <string name="switch_off_text">מופסק</string>
     <string name="menu_move">העבר</string>
     <string name="dialog_title_select_target">בחר מטרה</string>
     <string name="transform_subcategory_to_main">הפוך לקטגוריה הראשית</string>
@@ -601,7 +598,6 @@
     <string name="extend_validity">הארכת תוקף</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">מאחזר נתונים מרחוק backend. פעולה זו עשויה להימשך זמן מה.</string>
     <string name="donate_button_invoice">חשבונית</string>
-    <string name="menu_sort_direction">כיוון מיון</string>
     <string name="never">לעולם לא</string>
     <string name="always">תמיד</string>
     <string name="auto_fill_account_from_aggregate_only">רק כאשר הותחל מחשבון מצטבר.</string>

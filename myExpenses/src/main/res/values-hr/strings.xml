@@ -383,8 +383,6 @@
     <string name="restore_calendar_handling_ignore">Ne obnavljaj planove</string>
     <string name="restore_not_possible_target_calendar_missing">Kalendar %s postavljen u arhivi sigurnosne kopije nije pronađen. Obnavljanje je prekinuto.</string>
     <string name="restore_not_possible_local_calendar_missing">Trenutačni kalendar za planiranje nije dostupan.</string>
-    <string name="switch_on_text">Uključeno</string>
-    <string name="switch_off_text">Isključeno</string>
     <string name="preferences_week_start_day_title">Tjedan počinje u</string>
     <string name="content_description_calculator">Kalkulator</string>
     <string name="template">Predložak</string>
@@ -452,7 +450,6 @@
     <string name="auto_fill_account_from_aggregate_only">Samo kad se počne iz kumuliranog računa.</string>
     <string name="always">uvijek</string>
     <string name="never">nikada</string>
-    <string name="menu_sort_direction">Smjer razvrstavanja</string>
     <string name="donate_button_invoice">Račun</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Dohvaćanje podataka s udaljenog pozadinskog sustava. To može potrajati.</string>
     <string name="extend_validity">Produlji valjanost</string>
@@ -592,7 +589,6 @@
     <string name="dialog_export_applied_to_filter">Razmatrat će se samo transakcije koje odgovaraju trenutačnom filtru.</string>
     <string name="account_deleted">Račun je izbrisan</string>
     <string name="transaction_deleted">Transakcija je izbrisana</string>
-    <string name="image_deleted">Slika je izbrisana</string>
     <string name="pref_manage_stale_images_summary">Upravljaj slikama koje su preostale od izbrisanih transakcija</string>
     <string name="pref_manage_stale_images_title">Stara slika</string>
     <string name="licence_validation_premium">Premium funkcije su otključane.</string>

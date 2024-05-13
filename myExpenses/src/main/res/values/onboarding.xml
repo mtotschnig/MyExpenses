@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources tools:ignore="UnusedResources" xmlns:tools="http://schemas.android.com/tools">
     <string name="testData_account1Label">My wallet</string>
     <string name="testData_account1Description">Daily expenses</string>
     <!--  Account 2 is used as an example for a short term budget used for a travel to a country with

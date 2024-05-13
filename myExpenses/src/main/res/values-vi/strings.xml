@@ -422,7 +422,6 @@
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Ảnh mất hiệu lực</string>
     <string name="pref_manage_stale_images_summary">Xử lý hình ảnh còn dư từ các giao dịch đã bị xoá</string>
-    <string name="image_deleted">Ảnh đã bị xoá</string>
     <string name="transaction_deleted">Giao dịch đã bị xoá</string>
     <string name="dialog_export_applied_to_filter">Chỉ các giao dịch khớp bộ lọc hiện tại sẽ được tính đến</string>
     <string name="export_handle_deleted_create_helper">Tạo giao dịch hỗ trợ</string>
@@ -453,8 +452,6 @@
     <string name="pref_auto_backup_time_title">Thời điểm tự động sao lưu</string>
     <string name="calendar_permission_required"><i>{app_name}</i> cần sự cho phép của bạn để truy cập vào lịch, từ đó tạo các kế hoạch cho giao dịch trong tương lai và giao dịch lặp lại.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Cấp phép truy cập</string>
-    <string name="switch_on_text">Bật</string>
-    <string name="switch_off_text">Tắt</string>
     <string name="menu_move">Di chuyển</string>
     <string name="dialog_title_select_target">Chọn mục tiêu</string>
     <string name="transform_subcategory_to_main">Chuyển đổi thành danh mục chính</string>
@@ -573,7 +570,6 @@
     <string name="extend_validity">Gia hạn tính hợp lệ</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Đang lấy dữ liệu từ backend từ xa. Điều này có thể mất một lúc.</string>
     <string name="donate_button_invoice">Hoá đơn</string>
-    <string name="menu_sort_direction">Chiều sắp xếp</string>
     <string name="never">không bao giờ</string>
     <string name="always">luôn luôn</string>
     <string name="auto_fill_account_from_aggregate_only">Chỉ khi bắt đầu từ tài khoản gộp.</string>

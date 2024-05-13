@@ -438,7 +438,6 @@
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">நாள்பட்ட படங்கள்</string>
     <string name="pref_manage_stale_images_summary">நீக்கப்பட்ட பரிவர்த்தனைகளில் இருந்து மீதமுள்ள படங்களை நிர்வகிக்கவும்</string>
-    <string name="image_deleted">படம் நீக்கப்பட்டது</string>
     <string name="transaction_deleted">பரிவர்த்தனை நீக்கப்பட்டது</string>
     <string name="account_deleted">கணக்கு நீக்கப்பட்டது</string>
     <string name="dialog_export_applied_to_filter">தற்போதைய வடிப்பான் மூலம் பொருந்திய பரிவர்த்தனைகள் மட்டுமே கருதப்படும்.</string>
@@ -470,8 +469,6 @@
     <string name="pref_auto_backup_time_title">தன்னியக்க காப்புப்பிரதி காலப்பொழுது</string>
     <string name="calendar_permission_required"><i> {app_name} </i> -க்கு எதிர்காலத்திற்கான திட்டங்கள் மற்றும் மீண்டும் நிகழ்கின்ற பரிவர்த்தனைகள் உருவாக்க, உங்களுடைய நாட்காட்டியை அணுக அனுமதி தேவை.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">அனுமதி வழங்கு</string>
-    <string name="switch_on_text">இயக்கு</string>
-    <string name="switch_off_text">அணைக்கப்பட்டுள்ளது</string>
     <string name="menu_move">நகர்த்து</string>
     <string name="dialog_title_select_target">இலக்கைத் தேர்ந்தெடுக்கவும்</string>
     <string name="transform_subcategory_to_main">முக்கிய வகையாக மாற்றவும்</string>
@@ -594,7 +591,6 @@
     <string name="extend_validity">செல்லுபடியாகும் காலத்தை நீட்டு</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">தொலை பின்தளத்தில் இருந்து தரவைப் பெறுகிறது. இதற்கு சிறிது நேரம் ஆகலாம்.</string>
     <string name="donate_button_invoice">விலைப்பட்டியல்</string>
-    <string name="menu_sort_direction">வரிசைப்படுத்தும் திசை</string>
     <string name="never">எப்போதும் இல்லை</string>
     <string name="always">எப்பொழுதும்</string>
     <string name="auto_fill_account_from_aggregate_only">மொத்த கணக்கிலிருந்து தொடங்கும்போது மட்டுமே.</string>

@@ -443,7 +443,6 @@
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Immagini vecchie</string>
     <string name="pref_manage_stale_images_summary">Gestisci le immagini lasciate da transazioni eliminate</string>
-    <string name="image_deleted">L\'immagine è stata cancellata</string>
     <string name="transaction_deleted">Transazione è stata eliminata</string>
     <string name="account_deleted">Il conto è stato elminato</string>
     <string name="dialog_export_applied_to_filter">Saranno considerate solo le transazioni che corrispondono al filtro corrente.</string>
@@ -475,8 +474,6 @@
     <string name="pref_auto_backup_time_title">Ora di backup automatico</string>
     <string name="calendar_permission_required"><i>{app_name}</i> richiede l\'autorizzazione per accedere al calendario, al fine di creare piani per operazione future e ricorrenti.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Concedere l\'accesso</string>
-    <string name="switch_on_text">Attivo</string>
-    <string name="switch_off_text">Non attivo</string>
     <string name="menu_move">Spostare</string>
     <string name="dialog_title_select_target">Selezionare la destinazione</string>
     <string name="transform_subcategory_to_main">Trasformare alla categoria principale</string>
@@ -599,7 +596,6 @@
     <string name="extend_validity">Estendere la validità</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Recupero dei dati dal back-end remoto. Questo potrebbe richiedere del tempo.</string>
     <string name="donate_button_invoice">Fattura</string>
-    <string name="menu_sort_direction">Scelta elenco</string>
     <string name="never">mai</string>
     <string name="always">sempre</string>
     <string name="auto_fill_account_from_aggregate_only">Solo se avviato da un conto aggregato.</string>

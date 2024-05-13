@@ -451,7 +451,6 @@
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Устаревшие изображения</string>
     <string name="pref_manage_stale_images_summary">Управляйте фотографиями, оставшимися от удаленных транзакций</string>
-    <string name="image_deleted">Изображение было удалено</string>
     <string name="transaction_deleted">Транзакция была удалена</string>
     <string name="dialog_export_applied_to_filter">Только операции, соответствующие текущему фильтру, будут рассматриваться.</string>
     <string name="export_handle_deleted_create_helper">Создать вспомогательную транзакцию</string>
@@ -482,8 +481,6 @@
     <string name="pref_auto_backup_time_title">Время автоматического резервного копирования</string>
     <string name="calendar_permission_required"><i>{app_name}</i> необходимо разрешение на доступ к Вашему календарю, для создания графиков будущих и повторяющихся операций.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Предоставить доступ</string>
-    <string name="switch_on_text">ВКЛ</string>
-    <string name="switch_off_text">ВЫКЛ</string>
     <string name="menu_move">Переместить</string>
     <string name="dialog_title_select_target">Выберите цель</string>
     <string name="transform_subcategory_to_main">Превратить в основную категорию</string>
@@ -606,7 +603,6 @@
     <string name="extend_validity">Продлить действительность</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Получение данных с удаленного сервера. Это может занять некоторое время.</string>
     <string name="donate_button_invoice">Счёт-фактура</string>
-    <string name="menu_sort_direction">Направление сортировки</string>
     <string name="never">Никогда</string>
     <string name="always">Всегда</string>
     <string name="auto_fill_account_from_aggregate_only">Только при запуске с совокупного счета.</string>

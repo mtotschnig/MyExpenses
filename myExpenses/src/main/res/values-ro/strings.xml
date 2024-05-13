@@ -412,7 +412,6 @@
     <string name="restore_not_possible_target_calendar_missing">Calendarul  %s setat în arhiva de backup nu există la nivel local. Restaurare a fost abandonată.</string>
     <string name="restore_not_possible_local_calendar_missing">Calendarul curent de scadenţe nu este disponibil.</string>
     <string name="pref_manage_stale_images_summary">Gestionați imaginile rămase din tranzacțiile șterse</string>
-    <string name="image_deleted">Poza a fost ștearsă</string>
     <string name="transaction_deleted">Tranzacția a fost ștearsă</string>
     <string name="export_handle_deleted_update_balance">Actualizați soldul de deschidere</string>
     <string name="file_name">Nume fişier</string>
@@ -430,8 +429,6 @@
     <string name="pref_auto_backup_summary">Backup bază de date zilnic la timpul specificat</string>
     <string name="pref_auto_backup_time_title">Timp auto-backup</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Acordare acces</string>
-    <string name="switch_on_text">Activat</string>
-    <string name="switch_off_text">Dezactivat</string>
     <string name="menu_move">Muta</string>
     <string name="dialog_title_select_target">Selectează  targhet</string>
     <string name="transform_subcategory_to_main">Transformă in categorie principala</string>

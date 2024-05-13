@@ -292,8 +292,6 @@
     <string name="pref_auto_backup_title">Permetre còpia de seguretat automàtica</string>
     <string name="pref_auto_backup_summary">Còpia de seguretat de base de dades diària a l\'hora especificada (només si les dades han canviat).</string>
     <string name="pref_auto_backup_time_title">Hora de còpia de seguretat automàtica</string>
-    <string name="switch_on_text">Activat</string>
-    <string name="switch_off_text">Desactivat</string>
     <string name="menu_move">Mou</string>
     <string name="preferences_week_start_day_title">La setmana comença el</string>
     <string name="content_description_calculator">Calculadora</string>
@@ -519,7 +517,6 @@
     <string name="and">i</string>
     <string name="restore_calendar_handling_backup">Restaura projectes al calendari configurat a la còpia de seguretat, si existeix</string>
     <string name="restore_not_possible_local_calendar_missing">El calendari actual de planificació està indisponible.</string>
-    <string name="image_deleted">Imatge eliminada</string>
     <string name="menu_undelete_transaction">Cancel·la l\'eliminació</string>
     <string name="io_error_unable_to_create_file">Impossible crear l\'arxiu %1$s a la carpeta %2$s</string>
     <string name="csv_import_field_mapped_more_than_once">%s ha estat assignada més d\'un cop.</string>
@@ -552,7 +549,6 @@
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Canviar s subscripció mensual</string>
     <string name="extend_validity">Prolongar validesa</string>
     <string name="donate_button_invoice">Factura</string>
-    <string name="menu_sort_direction">Triï direcció</string>
     <string name="sync_login_again">Siusplau, iniciï sessió de nou.</string>
     <string name="menu_history_show_balance">Mostra balanç</string>
     <string name="menu_history_transfers">Inclou transferències</string>

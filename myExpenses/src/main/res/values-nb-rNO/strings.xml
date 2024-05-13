@@ -85,8 +85,6 @@
     <string name="transform_subcategory_to_main">Overfør til hovedkategori</string>
     <string name="dialog_title_select_target">Velg mål</string>
     <string name="menu_move">Flytt</string>
-    <string name="switch_off_text">Av</string>
-    <string name="switch_on_text">På</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Innvilg tilgang</string>
     <string name="pref_auto_backup_time_title">Tid for automatisk sikkerhetskopi</string>
     <string name="pref_auto_backup_title">Automatisk sikkerhetskopi</string>

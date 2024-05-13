@@ -437,7 +437,6 @@
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">ಹಳೆಯ ಚಿತ್ರಗಳು</string>
     <string name="pref_manage_stale_images_summary">ಅಳಿಸಿದ ವಹಿವಾಟಿನಿಂದ ಉಳಿದಿರುವ ಚಿತ್ರಗಳನ್ನು ನಿರ್ವಹಿಸಿ</string>
-    <string name="image_deleted">ಚಿತ್ರವನ್ನು ಅಳಿಸಲಾಗಿದೆ</string>
     <string name="transaction_deleted">ವಹಿವಾಟನ್ನು ಅಳಿಸಲಾಗಿದೆ</string>
     <string name="dialog_export_applied_to_filter">ಪ್ರಸ್ತುತ ಫಿಲ್ಟರ್‌ಗೆ ಹೊಂದಿಕೆಯಾಗುವ ವಹಿವಾಟುಗಳನ್ನು ಮಾತ್ರ ಪರಿಗಣಿಸಲಾಗುತ್ತದೆ.</string>
     <string name="export_handle_deleted_create_helper">ಸಹಾಯಕ ವ್ಯವಹಾರವನ್ನು ರಚಿಸಿ</string>
@@ -468,8 +467,6 @@
     <string name="pref_auto_backup_time_title">ಸ್ವಯಂ-ಬ್ಯಾಕಪ್ ಸಮಯ</string>
     <string name="calendar_permission_required">ಭವಿಷ್ಯದ ಮತ್ತು ಮರುಕಳಿಸುವ ವಹಿವಾಟುಗಳ ಯೋಜನೆಗಳನ್ನು ರಚಿಸಲು <i>{app_name}</i> ಗೆ ನಿಮ್ಮ ಕ್ಯಾಲೆಂಡರ್ ಪ್ರವೇಶಿಸಲು ಅನುಮತಿ ಅಗತ್ಯವಿದೆ.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">ಪ್ರವೇಶವನ್ನು ನೀಡಿ</string>
-    <string name="switch_on_text">ಆನ್</string>
-    <string name="switch_off_text">ಆರಿಸಿ</string>
     <string name="menu_move">ಸರಿಸಿ</string>
     <string name="dialog_title_select_target">ಗುರಿ ಆಯ್ಕೆಮಾಡಿ</string>
     <string name="transform_subcategory_to_main">ಮುಖ್ಯ ವರ್ಗಕ್ಕೆ ಪರಿವರ್ತನೆ</string>
@@ -592,7 +589,6 @@
     <string name="extend_validity">ಸಿಂಧುತ್ವವನ್ನು ವಿಸ್ತರಿಸಿ</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್‌ನಿಂದ ಡೇಟಾವನ್ನು ಪಡೆಯಲಾಗುತ್ತಿದೆ. ಇದಕ್ಕೆ ಸ್ವಲ್ಪ ಸಮಯ ತೆಗೆದುಕೊಳ್ಳಬಹುದು.</string>
     <string name="donate_button_invoice">ಸರಕುಪಟ್ಟಿ</string>
-    <string name="menu_sort_direction">ವಿಂಗಡಣೆ ನಿರ್ದೇಶನ</string>
     <string name="never">ಎಂದಿಗೂ</string>
     <string name="always">ಯಾವಾಗಲೂ</string>
     <string name="auto_fill_account_from_aggregate_only">ಒಟ್ಟು ಖಾತೆಯಿಂದ ಪ್ರಾರಂಭಿಸಿದಾಗ ಮಾತ್ರ.</string>
