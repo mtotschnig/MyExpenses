@@ -167,7 +167,6 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
             }
         })
         updateFromDownStream()
-        updateFromUpStream()
     }
 
     override fun setContentDescription(contentDescription: CharSequence) {
