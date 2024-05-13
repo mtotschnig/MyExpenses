@@ -28,7 +28,7 @@ import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.testutils.BaseUiTest
-import org.totschnig.myexpenses.testutils.Espresso.withIdAndParent
+import org.totschnig.myexpenses.testutils.withIdAndParent
 import org.totschnig.myexpenses.testutils.withOperationType
 
 const val TEMPLATE_TITLE = "Espresso template"

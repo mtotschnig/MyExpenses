@@ -23,8 +23,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
-import org.totschnig.myexpenses.testutils.Espresso
 import org.totschnig.myexpenses.testutils.toolbarTitle
+import org.totschnig.myexpenses.testutils.withIdAndParent
 
 class ExpenseEditFlowTest : BaseExpenseEditTest() {
     lateinit var template: Template
@@ -82,7 +82,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         setAmount(123)
         closeSoftKeyboard()
         onView(
-            Espresso.withIdAndParent(
+            withIdAndParent(
                 R.id.Calculator,
                 R.id.Amount
             )

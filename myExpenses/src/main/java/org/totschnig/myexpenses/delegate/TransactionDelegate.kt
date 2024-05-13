@@ -422,13 +422,10 @@ abstract class TransactionDelegate<T : ITransaction>(
         populateOriginalCurrency()
         fillAmount(transaction.amount.amountMajor)
         transaction.equivalentAmount?.let {
-            if (transaction.equivalentAmount != null) {
-                equivalentAmountVisible = true
-                viewBinding.EquivalentAmount.setFractionDigits(it.currencyUnit.fractionDigits)
-                viewBinding.EquivalentAmount.post {
-                    viewBinding.EquivalentAmount.setAmount(it.amountMajor.abs())
-                }
-
+            equivalentAmountVisible = true
+            viewBinding.EquivalentAmount.setFractionDigits(it.currencyUnit.fractionDigits)
+            viewBinding.EquivalentAmount.post {
+                viewBinding.EquivalentAmount.setAmount(it.amountMajor.abs())
             }
         }
         if (withAutoFill && isMainTemplate) {
@@ -938,8 +935,8 @@ abstract class TransactionDelegate<T : ITransaction>(
         )
         viewBinding.OriginalAmount.configureExchange(currencyUnit)
         if (hasHomeCurrency(account)) {
-            viewBinding.EquivalentAmountRow.visibility = View.GONE
             equivalentAmountVisible = false
+            configureEquivalentAmountVisibility()
         } else {
             viewBinding.EquivalentAmount.configureExchange(currencyUnit, homeCurrency)
         }

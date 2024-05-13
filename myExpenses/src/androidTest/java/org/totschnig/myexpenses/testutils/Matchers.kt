@@ -3,10 +3,13 @@ package org.totschnig.myexpenses.testutils
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.matcher.BoundedMatcher
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withParentIndex
@@ -14,12 +17,15 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Description
 import org.hamcrest.Matcher
+import org.hamcrest.Matchers
+import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.TypeSafeMatcher
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.IdHolder
 import org.totschnig.myexpenses.delegate.TransactionDelegate.OperationType
 import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 
 fun withMethod(label: String): Matcher<Any> =
@@ -121,8 +127,8 @@ fun withAdaptedData(dataMatcher: Matcher<out Any>) = object : TypeSafeMatcher<Vi
 @Suppress("unused")
 fun withListSize(size: Int) = withListSize(`is`(size))
 
-fun withListSize(integerMatcher: Matcher<Int>): Matcher<View> {
-    return object : BoundedMatcher<View, AdapterView<*>>(AdapterView::class.java) {
+fun withListSize(integerMatcher: Matcher<Int>) =
+    object : BoundedMatcher<View, AdapterView<*>>(AdapterView::class.java) {
         override fun describeTo(description: Description) {
             description.appendText("with number: ")
             integerMatcher.describeTo(description)
@@ -132,5 +138,20 @@ fun withListSize(integerMatcher: Matcher<Int>): Matcher<View> {
             return integerMatcher.matches(adapterView.adapter.count)
         }
     }
-}
 
+fun withIdAndParent(id: Int, parentId: Int): Matcher<View> =
+    allOf(withId(id), withParent(withId(parentId)))
+
+fun withIdAndAncestor(id: Int, parentId: Int): Matcher<View> =
+    allOf(withId(id), isDescendantOfA(withId(parentId)))
+
+fun withChain(id: Int, ancestor1: Int, ancestor2: Int) =
+    allOf(
+        withId(id),
+        isDescendantOfA(
+            allOf(
+                withId(ancestor1),
+                isDescendantOfA(withId(ancestor2))
+            )
+        )
+    )

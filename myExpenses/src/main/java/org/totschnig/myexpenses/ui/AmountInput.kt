@@ -156,22 +156,18 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
         super.onAttachedToWindow()
         upStreamDependency = context.getActivity()?.findViewById(upStreamDependencyRef)
         downStreamDependency = context.getActivity()?.findViewById(downStreamDependencyRef)
-        downStreamDependency?.let {
-            it.addTextChangedListener(object : MyTextWatcher() {
-                override fun afterTextChanged(s: Editable) {
-                    if (blockWatcher) return
-                    val amount1 = getAmount(false)
-                    val amount2 = it.getAmount(false)
-                    Timber.i("self: %s, downStream: %s", amount1, amount2)
-                    exchangeRateEdit().calculateAndSetRate(amount1, amount2)
-                }
-            })
-        }
+        downStreamDependency?.addTextChangedListener(object : MyTextWatcher() {
+            override fun afterTextChanged(s: Editable) {
+                if (!blockWatcher) updateFromDownStream()
+            }
+        })
         upStreamDependency?.addTextChangedListener(object : MyTextWatcher() {
             override fun afterTextChanged(s: Editable) {
                 updateFromUpStream()
             }
         })
+        updateFromDownStream()
+        updateFromUpStream()
     }
 
     override fun setContentDescription(contentDescription: CharSequence) {
@@ -242,6 +238,15 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
             if (rate != null) {
                 setAmount(it.multiply(rate), updateType = false, blockWatcher = true)
             }
+        }
+    }
+
+    private fun updateFromDownStream() {
+        downStreamDependency?.let {
+            val amount1 = getAmount(false)
+            val amount2 = it.getAmount(false)
+            Timber.i("self: %s, downStream: %s", amount1, amount2)
+            exchangeRateEdit().calculateAndSetRate(amount1, amount2)
         }
     }
 

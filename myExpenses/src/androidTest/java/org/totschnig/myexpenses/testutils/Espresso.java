@@ -143,13 +143,4 @@ public class Espresso {
       }
     };
   }
-
-  public static Matcher<View> withIdAndParent(final int id, final int parentId) {
-    return allOf(withId(id), withParent(withId(parentId)));
-  }
-
-  public static Matcher<View> withIdAndAncestor(final int id, final int parentId) {
-    return allOf(withId(id), isDescendantOfA(withId(parentId)));
-  }
-
 }
