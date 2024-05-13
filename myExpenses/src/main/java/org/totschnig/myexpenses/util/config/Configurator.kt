@@ -9,14 +9,10 @@ interface Configurator {
         ad_handling_waterfall;
     }
 
-    fun init() {}
-
     fun <T : Any> get(key: Configuration, defaultValue: T, clazz: KClass<T>) = defaultValue
 
     companion object {
-        val NO_OP = object : Configurator {
-
-        }
+        val NO_OP = object : Configurator {}
     }
 }
 
