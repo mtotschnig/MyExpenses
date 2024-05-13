@@ -39,6 +39,9 @@ class TestMyApplication : MyApplication() {
                 override fun provideCoroutineDispatcher() = Dispatchers.Main.immediate
             })
             .dataModule(DataModule(false))
+            .configurationModule(object : ConfigurationModule() {
+                override fun providesConfigurator(prefHandler: PrefHandler) = Configurator.NO_OP
+            })
             .build()
     }
 }

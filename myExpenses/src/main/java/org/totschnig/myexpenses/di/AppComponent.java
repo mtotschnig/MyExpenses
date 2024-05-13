@@ -11,7 +11,6 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.activity.BaseMyExpenses;
 import org.totschnig.myexpenses.activity.CsvImportActivity;
-import org.totschnig.myexpenses.activity.DebtOverview;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.PreferenceActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -65,6 +64,7 @@ import org.totschnig.myexpenses.util.ads.BaseAdHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
+import org.totschnig.myexpenses.viewmodel.BaseFunctionalityViewModel;
 import org.totschnig.myexpenses.viewmodel.BaseViewModel;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel2;
@@ -83,7 +83,6 @@ import org.totschnig.myexpenses.viewmodel.PlannerViewModel;
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel;
-import org.totschnig.myexpenses.viewmodel.BaseFunctionalityViewModel;
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel;
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 import org.totschnig.myexpenses.widget.AbstractListWidget;
@@ -130,6 +129,8 @@ public interface AppComponent {
     Builder networkModule(NetworkModule networkModule);
 
     Builder appmodule(AppModule appModule);
+
+    Builder configurationModule(ConfigurationModule configurationModule);
 
     AppComponent build();
   }
