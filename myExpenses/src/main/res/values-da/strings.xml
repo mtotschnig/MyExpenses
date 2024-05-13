@@ -257,7 +257,7 @@
     <string name="pref_security_question_summary">Lader dig oplåse appen, hvis du har glemt din adgangskode.</string>
     <string name="pref_security_question_title">Sikkerhedsspørgsmål</string>
     <string name="pref_send_feedback_title">Send feedback</string>
-    <string name="pref_share_target_summary">Lad den være tom, hvis du vil vælge mellem passende apps (e-mail, Dropbox, Google Docs, ...), eller angiv URL i et af de understøttede skemaer</string>
+    <string name="pref_share_target_summary">Lad den være tom, hvis du vil vælge mellem passende apps (e-mail, Dropbox, Google Docs, …), eller angiv URL i et af de understøttede skemaer</string>
     <string name="pref_share_target_title">Upload URL</string>
     <string name="pref_shortcut_added">Genvej blev føjet til Startskærm</string>
     <string name="pref_shortcut_not_added">Ingen tilgængelig Startskærm, der accepterer genveje.</string>

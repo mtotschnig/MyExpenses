@@ -149,9 +149,9 @@
 <string name="fa_bath_label">"Bath"</string>
 <string name="fa_battery_empty_label">"Battery Empty"</string>
 <string name="fa_battery_full_label">"Battery Full"</string>
-<string name="fa_battery_half_label">"Battery 1/2 Full"</string>
-<string name="fa_battery_quarter_label">"Battery 1/4 Full"</string>
-<string name="fa_battery_three_quarters_label">"Battery 3/4 Full"</string>
+<string name="fa_battery_half_label">"Battery ½ Full"</string>
+<string name="fa_battery_quarter_label">"Battery ¼ Full"</string>
+<string name="fa_battery_three_quarters_label">"Battery ¾ Full"</string>
 <string name="fa_battle_net_label">"Battle.net"</string>
 <string name="fa_bed_label">"Bed"</string>
 <string name="fa_bed_pulse_label">"Bed pulse"</string>
