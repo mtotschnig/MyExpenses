@@ -20,6 +20,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -47,7 +48,7 @@ fun IconSelector(
 ) {
     val context = LocalContext.current
     val categories = IconCategory.values
-    var selectedTabIndex by rememberSaveable { mutableStateOf(1) }
+    var selectedTabIndex by rememberSaveable { mutableIntStateOf(1) }
     var searchTerm by rememberSaveable { mutableStateOf("") }
     val icons = remember {
         derivedStateOf {
