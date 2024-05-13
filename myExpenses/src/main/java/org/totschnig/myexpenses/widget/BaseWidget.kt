@@ -46,8 +46,12 @@ abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvide
     fun clickBaseIntent(context: Context) = Intent(WIDGET_CLICK, null, context, javaClass)
 
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action == WIDGET_CLICK) handleWidgetClick(context, intent)
-        else super.onReceive(context, intent)
+        when (intent.action) {
+            WIDGET_CLICK -> handleWidgetClick(context, intent)
+            WIDGET_CONTEXT_CHANGED -> intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
+                ?.let { onUpdate(context, AppWidgetManager.getInstance(context), it) }
+            else -> super.onReceive(context, intent)
+        }
     }
 
     override fun onAppWidgetOptionsChanged(

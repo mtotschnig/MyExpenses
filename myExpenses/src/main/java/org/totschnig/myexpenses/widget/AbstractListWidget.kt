@@ -52,8 +52,6 @@ abstract class AbstractListWidget(
             WIDGET_LIST_DATA_CHANGED ->
                 appWidgetIds?.let { instance.notifyAppWidgetViewDataChanged(it, R.id.list) }
 
-            WIDGET_CONTEXT_CHANGED -> appWidgetIds?.let { onUpdate(context, instance, it) }
-
             else -> super.onReceive(context, intent)
         }
     }

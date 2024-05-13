@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
 import org.totschnig.myexpenses.widget.AccountWidget
+import org.totschnig.myexpenses.widget.BudgetWidget
 import org.totschnig.myexpenses.widget.TemplateWidget
 import org.totschnig.myexpenses.widget.WIDGET_CONTEXT_CHANGED
 import org.totschnig.myexpenses.widget.updateWidgets
@@ -273,17 +274,16 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
                 updateAllWidgets()
             }
 
-            getKey(PrefKey.CUSTOM_DECIMAL_FORMAT) -> {
-                currencyFormatter.invalidate(contentResolver)
-            }
+            getKey(PrefKey.CUSTOM_DECIMAL_FORMAT) -> currencyFormatter.invalidate(contentResolver)
 
-            getKey(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET) -> {
+            getKey(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET) ->
                 updateWidgetsForClass(AccountWidget::class.java)
-            }
 
-            getKey(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET) -> {
+            getKey(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET) ->
                 updateWidgetsForClass(TemplateWidget::class.java)
-            }
+
+            getKey(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) ->
+                updateWidgetsForClass(BudgetWidget::class.java)
 
             getKey(PrefKey.PLANNER_EXECUTION_TIME) -> {
                 enqueuePlanner(false)
