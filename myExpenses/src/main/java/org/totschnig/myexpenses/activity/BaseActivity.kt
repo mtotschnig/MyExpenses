@@ -976,8 +976,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                             }
                         )
                     addCallback(object : Snackbar.Callback() {
-                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                            snackBar = null
+                        override fun onDismissed(transientBottomBar: Snackbar, event: Int) {
+                            if (snackBar == transientBottomBar) {
+                                snackBar = null
+                            }
                         }
                     })
                     show()
@@ -1018,7 +1020,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     fun dismissSnackBar() {
         snackBar?.dismiss()
-        snackBar = null
     }
 
     @IdRes

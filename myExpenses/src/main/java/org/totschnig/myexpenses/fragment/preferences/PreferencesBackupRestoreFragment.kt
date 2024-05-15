@@ -18,11 +18,15 @@ class PreferencesBackupRestoreFragment : BasePreferenceIOBRFragment() {
         loadSyncAccountData()
     }
 
-    fun loadSyncAccountData() {
+    fun loadSyncAccountData(accountName: String? = null) {
         with(requirePreference<AccountPreference>(PrefKey.AUTO_BACKUP_CLOUD)) {
             setData(requireContext())
             val hasSyncBackends = entries.size >= 2
             isVisible = hasSyncBackends
+            accountName?.let {
+                value = it
+                callChangeListener(it)
+            }
             requirePreference<Preference>(PrefKey.AUTO_BACKUP_CLOUD_SETUP).isVisible = !hasSyncBackends
         }
     }

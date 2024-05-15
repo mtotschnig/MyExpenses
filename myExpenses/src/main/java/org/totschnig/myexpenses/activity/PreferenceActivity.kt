@@ -345,9 +345,8 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
     }
 
     override fun onReceiveSyncAccountData(data: SyncViewModel.SyncAccountData) {
-        prefHandler.putString(PrefKey.AUTO_BACKUP_CLOUD, data.accountName)
         twoPanePreference.getDetailFragment<PreferencesBackupRestoreFragment>()
-            ?.loadSyncAccountData()
+            ?.loadSyncAccountData(data.accountName)
     }
 
     override fun onResumeFragments() {
