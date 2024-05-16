@@ -109,6 +109,10 @@ interface PrefHandler {
 
     val shouldDebug: Boolean
         get() = getBoolean(PrefKey.DEBUG_LOGGING, BuildConfig.DEBUG)
+
+    val cloudStorage: String?
+        get() = getString(PrefKey.AUTO_BACKUP_CLOUD)
+            ?.takeIf { it != AccountPreference.SYNCHRONIZATION_NONE }
 }
 
 inline fun <reified T : Enum<T>> PrefHandler.enumValueOrDefault(prefKey: PrefKey, default: T): T =

@@ -89,15 +89,21 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
             R.id.SYNC_UNLINK_COMMAND -> {
                 listFragment.syncUnlink(args.getString(DatabaseConstants.KEY_UUID)!!)
             }
+
             R.id.SYNC_REMOVE_BACKEND_COMMAND -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    if (syncViewModel.removeBackend(args.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!)) {
+                    val accountName = args.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!
+                    if (syncViewModel.removeBackend(accountName)) {
                         listFragment.reloadAccountList()
+                        if (prefHandler.cloudStorage == accountName) {
+                            prefHandler.remove(PrefKey.AUTO_BACKUP_CLOUD)
+                        }
                     }
                 } else {
                     CrashHandler.report(IllegalStateException("Remove backend not supported on API 21"))
                 }
             }
+
             R.id.SYNC_LINK_COMMAND_LOCAL_DO -> {
                 val account = args.getSerializable(KEY_ACCOUNT) as Account
                 syncViewModel.syncLinkLocal(
@@ -111,6 +117,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
                     }
                 }
             }
+
             R.id.SYNC_LINK_COMMAND_REMOTE_DO -> {
                 val account = args.getSerializable(KEY_ACCOUNT) as Account
                 if (account.uuid == intent.getStringExtra(DatabaseConstants.KEY_UUID)) {
@@ -177,6 +184,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
                     .show(supportFragmentManager, "SYNC_LINK_LOCAL")
                 return true
             }
+
             R.id.SYNC_LINK_COMMAND_REMOTE -> {
                 val b = Bundle()
                 b.putString(
@@ -200,6 +208,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
                     .show(supportFragmentManager, "SYNC_LINK_REMOTE")
                 return true
             }
+
             else -> return false
         }
     }

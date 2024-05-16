@@ -61,14 +61,14 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
                 }
             }
             when (backupState) {
-                is BackupState.Prepared -> backupState.appDir.onSuccess {
+                is BackupState.Prepared -> backupState.appDir.onSuccess { file ->
                     if (supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_CONFIRM_BACKUP) == null) {
                         val isProtected =
                             !TextUtils.isEmpty(prefHandler.getString(PrefKey.EXPORT_PASSWORD, null))
                         val message = StringBuilder().append(
                             getString(
                                 R.string.warning_backup,
-                                it.displayName
+                                file.displayName
                             )
                         )
                             .append(" ")
@@ -98,14 +98,10 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
                                 ConfirmationDialogFragment.KEY_ICON,
                                 if (isProtected) R.drawable.ic_lock else 0
                             )
-                            val withSync = prefHandler.getString(
-                                PrefKey.AUTO_BACKUP_CLOUD,
-                                AccountPreference.SYNCHRONIZATION_NONE
-                            )
-                            if (withSync != AccountPreference.SYNCHRONIZATION_NONE) {
+                            prefHandler.cloudStorage?.let {
                                 putString(
                                     ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
-                                    getString(R.string.backup_save_to_sync_backend, withSync)
+                                    getString(R.string.backup_save_to_sync_backend, it)
                                 )
                                 putBoolean(
                                     ConfirmationDialogFragment.KEY_CHECKBOX_INITIALLY_CHECKED,

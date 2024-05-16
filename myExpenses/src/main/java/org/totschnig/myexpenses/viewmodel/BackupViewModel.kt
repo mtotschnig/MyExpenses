@@ -44,10 +44,7 @@ class BackupViewModel(application: Application) : ContentResolvingAndroidViewMod
                     doBackup(
                         getApplication(),
                         prefHandler,
-                        if (withSync) prefHandler.getString(
-                            PrefKey.AUTO_BACKUP_CLOUD,
-                            null
-                        ) else null
+                        withSync
                     ).mapCatching { (backupFile, oldBackups) ->
                         val requireConfirmation =
                             prefHandler.getBoolean(PrefKey.PURGE_BACKUP_REQUIRE_CONFIRMATION, true)
@@ -68,7 +65,7 @@ class BackupViewModel(application: Application) : ContentResolvingAndroidViewMod
         emit(
             runCatching {
                 getApplication<MyApplication>().contentResolver.openInputStream(uri).use {
-                    if (it == null) throw(IOException("Unable to open file $uri"))
+                    if (it == null) throw IOException("Unable to open file $uri")
                     EncryptionHelper.isEncrypted(it)
                 }
             })
