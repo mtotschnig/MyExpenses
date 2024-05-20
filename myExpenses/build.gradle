@@ -363,7 +363,6 @@ tasks.register('echoPublishTag') {
         def currentBranch = 'git branch --show-current'.execute().text.trim()
 
         if (currentBranch == 'master') {
-            println "ChangeLog.install/bin/ChangeLog fdroid ${versionName} ${versionCode}"
             println "git add metadata/*/changelogs/${versionCode}.txt"
             println "git commit -m \"Release ${versionName}\""
             println "git push"

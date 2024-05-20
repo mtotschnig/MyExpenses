@@ -12,10 +12,5 @@
   * ./gradlew :myExpenses:connectedExternDebugAndroidTest
   * ./gradlew clean :myExpenses:packageExternReleaseUniversalApk
 * test upgrade mechanism
+* Run ChangeLogGenerator#generateChangeLogFdroid
 * execute command returned by ./gradlew echoPublishTag
-
-#How to build ChangeLog tool
-
-* uncomment module ChangeLog in settings.gradle
-* ./gradlew ChangeLog:install
-* mv ChangeLog/build/install/ChangeLog/ ChangeLog.install
