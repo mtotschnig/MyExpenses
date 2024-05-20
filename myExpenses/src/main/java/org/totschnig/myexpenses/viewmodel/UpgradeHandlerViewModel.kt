@@ -539,6 +539,12 @@ class UpgradeHandlerViewModel(application: Application) :
                         }
                 }
 
+                if (fromVersion < 738) {
+                    if (prefHandler.getString(PrefKey.PRINT_FOOTER_RIGHT, null) == "{@page}") {
+                        prefHandler.putString(PrefKey.PRINT_FOOTER_RIGHT, "{page}")
+                    }
+                }
+
             } catch (e: Exception) {
                 throw Exception("upgrade from $fromVersion to $toVersion failed", e)
             }

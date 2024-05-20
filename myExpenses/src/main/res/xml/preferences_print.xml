@@ -27,7 +27,7 @@
             android:title="@string/bottom_center"
             my:useSimpleSummaryProvider="true" />
         <EditTextPreference
-            android:defaultValue="{@page}"
+            android:defaultValue="{page}"
             android:key="@string/pref_print_footer_right_key"
             android:title="@string/bottom_right"
             my:useSimpleSummaryProvider="true" />
