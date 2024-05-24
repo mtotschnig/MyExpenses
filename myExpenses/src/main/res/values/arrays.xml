@@ -320,5 +320,24 @@
     <string-array name="pref_print_paper_size_entries">
         <item>A4</item>
         <item>LETTER</item>
+        <item>LEGAL</item>
+        <item>TABLOID</item>
+        <item>EXECUTIVE</item>
+        <item>A0</item>
+        <item>A1</item>
+        <item>A2</item>
+        <item>A3</item>
+        <item>A5</item>
+        <item>A6</item>
+        <item>A7</item>
+        <item>B0</item>
+        <item>B1</item>
+        <item>B2</item>
+        <item>B3</item>
+        <item>B4</item>
+        <item>B5</item>
+        <item>B6</item>
+        <item>B7</item>
+        <item>LEDGER</item>
     </string-array>
 </resources>

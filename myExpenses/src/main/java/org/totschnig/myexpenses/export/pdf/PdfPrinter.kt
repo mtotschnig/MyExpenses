@@ -11,6 +11,7 @@ import com.itextpdf.text.DocumentException
 import com.itextpdf.text.Element
 import com.itextpdf.text.PageSize
 import com.itextpdf.text.Paragraph
+import com.itextpdf.text.Rectangle
 import com.itextpdf.text.pdf.ColumnText
 import com.itextpdf.text.pdf.PdfContentByte
 import com.itextpdf.text.pdf.PdfPRow
@@ -35,6 +36,7 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -79,11 +81,17 @@ object PdfPrinter {
 
     private fun getPaperFormat(context: Context, prefHandler: PrefHandler) =
         prefHandler.getString(PrefKey.PRINT_PAPER_FORMAT, null)?.let {
-            if (it == "A4") PageSize.A4 else PageSize.LETTER
+            PageSize::class.java.getField(it).get(null) as Rectangle
         } ?: when (Utils.getCountryFromTelephonyManager(context)) {
             "ph", "us", "bz", "ca", "pr", "cl", "co", "cr", "gt", "mx", "ni", "pa", "sv", "ve" -> PageSize.LETTER
             else -> PageSize.A4
         }
+
+    private fun getDocument(context: Context, prefHandler: PrefHandler): Document {
+        val paperFormat = getPaperFormat(context, prefHandler)
+        val margin = paperFormat.width * 0.06f
+        return Document(paperFormat, margin, margin, margin, margin)
+    }
 
     @Throws(IOException::class, DocumentException::class)
     fun print(
@@ -96,7 +104,7 @@ object PdfPrinter {
         val currencyContext = context.injector.currencyContext()
         val currencyUnit = currencyContext[account.currency]
         val prefHandler = context.injector.prefHandler()
-        val helper = PdfHelper()
+        val helper = PdfHelper(8f, context.myApplication.memoryClass)
         var selection = "$KEY_PARENTID is null"
         val selectionArgs: Array<String>
         if (!filter.isEmpty) {
@@ -114,7 +122,7 @@ object PdfPrinter {
             fileName,
             "application/pdf", "pdf"
         ) ?: throw createFileFailure(context, destDir, fileName)
-        val document = Document(getPaperFormat(context, prefHandler))
+        val document = getDocument(context, prefHandler)
         val sortBy = if (DatabaseConstants.KEY_AMOUNT == account.sortBy) {
             "abs(" + DatabaseConstants.KEY_AMOUNT + ")"
         } else {
