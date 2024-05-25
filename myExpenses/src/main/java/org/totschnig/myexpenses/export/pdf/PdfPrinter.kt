@@ -523,7 +523,7 @@ object PdfPrinter {
             if (hasComment || hasTags) {
                 table.addCell(emptyCell)
                 if (hasComment) {
-                    cell = helper.printToCell(transaction.comment, FontType.ITALIC)
+                    cell = helper.printToCell(transaction.comment!!, FontType.ITALIC)
                     if (isVoid) {
                         cell.phrase.chunks.getOrNull(0)?.also {
                             it.setGenericTag(VOID_MARKER)
