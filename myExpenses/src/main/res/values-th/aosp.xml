@@ -45,4 +45,8 @@
     <string name="end_date">"วันที่สิ้นสุด"</string>
     <string name="cloud_storage">"Cloud Storage"</string>
     <string name="privacy_header">"ความเป็นส่วนตัว"</string>
+    <string name="orientation">"แนววาง"</string>
+    <string name="portrait">"แนวตั้ง"</string>
+    <string name="landscape">"แนวนอน"</string>
+    <string name="title_font_size">"ขนาดอักษร"</string>
 </resources>

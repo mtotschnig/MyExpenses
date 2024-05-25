@@ -46,4 +46,8 @@
     <string name="end_date">"Lõppkuupäev"</string>
     <string name="cloud_storage">"Pilvepõhine salvestusruum"</string>
     <string name="privacy_header">"Privaatsus"</string>
+    <string name="orientation">"Suund"</string>
+    <string name="portrait">"Püstpaigutus"</string>
+    <string name="landscape">"Rõhtpaigutus"</string>
+    <string name="title_font_size">"Fondi suurus"</string>
 </resources>

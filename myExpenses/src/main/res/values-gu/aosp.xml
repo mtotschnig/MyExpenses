@@ -34,4 +34,8 @@
     <string name="end_date">"સમાપ્તિ તારીખ"</string>
     <string name="cloud_storage">"ક્લાઉડ સ્ટોરેજ"</string>
     <string name="privacy_header">"પ્રાઇવસી"</string>
+    <string name="orientation">"દિશા"</string>
+    <string name="portrait">"છબી"</string>
+    <string name="landscape">Landscape"</string>
+    <string name="title_font_size">"ફૉન્ટનું કદ"</string>
 </resources>

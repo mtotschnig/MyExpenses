@@ -43,4 +43,8 @@
     <string name="end_date">"Einddatum"</string>
     <string name="cloud_storage">"Wolkberging"</string>
     <string name="privacy_header">"Privaatheid"</string>
+    <string name="orientation">"Oriëntasie"</string>
+    <string name="portrait">"Regop"</string>
+    <string name="landscape">"Landskap"</string>
+    <string name="title_font_size">"Lettertipegrootte"</string>
 </resources>

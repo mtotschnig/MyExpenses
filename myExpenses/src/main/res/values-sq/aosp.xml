@@ -33,4 +33,8 @@
     <string name="full_screen">"Ekrani i plotë"</string>
     <string name="cloud_storage">"Hapësira ruajtëse në renë kompjuterike"</string>
     <string name="privacy_header">"Privatësia"</string>
+    <string name="orientation">Orientation"</string>
+    <string name="portrait">Portrait"</string>
+    <string name="landscape">Landscape"</string>
+    <string name="title_font_size">"Madhësia e shkrimit"</string>
 </resources>

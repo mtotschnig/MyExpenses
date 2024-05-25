@@ -289,4 +289,6 @@
     <string name="pref_print_footer_center_key">print_footer_center</string>
     <string name="pref_print_footer_right_key">print_footer_right</string>
     <string name="pref_print_paper_format_key">print_paper_format</string>
+    <string name="pref_print_font_size_key">print_font_size</string>
+    <string name="pref_print_paper_orientation_key">print_paper_orientation</string>
 </resources>

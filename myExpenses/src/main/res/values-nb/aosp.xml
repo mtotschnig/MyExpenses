@@ -45,4 +45,8 @@
     <string name="end_date">"Sluttdato"</string>
     <string name="cloud_storage">"Nettskylagring"</string>
     <string name="privacy_header">"Personvern"</string>
+    <string name="orientation">"Retning"</string>
+    <string name="portrait">"Stående"</string>
+    <string name="landscape">"Liggende"</string>
+    <string name="title_font_size">"Skriftstørrelse"</string>
 </resources>

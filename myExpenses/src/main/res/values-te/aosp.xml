@@ -97,4 +97,8 @@
     <string name="end_date">"ముగింపు తేదీ"</string>
     <string name="cloud_storage">"క్లౌడ్ స్టోరేజ్"</string>
     <string name="privacy_header">"గోప్యత"</string>
+    <string name="orientation">"తీరు"</string>
+    <string name="portrait">"చిత్రపటం"</string>
+    <string name="landscape">"చిత్రపటం"</string>
+    <string name="title_font_size">"ఫాంట్ సైజ్‌"</string>
 </resources>

@@ -38,4 +38,8 @@
     <string name="end_date">"Pabaigos data"</string>
     <string name="cloud_storage">"Saugykla debesyje"</string>
     <string name="privacy_header">"Privatumas"</string>
+    <string name="orientation">"Padėtis"</string>
+    <string name="portrait">"Stačias"</string>
+    <string name="landscape">"Gulsčias"</string>
+    <string name="title_font_size">"Šrifto dydis"</string>
 </resources>

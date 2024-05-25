@@ -32,6 +32,13 @@
         <attr name="android:max" />
     </declare-styleable>
 
+    <declare-styleable name="FloatSeekBarPreference">
+        <attr name="minValue" format="float"/>
+        <attr name="maxValue" format="float"/>
+        <attr name="valueSpacing" format="float"/>
+        <attr name="format" format="string"/>
+    </declare-styleable>
+
     <attr name="widgetLine1" format="string" />
     <attr name="widgetNote" format="string" />
     <attr name="colorIncome" format="color" />

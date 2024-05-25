@@ -114,4 +114,8 @@
     <string name="end_date">"Крайна дата"</string>
     <string name="cloud_storage">"Хранилище в облака"</string>
     <string name="privacy_header">"Поверителност"</string>
+    <string name="orientation">"Ориентация"</string>
+    <string name="portrait">"Портрет"</string>
+    <string name="landscape">"Пейзаж"</string>
+    <string name="title_font_size">"Размер на шрифта"</string>
 </resources>

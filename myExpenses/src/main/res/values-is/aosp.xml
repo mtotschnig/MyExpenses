@@ -43,4 +43,8 @@
     <string name="end_date">"Lokadagur"</string>
     <string name="cloud_storage">"Skýjageymsla"</string>
     <string name="privacy_header">"Persónuvernd"</string>
+    <string name="orientation">"Stefna"</string>
+    <string name="portrait">"Lóðrétt"</string>
+    <string name="landscape">"Lárétt"</string>
+    <string name="title_font_size">"Leturstærð"</string>
 </resources>

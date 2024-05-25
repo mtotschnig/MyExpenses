@@ -80,11 +80,14 @@ object PdfPrinter {
     }
 
     private fun getPaperFormat(context: Context, prefHandler: PrefHandler) =
-        prefHandler.getString(PrefKey.PRINT_PAPER_FORMAT, null)?.let {
+        (prefHandler.getString(PrefKey.PRINT_PAPER_FORMAT, null)?.let {
             PageSize::class.java.getField(it).get(null) as Rectangle
         } ?: when (Utils.getCountryFromTelephonyManager(context)) {
             "ph", "us", "bz", "ca", "pr", "cl", "co", "cr", "gt", "mx", "ni", "pa", "sv", "ve" -> PageSize.LETTER
             else -> PageSize.A4
+        }).let {
+            if (prefHandler.getString(PrefKey.PRINT_PAPER_ORIENTATION, "PORTRAIT") == "LANDSACPE")
+                it.rotate() else it
         }
 
     private fun getDocument(context: Context, prefHandler: PrefHandler): Document {

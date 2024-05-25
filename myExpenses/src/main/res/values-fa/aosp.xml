@@ -36,4 +36,8 @@
     <string name="end_date">"تاریخ پایان"</string>
     <string name="cloud_storage">"فضای ذخیره‌سازی ابری"</string>
     <string name="privacy_header">"حریم خصوصی"</string>
+    <string name="orientation">"جهت"</string>
+    <string name="portrait">Portrait"</string>
+    <string name="landscape">Landscape"</string>
+    <string name="title_font_size">"اندازه قلم"</string>
 </resources>

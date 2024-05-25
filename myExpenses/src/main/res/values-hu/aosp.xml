@@ -114,4 +114,8 @@
     <string name="end_date">"Befejezés dátuma"</string>
     <string name="cloud_storage">"Cloud Storage"</string>
     <string name="privacy_header">"Adatvédelem"</string>
+    <string name="orientation">"Tájolás"</string>
+    <string name="portrait">"Álló"</string>
+    <string name="landscape">"Fekvő"</string>
+    <string name="title_font_size">"Betűméret"</string>
 </resources>

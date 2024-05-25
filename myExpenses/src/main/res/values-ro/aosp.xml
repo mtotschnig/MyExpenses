@@ -105,4 +105,8 @@
     <string name="end_date">"Dată de încheiere"</string>
     <string name="cloud_storage">"Stocare în cloud"</string>
     <string name="privacy_header">"Confidențialitate"</string>
+    <string name="orientation">"Orientare"</string>
+    <string name="portrait">"Portret"</string>
+    <string name="landscape">"Peisaj"</string>
+    <string name="title_font_size">"Dimensiunea fontului"</string>
 </resources>

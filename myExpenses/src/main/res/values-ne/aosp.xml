@@ -36,4 +36,8 @@
     <string name="end_date">"समाप्त हुने मिति"</string>
     <string name="cloud_storage">"क्लाउड भण्डारणमा उपलब्ध खाली ठाउँ"</string>
     <string name="privacy_header">"गोपनीयता"</string>
+    <string name="orientation">Orientation"</string>
+    <string name="portrait">"पोर्ट्रेट"</string>
+    <string name="landscape">"ल्यान्डस्केप"</string>
+    <string name="title_font_size">"फन्टको आकार"</string>
 </resources>

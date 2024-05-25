@@ -31,4 +31,8 @@
     <string name="full_screen">"Цел екран"</string>
     <string name="cloud_storage">"Простор во облак"</string>
     <string name="privacy_header">"Приватност"</string>
+    <string name="orientation">"Ориентација"</string>
+    <string name="portrait">"Портрет"</string>
+    <string name="landscape">"Пејзаж"</string>
+    <string name="title_font_size">"Големина на фонт"</string>
 </resources>

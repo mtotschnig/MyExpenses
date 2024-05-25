@@ -39,4 +39,8 @@
     <string name="full_screen">"Толық экран"</string>
     <string name="cloud_storage">"Бұлт жады"</string>
     <string name="privacy_header">"Құпиялық"</string>
+    <string name="orientation">"Бағдары"</string>
+    <string name="portrait">"Кітаптық"</string>
+    <string name="landscape">"Альбомдық"</string>
+    <string name="title_font_size">"Қаріп өлшемі"</string>
 </resources>

@@ -104,4 +104,8 @@
     <string name="end_date">"종료일"</string>
     <string name="cloud_storage">"클라우드 스토리지"</string>
     <string name="privacy_header">"개인 정보 보호"</string>
+    <string name="orientation">"방향 설정"</string>
+    <string name="portrait">"세로(~P)"</string>
+    <string name="landscape">"가로(~A)"</string>
+    <string name="title_font_size">"글꼴 크기"</string>
 </resources>

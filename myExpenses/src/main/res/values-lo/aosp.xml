@@ -35,4 +35,8 @@
     <string name="end_date">"ມື້ສິ້ນສຸດ"</string>
     <string name="cloud_storage">"ບ່ອນຈັດເກັບຂໍ້ມູນຄລາວ"</string>
     <string name="privacy_header">"ຄວາມເປັນສ່ວນຕົວ"</string>
+    <string name="orientation">Orientation"</string>
+    <string name="portrait">"ຮູບຄົນ"</string>
+    <string name="landscape">"ແນວນອນ"</string>
+    <string name="title_font_size">"ຂະໜາດຕົວອັກສອນ"</string>
 </resources>

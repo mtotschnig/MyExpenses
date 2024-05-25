@@ -201,4 +201,12 @@
     <string name="cloud_storage">"Cloud storage"</string>
     <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri "\"privacy_header\"" | sed 's/ msgid="[[:digit:]]*"//' | sed 's/vpn_//' | aosp_helper -->
     <string name="privacy_header">"Privacy"</string>
+    <!-- LibreOffice wizards/source/resources.po kvzxk-->
+    <string name="orientation">"Orientation"</string>
+    <!-- LibreOffice wizards/source/resources.po b3YDa-->
+    <string name="portrait">"Portrait"</string>
+    <!-- LibreOffice wizards/source/resources.po b3YDa-->
+    <string name="landscape">"Landscape"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri "\"title_font_size\"" | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
+    <string name="title_font_size">"Font size"</string>
 </resources>

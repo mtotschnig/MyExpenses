@@ -114,4 +114,8 @@
     <string name="end_date">"Дата окончания"</string>
     <string name="cloud_storage">"Облачные хранилища"</string>
     <string name="privacy_header">"Конфиденциальность"</string>
+    <string name="orientation">"Ориентация"</string>
+    <string name="portrait">"Книжная"</string>
+    <string name="landscape">"Альбомная"</string>
+    <string name="title_font_size">"Размер шрифта"</string>
 </resources>

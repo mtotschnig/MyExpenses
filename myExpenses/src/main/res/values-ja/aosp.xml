@@ -110,4 +110,8 @@
     <string name="end_date">"終了日"</string>
     <string name="cloud_storage">"クラウド ストレージ"</string>
     <string name="privacy_header">"プライバシー"</string>
+    <string name="orientation">"方向"</string>
+    <string name="portrait">"縦書き"</string>
+    <string name="landscape">"横書き"</string>
+    <string name="title_font_size">"フォントサイズ"</string>
 </resources>

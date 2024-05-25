@@ -100,4 +100,8 @@
     <string name="end_date">"កាលបរិច្ឆេទ​បញ្ចប់"</string>
     <string name="cloud_storage">"ទំហំ​ផ្ទុក​លើ​ពពក"</string>
     <string name="privacy_header">"ឯកជនភាព"</string>
+    <string name="orientation">Orientation"</string>
+    <string name="portrait">Portrait"</string>
+    <string name="landscape">"ផ្ដេក"</string>
+    <string name="title_font_size">"ទំហំពុម្ពអក្សរ"</string>
 </resources>

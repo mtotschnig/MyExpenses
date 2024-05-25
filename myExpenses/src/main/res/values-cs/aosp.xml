@@ -115,4 +115,8 @@
     <string name="end_date">"Datum ukončení"</string>
     <string name="cloud_storage">"Cloudové úložiště"</string>
     <string name="privacy_header">"Ochrana soukromí"</string>
+    <string name="orientation">"Orientace"</string>
+    <string name="portrait">"Na výšku"</string>
+    <string name="landscape">"Na šířku"</string>
+    <string name="title_font_size">"Velikost písma"</string>
 </resources>

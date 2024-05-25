@@ -46,4 +46,8 @@
     <string name="end_date">"Tanggal akhir"</string>
     <string name="cloud_storage">"Penyimpanan Cloud"</string>
     <string name="privacy_header">"Privasi"</string>
+    <string name="orientation">"Orientasi"</string>
+    <string name="portrait">"Tegak"</string>
+    <string name="landscape">"Mendatar"</string>
+    <string name="title_font_size">"Ukuran font"</string>
 </resources>

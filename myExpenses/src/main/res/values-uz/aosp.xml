@@ -30,4 +30,8 @@
     <string name="full_screen">"Butun ekran"</string>
     <string name="cloud_storage">"Bulutdagi xotira"</string>
     <string name="privacy_header">"Maxfiylik"</string>
+    <string name="orientation">"Joylashishi"</string>
+    <string name="portrait">"Uzunasiga"</string>
+    <string name="landscape">"Eniga"</string>
+    <string name="title_font_size">"Shrift o‘lchami"</string>
 </resources>
