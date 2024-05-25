@@ -232,7 +232,7 @@ private fun SelectionDialog(
         },
         text = {
             Column(Modifier.selectableGroup()) {
-                Text(stringResource(R.string.tan_medium_selection_prompt))
+                Text(stringResource(title))
                 options.forEach { option ->
                     Row(
                         Modifier
