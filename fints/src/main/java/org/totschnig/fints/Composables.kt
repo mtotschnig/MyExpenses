@@ -18,10 +18,6 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -59,7 +55,6 @@ fun ColumnScope.BankingCredentials(
     bankingCredentials: MutableState<BankingCredentials>,
     onDone: (BankingCredentials) -> Unit
 ) {
-    HbciVersionSelection(bankingCredentials)
     val credentials = bankingCredentials.value
     credentials.bank?.let { Text(it.bankName) } ?: run {
         OutlinedTextField(
@@ -282,43 +277,6 @@ fun BankIconImpl(modifier: Modifier = Modifier, bank: Bank) {
             imageVector = Icons.Filled.AccountBalance,
             contentDescription = null
         )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun HbciVersionSelection(
-    credentials: MutableState<BankingCredentials>
-) {
-
-    var expanded by remember { mutableStateOf(false) }
-    ExposedDropdownMenuBox(
-        expanded = expanded,
-        onExpandedChange = { expanded = !expanded },
-    ) {
-        OutlinedTextField(
-            modifier = Modifier.menuAnchor(),
-            readOnly = true,
-            value = credentials.value.hbciVersion.getName(),
-            onValueChange = {},
-            label = { Text("HBCI-Version") },
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) }
-        )
-        ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-        ) {
-            SUPPORTED_HBCI_VERSIONS.forEach { selectionOption ->
-                DropdownMenuItem(
-                    text = { Text(selectionOption.getName()) },
-                    onClick = {
-                        credentials.value = credentials.value.copy(hbciVersion = selectionOption)
-                        expanded = false
-                    },
-                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
-                )
-            }
-        }
     }
 }
 

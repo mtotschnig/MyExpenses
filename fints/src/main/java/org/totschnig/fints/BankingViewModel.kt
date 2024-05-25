@@ -93,9 +93,6 @@ data class SecMech(val id: String, val name: String) {
     }
 }
 
-val SUPPORTED_HBCI_VERSIONS =
-    arrayOf(HBCIVersion.HBCI_300, HBCIVersion.HBCI_220, HBCIVersion.HBCI_210, HBCIVersion.HBCI_201)
-
 class BankingViewModel(application: Application, private val savedStateHandle: SavedStateHandle) :
     ContentResolvingAndroidViewModel(application) {
         @Inject
