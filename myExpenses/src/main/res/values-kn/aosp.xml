@@ -102,4 +102,8 @@
     <string name="end_date">"ಕೊನೆಯ ದಿನಾಂಕ"</string>
     <string name="cloud_storage">"ಕ್ಲೌಡ್ ಸಂಗ್ರಹಣೆ"</string>
     <string name="privacy_header">"ಗೌಪ್ಯತೆ"</string>
+    <string name="orientation">Orientation"</string>
+    <string name="portrait">Portrait"</string>
+    <string name="landscape">"ಪ್ರಕೃತಿದೃಶ್ಯ"</string>
+    <string name="title_font_size">"ಫಾಂಟ್ ಗಾತ್ರ"</string>
 </resources>

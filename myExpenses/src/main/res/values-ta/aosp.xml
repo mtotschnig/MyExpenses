@@ -103,4 +103,8 @@
     <string name="end_date">"முடிவுத் தேதி"</string>
     <string name="cloud_storage">"கிளவுடு சேமிப்பகம்"</string>
     <string name="privacy_header">"தனியுரிமை"</string>
+    <string name="orientation">Orientation"</string>
+    <string name="portrait">"நீளவாக்கு"</string>
+    <string name="landscape">Landscape"</string>
+    <string name="title_font_size">"எழுத்து அளவு"</string>
 </resources>

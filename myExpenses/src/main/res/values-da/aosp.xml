@@ -113,4 +113,8 @@
     <string name="end_date">"Slutdato"</string>
     <string name="cloud_storage">"Cloud Storage"</string>
     <string name="privacy_header">"Privatliv"</string>
+    <string name="orientation">"Papirretning"</string>
+    <string name="portrait">"Stående"</string>
+    <string name="landscape">"Liggende"</string>
+    <string name="title_font_size">"Skriftstørrelse"</string>
 </resources>

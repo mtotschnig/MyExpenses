@@ -106,4 +106,8 @@
     <string name="full_screen">"Tela cheia"</string>
     <string name="cloud_storage">"Armazenamento em nuvem"</string>
     <string name="privacy_header">"Privacidade"</string>
+    <string name="orientation">"Orientação"</string>
+    <string name="portrait">"Retrato"</string>
+    <string name="landscape">"Paisagem"</string>
+    <string name="title_font_size">"Tamanho da fonte"</string>
 </resources>

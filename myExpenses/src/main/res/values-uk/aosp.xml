@@ -113,4 +113,8 @@
     <string name="end_date">"Дата завершення"</string>
     <string name="cloud_storage">"Хмарні сховища"</string>
     <string name="privacy_header">"Конфіденційність"</string>
+    <string name="orientation">"Орієнтація"</string>
+    <string name="portrait">"Книжкова"</string>
+    <string name="landscape">"Альбомна"</string>
+    <string name="title_font_size">"Розмір шрифту"</string>
 </resources>

@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.service.AutoBackupWorker
 import org.totschnig.myexpenses.sync.GenericAccountService
+import org.totschnig.myexpenses.util.LazyFontSelector
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.config.Configurator
 import org.totschnig.myexpenses.util.config.Configurator.Configuration.USE_SET_DECOR_PADDING_WORKAROUND
@@ -285,14 +286,14 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace {
             getKey(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) ->
                 updateWidgetsForClass(BudgetWidget::class.java)
 
-            getKey(PrefKey.PLANNER_EXECUTION_TIME) -> {
-                enqueuePlanner(false)
-            }
+            getKey(PrefKey.PLANNER_EXECUTION_TIME) -> enqueuePlanner(false)
 
             getKey(PrefKey.UNMAPPED_TRANSACTION_AS_TRANSFER) -> {
                 contentResolver.notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false)
                 contentResolver.notifyChange(TransactionProvider.ACCOUNTS_URI, null, false)
             }
+
+            getKey(PrefKey.PRINT_FONT_SIZE) -> LazyFontSelector.FontType.clearCache()
         }
     }
 

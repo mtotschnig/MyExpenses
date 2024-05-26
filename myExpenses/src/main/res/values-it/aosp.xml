@@ -112,4 +112,8 @@
     <string name="end_date">"Data fine"</string>
     <string name="cloud_storage">"Spazio di archiviazione sul cloud"</string>
     <string name="privacy_header">"Privacy"</string>
+    <string name="orientation">"Orientazione"</string>
+    <string name="portrait">"Verticale"</string>
+    <string name="landscape">"Orizzontale"</string>
+    <string name="title_font_size">"Dimensioni carattere"</string>
 </resources>

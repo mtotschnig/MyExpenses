@@ -104,4 +104,8 @@
     <string name="end_date">"תאריך סיום"</string>
     <string name="cloud_storage">"אחסון בענן"</string>
     <string name="privacy_header">"פרטיות"</string>
+    <string name="orientation">"כיווניות"</string>
+    <string name="portrait">"לאורך"</string>
+    <string name="landscape">"לרוחב"</string>
+    <string name="title_font_size">"גודל גופן"</string>
 </resources>

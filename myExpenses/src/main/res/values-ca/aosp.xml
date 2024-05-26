@@ -113,4 +113,8 @@
     <string name="end_date">"Data de finalització"</string>
     <string name="cloud_storage">"Emmagatzematge al núvol"</string>
     <string name="privacy_header">"Privadesa"</string>
+    <string name="orientation">"Orientació"</string>
+    <string name="portrait">"Vertical"</string>
+    <string name="landscape">"Horitzontal"</string>
+    <string name="title_font_size">"Cos de font"</string>
 </resources>

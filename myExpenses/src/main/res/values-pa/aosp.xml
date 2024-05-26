@@ -25,4 +25,5 @@
     <string name="full_screen">"ਪੂਰੀ ਸਕ੍ਰੀਨ"</string>
     <string name="cloud_storage">"ਕਲਾਊਡ ਸਟੋਰੇਜ"</string>
     <string name="privacy_header">"ਪਰਦੇਦਾਰੀ"</string>
+    <string name="title_font_size">"ਫੌਂਟ ਦਾ ਆਕਾਰ"</string>
 </resources>

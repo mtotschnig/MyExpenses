@@ -115,4 +115,8 @@
     <string name="end_date">"تاريخ الانتهاء"</string>
     <string name="cloud_storage">"تخزين في السحابة الإلكترونية"</string>
     <string name="privacy_header">"الخصوصية"</string>
+    <string name="orientation">"الاتجاه"</string>
+    <string name="portrait">"بالطول"</string>
+    <string name="landscape">"بالعرض"</string>
+    <string name="title_font_size">"حجم الخط"</string>
 </resources>

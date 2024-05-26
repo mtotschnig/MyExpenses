@@ -112,4 +112,8 @@
     <string name="end_date">"Ημερομηνία λήξης"</string>
     <string name="cloud_storage">"Αποθηκευτικός χώρος cloud"</string>
     <string name="privacy_header">"Απόρρητο"</string>
+    <string name="orientation">"Προσανατολισμός"</string>
+    <string name="portrait">"Κάθετα"</string>
+    <string name="landscape">"Οριζόντια"</string>
+    <string name="title_font_size">"Μέγεθος γραμματοσειράς"</string>
 </resources>

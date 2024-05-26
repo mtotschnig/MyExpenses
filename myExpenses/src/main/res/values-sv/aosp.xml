@@ -46,4 +46,8 @@
     <string name="end_date">"Slutdatum"</string>
     <string name="cloud_storage">"Molnlagring"</string>
     <string name="privacy_header">"Integritet"</string>
+    <string name="orientation">"Orientering"</string>
+    <string name="portrait">"Stående"</string>
+    <string name="landscape">"Liggande"</string>
+    <string name="title_font_size">"Teckenstorlek"</string>
 </resources>

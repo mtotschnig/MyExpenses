@@ -37,4 +37,8 @@
     <string name="end_date">"Дуусах огноо"</string>
     <string name="cloud_storage">"Үүлэн хадгалах сан"</string>
     <string name="privacy_header">"Нууцлал"</string>
+    <string name="orientation">"Хандлага"</string>
+    <string name="portrait">"Босоо хэлбэр"</string>
+    <string name="landscape">"Хөндлөн"</string>
+    <string name="title_font_size">"Фонтын хэмжээ"</string>
 </resources>

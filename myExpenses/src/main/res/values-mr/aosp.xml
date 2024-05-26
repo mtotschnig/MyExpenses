@@ -34,4 +34,8 @@
     <string name="end_date">"समाप्ती तारीख"</string>
     <string name="cloud_storage">"क्लाउड स्‍टोरेज"</string>
     <string name="privacy_header">"गोपनीयता"</string>
+    <string name="orientation">Orientation"</string>
+    <string name="portrait">Portrait"</string>
+    <string name="landscape">Landscape"</string>
+    <string name="title_font_size">"फॉंट आकार"</string>
 </resources>

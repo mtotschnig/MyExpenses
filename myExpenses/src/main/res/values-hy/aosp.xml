@@ -43,4 +43,8 @@
     <string name="end_date">"Ավարտի ամսաթիվը"</string>
     <string name="cloud_storage">"Ամպային տարածք"</string>
     <string name="privacy_header">"Գաղտնիություն"</string>
+    <string name="orientation">"Կողմնորոշում"</string>
+    <string name="portrait">"Դիմանկար"</string>
+    <string name="landscape">"Բնանկար"</string>
+    <string name="title_font_size">"Տառաչափ"</string>
 </resources>

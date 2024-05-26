@@ -109,4 +109,8 @@
     <string name="end_date">"Einddatum"</string>
     <string name="cloud_storage">"Cloudopslag"</string>
     <string name="privacy_header">"Privacy"</string>
+    <string name="orientation">"Oriëntatie"</string>
+    <string name="portrait">"Staand"</string>
+    <string name="landscape">"Liggend"</string>
+    <string name="title_font_size">"Lettergrootte"</string>
 </resources>

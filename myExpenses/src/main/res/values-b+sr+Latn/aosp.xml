@@ -30,4 +30,8 @@
     <string name="end_date">"Datum završetka"</string>
     <string name="cloud_storage">"Prostor u klaudu"</string>
     <string name="privacy_header">"Privatnost"</string>
+    <string name="orientation">Orientation"</string>
+    <string name="portrait">Portrait"</string>
+    <string name="landscape">Landscape"</string>
+    <string name="title_font_size">"Veličina fonta"</string>
 </resources>

@@ -44,4 +44,8 @@
     <string name="end_date">"የመጨረሻ ቀን"</string>
     <string name="cloud_storage">"የደመና ማከማቻ"</string>
     <string name="privacy_header">"ግላዊነት"</string>
+    <string name="orientation">"አቀማመጥ"</string>
+    <string name="portrait">"ምስል"</string>
+    <string name="landscape">"በ መሬት አቀማመጥ"</string>
+    <string name="title_font_size">"የቁምፊ መጠን"</string>
 </resources>

@@ -44,4 +44,8 @@
     <string name="end_date">"Data de finalización"</string>
     <string name="cloud_storage">"Almacenamento na nube"</string>
     <string name="privacy_header">"Privacidade"</string>
+    <string name="orientation">"Orientación"</string>
+    <string name="portrait">"Vertical"</string>
+    <string name="landscape">"Horizontal"</string>
+    <string name="title_font_size">"Tamaño do tipo de letra"</string>
 </resources>

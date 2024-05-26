@@ -32,4 +32,5 @@
     <string name="end_date">"Datum zaključka"</string>
     <string name="cloud_storage">"Shramba v oblaku"</string>
     <string name="privacy_header">"Zasebnost"</string>
+    <string name="title_font_size">"Velikost pisave"</string>
 </resources>

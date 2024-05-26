@@ -36,4 +36,8 @@
     <string name="end_date">"Idethi yokugcina"</string>
     <string name="cloud_storage">"Isitoreji se-Cloud"</string>
     <string name="privacy_header">"Ubumfihlo"</string>
+    <string name="orientation">"Isimo sekhasi"</string>
+    <string name="portrait">"Iphepha elimile"</string>
+    <string name="landscape">"Iphepha elivumile"</string>
+    <string name="title_font_size">"Usayizi wefonti"</string>
 </resources>

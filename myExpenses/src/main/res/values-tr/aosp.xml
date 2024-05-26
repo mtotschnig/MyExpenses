@@ -111,4 +111,8 @@
     <string name="end_date">"Bitiş tarihi"</string>
     <string name="cloud_storage">"Bulut Depolama"</string>
     <string name="privacy_header">"Gizlilik"</string>
+    <string name="orientation">"Yönlendirme"</string>
+    <string name="portrait">"Dikey"</string>
+    <string name="landscape">"Yatay"</string>
+    <string name="title_font_size">"Yazı tipi boyutu"</string>
 </resources>
