@@ -70,6 +70,7 @@ import kotlin.math.abs
 
 object PdfPrinter {
     private const val VOID_MARKER = "void"
+    private const val MARGIN_FRACTION = 0.06f
 
     enum class HorizontalPosition {
         LEFT, CENTER, RIGHT;
@@ -92,7 +93,7 @@ object PdfPrinter {
 
     private fun getDocument(context: Context, prefHandler: PrefHandler): Document {
         val paperFormat = getPaperFormat(context, prefHandler)
-        val margin = paperFormat.width * 0.06f
+        val margin = paperFormat.width * MARGIN_FRACTION
         return Document(paperFormat, margin, margin, margin, margin)
     }
 
