@@ -60,7 +60,10 @@ class LicenceKeyDialogFragment : ComposeBaseDialogFragment2() {
             var showProgressIndicator by rememberSaveable {
                 mutableStateOf(false)
             }
-            val result = viewModel.result.collectAsStateWithLifecycle()
+            // lifecycleOwner argument should be removed once we upgrade to Compose 1.7
+            val result = viewModel.result.collectAsStateWithLifecycle(
+                lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current
+            )
             LaunchedEffect(result.value) {
                 if (result.value != null) {
                     showProgressIndicator = false
