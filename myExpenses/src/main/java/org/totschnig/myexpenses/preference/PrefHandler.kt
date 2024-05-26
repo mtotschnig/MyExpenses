@@ -31,8 +31,10 @@ interface PrefHandler {
     fun getLong(key: String, defValue: Long): Long
     fun putLong(key: PrefKey, value: Long)
     fun putLong(key: String, value: Long)
+    fun getFloat(key: PrefKey, defValue: Float): Float
+    fun getFloat(key: String, defValue: Float): Float
 
-    fun getStringSet(key:PrefKey, separator: Char = ':'): Set<String>?
+    fun getStringSet(key: PrefKey, separator: Char = ':'): Set<String>?
 
     /**
      * @param separator no item in value must contain separator
@@ -76,7 +78,8 @@ interface PrefHandler {
             null
         }.takeIf { it in Calendar.SUNDAY..Calendar.SATURDAY }
 
-    fun weekStartWithFallback(locale: Locale = Locale.getDefault()) = weekStart ?: Utils.getFirstDayOfWeek(locale)
+    fun weekStartWithFallback(locale: Locale = Locale.getDefault()) =
+        weekStart ?: Utils.getFirstDayOfWeek(locale)
 
     val weekStartAsDayOfWeek
         get() = weekStartWithFallback().toDayOfWeek
@@ -87,7 +90,7 @@ interface PrefHandler {
     )
 
     val isProtected
-        get() =  getBoolean(PrefKey.PROTECTION_LEGACY, false) ||
+        get() = getBoolean(PrefKey.PROTECTION_LEGACY, false) ||
                 getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)
 
     val shouldSecureWindow
@@ -98,13 +101,15 @@ interface PrefHandler {
 
     val mainMenu: List<MenuItem>
         get() = getStringSet(PrefKey.CUSTOMIZE_MAIN_MENU)
-            ?.let { stored -> stored.mapNotNull {
-                try {
-                    MenuItem.valueOf(it)
-                } catch (e: IllegalArgumentException) {
-                    null
+            ?.let { stored ->
+                stored.mapNotNull {
+                    try {
+                        MenuItem.valueOf(it)
+                    } catch (e: IllegalArgumentException) {
+                        null
+                    }
                 }
-            } }
+            }
             ?: MenuItem.defaultConfiguration
 
     val shouldDebug: Boolean

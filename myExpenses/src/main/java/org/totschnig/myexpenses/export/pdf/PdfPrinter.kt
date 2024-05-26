@@ -107,7 +107,10 @@ object PdfPrinter {
         val currencyContext = context.injector.currencyContext()
         val currencyUnit = currencyContext[account.currency]
         val prefHandler = context.injector.prefHandler()
-        val helper = PdfHelper(8f, context.myApplication.memoryClass)
+        val helper = PdfHelper(
+            prefHandler.getFloat(PrefKey.PRINT_FONT_SIZE, 12f),
+            context.myApplication.memoryClass
+        )
         var selection = "$KEY_PARENTID is null"
         val selectionArgs: Array<String>
         if (!filter.isEmpty) {

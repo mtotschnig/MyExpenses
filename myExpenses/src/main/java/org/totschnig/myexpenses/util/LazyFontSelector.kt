@@ -36,6 +36,18 @@ class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
         fun getFont(index: Int): Font? {
             return fonts.get(index)
         }
+
+        companion object {
+            fun clearCache() {
+                entries.forEach {
+                    it.clearCache()
+                }
+            }
+        }
+
+        fun clearCache() {
+            fonts.clear()
+        }
     }
 
     private var baseFonts: ArrayList<BaseFont> = ArrayList()

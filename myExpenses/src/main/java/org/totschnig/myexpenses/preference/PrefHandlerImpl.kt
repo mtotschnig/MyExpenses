@@ -67,6 +67,12 @@ open class PrefHandlerImpl(
         sharedPreferences.edit().putLong(key, value).apply()
     }
 
+
+    override fun getFloat(key: PrefKey, defValue: Float) = getFloat(getKey(key), defValue)
+
+    override fun getFloat(key: String, defValue: Float) =
+        sharedPreferences.getFloat(key, defValue)
+
     override fun getStringSet(key: PrefKey, separator: Char) =
         sharedPreferences.getString(getKey(key), null)?.let {
             LinkedHashSet(it.split(separator))
