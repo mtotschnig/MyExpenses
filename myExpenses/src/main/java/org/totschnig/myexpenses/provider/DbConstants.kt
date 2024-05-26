@@ -158,8 +158,7 @@ val Uri.accountSelector: String
 
 fun Uri.amountCalculation(tableName: String, homeCurrency: String): String =
     (if (getQueryParameter(KEY_ACCOUNTID) != null || getQueryParameter(KEY_CURRENCY) != null)
-        KEY_AMOUNT else getAmountHomeEquivalent(tableName, homeCurrency)) +
-                    " AS $KEY_DISPLAY_AMOUNT"
+        KEY_AMOUNT else getAmountHomeEquivalent(tableName, homeCurrency))
 
 fun checkSealedWithAlias(baseTable: String, innerTable: String) =
     "max(" + checkForSealedAccount(
@@ -285,7 +284,7 @@ fun categoryTreeWithSum(
             )
         )
         val amountCalculation = uri.amountCalculation(VIEW_WITH_ACCOUNT, homeCurrency)
-        append(", amounts as (select $amountCalculation from $VIEW_WITH_ACCOUNT WHERE ")
+        append(", amounts as (select $amountCalculation AS $KEY_DISPLAY_AMOUNT from $VIEW_WITH_ACCOUNT WHERE ")
         append(WHERE_NOT_VOID)
         append(" AND +$accountSelector")
         selection?.takeIf { it.isNotEmpty() }?.let {
@@ -683,6 +682,7 @@ fun transactionSumQuery(
     val selection =
         if (TextUtils.isEmpty(selectionIn)) accountSelector else "$selectionIn AND $accountSelector"
     val aggregateNeutral = uri.getBooleanQueryParameter(QUERY_PARAMETER_AGGREGATE_NEUTRAL, false)
+    val amountCalculation = uri.amountCalculation(VIEW_WITH_ACCOUNT, homeCurrency)
 
     return if (aggregateNeutral) {
         require(projection.size == 1)
@@ -692,7 +692,7 @@ fun transactionSumQuery(
             KEY_SUM_EXPENSES -> FLAG_EXPENSE
             else -> throw IllegalArgumentException()
         }
-        """SELECT $aggregateFunction($KEY_AMOUNT) AS $column FROM $VIEW_WITH_ACCOUNT WHERE $typeWithFallBack IN ($type, $FLAG_NEUTRAL)
+        """SELECT $aggregateFunction($amountCalculation) AS $column FROM $VIEW_WITH_ACCOUNT WHERE $typeWithFallBack IN ($type, $FLAG_NEUTRAL)
 AND ($KEY_CATID IS NOT $SPLIT_CATID AND $KEY_CR_STATUS != 'VOID' AND $selection)"""
     } else {
         val sumExpression = "$aggregateFunction($KEY_DISPLAY_AMOUNT)"
@@ -706,7 +706,7 @@ AND ($KEY_CATID IS NOT $SPLIT_CATID AND $KEY_CR_STATUS != 'VOID' AND $selection)
         require(columns.isNotEmpty())
         """WITH $CTE_TRANSACTION_AMOUNTS AS (SELECT
      ${effectiveTypeExpression(typeWithFallBack)} AS $KEY_TYPE,
-     ${uri.amountCalculation(VIEW_WITH_ACCOUNT, homeCurrency)},
+     $amountCalculation AS $KEY_DISPLAY_AMOUNT,
      $KEY_PARENTID,
      $KEY_ACCOUNTID,
      $KEY_CURRENCY,
