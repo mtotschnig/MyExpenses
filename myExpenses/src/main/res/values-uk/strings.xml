@@ -753,7 +753,7 @@
     <string name="pref_planner_manual_time_noon">12:00 (о півночі)</string>
     <string name="dialog_title_confirm_remap">Змінити відображення (%s) \?</string>
     <string name="menu_remap">Перепризначити</string>
-    <string name="onboarding_privacy_intro">Ваші фінансові дані не надсилаються на жоден сервер, який не належить нам або третім особам.</string>
+    <string name="onboarding_privacy_intro">\"Ваші фінансові дані не надсилаються на жоден сервер, ні наш, ні третіх сторін.</string>
     <string name="feature_download_requested">Функція %s запитується з Play Store.</string>
     <string name="menu_scan_mode">Режим сканування</string>
     <string name="pref_ocr_total_indicators_title">Показники для загальної суми</string>
