@@ -114,4 +114,5 @@
     <string name="portrait">"縦書き"</string>
     <string name="landscape">"横書き"</string>
     <string name="title_font_size">"フォントサイズ"</string>
+    <string name="system_default">"システムのデフォルト"</string>
 </resources>

@@ -112,4 +112,5 @@
     <string name="portrait">"Nằm dọc"</string>
     <string name="landscape">"Nằm ngang"</string>
     <string name="title_font_size">"Kích thước phông chữ"</string>
+    <string name="system_default">"Theo chế độ mặc định của hệ thống"</string>
 </resources>

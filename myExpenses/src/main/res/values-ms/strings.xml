@@ -290,7 +290,6 @@
     <string name="pref_shortcut_summary">Tambah pintasan ke Skrin Rumah.</string>
     <string name="pref_ui_fontsize_title">Tingkatkan saiz fon</string>
     <string name="pref_ui_home_screen_shortcuts">Pintasan Skrin Rumah</string>
-    <string name="pref_ui_language_default">Lalai sistem</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Bahasa</string>
     <string name="pref_ui_theme_dark">Gelap</string>

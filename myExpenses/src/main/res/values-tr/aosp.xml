@@ -115,4 +115,5 @@
     <string name="portrait">"Dikey"</string>
     <string name="landscape">"Yatay"</string>
     <string name="title_font_size">"Yazı tipi boyutu"</string>
+    <string name="system_default">"Sistem varsayılanı"</string>
 </resources>

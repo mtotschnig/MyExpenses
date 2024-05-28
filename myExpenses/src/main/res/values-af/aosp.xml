@@ -47,4 +47,5 @@
     <string name="portrait">"Regop"</string>
     <string name="landscape">"Landskap"</string>
     <string name="title_font_size">"Lettertipegrootte"</string>
+    <string name="system_default">"Stelselverstek"</string>
 </resources>

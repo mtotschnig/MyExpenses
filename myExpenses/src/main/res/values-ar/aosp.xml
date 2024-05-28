@@ -119,4 +119,5 @@
     <string name="portrait">"بالطول"</string>
     <string name="landscape">"بالعرض"</string>
     <string name="title_font_size">"حجم الخط"</string>
+    <string name="system_default">"الإعداد التلقائي للنظام"</string>
 </resources>

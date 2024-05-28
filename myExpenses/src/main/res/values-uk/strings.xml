@@ -290,7 +290,6 @@
     <string name="pref_shortcut_summary">Додайте ярлик до Головного Екрана.</string>
     <string name="pref_ui_fontsize_title">Розмір шрифту</string>
     <string name="pref_ui_home_screen_shortcuts">Ярлики на Головному Екрані</string>
-    <string name="pref_ui_language_default">За замовчуванням</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Мова</string>
     <string name="pref_ui_theme_dark">Темна</string>

@@ -31,4 +31,5 @@
     <string name="cloud_storage">"Hifadhi ya Wingu"</string>
     <string name="privacy_header">"Faragha"</string>
     <string name="title_font_size">"Ukubwa wa fonti"</string>
+    <string name="system_default">"Chaguomsingi la mfumo"</string>
 </resources>

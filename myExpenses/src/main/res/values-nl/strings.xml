@@ -165,7 +165,6 @@
     <string name="pref_planning_calendar_summary">Selecteer de kalender waar plannen voor toekomstige en terugkerende transacties worden opgeslagen</string>
     <string name="pref_security_question_summary">Hiermee kun je de app ontgrendelen als je het wachtwoord bent vergeten.</string>
     <string name="qif_parse_failure_found_multiple_accounts">Meerdere rekeningen gevonden in %s-bestand.</string>
-    <string name="pref_ui_language_default">Systeemstandaard</string>
     <string name="pref_ui_theme_title">Thema</string>
     <plurals name="save_transaction_from_template_success">
         <item quantity="one">Nieuwe transactie succesvol opgeslagen vanuit sjabloon.</item>

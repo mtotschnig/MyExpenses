@@ -95,4 +95,5 @@
     <string name="cloud_storage">"雲端儲存空間"</string>
     <string name="privacy_header">"私隱"</string>
     <string name="title_font_size">"字型大小"</string>
+    <string name="system_default">"系統預設"</string>
 </resources>

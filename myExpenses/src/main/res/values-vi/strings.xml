@@ -286,7 +286,6 @@
     <string name="pref_shortcut_summary">Thêm phím tắt vào màn hình chính.</string>
     <string name="pref_ui_fontsize_title">Cỡ phông</string>
     <string name="pref_ui_home_screen_shortcuts">Phím tắt màn hình chính</string>
-    <string name="pref_ui_language_default">Mặc định hệ thống</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Ngôn ngữ</string>
     <string name="pref_ui_theme_dark">Tối</string>

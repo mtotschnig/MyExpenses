@@ -38,4 +38,5 @@
     <string name="portrait">"છબી"</string>
     <string name="landscape">Landscape"</string>
     <string name="title_font_size">"ફૉન્ટનું કદ"</string>
+    <string name="system_default">"સિસ્ટમ ડિફૉલ્ટ"</string>
 </resources>

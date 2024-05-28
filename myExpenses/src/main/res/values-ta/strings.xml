@@ -295,7 +295,6 @@
     <string name="pref_shortcut_summary">முகப்பு திரைக்கு குறுக்குவழியைச் சேர்க்கவும்.</string>
     <string name="pref_ui_fontsize_title">எழுத்துரு அளவு</string>
     <string name="pref_ui_home_screen_shortcuts">முகப்பு திரை குறுக்குவழிகள்</string>
-    <string name="pref_ui_language_default">கருவி இயல்புநிலை</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">மொழி</string>
     <string name="pref_ui_theme_dark">இருட்டு</string>

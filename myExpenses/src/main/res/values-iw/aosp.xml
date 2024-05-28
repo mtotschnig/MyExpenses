@@ -108,4 +108,5 @@
     <string name="portrait">"לאורך"</string>
     <string name="landscape">"לרוחב"</string>
     <string name="title_font_size">"גודל גופן"</string>
+    <string name="system_default">"ברירת המחדל של המערכת"</string>
 </resources>

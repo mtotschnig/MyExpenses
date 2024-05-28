@@ -117,4 +117,5 @@
     <string name="portrait">"Книжкова"</string>
     <string name="landscape">"Альбомна"</string>
     <string name="title_font_size">"Розмір шрифту"</string>
+    <string name="system_default">"Налаштування системи за умовчанням"</string>
 </resources>

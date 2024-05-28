@@ -295,7 +295,6 @@
     <string name="pref_shortcut_summary">Dodaj skrót na Ekran Główny.</string>
     <string name="pref_ui_fontsize_title">Wielkość kroju pisma</string>
     <string name="pref_ui_home_screen_shortcuts">Skróty</string>
-    <string name="pref_ui_language_default">Domyślne systemowe</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Język</string>
     <string name="pref_ui_theme_dark">Ciemny</string>

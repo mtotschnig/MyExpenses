@@ -39,4 +39,5 @@
     <string name="portrait">"ຮູບຄົນ"</string>
     <string name="landscape">"ແນວນອນ"</string>
     <string name="title_font_size">"ຂະໜາດຕົວອັກສອນ"</string>
+    <string name="system_default">"ຄ່າເລີ່ມຕົ້ນຂອງລະບົບ"</string>
 </resources>

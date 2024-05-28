@@ -298,7 +298,6 @@
     <string name="pref_shortcut_summary">הוסף את קיצור הדרך למסך הבית.</string>
     <string name="pref_ui_fontsize_title">גוגל גופן</string>
     <string name="pref_ui_home_screen_shortcuts">קיצורי דרך מסך הבית</string>
-    <string name="pref_ui_language_default">ברירת מחדל של המערכת</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">שפה</string>
     <string name="pref_ui_theme_dark">חשוך</string>

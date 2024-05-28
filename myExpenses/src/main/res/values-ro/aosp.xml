@@ -109,4 +109,5 @@
     <string name="portrait">"Portret"</string>
     <string name="landscape">"Peisaj"</string>
     <string name="title_font_size">"Dimensiunea fontului"</string>
+    <string name="system_default">"Prestabilit de sistem"</string>
 </resources>

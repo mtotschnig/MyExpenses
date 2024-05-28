@@ -298,7 +298,6 @@
     <string name="pref_shortcut_summary">Añadir acceso directo a pantalla de inicio.</string>
     <string name="pref_ui_fontsize_title">Tamaño de fuente</string>
     <string name="pref_ui_home_screen_shortcuts">Accesos directos en la pantalla de inicio</string>
-    <string name="pref_ui_language_default">Sistema por defecto</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Idioma</string>
     <string name="pref_ui_theme_dark">Oscuro</string>

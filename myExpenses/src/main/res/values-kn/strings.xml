@@ -294,7 +294,6 @@
     <string name="pref_shortcut_summary">ಮುಖಪುಟಕ್ಕೆ ಶಾರ್ಟ್‌ಕಟ್ ಸೇರಿಸಿ.</string>
     <string name="pref_ui_fontsize_title">ಅಕ್ಷರ ಗಾತ್ರ</string>
     <string name="pref_ui_home_screen_shortcuts">ಮುಖಪುಟ ಪರದೆಯ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳು</string>
-    <string name="pref_ui_language_default">ಸಿಸ್ಟಮ್ ಡೀಫಾಲ್ಟ್</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">ಭಾಷೆ</string>
     <string name="pref_ui_theme_dark">ಕಪ್ಪು</string>

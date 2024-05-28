@@ -234,7 +234,6 @@
     <string name="pref_shortcut_added">S\'ha afegit la drecera a la pantalla Inicial</string>
     <string name="pref_shortcut_summary">Afegiu la drecera a la pantalla Inicial.</string>
     <string name="pref_ui_fontsize_title">Augmenta la mida de la lletra</string>
-    <string name="pref_ui_language_default">Per omissió del sistema</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Idioma</string>
     <string name="pref_ui_theme_dark">Fosc</string>

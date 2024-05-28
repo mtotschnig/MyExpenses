@@ -49,4 +49,5 @@
     <string name="portrait">"Pysty"</string>
     <string name="landscape">"Vaaka"</string>
     <string name="title_font_size">"Fontin koko"</string>
+    <string name="system_default">"Järjestelmän oletusarvo"</string>
 </resources>

@@ -299,7 +299,6 @@
     <string name="pref_shortcut_summary">Aggiungi il collegamento alla schermata principale.</string>
     <string name="pref_ui_fontsize_title">Aumenta le dimensioni del carattere</string>
     <string name="pref_ui_home_screen_shortcuts">Collegamenti sulla schermata principale</string>
-    <string name="pref_ui_language_default">Default di sistema</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Lingua</string>
     <string name="pref_ui_theme_dark">Scuro</string>

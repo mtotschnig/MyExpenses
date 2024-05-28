@@ -40,4 +40,5 @@
     <string name="portrait">"Iphepha elimile"</string>
     <string name="landscape">"Iphepha elivumile"</string>
     <string name="title_font_size">"Usayizi wefonti"</string>
+    <string name="system_default">"Okuzenzakalelayo kwesistimu"</string>
 </resources>

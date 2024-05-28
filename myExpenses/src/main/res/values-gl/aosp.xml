@@ -48,4 +48,5 @@
     <string name="portrait">"Vertical"</string>
     <string name="landscape">"Horizontal"</string>
     <string name="title_font_size">"Tamaño do tipo de letra"</string>
+    <string name="system_default">"Aplicación predeterminada do sistema"</string>
 </resources>

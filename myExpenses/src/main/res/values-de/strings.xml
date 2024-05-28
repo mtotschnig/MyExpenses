@@ -295,7 +295,6 @@
     <string name="pref_shortcut_summary">Fügt die Verknüpfung dem Start-Bildschirm hinzu.</string>
     <string name="pref_ui_fontsize_title">Schriftgröße</string>
     <string name="pref_ui_home_screen_shortcuts">Verknüpfungen für den Start-Bildschirm</string>
-    <string name="pref_ui_language_default">System-Standard</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Sprache</string>
     <string name="pref_ui_theme_dark">Dunkel</string>

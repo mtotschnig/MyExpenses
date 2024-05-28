@@ -43,4 +43,5 @@
     <string name="portrait">"Кітаптық"</string>
     <string name="landscape">"Альбомдық"</string>
     <string name="title_font_size">"Қаріп өлшемі"</string>
+    <string name="system_default">"Жүйенің әдепкі параметрі"</string>
 </resources>

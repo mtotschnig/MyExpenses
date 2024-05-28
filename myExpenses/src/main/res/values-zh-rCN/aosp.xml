@@ -114,4 +114,5 @@
     <string name="portrait">"纵向"</string>
     <string name="landscape">"横向"</string>
     <string name="title_font_size">"字体大小"</string>
+    <string name="system_default">"系统默认设置"</string>
 </resources>

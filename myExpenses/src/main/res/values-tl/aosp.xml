@@ -31,4 +31,5 @@
     <string name="cloud_storage">"Cloud Storage"</string>
     <string name="privacy_header">"Privacy"</string>
     <string name="title_font_size">"Laki ng font"</string>
+    <string name="system_default">"Default ng system"</string>
 </resources>

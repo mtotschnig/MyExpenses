@@ -113,4 +113,5 @@
     <string name="portrait">"縱向"</string>
     <string name="landscape">"橫向"</string>
     <string name="title_font_size">"字型大小"</string>
+    <string name="system_default">"系統預設"</string>
 </resources>

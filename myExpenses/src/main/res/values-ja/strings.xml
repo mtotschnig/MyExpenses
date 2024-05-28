@@ -290,7 +290,6 @@
     <string name="pref_shortcut_summary">ホーム画面にショートカットを追加します</string>
     <string name="pref_ui_fontsize_title">フォントサイズの拡大</string>
     <string name="pref_ui_home_screen_shortcuts">ホーム画面のショートカット</string>
-    <string name="pref_ui_language_default">システム デフォルト</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">言語</string>
     <string name="pref_ui_theme_dark">ダーク</string>

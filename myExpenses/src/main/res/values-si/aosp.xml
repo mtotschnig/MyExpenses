@@ -102,4 +102,5 @@
     <string name="portrait">Portrait"</string>
     <string name="landscape">"තිරස්"</string>
     <string name="title_font_size">"අකුරු ප්‍රමාණය"</string>
+    <string name="system_default">"පද්ධති පෙරනිමිය"</string>
 </resources>

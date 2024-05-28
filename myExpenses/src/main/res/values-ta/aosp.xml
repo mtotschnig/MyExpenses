@@ -107,4 +107,5 @@
     <string name="portrait">"நீளவாக்கு"</string>
     <string name="landscape">Landscape"</string>
     <string name="title_font_size">"எழுத்து அளவு"</string>
+    <string name="system_default">"சிஸ்டத்தின் இயல்பு"</string>
 </resources>

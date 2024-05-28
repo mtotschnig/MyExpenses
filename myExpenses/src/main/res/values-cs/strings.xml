@@ -301,7 +301,6 @@
     <string name="pref_shortcut_summary">Přidání zástupce do výchozí obrazovky.</string>
     <string name="pref_ui_fontsize_title">Zvětšit velikost písma</string>
     <string name="pref_ui_home_screen_shortcuts">Zástupci na domovské obrazovce</string>
-    <string name="pref_ui_language_default">Výchozí systémové nastavení</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Jazyk</string>
     <string name="pref_ui_theme_dark">Tmavý</string>

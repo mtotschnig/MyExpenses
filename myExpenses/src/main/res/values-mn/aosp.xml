@@ -41,4 +41,5 @@
     <string name="portrait">"Босоо хэлбэр"</string>
     <string name="landscape">"Хөндлөн"</string>
     <string name="title_font_size">"Фонтын хэмжээ"</string>
+    <string name="system_default">"Системийн өгөгдмөл"</string>
 </resources>

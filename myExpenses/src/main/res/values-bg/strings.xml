@@ -295,7 +295,6 @@
     <string name="pref_shortcut_summary">Добавяне шорткът на начален екран.</string>
     <string name="pref_ui_fontsize_title">Размер на шрифта</string>
     <string name="pref_ui_home_screen_shortcuts">Шорткъти на начален екран</string>
-    <string name="pref_ui_language_default">От системата</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Език</string>
     <string name="pref_ui_theme_dark">Тъмна</string>

@@ -33,4 +33,5 @@
     <string name="cloud_storage">"Shramba v oblaku"</string>
     <string name="privacy_header">"Zasebnost"</string>
     <string name="title_font_size">"Velikost pisave"</string>
+    <string name="system_default">"Sistemsko privzeto"</string>
 </resources>

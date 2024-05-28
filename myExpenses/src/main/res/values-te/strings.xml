@@ -373,7 +373,6 @@
     <string name="pref_ui_theme_light">కాంతి</string>
     <string name="pref_ui_theme_dark">చీకటి</string>
     <string name="pref_ui_language_title">భాష</string>
-    <string name="pref_ui_language_default">సిస్టమ్ డిఫాల్ట్</string>
     <string name="pref_ui_home_screen_shortcuts">హోమ్ స్క్రీన్ సత్వరమార్గాలు</string>
     <string name="pref_ui_fontsize_title">ఫాంట్ పరిమాణం</string>
     <string name="pref_shortcut_summary">హోమ్ స్క్రీన్‌కు సత్వరమార్గాన్ని జోడించండి.</string>

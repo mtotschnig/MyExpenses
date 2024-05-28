@@ -33,4 +33,5 @@
     <string name="cloud_storage">"Bulud Yaddaşı"</string>
     <string name="privacy_header">"Məxfilik"</string>
     <string name="title_font_size">"Şrift ölçüsü"</string>
+    <string name="system_default">"Sistem defoltu"</string>
 </resources>

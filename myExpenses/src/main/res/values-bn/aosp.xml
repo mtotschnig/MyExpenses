@@ -37,4 +37,5 @@
     <string name="portrait">"লম্বালম্বি"</string>
     <string name="landscape">Landscape"</string>
     <string name="title_font_size">"ফন্ট সাইজ"</string>
+    <string name="system_default">"সিস্টেম ডিফল্ট"</string>
 </resources>

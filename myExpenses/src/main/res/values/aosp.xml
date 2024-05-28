@@ -209,4 +209,6 @@
     <string name="landscape">"Landscape"</string>
     <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri "\"title_font_size\"" | sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
     <string name="title_font_size">"Font size"</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -ri preference_of_system_locale_summary  | sed 's/ msgid="[[:digit:]]*"//' | sed 's/preference_of_system_locale_summary/system_default/' | aosp_helper -->
+    <string name="system_default">"System default"</string>
 </resources>

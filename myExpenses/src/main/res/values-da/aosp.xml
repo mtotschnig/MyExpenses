@@ -117,4 +117,5 @@
     <string name="portrait">"Stående"</string>
     <string name="landscape">"Liggende"</string>
     <string name="title_font_size">"Skriftstørrelse"</string>
+    <string name="system_default">"Systemstandard"</string>
 </resources>

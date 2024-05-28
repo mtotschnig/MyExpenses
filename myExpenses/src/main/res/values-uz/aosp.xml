@@ -34,4 +34,5 @@
     <string name="portrait">"Uzunasiga"</string>
     <string name="landscape">"Eniga"</string>
     <string name="title_font_size">"Shrift o‘lchami"</string>
+    <string name="system_default">"Tizim standarti"</string>
 </resources>

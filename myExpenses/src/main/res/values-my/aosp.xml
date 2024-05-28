@@ -38,4 +38,5 @@
     <string name="portrait">"စာမျက်နှာ ဒေါင်လိုက်အရှည်"</string>
     <string name="landscape">Landscape"</string>
     <string name="title_font_size">"စာလုံးအရွယ်အစား"</string>
+    <string name="system_default">"စနစ်မူရင်း"</string>
 </resources>

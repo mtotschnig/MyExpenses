@@ -249,7 +249,6 @@
     <string name="pref_shortcut_summary">افزودن میانبر به صفحهٔ اصلی</string>
     <string name="pref_ui_fontsize_title">اندازهٔ فونت</string>
     <string name="pref_ui_home_screen_shortcuts">میانبرهای صفحهٔ اصلی</string>
-    <string name="pref_ui_language_default">پیش‌فرض سیستم</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">زبان</string>
     <string name="pref_ui_theme_dark">تاریک</string>

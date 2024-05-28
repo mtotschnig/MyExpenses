@@ -116,4 +116,5 @@
     <string name="portrait">"Κάθετα"</string>
     <string name="landscape">"Οριζόντια"</string>
     <string name="title_font_size">"Μέγεθος γραμματοσειράς"</string>
+    <string name="system_default">"Προεπιλογή συστήματος"</string>
 </resources>

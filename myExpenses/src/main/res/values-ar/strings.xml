@@ -307,7 +307,6 @@
     <string name="pref_shortcut_summary">إضافة اختصار للشاشة الرئيسية.</string>
     <string name="pref_ui_fontsize_title">زيادة حجم الخط</string>
     <string name="pref_ui_home_screen_shortcuts">اختصارات الشاشة الرئيسية</string>
-    <string name="pref_ui_language_default">افتراضي</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">اللغة</string>
     <string name="pref_ui_theme_dark">غامق</string>

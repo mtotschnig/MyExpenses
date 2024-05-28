@@ -49,4 +49,5 @@
     <string name="portrait">"Na výšku"</string>
     <string name="landscape">"Na šírku"</string>
     <string name="title_font_size">"Veľkosť písma"</string>
+    <string name="system_default">"Predvolené systémom"</string>
 </resources>

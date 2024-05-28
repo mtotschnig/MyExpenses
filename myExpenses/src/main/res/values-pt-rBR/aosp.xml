@@ -110,4 +110,5 @@
     <string name="portrait">"Retrato"</string>
     <string name="landscape">"Paisagem"</string>
     <string name="title_font_size">"Tamanho da fonte"</string>
+    <string name="system_default">"Padrão do sistema"</string>
 </resources>

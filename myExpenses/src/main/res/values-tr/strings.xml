@@ -295,7 +295,6 @@
     <string name="pref_shortcut_summary">Ana ekrana kısayol ekle.</string>
     <string name="pref_ui_fontsize_title">Yazı boyutu arttır</string>
     <string name="pref_ui_home_screen_shortcuts">Ana Ekran Kısayolları</string>
-    <string name="pref_ui_language_default">Sistem varsayılanı</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Dil</string>
     <string name="pref_ui_theme_dark">Karanlık</string>

@@ -6,7 +6,7 @@
         <item>light</item>
     </string-array>
     <string-array name="pref_ui_theme_entries" tools:ignore="InconsistentArrays">
-        <item>@string/pref_ui_language_default</item>
+        <item>@string/system_default</item>
         <item>@string/pref_ui_theme_dark</item>
         <item>@string/pref_ui_theme_light</item>
     </string-array>

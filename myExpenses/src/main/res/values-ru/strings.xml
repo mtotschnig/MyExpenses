@@ -300,7 +300,6 @@
     <string name="pref_shortcut_summary">Добавить ярлык на домашний экран.</string>
     <string name="pref_ui_fontsize_title">Увеличить размера шрифта</string>
     <string name="pref_ui_home_screen_shortcuts">Ярлыки домашнего экрана</string>
-    <string name="pref_ui_language_default">По умолчанию</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Язык</string>
     <string name="pref_ui_theme_dark">Тёмная</string>

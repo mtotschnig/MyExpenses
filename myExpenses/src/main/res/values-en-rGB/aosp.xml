@@ -17,4 +17,5 @@
     <string name="start_date">"Start date"</string>
     <string name="end_date">"End date"</string>
     <string name="cloud_storage">"Cloud storage"</string>
+    <string name="system_default">"System default"</string>
 </resources>

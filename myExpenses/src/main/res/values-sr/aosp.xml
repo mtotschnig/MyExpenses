@@ -30,4 +30,5 @@
     <string name="portrait">Portrait"</string>
     <string name="landscape">Landscape"</string>
     <string name="title_font_size">"Величина фонта"</string>
+    <string name="system_default">"Подразумевани системски"</string>
 </resources>

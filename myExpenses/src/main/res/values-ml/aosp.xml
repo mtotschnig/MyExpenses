@@ -38,4 +38,5 @@
     <string name="portrait">"ഛായാചിത്രം"</string>
     <string name="landscape">"ലാന്ഡ്സ്കേപ്"</string>
     <string name="title_font_size">"ഫോണ്ട് വലുപ്പം"</string>
+    <string name="system_default">"സിസ്‌റ്റം ഡിഫോൾട്ട്"</string>
 </resources>

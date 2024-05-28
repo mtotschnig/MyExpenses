@@ -42,4 +42,5 @@
     <string name="portrait">"Stačias"</string>
     <string name="landscape">"Gulsčias"</string>
     <string name="title_font_size">"Šrifto dydis"</string>
+    <string name="system_default">"Numatytoji sistemos vertė"</string>
 </resources>

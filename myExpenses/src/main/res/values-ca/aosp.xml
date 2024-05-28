@@ -117,4 +117,5 @@
     <string name="portrait">"Vertical"</string>
     <string name="landscape">"Horitzontal"</string>
     <string name="title_font_size">"Cos de font"</string>
+    <string name="system_default">"Valor predeterminat del sistema"</string>
 </resources>

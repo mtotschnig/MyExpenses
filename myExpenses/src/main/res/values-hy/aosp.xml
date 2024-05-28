@@ -47,4 +47,5 @@
     <string name="portrait">"Դիմանկար"</string>
     <string name="landscape">"Բնանկար"</string>
     <string name="title_font_size">"Տառաչափ"</string>
+    <string name="system_default">"Կանխադրված"</string>
 </resources>

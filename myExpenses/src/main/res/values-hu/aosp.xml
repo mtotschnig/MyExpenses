@@ -118,4 +118,5 @@
     <string name="portrait">"Álló"</string>
     <string name="landscape">"Fekvő"</string>
     <string name="title_font_size">"Betűméret"</string>
+    <string name="system_default">"Rendszerbeállítás"</string>
 </resources>

@@ -27,4 +27,5 @@
     <string name="cloud_storage">"Булуттагы сактагыч"</string>
     <string name="privacy_header">"Купуялык"</string>
     <string name="title_font_size">"Арип өлчөмү"</string>
+    <string name="system_default">"Системанын демейки параметрлери"</string>
 </resources>

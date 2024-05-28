@@ -49,4 +49,5 @@
     <string name="portrait">"แนวตั้ง"</string>
     <string name="landscape">"แนวนอน"</string>
     <string name="title_font_size">"ขนาดอักษร"</string>
+    <string name="system_default">"ค่าเริ่มต้นของระบบ"</string>
 </resources>

@@ -101,4 +101,5 @@
     <string name="portrait">"చిత్రపటం"</string>
     <string name="landscape">"చిత్రపటం"</string>
     <string name="title_font_size">"ఫాంట్ సైజ్‌"</string>
+    <string name="system_default">"సిస్టమ్ ఆటోమేటిక్ సెట్టింగ్"</string>
 </resources>

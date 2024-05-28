@@ -114,4 +114,5 @@
     <string name="portrait">"Bertikala"</string>
     <string name="landscape">"Horizontala"</string>
     <string name="title_font_size">"Letra-tamaina"</string>
+    <string name="system_default">"Sistemaren balio lehenetsia"</string>
 </resources>

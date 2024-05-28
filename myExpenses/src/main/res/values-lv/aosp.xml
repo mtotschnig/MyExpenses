@@ -41,4 +41,5 @@
     <string name="portrait">"Portrets"</string>
     <string name="landscape">"Ainava"</string>
     <string name="title_font_size">"Fonta lielums"</string>
+    <string name="system_default">"Sistēmas noklusējums"</string>
 </resources>

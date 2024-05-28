@@ -108,4 +108,5 @@
     <string name="portrait">"세로(~P)"</string>
     <string name="landscape">"가로(~A)"</string>
     <string name="title_font_size">"글꼴 크기"</string>
+    <string name="system_default">"시스템 기본값"</string>
 </resources>

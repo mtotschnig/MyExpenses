@@ -298,7 +298,6 @@
     <string name="pref_shortcut_summary">Adicionar o atalho ao ecrã inicial.</string>
     <string name="pref_ui_fontsize_title">Tamanho da fonte</string>
     <string name="pref_ui_home_screen_shortcuts">Atalhos do ecrã inicial</string>
-    <string name="pref_ui_language_default">Padrão do sistema</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Idioma</string>
     <string name="pref_ui_theme_dark">Escuro</string>

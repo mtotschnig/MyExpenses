@@ -50,4 +50,5 @@
     <string name="portrait">"Püstpaigutus"</string>
     <string name="landscape">"Rõhtpaigutus"</string>
     <string name="title_font_size">"Fondi suurus"</string>
+    <string name="system_default">"Süsteemi vaikeseade"</string>
 </resources>

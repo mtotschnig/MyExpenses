@@ -116,4 +116,5 @@
     <string name="portrait">"Hochformat"</string>
     <string name="landscape">"Querformat"</string>
     <string name="title_font_size">"Schriftgröße"</string>
+    <string name="system_default">"Standardeinstellung des Systems"</string>
 </resources>

@@ -35,4 +35,5 @@
     <string name="portrait">"Кніга"</string>
     <string name="landscape">"Альбом"</string>
     <string name="title_font_size">"Памер шрыфту"</string>
+    <string name="system_default">"Стандартная сістэмная налада"</string>
 </resources>

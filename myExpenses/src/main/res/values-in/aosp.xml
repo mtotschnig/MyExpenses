@@ -50,4 +50,5 @@
     <string name="portrait">"Tegak"</string>
     <string name="landscape">"Mendatar"</string>
     <string name="title_font_size">"Ukuran font"</string>
+    <string name="system_default">"Default sistem"</string>
 </resources>

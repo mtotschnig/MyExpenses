@@ -38,4 +38,5 @@
     <string name="portrait">Portrait"</string>
     <string name="landscape">Landscape"</string>
     <string name="title_font_size">"फॉंट आकार"</string>
+    <string name="system_default">"सिस्टीम डीफॉल्ट"</string>
 </resources>
