@@ -1,0 +1,4 @@
+• FinTS: ING-DiBa
+• 인쇄: 설정 (용지 형식, 방향 설정, 글꼴 크기)
+
+https://github.com/mtotschnig/MyExpenses/projects/143#column-19888171

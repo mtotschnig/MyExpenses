@@ -1,0 +1,4 @@
+• FinTS: ING-DiBa
+• 打印: 配置 (纸张格式, 方向, 字体大小)
+
+https://github.com/mtotschnig/MyExpenses/projects/143#column-19888171
