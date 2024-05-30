@@ -125,7 +125,7 @@ class FilterHandler(private val activity: BaseMyExpenses) {
                 ).show(supportFragmentManager, "TRANSFER_FILTER")
 
                 R.id.FILTER_ACCOUNT_COMMAND -> SelectMultipleAccountDialogFragment.newInstance(
-                    currentAccount!!.currency, edit as? AccountCriterion
+                    if (currentAccount!!.isHomeAggregate) null else currentAccount!!.currency, edit as? AccountCriterion
                 )
                     .show(supportFragmentManager, "ACCOUNT_FILTER")
 

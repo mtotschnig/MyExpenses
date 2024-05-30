@@ -103,8 +103,8 @@ class TransactionListViewModel(
                                     Transaction2.fromCursor(
                                         currencyContext,
                                         cursor,
-                                        currency,
-                                        tags
+                                        tags,
+                                        currency
                                     )
                                 )
                             }

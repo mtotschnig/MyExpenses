@@ -272,7 +272,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
 
     fun hasExported(account: DataBaseAccount) = liveData(coroutineDispatcher) {
         contentResolver.query(
-            account.uriForTransactionList(extended = false, mergeTransfers = false),
+            account.uriForTransactionList(extended = false),
             arrayOf("max(" + DatabaseConstants.KEY_STATUS + ")"),
             null,
             null,

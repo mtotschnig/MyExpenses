@@ -24,7 +24,6 @@ import androidx.sqlite.db.SupportSQLiteQueryBuilder
 import arrow.core.Tuple6
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.FutureCriterion
@@ -66,7 +65,6 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.io.FileCopyUtils
-import org.totschnig.myexpenses.util.locale.HomeCurrencyProvider
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
@@ -1114,12 +1112,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             add("$aggregateFunction(CASE WHEN $isIncome THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_INCOME")
 
             if (!includeTransfers) {
-                //for the Grand total account the transfers between accounts managed by the app should equal to 0,
-                //so we only include transactions mapped to transfer categories (i.e. transfers to accounts external to the app)
-                val isTransfer =
-                    if (forHome == null) "$KEY_TYPE = $FLAG_TRANSFER" else "$KEY_TRANSFER_PEER IS NULL AND $KEY_TYPE = $FLAG_TRANSFER"
-
-                add("$aggregateFunction(CASE WHEN $isTransfer THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_TRANSFERS")
+                add("$aggregateFunction(CASE WHEN $KEY_TYPE = $FLAG_TRANSFER THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_TRANSFERS")
             }
 
             //previously we started distribution from group header and needed to know if there were mapped categories

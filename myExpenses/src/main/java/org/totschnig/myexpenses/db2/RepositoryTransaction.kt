@@ -134,7 +134,7 @@ fun Repository.getTransactionSum(account: DataBaseAccount, filter: WhereFilter? 
         selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false))
     }
     return contentResolver.query(
-        account.uriForTransactionList(extended = false, mergeTransfers = false),
+        account.uriForTransactionList(extended = false),
         arrayOf("${DbUtils.aggregateFunction(prefHandler)}($KEY_AMOUNT)"),
         selection,
         selectionArgs,

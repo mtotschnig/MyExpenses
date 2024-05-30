@@ -29,7 +29,9 @@ data class Money(val currencyUnit: CurrencyUnit, val amountMinor: Long) : Parcel
     constructor(currencyUnit: CurrencyUnit, amountMajor: BigDecimal) :
             this(currencyUnit, convertBigDecimal(amountMajor, currencyUnit.fractionDigits))
 
-    fun negate(): Money  = Money(currencyUnit, -amountMinor)
+    fun negate() = Money(currencyUnit, -amountMinor)
+
+    fun absolute() = if (amountMinor < 0) negate() else this
 
     val amountMajor: BigDecimal
         get() = BigDecimal(amountMinor).movePointLeft(currencyUnit.fractionDigits)

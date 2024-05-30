@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.BuildConfig
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -29,6 +30,7 @@ import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
 import java.time.Duration
 import java.time.Instant
+import kotlin.math.max
 
 open class TransactionPagingSource(
     val context: Context,
@@ -129,10 +131,19 @@ open class TransactionPagingSource(
                         Transaction2.fromCursor(
                             currencyContext,
                             it,
-                            account.currencyUnit,
                             tags.value
                         )
-                    }.toList()
+                    }.toList().let { list ->
+                        if (account.isAggregate) {
+                            list.groupBy { max(it.id, it.transferPeer ?: 0) }
+                                .map { (_, list) ->
+                                    if (list.size == 1) list.first() else
+                                        (if (!account.isHomeAggregate) list.first() else
+                                        list.firstOrNull { it.currency.code == currencyContext.homeCurrencyString }
+                                            ?: list.first()).copy(type = FLAG_NEUTRAL)
+                                }
+                        } else list
+                    }
                 } ?: emptyList()
             }
             val prevKey = if (position > 0) (position - params.loadSize) else null

@@ -137,7 +137,6 @@ object PdfPrinter {
         }
         context.contentResolver.query(
             account.uriForTransactionList(
-                mergeTransfers = false,
                 shortenComment = false,
                 extended = true
             ),
@@ -306,7 +305,6 @@ object PdfPrinter {
             val transaction = Transaction2.fromCursor(
                 currencyContext = currencyContext,
                 cursor = transactionCursor,
-                accountCurrency = account.currencyUnit,
                 tags = tagMap
             )
 

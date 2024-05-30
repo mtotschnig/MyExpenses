@@ -232,11 +232,11 @@ data class Transaction2(
         fun fromCursor(
             currencyContext: CurrencyContext,
             cursor: Cursor,
-            accountCurrency: CurrencyUnit,
-            tags: Map<String, Pair<String, Int?>>
+            tags: Map<String, Pair<String, Int?>>,
+            accountCurrency: CurrencyUnit? = null
         ): Transaction2 {
             val amountRaw = cursor.getLong(KEY_DISPLAY_AMOUNT)
-            val money = Money(accountCurrency, amountRaw)
+            val money = Money(accountCurrency ?: currencyContext[cursor.getString(KEY_CURRENCY)], amountRaw)
             val transferPeer = cursor.getLongOrNull(KEY_TRANSFER_PEER)
 
             return Transaction2(

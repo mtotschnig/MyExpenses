@@ -14,12 +14,13 @@ open class PreferencesCurrencyContext(
     private val application: MyApplication
 ) : CurrencyContext {
     override fun get(currencyCode: String): CurrencyUnit {
+        if (currencyCode == DataBaseAccount.AGGREGATE_HOME_CURRENCY_CODE) return homeCurrencyUnit
         synchronized(this) {
             var currencyUnit = INSTANCES[currencyCode]
             if (currencyUnit != null) {
                 return currencyUnit
             }
-            val c = Utils.getInstance(currencyCode, prefHandler)
+            val c = Utils.getInstance(currencyCode)
             currencyUnit = if (c != null) {
                 CurrencyUnit(currencyCode, getSymbol(c), getFractionDigits(c), c.displayName)
             } else {

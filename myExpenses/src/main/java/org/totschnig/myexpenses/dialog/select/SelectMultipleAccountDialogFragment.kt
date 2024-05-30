@@ -26,11 +26,11 @@ class SelectMultipleAccountDialogFragment :
         get() = requireArguments().getString(KEY_CURRENCY)
 
     companion object {
-        fun newInstance(currencyCode: String, criterion: AccountCriterion?) =
+        fun newInstance(currencyCode: String?, criterion: AccountCriterion?) =
             SelectMultipleAccountDialogFragment().apply {
                 arguments = Bundle().apply {
-                    if (currencyCode != AGGREGATE_HOME_CURRENCY_CODE) {
-                        putString(KEY_CURRENCY, currencyCode)
+                    currencyCode?.let {
+                        putString(KEY_CURRENCY, it)
                     }
                     putParcelable(KEY_CRITERION, criterion)
                 }
