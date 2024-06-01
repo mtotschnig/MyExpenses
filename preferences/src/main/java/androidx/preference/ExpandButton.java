@@ -60,7 +60,14 @@ final class ExpandButton extends Preference {
         final List<PreferenceGroup> parents = new ArrayList<>();
 
         for (Preference preference : collapsedPreferences) {
-            final CharSequence title = preference.getTitle();
+            CharSequence title = preference.getTitle();
+            if (TextUtils.isEmpty(title)) {
+                final CharSequence preferenceSummary = preference.getSummary();
+                if (!TextUtils.isEmpty(preferenceSummary)) {
+                    title = preferenceSummary.length() < 15 ? preferenceSummary
+                        : TextUtils.concat(preferenceSummary.subSequence(0, 15), "…");
+                }
+            }
             if (preference instanceof PreferenceGroup && !TextUtils.isEmpty(title)) {
                 parents.add((PreferenceGroup) preference);
             }
@@ -70,6 +77,7 @@ final class ExpandButton extends Preference {
                 }
                 continue;
             }
+
             if (!TextUtils.isEmpty(title)) {
                 if (summary == null) {
                     summary = title;
