@@ -473,14 +473,14 @@ fun Modifier.tagBorder(color: Color) =
 
 @Preview
 @Composable
-fun RenderNew(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
+private fun RenderNew(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
     NewTransactionRenderer(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
         .Render(transaction)
 }
 
 @Preview
 @Composable
-fun RenderCompact(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
+private fun RenderCompact(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
     CompactTransactionRenderer(
         DateTimeFormatter.ofPattern("EEE") to 40.dp,
         withOriginalAmount = true

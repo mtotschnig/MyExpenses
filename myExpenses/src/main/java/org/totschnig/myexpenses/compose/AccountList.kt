@@ -381,7 +381,7 @@ fun SumRow(label: Int, formattedAmount: String, modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-fun AccountPreview() {
+private fun AccountPreview() {
     AccountCard(
         account = FullAccount(
             id = 1,

@@ -122,7 +122,7 @@ fun IconSelector(
 @Preview(uiMode = UI_MODE_NIGHT_NO)
 @Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable
-fun Preview() {
+private fun Preview() {
     Mdc3Theme {
         Surface {
             IconSelector(

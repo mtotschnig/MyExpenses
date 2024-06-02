@@ -66,6 +66,6 @@ fun CharIcon(
 
 @Preview
 @Composable
-fun IconTest() {
+private fun IconTest() {
     Icon(icon = "apple")
 }

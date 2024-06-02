@@ -291,7 +291,7 @@ fun TransactionRenderer(
 
 @Preview
 @Composable
-fun SingleDebtPreview() {
+private fun SingleDebtPreview() {
     val debt = Debt(
         id = 1,
         label = "Debt 1",

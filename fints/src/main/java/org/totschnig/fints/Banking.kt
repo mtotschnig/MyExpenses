@@ -612,7 +612,7 @@ fun AccountRow(
 
 @Preview
 @Composable
-fun BankDemo() {
+private fun BankDemo() {
     Column {
         BankRow(bank = Bank(blz = "1234567",  bic = "XPNSS", bankName = "My home bank", userId = "1234"), onDelete = {}, onShow = {})
         BankRow(bank = Bank(blz = "200411",  bic = "XPNSS", bankName = "Comdirect Bank", userId = "1234"), onDelete = {}, onShow = {})

@@ -39,7 +39,7 @@ fun Initials(
 
 @Preview
 @Composable
-fun InitialsPreview() {
+private fun InitialsPreview() {
     Row {
         Initials("Jane Foe")
         Initials("Random")

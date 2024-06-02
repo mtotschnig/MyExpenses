@@ -141,7 +141,7 @@ fun DebtList(
 
 @Preview
 @Composable
-fun DebtListPreview() {
+private fun DebtListPreview() {
     Surface(modifier = Modifier.padding(8.dp)) {
         DebtList(
             debts = remember {

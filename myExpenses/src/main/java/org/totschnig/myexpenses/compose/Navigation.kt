@@ -229,7 +229,7 @@ private fun EntryListRenderer(
 
 @Preview
 @Composable
-fun Entry() {
+private fun Entry() {
     Row(verticalAlignment = Alignment.CenterVertically) {
         EntryContent(
             MenuEntry(
@@ -242,7 +242,7 @@ fun Entry() {
 
 @Preview
 @Composable
-fun Overflow() {
+private fun Overflow() {
     fun emptyEntry(label: Int) = MenuEntry(label = UiText.StringResource(label), command = "") {}
     OverFlowMenu(
         menu = Menu(

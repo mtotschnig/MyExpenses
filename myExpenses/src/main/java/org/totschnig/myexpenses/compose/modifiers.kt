@@ -37,7 +37,7 @@ fun Modifier.size(spSize: TextUnit) =
 
 @Preview
 @Composable
-fun OptionalAbsentTest() {
+private fun OptionalAbsentTest() {
     val value: Color? = null
     Box(
         Modifier
@@ -51,7 +51,7 @@ fun OptionalAbsentTest() {
 
 @Preview
 @Composable
-fun OptionalPresentTest() {
+private fun OptionalPresentTest() {
     val value: Color = Color.Green
     Box(
         Modifier
@@ -65,7 +65,7 @@ fun OptionalPresentTest() {
 
 @Preview
 @Composable
-fun ConditionalTest() {
+private fun ConditionalTest() {
     Text(
         modifier = Modifier
             .padding(15.dp)
@@ -80,7 +80,7 @@ fun ConditionalTest() {
 
 @Preview
 @Composable
-fun ConditionalTest2() {
+private fun ConditionalTest2() {
     Text(
         modifier = Modifier
             .padding(15.dp)

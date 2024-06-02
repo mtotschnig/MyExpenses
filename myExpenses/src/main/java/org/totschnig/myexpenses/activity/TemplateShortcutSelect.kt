@@ -121,7 +121,7 @@ fun SelectionScreen(
 
 @Preview
 @Composable
-fun SelectionScreenPreview() {
+private fun SelectionScreenPreview() {
     SelectionScreen(
         data = listOf(
             TemplateInfo(1, "Template 1", Template.Action.SAVE),

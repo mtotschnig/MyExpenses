@@ -273,7 +273,7 @@ fun CategoryRenderer(
 
 @Preview(heightDp = 300)
 @Composable
-fun TreePreview() {
+private fun TreePreview() {
     var counter = 0L
     fun buildCategory(
         color: Int?,
