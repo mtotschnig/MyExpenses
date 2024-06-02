@@ -134,6 +134,62 @@ amazon:
   en: "www.amazon.com"
   pt: "www.amazon.com.br"
 versions:
+  -   - 3.8.5
+      - '2014-05-28'
+      - bg: 'FinTS: ING-DiBa. Печат: Конфигурация (Формат на хартията, Ориентация,
+          Размер на шрифта)'
+        cs: 'FinTS: ING-DiBa. Tisk: Konfigurace (Formát papíru, Orientace, Velikost
+          písma)'
+        de: 'FinTS: ING-DiBa. Drucken: Konfiguration (Papierformat, Ausrichtung, Schriftgröße)'
+        el: 'FinTS: ING-DiBa. Εκτύπωση: Διαμόρφωση (Μορφή χαρτιού, Προσανατολισμός,
+          Μέγεθος γραμματοσειράς)'
+        es: 'FinTS: ING-DiBa. Imprimir: Ajustes (Formato de papel, Orientación, Tamaño
+          de fuente)'
+        fr: 'FinTS: ING-DiBa. Imprimer: Configuration (Format de papier, Orientation,
+          Taille de la police)'
+        hr: 'FinTS: ING-DiBa. Ispis: Konfiguracija (Oblik papira, Usmjeravanje, Veličina
+          fonta)'
+        hu: 'FinTS: ING-DiBa. Nyomtatás: Beállítások (Papírformátum, Tájolás, Betűméret)'
+        it: 'FinTS: ING-DiBa. Stampa: Configurazione (Formato foglio, Orientazione,
+          Dimensioni carattere)'
+        iw: 'FinTS: ING-DiBa. הדפס: תצורה (עיצוב הדף, כיווניות, גודל גופן)'
+        nl: 'FinTS: ING-DiBa. Afdrukken: Configuratie (Papierinstellingen, Oriëntatie,
+          Lettergrootte)'
+        pl: 'FinTS: ING-DiBa. Drukuj: Konfiguracja (Format papieru, Orientacja, Rozmiar
+          czcionki)'
+        pt: 'FinTS: ING-DiBa. Imprimir: Configuração (Formato do papel, Orientação,
+          Tamanho da fonte)'
+        ro: 'FinTS: ING-DiBa. Printați: Configurare (Format de hârtie, Orientare,
+          Dimensiunea fontului)'
+        tr: 'FinTS: ING-DiBa. Yazdır: Yapılandırma (Sayfa Biçimi, Yönlendirme, Yazı
+          tipi boyutu)'
+        vi: 'FinTS: ING-DiBa. In: Cấu hình (Định dạng giấy, Hướng, Kích thước phông
+          chữ)'
+        en: 'FinTS: ING-DiBa. Print: Configuration (Paper format, Orientation, Font
+          size)'
+      - github: https://github.com/mtotschnig/MyExpenses/projects/143#column-19888171
+        mastodon: https://mastodon.social/@myexpenses/112514030317651128
+  -   - 3.8.4
+      - '2014-05-17'
+      - bg: Опростена настройка на архивиране в облака
+        cs: Zjednodušené nastavení zálohování do cloudu
+        de: Vereinfachte Einrichtung von Cloud-Backups
+        el: Απλοποιημένη ρύθμιση της δημιουργίας αντιγράφων ασφαλείας στο cloud
+        es: Configuración simplificada de la copia de seguridad en la nube
+        fr: Configuration simplifiée de la sauvegarde dans le cloud
+        hr: Pojednostavljeno postavljanje sigurnosnog kopiranja u oblaku
+        hu: A felhőalapú biztonsági mentés egyszerűsített beállítása
+        it: Configurazione semplificata del backup su cloud
+        iw: הגדרה פשוטה יותר של גיבוי בענן
+        nl: Vereenvoudigde installatie van cloudback-up
+        pl: Uproszczona konfiguracja kopii zapasowej w chmurze
+        pt: Configuração simplificada do backup em nuvem
+        ro: Configurare simplificată a backupului în cloud
+        tr: Bulut yedekleme için kurulum basitleştirildi
+        vi: Đơn giản hóa thiết lập sao lưu đám mây
+        en: Simplified setup of cloud backup
+      - github: https://github.com/mtotschnig/MyExpenses/projects/142#column-19861846
+        mastodon: https://mastodon.social/@myexpenses/112449360780010906
   -   - 3.8.3
       - '2014-04-29'
       - bg: Бюджетиране 4.0
