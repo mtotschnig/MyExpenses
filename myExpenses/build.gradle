@@ -210,7 +210,7 @@ dependencies {
     implementation "org.apache.commons:commons-text:$commonsText"
     //noinspection GradleDependency
     api "com.squareup.picasso:picasso:$picassoVersion"
-    implementation 'com.github.mtotschnig:MPAndroidChart:6fcf34d9d4'
+    implementation 'com.github.mtotschnig:MPAndroidChart:d9d5982678'
     implementation 'com.github.mtotschnig:Caldroid:377d10a2a2'
     api 'com.github.eltos:SimpleDialogFragments:09a642bc42'
 
@@ -289,7 +289,7 @@ dependencies {
     //implementation "com.google.mlkit:vision-interfaces:+"
     implementation("com.google.guava:guava:33.2.1-android")
 
-    implementation 'com.github.mtotschnig:Android-Image-Cropper:4e495ef591'
+    implementation 'com.github.mtotschnig:Android-Image-Cropper:96a06733f3'
     api "androidx.core:core-ktx:$androidXCoreVersion"
     implementation "androidx.core:core-remoteviews:1.0.0"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
