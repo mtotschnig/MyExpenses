@@ -427,6 +427,9 @@ class BankingViewModel(application: Application, private val savedStateHandle: S
                                 getString(R.string.transactions_imported_none)
                         )
                     logEvent(Tracker.EVENT_FINTS_TRANSACTIONS_LOADED, credentials)
+                    if (credentials.bank?.asWellKnown == null) {
+                        CrashHandler.report(Exception("Unknown bank: ${credentials.blz}"))
+                    }
                 },
                 onError = {
                     error(it, credentials)

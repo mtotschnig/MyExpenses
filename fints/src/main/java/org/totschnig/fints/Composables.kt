@@ -304,6 +304,6 @@ fun Error(errorMessage: String?) {
 
 @Preview
 @Composable
-fun TanMediaPreview() {
+private fun TanMediaPreview() {
     TanMediaDialog(options = listOf("pushTan", "Pixel"), submitMedia = {})
 }
