@@ -160,7 +160,7 @@ class TemplateTest: BaseTestWithRepository() {
         payeeId = this@TemplateTest.payeeId
         comment = "Some comment"
         repository.findPaymentMethod(PreDefinedPaymentMethod.CHEQUE.name).let {
-            assertThat(it).isGreaterThan(-1)
+            assertThat(it).isGreaterThan(-1L)
             methodId = it
         }
         save(contentResolver)

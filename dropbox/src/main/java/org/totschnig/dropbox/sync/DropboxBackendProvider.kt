@@ -163,7 +163,7 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         }
     }
 
-    override fun getInputStream(resource: Metadata): InputStream = getInputStream(resource.pathLower)
+    override fun getInputStream(resource: Metadata): InputStream = getInputStream(resource.pathLower!!)
 
     @Throws(IOException::class)
     private fun getInputStream(resourcePath: String) = tryWithWrappedException {

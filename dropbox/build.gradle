@@ -24,6 +24,6 @@ dependencies {
     implementation 'com.evernote:android-state:1.4.1'
     kapt 'com.evernote:android-state-processor:1.4.1'
 
-    implementation 'com.dropbox.core:dropbox-core-sdk:6.0.0'
-    implementation 'com.dropbox.core:dropbox-android-sdk:6.0.0'
+    implementation 'com.dropbox.core:dropbox-core-sdk:7.0.0'
+    implementation 'com.dropbox.core:dropbox-android-sdk:7.0.0'
 }
