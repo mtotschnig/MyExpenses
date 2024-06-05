@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.activity
 
 import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
 import android.util.SparseArray
 import android.view.GestureDetector
@@ -15,8 +14,10 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -37,7 +38,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -50,6 +50,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.charts.PieRadarChartBase
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -96,6 +97,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     OnDialogResultListener {
     override val viewModel: DistributionViewModel by viewModels()
     private lateinit var chart: PieChart
+    private lateinit var innerChart: PieChart
     private var mDetector: GestureDetector? = null
 
     override val showChartPrefKey = PrefKey.DISTRIBUTION_SHOW_CHART
@@ -166,9 +168,12 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         return false
     }
 
-    private fun setChartData(categories: List<Category>) {
-        if ((::chart.isInitialized)) {
-            chart.data = PieData(PieDataSet(categories.map { category ->
+    private fun setChartData(inner: Boolean, categories: List<Category>) {
+        (if (inner)
+            if (::innerChart.isInitialized) innerChart else null
+        else
+            if (::chart.isInitialized) this.chart else null)?.let {
+            it.data = PieData(PieDataSet(categories.map { category ->
                 PieEntry(
                     abs(category.aggregateSum.toFloat()),
                     category.label
@@ -183,7 +188,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             }).apply {
                 setValueFormatter(PercentFormatter())
             }
-            chart.invalidate()
+            it.invalidate()
         }
         selectionState.value = categories.firstOrNull()
     }
@@ -254,7 +259,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                     }
                 }
                 LaunchedEffect(chartCategoryTree.value) {
-                    setChartData(chartCategoryTree.value.children)
+                    setChartData(false, chartCategoryTree.value.children)
                 }
 
                 LaunchedEffect(chartCategoryTree.value, selectionState.value?.id) {
@@ -314,11 +319,22 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                             expansionMode = expansionMode,
                                             accountInfo = accountInfo.value
                                         )
-                                }, chart = {
-                                        RenderChart(
-                                            modifier = it,
-                                            categories = chartCategoryTree
-                                        )
+                                    }, chart = {
+                                        Box(modifier = it) {
+                                            RenderChart(
+                                                modifier = Modifier
+                                                    .fillMaxSize(1f).aspectRatio(1f),
+                                                false,
+                                                categories = chartCategoryTree
+                                            )
+                                            RenderChart(
+                                                modifier = Modifier
+                                                    .fillMaxSize(0.75f).aspectRatio(1f)
+                                                    .align(Alignment.Center),
+                                                true,
+                                                categories = chartCategoryTree
+                                            )
+                                        }
                                     }
                                 )
                                 RenderSumLine(accountInfo.value, sums)
@@ -425,8 +441,12 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         )
     }
 
-    private fun requireChart(context: Context) {
-        chart = PieChart(context)
+    private fun requireChart(context: Context, inner: Boolean) = PieChart(context).also {
+        if (inner) {
+            innerChart = it
+        } else {
+            chart = it
+        }
     }
 
     @Composable
@@ -523,15 +543,16 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     @Composable
     fun RenderChart(
         modifier: Modifier,
+        inner: Boolean,
         categories: State<Category>
     ) {
         AndroidView(
             modifier = modifier,
             factory = { ctx ->
-                requireChart(ctx)
-                chart.apply {
+                requireChart(ctx, inner).apply {
+                    isRotationEnabled = PieRadarChartBase.ROTATION_INSIDE_ONLY
                     description.isEnabled = false
-                    setExtraOffsets(20f, 0f, 20f, 0f)
+                    //setExtraOffsets(20f, 0f, 20f, 0f)
                     renderer = SelectivePieChartRenderer(
                         this,
                         object : SelectivePieChartRenderer.Selector {
@@ -566,8 +587,10 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                         }
                     })
                     setUsePercentValues(true)
+                    holeRadius = if (inner) 75f else 85f
                     legend.isEnabled = false
-                    setChartData(categories.value.children)
+                    description.isEnabled = false
+                    setChartData(inner, categories.value.children)
                 }
             })
     }
