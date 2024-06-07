@@ -89,7 +89,7 @@ public class MyExpenses extends BaseMyExpenses implements
 
     if (savedInstanceState == null) {
       newVersionCheck();
-      voteReminderCheck();
+      //voteReminderCheck();
     }
     reviewManager.init(this);
   }
