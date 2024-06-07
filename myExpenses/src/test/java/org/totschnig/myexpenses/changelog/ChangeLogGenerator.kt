@@ -117,19 +117,24 @@ class ChangeLogGenerator {
                             .forEach { appendLine("• $it") }
                         appendLine()
                         appendLine(context.githubUrl(versionInfo))
+                        appendLine(context.mastodonUrl(versionInfo))
                     }
                 )
             }
         }
     }
 
+    private fun Context.githubLink(versionInfo: VersionInfo) =
+        getString(resolveMoreInfo("project_board_", versionInfo)!!)
+
+    private fun Context.mastodonLink(versionInfo: VersionInfo) =
+        getString(resolveMoreInfo("version_more_info_", versionInfo)!!)
+
     private fun Context.githubUrl(versionInfo: VersionInfo) =
-        "https://github.com/mtotschnig/MyExpenses/projects/" +
-                getString(resolveMoreInfo("project_board_", versionInfo)!!)
+        "https://github.com/mtotschnig/MyExpenses/projects/${githubLink(versionInfo)}"
 
     private fun Context.mastodonUrl(versionInfo: VersionInfo) =
-        "https://mastodon.social/@myexpenses/" +
-                getString(resolveMoreInfo("version_more_info_", versionInfo)!!)
+        "https://mastodon.social/@myexpenses/${mastodonLink(versionInfo)}"
 
     @Test
     fun generateChangeLogYaml() {
@@ -175,8 +180,8 @@ class ChangeLogGenerator {
                 }
             },
             buildMap {
-                put("github", context.githubUrl(versionInfo))
-                put("mastodon", context.mastodonUrl(versionInfo))
+                put("github", context.githubLink(versionInfo))
+                put("mastodon", context.mastodonLink(versionInfo))
             }
         ))
         print(yaml.dump(data))
